@@ -1,70 +1,76 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996711E50D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Sep 2024 00:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888E8190482
+	for <linux-rt-devel@lists.linux.dev>; Mon, 30 Sep 2024 15:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727311005; cv=none; b=aV0g5rR6+LqfEA6X9lat+SF5A1+WQBW5+SVBX6XGTgYRCn9rvVGjNhsf4RL9YRY5rBHWWYLYW5eiGnOIW/ggI5rbyZjDTxROY/KR3faPgjYEPATY7XiKarx/879ZzIlL/3hDRL5YyFldIxvPdJaE788IXQ73UAue53VBZEWBKzs=
+	t=1727710941; cv=none; b=Lz4OeKAA9eDWe3jCwsJeh9CE1QCF+nMelpJYZIT3UaeXOmNOeW1fIUdUJqz1rqGh25lOaSoQVnW2Unbh5uS0hLJkxEm/XVYCFqdgBo40gV/B0UAphtzB20hcwRPt2nfEcBs3nSjDfKNIiD+a10cK8zTCaBCZvx/X9fsG1sAxp9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727311005; c=relaxed/simple;
-	bh=u1HuKIIX5BcL9glA2wU2/aSzofjOAzrr/QGPh0o/Cw0=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=LtxTiAWzLIMy1vNzoVYvP3HLzGXIh3O5opv8OveBhOommM92YfIVFydE9dG9TKxVLAYQ+Z0/tuMY9sbnPksyjTwWnolWbOZAExRINmjtkpxiWFalw4MojUmi0Mnk1UJBOpHsAyU8zry2YyU1Yhcy8Hnh5KK5bdx2pDwDUqWAUkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=contractor.linuxfoundation.org; spf=pass smtp.mailfrom=contractor.linuxfoundation.org; dkim=pass (2048-bit key) header.d=contractor.linuxfoundation.org header.i=@contractor.linuxfoundation.org header.b=Q/ImvbWH; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=contractor.linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=contractor.linuxfoundation.org
+	s=arc-20240116; t=1727710941; c=relaxed/simple;
+	bh=72Fwc82csBHX1yYHcF3YSU/MkefXjlYgCuVUjgPljVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QSSN9i7Lxr+gTnVZAYtFeW2nlbrkQqRsSExuY/oNz3Lqx6XcH112KekFc5smh5FPsU6iGtXb0bB/1O3fGtrN9odsoBMVcTih7yM7J5J77mUZNmMKZCwnm8HgHIZWxZELWPi3mZNod3/Kfw/3W9VS3GIJkMgQaaKRYoxgANw5GMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2skAnshz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WouAlOvr; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=contractor.linuxfoundation.org header.i=@contractor.linuxfoundation.org header.b="Q/ImvbWH"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53568ffc525so549914e87.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 25 Sep 2024 17:36:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=contractor.linuxfoundation.org; s=google; t=1727311001; x=1727915801; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LWHzgZGttdp/EiWVhAbA9Ae4j+ZyK0E3RqeOPUe7s/k=;
-        b=Q/ImvbWHG63p+b6+CdFskQLZqBJY3FKO5Qnz097GpbdIsoyqRXNcSSjTEb2g4bNMiC
-         uO/ymhRdjL3ZuAUgXsI9c8TAYYBer7fbfFHNKt2UhC2v86mNd1MCPvpg9dRLdUVWvulU
-         Hb+6t3EV/1CDS/tVo5QApYHsOcASXY+9wo/UBPZrO/e0gc96Bo14UXzH+HuLesUUWFih
-         BWLLUxnHiG1WH93yrT9gPO1h4F27OzcgntNMwgNXZQY2d0hTfST6LUwWhoOkNiV9V/i1
-         yqbN5cesjM9+bo4ZkFMaVbICjnHwFixVOGgLIdqVNw2gvrlY5eSHd7z1T9BOgd/7DhgI
-         XziQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727311001; x=1727915801;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LWHzgZGttdp/EiWVhAbA9Ae4j+ZyK0E3RqeOPUe7s/k=;
-        b=oz9DEyPGbN35KJQrGAxWQLfdJ/UHrGfrCFN6zk9TTFarbkivv37zVWMKKvYQbIqLt3
-         gaJ/iNH2DSmVRS0Lu4kkyMbNzj+QP7PTe12zNA/eDrimOMA35zsesoeGdPS6PpTCeB5s
-         sZMTXxYfqbJ1MnHJXOMkwvCQBeABMkyrvFqlXW7UpkRE6xibMVyS2QP66OARC5Z2E4dx
-         73H3kibM2APNHbtSambRxvFatdpcTC6Frqr+8iNjRVqwUHRg+MNNfrAoqhGW6i30RWWx
-         lwyiD1AAQ3m/qQCrIGfwbww3YmiQCz+hkh/0BcvfArC6p3vmqZOUx6Gsxw41s7JgGqIa
-         qZjA==
-X-Gm-Message-State: AOJu0Yxy34vhoosLfiIk64pk4IIsE2T8beT4Zk+Lq3tClPv/gOTPdvrX
-	/gGyXMNd21gr73COXG3MjgUITIA5IZrytFh84xIGhcEXYVWaxikbo5DlZcugKHg7zsqUMIerK1m
-	mfxOp4GZTwI+09zL81mM63dxvzVJ+F5zV6b11jxeFpyIV1KNhTjg=
-X-Google-Smtp-Source: AGHT+IEtD3MXlQySvlOUV03smEXyhyCGhYS01WnKJ9Nl24xoCDFp/3unmMfzrUvkF7xuvCsMaYSt0us3JH7JrikgraA=
-X-Received: by 2002:a05:6512:3ca4:b0:52c:cc38:592c with SMTP id
- 2adb3069b0e04-538693ab0c1mr2942663e87.0.1727311001116; Wed, 25 Sep 2024
- 17:36:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2skAnshz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WouAlOvr"
+Date: Mon, 30 Sep 2024 17:42:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1727710937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=6hOUC4vKSw/TkGzAPlg+JSA0OmQu2RHMwDcYpg6iIoU=;
+	b=2skAnshzV8Js6gsJ6eJeANcMGYEsKNa+mLaT6WuTtXZ87u9Fucr4oaSeU/oh01XF/ekaRd
+	WorUocuHgptcb8cbJDAHREXq8ulCVO+UDprigVXnAjBlXxHeP12RZGT1bwPYL+RwXElpua
+	ih/PKwzJZMO1u1iD2SraH+YMLbssJTo/L4M9wBlspGZvYfkUm5AaNFIlVHAHsk1BTwQC5G
+	JZ/XpIsU9jt1LvHOwHLWrdT1XZpD/vnVR0WWGGbn3Y7vDniEsyI4l8UJ0D1TTB4gLpcFgY
+	2pM9p8K+ZEaa18MHamPNg3vv/Htm8AwH81M1kaldK3stYb7439uOqidP3ZU8OA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1727710937;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=6hOUC4vKSw/TkGzAPlg+JSA0OmQu2RHMwDcYpg6iIoU=;
+	b=WouAlOvr3+JPd+muImtqRMQdMDCLD9F+L4jtWnvFs8HCBHXb+AtVEerTViJUzRvWSXiDpn
+	/QVGXGNYGIsB+aAA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v6.12-rc1-rt1
+Message-ID: <20240930154216.ua_fDZt4@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Shyam Kumar <skachukattu@contractor.linuxfoundation.org>
-Date: Thu, 26 Sep 2024 06:06:30 +0530
-Message-ID: <CAH=dH98D8soESfhSATukYkb-FLK6byCnc=sjn2crvk67PQKzXA@mail.gmail.com>
-Subject: Test mail
-To: linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hello
+Dear RT folks!
 
-This is a test message to test successful delivery and start the
- archive for the list. Please ignore.
+I'm pleased to announce the v6.12-rc1-rt1 patch set. 
 
--- 
-Regards
-Shyam Kumar
-The Linux Foundation Core Projects
+Changes since v6.11-rt7:
+
+  - Update to v6.12-rc1
+
+Known issues
+    None.
+
+You can get this release via the git tree at:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v6.12-rc1-rt1
+
+The RT patch against v6.12-rc1 can be found here:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/older/patch-6.12-rc1-rt1.patch.xz
+
+The split quilt queue is available at:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/older/patches-6.12-rc1-rt1.tar.xz
+
+Sebastian
