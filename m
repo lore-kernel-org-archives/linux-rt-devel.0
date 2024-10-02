@@ -1,52 +1,46 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF3E1EBFE9
-	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Oct 2024 11:21:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4651D042F
+	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Oct 2024 13:54:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727868070; cv=none; b=HxOtB2H2Wi6Y1xF0hcF981QQEyENKHlXqavry10eHxNAMlkGKJiMUS4ZCR7aJRcyo4k8K4fNG5sM4q31krMksAy8plbomSTSURTqL6Rd5cFeSAGjppd8BrLtbVqM26eL3G8qRWwq9nVjzl2fvi+JFJHOjLyE9WJfKBd/X+bUqTQ=
+	t=1727877295; cv=none; b=e93HJeANsAtt3BAszAsVMBQcqhFSnwbkA6CRd4yOIpv7Ox0K0jndjixJVepjtwNBnXGE9xFVizzeGaj8i+FaM2AujXnDlWtxRemi4yg7dE/LB9U0ua8jERHFo29OPTt3sH/t3sC2FVyNKTFqCS38BugOdrUZNZG20ctl8gAN0GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727868070; c=relaxed/simple;
-	bh=2Z9DwrHSv3h+ppj8MiimsOk3gWPLhum8Vq7Bd6PwFTU=;
+	s=arc-20240116; t=1727877295; c=relaxed/simple;
+	bh=p+86IdibhIFZsKrZSp2jMDkkjfe2JM9IOm09HaA7KT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mo+VXx0p+qk0JadC2E4bBd6nbWHocHqL8MH6Igf3IG7XDRWsqNMyoNL2hbrbWo407HJttdF+PvQMaNgHFilu2ZQYZdbgIWA2pKcpcgWzmrAE+QGELVVsR8mYcO0uOq6ii5vgIds04LvBwuLnXZm1O+LE9iiv9kxalEnSedZMosI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zr7UTdNx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2F+fBr9R; arc=none smtp.client-ip=193.142.43.55
+	 Content-Disposition; b=DdI/VjLLFunQYSzEOvOIUbOnnKV/hLMQXItgDkRrbBWt8Lni9pqTHPP9RDh8XYvuspgd9LTSCnMgrEvN42nfmsZFpkFO2eRcIDeUI48PeTMnEeFv3PxTwHh1+BZ52fmZQIhImPCHyYgp/iAVF7tGK/VM/sNIVGoYBHdLxSn1QoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0ycOBieC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gelp1OPb; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zr7UTdNx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2F+fBr9R"
-Date: Wed, 2 Oct 2024 13:21:05 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0ycOBieC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gelp1OPb"
+Date: Wed, 2 Oct 2024 15:54:49 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1727868066;
+	s=2020; t=1727877291;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=BwB8xoWmLLMY6U28KYPe07KHWwt4btmlRwABZZ3vFfg=;
-	b=zr7UTdNxgAmA5/7k+1NCmnUv4uAkIqxCmVbPhj184e14Qu4YmUt/ZT1a6fAbWjXeVxD6qu
-	QFNafZodidZ+qHjpOOS/gMl33yUwPI5w5EV7yrlZ/95NOcNUN/+Tp9Dggcv0g5joMwNl+i
-	9z4k4TWWFANPIa/E3QdMxIL0B+sXsAQiNpZFifKG9roae16KJXgt2Go5nCmBgJ9nin/rHo
-	h3WX5UNk246eSetybgz220Y4oc9Q+adnFvc4qrsGI32XKb6kKXXrnZEc8dpV44yRb448gg
-	SiDdG+dJcE1yRbGLn+OxlKNT1eN2SXwnYVTS75n1dZYIF+0/h8XL/IyAxumoPg==
+	bh=ruaSjWab27ygCxq06I2+xUxQndIEpVzW3ImLCRGdEOc=;
+	b=0ycOBieCzLNRQyBCu5gsRE49gOWxlZbFeCfSnmzd9k9E1o2f5XmBi4iJKgR+AWkZk7nJtu
+	d02FdhJoD0ZmfbKBWinhsN1ML6SR3PVW9zVE1iOgoIYodw0Kqm524m8qQhIfI8ohOV6VVf
+	tEISJZF+jBIV5zB46ejLKGJIBaYnzfZGTVXxxezRACm88Jjikx570ZcRz7jMUdFBP/gzLD
+	BXYw6j7yo92lpX6kpDfNb2lTBlVzHP8uidx2OoR1Xc6lE+2RevTsn2z5EFmLXK2mK44Dow
+	i3WZOpXZQOr3VS/u2U5OcPJbDzzINVgsBb4/0q/9ae+Fuc3zmt2NjST2bnoAtw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1727868066;
+	s=2020e; t=1727877291;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=BwB8xoWmLLMY6U28KYPe07KHWwt4btmlRwABZZ3vFfg=;
-	b=2F+fBr9RHPV9kxYFxKafzK+o/5eRardof9eWe9pTml53Kbr19RCXfAmk39UDTOUk4fAqM7
-	tuJfy0ZR2GOEKACQ==
+	bh=ruaSjWab27ygCxq06I2+xUxQndIEpVzW3ImLCRGdEOc=;
+	b=Gelp1OPbfQve1yRKuZxcr2qFRij2Ctvl19rwRdHhcwnmnYxlNpX0jxLf/WwptIBq4gfA4D
+	lvyTFQrUfGa/U4Aw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [RFC] Repeated rto_push_irq_work_func() invocation.
-Message-ID: <20241002112105.LCvHpHN1@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v6.12-rc1-rt2
+Message-ID: <20241002135449.xUZX0zAj@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,95 +50,162 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-I have this in my RT queue:
+Dear RT folks!
 
+I'm pleased to announce the v6.12-rc1-rt2 patch set. 
+
+Changes since v6.12-rc1-rt1:
+
+  - Drop the "don't push tasks for RT balancing if there are no tasks
+    that can be pushed" patch introduced in v6.5-rc4-rt2. The situation
+    improved since v6.7.
+
+  - Drop the "Preempt the timer softirq if it is PI boosted" patch also
+    introduced in v6.5-rc4-rt2. In covered only timer_list timers (not
+    hrtimer). It would require more of this duct tape in more places.
+    The longterm plan is to avoid having the BH lock.
+
+Known issues
+    None.
+
+The delta patch against v6.12-rc1-rt1 is appended below and can be found here:
+ 
+     https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/incr/patch-6.12-rc1-rt1-rt2.patch.xz
+
+You can get this release via the git tree at:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v6.12-rc1-rt2
+
+The RT patch against v6.12-rc1 can be found here:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/older/patch-6.12-rc1-rt2.patch.xz
+
+The split quilt queue is available at:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.12/older/patches-6.12-rc1-rt2.tar.xz
+
+Sebastian
+
+diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
+index 448bbef474564..fc53e0ad56d90 100644
+--- a/include/linux/bottom_half.h
++++ b/include/linux/bottom_half.h
+@@ -35,10 +35,8 @@ static inline void local_bh_enable(void)
+ 
+ #ifdef CONFIG_PREEMPT_RT
+ extern bool local_bh_blocked(void);
+-extern void softirq_preempt(void);
+ #else
+ static inline bool local_bh_blocked(void) { return false; }
+-static inline void softirq_preempt(void) { }
+ #endif
+ 
+ #endif /* _LINUX_BH_H */
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 04dbfb7cda334..2016534bbc533 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1838,7 +1838,6 @@ static inline int dl_task_check_affinity(struct task_struct *p, const struct cpu
+ }
+ #endif
+ 
+-extern bool task_is_pi_boosted(const struct task_struct *p);
+ extern int yield_to(struct task_struct *p, bool preempt);
+ extern void set_user_nice(struct task_struct *p, long nice);
+ extern int task_prio(const struct task_struct *p);
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index d7af5c21c94a8..91d250a0e039b 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -7533,21 +7533,6 @@ static inline void preempt_dynamic_init(void) { }
+ 
+ #endif /* CONFIG_PREEMPT_DYNAMIC */
+ 
+-/*
+- * task_is_pi_boosted - Check if task has been PI boosted.
+- * @p:	Task to check.
+- *
+- * Return true if task is subject to priority inheritance.
+- */
+-bool task_is_pi_boosted(const struct task_struct *p)
+-{
+-	int prio = p->prio;
+-
+-	if (!rt_prio(prio))
+-		return false;
+-	return prio != p->normal_prio;
+-}
+-
+ int io_schedule_prepare(void)
+ {
+ 	int old_iowait = current->in_iowait;
+diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
+index a825cdc1f02b3..172c588de5427 100644
 --- a/kernel/sched/rt.c
 +++ b/kernel/sched/rt.c
-@@ -2193,8 +2193,11 @@ static int rto_next_cpu(struct root_doma
+@@ -2176,11 +2176,8 @@ static int rto_next_cpu(struct root_domain *rd)
  
  		rd->rto_cpu = cpu;
  
--		if (cpu < nr_cpu_ids)
-+		if (cpu < nr_cpu_ids) {
-+			if (!has_pushable_tasks(cpu_rq(cpu)))
-+				continue;
+-		if (cpu < nr_cpu_ids) {
+-			if (!has_pushable_tasks(cpu_rq(cpu)))
+-				continue;
++		if (cpu < nr_cpu_ids)
  			return cpu;
-+		}
+-		}
  
  		rd->rto_cpu = -1;
  
-This avoided a large number of IPIs to queue and invoke rto_push_work
-while a RT task was scheduled. This improved with commit
-   612f769edd06a ("sched/rt: Make rt_rq->pushable_tasks updates drive rto_mask")
-
-Now, looking at this again I still see invocations which are skipped due
-this patch on an idle CPU more often than on a busy CPU. Given that the
-task is removed from the list and the mask is cleaned almost immediately
-this looks like a small window which is probably neglectable.
-
-One thing I am not sure what to do about it (from a busy trace):
-|      ksoftirqd/5-63      [005] dN.31  4446.750055: sched_waking: comm=rcu_preempt pid=17 prio=98 target_cpu=005
-|      ksoftirqd/5-63      [005] dN.41  4446.750058: enqueue_pushable_task: Add rcu_preempt-17
-|      ksoftirqd/5-63      [005] dN.41  4446.750059: enqueue_pushable_task: Set 5
-
-Since the enqueued task is not yet on the CPU it gets added to the
-pushable list (the task_current() check could be removed since an
-enqueued task can never be on CPU, right?). Give the priorities, the new
-task will preempt the current task.
-
-|      ksoftirqd/5-63      [005] dN.41  4446.750060: sched_wakeup: comm=rcu_preempt pid=17 prio=98 target_cpu=005
-|      ksoftirqd/5-63      [005] dN.31  4446.750062: sched_stat_runtime: comm=ksoftirqd/5 pid=63 runtime=14625 [ns]
-|       cyclictest-5192    [003] d..2.  4446.750062: sched_stat_runtime: comm=cyclictest pid=5192 runtime=13066 [ns]
-|       cyclictest-5192    [003] d..2.  4446.750064: dequeue_pushable_task: Del cyclictest-5192
-|       cyclictest-5192    [003] d..3.  4446.750065: rto_next_cpu.constprop.0: Look count 1
-|       cyclictest-5192    [003] d..3.  4446.750066: rto_next_cpu.constprop.0: Leave CPU 5
-
-This is then observed by other CPUs in the system so rto_next_cpu()
-returns CPU 5, resulting in a schedule of rto_push_work to CPU5.
-
-|      ksoftirqd/5-63      [005] dNh1.  4446.750069: push_rt_task: Start
-|      ksoftirqd/5-63      [005] dNh1.  4446.750070: push_rt_task: Push rcu_preempt-17 98
-|      ksoftirqd/5-63      [005] dNh1.  4446.750071: push_rt_task: resched
-
-push_rt_task() didn't do anything because Need-resched is already set.
-
-|      ksoftirqd/5-63      [005] dNh1.  4446.750071: rto_next_cpu.constprop.0: Look count 1
-|      ksoftirqd/5-63      [005] dNh1.  4446.750072: rto_next_cpu.constprop.0: Leave CPU 5
-
-but scheduled rto_push_work again.
-
-|      ksoftirqd/5-63      [005] dNh2.  4446.750074: push_rt_task: Start
-|      ksoftirqd/5-63      [005] dNh2.  4446.750074: push_rt_task: Push rcu_preempt-17 98
-|      ksoftirqd/5-63      [005] dNh2.  4446.750075: push_rt_task: resched
-
-came to the same conclusion.
-
-|      ksoftirqd/5-63      [005] dNh2.  4446.750075: rto_next_cpu.constprop.0: Look count 1
-|      ksoftirqd/5-63      [005] dNh2.  4446.750076: rto_next_cpu.constprop.0: Leave no CPU count: 1
-
-It left with no CPU because it wrapped around. Nothing scheduled.
-
-|      ksoftirqd/5-63      [005] dNh3.  4446.750077: sched_waking: comm=irq_work/5 pid=60 prio=98 target_cpu=005
-|       cyclictest-5216    [027] d..2.  4446.750077: dequeue_pushable_task: Del cyclictest-5216
-|       cyclictest-5216    [027] d..3.  4446.750079: rto_next_cpu.constprop.0: Look count 1
-|      ksoftirqd/5-63      [005] dNh4.  4446.750079: sched_wakeup: comm=irq_work/5 pid=60 prio=98 target_cpu=005
-|       cyclictest-5216    [027] d..3.  4446.750080: rto_next_cpu.constprop.0: Leave CPU 5
-
-CPU5 is making progress in terms of scheduling but then CPU27 noticed
-the mask and scheduled another rto_push_work.
-
-|      ksoftirqd/5-63      [005] dN.2.  4446.750084: dequeue_pushable_task: Del rcu_preempt-17
-|      ksoftirqd/5-63      [005] dN.2.  4446.750085: dequeue_pushable_task: Clear 5
-|      ksoftirqd/5-63      [005] d..2.  4446.750086: sched_switch: prev_comm=ksoftirqd/5 prev_pid=63 prev_prio=120 prev_state=R+ ==> next_comm=rcu_preempt next_pid=17 next_prio=98
-|      rcu_preempt-17      [005] d.h21  4446.750089: rto_next_cpu.constprop.0: Look count 0
-|      rcu_preempt-17      [005] d.h21  4446.750089: rto_next_cpu.constprop.0: Leave no CPU count: 0
-
-This rto_next_cpu() was triggered earlier by CPU27.
-
-At this point I'm not sure if there is something that could be done
-about it or if it is a special case.
-
-Would it make sense to avoid scheduling rto_push_work if rq->curr has
-NEED_RESCHED set and make the scheduler do push_rt_task()?
-
-Sebastian
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index c251f1bf75c5e..0052bd4d9ec1d 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -248,19 +248,6 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+ }
+ EXPORT_SYMBOL(__local_bh_enable_ip);
+ 
+-void softirq_preempt(void)
+-{
+-	if (WARN_ON_ONCE(!preemptible()))
+-		return;
+-
+-	if (WARN_ON_ONCE(__this_cpu_read(softirq_ctrl.cnt) != SOFTIRQ_OFFSET))
+-		return;
+-
+-	__local_bh_enable(SOFTIRQ_OFFSET, true);
+-	/* preemption point */
+-	__local_bh_disable_ip(_RET_IP_, SOFTIRQ_OFFSET);
+-}
+-
+ /*
+  * Invoked from ksoftirqd_run() outside of the interrupt disabled section
+  * to acquire the per CPU local lock for reentrancy protection.
+diff --git a/kernel/time/timer.c b/kernel/time/timer.c
+index aef6ca700c991..79f0dc73ac436 100644
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -1564,16 +1564,9 @@ static void timer_sync_wait_running(struct timer_base *base)
+ 	__releases(&base->lock) __releases(&base->expiry_lock)
+ 	__acquires(&base->expiry_lock) __acquires(&base->lock)
+ {
+-	bool need_preempt;
+-
+-	need_preempt = task_is_pi_boosted(current);
+-	if (need_preempt || atomic_read(&base->timer_waiters)) {
++	if (atomic_read(&base->timer_waiters)) {
+ 		raw_spin_unlock_irq(&base->lock);
+ 		spin_unlock(&base->expiry_lock);
+-
+-		if (need_preempt)
+-			softirq_preempt();
+-
+ 		spin_lock(&base->expiry_lock);
+ 		raw_spin_lock_irq(&base->lock);
+ 	}
+diff --git a/localversion-rt b/localversion-rt
+index 6f206be67cd28..c3054d08a1129 100644
+--- a/localversion-rt
++++ b/localversion-rt
+@@ -1 +1 @@
+--rt1
++-rt2
