@@ -1,64 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E531CF7DD;
-	Wed,  2 Oct 2024 15:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8822231CA3
+	for <linux-rt-devel@lists.linux.dev>; Sat,  5 Oct 2024 09:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727884425; cv=none; b=mc+VFnuhiCkwAVlqgijGlK90eDF1LgkjgyrqpBrWP7U2AiaWV+0BoK+QpDFY6FuW7DOxAWQj2X/4+rGwv1Pl0vmWDrtERZnP49yDvYzY6RvXhOzH+SavcFI0oHWKvpFybKfAc8Bpy1HCArqv2+AcSWH2Q/DWeXtMiI9JYxW0mw0=
+	t=1728118847; cv=none; b=hxFlo4SgVUONeli/aUb/YiEIjfb8pkyvlC3T/DQcAdAdUFxcT885+7M5CZsP/BP0tQyE65Kazvg4LF8noh4yiNdiEBNo0JIjedsEBXRfTaa0+Yl55LGB4DHvKUv3zWPI0pvVUR47wHsTpwdrm+06gSAO99ErBqk0Jtr1B0aZY24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727884425; c=relaxed/simple;
-	bh=UjwGjALvm7A6c8F3TZCQwyNJIpsdLssL7FKveZ1VTuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ucG7Ibr/F5dqcPYTmJJvgOryDE1+Cpsrg9fD4LJ1GROFlPF9QHzdQSkmtntTOVnnGaq4SVnd2HmJjBVNeTM3S2l0n8afjBItQKgy72wyh4E1y2/EzRWH9+5CUMheyi6Puay7jh7SFqxO6FhINdJkBlj0ZBEilpRXm44/W0uTAas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17151C4CEC2;
-	Wed,  2 Oct 2024 15:53:43 +0000 (UTC)
-Date: Wed, 2 Oct 2024 11:54:35 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1728118847; c=relaxed/simple;
+	bh=i+Hl2jkW0Y80sNTYZ+yeU/B1CMw0zF82pmSdZ8KEpgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fjcllwv1PgQpCZSL0fHlMMZnXstuYCzWa1JCCz7LEox/NzOL4F2u1I91VszmoWzrZa2Er2DYzuZf6dynwbv+cjlD/uzThPgWfbE/z8RppyAPh2v9KLEunsUYjsz3H9oeMGY7p+kvpzq9uU+RsPkIItSFNAn0HYNzFLw34fSkn1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=CU5xOHno; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="CU5xOHno"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 2CDA01C0082; Sat,  5 Oct 2024 11:00:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1728118844;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SVW3O9XSyifx9yjtLAWEuzOWnRs2kMMJwhsGLsus/PI=;
+	b=CU5xOHno9A7mxa95u6GPpq1aZX/t93QGzYQy2ub/3r53f96yzeeTl6kXt4Qr7dyVT6P5dw
+	ljRluz90oGLXT+kj2mIbVMV2fAxwkLRmdQweu9UTzsxEBTZLaRkjnRa9dCa0GgvnR8R591
+	+pLZ178UFwWogdxOi+KdrMoPqV3tpog=
+Date: Sat, 5 Oct 2024 11:00:43 +0200
+From: Pavel Machek <pavel@ucw.cz>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Ben Segall
- <bsegall@google.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>, Ingo
- Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, Mel Gorman
- <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>, Valentin
- Schneider <vschneid@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [RFC] Repeated rto_push_irq_work_func() invocation.
-Message-ID: <20241002115435.4e618a8e@gandalf.local.home>
-In-Reply-To: <20241002153500.UVq2Zn-J@linutronix.de>
-References: <20241002112105.LCvHpHN1@linutronix.de>
-	<20241002103749.14d713c1@gandalf.local.home>
-	<20241002150543.IhYy2Q9k@linutronix.de>
-	<20241002111920.12cdc78e@gandalf.local.home>
-	<20241002153500.UVq2Zn-J@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] MAINTAINERS: Add an entry for PREEMPT_RT.
+Message-ID: <ZwEAO75epgLQ5YZg@duo.ucw.cz>
+References: <20241002154639.89wWS_OU@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="mhN1KJmQKV9ebzzT"
+Content-Disposition: inline
+In-Reply-To: <20241002154639.89wWS_OU@linutronix.de>
 
-On Wed, 2 Oct 2024 17:35:00 +0200
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-> > Hmm, I probably should look deeper to make sure that anytime a schedule
-> > happens where there's overloaded RT tasks, it tries to push.  
-> 
-> I think it tried pull on schedule but then it got outsourced to push via
-> the IPI with this new code. Don't remember the details 
+--mhN1KJmQKV9ebzzT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Pull is much more expensive than push. That's because we keep track of the
-"cpuprio" which is the priority of tasks running on each CPU. To do a push,
-you simply look for the CPU running the lowest priority task using the
-cpuprio logic and send the task there.
+Hi!
 
-For a pull, we have no idea which is the highest priority RT task that is
-waiting. We originally did a search of all the CPUs with overloaded RT
-tasks, but this search takes way to long, and since it's done in the
-scheduler, it caused high latency. Which is what the IPI dance is trying to
-mitigate.
+> Add a maintainers entry now that the PREEMPT_RT bits are merged. Steven
+> volunteered and asked for the list.
+> There are no files associated with this entry since it is spread over
+> the kernel. It serves as entry for people knowing what they look for.
+> There is a keyword added so if PREEMPT_RT is mentioned somewhere, then
+> the entry will be picked up.
+>=20
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
--- Steve
+Acked-by: Pavel Machek <pavel@denx.de>
+
+I wonder how this should be merged. Send it directly to Linus? Make it
+part of next rt patchset?
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--mhN1KJmQKV9ebzzT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZwEAOwAKCRAw5/Bqldv6
+8swaAJ0aBekp7Vbvwciq7Sv8VxbJChB4RACghCP0GEieBsd+abOH76w/Y4Cshbw=
+=kz72
+-----END PGP SIGNATURE-----
+
+--mhN1KJmQKV9ebzzT--
