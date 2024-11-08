@@ -1,185 +1,235 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4181E907A
-	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Nov 2024 12:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731068275; cv=none; b=oNHDAZZweoHD18QtZ5hBTUySAGU/cO7AbFVbcZGewuWECHY7IuDvZxwwUAFmzJNswIQo4lZRHS99iQWI0xF00Fu4SB16Zvpv+ZaLy4V8mOvGxkSWYZ5mLfAC5JIpPgZmTXugubfBS49LSVHr5DBRe5I/TKvWYCqdFZBHsLPkp9E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731068275; c=relaxed/simple;
-	bh=mSjEQxcT1jzRrZG3Lk514ZG8ezGlL78HxIMrX5JBN1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tEw5qukxC/xvJVidv8DirXgKjcbTrLcSSc1UbvotdFzlzLOBfC2iiw9bOMs2p0cHN4BcGRUn/vBo2taWsZOfEg3Ey88FcCWRz0O6Tr5A4ZPfLC4reJ8daZxeZhe9iVGPyLOULNilnkP4O98GWXsG0UHc5GX9wAnD3SCMrsXkHnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Cbhu8vG8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=S15ds1pE; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0191E47CC
+	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Nov 2024 12:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731068443; cv=fail; b=rzTnn56u/F2QQprY7EoQDdQcXaJ/weWgxQTL/TL+YLbAJ/L/sVDXcZjdjslq60q1RRJrpwjw+BKLtgokQqM2cuhcr7BMBygLH3lt0+20grNw/wVHsEHmSs3QTOpTWA7j7zE+Mi3gfJJ4oSjEige5Zq6ueEzgJ1bji7LUrssGCpQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731068443; c=relaxed/simple;
+	bh=4CUknAsxXjhZ2A3UPDahtOmNZFCtlw5OvspFZSDdc8A=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=LjvuJe/AphD4aKScC/uTchmkBk+95MehE9q62OBglRG7tlvlCMLCPCaGttdNBh25jai41G8CnNaBG4EUTokNNSnrcqQiLrPmPGC9ht9Y9c31AI3iXQdQ0oJIPx0QXuk560v+7qkO71Pto20mOnuITNk9tGw6ddN+3DeAJWJl56s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mz8jM8uW; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Cbhu8vG8";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="S15ds1pE"
-Date: Fri, 8 Nov 2024 13:17:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1731068270;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tTSbTLRK4vrdFAfI5oV/Tg8syNe6Xf6hf6GqaudQgI0=;
-	b=Cbhu8vG8c4sPPnzbO0rrenPO6MMPUDQqw9eCOQKxH8senJsatKlw22sfU6j2mR7/p2zKZe
-	fUvppKI9p1CnAErQ8XNyU2DfN0eSMx4eZGjf9lcxyX58/Hen0FjUYf8su1PG4IYa4lTHri
-	f2nQTwACfWyXWUXeMhZ86dDMnQ9LePMN9maE5waYjP0WByguByFuKnvw78KnAScpmMEKX4
-	kKNQewWcQxlulaB+YVvLd0kkhNMkGu5cGY9D80inZkFc0C1uEe7DU+Ux3KJEoaCpD/7jUx
-	2ZHAJJTsvIbxnSSwZwJ+mccc4m5R3iRoQASTAJStA4AmDr5K5daRKkiA+jS/Dw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1731068270;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tTSbTLRK4vrdFAfI5oV/Tg8syNe6Xf6hf6GqaudQgI0=;
-	b=S15ds1pEo3+8HOeicIjEH1qEsfo7FRGLEPmbkEql77rKojJcruiuBUt+tNLPhxT3vKhOsF
-	Yt0bFxF9pTelizBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Tejun Heo <tj@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, NeilBrown <neilb@suse.de>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	Chen Yu <yu.c.chen@intel.com>, Julia Lawall <Julia.Lawall@inria.fr>
-Subject: Re: [PATCH v4 3/3] sched/core: Prevent wakeup of ksoftirqd during
- idle load balance
-Message-ID: <20241108121748.tGlosO1b@linutronix.de>
-References: <20241030071557.1422-1-kprateek.nayak@amd.com>
- <20241030071557.1422-4-kprateek.nayak@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mz8jM8uW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731068442; x=1762604442;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=4CUknAsxXjhZ2A3UPDahtOmNZFCtlw5OvspFZSDdc8A=;
+  b=mz8jM8uW0qTFIh2qyYefa68tKpnAfPLq/jYc+7aLJkAxLugo/ZRW4ag/
+   pLNZL5OYvzMMD9V1HvCG7L8yWKdpvG2ccHF9VbjtT62e7OpzbzKF2ffYX
+   9pQPkUcySHoT2J261kZfrDk0lHTntG96lHMqZUNW7wfSM7vCT3vTNsQvG
+   w8TCR+r+IvfolSiLiIfvYQsWcCWpqw6bdWwIGoRaJF315owb8auAhf1Fy
+   nh/Siz9fOyNvYMCx2Vgy0Zi+XtLOSTFKI5AsKE30bl3XIyyhVSrcf/d0l
+   r2/0nNJ21gRu3X9vxhg3yQRSSR2JWYYy4lqbNzqYObVyiZ36gMTJ78eI4
+   A==;
+X-CSE-ConnectionGUID: uKET72wjQj6gsct6JbU4Bw==
+X-CSE-MsgGUID: PTB4kDhUTV2x+LO6NDDl3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41561235"
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="41561235"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 04:20:38 -0800
+X-CSE-ConnectionGUID: dKujOtieTaWMysMk2wLlDQ==
+X-CSE-MsgGUID: 1u26pcjRSfy4ZydeFagV/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="85866160"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Nov 2024 04:20:38 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 8 Nov 2024 04:20:38 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 8 Nov 2024 04:20:38 -0800
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.48) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 8 Nov 2024 04:20:37 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zNVzp1Qgia1Khxd6O1b93WF5pkTwVXhAzyjd91fyG7+EJaKU/FPm+yEF2YKubrYoBqtLB40Zidja2w8sLq8LiOZJMjV3KKG+7tHddu/BnL7Ve3RXpb/fOy2jw2Aq9jPzT4iaccL8M/uJY0Ibj19NJUCOBf9QcbZ1cZVO2vNq48cXPOMTgkXjrvxZUru3iYOlZ3Bl9EV94xVvtPs4fkczLH72gwQ0a3/piN5u0GR+tI/WGyq63jfAm2fcPFzqlu50gug9gXZqJsEuAI6wBHu2f/gSWEQrH28ftd9ok3ThIlC9V6jtHNTja0i3yXARNSQQPZKGcKeLT3jSwWhC7XwP5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TuUJIUHbDxksyJk+rwVeubQBu6oimFr5DTZCS79xwC8=;
+ b=fhj3sjw2My0YE1Zo5e333vxuOHWUATwuXHmGu48qklo0V0X2HYOIgU2mUCfI8jeomx4jFX2bY1XhH8Y6IQZJCSPquctKnBb6UZaVP7maLlbX81WvzVV0FqWKSZnUUwSMS8UkVXDcCojXNyTfRDiq0wMntMEnuyohRZxxnW4zAHnn5OryhZpl521ly4/XANudDHfEBuHx/83hnmDxQ4KVIR90NB3LL7T6it0e72RszUzCIUQNq3H1+/+aIdquwfanaGd/gTthgn8etIitLMcpSvnZdh09GAuc5hInOcPcRQ6k6E3+dWLkYz7x3v9qoGm19EMc0U/3H2c/cugGeiqsoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB8086.namprd11.prod.outlook.com (2603:10b6:610:190::8)
+ by LV8PR11MB8678.namprd11.prod.outlook.com (2603:10b6:408:20b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.22; Fri, 8 Nov
+ 2024 12:20:35 +0000
+Received: from CH0PR11MB8086.namprd11.prod.outlook.com
+ ([fe80::984b:141d:2923:8ae3]) by CH0PR11MB8086.namprd11.prod.outlook.com
+ ([fe80::984b:141d:2923:8ae3%6]) with mapi id 15.20.8137.019; Fri, 8 Nov 2024
+ 12:20:35 +0000
+Message-ID: <1b0ecd28-8a59-4f06-b03e-45821143454d@intel.com>
+Date: Fri, 8 Nov 2024 13:20:28 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] Revert "igb: Disable threaded IRQ for
+ igb_msix_other"
+To: Wander Lairson Costa <wander@redhat.com>, Tony Nguyen
+	<anthony.l.nguyen@intel.com>, Sebastian Andrzej Siewior
+	<bigeasy@linutronix.de>
+CC: <tglx@linutronix.de>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Clark Williams
+	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Simon Horman
+	<horms@kernel.org>, Jacob Keller <jacob.e.keller@intel.com>, "moderated
+ list:INTEL ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>, "open
+ list:NETWORKING DRIVERS" <netdev@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>, "open list:Real-time Linux
+ (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
+References: <20241106111427.7272-1-wander@redhat.com>
+From: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Content-Language: en-US
+In-Reply-To: <20241106111427.7272-1-wander@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: ZR0P278CA0016.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:16::26) To CH0PR11MB8086.namprd11.prod.outlook.com
+ (2603:10b6:610:190::8)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241030071557.1422-4-kprateek.nayak@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB8086:EE_|LV8PR11MB8678:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2216c904-ee66-4058-075d-08dcffefbf7a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?NFMzQjE3Zk55Mzl4SmFyWUlZSUJNQ0VpS3RXNG1sQVZKVHpicmNuUXdvdit1?=
+ =?utf-8?B?cDJQdVpJRmN4VEIzRGt4Z2hkNXNEUmZOd2VVRmg4Z0puM3JQdlhHZ3JTbnFE?=
+ =?utf-8?B?L3U0ZUFzRnVuV0NaUHRBcmxKdFcxcnY4OGpUSGtucWNudVZnRUV4RTkrQUow?=
+ =?utf-8?B?dG53ellEanlublpRejZydUxybzVqcjRNVHo5MkNJWXEwa3ZJK0hPUGFpQW9R?=
+ =?utf-8?B?aDIrQ21PVWlIeDBLcnZKRWp4TUZCaWtlenhSdXZ2TXp0Vkhsb2doYlhtd2dP?=
+ =?utf-8?B?WDdpaUhMUWxRT0UwRmllN1luazI1cjBSMjRMZjUrREdFbUxtckU4dlVMSnFo?=
+ =?utf-8?B?dVpWMkUzOWJ4QVVHK0tjc2tOa21laFN3UlZESTh0U1NDVEJCZEZ1am1wVnYv?=
+ =?utf-8?B?SllEdE1aSU9PN09aMnlyYStIU1FPRG9EcW5SODhFbDV5M2pqOXN5cEI0K2Fq?=
+ =?utf-8?B?RWUraWtsa1AyellNMXA5NXMvVStMRmI3VS9lTG1EWWFXclllRkhObFB6azFE?=
+ =?utf-8?B?NEhkb0NsYVg0YXhjRXNjMTNodDBqbTVobHI4NVkvZkdiQTRjZ0dGYzFWZElL?=
+ =?utf-8?B?RzhCZWt3QnNJa1pWaUo1VTF4WTVkb0ZiWm1FRmlJQWtlVk80MUtBRkQ5V2Jn?=
+ =?utf-8?B?VkZMU2JkN2d5SDBPR3hsREZVVVRndis3eXNMT2g1Y2dubytPeDdVeE0yWW9Q?=
+ =?utf-8?B?U2w5S0RFaTNoZDVRNVFIWnU2RjVhTVczcFJTWWhvcE5zazhGeFhDdmJTNC95?=
+ =?utf-8?B?Mmc4Z2w2OXFmWlgzeG1YTytuUTV6MC9YbG42eTNsQS9XK2F5Tm5SYVRVaFJt?=
+ =?utf-8?B?bnJwZmVoRGhObHhTc3JLZzB6S3dCT1o5Zml0c1E4bFB4K0V2dWd1ZlhGRyt3?=
+ =?utf-8?B?WElDeDJBMXVaeThSVThaa3cweSs5c3lHZlZpZVNpKzh5RDl6TlJUK2FBaWRH?=
+ =?utf-8?B?ekl1cjI2QUhQVmVPVzROZnRuSmp5WENON1JFQ1VRTWQza0RsWGJqUDJpZG1k?=
+ =?utf-8?B?cFR0RlZreG4yS2pmVVRZRDJMQnVPbFVlNXZZd0ZjaXY5SjJDVjJxNVIvR3M2?=
+ =?utf-8?B?cmZpOUFvYlJVUWpSSEdJTDRneEVrWmZMUjQ3TGFqMHI2NWtRMEJvSjM4TWZC?=
+ =?utf-8?B?MjVZQXh5TGQrSGM2NkxIV0creVUvOWxnaTUvMzk4UlY3TXg2LzVUdXQ2Ly9j?=
+ =?utf-8?B?Tmx4dFVTWjN3b29OUmEyVWR3c1cya1Qva1ZwMlFGK1UzQWZZQ3FIalQyVUd3?=
+ =?utf-8?B?WlNlaTZReDRFYSttVVVGZ1hDS044YzFtY3hrczhYZHA0ajBtbUlYYkE5MjVR?=
+ =?utf-8?B?cTF0TjgzMWpCM1ZlK09ZVmJPUTQ2dUxjaFdjV0d3aFFxNy9nVERxSVp2aWNI?=
+ =?utf-8?B?OEdqTHZwKzN0alJ0NWJTbjQ0eXV6VWdUYzlTd3dlK21KWmxrUS9KZ3lvclpq?=
+ =?utf-8?B?TkM3TlJIbERyODNHQlY4a0hESEFtM3ZvS25KYTNYNy9vVTRWb0I0Q1BCazRY?=
+ =?utf-8?B?ZXdUclRiSFJSVmxUNE9DbFRsZ052MmpnY2dYaFVseHB6eS9JYWxxU2p6VnNR?=
+ =?utf-8?B?eXZXVlA0Y2J6c200Mlpmb1c0R3d3cTd5VFIrM29ZNlFxZmR0dFNkanhqcXM2?=
+ =?utf-8?B?d1VMTGdJaVVlMENHM2pVbWo3M0FnVStrU2x5aXJGZTEwY1h6ZG44ME00YVZC?=
+ =?utf-8?B?YzBFYU1JdXdzdjBNa0orMFVUN3pCNTFTUE1GRWdzVk4zSFgyd1E1TncvUmRn?=
+ =?utf-8?Q?c+rgKqFcWmsmg1zzz8okLlhY5w2nm4m9G6cwA2T?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8086.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitsMjAzcHpoeHR1dnpmZG9MSTVpcWtPaHF6c1d3ZHpwdmpxRkM2NldTQlBW?=
+ =?utf-8?B?Q1V0MzZxVmVrQ0k5bGNpR2NWZ0VKWUpUYjZZRGhoQjNIeWhTVXdvVWVXdmlj?=
+ =?utf-8?B?WUQ2UnRhNWpQUWRrcUJmczlhMkVSelZvb2UvY1VTVDI4QTllV2IxV294b2gx?=
+ =?utf-8?B?RldUa2c4cGNvNWE5V1ZUUWtmTnlwSTZsMlNJUjc2eVRLVC9ZWEVmK3VRR3pt?=
+ =?utf-8?B?OERiZXB0MlJhRTBpbHg2T0xKRWtPYThYa2ppNnZ4OXFMZjdFRnlvQ0dNbU9M?=
+ =?utf-8?B?dGtGUXptWlQ2dlFQcE9JSno3VTV4RHAvLzNqc0p4YlZPZURSRmVMWW1meEtr?=
+ =?utf-8?B?YnBjSk1SUGxINXlOcklhaCtiUGxuVWZ5aUlpMm1WSXVPOXVOR2ozSURkQ3hq?=
+ =?utf-8?B?cjZnbHZKa2xsWVVuY2VHZEppbWF5SWFFL0l6d1dJQnpEeWRPWm83NStocDhQ?=
+ =?utf-8?B?VzNhTmxJemZWS2ZvZGZGQlNJRGtCQnRUSWdKU0c3VlE5a3c5TzFzUzFPejJR?=
+ =?utf-8?B?MldNK2xXU2k2c0J2Vml1eWkycDE4SkVxUGQ3ZFQyM3pWMVBQNk9Sa0NHcmx2?=
+ =?utf-8?B?QTZYL09RRUhpbkhCY1FZdVV0b3E4WW8rUG9rVWZUNFRMSHdPVWZJTnZSK2Js?=
+ =?utf-8?B?UTVrTkxBOGdMak1ZSjRVTU1iaGdPV3lCY1ZzdDRwYmxBRG5xTk85VHUxQWFj?=
+ =?utf-8?B?U1JpSzd0R2hNTTdmcUEvQS83YnJLV0lGeSs4azY3VjRjc1NIZ3VrelZLd3py?=
+ =?utf-8?B?ckh0eFU2cXoweFhVOC9pM0JKZy8zcVM3TEtkc2lLWkIva3VkZ09WWmFUT1Jh?=
+ =?utf-8?B?ZlZSRWFoS1hrVlVWd3JraEhLSWZwdGU1dnppbEtWcTNidmljY3RnMm5mSmxL?=
+ =?utf-8?B?clIwZHdjYnBHL3MwQUtxMTcwRUhaVzFONWFOdnZyUUZmZXhoWjhMK3JPV3BB?=
+ =?utf-8?B?V1hFZ3BMalAxc21HTWoxc0t5OS9GaXdPMGRTZ3UzVzRCck5ibHl5aU1YNjVU?=
+ =?utf-8?B?UlV3dlpRWkYxblZzZW9TR1FVM2N3K1dPNmt2UUl6a0ZlNGFYOTN0c3BPZTdN?=
+ =?utf-8?B?YVR0ZDRrYjQ5TFdZYnB0eGdHRW1ObDg3bFB6UnE2L08rM1FDU0tJbGt3Z0kv?=
+ =?utf-8?B?UzlIeVdkTmJXdms0anBEYy9MNFFicUljRkw3bjd6TTY2UDNZMWwzLzFTSTZS?=
+ =?utf-8?B?Y2VKNXFQQmJlVDc4c0I2NS90aUtjWVhpRXM0MFpQT0VQOVNLZW9wbUpIOGR3?=
+ =?utf-8?B?YWVRUm1BL0NHNjhPeDJZejN6eWw3Y0Y0amxFMHpLYW1aWG9qYVMrakpsMUFZ?=
+ =?utf-8?B?YUZDQmx0ZEU4WmEvaC9uNVB3aVVXellldVgvTkdhMGFyRHdwb0U3Y0Q2a2pF?=
+ =?utf-8?B?ZmUyNXNzcHRHTkpEZFZ5cXprTU55VHNCdC94bjk1SnJyNk5teHNlZm9adzBm?=
+ =?utf-8?B?UVJqNk04a2dsK0FPZ0xsUjB5L3pMNCtPWUd2WEhzUCtBc29MbWVjcG10dk5T?=
+ =?utf-8?B?dDNTVEY5ZS96enVENVZ2Q1EySUNnUGpqZG9uV0dDcEU2MEwzU3pyVUl4cklj?=
+ =?utf-8?B?Uno5MXFmaUMzOG84UUV6QkhuUnNkU2VCTXFhS0J0djVDWUs5VTFDVDM4eXMz?=
+ =?utf-8?B?MW1uZHhsSG1memczSHRrdFNhd05jTXJEdndMSXJ3VFhkODZhdVFROGRsME13?=
+ =?utf-8?B?NE9udWdOYzVxN2w5WUVISEdXVnp6VnZvOVZHS2FwcXFmUFZIYWlRQjRzbVZL?=
+ =?utf-8?B?RXR4cDlScmd4SCt5bTF1Wk52WWFZZXZVSzN5YlgrakUyL3NxZzBSTStidFVZ?=
+ =?utf-8?B?SnZpR1UzTEU3cmQ5NmJwK3JjQnVscFFRLzFlV3lFWU03dkJPUjFUMkVGVWZp?=
+ =?utf-8?B?aWZpdU9xb0tVQjBxNXRidUFjdHRNYjFvY0FhRHRKc1kvNUlncndES2s5Nnoz?=
+ =?utf-8?B?ZUN5ZGFpVzk3QzliRndjRnJKU0thYWVzRVV0QURJdGdNYThPcU9sU1pQenJI?=
+ =?utf-8?B?cWJIa0U2YnRYbWlLeXA0UmhSb3BMZGhybWZONnRkVWxrZzZBbXM4N0ZOQ0Fk?=
+ =?utf-8?B?anVINWo3Y3hOOVRjaGQ3d2tEeER3SW9nTnpYTkZONW5HdThiYkRuTHRTZkdv?=
+ =?utf-8?B?aFltd2JCM1VUN2ZxR01jaWFFMmoxN1dETjNGcDFaeWFrVFFCYURQMWdzb0xr?=
+ =?utf-8?Q?UWpGvWLlAY66elZpcNbFBpI=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2216c904-ee66-4058-075d-08dcffefbf7a
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8086.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2024 12:20:35.6866
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ba1Yr19PPxNW6GkzYdZ2FutE9qjR8Uv8edyfXu9bi8sGp2MTywMOibZvolanPbO/hoFs9ZITpRxlRStzUsdR3FrEBwa48m/RO+ohruXqzKc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8678
+X-OriginatorOrg: intel.com
 
-On 2024-10-30 07:15:57 [+0000], K Prateek Nayak wrote:
-> Scheduler raises a SCHED_SOFTIRQ to trigger a load balancing event on
-> from the IPI handler on the idle CPU. Since the softirq can be raised
-> from flush_smp_call_function_queue(), it can end up waking up ksoftirqd,
-> which can give an illusion of the idle CPU being busy when doing an idle
-> load balancing.
->=20
-> Adding a trace_printk() in nohz_csd_func() at the spot of raising
-> SCHED_SOFTIRQ and enabling trace events for sched_switch, sched_wakeup,
-> and softirq_entry (for SCHED_SOFTIRQ vector alone) helps observing the
-> current behavior:
->=20
->        <idle>-0   [000] dN.1.:  nohz_csd_func: Raising SCHED_SOFTIRQ from=
- nohz_csd_func
->        <idle>-0   [000] dN.4.:  sched_wakeup: comm=3Dksoftirqd/0 pid=3D16=
- prio=3D120 target_cpu=3D000
->        <idle>-0   [000] .Ns1.:  softirq_entry: vec=3D7 [action=3DSCHED]
->        <idle>-0   [000] .Ns1.:  softirq_exit: vec=3D7  [action=3DSCHED]
->        <idle>-0   [000] d..2.:  sched_switch: prev_comm=3Dswapper/0 prev_=
-pid=3D0 prev_prio=3D120 prev_state=3DR =3D=3D> next_comm=3Dksoftirqd/0 next=
-_pid=3D16 next_prio=3D120
->   ksoftirqd/0-16  [000] d..2.:  sched_switch: prev_comm=3Dksoftirqd/0 pre=
-v_pid=3D16 prev_prio=3D120 prev_state=3DS =3D=3D> next_comm=3Dswapper/0 nex=
-t_pid=3D0 next_prio=3D120
->        ...
->=20
-> ksoftirqd is woken up before the idle thread calls
-> do_softirq_post_smp_call_flush() which can make the runqueue appear
-> busy and prevent the idle load balancer from pulling task from an
-> overloaded runqueue towards itself[1].
->=20
-> Since the softirq raised is guranteed to be serviced in irq_exit() or
-> via do_softirq_post_smp_call_flush(), set SCHED_SOFTIRQ without checking
-> the need to wakeup ksoftirq for idle load balancing.
->=20
-> Following are the observations with the changes when enabling the same
-> set of events:
->=20
->        <idle>-0       [000] dN.1.: nohz_csd_func: Raising SCHED_SOFTIRQ f=
-or nohz_idle_balance
->        <idle>-0       [000] dN.1.: softirq_raise: vec=3D7 [action=3DSCHED]
->        <idle>-0       [000] .Ns1.: softirq_entry: vec=3D7 [action=3DSCHED]
->=20
-> No unnecessary ksoftirqd wakeups are seen from idle task's context to
-> service the softirq.
+On 11/6/24 12:14, Wander Lairson Costa wrote:
+> This reverts commit 338c4d3902feb5be49bfda530a72c7ab860e2c9f.
+> 
+> Sebastian noticed the ISR indirectly acquires spin_locks, which are
+> sleeping locks under PREEMPT_RT, which leads to kernel splats.
 
-| Use __raise_softirq_irqoff() to raise the softirq. The SMP function call
-| is always invoked on the requested CPU in an interrupt handler. It is
-| guaranteed that soft interrupts are handled at the end.
+I don't like to slow things down, but it would be great to have a Link:
+to the report, and the (minified) splat attached.
 
-You could extend it
-
-| If the SMP function is invoked from an idle CPU via
-| flush_smp_call_function_queue() then the HARD-IRQ flag is not set and
-| raise_softirq_irqoff() wakes needlessly ksoftirqd because soft
-| interrupts are handled before ksoftirqd get on the CPU.
-
-This on its own is a reasonable optimisation. A different question would
-be if flush_smp_call_function_queue() should pretend to be in-IRQ like a
-regular IPI but=E2=80=A6
-
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-> Fixes: b2a02fc43a1f ("smp: Optimize send_call_function_single_ipi()")
-> Reported-by: Julia Lawall <julia.lawall@inria.fr>
-> Closes: https://lore.kernel.org/lkml/fcf823f-195e-6c9a-eac3-25f870cb35ac@=
-inria.fr/ [1]
-> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> 
+> Fixes: 338c4d3902feb ("igb: Disable threaded IRQ for igb_msix_other")
+> Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Wander Lairson Costa <wander@redhat.com>
+> 
 > ---
-> v3..v4:
->=20
-> o New patch based on Sebastian's suggestion.
+> 
+> Changelog:
+> 
+> v2: Add the Fixes tag
+> Signed-off-by: Wander Lairson Costa <wander@redhat.com>
 > ---
->  kernel/sched/core.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->=20
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index aaf99c0bcb49..2ee3621d6e7e 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1244,7 +1244,18 @@ static void nohz_csd_func(void *info)
->  	rq->idle_balance =3D idle_cpu(cpu);
->  	if (rq->idle_balance) {
->  		rq->nohz_idle_balance =3D flags;
-> -		raise_softirq_irqoff(SCHED_SOFTIRQ);
-> +
-> +		/*
-> +		 * Don't wakeup ksoftirqd when raising SCHED_SOFTIRQ
-> +		 * since the idle load balancer may mistake wakeup of
-> +		 * ksoftirqd as a genuine task wakeup and bail out from
-> +		 * load balancing early. Since it is guaranteed that
-> +		 * pending softirqs will be handled soon, either on
-> +		 * irq_exit() or via do_softirq_post_smp_call_flush(),
-> +		 * raise SCHED_SOFTIRQ without checking the need to
-> +		 * wakeup ksoftirqd.
-> +		 */
+>   drivers/net/ethernet/intel/igb/igb_main.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+> index b83df5f94b1f5..f1d0881687233 100644
+> --- a/drivers/net/ethernet/intel/igb/igb_main.c
+> +++ b/drivers/net/ethernet/intel/igb/igb_main.c
+> @@ -907,7 +907,7 @@ static int igb_request_msix(struct igb_adapter *adapter)
+>   	int i, err = 0, vector = 0, free_vector = 0;
+>   
+>   	err = request_irq(adapter->msix_entries[vector].vector,
+> -			  igb_msix_other, IRQF_NO_THREAD, netdev->name, adapter);
+> +			  igb_msix_other, 0, netdev->name, adapter);
+>   	if (err)
+>   		goto err_out;
+>   
 
-/*
- * This is always invoked from an interrupt handler, simply raise the
- * softirq.
- */
-
-should be enough IMHO. But *I* would even skip that, since it is
-obvious.
-
-> +		__raise_softirq_irqoff(SCHED_SOFTIRQ);
->  	}
->  }
-
-Sebastian
