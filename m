@@ -1,108 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47001EABA2;
-	Fri,  8 Nov 2024 15:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFCF1AA1E5
+	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Nov 2024 20:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731078337; cv=none; b=AvS7jO3oodsl/Lfo8MwOWq92YYTBYSBRAVVvSvgLEqC43NttjmXNPERiU9QdobstbOJGTZtVNxij9XvcTHMvYSLCGo0NyQivAJ7QtjqItifyV42lq1fgB8UXhOtfGFRgMa+7pRh+luPOBV5IWQQCkmlgrpV1loOpWSmXI9OY2Sc=
+	t=1731097377; cv=none; b=MthVQ4hKp7XObBFAfVRQby02mHd6oWRVSbVkv2iMuNlezJaZuRP1NpHoeLIFjCDMbLNgVus6vpDgIIv8NgRw1isEo6ogWkmItVMX9cKzokpEve+MY2zSHm5ObmkD7kpsQQt6i7QSw0LUnvqdAY/DeZPGaH1Ij/X0qJMcMeH6COI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731078337; c=relaxed/simple;
-	bh=8KOpEqNXl7zuH4n2xZ+E3yhWKZMJsBdILBPRd/5Saik=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VE/bwhcajhplDHaWGBWF2vWw72lZFjRJ5gw8UWG+t1zlSmULt1E/nBanZQdm6GFTkdB5hw5Snndmm0qaYBzfglbKLOEwJzfKhOFdQsOopuU9Uy0Wvt8NM7Cpv5UvkOmxGV/zCdneYEOPtv6xzKWGG70vmNnghq8bN3RS2rzzODw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C00A0C4CECD;
-	Fri,  8 Nov 2024 15:05:35 +0000 (UTC)
-Date: Fri, 8 Nov 2024 10:05:43 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Xuerui Wang <kernel@xen0n.name>,
- loongarch@lists.linux.dev, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- linux-rt-devel@lists.linux.dev, Guo Ren <guoren@kernel.org>, Jiaxun Yang
- <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] LoongArch: Allow to enable PREEMPT_RT
-Message-ID: <20241108100543.61769b59@gandalf.local.home>
-In-Reply-To: <20241108091545.4182229-4-chenhuacai@loongson.cn>
-References: <20241108091545.4182229-1-chenhuacai@loongson.cn>
-	<20241108091545.4182229-4-chenhuacai@loongson.cn>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1731097377; c=relaxed/simple;
+	bh=XJU61EN1IqZaoeR1rSzm9dj0fle8xMBiTlgB72uJXus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X54SzJkiiA+QSRJafSR/yFUPfSsQ6XagL2jnh5sRkMXxZFGDunA1Bz2eQXqUTbA/CBVRkXq5vp+yLL20QLPZSdzvsiITGNRNl0qdyc48daTAU2QuhrsmO7nwH1zm1lGk1SrMp8TNJjSLlGfmVn1QwV5vzb7xfCqI825b45oMHL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gBiipae7; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gBiipae7"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43155afca99so21060935e9.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 08 Nov 2024 12:22:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731097373; x=1731702173; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U/xUMGKi2SD6hf3c1UEJz+hJwgmvF3CxZFQ3ymqr9uE=;
+        b=gBiipae7TLyJs3h/G8leRFNbbExMgewriwqsRxXyg3lT4IOSxXu0HRTOR2DVj3Deel
+         xp+gVwFdGzehtWBEJuSKM/J3yIA5EYpEzVcmTf1JURf01wYiqDZYhy/fbyqgu5B3BeUQ
+         J5wa4/NDMS3hQZVlJOwsTmPhMFin8KJSilQf9zbyKMvHzkT8jO5x8LNXDTIvdpZoULBb
+         Nsv+oMtw8xfr8oSczjFgtdGJ/gEkr1G5Jz/TVAeAcaPyidyn7n+/NoF3kV1rQZmPuAl5
+         K05awSDiAgK8XcvNZR0Rcc+0KtXRC4YTG0QDztmRSHz7+aDruROedxb6T+18Ziczek4L
+         nHeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731097373; x=1731702173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U/xUMGKi2SD6hf3c1UEJz+hJwgmvF3CxZFQ3ymqr9uE=;
+        b=AAZ5g+nXe92PB8OzhMf+QFrnruNtThivqK9861IAa/rwgXVtzVz8Be/auFQO0c1H2B
+         K2vqorv9o2VMGvqiLexfZjNlacD5xPE+e8hH6RRJVx/Ce1rtU/jpneonlSeHESI6TOAL
+         1ASOHP+hR5L5EgrmDxQCMdpQMq/JbXLHQEGLiazhuP0h6Z/0AYRsC+Ri4c6e6Tj5c4yP
+         e0yhS154O5/rWtybm3Ey9Q1eOgEs4gE+QmH61OFc2vVBolkdyMwRkJ/htACiNYhbNNjh
+         BoQxvMOYKp23d8l3k3GsIbQtwNt3mtmsGeT6GQETROS4JGP/N4xkipafpwxOD1I61xY3
+         xiUw==
+X-Forwarded-Encrypted: i=1; AJvYcCUrVIgJdYNAb5A7hMK9kfC6pLnCQ8anih/kToS7eQ5o5vPTKGAWUcrlflaYrNxnZ7Wa7/u5SPs0pW5uk/joxw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMlYmblxu0mKPpKGfg/OPk7VGd0I4c1Sfb+bJ965SaL8jEWQrY
+	Y1u1FE0Vzi5xmpXAbAJe7w8Bx9flvSMz90zaLlZLuGezwK6KSzlpwglQlQaMWNa54fPsLj32F0x
+	2geVI/lDQn+zPXMr17ANcMEJCR+g=
+X-Google-Smtp-Source: AGHT+IGUHee0ozy2XcI20tavIZRFKwh+dhcBCCR60pmA9ssCOt/7grB0zNc6bidarNowdjUxSilPi6pqfzPAsuINZCQ=
+X-Received: by 2002:a5d:64c7:0:b0:37c:fdc8:77ab with SMTP id
+ ffacd0b85a97d-381f0f57f22mr4424747f8f.7.1731097372614; Fri, 08 Nov 2024
+ 12:22:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20241108063214.578120-1-kunwu.chan@linux.dev>
+In-Reply-To: <20241108063214.578120-1-kunwu.chan@linux.dev>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 8 Nov 2024 12:22:41 -0800
+Message-ID: <CAADnVQJ8KzVdScXM=qhdT4jMrZLBPpgd+pf1Fqyc-9TFnfabAg@mail.gmail.com>
+Subject: Re: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
+To: Kunwu Chan <kunwu.chan@linux.dev>, Hou Tao <houtao@huaweicloud.com>
+Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eddy Z <eddyz87@gmail.com>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Sebastian Sewior <bigeasy@linutronix.de>, clrkwllms@kernel.org, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, bpf <bpf@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
+	Kunwu Chan <chentao@kylinos.cn>, syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri,  8 Nov 2024 17:15:45 +0800
-Huacai Chen <chenhuacai@loongson.cn> wrote:
+On Thu, Nov 7, 2024 at 10:32=E2=80=AFPM Kunwu Chan <kunwu.chan@linux.dev> w=
+rote:
+>
+> From: Kunwu Chan <chentao@kylinos.cn>
+>
+> When PREEMPT_RT is enabled, 'spinlock_t' becomes preemptible
+> and bpf program has owned a raw_spinlock under a interrupt handler,
+> which results in invalid lock acquire context.
+>
+> [ BUG: Invalid wait context ]
+> 6.12.0-rc5-next-20241031-syzkaller #0 Not tainted
+> -----------------------------
+> swapper/0/0 is trying to lock:
+> ffff8880261e7a00 (&trie->lock){....}-{3:3},
+> at: trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
+> other info that might help us debug this:
+> context-{3:3}
+> 5 locks held by swapper/0/0:
+>  #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+> at: vp_vring_interrupt drivers/virtio/virtio_pci_common.c:80 [inline]
+>  #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+> at: vp_interrupt+0x142/0x200 drivers/virtio/virtio_pci_common.c:113
+>  #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+> at: spin_lock include/linux/spinlock.h:351 [inline]
+>  #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+> at: stats_request+0x6f/0x230 drivers/virtio/virtio_balloon.c:438
+>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: __queue_work+0x199/0xf50 kernel/workqueue.c:2259
+>  #3: ffff8880b863dd18 (&pool->lock){-.-.}-{2:2},
+> at: __queue_work+0x759/0xf50
+>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: __bpf_trace_run kernel/trace/bpf_trace.c:2339 [inline]
+>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+> at: bpf_trace_run1+0x1d6/0x520 kernel/trace/bpf_trace.c:2380
+> stack backtrace:
+> CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+> 6.12.0-rc5-next-20241031-syzkaller #0
+> Hardware name: Google Compute Engine/Google Compute Engine,
+> BIOS Google 09/13/2024
+> Call Trace:
+>  <IRQ>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+>  print_lock_invalid_wait_context kernel/locking/lockdep.c:4826 [inline]
+>  check_wait_context kernel/locking/lockdep.c:4898 [inline]
+>  __lock_acquire+0x15a8/0x2100 kernel/locking/lockdep.c:5176
+>  lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+>  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+>  _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+>  trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
 
-> It is really time.
-> 
-> LoongArch has all the required architecture related changes, that have
-> been identified over time, in order to enable PREEMPT_RT. With the recent
-> printk changes, the last known road block has been addressed.
-> 
-> Allow to enable PREEMPT_RT on LoongArch.
-> 
-> Below are the latency data from cyclictest on a 4-core Loongson-3A5000
-> machine, with a "make -j8" kernel building workload in the background.
-> 
-> 1. PREEMPT kernel with default configuration:
-> 
-> ./cyclictest -a -t -m -i200 -d0 -p99
-> policy: fifo: loadavg: 8.78 8.96 8.64 10/296 64800
-> T: 0 ( 4592) P:99 I:200 C:14838617 Min:   3 Act:    6 Avg:    8 Max:    844
-> T: 1 ( 4593) P:99 I:200 C:14838765 Min:   3 Act:    9 Avg:    8 Max:    909
-> T: 2 ( 4594) P:99 I:200 C:14838510 Min:   3 Act:    7 Avg:    8 Max:    832
-> T: 3 ( 4595) P:99 I:200 C:14838631 Min:   3 Act:    8 Avg:    8 Max:    931
-> 
-> 2. PREEMPT_RT kernel with default configuration:
-> 
-> ./cyclictest -a -t -m -i200 -d0 -p99
-> policy: fifo: loadavg: 10.38 10.47 10.35 9/336 77788
-> T: 0 ( 3941) P:99 I:200 C:19439626 Min:   3 Act:   12 Avg:    8 Max:    227
-> T: 1 ( 3942) P:99 I:200 C:19439624 Min:   2 Act:   11 Avg:    8 Max:    184
-> T: 2 ( 3943) P:99 I:200 C:19439623 Min:   3 Act:    4 Avg:    7 Max:    223
-> T: 3 ( 3944) P:99 I:200 C:19439623 Min:   2 Act:   10 Avg:    7 Max:    226
-> 
-> 3. PREEMPT_RT kernel with tuned configuration:
-> 
-> ./cyclictest -a -t -m -i200 -d0 -p99
-> policy: fifo: loadavg: 10.52 10.66 10.62 12/334 109397
-> T: 0 ( 4765) P:99 I:200 C:29335186 Min:   3 Act:    6 Avg:    8 Max:     62
-> T: 1 ( 4766) P:99 I:200 C:29335185 Min:   3 Act:   10 Avg:    8 Max:     52
-> T: 2 ( 4767) P:99 I:200 C:29335184 Min:   3 Act:    8 Avg:    8 Max:     64
-> T: 3 ( 4768) P:99 I:200 C:29335183 Min:   3 Act:   12 Avg:    8 Max:     53
-> 
-> Main instruments of tuned configuration include: Disable the boot rom
-> space in BIOS for kernel, in order to avoid speculative access to low-
-> speed memory; Disable CPUFreq scaling; Disable RTC synchronization in
-> the ntpd/chronyd service.
+This trace is from non-RT kernel where spin_lock =3D=3D raw_spin_lock.
 
-Nice! Looks good.
+I don't think Hou's explanation earlier is correct.
+https://lore.kernel.org/bpf/e14d8882-4760-7c9c-0cfc-db04eda494ee@huaweiclou=
+d.com/
 
--- Steve
+>  bpf_prog_2c29ac5cdc6b1842+0x43/0x47
+>  bpf_dispatcher_nop_func include/linux/bpf.h:1290 [inline]
+>  __bpf_prog_run include/linux/filter.h:701 [inline]
+>  bpf_prog_run include/linux/filter.h:708 [inline]
+>  __bpf_trace_run kernel/trace/bpf_trace.c:2340 [inline]
+>  bpf_trace_run1+0x2ca/0x520 kernel/trace/bpf_trace.c:2380
+>  trace_workqueue_activate_work+0x186/0x1f0 include/trace/events/workqueue=
+.h:59
+>  __queue_work+0xc7b/0xf50 kernel/workqueue.c:2338
+>  queue_work_on+0x1c2/0x380 kernel/workqueue.c:2390
 
-> 
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+here irqs are disabled, but raw_spin_lock in lpm should be fine.
+
+>  queue_work include/linux/workqueue.h:662 [inline]
+>  stats_request+0x1a3/0x230 drivers/virtio/virtio_balloon.c:441
+>  vring_interrupt+0x21d/0x380 drivers/virtio/virtio_ring.c:2595
+>  vp_vring_interrupt drivers/virtio/virtio_pci_common.c:82 [inline]
+>  vp_interrupt+0x192/0x200 drivers/virtio/virtio_pci_common.c:113
+>  __handle_irq_event_percpu+0x29a/0xa80 kernel/irq/handle.c:158
+>  handle_irq_event_percpu kernel/irq/handle.c:193 [inline]
+>  handle_irq_event+0x89/0x1f0 kernel/irq/handle.c:210
+>  handle_fasteoi_irq+0x48a/0xae0 kernel/irq/chip.c:720
+>  generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+>  handle_irq arch/x86/kernel/irq.c:247 [inline]
+>  call_irq_handler arch/x86/kernel/irq.c:259 [inline]
+>  __common_interrupt+0x136/0x230 arch/x86/kernel/irq.c:285
+>  common_interrupt+0xb4/0xd0 arch/x86/kernel/irq.c:278
+>  </IRQ>
+>
+> Reported-by: syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/bpf/6723db4a.050a0220.35b515.0168.GAE@goo=
+gle.com/
+> Fixes: 66150d0dde03 ("bpf, lpm: Make locking RT friendly")
+> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 > ---
->  arch/loongarch/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index 3734f5dd9a57..26ed9d925e7f 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -66,6 +66,7 @@ config LOONGARCH
->  	select ARCH_SUPPORTS_LTO_CLANG
->  	select ARCH_SUPPORTS_LTO_CLANG_THIN
->  	select ARCH_SUPPORTS_NUMA_BALANCING
-> +	select ARCH_SUPPORTS_RT
->  	select ARCH_USE_BUILTIN_BSWAP
->  	select ARCH_USE_CMPXCHG_LOCKREF
->  	select ARCH_USE_QUEUED_RWLOCKS
+>  kernel/bpf/lpm_trie.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/kernel/bpf/lpm_trie.c b/kernel/bpf/lpm_trie.c
+> index 9b60eda0f727..373cdcfa0505 100644
+> --- a/kernel/bpf/lpm_trie.c
+> +++ b/kernel/bpf/lpm_trie.c
+> @@ -35,7 +35,7 @@ struct lpm_trie {
+>         size_t                          n_entries;
+>         size_t                          max_prefixlen;
+>         size_t                          data_size;
+> -       spinlock_t                      lock;
+> +       raw_spinlock_t                  lock;
+>  };
 
+We're certainly not going back.
+
+pw-bot: cr
