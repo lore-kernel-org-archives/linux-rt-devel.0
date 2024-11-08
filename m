@@ -1,67 +1,55 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-178.mta0.migadu.com (out-178.mta0.migadu.com [91.218.175.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6621DE886
-	for <linux-rt-devel@lists.linux.dev>; Wed,  6 Nov 2024 11:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D6A1C8FB9
+	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Nov 2024 06:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730891700; cv=none; b=I5wP0eEF3HfPK7HZrQ/sbsrcMO60E25zsRVYIa8ZKFINaw8EN+bolHfZWkbrs5Up1smj3pFpnwRgPwR89MiWG+WYQgH4yScy3rCTAZPUjMWZ7bBogpEqfnSaDhQhAEx+iArI9Kk/t9qBiDLEqbIaspuqi00yKQFk0ET8Uy4uNS0=
+	t=1731047571; cv=none; b=eZfeGp0MOq6/pMXaM1KfpgL981s5f4eNvWhUOzbNoLPGuRf6KSnJN9VdpQFKWMwXcBc/rtJBoKL5zENGRya05ErREi7lkUDqPwpJ09qyQJxNraBLJUX0YxowiAOtd+gD/Xy7XArh63g3xdIf73S2eJeXZ3a0Fply+WPTmJ9wJ5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730891700; c=relaxed/simple;
-	bh=w0uIJNp7DkoJvCA6I6hYVWnWQRy0FN8z4oGmjvTP7UA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sw/nrQxyUHg0dxcOF8vJ+n4j9gROAEI2Yq5mY6k84sjJ0GBnFIRAiQLtLmfZ1g+GMVuPmkReejZnDYmi+PgKXcHZ/IIrMdqPnVbSX66CtmVjyW+NZ7T5gubA626hfmI3CDdl63Zh+BzB94Cmpl0H7g+a8Fz7sW59L2Qv/SDw9ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QsLWH5KI; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1731047571; c=relaxed/simple;
+	bh=glCvAj1wcmZlfuLGIavms5IdCXD7UIBEhGCsE6OsPSA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RuCGbvSc6Rcgq0/ILQjH59qocOdM/ibH8DtJvfns9L5Xffu699dE3rsT9yuJMQXstL+pO3NgcweMiC+238MrN1jUxJBqphCVjMCOIl7jp622vJMxDtwRTDrlxog9Xmzlvf1aboDI3023QGw4vLZf2+/2W5jtAxsZyiVwjb0Bzsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XdeUC+b/; arc=none smtp.client-ip=91.218.175.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QsLWH5KI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730891697;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XdeUC+b/"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1731047565;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=q/pUhWBxmCDgwQYzUjg0jWk3qPOCCQzEzMOB8Ax5AVQ=;
-	b=QsLWH5KIyrtU8qJ61PLGFYaX9m5oWE8bfhtRSnS7PtpCCVcn3fCgaunoMNVC7vhjubLo0l
-	IugeU/fwxul2trwWNYJRZAJG2q2ntWbBgniNtmF9hoCVo63p0gC1CZc6KuBJKfidJhyUke
-	1x+WZSm7XP/wVdtud16/FABL3tiYNSQ=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-6LJtl8SbP8eoyf92emu2Kw-1; Wed,
- 06 Nov 2024 06:14:52 -0500
-X-MC-Unique: 6LJtl8SbP8eoyf92emu2Kw-1
-X-Mimecast-MFC-AGG-ID: 6LJtl8SbP8eoyf92emu2Kw
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 51797196CE34;
-	Wed,  6 Nov 2024 11:14:42 +0000 (UTC)
-Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.80.50])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C23FB1955F41;
-	Wed,  6 Nov 2024 11:14:33 +0000 (UTC)
-From: Wander Lairson Costa <wander@redhat.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Simon Horman <horms@kernel.org>,
-	Wander Lairson Costa <wander@redhat.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	intel-wired-lan@lists.osuosl.org (moderated list:INTEL ETHERNET DRIVERS),
-	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-	linux-kernel@vger.kernel.org (open list),
-	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
-Cc: tglx@linutronix.de
-Subject: [PATCH v2 1/4] Revert "igb: Disable threaded IRQ for igb_msix_other"
-Date: Wed,  6 Nov 2024 08:14:26 -0300
-Message-ID: <20241106111427.7272-1-wander@redhat.com>
+	bh=Y5zsbgVR21nLaT8o8D3suARsPPte/XErGgbHlgcN2T4=;
+	b=XdeUC+b/PsEPKYhSUhCXEeSZDo2ATbBi6IW3AfDM0HrbRigcyzHwZrU1mf49fM3VGU2Cun
+	K3ZkjFbEzrMxREW0DnZZdxpTsoLhBwccy77GCxaFgBoPNX1opmKTTs7BYgMS3YEF7UjJkT
+	TasIclJ+z+B4mgTWJ8IX3Hb6VH0rTyM=
+From: Kunwu Chan <kunwu.chan@linux.dev>
+To: ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	martin.lau@linux.dev,
+	eddyz87@gmail.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jolsa@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	tglx@linutronix.de
+Cc: bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Kunwu Chan <chentao@kylinos.cn>,
+	syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+Subject: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
+Date: Fri,  8 Nov 2024 14:32:14 +0800
+Message-Id: <20241108063214.578120-1-kunwu.chan@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -69,40 +57,154 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Migadu-Flow: FLOW_OUT
 
-This reverts commit 338c4d3902feb5be49bfda530a72c7ab860e2c9f.
+From: Kunwu Chan <chentao@kylinos.cn>
 
-Sebastian noticed the ISR indirectly acquires spin_locks, which are
-sleeping locks under PREEMPT_RT, which leads to kernel splats.
+When PREEMPT_RT is enabled, 'spinlock_t' becomes preemptible
+and bpf program has owned a raw_spinlock under a interrupt handler,
+which results in invalid lock acquire context.
 
-Fixes: 338c4d3902feb ("igb: Disable threaded IRQ for igb_msix_other")
-Reported-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Wander Lairson Costa <wander@redhat.com>
+[ BUG: Invalid wait context ]
+6.12.0-rc5-next-20241031-syzkaller #0 Not tainted
+-----------------------------
+swapper/0/0 is trying to lock:
+ffff8880261e7a00 (&trie->lock){....}-{3:3},
+at: trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
+other info that might help us debug this:
+context-{3:3}
+5 locks held by swapper/0/0:
+ #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+at: vp_vring_interrupt drivers/virtio/virtio_pci_common.c:80 [inline]
+ #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+at: vp_interrupt+0x142/0x200 drivers/virtio/virtio_pci_common.c:113
+ #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+at: spin_lock include/linux/spinlock.h:351 [inline]
+ #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+at: stats_request+0x6f/0x230 drivers/virtio/virtio_balloon.c:438
+ #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: __queue_work+0x199/0xf50 kernel/workqueue.c:2259
+ #3: ffff8880b863dd18 (&pool->lock){-.-.}-{2:2},
+at: __queue_work+0x759/0xf50
+ #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: __bpf_trace_run kernel/trace/bpf_trace.c:2339 [inline]
+ #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+at: bpf_trace_run1+0x1d6/0x520 kernel/trace/bpf_trace.c:2380
+stack backtrace:
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+6.12.0-rc5-next-20241031-syzkaller #0
+Hardware name: Google Compute Engine/Google Compute Engine,
+BIOS Google 09/13/2024
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4826 [inline]
+ check_wait_context kernel/locking/lockdep.c:4898 [inline]
+ __lock_acquire+0x15a8/0x2100 kernel/locking/lockdep.c:5176
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+ trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
+ bpf_prog_2c29ac5cdc6b1842+0x43/0x47
+ bpf_dispatcher_nop_func include/linux/bpf.h:1290 [inline]
+ __bpf_prog_run include/linux/filter.h:701 [inline]
+ bpf_prog_run include/linux/filter.h:708 [inline]
+ __bpf_trace_run kernel/trace/bpf_trace.c:2340 [inline]
+ bpf_trace_run1+0x2ca/0x520 kernel/trace/bpf_trace.c:2380
+ trace_workqueue_activate_work+0x186/0x1f0 include/trace/events/workqueue.h:59
+ __queue_work+0xc7b/0xf50 kernel/workqueue.c:2338
+ queue_work_on+0x1c2/0x380 kernel/workqueue.c:2390
+ queue_work include/linux/workqueue.h:662 [inline]
+ stats_request+0x1a3/0x230 drivers/virtio/virtio_balloon.c:441
+ vring_interrupt+0x21d/0x380 drivers/virtio/virtio_ring.c:2595
+ vp_vring_interrupt drivers/virtio/virtio_pci_common.c:82 [inline]
+ vp_interrupt+0x192/0x200 drivers/virtio/virtio_pci_common.c:113
+ __handle_irq_event_percpu+0x29a/0xa80 kernel/irq/handle.c:158
+ handle_irq_event_percpu kernel/irq/handle.c:193 [inline]
+ handle_irq_event+0x89/0x1f0 kernel/irq/handle.c:210
+ handle_fasteoi_irq+0x48a/0xae0 kernel/irq/chip.c:720
+ generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+ handle_irq arch/x86/kernel/irq.c:247 [inline]
+ call_irq_handler arch/x86/kernel/irq.c:259 [inline]
+ __common_interrupt+0x136/0x230 arch/x86/kernel/irq.c:285
+ common_interrupt+0xb4/0xd0 arch/x86/kernel/irq.c:278
+ </IRQ>
 
+Reported-by: syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/bpf/6723db4a.050a0220.35b515.0168.GAE@google.com/
+Fixes: 66150d0dde03 ("bpf, lpm: Make locking RT friendly")
+Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
 ---
+ kernel/bpf/lpm_trie.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Changelog:
-
-v2: Add the Fixes tag
-Signed-off-by: Wander Lairson Costa <wander@redhat.com>
----
- drivers/net/ethernet/intel/igb/igb_main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index b83df5f94b1f5..f1d0881687233 100644
---- a/drivers/net/ethernet/intel/igb/igb_main.c
-+++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -907,7 +907,7 @@ static int igb_request_msix(struct igb_adapter *adapter)
- 	int i, err = 0, vector = 0, free_vector = 0;
+diff --git a/kernel/bpf/lpm_trie.c b/kernel/bpf/lpm_trie.c
+index 9b60eda0f727..373cdcfa0505 100644
+--- a/kernel/bpf/lpm_trie.c
++++ b/kernel/bpf/lpm_trie.c
+@@ -35,7 +35,7 @@ struct lpm_trie {
+ 	size_t				n_entries;
+ 	size_t				max_prefixlen;
+ 	size_t				data_size;
+-	spinlock_t			lock;
++	raw_spinlock_t			lock;
+ };
  
- 	err = request_irq(adapter->msix_entries[vector].vector,
--			  igb_msix_other, IRQF_NO_THREAD, netdev->name, adapter);
-+			  igb_msix_other, 0, netdev->name, adapter);
- 	if (err)
- 		goto err_out;
+ /* This trie implements a longest prefix match algorithm that can be used to
+@@ -330,7 +330,7 @@ static long trie_update_elem(struct bpf_map *map,
+ 	if (key->prefixlen > trie->max_prefixlen)
+ 		return -EINVAL;
  
+-	spin_lock_irqsave(&trie->lock, irq_flags);
++	raw_spin_lock_irqsave(&trie->lock, irq_flags);
+ 
+ 	/* Allocate and fill a new node */
+ 
+@@ -437,7 +437,7 @@ static long trie_update_elem(struct bpf_map *map,
+ 		kfree(im_node);
+ 	}
+ 
+-	spin_unlock_irqrestore(&trie->lock, irq_flags);
++	raw_spin_unlock_irqrestore(&trie->lock, irq_flags);
+ 	kfree_rcu(free_node, rcu);
+ 
+ 	return ret;
+@@ -459,7 +459,7 @@ static long trie_delete_elem(struct bpf_map *map, void *_key)
+ 	if (key->prefixlen > trie->max_prefixlen)
+ 		return -EINVAL;
+ 
+-	spin_lock_irqsave(&trie->lock, irq_flags);
++	raw_spin_lock_irqsave(&trie->lock, irq_flags);
+ 
+ 	/* Walk the tree looking for an exact key/length match and keeping
+ 	 * track of the path we traverse.  We will need to know the node
+@@ -535,7 +535,7 @@ static long trie_delete_elem(struct bpf_map *map, void *_key)
+ 	free_node = node;
+ 
+ out:
+-	spin_unlock_irqrestore(&trie->lock, irq_flags);
++	raw_spin_unlock_irqrestore(&trie->lock, irq_flags);
+ 	kfree_rcu(free_parent, rcu);
+ 	kfree_rcu(free_node, rcu);
+ 
+@@ -581,7 +581,7 @@ static struct bpf_map *trie_alloc(union bpf_attr *attr)
+ 			  offsetof(struct bpf_lpm_trie_key_u8, data);
+ 	trie->max_prefixlen = trie->data_size * 8;
+ 
+-	spin_lock_init(&trie->lock);
++	raw_spin_lock_init(&trie->lock);
+ 
+ 	return &trie->map;
+ }
 -- 
-2.47.0
+2.34.1
 
