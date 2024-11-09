@@ -1,213 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB93319341F
-	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Nov 2024 23:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731106861; cv=fail; b=E/0UD+me9p/LfGCRmnLE0PrOKRgMLlvZuzWipFTMQX9w6R4Hlpp+yUVNUm1RMopoe/wnqJ/gZ3wJNiQlCGyjUgwMcgbSAwTxwJlSLkd9Ahl0HihHepHwtPD8IfiqmH+eWwxVnoc5cat04kjMWmkDPM3Dtwr5wviJzb6AURLKTUE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731106861; c=relaxed/simple;
-	bh=gQYJsJNkBcQ6bxvryRSVJMPY5D6nl9bMN/86sjgY7UA=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=p5xvA/IZeFy1Z8jtLUAW5c9ejp5yi6ENR8qHk889YXG2vwni7eE9F2o6L7gCujFAXxGHjV/bJxCqvQkC1dFmd2pacSS84CbJoR0KoaS0tYXG4XybBifDnTJhZBw/hKzplLMni7jYSHpQeiiUJHScxYQpLmTkuJYrzc4Hnkk2JRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWsjIW+T; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWsjIW+T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731106860; x=1762642860;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=gQYJsJNkBcQ6bxvryRSVJMPY5D6nl9bMN/86sjgY7UA=;
-  b=UWsjIW+Tu5VWbw1l3qyGOlVVkQZhKoCWMj3CFJdKINQhmFu7lgubdqoq
-   C5ffk6HxNOc1nQyx17angf9d8LOGhC7PFaF/wU5nMagcrGD8kOsKyp73S
-   UZIbA1KJWfDkWDe7KZ2OZ3+uo1fmC7kV1ZzHkVXHlyjHF/pHHznCaG98T
-   DcloIrp+s0aIJTgwaY12lSEql+k+7wG/qao2W46wMkynPapM2niZJSbs9
-   VY9W8quQYiG8OYrogh5jLKWNwE/oIG54kmJoqiZXsE5ZMRO33Eyrer+lI
-   0de8wiMJg1JMekzQSpgyrEPlBfn+uMWhNPWZbCNyKhur7osrJsvZPDrIt
-   g==;
-X-CSE-ConnectionGUID: cSz3yvE5SwqDZc6ovF476A==
-X-CSE-MsgGUID: arlRr3TuTJWFupyzdVwCSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="41629393"
-X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
-   d="scan'208";a="41629393"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 15:00:58 -0800
-X-CSE-ConnectionGUID: +z+TyqVHRSyDn9hB8lf8Zg==
-X-CSE-MsgGUID: Z2j0LdEWQiekZxQxkeXLgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
-   d="scan'208";a="86133571"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 Nov 2024 15:00:57 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 8 Nov 2024 15:00:56 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Fri, 8 Nov 2024 15:00:56 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 8 Nov 2024 15:00:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ma4KEwM/hNqhd3Rk6OS30n5MWYL/Y9UmRiInp83kKxn5Dv/eb+elUYwX6cJssRZWNhwDDDqG7BnTIdhi2+4WoEfaDO8rDd93wI8nQb+0innDb4pQcXyu6AjcRUE381r+wvDGzVwPbV99dR9+CsyVZlon8YMFUQxbSvYryNqi4cmAg+m2W4c2DZN5X38ivOHFGW5CbTniPsEHoRETSwYxNAevN0vqCMxu5I5bKQDUUy1r8L4dRfl4pnODAlVKw/xoIKnFGLYwEh1cyGSghC7945dXo14DxLvx5b/HRzZr5A1X2PktBaSehNHlcrXG4WeW22DQ7hHsquoYu7zX7HIJIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+p1QdWzYks7Kz7ECVgw/p7SMYfKI18s11oiJPJnZ7mA=;
- b=Eb5ZtZ5grGur2XATP2fHf10f/D16v17YMHXaKRXNpPVJGCv/Gp+uR/4e77wRFcaXBG61pag6bKMDoZFSqnlQLXJTgEIgW8yoPVmDGveUzM7QFTO+Heui3pTUQkafraSeikNNKdCRKXOo90mygxhWMO98N9rkR0FQHCoD1jBKvIYci/IvVNaW9a5pDBEd2goPkXEkc+OsCEAO97v/am8SfOcu/J9k8FrjMVV9JzQks0ia6x8exYAOTlXoOhq1Zido1pAnONQeEM5YNqH5i3jvPpS403MC8MTxkhSW7V4sbK/bzk5Q7FUhU2dMWv4AIrDH/aIAwNYcLrUKO1xrrT+rBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5095.namprd11.prod.outlook.com (2603:10b6:510:3b::14)
- by BL3PR11MB6481.namprd11.prod.outlook.com (2603:10b6:208:3bc::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.20; Fri, 8 Nov
- 2024 23:00:53 +0000
-Received: from PH0PR11MB5095.namprd11.prod.outlook.com
- ([fe80::215b:e85e:1973:8189]) by PH0PR11MB5095.namprd11.prod.outlook.com
- ([fe80::215b:e85e:1973:8189%7]) with mapi id 15.20.8137.019; Fri, 8 Nov 2024
- 23:00:53 +0000
-Message-ID: <9f3fe7f3-9309-441c-a2c8-4ee8ad51550d@intel.com>
-Date: Fri, 8 Nov 2024 15:00:48 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] Revert "igb: Disable threaded IRQ for
- igb_msix_other"
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>
-CC: Wander Lairson Costa <wander@redhat.com>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, <tglx@linutronix.de>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
-	<rostedt@goodmis.org>, Simon Horman <horms@kernel.org>, "moderated list:INTEL
- ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>, "open list:NETWORKING
- DRIVERS" <netdev@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT"
-	<linux-rt-devel@lists.linux.dev>
-References: <20241106111427.7272-1-wander@redhat.com>
- <1b0ecd28-8a59-4f06-b03e-45821143454d@intel.com>
- <20241108122829.Dsax0PwL@linutronix.de>
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-In-Reply-To: <20241108122829.Dsax0PwL@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0035.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::10) To PH0PR11MB5095.namprd11.prod.outlook.com
- (2603:10b6:510:3b::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63904367
+	for <linux-rt-devel@lists.linux.dev>; Sat,  9 Nov 2024 02:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731120382; cv=none; b=Qttiobiz3l2Qdc4UAwjNHOF1CT24A63i5xFYtV7fQVr9D5secb6vlOkw2Wd2/6dBGAHMj1sfcUvioG/gczsJg5F6Z2kdMboTUJB/04rOvXtohmMN41vjF65nVBNEaZ5PFqXIwxTHywQeA9WC4V42lH//guj2drVQhsH+CApxgAc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731120382; c=relaxed/simple;
+	bh=BTrxe8BRxQB6xm1Tx6vzyZJeFDO8zSbZX5OzaGTvjto=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=bv7YTqqMe//lm/HFJXJL2v4iTYzRznHv77TqcfYhzilk9MLQK4S4dB7cUc3UUxbFDjGZ0VV50/ZggjGO86PCZwI5JSmovJhz1s17V5+IWiJ5kpZiLuNu6o4FKk5r0zhY4h+vysXEX9rMZKwAIwOsF0lADTZAHSCusAeSjLqXeXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.216])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4XlgD56MR1z4f3jsT
+	for <linux-rt-devel@lists.linux.dev>; Sat,  9 Nov 2024 10:45:57 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.112])
+	by mail.maildlp.com (Postfix) with ESMTP id F16BA1A018C
+	for <linux-rt-devel@lists.linux.dev>; Sat,  9 Nov 2024 10:46:15 +0800 (CST)
+Received: from [10.174.176.117] (unknown [10.174.176.117])
+	by APP1 (Coremail) with SMTP id cCh0CgAXDK7xzC5nE0PpBA--.19966S2;
+	Sat, 09 Nov 2024 10:46:13 +0800 (CST)
+Subject: Re: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Kunwu Chan <kunwu.chan@linux.dev>
+Cc: Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eddy Z <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Sebastian Sewior <bigeasy@linutronix.de>,
+ clrkwllms@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+ Thomas Gleixner <tglx@linutronix.de>, bpf <bpf@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
+ Kunwu Chan <chentao@kylinos.cn>,
+ syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+References: <20241108063214.578120-1-kunwu.chan@linux.dev>
+ <CAADnVQJ8KzVdScXM=qhdT4jMrZLBPpgd+pf1Fqyc-9TFnfabAg@mail.gmail.com>
+From: Hou Tao <houtao@huaweicloud.com>
+Message-ID: <78012426-80d2-4d77-23c4-ae000148fadd@huaweicloud.com>
+Date: Sat, 9 Nov 2024 10:46:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5095:EE_|BL3PR11MB6481:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa3b508d-ec46-489c-1be0-08dd0049313a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?MzgzMlR5WFRadWl1WmduRXlOTUg2WVFwSFkwbW5LRU1tUE50SU9yd012VmN5?=
- =?utf-8?B?YXJRZWVJV1R6cHVwTFQ4cTJTODl6WVByL3V1cXcrNHFucW5ZWkZ0T2lxbDZ3?=
- =?utf-8?B?bFpWUnkwZFFlN2svdmtjQWxjN3dTR0tUajB2VWpwaWhnWXNhSEx3RFVpT2xF?=
- =?utf-8?B?OWVyNG9ZekhMeTg1T0dqemFJVXZUY3RxWGQ3T2Nkem5PZFM1OVFJNjJEdytF?=
- =?utf-8?B?S3VxVFBLSHl4UnFFRnZpTkI2TU1ONThjQUw3ZFVxSDAxdXQyNmhqNDhLZmlB?=
- =?utf-8?B?SEEyd3hlRENFSXJKeHIxT2ZnYnhlRTh5WitFenZXM0FlbnQ1UktyNCtnS25L?=
- =?utf-8?B?U05aU3F6Vmk1djE0S2thQWtaRFpiRjBlN2FFNG1FVzk0d0tOQWkwcnh0UU5O?=
- =?utf-8?B?RGdZSjB2b3FLa1FsZlM5eFZFWG5QZmplTDI2OUlnS1VrREtKU08rU1hzSmxs?=
- =?utf-8?B?KzJQYnVaU21UdmJuSTRIVVFmd2N4YVlMVTNRZ3lmVEVyY1lhNGtldFRUZm9M?=
- =?utf-8?B?ZDloNkhIZ0xJT2lYbjVuQ1NpOTQ2RktpcEUwNHNYSUl3Zmg4ckdwV0xQWkkr?=
- =?utf-8?B?M3Vqd3hZWSt6T3RKRjRSS3dpemZZNkNXRjRPV0RhMHVkTFdzRkRIeGhhWHRC?=
- =?utf-8?B?eFZMa00vZzNYMkM3bm5waGgzYitJR2I0QmtaaElDUUE4T0ZTeHUxcUNrOUkw?=
- =?utf-8?B?Slp0VFF5MzZ6em9lNFhWR3lJY0IycGQ1a3pyYmdPOFNzaEc4a2hpem9Kb2xU?=
- =?utf-8?B?cTNFWkpUalF2cDdVU2hhaXcyVm0yTzlIaUVBcHM5NmZxOWRvTUNMMVBEYlVn?=
- =?utf-8?B?V3pnUWZsWi8xMUlSWldGQkFISFVjeW5BakZ3SzEvdjhpb25zZGZqZlZwbTlQ?=
- =?utf-8?B?bGgwa2ZhNFNPSk9LaTV0TVE3cFYweUpwTmprMno3WTJIV0FJMU5TVzM0eTNB?=
- =?utf-8?B?TENyLy9kR1ZKc1A2YnJYVjFkSWN4bGM5bEdOYnF5MjdYVjdpOW15cEZBZEdI?=
- =?utf-8?B?dlg0eTJPK1Y4QUpRak8zeGpGb2ZMeVpMVDRHMUx4TlkyUDFHRVdUbWd0Zmpo?=
- =?utf-8?B?NGZ3L29DMG9IRVhTWk54OGpCTTZWTnVyczBtQWtOTlVOM0NJS0RldDkycTBH?=
- =?utf-8?B?ejZuaGUxbG45cXRzYXpGem1PekQzclJGZlVPYnpJRVRlejd6NHhWZXNWLzE1?=
- =?utf-8?B?bkVJTElkSjMxUHBpQ0N2dEFKUm9hbkhvTmZGd0YwcUMvUUZOZ0NSY3RUbEFJ?=
- =?utf-8?B?TjUyZFJSTXVSQis5b0VvcmRYcm9PTWs5UzFYdjE3c05JTnNEMDNEQzF4MFZ5?=
- =?utf-8?B?MjRUTlEwM1VkYndrTEdJQnlzK1BpM3orbVJwSXZKNjNhcUtkdG9PWjNUYVRM?=
- =?utf-8?B?T1dRR3BCS2FOYmJaVm9UZnF2Y1NEa0dRV2Q5VmFPY093N0RDWlM5ZTVvRVlz?=
- =?utf-8?B?Zkx1aXQzZnMvZXVpaGpOdWYyeTVCdTA3b1ljSnE2OW1Ram0wVjdNZjRlRlp1?=
- =?utf-8?B?SUhhU0V5U3JvTUdwUmFpRWZaWE1sZjRNSEYwNTYwU1N1ODBDUHdnazltcWJl?=
- =?utf-8?B?a0R1QnRQVUFKdVBmQkFadkl0N08xZGJtRTNOdUVBTTdSWUVYSjBGRzY1TTMx?=
- =?utf-8?B?Zm1SaEg5ZUs1bGtCVGowWFF0WE5BaGhaRTVydnNDWjl3dVNtNWtTMS9COXRK?=
- =?utf-8?B?dnpNU1hBcC9XQUU5MVBMTjhHcXVJQnNhMUFNaXZsa1pSSFdMWU95TnNoWHhC?=
- =?utf-8?Q?7ZNJlTmCJGAJg3zhvQYCx3K2Moro22c1hM4HyOP?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5095.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEc1UVJpY0RmQXNCQUhTVnlqS2F5QTBacEJCUU9CNXlMb3Vodm5kdkhRL0dy?=
- =?utf-8?B?NW95YjhtUTE0bEYwb21pcHdxRERrUWJrUnBZY0pUU2lIYUFBNDJBZnd3K0dw?=
- =?utf-8?B?NkpsbEk5elh3Uk5RQjhpa3cySjJPY082M3lwcHFRVVNjdGxOdjJDZ0Jsdzhj?=
- =?utf-8?B?MlpreGJmTXVWUjZ3aFhmVE94b01nZHgrNlNHWWhjakxYUHdxQ1dkM0cyd0ZN?=
- =?utf-8?B?aitXWFA3TGovWFhxbnJJRnA1RGI2WmF0UE9OTGR3L202UGJCUVpMWGQxZUhn?=
- =?utf-8?B?YjJmKzd3S3NOK2tpUFdybm91azEyTk55Zml1akFpMjRwdTZTc3hta0tXS3Q1?=
- =?utf-8?B?K0FEUGEvcFhWaWRHMWRWd2tVNEh1Mi8yWjZ0bGphN1JubGlZL2RLdktDSG9r?=
- =?utf-8?B?NnNzZUVQUWI5cEJUcGNwUXVSNk5SbVBmSEwxNWh3UlU0SXJqdmVHQ0hqQjVL?=
- =?utf-8?B?MTRyOTF4NG8wMlF4RkhFUE9QSGUzUm1UWmNlSVVSQnZGT2I5WnNFR3FjendN?=
- =?utf-8?B?d2Z2cko0SmU3MU1ySHp4YmlWZWxtWDFTSExudE1ucWFRZFBYMTFsbDJjRXpT?=
- =?utf-8?B?eER1bEhwUU4wM1pXQUhoRm9sNnZoeVROa2hhTUJlM0xOMnZkNkp2U25aQmdS?=
- =?utf-8?B?S0sya091S2prcDZrZStJRVZSV0NNZWx3alBZdS9WQzN3S1Y4eitiVDNRaE5p?=
- =?utf-8?B?RzY1Uk1BRk5nSUpvZG03RjhSUERvTDdZQ3FBUWhoTHR1UTQ5M0k2anpVOTJ2?=
- =?utf-8?B?NGFiNTd3VVlyTkloaTVSRS9ZNUQ2MzYwWkxkcEp2L1F3RGo0SStxL2l6ZzZj?=
- =?utf-8?B?b3dpNzk4dnJTc205RDE4OUpDUlpLUXFQVEI1cncyWk9ZZ3k4K0Q1ZU9vMTZN?=
- =?utf-8?B?WFB6bjdaemkyYkVqVlROZVFwOXF6WXZlU293d0k1d0tiQWIvb3NZTVV4VVlr?=
- =?utf-8?B?MENIYTdOa2NTZExmdkIwRVFNR2pXaFhtQW9RT1I1SG10MEVBMWlMNU5TVGNp?=
- =?utf-8?B?WWUzSTJXbVgzTFpqcFRpZ2dwZDR4RnJQT0hkaStiL0VlbGlxS0xoWnVaUmFB?=
- =?utf-8?B?YnA5a2s3bFlQRHE0VW9kSzF0K1RoSm1XbkxHWjVzb2FrWjhDT24yMkVScCtq?=
- =?utf-8?B?VG9xcHVoUXhMMkVISGk5aU5QTUVrellsc1gzZ3NacDA0YTZ1RjlGQmVZRnYx?=
- =?utf-8?B?TmY2QUZaN1d2Z1FHRmMwYmQxaXdSalIvaDNtRmlNVjZMbElydTk1WTJxNE15?=
- =?utf-8?B?NHpHV0FJUlY1RU1vbHdTUytWTTZQcy9GNVIrSjFVazVkNnJBbFJkeGFWQk8z?=
- =?utf-8?B?MXZoMThHMVQvbzZRZVo4bW95ZVVtUWI5Tm5NQThybWlCR3lIZjcvb09Db1hX?=
- =?utf-8?B?YTBqdWJOdFZ2enBXY3crd2oyWFREcW9Ycm01SFJCR09Zc2MzRkNKV1NuaHF5?=
- =?utf-8?B?cmJvNkpxSEQ4VHhQcFVTajF4TEFPZjA0aDZhdHpTbFVnVFlDZkFROE5KemVn?=
- =?utf-8?B?Z2FZZ29NR0EwM0NiZWw2a3BTTzN4M3QzeERFZjZxN2dKdXlXQVRLZ3JWMWNL?=
- =?utf-8?B?djNXaFI3bGJncmlzbmdwbEFvUlZZUWozMjlwUXJLNm05UWtXN3RPTHJwZHZ6?=
- =?utf-8?B?UjBrYmF5NG5OZG5zajNTdHV3NHRoTEhkZG5KWW8wWXlraUoxb2xzMjNlcnRM?=
- =?utf-8?B?MWRWQjQ0RTZEbnBrVkR5VHhHQkV2NlZoMTBmaUcvOGVGSHBMTEQ5dTZwTTdC?=
- =?utf-8?B?ck5Wak5meE5sSzVWK1k5R3FpSWc0YVNrYzRVL0NlVDQwckRtVlJ5QVhxY2JU?=
- =?utf-8?B?dDVucFVuRUM3amczZ04xM09uMVAwa3FMRWFHRHUxaFBQZ0NCS0FYWDMyWUc1?=
- =?utf-8?B?dXhmNUZqbUJ4clUySjU0dzBhcldrSVR0L2Q2cDFmb0Qvako0NVVEMFBtWHlx?=
- =?utf-8?B?YXlGMUg4QVdrV29YcDBhQ3NOUUROY2tCbjNyc3BDUWh1TjY0dk13Nkt1d2ti?=
- =?utf-8?B?UnVrVklpdHJRKy9JdmFoZlc3emtzM3dYWENOSUNrMXk5TVdUbTZndE1FRmpy?=
- =?utf-8?B?UVNnTlI4SkpkWStvUFlRUitVR2pTTCsySmtqWmZHSzBmUDNoN0VYNmtjWGJX?=
- =?utf-8?B?VEszMVp3WnIyS2JHaTloNGF4dXZybUZ0ajZESFo2L2VkOU1jQzFhV2oxNEpP?=
- =?utf-8?B?U1E9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa3b508d-ec46-489c-1be0-08dd0049313a
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5095.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2024 23:00:53.5443
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hoNYBkfn20H2YkKh0GXNz3CtJ0TXShtuNnfk35rBKe3mcXaGpUh6Or8oRpwwulQVxzknvi3yPqltnaPaPFqBVy0m456UZ8daZx7rdu1XAec=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6481
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAADnVQJ8KzVdScXM=qhdT4jMrZLBPpgd+pf1Fqyc-9TFnfabAg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:cCh0CgAXDK7xzC5nE0PpBA--.19966S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKFy3Gry7CF4kur4DKw43Awb_yoWxAF1UpF
+	WfCFZrAr4UXa4j9ay0vw4jvay5Xws8Kw43GrWfWryxZF1agrn2qrs2yr1fXr90yryvyFZI
+	yF1qqFWkKw18ZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Ib4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7Mxk0xIA0c2IE
+	e2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4I
+	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+	WwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
+	0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWU
+	JVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
+	IYCTnIWIevJa73UjIFyTuYvjxUIa0PDUUUU
+X-CM-SenderInfo: xkrx3t3r6k3tpzhluzxrxghudrp/
 
+Hi Alexei,
 
+On 11/9/2024 4:22 AM, Alexei Starovoitov wrote:
+> On Thu, Nov 7, 2024 at 10:32 PM Kunwu Chan <kunwu.chan@linux.dev> wrote:
+>> From: Kunwu Chan <chentao@kylinos.cn>
+>>
+>> When PREEMPT_RT is enabled, 'spinlock_t' becomes preemptible
+>> and bpf program has owned a raw_spinlock under a interrupt handler,
+>> which results in invalid lock acquire context.
+>>
+>> [ BUG: Invalid wait context ]
+>> 6.12.0-rc5-next-20241031-syzkaller #0 Not tainted
+>> -----------------------------
+>> swapper/0/0 is trying to lock:
+>> ffff8880261e7a00 (&trie->lock){....}-{3:3},
+>> at: trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
+>> other info that might help us debug this:
+>> context-{3:3}
+>> 5 locks held by swapper/0/0:
+>>  #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+>> at: vp_vring_interrupt drivers/virtio/virtio_pci_common.c:80 [inline]
+>>  #0: ffff888020bb75c8 (&vp_dev->lock){-...}-{3:3},
+>> at: vp_interrupt+0x142/0x200 drivers/virtio/virtio_pci_common.c:113
+>>  #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+>> at: spin_lock include/linux/spinlock.h:351 [inline]
+>>  #1: ffff88814174a120 (&vb->stop_update_lock){-...}-{3:3},
+>> at: stats_request+0x6f/0x230 drivers/virtio/virtio_balloon.c:438
+>>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+>>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+>>  #2: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: __queue_work+0x199/0xf50 kernel/workqueue.c:2259
+>>  #3: ffff8880b863dd18 (&pool->lock){-.-.}-{2:2},
+>> at: __queue_work+0x759/0xf50
+>>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+>>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+>>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: __bpf_trace_run kernel/trace/bpf_trace.c:2339 [inline]
+>>  #4: ffffffff8e939f20 (rcu_read_lock){....}-{1:3},
+>> at: bpf_trace_run1+0x1d6/0x520 kernel/trace/bpf_trace.c:2380
+>> stack backtrace:
+>> CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+>> 6.12.0-rc5-next-20241031-syzkaller #0
+>> Hardware name: Google Compute Engine/Google Compute Engine,
+>> BIOS Google 09/13/2024
+>> Call Trace:
+>>  <IRQ>
+>>  __dump_stack lib/dump_stack.c:94 [inline]
+>>  dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+>>  print_lock_invalid_wait_context kernel/locking/lockdep.c:4826 [inline]
+>>  check_wait_context kernel/locking/lockdep.c:4898 [inline]
+>>  __lock_acquire+0x15a8/0x2100 kernel/locking/lockdep.c:5176
+>>  lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+>>  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+>>  _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+>>  trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
+> This trace is from non-RT kernel where spin_lock == raw_spin_lock.
 
-On 11/8/2024 4:28 AM, Sebastian Andrzej Siewior wrote:
-> On 2024-11-08 13:20:28 [+0100], Przemek Kitszel wrote:
->> I don't like to slow things down, but it would be great to have a Link:
->> to the report, and the (minified) splat attached.
-> 
-> I don't have a splat, I just reviewed the original patch. Please do
-> delay this.
-> 
-> Sebastian
+Yes. However, I think the reason for the warning is that lockdep
+considers the case is possible under PREEMPT_RT and it violates the rule
+of lock [1].
 
-It will definitely splat on RT kernels at some point, if there is a
-spinlock.
+[1]:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=560af5dc839eef08a273908f390cfefefb82aa04
+>
+> I don't think Hou's explanation earlier is correct.
+> https://lore.kernel.org/bpf/e14d8882-4760-7c9c-0cfc-db04eda494ee@huaweicloud.com/
+
+OK. Is the bpf mem allocator part OK for you ?
+>
+>>  bpf_prog_2c29ac5cdc6b1842+0x43/0x47
+>>  bpf_dispatcher_nop_func include/linux/bpf.h:1290 [inline]
+>>  __bpf_prog_run include/linux/filter.h:701 [inline]
+>>  bpf_prog_run include/linux/filter.h:708 [inline]
+>>  __bpf_trace_run kernel/trace/bpf_trace.c:2340 [inline]
+>>  bpf_trace_run1+0x2ca/0x520 kernel/trace/bpf_trace.c:2380
+>>  trace_workqueue_activate_work+0x186/0x1f0 include/trace/events/workqueue.h:59
+>>  __queue_work+0xc7b/0xf50 kernel/workqueue.c:2338
+>>  queue_work_on+0x1c2/0x380 kernel/workqueue.c:2390
+> here irqs are disabled, but raw_spin_lock in lpm should be fine.
+>
+>>  queue_work include/linux/workqueue.h:662 [inline]
+>>  stats_request+0x1a3/0x230 drivers/virtio/virtio_balloon.c:441
+>>  vring_interrupt+0x21d/0x380 drivers/virtio/virtio_ring.c:2595
+>>  vp_vring_interrupt drivers/virtio/virtio_pci_common.c:82 [inline]
+>>  vp_interrupt+0x192/0x200 drivers/virtio/virtio_pci_common.c:113
+>>  __handle_irq_event_percpu+0x29a/0xa80 kernel/irq/handle.c:158
+>>  handle_irq_event_percpu kernel/irq/handle.c:193 [inline]
+>>  handle_irq_event+0x89/0x1f0 kernel/irq/handle.c:210
+>>  handle_fasteoi_irq+0x48a/0xae0 kernel/irq/chip.c:720
+>>  generic_handle_irq_desc include/linux/irqdesc.h:173 [inline]
+>>  handle_irq arch/x86/kernel/irq.c:247 [inline]
+>>  call_irq_handler arch/x86/kernel/irq.c:259 [inline]
+>>  __common_interrupt+0x136/0x230 arch/x86/kernel/irq.c:285
+>>  common_interrupt+0xb4/0xd0 arch/x86/kernel/irq.c:278
+>>  </IRQ>
+>>
+>> Reported-by: syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+>> Closes: https://lore.kernel.org/bpf/6723db4a.050a0220.35b515.0168.GAE@google.com/
+>> Fixes: 66150d0dde03 ("bpf, lpm: Make locking RT friendly")
+>> Signed-off-by: Kunwu Chan <chentao@kylinos.cn>
+>> ---
+>>  kernel/bpf/lpm_trie.c | 12 ++++++------
+>>  1 file changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/kernel/bpf/lpm_trie.c b/kernel/bpf/lpm_trie.c
+>> index 9b60eda0f727..373cdcfa0505 100644
+>> --- a/kernel/bpf/lpm_trie.c
+>> +++ b/kernel/bpf/lpm_trie.c
+>> @@ -35,7 +35,7 @@ struct lpm_trie {
+>>         size_t                          n_entries;
+>>         size_t                          max_prefixlen;
+>>         size_t                          data_size;
+>> -       spinlock_t                      lock;
+>> +       raw_spinlock_t                  lock;
+>>  };
+> We're certainly not going back.
+
+Only switching from spinlock_t to raw_spinlock_t is not enough, running
+it under PREEMPT_RT after the change will still trigger the similar
+lockdep warning. That is because kmalloc() may acquire a spinlock_t as
+well. However, after changing the kmalloc and its variants to bpf memory
+allocator, I think the switch to raw_spinlock_t will be safe. I have
+already written a draft patch set. Will post after after polishing and
+testing it. WDYT ?
+>
+> pw-bot: cr
+
