@@ -1,105 +1,93 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240581E378C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 14 Nov 2024 02:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2D31F8F03
+	for <linux-rt-devel@lists.linux.dev>; Thu, 14 Nov 2024 10:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731552241; cv=none; b=I146FHB/cXorKq06cQGDgRoaKToCuJAsQ0h855+iuHeObG3yUyU8vK2AlFJ0BG5HW+PK9Ozm4fKxHQzZICIIjGrnm1I4bzZ2HrkQWkJ9cnzY8SKfva0QGLYCNS8gCLYDFMrFw+fFGh/gIcDltRXlwZ++AJIVZhtTiDido3mr/dc=
+	t=1731578996; cv=none; b=ssBDX67WA6NwmbS9d+DHDTBpNp0oRVJD4Vf0CnFcOLWx7i6Oepcqac0NBF68ynUG82SSFvOrlYXKwT+SBhR64UrDqx8UXkHUeVkGXPtpunor0mKfLmya/GDHTHudNE0R7MWOYDlbpPnP/4rZ/XLQBVp/QKyKe6/1yncPeyuXd4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731552241; c=relaxed/simple;
-	bh=6iJY4ltv672XaXhf4m/gfXZErkmr1WtPDKD10agsoZw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d3aWr3J4XItgvXportn7PZOn4ad35MjTBV7umVQJu7Z5g5P9eRV7+BwVztkowRF1MLkq0quQfiZ+LbN8A0ZTfrkH+4Rms2OoqUoM99KzuQ1SN+SXFREWlITX/mpfV+OwbC7B1xr23Yrs5NtSoEjux4yP0ZTT1tgC0ehvT7OwZ9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dkWWRN/u; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1731578996; c=relaxed/simple;
+	bh=j8/bDpeWMxzFyIBUMAW1K7Nkzc2G+SHXLJZy1z8VPtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foNLq6cJszixzYVL5shTsZLOGOi+Pr1NXJwFsCJeqq7tETdXNU4adDS7J0TdC/w3fi3Zu65WekX5Ie/8uF9dQGR+JgKpS2MhxmaVdwosAZsGbSCM6lM78hFdf3msFu9JbXPRuY0H5NhY5rYN9dl0oekMtxMAR70cniGOwFLTy1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AhL/2Gve; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ovuE8Y+m; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dkWWRN/u"
-Message-ID: <1e5910b1-ea54-4b7a-a68b-a02634a517dd@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1731552237;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AhL/2Gve";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ovuE8Y+m"
+Date: Thu, 14 Nov 2024 11:09:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1731578987;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gtMocB/TdMcBvjfzykmOTKc5Oyowa+q8EiSBYJLs9xQ=;
-	b=dkWWRN/ujLHTS1d8V5Ln376KZiQmYUn4Sxtsk0JU9FAmau0zlBpIhgsDY4zsEcvKLBKECI
-	mqotRk9XAh/JufM8+hoN1KD+QPLWvV+4Ya3UpVjsthCrJQzmuw9i8RyIDAqYAbyZxTOYNd
-	PNKX6HAKwG7mTvRztuFcQSyx4pGGB1s=
-Date: Thu, 14 Nov 2024 10:43:26 +0800
+	bh=o4rhu1rOyXbmFKCWkfY+2TotSXX7WMQkDT9IBgiSvNc=;
+	b=AhL/2GveqCJpSpZuvQsj5ghGqrVWFhPzXwCmwe8TCBNJPMBfCV9lvZSSNa/U8aKcDRjUNq
+	VRecRC6hYkncpzi28MeBh/CjiP+cb/F0Bpr45gGkTmPeeYFfePMkoXvYLZfCS7ds6IDueO
+	+ML5pdw1UaN9wkCUq1at1m9Ld6uUfDZ/N6C2CjXTLC/WZRcFaNzBoN2rXU8dzZnl2yw+ga
+	/jvm5iA4sDar5007p38ulLQIf3wGgHvWxUjIoIuZwPgi0dBtAGep+wTNvU7W4PKs2M9e8v
+	2qQ2/EZ2vhpgYnhKr04tGLx1rjKYpTu+UgBSF/EJWcNWQmPTI5/Vk3Yx/L2ttA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1731578987;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o4rhu1rOyXbmFKCWkfY+2TotSXX7WMQkDT9IBgiSvNc=;
+	b=ovuE8Y+mje/KzO5huf9Oa6KS1A0AzBvYojD/oc+fJiiqsyryH6r82+Lme2b6jNrJTiR0T8
+	bSQkonZIRA6olSBw==
+From: Sebastian Sewior <bigeasy@linutronix.de>
+To: Hou Tao <houtao@huaweicloud.com>
+Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Kunwu Chan <kunwu.chan@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Eddy Z <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	clrkwllms@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, bpf <bpf@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
+	Kunwu Chan <chentao@kylinos.cn>,
+	syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+Subject: Re: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
+Message-ID: <20241114100945.VWuTi7kg@linutronix.de>
+References: <20241108063214.578120-1-kunwu.chan@linux.dev>
+ <CAADnVQJ8KzVdScXM=qhdT4jMrZLBPpgd+pf1Fqyc-9TFnfabAg@mail.gmail.com>
+ <78012426-80d2-4d77-23c4-ae000148fadd@huaweicloud.com>
+ <CAADnVQK_FptUD17REjtT1wnRyxZ2dx6sZuePsJQES-q27NKKLA@mail.gmail.com>
+ <ab0abca0-57b3-b379-0070-4625395c6707@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
-Content-Language: en-US
-To: Thomas Gleixner <tglx@linutronix.de>, Kunwu Chan <kunwu.chan@linux.dev>,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, rostedt@goodmis.org
-Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev,
- syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
-References: <20241108063214.578120-1-kunwu.chan@linux.dev>
- <87v7wsmqv4.ffs@tglx>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kunwu Chan <kunwu.chan@linux.dev>
-In-Reply-To: <87v7wsmqv4.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ab0abca0-57b3-b379-0070-4625395c6707@huaweicloud.com>
 
-Thanks all for the reply.
+On 2024-11-10 10:08:00 [+0800], Hou Tao wrote:
+> >> well. However, after changing the kmalloc and its variants to bpf memory
+> >> allocator, I think the switch to raw_spinlock_t will be safe. I have
+> >> already written a draft patch set. Will post after after polishing and
+> >> testing it. WDYT ?
+> > Switching lpm to bpf_mem_alloc would address the issue.
+> > Why do you want a switch to raw_spin_lock as well?
+> > kfree_rcu() is already done outside of the lock.
+> 
+> After switching to raw_spinlock_t, the lpm trie could be used under
+> interrupt context even under PREEMPT_RT.
 
-On 2024/11/12 23:08, Thomas Gleixner wrote:
-> On Fri, Nov 08 2024 at 14:32, Kunwu Chan wrote:
->> When PREEMPT_RT is enabled, 'spinlock_t' becomes preemptible
->> and bpf program has owned a raw_spinlock under a interrupt handler,
->> which results in invalid lock acquire context.
-> This explanation is just wrong.
->
-> The problem has nothing to do with an interrupt handler. Interrupt
-> handlers on RT kernels are force threaded.
->
->>   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
->>   _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
->>   trie_delete_elem+0x96/0x6a0 kernel/bpf/lpm_trie.c:462
->>   bpf_prog_2c29ac5cdc6b1842+0x43/0x47
->>   bpf_dispatcher_nop_func include/linux/bpf.h:1290 [inline]
->>   __bpf_prog_run include/linux/filter.h:701 [inline]
->>   bpf_prog_run include/linux/filter.h:708 [inline]
->>   __bpf_trace_run kernel/trace/bpf_trace.c:2340 [inline]
->>   bpf_trace_run1+0x2ca/0x520 kernel/trace/bpf_trace.c:2380
->>   trace_workqueue_activate_work+0x186/0x1f0 include/trace/events/workqueue.h:59
->>   __queue_work+0xc7b/0xf50 kernel/workqueue.c:2338
-> The problematic lock nesting is the work queue pool lock, which is a raw
-> spinlock.
->
->> @@ -330,7 +330,7 @@ static long trie_update_elem(struct bpf_map *map,
->>   	if (key->prefixlen > trie->max_prefixlen)
->>   		return -EINVAL;
->>   
->> -	spin_lock_irqsave(&trie->lock, irq_flags);
->> +	raw_spin_lock_irqsave(&trie->lock, irq_flags);
->>   
->>   	/* Allocate and fill a new node */
-> Making this a raw spinlock moves the problem from the BPF trie code into
-> the memory allocator. On RT the memory allocator cannot be invoked under
-> a raw spinlock.
-I'am newbiee in this field. But actually when i change it to a raw 
-spinlock, the problem syzbot reported dispeared.
-If don't change like this, we should do what to deal with this problem, 
-if you have any good idea, pls tell me to do.
-> Thanks,
->
->          tglx
->
--- 
-Thanks,
-   Kunwu.Chan
+I would have to dig why the lock has been moved away from raw_spinlock_t
+and why we need it back and what changed since. I have some vague memory
+that there was a test case which added plenty of items and cleaning it
+up created latency spikes.
+Note that interrupts are threaded on PREEMPT_RT. Using it in "interrupt
+context" would mean you need this in the primary handler/ hardirq.
 
+Sebastian
