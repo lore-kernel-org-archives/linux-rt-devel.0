@@ -1,90 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26231F8F1C;
-	Thu, 14 Nov 2024 11:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09AD1F892A;
+	Thu, 14 Nov 2024 13:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731584810; cv=none; b=Pvj8RX6rOK43bQYBR6mC8nx1+g/GcdwgGviDvbVCpyY3fIAnK8eItiIWjIzorHx+D1hGRdCS+pzHLNEltXa8o8vDMRDiLoiNKWE00g8ejCltbOLpuuAaH6E47aQWq07BN6xH3kRR0S8oTUC5S6MBOR+eXqyn7RWkxw6YtHTfmWs=
+	t=1731590865; cv=none; b=Z0E5ycbyGTcI4TbvvJi84O2NPSb8GN1gp4BAfejDDqiaOXSzEei9la3zVWiN2+gbJoVLzLJO1BpwF2bal59Xt2FE3zVOjKQ15LoDb+7tiTrHgVFnauK27ViafWUzVukHnoDTQdbq5ybgc4Z9Xs9kyoHF+ZikEQzOxpjkhhvUzV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731584810; c=relaxed/simple;
-	bh=7ZyLogsyw0JvegtvsA9lmpsM17jAsYAfH2uhNPnrrmc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JDM50P+uFp2sMAcDGzO4udcv/oqNJ6dYoQXlUt9Uqk07KoZiDnTfUY2t9ciR5IDzo4W5322nKuoTZTaxPYoOtumptXQr/SBKfxl+7lAW1WZ4VTthsS6UbBy8ei2L3KI2RhTMHsWdz3i78pDCit2ruBqz2tbQxLftS3DG/zaPOUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uQc5LURl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731590865; c=relaxed/simple;
+	bh=n7lN0pS4JeN5d5Vaqc+BLriS9COn68OXZc9ZlhR9iTs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xps4yBBaQODlFMuT6pKQpOgqh8LaoVpjqsMLyWAtZzEsdSGzwQIH5Cg4xxJhL04CuCg21p/M7y7gcy1b+tAPBNmQTmQjUqTmAkrXk2o9M6RaWG3TCqeahxqEFaSp75XIagyDqd39/4rodTtBXwk90QgNJKbFIKwduBQ0/iP8Sr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KjspVQsU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qAmReEM+; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uQc5LURl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B0C4CECD;
-	Thu, 14 Nov 2024 11:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731584810;
-	bh=7ZyLogsyw0JvegtvsA9lmpsM17jAsYAfH2uhNPnrrmc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=uQc5LURltDkoVym5Jv1SkNSYPAWBvNd8Q8QD7nZBIUV9H11WfMiNLSf2aTxQsNins
-	 ixt3CvkM9etBvsB71n/Pvlm6zPmL6luZHCYhgAn0Yr5pHtAqUdF5AezdpW6KwLpT3x
-	 KbGm80H5IO62Th7WzLzsuvMsd2ag976DiugxNQe/OrRt1d0nEMhYMUKz1NYBJ3H58R
-	 ugxoKTzv7F7WY7oxStUTSMQLNz+g37YWoDOEh6TWM1QoZhMq7mlaPv7RH8Mo2EA3n3
-	 WXBGaV1VpijH8uk8yXHE6olSOdfj3jGgArlI3VBepsDN7ATWPtmaECVW+a0fcXnbFX
-	 v81Rf5DNjh+qQ==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9acafdb745so101355566b.0;
-        Thu, 14 Nov 2024 03:46:50 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWKw6EERBtLztTOmvitRjgjZG0QMJAQskpc86sZFEnzivh324GXKx9olxQTijHOi0+oCuFC+vgw56B4@lists.linux.dev, AJvYcCWn3FXOp9upl+4SBJj5h1rBjPxdEdQIerziTSdFdENK/6ck+RpoYxfa5dVZO+ve2Q0E7VP27Hu5QRP3+UluLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaV9vIJJ5warLmsAJRYdlwXO/csevAYTzRoNszl92/nzpmM8ti
-	XadpBSt0XCjPdUC9Bp2xNhaOOKpAn+0cnfclfhJlhWXNCeiCc/2nDyFRkgTTGEgckshZFIApf8Q
-	ohTgZbYdfgkq7BfC+WJeLbvBdNAs=
-X-Google-Smtp-Source: AGHT+IFoq16vJdJosJE7KEK4GHjO6MRlcOMXZwElMAdWC4/i1W3KJbln9rZ+5E1RZJ1W9uq6wZO5N7zhEo+u9zqkDSQ=
-X-Received: by 2002:a17:907:26c6:b0:a99:ffa9:a27 with SMTP id
- a640c23a62f3a-aa2078160e8mr253884766b.26.1731584809308; Thu, 14 Nov 2024
- 03:46:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KjspVQsU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qAmReEM+"
+Date: Thu, 14 Nov 2024 14:27:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1731590861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n7lN0pS4JeN5d5Vaqc+BLriS9COn68OXZc9ZlhR9iTs=;
+	b=KjspVQsUP9RL/qKitAbPPbffNuORdIj4ESNOj78pOQdd/OCLYBNo/NsVkWYGu2ZK5S/qJp
+	wYWZdw9lVGiM1VTlR8xNhIL0YoN5FMnHGCbcDxhAKaWQyMT9ITAd0C9dQtb+IlymwE8rId
+	qb1vLUNbgqjdcgzp0g0oAJMqTmuPuKhE4SkdYFq0HwRkz596EWuVh5ffYzvtUQY187lIw7
+	34NS48jG19Axr8c3O2hfj/d6Noe6z0MC6m2RQFr8QYnb6Q6QPfR4G2OkI7eBzSTnT1sNq5
+	+8SIQCpZw5AlaIiPqqBErtq1XjMKT4ucpMecLIa22+eLGROvc0zq5LLFx9TKaA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1731590861;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n7lN0pS4JeN5d5Vaqc+BLriS9COn68OXZc9ZlhR9iTs=;
+	b=qAmReEM+lYjvoK5JNzrlEE0+T1u3NVa2LOV3WlZ+xe9ro/CF/ZJ2e1GKDt6E3qpGlU2MVs
+	Vf12GutSzl/VF4CA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Huacai Chen <chenhuacai@loongson.cn>, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev, Guo Ren <guoren@kernel.org>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] LoongArch: Reduce min_delta for the arch clockevent
+ device
+Message-ID: <20241114132740.NuomQBEN@linutronix.de>
+References: <20241108091545.4182229-1-chenhuacai@loongson.cn>
+ <20241108091545.4182229-2-chenhuacai@loongson.cn>
+ <20241114102136.X-knc36J@linutronix.de>
+ <CAAhV-H6vTBwi+t8cPKSo44KZKYj8ubwv2vV4FHrNH+nG=_ZXnw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241108091545.4182229-1-chenhuacai@loongson.cn>
- <20241108091545.4182229-2-chenhuacai@loongson.cn> <20241114102136.X-knc36J@linutronix.de>
-In-Reply-To: <20241114102136.X-knc36J@linutronix.de>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Thu, 14 Nov 2024 19:46:39 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6vTBwi+t8cPKSo44KZKYj8ubwv2vV4FHrNH+nG=_ZXnw@mail.gmail.com>
-Message-ID: <CAAhV-H6vTBwi+t8cPKSo44KZKYj8ubwv2vV4FHrNH+nG=_ZXnw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] LoongArch: Reduce min_delta for the arch clockevent device
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Huacai Chen <chenhuacai@loongson.cn>, Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-rt-devel@lists.linux.dev, Guo Ren <guoren@kernel.org>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAAhV-H6vTBwi+t8cPKSo44KZKYj8ubwv2vV4FHrNH+nG=_ZXnw@mail.gmail.com>
 
-Hi, Sebastian,
+On 2024-11-14 19:46:39 [+0800], Huacai Chen wrote:
+> Hi, Sebastian,
+Hi,
 
-On Thu, Nov 14, 2024 at 6:21=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2024-11-08 17:15:43 [+0800], Huacai Chen wrote:
-> > Now the min_delta is 0x600 (1536) for LoongArch's constant clockevent
-> > device. For a 100MHz hardware timer this means ~15us. This is a little
-> > big, especially for PREEMPT_RT enabled kernels. So reduce it to 1000
-> > (we don't want too small values to affect performance).
->
-> So this reduces it to 10us. Is anything lower than that bad performance
-> wise?
-Maybe I misunderstood the meaning of min_delta, but if I'm correct,
-small min_delta may cause more timers to be triggered, because timers
-are aligned by the granularity (min_delta). So I think min_delta
-affects performance.
+> On Thu, Nov 14, 2024 at 6:21=E2=80=AFPM Sebastian Andrzej Siewior
+> <bigeasy@linutronix.de> wrote:
+> >
+> > On 2024-11-08 17:15:43 [+0800], Huacai Chen wrote:
+> > > Now the min_delta is 0x600 (1536) for LoongArch's constant clockevent
+> > > device. For a 100MHz hardware timer this means ~15us. This is a little
+> > > big, especially for PREEMPT_RT enabled kernels. So reduce it to 1000
+> > > (we don't want too small values to affect performance).
+> >
+> > So this reduces it to 10us. Is anything lower than that bad performance
+> > wise?
+> Maybe I misunderstood the meaning of min_delta, but if I'm correct,
+> small min_delta may cause more timers to be triggered, because timers
+> are aligned by the granularity (min_delta). So I think min_delta
+> affects performance.
 
-And I choose 10us just because I saw latency improvements when I
-reduce 15us to 10us, but no more effect when I reduce it to even
-lower.
+They are not aligned. Well they get aligned due to the consequences.
 
-Huacai
+In one-shot mode you program the device for the next timer to expire. It
+computes the delta between expire-time and now. This delta is then
+clamped between min & max delta. See clockevents_program_event().
 
+This means if your timer is supposed to expire in 5us (from now) but
+your min delta is set to 15us then the timer device will be programmed
+to 15us from now. This is 10us after the expire time of your first
+timer. Once the timer devices fires, it will expire all hrtimers which
+expired at this point. This includes that timer, that should have fired
+10us ago, plus everything else following in the 10us window.
 
+> Huacai
 
->
-> > Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
->
-> Sebastian
+Sebastian
