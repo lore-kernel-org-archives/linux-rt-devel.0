@@ -1,86 +1,80 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E559118FC67
-	for <linux-rt-devel@lists.linux.dev>; Fri, 15 Nov 2024 22:29:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCBE79D0
+	for <linux-rt-devel@lists.linux.dev>; Sat, 16 Nov 2024 09:21:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731709771; cv=none; b=f6tsIqliJyaJ9tcMMpkreVdjpJji3r/Mof0R7BiUumzo3ehBeXlfaL7G8mMDcBCgYavVhyjyY5qSTQuvQeQtCTqck14+wyH7JV6C2LppS5Smpf+1fQBDnh2M7N8oWmFM5kayjlXgxnrjcIW6jF4j8A27rwqYJwceIgIr9PYPJFg=
+	t=1731748868; cv=none; b=E2g5y8Y9q79CCGzbe7/ELDCa88q9EM5Pqh1Y7rnzG5CMc9dspKzSQ1A5An2Yq29+8+78/6jRqrFwo3QS84ODX/BPvNMqKlVzKzGBvutUy96Pw5Kr+BkicGb20qBIOCtLja/h3ksfrAwD/ykj+4dbmTi7z9GRfnWWsIIJJ4s/u4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731709771; c=relaxed/simple;
-	bh=YgvT79iBaGBVWiBS65XCwTu/ttnEG6uZDj9Sw5C75WE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r8vgXkaJUdpsh2mXWWgnflyLBm71LuOB2NsaFuuBVtMDbnrisT5wG5KTgyATts3Am6wxF3SC9i7oh8pp/0+xT+UX0aT/uJRyDyrCQEqh6Nj6tnaVQPX63XAtsZzNDRw/h9vPQXPveDthTaZFxU+GmJ/oOecg9bBsLH3X94zhl/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=U3I++ZB0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NevTVyC+; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1731748868; c=relaxed/simple;
+	bh=O3UHc88BGrmZuWFLUNX/RVuv+mk344kjI4vqIwUHweE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=har/dxUUlGTxQIDwd5eCRIPuodRz+sctj9iKg8jkKPEXBXeeU533bLHPMZrcaUCN8BnAL1BMnIGYZB3SDrLEhM6dxwO0DPCK8cXrecFZJGcHw7dAYfvQ/UR3KltFnzuokpxaA/3UBOA/VoaJloOm6nySOusMIab4QRG3+pVjxGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O+GYhW7a; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=f+WHAsRb; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="U3I++ZB0";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NevTVyC+"
-From: Thomas Gleixner <tglx@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O+GYhW7a";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f+WHAsRb"
+Date: Sat, 16 Nov 2024 10:21:02 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1731709766;
+	s=2020; t=1731748864;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfxggv6ATdS6g6AFs0Huv/ja/7B7Fu4yoi78sTHWDUo=;
-	b=U3I++ZB0s6lN0p4TkOIgmA1yjiODb5Y9A1GaqCxFsxFW4mqs2HYhzfWKU++XOQkT92j8XL
-	vAxQIX80LscbhZvInxbQXzXb+EfeDTx5/9QQC8G1g6baWWxuSN1OL3s2UTzrGe3T+mWTdo
-	NiY4VV03eMMl8TCD3JmW+c6fSwT1CEyHQK3jnDrYd8Qjq0TtdYEDwRqXo8M2SOIIITQBtv
-	n13c4P511Bh+Wicdb/TZgBMZjdcvT1fcc16oIAdiKzg4Jn9/tmZ3cgwV/lMdlt5uqA7A4a
-	aDuBU9ReSaF8cqBdOdOHQDKQKiQGI5vreZ6pTuJZCDTSOEO7U9VDNc1wditIOQ==
+	bh=vi1SW15jCJWLD4Kn5RiukUXN1MOkzbVBJehxjUb37tY=;
+	b=O+GYhW7ajMIM6MvyAF7F6i8Q1oaP6DvsRA62MtIrzVYvmp7u8x1f0u3eYl9+qlExJMyXx1
+	Dl6fculZZAHpZ8KgwSybnYMiv7M2zYL930KEwFHza6qNo1xm0S1TMDA9c1U9NQ1di3reMK
+	i7uX5gNpOBHKgVDIi8hOLLrMDxCnpHthhcRoKSVg1pWaU7VkRHN06zFMoWsdkLtSwzJDzd
+	38tVSNbHSla53qbDDT95FdVzcf0B3fjX21yWhMmI0mj0LkxtSLj4C90XTCO9biGCnuFdf8
+	q+YNV13fho1YGiJRtRHy6j5Q1jaYp/h0G94j38MvW4gD6ZA1qBfBV7X20UTHNA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1731709766;
+	s=2020e; t=1731748864;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qfxggv6ATdS6g6AFs0Huv/ja/7B7Fu4yoi78sTHWDUo=;
-	b=NevTVyC+yzwxBAKjaZgOegdnzziOjLg6+tEWAGDzSXnrWodcqre3bNcInnQ+nHhgzlUOlj
-	AT5OXB5dOkQ5caDg==
-To: Kunwu Chan <kunwu.chan@linux.dev>, Kunwu Chan <kunwu.chan@linux.dev>,
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org
-Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev,
- syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com
+	bh=vi1SW15jCJWLD4Kn5RiukUXN1MOkzbVBJehxjUb37tY=;
+	b=f+WHAsRbOJKR+C3r1TBYrCwtn2Q605d1MK9RIf3aKwG+IcpkUDq9J5Ww7WfrlSCmv4jmCF
+	GPgwRh/gmoIHSbCw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Kunwu Chan <kunwu.chan@linux.dev>, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, clrkwllms@kernel.org, rostedt@goodmis.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	syzbot+b506de56cbbb63148c33@syzkaller.appspotmail.com,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 Subject: Re: [PATCH] bpf: Convert lpm_trie::lock to 'raw_spinlock_t'
-In-Reply-To: <1e5910b1-ea54-4b7a-a68b-a02634a517dd@linux.dev>
+Message-ID: <20241116092102.O_30pj9W@linutronix.de>
 References: <20241108063214.578120-1-kunwu.chan@linux.dev>
- <87v7wsmqv4.ffs@tglx> <1e5910b1-ea54-4b7a-a68b-a02634a517dd@linux.dev>
-Date: Fri, 15 Nov 2024 23:29:31 +0100
-Message-ID: <87sersyvuc.ffs@tglx>
+ <87v7wsmqv4.ffs@tglx>
+ <1e5910b1-ea54-4b7a-a68b-a02634a517dd@linux.dev>
+ <87sersyvuc.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87sersyvuc.ffs@tglx>
 
-On Thu, Nov 14 2024 at 10:43, Kunwu Chan wrote:
-> On 2024/11/12 23:08, Thomas Gleixner wrote:
->>> @@ -330,7 +330,7 @@ static long trie_update_elem(struct bpf_map *map,
->>>   	if (key->prefixlen > trie->max_prefixlen)
->>>   		return -EINVAL;
->>>   
->>> -	spin_lock_irqsave(&trie->lock, irq_flags);
->>> +	raw_spin_lock_irqsave(&trie->lock, irq_flags);
->>>   
->>>   	/* Allocate and fill a new node */
->> Making this a raw spinlock moves the problem from the BPF trie code into
->> the memory allocator. On RT the memory allocator cannot be invoked under
->> a raw spinlock.
-> I'am newbiee in this field. But actually when i change it to a raw 
-> spinlock, the problem syzbot reported dispeared.
+On 2024-11-15 23:29:31 [+0100], Thomas Gleixner wrote:
+> IIRC, BPF has it's own allocator which can be used everywhere.
 
-Yes, because the actual code path which is going to trigger this, is not
-reached. But it will be reached at some point.
+Thomas Wei=C3=9Fschuh made something. It appears to work. Need to take a
+closer look.
 
-IIRC, BPF has it's own allocator which can be used everywhere.
+> Thanks,
+>=20
+>         tglx
 
-Thanks,
-
-        tglx
+Sebastian
