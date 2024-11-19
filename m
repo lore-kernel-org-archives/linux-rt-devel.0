@@ -1,45 +1,45 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2066.outbound.protection.outlook.com [40.107.237.66])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2043.outbound.protection.outlook.com [40.107.92.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639031482E8
-	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Nov 2024 05:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E8714B945
+	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Nov 2024 05:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731995094; cv=fail; b=LxGJjc/47elNfMhRvVz/rDZBR8qYLCiQ/yKY3v1B+A5X+N9zSoIl5k5lZspHknaI/HcxhhzKKjC8f3BociNQ538NGiP5BF8UfLQXDlI3CSEijz7sxzfF56ld6fUQB89QDLgg3MHeDkkfaCiLVGEJ5pOLaYjjDLuQIk8j1m/NHPw=
+	t=1731995116; cv=fail; b=qtBRJfPy1dONYOm3+yPt/gQcobeXM5qB5w6fRS+8YyBTXmtD8Wm9Ba4nxRRqJZuGYRVToIG3liyoWsd5zLn7norPH1pOKMEILb0upnQ9RGWZrpwh54D0I8/JUUXffzMLAsnpS0o8FnymOr2DhgX2ruhvWU2nIqZNOBWKUrUK1IE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731995094; c=relaxed/simple;
-	bh=nnC/+OeuZHCneX6zzoPjKJrsWdxFh2fgZvyet4rxyIs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nhepXFDpZBjA5Gd0csW2Pd3rhK1TfwGIHQWl0S+J/2NY2PGtY/KLbo1ccf16HqNv61vWxO6X1TpwlBVgzmzzM50CweyZOLNrIpgEttzrq3dd9a6lEwk5hR5jt+bFm2Ch1VraSVAq5nLlXtORuq2nUpXmPQqyekeuNbkNXh0d4cw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=HsBKkP4x; arc=fail smtp.client-ip=40.107.237.66
+	s=arc-20240116; t=1731995116; c=relaxed/simple;
+	bh=NvfdD13FXBIn9W9vCLjDQooZjd7O+lCkzQ03b/5XHiM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pgmp0cu83Vm3SgFK/JVRwymFU6i8S/ziXFcxqhJMNyqkfvowfR0D0tkN01gdIma87kE4c/rZ/OwAID5Bo9gTEHbiRdbpziz5NK5RpS7nokGsIZ61DN51kU09CZBgxoDHs2MIcgA6ZGiQ2j/2YsYpEEYo8lBThakD57M4+AVvk1c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xiBvEiqK; arc=fail smtp.client-ip=40.107.92.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="HsBKkP4x"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="xiBvEiqK"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GJ0/bOaic/nSkru9z9W44iozPYa1KkTXkF+b4epxUUkX6dlHJLGS0HvwrGVgQPekQQ0J+AZ+kgIU7YNq+o4dWTR23kAbAdAuyJSZq3bnTWL6L9dn8ET6eng0f1KgIYLdCCvF6VjdM/Sv8+z9CSjvZuoevVeJ2sPDju3D6wsDBp9rrZJ/9hhUr0ghFvmzUPZbCCopaoCknmnD706UNkAPp/IUnseZs2ByV1wl6bU7DJa5i7PP1Xz+qmYgkSUCcp7+E+4xBkprpzYXaP1PJfcLIWvlciX3uy7AKgqTNTjeTvhB3QqEm+25S1OAsFIziYmBa59kS5n4xwfh+kn98yBzHQ==
+ b=aAGUTmESuRFDbuAUt5dbWowPNFtK3NB9TM9p9jrQ7P8UQYM1Hv714FIZkLlXGNPr4y4Rifc0OKAVJq0vFBzS+wHoH9G2ZfVjxinMyi3kMfKjH2TmJK/JWV20MCU3lTiJd/ZrI4v1TkqK/7culgX0Bll/+VmAh/yZLJ1AjtqG/j8hV5C85Br82pN8az9/yIfWEGk0AzjcAq5GpxTyGbSdoH3j1E2axw5QriaD4QezNf5ua3Uuno8YYiXs2B+vhqNJWSlunZbxHG/I+q/enJRMX3jgHCEGhceSVAX8+G+bG9qDQavsi1BMsnI++8ktDVvxVCObd3VQ8cy1WHmfhAQw2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bdrDUzU02XEi+pqIM1bTgpr148JxmHZmiSWqx76MSsQ=;
- b=CcbklNEmzNi+aDpSzx2tAmYA9ly4oodDrNuDIu+Dw80DtYBX4DVoXf0hs/tbaHvSPH5wyTkLG6/FT698hLqwcJxEzrxgq2ZuWZSOHetEVX6LW1pQBDvzmm7ed8grYdp303mBAEQQySg8ACnGZZtbWhKUvMpo+lpM1qmYe5YAH+qy1E+rIFNV1wc3VyEJ27dx+EqKsqyooLgqE5knboHKlSp4328xfe53AA4xf1Xca6UpOAsghFfOYJ3bGczWfpoHeSfIe+PBgLJNsvybFVhSVy22XbD+zrPDriI/8lthnQ8KgXZmzVnw6MR/AuSU3bZXiODdgyXkYv83izG3QOh/lg==
+ bh=mq3KQ0DIfJbjbunTTs1DC/IYbEaojIfXvZ4R4dEbRpk=;
+ b=S4lcoN+YUg4YjjrJVaM2NTZxOqumgcxhquQHIHYxnnT9g5CmzGnu/ImhpaS0Ie9wPoQbxBPhPpGMunA5HNxuccXi2jgHmWBKjWrMmB4d6WBaHHraoxouzT0a1svEdrAFs5JinX2bC03yrELKcRr9NTb8z6z6dM/Mi56w2wlF/j2UJl8HVwSCNcIPGg/odmhhweMU79AV5MTdCGRaMtOFEu3kpkI2sf5yMh1b1x1LPn74HOWVJvMmQzKxbq0vR0/QodaMyNuWbRkARMZrSOi+u2eCqxX/MScoENM3h8bgK2cyXGcFPKaVdhRRKIs44kMwVKfig12/kjbjXKycuxPp5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.12) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bdrDUzU02XEi+pqIM1bTgpr148JxmHZmiSWqx76MSsQ=;
- b=HsBKkP4xXcpbUIYdDhjgweX9jLUZ2J0kd2SgXwz8M6TZx8QeE432iK8OjhN7f55OkojQhpZd3mj7wQB2EO7KiA0FPMJT8nm3GAsHAfOxdFBuwvRxa1bNmT32ae+EWUtM/tJUjXydTm38DZLmCWGwotiIXboGEkJdwwvWIZqMvDo=
-Received: from DM6PR17CA0005.namprd17.prod.outlook.com (2603:10b6:5:1b3::18)
- by PH8PR12MB7351.namprd12.prod.outlook.com (2603:10b6:510:215::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.20; Tue, 19 Nov
- 2024 05:44:48 +0000
-Received: from CY4PEPF0000E9CE.namprd03.prod.outlook.com
- (2603:10b6:5:1b3:cafe::f3) by DM6PR17CA0005.outlook.office365.com
- (2603:10b6:5:1b3::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.22 via Frontend
- Transport; Tue, 19 Nov 2024 05:44:47 +0000
+ bh=mq3KQ0DIfJbjbunTTs1DC/IYbEaojIfXvZ4R4dEbRpk=;
+ b=xiBvEiqKzf6FQhgWTbHvQIby6/fCV4zyhiOjtfhMCqc/p/aiqNlIMf3+Sw9AgOeBRw51QAeU2UECYIQug+JRi6k6gjm0EOJ30n5EwzRIUqZNaAuGGWIdWNYMBjJmPd6uVhboAVCrzUAmmpRabBKPKee27/9ToYWkYrMXQX8MIc4=
+Received: from SJ0PR03CA0379.namprd03.prod.outlook.com (2603:10b6:a03:3a1::24)
+ by DM4PR12MB6592.namprd12.prod.outlook.com (2603:10b6:8:8a::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8158.20; Tue, 19 Nov 2024 05:45:07 +0000
+Received: from CY4PEPF0000E9D0.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a1:cafe::ad) by SJ0PR03CA0379.outlook.office365.com
+ (2603:10b6:a03:3a1::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23 via Frontend
+ Transport; Tue, 19 Nov 2024 05:45:07 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.12)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,13 +47,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.12 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.12; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.12) by
- CY4PEPF0000E9CE.mail.protection.outlook.com (10.167.241.133) with Microsoft
+ CY4PEPF0000E9D0.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8158.14 via Frontend Transport; Tue, 19 Nov 2024 05:44:47 +0000
+ 15.20.8158.14 via Frontend Transport; Tue, 19 Nov 2024 05:45:06 +0000
 Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 18 Nov
- 2024 23:44:40 -0600
+ 2024 23:44:59 -0600
 From: K Prateek Nayak <kprateek.nayak@amd.com>
 To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
 	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
@@ -70,10 +70,12 @@ CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
 	"Gautham R . Shenoy" <gautham.shenoy@amd.com>, Chen Yu <yu.c.chen@intel.com>,
 	Julia Lawall <Julia.Lawall@inria.fr>, K Prateek Nayak
 	<kprateek.nayak@amd.com>
-Subject: [PATCH v5 0/4] sched/fair: Idle load balancer fixes for fallouts from IPI optimization to TIF_POLLING CPUs
-Date: Tue, 19 Nov 2024 05:44:28 +0000
-Message-ID: <20241119054432.6405-1-kprateek.nayak@amd.com>
+Subject: [PATCH v5 1/4] softirq: Allow raising SCHED_SOFTIRQ from SMP-call-function on RT kernel
+Date: Tue, 19 Nov 2024 05:44:29 +0000
+Message-ID: <20241119054432.6405-2-kprateek.nayak@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241119054432.6405-1-kprateek.nayak@amd.com>
+References: <20241119054432.6405-1-kprateek.nayak@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -86,241 +88,131 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CE:EE_|PH8PR12MB7351:EE_
-X-MS-Office365-Filtering-Correlation-Id: 10822598-e7d6-4d08-db5a-08dd085d473b
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D0:EE_|DM4PR12MB6592:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3aee976-1433-445f-f939-08dd085d52d8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700013;
+	BCL:0;ARA:13230040|376014|1800799024|7416014|36860700013|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2pSSx1bq+vvlFqyuVppAXhW/ajc2pSr500q129dqtGrLoyyVO6IBkXf4zie7?=
- =?us-ascii?Q?+m76Rp5n6V4ad8GpWvN83T8kYwHKEoZyAqbIZK5OhfHuTAXv5oo6Id0ugpFg?=
- =?us-ascii?Q?YYdNW9pnYvtJ90mRICP3sopo7tdZwn4gV7pgBb8CGYo7l8sFYl8uab5VAzI6?=
- =?us-ascii?Q?fK8vg+ZRF5ZvncaTDqi7vXiLbwzLRvdPcMLJyav4PIFkPXv5da18duwDoMhF?=
- =?us-ascii?Q?DVE5EA2tbpne4OqLlEt9GJMqKJt4pIk9jM9gF4zjfWp+Yszx/7PPoBBdGa3N?=
- =?us-ascii?Q?51zq6WEh4ewkTH42lqP5XAG1i8eJEAZPEZSFVwwg/sxUlDHs29MIyXqz2C1l?=
- =?us-ascii?Q?aAT7L2/GPMP0p4uacLMtfEHw7RoMAIodPFrZcgmxtHViOkau8MynOnSBm4t1?=
- =?us-ascii?Q?hqzvGWoRnB+EeuXV92X0uIfbR2nIN+fzuq3oTrV+fQBfiJI9mup4rnwpz7Po?=
- =?us-ascii?Q?/lXWX3jJi3JwJh+Qv3J4mJE719o618i1+7AHsqkGmhbFzaf8gil/Ja3aPi8Z?=
- =?us-ascii?Q?GOQvaKtjwoy+QAwkK0HFDUyUIpRkIW5iA68N6lLiS9x2ob2y2uEvr/vlt6IL?=
- =?us-ascii?Q?dLB0Ei8HKcq6wpbXecb8NlZ55/UeGtmPkLxambH/nKn3F/8uKV2JwRX+ZMwH?=
- =?us-ascii?Q?Df1LI3WYag1W4jEabFxZ6muAzd6gbl9M0iR6qx9qR8QFHsoq9Sw0NstXQnNi?=
- =?us-ascii?Q?XvQqn4KmAvBNxUbgqitSf9AxC/NP96nGWovMvxkdfFG74ju3WhkUiv7yrLeR?=
- =?us-ascii?Q?19aiqYDYioKFVs5tHDZlrwfhUjiSHbN5sxS4ck/cdRP1he4NpQXANXQ9LqA8?=
- =?us-ascii?Q?TWmVwuMSLgkMaD/2EQGylz2X2P29K/o4asIGWnURJliYNDO2jFFD3j9uuZSp?=
- =?us-ascii?Q?LiLzp098hzoz/2sJRz2VS6qJneFpb0xHD0drVAxAH9UCfafLf94YL0MUt3du?=
- =?us-ascii?Q?5L1SYcxDauQVyPT+xRO6meqtg0PpqzsgDzkER7cYnmKqKJi3WC2xXsD71rwc?=
- =?us-ascii?Q?sZB8xADc0H7mgq11WKJ2yIFsAdnzJ2Je6yHH2G7mutXbxJA8rNj8pk4HGVvA?=
- =?us-ascii?Q?2UpeOUf+KMRDIVBsWfKTri2Ia+XEURHxlzdoSeiYZ1VJriJfT+G58VmkGPpH?=
- =?us-ascii?Q?vVYEouaifb7M47mvax6LSR44WL/yqbChzMTZCrM3YIwHgqEfUXKuYui4KdeV?=
- =?us-ascii?Q?AtlwzVFE31BSnFEixMQ6hWIU3MZ9JV9Eq9B1pGXjuze850fIXX0PZPqntJRr?=
- =?us-ascii?Q?GvrTgl5yQUAd1mXsW8rKtZkPqBaDjhtKhXYg3DGEQctD5sTcvzBFc6wwrANU?=
- =?us-ascii?Q?U8WrDHpYyxDmO6CFVyNjwppVWEj3jLFeXlxCjZ5h8GdFEXNWWa29NWsBolhe?=
- =?us-ascii?Q?pjcEXvE=3D?=
+	=?us-ascii?Q?s0U3NAu/yDD85WRFaoedgK/51LDl/ikveC7908qaLsStcR6JM52vx1X8SV3x?=
+ =?us-ascii?Q?kggutFcSE53Nw6j4a7ujBYCu1XYonAjtQCTd6ibqduYmoDAJNg+Sv8bdKRDk?=
+ =?us-ascii?Q?eZ358fpFvl8jMw+LM0yjVMrYahPmpFE8bwnKu92O2YjgfFEo6imU58eLeB/j?=
+ =?us-ascii?Q?a+in8vu4uvve/PI6UTUiqRqZrGEOHiCnJ2AYFSMBfFn/h4FXmIjYiad4JWFA?=
+ =?us-ascii?Q?eBNFIVP9uv5PGfKi0IUfmV6bZXFXK9O28hadaHQ23tmtT4jUkG1uhF6Bvbzg?=
+ =?us-ascii?Q?rZJ74LcEZizR/YpyT2Q9z6nHOpfIZKXgyBvS8RsQPHfwNTsemzpDOPK8rd8K?=
+ =?us-ascii?Q?dot9iNDguapoBmylIyFawQFdV9rczQuzT0K+ziTH8FPrNCMgzDVcN6XR3mhg?=
+ =?us-ascii?Q?6Pf6ShL9OwYC77aawenU0Uto699LdOz0GnS+KHM2LH2n+9J6NoEQFky35yan?=
+ =?us-ascii?Q?jM5phiXDEmLMWNlwTmiXKfi5wvy4lb8cx0XWF+92f2uMeeKijRzCsdXW4v4g?=
+ =?us-ascii?Q?vXZeBV+axaBy+5qJDYHbG63Qm67ngJ+SjZ8RJ3boHY41YiaVHEurphoIjihw?=
+ =?us-ascii?Q?y+VcCYaxKR0Ts6DDtppDFsaXC8oqh81C4Dl7jYnvOYtGk84y5Oepx0LGBMKZ?=
+ =?us-ascii?Q?AW9m2cgjwty9LDMLj+lA4/JvnHvhv/TvYWtOPJzw3X89ckh5bmGq6HNm5UNX?=
+ =?us-ascii?Q?jICyHbp+3VKbKId2WgdBOjlayBk3aRywzLZ5cyJOaxZzpX3sxrcUfTjC9/UN?=
+ =?us-ascii?Q?av90CT/0zM/l4GWC2m1ADbrNLfnPVvN1xRxtdYwX0q4bizSjp6hxFwEQQNyS?=
+ =?us-ascii?Q?9RjLmj2CXUD6/3ykWrzvvqj9ZkjqUVou3wtxBJ/oeEJTnygP8YSdM8nxwY2r?=
+ =?us-ascii?Q?15tFrutYAFhEE6+1JE0SmeV/Z2lUoUZFg/732eh7bgExTbL/WID6StINOenB?=
+ =?us-ascii?Q?h5b4fO/6AplljSo9Y8PN5J4zImzaMMJlwRcZOC2znEsMzikd/u46qHOFbUYo?=
+ =?us-ascii?Q?F6hGiFCsRZ0lEs1n7kB1fHg9kLemahVOLV52TvC5yI/N2Ckqjawej15r1hhG?=
+ =?us-ascii?Q?UZ76C0oOnxrfKgzNZ0+y02LCM1gr2TrqI/eh/87WDZhnk5s5oZij3te9Z2ZF?=
+ =?us-ascii?Q?Q+QGRfugtEB4onu0t2G9ZwNCjinvuG+FCZEPnO4mESGfF68TsTHRZF0br041?=
+ =?us-ascii?Q?ioewMK+pQ5a5eEtv9tlMeLE7GI5n5YuPyqmdEwbikCWU0q6h88KkJN9boAlg?=
+ =?us-ascii?Q?5CHW8XN+KX3ppgPLs06mIQwYW/0Vn2ITwmOQKdfAZh088AQnyvxFhg4Row2U?=
+ =?us-ascii?Q?gm/g7ktFIVlehBZq4v73sefy8alI7EuxdBprjhyCHSOK3ciFXj8Ebksln2pS?=
+ =?us-ascii?Q?9OnFsZUFmSBfPsKc0hOeD+EFNi2R5wp38xsqqWP8Msk/sWkJ9g=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.12;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:atlvpn-bp.amd.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+	CIP:165.204.84.12;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:atlvpn-bp.amd.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 05:44:47.4689
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 05:45:06.9535
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 10822598-e7d6-4d08-db5a-08dd085d473b
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3aee976-1433-445f-f939-08dd085d52d8
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.12];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9CE.namprd03.prod.outlook.com
+	CY4PEPF0000E9D0.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7351
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6592
 
-Hello everyone,
-
-This is the fifth version with one more patch addition since last
-version, and some updated benchmarking data down below. Any and all
-feedback is highly appreciated.
-
-This series is based on:
-
-    git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/core
-
-at commit f9ed1f7c2e26 ("genirq/proc: Use seq_put_decimal_ull_width()
-for decimal values")
+do_softirq_post_smp_call_flush() on PREEMPT_RT kernels carries a
+WARN_ON_ONCE() for any SOFTIRQ being raised from an SMP-call-function.
+Since do_softirq_post_smp_call_flush() is called with preempt disabled,
+raising a SOFTIRQ during flush_smp_call_function_queue() can lead to
+longer preempt disabled sections.
 
 Since commit b2a02fc43a1f ("smp: Optimize
-send_call_function_single_ipi()"), an idle CPU in TIF_POLLING_NRFLAG can
-be pulled out of idle by setting TIF_NEED_RESCHED instead of sending an
-actual IPI. This affects at least three scenarios that have been
-described below:
+send_call_function_single_ipi()") IPIs to an idle CPU in
+TIF_POLLING_NRFLAG mode can be optimized out by instead setting
+TIF_NEED_RESCHED bit in idle task's thread_info and relying on the
+flush_smp_call_function_queue() in the idle-exit path to run the
+SMP-call-function.
 
-1. A need_resched() check within a call function does not necessarily
-   indicate a task wakeup since a CPU intending to send an IPI to an
-   idle target in TIF_POLLING_NRFLAG mode can simply queue the
-   SMP-call-function and set the TIF_NEED_RESCHED flag to pull the
-   polling target out of idle. The SMP-call-function will be executed by
-   flush_smp_call_function_queue() on the idle-exit path. On x86, where
-   mwait_idle_with_hints() sets TIF_POLLING_NRFLAG for long idling,
-   this leads to idle load balancer bailing out early since
-   need_resched() check in nohz_csd_func() returns true in most
-   instances. This is also true for softirqs being handled from 
-   do_softirq_post_smp_call_flush(), which again, is processed before
-   __schedule() clears the TIF_NEED_RESCHED flag.
+To trigger an idle load balancing, the scheduler queues
+nohz_csd_function() responsible for triggering an idle load balancing on
+a target nohz idle CPU and sends an IPI. Only now, this IPI is optimized
+out and the SMP-call-function is executed from
+flush_smp_call_function_queue() in do_idle() which can raise a
+SCHED_SOFTIRQ to trigger the balancing.
 
-2. A TIF_POLLING_NRFLAG idling CPU woken up to process an IPI will end
-   up calling schedule() even in cases where the call function does not
-   wake up a new task on the idle CPU, thus delaying the idle re-entry.
+So far, this went undetected since, the need_resched() check in
+nohz_csd_function() would make it bail out of idle load balancing early
+as the idle thread does not clear TIF_POLLING_NRFLAG before calling
+flush_smp_call_function_queue(). The need_resched() check was added with
+the intent to catch a new task wakeup, however, it has recently
+discovered to be unnecessary and will be removed in the subsequent
+commit after which nohz_csd_function() can raise a SCHED_SOFTIRQ from
+flush_smp_call_function_queue() to trigger an idle load balance on an
+idle target in TIF_POLLING_NRFLAG mode.
 
-3. Julia Lawall reported a case where a softirq raised from a
-   SMP-call-function on an idle CPU will wake up ksoftirqd since
-   flush_smp_call_function_queue() executes in the idle thread's
-   context. This can throw off the idle load balancer by making the idle
-   CPU appear busy since ksoftirqd just woke on the said CPU [1].
+nohz_csd_function() bails out early if "idle_cpu()" check for the
+target CPU, and does not lock the target CPU's rq until the very end,
+once it has found tasks to run on the CPU and will not inhibit the
+wakeup of, or running of a newly woken up higher priority task. Account
+for this and prevent a WARN_ON_ONCE() when SCHED_SOFTIRQ is raised from
+flush_smp_call_function_queue().
 
-Solution to (2.) was sent independently in [2] since it was not
-dependent on the changes enclosed in this series which reworks some
-PREEMPT_RT specific bits.
-
-(1.) was solved by dropping the need_resched() check in nohz_csd_func()
-(please refer Patch 2 and Patch 3 for the full version of the
-explanation) which led to a splat on PREEMPT_RT kernels [3].
-
-Since flush_smp_call_function_queue() and the following
-do_softirq_post_smp_call_flush() runs with [reem[t disabled, it is not
-ideal for the IRQ handlers to raise a SOFTIRQ, prolonging the preempt
-disabled section especially on PREEMPT_RT kernels. Patch 1 works around
-this by allowing processing of SCHED_SOFTIRQ without raising a warning
-since the idle load balancer has checkpoints to detect wakup of tasks
-on the idle CPU in which case it immediately bails out of the load
-balaning process and proceeds to call schedule()
-
-With the above solution, problem discussed in (3.) is even more
-prominent with idle load balancing waking up ksoftirqd to unnecessarily.
-Previous versions attempted to solve this by introducing a per-cpu
-variable to keep track on an impending call to do_softirq(). Sebastian
-suggested using __raise_softirq_irqoff() for SCHED_SOFTIRQ since it
-avoids wakeup of ksoftirqd and since SCHED_SOFTIRQ is being raised from
-the IPI handler, it is guaranteed to be serviced on IRQ exit or via
-do_softirq_post_smp_call_flush()
-
-Sebastian also raised concerns about threadirqs possibly interfering
-with load balancing, however in case of idle load balancing, the CPU
-performing the idle load balancing on behalf of other nohz idle CPUs
-only performs load balance for itself at the very end. If the idle load
-balancing was offloaded to ksoftirqd, and the CPU bails out from idle
-load balancing, the scheduler will perform a newidle balance if
-ksoftirqd was not able to pull any task since it will be the last fair
-task on the runqueue and should handle any imbalance. These details have
-been added in the commit log of Patch 3 for the record.
-
-Chenyu had reported a regression when running a modified version of
-ipistorm that performs a fixed set of IPIs between two CPUs on his
-setup with a previous version of this series which updated certain
-per-CPU variable at flush_smp_call_function_queue() boundary to prevent
-ksoftirqd wakeups. Since these updates are now gone, courtesy of the
-new approach suggested by Sebastian, this regression sould no longer be
-seen. The results from testing on the patched kernel is identical to
-the base kernel.
-
-Julia Lawall reported reduction in the number of load balancing attempts
-on v6.11 based tip:sched/core at NUMA level. The issue was root-caused
-to commit 3dcac251b066 ("sched/core: Introduce SM_IDLE and an idle
-re-entry fast-path in __schedule()") which would skip the
-newidle_balance() if schedule_idle() was called without any task wakeups
-on the idle CPUs to favor a faster idle re-entry. To rule out any
-surprises from this series in particular, I tested the bt.B.x benchmark
-where she originally observed this behavior on. Following are the
-numbers from a dual socket Intel Ice Lake Xeon server (2 x 32C/64T):
-
-   ==================================================================
-   Test          : bt.B.x (OMP variant)
-   Units         : % improvement over base kernel in Mop/s throughput
-   Interpretation: Higher is better
-   ======================= Intel Ice Lake Xeon ======================
-   kernel:						[pct imp]
-   performance gov, boost en	  			  0.89%
-   performance gov, boost dis	  			  0.26%
-   ==================================================================
-
-I did not see any discernable difference with this one over the base
-kernel.
-
-[1] https://lore.kernel.org/lkml/fcf823f-195e-6c9a-eac3-25f870cb35ac@inria.fr/
-[2] https://lore.kernel.org/lkml/20240809092240.6921-1-kprateek.nayak@amd.com/
-[3] https://lore.kernel.org/lkml/225e6d74-ed43-51dd-d1aa-c75c86dd58eb@amd.com/
-[4] https://lore.kernel.org/lkml/20240710150557.GB27299@noisy.programming.kicks-ass.net/
+Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
 v4..v5:
 
-o Added Patch 3 which modifies another need_resched() check in the idle
-  load balancer's SOFTIRQ handler path that I had missed previously.
+- More clarification in the commit log around idle load balancing (last
+  paragraph)
+---
+ kernel/softirq.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-o Collected Reviewed-by from Sebastian on Patch 4.
-
-o Reworded the commit messages for Patch 1, and Patch 4.
-
-o Added more clarifications around load balancing in the cover letter
-  for threadirqs case.
-
-v4: https://lore.kernel.org/lkml/20241030071557.1422-1-kprateek.nayak@amd.com/
-
-v3..v4:
-
-o Use __raise_softirq_irqoff() for SCHED_SOFTIRQ. (Sebastian)
-
-o Updated benchmark numbers and reworded the cover letter.
-
-v3: https://lore.kernel.org/lkml/20241014090339.2478-1-kprateek.nayak@amd.com/
-
-v2..v3:
-
-o Removed ifdefs around local_lock_t. (Peter)
-
-o Reworded Patch 1 to add more details on raising SCHED_SOFTIRQ from
-  flush_smp_call_function_queue() and why it should be okay on
-  PREEMPT_RT.
-
-o Updated the trace data in Patch 5.
-
-o More benchmarking.
-
-v2: https://lore.kernel.org/lkml/20240904111223.1035-1-kprateek.nayak@amd.com/
-
-v1..v2:
-
-o Broke the PREEMPT_RT unification and idle load balance fixes into
-  separate series (this) and post the SM_IDLE fast-path enhancements
-  separately.
-
-o Worked around the splat on PREEMPT_RT kernel caused by raising
-  SCHED_SOFTIRQ from nohz_csd_func() in context of
-  flush_smp_call_function_queue() which is undesirable on PREEMPT_RT
-  kernels. (Please refer to commit 1a90bfd22020 ("smp: Make softirq
-  handling RT safe in flush_smp_call_function_queue()")
-
-o Reuse softirq_ctrl::cnt from PREEMPT_RT to prevent unnecessary
-  wakeups of ksoftirqd. (Peter)
-  This unifies should_wakeup_ksoftirqd() and adds an interface to
-  indicate an impending call to do_softirq (set_do_softirq_pending())
-  and clear it just before fulfilling the promise
-  (clr_do_softirq_pending()).
-
-o More benchmarking.
-
-v1: https://lore.kernel.org/lkml/20240710090210.41856-1-kprateek.nayak@amd.com/
---
-
-
-K Prateek Nayak (4):
-  softirq: Allow raising SCHED_SOFTIRQ from SMP-call-function on RT
-    kernel
-  sched/core: Remove the unnecessary need_resched() check in
-    nohz_csd_func()
-  sched/fair: Check idle_cpu() before need_resched() to detect ilb CPU
-    turning busy
-  sched/core: Prevent wakeup of ksoftirqd during idle load balance
-
- kernel/sched/core.c |  4 ++--
- kernel/sched/fair.c |  2 +-
- kernel/softirq.c    | 15 +++++++++++----
- 3 files changed, 14 insertions(+), 7 deletions(-)
-
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 7b525c904462..03248ca887b5 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -280,17 +280,24 @@ static inline void invoke_softirq(void)
+ 		wakeup_softirqd();
+ }
+ 
++#define SCHED_SOFTIRQ_MASK	BIT(SCHED_SOFTIRQ)
++
+ /*
+  * flush_smp_call_function_queue() can raise a soft interrupt in a function
+- * call. On RT kernels this is undesired and the only known functionality
+- * in the block layer which does this is disabled on RT. If soft interrupts
+- * get raised which haven't been raised before the flush, warn so it can be
++ * call. On RT kernels this is undesired and the only known functionalities
++ * are in the block layer which is disabled on RT, and in the scheduler for
++ * idle load balancing. If soft interrupts get raised which haven't been
++ * raised before the flush, warn if it is not a SCHED_SOFTIRQ so it can be
+  * investigated.
+  */
+ void do_softirq_post_smp_call_flush(unsigned int was_pending)
+ {
+-	if (WARN_ON_ONCE(was_pending != local_softirq_pending()))
++	unsigned int is_pending = local_softirq_pending();
++
++	if (unlikely(was_pending != is_pending)) {
++		WARN_ON_ONCE(was_pending != (is_pending & ~SCHED_SOFTIRQ_MASK));
+ 		invoke_softirq();
++	}
+ }
+ 
+ #else /* CONFIG_PREEMPT_RT */
 -- 
 2.34.1
 
