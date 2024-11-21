@@ -1,76 +1,188 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35958487BE
-	for <linux-rt-devel@lists.linux.dev>; Wed, 20 Nov 2024 16:40:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E8715CD42
+	for <linux-rt-devel@lists.linux.dev>; Thu, 21 Nov 2024 07:39:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732120848; cv=none; b=getc0VlHG7mg972T/xWfyAXH9ZRagToQI6N1klnNUdDX/gGp9jP3ok1VAp5mJ+4b/GcAjDtqCAxSDYkoWnGi6VXMPfvf/vSUhcnz50RcKTH5SqJ/UjKE9EbK5YoR3jxjh0IgCJWKes2rzG03NJJ1mWjS0U2YGvDAOS2u8xpQbM8=
+	t=1732174747; cv=none; b=GVJ9pF85sDTdq0RDE5npskGkk0SNi7SbF78K9mgN8/nR2+rWOVzqcGdf9uFLjoBOKpuD2P8dzyLslf4wu6KBv0lyftKjOMAIlJwsoGlXx7eI/93eO/SoEarAV2dNPXnbSNHMydpX+hVtEA+I1FRQZb5XLhDcRYkjqAK0+Smb/Nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732120848; c=relaxed/simple;
-	bh=a9dNUhI2QgLPA72+LOzAsUcyH0YlbCoeEvSVL8YwBSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d9A7M3I0PZw0Nq2iTNeH20sP4qMsAHK2jV6qKP/LjloYVIVcKrahr+dIIYbuWCwXYQObOocmhVrGl5N2jbsXop3QhM4xg9uHjvAbL6kfEMqGQR7/TqU5HdxtxwI0VC72aw0nmx8zuaqxnlaQuOihdITCouCBiotPMmXH/usfXyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XdbywSom; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ohY0Ra6p; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1732174747; c=relaxed/simple;
+	bh=0mNbvn1SFyjy2OOqBy9OO9VK2ZbbcJPMtV0ZKO8QwvY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PGaonEFSE3QjFNrkxprLLtnyjBB0IqM1gKmgJYbLccUAR8odfuJOutab9bOlqC5QVHCIGigWo9epVz6BnX0tfLNPT7EdqwLaRK/PfFw1bK4iMf7vAi9tXoeS05ovgZCNMbgpbCoV30mGD3YB1CH+nzq736CYOED58kYQxoY8EQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DGvKlbka; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PxXPMGND; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XdbywSom";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ohY0Ra6p"
-Date: Wed, 20 Nov 2024 17:40:43 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DGvKlbka";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PxXPMGND"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1732120845;
+	s=2020; t=1732174736;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a9dNUhI2QgLPA72+LOzAsUcyH0YlbCoeEvSVL8YwBSs=;
-	b=XdbywSomNMelXmfdhFqclN5FpQ/NThcQYPxw1MYKI/DNUOQLY1431cZOPCjwYI+h02gk8K
-	BeQGaMvQEn2BoPudDfvDwRncZjzvHRTFhP7ou7GFKmgl8ijzFabI52TAP3YXec1X4q+aws
-	a7dpwp+wH8rGWdIVDZRmNhNsH41FNSbTaLo1M1uYCh8qQ9QPq5pYQfL/9OeN34r+Hzt6my
-	GlavEsvJRpQy9UqWTpD+NCsOyW2BDF/uQ7J4b5jBJ9A0Bn06zOlWv6f8xS5jS9qQuvxZR/
-	qgQ9q3J5q3qX+IWOsgCR9ReirUmv/Uzdm1DZRnUk6dZyyX+rT4V/noO185t60Q==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xn0nijE3Gdm1C3OOWwYkq9mZCdk+DfIymWGjrWpc1L0=;
+	b=DGvKlbkaZESL2BDPHwxlsem3KaSSGLL/Wqi/0jZqiR2tlqiH6YdiA1/88hCfzfJtBm2fV6
+	SvwCEcMcHPvPP2KcXHI/SVR+/dTqPLlee7qIq4KaJ/khs63BRWe/bZ+KdukVrqUy7oYA9u
+	ISYS3bH52yR1UKaomc+yDmi42DStMDOto2/vIygYQxatSTmz58NoaLKb4j7kf8yv9Vrr2k
+	LDAyAOraDmaMQQG72+EfPP47QG3z7O8KhATpCR5yRtZQDD5np8vnU5TTrd7G7nLnFzOfCt
+	jX5NyNn9HlWK/XZmAQNbJUlo10Q8QwWmpsEa5TolJa/Ne9zkz5ntVHsLRbSdbw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1732120845;
+	s=2020e; t=1732174736;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a9dNUhI2QgLPA72+LOzAsUcyH0YlbCoeEvSVL8YwBSs=;
-	b=ohY0Ra6peMKylhOY2pL8Kelfgc0LvJzcCh7au4yHQj7ccjcMecxMxmD5zfYMpEXDqu4OBt
-	6ZKeCWlKnpNObbCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Alessandro Carminati <acarmina@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Clark Williams <clrkwllms@kernel.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Thomas Weissschuh <thomas.weissschuh@linutronix.de>,
-	Alessandro Carminati <alessandro.carminati@gmail.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Eric Chanudet <echanude@redhat.com>
-Subject: Re: [PATCH] mm/kmemleak: Fix sleeping function called from invalid
- context in kmemleak_seq_show
-Message-ID: <20241120164043.T1JuBALe@linutronix.de>
-References: <20241120102325.3538-1-acarmina@redhat.com>
- <Zz332cG45rNSeE_B@arm.com>
- <20241120102602.3e17f2d5@gandalf.local.home>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xn0nijE3Gdm1C3OOWwYkq9mZCdk+DfIymWGjrWpc1L0=;
+	b=PxXPMGNDyh4uQu0sfU5R5dn6qxE6jBGsomBOpLLWV3uYCx7TE2J1VrqIHOZPWmiETtbjfN
+	O573Q19HLExh8wBg==
+Date: Thu, 21 Nov 2024 08:38:08 +0100
+Subject: [PATCH] kprobes: Reduce preempt disable scope in
+ check_kprobe_access_safe()
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241120102602.3e17f2d5@gandalf.local.home>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20241121-kprobes-preempt-v1-1-fd581ee7fcbb@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAF/jPmcC/x2MWwqAIBAArxL7naBSkV0l+uix1hKVuBGBePeWP
+ mdgJgFjJGToigQRH2K6TgFTFjBv47miokUYrLaVMVarPcRrQlYhIh7hVtq1tvE11oubQSrxnt7
+ /2A85f2EJ5aBhAAAA
+X-Change-ID: 20241120-kprobes-preempt-09826f5e5d9c
+To: Naveen N Rao <naveen@kernel.org>, 
+ Anil S Keshavamurthy <anil.s.keshavamurthy@intel.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ linux-rt-devel@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1732174733; l=3905;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=0mNbvn1SFyjy2OOqBy9OO9VK2ZbbcJPMtV0ZKO8QwvY=;
+ b=0/TI3xrXhoMu8f4MLWUEecTzN5qTwekglXesD5hXPBW0zgprOOY5TJlu77HnFvZtH2feUt9nl
+ A8DxuuU5eyFDCkU18dDNjsrowncAgxh0wFczEbILmRKiGlVruP/Qa0S
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On 2024-11-20 10:26:02 [-0500], Steven Rostedt wrote:
-> The "%pK" dereferences a pointer and there's some SELinux hooks attached to
-> that code. The problem is that the SELinux hooks take spinlocks. This would
-> not have been an issue if it wasn't for that "%pK" in the format.
+Commit a189d0350f387 ("kprobes: disable preempt for module_text_address() and kernel_text_address()")
+introduced a preempt_disable() region to protect against concurrent
+module unloading. However this region also includes the call to
+jump_label_text_reserved() which takes a long time;
+up to 400us, iterating over approx 6000 jump tables.
 
-That is missing check and I think Thomas Weissschuh wanted to add it. So
-we don't call into selinux.
+The scope protected by preempt_disable() is largen than necessary.
+core_kernel_text() does not need to be protected as it does not interact
+with module code at all.
+Only the scope from __module_text_address() to try_module_get() needs to
+be protected.
+By limiting the critical section to __module_text_address() and
+try_module_get() the function responsible for the latency spike remains
+preemptible.
 
-Sebastian
+This works fine even when !CONFIG_MODULES as in that case
+try_module_get() will always return true and that block can be optimized
+away.
+
+Limit the critical section to __module_text_address() and
+try_module_get(). Use guard(preempt)() for easier error handling.
+
+While at it also remove a spurious *probed_mod = NULL in an error
+path. On errors the output parameter is never inspected by the caller.
+Some error paths were clearing the parameters, some didn't.
+Align them for clarity.
+
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ kernel/kprobes.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/kernel/kprobes.c b/kernel/kprobes.c
+index da59c68df8412c4662d39d3e286d516e8cee9a69..369020170e832a34ea9c05eda6693bded02ec505 100644
+--- a/kernel/kprobes.c
++++ b/kernel/kprobes.c
+@@ -39,6 +39,7 @@
+ #include <linux/static_call.h>
+ #include <linux/perf_event.h>
+ #include <linux/execmem.h>
++#include <linux/cleanup.h>
+ 
+ #include <asm/sections.h>
+ #include <asm/cacheflush.h>
+@@ -1570,16 +1571,25 @@ static int check_kprobe_address_safe(struct kprobe *p,
+ 	if (ret)
+ 		return ret;
+ 	jump_label_lock();
+-	preempt_disable();
+ 
+ 	/* Ensure the address is in a text area, and find a module if exists. */
+ 	*probed_mod = NULL;
+ 	if (!core_kernel_text((unsigned long) p->addr)) {
++		guard(preempt)();
+ 		*probed_mod = __module_text_address((unsigned long) p->addr);
+ 		if (!(*probed_mod)) {
+ 			ret = -EINVAL;
+ 			goto out;
+ 		}
++
++		/*
++		 * We must hold a refcount of the probed module while updating
++		 * its code to prohibit unexpected unloading.
++		 */
++		if (unlikely(!try_module_get(*probed_mod))) {
++			ret = -ENOENT;
++			goto out;
++		}
+ 	}
+ 	/* Ensure it is not in reserved area. */
+ 	if (in_gate_area_no_mm((unsigned long) p->addr) ||
+@@ -1588,21 +1598,13 @@ static int check_kprobe_address_safe(struct kprobe *p,
+ 	    static_call_text_reserved(p->addr, p->addr) ||
+ 	    find_bug((unsigned long)p->addr) ||
+ 	    is_cfi_preamble_symbol((unsigned long)p->addr)) {
++		module_put(*probed_mod);
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+ 
+ 	/* Get module refcount and reject __init functions for loaded modules. */
+ 	if (IS_ENABLED(CONFIG_MODULES) && *probed_mod) {
+-		/*
+-		 * We must hold a refcount of the probed module while updating
+-		 * its code to prohibit unexpected unloading.
+-		 */
+-		if (unlikely(!try_module_get(*probed_mod))) {
+-			ret = -ENOENT;
+-			goto out;
+-		}
+-
+ 		/*
+ 		 * If the module freed '.init.text', we couldn't insert
+ 		 * kprobes in there.
+@@ -1610,13 +1612,11 @@ static int check_kprobe_address_safe(struct kprobe *p,
+ 		if (within_module_init((unsigned long)p->addr, *probed_mod) &&
+ 		    !module_is_coming(*probed_mod)) {
+ 			module_put(*probed_mod);
+-			*probed_mod = NULL;
+ 			ret = -ENOENT;
+ 		}
+ 	}
+ 
+ out:
+-	preempt_enable();
+ 	jump_label_unlock();
+ 
+ 	return ret;
+
+---
+base-commit: adc218676eef25575469234709c2d87185ca223a
+change-id: 20241120-kprobes-preempt-09826f5e5d9c
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
