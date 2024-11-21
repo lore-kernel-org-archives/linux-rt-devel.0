@@ -1,122 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816C81AB51B
-	for <linux-rt-devel@lists.linux.dev>; Thu, 21 Nov 2024 16:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D20084D2B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 21 Nov 2024 17:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732207824; cv=none; b=CmsZTegM9WNeQber6ZV4vkqMRvFfrVrcNDHwhcUzcBZNYJy8JQMJyiYBdlvgvxnkBV4aODaaGHJAzgbWfugn28d78HALJSRoXZhAITxJalgTOTCwby/IWNGHyzgM2c/RFL6VcNDPnyW5r9V31ZqK64cKPeP/dVNXcbQDTkqq3Kg=
+	t=1732208641; cv=none; b=PFxuS/JbtToU90ewHz2U7uNVKnOAIp18087Pb9I4xLgqBMGAV9I5q5OVo7zpQpwfIridAHZYdVPKe8BtjEqsKHvgCyyxQGoGl8kLZ3gMgQVYoHAASaSh+AHaJh98S8ZCsuQA6MZH9DOHZznYdNUZO9w3R6N8/HGl0gpYdINsCXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732207824; c=relaxed/simple;
-	bh=1wgsHwaA0ppCKt9C0JManJN0XmnECUlYYPcU/vVra5s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BYPMuoWMnLCHoaWuJm4o25L4nxOSzrsMYpBxQ33r2N+gD8NA7ZGWo/ZJkq3lfKk2nK5P9YZmWq17FufKxaIHzM+s+SurUswfhVgBm3JJQBR5A40/vmOwP5LE+qYlYqQ3zwcYs0A7c/PnDNsUacMgsnM7ltsLlx8dnYsyG8lJVcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NSCkjkLn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1732208641; c=relaxed/simple;
+	bh=gsVeeDT0PE0eLhTaYmgb/vHP3YXOVl/p460fTYStwy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APkhPSXSpN1N42IYJhRy1xYZ5vGfHz1/rIOzkDmu2P1MPPU0Sp10L5tH8KKyMNlJkyrbWfLmHqN5678fkndCCQb5eDar5RXSoY+RAh4ixvSA78AEwfSBHus59Clruw9rWtOo0m864qeJEyh5ApUSRYofDorGVgt0099LWIZUAlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AnJAzri0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ebDQDwM8; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NSCkjkLn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1732207821;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AnJAzri0";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ebDQDwM8"
+Date: Thu, 21 Nov 2024 18:03:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1732208638;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=1wgsHwaA0ppCKt9C0JManJN0XmnECUlYYPcU/vVra5s=;
-	b=NSCkjkLnOQw9+5pSsG1iJHS29snvGG86NmCfgdxnvQ+hji4jpqCI/evJAshB23MLjGzICZ
-	XJi/b9WSgBn2uEauSlOAgMxWuqulPtIU/DUUbjcFdgJoEotOiN7Dw2pwdqSohRoNrAcpsL
-	FfGcQcaupmFZ0rkRc4Z1hB7I/RbYAzE=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-421-CmdMHRbvMgmIneHnkTDXhw-1; Thu, 21 Nov 2024 11:50:19 -0500
-X-MC-Unique: CmdMHRbvMgmIneHnkTDXhw-1
-X-Mimecast-MFC-AGG-ID: CmdMHRbvMgmIneHnkTDXhw
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-20e5df3e834so10429535ad.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 21 Nov 2024 08:50:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732207818; x=1732812618;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1wgsHwaA0ppCKt9C0JManJN0XmnECUlYYPcU/vVra5s=;
-        b=eDxpu7hU2M1SIAOjbFgeAN2jgYLxqed5OsHESwQEC876LydYVIB1gV/TfNVQVKar79
-         0jp1gta+kPZdllf40CwjuyYh417xNWoPf9p3P0XuCU6K3ZalHwT1Asg4+2t4d1w3gOF/
-         uOFR4LmoEEf58cbQPFoHU5EikbvA+uXWUutbDlUxhXvJiOAalXGxMwd6kNYxUAuKRi1S
-         YXDPUb5lq8bIetsHZGCM5PlkZqor87dn4VHfDEw2XWg/QZtQeFiZdoNbCAjNf1hp9iPf
-         FYkvLDPKJGiVWTE7/UOy4W2PH4k/os1eqDM1o6uGSB+Tc2XqS65cuYVOrOgbdmD+zcF+
-         Ssvw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsvlr+/feuRO9nBblLfnGWgpIrpS4TO3r8m5G/6Sp3mN97lB67G+n+PsIkn8cFkiwNjy4OXkgGuKDD2A1K9Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyFyelWSQS9g3dlQMyVMpN8FEi4FngO7i7Pn/gyqfQ6s/WGW9z
-	JM0Y59R4mpyY2CdSNMx7722fmHVz3kUBsJDlIGwIC5tX1nnyCoynN6n4E3ujhyr7z67MATzvMkv
-	2gGcYqHLAHgIENxERmsxfhlYjpmpCglvxrAWQonrVAcJLV1q6inqamG85iTfpEBT2yW1+yRDC9h
-	E+owdwgeK8vjHmZ+Olcs1U7G8Zl4KQd9BwL/qeRPY=
-X-Gm-Gg: ASbGncuoQs9wobn1leXfACbHKlGHrPMY36rfXC/P3H1Nddes8h20A38f3s7W9tHRrmP
-	iroZ1sVdfU6yskc4blKebLi+gBDMFtpcF
-X-Received: by 2002:a17:902:ced2:b0:211:f52d:4dfb with SMTP id d9443c01a7336-2126c1660aemr96184525ad.34.1732207817973;
-        Thu, 21 Nov 2024 08:50:17 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGYwUegOvnUGuFukyLEfp4g21DL42Vh3B29dqLz+MjQehoS8+iFeVjSAEr24CHu4SkIJ/uk9NSquFZC4b2ShW4=
-X-Received: by 2002:a17:902:ced2:b0:211:f52d:4dfb with SMTP id
- d9443c01a7336-2126c1660aemr96184165ad.34.1732207817661; Thu, 21 Nov 2024
- 08:50:17 -0800 (PST)
+	bh=gsVeeDT0PE0eLhTaYmgb/vHP3YXOVl/p460fTYStwy4=;
+	b=AnJAzri0dx9qoeJHBwWB3tOmHcOe0a4hrBItD55XDsCGfsMjAjYg5GziTQY9h//24SyAjE
+	9b+wZXaRVbloBS0ubd01Ard7XJJwnxLoz0CULwMCZpFCfV7MXBCkI7YMASYI//uvr5uJEd
+	xUlqs2jhjALy2jODR7he1RTCRslCZR5pwmsDQTAGg3mWd+SRglMx8/Ow6lyTA0xg4InUkr
+	oUjAa+xEydfy/IzhwQiVs59736uP2GfcmKOpO6WFzjJeDMY+76UM3lghpYyrhR8oXQOQ62
+	QyHESm3Lxlx2GLLjHlp7RdRwH5HBn28FpC8iagliNyrNqEkJL3uC1JukuDGhhg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1732208638;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gsVeeDT0PE0eLhTaYmgb/vHP3YXOVl/p460fTYStwy4=;
+	b=ebDQDwM8tFsWvVfHSNy3P3COE0Vq8ZUoQfcFZJ9WbWJi1Hca90syqjqTdaYVb/kvUHWksV
+	uZezUUWqJm0XGsBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Alessandro Carminati <acarmina@redhat.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Clark Williams <clrkwllms@kernel.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Thomas Weissschuh <thomas.weissschuh@linutronix.de>,
+	Alessandro Carminati <alessandro.carminati@gmail.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Eric Chanudet <echanude@redhat.com>
+Subject: Re: [PATCH] mm/kmemleak: Fix sleeping function called from invalid
+ context in kmemleak_seq_show
+Message-ID: <20241121170356.eC7f3-1v@linutronix.de>
+References: <20241120102325.3538-1-acarmina@redhat.com>
+ <Zz332cG45rNSeE_B@arm.com>
+ <20241120102602.3e17f2d5@gandalf.local.home>
+ <20241120164043.T1JuBALe@linutronix.de>
+ <CAGegRW4B5PO0HgY1TvsV_R0hPSa5vHk7f=fy0skMpcy+BT399Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241120102325.3538-1-acarmina@redhat.com> <Zz332cG45rNSeE_B@arm.com>
- <20241120102602.3e17f2d5@gandalf.local.home> <20241120164043.T1JuBALe@linutronix.de>
-In-Reply-To: <20241120164043.T1JuBALe@linutronix.de>
-From: Alessandro Carminati <acarmina@redhat.com>
-Date: Thu, 21 Nov 2024 17:50:06 +0100
-Message-ID: <CAGegRW4B5PO0HgY1TvsV_R0hPSa5vHk7f=fy0skMpcy+BT399Q@mail.gmail.com>
-Subject: Re: [PATCH] mm/kmemleak: Fix sleeping function called from invalid
- context in kmemleak_seq_show
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Clark Williams <clrkwllms@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Thomas Weissschuh <thomas.weissschuh@linutronix.de>, 
-	Alessandro Carminati <alessandro.carminati@gmail.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Gabriele Paoloni <gpaoloni@redhat.com>, Eric Chanudet <echanude@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5mq4rRl748IObgqfSwdQutff7MBIBlQ9y4Y3eviUFmc_1732207818
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAGegRW4B5PO0HgY1TvsV_R0hPSa5vHk7f=fy0skMpcy+BT399Q@mail.gmail.com>
 
-Hello Sebastian,
+On 2024-11-21 17:50:06 [+0100], Alessandro Carminati wrote:
+> Hello Sebastian,
+Hi Alessandro,
 
-On Wed, Nov 20, 2024 at 5:40=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2024-11-20 10:26:02 [-0500], Steven Rostedt wrote:
-> > The "%pK" dereferences a pointer and there's some SELinux hooks attache=
-d to
-> > that code. The problem is that the SELinux hooks take spinlocks. This w=
-ould
-> > not have been an issue if it wasn't for that "%pK" in the format.
->
-> That is missing check and I think Thomas Weissschuh wanted to add it. So
-> we don't call into selinux.
+> On Wed, Nov 20, 2024 at 5:40=E2=80=AFPM Sebastian Andrzej Siewior
+> <bigeasy@linutronix.de> wrote:
+> >
+> > On 2024-11-20 10:26:02 [-0500], Steven Rostedt wrote:
+> > > The "%pK" dereferences a pointer and there's some SELinux hooks attac=
+hed to
+> > > that code. The problem is that the SELinux hooks take spinlocks. This=
+ would
+> > > not have been an issue if it wasn't for that "%pK" in the format.
+> >
+> > That is missing check and I think Thomas Weissschuh wanted to add it. So
+> > we don't call into selinux.
+>=20
+> Your comment confuses me a bit, as I'm unsure what Thomas is actually
+> working on.
+> Am I correct in assuming he's addressing a fix in lib/vsprintf.c to ensure
+> that sleeping functions aren't called, allowing these functions to work in
+> any context?
 
-Your comment confuses me a bit, as I'm unsure what Thomas is actually
-working on.
-Am I correct in assuming he's addressing a fix in lib/vsprintf.c to ensure
-that sleeping functions aren't called, allowing these functions to work in
-any context?
-However, his mention of "This fix for kmemleak is still needed as the
-pointers in the kmemleak report are useful" adds to my confusion.
-Meanwhile, Steven suggests reworking SELinux to resolve the issue.
-Could you clarify what you mean by "So we don't call into selinux"?
+restricted_pointer() has a check for in_hardirq() among others. This
+needs an additional PREEMPT_RT check.
+I would be actual in favour to get rid of case 1 for kptr_restrict and
+have either 0 or 2.
 
->
-> Sebastian
->
+> However, his mention of "This fix for kmemleak is still needed as the
+> pointers in the kmemleak report are useful" adds to my confusion.
+> Meanwhile, Steven suggests reworking SELinux to resolve the issue.
+> Could you clarify what you mean by "So we don't call into selinux"?
 
-Thanks
---=20
----
-172
+This getting out of hand. By adding the PREEMPT_RT check to
+restricted_pointer() we don't call in selinux so the problem is gone.
+kmemleak is not the only problem. printk(), as another of vspritf pointer
+code user, can be called from any place and would also trigger a
+warning here.
+As far as "kmemleak need to be usefull" goes: With kptr_restrict =3D=3D 0
+then with or without pointer hashing they will be useful. If we need to
+go via selinux then it ends as a hint.
 
+Sebastian
