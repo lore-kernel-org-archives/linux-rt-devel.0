@@ -1,188 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1805812C470;
-	Mon, 25 Nov 2024 05:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A49D91917EE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 25 Nov 2024 09:48:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732512326; cv=none; b=lOWIwJQJuESnevbTTBlRgpmwbWUWiV2FqLFgU2z4CiaUZeCY1tUmAjW0Oorl5+wBUbfbc1yyH0X2x7UvZ+UHkAEOj0jdpThBdA3ELO9U/4DeKo8zgTSP3ZHqSYd5BWhUHv6viG4En1edYIbCuVrI4PQTMirAxuP07MTJH8NQ7kQ=
+	t=1732528104; cv=none; b=IOEFx2XWo5hpqz/IjlsJDf2guXcPhQQWku6IuLB6nWGMQ6NYWJcQVrWemp0ryUureShwwtPT5PaKc12o40Esm9oqSgAyvKjWuwa4sKMeNOfvhGtYt7fFxCgdh8BhC+hW/PzSYRHiEODDIFAidW6FX7YtWsvGqkeNi9ZgJmLR5RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732512326; c=relaxed/simple;
-	bh=L0pmXvqHV4+w5TZGkrN9Gq9bZ/z4LU3UH+6SB1zRC1U=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=poAoTXugrlHrM/CskXhGteZUJsAOrxJELlpepORlpYwT37mdX0IwVIDgRNghTQKLGLlK/w87aqkTp6H+FAo4jwXr5Isi0MT49lz8vgW7v10vEkV7RPTlIZRV1/uvDSVWJBjJiAZPThN4PsWU2dRl7ybKh4ywBnrmRroT2FhVAlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E0gE3Prj; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E0gE3Prj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFD65C4CECE;
-	Mon, 25 Nov 2024 05:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732512325;
-	bh=L0pmXvqHV4+w5TZGkrN9Gq9bZ/z4LU3UH+6SB1zRC1U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=E0gE3Prj1GXb2munkfOfR+To6clGBTn/JkBZWopiwRSquCfb+9JhfyEWSWOxaRD1I
-	 hKQj5Z0NPJrlFqUSZz9fMfj4fv454oamNcQhQl7LlYdz6IsOVLvdfTjW3iTswD2due
-	 4URkJfdXFbG9AszKZ/jl45/dhgPOZfxfvxG0SGzSu7jCWl4LG5+FYyM/OW4cHzRpj3
-	 xXD0fmL4cHBqEnyCktuzCATP2orB+Fnftvm47NGWqBneZmczs9N6JFlzN1z71xV+z0
-	 drMcjpyWn8nsG0f3FppNj4RYy2phblXh2UAlQXieE2S/07a18gSPzgfjGNmAy250DY
-	 JFemH6fLZWD5g==
-Date: Mon, 25 Nov 2024 14:25:20 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Thomas =?UTF-8?B?V2Vpw59zY2h1aA==?= <thomas.weissschuh@linutronix.de>
-Cc: Naveen N Rao <naveen@kernel.org>, Anil S Keshavamurthy
- <anil.s.keshavamurthy@intel.com>, "David S. Miller" <davem@davemloft.net>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] kprobes: Reduce preempt disable scope in
- check_kprobe_access_safe()
-Message-Id: <20241125142520.85539bd25f3a686c5e507130@kernel.org>
-In-Reply-To: <20241121-kprobes-preempt-v1-1-fd581ee7fcbb@linutronix.de>
-References: <20241121-kprobes-preempt-v1-1-fd581ee7fcbb@linutronix.de>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1732528104; c=relaxed/simple;
+	bh=/CuwZ1rOEJvX66GQSZdDge+/U8xEQr/fcLbOx2BPmo0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Hj7tMKZ2ED5S0ypWWXJ2dTqa10uLVMrCe9X2enBPAUEl4xl+TTwC2YN3QbreL8QS2NiZFUI6VE4s/kQdTB0sXSVH4qJH7cSKYKxOqD+HmdYNsUSjmBxxu0R05P769MkVgDLJ9yc0ZYw1clx77/16Wa8/1LBKToBYD+1QUJZw3io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF6F41692;
+	Mon, 25 Nov 2024 01:48:50 -0800 (PST)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B92CF3F66E;
+	Mon, 25 Nov 2024 01:48:18 -0800 (PST)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: suzuki.poulose@arm.com,
+	mike.leach@linaro.org,
+	james.clark@linaro.org,
+	alexander.shishkin@linux.intel.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org
+Cc: coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	nd@arm.com,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH 0/9] coresight: change some driver' spinlock type to raw_spinlock_t
+Date: Mon, 25 Nov 2024 09:48:07 +0000
+Message-Id: <20241125094816.365472-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Thu, 21 Nov 2024 08:38:08 +0100
-Thomas Weißschuh <thomas.weissschuh@linutronix.de> wrote:
+In some coresight drivers, drvdata->spinlock can be held during __schedule()
+by perf_event_task_sched_out()/in().
 
-> Commit a189d0350f387 ("kprobes: disable preempt for module_text_address() and kernel_text_address()")
-> introduced a preempt_disable() region to protect against concurrent
-> module unloading. However this region also includes the call to
-> jump_label_text_reserved() which takes a long time;
-> up to 400us, iterating over approx 6000 jump tables.
+Since drvdata->spinlock type is spinlock_t and
+perf_event_task_sched_out()/in() is called after acquiring rq_lock,
+which is raw_spinlock_t (an unsleepable lock),
+this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 
-Oops, that's too long.
+To address this,change type drvdata->spinlock in some coresight drivers,
+which can be called by perf_event_task_sched_out()/in(),
+from spinlock_t to raw_spinlock_t.
 
-> 
-> The scope protected by preempt_disable() is largen than necessary.
-> core_kernel_text() does not need to be protected as it does not interact
-> with module code at all.
-> Only the scope from __module_text_address() to try_module_get() needs to
-> be protected.
-> By limiting the critical section to __module_text_address() and
-> try_module_get() the function responsible for the latency spike remains
-> preemptible.
+Levi Yun (9):
+  coresight: change coresight_device lock type to raw_spinlock_t
+  coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
+  coresight: change coresight_trace_id_map's lock type to raw_spinlock_t
+  coresight-cti: change cti_drvdata spinlock's type to raw_spinlock_t
+  coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
+  coresight-funnel: change funnel_drvdata spinlock's type to
+    raw_spinlock_t
+  coresight-replicator: change replicator_drvdata spinlock's type to
+    raw_spinlock_t
+  coresight-tmc: change tmc_drvdata spinlock's type to raw_spinlock_t
+  coresight/ultrasoc: change cti_drvdata spinlock's type to
+    raw_spinlock_t
 
-Yes, after getting the module refcount, no need to take care of
-preemption.
+ .../hwtracing/coresight/coresight-config.c    |  21 +-
+ .../hwtracing/coresight/coresight-config.h    |   2 +-
+ drivers/hwtracing/coresight/coresight-core.c  |   2 +-
+ .../hwtracing/coresight/coresight-cti-core.c  |  65 +-
+ .../hwtracing/coresight/coresight-cti-sysfs.c | 135 +++--
+ drivers/hwtracing/coresight/coresight-cti.h   |   2 +-
+ drivers/hwtracing/coresight/coresight-etb10.c |  62 +-
+ .../coresight/coresight-etm4x-core.c          |  71 ++-
+ .../coresight/coresight-etm4x-sysfs.c         | 566 +++++++++---------
+ drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
+ .../hwtracing/coresight/coresight-funnel.c    |  34 +-
+ .../coresight/coresight-replicator.c          |  36 +-
+ .../hwtracing/coresight/coresight-syscfg.c    |  75 ++-
+ .../hwtracing/coresight/coresight-tmc-core.c  |   9 +-
+ .../hwtracing/coresight/coresight-tmc-etf.c   | 195 +++---
+ .../hwtracing/coresight/coresight-tmc-etr.c   | 199 +++---
+ drivers/hwtracing/coresight/coresight-tmc.h   |   2 +-
+ .../hwtracing/coresight/coresight-trace-id.c  |  93 ++-
+ drivers/hwtracing/coresight/ultrasoc-smb.c    |  12 +-
+ drivers/hwtracing/coresight/ultrasoc-smb.h    |   2 +-
+ include/linux/coresight.h                     |   4 +-
+ 21 files changed, 751 insertions(+), 838 deletions(-)
 
-> 
-> This works fine even when !CONFIG_MODULES as in that case
-> try_module_get() will always return true and that block can be optimized
-> away.
-> 
-> Limit the critical section to __module_text_address() and
-> try_module_get(). Use guard(preempt)() for easier error handling.
-> 
-> While at it also remove a spurious *probed_mod = NULL in an error
-> path. On errors the output parameter is never inspected by the caller.
-> Some error paths were clearing the parameters, some didn't.
-> Align them for clarity.
-> 
-> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
-Looks good to me. let me pick it.
-
-Thank you,
-
-> ---
->  kernel/kprobes.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/kernel/kprobes.c b/kernel/kprobes.c
-> index da59c68df8412c4662d39d3e286d516e8cee9a69..369020170e832a34ea9c05eda6693bded02ec505 100644
-> --- a/kernel/kprobes.c
-> +++ b/kernel/kprobes.c
-> @@ -39,6 +39,7 @@
->  #include <linux/static_call.h>
->  #include <linux/perf_event.h>
->  #include <linux/execmem.h>
-> +#include <linux/cleanup.h>
->  
->  #include <asm/sections.h>
->  #include <asm/cacheflush.h>
-> @@ -1570,16 +1571,25 @@ static int check_kprobe_address_safe(struct kprobe *p,
->  	if (ret)
->  		return ret;
->  	jump_label_lock();
-> -	preempt_disable();
->  
->  	/* Ensure the address is in a text area, and find a module if exists. */
->  	*probed_mod = NULL;
->  	if (!core_kernel_text((unsigned long) p->addr)) {
-> +		guard(preempt)();
->  		*probed_mod = __module_text_address((unsigned long) p->addr);
->  		if (!(*probed_mod)) {
->  			ret = -EINVAL;
->  			goto out;
->  		}
-> +
-> +		/*
-> +		 * We must hold a refcount of the probed module while updating
-> +		 * its code to prohibit unexpected unloading.
-> +		 */
-> +		if (unlikely(!try_module_get(*probed_mod))) {
-> +			ret = -ENOENT;
-> +			goto out;
-> +		}
->  	}
->  	/* Ensure it is not in reserved area. */
->  	if (in_gate_area_no_mm((unsigned long) p->addr) ||
-> @@ -1588,21 +1598,13 @@ static int check_kprobe_address_safe(struct kprobe *p,
->  	    static_call_text_reserved(p->addr, p->addr) ||
->  	    find_bug((unsigned long)p->addr) ||
->  	    is_cfi_preamble_symbol((unsigned long)p->addr)) {
-> +		module_put(*probed_mod);
->  		ret = -EINVAL;
->  		goto out;
->  	}
->  
->  	/* Get module refcount and reject __init functions for loaded modules. */
->  	if (IS_ENABLED(CONFIG_MODULES) && *probed_mod) {
-> -		/*
-> -		 * We must hold a refcount of the probed module while updating
-> -		 * its code to prohibit unexpected unloading.
-> -		 */
-> -		if (unlikely(!try_module_get(*probed_mod))) {
-> -			ret = -ENOENT;
-> -			goto out;
-> -		}
-> -
->  		/*
->  		 * If the module freed '.init.text', we couldn't insert
->  		 * kprobes in there.
-> @@ -1610,13 +1612,11 @@ static int check_kprobe_address_safe(struct kprobe *p,
->  		if (within_module_init((unsigned long)p->addr, *probed_mod) &&
->  		    !module_is_coming(*probed_mod)) {
->  			module_put(*probed_mod);
-> -			*probed_mod = NULL;
->  			ret = -ENOENT;
->  		}
->  	}
->  
->  out:
-> -	preempt_enable();
->  	jump_label_unlock();
->  
->  	return ret;
-> 
-> ---
-> base-commit: adc218676eef25575469234709c2d87185ca223a
-> change-id: 20241120-kprobes-preempt-09826f5e5d9c
-> 
-> Best regards,
-> -- 
-> Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-> 
-
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
