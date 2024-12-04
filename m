@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85402202C2F;
-	Wed,  4 Dec 2024 23:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93403206F30;
+	Wed,  4 Dec 2024 23:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354742; cv=none; b=PXhnw2xAVaiV/XJ3k2PD/m82M3YLdwGMf6KVJ3kOfh83R+RqKpw4LrTu/9zFwyhGupkk1HbPUq0x57l0uZgbP6E3gwNuDBnUow4lagkNmnIYDETXqahpgFXJwXtf1P3FurdDnb3gGRUffxbg8LGmqv66LJcu1Lv2g0EtZraXg9I=
+	t=1733354757; cv=none; b=euqNpBt6u2F/imKYCnM8OUr3/7UR9iNiDA98t+mXCYVcRRLxz+SeOkZuBAoEY2u4tH+dEkJQuiLJZRpHTkEKkXZCQF7zpEXmyqDqpq+yvvEWmnrLxahhax/4ciR78jJhn7sA1sZRrrZphXOO4Be1lIUmL491ZTqEEkrk3+7rxrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354742; c=relaxed/simple;
+	s=arc-20240116; t=1733354757; c=relaxed/simple;
 	bh=wvEWDS0MRBAvUU9k7QPWFJMHClIp5AqQirmurK03y68=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CMkl+K7zBGZWPlHGd7RnBk7+fXp7hEqICJhRd0EY4BWDc0fdONUofs5kSmLhxyB8x8CJyM2GNQRf6wfkiuP5Sw4TLQO6Uj/53x4wvtYXVX6ErPP+5NeBfhT2qW8Hh4UzGS32EaiY9hh3EXQfoRXDTgDOdiID/kO1QD0LGhKx13Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=frR4/tCl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dK8d7hL9PhTQWkHpc4ghl6w/3e9jXz6YWipdNHwFCa5YjPxjniA3BICBnx643CYgKNa+icCRwFbQ+SEQUQiMT0ynYSv32caN8gPluO7RGQVzXx9dGL/RSb0SwoOh9FV2QPACjPJhP+5JzaMqdbk9qHUJQcjh0ydNc6VAfxvP9ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjMt0W6J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="frR4/tCl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07ACBC4CED6;
-	Wed,  4 Dec 2024 23:25:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjMt0W6J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B255DC4CEDD;
+	Wed,  4 Dec 2024 23:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354742;
+	s=k20201202; t=1733354757;
 	bh=wvEWDS0MRBAvUU9k7QPWFJMHClIp5AqQirmurK03y68=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=frR4/tClpnAuLkI/rBVEAvs6Q7nffeHjPtBDh7a8ZK4dWrHU19zATj2u0WbTr4qPO
-	 CbPfdIba+Sasj/X/cI4UasfjeKcVNDSbhCXGfhDKW6CkNFkjS0OCiraNQ0wItCeTAS
-	 ZJMv8spirskg26r+rU18/hZFBc/512e1TNdJpB7p5eeMdFtdWP0RiXSXXiQTmCfUze
-	 p1lS0KUu7zrR5zTa6qOxeB/T/uvcEVJGMff0Ov6K8eV/Of1oVfSRJZmGYvs8YR3s9+
-	 srN1SCDnD1vX7UzCj/OWDvP+MbxDnaTanlmCzh6vWSyeOm/47RPBN3hzRowe/5fEom
-	 2DrfwUvy+aEcg==
+	b=IjMt0W6JcIF0OSJsx73sn5AVX8yqW3s0+aymY9MwBtXXpfg/lJIse43rc1fqbbZnE
+	 wqwzF5ZDBshIPZezf9e9bh3jHGH/fKFHN9rRdqZx7YtkXG1eSHtQbZ3txz+hxyOFwS
+	 fQHzTktqTJfJt7L5npMj/rzrQhpuSvNcCxsohShowFEZbcdnn1y+9Lf8rI0QFVOBPy
+	 S4+cZ+VkRM3f2J9e43umhVvAh7GE72LfQ3byIa4A6FRWljrPiG4739umAPks/D4szS
+	 vmMgHZktbXT+8+2dzxHJBgTTHdfU/2Qh8G03c6z1vJVm9Ldm2n/Y8l0H949CxE7T2h
+	 kBL0IX/D2hwtw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,17 +35,17 @@ Cc: Huacai Chen <chenhuacai@loongson.cn>,
 	bigeasy@linutronix.de,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
+	tangyouling@loongson.cn,
 	hejinyang@loongson.cn,
 	yangtiezhu@loongson.cn,
-	tangyouling@loongson.cn,
 	loongarch@lists.linux.dev,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 3/3] LoongArch: Fix sleeping in atomic context for PREEMPT_RT
-Date: Wed,  4 Dec 2024 17:14:07 -0500
-Message-ID: <20241204221416.2247010-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 3/3] LoongArch: Fix sleeping in atomic context for PREEMPT_RT
+Date: Wed,  4 Dec 2024 17:14:25 -0500
+Message-ID: <20241204221431.2247102-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221416.2247010-1-sashal@kernel.org>
-References: <20241204221416.2247010-1-sashal@kernel.org>
+In-Reply-To: <20241204221431.2247102-1-sashal@kernel.org>
+References: <20241204221431.2247102-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.1
+X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
 From: Huacai Chen <chenhuacai@loongson.cn>
