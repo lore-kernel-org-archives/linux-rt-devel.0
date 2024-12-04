@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93403206F30;
-	Wed,  4 Dec 2024 23:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65051206F02;
+	Wed,  4 Dec 2024 23:26:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354757; cv=none; b=euqNpBt6u2F/imKYCnM8OUr3/7UR9iNiDA98t+mXCYVcRRLxz+SeOkZuBAoEY2u4tH+dEkJQuiLJZRpHTkEKkXZCQF7zpEXmyqDqpq+yvvEWmnrLxahhax/4ciR78jJhn7sA1sZRrrZphXOO4Be1lIUmL491ZTqEEkrk3+7rxrk=
+	t=1733354772; cv=none; b=tZuOkZvNRJOx4bVd+FqFq9qo5VD7ocCKSemUUD7jPrD3H6q9tvkxsKE1YlTjFQoIBRsFd2j2yNGNUoR6l4h01/IcHBnhMJ43qYuJ5SnquX/tXbC0ztJc+OsmHFzgFQO8mqjsfQFzCT4ecSprm7ZuNEG7FlYNjCXyWi0w9kTnHqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354757; c=relaxed/simple;
-	bh=wvEWDS0MRBAvUU9k7QPWFJMHClIp5AqQirmurK03y68=;
+	s=arc-20240116; t=1733354772; c=relaxed/simple;
+	bh=V9u7XI+QSVXRCVDSdLlxcWtcxujY49M4RdlhubV46Gw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dK8d7hL9PhTQWkHpc4ghl6w/3e9jXz6YWipdNHwFCa5YjPxjniA3BICBnx643CYgKNa+icCRwFbQ+SEQUQiMT0ynYSv32caN8gPluO7RGQVzXx9dGL/RSb0SwoOh9FV2QPACjPJhP+5JzaMqdbk9qHUJQcjh0ydNc6VAfxvP9ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IjMt0W6J; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=KFSPLTUp/Hyr1OrUZGQdF7Gn0KsfZPS8eAmwczAbw/tBipCSDP9BIKvSemxpCmfQUQT8f6DxsBwOE8ay8uSgrfZRV0VqphiMZW+etV3p7tiLMkE3Dec+XVNVwMzaDz6P2In1JZnUnyDoJJdheOjyWfsKq35pyW1LqTHikO1MmVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WRKKX5uC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IjMt0W6J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B255DC4CEDD;
-	Wed,  4 Dec 2024 23:25:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WRKKX5uC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 769DBC4CECD;
+	Wed,  4 Dec 2024 23:26:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354757;
-	bh=wvEWDS0MRBAvUU9k7QPWFJMHClIp5AqQirmurK03y68=;
+	s=k20201202; t=1733354771;
+	bh=V9u7XI+QSVXRCVDSdLlxcWtcxujY49M4RdlhubV46Gw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IjMt0W6JcIF0OSJsx73sn5AVX8yqW3s0+aymY9MwBtXXpfg/lJIse43rc1fqbbZnE
-	 wqwzF5ZDBshIPZezf9e9bh3jHGH/fKFHN9rRdqZx7YtkXG1eSHtQbZ3txz+hxyOFwS
-	 fQHzTktqTJfJt7L5npMj/rzrQhpuSvNcCxsohShowFEZbcdnn1y+9Lf8rI0QFVOBPy
-	 S4+cZ+VkRM3f2J9e43umhVvAh7GE72LfQ3byIa4A6FRWljrPiG4739umAPks/D4szS
-	 vmMgHZktbXT+8+2dzxHJBgTTHdfU/2Qh8G03c6z1vJVm9Ldm2n/Y8l0H949CxE7T2h
-	 kBL0IX/D2hwtw==
+	b=WRKKX5uCVdA2HHsSVFeL8cCWUyjPigYgZ0u5323CpppSWQGPqEUS3tZtMwbNWDKxw
+	 b9wlkK67MlJvDBdRLTyII8/v7OLDtolB7KzkUsRdFz6nhrv42xE/z6cD9sJaQhZ/oh
+	 jOMqXgM0sbPqdKSL7BaNVKC1uKWcumVWnf3msG2H9RG3dxfpYm4BN78yguJjnmCfHb
+	 wXxG+pRFV2bi/SsCHytSViu/sQqnxYrfhpbC7iOgdDMKnDJ+G+VbbMlAeqlLGKL15k
+	 Vl6NspqX9LPxJKkQh4yqVwlbOLsEU6gdCEVQtPJ9IpkwwW8sMs2mnHLNlJurm2TR2a
+	 POAehfq2BXBHw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -36,16 +36,16 @@ Cc: Huacai Chen <chenhuacai@loongson.cn>,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	tangyouling@loongson.cn,
-	hejinyang@loongson.cn,
 	yangtiezhu@loongson.cn,
+	hejinyang@loongson.cn,
 	loongarch@lists.linux.dev,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.11 3/3] LoongArch: Fix sleeping in atomic context for PREEMPT_RT
-Date: Wed,  4 Dec 2024 17:14:25 -0500
-Message-ID: <20241204221431.2247102-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 3/3] LoongArch: Fix sleeping in atomic context for PREEMPT_RT
+Date: Wed,  4 Dec 2024 17:14:39 -0500
+Message-ID: <20241204221445.2247192-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221431.2247102-1-sashal@kernel.org>
-References: <20241204221431.2247102-1-sashal@kernel.org>
+In-Reply-To: <20241204221445.2247192-1-sashal@kernel.org>
+References: <20241204221445.2247192-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.10
+X-stable-base: Linux 6.6.63
 Content-Transfer-Encoding: 8bit
 
 From: Huacai Chen <chenhuacai@loongson.cn>
@@ -117,12 +117,12 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/loongarch/mm/tlb.c b/arch/loongarch/mm/tlb.c
-index 5ac9beb5f0935..3b427b319db21 100644
+index 56bf1dd5358aa..526310ec73c7e 100644
 --- a/arch/loongarch/mm/tlb.c
 +++ b/arch/loongarch/mm/tlb.c
-@@ -289,7 +289,7 @@ static void setup_tlb_handler(int cpu)
+@@ -292,7 +292,7 @@ static void setup_tlb_handler(int cpu)
  		/* Avoid lockdep warning */
- 		rcutree_report_cpu_starting(cpu);
+ 		rcu_cpu_starting(cpu);
  
 -#ifdef CONFIG_NUMA
 +#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
