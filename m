@@ -1,162 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE6B187FF4;
-	Wed,  4 Dec 2024 06:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5871C1B4C35
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Dec 2024 11:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733294594; cv=none; b=uxaX9Ycs59+PDPSOaNr+jyJwRA9w/Cp50t8AU6i925wkHW9jDvM+5G7WYQ5PEGqCcNhmoScp6ez0VXfydqZMvfWsHOu0NFZbKUstzvub1qubDD4i3BKWahtCx/9idgAxiNGct9rjSyDGF1OGUjezsxgHXaS80cT5jcWxeIOqiVs=
+	t=1733312613; cv=none; b=LqLugA92Sz/r+wuXCWJC+WTqJXqS+L39KlkJ8tMyyuO8UdvaI9VcnLOoOx2xuLeq+eI9qUxOQvS5zlF7idG3LYoDqQIB07rNtMRQN/42BqQtF0MkBW1j97zTYrF1vAaFNQuZ6vU5mkfqC1dnTrhyG5EuZtI/FFYT1w0BZmkoz9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733294594; c=relaxed/simple;
-	bh=fqqG73XwFCvTGJ4c82NLgng5ayihNxg9MWkqhGyy1Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bcd9+k+oIU74w74LAh2zIEl0GlPC0lVAGnRByFlez+Cn0HMP+2Xco/YiKSABBFz/Mf80Lz8XlphqrXAPwF9nX36+/+k5Uu/Gtjxge9uM9+/rtBSLwolQpmgabl1vIbG2sFFo3DIGPkxZGKM0QGCF+QM26ynZcmvgCxZbqR0EwAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGl68+lr; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733312613; c=relaxed/simple;
+	bh=l2z9VD5HlFDHOtvxJuuLIRNAdEnNKlZq9mCp1WP8k+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pwJDEa7TEqyPGUF+DEeqZaM8UZzNYJkrFNhrKGBXSYwT8XLjoyLKcT+8vTMmo3L85nWgfSvbSx6xPeP46AXQJidne6YBZfjqoJ2rCMdeyj/TXNXsP29wpkhTsu8STGQ9UmemFklTR53DwNowRiI2DNZXl1EYyIfxjstVjJhB6+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QagKJcsq; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGl68+lr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733294591; x=1764830591;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fqqG73XwFCvTGJ4c82NLgng5ayihNxg9MWkqhGyy1Zs=;
-  b=mGl68+lrfQiDvmwKzclBMSJ680OaHIzO/mAgQyla0maWclWJl1ZpWNwa
-   SewHNrWz1MXz4mLdN7Oob1f7qTthZ4UXwDShquq62+mMGDBjXWb9m1XFv
-   ntKufEhd/Lze02boXmOYyOxclVTbb2vEqpkr2koR+KcnRHl8xUBDxxRBw
-   Xeg4evl0WaKfOm96E5NL7Q212fPx4sUd/j03fKs1yCf/U3GyLaPdIZR+9
-   OIM5YOaJ+UFlE8akccTM/3WMD2+/QireYpKdAgHfdjR1sclR5yWC+4PZf
-   LzqZBcEPUbyRyOs+FSYuAFbLVZEdCeKVHRJbTe4z2Vvks5HkYtonlcxgs
-   w==;
-X-CSE-ConnectionGUID: KVGwKxWwRtqopVXWj8KxXA==
-X-CSE-MsgGUID: AU3cwahlRNWB8INVrMMB3w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="32885428"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="32885428"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 22:43:11 -0800
-X-CSE-ConnectionGUID: q1NPSO0gS4mdcusKJ0rY6w==
-X-CSE-MsgGUID: noI9eRa3S9WhlfU0186WDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="124602675"
-Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Dec 2024 22:43:08 -0800
-Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIj6H-0002fp-1C;
-	Wed, 04 Dec 2024 06:43:05 +0000
-Date: Wed, 4 Dec 2024 14:42:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yeoreum Yun <yeoreum.yun@arm.com>, suzuki.poulose@arm.com,
-	mike.leach@linaro.org, james.clark@linaro.org,
-	alexander.shishkin@linux.intel.com, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, rostedt@goodmis.org
-Cc: oe-kbuild-all@lists.linux.dev, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, nd@arm.com,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: Re: [PATCH v2 2/9] coresight-etm4x: change etmv4_drvdata spinlock
- type to raw_spinlock_t
-Message-ID: <202412041452.KCrCJWWm-lkp@intel.com>
-References: <20241203114942.697188-3-yeoreum.yun@arm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QagKJcsq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1733312610;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YjLiIgA1heSf6FeldDRqyic0hKMQLJvylr1VcRItvD4=;
+	b=QagKJcsqDWcKs0zDEE6HNAwq9LnzLQu/L7pTYyI4c+EtR70bZ2kgD8r19IWfWPC77tLx6P
+	hzzgDnYt3mpvlVrzw3P0xIVrRPWAC/Qcv+FgJpRl3bc6FEmmavmCEcy0NtB1J8XYe9C5Zm
+	It+jv8Djdz2OsYTlx0oXTJhVbf+mnAA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-439-CrQUMUH4NIapA6bZIKoFvA-1; Wed,
+ 04 Dec 2024 06:43:29 -0500
+X-MC-Unique: CrQUMUH4NIapA6bZIKoFvA-1
+X-Mimecast-MFC-AGG-ID: CrQUMUH4NIapA6bZIKoFvA
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D233B1955F68;
+	Wed,  4 Dec 2024 11:43:26 +0000 (UTC)
+Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.88.52])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B95643000197;
+	Wed,  4 Dec 2024 11:43:20 +0000 (UTC)
+From: Wander Lairson Costa <wander@redhat.com>
+To: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Auke Kok <auke-jan.h.kok@intel.com>,
+	Jeff Garzik <jgarzik@redhat.com>,
+	intel-wired-lan@lists.osuosl.org (moderated list:INTEL ETHERNET DRIVERS),
+	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Cc: Wander Lairson Costa <wander@redhat.com>
+Subject: [PATCH iwl-net 1/4] igb: narrow scope of vfs_lock in SR-IOV cleanup
+Date: Wed,  4 Dec 2024 08:42:24 -0300
+Message-ID: <20241204114229.21452-2-wander@redhat.com>
+In-Reply-To: <20241204114229.21452-1-wander@redhat.com>
+References: <20241204114229.21452-1-wander@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241203114942.697188-3-yeoreum.yun@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hi Yeoreum,
+The adapter->vfs_lock currently protects critical sections shared between
+igb_disable_sriov() and igb_msg_task(). Since igb_msg_task() — which is
+invoked solely by the igb_msix_other() ISR—only proceeds when
+adapter->vfs_allocated_count > 0, we can reduce the lock scope further.
 
-kernel test robot noticed the following build errors:
+By moving the assignment adapter->vfs_allocated_count = 0 to the start of the
+cleanup code in igb_disable_sriov(), we can restrict the spinlock protection
+solely to this assignment. This change removes kfree() calls from within the
+locked section, simplifying lock management.
 
-[auto build test ERROR on soc/for-next]
-[also build test ERROR on linus/master v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Once kfree() is outside the vfs_lock scope, it becomes possible to safely
+convert vfs_lock to a raw_spin_lock.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yeoreum-Yun/coresight-change-coresight_device-lock-type-to-raw_spinlock_t/20241203-203214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20241203114942.697188-3-yeoreum.yun%40arm.com
-patch subject: [PATCH v2 2/9] coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
-config: arm64-randconfig-001-20241204 (https://download.01.org/0day-ci/archive/20241204/202412041452.KCrCJWWm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041452.KCrCJWWm-lkp@intel.com/reproduce)
+Signed-off-by: Wander Lairson Costa <wander@redhat.com>
+---
+ drivers/net/ethernet/intel/igb/igb_main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412041452.KCrCJWWm-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_starting_cpu':
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:1666:19: error: passing argument 1 of 'spin_lock' from incompatible pointer type [-Wincompatible-pointer-types]
-    1666 |         spin_lock(&etmdrvdata[cpu]->spinlock);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                   |
-         |                   raw_spinlock_t * {aka struct raw_spinlock *}
-   In file included from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/hwtracing/coresight/coresight-etm4x-core.c:6:
-   include/linux/spinlock.h:349:51: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'raw_spinlock_t *' {aka 'struct raw_spinlock *'}
-     349 | static __always_inline void spin_lock(spinlock_t *lock)
-         |                                       ~~~~~~~~~~~~^~~~
->> drivers/hwtracing/coresight/coresight-etm4x-core.c:1672:21: error: passing argument 1 of 'spin_unlock' from incompatible pointer type [-Wincompatible-pointer-types]
-    1672 |         spin_unlock(&etmdrvdata[cpu]->spinlock);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                     |
-         |                     raw_spinlock_t * {aka struct raw_spinlock *}
-   include/linux/spinlock.h:389:53: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'raw_spinlock_t *' {aka 'struct raw_spinlock *'}
-     389 | static __always_inline void spin_unlock(spinlock_t *lock)
-         |                                         ~~~~~~~~~~~~^~~~
-   drivers/hwtracing/coresight/coresight-etm4x-core.c: In function 'etm4_dying_cpu':
-   drivers/hwtracing/coresight/coresight-etm4x-core.c:1681:19: error: passing argument 1 of 'spin_lock' from incompatible pointer type [-Wincompatible-pointer-types]
-    1681 |         spin_lock(&etmdrvdata[cpu]->spinlock);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                   |
-         |                   raw_spinlock_t * {aka struct raw_spinlock *}
-   include/linux/spinlock.h:349:51: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'raw_spinlock_t *' {aka 'struct raw_spinlock *'}
-     349 | static __always_inline void spin_lock(spinlock_t *lock)
-         |                                       ~~~~~~~~~~~~^~~~
-   drivers/hwtracing/coresight/coresight-etm4x-core.c:1684:21: error: passing argument 1 of 'spin_unlock' from incompatible pointer type [-Wincompatible-pointer-types]
-    1684 |         spin_unlock(&etmdrvdata[cpu]->spinlock);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                     |
-         |                     raw_spinlock_t * {aka struct raw_spinlock *}
-   include/linux/spinlock.h:389:53: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'raw_spinlock_t *' {aka 'struct raw_spinlock *'}
-     389 | static __always_inline void spin_unlock(spinlock_t *lock)
-         |                                         ~~~~~~~~~~~~^~~~
-
-
-vim +/spin_lock +1666 drivers/hwtracing/coresight/coresight-etm4x-core.c
-
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1660  
-58eb457be0283d drivers/hwtracing/coresight/coresight-etm4x.c      Sebastian Andrzej Siewior 2016-07-13  1661  static int etm4_starting_cpu(unsigned int cpu)
-58eb457be0283d drivers/hwtracing/coresight/coresight-etm4x.c      Sebastian Andrzej Siewior 2016-07-13  1662  {
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1663  	if (!etmdrvdata[cpu])
-58eb457be0283d drivers/hwtracing/coresight/coresight-etm4x.c      Sebastian Andrzej Siewior 2016-07-13  1664  		return 0;
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1665  
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13 @1666  	spin_lock(&etmdrvdata[cpu]->spinlock);
-6d7651015c16e1 drivers/hwtracing/coresight/coresight-etm4x.c      Andrew Murray             2019-08-29  1667  	if (!etmdrvdata[cpu]->os_unlock)
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1668  		etm4_os_unlock(etmdrvdata[cpu]);
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1669  
-c95c2733e5feb1 drivers/hwtracing/coresight/coresight-etm4x-core.c James Clark               2024-01-29  1670  	if (coresight_get_mode(etmdrvdata[cpu]->csdev))
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1671  		etm4_enable_hw(etmdrvdata[cpu]);
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13 @1672  	spin_unlock(&etmdrvdata[cpu]->spinlock);
-58eb457be0283d drivers/hwtracing/coresight/coresight-etm4x.c      Sebastian Andrzej Siewior 2016-07-13  1673  	return 0;
-58eb457be0283d drivers/hwtracing/coresight/coresight-etm4x.c      Sebastian Andrzej Siewior 2016-07-13  1674  }
-2e1cdfe184b520 drivers/hwtracing/coresight/coresight-etm4x.c      Pratik Patel              2015-05-13  1675  
-
+diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
+index 08578980b6518..4ca25660e876e 100644
+--- a/drivers/net/ethernet/intel/igb/igb_main.c
++++ b/drivers/net/ethernet/intel/igb/igb_main.c
+@@ -3708,12 +3708,12 @@ static int igb_disable_sriov(struct pci_dev *pdev, bool reinit)
+ 			msleep(500);
+ 		}
+ 		spin_lock_irqsave(&adapter->vfs_lock, flags);
++		adapter->vfs_allocated_count = 0;
++		spin_unlock_irqrestore(&adapter->vfs_lock, flags);
+ 		kfree(adapter->vf_mac_list);
+ 		adapter->vf_mac_list = NULL;
+ 		kfree(adapter->vf_data);
+ 		adapter->vf_data = NULL;
+-		adapter->vfs_allocated_count = 0;
+-		spin_unlock_irqrestore(&adapter->vfs_lock, flags);
+ 		wr32(E1000_IOVCTL, E1000_IOVCTL_REUSE_VFQ);
+ 		wrfl();
+ 		msleep(100);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.0
+
