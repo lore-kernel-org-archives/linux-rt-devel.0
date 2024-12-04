@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C5B2139B2;
-	Wed,  4 Dec 2024 16:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCDB2941C;
+	Wed,  4 Dec 2024 17:00:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733331494; cv=none; b=bIVSN9Wz1ZlDuef/qT5ZVsOfvCzvBNCNlX38sICta+zZ2Fyf3ofy0aPK1a5l0BfT2GSypB+6A9WO/M23VGYXAr+jI6EX63D0fi2rPlQvaUt364p74Y3ApxeHo/0NhRZcDo261h55pOfXE4RpFTZ7s4j7yeQGZmVR/q+gpA/b+cA=
+	t=1733331606; cv=none; b=T+dTaxNix/bdIIVJsQXBXAC9VLRhTaf0/6pgJZoOnGqEAsPo/z1JF1E6iztFHSrgmRniHWcLHpKCP12rLV/4VYBsMP9bafTtIuFXppkDR05lFzQPNFKU69QKT0spqleR+UXQ5S/tyhdMAxdMCRfdSi98n+to4a09v3RvHE8TjhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733331494; c=relaxed/simple;
-	bh=tWocmDwQ7dA4/KynPTdBWbKzp8Sjj1C34cjzodJbX9U=;
+	s=arc-20240116; t=1733331606; c=relaxed/simple;
+	bh=M8PWP365zmorQDzp6q7GFS1f5y5PWf8j4UtCCX7A9uk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UMCEtDxSBekEgXSkDBtniy3a2xrI3S/7BEUNZisc5XnrWXZjt0ipXieLhUO/jbiGEc50kgJUI1OVmZnpv38XCs7q2wWzYjk7SRojZuIBUytzuSi5JaYJUn7K4W82wnJny8Y4Be6IGfXSlELPcVF76NlQv/nZAnaZJrVx4MsAubY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HO+IHh5e; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gkzmdEIM0IJfbPCCUebH5Z0Yka2OGZOT99ImSnlhCoxzd1v7/pv4dejU61+vbYdNNP4dR+J9wmf1j13AeIsfUQN0lzVlR9Dru5EroMsBIdz3jrEt0d7tshYxfBd5Jmi08intMeY/fZaA3jQgyTAE+AvESmxMUkEpiIFi4EDnRHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKZWYEag; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HO+IHh5e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E537C4CECD;
-	Wed,  4 Dec 2024 16:58:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKZWYEag"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A332C4CECD;
+	Wed,  4 Dec 2024 17:00:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733331493;
-	bh=tWocmDwQ7dA4/KynPTdBWbKzp8Sjj1C34cjzodJbX9U=;
+	s=k20201202; t=1733331606;
+	bh=M8PWP365zmorQDzp6q7GFS1f5y5PWf8j4UtCCX7A9uk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HO+IHh5eW1RBEQyzM2orm1ORBUnmcycy3O/mTZ22yjtmGENXApzTf//Rl8QFjocLO
-	 sh5qfPZtahp5iwg9yBP9tc0j5OJbjTIFhOhPQN/+pyPLvR4fZ6Tny4OzTytOAkrTXN
-	 J1poxRwdP+Y1rtxb9jaVHL6PhrQlOdf/FaXwNipceWKNT9/uz0xFykMKFnOaMl5vHu
-	 /STiOqeUZN57EhpYd+vz+yGhMj36Do2aSrMWhcSrqGzMyONFs+oeD8nTfqcE0aWUlk
-	 rJtSsrxx2oyVTRB4C7OUTLNKFI5CkanAafWnwYlDiZAlnyk723XQRXh1mhcdePOMeP
-	 VezV4VkPP8jLw==
+	b=TKZWYEagajMtqznKLB9QbzUDLW1d3Yj4n1DIUWk+7e7Nqwas9CEB7eNhY0kXr0MVO
+	 dz4shhfFCGRL6+sPSjZ4vbNwqpse+0Pvy0556HMf2wIsH0ggc4I/GHAlP9fT6jPCkf
+	 uc5BYAq2fWQQjStnO7glVSIiolFA+/S1/BTv6NBNPwr27DdwHEoE+u4LCu0PLMaQk5
+	 TLgJXII7NPtkFDiDY/szM/Nm/H0s6qfy0aTsQNFBTlQ5dfWUSbtzwK9IxvCKdQJ1X+
+	 5/PRh8LRdiUS5dyE8/6v8FdjwMpFL/p2JmipZZMDUXMCTT2CZ4hDhEKvBaSszv7M1n
+	 NTHsY7t0ceJIA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,12 +38,12 @@ Cc: Petr Pavlu <petr.pavlu@suse.com>,
 	clrkwllms@kernel.org,
 	linux-trace-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 11/36] ring-buffer: Limit time with disabled interrupts in rb_check_pages()
-Date: Wed,  4 Dec 2024 10:45:27 -0500
-Message-ID: <20241204154626.2211476-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 11/33] ring-buffer: Limit time with disabled interrupts in rb_check_pages()
+Date: Wed,  4 Dec 2024 10:47:24 -0500
+Message-ID: <20241204154817.2212455-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204154626.2211476-1-sashal@kernel.org>
-References: <20241204154626.2211476-1-sashal@kernel.org>
+In-Reply-To: <20241204154817.2212455-1-sashal@kernel.org>
+References: <20241204154817.2212455-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.1
+X-stable-base: Linux 6.11.10
 Content-Transfer-Encoding: 8bit
 
 From: Petr Pavlu <petr.pavlu@suse.com>
@@ -91,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 72 insertions(+), 26 deletions(-)
 
 diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-index 5807116bcd0bf..366eb4c4f28e5 100644
+index fb7b092e79313..f282c1335edc9 100644
 --- a/kernel/trace/ring_buffer.c
 +++ b/kernel/trace/ring_buffer.c
-@@ -482,6 +482,8 @@ struct ring_buffer_per_cpu {
+@@ -462,6 +462,8 @@ struct ring_buffer_per_cpu {
  	unsigned long			nr_pages;
  	unsigned int			current_context;
  	struct list_head		*pages;
@@ -103,7 +103,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  	struct buffer_page		*head_page;	/* read from head */
  	struct buffer_page		*tail_page;	/* write to tail */
  	struct buffer_page		*commit_page;	/* committed pages */
-@@ -1475,40 +1477,87 @@ static void rb_check_bpage(struct ring_buffer_per_cpu *cpu_buffer,
+@@ -1442,40 +1444,87 @@ static void rb_check_bpage(struct ring_buffer_per_cpu *cpu_buffer,
  	RB_WARN_ON(cpu_buffer, val & RB_FLAG_MASK);
  }
  
@@ -209,8 +209,8 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
 +	raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
  }
  
- /*
-@@ -2532,6 +2581,7 @@ rb_remove_pages(struct ring_buffer_per_cpu *cpu_buffer, unsigned long nr_pages)
+ static int __rb_allocate_pages(struct ring_buffer_per_cpu *cpu_buffer,
+@@ -1862,6 +1911,7 @@ rb_remove_pages(struct ring_buffer_per_cpu *cpu_buffer, unsigned long nr_pages)
  
  	/* make sure pages points to a valid page in the ring buffer */
  	cpu_buffer->pages = next_page;
@@ -218,7 +218,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  
  	/* update head page */
  	if (head_bit)
-@@ -2638,6 +2688,7 @@ rb_insert_pages(struct ring_buffer_per_cpu *cpu_buffer)
+@@ -1968,6 +2018,7 @@ rb_insert_pages(struct ring_buffer_per_cpu *cpu_buffer)
  			 * pointer to point to end of list
  			 */
  			head_page->prev = last_page;
@@ -226,7 +226,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  			success = true;
  			break;
  		}
-@@ -2873,12 +2924,8 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+@@ -2203,12 +2254,8 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
  		 */
  		synchronize_rcu();
  		for_each_buffer_cpu(buffer, cpu) {
@@ -239,7 +239,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  		}
  		atomic_dec(&buffer->record_disabled);
  	}
-@@ -5296,6 +5343,7 @@ rb_get_reader_page(struct ring_buffer_per_cpu *cpu_buffer)
+@@ -4599,6 +4646,7 @@ rb_get_reader_page(struct ring_buffer_per_cpu *cpu_buffer)
  	rb_list_head(reader->list.next)->prev = &cpu_buffer->reader_page->list;
  	rb_inc_page(&cpu_buffer->head_page);
  
@@ -247,7 +247,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  	local_inc(&cpu_buffer->pages_read);
  
  	/* Finally update the reader page to the new head */
-@@ -5835,12 +5883,9 @@ void
+@@ -5138,12 +5186,9 @@ void
  ring_buffer_read_finish(struct ring_buffer_iter *iter)
  {
  	struct ring_buffer_per_cpu *cpu_buffer = iter->cpu_buffer;
@@ -260,7 +260,7 @@ index 5807116bcd0bf..366eb4c4f28e5 100644
  
  	atomic_dec(&cpu_buffer->resize_disabled);
  	kfree(iter->event);
-@@ -6757,6 +6802,7 @@ int ring_buffer_subbuf_order_set(struct trace_buffer *buffer, int order)
+@@ -6040,6 +6085,7 @@ int ring_buffer_subbuf_order_set(struct trace_buffer *buffer, int order)
  		/* Install the new pages, remove the head from the list */
  		cpu_buffer->pages = cpu_buffer->new_pages.next;
  		list_del_init(&cpu_buffer->new_pages);
