@@ -1,213 +1,273 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779151B4F24
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Dec 2024 11:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C5B2139B2;
+	Wed,  4 Dec 2024 16:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733312637; cv=none; b=TllIifLZ+9vezsY3rM8HKtDqfSLYMJp2pSoUgv8Qxl7/A8yYxomTnQc2otkUeHXjbXQBLlDcERi48P/mwOim0BARzMiHee0BMhXNxB/R51JbVM40Ib6TmyGrmGbz7qunJax3rS45zHmHYZ9M2VAFVwGHAJBD7cHc/UBA1xUITxI=
+	t=1733331494; cv=none; b=bIVSN9Wz1ZlDuef/qT5ZVsOfvCzvBNCNlX38sICta+zZ2Fyf3ofy0aPK1a5l0BfT2GSypB+6A9WO/M23VGYXAr+jI6EX63D0fi2rPlQvaUt364p74Y3ApxeHo/0NhRZcDo261h55pOfXE4RpFTZ7s4j7yeQGZmVR/q+gpA/b+cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733312637; c=relaxed/simple;
-	bh=TEOVhC2PqVwxsX1BsUmknWTUa83DbpCDkU31ggicte0=;
+	s=arc-20240116; t=1733331494; c=relaxed/simple;
+	bh=tWocmDwQ7dA4/KynPTdBWbKzp8Sjj1C34cjzodJbX9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LhVRH4h0cNc6xmKreWXFQ67hTBj+aV/PauZFPH3lNM8T5Z0Q3KEwIuJBBAbxpyg2siLX2CKRv1LF5QKpWLeopOW1qF/EqIkR0TS6AD8TiA5skzE8QBu13oKvzG/VEvMCDZ/15k7pH8JlzALFbPq1HYqfVr6bQCm+mTFYkYLVEfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HHvXOgc1; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version; b=UMCEtDxSBekEgXSkDBtniy3a2xrI3S/7BEUNZisc5XnrWXZjt0ipXieLhUO/jbiGEc50kgJUI1OVmZnpv38XCs7q2wWzYjk7SRojZuIBUytzuSi5JaYJUn7K4W82wnJny8Y4Be6IGfXSlELPcVF76NlQv/nZAnaZJrVx4MsAubY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HO+IHh5e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HHvXOgc1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733312634;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=h4OzJ2Yicwkoa/Gn8s9Kz6ryvpeCxefm3yl1+gEE2Ro=;
-	b=HHvXOgc1/b/NFH/OO8tNaZE7NPxwB2kztncaIRbALSq64vgWJeqp/ANNt2vzHuyejHrDrZ
-	Gznu2M7o7NXNnhiRfvhtKTzArSFpfRq0fSjQcpSukiNf/y9/0DsSlNsi2qlO++ZG8oKykg
-	pofYVRa05cxeLb8QyiTMAlrn7QeO+js=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-602-5TspYdiBP0ab5yCLjwMkAw-1; Wed,
- 04 Dec 2024 06:43:52 -0500
-X-MC-Unique: 5TspYdiBP0ab5yCLjwMkAw-1
-X-Mimecast-MFC-AGG-ID: 5TspYdiBP0ab5yCLjwMkAw
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2DED91955F3F;
-	Wed,  4 Dec 2024 11:43:49 +0000 (UTC)
-Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.88.52])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 04D023000197;
-	Wed,  4 Dec 2024 11:43:42 +0000 (UTC)
-From: Wander Lairson Costa <wander@redhat.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HO+IHh5e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E537C4CECD;
+	Wed,  4 Dec 2024 16:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733331493;
+	bh=tWocmDwQ7dA4/KynPTdBWbKzp8Sjj1C34cjzodJbX9U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HO+IHh5eW1RBEQyzM2orm1ORBUnmcycy3O/mTZ22yjtmGENXApzTf//Rl8QFjocLO
+	 sh5qfPZtahp5iwg9yBP9tc0j5OJbjTIFhOhPQN/+pyPLvR4fZ6Tny4OzTytOAkrTXN
+	 J1poxRwdP+Y1rtxb9jaVHL6PhrQlOdf/FaXwNipceWKNT9/uz0xFykMKFnOaMl5vHu
+	 /STiOqeUZN57EhpYd+vz+yGhMj36Do2aSrMWhcSrqGzMyONFs+oeD8nTfqcE0aWUlk
+	 rJtSsrxx2oyVTRB4C7OUTLNKFI5CkanAafWnwYlDiZAlnyk723XQRXh1mhcdePOMeP
+	 VezV4VkPP8jLw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Petr Pavlu <petr.pavlu@suse.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Auke Kok <auke-jan.h.kok@intel.com>,
-	Jeff Garzik <jgarzik@redhat.com>,
-	intel-wired-lan@lists.osuosl.org (moderated list:INTEL ETHERNET DRIVERS),
-	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-	linux-kernel@vger.kernel.org (open list),
-	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
-Cc: Wander Lairson Costa <wander@redhat.com>,
-	Yuying Ma <yuma@redhat.com>
-Subject: [PATCH iwl-net 4/4] igb: fix igb_msix_other() handling for PREEMPT_RT
-Date: Wed,  4 Dec 2024 08:42:27 -0300
-Message-ID: <20241204114229.21452-5-wander@redhat.com>
-In-Reply-To: <20241204114229.21452-1-wander@redhat.com>
-References: <20241204114229.21452-1-wander@redhat.com>
+	Sasha Levin <sashal@kernel.org>,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.12 11/36] ring-buffer: Limit time with disabled interrupts in rb_check_pages()
+Date: Wed,  4 Dec 2024 10:45:27 -0500
+Message-ID: <20241204154626.2211476-11-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241204154626.2211476-1-sashal@kernel.org>
+References: <20241204154626.2211476-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.1
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-During testing of SR-IOV, Red Hat QE encountered an issue where the
-ip link up command intermittently fails for the igbvf interfaces when
-using the PREEMPT_RT variant. Investigation revealed that
-e1000_write_posted_mbx returns an error due to the lack of an ACK
-from e1000_poll_for_ack.
+From: Petr Pavlu <petr.pavlu@suse.com>
 
-The underlying issue arises from the fact that IRQs are threaded by
-default under PREEMPT_RT. While the exact hardware details are not
-available, it appears that the IRQ handled by igb_msix_other must
-be processed before e1000_poll_for_ack times out. However,
-e1000_write_posted_mbx is called with preemption disabled, leading
-to a scenario where the IRQ is serviced only after the failure of
-e1000_write_posted_mbx.
+[ Upstream commit b237e1f7d2273fdcffac20100b72c002bdd770dd ]
 
-Commit 338c4d3902fe ("igb: Disable threaded IRQ for igb_msix_other")
-forced the ISR to run in a non-threaded context. However, Sebastian
-observed that some functions called within the ISR acquire locks that
-may sleep.
+The function rb_check_pages() validates the integrity of a specified
+per-CPU tracing ring buffer. It does so by traversing the underlying
+linked list and checking its next and prev links.
 
-In the previous two patches, we managed to make igb_msg_mask() safe to
-call from an interrupt context.
+To guarantee that the list isn't modified during the check, a caller
+typically needs to take cpu_buffer->reader_lock. This prevents the check
+from running concurrently, for example, with a potential reader which
+can make the list temporarily inconsistent when swapping its old reader
+page into the buffer.
 
-In this commit, we move most of the ISR handling to an interrupt
-context, leaving non IRQ safe code to be called from the thread
-context under PREEMPT_RT.
+A problem with this approach is that the time when interrupts are
+disabled is non-deterministic, dependent on the ring buffer size. This
+particularly affects PREEMPT_RT because the reader_lock is a raw
+spinlock which doesn't become sleepable on PREEMPT_RT kernels.
 
-Reproducer:
+Modify the check so it still attempts to traverse the entire list, but
+gives up the reader_lock between checking individual pages. Introduce
+for this purpose a new variable ring_buffer_per_cpu.cnt which is bumped
+any time the list is modified. The value is used by rb_check_pages() to
+detect such a change and restart the check.
 
-ipaddr_vlan=3
-nic_test=ens14f0
-vf=${nic_test}v0 # The main testing steps:
-while true; do
-    ip link set ${nic_test} mtu 1500
-    ip link set ${vf} mtu 1500
-    ip link set $vf up
-    # 3. set vlan and ip for VF
-    ip link set ${nic_test} vf 0 vlan ${ipaddr_vlan}
-    ip addr add 172.30.${ipaddr_vlan}.1/24 dev ${vf}
-    ip addr add 2021:db8:${ipaddr_vlan}::1/64 dev ${vf}
-    # 4. check the link state for VF and PF
-    ip link show ${nic_test}
-    if ! ip link show $vf | grep 'state UP'; then
-        echo 'Error found'
-        break
-    fi
-    ip link set $vf down
-done
-
-You can also reproduce it more reliably by setting nr_cpus=1 in the
-kernel command line.
-
-Fixes: 9d5c824399de ("igb: PCI-Express 82575 Gigabit Ethernet driver")
-Signed-off-by: Wander Lairson Costa <wander@redhat.com>
-Reported-by: Yuying Ma <yuma@redhat.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Link: https://lore.kernel.org/20241015112810.27203-1-petr.pavlu@suse.com
+Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/ethernet/intel/igb/igb_main.c | 35 ++++++++++++++++-------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+ kernel/trace/ring_buffer.c | 98 ++++++++++++++++++++++++++++----------
+ 1 file changed, 72 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index 5828831fd29c2..b2894cebe2c9e 100644
---- a/drivers/net/ethernet/intel/igb/igb_main.c
-+++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -131,6 +131,7 @@ static void igb_set_uta(struct igb_adapter *adapter, bool set);
- static irqreturn_t igb_intr(int irq, void *);
- static irqreturn_t igb_intr_msi(int irq, void *);
- static irqreturn_t igb_msix_other(int irq, void *);
-+static irqreturn_t igb_msix_other_threaded(int irq, void *);
- static irqreturn_t igb_msix_ring(int irq, void *);
- #ifdef CONFIG_IGB_DCA
- static void igb_update_dca(struct igb_q_vector *);
-@@ -151,7 +152,6 @@ static void igb_rar_set_index(struct igb_adapter *, u32);
- static void igb_ping_all_vfs(struct igb_adapter *);
- static void igb_msg_task_irq_safe(struct igb_adapter *adapter);
- static void igb_msg_task_preemptible_safe(struct igb_adapter *adapter);
--static void igb_msg_task(struct igb_adapter *);
- static void igb_vmm_control(struct igb_adapter *);
- static int igb_set_vf_mac(struct igb_adapter *, int, unsigned char *);
- static void igb_flush_mac_table(struct igb_adapter *);
-@@ -908,8 +908,9 @@ static int igb_request_msix(struct igb_adapter *adapter)
- 	struct net_device *netdev = adapter->netdev;
- 	int i, err = 0, vector = 0, free_vector = 0;
- 
--	err = request_irq(adapter->msix_entries[vector].vector,
--			  igb_msix_other, 0, netdev->name, adapter);
-+	err = request_threaded_irq(adapter->msix_entries[vector].vector,
-+				   igb_msix_other, igb_msix_other_threaded,
-+				   IRQF_NO_THREAD, netdev->name, adapter);
- 	if (err)
- 		goto err_out;
- 
-@@ -7113,9 +7114,27 @@ static irqreturn_t igb_msix_other(int irq, void *data)
- 		igb_check_wvbr(adapter);
- 	}
- 
--	/* Check for a mailbox event */
-+	/* Check for a mailbox event (interrupt safe part) */
- 	if (icr & E1000_ICR_VMMB)
--		igb_msg_task(adapter);
-+		igb_msg_task_irq_safe(adapter);
-+
-+	adapter->test_icr = icr;
-+
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+		return igb_msix_other_threaded(irq, data);
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static irqreturn_t igb_msix_other_threaded(int irq, void *data)
-+{
-+	struct igb_adapter *adapter = data;
-+	struct e1000_hw *hw = &adapter->hw;
-+	u32 icr = adapter->test_icr;
-+
-+	/* Check for a mailbox event (preempible safe part) */
-+	if (icr & E1000_ICR_VMMB)
-+		igb_msg_task_preemptible_safe(adapter);
- 
- 	if (icr & E1000_ICR_LSC) {
- 		hw->mac.get_link_status = 1;
-@@ -8161,12 +8180,6 @@ static void igb_msg_task_preemptible_safe(struct igb_adapter *adapter)
- 	vfs_spin_unlock_irqrestore(adapter, flags);
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 5807116bcd0bf..366eb4c4f28e5 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -482,6 +482,8 @@ struct ring_buffer_per_cpu {
+ 	unsigned long			nr_pages;
+ 	unsigned int			current_context;
+ 	struct list_head		*pages;
++	/* pages generation counter, incremented when the list changes */
++	unsigned long			cnt;
+ 	struct buffer_page		*head_page;	/* read from head */
+ 	struct buffer_page		*tail_page;	/* write to tail */
+ 	struct buffer_page		*commit_page;	/* committed pages */
+@@ -1475,40 +1477,87 @@ static void rb_check_bpage(struct ring_buffer_per_cpu *cpu_buffer,
+ 	RB_WARN_ON(cpu_buffer, val & RB_FLAG_MASK);
  }
  
--static __always_inline void igb_msg_task(struct igb_adapter *adapter)
--{
--	igb_msg_task_irq_safe(adapter);
--	igb_msg_task_preemptible_safe(adapter);
--}
--
++static bool rb_check_links(struct ring_buffer_per_cpu *cpu_buffer,
++			   struct list_head *list)
++{
++	if (RB_WARN_ON(cpu_buffer,
++		       rb_list_head(rb_list_head(list->next)->prev) != list))
++		return false;
++
++	if (RB_WARN_ON(cpu_buffer,
++		       rb_list_head(rb_list_head(list->prev)->next) != list))
++		return false;
++
++	return true;
++}
++
  /**
-  *  igb_set_uta - Set unicast filter table address
-  *  @adapter: board private structure
+  * rb_check_pages - integrity check of buffer pages
+  * @cpu_buffer: CPU buffer with pages to test
+  *
+  * As a safety measure we check to make sure the data pages have not
+  * been corrupted.
+- *
+- * Callers of this function need to guarantee that the list of pages doesn't get
+- * modified during the check. In particular, if it's possible that the function
+- * is invoked with concurrent readers which can swap in a new reader page then
+- * the caller should take cpu_buffer->reader_lock.
+  */
+ static void rb_check_pages(struct ring_buffer_per_cpu *cpu_buffer)
+ {
+-	struct list_head *head = rb_list_head(cpu_buffer->pages);
+-	struct list_head *tmp;
++	struct list_head *head, *tmp;
++	unsigned long buffer_cnt;
++	unsigned long flags;
++	int nr_loops = 0;
+ 
+-	if (RB_WARN_ON(cpu_buffer,
+-			rb_list_head(rb_list_head(head->next)->prev) != head))
++	/*
++	 * Walk the linked list underpinning the ring buffer and validate all
++	 * its next and prev links.
++	 *
++	 * The check acquires the reader_lock to avoid concurrent processing
++	 * with code that could be modifying the list. However, the lock cannot
++	 * be held for the entire duration of the walk, as this would make the
++	 * time when interrupts are disabled non-deterministic, dependent on the
++	 * ring buffer size. Therefore, the code releases and re-acquires the
++	 * lock after checking each page. The ring_buffer_per_cpu.cnt variable
++	 * is then used to detect if the list was modified while the lock was
++	 * not held, in which case the check needs to be restarted.
++	 *
++	 * The code attempts to perform the check at most three times before
++	 * giving up. This is acceptable because this is only a self-validation
++	 * to detect problems early on. In practice, the list modification
++	 * operations are fairly spaced, and so this check typically succeeds at
++	 * most on the second try.
++	 */
++again:
++	if (++nr_loops > 3)
+ 		return;
+ 
+-	if (RB_WARN_ON(cpu_buffer,
+-			rb_list_head(rb_list_head(head->prev)->next) != head))
+-		return;
++	raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
++	head = rb_list_head(cpu_buffer->pages);
++	if (!rb_check_links(cpu_buffer, head))
++		goto out_locked;
++	buffer_cnt = cpu_buffer->cnt;
++	tmp = head;
++	raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+ 
+-	for (tmp = rb_list_head(head->next); tmp != head; tmp = rb_list_head(tmp->next)) {
+-		if (RB_WARN_ON(cpu_buffer,
+-				rb_list_head(rb_list_head(tmp->next)->prev) != tmp))
+-			return;
++	while (true) {
++		raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+ 
+-		if (RB_WARN_ON(cpu_buffer,
+-				rb_list_head(rb_list_head(tmp->prev)->next) != tmp))
+-			return;
++		if (buffer_cnt != cpu_buffer->cnt) {
++			/* The list was updated, try again. */
++			raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
++			goto again;
++		}
++
++		tmp = rb_list_head(tmp->next);
++		if (tmp == head)
++			/* The iteration circled back, all is done. */
++			goto out_locked;
++
++		if (!rb_check_links(cpu_buffer, tmp))
++			goto out_locked;
++
++		raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+ 	}
++
++out_locked:
++	raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+ }
+ 
+ /*
+@@ -2532,6 +2581,7 @@ rb_remove_pages(struct ring_buffer_per_cpu *cpu_buffer, unsigned long nr_pages)
+ 
+ 	/* make sure pages points to a valid page in the ring buffer */
+ 	cpu_buffer->pages = next_page;
++	cpu_buffer->cnt++;
+ 
+ 	/* update head page */
+ 	if (head_bit)
+@@ -2638,6 +2688,7 @@ rb_insert_pages(struct ring_buffer_per_cpu *cpu_buffer)
+ 			 * pointer to point to end of list
+ 			 */
+ 			head_page->prev = last_page;
++			cpu_buffer->cnt++;
+ 			success = true;
+ 			break;
+ 		}
+@@ -2873,12 +2924,8 @@ int ring_buffer_resize(struct trace_buffer *buffer, unsigned long size,
+ 		 */
+ 		synchronize_rcu();
+ 		for_each_buffer_cpu(buffer, cpu) {
+-			unsigned long flags;
+-
+ 			cpu_buffer = buffer->buffers[cpu];
+-			raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+ 			rb_check_pages(cpu_buffer);
+-			raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+ 		}
+ 		atomic_dec(&buffer->record_disabled);
+ 	}
+@@ -5296,6 +5343,7 @@ rb_get_reader_page(struct ring_buffer_per_cpu *cpu_buffer)
+ 	rb_list_head(reader->list.next)->prev = &cpu_buffer->reader_page->list;
+ 	rb_inc_page(&cpu_buffer->head_page);
+ 
++	cpu_buffer->cnt++;
+ 	local_inc(&cpu_buffer->pages_read);
+ 
+ 	/* Finally update the reader page to the new head */
+@@ -5835,12 +5883,9 @@ void
+ ring_buffer_read_finish(struct ring_buffer_iter *iter)
+ {
+ 	struct ring_buffer_per_cpu *cpu_buffer = iter->cpu_buffer;
+-	unsigned long flags;
+ 
+ 	/* Use this opportunity to check the integrity of the ring buffer. */
+-	raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+ 	rb_check_pages(cpu_buffer);
+-	raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+ 
+ 	atomic_dec(&cpu_buffer->resize_disabled);
+ 	kfree(iter->event);
+@@ -6757,6 +6802,7 @@ int ring_buffer_subbuf_order_set(struct trace_buffer *buffer, int order)
+ 		/* Install the new pages, remove the head from the list */
+ 		cpu_buffer->pages = cpu_buffer->new_pages.next;
+ 		list_del_init(&cpu_buffer->new_pages);
++		cpu_buffer->cnt++;
+ 
+ 		cpu_buffer->head_page
+ 			= list_entry(cpu_buffer->pages, struct buffer_page, list);
 -- 
-2.47.0
+2.43.0
 
