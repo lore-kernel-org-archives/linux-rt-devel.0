@@ -1,131 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD27202C4F;
-	Wed,  4 Dec 2024 23:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FF21B59A
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Dec 2024 16:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354777; cv=none; b=MFeOXUrvgNRHmfq0H8+AeYKU+TSQgxGGySQJ8RhDkvYPC0xOZGHkaHY6adt0GY05dIELMo7IFE5qLwjFwZQPAx8u+XVsDm1Ug/vZZK1XrFF+K2U5zohB9zvEj+3BH28YTfpzxvihhPmstsLLBCgdZgT0V/O8v9RoB2DerYegy3w=
+	t=1733414767; cv=none; b=BhN8dtbyMtsLTTFRvK4R95UCwRd7ofJf/wD99c0Yslm+YVB5ozdivxN1mf9D30VqbNJYExAOmOy4Y3qMlO6AxR7H4Tl8pNXcQ3kXCkADSbmkpuisan+F1kZ0sYzf82rFDVRs2kv/T4iO32oPAoIHQulT7+q8vl8GDFGNpz0ofFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354777; c=relaxed/simple;
-	bh=gFF5Zu+PVc4pu8Aty8CKqrK4CCZ9Ay14XcEr7z9OAjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ilhI5lFwHgma32V4mCs8HAqRnU/UYhHc1kJfWrYlo0C00AvkoWepy77IybffVMAFkRW1hycGMA2a92dJLD1GN8xwo+uvfIVo4hEKPVqWno3wMkEPHh5miuwJOQCNWj3ECa9mlSPAPiz/kWBSamQh8tM3c6EqySn7LlPvLG7nXE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+TNg1zr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733414767; c=relaxed/simple;
+	bh=/Kdl7bzreorqvX/30Ilif6NOEDW/4fhFjMEfzhYix4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dpwBvOssp2bY/s30EIOpj3/yQnyDmjlbUzLnry6YLQXVp3xLwguTXhzcwjyQuyNwm3KGLpr4ssPhnYy8HHNYkF2SJTdw2M0V/ZG3AtJEV59jfzp98FmgmQHSoK6or9MlcQKiMqPvyF4YZuOAsRE5Y6lcTs8X2m2LY25bazueu5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RbQ8cIof; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=suAw/MWx; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+TNg1zr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D2D8C4CECD;
-	Wed,  4 Dec 2024 23:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354777;
-	bh=gFF5Zu+PVc4pu8Aty8CKqrK4CCZ9Ay14XcEr7z9OAjs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=U+TNg1zr85aHifQ6X91gEobkk5ow+Bxx3iEr3/0UiqqxaW6iBdaqDFkE4jEj/b/tA
-	 uye+34D3nv9FrhE2jAk0hN/lOHHecaN3LWuMZgZq1RMU4E2y3I8dbjFaJYnjrQwwfn
-	 dI5XeHiaZw8QwWqOkb1KFBtmylJaSeWQB7Ypj3Xk2GqTi2Q2XFKzspy01GhMGouHP/
-	 k05ORnzaAVW0az8INjL1XRm+lg2/s/oGSPqK/cxYJGLtSS3a5/a4rS7IC+x09guC0j
-	 Y/AVEbNQurry7aMWhZ5vtPTKbXWkWLDKdvp7oi8QW8lLfX46BQ7xcNii6VozPXkcnm
-	 uAzXgy4IMORSQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Huacai Chen <chenhuacai@loongson.cn>,
-	Sasha Levin <sashal@kernel.org>,
-	chenhuacai@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	yangtiezhu@loongson.cn,
-	hejinyang@loongson.cn,
-	tangyouling@loongson.cn,
-	loongarch@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RbQ8cIof";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="suAw/MWx"
+Date: Thu, 5 Dec 2024 17:06:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1733414764;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=9p0B4zCa8Sp8P80zJI8PHN0Ymm/O7Rq7034IDOUSF7M=;
+	b=RbQ8cIofNTFOulEHQlvzlMSfuz5lfTe7y1N08piENuJAso4CB4KTP2+vdouIiApDNgT7Po
+	00LYy4vV0xzZIcrtldnpkzSLTDg1OXnkwGovx79T6PMbtm2uZOJG3fcZqYoZ5N3MA3HJvL
+	XEaZutXmH3Md6UByEkScNyNEqHppAtCUkc8TqmtX5GpJVVdOtNnNCGsnEwMvayNTGOkub/
+	5BYK1EKXwAvBVOI5gy7QBzE9v4Hzz8SVQVsp8m8UMfJFmIpc14KA5YUSis7hungLsgeF3s
+	IFCmFxwI9CBeFwnmYSQj4lHjmSkrGe8YkFOSk58U4b9KkIs7pZe5q4WWMPE8Ew==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1733414764;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=9p0B4zCa8Sp8P80zJI8PHN0Ymm/O7Rq7034IDOUSF7M=;
+	b=suAw/MWx1P7eIPNrbyhRrEXsPmNzpaEGmK1Bb0J6+MRB2KL1/IbSzp5w6F7vBL0BamgBG4
+	nJKe/dLwTkCVQSDQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1] LoongArch: Fix sleeping in atomic context for PREEMPT_RT
-Date: Wed,  4 Dec 2024 17:14:54 -0500
-Message-ID: <20241204221457.2247288-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+Cc: Ben Segall <bsegall@google.com>, Clark Williams <clrkwllms@kernel.org>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Luis Chamberlain <mcgrof@kernel.org>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH] preempt: Move PREEMPT_RT before PREEMPT in vermagic.
+Message-ID: <20241205160602.3lIAsJRT@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Huacai Chen <chenhuacai@loongson.cn>
+Since the dynamic preemption has been enabled for PREEMPT_RT we have now
+CONFIG_PREEMPT and CONFIG_PREEMPT_RT set simultaneously. This affects
+the vermagic strings which comes now PREEMPT with PREEMPT_RT enabled.
 
-[ Upstream commit 88fd2b70120d52c1010257d36776876941375490 ]
+The PREEMPT_RT module usually can not be loaded on a PREEMPT kernel
+because some symbols are missing.
+However if the symbols are fine then it continues and it crashes later.
+The problem is that the struct module has a different layout and the
+num_exentries or init members are at a different position leading to a
+crash later on. This is not necessary caught by the size check in
+elf_validity_cache_index_mod() because the mem member has an alignment
+requirement of __module_memory_align which is big enough keep the total
+size unchanged. Therefore we should keep the string accurate instead of
+removing it.
 
-Commit bab1c299f3945ffe79 ("LoongArch: Fix sleeping in atomic context in
-setup_tlb_handler()") changes the gfp flag from GFP_KERNEL to GFP_ATOMIC
-for alloc_pages_node(). However, for PREEMPT_RT kernels we can still get
-a "sleeping in atomic context" error:
+Move the PREEMPT_RT check before the PREEMPT so that it takes precedence
+if both symbols are enabled.
 
-[    0.372259] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-[    0.372266] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/1
-[    0.372268] preempt_count: 1, expected: 0
-[    0.372270] RCU nest depth: 1, expected: 1
-[    0.372272] 3 locks held by swapper/1/0:
-[    0.372274]  #0: 900000000c9f5e60 (&pcp->lock){+.+.}-{3:3}, at: get_page_from_freelist+0x524/0x1c60
-[    0.372294]  #1: 90000000087013b8 (rcu_read_lock){....}-{1:3}, at: rt_spin_trylock+0x50/0x140
-[    0.372305]  #2: 900000047fffd388 (&zone->lock){+.+.}-{3:3}, at: __rmqueue_pcplist+0x30c/0xea0
-[    0.372314] irq event stamp: 0
-[    0.372316] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-[    0.372322] hardirqs last disabled at (0): [<9000000005947320>] copy_process+0x9c0/0x26e0
-[    0.372329] softirqs last  enabled at (0): [<9000000005947320>] copy_process+0x9c0/0x26e0
-[    0.372335] softirqs last disabled at (0): [<0000000000000000>] 0x0
-[    0.372341] CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.12.0-rc7+ #1891
-[    0.372346] Hardware name: Loongson Loongson-3A5000-7A1000-1w-CRB/Loongson-LS3A5000-7A1000-1w-CRB, BIOS vUDK2018-LoongArch-V2.0.0-prebeta9 10/21/2022
-[    0.372349] Stack : 0000000000000089 9000000005a0db9c 90000000071519c8 9000000100388000
-[    0.372486]         900000010038b890 0000000000000000 900000010038b898 9000000007e53788
-[    0.372492]         900000000815bcc8 900000000815bcc0 900000010038b700 0000000000000001
-[    0.372498]         0000000000000001 4b031894b9d6b725 00000000055ec000 9000000100338fc0
-[    0.372503]         00000000000000c4 0000000000000001 000000000000002d 0000000000000003
-[    0.372509]         0000000000000030 0000000000000003 00000000055ec000 0000000000000003
-[    0.372515]         900000000806d000 9000000007e53788 00000000000000b0 0000000000000004
-[    0.372521]         0000000000000000 0000000000000000 900000000c9f5f10 0000000000000000
-[    0.372526]         90000000076f12d8 9000000007e53788 9000000005924778 0000000000000000
-[    0.372532]         00000000000000b0 0000000000000004 0000000000000000 0000000000070000
-[    0.372537]         ...
-[    0.372540] Call Trace:
-[    0.372542] [<9000000005924778>] show_stack+0x38/0x180
-[    0.372548] [<90000000071519c4>] dump_stack_lvl+0x94/0xe4
-[    0.372555] [<900000000599b880>] __might_resched+0x1a0/0x260
-[    0.372561] [<90000000071675cc>] rt_spin_lock+0x4c/0x140
-[    0.372565] [<9000000005cbb768>] __rmqueue_pcplist+0x308/0xea0
-[    0.372570] [<9000000005cbed84>] get_page_from_freelist+0x564/0x1c60
-[    0.372575] [<9000000005cc0d98>] __alloc_pages_noprof+0x218/0x1820
-[    0.372580] [<900000000593b36c>] tlb_init+0x1ac/0x298
-[    0.372585] [<9000000005924b74>] per_cpu_trap_init+0x114/0x140
-[    0.372589] [<9000000005921964>] cpu_probe+0x4e4/0xa60
-[    0.372592] [<9000000005934874>] start_secondary+0x34/0xc0
-[    0.372599] [<900000000715615c>] smpboot_entry+0x64/0x6c
-
-This is because in PREEMPT_RT kernels normal spinlocks are replaced by
-rt spinlocks and rt_spin_lock() will cause sleeping. Fix it by disabling
-NUMA optimization completely for PREEMPT_RT kernels.
-
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Fixes: 35772d627b55c ("sched: Enable PREEMPT_DYNAMIC for PREEMPT_RT")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- arch/loongarch/mm/tlb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/vermagic.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/loongarch/mm/tlb.c b/arch/loongarch/mm/tlb.c
-index eeb2d815cfa2a..faf44cac403b4 100644
---- a/arch/loongarch/mm/tlb.c
-+++ b/arch/loongarch/mm/tlb.c
-@@ -279,7 +279,7 @@ void setup_tlb_handler(int cpu)
- 		/* Avoid lockdep warning */
- 		rcu_cpu_starting(cpu);
- 
--#ifdef CONFIG_NUMA
-+#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
- 		vec_sz = sizeof(exception_handlers);
- 
- 		if (pcpu_handlers[cpu])
+diff --git a/include/linux/vermagic.h b/include/linux/vermagic.h
+index a54046bf37e55..939ceabcaf06f 100644
+--- a/include/linux/vermagic.h
++++ b/include/linux/vermagic.h
+@@ -15,10 +15,10 @@
+ #else
+ #define MODULE_VERMAGIC_SMP ""
+ #endif
+-#ifdef CONFIG_PREEMPT_BUILD
+-#define MODULE_VERMAGIC_PREEMPT "preempt "
+-#elif defined(CONFIG_PREEMPT_RT)
++#ifdef CONFIG_PREEMPT_RT
+ #define MODULE_VERMAGIC_PREEMPT "preempt_rt "
++#elif defined(CONFIG_PREEMPT_BUILD)
++#define MODULE_VERMAGIC_PREEMPT "preempt "
+ #else
+ #define MODULE_VERMAGIC_PREEMPT ""
+ #endif
 -- 
-2.43.0
+2.45.2
 
