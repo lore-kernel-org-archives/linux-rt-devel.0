@@ -1,99 +1,79 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBA7206F08
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Dec 2024 13:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC2513AA5F
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Dec 2024 15:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733490089; cv=none; b=KKR7a4c6Wh6VeAKx19LH5MLCqGALOERWrtunEE0O1jkbIZuscgMR2OL8F7WU6b4iYshumJtvNp8SsbhNS4Tuhh/DnvA5UpDjuACAyYV2YhPPDMR5nY2vn7i4zCm/RmUwZ/TGMx3ZLNtdzxy4cBnRtTthGI1Chviq4gS7KyBoQG0=
+	t=1733500027; cv=none; b=q7Q+aLieRQWyNskw5R3UhtWxiB6wCw1lN+CUezHh/D/MAogGo+EW6hMpMdwY0pj2/ag5AwBuK+3ZbufYF7QpCfF0pZs8NzzcuKOXTVlk+tB9zEA1AeU4CyU1l8h77f8tVi4Aa76vWunFZVsC/sDOZQalDa54YeWweIrAf7ISs5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733490089; c=relaxed/simple;
-	bh=D8bEeGyz4QZP8CsYCUeuDe0nvmoNecFz+IoyrmadWVY=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DSEz/LOi2zgo51AdMtpc8sfeMq+ofIYWI3gD1wteSn89//RQtwIN45bE/KUrBU870nHgMN/KwceehYIICBtUeNDK7uL71QIccCkSSvXI9uFmmUtT847FiCh9VpQcf+8H/OwGXDKqrMozxElP54Gwi3Q0KQh584QEEw1vXmw8uUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UYZM8gXR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1733500027; c=relaxed/simple;
+	bh=K/maEQLHx5xJFz29GlNJRloqFZ+HzL1xkfIvERWefDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qgya+nXYHWNXzlaE7DNrGBNaraWDdgWN2Ks7I9Nzvlf1DDtSzRflsKZ8HpxJXOx4JzPESmVxxA1OrhTRnltV6APfDsmIkwstY75i1GeOzvbud+PSQd1XXCeo3NhMG6xXcWm8fkl/1Y/LU9I3H0CMgtC6WtC35XRLcZwekoT1vQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wuaubhIh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OEVuwUz9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UYZM8gXR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1733490086;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wuaubhIh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OEVuwUz9"
+Date: Fri, 6 Dec 2024 16:47:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1733500023;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=Hw9dbolckMZ4ZjGpjFqfab8MUH1pQKI6bTRKNfiZCIg=;
-	b=UYZM8gXRyaKbTNWsFeNt3GcZz5T1qnCBKdOCAHEmwEKK5orF6svZUc9plRQMosSShAHqd+
-	9TGMBsoDtBje2Iubd55wsEHw1eheDr8XLzQcDhZml5ddlSXkcI8VYb85QzCLD2tpCENhMs
-	Hw06mOw2jHQSX1KQhgjD5eoRawYsHlA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-53-ewdG_bfvM0KR18XlPDJv2g-1; Fri,
- 06 Dec 2024 08:01:20 -0500
-X-MC-Unique: ewdG_bfvM0KR18XlPDJv2g-1
-X-Mimecast-MFC-AGG-ID: ewdG_bfvM0KR18XlPDJv2g
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 21F9A1955D4B;
-	Fri,  6 Dec 2024 13:01:18 +0000 (UTC)
-Received: from localhost (unknown [10.22.64.148])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8C15519560A2;
-	Fri,  6 Dec 2024 13:01:16 +0000 (UTC)
-Date: Fri, 6 Dec 2024 10:01:14 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Krishna Reddy <vdumpa@nvidia.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v2] iommu/tegra241-cmdqv: do not use smp_processor_id in
- preemptible context
-Message-ID: <Z1L1mja3nXzsJ0Pk@uudg.org>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=RjgjuBm5GBllIQyYDLxe9sOmMipkSxhqRQM9Pvgx/K8=;
+	b=wuaubhIhMeA+NzQl8LwfPTnFWy6AJ2UkWcAu0Rd4B2G0UCi9xQ0IU9/d1OhVx3DW3HZvpq
+	c2wWkBGBsdosiEMG8xygI8Buto/nmEhdffbhnpPrCj1KN9dHIAt4Bwh4m1RB6Je9tOFnpG
+	2pdW8D2q7NkshGrh3DNgr8xwlqFa5cKr4ZpcCXhzSlRgFRP42EnnID5BsnTgpX61IDFh8I
+	I8IBu3ydaLrHT0ZfiJUSR2SSVooEnHV9TyS7Pc7L74SYPwjaIeL/YKfAmv/8NIAOY5xnNa
+	NO8bimqb8+kG/5hSgqkklUE55qX/J9CDK/2QOYOplXQN1tG4I0EGEWzZ3FOoiQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1733500023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=RjgjuBm5GBllIQyYDLxe9sOmMipkSxhqRQM9Pvgx/K8=;
+	b=OEVuwUz9lvhHQyG3Jk0cIqZgKA4Z4d+HLScGamF+4Quf5QTOybLSlAvoilk9i4EPeGvcZQ
+	Sf5qFHAxEv+7XBCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v6.13-rc1-rt1
+Message-ID: <20241206154701.8XBv1qNE@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-During boot some of the calls to tegra241_cmdqv_get_cmdq() will happen
-in preemptible context. As this function calls smp_processor_id(), if
-CONFIG_DEBUG_PREEMPT is enabled, these calls will trigger a series of
-"BUG: using smp_processor_id() in preemptible" backtraces.
+Dear RT folks!
 
-As tegra241_cmdqv_get_cmdq() only calls smp_processor_id() to use the
-CPU number as a factor to balance out traffic on cmdq usage, it is safe
-to use raw_smp_processor_id() here.
+I'm pleased to announce the v6.13-rc1-rt1 patch set. 
 
-v2: Sebastian helped identify that the problem was not exclusive to kernels
-    with PREEMPT_RT enabled. The delta between v1 and v2 is the description.
+Changes since v6.12-rc4-rt6
 
-Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
----
- drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  - Update to 6.13-rc1
 
-diff --git a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-index fcd13d301fff6..3ea4369e838fe 100644
---- a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-@@ -339,7 +339,7 @@ tegra241_cmdqv_get_cmdq(struct arm_smmu_device *smmu,
- 	 * one CPU at a time can enter the process, while the others
- 	 * will be spinning at the same lock.
- 	 */
--	lidx = smp_processor_id() % cmdqv->num_lvcmdqs_per_vintf;
-+	lidx = raw_smp_processor_id() % cmdqv->num_lvcmdqs_per_vintf;
- 	vcmdq = vintf->lvcmdqs[lidx];
- 	if (!vcmdq || !READ_ONCE(vcmdq->enabled))
- 		return NULL;
--- 
-2.47.0
+  - Down to 24 patches (including three new). The v6.12-rc4-rt6 release
+    had 42.
 
+Known issues
+    None.
+
+You can get this release via the git tree at:
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v6.13-rc1-rt1
+
+The RT patch against v6.13-rc1 can be found here:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.13/older/patch-6.13-rc1-rt1.patch.xz
+
+The split quilt queue is available at:
+
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.13/older/patches-6.13-rc1-rt1.tar.xz
+
+Sebastian
