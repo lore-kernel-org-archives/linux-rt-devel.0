@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2787523DEBB;
-	Tue, 10 Dec 2024 16:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F4923DEBB;
+	Tue, 10 Dec 2024 16:06:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733846803; cv=none; b=Lsp3VzMgJHwHgj2c7dW/Fo9G0ZiGE1Hk+H+Avc65E2TXrjGcLqu1iASRsu6EgtWgZjz1Jk7MuZ4Wmded6iu8MNFYdkv2pwDpNZbuqY7M7n/VbH3ll7UYxqz6NfMXi++9nVgYz1kOKaTubaX+8VeqKMTtG99/fQ3ScPuRrBs6px8=
+	t=1733846806; cv=none; b=ImMCg5xhFpYr18ym4PfAlEarsfRvbOj/moBQsLA5P8zRq3fasfjvcHS4YA7ttAW0sEo2ifOmR01fJtyh5Os2EpatfeZOkzqt7FaRSbO2Swhv8aoB1YjvX1DJzing9/k3W14Yvi5kyDytB1rFo7l6GG+HY6n2AyGBdTGdHrBcVOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733846803; c=relaxed/simple;
-	bh=nhIKrOVHXT3fUCBw4LPHGsOsiy5FD8A3uloS3DV+YHc=;
+	s=arc-20240116; t=1733846806; c=relaxed/simple;
+	bh=wxcjY6Sxsaz2hTsZ9OLXJZ3XXXODa/UsYKOkty8coHs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FjbBPHLLUjtykXNIeXb/xEy99mNRE6FD7Re0UuaeqOmnekFcSJ4Qxi8RhpOPvokEMnpHwWEs4NphtULHe1D1JO2G/5oR8jvXdJ6hl5ifxpxiv8cCCt1nRu3zY7R6L7euOhyc8rE+SJdnF6aQAcIsQWqG5WaVRwmd3IgWK9bALF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8ZZHIvS; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ck86OacM2JXWX+n8UqXls98lxyTRCO9uFZYgpcQW+CJ90vFtY8mS6HuH/LwcVIOr0r0mIx83y8tQ+oHzIxTuynFBmG6vVjXJ921RLryuTCjiim2yHIrrXtIq2Ub5hg40B+D+JzrIk7rHtIQOF/pPZEHeNSNaHgm9vxrQadVLO3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1E8oc1U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8ZZHIvS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C9CC4CEE8;
-	Tue, 10 Dec 2024 16:06:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1E8oc1U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C9DC4CEE2;
+	Tue, 10 Dec 2024 16:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733846802;
-	bh=nhIKrOVHXT3fUCBw4LPHGsOsiy5FD8A3uloS3DV+YHc=;
+	s=k20201202; t=1733846806;
+	bh=wxcjY6Sxsaz2hTsZ9OLXJZ3XXXODa/UsYKOkty8coHs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P8ZZHIvSDkAlRtjuBdPZfIY3aU5cCBpzyB/i2Vv0HHj1O6+BciyVjba8Qkih/H+oH
-	 8TtDjHvi5iAR5MM0ElcShiTGwZql1i32Y6428E+38PRhzgRtAWTKpfhzHJiPn84smK
-	 HJWY3mo1jKE1QGYdAFfrLrczgT25PXzoZxXyZngcTAjKXWCDBA2CPN3ZHKobWSi6Kp
-	 YPEzJWTJOIMs4W0CAIhrvEGezqOkDjf872n/KtyP4lCYe2TAn2G5E3eIEtTgkMqO5y
-	 6R94PbszNkqgUUmIxY+fUeVVOLgne6LUFDtXRCNteNin/BkIZD+yk9ibqhphxRJ7mU
-	 pxz1jz8DVVEoQ==
+	b=M1E8oc1U42hpuavRnkbvtANsKDn6k+Yz5tBBqHzq5EK5TUqUHa36DOjdsZtM9/Oah
+	 7Ob9TQmtp+TOGUxnPtTmLmpIqpnNroAzwnwmKUX1z2y5QJwZPjTBumWMwxlbxrJQSL
+	 XoGjjYk7/bX9yNbgOjxxo7jOVri9x8edVaTFuojVFYs2+5qimV28MQOYmCOpDoZ2hZ
+	 3WTBquHU2z6SE3hFNLNM85NRZOHnW3qjqYiCxnAFISoWZu2F1V4EvZJlQ1m0lTFihC
+	 7qBKTrXhoKxEhKdX/7Db81ANvpyxEUk+sFfpsf2DdNRV2wLjIJfc+yFATv/VLswlTx
+	 xiIo205ZM9XMQ==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arm-kernel@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -42,11 +42,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Peter Zijlstra <peterz@infradead.org>,
 	Russell King <linux@armlinux.org.uk>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 1/4] ARM: Disable jump-label on PREEMPT_RT
-Date: Tue, 10 Dec 2024 17:05:53 +0100
-Message-Id: <20241210160556.2341497-2-arnd@kernel.org>
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH 2/4] ARM: Disable HIGHPTE on PREEMPT_RT kernels
+Date: Tue, 10 Dec 2024 17:05:54 +0100
+Message-Id: <20241210160556.2341497-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241210160556.2341497-1-arnd@kernel.org>
 References: <20241210160556.2341497-1-arnd@kernel.org>
@@ -58,58 +57,45 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Thomas Gleixner <tglx@linutronix.de>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-jump-labels are used to efficiently switch between two possible code
-paths. To achieve this, stop_machine() is used to keep the CPU in a
-known state while the opcode is modified. The usage of stop_machine()
-here leads to large latency spikes which can be observed on PREEMPT_RT.
+gup_pgd_range() is invoked with disabled interrupts and invokes
+__kmap_local_page_prot() via pte_offset_map(), gup_p4d_range().
+With HIGHPTE enabled, __kmap_local_page_prot() invokes kmap_high_get()
+which uses a spinlock_t via lock_kmap_any(). This leads to an
+sleeping-while-atomic error on PREEMPT_RT because spinlock_t becomes a
+sleeping lock and must not be acquired in atomic context.
 
-Jump labels may change the target during runtime and are not restricted
-to debug or "configuration/ setup" part of a PREEMPT_RT system where
-high latencies could be defined as acceptable.
+The loop in map_new_virtual() uses wait_queue_head_t for wake up which
+also is using a spinlock_t.
 
-On 64-bit Arm, it is possible to use jump labels without the
-stop_machine() call, which architecturally provides a way to atomically
-change one 32-bit instruction word while keeping maintaining consistency,
-but this is not generally the case on 32-bit, in particular in thumb2
-mode.
+Since HIGHPTE is rarely needed at all, turn it off for PREEMPT_RT
+to allow the use of get_user_pages_fast().
 
-Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
-
-[bigeasy: Patch description.]
-[arnd: add !SMP case, extend changelog]
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+[arnd: rework patch to turn off HIGHPTE instead of HAVE_PAST_GUP]
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Link: https://lkml.kernel.org/r/20220613182447.112191-2-bigeasy@linutronix.de
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-I slightly changed the patch from the version currently in linux-rt.git
-to leave jump labels enabled on single-CPU kernels that are still
-fairly common on 32-bit arm.
-
-If there are no additional concerns about this version, I will
-forward it to Russell's patch system
+There is an open question about whether HIGHPTE is still needed
+at all, given how rare 32-bit machines with more than 4GB
+are on any architecture. If we instead decide to remove HIGHPTE
+altogether, this patch is no longer needed.
 ---
  arch/arm/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index fb4e1da3bb98..ed850cc0ed3c 100644
+index ed850cc0ed3c..4de4e5697bdf 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
-@@ -80,7 +80,7 @@ config ARM
- 	select HAS_IOPORT if PCI || PCMCIA || ISA || ARCH_FOOTBRIDGE || ARCH_RPC
- 	select HAVE_ARCH_AUDITSYSCALL if AEABI && !OABI_COMPAT
- 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
--	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
-+	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU && (!PREEMPT_RT || !SMP)
- 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
- 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
+@@ -1231,7 +1231,7 @@ config HIGHMEM
+ 
+ config HIGHPTE
+ 	bool "Allocate 2nd-level pagetables from highmem" if EXPERT
+-	depends on HIGHMEM
++	depends on HIGHMEM && !PREEMPT_RT
+ 	default y
+ 	help
+ 	  The VM uses one page of physical memory for each page table.
 -- 
 2.39.5
 
