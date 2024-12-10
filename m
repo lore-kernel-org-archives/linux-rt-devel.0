@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F4923DEBB;
-	Tue, 10 Dec 2024 16:06:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8E322FE07;
+	Tue, 10 Dec 2024 16:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733846806; cv=none; b=ImMCg5xhFpYr18ym4PfAlEarsfRvbOj/moBQsLA5P8zRq3fasfjvcHS4YA7ttAW0sEo2ifOmR01fJtyh5Os2EpatfeZOkzqt7FaRSbO2Swhv8aoB1YjvX1DJzing9/k3W14Yvi5kyDytB1rFo7l6GG+HY6n2AyGBdTGdHrBcVOQ=
+	t=1733846810; cv=none; b=oaKf/nEjQeyFlSbUyobybywYP20FA/vMcFL8fSlxypkOb/+ZrhcpmXr/j8V5c4mxqf9AE9LXlxQDby/EAmgP4k6wUgFcQePCbbnXq5q7jPYPDwY9HNYVBNWj3OvUWKdiNH9VEmcTqVsqomqykQl2nDapQMsH8IMTxAkL3kwblaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733846806; c=relaxed/simple;
-	bh=wxcjY6Sxsaz2hTsZ9OLXJZ3XXXODa/UsYKOkty8coHs=;
+	s=arc-20240116; t=1733846810; c=relaxed/simple;
+	bh=IDAs66loD46ejrDZgcdhA2wj912kFUy5s0hoLSzyXSk=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ck86OacM2JXWX+n8UqXls98lxyTRCO9uFZYgpcQW+CJ90vFtY8mS6HuH/LwcVIOr0r0mIx83y8tQ+oHzIxTuynFBmG6vVjXJ921RLryuTCjiim2yHIrrXtIq2Ub5hg40B+D+JzrIk7rHtIQOF/pPZEHeNSNaHgm9vxrQadVLO3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1E8oc1U; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=c9ABv2zN7788WMftpTrPPU4jdL/2IctglHB5u1XOBNu+BzqZaSaZhUBaPwLlLZE/JLdee4Z/EOK0a4M6nXiba+8JbHfXchtapvH5GHBKnUeRx6928j3FASbh1TxQtzBy1IELDojGMXy9oxJjoSAgDxxHsdTNC7xgPAcjz7pJIEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADJHIkfi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1E8oc1U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C9DC4CEE2;
-	Tue, 10 Dec 2024 16:06:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADJHIkfi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2AE5C4CEE1;
+	Tue, 10 Dec 2024 16:06:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733846806;
-	bh=wxcjY6Sxsaz2hTsZ9OLXJZ3XXXODa/UsYKOkty8coHs=;
+	s=k20201202; t=1733846810;
+	bh=IDAs66loD46ejrDZgcdhA2wj912kFUy5s0hoLSzyXSk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M1E8oc1U42hpuavRnkbvtANsKDn6k+Yz5tBBqHzq5EK5TUqUHa36DOjdsZtM9/Oah
-	 7Ob9TQmtp+TOGUxnPtTmLmpIqpnNroAzwnwmKUX1z2y5QJwZPjTBumWMwxlbxrJQSL
-	 XoGjjYk7/bX9yNbgOjxxo7jOVri9x8edVaTFuojVFYs2+5qimV28MQOYmCOpDoZ2hZ
-	 3WTBquHU2z6SE3hFNLNM85NRZOHnW3qjqYiCxnAFISoWZu2F1V4EvZJlQ1m0lTFihC
-	 7qBKTrXhoKxEhKdX/7Db81ANvpyxEUk+sFfpsf2DdNRV2wLjIJfc+yFATv/VLswlTx
-	 xiIo205ZM9XMQ==
+	b=ADJHIkfiTV0YsOu/HXMzwiS2RxR+5D0cCrNlcj00SQU1YljAfFMCaXaJUWQ2rdFOU
+	 iSq4zLD9LGm3Rf1r52f2jsvLRxJzbx4RHtht+B0YxK/e+1a1h1XYL9yntzNDQfQiSZ
+	 Z5x1beU4WJoE/X7BOoMoY//o1542eZPoiKgXvjzBiFVv4Ok1RdB5kWh7b1KHLRwzuJ
+	 mITMmSURfkPXvsQi08gl0RbQOPq87tCYfo9u81kCz3a8Z/pS/rAzarx8y7plmv+tHv
+	 W3QP4/mwCMHdaVN4qnm8tdWHIryJnxDxcvzoT7KBq3kTjX98PcHL4zfil8uaKsh099
+	 cHaTRkEQ4+Nsw==
 From: Arnd Bergmann <arnd@kernel.org>
 To: linux-arm-kernel@lists.infradead.org
 Cc: linux-kernel@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Russell King <linux@armlinux.org.uk>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 2/4] ARM: Disable HIGHPTE on PREEMPT_RT kernels
-Date: Tue, 10 Dec 2024 17:05:54 +0100
-Message-Id: <20241210160556.2341497-3-arnd@kernel.org>
+Subject: [PATCH 3/4] ARM: drop CONFIG_HIGHPTE support
+Date: Tue, 10 Dec 2024 17:05:55 +0100
+Message-Id: <20241210160556.2341497-4-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241210160556.2341497-1-arnd@kernel.org>
 References: <20241210160556.2341497-1-arnd@kernel.org>
@@ -57,45 +57,79 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+From: Arnd Bergmann <arnd@arndb.de>
 
-gup_pgd_range() is invoked with disabled interrupts and invokes
-__kmap_local_page_prot() via pte_offset_map(), gup_p4d_range().
-With HIGHPTE enabled, __kmap_local_page_prot() invokes kmap_high_get()
-which uses a spinlock_t via lock_kmap_any(). This leads to an
-sleeping-while-atomic error on PREEMPT_RT because spinlock_t becomes a
-sleeping lock and must not be acquired in atomic context.
+CONFIG_HIGHPTE was added in linux-2.6.32, a few years before 64-bit
+support. At the time it made sense, as the CONFIG_ARM_LPAE option allowed
+systems with 16GB of memory that made lowmem a particularly scarce
+resource, and the HIGHPTE implementation gave feature parity with 32-bit
+x86 and frv machines.
 
-The loop in map_new_virtual() uses wait_queue_head_t for wake up which
-also is using a spinlock_t.
+Since Arm is the last architecture remaining that uses this, and almost
+no 32-bit machines support more than 4GB of RAM, the cost of continuing
+to maintain HIGHPTE seems unjustified, so remove it here to allow
+simplifying the generic page table handling.
 
-Since HIGHPTE is rarely needed at all, turn it off for PREEMPT_RT
-to allow the use of get_user_pages_fast().
-
-[arnd: rework patch to turn off HIGHPTE instead of HAVE_PAST_GUP]
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Link: https://lore.kernel.org/lkml/20241204103042.1904639-8-arnd@kernel.org/T/#u
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-There is an open question about whether HIGHPTE is still needed
-at all, given how rare 32-bit machines with more than 4GB
-are on any architecture. If we instead decide to remove HIGHPTE
-altogether, this patch is no longer needed.
+I sent a patch to drop HIGHPTE support on x86 today, see
+https://lore.kernel.org/lkml/20241210144945.2325330-9-arnd@kernel.org/T/#u
+
+If that one gets merged, we can merge this one instead of the one
+that makes HIGHPTE depend on !PREEMPT_RT, but if we decide against
+the x86 change, then we probably don't want this one either.
 ---
- arch/arm/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/Kconfig               | 11 -----------
+ arch/arm/include/asm/pgalloc.h |  8 +-------
+ 2 files changed, 1 insertion(+), 18 deletions(-)
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index ed850cc0ed3c..4de4e5697bdf 100644
+index 4de4e5697bdf..e132effafd8b 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
-@@ -1231,7 +1231,7 @@ config HIGHMEM
+@@ -1229,17 +1229,6 @@ config HIGHMEM
  
- config HIGHPTE
- 	bool "Allocate 2nd-level pagetables from highmem" if EXPERT
--	depends on HIGHMEM
-+	depends on HIGHMEM && !PREEMPT_RT
- 	default y
- 	help
- 	  The VM uses one page of physical memory for each page table.
+ 	  If unsure, say n.
+ 
+-config HIGHPTE
+-	bool "Allocate 2nd-level pagetables from highmem" if EXPERT
+-	depends on HIGHMEM && !PREEMPT_RT
+-	default y
+-	help
+-	  The VM uses one page of physical memory for each page table.
+-	  For systems with a lot of processes, this can use a lot of
+-	  precious low memory, eventually leading to low memory being
+-	  consumed by page tables.  Setting this option will allow
+-	  user-space 2nd level page tables to reside in high memory.
+-
+ config ARM_PAN
+ 	bool "Enable privileged no-access"
+ 	depends on MMU
+diff --git a/arch/arm/include/asm/pgalloc.h b/arch/arm/include/asm/pgalloc.h
+index a17f01235c29..ef6cb3e6d179 100644
+--- a/arch/arm/include/asm/pgalloc.h
++++ b/arch/arm/include/asm/pgalloc.h
+@@ -85,18 +85,12 @@ pte_alloc_one_kernel(struct mm_struct *mm)
+ 	return pte;
+ }
+ 
+-#ifdef CONFIG_HIGHPTE
+-#define PGTABLE_HIGHMEM __GFP_HIGHMEM
+-#else
+-#define PGTABLE_HIGHMEM 0
+-#endif
+-
+ static inline pgtable_t
+ pte_alloc_one(struct mm_struct *mm)
+ {
+ 	struct page *pte;
+ 
+-	pte = __pte_alloc_one(mm, GFP_PGTABLE_USER | PGTABLE_HIGHMEM);
++	pte = __pte_alloc_one(mm, GFP_PGTABLE_USER);
+ 	if (!pte)
+ 		return NULL;
+ 	if (!PageHighMem(pte))
 -- 
 2.39.5
 
