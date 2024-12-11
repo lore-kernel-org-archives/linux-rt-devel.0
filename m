@@ -1,147 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3C41A9B39;
-	Tue, 10 Dec 2024 16:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEBC1C548E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 13:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733846814; cv=none; b=K9zRWlcU0gyQ6tLG9o1Vu5M7YzAv0BZo1jQDgsJuMmlEDadD89MigC0RmyUMd3bcmBnT1s/7ddCLja6ME5ZSVdgSpyT6BFyqIi6NfOIs3aapvgWL+pxgiBVc9QKbDyzJxp7S39NttvmZ5gZF9iF8+dstBrezOfd6QQVqJVeCTv8=
+	t=1733922258; cv=none; b=EXYEM6OGM+f2x1A+/oQrDFzqWoc8bhBD/9Edarekl6bDlc9dzOBy5XzvgCpkIU/V1bERNyqQzZUJ+SUSpetDWk5O4HfGheMnvyo+DNCHNEF0mpd3mZpi0gzonNhUaw9+pr2c+fBc2lxj4q9juvLeN/nqaRWA5lcAku4/ubIbl8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733846814; c=relaxed/simple;
-	bh=au+G63Alb5GCF/A9SMKFt0ffiADn8Kv5aULRnynJplQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ndQFtCoKPEYmur9WYOcTeCoarHB2AiPljGxw/qqwoWFI8buHipof3PUklvUpDtQUaBY+po/U986xZjwekhCoZA6CdeKlmr/BRxRdi/3gVEWR1UEicrnu3P1eqpJpbD5uiIhPPhPXRZA/y8wUZaizjqcetdvvs0gj+9B4RJNlcrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEjxcxD8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733922258; c=relaxed/simple;
+	bh=74wusGcBfuJxxiu3HaMI2SAkHBbLte2qbusEcT7vvRw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jhf9cSzf/11RVg28FmSmLTkb7WOOM4JC91r3L5zsfNoXAnGB3ddksr+FpuyJ4F086qQ8a8Mmm/lF76upglF82P3aT/mYlU/Cni4fzbwGGep/LanAbvpH5a9f2Wfe0SUUlX96sYP6/FXaOV+WdCoaV9bNtpraMgGq4Y5ZbxVU404=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mDVRsuov; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEjxcxD8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 931B6C4CEE5;
-	Tue, 10 Dec 2024 16:06:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733846814;
-	bh=au+G63Alb5GCF/A9SMKFt0ffiADn8Kv5aULRnynJplQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DEjxcxD8oTx/TOiQj0A2f+JJWdp/WTkV38+nqMqbKqE7+bF6LG9S+6FdFjp6oYQtq
-	 rW1mfkcfhys/Emrwns6joq2JUc53T52CS463Zf/K5eFYzyYk7YjDEIVC4mkWw39m9j
-	 S6Z6Oqr/P1VJwWZx+FKYRsDQ6xsQzrgLqFnD+wTb1DLUo4Rj1JRdck87rev7uW6xSX
-	 mfsaWuEGPNNqdlX046i345AyLRdM8upKoU4Y31jGz7ADYX6irfh+RsIJEiaUdtPhbV
-	 0Lh1SwNgDuIqEQjYvdRqYWOg3GV79ubzX6l4VsAKF47MKqP0JVWTeXepIEOL0Y7J6Q
-	 sQebOtMZyj6vg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 4/4] mm: drop HIGHPTE support altogether
-Date: Tue, 10 Dec 2024 17:05:56 +0100
-Message-Id: <20241210160556.2341497-5-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241210160556.2341497-1-arnd@kernel.org>
-References: <20241210160556.2341497-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mDVRsuov"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53e399e3310so4652023e87.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 05:04:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733922255; x=1734527055; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=74wusGcBfuJxxiu3HaMI2SAkHBbLte2qbusEcT7vvRw=;
+        b=mDVRsuovSoINk2oygzStVm9H+oifmbbpb52V9QUukR+438pzcz7J8KS6BczNeAvnid
+         VhFJDZsGN2kzwU3NG+9Jv1bB8zOuSlTgG+7ummh7ubvg+0oj629ubKxz1cWQv8SPs6OO
+         9aAoKqV4G/ezdsnW+y6fJ5EU8XZ8kNidKNG7bqiYKQoxho4eQsg1IvkYCE9YnChLfgBV
+         uK0wn9Xd1HdQg0Oh2QHnJGgIXkraMggwhYX4yVOKEmZrCX8xpRPPBvYXq7dQ84bpuNY/
+         Tn6IGKiSZlQ5vkTLURVSVbGaYXEAcRwZ0BRcDtaUPWGXNvmxVrxsC4PPWEn2q27gYgxU
+         YmoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733922255; x=1734527055;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=74wusGcBfuJxxiu3HaMI2SAkHBbLte2qbusEcT7vvRw=;
+        b=ROU72jzaEuL2hUJhjbxYRdpyqNWozv/mWG3aMwGFoiy4xl+D8Bkf6JXC8O19wTUZYj
+         V3tpM0uL7gGtwyndGkZovBxWHJXuSLDYlt8GI4Qr04m+0ovR9yF9qILJW88rdN/bjyUw
+         E8goP82W8AKj1aYVlJiWm/k8ZdOC6Kj3AMhQZhTKr3x2tgy2dLH0vKyeO5YkeHz53LWE
+         4BBUnjwxH2PbtetIrkDx6w+4/FnrOPV8knmR9P8HzB90fM+UltHPAh6NBZv93yza2/ON
+         iuTai5zdFnxnI5OeYPNiTP9aOyFLLMm1CsZ8cA9VdxvvSRTmramiGbZn78FM5t8ZBoJv
+         3h/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUNxkuUITcxKLWk5xuzRXU43H+LKxZyJhYTVnJF9n/5gQLbeEbRWfwKqn+BSXEZmdoER+Cz/M8iOI/1bDwZig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCaNoLoZKVSpaudp2tsJLU1S5PR2CieXCx+kyBWGP8fOKNHVo9
+	zoMD2LRp9P/3QKDCMPqAfehfhsET7Q8fR+M8f9DNLP5P8+4e4v9voixWTxLRZiwc/GaL1CneS+X
+	1x8n4T/rgkQUHSr7xBiXHGLbCPQ0OS5UOrCxu3g==
+X-Gm-Gg: ASbGnct4z6MoRqsLLJhyv/3XvkiwynMG562Jzlv6zG+ddpT+1dSsMUMdcQcNDUbwAJh
+	k3EvmFCqwgImZh/sL5LlotpsX22zqMmyUUw==
+X-Google-Smtp-Source: AGHT+IGB6//Aa/9qdBUs97OqLI01wh9FfTforqMFQJWtL6U0HM26bdGgt3fd2jPfYC1+ZrQOgriT60mCRL7KIvudlxQ=
+X-Received: by 2002:a05:6512:3e01:b0:540:26f2:3e18 with SMTP id
+ 2adb3069b0e04-5402a60c377mr883807e87.49.1733922255058; Wed, 11 Dec 2024
+ 05:04:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241210160556.2341497-1-arnd@kernel.org> <20241210160556.2341497-2-arnd@kernel.org>
+In-Reply-To: <20241210160556.2341497-2-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 11 Dec 2024 14:04:03 +0100
+Message-ID: <CACRpkdYP6yWHuWGwHZCe7SQLg-BFtLb-KKHxqrXbeM2hhrsgfA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ARM: Disable jump-label on PREEMPT_RT
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
+	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, Jason Baron <jbaron@akamai.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Russell King <linux@armlinux.org.uk>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, Dec 10, 2024 at 5:06=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 
-With both x86 and arm having dropped CONFIG_HIGHPTE support, no
-architecture is left using it, so remove the remnants in common code.
+> From: Thomas Gleixner <tglx@linutronix.de>
+>
+> jump-labels are used to efficiently switch between two possible code
+> paths. To achieve this, stop_machine() is used to keep the CPU in a
+> known state while the opcode is modified. The usage of stop_machine()
+> here leads to large latency spikes which can be observed on PREEMPT_RT.
+>
+> Jump labels may change the target during runtime and are not restricted
+> to debug or "configuration/ setup" part of a PREEMPT_RT system where
+> high latencies could be defined as acceptable.
+>
+> On 64-bit Arm, it is possible to use jump labels without the
+> stop_machine() call, which architecturally provides a way to atomically
+> change one 32-bit instruction word while keeping maintaining consistency,
+> but this is not generally the case on 32-bit, in particular in thumb2
+> mode.
+>
+> Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
+>
+> [bigeasy: Patch description.]
+> [arnd: add !SMP case, extend changelog]
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Link: https://lkml.kernel.org/r/20220613182447.112191-2-bigeasy@linutroni=
+x.de
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-It is likely that further cleanups are possible in the page table
-code but those are not obvious from the config options.
+Makes sense.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- include/linux/hugetlb.h | 5 +----
- include/linux/mm.h      | 1 -
- include/linux/pgtable.h | 9 ---------
- 3 files changed, 1 insertion(+), 14 deletions(-)
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index ae4fe8615bb6..5369a269dd39 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -176,7 +176,6 @@ extern struct list_head huge_boot_pages[MAX_NUMNODES];
- 
- /* arch callbacks */
- 
--#ifndef CONFIG_HIGHPTE
- /*
-  * pte_offset_huge() and pte_alloc_huge() are helpers for those architectures
-  * which may go down to the lowest PTE level in their huge_pte_offset() and
-@@ -191,7 +190,6 @@ static inline pte_t *pte_alloc_huge(struct mm_struct *mm, pmd_t *pmd,
- {
- 	return pte_alloc(mm, pmd) ? NULL : pte_offset_huge(pmd, address);
- }
--#endif
- 
- pte_t *huge_pte_alloc(struct mm_struct *mm, struct vm_area_struct *vma,
- 			unsigned long addr, unsigned long sz);
-@@ -966,9 +964,8 @@ static inline spinlock_t *huge_pte_lockptr(struct hstate *h,
- 	 */
- 	if (size >= PUD_SIZE)
- 		return pud_lockptr(mm, (pud_t *) pte);
--	else if (size >= PMD_SIZE || IS_ENABLED(CONFIG_HIGHPTE))
-+	else if (size >= PMD_SIZE)
- 		return pmd_lockptr(mm, (pmd_t *) pte);
--	/* pte_alloc_huge() only applies with !CONFIG_HIGHPTE */
- 	return ptep_lockptr(mm, pte);
- }
- 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index f56f81d5e244..6353fd939702 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2954,7 +2954,6 @@ static inline spinlock_t *pte_lockptr(struct mm_struct *mm, pmd_t *pmd)
- 
- static inline spinlock_t *ptep_lockptr(struct mm_struct *mm, pte_t *pte)
- {
--	BUILD_BUG_ON(IS_ENABLED(CONFIG_HIGHPTE));
- 	BUILD_BUG_ON(MAX_PTRS_PER_PTE * sizeof(pte_t) > PAGE_SIZE);
- 	return ptlock_ptr(virt_to_ptdesc(pte));
- }
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index adef9d6e9b1b..23be8776bd5e 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -119,14 +119,6 @@ static inline pte_t *pte_offset_kernel(pmd_t *pmd, unsigned long address)
- #define pte_offset_kernel pte_offset_kernel
- #endif
- 
--#ifdef CONFIG_HIGHPTE
--#define __pte_map(pmd, address) \
--	((pte_t *)kmap_local_page(pmd_page(*(pmd))) + pte_index((address)))
--#define pte_unmap(pte)	do {	\
--	kunmap_local((pte));	\
--	rcu_read_unlock();	\
--} while (0)
--#else
- static inline pte_t *__pte_map(pmd_t *pmd, unsigned long address)
- {
- 	return pte_offset_kernel(pmd, address);
-@@ -135,7 +127,6 @@ static inline void pte_unmap(pte_t *pte)
- {
- 	rcu_read_unlock();
- }
--#endif
- 
- void pte_free_defer(struct mm_struct *mm, pgtable_t pgtable);
- 
--- 
-2.39.5
-
+Yours,
+Linus Walleij
