@@ -1,100 +1,98 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61782336BF
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 13:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F88381AA
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 13:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733925072; cv=none; b=D5nmp6FwnF0d2dfi/GXRJD9ankjYnAVYi3WQeK8HqHO6I/hzl7uD1fpFsuIZ55IpSzOgZpCxBBJjdLwzNTDQAd+QsXsqDPNKlKPhUAbF/uHYznVx7mHSqp1IKD+tEILxlx9MrKThcS1znz05c7+JVsHKNktz4lCUdSxmR+bmjLI=
+	t=1733925206; cv=none; b=ZbNW1YqDPOAZYD8mpbnvkiFMODJAwtOL2QXNE+vM3any1+OEIH/aJCAvOb8LiblnTZCO/Lk+PRzAB80b7C9VqdUvE9ITaTw8pmkWhh4v7dohgjiwp2HCiwejgR9LSVfTA8TiaOVt1ZIjpK524TLg+jjc9pUnufcFXxBu1hvtkOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733925072; c=relaxed/simple;
-	bh=5qubLMaGuBz29aMyEIFBlCc81fI0ogHv+dJZtbbm9uE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfqRNsMbkFKqq23FnJZJhWdyRWB4QboAKriCvWk+7OjvwXrZn4ANj3O1SlBzshXFxFI6FMlfbjFSB4br7numRafSfRaVCkD4ViDjlCMV91zJQ/6CiUkHXiBQn0sFaxZJDV/rDK/GTBh1LYxwcbV8Qdfrnl/E4M0FokVSwIEYgyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=bTLCy0es; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1733925206; c=relaxed/simple;
+	bh=mLDfF6DLkAmhFafk0UNWf4nDRiuWWXkbwy0Q4hCTIFk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IoD4sFkvmGaKX/5JTsLqicm4RYURt3PnzuGX8Co7NV/myCkCeHrZk2JazKy2M9c4zzAYeXwPg/0UiFiX64QwCeZ2eGxZNzAaFq2gxabtiBhSmYZaVZwono8o/zPkFBFgoZYDM8ShBtxEZw7w/0xJHhx6ITtuGajSnpHXomtxzVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sjwV+FFu; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="bTLCy0es"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Et/J9SQdT88EyXCsKLWmZ8BwqDw8CUv9dJzq6Y7P/LI=; b=bTLCy0es9Myffa2YtoKYWxYB0l
-	taRrsBab9izJB7hzMLz/dMCekfnIEbpysaxo4UXsLkMUGaT26VpObytEWsdvtLJq6vbBcZBJOgCVm
-	6uNbdWzwV8AsTjoro3AOS/43rKAYCoHT12Jv+9JNUWARE5kX6fTGQjLj/UMqLiRYIk/iYY5BK+xK7
-	AOvkTwF7J6Q3FASo3+GnqSZXWcFfV2uv+qMuSFYT5P1vem4lnBd1PfobizDSynEiGADPv7/+w9Zwh
-	sJPBKmVvr7FZgYdPZ8waDzFLpIAR5TuMCzIBGOLLW6dQZ5nfXC85HVz2pVVzWxvprpiYWbA8M15G1
-	w4e88fug==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:48524)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tLN77-0003zU-2t;
-	Wed, 11 Dec 2024 13:50:54 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tLN73-0004CI-1c;
-	Wed, 11 Dec 2024 13:50:49 +0000
-Date: Wed, 11 Dec 2024 13:50:49 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 3/4] ARM: drop CONFIG_HIGHPTE support
-Message-ID: <Z1mYufbtXpeEwTAq@shell.armlinux.org.uk>
-References: <20241210160556.2341497-1-arnd@kernel.org>
- <20241210160556.2341497-4-arnd@kernel.org>
- <CACRpkdZoRbJ4DwRpZQMKbEAvzg4AAdp4B+94SFLm1ssiQmjUwQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sjwV+FFu"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5401c52000fso3339117e87.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 05:53:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733925202; x=1734530002; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mLDfF6DLkAmhFafk0UNWf4nDRiuWWXkbwy0Q4hCTIFk=;
+        b=sjwV+FFuKc/2I08uf8rxaTl87ODqCxoNizjUCtL10U0Bp/QjFgaRS33elmauMwgOGA
+         OmkbwpNpmz9y/4C20MbL6zQyRg/QYVgdBwkYZWWoWuH6IrpMMKV7PkRl/TJnySzVrZOw
+         4psM3+j71SCPfxIx4moekV2JjpdSyQznUS5Fcvs0rZaM3L4RaKDePhfNx3o1crKHoCRA
+         yXbwBCKCrFdvyKYnm1mT4Fu5cRnsDaGiCie5ij0CDrCLiX8LbaBfjZBlG2kEWcfd3zxq
+         cI8dpL4wn/ibD8owfXcfgPa+NuxKts8QEYH55k9K5xtfesS3JBn6KlnYYFiB9XTQ6oc2
+         H16w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733925202; x=1734530002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mLDfF6DLkAmhFafk0UNWf4nDRiuWWXkbwy0Q4hCTIFk=;
+        b=dbnqdAk9quaHgD3m2yXzsWN70vk1+J5xyxmezq2OiVL60lXQro9tDbQ8Z4b8jaf8NU
+         lZTUG08GTgvlcTXOvI3QhZoTdbWpvVPmNXpsSad+F1r+cB/+Q0SHgaEdsxM6zU4ngEB7
+         34GXeSI4x4coHEIJU579VUXns8xrNrMkLB7f4BoweGSCZZ3aq+d4h3lHwmSQMCObweBz
+         jMC0MhSV2FVo3J5OgRftH4ALlmi4GvSXf1QzOFjrjBzNX/6LwVfx/o0B4jjkku2pHgbO
+         qZCp19HAmRw8osO/iby6n2Y0U/XyycyS5vPNCiBEjv4+QBGf+5Ok07fImCu5Wo2Qpwqu
+         QpZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWn/EcsamqBpVj/aebrVvPL69csMH7HfTTQ4rUE1utURG3cOT1aosbDNeQvyjOvnAe9MSKMaAqeTwX1BjDQ1w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4jsqZlk8yTztsk1SBorB8/Z0V+s7yCEFT6EiFwfL0Cv/Ux3R3
+	bK4Cy6ATStaiVjnPURgLA763hq19HubBog3GlWID5CQAQvnQqicMtqBHItAjzvHUEeZUAE/4tQQ
+	zSHyS7KQ3KpekdLaO7JxXOwU3XRv16QwO1Ek2EWk/Gr1FIsYmxs8=
+X-Gm-Gg: ASbGncuUOKUboX+GqI15WAOIb5X/eyuMrVQkbhEelQLWplDYwHxYVXsegLukU56dOKW
+	S+Ig8udgGxnf3NyFhdBvBbTv0gmkZtClHxg==
+X-Google-Smtp-Source: AGHT+IFpSpr7Oj3qJ4QCRaMyoAXW3T3Mn4cdU1emXCSwCgqqhtbRU6US3c71ZX6xXcz95RXUg/DvJ1LdvBmYYHR+JRA=
+X-Received: by 2002:a05:6512:3c85:b0:53e:1c3e:34 with SMTP id
+ 2adb3069b0e04-5402a6056a1mr984021e87.38.1733925202578; Wed, 11 Dec 2024
+ 05:53:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdZoRbJ4DwRpZQMKbEAvzg4AAdp4B+94SFLm1ssiQmjUwQ@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+References: <20241210160556.2341497-1-arnd@kernel.org> <20241210160556.2341497-5-arnd@kernel.org>
+In-Reply-To: <20241210160556.2341497-5-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 11 Dec 2024 14:53:11 +0100
+Message-ID: <CACRpkdbsN9WNZ4Fo++FvK+2xxe6VF+66oaBgs4+o3oGUfW4OaA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] mm: drop HIGHPTE support altogether
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
+	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, Jason Baron <jbaron@akamai.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Russell King <linux@armlinux.org.uk>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 11, 2024 at 02:32:51PM +0100, Linus Walleij wrote:
-> On Tue, Dec 10, 2024 at 5:06 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> 
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > CONFIG_HIGHPTE was added in linux-2.6.32, a few years before 64-bit
-> > support. At the time it made sense, as the CONFIG_ARM_LPAE option allowed
-> > systems with 16GB of memory that made lowmem a particularly scarce
-> > resource, and the HIGHPTE implementation gave feature parity with 32-bit
-> > x86 and frv machines.
-> >
-> > Since Arm is the last architecture remaining that uses this, and almost
-> > no 32-bit machines support more than 4GB of RAM, the cost of continuing
-> > to maintain HIGHPTE seems unjustified, so remove it here to allow
-> > simplifying the generic page table handling.
-> >
-> > Link: https://lore.kernel.org/lkml/20241204103042.1904639-8-arnd@kernel.org/T/#u
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> 
-> I'm in favor of this if the x86 patch goes in. We need to get rid
-> of highmem anyway and this will need to happen sooner or later
-> either way.
+On Tue, Dec 10, 2024 at 5:06=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 
-Well... I use highmem routinely.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> With both x86 and arm having dropped CONFIG_HIGHPTE support, no
+> architecture is left using it, so remove the remnants in common code.
+>
+> It is likely that further cleanups are possible in the page table
+> code but those are not obvious from the config options.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Mapping PTEs in highmem makes no sense to me, it's better
+that we try other solutions to move away from highmem use
+altogether.
+
+Yours,
+Linus Walleij
