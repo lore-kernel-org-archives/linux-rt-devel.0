@@ -1,112 +1,142 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23451229127
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 13:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27B423FD06
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 13:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733923580; cv=none; b=O6/G6IP4Q/SXAhzvV1+S82gxAqPDp7bRZcssuwJ0ufMo2HXeFsVmpyKRDC/HQ/Z5aFT2rsTVsjc3AmnJtsHiZUTvyDjgBsAVfwsOHMZMoofoqXEsRRcWbozYh2aV8Ec52YLu5MDFh/FQ10+RRNxx13chH4aOcnSefbNRXz8Yn64=
+	t=1733923784; cv=none; b=JIHD6FqtHcNQpuvh3W/oHYbgEA74pd82ZhRknkZ4GHGAOFElDGIwNQ8azF+Nuq8GmOBCQIpH8Psl0Cqm+EMcW0wR9QJOKN03fmLLeK04wQiBT1OytqH4KAsNlQyStZfrKmZERhnEyjBULBJDXpsvD3XjYETryc1PPiqfn+nVDcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733923580; c=relaxed/simple;
-	bh=kc92lyMc64EmcoKkji8Mj4FJICIwmhsOCGb3QKzavws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hu30NEdmW2JS7nj+NJlAuztv7wVbB03skYkSKJZXb64eXIKNgGQZ1gO3Nl2gUzNLg36Wo/2ayAlrCOxHCyxUHmu49+YoZP0bI7CzDkmUwwEAD7vNxCSrj6VLUQVG301m36rqZYyktVQeE84SqtvY5ipkqDnrY16qTgdLCpwYMGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g3QuKsaQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oZyZKAzo; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1733923784; c=relaxed/simple;
+	bh=pBszRuBW18HohSRop+i8jodKGiC4y4kU/qCMAftwYv8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qwioKlDsGuLnepxD2zltst20ch3O8IVWXQ4st8EnJ2I7rJ1Xgw9GpWC7bqJEJzzwOCJZU9TqlAbxxU/lxtgeJL9hAElDVqUp8wplXQzYODqPi3R7r+0lM59w5C1Gphxknb7vurRpiBBpodH2c+AJl5CyGekp5ZtsWxyvvML2B7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vTufm6+i; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g3QuKsaQ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oZyZKAzo"
-Date: Wed, 11 Dec 2024 14:26:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1733923569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2cC0jtNFF2OB7EPEgIvbsGCXy7/YyEZDKndIQ+GkiRE=;
-	b=g3QuKsaQef6e6PeMK+2oy3noWjaNhgRV6gXBjaotK0lO44SUXfa0MTZpNhHcq16gz+qlVh
-	PN8w+U8BTzrMD0xY6Au9o2yGSnpKt9H2DtoVk4Dc+3Rf4bAtt2eWYbu5Xmjf/rJg6A+KKw
-	DowFb+Ip/fqTB+MOql8BHL9HcrugxZeAXRzp4gnmPRaUtwONCu4O3MNVUzSmfFEPE6aOJ+
-	bVSiv4nmWM4r9C6KV3w1RMoMq/hazNgGNMiNlZxCpGixcaXJrKgY0Pe6JZ7wYH5aYnYqTc
-	4syQuoDYqxu9xGeFhtBThSDQgJA/mXzLVCjK7ybGuftIy28Wb7EmgjLiovNzSg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1733923569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2cC0jtNFF2OB7EPEgIvbsGCXy7/YyEZDKndIQ+GkiRE=;
-	b=oZyZKAzopi3biPeXNdIzMu7nkbrftsiKhCO4QLn9NSke2ZXhslY9IaxLL2rMo1dfnCMIfX
-	ScXi8cERdOFVpFBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 1/4] ARM: Disable jump-label on PREEMPT_RT
-Message-ID: <20241211132607.z1zDTk89@linutronix.de>
-References: <20241210160556.2341497-1-arnd@kernel.org>
- <20241210160556.2341497-2-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vTufm6+i"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5401c68b89eso812939e87.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Dec 2024 05:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733923781; x=1734528581; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u7zPCRbNobZB2rLY4klNUfuL4Nc1TSS5AqwC+M05YI8=;
+        b=vTufm6+i601a4K0JK1mHJT8gCG9GqmtEwBZPyXUWN3AVk+jZNBrQEuOEmvLA7af6Xq
+         Wvse1T0dxlPWM7/KvNuKld0yiMGSMfqyR6VGAVgsnl1dzAsLwaKPVI9q7Hrzhw1cJU47
+         PtuGnTQB2gpWoI0wewhvmLbNogfvkpkoJNLMyL6z54vfd6cYKEjQkzoNDmYLxET4YpJh
+         lj0tdMxCR0scqZPWsMJfzHwElCH0s1GC8cy/XVcmHij+8a4QLP5uXg1H77B3Xyx7bwHa
+         oTW9mqa1tR3NVrkCMgRoTIDVNacIm9aVLVRwQyx2oIN3M0j0bpFMO9ty3EcPJUHv+P5g
+         QOVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733923781; x=1734528581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u7zPCRbNobZB2rLY4klNUfuL4Nc1TSS5AqwC+M05YI8=;
+        b=hqdtPT3zNZchZmjgA2Cy16PBpoQwvrG0vKPZVPrn9Bn/3rbnbS5XjXK2/JMOP+pSAb
+         mh5Vozipb5GGe8DlZwpQyJQvBMPG66YijBFRbYGV/cq1Uh9E3tlW0omqoBNtrGotLYbb
+         MTIiwFv12Eq8XMsIUTEOfTOH9UZSIa0lRR/XasFRS47FBQh+F5YknKOhH8RWkB9zl+x7
+         D1gURxv/8TkG/HRWYSOFZR2SjcVbxBmfcGreVlNXXpeu/AjzUkJCFcgCGRncDgwyVTWx
+         bC+0kBpC5GWvfenGtHW0x1E8zAl8jCtOUdxpgr3NWBPRbqOh8EUo3iEpmgwKH0sAHuo4
+         iAhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXG/fLm6CJEhBNapuCPDLjPzZyJE/WhmiC5VD2saJ2etEZD0kudorJig0NpQnxeiVpY5v49PReKeZZiMBKc/Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQpxDzThCLej1kx9JWxx98gjHu40mKDoYaBsyZKoLj2QvjzSr/
+	mGd9uNRDKnB0WR0hI5h5d/bLOTq3PbUc+XB9WxxD87ce4o9GLYGQJrZBU6Zo7GA7teWirYcq168
+	vw7lBu38VN/G1UnOU/LRgzBX1s9BSl35/vepR9A==
+X-Gm-Gg: ASbGnct/ZZ9XQwFchXj3mIqdrPdgM0GLg5To3CX8aOy0VgPSN0hJlnZdpyraKRGA45T
+	/mboYDVacx5I/hzIHc3f6RiweXzpxjE94hw==
+X-Google-Smtp-Source: AGHT+IFgSwAzChMV6MPtTrzqAT5fEZJhpVqpZ7rEneJDnxJfXq2+f607r/zOzxJe6hnLdIwQ0jSdAOyNE+c9jLtr2FA=
+X-Received: by 2002:a05:6512:3d9e:b0:53e:2246:c262 with SMTP id
+ 2adb3069b0e04-5402a6ba964mr927083e87.0.1733923780650; Wed, 11 Dec 2024
+ 05:29:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241210160556.2341497-2-arnd@kernel.org>
+References: <20241210160556.2341497-1-arnd@kernel.org> <20241210160556.2341497-3-arnd@kernel.org>
+In-Reply-To: <20241210160556.2341497-3-arnd@kernel.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 11 Dec 2024 14:29:29 +0100
+Message-ID: <CACRpkdZaoD2vqbCi1AFUa6mF2_=c3Nu4R0CvxFAep0VMgtMtOQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ARM: Disable HIGHPTE on PREEMPT_RT kernels
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, linux-mm@kvack.org, linux-rt-devel@lists.linux.dev, 
+	Ard Biesheuvel <ardb@kernel.org>, Clark Williams <clrkwllms@kernel.org>, Jason Baron <jbaron@akamai.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Russell King <linux@armlinux.org.uk>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024-12-10 17:05:53 [+0100], Arnd Bergmann wrote:
-> From: Thomas Gleixner <tglx@linutronix.de>
-> 
-> jump-labels are used to efficiently switch between two possible code
-> paths. To achieve this, stop_machine() is used to keep the CPU in a
-> known state while the opcode is modified. The usage of stop_machine()
-> here leads to large latency spikes which can be observed on PREEMPT_RT.
-> 
-> Jump labels may change the target during runtime and are not restricted
-> to debug or "configuration/ setup" part of a PREEMPT_RT system where
-> high latencies could be defined as acceptable.
-> 
-> On 64-bit Arm, it is possible to use jump labels without the
-> stop_machine() call, which architecturally provides a way to atomically
-> change one 32-bit instruction word while keeping maintaining consistency,
-> but this is not generally the case on 32-bit, in particular in thumb2
-> mode.
-> 
-> Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
-> 
-> [bigeasy: Patch description.]
-> [arnd: add !SMP case, extend changelog]
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+On Tue, Dec 10, 2024 at 5:06=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
+
+> From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>
+> gup_pgd_range() is invoked with disabled interrupts and invokes
+
+There is no gup_pgd_range() in the kernel, is this patch a bit
+old?
+
+There is gup_fast_pgd_range().
+See 23babe1934d7637b598e4c9d9f3876e318fa63a4
+gup.c contains:
+
+  get_user_pages_fast attempts to pin user pages by
+  walking the page tables directly and avoids taking locks.
+(...)
+   Let's consistently call the "fast-only" part of GUP "GUP-fast"
+   and rename all relevant internal functions to start with
+   "gup_fast", to make it clearer that this is not ordinary GUP.
+   The current mixture of "lockless",  "gup" and "gup_fast" is
+   confusing.
+
+So fast GUP is supposed to be lockless, and should just not
+have this problem. So it can't be addressing gup_fast_pgd_range()
+right?
+
+> __kmap_local_page_prot() via pte_offset_map(), gup_p4d_range().
+> With HIGHPTE enabled, __kmap_local_page_prot() invokes kmap_high_get()
+> which uses a spinlock_t via lock_kmap_any(). This leads to an
+> sleeping-while-atomic error on PREEMPT_RT because spinlock_t becomes a
+> sleeping lock and must not be acquired in atomic context.
+
+I think this needs to be inspected by David Hildenbrand, if he consistently
+rename the GPU functions to be "fast" and there is a lock somewhere
+deep in there, something must be wrong and violating the API
+contract.
+
+> The loop in map_new_virtual() uses wait_queue_head_t for wake up which
+> also is using a spinlock_t.
+>
+> Since HIGHPTE is rarely needed at all, turn it off for PREEMPT_RT
+> to allow the use of get_user_pages_fast().
+>
+> [arnd: rework patch to turn off HIGHPTE instead of HAVE_PAST_GUP]
+
+HAVE_FAST_GUP
+
+I'm still confused, how can something that is supposed to be
+lockless "fast" acquire a spinlock? Something is odd here.
+
 > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Link: https://lkml.kernel.org/r/20220613182447.112191-2-bigeasy@linutronix.de
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
-> I slightly changed the patch from the version currently in linux-rt.git
-> to leave jump labels enabled on single-CPU kernels that are still
-> fairly common on 32-bit arm.
+> There is an open question about whether HIGHPTE is still needed
+> at all, given how rare 32-bit machines with more than 4GB
+> are on any architecture. If we instead decide to remove HIGHPTE
+> altogether, this patch is no longer needed.
 
-So HOTPLUG_CPU depends on SMP and without SMP there no HOTPLUG_CPU so
-the patch function will be invoked directly. So we patch and flush.
-Well, okay.
+I'm more asking if HIGHPTE even acquires a spinlock anymore
+as it is supposed to be "fast"/lockless. If it does, it is clearly violatin=
+g
+the "fast" promise of the fast GUP API and should not exist.
 
-> If there are no additional concerns about this version, I will
-> forward it to Russell's patch system
-
-I'm fine with it, thank you.
-
-Sebastian
+Yours,
+Linus Walleij
