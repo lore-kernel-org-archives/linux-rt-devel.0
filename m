@@ -1,57 +1,57 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F27820B1E7
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 08:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E453820E02D
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 08:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733991405; cv=none; b=GGjY+Vo1LnImAzviAa5Mz+fHf5FhaPFQiEX8z8qWrM2peCbq6wSBuFvEdGK52XVM7iUO08eG8r+sJWC8zY/LV38SpjGt8H9X9vZ7nVTjUmUUFEUKIdVH5B6wGOKxZ96OVB0Tq33NAYJonxSmKzmtg8M8kR46zbJu8uMXQKfH4co=
+	t=1733993613; cv=none; b=XRkI2qIOWUXtb86KLSpAg4WOr0oS/e1W28G5IB0qbVWBreU9PiViD1bXmvSIV2LoWOT62k1SU4RQIL4WaczHvwONf0j9dt1pBPsV2OartdDlnv3ePLFOnngDBYsKp3VjWvxCTyxqkjm1SQhnnbbl2dFJR0P/BqDV5TNMZhxBxVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733991405; c=relaxed/simple;
-	bh=x1lZfxP8tVKva+5GYnCJibgYIIJQqmt5dFmZgOgGKf8=;
+	s=arc-20240116; t=1733993613; c=relaxed/simple;
+	bh=w3b8p5pId723s8apGEqRiRPGF/XIl9RTYQEEC3QeUe4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dbPO16mtOWJLiztdqmFbp6LfKVBZETROYwzEtc/5SoQJ9sV9HfX0h3W84KEICvM7heD4qphEOUeLfoIi95bGdqOv8Rb6c+27CNnFl4L71rJuu/nTrIsEAqzKIVl3b8QSivJjTyvL/w4iUuI2w6F1nCqp7bh4sMmZEDQnEGa/NCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AdnHU6Ke; arc=none smtp.client-ip=209.85.208.48
+	 To:Cc:Content-Type; b=eVkpcBh3IDpJ9Aq0nXvQHql64RwGn17wTHg+zfrgdz7XOHs6vBf28oyXoiD8SOi33hIC1hc0Fu0EQan63KFij9fGxyC9pViaPFj7+ojnJma7b6jK7oUCnSzr8UtW/IcuuEh9emcmah6htH/7ELWQXMUk3A5/ugn+JsYSWu0Zq6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IqWSCvSP; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AdnHU6Ke"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d3ecae02beso369654a12.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 00:16:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IqWSCvSP"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aa67333f7d2so47487766b.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 00:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1733991402; x=1734596202; darn=lists.linux.dev;
+        d=suse.com; s=google; t=1733993610; x=1734598410; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x1lZfxP8tVKva+5GYnCJibgYIIJQqmt5dFmZgOgGKf8=;
-        b=AdnHU6KeA7/DrsKfwtGhLm0nPGtbQDlTmADRyiR3LhIHmvqfGwPjXJA2ysMmAqaz1J
-         /LaCHpASgudsg6Gb0zFc4CFVQShx+FXtBdRqcU2u27thjHNGH6FJ5Xb+/+/l/jLgY1Z0
-         zHMnaqRRjDeQ8VH19nJFUnVyELxFp5UsDnYct2L+BngiJES3zCbBYQzHRlb6kctHQ+kU
-         tGiTl56mqKuvW5Pmz7fZUlE+2FAodA/5Dc3UlArNriZjJ/IgG5fSRKC/qXITjtBkSaAN
-         Hx/9hf7MczXNoNs1Qdgc4uIbpjq6bjs0btee+0Lxs489pYTEOj6xadOEbJv2JMw47yLP
-         k04A==
+        bh=w3b8p5pId723s8apGEqRiRPGF/XIl9RTYQEEC3QeUe4=;
+        b=IqWSCvSPmyyFVWRVJdsGM/44gZWN16GTVY7ieLFqJuBCVRqhqklo8Lv601TI/Puq1s
+         /2KkM0++tU2lhYWlI/ki7aOIU4Y9YKW52sYs0T7FWXt4mbcP35/vcBvEBVn+rNX5o8CD
+         48zzJ08i8NNiv3+h4FLV7SlAKWSO3VKEoNpEh+h9UQPm6VsaRKXxQkqjxxuW8+dmKS2t
+         hN+zt0e9EPGCK5fjC+pSpPMeMI2MZ/jDOnLWZWwqxIcwTFe9QT9VlOrgwipHxoiueB6v
+         ig4ByIIKp7SKRiiAIBtfhwtMMXp+lhf+2obKIjs64Box+ol3HWYGRjCPm9FG1KdNClqV
+         1Gyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733991402; x=1734596202;
+        d=1e100.net; s=20230601; t=1733993610; x=1734598410;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=x1lZfxP8tVKva+5GYnCJibgYIIJQqmt5dFmZgOgGKf8=;
-        b=Nakn7bWwFLsaIQJc+ukaaMuqifdf3DKyGMRCLLouIDnrZfx7thbS//P8FkqCIlhur8
-         Z0K4yW1Km/tDjE3w0PiGfxsgId4XrHetcTvqnFEkuI+643GEML2/kXP3HeNO3m2zXA1r
-         3oTnO1lUF4Wet10Of8qp9YpOdcCi4BO6nVg0vsZb6YpLyhjgpz3/0THC3SmdQdNRRFMK
-         8bs366XNCVAWmIVTAcO3/tz9+II2aTYz+reT8aTynxPPH8Dv3/u8os921muKZEQWvw5S
-         YFfNrqaw0aZEVD990iG1n7hh/XVxyNTJ6NmVWys/KPcx5ITpza97fw9FNfRrJxfEd95y
-         bXTA==
-X-Forwarded-Encrypted: i=1; AJvYcCX/rz1e3WiROvRm7yKj8N6PXDmJo0MBk10ROCcVHhcIIi8hTKD1+eAD7hDRzInTj7QRsGrK/3n+QeOdGxAI7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvuBpaBj91Ly6AevDmLhu9jkWXCdL1Uw3vXrEsIywmME4UOlyn
-	WXSrxOta+lAi7zAlogYnh4VjMAd66Jm9cLixH534U+TwKirmEstQqSzKz1MQFqRBWv2Q+BtVNFF
-	GPounIW1sDE+T/YwlW/Oc18VEtZcg1eUWPQ+1gg==
-X-Gm-Gg: ASbGncuxWpbLwuEqLIp4/l4qeKVO1/mss+3tC//Xea+Q2eU4UjnPdehi3OlOymWaDfu
-	/3Fa9iAx0Hz57lRVrd0bQ2N2QZTtpKJKfLrQT
-X-Google-Smtp-Source: AGHT+IHq2LiaTDAdQG1IRxOtsTssjhx6LklAJX9kMaulofgK7RHDp0nhYM9dwMoslUBNdUIH+VK7eMST4iIte9mhc84=
-X-Received: by 2002:a17:906:3083:b0:aa6:8a1b:8b78 with SMTP id
- a640c23a62f3a-aa6c1ad9e4fmr273362366b.6.1733991401684; Thu, 12 Dec 2024
- 00:16:41 -0800 (PST)
+        bh=w3b8p5pId723s8apGEqRiRPGF/XIl9RTYQEEC3QeUe4=;
+        b=Li3xoyCFpNQXcdHDTT/rnUZwlYHADGYCxta27ED4QCWrUFd31Urp7RVGy4j3BQIhqE
+         AQjaoIfg4K1pLHNEgcgyOy7sYpNnmJaoVLIeh3AIl3ZHH7qoYWoPsXrcfGLgh3OsbRRa
+         3sUhpVWihhdEDGkBhCjZbcrt0qDVIORyZ7n0mN5xSo3GVZdhHGYzbzZKZQjzKBeoMpGe
+         jntBnL4L1X1mDyFIHUSvSe6D+rBTsl77sJSO0e6lGAJzhx4KMDz6Pjf/fKN3otzaguTW
+         Zp2ROdCL7sOqwegNjOXvBjmVZ3EYAK/7/AVCHno3q9LOHWZgvz7AXbJVoYBLumtyE/zE
+         YIkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKI1GTwuzcSyiFlW57Xa/QeQtD11LoguX63+hVtjafiqimfDV/gKX+VWc6TNxgwwyLT7It/yBCsyAx45Purg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQNTMOgl0SnFIXsEMl7+buplSAoyjiieOcqRA9LrLT28ZIppMC
+	JNW2RtRu4sYd57xdtpdLSuwa55HCXOVC2Pb/z94yOM3/7tht5VCzR6wW68+sdCvI3PPfwyxQJ/v
+	uisRtWS3/mbhdk+dc8KRIIHP9D7+ZAzbRLZ0NQA==
+X-Gm-Gg: ASbGnctINYb6VEeMrZBbzb+BwNcJba8UadSEvXp3tF6lTG8kZXMWT4R7bjd8gzx6U1Y
+	0cf58Ye7uuSpfvZyIIGuNSmYxFkPPENnFTadr
+X-Google-Smtp-Source: AGHT+IGfU6rtOHJOHdj57SSVfLI9f6Fq/2KuTXoPZHJiIsnpZhdomXumhthcwf+ID3geTKkQc3OpcXoAOkvCd9M9EK8=
+X-Received: by 2002:a17:907:b8f:b0:aa6:a9fe:46e5 with SMTP id
+ a640c23a62f3a-aa6b13d1a29mr485360666b.53.1733993610333; Thu, 12 Dec 2024
+ 00:53:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -61,8 +61,8 @@ MIME-Version: 1.0
 References: <20241212075303.2538880-1-neelx@suse.com> <ac4c4ae5-0890-4f47-8a85-3c4447feaa90@wdc.com>
 In-Reply-To: <ac4c4ae5-0890-4f47-8a85-3c4447feaa90@wdc.com>
 From: Daniel Vacek <neelx@suse.com>
-Date: Thu, 12 Dec 2024 09:16:31 +0100
-Message-ID: <CAPjX3FcS55T_qToJqSrHJ3NhMtWFU86wE-qk1Khpf++MvPqzyA@mail.gmail.com>
+Date: Thu, 12 Dec 2024 09:53:19 +0100
+Message-ID: <CAPjX3FcAZM4dSbnMkTpJPNJMcPDxKbEMwbg3ScaTWVg+5JqfDg@mail.gmail.com>
 Subject: Re: [PATCH] btrfs: fix a race in encoded read
 To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>
 Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, 
@@ -75,32 +75,49 @@ Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, David Sterba <
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Johannes,
-
-On Thu, Dec 12, 2024 at 9:00=E2=80=AFAM Johannes Thumshirn
+On Thu, Dec 12, 2024 at 9:35=E2=80=AFAM Johannes Thumshirn
 <Johannes.Thumshirn@wdc.com> wrote:
 >
-> On 12.12.24 08:54, Daniel Vacek wrote:
-> > While testing the encoded read feature the following crash was observed
-> > and it can be reliably reproduced:
+> On 12.12.24 09:09, Daniel Vacek wrote:
+> > Hi Johannes,
 > >
+> > On Thu, Dec 12, 2024 at 9:00=E2=80=AFAM Johannes Thumshirn
+> > <Johannes.Thumshirn@wdc.com> wrote:
+> >>
+> >> On 12.12.24 08:54, Daniel Vacek wrote:
+> >>> While testing the encoded read feature the following crash was observ=
+ed
+> >>> and it can be reliably reproduced:
+> >>>
+> >>
+> >>
+> >> Hi Daniel,
+> >>
+> >> This suspiciously looks like '05b36b04d74a ("btrfs: fix use-after-free
+> >> in btrfs_encoded_read_endio()")'. Do you have this patch applied to yo=
+ur
+> >> kernel? IIRC it went upstream with 6.13-rc2.
+> >
+> > Yes, I do. This one is on top of it. The crash happens with
+> > `05b36b04d74a` applied. All the crashes were reproduced with
+> > `feffde684ac2`.
+> >
+> > Honestly, `05b36b04d74a` looks a bit suspicious to me as it really
+> > does not look to deal correctly with the issue to me. I was a bit
+> > surprised/puzzled.
 >
+> Can you elaborate why?
+
+As it only touches one of those four atomic_dec_... lines. In theory
+the issue can happen also on the two async places, IIUC. It's only a
+matter of race probability.
+
+> > Anyways, I could reproduce the crash in a matter of half an hour. With
+> > this fix the torture is surviving for 22 hours atm.
 >
-> Hi Daniel,
->
-> This suspiciously looks like '05b36b04d74a ("btrfs: fix use-after-free
-> in btrfs_encoded_read_endio()")'. Do you have this patch applied to your
-> kernel? IIRC it went upstream with 6.13-rc2.
+> Do you also have '3ff867828e93 ("btrfs: simplify waiting for encoded
+> read endios")'? Looking at the diff it doesn't seems so.
 
-Yes, I do. This one is on top of it. The crash happens with
-`05b36b04d74a` applied. All the crashes were reproduced with
-build of `feffde684ac2`.
-
-Honestly, `05b36b04d74a` looks a bit suspicious to me as it really
-does not look to deal correctly with the issue to me. I was a bit
-surprised/puzzled.
-
-Anyways, I could reproduce the crash in a matter of half an hour. With
-this fix the torture is surviving for 22 hours atm.
+I cannot find that one. Am I missing something? Which repo are you using?
 
 --nX
