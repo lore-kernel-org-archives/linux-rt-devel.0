@@ -1,178 +1,102 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEA6168497
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 19:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6015621
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Dec 2024 00:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734030464; cv=none; b=IcexBhQy2PzcDl4xek2k0UedMzXlXsKsrhzwpLSHqpZ2U7+9odrq9gvaQj+WUn+gBY5ysH7cbVaAfmFSFWIdqmJJ65lL44yXMhmZlSC1Qu9xqQr7WNeoXzTIbnJXDbXHxJVGMglbUp7j9v18neZTRrG0cIIVPu1nQk/VJImrvHk=
+	t=1734049634; cv=none; b=p9UZ3OsdKlOdXj1GEZ9tmc3xCRrnRKOLJIgWiM9mJTkzspQS9MeUsHB36hxKiC4U2/dBxZtCcJ+I3lBL52wAUPOLkH1jvrbyDkWazmValn2Xcc2eZv32/NqEvcExLQKPo2GBwRsQZRJLwpwRC06z5EWzzn/6KVtB5EgJPUTFbv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734030464; c=relaxed/simple;
-	bh=sGdzzV6E/rI5g3logA4o76dfyuCnYsHfPPIMcI2XD7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbSukmHJ4Wf24yJ11K5veDUZWoWu002bo2BvUwtgYlkt4FBskxKAlMsbmthRJM5xr5M5+mEr8wElqHRj8k9rz/DLKieAuHxvJ+FFCiSsTTB2y//AkeoIqGIZko4q9/fHqyS+eIY3lyeXG0xdZrM/Ae7x0d1O3/GTWzgngmjnCfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BsD00iIp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MfUGiHj7; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=BsD00iIp; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MfUGiHj7; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1734049634; c=relaxed/simple;
+	bh=eXUuxYw/zq0YWB9TTZm2iQpmEhsWgzTOwd/QbpTSb4U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MC9Dmqko1DSADFDX1KkkR0h32EMyTJKOP0TB0xIpy+/viSkeKDpo9ucbrhWZukHAI71GaFOjuxDARxlpvZps315p3jAJXwiIggpDF+lcH9Ucp5aemYQhss4Ek1pRqannsvVPTUelXIijNqq6011nfdfynWxERSLNtYkTiI4EaM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D4qQUuEY; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BsD00iIp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MfUGiHj7";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="BsD00iIp";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MfUGiHj7"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 846BE1F37C;
-	Thu, 12 Dec 2024 19:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1734030460;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6nOQNfjlp8/gPOnK0kS3/hz4FmE6wWLT5nfsY448C4=;
-	b=BsD00iIpeSnNTojWvYgfFaKfrqwDFZhSVmQOTexilwa2rXOQ7TsoxoDTeQWVyMWyRPxweD
-	69mCvrQ724BhzTKUnEJkeIeGpkLmvpx0+zRx/2YA7134AsjvbIJAUBFo6umhG2aOJ2OBhz
-	brBwPi2cZpiFwaluynweNctb/l5tu7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1734030460;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6nOQNfjlp8/gPOnK0kS3/hz4FmE6wWLT5nfsY448C4=;
-	b=MfUGiHj7V/2Tju4jwVl4g4oAjnSi49ERQfxTaP1xtr7TMuo2jZ2HGseKYh9HGCTp+7CN1K
-	48R+OmoWOUjkqxCg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1734030460;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6nOQNfjlp8/gPOnK0kS3/hz4FmE6wWLT5nfsY448C4=;
-	b=BsD00iIpeSnNTojWvYgfFaKfrqwDFZhSVmQOTexilwa2rXOQ7TsoxoDTeQWVyMWyRPxweD
-	69mCvrQ724BhzTKUnEJkeIeGpkLmvpx0+zRx/2YA7134AsjvbIJAUBFo6umhG2aOJ2OBhz
-	brBwPi2cZpiFwaluynweNctb/l5tu7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1734030460;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=A6nOQNfjlp8/gPOnK0kS3/hz4FmE6wWLT5nfsY448C4=;
-	b=MfUGiHj7V/2Tju4jwVl4g4oAjnSi49ERQfxTaP1xtr7TMuo2jZ2HGseKYh9HGCTp+7CN1K
-	48R+OmoWOUjkqxCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 433BA13508;
-	Thu, 12 Dec 2024 19:07:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xcPlD3w0W2dxQQAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Thu, 12 Dec 2024 19:07:40 +0000
-Date: Thu, 12 Dec 2024 20:07:39 +0100
-From: David Sterba <dsterba@suse.cz>
-To: Daniel Vacek <neelx@suse.com>
-Cc: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
-	Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-	David Sterba <dsterba@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Omar Sandoval <osandov@fb.com>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH] btrfs: fix a race in encoded read
-Message-ID: <20241212190738.GY31418@twin.jikos.cz>
-Reply-To: dsterba@suse.cz
-References: <20241212075303.2538880-1-neelx@suse.com>
- <ac4c4ae5-0890-4f47-8a85-3c4447feaa90@wdc.com>
- <CAPjX3FcAZM4dSbnMkTpJPNJMcPDxKbEMwbg3ScaTWVg+5JqfDg@mail.gmail.com>
- <133f4cb5-516d-4e11-b03a-d2007ff667ee@wdc.com>
- <CAPjX3FchmM24-Afv7ueeK-Z1zBYivfj4yKXhVq6bARiGjqQOwQ@mail.gmail.com>
- <9d5b4776-e3c8-449c-bb0d-c200a1f76603@wdc.com>
- <CAPjX3FdU1mOkRr+JVE+S4og4NvjFerZhHC_qupFBTgjn9=s8MA@mail.gmail.com>
- <a8047d3a-ab45-42f0-8c60-f00829e40518@wdc.com>
- <CAPjX3Fexb19AcchSttsmm=JCcobBBCPXxF6_qkK=_yuqtgNRRg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D4qQUuEY"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53f757134cdso1362123e87.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Dec 2024 16:27:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734049631; x=1734654431; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eXUuxYw/zq0YWB9TTZm2iQpmEhsWgzTOwd/QbpTSb4U=;
+        b=D4qQUuEYllA+y2GZJcSp63KPJSOExnX37w5X4gcKfi8y9GzYFdV6ioOBuFzn6HD3Zp
+         yWUcimNJxoRRaFxBXv8jxebNhgMsr0j3xnO0CnLLHklJRkhgk8kcMAE+ZW9daCYSHxJc
+         IySO+L7AB12A3sAtg3hrRifty5P/YJsaBqGhXEywx3f2L8ECPvLY6BBodrfTvA8FYVcU
+         dptsWG30ab/bzQUqLT0/gVKZnR3iEZ9r3RsZKpXE+joxKFd/sSBQ1Y2B7vSqpaWpusXD
+         SUqASIaRwx42HE650Ext1PdSlydMhFl7e7+jZWQ5Or0OOKDl6DIIQhxB6L8mZfr69t1U
+         jZ9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734049631; x=1734654431;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eXUuxYw/zq0YWB9TTZm2iQpmEhsWgzTOwd/QbpTSb4U=;
+        b=u2NSf/9XewQeK0E/1QpCwpYEDPs3qQVTX943+dbcotiEEUATCoOTmQcfNwhCJ7XNtl
+         LQqIXxhE3UtPC7UEzKoj9AjJQXez4siqFduUwFYkzJDq/b2LsrCvLhicByw5/UgKqlaJ
+         V4MbQ7zyMxK07/DG3UbfWdN269LkekfzX2vGqB1xy6oGHz2jeTUSQhyWtndu2imnqBnL
+         G/pAU74MpKGX9q9IXNcBWedbR9eC2BroeeEWXreswaqEkfwzC+pXcannGUXsXHTKCjXT
+         YF8prPOGNm9StInrxRG8/RLWPKWCAydxECFdgsp6GhcpKW52V6zRptylJ+VVWguQs2Nb
+         VDJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXc9uxO+IAFZZtvc5afHhCgPbMMwMXI7oucXwK4JxKrIKi4Uxq/v8OG6bHZURU3hyxieNXMOMY/tfoDNfdT8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoPq6N92OkGeodOlLfhgln/20Xg/iop1VkAD6iQuXbBUUjq7In
+	tG6Pe3IADd8euttpvY9ciA5hu3z7fRClSJzFWNtxItvdw9Sc2zhqmYu1ZmQjv4JANJ7p40j9LEu
+	wmyhnTeWpS/b305IZLDKLVQbP594hqLDSi8Ft6A==
+X-Gm-Gg: ASbGncuYhb5ZXa/3toLeoWhBvxyDlB1zvg0yEvqEODnbNH2fdp5OKUjfqdGk6TwiEtU
+	OAWYr/wZeUZsqqbEZlT9efg4MiTKA2boM3Lon
+X-Google-Smtp-Source: AGHT+IERxfeFHnzWGjnXWaunMgWNYVqkpPBsLMjAfHFuRIKYyNJQAYs2iiNndqzYqxmZbY3OMdZCdjicGUrYBZW+yZ8=
+X-Received: by 2002:a05:6512:1053:b0:53e:bedb:867f with SMTP id
+ 2adb3069b0e04-540905aacbfmr97792e87.41.1734049630826; Thu, 12 Dec 2024
+ 16:27:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPjX3Fexb19AcchSttsmm=JCcobBBCPXxF6_qkK=_yuqtgNRRg@mail.gmail.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
+References: <20241210160556.2341497-1-arnd@kernel.org> <20241210160556.2341497-3-arnd@kernel.org>
+ <CACRpkdZaoD2vqbCi1AFUa6mF2_=c3Nu4R0CvxFAep0VMgtMtOQ@mail.gmail.com> <20241211152257.Igx3aT2Y@linutronix.de>
+In-Reply-To: <20241211152257.Igx3aT2Y@linutronix.de>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 13 Dec 2024 01:27:00 +0100
+Message-ID: <CACRpkdbYU=Txm0zUWDWvNXA0JHRNGpy1ccy0zQdiBb2Ya+UBFA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ARM: Disable HIGHPTE on PREEMPT_RT kernels
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Jason Baron <jbaron@akamai.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Matthew Wilcox <willy@infradead.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Russell King <linux@armlinux.org.uk>, Steven Rostedt <rostedt@goodmis.org>, 
+	David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 12, 2024 at 11:26:20AM +0100, Daniel Vacek wrote:
-> On Thu, Dec 12, 2024 at 11:10 AM Johannes Thumshirn
-> <Johannes.Thumshirn@wdc.com> wrote:
-> >
-> > On 12.12.24 10:35, Daniel Vacek wrote:
-> > > On Thu, Dec 12, 2024 at 10:14 AM Johannes Thumshirn
-> > > <Johannes.Thumshirn@wdc.com> wrote:
-> > >> It got recently force pushed, 34725028ec5500018f1cb5bfd55c669c7bbf1346
-> > >> it is now, sorry.
-> > >
-> > > Yeah, this looks very similar and it should fix the bug as well. In
-> > > fact the fix part looks exactly the same, I just also changed the
-> > > slab/stack allocation while you changed the atomic/refcount. But these
-> > > are unrelated, IIUC. I actually planned to split it into two patches
-> > > but David told me it's not necessary and I should send it as it is.
-> > >
-> > > Just nitpicking about your patch, the subject says simplify while I
-> > > don't really see any simplification.
-> > > Also it does not mention the UAF bug leading to crashes it fixes,
-> > > missing the Fixes: and CC: stable tags.
-> > >
-> > > What do we do now?
-> >
-> > I think it's up to David if he want's to send the patch for this rc or
-> > not. In my test environment the part that went upstream was sufficient
-> > to fix the UAF, so this was the part that actually went to Linus first.
-> 
-> But it (I assume you are referring to `05b36b04d74a`) does not really
-> fix the UAF. I'm still able to get the same crashes even with this
-> commit applied. That was actually where I originally started testing.
-> 
-> > @Dave can you send '34725028ec55 ("btrfs: simplify waiting for encoded
-> > read endios")' in the next PR? I can update the Fixes tag.
-> 
-> The commit message definitely needs to be updated mentioning that this
-> actually fixes the UAF which `05b36b04d74a` does not really address.
+On Wed, Dec 11, 2024 at 4:22=E2=80=AFPM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+> On 2024-12-11 14:29:29 [+0100], Linus Walleij wrote:
+> > So fast GUP is supposed to be lockless, and should just not
+> > have this problem. So it can't be addressing gup_fast_pgd_range()
+> > right?
+> =E2=80=A6
+> > I'm more asking if HIGHPTE even acquires a spinlock anymore
+> > as it is supposed to be "fast"/lockless. If it does, it is clearly viol=
+ating
+> > the "fast" promise of the fast GUP API and should not exist.
+>
+> This is lockless on x86. The problem is ARM's
+> arch_kmap_local_high_get(). This is where the lock is from.
 
-Yeah, the commit message does not say anything about fixing things so I
-skipped it when looking for -rc fixes.
+Aha that calls down to kmap_high_get() that that issues
+lock_kmap_any(flags).
+
+But is it really sound that the "fast" API does this? It feels
+like a violation of the whole design of the fast stuff.
+
+Yours,
+Linus Walleij
