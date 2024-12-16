@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16DF1204C2F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Dec 2024 11:50:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82848204C2F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Dec 2024 11:50:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734349819; cv=none; b=PVpjUQxbvmETdWBaoWIB423ESaxjDA1LHPU7/L3o1qQrJIRE86N63ruHtBBToRwCiQjgOfgrg7pw5738V6cwO2wkt/OfGv8Q7zj4PwV4LE5AvP1st2e3e07hfuMGbGVXyPkmqxbC0sOjxTPpGXKmDo2rqBZObSuIyoea9StAjrA=
+	t=1734349821; cv=none; b=PEEXnpE37sqjgPgapYDM12g5sWl3aNFP0NZKMS2vFRL0X7lmUq/75LEON7AVN15whv1hMilgdCPUg9N5hHUI9h3K1uNXD4VgJCtLu5DNbP3Fg9mMlOon1JGLU7KLEKBGtK4ZQSxjO+2Itd3QnIUj/f8rcdNi5aSJ4rHtXbsMl7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734349819; c=relaxed/simple;
-	bh=B2uxwoQ50FL7jNSeNOVughVSH+qLRset9aHjDh7iyh0=;
+	s=arc-20240116; t=1734349821; c=relaxed/simple;
+	bh=0+rHkCLkdOADKpl1ynaDJMsv6acho6o0gtgqjjLS/iY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sSCkgVL+wADAnqX1pmV3PgIjm2VMK+fTZGtcs+QIfNXrm50yibLGSj67opDd4KguTSPfP2bOXu87rvgiHTFmmlTwyKF/JrSd6mdFyYzHNib3otIcNPmW/Kz7FqaEgQ0mrNJel/qbt6je8xLBWFU3n6+nZCRIbhe8/kf/PjFSIjI=
+	 MIME-Version; b=cQI9IugdlEq75q+d3vFOImoF79fXUqXcQECba9TO2f7uDK+rxHwihYuKjAmUnOts8LVP5BULBKo0tunhyqyQzjsrICDSIfDXiRY1Wl1Um6q5jLPkHIga9ML7TkvwXbbQqloxFGnS8VrGdfFWMch6EyEmX3ZihCBlBrf2xBM3f3U=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2AEE113E;
-	Mon, 16 Dec 2024 03:50:43 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 04A7C11FB;
+	Mon, 16 Dec 2024 03:50:46 -0800 (PST)
 Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 648103F58B;
-	Mon, 16 Dec 2024 03:50:13 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DE9243F58B;
+	Mon, 16 Dec 2024 03:50:15 -0800 (PST)
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: suzuki.poulose@arm.com,
 	mike.leach@linaro.org,
@@ -31,9 +31,9 @@ Cc: coresight@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v3 2/9] coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
-Date: Mon, 16 Dec 2024 11:49:59 +0000
-Message-Id: <20241216115006.415861-3-yeoreum.yun@arm.com>
+Subject: [PATCH v3 3/9] coresight: change coresight_trace_id_map's lock type to  raw_spinlock_t
+Date: Mon, 16 Dec 2024 11:50:00 +0000
+Message-Id: <20241216115006.415861-4-yeoreum.yun@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241216115006.415861-1-yeoreum.yun@arm.com>
 References: <20241216115006.415861-1-yeoreum.yun@arm.com>
@@ -45,1049 +45,132 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In coresight-etm4x drivers, etmv4_drvdata->spinlock can be held during
-__schedule() by perf_event_task_sched_out()/in().
+coresight_trace_id_map->lock can be acquired while coresight devices'
+drvdata_lock.
 
-Since etmv4_drvdata->spinlock type is spinlock_t and
-perf_event_task_sched_out()/in() is called after acquiring rq_lock,
-which is raw_spinlock_t (an unsleepable lock),
-this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+But the drvdata_lock can be raw_spinlock_t (i.e) coresight-etm4x.
 
-To address this, change type etmv4_drvdata->spinlock
-in coresight-etm4x drivers, which can be called
-by perf_event_task_sched_out()/in(), from spinlock_t to raw_spinlock_t.
+To address this, change type of coresight_trace_id_map->lock to
+raw_spinlock_t
 
 Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 ---
- .../hwtracing/coresight/coresight-config.c    |   8 +-
- .../hwtracing/coresight/coresight-config.h    |   2 +-
- .../coresight/coresight-etm4x-core.c          |  18 +-
- .../coresight/coresight-etm4x-sysfs.c         | 250 +++++++++---------
- drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
- 5 files changed, 140 insertions(+), 140 deletions(-)
+ drivers/hwtracing/coresight/coresight-core.c  |  2 +-
+ .../hwtracing/coresight/coresight-trace-id.c  | 22 +++++++++----------
+ include/linux/coresight.h                     |  2 +-
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-config.c b/drivers/hwtracing/coresight/coresight-config.c
-index 4723bf7402a2..4f72ae71b696 100644
---- a/drivers/hwtracing/coresight/coresight-config.c
-+++ b/drivers/hwtracing/coresight/coresight-config.c
-@@ -76,10 +76,10 @@ static int cscfg_set_on_enable(struct cscfg_feature_csdev *feat_csdev)
+diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+index ea38ecf26fcb..cc2d87b2f248 100644
+--- a/drivers/hwtracing/coresight/coresight-core.c
++++ b/drivers/hwtracing/coresight/coresight-core.c
+@@ -1164,7 +1164,7 @@ struct coresight_device *coresight_register(struct coresight_desc *desc)
+ 
+ 	if (csdev->type == CORESIGHT_DEV_TYPE_SINK ||
+ 	    csdev->type == CORESIGHT_DEV_TYPE_LINKSINK) {
+-		spin_lock_init(&csdev->perf_sink_id_map.lock);
++		raw_spin_lock_init(&csdev->perf_sink_id_map.lock);
+ 		csdev->perf_sink_id_map.cpu_map = alloc_percpu(atomic_t);
+ 		if (!csdev->perf_sink_id_map.cpu_map) {
+ 			kfree(csdev);
+diff --git a/drivers/hwtracing/coresight/coresight-trace-id.c b/drivers/hwtracing/coresight/coresight-trace-id.c
+index d98e12cb30ec..a6531869e9ec 100644
+--- a/drivers/hwtracing/coresight/coresight-trace-id.c
++++ b/drivers/hwtracing/coresight/coresight-trace-id.c
+@@ -16,7 +16,7 @@
+ static DEFINE_PER_CPU(atomic_t, id_map_default_cpu_ids) = ATOMIC_INIT(0);
+ static struct coresight_trace_id_map id_map_default = {
+ 	.cpu_map = &id_map_default_cpu_ids,
+-	.lock = __SPIN_LOCK_UNLOCKED(id_map_default.lock)
++	.lock = __RAW_SPIN_LOCK_UNLOCKED(id_map_default.lock)
+ };
+ 
+ /* #define TRACE_ID_DEBUG 1 */
+@@ -121,11 +121,11 @@ static void coresight_trace_id_release_all(struct coresight_trace_id_map *id_map
  	unsigned long flags;
- 	int i;
+ 	int cpu;
  
--	spin_lock_irqsave(feat_csdev->drv_spinlock, flags);
-+	raw_spin_lock_irqsave(feat_csdev->drv_spinlock, flags);
- 	for (i = 0; i < feat_csdev->nr_regs; i++)
- 		cscfg_set_reg(&feat_csdev->regs_csdev[i]);
--	spin_unlock_irqrestore(feat_csdev->drv_spinlock, flags);
-+	raw_spin_unlock_irqrestore(feat_csdev->drv_spinlock, flags);
- 	dev_dbg(&feat_csdev->csdev->dev, "Feature %s: %s",
- 		feat_csdev->feat_desc->name, "set on enable");
- 	return 0;
-@@ -91,10 +91,10 @@ static void cscfg_save_on_disable(struct cscfg_feature_csdev *feat_csdev)
+-	spin_lock_irqsave(&id_map->lock, flags);
++	raw_spin_lock_irqsave(&id_map->lock, flags);
+ 	bitmap_zero(id_map->used_ids, CORESIGHT_TRACE_IDS_MAX);
+ 	for_each_possible_cpu(cpu)
+ 		atomic_set(per_cpu_ptr(id_map->cpu_map, cpu), 0);
+-	spin_unlock_irqrestore(&id_map->lock, flags);
++	raw_spin_unlock_irqrestore(&id_map->lock, flags);
+ 	DUMP_ID_MAP(id_map);
+ }
+ 
+@@ -134,7 +134,7 @@ static int _coresight_trace_id_get_cpu_id(int cpu, struct coresight_trace_id_map
  	unsigned long flags;
- 	int i;
+ 	int id;
  
--	spin_lock_irqsave(feat_csdev->drv_spinlock, flags);
-+	raw_spin_lock_irqsave(feat_csdev->drv_spinlock, flags);
- 	for (i = 0; i < feat_csdev->nr_regs; i++)
- 		cscfg_save_reg(&feat_csdev->regs_csdev[i]);
--	spin_unlock_irqrestore(feat_csdev->drv_spinlock, flags);
-+	raw_spin_unlock_irqrestore(feat_csdev->drv_spinlock, flags);
- 	dev_dbg(&feat_csdev->csdev->dev, "Feature %s: %s",
- 		feat_csdev->feat_desc->name, "save on disable");
+-	spin_lock_irqsave(&id_map->lock, flags);
++	raw_spin_lock_irqsave(&id_map->lock, flags);
+ 
+ 	/* check for existing allocation for this CPU */
+ 	id = _coresight_trace_id_read_cpu_id(cpu, id_map);
+@@ -161,7 +161,7 @@ static int _coresight_trace_id_get_cpu_id(int cpu, struct coresight_trace_id_map
+ 	atomic_set(per_cpu_ptr(id_map->cpu_map, cpu), id);
+ 
+ get_cpu_id_out_unlock:
+-	spin_unlock_irqrestore(&id_map->lock, flags);
++	raw_spin_unlock_irqrestore(&id_map->lock, flags);
+ 
+ 	DUMP_ID_CPU(cpu, id);
+ 	DUMP_ID_MAP(id_map);
+@@ -178,12 +178,12 @@ static void _coresight_trace_id_put_cpu_id(int cpu, struct coresight_trace_id_ma
+ 	if (!id)
+ 		return;
+ 
+-	spin_lock_irqsave(&id_map->lock, flags);
++	raw_spin_lock_irqsave(&id_map->lock, flags);
+ 
+ 	coresight_trace_id_free(id, id_map);
+ 	atomic_set(per_cpu_ptr(id_map->cpu_map, cpu), 0);
+ 
+-	spin_unlock_irqrestore(&id_map->lock, flags);
++	raw_spin_unlock_irqrestore(&id_map->lock, flags);
+ 	DUMP_ID_CPU(cpu, id);
+ 	DUMP_ID_MAP(id_map);
  }
-diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-index 6ba013975741..b9ebc9fcfb7f 100644
---- a/drivers/hwtracing/coresight/coresight-config.h
-+++ b/drivers/hwtracing/coresight/coresight-config.h
-@@ -206,7 +206,7 @@ struct cscfg_feature_csdev {
- 	const struct cscfg_feature_desc *feat_desc;
- 	struct coresight_device *csdev;
- 	struct list_head node;
--	spinlock_t *drv_spinlock;
-+	raw_spinlock_t *drv_spinlock;
- 	int nr_params;
- 	struct cscfg_parameter_csdev *params_csdev;
- 	int nr_regs;
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index dd8c74f893db..86893115df17 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -807,7 +807,7 @@ static int etm4_enable_sysfs(struct coresight_device *csdev)
- 			return ret;
- 	}
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 
- 	/* sysfs needs to read and allocate a trace ID */
- 	ret = etm4_read_alloc_trace_id(drvdata);
-@@ -830,7 +830,7 @@ static int etm4_enable_sysfs(struct coresight_device *csdev)
- 		etm4_release_trace_id(drvdata);
- 
- unlock_sysfs_enable:
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 
- 	if (!ret)
- 		dev_dbg(&csdev->dev, "ETM tracing enabled\n");
-@@ -977,7 +977,7 @@ static void etm4_disable_sysfs(struct coresight_device *csdev)
- 	 * DYING hotplug callback is serviced by the ETM driver.
- 	 */
- 	cpus_read_lock();
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 
- 	/*
- 	 * Executing etm4_disable_hw on the cpu whose ETM is being disabled
-@@ -985,7 +985,7 @@ static void etm4_disable_sysfs(struct coresight_device *csdev)
- 	 */
- 	smp_call_function_single(drvdata->cpu, etm4_disable_hw, drvdata, 1);
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	cpus_read_unlock();
- 
- 	/*
-@@ -1663,13 +1663,13 @@ static int etm4_starting_cpu(unsigned int cpu)
- 	if (!etmdrvdata[cpu])
- 		return 0;
- 
--	spin_lock(&etmdrvdata[cpu]->spinlock);
-+	raw_spin_lock(&etmdrvdata[cpu]->spinlock);
- 	if (!etmdrvdata[cpu]->os_unlock)
- 		etm4_os_unlock(etmdrvdata[cpu]);
- 
- 	if (coresight_get_mode(etmdrvdata[cpu]->csdev))
- 		etm4_enable_hw(etmdrvdata[cpu]);
--	spin_unlock(&etmdrvdata[cpu]->spinlock);
-+	raw_spin_unlock(&etmdrvdata[cpu]->spinlock);
- 	return 0;
- }
- 
-@@ -1678,10 +1678,10 @@ static int etm4_dying_cpu(unsigned int cpu)
- 	if (!etmdrvdata[cpu])
- 		return 0;
- 
--	spin_lock(&etmdrvdata[cpu]->spinlock);
-+	raw_spin_lock(&etmdrvdata[cpu]->spinlock);
- 	if (coresight_get_mode(etmdrvdata[cpu]->csdev))
- 		etm4_disable_hw(etmdrvdata[cpu]);
--	spin_unlock(&etmdrvdata[cpu]->spinlock);
-+	raw_spin_unlock(&etmdrvdata[cpu]->spinlock);
- 	return 0;
- }
- 
-@@ -2125,7 +2125,7 @@ static int etm4_probe(struct device *dev)
- 			return -ENOMEM;
- 	}
- 
--	spin_lock_init(&drvdata->spinlock);
-+	raw_spin_lock_init(&drvdata->spinlock);
- 
- 	drvdata->cpu = coresight_get_cpu(dev);
- 	if (drvdata->cpu < 0)
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-index a9f19629f3f8..11e865b8e824 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-@@ -174,7 +174,7 @@ static ssize_t reset_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	if (val)
- 		config->mode = 0x0;
- 
-@@ -266,7 +266,7 @@ static ssize_t reset_store(struct device *dev,
- 	config->vmid_mask0 = 0x0;
- 	config->vmid_mask1 = 0x0;
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 
- 	/* for sysfs - only release trace id when resetting */
- 	etm4_release_trace_id(drvdata);
-@@ -300,7 +300,7 @@ static ssize_t mode_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->mode = val & ETMv4_MODE_ALL;
- 
- 	if (drvdata->instrp0 == true) {
-@@ -437,7 +437,7 @@ static ssize_t mode_store(struct device *dev,
- 	if (config->mode & (ETM_MODE_EXCL_KERN | ETM_MODE_EXCL_USER))
- 		etm4_config_trace_mode(config);
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 
- 	return size;
- }
-@@ -466,14 +466,14 @@ static ssize_t pe_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	if (val > drvdata->nr_pe) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EINVAL;
- 	}
- 
- 	config->pe_sel = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(pe);
-@@ -501,7 +501,7 @@ static ssize_t event_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	switch (drvdata->nr_event) {
- 	case 0x0:
- 		/* EVENT0, bits[7:0] */
-@@ -522,7 +522,7 @@ static ssize_t event_store(struct device *dev,
- 	default:
- 		break;
- 	}
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(event);
-@@ -550,7 +550,7 @@ static ssize_t event_instren_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	/* start by clearing all instruction event enable bits */
- 	config->eventctrl1 &= ~TRCEVENTCTL1R_INSTEN_MASK;
- 	switch (drvdata->nr_event) {
-@@ -578,7 +578,7 @@ static ssize_t event_instren_store(struct device *dev,
- 	default:
- 		break;
- 	}
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(event_instren);
-@@ -739,11 +739,11 @@ static ssize_t event_vinst_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val &= TRCVICTLR_EVENT_MASK >> __bf_shf(TRCVICTLR_EVENT_MASK);
- 	config->vinst_ctrl &= ~TRCVICTLR_EVENT_MASK;
- 	config->vinst_ctrl |= FIELD_PREP(TRCVICTLR_EVENT_MASK, val);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(event_vinst);
-@@ -771,13 +771,13 @@ static ssize_t s_exlevel_vinst_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	/* clear all EXLEVEL_S bits  */
- 	config->vinst_ctrl &= ~TRCVICTLR_EXLEVEL_S_MASK;
- 	/* enable instruction tracing for corresponding exception level */
- 	val &= drvdata->s_ex_level;
- 	config->vinst_ctrl |= val << __bf_shf(TRCVICTLR_EXLEVEL_S_MASK);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(s_exlevel_vinst);
-@@ -806,13 +806,13 @@ static ssize_t ns_exlevel_vinst_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	/* clear EXLEVEL_NS bits  */
- 	config->vinst_ctrl &= ~TRCVICTLR_EXLEVEL_NS_MASK;
- 	/* enable instruction tracing for corresponding exception level */
- 	val &= drvdata->ns_ex_level;
- 	config->vinst_ctrl |= val << __bf_shf(TRCVICTLR_EXLEVEL_NS_MASK);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(ns_exlevel_vinst);
-@@ -846,9 +846,9 @@ static ssize_t addr_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->addr_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_idx);
-@@ -862,7 +862,7 @@ static ssize_t addr_instdatatype_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	val = FIELD_GET(TRCACATRn_TYPE_MASK, config->addr_acc[idx]);
- 	len = scnprintf(buf, PAGE_SIZE, "%s\n",
-@@ -870,7 +870,7 @@ static ssize_t addr_instdatatype_show(struct device *dev,
- 			(val == TRCACATRn_TYPE_DATA_LOAD_ADDR ? "data_load" :
- 			(val == TRCACATRn_TYPE_DATA_STORE_ADDR ? "data_store" :
- 			"data_load_store")));
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return len;
- }
- 
-@@ -888,13 +888,13 @@ static ssize_t addr_instdatatype_store(struct device *dev,
- 	if (sscanf(buf, "%s", str) != 1)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (!strcmp(str, "instr"))
- 		/* TYPE, bits[1:0] */
- 		config->addr_acc[idx] &= ~TRCACATRn_TYPE_MASK;
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_instdatatype);
-@@ -909,14 +909,14 @@ static ssize_t addr_single_show(struct device *dev,
- 	struct etmv4_config *config = &drvdata->config;
- 
- 	idx = config->addr_idx;
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	      config->addr_type[idx] == ETM_ADDR_TYPE_SINGLE)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 	val = (unsigned long)config->addr_val[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -932,17 +932,17 @@ static ssize_t addr_single_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	      config->addr_type[idx] == ETM_ADDR_TYPE_SINGLE)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	config->addr_val[idx] = (u64)val;
- 	config->addr_type[idx] = ETM_ADDR_TYPE_SINGLE;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_single);
-@@ -956,23 +956,23 @@ static ssize_t addr_range_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (idx % 2 != 0) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 	if (!((config->addr_type[idx] == ETM_ADDR_TYPE_NONE &&
- 	       config->addr_type[idx + 1] == ETM_ADDR_TYPE_NONE) ||
- 	      (config->addr_type[idx] == ETM_ADDR_TYPE_RANGE &&
- 	       config->addr_type[idx + 1] == ETM_ADDR_TYPE_RANGE))) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	val1 = (unsigned long)config->addr_val[idx];
- 	val2 = (unsigned long)config->addr_val[idx + 1];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx %#lx\n", val1, val2);
- }
- 
-@@ -995,10 +995,10 @@ static ssize_t addr_range_store(struct device *dev,
- 	if (val1 > val2)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (idx % 2 != 0) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
-@@ -1006,7 +1006,7 @@ static ssize_t addr_range_store(struct device *dev,
- 	       config->addr_type[idx + 1] == ETM_ADDR_TYPE_NONE) ||
- 	      (config->addr_type[idx] == ETM_ADDR_TYPE_RANGE &&
- 	       config->addr_type[idx + 1] == ETM_ADDR_TYPE_RANGE))) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
-@@ -1023,7 +1023,7 @@ static ssize_t addr_range_store(struct device *dev,
- 		exclude = config->mode & ETM_MODE_EXCLUDE;
- 	etm4_set_mode_exclude(drvdata, exclude ? true : false);
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_range);
-@@ -1037,17 +1037,17 @@ static ssize_t addr_start_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	      config->addr_type[idx] == ETM_ADDR_TYPE_START)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	val = (unsigned long)config->addr_val[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1063,22 +1063,22 @@ static ssize_t addr_start_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (!drvdata->nr_addr_cmp) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EINVAL;
- 	}
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	      config->addr_type[idx] == ETM_ADDR_TYPE_START)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	config->addr_val[idx] = (u64)val;
- 	config->addr_type[idx] = ETM_ADDR_TYPE_START;
- 	config->vissctlr |= BIT(idx);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_start);
-@@ -1092,17 +1092,17 @@ static ssize_t addr_stop_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	      config->addr_type[idx] == ETM_ADDR_TYPE_STOP)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	val = (unsigned long)config->addr_val[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1118,22 +1118,22 @@ static ssize_t addr_stop_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (!drvdata->nr_addr_cmp) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EINVAL;
- 	}
- 	if (!(config->addr_type[idx] == ETM_ADDR_TYPE_NONE ||
- 	       config->addr_type[idx] == ETM_ADDR_TYPE_STOP)) {
--		spin_unlock(&drvdata->spinlock);
-+		raw_spin_unlock(&drvdata->spinlock);
- 		return -EPERM;
- 	}
- 
- 	config->addr_val[idx] = (u64)val;
- 	config->addr_type[idx] = ETM_ADDR_TYPE_STOP;
- 	config->vissctlr |= BIT(idx + 16);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_stop);
-@@ -1147,14 +1147,14 @@ static ssize_t addr_ctxtype_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	/* CONTEXTTYPE, bits[3:2] */
- 	val = FIELD_GET(TRCACATRn_CONTEXTTYPE_MASK, config->addr_acc[idx]);
- 	len = scnprintf(buf, PAGE_SIZE, "%s\n", val == ETM_CTX_NONE ? "none" :
- 			(val == ETM_CTX_CTXID ? "ctxid" :
- 			(val == ETM_CTX_VMID ? "vmid" : "all")));
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return len;
- }
- 
-@@ -1172,7 +1172,7 @@ static ssize_t addr_ctxtype_store(struct device *dev,
- 	if (sscanf(buf, "%s", str) != 1)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	if (!strcmp(str, "none"))
- 		/* start by clearing context type bits */
-@@ -1199,7 +1199,7 @@ static ssize_t addr_ctxtype_store(struct device *dev,
- 		if (drvdata->numvmidc)
- 			config->addr_acc[idx] |= TRCACATRn_CONTEXTTYPE_VMID;
- 	}
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_ctxtype);
-@@ -1213,11 +1213,11 @@ static ssize_t addr_context_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	/* context ID comparator bits[6:4] */
- 	val = FIELD_GET(TRCACATRn_CONTEXT_MASK, config->addr_acc[idx]);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1238,12 +1238,12 @@ static ssize_t addr_context_store(struct device *dev,
- 		     drvdata->numcidc : drvdata->numvmidc))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	/* clear context ID comparator bits[6:4] */
- 	config->addr_acc[idx] &= ~TRCACATRn_CONTEXT_MASK;
- 	config->addr_acc[idx] |= val << __bf_shf(TRCACATRn_CONTEXT_MASK);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_context);
-@@ -1257,10 +1257,10 @@ static ssize_t addr_exlevel_s_ns_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	val = FIELD_GET(TRCACATRn_EXLEVEL_MASK, config->addr_acc[idx]);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1279,12 +1279,12 @@ static ssize_t addr_exlevel_s_ns_store(struct device *dev,
- 	if (val & ~(TRCACATRn_EXLEVEL_MASK >> __bf_shf(TRCACATRn_EXLEVEL_MASK)))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	/* clear Exlevel_ns & Exlevel_s bits[14:12, 11:8], bit[15] is res0 */
- 	config->addr_acc[idx] &= ~TRCACATRn_EXLEVEL_MASK;
- 	config->addr_acc[idx] |= val << __bf_shf(TRCACATRn_EXLEVEL_MASK);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(addr_exlevel_s_ns);
-@@ -1307,7 +1307,7 @@ static ssize_t addr_cmp_view_show(struct device *dev,
- 	int size = 0;
- 	bool exclude = false;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->addr_idx;
- 	addr_v = config->addr_val[idx];
- 	addr_ctrl = config->addr_acc[idx];
-@@ -1322,7 +1322,7 @@ static ssize_t addr_cmp_view_show(struct device *dev,
- 		}
- 		exclude = config->viiectlr & BIT(idx / 2 + 16);
- 	}
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	if (addr_type) {
- 		size = scnprintf(buf, PAGE_SIZE, "addr_cmp[%i] %s %#lx", idx,
- 				 addr_type_names[addr_type], addr_v);
-@@ -1366,9 +1366,9 @@ static ssize_t vinst_pe_cmp_start_stop_store(struct device *dev,
- 	if (!drvdata->nr_pe_cmp)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->vipcssctlr = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(vinst_pe_cmp_start_stop);
-@@ -1402,9 +1402,9 @@ static ssize_t seq_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->seq_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(seq_idx);
-@@ -1448,10 +1448,10 @@ static ssize_t seq_event_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->seq_idx;
- 	val = config->seq_ctrl[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1467,11 +1467,11 @@ static ssize_t seq_event_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->seq_idx;
- 	/* Seq control has two masks B[15:8] F[7:0] */
- 	config->seq_ctrl[idx] = val & 0xFFFF;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(seq_event);
-@@ -1535,9 +1535,9 @@ static ssize_t cntr_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->cntr_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(cntr_idx);
-@@ -1551,10 +1551,10 @@ static ssize_t cntrldvr_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	val = config->cntrldvr[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1572,10 +1572,10 @@ static ssize_t cntrldvr_store(struct device *dev,
- 	if (val > ETM_CNTR_MAX_VAL)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	config->cntrldvr[idx] = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(cntrldvr);
-@@ -1589,10 +1589,10 @@ static ssize_t cntr_val_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	val = config->cntr_val[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1610,10 +1610,10 @@ static ssize_t cntr_val_store(struct device *dev,
- 	if (val > ETM_CNTR_MAX_VAL)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	config->cntr_val[idx] = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(cntr_val);
-@@ -1627,10 +1627,10 @@ static ssize_t cntr_ctrl_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	val = config->cntr_ctrl[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1646,10 +1646,10 @@ static ssize_t cntr_ctrl_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->cntr_idx;
- 	config->cntr_ctrl[idx] = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(cntr_ctrl);
-@@ -1687,9 +1687,9 @@ static ssize_t res_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->res_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(res_idx);
-@@ -1703,10 +1703,10 @@ static ssize_t res_ctrl_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->res_idx;
- 	val = config->res_ctrl[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1722,7 +1722,7 @@ static ssize_t res_ctrl_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->res_idx;
- 	/* For odd idx pair inversal bit is RES0 */
- 	if (idx % 2 != 0)
-@@ -1732,7 +1732,7 @@ static ssize_t res_ctrl_store(struct device *dev,
- 				       TRCRSCTLRn_INV |
- 				       TRCRSCTLRn_GROUP_MASK |
- 				       TRCRSCTLRn_SELECT_MASK);
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(res_ctrl);
-@@ -1761,9 +1761,9 @@ static ssize_t sshot_idx_store(struct device *dev,
- 	if (val >= drvdata->nr_ss_cmp)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->ss_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(sshot_idx);
-@@ -1776,9 +1776,9 @@ static ssize_t sshot_ctrl_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val = config->ss_ctrl[config->ss_idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1794,12 +1794,12 @@ static ssize_t sshot_ctrl_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ss_idx;
- 	config->ss_ctrl[idx] = FIELD_PREP(TRCSSCCRn_SAC_ARC_RST_MASK, val);
- 	/* must clear bit 31 in related status register on programming */
- 	config->ss_status[idx] &= ~TRCSSCSRn_STATUS;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(sshot_ctrl);
-@@ -1811,9 +1811,9 @@ static ssize_t sshot_status_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val = config->ss_status[config->ss_idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- static DEVICE_ATTR_RO(sshot_status);
-@@ -1826,9 +1826,9 @@ static ssize_t sshot_pe_ctrl_show(struct device *dev,
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
- 	struct etmv4_config *config = &drvdata->config;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val = config->ss_pe_cmp[config->ss_idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1844,12 +1844,12 @@ static ssize_t sshot_pe_ctrl_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ss_idx;
- 	config->ss_pe_cmp[idx] = FIELD_PREP(TRCSSPCICRn_PC_MASK, val);
- 	/* must clear bit 31 in related status register on programming */
- 	config->ss_status[idx] &= ~TRCSSCSRn_STATUS;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(sshot_pe_ctrl);
-@@ -1883,9 +1883,9 @@ static ssize_t ctxid_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->ctxid_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(ctxid_idx);
-@@ -1906,10 +1906,10 @@ static ssize_t ctxid_pid_show(struct device *dev,
- 	if (task_active_pid_ns(current) != &init_pid_ns)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ctxid_idx;
- 	val = (unsigned long)config->ctxid_pid[idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -1944,10 +1944,10 @@ static ssize_t ctxid_pid_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &pid))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	idx = config->ctxid_idx;
- 	config->ctxid_pid[idx] = (u64)pid;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(ctxid_pid);
-@@ -1967,10 +1967,10 @@ static ssize_t ctxid_masks_show(struct device *dev,
- 	if (task_active_pid_ns(current) != &init_pid_ns)
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val1 = config->ctxid_mask0;
- 	val2 = config->ctxid_mask1;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx %#lx\n", val1, val2);
- }
- 
-@@ -2003,7 +2003,7 @@ static ssize_t ctxid_masks_store(struct device *dev,
- 	if ((drvdata->numcidc > 4) && (nr_inputs != 2))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	/*
- 	 * each byte[0..3] controls mask value applied to ctxid
- 	 * comparator[0..3]
-@@ -2075,7 +2075,7 @@ static ssize_t ctxid_masks_store(struct device *dev,
- 			mask >>= 0x8;
- 	}
- 
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(ctxid_masks);
-@@ -2109,9 +2109,9 @@ static ssize_t vmid_idx_store(struct device *dev,
- 	 * Use spinlock to ensure index doesn't change while it gets
- 	 * dereferenced multiple times within a spinlock block elsewhere.
- 	 */
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->vmid_idx = val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(vmid_idx);
-@@ -2131,9 +2131,9 @@ static ssize_t vmid_val_show(struct device *dev,
- 	if (!task_is_in_init_pid_ns(current))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val = (unsigned long)config->vmid_val[config->vmid_idx];
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx\n", val);
- }
- 
-@@ -2161,9 +2161,9 @@ static ssize_t vmid_val_store(struct device *dev,
- 	if (kstrtoul(buf, 16, &val))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	config->vmid_val[config->vmid_idx] = (u64)val;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(vmid_val);
-@@ -2182,10 +2182,10 @@ static ssize_t vmid_masks_show(struct device *dev,
- 	if (!task_is_in_init_pid_ns(current))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 	val1 = config->vmid_mask0;
- 	val2 = config->vmid_mask1;
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return scnprintf(buf, PAGE_SIZE, "%#lx %#lx\n", val1, val2);
- }
- 
-@@ -2217,7 +2217,7 @@ static ssize_t vmid_masks_store(struct device *dev,
- 	if ((drvdata->numvmidc > 4) && (nr_inputs != 2))
- 		return -EINVAL;
- 
--	spin_lock(&drvdata->spinlock);
-+	raw_spin_lock(&drvdata->spinlock);
- 
- 	/*
- 	 * each byte[0..3] controls mask value applied to vmid
-@@ -2290,7 +2290,7 @@ static ssize_t vmid_masks_store(struct device *dev,
- 		else
- 			mask >>= 0x8;
- 	}
--	spin_unlock(&drvdata->spinlock);
-+	raw_spin_unlock(&drvdata->spinlock);
- 	return size;
- }
- static DEVICE_ATTR_RW(vmid_masks);
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
-index 9e9165f62e81..366f8f23a3e5 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x.h
-+++ b/drivers/hwtracing/coresight/coresight-etm4x.h
-@@ -989,7 +989,7 @@ struct etmv4_drvdata {
- 	struct clk			*pclk;
- 	void __iomem			*base;
- 	struct coresight_device		*csdev;
--	spinlock_t			spinlock;
-+	raw_spinlock_t			spinlock;
- 	int				cpu;
- 	u8				arch;
- 	u8				nr_pe;
+@@ -193,10 +193,10 @@ static int coresight_trace_id_map_get_system_id(struct coresight_trace_id_map *i
+ 	unsigned long flags;
+ 	int id;
+ 
+-	spin_lock_irqsave(&id_map->lock, flags);
++	raw_spin_lock_irqsave(&id_map->lock, flags);
+ 	/* prefer odd IDs for system components to avoid legacy CPU IDS */
+ 	id = coresight_trace_id_alloc_new_id(id_map, 0, true);
+-	spin_unlock_irqrestore(&id_map->lock, flags);
++	raw_spin_unlock_irqrestore(&id_map->lock, flags);
+ 
+ 	DUMP_ID(id);
+ 	DUMP_ID_MAP(id_map);
+@@ -207,9 +207,9 @@ static void coresight_trace_id_map_put_system_id(struct coresight_trace_id_map *
+ {
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&id_map->lock, flags);
++	raw_spin_lock_irqsave(&id_map->lock, flags);
+ 	coresight_trace_id_free(id, id_map);
+-	spin_unlock_irqrestore(&id_map->lock, flags);
++	raw_spin_unlock_irqrestore(&id_map->lock, flags);
+ 
+ 	DUMP_ID(id);
+ 	DUMP_ID_MAP(id_map);
+diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+index 924b58c343b3..6446ca1f09d8 100644
+--- a/include/linux/coresight.h
++++ b/include/linux/coresight.h
+@@ -233,7 +233,7 @@ struct coresight_trace_id_map {
+ 	DECLARE_BITMAP(used_ids, CORESIGHT_TRACE_IDS_MAX);
+ 	atomic_t __percpu *cpu_map;
+ 	atomic_t perf_cs_etm_session_active;
+-	spinlock_t lock;
++	raw_spinlock_t lock;
+ };
+ 
+ /**
 -- 
 LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
