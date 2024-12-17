@@ -1,110 +1,127 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BACD1448E4
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Dec 2024 15:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206E11DAC95
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Dec 2024 08:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734364378; cv=none; b=YUE8/uDuWV+fdFHSWVCiZYbT25KY51d+NQ4fOxqQDNstGaztMIOvmvcctN0MFKGwI+WyBnOMgBIUUHIjuX9WfM0nSCqi/aMYTOlgJV8FWESHwkvkSLz1TEaTaVRAzXGtuFa052EEvkF/j2IeDzZEEgkNFu2Jv9/3kMn4ZwQBoJA=
+	t=1734423774; cv=none; b=rORn2++j6pm9NPgDkIpbs83iGl9z3HM6gsuVL7iYKxSb12oTPDtPwGfntrlix3ow17bCgWZ+DtWwjUuvUD4RA34PjkG3WrLnovXEJx0oaZcvFKGfpeVcEPAx5iPFb3raWa91DzEpHQ3Oy2O1gzoXyo0d33BVHv8Z0Usw2DVWkDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734364378; c=relaxed/simple;
-	bh=oGAvYTUda6zsqAhxih/iNc51wzbk5dR2ZYfn9oKE79U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IveJzAmuM4QuJ8lN08Rwacx7N22yo9d7JnFiVDfqQkeFXADELbJuYOWa8wnCmJ9Pv/+Al9EJTiWcbUymnbx3Ct/JpcrTMV2Yg7UmsuhqjYr8UpogFJgXiaVpSuUrRQvLwzy5cNvlkbu6r2tdN6iJtlXeVDqJxfuKzkd/Ybrjoo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KUyZrUFD; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1734423774; c=relaxed/simple;
+	bh=sl89bj/6/Z+mOrYSKIEKRE5nQqIUbFo3iEpWNxCKxNA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Mut7UnEHhpOZppkmzoUV7/GsHpdEQ1rc2qNXyQ96I2E/gmaHHySnN3XD+8eK3p9Z74hIqkJiKC7xmn+50kfwgr0a+KMla6aydqQkQxykCQmJnhDYD+hRGKb8dzomUOg7rPiFXBYiTcWXzJ05ldQ+IhN1KTFi13EX9dopBnt+vJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=USl7NbLW; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KUyZrUFD"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3862c78536bso189529f8f.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 16 Dec 2024 07:52:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="USl7NbLW"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21619108a6bso37336235ad.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 17 Dec 2024 00:22:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1734364375; x=1734969175; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1734423772; x=1735028572; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=38FKdhz1VvDhc/ssvKRblfgMS+wpHTOD89YDjFr970E=;
-        b=KUyZrUFDxYw/xnKQIZVvesazv1xEJGjnVe4+bTISF9hIV6L1Afltxz7hn0b68VhC+J
-         Mpyt0aYc4aXgBeG90o6xUtDD6cecwVu+57EpcdrmkewLk8j9hi04pr1O4CN8sjj7V18T
-         k9QkaeXEMOfxFp0gtW7pxEVdOJz49BrF2eGCgexKbCGQCTUsLL9DgA77FycnMR7ISUZm
-         /4rdfC9D5s2oxAflJWkEkZUU+hUmZdlpfsqKINGQ0i21w+ewCOUVoBuC6LzdbxhdubtS
-         lDNbUMn1pwQ1XBD+GN4LIi4KWEobCy8gQyjCcu3X1rl3/JVlPaPC11f8oj/QC9A/YVsg
-         6kLA==
+        bh=/4SJHwVm7jGqzHklwEpE/hT2jIFLI2Cr/r40yccH3v0=;
+        b=USl7NbLW4QUiuNk32qJEnzh1dTtSAgRTwkicAFI/QKfTZZfWLOiJosZXEeIDCK/EWY
+         wYDup39JT2CtqS5GmLFTPJtOT6OtM77eLCqqV4nXDZ5OfTh1UzLzBBWeOsTvIVcWnv6f
+         XCieAvsnN8S8Job+HC+OTEObZgGQrzy6XZyn+r8M33m6mOTt5pMIaDSehiYYM+qwgKgm
+         7GQmkkRa1MEmQ77ZUwhGxIRDk125nXDN7J4NpISiPqAWeLGMelP5c5dyc3dPR7CdvsNc
+         QWYwp0RovML0VCj+3tzDke7ZSx+Dgx3yWRIJNU0iFfFimR253hT5j11nhqbO2fJ7fRVw
+         RBhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734364375; x=1734969175;
+        d=1e100.net; s=20230601; t=1734423772; x=1735028572;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=38FKdhz1VvDhc/ssvKRblfgMS+wpHTOD89YDjFr970E=;
-        b=DXkfcfmno9rBA08E4GaujkxXQPwmx/vXQ7y/ndoZlHqxmnl2YcL3ZSM7tLoomAYdTc
-         J8LtahRtHZXtiAVsVcvqG0gydWfbaDa3IdCgMycaIjYa2j4oUYo+xGzAPQ3cND+zQGnQ
-         tXomLUr2YW5xwXGrN6RdxxS30u3KXC/wuqiYqAYRmlVjhPsNV5qovs+J+hdSFBPaGofJ
-         rjgpyGRwDrxfEMkdKRNVJpIIlizykulENK6i+2uBNros/cq4bBX+0Nl9kgYEIG2m4H2L
-         ZXCEEv1GAzodZlNWyH9WgJhN1PeG7OdHGpZO/jlTJUOevB6/Rp7AH/jDLseQ7sx/RbW0
-         orpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW6iCR4erdlGeswJ8kRdadL+Fa3OMMvtqepdhqr4/YOtsqfD7YuOTwUP2SDucboGkEFZtpqnW8975C8nEfLnw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgqbRBDLT4CHzQ7ezIwCdK6wp6mIOl6gOahITCIPcRXWHk0qwX
-	6dCq/ly97Z6vbItwGijP/yUz0qmDGFZd8D2XsXQO1Rnncz9X2gMck8mos5o6HfU=
-X-Gm-Gg: ASbGnctORFQuUsCO6G3sTuzE1u4HxrqpBjBvCchhDxcxKLWMa00lA6RrbHIXQROWrox
-	Qhq46aqDgJpgOQZx4abqDaYSvmJGxWl4frJHRQ1yVFfm2rBzujMlioDO3ZQg+1NSPHvv3YxwnoT
-	OAs93WNfOHLF5iEoBACo7RQbztFw12KVEb6jYOQ3Fq45/zlrn3+X/fPePzituzfCmeNhSfBiBvJ
-	TwyPOSw5g8a/kqstvJYpGP5uR2N0dP5utWv1D7z11kJgimvfsXyDdz2OdFxq6ot2mD7b8qcAMa3
-	qmTVbiRqWWCcVKMKmM94vYkzdTsTr/8+SzcyTRgN+y1G4wEOlthLhPautBfgwQ==
-X-Google-Smtp-Source: AGHT+IERJiZgYVHCfr1v98k+3qwUb/e+s8BAL/XMJ5t/zmC887eRAbHa3krDvJnb+Btr6fWCPTHiqw==
-X-Received: by 2002:a05:6000:4b04:b0:385:f0c9:4b73 with SMTP id ffacd0b85a97d-3886c72110bmr4641130f8f.0.1734364374759;
-        Mon, 16 Dec 2024 07:52:54 -0800 (PST)
-Received: from mordecai.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c804d573sm8397658f8f.64.2024.12.16.07.52.54
+        bh=/4SJHwVm7jGqzHklwEpE/hT2jIFLI2Cr/r40yccH3v0=;
+        b=H41WrwvzKvMXq88gl4/5nn8XsDPTYaXl1sh/Ue+HUSzeNDd252Nlqyz+l06XNtpnXm
+         geSYA6QAPHFcabhu7ND0MVA6mgkkoaSygpOQcp29vDHwQh0xcbEo0G5R8drGYkiFPQJT
+         /puYGlJT2x1I8lEIxijyruA11vFFRrk8Qy4OcG7qv0TDVReQ7C4bN+UTQe8ZuW9rQP1n
+         Ou4+rLtCZUE4quLV3av7ZlpkqIivZ9q2blSJoFn/Z4ymvAvaC0LStmiCUbkmJWH9YK0j
+         tGPoMVL8RwOKHrAezgVLy5Lu3mPKH/6skwEF/iccxvw6WAD6HLlERksgjkxgOWgWEllD
+         ZnyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRBLvyux7SvHE6mIzlg9UseWF65vJp6iO+dP6BpCaddOyH/rZLcguIOmBQ4VtKBPD1HFn18E7miycCSTLp7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwScbalyh0386k0KZy+vVouKfFC/mYgXd5Hw64Q3mDit+IpgRUg
+	HFoOxij3NdKFV/NGuLup7zf4hmDnnj3RE7IEMhqVZqgw/BNMJQwc
+X-Gm-Gg: ASbGncvHmzZhM49WtvwUey22KvtJe7Vj9yrvWFlvUAIl5CDe9I3sXs8OrYFJFv7IJ5q
+	pyUQ8AUV+3cRKOyngwB2Una7PAI8ILDhXLICWcbinJj9T+2zIg8lMs2et/zdCKRkDGnOdopWm8I
+	0pz2gueRpfJs9YXkgqV0maD5NjHN5v2H7L4dKvRbXYEVwdFhSavPRaSXtm56EXBvvaL3YkMekqS
+	7EkelhVDARqLUZMYV3MSf383hHwgb//9+pspZV3xx6k7qgVsH+f2bibX0c0JnbeB7bILnBUwCWr
+	adrsTtZsKAS+PFDjebgdnsqid6o=
+X-Google-Smtp-Source: AGHT+IGtSoyIcGbzwmPUa/naySzySQJyzxPj6rq5R3+shBbBdUyu7Hiij+fD+Rip/wOHzEC6OmFH8w==
+X-Received: by 2002:a17:903:22c2:b0:215:8809:b3b7 with SMTP id d9443c01a7336-2189298227cmr195617705ad.7.1734423772455;
+        Tue, 17 Dec 2024 00:22:52 -0800 (PST)
+Received: from DESKTOP-NBGHJ1C.local.valinux.co.jp (vagw.valinux.co.jp. [210.128.90.14])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e6416csm54419255ad.230.2024.12.17.00.22.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 07:52:54 -0800 (PST)
-Date: Mon, 16 Dec 2024 16:52:48 +0100
-From: Petr Tesarik <ptesarik@suse.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev,
- LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org, Steven
- Rostedt <rostedt@goodmis.org>
-Subject: Re: [ANNOUNCE] v6.13-rc1-rt1
-Message-ID: <20241216165248.5cae6311@mordecai.tesarici.cz>
-In-Reply-To: <20241206154701.8XBv1qNE@linutronix.de>
-References: <20241206154701.8XBv1qNE@linutronix.de>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-suse-linux-gnu)
+        Tue, 17 Dec 2024 00:22:52 -0800 (PST)
+From: Ryo Takakura <ryotkkr98@gmail.com>
+To: lgoncalv@redhat.com
+Cc: bhelgaas@google.com,
+	jonathan.derrick@linux.dev,
+	kw@linux.com,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	lpieralisi@kernel.org,
+	manivannan.sadhasivam@linaro.org,
+	nirmal.patel@linux.intel.com,
+	robh@kernel.org,
+	rostedt@goodmis.org,
+	bigeasy@linutronix.de
+Subject: Re: [PATCH] PCI: vmd: Fix spinlock usage on config access for RT kernel
+Date: Tue, 17 Dec 2024 17:22:45 +0900
+Message-Id: <20241217082245.12514-1-ryotkkr98@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Z2A6VEMN5jkXg2lr@uudg.org>
+References: <Z2A6VEMN5jkXg2lr@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Sebastian,
+Hi Luis,
 
-On Fri, 6 Dec 2024 16:47:01 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+On Mon, 16 Dec 2024 11:33:56 -0300, Luis Claudio R. Goncalves wrote:
+>On Sun, Dec 15, 2024 at 11:13:21PM +0900, Ryo Takakura wrote:
+>> PCI config access is locked with pci_lock which is raw_spinlock.
+>> Convert cfg_lock to raw_spinlock so that the lock usage is consistent
+>> for RT kernel.
+>> 
+>> Reported as following:
+>> [   18.756807] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+>> [   18.756810] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1617, name: nodedev-init
+>> [   18.756810] preempt_count: 1, expected: 0
+>> [   18.756811] RCU nest depth: 0, expected: 0
+>> [   18.756811] INFO: lockdep is turned off.
+>> [   18.756812] irq event stamp: 0
+>
+>This problem has been discussed in the past at:
+>
+>    [PATCH v6.4-rc5-rt4] rt: vmd: make cfg_lock a raw spinlock
+>    https://lore.kernel.org/linux-rt-users/20230608210232.056e731f@gandalf.local.home/T/#t
+>
+>And there was a suggestion to remove the lock altogether as (at the time) the
+>only two call sites of vmd_pci_read() were already protected by pci_lock.
+>
+>I wrote the patch removing the lock and it worked as expected, but never
+>sent it to the list. If you think that for the current code that makes
+>sense, please have fun removing the lock. :)
 
-> Dear RT folks!
-> 
-> I'm pleased to announce the v6.13-rc1-rt1 patch set. 
-> 
-> Changes since v6.12-rc4-rt6
-> 
->   - Update to 6.13-rc1
-> 
->   - Down to 24 patches (including three new). The v6.12-rc4-rt6 release
->     had 42.
+I see, thanks for the link!
+I took a look at current the code and I think that cfg_lock can still
+safely be removed as explained by Sebastian [0].
+I'll send another patch shortly!
 
-Great job!
+>Best regards,
+>Luis
 
-However, I found 26 patches in v6.13-rc1-rt1-patches:
+Sincerely,
+Ryo Takakura
 
-petr@mordecai:~/src/linux>  git ls-tree v6.13-rc1-rt1-patches:patches | grep '\.patch$' | wc -l
-26
-
-It turns out, that these two patch files are orphaned (not listed in
-series):
-- netfilter-nft_counter-Use-u64_stats_t-for-statistic.patch
-- riscv-add-PREEMPT_AUTO-support.patch
-
-What is the reason to keep them around? Is it even intentional?
-
-Petr T
+[0] https://lore.kernel.org/linux-rt-users/20230620154434.MosrzRUh@linutronix.de/
