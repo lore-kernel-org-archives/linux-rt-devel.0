@@ -1,152 +1,97 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85554481B3
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Dec 2024 16:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238951F9A8E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Dec 2024 16:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734538677; cv=none; b=oVHJU6KZIgSCGAZnVebY74QfyLqgx4lZ47MLGtBvK/lT2fd8Y3ZyNSl3g4CZJaGw21mX9soS6l0xFkE8DVGE//ZQOLCNo8xgRt04fuRq5dDSTD4sswvFYPG2DzaNQ85cnQuHdIAJG760+LbbxknzBPFmBK8Ke9m2vgRTnMGl+u4=
+	t=1734539719; cv=none; b=dNQEz85rFxwGmQ28i3jUq+4hmbTPVDKOAPPn/xQRw2q8Y5qehlcJtgamCbPRfThnHFx9FjfjC1MjYyL9W596Z3I9eTVVADG0CgfYgIVE0pHsiz78sFb7HzFFddmoFz6pHTfH0JT8JQAT6qQJdJtoy0uMh0MhaIYPawIeJ0Mps6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734538677; c=relaxed/simple;
-	bh=ZrmwzPxEk0MP0STSEZ6MlfIKA5hNSsabqC2eHlL0/Xw=;
+	s=arc-20240116; t=1734539719; c=relaxed/simple;
+	bh=5Qeud0hlfKqfjnQkNyBh9m0bx42Gm5iT1s3sP8bpxbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c4sgTAOrKgmYmoSwImP1kxa60ztpegrihpf9ynt4SZC2mWuA6wjmtpAvyofcp38SPGCx7XbIAF6cTPY+BxxcWFN4EifbKVG9tG/5eEIgOiimuVhd/yUaqSa7y7qGUAHqzwpXW3rtmv67NoaiIGMMOaWBJhPF0py2UGW2AxF/SUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=D0rn+N2Q; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FlXJvDHh; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=phGfObmpzmE3+LXkBNdhS/5uitQXgh7IWF6GKLJcPN8bFajAxAvsJO6du4bYb3RPsVLUZAqelkjEzQbiAQJQsXzd4jbECE3c+2OWmKcBnGuYEy9rGIACVwdKscKmf1KUuSHLsdyeFEuTczPvSbSiCvSyGyfIcrFXNgHDtMv09cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d6Bxb+Ws; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="D0rn+N2Q";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FlXJvDHh"
-Date: Wed, 18 Dec 2024 17:17:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1734538672;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d6Bxb+Ws"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1734539717;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gl4PyUXwFPzZyEQNIKCuf8t1ptfccSRsh0pr8uzkPO0=;
-	b=D0rn+N2QqEHELWpCzcNjZmHZFTPkJkqOLNTZJEcNZI9LFjr4AwanrcW5YIDM4aFRKl140G
-	vvHBNPmQpxORtbxVesVhy5kVVoO+ZJQpYXkGEJNGYWm6D8h9Op3JVjfIqNFfBl8qFST4UM
-	OZtthP6b4zE4SyiI+CKYUYy2vjSGDcxb+3eVsn8w4b0O0DvE4ugjzyq8C+Do7vHpocL0uT
-	MQpRMKYP5/Zz8EjGe2Lka6g/js1uS8v+Cjegbi/+ifm/1f+8eiubxZ4zrJrwFTU+OWzV4W
-	HTVTdX1dC51Pv0dGuO4f+v9SRf2YpYYJYHh7SGn7ByWpzXDBSEI70XqRN4CBgQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1734538672;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gl4PyUXwFPzZyEQNIKCuf8t1ptfccSRsh0pr8uzkPO0=;
-	b=FlXJvDHhAbDiEX47mg/8/f6D279Qd5Za4fjajV7kIoZ1MgKvTMkMx7UUVy476Xp88PCbec
-	Gm5XKedNNLIjcQDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alessandro Carminati <acarmina@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Alessandro Carminati <alessandro.carminati@gmail.com>,
-	Thomas Weissschuh <thomas.weissschuh@linutronix.de>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Eric Chanudet <echanude@redhat.com>, clement.leger@bootlin.com
-Subject: Re: [PATCH v2] mm/kmemleak: Fix sleeping function called from
- invalid context at print message
-Message-ID: <20241218161751.gYbwFkzd@linutronix.de>
-References: <20241217142032.55793-1-acarmina@redhat.com>
- <20241217095504.ea2a3a24564af4df48cf0b19@linux-foundation.org>
- <CAGegRW7qRpPLWJ7Q_j-J1fsKfxvv6+m_8N5q9QVZL6jgUz9cqw@mail.gmail.com>
+	bh=p8iac//61liihadRi/lZrjLL09vXOaqSrKw2kN/ai+c=;
+	b=d6Bxb+WsyNM4c6qLkY6M5lEkztld+q0MM+6je5iafp+eDzSK1r3USNwAFa8qV3XGItieHe
+	NusSYG2Jhk7+UowBFVri6l78P1ZOdEIztECFIJ10eZlphMtipSzjK9bYIlcqXTi4SDZUHv
+	5bvzRm+lM9AMgXD5w0Q4CXzbz8+/Cb0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-618-kM8NYVBwMkO8DDB3EbRSfw-1; Wed,
+ 18 Dec 2024 11:35:13 -0500
+X-MC-Unique: kM8NYVBwMkO8DDB3EbRSfw-1
+X-Mimecast-MFC-AGG-ID: kM8NYVBwMkO8DDB3EbRSfw
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AFB3319560AB;
+	Wed, 18 Dec 2024 16:35:09 +0000 (UTC)
+Received: from localhost (unknown [10.22.80.196])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B757D1955F41;
+	Wed, 18 Dec 2024 16:35:08 +0000 (UTC)
+Date: Wed, 18 Dec 2024 13:35:07 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Ryo Takakura <ryotkkr98@gmail.com>, bhelgaas@google.com,
+	jonathan.derrick@linux.dev, kw@linux.com, lpieralisi@kernel.org,
+	manivannan.sadhasivam@linaro.org, nirmal.patel@linux.intel.com,
+	robh@kernel.org, rostedt@goodmis.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] PCI: vmd: Fix spinlock usage on config access for RT
+ kernel
+Message-ID: <Z2L5u40lDvK7_Gdb@uudg.org>
+References: <20241218115951.83062-1-ryotkkr98@gmail.com>
+ <Z2LsFoXotl_SHmNk@kbusch-mbp.dhcp.thefacebook.com>
+ <20241218154838.xVrjbjeX@linutronix.de>
+ <Z2LxAU0U_G5wI_2M@kbusch-mbp.dhcp.thefacebook.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAGegRW7qRpPLWJ7Q_j-J1fsKfxvv6+m_8N5q9QVZL6jgUz9cqw@mail.gmail.com>
+In-Reply-To: <Z2LxAU0U_G5wI_2M@kbusch-mbp.dhcp.thefacebook.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On 2024-12-18 09:38:05 [+0100], Alessandro Carminati wrote:
-> On Tue, Dec 17, 2024 at 6:55=E2=80=AFPM Andrew Morton <akpm@linux-foundat=
-ion.org> wrote:
-> >
-> > On Tue, 17 Dec 2024 14:20:33 +0000 Alessandro Carminati <acarmina@redha=
-t.com> wrote:
-> >
-> > > Address a bug in the kernel that triggers a "sleeping function called=
- from
-> > > invalid context" warning when /sys/kernel/debug/kmemleak is printed u=
-nder
-> > > specific conditions:
-> > > - CONFIG_PREEMPT_RT=3Dy
-> > > - Set SELinux as the LSM for the system
-> > > - Set kptr_restrict to 1
-> > > - kmemleak buffer contains at least one item
-> > >
-> > > BUG: sleeping function called from invalid context at kernel/locking/=
-spinlock_rt.c:48
-> > > in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 136, name: cat
-> >
-> > -rt is a bit annoying this way.  Things which we expect to work OK are
-> > no longer doing so.
+On Wed, Dec 18, 2024 at 08:57:53AM -0700, Keith Busch wrote:
+> On Wed, Dec 18, 2024 at 04:48:38PM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2024-12-18 08:36:54 [-0700], Keith Busch wrote:
+> > > On Wed, Dec 18, 2024 at 08:59:51PM +0900, Ryo Takakura wrote:
+> > > > PCI config access is locked with pci_lock which serializes
+> > > > pci_user/bus_write_config*() and pci_user/bus_read_config*().
+> > > > The subsequently invoked vmd_pci_write() and vmd_pci_read() are also
+> > > > serialized as they are only invoked by them respectively.
+> > > > 
+> > > > Remove cfg_lock which is taken by vmd_pci_write() and vmd_pci_read()
+> > > > for their serialization as its already serialized by pci_lock.
+> > > 
+> > > That's only true if CONFIG_PCI_LOCKLESS_CONFIG isn't set, so pci_lock
+> > > won't help with concurrent kernel config access in such a setup. I think
+> > > the previous change to raw lock proposal was the correct approach.
+> > 
+> > I overlooked that. Wouldn't it make sense to let the vmd driver select
+> > that option rather than adding/ having a lock for the same purpose?
+> 
+> The arch/x86/Kconfig always selects PCI_LOCKESS_CONFIG, so I don't think
+> the vmd driver can require it be turned off. Besides, no need to punish
+> all PCI access if only this device requires it be serialized.
 
-Yeah. But lockdep should have complained here earlier. The RT just
-enforces that part.
+Sorry, I also missed that and induced Ryo Takakura to rewrite the patch.
 
-> > > --- a/mm/kmemleak.c
-> > > +++ b/mm/kmemleak.c
-> > > @@ -373,7 +373,7 @@ static void print_unreferenced(struct seq_file *s=
-eq,
-> > >
-> > >       for (i =3D 0; i < nr_entries; i++) {
-> > >               void *ptr =3D (void *)entries[i];
-> > > -             warn_or_seq_printf(seq, "    [<%pK>] %pS\n", ptr, ptr);
-> > > +             warn_or_seq_printf(seq, "    %pS\n", ptr);
-> > >       }
-> > >  }
-> >
-> > Before 3a6f33d86baa we were still printing the address, with plain old
-> > %p.  Should we restore that, or is %p always useless?
-> >
->=20
-> The intent of 3a6f33d86baa8 is to make pointers available for debugging
-> purposes.
-> My argument for this change is that %pS provides already sufficient
-> information for debugging purposes.
->=20
-> We essentially have two scenarios concerning %pS:
-> 1. When the symbol can be resolved by kallsyms: In this case, a
->    symbol+offset style pointer is emitted, which I find more useful than
->    just the address.
+Luis
 
-indeed. With the relocation the information is usually hard to make
-sense.
-
-> 2. When the symbol cannot be resolved by kallsyms: Here, the raw pointer
->    is emitted. This undermines the original intent of %pK, as both the
->    masked address and the plain address are exposed.
->=20
-> If we want to be picky, there's an additional factor to consider: KASLR.
-> %pS emits its output accounting for randomization, but in most cases, the
-> randomized offset information is lost.
-> The exception is when the symbol cannot be resolved by kallsyms, though
-> this should be rare. It's still worth mentioning.
->=20
-> Back to your question: %p emits an hashed address that is not
-> reversible by design.
-> Therefore, in my opinion, it is not particularly useful in a debug
-> message.
-
-There is still %px if you want your debug message to show the raw
-pointer regardless of pointer hashing. That is something that you could
-disable. The %pK format is something that was meant to be used files
-like proc or sysfs. With the restrictions you already have on dmesg it
-does not seem necessary to have yet another check.
-
-Thank you the patch.
-
-Acked-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Sebastian
