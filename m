@@ -1,69 +1,68 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7585D225772
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 12:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226A41A2385
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 12:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734611089; cv=none; b=MgZFIQIpd+wHqkiK1qyX3yc+cX/8YszMlQ/slhSqZKk1sit9sPGaPu9HcaFteTeYWOLtxFN5x2nrPjxBdHH3hugSaVkhacXx/tV0VoHyhOJwDEa+ki+kC1u5hKFmxtu5U1//GMfs4POFB6Hl+tlurTIGOFxzO7/ApNpZB6XqOUU=
+	t=1734611280; cv=none; b=HuLEu9op4hDSU8u4ry4uP4DKy+gljhobDPLfcq4Oif8RkYe5RJGnAB2nKet8kXLcubP7xmEeDMCHlYW3f8IuQQQVsXHEdPNFrCyl1PXzExJd628xb1D8zZSLWE3SyXzkcJH+mmqZPVD+4rY+EoBsci/B0fI2h9t1CbZY/XBBz5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734611089; c=relaxed/simple;
-	bh=ZXDGsyRBh4alTcW4VAf13AoHXW2SXWyYVh/i27mMyzw=;
+	s=arc-20240116; t=1734611280; c=relaxed/simple;
+	bh=Y8mTEeIIJ6GKEG864RS98VrSAmc4pPrwLCmgKeY/91U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ixwBBNA4SMYg14BBJCtBcyrDsa/C6OtHO1Hbm5T2qWtLe26ofUA5dIb0CenLvAUbC1+BTOMvZ7Eg0YuzIGq3Fuu7DypBbO3bfircsviRGTpebizV3WIjEXepW6Hg9PFN5/2BpPwuzTIZrOcxQ5OJZrpLyYMdmSvqZOPvvDSsJ8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G2ncOyKV; arc=none smtp.client-ip=209.85.215.169
+	 To:Cc:Content-Type; b=HcB+v476YEquw4LD18ugwkPdEHlmHqRmqBPHmom3fTgM0SMDC/4roa0m49xMpxsq+di3SPojV/p+yw0meMoUThJCZYs4gK4WTNm1GPX1ANTxlILxsXRQ8L0EjkFwW+oLhPg91zbJwzHtzCVGJ3MSs9sFUWif3Hh0JApj7rpfUiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cca8mkj3; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G2ncOyKV"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fc41b4c78bso279007a12.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 04:24:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cca8mkj3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2166360285dso6325105ad.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 04:27:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734611086; x=1735215886; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1734611278; x=1735216078; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qPhnUtMLyr5G8et/r1L4ymfoOV5ZxQgWku1qfbf+ZXc=;
-        b=G2ncOyKVEzeN71Nq8BfHZwdjIfxxOk8/POyrhH5sU80WS+eISinA4A8pthics1o25i
-         5tRg507uFejKkG2p3f+fCsvRxAP1ogSA2xgk/ZgPmcnQETQcnCGt0IBsdHXIJmdMYr6f
-         XQ0CWnjpWP1juf+6WuYhlfGxN0aA60dfN+jkC6gj3iL6GmSfGNQGMUB/FlaQ42ZxNwFU
-         Qyjd0F4/pO7luvglZT1xzL1CoUaoIYH9IfQ1k5gJAeRG48Si8Ojt3oQpb70foAhXhBXO
-         1L7QNmbUXF8iPqfCKmIa4x/K+yKl3zUzWj/kbpRslXdq9AQVe1WI+bSP6JJnqQcYQMnr
-         1J9w==
+        bh=g+G4RnOipPGTEyD7q6bqMNwoiHSF6nKA2Oy+mNN0MiQ=;
+        b=cca8mkj3jOwG1RFIQNdafV6PECJBTDRPMx/rG8WA+CTlMgfJFLUIFyZ6fI2Sd6Yli9
+         NOAffGMW1mdPJ51BF4BQBS6so2fpZrQE70Q1chBfUgOT8jinYSHIqfJSlVLypwKVhDZe
+         r2po8UE4S18aFASwVMwQFX+9ooxdqF6j8M6xCihOEz2epip3voroJLHYOgRfN0wGq/cd
+         6Qq5DDov95fqRCmihPD8+y9S5OG/M266Qtj8iu0dwvlUzY3NeQfeXEoimtop1oz7x29P
+         7us5X7u2+O+FXH3lIFH33HfvyxZT0SLVIcH/22m522aVEKENF9ihLn1Jh0Poh7guLHZO
+         mEXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734611086; x=1735215886;
+        d=1e100.net; s=20230601; t=1734611278; x=1735216078;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=qPhnUtMLyr5G8et/r1L4ymfoOV5ZxQgWku1qfbf+ZXc=;
-        b=MyvTlvs+DOQH8QJzZLHxKPz+cBO/PZAqsjFw1YaAN1Cpgpx4OISLXDQnR460aCA3oR
-         XTPlexCHwUQ1KqKpdWmEWSTOlJr2YZFV5yGe/1jTXV9cD7gXN/aOgoN1LTn6VkYWokOi
-         kTAcSqI37qBofv3aBGxxdfhZPFTDbhwlgdyY+AzSuodzec9eBXRjhVAHDMcYJA3QNwEy
-         fUOf2UqpUkePxKcUrSCi6zvRQngoVkqaT7kulzZqMrXOhizO7g3strt7AJKjUuTpUbws
-         mD3eBLrQupWpMETeYZXT3zvUqXj+uJfvHzXNyG8sv1SwwB0dwUc8nII26a7rs0aKdGG/
-         qarQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwJwgab6csHMRuBXPZgjU1Sy9fBZE965we9YwYRrk7tswtktFv8WLP8rboqU2yHBpN+VYRS6KrGPyMwosivw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaNAsVNLH4PbtnQc15MB281VmZKIQBbtUYvBN1vrUjqt8z6LFR
-	zap6Lm6WOvUcAVjGXplIndxs9iBbWp9mfXLqm5WYTpKK05LA1858ix7PBsmcI9Pw0vZEREz2kzC
-	lDsMZX9Jn11r5Lo6MN5JGJpbD+tjpIcadGjfE1A==
-X-Gm-Gg: ASbGncuIs48rk9nRn9DWT3G+pQ53e2G1P7OILZgoYstkhRIeUQdjL2dE6JlKN84Hscj
-	VfoymeeBzF9XQZwuSn0XRXIylFcMqVMaV2fS+AZg=
-X-Google-Smtp-Source: AGHT+IEXrnCbNYeFkWiIA/RLHv1xEbIWgazA/JzIYdtX2wvrqVKmCi0J7WAM81CbK37oe0D/Sc7DQYvm4jqinUtmcQc=
-X-Received: by 2002:a17:90b:50cf:b0:2ee:4b8f:a5b1 with SMTP id
- 98e67ed59e1d1-2f443d45527mr4651753a91.24.1734611085853; Thu, 19 Dec 2024
- 04:24:45 -0800 (PST)
+        bh=g+G4RnOipPGTEyD7q6bqMNwoiHSF6nKA2Oy+mNN0MiQ=;
+        b=Z5qKuHmjaQXZCpyJ2ypu90JqVRYSIwTvBemsGI9uqs9JyjVvDy6fVk1kpKw8rPblA8
+         Xsyeq3MxDDW7vsgdrPbwbDqQAY5gAFpkMu/D34ujGJE3ianM3WlbG5Gkgzj/1cnGQPaE
+         u09lkzPeopxEw8g3XtVnWARrjtHipE2bu5o40AdPMQFOFDmfDhBy4Q7UnCnmc0beZPs5
+         ++JOF9urOOcJpjxH7qGt3jzKde37OqqgszHjqcD2HBvT7zP4IZG2DQpkGTWdkoQn+YpX
+         w/IwDcRqCuw1hUGjryMiYjurvVJSPGhaK3en39zn7FIKtAI6FD+c93ieXXdBmNygCy10
+         XdrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVCXHrA2F390g+LDikOj87znFX+LvfvAMgYTQueKPhp6ELlxLvjmpGePdqfXx3oFYrAvUvuc7lFF139Zdpw5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywt+jWyxMQWqu+xh20pIXZssSYXtYMoI7KOG+npvusdJ4vFebWi
+	p8I0FI+KYzp0baVrhCf5JwkHlU7utBRcGVbGxi7ESRcRPcRJpotSCZ6jPolMpU9aXbSlMJ/RQFp
+	ArUek+ZHBu9EiAuAxxFlM3zc5ChR5DFBXCZ9IWw==
+X-Gm-Gg: ASbGncsIhPRtMcK+AKurWkCTaYCHOMlPyzDygT7ND5vpYlYKbO9bRp9jH7OfEVuophw
+	oOnetwIjUbWGM+EWI6Mai4NecFYewtFiy1gYjDvU=
+X-Google-Smtp-Source: AGHT+IF25+bCsnh44Rs1BuWbDq3wwHppqFNiO2iYcxQwZpTeUDMqhwvZIXXNgbYCm6EGUjwyqFQPJqFyUIIpbLQ7emQ=
+X-Received: by 2002:a17:902:e752:b0:216:70b6:8723 with SMTP id
+ d9443c01a7336-218d726bce8mr82711205ad.44.1734611278280; Thu, 19 Dec 2024
+ 04:27:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241216115006.415861-1-yeoreum.yun@arm.com> <20241216115006.415861-8-yeoreum.yun@arm.com>
-In-Reply-To: <20241216115006.415861-8-yeoreum.yun@arm.com>
+References: <20241216115006.415861-1-yeoreum.yun@arm.com>
+In-Reply-To: <20241216115006.415861-1-yeoreum.yun@arm.com>
 From: Mike Leach <mike.leach@linaro.org>
-Date: Thu, 19 Dec 2024 12:24:34 +0000
-Message-ID: <CAJ9a7Vg_vyyG7A8N=+oUiE2MCPFR4+XGqZBe+Mq8c222Wq6Q8w@mail.gmail.com>
-Subject: Re: [PATCH v3 7/9] coresight-replicator: change replicator_drvdata
- spinlock's type to raw_spinlock_t
+Date: Thu, 19 Dec 2024 12:27:47 +0000
+Message-ID: <CAJ9a7VhxG_8R6j5uRCzOhLpy4ZmzyVvyW0+ryCcd4w7wqpZ2ew@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] coresight: change some driver' spinlock type to raw_spinlock_t
 To: Yeoreum Yun <yeoreum.yun@arm.com>
 Cc: suzuki.poulose@arm.com, james.clark@linaro.org, 
 	alexander.shishkin@linux.intel.com, bigeasy@linutronix.de, 
@@ -72,89 +71,85 @@ Cc: suzuki.poulose@arm.com, james.clark@linaro.org,
 	linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
+Hi,
+
 On Mon, 16 Dec 2024 at 11:50, Yeoreum Yun <yeoreum.yun@arm.com> wrote:
 >
-> In coresight-replicator drivers, replicator_drvdata->spinlock can be held
-> during __schedule() by perf_event_task_sched_out()/in().
+> In some coresight drivers, drvdata->spinlock can be held during __schedule()
+> by perf_event_task_sched_out()/in().
 >
-> Since replicator_drvdata->spinlock type is spinlock_t and
+> Since drvdata->spinlock type is spinlock_t and
 > perf_event_task_sched_out()/in() is called after acquiring rq_lock,
 > which is raw_spinlock_t (an unsleepable lock),
 > this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 >
-> To address this, change type replicator_drvdata->spinlock in
-> coresight-replicator drivers, which can be called
-> by perf_event_task_sched_out()/in(), from spinlock_t to raw_spinlock_t.
+> To address this,change type drvdata->spinlock in some coresight drivers,
+> which can be called by perf_event_task_sched_out()/in(),
+> from spinlock_t to raw_spinlock_t.
 >
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> ---
->  drivers/hwtracing/coresight/coresight-replicator.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+> Reviewed-by: James Clark <james.clark@linaro.org>
 >
-> diff --git a/drivers/hwtracing/coresight/coresight-replicator.c b/drivers/hwtracing/coresight/coresight-replicator.c
-> index 0fba87de6d1a..7d36fe2176cc 100644
-> --- a/drivers/hwtracing/coresight/coresight-replicator.c
-> +++ b/drivers/hwtracing/coresight/coresight-replicator.c
-> @@ -41,7 +41,7 @@ struct replicator_drvdata {
->         struct clk              *atclk;
->         struct clk              *pclk;
->         struct coresight_device *csdev;
-> -       spinlock_t              spinlock;
-> +       raw_spinlock_t          spinlock;
->         bool                    check_idfilter_val;
->  };
+> v2 to v3:
+>     - Fix build error
 >
-> @@ -125,7 +125,7 @@ static int replicator_enable(struct coresight_device *csdev,
->         unsigned long flags;
->         bool first_enable = false;
+> v1 to v2:
+>     - seperate patchsets to change locktype and apply gurad API.
 >
-> -       spin_lock_irqsave(&drvdata->spinlock, flags);
-> +       raw_spin_lock_irqsave(&drvdata->spinlock, flags);
->         if (atomic_read(&out->src_refcnt) == 0) {
->                 if (drvdata->base)
->                         rc = dynamic_replicator_enable(drvdata, in->dest_port,
-> @@ -135,7 +135,7 @@ static int replicator_enable(struct coresight_device *csdev,
->         }
->         if (!rc)
->                 atomic_inc(&out->src_refcnt);
-> -       spin_unlock_irqrestore(&drvdata->spinlock, flags);
-> +       raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+> Yeoreum Yun (9):
+>   coresight: change coresight_device lock type to  raw_spinlock_t
+>   coresight-etm4x: change etmv4_drvdata spinlock type to  raw_spinlock_t
+>   coresight: change coresight_trace_id_map's lock type to
+>     raw_spinlock_t
+>   coresight-cti: change cti_drvdata spinlock's type to raw_spinlock_t
+>   coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
+>   coresight-funnel: change funnel_drvdata spinlock's type to
+>     raw_spinlock_t
+>   coresight-replicator: change replicator_drvdata spinlock's type to
+>     raw_spinlock_t
+>   coresight-tmc: change tmc_drvdata spinlock's type to raw_spinlock_t
+>   coresight/ultrasoc: change cti_drvdata spinlock's type to
+>     raw_spinlock_t
 >
->         if (first_enable)
->                 dev_dbg(&csdev->dev, "REPLICATOR enabled\n");
-> @@ -179,14 +179,14 @@ static void replicator_disable(struct coresight_device *csdev,
->         unsigned long flags;
->         bool last_disable = false;
+>  .../hwtracing/coresight/coresight-config.c    |   8 +-
+>  .../hwtracing/coresight/coresight-config.h    |   2 +-
+>  drivers/hwtracing/coresight/coresight-core.c  |   2 +-
+>  .../hwtracing/coresight/coresight-cti-core.c  |  44 +--
+>  .../hwtracing/coresight/coresight-cti-sysfs.c |  76 +++---
+>  drivers/hwtracing/coresight/coresight-cti.h   |   2 +-
+>  drivers/hwtracing/coresight/coresight-etb10.c |  26 +-
+>  .../coresight/coresight-etm4x-core.c          |  18 +-
+>  .../coresight/coresight-etm4x-sysfs.c         | 250 +++++++++---------
+>  drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
+>  .../hwtracing/coresight/coresight-funnel.c    |  12 +-
+>  .../coresight/coresight-replicator.c          |  12 +-
+>  .../hwtracing/coresight/coresight-syscfg.c    |  26 +-
+>  .../hwtracing/coresight/coresight-tmc-core.c  |   6 +-
+>  .../hwtracing/coresight/coresight-tmc-etf.c   |  48 ++--
+>  .../hwtracing/coresight/coresight-tmc-etr.c   |  40 +--
+>  drivers/hwtracing/coresight/coresight-tmc.h   |   2 +-
+>  .../hwtracing/coresight/coresight-trace-id.c  |  22 +-
+>  drivers/hwtracing/coresight/ultrasoc-smb.c    |  12 +-
+>  drivers/hwtracing/coresight/ultrasoc-smb.h    |   2 +-
+>  include/linux/coresight.h                     |   4 +-
+>  21 files changed, 308 insertions(+), 308 deletions(-)
 >
-> -       spin_lock_irqsave(&drvdata->spinlock, flags);
-> +       raw_spin_lock_irqsave(&drvdata->spinlock, flags);
->         if (atomic_dec_return(&out->src_refcnt) == 0) {
->                 if (drvdata->base)
->                         dynamic_replicator_disable(drvdata, in->dest_port,
->                                                    out->src_port);
->                 last_disable = true;
->         }
-> -       spin_unlock_irqrestore(&drvdata->spinlock, flags);
-> +       raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
->
->         if (last_disable)
->                 dev_dbg(&csdev->dev, "REPLICATOR disabled\n");
-> @@ -277,7 +277,7 @@ static int replicator_probe(struct device *dev, struct resource *res)
->         }
->         dev->platform_data = pdata;
->
-> -       spin_lock_init(&drvdata->spinlock);
-> +       raw_spin_lock_init(&drvdata->spinlock);
->         desc.type = CORESIGHT_DEV_TYPE_LINK;
->         desc.subtype.link_subtype = CORESIGHT_DEV_SUBTYPE_LINK_SPLIT;
->         desc.ops = &replicator_cs_ops;
 > --
 > LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 >
 
-Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Notably missing is the same changes for the etm3x driver. The ETMv3.x
+and PTM1.x are supported by this driver, and these trace source
+variants are also supported in perf in the cs_etm.c code.
 
---
+STM is also missing, though this is not directly enabled via perf -
+but could perhaps run concurrently as it can be a target output for
+ftrace.
+
+Regards
+
+Mike
+
+-- 
 Mike Leach
 Principal Engineer, ARM Ltd.
 Manchester Design Centre. UK
