@@ -1,83 +1,80 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11D58BEE
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 00:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED94433C0
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Dec 2024 01:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734569747; cv=none; b=kG3AfajvmIYsqi3b+fClimrhdOMFIWpgx0K2117zwa9rg1ZL9hvE66XMJkZb5+jOt5OazJXx32WUHdfUl1n9NX81/f2YdiTyuo+AK0pW+oeX0kuKXKBYnf/pRbd2dG++gq8qZ6Z8WsMmkSYGiVwVzYfKPFZnc6LflM/m5c2d3Jc=
+	t=1734572769; cv=none; b=UqaT52ZSSygjq/LC3AORBdAIOo1r76S966jvJQmpzkjnh27lib3bH40SnH7b4fz+hgb8cH85FLkatIWXk3CKd6Yj2OdhPH4TC+TKu+iShCDBs8IDC8CSY2/rDY2MMqr8hqCiR5sj6e6IVTzJ1VFHja0vqdc3c9VYu+f7oveS1Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734569747; c=relaxed/simple;
-	bh=hd0ZlzWgSawFh8+8A+rV7uc3ocDRTNeUduIba2FQg1c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Y+MX5H7HG838BMJCg9dg5pZZx/SlpbvWPfW6Ng0w9sSBuP6eKY9Yj/LbMMb7UaLp1Ikp49iutSo1JUrQ8FriyVWMHgHhYbTzC6sXm4Th8QkABizncUqp3dFSydLGxq0GGCtXSlUTcISs40tHK1wMdyu/JrkKbqvM4+axxM27t20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N/74lsaW; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1734572769; c=relaxed/simple;
+	bh=oYOJjMIFg5BpCRg2I1jDh3pUiu15RQyTBfWflZJit3U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bzbFORT0alWYO0rCb7GIkF8lPwmVnWadk6HZMJz9EvtI4d9x5VPhNVEMSEvPTk4fTSGzauD2BMMkHU0/Y/cyMYuDAtqxVuhUMfS41MOOYbz3boPml9T0T2faMOIHVG2Mm2iQKdzqQXguXCrLHZUQGWCS9GEmp72Op5JWjkHtK5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K8yV6fAp; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N/74lsaW"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21619108a6bso1975185ad.3
-        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Dec 2024 16:55:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K8yV6fAp"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-725dbdf380aso210983b3a.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Dec 2024 17:46:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734569745; x=1735174545; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Z2JJA+VVWbDFlxfMN+TCjx2RUrp/JrvgBtYLZGV9fQ=;
-        b=N/74lsaWcgfc5SMyKoYtcQbvNo41swGCbQ0YsgT5KpMdaWeCZ/HHGq2EU2EEoyTs4r
-         Sce7RgmS8FUYVrwMKlw9wX/rJN+QOeLVzqNg1JRsNVXaMVzmBWaNBUPkUe5cPg8Ftp3P
-         i/zKoFTVWu+sK3scl11TafryhhZsowCdU6z9MJ7Ji3X4/A2wRZ2dkzGIhRownhRWU05T
-         JrK1oTlp3HXUDWNayiNhznzmVYrogRR/jM6CA/LQbPg8r0wR8Ip7UNZAqZhABzoT5D9M
-         6nS1jURv93LzxBscqMpOecBUnTBlh+A2Mxa70Q2xGPe+KptT8KWSlZGH2jY1c/bzZCCX
-         p/7w==
+        d=gmail.com; s=20230601; t=1734572767; x=1735177567; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/V4emV4l6cudZlpyj3Y6hFQ96+b+ToXBuKhip6/MHhE=;
+        b=K8yV6fApKrpfJPFh9wduCmtVVqOczk8jTJgNXB9NPk1g6edF8ne831bMxOb2qKkpbi
+         NWTWaqQeAv1K1xHZB3y6W+/e1vvwq23QveCtSOACi7ydlpmvKqSIgL10WTKtKJZ+Vxhv
+         +TViNnUCB/fl3bENUBmGs+4pTi+/UefRBxfEfBAsHkkc+hoz1k9/XteMH6OwYc2WelNf
+         tcyXV6FIinI0BgZRhYrGfZ8LsvSxZQ10ClCUfX+c14yq9o3P1fYo8Tuhgjk4oR4u96NP
+         CyQSinJX0YZ6x721XUhsA9OCDxqNdR3hMiMhrykPf9dqyItYGcl0N7zUakm4KOmmOAkU
+         1Odg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734569745; x=1735174545;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Z2JJA+VVWbDFlxfMN+TCjx2RUrp/JrvgBtYLZGV9fQ=;
-        b=Rh1WN8QiL32J41utVWDB/L0sEyI4v1wASTKM7MyLfZfxt4AvJvIPPdrFRG5yGlfE2B
-         hjv6uUaj1uXtvi3XHE+CAMdwZWRMucXzN5iQsBaOmIP70W0otJsnm1/wEXhD6m/N+z1G
-         m6SEimr2aX81ifi4OLvcOdOr+roLveLbkwH2i239DlH6e+/kGR0mZStsUbmEv/AGYEyb
-         vDdl485Xb5GQVO/pSKVqcmFF+3DXg1bnX2rHi3tDq26kPq0aY8jKsDNQk3PjdEPnqGMl
-         UWo0BZwa1/X4D3G5GJgq2s8lBAdnv+bKtHlksKPl/N5MhtFUcEqOLM+F7cnOFi+bhmjq
-         QCZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfjiPsDRsWfK3/9ynin2sUIMzIddFibOSaGD92N2YXWeIBB64Ha9SpW6f2+ftlCTrWTrXWrWSBzgt1AO/lQw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcYYJ2KVV3YgHs2xywVmavsBPtvOtpK3DRUJFwgoCbxnN1qpWp
-	cNNj3w7dscJqoOGg43cf1lhr2ZZCj5TgnWfZhAH2NDmIxvX+YbYt
-X-Gm-Gg: ASbGncvY0l8GxNuqhA1qEqJBO7fik8CYzHNKbd5kExH41cf5DameF69iZe/aH6hMY9N
-	fqcCrwQrNH74DNcVrb/n9MwRrtVwx/eRi6ldrZn32X2phWkcaagvqUutBv3eL3XSgTQnw3PcckL
-	Uwhxq7MIhRsPC6mUDrvk6h7zLg9gZs8VsdrnrS9d3YfdTaMvwarDkGlSBQh8Xi2M2yOX6KnYgGQ
-	sIsEqgFTqK/QvJHGQI3KyDRVepeFhvxPwotGWjd2MGffM3Qh+CxwVNoKWcvFa9W1dsZP7/PrCox
-	SjMxO6HFCIC3BNoIokM00ikiB8I=
-X-Google-Smtp-Source: AGHT+IFvQC912dfQQj+RYYrtFJJbdM4bKFikCtfL5Crx1hXDf1k/rw3oosC5thpRzFx/YnswfK/uTw==
-X-Received: by 2002:a17:902:ce8c:b0:216:7ee9:220b with SMTP id d9443c01a7336-219d96268a0mr23576035ad.22.1734569745167;
-        Wed, 18 Dec 2024 16:55:45 -0800 (PST)
+        d=1e100.net; s=20230601; t=1734572767; x=1735177567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/V4emV4l6cudZlpyj3Y6hFQ96+b+ToXBuKhip6/MHhE=;
+        b=TAzR+dUVYX9JAlbgHiSHZj3ERqw8hKpkpph4O1NQbCGMJ2FYGRS/o+7ZTIBzH/IT9w
+         GlLwF8r4raY0DlWQgOGVbQvRdiuWsF1VjnZVQsmX8WdPRU7iq2NtZ+nwDYsSrzVDRvDI
+         grBB9PM9yT8tTmvWlPpcjju15lycM/4g02BftGlg5i7yBivCodefFQnutVvvAPUgdIXE
+         cz6yiSUpXeXVuplA5X4CcD5g/yZToI+JvqRd0urniqL9e46H46ZFFHA6y/ucmgXgIIZA
+         Gfvcbtpep+QABcmGMWf7kuz1L6664IXTUbzC+bMt5kgIKsd8EK2NY/VHpCG0LGwqgsNg
+         0EzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1PEqWSuXsYxI16Q1/zLDjhxD/YnQerZnQ3IA+T4JI7w4rWfA23AZGZYTchTy8ebMK42A4b1X1RQ8dTwQC3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywi2ZFKRhRMp2tlSFgpstM8AnJ9fcu6huoH57Dx6vf14K92my0H
+	qKAKR7Bz0bL5gDdRBgoBVe4X+r1t+E/ua9HTf75ZVzLP0azhKxjc
+X-Gm-Gg: ASbGncu9Fiwr3UlQ3BISBDz6kA89tJLr/Yz2wJbaHMWbPBzHgLTfUxgMFmRqV4E06f5
+	a//jBMHODhUFxYIbdr3QdCmYIeoV0Gof0IjW5ZW6LqAS23wvCRMfaZQBJa1FyPgDkFll+1JZKz+
+	Mdui6DkM3zRaLQytQgllaySZCdjcy7dgfK2d+41wZXAhPnU1/3DX0jmm5eUhSojW1NeoBywFzYg
+	bomTg5ISyVXWH7VcFTa4YOT9iT/SZJhWQcWKIV4ysKOmPHhWZHbUf1x4TFTKoyverkQBL6mSXJA
+	VgnK93HDBaW7UmwKs/LgMsxOraI=
+X-Google-Smtp-Source: AGHT+IFRMWufy3i+dmk6NjbcZlVTRLNYQkOXsjqD2911H9adqtY1RgcDA9k+ilfXh/wtINZaAuXqyg==
+X-Received: by 2002:a05:6a00:8087:b0:725:1de3:1c4a with SMTP id d2e1a72fcca58-72aa8c9d93fmr2712074b3a.3.1734572766723;
+        Wed, 18 Dec 2024 17:46:06 -0800 (PST)
 Received: from DESKTOP-NBGHJ1C.local.valinux.co.jp (vagw.valinux.co.jp. [210.128.90.14])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc96e867sm1482065ad.71.2024.12.18.16.55.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad90ba0asm127767b3a.172.2024.12.18.17.46.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2024 16:55:44 -0800 (PST)
+        Wed, 18 Dec 2024 17:46:06 -0800 (PST)
 From: Ryo Takakura <ryotkkr98@gmail.com>
-To: kbusch@kernel.org
-Cc: bhelgaas@google.com,
-	bigeasy@linutronix.de,
+To: lgoncalv@redhat.com,
+	bhelgaas@google.com,
 	jonathan.derrick@linux.dev,
 	kw@linux.com,
-	lgoncalv@redhat.com,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
 	lpieralisi@kernel.org,
 	manivannan.sadhasivam@linaro.org,
 	nirmal.patel@linux.intel.com,
 	robh@kernel.org,
-	rostedt@goodmis.org
-Subject: Re: [PATCH v2] PCI: vmd: Fix spinlock usage on config access for RT kernel
-Date: Thu, 19 Dec 2024 09:55:38 +0900
-Message-Id: <20241219005538.9125-1-ryotkkr98@gmail.com>
+	bigeasy@linutronix.de,
+	rostedt@goodmis.org,
+	kbusch@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Ryo Takakura <ryotkkr98@gmail.com>
+Subject: [PATCH v3] PCI: vmd: Fix spinlock usage on config access for RT kernel
+Date: Thu, 19 Dec 2024 10:45:49 +0900
+Message-Id: <20241219014549.24427-1-ryotkkr98@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <Z2LsFoXotl_SHmNk@kbusch-mbp.dhcp.thefacebook.com>
-References: <Z2LsFoXotl_SHmNk@kbusch-mbp.dhcp.thefacebook.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -86,29 +83,125 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Keith,
+PCI config access is locked with pci_lock which is raw_spinlock.
+Convert cfg_lock to raw_spinlock so that the lock usage is consistent
+for RT kernel.
 
-On Wed, 18 Dec 2024 08:36:54 -0700, Keith Busch wrote:
->> @@ -385,13 +384,11 @@ static int vmd_pci_read(struct pci_bus *bus, unsigned int devfn, int reg,
->>  {
->>  	struct vmd_dev *vmd = vmd_from_bus(bus);
->>  	void __iomem *addr = vmd_cfg_addr(vmd, bus, devfn, reg, len);
->> -	unsigned long flags;
->>  	int ret = 0;
->>  
->>  	if (!addr)
->>  		return -EFAULT;
->>  
->> -	spin_lock_irqsave(&vmd->cfg_lock, flags);
->>  	switch (len) {
->>  	case 1:
->>  		*value = readb(addr);
->
->There's a comment above this function explaining the need for the lock,
->which doesn't make a lot of sense after this patch.
+Reported as following:
+[   18.756807] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+[   18.756810] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1617, name: nodedev-init
+[   18.756810] preempt_count: 1, expected: 0
+[   18.756811] RCU nest depth: 0, expected: 0
+[   18.756811] INFO: lockdep is turned off.
+[   18.756812] irq event stamp: 0
+[   18.756812] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[   18.756815] hardirqs last disabled at (0): [<ffffffff864f1fe2>] copy_process+0xa62/0x2d90
+[   18.756819] softirqs last  enabled at (0): [<ffffffff864f1fe2>] copy_process+0xa62/0x2d90
+[   18.756820] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[   18.756822] CPU: 3 UID: 0 PID: 1617 Comm: nodedev-init Tainted: G        W          6.12.1 #11
+[   18.756823] Tainted: [W]=WARN
+[   18.756824] Hardware name: Dell Inc. Vostro 3710/0K1D6X, BIOS 1.14.0 06/09/2023
+[   18.756825] Call Trace:
+[   18.756826]  <TASK>
+[   18.756827]  dump_stack_lvl+0x9b/0xf0
+[   18.756830]  dump_stack+0x10/0x20
+[   18.756831]  __might_resched+0x158/0x230
+[   18.756833]  rt_spin_lock+0x4e/0x130
+[   18.756837]  ? vmd_pci_read+0x8d/0x100 [vmd]
+[   18.756839]  vmd_pci_read+0x8d/0x100 [vmd]
+[   18.756840]  pci_user_read_config_byte+0x6f/0xe0
+[   18.756843]  pci_read_config+0xfe/0x290
+[   18.756845]  sysfs_kf_bin_read+0x68/0x90
+[   18.756847]  kernfs_fop_read_iter+0xd7/0x200
+[   18.756850]  vfs_read+0x26d/0x360
+[   18.756853]  ksys_read+0x70/0xf0
+[   18.756855]  __x64_sys_read+0x1a/0x20
+[   18.756857]  x64_sys_call+0x1715/0x20d0
+[   18.756859]  do_syscall_64+0x8f/0x170
+[   18.756861]  ? syscall_exit_to_user_mode+0xcd/0x2c0
+[   18.756863]  ? do_syscall_64+0x9b/0x170
+[   18.756865]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-Thanks for pointing it out! It slipped my mind.
-I'll leave it as it is for the next patch :)
+Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
 
-Sincerely,
-Ryo Takakura
+---
+
+Hi!
+
+This is same as the first version of the patch as discussed over v2.
+
+v1:
+https://lore.kernel.org/lkml/20241215141321.383144-1-ryotkkr98@gmail.com/T/
+
+Changes since v2:
+https://lore.kernel.org/lkml/20241218115951.83062-1-ryotkkr98@gmail.com/T/
+
+- In case if CONFIG_PCI_LOCKLESS_CONFIG is set, vmd_pci_read/write()
+  still neeed cfg_lock for their serialization. So instead of removing
+  it, convert it to raw spinlock.
+
+---
+ drivers/pci/controller/vmd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/pci/controller/vmd.c b/drivers/pci/controller/vmd.c
+index 9d9596947..94ceec50a 100644
+--- a/drivers/pci/controller/vmd.c
++++ b/drivers/pci/controller/vmd.c
+@@ -125,7 +125,7 @@ struct vmd_irq_list {
+ struct vmd_dev {
+ 	struct pci_dev		*dev;
+ 
+-	spinlock_t		cfg_lock;
++	raw_spinlock_t		cfg_lock;
+ 	void __iomem		*cfgbar;
+ 
+ 	int msix_count;
+@@ -391,7 +391,7 @@ static int vmd_pci_read(struct pci_bus *bus, unsigned int devfn, int reg,
+ 	if (!addr)
+ 		return -EFAULT;
+ 
+-	spin_lock_irqsave(&vmd->cfg_lock, flags);
++	raw_spin_lock_irqsave(&vmd->cfg_lock, flags);
+ 	switch (len) {
+ 	case 1:
+ 		*value = readb(addr);
+@@ -406,7 +406,7 @@ static int vmd_pci_read(struct pci_bus *bus, unsigned int devfn, int reg,
+ 		ret = -EINVAL;
+ 		break;
+ 	}
+-	spin_unlock_irqrestore(&vmd->cfg_lock, flags);
++	raw_spin_unlock_irqrestore(&vmd->cfg_lock, flags);
+ 	return ret;
+ }
+ 
+@@ -426,7 +426,7 @@ static int vmd_pci_write(struct pci_bus *bus, unsigned int devfn, int reg,
+ 	if (!addr)
+ 		return -EFAULT;
+ 
+-	spin_lock_irqsave(&vmd->cfg_lock, flags);
++	raw_spin_lock_irqsave(&vmd->cfg_lock, flags);
+ 	switch (len) {
+ 	case 1:
+ 		writeb(value, addr);
+@@ -444,7 +444,7 @@ static int vmd_pci_write(struct pci_bus *bus, unsigned int devfn, int reg,
+ 		ret = -EINVAL;
+ 		break;
+ 	}
+-	spin_unlock_irqrestore(&vmd->cfg_lock, flags);
++	raw_spin_unlock_irqrestore(&vmd->cfg_lock, flags);
+ 	return ret;
+ }
+ 
+@@ -1009,7 +1009,7 @@ static int vmd_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 	if (features & VMD_FEAT_OFFSET_FIRST_VECTOR)
+ 		vmd->first_vec = 1;
+ 
+-	spin_lock_init(&vmd->cfg_lock);
++	raw_spin_lock_init(&vmd->cfg_lock);
+ 	pci_set_drvdata(dev, vmd);
+ 	err = vmd_enable_domain(vmd, features);
+ 	if (err)
+-- 
+2.34.1
+
