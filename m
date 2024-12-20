@@ -1,78 +1,78 @@
 Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F21204567
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Dec 2024 14:31:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C272215F62
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Dec 2024 14:39:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734705067; cv=none; b=KXoGF1WIuxmYvBLETCVkPS+nfX6aFGox+XurtJcMxVjv+zOhXnSN1xeNC/sd7kPXd+Y+Bgvp9Ojtapc/2kE7M3wV1atTADYw7clDN7a5VHfIcBa3UP8meNvh2kr0Rh4N+H6N0jLLIPWy4L6tH4Qh78aMPGjZtejy7kfXkV/sf1E=
+	t=1734705568; cv=none; b=Hy1sdRqkY/DN9MSnds1ojykATffi491KuJhBnyKbeOHxe5T+gQqiP+F7mWlJBxchf7sJ5bzJrVHx5H4ykygyL+4UaCsM1fZm6hVM0vwGUzqUypw+pS/yyK8LPw/keYUx/1nfnQO/Iv6PEdN0h/LW2g9+PVeg6GhRLBU/LFQKSng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734705067; c=relaxed/simple;
-	bh=bbYhAOHRjgS/bbWxx4S6wETMdV2oo/GYYE4mRLEHtFg=;
+	s=arc-20240116; t=1734705568; c=relaxed/simple;
+	bh=IF40teNY8gtpW9UlWDE77+a8BCV/ryQYUU36Z60KD0g=;
 	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=oj4TrhcUlk6BIy7OnBo7Zv8Theiv7/6zMmz6JJ2pe1sv/McU1D9S013cpJuadLCNm3o4A5xUUoD3lQN+KLYp4+WhBIekL3WoYbO2pKajDeXaI0WyOw7lb0oj1zqMblHNynIOAg92PzsTbtEvzq3rdjI2eU1huRVVWoQQzLm6E+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Wz/KG6IZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TN2RLaN8; arc=none smtp.client-ip=202.12.124.152
+	 Subject:Content-Type; b=gVFYBraniGyD0q1W+w/wtyY/1aiEevcJkneKj5f/tgNW1Sj4aUI39bSP2xrTxiiqBVttlU498iPm4GVZPDYIyKk0AumyPBTK4bh3JAm/Ox7kqGx5ragSSOkpG82vU2lmTG4TAIqKsMT0et8ZpAttYuFgIs6bRjxvDlc6nLEKMjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=k1Ia4Hye; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xy94a0sw; arc=none smtp.client-ip=202.12.124.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Wz/KG6IZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TN2RLaN8"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="k1Ia4Hye";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xy94a0sw"
 Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 2341725401DE;
-	Fri, 20 Dec 2024 09:31:04 -0500 (EST)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 2551D25401FB;
+	Fri, 20 Dec 2024 09:39:26 -0500 (EST)
 Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Fri, 20 Dec 2024 09:31:04 -0500
+  by phl-compute-10.internal (MEProxy); Fri, 20 Dec 2024 09:39:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1734705063;
-	 x=1734791463; bh=gsmKBVKplqHqzj+4kwJxOm//rkER8jse8Kuh1bXyrIA=; b=
-	Wz/KG6IZ/dI71kGCo09p2O1Y24JF9NKrY6IZXMuv4krvKjUZPAxvEirTZ72N9xpn
-	hD+my3AjjxAWmVooMkf4EgMj06pToN3Cbhhzy8rgJ+zQmabEkneYFpZ8vGkoWnYc
-	E/GUaDG3UFRXa3Eq79aWbsutbagylNeGLKpkKJjmjgJJOnxAFGUGZ1CAyAGrCtlF
-	xt7wCh1x7bIgyoMtRUWuinLGiUtEWOLPEL2C1oKoFqiehueGE5RtUTxed2UYLm3t
-	pzD+0V3mBK/PwN7as8kM9zOzz52pgeXa5opCfp3Dv8pk8k4IKlCajuaTbrSnh1QS
-	tAb1Xk8CMKBGfIjA8FVuLg==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1734705565;
+	 x=1734791965; bh=TH0ggL15ha3cHvAVBubqS5XbrDlSBVnwD+kCElIWxLY=; b=
+	k1Ia4Hye/+r3OslBAM1Nfg4JNNP2wAGtX/h2mle4t2Rq9CXKP1sZZqcdnzMvUyqv
+	Lx4M1XJ1y7rghBiGweJe1Rizz0401DVg9Reg/kR9VtnVAuDH9LO//3KL9wbR1oJV
+	8mDmDSbB8h2yIEfqH6BrzYE+7v/ZX4Ujywbyw262LZpwPrqmOiaIdh2jj4QpFxKP
+	Lj8JXV1jsLJmHiuPzNriKzUm+0vdMvynmUvcCHFtmRdRQQmfTClRN3ynH3I+FkNv
+	AV7kL7QWZdYgw38Yejho0v8o8tX5s9e2Pmnft92daOQzupRGKXX5+FS8EnwRGE67
+	UY0B5XnSLx6LzACPgBu0Vw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734705063; x=
-	1734791463; bh=gsmKBVKplqHqzj+4kwJxOm//rkER8jse8Kuh1bXyrIA=; b=T
-	N2RLaN8UW65kC6uLcHIcUsQ8edXE98oo6VLjZGZvq2ztrTINd2MXbWLsFKJ03Ywe
-	lXlz30Cr901fghAQx9FMYxqh+BVEo4Ci3umNWR5pxr7mcIIDtEZniUzjy6aepREV
-	2g54SkEJDk44UDMUrvumfLHKyLrwxkQJcGTz7HZYJxkoXxtD73xffW6YcVDl+kJn
-	uEZNOiD1xf4Q0RRLpSZe5/M7mBDFjAleaLSqSdhS7u3puXs2ue147jU6Hi4e0b4b
-	nZCvWr1PRtnPqt5/qMZHnQI0S8YVweVGJ8qE+a+4HfVQH7oVzb9oPdWZaonI54Ql
-	cxgzcEGpZE5sGcMinCiYA==
-X-ME-Sender: <xms:p39lZ8mo3PsK3YNh5WKeqXVdKQyEBt9aNJMzXdlVjVzgjM568eY0Xg>
-    <xme:p39lZ72P2quhogQAeD6QhPyYjEoZC5Dt23Oumi9aPle8x_sKKT8_rL7iNux7W3amm
-    VSWdkkJqyri5tyK0UE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgieefucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734705565; x=
+	1734791965; bh=TH0ggL15ha3cHvAVBubqS5XbrDlSBVnwD+kCElIWxLY=; b=x
+	y94a0sw0ybcp+11dExMmj+RMTfxpSykhQSEb2K/+wAL9Khl1kMAxQRB2HKczfN75
+	NKRw6eJLM21vQjChucba3QPltwOtTbc5tLG8oWjz1P16uyl8+h0iZ7p1XSjNlI/R
+	cEaDHkmCfywffhueszbdgMMKsRouwm5O7hdK5xwdFOClqbUihxkRuwVL5/btrxUB
+	udczGFjAaht0wbHNupaLet9fRmStlC8RnQSExy2URKBVLn0l67ddq2UiWHoATJzH
+	Bz/hpVCsIZYwWr5Gy17IB/oHyGdTqIEHVrGhf8AjmeSl5XtmTMHrulQpD0reycsD
+	lgjHelQfiJE/p6s1On7DQ==
+X-ME-Sender: <xms:nYFlZ3EZpI4kx4jO0g0genC6RGhZ-Ju_Lv-JCpoq6y6V9IJm3HaYzQ>
+    <xme:nYFlZ0V33OQWym_0oCB11Y9H8c0CLY9bRCI5Y-UbK9YBDD3SICSK5597YdLK9tvLX
+    W-ydl5hEAbuXhmyaog>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdej
+    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
     necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhepvdfhvdekueduveffffetgfdvveefvdelhedvvdeg
-    jedvfeehtdeggeevheefleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudej
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghvihgurdhlrghighhhthesrg
-    gtuhhlrggsrdgtohhmpdhrtghpthhtohepjhgsrghrohhnsegrkhgrmhgrihdrtghomhdp
-    rhgtphhtthhopehmrghrkhdrrhhuthhlrghnugesrghrmhdrtghomhdprhgtphhtthhope
-    hlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtoheprhhoshhtvggu
-    thesghhoohgumhhishdrohhrghdprhgtphhtthhopehpvghtvghriiesihhnfhhrrgguvg
-    grugdrohhrghdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhgpdhr
-    tghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:p39lZ6pZz-jbm-zrPd2_lqP7FnRcWOg67GEhfGqd7JoggTGyUT5Lzw>
-    <xmx:p39lZ4lVc8S9iVK5hzndfyADZrT04huYOzDKUQdD_I9hBYdbu0tABg>
-    <xmx:p39lZ61FhCimReulOeJK1gtUih8Tc0B8EehCyND-Db5owo_OHOt2uw>
-    <xmx:p39lZ_u0TdkybIK3P4iwheL4_yk1zVXgDOp7mT7Mm1DosA4fcxdmWQ>
-    <xmx:p39lZzEP388RN8j-nfBgyUp16FUCv7pFWfjgbd8Zn4xSE4iDZVm7YBMV>
+    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
+    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
+    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjsggrrhhonhesrghkrghmrghird
+    gtohhmpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghp
+    thhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtthhopehroh
+    hsthgvughtsehgohhoughmihhsrdhorhhgpdhrtghpthhtohepphgvthgvrhiisehinhhf
+    rhgruggvrggurdhorhhgpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrugdroh
+    hrghdprhgtphhtthhopegrrhgusgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghr
+    nhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtlhhrkhiflhhlmhhssehkvghrnh
+    gvlhdrohhrgh
+X-ME-Proxy: <xmx:nYFlZ5IeA0agIQS9WG9-oCGqCbUK8YKCb55q9nS6rbdQalz-tAdeiw>
+    <xmx:nYFlZ1GcRqypaBd-6kFgrzxaG6XZZi6XtePVlMXD3A1PPpmDlpiEiA>
+    <xmx:nYFlZ9UYcV92jtT5rMUEMW4UgzYkMY_7LfClJMPOzMGSJnBZ4R10sA>
+    <xmx:nYFlZwONuVoybRnzJ8AF8-wnRIEjDtAHeyFNi5ugySfspO1SDeSjNw>
+    <xmx:nYFlZ-XfwLfzt-yuEwsBvS1PN6Do7TfHDM1ufhT_V4IFoez9ntl6hdMu>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 063E02220072; Fri, 20 Dec 2024 09:31:03 -0500 (EST)
+	id 5AF242220073; Fri, 20 Dec 2024 09:39:25 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -80,97 +80,112 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 20 Dec 2024 15:30:41 +0100
+Date: Fri, 20 Dec 2024 15:37:30 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Linus Walleij" <linus.walleij@linaro.org>,
- "David Laight" <David.Laight@aculab.com>
-Cc: "Arnd Bergmann" <arnd@kernel.org>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
- "Ard Biesheuvel" <ardb@kernel.org>, "Clark Williams" <clrkwllms@kernel.org>,
- "Jason Baron" <jbaron@akamai.com>, "Josh Poimboeuf" <jpoimboe@kernel.org>,
+To: "Russell King" <linux@armlinux.org.uk>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: "Arnd Bergmann" <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-rt-devel@lists.linux.dev, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Clark Williams" <clrkwllms@kernel.org>, "Jason Baron" <jbaron@akamai.com>,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
  "Mark Rutland" <mark.rutland@arm.com>,
  "Matthew Wilcox" <willy@infradead.org>,
  "Peter Zijlstra" <peterz@infradead.org>,
- "Russell King" <linux@armlinux.org.uk>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
  "Steven Rostedt" <rostedt@goodmis.org>
-Message-Id: <4d8ee82a-b767-4c3f-9735-2a1e0f6bbc8b@app.fastmail.com>
-In-Reply-To: 
- <CACRpkdYihj15SRp5t_8Aq4i4jtgP1-VLOSbbKG+ozLgiAuLgmQ@mail.gmail.com>
+Message-Id: <41427a05-f032-4713-812d-7f8a021067d8@app.fastmail.com>
+In-Reply-To: <Z1m18yn67dsJRVWA@shell.armlinux.org.uk>
 References: <20241210160556.2341497-1-arnd@kernel.org>
- <20241210160556.2341497-4-arnd@kernel.org>
- <d54e11cf3f4d4216b5cecf29b761cd45@AcuMS.aculab.com>
- <CACRpkdYihj15SRp5t_8Aq4i4jtgP1-VLOSbbKG+ozLgiAuLgmQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ARM: drop CONFIG_HIGHPTE support
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+ <20241210160556.2341497-3-arnd@kernel.org>
+ <20241211134811.wM_UADhQ@linutronix.de>
+ <20241211140402.yf7gMExr@linutronix.de>
+ <Z1m18yn67dsJRVWA@shell.armlinux.org.uk>
+Subject: Re: [PATCH 2/4] ARM: Disable HIGHPTE on PREEMPT_RT kernels
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 20, 2024, at 14:10, Linus Walleij wrote:
-> On Sat, Dec 14, 2024 at 7:41=E2=80=AFPM David Laight <David.Laight@acu=
-lab.com> wrote:
+TL;DR: I would still like to merge patch 3 and 4, but let's
+keep that separate from the RT patches.
+
+(just realized I had never sent my reply here)
+
+On Wed, Dec 11, 2024, at 16:55, Russell King (Oracle) wrote:
+> On Wed, Dec 11, 2024 at 03:04:02PM +0100, Sebastian Andrzej Siewior wrote:
 >
->> From: Arnd Bergmann
->> > Sent: 10 December 2024 16:06
->> ...
->> > Since Arm is the last architecture remaining that uses this, and al=
-most
->> > no 32-bit machines support more than 4GB of RAM, the cost of contin=
-uing
->> > to maintain HIGHPTE seems unjustified, so remove it here to allow
->> > simplifying the generic page table handling.
->>
->> 'Picking at nits' 'highmem' support was needed for systems with 4GB o=
-f RAM
->> in order to use more than 3GB or 3.5GB (depending on the bios) because
->> of the physical addresses that are reserved for PCI (and other MMIO).
-
-What you mean here is CONFIG_HIGHMEM64G on x86, not CONFIG_HIGHMEM
-or CONFIG_HIGHPTE.
-
-> Wow I didn't know that, there are so many reasons why highmem is used
-> by different architectures.
+> However, what is quite different is the L1 page tables. On x86,
+> everything is nice and easy, and each page table is one 4k page.
+> On 32-bit Arm, this is not the case - we need to grab a 16k page for
+> the L1, and the more immovable allocations we have in lowmem, the
+> harder it will be to satisfy this. Failing to grab a 16k page
+> leads to fork() failing and an unusable system.
 >
-> On ARM it was originally added for a certain Marvell system with
-> a mere 2GB of RAM:
-> commit 053a96ca11a9785a7e63fc89eed4514a6446ec58
->
-> The reason was that since the virtual address space is just 4GB and
-> we have reserved virtual kernel memory from (typically) 0xc0000000
-> only ~1GB can be linearly accessed by the kernel (actually less than
-> that).
->
-> This wasn't a problem since no ARM system was using more than
-> 1GB until Nico ran into it.
->
-> So the ARM "high memory" is something to do with virtual memory
-> size rather than physical memory reservations as in the x86 case.
+> So, we want to keep as many immovable allocations out of lowmem as
+> possible - which is an additional constraint x86 doesn't have, and
+> shouldn't be overlooked without ensuring that the probability of it
+> happening remains acceptably low.
 
-HIGHMEM works the exact same way on the major 32-bit architectures
-(x86, arm, powerpc): With the default TASK_SIZE and PAGE_OFFSET
-of set to 3GB (0xc0000000) you have 1GB left that is use for
-the linear lowmem and the vmalloc area,  leaving between 786MB
-and 900MB for lowmem, unless you shrink TASK_SIZE (CONFIG_VMSPLIT_*).
+Right, non-LPAE systems indeed have a bigger problem with
+fragmentation here, I hadn't thought of that.  Most of the
+systems with 4GB RAM (and all of those with more) support
+LPAE though, which means they can use the same page table
+layout as x86 when when using CONFIG_LPAE=y.
 
-The most common systems (Intel Pentium M, PowerPC 74xx, Arm
-Cortex-A9) have a 4GB address limit and have to fit both RAM and
-MMIO or PCI into that, which is where the 3GB (Pentium M) through
-3.9GB (i.MX6, Calxeda Highbank) total-RAM limit comes from.
+Almost all SoCs prior to ARMv7VE are limited to 2GB of RAM
+or less, the only exceptions I can think of are three SoCs
+that can use close to 4GB (a small physical address range 
+is used for MMIO):
 
-The 4GB physical address limit is broken by CONFIG_PHYS_ADDR_T_64BIT
-on some x86 server chipsets (Serverworks GC, HP F8, IBM Summit,
-Intel 450GX, ...), Arm Cortex-A15 and PowerPC e500/e600 cores,
-which gets you to the point where you fill up all your lowmem
-before using all of highmem.
+- Calxeda highbank
+- Hisilicon hip01
+- NXP i.MX6D/DP/Q/QP
 
-HIGHPTE was added when x86 servers to to 32GB, at which point
-the lowmem is mostly filled with page tables for typical
-workloads.
+We can throw the first two under the bus, I'm sure nobody
+cares enough, but the i.MX6Q was actually shipped in a
+handful of products with 4GB that some users still have:
 
-Other architectures (mips, sparc, arc, ...) have some but not
-all of the above, HIGHPTE was only ever a thing on x86,
-arm and frv.
+- Bunnie's Novena Laptop (856 original backers on crowdsupply)
+- Solidrun CuBox i4x4 (not the more common i4P)
+- Solidrun Hummingboard (early revisions only, later 2GB)
+
+A couple of other i.MX6Q boards were advertised as supporting
+"up to 4GB", but if you tried to buy those, the only ones in
+stock anywhere seemed to be limited to 1 or 2 GB. Examples:
+
+- armstone A9r4 (dts not upstream)
+- DFI FS053 (dts not  upstream)
+- VAR-SOM-MX6
+
+[Part of the problem here apparently was availability
+and cost of qualified 8Gbit DDR3 chips.]
+
+Do you know of any other SoCs or boards in that category?
+
+My feeling so far is that none of these are show-stoppers:
+
+- The 4GB/8GB boards with LPAE don't have the added problem
+  of fragmentation with order-2 page table allocations.
+  They can run low on lowmem with CONFIG_VMSPLIT_3G, but
+  as Sebastian cited, HIGHPTE is not likely to be the
+  breaking point for them. These were mainly built around
+  2012-2013 (before 64-bit became available) as high-end
+  SoCs and are reaching the end of their commercial life.
+- The 4GB boards without LPAE are also 10+ years old by now
+  and were fairly rare even then. These would suffer the
+  most from the fragmentation though.
+- The 2GB boards with or without LPAE can theoretically
+  avoid HIGHMEM entirely by using CONFIG_VMSPLIT_2G_OPT.
+  These are still very common today, but at least a third
+  of the total memory is going to be available as lowmem
+  even with VMSPLIT_3G.
+
+The case that is less clear to me is the one where memory
+is sparse enough to lead to exhausting lowmem without
+having a lot of total RAM. These are a little harder
+to find, but I think e.g. Renesas has some chips that
+need this, and Realview PBX had a custom __phys_to_virt
+in earlier versions to work around this. This should
+be solved when we get the "densemem" support that Linus
+mentioned.
 
      Arnd
