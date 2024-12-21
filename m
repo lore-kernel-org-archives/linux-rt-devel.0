@@ -1,193 +1,169 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5598F21D5A8
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Dec 2024 19:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3852558BB
+	for <linux-rt-devel@lists.linux.dev>; Sat, 21 Dec 2024 05:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734721231; cv=none; b=I7uFfd2Nj/a0aJY3HS927j+28fjXKWxMzsi1Xqb8g73wJvyoxG+05ufkfF1GkBaogTp5aBjMhzhvCo0AFIiZuQoO4rwNsJoEgNpE8CfFeCBC3/qxgLZYU+ahfu7ic30tpV2OaPQNxnWamYX2xkSpuoINhrpOCNWpiUfZEOB/KxM=
+	t=1734758279; cv=none; b=aHuljrvuW44X8n3HkSgBxZe0VtyYrwFd5YJ2DcgvFoK6zZNe8JukIMMdhDFxjTcW4xSd7khcrqtxrwk8fC7TmRsMVZml9eK5hBKEvlWf8sgY6c3macEFTkx8eYCITxCrUT4ngquTIGIjJgwuh59+qNt3eBTtdE8mPO3skAYJdHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734721231; c=relaxed/simple;
-	bh=DcI407VL3jzMpdIUpTsQAQ7Fwrv0oYJ68zmeYct2Wl0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tOlHH48x5wgT849MDW3Rjpv9aFnC2lzlC5W+3yeZnm4TbeXZ6dTUGC18zvvqpZKx8pNdM7cdb5NtE5gn8Tu84Dl6xaIgCBozbbfdAmegagZPalYMKQiafbdHo9jvF3tIF+XvJ3jaeEIGRPGjPZK8qI58vlMeiBv3VN3//QlF9+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOnigwFa; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1734758279; c=relaxed/simple;
+	bh=tdhrviXUyYrOkJpK6TlNLvUEorJ/drEcGIS4XeLFDjI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=odpt4ipAH9rSq4kG1CuwonXfv+rhRj6xME4hI2JVEeZ7kpq+u6CV1o9bOzQUaKJUPKudWixwsQw7y6o28uvdV60f7Y13KzNrkBMrGrRFTGfZL2vO2dUwSBl/VWIbGZGpeqwLc+P0vpY4IxR3cNzCDdGomBusthqUU5vjVGSRJs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=adob6G40; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOnigwFa"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-46677ef6910so22394841cf.2
-        for <linux-rt-devel@lists.linux.dev>; Fri, 20 Dec 2024 11:00:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="adob6G40"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fd526d4d9eso1972537a12.2
+        for <linux-rt-devel@lists.linux.dev>; Fri, 20 Dec 2024 21:17:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734721216; x=1735326016; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1734758277; x=1735363077; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sIKsmEYBJU5cUCCOWLWX32/3tfdNXhpSh22eOWASL7s=;
-        b=SOnigwFanuxZ+o8NLmZKZwvztyY/5JD+78o33G+x0Kh4InCqfinniHkXHCGUe6IkNE
-         n2vesUdSqtU+F36tfo/kdysKVOyEjPblsMHCTBzIWv+f9vKkEgOuLkA5D2JLa+z/qAib
-         TdPfCBCblvYIuMyldkLIXOUmVRRyz1dRcBG0kgvgJtd+Ogr7YsnVx5+i8HXqLQFEdllX
-         r5B7Vo1ObPtkWeeMPYvEeF9oR9iiubgd5vLBGx5XIHXloZIstwuzdJFk8OUHPgqXaCr3
-         EpsxP5Q0lMYfTy1mhfrFWXELnyKgURvIefxiDgasgI3afYbA8/NebUicI+ilvFRNsc6F
-         UiOQ==
+        bh=0QC/72JjUekI5hebR4Z81Enr4PkYEQJAIEzWRLgLbhM=;
+        b=adob6G40r3DbXAFIBkVj/UfKHkNHCpTeUUFOF5DifvedCj90NCd4kFjTL+knjstxIm
+         qEJgWsoBAA1mJ9SUEVqq+bqc2azQPfUBEkIGcAMlGUzwLaA0VfLg2oGVZvrzr4k+fr6/
+         mNaWXdVJLLU8nMwEFh9jre9XvKMnHDI5q4vmNlNiAU01cVqRgMh1Qcr182X6tDJP3rus
+         8WbAw+L5ihLJei5XEHZgMQKkRLpv5yhYqtbr43bEFRC1yupHIwm2aUIb/N0mp/Jra9xf
+         ZPVujYUlllG5RG7WkxOl4nxR5nQ7dDGKdGVWHCYaRFx46nNeZ3qmAVrs3ocAKkwCCcfP
+         bHsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734721216; x=1735326016;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1734758277; x=1735363077;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sIKsmEYBJU5cUCCOWLWX32/3tfdNXhpSh22eOWASL7s=;
-        b=OOgFLzfXEsy+FddYcDP/UXoDjQ46u1kMWqGxen5ZEYYpKpQJWAgrgo2orS/2jB1fdR
-         +ybxBpcN4/9ASSMbflGrAyfC+0gYd4H/Rat3tvvpUi2QLDynlykoNdsbXmCZc+exnv0f
-         +dCsPNQfPim04dZD8iOQGfNkg38uzxPyQdNC06aiBtiOvIX3thdxexbiQ5yOZfzG9lOZ
-         4IaItIeMl6r+jEyM0bo13MpTtRMEdByrM5wZV0yaaaAoA9dp+pr6v/5hM/0QSyesY1rB
-         VUAoAtmF+dLw2Gc3QQ6IuEkFop7CuEandqUsv+v2r4W5jgx9H/+9tfXBjJsEDgCatkBV
-         Rq7g==
-X-Forwarded-Encrypted: i=1; AJvYcCXL+SqvmbS/1cUpXug2Xqz1/y3h4n0PZqx4pHeKLAQ0Mu3IgAwBRlVINLxgPl2/OysWJPx+fGQrnb4bpgztHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4yvuguHxqGMLscNJEno3a1epcig1l/3VMcVmrmBGIozti1g8v
-	5S4sAgQl8AcOHVdKqvDSfJZ5V8+ESE7AkX0BA/i4ymsf6yV53PTt1KPE6A==
-X-Gm-Gg: ASbGncsGE4WnSWEez0omhVUQWbewJEfwJqUGs3oh+FXa0cp2eoW+ui8kToIjJXcgqJB
-	nSPSqydTPYMzsKDPVy7m9+C/DMfJKHpIQXU4XnHJV1NTf2O0EMtYbraD08CLC/ZwvZKBzkfo+Fu
-	PQaISXXA1C6uOxPTU23CU9MeCkuh7beXEXIV3u4Nrx4znQLqwpf8XpLWun94NpHCFyiCRdfP9vy
-	5JoVMSOWB6JlPKn52xhH/IYWpzi0d/GTXb4jpQk7yEBFdgJ8PtWbbn/CYJR0l9eMmjxC33r5hYg
-	lRQ0Cpv2+NDL0YRjgWZj1QV0VukE2KrAT7DQjSAPgSWD/UM=
-X-Google-Smtp-Source: AGHT+IEvWHz9wFWRe0xpJhj8GL8Jpmis1TM+GIs5mhBnfsxebBmE8kIRjGSFBPRKg8djD+mgqP/Mjw==
-X-Received: by 2002:ac8:5a91:0:b0:467:6283:3c92 with SMTP id d75a77b69052e-46a4a8e21fdmr58136851cf.12.1734721216057;
-        Fri, 20 Dec 2024 11:00:16 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46a3e64cf0fsm19354691cf.18.2024.12.20.11.00.15
+        bh=0QC/72JjUekI5hebR4Z81Enr4PkYEQJAIEzWRLgLbhM=;
+        b=fKvXXg4pBejFHiMQtBE3ObVexHPNdUFFnpS+rWuiFlQEWN4DfGDvRIf/k3B52FWhnp
+         Zzzy1boYpmw19QQatKnE/j9KuH+wadRskGHqmkm14N8EluRFdpAI0RDPILV6+iJuI9Gy
+         xhl2c+7tlxKSINX1zNh3iM9x1v6fzKfd4ZuVIY8tPLZywIgQSpLhOk/xU1gR9N2NtsUB
+         Wey45Dq+5TMEMOlLgXMAQ8Hl9p+TrnhDBsH21cFDT3kjM/VMiQWnulH1t/npAMgjQzaj
+         9kvu2xT+15HmE7mYXfPk0ZBOtGaxvc45L+TW7qy095u0EKIo8ugnBM8I90FWs5W6niO6
+         LsBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1TtKOv/K+qZq2nwRkYt/OwJNAQ/XK4MvfU0+Ty3ZUDoV/j+Il0F8IjkisZB45iUC/ko2Xzz8NZaVMERXVlg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWOtgt3S2ncM6v2x1oxTqhSv5eQbzdP1sXt/qmS9mwVzDQNf4f
+	wxDw/ETjcNYD1eqjSSs9eJJngF/3V6Znc8G5pXEs2A4vCcHr/EEv
+X-Gm-Gg: ASbGnctQKbhkiZoxXEtPIk75rPYf8Jynt1QCJTfxfholQHo10TyUUjQwV9LMao+qnhm
+	SasVEy4s/jQKYGpXsPDDLKLsn19h2GBzuZZbYvwaKL2SM/0+7wENzrnbpRzW2rqwzy+HN7zQr5b
+	vKA7JaWNIHkxqlw5WGff3ptsMb4f7MilVDYIXJXObV3Maplt3INGfapn8OuNR2dC1aXImqc3hUo
+	dKCqDw2kZLFvJo5Dub9tmKI+i5UEwp8ro6vBjgu+X/GjD/NFzamuPoeT15+c7/v05CsAdI22DnR
+	v8HU42SCUqKm6/ZkiTndWPZ8rDyYXerw5BP9agTCwX9GeCfY
+X-Google-Smtp-Source: AGHT+IFsYfJId669Yi/Z8RdORPq00z/V5HFURF3oX5eKRxEQc/+OrwIJnkALp4TOdHaEOZByd6fzuw==
+X-Received: by 2002:a17:903:234e:b0:216:46f4:7e3d with SMTP id d9443c01a7336-219e6e9fa68mr75551895ad.15.1734758277123;
+        Fri, 20 Dec 2024 21:17:57 -0800 (PST)
+Received: from localhost.localdomain (p10213112-ipngn20001marunouchi.tokyo.ocn.ne.jp. [153.220.101.112])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842b85efb81sm3672181a12.41.2024.12.20.21.17.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 11:00:15 -0800 (PST)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 019101200073;
-	Fri, 20 Dec 2024 14:00:15 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Fri, 20 Dec 2024 14:00:15 -0500
-X-ME-Sender: <xms:vr5lZ77bBDmth2zlqgIA6IA-wFR5BwgOnsWuNCDDaRysEk8DDZerwQ>
-    <xme:vr5lZw5gnEP0wq9XyZ36pg64FL6vpsU8X4DZPDNHOQVzfXcvxaA8BwXNa8r65t8fm
-    8jlq6J2IEJZYnr4OQ>
-X-ME-Received: <xmr:vr5lZyfSKfBDZn0NBZreFQFmWzEXQ6cfCR3UWkCJUHoRlL96qo2hDKMFB-w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgudduiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvf
-    evuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceo
-    sghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeehud
-    fgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueevieduffeivdenucevlhhu
-    shhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvg
-    hsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheeh
-    hedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
-    dpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehr
-    hihothhkkhhrleeksehgmhgrihhlrdgtohhmpdhrtghpthhtohepsghighgvrghshieslh
-    hinhhuthhrohhnihigrdguvgdprhgtphhtthhopegtlhhrkhiflhhlmhhssehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrthdquggvvhgvlheslhhishhtshdr
-    lhhinhhugidruggvvhdprhgtphhtthhopehlohhnghhmrghnsehrvgguhhgrthdrtghomh
-    dprhgtphhtthhopehmihhnghhosehrvgguhhgrthdrtghomhdprhgtphhtthhopehpvght
-    vghriiesihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehrohhsthgvughtsehgoh
-    houghmihhsrdhorhhg
-X-ME-Proxy: <xmx:vr5lZ8LwdKcp255j6Hc1wu6yvx0HogzxGwz-fLXtLzGHluPMwxM5Jg>
-    <xmx:vr5lZ_KSNMiOy04Z5FArjWIc1x2YOPNr7xiddr1-HMR3dXk9K5jG9w>
-    <xmx:vr5lZ1yZZk7KqXBtyasva6eF7aH3i0pIT5QnHH8yZE72twkE1zWVwQ>
-    <xmx:vr5lZ7KF5SrfFvtkVS1M9FdKcg4glNysFKjmRS6WI1nJhsVl7YAhvQ>
-    <xmx:vr5lZ6aloB7lrhoucq75-x8B36NNVoOc60H8cvuAhI_Lz_6gd9WQIoZf>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Dec 2024 14:00:14 -0500 (EST)
-Date: Fri, 20 Dec 2024 11:00:13 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Ryo Takakura <ryotkkr98@gmail.com>
-Cc: bigeasy@linutronix.de, clrkwllms@kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	longman@redhat.com, mingo@redhat.com, peterz@infradead.org,
-	rostedt@goodmis.org, tglx@linutronix.de, will@kernel.org
+        Fri, 20 Dec 2024 21:17:56 -0800 (PST)
+From: Ryo Takakura <ryotkkr98@gmail.com>
+To: boqun.feng@gmail.com,
+	bigeasy@linutronix.de
+Cc: clrkwllms@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	longman@redhat.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rostedt@goodmis.org,
+	tglx@linutronix.de,
+	will@kernel.org
 Subject: Re: [PATCH] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Message-ID: <Z2W-veam4RP1C6zM@boqun-archlinux>
-References: <Z2Sdv6tSEoxiYW4e@boqun-archlinux>
- <20241220161016.422991-1-ryotkkr98@gmail.com>
+Date: Sat, 21 Dec 2024 14:17:32 +0900
+Message-Id: <20241221051732.218496-1-ryotkkr98@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <Z2W-veam4RP1C6zM@boqun-archlinux>
+References: <Z2W-veam4RP1C6zM@boqun-archlinux>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241220161016.422991-1-ryotkkr98@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 21, 2024 at 01:10:16AM +0900, Ryo Takakura wrote:
-> On Thu, 19 Dec 2024 14:27:11 -0800, Boqun Feng wrote:
-> >The following is the rough idea:
-> >
-> >Regards,
-> >Boqun
-> >
-> >----->8
-> >diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
-> >index fc53e0ad56d9..7191a753e983 100644
-> >--- a/include/linux/bottom_half.h
-> >+++ b/include/linux/bottom_half.h
-> >@@ -4,6 +4,7 @@
-> > 
-> > #include <linux/instruction_pointer.h>
-> > #include <linux/preempt.h>
-> >+#include <linux/lockdep.h>
-> > 
-> > #if defined(CONFIG_PREEMPT_RT) || defined(CONFIG_TRACE_IRQFLAGS)
-> > extern void __local_bh_disable_ip(unsigned long ip, unsigned int cnt);
-> >@@ -15,9 +16,12 @@ static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int
-> > }
-> > #endif
-> > 
-> >+extern struct lockdep_map bh_lock_map;
-> >+
-> > static inline void local_bh_disable(void)
-> > {
-> > 	__local_bh_disable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
-> >+	lock_map_acquire_read(&bh_lock_map);
-> > }
-> > 
-> > extern void _local_bh_enable(void);
-> >@@ -25,11 +29,13 @@ extern void __local_bh_enable_ip(unsigned long ip, unsigned int cnt);
-> > 
-> > static inline void local_bh_enable_ip(unsigned long ip)
-> > {
-> >+	lock_map_release(&bh_lock_map);
-> > 	__local_bh_enable_ip(ip, SOFTIRQ_DISABLE_OFFSET);
-> > }
-> > 
-> > static inline void local_bh_enable(void)
-> > {
-> >+	lock_map_release(&bh_lock_map);
-> > 	__local_bh_enable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
-> > }
-> > 
-> >diff --git a/kernel/softirq.c b/kernel/softirq.c
-> >index 8b41bd13cc3d..17d9bf6e0caf 100644
-> >--- a/kernel/softirq.c
-> >+++ b/kernel/softirq.c
-> >@@ -1066,3 +1066,13 @@ unsigned int __weak arch_dynirq_lower_bound(unsigned int from)
-> > {
-> > 	return from;
-> > }
-> >+
-> >+static struct lock_class_key bh_lock_key;
-> >+struct lockdep_map bh_lock_map = {
-> >+	.name = "local_bh",
-> >+	.key = &bh_lock_key,
-> >+	.wait_type_outer = LD_WAIT_FREE,
-> >+	.wait_type_inner = LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-> >+	.lock_type = LD_LOCK_PERCPU,
-> >+};
-> >+EXPORT_SYMBOL_GPL(bh_lock_map);
-> 
-> Self-tests are now all passing. Thanks!
-> It looks good to me.
+On Fri, 20 Dec 2024 11:00:13 -0800, Boqun Feng wrote:
+>On Sat, Dec 21, 2024 at 01:10:16AM +0900, Ryo Takakura wrote:
+>> On Thu, 19 Dec 2024 14:27:11 -0800, Boqun Feng wrote:
+>> >The following is the rough idea:
+>> >
+>> >Regards,
+>> >Boqun
+>> >
+>> >----->8
+>> >diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
+>> >index fc53e0ad56d9..7191a753e983 100644
+>> >--- a/include/linux/bottom_half.h
+>> >+++ b/include/linux/bottom_half.h
+>> >@@ -4,6 +4,7 @@
+>> > 
+>> > #include <linux/instruction_pointer.h>
+>> > #include <linux/preempt.h>
+>> >+#include <linux/lockdep.h>
+>> > 
+>> > #if defined(CONFIG_PREEMPT_RT) || defined(CONFIG_TRACE_IRQFLAGS)
+>> > extern void __local_bh_disable_ip(unsigned long ip, unsigned int cnt);
+>> >@@ -15,9 +16,12 @@ static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int
+>> > }
+>> > #endif
+>> > 
+>> >+extern struct lockdep_map bh_lock_map;
+>> >+
+>> > static inline void local_bh_disable(void)
+>> > {
+>> > 	__local_bh_disable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
+>> >+	lock_map_acquire_read(&bh_lock_map);
+>> > }
+>> > 
+>> > extern void _local_bh_enable(void);
+>> >@@ -25,11 +29,13 @@ extern void __local_bh_enable_ip(unsigned long ip, unsigned int cnt);
+>> > 
+>> > static inline void local_bh_enable_ip(unsigned long ip)
+>> > {
+>> >+	lock_map_release(&bh_lock_map);
+>> > 	__local_bh_enable_ip(ip, SOFTIRQ_DISABLE_OFFSET);
+>> > }
+>> > 
+>> > static inline void local_bh_enable(void)
+>> > {
+>> >+	lock_map_release(&bh_lock_map);
+>> > 	__local_bh_enable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
+>> > }
+>> > 
+>> >diff --git a/kernel/softirq.c b/kernel/softirq.c
+>> >index 8b41bd13cc3d..17d9bf6e0caf 100644
+>> >--- a/kernel/softirq.c
+>> >+++ b/kernel/softirq.c
+>> >@@ -1066,3 +1066,13 @@ unsigned int __weak arch_dynirq_lower_bound(unsigned int from)
+>> > {
+>> > 	return from;
+>> > }
+>> >+
+>> >+static struct lock_class_key bh_lock_key;
+>> >+struct lockdep_map bh_lock_map = {
+>> >+	.name = "local_bh",
+>> >+	.key = &bh_lock_key,
+>> >+	.wait_type_outer = LD_WAIT_FREE,
+>> >+	.wait_type_inner = LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
+>> >+	.lock_type = LD_LOCK_PERCPU,
+>> >+};
+>> >+EXPORT_SYMBOL_GPL(bh_lock_map);
+>> 
+>> Self-tests are now all passing. Thanks!
+>> It looks good to me.
+>
+>Good! Do you want to continue working on this based on the above
+>changes? If so, feel free.
 
-Good! Do you want to continue working on this based on the above
-changes? If so, feel free.
+Oh yes, for sure!!
+I'll send the next version based on it with the Sebastian's earlier
+suggestion included [0].
 
-Regards,
-Boqun
+>Regards,
+>Boqun
 
-> 
-> Sincerely,
-> Ryo Takakura
+Sincerely,
+Ryo Takakura
+
+[0] https://lore.kernel.org/lkml/20241220071554.YAD157bS@linutronix.de/
