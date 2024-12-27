@@ -1,155 +1,185 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A3F1D5CDE
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Dec 2024 13:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8365C7080D
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Dec 2024 04:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735219502; cv=none; b=s0Yyor5428Uk+iSwOxUYtcwNLEo8mK5Fab3SfYxsEY4y0z+7OX/c6ZP89Wm/2Y0pdQN/cM/MjZg1pfXC5ouuHNj53i0IUPNpnsrRtxko8RmgTLvPpTplxA0Q7wgRqtoi8KwyuWEqKl+eZvcjwd3ywongl14JlCineACBxydWmNI=
+	t=1735272519; cv=none; b=UJ5+T7GJAbn7DWofJgMqmBdMAc1WWc3JgHuzSl9VpH5VELm9EwUCfGr469SxzXc47Jjt16Qy7m2DCp9zAh5jr5mKsgTaECpbJEYGROqcU7mJrsv8W5MSLKK/YltsxoCkCRsXYY7lyYKxfKuXK27ctkdvYYYGRVzK7ydg1TuD26o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735219502; c=relaxed/simple;
-	bh=fzr/y0By52LMwmidEnSfUqA91KlKWxY1fKTryC75b/8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=QF2xNpbsyHAHNeOQy/ilHYvHd5JMQcFbBo383vtx3GDKUMA/dBE6N08DTCHUgLVaxGCPvj6aaInzc7vHQUcHkDtEBl6cvG5jit2aLCe3AJkg49QPduiXyqL1XSwvnPfzwlQTjlAaOfWl2b6bIdg0/rGD5Be/5EfGJy33wdswnYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=benAjKuO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1735272519; c=relaxed/simple;
+	bh=wqML3VQ0gwMYDsw/3NqJIoNvhc9bs6GaEiQJSKeRzU0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p0dL2V5zh98v6CXZofikj7YsQsKvMWJ5ykg/tDi82XfOOcsOreYGcT/0LMqk8AcCPdS0lvjwKgGjCSJvzSPsfUPjt3GP/yMck9dlSVv/18IKrz7+6ix0MhQw/O+Fds9P9TFGh/gvxb4OtgNm/ZmVQ5IqXhjoYK706iKYI42K9S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xk/0TVoY; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="benAjKuO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1735219499;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XT1lRnhXlXD21/E0zejBEol4+u5gRnt3P8KO+08FkPg=;
-	b=benAjKuOh5aus8FUs0TvUeNCudM6CLarZcxTehHSvDrdZKU9N5dCzjfDgkmIHWjkX4EuIy
-	GUsK/cHdlMdr3RiRN5o7MXuI4hmRb1KPMgh54SxgCP2es2SsMJn7sdaAEiQf39cZEUfBa6
-	qeahJ+BxrwR0CFWfChF8knTKvYnco6I=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-161-ANp_eRl6O6uCgck9jMY43w-1; Thu, 26 Dec 2024 08:24:56 -0500
-X-MC-Unique: ANp_eRl6O6uCgck9jMY43w-1
-X-Mimecast-MFC-AGG-ID: ANp_eRl6O6uCgck9jMY43w
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-2f46b7851fcso7982623a91.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Dec 2024 05:24:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xk/0TVoY"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-216281bc30fso96040775ad.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Dec 2024 20:08:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735272517; x=1735877317; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AGBPKZkVSwZ246MMQ8j/Faxxrn44L8Wku9zAKTR/iqM=;
+        b=Xk/0TVoYLHyvaYSDtvXznxwuRoXxLl8XNakSaoFjLG1DqmP33Qyhf1ch7eCbw+nJ6k
+         TnkCZNoSKrC6M8R7cX2ATdpToU3tQSq0YJNWV8ZmXrlR+KtNgSjMKgeqbU2RwAv1y2ye
+         zdDljzWM9IFZwXtXQAjAbjpkybGbvI13xwBqrm0PfUsj3f+hfASAySIA4rSJxXaIE0/6
+         +3KpnN8uvsKa30Y5MzmRKfZzMzt/O5wrrlDEcdnicR39Y9KGIgkcnb5nael2kp/bgEQj
+         IEIhb5k6wkDjBkMJ3h/airB+dVbJTiufPyuwvvrb2ztqXo6HStY5KYI3ra4A3g7k5jd5
+         WMIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735219495; x=1735824295;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XT1lRnhXlXD21/E0zejBEol4+u5gRnt3P8KO+08FkPg=;
-        b=KUtjM2WxV68UnZCGh+uUzSIUD9wu2id3RVtHJTOthjSKH3zS2jgd0OCrWxpfQQizcQ
-         2KmO1p3iIgSY0lnRQxvxSEo1rfLEgXHx3BJhVQUYJF+A9U+47EZglZrYqSJBFxiZqUV1
-         RTims+HtJmVid6DGDUvkfgJKDPDB4AXU8ysJvQ9AMMOd2Jpts98klDkRuAdvKpWjRP1q
-         tg/cNhhbhkY4g44sYoDhTiFkwaoqemTQIcHr3AyypOILxFeuFWrc5BXWWGuwzpMeRe+A
-         3TlHtdljQ/Koz4t8u76EjzZHtIFoNaIH094hAbpkYQFLT3tfq+QE9C1eiQLqxdkfKyXr
-         eojw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCmqGHUfV/zguuDP1jDSCUB2tIWuET4GQ6gwJmk7HLg21QS9v/UQtAqgE1rlKM/UNsUNY43/w+iOAsR55nNw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+7H1DYxj6jDwR1ka6goCW4LDnS8Mrh+A1RSJJXAalb9PiR5tS
-	O1P3JiHBRZwRaHEqToIIP5FLu3zsIptHarSAUgOaDS4LKT0qdeWB76WFLg9P+yJfNA2OdMdIguP
-	rhY9HWwpfy+EG4+dOY/kazSXUt3OGvIfSnEaxw5i/YqMfiPC3OHKzEguSvSYAr6w9+LBpQaxLvq
-	SVIjEAIqecB2ncxjRvpYluWyrMzAUUUWfdC8k0Q9o=
-X-Gm-Gg: ASbGncvE21Z3Vjsxw2qFqeA6UCq/KgcbEfAvLINGrwS/2NoQdH2NaCICXyKpXxO1qWd
-	I3oGgqxZccX11A/i4Iay3VNtiE+rVvOZR7Py2+A==
-X-Received: by 2002:a17:90b:534b:b0:2ee:c91a:acf7 with SMTP id 98e67ed59e1d1-2f452dfccdcmr34514438a91.4.1735219495460;
-        Thu, 26 Dec 2024 05:24:55 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGu5/eqaIpVwwwa50DqmMKrB39NKhlZwdLHtsYGthsNbvbf6Td7aNviqn3EUtwWhqMcPArYWUXX5P9Nsr3evBk=
-X-Received: by 2002:a17:90b:534b:b0:2ee:c91a:acf7 with SMTP id
- 98e67ed59e1d1-2f452dfccdcmr34514409a91.4.1735219495183; Thu, 26 Dec 2024
- 05:24:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1735272517; x=1735877317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AGBPKZkVSwZ246MMQ8j/Faxxrn44L8Wku9zAKTR/iqM=;
+        b=Ld7yI0Nrs+2wjS0hUaF4o/PIL8hAstmY6TeAPAHbYF8DZVXI5aC2/fdLO2n3FlKnN1
+         W4hdj1BqZ+jugNNmEvsU4hYNimGVFJtZafeRtBF+KFsmJgx5gbgjy4fpaTpCqsupsdnH
+         xH4+k8H+CUUwkQoXXvJTzqUkSLlU0evgvHxZ+dfUyuDAtDTXYp5BljsrA3sro7GT6b3N
+         ouGAmSnvrJUCAIAaA22qjg5jAURiQauREBgNHCEUR93E1YLMNtladBBwMmUyouqboQsB
+         EBDGpaAdCL18kyLPKxTO/9iN8F1P2roREpTf4jDBILOpyoEhgM/Isk5p7MbMZYm5cP3h
+         MKmw==
+X-Forwarded-Encrypted: i=1; AJvYcCXP67oOOwHn3wDUEIs1BTElVK2isD37epq+bzTUpSJ/32oq9a0PTpVhkrMsq5Yh5ZrwBqxZswp+AeY/XC/6MA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLnb6Ndq+M8O8IUeTr+MzK3A3bEu+Rc8Vd8aYNfIDweOHYZCKb
+	wMZnqlwUisWkKp6+Rvj6FN++JH+Gy3NLYnunPetT337eZOgE8GjM
+X-Gm-Gg: ASbGncuyNLL0PqnWYlFKh7zdv0EVmttGcJsaG9S0XcvpoBjfuCDoxCtNwtQJqhEF3U6
+	SJd5yManAPTEtMHV+W8WNURx/un1R2b3LGzzdOUn7d4tk3DL5LkJeFMVp0klvedvJbms2pqTzmd
+	ybE8d77wsMETWx0L7IGQIfi7KMBt/fHLuxg9X+DaVqLqJMFehRvYTCZQkQZMzyu+7bHNrvvuj4g
+	6PSj79ZhoSXmlLVfYxD4AKDtXvj+WRRJqJFzH0X16kIjyv8sHZZLB2oP20S5pj2v37nuSsNJxn2
+	0/3fQo+rH6/lYYKc2lACQJkyKeY=
+X-Google-Smtp-Source: AGHT+IGA91NZFQkp1zy0ot+57/lIY9AOTCKrgqdQ2t2BaMtyQmLjkBd7jza1FARcO2PmZ/7oc0yrfw==
+X-Received: by 2002:a17:902:c411:b0:215:2f00:67b1 with SMTP id d9443c01a7336-219e6e8c79emr361222545ad.6.1735272516882;
+        Thu, 26 Dec 2024 20:08:36 -0800 (PST)
+Received: from DESKTOP-NBGHJ1C.local.valinux.co.jp (vagw.valinux.co.jp. [210.128.90.14])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc96e585sm127368035ad.70.2024.12.26.20.08.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Dec 2024 20:08:36 -0800 (PST)
+From: Ryo Takakura <ryotkkr98@gmail.com>
+To: bigeasy@linutronix.de,
+	boqun.feng@gmail.com,
+	clrkwllms@kernel.org,
+	longman@redhat.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rostedt@goodmis.org,
+	tglx@linutronix.de,
+	will@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Ryo Takakura <ryotkkr98@gmail.com>
+Subject: [PATCH v2] lockdep: Fix wait context check on softirq for PREEMPT_RT
+Date: Fri, 27 Dec 2024 13:08:24 +0900
+Message-Id: <20241227040824.83626-1-ryotkkr98@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241204114229.21452-1-wander@redhat.com>
-In-Reply-To: <20241204114229.21452-1-wander@redhat.com>
-From: Wander Lairson Costa <wander@redhat.com>
-Date: Thu, 26 Dec 2024 10:24:43 -0300
-Message-ID: <CAAq0SUmVn57F5hc=iJkS1-8WPrguOcEYrirZ7hFgiFxhcTCowQ@mail.gmail.com>
-Subject: Re: [PATCH iwl-net 0/4] igb: fix igb_msix_other() handling for PREEMPT_RT
-To: Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Jeff Garzik <jgarzik@redhat.com>, 
-	Auke Kok <auke-jan.h.kok@intel.com>, 
-	"moderated list:INTEL ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>, 
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gvs366RK0mxIfc5CasU5HwrC6r2-2_EiveiqMY3NsOU_1735219495
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 4, 2024 at 8:43=E2=80=AFAM Wander Lairson Costa <wander@redhat.=
-com> wrote:
->
-> This is the second attempt at fixing the behavior of igb_msix_other()
-> for PREEMPT_RT. The previous attempt [1] was reverted [2] following
-> concerns raised by Sebastian [3].
->
-> The initial approach proposed converting vfs_lock to a raw_spinlock,
-> a minor change intended to make it safe. However, it became evident
-> that igb_rcv_msg_from_vf() invokes kcalloc with GFP_ATOMIC,
-> which is unsafe in interrupt context on PREEMPT_RT systems.
->
-> To address this, the solution involves splitting igb_msg_task()
-> into two parts:
->
->     * One part invoked from the IRQ context.
->     * Another part called from the threaded interrupt handler.
->
-> To accommodate this, vfs_lock has been restructured into a double
-> lock: a spinlock_t and a raw_spinlock_t. In the revised design:
->
->     * igb_disable_sriov() locks both spinlocks.
->     * Each part of igb_msg_task() locks the appropriate spinlock for
->     its execution context.
->
-> It is worth noting that the double lock mechanism is only active under
-> PREEMPT_RT. For non-PREEMPT_RT builds, the additional raw_spinlock_t
-> field is ommited.
->
-> If the extra raw_spinlock_t field can be tolerated under
-> !PREEMPT_RT (even though it remains unused), we can eliminate the
-> need for #ifdefs and simplify the code structure.
->
-> I will be on vacation from December 7th to Christmas and will address
-> review comments upon my return.
->
-> If possible, I kindly request the Intel team to perform smoke tests
-> on both stock and realtime kernels to catch any potential issues with
-> this patch series.
->
-> Cheers,
-> Wander
->
-> [1] https://lore.kernel.org/all/20240920185918.616302-2-wander@redhat.com=
-/
-> [2] https://lore.kernel.org/all/20241104124050.22290-1-wander@redhat.com/
-> [3] https://lore.kernel.org/all/20241104110708.gFyxRFlC@linutronix.de/
->
->
-> Wander Lairson Costa (4):
->   igb: narrow scope of vfs_lock in SR-IOV cleanup
->   igb: introduce raw vfs_lock to igb_adapter
->   igb: split igb_msg_task()
->   igb: fix igb_msix_other() handling for PREEMPT_RT
->
->  drivers/net/ethernet/intel/igb/igb.h      |   4 +
->  drivers/net/ethernet/intel/igb/igb_main.c | 160 +++++++++++++++++++---
->  2 files changed, 148 insertions(+), 16 deletions(-)
->
-> --
-> 2.47.0
->
+Since commit 0c1d7a2c2d32 ("lockdep: Remove softirq accounting on
+PREEMPT_RT."), the wait context test for mutex usage within
+"in softirq context" fails as it references @softirq_context.
 
-I had requested Red Hat Network QA to run regression tests on this,
-and they recently reported that no issues were found.
+[    0.184549]   | wait context tests |
+[    0.184549]   --------------------------------------------------------------------------
+[    0.184549]                                  | rcu  | raw  | spin |mutex |
+[    0.184549]   --------------------------------------------------------------------------
+[    0.184550]                in hardirq context:  ok  |  ok  |  ok  |  ok  |
+[    0.185083] in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
+[    0.185606]                in softirq context:  ok  |  ok  |  ok  |FAILED|
+
+As a fix, add lockdep map for BH disabled section. This fixes the
+issue by letting us catch cases when local_bh_disable() gets called
+with preemption disabled where local_lock doesn't get acquired.
+In the case of "in softirq context" selftest, local_bh_disable() was
+being called with preemption disable as it's early in the boot.
+
+Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+---
+
+Hi! 
+
+This version fixes the issue by adding lockdep map for BH disabled
+section. Thanks Boqun for the suggestion!
+
+Changes since v1:
+https://lore.kernel.org/lkml/20241202012017.14910-1-ryotkkr98@gmail.com/
+
+- Fix the issue by adding lockdep map for BH disabled section. 
+  This let us catch mutex usage within "in softirq context" selftest
+  as it disables BH section.
+
+Also, may I add Boqun as <suggested-by> tag?
+
+---
+ include/linux/bottom_half.h |  8 ++++++++
+ kernel/softirq.c            | 12 ++++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
+index fc53e0ad5..f77dc746c 100644
+--- a/include/linux/bottom_half.h
++++ b/include/linux/bottom_half.h
+@@ -4,6 +4,7 @@
+ 
+ #include <linux/instruction_pointer.h>
+ #include <linux/preempt.h>
++#include <linux/lockdep.h>
+ 
+ #if defined(CONFIG_PREEMPT_RT) || defined(CONFIG_TRACE_IRQFLAGS)
+ extern void __local_bh_disable_ip(unsigned long ip, unsigned int cnt);
+@@ -15,8 +16,13 @@ static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int
+ }
+ #endif
+ 
++#ifdef CONFIG_LOCKDEP
++extern struct lockdep_map bh_lock_map;
++#endif
++
+ static inline void local_bh_disable(void)
+ {
++	lock_map_acquire_read(&bh_lock_map);
+ 	__local_bh_disable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
+ }
+ 
+@@ -25,11 +31,13 @@ extern void __local_bh_enable_ip(unsigned long ip, unsigned int cnt);
+ 
+ static inline void local_bh_enable_ip(unsigned long ip)
+ {
++	lock_map_release(&bh_lock_map);
+ 	__local_bh_enable_ip(ip, SOFTIRQ_DISABLE_OFFSET);
+ }
+ 
+ static inline void local_bh_enable(void)
+ {
++	lock_map_release(&bh_lock_map);
+ 	__local_bh_enable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
+ }
+ 
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 4dae6ac2e..a8211ba9a 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -1073,3 +1073,15 @@ unsigned int __weak arch_dynirq_lower_bound(unsigned int from)
+ {
+ 	return from;
+ }
++
++#ifdef CONFIG_LOCKDEP
++static struct lock_class_key bh_lock_key;
++struct lockdep_map bh_lock_map = {
++	.name = "local_bh",
++	.key = &bh_lock_key,
++	.wait_type_outer = LD_WAIT_FREE,
++	.wait_type_inner = LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
++	.lock_type = LD_LOCK_PERCPU,
++};
++EXPORT_SYMBOL_GPL(bh_lock_map);
++#endif
+-- 
+2.34.1
 
