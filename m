@@ -1,185 +1,170 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8365C7080D
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Dec 2024 04:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C97627462
+	for <linux-rt-devel@lists.linux.dev>; Sun, 29 Dec 2024 09:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735272519; cv=none; b=UJ5+T7GJAbn7DWofJgMqmBdMAc1WWc3JgHuzSl9VpH5VELm9EwUCfGr469SxzXc47Jjt16Qy7m2DCp9zAh5jr5mKsgTaECpbJEYGROqcU7mJrsv8W5MSLKK/YltsxoCkCRsXYY7lyYKxfKuXK27ctkdvYYYGRVzK7ydg1TuD26o=
+	t=1735462883; cv=none; b=SolKKFu5Q0HOCwSX5MQ2ciM7etvloUbEp9ibkcSTu2EhsE7PWcR51eNqqEMsB1iAM00U+LxnLfGGeT/PjlkqNa4cW4CBLDzlhy2CESeDsHRkRxyKtdt379ABY0e+lvpPCduwIWDWrT4HDFN0R9+oQSzgpgGX5yM7shfjvb3JMkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735272519; c=relaxed/simple;
-	bh=wqML3VQ0gwMYDsw/3NqJIoNvhc9bs6GaEiQJSKeRzU0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=p0dL2V5zh98v6CXZofikj7YsQsKvMWJ5ykg/tDi82XfOOcsOreYGcT/0LMqk8AcCPdS0lvjwKgGjCSJvzSPsfUPjt3GP/yMck9dlSVv/18IKrz7+6ix0MhQw/O+Fds9P9TFGh/gvxb4OtgNm/ZmVQ5IqXhjoYK706iKYI42K9S0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xk/0TVoY; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xk/0TVoY"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-216281bc30fso96040775ad.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Dec 2024 20:08:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735272517; x=1735877317; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AGBPKZkVSwZ246MMQ8j/Faxxrn44L8Wku9zAKTR/iqM=;
-        b=Xk/0TVoYLHyvaYSDtvXznxwuRoXxLl8XNakSaoFjLG1DqmP33Qyhf1ch7eCbw+nJ6k
-         TnkCZNoSKrC6M8R7cX2ATdpToU3tQSq0YJNWV8ZmXrlR+KtNgSjMKgeqbU2RwAv1y2ye
-         zdDljzWM9IFZwXtXQAjAbjpkybGbvI13xwBqrm0PfUsj3f+hfASAySIA4rSJxXaIE0/6
-         +3KpnN8uvsKa30Y5MzmRKfZzMzt/O5wrrlDEcdnicR39Y9KGIgkcnb5nael2kp/bgEQj
-         IEIhb5k6wkDjBkMJ3h/airB+dVbJTiufPyuwvvrb2ztqXo6HStY5KYI3ra4A3g7k5jd5
-         WMIA==
+	s=arc-20240116; t=1735462883; c=relaxed/simple;
+	bh=DakjHU/5EqAFl6w1dBdeo075DH3PGCAoL+ZF094M9pE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=law+6nNtF7SINIFrNnuIJRHs6slkxuGH/eTruGisLcb0EozzJGyHhdoPVNtFW/Rqxabl9CLKDM7FwSgdOmBpLUPh0eHs+yZScUOCBN+x/SySs5lkIFihA0ih3NsR82SINEc0PXdirvoIH/Y6l2rhtNTgPSoaseGwdwsdzjtOvGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-844d54c3eb5so670639039f.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 29 Dec 2024 01:01:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735272517; x=1735877317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AGBPKZkVSwZ246MMQ8j/Faxxrn44L8Wku9zAKTR/iqM=;
-        b=Ld7yI0Nrs+2wjS0hUaF4o/PIL8hAstmY6TeAPAHbYF8DZVXI5aC2/fdLO2n3FlKnN1
-         W4hdj1BqZ+jugNNmEvsU4hYNimGVFJtZafeRtBF+KFsmJgx5gbgjy4fpaTpCqsupsdnH
-         xH4+k8H+CUUwkQoXXvJTzqUkSLlU0evgvHxZ+dfUyuDAtDTXYp5BljsrA3sro7GT6b3N
-         ouGAmSnvrJUCAIAaA22qjg5jAURiQauREBgNHCEUR93E1YLMNtladBBwMmUyouqboQsB
-         EBDGpaAdCL18kyLPKxTO/9iN8F1P2roREpTf4jDBILOpyoEhgM/Isk5p7MbMZYm5cP3h
-         MKmw==
-X-Forwarded-Encrypted: i=1; AJvYcCXP67oOOwHn3wDUEIs1BTElVK2isD37epq+bzTUpSJ/32oq9a0PTpVhkrMsq5Yh5ZrwBqxZswp+AeY/XC/6MA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLnb6Ndq+M8O8IUeTr+MzK3A3bEu+Rc8Vd8aYNfIDweOHYZCKb
-	wMZnqlwUisWkKp6+Rvj6FN++JH+Gy3NLYnunPetT337eZOgE8GjM
-X-Gm-Gg: ASbGncuyNLL0PqnWYlFKh7zdv0EVmttGcJsaG9S0XcvpoBjfuCDoxCtNwtQJqhEF3U6
-	SJd5yManAPTEtMHV+W8WNURx/un1R2b3LGzzdOUn7d4tk3DL5LkJeFMVp0klvedvJbms2pqTzmd
-	ybE8d77wsMETWx0L7IGQIfi7KMBt/fHLuxg9X+DaVqLqJMFehRvYTCZQkQZMzyu+7bHNrvvuj4g
-	6PSj79ZhoSXmlLVfYxD4AKDtXvj+WRRJqJFzH0X16kIjyv8sHZZLB2oP20S5pj2v37nuSsNJxn2
-	0/3fQo+rH6/lYYKc2lACQJkyKeY=
-X-Google-Smtp-Source: AGHT+IGA91NZFQkp1zy0ot+57/lIY9AOTCKrgqdQ2t2BaMtyQmLjkBd7jza1FARcO2PmZ/7oc0yrfw==
-X-Received: by 2002:a17:902:c411:b0:215:2f00:67b1 with SMTP id d9443c01a7336-219e6e8c79emr361222545ad.6.1735272516882;
-        Thu, 26 Dec 2024 20:08:36 -0800 (PST)
-Received: from DESKTOP-NBGHJ1C.local.valinux.co.jp (vagw.valinux.co.jp. [210.128.90.14])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc96e585sm127368035ad.70.2024.12.26.20.08.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2024 20:08:36 -0800 (PST)
-From: Ryo Takakura <ryotkkr98@gmail.com>
-To: bigeasy@linutronix.de,
-	boqun.feng@gmail.com,
-	clrkwllms@kernel.org,
-	longman@redhat.com,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	rostedt@goodmis.org,
-	tglx@linutronix.de,
-	will@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Ryo Takakura <ryotkkr98@gmail.com>
-Subject: [PATCH v2] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Date: Fri, 27 Dec 2024 13:08:24 +0900
-Message-Id: <20241227040824.83626-1-ryotkkr98@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1735462881; x=1736067681;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=daCCEn/1ANLJXY3OzsPHbrILxzq7Mu2AbRodggJztYU=;
+        b=Y+QzqT7cHbu+Qqe7B0h5tdhOQcy3iSti1g3S7aOf8FllGyQGMT97/Yaqnpz28Zkk7v
+         6qM2vEGHUcvOIz3/grt4JR1aytgSo3jfTS+x88XCiyoFC66csk2Xzn/b61S869u5GMnh
+         WAyV+9+3cPEiwHRv7aL6Hj/1uXuUhmE5rGlv2gKob4inB2b8xFMicZzTbWoOuYzBA0uW
+         94P+dgdx2f7Vyt01C/i3AEZMGPIv5a6oc1LmX1f9Cym4SNyMiDv+86bz6bzc752i3stA
+         7qTLGYLalvGRHA5+vymSd1Hl/5Juyx3akugE8xC5pF05iVHjUtBQGvkthxq+MM3BjtY/
+         6Sww==
+X-Forwarded-Encrypted: i=1; AJvYcCWeyXIw9e8ZDYZJk3Ksl4otR3AxvVDMXblKYJQcPxW7MDF4HKJrg6IlI05Yd/Pw+ylFkKAc4e2vHHnXPzl4zA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMkRLIgHQvhZXGhPAlmDzKSC4U8zoshJNzLy//L6ndMCtejU8E
+	gle+CwgUbqT9dpgW8a+MGyGlPLaDY9E8p9daNsL6B5qvgz/Jc7aVmuYc3CC8zpovv/Jf+wouYut
+	QaykOGbdQp2Ut1EDCsKwDb48aBz0GPyEX7QKV6lJlaSksP8B562OKaYQ=
+X-Google-Smtp-Source: AGHT+IGwH9NK9dgykbiEF3bm2cVLjBukn/l7O8VNeaLcqZWKx4/9WmG7aM/vh+mg/TBsB/xAej59aYhmYdZodNOBMbGx5VLTG2Zj
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6e02:180a:b0:3a7:d082:651 with SMTP id
+ e9e14a558f8ab-3c2d2d50c91mr254579465ab.12.1735462880856; Sun, 29 Dec 2024
+ 01:01:20 -0800 (PST)
+Date: Sun, 29 Dec 2024 01:01:20 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <67710fe0.050a0220.226966.00bd.GAE@google.com>
+Subject: [syzbot] [fs?] [io-uring?] WARNING: locking bug in eventfd_signal_mask
+From: syzbot <syzbot+b1fc199a40b65d601b65@syzkaller.appspotmail.com>
+To: asml.silence@gmail.com, axboe@kernel.dk, bigeasy@linutronix.de, 
+	brauner@kernel.org, clrkwllms@kernel.org, io-uring@vger.kernel.org, 
+	jack@suse.cz, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, rostedt@goodmis.org, 
+	syzkaller-bugs@googlegroups.com, viro@zeniv.linux.org.uk
+Content-Type: text/plain; charset="UTF-8"
 
-Since commit 0c1d7a2c2d32 ("lockdep: Remove softirq accounting on
-PREEMPT_RT."), the wait context test for mutex usage within
-"in softirq context" fails as it references @softirq_context.
+Hello,
 
-[    0.184549]   | wait context tests |
-[    0.184549]   --------------------------------------------------------------------------
-[    0.184549]                                  | rcu  | raw  | spin |mutex |
-[    0.184549]   --------------------------------------------------------------------------
-[    0.184550]                in hardirq context:  ok  |  ok  |  ok  |  ok  |
-[    0.185083] in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-[    0.185606]                in softirq context:  ok  |  ok  |  ok  |FAILED|
+syzbot found the following issue on:
 
-As a fix, add lockdep map for BH disabled section. This fixes the
-issue by letting us catch cases when local_bh_disable() gets called
-with preemption disabled where local_lock doesn't get acquired.
-In the case of "in softirq context" selftest, local_bh_disable() was
-being called with preemption disable as it's early in the boot.
+HEAD commit:    9b2ffa6148b1 Merge tag 'mtd/fixes-for-6.13-rc5' of git://g..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=128f74c4580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d269ef41b9262400
+dashboard link: https://syzkaller.appspot.com/bug?extid=b1fc199a40b65d601b65
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1469890f980000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154b22f8580000
 
-Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9015cc2b19ac/disk-9b2ffa61.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3ddeabd5e7eb/vmlinux-9b2ffa61.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/36e13b0305d0/bzImage-9b2ffa61.xz
+
+The issue was bisected to:
+
+commit 020b40f3562495f3c703a283ece145ffec19e82d
+Author: Jens Axboe <axboe@kernel.dk>
+Date:   Tue Dec 17 15:21:46 2024 +0000
+
+    io_uring: make ctx->timeout_lock a raw spinlock
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=124d0018580000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=114d0018580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=164d0018580000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+b1fc199a40b65d601b65@syzkaller.appspotmail.com
+Fixes: 020b40f35624 ("io_uring: make ctx->timeout_lock a raw spinlock")
+
+=============================
+[ BUG: Invalid wait context ]
+6.13.0-rc4-syzkaller-00012-g9b2ffa6148b1 #0 Not tainted
+-----------------------------
+kworker/u8:2/35 is trying to lock:
+ffff888033f47a20 (&ctx->wqh){....}-{3:3}, at: eventfd_signal_mask+0x7a/0x1f0 fs/eventfd.c:71
+other info that might help us debug this:
+context-{5:5}
+6 locks held by kworker/u8:2/35:
+ #0: ffff88801bb04948 ((wq_completion)iou_exit){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3204 [inline]
+ #0: ffff88801bb04948 ((wq_completion)iou_exit){+.+.}-{0:0}, at: process_scheduled_works+0x93b/0x1840 kernel/workqueue.c:3310
+ #1: ffffc90000ab7d00 ((work_completion)(&ctx->exit_work)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3205 [inline]
+ #1: ffffc90000ab7d00 ((work_completion)(&ctx->exit_work)){+.+.}-{0:0}, at: process_scheduled_works+0x976/0x1840 kernel/workqueue.c:3310
+ #2: ffff888033bee3d8 (&ctx->completion_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ #2: ffff888033bee3d8 (&ctx->completion_lock){+.+.}-{3:3}, at: io_kill_timeouts+0x3c/0x230 io_uring/timeout.c:670
+ #3: ffff888033bee358 (&ctx->timeout_lock){....}-{2:2}, at: io_kill_timeouts+0x4b/0x230 io_uring/timeout.c:671
+ #4: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #4: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #4: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: class_rcu_constructor include/linux/rcupdate.h:1161 [inline]
+ #4: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: io_req_local_work_add+0xb5/0x5c0 io_uring/io_uring.c:1161
+ #5: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
+ #5: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #5: ffffffff8e937ae0 (rcu_read_lock){....}-{1:3}, at: io_eventfd_grab+0xc2/0x6a0 io_uring/eventfd.c:97
+stack backtrace:
+CPU: 0 UID: 0 PID: 35 Comm: kworker/u8:2 Not tainted 6.13.0-rc4-syzkaller-00012-g9b2ffa6148b1 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
+Workqueue: iou_exit io_ring_exit_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ print_lock_invalid_wait_context kernel/locking/lockdep.c:4826 [inline]
+ check_wait_context kernel/locking/lockdep.c:4898 [inline]
+ __lock_acquire+0x15a8/0x2100 kernel/locking/lockdep.c:5176
+ lock_acquire+0x1ed/0x550 kernel/locking/lockdep.c:5849
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+ eventfd_signal_mask+0x7a/0x1f0 fs/eventfd.c:71
+ __io_eventfd_signal io_uring/eventfd.c:65 [inline]
+ io_eventfd_signal+0x96/0x1d0 io_uring/eventfd.c:123
+ io_req_local_work_add+0x408/0x5c0 io_uring/io_uring.c:1202
+ io_req_task_work_add io_uring/io_uring.h:149 [inline]
+ io_req_queue_tw_complete io_uring/io_uring.h:451 [inline]
+ io_kill_timeout+0x27b/0x310 io_uring/timeout.c:101
+ io_kill_timeouts+0x1b7/0x230 io_uring/timeout.c:676
+ io_uring_try_cancel_requests+0x480/0x560 io_uring/io_uring.c:3117
+ io_ring_exit_work+0x231/0x8a0 io_uring/io_uring.c:2901
+ process_one_work kernel/workqueue.c:3229 [inline]
+ process_scheduled_works+0xa66/0x1840 kernel/workqueue.c:3310
+ worker_thread+0x870/0xd30 kernel/workqueue.c:3391
+ kthread+0x2f0/0x390 kernel/kthread.c:389
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Hi! 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
-This version fixes the issue by adding lockdep map for BH disabled
-section. Thanks Boqun for the suggestion!
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Changes since v1:
-https://lore.kernel.org/lkml/20241202012017.14910-1-ryotkkr98@gmail.com/
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-- Fix the issue by adding lockdep map for BH disabled section. 
-  This let us catch mutex usage within "in softirq context" selftest
-  as it disables BH section.
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-Also, may I add Boqun as <suggested-by> tag?
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
----
- include/linux/bottom_half.h |  8 ++++++++
- kernel/softirq.c            | 12 ++++++++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
-index fc53e0ad5..f77dc746c 100644
---- a/include/linux/bottom_half.h
-+++ b/include/linux/bottom_half.h
-@@ -4,6 +4,7 @@
- 
- #include <linux/instruction_pointer.h>
- #include <linux/preempt.h>
-+#include <linux/lockdep.h>
- 
- #if defined(CONFIG_PREEMPT_RT) || defined(CONFIG_TRACE_IRQFLAGS)
- extern void __local_bh_disable_ip(unsigned long ip, unsigned int cnt);
-@@ -15,8 +16,13 @@ static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int
- }
- #endif
- 
-+#ifdef CONFIG_LOCKDEP
-+extern struct lockdep_map bh_lock_map;
-+#endif
-+
- static inline void local_bh_disable(void)
- {
-+	lock_map_acquire_read(&bh_lock_map);
- 	__local_bh_disable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
- }
- 
-@@ -25,11 +31,13 @@ extern void __local_bh_enable_ip(unsigned long ip, unsigned int cnt);
- 
- static inline void local_bh_enable_ip(unsigned long ip)
- {
-+	lock_map_release(&bh_lock_map);
- 	__local_bh_enable_ip(ip, SOFTIRQ_DISABLE_OFFSET);
- }
- 
- static inline void local_bh_enable(void)
- {
-+	lock_map_release(&bh_lock_map);
- 	__local_bh_enable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
- }
- 
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 4dae6ac2e..a8211ba9a 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -1073,3 +1073,15 @@ unsigned int __weak arch_dynirq_lower_bound(unsigned int from)
- {
- 	return from;
- }
-+
-+#ifdef CONFIG_LOCKDEP
-+static struct lock_class_key bh_lock_key;
-+struct lockdep_map bh_lock_map = {
-+	.name = "local_bh",
-+	.key = &bh_lock_key,
-+	.wait_type_outer = LD_WAIT_FREE,
-+	.wait_type_inner = LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-+	.lock_type = LD_LOCK_PERCPU,
-+};
-+EXPORT_SYMBOL_GPL(bh_lock_map);
-+#endif
--- 
-2.34.1
-
+If you want to undo deduplication, reply with:
+#syz undup
