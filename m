@@ -1,46 +1,40 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73132217F5C
-	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jan 2025 14:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EFA54769;
+	Thu,  9 Jan 2025 14:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736433690; cv=none; b=k+mC7Xb8kKAx6xDddTm6rqzGKQVCMOm+wPGscI4ROLjNl2UlyLj/+j4UrAFnDge9UqNYECjkOsoZHqQUjBOfX8EyBzeg/z3AeH+oW1dQp/TXXEXxY0laF2a9x6TemOCtvL26s2KmjXoSVS4CHlmqGFmSq4UVUr0rCil4h+CXaX8=
+	t=1736434455; cv=none; b=cZPf251XQVv0WqBgkNiai+6oWbUy3lZMQmlHT3PWdbtIjlyjLtVkhZyaHGztNKcBACr1xDF5rvho8fKMtjJG7vgtquRp59oz+cmplHJQ1BnZVyPIzoug6rhmTyIPYKmfBWim65EnVumAob+5SL4vyXj8oFX5+afzPE42R6KW3og=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736433690; c=relaxed/simple;
-	bh=vGvsp95MvTvb5kSGeDC/LpscepHlDQG8L1JfqpR/ssA=;
+	s=arc-20240116; t=1736434455; c=relaxed/simple;
+	bh=jgtJZEeueWmBgS7x0jYrg1wO/yLtnQ3r969neK03UPc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xku20LYogk+XdAoCZlGuQb+hXQ21hvWuLWbr38EVrcVls4dwHWNdnbIgvwt1cwH8BVe9aW5hlrks8qAdh+z0KnOqH9QFwlZIQmIklzFs6+ZI+y/40tLZwPiVQD4AbJ61/BrfUJVO0p0ydTEpunrwzvDZ87tBhNdNyrPXvNYZEI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g+9/0klI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oKksWbwC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=kPtbgBXDCRpBQPnzKuy42JWZYbadpjU27ixe9VvgVGgOz2mBlQw2htchC3YiLv2C4KKTjr9M6sU6+Ll03+vFRk7ovq3uGqUjgese1MXQD51AiKOzF6V7dC9ijxYNO1FXRy/TAMhbERAkAjSpCo5kvUXsJYEbX7f68f9jju/MozE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ERKuAusP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g+9/0klI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oKksWbwC"
-Date: Thu, 9 Jan 2025 15:41:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1736433686;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vGvsp95MvTvb5kSGeDC/LpscepHlDQG8L1JfqpR/ssA=;
-	b=g+9/0klIQFdAPFIy68bmBj0WI0dwBqSdtFStUsqBpNEDts8gMZ3YNVU8Ma00bEACu8Q71h
-	1jepFEToN+WqLkIA5vJw9jFLm+2o2TP206YaA+r2rQZ6fVsAsYffMYcnPLWK782SDuS6gE
-	0dXIQ7JwG2UaLJzZW5Sun4uHMeD/BZsWCJD6gTPmaKhg6kMIGR7xtEsTHHa909uYPGthrd
-	XQ/Rk0DIdTZwHMBhJcAuqlR006zdQIUbmfImU58L6J89i1hQZvWCxe4W+Ubtrc+hjkl5sC
-	bnn6weLNLCFLxRWEAR3EN3MqWueT95AjzjA7rp1+HwFBNaDe+hKzUijbpIIiPQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1736433686;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vGvsp95MvTvb5kSGeDC/LpscepHlDQG8L1JfqpR/ssA=;
-	b=oKksWbwClpmPou80vJfAi4pP5za6a3pcmrKdRE5IP3kW9Tbx9N6Fzr4dItuZp6DIH2c3ge
-	wdgUhPV4G5hMy/Dg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Peter Zijlstra <peterz@infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ERKuAusP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=kQlSSzzzFuf3vHaM/p+LVncrUKn7UvEMPTm7/h2S2y0=; b=ERKuAusP7/KxmVRj9Vs7IT/uxZ
+	7EcFVOWgE6pNRuZf0qEaoW7Qc6Q3QPiNBzReXSWeV04O0VHrW4GQJIdZd+xWEjfP5qSMUmda9EcJz
+	NpK6onkfR7fOHXJTrwGwAgB0/WHl5OKsJcg9celtxyInnXNMQODQVMUanBIat4PLULPLOBouawdMM
+	7xjWRTXxJqp7zFs8hhfgxwIpZbwioShTotKaYdL5LEZ5AtG4yxMSUDi6k/ywB1RVhMMX/OVrnE57L
+	pCUlg8GRSl0If3LOwiADp5nT72H5O1S1DC4eCi7bQBiHynf2g8xTQ3kEJLigRp384joklI1Jgekt/
+	AhbybhdA==;
+Received: from 77-249-17-89.cable.dynamic.v4.ziggo.nl ([77.249.17.89] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1tVtvE-00000006Uw4-470J;
+	Thu, 09 Jan 2025 14:54:09 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 974333003AF; Thu,  9 Jan 2025 15:54:08 +0100 (CET)
+Date: Thu, 9 Jan 2025 15:54:08 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev, Ben Segall <bsegall@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -52,11 +46,12 @@ Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
 	Will Deacon <will@kernel.org>, x86@kernel.org
 Subject: Re: [RFC PATCH] preempt: Add a generic function to return the
  preemption string.
-Message-ID: <20250109144124.a7MWASit@linutronix.de>
+Message-ID: <20250109145408.GB5388@noisy.programming.kicks-ass.net>
 References: <20241206113431.Q-VXMlru@linutronix.de>
  <20250109114339.GB2981@noisy.programming.kicks-ass.net>
  <20250109093702.5fe3400d@gandalf.local.home>
  <20250109143701.GA5388@noisy.programming.kicks-ass.net>
+ <20250109144124.a7MWASit@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -65,14 +60,37 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250109143701.GA5388@noisy.programming.kicks-ass.net>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250109144124.a7MWASit@linutronix.de>
 
-On 2025-01-09 15:37:01 [+0100], Peter Zijlstra wrote:
-> Upgrade brain. Also the proposed thing was just plain wrong.
+On Thu, Jan 09, 2025 at 03:41:24PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-01-09 15:37:01 [+0100], Peter Zijlstra wrote:
+> > Upgrade brain. Also the proposed thing was just plain wrong.
+> 
+> Was it?
 
-Was it? For the !DYNAMIC case everything should be optimized away except
-for the current case.
-Let me try your thing to see what is different=E2=80=A6
+Yes, things like:
 
-Sebastian
+> +             if (preempt_model_voluntary())
+> +                     return "VOLUNTARY+LAZY";
+> +             if (preempt_model_none())
+> +                     return "NONE+LAZY";
+
+don't exist and make no sense.
+
+> For the !DYNAMIC case everything should be optimized away except
+> for the current case.
+> Let me try your thing to see what is different…
+
+For the various cases it was supposed to print something like so:
+
+RT+DYN:	 PREEMPT_{RT,(dyn_mode)}
+RT+LAZY: PREEMPT_{RT,LAZY}
+RT+FULL: PREEMPT_RT
+
+DYN:       PREEMPT_(dyn_mode)
+FULL:      PREEMPT
+LAZY:      PREEMPT_LAZY
+VOLUNTARY: VOLUNTARY
+NONE:      NONE
+
