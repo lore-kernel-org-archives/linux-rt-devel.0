@@ -1,64 +1,58 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8692F1F868C
-	for <linux-rt-devel@lists.linux.dev>; Wed,  8 Jan 2025 10:25:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B9A2F2D
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Jan 2025 08:55:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736331943; cv=none; b=OAplFsDi0AG45BZSoO+u9/Z78jrhXTyGgVIet6UpM8bCEveChs7X3YEOUMuWMDHYaw112a6UixzOp85mXmcwJfpfcONhBDwg4/yJBDn0YWo0vSMBX26NZe1yXuuOHUvT5BSZbIvLA/cJ1EHoHh8GG4ItuMfwq3RrdKK1VCRE8/Q=
+	t=1736412946; cv=none; b=LTNec5n8akqeNffalgjzNwH1ek6jx/5LEQ5b2nnIKANr+NXJFp/R5euJv/cmfhdRthhvOTAetblrZ3ArkqHbvLT/wZUqGTT6ImMPj4h5i62BgONJuyoC4NGpqpKlGl2nPSNxnP5tmU09vhDbe8/VgxfHbmEgHwx7fOVrObpusAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736331943; c=relaxed/simple;
-	bh=V79sy8TwmY7YaNY2CtlOZFjZmfOzive83fCVC9e2RJY=;
+	s=arc-20240116; t=1736412946; c=relaxed/simple;
+	bh=dmWI8KDxiI7q9i9Cw96rY2AfGa+g5+4ChjFTzjBRIdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T5WoCRsjnJVv3su3X0m4v4xl3L6GpYUGhRMQXmYFXmUFhx+bAmambB3yaoDKG7o/GWIP90RNxF1qzmRN95qKacr8HLMBGnoUcX8NYwVjon60KL6d/8aVJKaDpEd2YBSFCAim8/FT8sEvCaYIEOw6qi85TDU1H+Cdgillz9NAfFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fLHf7FbT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d+X1qumv; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=DcNvTe+BZEF4lrzXL+UJRhntVroReJGLL7uF0O2+roul3L66WmzUyhJkXC8BJpzR/x0dVfu1pgtclv0mJE5KUKLXxj1XbDbK0y2K0a7b2y8E7RwRqdgpZJ4pZSPbnM6cCnTgzYJ1CyCPVXFQnvM5HgHjBm60QDJ1uwyAnsgjK+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XBtnoXgz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LiSfNkO9; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fLHf7FbT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d+X1qumv"
-Date: Wed, 8 Jan 2025 11:25:32 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XBtnoXgz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LiSfNkO9"
+Date: Thu, 9 Jan 2025 09:55:39 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1736331934;
+	s=2020; t=1736412941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wDnajRGAKSDjhPvwubZBuXDZ5LOIoIGh7ZTlin0DXQc=;
-	b=fLHf7FbT3jWUtCXukcFugRf7ux0GvEBZXQ34F2GvVNuc6jEJ6rXMIk/0gbPcnh0QRsBBik
-	ZH3ffOAdXx+jQw2l6IeTrNWgg4FU5MHoOEwT287dgYnqqSJWIUTD6cRPVO8UKO9Ufn9J5w
-	ehxwrnAXOzEB4s0xNBLeeZ+okyETfb/JnSQV19TJaCce5Bq5qkWXtx2N/HoXaQVPExCWYd
-	DUXQZDkYJeGLmv5kowwshjtQfXIdKuSNEVCe4Ous4tlx5uwjYq7uwCF4OeMMgd/JaA+Tgk
-	YgLrZEhseffjCsdUyTy2iZPW94HHqYtGQXu6L9dZUOuHXkgk5UdJ8XYS5SEBxg==
+	bh=2Y77lEPj6d8OF6qQkLL3z9LfqN2DR3yvXSPQJIh6FXE=;
+	b=XBtnoXgzA7vzDGJUJ/6lRwlqr9iX5gSE0roIhm54ENPkjJrqWdzH9NfL1OJM2WonCXmPEY
+	4bC17J/3DEYpD4tFqiUAF558hAX/yJ5+QzTPmjWwvGI4fFZJJPzubhEdtqbTupPLKvE7UQ
+	p88lXdQslfzovc+ocivVNtFDVNsqSEskmoigG/eBcTJGtIrfgcKT9sBk53hz/wUunYLGgS
+	1iqQxWuzbv79ESXEeTnNdDmTMpGxj2k4yV6WTMMfaqWJnJUnJjyIQM1j8sjYXUupGEuWvS
+	NlDVJKFJuYgMedj/pnWco1S5snAz9TTbfZESjkbvzlByFdHYl6uCYHsfXul38g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1736331934;
+	s=2020e; t=1736412941;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wDnajRGAKSDjhPvwubZBuXDZ5LOIoIGh7ZTlin0DXQc=;
-	b=d+X1qumv8hLSPmGBE0V0HlJlSOVx7RABGGcSIKPjRWBa0lKe6iTmFw0d4lqxcYHkZ+W+MA
-	ZAWAW8hRoCIhoXDg==
+	bh=2Y77lEPj6d8OF6qQkLL3z9LfqN2DR3yvXSPQJIh6FXE=;
+	b=LiSfNkO9oRDrfj44G9fpwlv1gwITcbaNoax0B95+WgHBI9zFovjAqmnHXLGZC/0Uhyl/2v
+	dI5y1dSBz2FVyiCA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Wander Lairson Costa <wander@redhat.com>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: Ben Segall <bsegall@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Jeff Garzik <jgarzik@redhat.com>,
-	Auke Kok <auke-jan.h.kok@intel.com>,
-	"moderated list:INTEL ETHERNET DRIVERS" <intel-wired-lan@lists.osuosl.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH iwl-net 0/4] igb: fix igb_msix_other() handling for
- PREEMPT_RT
-Message-ID: <20250108102532.VWnKWvoo@linutronix.de>
-References: <20241204114229.21452-1-wander@redhat.com>
- <20250107135106.WWrtBMXY@linutronix.de>
- <taea3z7nof4szjir2azxsjtbouymqxyy4draa3hz35zbacqeeq@t3uidpha64k7>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Will Deacon <will@kernel.org>, x86@kernel.org
+Subject: Re: [RFC PATCH] preempt: Add a generic function to return the
+ preemption string.
+Message-ID: <20250109085539.C8tx_cYr@linutronix.de>
+References: <20241206113431.Q-VXMlru@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -67,87 +61,267 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <taea3z7nof4szjir2azxsjtbouymqxyy4draa3hz35zbacqeeq@t3uidpha64k7>
+In-Reply-To: <20241206113431.Q-VXMlru@linutronix.de>
 
-On 2025-01-07 15:52:47 [-0300], Wander Lairson Costa wrote:
-> On Tue, Jan 07, 2025 at 02:51:06PM +0100, Sebastian Andrzej Siewior wrote:
-> > On 2024-12-04 08:42:23 [-0300], Wander Lairson Costa wrote:
-> > > This is the second attempt at fixing the behavior of igb_msix_other()
-> > > for PREEMPT_RT. The previous attempt [1] was reverted [2] following
-> > > concerns raised by Sebastian [3].
-> > > 
-> > > The initial approach proposed converting vfs_lock to a raw_spinlock,
-> > > a minor change intended to make it safe. However, it became evident
-> > > that igb_rcv_msg_from_vf() invokes kcalloc with GFP_ATOMIC,
-> > > which is unsafe in interrupt context on PREEMPT_RT systems.
-> > > 
-> > > To address this, the solution involves splitting igb_msg_task()
-> > > into two parts:
-> > > 
-> > >     * One part invoked from the IRQ context.
-> > >     * Another part called from the threaded interrupt handler.
-> > > 
-> > > To accommodate this, vfs_lock has been restructured into a double
-> > > lock: a spinlock_t and a raw_spinlock_t. In the revised design:
-> > > 
-> > >     * igb_disable_sriov() locks both spinlocks.
-> > >     * Each part of igb_msg_task() locks the appropriate spinlock for
-> > >     its execution context.
-> > 
-> > - Is this limited to PREEMPT_RT or does it also occur on PREEMPT systems
-> >   with threadirqs? And if this is PREEMPT_RT only, why?
+On 2024-12-06 12:34:31 [+0100], To linux-kernel@vger.kernel.org wrote:
+> The individual architectures often add the preemption model to the begin
+> of the backtrace. This is the case on X86 or ARM64 for the "die" case
+> but not for regular warning. With the addition of DYNAMIC_PREEMPT for
+> PREEMPT_RT we end up with CONFIG_PREEMPT and CONFIG_PREEMPT_RT set
+> simultaneously. That means that everyone who tried to add that piece of
+> information gets it wrong for PREEMPT_RT because PREEMPT is checked
+> first.
+> This is an attempt to cover all users that I identified so far with a
+> generic function provided by the scheduler. While at it, extend it with
+> the LAZY information and add it to dump_stack_print_info().
 > 
-> PREEMPT systems configured to use threadirqs should be affected as well,
-> although I never tested with this configuration. Honestly, until now I wasn't
-> aware of the possibility of a non PREEMPT_RT kernel with threaded IRQs by default.
+> Comments?
 
-If the issue is indeed the use of threaded interrupts then the fix
-should not be limited to be PREEMPT_RT only.
+any comments on the approach or should I just repost it without the RFC?
 
-> > - What causes the failure? I see you reworked into two parts to behave
-> >   similar to what happens without threaded interrupts. There is still no
-> >   explanation for it. Is there a timing limit or was there another
-> >   register operation which removed the mailbox message?
-> > 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  arch/arm/kernel/traps.c      | 11 ++---------
+>  arch/arm64/kernel/traps.c    | 12 ++----------
+>  arch/powerpc/kernel/traps.c  |  4 ++--
+>  arch/s390/kernel/dumpstack.c |  9 ++-------
+>  arch/x86/kernel/dumpstack.c  |  7 +------
+>  arch/xtensa/kernel/traps.c   |  6 +-----
+>  include/linux/preempt.h      |  2 ++
+>  kernel/sched/core.c          | 24 ++++++++++++++++++++++++
+>  kernel/trace/trace.c         |  6 +-----
+>  lib/dump_stack.c             |  4 ++--
+>  10 files changed, 39 insertions(+), 46 deletions(-)
 > 
-> I explained the root cause of the issue in the last commit. Maybe I should
-> have added the explanation to the cover letter as well.  Anyway, here is a
-> partial verbatim copy of it:
+> diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
+> index 6ea645939573f..1254992184d2e 100644
+> --- a/arch/arm/kernel/traps.c
+> +++ b/arch/arm/kernel/traps.c
+> @@ -258,13 +258,6 @@ void show_stack(struct task_struct *tsk, unsigned long *sp, const char *loglvl)
+>  	barrier();
+>  }
+>  
+> -#ifdef CONFIG_PREEMPT
+> -#define S_PREEMPT " PREEMPT"
+> -#elif defined(CONFIG_PREEMPT_RT)
+> -#define S_PREEMPT " PREEMPT_RT"
+> -#else
+> -#define S_PREEMPT ""
+> -#endif
+>  #ifdef CONFIG_SMP
+>  #define S_SMP " SMP"
+>  #else
+> @@ -282,8 +275,8 @@ static int __die(const char *str, int err, struct pt_regs *regs)
+>  	static int die_counter;
+>  	int ret;
+>  
+> -	pr_emerg("Internal error: %s: %x [#%d]" S_PREEMPT S_SMP S_ISA "\n",
+> -	         str, err, ++die_counter);
+> +	pr_emerg("Internal error: %s: %x [#%d] %s" S_SMP S_ISA "\n",
+> +		 str, err, ++die_counter, preempt_model_str());
+>  
+>  	/* trap and error numbers are mostly meaningless on ARM */
+>  	ret = notify_die(DIE_OOPS, str, regs, err, tsk->thread.trap_no, SIGSEGV);
+> diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
+> index 4e26bd356a482..0b6f92fcdb304 100644
+> --- a/arch/arm64/kernel/traps.c
+> +++ b/arch/arm64/kernel/traps.c
+> @@ -172,14 +172,6 @@ static void dump_kernel_instr(const char *lvl, struct pt_regs *regs)
+>  	printk("%sCode: %s\n", lvl, str);
+>  }
+>  
+> -#ifdef CONFIG_PREEMPT
+> -#define S_PREEMPT " PREEMPT"
+> -#elif defined(CONFIG_PREEMPT_RT)
+> -#define S_PREEMPT " PREEMPT_RT"
+> -#else
+> -#define S_PREEMPT ""
+> -#endif
+> -
+>  #define S_SMP " SMP"
+>  
+>  static int __die(const char *str, long err, struct pt_regs *regs)
+> @@ -187,8 +179,8 @@ static int __die(const char *str, long err, struct pt_regs *regs)
+>  	static int die_counter;
+>  	int ret;
+>  
+> -	pr_emerg("Internal error: %s: %016lx [#%d]" S_PREEMPT S_SMP "\n",
+> -		 str, err, ++die_counter);
+> +	pr_emerg("Internal error: %s: %016lx [#%d] %s" S_SMP "\n",
+> +		 str, err, ++die_counter, preempt_model_str());
+>  
+>  	/* trap and error numbers are mostly meaningless on ARM */
+>  	ret = notify_die(DIE_OOPS, str, regs, err, 0, SIGSEGV);
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index edf5cabe5dfdb..d6d77d92b3358 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -263,10 +263,10 @@ static int __die(const char *str, struct pt_regs *regs, long err)
+>  {
+>  	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
+>  
+> -	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
+> +	printk("%s PAGE_SIZE=%luK%s %s %s%s%s%s %s\n",
+>  	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+>  	       PAGE_SIZE / 1024, get_mmu_str(),
+> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+> +	       preempt_model_str(),
+>  	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+>  	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
+>  	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
+> diff --git a/arch/s390/kernel/dumpstack.c b/arch/s390/kernel/dumpstack.c
+> index 1ecd0580561f6..7930fbab69dbb 100644
+> --- a/arch/s390/kernel/dumpstack.c
+> +++ b/arch/s390/kernel/dumpstack.c
+> @@ -198,13 +198,8 @@ void __noreturn die(struct pt_regs *regs, const char *str)
+>  	console_verbose();
+>  	spin_lock_irq(&die_lock);
+>  	bust_spinlocks(1);
+> -	printk("%s: %04x ilc:%d [#%d] ", str, regs->int_code & 0xffff,
+> -	       regs->int_code >> 17, ++die_counter);
+> -#ifdef CONFIG_PREEMPT
+> -	pr_cont("PREEMPT ");
+> -#elif defined(CONFIG_PREEMPT_RT)
+> -	pr_cont("PREEMPT_RT ");
+> -#endif
+> +	printk("%s: %04x ilc:%d [#%d] %s", str, regs->int_code & 0xffff,
+> +	       regs->int_code >> 17, ++die_counter, preempt_model_str());
+>  	pr_cont("SMP ");
+>  	if (debug_pagealloc_enabled())
+>  		pr_cont("DEBUG_PAGEALLOC");
+> diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
+> index a7d562697e50e..064b23a93c6fe 100644
+> --- a/arch/x86/kernel/dumpstack.c
+> +++ b/arch/x86/kernel/dumpstack.c
+> @@ -395,18 +395,13 @@ NOKPROBE_SYMBOL(oops_end);
+>  
+>  static void __die_header(const char *str, struct pt_regs *regs, long err)
+>  {
+> -	const char *pr = "";
+> -
+>  	/* Save the regs of the first oops for the executive summary later. */
+>  	if (!die_counter)
+>  		exec_summary_regs = *regs;
+>  
+> -	if (IS_ENABLED(CONFIG_PREEMPTION))
+> -		pr = IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
+> -
+>  	printk(KERN_DEFAULT
+>  	       "Oops: %s: %04lx [#%d]%s%s%s%s%s\n", str, err & 0xffff,
+> -	       ++die_counter, pr,
+> +	       ++die_counter, preempt_model_str(),
+>  	       IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
+>  	       debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
+>  	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
+> diff --git a/arch/xtensa/kernel/traps.c b/arch/xtensa/kernel/traps.c
+> index 38092d21acf8e..0edba7d8df8c7 100644
+> --- a/arch/xtensa/kernel/traps.c
+> +++ b/arch/xtensa/kernel/traps.c
+> @@ -629,15 +629,11 @@ DEFINE_SPINLOCK(die_lock);
+>  void __noreturn die(const char * str, struct pt_regs * regs, long err)
+>  {
+>  	static int die_counter;
+> -	const char *pr = "";
+> -
+> -	if (IS_ENABLED(CONFIG_PREEMPTION))
+> -		pr = IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
+>  
+>  	console_verbose();
+>  	spin_lock_irq(&die_lock);
+>  
+> -	pr_info("%s: sig: %ld [#%d]%s\n", str, err, ++die_counter, pr);
+> +	pr_info("%s: sig: %ld [#%d]%s\n", str, err, ++die_counter, preempt_model_str());
+>  	show_regs(regs);
+>  	if (!user_mode(regs))
+>  		show_stack(NULL, (unsigned long *)regs->areg[1], KERN_INFO);
+> diff --git a/include/linux/preempt.h b/include/linux/preempt.h
+> index ca86235ac15c0..3e9808f2b5491 100644
+> --- a/include/linux/preempt.h
+> +++ b/include/linux/preempt.h
+> @@ -515,6 +515,8 @@ static inline bool preempt_model_rt(void)
+>  	return IS_ENABLED(CONFIG_PREEMPT_RT);
+>  }
+>  
+> +extern const char *preempt_model_str(void);
+> +
+>  /*
+>   * Does the preemption model allow non-cooperative preemption?
+>   *
+> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+> index 95e40895a5190..8f5517dbe07d4 100644
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -7642,6 +7642,30 @@ static inline void preempt_dynamic_init(void) { }
+>  
+>  #endif /* CONFIG_PREEMPT_DYNAMIC */
+>  
+> +const char *preempt_model_str(void)
+> +{
+> +	if (IS_ENABLED(CONFIG_ARCH_HAS_PREEMPT_LAZY) && preempt_model_lazy()) {
+> +		if (preempt_model_rt())
+> +			return "PREEMPT_RT+LAZY";
+> +		if (preempt_model_full())
+> +			return "PREEMPT+LAZY";
+> +		if (preempt_model_voluntary())
+> +			return "VOLUNTARY+LAZY";
+> +		if (preempt_model_none())
+> +			return "NONE+LAZY";
+> +	} else {
+> +		if (preempt_model_rt())
+> +			return "PREEMPT_RT";
+> +		if (preempt_model_full())
+> +			return "PREEMPT";
+> +		if (preempt_model_voluntary())
+> +			return "VOLUNTARY";
+> +		if (preempt_model_none())
+> +			return "NONE";
+> +	}
+> +	return "UNKNOWN-PREEMPT";
+> +}
+> +
+>  int io_schedule_prepare(void)
+>  {
+>  	int old_iowait = current->in_iowait;
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index be62f0ea1814d..3861f53f9a434 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -4266,11 +4266,7 @@ print_trace_header(struct seq_file *m, struct trace_iterator *iter)
+>  		   entries,
+>  		   total,
+>  		   buf->cpu,
+> -		   preempt_model_none()      ? "server" :
+> -		   preempt_model_voluntary() ? "desktop" :
+> -		   preempt_model_full()      ? "preempt" :
+> -		   preempt_model_rt()        ? "preempt_rt" :
+> -		   "unknown",
+> +		   preempt_model_str(),
+>  		   /* These are reserved for later use */
+>  		   0, 0, 0, 0);
+>  #ifdef CONFIG_SMP
+> diff --git a/lib/dump_stack.c b/lib/dump_stack.c
+> index 388da1aea14a5..c3e59f8992279 100644
+> --- a/lib/dump_stack.c
+> +++ b/lib/dump_stack.c
+> @@ -54,7 +54,7 @@ void __init dump_stack_set_arch_desc(const char *fmt, ...)
+>   */
+>  void dump_stack_print_info(const char *log_lvl)
+>  {
+> -	printk("%sCPU: %d UID: %u PID: %d Comm: %.20s %s%s %s %.*s" BUILD_ID_FMT "\n",
+> +	printk("%sCPU: %d UID: %u PID: %d Comm: %.20s %s%s %s %.*s %s" BUILD_ID_FMT "\n",
+>  	       log_lvl, raw_smp_processor_id(),
+>  	       __kuid_val(current_real_cred()->euid),
+>  	       current->pid, current->comm,
+> @@ -62,7 +62,7 @@ void dump_stack_print_info(const char *log_lvl)
+>  	       print_tainted(),
+>  	       init_utsname()->release,
+>  	       (int)strcspn(init_utsname()->version, " "),
+> -	       init_utsname()->version, BUILD_ID_VAL);
+> +	       init_utsname()->version, preempt_model_str(), BUILD_ID_VAL);
+>  
+>  	if (get_taint())
+>  		printk("%s%s\n", log_lvl, print_tainted_verbose());
+> -- 
+> 2.45.2
 > 
-> "During testing of SR-IOV, Red Hat QE encountered an issue where the
-> ip link up command intermittently fails for the igbvf interfaces when
-> using the PREEMPT_RT variant. Investigation revealed that
-> e1000_write_posted_mbx returns an error due to the lack of an ACK
-> from e1000_poll_for_ack.
-
-That ACK would have come if it would poll longer?
-
-> The underlying issue arises from the fact that IRQs are threaded by
-> default under PREEMPT_RT. While the exact hardware details are not
-> available, it appears that the IRQ handled by igb_msix_other must
-> be processed before e1000_poll_for_ack times out. However,
-> e1000_write_posted_mbx is called with preemption disabled, leading
-> to a scenario where the IRQ is serviced only after the failure of
-> e1000_write_posted_mbx."
-
-Where is this disabled preemption coming from? This should be one of the
-ops.write_posted() calls, right? I've been looking around and don't see
-anything obvious.
-Couldn't you wait for an event instead of polling?
-
-> The call chain from igb_msg_task():
 > 
-> igb_msg_task
-> 	igb_rcv_msg_from_vf
-> 		igb_set_vf_multicasts
-> 			igb_set_rx_mode
-> 				igb_write_mc_addr_list
-> 					kmalloc
-> 
-> Cannot happen from interrupt context under PREEMPT_RT. So this part of
-> the interrupt handler is deferred to a threaded IRQ handler.
->
-> > > Cheers,
-> > > Wander
-
-Sebastian
