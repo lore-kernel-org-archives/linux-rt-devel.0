@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC440205E23
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 14:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1FF2063E1
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 14:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738592209; cv=none; b=Xh/QwpoUebZomR/YhbivNJ5l1uxhS1Z9imTXpzon9vNFoQGehuWje/KEyNIOGHQmUn73JjTUZa3Ap7EbhkXZ5Nm0CO1xJEnsvCDO2aG3bdIk+t4XXB2zBCvolwTPUX/enr3Nfy4086w9+z3sWAwuq3daRAeYw7JQg0x5O/QsOuI=
+	t=1738592210; cv=none; b=mkaflc/2tw4G9IF5DTBcowlNToDSnbbs2VW6QV8u4HJlEDggni0gf0jS7WWeaA7y85lNsN40aOxaIrCL7PEa8jYMyIHZxJatrEJhI8z58Ly7ctrUNw0KP+U+Cqdc5aeBMJCI3Dda9bagxKzI65vs/1txjCjef5XidSGzJJH4NIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738592209; c=relaxed/simple;
-	bh=aPpGpeN3KUlxNzmqdawwj6IhMjaxo0gfAhNIUX/rqqo=;
+	s=arc-20240116; t=1738592210; c=relaxed/simple;
+	bh=PWKlchBpJd+N+9kqbMPU2hjG360lbQg1ywkcW+Pb9vo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JIdeGjfrhu0WtNWIVGYkCIxSaFPP0eheNqqVYP6/fCeJgx3i2uiPyzbnfhUcvuvzG7Z7SevnHcBlyZA6BvCyjiD3BhmK0+OXYgN1fSvGyXk6ZNJGS6B2WLFXbDfyv5NnGYjwnvLoK294/zPsZxGOR6TG3cwEPFqUTRu/oXR7csU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OAAvsyVf; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qQjoimea; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=EXpG839Z/cG4gna9r9CuvfL2kYrZchMMrUt+7pb3GDir0ucKqtNPUWAuqvNeLRDCtCTOdyDNTFc+3Vc3duKaWhWcCCGnHWYRUhZ6HGaQ+DQieZaak/vWnF8gbpA9ZBSGOhSm9isSnRRNwfSR7g3G3OJPrwo0/hmCZQa6uo4HnIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YqqVGci0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WXIsAuM9; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OAAvsyVf";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qQjoimea"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YqqVGci0";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WXIsAuM9"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1738592206;
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JVykWfPj6hH80UBabvF2jVot4ICLdWiycKbgvtjRQrc=;
-	b=OAAvsyVfJIXCTDV0jlmbfBRVNnFAHe2s/axWez929gL0/1SFj9CCtWFrIBDxrHVhLSdYt6
-	fehMewweBdKqQrNTtqxuFAxGTa/EkHsWHrhIrsdfPP45R7Pgar0l2Tbx55CpVGtff4IjeY
-	W55Ri92Fzj9mYUxW0WisFiJFO5anm/O6fakD3WdKbKg7EpuRWnr2W2zWp6YAxQT4Wzl5NI
-	a8V5LZIFkVcvX+24mPhx0Xgo9r85e8rCmmu9gkDiGL2kjPRA0+IMX+h1tLJ38tTSu/FRBl
-	3GFzrE+teMc8I/5iXnPIHH0BGy1aTzTw0V3+qAooJDXuDepXwDmlUZUXRQMQ9A==
+	bh=VbMY7jhAkRshWc9tky24ybr6eQCno2dqBNRHKZaouzc=;
+	b=YqqVGci0vNuMDu6dryL1TFq2lf6DnnkuJpqGzKYrMSQ5amO/4iEeohSKC2vVER14hKJfuZ
+	XTqxGHdPWTeo5Q0oRyPwZGdK+kA9R7P8Mbfajh1vZ2tfNQrrftyuOFDYVbhtQjLvfYNpnM
+	0oGSfeqx/QWXjKufXvXOMl/c2/vUfV7rRUQQxJTzYnguz9lnTGUV1VaQU+N430o11YAz82
+	ltanqOdynmh+l8MjZtKSrgWqjYggVYwcgL6JDYmzjxd7pD5/zpA4ZXPA3zDFJp0Lu9aj+r
+	nYe50d3btYwB0jzZUU9M+agqLh9hIKeDCAnu0MQEce/DpgKVwCmRhbU76OV8rQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1738592206;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JVykWfPj6hH80UBabvF2jVot4ICLdWiycKbgvtjRQrc=;
-	b=qQjoimeaG99ho0DbphIIPeIOyoN5S4z/BmH9EKPnuytCz1jWmC+iyLEcDyhSKbNEWQwAuB
-	4pOonPeDJP1YFxAQ==
+	bh=VbMY7jhAkRshWc9tky24ybr6eQCno2dqBNRHKZaouzc=;
+	b=WXIsAuM9UBBOBK8XE8F/E+Of6tdfOZdRK0oMxBxhwbhH9JVP2wEr0ek72jL5VC5ufclzd5
+	2OPzuhrMQGTgPuCg==
 To: linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Ben Segall <bsegall@google.com>,
@@ -55,10 +55,15 @@ Cc: Ben Segall <bsegall@google.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Will Deacon <will@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 4/9] arm64: Rely on generic printing of preemption model.
-Date: Mon,  3 Feb 2025 15:16:27 +0100
-Message-ID: <20250203141632.440554-5-bigeasy@linutronix.de>
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v2 5/9] powerpc: Use preempt_model_str().
+Date: Mon,  3 Feb 2025 15:16:28 +0100
+Message-ID: <20250203141632.440554-6-bigeasy@linutronix.de>
 In-Reply-To: <20250203141632.440554-1-bigeasy@linutronix.de>
 References: <20250203141632.440554-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -69,48 +74,38 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-__die() invokes later show_regs() -> show_regs_print_info() which prints
-the current preemption model.
-Remove it from the initial line.
+Use preempt_model_str() instead of manually conducting the preemption
+model. Use pr_emerg() instead of printk() to pass a loglevel.
 
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Naveen N Rao <naveen@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- arch/arm64/kernel/traps.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ arch/powerpc/kernel/traps.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/kernel/traps.c b/arch/arm64/kernel/traps.c
-index 4e26bd356a482..529cff825531c 100644
---- a/arch/arm64/kernel/traps.c
-+++ b/arch/arm64/kernel/traps.c
-@@ -172,14 +172,6 @@ static void dump_kernel_instr(const char *lvl, struct =
-pt_regs *regs)
- 	printk("%sCode: %s\n", lvl, str);
- }
+diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+index edf5cabe5dfdb..9eb383189cfb2 100644
+--- a/arch/powerpc/kernel/traps.c
++++ b/arch/powerpc/kernel/traps.c
+@@ -263,10 +263,10 @@ static int __die(const char *str, struct pt_regs *reg=
+s, long err)
+ {
+ 	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
 =20
--#ifdef CONFIG_PREEMPT
--#define S_PREEMPT " PREEMPT"
--#elif defined(CONFIG_PREEMPT_RT)
--#define S_PREEMPT " PREEMPT_RT"
--#else
--#define S_PREEMPT ""
--#endif
--
- #define S_SMP " SMP"
-=20
- static int __die(const char *str, long err, struct pt_regs *regs)
-@@ -187,7 +179,7 @@ static int __die(const char *str, long err, struct pt_r=
-egs *regs)
- 	static int die_counter;
- 	int ret;
-=20
--	pr_emerg("Internal error: %s: %016lx [#%d]" S_PREEMPT S_SMP "\n",
-+	pr_emerg("Internal error: %s: %016lx [#%d] " S_SMP "\n",
- 		 str, err, ++die_counter);
-=20
- 	/* trap and error numbers are mostly meaningless on ARM */
+-	printk("%s PAGE_SIZE=3D%luK%s%s%s%s%s%s %s\n",
++	pr_emerg("%s PAGE_SIZE=3D%luK%s %s %s%s%s%s %s\n",
+ 	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+ 	       PAGE_SIZE / 1024, get_mmu_str(),
+-	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
++	       preempt_model_str(),
+ 	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+ 	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=3D" __stringify(NR_CPUS)) : "",
+ 	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
 --=20
 2.47.2
 
