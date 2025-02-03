@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A122066CC
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 14:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B942063F9
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 14:16:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738592212; cv=none; b=VEAjnySFjnNy0dEbJcPJOGFn8fFtj/fB4pklrxJhuueMnLCp9fiv7GNQj4LuwInmbPG+0L5mkoQIGsScyV4Tq9AVjgw1gSVl74x3jr2Vb10op7qZWET0/8k8q0HXb0jnxSUo1ivngwBxZppoi7xkysVB5AQ6r7MhVHoAVm/8LBg=
+	t=1738592212; cv=none; b=PSFnE0UATQ7QXj1PfaYHK82yJ+pSVjG9YwoVUszgPtVp9omrMXNnbLdi6VF7rCeHe2lUv+p90CzQRyxn1fMDLCmGBGlOvVfZ6RZ3ZbxI2UkKLKSUpGUtMqF1nr8B4gmxwUsutG7C0K1l4fs2/bd8uke5vBNdRJplEGFHLb3BZBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738592212; c=relaxed/simple;
-	bh=25O/yp6UnkbO77kBkc7PxJ4KzqrbhWQScdgzucAMvtE=;
+	bh=mR6vPOjdkBTEdRSlAl2s/rFalP/2IlJiRUYhKvRs1Wk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Whj52XFjUZdPRLCjdX4U0mPI4enMSqGJBOts6Ly/HUhfoRzFFwPSrlJdcv2/b5QhVgJ0PPjgNbAQq5NKeKYOFFPpZkGa1kr6/mSNKsUO9E+h8K4raWeWWrr7YKaKjK4rwoc09LBFTLzU1ZWUpeQbK4kwXeQcyIpd9JfWlH0eypw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hTRuqSGF; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SwmMtGXX; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=mUrJShR7yofPnxRsGH9r+Ed8+ikMhVmACf/9glpspTA5c4KmoD8TTOvNUuBLA/N4NPldy5rNi7hzy3T/yeZP4vfhx86zZaaullkHZ0aq4eG641d4mEDeDgmUo3GC5feCJMQngUTkiV05kczuqw5JBGF05IY3nTXUTk5bci0t6y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fa2pGKEz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2ggrNndh; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hTRuqSGF";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SwmMtGXX"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fa2pGKEz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2ggrNndh"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1738592208;
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BK05d/1mfk1oZVQnNoGYNIpEo3eku4M94weqeHOTRAw=;
-	b=hTRuqSGFY1vnL4Ofc1Mw/T6rl8rOe6nK/S/z02ouwF18ep2BVBP9bcNCCOm5UiSu6Kfd9O
-	Mh2w2PeSsoYZrn9UyHzK7+L8fZNkBS3VlK4Yh87u2FIgi6hN74J5CDaOP5FJ8vgpcV0BTw
-	fTTBmgAwXIxPm8y8u7SYg1hzxRXIVSO/pC65sKddSCgtIEPaC1UOAZZiUqOhVTE1CKgoEm
-	6oUYcpnecUZFbL+nAknWQidqmmg/FanSsFYbDzNMTxBw9UmJtvK1bbHpthkqqi4nU9wewD
-	jVUgFoz+MV/OiJuPatsYn1sMyKnOZtOXG5S/GVRelRQOtNfklNTJ1tRosQsabA==
+	bh=m0V5ulaONnLToG07tiQ1kzrRUASrctk1BlR8nwnpSIU=;
+	b=fa2pGKEzmwGixw0PPg9eEw1rs7GM/afNRYkoYQMeft0a4FBTh8ofpR751iqqQBlV8EJSDL
+	FMhnnHlF5Utbdv3j+OYsl4pWxENAGL06nsg0SpnEhoYiI84T7hEkMP3AdPVadU3NCvK/vA
+	lCf2FbWI+RbyRR9lgk8VpgnvVgo2sC7HTKZh7VyGzD3PUF+YzSNBZXAdxdVIKwKdZC4l2U
+	DCFrlXlxWfzYcCqneUCloNdXLW+UmhPJ1kbYJBC/+aliOykZL4EGARtsibtfpFGJB6kFFG
+	tZLe94y1THHStfqoptnOCTtzqY0/KagL0OvAysrMEIph8CCMGdnTl2bAKFKWuA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1738592208;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=BK05d/1mfk1oZVQnNoGYNIpEo3eku4M94weqeHOTRAw=;
-	b=SwmMtGXXF7NHVNDd/yYy+H+f3JpafdNAYmrniD0Lx+pv1X4U73IYtocFPD3B4qJG7lpIXw
-	e9fIrsF+WhDOXGAw==
+	bh=m0V5ulaONnLToG07tiQ1kzrRUASrctk1BlR8nwnpSIU=;
+	b=2ggrNndhlZgjqGyOaTjuqRZKvC5AXFzUlrEvERzBH0iQrlO8Ag2yQhE9FDQysMJLYhAQfx
+	o7YQcDjrkYlr8hBw==
 To: linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Ben Segall <bsegall@google.com>,
@@ -55,12 +55,11 @@ Cc: Ben Segall <bsegall@google.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Will Deacon <will@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH v2 9/9] tracing: Use preempt_model_str().
-Date: Mon,  3 Feb 2025 15:16:32 +0100
-Message-ID: <20250203141632.440554-10-bigeasy@linutronix.de>
+	Chris Zankel <chris@zankel.net>,
+	Max Filippov <jcmvbkbc@gmail.com>
+Subject: [PATCH v2 8/9] xtensa: Use preempt_model_str().
+Date: Mon,  3 Feb 2025 15:16:31 +0100
+Message-ID: <20250203141632.440554-9-bigeasy@linutronix.de>
 In-Reply-To: <20250203141632.440554-1-bigeasy@linutronix.de>
 References: <20250203141632.440554-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -74,34 +73,35 @@ Content-Transfer-Encoding: quoted-printable
 Use preempt_model_str() instead of manually conducting the preemption
 model.
 
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-trace-kernel@vger.kernel.org
+Cc: Chris Zankel <chris@zankel.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- kernel/trace/trace.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ arch/xtensa/kernel/traps.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-index 1496a5ac33ae1..77271faab20e9 100644
---- a/kernel/trace/trace.c
-+++ b/kernel/trace/trace.c
-@@ -4100,12 +4100,7 @@ print_trace_header(struct seq_file *m, struct trace_=
-iterator *iter)
- 		   entries,
- 		   total,
- 		   buf->cpu,
--		   preempt_model_none()      ? "server" :
--		   preempt_model_voluntary() ? "desktop" :
--		   preempt_model_full()      ? "preempt" :
--		   preempt_model_lazy()	     ? "lazy"    :
--		   preempt_model_rt()        ? "preempt_rt" :
--		   "unknown",
-+		   preempt_model_str(),
- 		   /* These are reserved for later use */
- 		   0, 0, 0, 0);
- #ifdef CONFIG_SMP
+diff --git a/arch/xtensa/kernel/traps.c b/arch/xtensa/kernel/traps.c
+index 38092d21acf8e..a7b1e4ad112e8 100644
+--- a/arch/xtensa/kernel/traps.c
++++ b/arch/xtensa/kernel/traps.c
+@@ -629,15 +629,11 @@ DEFINE_SPINLOCK(die_lock);
+ void __noreturn die(const char * str, struct pt_regs * regs, long err)
+ {
+ 	static int die_counter;
+-	const char *pr =3D "";
+-
+-	if (IS_ENABLED(CONFIG_PREEMPTION))
+-		pr =3D IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
+=20
+ 	console_verbose();
+ 	spin_lock_irq(&die_lock);
+=20
+-	pr_info("%s: sig: %ld [#%d]%s\n", str, err, ++die_counter, pr);
++	pr_info("%s: sig: %ld [#%d] %s\n", str, err, ++die_counter, preempt_model=
+_str());
+ 	show_regs(regs);
+ 	if (!user_mode(regs))
+ 		show_stack(NULL, (unsigned long *)regs->areg[1], KERN_INFO);
 --=20
 2.47.2
 
