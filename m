@@ -1,97 +1,62 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24F882063CC
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 16:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792FF20E021;
+	Mon,  3 Feb 2025 17:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738601405; cv=none; b=X2QRvk8mZfI9balUaogFZg7fzr4SRTn2W02Ud+6101X+UNxlcrCP6WKirm5CPsMJSj9oOB8VCVX1OJpGb1vtBfqG3/glFYKIwqQQlb6JGZGlqSxwXn6UfvzosAcxlxvUmBk/4zgdxeKifkEqk5MO2SymuHoaKKEVBZOl6Re8bN0=
+	t=1738603179; cv=none; b=ry4TWbgBnrECgYYwMtAIAVQQL+9k7FqQfnBDn+IMEptIhb0bftU5SaDAdV4S7+xbU3FsPf7SXb0x0IrkZzKETRGbfio3ipmVo6+eY8AAfA7vom5hI6tkNlpIFcc5cWNLErD74pZU3JI4vCPn1cw3vWco0EpSQo3nWRPZXXSY8wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738601405; c=relaxed/simple;
-	bh=qMEOn1ZLJjRhleSdtyp3CLsHEpZHR6URjPHHBWcRiFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R0GbbTdy0DMyOACAcmfiLoSiYL7KVa5LtMnxtmyhksFlF+DnRPNv4woS4UqsyRco4DTjjP86Dw9jjQExm/MlmLp/ezOYaKa99MsK5XSKPjfE8Da9k1xURM4D9FnIp45HeKftUGMSHYm9hmsQczpQxoZKRbEtd6p4Wm1yVRADsN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4Ymsc858W3z9sSp;
-	Mon,  3 Feb 2025 17:37:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zL6lv9C8apOs; Mon,  3 Feb 2025 17:37:44 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4Ymsc84GNtz9sSn;
-	Mon,  3 Feb 2025 17:37:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 7EB188B764;
-	Mon,  3 Feb 2025 17:37:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id Qc-OfRrFF4mj; Mon,  3 Feb 2025 17:37:44 +0100 (CET)
-Received: from [192.168.235.99] (unknown [192.168.235.99])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 519808B763;
-	Mon,  3 Feb 2025 17:37:43 +0100 (CET)
-Message-ID: <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
-Date: Mon, 3 Feb 2025 17:37:42 +0100
+	s=arc-20240116; t=1738603179; c=relaxed/simple;
+	bh=9ddDHAlmkDDQvFTbBwYjNamqwT2RbMmBB9a8ti2CriE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ULhcCb1bZMbIKt3BWvpa2iFc+Xh4i8AFHJ0xB+S4uwcKW+q/CS1ikvCModJSWTV5/940GE1i6yKlhrDNCb0Pvm44Lv6VyI1KS6T9vsI2FJwo1k0ourSlNfF4QVreMSyezteWoWQWMEsUpPwMTAiCCtlkwUryvRQdcYMdY5uu/G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DE5CC4CED2;
+	Mon,  3 Feb 2025 17:19:36 +0000 (UTC)
+Date: Mon, 3 Feb 2025 12:20:11 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Ben Segall
+ <bsegall@google.com>, Catalin Marinas <catalin.marinas@arm.com>, Dietmar
+ Eggemann <dietmar.eggemann@arm.com>, Ingo Molnar <mingo@redhat.com>, Juri
+ Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>, Peter Zijlstra
+ <peterz@infradead.org>, Shrikanth Hegde <sshegde@linux.ibm.com>, Thomas
+ Gleixner <tglx@linutronix.de>, Valentin Schneider <vschneid@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Will Deacon
+ <will@kernel.org>, Masami Hiramatsu <mhiramat@kernel.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 9/9] tracing: Use preempt_model_str().
+Message-ID: <20250203122011.739231e9@gandalf.local.home>
+In-Reply-To: <20250203141632.440554-10-bigeasy@linutronix.de>
+References: <20250203141632.440554-1-bigeasy@linutronix.de>
+	<20250203141632.440554-10-bigeasy@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] powerpc: Use preempt_model_str().
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Ben Segall <bsegall@google.com>, Catalin Marinas <catalin.marinas@arm.com>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
- Peter Zijlstra <peterz@infradead.org>,
- Shrikanth Hegde <sshegde@linux.ibm.com>, Steven Rostedt
- <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Will Deacon <will@kernel.org>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Naveen N Rao <naveen@kernel.org>, linuxppc-dev@lists.ozlabs.org
-References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-6-bigeasy@linutronix.de>
- <65c6f60d-bb52-48bd-a02c-87ffd2a915d4@csgroup.eu>
- <20250203160103.9DikC9FJ@linutronix.de>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <20250203160103.9DikC9FJ@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon,  3 Feb 2025 15:16:32 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-
-Le 03/02/2025 à 17:01, Sebastian Andrzej Siewior a écrit :
-> On 2025-02-03 16:19:06 [+0100], Christophe Leroy wrote:
->>
->>
->> Le 03/02/2025 à 15:16, Sebastian Andrzej Siewior a écrit :
->>> Use preempt_model_str() instead of manually conducting the preemption
->>> model. Use pr_emerg() instead of printk() to pass a loglevel.
->>
->> Why use pr_emerg() for that line and not all other ones ?
+> Use preempt_model_str() instead of manually conducting the preemption
+> model.
 > 
-> checkpatch complained for the current printk() line and this looks like
-> an emergency coming from die().
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Masami Hiramatsu <mhiramat@kernel.org>
+> Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+> Cc: linux-trace-kernel@vger.kernel.org
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  kernel/trace/trace.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 
-Right but checkpatch only looks at the line you modify with your patch, 
-it doesn't consider the global picture.
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-> 
->> The purpose of using printk() is to get it at the level defined by
->> CONFIG_MESSAGE_LOGLEVEL_DEFAULT and I think it is important to have the full
->> Oops block at the same level.
-> 
-> Okay. So "printk(KERN_DEFAULT " then.
-
-Up to you, I'm fine with that but you should consistently update all 
-printk's in the function, not only that one, so is it really worth it ?
-
-Christophe
-
+-- Steve
