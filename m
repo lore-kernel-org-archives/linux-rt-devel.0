@@ -1,52 +1,69 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D6770820
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Feb 2025 08:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1872063CB
+	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Feb 2025 08:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738657104; cv=none; b=PLWYsktzN0B8wsXe8UXXtnFyDVpNLTrBnAjKsOtP3iho3QYoFemojs+mP6gqsjTI7LCa443QyvumeCsToT0fUQtcaEaeeG8hZ4XuRqbNmOW1YcpHhTRzslSpwU2ePgp4j0fO0UTepmih9oqtSvl5K2BDEoeLPce1Lx/C/S/h2v0=
+	t=1738657348; cv=none; b=jHk529ipEK6oVDLTl/nKvJIJpx6L7VgpFOUO37aU/1uF35k4eDlETrae6MMtwFRZ0bwQh/gyztsZ+WeBfErkbptV7zRTQMRqH/nqIbilPkxpvqwKVNCKg+c0pWZLLdxlMr6dkvbtfhN7b85BuXVF/uuvIoVduGBevyKcNeu6+Ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738657104; c=relaxed/simple;
-	bh=SUTbVLnTBbnSmMQFrFVhK44XBdRTNZ3OqnPfYXbS8xU=;
+	s=arc-20240116; t=1738657348; c=relaxed/simple;
+	bh=+pDnJIsZzMoJu/KlX0witVz381rBhqyriIHKc03SRi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxJURNP4Dwxhw4dnme47bJkfB0TiXia4Ft3UHxtwRqBIS7YywPEN6lPWQeDgDJATTRBgK52TbGMceuMML6BXN/IjFNyif57VhTtyxDyilNmx6KCtjB0EWX5/0DQ84FS9IjlQbIBajabkXL8oX17yqOLHsneEosDWdBMNiduAvOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tbjYr4/4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NmZRulOG; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFO3Sk/sUgEbdSlbOvsY6qzqKv64KdrbRncfnk9T/KTcNZY8ula/eJ94rmGotT5O9jerkmx5vpvtQsQNb4LWd2tH4dEpHbdDV1Uu1D4Xmlajno01PW6e0Q5NdTlmR7dou5c/QwcSXAc5dQtEmAHDE/rMUuDwKxP1JbNSs9vot5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Flufws2T; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9bVplinw; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tbjYr4/4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NmZRulOG"
-Date: Tue, 4 Feb 2025 09:18:13 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Flufws2T";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9bVplinw"
+Date: Tue, 4 Feb 2025 09:22:23 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1738657095;
+	s=2020; t=1738657345;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=E/o4cd1+sS1V8YVI6C37SoZJBCljbNtuj8oie5yQkUQ=;
-	b=tbjYr4/4eQo//S+bpmmMk45KwHZAXZON1bPv+Ppb0wA7UF+nr0LWMW5+N4n2x3t23/08sh
-	bRUJz1GlYvjfEEJmWcJzdbiWtZlxtagDkFUc7JJWsbGWeHkV7QcFp20ZKpzF2UbM6xT55o
-	30ydTlrkp2a3ygYemNTw1tNCk3uNE66PFhKnCIESMqDkfNnTrKtYETnGjsFa41sCb1x2wm
-	d6P5jSlC4hHa0JuFfoQC0mJJqh66nmYO/WUJRDJhpLT4lm8jvlDdq+0WyQIyGW2F5jEPNW
-	X96ft+kOaj48xreegCAd7LX4Ch85wUp6lUDqpJVmvACc3iSW0EZu8kQnr206Ig==
+	bh=DnKDCU1FUD2pmjVQdxzJZnfkfi9EpwFgK55JyMARIzA=;
+	b=Flufws2Tc9X0nPhdWeTbARtFtpmLKyJhRjTdAqJ6fPfEhNQTEABuzNj2b9h/wqxgpygsJQ
+	BvQ9McEJAT79GteclYmajpufEIKfY1l+WTmpF6XBquIURUICO84ga34gXaSr0Zkw3PhTOW
+	4GPHQCDySVG9PXZ8kZSoJyzwXGy5oLvEW0ZcyQysrrpKuZVddyvoUndbakAOx47HtGtexn
+	ukV+CKsl+dm88D3aMK6Vlbqi8PZB0kpT7qo0jQ2zW4SjSkmiB6Dy+KkMUTqBlPFOJuw7KZ
+	Fi6/V1EPJ5cM8naXbIr5Ajs2/HOm23m3YllPtnqCmiVmfc78hgnKQhQrnf/W/A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1738657095;
+	s=2020e; t=1738657345;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=E/o4cd1+sS1V8YVI6C37SoZJBCljbNtuj8oie5yQkUQ=;
-	b=NmZRulOGoc4wQzv0gG2ye7TpghyQedqNYfTOsZQhuydD+5x32vLPMGVq5QMSOLBhhtCFWS
-	KFqtexfiILjfuxDA==
+	bh=DnKDCU1FUD2pmjVQdxzJZnfkfi9EpwFgK55JyMARIzA=;
+	b=9bVplinw5uTckiBFUaa4zx9QSnLzFLQniSAa/sUY9kv2nk/w7pKzIIqBRVZtU6jJb9dp9Q
+	qw/sYFSz9uG4XPBg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Kazuhiro Hayashi <kazuhiro3.hayashi@toshiba.co.jp>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	cip-dev@lists.cip-project.org, tglx@linutronix.de,
-	rostedt@goodmis.org, linux-rt-users@vger.kernel.org, pavel@denx.de
-Subject: Re: [PATCH 4.4 4.9 v1 2/2] mm: slub: allocate_slab() enables IRQ
- right after scheduler starts
-Message-ID: <20250204081813.7qsvLFsU@linutronix.de>
-References: <1738629964-11977-1-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
- <1738629964-11977-3-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
+	Ben Segall <bsegall@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Will Deacon <will@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v3 5/9] powerpc: Use preempt_model_str().
+Message-ID: <20250204082223.6iNyq_KR@linutronix.de>
+References: <20250203141632.440554-1-bigeasy@linutronix.de>
+ <20250203141632.440554-6-bigeasy@linutronix.de>
+ <65c6f60d-bb52-48bd-a02c-87ffd2a915d4@csgroup.eu>
+ <20250203160103.9DikC9FJ@linutronix.de>
+ <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -55,83 +72,45 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1738629964-11977-3-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
 
-On 2025-02-04 09:46:04 [+0900], Kazuhiro Hayashi wrote:
-> On PREEMPT_RT kernels < v4.14-rt, after __slab_alloc() disables
-> IRQ with local_irq_save(), allocate_slab() is responsible for
-> re-enabling IRQ only under the specific conditions:
-> 
-> (1) gfpflags_allow_blocking(flags) OR
-> (2) system_state == SYSTEM_RUNNING
->
-> The problem happens when (1) is false AND system_state == SYSTEM_BOOTING,
-> caused by the following scenario:
-> 
-> 1. Some kernel codes invokes the allocator without __GFP_DIRECT_RECLAIM
->    bit (i.e. blocking not allowed) while SYSTEM_BOOTING
-> 2. allocate_slab() calls the following functions with IRQ disabled
-> 3. buffered_rmqueue() invokes local_[spin_]lock_irqsave(pa_lock) which
->    might call schedule() and enable IRQ, if it failed to get pa_lock
-> 4. The migrate_disable counter, which is not intended to be updated with
->    IRQs disabled, is accidentally updated after schedule() then
->    migrate_enable() raises WARN_ON_ONCE(p->migrate_disable <= 0)
-> 5. The unpin_current_cpu() WARNING is raised eventually because the
->    refcount counter is linked to the migrate_disable counter
+Use preempt_model_str() instead of manually conducting the preemption
+model. Use pr_emerg() instead of printk() to pass a loglevel.
 
-I think the problem is that system_state _is_ SYSTEM_BOOTING but
-scheduling and/or an additional CPU is already enabled. This is why the
-lock is contended. Otherwise you wouldn't get that far. 
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Naveen N Rao <naveen@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+v2=E2=80=A6v3:
+  - Use printk() instead of pr_emerg() to remain consistent with the
+    other invocations in terms of printing context.
 
-> The behavior 2-5 above has been obsereved[1] using ftrace.
-> The condition (2) above intends to make the memory allocator fully
-> preemptible on PREEMPT_RT kernels[2], so the lock function in the
-> step 3 above should work if SYSTEM_RUNNING but not if SYSTEM_BOOTING.
-> 
-> [How this is resolved in newer RT kernels]
-> 
-> A patch series in the mainline (v4.13) introduces SYSTEM_SCHEDULING[3].
-> On top of this, v4.14-rt (6cec8467) changes the condition (2) above:
-> 
-> -	if (system_state == SYSTEM_RUNNING)
-> +	if (system_state > SYSTEM_BOOTING)
-> 
-> This avoids the problem by enabling IRQ after SYSTEM_SCHEULDING.
+ arch/powerpc/kernel/traps.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Yes. Once scheduling is enabled any sleeping lock might be contended so
-interrupts must be enabled. This is not done done unconditionally
-because early boot code expects to run with disabled interrupts.
-This "system_state == SYSTEM_RUNNING" looked like a sane state in
-between. However, once the scheduler is up and running, interrupts in
-the system are enabled and so the slub allocator needs to always enable
-interrupts.
+diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+index edf5cabe5dfdb..d6d77d92b3358 100644
+--- a/arch/powerpc/kernel/traps.c
++++ b/arch/powerpc/kernel/traps.c
+@@ -263,10 +263,10 @@ static int __die(const char *str, struct pt_regs *reg=
+s, long err)
+ {
+ 	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
+=20
+-	printk("%s PAGE_SIZE=3D%luK%s%s%s%s%s%s %s\n",
++	printk("%s PAGE_SIZE=3D%luK%s %s %s%s%s%s %s\n",
+ 	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+ 	       PAGE_SIZE / 1024, get_mmu_str(),
+-	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
++	       preempt_model_str(),
+ 	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+ 	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=3D" __stringify(NR_CPUS)) : "",
+ 	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
+--=20
+2.47.2
 
-> Thus, the conditions that allocate_slab() enables IRQ are like:
-> 
-> (2)system_state   v4.9-rt or before  v4.14-rt or later
-> SYSTEM_BOOTING        (1)==true          (1)==true
->                           :                  :
->                           :                  v
-> SYSTEM_SCHEDULING         : < Problem      Always
->                           v < occurs here    |
-> SYSTEM_RUNNING          Always               |
->                           |                  |
->                           v                  v
-> 
-> [How this patch works]
-> 
-> An simple option would be to backport the series[3], which is possible
-> and has been verified[4]. However, that series pulls functional
-> changes like SYSTEM_SCHEDULING and adjustments for it,
-> early might_sleep() and smp_processor_id() supports, etc.
-> Therefore, this patch uses an extra (but not mainline) flag
-> "system_scheduling" provided by the prior patch instead of
-> introducing SYSTEM_SCHEDULING, then uses the same condition as
-> newer RT kernels in allocate_slab().
-
-The proposal looks okay. However the verified upstream version not only
-addresses your issue but also makes smp_processor_id() and might_sleep()
-work in the early phase. I would prefer the upstream solution for those
-two reasons.
-
-Sebastian
