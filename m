@@ -1,98 +1,81 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mo-csw-fb.securemx.jp (mo-csw-fb1121.securemx.jp [210.130.202.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2F625A65C
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Feb 2025 17:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39ECB25A655;
+	Tue,  4 Feb 2025 02:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738605364; cv=none; b=rf2fNeDRn0diZz+ceed4qVuFtEE4IAMmt898u9fKgHtvId2dBQqqo2+Uh+BqRxNYTH7yZZgROdg0kSZwOFKvrLFZ5z6VaW3cCFsAuvsDJrrar1kSPrphqLKinlprILiTb68Uw9G9wXTHCwBo5UPGx0YF1gQsZgu0c5MRr6Yh7sY=
+	t=1738635193; cv=none; b=NMbwRQyQCb+VI3/t2jTxfcFZ/pSf78p0ICbWqm2dhDEurSMQGGU8979x7PQtD4ewXVts1iTzwCkqV9qqXOYvZsNXSZjfaHCwXSgGgmdCWn9lhzNrhcj2jz8LqsrgIAFp2VXOtvv11NseybXRfZWAlLdQoXeCdVIoJNkGM3OMC/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738605364; c=relaxed/simple;
-	bh=SugYHD+uYQY79n6wJCLpwkBHfJKaSU6JUycME7SEG/Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cmW4VWFsTFWktXny7DWBNCzUoB20ilWe/Hzrd6wB/L/CotqWpFMjfTR3cr+CgWRz9DntiSAPWIjqbhpyb+T9kIvaQD9AVORlT1+HhdlQuNaIfvqE5j+5bnbHHnmX4Rl0vHw2UJ+gNs7FUO/StDve8smAnkLhhEFCFHZDBzNEyLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlOsvFEp; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738635193; c=relaxed/simple;
+	bh=Si4bOR8QQPaDpVUBhSkWZmqPbmWYfv7MTbe/67PUgP0=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=B0lh3Rc3SVovaVFiN9zF2EYXUjCWzcVEY5y3MFbSkW8cDCxWZcoONeQY53mNa9gcBgK5lHnzaj/nObqYYtgCNBGtjyQJZsl/nFg4MpEaibcLE4LpotqPBA/R/OUlGMoxXe03egiOk1bkGLoQO/Sh7BN7B6BgRCM3l2BJuL0EeB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=kazuhiro3.hayashi@toshiba.co.jp header.b=YOjweMAN; arc=none smtp.client-ip=210.130.202.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlOsvFEp"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2156e078563so68517775ad.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 03 Feb 2025 09:56:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738605362; x=1739210162; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kZpi3N7y/rWbfK2y4bLstAC2w9aIoMiTh4j1cLHc2JI=;
-        b=FlOsvFEpBP+d0Hbgqlfi6Um/cp81JvRw0ciccgNpOH7Z2OFcIq4LGXZ+VaIN8wBKcA
-         LhFTn3lOVZOjTEF9Ztu1ro8dAWVIRfTVNU4jXfEJf/oOukLVkQ9B2jdGdHfBXtNnDHLB
-         /IaXbrGGXgL8n3TKtMXJ4ukhdayaNNhma5JCfXs86ayLo+NzNuHAndl/xpSoI7pVgBmc
-         iNtmhVG3XDNBUVNVlVt3sZFNH98J5BDtbgOlR+Yi3tN3qD8gybWUNTovzR6Bt57yaIy6
-         k+gu8PaBfb+AS4q4zdnV3U+3zqS91rao24WNwBKzXAMERcsf+hkMkz/9eu2wc9iras11
-         na7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738605362; x=1739210162;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kZpi3N7y/rWbfK2y4bLstAC2w9aIoMiTh4j1cLHc2JI=;
-        b=u2IZ/RI+HXuV9ypOxXL5p0Dcvf8DNTzGfoVnZAOc9eGhWC8Nj45KKeBBR+QIK7LBaP
-         U8PY9jg16RYMgazfWsR2hT1mqy4UDIbbiU6FcRTuKIFPqaiwfF5A3eGT/v3o7FIU/p1l
-         HWOCzID9q6N7j9WC3sQHsthZTnH29cM031318Cj+MDJurEH9Cs9oizfxKPfokdtlRU3J
-         fln3fna5fBEaOFRfFXp+mAN3/lIKkqywN2Z2xYics8N+Ruy939aNZfaIPYlhFwO4UBOD
-         6f/XJvZDLtnByphMhdHK6kBh0M3SlFaohI+TWMLWwa4bkjh3nEsREvtl2NlJ9kAyP5T5
-         5POA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ZfH2B+mkOUNX7x5JJPBvFxuaot/S4ddPvvNknnV5QmSvH+Nfbh1ZO16cpIAWmSl0vFVfjlXSO5Sb3jaAJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU8/WyVYmSnOkKL5nCNibispl4lTn3wW+prHCFC9wgDvpVwxCM
-	20UY/Km8tQqth9nvMwf6CFyLV7Sxga1TVH5loLqhzE1KDpNvKXh5vKr8sDwufExjCJ2XLHqPPvh
-	tIrZM0ClLt3hGYEbZgjwBHVmxRI4=
-X-Gm-Gg: ASbGnctPOELXQf5i/2Px6m5/a0sgQymijnq8MQCZ1RJj3Z2ERMaNhRsVvP+p8OfagkE
-	U2IVmeQSCgQD/Q1/YUblj515xcTXLgNQ3Xumr9nXA8LU6Dp/d2KMvcBWFKoqdlChI7hxpWh9/jZ
-	aI6AGRvORoD5m/Z++08uy4HsRue0l2ng==
-X-Google-Smtp-Source: AGHT+IFPf0H+yjKerqQ3pf0mjfxtUND+h0LTJMg28IyAxnO+N0IBnPGRZdM9f7sccjKWKaQfL23Lo6ewrd8UKM3T3c0=
-X-Received: by 2002:a05:6a00:b8b:b0:72d:35ed:214b with SMTP id
- d2e1a72fcca58-72fd0c8bfb4mr35482879b3a.24.1738605361813; Mon, 03 Feb 2025
- 09:56:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=kazuhiro3.hayashi@toshiba.co.jp header.b="YOjweMAN"
+Received: by mo-csw-fb.securemx.jp (mx-mo-csw-fb1121) id 5140mQwa4135965; Tue, 4 Feb 2025 09:48:27 +0900
+DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:Cc
+	:Subject:Date:Message-Id;i=kazuhiro3.hayashi@toshiba.co.jp;s=key2.smx;t=
+	1738630064;x=1739839664;bh=Si4bOR8QQPaDpVUBhSkWZmqPbmWYfv7MTbe/67PUgP0=;b=YOj
+	weMAN1C7Hy43el+MI+4tlorZWJMOStJCuiKBnVLs06pIiRqTYZDyHLFaJxw0SbRPtx6mjQ1WxxwYI
+	0uS4dwEkZLjAm9ObomImZG67hDJDqGbBnajtIiiDPm/8vAPVLqn/DYbSL94lcu2sKfxI5sWibyD24
+	BNNYnr+V9beLLZtc/4MWCC6HGQPZmCOgKh8/2pMrFv8Dph+8Pl0IzUlEwtuSJ2a8eVG58F0kJ82Yt
+	42B+zZFjAb7zR/RmsgMMsGtXWj4jcf0asUq8YzUlXmm97oH3hxYCZDRSQI2dSsNp19hzxXZYybZOK
+	ISi4Qlk5whf5B5zI9pL3xwOXea7APNA==;
+Received: by mo-csw.securemx.jp (mx-mo-csw1122) id 5140lgJN4066260; Tue, 4 Feb 2025 09:47:43 +0900
+X-Iguazu-Qid: 2rWh5b6vESC8CgKcan
+X-Iguazu-QSIG: v=2; s=0; t=1738630062; q=2rWh5b6vESC8CgKcan; m=hDviWYt8PzLl5GDgSBVLdPWMXaTHyLbrfYk/J+DCCfU=
+Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
+	by relay.securemx.jp (mx-mr1121) id 5140leUm491300
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 4 Feb 2025 09:47:40 +0900
+From: Kazuhiro Hayashi <kazuhiro3.hayashi@toshiba.co.jp>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        cip-dev@lists.cip-project.org
+Cc: bigeasy@linutronix.de, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-rt-users@vger.kernel.org, pavel@denx.de
+Subject: [PATCH 4.4 4.9 v1 0/2] Fix repeated WARNING in unpin_current_cpu()
+Date: Tue,  4 Feb 2025 09:46:02 +0900
+X-TSB-HOP2: ON
+Message-Id: <1738629964-11977-1-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250203141632.440554-1-bigeasy@linutronix.de> <20250203141632.440554-9-bigeasy@linutronix.de>
-In-Reply-To: <20250203141632.440554-9-bigeasy@linutronix.de>
-From: Max Filippov <jcmvbkbc@gmail.com>
-Date: Mon, 3 Feb 2025 09:55:49 -0800
-X-Gm-Features: AWEUYZmUdIxLoq0ZTpUZ0ejeXSF2OzhJmPk5P1HKzYnJBUb5YKUMC8WoYkHOZcg
-Message-ID: <CAMo8BfL8oVi3ED1rybkEbMru0Z_gs_Lh7435QnUKGxop0PEsmQ@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] xtensa: Use preempt_model_str().
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Ben Segall <bsegall@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Ingo Molnar <mingo@redhat.com>, 
-	Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Shrikanth Hegde <sshegde@linux.ibm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Will Deacon <will@kernel.org>, Chris Zankel <chris@zankel.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 3, 2025 at 6:16=E2=80=AFAM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> Use preempt_model_str() instead of manually conducting the preemption
-> model.
->
-> Cc: Chris Zankel <chris@zankel.net>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
->  arch/xtensa/kernel/traps.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+This is a patch series for v4.4-rt and v4.9-rt to resolve problem that
+WARNING in unpin_current_cpu() happens repeatedly while kernel is booting.
+Please see commit message of the second patch (2/2) for more details about
+the problem and how it's resolved. The first patch (1/2) is a preparation
+for the fix (2/2), considering compatibility issue in future updates.
 
-Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+As the both v4.4-rt and v4.9-rt have been EOL already, it's not expected
+that this series is applied to the branches anymore.
+On the other hand, the Civil Infrastructure Platform Project (CIP)
+has been maintaining its 4.4 SLTS RT kernel[1][2] based on v4.4-rt,
+and needs to fix the problem above by this series.
 
---=20
-Thanks.
--- Max
+It is much appreciated if RT experts could take a look at the series
+and give feedbacks about its way to resolve the problem, which is
+based on the same approach as changes happend around v4.14-rt.
+
+[1] https://wiki.linuxfoundation.org/civilinfrastructureplatform/start#kernel_maintainership
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/cip/linux-cip.git/log/?h=linux-4.4.y-cip-rt
+
+Kazuhiro Hayashi (2):
+  init: Introduce system_scheduling flag for allocate_slab()
+  mm: slub: allocate_slab() enables IRQ right after scheduler starts
+
+ include/linux/kernel.h |  1 +
+ init/main.c            | 12 ++++++++++++
+ mm/slub.c              |  3 ++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
+
+-- 
+2.30.2
+
+
