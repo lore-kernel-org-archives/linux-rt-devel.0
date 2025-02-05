@@ -1,215 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CBF2165FE
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Feb 2025 17:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5143621D5AE
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Feb 2025 07:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738691578; cv=none; b=iFGVIB2pgJRCpg/bHz2GdCAD2+Xdw0AKz/BzNx1z4aNT54TLDMqY+RJWZwpimyTgirIm0q+39XatPEMbXfaX8UZl1AIRmtnS7JJDuZxbjRQBWPO7q9O5rdbncmioredyQSHLJPP1C0CMF4hf5O++kM+KoeLI1HiXG+zX8o+42MY=
+	t=1738740009; cv=none; b=fPo2npiIPoZPzBNsZx1ffw8Uc4WRPrtjbBthzADM3qna+ICqSP6mT0xI+g9LUycy/VJS866kfV0Jz8pqYK1jCjn4S0AOK4iiatD/vfaH7w8YLAca3qibTEk+qsK8P28HrRoEPebYQZphgyFQkk5WlOuLjQ+lf2VF1/fupa7wr8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738691578; c=relaxed/simple;
-	bh=2QsB+IUnFx+X0yxAJ3ioapItqWtm0WFT+lDWHUDiofE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=csf7kcCSaT6nMsy0pqCGS+JbQ+Y6qsPnu5eP5hpWQJfgP/yMCokDhcDPjiCFEyTU3HjsJ+qQnmqTpOZW81jQgdFuMq8xgOrfStOxKjGdZqlt7J0mKhwpRLawmiUCHCCqVmI1nmKQTXKXIBrHMT/HmoJfID7T39zzoowDKFdkugo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTKQvEYn; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTKQvEYn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1738691577; x=1770227577;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2QsB+IUnFx+X0yxAJ3ioapItqWtm0WFT+lDWHUDiofE=;
-  b=LTKQvEYnV4ZoTf/4TWdW3oWQGSR8WWqbkohbFnOY0OEUKFMU8CI99yz/
-   jDMncYPbFsb6NPnpVSO/kDrbj4EUZa1/DhsZo2YHo3VLMwlHmiPIcWHJl
-   SjczbjNEyhWPzQxj44jzbnErNFqtLjAIx65OOueSl2o5RXOc0bNlAx4Iy
-   pQ3QB+OZc/Zxs7LNhX5MTYiwLkwEJBuz4tQ8GzdO72ApM0SblvIIGvr7e
-   VGAUvYd2JJOrBhaX1PHIfg1UEAiDO2hxzz49O2bw/Ceq3a7xa8E7NGaDa
-   ad+ar03NjVizcMaG/TZVmem0P7GcxKP+IucUSkMf3dVJatTyyJYCEKq+T
-   g==;
-X-CSE-ConnectionGUID: WwVK2y63TuCWAM69SiNPSA==
-X-CSE-MsgGUID: HnMTkchmSA2iSHqzuIjeBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11336"; a="39371907"
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="39371907"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2025 09:52:54 -0800
-X-CSE-ConnectionGUID: dWtmlRkMRlCBjsf+tvueSA==
-X-CSE-MsgGUID: kb3uPnDsQC6DK2z4SvZgug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,259,1732608000"; 
-   d="scan'208";a="110652399"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orviesa006.jf.intel.com with ESMTP; 04 Feb 2025 09:52:53 -0800
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org
-Cc: Wander Lairson Costa <wander@redhat.com>,
-	anthony.l.nguyen@intel.com,
-	rostedt@goodmis.org,
-	clrkwllms@kernel.org,
-	bigeasy@linutronix.de,
-	jgarzik@redhat.com,
-	yuma@redhat.com,
-	linux-rt-devel@lists.linux.dev,
-	Rafal Romanowski <rafal.romanowski@intel.com>
-Subject: [PATCH net 4/4] igb: fix igb_msix_other() handling for PREEMPT_RT
-Date: Tue,  4 Feb 2025 09:52:40 -0800
-Message-ID: <20250204175243.810189-5-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250204175243.810189-1-anthony.l.nguyen@intel.com>
-References: <20250204175243.810189-1-anthony.l.nguyen@intel.com>
+	s=arc-20240116; t=1738740009; c=relaxed/simple;
+	bh=g6uOaiTz5SxuO0+8uDAIShIuR84JiEmgHPF6qzalGtI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RS8bInLrXg7AikbQDAEn+gpnfrnoLlpzOPlfh0OXE7ikNR12LnqQwAxtP2jyUNc2Kc6/GSSuVAu2W3CfXmDmyzwwbCUalzCpr2h7LX/sSfvSrru3xlV26Z9NQzA9xT3HTPXMsXPlXqd9rXbt7JJHyMC4rdZDXsPK8ZJpmOKsGIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4YnrRj3MVVz9sS7;
+	Wed,  5 Feb 2025 07:48:49 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id puRhBqOAeMVL; Wed,  5 Feb 2025 07:48:49 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4YnrQz089Jz9sPd;
+	Wed,  5 Feb 2025 07:48:11 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id E763E8B765;
+	Wed,  5 Feb 2025 07:48:10 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id Pe9u4pJlBqwz; Wed,  5 Feb 2025 07:48:10 +0100 (CET)
+Received: from [10.25.207.138] (unknown [10.25.207.138])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 5EDA48B763;
+	Wed,  5 Feb 2025 07:48:10 +0100 (CET)
+Message-ID: <cc9f0470-830b-471a-ac8d-33ba2e89dc8c@csgroup.eu>
+Date: Wed, 5 Feb 2025 07:48:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/9] powerpc: Use preempt_model_str().
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Ben Segall <bsegall@google.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ingo Molnar <mingo@redhat.com>,
+ Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Shrikanth Hegde <sshegde@linux.ibm.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>, Will Deacon <will@kernel.org>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, linuxppc-dev@lists.ozlabs.org
+References: <20250203141632.440554-1-bigeasy@linutronix.de>
+ <20250203141632.440554-6-bigeasy@linutronix.de>
+ <65c6f60d-bb52-48bd-a02c-87ffd2a915d4@csgroup.eu>
+ <20250203160103.9DikC9FJ@linutronix.de>
+ <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
+ <20250204082223.6iNyq_KR@linutronix.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20250204082223.6iNyq_KR@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Wander Lairson Costa <wander@redhat.com>
 
-During testing of SR-IOV, Red Hat QE encountered an issue where the
-ip link up command intermittently fails for the igbvf interfaces when
-using the PREEMPT_RT variant. Investigation revealed that
-e1000_write_posted_mbx returns an error due to the lack of an ACK
-from e1000_poll_for_ack.
 
-The underlying issue arises from the fact that IRQs are threaded by
-default under PREEMPT_RT. While the exact hardware details are not
-available, it appears that the IRQ handled by igb_msix_other must
-be processed before e1000_poll_for_ack times out. However,
-e1000_write_posted_mbx is called with preemption disabled, leading
-to a scenario where the IRQ is serviced only after the failure of
-e1000_write_posted_mbx.
+Le 04/02/2025 à 09:22, Sebastian Andrzej Siewior a écrit :
+> Use preempt_model_str() instead of manually conducting the preemption
+> model. Use pr_emerg() instead of printk() to pass a loglevel.
+> 
+> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Naveen N Rao <naveen@kernel.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Commit 338c4d3902fe ("igb: Disable threaded IRQ for igb_msix_other")
-forced the ISR to run in a non-threaded context. However, Sebastian
-observed that some functions called within the ISR acquire locks that
-may sleep.
+Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-In the previous two patches, we managed to make igb_msg_mask() safe to
-call from an interrupt context.
-
-In this commit, we move most of the ISR handling to an interrupt
-context, leaving non IRQ safe code to be called from the thread
-context under PREEMPT_RT.
-
-Reproducer:
-
-ipaddr_vlan=3
-nic_test=ens14f0
-vf=${nic_test}v0 # The main testing steps:
-while true; do
-    ip link set ${nic_test} mtu 1500
-    ip link set ${vf} mtu 1500
-    ip link set $vf up
-    # 3. set vlan and ip for VF
-    ip link set ${nic_test} vf 0 vlan ${ipaddr_vlan}
-    ip addr add 172.30.${ipaddr_vlan}.1/24 dev ${vf}
-    ip addr add 2021:db8:${ipaddr_vlan}::1/64 dev ${vf}
-    # 4. check the link state for VF and PF
-    ip link show ${nic_test}
-    if ! ip link show $vf | grep 'state UP'; then
-        echo 'Error found'
-        break
-    fi
-    ip link set $vf down
-done
-
-You can also reproduce it more reliably by setting nr_cpus=1 in the
-kernel command line.
-
-Fixes: 9d5c824399de ("igb: PCI-Express 82575 Gigabit Ethernet driver")
-Signed-off-by: Wander Lairson Costa <wander@redhat.com>
-Reported-by: Yuying Ma <yuma@redhat.com>
-Tested-by: Rafal Romanowski <rafal.romanowski@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- drivers/net/ethernet/intel/igb/igb_main.c | 35 ++++++++++++++++-------
- 1 file changed, 24 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-index 6d590192c27f..3cc85584d9ce 100644
---- a/drivers/net/ethernet/intel/igb/igb_main.c
-+++ b/drivers/net/ethernet/intel/igb/igb_main.c
-@@ -128,6 +128,7 @@ static void igb_set_uta(struct igb_adapter *adapter, bool set);
- static irqreturn_t igb_intr(int irq, void *);
- static irqreturn_t igb_intr_msi(int irq, void *);
- static irqreturn_t igb_msix_other(int irq, void *);
-+static irqreturn_t igb_msix_other_threaded(int irq, void *);
- static irqreturn_t igb_msix_ring(int irq, void *);
- #ifdef CONFIG_IGB_DCA
- static void igb_update_dca(struct igb_q_vector *);
-@@ -148,7 +149,6 @@ static void igb_rar_set_index(struct igb_adapter *, u32);
- static void igb_ping_all_vfs(struct igb_adapter *);
- static void igb_msg_task_irq_safe(struct igb_adapter *adapter);
- static void igb_msg_task_preemptible_safe(struct igb_adapter *adapter);
--static void igb_msg_task(struct igb_adapter *);
- static void igb_vmm_control(struct igb_adapter *);
- static int igb_set_vf_mac(struct igb_adapter *, int, unsigned char *);
- static void igb_flush_mac_table(struct igb_adapter *);
-@@ -914,8 +914,9 @@ static int igb_request_msix(struct igb_adapter *adapter)
- 	struct net_device *netdev = adapter->netdev;
- 	int i, err = 0, vector = 0, free_vector = 0;
- 
--	err = request_irq(adapter->msix_entries[vector].vector,
--			  igb_msix_other, 0, netdev->name, adapter);
-+	err = request_threaded_irq(adapter->msix_entries[vector].vector,
-+				   igb_msix_other, igb_msix_other_threaded,
-+				   IRQF_NO_THREAD, netdev->name, adapter);
- 	if (err)
- 		goto err_out;
- 
-@@ -7156,9 +7157,27 @@ static irqreturn_t igb_msix_other(int irq, void *data)
- 		igb_check_wvbr(adapter);
- 	}
- 
--	/* Check for a mailbox event */
-+	/* Check for a mailbox event (interrupt safe part) */
- 	if (icr & E1000_ICR_VMMB)
--		igb_msg_task(adapter);
-+		igb_msg_task_irq_safe(adapter);
-+
-+	adapter->test_icr = icr;
-+
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+		return igb_msix_other_threaded(irq, data);
-+
-+	return IRQ_WAKE_THREAD;
-+}
-+
-+static irqreturn_t igb_msix_other_threaded(int irq, void *data)
-+{
-+	struct igb_adapter *adapter = data;
-+	struct e1000_hw *hw = &adapter->hw;
-+	u32 icr = adapter->test_icr;
-+
-+	/* Check for a mailbox event (preempible safe part) */
-+	if (icr & E1000_ICR_VMMB)
-+		igb_msg_task_preemptible_safe(adapter);
- 
- 	if (icr & E1000_ICR_LSC) {
- 		hw->mac.get_link_status = 1;
-@@ -8204,12 +8223,6 @@ static void igb_msg_task_preemptible_safe(struct igb_adapter *adapter)
- 	vfs_spin_unlock_irqrestore(adapter, flags);
- }
- 
--static __always_inline void igb_msg_task(struct igb_adapter *adapter)
--{
--	igb_msg_task_irq_safe(adapter);
--	igb_msg_task_preemptible_safe(adapter);
--}
--
- /**
-  *  igb_set_uta - Set unicast filter table address
-  *  @adapter: board private structure
--- 
-2.47.1
+> ---
+> v2…v3:
+>    - Use printk() instead of pr_emerg() to remain consistent with the
+>      other invocations in terms of printing context.
+> 
+>   arch/powerpc/kernel/traps.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index edf5cabe5dfdb..d6d77d92b3358 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -263,10 +263,10 @@ static int __die(const char *str, struct pt_regs *regs, long err)
+>   {
+>   	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
+>   
+> -	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
+> +	printk("%s PAGE_SIZE=%luK%s %s %s%s%s%s %s\n",
+>   	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+>   	       PAGE_SIZE / 1024, get_mmu_str(),
+> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+> +	       preempt_model_str(),
+>   	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+>   	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
+>   	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
 
