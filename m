@@ -1,150 +1,125 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7488F2528EA
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 14:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B845E2528EA
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 14:23:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739197315; cv=none; b=kbYgc3OmmQbMuDhif/yptBTGjlXrCXXd80q7GpuJZHVt7FoO7GCPJ0NoE2KLPqJxyhnw5yniYxien6oqdxgeEZatljOxBNbB3cCQ3udhotWlG6LGSl0OARpBAKWb7ZuVU+vrC1VysG1azvoIo54aydjsejuzG44L5uST7kRkfiY=
+	t=1739197413; cv=none; b=fydAX0srZoxVOAci0rXfaTf2A685tlbE/88FsVOX1fJnobPTlG6LysHrEvp0NS/U/ijJsaHNSVWQ3WHk3SuRz+j/u9JGivq1/bmm8zcj5tnsjptFitvK0ianJx0nb1bFjQQNZ0+W+Ft2rbQKgAwErzn+hiX3K5EXrVyeIUB0GFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739197315; c=relaxed/simple;
-	bh=QjyhJqVWK/aPIScXin0laTxOCQ4c2W8JoxFkjlYRIFI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KDbpcxC2NORsrRxdLFQCpt9uPBjM1HXMgDNmjR83vxT+o0EGWRJQd9kh3y3BPtJuTn3URFXdVdRU+4SWcMrmXhIUzLIaIvwPq9+7DPAQmao5ZYHeLshR93FFpT7QUpAaPi8W2/4iWTXKQ9+Sc9gy45pWkx2FbVMgfbet/gxUo5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CtEG8q1M; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1739197413; c=relaxed/simple;
+	bh=FDKA7JM0WWX/iStFmB8HmoIikA4WkwllGlcdD0D6T7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QPj3tVeIDPIO/ZFoHdkD2PjqzbtaZRxKSmCTHR6bnQ+fK8fVRGZ1Z1fXoCpdI4OKJfz7OZxTigB5IIvxen97wqphTywNSR8CszNgqRCNgQfY6dyUsgwmayoGKbtFAa1GhrO9HfKs+A4qrw/h9wZMFn4vseYlfg1jn0qeW8GhYKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UXwpM+UG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Y31wsz+8; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CtEG8q1M"
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51A9VON1016561;
-	Mon, 10 Feb 2025 14:21:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=vjf1sv
-	eKhz5pPyQoZkv531CSkARpadTwoJqnin4mwiw=; b=CtEG8q1MhORLTtDT5ojIHp
-	gA6pF4iaxSS1jfG/0jraIPGK/bOM4jozX5pgricOCiAFDUT59yDZymeBer+Gjl+J
-	Kby+FZlIMCOY31gL4XcPGu4XXfc1kMXcDBntN2g4DoTFMWqfJl5XiRbUOx0n1gGq
-	yNj8+RWzwdTQio97IrKcF/kkAMsCxtfk2FUBSzEsabpXOvLoazc4p2nLpXZy23Lz
-	mOsqzfZyTTw9Z8wSHr4VxlVTXJj45Jd9vS5Is2CgbbAhCH5iN+RyxU+n0KgnaTcn
-	/chMhx5z1jrew/NrXP2GHzaDk7V4b24Afq2lXXUfdE4WjeyL6sjST5NBWbKNdGGQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44q5gabqan-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Feb 2025 14:21:40 +0000 (GMT)
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51AELe3C019614;
-	Mon, 10 Feb 2025 14:21:40 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44q5gabqac-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Feb 2025 14:21:40 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51AD3smc011642;
-	Mon, 10 Feb 2025 14:21:39 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 44pktjpf5e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 10 Feb 2025 14:21:39 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51AELbsD51249480
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 10 Feb 2025 14:21:37 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 63FDE20043;
-	Mon, 10 Feb 2025 14:21:37 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7BB7020040;
-	Mon, 10 Feb 2025 14:21:34 +0000 (GMT)
-Received: from [9.39.21.225] (unknown [9.39.21.225])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon, 10 Feb 2025 14:21:34 +0000 (GMT)
-Message-ID: <b7740edc-ea89-488d-9d6e-d31f5f1dcae1@linux.ibm.com>
-Date: Mon, 10 Feb 2025 19:51:33 +0530
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UXwpM+UG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y31wsz+8"
+Date: Mon, 10 Feb 2025 15:23:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1739197409;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z9ihDNYI+zCbf0NSoNI9c/FdnZzk61DWASBxjVSt6UM=;
+	b=UXwpM+UGp5qjzqj1voR9MR6/yauR9Llt5V2fxsn/AkztJ7hHK4f3VMqPXIU/l8/1rq77yd
+	wOCKfd3fwE6jSZvxZyPJK0jvxUHyThQED6Sp9GHawBtU/AcYI+QaGXMjjZ8qy3KKKYcqEW
+	ZknWvJkTegstEEYOYYSlrh2JsguBBfdc0vC+wwF457yqYn+EfgZCW58ZYemyQrhFRXabxV
+	8Xxg3WhICEJi+gQaMmCakoUzTrWDUtnaxcXHYOAEvzAg8AcXlV5hVj4gN3FUVFwVRAjSX1
+	hTzC5cDetCLWBmgm8+EtGQsp2KjtUUlyO05Mi4Km/r9zb9GHkQuIvFfnaOcyTQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1739197409;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z9ihDNYI+zCbf0NSoNI9c/FdnZzk61DWASBxjVSt6UM=;
+	b=Y31wsz+8FgMeY5YVZLiMPgwoBy7PbtqoeifYuoiMjBYb+lLwumRrX2ocY65RNcp34aZTjU
+	R304GRy80KbeWkBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Ben Segall <bsegall@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Will Deacon <will@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 5/9] powerpc: Use preempt_model_str().
+Message-ID: <20250210142327.bCujH28L@linutronix.de>
+References: <20250203141632.440554-1-bigeasy@linutronix.de>
+ <20250203141632.440554-6-bigeasy@linutronix.de>
+ <65c6f60d-bb52-48bd-a02c-87ffd2a915d4@csgroup.eu>
+ <20250203160103.9DikC9FJ@linutronix.de>
+ <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
+ <20250204082223.6iNyq_KR@linutronix.de>
+ <7b51f7de-8e4b-4766-85ca-dee24832c693@linux.ibm.com>
+ <20250210105949.b9PKqiw7@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/9] sched: Add a generic function to return the
- preemption string.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Ben Segall <bsegall@google.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Will Deacon <will@kernel.org>
-References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-2-bigeasy@linutronix.de>
- <0d4418ab-d531-413c-bbbd-6c97ea320490@linux.ibm.com>
- <20250210105240.FTbUbs_F@linutronix.de>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <20250210105240.FTbUbs_F@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: F-R08ScM8UqN57hodzPSl_Ux_Kea7wU7
-X-Proofpoint-ORIG-GUID: dnOxxI9ICMWYA4Pr_rx9x-6HU1yIqJVj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-10_08,2025-02-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 clxscore=1015 suspectscore=0 mlxlogscore=563 spamscore=0
- lowpriorityscore=0 phishscore=0 malwarescore=0 bulkscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2501170000 definitions=main-2502100117
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250210105949.b9PKqiw7@linutronix.de>
 
+On 2025-02-10 11:59:50 [+0100], To Shrikanth Hegde wrote:
+> Thank you for noticing. I did remove it on other architectures, I
+> somehow missed it here. Will remove it from from the arch code.
 
+This is what I have for powerpc now. I'm going to repost the series,
+currently waiting for arm/x86.
 
-On 2/10/25 16:22, Sebastian Andrzej Siewior wrote:
-> On 2025-02-08 13:31:27 [+0530], Shrikanth Hegde wrote:
->>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
->>> index 165c90ba64ea9..bd2664755b09a 100644
->>> --- a/kernel/sched/core.c
->>> +++ b/kernel/sched/core.c
+-------->8-----------
 
-[...]
+Subject: [PATCH] powerpc: Rely on generic printing of preemption model.
 
->> nit: This means when it preempt=full, it is going to show PREEMPT or
->> PREEMPT_RT. Maybe that could be put into changelog or add code similar to
->> lazy for full as well, so it is easier for user to know if it is in
->> preempt=full model. In all other models, there is a suffix like PREEMPTLAZY.
->> Dynamic modes looks good.
-> 
-> Sorry, I can't follow. With PREEMPT_RT enabled, it will show einer
-> PREEMPT or PREEMPT_RT. It will add lazy if you pass preempt=lazy. It is
-> either 'full' or 'lazy'.
-> You can't have VOLUNTARY+lazy or VOLUNTARY+RT.
-> 
-> What do I miss?
+After the first printk in __die() there is show_regs() ->
+show_regs_print_info() which prints the current
+preemption model.
 
-No No. That's not what i meant.
+Remove the preempion model from the arch code.
 
-I was saying, as peter mentioned in the previous discussion, can we put 
-something like below in changelog/comment for a easier understanding.?
+Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Nicholas Piggin <npiggin@gmail.com>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Naveen N Rao <naveen@kernel.org>
+Cc: linuxppc-dev@lists.ozlabs.org
+Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ arch/powerpc/kernel/traps.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-"
-RT+DYN:	 PREEMPT_{RT,(dyn_mode)}
-RT+LAZY: PREEMPT_{RT,LAZY}
-RT+FULL: PREEMPT_RT
-
-DYN:       PREEMPT_(dyn_mode)
-FULL:      PREEMPT
-LAZY:      PREEMPTLAZY
-VOLUNTARY: VOLUNTARY
-NONE:      NONE
-"
-
-> 
-> Sebastian
+diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+index edf5cabe5dfdb..cb8e9357383e9 100644
+--- a/arch/powerpc/kernel/traps.c
++++ b/arch/powerpc/kernel/traps.c
+@@ -263,10 +263,9 @@ static int __die(const char *str, struct pt_regs *regs, long err)
+ {
+ 	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
+ 
+-	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
++	printk("%s PAGE_SIZE=%luK%s %s%s%s%s %s\n",
+ 	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+ 	       PAGE_SIZE / 1024, get_mmu_str(),
+-	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+ 	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+ 	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
+ 	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
+-- 
+2.47.2
 
