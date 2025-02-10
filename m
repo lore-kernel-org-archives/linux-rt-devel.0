@@ -1,88 +1,170 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A6822068D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 12:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 246992206A5
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 12:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739189191; cv=none; b=L70aj7KpgB42Juttg+ikQN4JYi9/BfVAGVn+yGobMddmbqGj+eNSM/JYZTgi6IbkbdNO8GECtqbYWWP+ldfjeDNZpEbb3qnxjmFzUN2HFhhFD8TKBRL9vJS3cb9ZGOXNpm/NFDuyW1jVLZsmSDQmNraka9zCpHLKl+/nuqKoEDg=
+	t=1739191793; cv=none; b=hogM8YRu1yVAJV9tiaRdisle5PErOlC8MSzPnwX8ZLFOhUuu4LoFHd460ezu+OXTwIlkoehvZIFC4lzPIDFhPqGygBE3RvrgZmDo0BSZifCuHPBNZvrdebIcb8QqU1jNTXOwm6H1+DXoqVTfx/EPBHfvWjgDiz9T4G4Rfp5BDTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739189191; c=relaxed/simple;
-	bh=H5c23d9e/m7VveiOFBzA2gzMxqciYhqAmG4A2quPJp8=;
+	s=arc-20240116; t=1739191793; c=relaxed/simple;
+	bh=GreohPdha/XftwZ8COXTNKe34IZkEFRBPFBA6saR5kc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/EwB2yZJ+k5q67oQxCAndnkrDUVvrF0v6wkz0pMoLeYJDDmr9bHJgU7eOZzDfjSeCBkTDzphBjdojpFkZf4RMDrb6JUIDxT6szy76MiAWXo+ZfZs3RNkfyB8frf/01PwW6DuYuJz25QXygf5TSF7kT7IHoFkmrLQcTSS05bCd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=awVn53XD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xIInMNod; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="awVn53XD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xIInMNod"
-Date: Mon, 10 Feb 2025 13:06:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739189187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2mynsei9YosbBjePqOYbXOxcLMlabRINg90zzUmsPO4=;
-	b=awVn53XDZRY0RLPVlviskbG703fT2Lfh8BHbmol1LEW/XHPc36+0ALXZuA+4gEIWwhef0h
-	In4PLDL1RdfVpR3iQcIpI38Q5zgvMXE4B0jGdvMOCkrmKk8k8tc+mt0xjvC4vlO/fWRbR+
-	tnTXEjoau902SGo/iwg3Ub4/LxulLfK5qS0mmzT9OIw2mCMrskEOr1Wa9byvmEU7YlTPjR
-	9C35O0tHzCH7B4U1YcJHsOkVJJKFVoqUo+rzBFK7F3m4G8mY4Wt9DRM3jvXyvC/+vJiGTC
-	s1v7xMPo2zAGLcsp6SleGcRTYO45+p3WOnkPpU2AFlVYm4uRaCz8I7EG9Xy09g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739189187;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2mynsei9YosbBjePqOYbXOxcLMlabRINg90zzUmsPO4=;
-	b=xIInMNodOdhcYWNE9Eyc7N6Tjdp2K2PsYW2QqZeduEJXoO462vHDFet8N98d6s5IXPuzJM
-	W/FGeSijdonuuCAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Cc: Ben Segall <bsegall@google.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=sRdTpQqY/nhJQCBZ/GaCerXLDgVJUgER2KCd7bXkUtKvf+IhcPJnrfzGk8Tk9FQs37G1S/kzI9J7QTeeTE6wwSk67Q870L7dVWtRg23p4jn6lUPHnR1UTVQFBVbys8jw6zpkIxn9rdjMbtxESNJbLwKQUWO1nuYt4g8C7pdnJMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 318B21007;
+	Mon, 10 Feb 2025 04:50:11 -0800 (PST)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F5213F58B;
+	Mon, 10 Feb 2025 04:49:47 -0800 (PST)
+Date: Mon, 10 Feb 2025 12:49:45 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev,
 	Catalin Marinas <catalin.marinas@arm.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Will Deacon <will@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
-Subject: Re: [PATCH v2 7/9] x86: Rely on generic printing of preemption model.
-Message-ID: <20250210120625.nNiVxgOJ@linutronix.de>
-References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-8-bigeasy@linutronix.de>
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>, linux-kernel@vger.kernel.org
+Subject: Re: BUG: debug_exception_enter() disables preemption and may call
+ sleeping functions on aarch64 with RT
+Message-ID: <Z6n16cK85JMyowDq@J2N7QTR9R3>
+References: <Z6YW_Kx4S2tmj2BP@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250203141632.440554-8-bigeasy@linutronix.de>
+In-Reply-To: <Z6YW_Kx4S2tmj2BP@uudg.org>
 
-On 2025-02-03 15:16:30 [+0100], To linux-kernel@vger.kernel.org wrote:
-> After __die_header(), __die_body() is always invoked. There we have
-> show_regs() -> show_regs_print_info() which prints the current
-> preemption model.
-> Remove it from the initial line.
+On Fri, Feb 07, 2025 at 11:22:57AM -0300, Luis Claudio R. Goncalves wrote:
+> Hello!
+
+Hi,
+
+> While running ssdd[1] from rt-tests on an aarch64 kernel with PREEMPT_RT and
+> debug features enabled, this bug was triggered on every single run:
 > 
-> Cc: Josh Poimboeuf <jpoimboe@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: x86@kernel.org
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> [1] https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/tree/src/ssdd/ssdd.c
+> 
+> # ssdd
+> 
+> [  273.115597] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+> [  273.115607] in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6077, name: ssdd
+> [  273.115611] preempt_count: 1, expected: 0
+> [  273.115614] RCU nest depth: 0, expected: 0
+> [  273.115617] 1 lock held by ssdd/6077:
+> [  273.115620]  #0: ffff07ffd77893e0 (&sighand->siglock){+.+.}-{3:3}, at: force_sig_info_to_task+0x58/0x200
+> [  273.115642] Preemption disabled at:
+> [  273.115644] [<ffffad24518bd1f4>] debug_exception_enter+0x1c/0x80
+> [  273.115653] CPU: 47 UID: 0 PID: 6077 Comm: ssdd Not tainted 6.13.0-rt3 #1 PREEMPT_RT
+> [  273.115659] Hardware name: GIGABYTE R152-P31-00/MP32-AR1-00, BIOS F31n (SCP: 2.10.20220810) 09/30/2022
+> [  273.115662] Call trace:
+> [  273.115664]  show_stack+0x34/0x98 (C)
+> [  273.115670]  dump_stack_lvl+0xa8/0xe8
+> [  273.115675]  dump_stack+0x1c/0x38
+> [  273.115680]  __might_resched+0x254/0x330
+> [  273.115686]  rt_spin_lock+0xcc/0x220
+> [  273.115692]  force_sig_info_to_task+0x58/0x200
+> [  273.115697]  force_sig_fault+0xd0/0x120
+> [  273.115702]  arm64_force_sig_fault+0x48/0x80
+> [  273.115707]  send_user_sigtrap+0x88/0xe8
+> [  273.115712]  single_step_handler+0x100/0x160
+> [  273.115717]  do_debug_exception+0x94/0x160
+> [  273.115722]  el0_dbg+0x54/0x150
+> [  273.115727]  el0t_64_sync_handler+0x134/0x138
+> [  273.115732]  el0t_64_sync+0x1ac/0x1b0
+> 
+> The ptrace usage in ssdd eventually exercises the code path that starts on
+> el0t_64_sync_handler() and may end up calling do_debug_exception(), which
+> calls debug_exception_enter() that disables preemption.
+> 
+> Looking at the backtrace, later in the call chain force_sig_info_to_task()
+> tries to take a spinlock, which on PREEMPT_RT becomes a rtmutex and could
+> sleep in case of contention. That triggers the "BUG: sleeping function
+> called from invalid context" warning.
+> 
+> It is also possible to reproduce the problem in an aarch64 kernel with
+> PREEMPT_RT enabled, no extra debug features, by running ssdd in a loop.
+> With that we can see not only the backtrace reported above but also other
+> instances where the process is scheduled out while preemption is disabled:
+> 
+> # while :; do ssdd; done
+> 
+> [  754.673678] BUG: scheduling while atomic: ssdd/7340/0x00000002
+> [  754.673682] Modules linked in: qrtr rfkill sunrpc vfat fat acpi_ipmi ipmi_ssif arm_spe_pmu igb ipmi_devintf ipmi_msghandler arm_dmc620_pmu arm_cmn cppc_cpufreq arm_dsu_pmu loop dm_multipath nfnetlink xfs nvme ghash_ce sha2_ce sha256_arm64 nvme_core sha1_ce nvme_auth sbsa_gwdt ast i2c_algo_bit i2c_designware_platform xgene_hwmon i2c_designware_core dm_mirror dm_region_hash dm_log dm_mod fuse
+> [  754.673703] Preemption disabled at:
+> [  754.673703] [<ffffa87a17ca470c>] do_debug_exception+0x54/0x100
+> [  754.673710] CPU: 102 UID: 0 PID: 7340 Comm: ssdd Kdump: loaded Not tainted 6.14.0-rc1 #1
+> [  754.673712] Hardware name: GIGABYTE R152-P31-00/MP32-AR1-00, BIOS F31n (SCP: 2.10.20220810) 09/30/2022
+> [  754.673713] Call trace:
+> [  754.673714]  show_stack+0x34/0x98 (C)
+> [  754.673718]  dump_stack_lvl+0x80/0xa8
+> [  754.673721]  dump_stack+0x18/0x2c
+> [  754.673722]  __schedule_bug+0x90/0xc0
+> [  754.673726]  schedule_debug.isra.0+0x128/0x158
+> [  754.673728]  __schedule+0x68/0x690
+> [  754.673731]  schedule_rtlock+0x24/0x50
+> [  754.673733]  rtlock_slowlock_locked+0x1c0/0x350
+> [  754.673735]  rt_spin_lock+0xcc/0x130
+> [  754.673737]  obj_cgroup_charge+0x54/0x138
+> [  754.673740]  __memcg_slab_post_alloc_hook+0xcc/0x300
+> [  754.673743]  kmem_cache_alloc_noprof+0x304/0x338
+> [  754.673745]  __send_signal_locked+0x90/0x428
+> [  754.673748]  send_signal_locked+0xe4/0x140
+> [  754.673750]  force_sig_info_to_task+0xd0/0x160
+> [  754.673753]  force_sig_fault+0x6c/0xa8
+> [  754.673755]  arm64_force_sig_fault+0x48/0x80
+> [  754.673757]  send_user_sigtrap+0x54/0xd0
+> [  754.673759]  single_step_handler+0xc4/0xe0
+> [  754.673761]  do_debug_exception+0x7c/0x100
+> [  754.673762]  el0_dbg+0x40/0x158
+> [  754.673766]  el0t_64_sync_handler+0x134/0x138
+> [  754.673768]  el0t_64_sync+0x1ac/0x1b0
+> 
+> In this case one of the local_lock_* calls in (the functions called by)
+> obj_cgroup_charge() seems to hit contention and, as it is dealing with
+> rtmutexes, be effectively scheduled out to sleep.
+> 
+> The scary comment on top of debug_exception_enter() provides a reason for
+> preemption being disabled at that point, but it seems to open a can of worms
+> for PREEMPT_RT usage:
+> 
+>     /*
+>      * In debug exception context, we explicitly disable preemption despite
+>      * having interrupts disabled.
+>      * This serves two purposes: it makes it much less likely that we would
+>      * accidentally schedule in exception context and it will force a warning
+>      * if we somehow manage to schedule by accident.
+>      */
+>
+> This is the data I gathered so far, using both v6.13.0-rt3 and 6.14.0-rc1
+> for testing. But due to my ignorance wrt the debug exception treatment in
+> aarch64 I can't devise a solution for the observed behavior.
+> 
+> Any suggestions or comments?
 
-Is it okay, to route this via the sched tree?
+I don't have an immediate suggestion; I'll need to go think about this
+for a bit. Unfortunatealy, there are several nested cans of worms here.
+:/
 
-Sebastian
+In theory, we can go split out the EL0 "debug exceptions" into separate
+handlers, and wouldn't generally need to disable preemption for things
+like BRK or single-step.
+
+However, it's not immediately clear to me how we could handle
+watchpoints or breakpoints, since for those preemption/interruption
+could change the HW state under our feet, and we rely on single-step to
+skip past the watchpoint/breakpoint after it is handled.
+
+That, and last I looked reworking this we'd need to do a larger rework
+to split out those "debug exceptions" because of that way that currently
+bounces through the fault handling ligic in arch/arm64/mm/.
+
+Mark.
