@@ -1,37 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F00A2528F4;
-	Mon, 10 Feb 2025 15:03:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 407A62528E1
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 15:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739199825; cv=none; b=egYMR/MMDS2LTa4/2/Tholug83G76sqVpzdpQ3LqmQgKDYUwjAui2V6IHjgdV8KZNqE8yZuMe62qa+AkxdfI0ZgpLV66tLlUxQ/ng3EPUTPxTX0H6R2KsH3Y7TXXUT2PaRTawLf/rqYLYij4CDgTLdKRijlW0nKSYfiVZ50Ei9Y=
+	t=1739200584; cv=none; b=MYdX/pHNxJLh2h2zTD7dYslKbYB3WN0F/V6+omdqIwlKLpNeq++33L5d2W7gAJ94eizwpYp1KP2EMpHbMqpKxUGDXjz2dYgOrXWhIE1hHZAKINfiDTZX7pO4k/6VQd6IfKm48ENHoAudO2pScSvYcw9J9/AcabWKRln9VMKtfJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739199825; c=relaxed/simple;
-	bh=8CYs7UScYRbBksTKxuHuJ5vtjzDxeXmV0V9sf77Qyko=;
+	s=arc-20240116; t=1739200584; c=relaxed/simple;
+	bh=yFqEwFQVYDr4xD5HeQRBZzXl/2LV8l8Outuncqf4vvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QXLilvLY6HVD/tee3CIzU6Zavcf+YdroE0k9PNV6tjrrzT7iS49ERkfXjiSEdVdPf9eWvMiLE0FGBax4SAcpiSXZsaf5kqgm8sX908NaMPuwmLmTNTmm7p7bztV4g1bPkZscEJnCqIm1PHN16XF0G88lJlUIQT/DVheiXeeqPe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOBvXMGP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThJQB7XssDCq3aFG5et/md1NixAlO0M/ow/smKBENC8A8fcjihq9DfLK9rSPz3YIBdij6wfeLFNHnrFsy3rZf0sd5R3pB1+j5kOoPOMIz4qfx+fZVn1WeWJ5JaGJGHbI81Vc+18ruPdJh4X1qUhodSd4GN6qTDo/bmRcii49RjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=VFZf6KvB; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOBvXMGP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2074FC4CED1;
-	Mon, 10 Feb 2025 15:03:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1739199822;
-	bh=8CYs7UScYRbBksTKxuHuJ5vtjzDxeXmV0V9sf77Qyko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iOBvXMGPHI4ya+tqEL+XKcedObEId9kWSttOpm3xA6UyBw1V7zRmuXQlNq1l1zK8C
-	 UGov5mvt6xPA8quHY7T/3l0QWr21cbPhkJ/bQPIXLP74FSdZVhiXalSXG6eUfiqcvC
-	 DwztCKLuy4pMlbXh6nuOHWT8JdN2RF9otjc5eXvimJadcPUUoqO6Ns6qNWiHsI3XDi
-	 /8ib3EjUDrECUZGXcUWwHDdQTsQhdrxUydyPGZu80PojMqvPgtcKoP3WAKzq1Nw63e
-	 /8aKs6x6qqgSIjSAfbTC0zlaw/1m+UXXhGr5GWtUKA+am9izmCvUAZ5l7LsgrnCVJP
-	 BcQ4FdTDBGZ1w==
-Date: Mon, 10 Feb 2025 15:03:36 +0000
-From: Will Deacon <will@kernel.org>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="VFZf6KvB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=24qpgPKCLX23k1AKR52IOhRUFCOiLCPIqtuu4KporW4=; b=VFZf6KvB5ssMyfWM08F+vvn2PN
+	iCje30a75JbS+LvoP+qqOZfyDpTeylYr7cMt+TtDr1SvKcV2YmJS+Qqw3QVOP1NgEqv35cwuGlL/m
+	AGyugs113kfS5OtwK9Eqb3rI89bGRweuDFyIm6CdFbJ5h9ipX2MY8BMGq44xgPlO8BZ78KoyOveeL
+	+5d2bmF9sFYM4Ezxu+bNhNunN5LvttxOeLD280YBi3nmqESnveq4gMsCilfzxh2QmJPAY7Al1Jn4Z
+	gNGsaFmOVIIjcmBgkdCh8f5I658IlbV5vB2lOT7q5sw0LZaLnisrnT9iMw/KjRwaedwPYakP9QI8N
+	jDRtw+AA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51130)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1thVWB-0007Hf-1n;
+	Mon, 10 Feb 2025 15:16:15 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1thVW7-0007bH-1a;
+	Mon, 10 Feb 2025 15:16:11 +0000
+Date: Mon, 10 Feb 2025 15:16:11 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
 	Ben Segall <bsegall@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
 	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
@@ -40,13 +52,12 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 4/9] arm64: Rely on generic printing of preemption
- model.
-Message-ID: <20250210150336.GA7568@willie-the-truck>
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/9] arm: Rely on generic printing of preemption model.
+Message-ID: <Z6oYO5uKlEJ8C8Ne@shell.armlinux.org.uk>
 References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-5-bigeasy@linutronix.de>
- <20250210120522.VvikzMr_@linutronix.de>
+ <20250203141632.440554-4-bigeasy@linutronix.de>
+ <20250210120429.iFfBClW1@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -55,24 +66,28 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250210120522.VvikzMr_@linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20250210120429.iFfBClW1@linutronix.de>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Mon, Feb 10, 2025 at 01:05:22PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-02-03 15:16:27 [+0100], To linux-kernel@vger.kernel.org wrote:
-> > __die() invokes later show_regs() -> show_regs_print_info() which prints
-> > the current preemption model.
+On Mon, Feb 10, 2025 at 01:04:29PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-02-03 15:16:26 [+0100], To linux-kernel@vger.kernel.org wrote:
+> > __die() invokes later __show_regs() -> show_regs_print_info() which
+> > prints the current preemption model.
 > > Remove it from the initial line.
 > > 
-> > Cc: Catalin Marinas <catalin.marinas@arm.com>
-> > Cc: Will Deacon <will@kernel.org>
+> > Cc: Russell King <linux@armlinux.org.uk>
 > > Cc: linux-arm-kernel@lists.infradead.org
 > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > 
 > Is it okay, to route this via the sched tree?
 
-Fine by me:
+Sorry, its not obvious where show_regs_print_info() prints this.
+dump_stack_print_info() itself doesn't directly. print_worker_info()
+doesn't. print_stop_info() doesn't. Not sure whether print_scx_info()
+does.
 
-Acked-by: Will Deacon <will@kernel.org>
+Maybe showing example output would help?
 
-Will
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
