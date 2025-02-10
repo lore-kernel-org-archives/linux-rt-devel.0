@@ -1,44 +1,46 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9E323E23A
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 15:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F522580F3
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 16:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739201949; cv=none; b=t4g8IutfmHiof6fqPtjM8LX3VImRWKCpWrjkh8pWDVUNdutieGnJSYpWuw1OzelZBr57PynvIRt8gKBJCpsdTWLXv6JnqkEWKBE0CuArHqGAIco9AYJDXP8I0K6mLWiKeK/SDm1pZxKURLXCUEYmrxK7POGtXsaXkeUyEYagP2o=
+	t=1739204828; cv=none; b=KmGV7FrQ9ehL3k3cFpGEJDh+4ZxSZCFDxING+jg+GvbrK/QFDRf3q9kNr5acqOo7DoYyu8uUH5zbb6KEhsP+rs6gE8lpW//tSD/WqBAczqLOaibmrSXl8gEGJ9T0R6ingg7b3RfARPxF+bIdERsiASCOTc1Vh0oD9YonQhkX3AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739201949; c=relaxed/simple;
-	bh=bhIHagS9meSabUPfTGuF7xlaMWOXvPmjoZ4/jfSEJsI=;
+	s=arc-20240116; t=1739204828; c=relaxed/simple;
+	bh=OrGnLEaPA40Ypy50xxSGb6NuXyxZCay7HGv5220MxuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GTW46702Y3t+rOEOOILPN0cIAa/arqlj4Wz+5ripMF/9bxplkY+oC6FLWFZFaDNZzwFtIW2Bm+KFh7283NGvnhdDwiWyN2wB63L8f72RbasttXGUA10Hms3mWOCa+smk/r8aJfVGvGilRpee+eknCvYVWJxyBDQEghlbswv00B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qPV+niyt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JC0Ek3bS; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=gUVmuDJQFY3pufzI/WBa1CIcAp7nqDTt1xMXyqxQ0KbtEakodzx43ra0AqILOppbeZaHZLhZhnyOH+23uCZS/Jitbk8Z2VmfK7Fj/zZKt6y8k35N5yLiCGHwFM9UfzOHk42WVawfOeHryL1nJF3Ii1683WPy4N+z/tnmpDsQSc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KHpd0st0; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qPV+niyt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JC0Ek3bS"
-Date: Mon, 10 Feb 2025 16:39:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739201945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FVUBiaoeWeksMfqaUXNGg5STI1bae+8Yqz5cnicePdE=;
-	b=qPV+niytIhYOhSM7bRzAb3GXPXTNY9jj6pj718SCdZX+U5XVSAcgRr1JLZodYs/9TFUSQt
-	jTYU6SV2RiLnrzyV2jZDlWgwA+0bquQFo03QwdnTXBDhwoYoe980wGtHj4QxOr06RT4DSt
-	8ddXsI2fpEn0ubX+eaF5UTWuqud2TYsdIroRau2Wndbgs7his95TPoNyABloBlr/7Xw/8B
-	bDKfEPenzMJSWoeKq9+icGVHgTD7Rkxg33pUjFZJJ/YkgFjPMFLrW73YmrnhMNCOtBBhkp
-	QAgElWCt1siSQL7Evu4w9YM3as5CrBCeEYAFvv9c01I61W2gqIxxSA/IPmg7IQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739201945;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FVUBiaoeWeksMfqaUXNGg5STI1bae+8Yqz5cnicePdE=;
-	b=JC0Ek3bSh7t7IktBNjUPgmVDll0jqwdgwkJ2nqdgT6WYgw2HTZbpzp2lOtqAK28AbE3d/0
-	9HFPIP14YS4FHwAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KHpd0st0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qDMJjCqZ/aFVApe15tYIJ4bIehn01MV7+TcmlbZlq+Q=; b=KHpd0st00sXgIk5WQxaRD3PvIq
+	NmQRNFN4gKRGhvM2ZswwRvR8EY4O3sKMmdFbIyDhLR3obsXQsWt2annXPCSZ8A3EXoqarpy5JWCh3
+	ZKY5bPInmuAQCN7ptDBsyytcla8pl1uShiwSGAAm9c9jMmrCUVWUxwGL49m3c5OEcRyXqc+TGrGpX
+	gmr05OQBjHBsOatVqA91435FyrPtj3GP6+dbd1GM53QNYesVqHq6lIQDnJ3gEJ5PF4gt/La5IzGjU
+	uJC30xUG3Ws07gXKNPbFMACQDPFhGIfHPvQRwSCx64KFNiNkh7VOtHufm33v206AU0Tmzbl3tqlJt
+	iX6GaSXQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53332)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1thWcd-0007UO-2b;
+	Mon, 10 Feb 2025 16:26:59 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1thWca-0007dV-0y;
+	Mon, 10 Feb 2025 16:26:56 +0000
+Date: Mon, 10 Feb 2025 16:26:56 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Ben Segall <bsegall@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -52,59 +54,99 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
 Subject: Re: [PATCH v2 3/9] arm: Rely on generic printing of preemption model.
-Message-ID: <20250210153902.06VTSS6d@linutronix.de>
+Message-ID: <Z6oo0MExaEy5J55_@shell.armlinux.org.uk>
 References: <20250203141632.440554-1-bigeasy@linutronix.de>
  <20250203141632.440554-4-bigeasy@linutronix.de>
  <20250210120429.iFfBClW1@linutronix.de>
  <Z6oYO5uKlEJ8C8Ne@shell.armlinux.org.uk>
+ <20250210153902.06VTSS6d@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z6oYO5uKlEJ8C8Ne@shell.armlinux.org.uk>
+In-Reply-To: <20250210153902.06VTSS6d@linutronix.de>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 2025-02-10 15:16:11 [+0000], Russell King (Oracle) wrote:
-> On Mon, Feb 10, 2025 at 01:04:29PM +0100, Sebastian Andrzej Siewior wrote:
-> > On 2025-02-03 15:16:26 [+0100], To linux-kernel@vger.kernel.org wrote:
-> > > __die() invokes later __show_regs() -> show_regs_print_info() which
-> > > prints the current preemption model.
-> > > Remove it from the initial line.
+On Mon, Feb 10, 2025 at 04:39:02PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-02-10 15:16:11 [+0000], Russell King (Oracle) wrote:
+> > On Mon, Feb 10, 2025 at 01:04:29PM +0100, Sebastian Andrzej Siewior wrote:
+> > > On 2025-02-03 15:16:26 [+0100], To linux-kernel@vger.kernel.org wrote:
+> > > > __die() invokes later __show_regs() -> show_regs_print_info() which
+> > > > prints the current preemption model.
+> > > > Remove it from the initial line.
+> > > > 
+> > > > Cc: Russell King <linux@armlinux.org.uk>
+> > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > > > 
-> > > Cc: Russell King <linux@armlinux.org.uk>
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> > > Is it okay, to route this via the sched tree?
 > > 
-> > Is it okay, to route this via the sched tree?
+> > Sorry, its not obvious where show_regs_print_info() prints this.
+> > dump_stack_print_info() itself doesn't directly. print_worker_info()
+> > doesn't. print_stop_info() doesn't. Not sure whether print_scx_info()
+> > does.
+> > 
+> > Maybe showing example output would help?
 > 
-> Sorry, its not obvious where show_regs_print_info() prints this.
-> dump_stack_print_info() itself doesn't directly. print_worker_info()
-> doesn't. print_stop_info() doesn't. Not sure whether print_scx_info()
-> does.
+> Patch 2/9 adds this. [ https://lore.kernel.org/all/20250203141632.440554-3-bigeasy@linutronix.de/ ]
+
+That explains it - patch 2 is only sent to a very restricted subset
+and not even to mailing lists that would be relevant in the absence
+of a direct Cc. Ditto patch 1. All I received were patches 3 and 4.
+
+In patch 1:
+
++	static char buf[128];
+...
++		seq_buf_init(&s, buf, 128);
+
+Why not sizeof(buf) ?
+
+For patch 2:
+
+"Use
+pr_warn() instead of printk() to pass a loglevel. This makes it part of
+generic WARN/ BUG traces.
+"
+
+How about cases which use dump_stack_lvl() to dump the output at a more
+severe level than warning? Should the message be printed at a less
+severe level than the other messages?
+
+> This this applied, die("test") on ARM ends as:
 > 
-> Maybe showing example output would help?
+> [    1.595106] Kernel panic - not syncing: test
+> [    1.596044] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W 6.14.0-rc2-00009-gb80a798df08c-dirty #13 PREEMPT
+> [    1.596768] Tainted: [W]=WARN
+> [    1.596946] Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
 
-Patch 2/9 adds this. [ https://lore.kernel.org/all/20250203141632.440554-3-bigeasy@linutronix.de/ ]
+Hmm. I've no idea what you're testing, what you've quoted makes zero
+sense to me.
 
-This this applied, die("test") on ARM ends as:
+First...
 
-[    1.595106] Kernel panic - not syncing: test
-[    1.596044] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W          6.14.0-rc2-00009-gb80a798df08c-dirty #13 PREEMPT 
-[    1.596768] Tainted: [W]=WARN
-[    1.596946] Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
-[    1.597407] Call trace: 
-[    1.598183]  unwind_backtrace from show_stack+0x10/0x14
-[    1.599231]  show_stack from dump_stack_lvl+0x50/0x64
-[    1.599492]  dump_stack_lvl from panic+0x114/0x358
-[    1.599824]  panic from kernel_init+0x64/0x74
-[    1.600048]  kernel_init from ret_from_fork+0x14/0x38
-[    1.600349] Exception stack(0xdf829fb0 to 0xdf829ff8)
-[    1.600730] 9fa0:                                     00000000 00000000 00000000 00000000
-[    1.601102] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[    1.601447] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[    1.603163] ---[ end Kernel panic - not syncing: test ]---
+void die(const char *str, struct pt_regs *regs, int err)
 
-Sebastian
+is the die function prototype, so it takes a bit more than what you've
+indicated.
+
+Second, "Kernel panic" suggests that panic() has been called. However,
+this only happens when die() is called (or more specifically
+oops_end()) from either interrupt context (in which case we get
+"Kernel panic - Fatal exception in interrupt") or if panic_on_oops
+is set ("Kernel panic - Fatal exception").
+
+I don't see a path which would result in
+"Kernel panic - not syncing: test" to be printed from this path.
+
+Since __die() does not call dump_stack(), we're not going to call
+dump_stack_print_info() from __die(), so I don't think it's appropriate
+to remove this information.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
