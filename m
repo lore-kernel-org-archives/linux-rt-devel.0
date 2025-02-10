@@ -1,91 +1,78 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67E22528FD
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 14:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F00A2528F4;
+	Mon, 10 Feb 2025 15:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739197513; cv=none; b=mxP8aosArUSZWvR/H1Axp+5BwCls+HGgMtJH0StzJkT8ITEmsXgJd5zIwocjPGMWd3c+HkfRB+KCPuF3wzI5XRgvOmrbExb/RcRoeXqcckcuwGotU7X1X4Uim2rFT+hnms35mYotXKjeUbYqRPMqT5Tm3kSM9qmcUHkuKOZ+Y5w=
+	t=1739199825; cv=none; b=egYMR/MMDS2LTa4/2/Tholug83G76sqVpzdpQ3LqmQgKDYUwjAui2V6IHjgdV8KZNqE8yZuMe62qa+AkxdfI0ZgpLV66tLlUxQ/ng3EPUTPxTX0H6R2KsH3Y7TXXUT2PaRTawLf/rqYLYij4CDgTLdKRijlW0nKSYfiVZ50Ei9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739197513; c=relaxed/simple;
-	bh=EnW58wjUZzLHH0kmASDa4WNdQfuc4EB1UDxkeEIolzk=;
+	s=arc-20240116; t=1739199825; c=relaxed/simple;
+	bh=8CYs7UScYRbBksTKxuHuJ5vtjzDxeXmV0V9sf77Qyko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=izkeil3i5e6Cm+eGhP5WvT3P3KbLLTxGUgKCZl+lEti20tzh4aXiEvRNuuAXLM5Pdy/E3huRars99DR/xTt9tyVsbTHUEOusPIxNKKW0Nm4v65NbdZbJ4UMEkRv76rLMuBtPh+OomR8Xwkl18uUetUMJU3s/d/ejDQMPAwEhMAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bqMvMye0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/6xCl8BO; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=QXLilvLY6HVD/tee3CIzU6Zavcf+YdroE0k9PNV6tjrrzT7iS49ERkfXjiSEdVdPf9eWvMiLE0FGBax4SAcpiSXZsaf5kqgm8sX908NaMPuwmLmTNTmm7p7bztV4g1bPkZscEJnCqIm1PHN16XF0G88lJlUIQT/DVheiXeeqPe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iOBvXMGP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bqMvMye0";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/6xCl8BO"
-Date: Mon, 10 Feb 2025 15:25:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739197510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1vWLuCbK7H0/XbL5hiAH8Qspdgx/y77kys0v1c8WNbE=;
-	b=bqMvMye06P0vCJgC9iRO7t+cH0gAejDkGd+gzF69uFUC8DtFGyw8SpZJWpqi1/ZM6+D0z5
-	tdk2Uia5EtUBjbkSHNT0Uzu/ePwnfmO4gcVrq2st9cayG38Q6Mi8LrBuHwCtltLZPOBN6h
-	DBNyxCGiFshaCz/aZnQtWpSPjys5hsaFMoJ3WVvGihordxfn6NeaWHPN9lEe11hYC3JPFp
-	ro2G3c2z5al9NnxBnuGS/qdrcVAgEJvBPIwZ4n97nXc0Tlvhu/Y6g7GA4nxM5IW5kuYJyU
-	qFpqaXwXlf3V9tYDsqI1b3ec2bMStL5kdnV9bOuwr3zkJLG7ol98DQTcbJj+/w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739197510;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1vWLuCbK7H0/XbL5hiAH8Qspdgx/y77kys0v1c8WNbE=;
-	b=/6xCl8BOB85LeK7geGOncv1o6lssisxynRkhnUg55mat89XZIT/oSjc5swWLnLOhxTLVrE
-	dCd12ZXpJNASGuAA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iOBvXMGP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2074FC4CED1;
+	Mon, 10 Feb 2025 15:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739199822;
+	bh=8CYs7UScYRbBksTKxuHuJ5vtjzDxeXmV0V9sf77Qyko=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iOBvXMGPHI4ya+tqEL+XKcedObEId9kWSttOpm3xA6UyBw1V7zRmuXQlNq1l1zK8C
+	 UGov5mvt6xPA8quHY7T/3l0QWr21cbPhkJ/bQPIXLP74FSdZVhiXalSXG6eUfiqcvC
+	 DwztCKLuy4pMlbXh6nuOHWT8JdN2RF9otjc5eXvimJadcPUUoqO6Ns6qNWiHsI3XDi
+	 /8ib3EjUDrECUZGXcUWwHDdQTsQhdrxUydyPGZu80PojMqvPgtcKoP3WAKzq1Nw63e
+	 /8aKs6x6qqgSIjSAfbTC0zlaw/1m+UXXhGr5GWtUKA+am9izmCvUAZ5l7LsgrnCVJP
+	 BcQ4FdTDBGZ1w==
+Date: Mon, 10 Feb 2025 15:03:36 +0000
+From: Will Deacon <will@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ben Segall <bsegall@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
+	Ben Segall <bsegall@google.com>,
 	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
 	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 1/9] sched: Add a generic function to return the
- preemption string.
-Message-ID: <20250210142508.vmMQUDkJ@linutronix.de>
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 4/9] arm64: Rely on generic printing of preemption
+ model.
+Message-ID: <20250210150336.GA7568@willie-the-truck>
 References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-2-bigeasy@linutronix.de>
- <0d4418ab-d531-413c-bbbd-6c97ea320490@linux.ibm.com>
- <20250210105240.FTbUbs_F@linutronix.de>
- <b7740edc-ea89-488d-9d6e-d31f5f1dcae1@linux.ibm.com>
+ <20250203141632.440554-5-bigeasy@linutronix.de>
+ <20250210120522.VvikzMr_@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b7740edc-ea89-488d-9d6e-d31f5f1dcae1@linux.ibm.com>
+In-Reply-To: <20250210120522.VvikzMr_@linutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 2025-02-10 19:51:33 [+0530], Shrikanth Hegde wrote:
-> No No. That's not what i meant.
+On Mon, Feb 10, 2025 at 01:05:22PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-02-03 15:16:27 [+0100], To linux-kernel@vger.kernel.org wrote:
+> > __die() invokes later show_regs() -> show_regs_print_info() which prints
+> > the current preemption model.
+> > Remove it from the initial line.
+> > 
+> > Cc: Catalin Marinas <catalin.marinas@arm.com>
+> > Cc: Will Deacon <will@kernel.org>
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 > 
-> I was saying, as peter mentioned in the previous discussion, can we put
-> something like below in changelog/comment for a easier understanding.?
+> Is it okay, to route this via the sched tree?
 
-Ah. Okay, sure. I didn't realize anyone was asking but for this.
+Fine by me:
 
-> "
-> RT+DYN:	 PREEMPT_{RT,(dyn_mode)}
-> RT+LAZY: PREEMPT_{RT,LAZY}
-> RT+FULL: PREEMPT_RT
-> 
-> DYN:       PREEMPT_(dyn_mode)
-> FULL:      PREEMPT
-> LAZY:      PREEMPTLAZY
-> VOLUNTARY: VOLUNTARY
-> NONE:      NONE
-> "
+Acked-by: Will Deacon <will@kernel.org>
 
-Sebastian
+Will
