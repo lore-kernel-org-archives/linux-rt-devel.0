@@ -1,152 +1,167 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F522580F3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 16:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5BB023956A
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 17:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739204828; cv=none; b=KmGV7FrQ9ehL3k3cFpGEJDh+4ZxSZCFDxING+jg+GvbrK/QFDRf3q9kNr5acqOo7DoYyu8uUH5zbb6KEhsP+rs6gE8lpW//tSD/WqBAczqLOaibmrSXl8gEGJ9T0R6ingg7b3RfARPxF+bIdERsiASCOTc1Vh0oD9YonQhkX3AU=
+	t=1739208781; cv=none; b=An5Lmpb/4c8uDSzq6NrVTt0QSDmZVRuN9kuFyntgkeC1u2zg6067TTIy3twbqjKR82TTQZ0p+H/cV7/ZsR0O1Ag0DDBQlhQ7HEzpFyGAW19UVcrH3RGEHIzNxKhapZSflG/CnnJ/wes2Eq/KM6r9FDGtJmvnzBaTaT2VmndKu70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739204828; c=relaxed/simple;
-	bh=OrGnLEaPA40Ypy50xxSGb6NuXyxZCay7HGv5220MxuU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUVmuDJQFY3pufzI/WBa1CIcAp7nqDTt1xMXyqxQ0KbtEakodzx43ra0AqILOppbeZaHZLhZhnyOH+23uCZS/Jitbk8Z2VmfK7Fj/zZKt6y8k35N5yLiCGHwFM9UfzOHk42WVawfOeHryL1nJF3Ii1683WPy4N+z/tnmpDsQSc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KHpd0st0; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1739208781; c=relaxed/simple;
+	bh=0OyYBLRDwLt/cJAndEW9LQGL1foRqsUDW/Fg+WVSk+w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MsGVyXlUzGY3zC1uC6+3zP+liu0tNkZXqOcrxU6YJU4V5dHgk+IWa82cbc3dYV0LXTLxHGNLohO10SXH6S1UjMOOkuKoIuR6AAW9LDULwaOUNFfGNDbiX4tN08rnI4Qw5wMCzq21LnIFl0e5Ksd4BhOiaoPYn5gfQ0vjucxZ4BQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=tHiPL5Aw; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KHpd0st0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=qDMJjCqZ/aFVApe15tYIJ4bIehn01MV7+TcmlbZlq+Q=; b=KHpd0st00sXgIk5WQxaRD3PvIq
-	NmQRNFN4gKRGhvM2ZswwRvR8EY4O3sKMmdFbIyDhLR3obsXQsWt2annXPCSZ8A3EXoqarpy5JWCh3
-	ZKY5bPInmuAQCN7ptDBsyytcla8pl1uShiwSGAAm9c9jMmrCUVWUxwGL49m3c5OEcRyXqc+TGrGpX
-	gmr05OQBjHBsOatVqA91435FyrPtj3GP6+dbd1GM53QNYesVqHq6lIQDnJ3gEJ5PF4gt/La5IzGjU
-	uJC30xUG3Ws07gXKNPbFMACQDPFhGIfHPvQRwSCx64KFNiNkh7VOtHufm33v206AU0Tmzbl3tqlJt
-	iX6GaSXQ==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:53332)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1thWcd-0007UO-2b;
-	Mon, 10 Feb 2025 16:26:59 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1thWca-0007dV-0y;
-	Mon, 10 Feb 2025 16:26:56 +0000
-Date: Mon, 10 Feb 2025 16:26:56 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ben Segall <bsegall@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/9] arm: Rely on generic printing of preemption model.
-Message-ID: <Z6oo0MExaEy5J55_@shell.armlinux.org.uk>
-References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-4-bigeasy@linutronix.de>
- <20250210120429.iFfBClW1@linutronix.de>
- <Z6oYO5uKlEJ8C8Ne@shell.armlinux.org.uk>
- <20250210153902.06VTSS6d@linutronix.de>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="tHiPL5Aw"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51AB362O016388;
+	Mon, 10 Feb 2025 17:32:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=kYyrFW
+	YbzGdMrqABOt2hlSYtOyka49+cboKRHeEWiRU=; b=tHiPL5Awh120VosYGzER6Z
+	19B0U8TW48reM0F3f1hjCA80wk9fWTYJ/B01vbmi4Lo/D6mGAfmzVGKr4qT9wojt
+	OFgu3SWKBF84uFhp2zUW0V26LGvk/U4tIqtBwIa7NhvmlQ8EyK+/BU++Io0sTt9N
+	orN54TrDo+X5F/9g7F+ldj1iwXNabPfpMFJwZXJ3FzE4R1lgnjWzmfskP3yeuegH
+	78hUKxp+fZJJwAiZETDiJJ4oSkWstd+82V1aGE2OyAb2RYNCyu9u5qK79HZnlhCU
+	RykX4Lhx6Rg7QXJhOgXgXAa/ztCWVVAcrLKa3xw8OgKxYU26Zw1EkFppumemjDTg
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44q5gacrt5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 17:32:22 +0000 (GMT)
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 51AHGnjS027352;
+	Mon, 10 Feb 2025 17:32:22 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 44q5gacrsx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 17:32:22 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 51AHJE3A028735;
+	Mon, 10 Feb 2025 17:32:21 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 44pma1f2dc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 17:32:21 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 51AHWJiJ29295064
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 10 Feb 2025 17:32:19 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5E16320043;
+	Mon, 10 Feb 2025 17:32:19 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4664520040;
+	Mon, 10 Feb 2025 17:32:15 +0000 (GMT)
+Received: from [9.39.21.225] (unknown [9.39.21.225])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon, 10 Feb 2025 17:32:15 +0000 (GMT)
+Message-ID: <f4d1805b-e28d-4371-a7bb-cca55efe4854@linux.ibm.com>
+Date: Mon, 10 Feb 2025 23:02:12 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250210153902.06VTSS6d@linutronix.de>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/9] powerpc: Use preempt_model_str().
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Ben Segall <bsegall@google.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+        Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Will Deacon <will@kernel.org>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>, Naveen N Rao <naveen@kernel.org>,
+        linuxppc-dev@lists.ozlabs.org
+References: <20250203141632.440554-1-bigeasy@linutronix.de>
+ <20250203141632.440554-6-bigeasy@linutronix.de>
+ <65c6f60d-bb52-48bd-a02c-87ffd2a915d4@csgroup.eu>
+ <20250203160103.9DikC9FJ@linutronix.de>
+ <51999b8e-61c0-48b7-b744-c83d39e7f311@csgroup.eu>
+ <20250204082223.6iNyq_KR@linutronix.de>
+ <7b51f7de-8e4b-4766-85ca-dee24832c693@linux.ibm.com>
+ <20250210105949.b9PKqiw7@linutronix.de>
+ <20250210142327.bCujH28L@linutronix.de>
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20250210142327.bCujH28L@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Ez6cL0fY6xcj2Nh_3tBWUALCegRkBZNy
+X-Proofpoint-ORIG-GUID: SJVbL5SwI_xYJLjBpcKAs46Hby7dReIy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-02-10_09,2025-02-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 suspectscore=0 mlxlogscore=999 spamscore=0
+ lowpriorityscore=0 phishscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2501170000 definitions=main-2502100143
 
-On Mon, Feb 10, 2025 at 04:39:02PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-02-10 15:16:11 [+0000], Russell King (Oracle) wrote:
-> > On Mon, Feb 10, 2025 at 01:04:29PM +0100, Sebastian Andrzej Siewior wrote:
-> > > On 2025-02-03 15:16:26 [+0100], To linux-kernel@vger.kernel.org wrote:
-> > > > __die() invokes later __show_regs() -> show_regs_print_info() which
-> > > > prints the current preemption model.
-> > > > Remove it from the initial line.
-> > > > 
-> > > > Cc: Russell King <linux@armlinux.org.uk>
-> > > > Cc: linux-arm-kernel@lists.infradead.org
-> > > > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > > 
-> > > Is it okay, to route this via the sched tree?
-> > 
-> > Sorry, its not obvious where show_regs_print_info() prints this.
-> > dump_stack_print_info() itself doesn't directly. print_worker_info()
-> > doesn't. print_stop_info() doesn't. Not sure whether print_scx_info()
-> > does.
-> > 
-> > Maybe showing example output would help?
+
+
+On 2/10/25 19:53, Sebastian Andrzej Siewior wrote:
+> On 2025-02-10 11:59:50 [+0100], To Shrikanth Hegde wrote:
+>> Thank you for noticing. I did remove it on other architectures, I
+>> somehow missed it here. Will remove it from from the arch code.
 > 
-> Patch 2/9 adds this. [ https://lore.kernel.org/all/20250203141632.440554-3-bigeasy@linutronix.de/ ]
-
-That explains it - patch 2 is only sent to a very restricted subset
-and not even to mailing lists that would be relevant in the absence
-of a direct Cc. Ditto patch 1. All I received were patches 3 and 4.
-
-In patch 1:
-
-+	static char buf[128];
-...
-+		seq_buf_init(&s, buf, 128);
-
-Why not sizeof(buf) ?
-
-For patch 2:
-
-"Use
-pr_warn() instead of printk() to pass a loglevel. This makes it part of
-generic WARN/ BUG traces.
-"
-
-How about cases which use dump_stack_lvl() to dump the output at a more
-severe level than warning? Should the message be printed at a less
-severe level than the other messages?
-
-> This this applied, die("test") on ARM ends as:
+> This is what I have for powerpc now. I'm going to repost the series,
+> currently waiting for arm/x86.
 > 
-> [    1.595106] Kernel panic - not syncing: test
-> [    1.596044] CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W 6.14.0-rc2-00009-gb80a798df08c-dirty #13 PREEMPT
-> [    1.596768] Tainted: [W]=WARN
-> [    1.596946] Hardware name: QEMU QEMU Virtual Machine, BIOS unknown 02/02/2022
+> -------->8-----------
+> 
+> Subject: [PATCH] powerpc: Rely on generic printing of preemption model.
+> 
+> After the first printk in __die() there is show_regs() ->
+> show_regs_print_info() which prints the current
+> preemption model.
+> 
+> Remove the preempion model from the arch code.
+> 
+> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Nicholas Piggin <npiggin@gmail.com>
+> Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Cc: Naveen N Rao <naveen@kernel.org>
+> Cc: linuxppc-dev@lists.ozlabs.org
+> Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>   arch/powerpc/kernel/traps.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/arch/powerpc/kernel/traps.c b/arch/powerpc/kernel/traps.c
+> index edf5cabe5dfdb..cb8e9357383e9 100644
+> --- a/arch/powerpc/kernel/traps.c
+> +++ b/arch/powerpc/kernel/traps.c
+> @@ -263,10 +263,9 @@ static int __die(const char *str, struct pt_regs *regs, long err)
+>   {
+>   	printk("Oops: %s, sig: %ld [#%d]\n", str, err, ++die_counter);
+>   
+> -	printk("%s PAGE_SIZE=%luK%s%s%s%s%s%s %s\n",
+> +	printk("%s PAGE_SIZE=%luK%s %s%s%s%s %s\n",
+>   	       IS_ENABLED(CONFIG_CPU_LITTLE_ENDIAN) ? "LE" : "BE",
+>   	       PAGE_SIZE / 1024, get_mmu_str(),
+> -	       IS_ENABLED(CONFIG_PREEMPT) ? " PREEMPT" : "",
+>   	       IS_ENABLED(CONFIG_SMP) ? " SMP" : "",
+>   	       IS_ENABLED(CONFIG_SMP) ? (" NR_CPUS=" __stringify(NR_CPUS)) : "",
+>   	       debug_pagealloc_enabled() ? " DEBUG_PAGEALLOC" : "",
 
-Hmm. I've no idea what you're testing, what you've quoted makes zero
-sense to me.
+Looks good to me.
 
-First...
-
-void die(const char *str, struct pt_regs *regs, int err)
-
-is the die function prototype, so it takes a bit more than what you've
-indicated.
-
-Second, "Kernel panic" suggests that panic() has been called. However,
-this only happens when die() is called (or more specifically
-oops_end()) from either interrupt context (in which case we get
-"Kernel panic - Fatal exception in interrupt") or if panic_on_oops
-is set ("Kernel panic - Fatal exception").
-
-I don't see a path which would result in
-"Kernel panic - not syncing: test" to be printed from this path.
-
-Since __die() does not call dump_stack(), we're not going to call
-dump_stack_print_info() from __die(), so I don't think it's appropriate
-to remove this information.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Reviewed-by: Shrikanth Hegde <sshegde@linux.ibm.com>
