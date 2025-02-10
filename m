@@ -1,232 +1,97 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mo-csw.securemx.jp (mo-csw1802.securemx.jp [210.130.202.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C67188596
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 05:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585C3199FBA;
+	Mon, 10 Feb 2025 06:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.130.202.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739164935; cv=none; b=ZFzjLzEiZhyhr9lfOD8CKl6AJGd+EmWn8EcqZ4iq1bfZ1K8riFSYU9Q8AO13Kz2TGQxCk4OvxM8q2fcTaAst5TwD1Hl/MucmTFgxzbh3VNJxjF/GRz1sj8xtRAWp7tgVYwUUWdRun/Ftba7DgmDeaCCjls2ZKsLXzy1Z/jObTjk=
+	t=1739170610; cv=none; b=oWT83BAd+bXd4sydJtrfsN2WC7srtLt+b4D3g3Rg1Ez+clQbJ0kGtRvbXobhfwZA8gUD+yWYhNqZaXmYz1yRrjre31jtVWB+eLqEhTWn2S9eyxncSRkJB8XgB4fRuOrBVAy+8Jzx3p2XLj6C5HhbP9QFdPyBcAf6KEGsm9VADwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739164935; c=relaxed/simple;
-	bh=AfGuIVJBNjMTAfPl/3or03tpYTjYY0PWai1Zt7mwR+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YgVbHjVRux+WOHBntOpviC4pxLopx2PZlVuitkngHwn6Qet3ipEKeIJRpOIHFTAaGWWssOzBnVvt7ehzQUR07QCHHWGxB82endVeugin6yJJT9GUDbWO02IeUt79ZssWlPB3in5alWuN9MiF24cQ8HtAqH0yoPUW8uhqRLPWHM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EayFJqKU; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739170610; c=relaxed/simple;
+	bh=r2bGSQuW3OUidgcECmo0HgSV1D5FG/L2Ld2WCzZKiPg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=cei6V2HFAzMH+8dxTaWqqKEq+sBK21Yr9+SDp3wy6hcQhUcYu1nFHmmT7jwOFM04oxywU2pHjitdT1qpRA4Tlz7OLnVMQ1+Y5S8+jX4FnKBRSIoB3DB51G2BN3dc2drzQufMAg2O4FWb8W5zdf8i9kXF2yfVcrP5PpVk2P/uf+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=kazuhiro3.hayashi@toshiba.co.jp header.b=knnD/rSR; arc=none smtp.client-ip=210.130.202.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EayFJqKU"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4718e6fffbeso8573181cf.1
-        for <linux-rt-devel@lists.linux.dev>; Sun, 09 Feb 2025 21:22:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739164932; x=1739769732; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NP6FiyAFqZZfQX95AIbNAITU3lunO+K/ljPYqazSung=;
-        b=EayFJqKUxQqvXlBrz8na8IHbQna1g6IefUD+Jnp9+6lzZ+biFw/DEuiea3qnSQYG9r
-         ZLfQl33gMDlMcErP5jVBWQix1hJC0MSrU9cJyyHvGadX6he3kdTkFsVcA2r7dZ4hD5Ff
-         MaBafy8vJmHLLY9cQKZfGi+ggF8lIZfMcpZT1sUFRNCYtb9pgRccSzLXZ5cJoa7O6uiN
-         tsNmb641JlPxMswStuaveFKVPKf0HZpYw3ZO296MIQSs3zLRMh7NUCDwyCRttf4uGytJ
-         ASZgLmrYBkx36jw2NdvihbX8TdvfazDXkcM91io5QguWfOo7+PQVD4YaRtxMgrFfcXAg
-         OsSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739164932; x=1739769732;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NP6FiyAFqZZfQX95AIbNAITU3lunO+K/ljPYqazSung=;
-        b=O/++SV3NUoI0obiba1tRUTHQF5UQ0Chd2c3BYXq1cUqMGlFxN2h+hSFqty5CdNSZog
-         cirwGNVuMo1QdYIvEwag/lf++J35hOlg89ZFY4yG2PnAxJUlvxZ0odoPq+EnucKytwS9
-         awesgdsKNAad3CWEl40nxOQPA/kspQUBrWzHYShOMtoTmUdwTbfHmKtmq79iL1PlXtki
-         pNEuO5CkSeWXuO8Mfzcde5EVD3OANav/pMl6oIqqCY0ZLXV+NWqjmcLnYNjZs9T+xjEG
-         4hGvYt7jzAJwlFSz5nDZqIPMBzEoQqSTb/0WWwRvNiNCg68Mx+w3lH6sHYcDrR6+kBed
-         tlpA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFUZRnxH/+4shZBA9kL3eYFQFS6yTV+kSH3wXtb1iKCjIOcxiSYHVqjuOFqJdDulNxyNwLjVLJGLP8Cu5oZQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyylCPfLiPc82DitjWAdjaQb7LtuNkzkA0UW2wmVdEsoRF7m9qy
-	P2TdOv7Hp2axBZUc63arcv44QMRtIB0f0DRvaZKCHFzRGIHK09x5
-X-Gm-Gg: ASbGnctiOrJYGrSU8LyJ5qVfuL4bm+S3P9xa7ZiQNEmue39mZh1NLU8P5PwM5OaMV3Z
-	txeC9OHddlKtyC4f7hCvZtSMDcMGwmQljSyTQa52CHcVFEf5+TQi7HLA9Pe+QYEU7myiDoFbVtj
-	K5tOSb76jDjMuNuB5opBx/8FkoLViZul4yfHSnNS+0U3I5Ir4ZCh1Sk2FeGX0GbzXBuoDUe5q/h
-	onFr2hd1boBIndqFT1CfvuysALo/rA1Jnly3+xCCnq0FXBpILFb70VQftAAjQ+sYdY7MsO3QAtM
-	uV6wWRNqOUwdSdPArzr4/1KkrRLUNMoqy62ri+BoYQJyjWy6ErKCOV/i7tQ79xzPhuhR4QJLSU0
-	9AyuvhA==
-X-Google-Smtp-Source: AGHT+IEgE2AWt7Q/LqShSB6UQ2Ks8qY3J87XFoKFmjC5yzmF0ox8hp2I4vOzIdC/e3aHCSnNt5DexQ==
-X-Received: by 2002:a05:622a:199f:b0:466:a0e2:ae8e with SMTP id d75a77b69052e-471679a0054mr103982151cf.9.1739164932479;
-        Sun, 09 Feb 2025 21:22:12 -0800 (PST)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4718e8f5059sm11655911cf.7.2025.02.09.21.22.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2025 21:22:11 -0800 (PST)
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 51CED1200043;
-	Mon, 10 Feb 2025 00:22:11 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Mon, 10 Feb 2025 00:22:11 -0500
-X-ME-Sender: <xms:A42pZ2EwlcHQ6eJ3cCpFtWkK0NP570TY6QOFGSk5InX3AxMnSJrXNQ>
-    <xme:A42pZ3XbXnUWx-Ctknw70BnxDxQHMQjzoXK-tcHumSzVAVGrTPgoerQ-VYrG-L-qv
-    1CoCDmlqdZkHltCvg>
-X-ME-Received: <xmr:A42pZwLnyu94Io3Dz-mrLmEnh7U0J2AvMZb3A5iv-GdjIzLRjZ79FaJphw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefjedvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvf
-    evuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceo
-    sghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpefhte
-    dvgfdtueekvdekieetieetjeeihedvteehuddujedvkedtkeefgedvvdehtdenucffohhm
-    rghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgvrhhsohhnrghl
-    ihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepgh
-    hmrghilhdrtghomhesfhhigihmvgdrnhgrmhgvpdhnsggprhgtphhtthhopeduvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtoheprhihohhtkhhkrhelkeesghhmrghilhdrtg
-    homhdprhgtphhtthhopegsihhgvggrshihsehlihhnuhhtrhhonhhigidruggvpdhrtghp
-    thhtoheptghlrhhkfihllhhmsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhloh
-    hnghesrhgvughhrghtrdgtohhmpdhrtghpthhtohepmhhinhhgohesrhgvughhrghtrdgt
-    ohhmpdhrtghpthhtohepphgvthgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghpth
-    htoheprhhoshhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopehtghhlgies
-    lhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopeifihhllheskhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:A42pZwGUq1uy1NXMck8FsdutJtQlrHqzWvDtjbA__alc0vJg4WIoxQ>
-    <xmx:A42pZ8WuNrrqD-fnAbL9JQNaZmq5lbZITCpSGo0DAup8bNkgtmu8Fw>
-    <xmx:A42pZzME0N5nG2Yau8g4BxEoS7WSKfv4mO2ReKlSaIJnseto1vScOg>
-    <xmx:A42pZz0t-U2B79JqIgAnLqnGYtfaEVGqeX_VNSkv8v4yrK1p4o-00g>
-    <xmx:A42pZ9XdqbRSUho_LzY2OgtHmzexyx6iSYOkrKOYJJpjpjdq9pTdTQf0>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 10 Feb 2025 00:22:10 -0500 (EST)
-Date: Sun, 9 Feb 2025 21:22:09 -0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Ryo Takakura <ryotkkr98@gmail.com>
-Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, llong@redhat.com,
-	mingo@redhat.com, peterz@infradead.org, rostedt@goodmis.org,
-	tglx@linutronix.de, will@kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3] lockdep: Fix wait context check on softirq for
- PREEMPT_RT
-Message-ID: <Z6mNARx5H65MPd1-@Mac.home>
-References: <20250118054900.18639-1-ryotkkr98@gmail.com>
+	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=kazuhiro3.hayashi@toshiba.co.jp header.b="knnD/rSR"
+DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:Cc
+	:Subject:Date:Message-Id:In-Reply-To:References;i=
+	kazuhiro3.hayashi@toshiba.co.jp;s=key2.smx;t=1739170573;x=1740380173;bh=r2bGS
+	QuW3OUidgcECmo0HgSV1D5FG/L2Ld2WCzZKiPg=;b=knnD/rSRtEjokv4nwpdZLTt24aAMsPdzs30
+	OcZ6S48JJdY/JH8RrWYc+VapW96fUUfmO9pwBuSwy6Z81o9Bo7JuS7ovppPkUG+gTH/mlRg3+dBnl
+	GDZM03E3lWJDfnU/rBAG6SmfvNQbrJIfDkF8+PUgC6r4RdQVl1fkmoe2OyAaAxohC1jU+GVinBcTU
+	ilZt8iMKavIFJkjofP0PrO92gSlN0bILFlVMnOcMIt1XqmDAJCruup0n5Y3Sm5OTi74UG+73/mZcg
+	uHlD7VTjpywQ0fFNnvcyGH4yr6wleFw74zKQGqQEMjUoxK/qaiXOSkwJ/5TP1Rhk7Ocg4HNahWww=
+	=;
+Received: by mo-csw.securemx.jp (mx-mo-csw1802) id 51A6uDGN3387803; Mon, 10 Feb 2025 15:56:13 +0900
+X-Iguazu-Qid: 2yAbAvUQLMDymhsI13
+X-Iguazu-QSIG: v=2; s=0; t=1739170568; q=2yAbAvUQLMDymhsI13; m=cJHL28zEPBgbgE/lC5o0LDRLsvlwWkSeNef5Mf90hzM=
+Received: from imx2-a.toshiba.co.jp (imx2-a.toshiba.co.jp [106.186.93.35])
+	by relay.securemx.jp (mx-mr1803) id 51A6u8Qw4036156
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 10 Feb 2025 15:56:08 +0900
+From: Kazuhiro Hayashi <kazuhiro3.hayashi@toshiba.co.jp>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        cip-dev@lists.cip-project.org
+Cc: bigeasy@linutronix.de, tglx@linutronix.de, rostedt@goodmis.org,
+        linux-rt-users@vger.kernel.org, pavel@denx.de
+Subject: [PATCH 4.4 v1 13/17] printk: Adjust system_state checks
+Date: Mon, 10 Feb 2025 15:55:41 +0900
+X-TSB-HOP2: ON
+Message-Id: <1739170545-25011-14-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1739170545-25011-1-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
+References: <1739170545-25011-1-git-send-email-kazuhiro3.hayashi@toshiba.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250118054900.18639-1-ryotkkr98@gmail.com>
 
-On Sat, Jan 18, 2025 at 02:49:00PM +0900, Ryo Takakura wrote:
-> Since commit 0c1d7a2c2d32 ("lockdep: Remove softirq accounting on
-> PREEMPT_RT."), the wait context test for mutex usage within
-> "in softirq context" fails as it references @softirq_context.
-> 
-> [    0.184549]   | wait context tests |
-> [    0.184549]   --------------------------------------------------------------------------
-> [    0.184549]                                  | rcu  | raw  | spin |mutex |
-> [    0.184549]   --------------------------------------------------------------------------
-> [    0.184550]                in hardirq context:  ok  |  ok  |  ok  |  ok  |
-> [    0.185083] in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-> [    0.185606]                in softirq context:  ok  |  ok  |  ok  |FAILED|
-> 
-> As a fix, add lockdep map for BH disabled section. This fixes the
-> issue by letting us catch cases when local_bh_disable() gets called
-> with preemption disabled where local_lock doesn't get acquired.
-> In the case of "in softirq context" selftest, local_bh_disable() was
-> being called with preemption disable as it's early in the boot.
-> 
-> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-Queued for future tests and reviews, thanks!
+commit ff48cd26fc4889b9deb5f9333d3c61746e450b7f upstream.
 
-Regards,
-Boqun
+To enable smp_processor_id() and might_sleep() debug checks earlier, it's
+required to add system states between SYSTEM_BOOTING and SYSTEM_RUNNING.
 
-> ---
-> 
-> Hi!
-> 
-> This version uses CONFIG_DEBUG_LOCK_ALLOC instead of CONFIG_LOCKDEP.
-> Thanks Waiman for the advise!
-> 
-> v1:
-> https://lore.kernel.org/lkml/20241202012017.14910-1-ryotkkr98@gmail.com/
-> 
-> v2:
-> https://lore.kernel.org/lkml/20241227040824.83626-1-ryotkkr98@gmail.com/
-> 
-> Boqun, let me know in case if I should add you as <suggested-by> tag.
-> (Please forgive me and ignore if not what the tag intends for... 
-> I thought its appropriate reading the document[0].)
-> 
-> Sincerely,
-> Ryo Takakura
-> 
-> [0] https://www.kernel.org/doc/html/v6.12/process/submitting-patches.html#using-reported-by-tested-by-reviewed-by-suggested-by-and-fixes
-> 
-> ---
->  include/linux/bottom_half.h |  8 ++++++++
->  kernel/softirq.c            | 12 ++++++++++++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/include/linux/bottom_half.h b/include/linux/bottom_half.h
-> index fc53e0ad5..0640a147b 100644
-> --- a/include/linux/bottom_half.h
-> +++ b/include/linux/bottom_half.h
-> @@ -4,6 +4,7 @@
->  
->  #include <linux/instruction_pointer.h>
->  #include <linux/preempt.h>
-> +#include <linux/lockdep.h>
->  
->  #if defined(CONFIG_PREEMPT_RT) || defined(CONFIG_TRACE_IRQFLAGS)
->  extern void __local_bh_disable_ip(unsigned long ip, unsigned int cnt);
-> @@ -15,8 +16,13 @@ static __always_inline void __local_bh_disable_ip(unsigned long ip, unsigned int
->  }
->  #endif
->  
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +extern struct lockdep_map bh_lock_map;
-> +#endif
-> +
->  static inline void local_bh_disable(void)
->  {
-> +	lock_map_acquire_read(&bh_lock_map);
->  	__local_bh_disable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
->  }
->  
-> @@ -25,11 +31,13 @@ extern void __local_bh_enable_ip(unsigned long ip, unsigned int cnt);
->  
->  static inline void local_bh_enable_ip(unsigned long ip)
->  {
-> +	lock_map_release(&bh_lock_map);
->  	__local_bh_enable_ip(ip, SOFTIRQ_DISABLE_OFFSET);
->  }
->  
->  static inline void local_bh_enable(void)
->  {
-> +	lock_map_release(&bh_lock_map);
->  	__local_bh_enable_ip(_THIS_IP_, SOFTIRQ_DISABLE_OFFSET);
->  }
->  
-> diff --git a/kernel/softirq.c b/kernel/softirq.c
-> index 8c4524ce6..f0edb0abc 100644
-> --- a/kernel/softirq.c
-> +++ b/kernel/softirq.c
-> @@ -1012,3 +1012,15 @@ unsigned int __weak arch_dynirq_lower_bound(unsigned int from)
->  {
->  	return from;
->  }
-> +
-> +#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> +static struct lock_class_key bh_lock_key;
-> +struct lockdep_map bh_lock_map = {
-> +	.name = "local_bh",
-> +	.key = &bh_lock_key,
-> +	.wait_type_outer = LD_WAIT_FREE,
-> +	.wait_type_inner = LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-> +	.lock_type = LD_LOCK_PERCPU,
-> +};
-> +EXPORT_SYMBOL_GPL(bh_lock_map);
-> +#endif
-> -- 
-> 2.34.1
-> 
+Adjust the system_state check in boot_delay_msec() to handle the extra
+states.
+
+Conflicts: kernel/printk/printk.c
+cf775444 replace the third condition that boot_delay_msec() returns
+immediately with suppress_message_printing(). This does not affect
+system_state check.
+
+Tested-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Link: http://lkml.kernel.org/r/20170516184736.027534895@linutronix.de
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Signed-off-by: Kazuhiro Hayashi <kazuhiro3.hayashi@toshiba.co.jp>
+---
+ kernel/printk/printk.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index d8e0790f56cb..8d1e081bf9fc 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -1077,7 +1077,7 @@ static void boot_delay_msec(int level)
+ 	unsigned long long k;
+ 	unsigned long timeout;
+ 
+-	if ((boot_delay == 0 || system_state != SYSTEM_BOOTING)
++	if ((boot_delay == 0 || system_state >= SYSTEM_RUNNING)
+ 		|| (level >= console_loglevel && !ignore_loglevel)) {
+ 		return;
+ 	}
+-- 
+2.30.2
+
+
