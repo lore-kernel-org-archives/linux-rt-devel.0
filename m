@@ -1,85 +1,101 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE53253344
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Feb 2025 15:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8912B2505A2
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Feb 2025 15:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739287276; cv=none; b=JJK88i/XUOVeDNgBgnjhCvSPfVEQvRImcLelTBg3D6RAN9f5jBfcJAuA581kSG/WlbuhGDTw0XNGmeHhgeDB9ocrZPbKzdC3K0Jq9VHdD7jwF+wu5Zre7GE7dogPW6Ks9J3B9SuU0+1Rm8lLv81vE111kdd7PyNAo45AH3Xq6tU=
+	t=1739288054; cv=none; b=rekajUPHYCLiM1mvPej76E9Wb6RwThSaedPgO/qTah/lp30vA8ToyYu+DVrDRgl1ztQHFhI/feVXBQ74LSQ4KTE93lmCeb2I++b7wHNSXYV2htsUzrFo6dMddvstoPY4UX3MrXELhLdp99r2EI8Jlwt8keQ6IgP1rNSPayS0itM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739287276; c=relaxed/simple;
-	bh=qKQuCJ4+PDxAUPnVD1YZ3ker7qZu/gjsp1E1/r6v2wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bk9VsEJX86NyooXWFiVBPN7yqfk5T07YIME93VgR0RbHg3butaYgiywT7sixN+jv7wIgQmK2PFxARdn1iGEk3b3Qi3FRg0XIAbfCxI78WG2hGUndXswLvZUgRvREipmdy6cvKz8ZMGqU8jRALfOpND5F+q5bHg2YfPZL2KkiL8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Zv4U2Mhx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yacAYOQ2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1739288054; c=relaxed/simple;
+	bh=c4U0BQoGEDqvwQiEJG/iNEafKJ/9ljNNGuWV+PcZbfM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C9Hx9S8fq45FU1XLWEkAJK+G3JCYzid/NFdDuIwrpjMt2N4x/N3QbMFdZx/KSaHmNKzubBU/eLWxdFYpql5npAGhrbeX5K99AbUGjE6faglUp+gTNIYUUwEL2bJNGB+G/R6m8uCk9c71sqlvA9fuAx3hc1C7694THabF/nVXH4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kVg7/1C5; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Zv4U2Mhx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yacAYOQ2"
-Date: Tue, 11 Feb 2025 16:21:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739287273;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RAfehH0pRSNM74jOU1hpoGaCaoR26ZlkzhoEyncNpPk=;
-	b=Zv4U2MhxITSl9kUmmsVJW4c7qLimnsYlmhKut/KZgg8KnpnY2nxZSpOCX5SzEn4xIVeyi5
-	BbKOZMuUnKJg2l7HBSfZfHFrsKavpg6Vm6qjop/0AiVHTwpFa/qyhgBBsnk6OdXoXd8+UI
-	FcIMyUkv8d9RVvo/fEUUklKAn+FUi0oDYjAEGNUvXeLBvxdSW0/K7gUaV5N9bvlCqoq2HL
-	D68LXsa2ITeGyFN+RupkGKCuKWTJ1ClPdEivuq4hxcQGKRvnfPUpsUt+1udKOBvZ9Rlq7K
-	ECtda2ldgr6Uves9g1Q80JVp4Vf/XDzsY6Pzf0o0BgiJyVmhvFpVkq3jtx0PhQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739287273;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RAfehH0pRSNM74jOU1hpoGaCaoR26ZlkzhoEyncNpPk=;
-	b=yacAYOQ2pG5/O3bhi/OUOrdcRl3g0N9/LAIUyWwUai9zxXqq3tjoYPi7e9+nqF8HAo220z
-	yNmtetUKNh7IQfDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ben Segall <bsegall@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 3/9] arm: Rely on generic printing of preemption model.
-Message-ID: <20250211152111.A6HxeZLd@linutronix.de>
-References: <20250203141632.440554-1-bigeasy@linutronix.de>
- <20250203141632.440554-4-bigeasy@linutronix.de>
- <20250210120429.iFfBClW1@linutronix.de>
- <Z6oYO5uKlEJ8C8Ne@shell.armlinux.org.uk>
- <20250210153902.06VTSS6d@linutronix.de>
- <Z6oo0MExaEy5J55_@shell.armlinux.org.uk>
- <20250211145249.StI6tEZv@linutronix.de>
- <Z6tnQvIBlGnoGRN_@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kVg7/1C5"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5de636e6937so10051a12.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 11 Feb 2025 07:34:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1739288050; x=1739892850; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZbL9eQa2NHquqUeuZMpqgcfigc8NbXhYu6ZhdCUgNRA=;
+        b=kVg7/1C5wVCKPL0c+lU+2FABhJktznvqJHacq/7ZNDGjz7qLKBdSlG4ZSqDn8L2nUb
+         tKqxAkNnSZitrkEdmqmme2o6/kasEp5bFcRbO8hCPpYzDd5lrF1owLHATgKPwFuDw8sg
+         bzw0bz5hdaLGZwdaupy0Ol3v+8SqZzTfCTnuXYIWxlX3fEURSeyRH0DinvEVdbE3Uwu9
+         7RwUcwzxiqDaQgKBduraILM0Lz4iwCabz3Unn9s1+4A7FPeLUVsftMCkGw1VO39oQ5Hd
+         JjPIzd0eMziaIEQ/95m9RHPyRyC9iR9ArQ2HEkTGEzTmzblEhHba+6in3DhyrcUAkJWh
+         Rrmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739288050; x=1739892850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZbL9eQa2NHquqUeuZMpqgcfigc8NbXhYu6ZhdCUgNRA=;
+        b=a0MW3fF2/n01Bb2noPvYOOi/C+bnOwNfRbBU4kd5HS6O4eoT8MdVS0mr4PFBsESWTm
+         4xKsRJ/NAxGFXYY+hPzmivGNrjuqDl9e2jKkikFleqqnzsQJp/35HgozVtsz31tbw9C8
+         qFldpBbYJI2dqu/5+wdnTgVNtHQNuaKNO9Kowsry4jvhZJy0kQviALUzUR1nbZoDPQjG
+         TCcnn60Zs4Ws8rbtl9Od34gHKYI22L9eQpl7ryjRXcRpf8MXnUtUxwFM0RfyXKqI0sz3
+         LQO25cxHq4acJMjw3fjTHnUKflOjaq+yuOLOcjGHi05yGpdiHJ1lSqb0MMAolqvEtfF0
+         J3aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTRIaZQdYZiliByKcBJghnvgA/5N13oMA+MT0ZJSURfx2CSEfjq/yssqT5RNfnucRia0giOle0JjoouQipGQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywu7cdnz09ZqJpJyDH2eAFbqoVcfVMiD4YWxusIERgE/upKL0E+
+	BC/7+LIcGsvzd3knOteBAfPWHMblHebuI1/icBcLUnOIzG8VYfmjovp7hiDvPyyKqh3I7ASnosP
+	fNBwEkIKZQI9bHyyPJl0grk6AUJDZfTMfQJzEXRYNf/bIffoNGg==
+X-Gm-Gg: ASbGnct1WMLjlg1US7FXbscaycn24b9MZ6AgnYIRuLZJPBfBrY7ZPmNFoOd6oClWx3P
+	4S7p6rfqTMKg2e8YfUYfMahwYl98rbT7boT3Mj5O8pfafMqxxvMzoJjcBuNXVVYs4GuyW/l7qIr
+	ifgcZbsLgbY0lYlg6TLhLciliMloWKpDY=
+X-Google-Smtp-Source: AGHT+IHqGDGz0wfrcp45JtErtpRAYfNh1EE57PPR06fLJQNwhTHl/SAaKNWTZ8LVn4rijthtDnq+ZrEwVKQjctxaREg=
+X-Received: by 2002:a50:aa93:0:b0:5dc:d08e:e128 with SMTP id
+ 4fb4d7f45d1cf-5dea05e7838mr88792a12.5.1739288049612; Tue, 11 Feb 2025
+ 07:34:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Z6tnQvIBlGnoGRN_@shell.armlinux.org.uk>
+References: <20250211090511.xeFJVnH_@linutronix.de>
+In-Reply-To: <20250211090511.xeFJVnH_@linutronix.de>
+From: Guenter Roeck <groeck@google.com>
+Date: Tue, 11 Feb 2025 07:33:57 -0800
+X-Gm-Features: AWEUYZlq96aEBCvQeCZ-nHsg7o-TOaHeFPxTcHp9j8eLA7B3lgOzEs9a9524BPo
+Message-ID: <CABXOdTeLUi8mKkV38SegM_n8=Uyykd-X+n7RysjpgAZfxxb5BQ@mail.gmail.com>
+Subject: Re: PREEMPT_RT testing on kernelci
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: kernelci@lists.linux.dev, linux-rt-devel@lists.linux.dev, 
+	stable-rt@vger.kernel.org, Daniel Wagner <wagi@monom.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-02-11 15:05:38 [+0000], Russell King (Oracle) wrote:
-> 
-> Got it. Printed from __die() -> __show_regs() -> show_regs_print_info()
-> -> dump_stack_print_info().
-> 
-> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+On Tue, Feb 11, 2025 at 1:05=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> Hi,
+>
+> I remember Daniel Wagner has been asking to include PREEMPT_RT within
+> kernelci. I don't really know what the status here is. Thank you for the
+> work.
+>
+> Since PREEMPT_RT is now available upstream, would it work to compile and
+> enable some of its tests for the supported architectures on Linus' tree
+> and maybe the -next tree? I don't think that happens at the moment, I
+> saw only a few stable-rt trees.
+>
+> If so, should I just open an issue at
+>         https://github.com/kernelci/kernelci-core/issues/new
+>
+> Is there be anything in particular you need help with?
+>
 
-Thank you.
+Unrelated to KernelCI - how stable is PREEMPT_RT in practice ? Reason
+for asking is that I enabled it for x86_64 together with lock
+debugging and got an almost immediate "sleeping function called"
+backtrace.
 
-> Thanks!
-
-Sebastian
+Thanks,
+Guenter
