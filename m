@@ -1,116 +1,147 @@
-Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D939257AE0;
-	Tue, 11 Feb 2025 15:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739289065; cv=pass; b=TgxMNhVf08G/t3RLHiSiZ47dbgpUyMzf3J45Z/GpB29QKAzrGzVSsEwuibq3IY03zPjTGhN0b8uX8kn/1m5dqCmGczynTRfnnWoO0zrW8AMlxiMRBX1yC4pyEPt882+oWLfDOZD6L5XcNexY0OQmMzGGAjGom2i9IDHVZ4iOBwY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739289065; c=relaxed/simple;
-	bh=s0AsPq4RwJR2+33PXRlQ8dEh5CuInqzkdkunwYbmKC8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=kan8TjsPgTdjOkIEBwwMDQNXzbnbAEI86bVWbirra5rO8aHU70Ak7czjHvt6QUtEW9LVNumwYWF52BQEoaqTGkJT3o/KILpMlduv4IjIxBYIhdU9DUxOyPY+lTgsYb/a1n48buqGBzGnTAIBq/A6tX6BWRSC6jOfPKHRVISJPes=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gus@collabora.com header.b=MjPgOei9; arc=pass smtp.client-ip=136.143.184.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0910325A351
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Feb 2025 16:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1739290120; cv=none; b=pcFLmYs81c0kUTwRIOy5d4lc1TBHy7juzk09dUSR192BOYI3SQAvbb3YVGkV0j1nXA1fM+mCx8P1qstf+BeoWzjzK02qJ5A39d9x+2Jh2IPLOUP/A1QyX7Qshq4ae/AA1pngYjTL9n/gydAl3b+wM1q3SR/oya5vR+LE1n9qEII=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1739290120; c=relaxed/simple;
+	bh=ml0xQgdCLasCwsDWWoirjYy2G9OXDcBgWmJPS+yMwFQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oWTyvZQUo448o9iNzNoOC0s66FcWkiDjAZmYw3AVR1TvAcfMvSu4cFFJfuUXfMU9sEyRUnxRgI7WhxitlVkZYmxNvCEFFXBuxv3tf28Td6tdZsp9v4J3GZq7kIMVN4SpjSWpuk19L6isK9o2lmvDnrPP5siOxhtLGCnpEJl++Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IcbUnDuK; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=gus@collabora.com header.b="MjPgOei9"
-ARC-Seal: i=1; a=rsa-sha256; t=1739289048; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ZuBDVEGmslDdXqhKaV2iIntb0moYczBI9NQEY6Z6jUOL03OFwIYtSeD8do/LBLnIg39LoUKxDCgnHjFc5O+x4LPUTG+/+zp4QM+YJSo6eJ8Ev1mNfTNRCb7nb15Bn2SJro5HFdjD67RlZJrv6SXGzLT6yaDQ6BM2cKtWytuoCZc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1739289048; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ynkLWceI6NKQ/gkDqb5Yj4PQr/Nl+gQGLJR+DRzkaMs=; 
-	b=jwnskG3FVGXh74McvVCOzyxrY9THmslv2zIxEx2WIsg4hplORLfi6dWufkgIDvgf/erQgZMP+T9JEFh5AVvVVtpC43p2la6x3DwvgRkPbxgC1i4b5HZazTEVN2Mg71aaxac3I9dGWhlVEuCFmuHgG6t2Pqf+x41V2AD9pbEyj7k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=gus@collabora.com;
-	dmarc=pass header.from=<gus@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1739289048;
-	s=zohomail; d=collabora.com; i=gus@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=ynkLWceI6NKQ/gkDqb5Yj4PQr/Nl+gQGLJR+DRzkaMs=;
-	b=MjPgOei9CWQlbOw7Vkf3KGA4FQvtbZcX7ftapLJ+P6s7N24lU9FbOSl3rMp4FUPE
-	lx9DV9jI7gMeU2Ehkzv1pUDpSkvVZW34asTc+2m6Q445qjlinbKRH47gRtwqInEQjs4
-	DkXS7BQh21uyodyqzUnaR5axBku1slFctNFC45q8=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1739289047127225.90196701042169; Tue, 11 Feb 2025 07:50:47 -0800 (PST)
-Date: Tue, 11 Feb 2025 12:50:47 -0300
-From: Gustavo Padovan <gus@collabora.com>
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: "kernelci" <kernelci@lists.linux.dev>,
-	"linux-rt-devel" <linux-rt-devel@lists.linux.dev>,
-	"stable-rt" <stable-rt@vger.kernel.org>,
-	"Daniel Wagner" <wagi@monom.org>
-Message-ID: <194f5b4b029.e5ee4014194612.536900249866001318@collabora.com>
-In-Reply-To: <20250211152018.sK91dh93@linutronix.de>
-References: <20250211090511.xeFJVnH_@linutronix.de>
- <194f4c989de.bdd18d3279996.2067896388251039576@collabora.com> <20250211152018.sK91dh93@linutronix.de>
-Subject: Re: PREEMPT_RT testing on kernelci
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IcbUnDuK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739290117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UipiODYFsFgVF8vxMUdu6AW5VgLIbfrFFLlK7TYmKsA=;
+	b=IcbUnDuKllOC+T2HfO4W+oR13mBn44xAeXP/M0Dn2SPjEDZI8B9LvZRSfJknr61HxoHSJg
+	NswXQXwsMKe72LtRkUnXUDGYcJFyxUDRHmY56aXdlsBSrrgYUuxNPQ8Icb7IkOfMkzaEZP
+	FopnDFKSThHCxsvKbFwdntx6nW9+gnc=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-487-o45N5vneMBKaSqLBsS2KlA-1; Tue,
+ 11 Feb 2025 11:08:33 -0500
+X-MC-Unique: o45N5vneMBKaSqLBsS2KlA-1
+X-Mimecast-MFC-AGG-ID: o45N5vneMBKaSqLBsS2KlA
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4F35C19560A5;
+	Tue, 11 Feb 2025 16:08:31 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.207])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8964A19560A3;
+	Tue, 11 Feb 2025 16:08:27 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Nico Pache <npache@redhat.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH] kasan: Don't call find_vm_area() in RT kernel
+Date: Tue, 11 Feb 2025 11:07:50 -0500
+Message-ID: <20250211160750.1301353-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-Hi Sebastian,
+The following bug report appeared with a test run in a RT debug kernel.
 
+[ 3359.353842] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+[ 3359.353848] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 140605, name: kunit_try_catch
+[ 3359.353853] preempt_count: 1, expected: 0
+  :
+[ 3359.353933] Call trace:
+  :
+[ 3359.353955]  rt_spin_lock+0x70/0x140
+[ 3359.353959]  find_vmap_area+0x84/0x168
+[ 3359.353963]  find_vm_area+0x1c/0x50
+[ 3359.353966]  print_address_description.constprop.0+0x2a0/0x320
+[ 3359.353972]  print_report+0x108/0x1f8
+[ 3359.353976]  kasan_report+0x90/0xc8
+[ 3359.353980]  __asan_load1+0x60/0x70
 
----- On Tue, 11 Feb 2025 12:20:18 -0300 Sebastian Andrzej Siewior  wrote ---
+The print_address_description() is run with a raw_spinlock_t acquired
+and interrupt disabled. The find_vm_area() function needs to acquire
+a spinlock_t which becomes a sleeping lock in the RT kernel. IOW,
+we can't call find_vm_area() in a RT kernel. Fix this bug report
+by skipping the find_vm_area() call in this case and just print out
+the address as is.
 
- > On 2025-02-11 08:33:56 [-0300], Gustavo Padovan wrote: 
- > > Hi Sebastian, 
- > Hi Gustavo, 
- >  
- > > Thank you for your email. We are happy that KernelCI is helping you with tests. 
- > ;) 
- > >  > Since PREEMPT_RT is now available upstream, would it work to compile and 
- > >  > enable some of its tests for the supported architectures on Linus' tree 
- > >  > and maybe the -next tree? I don't think that happens at the moment, I 
- > >  > saw only a few stable-rt trees. 
- > > 
- > > https://github.com/kernelci/kernelci-pipeline/pull/1010 
- > > 
- > > This will get it enabled for mainline and next. Allow us a few days for processing and 
- > > deploying this in production. 
- >  
- > Sure. Just poke if you have something to inspect or look at because of 
- > $reason. 
- >  
- > The architectures, that support RT are what you see in 
- > | git grep ARCH_SUPPORTS_RT arch/ 
- >  
- > so this does not include arm at current stage for instance. So in 
- > general, if you can't select CONFIG_PREEMPT_RT you can skip the 
- > config/ build/ test. 
- >  
- > RiscV on the other hand is supported.
+For !RT kernel, follow the example set in commit 0cce06ba859a
+("debugobjects,locking: Annotate debug_object_fill_pool() wait type
+violation") and use DEFINE_WAIT_OVERRIDE_MAP() to avoid a spinlock_t
+inside raw_spinlock_t warning.
 
-Right. Let me look at how we can limit this to x86 only.
-Unfortunatelly, we don't have much RISC-V hw support in KernelCI yet.
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ mm/kasan/report.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
- >  
- > > Beyond that, we would love any feedback you have to us. A lot of the infra 
- > > we have today is new, so there are still rough edges to work on. 
- >  
- > Sure. How do I see easily what is tested/ done? I could maybe wait a few 
- > days and check the dashboard. The link from above showed timerlat has 
- > been but I didn't manage to figure what has been. I guess there is a 
- > script somewhere handling the logic. 
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 3fe77a360f1c..e1ee687966aa 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -398,9 +398,20 @@ static void print_address_description(void *addr, u8 tag,
+ 		pr_err("\n");
+ 	}
+ 
+-	if (is_vmalloc_addr(addr)) {
+-		struct vm_struct *va = find_vm_area(addr);
++	if (!is_vmalloc_addr(addr))
++		goto print_page;
+ 
++	/*
++	 * RT kernel cannot call find_vm_area() in atomic context.
++	 * For !RT kernel, prevent spinlock_t inside raw_spinlock_t warning
++	 * by raising wait-type to WAIT_SLEEP.
++	 */
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
++		static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEEP);
++		struct vm_struct *va;
++
++		lock_map_acquire_try(&vmalloc_map);
++		va = find_vm_area(addr);
+ 		if (va) {
+ 			pr_err("The buggy address belongs to the virtual mapping at\n"
+ 			       " [%px, %px) created by:\n"
+@@ -410,8 +421,13 @@ static void print_address_description(void *addr, u8 tag,
+ 
+ 			page = vmalloc_to_page(addr);
+ 		}
++		lock_map_release(&vmalloc_map);
++	} else {
++		pr_err("The buggy address %px belongs to a vmalloc virtual mapping\n",
++			addr);
+ 	}
+ 
++print_page:
+ 	if (page) {
+ 		pr_err("The buggy address belongs to the physical page:\n");
+ 		dump_page(page, "kasan: bad access detected");
+-- 
+2.48.1
 
-That is one the current limitations in the dashboard. The CI systems are not sending
-a clear signal yet that they completed all tests they wanted to run. They just submit
-test result individually as they get finished. 
-
-Imo, it is a priority to fix this as it is second time this week I get this feedback.
-
-Best,
-
-- Gus
