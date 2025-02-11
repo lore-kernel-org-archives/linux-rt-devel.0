@@ -1,164 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89670257443
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Feb 2025 19:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A2026BDA6;
+	Tue, 11 Feb 2025 09:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739215446; cv=none; b=BmOsnSeUSNky1ReC8Zrmg9XH6eY03RHQc1f4S3Fv9awUz6KPQzSlElgqn7rqlGautPK5GkKfGwJbrY03aY2ACyN2MZRmRuQzXm1e31aNgBKckqGstDFSuRujP6R9K3nHEBBkjjgmRTmVm4pkDtH23BCw13kx8sWYoN7AT48mEAk=
+	t=1739264721; cv=none; b=sZ78fPCeXSul4R6dHlr5khx/LK9I+kiCyj8eYxo1zBFy89aTOSI3RkYane76tnx4IPZwOTbnurNYo86nI2mR9t1kpwcPpFc9LgmD0HuDTCVW9ZHwrtFThn7dVaTKyyepJk/xSPv1sToaUj9hQxzDuIfKXSjqo21SXd9crti4whw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739215446; c=relaxed/simple;
-	bh=cj0NxklMDpQLejnIH1WTb5QzUrFHN/+zrlInglvaL7o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lGx0Jc+ZsPc9klx6fWBT5PEGP1kdPr72lO1P111byXGyiDOmYa9ZVsLE57LoRBVukrMagGlaH1x8e/OqHR+1SzXbDZ9TP20NGJAH89gGXBnkXGe001TRjUlq7LM/h9ERrhTJB2unBfc/W2peSLR1amHBdCbSEp7SbkF5OM1b9nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ED99eUMO; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739264721; c=relaxed/simple;
+	bh=Svv+nwNCLHdzs6QrvQV8o+WcV42oA41c9NaBW6BdasE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tMypTRaXfhCTdW1BigdWYSL7IvF0rsR9IfKW6Ljoi8ZfmutmZ2PIZv50xVKKAdVJBpOTkbVwATfnlsszbcI6ob2lAdUVOsBP1RsQZfVd9CrCOLPOBQ5N7tabqmb6S6QjkaFyXW0E+LpgOsPejpbc8ZKgd2RzR8Gikx1k76i3+10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DY7yj8oa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g39q/iz9; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ED99eUMO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739215445; x=1770751445;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cj0NxklMDpQLejnIH1WTb5QzUrFHN/+zrlInglvaL7o=;
-  b=ED99eUMOYfgnkBbV+fKJe3AGTd3SJt9T9Th7XPFdZPXklqg1ruZvyPOU
-   kQKp+WSh7/ZEHt+diyyJzsMNQXCaaV2ex3vyIyZTaFetgvBOZYqr+ZFA8
-   srSe85/SQ37x90EZM4eRFSj9CcjDzNrOvQaHtGK5TQ0b4+q95OaMlFgLD
-   nOqrpCIrhPHlQlVIrAjKBcXZHSEqBhD525pXuwCHJVUovKrfm5h5e28ts
-   LEYxPHwjd3zVHKc+xUMKkhf4wwLJoqQxJxv1wHnPKTeYfXBQouTdudcsv
-   8kU04F+TbbH23WhkMnxt1rHc0Dz4OxJaCSfypH6nAlwPFXM2KQ0QrRco8
-   g==;
-X-CSE-ConnectionGUID: uk/AvWlPSsai51XcjCuooA==
-X-CSE-MsgGUID: 5k8yucJYSFaTRkF0Kym17Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="39929280"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="39929280"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 11:24:02 -0800
-X-CSE-ConnectionGUID: pb56rcPzQga0E2NUYXNUOg==
-X-CSE-MsgGUID: FFY66tXgQZODJGnN7mwcKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="112733895"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orviesa007.jf.intel.com with ESMTP; 10 Feb 2025 11:24:02 -0800
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org
-Cc: Gerhard Engleder <eg@keba.com>,
-	anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com,
-	aleksander.lobakin@intel.com,
-	gerhard@engleder-embedded.com,
-	rostedt@goodmis.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	bhelgaas@google.com,
-	pmenzel@molgen.mpg.de,
-	vitaly.lifshits@intel.com,
-	dima.ruinskiy@intel.com,
-	Avigail Dahan <avigailx.dahan@intel.com>,
-	Simon Horman <horms@kernel.org>
-Subject: [PATCH net-next 10/10] e1000e: Fix real-time violations on link up
-Date: Mon, 10 Feb 2025 11:23:48 -0800
-Message-ID: <20250210192352.3799673-11-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250210192352.3799673-1-anthony.l.nguyen@intel.com>
-References: <20250210192352.3799673-1-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DY7yj8oa";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g39q/iz9"
+Date: Tue, 11 Feb 2025 10:05:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1739264712;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=kXfJDnilUU+EYr3pa8mS3jm4mEYeovUBiYG2tSWSdXE=;
+	b=DY7yj8oah8Ym4OYEC60ABITHHNoha1WSkbrOjQCELm2kZA6pOc42AdOdioWioGgivjlKZC
+	cK1OO703QRq/DzpfL6PzcOhCugxjWyP+L5J17699WaDLILqZTuyA0XJ9elpIl6Cpn59o3T
+	mtKnt2PANnvU0CVpzlb7WjH/iMs5bFXAjwERxGja/dnZlxW/CITAAnJRu4GZ42CkXpdPq3
+	OmPLFaiKCGazUY+rGENeFBln7SW0AeZLbV2GGnB3Zx4r8513T9q0QSD+FUoxpqPWeGE/h/
+	3LtB2IDcJzg39w4bo34fz4OE+pqNKbZ6BgS1/Ep1j22sQeQuURt32rgZXqyIlA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1739264712;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=kXfJDnilUU+EYr3pa8mS3jm4mEYeovUBiYG2tSWSdXE=;
+	b=g39q/iz9djZntcVtBjHuJsajq8pnvv1A2R9uL+rMydv0r6jiKrMrefTiLcVUSe2Hc5cu7Y
+	HjFIecQtj756XkDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernelci@lists.linux.dev
+Cc: linux-rt-devel@lists.linux.dev, stable-rt@vger.kernel.org,
+	Daniel Wagner <wagi@monom.org>
+Subject: PREEMPT_RT testing on kernelci
+Message-ID: <20250211090511.xeFJVnH_@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Gerhard Engleder <eg@keba.com>
+Hi,
 
-Link down and up triggers update of MTA table. This update executes many
-PCIe writes and a final flush. Thus, PCIe will be blocked until all
-writes are flushed. As a result, DMA transfers of other targets suffer
-from delay in the range of 50us. This results in timing violations on
-real-time systems during link down and up of e1000e in combination with
-an Intel i3-2310E Sandy Bridge CPU.
+I remember Daniel Wagner has been asking to include PREEMPT_RT within
+kernelci. I don't really know what the status here is. Thank you for the
+work.
 
-The i3-2310E is quite old. Launched 2011 by Intel but still in use as
-robot controller. The exact root cause of the problem is unclear and
-this situation won't change as Intel support for this CPU has ended
-years ago. Our experience is that the number of posted PCIe writes needs
-to be limited at least for real-time systems. With posted PCIe writes a
-much higher throughput can be generated than with PCIe reads which
-cannot be posted. Thus, the load on the interconnect is much higher.
-Additionally, a PCIe read waits until all posted PCIe writes are done.
-Therefore, the PCIe read can block the CPU for much more than 10us if a
-lot of PCIe writes were posted before. Both issues are the reason why we
-are limiting the number of posted PCIe writes in row in general for our
-real-time systems, not only for this driver.
+Since PREEMPT_RT is now available upstream, would it work to compile and
+enable some of its tests for the supported architectures on Linus' tree
+and maybe the -next tree? I don't think that happens at the moment, I
+saw only a few stable-rt trees.
 
-A flush after a low enough number of posted PCIe writes eliminates the
-delay but also increases the time needed for MTA table update. The
-following measurements were done on i3-2310E with e1000e for 128 MTA
-table entries:
+If so, should I just open an issue at
+	https://github.com/kernelci/kernelci-core/issues/new
 
-Single flush after all writes: 106us
-Flush after every write:       429us
-Flush after every 2nd write:   266us
-Flush after every 4th write:   180us
-Flush after every 8th write:   141us
-Flush after every 16th write:  121us
+Is there be anything in particular you need help with?
 
-A flush after every 8th write delays the link up by 35us and the
-negative impact to DMA transfers of other targets is still tolerable.
-
-Execute a flush after every 8th write. This prevents overloading the
-interconnect with posted writes.
-
-Signed-off-by: Gerhard Engleder <eg@keba.com>
-Link: https://lore.kernel.org/netdev/f8fe665a-5e6c-4f95-b47a-2f3281aa0e6c@lunn.ch/T/
-CC: Vitaly Lifshits <vitaly.lifshits@intel.com>
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Tested-by: Avigail Dahan <avigailx.dahan@intel.com>
-Reviewed-by: Vitaly Lifshits <vitaly.lifshits@intel.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- drivers/net/ethernet/intel/e1000e/mac.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/ethernet/intel/e1000e/mac.c b/drivers/net/ethernet/intel/e1000e/mac.c
-index d7df2a0ed629..44249dd91bd6 100644
---- a/drivers/net/ethernet/intel/e1000e/mac.c
-+++ b/drivers/net/ethernet/intel/e1000e/mac.c
-@@ -331,8 +331,21 @@ void e1000e_update_mc_addr_list_generic(struct e1000_hw *hw,
- 	}
- 
- 	/* replace the entire MTA table */
--	for (i = hw->mac.mta_reg_count - 1; i >= 0; i--)
-+	for (i = hw->mac.mta_reg_count - 1; i >= 0; i--) {
- 		E1000_WRITE_REG_ARRAY(hw, E1000_MTA, i, hw->mac.mta_shadow[i]);
-+
-+		if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
-+			/*
-+			 * Do not queue up too many posted writes to prevent
-+			 * increased latency for other devices on the
-+			 * interconnect. Flush after each 8th posted write,
-+			 * to keep additional execution time low while still
-+			 * preventing increased latency.
-+			 */
-+			if (!(i % 8) && i)
-+				e1e_flush();
-+		}
-+	}
- 	e1e_flush();
- }
- 
--- 
-2.47.1
-
+Sebastian
