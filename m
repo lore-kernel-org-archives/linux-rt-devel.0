@@ -1,92 +1,94 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00720F06A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 14:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF9D1CBEAA;
+	Wed, 12 Feb 2025 14:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739369515; cv=none; b=CsLSflP/wCVwk4VHxuZqMYAbAxMKZyf5Lg7aOhRgxsd+vH684NAUp6B3r/TE9PnHbq4sKUjGc/4SgoXg3De9/VgS05EaYHIA1BffNHv9o11spvgnqmSZjGrv9ImwmNAm+xuxkcjkyA4tjTO3vRAkm7qcYIJh3YgZJ+6q6DQcU+4=
+	t=1739371752; cv=none; b=XoVFtHSfK5N3YY0adf1CpDaOW74J28/PaM3NiXt00RTCa0G5/0C0jcrDH8mL52KwKz9iUNd/SJJN4Ox3AZ5dSgTFsyzLExZnrmEbTtVigDHwkpI7NLSeO1UYefFFOEKZmRNQR2J+IH72PXTVByXd3VYFvwO+YrLwdXqFzA9U54k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739369515; c=relaxed/simple;
-	bh=7lOc0ruExiQif30p007BjylF8cs6Vx5b/8b7quCgPYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UgkG8j+GlKaoCEV70zsc5p/0UYt5s654QO6iaHwsMq3M+8EvDShfy4y1CuBnXLHi02sg5PJyh9P+qedtNtHa6m1CYBF0KnS3ckRR37/PNSYzIqS8Q6O4WZKWkaE/kOQlw7flSBZ1+o23fs3DsF2zl/KFrMzGmJEFi5KWG9VgFlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcJ2ipt3; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcJ2ipt3"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220c8cf98bbso6755645ad.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 06:11:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739369511; x=1739974311; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u0tkLisKyCAJk/GTfjcId7DbkQwyWicb7CEmJ39+9v8=;
-        b=gcJ2ipt3ZU1CHlpl3k1UzjIkiPNKiH5YjTXsYhhWRUl6KLk++EVJOzwt2aOxZaqRVT
-         +z85dKVVSoxQLfIU1PvgmHwFKjxjc6dYViY5QwJb7EW0Ml8nKx2KNuROXKtjO9pyswRr
-         yUGqABPDGWisozgSWHNYYBGxwVySejGRbeJGkbgAl2Tvdg6E52r7Y1D6a4/9ADggRxx0
-         KgV5zmOh6Hm0cqDZyVaJ71NE6dF9iHIBoX8ONRzYYQqWb958MLucSnKP/RqBv2BJMkQA
-         a2AKNfHP97cS3H2CF10t7fe7bettSTAIQJlK0fyxwlx+DGe2clOs4qSwYOALB2hL7VdM
-         eRog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739369511; x=1739974311;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=u0tkLisKyCAJk/GTfjcId7DbkQwyWicb7CEmJ39+9v8=;
-        b=ixzmxH/hKUjTxNxQKztX6M0wy+1y4gvCj6ni5j30RIVxay/g2LWrpWV/UqxQkib/EZ
-         VGrbHIKVmTssgTttu2TBINjEwJLAmHWnIfqiKyFojcA+SAGSQOii0H+5McrMkfTTc9UJ
-         iHxWMQsf7s3gezp0Y2Q7PzZwRUhNS84cn4O21isaEbg8NeQJIh6nwgcbg6yMNM3qeikI
-         oE0Khj0Z5V+S/GacaL/2hahgy+tRYLWYSDybbx1VaWWIe2BKNqNT24nIvhGPsZmRmlry
-         1tpJrc9rBAqE8KA+2LK9OQLsckxjs1x42CIdze8/8BXu05W7Oi43I7WMzEPahJph3O+3
-         I+QQ==
-X-Gm-Message-State: AOJu0YyUwvkoMIKiniYpYBqsD5SxU97Kv+Pe4yWZzlvu0B7eLZZdyjR7
-	V5CK0fQJ18ANU0kZLMlrHGfyTEkLw/nG8v6PrQhzUoV1wraL3+IO
-X-Gm-Gg: ASbGncsNwu8gHNqyvvSfx5zngAgeLZd9XRTSLAi+iLzWDNJSb5AJnPbDwK8e9bwHtaI
-	up5iL18/5zhPaVQOC87RVez3tS4PMNzpkeT5Lq4sbvnw3iwp7MxU3jcEqC9lA+2uHFPQ76VlGyo
-	2sELEjk0FVXYRVjof1ymII8ZzF354hHTVquq2xkhtMBV+94PgVa7F91msxRDFiWEBzpK+upFucJ
-	6swm5CRg4B1kRRR4XGIGGmalgBm/g12ml0Y72pLOUGs6HpB6s0ZdQOe8jaY45Gk8utV41+nH1iM
-	eJH+LxVV3Dp1PeKfwJSsxOsb5ryH
-X-Google-Smtp-Source: AGHT+IETXXt55AF3BS8Q/SxMhDT7/V0qdZbeRX07hF+De8jLBRthG3OBLKLNEFgHnNjV0zL6e6/Hww==
-X-Received: by 2002:a05:6a00:181a:b0:731:e974:f9c2 with SMTP id d2e1a72fcca58-7322c0a00b4mr5240374b3a.0.1739369511452;
-        Wed, 12 Feb 2025 06:11:51 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7321b34c003sm3317040b3a.52.2025.02.12.06.11.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 06:11:50 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 12 Feb 2025 06:11:49 -0800
-From: Guenter Roeck <linux@roeck-us.net>
+	s=arc-20240116; t=1739371752; c=relaxed/simple;
+	bh=1SeO8cxzH0/mw6NOXalw/fJw/wCSMCqyfPlFj00AO68=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gondszwyXG6hhzSiao5ZPD3uJ9NI3QGF2InjZvcaXIhjpBMq729VdXV3ni71o4rPsDh0hpt5IcQ6+sAa1Fe9a5mJze5eCkxgJ2NFy7EIHLmHBgaZK4enrv7ojUngjo8kHf6WgC18qfiobi8xoJtVmyw0d4DLItSiBjmvAd1g+xk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2481C4CEDF;
+	Wed, 12 Feb 2025 14:49:10 +0000 (UTC)
+Date: Wed, 12 Feb 2025 09:49:17 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 2/2] lockdep: Remove disable_irq_lockdep().
-Message-ID: <5c680698-2385-41bb-946c-4471f23554b8@roeck-us.net>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will
+ Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
+ <longman@redhat.com>, Guenter Roeck <linux@roeck-us.net>, Clark Williams
+ <clrkwllms@kernel.org>
+Subject: Re: [PATCH 1/2] lockdep: Don't disable interrupts on RT in
+ disable_irq_nosync_lockdep.*()
+Message-ID: <20250212094917.1ca8cc13@gandalf.local.home>
+In-Reply-To: <20250212103619.2560503-2-bigeasy@linutronix.de>
 References: <760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net>
- <20250212103619.2560503-1-bigeasy@linutronix.de>
- <20250212103619.2560503-3-bigeasy@linutronix.de>
+	<20250212103619.2560503-1-bigeasy@linutronix.de>
+	<20250212103619.2560503-2-bigeasy@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212103619.2560503-3-bigeasy@linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 12, 2025 at 11:36:19AM +0100, Sebastian Andrzej Siewior wrote:
-> disable_irq_lockdep() has no users, last one was probabaly removed in
->    0b7c874348ea1 ("forcedeth: fix unilateral interrupt disabling in netpoll path")
+On Wed, 12 Feb 2025 11:36:18 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+
+> disable_irq_nosync_lockdep() disables interrupts with lockdep enabled to
+> avoid false positive reports by lockdep that a certain lock has not been
+> acquired with disabled interrupts. The user of this macros expects that
+> a lock can be acquried without disabling interrupts because the IRQ line
+> triggering the interrupt is disabled.
 > 
-> Remove disable_irq_lockdep().
+> This triggers a warning on PREEMPT_RT because after
+> disable_irq_nosync_lockdep.*() the following spinlock_t now is acquired
+> with disabled interrupts.
 > 
+> On PREEMPT_RT there is no difference between spin_lock() and
+> spin_lock_irq() so avoiding disabling interrupts in this case works for
+> the two remaining callers as of today.
+> 
+> Don't disable interrupts on PREEMPT_RT in disable_irq_nosync_lockdep.*().
+> 
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Closes: https://lore.kernel.org/760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net
+> Fixes: e8106b941ceab ("[PATCH] lockdep: core, add enable/disable_irq_irqsave/irqrestore() APIs")
 > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  include/linux/interrupt.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+> index 8cd9327e4e78d..a1b1be9bf73b2 100644
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -448,7 +448,7 @@ irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
+>  static inline void disable_irq_nosync_lockdep(unsigned int irq)
+>  {
+>  	disable_irq_nosync(irq);
+> -#ifdef CONFIG_LOCKDEP
+> +#if defined(CONFIG_LOCKDEP) && !defined(CONFIG_PREEMPT_RT)
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Hmm, should you also add a:
+
+Suggested-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+
+?
+
+  https://lore.kernel.org/all/20250211182113.4875751a@gandalf.local.home/
+
+    ;-)
+
+-- Steve
+
+>  	local_irq_disable();
+>  #endif
+>  }
