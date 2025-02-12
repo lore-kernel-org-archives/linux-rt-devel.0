@@ -1,100 +1,114 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4172080FB
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 10:36:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9EB209F3C
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 11:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739356593; cv=none; b=HyTMGZtsqrWeCdsAvuhVT/my7kK5YUOwt8ROeJka3m0cCCE8gVYOR2tM+NzkRhr1q7vOs5PQPKp9lJd/PQ+Jw/hkbSpKtSX5xBqNSJ3bws7nXXu7kNbF80IEkObtxraM0rBxeEmU2RYGj7Gq3zLWG3sQ7RuZZZ5IZ3DUdhrkK9I=
+	t=1739359309; cv=none; b=ad4fDf4MwvMQa5xpirngGrSS2FcoerC+KI2rCyUWlIJepISitvGS2town6aZkeRWkrD2/C+1NMQpLJOzzVK7QHORRSmP/JHcM4UH5ZCvSaGl0Anl2vXRVs9c90R8LTOGo2JXdi1sTpKAOqs6ycPye0bM2U8THuMHc2WriL3C1y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739356593; c=relaxed/simple;
-	bh=mkHccYxFpw6IWV8gVpwa1KPT8Brq/wgiFwIOvtIyvfY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h+ss0FhNSZNF+rx8sOHb8JiBYBo4oM+UHQ00yh6CP1fhgpz/XrdDV3/rL6jLTqU91ALsnav+rGsRmRELAdi3GvuNj5ggGnpQxPw3QuX1KdKcZgywSSbTeVChcJqQhG1XwQkelRy/uBOlVOGB0xFH8M5T6TyqsvKt+tKDMSG0wTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pIezP+wv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=R+JyVdlL; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1739359309; c=relaxed/simple;
+	bh=FtRxwNwB1LGh/EUQt2O9V51fIz3IQ4+TChBDHh9Ey7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ucRrSAo6ixZMFcUciLEQALN/x3qCUk8+wi+m+F6jQ0C2gvuvOUOx7SVQcp+jD6swKSoTfSj6/PjMNsSolqk5EEpWmQoeeRlHeMdPpeNPU7pE6qCIK0uC2yhKY+y3Xzh9icJK79BKgC7OOGzBONIkQPhlG1hL9lDzT7v3Jl/asyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ceDbVx9a; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0+RSrdlo; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pIezP+wv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="R+JyVdlL"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ceDbVx9a";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0+RSrdlo"
+Date: Wed, 12 Feb 2025 12:21:45 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1739356584;
+	s=2020; t=1739359306;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v0V4Zx3GTmtiiX2SMw1wyrim82M3wrqb99wqyWJPfww=;
-	b=pIezP+wvklkZjMk1CtsSIWcvWsuIXOBKqxeEE68+fNSSdpiASieVoRqsdNCKk8V5MuQXSt
-	GER6KRSmMvTuZoh6VF0vLTTloxJdFO8FYWrlHtvW/TlLWUSAIHah/6F7LnQyGXyGeXbkpK
-	H9Ya75zGtfqAg9zlHPoBINOVEmNQI5MS+W8TzSnq9Ir3Ix+7QLfVS1h/3nw2Q4q6YH0sK/
-	knxbekKw66Q8fxLpBGtNF66vFJwfxiRA5MN4boOuBwSEeXpd9W3TB2mybP5VeTaG97wBe1
-	qdS8gJSPr03ExrnCmbU1Vrtxs4cCD6wgytqIPGHR9GODZ2p7zMzGw5CPosNHVQ==
+	bh=l1K7nMbUzi/PBxssXxktE8rcuXI/mW+uKt+5ZI9cf20=;
+	b=ceDbVx9a2RdBxVvts79Y9Gu/Vc6V5J0JakVP5pAar2t8o7SYF6ep8YmxQi972w4iw8ktZS
+	vV2u71gzCU3z9HnHr6lwdwBL9EL5n09HtBSe+UvCh9RQ9xKzhEF4ThiP6UOCOmRmTQlmhw
+	ypC9G/dB0Tt5OHvR65sKcOgGpVYb02pl0tMyQ2WJTAmp570Oj182j1pklg89PNkVh3fa7n
+	uCoND4zNtV3ejqmK0hX+z0C4fjIWHVz7kGs2X9fTC7q/gJNRT3X4bVppjmHDj0ZUOAEUp9
+	HrKsDwgBmAksl+EzatchVRqx6xBgN1C1Hxdgq5g4npJpa+Lqp8smPMVDMfjXmw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1739356584;
+	s=2020e; t=1739359306;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=v0V4Zx3GTmtiiX2SMw1wyrim82M3wrqb99wqyWJPfww=;
-	b=R+JyVdlLpdD39g2mXfGR+1tv5aFKF6PkzC84ug5lSbXE5rn6AnRmJHaTzz4svb0XNUM0Iz
-	hCrVOeeIyjb58BCw==
-To: linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 2/2] lockdep: Remove disable_irq_lockdep().
-Date: Wed, 12 Feb 2025 11:36:19 +0100
-Message-ID: <20250212103619.2560503-3-bigeasy@linutronix.de>
-In-Reply-To: <20250212103619.2560503-1-bigeasy@linutronix.de>
-References: <760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net>
- <20250212103619.2560503-1-bigeasy@linutronix.de>
+	bh=l1K7nMbUzi/PBxssXxktE8rcuXI/mW+uKt+5ZI9cf20=;
+	b=0+RSrdlobtGST3Ru+CGHZnGHLgeRoFN6Vz2ndbWWeKkku0DmygER63VRVMNX1meUQCqR2z
+	+1R4wD164XpXF3DA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>, linux-kernel@vger.kernel.org
+Subject: Re: BUG: debug_exception_enter() disables preemption and may call
+ sleeping functions on aarch64 with RT
+Message-ID: <20250212112145.BIE8_6T2@linutronix.de>
+References: <Z6YW_Kx4S2tmj2BP@uudg.org>
+ <Z6n16cK85JMyowDq@J2N7QTR9R3>
+ <20250210140657.UAsRw4k8@linutronix.de>
+ <Z6vvyKZ5eoAS435b@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z6vvyKZ5eoAS435b@uudg.org>
 
-disable_irq_lockdep() has no users, last one was probabaly removed in
-   0b7c874348ea1 ("forcedeth: fix unilateral interrupt disabling in netpoll=
- path")
+On 2025-02-11 21:48:08 [-0300], Luis Claudio R. Goncalves wrote:
+> > Couldn't you delay sending signals until after the preempt-disable
+> > section? 
+> 
+> Looking at do_debug_exception,
+> 
+> void do_debug_exception(unsigned long addr_if_watchpoint, unsigned long esr,
+> 			struct pt_regs *regs)
+> {
+> 	const struct fault_info *inf = esr_to_debug_fault_info(esr);
+> 	unsigned long pc = instruction_pointer(regs);
+> 
+> 	debug_exception_enter(regs);
+> 
+> 	if (user_mode(regs) && !is_ttbr0_addr(pc))
+> 		arm64_apply_bp_hardening();
+> 
+> 	if (inf->fn(addr_if_watchpoint, esr, regs)) {
+> 		arm64_notify_die(inf->name, regs, inf->sig, inf->code, pc, esr);
+> 	}
+> 
+> 	debug_exception_exit(regs);
+> }
+> NOKPROBE_SYMBOL(do_debug_exception);
+> 
+> 
+> Do you mean executing the
+> 
+> 	arm64_notify_die(inf->name, regs, inf->sig, inf->code, pc, esr);
+> 
+> after re-enabling the preemption or do you mean something more
+> sophisticated?
 
-Remove disable_irq_lockdep().
+single_step_handler() and brk_handler() can both send signals. If
+inf->fn returns != 0 (which seems to be only be possible for
+brk_handler() out of the possible four callbacks) this this
+arm64_notify_die() sends a signal.
+So we have three potential signal delivers. It shouldn't matter if the
+signal is sent within the preempt-disable section or outside because the
+signal will be queued for current and delivered on the return to
+userland. So would just need to save the details and do it outside. Now
+that I actually looked at the code, this might lead to a bit of a mess
+so splitting out the signal part and avoiding the preempt-off part might
+better which would be the rework that Mark was talking about.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/interrupt.h | 8 --------
- 1 file changed, 8 deletions(-)
+> Luis
 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index a1b1be9bf73b2..c782a74d2a304 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -461,14 +461,6 @@ static inline void disable_irq_nosync_lockdep_irqsave(=
-unsigned int irq, unsigned
- #endif
- }
-=20
--static inline void disable_irq_lockdep(unsigned int irq)
--{
--	disable_irq(irq);
--#ifdef CONFIG_LOCKDEP
--	local_irq_disable();
--#endif
--}
--
- static inline void enable_irq_lockdep(unsigned int irq)
- {
- #if defined(CONFIG_LOCKDEP) && !defined(CONFIG_PREEMPT_RT)
---=20
-2.47.2
-
+Sebastian
