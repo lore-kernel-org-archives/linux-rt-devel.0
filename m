@@ -1,264 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077DB20B1E2
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 11:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090241D86F2
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 11:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739361424; cv=none; b=V+9hStzamwUE8bsPWbu9Vr4ign7wBg26beTCXjz5YkpQUiK1x0DW4pWkvjjpLlLpTl/0CP1cUznW4LIl9ZpPvp8AllQXKqpnysJ1JL1v66LMo4C61e7y2FwzZY1NC7PDjG7RuKMV4lEulpuyD10dauzlsaQ/58ZOu6RMl5v2vJE=
+	t=1739361558; cv=none; b=K6HUI7/fUIeN9UkoX8fKVKl8I6j9vHPKhcEpxOvhmKech9Vifq2i4m2mtb+VioV1K8qyYYAKtjhszAAWypqFv7/3yAi9nF85QfRaN4hE9uPfHYUgYLL67DlHDzbaI6Ha82MZ/CXa4mM0GJ0Ws0hz993zaQHJUSyD//ozBEBz/wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739361424; c=relaxed/simple;
-	bh=1xOagMwx81LRVocevwDW4ihEkw7v08IAkRARjMvVq4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sr57yu3TzsSqYbu8+mWodzHZfkVRA89G1HwzAoONht6zolTu9ucK5vxBSqfu0ZozCYFB8ZH4kzz+wXUuB8GaO5rnyWejuGeVlB1AO7gzDHMsnNSH654NB/rAkD0CV7Zmrm2l05rcJaDGrRl3fPdME8rHtsAuc2paQO/4pz8T6EQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PpGmcaQM; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1739361558; c=relaxed/simple;
+	bh=JPt+xC4eyv+WQHyNcmq0S8J7JpIxDT7l8ZQI8yLkBps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OQFFYv9ttatssVJSGacM7JsbM8T6WRe5KrO/5XBiBbz63pIIwmZB3JfCgn0R3/UCWiytAzsJ6Lvng1yKGKMj0ulBEMIjJ2UOO0doNoYYsmOoqTZcEDq928vVNPcNhnNfGtezBxzRzvFD48ESIGg2zVg6R0/pGU76KtJ6teCCbUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gR+GfAU8; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PpGmcaQM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739361420;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q9wwg/EYSBHu1U4/7rjPkT7ZbHmVu3EteW6eLxGS4Ag=;
-	b=PpGmcaQM3tJizR20wJydpOlZ1RM8omkfiOp3RrVGG4vh7DT23R6dUlArmLMdtwf+svWeIK
-	L7xZkygcQjmqFMcmlgmW/MSEfZ0ZQue5HDgteu8xWP8TNLz61lJwwX0eiFsvl6+ZSNuzkb
-	dDsAki1/uBcivgoy/YRNlrj9T1E7AbA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-244-WLVxtvUQNACcQ9SCF6KAZQ-1; Wed,
- 12 Feb 2025 06:56:57 -0500
-X-MC-Unique: WLVxtvUQNACcQ9SCF6KAZQ-1
-X-Mimecast-MFC-AGG-ID: WLVxtvUQNACcQ9SCF6KAZQ
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF7131800879;
-	Wed, 12 Feb 2025 11:56:54 +0000 (UTC)
-Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.64.107])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B06401800365;
-	Wed, 12 Feb 2025 11:56:48 +0000 (UTC)
-Date: Wed, 12 Feb 2025 08:56:47 -0300
-From: Wander Lairson Costa <wander@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net, 
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com, andrew+netdev@lunn.ch, 
-	netdev@vger.kernel.org, rostedt@goodmis.org, clrkwllms@kernel.org, jgarzik@redhat.com, 
-	yuma@redhat.com, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net 0/4][pull request] igb: fix igb_msix_other() handling
- for PREEMPT_RT
-Message-ID: <zy3irjybyc32hnow3ckhkfsrtfm5nev44aeovinlkkfc6tyyjv@gcblibp5ng3o>
-References: <20250204175243.810189-1-anthony.l.nguyen@intel.com>
- <20250205094818.I-Jl44AK@linutronix.de>
- <mrw3tpwsravsaibkcpptdkko3ff6qtk6w6ernqvjisk4l7owok@q6hmxkzcdkey>
- <20250206115914.VfzGTwD8@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gR+GfAU8"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38dd2f309deso243598f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 03:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739361555; x=1739966355; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1eSl5YfX4v8OgkeO1jdSOmTgQstGlkukMTg9/pwP0Ps=;
+        b=gR+GfAU84LOeuWQGBJi8p+i6dZ0sWhGb1pFsb26zU3tryczLDpP3WAsZMWAe6+azit
+         SAzsdvCHlWZYcIuKO+OoeyUHUmERiWIPlvOyz0bW1VPSKUDSHoO/f2WPYzEVDaQkj9xv
+         ys1hWMsUmwx8BHa74+WKksVzp5PyTP+3LObHux6Tm1/mlNL+ganTO+MIzBpn7JcrPxln
+         tiYnFyWvdBw/nYgY0u2AZld5yPyzp/m3vDdznpcwzOb7WMrVPTZmQNx5uo+yJNVrsfY6
+         jTc8VkTlpIhrPc/AJTAn4TlJBfg/u5nXXmNdVxW9kqCh5PmdQ4KzdD4Fd2zxn5ol6/9W
+         u0xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739361555; x=1739966355;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1eSl5YfX4v8OgkeO1jdSOmTgQstGlkukMTg9/pwP0Ps=;
+        b=GnUm9bLsYK4so5TaIHz81+CfeP/wuRe53g89mQIy9NRJVkh1TILrbu0YwldYvJF13c
+         EDEubx7yDf6JXJ75uw0X3A+W0r0RFo8RB8XVoyCZwS5dG4mtwBepNZVDFo2BqxYjsO2I
+         ap9rQCk9h8vWvFBvKos5C+a/P4xUY3Ye1un5ycJSjSGhj/tN2iE8k7qTowYAn50LN/JL
+         MG6oHfyQFtSPp8hNKYKSJ5NWb7eRnInRj1hT7WmD6RdPIRwgtNwKOPWFP1dKIVYbBkC/
+         2t5EzQ77Pd3/aBodjrPcEth9z8UW2lASCYKCOnYa8kx9+KtFnViH0b2NzZ9fomKkFNPN
+         GC4g==
+X-Forwarded-Encrypted: i=1; AJvYcCUwAV0BKZsCjB/QUTk8SjrhiCuOs68xva5gmqeCAPBaf0hgh8YZg+fPLFtiFcCG5eFBi05BpAEd96mOUbybGQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVmntXFB7ZUwGsCDT7NX7RlxgsDqVS5DnHeR8+ourT/Xrj4LY0
+	TYMwc9brl7V4qUUAruYoZ7Fv27meVDe/rtiXykVdXKMS22a6iHWL9Ae3X70ecOxU26ZRfkAvd1T
+	QaBzGOXcDiHPDU71Afdz4kG3id7Q=
+X-Gm-Gg: ASbGncte/soLtCZQQGapB5dsSPr3LrAcyv3qwNffbgTvrc/eqO1i1pJhKW/MDeADHyK
+	cMbkNSYNK7yNgejs2ykZIxqSLMmNVwgDj3dV+1zCHwQ0XUZ/XnhjgyT3WXwyft2s3+dvxg2RKhR
+	WCg+BPq9/dlT0TRc3Pw2EUgZW2aHo=
+X-Google-Smtp-Source: AGHT+IG3fmHz2E+6aMtRT6NZtv0M4VNelZBA1J0TIg1co0vQFmeR6ifavyyfyKBLbGkyrmm4MYHT38YxPlA2+orv6kk=
+X-Received: by 2002:a5d:64e4:0:b0:38d:be5e:b2a7 with SMTP id
+ ffacd0b85a97d-38dea2e98e7mr967564f8f.10.1739361555145; Wed, 12 Feb 2025
+ 03:59:15 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250206115914.VfzGTwD8@linutronix.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <20250211160750.1301353-1-longman@redhat.com>
+In-Reply-To: <20250211160750.1301353-1-longman@redhat.com>
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Date: Wed, 12 Feb 2025 12:59:01 +0100
+X-Gm-Features: AWEUYZnaqmNFQ_lbBc6EZt7NZdSpHvlmvNFB56VaHucCrwmsBCcCq_pnMuQNjtc
+Message-ID: <CAPAsAGzk4h3B-LNQdedrk=2aRbPoOJeVv_tQF2QPgzwwUvirEw@mail.gmail.com>
+Subject: Re: [PATCH] kasan: Don't call find_vm_area() in RT kernel
+To: Waiman Long <longman@redhat.com>
+Cc: Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Nico Pache <npache@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 06, 2025 at 12:59:14PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-02-05 17:08:35 [-0300], Wander Lairson Costa wrote:
-> > On Wed, Feb 05, 2025 at 10:48:18AM +0100, Sebastian Andrzej Siewior wrote:
-> > > On 2025-02-04 09:52:36 [-0800], Tony Nguyen wrote:
-> > > > Wander Lairson Costa says:
-> > > > 
-> > > > This is the second attempt at fixing the behavior of igb_msix_other()
-> > > > for PREEMPT_RT. The previous attempt [1] was reverted [2] following
-> > > > concerns raised by Sebastian [3].
-> > > 
-> > > I still prefer a solution where we don't have the ifdef in the driver. I
-> > > was presented two traces but I didn't get why it works in once case but
-> > > not in the other. Maybe it was too obvious.
-> > 
-> > Copying the traces here for further explanation. Both cases are for
-> > PREEMPT_RT.
-> > 
-> > Failure case:
-> > 
-> > kworker/-86      0...1    85.381866: function:                   igbvf_reset
-> > kworker/-86      0...2    85.381866: function:                      e1000_reset_hw_vf
-> > kworker/-86      0...2    85.381867: function:                         e1000_check_for_rst_vf
-> > kworker/-86      0...2    85.381868: function:                         e1000_write_posted_mbx
-> > kworker/-86      0...2    85.381868: function:                            e1000_write_mbx_vf
-> > kworker/-86      0...2    85.381870: function:                            e1000_check_for_ack_vf // repeats for 2000 lines
-> 
-> So it repeats because it waits for the bit. It waits for the interrupts.
-> 
-> > ...
-> > kworker/-86      0.N.2    86.393782: function:                         e1000_read_posted_mbx
-> 
-> Is this 2 the migrate-disable or preempt-disable counter? Because you
-> should get preempted based on that N.
-> 
-> > kworker/-86      0.N.2    86.398606: function:                      e1000_init_hw_vf
-> > kworker/-86      0.N.2    86.398606: function:                         e1000_rar_set_vf
-> > kworker/-86      0.N.2    86.398606: function:                            e1000_write_posted_mbx
-> > irq/65-e-1287    0d..1    86.398609: function:             igb_msix_other
-> 
-> So the kworker leaves and immediately the interrupt gets on the CPU.
-> 
-> > irq/65-e-1287    0d..1    86.398609: function:                igb_rd32
-> > irq/65-e-1287    0d..2    86.398610: function:                igb_check_for_rst
-> > irq/65-e-1287    0d..2    86.398610: function:                igb_check_for_rst_pf
-> > irq/65-e-1287    0d..2    86.398610: function:                   igb_rd32
-> > irq/65-e-1287    0d..2    86.398611: function:                igb_check_for_msg
-> > irq/65-e-1287    0d..2    86.398611: function:                igb_check_for_msg_pf
-> > irq/65-e-1287    0d..2    86.398611: function:                   igb_rd32
-> > irq/65-e-1287    0d..2    86.398612: function:                igb_rcv_msg_from_vf
-> > irq/65-e-1287    0d..2    86.398612: function:                   igb_read_mbx
-> > irq/65-e-1287    0d..2    86.398612: function:                   igb_read_mbx_pf
-> > irq/65-e-1287    0d..2    86.398612: function:                      igb_obtain_mbx_lock_pf
-> > irq/65-e-1287    0d..2    86.398612: function:                         igb_rd32
-> > 
-> > In the above trace, observe that the ISR igb_msix_other() is only
-> > scheduled after e1000_write_posted_mbx() fails due to a timeout.
-> > The interrupt handler should run during the looping calls to
-> > e1000_check_for_ack_vf(), but it is not scheduled because
-> > preemption is disabled.
-> 
-> What disables preemption? On PREEMPT_RT the spin_lock() does not disable
-> preemption. You shouldn't spin that long. When was interrupt scheduled.
-> _Why_ is the interrupt delayed that long.
-> 
-When I was using trace-cmd report -l, it omitted some fields, one of
-them is preempt-lazy-depth (which was something new to me), and it seems
-this is what affects interrupts. It comes from here [1]. I had the logs,
-but the machine went under maintenance  before I could save them. Once
-it comes back, I can grab them and post here.
+On Tue, Feb 11, 2025 at 5:08=E2=80=AFPM Waiman Long <longman@redhat.com> wr=
+ote:
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 3fe77a360f1c..e1ee687966aa 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -398,9 +398,20 @@ static void print_address_description(void *addr, u8=
+ tag,
+>                 pr_err("\n");
+>         }
+>
+> -       if (is_vmalloc_addr(addr)) {
+> -               struct vm_struct *va =3D find_vm_area(addr);
+> +       if (!is_vmalloc_addr(addr))
+> +               goto print_page;
+>
+> +       /*
+> +        * RT kernel cannot call find_vm_area() in atomic context.
+> +        * For !RT kernel, prevent spinlock_t inside raw_spinlock_t warni=
+ng
+> +        * by raising wait-type to WAIT_SLEEP.
+> +        */
+> +       if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> +               static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEE=
+P);
+> +               struct vm_struct *va;
+> +
+> +               lock_map_acquire_try(&vmalloc_map);
+> +               va =3D find_vm_area(addr);
 
-[1] https://elixir.bootlin.com/linux/v6.13.2/source/drivers/net/ethernet/intel/igbvf/netdev.c#L1522
+Can we hide all this logic behind some function like
+kasan_find_vm_area() which would return NULL for -rt?
 
-> > Note that e1000_check_for_ack_vf() is called 2000 times before
-> > it finally times out.
-> 
-> Exactly.
-> 
-> > Sucessful case:
-> > 
-> >       ip-5603    0...1  1884.710747: function:             igbvf_reset
-> >       ip-5603    0...2  1884.710754: function:                e1000_reset_hw_vf
-> >       ip-5603    0...2  1884.710755: function:                   e1000_check_for_rst_vf
-> >       ip-5603    0...2  1884.710756: function:                   e1000_write_posted_mbx
-> >       ip-5603    0...2  1884.710756: function:                      e1000_write_mbx_vf
-> >       ip-5603    0...2  1884.710758: function:                      e1000_check_for_ack_vf
-> >       ip-5603    0d.h2  1884.710760: function:             igb_msix_other
-> >       ip-5603    0d.h2  1884.710760: function:                igb_rd32
-> >       ip-5603    0d.h3  1884.710761: function:                igb_check_for_rst
-> >       ip-5603    0d.h3  1884.710761: function:                igb_check_for_rst_pf
-> >       ip-5603    0d.h3  1884.710761: function:                   igb_rd32
-> >       ip-5603    0d.h3  1884.710762: function:                igb_check_for_msg
-> >       ip-5603    0d.h3  1884.710762: function:                igb_check_for_msg_pf
-> >       ip-5603    0d.h3  1884.710762: function:                   igb_rd32
-> >       ip-5603    0d.h3  1884.710763: function:                igb_rcv_msg_from_vf
-> >       ip-5603    0d.h3  1884.710763: function:                   igb_read_mbx
-> >       ip-5603    0d.h3  1884.710763: function:                   igb_read_mbx_pf
-> >       ip-5603    0d.h3  1884.710763: function:                      igb_obtain_mbx_lock_pf
-> >       ip-5603    0d.h3  1884.710763: function:                         igb_rd32
-> > 
-> > Since we forced the interrupt context for igb_msix_other(), it now
-> > runs immediately while the driver checks for an acknowledgment via
-> > e1000_check_for_ack_vf().
-> 
-> Is this still RT or non-RT? I'm asking because igbvf_reset() is invoked
-> in ip's context and not in a worker. Also igb_msix_other() runs with a
-> 'h' so it is not threaded.
-> 
-> I have a theory of my own, mind testing 
-> 
-> diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/ethernet/intel/igb/igb_main.c
-> index d368b753a4675..6fe37b8001c36 100644
-> --- a/drivers/net/ethernet/intel/igb/igb_main.c
-> +++ b/drivers/net/ethernet/intel/igb/igb_main.c
-> @@ -912,7 +912,7 @@ static int igb_request_msix(struct igb_adapter *adapter)
->  	struct net_device *netdev = adapter->netdev;
->  	int i, err = 0, vector = 0, free_vector = 0;
->  
-> -	err = request_irq(adapter->msix_entries[vector].vector,
-> +	err = request_threaded_irq(adapter->msix_entries[vector].vector, NULL,
->  			  igb_msix_other, 0, netdev->name, adapter);
->  	if (err)
->  		goto err_out;
-> 
-> just to see if it solves the problem?
-> 
-I have two test cases:
+>                 if (va) {
+>                         pr_err("The buggy address belongs to the virtual =
+mapping at\n"
+>                                " [%px, %px) created by:\n"
+> @@ -410,8 +421,13 @@ static void print_address_description(void *addr, u8=
+ tag,
+>
+>                         page =3D vmalloc_to_page(addr);
 
-1) Boot the machine with nr_cpus=1. The driver reports "PF still
-resetting" message continuously. This issue is gone.
+Or does vmalloc_to_page() secretly take  some lock somewhere so we
+need to guard it with this 'vmalloc_map' too?
+So my suggestion above wouldn't be enough, if that's the case.
 
-2) Run the following script:
-
-    ipaddr_vlan=3
-    nic_test=ens14f0
-    vf=${nic_test}v0 # The main testing steps:
-    while true; do
-        ip link set ${nic_test} mtu 1500
-        ip link set ${vf} mtu 1500
-        ip link set $vf up
-        # 3. set vlan and ip for VF
-        ip link set ${nic_test} vf 0 vlan ${ipaddr_vlan}
-        ip addr add 172.30.${ipaddr_vlan}.1/24 dev ${vf}
-        ip addr add 2021:db8:${ipaddr_vlan}::1/64 dev ${vf}
-        # 4. check the link state for VF and PF
-        ip link show ${nic_test}
-        if ! ip link show $vf | grep 'state UP'; then
-            echo 'Error found'
-            break
-        fi
-        ip link set $vf down
-    done
-
-This one eventually fails. It is the first time that one works and the
-other fails. So far, it has been all or nothing. I didn't have time yet to
-investigate why this happens.
-
-> > 
-> > > In the mean time:
-> > > 
-> > > igb_msg_task_irq_safe()
-> > > -> vfs_raw_spin_lock_irqsave() // raw_spinlock_t
-> > > -> igb_vf_reset_event()
-> > >   -> igb_vf_reset()
-> > >     -> igb_set_rx_mode()
-> > >       -> igb_write_mc_addr_list()
-> > >          -> mta_list = kcalloc(netdev_mc_count(netdev), 6, GFP_ATOMIC); // kaboom?
-> > 
-> > Perhaps the solution is to preallocate this buffer, if possible.
-> > Doing so would significantly simplify the patch. However, this
-> > would require knowing when the multicast (mc) count changes.
-> > I attempted to identify this but have not succeeded so far.
-> > 
-> > > 
-> > > By explicitly disabling preemption or using a raw_spinlock_t you need to
-> > > pay attention not to do anything that might lead to unbounded loops
-> > > (like iterating over many lists, polling on a bit for ages, …) and
-> > > paying attention that the whole API underneath that it is not doing that
-> > > is allowed to.
-> > 
-> > I unsure if I understood what you are trying to say.
-> 
-> The moment you start disabling preemption/ use raw_spin_lock_t you need
-> to start about everything underneath/ everything within this section.
-> While if you keep using spinlock_t you don't have to worry *that* much
-> and worry if *this* will break PREEMPT_RT. Not to worry whether or not
-> it is okay to allocate memory or call this function because it might
-> break RT.
-> OR if netdev_mc_count() returns 1 you loop once later and this costs you
-> 1us. If it returns 100, you loop 100 times and it costs how much
-> additional time?
-> 
-> Sebastian
-> 
-
+>                 }
+> +               lock_map_release(&vmalloc_map);
+> +       } else {
+> +               pr_err("The buggy address %px belongs to a vmalloc virtua=
+l mapping\n",
+> +                       addr);
+>         }
+>
