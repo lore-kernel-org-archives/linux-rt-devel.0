@@ -1,94 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF9D1CBEAA;
-	Wed, 12 Feb 2025 14:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3027921127A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 15:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739371752; cv=none; b=XoVFtHSfK5N3YY0adf1CpDaOW74J28/PaM3NiXt00RTCa0G5/0C0jcrDH8mL52KwKz9iUNd/SJJN4Ox3AZ5dSgTFsyzLExZnrmEbTtVigDHwkpI7NLSeO1UYefFFOEKZmRNQR2J+IH72PXTVByXd3VYFvwO+YrLwdXqFzA9U54k=
+	t=1739373075; cv=none; b=srbOCHdN1p29eIMlF7nfDJW2NTgEqa4hOchB5NlDo/yxufSZb223C+lUFlb4V93pckDJ0vkijpMpUHSRDM6PUgEnDIEJq+WwBLiVwK7qbvEwYSx7scN2WQgHbk2XSPFHlL28lvMdu/u+G05ZKICcrYRoXPrSai2p1HSxE+urc8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739371752; c=relaxed/simple;
-	bh=1SeO8cxzH0/mw6NOXalw/fJw/wCSMCqyfPlFj00AO68=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gondszwyXG6hhzSiao5ZPD3uJ9NI3QGF2InjZvcaXIhjpBMq729VdXV3ni71o4rPsDh0hpt5IcQ6+sAa1Fe9a5mJze5eCkxgJ2NFy7EIHLmHBgaZK4enrv7ojUngjo8kHf6WgC18qfiobi8xoJtVmyw0d4DLItSiBjmvAd1g+xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2481C4CEDF;
-	Wed, 12 Feb 2025 14:49:10 +0000 (UTC)
-Date: Wed, 12 Feb 2025 09:49:17 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will
- Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, Waiman Long
- <longman@redhat.com>, Guenter Roeck <linux@roeck-us.net>, Clark Williams
- <clrkwllms@kernel.org>
-Subject: Re: [PATCH 1/2] lockdep: Don't disable interrupts on RT in
- disable_irq_nosync_lockdep.*()
-Message-ID: <20250212094917.1ca8cc13@gandalf.local.home>
-In-Reply-To: <20250212103619.2560503-2-bigeasy@linutronix.de>
-References: <760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net>
-	<20250212103619.2560503-1-bigeasy@linutronix.de>
-	<20250212103619.2560503-2-bigeasy@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1739373075; c=relaxed/simple;
+	bh=82qqi7EhBcHhvR+S/WkfkXa0RYZNI9DIYY5fDYXpCNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=InzAHpSRbANgph5QIhTRIZsXHM6E60GuRuzdhUs68lbSyjXiPwWiZ4Z8qS4pgi6rnNvDGMdz0S48OIBE07l+BF4UDn1ldeY5HbacXre3adP/pOcGMdVfEPPPtLMiebxoPrA/eOJYyi6bAiPzvQdu8kzfs0QYSTb5dpa1baubRnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bwC5rewM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o/HgXyp8; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bwC5rewM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o/HgXyp8"
+Date: Wed, 12 Feb 2025 16:11:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1739373070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SrfOWDCT3XuVLyeucGyiCbsN3LAsppGk75lAUq/SMs=;
+	b=bwC5rewMj4IiTKRVeoaFCl3ZEAWop6emxipwa6BMA4/fCHtzKaYn+EI4P+DGRI3kozJMDc
+	x2JIUDdg9OMpF2Vqchi7IIHryBwaqvssgk/NpeuE5p9Ty73Zii7A6sZ8JbLak87/DVvzLR
+	e+tV+PtROlAaitsiGhgEfA2IGr50N+GjOT1141DgpaOwUTqbSzqwIBrIWAkEcKR28r0XVn
+	jD1RoGV6y7UeIQlB4OMCfD5T20FHdAnyyuPSrPQTIHU8YM4wetZCIgaNPATEZUFhpU6viw
+	D2TLMt6dMaFbi5xlgkKZFrEY3y35+CNpjVh9RdOjESXfE2N1yl5XTLbBQpXezQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1739373070;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9SrfOWDCT3XuVLyeucGyiCbsN3LAsppGk75lAUq/SMs=;
+	b=o/HgXyp8ZAFpI+kXnPtVxC36730434MotVM6XITNddzybVCSipIvUNpBOGw7Hk2ufBW1v4
+	If0ijLensOdwkJCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Wander Lairson Costa <wander@redhat.com>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	andrew+netdev@lunn.ch, netdev@vger.kernel.org, rostedt@goodmis.org,
+	clrkwllms@kernel.org, jgarzik@redhat.com, yuma@redhat.com,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net 0/4][pull request] igb: fix igb_msix_other() handling
+ for PREEMPT_RT
+Message-ID: <20250212151108.jI8qODdD@linutronix.de>
+References: <20250204175243.810189-1-anthony.l.nguyen@intel.com>
+ <20250205094818.I-Jl44AK@linutronix.de>
+ <mrw3tpwsravsaibkcpptdkko3ff6qtk6w6ernqvjisk4l7owok@q6hmxkzcdkey>
+ <20250206115914.VfzGTwD8@linutronix.de>
+ <zy3irjybyc32hnow3ckhkfsrtfm5nev44aeovinlkkfc6tyyjv@gcblibp5ng3o>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <zy3irjybyc32hnow3ckhkfsrtfm5nev44aeovinlkkfc6tyyjv@gcblibp5ng3o>
 
-On Wed, 12 Feb 2025 11:36:18 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+On 2025-02-12 08:56:47 [-0300], Wander Lairson Costa wrote:
+> > What disables preemption? On PREEMPT_RT the spin_lock() does not disable
+> > preemption. You shouldn't spin that long. When was interrupt scheduled.
+> > _Why_ is the interrupt delayed that long.
+> >=20
+> When I was using trace-cmd report -l, it omitted some fields, one of
+> them is preempt-lazy-depth (which was something new to me), and it seems
+> this is what affects interrupts. It comes from here [1]. I had the logs,
+> but the machine went under maintenance  before I could save them. Once
+> it comes back, I can grab them and post here.
+>=20
+> [1] https://elixir.bootlin.com/linux/v6.13.2/source/drivers/net/ethernet/=
+intel/igbvf/netdev.c#L1522
 
-> disable_irq_nosync_lockdep() disables interrupts with lockdep enabled to
-> avoid false positive reports by lockdep that a certain lock has not been
-> acquired with disabled interrupts. The user of this macros expects that
-> a lock can be acquried without disabling interrupts because the IRQ line
-> triggering the interrupt is disabled.
-> 
-> This triggers a warning on PREEMPT_RT because after
-> disable_irq_nosync_lockdep.*() the following spinlock_t now is acquired
-> with disabled interrupts.
-> 
-> On PREEMPT_RT there is no difference between spin_lock() and
-> spin_lock_irq() so avoiding disabling interrupts in this case works for
-> the two remaining callers as of today.
-> 
-> Don't disable interrupts on PREEMPT_RT in disable_irq_nosync_lockdep.*().
-> 
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Closes: https://lore.kernel.org/760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net
-> Fixes: e8106b941ceab ("[PATCH] lockdep: core, add enable/disable_irq_irqsave/irqrestore() APIs")
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
->  include/linux/interrupt.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> index 8cd9327e4e78d..a1b1be9bf73b2 100644
-> --- a/include/linux/interrupt.h
-> +++ b/include/linux/interrupt.h
-> @@ -448,7 +448,7 @@ irq_calc_affinity_vectors(unsigned int minvec, unsigned int maxvec,
->  static inline void disable_irq_nosync_lockdep(unsigned int irq)
->  {
->  	disable_irq_nosync(irq);
-> -#ifdef CONFIG_LOCKDEP
-> +#if defined(CONFIG_LOCKDEP) && !defined(CONFIG_PREEMPT_RT)
+If you do send patches against mainline please test against mainline. As
+of today we have preempt-disable and migrate-disable depth. We don't
+do lazy-depth anymore, we just have a bit now (which is [lLbB]).
+The referenced line will only disable migration, not preemption.
 
-Hmm, should you also add a:
+It is important to understand what exactly is going on.
 
-Suggested-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> > diff --git a/drivers/net/ethernet/intel/igb/igb_main.c b/drivers/net/et=
+hernet/intel/igb/igb_main.c
+> > index d368b753a4675..6fe37b8001c36 100644
+> > --- a/drivers/net/ethernet/intel/igb/igb_main.c
+> > +++ b/drivers/net/ethernet/intel/igb/igb_main.c
+> > @@ -912,7 +912,7 @@ static int igb_request_msix(struct igb_adapter *ada=
+pter)
+> >  	struct net_device *netdev =3D adapter->netdev;
+> >  	int i, err =3D 0, vector =3D 0, free_vector =3D 0;
+> > =20
+> > -	err =3D request_irq(adapter->msix_entries[vector].vector,
+> > +	err =3D request_threaded_irq(adapter->msix_entries[vector].vector, NU=
+LL,
+> >  			  igb_msix_other, 0, netdev->name, adapter);
+> >  	if (err)
+> >  		goto err_out;
+> >=20
+> > just to see if it solves the problem?
+> >=20
+> I have two test cases:
+>=20
+> 1) Boot the machine with nr_cpus=3D1. The driver reports "PF still
+> resetting" message continuously. This issue is gone.
 
-?
+good.
 
-  https://lore.kernel.org/all/20250211182113.4875751a@gandalf.local.home/
+> 2) Run the following script:
+>=20
+>     ipaddr_vlan=3D3
+>     nic_test=3Dens14f0
+>     vf=3D${nic_test}v0 # The main testing steps:
+>     while true; do
+>         ip link set ${nic_test} mtu 1500
+>         ip link set ${vf} mtu 1500
+>         ip link set $vf up
+>         # 3. set vlan and ip for VF
+>         ip link set ${nic_test} vf 0 vlan ${ipaddr_vlan}
+>         ip addr add 172.30.${ipaddr_vlan}.1/24 dev ${vf}
+>         ip addr add 2021:db8:${ipaddr_vlan}::1/64 dev ${vf}
+>         # 4. check the link state for VF and PF
+>         ip link show ${nic_test}
+>         if ! ip link show $vf | grep 'state UP'; then
+>             echo 'Error found'
+>             break
+>         fi
+>         ip link set $vf down
+>     done
+>=20
+> This one eventually fails. It is the first time that one works and the
+> other fails. So far, it has been all or nothing. I didn't have time yet to
+> investigate why this happens.
 
-    ;-)
+"eventually fails". Does this mean it passes the first few iterations
+but then it times out? In that case it might be something else
 
--- Steve
+I managed to find a "Intel Corporation I350 Gigabit Network Connection
+(rev 01)" and I end up in a warning if I start the script (without the
+while true):
 
->  	local_irq_disable();
->  #endif
->  }
+|8021q: adding VLAN 0 to HW filter on device eno0v0
+|igbvf 0000:08:10.0: Vlan id 0 is not added
+|igb 0000:07:00.0: Setting VLAN 3, QOS 0x0 on VF 0
+|igb 0000:07:00.0: VF 0 attempted to set invalid MAC filter
+|------------[ cut here ]------------
+|WARNING: CPU: 25 PID: 3013 at drivers/net/ethernet/intel/igbvf/netdev.c:17=
+77 igbvf_close+0x111/0x120
+=E2=80=A6
+|CPU: 25 UID: 0 PID: 3013 Comm: ip Not tainted 6.14.0-rc1-rt1+ #186 PREEMPT=
+_RT+LAZY 39474a76e7562bb76173f4b98cf194301d39bf7f
+|igbvf 0000:08:10.0: Link is Up 1000 Mbps Full Duplex
+|---[ end trace 0000000000000000 ]---
+|igb 0000:07:00.0: VF 0 attempted to set invalid MAC filter
+|igb 0000:07:00.0: VF 0 attempted to set invalid MAC filter
+|igb 0000:07:00.0: VF 0 attempted to set invalid MAC filter
+|8021q: adding VLAN 0 to HW filter on device eno0v0
+|igb 0000:07:00.0: VF 0 attempted to override administratively set VLAN tag
+|Reload the VF driver to resume operations
+|igbvf 0000:08:10.0: Link is Up 1000 Mbps Full Duplex
+|igb 0000:07:00.0: VF 0 attempted to set invalid MAC filter
+
+and the state is down ('Error found' is printed). But if I do it
+manually, line by line, then it all passes without the warning and the
+state of the VF device is up.
+
+Sebastian
