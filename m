@@ -1,133 +1,195 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090241D86F2
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 11:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7412620A5E3
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 12:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739361558; cv=none; b=K6HUI7/fUIeN9UkoX8fKVKl8I6j9vHPKhcEpxOvhmKech9Vifq2i4m2mtb+VioV1K8qyYYAKtjhszAAWypqFv7/3yAi9nF85QfRaN4hE9uPfHYUgYLL67DlHDzbaI6Ha82MZ/CXa4mM0GJ0Ws0hz993zaQHJUSyD//ozBEBz/wE=
+	t=1739364042; cv=none; b=XbFWXLTDUn1YLRwcRXgS2jzRoTP0/+Nxcy6SgDkXxMx003oYKEDkxlW4Qx3VKO5HWJ1ONRjUC1RP9i5gFOGKJgIUHxwsuN2y6SxBBvpgb5ciDaQq/9kwxa3uUAcq3qUHcoYpfp9lR55LuGZfjb14wK/PvqUg0aJZTjMohGWOUGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739361558; c=relaxed/simple;
-	bh=JPt+xC4eyv+WQHyNcmq0S8J7JpIxDT7l8ZQI8yLkBps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OQFFYv9ttatssVJSGacM7JsbM8T6WRe5KrO/5XBiBbz63pIIwmZB3JfCgn0R3/UCWiytAzsJ6Lvng1yKGKMj0ulBEMIjJ2UOO0doNoYYsmOoqTZcEDq928vVNPcNhnNfGtezBxzRzvFD48ESIGg2zVg6R0/pGU76KtJ6teCCbUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gR+GfAU8; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gR+GfAU8"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-38dd2f309deso243598f8f.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 03:59:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739361555; x=1739966355; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1eSl5YfX4v8OgkeO1jdSOmTgQstGlkukMTg9/pwP0Ps=;
-        b=gR+GfAU84LOeuWQGBJi8p+i6dZ0sWhGb1pFsb26zU3tryczLDpP3WAsZMWAe6+azit
-         SAzsdvCHlWZYcIuKO+OoeyUHUmERiWIPlvOyz0bW1VPSKUDSHoO/f2WPYzEVDaQkj9xv
-         ys1hWMsUmwx8BHa74+WKksVzp5PyTP+3LObHux6Tm1/mlNL+ganTO+MIzBpn7JcrPxln
-         tiYnFyWvdBw/nYgY0u2AZld5yPyzp/m3vDdznpcwzOb7WMrVPTZmQNx5uo+yJNVrsfY6
-         jTc8VkTlpIhrPc/AJTAn4TlJBfg/u5nXXmNdVxW9kqCh5PmdQ4KzdD4Fd2zxn5ol6/9W
-         u0xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739361555; x=1739966355;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1eSl5YfX4v8OgkeO1jdSOmTgQstGlkukMTg9/pwP0Ps=;
-        b=GnUm9bLsYK4so5TaIHz81+CfeP/wuRe53g89mQIy9NRJVkh1TILrbu0YwldYvJF13c
-         EDEubx7yDf6JXJ75uw0X3A+W0r0RFo8RB8XVoyCZwS5dG4mtwBepNZVDFo2BqxYjsO2I
-         ap9rQCk9h8vWvFBvKos5C+a/P4xUY3Ye1un5ycJSjSGhj/tN2iE8k7qTowYAn50LN/JL
-         MG6oHfyQFtSPp8hNKYKSJ5NWb7eRnInRj1hT7WmD6RdPIRwgtNwKOPWFP1dKIVYbBkC/
-         2t5EzQ77Pd3/aBodjrPcEth9z8UW2lASCYKCOnYa8kx9+KtFnViH0b2NzZ9fomKkFNPN
-         GC4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUwAV0BKZsCjB/QUTk8SjrhiCuOs68xva5gmqeCAPBaf0hgh8YZg+fPLFtiFcCG5eFBi05BpAEd96mOUbybGQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVmntXFB7ZUwGsCDT7NX7RlxgsDqVS5DnHeR8+ourT/Xrj4LY0
-	TYMwc9brl7V4qUUAruYoZ7Fv27meVDe/rtiXykVdXKMS22a6iHWL9Ae3X70ecOxU26ZRfkAvd1T
-	QaBzGOXcDiHPDU71Afdz4kG3id7Q=
-X-Gm-Gg: ASbGncte/soLtCZQQGapB5dsSPr3LrAcyv3qwNffbgTvrc/eqO1i1pJhKW/MDeADHyK
-	cMbkNSYNK7yNgejs2ykZIxqSLMmNVwgDj3dV+1zCHwQ0XUZ/XnhjgyT3WXwyft2s3+dvxg2RKhR
-	WCg+BPq9/dlT0TRc3Pw2EUgZW2aHo=
-X-Google-Smtp-Source: AGHT+IG3fmHz2E+6aMtRT6NZtv0M4VNelZBA1J0TIg1co0vQFmeR6ifavyyfyKBLbGkyrmm4MYHT38YxPlA2+orv6kk=
-X-Received: by 2002:a5d:64e4:0:b0:38d:be5e:b2a7 with SMTP id
- ffacd0b85a97d-38dea2e98e7mr967564f8f.10.1739361555145; Wed, 12 Feb 2025
- 03:59:15 -0800 (PST)
+	s=arc-20240116; t=1739364042; c=relaxed/simple;
+	bh=78lMWVU0GAo7qsBSJL48v+wFRMKDl7nuR/hlpATBW3U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=reXfjzQjgpHJBmEPce8gmSjoJ4O9Y4dhTGD8W47SY1M6riJ0UvA5fzAZ3IVjX8qUjoPDlyIG9orRdKEGIKYUEEgwtAG+iolIfpyAC6auKHh14vyKvDKzQ9M6OXOpSDso2Z2u4WRueQDQc+PICWiZYHvc1CHXVnfxD4EJ/DuCJ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BC907113E;
+	Wed, 12 Feb 2025 04:40:59 -0800 (PST)
+Received: from J2N7QTR9R3 (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D74B3F58B;
+	Wed, 12 Feb 2025 04:40:36 -0800 (PST)
+Date: Wed, 12 Feb 2025 12:40:33 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Mark Brown <broonie@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>, linux-kernel@vger.kernel.org
+Subject: Re: BUG: debug_exception_enter() disables preemption and may call
+ sleeping functions on aarch64 with RT
+Message-ID: <Z6yWwRcPvVGk2EyC@J2N7QTR9R3>
+References: <Z6YW_Kx4S2tmj2BP@uudg.org>
+ <Z6n16cK85JMyowDq@J2N7QTR9R3>
+ <Z6tf8iDhNriSGjeC@uudg.org>
+ <Z6vs3IWxUxhIDBBO@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250211160750.1301353-1-longman@redhat.com>
-In-Reply-To: <20250211160750.1301353-1-longman@redhat.com>
-From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Date: Wed, 12 Feb 2025 12:59:01 +0100
-X-Gm-Features: AWEUYZnaqmNFQ_lbBc6EZt7NZdSpHvlmvNFB56VaHucCrwmsBCcCq_pnMuQNjtc
-Message-ID: <CAPAsAGzk4h3B-LNQdedrk=2aRbPoOJeVv_tQF2QPgzwwUvirEw@mail.gmail.com>
-Subject: Re: [PATCH] kasan: Don't call find_vm_area() in RT kernel
-To: Waiman Long <longman@redhat.com>
-Cc: Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Nico Pache <npache@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z6vs3IWxUxhIDBBO@uudg.org>
 
-On Tue, Feb 11, 2025 at 5:08=E2=80=AFPM Waiman Long <longman@redhat.com> wr=
-ote:
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 3fe77a360f1c..e1ee687966aa 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -398,9 +398,20 @@ static void print_address_description(void *addr, u8=
- tag,
->                 pr_err("\n");
->         }
->
-> -       if (is_vmalloc_addr(addr)) {
-> -               struct vm_struct *va =3D find_vm_area(addr);
-> +       if (!is_vmalloc_addr(addr))
-> +               goto print_page;
->
-> +       /*
-> +        * RT kernel cannot call find_vm_area() in atomic context.
-> +        * For !RT kernel, prevent spinlock_t inside raw_spinlock_t warni=
-ng
-> +        * by raising wait-type to WAIT_SLEEP.
-> +        */
-> +       if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
-> +               static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEE=
-P);
-> +               struct vm_struct *va;
+On Tue, Feb 11, 2025 at 09:35:40PM -0300, Luis Claudio R. Goncalves wrote:
+> On Tue, Feb 11, 2025 at 11:34:26AM -0300, Luis Claudio R. Goncalves wrote:
+> > On Mon, Feb 10, 2025 at 12:49:45PM +0000, Mark Rutland wrote:
+> > > On Fri, Feb 07, 2025 at 11:22:57AM -0300, Luis Claudio R. Goncalves wrote:
+> ...
+> > > I don't have an immediate suggestion; I'll need to go think about this
+> > > for a bit. Unfortunatealy, there are several nested cans of worms here.
+> > > :/
+> > > 
+> > > In theory, we can go split out the EL0 "debug exceptions" into separate
+> > > handlers, and wouldn't generally need to disable preemption for things
+> > > like BRK or single-step.
+> > 
+> > If this is an acceptable workaround, until we have the real solution,
+> > I can work on that :)
+> > 
+> > Luis
+> 
+> I tested the prototype below and it survived 6h of ssdd and the ptrace LTP
+> tests running simultaneously, in a tight loop. Would something along these
+> lines be an acceptable workaround?
+
+Sorry, no. This makes the code even more convoluted and less
+maintainable.
+
+If you want to fix single step specifically without bothering with the
+rest of the rework I mentioned, the right fix is to split that out from
+the other "debug exceptions", and handle that with the usual structure
+we have for other synchronous exceptions like FPAC/BTI/etc:
+
+* In arch/arm64/kernel/debug-monitors.c, add new do_el{1,0}_step()
+  functions which handle their corresponding stepping logic. These
+  should have the same rough shape as do_el{1,0}_fpac(), and should
+  handle all the default signalling logic that would otherwise be
+  handled by do_debug_exception().
+
+  The existing single_step_handler() should be removed, or at minimum
+  refactored and only called by those new do_el{1,0}_step() functions.
+
+  The existing hook_debug_fault_code() registration of
+  single_step_handler() should be removed.
+
+  I'm not sure whether do_el0_step() needs the
+  arm64_apply_bp_hardening() logic, but do_el1_step() does not.
+
+* In entry-common.c, add new el{1,0}_step() functions. Each of
+  el1h_64_sync_handler(), el0t_64_sync_handler(), and
+  el0t_32_sync_handler() should be updated to call those rather than
+  el{1,0}_dbg() for the corresponding EC values.
+
+  In el0_step() it shouldn't be necessary to disable preemption, and
+  that should be able to be:
+
+  | static void noinstr el0_step(struct pt_regs *regs, unsigned long esr)
+  | {
+  |         enter_from_user_mode(regs);
+  |         local_daif_restore(DAIF_PROCCTX);
+  |         do_el0_step(regs, esr);
+  |         exit_to_user_mode(regs);
+  | }
+
+  In el1_step(), I'm not *immediately sure* whether it's necessary to
+  disable preemption, nor whether we need to treat this and use
+  arm64_enter_el1_dbg() and arm64_exit_el1_dbg() rather than
+  entry_from_kenrel_mode() and exit_to_kernel_mode().
+
+  So we either need:
+
+  | static void noinstr el1_step(struct pt_regs *regs, unsigned long esr)
+  | {
+  |         arm64_enter_el1_dbg(regs);
+  |         do_el1_step(regs, esr);
+  |         arm64_exit_el1_dbg(regs);
+  | }
+
+  ... or:
+
+  | static void noinstr el1_step(struct pt_regs *regs, unsigned long esr)
+  | {
+  |         enter_from_kernel_mode(regs);
+  |         local_daif_inherit(regs);
+  |         do_el1_step(regs, esr);
+  |         local_daif_mask(regs);
+  |         exit_to_kernel_mode(regs);
+  | }
+
+With that, we're a step forward in the right direction.
+
+Mark.
+
+> 
+> 
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 8b281cf308b30..eb3b54710024f 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -933,18 +933,20 @@ void __init hook_debug_fault_code(int nr,
+>   * accidentally schedule in exception context and it will force a warning
+>   * if we somehow manage to schedule by accident.
+>   */
+> -static void debug_exception_enter(struct pt_regs *regs)
+> +static void debug_exception_enter(struct pt_regs *regs, int touch_preemption)
+>  {
+> -	preempt_disable();
+> +	if (touch_preemption)
+> +		preempt_disable();
+>  
+>  	/* This code is a bit fragile.  Test it. */
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(), "exception_enter didn't work");
+>  }
+>  NOKPROBE_SYMBOL(debug_exception_enter);
+>  
+> -static void debug_exception_exit(struct pt_regs *regs)
+> +static void debug_exception_exit(struct pt_regs *regs, int touch_preemption)
+>  {
+> -	preempt_enable_no_resched();
+> +	if (touch_preemption)
+> +		preempt_enable_no_resched();
+>  }
+>  NOKPROBE_SYMBOL(debug_exception_exit);
+>  
+> @@ -953,8 +955,14 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned long esr,
+>  {
+>  	const struct fault_info *inf = esr_to_debug_fault_info(esr);
+>  	unsigned long pc = instruction_pointer(regs);
+> +	unsigned long req = ESR_ELx_EC(esr);
+> +	int touch_preemption;
+>  
+> -	debug_exception_enter(regs);
+> +	touch_preemption = !(IS_ENABLED(CONFIG_PREEMPT_RT) &&
+> +		(req == ESR_ELx_EC_SOFTSTP_LOW || req == ESR_ELx_EC_BRK64
+> +		 || req == ESR_ELx_EC_BKPT32 || req == ESR_ELx_EC_SOFTSTP_CUR));
 > +
-> +               lock_map_acquire_try(&vmalloc_map);
-> +               va =3D find_vm_area(addr);
-
-Can we hide all this logic behind some function like
-kasan_find_vm_area() which would return NULL for -rt?
-
->                 if (va) {
->                         pr_err("The buggy address belongs to the virtual =
-mapping at\n"
->                                " [%px, %px) created by:\n"
-> @@ -410,8 +421,13 @@ static void print_address_description(void *addr, u8=
- tag,
->
->                         page =3D vmalloc_to_page(addr);
-
-Or does vmalloc_to_page() secretly take  some lock somewhere so we
-need to guard it with this 'vmalloc_map' too?
-So my suggestion above wouldn't be enough, if that's the case.
-
->                 }
-> +               lock_map_release(&vmalloc_map);
-> +       } else {
-> +               pr_err("The buggy address %px belongs to a vmalloc virtua=
-l mapping\n",
-> +                       addr);
->         }
->
+> +	debug_exception_enter(regs, touch_preemption);
+>  
+>  	if (user_mode(regs) && !is_ttbr0_addr(pc))
+>  		arm64_apply_bp_hardening();
+> @@ -963,7 +971,7 @@ void do_debug_exception(unsigned long addr_if_watchpoint, unsigned long esr,
+>  		arm64_notify_die(inf->name, regs, inf->sig, inf->code, pc, esr);
+>  	}
+>  
+> -	debug_exception_exit(regs);
+> +	debug_exception_exit(regs, touch_preemption);
+>  }
+>  NOKPROBE_SYMBOL(do_debug_exception);
+>  
+> 
