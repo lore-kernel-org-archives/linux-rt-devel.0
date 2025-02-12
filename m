@@ -1,180 +1,356 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8124B21323D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 16:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987762063D5
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 16:45:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739377332; cv=none; b=r3fHnx+C5D9Vt3YbTjoRKMPFrVnkF/ER82fc1mq4qjHNEOX9MACgC6bkhYZwYrlUOjrMnv8B+YytLeytzapR80XWMJXvuwI8ZM4uBfl+X7UsLN1ivryXsXuSUwOClzABEkw167LC+japGr+eNOwxhIwSoQcNk7hWK3+O6A6f+5M=
+	t=1739378725; cv=none; b=QjCBJRSNcnLvorvto/Bog5aS5DJgJB9FbFREBsYv7E5dTmMHrb5cTIGSRirryoR5fkeA449iOu8nX7xNOG79ttoug/e5oHOMDyfu2JHkos4Kt9dxLnK8b0ndRhBgWka/WMPRq5iVColy8fckQ5H2IBYnYC3SKbrsIsu6QtxP/3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739377332; c=relaxed/simple;
-	bh=Hzgs46TnIY+1XTuVlrUyLq39N5+Ofv85tKlkA0srnSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iuB8o8zpOU9Qzjgt9glCzG0dpWILc0kL/TnRjX0YH1B3oczsr5Hm6IOWscZmf01TU/RocS0HB5/ivm7ybLDTsIv/cE/SYkh2LNDyyG2chRvm5h72i7w1fJD7sftzNYNaIbmK6A+9Y88TnkGD6pI7xY5KaNbJI/EwK26r+rFgraE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DLjIcJGE; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DLjIcJGE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739377329;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=3mkeENwhXrVCnkP0vqjiIG1p6lDK9GeK7SyVkLKRxtQ=;
-	b=DLjIcJGE6mrojtK7luGF6YqXvh5eF6ZsptuOg8r4NP+HRGBstb6FNBZ9CsAyVSoAl3RpeV
-	XasAR25dBWN9ii1GR12iknn0blxMdnHNlypY2lnazjP1BERNsb+YAbiAHtZpjnernyNa8F
-	mRA0iQy0UiCS59eRb/124LtkcWonkd8=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-464-gENj6CbJMx6w85Nz5YcQ9Q-1; Wed,
- 12 Feb 2025 11:22:07 -0500
-X-MC-Unique: gENj6CbJMx6w85Nz5YcQ9Q-1
-X-Mimecast-MFC-AGG-ID: gENj6CbJMx6w85Nz5YcQ9Q
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 68C7D1801A3A;
-	Wed, 12 Feb 2025 16:22:05 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.238])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C78DB1800359;
-	Wed, 12 Feb 2025 16:22:01 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Nico Pache <npache@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v2] kasan: Don't call find_vm_area() in RT kernel
-Date: Wed, 12 Feb 2025 11:21:51 -0500
-Message-ID: <20250212162151.1599059-1-longman@redhat.com>
+	s=arc-20240116; t=1739378725; c=relaxed/simple;
+	bh=+YX9lWNmBiTovtCoAKaB7ciIcgeZhf7f7Bwbc9n6MA0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JzdXQ+0gDNDbpHU7Rm3WPpePqq1qZquEKR24uEx0+FHiOOIUn8oafPktfTMmqsPrSEhSaLz0kxSbeib3Bpe/i9sTfjnf6d813OUDIqYWjN6QdsaQx7XKjHN5y3BAf3ajqLF8aW68FGMCJ/L+mUnuWX9DbDT7WyvX5j85aYlO0p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582EDC4CEDF;
+	Wed, 12 Feb 2025 16:45:24 +0000 (UTC)
+Date: Wed, 12 Feb 2025 11:45:31 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev, Thomas Gleixner
+ <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: possible circular locking dependency backtrace seen when
+ enabling PREEMPT_RT
+Message-ID: <20250212114531.4e95ffe7@gandalf.local.home>
+In-Reply-To: <d9480845-7e81-46a2-8bbd-bd0ebdbc6a5f@roeck-us.net>
+References: <d9480845-7e81-46a2-8bbd-bd0ebdbc6a5f@roeck-us.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The following bug report appeared with a test run in a RT debug kernel.
+On Wed, 12 Feb 2025 07:56:44 -0800
+Guenter Roeck <linux@roeck-us.net> wrote:
 
-[ 3359.353842] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-[ 3359.353848] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 140605, name: kunit_try_catch
-[ 3359.353853] preempt_count: 1, expected: 0
-  :
-[ 3359.353933] Call trace:
-  :
-[ 3359.353955]  rt_spin_lock+0x70/0x140
-[ 3359.353959]  find_vmap_area+0x84/0x168
-[ 3359.353963]  find_vm_area+0x1c/0x50
-[ 3359.353966]  print_address_description.constprop.0+0x2a0/0x320
-[ 3359.353972]  print_report+0x108/0x1f8
-[ 3359.353976]  kasan_report+0x90/0xc8
-[ 3359.353980]  __asan_load1+0x60/0x70
+> Hi,
+> 
+> when enabling PREEMPT_RT together with lock debugging, I see the attached
+> "possible circular locking dependency" warning when instantiating the pcnet32
+> Ethernet adapter with qemu.
+> 
+> Note: This is with
+> 
+> lockdep: Remove disable_irq_lockdep().
+> lockdep: Don't disable interrupts on RT in disable_irq_nosync_lockdep.*()
+> 
+> applied on the top of the mainline kernel.
 
-Commit e30a0361b851 ("kasan: make report_lock a raw spinlock")
-changes report_lock to a raw_spinlock_t to avoid a similar RT problem.
-The print_address_description() function is called with report_lock
-acquired and interrupt disabled.  However, the find_vm_area() function
-still needs to acquire a spinlock_t which becomes a sleeping lock in
-the RT kernel. IOW, we can't call find_vm_area() in a RT kernel and
-changing report_lock to a raw_spinlock_t is not enough to completely
-solve this RT kernel problem.
+Thanks for the report.
 
-Fix this bug report by skipping the find_vm_area() call in this case
-and just print out the address as is.
+> 
+> Thanks,
+> Guenter
+> 
+> ---
+> Build reference: v6.14-rc2-3-g59b1a66735ce
+> Compiler version: x86_64-linux-gcc (GCC) 13.3.0
+> Qemu version: 9.1.2 (v9.1.2-51-g94825e22f3)
+> ...
+> Starting network: [   26.638045] pcnet32 0000:00:02.0 eth0: link up
+> [   26.639386] 
+> [   26.639429] ======================================================
+> [   26.639435] WARNING: possible circular locking dependency detected
+> [   26.639595] 6.14.0-rc2-00003-g59b1a66735ce #1 Tainted: G                 N
+> [   26.639609] ------------------------------------------------------
+> [   26.639616] irq/22-eth0/2680 is trying to acquire lock:
+> [   26.639648] ffff9cb0438dae30 (&lp->lock){+.+.}-{3:3}, at: pcnet32_interrupt+0x2e/0x1e0
 
-For !RT kernel, follow the example set in commit 0cce06ba859a
-("debugobjects,locking: Annotate debug_object_fill_pool() wait type
-violation") and use DEFINE_WAIT_OVERRIDE_MAP() to avoid a spinlock_t
-inside raw_spinlock_t warning.
+So the spin_lock(lp->lock) is being taken from the interrupt handler (now a
+thread), while it already holds the softirq_ctrl.lock from the
+local_bh_disable() in the irq_thread_fn().
 
-Fixes: e30a0361b851 ("kasan: make report_lock a raw spinlock")
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- mm/kasan/report.c | 47 ++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 34 insertions(+), 13 deletions(-)
+> [   26.639853] 
+> [   26.639853] but task is already holding lock:
+> [   26.639858] ffff9cb0bdc1c818 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip+0x94/0x180
+> [   26.639877] 
+> [   26.639877] which lock already depends on the new lock.
+> [   26.639877] 
+> [   26.639882] 
+> [   26.639882] the existing dependency chain (in reverse order) is:
+> [   26.639898] 
+> [   26.639898] -> #1 ((softirq_ctrl.lock)){+.+.}-{3:3}:
+> [   26.639950]        rt_spin_lock+0x39/0x170
+> [   26.639985]        __local_bh_disable_ip+0x94/0x180
+> [   26.639991]        __netdev_alloc_skb+0x139/0x1c0
 
- [v2] Encapsulate the change into a new
-      kasan_print_vmalloc_info_ret_page() helper
+The __netdev_alloc_skb() calls local_bh_disable() (which takes the
+softirq_ctrl.lock in PREEMPT_RT).
 
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index 3fe77a360f1c..9580ac3f3203 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -370,6 +370,38 @@ static inline bool init_task_stack_addr(const void *addr)
- 			sizeof(init_thread_union.stack));
+> [   26.639998]        pcnet32_init_ring+0x18b/0x310
+> [   26.640003]        pcnet32_open+0x477/0x820
+
+But here it already acquired the lp->lock via a spin_lock_irqsave().
+
+Now, local_bh_disable() in non PREEMPT_RT disables preemption as well as
+softirqs. But in PREEMPT_RT it does not disable preemption and has the
+following code from __local_bh_disable_ip() in softirq.c:
+
+	/* First entry of a task into a BH disabled section? */
+	if (!current->softirq_disable_cnt) {
+		if (preemptible()) {
+			local_lock(&softirq_ctrl.lock);
+			/* Required to meet the RCU bottomhalf requirements. */
+			rcu_read_lock();
+		} else {
+			DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt));
+		}
+	}
+
+Where that local_lock() disables preemption and prevents softirqs from
+executing on this CPU.
+
+But in non PREEMPT_RT, spin_lock_irqsave() (as well as spin_lock_irq())
+disables preemption and because it also disables interrupts will disable
+softirqs too.
+
+Shouldn't the spin_lock_irq*() variants for PREEMPT_RT also disable local_bh?
+
+Like this patch (untested):
+
+diff --git a/include/linux/spinlock_rt.h b/include/linux/spinlock_rt.h
+index f6499c37157d..50ad0fab66b6 100644
+--- a/include/linux/spinlock_rt.h
++++ b/include/linux/spinlock_rt.h
+@@ -90,6 +90,7 @@ static __always_inline void spin_lock_bh(spinlock_t *lock)
+ 
+ static __always_inline void spin_lock_irq(spinlock_t *lock)
+ {
++	local_bh_disable();
+ 	rt_spin_lock(lock);
  }
  
-+/*
-+ * RT kernel cannot call find_vm_area() in atomic context. For !RT kernel,
-+ * prevent spinlock_t inside raw_spinlock_t warning by raising wait-type
-+ * to WAIT_SLEEP.
-+ *
-+ * Return: page pointer or NULL
-+ */
-+static inline struct page *kasan_print_vmalloc_info_ret_page(void *addr)
-+{
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
-+		static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEEP);
-+		struct page *page = NULL;
-+		struct vm_struct *va;
-+
-+		lock_map_acquire_try(&vmalloc_map);
-+		va = find_vm_area(addr);
-+		if (va) {
-+			pr_err("The buggy address belongs to the virtual mapping at\n"
-+			       " [%px, %px) created by:\n"
-+			       " %pS\n",
-+			       va->addr, va->addr + va->size, va->caller);
-+			pr_err("\n");
-+
-+			page = vmalloc_to_page(addr);
-+		}
-+		lock_map_release(&vmalloc_map);
-+		return page;
-+	}
-+	pr_err("The buggy address %px belongs to a vmalloc virtual mapping\n", addr);
-+	return NULL;
-+}
-+
- static void print_address_description(void *addr, u8 tag,
- 				      struct kasan_report_info *info)
+@@ -97,12 +98,14 @@ static __always_inline void spin_lock_irq(spinlock_t *lock)
+ 	do {						 \
+ 		typecheck(unsigned long, flags);	 \
+ 		flags = 0;				 \
++		local_bh_disable();			 \
+ 		spin_lock(lock);			 \
+ 	} while (0)
+ 
+ static __always_inline void spin_unlock(spinlock_t *lock)
  {
-@@ -398,19 +430,8 @@ static void print_address_description(void *addr, u8 tag,
- 		pr_err("\n");
- 	}
+ 	rt_spin_unlock(lock);
++	local_bh_enable();
+ }
  
--	if (is_vmalloc_addr(addr)) {
--		struct vm_struct *va = find_vm_area(addr);
--
--		if (va) {
--			pr_err("The buggy address belongs to the virtual mapping at\n"
--			       " [%px, %px) created by:\n"
--			       " %pS\n",
--			       va->addr, va->addr + va->size, va->caller);
--			pr_err("\n");
--
--			page = vmalloc_to_page(addr);
--		}
--	}
-+	if (is_vmalloc_addr(addr))
-+		page = kasan_print_vmalloc_info_ret_page(addr);
+ static __always_inline void spin_unlock_bh(spinlock_t *lock)
+@@ -114,6 +117,7 @@ static __always_inline void spin_unlock_bh(spinlock_t *lock)
+ static __always_inline void spin_unlock_irq(spinlock_t *lock)
+ {
+ 	rt_spin_unlock(lock);
++	local_bh_enable();
+ }
  
- 	if (page) {
- 		pr_err("The buggy address belongs to the physical page:\n");
--- 
-2.48.1
+ static __always_inline void spin_unlock_irqrestore(spinlock_t *lock,
+
+
+We could probably consolidate the spin_lock_bh() with spin_lock_irq()
+variants.
+
+Guenter,
+
+Can you test that patch to see if it stops this lockdep splat?
+
+Thanks,
+
+-- Steve
+
+
+> [   26.640008]        __dev_open+0x100/0x200
+> [   26.640014]        __dev_change_flags+0x217/0x2b0
+> [   26.640018]        dev_change_flags+0x21/0x60
+> [   26.640022]        do_setlink.isra.0+0x31b/0x1250
+> [   26.640027]        rtnl_newlink+0x7eb/0xb10
+> [   26.640031]        rtnetlink_rcv_msg+0x414/0x670
+> [   26.640036]        netlink_rcv_skb+0x56/0x100
+> [   26.640041]        netlink_unicast+0x1a3/0x290
+> [   26.640046]        netlink_sendmsg+0x203/0x450
+> [   26.640050]        ____sys_sendmsg+0x301/0x330
+> [   26.640060]        ___sys_sendmsg+0x95/0xe0
+> [   26.640066]        __sys_sendmsg+0x88/0xe0
+> [   26.640070]        do_syscall_64+0xbb/0x1d0
+> [   26.640076]        entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> [   26.640094] 
+> [   26.640094] -> #0 (&lp->lock){+.+.}-{3:3}:
+> [   26.640102]        __lock_acquire+0x11ef/0x1940
+> [   26.640109]        lock_acquire.part.0+0x9a/0x220
+> [   26.640114]        rt_spin_lock+0x39/0x170
+> [   26.640118]        pcnet32_interrupt+0x2e/0x1e0
+> [   26.640123]        irq_thread_fn+0x1e/0x60
+> [   26.640129]        irq_forced_thread_fn+0x2d/0x50
+> [   26.640134]        irq_thread+0x15d/0x220
+> [   26.640138]        kthread+0xfe/0x220
+> [   26.640144]        ret_from_fork+0x2f/0x50
+> [   26.640151]        ret_from_fork_asm+0x1a/0x30
+> [   26.640162] 
+> [   26.640162] other info that might help us debug this:
+> [   26.640162] 
+> [   26.640188]  Possible unsafe locking scenario:
+> [   26.640188] 
+> [   26.640192]        CPU0                    CPU1
+> [   26.640196]        ----                    ----
+> [   26.640203]   lock((softirq_ctrl.lock));
+> [   26.640217]                                lock(&lp->lock);
+> [   26.640232]                                lock((softirq_ctrl.lock));
+> [   26.640251]   lock(&lp->lock);
+> [   26.640264] 
+> [   26.640264]  *** DEADLOCK ***
+> [   26.640264] 
+> [   26.640285] 3 locks held by irq/22-eth0/2680:
+> [   26.640302]  #0: ffff9cb0bdc1c818 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip+0x94/0x180
+> [   26.640327]  #1: ffffffff97406f20 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0xdf/0x170
+> [   26.640351]  #2: ffffffff97406f20 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0xab/0x180
+> [   26.640370] 
+> [   26.640370] stack backtrace:
+> [   26.640464] CPU: 0 UID: 0 PID: 2680 Comm: irq/22-eth0 Tainted: G                 N 6.14.0-rc2-00003-g59b1a66735ce #1
+> [   26.640507] Tainted: [N]=TEST
+> [   26.640516] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> [   26.640599] Call Trace:
+> [   26.640640]  <TASK>
+> [   26.640691]  dump_stack_lvl+0x78/0xe0
+> [   26.640743]  print_circular_bug+0x26e/0x350
+> [   26.640752]  check_noncircular+0x169/0x180
+> [   26.640764]  __lock_acquire+0x11ef/0x1940
+> [   26.640776]  lock_acquire.part.0+0x9a/0x220
+> [   26.640787]  ? pcnet32_interrupt+0x2e/0x1e0
+> [   26.640795]  ? trace_lock_acquire+0x83/0xb0
+> [   26.640800]  ? lock_acquire+0x33/0x80
+> [   26.640805]  ? pcnet32_interrupt+0x2e/0x1e0
+> [   26.640813]  rt_spin_lock+0x39/0x170
+> [   26.640818]  ? pcnet32_interrupt+0x2e/0x1e0
+> [   26.640823]  ? trace_lock_acquire+0x83/0xb0
+> [   26.640829]  pcnet32_interrupt+0x2e/0x1e0
+> [   26.640835]  ? irq_forced_thread_fn+0x1a/0x50
+> [   26.640841]  irq_thread_fn+0x1e/0x60
+> [   26.640846]  ? irq_forced_thread_fn+0x1a/0x50
+> [   26.640850]  irq_forced_thread_fn+0x2d/0x50
+> [   26.640855]  ? irq_thread+0xad/0x220
+> [   26.640859]  irq_thread+0x15d/0x220
+> [   26.640864]  ? __pfx_irq_forced_thread_fn+0x10/0x10
+> [   26.640869]  ? __pfx_irq_thread_dtor+0x10/0x10
+> [   26.640876]  ? __pfx_irq_thread+0x10/0x10
+> [   26.640881]  kthread+0xfe/0x220
+> [   26.640889]  ? __pfx_kthread+0x10/0x10
+> [   26.640896]  ret_from_fork+0x2f/0x50
+> [   26.640902]  ? __pfx_kthread+0x10/0x10
+> [   26.640908]  ret_from_fork_asm+0x1a/0x30
+> [   26.640935]  </TASK>
+> 
+> Stack decode:
+> 
+> [   26.639435] WARNING: possible circular locking dependency detected
+> [   26.639595] 6.14.0-rc2-00003-g59b1a66735ce #1 Tainted: G                 N
+> [   26.639609] ------------------------------------------------------
+> [   26.639616] irq/22-eth0/2680 is trying to acquire lock:
+> [   26.639648] ffff9cb0438dae30 (&lp->lock){+.+.}-{3:3}, at: pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.639853]
+> [   26.639853] but task is already holding lock:
+> [   26.639858] ffff9cb0bdc1c818 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip (include/linux/rcupdate.h:847 kernel/softirq.c:156) 
+> [   26.639877]
+> [   26.639877] which lock already depends on the new lock.
+> [   26.639877]
+> [   26.639882]
+> [   26.639882] the existing dependency chain (in reverse order) is:
+> [   26.639898]
+> [   26.639898] -> #1 ((softirq_ctrl.lock)){+.+.}-{3:3}:
+> [   26.639950] rt_spin_lock (arch/x86/include/asm/current.h:47 kernel/locking/spinlock_rt.c:48 kernel/locking/spinlock_rt.c:57) 
+> [   26.639985] __local_bh_disable_ip (include/linux/rcupdate.h:847 kernel/softirq.c:156) 
+> [   26.639991] __netdev_alloc_skb (net/core/skbuff.c:759) 
+> [   26.639998] pcnet32_init_ring (drivers/net/ethernet/amd/pcnet32.c:2376 (discriminator 1)) 
+> [   26.640003] pcnet32_open (drivers/net/ethernet/amd/pcnet32.c:2269) 
+> [   26.640008] __dev_open (net/core/dev.c:1606) 
+> [   26.640014] __dev_change_flags (net/core/dev.c:9172) 
+> [   26.640018] dev_change_flags (net/core/dev.c:9244) 
+> [   26.640022] do_setlink.isra.0 (net/core/rtnetlink.c:3118 (discriminator 1)) 
+> [   26.640027] rtnl_newlink (net/core/rtnetlink.c:3732 net/core/rtnetlink.c:3884 net/core/rtnetlink.c:4021) 
+> [   26.640031] rtnetlink_rcv_msg (net/core/rtnetlink.c:6911) 
+> [   26.640036] netlink_rcv_skb (net/netlink/af_netlink.c:2543) 
+> [   26.640041] netlink_unicast (net/netlink/af_netlink.c:1323 net/netlink/af_netlink.c:1348) 
+> [   26.640046] netlink_sendmsg (net/netlink/af_netlink.c:1892) 
+> [   26.640050] ____sys_sendmsg (net/socket.c:718 (discriminator 1) net/socket.c:733 (discriminator 1) net/socket.c:2573 (discriminator 1)) 
+> [   26.640060] ___sys_sendmsg (net/socket.c:2629) 
+> [   26.640066] __sys_sendmsg (net/socket.c:2659 (discriminator 1)) 
+> [   26.640070] do_syscall_64 (arch/x86/entry/common.c:52 (discriminator 1) arch/x86/entry/common.c:83 (discriminator 1)) 
+> [   26.640076] entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:130) 
+> [   26.640094]
+> [   26.640094] -> #0 (&lp->lock){+.+.}-{3:3}:
+> [   26.640102] __lock_acquire (kernel/locking/lockdep.c:3164 (discriminator 1) kernel/locking/lockdep.c:3282 (discriminator 1) kernel/locking/lockdep.c:3906 (discriminator 1) kernel/locking/lockdep.c:5228 (discriminator 1)) 
+> [   26.640109] lock_acquire.part.0 (kernel/locking/lockdep.c:469 (discriminator 4) kernel/locking/lockdep.c:5853 (discriminator 4)) 
+> [   26.640114] rt_spin_lock (arch/x86/include/asm/current.h:47 kernel/locking/spinlock_rt.c:48 kernel/locking/spinlock_rt.c:57) 
+> [   26.640118] pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.640123] irq_thread_fn (kernel/irq/manage.c:1191) 
+> [   26.640129] irq_forced_thread_fn (include/linux/bottom_half.h:33 (discriminator 1) kernel/irq/manage.c:1216 (discriminator 1)) 
+> [   26.640134] irq_thread (kernel/irq/manage.c:1318) 
+> [   26.640138] kthread (kernel/kthread.c:464) 
+> [   26.640144] ret_from_fork (arch/x86/kernel/process.c:154) 
+> [   26.640151] ret_from_fork_asm (arch/x86/entry/entry_64.S:257) 
+> [   26.640162]
+> [   26.640162] other info that might help us debug this:
+> [   26.640162]
+> [   26.640188]  Possible unsafe locking scenario:
+> [   26.640188]
+> [   26.640192]        CPU0                    CPU1
+> [   26.640196]        ----                    ----
+> [   26.640203]   lock((softirq_ctrl.lock));
+> [   26.640217]                                lock(&lp->lock);
+> [   26.640232]                                lock((softirq_ctrl.lock));
+> [   26.640251]   lock(&lp->lock);
+> [   26.640264]
+> [   26.640264]  *** DEADLOCK ***
+> [   26.640264]
+> [   26.640285] 3 locks held by irq/22-eth0/2680:
+> [   26.640302] #0: ffff9cb0bdc1c818 ((softirq_ctrl.lock)){+.+.}-{3:3}, at: __local_bh_disable_ip (include/linux/rcupdate.h:847 kernel/softirq.c:156) 
+> [   26.640327] #1: ffffffff97406f20 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock (include/linux/rcupdate.h:337 (discriminator 1) include/linux/rcupdate.h:849 (discriminator 1) kernel/locking/spinlock_rt.c:50 (discriminator 1) kernel/locking/spinlock_rt.c:57 (discriminator 1)) 
+> [   26.640351] #2: ffffffff97406f20 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip (include/linux/rcupdate.h:337 (discriminator 1) include/linux/rcupdate.h:849 (discriminator 1) kernel/softirq.c:156 (discriminator 1)) 
+> [   26.640370]
+> [   26.640370] stack backtrace:
+> [   26.640464] CPU: 0 UID: 0 PID: 2680 Comm: irq/22-eth0 Tainted: G                 N 6.14.0-rc2-00003-g59b1a66735ce #1
+> [   26.640507] Tainted: [N]=TEST
+> [   26.640516] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+> [   26.640599] Call Trace:
+> [   26.640640]  <TASK>
+> [   26.640691] dump_stack_lvl (lib/dump_stack.c:123) 
+> [   26.640743] print_circular_bug (kernel/locking/lockdep.c:2079) 
+> [   26.640752] check_noncircular (kernel/locking/lockdep.c:2211) 
+> [   26.640764] __lock_acquire (kernel/locking/lockdep.c:3164 (discriminator 1) kernel/locking/lockdep.c:3282 (discriminator 1) kernel/locking/lockdep.c:3906 (discriminator 1) kernel/locking/lockdep.c:5228 (discriminator 1)) 
+> [   26.640776] lock_acquire.part.0 (kernel/locking/lockdep.c:469 (discriminator 4) kernel/locking/lockdep.c:5853 (discriminator 4)) 
+> [   26.640787] ? pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.640795] ? trace_lock_acquire (include/trace/events/lock.h:24 (discriminator 2)) 
+> [   26.640800] ? lock_acquire (kernel/locking/lockdep.c:5824) 
+> [   26.640805] ? pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.640813] rt_spin_lock (arch/x86/include/asm/current.h:47 kernel/locking/spinlock_rt.c:48 kernel/locking/spinlock_rt.c:57) 
+> [   26.640818] ? pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.640823] ? trace_lock_acquire (include/trace/events/lock.h:24 (discriminator 2)) 
+> [   26.640829] pcnet32_interrupt (drivers/net/ethernet/amd/pcnet32.c:2572) 
+> [   26.640835] ? irq_forced_thread_fn (include/linux/bottom_half.h:20 (discriminator 1) kernel/irq/manage.c:1210 (discriminator 1)) 
+> [   26.640841] irq_thread_fn (kernel/irq/manage.c:1191) 
+> [   26.640846] ? irq_forced_thread_fn (include/linux/bottom_half.h:20 (discriminator 1) kernel/irq/manage.c:1210 (discriminator 1)) 
+> [   26.640850] irq_forced_thread_fn (include/linux/bottom_half.h:33 (discriminator 1) kernel/irq/manage.c:1216 (discriminator 1)) 
+> [   26.640855] ? irq_thread (kernel/irq/manage.c:1307) 
+> [   26.640859] irq_thread (kernel/irq/manage.c:1318) 
+> [   26.640864] ? __pfx_irq_forced_thread_fn (kernel/irq/manage.c:1207) 
+> [   26.640869] ? __pfx_irq_thread_dtor (kernel/irq/manage.c:1227) 
+> [   26.640876] ? __pfx_irq_thread (kernel/irq/manage.c:1294) 
+> [   26.640881] kthread (kernel/kthread.c:464) 
+> [   26.640889] ? __pfx_kthread (kernel/kthread.c:413) 
+> [   26.640896] ret_from_fork (arch/x86/kernel/process.c:154) 
+> [   26.640902] ? __pfx_kthread (kernel/kthread.c:413) 
+> [   26.640908] ret_from_fork_asm (arch/x86/entry/entry_64.S:257) 
+> [   26.640935]  </TASK>
 
