@@ -1,123 +1,180 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F006120967D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 15:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8124B21323D
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 16:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739375900; cv=none; b=LnC4D+VmpXvf8Q7TWe45CjKKeq2Rl/RMO4U8uFZcEkra47rwMOkikv/Qf9mBuk5MdnGh34baOMwbX4Q2/a6hG3qz4k4Fj4wJzlYcYTHFUYxuoFrv5bICESyZ11VwOkQKn6uZAY9s7XGRmKWp9xNo1pedi7QsZEKKGBzLEFgxsjk=
+	t=1739377332; cv=none; b=r3fHnx+C5D9Vt3YbTjoRKMPFrVnkF/ER82fc1mq4qjHNEOX9MACgC6bkhYZwYrlUOjrMnv8B+YytLeytzapR80XWMJXvuwI8ZM4uBfl+X7UsLN1ivryXsXuSUwOClzABEkw167LC+japGr+eNOwxhIwSoQcNk7hWK3+O6A6f+5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739375900; c=relaxed/simple;
-	bh=iNd/p6/s7ItEchmlzektaVLpoF9v4t1aAQx+8gimlz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VAqvzDTfB0U99MmQZ44/K39aVR45qh+WLiJ2jSRWlwt7Gxm5nbu+Q5w+9DKbBjMaeKAkCIGZEXcaT2nnenTFdngvO4zv0aT7feAEZVl4nGA3hrMq0xytv0LbwhsdDst+AtHDAGFer73ghocrsHKcpoaxOXJY4ZZ5Zd1Aisg/3VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=B5UrjMVX; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1739377332; c=relaxed/simple;
+	bh=Hzgs46TnIY+1XTuVlrUyLq39N5+Ofv85tKlkA0srnSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iuB8o8zpOU9Qzjgt9glCzG0dpWILc0kL/TnRjX0YH1B3oczsr5Hm6IOWscZmf01TU/RocS0HB5/ivm7ybLDTsIv/cE/SYkh2LNDyyG2chRvm5h72i7w1fJD7sftzNYNaIbmK6A+9Y88TnkGD6pI7xY5KaNbJI/EwK26r+rFgraE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DLjIcJGE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="B5UrjMVX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=JsKn7GMdO3njzX47mOUfui0PU3MsuTcQm1Wy0OmjeYc=; b=B5UrjMVXgOIgssMSIb+9CLM0WP
-	rGL8t4QfUJ34KPvfufe0lY0zRfoGFo0FlFUnm3lrFB3Ofu25gSA9f8e0mkR7yKK7oaYbjo/aeEFvi
-	uzwhAz2kRhtcF9ZAm1MM9+Li5nNLA0meG9TrzSx8m1CangLnjFFjHxFaxIs/NLF2tQSMG1nIXgZg5
-	QyXnSnY7Mrm94Ru3pLWBzHcuOwGbYZEpqjmj2fjqdPttE/Rptg5HSLhWUq5trUH1XJRb2AkW6Xy/X
-	YTirpEFt05Qt7UoEJNJYxNlA6aqz6i+gqxYUXOHHVZsem9GeHCIiSnFg4wdNBsMhNJhCcVZils14U
-	qfYySOOw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33544)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tiF7s-0006PZ-0r;
-	Wed, 12 Feb 2025 15:58:12 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tiF7o-0001Ek-0M;
-	Wed, 12 Feb 2025 15:58:08 +0000
-Date: Wed, 12 Feb 2025 15:58:07 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ben Segall <bsegall@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Mel Gorman <mgorman@suse.de>, Peter Zijlstra <peterz@infradead.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 3/9] arm: Rely on generic printing of preemption model.
-Message-ID: <Z6zFD2HcAtQJWIOY@shell.armlinux.org.uk>
-References: <20250212134115.2583667-1-bigeasy@linutronix.de>
- <20250212134115.2583667-4-bigeasy@linutronix.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DLjIcJGE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1739377329;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3mkeENwhXrVCnkP0vqjiIG1p6lDK9GeK7SyVkLKRxtQ=;
+	b=DLjIcJGE6mrojtK7luGF6YqXvh5eF6ZsptuOg8r4NP+HRGBstb6FNBZ9CsAyVSoAl3RpeV
+	XasAR25dBWN9ii1GR12iknn0blxMdnHNlypY2lnazjP1BERNsb+YAbiAHtZpjnernyNa8F
+	mRA0iQy0UiCS59eRb/124LtkcWonkd8=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-464-gENj6CbJMx6w85Nz5YcQ9Q-1; Wed,
+ 12 Feb 2025 11:22:07 -0500
+X-MC-Unique: gENj6CbJMx6w85Nz5YcQ9Q-1
+X-Mimecast-MFC-AGG-ID: gENj6CbJMx6w85Nz5YcQ9Q
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 68C7D1801A3A;
+	Wed, 12 Feb 2025 16:22:05 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.238])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C78DB1800359;
+	Wed, 12 Feb 2025 16:22:01 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Nico Pache <npache@redhat.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v2] kasan: Don't call find_vm_area() in RT kernel
+Date: Wed, 12 Feb 2025 11:21:51 -0500
+Message-ID: <20250212162151.1599059-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250212134115.2583667-4-bigeasy@linutronix.de>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed, Feb 12, 2025 at 02:41:09PM +0100, Sebastian Andrzej Siewior wrote:
-> __die() invokes later __show_regs() -> show_regs_print_info() which
-> prints the current preemption model.
-> Remove it from the initial line.
-> 
-> Cc: Russell King <linux@armlinux.org.uk>
+The following bug report appeared with a test run in a RT debug kernel.
 
-Please either drop this - or correct it as per my r-b below. Thanks.
+[ 3359.353842] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+[ 3359.353848] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 140605, name: kunit_try_catch
+[ 3359.353853] preempt_count: 1, expected: 0
+  :
+[ 3359.353933] Call trace:
+  :
+[ 3359.353955]  rt_spin_lock+0x70/0x140
+[ 3359.353959]  find_vmap_area+0x84/0x168
+[ 3359.353963]  find_vm_area+0x1c/0x50
+[ 3359.353966]  print_address_description.constprop.0+0x2a0/0x320
+[ 3359.353972]  print_report+0x108/0x1f8
+[ 3359.353976]  kasan_report+0x90/0xc8
+[ 3359.353980]  __asan_load1+0x60/0x70
 
-> Cc: linux-arm-kernel@lists.infradead.org
-> Reviewed-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
->  arch/arm/kernel/traps.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
-> 
-> diff --git a/arch/arm/kernel/traps.c b/arch/arm/kernel/traps.c
-> index 6ea645939573f..afbd2ebe5c39d 100644
-> --- a/arch/arm/kernel/traps.c
-> +++ b/arch/arm/kernel/traps.c
-> @@ -258,13 +258,6 @@ void show_stack(struct task_struct *tsk, unsigned long *sp, const char *loglvl)
->  	barrier();
->  }
->  
-> -#ifdef CONFIG_PREEMPT
-> -#define S_PREEMPT " PREEMPT"
-> -#elif defined(CONFIG_PREEMPT_RT)
-> -#define S_PREEMPT " PREEMPT_RT"
-> -#else
-> -#define S_PREEMPT ""
-> -#endif
->  #ifdef CONFIG_SMP
->  #define S_SMP " SMP"
->  #else
-> @@ -282,8 +275,8 @@ static int __die(const char *str, int err, struct pt_regs *regs)
->  	static int die_counter;
->  	int ret;
->  
-> -	pr_emerg("Internal error: %s: %x [#%d]" S_PREEMPT S_SMP S_ISA "\n",
-> -	         str, err, ++die_counter);
-> +	pr_emerg("Internal error: %s: %x [#%d]" S_SMP S_ISA "\n",
-> +		 str, err, ++die_counter);
->  
->  	/* trap and error numbers are mostly meaningless on ARM */
->  	ret = notify_die(DIE_OOPS, str, regs, err, tsk->thread.trap_no, SIGSEGV);
-> -- 
-> 2.47.2
-> 
-> 
+Commit e30a0361b851 ("kasan: make report_lock a raw spinlock")
+changes report_lock to a raw_spinlock_t to avoid a similar RT problem.
+The print_address_description() function is called with report_lock
+acquired and interrupt disabled.  However, the find_vm_area() function
+still needs to acquire a spinlock_t which becomes a sleeping lock in
+the RT kernel. IOW, we can't call find_vm_area() in a RT kernel and
+changing report_lock to a raw_spinlock_t is not enough to completely
+solve this RT kernel problem.
 
+Fix this bug report by skipping the find_vm_area() call in this case
+and just print out the address as is.
+
+For !RT kernel, follow the example set in commit 0cce06ba859a
+("debugobjects,locking: Annotate debug_object_fill_pool() wait type
+violation") and use DEFINE_WAIT_OVERRIDE_MAP() to avoid a spinlock_t
+inside raw_spinlock_t warning.
+
+Fixes: e30a0361b851 ("kasan: make report_lock a raw spinlock")
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ mm/kasan/report.c | 47 ++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 34 insertions(+), 13 deletions(-)
+
+ [v2] Encapsulate the change into a new
+      kasan_print_vmalloc_info_ret_page() helper
+
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index 3fe77a360f1c..9580ac3f3203 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -370,6 +370,38 @@ static inline bool init_task_stack_addr(const void *addr)
+ 			sizeof(init_thread_union.stack));
+ }
+ 
++/*
++ * RT kernel cannot call find_vm_area() in atomic context. For !RT kernel,
++ * prevent spinlock_t inside raw_spinlock_t warning by raising wait-type
++ * to WAIT_SLEEP.
++ *
++ * Return: page pointer or NULL
++ */
++static inline struct page *kasan_print_vmalloc_info_ret_page(void *addr)
++{
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
++		static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEEP);
++		struct page *page = NULL;
++		struct vm_struct *va;
++
++		lock_map_acquire_try(&vmalloc_map);
++		va = find_vm_area(addr);
++		if (va) {
++			pr_err("The buggy address belongs to the virtual mapping at\n"
++			       " [%px, %px) created by:\n"
++			       " %pS\n",
++			       va->addr, va->addr + va->size, va->caller);
++			pr_err("\n");
++
++			page = vmalloc_to_page(addr);
++		}
++		lock_map_release(&vmalloc_map);
++		return page;
++	}
++	pr_err("The buggy address %px belongs to a vmalloc virtual mapping\n", addr);
++	return NULL;
++}
++
+ static void print_address_description(void *addr, u8 tag,
+ 				      struct kasan_report_info *info)
+ {
+@@ -398,19 +430,8 @@ static void print_address_description(void *addr, u8 tag,
+ 		pr_err("\n");
+ 	}
+ 
+-	if (is_vmalloc_addr(addr)) {
+-		struct vm_struct *va = find_vm_area(addr);
+-
+-		if (va) {
+-			pr_err("The buggy address belongs to the virtual mapping at\n"
+-			       " [%px, %px) created by:\n"
+-			       " %pS\n",
+-			       va->addr, va->addr + va->size, va->caller);
+-			pr_err("\n");
+-
+-			page = vmalloc_to_page(addr);
+-		}
+-	}
++	if (is_vmalloc_addr(addr))
++		page = kasan_print_vmalloc_info_ret_page(addr);
+ 
+ 	if (page) {
+ 		pr_err("The buggy address belongs to the physical page:\n");
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.48.1
+
