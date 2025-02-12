@@ -1,63 +1,63 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CED620F066
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 14:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B00720F06A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 14:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739369478; cv=none; b=TZsz0gWmpmFWiAZwFzmGILfPv0cvfOiPHUThB1AxoEyu+sq9BFyVPF4Ttzth+cIMqeSWy9sxtK9V41pShh8gCaAuboSlY8wyeRUQwVaA8AU/01rMcMGEdVvAerfC7tDQQRocPntOeFrPaCPrXJYYmMfi0jmzR7PD1kxbKHguOoI=
+	t=1739369515; cv=none; b=CsLSflP/wCVwk4VHxuZqMYAbAxMKZyf5Lg7aOhRgxsd+vH684NAUp6B3r/TE9PnHbq4sKUjGc/4SgoXg3De9/VgS05EaYHIA1BffNHv9o11spvgnqmSZjGrv9ImwmNAm+xuxkcjkyA4tjTO3vRAkm7qcYIJh3YgZJ+6q6DQcU+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739369478; c=relaxed/simple;
-	bh=SZDQzEdFU0/q9RtREdktP8Ivyi5yYbZN3/bLAVSEb8s=;
+	s=arc-20240116; t=1739369515; c=relaxed/simple;
+	bh=7lOc0ruExiQif30p007BjylF8cs6Vx5b/8b7quCgPYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMMwJwjl6iweyVxJeEtwtvJVoXrq62fMNy26jw+++60UzPMXwruwNSWS//R/K0RUT6u/QZmpSF5BHKvfOj/GNq692n7jrgg5ql0qHimedYYO8+OGkRY1xl3XH6mUdcrmqKmCq+oAO+tQch1jtzOSIGHz1N8UihSX3vi9DS5VVQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JBJxpnSz; arc=none smtp.client-ip=209.85.214.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=UgkG8j+GlKaoCEV70zsc5p/0UYt5s654QO6iaHwsMq3M+8EvDShfy4y1CuBnXLHi02sg5PJyh9P+qedtNtHa6m1CYBF0KnS3ckRR37/PNSYzIqS8Q6O4WZKWkaE/kOQlw7flSBZ1+o23fs3DsF2zl/KFrMzGmJEFi5KWG9VgFlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcJ2ipt3; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JBJxpnSz"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21f818a980cso63944165ad.3
-        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 06:11:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcJ2ipt3"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-220c8cf98bbso6755645ad.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 12 Feb 2025 06:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739369475; x=1739974275; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739369511; x=1739974311; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=stjpwGS2G5dhidrt/nQRRHComZAXCWzFNOoGsvIGoxo=;
-        b=JBJxpnSzIeupdZ+ujg4L2CQ86qKfafjusWwK3Z439eiMRUyFHqCNb5EFytUSgYhXV9
-         RrGOmTFW3/Y0CNS1BZHvEOo7MkOhCfs50dXRWM2fRkJKPGDE1wi+VuWtQaubC6XRurcg
-         eROCrK6sj58cSIwAJ954XF2r038mz+Qjthklbb0dGI9INy+QbKbmeggM2nAe5QeEoTAm
-         oDePBtK150s2WrJJCfhNlM4C2FHjOToi+rPAJpQQttg2OG7GlutOt29z4Fa9a4Vdc9FU
-         8x7DM1I/DYVMZ68paGckUGgI/x45Hxr6I2bRTbAQx3m/qHFMZcGfPnj98Db2wrpjI+Oq
-         YYrg==
+        bh=u0tkLisKyCAJk/GTfjcId7DbkQwyWicb7CEmJ39+9v8=;
+        b=gcJ2ipt3ZU1CHlpl3k1UzjIkiPNKiH5YjTXsYhhWRUl6KLk++EVJOzwt2aOxZaqRVT
+         +z85dKVVSoxQLfIU1PvgmHwFKjxjc6dYViY5QwJb7EW0Ml8nKx2KNuROXKtjO9pyswRr
+         yUGqABPDGWisozgSWHNYYBGxwVySejGRbeJGkbgAl2Tvdg6E52r7Y1D6a4/9ADggRxx0
+         KgV5zmOh6Hm0cqDZyVaJ71NE6dF9iHIBoX8ONRzYYQqWb958MLucSnKP/RqBv2BJMkQA
+         a2AKNfHP97cS3H2CF10t7fe7bettSTAIQJlK0fyxwlx+DGe2clOs4qSwYOALB2hL7VdM
+         eRog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739369475; x=1739974275;
+        d=1e100.net; s=20230601; t=1739369511; x=1739974311;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=stjpwGS2G5dhidrt/nQRRHComZAXCWzFNOoGsvIGoxo=;
-        b=fAIxFRfCW9xZEzn9Q2BE/9T4j4z41N3Uz2LAnbwVSUpe2vFTTjUnTuwov3Kfu8yvoI
-         x1XqxgcHti2kdDzNbZjhXuQSEGZ++ID7RuBntI9aAEMipVnAH+m98epf6EY/nWDDjNey
-         uFoiTB5+VfVmnaB+skrKf6Tk+cafcR8tLs8Dp7EuBm7KYKdo6sK6myWNzFAo9dqdzGKH
-         +sJF/c0XKojgIIoDFewyikyV8gQTReW+hXV4ixlHk1Oo7+ktrBOg1Be+YRC1XDkAEWvs
-         GvyRffr4JVSQ/M0GW+by7QacdW1/7pl2WdivLv5DzFJuBqTF8PZ3vUcnzdUyLjT1qQRu
-         7qNg==
-X-Gm-Message-State: AOJu0Yx5ZDzi/zScVzOSKgY0HkW1L3yIXIfWMXCd2aLPSrNWwOOIalib
-	UhPgjzNTpc/AzW8/ViEn9gU+HzTiduAdb8bA+oYk0EPISx4h4Pcf
-X-Gm-Gg: ASbGncuxs9M8Fr+Ixzup32eYi7ryudlDsQiPv6LP9pTmsB//gOEd70mtGzkkO7fWbpv
-	1hBHCSmqFjjUON+iBe1R9dKdEGXXTvlueoZSRxER7J8wAOVKI28SeRjljyYIINb7/jq0VUkwQok
-	kZ3uPrV/MxT6/myEubFmTLURu5kyGo/KLj561M6U5PLTjFmn5Hc/DhOEI5Jf0cZ0Ab2zyNz5ueK
-	ixc0qpmlCADaRJKsH0L8JsEpsRld70zMN5J/QqvfzX1NPIXkWuSTZM1wsjUZupWNtNgUBDZVLEz
-	ulEAByaL2MaJ6B6MATlQyBhfzfql
-X-Google-Smtp-Source: AGHT+IGqS5h3LITR2enOnLxAheGDNK25N/qKWi94gwDYPmAY0WnE01AlSp1naByLsZ5ToRI7b93Ucw==
-X-Received: by 2002:a17:902:f604:b0:21f:85af:4bbf with SMTP id d9443c01a7336-220bbaf8ffdmr57225035ad.20.1739369475494;
-        Wed, 12 Feb 2025 06:11:15 -0800 (PST)
+        bh=u0tkLisKyCAJk/GTfjcId7DbkQwyWicb7CEmJ39+9v8=;
+        b=ixzmxH/hKUjTxNxQKztX6M0wy+1y4gvCj6ni5j30RIVxay/g2LWrpWV/UqxQkib/EZ
+         VGrbHIKVmTssgTttu2TBINjEwJLAmHWnIfqiKyFojcA+SAGSQOii0H+5McrMkfTTc9UJ
+         iHxWMQsf7s3gezp0Y2Q7PzZwRUhNS84cn4O21isaEbg8NeQJIh6nwgcbg6yMNM3qeikI
+         oE0Khj0Z5V+S/GacaL/2hahgy+tRYLWYSDybbx1VaWWIe2BKNqNT24nIvhGPsZmRmlry
+         1tpJrc9rBAqE8KA+2LK9OQLsckxjs1x42CIdze8/8BXu05W7Oi43I7WMzEPahJph3O+3
+         I+QQ==
+X-Gm-Message-State: AOJu0YyUwvkoMIKiniYpYBqsD5SxU97Kv+Pe4yWZzlvu0B7eLZZdyjR7
+	V5CK0fQJ18ANU0kZLMlrHGfyTEkLw/nG8v6PrQhzUoV1wraL3+IO
+X-Gm-Gg: ASbGncsNwu8gHNqyvvSfx5zngAgeLZd9XRTSLAi+iLzWDNJSb5AJnPbDwK8e9bwHtaI
+	up5iL18/5zhPaVQOC87RVez3tS4PMNzpkeT5Lq4sbvnw3iwp7MxU3jcEqC9lA+2uHFPQ76VlGyo
+	2sELEjk0FVXYRVjof1ymII8ZzF354hHTVquq2xkhtMBV+94PgVa7F91msxRDFiWEBzpK+upFucJ
+	6swm5CRg4B1kRRR4XGIGGmalgBm/g12ml0Y72pLOUGs6HpB6s0ZdQOe8jaY45Gk8utV41+nH1iM
+	eJH+LxVV3Dp1PeKfwJSsxOsb5ryH
+X-Google-Smtp-Source: AGHT+IETXXt55AF3BS8Q/SxMhDT7/V0qdZbeRX07hF+De8jLBRthG3OBLKLNEFgHnNjV0zL6e6/Hww==
+X-Received: by 2002:a05:6a00:181a:b0:731:e974:f9c2 with SMTP id d2e1a72fcca58-7322c0a00b4mr5240374b3a.0.1739369511452;
+        Wed, 12 Feb 2025 06:11:51 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220c8ee9dbfsm4942525ad.182.2025.02.12.06.11.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7321b34c003sm3317040b3a.52.2025.02.12.06.11.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 06:11:14 -0800 (PST)
+        Wed, 12 Feb 2025 06:11:50 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 12 Feb 2025 06:11:12 -0800
+Date: Wed, 12 Feb 2025 06:11:49 -0800
 From: Guenter Roeck <linux@roeck-us.net>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
@@ -66,12 +66,11 @@ Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 1/2] lockdep: Don't disable interrupts on RT in
- disable_irq_nosync_lockdep.*()
-Message-ID: <2e997e85-fcf8-44bc-92bf-7d035c24abda@roeck-us.net>
+Subject: Re: [PATCH 2/2] lockdep: Remove disable_irq_lockdep().
+Message-ID: <5c680698-2385-41bb-946c-4471f23554b8@roeck-us.net>
 References: <760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net>
  <20250212103619.2560503-1-bigeasy@linutronix.de>
- <20250212103619.2560503-2-bigeasy@linutronix.de>
+ <20250212103619.2560503-3-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -80,28 +79,14 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212103619.2560503-2-bigeasy@linutronix.de>
+In-Reply-To: <20250212103619.2560503-3-bigeasy@linutronix.de>
 
-On Wed, Feb 12, 2025 at 11:36:18AM +0100, Sebastian Andrzej Siewior wrote:
-> disable_irq_nosync_lockdep() disables interrupts with lockdep enabled to
-> avoid false positive reports by lockdep that a certain lock has not been
-> acquired with disabled interrupts. The user of this macros expects that
-> a lock can be acquried without disabling interrupts because the IRQ line
-> triggering the interrupt is disabled.
+On Wed, Feb 12, 2025 at 11:36:19AM +0100, Sebastian Andrzej Siewior wrote:
+> disable_irq_lockdep() has no users, last one was probabaly removed in
+>    0b7c874348ea1 ("forcedeth: fix unilateral interrupt disabling in netpoll path")
 > 
-> This triggers a warning on PREEMPT_RT because after
-> disable_irq_nosync_lockdep.*() the following spinlock_t now is acquired
-> with disabled interrupts.
+> Remove disable_irq_lockdep().
 > 
-> On PREEMPT_RT there is no difference between spin_lock() and
-> spin_lock_irq() so avoiding disabling interrupts in this case works for
-> the two remaining callers as of today.
-> 
-> Don't disable interrupts on PREEMPT_RT in disable_irq_nosync_lockdep.*().
-> 
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Closes: https://lore.kernel.org/760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net
-> Fixes: e8106b941ceab ("[PATCH] lockdep: core, add enable/disable_irq_irqsave/irqrestore() APIs")
 > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
