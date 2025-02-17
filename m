@@ -1,200 +1,196 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7A4225A26
-	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Feb 2025 16:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45028D528
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Feb 2025 17:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739811051; cv=none; b=AKq5pWhHNvkwtS4AvZ9yCPm71gbv2wwX/KnrwO8oIMOidmHGDflPNroEeCLbhylVRYkp6GkRq3dwMoKz6WemPVa0NeHceeGxH6Uq0VNikK/nCGfrA4jmL2LEaGTpmBcrs+J8UWm6VknGij6DUP2co/sVHDDrMErRD8tDxd+7iVY=
+	t=1739814994; cv=none; b=YF08twnPwWI9bskTXgIC4tWWwKvncHPsxy5upBIZVmqjCm7nHJHKhwq1AwuN+1uWYPaKXihWjdQRb35QPVN0zARZqReFXDmAQe4sNynl9rkl46kGPy83H2z4lMtjH0EUCcUhRmemA9Pmd0RD/Glcr8P5niD6qJU1SxBSdWFTKKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739811051; c=relaxed/simple;
-	bh=g1iM3E0eko5yyQkBY2WQrPad/kXZVJL9BM7/AuP06Go=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WOJcPv9dGxbOdhYhYZ6M3zqE0DNLm/btYrGNgPsAL7hL6zBE9yaQuJHliLuFwYC2EcyrlM7kpjsHzgq2oV3tTh8sUu01Ra34Cq4sjS7TSVrdSD/VOr/ZAVlDkM+BjPljFbQZ/wBtczs4STCOxHo+gfHryXc42amEcLEqJjimIAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S1Y+LOrJ; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1739814994; c=relaxed/simple;
+	bh=zE9veftWabe5c1OeAd736Vhg6Lh9Ujaj6TI7WKjzoaM=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Y6yDRNiu5gTeB4jwOvdk4I/ZHZdo5G2fwwpuAbfAzHl3f72lGbaiX9tQPMNDbFMz7EYsFv9diBrtMh747RU/eEevGzzRbdv1algoYhgXOBKsuCQ+51/048A+1fKetKZCR/uCBQrYC1ICmzYxs1Lz0W+hn5KSlSYUnkelfFVIf6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WCrnVbQc; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S1Y+LOrJ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WCrnVbQc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1739811048;
+	s=mimecast20190719; t=1739814990;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SfrDqzy3zKld0aEmzBn8pAQDzQM1IhY2QV5TIc1FvQM=;
-	b=S1Y+LOrJHHYQYnqBPRpdceIoHcOS9FhiEqwZEq6BU5EkXuTxOZhn8l3ycdF5e7KHZEGQXf
-	lT9n4EioBzGD9a6riczqQcmFXlw2LEar33BCQz46nwp+nbMPDCQdG/uHDzX+iLO/rLvzX/
-	uWRtWIK9aosXX9z6PiTZ5afmcHZKYFk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-102-tWhqy1umOme5TKnrBszsZQ-1; Mon,
- 17 Feb 2025 11:50:43 -0500
-X-MC-Unique: tWhqy1umOme5TKnrBszsZQ-1
-X-Mimecast-MFC-AGG-ID: tWhqy1umOme5TKnrBszsZQ_1739811041
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B082A180087E;
-	Mon, 17 Feb 2025 16:50:40 +0000 (UTC)
-Received: from localhost (unknown [10.22.80.58])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 510CB1800365;
-	Mon, 17 Feb 2025 16:50:39 +0000 (UTC)
-Date: Mon, 17 Feb 2025 13:50:37 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Ryo Takakura <ryotkkr98@gmail.com>
-Cc: bhelgaas@google.com, jonathan.derrick@linux.dev, kw@linux.com,
-	lpieralisi@kernel.org, manivannan.sadhasivam@linaro.org,
-	nirmal.patel@linux.intel.com, robh@kernel.org,
-	bigeasy@linutronix.de, rostedt@goodmis.org, kbusch@kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3] PCI: vmd: Fix spinlock usage on config access for RT
- kernel
-Message-ID: <Z7No3XzmE3t54qNi@uudg.org>
-References: <20241219014549.24427-1-ryotkkr98@gmail.com>
+	bh=niJ7GrqnlE8mjwkLXdroJsmq3cDp8d9woXPb/vSi3Z0=;
+	b=WCrnVbQcTV/eozXWciyLZlftNUJ+Ysd8NMDgwNzoikzUGijp69FfvkVAyYXYm6AnqnN5kt
+	R1zsQE2Xrc9gFWbmrVxUN5LJ5IdWymEtAl3lv07Z+R3hRyHp1AJXglEd+YEe8Duo2HmST8
+	plR9fn5+dm1VEIE86tXVv4WnFowTnEU=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-501-h80GGnDCMIWgyvwk6ZoiOw-1; Mon, 17 Feb 2025 12:56:27 -0500
+X-MC-Unique: h80GGnDCMIWgyvwk6ZoiOw-1
+X-Mimecast-MFC-AGG-ID: h80GGnDCMIWgyvwk6ZoiOw_1739814987
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-471f4381c1eso19216131cf.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 17 Feb 2025 09:56:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739814987; x=1740419787;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=niJ7GrqnlE8mjwkLXdroJsmq3cDp8d9woXPb/vSi3Z0=;
+        b=gTBDoMfASgj05SvQ+618O5VueS31jbX0hVzbVxjITvgpN+opVq9jWcPRU6Q6G1PD2Q
+         RM+7SZBrAf8BA/In6ei8iVpbZj2Rdf7CFbVQ/5gBCf5T3xSp02bVZo9EwWtwGr+My++E
+         kx1bI+WpBQQf75rrZesJ5FlSIfyvMOJvWoK+4zg+tKFDOZe2Pu3MsRdhPOx3tILq7ZYb
+         03o3hXa4KuTNAz7dif9qwkocjoLWi3MdBUIo24vfoy2t2uASdqvREn6ifGT/5Md4C4uy
+         hCtKkpraoGBo36t6Agnm62CCbHGSsd/VVL9g1X6BBUI621JBEG+XLHkHeHgPcY0k+PbA
+         vxFw==
+X-Forwarded-Encrypted: i=1; AJvYcCWE4y7KXua/LiXuOsfY4MYS3imkP4Q4cxKyrSGQY9fhh0cPgcQfeqzfyfD3wxAkisUa3C0EtKWPoyAHVLNA9g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAQdtALwTJ1NmlKpoGTTcKo1jkMEjF96nrVLOnqH1XZpv+P2fW
+	dgUZczYMTjuMxa1INru7GhchzFUo504uKtTpJwDZGv+e6wxPEivoIkA3D7CAZYhQ3zbfpdDhtmq
+	4G6D5tKMOykoxXRQKgs5ZZswjbP0CPNdS02XO64GdMTXA7GEMma1141EQrPnOlhl+
+X-Gm-Gg: ASbGncuWNZTZ5nfHfdGkGwE5Hd3fO4zQboGd+6nwAobAV51cwDp6wsZdLSrjmKNMa1V
+	9CbXgfWodBNh60qEbVOyY8r3tLQwsG65X+vX6TFGJNnrpb64CXbuIUnvLbxrHcjsjLpcO1ZMR0/
+	856qvuFLdU0jI2nvVDnspHlWlZ7Oj+Bu0BMrfFwliAygbRbJ7f36jrtu7VY/mSIbVKhQlidJBYF
+	ItBCS9jTw3aZlnQWvPwHVyV5GxkP+qQbpG1hpTlJl0lanrU/OYYjBpXbHVjY4y6iEdd7hb/skzF
+	abrzZlIntFfGCvmDx5aFoqJ/6lKmBvza3Z7ZWb9qwjHDDc/F
+X-Received: by 2002:ad4:5f8b:0:b0:6e6:62e0:887b with SMTP id 6a1803df08f44-6e66cd29e70mr149586916d6.45.1739814987297;
+        Mon, 17 Feb 2025 09:56:27 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHMaH0te3WvqMwaIP410mOdgQto6F2VrfNkiVPnhvou7kFgzG16oJDSLaT8GWZZ/9EJy6ockQ==
+X-Received: by 2002:ad4:5f8b:0:b0:6e6:62e0:887b with SMTP id 6a1803df08f44-6e66cd29e70mr149586706d6.45.1739814987028;
+        Mon, 17 Feb 2025 09:56:27 -0800 (PST)
+Received: from ?IPV6:2601:188:c100:5710:627d:9ff:fe85:9ade? ([2601:188:c100:5710:627d:9ff:fe85:9ade])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e65d9f46a8sm54068316d6.82.2025.02.17.09.56.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Feb 2025 09:56:26 -0800 (PST)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <d9c96532-9598-426e-a469-dafd17d47a70@redhat.com>
+Date: Mon, 17 Feb 2025 12:56:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241219014549.24427-1-ryotkkr98@gmail.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] kasan: Don't call find_vm_area() in RT kernel
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Nico Pache <npache@redhat.com>
+References: <20250217042108.185932-1-longman@redhat.com>
+ <CA+fCnZcaLBUUEEUNr8uZqW1dJ8fsHcOGCy3mJttfFDKq=A_9OQ@mail.gmail.com>
+In-Reply-To: <CA+fCnZcaLBUUEEUNr8uZqW1dJ8fsHcOGCy3mJttfFDKq=A_9OQ@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: fqOYkNTjyebKSbdEh-b7TLe2hFakLhkCvvdn9wv7zgw_1739814987
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 19, 2024 at 10:45:49AM +0900, Ryo Takakura wrote:
-> PCI config access is locked with pci_lock which is raw_spinlock.
-> Convert cfg_lock to raw_spinlock so that the lock usage is consistent
-> for RT kernel.
+On 2/17/25 11:28 AM, Andrey Konovalov wrote:
+> On Mon, Feb 17, 2025 at 5:21 AM Waiman Long <longman@redhat.com> wrote:
+>> The following bug report appeared with a test run in a RT debug kernel.
+>>
+>> [ 3359.353842] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+>> [ 3359.353848] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 140605, name: kunit_try_catch
+>> [ 3359.353853] preempt_count: 1, expected: 0
+>>    :
+>> [ 3359.353933] Call trace:
+>>    :
+>> [ 3359.353955]  rt_spin_lock+0x70/0x140
+>> [ 3359.353959]  find_vmap_area+0x84/0x168
+>> [ 3359.353963]  find_vm_area+0x1c/0x50
+>> [ 3359.353966]  print_address_description.constprop.0+0x2a0/0x320
+>> [ 3359.353972]  print_report+0x108/0x1f8
+>> [ 3359.353976]  kasan_report+0x90/0xc8
+>> [ 3359.353980]  __asan_load1+0x60/0x70
+>>
+>> Commit e30a0361b851 ("kasan: make report_lock a raw spinlock")
+>> changes report_lock to a raw_spinlock_t to avoid a similar RT problem.
+>> The print_address_description() function is called with report_lock
+>> acquired and interrupt disabled.  However, the find_vm_area() function
+>> still needs to acquire a spinlock_t which becomes a sleeping lock in
+>> the RT kernel. IOW, we can't call find_vm_area() in a RT kernel and
+>> changing report_lock to a raw_spinlock_t is not enough to completely
+>> solve this RT kernel problem.
+>>
+>> Fix this bug report by skipping the find_vm_area() call in this case
+>> and just print out the address as is.
+>>
+>> For !RT kernel, follow the example set in commit 0cce06ba859a
+>> ("debugobjects,locking: Annotate debug_object_fill_pool() wait type
+>> violation") and use DEFINE_WAIT_OVERRIDE_MAP() to avoid a spinlock_t
+>> inside raw_spinlock_t warning.
+>>
+>> Fixes: e30a0361b851 ("kasan: make report_lock a raw spinlock")
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   mm/kasan/report.c | 43 ++++++++++++++++++++++++++++++-------------
+>>   1 file changed, 30 insertions(+), 13 deletions(-)
+>>
+>>   [v3] Rename helper to print_vmalloc_info_set_page.
+>>
+>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+>> index 3fe77a360f1c..7c8c2e173aa4 100644
+>> --- a/mm/kasan/report.c
+>> +++ b/mm/kasan/report.c
+>> @@ -370,6 +370,34 @@ static inline bool init_task_stack_addr(const void *addr)
+>>                          sizeof(init_thread_union.stack));
+>>   }
+>>
+>> +/*
+>> + * RT kernel cannot call find_vm_area() in atomic context. For !RT kernel,
+>> + * prevent spinlock_t inside raw_spinlock_t warning by raising wait-type
+>> + * to WAIT_SLEEP.
+> Quoting your response from the other thread:
+>
+>> Lockdep currently issues warnings for taking spinlock_t inside
+>> raw_spinlock_t because it is not allowed in RT. Test coverage of RT
+>> kernels is likely less than !RT kernel and so less bug of this kind will
+>> be caught. By making !RT doing the same check, we increase coverage.
+>> However, we do allow override in the !RT case, but it has to be done on
+>> a case-by-case basis.
+> Got it.
+>
+> So let's put this exactly this explanation in the comment, otherwise
+> it's unclear why we need something special for the !RT case.
 
-Any movement here?
+Sure. Will do that.
 
-Tested-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-Acked-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
 
-Best,
-Luis
+>> + */
+>> +static inline void print_vmalloc_info_set_page(void *addr, struct page **ppage)
+>> +{
+>> +       if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+>> +               static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEEP);
+>> +               struct vm_struct *va;
+>> +
+>> +               lock_map_acquire_try(&vmalloc_map);
+>> +               va = find_vm_area(addr);
+>> +               if (va) {
+>> +                       pr_err("The buggy address belongs to the virtual mapping at\n"
+>> +                              " [%px, %px) created by:\n"
+>> +                              " %pS\n",
+>> +                              va->addr, va->addr + va->size, va->caller);
+>> +                       pr_err("\n");
+>> +
+>> +                       *ppage = vmalloc_to_page(addr);
+> Looking at the code again, I actually like the Andrey Ryabinin's
+> suggestion from the v1 thread: add a separate function that contains
+> an annotated call of find_vm_area(). And keep vmalloc_to_page()
+> outside of it, just as done in the upstream version now.
 
-> Reported as following:
-> [   18.756807] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-> [   18.756810] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 1617, name: nodedev-init
-> [   18.756810] preempt_count: 1, expected: 0
-> [   18.756811] RCU nest depth: 0, expected: 0
-> [   18.756811] INFO: lockdep is turned off.
-> [   18.756812] irq event stamp: 0
-> [   18.756812] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> [   18.756815] hardirqs last disabled at (0): [<ffffffff864f1fe2>] copy_process+0xa62/0x2d90
-> [   18.756819] softirqs last  enabled at (0): [<ffffffff864f1fe2>] copy_process+0xa62/0x2d90
-> [   18.756820] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> [   18.756822] CPU: 3 UID: 0 PID: 1617 Comm: nodedev-init Tainted: G        W          6.12.1 #11
-> [   18.756823] Tainted: [W]=WARN
-> [   18.756824] Hardware name: Dell Inc. Vostro 3710/0K1D6X, BIOS 1.14.0 06/09/2023
-> [   18.756825] Call Trace:
-> [   18.756826]  <TASK>
-> [   18.756827]  dump_stack_lvl+0x9b/0xf0
-> [   18.756830]  dump_stack+0x10/0x20
-> [   18.756831]  __might_resched+0x158/0x230
-> [   18.756833]  rt_spin_lock+0x4e/0x130
-> [   18.756837]  ? vmd_pci_read+0x8d/0x100 [vmd]
-> [   18.756839]  vmd_pci_read+0x8d/0x100 [vmd]
-> [   18.756840]  pci_user_read_config_byte+0x6f/0xe0
-> [   18.756843]  pci_read_config+0xfe/0x290
-> [   18.756845]  sysfs_kf_bin_read+0x68/0x90
-> [   18.756847]  kernfs_fop_read_iter+0xd7/0x200
-> [   18.756850]  vfs_read+0x26d/0x360
-> [   18.756853]  ksys_read+0x70/0xf0
-> [   18.756855]  __x64_sys_read+0x1a/0x20
-> [   18.756857]  x64_sys_call+0x1715/0x20d0
-> [   18.756859]  do_syscall_64+0x8f/0x170
-> [   18.756861]  ? syscall_exit_to_user_mode+0xcd/0x2c0
-> [   18.756863]  ? do_syscall_64+0x9b/0x170
-> [   18.756865]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> 
-> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-> 
-> ---
-> 
-> Hi!
-> 
-> This is same as the first version of the patch as discussed over v2.
-> 
-> v1:
-> https://lore.kernel.org/lkml/20241215141321.383144-1-ryotkkr98@gmail.com/T/
-> 
-> Changes since v2:
-> https://lore.kernel.org/lkml/20241218115951.83062-1-ryotkkr98@gmail.com/T/
-> 
-> - In case if CONFIG_PCI_LOCKLESS_CONFIG is set, vmd_pci_read/write()
->   still neeed cfg_lock for their serialization. So instead of removing
->   it, convert it to raw spinlock.
-> 
-> ---
->  drivers/pci/controller/vmd.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/vmd.c b/drivers/pci/controller/vmd.c
-> index 9d9596947..94ceec50a 100644
-> --- a/drivers/pci/controller/vmd.c
-> +++ b/drivers/pci/controller/vmd.c
-> @@ -125,7 +125,7 @@ struct vmd_irq_list {
->  struct vmd_dev {
->  	struct pci_dev		*dev;
->  
-> -	spinlock_t		cfg_lock;
-> +	raw_spinlock_t		cfg_lock;
->  	void __iomem		*cfgbar;
->  
->  	int msix_count;
-> @@ -391,7 +391,7 @@ static int vmd_pci_read(struct pci_bus *bus, unsigned int devfn, int reg,
->  	if (!addr)
->  		return -EFAULT;
->  
-> -	spin_lock_irqsave(&vmd->cfg_lock, flags);
-> +	raw_spin_lock_irqsave(&vmd->cfg_lock, flags);
->  	switch (len) {
->  	case 1:
->  		*value = readb(addr);
-> @@ -406,7 +406,7 @@ static int vmd_pci_read(struct pci_bus *bus, unsigned int devfn, int reg,
->  		ret = -EINVAL;
->  		break;
->  	}
-> -	spin_unlock_irqrestore(&vmd->cfg_lock, flags);
-> +	raw_spin_unlock_irqrestore(&vmd->cfg_lock, flags);
->  	return ret;
->  }
->  
-> @@ -426,7 +426,7 @@ static int vmd_pci_write(struct pci_bus *bus, unsigned int devfn, int reg,
->  	if (!addr)
->  		return -EFAULT;
->  
-> -	spin_lock_irqsave(&vmd->cfg_lock, flags);
-> +	raw_spin_lock_irqsave(&vmd->cfg_lock, flags);
->  	switch (len) {
->  	case 1:
->  		writeb(value, addr);
-> @@ -444,7 +444,7 @@ static int vmd_pci_write(struct pci_bus *bus, unsigned int devfn, int reg,
->  		ret = -EINVAL;
->  		break;
->  	}
-> -	spin_unlock_irqrestore(&vmd->cfg_lock, flags);
-> +	raw_spin_unlock_irqrestore(&vmd->cfg_lock, flags);
->  	return ret;
->  }
->  
-> @@ -1009,7 +1009,7 @@ static int vmd_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  	if (features & VMD_FEAT_OFFSET_FIRST_VECTOR)
->  		vmd->first_vec = 1;
->  
-> -	spin_lock_init(&vmd->cfg_lock);
-> +	raw_spin_lock_init(&vmd->cfg_lock);
->  	pci_set_drvdata(dev, vmd);
->  	err = vmd_enable_domain(vmd, features);
->  	if (err)
-> -- 
-> 2.34.1
-> 
----end quoted text---
+I can make the change if it is what you want.
+
+Cheers,
+Longman
 
