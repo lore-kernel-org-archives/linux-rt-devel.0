@@ -1,46 +1,46 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2048.outbound.protection.outlook.com [40.107.220.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109501EE032
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0313F1EE032
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740044219; cv=fail; b=MTqxmUvTlNjswcYlcmzo+cQPWLHMLhwDWiSXH847Vv0M5gS1seiRuGcGsiAKDop50jZYjix/LMxQOgFVhX1tRvXVGN1bAfPerrcYbT5H4eBgNg2x2Q48KpspdEf/unQ63DRdiLW3GqibYOBArGgG3EFRqehI5RY1KD8BupfNxyw=
+	t=1740044240; cv=fail; b=ogUs/VCbAby9P2iDaoSHelRB6Lh1ZXm2nN/ir0Bzas4o0oaO9u+4ae8cyaCeYjLrepgov0qsH2yanhUwDMWSRo3UuHtX9jlLqko1T7p/7yem7QbzHgMQQ3T3yb27iROpi8CLqy/Q3n9imBirWaV4kh26pf1JG4KecWTAyg++r8w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740044219; c=relaxed/simple;
-	bh=UPIjRl6gD5NpWUvhpP6l3S3+onK6Ku7QuvRooI1n/uk=;
+	s=arc-20240116; t=1740044240; c=relaxed/simple;
+	bh=sbZhAAHiTVfsHVPifa6mzEHQs+ZPUQL/KLrZ3xD3+co=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fNy1nRy69cgsukcvcxDadlZHMDYpxstErttXqdJ0ntld/6pcWgr8meYGigNFk/GQlXCLTazD7NSImyPXCGaxgFVvQfPeachKsvORQsjmD7gyhzTkh2aGjyXC1YlMCpSExoRYIuV76Si9u16WPWhNuEq2Sn4nZBGBrKYpBYqtdTo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Q7g83zb3; arc=fail smtp.client-ip=40.107.243.83
+	 MIME-Version:Content-Type; b=avu7jU3/PicMo5Z9YPp6HzHo8Sh0rG3GAF5Y/RsQHN/pWBB7IYvjBqSfGeK/KtD7TAqxrn06e/eYOU+U4k30a4wc+Bc/7AHTjyCQplXTfmcTM9aDRqwV5E1Q2eH+Sjzgu9kK8t6BP8sx82Err3NNfFkqLkIwDaIoe5e2mNBxH1Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LEMS2rUv; arc=fail smtp.client-ip=40.107.220.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Q7g83zb3"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LEMS2rUv"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=icpag6sP5GQHJuaEm0Un1psv7+yxAABtoJhERwcFpvWGgFBhdVrRf3cMhp8TMHVmYRK2wuyLD9Ilm/oTvV/wQwLaTjP5s82NUCyqfKICvGnVTRy4gyQkd2qfL1dWM4tJGjSjr6CTeWGwv7dqKxzuNlPdsWGkJFHijUm1ZPbjGStlLQGBGj7pXeJFGfXoZ6oTPOks1OVfBnrVhxYWoCny+kISw0XYFZD5AvxdmEzCJQaxbcjVGK3aav5McSTtl/5Gl/+GCmZ5qnm1Kr4A5CCjy+YLm5X5l8IUXSzBKJQuPL3r3e+8d51qtum97m+4fuL+bZSi+9T27t797+UrKarbHg==
+ b=g8v8uqmEw4QCiiEnCv4GCtbJ2+1rHq803jqubVG/lWf9w+bBDC4EDvlgnlXSgKZo9rqzEB4jlywQNptnMGgdPqn402aSs3s5xsf2g2yCFGTvTK25YAv/MzGf+VNeMVFwmoV7ABu4dE8YAYIf+3owKziGYqT3zAgn4DGMXqM9L+F+qdnF9iHg8r9hrs7SD3OwhOeZgdfQeLF5fW9Dlcu83dMVDO2wYvD5qK5ZxUWqrmJe/dawN+x6svzL9emTZlp2iWqy2/rD9TqAZxoXsA/MKfpnr18f+Rd4TMVLGsPY+RqWiLOdRi3LSAT5e2rnvY8U1WgsiGu3yaMTY9VVjZ+4Mw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xMQc69NMTfLvejTsmV7srFHuaWBqlTGgDjfjlm5JO4Y=;
- b=wPxEv61HU5R5g/wIqnYK7alxeyMNsiKDqQ0ZQ/EnRsVfhlRVu2yvxNrox5x+7cBmrmUNtW/b5xXihOfj53dmGt2QO2CniwCTiDNnAH7zit2G9KrhgIV9qRBVHieb3uqx5ZdlUEJ6rdeMJdtSyN6F7E/YGzzZlJIyvddtze6XH0uo3mpkloXMevAS67DySQuJIVSalim1YDlW7kN2n56nQts5gbDFoJNTp8O1FTjZOgSSbz0muPg5uPjWzik1jHCubD5vW2ZdM7P87LGdHZlHMb1eJKwfMOh3zT/Eeb+CoixqtrfTwtVHvr61Zd5v3vM99awAXbbsaL9VqwKu8JEtzA==
+ bh=J8vqVAnvAG5sapvjR2GbHSLHilK7UfH5obQ+j0sIp3E=;
+ b=adDa8A4mH8JQxcWhV7kvOTwY77u0UtSeU9tFWtzivi6oAIJRDXr68XEfnGQivhku2QJOZW6RRrpfj/+uVx0QWgrK5qAmsW1t2FoDXPFizNm00wQxePx98bqdlNEyV3+A1kmYoqWaf6YiJf2zRMCTRt7+MJOcdo8ALIzCFc69lvZu8P2vhvWwT9HMvLSZBZY7MQRmKcog5XT/pZCYZ9kpC1lqPVGwKrXmQ5+FwedDQsXL/KXt3pGUAoWBJY4hW38moVM/noaZuZuEVhiWl/MhpflxwZK2vHcq10P8Y5A5rT4aY+L2/BPnO7QG9hpui5nfFMeJC90qG2M6Kg5TTSKHWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xMQc69NMTfLvejTsmV7srFHuaWBqlTGgDjfjlm5JO4Y=;
- b=Q7g83zb3wSho3JpmIwja5bDglPMHvFb+GoheF1QMoPnNx6OLEvqq1eh6lF7PvzeE6U0YB++vOau3pP/OTi/QljbreO9L0zNigktgv3TxITB6n6NzIWoHKUut3tKTRMIPRBZc1fnc3gOStAdyNX4L4WhN/AwZKHGvILy2b5Fv7LA=
-Received: from DS7PR03CA0210.namprd03.prod.outlook.com (2603:10b6:5:3b6::35)
- by CH3PR12MB8281.namprd12.prod.outlook.com (2603:10b6:610:128::19) with
+ bh=J8vqVAnvAG5sapvjR2GbHSLHilK7UfH5obQ+j0sIp3E=;
+ b=LEMS2rUvOuesAxM0AY7D8lNMeUqWg4+bUEijErfFA1UNEbfFgEYbWXlkNFl3tGQa1654CzNNwDbOB5E6UBq42ct1GCo4aXR9+9rSuxC7gBCgfWIQcgBxodmS78fEaHzTMaUBYQ3oGwEBAxq9JmrGbEwDPsOko3uDMgvGytsY3+s=
+Received: from DM6PR02CA0168.namprd02.prod.outlook.com (2603:10b6:5:332::35)
+ by CH2PR12MB4261.namprd12.prod.outlook.com (2603:10b6:610:a9::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.19; Thu, 20 Feb
- 2025 09:36:54 +0000
-Received: from DS3PEPF000099DF.namprd04.prod.outlook.com
- (2603:10b6:5:3b6:cafe::9) by DS7PR03CA0210.outlook.office365.com
- (2603:10b6:5:3b6::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.15 via Frontend Transport; Thu,
- 20 Feb 2025 09:36:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
+ 2025 09:37:15 +0000
+Received: from DS3PEPF000099DD.namprd04.prod.outlook.com
+ (2603:10b6:5:332:cafe::61) by DM6PR02CA0168.outlook.office365.com
+ (2603:10b6:5:332::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.16 via Frontend Transport; Thu,
+ 20 Feb 2025 09:37:15 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099DF.mail.protection.outlook.com (10.167.17.202) with Microsoft
+ DS3PEPF000099DD.mail.protection.outlook.com (10.167.17.199) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:36:54 +0000
+ 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:37:15 +0000
 Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 20 Feb
- 2025 03:36:46 -0600
+ 2025 03:37:07 -0600
 From: K Prateek Nayak <kprateek.nayak@amd.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
 	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
@@ -70,9 +70,9 @@ CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
 	<qyousef@layalina.io>, "Paul E. McKenney" <paulmck@kernel.org>, David Vernet
 	<dvernet@meta.com>, K Prateek Nayak <kprateek.nayak@amd.com>, "Gautham R.
  Shenoy" <gautham.shenoy@amd.com>, Swapnil Sapkal <swapnil.sapkal@amd.com>
-Subject: [RFC PATCH 10/22] sched/fair: Prepare throttle_cfs_rq() to allow partial throttling
-Date: Thu, 20 Feb 2025 09:32:45 +0000
-Message-ID: <20250220093257.9380-11-kprateek.nayak@amd.com>
+Subject: [RFC PATCH 11/22] sched/fair: Prepare unthrottle_cfs_rq() to demote throttle status
+Date: Thu, 20 Feb 2025 09:32:46 +0000
+Message-ID: <20250220093257.9380-12-kprateek.nayak@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250220093257.9380-1-kprateek.nayak@amd.com>
 References: <20250220093257.9380-1-kprateek.nayak@amd.com>
@@ -88,170 +88,208 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099DF:EE_|CH3PR12MB8281:EE_
-X-MS-Office365-Filtering-Correlation-Id: e161d82e-e05e-404e-268a-08dd51921caf
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DD:EE_|CH2PR12MB4261:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64b547db-5823-43bf-e8b2-08dd51922930
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|1800799024|36860700013;
+	BCL:0;ARA:13230040|82310400026|7416014|1800799024|376014|36860700013;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9a8zlsbyGcu47n7fQab1cNr33fweZ3Rfg2iJ7igs7ypBRVOw0+30nIgpksA0?=
- =?us-ascii?Q?b3+0+ov3q9nP0b14SND3pWbhN28y3LncZDo2eP4q1qT2+oqEiqLnb14S81aG?=
- =?us-ascii?Q?d4AZ6PLMjQfOrOvyFtkjVj/mDqhBT+o9y+9A2YbY2huowr7h27697IpPxdgL?=
- =?us-ascii?Q?wWvsbqJocV6vDrsmibWbmXfOLQO5uBGyf6tCVC41KI+GSpJSORALHOU1U/aG?=
- =?us-ascii?Q?o2i7xVd4B539C9BfvMxCEhvbdEWRrDUv6n+hbzhYmZk1yXgj5mFN0qEA6BCf?=
- =?us-ascii?Q?t6vw6OMcYBcF8kuQivyD0TBup+TJHd8qBHWO4tf87YmYrAPF2Z4lHH7O2kMl?=
- =?us-ascii?Q?HSiKB1Q6TcyUC+kP1FVTbK9UGMUd9VkRqD9Ucu3hc8n5NNe8IstRc/X8qerj?=
- =?us-ascii?Q?oZmqUGEmJtOkn3lE3U5zwiEQFupjyuUT8ZxdqgvsVjuGnRzoGwiyHe7IM1b7?=
- =?us-ascii?Q?015pX7vKEVOYj1Us66R7/WMv7WcXxP5TC3t6YppSUOpiHhgb6dS/BoNrCngb?=
- =?us-ascii?Q?6UGQBdhBsaw1cr9kzPt96A++TtFQTwsJRCG/D+vHonP0CdGupB4DlhHo7Uir?=
- =?us-ascii?Q?avK/WaCzzv9pSkJvd6edU7nxSiI5GnCCudE0Y+VBNcYS2g0sOQvzADaA7lJ2?=
- =?us-ascii?Q?46oauOXwqRqwJEkyYQPsQnuNPlLBkF9nFhe+67rDbwfaGn9zaC1vC8e61NrX?=
- =?us-ascii?Q?Klkdiw45i7EgHG6Lz3M0nT6zv2CxCW1ZKq9sfu2VvKzGlyInP+yCCbcnOpyi?=
- =?us-ascii?Q?MqH+U3pdr3ii7lwnpXvlPjD+NMsuZ/9zK+8/gq7eO00zsRQ4yHnQs10WyEtv?=
- =?us-ascii?Q?cgQpM3zhfPi2ghjvGIanOtwMyl9kBpxwL+vww+g2igwya/jB4RQC58swxzwe?=
- =?us-ascii?Q?GdsT15imNo1tUaVyMMBR+im8+INw2MWJ2MPR/uapbVWiv4bJusCzIkLWZHh8?=
- =?us-ascii?Q?41L8Ozefo/CmTeJuo29nME6tSbplm7pc3FweKUIvdV56SEMF7tW3j6423XGp?=
- =?us-ascii?Q?6SQrBWp05nvi7gHo3xBdF4S81HmPeLUfda345MMmmuZrpAm9NGb61Y/Ig1CP?=
- =?us-ascii?Q?aCDFrxU9Ils8zZfrI8MaUcsEsUTeM04yWEuYzcMFW213o6nYCAzXk5etVyd4?=
- =?us-ascii?Q?EmETzZbbXk8N5opWuUFRIFE+YmhDJ/AinihTMmy0k6zF7ptT4gHzbGfvqLRL?=
- =?us-ascii?Q?DuT7jLlHahNaz7ehB6b17GFjhtPrbKC5TF9Rb3AYY+2G+EjP9nxc2z0P7MUN?=
- =?us-ascii?Q?XIoI8hdDn/RAnOxsDrTigLwI1m6wEY2Q7WTNzNdxUMsSQcNYDlHTU2aeMZQ4?=
- =?us-ascii?Q?4g0pry8QN+MmcQN4EJAMROb1wHdDSEBYRsw8Hkv2mt8Q04rr70sbgNIXcdB5?=
- =?us-ascii?Q?mg0pPnqi9s/+pdUMePcdtct1ggjVcEnbKQ54HOYQ75aA/aB09I4AKl0TppZq?=
- =?us-ascii?Q?DyXy5T7DHMeIqsXutMY+ROxzBkzjTZ9s7QX9MWT+lZzi9sPRGPIQ4LetgCvw?=
- =?us-ascii?Q?QarrcuKTEZO/Oc4=3D?=
+	=?us-ascii?Q?SbbeaAIwYMdDQhH+siHPIoMt0jCw/eGMgWjoABaL9h6rZt6C4OJUlS5iLh+c?=
+ =?us-ascii?Q?5pxFs5TxhIahp277oXS0t3JHnlS38sPa3yQNMXv3tKH4HRk8hJFTydJl/Va0?=
+ =?us-ascii?Q?LMG2f7ua5ZArDw58LLQvRJi9t+RHjPKi7ncxJxF8LTt7zJ0T+/Tq0FDqM+NR?=
+ =?us-ascii?Q?YBzv/oGaoPt/QdLC/Cj81fIAwRYhPtn/oZgN1rd+nUcgLIl+J9UBSz9zKFCi?=
+ =?us-ascii?Q?s694ehrHHfLeedSwzzyXE61AT9/icl1k06HoFb09PH41mwgBAJdQSU27eP0c?=
+ =?us-ascii?Q?m5Cl7DdlPgeNP1MJsLPmeP2FflfBvvkhkduDBbaB+5VC9G2f5VmsUEvYC3y6?=
+ =?us-ascii?Q?RIl13EnRNdbu76iXPquelK2bkmOxGVF+vnQbaG7b0HfgzsLgv4V79kKOqsFY?=
+ =?us-ascii?Q?Xlm3mDkDBTbmWC3DWIcYOyfueJf4QRQuR2YrbDKTQd/ztDRYIosCRQOtwz2x?=
+ =?us-ascii?Q?j5rUmrX57o7zhfadLIASJfMjOc2ZVPHQU/F+3GU3vUpKcxrXFpjji8VNPgfr?=
+ =?us-ascii?Q?1GoKrDDQo+zTmsiamBaDhumoWqiHw6VryIl3m6wb6/eNkXNVH6Z+wq51gayK?=
+ =?us-ascii?Q?kwmjxgL3Qbsmpxtxrs8V3kqVPVgJtJyJ6kNsGBSMZtPyRfe0Nn9CslQAk7UX?=
+ =?us-ascii?Q?FUVey6z5YhknNf4vHwGP1zr27SUnVKqe6RM9BpgEOnUhVh1NyyPGPfGfYphf?=
+ =?us-ascii?Q?RsxknF+WZtB9hRuY33pOMQ/qu0WeNKyUAQ0qRlVS2zWQJKMuDp9WQhxyzteT?=
+ =?us-ascii?Q?qvglb6TDawhGO4fOIsPlfgR99qm4yfBqNf53Te5Ngc2cY78RRWgIYORqn152?=
+ =?us-ascii?Q?+shRbU7wWrqv09lEPZfaAuC68SAiirI6kkLbrUqxWXpkELMEukPobhv0sJDD?=
+ =?us-ascii?Q?uKsNDIpalU1uPgPZaM8L+LNViTMQgQt8we6o+wywjOOYuMvFXppoOI3ZrN8u?=
+ =?us-ascii?Q?zudEmpaPRW0tJyVbysdHz7mlZksC7KcCSZ75xZy6heb0TTw+sWLyVRHuUpb8?=
+ =?us-ascii?Q?OuS9KUwDZKibMTnPNkMrxu8HZZerZEgvol6Pt0QsN2w65/IVjZyaBfavQEhP?=
+ =?us-ascii?Q?WoJLvlT/NkBCLpyQbdlFY+GH6684og1X1VPWyCtcJMXOK0IbPUT1OuI2qU8O?=
+ =?us-ascii?Q?aLY9H9CJT69Jff0fftnDJ4HO8ZPU7PJyp3mSYYQpkEmSSC28l/871eMxZl02?=
+ =?us-ascii?Q?+TeenBWplDmuHxoUEaZklw2vjghEP65ForSlDHoCtFdwtdThIsjAzy0+ZKBD?=
+ =?us-ascii?Q?E/Djs0OdLBhBtxrUiVDrfey9KxFpz+PSb3a6mXdBeLIH83wEk6ZHvr5Bg3Hz?=
+ =?us-ascii?Q?p1+d/VcnVVkeg3mmAkl9+cIuDbbaIVz7WBtT5S9TCSk/dMesqZP3441yMfaL?=
+ =?us-ascii?Q?/CpTVdZmEdKEOqpfAT1eFcofil9VxZ+WORP1Ebo9Fj2LQo3zgObCYmSIxm6A?=
+ =?us-ascii?Q?BdaHJNXih7yKwkQtGV0KqBQ37N24C4bqKL36kJAaTAkwxP1sCd4cPP738gAh?=
+ =?us-ascii?Q?7MBDUB4AKNxOQY8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(1800799024)(36860700013);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:36:54.3856
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:37:15.3687
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e161d82e-e05e-404e-268a-08dd51921caf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64b547db-5823-43bf-e8b2-08dd51922930
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099DF.namprd04.prod.outlook.com
+	DS3PEPF000099DD.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8281
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4261
 
-throttle_cfs_rq() will determine the throttle state first time it is
-called using the not yet fully implemented determine_throttle_state()
-helper to completely or partially throttle a cfs_rq when it has run
-out of bandwidth.
+If an entity which was blocked when running in kernel mode wakes up, a
+fully throttled hierarchy needs to be demoted to a partially throttled
+one.
 
-For a partial throttle, throttle_cfs_rq() will only set
-cfs_rq->throttled to CFS_THROTTLED_PARTIAL, leaving the rest same. When
-a partially throttled hierarchy needs to be upgraded once all the kernel
-mode preempted entities yield or exit to userspace, throttle_cfs_rq()
-will be called again to upgrade the throttle status.
+Prepare unthrottle_cfs_rq() to demote the status where the caller
+explicitly specifies via "demote_to_partial" indicator that it is
+requesting the throttle status to be demoted.
 
-determine_throttle_state() currently only returns CFS_THROTTLED and will
-be implemented in the subsequent commits once the foundation is laid.
+Modify all current callers of unthrottle_cfs_rq()() setting
+"demote_to_partial" as false since all the existing scenarios
+completely unthrottles a cfs_rq.
 
 Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
- kernel/sched/fair.c | 55 ++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 47 insertions(+), 8 deletions(-)
+ kernel/sched/core.c  |  2 +-
+ kernel/sched/fair.c  | 39 +++++++++++++++++++++++++++++----------
+ kernel/sched/sched.h |  2 +-
+ 3 files changed, 31 insertions(+), 12 deletions(-)
 
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 0851cdad9242..a797517d3dcf 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -9488,7 +9488,7 @@ static int tg_set_cfs_bandwidth(struct task_group *tg, u64 period, u64 quota,
+ 		cfs_rq->runtime_remaining = 0;
+ 
+ 		if (cfs_rq->throttled)
+-			unthrottle_cfs_rq(cfs_rq);
++			unthrottle_cfs_rq(cfs_rq, false);
+ 	}
+ 
+ 	if (runtime_was_enabled && !runtime_enabled)
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index c84cd2d92343..8e1df614e82f 100644
+index 8e1df614e82f..091493bc8506 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -5894,6 +5894,16 @@ static inline int throttled_lb_pair(struct task_group *tg,
- 	       throttled_hierarchy(dest_cfs_rq);
+@@ -6082,17 +6082,26 @@ static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
+ 	return false;
  }
  
-+static enum throttle_state
-+determine_throttle_state(struct cfs_rq *gcfs_rq, struct sched_entity *se)
-+{
-+	/*
-+	 * TODO: Implement rest once plumbing for
-+	 * CFS_THROTTLED_PARTIAL is done.
-+	 */
-+	return CFS_THROTTLED;
-+}
-+
- static int tg_unthrottle_up(struct task_group *tg, void *data)
- {
- 	struct rq *rq = data;
-@@ -5946,9 +5956,25 @@ static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
+-void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
++void unthrottle_cfs_rq(struct cfs_rq *cfs_rq, bool demote_to_partial)
  {
  	struct rq *rq = rq_of(cfs_rq);
  	struct cfs_bandwidth *cfs_b = tg_cfs_bandwidth(cfs_rq->tg);
--	struct sched_entity *se;
- 	long queued_delta, runnable_delta, idle_delta, dequeue = 1;
-+	struct sched_entity *se = cfs_rq->tg->se[cpu_of(rq)];
+ 	struct sched_entity *se;
+ 	long queued_delta, runnable_delta, idle_delta;
  	long rq_h_nr_queued = rq->cfs.h_nr_queued;
-+	int new_state = determine_throttle_state(cfs_rq, se);
-+	int prev_state = cfs_rq->throttled;
-+
-+	/* Fully throttled cfs_rq should not reach here */
-+	SCHED_WARN_ON(cfs_rq_h_throttled(cfs_rq));
-+
-+	/* Nothing to do */
-+	if (new_state == prev_state)
-+		return false;
-+
-+	/*
-+	 * We've been upgraded! Just dequeue since we are already on the
-+	 * throttled_list. Let distribution unthrottle us.
-+	 */
-+	if (prev_state)
-+		goto throttle_dequeue;
++	int throttled_state = cfs_rq->throttled;
  
- 	raw_spin_lock(&cfs_b->lock);
- 	/* This will start the period timer if necessary */
-@@ -5969,10 +5995,13 @@ static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
+ 	se = cfs_rq->tg->se[cpu_of(rq)];
+ 
+-	cfs_rq->throttled = CFS_UNTHROTTLED;
++	if (demote_to_partial) {
++		/*
++		 * A demotion to partially throttled state can only be
++		 * requested on a fully throttled hierarchy.
++		 */
++		SCHED_WARN_ON(!cfs_rq_h_throttled(cfs_rq));
++		cfs_rq->throttled = CFS_THROTTLED_PARTIAL;
++	} else
++		cfs_rq->throttled = CFS_UNTHROTTLED;
+ 
+ 	update_rq_clock(rq);
+ 
+@@ -6101,9 +6110,16 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
+ 		cfs_b->throttled_time += rq_clock(rq) - cfs_rq->throttled_clock;
+ 		cfs_rq->throttled_clock = 0;
+ 	}
+-	list_del_rcu(&cfs_rq->throttled_list);
++
++	/* Partial throttle should retain itself in the throttled_list */
++	if (!demote_to_partial)
++		list_del_rcu(&cfs_rq->throttled_list);
  	raw_spin_unlock(&cfs_b->lock);
  
- 	if (!dequeue)
--		return false;  /* Throttle no longer required. */
-+		new_state = CFS_UNTHROTTLED;
- 
--	se = cfs_rq->tg->se[cpu_of(rq_of(cfs_rq))];
-+	/* If the cfs_rq is only partially throttled, we are done. */
-+	if (new_state < CFS_THROTTLED)
-+		goto done;
- 
-+throttle_dequeue:
- 	/* freeze hierarchy runnable averages while throttled */
- 	rcu_read_lock();
- 	walk_tg_tree_from(cfs_rq->tg, tg_throttle_down, tg_nop, (void *)rq);
-@@ -6041,11 +6070,16 @@ static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
- 	 * Note: distribution will already see us throttled via the
- 	 * throttled-list.  rq->lock protects completion.
- 	 */
--	cfs_rq->throttled = CFS_THROTTLED;
--	SCHED_WARN_ON(cfs_rq->throttled_clock);
--	if (cfs_rq->nr_queued)
--		cfs_rq->throttled_clock = rq_clock(rq);
--	return true;
-+	cfs_rq->throttled = new_state;
-+	if (new_state == CFS_THROTTLED) {
-+		SCHED_WARN_ON(cfs_rq->throttled_clock);
-+		if (cfs_rq->nr_queued)
-+			cfs_rq->throttled_clock = rq_clock(rq);
++	/* If cfs_rq was partially throttled, we have nothing to do */
++	if (throttled_state == CFS_THROTTLED_PARTIAL)
++		goto unthrottle_throttle;
 +
-+		return true;
-+	}
-+
-+	return false;
- }
+ 	/* update hierarchical throttle state */
+ 	walk_tg_tree_from(cfs_rq->tg, tg_nop, tg_unthrottle_up, (void *)rq);
  
- void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
-@@ -6536,6 +6570,11 @@ static bool check_cfs_rq_runtime(struct cfs_rq *cfs_rq)
- 	if (cfs_rq_h_throttled(cfs_rq))
- 		return true;
+@@ -6176,8 +6192,11 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
+ unthrottle_throttle:
+ 	assert_list_leaf_cfs_rq(rq);
  
+-	/* Determine whether we need to wake up potentially idle CPU: */
+-	if (rq->curr == rq->idle && rq->cfs.nr_queued)
 +	/*
-+	 * throttle_cfs_rq() will reevaluate the throttle status for
-+	 * partially throttled hierarchy and upgrade to a full throttle
-+	 * once all the kernel mode entities leave or exit to user mode.
++	 * Determine whether we need to wake up potentially idle CPU or
++	 * reevalutate our pick on the throttled hierarchy.
 +	 */
- 	return throttle_cfs_rq(cfs_rq);
++	if (cfs_rq->curr || (rq->curr == rq->idle && rq->cfs.nr_queued))
+ 		resched_curr(rq);
  }
  
+@@ -6212,7 +6231,7 @@ static void __cfsb_csd_unthrottle(void *arg)
+ 		list_del_init(&cursor->throttled_csd_list);
+ 
+ 		if (cfs_rq_throttled(cursor))
+-			unthrottle_cfs_rq(cursor);
++			unthrottle_cfs_rq(cursor, false);
+ 	}
+ 
+ 	rcu_read_unlock();
+@@ -6227,7 +6246,7 @@ static inline void __unthrottle_cfs_rq_async(struct cfs_rq *cfs_rq)
+ 	bool first;
+ 
+ 	if (rq == this_rq()) {
+-		unthrottle_cfs_rq(cfs_rq);
++		unthrottle_cfs_rq(cfs_rq, false);
+ 		return;
+ 	}
+ 
+@@ -6243,7 +6262,7 @@ static inline void __unthrottle_cfs_rq_async(struct cfs_rq *cfs_rq)
+ #else
+ static inline void __unthrottle_cfs_rq_async(struct cfs_rq *cfs_rq)
+ {
+-	unthrottle_cfs_rq(cfs_rq);
++	unthrottle_cfs_rq(cfs_rq, false);
+ }
+ #endif
+ 
+@@ -6329,7 +6348,7 @@ static bool distribute_cfs_runtime(struct cfs_bandwidth *cfs_b)
+ 		list_del_init(&cfs_rq->throttled_csd_list);
+ 
+ 		if (cfs_rq_throttled(cfs_rq))
+-			unthrottle_cfs_rq(cfs_rq);
++			unthrottle_cfs_rq(cfs_rq, false);
+ 
+ 		rq_unlock_irqrestore(rq, &rf);
+ 	}
+@@ -6786,7 +6805,7 @@ static void __maybe_unused unthrottle_offline_cfs_rqs(struct rq *rq)
+ 		 * there's some valid quota amount
+ 		 */
+ 		cfs_rq->runtime_remaining = 1;
+-		unthrottle_cfs_rq(cfs_rq);
++		unthrottle_cfs_rq(cfs_rq, false);
+ 	}
+ 	rcu_read_unlock();
+ 
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 22567d236f82..bd43271fa166 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -554,7 +554,7 @@ extern void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b, struct cfs_bandwidth
+ 
+ extern void __refill_cfs_bandwidth_runtime(struct cfs_bandwidth *cfs_b);
+ extern void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b);
+-extern void unthrottle_cfs_rq(struct cfs_rq *cfs_rq);
++extern void unthrottle_cfs_rq(struct cfs_rq *cfs_rq, bool demote_to_partial);
+ extern bool cfs_task_bw_constrained(struct task_struct *p);
+ 
+ extern void init_tg_rt_entry(struct task_group *tg, struct rt_rq *rt_rq,
 -- 
 2.43.0
 
