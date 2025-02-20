@@ -1,63 +1,67 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F17E1EC00D;
-	Thu, 20 Feb 2025 10:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B551EFF9B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 10:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740048246; cv=none; b=PVglmt7TRr9Bktp+DBtq51GdewEtdvXjU5gxRqM3cc49ioBxl5Z5iVPV3mf5PcVcM4tEUdJDZZNiPK6IX8iCcrPsXtH+Y9OCIevN/vpDrryG/Fe1A6SsEbrPtmWnhb3cMaC8A1B7QjH5vtggLlndxzBDtq6RProRKNw8JtoK37c=
+	t=1740048647; cv=none; b=Yyk2fPzllhhDZ60AiTvCCgrCQp7wYVB1y075+52SyAhMLN78TD/VIZa/iAM9RD8+RHjgzRl1k7Q59laovHZYGWrz3PLjvIjW7b64s0qEIRSV3lFl5SoSsY4KNPTZA4PDolsPL+IVmbDsuGMhRRMHN3f266y8k8zWe8TTRufgxus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740048246; c=relaxed/simple;
-	bh=o7cC2pzvDGIsuGMkokdSibsF9dX73IidV1pc3KaCWCU=;
+	s=arc-20240116; t=1740048647; c=relaxed/simple;
+	bh=7jAGUhPkzWdpwuz4DF7mm7xOOz+bkeMzV0By/x99+Yo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7uNNrdbV45IJmftE/A0mJ3e1AxnUTBZgHry1Cfo2O7529CI/9bpvg6cc8brg7Fzo693oWfgy4VLIoXtXkS58fduxEXw3nNL/d+1VFQiRyZZNgMLubKVvk8RamhUTh0o9bjuDyq1IZmGIcXK96RMkJIDW2//pvgc17v+C1F/lwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=gsGPHaVw; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=cCrgbkSTy1n9T6W8t6yIMlmOM8DsECXolJhDpGxH+iLZNX5APgVigPICuf7HOh/T6frhLIrRrDQFtgIfwdEF7T5KOhURvkLA8pqHgZEhQSB1ekKwMThHgMDLhkdl5Yo5rOjvga/oFruoIvYSUeYpInRBy7UxjZeM6nUs5twty90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H03vUt+7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="gsGPHaVw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=UCsau6Q1T8XzQ2ZBsnSplAduXGSIHhbZTYy26mO11B4=; b=gsGPHaVwli7MJfInoK/NyZWFMj
-	KwwXNXOgi5RCveeIUA+WeGuij8EAe+TBahj03xVnCHRvw6NGYkg6xvRuVGBGjhgMHxr4jpRJ/izzW
-	oPB4o0kT/Tpt21Gfoa+0U1+28b4HbYBTWyXJkBjl6I1bi03bvwOXMAfW25qTBgP4Px5Om2lb/SyCL
-	KnQpKlX8rd2eMNK/o0VTuC0fGKQShv/AQXpbJNcLPVOWaht8ZXwKLY3Qi8dpwzeqypi1YcjwAwLg8
-	AdI3u05Qo6TvuzKSxWU0BN/OQZHk4E7vhO3T4OwvP6pEl7xWEmm8DdxXbO0dqqVc44rBi/aIkg3p5
-	xI+UK3vQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1tl428-00000009IIL-3KZS;
-	Thu, 20 Feb 2025 10:43:56 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C5C83300756; Thu, 20 Feb 2025 11:43:55 +0100 (CET)
-Date: Thu, 20 Feb 2025 11:43:55 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Ben Segall <bsegall@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andy Lutomirski <luto@kernel.org>, linux-kernel@vger.kernel.org,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev, Tejun Heo <tj@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Barret Rhoden <brho@google.com>, Petr Mladek <pmladek@suse.com>,
-	Josh Don <joshdon@google.com>, Qais Yousef <qyousef@layalina.io>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	David Vernet <dvernet@meta.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Swapnil Sapkal <swapnil.sapkal@amd.com>
-Subject: Re: [RFC PATCH 01/22] kernel/entry/common: Move
- syscall_enter_from_user_mode_work() out of header
-Message-ID: <20250220104355.GI34567@noisy.programming.kicks-ass.net>
-References: <20250220093257.9380-1-kprateek.nayak@amd.com>
- <20250220093257.9380-2-kprateek.nayak@amd.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H03vUt+7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1740048645;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=G+AenvsQ1d6MPmfyCdGSYtFDyZCiwe9jU60P8xlWbeY=;
+	b=H03vUt+7qsN8421LulzPLTw0Qs0WLuQg6pAxcwgT+FY+grYBqFlUjqd592DyWWxMGUHA5r
+	0tPHyE2Z5FrhDVdzpFgsOjaWpl3m6SgSyXTb6Rp1qoIXBQ5yVvCUbRT1TzHYDBDN0NZjON
+	bDdHN95q43riUuc3RGsGMbFIfUbZcaM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-351-YyL-k6s4Pk6FeuAdxlHMpw-1; Thu,
+ 20 Feb 2025 05:50:40 -0500
+X-MC-Unique: YyL-k6s4Pk6FeuAdxlHMpw-1
+X-Mimecast-MFC-AGG-ID: YyL-k6s4Pk6FeuAdxlHMpw_1740048639
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A63DE19783B5;
+	Thu, 20 Feb 2025 10:50:38 +0000 (UTC)
+Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.64.128])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id E44001800352;
+	Thu, 20 Feb 2025 10:50:32 +0000 (UTC)
+Date: Thu, 20 Feb 2025 07:50:30 -0300
+From: Wander Lairson Costa <wander@redhat.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
+	edumazet@google.com, andrew+netdev@lunn.ch, netdev@vger.kernel.org, 
+	clrkwllms@kernel.org, jgarzik@redhat.com, yuma@redhat.com, 
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net 0/4][pull request] igb: fix igb_msix_other() handling
+ for PREEMPT_RT
+Message-ID: <h22s3ne3jgfyzryfd5htsaopoboqr6ljz7xtkkccoaaurpq6dv@o3wjen7rxs7r>
+References: <20250204175243.810189-1-anthony.l.nguyen@intel.com>
+ <20250205094818.I-Jl44AK@linutronix.de>
+ <mrw3tpwsravsaibkcpptdkko3ff6qtk6w6ernqvjisk4l7owok@q6hmxkzcdkey>
+ <20250206115914.VfzGTwD8@linutronix.de>
+ <zy3irjybyc32hnow3ckhkfsrtfm5nev44aeovinlkkfc6tyyjv@gcblibp5ng3o>
+ <20250212151108.jI8qODdD@linutronix.de>
+ <CAAq0SU=aU=xpw0bDwaanFh_-r5tts0QNCtSmoteP3dM8-K6BFA@mail.gmail.com>
+ <20250212152925.M7otWPiV@linutronix.de>
+ <mtmm2bwn3lrsmsx3evzemzjvaddmzfvnk6g37yr3fmzb77bpyu@ffto5sq7nvfw>
+ <20250219102916.78b64ee4@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,70 +70,67 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250220093257.9380-2-kprateek.nayak@amd.com>
+In-Reply-To: <20250219102916.78b64ee4@gandalf.local.home>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Thu, Feb 20, 2025 at 09:32:36AM +0000, K Prateek Nayak wrote:
-> Retain the prototype of syscall_enter_from_user_mode_work() in
-> linux/entry-common.h and move the function definition to
-> kernel/entry/common.c in preparation to notify the scheduler of task
-> entering and exiting kernel mode for syscall. The two architectures that
-> use it directly (x86, s390) and the four that call it via
-> syscall_enter_from_user_mode() (x86, riscv, loongarch, s390) end up
-> selecting GENERIC_ENTRY, hence, no functional changes are intended.
+On Wed, Feb 19, 2025 at 10:29:16AM -0500, Steven Rostedt wrote:
+> On Tue, 18 Feb 2025 11:50:55 -0300
+> Wander Lairson Costa <wander@redhat.com> wrote:
 > 
-> syscall_enter_from_user_mode_work() will end up calling function whose
-> visibility needs to be limited for kernel/* use only for cfs throttling
-> deferral.
+> >      kworker/0:0-8       [000] b..13  2121.730643: e1000_init_hw_vf <-igbvf_reset
+> >      kworker/0:0-8       [000] b..13  2121.730643: e1000_rar_set_vf <-e1000_init_hw_vf
+> >      kworker/0:0-8       [000] b..13  2121.730643: e1000_write_posted_mbx <-e1000_rar_set_vf
+> >      kworker/0:0-8       [000] D.Zf2  2121.730645: igbvf_reset_L14: (igbvf_reset+0x62/0x120 [igbvf])
+> >      kworker/0:0-8       [000] .N...  2121.730649: igbvf_reset_L16: (igbvf_reset+0x7b/0x120 [igbvf])
+> >   irq/63-ens14f0-1112    [000] b..12  2121.730652: igb_msix_other <-irq_thread_fn
+> >   irq/63-ens14f0-1112    [000] b..12  2121.730652: igb_rd32 <-igb_msix_other
+> >   irq/63-ens14f0-1112    [000] b..13  2121.730653: igb_check_for_rst <-igb_msix_other
+> >   irq/63-ens14f0-1112    [000] b..13  2121.730653: igb_check_for_rst_pf <-igb_msix_other
+> > 
 > 
-> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
-> ---
->  include/linux/entry-common.h | 10 +---------
->  kernel/entry/common.c        | 10 ++++++++++
->  2 files changed, 11 insertions(+), 9 deletions(-)
+> > This is the trace-cmd command line I ran:
+> > 
+> > $ trace-cmd start -p function -l 'e1000*' -l 'igb*' -l process_one_work -e irq:irq_handler_entry -e probe
+> >   plugin 'function'
+> > 
+> > The threaded interrupt handler is called right after (during?)
+> > spin_unlock_bh(). I wonder what the 'f' means in the preempt-count
+> > field there.
 > 
-> diff --git a/include/linux/entry-common.h b/include/linux/entry-common.h
-> index fc61d0205c97..7569a49cf7a0 100644
-> --- a/include/linux/entry-common.h
-> +++ b/include/linux/entry-common.h
-> @@ -161,15 +161,7 @@ long syscall_trace_enter(struct pt_regs *regs, long syscall,
->   *     ptrace_report_syscall_entry(), __secure_computing(), trace_sys_enter()
->   *  2) Invocation of audit_syscall_entry()
->   */
-> -static __always_inline long syscall_enter_from_user_mode_work(struct pt_regs *regs, long syscall)
-> -{
-> -	unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
-> -
-> -	if (work & SYSCALL_WORK_ENTER)
-> -		syscall = syscall_trace_enter(regs, syscall, work);
-> -
-> -	return syscall;
-> -}
-> +long syscall_enter_from_user_mode_work(struct pt_regs *regs, long syscall);
->  
->  /**
->   * syscall_enter_from_user_mode - Establish state and check and handle work
-> diff --git a/kernel/entry/common.c b/kernel/entry/common.c
-> index e33691d5adf7..cc93cdcc36d0 100644
-> --- a/kernel/entry/common.c
-> +++ b/kernel/entry/common.c
-> @@ -79,6 +79,16 @@ noinstr void syscall_enter_from_user_mode_prepare(struct pt_regs *regs)
->  	instrumentation_end();
->  }
->  
-> +__always_inline long syscall_enter_from_user_mode_work(struct pt_regs *regs, long syscall)
-> +{
-> +	unsigned long work = READ_ONCE(current_thread_info()->syscall_work);
-> +
-> +	if (work & SYSCALL_WORK_ENTER)
-> +		syscall = syscall_trace_enter(regs, syscall, work);
-> +
-> +	return syscall;
-> +}
-> +
->  /* Workaround to allow gradual conversion of architecture code */
->  void __weak arch_do_signal_or_restart(struct pt_regs *regs) { }
+> The preempt count is hex, so 'f' means 15. But that that latency field looks corrupted.
+> 
+> After adding the probes by perf, what's the content of the format files for them?
+> 
+> That would likely be in /sys/kernel/tracing/events/probe/*/format
+> 
 
-This breaks s390. While you retain an external linkage, the function
-looses the noinstr tag that's needed for correctness.
+$ cd /sys/kernel/tracing/events/probe/
+$ cat igbvf_reset_L1*/format
+name: igbvf_reset_L14
+ID: 2610
+format:
+        field:unsigned short common_type;       offset:0;       size:2; signed:0;
+        field:unsigned char common_flags;       offset:2;       size:1; signed:0;
+        field:unsigned char common_preempt_count;       offset:3;       size:1; signed:0;
+        field:int common_pid;   offset:4;       size:4; signed:1;
 
-Also, extern __always_inline is flaky as heck. Please don't do this.
+        field:unsigned long __probe_ip; offset:8;       size:8; signed:0;
+
+print fmt: "(%lx)", REC->__probe_ip
+name: igbvf_reset_L16
+ID: 2611
+format:
+        field:unsigned short common_type;       offset:0;       size:2; signed:0;
+        field:unsigned char common_flags;       offset:2;       size:1; signed:0;
+        field:unsigned char common_preempt_count;       offset:3;       size:1; signed:0;
+        field:int common_pid;   offset:4;       size:4; signed:1;
+
+        field:unsigned long __probe_ip; offset:8;       size:8; signed:0;
+
+print fmt: "(%lx)", REC->__probe_ip
+
+> Thanks,
+> 
+> -- Steve
+> 
+
