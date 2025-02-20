@@ -1,46 +1,46 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2061.outbound.protection.outlook.com [40.107.223.61])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2041.outbound.protection.outlook.com [40.107.93.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EC21F03CB
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF931EDA08
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740044178; cv=fail; b=gCuKtP8UT3IkzzVTLOQPpvkzS6uXbUZSQ+BDhafoe4MXNe9RwDy+uP8JGyi7bLwbC4yg8TZt5jc/O4lGiwVXbKkTjGZSndOVoKyIK32WIPJi1d6Bx79ipVW/9deqO+LVV1VGxUGoJgD8KneJtaVrg92uNMcrFv2q2R+7zFXMA4I=
+	t=1740044202; cv=fail; b=V+oSLtT7bbL9v2IFxwki6DYNTcrurnyBBeZEUks0OPcCBcRtpOBdhJSZQC3V4FMLD8Fmhq2ZKngKcdryT/EUROuaBE3hrV50iSR27L0vSbJl1dIKuaEXCYltH+s4baLb78QJ5iyAA3ycOZXiITEgoNV0oUlsFXFHr9kHd1t5EU8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740044178; c=relaxed/simple;
-	bh=p1LMJdt8iWYYnZE2IuN8pGcIx+K4RX1RZN0a8NXhk5U=;
+	s=arc-20240116; t=1740044202; c=relaxed/simple;
+	bh=6iR4/BgPsAII7PNwhW2SB9bzncZ4b9IL78w7NlC7Kww=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nCjCosG+MI1dk/x2j0Sm/BNsWCBSpJaDqsLTrlAaF5qs6EMQdDM29X+d5FaCNktPirwlkMX70BPLKaB2aCLYbOOTPo/3TVZTDjRw+C4giYbTF6mQd4fAGHh4w6IpmCyudKoszrM2wFfpo0UXMwGCq3nXZ7YeKNv6azRLTscvZoo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=M/ekUtoc; arc=fail smtp.client-ip=40.107.223.61
+	 MIME-Version:Content-Type; b=nez+3zwUrLBfdXe5hoFcrQqIqsOlhaZnzB5c6An4/GWXhhOQy0Xf4ol8Gcg9APpKMG/UsihkodUya9dKiu69cGCCmc2TziQSt8lCFux++xqNkYdThShScP2pt074s+bQdEmOnc7qSdm3clzoUlEWR6p7DYeQO+wrpSpPn6+f5nA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RGzO8FWr; arc=fail smtp.client-ip=40.107.93.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="M/ekUtoc"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RGzO8FWr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JLgbFvVIUxER6zQh7fAGdY6wxGvrwu5h5iglXrx5k2Hoo2jNEdR7OUSHFqf2uvgs0/4feF7Iynf0Cn6S6nRxJe4EHt9Gy9QDPht2gqtrXNECawc63KzQxBIyA2MTV6xJYWG4DdaR6SXGsPrquXTV5y7XIGTbd9xRKh/2tjSVnNgbAmHIIidPAG4Jk1FvYGj8zx7oiwVy7syuXTtyOeDEBr0KwBg3zIYttFm1MgxBV/qKl+HULY69UMnB6JdbcLZxMPjI7Z40rs7KjC6+Xs4RwgDA/+55ytNP9EC80/hkbjOCbSeLidC6uKJWpdf1tbqdqXtBwRnKHo1WFCsBP5spUA==
+ b=f4Brs+TZK3Uv+R0PSxzjjUAyTkHpV+Zv4WDWEc2VYqJwHCnxwW0qBtqqXAiercmZSuGqCl3ZZ4y0GZKfUe+XucDCYq1IU2jv2WvTIWlKzsil24971N4xdGyNSaVPzTPrd8qunntYt9WmoWRSytkO0qaZI4g0g4/rHRjHIKIQH1gQK9YDI7DiyNNEn4crUJHSwWyqFNwUbb5VePTIvMRhy//6rjI3+LhHXws/K+FnxBwsDA7KzOxPOF6+N+x47scy+gJbLVuXzzC7bZiIOfvZzFHps8fpZu2H4Lo+O43Ehw4s2Q3XbRzu0CaOItLv+HjS+/VIf+UizPYzJX5MLgHZaQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wsyHr8OIJjB23ZLAsncS91MPiMVjz60/hNOFvMm07Xk=;
- b=xIWXaGKeBOmZlHPIBI1UniMI2RlJimBWaQ4MHpRgmcpqgqUSjmzUSA6TW52aYLUaOPy3ATXPcOWzbVeCqhdKdv4KcietIJi8HOpN+62HSIcJ+jcD95cZzzQevIz8GD+/2V4Qdf37iJ9niYem7HmuWhFSc2NwbGp9IoWvk0oQSo8xXCIFVc1A2gVmYumwn1Xmx0wE/9MnIZBYJKDBd1L+iwVQG1iUhN55TGXoz8890uzNhJ4t1XzSCzXnC3qvVWohII7D6G6LhmTNLNGKU3QOwpLu2klvCN7GUsfM1IMc58oOMoUXNKQAVz3uE+dRpFGYc+X/v41z7u3y/us4qL8ZPA==
+ bh=j04M7FpuFUmb8dwl4D/pdyEWwDHPVe4vDdGMefBm8AE=;
+ b=dHddA/0UMGCrVYD6ZUVcZVK6BzqcKbPDt8BHqdjctZ8J43nJKcK5LrQ/4CVYkVSHgx7awA49A6YwPZ7GNNws5Yicky3Uo/M6oxwRfw+Iv6ydo1pNVw/uwQMmxD6uuY08rP4tAo6FznmwxRhIbrpgcsWFblDX5+BROot7KjgoZujq5H2gcfnGITsN0YWqp0skOAlSlDLox5kom/6DNrw5x5Mxt9dIwfyP6YfGUTXoFsuTR+5GIgtk7aT8Ti0hnbCBOjjvJhI8u81FpLsUFPg8faUOGqAM6j6qLqVnVgIHSExgb3u1V2k+1wKQhzBE7fZp8YacAF4s1sCySAlIJY7t+A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wsyHr8OIJjB23ZLAsncS91MPiMVjz60/hNOFvMm07Xk=;
- b=M/ekUtoc5eJun7fLbMiS6unni5ZdMGBWT6tndU2Z2h+uk/jb2PzaWIhujomE5w2Z1chBJv39sn/hZI5apaoqTLtKrHTLnZGX6lagtNg7oOfQBiAi1RmQEhyHHgymon4VEKwfPdPjYPZUL2i7VhhKiBcYvrbaWDo3HcLKPM82ioQ=
-Received: from CH0PR13CA0007.namprd13.prod.outlook.com (2603:10b6:610:b1::12)
- by DS7PR12MB6093.namprd12.prod.outlook.com (2603:10b6:8:9e::12) with
+ bh=j04M7FpuFUmb8dwl4D/pdyEWwDHPVe4vDdGMefBm8AE=;
+ b=RGzO8FWrnZLdHu911eiU7mMLkQMeOen8hk2IjFqr4sXHzaGV/2e54Cw2IMGEJLIolF0SBWPY+joJCcH8f1xAs8HvtU4LrwA0RRbJao41ySjhAIXkI2s/HLK1iJDjAgMEYngcSikrmN/Tz/cV4oJbhjKDY5S+GcRFqxThA2hP3S0=
+Received: from DM6PR02CA0163.namprd02.prod.outlook.com (2603:10b6:5:332::30)
+ by SA1PR12MB6918.namprd12.prod.outlook.com (2603:10b6:806:24d::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
- 2025 09:36:13 +0000
-Received: from DS3PEPF000099E2.namprd04.prod.outlook.com
- (2603:10b6:610:b1:cafe::c7) by CH0PR13CA0007.outlook.office365.com
- (2603:10b6:610:b1::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.14 via Frontend Transport; Thu,
- 20 Feb 2025 09:36:13 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8445.20; Thu, 20 Feb
+ 2025 09:36:33 +0000
+Received: from DS3PEPF000099DD.namprd04.prod.outlook.com
+ (2603:10b6:5:332:cafe::11) by DM6PR02CA0163.outlook.office365.com
+ (2603:10b6:5:332::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.15 via Frontend Transport; Thu,
+ 20 Feb 2025 09:36:33 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099E2.mail.protection.outlook.com (10.167.17.201) with Microsoft
+ DS3PEPF000099DD.mail.protection.outlook.com (10.167.17.199) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:36:12 +0000
+ 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:36:33 +0000
 Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 20 Feb
- 2025 03:36:04 -0600
+ 2025 03:36:25 -0600
 From: K Prateek Nayak <kprateek.nayak@amd.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
 	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
@@ -70,9 +70,9 @@ CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
 	<qyousef@layalina.io>, "Paul E. McKenney" <paulmck@kernel.org>, David Vernet
 	<dvernet@meta.com>, K Prateek Nayak <kprateek.nayak@amd.com>, "Gautham R.
  Shenoy" <gautham.shenoy@amd.com>, Swapnil Sapkal <swapnil.sapkal@amd.com>
-Subject: [RFC PATCH 08/22] sched/fair: Allow pick_eevdf() to pick in-kernel entities on throttled hierarchy
-Date: Thu, 20 Feb 2025 09:32:43 +0000
-Message-ID: <20250220093257.9380-9-kprateek.nayak@amd.com>
+Subject: [RFC PATCH 09/22] sched/fair: Introduce cfs_rq throttled states in preparation for partial throttling
+Date: Thu, 20 Feb 2025 09:32:44 +0000
+Message-ID: <20250220093257.9380-10-kprateek.nayak@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250220093257.9380-1-kprateek.nayak@amd.com>
 References: <20250220093257.9380-1-kprateek.nayak@amd.com>
@@ -88,295 +88,277 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099E2:EE_|DS7PR12MB6093:EE_
-X-MS-Office365-Filtering-Correlation-Id: 929b1135-e3d9-4546-4ea6-08dd519203d8
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099DD:EE_|SA1PR12MB6918:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb1c438d-8660-4e5f-4814-08dd5192103b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|7416014|1800799024|376014;
+	BCL:0;ARA:13230040|376014|7416014|82310400026|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?mCq2HbXEpp2UCt2sBn7CkbhkwQbE6wCAtwM9BP+gfXmFSDArZ+cXqM44Tst1?=
- =?us-ascii?Q?PuMpKCRF5e0YPK7+aUZ2knFj1iC4OhZODlSWRcP3d4oG46jdfvYE950hVJ1O?=
- =?us-ascii?Q?qp3oyq3c2020sTIk6x/ma4Q9N9boElPX9U1bp2nw6HY+6+ancPXfP6EcMdDf?=
- =?us-ascii?Q?riSmlFW1/zxOeAuZX4sQ8V2igqb3H+t/XjwVOMZoqpSTtWSEoHbEFCjnOrfB?=
- =?us-ascii?Q?NKT4VPsSuxic/jmM2JLQb12shvM5PB6nvPx8X8S5E/AyThpdkHqEU+IxiE27?=
- =?us-ascii?Q?aZqkUH4jVLueNyGGy3no4fajYtrPomUjlHY5xjbSHWt0oBeym+niJepmFAKc?=
- =?us-ascii?Q?x1iAHluiEHUlRAGi+q/WJElbuZfX2szCDGxkpmTf7lDvI1BsMBggCjjAtwAx?=
- =?us-ascii?Q?xbtxpVrrmSfnP9WPJ518W8IhwRFPX0fXlWk61kubobdazQxaEmhtrq5yHBdf?=
- =?us-ascii?Q?nQR2YwZdoUENYLzMtMjjFp0chIOfACiWy8FvMZsXm2JbAHdyVu4gRnvf518h?=
- =?us-ascii?Q?2+42JAulbIbVL5F1JrywD4dsUnHJrlaiRl/VV3PY/vA6oqOlZ/NwDraaoRWo?=
- =?us-ascii?Q?9vbmVHx+6ym+U6GhxhKRt6KDfE/LPkYjrdBvr5waw+8M5ecSL/iv3YvZPCub?=
- =?us-ascii?Q?jaL3FseI0i4kZilBDw8f9w4Z2C7PAyuFk+CaI3JGcqQHVzk+twZAVSO6qgwQ?=
- =?us-ascii?Q?QsOfLYPXcXYWwhzr3nMfS9qsynxEZa3UA7hEgzSJJw01O2hdLnJOye9PK6+E?=
- =?us-ascii?Q?QAZ/dN4FaYiSRGpd7olqmuQKYrU1fL80OGuGeAcTON9osSds1mKQM44KAevS?=
- =?us-ascii?Q?s3zSvx3t1Q6zs5CeFr44XuhTqHl95BEhK5fakoHwyf/fO22w0tdtX04x31Gt?=
- =?us-ascii?Q?T1xBrFYOoKZaApF97+hfQETh9dRyrCyoRYm0hlBBFKcG8JnW8L7X+Y2nwoLi?=
- =?us-ascii?Q?sPjGSdDpuE11fOoELs+dPvBnOdzG10xJ8cjzRNiEWDqYWet/dF4bvQ/9P6vZ?=
- =?us-ascii?Q?ZUiw45AUHSejKLLBPoS01Drm8yyrInvc2mXBjheE0kTDWPa/qmT7qwXPEPeq?=
- =?us-ascii?Q?FwpC8lqVyQPwkHt/3KUN3VWYVHCeMT/221IdLsw0ETqan9CYottJFMhS1Wea?=
- =?us-ascii?Q?eJOMRo7VpOp+F1ZuKm8Xi9IdNJbwFn8+vwODGJ4W/7RgLzYGOolQaXW5F8gU?=
- =?us-ascii?Q?gJrxIDA4wCOOBTPv/YKq+0vDayTJISD2GWkgGITaVCtpNNkqx0hN7s+vyq+m?=
- =?us-ascii?Q?KdPQHRcojb87G5RLBv+gAfXwsgz6UDoxSVFtTKy5BlMh4pGKWsdVTwTJpny/?=
- =?us-ascii?Q?mK96R7B1o5SKqW/qoARR3H0ywn97EOUarN1MPCCyqPnE8TAGcFPigh11enQ/?=
- =?us-ascii?Q?9Kj0Kzji2Cu1z5I/hXIYDF4zlYxGsK3rl6uzUuj31Reb8rYqNrskmYDwXZkO?=
- =?us-ascii?Q?iYkoMEOPuvAc0M9MU1a4eR50VsHdckUjODctX2xXgdEUSwVfT3ErpHvF6b6o?=
- =?us-ascii?Q?CcQn8kFj3qA4Eq8=3D?=
+	=?us-ascii?Q?kXL6aTFi+OTbVShSjtT5T1xbMXeQV6/M9zfOli8tDWZL2FwWsiggJPMh9CyV?=
+ =?us-ascii?Q?4bjtJWdgRSDvIPXXMuy+H/je8vtkfMrb2/HnWO7HanPHOeHQpOqe6Nzg7rbY?=
+ =?us-ascii?Q?GUce8c8+oCtFeIdGz3RR7ccNlDWoKq5xBkQKn7jdfoJwDcvLBudkY2lwdrMa?=
+ =?us-ascii?Q?9lZZD1s2tRb64VAjtbcJ+VRSUGvrsv0sDA/doRv+b/7YBgbdaJnDhxeCB2AZ?=
+ =?us-ascii?Q?RboGYuN91WRRpkfhn5vS4zCOPQCr4c9U78QGTKcaa8L8tGkumGoeNperupHK?=
+ =?us-ascii?Q?ePxtu4sxx83IUhMXmW3IKziZ+p6P2+56CrcKBsYRJomltWAX6cjFKRuxWJeu?=
+ =?us-ascii?Q?1DzdC5ohdn9jdzUuhzvlfz8rOs+x2A+egJVOsBP3jVIH7S3BXs9JXJ4V82ZT?=
+ =?us-ascii?Q?GqhxnvGJqAWpOOuUJF/TW+9Sy4HQl0RkCoD4aVSSqmLva1HCHd16o7hkTsoT?=
+ =?us-ascii?Q?wlptcO88vhnQLuEVUBqyO+K9IeJQyHZHnw5XgD0tAdX/r6zWoHtRzXvYts2c?=
+ =?us-ascii?Q?UlsREiSUNY94ebMJrkgL/Nx90VyhjljrDWorv5nFEna50Uyy26ShJvXJIDkV?=
+ =?us-ascii?Q?Coq5ksim+cP+53bh+xS9gXrVhrxOndLGfESZe8KJFimlXF5Z0liJeIPx0c/C?=
+ =?us-ascii?Q?hPxY3slhtIzdYa1iQcYF+pnIDf5IlgycK93mCt31d+E6qcT/TIjjPIXyrLmg?=
+ =?us-ascii?Q?mANvjGACYbDsXJu3TrHOsgMzKN8BG0LwEe+qe5Hkbh0h2S6dWD40AzwwZSZr?=
+ =?us-ascii?Q?1nEpDIp2C2rgs5ABioOJLcq1ftXPZhmmpZXw8olN5QCVYTX8AcfOAeaBci+F?=
+ =?us-ascii?Q?tfjIXoKDfkkG1J07hMBqmsn38qVy/TlPX5GKM5A0EiYxauq3+jNoZbZqwqou?=
+ =?us-ascii?Q?eduTOi04UrqAd6YhYKky8kkF1XB/OObMVol7d6DHyI8tbSjYdIcUCahSQcX6?=
+ =?us-ascii?Q?/i8tK1ONbTRwNQ8yOd2g5cPbUk3W/61nvWwxc6ML6PAD+03FZS7IYH2DhzeS?=
+ =?us-ascii?Q?1sv9i+LJbbx1UyuyLgwH8/WwKpKmFGt8kUXacQMYttwGnOF0gJ2hTtX9rDDH?=
+ =?us-ascii?Q?1lJsDCXCHk/YsMkrstVZUmeKiQ9dVyyMkPVxU3TAdyMMlNvl1cQ+WB6La3i3?=
+ =?us-ascii?Q?Hy9tlAYz7G5Uq7a45wvhQEoix9sPc3QNwxP/bfQ5lwKANmO5IG9x9g6gNTnE?=
+ =?us-ascii?Q?mcpwzru+Mb8J0876/srlQE8zEvwuX3hz9JPAF2Ivn2nAnUqr8hRObNS2RYbi?=
+ =?us-ascii?Q?hujqRS9A8md/G5p6noo5wCATqCzKIqjsQEZvoDq8RsdWmCWkEP7N3l8gEq4o?=
+ =?us-ascii?Q?XGdyKfjL7SZ5PJEaQXwsD5Yb8RZqqaFLU5Waq3D24czbxsQ0rjS+1OjAgQcZ?=
+ =?us-ascii?Q?95eyB0ptJHj1VxeZWjoQks0xFPVGk6jKpVFEk3yzJMbPWHNR9V0dGwtpOkgU?=
+ =?us-ascii?Q?IlpSW6y/986G67Pc+5XQ47kQHWwEK5UJYfX5ffd4s0Jsm8EoYfzip8R0NBbY?=
+ =?us-ascii?Q?+1YGG5uZPEUxt6E=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:36:12.7123
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:36:33.5092
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 929b1135-e3d9-4546-4ea6-08dd519203d8
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb1c438d-8660-4e5f-4814-08dd5192103b
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099E2.namprd04.prod.outlook.com
+	DS3PEPF000099DD.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6093
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6918
 
-pick_task_fair() makes sure that the a throttled cfs_rq is dequeued and
-unreachable to pick_eevdf() when it encounters one during pick. With
-deferred throttling, it is possible for a throttled cfs_rq to have
-kernel mode preempted entities queued on it making it runnable.
+On introduction of throttle deferral, cfs_rq on encountering a throttle
+event with kernel mode preempted entities will be marked partially
+throttled allowing only these kernel mode entities to run until they
+sleep or exit to userspace.
 
-Allow pick_eevdf() to find and return only the kernel mode preempted
-entities when picking on a throttled hierarchy. Introduce two new
-wrappers - pick_entity() and pick_subtree() around entity_eligible() to
-abstract away the nuaces of picking on a throttled hierarchy.
+Introduce "throttled_state" enum to define the three throttle states -
+CFS_UNTHROTTLED, CFS_THROTTLED_PARTIAL, and CFS_THROTTLED. In addition
+to cfs_rq_throttled() which will now track both partial and complete
+throttle, introduce a new helper cfs_rq_h_throttled() to detect a
+completely throttled hierarchy.
 
-Introduce pick_se_on_throttled() and pick_subtree_on_throttled() to find
-the eligibility of kernel mode preempted entity or its subtree amongst
-all kernel mode preempted entities still queued on the rbtree using the
-EEVDF stats.
-
-Since current task is outside the "kernel_cs_count" tracking, take
-special care when accounting for it in pick_*_on_throttled().
+Convert appropriate cfs_rq_throttled() checks to cfs_rq_h_throttled() to
+guard logic that only concerns with a complete throttle. Also take the
+opportunity to convert any open coded references to cfs_tr->throttled to
+use one of the two helpers.
 
 Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
- kernel/sched/fair.c | 134 ++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 124 insertions(+), 10 deletions(-)
+ kernel/sched/fair.c | 67 ++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 51 insertions(+), 16 deletions(-)
 
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 9f28624e4442..4fd70012b479 100644
+index 4fd70012b479..c84cd2d92343 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -526,6 +526,9 @@ void account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec);
- static __always_inline void avg_kcs_vruntime_add(struct cfs_rq *cfs_rq, struct sched_entity *se);
- static __always_inline void avg_kcs_vruntime_sub(struct cfs_rq *cfs_rq, struct sched_entity *se);
- static __always_inline void avg_kcs_vruntime_update(struct cfs_rq *cfs_rq, s64 delta);
-+static __always_inline int pick_se_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se);
-+static __always_inline
-+int pick_subtree_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se);
- 
- /**************************************************************
-  * Scheduling class tree data structure manipulation methods:
-@@ -750,6 +753,24 @@ int entity_eligible(struct cfs_rq *cfs_rq, struct sched_entity *se)
- 	return vruntime_eligible(cfs_rq, se->vruntime);
+@@ -5340,7 +5340,11 @@ place_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
  }
  
-+static __always_inline
-+int pick_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, bool h_throttled)
-+{
-+	if (unlikely(h_throttled))
-+		return pick_se_on_throttled(cfs_rq, se);
+ static void check_enqueue_throttle(struct cfs_rq *cfs_rq);
 +
-+	return vruntime_eligible(cfs_rq, se->vruntime);
-+}
-+
-+static __always_inline
-+int pick_subtree(struct cfs_rq *cfs_rq, struct sched_entity *se, bool h_throttled)
-+{
-+	if (unlikely(h_throttled))
-+		return pick_subtree_on_throttled(cfs_rq, se);
-+
-+	return vruntime_eligible(cfs_rq, se->min_vruntime);
-+}
-+
- static u64 __update_min_vruntime(struct cfs_rq *cfs_rq, u64 vruntime)
- {
- 	u64 min_vruntime = cfs_rq->min_vruntime;
-@@ -936,7 +957,7 @@ static inline void cancel_protect_slice(struct sched_entity *se)
-  *
-  * Which allows tree pruning through eligibility.
-  */
--static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq)
-+static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq, bool h_throttled)
- {
- 	struct rb_node *node = cfs_rq->tasks_timeline.rb_root.rb_node;
- 	struct sched_entity *se = __pick_first_entity(cfs_rq);
-@@ -950,14 +971,14 @@ static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq)
- 	if (cfs_rq->nr_queued == 1)
- 		return curr && curr->on_rq ? curr : se;
++/* cfs_rq is throttled either completely or partially */
+ static inline int cfs_rq_throttled(struct cfs_rq *cfs_rq);
++/* cfs_rq is throttled completely and the hierarchy is frozen */
++static inline int cfs_rq_h_throttled(struct cfs_rq *cfs_rq);
  
--	if (curr && (!curr->on_rq || !entity_eligible(cfs_rq, curr)))
-+	if (curr && (!curr->on_rq || !pick_entity(cfs_rq, curr, h_throttled)))
- 		curr = NULL;
+ static void
+ requeue_delayed_entity(struct sched_entity *se);
+@@ -5404,7 +5408,7 @@ enqueue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
+ #ifdef CONFIG_CFS_BANDWIDTH
+ 			struct rq *rq = rq_of(cfs_rq);
  
- 	if (sched_feat(RUN_TO_PARITY) && curr && protect_slice(curr))
- 		return curr;
+-			if (cfs_rq_throttled(cfs_rq) && !cfs_rq->throttled_clock)
++			if (cfs_rq_h_throttled(cfs_rq) && !cfs_rq->throttled_clock)
+ 				cfs_rq->throttled_clock = rq_clock(rq);
+ 			if (!cfs_rq->throttled_clock_self)
+ 				cfs_rq->throttled_clock_self = rq_clock(rq);
+@@ -5448,7 +5452,7 @@ static void set_delayed(struct sched_entity *se)
+ 		struct cfs_rq *cfs_rq = cfs_rq_of(se);
  
- 	/* Pick the leftmost entity if it's eligible */
--	if (se && entity_eligible(cfs_rq, se)) {
-+	if (se && pick_entity(cfs_rq, se, h_throttled)) {
- 		best = se;
- 		goto found;
- 	}
-@@ -970,8 +991,7 @@ static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq)
- 		 * Eligible entities in left subtree are always better
- 		 * choices, since they have earlier deadlines.
- 		 */
--		if (left && vruntime_eligible(cfs_rq,
--					__node_2_se(left)->min_vruntime)) {
-+		if (left && pick_subtree(cfs_rq, __node_2_se(left), h_throttled)) {
- 			node = left;
- 			continue;
- 		}
-@@ -983,7 +1003,7 @@ static struct sched_entity *pick_eevdf(struct cfs_rq *cfs_rq)
- 		 * entity, so check the current node since it is the one
- 		 * with earliest deadline that might be eligible.
- 		 */
--		if (entity_eligible(cfs_rq, se)) {
-+		if (pick_entity(cfs_rq, se, h_throttled)) {
- 			best = se;
+ 		cfs_rq->h_nr_runnable--;
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
  			break;
- 		}
-@@ -5601,14 +5621,14 @@ pick_next_entity(struct rq *rq, struct cfs_rq *cfs_rq)
- 	/*
- 	 * Picking the ->next buddy will affect latency but not fairness.
- 	 */
--	if (sched_feat(PICK_BUDDY) &&
--	    cfs_rq->next && entity_eligible(cfs_rq, cfs_rq->next)) {
-+	if (sched_feat(PICK_BUDDY) && cfs_rq->next &&
-+	    pick_entity(cfs_rq, cfs_rq->next, throttled_hierarchy(cfs_rq))) {
- 		/* ->next will never be delayed */
- 		SCHED_WARN_ON(cfs_rq->next->sched_delayed);
- 		return cfs_rq->next;
  	}
+ }
+@@ -5470,7 +5474,7 @@ static void clear_delayed(struct sched_entity *se)
+ 		struct cfs_rq *cfs_rq = cfs_rq_of(se);
  
--	se = pick_eevdf(cfs_rq);
-+	se = pick_eevdf(cfs_rq, throttled_hierarchy(cfs_rq));
- 	if (se->sched_delayed) {
- 		dequeue_entities(rq, se, DEQUEUE_SLEEP | DEQUEUE_DELAYED);
- 		/*
-@@ -6795,6 +6815,89 @@ static __always_inline void init_se_kcs_stats(struct sched_entity *se)
- 	se->min_kcs_vruntime = (se_in_kernel(se)) ? se->vruntime : LLONG_MAX;
+ 		cfs_rq->h_nr_runnable++;
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			break;
+ 	}
+ }
+@@ -5817,7 +5821,7 @@ static void __account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec)
+ 	if (likely(cfs_rq->runtime_remaining > 0))
+ 		return;
+ 
+-	if (cfs_rq->throttled)
++	if (cfs_rq_throttled(cfs_rq))
+ 		return;
+ 	/*
+ 	 * if we're unable to extend our runtime we resched so that the active
+@@ -5836,11 +5840,37 @@ void account_cfs_rq_runtime(struct cfs_rq *cfs_rq, u64 delta_exec)
+ 	__account_cfs_rq_runtime(cfs_rq, delta_exec);
  }
  
-+/*
-+ * Current task is outside the hierarchy during pick_eevdf(). Since
-+ * "kernel_cs_count" has not been adjusted yet with put_prev_entity(),
-+ * its preempted status is not accounted to the hierarchy. Check the
-+ * status of current task too when accounting the contribution of
-+ * cfs_rq->curr during the pick.
-+ */
-+static inline bool curr_h_is_throttled(struct cfs_rq *cfs_rq)
-+{
-+	struct sched_entity *curr = cfs_rq->curr;
-+	struct task_struct *p;
-+
-+	/* Current hierarchy has been dequeued. */
-+	if (!curr || !curr->on_rq)
-+		return false;
-+
++/* cfs_rq->throttled states */
++enum throttle_state {
 +	/*
-+	 * There are kernel mode preempted tasks
-+	 * queued below this cfs_rq.
++	 * cfs_rq is unthrottled; All the queued entities
++	 * can be picked to run.
 +	 */
-+	if (se_in_kernel(cfs_rq->curr))
-+		return true;
++	CFS_UNTHROTTLED = 0,
++	/*
++	 * cfs_rq is only marked throttled. There are kernel
++	 * mode preempted entities that are still runnable.
++	 * PELT is not frozen yet.
++	 */
++	CFS_THROTTLED_PARTIAL,
++	/*
++	 * cfs_rq is fully throttled with PELT frozen. There
++	 * are no entities that are considered runnable under
++	 * throttle.
++	 */
++	CFS_THROTTLED
++};
 +
-+	p = rq_of(cfs_rq)->curr;
-+	/* Current task has been dequeued. */
-+	if (!task_on_rq_queued(p))
-+		return false;
-+
-+	/* Current task is still in kernel mode. */
-+	return se_in_kernel(&p->se);
-+}
-+
-+/* Same as vruntime eligible except this works with avg_kcs_vruntime and avg_kcs_load. */
-+static __always_inline
-+int throttled_vruntime_eligible(struct cfs_rq *cfs_rq, u64 vruntime, bool account_curr)
-+{
-+	s64 avg = cfs_rq->avg_kcs_vruntime;
-+	long load = cfs_rq->avg_kcs_load;
-+
-+	if (account_curr) {
-+		struct sched_entity *curr = cfs_rq->curr;
-+		unsigned long weight = scale_load_down(curr->load.weight);
-+
-+		avg += entity_key(cfs_rq, curr) * weight;
-+		load += weight;
-+	}
-+
-+	return avg >= (s64)(vruntime - cfs_rq->min_vruntime) * load;
-+}
-+
-+/* Same as entity_eligible() but for throttled hierarchy. */
-+static __always_inline int pick_se_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se)
-+{
-+	bool account_curr = curr_h_is_throttled(cfs_rq);
-+
-+	if (se == cfs_rq->curr) {
-+		/*
-+		 * If cfs_rq->curr is not accountable, it implies there
-+		 * are no more kernel mode preempted tasks below it.
-+		 */
-+		if (!account_curr)
-+			return false;
-+	} else if (!se_in_kernel(se))
-+		return false;
-+
-+	return throttled_vruntime_eligible(cfs_rq,
-+					   se->vruntime,
-+					   account_curr);
-+}
-+
-+/* Similar to entity_eligible(cfs_rq, se->min_vruntime) but for throttled hierarchy. */
-+static __always_inline
-+int pick_subtree_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se)
-+{
-+	/* There are no kernel mode preempted entities in the subtree. */
-+	if (se->min_kcs_vruntime == LLONG_MAX)
-+		return false;
-+
-+	return throttled_vruntime_eligible(cfs_rq,
-+					   se->min_kcs_vruntime,
-+					   curr_h_is_throttled(cfs_rq));
-+}
-+
- static inline void __min_kcs_vruntime_update(struct sched_entity *se, struct rb_node *node)
+ static inline int cfs_rq_throttled(struct cfs_rq *cfs_rq)
  {
- 	if (node) {
-@@ -6969,6 +7072,17 @@ static __always_inline void avg_kcs_vruntime_sub(struct cfs_rq *cfs_rq, struct s
- static __always_inline void avg_kcs_vruntime_update(struct cfs_rq *cfs_rq, s64 delta) {}
- static __always_inline void init_se_kcs_stats(struct sched_entity *se) {}
+ 	return cfs_bandwidth_used() && cfs_rq->throttled;
+ }
  
-+static __always_inline int pick_se_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se)
++static inline int cfs_rq_h_throttled(struct cfs_rq *cfs_rq)
 +{
-+	return vruntime_eligible(cfs_rq, se->vruntime);
++	return cfs_bandwidth_used() && (cfs_rq->throttled == CFS_THROTTLED);
 +}
 +
-+static __always_inline
-+int pick_subtree_on_throttled(struct cfs_rq *cfs_rq, struct sched_entity *se)
-+{
-+	return vruntime_eligible(cfs_rq, se->min_vruntime);
-+}
-+
- static inline bool min_kcs_vruntime_update(struct sched_entity *se)
+ /* check whether cfs_rq, or any parent, is throttled */
+ static inline int throttled_hierarchy(struct cfs_rq *cfs_rq)
  {
- 	return true;
-@@ -9045,7 +9159,7 @@ static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int
- 	/*
- 	 * If @p has become the most eligible task, force preemption.
+@@ -6011,7 +6041,7 @@ static bool throttle_cfs_rq(struct cfs_rq *cfs_rq)
+ 	 * Note: distribution will already see us throttled via the
+ 	 * throttled-list.  rq->lock protects completion.
  	 */
--	if (pick_eevdf(cfs_rq) == pse)
-+	if (pick_eevdf(cfs_rq, throttled_hierarchy(cfs_rq)) == pse)
- 		goto preempt;
+-	cfs_rq->throttled = 1;
++	cfs_rq->throttled = CFS_THROTTLED;
+ 	SCHED_WARN_ON(cfs_rq->throttled_clock);
+ 	if (cfs_rq->nr_queued)
+ 		cfs_rq->throttled_clock = rq_clock(rq);
+@@ -6028,7 +6058,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
  
- 	return;
+ 	se = cfs_rq->tg->se[cpu_of(rq)];
+ 
+-	cfs_rq->throttled = 0;
++	cfs_rq->throttled = CFS_UNTHROTTLED;
+ 
+ 	update_rq_clock(rq);
+ 
+@@ -6080,7 +6110,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
+ 		qcfs_rq->h_nr_idle += idle_delta;
+ 
+ 		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(qcfs_rq))
++		if (cfs_rq_h_throttled(qcfs_rq))
+ 			goto unthrottle_throttle;
+ 	}
+ 
+@@ -6098,7 +6128,7 @@ void unthrottle_cfs_rq(struct cfs_rq *cfs_rq)
+ 		qcfs_rq->h_nr_idle += idle_delta;
+ 
+ 		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(qcfs_rq))
++		if (cfs_rq_h_throttled(qcfs_rq))
+ 			goto unthrottle_throttle;
+ 	}
+ 
+@@ -6503,7 +6533,7 @@ static bool check_cfs_rq_runtime(struct cfs_rq *cfs_rq)
+ 	 * it's possible for a throttled entity to be forced into a running
+ 	 * state (e.g. set_curr_task), in this case we're finished.
+ 	 */
+-	if (cfs_rq_throttled(cfs_rq))
++	if (cfs_rq_h_throttled(cfs_rq))
+ 		return true;
+ 
+ 	return throttle_cfs_rq(cfs_rq);
+@@ -7029,6 +7059,11 @@ static inline int cfs_rq_throttled(struct cfs_rq *cfs_rq)
+ 	return 0;
+ }
+ 
++static inline int cfs_rq_h_throttled(struct cfs_rq *cfs_rq)
++{
++	return 0;
++}
++
+ static inline int throttled_hierarchy(struct cfs_rq *cfs_rq)
+ {
+ 	return 0;
+@@ -7310,7 +7345,7 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+ 			h_nr_idle = 1;
+ 
+ 		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			goto enqueue_throttle;
+ 
+ 		flags = ENQUEUE_WAKEUP;
+@@ -7337,7 +7372,7 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
+ 			h_nr_idle = 1;
+ 
+ 		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			goto enqueue_throttle;
+ 	}
+ 
+@@ -7431,7 +7466,7 @@ static int dequeue_entities(struct rq *rq, struct sched_entity *se, int flags)
+ 			h_nr_idle = h_nr_queued;
+ 
+ 		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			return 0;
+ 
+ 		/* Don't dequeue parent if it has other entities besides us */
+@@ -7472,8 +7507,8 @@ static int dequeue_entities(struct rq *rq, struct sched_entity *se, int flags)
+ 		if (cfs_rq_is_idle(cfs_rq))
+ 			h_nr_idle = h_nr_queued;
+ 
+-		/* end evaluation on encountering a throttled cfs_rq */
+-		if (cfs_rq_throttled(cfs_rq))
++		/* end evaluation on encountering a throttled cfs_rq hierarchy */
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			return 0;
+ 	}
+ 
+@@ -13519,7 +13554,7 @@ static void propagate_entity_cfs_rq(struct sched_entity *se)
+ {
+ 	struct cfs_rq *cfs_rq = cfs_rq_of(se);
+ 
+-	if (cfs_rq_throttled(cfs_rq))
++	if (cfs_rq_h_throttled(cfs_rq))
+ 		return;
+ 
+ 	if (!throttled_hierarchy(cfs_rq))
+@@ -13533,7 +13568,7 @@ static void propagate_entity_cfs_rq(struct sched_entity *se)
+ 
+ 		update_load_avg(cfs_rq, se, UPDATE_TG);
+ 
+-		if (cfs_rq_throttled(cfs_rq))
++		if (cfs_rq_h_throttled(cfs_rq))
+ 			break;
+ 
+ 		if (!throttled_hierarchy(cfs_rq))
 -- 
 2.43.0
 
