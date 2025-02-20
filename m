@@ -1,46 +1,46 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2073.outbound.protection.outlook.com [40.107.243.73])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2077.outbound.protection.outlook.com [40.107.102.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D25821EE032
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:39:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8EE21EFF8D
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 09:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.77
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740044348; cv=fail; b=W6S0n7TKD5HLbW3ccsaLpsz/KybSsYlPU/2CkIYpizyswt09Zcl+9eNn2x1GfMcjA0Qu2FOX5YBcHQQczTwNT3RqgQBfcatCru2BZVkeWMVD5Qf4DBP/TSMyvpnGYbU0NYduJImYAjpM3vhUnVvZs67T59e1EmI9GSjGWlOIvXI=
+	t=1740044365; cv=fail; b=b0F0pD8UUyqwXybKLu8F8wvHMiOODqdeGDC9ec3d3BwMbIZ00pNBKvdGizvWX2DpUVE4JeLp4p4GO+zYVUXh2qvzQEyBb4MdAcVgkIbhR/nfxGamTP/M460yPursbIWV3cNvnCDf5/HfuSlI2hHoO5fOjjKkS8Wz5WCtIrI37T0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740044348; c=relaxed/simple;
-	bh=2JsbmonhzJebd+yJNYZDQ4SlblGVT7Wq0RF80rcD48U=;
+	s=arc-20240116; t=1740044365; c=relaxed/simple;
+	bh=FlZa9MtP1VmQZ6vjSiokY21w30KRVVVwZ6V+WOLP7Ug=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IaRbfcfOE8kcbOBK7S45PCsK8o6r+9zSGNiywwG+Ggi60e0wFPqXsZYxmtCBj2R94kis23y70AVULMaNqG9E8Qmvjwlk1nnQhl8AYr9dfTaFPit8/7sfm8vrkniMPuGmp7Rbxkb5CHEFvTxOPGzNrGFi745nGw2ik4gxWqCgvR8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZAhFHFLI; arc=fail smtp.client-ip=40.107.243.73
+	 MIME-Version:Content-Type; b=a5kc+kv6MEM6kSzQifcpJKJ3ho46HxyL4ZSKsY1bwx0nT5w9yH62bVYXn6FY8QtWBWDWzMgHwdEEunIV/k9gnlh+O8uTVBH6tRWmWRQ+tySVBg1ePW2DuUloryYo4O+TF6IY0QUpINmqvPSIYNJYTAdJPg1F7Xq1xy46EfVN3wk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0GJ1RqFd; arc=fail smtp.client-ip=40.107.102.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZAhFHFLI"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0GJ1RqFd"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BagdjJeWYxehshpho/ZCUU1ve/5w9sKn90wVhKCjEqGHu1Jy97uWyiWjftZrSx9nt7po/eTrExEuZrTNqQCET3IKh6yhBXskWL8Zs1Ul3z4eeQRN7EUZVCPiiajIVunPbmHhkexC30RaQmU43DAttXbnvDc7/vzLJ+GVw/i/DnR3KRgAlnVM4ppLmg8q7RRMq4khzH/blLNeoFU1FR5k3/Xhudf2/94FvFXpHm5qR8tXNUohes18BItP7Tb3Gp2rTEW9pGG9NkblCG3Q6yhlYVyvvKhcS6esoaFAwKiCPb9eQCxXVJZGg9/GNndoDZfkjROxxrsRXUKM8ItOQuIeqw==
+ b=gLgYrI2xWYUoI0DuqUEFT8x4lNUiS1c6sjRboQwjJYI4ll+pTmCJAWnXDEp3P4+REiRl9lFuUyULu3FEBeCf7lRGeJamB1G0dWALXNdRmqbUhdgog8FCSdJhlMYVp48lElh/Cepr/LKIArFOBTj/SrLBpfYSvwOgFQ17+hS1XCDykRhOljAqk85+NZRPrtJrbNsIJOZDhPOyiUzTEYsB7uz9GJcJj6K3GpORCNC2DBQa/Uf/5Mn0yo4PFO1JAC/j8+ms0pec2x1DlukKke0tg8naeV3zdhtPG2TG6ubIA5TGsgeHFz6LY6H1OKX1H4M6LiAfkd5VluaDd3FPTuYKLg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X1UqyyqS99cOtGpEyaC22+Cd0Yn9s3uScy+YAJ1jqz8=;
- b=oZQRreDIx0fApnKWA/bARAje6jq3svlpPi0O4Wa9x4yWkrNk+GET0JtJrOhrTzJireGhPiBhElJMNdp6o4gFApsCmxHJr1cW5oQJwpjP9nSnve9I+gZraYwTWsRwm1z9p1WLRbEKIEfkhkv0ZSMP+7h2dKkENn/CuwzYKxMfdL7MadBpSHOh45kHnLH8X4cCKmTgl5V4adV71cT+J77UEWglLFzSRiGi8pxQ3eR1r1CmNAHjoCkFqg95l/IWN6iMea+wmmBirUNXyKifwr+V8TE2Q/1tWR83SIGe1hmM9TypF50D8mwzbBjc0rc4BNhy0dsaKfIuXCKZjw3E+hZkww==
+ bh=aXc+PBLmf9U1pnN5cFTU9KvcxVe9yZz/72X97T40q8Y=;
+ b=U1IFfg5DS4+7L2raTp3eV1QezfiAmNk4AqRJoeY3Y94SVeXsiyZrawO1MMkcUF02twylc+8WQ+tTDKTShnKzfq+M6ubYMLVS8usE0Gz4IIGN/sQD5T4yb9H6GNJcMzQmPpVIVWmz3MJi0wTHTl85zWpOr+UT0tEJviy6c0dPtOzDjDypRx+7kOQZpl02ko76D2lQv5oM5yBXDJlpEOC9agqjKoIvgBsPM+Pz7QfSqLelVsAoPxoQT5Ta7kdts53g5rZrKK8knsYLWJu5aGM8Y8xrJ9DMklI3MXDWpv/SVu8C9fw+hMaJ4ul6E6lahod9ZnZCIgYjYMc1nm8HTTbBaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X1UqyyqS99cOtGpEyaC22+Cd0Yn9s3uScy+YAJ1jqz8=;
- b=ZAhFHFLISDF7RjAg3a2jQnksRtoA6Cmsa+fyjmmtBkBEJT77siKaOHMW+PCl3Plf6BX5eMp0YQpAp0HBgizKotuwDUawud89DaHYNUXQ504ney2hYMp2llUZ+eDA8sbhsVaY7J38px9XGKSvxDNbQ1IefJz6Jx/EZV/0I0A4Owc=
-Received: from BN0PR04CA0020.namprd04.prod.outlook.com (2603:10b6:408:ee::25)
- by SA3PR12MB7974.namprd12.prod.outlook.com (2603:10b6:806:307::17) with
+ bh=aXc+PBLmf9U1pnN5cFTU9KvcxVe9yZz/72X97T40q8Y=;
+ b=0GJ1RqFd9/46wMuDv5woekLJdHhwoIhdA27+NbbXXiWuYiyc/6k0UjDDdNpG202p/JavdQCCzFGAKMdHGED/dCoioadRp5/tWI/GZ03xlzJdbgNB1iT4X7OKfMJsSa+i9rP7biB5fyvAtfK+k1kFwFTfHPo0n1TVHWdDJ73wAO4=
+Received: from MN0PR04CA0026.namprd04.prod.outlook.com (2603:10b6:208:52d::17)
+ by IA1PR12MB8468.namprd12.prod.outlook.com (2603:10b6:208:445::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.15; Thu, 20 Feb
- 2025 09:39:00 +0000
-Received: from BN1PEPF00005FFF.namprd05.prod.outlook.com
- (2603:10b6:408:ee:cafe::fa) by BN0PR04CA0020.outlook.office365.com
- (2603:10b6:408:ee::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.14; Thu, 20 Feb
+ 2025 09:39:21 +0000
+Received: from BN1PEPF00006003.namprd05.prod.outlook.com
+ (2603:10b6:208:52d:cafe::61) by MN0PR04CA0026.outlook.office365.com
+ (2603:10b6:208:52d::17) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8466.15 via Frontend Transport; Thu,
- 20 Feb 2025 09:39:00 +0000
+ 20 Feb 2025 09:39:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF00005FFF.mail.protection.outlook.com (10.167.243.231) with Microsoft
+ BN1PEPF00006003.mail.protection.outlook.com (10.167.243.235) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:39:00 +0000
+ 15.20.8466.11 via Frontend Transport; Thu, 20 Feb 2025 09:39:20 +0000
 Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 20 Feb
- 2025 03:38:52 -0600
+ 2025 03:39:12 -0600
 From: K Prateek Nayak <kprateek.nayak@amd.com>
 To: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
 	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
@@ -70,9 +70,9 @@ CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
 	<qyousef@layalina.io>, "Paul E. McKenney" <paulmck@kernel.org>, David Vernet
 	<dvernet@meta.com>, K Prateek Nayak <kprateek.nayak@amd.com>, "Gautham R.
  Shenoy" <gautham.shenoy@amd.com>, Swapnil Sapkal <swapnil.sapkal@amd.com>
-Subject: [RFC PATCH 16/22] sched/fair: Prepare enqueue to partially unthrottle cfs_rq
-Date: Thu, 20 Feb 2025 09:32:51 +0000
-Message-ID: <20250220093257.9380-17-kprateek.nayak@amd.com>
+Subject: [RFC PATCH 17/22] sched/fair: Clear pick on throttled indicator when task leave fair class
+Date: Thu, 20 Feb 2025 09:32:52 +0000
+Message-ID: <20250220093257.9380-18-kprateek.nayak@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250220093257.9380-1-kprateek.nayak@amd.com>
 References: <20250220093257.9380-1-kprateek.nayak@amd.com>
@@ -88,152 +88,73 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00005FFF:EE_|SA3PR12MB7974:EE_
-X-MS-Office365-Filtering-Correlation-Id: 63693129-f655-4846-99b6-08dd5192678b
+X-MS-TrafficTypeDiagnostic: BN1PEPF00006003:EE_|IA1PR12MB8468:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4793534b-5a3e-4dc3-4ae8-08dd519273f3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|7416014|376014;
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700013|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?w5q/n6RJdzrNDYwUY5GkLYSSQizF4bII2L5V2jEROW1oCsolW9RTXkeQLdAo?=
- =?us-ascii?Q?+JvQpxl8Dlf1Y43uFim2IZsUlwQE3TykHt5qyyfEeYTJ72uMsz6OJrlDhv3R?=
- =?us-ascii?Q?piFEi1OC/E4i12UBmqAcBBlc7QfLaGLaOzBKkA15p9JgDzc6fmtBC4izGDFZ?=
- =?us-ascii?Q?xVme2qfF/huzh0KQvT0Iw/fDDc3UsAfoyC286IotKrxvKjBH3I553nChQt4L?=
- =?us-ascii?Q?dhe1PptoFqG/ELw81ZsRzL8rkXZNaMiuOz2oKyItkMe0gXPTD7f7TaMLERcd?=
- =?us-ascii?Q?t4XdWECyAj/xavGn3UkaafsmOJZ00BjtbgV2MCURw1Hury9ZJ2D4gHo+APdO?=
- =?us-ascii?Q?b0oPXG1IsxeTz7unRW9pyuG6Afhqn5UEN1M411ulcKLfmOhgKUMffFy19rv7?=
- =?us-ascii?Q?VIJcPaOg2zNTUBrtMRabp6qFKGXy6sGcDwi2sHE/Z6n7StKsH8XI3FdaTg67?=
- =?us-ascii?Q?5zev1A364X7NjtcFIJL3rhbNS19zXdiU7sqHO3ixlMWIDH/d/gOtlXY1Gamv?=
- =?us-ascii?Q?yg0G0L1TeA7QqBewHMxwA83r6yRg2W5LvD05eJdrdJk2ere8fIah8lkrpj0G?=
- =?us-ascii?Q?MIPFnbCDnIHlgozTaOQqLsLRB6I8L6NZTk0kUAR8CRRRo6QpeYNO0+hUEy37?=
- =?us-ascii?Q?rPhglEMgTvypM2DnTPaGw4EwQeb83T/O0yvU4mSw53LfDJ9rPmhCLJpVlOlj?=
- =?us-ascii?Q?Hr60Mf/2Q1rfkM/lC0qAasNCbcVFTzSanlSO6e1bA1bUM+534FJ5X8cE2kI9?=
- =?us-ascii?Q?vBIGEzSW5WgD3v24p6yJuGHpvN1lsulEq22bc3uJ+/O7iwCfcTrESBQCXqrw?=
- =?us-ascii?Q?GuQQmzTHv+mvCPODlkBBa2sBkoU22PVth0BZnW/2M5AFHHNkMfkNPWrcE2kW?=
- =?us-ascii?Q?PSDlVA4Z6DoTk67W6sX85ZNdBjYRkIN51aS3lQllhdsrrEMVvRs/cZhqy8eT?=
- =?us-ascii?Q?SL8IbtFVqTFAOkfUJr8jTRk1ZtDkZLlr12/LBLi+XqbmZz9XZiok153n7/M+?=
- =?us-ascii?Q?8fkDXm41/iki3ea1t7/2N03B5ZqN16YzNRgQHlxJMIyXfYajDaKI0dlejSYz?=
- =?us-ascii?Q?QyZ6jj6GIEGxW8mwPs9djOuFTuQ6buGsPSNIss1CkILDLG3OUpJsEG21Gkbu?=
- =?us-ascii?Q?zwv1RqlelL+6QMZmWFdHDoK+xeRuPCjWYltfghl/HDGXJRgn32IbmVB/OUfJ?=
- =?us-ascii?Q?q6KBPFvq04kk1wkkH55xuDNZgrUucxu1YvZiXY776c728gAdGl9AssMEfxke?=
- =?us-ascii?Q?MLFxDFSvBXtjnKxRZ4se8qQ8K7/TTNCzwh1a0M4ngAU4Kjp6yRG/8q9yw3fo?=
- =?us-ascii?Q?sxsrt7ZfIPNhxlKbLB2+iXafxpEYO150HFUBHVhFWW0kL+/cVX+db6EF0kVo?=
- =?us-ascii?Q?L7ts8KeYkuM7D7Pixay9z2rw0IiqEbZBObSZpKGMIUs1cTU1INVHVupl14v6?=
- =?us-ascii?Q?kk4j9uzzmuaycenvX6H4iIMAzEtyPmwqhfVTHQh5++Y7vleQ2McmgEdfeKIS?=
- =?us-ascii?Q?keCGt0+1n5Eb5CM=3D?=
+	=?us-ascii?Q?02TV1xn3jo/OhxExNoBxh1Pa4iVWO2Ce4OeHnpLn9fz1e+b7XB5erKdrI8ml?=
+ =?us-ascii?Q?yBT38VtCMCXmTSzcBtGyEsdM7CSShFMiB84x89oNQOqGxdMQ4ibmShg9fNhX?=
+ =?us-ascii?Q?jbHOiBeTcoci5hDZoqU90U3iGS6SzqOGb19K0QAPHOFUgsWfVNtIV/DfsOCm?=
+ =?us-ascii?Q?5SokJaobuzG/DHlxMaGd49kv2gYNjE1Ns3NcIrw+wYaS6mkHyxiQI6dZwJLK?=
+ =?us-ascii?Q?1RKlhdeBDvEgFrKY93uRW/1BFgR/qtjFDOPSj2IUueeeAJlPJ/igvgguPlcD?=
+ =?us-ascii?Q?oscliGKjixemx0LlFkwgdGsV+89d6/v5Jjr2/lILaGBuPuloNCHEVzQN+5Sc?=
+ =?us-ascii?Q?mMculfsoiu2NpX64Yo1gS4yWVeKyKVRI0U2VtFojB5WH7GdhVYQRhbA8cRFV?=
+ =?us-ascii?Q?4sL4VpJF711KS7b5uL60KuegFSNf41jk2lKoFHHHRCoSpnWVejcFH3Mn9+eg?=
+ =?us-ascii?Q?DV/vmI6nrOaN5c0/YhwHLBQLa4Q0hqQstmGqhqtrB8Rlnudk+Rv5QduwXXiL?=
+ =?us-ascii?Q?iMMjHQGJR+JNK0McgXLBaB/JnKlalPOp7OeXU0MmJctNex6IEkHAApvnAdjz?=
+ =?us-ascii?Q?b7DXM61/u8AtA9hoi+aSn0ic610NWSgJfYxkF8PWF5hAlswWqvKDlI1Gq8Je?=
+ =?us-ascii?Q?tNhy/ZAMYPkzmhFyYUyr71b4V0mMRIEL0pXZ2cVhK4F1rr5TuNlk2Yvt7fkc?=
+ =?us-ascii?Q?kpSbyv3/+oybf+qSf7SRaHMhlUN191Y4/nJZquHGogNnZ9nUGo2cL+HY5x5K?=
+ =?us-ascii?Q?Ow6zsyaySwZW64adQzJucDxbNKHsWVVYejGLnRzaJejw5rXhx49dJUEst8zQ?=
+ =?us-ascii?Q?+wQ8J5dyZGPAhnC0dHGJsytpJITROYyjznPU0S504ihKTcms2gx0yOHfnzXx?=
+ =?us-ascii?Q?e5SSxhRBL4rREZXGs67ilokf0YqojTWKtC80BHOxeOBybaZvQS+8N/DkGpo4?=
+ =?us-ascii?Q?d4oWAFKs88mwRq0gAsmBDMWpvu9RSKrQ37ClPMKl5VIJ3Gqyeew0hnkCvLvk?=
+ =?us-ascii?Q?GKOHwIahBaj/C5jK9oTQ0bNghAq9HE3n2sMtIcNff/x2jTxzBz6spECe6wkC?=
+ =?us-ascii?Q?1JDzD1iE5+x4PmNkILBANXUn9A4Nsk0+/ELYoavbznXaiK2xXIV1pcr7F52z?=
+ =?us-ascii?Q?DrxnCOmK75tBamCSmr1LCZrboSTTxxxEI/EMXdGVQJ9nFeOlwgqdeDFZWNEA?=
+ =?us-ascii?Q?6IoiSQsT8qKEvQwXMPQchJB61RjJrFTtJzYssy57B+NpzogdjtYiABwgJrzi?=
+ =?us-ascii?Q?eNFxyGosMWlJn8scLCVu2ycU26lbB/5K/yFaHsLzmPk8C+kUHM+qM5uoHs9M?=
+ =?us-ascii?Q?D9S2jHB7vQx1h/OrIrpdEx535gHyoljEiJ6cjfFYMUP6Q1uTqxRzsyRx2EMB?=
+ =?us-ascii?Q?ER3GFjdhxa4rPBp7pbtVPykDdW5thOtkxyPn5iGfde4qRa+citlTdMiocOCj?=
+ =?us-ascii?Q?JI7u06tpP9HW6cpbJUvhXRrIi/z9QvYsHR6tEeyO+iJ9ArGiINhEMnlpZQBv?=
+ =?us-ascii?Q?+Nt22V2vGtR9e/k=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700013)(7416014)(376014);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:39:00.0130
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2025 09:39:20.7627
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63693129-f655-4846-99b6-08dd5192678b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4793534b-5a3e-4dc3-4ae8-08dd519273f3
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00005FFF.namprd05.prod.outlook.com
+	BN1PEPF00006003.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7974
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8468
 
-Partially unthrottle frozen hierarchy when a kernel mode preempted
-entity is enqueued on a fully throttled cfs_rq. unthrottle_throttle()
-will be implemented once the plumbing for partial throttle is complete.
+Prepare switched_from_fair() to clear the "sched_throttled" indicator
+when task leaves the fair class.
 
 Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 ---
- kernel/sched/fair.c | 56 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 54 insertions(+), 2 deletions(-)
+ kernel/sched/fair.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
-index 0332e95d36b5..3bcb56a62266 100644
+index 3bcb56a62266..423c5a95989e 100644
 --- a/kernel/sched/fair.c
 +++ b/kernel/sched/fair.c
-@@ -7117,6 +7117,43 @@ static inline void account_kcs_dequeue(struct cfs_rq *gcfs_rq, bool in_kernel)
- 	SCHED_WARN_ON(se->kernel_cs_count < 0);
+@@ -13805,6 +13805,7 @@ static void attach_task_cfs_rq(struct task_struct *p)
+ 
+ static void switched_from_fair(struct rq *rq, struct task_struct *p)
+ {
++	task_clear_throttled(p);
+ 	detach_task_cfs_rq(p);
  }
  
-+/*
-+ * Unthrottle a fully throttled hierarchy when a kernel mode task
-+ * joins the hierarchy.
-+ */
-+static void unthrottle_throttled(struct cfs_rq *gcfs_rq, bool in_kernel)
-+{
-+	struct rq *rq = rq_of(gcfs_rq);
-+	struct sched_entity *se = gcfs_rq->tg->se[cpu_of(rq)];
-+
-+	/* TODO: Remove this early return once plumbing is done */
-+	return;
-+
-+	/*
-+	 * Demoting a cfs_rq to partial throttle will trigger a
-+	 * rq_clock update. Skip all the updates and use the
-+	 * last updated time.
-+	 */
-+	rq_clock_start_loop_update(rq);
-+	unthrottle_cfs_rq(gcfs_rq, true);
-+
-+	for_each_sched_entity(se) {
-+		struct cfs_rq *cfs_rq = cfs_rq_of(se);
-+
-+		/*
-+		 * Fixup what is missed by unthrottle_cfs_rq() that
-+		 * enqueue_task_fair() would have done.
-+		 */
-+		update_cfs_group(se);
-+		account_kcs_enqueue(cfs_rq, in_kernel);
-+
-+		if (cfs_rq_h_throttled(cfs_rq))
-+			unthrottle_cfs_rq(cfs_rq, true);
-+	}
-+
-+	rq_clock_stop_loop_update(rq);
-+}
-+
- #ifdef CONFIG_NO_HZ_FULL
- /* called from pick_next_task_fair() */
- static void sched_fair_update_stop_tick(struct rq *rq, struct task_struct *p)
-@@ -7224,6 +7261,7 @@ static inline bool min_kcs_vruntime_update(struct sched_entity *se)
- 
- static inline void account_kcs_enqueue(struct cfs_rq *gcfs_rq, bool in_kernel) {}
- static inline void account_kcs_dequeue(struct cfs_rq *gcfs_rq, bool in_kernel) {}
-+static __always_inline void unthrottle_throttled(struct cfs_rq *cfs_rq, bool in_kernel) {}
- 
- #endif /* CONFIG_CFS_BANDWIDTH */
- 
-@@ -7444,8 +7482,18 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
- 			h_nr_idle = 1;
- 
- 		/* end evaluation on encountering a throttled cfs_rq */
--		if (cfs_rq_h_throttled(cfs_rq))
-+		if (cfs_rq_h_throttled(cfs_rq)) {
-+			/*
-+			 * Since a kernel mode preempted entity has
-+			 * joined a fully throttled hierarchy, unfreeze
-+			 * it. Since unthrottle_cfs_rq() adjusts the
-+			 * h_nr_* stats and the averages internally,
-+			 * skip to the end.
-+			 */
-+			if (task_in_kernel)
-+				unthrottle_throttled(cfs_rq, task_in_kernel);
- 			goto enqueue_throttle;
-+		}
- 
- 		flags = ENQUEUE_WAKEUP;
- 	}
-@@ -7471,8 +7519,12 @@ enqueue_task_fair(struct rq *rq, struct task_struct *p, int flags)
- 			h_nr_idle = 1;
- 
- 		/* end evaluation on encountering a throttled cfs_rq */
--		if (cfs_rq_h_throttled(cfs_rq))
-+		if (cfs_rq_h_throttled(cfs_rq)) {
-+			/* Ditto as above */
-+			if (task_in_kernel)
-+				unthrottle_throttled(cfs_rq, task_in_kernel);
- 			goto enqueue_throttle;
-+		}
- 	}
- 
- 	if (!rq_h_nr_queued && rq->cfs.h_nr_queued) {
 -- 
 2.43.0
 
