@@ -1,580 +1,71 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3051211487
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 13:31:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AA72101A0
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 16:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740144713; cv=none; b=Mvc8Sa0uT8ZUyG+FSSit3LqYbWO9d2LZ/SqvySVzGJwTPW21GRibB/bGPOk7daZaWb6TmasXapCOv+4c4Ot77bEw+/2mO602nBTvxEzdSEEd6KthOXJeWtKUUEsOV4VTA4PkbY6aSEJcOGxeWp7kLBjWaqcrpMRI/PtqCrolofc=
+	t=1740155749; cv=none; b=RBVml6z95DmcczJbn0zI0vP31AdJjX4gWfUmoJGJz8sxHKSTBt4r9fGgW3DiEmkTYislzBeuZneEfrAXZOCKwuk7NkFERCHohyLxuvQMQKAM2LUdZ73AhU5odmwU3xAoHuw0On76//JeOqCQMaBzjXFpJXxRVmEjN+uTkxiKQSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740144713; c=relaxed/simple;
-	bh=ima0Ls0NWmHy8XJN6dUz7/KLstm5OB/dxFJCxOBgz9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S2jJ6T70vyhXO0Iq9EnqV0xQVcy34NYr7E1L0EZD+NfgARDGalkFOtKbzdVxq/LG+kAWNquV0gUtBDiq5U0QaThz86B3gM2s2xOZobAGFzrHik4ecOTksUaVv+9YmdWev1olJ17xr+frrNlINIGzXiT+P/qNq7twqnRY4K055ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=B/I7+29H; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eUGjJv0A; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1740155749; c=relaxed/simple;
+	bh=t6ZudQBUA++0XfVdIvEWYDfnTIj4HRou8x2rmZc+XCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EA5preCmIfMb/9aE5DNHzAytAWaGXQByrh6l46F9LkEWgx9nlebUL9W6iW52OHj5OCzqRFT6QfS+G1gKBr5/SL2XxZ6WI/gI4DalFimE7Dpu8Jwt4fmqwcokKhs/L9aJ2g4GMgYDRajKpqOadfA8cF0MLXkvrf5/GfQZsM/3RCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mYWpmjpN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=t8OTyGVN; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="B/I7+29H";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eUGjJv0A"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mYWpmjpN";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="t8OTyGVN"
+Date: Fri, 21 Feb 2025 17:35:43 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1740144708;
+	s=2020; t=1740155745;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+ssoomc+4tXy6iPrvSZsMx8yv142hA/BLWw/SBRj3H8=;
-	b=B/I7+29HrkqAJD9TDVfQhq0PhCK9itgS4i7MFDAMc5y1CBYmd/DZdwxPGv7VV5TaAdcUBZ
-	NsHSBUAYlliVrStOk7WE2UtV4KLzxyc7udQDuX6r6fqlnHCNS5QV1iJp8NQiNqcKjxRYyt
-	GYrnSB03QBGOIhnozaVCm8lp+55SFb5nWPuj2SkZ6aEx3tudlEoWl7N/zc5JRvm+4948UA
-	6X9rCt7ZL3hUnwvFbmEkVGHT+TX3TOgES7S0gtNZhP19wvhFgNxFAn3sVTXZl4iAN7dbgk
-	h6hTnsLlbcEyzvGPhX1eOqGcnfiR1VwGFe555Je9KMu8VcqFXAk4YeIXAaMH/Q==
+	bh=t6ZudQBUA++0XfVdIvEWYDfnTIj4HRou8x2rmZc+XCU=;
+	b=mYWpmjpNLtzKJEiLEH2jyeaBamwMEiPmDHCM/V6vvvr1xOS5mAd6WKx7EVH1YlXDkazsDs
+	juLH4ckJxI3LQ4Le4L1mhOM0e6SxnCG0Fie+QfcQzeySOt7GDJ/AUSmWiNwSZwz/UgKbbC
+	xj9/V89LFBkzihe021rrv26CLv3N/Dhp28c4VQsKlXqTQ6LO/WQ1SKZzfIrBuG9CIJgjTr
+	MRKhfZIIbFtb5thEYZYE4KtMQEKGlXVvbzCbPCPaeYwNqTh+AxiOtJoDejyw/cXN3OUEpL
+	tcdlRMOSFY99HjjDtc1wz5ELiInmFpeLziTB1DA/mh4Ov215tPYH0joBNe8AXw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1740144708;
+	s=2020e; t=1740155745;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=+ssoomc+4tXy6iPrvSZsMx8yv142hA/BLWw/SBRj3H8=;
-	b=eUGjJv0Ae0Mu0UcptNsE8+epkDVseGlpS4L6PCPPcjKSbC6OEoP2dBnBO/lSTt+wpyInqL
-	lyfHhSFFT4ilyZDw==
-To: netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH net-next v2 2/3] netfilter: Split the xt_counters type between kernel and user.
-Date: Fri, 21 Feb 2025 14:31:42 +0100
-Message-ID: <20250221133143.5058-3-bigeasy@linutronix.de>
-In-Reply-To: <20250221133143.5058-1-bigeasy@linutronix.de>
-References: <20250221133143.5058-1-bigeasy@linutronix.de>
+	bh=t6ZudQBUA++0XfVdIvEWYDfnTIj4HRou8x2rmZc+XCU=;
+	b=t8OTyGVNdd3rNU4n4pvwbbn/mpMKWNpuRbQTJgGOkYYGJuBWXg6YX8mfelmF6XB8YFcA0P
+	zBcrTt1ICrrLseBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+	Waiman Long <longman@redhat.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH 0/2] lockdep: disable_irq_nosync_lockdep.*() for
+ PREEMPT_RT.
+Message-ID: <20250221163543.erVpjzHa@linutronix.de>
+References: <760e34f9-6034-40e0-82a5-ee9becd24438@roeck-us.net>
+ <20250212103619.2560503-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250212103619.2560503-1-bigeasy@linutronix.de>
 
-The struct xt_counter contains two u64 values as counters for bytes and
-packets. This type is exposed to userland via uapi. The kernel uses the
-type as such when it communicates with userland.
-However the type within an entry (such as ipt_entry) is treated
-differently: Within the kernel it is a two value struct if the system
-has only one CPU.
-With more CPUs, the first value is per-CPU pointer which points to
-per-CPU memory which holds the two u64 counter. How the struct
-intepreted depends on the user.
+On 2025-02-12 11:36:17 [+0100], To linux-rt-devel@lists.linux.dev wrote:
+> Guenter reported a sleeping-while-atomic warning on PREEMPT_RT with the
+> NE2K card. Turns out it is a questionable construct which requires
+> lockdep tweak to not get reported. It was added long time ago to deal
+> with the NE2K and has today two users.
 
-Introduce a struct xt_counter_pad which is simply used as a place
-holder, ensuring it is the same size as struct xt_counters. The kernel
-function will use this type if the type might be a per-CPU pointer.
-Add this padding struct to arpt_entry, ipt_entry and ip6t_entry.
-Pass this type to xt_get_this_cpu_counter(), xt_percpu_counter_free()
-and xt_percpu_counter_alloc(). These functions will cast it to union
-xt_counter_k() and return the proper pointer to struct xt_counters_k.
+ping.
 
-This is mostly the same as previously but a bit more obvious and
-introducs the struct xt_counters_k for in-kernel usage. This can be
-replaces later without breaking userland.
-
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/netfilter/x_tables.h            | 40 +++++++++++++------
- include/uapi/linux/netfilter/x_tables.h       |  4 ++
- include/uapi/linux/netfilter_arp/arp_tables.h |  5 ++-
- include/uapi/linux/netfilter_ipv4/ip_tables.h |  5 ++-
- .../uapi/linux/netfilter_ipv6/ip6_tables.h    |  5 ++-
- net/ipv4/netfilter/arp_tables.c               | 22 +++++-----
- net/ipv4/netfilter/ip_tables.c                | 22 +++++-----
- net/ipv6/netfilter/ip6_tables.c               | 22 +++++-----
- net/netfilter/x_tables.c                      | 23 ++++++-----
- 9 files changed, 90 insertions(+), 58 deletions(-)
-
-diff --git a/include/linux/netfilter/x_tables.h b/include/linux/netfilter/x=
-_tables.h
-index b9cd82e845d08..fc52a2ba90f6b 100644
---- a/include/linux/netfilter/x_tables.h
-+++ b/include/linux/netfilter/x_tables.h
-@@ -267,6 +267,17 @@ struct xt_table_info {
- 	unsigned char entries[] __aligned(8);
- };
-=20
-+struct xt_counters_k {
-+	/* Packet and byte counter */
-+	__u64 pcnt;
-+	__u64 bcnt;
-+};
-+
-+union xt_counter_k {
-+	struct xt_counters_k __percpu *pcpu;
-+	struct xt_counters_k local;
-+};
-+
- int xt_register_target(struct xt_target *target);
- void xt_unregister_target(struct xt_target *target);
- int xt_register_targets(struct xt_target *target, unsigned int n);
-@@ -428,29 +439,32 @@ static inline unsigned long ifname_compare_aligned(co=
-nst char *_a,
-=20
- struct xt_percpu_counter_alloc_state {
- 	unsigned int off;
--	const char __percpu *mem;
-+	void __percpu *mem;
- };
-=20
- bool xt_percpu_counter_alloc(struct xt_percpu_counter_alloc_state *state,
--			     struct xt_counters *counter);
--void xt_percpu_counter_free(struct xt_counters *cnt);
-+			     struct xt_counter_pad *xt_pad);
-+void xt_percpu_counter_free(struct xt_counter_pad *xt_pad);
-=20
--static inline struct xt_counters *
--xt_get_this_cpu_counter(struct xt_counters *cnt)
-+static inline struct xt_counters_k *xt_get_this_cpu_counter(struct xt_coun=
-ter_pad *xt_pad)
- {
--	if (nr_cpu_ids > 1)
--		return this_cpu_ptr((void __percpu *) (unsigned long) cnt->pcnt);
-+	union xt_counter_k *xt_cnt =3D (union xt_counter_k *)xt_pad;
-=20
--	return cnt;
-+	if (nr_cpu_ids > 1)
-+		return this_cpu_ptr(xt_cnt->pcpu);
-+
-+	return &xt_cnt->local;
- }
-=20
--static inline struct xt_counters *
--xt_get_per_cpu_counter(struct xt_counters *cnt, unsigned int cpu)
-+static inline struct xt_counters_k *xt_get_per_cpu_counter(struct xt_count=
-er_pad *xt_pad,
-+							   unsigned int cpu)
- {
--	if (nr_cpu_ids > 1)
--		return per_cpu_ptr((void __percpu *) (unsigned long) cnt->pcnt, cpu);
-+	union xt_counter_k *xt_cnt =3D (union xt_counter_k *)xt_pad;
-=20
--	return cnt;
-+	if (nr_cpu_ids > 1)
-+		return per_cpu_ptr(xt_cnt->pcpu, cpu);
-+
-+	return &xt_cnt->local;
- }
-=20
- struct nf_hook_ops *xt_hook_ops_alloc(const struct xt_table *, nf_hookfn *=
-);
-diff --git a/include/uapi/linux/netfilter/x_tables.h b/include/uapi/linux/n=
-etfilter/x_tables.h
-index 796af83a963aa..70e19a140ab1e 100644
---- a/include/uapi/linux/netfilter/x_tables.h
-+++ b/include/uapi/linux/netfilter/x_tables.h
-@@ -111,6 +111,10 @@ struct xt_counters {
- 	__u64 pcnt, bcnt;			/* Packet and byte counters */
- };
-=20
-+struct xt_counter_pad {
-+	__u8 pad[16];
-+};
-+
- /* The argument to IPT_SO_ADD_COUNTERS. */
- struct xt_counters_info {
- 	/* Which table. */
-diff --git a/include/uapi/linux/netfilter_arp/arp_tables.h b/include/uapi/l=
-inux/netfilter_arp/arp_tables.h
-index a6ac2463f787a..4ca949a955412 100644
---- a/include/uapi/linux/netfilter_arp/arp_tables.h
-+++ b/include/uapi/linux/netfilter_arp/arp_tables.h
-@@ -106,7 +106,10 @@ struct arpt_entry
- 	unsigned int comefrom;
-=20
- 	/* Packet and byte counters. */
--	struct xt_counters counters;
-+	union {
-+		struct xt_counters counters;
-+		struct xt_counter_pad counter_pad;
-+	};
-=20
- 	/* The matches (if any), then the target. */
- 	unsigned char elems[];
-diff --git a/include/uapi/linux/netfilter_ipv4/ip_tables.h b/include/uapi/l=
-inux/netfilter_ipv4/ip_tables.h
-index 1485df28b2391..a4874078ec058 100644
---- a/include/uapi/linux/netfilter_ipv4/ip_tables.h
-+++ b/include/uapi/linux/netfilter_ipv4/ip_tables.h
-@@ -118,7 +118,10 @@ struct ipt_entry {
- 	unsigned int comefrom;
-=20
- 	/* Packet and byte counters. */
--	struct xt_counters counters;
-+	union {
-+		struct xt_counters counters;
-+		struct xt_counter_pad counter_pad;
-+	};
-=20
- 	/* The matches (if any), then the target. */
- 	unsigned char elems[];
-diff --git a/include/uapi/linux/netfilter_ipv6/ip6_tables.h b/include/uapi/=
-linux/netfilter_ipv6/ip6_tables.h
-index 766e8e0bcc683..8634257e1cd59 100644
---- a/include/uapi/linux/netfilter_ipv6/ip6_tables.h
-+++ b/include/uapi/linux/netfilter_ipv6/ip6_tables.h
-@@ -122,7 +122,10 @@ struct ip6t_entry {
- 	unsigned int comefrom;
-=20
- 	/* Packet and byte counters. */
--	struct xt_counters counters;
-+	union {
-+		struct xt_counters counters;
-+		struct xt_counter_pad counter_pad;
-+	};
-=20
- 	/* The matches (if any), then the target. */
- 	unsigned char elems[0];
-diff --git a/net/ipv4/netfilter/arp_tables.c b/net/ipv4/netfilter/arp_table=
-s.c
-index 0628e68910f7f..ce3d73155ca9b 100644
---- a/net/ipv4/netfilter/arp_tables.c
-+++ b/net/ipv4/netfilter/arp_tables.c
-@@ -221,14 +221,14 @@ unsigned int arpt_do_table(void *priv,
- 	arp =3D arp_hdr(skb);
- 	do {
- 		const struct xt_entry_target *t;
--		struct xt_counters *counter;
-+		struct xt_counters_k *counter;
-=20
- 		if (!arp_packet_match(arp, skb->dev, indev, outdev, &e->arp)) {
- 			e =3D arpt_next_entry(e);
- 			continue;
- 		}
-=20
--		counter =3D xt_get_this_cpu_counter(&e->counters);
-+		counter =3D xt_get_this_cpu_counter(&e->counter_pad);
- 		ADD_COUNTER(*counter, arp_hdr_len(skb->dev), 1);
-=20
- 		t =3D arpt_get_target_c(e);
-@@ -412,7 +412,7 @@ find_check_entry(struct arpt_entry *e, struct net *net,=
- const char *name,
- 	struct xt_target *target;
- 	int ret;
-=20
--	if (!xt_percpu_counter_alloc(alloc_state, &e->counters))
-+	if (!xt_percpu_counter_alloc(alloc_state, &e->counter_pad))
- 		return -ENOMEM;
-=20
- 	t =3D arpt_get_target(e);
-@@ -431,7 +431,7 @@ find_check_entry(struct arpt_entry *e, struct net *net,=
- const char *name,
- err:
- 	module_put(t->u.kernel.target->me);
- out:
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
-=20
- 	return ret;
- }
-@@ -512,7 +512,7 @@ static void cleanup_entry(struct arpt_entry *e, struct =
-net *net)
- 	if (par.target->destroy !=3D NULL)
- 		par.target->destroy(&par);
- 	module_put(par.target->me);
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
- }
-=20
- /* Checks and translates the user-supplied table segment (held in
-@@ -611,11 +611,11 @@ static void get_counters(const struct xt_table_info *=
-t,
-=20
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			struct xt_counters *tmp;
-+			struct xt_counters_k *tmp;
- 			u64 bcnt, pcnt;
- 			unsigned int start;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			do {
- 				start =3D read_seqcount_begin(s);
- 				bcnt =3D tmp->bcnt;
-@@ -638,9 +638,9 @@ static void get_old_counters(const struct xt_table_info=
- *t,
- 	for_each_possible_cpu(cpu) {
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			struct xt_counters *tmp;
-+			struct xt_counters_k *tmp;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			ADD_COUNTER(counters[i], tmp->bcnt, tmp->pcnt);
- 			++i;
- 		}
-@@ -1035,9 +1035,9 @@ static int do_add_counters(struct net *net, sockptr_t=
- arg, unsigned int len)
-=20
- 	addend =3D xt_write_recseq_begin();
- 	xt_entry_foreach(iter,  private->entries, private->size) {
--		struct xt_counters *tmp;
-+		struct xt_counters_k *tmp;
-=20
--		tmp =3D xt_get_this_cpu_counter(&iter->counters);
-+		tmp =3D xt_get_this_cpu_counter(&iter->counter_pad);
- 		ADD_COUNTER(*tmp, paddc[i].bcnt, paddc[i].pcnt);
- 		++i;
- 	}
-diff --git a/net/ipv4/netfilter/ip_tables.c b/net/ipv4/netfilter/ip_tables.c
-index 20e8b46af8876..95f917f5bceef 100644
---- a/net/ipv4/netfilter/ip_tables.c
-+++ b/net/ipv4/netfilter/ip_tables.c
-@@ -278,7 +278,7 @@ ipt_do_table(void *priv,
- 	do {
- 		const struct xt_entry_target *t;
- 		const struct xt_entry_match *ematch;
--		struct xt_counters *counter;
-+		struct xt_counters_k *counter;
-=20
- 		WARN_ON(!e);
- 		if (!ip_packet_match(ip, indev, outdev,
-@@ -295,7 +295,7 @@ ipt_do_table(void *priv,
- 				goto no_match;
- 		}
-=20
--		counter =3D xt_get_this_cpu_counter(&e->counters);
-+		counter =3D xt_get_this_cpu_counter(&e->counter_pad);
- 		ADD_COUNTER(*counter, skb->len, 1);
-=20
- 		t =3D ipt_get_target_c(e);
-@@ -525,7 +525,7 @@ find_check_entry(struct ipt_entry *e, struct net *net, =
-const char *name,
- 	struct xt_mtchk_param mtpar;
- 	struct xt_entry_match *ematch;
-=20
--	if (!xt_percpu_counter_alloc(alloc_state, &e->counters))
-+	if (!xt_percpu_counter_alloc(alloc_state, &e->counter_pad))
- 		return -ENOMEM;
-=20
- 	j =3D 0;
-@@ -565,7 +565,7 @@ find_check_entry(struct ipt_entry *e, struct net *net, =
-const char *name,
- 		cleanup_match(ematch, net);
- 	}
-=20
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
-=20
- 	return ret;
- }
-@@ -653,7 +653,7 @@ cleanup_entry(struct ipt_entry *e, struct net *net)
- 	if (par.target->destroy !=3D NULL)
- 		par.target->destroy(&par);
- 	module_put(par.target->me);
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
- }
-=20
- /* Checks and translates the user-supplied table segment (held in
-@@ -750,11 +750,11 @@ get_counters(const struct xt_table_info *t,
-=20
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			struct xt_counters *tmp;
-+			struct xt_counters_k *tmp;
- 			u64 bcnt, pcnt;
- 			unsigned int start;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			do {
- 				start =3D read_seqcount_begin(s);
- 				bcnt =3D tmp->bcnt;
-@@ -777,9 +777,9 @@ static void get_old_counters(const struct xt_table_info=
- *t,
- 	for_each_possible_cpu(cpu) {
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			const struct xt_counters *tmp;
-+			const struct xt_counters_k *tmp;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			ADD_COUNTER(counters[i], tmp->bcnt, tmp->pcnt);
- 			++i; /* macro does multi eval of i */
- 		}
-@@ -1187,9 +1187,9 @@ do_add_counters(struct net *net, sockptr_t arg, unsig=
-ned int len)
- 	i =3D 0;
- 	addend =3D xt_write_recseq_begin();
- 	xt_entry_foreach(iter, private->entries, private->size) {
--		struct xt_counters *tmp;
-+		struct xt_counters_k *tmp;
-=20
--		tmp =3D xt_get_this_cpu_counter(&iter->counters);
-+		tmp =3D xt_get_this_cpu_counter(&iter->counter_pad);
- 		ADD_COUNTER(*tmp, paddc[i].bcnt, paddc[i].pcnt);
- 		++i;
- 	}
-diff --git a/net/ipv6/netfilter/ip6_tables.c b/net/ipv6/netfilter/ip6_table=
-s.c
-index c12d489a09840..f4877b1b2463e 100644
---- a/net/ipv6/netfilter/ip6_tables.c
-+++ b/net/ipv6/netfilter/ip6_tables.c
-@@ -300,7 +300,7 @@ ip6t_do_table(void *priv, struct sk_buff *skb,
- 	do {
- 		const struct xt_entry_target *t;
- 		const struct xt_entry_match *ematch;
--		struct xt_counters *counter;
-+		struct xt_counters_k *counter;
-=20
- 		WARN_ON(!e);
- 		acpar.thoff =3D 0;
-@@ -318,7 +318,7 @@ ip6t_do_table(void *priv, struct sk_buff *skb,
- 				goto no_match;
- 		}
-=20
--		counter =3D xt_get_this_cpu_counter(&e->counters);
-+		counter =3D xt_get_this_cpu_counter(&e->counter_pad);
- 		ADD_COUNTER(*counter, skb->len, 1);
-=20
- 		t =3D ip6t_get_target_c(e);
-@@ -544,7 +544,7 @@ find_check_entry(struct ip6t_entry *e, struct net *net,=
- const char *name,
- 	struct xt_mtchk_param mtpar;
- 	struct xt_entry_match *ematch;
-=20
--	if (!xt_percpu_counter_alloc(alloc_state, &e->counters))
-+	if (!xt_percpu_counter_alloc(alloc_state, &e->counter_pad))
- 		return -ENOMEM;
-=20
- 	j =3D 0;
-@@ -583,7 +583,7 @@ find_check_entry(struct ip6t_entry *e, struct net *net,=
- const char *name,
- 		cleanup_match(ematch, net);
- 	}
-=20
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
-=20
- 	return ret;
- }
-@@ -670,7 +670,7 @@ static void cleanup_entry(struct ip6t_entry *e, struct =
-net *net)
- 	if (par.target->destroy !=3D NULL)
- 		par.target->destroy(&par);
- 	module_put(par.target->me);
--	xt_percpu_counter_free(&e->counters);
-+	xt_percpu_counter_free(&e->counter_pad);
- }
-=20
- /* Checks and translates the user-supplied table segment (held in
-@@ -767,11 +767,11 @@ get_counters(const struct xt_table_info *t,
-=20
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			struct xt_counters *tmp;
-+			struct xt_counters_k *tmp;
- 			u64 bcnt, pcnt;
- 			unsigned int start;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			do {
- 				start =3D read_seqcount_begin(s);
- 				bcnt =3D tmp->bcnt;
-@@ -794,9 +794,9 @@ static void get_old_counters(const struct xt_table_info=
- *t,
- 	for_each_possible_cpu(cpu) {
- 		i =3D 0;
- 		xt_entry_foreach(iter, t->entries, t->size) {
--			const struct xt_counters *tmp;
-+			const struct xt_counters_k *tmp;
-=20
--			tmp =3D xt_get_per_cpu_counter(&iter->counters, cpu);
-+			tmp =3D xt_get_per_cpu_counter(&iter->counter_pad, cpu);
- 			ADD_COUNTER(counters[i], tmp->bcnt, tmp->pcnt);
- 			++i;
- 		}
-@@ -1203,9 +1203,9 @@ do_add_counters(struct net *net, sockptr_t arg, unsig=
-ned int len)
- 	i =3D 0;
- 	addend =3D xt_write_recseq_begin();
- 	xt_entry_foreach(iter, private->entries, private->size) {
--		struct xt_counters *tmp;
-+		struct xt_counters_k *tmp;
-=20
--		tmp =3D xt_get_this_cpu_counter(&iter->counters);
-+		tmp =3D xt_get_this_cpu_counter(&iter->counter_pad);
- 		ADD_COUNTER(*tmp, paddc[i].bcnt, paddc[i].pcnt);
- 		++i;
- 	}
-diff --git a/net/netfilter/x_tables.c b/net/netfilter/x_tables.c
-index ee38272cca562..5379ed82abd59 100644
---- a/net/netfilter/x_tables.c
-+++ b/net/netfilter/x_tables.c
-@@ -1889,7 +1889,7 @@ EXPORT_SYMBOL_GPL(xt_proto_fini);
-  * xt_percpu_counter_alloc - allocate x_tables rule counter
-  *
-  * @state: pointer to xt_percpu allocation state
-- * @counter: pointer to counter struct inside the ip(6)/arpt_entry struct
-+ * @xt_pad: pointer to the counter padding inside the ip(6)/arpt_entry str=
-uct
-  *
-  * On SMP, the packet counter [ ip(6)t_entry->counters.pcnt ] will then
-  * contain the address of the real (percpu) counter.
-@@ -1908,9 +1908,13 @@ EXPORT_SYMBOL_GPL(xt_proto_fini);
-  * returns false on error.
-  */
- bool xt_percpu_counter_alloc(struct xt_percpu_counter_alloc_state *state,
--			     struct xt_counters *counter)
-+			     struct xt_counter_pad *xt_pad)
- {
--	BUILD_BUG_ON(XT_PCPU_BLOCK_SIZE < (sizeof(*counter) * 2));
-+	union xt_counter_k *xt_cnt =3D (union xt_counter_k *)xt_pad;
-+
-+	BUILD_BUG_ON(XT_PCPU_BLOCK_SIZE < (sizeof(struct xt_counters_k) * 2));
-+	BUILD_BUG_ON(sizeof(struct xt_counters_k) !=3D sizeof(struct xt_counters)=
-);
-+	BUILD_BUG_ON(sizeof(struct xt_counters_k) !=3D sizeof(struct xt_counter_p=
-ad));
-=20
- 	if (nr_cpu_ids <=3D 1)
- 		return true;
-@@ -1921,9 +1925,9 @@ bool xt_percpu_counter_alloc(struct xt_percpu_counter=
-_alloc_state *state,
- 		if (!state->mem)
- 			return false;
- 	}
--	counter->pcnt =3D (__force unsigned long)(state->mem + state->off);
--	state->off +=3D sizeof(*counter);
--	if (state->off > (XT_PCPU_BLOCK_SIZE - sizeof(*counter))) {
-+	xt_cnt->pcpu =3D state->mem + state->off;
-+	state->off +=3D sizeof(struct xt_counters_k);
-+	if (state->off > (XT_PCPU_BLOCK_SIZE - sizeof(struct xt_counters_k))) {
- 		state->mem =3D NULL;
- 		state->off =3D 0;
- 	}
-@@ -1931,12 +1935,13 @@ bool xt_percpu_counter_alloc(struct xt_percpu_count=
-er_alloc_state *state,
- }
- EXPORT_SYMBOL_GPL(xt_percpu_counter_alloc);
-=20
--void xt_percpu_counter_free(struct xt_counters *counters)
-+void xt_percpu_counter_free(struct xt_counter_pad *xt_pad)
- {
--	unsigned long pcnt =3D counters->pcnt;
-+	union xt_counter_k *xt_cnt =3D (union xt_counter_k *)xt_pad;
-+	unsigned long pcnt =3D (unsigned long)xt_cnt->pcpu;
-=20
- 	if (nr_cpu_ids > 1 && (pcnt & (XT_PCPU_BLOCK_SIZE - 1)) =3D=3D 0)
--		free_percpu((void __percpu *)pcnt);
-+		free_percpu(xt_cnt->pcpu);
- }
- EXPORT_SYMBOL_GPL(xt_percpu_counter_free);
-=20
---=20
-2.47.2
-
+Sebastian
