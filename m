@@ -1,86 +1,108 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4944502F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 01:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DB92AD0F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 01:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740100680; cv=none; b=m5V8bTPCDRzN+/VoFLMO78XoFKEuZ3j/xvgugZ2Tec8UII25LiwmBMtK+qktfrJC70JuXCK1QhK9W0kFHSxavhiGcxiXGCulAJ7IUZbDF0bVzaxjJg3PF4HXMr9aZODwsy7opuOWuqb4Dp9uL0mJ6Rcp7o3++j0A4ULGBqXENgs=
+	t=1740102434; cv=none; b=EJTfIqe0EKOOe5UNf3gNZX5KjwsK1IDlb4HbNR8LMzruPdOjIJTFjQIQEnC4iRnV5KfJJAjo1z9XhxMggaPLDceKEW21inZtbBqZLnuIrucKtXxdVZVjCdoMPdtUxmxVJqWt1NpmnXI8yu4V7CUMVAXKgUcs4DQ5B+v/0aQOKEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740100680; c=relaxed/simple;
-	bh=w/wHhqZ60M2rVKS74re1Ys5b3Nn7e/itXBY5RYwCdUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DRhAN6IPQmpYh3jvKmkrSDpGSboOvl7m2PomW3Kez6Ta6DXzYKKENLASTNonoGcLeXpibMJoX4HasHHlaqFnu5pTvrVal+EmeOs15j4UvVZOnpaVHoiFiC/RuU0GAI3LgEDh/Wz8LKM9zbWm9ctJFn7rEjcNhwAqf4gtJN4SpOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-220e6028214so34962555ad.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 17:17:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740100678; x=1740705478;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+	s=arc-20240116; t=1740102434; c=relaxed/simple;
+	bh=AxP4mDhXQ6eQLbNXshX2q5bR/60iXZdBH6WA2FW2R1E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gdQmImEfSkeBXMH/aOAYU1HANmHLF9eR8P4M04KzzmM70Q71tHkD88BNxuMpWy3kalk0D5TB20GZ72UsyfxnEjNLOoQvn+oysTRHHIiLhHA5v9SBloR9Vu6YnfTy9Osu/GLkfDCwRcyJm7w+rWX1ajOchKVkR7lgdxE5SKRfHpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sRVjlkZL; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sRVjlkZL"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-472098e6e75so85551cf.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 20 Feb 2025 17:47:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1740102432; x=1740707232; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZRDnaSQYuA7AXNjVck19mgs0g9VBHJmey8gvy5+nRVQ=;
-        b=WIqntU4Feh5G3ER5YHn5Uv6gZ3z4a1jsJ/sXL4BVta2NaWh599KsLV7L9KNrSYepGQ
-         1JbsZQgxmuCEQaZMjw2ErMK/ymkeSzq92ZPcapec0gG3gwUhysxmLn3oggER/pO6cc4A
-         kaXiuKvPwcT51g/74uZibvxl8MKY8Vo2VMTz56OIEbE1+wFjfYSO8NI/exd5j7EYMPWg
-         nDAJc4OmeA4QmZU6U+yMv57JxVenw7HnqDcEDtCiXT323DUdhV3vfkqUa7CixA5RkA1x
-         IcyR5Y1/XqNkDk+Z6jt6qitxb9HjiGB5gNPYbKWrPfuPZgkPR7S4y5JoWQsFxXFCR9Ir
-         5Org==
-X-Forwarded-Encrypted: i=1; AJvYcCVSnVdPr9tcYfSW0SkKH6B9xRQL4QjiHnC/wDtGisCirLmSsnqJC9fzUVf9YyRwtXPsmb5473emGqiS/oCtkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yycg8pH32hzuilKE9W7qxl/cuU6AtnYcPcMux3P6Ve0GSC0Hhty
-	Ng4Px+0b4ZCUJfMA3awrOvmDAs/V1+XVjyxYRvMETNjI2UDg6C1M
-X-Gm-Gg: ASbGncvV5By2A4/g+O8snoHu4E/Z60j+b3v7hLcZJpmciBXDLGmJhlVdWaMvfHhF/Pp
-	+Fc21tbfr6XE1yFPdrQLa9fdBgMQacRRpMJCBrmcMVprM+8LMpLKe/fKVWcW3Hk82enG8U9UBf2
-	uJu0ULV1dhfWTiMPaOiqACPtC7ovXUJ95vka4AYdXWLmrlHqPcxL2LmxVkSe9ZWmunI0Eusju91
-	QExMRsuM+MHUXpoORyaT6NOgza7Aq/BhfObFppJtAdGoXpDK5oGmNbwLQTPuW/CtRAZLWXpNGBG
-	iwaYbnTDrou3Q/wp/SVkRVO/Q0HSvlvRWkp6tMUpQEso1XAgyw==
-X-Google-Smtp-Source: AGHT+IHLcykA8fts8RT8gddOQgn2Exio4nrAweQFXPHSKIaj6lxr07hzXrGZs2H+GOTF69rjVciZJA==
-X-Received: by 2002:a17:902:d484:b0:21f:164d:93fa with SMTP id d9443c01a7336-2219ff82783mr15228375ad.6.1740100678359;
-        Thu, 20 Feb 2025 17:17:58 -0800 (PST)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d559830bsm125343855ad.252.2025.02.20.17.17.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2025 17:17:57 -0800 (PST)
-Date: Fri, 21 Feb 2025 10:17:54 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-pci@vger.kernel.org,
-	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	Ryo Takakura <ryotkkr98@gmail.com>, bhelgaas@google.com,
-	jonathan.derrick@linux.dev, lpieralisi@kernel.org,
-	manivannan.sadhasivam@linaro.org, nirmal.patel@linux.intel.com,
-	robh@kernel.org, rostedt@goodmis.org, kbusch@kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4] PCI: vmd: Make vmd_dev::cfg_lock a raw_spinlock_t.
-Message-ID: <20250221011754.GE2510987@rocinante>
-References: <20250218080830.ufw3IgyX@linutronix.de>
- <20250220225948.GA318342@bhelgaas>
+        bh=AxP4mDhXQ6eQLbNXshX2q5bR/60iXZdBH6WA2FW2R1E=;
+        b=sRVjlkZLxRO+Syd8UHuUatc3ZBGhhZeV4OFIA0kMnojLThs+PkvABH3BzSZv9r7Yj+
+         nV8hnYyr6zMCmFc6F6SEzhaCFtWU7WSLMGPvuPWfNRfVz7S/CXR0egKMXs1E8jeAExSV
+         wd1xJbM/Y2UtITjeCHebKz7By176QNMYQSi+hhg2dZiPRAaTn95hFbb/trBB9MAWrD1K
+         ZihCebIE59VUsutaIyzc1j7nGSW8bLTwCDA34WNH316Um/yP4gxDOOOf2GJOQA6r6uoX
+         ctrCcYl8Vl3gTNs9JknvB+B1MJ2Evvvd3ERmgTY+fbawv0r7v4I223m73ufSio9XtPna
+         tS9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740102432; x=1740707232;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AxP4mDhXQ6eQLbNXshX2q5bR/60iXZdBH6WA2FW2R1E=;
+        b=cCJLibjKYzmhLk3iL0x15MHfdqVMLU9leT3nagZIcAurT9Uuq12HErH7Lk5lTD1mi5
+         rCWNAQrMoV9pgqttSPb9x8btv9UZgsPCg1JKBTFNs46VfImA/VpEZ/f00RmTnxgXGBXq
+         YmGZaVZIlyqbqywrVloFX4kRAd9Eu3JnFQkoK4Gc5Q0rFZ7czy3oyyTLZyLJkMMMUBn/
+         bUCE4j2GJqobRB0MxTNNlP2KEUaXfa1lp4cpOVipX9FGBTDL8VGYnx/hus8UfJvQb2hR
+         l3V8Kmd/2+vW76hLr1NUDDRDorcV+LmIE58KruNeGUpDYxihj/AUVupjt8PJKm71//Mb
+         Zj9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXVYYgqJLgY1/fJXr5IlEfm2ChImsHk+OtZ+NSNJTUrTp0eszq/ekmmJ3NSSgTh0l9Eeze2wjUEPuZzzMRwSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRorz1yO23zTFah7CqaysleyJeryyKvNNvYg++DVbRga/XAWHA
+	ldSK9/0eNddm6ZHlFSFWJk6Qc2s2F73X17vItgENy3ozc2FNoJgPtle+g/0c3h7GmfATWk+XS05
+	xMpUlQq4p1nc4Ot4nV47Wr7RKv0XVP1CCtEO/
+X-Gm-Gg: ASbGncshhLULWeZVu50WDUH9UA8cPf184jBJHvdXwD1r86Gs9aovZgs2hhEDQVyiCUN
+	bbBBhVa0hH3uiv15ardcg/Wgw4kVmG09hAT+V/UTNR+U/zygFk3bbchb1oD6k6rMViHKi2BScK/
+	OhM3dBYRyb
+X-Google-Smtp-Source: AGHT+IF771EPpHVaPndwMZB6cwQRtnKdAJc5IswuEkn4dCv7rTHZtXiV/I4ftzRKDItiiUhIX6hiqTMbelJFcmlHw94=
+X-Received: by 2002:ac8:7d4c:0:b0:46e:2561:e8a9 with SMTP id
+ d75a77b69052e-4722374c0cbmr1803021cf.2.1740102432029; Thu, 20 Feb 2025
+ 17:47:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250220225948.GA318342@bhelgaas>
+References: <20250220093257.9380-1-kprateek.nayak@amd.com> <20250220105558.GJ34567@noisy.programming.kicks-ass.net>
+ <b2386349-2879-4dce-afb0-f6486c24c117@amd.com> <20250220113227.GL34567@noisy.programming.kicks-ass.net>
+ <xhsmhikp44oan.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+In-Reply-To: <xhsmhikp44oan.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
+From: Josh Don <joshdon@google.com>
+Date: Thu, 20 Feb 2025 17:47:00 -0800
+X-Gm-Features: AWEUYZmsiOapix8_7R9IjhNGiB94oqz3kpsgk9TTlDu-2fIKI3PlXsj4YcPwTgs
+Message-ID: <CABk29NsCqkOVXHfu1=ir9nhKiy2PVsONdZm29qXdbJX8LrfCNA@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/22] sched/fair: Defer CFS throttling to exit to
+ user mode
+To: Valentin Schneider <vschneid@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Ben Segall <bsegall@google.com>, 
+	Thomas Gleixner <tglx@linutronix.de>, Andy Lutomirski <luto@kernel.org>, linux-kernel@vger.kernel.org, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mel Gorman <mgorman@suse.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev, 
+	Tejun Heo <tj@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Barret Rhoden <brho@google.com>, 
+	Petr Mladek <pmladek@suse.com>, Qais Yousef <qyousef@layalina.io>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, David Vernet <dvernet@meta.com>, 
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Swapnil Sapkal <swapnil.sapkal@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Thu, Feb 20, 2025 at 7:40=E2=80=AFAM Valentin Schneider <vschneid@redhat=
+.com> wrote:
+...
+> As pointed by Ben in [1], the issue with the per-task approach is the
+> scalability of the unthrottle. You have the rq lock held and you
+> potentially end up unthrottling a deep cgroup hierarchy, putting each
+> individual task back on its cfs_rq.
+>
+> I can't find my notes on that in a hurry, but my idea with that for a nex=
+t
+> version was to periodically release the rq lock as we go up the cgroup
+> hierarchy during unthrottle - the idea being that we can mess with part o=
+f
+> hierarchy, and as long as that part isn't connected to the rest (i.e. it'=
+s
+> not enqueued, like we currently do for CFS throttling), "it should be
+> safe".
 
-> > The access to the PCI config space via pci_ops::read and pci_ops::write
-> > is a low-level hardware access. The functions can be accessed with
-> > disabled interrupts even on PREEMPT_RT. The pci_lock has been made a
-> > raw_spinlock_t for this purpose. A spinlock_t becomes a sleeping lock on
-> > PREEMPT_RT can not be acquired with disabled interrupts.
-> 
-> I think this is missing a word or two and should say:
-> 
->   A spinlock_t becomes a sleeping lock on PREEMPT_RT, so it cannot be
->   acquired with disabled interrupts.
-
-I changed the commit log directly on the relevant branch.  Thank you!
-
-	Krzysztof
+Can you elaborate a bit more? Even if we periodically release the
+lock, we're still spending quite a long time in non-preemptible kernel
+context, and unthrottle is also driven by an hrtimer. So we can still
+do quite a lot of damage depending on how long the whole loop takes.
