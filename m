@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA5E526BDAA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Feb 2025 13:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19EF526D5A0
+	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Feb 2025 13:53:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740491620; cv=none; b=RNT9cSCHI0mqgY86H4aud04rn24/OqwE8iK7exW8Y0kjfI/Mup0FSmQiw98UKrTskYXm6piVePPPofZ3mE62RtMht7zUeXa+ePFK0zj8PK3+jQwFc2+LnPyqLx3rWIdG2E62EWNQDFI4m6I64uPSFHh3A67Y4EHBZ9VvxsKYAfY=
+	t=1740491622; cv=none; b=JZwoNk/MOfErNikZxKCnbtH0HcQJNLB1lZ9vUBLZaeQzjfb9VIMJUwV8Ht0h/CCCdjt/0Zprs3GkgsmufkwwmpPfloW5E9a/6P30S5t3nyVx6NGqm0OPuQpkERZFmbkU2Q3RtNFBOdmmrUiTmdEFXdxUc+iSmJNcHJLPdZr0EP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740491620; c=relaxed/simple;
-	bh=I778jcywmJL+J7FNP5OapM64WVgu/Fj+5Q1WpIy1tjY=;
+	s=arc-20240116; t=1740491622; c=relaxed/simple;
+	bh=ieA9pLtA9WNvUjQp49ffolMQlebbyMYqVTdOWgft12k=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VB20cr87sMKB84RK8aZhPAh6JwkZUwJdcxd0J6EtC7x11lz0Wx5008e2XnWX4kABqWiDTeWho/boBkgCmXo6e9BL7rc0kM0WAA09DD08tR31Tqoi0bV5kCvflwtGGEmIEq8wbqwIFqKZAKeN03YLel9We89CnF862sW2HXzxHuY=
+	 MIME-Version; b=bRjad2BkY2wa1cpyOmRGgwel9IYkQ7YXT9pteZ6WAJBl63meb5lyOCJWoOa5qnd0hULd37aepujuBWdWbQRPl0VenCtSfPZtLANJmAufMIgD8+MTOGV70W2WJvdrjUpJ0y2Hqiz6W7pdK2GfuqjKXuEGspi4ZI53TUENZKIcEhA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCEB1152B;
-	Tue, 25 Feb 2025 05:53:54 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C2436152B;
+	Tue, 25 Feb 2025 05:53:56 -0800 (PST)
 Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B167A3F6A8;
-	Tue, 25 Feb 2025 05:53:36 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B678F3F6A8;
+	Tue, 25 Feb 2025 05:53:38 -0800 (PST)
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: suzuki.poulose@arm.com,
 	mike.leach@linaro.org,
@@ -31,9 +31,9 @@ Cc: coresight@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 5/9] coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
-Date: Tue, 25 Feb 2025 13:52:56 +0000
-Message-Id: <20250225135300.339976-6-yeoreum.yun@arm.com>
+Subject: [PATCH v5 6/9] coresight-funnel: change funnel_drvdata spinlock's type to raw_spinlock_t
+Date: Tue, 25 Feb 2025 13:52:57 +0000
+Message-Id: <20250225135300.339976-7-yeoreum.yun@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250225135300.339976-1-yeoreum.yun@arm.com>
 References: <20250225135300.339976-1-yeoreum.yun@arm.com>
@@ -45,140 +45,81 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In coresight-etb10 drivers, etb_drvdata->spinlock can be held
+In coresight-funnel drivers, cti_drvdata->spinlock can be held
 during __schedule() by perf_event_task_sched_out()/in().
 
-Since etb_drvdata->spinlock type is spinlock_t and
+Since funnel_drvdata->spinlock type is spinlock_t and
 perf_event_task_sched_out()/in() is called after acquiring rq_lock,
 which is raw_spinlock_t (an unsleepable lock),
 this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 
-To address this, change type etb_drvdata->spinlock in coresight-etb10 drivers,
-which can be called by perf_event_task_sched_out()/in(),
-from spinlock_t to raw_spinlock_t.
+To address this, change type funnel_drvdata->spinlock in
+coresight-funnel drivers, which can be called by
+perf_event_task_sched_out()/in(), from spinlock_t to raw_spinlock_t.
 
+Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 Reviewed-by: James Clark <james.clark@linaro.org>
 Reviewed-by: Mike Leach <mike.leach@linaro.org>
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 ---
- drivers/hwtracing/coresight/coresight-etb10.c | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/hwtracing/coresight/coresight-funnel.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-etb10.c b/drivers/hwtracing/coresight/coresight-etb10.c
-index aea9ac9c4bd0..7948597d483d 100644
---- a/drivers/hwtracing/coresight/coresight-etb10.c
-+++ b/drivers/hwtracing/coresight/coresight-etb10.c
-@@ -84,7 +84,7 @@ struct etb_drvdata {
- 	struct clk		*atclk;
+diff --git a/drivers/hwtracing/coresight/coresight-funnel.c b/drivers/hwtracing/coresight/coresight-funnel.c
+index 8faf51469bb8..0541712b2bcb 100644
+--- a/drivers/hwtracing/coresight/coresight-funnel.c
++++ b/drivers/hwtracing/coresight/coresight-funnel.c
+@@ -47,7 +47,7 @@ struct funnel_drvdata {
+ 	struct clk		*pclk;
  	struct coresight_device	*csdev;
- 	struct miscdevice	miscdev;
+ 	unsigned long		priority;
 -	spinlock_t		spinlock;
 +	raw_spinlock_t		spinlock;
- 	local_t			reading;
- 	pid_t			pid;
- 	u8			*buf;
-@@ -145,7 +145,7 @@ static int etb_enable_sysfs(struct coresight_device *csdev)
+ };
+ 
+ static int dynamic_funnel_enable_hw(struct funnel_drvdata *drvdata, int port)
+@@ -85,7 +85,7 @@ static int funnel_enable(struct coresight_device *csdev,
  	unsigned long flags;
- 	struct etb_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+ 	bool first_enable = false;
  
 -	spin_lock_irqsave(&drvdata->spinlock, flags);
 +	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 
- 	/* Don't messup with perf sessions. */
- 	if (coresight_get_mode(csdev) == CS_MODE_PERF) {
-@@ -163,7 +163,7 @@ static int etb_enable_sysfs(struct coresight_device *csdev)
- 
- 	csdev->refcnt++;
- out:
--	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
- 	return ret;
- }
- 
-@@ -176,7 +176,7 @@ static int etb_enable_perf(struct coresight_device *csdev, void *data)
- 	struct perf_output_handle *handle = data;
- 	struct cs_buffers *buf = etm_perf_sink_config(handle);
- 
--	spin_lock_irqsave(&drvdata->spinlock, flags);
-+	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 
- 	/* No need to continue if the component is already in used by sysFS. */
- 	if (coresight_get_mode(drvdata->csdev) == CS_MODE_SYSFS) {
-@@ -219,7 +219,7 @@ static int etb_enable_perf(struct coresight_device *csdev, void *data)
+ 	if (in->dest_refcnt == 0) {
+ 		if (drvdata->base)
+ 			rc = dynamic_funnel_enable_hw(drvdata, in->dest_port);
+@@ -94,7 +94,7 @@ static int funnel_enable(struct coresight_device *csdev,
  	}
- 
- out:
+ 	if (!rc)
+ 		in->dest_refcnt++;
 -	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 +	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
- 	return ret;
- }
  
-@@ -352,11 +352,11 @@ static int etb_disable(struct coresight_device *csdev)
- 	struct etb_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+ 	if (first_enable)
+ 		dev_dbg(&csdev->dev, "FUNNEL inport %d enabled\n",
+@@ -129,13 +129,13 @@ static void funnel_disable(struct coresight_device *csdev,
  	unsigned long flags;
+ 	bool last_disable = false;
  
 -	spin_lock_irqsave(&drvdata->spinlock, flags);
 +	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 
- 	csdev->refcnt--;
- 	if (csdev->refcnt) {
--		spin_unlock_irqrestore(&drvdata->spinlock, flags);
-+		raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
- 		return -EBUSY;
- 	}
- 
-@@ -366,7 +366,7 @@ static int etb_disable(struct coresight_device *csdev)
- 	/* Dissociate from monitored process. */
- 	drvdata->pid = -1;
- 	coresight_set_mode(csdev, CS_MODE_DISABLED);
--	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
- 
- 	dev_dbg(&csdev->dev, "ETB disabled\n");
- 	return 0;
-@@ -443,7 +443,7 @@ static unsigned long etb_update_buffer(struct coresight_device *csdev,
- 
- 	capacity = drvdata->buffer_depth * ETB_FRAME_SIZE_WORDS;
- 
--	spin_lock_irqsave(&drvdata->spinlock, flags);
-+	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 
- 	/* Don't do anything if another tracer is using this sink */
- 	if (csdev->refcnt != 1)
-@@ -566,7 +566,7 @@ static unsigned long etb_update_buffer(struct coresight_device *csdev,
- 	__etb_enable_hw(drvdata);
- 	CS_LOCK(drvdata->base);
- out:
--	spin_unlock_irqrestore(&drvdata->spinlock, flags);
-+	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
- 
- 	return to_read;
- }
-@@ -587,13 +587,13 @@ static void etb_dump(struct etb_drvdata *drvdata)
- {
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&drvdata->spinlock, flags);
-+	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 	if (coresight_get_mode(drvdata->csdev) == CS_MODE_SYSFS) {
- 		__etb_disable_hw(drvdata);
- 		etb_dump_hw(drvdata);
- 		__etb_enable_hw(drvdata);
+ 	if (--in->dest_refcnt == 0) {
+ 		if (drvdata->base)
+ 			dynamic_funnel_disable_hw(drvdata, in->dest_port);
+ 		last_disable = true;
  	}
 -	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 +	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
  
- 	dev_dbg(&drvdata->csdev->dev, "ETB dumped\n");
- }
-@@ -746,7 +746,7 @@ static int etb_probe(struct amba_device *adev, const struct amba_id *id)
- 	drvdata->base = base;
- 	desc.access = CSDEV_ACCESS_IOMEM(base);
+ 	if (last_disable)
+ 		dev_dbg(&csdev->dev, "FUNNEL inport %d disabled\n",
+@@ -266,7 +266,7 @@ static int funnel_probe(struct device *dev, struct resource *res)
+ 	}
+ 	dev->platform_data = pdata;
  
 -	spin_lock_init(&drvdata->spinlock);
 +	raw_spin_lock_init(&drvdata->spinlock);
- 
- 	drvdata->buffer_depth = etb_get_buffer_depth(drvdata);
- 
+ 	desc.type = CORESIGHT_DEV_TYPE_LINK;
+ 	desc.subtype.link_subtype = CORESIGHT_DEV_SUBTYPE_LINK_MERG;
+ 	desc.ops = &funnel_cs_ops;
 -- 
 LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
