@@ -1,140 +1,133 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0802C26F453
-	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Feb 2025 13:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FC6198E63;
+	Tue, 25 Feb 2025 18:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740491639; cv=none; b=Vn/ypS1UBCyFdL32fZfWotW1xvG5R0BEu3eQ1fu4ourSewvvktUZYYbo3uf8udtQXE41THfqmQMxwzLxf9PGQ7OagjZog87UzYIVgjCC7S2Q3qnCEWebiWHZsXZn+9UZdwKkD9Fsg1p9/Hig7tTWKTgwQBmBJGRioe8igNoQYUM=
+	t=1740508410; cv=none; b=bzmx3T8G3gFZCZaE/pF9y3/OisO/3nx0PdhFx/dsHGFUWTw44T3FnpV3HmMLv483rqKbYm5XBoJpQSkycW6jc8JDLPFamFvZ6eAAjfWFBT7JMekkiMXjv+53cTXBWjSq1nKFQbLiEmj/iDNgIUHZkGQ5eqzCiCmpxLN0Vt9/CL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740491639; c=relaxed/simple;
-	bh=RIe/5ZaCtNLHo29qreZI0j1qk+lpe9VGGmd6j6rEDJ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pwvepSG6+eB1B6ncK4GZUr5A7QNZYJ3NPMIyB9yC2Ru6Xf0XHaO3mYkpr5DgqoBeAin8YQ0G4y4bO8rlyNVzYdi0G+NRe5xpLsvP+90JWddd51NU6oTHTeG2KODPVnlKjF0PR8I3Fqzn/IjmD64d+qkyBlbwQVYDoufhCr5mmvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEB641E4D;
-	Tue, 25 Feb 2025 05:54:13 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E2ECE3F6A8;
-	Tue, 25 Feb 2025 05:53:55 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: suzuki.poulose@arm.com,
-	mike.leach@linaro.org,
-	james.clark@linaro.org,
-	alexander.shishkin@linux.intel.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org
-Cc: coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 9/9] coresight/ultrasoc: change smb_drv_data spinlock's type to raw_spinlock_t
-Date: Tue, 25 Feb 2025 13:53:00 +0000
-Message-Id: <20250225135300.339976-10-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250225135300.339976-1-yeoreum.yun@arm.com>
-References: <20250225135300.339976-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1740508410; c=relaxed/simple;
+	bh=bBItIqzwltwC+TCsuqofxmj3GfVFhtE23r50c2BKncQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l6nTvDw5y1rxAoDTIoUMQYZPIXF/Jc7uIxZrfDi1U74rLOoXDscgXEeFFe/QiiL7tviGtH6D6+srS7j8zArboPDZbZTKNPfoepKyoQK/b+MRURXvtuPpHKootVW1eF02//nogqCcJ88djAcpKkEW/7H22hqPKaBxvla5kpykhP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=byILlQzb; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="byILlQzb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61763C4CEE2;
+	Tue, 25 Feb 2025 18:33:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740508409;
+	bh=bBItIqzwltwC+TCsuqofxmj3GfVFhtE23r50c2BKncQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:From;
+	b=byILlQzbc5JGnFIQUA0x5qdJlCR0vxEvzYMNH6CrS1ES+sOY0ipN8SnyTX7AeXkJw
+	 O7aHFFrdrUiaQvQFOZKa0+ECESde8BT0DKOQaU978clpnH0k5gdkSVkqzCjQV1n6zE
+	 Qb6p985UtN50Pq53joGLRy8KSSrsXqGsv5r+JooCRkNsK6miRm+GmB44zvNL0Vjgqb
+	 ozcStsf9w2bROIvxar3WjDgFk/aMpOYFi8DKRUg7DsGer0bVGOn9+/M7kupUn2OznI
+	 o2H+aRsgqUCLTJKIeN0Z4V6RnrZhRJMbb1lkfU02Cl2d6NaSXtKXMw0mxCDfHgQCmx
+	 7nZgOr98SGN2Q==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 0514ECE045A; Tue, 25 Feb 2025 10:33:29 -0800 (PST)
+Date: Tue, 25 Feb 2025 10:33:28 -0800
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	kernel-team@meta.com, rcu@vger.kernel.org
+Cc: john.ogness@linutronix.de, pmladek@suse.com, rostedt@goodmis.org,
+	senozhatsky@chromium.org, boqun.feng@gmail.com
+Subject: [PATCH printk] Flush console log from kernel_power_off()
+Message-ID: <5f743488-dc2a-4f19-bdda-cf50b9314832@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-In ultrasoc-smb drivers, smb_drv_data->spinlock can be held
-during __schedule() by perf_event_task_sched_out()/in().
+Kernels built with CONFIG_PREEMPT_RT=y can lose significant console output
+and shutdown time, which hides shutdown-time RCU issues from rcutorture.
+Therefore, make pr_flush() public and invoke it after then last print
+in kernel_power_off().
 
-Since smb__drv_data->spinlock type is spinlock_t and
-perf_event_task_sched_out()/in() is called after acquiring rq_lock,
-which is raw_spinlock_t (an unsleepable lock),
-this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+[ paulmck: Apply John Ogness feedback. ]
+[ paulmck: Appy Sebastian Andrzej Siewior feedback. ]
+[ paulmck: Apply kernel test robot feedback. ]
 
-To address this, change type smb_drv_data->spinlock in ultrasoc-smb drivers,
-which can be called by perf_event_task_sched_out()/in(),
-from spinlock_t to raw_spinlock_t.
-
-Reviewed-by: James Clark <james.clark@linaro.org>
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
 ---
- drivers/hwtracing/coresight/ultrasoc-smb.c | 12 ++++++------
- drivers/hwtracing/coresight/ultrasoc-smb.h |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ include/linux/printk.h |    6 ++++++
+ kernel/printk/printk.c |    4 +---
+ kernel/reboot.c        |    1 +
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/ultrasoc-smb.c b/drivers/hwtracing/coresight/ultrasoc-smb.c
-index dc3c9504dd7c..26cfc939e5bd 100644
---- a/drivers/hwtracing/coresight/ultrasoc-smb.c
-+++ b/drivers/hwtracing/coresight/ultrasoc-smb.c
-@@ -98,7 +98,7 @@ static int smb_open(struct inode *inode, struct file *file)
- 	struct smb_drv_data *drvdata = container_of(file->private_data,
- 					struct smb_drv_data, miscdev);
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	if (drvdata->reading)
- 		return -EBUSY;
-@@ -152,7 +152,7 @@ static int smb_release(struct inode *inode, struct file *file)
- 	struct smb_drv_data *drvdata = container_of(file->private_data,
- 					struct smb_drv_data, miscdev);
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 	drvdata->reading = false;
- 
- 	return 0;
-@@ -245,7 +245,7 @@ static int smb_enable(struct coresight_device *csdev, enum cs_mode mode,
- 	struct smb_drv_data *drvdata = dev_get_drvdata(csdev->dev.parent);
- 	int ret = 0;
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	/* Do nothing, the trace data is reading by other interface now */
- 	if (drvdata->reading)
-@@ -280,7 +280,7 @@ static int smb_disable(struct coresight_device *csdev)
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 4217a9f412b26..5b462029d03c1 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -207,6 +207,7 @@ void printk_legacy_allow_panic_sync(void);
+ extern bool nbcon_device_try_acquire(struct console *con);
+ extern void nbcon_device_release(struct console *con);
+ void nbcon_atomic_flush_unsafe(void);
++bool pr_flush(int timeout_ms, bool reset_on_progress);
+ #else
+ static inline __printf(1, 0)
+ int vprintk(const char *s, va_list args)
+@@ -315,6 +316,11 @@ static inline void nbcon_atomic_flush_unsafe(void)
  {
- 	struct smb_drv_data *drvdata = dev_get_drvdata(csdev->dev.parent);
+ }
  
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
++static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
++{
++	return true;
++}
++
+ #endif
  
- 	if (drvdata->reading)
- 		return -EBUSY;
-@@ -378,7 +378,7 @@ static unsigned long smb_update_buffer(struct coresight_device *csdev,
- 	if (!buf)
- 		return 0;
+ bool this_cpu_in_panic(void);
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 07668433644b8..057db78876cd9 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -2461,7 +2461,6 @@ asmlinkage __visible int _printk(const char *fmt, ...)
+ }
+ EXPORT_SYMBOL(_printk);
  
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
+-static bool pr_flush(int timeout_ms, bool reset_on_progress);
+ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progress);
  
- 	/* Don't do anything if another tracer is using this sink. */
- 	if (csdev->refcnt != 1)
-@@ -563,7 +563,7 @@ static int smb_probe(struct platform_device *pdev)
+ #else /* CONFIG_PRINTK */
+@@ -2474,7 +2473,6 @@ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progre
  
- 	smb_reset_buffer(drvdata);
- 	platform_set_drvdata(pdev, drvdata);
--	spin_lock_init(&drvdata->spinlock);
-+	raw_spin_lock_init(&drvdata->spinlock);
- 	drvdata->pid = -1;
+ static u64 syslog_seq;
  
- 	ret = smb_register_sink(pdev, drvdata);
-diff --git a/drivers/hwtracing/coresight/ultrasoc-smb.h b/drivers/hwtracing/coresight/ultrasoc-smb.h
-index a91d39cfccb8..c4c111275627 100644
---- a/drivers/hwtracing/coresight/ultrasoc-smb.h
-+++ b/drivers/hwtracing/coresight/ultrasoc-smb.h
-@@ -115,7 +115,7 @@ struct smb_drv_data {
- 	struct coresight_device	*csdev;
- 	struct smb_data_buffer sdb;
- 	struct miscdevice miscdev;
--	spinlock_t spinlock;
-+	raw_spinlock_t spinlock;
- 	bool reading;
- 	pid_t pid;
- };
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
+-static bool pr_flush(int timeout_ms, bool reset_on_progress) { return true; }
+ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progress) { return true; }
+ 
+ #endif /* CONFIG_PRINTK */
+@@ -4466,7 +4464,7 @@ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progre
+  * Context: Process context. May sleep while acquiring console lock.
+  * Return: true if all usable printers are caught up.
+  */
+-static bool pr_flush(int timeout_ms, bool reset_on_progress)
++bool pr_flush(int timeout_ms, bool reset_on_progress)
+ {
+ 	return __pr_flush(NULL, timeout_ms, reset_on_progress);
+ }
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index b5a8569e5d81f..41ab9e1ba3575 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -704,6 +704,7 @@ void kernel_power_off(void)
+ 	migrate_to_reboot_cpu();
+ 	syscore_shutdown();
+ 	pr_emerg("Power down\n");
++	pr_flush(1000, true);
+ 	kmsg_dump(KMSG_DUMP_SHUTDOWN);
+ 	machine_power_off();
+ }
