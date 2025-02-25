@@ -1,124 +1,176 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838852528EB
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 19:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952C04A1E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Feb 2025 03:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740166994; cv=none; b=qQBSkoP8FueXN9zGXm9XJApbvRE8uIOsskOH/F7eR/VrOnq/qE5yBIa+nEu8CoEUZrNJ8QawriXjBVd+0ulVSsgKLUD1wJkI1KASvSJzNkcgN3uymk1LlLJOBw9RiBnSZEbLMIEAE3Cl4YKE9eCixNARcPw9mHYPeq1TLxKvUtw=
+	t=1740455724; cv=none; b=Cql4MYmtVN9u3c0VCOsERzusbmgMddmmzCEq8CLhMyz2jwEu/jVZ3kuEz3k+vHUwImVo0Xxc2rX9kS76ScUuO3EQljO3YcuCy1ksGaWgoHDEZTVjh5RLYvDZHZGjRwAFmBqxqlxMVbuGPqpnkHJjYGgvRCl3GMDHOYpmScc+BiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740166994; c=relaxed/simple;
-	bh=a523ZQbh86bpyY1RTd3hAJpiDjMv4pYA2cxq33Emrqs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a25+/13HMYW8IJNMdUnQt/I4deTEpbv9GBaBixcEYEC0crW0b4VCzt5JvBLijjKSiFjQRs2KCptBX0mmMBRxefldt8vef2lGSsorT9TN8coRP4ZhvEEfX9sl32R07Cl+LjIhm+/nFVSTg+x3S2O8YXX+J8DxFku7XP4JAk3CdZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CG9Dbwc5; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1740455724; c=relaxed/simple;
+	bh=pefu+apHg1FJIpZcIST1bAC3m5urfKWcflNtgIKaluA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=n+rt6pZTx9da4Hh1X+N2BaY9uBAbg+4UXyxNBDB7FRogyC2HQXZd9himIFccqQqaHvtLj2+5lThVLA4Rk9NK7tTCa1nXWgMXXLfv7dFkwmRZ1FdEpAMSQFeXv1sGeGSaAN1CWVrIoHvCG0LQ/OYyPQDcEa9NbscWwddI2fWP8Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WewcPkcb; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CG9Dbwc5"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-471fbfe8b89so53931cf.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 21 Feb 2025 11:43:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WewcPkcb"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4721aede532so53743411cf.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 24 Feb 2025 19:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1740166991; x=1740771791; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a523ZQbh86bpyY1RTd3hAJpiDjMv4pYA2cxq33Emrqs=;
-        b=CG9Dbwc5qfOXMCe9R9nYLLEMJTVa9ApIAl4vgPqIq537hTfRuz37AEkhVpsrG7Vk8v
-         6Pm0U+ZYYjb6464CQH4Vy4JFzkMAhHRh2spC4WFsG0ZD/A/3VkIszHhwgHmWaj1PySG1
-         jwIHH/widtsiKytLoDuqgkqO+BjEujrRz0sr2BTwMZmDM3uKJsLLP/ZJMzl2bGZJ1INd
-         tEHLMrzXAYeN8LlCOGntYSugbzzC6yijzucgU1pzjanub7YjdV90VOgEqeKjJgluk0YV
-         Oz48IuTDG68mKOfLg2YenjF4hAFxPgKOLwjK2rn421uM2hxqWUC6cBaEA9JG3ouBjxPX
-         K0tQ==
+        d=gmail.com; s=20230601; t=1740455721; x=1741060521; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:feedback-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=zkjhQDR6B/e9DB3av0qlqp5AWtugskcn9vkx4gxJatw=;
+        b=WewcPkcb4oLh+p8KfatQRvRVblNg2iJ42AydMHn2AV4BSDdROpQ7+rIkJmcm8UBIVe
+         TipCgyl/nJsatOYF/aoo9rBLLU6n8LLO4Y54lBpd4EPaaGna5FDsl8jMbpdDT0QbrA1k
+         L2XMHF+kuDNv082RmExt9L1IvfT5PGQx/8RlIAE+f9xL9AEx51JBOumwL/RQim2APcqQ
+         0sTlgkYca8J17zO7KdnDRDIFjOLBTyQdsvN+ez0cQI04QM3Q46Zvxdif0osi8EMxZLd8
+         2P9TPdPHXVCf42o0E9+r3CAAkp7phPjuEW9+Z2URbNWcCS4M+KeXC7hQmW++6GEUP/Se
+         KRMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740166991; x=1740771791;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a523ZQbh86bpyY1RTd3hAJpiDjMv4pYA2cxq33Emrqs=;
-        b=fShRuAxcL8rQAxQiFISGQskh3+OybExErvGQ/xzwVuLygj/GbCAvZCHJ+YMMuRQFKX
-         KG14V7qggNee3uqngj7OcsWHGyQtlwPLIgNZ1KxzxTNkgFAsEFrp/rqiaIrdDkNXv2fV
-         DcKfKg1MQrw/rmpIf9IsK6Td/9IvmQWRetXDGvGmT9BQBvS7WCvxuuQ/oPVCeDGP+bzJ
-         DR1D5cuQl2MWJppQwtPge0VIoCuOXjJWUStEqF6q28zfGT7fHeE/sqgucxIJJrQDJs/1
-         g+c7Mv80zTQiw2OfPdT/Y4bzGjoxgmv3epfTgnYoNJuAb2OaSIgD9Xhg+8HceZ1LJh9S
-         hk/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWy1kNz0H6c63tQpZLRnJy5LIB89Od1K+wTL27VzVf24/N7neTrevMyVfFwfYr1qmf73iZX9CHLTeUGR39jFA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDRDx8ump9xhySU5rhAlTnmWDKeUZt7rrGGdIp2YhrPDSuDTWQ
-	56SWPmrMinj10+GrADeUhH1PPhoWODLL/aId8MKW/A5B0loF6ucASlhFipBGi8ieoRxp/GOVyvK
-	E0ztBC1MxZo9195TFmSd3JftEi0LXsQ33VCX3
-X-Gm-Gg: ASbGncsSefEdDOFM10Ermi5jpixnpCX7efxZ8DCgbq24vS//ASxFovYD6uUPujhyP7K
-	WcTu1RW+HfVGHi+qWKUKPFYhyN7f/y729N8TWt4/AbnqnyOQ/o5700ckyG8HvlAvM60Y5IhM/C9
-	RKX/IVLGPl
-X-Google-Smtp-Source: AGHT+IEOnjZFiRhGxpDJtRI7e1BzpTxFXUpSnGjB68hdpcYJt/skKBjWPsMwz7ISV8LbfReXO+Memq+SOXK0w7M5oLE=
-X-Received: by 2002:ac8:7f4b:0:b0:471:b96c:7267 with SMTP id
- d75a77b69052e-472335845f9mr206901cf.20.1740166991241; Fri, 21 Feb 2025
- 11:43:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1740455721; x=1741060521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:feedback-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zkjhQDR6B/e9DB3av0qlqp5AWtugskcn9vkx4gxJatw=;
+        b=HwYkUCZ0Lc4itaxR36vPdWE80Nc7Eh1ZgRu72S/1Hbs6aQU9yG4MXV/UWATRwEdgfw
+         pPe0jE/GrrbRaIhweSqZ4e5TnnZvZcjfJjISEOI1pI/v276DwD7wKGHh+XN4fuich8nj
+         PPxt2wR0tsV37WYvuv+QdbjBj6xHLjybQfrLxiECLNUttS/Mb2C31tKIIBy4lIq+kjvS
+         k30vfpIEtkWZYFrwO/c+AFJHxJZw6G8nzNuyCBcGS1hQdx6F5GYIQkaZYWiV15NQqfBZ
+         472kP2u5b0FSTzM8rsWfxkdCe4Qa9+inMTkVjHqhozXbGwNBbf6srrOdQUsoggdT3R5C
+         5wng==
+X-Forwarded-Encrypted: i=1; AJvYcCXekvovetDtPyJr7VFoKl4RuwBde6oW68G/0hH1I029yWcrjwacobfbS/VGIo9oY1knkzmHr4wQ/kysSqrdtA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxkk27Heq6P7HobOLx3m87rCizCp+an9SLFDwiUvyYh6FrfgPCo
+	fm/V97AvwtCKSiP4EUG9DlyRp7tCBZuVkFt6uOHegq497LaE2x6Q
+X-Gm-Gg: ASbGncuNYLUqLutGIIzAV7RWj/Y0hgHFt0iCu8rqo/+SLjb3CXRFQvWFkxusC8obxyJ
+	z5Hwo9hbR/4RUUJ/sRd5l1BEcTHrxx+Wh23LkVtdZsliLyiH4DS1KfLRkTuKmXzFPDHafzupBrk
+	LxyZ3e4TQK6JJqppP5+qlXqCZY2aPP9+djrPo8rc0yNbP5a4K7se1BewgjDTvBATrZKZYzlmfBl
+	twOU+bqKLwVVXJF8k4GNdF7dLUu25YB9ElyinEC9gvvvJHKVFbuIs+nhr0X0BrdWGX8BefDvvwq
+	eOs3GTMe19ORgGS9G1kSqqZfzfE/P+Uw7qST7h9gyvR2XIoW4ZhCddOeEsFy2jXIeEPaepBQd6J
+	5AUtnXSDkT5oQKvXH
+X-Google-Smtp-Source: AGHT+IHdAUF7H/T2eKG+IBzHRzOVJjJIhODGbEQUFqraSHRKitxiF7tQ2rXvt9tt/MDkDaVyb+rmmg==
+X-Received: by 2002:a05:622a:2c7:b0:471:f7a3:f78 with SMTP id d75a77b69052e-47224716fc0mr177433141cf.1.1740455721384;
+        Mon, 24 Feb 2025 19:55:21 -0800 (PST)
+Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47378088079sm5095001cf.80.2025.02.24.19.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 19:55:20 -0800 (PST)
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id F28BA1200043;
+	Mon, 24 Feb 2025 22:55:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 24 Feb 2025 22:55:20 -0500
+X-ME-Sender: <xms:Jz-9Z94HBwrcUbuYLlbV-3tblPI0Nsht4o0zjELSmTTDHH7Je4Dw_A>
+    <xme:Jz-9Z67praLRuQSLtGd7E-6k781eoaDXrlwbiO77e6xfXvB7aHji7l4K9ihkFEe_G
+    6EJYAuhQj3VtgsMYg>
+X-ME-Received: <xmr:Jz-9Z0crx8vDYGAoDDQ7Q4Zd0hbSPpXvqO5OJG2wmmnwvUVWnlcg-hfNUw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdektdeihecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecu
+    hfhrohhmpeeuohhquhhnucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtg
+    homheqnecuggftrfgrthhtvghrnhepgeegueekgefhvedukedtveejhefhkeffveeufedu
+    iedvleetledtkeehjefgieevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlh
+    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhm
+    vghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekhe
+    ehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghm
+    vgdpnhgspghrtghpthhtohepfedtpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
+    hrtghusehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgruhhlmhgtkhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhrvgguvghrihgtsehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehnvggvrhgrjhdruhhprgguhhihrgihsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehjohgvlhesjhhovghlfhgvrhhnrghnuggvshdrohhrghdprhgtph
+    htthhopehjohhshhesjhhoshhhthhrihhplhgvthhtrdhorhhgpdhrtghpthhtohepsgho
+    qhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepuhhrvgiikhhisehgmh
+    grihhlrdgtohhmpdhrtghpthhtoheprhhoshhtvgguthesghhoohgumhhishdrohhrgh
+X-ME-Proxy: <xmx:Jz-9Z2KjBnGMKmzBTeLtLQO-8AMDF4_diRqCW7SZG-VFpIOcz2KnLA>
+    <xmx:Jz-9ZxJhOe2BiQ8-Ft-is1TIq8SByi1MBP7agCGH6UWjSbMai9EBuQ>
+    <xmx:Jz-9Z_wcIyjC-OCQ4NWn1cgUPMmBy2lbIdsuaapU4JEBH8b4yly4NA>
+    <xmx:Jz-9Z9JQ61U_VcMdO-kXAbxPd9574J_JcLyt9y5fTiLs5ll-NCAE6A>
+    <xmx:Jz-9Z0biFqabsz3C3GqoSU2Xan7PttpDjn2SB-uhWen2GPLX7_lkiT-u>
+Feedback-ID: iad51458e:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 24 Feb 2025 22:55:19 -0500 (EST)
+From: Boqun Feng <boqun.feng@gmail.com>
+To: rcu@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Josh Triplett <josh@joshtriplett.org>,	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,	Davidlohr Bueso <dave@stgolabs.net>,
+	Ingo Molnar <mingo@redhat.com>,	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>,	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,	Shuah Khan <shuah@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,	linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,	Ankur Arora <ankur.a.arora@oracle.com>
+Subject: [PATCH rcu 00/11] Lazy Preempt changes for v6.15
+Date: Mon, 24 Feb 2025 19:55:05 -0800
+Message-Id: <20250225035516.26443-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250220093257.9380-1-kprateek.nayak@amd.com> <20250220105558.GJ34567@noisy.programming.kicks-ass.net>
- <b2386349-2879-4dce-afb0-f6486c24c117@amd.com> <20250220113227.GL34567@noisy.programming.kicks-ass.net>
- <59d46dd3-33da-4e95-8674-d93fc00d73f6@amd.com> <CABk29NuQZZsg+YYYyGh79Txkc=q6f8KUfKf8W8czB=ys=nPd=A@mail.gmail.com>
- <f4fed3e7-bc64-4717-9939-cd939e0aceea@amd.com>
-In-Reply-To: <f4fed3e7-bc64-4717-9939-cd939e0aceea@amd.com>
-From: Josh Don <joshdon@google.com>
-Date: Fri, 21 Feb 2025 11:42:59 -0800
-X-Gm-Features: AWEUYZk5ruyrDHbpBVUV2yisf85ZTa8h0dd93_WN7GhaYhAD1eBvGpXDW_9DlNU
-Message-ID: <CABk29Nvn6qwfZdN-DQJs+KUSch=RcJ7Fa+S08a9tiwZvDEUnxQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/22] sched/fair: Defer CFS throttling to exit to
- user mode
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ben Segall <bsegall@google.com>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Valentin Schneider <vschneid@redhat.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Andy Lutomirski <luto@kernel.org>, linux-kernel@vger.kernel.org, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Mel Gorman <mgorman@suse.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev, 
-	Tejun Heo <tj@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Barret Rhoden <brho@google.com>, 
-	Petr Mladek <pmladek@suse.com>, Qais Yousef <qyousef@layalina.io>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, David Vernet <dvernet@meta.com>, 
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Swapnil Sapkal <swapnil.sapkal@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 20, 2025 at 7:38=E2=80=AFPM K Prateek Nayak <kprateek.nayak@amd=
-.com> wrote:
-...
-> Just out of curiosity, have you tried running with proxy-execution [1][2]
-> on your deployments to mitigate priority inversion in mutexes? I've
-> tested it with smaller scale benchmarks and I haven't seem much overhead
-> except for in case of a few microbenchmarks but I'm not sure if you've
-> run into any issues at your scale.
+Hi,
 
-The confounding issue is that we see tail issues with other types of
-primitives, such as semaphores. That led us to trying an approach
-similar to yours with treating kernel-mode as a critical section from
-the perspective of e.g. CFSB.
+Please find the upcoming changes for CONFIG_PREEMPT_LAZY in RCU. The
+changes can also be found at:
 
-> Is it possible to share an example hierarchy from one of your
-> deployments? Your presentation for LPC'24 [1] says "O(1000) cgroups" but
-> is it possible to reveal the kind of nesting you deal with and at which
-> levels are bandwidth controls set. Even something like "O(10) cgroups on
-> root with BW throttling set, and each of them contain O(100) cgroups
-> below" could also help match a test setup.
+	git://git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git lazypreempt.2025.02.24a
 
-Sure, I can help shed some additional light. In terms of cgroup depth,
-we try to keep that fairly limited, given the cgroup depth scaling
-issues with task enqueue/dequeue. Max depth is maybe around ~5
-depending on the exact job configuration, with an average closer to
-2-3. However, width is quite large as we have many large dual socket
-machines that can handle hundreds of individual jobs (as I called out
-in the presentation, larger cpu count leads to more cgroups on the
-machine in order to fully utilize resources). The example I referred
-to in the presentation looks something like:
+Paul & Ankur, I put patch #7 and #8 (bug fixes in rcutorture) before
+patch #9 (which is the one that enables non-preemptible RCU in
+preemptible kernel), because I want to avoid introduce a bug in-between
+a series, appreciate it if you can double check on this. Thanks!
 
-root -> subtree_parent (this cgroup has CFSB enabled, period =3D 100ms)
--> (~300-400 direct children, with some fraction having additional
-child cgroups, bringing total to O(1000))
+Regards,
+Boqun
 
-Best,
-Josh
+Ankur Arora (7):
+  rcu: fix header guard for rcu_all_qs()
+  rcu: rename PREEMPT_AUTO to PREEMPT_LAZY
+  sched: update __cond_resched comment about RCU quiescent states
+  rcu: handle unstable rdp in rcu_read_unlock_strict()
+  rcu: handle quiescent states for PREEMPT_RCU=n, PREEMPT_COUNT=y
+  osnoise: provide quiescent states
+  rcu: limit PREEMPT_RCU configurations
+
+Boqun Feng (1):
+  rcutorture: Update ->extendables check for lazy preemption
+
+Paul E. McKenney (3):
+  rcutorture: Update rcutorture_one_extend_check() for lazy preemption
+  rcutorture: Make scenario TREE10 build CONFIG_PREEMPT_LAZY=y
+  rcutorture: Make scenario TREE07 build CONFIG_PREEMPT_LAZY=y
+
+ include/linux/rcupdate.h                      |  2 +-
+ include/linux/rcutree.h                       |  2 +-
+ include/linux/srcutiny.h                      |  2 +-
+ kernel/rcu/Kconfig                            |  4 +--
+ kernel/rcu/rcutorture.c                       | 26 ++++++++++++---
+ kernel/rcu/srcutiny.c                         | 14 ++++----
+ kernel/rcu/tree_plugin.h                      | 22 ++++++++++---
+ kernel/sched/core.c                           |  4 ++-
+ kernel/trace/trace_osnoise.c                  | 32 +++++++++----------
+ .../selftests/rcutorture/configs/rcu/TREE07   |  3 +-
+ .../selftests/rcutorture/configs/rcu/TREE10   |  3 +-
+ 11 files changed, 73 insertions(+), 41 deletions(-)
+
+-- 
+2.39.5 (Apple Git-154)
+
