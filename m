@@ -1,73 +1,73 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90B619307F
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Mar 2025 03:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE73186E56
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Mar 2025 03:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741143936; cv=none; b=sAzzOAWR3gAMDlo/EDcSgYRSy+CeeHqImH3ecDqAINGRgH+5d0NAVsu62ueJC1nqGGRktohmM1w77ieMik8lAuBRoqimjiGuh/OrrcyFjUmrKnFqgN6ddDNKzRYBU0hCIhbbYoeiU6lfHE53b1gk4ztFN1mQNkYQRl89QQmK1Q8=
+	t=1741143940; cv=none; b=guA1JeT5hnlhl+75wuaftzQiUg9YZ7LpP3vHz8q4BWBt0DLb1s4PuMa2ibfQxB7YhwnifpM7xmW//Ezn1ob5beHXrPo/fOdIa+yvIUbiAdbLw+xiVSrKfcClLoXa+Xrn8eG+uyTQoncjd8LUaBSjNRpyHna/T7T9iD3AzpUYtg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741143936; c=relaxed/simple;
-	bh=TPhOEkbATR6OP9mFw8RaL7AaoyzMl3a7Rp30LlcUOPs=;
+	s=arc-20240116; t=1741143940; c=relaxed/simple;
+	bh=htVQ/cFn8gDimJsI774ZgbzxQst76++Dz7pcCkF7/uI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jk5Benr/r+Nf2C+v2m6a6WVIskAwopaH8LiDNsPrSRKJWFnPBk/YFyS5Zaat+1GbUX8H0EQegsPGAHy1XbMMCpqn5xWmnF0vByCLjGqxubXFiwOU0kROae4xe3Fail2IWzN3WcQA7IabBOW+TiRN3Q7TyuFBxDw6GOdYhLPkWF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h+9eE+Vs; arc=none smtp.client-ip=209.85.219.43
+	 MIME-Version; b=q6g1dUp8sVKVUQvqiHWrM0KnCU9JpFoFqcZOExQKSumNbXS+bYZo0iiLFOEbbKEO2zFLZU+Vg+sMMpGF6IbXkDoVNaAoCDmK53cox/h3iGaQg3uz/UD3n1stPtM8Y15tkiOPw8GICnTOHOLyskpFt/HCkIsQ6+CsdVzW2eAvAw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aztwvUBV; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h+9eE+Vs"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6df83fd01cbso28652246d6.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Mar 2025 19:05:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aztwvUBV"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c2303a56d6so686061785a.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Mar 2025 19:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741143933; x=1741748733; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741143937; x=1741748737; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:feedback-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=lebFfDdf7ODuwMHKUv+6Ka+hc9tfR3Q/RE97364NVwU=;
-        b=h+9eE+Vs+HMqc9NQdzlKVI3Cm7tv3OCaxXFKyQI4HDx5QDnlZr+jyu9LjZoDGZHSJ/
-         5fXDKovZpFEne6Rl0fzFoxadxWrsSj9AUOFw1UGjNjpaty7TLmBs5Di828nppC30TLCc
-         PbbRpw+zmfy6dcS0hOQ7PMihyS9InduaRFQ9dYz4KzIuvdyRYd+QSja5ICdq/Y1hnKb9
-         wbFK30vQyqCDunzNG9EGBfQHlWZYjjHpfREMqgcsP2BuEKaY1JzI1BHiEmG/2N3uN02A
-         1QT8MMkjAz2OoGftdoXrq5uYu5F9RxPCEW8hEwIEIAhPhgmP7JWiTqybcTKnmiyjsPTm
-         eWjQ==
+        bh=+smKTbDA0k13UVYSv6ftLrHf0Uww1eKxMUTHXNn3NLI=;
+        b=aztwvUBV8raPaSC7fh7Z4nF9vfdHAnmbtqYDCU/YnEFExv58wgcxFUoob2OwpW14AA
+         KGQ70+/1yG6kDS6sV2UsYshRgIqwRLL1jzUelL7mASEJaGWBBFuIhieLxjQ3klTbq4JO
+         nKnrYrsAKcIJlaAQ4KCRRf50DQjH4kDgCF4VxKCKh8Zxp5uaHjE8VrsXqM+aDL/QAdq4
+         IYEZ7s7O3BAo5Fo/4G5rI3OgPESFTskHczM1U31FK8JVoIirzWYVL2SjyS3/EztBfirl
+         XHwUDNCId5Wwyd5iHGXLUWPfPNvEvAFssiKHuvEzZ8rZ7mOSDcn1LkvqnpjdMaj7Zw8e
+         TXmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741143933; x=1741748733;
+        d=1e100.net; s=20230601; t=1741143937; x=1741748737;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:feedback-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=lebFfDdf7ODuwMHKUv+6Ka+hc9tfR3Q/RE97364NVwU=;
-        b=BoJLvcWGS+5wlAIyCFgvTivZ2t442jCSVzDHwHYwgQQYY70SoG4NaI0TH82Tv8UmLb
-         or+9pU2Nq2wOQBEyDQgu+okTCdQIOTM3XSdXcqCWdpE6wU8lUmfRQoirEPtq4nwji/u7
-         N9iB5y1cX85wpk+wC+8HSMs9I8XAhI/Xo5LCGlokAEpCxZoVLzi3vT1fbc6qgFKpBRsh
-         uiay2PEk/Fq5t960Lh0Y58M0twZgcDdf7ZQC07DrlPUBRJZav68NJrce4k+ISDBdkLnJ
-         +x55acjfRiTL/F9D8xfeA1jKCOjWCNqjuX9NSs/j3cS3d36N5lc/1jsJNFhf+agnpfEM
-         Bt+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVA53tKLNOVGi5Ixy69CgOSLQXPVWLYiIMFD7YX+R29ykLsLZhCbaRJT0lsclFg9Pz/13X1ztg+sZRHh2QofQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzglwF1BRqgogxRbqFONsFfQuaYdfv9VmAiI9N8ZR1NdC1rJZRj
-	vw0V0sL0mhWrSa4jFjdNCZD1WAUb6e/swBqpn2zeVCI/gUcZxM7N
-X-Gm-Gg: ASbGnctrxrIEfze2FWaLfJSljyG50MwC5T0u7QxHH0XWTKg3a0vDaMOgUpBiG06i4Z4
-	rYQxOvArlk2vvuqge91c407ioAsN6rxSgb0TJdLxVtIanoFMHgAL5IvrPSCon9kICEWYl2n022l
-	oasXMj//id631e0UnJZvLZLliUFMnJUAoqvqCmymdOR8fE+Bz+9YMIEVb0CQwJChMTXGTs6S8e4
-	PgcpPXDK8ieNwBKSQHUHH4LtMwIjc+ON/nsSADqIJBj/bvOg44fkCMvnFSsmcaPm2pN8vHAsnh9
-	kbRaef4A5e+irssTWYLFOid+eE/avTG4gIesFpHjRYLp9jTG5Z+WMZ8PlSCi9ofKEJMBfs60p7I
-	iE+g+7EuV7rSGMWaHIYRmPPHfzWx23zy3RJs=
-X-Google-Smtp-Source: AGHT+IFUmnWC34W7lEtL222mGAHp7ZE3hueA9M8c4yNFof32K5sk4hi8Ou7ClU9GimkCN6Iq8UjlKg==
-X-Received: by 2002:ad4:5e87:0:b0:6e6:6477:de09 with SMTP id 6a1803df08f44-6e8e6d968ddmr21828866d6.43.1741143933598;
-        Tue, 04 Mar 2025 19:05:33 -0800 (PST)
+        bh=+smKTbDA0k13UVYSv6ftLrHf0Uww1eKxMUTHXNn3NLI=;
+        b=Z4rIwZCKfDlnusQ+o0d+ty0gkGcrkVhZLrp9KJY8SfqhLlaYZenw8DukXMDX8M7HU3
+         LIw5xHAci6F/TKprNq6Dl0MzLpmnziqiUqL7EBa3zmLEE3S1VYUlwUjH81tL6JEBflB3
+         ME7hVj8BrYXKfODLK/EfATKh2kD4c5ZT80DHo7y9tNqr/h/LmPsIC/ZcFdbJobu2CvtA
+         ZSU7DsSf/aoaf9rIMh8dECa5BA7abUlsQlM0h21Gd9CYzaUITF31CL6DeQ2Kn1CkjhMk
+         H+CFFezaGSLRMOXEp4gack2nITrwauwaMOSf40XLndKPpjNv/OIeZeDOT3Mgocu4xRqh
+         3owg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3v3K2RCQDsurb+onxHKRp+vNfTQJMZCBJeElyfLlDcMGqIlu54mjdb7b1crIUBdRKUFzqr0W3IHfH1BfIpQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpOQQMP3DefnBKBAwz39RnUdetSsB2oMbfSOemzmmY3yJC5z/X
+	y7SZ9qsYulw7otXlbE8VoLGyk7mzfR+ZyIOu1GJndxqDzHrkJWA8
+X-Gm-Gg: ASbGncuKkQLcH6xjE1TtJKptijzVVDheBv8LdoPWO0lArQTKBov63wGUxquMptZNXWS
+	E3yEf9yhCf0qPgdklOW4TOf3qhMkHdga2MMtWiOSWbTB5vyWlLvmkIzQB4qjg0Xs+JH22IPcaKx
+	FKUXSc3V2CTNkpPkhuZvQ0a/JSQsYKhB8bgviV+QNk3Z+uB1qyp6YBlnpVgmWBZ2BKndJc9Cf7i
+	GurZDAmR7s2PSnkShlq4rNpAEEZy4Lc3Z9Zrh+/vovLoEnwcjOOKMUOe8Z9t/Z9GrQs+kGaKIPj
+	DND2B7t/PDAFA5ChoyU3XZYXd/oTCi3SdVfHgsylSLp+F2S+omdGjFJ6CGOy32zu8ifI+V5KjKA
+	q3wTzFOlgcWmhb4FmaFVGJfjDwwfnw9wkoD0=
+X-Google-Smtp-Source: AGHT+IHoVSPzj/lvLcsVS6uwvkqTeZb7BDh933B4bENtWOIJJDtOsAV+fXzGX+/TwWLAUI/Xcxu2+A==
+X-Received: by 2002:a05:620a:2720:b0:7c0:bde7:61b1 with SMTP id af79cd13be357-7c3d8ef3766mr251160685a.50.1741143937345;
+        Tue, 04 Mar 2025 19:05:37 -0800 (PST)
 Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976cccb0sm74171366d6.71.2025.03.04.19.05.32
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8a2170bcasm60554756d6.34.2025.03.04.19.05.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 19:05:33 -0800 (PST)
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 61039120006A;
-	Tue,  4 Mar 2025 22:05:32 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 04 Mar 2025 22:05:32 -0500
-X-ME-Sender: <xms:fL_HZ-QOLZnA1RaFizCi8eRnaeOBs0w_jvJ42LEMlC3lFfjQeFWBrw>
-    <xme:fL_HZzxLtm0EuZBvu7rJw0FM2NHzFgDV45SlRl8MKxKX4H7h1HJbrPl7KwchTYQ1O
-    Lf1xQGSTmoGhqJDdw>
-X-ME-Received: <xmr:fL_HZ71I5thIMQ_L_H8p8JYewILV9teF1zpyvfPFQBLShAdt2Tuc-F4Gkg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjedvucetufdoteggodetrf
+        Tue, 04 Mar 2025 19:05:37 -0800 (PST)
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 476B1120006A;
+	Tue,  4 Mar 2025 22:05:36 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Tue, 04 Mar 2025 22:05:36 -0500
+X-ME-Sender: <xms:gL_HZ2uQhfoBSN-AUCth5YeBh2ctwa6_zsHc7aMptTa8YziZSh0SGg>
+    <xme:gL_HZ7e7ON9Uzrx76p1Vs3gNyoAGTnuc5nPioVaUWhvXQh8BjIYIjcyYNx5KHjXW4
+    Fv-CCVp3ccK060a2g>
+X-ME-Received: <xmr:gL_HZxyv4rlN7D1u_EiwprOY9S0VWGQBr-1_q7yhMXNlHyjIKmAqfOQv-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
     gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhgggfestdekredtredt
@@ -77,7 +77,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjedvucetufdote
     cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhu
     nhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqdduje
     ejkeehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdr
-    nhgrmhgvpdhnsggprhgtphhtthhopeefledpmhhouggvpehsmhhtphhouhhtpdhrtghpth
+    nhgrmhgvpdhnsggprhgtphhtthhopeefjedpmhhouggvpehsmhhtphhouhhtpdhrtghpth
     htoheprhgtuhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehpmhhlrggu
     vghksehsuhhsvgdrtghomhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrd
     horhhgpdhrtghpthhtohepjhhohhhnrdhoghhnvghssheslhhinhhuthhrohhnihigrdgu
@@ -86,14 +86,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjedvucetufdote
     uggvrhhitgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhgvvghrrghjrdhuphgrug
     hhhigrhieskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhovghlsehjohgvlhhfvghr
     nhgrnhguvghsrdhorhhg
-X-ME-Proxy: <xmx:fL_HZ6AyhnhDC6YRrgoOXdeYC2-DYE1CK1ct5TWhChPGUL31oa960g>
-    <xmx:fL_HZ3gSY4qKpf3wNz4EwGzcXY6tuCIRZJXT5L2CWoriBGXUbHeyCw>
-    <xmx:fL_HZ2pJTYY6BryQRxQjld3G3RxuiMgaBM-g688OHfW_Fo5ufHYPRg>
-    <xmx:fL_HZ6gPM6uI_ccmD6f9c_Vkm1McZFQziTc8T6tvR8FItKyfs3hSbA>
-    <xmx:fL_HZ2RnX-xlGObuvz2DAWfalHeJ7r07mUG0pc4VaEeyiuu-82y4JB7w>
+X-ME-Proxy: <xmx:gL_HZxMji8lTi4O7-4C_eXI0sYL-lZVrCjWeWczO-aWj2EKE1uWBtQ>
+    <xmx:gL_HZ2_FiN0Dw3Db-kAhaBmcRgb1-IU68t0LntX6x3pUyBKHVKjH3w>
+    <xmx:gL_HZ5Vm2PlNEbA2oEB7oXmXGV3c6KJFL1tMhYWBvX1Y8B-vxAnIdA>
+    <xmx:gL_HZ_ccRwcGpKux16zw3G3cCx2qLqpBA-pFgISboVZQ9LnWBWROXg>
+    <xmx:gL_HZwcMsuuhuasD07T0UXzuzaxTuvkEBXGa7UV3uS2N0uBEDuETRGle>
 Feedback-ID: iad51458e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Mar 2025 22:05:30 -0500 (EST)
+ 4 Mar 2025 22:05:34 -0500 (EST)
 From: Boqun Feng <boqun.feng@gmail.com>
 To: rcu@vger.kernel.org
 Cc: Petr Mladek <pmladek@suse.com>,	Steven Rostedt <rostedt@goodmis.org>,
@@ -125,11 +125,10 @@ Cc: Petr Mladek <pmladek@suse.com>,	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	"Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>,
 	linux-kernel@vger.kernel.org,	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,	Breno Leitao <leitao@debian.org>,
-	Valentin Schneider <vschneid@redhat.com>
-Subject: [PATCH rcu 06/10] context_tracking: Make RCU watch ct_kernel_exit_state() warning
-Date: Tue,  4 Mar 2025 19:05:01 -0800
-Message-ID: <20250305030505.94059-7-boqun.feng@gmail.com>
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH rcu 07/10] Flush console log from kernel_power_off()
+Date: Tue,  4 Mar 2025 19:05:02 -0800
+Message-ID: <20250305030505.94059-8-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305030505.94059-1-boqun.feng@gmail.com>
 References: <20250305030505.94059-1-boqun.feng@gmail.com>
@@ -143,57 +142,93 @@ Content-Transfer-Encoding: 8bit
 
 From: "Paul E. McKenney" <paulmck@kernel.org>
 
-The WARN_ON_ONCE() in ct_kernel_exit_state() follows the call to
-ct_state_inc(), which means that RCU is not watching this WARN_ON_ONCE().
-This can (and does) result in extraneous lockdep warnings when this
-WARN_ON_ONCE() triggers.  These extraneous warnings are the opposite
-of helpful.
+Kernels built with CONFIG_PREEMPT_RT=y can lose significant console output
+and shutdown time, which hides shutdown-time RCU issues from rcutorture.
+Therefore, make pr_flush() public and invoke it after then last print
+in kernel_power_off().
 
-Therefore, invert the WARN_ON_ONCE() condition and move it before the
-call to ct_state_inc().  This does mean that the ct_state_inc() return
-value can no longer be used in the WARN_ON_ONCE() condition, so discard
-this return value and instead use a call to rcu_is_watching_curr_cpu().
-This call is executed only in CONFIG_RCU_EQS_DEBUG=y kernels, so there
-is no added overhead in production use.
+[ paulmck: Apply John Ogness feedback. ]
+[ paulmck: Appy Sebastian Andrzej Siewior feedback. ]
+[ paulmck: Apply kernel test robot feedback. ]
 
-[Boqun: Add the subsystem tag in the title]
-
-Reported-by: Breno Leitao <leitao@debian.org>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Reviewed-by: Valentin Schneider <vschneid@redhat.com>
-Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
-Link: https://lore.kernel.org/r/bd911cd9-1fe9-447c-85e0-ea811a1dc896@paulmck-laptop
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
+Link: https://lore.kernel.org/r/5f743488-dc2a-4f19-bdda-cf50b9314832@paulmck-laptop
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- kernel/context_tracking.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ include/linux/printk.h | 6 ++++++
+ kernel/printk/printk.c | 4 +---
+ kernel/reboot.c        | 1 +
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/context_tracking.c b/kernel/context_tracking.c
-index 938c48952d26..fb5be6e9b423 100644
---- a/kernel/context_tracking.c
-+++ b/kernel/context_tracking.c
-@@ -80,17 +80,16 @@ static __always_inline void rcu_task_trace_heavyweight_exit(void)
-  */
- static noinstr void ct_kernel_exit_state(int offset)
+diff --git a/include/linux/printk.h b/include/linux/printk.h
+index 4217a9f412b2..5b462029d03c 100644
+--- a/include/linux/printk.h
++++ b/include/linux/printk.h
+@@ -207,6 +207,7 @@ void printk_legacy_allow_panic_sync(void);
+ extern bool nbcon_device_try_acquire(struct console *con);
+ extern void nbcon_device_release(struct console *con);
+ void nbcon_atomic_flush_unsafe(void);
++bool pr_flush(int timeout_ms, bool reset_on_progress);
+ #else
+ static inline __printf(1, 0)
+ int vprintk(const char *s, va_list args)
+@@ -315,6 +316,11 @@ static inline void nbcon_atomic_flush_unsafe(void)
  {
--	int seq;
--
- 	/*
- 	 * CPUs seeing atomic_add_return() must see prior RCU read-side
- 	 * critical sections, and we also must force ordering with the
- 	 * next idle sojourn.
- 	 */
- 	rcu_task_trace_heavyweight_enter();  // Before CT state update!
--	seq = ct_state_inc(offset);
--	// RCU is no longer watching.  Better be in extended quiescent state!
--	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && (seq & CT_RCU_WATCHING));
-+	// RCU is still watching.  Better not be in extended quiescent state!
-+	WARN_ON_ONCE(IS_ENABLED(CONFIG_RCU_EQS_DEBUG) && !rcu_is_watching_curr_cpu());
-+	(void)ct_state_inc(offset);
-+	// RCU is no longer watching.
  }
  
- /*
++static inline bool pr_flush(int timeout_ms, bool reset_on_progress)
++{
++	return true;
++}
++
+ #endif
+ 
+ bool this_cpu_in_panic(void);
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 07668433644b..057db78876cd 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -2461,7 +2461,6 @@ asmlinkage __visible int _printk(const char *fmt, ...)
+ }
+ EXPORT_SYMBOL(_printk);
+ 
+-static bool pr_flush(int timeout_ms, bool reset_on_progress);
+ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progress);
+ 
+ #else /* CONFIG_PRINTK */
+@@ -2474,7 +2473,6 @@ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progre
+ 
+ static u64 syslog_seq;
+ 
+-static bool pr_flush(int timeout_ms, bool reset_on_progress) { return true; }
+ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progress) { return true; }
+ 
+ #endif /* CONFIG_PRINTK */
+@@ -4466,7 +4464,7 @@ static bool __pr_flush(struct console *con, int timeout_ms, bool reset_on_progre
+  * Context: Process context. May sleep while acquiring console lock.
+  * Return: true if all usable printers are caught up.
+  */
+-static bool pr_flush(int timeout_ms, bool reset_on_progress)
++bool pr_flush(int timeout_ms, bool reset_on_progress)
+ {
+ 	return __pr_flush(NULL, timeout_ms, reset_on_progress);
+ }
+diff --git a/kernel/reboot.c b/kernel/reboot.c
+index b5a8569e5d81..41ab9e1ba357 100644
+--- a/kernel/reboot.c
++++ b/kernel/reboot.c
+@@ -704,6 +704,7 @@ void kernel_power_off(void)
+ 	migrate_to_reboot_cpu();
+ 	syscore_shutdown();
+ 	pr_emerg("Power down\n");
++	pr_flush(1000, true);
+ 	kmsg_dump(KMSG_DUMP_SHUTDOWN);
+ 	machine_power_off();
+ }
 -- 
 2.48.1
 
