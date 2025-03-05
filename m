@@ -1,72 +1,72 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085241624E1
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Mar 2025 03:05:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD9217A586
+	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Mar 2025 03:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741143918; cv=none; b=Shv1AYAAOdxCR+sQKIz57mxBXANFj2zikr5fKcUKJi4313Z8dfVcBlf5zrjJA9nCxEtmhHgcAYcaQJw8td9cLZszMyzJjRyVE1itT5+4+76IBpeQeb0E/OtJJNfvwSETKmx1ikxeFWQow+80h7kxjrfCDmvg5cIFfcdmklVyLOo=
+	t=1741143920; cv=none; b=svBALmY2W5QRYhYOra1O40WIdKHeuV60Im+3DzEMX9n7BFNUPxm3yep2NBWuykrDFpH15VtIea9llFgsyrc5srKsJudm7P2rmMrAe1vVIL7rFLrpOJ4gl03gA0D6q+LHsbYFAwXO67NGOS0uIk9hywIG9B2B7FIk6acvtNKeJE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741143918; c=relaxed/simple;
-	bh=ktfnCTdprKnslNhLJY+ueq/kb0WJC7nvwCfvHWR/fNM=;
+	s=arc-20240116; t=1741143920; c=relaxed/simple;
+	bh=hk5QnFJjSZ7iRvyqIS25iiV+mIdjcFuYUi707oreHVA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K080qV9kmGHXYTHwdt0ghTcEY238zxlcDYTCuKzdn29Wb1yeSvPcYI5uHtNxwPjS+vGuRSWK3Sltrbaiw3inVlObZSQv7PfHl+ko3NgX2oR6JbZCroNjeQ0FnRQZQ2QhTGPeqt+FykZWDJckAi2LM1k2C8M53TC/saDSfUpEArk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DX7ad/5w; arc=none smtp.client-ip=209.85.219.45
+	 MIME-Version; b=CUQXzZb365TMjuwOmQmehdc9tfyRboQBkABXoDzr5N9r+kDVG8hsaGtwvj/rlIBvXf8f0pMsZyTXnJj2AaQpE1PQO7TeS3udMoW+1IlfSW74QyZVz8kgg0QqjbbXJlCkY50CifA8NtZPkuaBEII24iWdOfhbC9jo5QhMijMXki8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DiaYQ3lu; arc=none smtp.client-ip=209.85.222.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DX7ad/5w"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6dd15d03eacso4348426d6.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Mar 2025 19:05:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DiaYQ3lu"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c081915cf3so824028485a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Mar 2025 19:05:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741143915; x=1741748715; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741143917; x=1741748717; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:feedback-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=6dypZEQA15NBPzNlTYgAS3T1CsEbXqMrVbTKXugqbh8=;
-        b=DX7ad/5w2lKigqToHnfSdnSGuWhGHNYSv7+ob/SnlP0v6GHvyIZkN3ytA4NIyzKAvL
-         d5R+oTvJuGfH02c6uXfKSNVdD/5jaOfDyfwxqRwq91TB6HeNJGlIou7ArXeVei6jXXtp
-         84fqHmi2Q4iYHqYpSnQMQP1gLE28moKKoTgbfawQSzhZatcssL+56GotHexqEPqZ2zGA
-         Pj64NfeozgoYzQ77nWKFhPYDnYCUOwsnSSQcJRSb+V2dNk6BblEDXaanYGS3988OX/ma
-         hYYjGWysfpJvPwfJ+aiCMamuIY5tUkq6lae2SwAyrhA9BaJbv6cuhGqNpzk83RpARt5/
-         ZZkg==
+        bh=BxBF1wo3KRiCLNdhUdmDsNLFXHfzkw5YNel2ubjhH4Q=;
+        b=DiaYQ3luCF4C39cMVWRxOD4LloF82NdWqDYAaJGmXzUgS4QPrF98UYqQGjCDqBtd+3
+         1wP7OGfmq70NlR/CBPGlCoFibzGkcisQCofva286xvN6a7OxDqv0I1qtzDheVfh0ILl4
+         YcY19vJmpx7Va/SheOu5MXK8NRJQ7fE//vq5+VXXd6WlvnO+KErv8w1SYfkgt+ILRva0
+         tdesdXEVF4Ru1iM/zYSeRy+VNphldePR985TYCkarW079yYo586totagLurobbqDEmwL
+         OoeeiygO8zZXrbMA6Oa3GZV310lXnK3dAJj8URYz95asjvNCg690T7Pi9L1RYRbrpjLA
+         UjcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741143915; x=1741748715;
+        d=1e100.net; s=20230601; t=1741143917; x=1741748717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:feedback-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6dypZEQA15NBPzNlTYgAS3T1CsEbXqMrVbTKXugqbh8=;
-        b=tPsKz3Ecvk04pIlSOuHLNpfwiA7BEMXeLgTpJJEHepKtUuzmtoIhXkhIEmUvxM8uNQ
-         P4zOrQ9IOCfn+lZi3axw04W0O6667301hiZ+zyKRUGmU1Zxkf9ESTIvhmhZMWdDHIbVY
-         h030faRX9b9ERKwn4XcFZCT2ezpsRRfeXFNVGlVq199w8+55hk1Azh9ff0fH4Ab4Iis0
-         UKDCfVxj2oz6EXjtsp8zI2o5Bsp8H4YYhomv/UZk11phBSd0IN3ha0INlEZ3cxJEWRGI
-         cts1P8ia37c4kfs+NZ3g3T9Z4CK48MMxc2d/oENYwGgLR7DOHMNHGdjhxJOERXs+9TNJ
-         BJQg==
-X-Forwarded-Encrypted: i=1; AJvYcCWO1vwGqnzlVvSYHeC4d1uLbQXOe2OcFkYQf3FXCGL/rrTPqNQObtljFkvZ+3oukDWbZzhBTVUm70tS1x7OXA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1ou3wYjpzClBFbUMDfZULwNe1WUafdOgmLM1ZMS3RZ6DGmVXQ
-	a+3WHNVmcG+G+6bOtoJcFKb2dJbQmVd6KnMLuM+me2N5Hl2lAeVe
-X-Gm-Gg: ASbGncuZ4+t9eXPn5voQk3x6nvGPd+WGYA01p3aNGtK6C0NZStyi862bPEU3n/XaYgO
-	l2FuBu6MalnPb9cs6kXNTXkEl97NcSiRXYuScsbwSLCuNanesqxzuuvNzYtlwW2blBFWNtLS0ar
-	oy8dkIBzfUKkQMQuGznOzRufWb75xaFriOP+nTv5ytwkIvN7cx5wZLpFfBKr2XESA46IGUqDsCU
-	EouK6HkK/nVucUlsPvbca2I6DpP9LoG2PxbsUyWUdTV0Ktw9VLb6WnCcV6Z9AAruVm0sD8Usj+a
-	AIii7JxSuQBSviHFTxB1oKv69bWKJjr3y+PhxPBN/Zn/WH5K5/nWcDEdnTVCmVWV7LyZNUyqeRk
-	33Q+shG9kvdl4Uv6/6JoaFdnJBcqZIaj8RPU=
-X-Google-Smtp-Source: AGHT+IGdU8coVX+JMyUMPQF4yyJnAWCWWGbGkl/W+cncdRf0cJd+55o4XN6k3TifudLcwTrFi2c1Sg==
-X-Received: by 2002:a05:6214:da5:b0:6e6:646d:7550 with SMTP id 6a1803df08f44-6e8e6f8fdd9mr28695586d6.19.1741143914630;
-        Tue, 04 Mar 2025 19:05:14 -0800 (PST)
+        bh=BxBF1wo3KRiCLNdhUdmDsNLFXHfzkw5YNel2ubjhH4Q=;
+        b=Oi6mXXVe4s39+UGvZIpw235EcnLSIdn6UMhhiNvLUyDOmMZMvZxuNObdA2QvR68lrO
+         ANWr+MF8duQxdfRzRsECS130hSj9JdUZuO1KujxD9RGtmKcbHHjBVKuxinrgJg1Ac8TV
+         SqOOqQ9mXMWkQxIHkaXIwWzvVXXc62Tr8uPvPtVmFH850idZnPU7f3U/TUPh30uEAWeH
+         abFA4pID990392PVVi2TZNRy4mY1kdyjq2/JaYvKH3gsaHjaLCZFI0E/dL6DXIcdfn+2
+         a9DvKSqSLyrPR9/3/RLj4Wxc1d3nMkddAP5vBn0IbcoyL4dzrfb9Gx+Zxv7NExHGycbC
+         YNcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVj9g6AEius4ln+tvNyCeg1D1/XRHBWNJE/UbGjoE5CjVup5FBZIeilDdAXBDIGj3JS2v8RX8YFUsCYEc+Izg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVtED1AThQiNVvHLbVpckgRmxkLPa1+s/7byToXX1WIHYGywQZ
+	+Srokh6iS4YhowW92/hIk51m2eAfWL+CxYAv79oLIk/fDq5DvUte
+X-Gm-Gg: ASbGncva+1jTuAaVcZD+9EA4qrr5Fvx//BoRxqxBbZF4bzLWdnao984se6hMHvA3ox7
+	sFO1k53dl6e3gp2tm54yNcHyK62WswwGGbx9fhi510ISN9nifZVuWYn7NqMY7fvXmnoT+mUfp7h
+	pcYoY7sOwJKL2THsQ5ze1u2w7KlcjZKJOKoirOKVZVT0IR3Lx3vBrMUdOuLbrv3A5fUrx48uxsO
+	8VK7o5+Hm9bCRamcHz8lB/Rqbs0+tototXeOxsaJCDIup7t/QRhgWq/IX7hjtafRXMzszalovGz
+	l2nevFsVikK6FKx3Fd4gQeWfqjWgEcR7XFDFU/ZaivG7G1kV1upL1+btzxOCaTrLxxYoE1nHfQ/
+	CjWNc8AgZoLH/yZM+cgbw5Z6KIkgUqnNXUJQ=
+X-Google-Smtp-Source: AGHT+IEFZsqWR69Mpv/uPHMZFiOoQX6OOFIDU/u9tPOLAlxZDv93fbbOFOcASesA9uVRFuhKHwZFCQ==
+X-Received: by 2002:a05:6214:20e3:b0:6e8:9957:e705 with SMTP id 6a1803df08f44-6e8e6d3596bmr24561186d6.34.1741143917557;
+        Tue, 04 Mar 2025 19:05:17 -0800 (PST)
 Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976ccbacsm74260296d6.93.2025.03.04.19.05.13
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4750804b8c7sm9593281cf.33.2025.03.04.19.05.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 19:05:14 -0800 (PST)
+        Tue, 04 Mar 2025 19:05:17 -0800 (PST)
 Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 7CCAF120006A;
-	Tue,  4 Mar 2025 22:05:13 -0500 (EST)
+	by mailfauth.phl.internal (Postfix) with ESMTP id 692DB120006A;
+	Tue,  4 Mar 2025 22:05:16 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Tue, 04 Mar 2025 22:05:13 -0500
-X-ME-Sender: <xms:ab_HZy6Nr8aDYHRCzVcvMqY5CZWkycap1Y7bhFbrrqos8V3d6ljr5Q>
-    <xme:ab_HZ76M9KPtg8mSAIaZwetYztoS4dWbsP-xABV1kZabRKbM9nQyMKxg7jPUvG44u
-    2Vu0bdeWb1OSsv7Ow>
-X-ME-Received: <xmr:ab_HZxf5GgD3aceLwI9MJlkrRDSFDwOH_mFO7K1uAxwyDeKTOlE26nqdmA>
+  by phl-compute-12.internal (MEProxy); Tue, 04 Mar 2025 22:05:16 -0500
+X-ME-Sender: <xms:bL_HZx0oqWbdF8GpkJ3w9qQL8KMQEY-FGMDFvWmm9d4Nfm0g1N0PCQ>
+    <xme:bL_HZ4E-whjzgCALiaRqghIGSXpKiU5CiVgZidnu5A37D0_AgEuTOZKZzfmiTdVZo
+    J-8llMkpWYkizywxg>
+X-ME-Received: <xmr:bL_HZx7bKINZlGjbiOZgD4OlT1y4cThMcroTc2Ho1F-p93IQcRHeCjPgdA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjeefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
@@ -76,7 +76,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjeefucetufdote
     veffieeujefhueeigfegueehgeeggfenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
     grmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgr
     lhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppe
-    hgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepfeejpdhm
+    hgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthhtohepfeekpdhm
     ohguvgepshhmthhpohhuthdprhgtphhtthhopehrtghusehvghgvrhdrkhgvrhhnvghlrd
     horhhgpdhrtghpthhtohepphhmlhgruggvkhesshhushgvrdgtohhmpdhrtghpthhtohep
     rhhoshhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopehjohhhnhdrohhgnh
@@ -85,14 +85,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdefjeefucetufdote
     hlrdhorhhgpdhrtghpthhtohepfhhrvgguvghrihgtsehkvghrnhgvlhdrohhrghdprhgt
     phhtthhopehnvggvrhgrjhdruhhprgguhhihrgihsehkvghrnhgvlhdrohhrghdprhgtph
     htthhopehjohgvlhesjhhovghlfhgvrhhnrghnuggvshdrohhrgh
-X-ME-Proxy: <xmx:ab_HZ_IkXh-xOyAZBux8mCyKIsOvsv9eCa17foP8lu0UrF-utp0DKQ>
-    <xmx:ab_HZ2Lrohff5LX6ZppFN6Ak-NL783jc7oBPLTytDKhyCo-zG_VBkQ>
-    <xmx:ab_HZwzhFutHzFwXNDJVp5Nz2nx0-jU7oFqTuCk2zjIXhaxTR25cVg>
-    <xmx:ab_HZ6IrnPhgPE4KrRz0V-yLZM6D0MlrVaJqpZSQb2CVU3yOao0EQw>
-    <xmx:ab_HZ9bsuufxlUWyc75wJIFXxkN88rndaDTc5rFPDXBUassM55riBVX2>
+X-ME-Proxy: <xmx:bL_HZ-2rzdUg83mOYhSCOenMTa5HZw3JmQMrWZe4rI9kUZ7xhkjW1w>
+    <xmx:bL_HZ0HmyBHQqgzYkgDA5gQHHXjaRno8RhMOq_tTKr-yG_iETcVqtw>
+    <xmx:bL_HZ_8LOzT01mtYTvab0yA2PFRng6BtX3yJ7UWOyjL2xkRaZ-41nw>
+    <xmx:bL_HZxnHnO0bdrgGH--EDfc47DibOKEBcOhWsHVXXCgNDYtpmTgznA>
+    <xmx:bL_HZ4EIXkhhKQoEugZ_sd2Wv983R5eaL0EmB1kLYXz2-eycrTH8_FPz>
 Feedback-ID: iad51458e:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 4 Mar 2025 22:05:12 -0500 (EST)
+ 4 Mar 2025 22:05:15 -0500 (EST)
 From: Boqun Feng <boqun.feng@gmail.com>
 To: rcu@vger.kernel.org
 Cc: Petr Mladek <pmladek@suse.com>,	Steven Rostedt <rostedt@goodmis.org>,
@@ -124,10 +124,10 @@ Cc: Petr Mladek <pmladek@suse.com>,	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	"Neeraj Upadhyay (AMD)" <neeraj.iitr10@gmail.com>,
 	linux-kernel@vger.kernel.org,	linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH rcu 01/10] rcu: Split rcu_report_exp_cpu_mult() mask parameter and use for tracing
-Date: Tue,  4 Mar 2025 19:04:56 -0800
-Message-ID: <20250305030505.94059-2-boqun.feng@gmail.com>
+	linux-rt-devel@lists.linux.dev,	Zilin Guan <zilinguan811@gmail.com>
+Subject: [PATCH rcu 02/10] rcu: Remove READ_ONCE() for rdp->gpwrap access in __note_gp_changes()
+Date: Tue,  4 Mar 2025 19:04:57 -0800
+Message-ID: <20250305030505.94059-3-boqun.feng@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250305030505.94059-1-boqun.feng@gmail.com>
 References: <20250305030505.94059-1-boqun.feng@gmail.com>
@@ -139,45 +139,57 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Paul E. McKenney" <paulmck@kernel.org>
+From: Zilin Guan <zilinguan811@gmail.com>
 
-This commit renames the rcu_report_exp_cpu_mult() function from "mask"
-to "mask_in" and introduced a "mask" local variable to better support
-upcoming event-tracing additions.
+There is one access to the per-CPU rdp->gpwrap field in the
+__note_gp_changes() function that does not use READ_ONCE(), but all other
+accesses do use READ_ONCE().  When using the 8*TREE03 and CONFIG_NR_CPUS=8
+configuration, KCSAN found no data races at that point.  This is because
+all calls to __note_gp_changes() hold rnp->lock, which excludes writes
+to the rdp->gpwrap fields for all CPUs associated with that same leaf
+rcu_node structure.
 
+This commit therefore removes READ_ONCE() from rdp->gpwrap accesses
+within the __note_gp_changes() function.
+
+Signed-off-by: Zilin Guan <zilinguan811@gmail.com>
 Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>
 Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 ---
- kernel/rcu/tree_exp.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ kernel/rcu/tree.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/rcu/tree_exp.h b/kernel/rcu/tree_exp.h
-index 77efed89c79e..8d4895c854c5 100644
---- a/kernel/rcu/tree_exp.h
-+++ b/kernel/rcu/tree_exp.h
-@@ -230,17 +230,19 @@ static void __maybe_unused rcu_report_exp_rnp(struct rcu_node *rnp, bool wake)
-  * specified leaf rcu_node structure, which is acquired by the caller.
-  */
- static void rcu_report_exp_cpu_mult(struct rcu_node *rnp, unsigned long flags,
--				    unsigned long mask, bool wake)
-+				    unsigned long mask_in, bool wake)
- 				    __releases(rnp->lock)
- {
- 	int cpu;
-+	unsigned long mask;
- 	struct rcu_data *rdp;
+diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+index 475f31deed14..e4c0ce600b2b 100644
+--- a/kernel/rcu/tree.c
++++ b/kernel/rcu/tree.c
+@@ -1254,7 +1254,7 @@ static bool __note_gp_changes(struct rcu_node *rnp, struct rcu_data *rdp)
  
- 	raw_lockdep_assert_held_rcu_node(rnp);
--	if (!(rnp->expmask & mask)) {
-+	if (!(rnp->expmask & mask_in)) {
- 		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
- 		return;
- 	}
-+	mask = mask_in & rnp->expmask;
- 	WRITE_ONCE(rnp->expmask, rnp->expmask & ~mask);
- 	for_each_leaf_node_cpu_mask(rnp, cpu, mask) {
- 		rdp = per_cpu_ptr(&rcu_data, cpu);
+ 	/* Handle the ends of any preceding grace periods first. */
+ 	if (rcu_seq_completed_gp(rdp->gp_seq, rnp->gp_seq) ||
+-	    unlikely(READ_ONCE(rdp->gpwrap))) {
++	    unlikely(rdp->gpwrap)) {
+ 		if (!offloaded)
+ 			ret = rcu_advance_cbs(rnp, rdp); /* Advance CBs. */
+ 		rdp->core_needs_qs = false;
+@@ -1268,7 +1268,7 @@ static bool __note_gp_changes(struct rcu_node *rnp, struct rcu_data *rdp)
+ 
+ 	/* Now handle the beginnings of any new-to-this-CPU grace periods. */
+ 	if (rcu_seq_new_gp(rdp->gp_seq, rnp->gp_seq) ||
+-	    unlikely(READ_ONCE(rdp->gpwrap))) {
++	    unlikely(rdp->gpwrap)) {
+ 		/*
+ 		 * If the current grace period is waiting for this CPU,
+ 		 * set up to detect a quiescent state, otherwise don't
+@@ -1283,7 +1283,7 @@ static bool __note_gp_changes(struct rcu_node *rnp, struct rcu_data *rdp)
+ 	rdp->gp_seq = rnp->gp_seq;  /* Remember new grace-period state. */
+ 	if (ULONG_CMP_LT(rdp->gp_seq_needed, rnp->gp_seq_needed) || rdp->gpwrap)
+ 		WRITE_ONCE(rdp->gp_seq_needed, rnp->gp_seq_needed);
+-	if (IS_ENABLED(CONFIG_PROVE_RCU) && READ_ONCE(rdp->gpwrap))
++	if (IS_ENABLED(CONFIG_PROVE_RCU) && rdp->gpwrap)
+ 		WRITE_ONCE(rdp->last_sched_clock, jiffies);
+ 	WRITE_ONCE(rdp->gpwrap, false);
+ 	rcu_gpnum_ovf(rnp, rdp);
 -- 
 2.48.1
 
