@@ -1,83 +1,99 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 477A625DD11
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Mar 2025 21:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E4720A5C1
+	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741211693; cv=none; b=hggq78mfD/e2LwF6+zYoU0eaaPr0MSbrdb43m5e/+IVBNyxEZ+lS7/TMCjE2WVX0HRxz6Pt79O74ycMxoV1NeyPRmPiHDYtG6XSyny5eyB224iQeEYPcSiQpArkAr0FsAD0DH97H9bL6CbFM4+yD9l4bdf4rbuCgR1Zea3ktbw4=
+	t=1741254486; cv=none; b=LWA+5Mod2+/4uf69s6MrDy42BufRShS1eWbnKyGNg97z1kC95ik5MGfkwWNDlyXbpCoPeNNfsix7Vp4CHyCUrDmcl9DObkV5YNxigxadoaAOsk0FYaIMM46Bpl6lY20y3q4I2wPZ2shW4UtpqR9fT1+nl8JQqf9+Wl8IkMlHRfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741211693; c=relaxed/simple;
-	bh=ln8a6fw+K26qsyFg1cY5POQQajfhG0nJ8KO4TBNTJ6Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r2xe1DT5X6ch/gGUKkwP2wnIunExu1pxX8nTyDuwoGxDsxUYReFrYEAtn+0xoj/zcazHtzDEDzihut221vUWjovovXKxWHyYLemxPQc3XcGsyE0webM4Hjd0cCeSLfwolo7wFKXtPJxSlh7wHFGtMpaBM+BKlEfen1lNDAqnTno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=uU8Arbdj; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=HxN75pNR; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="uU8Arbdj";
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="HxN75pNR"
-Received: by mail.netfilter.org (Postfix, from userid 109)
-	id 93778602A3; Wed,  5 Mar 2025 22:54:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1741211690;
-	bh=cHyGHqwQEkwv3VIvBLsxi5GQOOoeh3sSairXD5woem0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uU8ArbdjP2ewyPVapb04jGY7Ti/jDZMqLo39Sdp92kuSe/CcPHdKxH67iSYe8mv2E
-	 IV5e6Oohom7WEK4rXXWq9Xl8T1abz8aBgXm36Oy7abGymynACaFYi0js3HWr6pxyNv
-	 87tl8TenFf0VCfPrU3DtIrHlOff2c3M9DChrugVfwrJTersqiH28S6uSAibJGcr3dz
-	 rqtegkBmYVa81z8j6mrSmVyKddAPVE5mmIA2su02uFLhTTS+dWXRJr+uizvACWnynx
-	 P/yFlXHdCkl+nur8eEixC+fe13IRAENbpCx5VxOq96QjvaSJ3p4CxsUNR+gMxC0mUB
-	 i5n19EaS4+8PQ==
-X-Spam-Level: 
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with ESMTPSA id 9C80060298;
-	Wed,  5 Mar 2025 22:54:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1741211689;
-	bh=cHyGHqwQEkwv3VIvBLsxi5GQOOoeh3sSairXD5woem0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HxN75pNRerSpwWhogyZ03qqHmTH0TTKPV9kZ+9/6bkRyMMbGM/3If98CDQd/yZvpB
-	 qpUsyo73ac55QZyGLaWPQ8zeNAV9nLEf5iNKRelzIBSmWi506P0hY9uERRwWeJqxpj
-	 JtUS7DTDC9okAGh/awJfuMcMBJo80N7Cf3Coczb6KtL8xq+SAQtoYVqfUu3nv1rV0u
-	 IOWk7vmtGYGqSmZFxFmol3PYDXXl9w74Rr1IIgt9dM5/g0UTJfusXGaopRPtTuoXMD
-	 39MSVS77NQUo0u6S6Y1Q897XAPLj0uFbJIX7KXAWRVcKG2zsPqjFhS7hNVKRDdLvEx
-	 w6BcZEgrc6rJw==
-Date: Wed, 5 Mar 2025 22:54:47 +0100
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	s=arc-20240116; t=1741254486; c=relaxed/simple;
+	bh=lHRUzJG/dWG2Awm77214xtjjUZWN/3BPt6p97JvucnY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c+6QGqXhSb6iK7+XKew/d/ePvnAtmwQTUPx/waFsYNgufhupqxDA2TOrfFd3fX3+vMEd2xIEO6sp2heN2QpPYrtylxdW5SvaUvfmLqvVJabkO7PYuHWx0gNE0SJZ2mxGw+MXb2Q9BEEv5ssY7ntyMXCnH0B3t9i5xF3D/tWwJ4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72B0AFEC;
+	Thu,  6 Mar 2025 01:48:17 -0800 (PST)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ADC503F673;
+	Thu,  6 Mar 2025 01:48:02 -0800 (PST)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: suzuki.poulose@arm.com,
+	mike.leach@linaro.org,
+	james.clark@linaro.org,
+	alexander.shishkin@linux.intel.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org
+Cc: coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] netfilter: nft_ct: Use __refcount_inc() for per-CPU
- nft_ct_pcpu_template.
-Message-ID: <Z8jIJyB0KpTpZ-yK@calendula>
-References: <20250217160242.kpk1dR3-@linutronix.de>
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v5 0/9] coresight: change some driver' spinlock type to raw_spinlock_t
+Date: Thu,  6 Mar 2025 09:47:51 +0000
+Message-Id: <20250306094800.1082950-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250217160242.kpk1dR3-@linutronix.de>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 17, 2025 at 05:02:42PM +0100, Sebastian Andrzej Siewior wrote:
-> nft_ct_pcpu_template is a per-CPU variable and relies on disabled BH for its
-> locking. The refcounter is read and if its value is set to one then the
-> refcounter is incremented and variable is used - otherwise it is already
-> in use and left untouched.
-> 
-> Without per-CPU locking in local_bh_disable() on PREEMPT_RT the
-> read-then-increment operation is not atomic and therefore racy.
-> 
-> This can be avoided by using unconditionally __refcount_inc() which will
-> increment counter and return the old value as an atomic operation.
-> In case the returned counter is not one, the variable is in use and we
-> need to decrement counter. Otherwise we can use it.
-> 
-> Use __refcount_inc() instead of read and a conditional increment.
+In some coresight drivers, drvdata->spinlock can be held during __schedule()
+by perf_event_task_sched_out()/in().
 
-Applied nf.git, thanks and sorry for taking a while to collect this.
+Since drvdata->spinlock type is spinlock_t and
+perf_event_task_sched_out()/in() is called after acquiring rq_lock,
+which is raw_spinlock_t (an unsleepable lock),
+this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+
+To address this,change type drvdata->spinlock in some coresight drivers,
+which can be called by perf_event_task_sched_out()/in(),
+from spinlock_t to raw_spinlock_t.
+
+from v4:
+   - rebase to origin/next for coresight tree
+
+Yeoreum Yun (9):
+  coresight: change coresight_device lock type to raw_spinlock_t
+  coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
+  coresight: change coresight_trace_id_map's lock type to raw_spinlock_t
+  coresight-cti: change cti_drvdata spinlock's type to raw_spinlock_t
+  coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
+  coresight-funnel: change funnel_drvdata spinlock's type to
+    raw_spinlock_t
+  coresight-replicator: change replicator_drvdata spinlock's type to
+    raw_spinlock_t
+  coresight-tmc: change tmc_drvdata spinlock's type to raw_spinlock_t
+  coresight/ultrasoc: change smb_drv_data spinlock's type to
+    raw_spinlock_t
+
+ .../hwtracing/coresight/coresight-config.c    |   8 +-
+ .../hwtracing/coresight/coresight-config.h    |   2 +-
+ drivers/hwtracing/coresight/coresight-core.c  |   2 +-
+ .../hwtracing/coresight/coresight-cti-core.c  |  44 +--
+ .../hwtracing/coresight/coresight-cti-sysfs.c |  76 +++---
+ drivers/hwtracing/coresight/coresight-cti.h   |   2 +-
+ drivers/hwtracing/coresight/coresight-etb10.c |  26 +-
+ .../coresight/coresight-etm4x-core.c          |  18 +-
+ .../coresight/coresight-etm4x-sysfs.c         | 250 +++++++++---------
+ drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
+ .../hwtracing/coresight/coresight-funnel.c    |  12 +-
+ .../coresight/coresight-replicator.c          |  12 +-
+ .../hwtracing/coresight/coresight-syscfg.c    |  26 +-
+ .../hwtracing/coresight/coresight-tmc-core.c  |   6 +-
+ .../hwtracing/coresight/coresight-tmc-etf.c   |  48 ++--
+ .../hwtracing/coresight/coresight-tmc-etr.c   |  40 +--
+ drivers/hwtracing/coresight/coresight-tmc.h   |   2 +-
+ .../hwtracing/coresight/coresight-trace-id.c  |  22 +-
+ drivers/hwtracing/coresight/ultrasoc-smb.c    |  12 +-
+ drivers/hwtracing/coresight/ultrasoc-smb.h    |   2 +-
+ include/linux/coresight.h                     |   4 +-
+ 21 files changed, 308 insertions(+), 308 deletions(-)
+
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+
