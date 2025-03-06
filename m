@@ -1,140 +1,118 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51C0820C470
-	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 163FF41C92
+	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 10:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741254504; cv=none; b=Uft5ngQxRnZEJhI4hQnsWLpPB7tcgJJoMwrZXyvBFwZUf4DRKf3qgh7QfioN5e8v6id1qX8DUM2NSclHJ+21F0m1j4WKauS6l0znonfwTaglQwDWASazIebBIg5PRxqxUzAWTP1u7jKHAmTx2fbwwzUjeeNsW4UFix4B9moBVjM=
+	t=1741256743; cv=none; b=qQWtoH8B0nMqL/2wP/RMqRtSYx4epptmNFwJlH8Azc7GOoiIef3NJQIAFpWjyNbZqhE5OLR/WX1/o/b/J5ikiPxjdiIU4OnvyA3GTu0VsMve+w8aL4ZZL1RY1meSjSxPX1OF9xEWk/28TZrnBASWVjvEoEB+tSyiuq5OreP4DiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741254504; c=relaxed/simple;
-	bh=RIe/5ZaCtNLHo29qreZI0j1qk+lpe9VGGmd6j6rEDJ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=R8tD1u3kcKLK+4fYaYgeeFBvGG/fzqYEu89xNTXk2Z91UCSAyZuOnsO3xwZxQ+0YRx9sipCpLg7vSJeUybdE3Ml7zQlN2f4nQAS9U1UOFuBnDmr2Ouz2hNkiA+8ql1s3AhLBfhq5SI7cpWl5dxRTiBJGipRj/xkwJ8vfRE5Nzlw=
+	s=arc-20240116; t=1741256743; c=relaxed/simple;
+	bh=9Iy1vxwzlKdINfMnixt4K0ILolOToVWO7GfNZe4JiQk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DmzAAeyzfLGvJ1j9T4NCc3JpV9beWdov4U/vMVsXZtidF/zgLVenpZ8xLBzbA+n2+PSShk5XmIx2dOanan4G+Eub8OSCZ95CY51I8a9xWYVrbezat0oyh++zqI47Wu1m/cjyhZBB66LEF4uQy8HceVVKGQrDBV0Qya8Mw+lT3Wk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE2A21007;
-	Thu,  6 Mar 2025 01:48:35 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0DD043F673;
-	Thu,  6 Mar 2025 01:48:20 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: suzuki.poulose@arm.com,
-	mike.leach@linaro.org,
-	james.clark@linaro.org,
-	alexander.shishkin@linux.intel.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org
-Cc: coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 9/9] coresight/ultrasoc: change smb_drv_data spinlock's type to raw_spinlock_t
-Date: Thu,  6 Mar 2025 09:48:00 +0000
-Message-Id: <20250306094800.1082950-10-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250306094800.1082950-1-yeoreum.yun@arm.com>
-References: <20250306094800.1082950-1-yeoreum.yun@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52B0DFEC;
+	Thu,  6 Mar 2025 02:25:53 -0800 (PST)
+Received: from [10.57.38.145] (unknown [10.57.38.145])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AC8053F66E;
+	Thu,  6 Mar 2025 02:25:38 -0800 (PST)
+Message-ID: <c7a142ee-d34f-494a-b4f9-921d739aeb59@arm.com>
+Date: Thu, 6 Mar 2025 10:25:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 8/9] coresight-tmc: change tmc_drvdata spinlock's type
+ to raw_spinlock_t
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>, mike.leach@linaro.org,
+ james.clark@linaro.org, alexander.shishkin@linux.intel.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org
+Cc: coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20250306094800.1082950-1-yeoreum.yun@arm.com>
+ <20250306094800.1082950-9-yeoreum.yun@arm.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250306094800.1082950-9-yeoreum.yun@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-In ultrasoc-smb drivers, smb_drv_data->spinlock can be held
-during __schedule() by perf_event_task_sched_out()/in().
+Hi Levi,
 
-Since smb__drv_data->spinlock type is spinlock_t and
-perf_event_task_sched_out()/in() is called after acquiring rq_lock,
-which is raw_spinlock_t (an unsleepable lock),
-this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+On 06/03/2025 09:47, Yeoreum Yun wrote:
+> In coresight-tmc drivers, tmc_drvdata->spinlock can be held
+> during __schedule() by perf_event_task_sched_out()/in().
+> 
+> Since tmc_drvdata->spinlock type is spinlock_t and
+> perf_event_task_sched_out()/in() is called after acquiring rq_lock,
+> which is raw_spinlock_t (an unsleepable lock),
+> this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+> 
+> To address this, change type tmc_drvdata->spinlock in coresight-tmc drivers,
+> which can be called by perf_event_task_sched_out()/in(),
+> from spinlock_t to raw_spinlock_t.
+> 
+> Reviewed-by: James Clark <james.clark@linaro.org>
+> Reviewed-by: Mike Leach <mike.leach@linaro.org>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 
-To address this, change type smb_drv_data->spinlock in ultrasoc-smb drivers,
-which can be called by perf_event_task_sched_out()/in(),
-from spinlock_t to raw_spinlock_t.
 
-Reviewed-by: James Clark <james.clark@linaro.org>
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- drivers/hwtracing/coresight/ultrasoc-smb.c | 12 ++++++------
- drivers/hwtracing/coresight/ultrasoc-smb.h |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Unfortunately, this still doesn't cover the current coresight next 
+branch. I get build errors as below :
 
-diff --git a/drivers/hwtracing/coresight/ultrasoc-smb.c b/drivers/hwtracing/coresight/ultrasoc-smb.c
-index dc3c9504dd7c..26cfc939e5bd 100644
---- a/drivers/hwtracing/coresight/ultrasoc-smb.c
-+++ b/drivers/hwtracing/coresight/ultrasoc-smb.c
-@@ -98,7 +98,7 @@ static int smb_open(struct inode *inode, struct file *file)
- 	struct smb_drv_data *drvdata = container_of(file->private_data,
- 					struct smb_drv_data, miscdev);
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	if (drvdata->reading)
- 		return -EBUSY;
-@@ -152,7 +152,7 @@ static int smb_release(struct inode *inode, struct file *file)
- 	struct smb_drv_data *drvdata = container_of(file->private_data,
- 					struct smb_drv_data, miscdev);
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 	drvdata->reading = false;
- 
- 	return 0;
-@@ -245,7 +245,7 @@ static int smb_enable(struct coresight_device *csdev, enum cs_mode mode,
- 	struct smb_drv_data *drvdata = dev_get_drvdata(csdev->dev.parent);
- 	int ret = 0;
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	/* Do nothing, the trace data is reading by other interface now */
- 	if (drvdata->reading)
-@@ -280,7 +280,7 @@ static int smb_disable(struct coresight_device *csdev)
- {
- 	struct smb_drv_data *drvdata = dev_get_drvdata(csdev->dev.parent);
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	if (drvdata->reading)
- 		return -EBUSY;
-@@ -378,7 +378,7 @@ static unsigned long smb_update_buffer(struct coresight_device *csdev,
- 	if (!buf)
- 		return 0;
- 
--	guard(spinlock)(&drvdata->spinlock);
-+	guard(raw_spinlock)(&drvdata->spinlock);
- 
- 	/* Don't do anything if another tracer is using this sink. */
- 	if (csdev->refcnt != 1)
-@@ -563,7 +563,7 @@ static int smb_probe(struct platform_device *pdev)
- 
- 	smb_reset_buffer(drvdata);
- 	platform_set_drvdata(pdev, drvdata);
--	spin_lock_init(&drvdata->spinlock);
-+	raw_spin_lock_init(&drvdata->spinlock);
- 	drvdata->pid = -1;
- 
- 	ret = smb_register_sink(pdev, drvdata);
-diff --git a/drivers/hwtracing/coresight/ultrasoc-smb.h b/drivers/hwtracing/coresight/ultrasoc-smb.h
-index a91d39cfccb8..c4c111275627 100644
---- a/drivers/hwtracing/coresight/ultrasoc-smb.h
-+++ b/drivers/hwtracing/coresight/ultrasoc-smb.h
-@@ -115,7 +115,7 @@ struct smb_drv_data {
- 	struct coresight_device	*csdev;
- 	struct smb_data_buffer sdb;
- 	struct miscdevice miscdev;
--	spinlock_t spinlock;
-+	raw_spinlock_t spinlock;
- 	bool reading;
- 	pid_t pid;
- };
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+"[PATCH] coresight-tmc: change tmc_drvdata spinlock's type to" has style 
+problems, please review. This is because, we merged the coresight panic
+trace support in the coresight next, on 21st Feb.
+
+
+NOTE: If any of the errors are false positives, please report
+       them to the maintainer, see CHECKPATCH in MAINTAINERS.
+   CALL    scripts/checksyscalls.sh
+   CC [M]  drivers/hwtracing/coresight/coresight-tmc-core.o
+   CC [M]  drivers/hwtracing/coresight/coresight-tmc-etf.o
+   CC [M]  drivers/hwtracing/coresight/coresight-tmc-etr.o
+   CC [M]  drivers/hwtracing/coresight/coresight-catu.o
+In file included from ./include/linux/mmzone.h:8,
+                  from ./include/linux/gfp.h:7,
+                  from ./include/linux/slab.h:16,
+                  from ./include/linux/resource_ext.h:11,
+                  from ./include/linux/acpi.h:13,
+                  from drivers/hwtracing/coresight/coresight-tmc-core.c:7:
+drivers/hwtracing/coresight/coresight-tmc-core.c: In function 
+‘tmc_crashdata_open’:
+drivers/hwtracing/coresight/coresight-tmc-core.c:361:20: error: passing 
+argument 1 of ‘spinlock_check’ from incompatible pointer type 
+[-Werror=incompatible-pointer-types]
+   361 |  spin_lock_irqsave(&drvdata->spinlock, flags);
+       |                    ^~~~~~~~~~~~~~~~~~
+       |                    |
+       |                    raw_spinlock_t * {aka struct raw_spinlock *}
+./include/linux/spinlock.h:244:34: note: in definition of macro 
+‘raw_spin_lock_irqsave’
+   244 |   flags = _raw_spin_lock_irqsave(lock); \
+       |                                  ^~~~
+drivers/hwtracing/coresight/coresight-tmc-core.c:361:2: note: in 
+expansion of macro ‘spin_lock_irqsave’
+   361 |  spin_lock_irqsave(&drvdata->spinlock, flags);
+       |  ^~~~~~~~~~~~~~~~~
+In file included from ./include/linux/mmzone.h:8,
+                  from ./include/linux/gfp.h:7,
+                  from ./include/linux/slab.h:16,
+                  from ./include/linux/resource_ext.h:11,
+                  from ./include/linux/acpi.h:13,
+                  from drivers/hwtracing/coresight/coresight-tmc-core.c:7:
+./include/linux/spinlock.h:324:67: note: expected ‘spinlock_t *’ {aka 
+‘struct spinlock *’} but argument is of type ‘raw_spinlock_t *’ {aka 
+‘struct raw_spinlock *’}
+   324 | static __always_inline raw_spinlock_t 
+*spinlock_check(spinlock_t *lock)
+
+
+Cheers
+Suzuki
 
