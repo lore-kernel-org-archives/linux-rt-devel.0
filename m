@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11E4720A5C1
-	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C9FE20AF74
+	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741254486; cv=none; b=LWA+5Mod2+/4uf69s6MrDy42BufRShS1eWbnKyGNg97z1kC95ik5MGfkwWNDlyXbpCoPeNNfsix7Vp4CHyCUrDmcl9DObkV5YNxigxadoaAOsk0FYaIMM46Bpl6lY20y3q4I2wPZ2shW4UtpqR9fT1+nl8JQqf9+Wl8IkMlHRfI=
+	t=1741254488; cv=none; b=CPRUl88dQvuhkJ2cQq38Qn6ksUOnNoyqzik7iPQ6Nzy5yrqfe1f/cmwl5nmyEqVlbZvg799AoID9ApTVIuOQZgagx7uVIQX5a+tUo7KrjbWrRz7RN715nkl4eXhySnOsSo/3JTv89CwiuzYPAz0OlhJcTWDiWG16AC6A5bLb/fk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741254486; c=relaxed/simple;
-	bh=lHRUzJG/dWG2Awm77214xtjjUZWN/3BPt6p97JvucnY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=c+6QGqXhSb6iK7+XKew/d/ePvnAtmwQTUPx/waFsYNgufhupqxDA2TOrfFd3fX3+vMEd2xIEO6sp2heN2QpPYrtylxdW5SvaUvfmLqvVJabkO7PYuHWx0gNE0SJZ2mxGw+MXb2Q9BEEv5ssY7ntyMXCnH0B3t9i5xF3D/tWwJ4c=
+	s=arc-20240116; t=1741254488; c=relaxed/simple;
+	bh=QSzcCqF2J+IRXhe9nt1lJ9nV2jy7k/V6P+Q6SJ8SJew=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BsvXV3ZzUz2OvxBeMllGb8K8YJfc+cUilQwXbgJlbGlTnEFJYPvCJ0fAcTuz+IifDISt0cFx9sUtkrRJImTeRGYlgxWrJ0A2r518eaUZEcPom1vREs9gTllBrvmHhm9SOxdbzlVl5R1nakHkCSXvBK5Yz6wanqZo9MJNN/hDtwk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 72B0AFEC;
-	Thu,  6 Mar 2025 01:48:17 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 762A31007;
+	Thu,  6 Mar 2025 01:48:19 -0800 (PST)
 Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ADC503F673;
-	Thu,  6 Mar 2025 01:48:02 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B35503F673;
+	Thu,  6 Mar 2025 01:48:04 -0800 (PST)
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: suzuki.poulose@arm.com,
 	mike.leach@linaro.org,
@@ -30,10 +31,12 @@ Cc: coresight@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 0/9] coresight: change some driver' spinlock type to raw_spinlock_t
-Date: Thu,  6 Mar 2025 09:47:51 +0000
-Message-Id: <20250306094800.1082950-1-yeoreum.yun@arm.com>
+Subject: [PATCH v5 1/9] coresight: change coresight_device lock type to raw_spinlock_t
+Date: Thu,  6 Mar 2025 09:47:52 +0000
+Message-Id: <20250306094800.1082950-2-yeoreum.yun@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250306094800.1082950-1-yeoreum.yun@arm.com>
+References: <20250306094800.1082950-1-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -42,58 +45,144 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In some coresight drivers, drvdata->spinlock can be held during __schedule()
+coresight_device->cscfg_csdev_lock can be held during __schedule()
 by perf_event_task_sched_out()/in().
 
-Since drvdata->spinlock type is spinlock_t and
+Since coresight->cscfg_csdev_lock type is spinlock_t and
 perf_event_task_sched_out()/in() is called after acquiring rq_lock,
 which is raw_spinlock_t (an unsleepable lock),
 this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 
-To address this,change type drvdata->spinlock in some coresight drivers,
-which can be called by perf_event_task_sched_out()/in(),
+To address this, change type of coresight_device->cscfg_csdev_lock
 from spinlock_t to raw_spinlock_t.
 
-from v4:
-   - rebase to origin/next for coresight tree
+Reviewed-by: James Clark <james.clark@linaro.org>
+Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+---
+ .../hwtracing/coresight/coresight-syscfg.c    | 26 +++++++++----------
+ include/linux/coresight.h                     |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-Yeoreum Yun (9):
-  coresight: change coresight_device lock type to raw_spinlock_t
-  coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
-  coresight: change coresight_trace_id_map's lock type to raw_spinlock_t
-  coresight-cti: change cti_drvdata spinlock's type to raw_spinlock_t
-  coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
-  coresight-funnel: change funnel_drvdata spinlock's type to
-    raw_spinlock_t
-  coresight-replicator: change replicator_drvdata spinlock's type to
-    raw_spinlock_t
-  coresight-tmc: change tmc_drvdata spinlock's type to raw_spinlock_t
-  coresight/ultrasoc: change smb_drv_data spinlock's type to
-    raw_spinlock_t
-
- .../hwtracing/coresight/coresight-config.c    |   8 +-
- .../hwtracing/coresight/coresight-config.h    |   2 +-
- drivers/hwtracing/coresight/coresight-core.c  |   2 +-
- .../hwtracing/coresight/coresight-cti-core.c  |  44 +--
- .../hwtracing/coresight/coresight-cti-sysfs.c |  76 +++---
- drivers/hwtracing/coresight/coresight-cti.h   |   2 +-
- drivers/hwtracing/coresight/coresight-etb10.c |  26 +-
- .../coresight/coresight-etm4x-core.c          |  18 +-
- .../coresight/coresight-etm4x-sysfs.c         | 250 +++++++++---------
- drivers/hwtracing/coresight/coresight-etm4x.h |   2 +-
- .../hwtracing/coresight/coresight-funnel.c    |  12 +-
- .../coresight/coresight-replicator.c          |  12 +-
- .../hwtracing/coresight/coresight-syscfg.c    |  26 +-
- .../hwtracing/coresight/coresight-tmc-core.c  |   6 +-
- .../hwtracing/coresight/coresight-tmc-etf.c   |  48 ++--
- .../hwtracing/coresight/coresight-tmc-etr.c   |  40 +--
- drivers/hwtracing/coresight/coresight-tmc.h   |   2 +-
- .../hwtracing/coresight/coresight-trace-id.c  |  22 +-
- drivers/hwtracing/coresight/ultrasoc-smb.c    |  12 +-
- drivers/hwtracing/coresight/ultrasoc-smb.h    |   2 +-
- include/linux/coresight.h                     |   4 +-
- 21 files changed, 308 insertions(+), 308 deletions(-)
-
---
+diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+index 11138a9762b0..a70c1454b410 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
++++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+@@ -89,9 +89,9 @@ static int cscfg_add_csdev_cfg(struct coresight_device *csdev,
+ 	}
+ 	/* if matched features, add config to device.*/
+ 	if (config_csdev) {
+-		spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++		raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 		list_add(&config_csdev->node, &csdev->config_csdev_list);
+-		spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++		raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 	}
+ 
+ 	return 0;
+@@ -194,9 +194,9 @@ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
+ 
+ 	/* add to internal csdev feature list & initialise using reset call */
+ 	cscfg_reset_feat(feat_csdev);
+-	spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 	list_add(&feat_csdev->node, &csdev->feature_csdev_list);
+-	spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 
+ 	return 0;
+ }
+@@ -765,7 +765,7 @@ static int cscfg_list_add_csdev(struct coresight_device *csdev,
+ 
+ 	INIT_LIST_HEAD(&csdev->feature_csdev_list);
+ 	INIT_LIST_HEAD(&csdev->config_csdev_list);
+-	spin_lock_init(&csdev->cscfg_csdev_lock);
++	raw_spin_lock_init(&csdev->cscfg_csdev_lock);
+ 
+ 	return 0;
+ }
+@@ -855,7 +855,7 @@ void cscfg_csdev_reset_feats(struct coresight_device *csdev)
+ 	struct cscfg_feature_csdev *feat_csdev;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 	if (list_empty(&csdev->feature_csdev_list))
+ 		goto unlock_exit;
+ 
+@@ -863,7 +863,7 @@ void cscfg_csdev_reset_feats(struct coresight_device *csdev)
+ 		cscfg_reset_feat(feat_csdev);
+ 
+ unlock_exit:
+-	spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ }
+ EXPORT_SYMBOL_GPL(cscfg_csdev_reset_feats);
+ 
+@@ -1059,7 +1059,7 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+ 	 * Look for matching configuration - set the active configuration
+ 	 * context if found.
+ 	 */
+-	spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 	list_for_each_entry(config_csdev_item, &csdev->config_csdev_list, node) {
+ 		config_desc = config_csdev_item->config_desc;
+ 		if ((atomic_read(&config_desc->active_cnt)) &&
+@@ -1069,7 +1069,7 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+ 			break;
+ 		}
+ 	}
+-	spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 
+ 	/*
+ 	 * If found, attempt to enable
+@@ -1090,12 +1090,12 @@ int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+ 			 *
+ 			 * Set enabled if OK, err if not.
+ 			 */
+-			spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++			raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 			if (csdev->active_cscfg_ctxt)
+ 				config_csdev_active->enabled = true;
+ 			else
+ 				err = -EBUSY;
+-			spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++			raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 		}
+ 	}
+ 	return err;
+@@ -1124,7 +1124,7 @@ void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
+ 	 * If it was not enabled, we have no work to do, otherwise mark as disabled.
+ 	 * Clear the active config pointer.
+ 	 */
+-	spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_lock_irqsave(&csdev->cscfg_csdev_lock, flags);
+ 	config_csdev = (struct cscfg_config_csdev *)csdev->active_cscfg_ctxt;
+ 	if (config_csdev) {
+ 		if (!config_csdev->enabled)
+@@ -1133,7 +1133,7 @@ void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
+ 			config_csdev->enabled = false;
+ 	}
+ 	csdev->active_cscfg_ctxt = NULL;
+-	spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
++	raw_spin_unlock_irqrestore(&csdev->cscfg_csdev_lock, flags);
+ 
+ 	/* true if there was an enabled active config */
+ 	if (config_csdev)
+diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+index 89b781e70fe7..4541bfc1cc6b 100644
+--- a/include/linux/coresight.h
++++ b/include/linux/coresight.h
+@@ -302,7 +302,7 @@ struct coresight_device {
+ 	/* system configuration and feature lists */
+ 	struct list_head feature_csdev_list;
+ 	struct list_head config_csdev_list;
+-	spinlock_t cscfg_csdev_lock;
++	raw_spinlock_t cscfg_csdev_lock;
+ 	void *active_cscfg_ctxt;
+ };
+ 
+-- 
 LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
