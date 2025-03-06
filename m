@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA0920B215
-	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5469420C46D
+	for <linux-rt-devel@lists.linux.dev>; Thu,  6 Mar 2025 09:48:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741254499; cv=none; b=O9nbVN11uFrBGcNLRzIwUrMB0W3AiywXMP4QgkAM+XvgZTpUqvTjpUl6XhkFfSNvfoAaLBw7PNeOoPX+tM6Z5siO8VpQPHIJcxTxNAPzstRk/y9uQFgFKisC0jRRIDKX9xOduI83Bs3xy9PwNRq0oMAHQsY9/vgDy/0HTqdUZwM=
+	t=1741254501; cv=none; b=mO31pHHRqFbzZLru/DWJRI6pxx5h5bcWlMh32u19g+8vdmBxbFrTzkw4lQYYYukWDLw6p6vW/jWC0hzcXOzgP+lKo6c5/HvJ4tFLB6O8aM33ndLtJ0DHZEYh2k8lsBLYX2mfKow9qhIc3oTi84SMWATcE1tHPOAaQd/BvM6aJrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741254499; c=relaxed/simple;
-	bh=ieA9pLtA9WNvUjQp49ffolMQlebbyMYqVTdOWgft12k=;
+	s=arc-20240116; t=1741254501; c=relaxed/simple;
+	bh=qkd1t71drJ6W7pHT5e59hqeyQYJUG9fWKod/5k7xJ5E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=izDoVrWh+gjj06Le9W6/P8YchXDKHwnUgGCYwmxAng/KFDpwRq8I3UGwKBUlC8QPTZhq6V5xncB2BNOGtNpBoYnT0l+Vd0Dsdkg3r/gEB835WzSqTRm/J6OZ55qCeAZ8KCMaqJ7d9hhT5bOfLDmADPPPxSz1FousJh2MggdkDkc=
+	 MIME-Version; b=bBFA/TlrzSDVKTqA8zmd56heN4c+LP9RVR1u61HPcUFnKiJ/Ke+qaaWi1D3mSwoMFGOuCcBakOyGQWkUge7CWdS+8sRa25+b1f6Qp8OpZVcHG2NO2d/Hr9E1fJ7DE4U6vc1sUi9o4/pPPq14sML6fHikRqlR6BsiukEcYKW7nUw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0D00FEC;
-	Thu,  6 Mar 2025 01:48:29 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B589B1007;
+	Thu,  6 Mar 2025 01:48:31 -0800 (PST)
 Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id ED2C53F673;
-	Thu,  6 Mar 2025 01:48:14 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F2AD33F673;
+	Thu,  6 Mar 2025 01:48:16 -0800 (PST)
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: suzuki.poulose@arm.com,
 	mike.leach@linaro.org,
@@ -31,9 +31,9 @@ Cc: coresight@lists.linaro.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
 	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v5 6/9] coresight-funnel: change funnel_drvdata spinlock's type to raw_spinlock_t
-Date: Thu,  6 Mar 2025 09:47:57 +0000
-Message-Id: <20250306094800.1082950-7-yeoreum.yun@arm.com>
+Subject: [PATCH v5 7/9] coresight-replicator: change replicator_drvdata spinlock's type to raw_spinlock_t
+Date: Thu,  6 Mar 2025 09:47:58 +0000
+Message-Id: <20250306094800.1082950-8-yeoreum.yun@arm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250306094800.1082950-1-yeoreum.yun@arm.com>
 References: <20250306094800.1082950-1-yeoreum.yun@arm.com>
@@ -45,81 +45,82 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In coresight-funnel drivers, cti_drvdata->spinlock can be held
+In coresight-replicator drivers, replicator_drvdata->spinlock can be held
 during __schedule() by perf_event_task_sched_out()/in().
 
-Since funnel_drvdata->spinlock type is spinlock_t and
+Since replicator_drvdata->spinlock type is spinlock_t and
 perf_event_task_sched_out()/in() is called after acquiring rq_lock,
 which is raw_spinlock_t (an unsleepable lock),
 this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 
-To address this, change type funnel_drvdata->spinlock in
-coresight-funnel drivers, which can be called by
-perf_event_task_sched_out()/in(), from spinlock_t to raw_spinlock_t.
+To address this, change type replicator_drvdata->spinlock in
+coresight-replicator drivers, which can be called
+by perf_event_task_sched_out()/in(), from spinlock_t to raw_spinlock_t.
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 Reviewed-by: James Clark <james.clark@linaro.org>
 Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 ---
- drivers/hwtracing/coresight/coresight-funnel.c | 12 ++++++------
+ drivers/hwtracing/coresight/coresight-replicator.c | 12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/hwtracing/coresight/coresight-funnel.c b/drivers/hwtracing/coresight/coresight-funnel.c
-index 8faf51469bb8..0541712b2bcb 100644
---- a/drivers/hwtracing/coresight/coresight-funnel.c
-+++ b/drivers/hwtracing/coresight/coresight-funnel.c
-@@ -47,7 +47,7 @@ struct funnel_drvdata {
+diff --git a/drivers/hwtracing/coresight/coresight-replicator.c b/drivers/hwtracing/coresight/coresight-replicator.c
+index a1181c9048c0..ee7ee79f6cf7 100644
+--- a/drivers/hwtracing/coresight/coresight-replicator.c
++++ b/drivers/hwtracing/coresight/coresight-replicator.c
+@@ -41,7 +41,7 @@ struct replicator_drvdata {
+ 	struct clk		*atclk;
  	struct clk		*pclk;
  	struct coresight_device	*csdev;
- 	unsigned long		priority;
 -	spinlock_t		spinlock;
 +	raw_spinlock_t		spinlock;
+ 	bool			check_idfilter_val;
  };
  
- static int dynamic_funnel_enable_hw(struct funnel_drvdata *drvdata, int port)
-@@ -85,7 +85,7 @@ static int funnel_enable(struct coresight_device *csdev,
+@@ -125,7 +125,7 @@ static int replicator_enable(struct coresight_device *csdev,
  	unsigned long flags;
  	bool first_enable = false;
  
 -	spin_lock_irqsave(&drvdata->spinlock, flags);
 +	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 	if (in->dest_refcnt == 0) {
+ 	if (out->src_refcnt == 0) {
  		if (drvdata->base)
- 			rc = dynamic_funnel_enable_hw(drvdata, in->dest_port);
-@@ -94,7 +94,7 @@ static int funnel_enable(struct coresight_device *csdev,
+ 			rc = dynamic_replicator_enable(drvdata, in->dest_port,
+@@ -135,7 +135,7 @@ static int replicator_enable(struct coresight_device *csdev,
  	}
  	if (!rc)
- 		in->dest_refcnt++;
+ 		out->src_refcnt++;
 -	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 +	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
  
  	if (first_enable)
- 		dev_dbg(&csdev->dev, "FUNNEL inport %d enabled\n",
-@@ -129,13 +129,13 @@ static void funnel_disable(struct coresight_device *csdev,
+ 		dev_dbg(&csdev->dev, "REPLICATOR enabled\n");
+@@ -179,14 +179,14 @@ static void replicator_disable(struct coresight_device *csdev,
  	unsigned long flags;
  	bool last_disable = false;
  
 -	spin_lock_irqsave(&drvdata->spinlock, flags);
 +	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
- 	if (--in->dest_refcnt == 0) {
+ 	if (--out->src_refcnt == 0) {
  		if (drvdata->base)
- 			dynamic_funnel_disable_hw(drvdata, in->dest_port);
+ 			dynamic_replicator_disable(drvdata, in->dest_port,
+ 						   out->src_port);
  		last_disable = true;
  	}
 -	spin_unlock_irqrestore(&drvdata->spinlock, flags);
 +	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
  
  	if (last_disable)
- 		dev_dbg(&csdev->dev, "FUNNEL inport %d disabled\n",
-@@ -266,7 +266,7 @@ static int funnel_probe(struct device *dev, struct resource *res)
+ 		dev_dbg(&csdev->dev, "REPLICATOR disabled\n");
+@@ -277,7 +277,7 @@ static int replicator_probe(struct device *dev, struct resource *res)
  	}
  	dev->platform_data = pdata;
  
 -	spin_lock_init(&drvdata->spinlock);
 +	raw_spin_lock_init(&drvdata->spinlock);
  	desc.type = CORESIGHT_DEV_TYPE_LINK;
- 	desc.subtype.link_subtype = CORESIGHT_DEV_SUBTYPE_LINK_MERG;
- 	desc.ops = &funnel_cs_ops;
+ 	desc.subtype.link_subtype = CORESIGHT_DEV_SUBTYPE_LINK_SPLIT;
+ 	desc.ops = &replicator_cs_ops;
 -- 
 LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
 
