@@ -1,94 +1,109 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50A019259A
-	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Mar 2025 16:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1DC1A4F3C
+	for <linux-rt-devel@lists.linux.dev>; Fri,  7 Mar 2025 19:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741366665; cv=none; b=j/mWd9M1VYrdyYK9PIMOhGB5/lE2dHEpIV5GJAcsAIeuNgkAbR2H3DR20okC1A+I/9FqB+DMDirH5LvNqxJJsgR523zXNgieORuN+wCCA5zansJ+tMmNmqMjsTpXnfwFzvzQblZjGaxgnkXXergS5YUcThIaSs33B9tML2Kp0E4=
+	t=1741377090; cv=none; b=vECDEgxLVcD9h5KqUEjpVWBwGsAW592gFhy2kuL6ol4IUWNHRJE1LclkFC5IjB2LY2dkWj3XAMVKsoWnvzVUI5gK2qdLi6iX/4aHy9YVqy4OAe7Dg/WyNe8tDc8r6j/p3TYM8DQIMsTQR5r4iel4xOy2s4DLAEe1BIxMKJLBhFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741366665; c=relaxed/simple;
-	bh=IQ6HQwZ7TCeX/NPxmjiqm7WPTN6mOoKtVm8u8rj3cCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptkBduNVJWr8ZZemOlHdLHneYadpNT6vXB8CGEp2VPzGMBnheGWtt2r8dA0rPzucgg88AJvmZoTJxs6DWjpLzjfBtzgQDR6xoaVT2G+TvP1QPQ7eMfxV0D5p40KJtzPO6AG+hRElMrwtn19tQ15EuIxbjNMjq1Drkz637Lp93/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BK4YUcuv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b8pvlwcc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1741377090; c=relaxed/simple;
+	bh=DIWtNK0/73Tp14vlsnzpFPmis/W+TpJ+G7ZVFgBV4K4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CY+dr3svH1CTEgjVVX2og5kEnwa9elOtQE0yrjin59/Mi7MEaKjrX6ORytXUYSko7Hh5L4p5kgNUaCkqej2NQILcKnbnt9Mj8jLqAyDX2BeABcWAyRLMZA5/83QD7DxgY6Xe9C9Pq6kqL+8tVFdfaYaS+7KabRNrBaxza6NEeM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SowLOoRQ; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BK4YUcuv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b8pvlwcc"
-Date: Fri, 7 Mar 2025 17:57:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1741366662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=erRaoD3AeHBHeKwFmtfL2aXp8syX8RuaSemTxmr2Lq0=;
-	b=BK4YUcuvLU3wPUEQydAKfyOiUPoJkCzi9pl8NlAQZLqjVUQmG/pgzUM4PT/gNEoec3Yx/C
-	Ezwi2gS0NMmJSIHbWLUPwRg7xVvW9mKFuRAW5daQhjRGmPvuT6ZwD6LFbaq/XyafEMZH3r
-	rNNgqg33oRFxCpI+oxhRJmsAT89ftjQwxD4sjDsf34IUqORyC3DaxDIIydKbJCdeO4ToWS
-	blc/idfvgVjJVoyK+GRDvdFE/Kl18G9uDVe2c3i4POcIq5xgcukkAqfay3zuYnHoB/9let
-	x2/yc05aNI3TJ5lU+TnJA1UmX9YxCOtpFXf+uQbpXjvZn0kJULikQ+CYdQM0kg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1741366662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=erRaoD3AeHBHeKwFmtfL2aXp8syX8RuaSemTxmr2Lq0=;
-	b=b8pvlwccZnrc3zwZKKeeez2ETtmPMRToVZGNY+Y7qHg1e5j2OKDedrYxzvSb3DEPX/cWEZ
-	D/wO309axdy35wDQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
-Message-ID: <20250307165740.5rhR7Deu@linutronix.de>
-References: <20250221133143.5058-1-bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SowLOoRQ"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ff6ae7667dso4480669a91.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 07 Mar 2025 11:51:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741377089; x=1741981889; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q0vxeJ91cIahvPFsZ/TUnYjZG0BU3sHhaPEfqVVFDFQ=;
+        b=SowLOoRQZ+Ba3Tjj5bDkS7Tbr6bObCF/9PLL4VVxLibtoe1iLlrg1ISDqcPbRn+CZc
+         +l3XcfiqSGwVxOwxCe0ftNPK7UPYAiFFi5chcHRE2g7i+UJnukdYd8XZZZWWOVQ1gvMM
+         a4Oa1WJQsF/pcArY8gokbtifG/gULuo8V6fuf6TZ4w/XLiGOsfyzL2OqaYT0X7ejahpl
+         P+yIPONK901gLf0AijqMqU9smeTBc8PSo5tHSyNxarngGX6kP7VWihDn2RnHTFec+fFz
+         Bd5Hy/+sDKSxFDB6/jFEkAfKz7RWGItNR5ifDXS59F4jqLaj+UzPohoZ8CugtZb+czic
+         PkqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741377089; x=1741981889;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=q0vxeJ91cIahvPFsZ/TUnYjZG0BU3sHhaPEfqVVFDFQ=;
+        b=sF8L0Y8hR1kT0ZT13oDudXWRgdgaeEfNXxsRNRbZ9mlBQwhIeULw3iETMWSLy3c51a
+         nAw572sPscC7BvRDzuRLLsERwrci/Qu7uePBQlYQFfvKdZZMc5WPIYdKCPRdpatBbSV+
+         7FIq0iTrcCQijbxaCELnuNg+FtJ01V8cGgiG2Ri0D9K8YXXzvHoQbXKtJecX+vX4S9K7
+         5/lYdAfN9CadeVl0Wl2LKAD/BHEk65klCxxnEYxxZLipOceSVPoXuvQg6kDkyHZeTUf5
+         eMrZN3QApUw/oweNSTNneItYFTD9zXlzqjiTV7ipdGsyHzx/zb8FaBngAws8kCuJQdZO
+         huAg==
+X-Gm-Message-State: AOJu0YwBifm/Ef6Guf9r9d3iOmX0QZN0J5zpu1ppDP1NcQV7jgf+edfk
+	skUgUwb1bkhm46onAH8OYvB6VBhEhnbPnyEL+az6NY8dhhsI5VAg89zADFXziaObjP62+wF+7z3
+	xJq8sExztUDwUN4wd+2Rk0v1SgqzuraYmtQC2Sw==
+X-Gm-Gg: ASbGnct9mvn855MdXQ8/ipBa2cYvLVgIXh91OiQVswpAQuVT4EF+GMND/StOU9rObsB
+	wnPIRL8LuSdxUbAdq6HgAh/Mjg5idm+U3pOhKTGmRpj4AaYt175KTKkGyApRXTRvKVeyXy3lIY0
+	ZPa76gIiHFJ/4CaLKqvVUHCGZ84w==
+X-Google-Smtp-Source: AGHT+IH4Wpg5uTuvEjCppI+SSHGZ9QA7hC9F+4K74GBw5+jVeQ1H/kZBYBQf5cw61pm7FTEJp+iAMqFFaLciH8g3+zE=
+X-Received: by 2002:a17:90b:1d84:b0:2ee:c291:765a with SMTP id
+ 98e67ed59e1d1-2ff7ce77c29mr7469398a91.8.1741377088779; Fri, 07 Mar 2025
+ 11:51:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250221133143.5058-1-bigeasy@linutronix.de>
+References: <20250219181556.1020029-1-ralph.siemsen@linaro.org> <20250226082931.-XRIDa6D@linutronix.de>
+In-Reply-To: <20250226082931.-XRIDa6D@linutronix.de>
+From: Ralph Siemsen <ralph.siemsen@linaro.org>
+Date: Fri, 7 Mar 2025 14:51:18 -0500
+X-Gm-Features: AQ5f1JoWaLOl0ZjijIjOgwzx3_177Kjyj88yLqLIwYi0VFpiqFBpb-h1H7TnkV8
+Message-ID: <CANp-EDYH8YF7ga5oRPrawhiveSVwW0w7YosHGJWuCKd4TaApDA@mail.gmail.com>
+Subject: Re: [RFC PATCH] usb: gadget: u_ether: prevent deadlock under RT
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-rt-devel@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>, 
+	Frank Li <Frank.Li@nxp.com>, Ferry Toth <ftoth@exalondelft.nl>, 
+	Thomas Gleixner <tglx@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-02-21 14:31:40 [+0100], To netfilter-devel@vger.kernel.org wrote:
-> The per-CPU xt_recseq is a custom netfilter seqcount. It provides
-> synchronisation for the replacement of the xt_table::private pointer and
-> ensures that the two counter in xt_counters are properly observed during
-> an update on 32bit architectures. xt_recseq also supports recursion.
-> 
-> This construct is less than optimal on PREMPT_RT because the lack of an
-> associated lock (with the seqcount) can lead to a deadlock if a high
-> priority reader interrupts a writter. Also xt_recseq relies on locking
-> with BH-disable which becomes problematic if the lock, currently part of
-> local_bh_disable() on PREEMPT_RT, gets removed.
-> 
-> This can be optimized unrelated to PREEMPT_RT:
-> - Use RCU for synchronisation. This means ipt_do_table() (and the two
->   other) access xt_table::private within a RCU section.
->   xt_replace_table() replaces the pointer with rcu_assign_pointer() and
->   uses synchronize_rcu() to wait until each reader left RCU section.
-> 
-> - Use u64_stats_t for the statistics. The advantage here is that
->   u64_stats_sync which is use a seqcount is optimized away on 64bit
->   architectures. The increment becomes just an add, the read just a read
->   of the variable without a loop. On 32bit architectures the seqcount
->   remains but the scope is smaller.
-> 
-> The struct xt_counters is defined in a user exported header (uapi). So
-> in patch #2 I tried to split the regular u64 access and the "internal   
-> access" which treats the struct either as two counter or a per-CPU
-> pointer. In order not to expose u64_stats_t to userland I added a "pad"
-> which is cast to the internal type. I hoped that this makes it obvious
-> that a function like xt_get_this_cpu_counter() expects the possible
-> per-CPU type but mark_source_chains() or get_counters() expect the u64
-> type without pointers.
+Hi Sebastian,
 
-A gentle ping in case this got forgotten.
+Thanks for your reply!
 
-Sebastian
+On Wed, Feb 26, 2025 at 3:29=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+> Based on the backtrace the problem is within the cdns3. The driver
+> acquires at the beginning of its threaded routine
+>         spin_lock_irqsave(&priv_dev->lock, flags);
+>
+> and then before returning the URB it does
+>                  spin_unlock(&priv_dev->lock);
+>                  usb_gadget_giveback_request()
+>
+> so the lock is dropped but the interrupts are still disabled. This makes
+> me wonder why using threaded interrupts at all since interrupts are
+> disabled for the whole routine but then others do the same.
+
+I also wondered why threaded interrupts are being used, but I don't
+know the reason.
+
+> If you look at dwc3_thread_interrupt() they have local_bh_disable()/
+> enable() before acquiring the lock and this is what I would suggest
+> doing here, too. The NCM is probably not the only one affected but
+> everything doing network that may since it may recourse into softirq.
+
+Thanks for the suggestion. I had also thought of doing this. I also
+noticed that the "cdnsp" driver has a similar fix in commit
+58f2fcb3a845 ("usb: cdnsp: Fix deadlock issue during using NCM
+gadget"), which was also backported to stable branches. So I will
+prepare a v2 patch to do the same for "cdns3" driver.
+
+Regards
+Ralph
