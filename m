@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80AC1DE8BF;
-	Sun,  9 Mar 2025 14:47:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CCAD1E5200
+	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741531636; cv=none; b=sMc+jUlFKginwTR3BJqbrxT9IgVdkWvfelbmue5W9gJqgBu0UCThRVQBFeM8OfvkNQd8XeIcsnXjsnEe7PPsqEmpes9cCd1TemJWmkVemr6ZBJVgwuu2CvU6JU/8MqeDHhY17QziloUcSN/NUcO4uWleQOcAnQiRQAAAX46Nb8g=
+	t=1741531636; cv=none; b=Qqj4fcEciJ1rJdT6z3eZTNMkoKct4GVrKVpE4ksK+PTl2E/B8yZMCQxR/ih32ZwcoT4FN4r+U8azwz62uniS/Ask6rlIBcqzkZiFzpzrvN1PmA9/8uq+f8aE8/CK9xAIXkwRx33dcCuckDLyeVeUsnKHjBKIj18iMli6EZs3I5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741531636; c=relaxed/simple;
-	bh=Bb8IvzyLfLIg1I4cBm71rQi2Ce85AhNcKqxsPd02EJs=;
+	bh=alvzr3rmRIJs8SYMbjK6X1RfWDp0ICwIjcxZCSinOLU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W539yxmXVwF4aRdL8BgT5QqCbl7vh1o8he/J+aR2d+UVU6jOidR5P5BE0ohZZRjYEoMU8EljGt3Emw6shJWgic9dYvWNEq3YWzVInA+qwrZRdhWvKyIfSvNc+DiYef/scJa4u+c/H8E2oaWa5C4wEEQmdM16tI1EA6ue32U12zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gmLhcoCk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NvJFCFGl; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=PJYvxCjMd/dL+CgAQ2SbdtG91coYNS/2WZtt35u59bOXSuyCjKrVR2+Lsy/x5bSfY6IHEi9ePHAoL5KJtXr6lXbJREhRx50SvDOO1iXsJLERBXTaizQSKx8P/yFsbKsMGPXQd5KRlqFU+S005EmY0ECzJ4nEjtIjRaoLaYCrxuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b4k0GYge; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qZ4Amo/H; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gmLhcoCk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NvJFCFGl"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b4k0GYge";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qZ4Amo/H"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1741531632;
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVMF3UgOhS4U6RN9l5v430qS/smjyIcn6+mTv7rds4c=;
-	b=gmLhcoCkZZjCFqceZdjRITs7C9jUk16kVHFROAXq73CA7OVMZNb82SPO0E2l2zlbMVqDnU
-	Te4Jazq5SyIre8ZTn/wSMUn+1HQ+p91+Fu8MSkrAvN+2vsV2FmwTgEzXAajmxCe6R/WCPY
-	RiwvPEu6/X4mj2adXYpxGrKECOEWZm2mRoHH32cBjaqILMTdEphhw24Gvq+xewSLZVYdmr
-	g3Y2D9qESzpn4zOFGF8B9V/pqJwLzz/kjTO5M7jUCL+AVzcAQmxVTrzuwKs+y37TSoIT2T
-	KgQoKG7qjjkTBf2oeDcIi3h4funSDvDaX9oPBd1wUcbuSGq0m7qFDPAl/vcqwg==
+	bh=QvIeJeOhBJ2MlknP0xO1PybUxd0Jemlt2VLER5LrqDY=;
+	b=b4k0GYgefgxyxAJjh4MU39+73tYHC9owGD7B5c6QytvgXG6giRVS/Z/Fz7KWxk6ZxoAfLj
+	7f5ZtqXMTCR2IK88afKn2KpAwcgC9YVLnOV28o+1vg61bMoYUdW4SDB++JelXdhIopFODk
+	1NcB1d4gym92K5RqoautjBGKW/CLR49uPsMXLTuCOEzx1nctWBUekIT9bzQohAd7Ja2vft
+	+hi7xbgm26H/0eypIFG6vPlNYavAJLMi3JCURbAX5N3ETx6fGCUKFmd30UnCYf4V8OQKzh
+	Q/J+HNwB8fDZTvBpIBjLBxwxTVqLSXAdiQAYrJB0AfKgHoIb9nRIBj0Lxl/mIw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1741531632;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVMF3UgOhS4U6RN9l5v430qS/smjyIcn6+mTv7rds4c=;
-	b=NvJFCFGlSkZdM0zda6kq2HtxpWVPZIr8TiWeIvW7rbXl/RMQn/kHGkzlgiOC4nK9WBDPG9
-	XQEJnYsKDoIlBODg==
+	bh=QvIeJeOhBJ2MlknP0xO1PybUxd0Jemlt2VLER5LrqDY=;
+	b=qZ4Amo/Hf+Eg2+oaw+s1iSO+6i/Qt5b/dWs8SxfvTyDeLmhT/P17iKwUiB3tC27H1kY4hZ
+	XHSQdjCFeFQTI+AQ==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,13 +48,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>,
-	mptcp@lists.linux.dev
-Subject: [PATCH net-next 15/18] mptcp: Use nested-BH locking for hmac_storage.
-Date: Sun,  9 Mar 2025 15:46:50 +0100
-Message-ID: <20250309144653.825351-16-bigeasy@linutronix.de>
+	Allison Henderson <allison.henderson@oracle.com>,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next 17/18] rds: Acquire per-CPU pointer within BH disabled section.
+Date: Sun,  9 Mar 2025 15:46:52 +0100
+Message-ID: <20250309144653.825351-18-bigeasy@linutronix.de>
 In-Reply-To: <20250309144653.825351-1-bigeasy@linutronix.de>
 References: <20250309144653.825351-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -65,87 +63,60 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-mptcp_delegated_actions is a per-CPU variable and relies on disabled BH for=
- its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT this d=
-ata
-structure requires explicit locking.
+rds_page_remainder_alloc() obtains the current CPU with get_cpu() while
+disabling preemption. Then the CPU number is used to access the per-CPU
+data structure via per_cpu().
 
-Add a local_lock_t to the data structure and use local_lock_nested_bh() for
-locking. This change adds only lockdep coverage and does not alter the
-functional behaviour for !PREEMPT_RT.
+This can be optimized by relying on local_bh_disable() to provide a
+stable CPU number/ avoid migration and then using this_cpu_ptr() to
+retrieve the data structure.
 
-Cc: Matthieu Baerts <matttbe@kernel.org>
-Cc: Mat Martineau <martineau@kernel.org>
-Cc: Geliang Tang <geliang@kernel.org>
-Cc: mptcp@lists.linux.dev
+Cc: Allison Henderson <allison.henderson@oracle.com>
+Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/mptcp/protocol.c | 4 +++-
- net/mptcp/protocol.h | 9 ++++++++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ net/rds/page.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/net/mptcp/protocol.c b/net/mptcp/protocol.c
-index 6bd8190474706..922b5baf3372a 100644
---- a/net/mptcp/protocol.c
-+++ b/net/mptcp/protocol.c
-@@ -46,7 +46,9 @@ static struct percpu_counter mptcp_sockets_allocated ____=
-cacheline_aligned_in_sm
- static void __mptcp_destroy_sock(struct sock *sk);
- static void mptcp_check_send_data_fin(struct sock *sk);
+diff --git a/net/rds/page.c b/net/rds/page.c
+index e0dd4f62ea47a..58a8548a915a9 100644
+--- a/net/rds/page.c
++++ b/net/rds/page.c
+@@ -86,8 +86,8 @@ int rds_page_remainder_alloc(struct scatterlist *scat, un=
+signed long bytes,
+ 		goto out;
+ 	}
 =20
--DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions);
-+DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions) =3D=
- {
-+	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
-+};
- static struct net_device *mptcp_napi_dev;
+-	rem =3D &per_cpu(rds_page_remainders, get_cpu());
+ 	local_bh_disable();
++	rem =3D this_cpu_ptr(&rds_page_remainders);
 =20
- /* Returns end sequence number of the receiver's advertised window */
-diff --git a/net/mptcp/protocol.h b/net/mptcp/protocol.h
-index ad21925af0612..8705d699e9870 100644
---- a/net/mptcp/protocol.h
-+++ b/net/mptcp/protocol.h
-@@ -480,6 +480,7 @@ mptcp_subflow_rsk(const struct request_sock *rsk)
+ 	while (1) {
+ 		/* avoid a tiny region getting stuck by tossing it */
+@@ -116,12 +116,11 @@ int rds_page_remainder_alloc(struct scatterlist *scat=
+, unsigned long bytes,
 =20
- struct mptcp_delegated_action {
- 	struct napi_struct napi;
-+	local_lock_t bh_lock;
- 	struct list_head head;
- };
+ 		/* alloc if there is nothing for us to use */
+ 		local_bh_enable();
+-		put_cpu();
 =20
-@@ -671,9 +672,11 @@ static inline void mptcp_subflow_delegate(struct mptcp=
-_subflow_context *subflow,
- 		if (WARN_ON_ONCE(!list_empty(&subflow->delegated_node)))
- 			return;
+ 		page =3D alloc_page(gfp);
 =20
-+		local_lock_nested_bh(&mptcp_delegated_actions.bh_lock);
- 		delegated =3D this_cpu_ptr(&mptcp_delegated_actions);
- 		schedule =3D list_empty(&delegated->head);
- 		list_add_tail(&subflow->delegated_node, &delegated->head);
-+		local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
- 		sock_hold(mptcp_subflow_tcp_sock(subflow));
- 		if (schedule)
- 			napi_schedule(&delegated->napi);
-@@ -685,11 +688,15 @@ mptcp_subflow_delegated_next(struct mptcp_delegated_a=
-ction *delegated)
- {
- 	struct mptcp_subflow_context *ret;
+-		rem =3D &per_cpu(rds_page_remainders, get_cpu());
+ 		local_bh_disable();
++		rem =3D this_cpu_ptr(&rds_page_remainders);
 =20
--	if (list_empty(&delegated->head))
-+	local_lock_nested_bh(&mptcp_delegated_actions.bh_lock);
-+	if (list_empty(&delegated->head)) {
-+		local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
- 		return NULL;
-+	}
+ 		if (!page) {
+ 			ret =3D -ENOMEM;
+@@ -140,7 +139,6 @@ int rds_page_remainder_alloc(struct scatterlist *scat, =
+unsigned long bytes,
+ 	}
 =20
- 	ret =3D list_first_entry(&delegated->head, struct mptcp_subflow_context, =
-delegated_node);
- 	list_del_init(&ret->delegated_node);
-+	local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
- 	return ret;
- }
-=20
+ 	local_bh_enable();
+-	put_cpu();
+ out:
+ 	rdsdebug("bytes %lu ret %d %p %u %u\n", bytes, ret,
+ 		 ret ? NULL : sg_page(scat), ret ? 0 : scat->offset,
 --=20
 2.47.2
 
