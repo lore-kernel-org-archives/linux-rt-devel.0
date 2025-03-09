@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFED1DE8BB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD091DE89A
 	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741531633; cv=none; b=lhJTkHIxtl+2Ck+MFJxM9N/HvAW75U8gZLGU6lr4KeZEjj0keSlENI7lCCwJfh+cwARO4ZtuOWWjSjVraiNFB4I14uiSWRZhwDTUNWRaMCDvjqzbEHn70iqfA7O97sdvo4reVW3FutH2guhNG66KfXg+0q+3sphXYm/mH6AIY7M=
+	t=1741531634; cv=none; b=AiDTDjdfxcB18kL0P75ZqvI6WGg7yGxrjAQEFEZ3VghwcT4SaXkkRqD0sbQhZPPsqwP4uNVCJowljQG89iyPDguNYFJyHJcIe5EMvkA4vhNBtd23WhRlK3dies9ULCuNIff6RVEZ+N2GejT0Gmk0ZZ8NU1XIwV/ScoQqhrwA+uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741531633; c=relaxed/simple;
-	bh=gx+3pA1xypEJIOgecxEu+S7TciZ+6AtG896/3aVu7zA=;
+	s=arc-20240116; t=1741531634; c=relaxed/simple;
+	bh=G7lEAkQich6KG+HRbNvt8fQ/6T3O5ljSuYz0YzgrzWo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eng59ClKZhu4N4bAGwkBd1ffFi58rIO4bQ7ejjVYe/LSPDppr28D1EEsN67dvXG8YgjT2GTnnoIzdJgZtVnKCw95PKAejGCmfngUpH/d1//C2RTE1OVy4ZYHXcNcZy/wM22X/Q+m7LJh7IOsl+9vgi+u0J4o/qQdjagDM02OAP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=g5WS/I5Y; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cizgkai2; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=H6d9GrpxoZLhayHTxQ3HkjYNKGurGHE7xRH0IniVmo+npYy6wx4pJ8vEOGro3vuZQrwHEAj8ldayDmlZhXRtdgdIaBMWQ+8YtNF2DkfX+MqCUGqqZ8Nw5p5+EbhT7hfQi3fc0NbdfKANJ47LzFEMWvXpJlrGZr1bolRgIRjD8DM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YP4ATLE/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7C+InjDI; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="g5WS/I5Y";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cizgkai2"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YP4ATLE/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7C+InjDI"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1741531630;
+	s=2020; t=1741531628;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UyUyvZ2gbpz7ldtdWmJpnUwK+MzrqxKuihxzEiTpbTA=;
-	b=g5WS/I5YoksASSyVPo2iytPMYEPRMsPaEvuQBHivYuF/A+amLHtppcRJANmNnqhUSYhVp/
-	lgd+HOOkzG1OATyM9cXrXiAuap+v0iY5TA8oPXz9qnJR95gOXlu9fZw7+6bz47P6o17T5y
-	6rwWbErBor6eUWlADdoEnW5Fx1uG0wDlP2nVSSsDntSkKWvehjdWfAJMG/QBgF9f2C/RDa
-	OOCc9HvCDpEs8AF9VmzVEYVTzAynMlPzdVRbvyhyjchNsc1XX3gG5UF5Uh8HSQ6lIKLS2G
-	zl8xM7EXiofzrmYTtwLO0oCYB9V2ADkPwzKy3HCTq0ehWu3XRH7EX4NKpEEe+A==
+	bh=nID3chtWH0IeucmbPlQCEEZNNncTSpVEq90qZlHy3qI=;
+	b=YP4ATLE/QCPnSNWomM93Of4rtE2754JN4JCHITQIrbetyq9ofMDjjg8zU7d4/gkb0+qUai
+	aGXMsPo4nRLK0VCq3PzvuNseeBGswcOq+fIE11yKPFDx7Tc9GBi1ia4WwFZRLGlEjwIcYK
+	zz6tloO3q5EV2Jo8D3FNUytwlCH7pN4Ih3P8aTpm3GmuCnvjX8px34qVX22zgAoRdOWuFY
+	iucmLoq8AxeCsTNu1qx7KLN1kbES0XH67zlLDLx4DR4IqaTpXRZTGq/nPbuxtJBVJi5wtB
+	F+8MLrkO+MdHwMMk9YO7ASeT0vnVJ52QW0PWfR7SjG3h9ZMVYTpe1y0QpmWrwQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1741531630;
+	s=2020e; t=1741531628;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UyUyvZ2gbpz7ldtdWmJpnUwK+MzrqxKuihxzEiTpbTA=;
-	b=cizgkai2B7dEE+5hLSSORCTMB9AkEoQLcsKNlPG8BRkKNaJLrhkQOPTALUote0xullz6cS
-	hyw4DeLCnuVjsfDA==
+	bh=nID3chtWH0IeucmbPlQCEEZNNncTSpVEq90qZlHy3qI=;
+	b=7C+InjDInmX6r/KfJv/+rYbTa4veQz+Qu0kEhHpdHxlJF+IHLi7mU01vf609UbHV6sqbaW
+	5XjHSWjg2UDhb3Bg==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,11 +48,20 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Pravin B Shelar <pshelar@ovn.org>,
-	dev@openvswitch.org
-Subject: [PATCH net-next 10/18] openvswitch: Merge three per-CPU structures into one.
-Date: Sun,  9 Mar 2025 15:46:45 +0100
-Message-ID: <20250309144653.825351-11-bigeasy@linutronix.de>
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: [PATCH net-next 06/18] netfilter: nf_dup{4, 6}: Move duplication check to task_struct.
+Date: Sun,  9 Mar 2025 15:46:41 +0100
+Message-ID: <20250309144653.825351-7-bigeasy@linutronix.de>
 In-Reply-To: <20250309144653.825351-1-bigeasy@linutronix.de>
 References: <20250309144653.825351-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -63,188 +72,170 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-exec_actions_level is a per-CPU integer allocated at compile time.
-action_fifos and flow_keys are per-CPU pointer and have their data
-allocated at module init time.
-There is no gain in splitting it, once the module is allocated, the
-structures are allocated.
+nf_skb_duplicated is a per-CPU variable and relies on disabled BH for its
+locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
+this data structure requires explicit locking.
 
-Merge the three per-CPU variables into ovs_action, adapt callers.
+Due to the recursion involved, the simplest change is to make it a
+per-task variable.
 
-Cc: Pravin B Shelar <pshelar@ovn.org>
-Cc: dev@openvswitch.org
+Move the per-CPU variable nf_skb_duplicated to task_struct and name it
+in_nf_duplicate. Add it to the existing bitfield so it doesn't use
+additional memory.
+
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Valentin Schneider <vschneid@redhat.com>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/openvswitch/actions.c  | 49 +++++++++++++-------------------------
- net/openvswitch/datapath.c |  9 +------
- net/openvswitch/datapath.h |  3 ---
- 3 files changed, 17 insertions(+), 44 deletions(-)
+ include/linux/netfilter.h        | 11 -----------
+ include/linux/sched.h            |  1 +
+ net/ipv4/netfilter/ip_tables.c   |  2 +-
+ net/ipv4/netfilter/nf_dup_ipv4.c |  6 +++---
+ net/ipv6/netfilter/ip6_tables.c  |  2 +-
+ net/ipv6/netfilter/nf_dup_ipv6.c |  6 +++---
+ net/netfilter/core.c             |  3 ---
+ 7 files changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
-index 704c858cf2093..322ca7b30c3bc 100644
---- a/net/openvswitch/actions.c
-+++ b/net/openvswitch/actions.c
-@@ -78,17 +78,22 @@ struct action_flow_keys {
- 	struct sw_flow_key key[OVS_DEFERRED_ACTION_THRESHOLD];
- };
+diff --git a/include/linux/netfilter.h b/include/linux/netfilter.h
+index 2b8aac2c70ada..892d12823ed4b 100644
+--- a/include/linux/netfilter.h
++++ b/include/linux/netfilter.h
+@@ -497,17 +497,6 @@ struct nf_defrag_hook {
+ extern const struct nf_defrag_hook __rcu *nf_defrag_v4_hook;
+ extern const struct nf_defrag_hook __rcu *nf_defrag_v6_hook;
 =20
--static struct action_fifo __percpu *action_fifos;
--static struct action_flow_keys __percpu *flow_keys;
--static DEFINE_PER_CPU(int, exec_actions_level);
-+struct ovs_action {
-+	struct action_fifo action_fifos;
-+	struct action_flow_keys flow_keys;
-+	int exec_level;
-+};
-+
-+static DEFINE_PER_CPU(struct ovs_action, ovs_actions);
+-/*
+- * nf_skb_duplicated - TEE target has sent a packet
+- *
+- * When a xtables target sends a packet, the OUTPUT and POSTROUTING
+- * hooks are traversed again, i.e. nft and xtables are invoked recursively.
+- *
+- * This is used by xtables TEE target to prevent the duplicated skb from
+- * being duplicated again.
+- */
+-DECLARE_PER_CPU(bool, nf_skb_duplicated);
+-
+ /*
+  * Contains bitmask of ctnetlink event subscribers, if any.
+  * Can't be pernet due to NETLINK_LISTEN_ALL_NSID setsockopt flag.
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 9632e3318e0d6..c52b778777691 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1022,6 +1022,7 @@ struct task_struct {
+ 	/* delay due to memory thrashing */
+ 	unsigned                        in_thrashing:1;
+ #endif
++	unsigned			in_nf_duplicate:1;
+ #ifdef CONFIG_PREEMPT_RT
+ 	struct netdev_xmit		net_xmit;
+ #endif
+diff --git a/net/ipv4/netfilter/ip_tables.c b/net/ipv4/netfilter/ip_tables.c
+index 3d101613f27fa..23c8deff8095a 100644
+--- a/net/ipv4/netfilter/ip_tables.c
++++ b/net/ipv4/netfilter/ip_tables.c
+@@ -270,7 +270,7 @@ ipt_do_table(void *priv,
+ 	 * but it is no problem since absolute verdict is issued by these.
+ 	 */
+ 	if (static_key_false(&xt_tee_enabled))
+-		jumpstack +=3D private->stacksize * __this_cpu_read(nf_skb_duplicated);
++		jumpstack +=3D private->stacksize * current->in_nf_duplicate;
 =20
- /* Make a clone of the 'key', using the pre-allocated percpu 'flow_keys'
-  * space. Return NULL if out of key spaces.
-  */
- static struct sw_flow_key *clone_key(const struct sw_flow_key *key_)
+ 	e =3D get_entry(table_base, private->hook_entry[hook]);
+=20
+diff --git a/net/ipv4/netfilter/nf_dup_ipv4.c b/net/ipv4/netfilter/nf_dup_i=
+pv4.c
+index 25e1e8eb18dd5..ed08fb78cfa8c 100644
+--- a/net/ipv4/netfilter/nf_dup_ipv4.c
++++ b/net/ipv4/netfilter/nf_dup_ipv4.c
+@@ -54,7 +54,7 @@ void nf_dup_ipv4(struct net *net, struct sk_buff *skb, un=
+signed int hooknum,
+ 	struct iphdr *iph;
+=20
+ 	local_bh_disable();
+-	if (this_cpu_read(nf_skb_duplicated))
++	if (current->in_nf_duplicate)
+ 		goto out;
+ 	/*
+ 	 * Copy the skb, and route the copy. Will later return %XT_CONTINUE for
+@@ -86,9 +86,9 @@ void nf_dup_ipv4(struct net *net, struct sk_buff *skb, un=
+signed int hooknum,
+ 		--iph->ttl;
+=20
+ 	if (nf_dup_ipv4_route(net, skb, gw, oif)) {
+-		__this_cpu_write(nf_skb_duplicated, true);
++		current->in_nf_duplicate =3D true;
+ 		ip_local_out(net, skb->sk, skb);
+-		__this_cpu_write(nf_skb_duplicated, false);
++		current->in_nf_duplicate =3D false;
+ 	} else {
+ 		kfree_skb(skb);
+ 	}
+diff --git a/net/ipv6/netfilter/ip6_tables.c b/net/ipv6/netfilter/ip6_table=
+s.c
+index 7d5602950ae72..d585ac3c11133 100644
+--- a/net/ipv6/netfilter/ip6_tables.c
++++ b/net/ipv6/netfilter/ip6_tables.c
+@@ -292,7 +292,7 @@ ip6t_do_table(void *priv, struct sk_buff *skb,
+ 	 * but it is no problem since absolute verdict is issued by these.
+ 	 */
+ 	if (static_key_false(&xt_tee_enabled))
+-		jumpstack +=3D private->stacksize * __this_cpu_read(nf_skb_duplicated);
++		jumpstack +=3D private->stacksize * current->in_nf_duplicate;
+=20
+ 	e =3D get_entry(table_base, private->hook_entry[hook]);
+=20
+diff --git a/net/ipv6/netfilter/nf_dup_ipv6.c b/net/ipv6/netfilter/nf_dup_i=
+pv6.c
+index 0c39c77fe8a8a..b903c62c00c9e 100644
+--- a/net/ipv6/netfilter/nf_dup_ipv6.c
++++ b/net/ipv6/netfilter/nf_dup_ipv6.c
+@@ -48,7 +48,7 @@ void nf_dup_ipv6(struct net *net, struct sk_buff *skb, un=
+signed int hooknum,
+ 		 const struct in6_addr *gw, int oif)
  {
--	struct action_flow_keys *keys =3D this_cpu_ptr(flow_keys);
--	int level =3D this_cpu_read(exec_actions_level);
-+	struct ovs_action *ovs_act =3D this_cpu_ptr(&ovs_actions);
-+	struct action_flow_keys *keys =3D &ovs_act->flow_keys;
-+	int level =3D ovs_act->exec_level;
- 	struct sw_flow_key *key =3D NULL;
+ 	local_bh_disable();
+-	if (this_cpu_read(nf_skb_duplicated))
++	if (current->in_nf_duplicate)
+ 		goto out;
+ 	skb =3D pskb_copy(skb, GFP_ATOMIC);
+ 	if (skb =3D=3D NULL)
+@@ -64,9 +64,9 @@ void nf_dup_ipv6(struct net *net, struct sk_buff *skb, un=
+signed int hooknum,
+ 		--iph->hop_limit;
+ 	}
+ 	if (nf_dup_ipv6_route(net, skb, gw, oif)) {
+-		__this_cpu_write(nf_skb_duplicated, true);
++		current->in_nf_duplicate =3D true;
+ 		ip6_local_out(net, skb->sk, skb);
+-		__this_cpu_write(nf_skb_duplicated, false);
++		current->in_nf_duplicate =3D false;
+ 	} else {
+ 		kfree_skb(skb);
+ 	}
+diff --git a/net/netfilter/core.c b/net/netfilter/core.c
+index b9f551f02c813..11a702065bab5 100644
+--- a/net/netfilter/core.c
++++ b/net/netfilter/core.c
+@@ -31,9 +31,6 @@
+ const struct nf_ipv6_ops __rcu *nf_ipv6_ops __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_ipv6_ops);
 =20
- 	if (level <=3D OVS_DEFERRED_ACTION_THRESHOLD) {
-@@ -132,10 +137,9 @@ static struct deferred_action *add_deferred_actions(st=
-ruct sk_buff *skb,
- 				    const struct nlattr *actions,
- 				    const int actions_len)
- {
--	struct action_fifo *fifo;
-+	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_actions.action_fifos);
- 	struct deferred_action *da;
-=20
--	fifo =3D this_cpu_ptr(action_fifos);
- 	da =3D action_fifo_put(fifo);
- 	if (da) {
- 		da->skb =3D skb;
-@@ -1615,13 +1619,13 @@ static int clone_execute(struct datapath *dp, struc=
-t sk_buff *skb,
-=20
- 		if (actions) { /* Sample action */
- 			if (clone_flow_key)
--				__this_cpu_inc(exec_actions_level);
-+				__this_cpu_inc(ovs_actions.exec_level);
-=20
- 			err =3D do_execute_actions(dp, skb, clone,
- 						 actions, len);
-=20
- 			if (clone_flow_key)
--				__this_cpu_dec(exec_actions_level);
-+				__this_cpu_dec(ovs_actions.exec_level);
- 		} else { /* Recirc action */
- 			clone->recirc_id =3D recirc_id;
- 			ovs_dp_process_packet(skb, clone);
-@@ -1657,7 +1661,7 @@ static int clone_execute(struct datapath *dp, struct =
-sk_buff *skb,
-=20
- static void process_deferred_actions(struct datapath *dp)
- {
--	struct action_fifo *fifo =3D this_cpu_ptr(action_fifos);
-+	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_actions.action_fifos);
-=20
- 	/* Do not touch the FIFO in case there is no deferred actions. */
- 	if (action_fifo_is_empty(fifo))
-@@ -1688,7 +1692,7 @@ int ovs_execute_actions(struct datapath *dp, struct s=
-k_buff *skb,
- {
- 	int err, level;
-=20
--	level =3D __this_cpu_inc_return(exec_actions_level);
-+	level =3D __this_cpu_inc_return(ovs_actions.exec_level);
- 	if (unlikely(level > OVS_RECURSION_LIMIT)) {
- 		net_crit_ratelimited("ovs: recursion limit reached on datapath %s, proba=
-ble configuration error\n",
- 				     ovs_dp_name(dp));
-@@ -1705,27 +1709,6 @@ int ovs_execute_actions(struct datapath *dp, struct =
-sk_buff *skb,
- 		process_deferred_actions(dp);
-=20
- out:
--	__this_cpu_dec(exec_actions_level);
-+	__this_cpu_dec(ovs_actions.exec_level);
- 	return err;
- }
+-DEFINE_PER_CPU(bool, nf_skb_duplicated);
+-EXPORT_SYMBOL_GPL(nf_skb_duplicated);
 -
--int action_fifos_init(void)
--{
--	action_fifos =3D alloc_percpu(struct action_fifo);
--	if (!action_fifos)
--		return -ENOMEM;
--
--	flow_keys =3D alloc_percpu(struct action_flow_keys);
--	if (!flow_keys) {
--		free_percpu(action_fifos);
--		return -ENOMEM;
--	}
--
--	return 0;
--}
--
--void action_fifos_exit(void)
--{
--	free_percpu(action_fifos);
--	free_percpu(flow_keys);
--}
-diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
-index 5d548eda742df..aaa6277bb49c2 100644
---- a/net/openvswitch/datapath.c
-+++ b/net/openvswitch/datapath.c
-@@ -2729,13 +2729,9 @@ static int __init dp_init(void)
-=20
- 	pr_info("Open vSwitch switching datapath\n");
-=20
--	err =3D action_fifos_init();
--	if (err)
--		goto error;
--
- 	err =3D ovs_internal_dev_rtnl_link_register();
- 	if (err)
--		goto error_action_fifos_exit;
-+		goto error;
-=20
- 	err =3D ovs_flow_init();
- 	if (err)
-@@ -2778,8 +2774,6 @@ static int __init dp_init(void)
- 	ovs_flow_exit();
- error_unreg_rtnl_link:
- 	ovs_internal_dev_rtnl_link_unregister();
--error_action_fifos_exit:
--	action_fifos_exit();
- error:
- 	return err;
- }
-@@ -2795,7 +2789,6 @@ static void dp_cleanup(void)
- 	ovs_vport_exit();
- 	ovs_flow_exit();
- 	ovs_internal_dev_rtnl_link_unregister();
--	action_fifos_exit();
- }
-=20
- module_init(dp_init);
-diff --git a/net/openvswitch/datapath.h b/net/openvswitch/datapath.h
-index 365b9bb7f546e..1fce99992d25d 100644
---- a/net/openvswitch/datapath.h
-+++ b/net/openvswitch/datapath.h
-@@ -270,9 +270,6 @@ int ovs_execute_actions(struct datapath *dp, struct sk_=
-buff *skb,
-=20
- void ovs_dp_notify_wq(struct work_struct *work);
-=20
--int action_fifos_init(void);
--void action_fifos_exit(void);
--
- /* 'KEY' must not have any bits set outside of the 'MASK' */
- #define OVS_MASKED(OLD, KEY, MASK) ((KEY) | ((OLD) & ~(MASK)))
- #define OVS_SET_MASKED(OLD, KEY, MASK) ((OLD) =3D OVS_MASKED(OLD, KEY, MAS=
-K))
+ #ifdef CONFIG_JUMP_LABEL
+ struct static_key nf_hooks_needed[NFPROTO_NUMPROTO][NF_MAX_HOOKS];
+ EXPORT_SYMBOL(nf_hooks_needed);
 --=20
 2.47.2
 
