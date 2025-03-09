@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5EB1DEFFE
-	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E883D1E1DF4
+	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741531636; cv=none; b=j7+QaXkJppPFM1MyyIbttkalMKjPyQjw5JYrIhGn7mhF/6yXBQnOlKH2w9X2muoUqQmIkepVItB063untYjUn3C6rFuBS8kGZoE/J/IpD0wSGWWOpflTumDtoGQVkFSA48CKrGaqREHHY+Ct8w/lhzRHwpWRbXwwOL0V4b89PO8=
+	t=1741531636; cv=none; b=loYXmjtZQOgMGtEzaikNBhjj7HRxJpkK3dSQdfU5I4j7QuM4qOFfhEwGsHKidIW5yozKAy5rmXvGdo36iAVxE0uLegD69wtxa+CSbRqAc5384MF2YJc012KxEdrWdYG6zpVWajd/rggBCa74YSvVkHhfI8Oq9NUwD2sqtR1TYVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741531636; c=relaxed/simple;
-	bh=uvG0lv4VwElbaRukXRj884rn4WNeVfzTRwlRtcr3784=;
+	bh=KqoKUZEweth4eUnuFS1Nm52k3bfMfq298SudnyUOZxg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lDakDmWyn+EAjKYJdr3BX8mMfqfrL2M/sUmijymBnE0rtIpxZsFgZ6daWTiqh1j3kY/UhqreCZZ5NtXYwL3sFc53cA81nFaA42KMOrgnbCoTvaf5LHoYA618PeZhbqojRyjUKswgfOn3nBs0zhM8aIg8snTUqr/1CLTF1rfdRQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Lmy3Bj2W; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9Aq1Fz/Y; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=AbVrRgdnZOLt3BBmzvrs5XL3tDilVS9F7GaDVBmsUrPhktzS5ex2sJVTR4197Pcmsy7avMBdmbjhzvEbrE4vVJUHFWPmLFhyvU7WUJxyuCTX8Vsk+GJaNqpvCV8jKBtTOM8wEnTxJkkMyIIc2Ql2oHmhOjS4h6KoZBi54oBPKm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NKeRG1C6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FxQ5VLEa; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Lmy3Bj2W";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9Aq1Fz/Y"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NKeRG1C6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FxQ5VLEa"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1741531631;
+	s=2020; t=1741531632;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=645F6y/0azhk6zsCluxWbxXwLhmqo+r9PW7qSJdcVcw=;
-	b=Lmy3Bj2WhX7EebGWkmW+QUvEY0e7zx2cSKuya660zHrgWt51O0wL4UmXFy4Y/pqlI7ZI+4
-	e9AdRynmOa/99gx8S1alUUPGir9tuUVLR5t9M1zENfW5TsRts6zHPK5V//Fz4HHqAiaNYC
-	pRHepkboMJRhSU3fXSwiSzpKP6JYt4BGWOej5UVA3Ekqm6QvtsijJ2G67uIHqxNnoeQihU
-	e7v7YS85ai701+xGzhOxc0xUw1P34tohUzIa0YuUYvGWtuBKDD/+ebBepqeJKAnQNjpqnw
-	hsVRrCPeYi0sZILMcqFO3wV0qlb/T+2R5PrWzM89hyKIONLgPnNjjY5SGgZPgg==
+	bh=Dgbrz2OEZ6aEoJpoB0C+hoamsafL5vBdsLc143vGtMY=;
+	b=NKeRG1C6VaKiSwGdYsB5nzBCZxDLcaIyoabVuvOgX6ppaGrmV6/c7vJyx+f5ZBsVkbdDTv
+	pTDhBJLKk1aIg0AWIx6lNditWebWlNEkTJXkufmBYC3K9ERHNx3Zrx4UwsppzvQpifT4af
+	jxOa7GBQWr2f2J6MCKJVooa9Wru3KZNWJRd4y7jMX9Em8QXli3LS7yGAzAWNW3e9Pi/edV
+	wp+b7GZREpY6Xdl++aKEVQ9CHtvd0hyKEaHntsWjn+83p575Yig1zf5HNUHbFVZsH+TN07
+	iDHNzdyOz0pa8X4jt0NO6KQrX3CyNJaJw7iM6sPsmy4fM2dfFDJXksqiQpaqbA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1741531631;
+	s=2020e; t=1741531632;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=645F6y/0azhk6zsCluxWbxXwLhmqo+r9PW7qSJdcVcw=;
-	b=9Aq1Fz/Ypcdrc+A7/jq/g0PvUZa8RG/d8wh0/8J5hUJr1BqPh3CjUCRY+QmsFrkKUa76VE
-	NPNxYCg+rEyh/3Ag==
+	bh=Dgbrz2OEZ6aEoJpoB0C+hoamsafL5vBdsLc143vGtMY=;
+	b=FxQ5VLEaXR+FXN5bDRPqXF90SWUM1FxiatgPy6CNtcS+PZ/ixp3NCM2LlH1T+YxpqbSzOs
+	EOEEE1Oh4oWM1kBQ==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,12 +48,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Subject: [PATCH net-next 13/18] net/sched: act_mirred: Move the recursion counter struct netdev_xmit.
-Date: Sun,  9 Mar 2025 15:46:48 +0100
-Message-ID: <20250309144653.825351-14-bigeasy@linutronix.de>
+	Allison Henderson <allison.henderson@oracle.com>,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next 16/18] rds: Disable only bottom halves in rds_page_remainder_alloc().
+Date: Sun,  9 Mar 2025 15:46:51 +0100
+Message-ID: <20250309144653.825351-17-bigeasy@linutronix.de>
 In-Reply-To: <20250309144653.825351-1-bigeasy@linutronix.de>
 References: <20250309144653.825351-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -64,91 +63,68 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+rds_page_remainder_alloc() is invoked from a preemptible context or a
+tasklet. There is no need to disable interrupts for locking.
 
-Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
+Use local_bh_disable() instead of local_irq_save() for locking.
 
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Cong Wang <xiyou.wangcong@gmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Allison Henderson <allison.henderson@oracle.com>
+Cc: linux-rdma@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice_xmit.h |  3 +++
- net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ net/rds/page.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 3bbbc1a9860a3..4793ec42b1faa 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -11,6 +11,9 @@ struct netdev_xmit {
- #if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
- 	u8 nf_dup_skb_recursion;
- #endif
-+#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-+	u8 sched_mirred_nest;
-+#endif
- };
-=20
- #endif
-diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
-index 5b38143659249..8d8cfac6cc6af 100644
---- a/net/sched/act_mirred.c
-+++ b/net/sched/act_mirred.c
-@@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
- static DEFINE_SPINLOCK(mirred_list_lock);
-=20
- #define MIRRED_NEST_LIMIT    4
--static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
-+
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	__this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+#else
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return current->net_xmit.nf_dup_skb_recursion++;
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	current->net_xmit.nf_dup_skb_recursion--;
-+}
-+#endif
-=20
- static bool tcf_mirred_is_act_redirect(int action)
+diff --git a/net/rds/page.c b/net/rds/page.c
+index 7cc57e098ddb9..e0dd4f62ea47a 100644
+--- a/net/rds/page.c
++++ b/net/rds/page.c
+@@ -69,7 +69,6 @@ int rds_page_remainder_alloc(struct scatterlist *scat, un=
+signed long bytes,
+ 			     gfp_t gfp)
  {
-@@ -423,7 +445,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 	int m_eaction;
- 	u32 blockid;
+ 	struct rds_page_remainder *rem;
+-	unsigned long flags;
+ 	struct page *page;
+ 	int ret;
 =20
--	nest_level =3D __this_cpu_inc_return(mirred_nest_level);
-+	nest_level =3D tcf_mirred_nest_level_inc_return();
- 	if (unlikely(nest_level > MIRRED_NEST_LIMIT)) {
- 		net_warn_ratelimited("Packet exceeded mirred recursion limit on dev %s\n=
-",
- 				     netdev_name(skb->dev));
-@@ -454,7 +476,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 				   retval);
+@@ -88,7 +87,7 @@ int rds_page_remainder_alloc(struct scatterlist *scat, un=
+signed long bytes,
+ 	}
 =20
- dec_nest_level:
--	__this_cpu_dec(mirred_nest_level);
-+	tcf_mirred_nest_level_dec();
+ 	rem =3D &per_cpu(rds_page_remainders, get_cpu());
+-	local_irq_save(flags);
++	local_bh_disable();
 =20
- 	return retval;
- }
+ 	while (1) {
+ 		/* avoid a tiny region getting stuck by tossing it */
+@@ -116,13 +115,13 @@ int rds_page_remainder_alloc(struct scatterlist *scat=
+, unsigned long bytes,
+ 		}
+=20
+ 		/* alloc if there is nothing for us to use */
+-		local_irq_restore(flags);
++		local_bh_enable();
+ 		put_cpu();
+=20
+ 		page =3D alloc_page(gfp);
+=20
+ 		rem =3D &per_cpu(rds_page_remainders, get_cpu());
+-		local_irq_save(flags);
++		local_bh_disable();
+=20
+ 		if (!page) {
+ 			ret =3D -ENOMEM;
+@@ -140,7 +139,7 @@ int rds_page_remainder_alloc(struct scatterlist *scat, =
+unsigned long bytes,
+ 		rem->r_offset =3D 0;
+ 	}
+=20
+-	local_irq_restore(flags);
++	local_bh_enable();
+ 	put_cpu();
+ out:
+ 	rdsdebug("bytes %lu ret %d %p %u %u\n", bytes, ret,
 --=20
 2.47.2
 
