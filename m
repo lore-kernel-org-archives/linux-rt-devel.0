@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876DA1DED44
-	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE961DF251
+	for <linux-rt-devel@lists.linux.dev>; Sun,  9 Mar 2025 14:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741531635; cv=none; b=ZtOgDEUGWvUKAdH6lRfaZWHW1I/gjzYQbRk6Evnos2w7Ys7EsxUwjNwW1oWB5/WzgRscOsnDDB5bmQxtjuCX/xqe6C4G2F5Q6wcalVHwvEtZnNWfeU8VUf6Cc6poWqK1lzmS1cEfvsbeyCsEIKS7IuX2vevNl0fa6qhOYjSMnok=
+	t=1741531635; cv=none; b=nxcHwaLsOpdy0x/A2/G4Gyz33ZY0qrDcik8sKX/aLW7iKNxnE4gSPqiLrZdlr5ZKOr1ShPo46N1GZD8Ag7LDjFd32DseHZEDeHDA0kajai2CEmr8CIWsSpIVLo52wrpPq4YVmCqSaqWZgF5Vr0XcWavusvD7EFrmGlRUjSwk65E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741531635; c=relaxed/simple;
-	bh=UH8AuXRcns+Hb/zCkqUa17Lzxgyh0a3LIlYIOxVKbvo=;
+	bh=jWriMsUvYWiqG0HpHgS2t9OUBIHcDtiwjShvzLVuano=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oaoGLcyOAAO1mIruJ1V4qGlPYMH7PmWeDTUwy/YWbEfEdyNZPBeg47jmK4X62FNK9MdjlsESXCA3//pJ0xfrLB0+7xHn2iA6jRgJrKjoeBsYja/MqsFxdvMG08DGia2bDcWHjmbzaCzO+wIxJXQFO1P2KAvVK4BOVCHf2CcGvlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=shj0L+rf; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kr8Tss9D; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=gbwwUj8jcfZoDKCawiSC+Rkl9YxaYAQOWiDd9VrNVQNt/XFo2lsHvJSs9dLTS1c60YmMaXSMiMQdqkHgyWKYS4a2JCnFU2uUQni7xLyYlSPqh3i4xqE8hWiqKqxfxBMf+FRyhqP02/97IXs0eUh3rGrEVQELsiBOEWIlu0XnfZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BkBLmRwB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JJKTzu7h; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="shj0L+rf";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kr8Tss9D"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BkBLmRwB";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JJKTzu7h"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1741531629;
+	s=2020; t=1741531631;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3yIocze9CLkCT8Lv56UF9k2zA0QQ9c/stSYrYUgDtmg=;
-	b=shj0L+rf+mxZa0QLX7gYYWfHS1S1K+f+6pNqDmzk4Sn9UXHPa8rhQt+VF2cGyzLzj+4UOj
-	bIxkDljRbM5CDXkZmIDoHxjh9CNUBtDbxcKqrU9NcTKVXX6gVXyKHYw7lm/Ua6sago9sHt
-	cxqvxB26H6N36O1BuIKn7eNt7aCGmgd8DpZ486EOr5dT/+72J/Z8Q3gVFf2R/CNTaedndT
-	5ipcdBw/E8ykIJngLMFH9zeyTJ4jKIGb1FaTGgNgPBK6dLllOnoqKd4bfdMrGbeo30D/8c
-	bmjWhFggXamk9xJ57R7pNGA8q6uezzGPe+935Osb8SzfGTti1hz5F5BDeeyWDw==
+	bh=3oGUJfvWmoE3lobOlWLxxnXkeRka7EQOI3g+/48MIgI=;
+	b=BkBLmRwBu/l9e7tKftx92hMzDbQ8Sp07rDwtpRnu8S0PFDr3uF+9o1swQmC/Dqm4d5KZcc
+	SDEfMgsXY0LVXa0jCl5+UHPkIZN4kXVg4vabEnEnxoKhnlpdsQXnIDEEsocSaW9RUmfa1l
+	1/01oR0osekOYYgNj/M4i7b6XCQdGZCv3vu0OxF1d83j1X3xGDrS2WwZCZU3vFje7Yoi53
+	dDkvt5rboOPbn9q0YdB6Uu8PJQ63LY0p/XidsYw31h4j6zrITRtWax0lPxxL6wBs7w/pLl
+	TKCXdaP0vSV4MYxGOWMhIS/CWFtiqTCeKqlQoOuDGYDYkIo3yim9qRNuS+wW9w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1741531629;
+	s=2020e; t=1741531631;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3yIocze9CLkCT8Lv56UF9k2zA0QQ9c/stSYrYUgDtmg=;
-	b=kr8Tss9D0EHTqiI6Q9V85pzh93GJSqSfuy0+K7mgxeiI7ghVpOP04bx4jWyxr8v9XM9P7c
-	rPmLfdhB2CAnc5Aw==
+	bh=3oGUJfvWmoE3lobOlWLxxnXkeRka7EQOI3g+/48MIgI=;
+	b=JJKTzu7hOpPLT4t7d6jJGXHqIpshHHHxiy7zw8Fm4GmrbBt0Ie+DaAI/t+P5P4xW6I+YdT
+	/ibCKxTxva9iP0Aw==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,13 +48,12 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org
-Subject: [PATCH net-next 08/18] netfilter: nf_dup_netdev: Move the recursion counter struct netdev_xmit.
-Date: Sun,  9 Mar 2025 15:46:43 +0100
-Message-ID: <20250309144653.825351-9-bigeasy@linutronix.de>
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>,
+	Jiri Pirko <jiri@resnulli.us>
+Subject: [PATCH net-next 14/18] net/sched: Use nested-BH locking for sch_frag_data_storage.
+Date: Sun,  9 Mar 2025 15:46:49 +0100
+Message-ID: <20250309144653.825351-15-bigeasy@linutronix.de>
 In-Reply-To: <20250309144653.825351-1-bigeasy@linutronix.de>
 References: <20250309144653.825351-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -65,83 +64,80 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-nf_dup_skb_recursion is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+sch_frag_data_storage is a per-CPU variable and relies on disabled BH
+for its locking. Without per-CPU locking in local_bh_disable() on
+PREEMPT_RT this data structure requires explicit locking.
 
-Move nf_dup_skb_recursion to struct netdev_xmit, provide wrappers.
+Add local_lock_t to the struct and use local_lock_nested_bh() for locking.
+This change adds only lockdep coverage and does not alter the functional
+behaviour for !PREEMPT_RT.
 
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
-Cc: netfilter-devel@vger.kernel.org
-Cc: coreteam@netfilter.org
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Cong Wang <xiyou.wangcong@gmail.com>
+Cc: Jiri Pirko <jiri@resnulli.us>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice_xmit.h |  3 +++
- net/netfilter/nf_dup_netdev.c  | 22 ++++++++++++++++++----
- 2 files changed, 21 insertions(+), 4 deletions(-)
+ net/sched/sch_frag.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 38325e0702968..3bbbc1a9860a3 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -8,6 +8,9 @@ struct netdev_xmit {
- #ifdef CONFIG_NET_EGRESS
- 	u8  skip_txqueue;
- #endif
-+#if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
-+	u8 nf_dup_skb_recursion;
-+#endif
+diff --git a/net/sched/sch_frag.c b/net/sched/sch_frag.c
+index ce63414185fd6..d1d87dce7f3f7 100644
+--- a/net/sched/sch_frag.c
++++ b/net/sched/sch_frag.c
+@@ -16,14 +16,18 @@ struct sch_frag_data {
+ 	unsigned int l2_len;
+ 	u8 l2_data[VLAN_ETH_HLEN];
+ 	int (*xmit)(struct sk_buff *skb);
++	local_lock_t bh_lock;
  };
 =20
- #endif
-diff --git a/net/netfilter/nf_dup_netdev.c b/net/netfilter/nf_dup_netdev.c
-index a8e2425e43b0d..fab8b9011098f 100644
---- a/net/netfilter/nf_dup_netdev.c
-+++ b/net/netfilter/nf_dup_netdev.c
-@@ -15,12 +15,26 @@
+-static DEFINE_PER_CPU(struct sch_frag_data, sch_frag_data_storage);
++static DEFINE_PER_CPU(struct sch_frag_data, sch_frag_data_storage) =3D {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
 =20
- #define NF_RECURSION_LIMIT	2
-=20
--static DEFINE_PER_CPU(u8, nf_dup_skb_recursion);
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 *nf_get_nf_dup_skb_recursion(void)
-+{
-+	return this_cpu_ptr(&softnet_data.xmit.nf_dup_skb_recursion);
-+}
-+#else
-+
-+static u8 *nf_get_nf_dup_skb_recursion(void)
-+{
-+	return &current->net_xmit.nf_dup_skb_recursion;
-+}
-+
-+#endif
-=20
- static void nf_do_netdev_egress(struct sk_buff *skb, struct net_device *de=
-v,
- 				enum nf_dev_hooks hook)
+ static int sch_frag_xmit(struct net *net, struct sock *sk, struct sk_buff =
+*skb)
  {
--	if (__this_cpu_read(nf_dup_skb_recursion) > NF_RECURSION_LIMIT)
-+	u8 *nf_dup_skb_recursion =3D nf_get_nf_dup_skb_recursion();
-+
-+	if (*nf_dup_skb_recursion > NF_RECURSION_LIMIT)
- 		goto err;
+ 	struct sch_frag_data *data =3D this_cpu_ptr(&sch_frag_data_storage);
 =20
- 	if (hook =3D=3D NF_NETDEV_INGRESS && skb_mac_header_was_set(skb)) {
-@@ -32,9 +46,9 @@ static void nf_do_netdev_egress(struct sk_buff *skb, stru=
-ct net_device *dev,
++	lockdep_assert_held(&data->bh_lock);
+ 	if (skb_cow_head(skb, data->l2_len) < 0) {
+ 		kfree_skb(skb);
+ 		return -ENOMEM;
+@@ -95,6 +99,7 @@ static int sch_fragment(struct net *net, struct sk_buff *=
+skb,
+ 		struct rtable sch_frag_rt =3D { 0 };
+ 		unsigned long orig_dst;
 =20
- 	skb->dev =3D dev;
- 	skb_clear_tstamp(skb);
--	__this_cpu_inc(nf_dup_skb_recursion);
-+	(*nf_dup_skb_recursion)++;
- 	dev_queue_xmit(skb);
--	__this_cpu_dec(nf_dup_skb_recursion);
-+	(*nf_dup_skb_recursion)--;
- 	return;
- err:
- 	kfree_skb(skb);
++		local_lock_nested_bh(&sch_frag_data_storage.bh_lock);
+ 		sch_frag_prepare_frag(skb, xmit);
+ 		dst_init(&sch_frag_rt.dst, &sch_frag_dst_ops, NULL,
+ 			 DST_OBSOLETE_NONE, DST_NOCOUNT);
+@@ -105,11 +110,13 @@ static int sch_fragment(struct net *net, struct sk_bu=
+ff *skb,
+ 		IPCB(skb)->frag_max_size =3D mru;
+=20
+ 		ret =3D ip_do_fragment(net, skb->sk, skb, sch_frag_xmit);
++		local_unlock_nested_bh(&sch_frag_data_storage.bh_lock);
+ 		refdst_drop(orig_dst);
+ 	} else if (skb_protocol(skb, true) =3D=3D htons(ETH_P_IPV6)) {
+ 		unsigned long orig_dst;
+ 		struct rt6_info sch_frag_rt;
+=20
++		local_lock_nested_bh(&sch_frag_data_storage.bh_lock);
+ 		sch_frag_prepare_frag(skb, xmit);
+ 		memset(&sch_frag_rt, 0, sizeof(sch_frag_rt));
+ 		dst_init(&sch_frag_rt.dst, &sch_frag_dst_ops, NULL,
+@@ -122,6 +129,7 @@ static int sch_fragment(struct net *net, struct sk_buff=
+ *skb,
+=20
+ 		ret =3D ipv6_stub->ipv6_fragment(net, skb->sk, skb,
+ 					       sch_frag_xmit);
++		local_unlock_nested_bh(&sch_frag_data_storage.bh_lock);
+ 		refdst_drop(orig_dst);
+ 	} else {
+ 		net_warn_ratelimited("Fail frag %s: eth=3D%x, MRU=3D%d, MTU=3D%d\n",
 --=20
 2.47.2
 
