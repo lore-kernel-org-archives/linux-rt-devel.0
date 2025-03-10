@@ -1,78 +1,84 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7865E1D5AC0
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 07:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E820221D3EC
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 11:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741591246; cv=none; b=AksriFSJV0wtjpMSN0mkfU1ZK0mKz833OaZMxG1jr1fVILW/IU3l8xe93v9rMD1kIuAHRJZnI9Ae3BcD5RnV5twMq/tNS8ieNWCuo4Cdawa4br1XF7KZ+uS/eiTwceaHJ0JfbfWT/8EOyw477Wy99/N1XJ6QLL707soCm30w/kI=
+	t=1741606357; cv=none; b=BV/BPljwrYx5m7D9RcFcYIcXez1ouhVrh/lwbikB1k9JU2fqIb6eWSq+hYCh3YSE/FK66qGzxXQNnQNviIhBgioCNP3ZYXApRbI2+Yi1UY78JlllR61X2Q2pOuW9pNfyzS7KPyi2OJs28uWNfsIUHeDWThb0mxaQaSyTRzdJ5L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741591246; c=relaxed/simple;
-	bh=m2P6IaIe0y2Eb6HG85A2U8MEfp9BvGN6sUv+kgT6YLU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NXJzZNPMIoash7NjJ0NwaBEAEemaMI0RSwYjP5YDR0PmeYlyWSfr2o6qqRY5VFsyNLTdAAkwq2PijGLnBQEyFhIK3DZ36d+Rmkt1/m8Dg2rOqsdQYzmA83FzO4ieERDamh+IpaY+9EdzDO8QS4w5op2twODKGXzf2k9NpCwdAI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EUP8Qkah; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kZMKYmUj; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EUP8Qkah";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kZMKYmUj"
-Date: Mon, 10 Mar 2025 08:20:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1741591242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r31wY8KO473ETcrRf4OF7t85B18tUhGDJmvctDt5l/8=;
-	b=EUP8QkahKNFPA8lzRNrK4LxT283NMhhYTiYVpMG+KU/6d7tP6S02p6aE1O5usc78Y5hKOc
-	nDsnhmop25NBHcHqJBIp2KsO/qv4TSV6VibaC83WzEtHGlghSyQ/ym9QmObH5WCU0oFSmk
-	USlP97sVw4yfEACWLKDfTm+azmvg4jQyn2BivT2nZ9aqTSRC2nr5BQS17LW58d/LoyPBuH
-	ULeRC6FVX9WXt1HEoFhTcTiNTBWQUr3+2tPcQTH9FpONRKukOIImEoBbJvdU0fcLfAayci
-	7vBMP737hBCnxAb1kF9vVJ4ee8qxsedgKTFdQzCUhuMGHXulp+OXeq9Rr7AOnA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1741591242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=r31wY8KO473ETcrRf4OF7t85B18tUhGDJmvctDt5l/8=;
-	b=kZMKYmUjTTRqtAtwv1KV20YYqlgQz8M45AG/4C/0gHE5nxRMIrD9iGzzvbANneFd8gU/CI
-	cNDfrH5vzkDnK4Dg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-rt-devel@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>,
-	Clark Williams <clrkwllms@kernel.org>
-Subject: Re: Possible circular locking warning in Cadence macb driver when
- enabling PREEMPT_RT
-Message-ID: <20250310072040.Vn8rqifS@linutronix.de>
-References: <5d31bebf-c377-4530-9f78-c9a440133383@roeck-us.net>
- <d118b65b-51ec-4ae8-8f99-30532c5bf5b2@roeck-us.net>
+	s=arc-20240116; t=1741606357; c=relaxed/simple;
+	bh=JagBzIBQNhpz5CZMHw94+92WYsZ3sjIZ7fTM9v801Go=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ESMSKg/A5o5Zh5YNBbwXg+AAd64Ylb1YfOTHTmSKZ7jaocb4pn6CUsfoRyQYk2KW6GlWYIwDui5cgW8vfJ5dmzUZ34OpCIoFQJGKAXOvDZJLrOp+QYcVVHkaeiJ3OK/HbqhEO7ZE2ZB8WrB2yqNwIQo4Xjeo/mM0MqPqlS1NxDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B2CB61516;
+	Mon, 10 Mar 2025 04:32:45 -0700 (PDT)
+Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BB21B3F5A1;
+	Mon, 10 Mar 2025 04:32:32 -0700 (PDT)
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+To: mike.leach@linaro.org,
+	james.clark@linaro.org,
+	alexander.shishkin@linux.intel.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v6 0/9] coresight: change some driver' spinlock type to raw_spinlock_t
+Date: Mon, 10 Mar 2025 11:32:05 +0000
+Message-ID: <174160625284.2197960.9649186230571551042.b4-ty@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250306121110.1647948-1-yeoreum.yun@arm.com>
+References: <20250306121110.1647948-1-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d118b65b-51ec-4ae8-8f99-30532c5bf5b2@roeck-us.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 2025-03-09 17:25:38 [-0700], Guenter Roeck wrote:
-> On Mon, Feb 24, 2025 at 08:49:54PM -0800, Guenter Roeck wrote:
-> > Hi all,
-> > 
-> > I found another circular locking dependency warning when enabling
-> > PREEMPT_RT, this time in the Cadence macb driver. The warning is reported
-> > for aarch64 (xlnx-versal-virt) and riscv64 (sifive_u), in both cases with
-> > the default Ethernet interface supported by qemu.
-> > 
-> > Backtraces, both raw and decoded, are attached below. Please let me know
-> > if there is anything I can help to fix the problem.
-> > 
+
+On Thu, 06 Mar 2025 12:11:01 +0000, Yeoreum Yun wrote:
+> In some coresight drivers, drvdata->spinlock can be held during __schedule()
+> by perf_event_task_sched_out()/in().
 > 
-> ping ... any interest ?
+> Since drvdata->spinlock type is spinlock_t and
+> perf_event_task_sched_out()/in() is called after acquiring rq_lock,
+> which is raw_spinlock_t (an unsleepable lock),
+> this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
+> 
+> [...]
 
-Fell out of my radar. Will try to look at this within this week.
+Applied, thanks!
 
-> Guenter
+[1/9] coresight: change coresight_device lock type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/26f060c1
+[2/9] coresight-etm4x: change etmv4_drvdata spinlock type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/743c5a97
+[3/9] coresight: change coresight_trace_id_map's lock type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/4cf364ca
+[4/9] coresight-cti: change cti_drvdata spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/e3044065
+[5/9] coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/6b80c0ab
+[6/9] coresight-funnel: change funnel_drvdata spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/56eb02f0
+[7/9] coresight-replicator: change replicator_drvdata spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/982d0a0e
+[8/9] coresight-tmc: change tmc_drvdata spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/db11f75b
+[9/9] coresight/ultrasoc: change smb_drv_data spinlock's type to raw_spinlock_t
+      https://git.kernel.org/coresight/c/d11eb31d
 
-Sebastian
+Best regards,
+-- 
+Suzuki K Poulose <suzuki.poulose@arm.com>
