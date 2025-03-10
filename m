@@ -1,52 +1,64 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8A11AA1FE
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 16:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB071E0E0A
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 23:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741625774; cv=none; b=nx8GZTiY/sH9OQ4YakLyzKnhpqc07y2GsIKtPvDoNREgfbWSwf/+/Ui6D2828NtV5US9lYxcodXvCi0vtXfHavSTve48RMcGYYKZZDJc2q7uxCkvhTktUQorLbHF8IhzYt+ckWwjsLgrLMQNqLMSVBZl9KlO+460bN63y0iwV7k=
+	t=1741651139; cv=none; b=ayjgetvawwwWgGL+diCeHRDxOcmcfsozlDgiknMGTB/CITeE/Dl81xHOct5kToFs1/9MGabIvA7oSdfnGRM7zjlDI29peKBO6zQOiGyZbyyn/MVtXQB/m/JV3/9tslUTCXcqxg14taHlMphB4FjLzVTFaH/cnx+Un7BI94Cs7oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741625774; c=relaxed/simple;
-	bh=oMfS3X01oHkPrFb5lPauuQuRPK0NzVfpXi3RTa7/W44=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aWAbsU+vCQW5tQ1WzQt3eh2exd5pBIUJ3Loh4dz0t7YGAyySjqqxcK5QfHVv41NB8nKnt+i9+FVDPP2NMBjgYo+N88u5uoWXt75rAC9CWAcVnVYrLrY89b5eMScyRWVOUwIWvDECsmDmiucuxZg/2Y0n0W931LvcpHs9Jmj2i8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ovn.org
+	s=arc-20240116; t=1741651139; c=relaxed/simple;
+	bh=5lIaOP1OnTp32PUb0Lik4d/Pyum7rp+i44nfbj09K/8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=W1c4o7G8DrhYp+DKFHlASD+54jrJj2SnKRdjJjvGYkUl5jdRnIzaQoauDVijUrWMGj1u021AYvjXtCUc4rFZIYZ9XD+kCrHlJiXTWVh0MQfIx59hGGLVsUHw16QdQpteJsLDdwEy6nvNMZXujZ70W1VqcpzOUeZ0jmeGbRN3E2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3cAYA6T; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4393dc02b78so26636665e9.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 09:56:12 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3cAYA6T"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22548a28d0cso25903725ad.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 16:58:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741651137; x=1742255937; darn=lists.linux.dev;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=r5gzsSm0cjmBrxADGr59p2470Hc64FN9+vxTpEX/n00=;
+        b=A3cAYA6TyTsaxVprTkPho5QqZvEwcVA2FdM2Co3HtzYqs1Z6NDXVoq1cFoPyd3uccZ
+         jojesGC7MKnLJ+70vI4pWRGpoiCPPHrUm0dl+dUlba7zliduCFFXlVdJPHYAZKlpAqXQ
+         izl3MqwnUMnVKiTCOCZFNT/oYYn2h/Mlck3AULd+zU84/HDy/047TECI4phQQ79nqeek
+         iJZ4BL6SrZ7bpkBhwGdaWVb3olD+p9W0Rlg/bYI7FsRpBhbwfjZez2OvfWMGbzSR6nIm
+         jEU55EDBFa7Ztn9SKL1oBIc+0ywSo8Q7nGBBN3OEBv6mVW60jyyy6gYPzV/SS47tMMP3
+         zOKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741625771; x=1742230571;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:cc:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pvaPe0FnoiUBYSIQbKWkdJ0l3Pi+DPRzAga15PII7CA=;
-        b=BqTzB+RtS/1UFuRd70W9P+tR/0XZPewoFJGMuG1jyFWjli5cDgCLPtjZdadahKIsXh
-         Nn2MWH3OnypsLGvuds+NPZWJxo31p1ylUUxQLP3EwXvaHXIswaK+AYNaMMqixaZXJeGf
-         A1GgQBSnuvrFkMKmvf/ip4+9YbS1kPCFeAOpScsUSYCqOjE4C2Zj+GJsHO5ZU0LXEF4U
-         6TLMeiBPPDGVkYk1xyrsnKtz9bhh1cjitvJoEbQoU+veKPXCmYU7vo7/AOzR7dOVvRSg
-         4P/eeqS9HSj3qyO7ibojBez5Y3dbdVAn+e8/cGcsjKxfl49gWXL3e1om5QQFsjeWqZ11
-         qOzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXx3eTS/KXsOiTqRXeKwR3EfQ6xmFti1r5hEzx9sk6AO82/szddBxRJYPI6w2E74FAXn3GUMq9mnVJK72EaLA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6XPNW/OscSK05w7s6Kt94STbHSuszU0IlSzsF2OdYdUs6sDAk
-	glxSJ0V9mb2UyDitd7ANgTvdfIF5rKvgna2jR+2o4ONtnLF7ZfgO
-X-Gm-Gg: ASbGncvWSkh5oLp2zQETKjh1cbJFWi9Bmq8AI4Y3QYP6Cs63qlwrSsHY4FAUGyrFAhJ
-	5kfP34YJgy7vHkyRZcziLLTvCA2nVqzvWx4tmi4EgXNUGVvCCQ3dOMYgcp00ZqqpegJghOCPF51
-	Lqe4j2SSfGkBFw48iUDb0UZoeu8iwoGmQJv0rev7LDTIKXrjSTc4ZP94QeoSZUjwgS1MQZ9bRWK
-	15nmVAkj4i1kQsPc7lupJsyVd5l96xNyLbl1LmZyAbx0ZGGCg0xG9p+bkzPoC3SzAGoZCS/LTjQ
-	zyYpjKkmYndCyf62dlzP5WePK+HDQiazH27NcNY9H43jbDbBsJ9fosXa2UkX4gOk1NQUVD9dbOY
-	n
-X-Google-Smtp-Source: AGHT+IGNDCvM77UA0nZLbqPpGrowhXz79vy6Dz09e/0U+L+xgeq1oT731u3LflQFI85ZJ3rrUrLxkQ==
-X-Received: by 2002:a05:600c:5248:b0:43c:f4b3:b094 with SMTP id 5b1f17b1804b1-43d01bd1b62mr5077145e9.6.1741625770414;
-        Mon, 10 Mar 2025 09:56:10 -0700 (PDT)
-Received: from [192.168.0.13] (ip-86-49-44-151.bb.vodafone.cz. [86.49.44.151])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfdfe61sm15738375f8f.38.2025.03.10.09.56.09
+        d=1e100.net; s=20230601; t=1741651137; x=1742255937;
+        h=content-transfer-encoding:autocrypt:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=r5gzsSm0cjmBrxADGr59p2470Hc64FN9+vxTpEX/n00=;
+        b=lpXIV95g+fgyVG9I4IkZ4NnNBECt9qqqjFFdVyP1tVh+0adRxfBAtpWPQ1MO5PChwD
+         5weN00AlkDT6/yZnSjzeHNfnOVvZ3cijvJSn57uv/eUl9yCzyNz0W6+7LqpmfJbEkEYk
+         8lu7BY4+641ylxDT2vbTgoYna1Y+UETZzlzl/qu4XzXbErcDgBGUWtFjrtRjacHwUOyt
+         zjA4KsZXEnYBxY6OWBAhI0Ub3cirrsH6HeGsIDrJ2WtR08tjQcr3dw9NrVd8HcdyphW5
+         rHHZ82077awTQEm7c3+1mPr91FpfetteHYHmBmSoEEF0EOuULq7hhrvkqUkNgXuk92eZ
+         9JbA==
+X-Gm-Message-State: AOJu0YwsJpyUeDUoupN5BrShkWxzKO4povemJsa531TQPh9RsXxxVpSx
+	r0Qnzt/6ReuWVUwI8QjDkWEqU4jEbVt/Bn5kKZF8pWqhUzEPt7cm
+X-Gm-Gg: ASbGncs3UUxTjNAX5YOeFlMu0+/KpoL5vwNGT8KS+IYNHxZsoTDnEVenCqGsPJyhP/F
+	xB4o0ilWTjD9Q2ncAri3m0YuuxNubtRZuhk6ytFgGrvg39O/dVahB+qzDZMeNj/LBw10/PTTeDL
+	R5iTrxCJYtosgHMSSKrcJ7x5vyaNSvwZ4Zp+5jCb2qJFTL2jkGee+iib3uFCHWJqVucSmhFkEjQ
+	adn5VAb+I4zvDWiEKy3dnk9q+K09NMtLwA/xDaAXqvCBRuhpLKx2I/lWlb5whVvk5BL21JAlFzQ
+	TPl6CDPh4cQYebqV5MR2N9rgxk22TqCJh3Xo1u7rMf+CmMfzVF4anUVzhBd0wk8UkLEVrUf2Rad
+	4CcxfUEF1dvFlh8He6A==
+X-Google-Smtp-Source: AGHT+IHLmru6xkgdvtX5umXeqKipdQzfohUmOlxaNrjAAJAhv6qZ71xKuRDpeJfQyDHTU3LnA5eGSg==
+X-Received: by 2002:a17:902:da8c:b0:223:8256:533d with SMTP id d9443c01a7336-22428bf7ad4mr247476335ad.46.1741651136665;
+        Mon, 10 Mar 2025 16:58:56 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa457csm84587115ad.212.2025.03.10.16.58.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 09:56:10 -0700 (PDT)
-Message-ID: <fd4c8167-0c2d-4f5f-bf70-1efcdf3de2fb@ovn.org>
-Date: Mon, 10 Mar 2025 17:56:09 +0100
+        Mon, 10 Mar 2025 16:58:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <9aba98c5-f60b-4510-bbd8-a618462db941@roeck-us.net>
+Date: Mon, 10 Mar 2025 16:58:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,176 +66,80 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: i.maximets@ovn.org, netdev@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, dev@openvswitch.org,
- Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
- Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>
-Subject: Re: [ovs-dev] [PATCH net-next 11/18] openvswitch: Use nested-BH
- locking for ovs_actions.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <20250309144653.825351-1-bigeasy@linutronix.de>
- <20250309144653.825351-12-bigeasy@linutronix.de>
- <9a1ededa-8b1f-4118-94b4-d69df766c61e@ovn.org>
- <20250310144459.wjPdPtUo@linutronix.de>
 Content-Language: en-US
-From: Ilya Maximets <i.maximets@ovn.org>
-Autocrypt: addr=i.maximets@ovn.org; keydata=
- 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
-In-Reply-To: <20250310144459.wjPdPtUo@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-rt-devel@lists.linux.dev
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Odd random unit test failure with PREEMPT_RT=y
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/10/25 15:44, Sebastian Andrzej Siewior wrote:
-> On 2025-03-10 15:17:17 [+0100], Ilya Maximets wrote:
->>> --- a/net/openvswitch/actions.c
->>> +++ b/net/openvswitch/actions.c
->>> @@ -82,6 +82,8 @@ struct ovs_action {
->>>  	struct action_fifo action_fifos;
->>>  	struct action_flow_keys flow_keys;
->>>  	int exec_level;
->>> +	struct task_struct *owner;
->>> +	local_lock_t bh_lock;
->>>  };
->>>  
->>>  static DEFINE_PER_CPU(struct ovs_action, ovs_actions);
->>> @@ -1690,8 +1692,14 @@ int ovs_execute_actions(struct datapath *dp, struct sk_buff *skb,
->>>  			const struct sw_flow_actions *acts,
->>>  			struct sw_flow_key *key)
->>>  {
->>> +	struct ovs_action *ovs_act = this_cpu_ptr(&ovs_actions);
->>>  	int err, level;
->>>  
->>> +	if (ovs_act->owner != current) {
->>> +		local_lock_nested_bh(&ovs_actions.bh_lock);
->>
->> Wouldn't this cause a warning when we're in a syscall/process context?
-> 
-> My understanding is that is only invoked in softirq context. Did I
-> misunderstood it?
+Hi,
 
-It can be called from the syscall/process context while processing
-OVS_PACKET_CMD_EXECUTE request.
+I sometimes see the following unit test failure if PREEMPT_RT is enabled.
 
-> Otherwise that this_cpu_ptr() above should complain
-> that preemption is not disabled and if preemption is indeed not disabled
-> how do you ensure that you don't get preempted after the
-> __this_cpu_inc_return() in several tasks (at the same time) leading to
-> exceeding the OVS_RECURSION_LIMIT?
+     KTAP version 1
+     # Subtest: iov_iter
+     # module: kunit_iov_iter
+     1..12
+     # iov_kunit_copy_to_kvec: pass:1 fail:0 skip:0 total:1
+     ok 1 iov_kunit_copy_to_kvec
+     # iov_kunit_copy_from_kvec: pass:1 fail:0 skip:0 total:1
+     ok 2 iov_kunit_copy_from_kvec
+     # iov_kunit_copy_to_bvec: ASSERTION FAILED at lib/kunit_iov_iter.c:63
+     Expected got == npages, but
+         got == 1 (0x1)
+         npages == 256 (0x100)
 
-We disable BH in this case, so it should be safe (on non-RT).  See the
-ovs_packet_cmd_execute() for more details.
+I have seen this with x86_64 and arm64, so it does not seem to be architecture
+specific. It only happens rarely, as in one of several hundred boots.
+I only see the problem if PREEMPT_RT is enabled.
 
-> 
->> We will also be taking a spinlock in a general case here, which doesn't
->> sound particularly great, since we can potentially be holding it for a
->> long time and it's also not free to take/release on this hot path.
->> Is there a version of this lock that's a no-op on non-RT?
-> 
-> local_lock_nested_bh() does not acquire any lock on !PREEMPT_RT. It only
-> verifies that in_softirq() is true.
+Example complete log:
+https://kerneltests.org/builders/qemu-x86_64-rt-master/builds/17/steps/qemubuildcommand/logs/stdio
 
-Ah, you're right.  It does more things, but only under lock debug.
-
-> 
->>> +		ovs_act->owner = current;
->>> +	}
->>> +
->>>  	level = __this_cpu_inc_return(ovs_actions.exec_level);
->>>  	if (unlikely(level > OVS_RECURSION_LIMIT)) {
->>>  		net_crit_ratelimited("ovs: recursion limit reached on datapath %s, probable configuration error\n",
->>> @@ -1710,5 +1718,10 @@ int ovs_execute_actions(struct datapath *dp, struct sk_buff *skb,
->>>  
->>>  out:
->>>  	__this_cpu_dec(ovs_actions.exec_level);
->>> +
->>> +	if (level == 1) {
->>> +		ovs_act->owner = NULL;
->>> +		local_unlock_nested_bh(&ovs_actions.bh_lock);
->>> +	}
->>
->> Seems dangerous to lock every time the owner changes but unlock only
->> once on level 1.  Even if this works fine, it seems unnecessarily
->> complicated.  Maybe it's better to just lock once before calling
->> ovs_execute_actions() instead?
-> 
-> My understanding is this can be invoked recursively. That means on first
-> invocation owner == NULL and then you acquire the lock at which point
-> exec_level goes 0->1. On the recursive invocation owner == current and
-> you skip the lock but exec_level goes 1 -> 2.
-> On your return path once level becomes 1, then it means that dec made it
-> go 1 -> 0, you unlock the lock.
-
-My point is: why locking here with some extra non-obvious logic of owner
-tracking if we can lock (unconditionally?) in ovs_packet_cmd_execute() and
-ovs_dp_process_packet() instead?  We already disable BH in one of those
-and take appropriate RCU locks in both.  So, feels like a better place
-for the extra locking if necessary.  We will also not need to move around
-any code in actions.c if the code there is guaranteed to be safe by holding
-locks outside of it.
-
-> The locking part happens only on PREEMPT_RT because !PREEMPT_RT has
-> softirqs disabled which guarantee that there will be no preemption.
-> 
-> tools/testing/selftests/net/openvswitch should cover this?
-
-It's not a comprehensive test suite, it covers some cases, but it
-doesn't test anything related to preemptions specifically.
-
-> 
->> Also, the name of the struct ovs_action doesn't make a lot of sense,
->> I'd suggest to call it pcpu_storage or something like that instead.
->> I.e. have a more generic name as the fields inside are not directly
->> related to each other.
-> 
-> Understood. ovs_pcpu_storage maybe?
-
-It's OK, I guess, but see also a point about locking inside datapath.c
-instead and probably not needing to change anything in actions.c.
-
-> 
->> Best regards, Ilya Maximets.
-> 
-> Sebastian
-
+Guenter
