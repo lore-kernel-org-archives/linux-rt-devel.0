@@ -1,145 +1,113 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB071E0E0A
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 23:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097C01F12EC
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Mar 2025 23:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741651139; cv=none; b=ayjgetvawwwWgGL+diCeHRDxOcmcfsozlDgiknMGTB/CITeE/Dl81xHOct5kToFs1/9MGabIvA7oSdfnGRM7zjlDI29peKBO6zQOiGyZbyyn/MVtXQB/m/JV3/9tslUTCXcqxg14taHlMphB4FjLzVTFaH/cnx+Un7BI94Cs7oM=
+	t=1741821371; cv=none; b=BiTXmYwX3gd/MGuBdCNHfdsZBLUStu9+vQ9e2btLQg8zHSVmPGTu+/iay043hC8O5MS6njP+aAaO098HIq9wksGAMntO55lkeXe+onGGOg0Qqd9HnDzoMZlKyUvNpIErZnOCowV9ivs7l07sFN2QIh18VXjn7vnnAYd/jsBW188=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741651139; c=relaxed/simple;
-	bh=5lIaOP1OnTp32PUb0Lik4d/Pyum7rp+i44nfbj09K/8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=W1c4o7G8DrhYp+DKFHlASD+54jrJj2SnKRdjJjvGYkUl5jdRnIzaQoauDVijUrWMGj1u021AYvjXtCUc4rFZIYZ9XD+kCrHlJiXTWVh0MQfIx59hGGLVsUHw16QdQpteJsLDdwEy6nvNMZXujZ70W1VqcpzOUeZ0jmeGbRN3E2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3cAYA6T; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741821371; c=relaxed/simple;
+	bh=NOX5x6c/mn2a7cwLTb2x2tVoHK/wEQFsDF6kbDxq538=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGLc7F/Bj+aaW8s5P4p8FHsXvHBud8JnHKhJKg0tw2ngOsyJEUAkMAlqYib3sC+O35sClUnfmpdJ5lcQRXLEm/lHnSNePj5ULv1f7BvXPmHNEgbfpn/rY0CQ63Ifwf5T43/V4gyLrdYDKg/y2aR7WxEXrJNMFSvGnnCzdnRAoBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=vnxJPBNu; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=TMVB+0zZ; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3cAYA6T"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22548a28d0cso25903725ad.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 10 Mar 2025 16:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741651137; x=1742255937; darn=lists.linux.dev;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r5gzsSm0cjmBrxADGr59p2470Hc64FN9+vxTpEX/n00=;
-        b=A3cAYA6TyTsaxVprTkPho5QqZvEwcVA2FdM2Co3HtzYqs1Z6NDXVoq1cFoPyd3uccZ
-         jojesGC7MKnLJ+70vI4pWRGpoiCPPHrUm0dl+dUlba7zliduCFFXlVdJPHYAZKlpAqXQ
-         izl3MqwnUMnVKiTCOCZFNT/oYYn2h/Mlck3AULd+zU84/HDy/047TECI4phQQ79nqeek
-         iJZ4BL6SrZ7bpkBhwGdaWVb3olD+p9W0Rlg/bYI7FsRpBhbwfjZez2OvfWMGbzSR6nIm
-         jEU55EDBFa7Ztn9SKL1oBIc+0ywSo8Q7nGBBN3OEBv6mVW60jyyy6gYPzV/SS47tMMP3
-         zOKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741651137; x=1742255937;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r5gzsSm0cjmBrxADGr59p2470Hc64FN9+vxTpEX/n00=;
-        b=lpXIV95g+fgyVG9I4IkZ4NnNBECt9qqqjFFdVyP1tVh+0adRxfBAtpWPQ1MO5PChwD
-         5weN00AlkDT6/yZnSjzeHNfnOVvZ3cijvJSn57uv/eUl9yCzyNz0W6+7LqpmfJbEkEYk
-         8lu7BY4+641ylxDT2vbTgoYna1Y+UETZzlzl/qu4XzXbErcDgBGUWtFjrtRjacHwUOyt
-         zjA4KsZXEnYBxY6OWBAhI0Ub3cirrsH6HeGsIDrJ2WtR08tjQcr3dw9NrVd8HcdyphW5
-         rHHZ82077awTQEm7c3+1mPr91FpfetteHYHmBmSoEEF0EOuULq7hhrvkqUkNgXuk92eZ
-         9JbA==
-X-Gm-Message-State: AOJu0YwsJpyUeDUoupN5BrShkWxzKO4povemJsa531TQPh9RsXxxVpSx
-	r0Qnzt/6ReuWVUwI8QjDkWEqU4jEbVt/Bn5kKZF8pWqhUzEPt7cm
-X-Gm-Gg: ASbGncs3UUxTjNAX5YOeFlMu0+/KpoL5vwNGT8KS+IYNHxZsoTDnEVenCqGsPJyhP/F
-	xB4o0ilWTjD9Q2ncAri3m0YuuxNubtRZuhk6ytFgGrvg39O/dVahB+qzDZMeNj/LBw10/PTTeDL
-	R5iTrxCJYtosgHMSSKrcJ7x5vyaNSvwZ4Zp+5jCb2qJFTL2jkGee+iib3uFCHWJqVucSmhFkEjQ
-	adn5VAb+I4zvDWiEKy3dnk9q+K09NMtLwA/xDaAXqvCBRuhpLKx2I/lWlb5whVvk5BL21JAlFzQ
-	TPl6CDPh4cQYebqV5MR2N9rgxk22TqCJh3Xo1u7rMf+CmMfzVF4anUVzhBd0wk8UkLEVrUf2Rad
-	4CcxfUEF1dvFlh8He6A==
-X-Google-Smtp-Source: AGHT+IHLmru6xkgdvtX5umXeqKipdQzfohUmOlxaNrjAAJAhv6qZ71xKuRDpeJfQyDHTU3LnA5eGSg==
-X-Received: by 2002:a17:902:da8c:b0:223:8256:533d with SMTP id d9443c01a7336-22428bf7ad4mr247476335ad.46.1741651136665;
-        Mon, 10 Mar 2025 16:58:56 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410aa457csm84587115ad.212.2025.03.10.16.58.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 16:58:56 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <9aba98c5-f60b-4510-bbd8-a618462db941@roeck-us.net>
-Date: Mon, 10 Mar 2025 16:58:55 -0700
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="vnxJPBNu";
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="TMVB+0zZ"
+Received: by mail.netfilter.org (Postfix, from userid 109)
+	id 875BC602B9; Thu, 13 Mar 2025 00:16:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1741821368;
+	bh=ZHjXQGDQch7XovF23NV53q14IqlwxqvRf5k/PaU0B78=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vnxJPBNuWYKGvzabpaRjTx2MMJbug/a0+IkpHxJCc3WCj8XzQfaS6JOyKeLCp5x/v
+	 bbMRiT0X4UE0VHObzrMJXFWg3BN6lJOU0PplIRzUWt3c9gz4lEeeWpT2J41TKqD4VN
+	 jYRZP3ipP+zA4OHOadEUx2dSR9UxPIBTlekJ0aJHJT7dqDdxrYbR6TpBsLK65YJDVM
+	 FhZBAZaj6BomMmqJPA/3HU9hEAVvcoaL07rnhnhLQlVfioO+MI5acY4asWMmvfvMYl
+	 XL26XCkk2VUA5G6r7xDn3w1p149ASbdCrVQTRC38uyeR6PSLctoYzrFT4zq2xt7ebi
+	 u4U0oU1X9ka5Q==
+X-Spam-Level: 
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with ESMTPSA id B075D602B2;
+	Thu, 13 Mar 2025 00:16:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1741821366;
+	bh=ZHjXQGDQch7XovF23NV53q14IqlwxqvRf5k/PaU0B78=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TMVB+0zZOwXhOC4ifQwh8esmqV9t8bLsPGBFY8ngF7fDWgU8yP8v6m1t/31P1A/CV
+	 2mP/cW1ZnRzhwFbW+00UEK5mZ5K/vB+fqeAkfLeE6/IIioqqjkPvXg6gey/01dCI6g
+	 woPrqU5rR5fs/3SoDFgzbnlAbe4O1C+qq4gyFvlIKwbHxzbe1cYHFzbX6HUqR7nUDS
+	 lPnjBJS2GECNTCj5ubNr0Fux8NfOmXrwZgFuykoBTfbbwkmuXfJriP9mSwku+izXJz
+	 1Trh4UTzqnElYUI8qH5deCtOlrV/IAy09jtBTqRdnBu5E9XdZroYaP3TkrKMOnoBLS
+	 Ioe3jNULcMZqA==
+Date: Thu, 13 Mar 2025 00:16:03 +0100
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-rt-devel@lists.linux.dev,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
+Message-ID: <Z9IVs3LD3A1HPSS0@calendula>
+References: <20250221133143.5058-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-rt-devel@lists.linux.dev
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Odd random unit test failure with PREEMPT_RT=y
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250221133143.5058-1-bigeasy@linutronix.de>
 
-Hi,
+Hi Sebastian,
 
-I sometimes see the following unit test failure if PREEMPT_RT is enabled.
+On Fri, Feb 21, 2025 at 02:31:40PM +0100, Sebastian Andrzej Siewior wrote:
+> The per-CPU xt_recseq is a custom netfilter seqcount. It provides
+> synchronisation for the replacement of the xt_table::private pointer and
+> ensures that the two counter in xt_counters are properly observed during
+> an update on 32bit architectures. xt_recseq also supports recursion.
+> 
+> This construct is less than optimal on PREMPT_RT because the lack of an
+> associated lock (with the seqcount) can lead to a deadlock if a high
+> priority reader interrupts a writter. Also xt_recseq relies on locking
+> with BH-disable which becomes problematic if the lock, currently part of
+> local_bh_disable() on PREEMPT_RT, gets removed.
+> 
+> This can be optimized unrelated to PREEMPT_RT:
+> - Use RCU for synchronisation. This means ipt_do_table() (and the two
+>   other) access xt_table::private within a RCU section.
+>   xt_replace_table() replaces the pointer with rcu_assign_pointer() and
+>   uses synchronize_rcu() to wait until each reader left RCU section.
+> 
+> - Use u64_stats_t for the statistics. The advantage here is that
+>   u64_stats_sync which is use a seqcount is optimized away on 64bit
+>   architectures. The increment becomes just an add, the read just a read
+>   of the variable without a loop. On 32bit architectures the seqcount
+>   remains but the scope is smaller.
+> 
+> The struct xt_counters is defined in a user exported header (uapi). So
+> in patch #2 I tried to split the regular u64 access and the "internal   
+> access" which treats the struct either as two counter or a per-CPU
+> pointer. In order not to expose u64_stats_t to userland I added a "pad"
+> which is cast to the internal type. I hoped that this makes it obvious
+> that a function like xt_get_this_cpu_counter() expects the possible
+> per-CPU type but mark_source_chains() or get_counters() expect the u64
+> type without pointers.
+> 
+> v1…v2 https://lore.kernel.org/all/20250216125135.3037967-1-bigeasy@linutronix.de/
+>   - Updated kerneldoc in 2/3 so that the renamed parameter is part of
+>     it.
+>   - Updated description 1/3 in case there are complains regarding the
+>     synchronize_rcu(). The suggested course of action is to motivate
+>     people to move away from "legacy" towards "nft" tooling. Last resort
+>     is not to wait for the in-flight counter and just copy what is
+>     there.
 
-     KTAP version 1
-     # Subtest: iov_iter
-     # module: kunit_iov_iter
-     1..12
-     # iov_kunit_copy_to_kvec: pass:1 fail:0 skip:0 total:1
-     ok 1 iov_kunit_copy_to_kvec
-     # iov_kunit_copy_from_kvec: pass:1 fail:0 skip:0 total:1
-     ok 2 iov_kunit_copy_from_kvec
-     # iov_kunit_copy_to_bvec: ASSERTION FAILED at lib/kunit_iov_iter.c:63
-     Expected got == npages, but
-         got == 1 (0x1)
-         npages == 256 (0x100)
+Kconfig !PREEMPT_RT for this is not an option, right?
 
-I have seen this with x86_64 and arm64, so it does not seem to be architecture
-specific. It only happens rarely, as in one of several hundred boots.
-I only see the problem if PREEMPT_RT is enabled.
-
-Example complete log:
-https://kerneltests.org/builders/qemu-x86_64-rt-master/builds/17/steps/qemubuildcommand/logs/stdio
-
-Guenter
+Thanks.
