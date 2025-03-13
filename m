@@ -1,58 +1,52 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097C01F12EC
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Mar 2025 23:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ABA1F9A86
+	for <linux-rt-devel@lists.linux.dev>; Thu, 13 Mar 2025 08:34:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741821371; cv=none; b=BiTXmYwX3gd/MGuBdCNHfdsZBLUStu9+vQ9e2btLQg8zHSVmPGTu+/iay043hC8O5MS6njP+aAaO098HIq9wksGAMntO55lkeXe+onGGOg0Qqd9HnDzoMZlKyUvNpIErZnOCowV9ivs7l07sFN2QIh18VXjn7vnnAYd/jsBW188=
+	t=1741854885; cv=none; b=aeSNCS8U/Zcgx6WmBn5k5WIhehv19oglxjTyohfeB8+TU0QU2+2yXUACXROJsm5jA+hXz/KaSXSRieQx9QPTUXIOmASBbYhe18wYOWIbtgw7DN8qd+Ty8/UX9htkjBJ3y6U+3pdcsSjTxwbzHQDMGEuPovflk14Xd/n38WD0C/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741821371; c=relaxed/simple;
-	bh=NOX5x6c/mn2a7cwLTb2x2tVoHK/wEQFsDF6kbDxq538=;
+	s=arc-20240116; t=1741854885; c=relaxed/simple;
+	bh=TVVON/ZwVj7ZxzuYRKb4qG8+UevQti9o35vGkEl2+B0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGLc7F/Bj+aaW8s5P4p8FHsXvHBud8JnHKhJKg0tw2ngOsyJEUAkMAlqYib3sC+O35sClUnfmpdJ5lcQRXLEm/lHnSNePj5ULv1f7BvXPmHNEgbfpn/rY0CQ63Ifwf5T43/V4gyLrdYDKg/y2aR7WxEXrJNMFSvGnnCzdnRAoBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=vnxJPBNu; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=TMVB+0zZ; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=tA11d6I/bYpB/N7/cCs4CTXd3ki4ywDvUKUcrAJuPrEnYoFinUTagt2O/BovWKm5FXvvat6ARHbB+xjpEv8KB1wgiY7mOX9gWhtFvjTOxVV1Ygp0dNZXF0BIRsstxyh6Kio5wGCenRFZf4X+UDrbd05kWtPp7kWxqU38eYcvFFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jFg9OE8t; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=btk5igP/; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="vnxJPBNu";
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="TMVB+0zZ"
-Received: by mail.netfilter.org (Postfix, from userid 109)
-	id 875BC602B9; Thu, 13 Mar 2025 00:16:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1741821368;
-	bh=ZHjXQGDQch7XovF23NV53q14IqlwxqvRf5k/PaU0B78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vnxJPBNuWYKGvzabpaRjTx2MMJbug/a0+IkpHxJCc3WCj8XzQfaS6JOyKeLCp5x/v
-	 bbMRiT0X4UE0VHObzrMJXFWg3BN6lJOU0PplIRzUWt3c9gz4lEeeWpT2J41TKqD4VN
-	 jYRZP3ipP+zA4OHOadEUx2dSR9UxPIBTlekJ0aJHJT7dqDdxrYbR6TpBsLK65YJDVM
-	 FhZBAZaj6BomMmqJPA/3HU9hEAVvcoaL07rnhnhLQlVfioO+MI5acY4asWMmvfvMYl
-	 XL26XCkk2VUA5G6r7xDn3w1p149ASbdCrVQTRC38uyeR6PSLctoYzrFT4zq2xt7ebi
-	 u4U0oU1X9ka5Q==
-X-Spam-Level: 
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with ESMTPSA id B075D602B2;
-	Thu, 13 Mar 2025 00:16:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1741821366;
-	bh=ZHjXQGDQch7XovF23NV53q14IqlwxqvRf5k/PaU0B78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TMVB+0zZOwXhOC4ifQwh8esmqV9t8bLsPGBFY8ngF7fDWgU8yP8v6m1t/31P1A/CV
-	 2mP/cW1ZnRzhwFbW+00UEK5mZ5K/vB+fqeAkfLeE6/IIioqqjkPvXg6gey/01dCI6g
-	 woPrqU5rR5fs/3SoDFgzbnlAbe4O1C+qq4gyFvlIKwbHxzbe1cYHFzbX6HUqR7nUDS
-	 lPnjBJS2GECNTCj5ubNr0Fux8NfOmXrwZgFuykoBTfbbwkmuXfJriP9mSwku+izXJz
-	 1Trh4UTzqnElYUI8qH5deCtOlrV/IAy09jtBTqRdnBu5E9XdZroYaP3TkrKMOnoBLS
-	 Ioe3jNULcMZqA==
-Date: Thu, 13 Mar 2025 00:16:03 +0100
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jFg9OE8t";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="btk5igP/"
+Date: Thu, 13 Mar 2025 09:34:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1741854882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z1QdGmjXo7ZgbLC9nyneqKti66pQjDgye7JPZean61A=;
+	b=jFg9OE8tGNHT2pUpaeyShzniPgsjBLfYsB3dreCT6GiMvNkixeBGRwlnT1h2sgn38uV8Uz
+	qSEK26AsCFnNVzX9+CoPPpKxHIOcGvzsWSC8E/Q98TaO1Qx3jZHbsfNBsZkcT2AK+HrY0q
+	WYkIYwG9ECCSeXywGzq+60PEOtxOQoEsMf2KNV+j33dlTLhq7oARYjcajUoFpnfp97YDwq
+	f9O+z3KpU4PCiDOpceS+5g8Hwvin3ectozi7lTUHqtRbTNoMKD0gIEDxEXMuPPFbmIe37I
+	RhAQ2HfvnbRUuy9mzBx/ZePvuaJfzpOykSrDt9/Y0ti3bIuKyOmj6Py3LnmbdA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1741854882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z1QdGmjXo7ZgbLC9nyneqKti66pQjDgye7JPZean61A=;
+	b=btk5igP/rXnbWUHOsBYUYS+vn5PttuzcrEurkYcI9P5fB3PV8+llbUwkwAmgJ80ev3SnNz
+	hbDZt/WcvW4zk2DA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
 Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
 	linux-rt-devel@lists.linux.dev,
 	Jozsef Kadlecsik <kadlec@netfilter.org>,
 	Thomas Gleixner <tglx@linutronix.de>
 Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
-Message-ID: <Z9IVs3LD3A1HPSS0@calendula>
+Message-ID: <20250313083440.yn5kdvv5@linutronix.de>
 References: <20250221133143.5058-1-bigeasy@linutronix.de>
+ <Z9IVs3LD3A1HPSS0@calendula>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -61,53 +55,22 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250221133143.5058-1-bigeasy@linutronix.de>
+In-Reply-To: <Z9IVs3LD3A1HPSS0@calendula>
 
-Hi Sebastian,
+On 2025-03-13 00:16:03 [+0100], Pablo Neira Ayuso wrote:
+> Hi Sebastian,
+Hi Pablo,
 
-On Fri, Feb 21, 2025 at 02:31:40PM +0100, Sebastian Andrzej Siewior wrote:
-> The per-CPU xt_recseq is a custom netfilter seqcount. It provides
-> synchronisation for the replacement of the xt_table::private pointer and
-> ensures that the two counter in xt_counters are properly observed during
-> an update on 32bit architectures. xt_recseq also supports recursion.
-> 
-> This construct is less than optimal on PREMPT_RT because the lack of an
-> associated lock (with the seqcount) can lead to a deadlock if a high
-> priority reader interrupts a writter. Also xt_recseq relies on locking
-> with BH-disable which becomes problematic if the lock, currently part of
-> local_bh_disable() on PREEMPT_RT, gets removed.
-> 
-> This can be optimized unrelated to PREEMPT_RT:
-> - Use RCU for synchronisation. This means ipt_do_table() (and the two
->   other) access xt_table::private within a RCU section.
->   xt_replace_table() replaces the pointer with rcu_assign_pointer() and
->   uses synchronize_rcu() to wait until each reader left RCU section.
-> 
-> - Use u64_stats_t for the statistics. The advantage here is that
->   u64_stats_sync which is use a seqcount is optimized away on 64bit
->   architectures. The increment becomes just an add, the read just a read
->   of the variable without a loop. On 32bit architectures the seqcount
->   remains but the scope is smaller.
-> 
-> The struct xt_counters is defined in a user exported header (uapi). So
-> in patch #2 I tried to split the regular u64 access and the "internal   
-> access" which treats the struct either as two counter or a per-CPU
-> pointer. In order not to expose u64_stats_t to userland I added a "pad"
-> which is cast to the internal type. I hoped that this makes it obvious
-> that a function like xt_get_this_cpu_counter() expects the possible
-> per-CPU type but mark_source_chains() or get_counters() expect the u64
-> type without pointers.
-> 
-> v1…v2 https://lore.kernel.org/all/20250216125135.3037967-1-bigeasy@linutronix.de/
->   - Updated kerneldoc in 2/3 so that the renamed parameter is part of
->     it.
->   - Updated description 1/3 in case there are complains regarding the
->     synchronize_rcu(). The suggested course of action is to motivate
->     people to move away from "legacy" towards "nft" tooling. Last resort
->     is not to wait for the in-flight counter and just copy what is
->     there.
+> Kconfig !PREEMPT_RT for this is not an option, right?
 
-Kconfig !PREEMPT_RT for this is not an option, right?
+That bad? I though it would make you happy ;)
+Making it !PREEMPT_RT would essentially disable the whole nf-legacy
+interface. Given that it is intended to get rid of it eventually it
+might be an option. I mean there is nothing you can do with
+iptables-legacy that you can't do with iptables-nft? 
+I mean if this is not going to happen because of $reasons then that
+would be the next best thing.
 
-Thanks.
+> Thanks.
+
+Sebastian
