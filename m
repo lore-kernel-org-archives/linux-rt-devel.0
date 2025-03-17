@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348FF1D89FA;
-	Mon, 17 Mar 2025 16:39:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56151A5BBB;
+	Mon, 17 Mar 2025 16:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229593; cv=none; b=Yn4+zu6l5C1AXXVJfiWG8Qy5SnyUbsRZwRrc75+T/UFj/16UWeky38fgxZtJ808koLZASjmmGJBEg4i/caRJCxPnjqPjcRdgamFTvxkCCjo5ZmFyUQ5cn1OFN4sjCuTzRGyOGajoYuM3eIIdSUboN1k1m0inJKycZRKhcltetGQ=
+	t=1742229611; cv=none; b=gVxXgX7veGSa6wFI+zgIBvDpmH8SWg8uDtTyAQSFxvfEJmCfFzPtwqsoExY6hDRHcANJj0odlzwh1uJkoj3FocUsQwaAYBcDtDIYPlTgQk8W8gB0+K0ELyHtupwzOnT60ZFxYeHx77n0Qu0HiiWWj+PBO+ub+jR2D7wynOfxt90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229593; c=relaxed/simple;
-	bh=Ueo8+OP46BR7h+ZjlZaKgwvjpsOiazfbnA/5jazPig8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mmi8K+N8vDXN+x5xXLlawuCJi9PweV9xOg4ZzicVqsAsPos6bpFNEQ5w+gZTap+CsTGQsZ5xj4c3NHNuzmek9zvaLCm9Q938EiFwqwjd4zToV+SMT9Z+XnpAZjmDMJ4a8cgmfuYukTDg0FByOj4w545wCrIaCwTo6Tnd2xse5pM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfgrEpIi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742229611; c=relaxed/simple;
+	bh=n9+bqYjoP/uA9Uql6p/68DlLMLbl4tIySNIuJ1ZsIw4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MDLLFowpdIDXgLhBl37gzfCiaBvOs7PsLDtyRZtsRoRi1abhEnrl9t7j4ryi2iyt0mDgUevnjwIJeTu56WzJsYUy5NBP/qdLuQqDwUaFXWsfWVTemrjV+KmZ709lOW0rVS2MOGJjCJixE4kf82AgFa/RxlcMZ7XIBlT3CQagPCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RncI4hnP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfgrEpIi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B293CC4CEF1;
-	Mon, 17 Mar 2025 16:39:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RncI4hnP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E1DC4CEE3;
+	Mon, 17 Mar 2025 16:40:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229592;
-	bh=Ueo8+OP46BR7h+ZjlZaKgwvjpsOiazfbnA/5jazPig8=;
+	s=k20201202; t=1742229611;
+	bh=n9+bqYjoP/uA9Uql6p/68DlLMLbl4tIySNIuJ1ZsIw4=;
 	h=From:To:Cc:Subject:Date:From;
-	b=lfgrEpIisp2sJ0cKbeWTZnOPXAytuQl2lHp0HS9xM82q8L9C8mAhEYdqPPaol9gWF
-	 G4+oOzIrgdVdyriQO41xcBQT76FpOu7f8n3HF5IIsO4m3x3yGHoy/sPyHODWB2GPyp
-	 HNAUZf/fud6ZENNtopnYrD3Ezmt6+LRlLFQndly5vGwaowRlHCMhuyEdbn4TO7T/zC
-	 2rQyQCE3bi+zxns7pyQVAc9YWeQGrUyba+B3hSmPmlwcTdMx34wgIiLABbyRLU4fq/
-	 m6VKN8L7JCPzFxQLjisZe7CIj0hYofWRWLdKVEScfA8JTd1ZczaH2iXVmy0PtAh+8V
-	 mBj4gUBMxH06w==
+	b=RncI4hnPOfzAPzIOyjQM3TneaxbfHGLMYyo+zXNVs2PM2lt3quBvlEcmDj95xeqE3
+	 i/ahBjoj+NnwfSZYjH232ChQf+UHlmeFNXC/3mwT2K0WQraOQ4l2Ilh4LXPdgm8Wrc
+	 x3Zcs4ege4t8MIBL2t0sa9UIURQF/A1MkBVCshlBtLIlV6OO1JVnvqfs1N5w/C/QNG
+	 Tdvl6+4EYxmSbPjee4OwYsWJHw3XwxKtOchtmDkLk3A3CllpuXUE/sK4iboVT4p1c6
+	 6YRiSo/7YTzQZrSTcZt3eIaemApOdimpwkRzzinhGCN2xdseMcFhyUfvzCmXm2D+OH
+	 RgeGD+GaoNgWA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,9 +41,9 @@ Cc: Waiman Long <longman@redhat.com>,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 1/4] locking/semaphore: Use wake_q to wake up processes outside lock critical section
-Date: Mon, 17 Mar 2025 12:39:46 -0400
-Message-Id: <20250317163949.1893632-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/2] locking/semaphore: Use wake_q to wake up processes outside lock critical section
+Date: Mon, 17 Mar 2025 12:40:07 -0400
+Message-Id: <20250317164008.1893869-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.179
+X-stable-base: Linux 5.10.235
 Content-Transfer-Encoding: 8bit
 
 From: Waiman Long <longman@redhat.com>
@@ -144,7 +144,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/locking/semaphore.c b/kernel/locking/semaphore.c
-index 9ee381e4d2a4d..a26c915430ba0 100644
+index 9aa855a96c4ae..aadde65402913 100644
 --- a/kernel/locking/semaphore.c
 +++ b/kernel/locking/semaphore.c
 @@ -29,6 +29,7 @@
@@ -164,7 +164,7 @@ index 9ee381e4d2a4d..a26c915430ba0 100644
  
  /**
   * down - acquire the semaphore
-@@ -182,13 +183,16 @@ EXPORT_SYMBOL(down_timeout);
+@@ -178,13 +179,16 @@ EXPORT_SYMBOL(down_timeout);
  void up(struct semaphore *sem)
  {
  	unsigned long flags;
@@ -182,7 +182,7 @@ index 9ee381e4d2a4d..a26c915430ba0 100644
  }
  EXPORT_SYMBOL(up);
  
-@@ -256,11 +260,12 @@ static noinline int __sched __down_timeout(struct semaphore *sem, long timeout)
+@@ -252,11 +256,12 @@ static noinline int __sched __down_timeout(struct semaphore *sem, long timeout)
  	return __down_common(sem, TASK_UNINTERRUPTIBLE, timeout);
  }
  
