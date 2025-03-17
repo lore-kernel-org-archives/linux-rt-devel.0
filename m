@@ -1,34 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C4121CA1F;
-	Mon, 17 Mar 2025 09:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6CD14A8B
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 09:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742202879; cv=none; b=sY5wizCiVAvDHNCFoqQkUqiRkR0JLJ1JeS60wdWBeS+XC6Bbp3+xvRKyF9icVm3viM2TYWIUiDWtxHsKqEmIw1W57TgVtW8cvCpS01cueRGahNznf6hjK9ZN5zCf98QNtTCSlU8gmppCfxiH9l7L/CiNcbgdQG0j0VR+x4eTl94=
+	t=1742203531; cv=none; b=Qrre1TgsPGf+UXQkx3jEVeOcIltS4usrYgWoKsB9eQz/j8+79GPR/6QIC7sVSjv2ZTOFbh/VS/MjZAau4yM5UwQ4slWO61u5dzATxzCpLUgPKVlGd/EKFykHyYM5H3YKAdQq3y15b8Wo5mSsgu9PmyFktxKGpsRd0odmSNwOyWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742202879; c=relaxed/simple;
-	bh=5h8XMT/G+RV7ujcpCBjzHgGWuv8EYmnCD8h3KrbDJkQ=;
+	s=arc-20240116; t=1742203531; c=relaxed/simple;
+	bh=dvztFSyZEErM9HZEwREnIEAgg46fSGRjsHx3ksHlq0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t1HCdPuOKpyvROt3BWPDMyX0OJZHfH8PVdXW2QKDE4lhbXUFTX7ztvdhOLcwBS0sjwSs5LLcNRnIJ+5BYIKUjrdv2x3k6tFrKshqdJXfhIe3L1BjVIzkTbusX/4GEWiNVB78s+neAQSioSG8v57k99ewJt/KNDQxES5ZMb2zBaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sb8Q6hDE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=O6wxB6K+A4VY44hsuxtoL++Tyct48d8L1cvhOjvv0gEo4EwXT6TSdPjji6PE72AI4I3UDRxjYnfDE3gbzEVShaOewX6VgZTb5sxPMCD9KBpQHQDmqo3mPFiMpsTzNFtTRKSDbz4H52yTq8j4o4g+V4NzwR24CcEpHhzAdDtNRo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=F2slaZbw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BjS7QKbn; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sb8Q6hDE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A61E5C4CEE3;
-	Mon, 17 Mar 2025 09:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742202879;
-	bh=5h8XMT/G+RV7ujcpCBjzHgGWuv8EYmnCD8h3KrbDJkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sb8Q6hDEkFRa5N136Cq6eHG/h2v14EuhqwY95oppqXK5OKSPCBv/uOraLYd/6f7UH
-	 rqWvQxXTTCLU2qvwjF2S44zi1HrOPjWx5izI3cpqaQ8yw7gvzSDpjZOPX1+bIcjsIw
-	 9iSSCXtPv+ML7IXItdh6ZtHTSDPf0g9IO1yx/1hpKJr5Cr8By3+Tg745SRmKStyk1r
-	 FAGjUpx5bNlKllyWp6i7b63SnH8/BbdI7r7kixiy8evDrg+8CB/NnygxocRzAe0F2H
-	 Z7jq6xvBdJGKvJDxEQvaT2ozS8mejK78PKU5JZnWntCyWxTwvmNRWgF1zFLThNroQ8
-	 1/cXhCknUA6Jg==
-Date: Mon, 17 Mar 2025 10:14:33 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="F2slaZbw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BjS7QKbn"
+Date: Mon, 17 Mar 2025 10:25:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742203527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z/C7OyGVRK60ZqzYGVybQCEnm9DV3fpBqNs0Cp11nQA=;
+	b=F2slaZbwSHazunDpZEf0dQDXezXZ3k6MiI+va2edK8SotRBmRKkOOLroNmm6Lf2diozhZr
+	ovQmE+NhISVh7P3X7sexa+O+T4ej4Ri4DCjsVnrLAp2TIfQnMImvpN15KkLYpY7DFVznbc
+	fica56ms1tMbh8XsppBuZkElnM1k3Yp2+8rBEJ1O4IyySCvn151uz6lEvNUcpt0Ilr39jq
+	yJVz2PR74/aktc4GRvOfawBLmwZGdS+6JCaa1MXnSiq0axktLJSRjxe5MVeSjC8BvMrCNU
+	bvrqInGGSd6OL0ntQ5aTszCvKLg0sczs6beser8nq71mrkZOoMsfw2YeOmqxwA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742203527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z/C7OyGVRK60ZqzYGVybQCEnm9DV3fpBqNs0Cp11nQA=;
+	b=BjS7QKbnK4pwtkhilxtiiAHXJ4A0lMXGS4BflKeNfSNHEiq+SpT6p6EBIk1iQXnv7MoExP
+	PwW9oZ57eavArwBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Ingo Molnar <mingo@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Ben Segall <bsegall@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -41,37 +51,60 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 0/9] preempt: Add a generic function to return the
+Subject: Re: [PATCH v4 1/9] sched: Add a generic function to return the
  preemption string.
-Message-ID: <Z9fn-UqDPXEr8vs-@gmail.com>
+Message-ID: <20250317092526.S1MfZldy@linutronix.de>
 References: <20250314160810.2373416-1-bigeasy@linutronix.de>
+ <20250314160810.2373416-2-bigeasy@linutronix.de>
+ <Z9ay49NsoC73dKXe@gmail.com>
+ <20250317083155.9g9ksofZ@linutronix.de>
+ <Z9fnf9g_zmbNXICh@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250314160810.2373416-1-bigeasy@linutronix.de>
+In-Reply-To: <Z9fnf9g_zmbNXICh@gmail.com>
 
+On 2025-03-17 10:12:31 [+0100], Ingo Molnar wrote:
+> 
+> * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> 
+> > On 2025-03-16 12:15:47 [+0100], Ingo Molnar wrote:
+> > > 
+> > > * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> > > 
+> > > > +const char *preempt_modes[] = {
+> > > > +	"none", "voluntary", "full", "lazy", NULL,
+> > > > +};
+> > > 
+> > > > +	/* Count entries in NULL terminated preempt_modes */
+> > > > +	for (j = 0; preempt_modes[j]; j++)
+> > > > +		;
+> > > 
+> > > I'm pretty sure the build-time ARRAY_SIZE() primitive is superior here. ;-)
+> > 
+> > It would be but it is not an option.
+> > That array is defined in core.c where it is "always" required while
+> > debug.c needs it optionally. core.c is its one compile unit while
+> > debug.c is included by build_utility.c. So I don't see how this can work
+> > unless we shift things:
+> 
+> Why not have it all in debug.c?
 
-* Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+The debug.c include is behind CONFIG_SCHED_DEBUG. This needs to be moved
+into debug.c itself so that code can be added regardless of
+CONFIG_SCHED_DEBUG. It is not only sched-debug after that.
 
-> Sebastian Andrzej Siewior (9):
->   sched: Add a generic function to return the preemption string.
->   lib/dump_stack: Use preempt_model_str().
->   arm: Rely on generic printing of preemption model.
->   arm64: Rely on generic printing of preemption model.
->   powerpc: Rely on generic printing of preemption model.
->   s390: Rely on generic printing of preemption model.
->   x86: Rely on generic printing of preemption model.
->   xtensa: Rely on generic printing of preemption model.
->   tracing: Use preempt_model_str().
+Then we have `preempt_dynamic_mode' logic which is in core.c but it is
+exported and used in debug.c
+So if all this is not a concern then I can move it.
 
-A meta request: please do not put periods into patch titles in this and 
-future series...
+> Thanks,
+> 
+> 	Ingo
 
-Thanks,
-
-	Ingo
+Sebastian
