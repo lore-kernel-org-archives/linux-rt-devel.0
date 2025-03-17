@@ -1,34 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE53D238D43;
-	Mon, 17 Mar 2025 10:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF11A214A8F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 10:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742206725; cv=none; b=hlJy4gG8pOU/PwSByoRPGkmVpMdwez7GiX24jHLBqtTEhcDpCXYqtP2fxK9jYfvdyjLEwv+znhSnhnzJKzJ6Zp5ZfpvTyuPVeo1udF2j1H3wJ+YbW8qPmn+H8m6UDTIPovG7S2FsbcCEgGTwzlBn70z7TGPkNFQRXelrZpV+iFE=
+	t=1742207642; cv=none; b=B52Jj0TQtT+Wjh8KpIDRtw6O3yeRcgPN+oDhf7Aog2rZUqYQo3K//0CMOrZmLVtfXphMpvJtsnNU8YmINhFcPDlA9EBIIQ3aNI9rJwrM7UwxgGK2QyEWGjNxhvCAfY9M7lP+0qxVelEtOPIxoCZgjpnwDDlqrTemehTJIu2V73w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742206725; c=relaxed/simple;
-	bh=tdihrKE7tzndVFnw9dWBP73Eu2/SjZoCbquhjXvIpzM=;
+	s=arc-20240116; t=1742207642; c=relaxed/simple;
+	bh=TDl6EmF79vCErstAMkDQ0wDJ5/H2BwdP75Y7L+Dzrg4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kuxy0aBF2PjlnZHj3vgbdV9BSTuv7IoVyV9ZB/3SUYA1eMqiKK4WWyk+EoXNLZ5iKskl0bO3SvimOLITPQWkM1GhcJaqn8fmUaS1KlloFRuOkew37DZTgfAl4AFY/sph5iGx2g5MVqsT2znwFIUFLiAyiFTMycD45MMTbwct/7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JRNhqbJP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TV0pfjDat2TFGikR2/iHksXVe0Em+RTsibIaFYWtidCH3sJHSHqHOk7JCVeMdQE/A0K/0wKgrjyFp4sFZAsxfgdFvVrgNa7ZYCzb70XOMErUHPjX1ofgB/FOLRIXo2cvzKG/jM2R4XPoiMdUvkm0QUUdFqMQPRb6k2Ny7+KFFtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ry3y9Sur; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rgDoORSw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JRNhqbJP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A62C4CEE3;
-	Mon, 17 Mar 2025 10:18:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742206723;
-	bh=tdihrKE7tzndVFnw9dWBP73Eu2/SjZoCbquhjXvIpzM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JRNhqbJPLHmdKTQyG4guXvGs+c8P4CPGjccAaxa0KUdhiMJz6C4UNRN1PLTIDipvf
-	 y+D2H0C1NCXJYgrAui99at8QYk4LbtlGPVtyjCQl0u+DNqbEE6LwXyWMrSd9OyUd8Q
-	 ZKJWpojx74Z/BrI1j8Ms2pSud4PL3bLgSHsE92GLzbhWyYKTbJ1+JQqhymCEFAHLJh
-	 GQ7cBwvnm5ZcIpEAHYvpuY58qCBDpeRRYCWLJ1N6D3IIgtZd+P1DdiD3UCkybzT5h/
-	 Q9DuMqPWv9D8xtmkpZeIbhVcdncyZqaVDY9DYQni/ujtlj3o3E4CQ5kaR6uO3ZPEby
-	 6iqR/IgM/QT5w==
-Date: Mon, 17 Mar 2025 11:18:37 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ry3y9Sur";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rgDoORSw"
+Date: Mon, 17 Mar 2025 11:33:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742207639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYRxylyxZUUgv9lODip/DW6anufG9qy8IRiDemV9lNg=;
+	b=ry3y9SurH5mI8wIBg02I+iDHGYCqM9G0FQ926ot5MOjqud1CVGC8nSaw0LA14a1inIu4Qy
+	Odhx97UyytA7GXjdB7LEkUm+K22NjCwNKpyp/5MXdW6U9cIm0fyK8lh8Zyxv5lu2jNcBux
+	Q+svz2jVC009/onKleBAvi0ioEclVta1aIizNT9BMlgIijaF6Kil+bziTdvekINYxg3FhF
+	/hMP8G2wNgd7E5Nf41kiDdm6SfQ1dlyRudIBWFz8vWBYPSJH1p/qxX4+N8Tl/r7CrJSC9s
+	1MMpFpJhgZxrs4E/WakFV7RTwVVxTRQid/vsaDQsnQ3q6mMzkiLBgTBk46cspQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742207639;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DYRxylyxZUUgv9lODip/DW6anufG9qy8IRiDemV9lNg=;
+	b=rgDoORSw0/ukEk9hakX/yTEwgLUYKXfY4lnwDCvKf1CxIluFn5yUVtFBzA6iL4P4OF9eU7
+	AWmAxCauRE8sSuCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Ingo Molnar <mingo@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Ben Segall <bsegall@google.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -43,65 +53,38 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Will Deacon <will@kernel.org>
 Subject: Re: [PATCH v4 1/9] sched: Add a generic function to return the
  preemption string.
-Message-ID: <Z9f2_exjFEpTpuRr@gmail.com>
+Message-ID: <20250317103357.O6YuNbpr@linutronix.de>
 References: <20250314160810.2373416-1-bigeasy@linutronix.de>
  <20250314160810.2373416-2-bigeasy@linutronix.de>
  <Z9ay49NsoC73dKXe@gmail.com>
  <20250317083155.9g9ksofZ@linutronix.de>
  <Z9fnf9g_zmbNXICh@gmail.com>
  <20250317092526.S1MfZldy@linutronix.de>
+ <Z9f2_exjFEpTpuRr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250317092526.S1MfZldy@linutronix.de>
+In-Reply-To: <Z9f2_exjFEpTpuRr@gmail.com>
 
-
-* Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-
-> On 2025-03-17 10:12:31 [+0100], Ingo Molnar wrote:
-> > 
-> > * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > 
-> > > On 2025-03-16 12:15:47 [+0100], Ingo Molnar wrote:
-> > > > 
-> > > > * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > > > 
-> > > > > +const char *preempt_modes[] = {
-> > > > > +	"none", "voluntary", "full", "lazy", NULL,
-> > > > > +};
-> > > > 
-> > > > > +	/* Count entries in NULL terminated preempt_modes */
-> > > > > +	for (j = 0; preempt_modes[j]; j++)
-> > > > > +		;
-> > > > 
-> > > > I'm pretty sure the build-time ARRAY_SIZE() primitive is superior here. ;-)
-> > > 
-> > > It would be but it is not an option.
-> > > That array is defined in core.c where it is "always" required while
-> > > debug.c needs it optionally. core.c is its one compile unit while
-> > > debug.c is included by build_utility.c. So I don't see how this can work
-> > > unless we shift things:
-> > 
-> > Why not have it all in debug.c?
+On 2025-03-17 11:18:37 [+0100], Ingo Molnar wrote:
+> Yeah, that's a valid concern.
 > 
-> The debug.c include is behind CONFIG_SCHED_DEBUG. This needs to be moved
-> into debug.c itself so that code can be added regardless of
-> CONFIG_SCHED_DEBUG. It is not only sched-debug after that.
+> The thing is, CONFIG_SCHED_DEBUG is mostly meaningless these days - all 
+> major distributions enable it because of the statistics are useful for 
+> system administration, tooling and general software development.
+> 
+> So we should enable it permanently and remove the #ifdeffery. I'll send 
+> out a series to do so soon.
 
-Yeah, that's a valid concern.
+If that is the way to go, the please Cc me and I rebase on top of it.
 
-The thing is, CONFIG_SCHED_DEBUG is mostly meaningless these days - all 
-major distributions enable it because of the statistics are useful for 
-system administration, tooling and general software development.
+> Thanks,
+> 
+> 	Ingo
 
-So we should enable it permanently and remove the #ifdeffery. I'll send 
-out a series to do so soon.
-
-Thanks,
-
-	Ingo
+Sebastian
