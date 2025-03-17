@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56151A5BBB;
-	Mon, 17 Mar 2025 16:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB821A8F84;
+	Mon, 17 Mar 2025 16:40:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229611; cv=none; b=gVxXgX7veGSa6wFI+zgIBvDpmH8SWg8uDtTyAQSFxvfEJmCfFzPtwqsoExY6hDRHcANJj0odlzwh1uJkoj3FocUsQwaAYBcDtDIYPlTgQk8W8gB0+K0ELyHtupwzOnT60ZFxYeHx77n0Qu0HiiWWj+PBO+ub+jR2D7wynOfxt90=
+	t=1742229618; cv=none; b=nTFFuhiFoxE/LSds68VPfcpfw05ccQUimSYpXMJgrrkUnEIPgsAYBip5wPpMce9VElI79ByuACPSP3LDhvoZe6Kh+rrpMZQqHzVAPZsZns/fCbvkBQzSs+Kk9fivRAd1vCyq5jN1rq3Dd/Ir3DskppImVyVm5ylouokFE572fIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229611; c=relaxed/simple;
-	bh=n9+bqYjoP/uA9Uql6p/68DlLMLbl4tIySNIuJ1ZsIw4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MDLLFowpdIDXgLhBl37gzfCiaBvOs7PsLDtyRZtsRoRi1abhEnrl9t7j4ryi2iyt0mDgUevnjwIJeTu56WzJsYUy5NBP/qdLuQqDwUaFXWsfWVTemrjV+KmZ709lOW0rVS2MOGJjCJixE4kf82AgFa/RxlcMZ7XIBlT3CQagPCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RncI4hnP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742229618; c=relaxed/simple;
+	bh=KPqq7IKw/v0+vm2iRgZpMnlwStLutH2yikFw0m6VI0U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q1kH9uN+7XZaXNVf92QWqF8pvydWDLRugBgGraZYKH3Sg3343ja3dOIYEHvVSfRKnRuuaqe6VYnE+DzbSjoREiZ5fRE77/ZsmJGUouWFfYU3lwSAVVTE13fLdUY0fpi6eGX7O3XSfnpj2r55Z1hbA876myL3A+roKuuDSiJaAWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PADrlJ+4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RncI4hnP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E1DC4CEE3;
-	Mon, 17 Mar 2025 16:40:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PADrlJ+4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9CAC4CEED;
+	Mon, 17 Mar 2025 16:40:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229611;
-	bh=n9+bqYjoP/uA9Uql6p/68DlLMLbl4tIySNIuJ1ZsIw4=;
+	s=k20201202; t=1742229618;
+	bh=KPqq7IKw/v0+vm2iRgZpMnlwStLutH2yikFw0m6VI0U=;
 	h=From:To:Cc:Subject:Date:From;
-	b=RncI4hnPOfzAPzIOyjQM3TneaxbfHGLMYyo+zXNVs2PM2lt3quBvlEcmDj95xeqE3
-	 i/ahBjoj+NnwfSZYjH232ChQf+UHlmeFNXC/3mwT2K0WQraOQ4l2Ilh4LXPdgm8Wrc
-	 x3Zcs4ege4t8MIBL2t0sa9UIURQF/A1MkBVCshlBtLIlV6OO1JVnvqfs1N5w/C/QNG
-	 Tdvl6+4EYxmSbPjee4OwYsWJHw3XwxKtOchtmDkLk3A3CllpuXUE/sK4iboVT4p1c6
-	 6YRiSo/7YTzQZrSTcZt3eIaemApOdimpwkRzzinhGCN2xdseMcFhyUfvzCmXm2D+OH
-	 RgeGD+GaoNgWA==
+	b=PADrlJ+4YmfIdILFrkMLFE2NFz6SRh8MzAgVMlXAyZs80TTw06RR8woz89TWxDyOW
+	 F5/gm7qsISuS9R/qQe7EYIlzF8M5Fnx4YqshDUKpGoQnLEDOS4viOA0AzkIHSTqSpj
+	 n4Xyu39Udr0fXJIZoaVZwECugnNABatRob1YrMX0gey6C5QP/FdNIrZUw+TDgzAyl3
+	 Bn96P282qYLPNnicCgztEvIfgryNnNDFQZIm0JC/PCDV7k7NzbKJ14k2KMvHWfj6FZ
+	 K/fiI5/FLy13LlvpcE3433DvgqQ9J7WLyQPx7+DdNFcXXbKu/Mo+EiQ72en+ONj4nH
+	 s4uUG7onod/cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,9 +41,9 @@ Cc: Waiman Long <longman@redhat.com>,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 1/2] locking/semaphore: Use wake_q to wake up processes outside lock critical section
-Date: Mon, 17 Mar 2025 12:40:07 -0400
-Message-Id: <20250317164008.1893869-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4] locking/semaphore: Use wake_q to wake up processes outside lock critical section
+Date: Mon, 17 Mar 2025 12:40:15 -0400
+Message-Id: <20250317164015.1893964-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.235
+X-stable-base: Linux 5.4.291
 Content-Transfer-Encoding: 8bit
 
 From: Waiman Long <longman@redhat.com>
@@ -144,7 +144,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/locking/semaphore.c b/kernel/locking/semaphore.c
-index 9aa855a96c4ae..aadde65402913 100644
+index d9dd94defc0a9..19389fdbfdfb1 100644
 --- a/kernel/locking/semaphore.c
 +++ b/kernel/locking/semaphore.c
 @@ -29,6 +29,7 @@
