@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE91D2045BF;
-	Mon, 17 Mar 2025 16:38:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111E12066EC;
+	Mon, 17 Mar 2025 16:39:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229516; cv=none; b=tSWfQKWlK8l/gPqwUmGHQ4W5afjKLZLkjeeuxaDouAEzo5EhOf+wW5UzgcXPag32SXbxlvUvZHZgWvpSxGNtyozMNx5IAgT+4LSORlpgZsflXgSzWDDfetxxs0aeUZDAsM3NFz04g5wgE+8m5GlV/NTdcsHDxveOS0WdWxWjsNg=
+	t=1742229551; cv=none; b=iPUaSST/D38Ylp42i0FnHtzhrXRlboUpDggu3evBZmMhcunVshCGRk+IvD0oHsdcBjEVfGQFQ/G8mb2NvoeHv6D6hy+SRhkI/NGOmVBQ0bCDPhHP2CJWcolPwH7gZJxmjkS56T88j/NqdoZ3VSU1gmu+U7BSn5M4RyyCXJ6Yv58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229516; c=relaxed/simple;
+	s=arc-20240116; t=1742229551; c=relaxed/simple;
 	bh=KMnofa1VM9IfQnXHHtsdHIzVARvSU9jHnwQYtJfYLHY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pURzu0ZEprqD60sm+OFe0ERELClWhJ2OMA+iP+kqlCAqFTGDjnSmIt3xjs8YIFG2A9gThRELzWIiWFmydM6cukNRe+J6JWRmUmMqdAgbb3i/BQ18cSPKBwMjkXeNNHqMC3QdAmpsgmriSgmoGyOr9zpevB4gPqapFhrO8gzUCBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cz69vMXF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=oQnxUZxZv3E0f2J03f7LCf86reSIRsvxtuJZJyl0wY76oyun2CLSrrIk+5UP2j6xvBavLZGCEWVgXwabi4n6Za/+bAEo89rmZpVXSD6/G1mx/C3YHR3inrfO1A5LHyiFPI+WjSOmGYlzfIlLmbqT/jo/+mpC7uy3Uy+oK0x7eWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aNtJCrqJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cz69vMXF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BC60C4CEE3;
-	Mon, 17 Mar 2025 16:38:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aNtJCrqJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8AE8C4CEE3;
+	Mon, 17 Mar 2025 16:39:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229515;
+	s=k20201202; t=1742229549;
 	bh=KMnofa1VM9IfQnXHHtsdHIzVARvSU9jHnwQYtJfYLHY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Cz69vMXFhDp8y5IEfMRkYjx6gOwSMxy7MTFw0MbDWnbZBLn+a6HrqUKpeXxIAKIjN
-	 WI7+wI/khtdSjgMzmPFSA9pwFzeN3c9kejsnFdlEJhED9yZxdmbeU10A2PGT6vwjBa
-	 +svY7OrbSHD6LzbgJU3Q3RLOLCSCjyV/4aC78mcH3bIokrirG+Fzhd3htpwIV+zkDj
-	 rGaAPvWOF+wrZZUaqTqa7YnOaMl9dgTzTRJhRmPZW/gioXaWOh05hK8K1ilKHecAg8
-	 nDYP/UBv3sXqnfKmZRiT1zy+f9+UmC6zAkjs0Fw41TAch9E22UQZDV3jDZmsfYzbwx
-	 u/lRgSEqI9+Uw==
+	b=aNtJCrqJmbP8I66Rn2R3jd+vGFkU1McgifRW+2qo//UrA59UiZYsqouylIp/0l4vQ
+	 uk6TICrwnOE4Ky3arY8/ohLZOJytsxst25Oeh5fwZkRH3/44oNVz+DsOEMrHavATzC
+	 zej963LnXX8YqfRiuKSmJXXVXtH3LQ/jWIIdXkODueG/GxFaFr6RT6Mjz0CXzng12Z
+	 EZkfZFmflZz9u9y6BPztiw2p9gn4ORuYX2fWLE/k2B4wvYXmHHEIOWbiGn517CAc/B
+	 yrBEn3uZz4tJ9urEX6xTDsyErI7Fd3Uf97VxG34JqDxZb0BUdEA2b4myqefvimiyeh
+	 +HD++qM1choxQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -42,12 +42,12 @@ Cc: Waiman Long <longman@redhat.com>,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 06/13] locking/semaphore: Use wake_q to wake up processes outside lock critical section
-Date: Mon, 17 Mar 2025 12:38:11 -0400
-Message-Id: <20250317163818.1893102-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 3/8] locking/semaphore: Use wake_q to wake up processes outside lock critical section
+Date: Mon, 17 Mar 2025 12:38:57 -0400
+Message-Id: <20250317163902.1893378-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250317163818.1893102-1-sashal@kernel.org>
-References: <20250317163818.1893102-1-sashal@kernel.org>
+In-Reply-To: <20250317163902.1893378-1-sashal@kernel.org>
+References: <20250317163902.1893378-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.19
+X-stable-base: Linux 6.6.83
 Content-Transfer-Encoding: 8bit
 
 From: Waiman Long <longman@redhat.com>
