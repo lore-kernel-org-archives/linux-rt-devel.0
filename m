@@ -1,202 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB821A8F84;
-	Mon, 17 Mar 2025 16:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B891A0BF1
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 17:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229618; cv=none; b=nTFFuhiFoxE/LSds68VPfcpfw05ccQUimSYpXMJgrrkUnEIPgsAYBip5wPpMce9VElI79ByuACPSP3LDhvoZe6Kh+rrpMZQqHzVAPZsZns/fCbvkBQzSs+Kk9fivRAd1vCyq5jN1rq3Dd/Ir3DskppImVyVm5ylouokFE572fIo=
+	t=1742232599; cv=none; b=HJ2i33AG72wZQ4cX2/9Sw6joF06YOmaEnge5CzHIQwmni9ztqbMMtWYcGGGK5u4stl4H+ItOTajb/ps0v2zW1R2ckdhmkQPL4Z8j8Ko3a44f+zscUS/3FaXSajPppQrIR+gYyNQbZAEufh79PIi56gFCBleDkmvI9kaV1Vyxo3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229618; c=relaxed/simple;
-	bh=KPqq7IKw/v0+vm2iRgZpMnlwStLutH2yikFw0m6VI0U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Q1kH9uN+7XZaXNVf92QWqF8pvydWDLRugBgGraZYKH3Sg3343ja3dOIYEHvVSfRKnRuuaqe6VYnE+DzbSjoREiZ5fRE77/ZsmJGUouWFfYU3lwSAVVTE13fLdUY0fpi6eGX7O3XSfnpj2r55Z1hbA876myL3A+roKuuDSiJaAWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PADrlJ+4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742232599; c=relaxed/simple;
+	bh=HR5k8BiL7B2OPxerAEdBBqmo9n0+6ON8MsRWRTCDshU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dTE8l4Mvnx9ZQVr+2mEOlcaeiqy5jXo0MyZLQPP52jDjnXJl/268B/3XIQ1V+LDvOcBv3yyREem3vti3UzYyvr5HhObhiJZmmtU/lH5JCWrh4r7oDYSwubpQX8rSKUqPSOHbYn2ZOehzBzAAcFkUzprknYCEKAm9AsA5Z2gB1Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yif+GOWk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PADrlJ+4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF9CAC4CEED;
-	Mon, 17 Mar 2025 16:40:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742229618;
-	bh=KPqq7IKw/v0+vm2iRgZpMnlwStLutH2yikFw0m6VI0U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PADrlJ+4YmfIdILFrkMLFE2NFz6SRh8MzAgVMlXAyZs80TTw06RR8woz89TWxDyOW
-	 F5/gm7qsISuS9R/qQe7EYIlzF8M5Fnx4YqshDUKpGoQnLEDOS4viOA0AzkIHSTqSpj
-	 n4Xyu39Udr0fXJIZoaVZwECugnNABatRob1YrMX0gey6C5QP/FdNIrZUw+TDgzAyl3
-	 Bn96P282qYLPNnicCgztEvIfgryNnNDFQZIm0JC/PCDV7k7NzbKJ14k2KMvHWfj6FZ
-	 K/fiI5/FLy13LlvpcE3433DvgqQ9J7WLyQPx7+DdNFcXXbKu/Mo+EiQ72en+ONj4nH
-	 s4uUG7onod/cw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Waiman Long <longman@redhat.com>,
-	yzbot+ed801a886dfdbfe7136d@syzkaller.appspotmail.com,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	peterz@infradead.org,
-	mingo@redhat.com,
-	will@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4] locking/semaphore: Use wake_q to wake up processes outside lock critical section
-Date: Mon, 17 Mar 2025 12:40:15 -0400
-Message-Id: <20250317164015.1893964-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yif+GOWk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742232596;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jLiAoQcg8KzfhuMFjYbt4oXsOhzaJWAzjx8x5W0S0QU=;
+	b=Yif+GOWkahVVwF/n0W4tjoaOpoSBaxtwqwvh1OM/DLv4o2aI6PlhrFLr2KXsIwfTyd0rzL
+	h4vQ5s8MIOC+o3wh3bflt4tcTnZiX8Y8mPwEn9L1yoWxAKv2wiwt4RX75vXG+3U9thacfE
+	4pkZ5FrHrh9qKrLLw8E7h4H/V9aywmk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-551-uNglsKh_OAKeOR5jKRUyMA-1; Mon, 17 Mar 2025 13:29:55 -0400
+X-MC-Unique: uNglsKh_OAKeOR5jKRUyMA-1
+X-Mimecast-MFC-AGG-ID: uNglsKh_OAKeOR5jKRUyMA_1742232594
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3912aab7a36so1989769f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 10:29:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742232594; x=1742837394;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jLiAoQcg8KzfhuMFjYbt4oXsOhzaJWAzjx8x5W0S0QU=;
+        b=ltMofRnIumNuFPMhk0+QuKZQjmcs3DwkCG+QwZvD9+m67atDWV6DqWbZf7mRJh+O8T
+         F2jHcaDZB959wgrETs0OHYuW91H2Pv+wh6/c6vTzAth0j24vNz6ofjM0kdiJVgZOYsAr
+         ZnukAjiVEAW0KkOZDshoz2k4tMJrAUfl2IADFIilU/Je0pyTXF/NuoV94PmOjJUbEwgs
+         0T762V3s5pPWbOTam5R3dPfTub0YegX6d3NdxWGjN+0plVtuiPyYlbJV3ikngGTiEHGm
+         F3CysgPgx7HsiKOsRIA7yst6ZlIZLkXNwl97cYmy6d5nlVeSEIZARuq2McaDVQT2wqpJ
+         H0yg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJoi5YzFyfeCoxFLOcbj9RqyKJjHUGubWDMun3JhMxLNuhY87PXuM0dg+BU9W79UKnyoenTXvzs87g7iVwkA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwxeKz9iokdiu4SzxVTmaXsNirRSCxSnBfhB/O/0NpWqElWjvrI
+	vtgi4TeiuUfLYHng8fZepRrCQGE4QtfRLMjVdP6Yws0G9Fsn97a8tJ3nrjIeiRcY7SGqJw+i46e
+	8QFo4KmYiffqo6J3CsqlUCvMjFRX702yZ0qZKRrFr0ijGyd7R8/pAUTaGm2I33zjh
+X-Gm-Gg: ASbGncvyicTHLKVptDZLG74JMtinuA2cI4FUopR3WFRYW4mnB+XUcnSChLhCgMZR/1l
+	/Yyy99WerE4cLTlYYGtIidkU2qnrkUJLUzBhqatRaz47Hj3Bulrt1YWs+FAggdsnryR9rqz1Jra
+	L5JqdAbIWc1ttm4BYi3Vrf+hwzHybqnxqtEo97mdxmsGJIcGhvYfJ/GPGYUoCas3dic63hkbl1t
+	ODYyF/4wC06P8YJamKaNDkjDeVnqUl0dCIFekqM9T3Hc/c5kPfnAx2T5/AjhsnwEjPyAMBKniWx
+	zY88YU0yVEsiU7jYRHwK/XeN9AcqYOien27eeOeWLaRkbg==
+X-Received: by 2002:a5d:5f93:0:b0:38f:355b:13e9 with SMTP id ffacd0b85a97d-3971d42ae27mr16648615f8f.15.1742232594182;
+        Mon, 17 Mar 2025 10:29:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkszNmgMJv2EU7OnN6gBdg2W+Pp+zusqYC+Tkof3RN2Cf33xU23BRZDTBqd0JusGhCLQWrCQ==
+X-Received: by 2002:a5d:5f93:0:b0:38f:355b:13e9 with SMTP id ffacd0b85a97d-3971d42ae27mr16648574f8f.15.1742232593799;
+        Mon, 17 Mar 2025 10:29:53 -0700 (PDT)
+Received: from [192.168.88.253] (146-241-10-172.dyn.eolo.it. [146.241.10.172])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395cb318acfsm15911566f8f.70.2025.03.17.10.29.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 10:29:53 -0700 (PDT)
+Message-ID: <99214ac9-cff7-4a5c-b439-ed9ec2c6877c@redhat.com>
+Date: Mon, 17 Mar 2025 18:29:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.291
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 06/18] netfilter: nf_dup{4, 6}: Move duplication
+ check to task_struct.
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Valentin Schneider <vschneid@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>, Ingo Molnar <mingo@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, netdev@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+References: <20250309144653.825351-1-bigeasy@linutronix.de>
+ <20250309144653.825351-7-bigeasy@linutronix.de>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250309144653.825351-7-bigeasy@linutronix.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: gNfMeDB3E65IxlWtFkRyEHQ5xi7oHB1YKPOzgKsdxsQ_1742232594
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Waiman Long <longman@redhat.com>
+Hi,
 
-[ Upstream commit 85b2b9c16d053364e2004883140538e73b333cdb ]
+On 3/9/25 3:46 PM, Sebastian Andrzej Siewior wrote:
+> nf_skb_duplicated is a per-CPU variable and relies on disabled BH for its
+> locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
+> this data structure requires explicit locking.
+> 
+> Due to the recursion involved, the simplest change is to make it a
+> per-task variable.
+> 
+> Move the per-CPU variable nf_skb_duplicated to task_struct and name it
+> in_nf_duplicate. Add it to the existing bitfield so it doesn't use
+> additional memory.
+> 
+> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ben Segall <bsegall@google.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Valentin Schneider <vschneid@redhat.com>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-A circular lock dependency splat has been seen involving down_trylock():
+I'm not a super-fan of adding more flags to 'struct task', but in this
+specific case I agree is the better option, as otherwise we should
+acquire the local lock for a relatively large scope - the whole packet
+processing by nft, right?
 
-  ======================================================
-  WARNING: possible circular locking dependency detected
-  6.12.0-41.el10.s390x+debug
-  ------------------------------------------------------
-  dd/32479 is trying to acquire lock:
-  0015a20accd0d4f8 ((console_sem).lock){-.-.}-{2:2}, at: down_trylock+0x26/0x90
+Still this needs some explicit ack from the relevant maintainers.
+@Peter, @Juri, @Valentin: could you please have a look?
 
-  but task is already holding lock:
-  000000017e461698 (&zone->lock){-.-.}-{2:2}, at: rmqueue_bulk+0xac/0x8f0
+Thanks!
 
-  the existing dependency chain (in reverse order) is:
-  -> #4 (&zone->lock){-.-.}-{2:2}:
-  -> #3 (hrtimer_bases.lock){-.-.}-{2:2}:
-  -> #2 (&rq->__lock){-.-.}-{2:2}:
-  -> #1 (&p->pi_lock){-.-.}-{2:2}:
-  -> #0 ((console_sem).lock){-.-.}-{2:2}:
-
-The console_sem -> pi_lock dependency is due to calling try_to_wake_up()
-while holding the console_sem raw_spinlock. This dependency can be broken
-by using wake_q to do the wakeup instead of calling try_to_wake_up()
-under the console_sem lock. This will also make the semaphore's
-raw_spinlock become a terminal lock without taking any further locks
-underneath it.
-
-The hrtimer_bases.lock is a raw_spinlock while zone->lock is a
-spinlock. The hrtimer_bases.lock -> zone->lock dependency happens via
-the debug_objects_fill_pool() helper function in the debugobjects code.
-
-  -> #4 (&zone->lock){-.-.}-{2:2}:
-         __lock_acquire+0xe86/0x1cc0
-         lock_acquire.part.0+0x258/0x630
-         lock_acquire+0xb8/0xe0
-         _raw_spin_lock_irqsave+0xb4/0x120
-         rmqueue_bulk+0xac/0x8f0
-         __rmqueue_pcplist+0x580/0x830
-         rmqueue_pcplist+0xfc/0x470
-         rmqueue.isra.0+0xdec/0x11b0
-         get_page_from_freelist+0x2ee/0xeb0
-         __alloc_pages_noprof+0x2c2/0x520
-         alloc_pages_mpol_noprof+0x1fc/0x4d0
-         alloc_pages_noprof+0x8c/0xe0
-         allocate_slab+0x320/0x460
-         ___slab_alloc+0xa58/0x12b0
-         __slab_alloc.isra.0+0x42/0x60
-         kmem_cache_alloc_noprof+0x304/0x350
-         fill_pool+0xf6/0x450
-         debug_object_activate+0xfe/0x360
-         enqueue_hrtimer+0x34/0x190
-         __run_hrtimer+0x3c8/0x4c0
-         __hrtimer_run_queues+0x1b2/0x260
-         hrtimer_interrupt+0x316/0x760
-         do_IRQ+0x9a/0xe0
-         do_irq_async+0xf6/0x160
-
-Normally a raw_spinlock to spinlock dependency is not legitimate
-and will be warned if CONFIG_PROVE_RAW_LOCK_NESTING is enabled,
-but debug_objects_fill_pool() is an exception as it explicitly
-allows this dependency for non-PREEMPT_RT kernel without causing
-PROVE_RAW_LOCK_NESTING lockdep splat. As a result, this dependency is
-legitimate and not a bug.
-
-Anyway, semaphore is the only locking primitive left that is still
-using try_to_wake_up() to do wakeup inside critical section, all the
-other locking primitives had been migrated to use wake_q to do wakeup
-outside of the critical section. It is also possible that there are
-other circular locking dependencies involving printk/console_sem or
-other existing/new semaphores lurking somewhere which may show up in
-the future. Let just do the migration now to wake_q to avoid headache
-like this.
-
-Reported-by: yzbot+ed801a886dfdbfe7136d@syzkaller.appspotmail.com
-Signed-off-by: Waiman Long <longman@redhat.com>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Link: https://lore.kernel.org/r/20250307232717.1759087-3-boqun.feng@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/locking/semaphore.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/kernel/locking/semaphore.c b/kernel/locking/semaphore.c
-index d9dd94defc0a9..19389fdbfdfb1 100644
---- a/kernel/locking/semaphore.c
-+++ b/kernel/locking/semaphore.c
-@@ -29,6 +29,7 @@
- #include <linux/export.h>
- #include <linux/sched.h>
- #include <linux/sched/debug.h>
-+#include <linux/sched/wake_q.h>
- #include <linux/semaphore.h>
- #include <linux/spinlock.h>
- #include <linux/ftrace.h>
-@@ -37,7 +38,7 @@ static noinline void __down(struct semaphore *sem);
- static noinline int __down_interruptible(struct semaphore *sem);
- static noinline int __down_killable(struct semaphore *sem);
- static noinline int __down_timeout(struct semaphore *sem, long timeout);
--static noinline void __up(struct semaphore *sem);
-+static noinline void __up(struct semaphore *sem, struct wake_q_head *wake_q);
- 
- /**
-  * down - acquire the semaphore
-@@ -178,13 +179,16 @@ EXPORT_SYMBOL(down_timeout);
- void up(struct semaphore *sem)
- {
- 	unsigned long flags;
-+	DEFINE_WAKE_Q(wake_q);
- 
- 	raw_spin_lock_irqsave(&sem->lock, flags);
- 	if (likely(list_empty(&sem->wait_list)))
- 		sem->count++;
- 	else
--		__up(sem);
-+		__up(sem, &wake_q);
- 	raw_spin_unlock_irqrestore(&sem->lock, flags);
-+	if (!wake_q_empty(&wake_q))
-+		wake_up_q(&wake_q);
- }
- EXPORT_SYMBOL(up);
- 
-@@ -252,11 +256,12 @@ static noinline int __sched __down_timeout(struct semaphore *sem, long timeout)
- 	return __down_common(sem, TASK_UNINTERRUPTIBLE, timeout);
- }
- 
--static noinline void __sched __up(struct semaphore *sem)
-+static noinline void __sched __up(struct semaphore *sem,
-+				  struct wake_q_head *wake_q)
- {
- 	struct semaphore_waiter *waiter = list_first_entry(&sem->wait_list,
- 						struct semaphore_waiter, list);
- 	list_del(&waiter->list);
- 	waiter->up = true;
--	wake_up_process(waiter->task);
-+	wake_q_add(wake_q, waiter->task);
- }
--- 
-2.39.5
+Paolo
 
