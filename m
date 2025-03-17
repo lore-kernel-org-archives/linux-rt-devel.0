@@ -1,42 +1,42 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6CD14A8B
-	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 09:25:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87568221F36
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Mar 2025 09:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742203531; cv=none; b=Qrre1TgsPGf+UXQkx3jEVeOcIltS4usrYgWoKsB9eQz/j8+79GPR/6QIC7sVSjv2ZTOFbh/VS/MjZAau4yM5UwQ4slWO61u5dzATxzCpLUgPKVlGd/EKFykHyYM5H3YKAdQq3y15b8Wo5mSsgu9PmyFktxKGpsRd0odmSNwOyWU=
+	t=1742203696; cv=none; b=ofuzBg9qrmX/H9Tfj4ba5Q3143xhIiv1hQ+ZcKX45dIx+K5lksqnMZC4+DQezpthRGMX97eN4Al21YQhxJQ3vXOgQ8oO6HmYUUM79PosT80bLLGxKRTBZs2SMNuyEZEHI5E7n8ftQC9NgnWKLiKBZM9TvZOz+evx+SEPulJBxXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742203531; c=relaxed/simple;
-	bh=dvztFSyZEErM9HZEwREnIEAgg46fSGRjsHx3ksHlq0E=;
+	s=arc-20240116; t=1742203696; c=relaxed/simple;
+	bh=cn3pnNqQ/ylAyxiZ7z5cCxJkQFxKq5pG7frJjiVfsVI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O6wxB6K+A4VY44hsuxtoL++Tyct48d8L1cvhOjvv0gEo4EwXT6TSdPjji6PE72AI4I3UDRxjYnfDE3gbzEVShaOewX6VgZTb5sxPMCD9KBpQHQDmqo3mPFiMpsTzNFtTRKSDbz4H52yTq8j4o4g+V4NzwR24CcEpHhzAdDtNRo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=F2slaZbw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BjS7QKbn; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=GEIvXkK7rKa/lpJoCb2KVfBPxSFH9x++V8cNFhUHk8MNJjVzG/vpMDrIz5GkPs0K6Mf0v8H0SCkgIZGsRvwDlouwkka1dgkU3X/w7T1LiVRthuQJA1EOtVDfMezin9OjJCDFKi4RkP9TPH6rGIqxENW6CcZWXuCcxRiqtfoZlYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bY+AVRea; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=arTsO19T; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="F2slaZbw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BjS7QKbn"
-Date: Mon, 17 Mar 2025 10:25:26 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bY+AVRea";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="arTsO19T"
+Date: Mon, 17 Mar 2025 10:28:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1742203527;
+	s=2020; t=1742203692;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z/C7OyGVRK60ZqzYGVybQCEnm9DV3fpBqNs0Cp11nQA=;
-	b=F2slaZbwSHazunDpZEf0dQDXezXZ3k6MiI+va2edK8SotRBmRKkOOLroNmm6Lf2diozhZr
-	ovQmE+NhISVh7P3X7sexa+O+T4ej4Ri4DCjsVnrLAp2TIfQnMImvpN15KkLYpY7DFVznbc
-	fica56ms1tMbh8XsppBuZkElnM1k3Yp2+8rBEJ1O4IyySCvn151uz6lEvNUcpt0Ilr39jq
-	yJVz2PR74/aktc4GRvOfawBLmwZGdS+6JCaa1MXnSiq0axktLJSRjxe5MVeSjC8BvMrCNU
-	bvrqInGGSd6OL0ntQ5aTszCvKLg0sczs6beser8nq71mrkZOoMsfw2YeOmqxwA==
+	bh=rYjDnz882eQPRNoAR6NhgU1hGmz0GQ15sjV4f+ly7kI=;
+	b=bY+AVRead4ovc7ZlxXujvQPJwj5V5UnBa1HAiBhsz8SmpdpH0cv2HKBQwsNxM6XwFDL0sj
+	JZeO2sEaQbAChmrfTWMj0kTrrs7/UmQ+oiI8kMwwBn9ZYB73HknueNANl/6pkjET/gLu6e
+	H2lLX3FT5ctGSPUSJJafDVsxHCdGj+BziaAptEUJDUN+qHBaP9NExi75BqXRv42A980m1H
+	g50Qcm8LBFWdiA4bcr6aABBw1T4ttAoql4K0uZ/+GppneWk1sdKcOffgkVSnaP2uAawazz
+	jo6GdrnAO3lt1IB2YH0mDzSWOmgCJlie4idUL4MTH0JxHnP97MKj49MZwQbJLw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1742203527;
+	s=2020e; t=1742203692;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z/C7OyGVRK60ZqzYGVybQCEnm9DV3fpBqNs0Cp11nQA=;
-	b=BjS7QKbnK4pwtkhilxtiiAHXJ4A0lMXGS4BflKeNfSNHEiq+SpT6p6EBIk1iQXnv7MoExP
-	PwW9oZ57eavArwBw==
+	bh=rYjDnz882eQPRNoAR6NhgU1hGmz0GQ15sjV4f+ly7kI=;
+	b=arTsO19TbJXHb1bQH3O5bLmVPfI3bXEM+j9O23JlOpDVBQRAQWJhruNXJI2uqy20wzuE2r
+	Y/Oe8bMICy3yPiBA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Ingo Molnar <mingo@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
@@ -51,14 +51,11 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 1/9] sched: Add a generic function to return the
+Subject: Re: [PATCH v4 0/9] preempt: Add a generic function to return the
  preemption string.
-Message-ID: <20250317092526.S1MfZldy@linutronix.de>
+Message-ID: <20250317092811.nGfJKPUZ@linutronix.de>
 References: <20250314160810.2373416-1-bigeasy@linutronix.de>
- <20250314160810.2373416-2-bigeasy@linutronix.de>
- <Z9ay49NsoC73dKXe@gmail.com>
- <20250317083155.9g9ksofZ@linutronix.de>
- <Z9fnf9g_zmbNXICh@gmail.com>
+ <Z9fn-UqDPXEr8vs-@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -67,41 +64,28 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z9fnf9g_zmbNXICh@gmail.com>
+In-Reply-To: <Z9fn-UqDPXEr8vs-@gmail.com>
 
-On 2025-03-17 10:12:31 [+0100], Ingo Molnar wrote:
+On 2025-03-17 10:14:33 [+0100], Ingo Molnar wrote:
 > 
 > * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 > 
-> > On 2025-03-16 12:15:47 [+0100], Ingo Molnar wrote:
-> > > 
-> > > * Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > > 
-> > > > +const char *preempt_modes[] = {
-> > > > +	"none", "voluntary", "full", "lazy", NULL,
-> > > > +};
-> > > 
-> > > > +	/* Count entries in NULL terminated preempt_modes */
-> > > > +	for (j = 0; preempt_modes[j]; j++)
-> > > > +		;
-> > > 
-> > > I'm pretty sure the build-time ARRAY_SIZE() primitive is superior here. ;-)
-> > 
-> > It would be but it is not an option.
-> > That array is defined in core.c where it is "always" required while
-> > debug.c needs it optionally. core.c is its one compile unit while
-> > debug.c is included by build_utility.c. So I don't see how this can work
-> > unless we shift things:
+> > Sebastian Andrzej Siewior (9):
+> >   sched: Add a generic function to return the preemption string.
+> >   lib/dump_stack: Use preempt_model_str().
+> >   arm: Rely on generic printing of preemption model.
+> >   arm64: Rely on generic printing of preemption model.
+> >   powerpc: Rely on generic printing of preemption model.
+> >   s390: Rely on generic printing of preemption model.
+> >   x86: Rely on generic printing of preemption model.
+> >   xtensa: Rely on generic printing of preemption model.
+> >   tracing: Use preempt_model_str().
 > 
-> Why not have it all in debug.c?
+> A meta request: please do not put periods into patch titles in this and 
+> future series...
 
-The debug.c include is behind CONFIG_SCHED_DEBUG. This needs to be moved
-into debug.c itself so that code can be added regardless of
-CONFIG_SCHED_DEBUG. It is not only sched-debug after that.
-
-Then we have `preempt_dynamic_mode' logic which is in core.c but it is
-exported and used in debug.c
-So if all this is not a concern then I can move it.
+No full stop at the end of the sentence then? I've been asked once to do
+so.
 
 > Thanks,
 > 
