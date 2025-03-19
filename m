@@ -1,36 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76C2207E04;
-	Wed, 19 Mar 2025 01:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA53E207DE2
+	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Mar 2025 05:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742347675; cv=none; b=o4bRUmlT1975AMYe5pSaOIqSePeEaIR2A5oJ9HWj72HLOZhE6oJbYBWWwR/vBOuxwSsls79JMI8RYoVUXGiwv9oJ6WjBSKWAFiqwzSGTQRmzMOyim2TR+8THZt5cfQWuz7Zf3j2kB5omOK6rD3Ja/POz3OAEEFMNCkeDGXeznKE=
+	t=1742363822; cv=none; b=uhnDt94IOwY3krdnNsE1qgB2teCGb3dY1J3cw5caXfLukdTcwiGentNiO1S2jZ+sl7SpwV6zQWj/z6ye8/jYU4ok0Prc8bxoi+vHjCcxlzDwZMkESLbcMJPrMnldUuO4wPRjlZdOlj3Vi9sEJib4QXGD/4SuKQkIUJ0QOThE/4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742347675; c=relaxed/simple;
-	bh=CuVaPYVmTxG9Z/4/GY8XJLK4/KQ794QljAoN47lFzjI=;
+	s=arc-20240116; t=1742363822; c=relaxed/simple;
+	bh=T0otBTV/6W6FGpqUqNIWoJL4tq1mjsyb9gKufZqadtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TpsrxvIz8PLUnjCkBCFY8A3Fr3hF7L30CJOgGpx5xoz9n9touqrm66Gz+mS3nfdOIiYer1cr64M7BmgiBzLSCBS/GgeLjFdTauhNoMwKGNdtvvri0yumHqbKh4w7VxBfWNC9m/RkI3Qy2aq8DT2z6HL8nK1l0FXnM4H6ER0do2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UaLE5S/4; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bRlItzA0bXFjNShNUXnpfM5VE84Rs51CbvQ+dzMKw7cTqP5tnAYsTA1zytgFH3DxKG09n+82HTu0URiQmrwvVpJD6xSO/DXjeRGjM33JBjcBxYvPAchDRbUZMLv58OuXG8hjtU1gt1vD//QjAFJw8pwr/ARRf8S4cCscqr0oWig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1rAhZVoL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gr5IHlEF; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UaLE5S/4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C169C4CEE3;
-	Wed, 19 Mar 2025 01:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742347674;
-	bh=CuVaPYVmTxG9Z/4/GY8XJLK4/KQ794QljAoN47lFzjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UaLE5S/4qIpbLqkK+uTylbL9aZ26EtlwM/+7mnRprz2E8Pi3JWsAXRg4QbCu0orKs
-	 SVTSDjbX9ZE+yFitzbzo9ZCY+XJyu4ncJxN02+NDCcFf6bWmk2cW9Df87WdjD1lEYY
-	 SJlTJUYUB/ntzlEHmSuGEtUw+vNsnibebqwjGya3h8ucocZwxVYdC9PZzqSjYqmW+c
-	 Kw/XxQ/vCseqQYEvkokYtSJ8TNyQ4ujvQV4ckDoCY9OqVGkYi3NMXqqVAhI5DIgyJa
-	 Avz0g7TrjSOPSm0DLFMWqvRtJsEdI5d8KUiH43ootRqKpNxoTiBaLAFIC2y9AX6AoF
-	 EkQCyki6IB/4A==
-Date: Wed, 19 Mar 2025 09:27:47 +0800
-From: "Peter Chen (CIX)" <peter.chen@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1rAhZVoL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gr5IHlEF"
+Date: Wed, 19 Mar 2025 06:56:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742363813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HhNs5jIgxAZdS5yYj9y8SQEJJ9FxcQj5IZ8rsflvDhY=;
+	b=1rAhZVoLIOoeYi4SmbmTdBq1WP6F95AGzxtni/TQoO0SC1JFnEJrF/UHDGXoulnGiOuCtK
+	+jR1IVHJ3SG+HZCQasSUC8j6dyFSkwBTx/JWMIwQOTeLklsmTAIOQ6DWcStei20tBXcXCF
+	zgAHze+qkU9eaG4F7z+Z9GhkFKE/cIEZfnWOIZj+aKWdvW0JryADPf7qnfztLeRxzTab/+
+	tfXHAk2Cqp5pA1on5HOXVGovY/WmWyCzl6sYLkCD+pMNyX/xxUoU1zbhcOOW5p8dFrES11
+	aD6bDEqcQcLLsA5D/SSJGyDBUJExKI1hyLRlEiEZyqahPHwQgOePgaM9/OADMA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742363813;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HhNs5jIgxAZdS5yYj9y8SQEJJ9FxcQj5IZ8rsflvDhY=;
+	b=Gr5IHlEFk2qx6sQKvcaMaTAyuSquDUo8EXlmPlRY79D9nZKstQ5aaK9vMtWDwr36hNEj8p
+	vqUMOqRf0NYPt+Dg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Pawel Laszczak <pawell@cadence.com>,
+Cc: Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
 	Roger Quadros <rogerq@kernel.org>,
 	Aswath Govindraju <a-govindraju@ti.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -40,7 +49,7 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>, stable@vger.kernel.org
 Subject: Re: [PATCH v2] usb: cdns3: Fix deadlock when using NCM gadget
-Message-ID: <Z9odk4aHd76nXxZ-@nchen-desktop>
+Message-ID: <20250319055653.uSl-FEiQ@linutronix.de>
 References: <20250318-rfs-cdns3-deadlock-v2-1-bfd9cfcee732@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -48,11 +57,11 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20250318-rfs-cdns3-deadlock-v2-1-bfd9cfcee732@linaro.org>
 
-On 25-03-18 11:09:32, Ralph Siemsen wrote:
+On 2025-03-18 11:09:32 [-0400], Ralph Siemsen wrote:
 > The cdns3 driver has the same NCM deadlock as fixed in cdnsp by commit
 > 58f2fcb3a845 ("usb: cdnsp: Fix deadlock issue during using NCM gadget").
 > 
@@ -67,47 +76,6 @@ On 25-03-18 11:09:32, Ralph Siemsen wrote:
 > Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
 > Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
 
-Acked-by: Peter Chen <peter.chen@kernel.org>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> ---
-> v2 changes:
-> - move the fix up the call stack, as per discussion at
-> https://lore.kernel.org/linux-rt-devel/20250226082931.-XRIDa6D@linutronix.de/
-> ---
->  drivers/usb/cdns3/cdns3-gadget.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/usb/cdns3/cdns3-gadget.c b/drivers/usb/cdns3/cdns3-gadget.c
-> index fd1beb10bba72..19101ff1cf1bd 100644
-> --- a/drivers/usb/cdns3/cdns3-gadget.c
-> +++ b/drivers/usb/cdns3/cdns3-gadget.c
-> @@ -1963,6 +1963,7 @@ static irqreturn_t cdns3_device_thread_irq_handler(int irq, void *data)
->  	unsigned int bit;
->  	unsigned long reg;
->  
-> +	local_bh_disable();
->  	spin_lock_irqsave(&priv_dev->lock, flags);
->  
->  	reg = readl(&priv_dev->regs->usb_ists);
-> @@ -2004,6 +2005,7 @@ static irqreturn_t cdns3_device_thread_irq_handler(int irq, void *data)
->  irqend:
->  	writel(~0, &priv_dev->regs->ep_ien);
->  	spin_unlock_irqrestore(&priv_dev->lock, flags);
-> +	local_bh_enable();
->  
->  	return ret;
->  }
-> 
-> ---
-> base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
-> change-id: 20250312-rfs-cdns3-deadlock-697df5cad3ce
-> 
-> Best regards,
-> -- 
-> Ralph Siemsen <ralph.siemsen@linaro.org>
-> 
-
--- 
-
-Best regards,
-Peter
+Sebastian
