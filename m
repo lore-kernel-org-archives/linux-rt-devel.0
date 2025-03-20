@@ -1,56 +1,60 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA53E207DE2
-	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Mar 2025 05:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5231B1DEFF3
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Mar 2025 12:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742363822; cv=none; b=uhnDt94IOwY3krdnNsE1qgB2teCGb3dY1J3cw5caXfLukdTcwiGentNiO1S2jZ+sl7SpwV6zQWj/z6ye8/jYU4ok0Prc8bxoi+vHjCcxlzDwZMkESLbcMJPrMnldUuO4wPRjlZdOlj3Vi9sEJib4QXGD/4SuKQkIUJ0QOThE/4s=
+	t=1742474493; cv=none; b=lNXc/yBoayYihnfKyF+huQUU0XEdRUQnpTkKOjvAGhz0HQSWqb+5y+TCSwoHGDqCuL1pwHpXvnk01s0N1d7k8U9kj87wscYDhXBWU38cyU1UDNKwKOfp20cVUGK5yBtKXvWLSKYU/uj0JnnXX7H+09LWNE4Ul4sm1+x82rHNqkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742363822; c=relaxed/simple;
-	bh=T0otBTV/6W6FGpqUqNIWoJL4tq1mjsyb9gKufZqadtc=;
+	s=arc-20240116; t=1742474493; c=relaxed/simple;
+	bh=12v+fKvUQ7pC3UcBfyTsJFUUoIqCOrybuQs3QHTCDwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bRlItzA0bXFjNShNUXnpfM5VE84Rs51CbvQ+dzMKw7cTqP5tnAYsTA1zytgFH3DxKG09n+82HTu0URiQmrwvVpJD6xSO/DXjeRGjM33JBjcBxYvPAchDRbUZMLv58OuXG8hjtU1gt1vD//QjAFJw8pwr/ARRf8S4cCscqr0oWig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1rAhZVoL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gr5IHlEF; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=idr0HX/EL+IQutx51JjG+i2st1mY8RfI21PkJjWv+sq9TtGslxPR73U8xitPVC914HB6AWQxkFOG5Nne0Tt8O/ioKkEnyFi4p4tNKmHzk9mboDPnnf+0CVZSP859WCwq8aV7pJvU1Dp3A6CLgWxi1WLK4btoy1/v7LMjkiYW67U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=geS3nDlt; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=MfsXJ6IP; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1rAhZVoL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gr5IHlEF"
-Date: Wed, 19 Mar 2025 06:56:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1742363813;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HhNs5jIgxAZdS5yYj9y8SQEJJ9FxcQj5IZ8rsflvDhY=;
-	b=1rAhZVoLIOoeYi4SmbmTdBq1WP6F95AGzxtni/TQoO0SC1JFnEJrF/UHDGXoulnGiOuCtK
-	+jR1IVHJ3SG+HZCQasSUC8j6dyFSkwBTx/JWMIwQOTeLklsmTAIOQ6DWcStei20tBXcXCF
-	zgAHze+qkU9eaG4F7z+Z9GhkFKE/cIEZfnWOIZj+aKWdvW0JryADPf7qnfztLeRxzTab/+
-	tfXHAk2Cqp5pA1on5HOXVGovY/WmWyCzl6sYLkCD+pMNyX/xxUoU1zbhcOOW5p8dFrES11
-	aD6bDEqcQcLLsA5D/SSJGyDBUJExKI1hyLRlEiEZyqahPHwQgOePgaM9/OADMA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1742363813;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HhNs5jIgxAZdS5yYj9y8SQEJJ9FxcQj5IZ8rsflvDhY=;
-	b=Gr5IHlEFk2qx6sQKvcaMaTAyuSquDUo8EXlmPlRY79D9nZKstQ5aaK9vMtWDwr36hNEj8p
-	vqUMOqRf0NYPt+Dg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ralph Siemsen <ralph.siemsen@linaro.org>
-Cc: Peter Chen <peter.chen@kernel.org>, Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Aswath Govindraju <a-govindraju@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Felipe Balbi <felipe.balbi@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="geS3nDlt";
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="MfsXJ6IP"
+Received: by mail.netfilter.org (Postfix, from userid 109)
+	id 95D63603B3; Thu, 20 Mar 2025 13:41:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1742474489;
+	bh=V5INuPrUu6uSFn4SzwqWB2vhngl64PkrrJbEbI88BB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=geS3nDltWh7h1xaW8K+csOBbdR+uAH+K3icm/84jYAmS1ZoDEUr4CIkWKqZhSnB5k
+	 6pZAK4P7WVQVBkWqL0k0/ck/8Y1dkNNyPYRg6/Xmc0JFVk+ayKyn4TgBJXOEg+dvai
+	 qc3wG6HrD/+t5b8VbiksYSwKet90TsoPYi+f0xXeSQibrQ+nD5INJClpAXTgXmjIDj
+	 KZOdPmrddCQr148i4xace4U+Tcmi/AG4Hp2sKyYFkn8P128ySanYYd2uaWHxM0jscz
+	 ufVsoYxURLsT+qwWurI9KqkLCYC0rur1qCoX6eWkEFPpKAG+nyph84cLg1yCRYWlqn
+	 P/jSLMhyhQ91Q==
+X-Spam-Level: 
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with ESMTPSA id 836FB603A3;
+	Thu, 20 Mar 2025 13:41:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1742474488;
+	bh=V5INuPrUu6uSFn4SzwqWB2vhngl64PkrrJbEbI88BB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MfsXJ6IPE7wdJG0mFW3KrDngrOYIVjb5ZmTy7vvfX5k3mRjRNJ+q0Kt+ALtA2i2q0
+	 xmuacVOAOGdXcoZ/lKsgPUyvrdxJ3see+I8ltGssE7VAOR54kSbnDb8135oMxKDIMm
+	 PApYKrNZuP48o6yuqoqNgBisJQtFzp71FvuH693Uny78dgoQmtbtcWIf2mFlM7r7zp
+	 79xIkXafQbw6Hjor6m6rt20vZ6z+qHaLTQ8TFrTMw3iox5b8QAOQBkKjCqVzWg2NUe
+	 zfug0RQSWXmGhPx1KDHYLlb8zR5lUpUhEtG6akSMtW6xYyZ0B0GZSsM7FWjX460eQx
+	 cZw1QjqsR6DzA==
+Date: Thu, 20 Mar 2025 13:41:26 +0100
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
 	linux-rt-devel@lists.linux.dev,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: cdns3: Fix deadlock when using NCM gadget
-Message-ID: <20250319055653.uSl-FEiQ@linutronix.de>
-References: <20250318-rfs-cdns3-deadlock-v2-1-bfd9cfcee732@linaro.org>
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
+Message-ID: <Z9wM9mqJIkHwyU1J@calendula>
+References: <20250221133143.5058-1-bigeasy@linutronix.de>
+ <Z9IVs3LD3A1HPSS0@calendula>
+ <20250313083440.yn5kdvv5@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -59,23 +63,25 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250318-rfs-cdns3-deadlock-v2-1-bfd9cfcee732@linaro.org>
+In-Reply-To: <20250313083440.yn5kdvv5@linutronix.de>
 
-On 2025-03-18 11:09:32 [-0400], Ralph Siemsen wrote:
-> The cdns3 driver has the same NCM deadlock as fixed in cdnsp by commit
-> 58f2fcb3a845 ("usb: cdnsp: Fix deadlock issue during using NCM gadget").
-> 
-> Under PREEMPT_RT the deadlock can be readily triggered by heavy network
-> traffic, for example using "iperf --bidir" over NCM ethernet link.
-> 
-> The deadlock occurs because the threaded interrupt handler gets
-> preempted by a softirq, but both are protected by the same spinlock.
-> Prevent deadlock by disabling softirq during threaded irq handler.
-> 
-> cc: stable@vger.kernel.org
-> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-> Signed-off-by: Ralph Siemsen <ralph.siemsen@linaro.org>
+Hi Sebastian,
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On Thu, Mar 13, 2025 at 09:34:40AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-03-13 00:16:03 [+0100], Pablo Neira Ayuso wrote:
+> > Hi Sebastian,
+> Hi Pablo,
+> 
+> > Kconfig !PREEMPT_RT for this is not an option, right?
+> 
+> That bad? I though it would make you happy ;)
+> Making it !PREEMPT_RT would essentially disable the whole nf-legacy
+> interface. Given that it is intended to get rid of it eventually it
+> might be an option. I mean there is nothing you can do with
+> iptables-legacy that you can't do with iptables-nft? 
+> I mean if this is not going to happen because of $reasons then that
+> would be the next best thing.
 
-Sebastian
+We could give a try to this series and see.
+
+Thanks
