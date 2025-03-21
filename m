@@ -1,87 +1,113 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5231B1DEFF3
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Mar 2025 12:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED941DF965
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Mar 2025 01:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742474493; cv=none; b=lNXc/yBoayYihnfKyF+huQUU0XEdRUQnpTkKOjvAGhz0HQSWqb+5y+TCSwoHGDqCuL1pwHpXvnk01s0N1d7k8U9kj87wscYDhXBWU38cyU1UDNKwKOfp20cVUGK5yBtKXvWLSKYU/uj0JnnXX7H+09LWNE4Ul4sm1+x82rHNqkI=
+	t=1742521905; cv=none; b=CKJn3iQq9wxUQSCSkjFo4mDYxHLk8NLdeln8MZDFjY34iiBU7UdBB+KvFIRaTmxzJ5nWvv9lesz7Rh6MkwQmlTbzhFuOSP+x4/wPdAXWgnyQd8XJRh4E03LxEB2nHZVgLZUG/xJqe7AQBgIi+lI5uRJtObI7YJPUI82ds7I4BOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742474493; c=relaxed/simple;
-	bh=12v+fKvUQ7pC3UcBfyTsJFUUoIqCOrybuQs3QHTCDwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=idr0HX/EL+IQutx51JjG+i2st1mY8RfI21PkJjWv+sq9TtGslxPR73U8xitPVC914HB6AWQxkFOG5Nne0Tt8O/ioKkEnyFi4p4tNKmHzk9mboDPnnf+0CVZSP859WCwq8aV7pJvU1Dp3A6CLgWxi1WLK4btoy1/v7LMjkiYW67U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=geS3nDlt; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=MfsXJ6IP; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="geS3nDlt";
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="MfsXJ6IP"
-Received: by mail.netfilter.org (Postfix, from userid 109)
-	id 95D63603B3; Thu, 20 Mar 2025 13:41:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1742474489;
-	bh=V5INuPrUu6uSFn4SzwqWB2vhngl64PkrrJbEbI88BB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=geS3nDltWh7h1xaW8K+csOBbdR+uAH+K3icm/84jYAmS1ZoDEUr4CIkWKqZhSnB5k
-	 6pZAK4P7WVQVBkWqL0k0/ck/8Y1dkNNyPYRg6/Xmc0JFVk+ayKyn4TgBJXOEg+dvai
-	 qc3wG6HrD/+t5b8VbiksYSwKet90TsoPYi+f0xXeSQibrQ+nD5INJClpAXTgXmjIDj
-	 KZOdPmrddCQr148i4xace4U+Tcmi/AG4Hp2sKyYFkn8P128ySanYYd2uaWHxM0jscz
-	 ufVsoYxURLsT+qwWurI9KqkLCYC0rur1qCoX6eWkEFPpKAG+nyph84cLg1yCRYWlqn
-	 P/jSLMhyhQ91Q==
-X-Spam-Level: 
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with ESMTPSA id 836FB603A3;
-	Thu, 20 Mar 2025 13:41:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1742474488;
-	bh=V5INuPrUu6uSFn4SzwqWB2vhngl64PkrrJbEbI88BB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MfsXJ6IPE7wdJG0mFW3KrDngrOYIVjb5ZmTy7vvfX5k3mRjRNJ+q0Kt+ALtA2i2q0
-	 xmuacVOAOGdXcoZ/lKsgPUyvrdxJ3see+I8ltGssE7VAOR54kSbnDb8135oMxKDIMm
-	 PApYKrNZuP48o6yuqoqNgBisJQtFzp71FvuH693Uny78dgoQmtbtcWIf2mFlM7r7zp
-	 79xIkXafQbw6Hjor6m6rt20vZ6z+qHaLTQ8TFrTMw3iox5b8QAOQBkKjCqVzWg2NUe
-	 zfug0RQSWXmGhPx1KDHYLlb8zR5lUpUhEtG6akSMtW6xYyZ0B0GZSsM7FWjX460eQx
-	 cZw1QjqsR6DzA==
-Date: Thu, 20 Mar 2025 13:41:26 +0100
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	s=arc-20240116; t=1742521905; c=relaxed/simple;
+	bh=EtW8aCkCfxAc+jWDaWwOmvFv1BqCrugX08wxnKMwleg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=bOd/ERAJ9EGri/hlIV0hZ1CQywU5d6DdgPydAawbgQy5XrIxUKjiUs1OvchhoyfphASS/pjIP8CwRmnrgrt7IakMHj0LIazfuk6KzkiMbH5BAc27ncoDuhxW8bqro+oFOEej14jWxv0FVJLism3IxoSDx0LuZv36wCXMHig/AGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 04a16ba005f711f0a216b1d71e6e1362-20250321
+X-CID-CACHE: Type:Local,Time:202503210942+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:da1b6938-4f13-4a9f-8110-78c786bf36b7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:33cad0a8e0ce4eabaf9486cca15933d3,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 04a16ba005f711f0a216b1d71e6e1362-20250321
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <cuiguoqi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1140434859; Fri, 21 Mar 2025 09:51:34 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id D9754E008902;
+	Fri, 21 Mar 2025 09:51:33 +0800 (CST)
+X-ns-mid: postfix-67DCC625-369892305
+Received: from localhost.localdomain (unknown [10.41.103.97])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 5C637E008901;
+	Fri, 21 Mar 2025 09:51:31 +0800 (CST)
+From: cuiguoqi <cuiguoqi@kylinos.cn>
+To: anna-maria@linutronix.de
+Cc: frederic@kernel.org,
+	tglx@linutronix.de,
+	linux-kernel@vger.kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
-Message-ID: <Z9wM9mqJIkHwyU1J@calendula>
-References: <20250221133143.5058-1-bigeasy@linutronix.de>
- <Z9IVs3LD3A1HPSS0@calendula>
- <20250313083440.yn5kdvv5@linutronix.de>
+	cuiguoqi <cuiguoqi@kylinos.cn>
+Subject: [PATCH] hrtimer: Fix the incorrect initialization of timer->is_hard
+Date: Fri, 21 Mar 2025 09:51:28 +0800
+Message-Id: <20250321015128.1393009-1-cuiguoqi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250313083440.yn5kdvv5@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sebastian,
+When PREEMPT_RT is disabled,there is a possibility that
+timer->is_hard will be incorrectly initialized.
+When creating a high-resolution timer and setting the mode to
+HRTIMER_MODE_ABS,the timer->is_hard will be incorrectly initialized.
 
-On Thu, Mar 13, 2025 at 09:34:40AM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-03-13 00:16:03 [+0100], Pablo Neira Ayuso wrote:
-> > Hi Sebastian,
-> Hi Pablo,
-> 
-> > Kconfig !PREEMPT_RT for this is not an option, right?
-> 
-> That bad? I though it would make you happy ;)
-> Making it !PREEMPT_RT would essentially disable the whole nf-legacy
-> interface. Given that it is intended to get rid of it eventually it
-> might be an option. I mean there is nothing you can do with
-> iptables-legacy that you can't do with iptables-nft? 
-> I mean if this is not going to happen because of $reasons then that
-> would be the next best thing.
+Pseudocode logic:
+1. mode
+   >> HRTIMER_MODE_ABS	=3D 0x00
 
-We could give a try to this series and see.
+2. bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT);	//!PREEMPT_RT
+   base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;	//!PREEMPT_RT
+   > softtimer =3D false=EF=BC=9B				//!PREEMPT_RT
+   > base =3D 0;						//hard mode
 
-Thanks
+3. timer->is_soft =3D softtimer;
+   > timer->is_soft =3D flase;
+
+4. timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);	!PREEMPT_RT
+   >  timer->is_hard =3D flase;				//error
+   >  Based on point 2, by default, the hard mode is selected.
+
+Of course, if PREEMPT_RT is enabled, timer->is_hard is correctly set.
+   bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT);
+   if (IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
+	softtimer =3D true;
+   timer->is_soft =3D softtimer;				//true
+   timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);	//flase
+
+Signed-off-by: cuiguoqi <cuiguoqi@kylinos.cn>
+---
+ kernel/time/hrtimer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+index 80fe3749d2db..9d8defb1e9b1 100644
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -1571,7 +1571,7 @@ static void __hrtimer_init(struct hrtimer *timer, c=
+lockid_t clock_id,
+ 	base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;
+ 	base +=3D hrtimer_clockid_to_base(clock_id);
+ 	timer->is_soft =3D softtimer;
+-	timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);
++	timer->is_hard =3D !softtimer;
+ 	timer->base =3D &cpu_base->clock_base[base];
+ 	timerqueue_init(&timer->node);
+ }
+--=20
+2.25.1
+
