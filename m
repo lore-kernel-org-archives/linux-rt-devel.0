@@ -1,115 +1,104 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3414B22098
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Mar 2025 02:03:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8781EB1AE
+	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Mar 2025 10:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742522634; cv=none; b=uDD3tKx9BmGkxNipVA6Eqq4mLUeU0EVu/j+KcUg30FLDV4qAGdURmN/Sy7b/oSYFvbRIb9Yat3HlRtf25pfD8S7aydCj07mIfOND8GwOUqBmFIoK8Ci+BFgMAf/MChUVG3oAqD5sj6lfTHz9GmnAPWLzINd5jcvdJ6pMhcCyYVg=
+	t=1742552657; cv=none; b=f8TP12cm/wmOfX4gYXeLaorFx+KWKwGZjlgJFyrEeiUCb4qzDHItUSPdcsBMuRptyTbwr2+FeJGP5LuaYIjoO4raQiO9xcKcWA8li+sLi0PY4NagJHjVPN4oRUulNrKbB1ynsWbkEirwO3zMFp859tRrzKjWF8i102/vXokLnY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742522634; c=relaxed/simple;
-	bh=EtW8aCkCfxAc+jWDaWwOmvFv1BqCrugX08wxnKMwleg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=mEd83pDmIJrW+CPvyHNkhXVQ8ltJRcn2tiS3M7FbhcQFUBJ6QhMqVs+9kpOf+hU9CUFoWHj4436mbYZyRHLoVZGZsOetfvI44aEtFaWpFdUF6+mSXzN6YpNiXQtVxfqfFqD81+jZf9vMJy0QC/EkR8PNAivdE+4YMUwwxDzfF50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b89d924a05f811f0a216b1d71e6e1362-20250321
-X-CID-CACHE: Type:Local,Time:202503210942+08,HitQuantity:2
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:fb2a2945-6a54-4184-b09f-de08bc0e33be,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:33cad0a8e0ce4eabaf9486cca15933d3,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
-	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
-	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: b89d924a05f811f0a216b1d71e6e1362-20250321
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <cuiguoqi@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 2122844142; Fri, 21 Mar 2025 10:03:45 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 4CD75E008902;
-	Fri, 21 Mar 2025 10:03:45 +0800 (CST)
-X-ns-mid: postfix-67DCC901-193765378
-Received: from localhost.localdomain (unknown [10.41.103.97])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 8F484E008901;
-	Fri, 21 Mar 2025 10:03:44 +0800 (CST)
-From: cuiguoqi <cuiguoqi@kylinos.cn>
-To: info@linutronix.de,
-	anna-maria@linutronix.de
-Cc: sales@linutronix.de,
-	frederic@kernel.org,
-	tglx@linutronix.de,
-	linux-kernel@vger.kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
+	s=arc-20240116; t=1742552657; c=relaxed/simple;
+	bh=4FQwSd2aFf18jE2urjWIYF9C+ZFzhJGSfdYB1ZQM6Bg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SvyPg8s5qJEbDJq+GVqutPIN0v3YN/fCBEx8bT3ytiN5t/s/cbSdrfBILoqXjfzS8+yzfyJKXb46uWtIb+o8eg8dEqlB8sWLx2iwbHBPJdBtCIBWx7eoGLPcqhIvbxOYE8LedKkmEJtcXWtiwVXvmyqj6C6yghoans8wDLolAzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=jmpL4OQC; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=F4IlCd0p; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="jmpL4OQC";
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="F4IlCd0p"
+Received: by mail.netfilter.org (Postfix, from userid 109)
+	id 4E8BB60585; Fri, 21 Mar 2025 11:24:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1742552647;
+	bh=wUe/cxr8dFw3rnh2ltKOm+ywb0yay2kuy13ZGTamU1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jmpL4OQCY+/4swBpeoIdT4uLdCnfF+PY7WvCUxn990090JjLHN9jejrmwC+bv1C5e
+	 S+pegAPbzcZPpmhTRlQB9kTOWTwdkBjcSLPglWLv6IHinzff/Nx2cVv9xM8OjQ3u2z
+	 BuoLh2boTPI5hl/b8tElptg5iCrFmLtREnurLR4tD1+ZJWUdNgrPA4VvNJod1XDELz
+	 7QEOJ3myEXNO5JehyTOyltdM4IowGJ0rySSTzkZ+W82RDvc8pDREQ1/0jNjdGbIJOh
+	 bog5+MYJv+05YlHgPA3hTldQv7hpjWddNzNv5+alvXzlWvMaT23Cc3rOvN0Y4ikpIf
+	 qYgBKJ4dPwODQ==
+X-Spam-Level: 
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with ESMTPSA id 1460A60572;
+	Fri, 21 Mar 2025 11:24:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1742552646;
+	bh=wUe/cxr8dFw3rnh2ltKOm+ywb0yay2kuy13ZGTamU1U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F4IlCd0pLY7tOPxCE38Hzd6S7KfgR0bv81cau+7UT6nhbAjPqF/OeTCT/olUV2kwe
+	 L3RV8qzIm3nl4QLVuPykb9s1byfWiNrFofW0I5Qs8+UPU1Ts1Nk9y2dFwgdtFfZTiA
+	 IPfw1xE/QgKja+wFueDpze3btXlqTPVcS/mgFrcWofUOV18FQgAtisTLmE2aEIBd+6
+	 QfMy2RYXwZNfvTRwbgoHS6cXOspFZUAbZyTBMJRrShSNYlliERNaUdJ28VR0q8dSzM
+	 OB6ZZVZsTuiTTztkIbk24BWWhfWb5IIFca/RusysSFRNQrJd8MTQd6B84MepoG+o7n
+	 T9lHhIcpEg5pg==
+Date: Fri, 21 Mar 2025 11:24:03 +0100
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
 	linux-rt-devel@lists.linux.dev,
-	cuiguoqi <cuiguoqi@kylinos.cn>
-Subject: [PATCH] hrtimer: Fix the incorrect initialization of timer->is_hard
-Date: Fri, 21 Mar 2025 10:03:41 +0800
-Message-Id: <20250321020341.1404557-1-cuiguoqi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
+Message-ID: <Z90-Q3zyEHDWPBNr@calendula>
+References: <20250221133143.5058-1-bigeasy@linutronix.de>
+ <Z9IVs3LD3A1HPSS0@calendula>
+ <20250313083440.yn5kdvv5@linutronix.de>
+ <Z9wM9mqJIkHwyU1J@calendula>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z9wM9mqJIkHwyU1J@calendula>
 
-When PREEMPT_RT is disabled,there is a possibility that
-timer->is_hard will be incorrectly initialized.
-When creating a high-resolution timer and setting the mode to
-HRTIMER_MODE_ABS,the timer->is_hard will be incorrectly initialized.
+Hi Sebastian,
 
-Pseudocode logic:
-1. mode
-   >> HRTIMER_MODE_ABS	=3D 0x00
+On Thu, Mar 20, 2025 at 01:41:26PM +0100, Pablo Neira Ayuso wrote:
+> On Thu, Mar 13, 2025 at 09:34:40AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2025-03-13 00:16:03 [+0100], Pablo Neira Ayuso wrote:
+> > > Kconfig !PREEMPT_RT for this is not an option, right?
+> > 
+> > That bad? I though it would make you happy ;)
+> > Making it !PREEMPT_RT would essentially disable the whole nf-legacy
+> > interface. Given that it is intended to get rid of it eventually it
+> > might be an option. I mean there is nothing you can do with
+> > iptables-legacy that you can't do with iptables-nft? 
+> > I mean if this is not going to happen because of $reasons then that
+> > would be the next best thing.
+> 
+> We could give a try to this series and see.
 
-2. bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT);	//!PREEMPT_RT
-   base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;	//!PREEMPT_RT
-   > softtimer =3D false=EF=BC=9B				//!PREEMPT_RT
-   > base =3D 0;						//hard mode
+I have been discussing this with Florian, our proposal:
 
-3. timer->is_soft =3D softtimer;
-   > timer->is_soft =3D flase;
+1. Make ipatbles legacy depend on !PREEMPT_RT which effectively
+   disabled iptables classic for RT.
 
-4. timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);	!PREEMPT_RT
-   >  timer->is_hard =3D flase;				//error
-   >  Based on point 2, by default, the hard mode is selected.
+This should be ok, iptables-nft should work for RT.
 
-Of course, if PREEMPT_RT is enabled, timer->is_hard is correctly set.
-   bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT);
-   if (IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
-	softtimer =3D true;
-   timer->is_soft =3D softtimer;				//true
-   timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);	//flase
+2. make iptables-legacy user-selectable.
 
-Signed-off-by: cuiguoqi <cuiguoqi@kylinos.cn>
----
- kernel/time/hrtimer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+these two are relatively simple.
 
-diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index 80fe3749d2db..9d8defb1e9b1 100644
---- a/kernel/time/hrtimer.c
-+++ b/kernel/time/hrtimer.c
-@@ -1571,7 +1571,7 @@ static void __hrtimer_init(struct hrtimer *timer, c=
-lockid_t clock_id,
- 	base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;
- 	base +=3D hrtimer_clockid_to_base(clock_id);
- 	timer->is_soft =3D softtimer;
--	timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);
-+	timer->is_hard =3D !softtimer;
- 	timer->base =3D &cpu_base->clock_base[base];
- 	timerqueue_init(&timer->node);
- }
---=20
-2.25.1
+If this does not make you happy, it should be possible to take your
+patches plus hide synchronize_rcu() latency behind deferred free
+(call_rcu+workqueue).
 
+As this looks now, I am afraid chances are high that this series will
+require a follow up.
+
+Thanks.
