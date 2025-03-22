@@ -1,164 +1,95 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A9422D7B5
-	for <linux-rt-devel@lists.linux.dev>; Fri, 21 Mar 2025 17:15:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C391D54CF
+	for <linux-rt-devel@lists.linux.dev>; Sat, 22 Mar 2025 08:24:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742577307; cv=none; b=X2EqrXOKoLshenij2ILdyMBzJeklYy71nYdpXfCO4d2YJ0vs9f3H/y4drGpOXsUlHRH7g23kngp8eOV0wU+v89bGUBYHX9Wk5R7V+tEeuvwBQDLsjn/F9kZqZYGCZPF7ygLj7BkaraCH9UHQFB6/yuQ1HJChHizrojehZsDip+I=
+	t=1742631856; cv=none; b=XfmN+cKrSCuAkCR9+8RgDXl6Kl1UEw3zztHLrJbgE4Nr8/UdmP1ST2elL2L/RAcd8SfUwxcuRSD2KPBsnJeG/zvNp3cD0cHEf/Dw4NhAL0QYT8+a/Z5w4ZsVGxHN0zgIHLAYhyBGFQDO7NyT3tRh5D7USRldGd5qIQaZhV1RYSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742577307; c=relaxed/simple;
-	bh=/Pc6ln3sJ2kspyKjYFBc1b865couGgE0dagD/dAEJGg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s7eMgnrmzNgka0ABVkkUqppR1aHVR/tMq1ZNGWJCQF1X2mbCHik6n3fmns5i7UQGJ1ep9Bxznz9pR295RY1IJaD/7kwKzv2HfLTm+KH1MjwVtIiQ0cL90DmWcXqv4tckZz2H8fCHk0VI5MQNpWbjDlpNs7rGZwVXRc+zxgLrBJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rvrk2R3A; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rvrk2R3A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742577304;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=34iI9dINlmG5alUqqmmlTwB9Vbf82RIIZH6tCAXcPqQ=;
-	b=Rvrk2R3ABVuVo2B2IyigM0AtkZBOIhp0x8Iwg7UUM3dD4UBffAZl6TgwfC0fhayU8FW58/
-	K7aDfmHUce9H9so83inbuFtRK0cGmArgnQB1J97cDVwjfheS5xxs4xoKb3kWSAix0cW6K0
-	Ouvq8XVDd5R3SAncrJKxv5Pu7SOmRCE=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-201-tNQp-B5gMcea-9lQFhexTg-1; Fri, 21 Mar 2025 13:15:03 -0400
-X-MC-Unique: tNQp-B5gMcea-9lQFhexTg-1
-X-Mimecast-MFC-AGG-ID: tNQp-B5gMcea-9lQFhexTg_1742577302
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-301bbe9e084so6353411a91.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 21 Mar 2025 10:15:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742577302; x=1743182102;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=34iI9dINlmG5alUqqmmlTwB9Vbf82RIIZH6tCAXcPqQ=;
-        b=XegD1LW4KaxQF/cJXOZDOUPpCmFwtfkLPrOs9PGWomV9YKiJllxdkB2doeMzLK0IcK
-         LSurbJybmxsPk5gKcT2NdLo0+Jk9mAXNkAvme3fNggbxGvJHQAUMjYi1hJ0S4BaC72+q
-         5o6SdBydFl8fBPRFX1CDaUb/EldEUkitXNQO8nll2U4MkeYY5Tsb4Yl2dNaaenQTJbtX
-         NrQTBlaTFbIMFaSLKlWxFPJ0imuRNxqthvnJ9ROK8VsxRO9vNePhOaDf7WndaQ8xV1i3
-         NCmoKWIhRp0ZyjY0rBTMbS+EOecqGmmrgXGB6KiYWa8viyfQWsu5x6QHqN275gaD+R+/
-         twpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVeYJWbeVzNmfqIMf3yyDUV3tjXAohIbP8VxEhR/O0LfXrsxkT5t/6trjklEa0ajbm0VCfslLT5ENiZFMpW8A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWDtb8nCBugg1y2tw44e9I4NzTKJUINbG7pLh/W/Cyl3PUENqc
-	tkmXLyMZYyfXD4OSZdaUi0s5Fnza/h7J2M/PgTwnnNASoXkVoKrTr6kbNpVox4gcYrgdwiE+b8S
-	OvZUMNdQfOrdijwyuwgmwhs/VcYUiSB19+wlNRCw8xDK/BE2TF+K1k2BVzcWyma2B7bQTN00e9X
-	xyipsuy6Wk7NSN9O0xfFdn+7NFO1GxgPQulQlO+pM=
-X-Gm-Gg: ASbGnctLaZavRvUB9HCQPV76BURKeN1Jd1UgMRvZ6z5jBmRsG9Il1aMf+yHL5HJbujF
-	W5N211apnHLxzhWjeO5zmpY7SemkSRO0TllyEHcfOF/uoBScQbHYrPmWhLsUsYrowCMKWdpCYQG
-	x/s3HL9ATSuHcy5GA2vqCJRJOd4C4D
-X-Received: by 2002:a17:90b:4c0a:b0:2ee:ad18:b309 with SMTP id 98e67ed59e1d1-3030fe6e1fdmr4926134a91.3.1742577302017;
-        Fri, 21 Mar 2025 10:15:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGg3SVWAv3wa5Cimyz9NjCggOs6jOlufExU13jLuWFRr+Ocyg7ZpHzQTOedv7DHDxaLe7mpmWE5V/Yo8m5Hi9U=
-X-Received: by 2002:a17:90b:4c0a:b0:2ee:ad18:b309 with SMTP id
- 98e67ed59e1d1-3030fe6e1fdmr4926108a91.3.1742577301535; Fri, 21 Mar 2025
- 10:15:01 -0700 (PDT)
+	s=arc-20240116; t=1742631856; c=relaxed/simple;
+	bh=QmLK7E6LjzoFcr9A36fhxaE0X4NXRh1U31tLEUsyrqw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Y9EX+lLf9Fabpl2BB2K7BYuvxPiFybKdmE2DOB2OYuFIdoK26lh6eqAFkcTD4AdOQFbSVLkHj9l7BvIj01inx1g/RTjcvkNSJu2eo38i6R1jUpAQcvQXdtr8vFOszaMvcwiBA50OP5oV71xqwf15gSWavdUfCzTfqjJrN/T7QW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 0540f2dc06f711f0a216b1d71e6e1362-20250322
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:088af14f-fe15-4cdc-901c-0b6ec7d6250e,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6493067,CLOUDID:33e42e5cd915982f0189e228a26dcbe8,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102,TC:nil,Content:0|50,EDM:5,I
+	P:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0
+	,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 50,UGT
+X-CID-BAS: 50,UGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 0540f2dc06f711f0a216b1d71e6e1362-20250322
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <cuiguoqi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 19815541; Sat, 22 Mar 2025 16:24:06 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 24249E008902;
+	Sat, 22 Mar 2025 16:24:06 +0800 (CST)
+X-ns-mid: postfix-67DE73A6-38861
+Received: from localhost.localdomain (unknown [10.41.103.97])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 857C3E008901;
+	Sat, 22 Mar 2025 16:24:04 +0800 (CST)
+From: cuiguoqi <cuiguoqi@kylinos.cn>
+To: tglx@linutronix.de
+Cc: anna-maria@linutronix.de,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	cuiguoqi@kylinos.cn,
+	frederic@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	rostedt@goodmis.org
+Subject: Re: [PATCH] hrtimer: Fix the incorrect initialization of timer->is_hard
+Date: Sat, 22 Mar 2025 16:24:03 +0800
+Message-Id: <20250322082403.3126947-1-cuiguoqi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <874izm2v02.ffs@tglx>
+References: <874izm2v02.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250309144653.825351-1-bigeasy@linutronix.de> <20250309144653.825351-14-bigeasy@linutronix.de>
-In-Reply-To: <20250309144653.825351-14-bigeasy@linutronix.de>
-From: Davide Caratti <dcaratti@redhat.com>
-Date: Fri, 21 Mar 2025 18:14:50 +0100
-X-Gm-Features: AQ5f1JrsOBRY2D38k93U5tBRuv9FGKS8iQOFZBJI6uqBXasiujr5D92i-Wcqb7s
-Message-ID: <CAKa-r6s69JbQX7ZuGiz37bbfQYWs+r6odhVB7Ygct8DYN=ApJQ@mail.gmail.com>
-Subject: Re: [PATCH net-next 13/18] net/sched: act_mirred: Move the recursion
- counter struct netdev_xmit.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FrrrPmGMARE1GkVaEspOfgICCugrOn2VMq3J6-tOXoY_1742577302
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-hi,
+Hi tglx,
+=20
+First of all, I'd like to thank you for your reply and for pointing out t=
+he email issue.=20
 
-On Sun, Mar 9, 2025 at 3:48=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-> locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-> this data structure requires explicit locking.
->
-> Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
->
-> Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-> Cc: Cong Wang <xiyou.wangcong@gmail.com>
-> Cc: Jiri Pirko <jiri@resnulli.us>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
->  include/linux/netdevice_xmit.h |  3 +++
->  net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
->  2 files changed, 28 insertions(+), 3 deletions(-)
->
-> diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmi=
-t.h
-> index 3bbbc1a9860a3..4793ec42b1faa 100644
-> --- a/include/linux/netdevice_xmit.h
-> +++ b/include/linux/netdevice_xmit.h
-> @@ -11,6 +11,9 @@ struct netdev_xmit {
->  #if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
->         u8 nf_dup_skb_recursion;
->  #endif
-> +#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-> +       u8 sched_mirred_nest;
-> +#endif
->  };
->
->  #endif
-> diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
-> index 5b38143659249..8d8cfac6cc6af 100644
-> --- a/net/sched/act_mirred.c
-> +++ b/net/sched/act_mirred.c
-> @@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
->  static DEFINE_SPINLOCK(mirred_list_lock);
->
->  #define MIRRED_NEST_LIMIT    4
-> -static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
-> +
-> +#ifndef CONFIG_PREEMPT_RT
-> +static u8 tcf_mirred_nest_level_inc_return(void)
-> +{
-> +       return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest)=
-;
-> +}
-> +
-> +static void tcf_mirred_nest_level_dec(void)
-> +{
-> +       __this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
-> +}
-> +
-> +#else
-> +static u8 tcf_mirred_nest_level_inc_return(void)
-> +{
-> +       return current->net_xmit.nf_dup_skb_recursion++;
-> +}
-> +
-> +static void tcf_mirred_nest_level_dec(void)
-> +{
-> +       current->net_xmit.nf_dup_skb_recursion--;
-> +}
-> +#endif
+As you've accurately noted, when PREEMPT_RT is disabled, it introduces a =
+certain
+degree of ambiguity for kernel developers. So far, no malfunctions have b=
+een
+observed as a direct consequence of this.
+=20
+This issue came to light during kernel development when using the is_hard=
+ flag,=20
+where the expected logic was not achieved.Naturally, we opted for the mor=
+e reliable=20
+is_soft flag to address the situation.
+=20
+Consequently, when PREEMPT_RT is disabled, there is a potential risk if d=
+evelopers
+choose to use the is_hard flag. I firmly believe this risk should not be =
+overlooked.
 
-sorry for reviewing this late - but shouldn't we use sched_mirred_nest
-instead of nf_dup_skb_recursion in case CONFIG_PREEMPT_RT is set?
+I concur with your analysis that one of these flags is redundant. In fact=
+,
+it might be possible to consolidate them based on the overall requirement=
+s.=20
+=20
+Thanks.
+=20
 
-thanks,
---=20
-davide
-
+Cui Guoqi
