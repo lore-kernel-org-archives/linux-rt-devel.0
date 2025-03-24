@@ -1,95 +1,89 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DE338DE9
-	for <linux-rt-devel@lists.linux.dev>; Mon, 24 Mar 2025 13:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1398117E8E2
+	for <linux-rt-devel@lists.linux.dev>; Mon, 24 Mar 2025 16:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742822182; cv=none; b=RZ3mC+4Gtf/ZlCcWMhimOlCLMtiuE4IfRq2OiiytWV5uIaWCt0ds8/OpeKQ72k1fTAGfJ7fIKQYUFHMpILxTfRnJEK+93J9eghYkfQtqJ3l+DruSR0wyORE1/xIrxG8vI9Nnp4kg93+n3vR1K6Yyg2uf2JOugUXaaAlU2AXVCr0=
+	t=1742833768; cv=none; b=WL0BBE/XkiBWq/vkojJbUTcKM9dvlJygq9iyYDlncFPgi8EGC8JWh4pHoII5hxrqvShA73+P/SMFHdm74UE8YWoTMAI2gqDvDhY9w6VyE1E2csILP5UUDazsSiQl4WR2Cv0IKlLK5sg2iX3f7h7K73tgOuqpMjqkW4OQwVy/VFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742822182; c=relaxed/simple;
-	bh=zWa3147KsrZ6whgHHaGYdYSkNDy6PyAY3OS5VX58pdU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ibRaPsI0lfBffycecgvX2Uf9Vliqm1alM/Gx18CR8jq7Gb0xEhj2XfpOaK8GCOVbvrpgxOZC5jG/gLTkBwvMC2RdIc0/5TDCJttc8Km9pL5pl6tm0nAnH59k4M0ZWZBU8ItTdynyxeUHXNw2HWSmhuo/FmEQ3fd5V3XkTvyECeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2432e8dc08b211f0a216b1d71e6e1362-20250324
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:0578c1db-ea39-4a13-877f-ddac18d94548,IP:0,U
-	RL:0,TC:0,Content:12,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:12
-X-CID-META: VersionHash:6493067,CLOUDID:92416e222b85cdef289d1b3157898085,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:4|8|50,ED
-	M:-3,IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 2432e8dc08b211f0a216b1d71e6e1362-20250324
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <cuiguoqi@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1019829283; Mon, 24 Mar 2025 21:16:05 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 1E024E008902;
-	Mon, 24 Mar 2025 21:16:05 +0800 (CST)
-X-ns-mid: postfix-67E15B14-9837241
-Received: from localhost.localdomain (unknown [10.41.103.97])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 50DADE008901;
-	Mon, 24 Mar 2025 21:15:58 +0800 (CST)
-From: cuiguoqi <cuiguoqi@kylinos.cn>
-To: bigeasy@linutronix.de
-Cc: anna-maria@linutronix.de,
-	clrkwllms@kernel.org,
-	cuiguoqi@kylinos.cn,
-	frederic@kernel.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1742833768; c=relaxed/simple;
+	bh=9F8Ou1QYFH9FV9yiPRjTETE2yBYk9CRihlxlcXALa5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F/BHbMICP+Ufv+4D56biHoKY8CHFgJq0dnTAO83NLC7Gwi/p45WOAZ+VsJ7VtLB82a1mKo1PkF/th2O/ePc7Z1EU0MzGTV5+X5NajpXNaDrnVETSpIMyJEIcXAVLIN369lrhu73/XImdnQIpzGUPSDiBgYu0mDDmy4V7ZDQRbhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3KReyxde; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TLbru1jr; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3KReyxde";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TLbru1jr"
+Date: Mon, 24 Mar 2025 17:29:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742833765;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YW5yd7rKHOHutHs/5mNSnirmVmr+zWBSC0Na7fYCrI8=;
+	b=3KReyxdec+bVpQ7nRoBZgarw3MIhgTOoiutmInvDATlVqEypRUAvVvFcXR/c+02Y8Q8rPc
+	lVEyz6PcNDJIhHi+cKFtgjJGZZh8VmxtBo6V01+2YHVPcr85Meo0SBP3VChuHu0O5bgr8o
+	y59Zo1ECrsARm6ZXzWEPWDWMpaQzybwaVVTSah2Jy4vBgoxmf43Pu6uR0I+bjq7oJLBZTt
+	t4Y1Wal4ypOW1uH6rrMWiczC6IYGiQMbeN+Vyqcdhk02LB3Tb8xZbbiOO7+lF9EggbRp3o
+	CAX1jzhqwLxB6NjxNCZA0s5dFdBt5bKRacK1JH2GMtdVMB83cQY/gctfnl6VCg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742833765;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YW5yd7rKHOHutHs/5mNSnirmVmr+zWBSC0Na7fYCrI8=;
+	b=TLbru1jrkH26BWgdFfd3Z5sGDneLZ9E/L/4JCxN+Mi8vOFg0O0hmt1OkVSfuX9gVa8C4li
+	RLqEILuCgBy7tICg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
 	linux-rt-devel@lists.linux.dev,
-	rostedt@goodmis.org,
-	tglx@linutronix.de,
-	guoqi0226@163.com
-Subject: Re: [PATCH] hrtimer: Fix the incorrect initialization of timer->is_hard
-Date: Mon, 24 Mar 2025 21:15:58 +0800
-Message-Id: <20250324131558.1633796-1-cuiguoqi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250324084944.z1J0Kf8c@linutronix.de>
-References: <20250324084944.z1J0Kf8c@linutronix.de>
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
+Message-ID: <20250324162923.O308UeBw@linutronix.de>
+References: <20250221133143.5058-1-bigeasy@linutronix.de>
+ <Z9IVs3LD3A1HPSS0@calendula>
+ <20250313083440.yn5kdvv5@linutronix.de>
+ <Z9wM9mqJIkHwyU1J@calendula>
+ <Z90-Q3zyEHDWPBNr@calendula>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z90-Q3zyEHDWPBNr@calendula>
 
-Here,it is not set but referenced. When !PREEMPT, is_hard does not match
-the actual situation.In the original logic, the actual mode selection is=20
-mainly based on softtimer.
+On 2025-03-21 11:24:03 [+0100], Pablo Neira Ayuso wrote:
+> Hi Sebastian,
+Hi Pablo,
 
-When the HARD/SOFT mode is not explicitly configured, the following logic=
-=20
-is used to select the hard/soft mode:
+> I have been discussing this with Florian, our proposal:
+> 
+> 1. Make ipatbles legacy depend on !PREEMPT_RT which effectively
+>    disabled iptables classic for RT.
+> 
+> This should be ok, iptables-nft should work for RT.
+> 
+> 2. make iptables-legacy user-selectable.
+> 
+> these two are relatively simple.
 
-> bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT); //PREEMPT_RT:flase/!PR=
-EEMPT_RT: flase
-> if (IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
-	softtimer =3D true;                        //PREEMPT_RT:true =20
-> base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES/2:0;//PREEMPT_RT:soft mode=
-/!PREEMPT_RT: hard mode
-> base +=3D hrtimer_clockid_to_base(clock_id);
-> timer->base =3D &cpu_base->clock_base[base];
-> timer->is_soft =3D softtimer;                   //PREEMPT_RT:true /!PRE=
-EMPT_RT: false
-- timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);//PREEMPT_RT:false/!PRE=
-EMPT_RT: false
-+ timer->is_hard =3D !softtimer;                  //PREEMPT_RT:false/!PRE=
-EMPT_RT: true=20
+Okay. Let me try that.
 
-Thus, under !PREEMPT, the distinction in is_hard is clear.
-while it does not affect the logic of the hrtimer_start_range_ns:=20
->	if (!IS_ENABLED(CONFIG_PREEMPT_RT))            =20
->		WARN_ON_ONCE(!(mode & HRTIMER_MODE_SOFT) ^ !timer->is_soft);
->	else
->		WARN_ON_ONCE(!(mode & HRTIMER_MODE_HARD) ^ !timer->is_hard);
+> If this does not make you happy, it should be possible to take your
+> patches plus hide synchronize_rcu() latency behind deferred free
+> (call_rcu+workqueue).
 
+I will try the suggested above and then will see who complains. But I
+think it should be doable to roll with nft only for future releases.
+
+> Thanks.
+
+Sebastian
