@@ -1,94 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB9D1EA7C7
-	for <linux-rt-devel@lists.linux.dev>; Mon, 24 Mar 2025 08:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71DE338DE9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 24 Mar 2025 13:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742806189; cv=none; b=ChwygDyeCRO9Leai2armxq0QaT1qgbTICPEdn2LtMuKFKD3ofNW9POCFmZWrgj52cgKX2WjH7SmGCWpkEYIkTrfBqyICLGWRmPr5ZOSJmvSAoG6+d8hRa8e+XzSRbco2okaDMMyhkACraqjB2MxRuV0LkS+0vwnHN6hd9qcxDZg=
+	t=1742822182; cv=none; b=RZ3mC+4Gtf/ZlCcWMhimOlCLMtiuE4IfRq2OiiytWV5uIaWCt0ds8/OpeKQ72k1fTAGfJ7fIKQYUFHMpILxTfRnJEK+93J9eghYkfQtqJ3l+DruSR0wyORE1/xIrxG8vI9Nnp4kg93+n3vR1K6Yyg2uf2JOugUXaaAlU2AXVCr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742806189; c=relaxed/simple;
-	bh=+sToP3pixtP25svobMgGXAU3cGSfV1smaDpJO+OPZXs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XBlryZZqK2yBiU3dt+evggddxs+SxExaFXqIPuSze41wVHxPmvVBSM3DR6vA6UQEfzriIanEQ1uiMOuwDhF1kSouXBlydnYHoWe7WtlenSpWoYJvGAUlFiCAUhlpn1Lo16zsk+GqkGCBJukflZeAIztT4SLEACya++Q65h9eESw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jDzC0VFa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7Fo9saBI; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jDzC0VFa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7Fo9saBI"
-Date: Mon, 24 Mar 2025 09:49:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1742806185;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VKBj0T72KDDkEXHVASentyqDmL/9h8qGAHGx41X5rGA=;
-	b=jDzC0VFa6FtHleFSNly3Ld9eEUDm8VJGibifsdJPS19CYoUtBDXQ0M8PrvMt9LTGWUHi3X
-	a7hXcexX4qlAPQ/V8MO724nsBTzh7EpH/n7knf93MoTbdOoVaqjALge5aqz6KOfqoByEXp
-	PKaztVJ3aIEcbi9IJ9saeEccNIbM4iaVpqWp9TTqHKJkhL+dPXcnnxK0VhoCBzLvdh4rw9
-	XXmPp3Jj8FvlhEx7503NENtbn4XweXASTnVyehXDLXCBA18Nqt/fSlWjeo0THXjgbTjHA9
-	egyJ8YDCwQTQ+wKCyS9C8wU6p12qlyBLUx4a9z2eAeJxrQGDlwlB8V5u3PrJzg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1742806185;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VKBj0T72KDDkEXHVASentyqDmL/9h8qGAHGx41X5rGA=;
-	b=7Fo9saBI0puPPdi3Hlhm2qT6S/3TzGP7e5soEcFPwJYWF5Vfl8XHwgEJursfv/ReVWqewW
-	TQchQ1j9vbADuMDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: cuiguoqi <cuiguoqi@kylinos.cn>
-Cc: tglx@linutronix.de, anna-maria@linutronix.de, clrkwllms@kernel.org,
-	frederic@kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, rostedt@goodmis.org
-Subject: Re: [PATCH] hrtimer: Fix the incorrect initialization of
- timer->is_hard
-Message-ID: <20250324084944.z1J0Kf8c@linutronix.de>
-References: <874izm2v02.ffs@tglx>
- <20250322082403.3126947-1-cuiguoqi@kylinos.cn>
+	s=arc-20240116; t=1742822182; c=relaxed/simple;
+	bh=zWa3147KsrZ6whgHHaGYdYSkNDy6PyAY3OS5VX58pdU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ibRaPsI0lfBffycecgvX2Uf9Vliqm1alM/Gx18CR8jq7Gb0xEhj2XfpOaK8GCOVbvrpgxOZC5jG/gLTkBwvMC2RdIc0/5TDCJttc8Km9pL5pl6tm0nAnH59k4M0ZWZBU8ItTdynyxeUHXNw2HWSmhuo/FmEQ3fd5V3XkTvyECeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2432e8dc08b211f0a216b1d71e6e1362-20250324
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:0578c1db-ea39-4a13-877f-ddac18d94548,IP:0,U
+	RL:0,TC:0,Content:12,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:12
+X-CID-META: VersionHash:6493067,CLOUDID:92416e222b85cdef289d1b3157898085,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:4|8|50,ED
+	M:-3,IP:nil,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 2432e8dc08b211f0a216b1d71e6e1362-20250324
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <cuiguoqi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1019829283; Mon, 24 Mar 2025 21:16:05 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 1E024E008902;
+	Mon, 24 Mar 2025 21:16:05 +0800 (CST)
+X-ns-mid: postfix-67E15B14-9837241
+Received: from localhost.localdomain (unknown [10.41.103.97])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 50DADE008901;
+	Mon, 24 Mar 2025 21:15:58 +0800 (CST)
+From: cuiguoqi <cuiguoqi@kylinos.cn>
+To: bigeasy@linutronix.de
+Cc: anna-maria@linutronix.de,
+	clrkwllms@kernel.org,
+	cuiguoqi@kylinos.cn,
+	frederic@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	rostedt@goodmis.org,
+	tglx@linutronix.de,
+	guoqi0226@163.com
+Subject: Re: [PATCH] hrtimer: Fix the incorrect initialization of timer->is_hard
+Date: Mon, 24 Mar 2025 21:15:58 +0800
+Message-Id: <20250324131558.1633796-1-cuiguoqi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250324084944.z1J0Kf8c@linutronix.de>
+References: <20250324084944.z1J0Kf8c@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250322082403.3126947-1-cuiguoqi@kylinos.cn>
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-03-22 16:24:03 [+0800], cuiguoqi wrote:
-> Hi tglx,
->  
-> First of all, I'd like to thank you for your reply and for pointing out the email issue. 
-> 
-> As you've accurately noted, when PREEMPT_RT is disabled, it introduces a certain
-> degree of ambiguity for kernel developers. So far, no malfunctions have been
-> observed as a direct consequence of this.
->  
-> This issue came to light during kernel development when using the is_hard flag, 
-> where the expected logic was not achieved.Naturally, we opted for the more reliable 
-> is_soft flag to address the situation.
->  
-> Consequently, when PREEMPT_RT is disabled, there is a potential risk if developers
-> choose to use the is_hard flag. I firmly believe this risk should not be overlooked.
+Here,it is not set but referenced. When !PREEMPT, is_hard does not match
+the actual situation.In the original logic, the actual mode selection is=20
+mainly based on softtimer.
 
-You shouldn't try to set the is_hard flag without knowing its
-implications. HRTIMER_MODE_HARD is what you should pay attention to.
-Everything else is implementation specific.
+When the HARD/SOFT mode is not explicitly configured, the following logic=
+=20
+is used to select the hard/soft mode:
 
-> I concur with your analysis that one of these flags is redundant. In fact,
-> it might be possible to consolidate them based on the overall requirements. 
+> bool softtimer =3D !!(mode & HRTIMER_MODE_SOFT); //PREEMPT_RT:flase/!PR=
+EEMPT_RT: flase
+> if (IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
+	softtimer =3D true;                        //PREEMPT_RT:true =20
+> base =3D softtimer ? HRTIMER_MAX_CLOCK_BASES/2:0;//PREEMPT_RT:soft mode=
+/!PREEMPT_RT: hard mode
+> base +=3D hrtimer_clockid_to_base(clock_id);
+> timer->base =3D &cpu_base->clock_base[base];
+> timer->is_soft =3D softtimer;                   //PREEMPT_RT:true /!PRE=
+EMPT_RT: false
+- timer->is_hard =3D !!(mode & HRTIMER_MODE_HARD);//PREEMPT_RT:false/!PRE=
+EMPT_RT: false
++ timer->is_hard =3D !softtimer;                  //PREEMPT_RT:false/!PRE=
+EMPT_RT: true=20
 
-A timer that is missing HRTIMER_MODE_HARD is not a automatically a
-HRTIMER_MODE_SOFT and also a timer missing HRTIMER_MODE_SOFT is not
-automatically HRTIMER_MODE_HARD. These depends on RT vs non-RT mode.
-Wouldn't your suggestion influence the warning in
-hrtimer_start_range_ns()?
+Thus, under !PREEMPT, the distinction in is_hard is clear.
+while it does not affect the logic of the hrtimer_start_range_ns:=20
+>	if (!IS_ENABLED(CONFIG_PREEMPT_RT))            =20
+>		WARN_ON_ONCE(!(mode & HRTIMER_MODE_SOFT) ^ !timer->is_soft);
+>	else
+>		WARN_ON_ONCE(!(mode & HRTIMER_MODE_HARD) ^ !timer->is_hard);
 
-> Thanks.
->  
-> 
-> Cui Guoqi
-
-Sebastian
