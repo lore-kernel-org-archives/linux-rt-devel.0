@@ -1,101 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4528019CC27;
-	Tue, 25 Mar 2025 09:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B938C25332E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Mar 2025 16:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742895780; cv=none; b=oamQ6A5kI0dnrtrXIzG1vfTyXskO/yiEZa8EGdnN3de+Hg2xOy75HIc5qRdLoG9sUD6//9d67qKwucZjHHHTQ15iSUuLZPej4l7BpbXRkli5+hrn1IClr/uKZblLeVIaNdEZtUAxdiOSaPG6LDVgd+YFcn7Uc3YSMFnQjxZ8T1E=
+	t=1742921932; cv=none; b=RLyvPek6Ke3O/iGUxil2EP1cvD50Sh4BvBOJHdODyk3jhXMG4X5s7Q+6fy8Iu+OyE7j051tVC+W+ghb29E/DlFT96tDPX2+k5tz4belNzwFsl1fU7usltMqXVE1KTZhpZMVENGUfotxH1EWKgqjxurYyLra2aUM2zJLnpMcbaR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742895780; c=relaxed/simple;
-	bh=Oiv8Av9xGB7EJoTp+udHsn8EcJRvAaBHEIhgkS3L1mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GU3fyN0tCEY1e29QOzBBftVESjRWO3DZUxvurKjvHfNZMtca96dXsPOG+uPyL3/RDTe5pg8oahqz3Q4N+CBPzcMn4dtJBkeLDRwX4ls4KImjQwCvDDwvkawmF+FQ4Ax6vkjJATeiAlu17nAcn/kEhrtPKyAw/Et+nKpCMvmmIqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hwpHC4pf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742921932; c=relaxed/simple;
+	bh=HsyQOqO/ZUaWmLeqm0Cu5w1iedY0tgvP52k3ffnPnFQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=shOuWGGMHkG8LEABbDwuNMeEr9XPPV1U+BJm3sRj8t2T/KTr6knfMPi1avOcEPmnDQAFSVd9MLC5fki/BtUqvTkCwhdb3dG0hY9PRMqVN/+gn3uDpOA8UDA/NO4rQGhJDgGuBsXRp7o7qS224/6o1/tV1bA1tF4v5/3bmIDQLb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=koG3ucBz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/lEzBtRF; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hwpHC4pf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3141C4CEE4;
-	Tue, 25 Mar 2025 09:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742895778;
-	bh=Oiv8Av9xGB7EJoTp+udHsn8EcJRvAaBHEIhgkS3L1mI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hwpHC4pf7aWNIhGxdSuYa3gt+J7lLM7DhBA/AhvGM2XK7H0Ow8cFaTPKxVsfSmZDX
-	 iIOJ/Ih2EuPcV3H2NxModzu+fn0f9fu+RpFmSYfokSTeHarXedBzlwGvEUukkXzF+9
-	 1DqbHwOHkpCuKxEzCThHqfNGMLidirWPb6Cu4YNJbm740x44RNJP79kti92/N/Ehmc
-	 2Z/+bGoNp+aQtb8R9C7LHchmdQz7PnGPCMQ92quqF94+mANscYdjZyAmR/G3GAYzY1
-	 K1XV69SVQXZbO4qCx+Q/o8EdeV8U4hPMrDeSzf+S6MpXIU+x/zBS0WpjhxFl6hnbaj
-	 5fP+fdLVuXZ8w==
-Date: Tue, 25 Mar 2025 10:42:36 +0100
-From: Ingo Molnar <mingo@kernel.org>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Ryo Takakura <ryotkkr98@gmail.com>,
-	NeilBrown <neilb@suse.de>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Zqiang <qiang.zhang1211@gmail.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Borislav Petkov <bp@alien8.de>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="koG3ucBz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/lEzBtRF"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1742921923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DPXWaaJGm0Bnu+Dn4NFf3r2IOONcOqxrMf17GIhXFGE=;
+	b=koG3ucBzTqt4m0aVzvcZ3l0VBjX6OILZ+UeQ2UftIEGOlQ4shHIg2IbPWDBLm0wVR4V9MV
+	s9y03De/vfByuZdZQDOfh7EXsjpMhdxQTMPGWPVCQ6emZRr28ANIICemJ+YZcBTl7kckWB
+	mhGTcW/MSAOgXBJrT5oH3HxrIcrrewkRnLDHTVGcUkSLUgsehwVSNHEkQmVrgDiCsZ3RnY
+	6cI0QaaYXmMdRSJ4xR6nz2FQrH2Fe+/gPTbDLiPcM0tZDgWMAAlRn7d80ZaV1ydOQgBbc6
+	zKbTKv2vx5nom8GfwqTikpElDXDnNJkDx4xGEu6/hGa4qEWaOvEJ42KxmBnYZw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1742921923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DPXWaaJGm0Bnu+Dn4NFf3r2IOONcOqxrMf17GIhXFGE=;
+	b=/lEzBtRF+1H6Rdqd+LD7p/4OyrP/ySCdK2Q1x6e/dsiX2GYQG3/LYPUI4h/mlRSwxdCj6j
+	FreXJYyeuhSH4NAw==
+To: netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4] lockdep: Fix wait context check on softirq for
- PREEMPT_RT
-Message-ID: <Z-J6jE0lHJpWA20l@gmail.com>
-References: <20250321143322.79651-1-boqun.feng@gmail.com>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Florian Westphal <fw@strlen.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [net-next v3 0/3] Disable LEGACY iptables on PREEMPT_RT
+Date: Tue, 25 Mar 2025 17:58:29 +0100
+Message-ID: <20250325165832.3110004-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321143322.79651-1-boqun.feng@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+The per-CPU xt_recseq is a custom netfilter seqcount. It provides
+synchronisation for the replacement of the xt_table::private pointer and
+ensures that the two counter in xt_counters are properly observed during
+an update on 32bit architectures. xt_recseq also supports recursion.
 
-* Boqun Feng <boqun.feng@gmail.com> wrote:
+This construct is less than optimal on PREMPT_RT because the lack of an
+associated lock (with the seqcount) can lead to a deadlock if a high
+priority reader interrupts a writer. Also xt_recseq relies on locking
+with BH-disable which becomes problematic if the lock, currently part of
+local_bh_disable() on PREEMPT_RT, gets removed.
 
-> Since commit 0c1d7a2c2d32 ("lockdep: Remove softirq accounting on
-> PREEMPT_RT."), the wait context test for mutex usage within
-> "in softirq context" fails as it references @softirq_context.
-> 
-> [    0.184549]   | wait context tests |
-> [    0.184549]   --------------------------------------------------------------------------
-> [    0.184549]                                  | rcu  | raw  | spin |mutex |
-> [    0.184549]   --------------------------------------------------------------------------
-> [    0.184550]                in hardirq context:  ok  |  ok  |  ok  |  ok  |
-> [    0.185083] in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-> [    0.185606]                in softirq context:  ok  |  ok  |  ok  |FAILED|
-> 
-> As a fix, add lockdep map for BH disabled section. This fixes the
-> issue by letting us catch cases when local_bh_disable() gets called
-> with preemption disabled where local_lock doesn't get acquired.
-> In the case of "in softirq context" selftest, local_bh_disable() was
-> being called with preemption disable as it's early in the boot.
-> 
-> [boqun: Move the lockdep annotations into __local_bh_*() to avoid false
-> positives because of unpaired local_bh_disable() reported by Borislav
-> Petkov [1] and Peter Zijlstra [2], and make bh_lock_map only exist for
-> PREEMPT_RT]
-> 
-> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> Link: https://lore.kernel.org/all/20250306122413.GBZ8mT7Z61Tmgnh5Y9@fat_crate.local/ [1]
-> Link: https://lore.kernel.org/lkml/20250307113955.GK16878@noisy.programming.kicks-ass.net/ [2]
-> Link: https://lore.kernel.org/r/20250118054900.18639-1-ryotkkr98@gmail.com
+Based on discussion with Pablo and Florian the legacy code is disabled
+on PREEMPT_RT. I picked up the patches referenced by Florian and tried
+to fix them up as suggested plus the bits we talked about.
 
-That's a weird SOB chain. Following back the history of the submission 
-I believe this line went missing:
+v2=E2=80=A6v3 https://lore.kernel.org/all/20250221133143.5058-1-bigeasy@lin=
+utronix.de/
+  - Instead of getting LEGACY code to work for PREEMPT_RT the code is
+    now disabled on PREEMPT_RT. Since the long term plan is to get rid of
+    it anyway, it might be less painful for everyone.
 
-  From: Ryo Takakura <ryotkkr98@gmail.com>
+v1=E2=80=A6v2 https://lore.kernel.org/all/20250216125135.3037967-1-bigeasy@=
+linutronix.de/
+  - Updated kerneldoc in 2/3 so that the renamed parameter is part of
+    it.
+  - Updated description 1/3 in case there are complains regarding the
+    synchronize_rcu(). The suggested course of action is to motivate
+    people to move away from "legacy" towards "nft" tooling. Last resort
+    is not to wait for the in-flight counter and just copy what is
+    there.
 
-I added it back in to the commit.
+Pablo Neira Ayuso (1):
+  netfilter: replace select by depends on for IP{6}_NF_IPTABLES_LEGACY
 
-Thanks,
+Sebastian Andrzej Siewior (2):
+  netfilter: Let IP6_NF_IPTABLES_LEGACY select IP6_NF_IPTABLES.
+  netfilter: Introduce NETFILTER_LEGACY to group all legacy code.
 
-	Ingo
+ net/Kconfig                  | 10 ++++++++++
+ net/bridge/netfilter/Kconfig |  8 ++++----
+ net/ipv4/netfilter/Kconfig   | 15 ++++++++-------
+ net/ipv6/netfilter/Kconfig   | 13 +++++++------
+ net/netfilter/x_tables.c     | 16 +++++++++++-----
+ 5 files changed, 40 insertions(+), 22 deletions(-)
+
+--=20
+2.49.0
+
