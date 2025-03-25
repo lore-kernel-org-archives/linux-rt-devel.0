@@ -1,38 +1,52 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403A62641FC;
-	Mon, 24 Mar 2025 17:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4528019CC27;
+	Tue, 25 Mar 2025 09:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742838425; cv=none; b=RqBTnxTNmfOEgNImFyCYSqELKgQdu6FgQE8rkyZEi/lsDOXBf9U7vSllYOA7Q+Sq5L7q+dimNbJlRV03vGOTC55yXLXMIrKto9HiZRye7XkOvSmmF2nu6+eWVl85TZ+Sau/h3MCnPWZ3IoNgWoaI1mGDRiJJx2Q7YZs0qPYbg1k=
+	t=1742895780; cv=none; b=oamQ6A5kI0dnrtrXIzG1vfTyXskO/yiEZa8EGdnN3de+Hg2xOy75HIc5qRdLoG9sUD6//9d67qKwucZjHHHTQ15iSUuLZPej4l7BpbXRkli5+hrn1IClr/uKZblLeVIaNdEZtUAxdiOSaPG6LDVgd+YFcn7Uc3YSMFnQjxZ8T1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742838425; c=relaxed/simple;
-	bh=x6Sm7G1YAutU8ro3JvfCSLxFb4v/gi/BRM9kMH2p83c=;
+	s=arc-20240116; t=1742895780; c=relaxed/simple;
+	bh=Oiv8Av9xGB7EJoTp+udHsn8EcJRvAaBHEIhgkS3L1mI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kWzXTeGuTz9sPeYwcd+huaYH6UBGJPsC64eqhdU9gdN65K7ZaXbB2GdH5LNjO6yopjK9BgItDiHHyWUnWHLDCt2mRsWxiP+TXxrtErUN7nYVbByAgUbTOsEAPl697cPNTcmOtE5mwXt26pV5/SUhDB/gM/U4X1abrd5l4O2znkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: from fw by Chamillionaire.breakpoint.cc with local (Exim 4.92)
-	(envelope-from <fw@strlen.de>)
-	id 1twlt6-0005ES-34; Mon, 24 Mar 2025 18:47:00 +0100
-Date: Mon, 24 Mar 2025 18:47:00 +0100
-From: Florian Westphal <fw@strlen.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH net-next v2 0/3] Replace xt_recseq with u64_stats.
-Message-ID: <20250324174700.GA3480@breakpoint.cc>
-References: <20250221133143.5058-1-bigeasy@linutronix.de>
- <Z9IVs3LD3A1HPSS0@calendula>
- <20250313083440.yn5kdvv5@linutronix.de>
- <Z9wM9mqJIkHwyU1J@calendula>
- <Z90-Q3zyEHDWPBNr@calendula>
- <20250324162923.O308UeBw@linutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GU3fyN0tCEY1e29QOzBBftVESjRWO3DZUxvurKjvHfNZMtca96dXsPOG+uPyL3/RDTe5pg8oahqz3Q4N+CBPzcMn4dtJBkeLDRwX4ls4KImjQwCvDDwvkawmF+FQ4Ax6vkjJATeiAlu17nAcn/kEhrtPKyAw/Et+nKpCMvmmIqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hwpHC4pf; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hwpHC4pf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3141C4CEE4;
+	Tue, 25 Mar 2025 09:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742895778;
+	bh=Oiv8Av9xGB7EJoTp+udHsn8EcJRvAaBHEIhgkS3L1mI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hwpHC4pf7aWNIhGxdSuYa3gt+J7lLM7DhBA/AhvGM2XK7H0Ow8cFaTPKxVsfSmZDX
+	 iIOJ/Ih2EuPcV3H2NxModzu+fn0f9fu+RpFmSYfokSTeHarXedBzlwGvEUukkXzF+9
+	 1DqbHwOHkpCuKxEzCThHqfNGMLidirWPb6Cu4YNJbm740x44RNJP79kti92/N/Ehmc
+	 2Z/+bGoNp+aQtb8R9C7LHchmdQz7PnGPCMQ92quqF94+mANscYdjZyAmR/G3GAYzY1
+	 K1XV69SVQXZbO4qCx+Q/o8EdeV8U4hPMrDeSzf+S6MpXIU+x/zBS0WpjhxFl6hnbaj
+	 5fP+fdLVuXZ8w==
+Date: Tue, 25 Mar 2025 10:42:36 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>, Ryo Takakura <ryotkkr98@gmail.com>,
+	NeilBrown <neilb@suse.de>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	Zqiang <qiang.zhang1211@gmail.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Borislav Petkov <bp@alien8.de>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4] lockdep: Fix wait context check on softirq for
+ PREEMPT_RT
+Message-ID: <Z-J6jE0lHJpWA20l@gmail.com>
+References: <20250321143322.79651-1-boqun.feng@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -41,16 +55,47 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250324162923.O308UeBw@linutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20250321143322.79651-1-boqun.feng@gmail.com>
 
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> > 2. make iptables-legacy user-selectable.
-> > 
-> > these two are relatively simple.
+
+* Boqun Feng <boqun.feng@gmail.com> wrote:
+
+> Since commit 0c1d7a2c2d32 ("lockdep: Remove softirq accounting on
+> PREEMPT_RT."), the wait context test for mutex usage within
+> "in softirq context" fails as it references @softirq_context.
 > 
-> Okay. Let me try that.
+> [    0.184549]   | wait context tests |
+> [    0.184549]   --------------------------------------------------------------------------
+> [    0.184549]                                  | rcu  | raw  | spin |mutex |
+> [    0.184549]   --------------------------------------------------------------------------
+> [    0.184550]                in hardirq context:  ok  |  ok  |  ok  |  ok  |
+> [    0.185083] in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
+> [    0.185606]                in softirq context:  ok  |  ok  |  ok  |FAILED|
+> 
+> As a fix, add lockdep map for BH disabled section. This fixes the
+> issue by letting us catch cases when local_bh_disable() gets called
+> with preemption disabled where local_lock doesn't get acquired.
+> In the case of "in softirq context" selftest, local_bh_disable() was
+> being called with preemption disable as it's early in the boot.
+> 
+> [boqun: Move the lockdep annotations into __local_bh_*() to avoid false
+> positives because of unpaired local_bh_disable() reported by Borislav
+> Petkov [1] and Peter Zijlstra [2], and make bh_lock_map only exist for
+> PREEMPT_RT]
+> 
+> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> Link: https://lore.kernel.org/all/20250306122413.GBZ8mT7Z61Tmgnh5Y9@fat_crate.local/ [1]
+> Link: https://lore.kernel.org/lkml/20250307113955.GK16878@noisy.programming.kicks-ass.net/ [2]
+> Link: https://lore.kernel.org/r/20250118054900.18639-1-ryotkkr98@gmail.com
 
-See https://lore.kernel.org/netfilter-devel/20250321103647.409501-1-pablo@netfilter.org/
+That's a weird SOB chain. Following back the history of the submission 
+I believe this line went missing:
 
-(its not yet ready but most tests pass).
+  From: Ryo Takakura <ryotkkr98@gmail.com>
+
+I added it back in to the commit.
+
+Thanks,
+
+	Ingo
