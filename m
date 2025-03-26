@@ -1,55 +1,60 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884C71C9DE5
-	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Mar 2025 17:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AF31F63EA
+	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Mar 2025 21:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743009121; cv=none; b=Clg7DhjvRecqJ0VhvLOt2Bcz9f29p/MV31UJTa8OF+CH7C0cqL4gO02f+lfmeXQ/c0YKKwWDT9JGnkczMUbUF4qGEhnCLFB53LxPualToD85nmXhWCY6C4IxqgFYC+JDfCVoX58aE3BjmftGuzac+93kYJ0NTRJ9ZBDImAWG3CU=
+	t=1743023928; cv=none; b=Ytyo29547GMX5eOaWOxy6TXdBHrWZ2zR/qlIsgA4HpNlDAgAQfF+evBV7OMEKoZIyIkJB6YzaUt8QZhssNoX89//vpYuMqeGL0IAjYyi0myk6BpFlik42TQ5vxRuN6KDxI6Bc6c+LdivgESvRSc867pMSHFF2pYCfuH2LcSRioA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743009121; c=relaxed/simple;
-	bh=mirikUUelsYlHfkpjJllmLpQLcoB1ZhBw1NxNeDnfd4=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uWPvdBt1L5lMlvWdSnCIfaHwQbeZo5S8cPJZyh86vQR4PQGHjZ17ctPu91+/NRHYdsZRvTHEBwxugEJisPwXs5nfsPbvdtdOIjd/LU/zI46RJDtJvFFp1HZnydmGkggHWjAg0Dr2IB+p7cp/URXnNICMxUDq26Rg0b5P2mZn1nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0zg5RUgo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b7+qwTqr; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1743023928; c=relaxed/simple;
+	bh=Cokp8Ir4vMKQAE/tbGOZCkWah19q1JW/KBUQIt9Yq1s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AYVPV0EkjHvqJERF42wL1myJx9IzKhqn5fjxLv9fm1eX4gsV607U8tFG4uACE/RuN6ALkHqqhigwUiusLcLBU4tP+7yxu8xOE8SvdWHwT0vyWGa64oDi/aJ8yq9O1DHknHeLtHq2/WY/VbSBdy7yRM4G0rdGQAywkxzSYSAY+eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=T4YlRZLm; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=lGue/+OL; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0zg5RUgo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b7+qwTqr"
-Date: Wed, 26 Mar 2025 18:11:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1743009112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tw9T7Mv6yLNBgt/o8/ziQ6900fngdt3uwiO/mjTlsok=;
-	b=0zg5RUgoCvXiJeDMKk+465BcXubKaTrRCyPm+MDBIfWQ/Nl64KenJ7NJaUCRfUOMipyHPz
-	mYcw+vyRQHgaapnt6btJ50MXL0Vbo4LCYpOrEVAlpG30Lr1966OxBRHHXU2TjAyXlgCSLt
-	5a2jTKTkHiYe1LI/PdZn8Z897oso9x7xNYV0Hp7aMTDUrV3s80R3SMi73BOxHNeT4kF/E5
-	U9eHZGREzqmFPYjdqOHEiqGqUxsZsGofA4e0xD6PnQmdjPGMsDNYWODb+I5EGolSI1ov5A
-	CzEesuPOzBgZ4q/yPbl3jrKtTNFKRKJVC76RQoRby9fpgllBqXF2uNRXTmm/Sw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1743009112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tw9T7Mv6yLNBgt/o8/ziQ6900fngdt3uwiO/mjTlsok=;
-	b=b7+qwTqr1hUVaFd68zAaNJ/4vD8aCRgpgljV3vjX1tjs7xLvmgzTLlTSz11LXYV6YaIizq
-	8uxkYW+DiEOt9uAw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Phil Sutter <phil@nwl.cc>, netfilter-devel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="T4YlRZLm";
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="lGue/+OL"
+Received: by mail.netfilter.org (Postfix, from userid 109)
+	id 388BF605F2; Wed, 26 Mar 2025 22:18:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1743023925;
+	bh=JqPoPQ/QwLVwURos4c8/T+noZTlFnCF2aQsDZJ1vEHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T4YlRZLmbCBoQgVgPHt6HBHHqncztKsVQGFWjoZ35Mz9LOU50J1zi7koei1dAmnUj
+	 UfSgWT921Oh7AxrTO8dMjRjUIf5GUS0uTjOK7UGDBTQhOuti3I9HWMibNmFfAIQCDO
+	 K/285zxTD6PkvKq9eXCcAgOImYCfnWU0cwZM+dSE7TxmYvtFe3uQX8jNNqf/pDYGRy
+	 B2uMF3wzA28jNjrgw+AFu4K8+j1UeOSU42efbuMGtBx1jIqjz+ptpTRyfZp3L8i5B5
+	 oZgLeZ0k/K5yR7zDgmcv7wPP9YZjhOT5To6FToukpWMJL0JRKxw7bjJ89TEkBIHD9T
+	 ltpu2IHLX2pzw==
+X-Spam-Level: 
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with ESMTPSA id 0F0BD605EA;
+	Wed, 26 Mar 2025 22:18:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1743023924;
+	bh=JqPoPQ/QwLVwURos4c8/T+noZTlFnCF2aQsDZJ1vEHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lGue/+OLj4yk27iBkD+YXpkJvn/Ozgdt+3x7IJKdXMbHTiwmBCX+tlaK+87AwYuZy
+	 jl29H2xs2HOBTMz6mI+LIenVmFtr/yAMHdU3qTr7KKGnJwxHRo6rRD32Tb5NcIniyB
+	 FqopnOCB+J1UylntMVuWLyeLq+47imuB1nG7VRAWX/mfRdB2E/3TWB63pyZXy/Mzrj
+	 kf0Bqd1ctkNTf1wMOilG1mXTUeKpnIAEctkizRqpR4iXieKyzqsRIEbV6VxezebVKm
+	 xU0GJK21Eyy6VeqI/4mcGBSXIrCZ6GdhOpxrv8fsfpXhYfFkWtuxf0ji1Ng3c2l+nD
+	 OSMg3lYVsacAA==
+Date: Wed, 26 Mar 2025 22:18:41 +0100
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Florian Westphal <fw@strlen.de>, netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org, linux-rt-devel@lists.linux.dev,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
 	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
 	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [net-next v3 1/3] netfilter: replace select by depends on for
- IP{6}_NF_IPTABLES_LEGACY
-Message-ID: <20250326171150.WC34AcV1@linutronix.de>
+Subject: Re: [net-next v3 0/3] Disable LEGACY iptables on PREEMPT_RT
+Message-ID: <Z-RvMRHykucNvvdO@calendula>
 References: <20250325165832.3110004-1-bigeasy@linutronix.de>
- <20250325165832.3110004-2-bigeasy@linutronix.de>
- <Z-Q0vi3r5aHxY8Pv@orbyte.nwl.cc>
+ <20250325194804.GA18860@breakpoint.cc>
+ <20250326074721.Y1sIc4Al@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -58,26 +63,26 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z-Q0vi3r5aHxY8Pv@orbyte.nwl.cc>
+In-Reply-To: <20250326074721.Y1sIc4Al@linutronix.de>
 
-On 2025-03-26 18:09:18 [+0100], Phil Sutter wrote:
-> Hi Bigeasy!
-Phil!
+Hi Sebastian,
 
-> On Tue, Mar 25, 2025 at 05:58:30PM +0100, Sebastian Andrzej Siewior wrote:
-> > From: Pablo Neira Ayuso <pablo@netfilter.org>
+On Wed, Mar 26, 2025 at 08:47:21AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-03-25 20:48:04 [+0100], Florian Westphal wrote:
+> > I applied following diff on top of this series, after that
+> > ./iptables-test.py -n
+> > and
+> > iptables/tests/shell/run-tests.sh
 > > 
-> > Relax dependencies on iptables legacy, replace select by depends on,
-> > this should cause no harm to existing kernel configs and users can still
-> > toggle IP{6}_NF_IPTABLES_LEGACY in any case.
-> > 
-> > [fw: Replace depends on BRIDGE_NF_EBTABLES_LEGACY with select]
+> > pass (legacy version fails as expected).
+> > The change in xt_mark is awkward but its the only place that
+> > needs it so its not worth to add a new kconfig symbol to avoid ||
+> > test.
 > 
-> I don't get this remark: The three chunks dealing with that symbol do
-> the opposite, namely replacing 'select ...' with 'depends on ...'. Do I
-> miss the point or is this a leftover?
+> Thank you. I'm going to fold this into 1/3.
 
-It should have been the other way around. Will replace 'select' with
-"depends on".
+Unless Florian says otherwise, I suggest you collapse these three
+patches in one, my initial patch 1/3 in this series is indeed very
+much incomplete.
 
-Sebastian
+Thanks for catching up on this.
