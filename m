@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F2721D596;
-	Mon, 31 Mar 2025 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9412222D9;
+	Mon, 31 Mar 2025 14:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743431680; cv=none; b=n+gAB90fPpzhxuKWfBrLh0HP0Xm1v3PeazeQXokc4d9mEgNPAKZPaHkj2YHTYysEeYLmanyqyyd+C0S3cwT4buu9C9I2pz5RoONMhqeb3RUtjEH0QIHD9dxCXcn/UL8IGlSooizc8zLXggNDj95AYPJcOgaildswi5RZkqTwmCo=
+	t=1743431718; cv=none; b=diDTiLnmvvjzt2CGaNRNXtyBDzzwtUu5YfNPcBlIZo3kjGNzkb/QX/TZNeim39jUlXZl5OuTqRrfwp7NvQfRVhW8QsuWKxLbJ1oWYATObz6bOa6IcMpnKto6mNydN+6/8qGdOQAiYZewsMH08uEJcPPEWeZRIZqodlPjoGSTLHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743431680; c=relaxed/simple;
-	bh=WGh2VH/p78vjglhZ0w1dJgel8kTb2gHFjJxvKjKveHE=;
+	s=arc-20240116; t=1743431718; c=relaxed/simple;
+	bh=0isJ5Jd2yjV2HU1pmWz4MqH5sUVQ3IcQZm2LWPSWiO4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UgsmhcKUJWMJG27Y0+Kxx2O+gs1UnOrqnL5KOKSbY11Magach5UK7EG7Um887uy7iqiIE3FFX6+wumP3rBSo9EM/1hluTF6sySKawgQWUp7NqFH+a17BoQUbWKgjYM1bUhB4e2joMFe2sfYZG+XYtvdSyq8GPjpe+ikOInYwB8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOeinx5j; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=U0IPz2mfMZ5OKHyEZsIb5IL5jw/+sxE1NZV4raizNeApz5f82b1i4t9zF9BCaW8iGtnnceHMaTSKw5mU+ttuDk1FwTXrgPB6N345iG+fWYOR9i4wagW2ER6zVwmh0s1iEXZQsbbznqoTsL1TGcxKfEmOuCZygTK4DJ1Is3fL/9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RjhNu388; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOeinx5j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A821C4CEE9;
-	Mon, 31 Mar 2025 14:34:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RjhNu388"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 256D6C4CEE4;
+	Mon, 31 Mar 2025 14:35:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743431680;
-	bh=WGh2VH/p78vjglhZ0w1dJgel8kTb2gHFjJxvKjKveHE=;
+	s=k20201202; t=1743431718;
+	bh=0isJ5Jd2yjV2HU1pmWz4MqH5sUVQ3IcQZm2LWPSWiO4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hOeinx5ja3k+70BcmIjI9fftl2hKSFpoI+E+bBw7TmbwP31+o5C7Di3SPBY6LyUn6
-	 l7tCAQVR1B1fJmCB5mR8HxpPJfT0OlxjKwvvoxS77/IP/K7qytUC6HDd/9ja8XB6tV
-	 ve2+A+YpOYICJErnuMZvIeYgRqepdk8wikHrWEAyfipNuKrUQBvhP6mCpfYN42U9rW
-	 yJbEvKQLFwGT0YjhPhYIkBm4Qs8e5wCtUCiS2Iiqn3tEDoVkx8Y4THOor2RTL9sCz0
-	 mTUMuVaNLN+1c548fKpXf14n+qoTO35ASwvM4epKF2LAEEzQQdPhtZCFZGm1w4N7s8
-	 PHtO/Ic9jsuKQ==
+	b=RjhNu388lQ8KilT79sbOfE5HRuivCxVQwZQ7hM05mG+rN0qTAvUn4PjhQRsedwBZZ
+	 X+kpQ7LLs7E49nR0K4Dlb2DGVTe9G/4oRmIxbHt4hrtQed842+gjPp3D9om9yRHL7z
+	 Afeo6ozdfrIP/97F7fPIiUBhJNRU+Kbj78RZ/p7m2yG7x354wJJ/3g2sHe9hwX91Wc
+	 yW8KrC3sG1doMSHYYvDlkztfQGKeAtaCl3yGAmrilV1376XVhYCcmcuKNIWZJkGcgX
+	 tyi9k0OfS9ePOu4XfQfxHBi/MH03JyTv0Ovjk1nPzhSsesb7s6j4r5ZcX97MeTIiyn
+	 CdsjV/PZOuU7g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,17 +40,18 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>,
 	clrkwllms@kernel.org,
 	joel.granados@kernel.org,
 	akpm@linux-foundation.org,
+	wei.liu@kernel.org,
 	jani.nikula@intel.com,
-	ashutosh.dixit@intel.com,
+	bhe@redhat.com,
 	linux@weissschuh.net,
 	zhangguopeng@kylinos.cn,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 12/18] Flush console log from kernel_power_off()
-Date: Mon, 31 Mar 2025 10:34:02 -0400
-Message-Id: <20250331143409.1682789-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 11/16] Flush console log from kernel_power_off()
+Date: Mon, 31 Mar 2025 10:34:45 -0400
+Message-Id: <20250331143450.1685242-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250331143409.1682789-1-sashal@kernel.org>
-References: <20250331143409.1682789-1-sashal@kernel.org>
+In-Reply-To: <20250331143450.1685242-1-sashal@kernel.org>
+References: <20250331143450.1685242-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -59,7 +60,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14
+X-stable-base: Linux 6.13.9
 Content-Transfer-Encoding: 8bit
 
 From: "Paul E. McKenney" <paulmck@kernel.org>
@@ -143,7 +144,7 @@ index 07668433644b8..057db78876cd9 100644
  	return __pr_flush(NULL, timeout_ms, reset_on_progress);
  }
 diff --git a/kernel/reboot.c b/kernel/reboot.c
-index b5a8569e5d81f..41ab9e1ba3575 100644
+index a701000bab347..3ba15b2c40662 100644
 --- a/kernel/reboot.c
 +++ b/kernel/reboot.c
 @@ -704,6 +704,7 @@ void kernel_power_off(void)
