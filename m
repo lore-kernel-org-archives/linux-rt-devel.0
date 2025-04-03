@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383D32973E3;
-	Thu,  3 Apr 2025 19:14:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BF1207A1C;
+	Thu,  3 Apr 2025 19:16:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743707694; cv=none; b=ZRtuZEMAY0BlJOvNIuXC+tdGVbaUmmCL2JXFaPHPTcAFHjIbZ1X3f3c6YB8ASGtikopSz8t0Sor7lS9t8XMxYRTODKQzNYJgFZLnJwpMty3CF4Ri6wD2PPsRIOrrI0zOyPpfrsD14/gHKsnAi9V67E2gTOuVkKiTgZ7OncTXLIE=
+	t=1743707804; cv=none; b=u9f3agTPMjvlLHPAZz4BB9/OUJXthhnBzLWoXxuzvXBxzBFo5VjnmiZaXHjc2/ilocYLYx4dSg3x8b2wpUPwo3uVG4lDu2+lHhuaNoO1Cby/m94594gVK61an00b5R5Gox8MKuvqRBKA4047HkRHcZyr4j/EPh9iGcy/d6E0ckU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743707694; c=relaxed/simple;
+	s=arc-20240116; t=1743707804; c=relaxed/simple;
 	bh=IG7F6U3gfOQMS8ntvj31o+mv8hA3t80Jqo5rURTTYQ8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DFsMqVj80gd95kwa+xrttIS2y4hcvT0FDbp9eMP5Cfc9X2gqp5qyU9QQmFxvxGaTHNvcOeO+o2MomUf2uz+G63Lp/btQBR1zJXjYTo/bf+zgMvAg9Zl9NcWlbFFWXooDqoyjLE9tLd1sLqMRGVKZGyfGkJZyi4iLdfchLDxmYc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VHzSKueb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Nm5U3k71nAof2jbbN0T1mmhUt5Yz0ZOtbiwsR0Or2HflmmOVVlVBfsHxVqh3JyNdpkMTrCfpahbMrV65uDPA/6gNZ3FoF9HJZC6LyX3lkdqipKe3B/wFQk1A7VFCOZtWcoMFcNlrN3cEIc5pZISYvza73e+ej7ugmnMqV8SFk7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrXShPuO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VHzSKueb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC60C4CEE8;
-	Thu,  3 Apr 2025 19:14:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrXShPuO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02176C4CEEA;
+	Thu,  3 Apr 2025 19:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743707694;
+	s=k20201202; t=1743707802;
 	bh=IG7F6U3gfOQMS8ntvj31o+mv8hA3t80Jqo5rURTTYQ8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VHzSKuebiZz7Y6B0di/C/q8lFhZutuXcNl++Ztqu4rRS6bqnX0Bl30qGwzycEM+RA
-	 TWDfLi8FXHRrpN0lOylxQX/FeF1yjzmu8V5uArNXQ411dgEnoKXHV+79cw07apQeRe
-	 WW2DjaEWG2AT5rfI+g1Ek2oSKHIoV8hixU7omh1HdiRlbyx0I6FDTxjKADs5c2fkCN
-	 7aZSNHPIICwH0Dbs36EeDjWKRNU7PkTkiehYV2aJK+9CSEJDj1yoZmiqAMOvWPLBy6
-	 vOBwRJcPiA6POp/I0FadpB7S/fCIsCb1KVxbMbMHCiAZ1bUDsAbFfWHte+KV1zBcSG
-	 SA5Od2PwGfeOg==
+	b=lrXShPuORcZ7JjT9yBx7Q5cSxPc9Ba27Lp3XPz408Im/p/8xmrWEI7f0mmtJJy0Tr
+	 v1Lynf5BQRlilCwfY100km61u0WsNnnOmvZYTA4G0Q6gmDOtg1XulTwPF5t2sIGGn8
+	 MiciIakgyI3EKq586LvFPjq3F1rMTL7rt+deKf6r93OP6V+uV2j8b3DNqZN8pKC98f
+	 xmz4NFSF/Zvl3zAJiDqBFfatDc+AUZaJXbqAzva9qLGu+q8lH5cfMEl6zc600QaTgk
+	 wzxoJTMGfkmCSADgZvzJetuEH9FszVvtUGuSR5otx3411b7WSIYCvverI9BaaeLWNG
+	 fBNgFoTI1KQ9g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -42,12 +42,12 @@ Cc: Ryo Takakura <ryotkkr98@gmail.com>,
 	rostedt@goodmis.org,
 	linux-pci@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 36/44] PCI: vmd: Make vmd_dev::cfg_lock a raw_spinlock_t type
-Date: Thu,  3 Apr 2025 15:13:05 -0400
-Message-Id: <20250403191313.2679091-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 31/37] PCI: vmd: Make vmd_dev::cfg_lock a raw_spinlock_t type
+Date: Thu,  3 Apr 2025 15:15:07 -0400
+Message-Id: <20250403191513.2680235-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250403191313.2679091-1-sashal@kernel.org>
-References: <20250403191313.2679091-1-sashal@kernel.org>
+In-Reply-To: <20250403191513.2680235-1-sashal@kernel.org>
+References: <20250403191513.2680235-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -57,7 +57,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14
+X-stable-base: Linux 6.13.9
 Content-Transfer-Encoding: 8bit
 
 From: Ryo Takakura <ryotkkr98@gmail.com>
