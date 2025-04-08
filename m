@@ -1,184 +1,230 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9484726A0C4
-	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Apr 2025 12:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702131388
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Apr 2025 21:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744115616; cv=none; b=cSOwj1x/cIxdRYzD667ZEuSTIWbcIZxknMj3J9jFAd2KiJiTC54vVENRt52aNB4kYDAeBKq0GMy8ldPHuTMrnMOs35uqxv9Q6L4ptiSK+hvDEqqKYet70EmgxnC0OB+od27NklVQeetDqtuADT0RP8aEnJdWiishIuZE00iO7fY=
+	t=1744147870; cv=none; b=Kj01ZrjViRJGi4b1CC2MTr1Fj5m6VBJV/bRnTSRxrsCfqcGuLqf/3S3nNctPnv2G78WGG3wStCpjffqw0EqEh4hC2Am+yy0B8IKnC1yhoA2O4yDkd4ue8uAkt93xozRSxvYQAinrCsqxLhlNiEGs14SPKRLSmiumLXsS3nEMP8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744115616; c=relaxed/simple;
-	bh=ogZwpuvtr9WOgjG3iyuGApZAAsIcadALC155eBBkxoM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JAFwvWn/XewfjN1AIWFWaxjBmsHgi4j8PY8lv6Vw2XMFgdIwR4ZdQEvULEAK9592cqF6WL3zVwDttprrSw13Js1AFCCukvPYPNuY+ZcbXZz2m3eXS2mkofSoYF7u4vr7pUWuBH90U2Bw6bbvRDXogc83zYn2Tf6vwfHRi7EQJII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4ZX59b06Zfz27hb4;
-	Tue,  8 Apr 2025 20:34:11 +0800 (CST)
-Received: from dggpemf200006.china.huawei.com (unknown [7.185.36.61])
-	by mail.maildlp.com (Postfix) with ESMTPS id B4FCF18005F;
-	Tue,  8 Apr 2025 20:33:30 +0800 (CST)
-Received: from [10.67.120.129] (10.67.120.129) by
- dggpemf200006.china.huawei.com (7.185.36.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 8 Apr 2025 20:33:30 +0800
-Message-ID: <2f3952fd-cf64-43aa-ba0b-8309343834f8@huawei.com>
-Date: Tue, 8 Apr 2025 20:33:30 +0800
+	s=arc-20240116; t=1744147870; c=relaxed/simple;
+	bh=ceuktwmE6Tz6ySyYjExWpcHUrmoXfJEVisxJS0xJM/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-type; b=kfZFeGk4XqKqr8f2+zCC1vggWATXn1U5Q1+QaDWwF6Y4C2An3GlNH1wPCgSHmHiWKu+lPqqZ1LrAqqZeRnBVg5H28HneDn8r194B8gFIUXud9d9zrF9lAThaYkVvuUFiA5qIhbm2AjZAHhGDeCFGsQviKVKDznrQrMF80VYGprg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J0XX1wBP; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J0XX1wBP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744147867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zJ/vYvJFdaljL1EBPrzkdHubi4p6O3iwKoThG4V7wUE=;
+	b=J0XX1wBP9n5aM4EmYi6sXDtSFw2jd+zzm3gBOCf4CjZ0NnRn8JKfrbUFFY6lu4/ndyF3zp
+	2+sEO5l9eFqyyC59Gyv3wfK78lEfjZGsIr47pF/19+GopyWaG94U9ewE/Iy1gAM+gA8LUg
+	wqRa9r5CvJEm+8XuQG9vDmFpxDvJt1Y=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-655-PTZas3U3PBulB0K3wHDmPQ-1; Tue, 08 Apr 2025 17:31:06 -0400
+X-MC-Unique: PTZas3U3PBulB0K3wHDmPQ-1
+X-Mimecast-MFC-AGG-ID: PTZas3U3PBulB0K3wHDmPQ_1744147866
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-47693206f16so99121891cf.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 08 Apr 2025 14:31:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744147865; x=1744752665;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zJ/vYvJFdaljL1EBPrzkdHubi4p6O3iwKoThG4V7wUE=;
+        b=NsY/RtlMatxxXc88UlBWEx/Tkn4Dm8mczXL9G1AuXR9ZIOFeU3wOE9Q6wRQBFGaVNN
+         5X0QOG3nXuMe8OUpwhHhAjPR1SGbYV4OotQY7ZERfqEnOyi3zw7EoYjhYb1I+N0GydqB
+         kSK/hPagh6wen6bDK9NaLkeiEXWfbkrZaUHSgm2NoArm5eLLB3QhOdkygUP8jJHiIOy+
+         BTVCTZHIGjzfBvzQSjyD2hctEx8WGJdEgU+gJUI79y169ImHwXNKU9FRoLlOxx8J0wJE
+         64WgcDGCMza0kdlf+MyxZ5db9+/YuwUcHdPanLrPkIIpc4Jg3RaMIxctpSQVXtHUODjq
+         XE8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXiAp7I0vVSGDoqVGWVqJ9i24tPQfX5i0hujvepfs05iel1yITyWDDvN9ru34LasdquBqpqFpdOtZi8e6fRRQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7c7AQovKqVx5J5CFHtUjrUWqJJ4TZA/pgTfRZXAmyaawYSsk9
+	nFkxtbYIGFSsxdZmHcIH195r7ATaRIqzM3Mm+mLTfVa1CQjV/ByD2RUX0c3vtvhd+9lvzDGQyiS
+	4GUcIK4cednredRRR4UT39AmulxwLxin64gWYjzdAG/ySrx5kQCA5LWcVydrOxFrI
+X-Gm-Gg: ASbGncvTfMAPXm60LhsDHfQhWOg4zSs+U7FUZR1yIYFWb3BeQd5WPWkftKq0r/wTRTu
+	XTJYv9tBcMJ4J++HtSg3kIEhtqgo+3O/+v10GlCrzmdwv4WHux4CoVqsmYxuw5oXkjXyrEr3vE+
+	op+DI/wveFeOb2bpBeOnsJlN6KHo4DKCQTi+hyTc9fAqIzwLT+ZvZFKNdUBziwO087QB1/Ua94A
+	SLPCr1Ayr0HytvaU0zkcLp1rEHidXRmId5SQQHnIojmkbJlHGENbpxgNKYn0Zp/zpI5mbm/yc5S
+	P/IpsFPKMqK6vELSXeKB+Irv2ItaihD3csgqt7eOTU4kwYWmwk7hF0gUGMQ=
+X-Received: by 2002:ac8:5710:0:b0:472:1d98:c6df with SMTP id d75a77b69052e-4795f3830c5mr9360221cf.52.1744147865667;
+        Tue, 08 Apr 2025 14:31:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHaqQKFqtCmlZORrUMH7gDif9S184NDQ21l5dk4cYMD2uysBUK7u+SSTsZwMdSwHGbSJYvRkQ==
+X-Received: by 2002:ac8:5710:0:b0:472:1d98:c6df with SMTP id d75a77b69052e-4795f3830c5mr9359851cf.52.1744147865368;
+        Tue, 08 Apr 2025 14:31:05 -0700 (PDT)
+Received: from localhost (pool-100-17-21-114.bstnma.fios.verizon.net. [100.17.21.114])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b071b42sm81639081cf.27.2025.04.08.14.31.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 14:31:04 -0700 (PDT)
+From: Eric Chanudet <echanude@redhat.com>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ian Kent <ikent@redhat.com>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Eric Chanudet <echanude@redhat.com>,
+	Alexander Larsson <alexl@redhat.com>,
+	Lucas Karpinski <lkarpins@redhat.com>
+Subject: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Date: Tue,  8 Apr 2025 16:58:34 -0400
+Message-ID: <20250408210350.749901-12-echanude@redhat.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 0/4] page_pool: Convert stats to u64_stats_t.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	<linux-rdma@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<netdev@vger.kernel.org>
-CC: "David S. Miller" <davem@davemloft.net>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Eric Dumazet <edumazet@google.com>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, Jakub Kicinski <kuba@kernel.org>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Joe Damato <jdamato@fastly.com>, Leon
- Romanovsky <leon@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
-	<saeedm@nvidia.com>, Simon Horman <horms@kernel.org>, Tariq Toukan
-	<tariqt@nvidia.com>, Thomas Gleixner <tglx@linutronix.de>
-References: <20250408105922.1135150-1-bigeasy@linutronix.de>
-Content-Language: en-US
-From: Yunsheng Lin <linyunsheng@huawei.com>
-In-Reply-To: <20250408105922.1135150-1-bigeasy@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 6IaD1RW8GW4mxPQqXsW6UwZpwBp8cAiev9Y2EncgFDE_1744147866
+X-Mimecast-Originator: redhat.com
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemf200006.china.huawei.com (7.185.36.61)
 
-On 2025/4/8 18:59, Sebastian Andrzej Siewior wrote:
-> This is a follow-up on
->         https://lore.kernel.org/all/20250213093925.x_ggH1aj@linutronix.de/
-> 
-> to convert the page_pool statistics to u64_stats_t to avoid u64 related
-> problems on 32bit architectures.
-> While looking over it, the comment for recycle_stat_inc() says that it
-> is safe to use in preemptible context. The 32bit update is split into
-> two 32bit writes. This is "okay" if the value observed from the current
-> CPU but cross CPU reads may observe inconsistencies if the lower part
-> overflows and the upper part is not yet written.
-> I explained this and added x86-32 assembly in
-> 	https://lore.kernel.org/all/20250226102703.3F7Aa2oK@linutronix.de/
-> 
-> I don't know if it is ensured that only *one* update can happen because
-> the stats are per-CPU and per NAPI device. But there will be now a
-> warning on 32bit if this is really attempted in preemptible context.
+Defer releasing the detached file-system when calling namespace_unlock()
+during a lazy umount to return faster.
 
-I don't think it is ensured that only *one* update, at least not for
-'ring_full' and 'released_refcnt'.
+When requesting MNT_DETACH, the caller does not expect the file-system
+to be shut down upon returning from the syscall. Calling
+synchronize_rcu_expedited() has a significant cost on RT kernel that
+defaults to rcupdate.rcu_normal_after_boot=1. Queue the detached struct
+mount in a separate list and put it on a workqueue to run post RCU
+grace-period.
 
-> 
-> The placement of the counters is not affected by this change except on
-> 32bit where an additional sync member is added. For 64bit pahole output
-> changes from
-> | struct page_pool_recycle_stats {
-> |         u64                        cached;               /*     0     8 */
-> |         u64                        cache_full;           /*     8     8 */
-> |         u64                        ring;                 /*    16     8 */
-> |         u64                        ring_full;            /*    24     8 */
-> |         u64                        released_refcnt;      /*    32     8 */
-> |
-> |         /* size: 40, cachelines: 1, members: 5 */
-> |         /* last cacheline: 40 bytes */
-> | };
-> 
-> to
-> | struct page_pool_recycle_stats {
-> |         struct u64_stats_sync      syncp;                /*     0     0 */
-> |         u64_stats_t                cached;               /*     0     8 */
-> |         u64_stats_t                cache_full;           /*     8     8 */
-> |         u64_stats_t                ring;                 /*    16     8 */
-> |         u64_stats_t                ring_full;            /*    24     8 */
-> |         u64_stats_t                released_refcnt;      /*    32     8 */
-> |
-> |         /* size: 40, cachelines: 1, members: 6 */
-> |         /* last cacheline: 40 bytes */
-> | };
-> 
-> On 32bit struct u64_stats_sync grows by 4 bytes (plus addiional 20 with
-> lockdep).
-> 
-> For bench_page_pool_simple.ko loops=600000000 I ended up with, before:
+w/o patch, 6.15-rc1 PREEMPT_RT:
+perf stat -r 10 --null --pre 'mount -t tmpfs tmpfs mnt' -- umount mnt
+    0.02455 +- 0.00107 seconds time elapsed  ( +-  4.36% )
+perf stat -r 10 --null --pre 'mount -t tmpfs tmpfs mnt' -- umount -l mnt
+    0.02555 +- 0.00114 seconds time elapsed  ( +-  4.46% )
 
-Is the above test for 64 bit arches or 32 bit arches?
-I guess the added overhead is only for the 32 bit arches?
+w/ patch, 6.15-rc1 PREEMPT_RT:
+perf stat -r 10 --null --pre 'mount -t tmpfs tmpfs mnt' -- umount mnt
+    0.026311 +- 0.000869 seconds time elapsed  ( +-  3.30% )
+perf stat -r 10 --null --pre 'mount -t tmpfs tmpfs mnt' -- umount -l mnt
+    0.003194 +- 0.000160 seconds time elapsed  ( +-  5.01% )
 
-> 
-> | time_bench: Type:for_loop Per elem: 1 cycles(tsc) 0.501 ns (step:0)
-> | time_bench: Type:atomic_inc Per elem: 6 cycles(tsc) 3.303 ns (step:0)
-> | time_bench: Type:lock Per elem: 28 cycles(tsc) 14.038 ns (step:0)
-> | time_bench: Type:u64_stats_inc Per elem: 1 cycles(tsc) 0.565 ns (step:0)
-> | time_bench: Type:this_cpu_inc Per elem: 1 cycles(tsc) 0.503 ns (step:0)
-> | 
-> | bench_page_pool_simple: time_bench_page_pool01_fast_path(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool01 Per elem: 19 cycles(tsc) 9.526 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool02_ptr_ring(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool02 Per elem: 46 cycles(tsc) 23.501 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool03_slow(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool03 Per elem: 121 cycles(tsc) 60.697 ns (step:0)
-> | bench_page_pool_simple: pp_tasklet_handler(): in_serving_softirq fast-path
-> | bench_page_pool_simple: time_bench_page_pool01_fast_path(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool01_fast_path Per elem: 19 cycles(tsc) 9.531 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool02_ptr_ring(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool02_ptr_ring Per elem: 45 cycles(tsc) 22.594 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool03_slow(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool03_slow Per elem: 123 cycles(tsc) 61.969 ns (step:0)
-> 
-> after:
-> | time_bench: Type:for_loop Per elem: 1 cycles(tsc) 0.501 ns (step:0)
-> | time_bench: Type:atomic_inc Per elem: 6 cycles(tsc) 3.324 ns (step:0)
-> | time_bench: Type:lock Per elem: 28 cycles(tsc) 14.038 ns (step:0)
-> | time_bench: Type:u64_stats_inc Per elem: 1 cycles(tsc) 0.565 ns (step:0)
-> | time_bench: Type:this_cpu_inc Per elem: 1 cycles(tsc) 0.506 ns (step:0)
-> | 
-> | bench_page_pool_simple: time_bench_page_pool01_fast_path(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool01 Per elem: 18 cycles(tsc) 9.028 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool02_ptr_ring(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool02 Per elem: 45 cycles(tsc) 22.714 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool03_slow(): Cannot use page_pool fast-path
-> | time_bench: Type:no-softirq-page_pool03 Per elem: 120 cycles(tsc) 60.428 ns (step:0)
-> | bench_page_pool_simple: pp_tasklet_handler(): in_serving_softirq fast-path
-> | bench_page_pool_simple: time_bench_page_pool01_fast_path(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool01_fast_path Per elem: 18 cycles(tsc) 9.024 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool02_ptr_ring(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool02_ptr_ring Per elem: 43 cycles(tsc) 22.028 ns (step:0)
-> | bench_page_pool_simple: time_bench_page_pool03_slow(): in_serving_softirq fast-path
-> | time_bench: Type:tasklet_page_pool03_slow Per elem: 121 cycles(tsc) 60.736 ns (step:0)
-> 
-> v2…v3: https://lore.kernel.org/all/20250307115722.705311-1-bigeasy@linutronix.de
->   - Moved the page_pool_ethtool_stats_get_strings_mq() to the mlx5
->     driver and named it mlx_page_pool_stats_get_strings_mq(). As per
->     review it will remain a Mellanox only thing.
-> 
-> v1…v2: https://lore.kernel.org/all/20250221115221.291006-1-bigeasy@linutronix.de
->   - Clarified the cover mail, added stat for pahole and from bench_page_pool_simple.ko
->   - Corrected page_pool_alloc_stats vs page_pool_recycle_stats type in
->     the last patch.
->   - Copy the counter values outside of the do {} while loop and add them
->     later.
->   - Redid the mlnx5 patch to make it use generic infrastructure which is
->     now extended as part of this series.
-> 
-> Sebastian Andrzej Siewior (4):
->   mlnx5: Use generic code for page_pool statistics.
->   page_pool: Provide an empty page_pool_stats for disabled stats.
->   page_pool: Convert page_pool_recycle_stats to u64_stats_t.
->   page_pool: Convert page_pool_alloc_stats to u64_stats_t.
-> 
->  Documentation/networking/page_pool.rst        |  6 +-
->  .../ethernet/mellanox/mlx5/core/en_stats.c    | 97 ++++++++----------
->  .../ethernet/mellanox/mlx5/core/en_stats.h    | 26 +----
->  include/linux/u64_stats_sync.h                |  5 +
->  include/net/page_pool/helpers.h               |  6 ++
->  include/net/page_pool/types.h                 | 31 +++---
->  net/core/page_pool.c                          | 99 +++++++++++++------
->  net/core/page_pool_user.c                     | 22 ++---
->  8 files changed, 159 insertions(+), 133 deletions(-)
-> 
+Signed-off-by: Alexander Larsson <alexl@redhat.com>
+Signed-off-by: Lucas Karpinski <lkarpins@redhat.com>
+Signed-off-by: Eric Chanudet <echanude@redhat.com>
+---
+
+Attempt to re-spin this series based on the feedback received in v3 that
+pointed out the need to wait the grace-period in namespace_unlock()
+before calling the deferred mntput().
+
+v4:
+- Use queue_rcu_work() to defer free_mounts() for lazy umounts
+- Drop lazy_unlock global and refactor using a helper
+v3: https://lore.kernel.org/all/20240626201129.272750-2-lkarpins@redhat.com/
+- Removed unneeded code for lazy umount case.
+- Don't block within interrupt context.
+v2: https://lore.kernel.org/all/20240426195429.28547-1-lkarpins@redhat.com/
+- Only defer releasing umount'ed filesystems for lazy umounts
+v1: https://lore.kernel.org/all/20230119205521.497401-1-echanude@redhat.com/
+
+ fs/namespace.c | 52 +++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 45 insertions(+), 7 deletions(-)
+
+diff --git a/fs/namespace.c b/fs/namespace.c
+index 14935a0500a2..e5b0b920dd97 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -45,6 +45,11 @@ static unsigned int m_hash_shift __ro_after_init;
+ static unsigned int mp_hash_mask __ro_after_init;
+ static unsigned int mp_hash_shift __ro_after_init;
+ 
++struct deferred_free_mounts {
++	struct rcu_work rwork;
++	struct hlist_head release_list;
++};
++
+ static __initdata unsigned long mhash_entries;
+ static int __init set_mhash_entries(char *str)
+ {
+@@ -1789,11 +1794,29 @@ static bool need_notify_mnt_list(void)
+ }
+ #endif
+ 
+-static void namespace_unlock(void)
++static void free_mounts(struct hlist_head *mount_list)
+ {
+-	struct hlist_head head;
+ 	struct hlist_node *p;
+ 	struct mount *m;
++
++	hlist_for_each_entry_safe(m, p, mount_list, mnt_umount) {
++		hlist_del(&m->mnt_umount);
++		mntput(&m->mnt);
++	}
++}
++
++static void defer_free_mounts(struct work_struct *work)
++{
++	struct deferred_free_mounts *d = container_of(
++		to_rcu_work(work), struct deferred_free_mounts, rwork);
++
++	free_mounts(&d->release_list);
++	kfree(d);
++}
++
++static void __namespace_unlock(bool lazy)
++{
++	HLIST_HEAD(head);
+ 	LIST_HEAD(list);
+ 
+ 	hlist_move_list(&unmounted, &head);
+@@ -1817,12 +1840,27 @@ static void namespace_unlock(void)
+ 	if (likely(hlist_empty(&head)))
+ 		return;
+ 
+-	synchronize_rcu_expedited();
++	if (lazy) {
++		struct deferred_free_mounts *d =
++			kmalloc(sizeof(*d), GFP_KERNEL);
+ 
+-	hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
+-		hlist_del(&m->mnt_umount);
+-		mntput(&m->mnt);
++		if (unlikely(!d))
++			goto out;
++
++		hlist_move_list(&head, &d->release_list);
++		INIT_RCU_WORK(&d->rwork, defer_free_mounts);
++		queue_rcu_work(system_wq, &d->rwork);
++		return;
+ 	}
++
++out:
++	synchronize_rcu_expedited();
++	free_mounts(&head);
++}
++
++static inline void namespace_unlock(void)
++{
++	__namespace_unlock(false);
+ }
+ 
+ static inline void namespace_lock(void)
+@@ -2056,7 +2094,7 @@ static int do_umount(struct mount *mnt, int flags)
+ 	}
+ out:
+ 	unlock_mount_hash();
+-	namespace_unlock();
++	__namespace_unlock(flags & MNT_DETACH);
+ 	return retval;
+ }
+ 
+-- 
+2.49.0
+
