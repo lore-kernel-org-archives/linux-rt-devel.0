@@ -1,62 +1,57 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BC41552EB
-	for <linux-rt-devel@lists.linux.dev>; Wed,  9 Apr 2025 17:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45B527C15B
+	for <linux-rt-devel@lists.linux.dev>; Wed,  9 Apr 2025 18:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744218156; cv=none; b=jatl5RSjIuVNHKnMRMS0A6PhWqP5Y4g1wqlx2c3c01/RxTVnTu0x3EzAGQLAWKNgg0OLMORDpmhgvlKEmViz/gAXOmoUdrP/ymqzN9efw9Rg/CligaNKuk0Nuw902TCTwn6G/6I+NR48BQXrxQboSGTOgSEgt5ibdQ5Xfbigajc=
+	t=1744225125; cv=none; b=pLGt1WUWLrWwT9ECLys/3CJ56Q9c+LC3B29RTi6PAaq31a31p2EGCnbHU3EtjGglnpnGbQcTM1M0Yps+Vl0ngaUSM5MWhlknuwz/CGpiQi8pJ+PTbFgoIhFjR6mCzOiodnyOUNwmQr2WGq7ZI1+xWpldlQF+bscYldX4OzdhydY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744218156; c=relaxed/simple;
-	bh=8Woo7zONtTGlS+vR4tnAD9QERZsc8c39ch7Sp73TTfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AT/2okAZX1qumGrxIXX+lNk9Dn3bDfu5ogtJErOPjpyv/ZV2ANQ+wGLpr0S6Pg5QiIKQ4BsC5KDpzrYzsqUhGRP8srUuOeEaHX5IzyXq8R1CppmBFc8X3Tmo7ePgbW3j8Jktl8f4F1FcHB0iMgAC3rOSliYeWzZaAc0xlsP3IqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BjUnZhX2; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1744225125; c=relaxed/simple;
+	bh=WYAu8cwIOR3j5bPwNsv4yJ2R0q8DA2StD6bHldUkofY=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VwMrk0JDTzkVHv+iqs20n8s/a4k+Jbrtm3VrYOYhG09RH5YS6nKWS7i1yFlVKDqqneskDyMTdWZoqm/NyMkx5JCay99d12ZvPT0TA80us1px5R5a056C1BUdf6Mmc9krFyd9bkZKKrgCyYA4WngNiPWMBmuC3aH07WonJb3Yx2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i87uQ01x; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BjUnZhX2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i87uQ01x"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744218154;
+	s=mimecast20190719; t=1744225121;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50r+s/P904+CGfzLh0ycHBDHZFcTaMXvlcTYX7DyJ60=;
-	b=BjUnZhX2IDZ63/iIne/UPOCnNzYVA0gcnzr8bWC1XDcINBN3WDJ4dYkzzi68DNKq3gWDTi
-	6gWcnEdsnHR3Q6/IkvJs3vmaX8Sty/nTku6uCk/ZGMWImlZm1ZjSf6TTZdhyQAl1qzkd6M
-	Km4+ruTlWVpXvvmJVXNQ0a6lSJJ06jQ=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=IomF8IvW5GqoiLmMbddAQY7wujpofeB8cOEYdi3c1Xo=;
+	b=i87uQ01x0pG4VUDAjXXLZNbCdAr8zKNZHWzKP/e/W3+v0OFu27t4AVLKk5hDyWw484prfs
+	qycvCYKXMgZLT+nIKHHraxYa+FfMjODC4QGP1JFdAH93Ao4DnXbxR8OUrf4LmOUcbLh9wh
+	bdu52CUt4/jGVykZ8RwBZfAux5FUDy0=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-344-J9jIKsrSM2qUPL-NgUtTjg-1; Wed,
- 09 Apr 2025 13:02:30 -0400
-X-MC-Unique: J9jIKsrSM2qUPL-NgUtTjg-1
-X-Mimecast-MFC-AGG-ID: J9jIKsrSM2qUPL-NgUtTjg_1744218148
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-495-5t3HoGQ6OrayAldKMwkgeQ-1; Wed,
+ 09 Apr 2025 14:58:37 -0400
+X-MC-Unique: 5t3HoGQ6OrayAldKMwkgeQ-1
+X-Mimecast-MFC-AGG-ID: 5t3HoGQ6OrayAldKMwkgeQ_1744225115
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29F111800EC5;
-	Wed,  9 Apr 2025 17:02:28 +0000 (UTC)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 46A0F195608A;
+	Wed,  9 Apr 2025 18:58:35 +0000 (UTC)
 Received: from localhost (unknown [10.22.88.189])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2EB921808882;
-	Wed,  9 Apr 2025 17:02:26 +0000 (UTC)
-Date: Wed, 9 Apr 2025 14:02:25 -0300
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 57EAD180B488;
+	Wed,  9 Apr 2025 18:58:34 +0000 (UTC)
+Date: Wed, 9 Apr 2025 15:58:32 -0300
 From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>, Tejun Heo <tj@kernel.org>,
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
 	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
 	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>
-Subject: Re: [PATCH] sched: do not call __put_task_struct() on rt if
+	Juri Lelli <juri.lelli@redhat.com>, lclaudio00@gmail.com
+Subject: [PATCH v2] sched: do not call __put_task_struct() on rt if
  pi_blocked_on is set
-Message-ID: <Z_aoIY7GwPFUqMNb@uudg.org>
-References: <Z_W-i-ya0Q6fkXRh@uudg.org>
- <20250409114330.1444221e@gandalf.local.home>
- <Z_af4PF18ocF0bBW@uudg.org>
- <20250409123944.15df8714@gandalf.local.home>
+Message-ID: <Z_bDWN2pAnijPAMR@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -65,57 +60,86 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409123944.15df8714@gandalf.local.home>
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed, Apr 09, 2025 at 12:39:44PM -0400, Steven Rostedt wrote:
-> On Wed, 9 Apr 2025 13:27:12 -0300
-> "Luis Claudio R. Goncalves" <lgoncalv@redhat.com> wrote:
-> 
-> > > > -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
-> > > > +#ifdef CONFIG_PREEMPT_RT
-> > > > +	if (!preemptible() || current->pi_blocked_on)
-> > > > +		defer = true;
-> > > > +#endif  
-> > > 
-> > > Why add the ugly #ifdef back?
-> > > 
-> > > 	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
-> > > 	    (preemptible() && !current->pi_blocked_on)) {  
-> > 
-> > I had to add the #ifdef to avoid the build failing if CONFIG_RT_MUTEXES is
-> > not set. I do know SMP, FUTEX, I2C, PSTORE and a few more things depend on
-> > CONFIG_RT_MUTEXES being enabled, but I opted for being thorough.
-> > 
-> > I would be more than glad getting rid of the #ifdef and simplifying the patch
-> > if that possible build failure is not a case to worry about, if RT_MUTEXES are
-> > always enabled nowadays.
-> > 
-> 
-> Because pi_blocked_on is only defined when CONFIG_RT_MUTEXES is enabled?
-> 
-> OK, then perhaps we should add in sched.h:
-> 
-> #ifdef CONFIG_RT_MUTEXES
-> static inline bool tsk_is_pi_blocked_on(struct task_struct *tsk)
-> {
-> 	return tsk->pi_blocked_on != NULL;
-> }
-> #else
-> static inline bool tsk_is_pi_blocked_on(strut task_struct *tsk)
-> {
-> 	return false;
-> }
-> #endif
-> 
-> ??
+With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+from rt_mutex_adjust_prio_chain() could happen in preemptible context and
+with a mutex enqueued. That could lead to this sequence:
 
-Thank you for the suggestion! I will rework the patch with that and send v2
-after basic testing.
+	rt_mutex_adjust_prio_chain()
+	  put_task_struct()
+	    __put_task_struct()
+	      sched_ext_free()
+	        spin_lock_irqsave()
+	          rtlock_lock() --->  TRIGGERS
+	                              lockdep_assert(!current->pi_blocked_on);
 
-Luis
+Adjust the check in put_task_struct() to also consider pi_blocked_on before
+calling __put_task_struct(), resorting to the deferred call in case it is
+set.
+
+v2: Rostedt suggested removing the #ifdef from put_task_struct() and
+    creating tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
+
+Suggested-by: Crystal Wood <crwood@redhat.com>
+Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+---
+ include/linux/sched.h      |   12 ++++++++++++
+ include/linux/sched/task.h |   10 +++++++---
+ 2 files changed, 19 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 5ec93e5ba53a9..9fbfa7f55a83d 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -2148,6 +2148,18 @@ static inline bool task_is_runnable(struct task_struct *p)
+ 	return p->on_rq && !p->se.sched_delayed;
+ }
  
-> -- Steve
-> 
----end quoted text---
++#ifdef CONFIG_RT_MUTEXES
++static inline bool tsk_is_pi_blocked_on(struct task_struct *tsk)
++{
++	return tsk->pi_blocked_on != NULL;
++}
++#else
++static inline bool tsk_is_pi_blocked_on(strut task_struct *tsk)
++{
++	return false;
++}
++#endif
++
+ extern bool sched_task_on_rq(struct task_struct *p);
+ extern unsigned long get_wchan(struct task_struct *p);
+ extern struct task_struct *cpu_curr_snapshot(int cpu);
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 0f2aeb37bbb04..1f17a3dd51774 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -135,9 +135,11 @@ static inline void put_task_struct(struct task_struct *t)
+ 
+ 	/*
+ 	 * In !RT, it is always safe to call __put_task_struct().
+-	 * Under RT, we can only call it in preemptible context.
++	 * Under RT, we can only call it in preemptible context,
++	 * when not blocked on a PI chain.
+ 	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
++	    (preemptible() || !tsk_is_pi_blocked_on(current))) {
+ 		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+ 
+ 		lock_map_acquire_try(&put_task_map);
+@@ -149,7 +151,9 @@ static inline void put_task_struct(struct task_struct *t)
+ 	/*
+ 	 * under PREEMPT_RT, we can't call put_task_struct
+ 	 * in atomic context because it will indirectly
+-	 * acquire sleeping locks.
++	 * acquire sleeping locks. The same is true if the
++	 * current process has a mutex enqueued (blocked on
++	 * a PI chain).
+ 	 *
+ 	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+ 	 * to be called in process context.
+-- 
+2.49.0
 
