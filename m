@@ -1,73 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FE4267B00;
-	Wed,  9 Apr 2025 15:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2DA1C8637;
+	Wed,  9 Apr 2025 16:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744213333; cv=none; b=D0d40ubzWXrrZnrrA3WSai+20j+jg/9DBCzAa52SZ+nDV2qOXbUnbRAp0vMhQ5gtWTLzuNN+DzJ3zuO1dK949tYEQk40bmQ8fD2W+egouCr40WIFPPLKY+Ue/krm6mEmDxsXlDspwPO6r1HqojtbGLxA2n+LNN8GYULsu7LLVaY=
+	t=1744214668; cv=none; b=CzpR0Y8dYpQv/Eiz5ZzaNi0sSV+WrW3gAUhWeqloW3GnmiZE+qJBazojZCg32UtOIcJnwMzgJmROx6R2h/x7gyV2iK2cwQ2WVcbeg8wrdWyP/Q1RaOtXmrnpafViKADW4gU91yepp9PLDUE6PQO3ryG5Y/qwlBTNnQHh7FTO1ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744213333; c=relaxed/simple;
-	bh=WC1VfsSLvnSOjUPL0QpZTEJJPqGDT0zFmkUzfy8MhBE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FTYC7X4tCEKM3CFyE8ZrP54x0mlzPBYY1R3iOYNV32uahwss18VuT+QyaIijHduUv1YgUGOp6jU1WUqrnHARkhC/RuwqCKNk+I+dDmcHs3aiQQsyNAfoW7HUNROlAsVyePnghT2W0xBiN9fb/dzPVo+OtgXuU755LLtvPhxNOuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314AEC4CEE7;
-	Wed,  9 Apr 2025 15:42:11 +0000 (UTC)
-Date: Wed, 9 Apr 2025 11:43:30 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Tejun Heo <tj@kernel.org>, David Vernet
- <dvernet@meta.com>, Barret Rhoden <brho@google.com>, Josh Don
- <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Juri Lelli
- <juri.lelli@redhat.com>, lclaudio00@gmail.com
-Subject: Re: [PATCH] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-Message-ID: <20250409114330.1444221e@gandalf.local.home>
-In-Reply-To: <Z_W-i-ya0Q6fkXRh@uudg.org>
-References: <Z_W-i-ya0Q6fkXRh@uudg.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1744214668; c=relaxed/simple;
+	bh=LJXw6GutdFoxofjTVjlPgY30HIfUTEXl7NS2iangMwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L4O/qGQFv67wDG0VpcS1cZ3Dg4Plip3DElrUAjWeKlF2NgYdlg8pThPPoiOxUDXysgpykq5c/dl35MuKzjT8rUpBqXU8g0/Mx84VqIpn4a6+JEt9Wl52RQwTjhrZlbqMsRVsBPGVTtjyFxuSmqLI5nUaz3+TvRefm9ABaeFPiZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1GMKOb+; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1GMKOb+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E429C4CEE3;
+	Wed,  9 Apr 2025 16:04:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744214667;
+	bh=LJXw6GutdFoxofjTVjlPgY30HIfUTEXl7NS2iangMwE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A1GMKOb+0dSrSYgHkPDIrPOsYmVEDdhJ2SLl54wXFlmZrAC0vgWfZQIl4d/R6U0OI
+	 aATXTc06MIx8duU4c3YCY4OLKnVNdx+cdFgfuDlN7BJTcgZusjkEZLawhelsbuYqd0
+	 2jNknQlXWPX6ktdWMgXXXi/Mq94fQEycyxignXsmofzBS6Lq065bQS6kuQUaGWY/p5
+	 MQGD52v8hg6uuE44c0jdbcBe1jt1glXcj5k10cwlgxS4bGCM/JXrlyagV08vy7IKoQ
+	 X7bBIahmszlhjCgPWP5fbHKiIFjsgcoHd2g3us61l4Gd1QXRs4EUjoLTrg6iGHcLE1
+	 AcYywKQjZa60w==
+Date: Wed, 9 Apr 2025 18:04:21 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Mateusz Guzik <mjguzik@gmail.com>, Eric Chanudet <echanude@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>
+Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Message-ID: <20250409-beulen-pumpwerk-43fd29a6801e@brauner>
+References: <20250408210350.749901-12-echanude@redhat.com>
+ <20250409-egalisieren-halbbitter-23bc252d3a38@brauner>
+ <20250409131444.9K2lwziT@linutronix.de>
+ <4qyflnhrml2gvnvtguj5ee7ewrz3ejhgdb2lfihifzjscc5orh@6ah6qxppgk5n>
+ <20250409142510.PIlMaZhX@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250409142510.PIlMaZhX@linutronix.de>
 
-On Tue, 8 Apr 2025 21:27:37 -0300
-"Luis Claudio R. Goncalves" <lgoncalv@redhat.com> wrote:
+On Wed, Apr 09, 2025 at 04:25:10PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-04-09 16:02:29 [+0200], Mateusz Guzik wrote:
+> > On Wed, Apr 09, 2025 at 03:14:44PM +0200, Sebastian Andrzej Siewior wrote:
+> > > One question: Do we need this lazy/ MNT_DETACH case? Couldn't we handle
+> > > them all via queue_rcu_work()?
+> > > If so, couldn't we have make deferred_free_mounts global and have two
+> > > release_list, say release_list and release_list_next_gp? The first one
+> > > will be used if queue_rcu_work() returns true, otherwise the second.
+> > > Then once defer_free_mounts() is done and release_list_next_gp not
+> > > empty, it would move release_list_next_gp -> release_list and invoke
+> > > queue_rcu_work().
+> > > This would avoid the kmalloc, synchronize_rcu_expedited() and the
+> > > special-sauce.
+> > > 
+> > 
+> > To my understanding it was preferred for non-lazy unmount consumers to
+> > wait until the mntput before returning.
+> > 
+> > That aside if I understood your approach it would de facto serialize all
+> > of these?
+> > 
+> > As in with the posted patches you can have different worker threads
+> > progress in parallel as they all get a private list to iterate.
+> > 
+> > With your proposal only one can do any work.
+> > 
+> > One has to assume with sufficient mount/unmount traffic this can
+> > eventually get into trouble.
+> 
+> Right, it would serialize them within the same worker thread. With one
+> worker for each put you would schedule multiple worker from the RCU
+> callback. Given the system_wq you will schedule them all on the CPU
+> which invokes the RCU callback. This kind of serializes it, too.
+> 
+> The mntput() callback uses spinlock_t for locking and then it frees
+> resources. It does not look like it waits for something nor takes ages.
+> So it might not be needed to split each put into its own worker on a
+> different CPU… One busy bee might be enough ;)
 
->  {
-> +	bool defer = false;
-> +
->  	if (!refcount_dec_and_test(&t->usage))
->  		return;
->  
->  	/*
->  	 * In !RT, it is always safe to call __put_task_struct().
-> -	 * Under RT, we can only call it in preemptible context.
-> +	 * Under RT, we can only call it in preemptible context,
-> +	 * when not blocked on a PI chain.
->  	 */
-> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
-> +#ifdef CONFIG_PREEMPT_RT
-> +	if (!preemptible() || current->pi_blocked_on)
-> +		defer = true;
-> +#endif
+Unmounting can trigger very large number of mounts to be unmounted. If
+you're on a container heavy system or services that all propagate to
+each other in different mount namespaces mount propagation will generate
+a ton of umounts. So this cannot be underestimated.
 
-Why add the ugly #ifdef back?
+If a mount tree is wasted without MNT_DETACH it will pass UMOUNT_SYNC to
+umount_tree(). That'll cause MNT_SYNC_UMOUNT to be raised on all mounts
+during the unmount.
 
-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
-	    (preemptible() && !current->pi_blocked_on)) {
+If a concurrent path lookup calls legitimize_mnt() on such a mount and
+sees that MNT_SYNC_UMOUNT is set it will discount as it know that the
+concurrent unmounter hold the last reference and it __legitimize_mnt()
+can thus simply drop the reference count. The final mntput() will be
+done by the umounter.
 
--- Steve
+The synchronize_rcu() call in namespace_unlock() takes care that the
+last mntput() doesn't happen until path walking has dropped out of RCU
+mode.
 
-> +
-> +	if (!defer) {
->  		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
->  
->  
+Without it it's possible that a non-MNT_DETACH umounter gets a spurious
+EBUSY error because a concurrent lazy path walk will suddenly put the
+last reference via mntput().
+
+I'm unclear how that's handled in whatever it is you're proposing.
