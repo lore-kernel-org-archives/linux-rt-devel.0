@@ -1,41 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA9125D521;
-	Wed,  9 Apr 2025 10:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F130C2566EA
+	for <linux-rt-devel@lists.linux.dev>; Wed,  9 Apr 2025 13:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195033; cv=none; b=rZRTSf7W2CwnDIgpfyYyUONScuM7vj/r9HWQSqRTK21fekIVTn23j/uYvCjh4xFavgGpphzB/YQJ/DeGefsuIZ3Nmy7HWpZ4CRgpJtbxSvDK61B7wwOUR773/QjmkCNwpDq3sX62JZaFc5FWvFQqtE+LtEaP2jQe9pJbinBNCfA=
+	t=1744203898; cv=none; b=nfgethwwUDs1pcEZAqMadLpq79UjbF/yAEH0UaLW8cdyty65Qwv6CRGGACFgYn0P5u3K67dIqsrH7v73/xSrWEQW1Xgdl4kssdo0Bb36MJbjPu80MyCvB1mTJp9eNaVmuq3YqK8QJ2R3IHNIr9I3GCww9Yl4JmE2IWlBsFOedNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195033; c=relaxed/simple;
-	bh=005eyM7oZ+oe+QrJDkNhnNOsvuIm71Nab7MxyM0PF4o=;
+	s=arc-20240116; t=1744203898; c=relaxed/simple;
+	bh=366rSGqKDSaNaqnzuXgMVPDEcnVkkx0y3VLfHOXvzWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAGwihH9y2bmsUV2mmpFiYBmxnkWUExQGHqcuQRnEIz0bvB5ufnhyF+esqEiVQHdE43jyW0m2lfrRTD6Qjkn90EwGg4y8gJRKfJpzktWhVHwy+Net5p0XzWOGP8h8qG8b6/iH7zvNKtaikmdsQ1gaxMQIb5MTNw6m2rkPprUwlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RzRNLHje; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=i8AdsBBzl4xj/9ckwPH2MoL4RbA9zt35WQrKKqGMAYPEObcGx/xQS/iouKNd05xyoBXnxJVjkePjpt8NF9Hn61W5/QGCYb0Jgur0KkkMqLnuNhW1EaSKvm/ZJD4lEYjXxDpr6ghybCh9ikP26tjHN178fCxija1egGCg+CZUfwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fCQx0sc8; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RzRNLHje"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8272DC4CEE3;
-	Wed,  9 Apr 2025 10:37:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744195032;
-	bh=005eyM7oZ+oe+QrJDkNhnNOsvuIm71Nab7MxyM0PF4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RzRNLHjeyy896Zds4i45UgaCrjYtSwJii3lUF5PLKGIXgsgSsMIZbg5L0rP+Mr0UB
-	 zK1MGHDulYLdqd+z/QO0dE/7rOuo0rKatovosQjvnKP5d3qwmvozny4TpqRLzUt7no
-	 dEaMncSGotGj1BTeikOlK5p1kk5eatbry3QGwk39VomYZUyCy1562KRPx8VwbJVWCX
-	 VYGV6oGxZounew1Nm8hH0xjrbi2fJj5XX2Wx4AgtS8GjEMpjHPZJm/coSIxayAX/Zb
-	 yvLegkGtytHNq8fFBeycwiS4j81ij+r9QI9DXl3KU+mzwkYxNUUM7fRWj8M6fgs1oa
-	 rQNzbI0XqRPGA==
-Date: Wed, 9 Apr 2025 12:37:06 +0200
-From: Christian Brauner <brauner@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fCQx0sc8"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfe574976so46347745e9.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 09 Apr 2025 06:04:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744203895; x=1744808695; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2cS0lrW0iOQVVCSI2Cp6NCF74CvixMtSANH/SVtlGds=;
+        b=fCQx0sc8bUG8G14ljK+RAcPbTpONk3JOHlojmDdEBxW398IN7WzJI55EUohOphnylj
+         Dr+k58pfoqf78ndq5LMnvT3NyEmX43F+7JFltPigdv73jWvC3prk2ElfMFLJkkKLa4aX
+         dlZtj2yxU96vYxC8X79H5vJp8U5juPVt7GKZSlPao9upS5lLGiAo3P58VE1MCEUwlagq
+         6gvc2i1q3ehX1FhNPP1+Gf5cJMa/5ESiSUmTXaoBXd6kvvtY2DfVPSgNMLG9w3ME07YM
+         3FeGLDbo60Shvgn2zB2gtw3jB96IqxWwJyQ4JpmRHX+xepvnMSyLa/n9BmHPNKFe0n/Z
+         rkvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744203895; x=1744808695;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2cS0lrW0iOQVVCSI2Cp6NCF74CvixMtSANH/SVtlGds=;
+        b=NbIcYZEEh6m3+EHc55HsW2uP+SnpMeXoKsFuqrrlJb9IT5ku4KxcD1QdM7Wgc0ktNI
+         wbUpoWezDOE+ntl/XahStLcw11h5uuvnycGwr4eO9q49xhNi4kZSODaNDVWCCjABM9TB
+         AiUTjAJGYXbz8o16BDVkBZso5ATqiC1U6TooWyE44oQryzn7X6IkWF36yyrWbX+K3O8T
+         JDslVmP2KFUcQzRvtxzEFONGxmongQevy47MTZpiZeosf4SQ0YHBx1ludRT+9sNfviO+
+         nf9utZWWxhq0hm0ZAtc4H+6O8SGCfUPNQVB8vlaQ89jiQAZlOgUelDVXPVUr83pe/WFC
+         +Vtg==
+X-Forwarded-Encrypted: i=1; AJvYcCWy/DhZtFZwUiS1BGJQ9uZjqCJjcTGn/7u8eMQ8xMNgJKk+11l9F9FFrGn0vgIqtGl1ctcRz1L4AnPSZvhJ3Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzvGcSYPFQLZCmZo+CDEAUHH4mwEo16GsrLAMvaK/sZrMRQxtV
+	rsYPRRSFnfnEIcskoJr1xKYibul0qeLBie22DcX12oDm67/eW52F
+X-Gm-Gg: ASbGncsWwTMTUSH1/Q+u2d1ZPl/nqg8Lvh55eTUROKEgUfVzyPz3UzCqETN1LCRabyU
+	j7x8yre4kY4Obeedr1jAnK5BUY3b0wDfrpZxy/9bp/PKN7eidTFZFvI1tx5jECRVkgosMjq+l+O
+	Owon+ZwjbQg1aBEm8gfXziQLW4KapT9ZM7vHTs3ZlLqfvEg5SwbKqJHKfq9+A+32i/joVKxHCQu
+	iGrqYpTe+tJz51xbYWblAvmLU4/q0ka05d0naGBfrx1MiariCLJGaJsVg9Wi3p8z0/K1rXXDNlY
+	WcWi+O6CWHUy//oLz4NFaAEzMnkVl7GKJdPKYk0DTloz8ctp4Ub/ZEGb
+X-Google-Smtp-Source: AGHT+IHze8vgtp89EBfanMiJMagv6hp47UulZJ9+q1wuQnRxXIQjwicF431hKSZALOTX5DVhgOYcig==
+X-Received: by 2002:a05:600c:1d86:b0:43d:7588:66a5 with SMTP id 5b1f17b1804b1-43f1ed671d7mr29495825e9.31.1744203894700;
+        Wed, 09 Apr 2025 06:04:54 -0700 (PDT)
+Received: from f (cst-prg-17-207.cust.vodafone.cz. [46.135.17.207])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f207aeaccsm19257355e9.33.2025.04.09.06.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 06:04:53 -0700 (PDT)
+Date: Wed, 9 Apr 2025 15:04:43 +0200
+From: Mateusz Guzik <mjguzik@gmail.com>
 To: Eric Chanudet <echanude@redhat.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
 	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
 	Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>
 Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
-Message-ID: <20250409-egalisieren-halbbitter-23bc252d3a38@brauner>
+Message-ID: <mey7l4rm7r5fxndlg72jfjjwwctyoimjg35jetrnv5gbee4qll@w5ldyvm6h22a>
 References: <20250408210350.749901-12-echanude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -70,211 +101,22 @@ On Tue, Apr 08, 2025 at 04:58:34PM -0400, Eric Chanudet wrote:
 > perf stat -r 10 --null --pre 'mount -t tmpfs tmpfs mnt' -- umount -l mnt
 >     0.003194 +- 0.000160 seconds time elapsed  ( +-  5.01% )
 > 
-> Signed-off-by: Alexander Larsson <alexl@redhat.com>
-> Signed-off-by: Lucas Karpinski <lkarpins@redhat.com>
-> Signed-off-by: Eric Chanudet <echanude@redhat.com>
-> ---
-> 
-> Attempt to re-spin this series based on the feedback received in v3 that
-> pointed out the need to wait the grace-period in namespace_unlock()
-> before calling the deferred mntput().
 
-I still hate this with a passion because it adds another special-sauce
-path into the unlock path. I've folded the following diff into it so it
-at least doesn't start passing that pointless boolean and doesn't
-introduce __namespace_unlock(). Just use a global variable and pick the
-value off of it just as we do with the lists. Testing this now:
+Christian wants the patch done differently and posted his diff, so I'm
+not going to comment on it.
 
-diff --git a/fs/namespace.c b/fs/namespace.c
-index e5b0b920dd97..25599428706c 100644
---- a/fs/namespace.c
-+++ b/fs/namespace.c
-@@ -82,8 +82,9 @@ static struct hlist_head *mount_hashtable __ro_after_init;
- static struct hlist_head *mountpoint_hashtable __ro_after_init;
- static struct kmem_cache *mnt_cache __ro_after_init;
- static DECLARE_RWSEM(namespace_sem);
--static HLIST_HEAD(unmounted);  /* protected by namespace_sem */
--static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
-+static bool unmounted_lazily;          /* protected by namespace_sem */
-+static HLIST_HEAD(unmounted);          /* protected by namespace_sem */
-+static LIST_HEAD(ex_mountpoints);      /* protected by namespace_sem */
- static DEFINE_SEQLOCK(mnt_ns_tree_lock);
+I do have some feedback about the commit message though.
 
- #ifdef CONFIG_FSNOTIFY
-@@ -1807,17 +1808,18 @@ static void free_mounts(struct hlist_head *mount_list)
+In v1 it points out a real user which runs into it, while this one does
+not. So I would rewrite this and put in bench results from the actual
+consumer -- as it is one is left to wonder why patching up lazy unmount
+is of any significance.
 
- static void defer_free_mounts(struct work_struct *work)
- {
--       struct deferred_free_mounts *d = container_of(
--               to_rcu_work(work), struct deferred_free_mounts, rwork);
-+       struct deferred_free_mounts *d;
+I had to look up what rcupdate.rcu_normal_after_boot=1 is. Docs claim it
+makes everyone use normal grace-periods, which explains the difference.
+But without that one is left to wonder if perhaps there is a perf bug in
+RCU instead where this is taking longer than it should despite the
+option. Thus I would also denote how the delay shows up.
 
-+       d = container_of(to_rcu_work(work), struct deferred_free_mounts, rwork);
-        free_mounts(&d->release_list);
-        kfree(d);
- }
-
--static void __namespace_unlock(bool lazy)
-+static void namespace_unlock(void)
- {
-        HLIST_HEAD(head);
-        LIST_HEAD(list);
-+       bool defer = unmounted_lazily;
-
-        hlist_move_list(&unmounted, &head);
-        list_splice_init(&ex_mountpoints, &list);
-@@ -1840,29 +1842,21 @@ static void __namespace_unlock(bool lazy)
-        if (likely(hlist_empty(&head)))
-                return;
-
--       if (lazy) {
--               struct deferred_free_mounts *d =
--                       kmalloc(sizeof(*d), GFP_KERNEL);
-+       if (defer) {
-+               struct deferred_free_mounts *d;
-
--               if (unlikely(!d))
--                       goto out;
--
--               hlist_move_list(&head, &d->release_list);
--               INIT_RCU_WORK(&d->rwork, defer_free_mounts);
--               queue_rcu_work(system_wq, &d->rwork);
--               return;
-+               d = kmalloc(sizeof(struct deferred_free_mounts), GFP_KERNEL);
-+               if (d) {
-+                       hlist_move_list(&head, &d->release_list);
-+                       INIT_RCU_WORK(&d->rwork, defer_free_mounts);
-+                       queue_rcu_work(system_wq, &d->rwork);
-+                       return;
-+               }
-        }
--
--out:
-        synchronize_rcu_expedited();
-        free_mounts(&head);
- }
-
--static inline void namespace_unlock(void)
--{
--       __namespace_unlock(false);
--}
--
- static inline void namespace_lock(void)
- {
-        down_write(&namespace_sem);
-@@ -2094,7 +2088,7 @@ static int do_umount(struct mount *mnt, int flags)
-        }
- out:
-        unlock_mount_hash();
--       __namespace_unlock(flags & MNT_DETACH);
-+       namespace_unlock();
-        return retval;
- }
-
-
-> 
-> v4:
-> - Use queue_rcu_work() to defer free_mounts() for lazy umounts
-> - Drop lazy_unlock global and refactor using a helper
-> v3: https://lore.kernel.org/all/20240626201129.272750-2-lkarpins@redhat.com/
-> - Removed unneeded code for lazy umount case.
-> - Don't block within interrupt context.
-> v2: https://lore.kernel.org/all/20240426195429.28547-1-lkarpins@redhat.com/
-> - Only defer releasing umount'ed filesystems for lazy umounts
+v1 for reference:
 > v1: https://lore.kernel.org/all/20230119205521.497401-1-echanude@redhat.com/
-> 
->  fs/namespace.c | 52 +++++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 45 insertions(+), 7 deletions(-)
-> 
-> diff --git a/fs/namespace.c b/fs/namespace.c
-> index 14935a0500a2..e5b0b920dd97 100644
-> --- a/fs/namespace.c
-> +++ b/fs/namespace.c
-> @@ -45,6 +45,11 @@ static unsigned int m_hash_shift __ro_after_init;
->  static unsigned int mp_hash_mask __ro_after_init;
->  static unsigned int mp_hash_shift __ro_after_init;
->  
-> +struct deferred_free_mounts {
-> +	struct rcu_work rwork;
-> +	struct hlist_head release_list;
-> +};
-> +
->  static __initdata unsigned long mhash_entries;
->  static int __init set_mhash_entries(char *str)
->  {
-> @@ -1789,11 +1794,29 @@ static bool need_notify_mnt_list(void)
->  }
->  #endif
->  
-> -static void namespace_unlock(void)
-> +static void free_mounts(struct hlist_head *mount_list)
->  {
-> -	struct hlist_head head;
->  	struct hlist_node *p;
->  	struct mount *m;
-> +
-> +	hlist_for_each_entry_safe(m, p, mount_list, mnt_umount) {
-> +		hlist_del(&m->mnt_umount);
-> +		mntput(&m->mnt);
-> +	}
-> +}
-> +
-> +static void defer_free_mounts(struct work_struct *work)
-> +{
-> +	struct deferred_free_mounts *d = container_of(
-> +		to_rcu_work(work), struct deferred_free_mounts, rwork);
-> +
-> +	free_mounts(&d->release_list);
-> +	kfree(d);
-> +}
-> +
-> +static void __namespace_unlock(bool lazy)
-> +{
-> +	HLIST_HEAD(head);
->  	LIST_HEAD(list);
->  
->  	hlist_move_list(&unmounted, &head);
-> @@ -1817,12 +1840,27 @@ static void namespace_unlock(void)
->  	if (likely(hlist_empty(&head)))
->  		return;
->  
-> -	synchronize_rcu_expedited();
-> +	if (lazy) {
-> +		struct deferred_free_mounts *d =
-> +			kmalloc(sizeof(*d), GFP_KERNEL);
->  
-> -	hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
-> -		hlist_del(&m->mnt_umount);
-> -		mntput(&m->mnt);
-> +		if (unlikely(!d))
-> +			goto out;
-> +
-> +		hlist_move_list(&head, &d->release_list);
-> +		INIT_RCU_WORK(&d->rwork, defer_free_mounts);
-> +		queue_rcu_work(system_wq, &d->rwork);
-> +		return;
->  	}
-> +
-> +out:
-> +	synchronize_rcu_expedited();
-> +	free_mounts(&head);
-> +}
-> +
-> +static inline void namespace_unlock(void)
-> +{
-> +	__namespace_unlock(false);
->  }
->  
->  static inline void namespace_lock(void)
-> @@ -2056,7 +2094,7 @@ static int do_umount(struct mount *mnt, int flags)
->  	}
->  out:
->  	unlock_mount_hash();
-> -	namespace_unlock();
-> +	__namespace_unlock(flags & MNT_DETACH);
->  	return retval;
->  }
->  
-> -- 
-> 2.49.0
-> 
