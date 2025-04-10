@@ -1,435 +1,132 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0334D210F53
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 11:23:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58DB1DFE0A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 12:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744284236; cv=none; b=Eoi/wgqqMFtbgf7SPBIz/H3OQkYTVK194J5lannHyOtjRl7C60u3V9YNdoTCVpQkutOdqKOkD8NzaBglnnPId3C6A0NlqNut0sChIIitY71aVtLB+JwGtHwg1XK3b8z54pqAonlW5yNUrckku9ck7ch9yq5kxapBfWvOWTHe74Q=
+	t=1744287024; cv=none; b=CjckDTMyuhR5zAHp/3jbJA0KrfhDGFj2Wpx0TGRPIkvLoVFsw4lPHy+yirmAokIjExKoo9yGzG/z2PWlzo9U6t9BU49z/uAHVvPkKrMYxMbYvgtuPg+mQ/UvXX5wqeHuJ4wg5cZZRGE/i+X2mz8ZOAYwPfzrVzeYzorRvir9Qfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744284236; c=relaxed/simple;
-	bh=epOpMM/dBNxdF5p4fy5SLoOCG/BguvRFHnRZal15y4k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CMacnzmQGfHNDZyoo7c6yidkN9LZS0R/yUE2KDQm/rMySV57SGUTrcJbpXLixAibztex5EV8HDock034fm3DPbz65gi64kAfYJW8tD/LtBc/Ah+0ziPkuW5QCIYnvU6CUdXzXA5bk95cPHIauTk76ofVqeVDglvo4C3XSAyrHMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a5YfugKq; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744287024; c=relaxed/simple;
+	bh=fEIIJmuvKZ1FbFgiAVM+GhhSXj66E4+4E1CoqfCCUuM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ozQ6HqsSkpmUF8H2ZVP21QzfAp3XJ6/7jfgyp55M9hHrqTSmNZ+wlwMXMGT/DUFTC7CZyeOFxK0imDI9DUEpc4tt8JTVHt6yyFYS7IhNL9Y72Nw3m5aCtuYwaXKNJMMoT7tmAFnMhV7JJXprIR45rWBBV/jtd2ghm34z1BBdWwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YCUXQKn6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a5YfugKq"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so12499925e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 04:23:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744284232; x=1744889032; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cE8qteQvDhLPOACFzZtBhkb2OObZjn2MlvFs24dgPes=;
-        b=a5YfugKqXDjPIgw56G226Fs2BDV+oo8AJmyhq4PPo0QjxoZW+JGhuaDrWRN7xI/k7d
-         yh9jc2PEO/GLLfHnfG/VcpuBPgbVI2Pksaoi1jLt5GFmKOPo/8RcicZmdLQc59t2F58z
-         18okU/rncVRxC2zUytmPf2Ycc6uVGBGa84fvQFsZEllgX0kMDxBR/t4Q816GbD3gd44x
-         COT+CSikdhsmEHRKRivOneBOlEY6mk/HZILCKmcJPLL9/dGpj1d/+upMSPli5L6oUd14
-         yO1Gwjp+EVEIw78S5xi8qFDexltDBua/QZIGEIXBWl+U/rdzNDfkIs05tCrHfCeJ3qMH
-         wByA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744284232; x=1744889032;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cE8qteQvDhLPOACFzZtBhkb2OObZjn2MlvFs24dgPes=;
-        b=M/auqHhHOAiQj/ciJA8rWjVPPxMJGyIhbv2SxCEN7aPZ2Tc60+gLJFq1p8Lm9uXvAM
-         uMVlEwnufRBZ7dgtL5P+KZhB9/iWvYMJ7hnICEbKJmXmhTIsCSntlIPaV9q8UZUDbYZH
-         Yqzg1GtQPrcPBSESZnw8Tnblqvtq4TGSpxFQ3W7zfETBR1hVxxV/p8R+KGeJiv+Ao3kF
-         4tUAiexOdf6JuI/WY2/BXhZ2QsP4fB52O6S5KPSLY9U6Ula3eSbXYwgBUMl6EcOl9JdC
-         XIELoZD/dGwOE54a5dqlAok0PaKM0mtUb+4crfVsNWpEtzyDtNxmctrjQnX5Ay7jHoe2
-         nGuA==
-X-Forwarded-Encrypted: i=1; AJvYcCV7C4iY0m20S51JH8Ed1sGlc+e3PGjDh3pAwVviUP3poW9pP33nOqhRYm+s0K2wPirQhBAtF2XwWm/aE1iXTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3+XE798Ko6lJDB4dTMi/wlB/dZwh4v8CxKyLmIsjrF6+MlEkf
-	EAfF3dRRiixpWp0yJ9E9l9TCyRWPpV67TUH4vJb/F/rowmytAT6A
-X-Gm-Gg: ASbGncvQJ2f3JbhlmNL7ZEJMuQvVmr1DaYochyQ0OOdjqdIfKxZrqgTnF8W0Ddg6gUt
-	6xnWNkRfyoUA6+vKPOEf4pZKnmpyR5HDdIAg2DxPa0AVY0KKyHLFlRq8bWrI++k5CfKTGQPhV11
-	Dgrzxi9x7yZT2TOFAsFDQptPJxoP2F/375jztqQyu9q+c3vT3Y/CnwHP4sfSUfhQTrGL1OCTrbR
-	BYxiBbc5cWKkDRId9BrV00etmb2+ld0llqJShvWXVAYfigZrIF7dvtZ+sY339jpC0mLOTDLEoc9
-	9Qq/KE1JLepODWVcFZE6H7E38dt2d6jja/8tP6eVmt2Z8WD+KKUF4TyN+PQi/A==
-X-Google-Smtp-Source: AGHT+IEHhr2XmOoZg5aQW94nClb60aQTI0phxKGlcAyxQgPokO6OTWacxs7YBRsNz/mq1X+yMNtZKQ==
-X-Received: by 2002:a05:600c:54ed:b0:43c:f680:5c2e with SMTP id 5b1f17b1804b1-43f2eb960b7mr17840745e9.13.1744284231664;
-        Thu, 10 Apr 2025 04:23:51 -0700 (PDT)
-Received: from [172.27.55.156] ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f20a9f14csm32279365e9.1.2025.04.10.04.23.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 04:23:51 -0700 (PDT)
-Message-ID: <412ced78-ede0-4a95-926e-e0dacd97caf5@gmail.com>
-Date: Thu, 10 Apr 2025 14:23:48 +0300
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YCUXQKn6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744287021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=jfr0CKO41OvdQbzGujfxRHdpipw9MCfRZIBLhG07wC0=;
+	b=YCUXQKn6c5f3hKQupO5IjKXS7HBh+QHV2pjcLDCxUGaV2GaD78kOIBXMUwX4xmsLew5/mH
+	NZDWpA13NhqMHQL48I/nLKe/oTiUJt+oMBOElLvt4Ni8gdYZ4Q2m+KYn0L4HE0zEEYi354
+	dcUTDEP+5ZuvqYZeWDpqC/oM/9D//3E=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-395-TDS-UST-N3m_GoJC_mff0Q-1; Thu,
+ 10 Apr 2025 08:10:18 -0400
+X-MC-Unique: TDS-UST-N3m_GoJC_mff0Q-1
+X-Mimecast-MFC-AGG-ID: TDS-UST-N3m_GoJC_mff0Q_1744287015
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40F0C1954B36;
+	Thu, 10 Apr 2025 12:10:15 +0000 (UTC)
+Received: from localhost (unknown [10.22.88.250])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D25FD18009BC;
+	Thu, 10 Apr 2025 12:10:13 +0000 (UTC)
+Date: Thu, 10 Apr 2025 09:10:12 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Cc: lclaudio00@gmail.com
+Subject: [PATCH v3] sched: do not call __put_task_struct() on rt if
+ pi_blocked_on is set
+Message-ID: <Z_e0uh36Ezz6isYo@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 1/4] mlnx5: Use generic code for page_pool
- statistics.
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rdma@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Eric Dumazet <edumazet@google.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Jakub Kicinski <kuba@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>,
- Joe Damato <jdamato@fastly.com>, Leon Romanovsky <leon@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Thomas Gleixner <tglx@linutronix.de>, Yunsheng Lin <linyunsheng@huawei.com>
-References: <20250408105922.1135150-1-bigeasy@linutronix.de>
- <20250408105922.1135150-2-bigeasy@linutronix.de>
- <62687af5-32cd-4400-b51f-c956125aaee9@gmail.com>
- <20250410085849.mdLSesgJ@linutronix.de>
-Content-Language: en-US
-From: Tariq Toukan <ttoukan.linux@gmail.com>
-In-Reply-To: <20250410085849.mdLSesgJ@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+from rt_mutex_adjust_prio_chain() could happen in preemptible context and
+with a mutex enqueued. That could lead to this sequence:
 
+	rt_mutex_adjust_prio_chain()
+	  put_task_struct()
+	    __put_task_struct()
+	      sched_ext_free()
+	        spin_lock_irqsave()
+	          rtlock_lock() --->  TRIGGERS
+	                              lockdep_assert(!current->pi_blocked_on);
 
-On 10/04/2025 11:58, Sebastian Andrzej Siewior wrote:
-> On 2025-04-10 10:16:54 [+0300], Tariq Toukan wrote:
->> Thanks for your patch.
->>
->> Was this tested?
->> Were you able to run with mlx5 device?
-> 
-> Kind of. The device does optical and I have nothing to bring up the
-> link, a few gbic did not work so the guys gave up back then. On link up
-> the driver sets up buffers so I saw that the stats incrementing and the
-> numbers queries with ethtool made sense.
-> 
->>>    .../ethernet/mellanox/mlx5/core/en_stats.c    | 97 ++++++++-----------
->>>    .../ethernet/mellanox/mlx5/core/en_stats.h    | 26 +----
->>>    2 files changed, 43 insertions(+), 80 deletions(-)
->>>
->>> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_stats.c b/drivers/net/ethernet/mellanox/mlx5/core/en_stats.c
->>> index 1c121b435016d..54303877adb1d 100644
->>> --- a/drivers/net/ethernet/mellanox/mlx5/core/en_stats.c
->>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_stats.c
->>> @@ -194,17 +194,6 @@ static const struct counter_desc sw_stats_desc[] = {
->>>    	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_arfs_err) },
->>>    #endif
->>>    	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_recover) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_fast) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_slow) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_slow_high_order) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_empty) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_refill) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_alloc_waive) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_recycle_cached) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_recycle_cache_full) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_recycle_ring) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_recycle_ring_full) },
->>> -	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_pp_recycle_released_ref) },
->>>    #ifdef CONFIG_MLX5_EN_TLS
->>>    	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_decrypted_packets) },
->>>    	{ MLX5E_DECLARE_STAT(struct mlx5e_sw_stats, rx_tls_decrypted_bytes) },
->>> @@ -253,7 +242,7 @@ static const struct counter_desc sw_stats_desc[] = {
->>>    static MLX5E_DECLARE_STATS_GRP_OP_NUM_STATS(sw)
->>>    {
->>> -	return NUM_SW_COUNTERS;
->>> +	return NUM_SW_COUNTERS + page_pool_ethtool_stats_get_count();
->>>    }
->>>    static MLX5E_DECLARE_STATS_GRP_OP_FILL_STRS(sw)
->>> @@ -262,6 +251,7 @@ static MLX5E_DECLARE_STATS_GRP_OP_FILL_STRS(sw)
->>>    	for (i = 0; i < NUM_SW_COUNTERS; i++)
->>>    		ethtool_puts(data, sw_stats_desc[i].format);
->>> +	*data = page_pool_ethtool_stats_get_strings(*data);
->>>    }
->>>    static MLX5E_DECLARE_STATS_GRP_OP_FILL_STATS(sw)
->>> @@ -272,6 +262,7 @@ static MLX5E_DECLARE_STATS_GRP_OP_FILL_STATS(sw)
->>>    		mlx5e_ethtool_put_stat(data,
->>>    				       MLX5E_READ_CTR64_CPU(&priv->stats.sw,
->>>    							    sw_stats_desc, i));
->>> +	*data = page_pool_ethtool_stats_get(*data, &priv->stats.sw.page_pool_stats);
->>>    }
->>>    static void mlx5e_stats_grp_sw_update_stats_xdp_red(struct mlx5e_sw_stats *s,
->>> @@ -373,17 +364,6 @@ static void mlx5e_stats_grp_sw_update_stats_rq_stats(struct mlx5e_sw_stats *s,
->>>    	s->rx_arfs_err                += rq_stats->arfs_err;
->>>    #endif
->>>    	s->rx_recover                 += rq_stats->recover;
->>> -	s->rx_pp_alloc_fast          += rq_stats->pp_alloc_fast;
->>> -	s->rx_pp_alloc_slow          += rq_stats->pp_alloc_slow;
->>> -	s->rx_pp_alloc_empty         += rq_stats->pp_alloc_empty;
->>> -	s->rx_pp_alloc_refill        += rq_stats->pp_alloc_refill;
->>> -	s->rx_pp_alloc_waive         += rq_stats->pp_alloc_waive;
->>> -	s->rx_pp_alloc_slow_high_order		+= rq_stats->pp_alloc_slow_high_order;
->>> -	s->rx_pp_recycle_cached			+= rq_stats->pp_recycle_cached;
->>> -	s->rx_pp_recycle_cache_full		+= rq_stats->pp_recycle_cache_full;
->>> -	s->rx_pp_recycle_ring			+= rq_stats->pp_recycle_ring;
->>> -	s->rx_pp_recycle_ring_full		+= rq_stats->pp_recycle_ring_full;
->>> -	s->rx_pp_recycle_released_ref		+= rq_stats->pp_recycle_released_ref;
->>>    #ifdef CONFIG_MLX5_EN_TLS
->>>    	s->rx_tls_decrypted_packets   += rq_stats->tls_decrypted_packets;
->>>    	s->rx_tls_decrypted_bytes     += rq_stats->tls_decrypted_bytes;
->>> @@ -490,27 +470,13 @@ static void mlx5e_stats_grp_sw_update_stats_qos(struct mlx5e_priv *priv,
->>>    	}
->>>    }
->>> -static void mlx5e_stats_update_stats_rq_page_pool(struct mlx5e_channel *c)
->>> +static void mlx5e_stats_update_stats_rq_page_pool(struct mlx5e_sw_stats *s,
->>> +						  struct mlx5e_channel *c)
->>
->> This per-RQ function should not get the general SW status struct and write
->> to it.
->>
->> Gathering stats from all RQs into the general SW stats should not be done
->> here.
-> 
-> but I have to sum it for the global stats. The old code queried the
-> channels again for the global stats. This queries the channels twice,
-> once for per-channel and again for the global stats.
-> 
+Fix that by unconditionally resorting to the deferred call to
+__put_task_struct().
 
-This changes the function role.
-Keep the separation.
+v2: (Rostedt) remove the #ifdef from put_task_struct() and create
+    tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
 
->>>    {
->>>    	struct mlx5e_rq_stats *rq_stats = c->rq.stats;
->>> -	struct page_pool *pool = c->rq.page_pool;
->>> -	struct page_pool_stats stats = { 0 };
->>> -	if (!page_pool_get_stats(pool, &stats))
->>> -		return;
->>> -
->>> -	rq_stats->pp_alloc_fast = stats.alloc_stats.fast;
->>> -	rq_stats->pp_alloc_slow = stats.alloc_stats.slow;
->>> -	rq_stats->pp_alloc_slow_high_order = stats.alloc_stats.slow_high_order;
->>> -	rq_stats->pp_alloc_empty = stats.alloc_stats.empty;
->>> -	rq_stats->pp_alloc_waive = stats.alloc_stats.waive;
->>> -	rq_stats->pp_alloc_refill = stats.alloc_stats.refill;
->>> -
->>> -	rq_stats->pp_recycle_cached = stats.recycle_stats.cached;
->>> -	rq_stats->pp_recycle_cache_full = stats.recycle_stats.cache_full;
->>> -	rq_stats->pp_recycle_ring = stats.recycle_stats.ring;
->>> -	rq_stats->pp_recycle_ring_full = stats.recycle_stats.ring_full;
->>> -	rq_stats->pp_recycle_released_ref = stats.recycle_stats.released_refcnt;
->>> +	page_pool_get_stats(c->rq.page_pool, &s->page_pool_stats);
->>> +	page_pool_get_stats(c->rq.page_pool, &rq_stats->page_pool_stats);
+v3: (Sebastian and PeterZ) always call the RCU deferred __put_task_struct().
 
-Also, what do you acheive here when reading the per-RQ pp stats into 
-&s->page_pool_stats? isn't this immediately overwritten by the next 
-iteration? They do not accumulate.
+Suggested-by: Crystal Wood <crwood@redhat.com>
+Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+---
+ include/linux/sched/task.h |   20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
->>>    }
->>>    static MLX5E_DECLARE_STATS_GRP_OP_UPDATE_STATS(sw)
->>> @@ -520,15 +486,13 @@ static MLX5E_DECLARE_STATS_GRP_OP_UPDATE_STATS(sw)
->>>    	memset(s, 0, sizeof(*s));
->>> -	for (i = 0; i < priv->channels.num; i++) /* for active channels only */
->>> -		mlx5e_stats_update_stats_rq_page_pool(priv->channels.c[i]);
->>> -
->>>    	for (i = 0; i < priv->stats_nch; i++) {
->>>    		struct mlx5e_channel_stats *channel_stats =
->>>    			priv->channel_stats[i];
->>>    		int j;
->>> +		mlx5e_stats_update_stats_rq_page_pool(s, priv->channels.c[i]);
->>
-
-You'd probably need to read the per-RQ stats into a local tmp struct, 
-and iteratively accumulate then values.
-
->> Should separate, do not mix two roles for the same function.
->>
->> Moreover, this won't work, it's buggy:
->> You're looping up to priv->stats_nch (largest num of channels ever created)
->> trying to access priv->channels.c[i] (current number of channels), you can
->> get out of bound accessing non-existing channels.
->>
->> There's a design issue to be solved here:
->> Previously, the page_pool stats existed in RQ stats, also for RQs that no
->> longer exist. We must preserve this behavior here, even if it means
->> assigning zeros for the page_pool stats for non-existing RQs.
->>
->> Worth mentioning: Due to the nature of the infrastructure, today the
->> page_pool stats are not-persistent, while all our other stats are. They are
->> reset to zeros upon channels down/up events. This is not optimal but that's
->> how it is today, and is not expected to be changed here in your series.
-> 
-> so just channels.num then.
-> 
-
-For page_pool stats of existing RQs, yes.
-
-BUT:
-Previously, page_pool stats entries appeared (with zeroed values) also 
-for non-existing RQs, now you're gonna drop them? Better not introduce 
-any behavior change.
-
->>>    		mlx5e_stats_grp_sw_update_stats_rq_stats(s, &channel_stats->rq);
->>>    		mlx5e_stats_grp_sw_update_stats_xdpsq(s, &channel_stats->rq_xdpsq);
->>>    		mlx5e_stats_grp_sw_update_stats_ch_stats(s, &channel_stats->ch);
->>> @@ -2119,17 +2083,6 @@ static const struct counter_desc rq_stats_desc[] = {
->>>    	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, arfs_err) },
->>>    #endif
->>>    	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, recover) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_fast) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_slow) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_slow_high_order) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_empty) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_refill) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_alloc_waive) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_recycle_cached) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_recycle_cache_full) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_recycle_ring) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_recycle_ring_full) },
->>> -	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, pp_recycle_released_ref) },
->>>    #ifdef CONFIG_MLX5_EN_TLS
->>>    	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_decrypted_packets) },
->>>    	{ MLX5E_DECLARE_RX_STAT(struct mlx5e_rq_stats, tls_decrypted_bytes) },
->>> @@ -2477,7 +2430,32 @@ static MLX5E_DECLARE_STATS_GRP_OP_NUM_STATS(channels)
->>>    	       (NUM_RQ_XDPSQ_STATS * max_nch) +
->>>    	       (NUM_XDPSQ_STATS * max_nch) +
->>>    	       (NUM_XSKRQ_STATS * max_nch * priv->xsk.ever_used) +
->>> -	       (NUM_XSKSQ_STATS * max_nch * priv->xsk.ever_used);
->>> +	       (NUM_XSKSQ_STATS * max_nch * priv->xsk.ever_used) +
->>> +	       page_pool_ethtool_stats_get_count() * max_nch;
->>
->> Take this closer to the NUM_RQ_STATS * max_nch part.
->>
->>> +}
->>> +
->>> +static const char pp_stats_mq[][ETH_GSTRING_LEN] = {
->>> +	"rx%d_pp_alloc_fast",
->>> +	"rx%d_pp_alloc_slow",
->>> +	"rx%d_pp_alloc_slow_ho",
->>> +	"rx%d_pp_alloc_empty",
->>> +	"rx%d_pp_alloc_refill",
->>> +	"rx%d_pp_alloc_waive",
->>> +	"rx%d_pp_recycle_cached",
->>> +	"rx%d_pp_recycle_cache_full",
->>> +	"rx%d_pp_recycle_ring",
->>> +	"rx%d_pp_recycle_ring_full",
->>> +	"rx%d_pp_recycle_released_ref",
->>
->> Why static? Isn't the whole point that we want automatic alignment for
->> changes in net/core/page_pool.c :: struct pp_stats ?
->> I suggest writing the code so that mlx5e pp_stats_mq strings are generated
->> and adjusted automatically from the generic struct pp_stats.
-> 
-> I've been told that it does not make sense to make generic because it is
-> already possible to query per-queue stats and the mlx driver does its
-> own approach here.
-> 
-
-I know. I didn't ask for this.
-My comments is, let mlx5 driver generate its own set of strings (maybe 
-in runtime) as a derivative of the generic struct pp_stats.
-So that it automatically adopts to any change in struct pp_stats.
-
->>> +};
->>> +
->>> +static void mlx_page_pool_stats_get_strings_mq(u8 **data, unsigned int queue)
->>
->> Use mlx5e prefix.
->> Can use pp to shorten page_pool in function/struct names.
->>
->>> +{
->>> +	int i;
->>> +
->>> +	WARN_ON_ONCE(ARRAY_SIZE(pp_stats_mq) != page_pool_ethtool_stats_get_count());
->>
->> Not good. We don't want to get a WARNING in case someone aded new pp stats
->> without adding to mlx5e.
->>
->> Shoud write the code so that this is not possible.
-> 
-> I can't use BUILD_BUG_ON() with page_pool_ethtool_stats_get_count() and
-> the array isn't exported.
-> 
-
-Got it.
-Maybe we can add a non-ethtool getter function for the pp_stats strings?
-
->>> +
->>> +	for (i = 0; i < ARRAY_SIZE(pp_stats_mq); i++)
->>> +		ethtool_sprintf(data, pp_stats_mq[i], queue);
->>>    }
->>>    static MLX5E_DECLARE_STATS_GRP_OP_FILL_STRS(channels)
->>> @@ -2493,6 +2471,7 @@ static MLX5E_DECLARE_STATS_GRP_OP_FILL_STRS(channels)
->>>    	for (i = 0; i < max_nch; i++) {
->>>    		for (j = 0; j < NUM_RQ_STATS; j++)
->>>    			ethtool_sprintf(data, rq_stats_desc[j].format, i);
->>> +		mlx_page_pool_stats_get_strings_mq(data, i);
->>>    		for (j = 0; j < NUM_XSKRQ_STATS * is_xsk; j++)
->>>    			ethtool_sprintf(data, xskrq_stats_desc[j].format, i);
->>>    		for (j = 0; j < NUM_RQ_XDPSQ_STATS; j++)
->>> @@ -2527,11 +2506,13 @@ static MLX5E_DECLARE_STATS_GRP_OP_FILL_STATS(channels)
->>>    					      ch_stats_desc, j));
->>>    	for (i = 0; i < max_nch; i++) {
->>> +		struct mlx5e_rq_stats *rq_stats = &priv->channel_stats[i]->rq;
->>> +
->>>    		for (j = 0; j < NUM_RQ_STATS; j++)
->>>    			mlx5e_ethtool_put_stat(
->>> -				data, MLX5E_READ_CTR64_CPU(
->>> -					      &priv->channel_stats[i]->rq,
->>> +				data, MLX5E_READ_CTR64_CPU(rq_stats,
->>>    					      rq_stats_desc, j));
->>> +		*data = page_pool_ethtool_stats_get(*data, &rq_stats->page_pool_stats);
->>>    		for (j = 0; j < NUM_XSKRQ_STATS * is_xsk; j++)
->>>    			mlx5e_ethtool_put_stat(
->>>    				data, MLX5E_READ_CTR64_CPU(
->>> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_stats.h b/drivers/net/ethernet/mellanox/mlx5/core/en_stats.h
->>> index 8de6fcbd3a033..30c5c2a92508b 100644
->>> --- a/drivers/net/ethernet/mellanox/mlx5/core/en_stats.h
->>> +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_stats.h
->>> @@ -33,6 +33,8 @@
->>>    #ifndef __MLX5_EN_STATS_H__
->>>    #define __MLX5_EN_STATS_H__
->>> +#include <net/page_pool/types.h>
->>> +
->>>    #define MLX5E_READ_CTR64_CPU(ptr, dsc, i) \
->>>    	(*(u64 *)((char *)ptr + dsc[i].offset))
->>>    #define MLX5E_READ_CTR64_BE(ptr, dsc, i) \
->>> @@ -215,17 +217,7 @@ struct mlx5e_sw_stats {
->>>    	u64 ch_aff_change;
->>>    	u64 ch_force_irq;
->>>    	u64 ch_eq_rearm;
->>> -	u64 rx_pp_alloc_fast;
->>> -	u64 rx_pp_alloc_slow;
->>> -	u64 rx_pp_alloc_slow_high_order;
->>> -	u64 rx_pp_alloc_empty;
->>> -	u64 rx_pp_alloc_refill;
->>> -	u64 rx_pp_alloc_waive;
->>> -	u64 rx_pp_recycle_cached;
->>> -	u64 rx_pp_recycle_cache_full;
->>> -	u64 rx_pp_recycle_ring;
->>> -	u64 rx_pp_recycle_ring_full;
->>> -	u64 rx_pp_recycle_released_ref;
->>> +	struct page_pool_stats page_pool_stats;
->>
->> Maybe call it rx_pp_stats ?
-> 
-> okay
-> 
->>>    #ifdef CONFIG_MLX5_EN_TLS
->>>    	u64 tx_tls_encrypted_packets;
->>>    	u64 tx_tls_encrypted_bytes;
->>> @@ -383,17 +375,7 @@ struct mlx5e_rq_stats {
->>>    	u64 arfs_err;
->>>    #endif
->>>    	u64 recover;
->>> -	u64 pp_alloc_fast;
->>> -	u64 pp_alloc_slow;
->>> -	u64 pp_alloc_slow_high_order;
->>> -	u64 pp_alloc_empty;
->>> -	u64 pp_alloc_refill;
->>> -	u64 pp_alloc_waive;
->>> -	u64 pp_recycle_cached;
->>> -	u64 pp_recycle_cache_full;
->>> -	u64 pp_recycle_ring;
->>> -	u64 pp_recycle_ring_full;
->>> -	u64 pp_recycle_released_ref;
->>> +	struct page_pool_stats page_pool_stats;
->>
->> Maybe call it pp_stats ?
-> 
-> okay.
-> 
->>>    #ifdef CONFIG_MLX5_EN_TLS
->>>    	u64 tls_decrypted_packets;
->>>    	u64 tls_decrypted_bytes;
-> 
-> Sebastian
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 0f2aeb37bbb04..49847efe5559e 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -134,22 +134,12 @@ static inline void put_task_struct(struct task_struct *t)
+ 		return;
+ 
+ 	/*
+-	 * In !RT, it is always safe to call __put_task_struct().
+-	 * Under RT, we can only call it in preemptible context.
+-	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
+-		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+-
+-		lock_map_acquire_try(&put_task_map);
+-		__put_task_struct(t);
+-		lock_map_release(&put_task_map);
+-		return;
+-	}
+-
+-	/*
+-	 * under PREEMPT_RT, we can't call put_task_struct
++	 * In !RT, it is always safe to call __put_task_struct(),
++	 * but under PREEMPT_RT, we can't call put_task_struct
+ 	 * in atomic context because it will indirectly
+-	 * acquire sleeping locks.
++	 * acquire sleeping locks. The same is true if the
++	 * current process has a mutex enqueued (blocked on
++	 * a PI chain).
+ 	 *
+ 	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+ 	 * to be called in process context.
+-- 
+2.49.0
 
