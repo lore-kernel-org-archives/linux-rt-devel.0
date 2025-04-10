@@ -1,49 +1,45 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58DB1DFE0A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 12:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F91C280CE3
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 12:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744287024; cv=none; b=CjckDTMyuhR5zAHp/3jbJA0KrfhDGFj2Wpx0TGRPIkvLoVFsw4lPHy+yirmAokIjExKoo9yGzG/z2PWlzo9U6t9BU49z/uAHVvPkKrMYxMbYvgtuPg+mQ/UvXX5wqeHuJ4wg5cZZRGE/i+X2mz8ZOAYwPfzrVzeYzorRvir9Qfo=
+	t=1744287609; cv=none; b=NJo85vf2pcxTRfijFspl4K7KPmH8ItTO3xsQxyBkAEbRKAH/DTDHHDkqeU1VZKM5rLuHaB3ClONb7+xYUIRJkliPmHKC9GxnTQOV0YVc3o5UtyKS40VEZKgP6gIMwx9gk9xh+XHN2eG5xKf41Dyi2El7BZztZW2i1RJVa9To39E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744287024; c=relaxed/simple;
-	bh=fEIIJmuvKZ1FbFgiAVM+GhhSXj66E4+4E1CoqfCCUuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ozQ6HqsSkpmUF8H2ZVP21QzfAp3XJ6/7jfgyp55M9hHrqTSmNZ+wlwMXMGT/DUFTC7CZyeOFxK0imDI9DUEpc4tt8JTVHt6yyFYS7IhNL9Y72Nw3m5aCtuYwaXKNJMMoT7tmAFnMhV7JJXprIR45rWBBV/jtd2ghm34z1BBdWwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YCUXQKn6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744287609; c=relaxed/simple;
+	bh=r4YN+6THFRqD857AEAmFYAZV7Q34wl4AiyDmQEvfLag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cHLM2POQ5d9XuUWL/VWfiLDLEKJi7vIQ5Qinq+ompklhGrjgUeMeGLzr7ehTj0W6rOqjuqpmN5vdZcPQ70LQiYLGkx/BxEi1vVww1OvbOfhegBiCePTByPRbj3MGGq6V6jiCTmqSqOdEcqRXtm+zwe8oEKIBGaNpFMxydmqJ/0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xkIbW/xH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XjJ7laHp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YCUXQKn6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744287021;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xkIbW/xH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XjJ7laHp"
+Date: Thu, 10 Apr 2025 14:20:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1744287604;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=jfr0CKO41OvdQbzGujfxRHdpipw9MCfRZIBLhG07wC0=;
-	b=YCUXQKn6c5f3hKQupO5IjKXS7HBh+QHV2pjcLDCxUGaV2GaD78kOIBXMUwX4xmsLew5/mH
-	NZDWpA13NhqMHQL48I/nLKe/oTiUJt+oMBOElLvt4Ni8gdYZ4Q2m+KYn0L4HE0zEEYi354
-	dcUTDEP+5ZuvqYZeWDpqC/oM/9D//3E=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-395-TDS-UST-N3m_GoJC_mff0Q-1; Thu,
- 10 Apr 2025 08:10:18 -0400
-X-MC-Unique: TDS-UST-N3m_GoJC_mff0Q-1
-X-Mimecast-MFC-AGG-ID: TDS-UST-N3m_GoJC_mff0Q_1744287015
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 40F0C1954B36;
-	Thu, 10 Apr 2025 12:10:15 +0000 (UTC)
-Received: from localhost (unknown [10.22.88.250])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D25FD18009BC;
-	Thu, 10 Apr 2025 12:10:13 +0000 (UTC)
-Date: Thu, 10 Apr 2025 09:10:12 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pUz3XfGhWfvbtgammCb+KQml+nvemb+oZndlJttITBI=;
+	b=xkIbW/xHzPrqrZSEg8QZABEM2E43uwvLYpnzekfDMX/S5T5oB/pyi/qX+6lVflR56xbdQA
+	L8PNimBmMeW0N/T0tZYJNiW9txpXW05yO19kdcyQMMk9tCMhabwUppJaa6v3444BRk/KzJ
+	zkDwLFbHBqkkMCeArPBl0CGCukWDmr5dgpLhjxwI1Fplea8KspYiwVuDoEK+vjQB2tktR5
+	NPR0zdtuFEiO46RlU7d4u9smbnFsmrEdVGR7zKRbspJ9RdCpx9WnTiZMkcmtu/aN5vSMgF
+	uZuasbxwcupiZmIEMW2tiCZMw0Kuefhv+XN8NGrw5m89DgBnu/utf2okp7lJXQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1744287604;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pUz3XfGhWfvbtgammCb+KQml+nvemb+oZndlJttITBI=;
+	b=XjJ7laHpjd0V25mYg0lVL2+d69SdVU0UL0vnH+fdxAX9CAUHzbg35jYa7vEJtR2G8Hx9K8
+	pCTP6BAqF483UhBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
 	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
 	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
@@ -54,79 +50,60 @@ To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: lclaudio00@gmail.com
-Subject: [PATCH v3] sched: do not call __put_task_struct() on rt if
+	Thomas Gleixner <tglx@linutronix.de>, lclaudio00@gmail.com
+Subject: Re: [PATCH v3] sched: do not call __put_task_struct() on rt if
  pi_blocked_on is set
-Message-ID: <Z_e0uh36Ezz6isYo@uudg.org>
+Message-ID: <20250410122002.JxN9F-nE@linutronix.de>
+References: <Z_e0uh36Ezz6isYo@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+In-Reply-To: <Z_e0uh36Ezz6isYo@uudg.org>
 
-With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
-from rt_mutex_adjust_prio_chain() could happen in preemptible context and
-with a mutex enqueued. That could lead to this sequence:
+On 2025-04-10 09:10:12 [-0300], Luis Claudio R. Goncalves wrote:
+> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -134,22 +134,12 @@ static inline void put_task_struct(struct task_struct *t)
+>  		return;
+>  
+>  	/*
+> -	 * In !RT, it is always safe to call __put_task_struct().
+> -	 * Under RT, we can only call it in preemptible context.
+> -	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
+> -		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+> -
+> -		lock_map_acquire_try(&put_task_map);
+> -		__put_task_struct(t);
+> -		lock_map_release(&put_task_map);
+> -		return;
+> -	}
+> -
+> -	/*
+> -	 * under PREEMPT_RT, we can't call put_task_struct
+> +	 * In !RT, it is always safe to call __put_task_struct(),
+> +	 * but under PREEMPT_RT, we can't call put_task_struct
+>  	 * in atomic context because it will indirectly
+> -	 * acquire sleeping locks.
+> +	 * acquire sleeping locks. The same is true if the
+> +	 * current process has a mutex enqueued (blocked on
+> +	 * a PI chain).
+>  	 *
+>  	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+>  	 * to be called in process context.
 
-	rt_mutex_adjust_prio_chain()
-	  put_task_struct()
-	    __put_task_struct()
-	      sched_ext_free()
-	        spin_lock_irqsave()
-	          rtlock_lock() --->  TRIGGERS
-	                              lockdep_assert(!current->pi_blocked_on);
+Did you test it with lockdep with and without PREEMPT_RT? It would be
+nice to throw some testing on it.
+This comment here "call_rcu will schedule bla in process context" is
+wrong. It will schedule the callback in softirq context. Unless RCU is
+configured to run the callbacks in rcuc/ thread which is the default for
+PREEMPT_RT. Also delayed_put_task_struct_rcu() does not exist, imho
+never did.
 
-Fix that by unconditionally resorting to the deferred call to
-__put_task_struct().
-
-v2: (Rostedt) remove the #ifdef from put_task_struct() and create
-    tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
-
-v3: (Sebastian and PeterZ) always call the RCU deferred __put_task_struct().
-
-Suggested-by: Crystal Wood <crwood@redhat.com>
-Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
----
- include/linux/sched/task.h |   20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index 0f2aeb37bbb04..49847efe5559e 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -134,22 +134,12 @@ static inline void put_task_struct(struct task_struct *t)
- 		return;
- 
- 	/*
--	 * In !RT, it is always safe to call __put_task_struct().
--	 * Under RT, we can only call it in preemptible context.
--	 */
--	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
--		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
--
--		lock_map_acquire_try(&put_task_map);
--		__put_task_struct(t);
--		lock_map_release(&put_task_map);
--		return;
--	}
--
--	/*
--	 * under PREEMPT_RT, we can't call put_task_struct
-+	 * In !RT, it is always safe to call __put_task_struct(),
-+	 * but under PREEMPT_RT, we can't call put_task_struct
- 	 * in atomic context because it will indirectly
--	 * acquire sleeping locks.
-+	 * acquire sleeping locks. The same is true if the
-+	 * current process has a mutex enqueued (blocked on
-+	 * a PI chain).
- 	 *
- 	 * call_rcu() will schedule delayed_put_task_struct_rcu()
- 	 * to be called in process context.
--- 
-2.49.0
-
+Sebastian
