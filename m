@@ -1,235 +1,97 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968D620C001
-	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Apr 2025 02:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D1C2367C1
+	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Apr 2025 13:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744339031; cv=none; b=cEEtul0UYcPAoKebLhoAatRQSuMpomhYJHHaCy6+RXm2259OnZaiXY/yPEWGmN99T3ypNr+ivV4c9SMLWw93heQOChHaPMd2KGTQLerUULh9xUnDTu7sWuEdu42AY38gyqNnfzg5XDl/ZfKkOcHJefcsRyCKqxcUPfpcXw2g+Uo=
+	t=1744377156; cv=none; b=aCl/6ocG4Y6mt6DZQaQj//P/PU/bBvz8p1lLL/8vFq7zv+VjfNoDpUKeilfcaH0n/4NxMSQ2w6FG/D+vwNE2q1jzgba+n6vIOvnJfJ7cqpUH0LfK5divBn7cvW4vujv5DV8997rdRnqQVScK9pC612kqOr8fdAnNH+MtJT2UrY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744339031; c=relaxed/simple;
-	bh=rWYUs/9cmDIh7jIXt9l9AsY7E+gqj9c4f9wefjB6rkg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rCSsgHHA+Z/9obH++CFLynrPJUtA+FxbV/0TStSRavtKaCADwFAAMEiLgP2Gu8RTvDq5ivLw+8hXPsVrdoj6xJmCZBm6MVT1RcaETuApyN4k/J907vRLS9b3lny4wAFl7J8erTkH76oohSs0uL2FBypMU420UBJuvD9ZTNS2ltk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YdeTwXFU; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744377156; c=relaxed/simple;
+	bh=4YP1XQ6IPyOe1vy/B3rhLSW91fEOZJFL8Oqay3GwNQQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NQf0eZubLgNA2IY8RW3EtVv1jH/7ZFUXGnZ1pespUSZBlYMAOwzsC/rTMktPtPahruhVyaAmNskCvH/8b8D56b9eDjQsPDHlddxKjzgimc0tAlplM4UyjnftRjOGpVXgyc8Uhx5SAl5zXC/1v+fQpZ4PoOY+x2I5z8Mk9JRxtNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sjrSMRRs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fEZpPoP2; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YdeTwXFU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744339028;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sjrSMRRs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fEZpPoP2"
+Date: Fri, 11 Apr 2025 15:12:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1744377152;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3/ZamE7dZcORRHzRlCdHfFpdrTX0B5Dwgu/nJ11or8g=;
-	b=YdeTwXFUkXn7bArKR+FWYcefNFjYeWqRzn8brSI/6R93JTEatDYX7utqy3rmtgQDqjPRSf
-	6Uw+ypD8pD2T44idji8ZD5pCz0W4OVfAk9K7BtERzUiKLnDOI2WewQykqGudhjb8ScczzD
-	CmkRg8O3B3qNxg/uYe6PcoOEcfWORU8=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-464-JvuorkLiNjyV_4LgiFssYg-1; Thu, 10 Apr 2025 22:37:06 -0400
-X-MC-Unique: JvuorkLiNjyV_4LgiFssYg-1
-X-Mimecast-MFC-AGG-ID: JvuorkLiNjyV_4LgiFssYg_1744339026
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-224364f2492so12136915ad.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Apr 2025 19:37:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744339025; x=1744943825;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3/ZamE7dZcORRHzRlCdHfFpdrTX0B5Dwgu/nJ11or8g=;
-        b=BJGYr7Kfv537DQHaShUs1hVBgD96+/ym+RkZwOEHVVBmRG4R5ShLspsDxJNmiBgTDW
-         3ngs1b61/P9gwPR1ivGqdhbiIS7AGqkJdpGpwOc8PH8cDceLvFiMoj7wzMhhBXr+ZhT/
-         VaLObPigKV7tyDtfciuhhG/63XARf0jNSbNUdWWs+jeVZ3H/hNHknG+b1EuOEqz5hDEM
-         6X0EIHAhumKV4vjuaxRp2eQCqYSrLZQVPo8S7a0yOxsDFcU+7vNadWykh4/UB6TD6Jbd
-         UwXGTHI7PggmfVdRnGaOxegwNvjoYjuaOh03r+01burYm35UyyLyhqHIVn0N0mbedgnT
-         h0PA==
-X-Forwarded-Encrypted: i=1; AJvYcCXwXc4dXoEkYIcIce7z0qm4yrVzHi2NtwYnMbcp5HEq1+FWFi17UVRhAQQYbs45jaiMoF2/crJ0eK7R7tRyQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUsQR4JGlqkfFhWKBBNJbAuC5TVUynLsob9/lD0P1eQvka33RX
-	jR5a09BGODrQlO+jVvXSBq1+zgEcLWLcK6coWh/j7+k5BR15bQpRFcFZw0eyv6JwxxxJue4f7z3
-	cRUJiaMa0f0ayYhsB6zKNY5WkD8uC6IOiYYjHNKdP9DnYClrPetiuH2/AX/VSRg8o
-X-Gm-Gg: ASbGncvSrqlhcUJiUg/IzhPYHT/J5R9LmF4+WYiTyO3oPHAV8Umf3gi2h/Wv8PQ1Afc
-	XfKPKPew5fduHemA0jthlhN5d/gDIWRQ3abtrpqYUGrNegAM/FRtFhUmCx0yAzLPFb7M4hI9Jyk
-	2vFYEM429vj3rGQU3Vb6NcD1+f5WV5htnCSod3XtekJ0mWta5cRQoqTlo3jtxH+ypZr7EkLj8TO
-	kRVPTdfAOKTm88K7YstRb44UlOpH0tAJzNr+o6P/YhqAksbyN/7zJmTllJkWdN2o/JcW7nIMsky
-	iIe5nVmxP313jAqHsQF4IsUC8QZYFjwS6sTNNplo/9clW30M2yqU1LJAzR8xUM3R
-X-Received: by 2002:a17:903:32c9:b0:223:2cae:4a96 with SMTP id d9443c01a7336-22bea50267amr14865155ad.42.1744339025422;
-        Thu, 10 Apr 2025 19:37:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFcW698n+7Dt96hdxc6YK/SglbEgK3MbiE/DJmopg+MwzVB+8B+QoDHQBDJI4PLoOrwH6M9nA==
-X-Received: by 2002:a17:903:32c9:b0:223:2cae:4a96 with SMTP id d9443c01a7336-22bea50267amr14864815ad.42.1744339025056;
-        Thu, 10 Apr 2025 19:37:05 -0700 (PDT)
-Received: from [192.168.0.229] (159-196-82-144.9fc452.per.static.aussiebb.net. [159.196.82.144])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cbdfe7sm38271855ad.207.2025.04.10.19.37.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Apr 2025 19:37:04 -0700 (PDT)
-Message-ID: <52f5a8a0-7721-45c0-92f9-38b87afb62d3@redhat.com>
-Date: Fri, 11 Apr 2025 10:36:58 +0800
+	 in-reply-to:in-reply-to:references:references;
+	bh=xl6pjqyQnrwcBkuqqJQwT94m+WOd7q6TSPXu61MjdI0=;
+	b=sjrSMRRsAWSvMHHovaGREdgbc4qxew8Pdbvn/TvRMmVO0qOM2JCN3qcsQXM7n6M2VzUcvO
+	r7sQrjM+gsXjLhXUE+F641e+RHsszEmRbAqursmnCNQD93MsnDN+xtJ63s7wendKwxHtG0
+	EVnkt03w6J1LjAQr0vECN6Ys4Yi7QL03W9JHtF77mCNMorYXHYUvV7zpeV4DLdx0yrhQEN
+	+8fH2IkXiXD+UZSTdvq6oseO4IA+DLSCRf8SbxZHfVhUJlXqFBQ6pRXp7FBAcj/6dt60aO
+	1Z3vv5J3zIijLj20glxqfqHqCya/WoAdP2iwA3j4R3Qzks2UaJg5OWLBd1YNkg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1744377152;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xl6pjqyQnrwcBkuqqJQwT94m+WOd7q6TSPXu61MjdI0=;
+	b=fEZpPoP2GFk2kVIDhRhgjWnz+ZeZc7X4qyFCF4LlzN9D8KCeNzehb/1+pnRCeNQE8oCvcO
+	jlnaEq9MugHpA+AA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Davide Caratti <dcaratti@redhat.com>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>
+Subject: Re: [PATCH net-next 13/18] net/sched: act_mirred: Move the recursion
+ counter struct netdev_xmit.
+Message-ID: <20250411131230.Wm6eVlkb@linutronix.de>
+References: <20250309144653.825351-1-bigeasy@linutronix.de>
+ <20250309144653.825351-14-bigeasy@linutronix.de>
+ <CAKa-r6s69JbQX7ZuGiz37bbfQYWs+r6odhVB7Ygct8DYN=ApJQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
-To: Ian Kent <raven@themaw.net>, Christian Brauner <brauner@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Mateusz Guzik <mjguzik@gmail.com>, Eric Chanudet <echanude@redhat.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Alexander Larsson <alexl@redhat.com>,
- Lucas Karpinski <lkarpins@redhat.com>
-References: <20250408210350.749901-12-echanude@redhat.com>
- <20250409-egalisieren-halbbitter-23bc252d3a38@brauner>
- <20250409131444.9K2lwziT@linutronix.de>
- <4qyflnhrml2gvnvtguj5ee7ewrz3ejhgdb2lfihifzjscc5orh@6ah6qxppgk5n>
- <20250409142510.PIlMaZhX@linutronix.de>
- <20250409-beulen-pumpwerk-43fd29a6801e@brauner>
- <64fb3c80-96f9-4156-a085-516cbaa28376@themaw.net>
-From: Ian Kent <ikent@redhat.com>
-Autocrypt: addr=ikent@redhat.com; keydata=
- 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
-In-Reply-To: <64fb3c80-96f9-4156-a085-516cbaa28376@themaw.net>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: HzyiyeHlSwYWmuugAxHKwE_PK-HBSsSVtgBYcWXq_9I_1744339026
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAKa-r6s69JbQX7ZuGiz37bbfQYWs+r6odhVB7Ygct8DYN=ApJQ@mail.gmail.com>
 
-On 10/4/25 21:58, Ian Kent wrote:
->
-> On 10/4/25 00:04, Christian Brauner wrote:
->> On Wed, Apr 09, 2025 at 04:25:10PM +0200, Sebastian Andrzej Siewior 
->> wrote:
->>> On 2025-04-09 16:02:29 [+0200], Mateusz Guzik wrote:
->>>> On Wed, Apr 09, 2025 at 03:14:44PM +0200, Sebastian Andrzej Siewior 
->>>> wrote:
->>>>> One question: Do we need this lazy/ MNT_DETACH case? Couldn't we 
->>>>> handle
->>>>> them all via queue_rcu_work()?
->>>>> If so, couldn't we have make deferred_free_mounts global and have two
->>>>> release_list, say release_list and release_list_next_gp? The first 
->>>>> one
->>>>> will be used if queue_rcu_work() returns true, otherwise the second.
->>>>> Then once defer_free_mounts() is done and release_list_next_gp not
->>>>> empty, it would move release_list_next_gp -> release_list and invoke
->>>>> queue_rcu_work().
->>>>> This would avoid the kmalloc, synchronize_rcu_expedited() and the
->>>>> special-sauce.
->>>>>
->>>> To my understanding it was preferred for non-lazy unmount consumers to
->>>> wait until the mntput before returning.
->>>>
->>>> That aside if I understood your approach it would de facto 
->>>> serialize all
->>>> of these?
->>>>
->>>> As in with the posted patches you can have different worker threads
->>>> progress in parallel as they all get a private list to iterate.
->>>>
->>>> With your proposal only one can do any work.
->>>>
->>>> One has to assume with sufficient mount/unmount traffic this can
->>>> eventually get into trouble.
->>> Right, it would serialize them within the same worker thread. With one
->>> worker for each put you would schedule multiple worker from the RCU
->>> callback. Given the system_wq you will schedule them all on the CPU
->>> which invokes the RCU callback. This kind of serializes it, too.
->>>
->>> The mntput() callback uses spinlock_t for locking and then it frees
->>> resources. It does not look like it waits for something nor takes ages.
->>> So it might not be needed to split each put into its own worker on a
->>> different CPU… One busy bee might be enough ;)
->> Unmounting can trigger very large number of mounts to be unmounted. If
->> you're on a container heavy system or services that all propagate to
->> each other in different mount namespaces mount propagation will generate
->> a ton of umounts. So this cannot be underestimated.
->>
->> If a mount tree is wasted without MNT_DETACH it will pass UMOUNT_SYNC to
->> umount_tree(). That'll cause MNT_SYNC_UMOUNT to be raised on all mounts
->> during the unmount.
->>
->> If a concurrent path lookup calls legitimize_mnt() on such a mount and
->> sees that MNT_SYNC_UMOUNT is set it will discount as it know that the
->> concurrent unmounter hold the last reference and it __legitimize_mnt()
->> can thus simply drop the reference count. The final mntput() will be
->> done by the umounter.
->
-> In umount_tree() it looks like the unmounted mount remains hashed (ie.
->
-> disconnect_mount() returns false) so can't it still race with an rcu-walk
->
-> regardless of the sybcronsize_rcu().
->
->
-> Surely I'm missing something ...
+On 2025-03-21 18:14:50 [+0100], Davide Caratti wrote:
+> hi,
+Hi,
 
-Ans I am, please ignore this.
+> > index 5b38143659249..8d8cfac6cc6af 100644
+> > --- a/net/sched/act_mirred.c
+> > +++ b/net/sched/act_mirred.c
+> > @@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
+=E2=80=A6
+> > +#else
+> > +static u8 tcf_mirred_nest_level_inc_return(void)
+> > +{
+> > +       return current->net_xmit.nf_dup_skb_recursion++;
+> > +}
+> > +
+> > +static void tcf_mirred_nest_level_dec(void)
+> > +{
+> > +       current->net_xmit.nf_dup_skb_recursion--;
+> > +}
+> > +#endif
+>=20
+> sorry for reviewing this late - but shouldn't we use sched_mirred_nest
+> instead of nf_dup_skb_recursion in case CONFIG_PREEMPT_RT is set?
 
-I miss-read the return of the mnt->mnt_parent->mnt.mnt_flags check in 
-disconnect_mount(),
+you are correct, thank you.
 
-my bad.
+> thanks,
 
->
->
-> Ian
->
->>
->> The synchronize_rcu() call in namespace_unlock() takes care that the
->> last mntput() doesn't happen until path walking has dropped out of RCU
->> mode.
->>
->> Without it it's possible that a non-MNT_DETACH umounter gets a spurious
->> EBUSY error because a concurrent lazy path walk will suddenly put the
->> last reference via mntput().
->>
->> I'm unclear how that's handled in whatever it is you're proposing.
->>
->
-
+Sebastian
