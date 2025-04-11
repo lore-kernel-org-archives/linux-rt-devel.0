@@ -1,60 +1,48 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D1C2367C1
-	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Apr 2025 13:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D26420CCE8;
+	Fri, 11 Apr 2025 15:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744377156; cv=none; b=aCl/6ocG4Y6mt6DZQaQj//P/PU/bBvz8p1lLL/8vFq7zv+VjfNoDpUKeilfcaH0n/4NxMSQ2w6FG/D+vwNE2q1jzgba+n6vIOvnJfJ7cqpUH0LfK5divBn7cvW4vujv5DV8997rdRnqQVScK9pC612kqOr8fdAnNH+MtJT2UrY0=
+	t=1744384652; cv=none; b=WooiuqyRq2H1OXh99O1KX8SAx8uDX8c6qLOiGe8mkuQccVhEzVaqBO1RYBw1eiKAFnEoPhUJ4LKB1EpXeMPcjHrU32co/hk8wpacHoXfpybgkORPC1gU4qqFAJYT8fMFiHhD/puFph8uuoHYH4yfkcSKKak0PFB2tMgT+L7/0oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744377156; c=relaxed/simple;
-	bh=4YP1XQ6IPyOe1vy/B3rhLSW91fEOZJFL8Oqay3GwNQQ=;
+	s=arc-20240116; t=1744384652; c=relaxed/simple;
+	bh=g/hTWNgBj9a3bczRrF5t1P0iZHlJvcuYnnByNLLURj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NQf0eZubLgNA2IY8RW3EtVv1jH/7ZFUXGnZ1pespUSZBlYMAOwzsC/rTMktPtPahruhVyaAmNskCvH/8b8D56b9eDjQsPDHlddxKjzgimc0tAlplM4UyjnftRjOGpVXgyc8Uhx5SAl5zXC/1v+fQpZ4PoOY+x2I5z8Mk9JRxtNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sjrSMRRs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fEZpPoP2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPMXM08UUHI40TzaU4esMGc8d7ZZ1s9JrKBhrqH0J40hHUghiu7zi0XkxLL5ml1HCGamsuQsUlNDOd/a+BKNGID3RkMvLUw8YAOyVJPxslO0R2JO1RQbgUXh7D5rijojBCAMn6GKji/+Fvfn5U6ml0kwE9sXrHumaBgj0s0D7Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mxn1xg3W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sjrSMRRs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fEZpPoP2"
-Date: Fri, 11 Apr 2025 15:12:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744377152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xl6pjqyQnrwcBkuqqJQwT94m+WOd7q6TSPXu61MjdI0=;
-	b=sjrSMRRsAWSvMHHovaGREdgbc4qxew8Pdbvn/TvRMmVO0qOM2JCN3qcsQXM7n6M2VzUcvO
-	r7sQrjM+gsXjLhXUE+F641e+RHsszEmRbAqursmnCNQD93MsnDN+xtJ63s7wendKwxHtG0
-	EVnkt03w6J1LjAQr0vECN6Ys4Yi7QL03W9JHtF77mCNMorYXHYUvV7zpeV4DLdx0yrhQEN
-	+8fH2IkXiXD+UZSTdvq6oseO4IA+DLSCRf8SbxZHfVhUJlXqFBQ6pRXp7FBAcj/6dt60aO
-	1Z3vv5J3zIijLj20glxqfqHqCya/WoAdP2iwA3j4R3Qzks2UaJg5OWLBd1YNkg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744377152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xl6pjqyQnrwcBkuqqJQwT94m+WOd7q6TSPXu61MjdI0=;
-	b=fEZpPoP2GFk2kVIDhRhgjWnz+ZeZc7X4qyFCF4LlzN9D8KCeNzehb/1+pnRCeNQE8oCvcO
-	jlnaEq9MugHpA+AA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Davide Caratti <dcaratti@redhat.com>
-Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>
-Subject: Re: [PATCH net-next 13/18] net/sched: act_mirred: Move the recursion
- counter struct netdev_xmit.
-Message-ID: <20250411131230.Wm6eVlkb@linutronix.de>
-References: <20250309144653.825351-1-bigeasy@linutronix.de>
- <20250309144653.825351-14-bigeasy@linutronix.de>
- <CAKa-r6s69JbQX7ZuGiz37bbfQYWs+r6odhVB7Ygct8DYN=ApJQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mxn1xg3W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58419C4CEE7;
+	Fri, 11 Apr 2025 15:17:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744384651;
+	bh=g/hTWNgBj9a3bczRrF5t1P0iZHlJvcuYnnByNLLURj4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Mxn1xg3Wf80mwB/2TKq4Pl25jp+7xjUdl89e9IpDVvResMI4FpyDvlznzmqoY6PsI
+	 YfaX28IuWjJG57tKG14s7GpLDdm0FKDc02VsxIXc0FP8BIWOgKcjSS3optD7dEyxUl
+	 1jdOQ0+6JzsK6f/QbI/fFUcENL3LC7rrQ82k9hdgTgxEJcWA/jEHue3d4on0TnocN+
+	 +grKEDPd4eMP/olUIHzDUTuFc1QAQLPGz1ATL8o70//7RNE+ebwzhTY8ztub621e+m
+	 zgevJCZdXDj4MUde9vAcx/Acd+4tCOkLKl/vTABfCIfAYdIF4FtKIFYkpTWwHpFKb1
+	 UiLmrBTQbclDg==
+Date: Fri, 11 Apr 2025 17:17:25 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Mateusz Guzik <mjguzik@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>
+Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Message-ID: <20250411-abgetan-zumachen-ada00fc3770c@brauner>
+References: <20250408210350.749901-12-echanude@redhat.com>
+ <20250409-egalisieren-halbbitter-23bc252d3a38@brauner>
+ <20250409131444.9K2lwziT@linutronix.de>
+ <4qyflnhrml2gvnvtguj5ee7ewrz3ejhgdb2lfihifzjscc5orh@6ah6qxppgk5n>
+ <20250409142510.PIlMaZhX@linutronix.de>
+ <43hey3rnt7ytbuu4rapcr2p7wlww7x2jtafnm45ihazkrylmij@n4p4tdy3x2de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,35 +51,12 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAKa-r6s69JbQX7ZuGiz37bbfQYWs+r6odhVB7Ygct8DYN=ApJQ@mail.gmail.com>
+In-Reply-To: <43hey3rnt7ytbuu4rapcr2p7wlww7x2jtafnm45ihazkrylmij@n4p4tdy3x2de>
 
-On 2025-03-21 18:14:50 [+0100], Davide Caratti wrote:
-> hi,
-Hi,
+> With this, I have applied your patch for the following discussion and
+> down thread. Happy to send a v5, should this patch be deemed worth
+> pursuing.
 
-> > index 5b38143659249..8d8cfac6cc6af 100644
-> > --- a/net/sched/act_mirred.c
-> > +++ b/net/sched/act_mirred.c
-> > @@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
-=E2=80=A6
-> > +#else
-> > +static u8 tcf_mirred_nest_level_inc_return(void)
-> > +{
-> > +       return current->net_xmit.nf_dup_skb_recursion++;
-> > +}
-> > +
-> > +static void tcf_mirred_nest_level_dec(void)
-> > +{
-> > +       current->net_xmit.nf_dup_skb_recursion--;
-> > +}
-> > +#endif
->=20
-> sorry for reviewing this late - but shouldn't we use sched_mirred_nest
-> instead of nf_dup_skb_recursion in case CONFIG_PREEMPT_RT is set?
-
-you are correct, thank you.
-
-> thanks,
-
-Sebastian
+I'll just switch to system_unbound_wq and there's no need to resend for
+now. If the numbers somehow change significantly due to that change just
+mention that. Thanks.
