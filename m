@@ -1,140 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737392D11AF;
-	Mon, 14 Apr 2025 13:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637445; cv=none; b=Pxv/ch64i9qmQUNPd8YPljPwGZYyWn2ui5/b2FCvEC45faVswcLAsYCt4ZF9VSw5dwx4w/GR6TVa2sUUtAH3bOx+KyXj8c6w/RGZKRKpEr/rbGhwBhWxRyHh6U3jV4gDzNuczjZoQmCIydHeXWLXrjKSGeOWXdF6VjDNcUGuvS4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637445; c=relaxed/simple;
-	bh=yT53AX2C1X/ZgjzklomnAalqFEUWrqd7TesYE3PPwMQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AquoCA2LZkyiO4tpHHl4JSWkwyy/FKhK2bNJIeNh+qBAqbLh1Bc1y9ptIJlSzmJkPfUfy++kxYEub2NCH9x0brO6LTa6X/WpfwdxknBig+ZJs5OlnyqhGKiu3RJaxaxupc0043Y0sscP27l4s0clNr/rCLjOq06ZB++MW+93YR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tc4ZCyDq; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DD12741B7;
+	Mon, 14 Apr 2025 15:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744643702; cv=pass; b=RqKnj9nRLd4MAqAQWLSlIzOHW7GbmXKW1lAYCWxKFuM3zQLqhr3rHWSA1F71XpRjDLxchUI1ZDuAiAwuTF5kyHvtZDI1rmOWUz7LhSBgljhEci3KKseUOP4jevAHDw9yh/zu2hTVhtTTeXhzdccm7/hyLdEPoWjrBYmuLvLS46w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744643702; c=relaxed/simple;
+	bh=779zHdQgvjPvB5gsBJpT4kTT01xhZr/39ofSvNnbjA8=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=E3hn16LMaccwIxLrvDhYEGUFD5D+waM8h6kuBy93FIcwHgXJdulI3ZIPBJcoPkiJYsoE7IHrS4HbQ03GQMtITqFIo/NnE2T5ozVLatu0/P2aEN70udmoGfGMiw9Plz/GDncje6WBZw/kqfSgQU/FEWQSOCK1338SbF3vQKPmXwQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=gus@collabora.com header.b=gI/1P5G1; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tc4ZCyDq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FBDC4CEE2;
-	Mon, 14 Apr 2025 13:30:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637443;
-	bh=yT53AX2C1X/ZgjzklomnAalqFEUWrqd7TesYE3PPwMQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Tc4ZCyDqEgcstzUSYXIF1GA5cTKmEPqPQHy1B/InMEJXub/jfYVd1wpshszlzuQZy
-	 i9LmOK9KMw3Nm9UnDOCZ1DiMPr+AsYYgzAc/VMdUVY4XT8SLRVB6TsWNM8e4ZaPuLy
-	 2zfFER++rkqnBM+nLMDIPmgSXpnmowSMcVi//sVE6CreZuJU5SEqTRSHeoWdg4QMwC
-	 oPw/GQ25TvzjtTvWVapUx/PSMDPrNTRnhj3y98ENYNhsu2rJF2ayO9jraWLpjexciJ
-	 D2Zm6eTbPmi6f89uVmEJhk8w17msl9TMwAxM9CaQBcqW9KaoMjUBJ6dBgDTCxJIWN3
-	 nAw7Ge/66t7xA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Borislav Petkov <bp@alien8.de>,
-	Chris Bainbridge <chris.bainbridge@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sasha Levin <sashal@kernel.org>,
-	anna-maria@linutronix.de,
-	frederic@kernel.org,
-	mingo@kernel.org,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 22/24] timekeeping: Add a lockdep override in tick_freeze()
-Date: Mon, 14 Apr 2025 09:29:55 -0400
-Message-Id: <20250414132957.680250-22-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414132957.680250-1-sashal@kernel.org>
-References: <20250414132957.680250-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=gus@collabora.com header.b="gI/1P5G1"
+ARC-Seal: i=1; a=rsa-sha256; t=1744643686; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GW/xWjT/DmA1SYYHrKURgPK8ypWhee0UyaOEwgHB+pp0A4C88+2uG5a6XwEugqXOl3A9i6D2yGBWuxZLrNGDzXUGvjM1z8A9SOWuABYfhAmq1ub45SjmGAtiXzieu69lFzsoPCPsuSV+fjOlUU4jJPjMVCcN/ASwAGBUjQG1cJM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744643686; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oXxmd5FyrDJtAWBBPAg8BGhUDgpGLs39HcPkGbTMN8Y=; 
+	b=Sl/6X1BmGPtz96Wi8D4ugw6f6xNTE1SGbPEeJf113jRzeAhYW7rZYgSRMJ+l+FAyQ+bRBukg3FThBE+YRrbqKmk+kvaa9jf5R+fqYRzd6CsO5gFrS58mDviOGKMxttSfvgiXSD9+bauyh/zryB0SP0a/6e09UxvVAp4xkhF4l4U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=gus@collabora.com;
+	dmarc=pass header.from=<gus@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744643686;
+	s=zohomail; d=collabora.com; i=gus@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=oXxmd5FyrDJtAWBBPAg8BGhUDgpGLs39HcPkGbTMN8Y=;
+	b=gI/1P5G1tfePz5fYVrbIOqpklUmkK3EbljcoXSMFbS25DX7cEYvwyDwINHWJUTuZ
+	GLDN1OhpzUu1GXGrNvr7QQxp9ekANYTJpwiN6S3qcBoaKLFYIa1V5oIKDuEAphVRa4b
+	pripGdbf0TsLY52Axdz22OcMc1QbLA/AjnY4TG/E=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1744643685001909.8040194772085; Mon, 14 Apr 2025 08:14:45 -0700 (PDT)
+Date: Mon, 14 Apr 2025 12:14:44 -0300
+From: Gustavo Padovan <gus@collabora.com>
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: "kernelci" <kernelci@lists.linux.dev>,
+	"linux-rt-devel" <linux-rt-devel@lists.linux.dev>,
+	"stable-rt" <stable-rt@vger.kernel.org>,
+	"Daniel Wagner" <wagi@monom.org>
+Message-ID: <19634ddfa6f.10623b4b6827067.8120388710582651736@collabora.com>
+In-Reply-To: <20250411194432.pwc6U7Ds@linutronix.de>
+References: <20250211090511.xeFJVnH_@linutronix.de>
+ <194f4c989de.bdd18d3279996.2067896388251039576@collabora.com>
+ <20250211152018.sK91dh93@linutronix.de>
+ <194f5b4b029.e5ee4014194612.536900249866001318@collabora.com>
+ <20250213085256.nhWptGL3@linutronix.de> <20250411194432.pwc6U7Ds@linutronix.de>
+Subject: Re: PREEMPT_RT testing on kernelci
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.87
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Hi Sebastian,
 
-[ Upstream commit 92e250c624ea37fde64bfd624fd2556f0d846f18 ]
+---- On Fri, 11 Apr 2025 16:44:32 -0300 Sebastian Andrzej Siewior  wrote ---
 
-tick_freeze() acquires a raw spinlock (tick_freeze_lock). Later in the
-callchain (timekeeping_suspend() -> mc146818_avoid_UIP()) the RTC driver
-acquires a spinlock which becomes a sleeping lock on PREEMPT_RT.  Lockdep
-complains about this lock nesting.
+ > On 2025-02-13 09:52:56 [+0100], To Gustavo Padovan wrote: 
+ > > On 2025-02-11 12:50:47 [-0300], Gustavo Padovan wrote: 
+ > > > Hi Sebastian, 
+ > Hi Gustavo, 
+ >  
+ > > > That is one the current limitations in the dashboard. The CI systems are not sending 
+ > > > a clear signal yet that they completed all tests they wanted to run. They just submit 
+ > > > test result individually as they get finished. 
+ > > > 
+ > > > Imo, it is a priority to fix this as it is second time this week I get this feedback. 
+ > > 
+ > > Ah okay. No need to rush. If you have something to look at, let me know 
+ > > and I will. Other than that I will lean back and wait for the bot to 
+ > > complain ;) 
+ > > 
+ > > Thank you. 
+ >  
+ > any updates on this? 
 
-Add a lockdep override for this special case and a comment explaining
-why it is okay.
+We had some progress, but not enough yet. KCIDB gained support for CI systems to
+send when they completed all test execution for a given branch checkout, but we have
+to plumb this across this pipeline yet.
 
-Reported-by: Borislav Petkov <bp@alien8.de>
-Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Link: https://lore.kernel.org/all/20250404133429.pnAzf-eF@linutronix.de
-Closes: https://lore.kernel.org/all/20250330113202.GAZ-krsjAnurOlTcp-@fat_crate.local/
-Closes: https://lore.kernel.org/all/CAP-bSRZ0CWyZZsMtx046YV8L28LhY0fson2g4EqcwRAVN1Jk+Q@mail.gmail.com/
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/time/tick-common.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Regardless of that, the data is all available in the dashboard and you look up for the 
+rt-tests results there.
 
-diff --git a/kernel/time/tick-common.c b/kernel/time/tick-common.c
-index 7f2b17fc8ce40..ecdb8c2b2cab2 100644
---- a/kernel/time/tick-common.c
-+++ b/kernel/time/tick-common.c
-@@ -495,6 +495,7 @@ void tick_resume(void)
- 
- #ifdef CONFIG_SUSPEND
- static DEFINE_RAW_SPINLOCK(tick_freeze_lock);
-+static DEFINE_WAIT_OVERRIDE_MAP(tick_freeze_map, LD_WAIT_SLEEP);
- static unsigned int tick_freeze_depth;
- 
- /**
-@@ -514,9 +515,22 @@ void tick_freeze(void)
- 	if (tick_freeze_depth == num_online_cpus()) {
- 		trace_suspend_resume(TPS("timekeeping_freeze"),
- 				     smp_processor_id(), true);
-+		/*
-+		 * All other CPUs have their interrupts disabled and are
-+		 * suspended to idle. Other tasks have been frozen so there
-+		 * is no scheduling happening. This means that there is no
-+		 * concurrency in the system at this point. Therefore it is
-+		 * okay to acquire a sleeping lock on PREEMPT_RT, such as a
-+		 * spinlock, because the lock cannot be held by other CPUs
-+		 * or threads and acquiring it cannot block.
-+		 *
-+		 * Inform lockdep about the situation.
-+		 */
-+		lock_map_acquire_try(&tick_freeze_map);
- 		system_state = SYSTEM_SUSPEND;
- 		sched_clock_suspend();
- 		timekeeping_suspend();
-+		lock_map_release(&tick_freeze_map);
- 	} else {
- 		tick_suspend_local();
- 	}
-@@ -538,8 +552,16 @@ void tick_unfreeze(void)
- 	raw_spin_lock(&tick_freeze_lock);
- 
- 	if (tick_freeze_depth == num_online_cpus()) {
-+		/*
-+		 * Similar to tick_freeze(). On resumption the first CPU may
-+		 * acquire uncontended sleeping locks while other CPUs block on
-+		 * tick_freeze_lock.
-+		 */
-+		lock_map_acquire_try(&tick_freeze_map);
- 		timekeeping_resume();
- 		sched_clock_resume();
-+		lock_map_release(&tick_freeze_map);
-+
- 		system_state = SYSTEM_RUNNING;
- 		trace_suspend_resume(TPS("timekeeping_freeze"),
- 				     smp_processor_id(), false);
--- 
-2.39.5
+kci-dev cli - http://kci.dev/ - can also be used. For example: 
+
+ kci-dev results tests --giturl 'https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git' --branch master --latest --filter=filter.yaml
+
+Where filter can contain:
+
+----
+test:
+  - rt-tests.cyclictest
+  - rt-tests.cyclicdeadline
+  ...
+----
+
+I recommend using latest git kci-dev for the time being as we keep fixing and evolving.
+Eg, I just sent a PR to fix a crash that happens when we use the filter file with no hw filter in it.
+
+I also just created an issue for being able to use wildcards in filters. eg `rt-tests.*`
+https://github.com/kernelci/kci-dev/issues/163
+
+Both dashboard and kci-dev are pretty young, so features to help the community more and
+more are growing month by month. We appreciate the patience and understanding of the community.
+
+On the the above, I am working on our notifications system in the dashboard. You usecase to be cc'ed
+on notification for certains tests is not yet support, but we can look at it if we tell me exactly what will 
+help you.
+
+In my understanding you want to know when results for any rt-tests change status (eg PASS -> FAIL or
+vice versa) for a selection of trees (eg mainline, next, etc). Can you confirm?
+
+Best,
+
+- Gus
 
