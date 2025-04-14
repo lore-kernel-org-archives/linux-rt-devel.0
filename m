@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C217F27FD67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC1C27FD7B
 	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Apr 2025 16:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744646892; cv=none; b=TBDXiOJutXCmTIi3ofOfsTTNVONLpfa4GDGYaqTnFfPi36o1rUcmkSOYP9ULPU1E6Boz3F/jEPfQZH7weiy4lLXIhZYAQ0RBgezn9edvfW8HPcmWwD9gaxTx2wzl7z5g/ZZch+UlxPFhCygXLIrYLpe1MfAI8s3nO67jtfq41ig=
+	t=1744646893; cv=none; b=DyxTV/T6rET2FXqXpLmq2/sNICKAJZum0KSHdl9cKeadSDM470Vsgu6X4GZQ0pAZNcS0MdHptpz5n+vDfk1yg2ZuJF5JSirW7lrx9oULH7pSjLAzH633JBe6RT5sAvyJIpHa6JYjbEQTKhvFTW4djPpSJaOhz1CSe+dqQutO240=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744646892; c=relaxed/simple;
-	bh=XWftqXhechyFy7eHzL/4ue0k9l4oznl65kDA+H0lqT0=;
+	s=arc-20240116; t=1744646893; c=relaxed/simple;
+	bh=HHiVQTH+atgT4xOQAN37uuJt5UAHAio4xUM9Rqa92CU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TomjGVH5VMdwWLGBheaaa47NVr4ORoCjxQtNW4nt9SBMsCYMecs8/UgxEdGUm4jhljg912rZUaJP7G5r7vKixwbIAVr6uj/GPuwuh7VJMRXgFhxd23KqWrjdS2eFfol9KEij51zbmLTZ7wOYP6QWxllKbV6spSRNQ1OD4ZWtxeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=APLsmAAw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XMhYnJ+A; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=F37spTRM7Xk4FlOYsvx0DTejjihsofbV1ObwvpUduKvyi7aKanqpGONmV22dNpxWyXwYqI/Jj+mf192S3kFGhMnKl4PERrxB07r0uzpKRdaZV0g9G9xdLGILuvfoKJ/rCS3gBPyNl1YAobXiidqxi71vENay30c8ELrwbukLOh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3dpH8Au+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZywAtazY; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="APLsmAAw";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XMhYnJ+A"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3dpH8Au+";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZywAtazY"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744646889;
+	s=2020; t=1744646888;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B69lYX6STHY9Dm6pSCO/tU0P9tsCz5ZZVCvx63c8o3s=;
-	b=APLsmAAwTXPHVxPhzM4a7A6ZW6EMRi2+H0W2+cwb7IMi43FhUzOFMatWh62QQ92wp5jxFO
-	/jivyuFBcnh0qkUko1ryNCBT32gJhDNUBNd32TswWZ5Daw+9hRidMEU0W3oXV/P81SGiKX
-	6vY9xFAAxaaSisTGBoFBUqEGZSaYFtkC2JKVcTRXsCmwj9Sq9OvDXDV4XjC6x/UJ9r5zGR
-	+9jvsosB4ujzKx4xqKExjh4ETQ6XHxH4X20vpmpS98Lr8anMVPdP09+rZ3880ugAFIvgie
-	UvWCFZ9RiMYHKr2FnT1RnNbQZNfgGDWh0j9CaZlfnEpvYP4Q5uzOA9/Utzyzyg==
+	bh=Aht/WxYRxsU2RswlJxtNzoWOPHgqB8qiJPYiwhb18pU=;
+	b=3dpH8Au+ToIfW9BIFnc7AaITX1XQPlwXoRZyvL2x2AJE/jahNFOKxt4kc5+sTKTuRgdiqU
+	vwzYx0X+0CNxlnPO34mLIntKHvyfRWRD68Bx95IpUvGXdgeLTgg5ci7aKjxV03qt0IirzC
+	6h2DPUcjiEPgQJxvOwwSLZcU7LUQvhHMub80IYZUwTS/dJ7SxZBLxpbdy1MPwADNrZNPEW
+	0YVb+WW7SKc8ivxKEjygSnHXQUhVgIx5FCvH4gtNPAXtLLJlBBYseOvPMdkrEh7kX26unN
+	8Jm3C7Ncd9uAKI0GKNZ515C8cuUWCUkgWfqRUF2urRxijKzTZiD3YScx4WIvOg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744646889;
+	s=2020e; t=1744646888;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B69lYX6STHY9Dm6pSCO/tU0P9tsCz5ZZVCvx63c8o3s=;
-	b=XMhYnJ+AOt7pKiLKEJqE6wfeqpAaYn8jvED78ZAF3f9pSxk2Qc9IkKu/a7rP1Wwus5XdX+
-	svILFBwkcVaX8eAQ==
+	bh=Aht/WxYRxsU2RswlJxtNzoWOPHgqB8qiJPYiwhb18pU=;
+	b=ZywAtazYo1ouehJF936eyFEGqF9KuC3ZxBLPIJ4P4kfQiDBe/CWqEg6ywAhYQ57qydzM3O
+	c1G6mhxYBjRDv5CA==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -47,10 +47,12 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH net-next v2 02/18] net: dst_cache: Use nested-BH locking for dst_cache::cache
-Date: Mon, 14 Apr 2025 18:07:38 +0200
-Message-ID: <20250414160754.503321-3-bigeasy@linutronix.de>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Subject: [PATCH net-next v2 01/18] net: page_pool: Don't recycle into cache on PREEMPT_RT
+Date: Mon, 14 Apr 2025 18:07:37 +0200
+Message-ID: <20250414160754.503321-2-bigeasy@linutronix.de>
 In-Reply-To: <20250414160754.503321-1-bigeasy@linutronix.de>
 References: <20250414160754.503321-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -61,131 +63,34 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-dst_cache::cache is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+With preemptible softirq and no per-CPU locking in local_bh_disable() on
+PREEMPT_RT the consumer can be preempted while a skb is returned.
 
-Add a local_lock_t to the data structure and use
-local_lock_nested_bh() for locking. This change adds only lockdep
-coverage and does not alter the functional behaviour for !PREEMPT_RT.
+Avoid the race by disabling the recycle into the cache on PREEMPT_RT.
 
+Cc: Jesper Dangaard Brouer <hawk@kernel.org>
+Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/core/dst_cache.c | 30 +++++++++++++++++++++++++++---
- 1 file changed, 27 insertions(+), 3 deletions(-)
+ net/core/page_pool.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/net/core/dst_cache.c b/net/core/dst_cache.c
-index 70c634b9e7b02..93a04d18e5054 100644
---- a/net/core/dst_cache.c
-+++ b/net/core/dst_cache.c
-@@ -17,6 +17,7 @@
- struct dst_cache_pcpu {
- 	unsigned long refresh_ts;
- 	struct dst_entry *dst;
-+	local_lock_t bh_lock;
- 	u32 cookie;
- 	union {
- 		struct in_addr in_saddr;
-@@ -65,10 +66,15 @@ static struct dst_entry *dst_cache_per_cpu_get(struct d=
-st_cache *dst_cache,
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index 7745ad924ae2d..ba8803c2c0b20 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -805,6 +805,10 @@ static bool page_pool_napi_local(const struct page_poo=
+l *pool)
+ 	const struct napi_struct *napi;
+ 	u32 cpuid;
 =20
- struct dst_entry *dst_cache_get(struct dst_cache *dst_cache)
- {
-+	struct dst_entry *dst;
++	/* On PREEMPT_RT the softirq can be preempted by the consumer */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT))
++		return false;
 +
- 	if (!dst_cache->cache)
- 		return NULL;
+ 	if (unlikely(!in_softirq()))
+ 		return false;
 =20
--	return dst_cache_per_cpu_get(dst_cache, this_cpu_ptr(dst_cache->cache));
-+	local_lock_nested_bh(&dst_cache->cache->bh_lock);
-+	dst =3D dst_cache_per_cpu_get(dst_cache, this_cpu_ptr(dst_cache->cache));
-+	local_unlock_nested_bh(&dst_cache->cache->bh_lock);
-+	return dst;
- }
- EXPORT_SYMBOL_GPL(dst_cache_get);
-=20
-@@ -80,12 +86,16 @@ struct rtable *dst_cache_get_ip4(struct dst_cache *dst_=
-cache, __be32 *saddr)
- 	if (!dst_cache->cache)
- 		return NULL;
-=20
-+	local_lock_nested_bh(&dst_cache->cache->bh_lock);
- 	idst =3D this_cpu_ptr(dst_cache->cache);
- 	dst =3D dst_cache_per_cpu_get(dst_cache, idst);
--	if (!dst)
-+	if (!dst) {
-+		local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- 		return NULL;
-+	}
-=20
- 	*saddr =3D idst->in_saddr.s_addr;
-+	local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- 	return dst_rtable(dst);
- }
- EXPORT_SYMBOL_GPL(dst_cache_get_ip4);
-@@ -98,9 +108,11 @@ void dst_cache_set_ip4(struct dst_cache *dst_cache, str=
-uct dst_entry *dst,
- 	if (!dst_cache->cache)
- 		return;
-=20
-+	local_lock_nested_bh(&dst_cache->cache->bh_lock);
- 	idst =3D this_cpu_ptr(dst_cache->cache);
- 	dst_cache_per_cpu_dst_set(idst, dst, 0);
- 	idst->in_saddr.s_addr =3D saddr;
-+	local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- }
- EXPORT_SYMBOL_GPL(dst_cache_set_ip4);
-=20
-@@ -113,10 +125,13 @@ void dst_cache_set_ip6(struct dst_cache *dst_cache, s=
-truct dst_entry *dst,
- 	if (!dst_cache->cache)
- 		return;
-=20
-+	local_lock_nested_bh(&dst_cache->cache->bh_lock);
-+
- 	idst =3D this_cpu_ptr(dst_cache->cache);
- 	dst_cache_per_cpu_dst_set(idst, dst,
- 				  rt6_get_cookie(dst_rt6_info(dst)));
- 	idst->in6_saddr =3D *saddr;
-+	local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- }
- EXPORT_SYMBOL_GPL(dst_cache_set_ip6);
-=20
-@@ -129,12 +144,17 @@ struct dst_entry *dst_cache_get_ip6(struct dst_cache =
-*dst_cache,
- 	if (!dst_cache->cache)
- 		return NULL;
-=20
-+	local_lock_nested_bh(&dst_cache->cache->bh_lock);
-+
- 	idst =3D this_cpu_ptr(dst_cache->cache);
- 	dst =3D dst_cache_per_cpu_get(dst_cache, idst);
--	if (!dst)
-+	if (!dst) {
-+		local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- 		return NULL;
-+	}
-=20
- 	*saddr =3D idst->in6_saddr;
-+	local_unlock_nested_bh(&dst_cache->cache->bh_lock);
- 	return dst;
- }
- EXPORT_SYMBOL_GPL(dst_cache_get_ip6);
-@@ -142,10 +162,14 @@ EXPORT_SYMBOL_GPL(dst_cache_get_ip6);
-=20
- int dst_cache_init(struct dst_cache *dst_cache, gfp_t gfp)
- {
-+	unsigned int i;
-+
- 	dst_cache->cache =3D alloc_percpu_gfp(struct dst_cache_pcpu,
- 					    gfp | __GFP_ZERO);
- 	if (!dst_cache->cache)
- 		return -ENOMEM;
-+	for_each_possible_cpu(i)
-+		local_lock_init(&per_cpu_ptr(dst_cache->cache, i)->bh_lock);
-=20
- 	dst_cache_reset(dst_cache);
- 	return 0;
 --=20
 2.49.0
 
