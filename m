@@ -1,86 +1,140 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC2626989C;
-	Fri, 11 Apr 2025 19:44:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700132797A5;
+	Mon, 14 Apr 2025 13:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744400677; cv=none; b=pj8NWjuJBscqim5tp1IM4260IfwpCOt3CZru1ArIzK98M+UAPuNhVX2ZRffASNa7ec67VSWk3UXonDQ7P0btcI14fxgtn8Jr1stalAc7oMByuAGoQViNKYoPhfnDjoEKvnonJYq9l6whcbcFf8tpC7JiglmYCxPTIULNDGE39Fg=
+	t=1744637240; cv=none; b=q8KHC7IFFTOVBU3R8rYTHWY9KVsjv1RcggZkX4ZXVHW4qoIWpxQupGcjvoTKMng2Zugmk3bXbG/1OoP9BT/QI1WKjxM0Gc/yvuz48z1FXMXfBc5LnTFBETPtkqfNJBTGA6rP0E+vLkTqNACA4FFTFACRVeIc8sN/SFYVm7bDAik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744400677; c=relaxed/simple;
-	bh=/6v0zw5ak3f/ZZAspKY370OySndK9g5vXV6fKod9kqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M2WKVHZfkA2BQyQJMPGhw3hAJ1t6F7QHYhvFYoDWvvNmbs2ZVK2tOiQBR4agS/ehCddlqEN2LumdhRCuaA8qBHFmhhAGMFuncmMBzYypAlxnO7R8wMyilTz+p4L8XZai945KKAPke3UHMgkQkOzJyhC7DwtXVSUf+K2jm+nVbTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gYSS4ir0; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Vz9n5VFg; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1744637240; c=relaxed/simple;
+	bh=4svC9INyguofWsdgadBB7hLQqTI40i+p/zHVd+LXfJo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TNXheGJxX2VBIeJEZYIo0kiuDXxDWR6gvfrPkZAnpLE8lhxSTjlsZrf4Uy4/2xXawMATxRmexrdSP4P39j/dicL2W5YDNUlcRDoV3FBEs00BnfiD422KjSZllTjQeo3oP+7/wPIqVLQF72Klj0QEUuHn2LZs1QAUxt6KlyAa39s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmb1Dnfh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gYSS4ir0";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vz9n5VFg"
-Date: Fri, 11 Apr 2025 21:44:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744400674;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xQs9wonNrxU6bloYlGrlPFmXTxtcyoPcHDbYs2ntwY0=;
-	b=gYSS4ir06p+cjhF8LTpR/CTZI1da3QrVO1s2oJcbS7SfkgIm8F4I4JNpGTu44mjgFlsFlV
-	UXbC5lbZ9S/KbNMuf3WJjqOgVmZynbvryab3nbbmYQ/JHzLTy1ZgX/ctbW/ozRCDFBphBt
-	8t7BTuXNxYea0vxfQJE98V1HtBnbhBEA+4p7nzaJpOoY4iQoLp8ngnX5o7emsnejSYsxGD
-	7eAGsYydPE0iVZyTM17soX88UbPTbNI8ubwBCBKGkS6kLIgEg0AVJBRadU9OZ7rQxHjx4G
-	S1yun29iElBaEDp62KWinjAxJFSPynrJkS8jJ67eh2lvtZZcZAvF1w9Jep13VQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744400674;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xQs9wonNrxU6bloYlGrlPFmXTxtcyoPcHDbYs2ntwY0=;
-	b=Vz9n5VFgohqys4/KOB3Jlp1CimyZROTd1PaEn5DZ3D3tuwd7B8SpRbkCnPda5PEmQXPb1K
-	5+Uuzgq3K3ozP4BA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Gustavo Padovan <gus@collabora.com>
-Cc: kernelci <kernelci@lists.linux.dev>,
-	linux-rt-devel <linux-rt-devel@lists.linux.dev>,
-	stable-rt <stable-rt@vger.kernel.org>,
-	Daniel Wagner <wagi@monom.org>
-Subject: Re: PREEMPT_RT testing on kernelci
-Message-ID: <20250411194432.pwc6U7Ds@linutronix.de>
-References: <20250211090511.xeFJVnH_@linutronix.de>
- <194f4c989de.bdd18d3279996.2067896388251039576@collabora.com>
- <20250211152018.sK91dh93@linutronix.de>
- <194f5b4b029.e5ee4014194612.536900249866001318@collabora.com>
- <20250213085256.nhWptGL3@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmb1Dnfh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DB66C4CEE9;
+	Mon, 14 Apr 2025 13:27:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744637240;
+	bh=4svC9INyguofWsdgadBB7hLQqTI40i+p/zHVd+LXfJo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Pmb1Dnfh6XHfjJFdOUj0DWEnRMH7oWmYVD5lujwhTrl+3R6/uwK9Y1LNSTl2epg6L
+	 6EVj/jvthF2AnqyUvW3gWAkIk115lUSZJKQrLWd6jLoH6X+ukuVzcxwDgfsCuIVyZY
+	 lUDjm3q6yKI8cwdKNrCIJI3PKgDMzO2dPNpBKFovnXsvJ/NH9bUm+of8AtvU2a5juK
+	 56LyrtwDdc9mFqyDTGCbY7mweqXVfWi1Vd0DQQIppak2OZkfW7Y1BYGnoOfr2O34hp
+	 gThGGUAgKaYcwjtPTKf7TaKdn4IejDzQFj4yq+MzmDN1p7XnUR8SezoY1qop7C4A8F
+	 aGfMo+W7/kFeQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Borislav Petkov <bp@alien8.de>,
+	Chris Bainbridge <chris.bainbridge@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sasha Levin <sashal@kernel.org>,
+	anna-maria@linutronix.de,
+	frederic@kernel.org,
+	mingo@kernel.org,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.14 30/34] timekeeping: Add a lockdep override in tick_freeze()
+Date: Mon, 14 Apr 2025 09:26:06 -0400
+Message-Id: <20250414132610.677644-30-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250414132610.677644-1-sashal@kernel.org>
+References: <20250414132610.677644-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250213085256.nhWptGL3@linutronix.de>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.2
+Content-Transfer-Encoding: 8bit
 
-On 2025-02-13 09:52:56 [+0100], To Gustavo Padovan wrote:
-> On 2025-02-11 12:50:47 [-0300], Gustavo Padovan wrote:
-> > Hi Sebastian,
-Hi Gustavo,
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> > That is one the current limitations in the dashboard. The CI systems are not sending
-> > a clear signal yet that they completed all tests they wanted to run. They just submit
-> > test result individually as they get finished. 
-> > 
-> > Imo, it is a priority to fix this as it is second time this week I get this feedback.
-> 
-> Ah okay. No need to rush. If you have something to look at, let me know
-> and I will. Other than that I will lean back and wait for the bot to
-> complain ;)
-> 
-> Thank you.
+[ Upstream commit 92e250c624ea37fde64bfd624fd2556f0d846f18 ]
 
-any updates on this?
+tick_freeze() acquires a raw spinlock (tick_freeze_lock). Later in the
+callchain (timekeeping_suspend() -> mc146818_avoid_UIP()) the RTC driver
+acquires a spinlock which becomes a sleeping lock on PREEMPT_RT.  Lockdep
+complains about this lock nesting.
 
-> > Best,
-> > 
-> > - Gus
+Add a lockdep override for this special case and a comment explaining
+why it is okay.
 
-Sebastian
+Reported-by: Borislav Petkov <bp@alien8.de>
+Reported-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Link: https://lore.kernel.org/all/20250404133429.pnAzf-eF@linutronix.de
+Closes: https://lore.kernel.org/all/20250330113202.GAZ-krsjAnurOlTcp-@fat_crate.local/
+Closes: https://lore.kernel.org/all/CAP-bSRZ0CWyZZsMtx046YV8L28LhY0fson2g4EqcwRAVN1Jk+Q@mail.gmail.com/
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ kernel/time/tick-common.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/kernel/time/tick-common.c b/kernel/time/tick-common.c
+index a47bcf71defcf..9a3859443c042 100644
+--- a/kernel/time/tick-common.c
++++ b/kernel/time/tick-common.c
+@@ -509,6 +509,7 @@ void tick_resume(void)
+ 
+ #ifdef CONFIG_SUSPEND
+ static DEFINE_RAW_SPINLOCK(tick_freeze_lock);
++static DEFINE_WAIT_OVERRIDE_MAP(tick_freeze_map, LD_WAIT_SLEEP);
+ static unsigned int tick_freeze_depth;
+ 
+ /**
+@@ -528,9 +529,22 @@ void tick_freeze(void)
+ 	if (tick_freeze_depth == num_online_cpus()) {
+ 		trace_suspend_resume(TPS("timekeeping_freeze"),
+ 				     smp_processor_id(), true);
++		/*
++		 * All other CPUs have their interrupts disabled and are
++		 * suspended to idle. Other tasks have been frozen so there
++		 * is no scheduling happening. This means that there is no
++		 * concurrency in the system at this point. Therefore it is
++		 * okay to acquire a sleeping lock on PREEMPT_RT, such as a
++		 * spinlock, because the lock cannot be held by other CPUs
++		 * or threads and acquiring it cannot block.
++		 *
++		 * Inform lockdep about the situation.
++		 */
++		lock_map_acquire_try(&tick_freeze_map);
+ 		system_state = SYSTEM_SUSPEND;
+ 		sched_clock_suspend();
+ 		timekeeping_suspend();
++		lock_map_release(&tick_freeze_map);
+ 	} else {
+ 		tick_suspend_local();
+ 	}
+@@ -552,8 +566,16 @@ void tick_unfreeze(void)
+ 	raw_spin_lock(&tick_freeze_lock);
+ 
+ 	if (tick_freeze_depth == num_online_cpus()) {
++		/*
++		 * Similar to tick_freeze(). On resumption the first CPU may
++		 * acquire uncontended sleeping locks while other CPUs block on
++		 * tick_freeze_lock.
++		 */
++		lock_map_acquire_try(&tick_freeze_map);
+ 		timekeeping_resume();
+ 		sched_clock_resume();
++		lock_map_release(&tick_freeze_map);
++
+ 		system_state = SYSTEM_RUNNING;
+ 		trace_suspend_resume(TPS("timekeeping_freeze"),
+ 				     smp_processor_id(), false);
+-- 
+2.39.5
+
