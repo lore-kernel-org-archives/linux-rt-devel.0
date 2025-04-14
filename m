@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7AE3284697
-	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Apr 2025 16:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85941284682
+	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Apr 2025 16:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744646898; cv=none; b=Ao/kpFz6D4cNjObYX/g2dFlu0mfGh1RVYPJ3bG2sMn661RZ81+Ei5TPDEAO2DOrCr3UHgpeG68Oscw6FkeI5Ysmiqwm6eAW4cCDCGGHmI65yJUW1wMyxGFkchOkYw9GT9nZRKsUhhmPihMsc6Jz7pPFLDb81ISrSMkLHG8nuT34=
+	t=1744646898; cv=none; b=kt+8IVEHoq68laSkxVTS67bZfKjg9IogfnIIWEWTjI2CEXrjJI0f+YTwkcBotfnSC5koZyFEHkBfdkdyKewMtWfPmSQaAjr2l6vEAX88aT+QovBIyr1lJKUsCEW6S4i+tSSkOcZ39vF1W5zVha1kfK3ZqoPFu2oSeHmJMNDfIzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744646898; c=relaxed/simple;
-	bh=zrHr0oIdmFVvuqReRS6A1Vk8JfCJLTqEyMuMgmRm85A=;
+	bh=BzPUhbmNkCopiV7ExEaARyd19Lxmn+Cz6wHFBLAR19M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1HaPTgpMq2QAKofJzniY/5IurJTL4KyP35DFqRDTJhO810m0NWalbM/xJKtKbX05GufmODomR8DD8W72FQp8tt2AeoEcRqIagAQvqpi1uhx3h8LmVGxbm3cUCndlbeQiHrQw+fONQN7Rm88wu17ip6+G0C/7N9XN4FFTcyKjNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=u0p8o9lS; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7o7XSzmx; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=kqwWGraro8s3WqNpPcqE4zHaScyeQfI23LxTY1aUdZK/+AZz9C1G/bD59ARkTkaFWjS1XMJSZQnenhLrFAgHtYJdDmPAkOoF3qAOgANRsnBlBwR9Et61JeLj5Syu52x6jIAt/szJ5ZCGJr9DTVrhxAGwZ1XV2jebKcEPI1CkMd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xznkeN2B; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ieAmgZar; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="u0p8o9lS";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7o7XSzmx"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xznkeN2B";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ieAmgZar"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744646893;
+	s=2020; t=1744646891;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ItheQOXN0W8/U3eIeVElS1GMGBEBaL1p1NvXJGWnpLY=;
-	b=u0p8o9lSr8QSW5yjQvmHEHfTLSQ1cjSD+GMUHGAjsBaSkMiQkBGTW7BNgndXGSbM6pM/X6
-	2IMKASyTEQCszA3vfJnT6DNIudR/ZUMrAGnTZIzgzQZ5eJ5Yk90K505ZUFZzU0hJvYqChz
-	9Q9Ig/wkZBonYfl/+gHJsVTjii0D6j55TJ/cg5+D9XT9fVpsjpTObP0FztPx4+ww099oCA
-	spvOXQ4V/a9g33xyilwEH0JQ1XfmQbMQBPTo3RQASib2GXQYLqrpEjOQeD1YEkb+S2w9rV
-	uXO18WEVwYZQDNXN9M9spuYkQpOTtr8uKIrJHCkQ4zD6C+XMcU9/KOP30FcK1w==
+	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
+	b=xznkeN2B3XUXg5nweocrSXjym30+WfhTKOmM8uHFxF7N1LH3pa0+772EsAY2fhjMc5CdT7
+	PH6sMTCxn1Al2Ia1uV8T5lOIlyFSp25Qn/NnR3B2NX8fZ+3XFmRXDStBTC3S5cts29YUqt
+	MGxXjPPDi4LFqmvx0o9cF66RlbVW+0jAaupZWA2pg1Rvy9DmOif4Vx103DawXlnOugK/uj
+	WHiCm6nF4/WLJZk9EbLIPuDKc+m76UVvxAC+KY48AClTJAnKbwmpMxqqiXHamaNBhEU+Ds
+	vjLTZL00FBSTx8b+366o6qkQonTOg2GuDnogDb5tYrsP8ersxKEJsJUUb77WdQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744646893;
+	s=2020e; t=1744646891;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ItheQOXN0W8/U3eIeVElS1GMGBEBaL1p1NvXJGWnpLY=;
-	b=7o7XSzmxcMa4Pl4d2mBEf53ukv6SKPSmNrSfSxM8hpIuh7VZeUsncz6fKPrHDz3PMpnjKz
-	n216a2vVAgUR8dAg==
+	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
+	b=ieAmgZarw0KXWrrRlhqJB/XN1eVwVNpHuBbi/ojp/YRn7LgxNLQywS5APxYLGrb/UnMDHh
+	aV9iwtEj40yXVhCA==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,12 +48,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Subject: [PATCH net-next v2 13/18] net/sched: act_mirred: Move the recursion counter struct netdev_xmit
-Date: Mon, 14 Apr 2025 18:07:49 +0200
-Message-ID: <20250414160754.503321-14-bigeasy@linutronix.de>
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [PATCH net-next v2 09/18] xfrm: Use nested-BH locking for nat_keepalive_sk_ipv[46]
+Date: Mon, 14 Apr 2025 18:07:45 +0200
+Message-ID: <20250414160754.503321-10-bigeasy@linutronix.de>
 In-Reply-To: <20250414160754.503321-1-bigeasy@linutronix.de>
 References: <20250414160754.503321-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -64,91 +63,114 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+nat_keepalive_sk_ipv[46] is a per-CPU variable and relies on disabled BH
+for its locking. Without per-CPU locking in local_bh_disable() on
+PREEMPT_RT this data structure requires explicit locking.
 
-Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
+Use sock_bh_locked which has a sock pointer and a local_lock_t. Use
+local_lock_nested_bh() for locking. This change adds only lockdep
+coverage and does not alter the functional behaviour for !PREEMPT_RT.
 
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Cong Wang <xiyou.wangcong@gmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice_xmit.h |  3 +++
- net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ net/xfrm/xfrm_nat_keepalive.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 3bbbc1a9860a3..4793ec42b1faa 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -11,6 +11,9 @@ struct netdev_xmit {
- #if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
- 	u8 nf_dup_skb_recursion;
+diff --git a/net/xfrm/xfrm_nat_keepalive.c b/net/xfrm/xfrm_nat_keepalive.c
+index 82f0a301683f0..ebf95d48e86c1 100644
+--- a/net/xfrm/xfrm_nat_keepalive.c
++++ b/net/xfrm/xfrm_nat_keepalive.c
+@@ -9,9 +9,13 @@
+ #include <net/ip6_checksum.h>
+ #include <net/xfrm.h>
+=20
+-static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv4);
++static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv4) =3D {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
+ #if IS_ENABLED(CONFIG_IPV6)
+-static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv6);
++static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv6) =3D {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
  #endif
-+#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-+	u8 sched_mirred_nest;
-+#endif
- };
 =20
- #endif
-diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
-index 5b38143659249..5f01f567c934d 100644
---- a/net/sched/act_mirred.c
-+++ b/net/sched/act_mirred.c
-@@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
- static DEFINE_SPINLOCK(mirred_list_lock);
+ struct nat_keepalive {
+@@ -56,10 +60,12 @@ static int nat_keepalive_send_ipv4(struct sk_buff *skb,
 =20
- #define MIRRED_NEST_LIMIT    4
--static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
-+
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	__this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+#else
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return current->net_xmit.sched_mirred_nest++;
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	current->net_xmit.sched_mirred_nest--;
-+}
-+#endif
+ 	skb_dst_set(skb, &rt->dst);
 =20
- static bool tcf_mirred_is_act_redirect(int action)
- {
-@@ -423,7 +445,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 	int m_eaction;
- 	u32 blockid;
-=20
--	nest_level =3D __this_cpu_inc_return(mirred_nest_level);
-+	nest_level =3D tcf_mirred_nest_level_inc_return();
- 	if (unlikely(nest_level > MIRRED_NEST_LIMIT)) {
- 		net_warn_ratelimited("Packet exceeded mirred recursion limit on dev %s\n=
-",
- 				     netdev_name(skb->dev));
-@@ -454,7 +476,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 				   retval);
-=20
- dec_nest_level:
--	__this_cpu_dec(mirred_nest_level);
-+	tcf_mirred_nest_level_dec();
-=20
- 	return retval;
+-	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv4);
++	local_lock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
++	sk =3D this_cpu_read(nat_keepalive_sk_ipv4.sock);
+ 	sock_net_set(sk, net);
+ 	err =3D ip_build_and_send_pkt(skb, sk, fl4.saddr, fl4.daddr, NULL, tos);
+ 	sock_net_set(sk, &init_net);
++	local_unlock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
+ 	return err;
  }
+=20
+@@ -89,15 +95,19 @@ static int nat_keepalive_send_ipv6(struct sk_buff *skb,
+ 	fl6.fl6_sport =3D ka->encap_sport;
+ 	fl6.fl6_dport =3D ka->encap_dport;
+=20
+-	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv6);
++	local_lock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
++	sk =3D this_cpu_read(nat_keepalive_sk_ipv6.sock);
+ 	sock_net_set(sk, net);
+ 	dst =3D ipv6_stub->ipv6_dst_lookup_flow(net, sk, &fl6, NULL);
+-	if (IS_ERR(dst))
++	if (IS_ERR(dst)) {
++		local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
+ 		return PTR_ERR(dst);
++	}
+=20
+ 	skb_dst_set(skb, dst);
+ 	err =3D ipv6_stub->ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
+ 	sock_net_set(sk, &init_net);
++	local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
+ 	return err;
+ }
+ #endif
+@@ -202,7 +212,7 @@ static void nat_keepalive_work(struct work_struct *work)
+ 				      (ctx.next_run - ctx.now) * HZ);
+ }
+=20
+-static int nat_keepalive_sk_init(struct sock * __percpu *socks,
++static int nat_keepalive_sk_init(struct sock_bh_locked __percpu *socks,
+ 				 unsigned short family)
+ {
+ 	struct sock *sk;
+@@ -214,22 +224,22 @@ static int nat_keepalive_sk_init(struct sock * __perc=
+pu *socks,
+ 		if (err < 0)
+ 			goto err;
+=20
+-		*per_cpu_ptr(socks, i) =3D sk;
++		per_cpu_ptr(socks, i)->sock =3D sk;
+ 	}
+=20
+ 	return 0;
+ err:
+ 	for_each_possible_cpu(i)
+-		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
++		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
+ 	return err;
+ }
+=20
+-static void nat_keepalive_sk_fini(struct sock * __percpu *socks)
++static void nat_keepalive_sk_fini(struct sock_bh_locked __percpu *socks)
+ {
+ 	int i;
+=20
+ 	for_each_possible_cpu(i)
+-		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
++		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
+ }
+=20
+ void xfrm_nat_keepalive_state_updated(struct xfrm_state *x)
 --=20
 2.49.0
 
