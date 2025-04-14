@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159EB2BCF73;
-	Mon, 14 Apr 2025 13:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737392D11AF;
+	Mon, 14 Apr 2025 13:30:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637389; cv=none; b=V4m1aGBPTqvxxkIWdi1YUifAtjKh5Mq6S809d+f5pfdCZRRyN49LKaZ4hl0keA4lA+M3Aq84p76GPEFQcrnivM9+x6Jjo+7+0yeyLBysNHtm+Ex9qMsZHPbxAyUZiAsw3UWOQxzt+YceU3tqEJf59W9wrhwMZgkLIwGuVDQa4uE=
+	t=1744637445; cv=none; b=Pxv/ch64i9qmQUNPd8YPljPwGZYyWn2ui5/b2FCvEC45faVswcLAsYCt4ZF9VSw5dwx4w/GR6TVa2sUUtAH3bOx+KyXj8c6w/RGZKRKpEr/rbGhwBhWxRyHh6U3jV4gDzNuczjZoQmCIydHeXWLXrjKSGeOWXdF6VjDNcUGuvS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637389; c=relaxed/simple;
-	bh=4svC9INyguofWsdgadBB7hLQqTI40i+p/zHVd+LXfJo=;
+	s=arc-20240116; t=1744637445; c=relaxed/simple;
+	bh=yT53AX2C1X/ZgjzklomnAalqFEUWrqd7TesYE3PPwMQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Ry1xm5u/OapBRmBuziaWXnlr98bhJZvnRAVJPbFMFlL+IWCgRhjJ9GZFToOW9tqEOvgiCRvQKQ6eHDTJgGaLyiT03LruZUQQDXcp51+OM/ZALtS+AKg8C3eHuvbQBUZ4Zb9zdSMjw2KYXzmpYANWbPoOXDtN04PQ2ol0xzHYEgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQtHuAZ8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=AquoCA2LZkyiO4tpHHl4JSWkwyy/FKhK2bNJIeNh+qBAqbLh1Bc1y9ptIJlSzmJkPfUfy++kxYEub2NCH9x0brO6LTa6X/WpfwdxknBig+ZJs5OlnyqhGKiu3RJaxaxupc0043Y0sscP27l4s0clNr/rCLjOq06ZB++MW+93YR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tc4ZCyDq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQtHuAZ8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11EF3C4CEE9;
-	Mon, 14 Apr 2025 13:29:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tc4ZCyDq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FBDC4CEE2;
+	Mon, 14 Apr 2025 13:30:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637388;
-	bh=4svC9INyguofWsdgadBB7hLQqTI40i+p/zHVd+LXfJo=;
+	s=k20201202; t=1744637443;
+	bh=yT53AX2C1X/ZgjzklomnAalqFEUWrqd7TesYE3PPwMQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kQtHuAZ8K/lAIKgGVmUmuQArjfNKJ/1ZO981ERX8VNwyzwzqpf298pOxHevICAS1D
-	 x5n4XPZ5yFZZs+pX0mcZkv+5OqGOIhw3OsGY+2Jam1rNBoqhgfgRnvHii7mihXKODJ
-	 oYxVa/uk7NNsIvPa398y6IsfaX/B9Lt3NIP8/vmVIbDN6siZSUGOFzNjbKFcaWwggR
-	 9kxGJ09Y5JbZzfLhQ4LpnTO6ess5S+968N78OPfrl+fV9jnSN+lAFQgkuL1Qc+pAYl
-	 wsFpiZpEN3M45bAKlUd9odvJCFi0B2oUz9OCUu1v88ZyMOQe8nOi3sFlmKqmno5PAf
-	 vPQ5aFZuJ9SMg==
+	b=Tc4ZCyDqEgcstzUSYXIF1GA5cTKmEPqPQHy1B/InMEJXub/jfYVd1wpshszlzuQZy
+	 i9LmOK9KMw3Nm9UnDOCZ1DiMPr+AsYYgzAc/VMdUVY4XT8SLRVB6TsWNM8e4ZaPuLy
+	 2zfFER++rkqnBM+nLMDIPmgSXpnmowSMcVi//sVE6CreZuJU5SEqTRSHeoWdg4QMwC
+	 oPw/GQ25TvzjtTvWVapUx/PSMDPrNTRnhj3y98ENYNhsu2rJF2ayO9jraWLpjexciJ
+	 D2Zm6eTbPmi6f89uVmEJhk8w17msl9TMwAxM9CaQBcqW9KaoMjUBJ6dBgDTCxJIWN3
+	 nAw7Ge/66t7xA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,12 +41,12 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 26/30] timekeeping: Add a lockdep override in tick_freeze()
-Date: Mon, 14 Apr 2025 09:28:43 -0400
-Message-Id: <20250414132848.679855-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 22/24] timekeeping: Add a lockdep override in tick_freeze()
+Date: Mon, 14 Apr 2025 09:29:55 -0400
+Message-Id: <20250414132957.680250-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414132848.679855-1-sashal@kernel.org>
-References: <20250414132848.679855-1-sashal@kernel.org>
+In-Reply-To: <20250414132957.680250-1-sashal@kernel.org>
+References: <20250414132957.680250-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.23
+X-stable-base: Linux 6.6.87
 Content-Transfer-Encoding: 8bit
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 22 insertions(+)
 
 diff --git a/kernel/time/tick-common.c b/kernel/time/tick-common.c
-index a47bcf71defcf..9a3859443c042 100644
+index 7f2b17fc8ce40..ecdb8c2b2cab2 100644
 --- a/kernel/time/tick-common.c
 +++ b/kernel/time/tick-common.c
-@@ -509,6 +509,7 @@ void tick_resume(void)
+@@ -495,6 +495,7 @@ void tick_resume(void)
  
  #ifdef CONFIG_SUSPEND
  static DEFINE_RAW_SPINLOCK(tick_freeze_lock);
@@ -95,7 +95,7 @@ index a47bcf71defcf..9a3859443c042 100644
  static unsigned int tick_freeze_depth;
  
  /**
-@@ -528,9 +529,22 @@ void tick_freeze(void)
+@@ -514,9 +515,22 @@ void tick_freeze(void)
  	if (tick_freeze_depth == num_online_cpus()) {
  		trace_suspend_resume(TPS("timekeeping_freeze"),
  				     smp_processor_id(), true);
@@ -118,7 +118,7 @@ index a47bcf71defcf..9a3859443c042 100644
  	} else {
  		tick_suspend_local();
  	}
-@@ -552,8 +566,16 @@ void tick_unfreeze(void)
+@@ -538,8 +552,16 @@ void tick_unfreeze(void)
  	raw_spin_lock(&tick_freeze_lock);
  
  	if (tick_freeze_depth == num_online_cpus()) {
