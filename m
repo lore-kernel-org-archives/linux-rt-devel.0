@@ -1,106 +1,208 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B999C29A3C8
-	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Apr 2025 15:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D2C946F
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Apr 2025 16:26:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744730086; cv=none; b=QAXx8S+fbLfIkdscN9TdLrOneOfTUvy4xp19E4Nl0rNxLRmlnDYwmMePeY7drX7wPFKH1TMfuSKATg5nNZ6Zp+AKjXS+2Um0cURTtMSThTg7Ve7iyn3Hp73hzk+SMyL56s2Z33Dnu27T+DFryLmPDU/KDIRrE+0jqx4RuPVzwgY=
+	t=1744734400; cv=none; b=rxoFFNz/PDgUVWAy5tIozPx0ug8QfUFLJiiIUm5wTwz0nWFCrhH2qDyJZbYFSTaZWuQP/HOtH2rd/e52h74xoM50se2B8Y5TdOZj5CdpTAFpmzM1J6mB+Muhw3LJQ98nnz4NOQg3jzig5m0ZxxEjgqLdwU1wnh611iTFV2x2iuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744730086; c=relaxed/simple;
-	bh=pql42fK8UCTE0I0nkDe1tqu9cxQr+xVYTV5n2ksdEtU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5UbvHhL6dABtiboWNrOg2IhSryHcfqq/6KNR2rWFVAyfjbbjerL/dJYkuC46Olk4P4EH3NRCBCVD5B8JXxv5C464ZIAlTkAubZXxVHL0U6yDr4AnAuQ4jpapLkWChZ+yKPhFjazCVbk/0QCxoKJ5baAk7DDcbRdaWvWHLHvZJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=oniKxiyi; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=rsd3q83N; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+	s=arc-20240116; t=1744734400; c=relaxed/simple;
+	bh=Ecx2E8Qv1YxpBOd6fr3EdPQkzR19k2SUX06TQq+HJA8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JABGt8+gtKcxn/BVIKcf1YGXfYfsZ62TWgWiDI1ezh9YOugYEOGD11jOD4hX0hZ0c87ncHv1A65FhQFE76ZbJXBKdab3zdeST3bww6PqoJL3U8hEePGU0vOpOqyoEcqtmZLXWj4xhCI4KNmif33ZhSAGCrH1/eT+MTuiV9Qm5Eo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TWI6KNXr; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="oniKxiyi";
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="rsd3q83N"
-Received: by mail.netfilter.org (Postfix, from userid 109)
-	id 168ED60BBC; Tue, 15 Apr 2025 17:14:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1744730083;
-	bh=K4BwkSwDsYNBSLJ98AleykATE+jvX4fcmUD9asazRcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oniKxiyiFW4LL45kFq9YnRgyz9Df5SejQajeJkjQ6XuHCgSsmaomFHjJjLCKxy3pr
-	 PJHS+zwyV7vwPeyzpW3YUksVHdpRfoXNkpUT5crPlNNjEc8/RpbUz6m5EKUI/+1LKZ
-	 uR7HjoOsq5q11NePaC7AKiGT9DWhcLbJOaQx3eoldrwOnx7akTkdp1sYHJ1E1mAsoX
-	 ZLlyWVLshgzZZvUftQT4Acn9KABXDvDihmq6HU7R3m80BBMeUhXokmcrTdJ2h2g4lR
-	 58V3kLS/EfaP3Sh8cuJOBqfn5VpRj7VObmfo4CmPdhqCTNw+jIDseeHrnR+9/gtks9
-	 2FRn+pvqxr4eg==
-X-Spam-Level: 
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with ESMTPSA id AAE8060BB4;
-	Tue, 15 Apr 2025 17:14:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1744730081;
-	bh=K4BwkSwDsYNBSLJ98AleykATE+jvX4fcmUD9asazRcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rsd3q83NT1OzTmBEQOTFQRcnsyb9m9l8KFMA4ZyoyVusYuS9GkpbSqh3imA2n+zSE
-	 qgTGAR5+DP74pjLf6MZt3nowLCDWtXvyNpPKP9dUL5ynhKk1cs0KNX45sN4gW88Fdi
-	 X0oXcDesDC2p+siM/hHicZKlb3ttUVdB4fS5rfBNTf77Zp9XWUdY9Z5b3kmDULetE3
-	 A606zx5AQbt+XJNW60GfaZSQJt8AcoZS/ERm6pOBbCin+Zf59WMkZiM24e5roNgzCA
-	 leomZ/vamUeu6k8D4jKKLEYGr+S88iik4U7ntjNj5/ICxOZJ76AbaRdq3ajfr7OuVv
-	 etVywzZLeC42w==
-Date: Tue, 15 Apr 2025 17:14:39 +0200
-From: Pablo Neira Ayuso <pablo@netfilter.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TWI6KNXr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744734396;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YYp/FjE/Zl3CgCYwBLXeVS/jejb255JAZD9BteBawL4=;
+	b=TWI6KNXrIGM+RnyZ9ZYUHbVsmmUeISYSTtxpzGEVbuRxLrSEzgK4sPE1vReksjLRburghV
+	LIm+I4jVHSEYY778sWeyJnRHGSYw9ya5b1MHvGz59BnaGjzzOYyEsbg/8srQsglgyi2InX
+	bpIrgEt9vo3nnroNkqAW4BE0JkCxJyU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-KRlL5dWRN2GejVf7s3zmBA-1; Tue,
+ 15 Apr 2025 12:26:30 -0400
+X-MC-Unique: KRlL5dWRN2GejVf7s3zmBA-1
+X-Mimecast-MFC-AGG-ID: KRlL5dWRN2GejVf7s3zmBA_1744734389
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9B15D1868034;
+	Tue, 15 Apr 2025 16:26:18 +0000 (UTC)
+Received: from RHTRH0061144 (unknown [10.22.64.251])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8E82619560AD;
+	Tue, 15 Apr 2025 16:26:15 +0000 (UTC)
+From: Aaron Conole <aconole@redhat.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev, Florian Westphal <fw@strlen.de>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v4] netfilter: Exclude LEGACY TABLES on PREEMPT_RT.
-Message-ID: <Z_5335rrIYsyVq6E@calendula>
-References: <20250404152815.LilZda0r@linutronix.de>
+Cc: netdev@vger.kernel.org,  linux-rt-devel@lists.linux.dev,  "David S.
+ Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>,  Simon
+ Horman <horms@kernel.org>,  Thomas Gleixner <tglx@linutronix.de>,  Eelco
+ Chaudron <echaudro@redhat.com>,  Ilya Maximets <i.maximets@ovn.org>,
+  dev@openvswitch.org
+Subject: Re: [PATCH net-next v2 12/18] openvswitch: Move
+ ovs_frag_data_storage into the struct ovs_pcpu_storage
+In-Reply-To: <20250414160754.503321-13-bigeasy@linutronix.de> (Sebastian
+	Andrzej Siewior's message of "Mon, 14 Apr 2025 18:07:48 +0200")
+References: <20250414160754.503321-1-bigeasy@linutronix.de>
+	<20250414160754.503321-13-bigeasy@linutronix.de>
+Date: Tue, 15 Apr 2025 12:26:13 -0400
+Message-ID: <f7tbjsxfl22.fsf@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250404152815.LilZda0r@linutronix.de>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-On Fri, Apr 04, 2025 at 05:28:15PM +0200, Sebastian Andrzej Siewior wrote:
-> From: Pablo Neira Ayuso <pablo@netfilter.org>
-> 
-> The seqcount xt_recseq is used to synchronize the replacement of
-> xt_table::private in xt_replace_table() against all readers such as
-> ipt_do_table()
-> 
-> To ensure that there is only one writer, the writing side disables
-> bottom halves. The sequence counter can be acquired recursively. Only the
-> first invocation modifies the sequence counter (signaling that a writer
-> is in progress) while the following (recursive) writer does not modify
-> the counter.
-> The lack of a proper locking mechanism for the sequence counter can lead
-> to live lock on PREEMPT_RT if the high prior reader preempts the
-> writer. Additionally if the per-CPU lock on PREEMPT_RT is removed from
-> local_bh_disable() then there is no synchronisation for the per-CPU
-> sequence counter.
-> 
-> The affected code is "just" the legacy netfilter code which is replaced
-> by "netfilter tables". That code can be disabled without sacrificing
-> functionality because everything is provided by the newer
-> implementation. This will only requires the usage of the "-nft" tools
-> instead of the "-legacy" ones.
-> The long term plan is to remove the legacy code so lets accelerate the
-> progress.
-> 
-> Relax dependencies on iptables legacy, replace select with depends on,
-> this should cause no harm to existing kernel configs and users can still
-> toggle IP{6}_NF_IPTABLES_LEGACY in any case.
-> Make EBTABLES_LEGACY, IPTABLES_LEGACY and ARPTABLES depend on
-> NETFILTER_LEGACY. Hide xt_recseq and its users, xt_register_table() and
-> xt_percpu_counter_alloc() behind NETFILTER_LEGACY. Let NETFILTER_LEGACY
-> depend on !PREEMPT_RT.
-> 
-> Replace CONFIG_IP6_NF_MANGLE->CONFIG_IP6_NF_IPTABLES for TCPOPTSTRIP and
-> add CONFIG_NFT_COMPAT_ARP to the MARK target for the IPv6 and ARP target
-> to keep it enabled without the LEGACY code for NFT.
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
 
-Applied to nf-next.
+> ovs_frag_data_storage is a per-CPU variable and relies on disabled BH for its
+> locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
+> this data structure requires explicit locking.
+>
+> Move ovs_frag_data_storage into the struct ovs_pcpu_storage which already
+> provides locking for the structure.
+>
+> Cc: Aaron Conole <aconole@redhat.com>
+> Cc: Eelco Chaudron <echaudro@redhat.com>
+> Cc: Ilya Maximets <i.maximets@ovn.org>
+> Cc: dev@openvswitch.org
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
 
-Thanks for keeping me as author, I don't deserve it.
+I'm going to reply here, but I need to bisect a bit more (though I
+suspect the results below are due to 11/18).  When I tested with this
+patch there were lots of "unexplained" latency spikes during processing
+(note, I'm not doing PREEMPT_RT in my testing, but I guess it would
+smooth the spikes out at the cost of max performance).
+
+With the series:
+[SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec  9417             sender
+[SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec                  receiver
+
+Without the series:
+[SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec  149             sender
+[SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec                  receiver
+
+And while the 'final' numbers might look acceptable, one thing I'll note
+is I saw multiple stalls as:
+
+[  5]  57.00-58.00  sec   128 KBytes   903 Kbits/sec    0   4.02 MBytes
+
+But without the patch, I didn't see such stalls.  My testing:
+
+1. Install openvswitch userspace and ipcalc
+2. start userspace.
+3. Setup two netns and connect them (I have a more complicated script to
+   set up the flows, and I can send that to you)
+4. Use iperf3 to test (-P5 -t 300)
+
+As I wrote I suspect the locking in 11 is leading to these stalls, as
+the data I'm sending shouldn't be hitting the frag path.
+
+Do these results seem expected to you?
+
+>  net/openvswitch/actions.c  | 20 ++------------------
+>  net/openvswitch/datapath.h | 16 ++++++++++++++++
+>  2 files changed, 18 insertions(+), 18 deletions(-)
+>
+> diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
+> index f4996c11aefac..4d20eadd77ceb 100644
+> --- a/net/openvswitch/actions.c
+> +++ b/net/openvswitch/actions.c
+> @@ -39,22 +39,6 @@
+>  #include "flow_netlink.h"
+>  #include "openvswitch_trace.h"
+>  
+> -#define MAX_L2_LEN	(VLAN_ETH_HLEN + 3 * MPLS_HLEN)
+> -struct ovs_frag_data {
+> -	unsigned long dst;
+> -	struct vport *vport;
+> -	struct ovs_skb_cb cb;
+> -	__be16 inner_protocol;
+> -	u16 network_offset;	/* valid only for MPLS */
+> -	u16 vlan_tci;
+> -	__be16 vlan_proto;
+> -	unsigned int l2_len;
+> -	u8 mac_proto;
+> -	u8 l2_data[MAX_L2_LEN];
+> -};
+> -
+> -static DEFINE_PER_CPU(struct ovs_frag_data, ovs_frag_data_storage);
+> -
+>  DEFINE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage) = {
+>  	.bh_lock = INIT_LOCAL_LOCK(bh_lock),
+>  };
+> @@ -771,7 +755,7 @@ static int set_sctp(struct sk_buff *skb, struct sw_flow_key *flow_key,
+>  static int ovs_vport_output(struct net *net, struct sock *sk,
+>  			    struct sk_buff *skb)
+>  {
+> -	struct ovs_frag_data *data = this_cpu_ptr(&ovs_frag_data_storage);
+> +	struct ovs_frag_data *data = this_cpu_ptr(&ovs_pcpu_storage.frag_data);
+>  	struct vport *vport = data->vport;
+>  
+>  	if (skb_cow_head(skb, data->l2_len) < 0) {
+> @@ -823,7 +807,7 @@ static void prepare_frag(struct vport *vport, struct sk_buff *skb,
+>  	unsigned int hlen = skb_network_offset(skb);
+>  	struct ovs_frag_data *data;
+>  
+> -	data = this_cpu_ptr(&ovs_frag_data_storage);
+> +	data = this_cpu_ptr(&ovs_pcpu_storage.frag_data);
+>  	data->dst = skb->_skb_refdst;
+>  	data->vport = vport;
+>  	data->cb = *OVS_CB(skb);
+> diff --git a/net/openvswitch/datapath.h b/net/openvswitch/datapath.h
+> index 4a665c3cfa906..1b5348b0f5594 100644
+> --- a/net/openvswitch/datapath.h
+> +++ b/net/openvswitch/datapath.h
+> @@ -13,6 +13,7 @@
+>  #include <linux/skbuff.h>
+>  #include <linux/u64_stats_sync.h>
+>  #include <net/ip_tunnels.h>
+> +#include <net/mpls.h>
+>  
+>  #include "conntrack.h"
+>  #include "flow.h"
+> @@ -173,6 +174,20 @@ struct ovs_net {
+>  	bool xt_label;
+>  };
+>  
+> +#define MAX_L2_LEN	(VLAN_ETH_HLEN + 3 * MPLS_HLEN)
+> +struct ovs_frag_data {
+> +	unsigned long dst;
+> +	struct vport *vport;
+> +	struct ovs_skb_cb cb;
+> +	__be16 inner_protocol;
+> +	u16 network_offset;	/* valid only for MPLS */
+> +	u16 vlan_tci;
+> +	__be16 vlan_proto;
+> +	unsigned int l2_len;
+> +	u8 mac_proto;
+> +	u8 l2_data[MAX_L2_LEN];
+> +};
+> +
+>  struct deferred_action {
+>  	struct sk_buff *skb;
+>  	const struct nlattr *actions;
+> @@ -200,6 +215,7 @@ struct action_flow_keys {
+>  struct ovs_pcpu_storage {
+>  	struct action_fifo action_fifos;
+>  	struct action_flow_keys flow_keys;
+> +	struct ovs_frag_data frag_data;
+>  	int exec_level;
+>  	struct task_struct *owner;
+>  	local_lock_t bh_lock;
+
