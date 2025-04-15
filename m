@@ -1,122 +1,106 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B59328468A
-	for <linux-rt-devel@lists.linux.dev>; Mon, 14 Apr 2025 16:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B999C29A3C8
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Apr 2025 15:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744646900; cv=none; b=ErcP3Tlt4CtiRPesenVO89O0B01veSmRksXw2DnWgHNrzcrJW7g4PFq12YdUvcXc5wmAVUCNY6zVa8UzOz2mfkqtTcT+TFxRG+/CyIfSVvtHsXni7zpOB2HtxrIUUJmxYOyXt8DHpSeC7uBIZ1oqCAsukax2oSM08aZ7qCRX378=
+	t=1744730086; cv=none; b=QAXx8S+fbLfIkdscN9TdLrOneOfTUvy4xp19E4Nl0rNxLRmlnDYwmMePeY7drX7wPFKH1TMfuSKATg5nNZ6Zp+AKjXS+2Um0cURTtMSThTg7Ve7iyn3Hp73hzk+SMyL56s2Z33Dnu27T+DFryLmPDU/KDIRrE+0jqx4RuPVzwgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744646900; c=relaxed/simple;
-	bh=i0VNjcCRvdovrY3iCi7sMqjj1HF76Yz/3D8yI+89hSM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RNin57iSs0Wkd/sSGc1Ajm+/jKqeCNEFIvVO1ExldPBYZiH53o/kfxnEdPCNLYkMBntFy7V4bMFmSvNapXxbj3S6kLVo0HJx58eqlNUOjUaftzh/3SpsinQ/uS4YqRsJR4W6hgRlw3w+wEnzT7CjjapBqqshxegY3xoufPyEydo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dBrWaBKO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tPTXMfDd; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1744730086; c=relaxed/simple;
+	bh=pql42fK8UCTE0I0nkDe1tqu9cxQr+xVYTV5n2ksdEtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M5UbvHhL6dABtiboWNrOg2IhSryHcfqq/6KNR2rWFVAyfjbbjerL/dJYkuC46Olk4P4EH3NRCBCVD5B8JXxv5C464ZIAlTkAubZXxVHL0U6yDr4AnAuQ4jpapLkWChZ+yKPhFjazCVbk/0QCxoKJ5baAk7DDcbRdaWvWHLHvZJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=oniKxiyi; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=rsd3q83N; arc=none smtp.client-ip=217.70.190.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dBrWaBKO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tPTXMfDd"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744646895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nmddc0pDztofvgEdvZvBBZR6kgIdxTlNYioqcelkIOA=;
-	b=dBrWaBKOvIfDOKydkAX1TjXnLLAXGfZKl4h601pm66oyAaU2ezBPCNTNu4NPyNU+xOMA6J
-	D91mFnuA53jzRr+ja1xZBLXQ4fzWAAodLVnq2J5ZmiUGHXpEbXp2wYd4m4cKQgCn2q40ZS
-	VW0us5jMkX5hZrk4kLFbMBcsslKOWMYe+X5cvzhLfyw2mMfZ6KFRxTOxBnX7ZXI8IO0Y6T
-	1hXDH2FX7P1EwjZnyAf39x8e8650Uxhd8RCmOHRaUMwUFZp0lrXPzTe3IbyziICAhhraoZ
-	IcABUe+PMIBzpmCfJA4UEQ2gNe4PHe7VLAkOhYFhu0OoIJASwX9W96LsQnuRrA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744646895;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nmddc0pDztofvgEdvZvBBZR6kgIdxTlNYioqcelkIOA=;
-	b=tPTXMfDd3yTeGRXen6UR0X3vF4P4U0KQXBg7CWwG6FnA4+V/rL8bYdb4Qx94jitZW5xxFY
-	k/mEK8GfKnx0NoBg==
-To: netdev@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Allison Henderson <allison.henderson@oracle.com>,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next v2 17/18] rds: Acquire per-CPU pointer within BH disabled section
-Date: Mon, 14 Apr 2025 18:07:53 +0200
-Message-ID: <20250414160754.503321-18-bigeasy@linutronix.de>
-In-Reply-To: <20250414160754.503321-1-bigeasy@linutronix.de>
-References: <20250414160754.503321-1-bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="oniKxiyi";
+	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="rsd3q83N"
+Received: by mail.netfilter.org (Postfix, from userid 109)
+	id 168ED60BBC; Tue, 15 Apr 2025 17:14:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1744730083;
+	bh=K4BwkSwDsYNBSLJ98AleykATE+jvX4fcmUD9asazRcc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oniKxiyiFW4LL45kFq9YnRgyz9Df5SejQajeJkjQ6XuHCgSsmaomFHjJjLCKxy3pr
+	 PJHS+zwyV7vwPeyzpW3YUksVHdpRfoXNkpUT5crPlNNjEc8/RpbUz6m5EKUI/+1LKZ
+	 uR7HjoOsq5q11NePaC7AKiGT9DWhcLbJOaQx3eoldrwOnx7akTkdp1sYHJ1E1mAsoX
+	 ZLlyWVLshgzZZvUftQT4Acn9KABXDvDihmq6HU7R3m80BBMeUhXokmcrTdJ2h2g4lR
+	 58V3kLS/EfaP3Sh8cuJOBqfn5VpRj7VObmfo4CmPdhqCTNw+jIDseeHrnR+9/gtks9
+	 2FRn+pvqxr4eg==
+X-Spam-Level: 
+Received: from netfilter.org (mail-agni [217.70.190.124])
+	by mail.netfilter.org (Postfix) with ESMTPSA id AAE8060BB4;
+	Tue, 15 Apr 2025 17:14:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
+	s=2025; t=1744730081;
+	bh=K4BwkSwDsYNBSLJ98AleykATE+jvX4fcmUD9asazRcc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rsd3q83NT1OzTmBEQOTFQRcnsyb9m9l8KFMA4ZyoyVusYuS9GkpbSqh3imA2n+zSE
+	 qgTGAR5+DP74pjLf6MZt3nowLCDWtXvyNpPKP9dUL5ynhKk1cs0KNX45sN4gW88Fdi
+	 X0oXcDesDC2p+siM/hHicZKlb3ttUVdB4fS5rfBNTf77Zp9XWUdY9Z5b3kmDULetE3
+	 A606zx5AQbt+XJNW60GfaZSQJt8AcoZS/ERm6pOBbCin+Zf59WMkZiM24e5roNgzCA
+	 leomZ/vamUeu6k8D4jKKLEYGr+S88iik4U7ntjNj5/ICxOZJ76AbaRdq3ajfr7OuVv
+	 etVywzZLeC42w==
+Date: Tue, 15 Apr 2025 17:14:39 +0200
+From: Pablo Neira Ayuso <pablo@netfilter.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-rt-devel@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v4] netfilter: Exclude LEGACY TABLES on PREEMPT_RT.
+Message-ID: <Z_5335rrIYsyVq6E@calendula>
+References: <20250404152815.LilZda0r@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250404152815.LilZda0r@linutronix.de>
 
-rds_page_remainder_alloc() obtains the current CPU with get_cpu() while
-disabling preemption. Then the CPU number is used to access the per-CPU
-data structure via per_cpu().
+On Fri, Apr 04, 2025 at 05:28:15PM +0200, Sebastian Andrzej Siewior wrote:
+> From: Pablo Neira Ayuso <pablo@netfilter.org>
+> 
+> The seqcount xt_recseq is used to synchronize the replacement of
+> xt_table::private in xt_replace_table() against all readers such as
+> ipt_do_table()
+> 
+> To ensure that there is only one writer, the writing side disables
+> bottom halves. The sequence counter can be acquired recursively. Only the
+> first invocation modifies the sequence counter (signaling that a writer
+> is in progress) while the following (recursive) writer does not modify
+> the counter.
+> The lack of a proper locking mechanism for the sequence counter can lead
+> to live lock on PREEMPT_RT if the high prior reader preempts the
+> writer. Additionally if the per-CPU lock on PREEMPT_RT is removed from
+> local_bh_disable() then there is no synchronisation for the per-CPU
+> sequence counter.
+> 
+> The affected code is "just" the legacy netfilter code which is replaced
+> by "netfilter tables". That code can be disabled without sacrificing
+> functionality because everything is provided by the newer
+> implementation. This will only requires the usage of the "-nft" tools
+> instead of the "-legacy" ones.
+> The long term plan is to remove the legacy code so lets accelerate the
+> progress.
+> 
+> Relax dependencies on iptables legacy, replace select with depends on,
+> this should cause no harm to existing kernel configs and users can still
+> toggle IP{6}_NF_IPTABLES_LEGACY in any case.
+> Make EBTABLES_LEGACY, IPTABLES_LEGACY and ARPTABLES depend on
+> NETFILTER_LEGACY. Hide xt_recseq and its users, xt_register_table() and
+> xt_percpu_counter_alloc() behind NETFILTER_LEGACY. Let NETFILTER_LEGACY
+> depend on !PREEMPT_RT.
+> 
+> Replace CONFIG_IP6_NF_MANGLE->CONFIG_IP6_NF_IPTABLES for TCPOPTSTRIP and
+> add CONFIG_NFT_COMPAT_ARP to the MARK target for the IPv6 and ARP target
+> to keep it enabled without the LEGACY code for NFT.
 
-This can be optimized by relying on local_bh_disable() to provide a
-stable CPU number/ avoid migration and then using this_cpu_ptr() to
-retrieve the data structure.
+Applied to nf-next.
 
-Cc: Allison Henderson <allison.henderson@oracle.com>
-Cc: linux-rdma@vger.kernel.org
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- net/rds/page.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/net/rds/page.c b/net/rds/page.c
-index e0dd4f62ea47a..58a8548a915a9 100644
---- a/net/rds/page.c
-+++ b/net/rds/page.c
-@@ -86,8 +86,8 @@ int rds_page_remainder_alloc(struct scatterlist *scat, un=
-signed long bytes,
- 		goto out;
- 	}
-=20
--	rem =3D &per_cpu(rds_page_remainders, get_cpu());
- 	local_bh_disable();
-+	rem =3D this_cpu_ptr(&rds_page_remainders);
-=20
- 	while (1) {
- 		/* avoid a tiny region getting stuck by tossing it */
-@@ -116,12 +116,11 @@ int rds_page_remainder_alloc(struct scatterlist *scat=
-, unsigned long bytes,
-=20
- 		/* alloc if there is nothing for us to use */
- 		local_bh_enable();
--		put_cpu();
-=20
- 		page =3D alloc_page(gfp);
-=20
--		rem =3D &per_cpu(rds_page_remainders, get_cpu());
- 		local_bh_disable();
-+		rem =3D this_cpu_ptr(&rds_page_remainders);
-=20
- 		if (!page) {
- 			ret =3D -ENOMEM;
-@@ -140,7 +139,6 @@ int rds_page_remainder_alloc(struct scatterlist *scat, =
-unsigned long bytes,
- 	}
-=20
- 	local_bh_enable();
--	put_cpu();
- out:
- 	rdsdebug("bytes %lu ret %d %p %u %u\n", bytes, ret,
- 		 ret ? NULL : sg_page(scat), ret ? 0 : scat->offset,
---=20
-2.49.0
-
+Thanks for keeping me as author, I don't deserve it.
