@@ -1,112 +1,157 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86E421ABB9
-	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Apr 2025 16:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511F4946F;
+	Wed, 16 Apr 2025 22:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744821915; cv=none; b=SKPoVkxxYRxpZsXYnVQGIfMj8WmUleYFofvZKaIbVoJjYF9nz/D6gcp9dcmfmmtd4t3oT9D++QUfuS296uACtVDzMn8bwmAbL5t3CGkL374OQOyFzYW8L5D7QDIefgqBsdsvcJ2uVcYMrVSVtREOUI4CjZzmz7PrGDiljLrsy8k=
+	t=1744841517; cv=none; b=IDgB8WTSn/evN9MtR0MtUqfKaxE0vSiWMdmF3arx2QBOeQORsyWntAsFLhiLvNsx2Rak453S1Qlyy0LFcDFYk80U6Efl6h+g1Pjb3w5FUhEiNHrs1KtMRgtgQq2yg6idoCEZtF48lQcRtDeRLr7aFhQ2RyS0/If7D5fEoZsNQdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744821915; c=relaxed/simple;
-	bh=Wmgzh6V9aEN5MoM8rG729i1Aed+tdUjUzpemSxZ3c64=;
+	s=arc-20240116; t=1744841517; c=relaxed/simple;
+	bh=VnutcvSMqWO9EFZdAJ3Trur5sqIDzJa/xMPbZdhHsbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=guLwKEKhNWBQHWu7kuTSVGj809vkBkWdrq1z9HGsoNvQtlDzt9XPF0Id9dZcw6R/Q+vhcSLehhpErbDnGJZFyt+yaxIQOEjPg2Aj+gq2pQcnkAYmnpPxpENL8cYAcJvmT9lgwT67Ecsfh+T5b+JbdhUaLtGZQzTQ3z8xL5JH9yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VPzxV/07; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hxRXYTd0; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=j8NEyABMWL/D5cprSY2KocQnK/jE98PcRQdTxmHdheF+cSG7uuV2xXd6H7yOqPfGD9o7HH5Pel1ci9UC96MzKSZsmZe4mM2Oky4qILqby/9NNYFTrivqJmLLCwOI3SkN0aylGJkwjlLhky9sRiNtlHB0QR6gQZeVk0FS6uV4UkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9vajFVO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VPzxV/07";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hxRXYTd0"
-Date: Wed, 16 Apr 2025 18:45:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1744821911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mbwdgzKrST60cbCIoCy8g7wioTLdrdLgtt0x5jivJNE=;
-	b=VPzxV/07ztnNT6YRhE3/URlyBmsWGd+X5mvBVbAmySKk4S8wSkxxJZkpNzi9P11bt/+FlR
-	Lu6PFrkZtivvVv+L8wO3uuwxnt1xiWilUF2o/y5+zCbmPZkzTqpYdbjkHZmu250ceWHFZs
-	rUXzZkaBKacAXuEbM+KGrMwni1vXDmJwK5HatLhwKm5eBCKXUxepa1xnPtIpdLIZZwCui0
-	Y1QoFqfrH95fatFdDv79kGTlxlI+WBt5wQMrWHpOIYrlEKZKtTZtqJdUQax3zO5lDK6b1M
-	CgsjEdK5gFIbwvTllAXjWMJnXKb51gdZAm7CY2mYW4oTcItacSeGsX8srMYqjQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1744821911;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mbwdgzKrST60cbCIoCy8g7wioTLdrdLgtt0x5jivJNE=;
-	b=hxRXYTd0oKfgCc8bzuP/mBUMAraiGrP2kkEafJJ+CL6g1BPtqkFY7HUPAQPG6zyoO8YeVO
-	Ts88F70AA2t53GDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Aaron Conole <aconole@redhat.com>
-Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Eelco Chaudron <echaudro@redhat.com>,
-	Ilya Maximets <i.maximets@ovn.org>, dev@openvswitch.org
-Subject: Re: [PATCH net-next v2 12/18] openvswitch: Move
- ovs_frag_data_storage into the struct ovs_pcpu_storage
-Message-ID: <20250416164509.FOo_r2m1@linutronix.de>
-References: <20250414160754.503321-1-bigeasy@linutronix.de>
- <20250414160754.503321-13-bigeasy@linutronix.de>
- <f7tbjsxfl22.fsf@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9vajFVO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07924C4CEE2;
+	Wed, 16 Apr 2025 22:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744841516;
+	bh=VnutcvSMqWO9EFZdAJ3Trur5sqIDzJa/xMPbZdhHsbU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c9vajFVO92xiKWLXkAxHJ3XUc2XoSc38UXxTzZZ18mvfbTvua6A2zuLhv08udSnb8
+	 oW+cHXzanD5XIbTse4VEuEV1ihYsQxsUTKdbgsV4o8lwZmXPwYqCdtQ8eeXRPlyY3f
+	 nAxMvS659GM5/vXh8Piech8RnJm5itn7hZpSMUEhpKNmrqsG8wQE3yHuXwPjzCvuH2
+	 ypaeV9zgmijKJhXUlWbH6I8FEmPf2yrOQ/fIDN3XjWVXFOi93iBVKEFoLfJWl9KiUU
+	 m8ikparjRAE0OScJLzWCX5ZRisDD9ZUIavbVU7uk3PJkJr1UF//r555g9QMe3DUXMi
+	 LAlLQj8kSIYxQ==
+Date: Wed, 16 Apr 2025 23:11:51 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Eric Chanudet <echanude@redhat.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Alexander Larsson <alexl@redhat.com>,
+	Lucas Karpinski <lkarpins@redhat.com>, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Message-ID: <fbbafa84-f86c-4ea4-8f41-e5ebb51173ed@sirena.org.uk>
+References: <20250408210350.749901-12-echanude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QXNPbZDwSBbfcPw6"
 Content-Disposition: inline
-In-Reply-To: <f7tbjsxfl22.fsf@redhat.com>
+In-Reply-To: <20250408210350.749901-12-echanude@redhat.com>
+X-Cookie: That's no moon...
 
-On 2025-04-15 12:26:13 [-0400], Aaron Conole wrote:
-> I'm going to reply here, but I need to bisect a bit more (though I
-> suspect the results below are due to 11/18).  When I tested with this
-> patch there were lots of "unexplained" latency spikes during processing
-> (note, I'm not doing PREEMPT_RT in my testing, but I guess it would
-> smooth the spikes out at the cost of max performance).
-> 
-> With the series:
-> [SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec  9417             sender
-> [SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec                  receiver
-> 
-> Without the series:
-> [SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec  149             sender
-> [SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec                  receiver
-> 
-> And while the 'final' numbers might look acceptable, one thing I'll note
-> is I saw multiple stalls as:
-> 
-> [  5]  57.00-58.00  sec   128 KBytes   903 Kbits/sec    0   4.02 MBytes
-> 
-> But without the patch, I didn't see such stalls.  My testing:
-> 
-> 1. Install openvswitch userspace and ipcalc
-> 2. start userspace.
-> 3. Setup two netns and connect them (I have a more complicated script to
->    set up the flows, and I can send that to you)
-> 4. Use iperf3 to test (-P5 -t 300)
-> 
-> As I wrote I suspect the locking in 11 is leading to these stalls, as
-> the data I'm sending shouldn't be hitting the frag path.
-> 
-> Do these results seem expected to you?
 
-You have slightly better throughput but way more retries. I wouldn't
-expect that. And then the stall.
+--QXNPbZDwSBbfcPw6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch 10 & 12 move per-CPU variables around and makes them "static"
-rather than allocating them at module init time. I would not expect this
-to have a negative impact.
-Patch #11 assigns the current thread to a variable and clears it again.
-The remaining lockdep code disappears. The whole thing runs with BH
-disabled so no preemption.
+On Tue, Apr 08, 2025 at 04:58:34PM -0400, Eric Chanudet wrote:
+> Defer releasing the detached file-system when calling namespace_unlock()
+> during a lazy umount to return faster.
+>=20
+> When requesting MNT_DETACH, the caller does not expect the file-system
+> to be shut down upon returning from the syscall. Calling
+> synchronize_rcu_expedited() has a significant cost on RT kernel that
+> defaults to rcupdate.rcu_normal_after_boot=3D1. Queue the detached struct
+> mount in a separate list and put it on a workqueue to run post RCU
+> grace-period.
 
-I can't explain what you observe here. Unless it is a random glitch
-please send the script and I try to take a look.
+For the past couple of days we've been seeing failures in a bunch of LTP
+filesystem related tests on various arm64 systems.  The failures are
+mostly (I think all) in the form:
 
-Sebastian
+20101 10:12:40.378045  tst_test.c:1833: TINFO: =3D=3D=3D Testing on vfat =
+=3D=3D=3D
+20102 10:12:40.385091  tst_test.c:1170: TINFO: Formatting /dev/loop0 with v=
+fat opts=3D'' extra opts=3D''
+20103 10:12:40.391032  mkfs.vfat: unable to open /dev/loop0: Device or reso=
+urce busy
+20104 10:12:40.395953  tst_test.c:1170: TBROK: mkfs.vfat failed with exit c=
+ode 1
+
+ie, a failure to stand up the test environment on the loopback device
+all happening immediately after some other filesystem related test which
+also used the loop device.  A bisect points to commit a6c7a78f1b6b97
+which is this, which does look rather relevant.  LTP is obviously being
+very much an edge case here.
+
+Bisect log:
+
+git bisect start
+# status: waiting for both good and bad commits
+# bad: [f660850bc246fef15ba78c81f686860324396628] Add linux-next specific f=
+iles for 20250416
+git bisect bad f660850bc246fef15ba78c81f686860324396628
+# status: waiting for good commit(s), bad commit known
+# good: [a6b9fbe391e8da36d2892590db4db4ff94005807] Merge branch 'for-linux-=
+next-fixes' of https://gitlab.freedesktop.org/drm/misc/kernel.git
+git bisect good a6b9fbe391e8da36d2892590db4db4ff94005807
+# bad: [c017ce6f8d2939445ac473ada6a266aca0a0d6eb] Merge branch 'drm-next' o=
+f https://gitlab.freedesktop.org/drm/kernel.git
+git bisect bad c017ce6f8d2939445ac473ada6a266aca0a0d6eb
+# bad: [3efe6d22f422cbba9de75b53890c624a83dbb70a] Merge branch 'next' of gi=
+t://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
+git bisect bad 3efe6d22f422cbba9de75b53890c624a83dbb70a
+# good: [ce44f781015a988baf21317f7822567a62a77a5f] Merge branch 'for-next' =
+of git://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
+git bisect good ce44f781015a988baf21317f7822567a62a77a5f
+# good: [64a47089f778b6e4bfaaf62d4384eaa2bcaf9b63] Merge branch 'overlayfs-=
+next' of git://git.kernel.org/pub/scm/linux/kernel/git/overlayfs/vfs.git
+git bisect good 64a47089f778b6e4bfaaf62d4384eaa2bcaf9b63
+# good: [cdb4a05e60b2646d25f7227c7dfe5d54c3f3a173] Merge branch 'for-next' =
+of git://github.com/openrisc/linux.git
+git bisect good cdb4a05e60b2646d25f7227c7dfe5d54c3f3a173
+# good: [00b7410736b1d46ab26c3b4e04eaa819e3f7448c] Merge branch 'vfs-6.16.m=
+isc' into vfs.all
+git bisect good 00b7410736b1d46ab26c3b4e04eaa819e3f7448c
+# bad: [a9d6e19f91b6600c02276cd7903f747a5389950c] Merge branch 'for-next' o=
+f git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs.git
+git bisect bad a9d6e19f91b6600c02276cd7903f747a5389950c
+# bad: [03e1a90f178e3cea3e8864135046e31f4dbe5e2f] Merge branch 'vfs-6.16.mo=
+unt' into vfs.all
+git bisect bad 03e1a90f178e3cea3e8864135046e31f4dbe5e2f
+# good: [a9d7de0f68b79e5e481967fc605698915a37ac13] Merge patch series "pidf=
+s: ensure consistent ENOENT/ESRCH reporting"
+git bisect good a9d7de0f68b79e5e481967fc605698915a37ac13
+# bad: [675e87c588fc7d054c8f626fd59fcad6c534f4c0] selftests/mount_settattr:=
+ add missing STATX_MNT_ID_UNIQUE define
+git bisect bad 675e87c588fc7d054c8f626fd59fcad6c534f4c0
+# bad: [449f3214ce15b697277d5991f096140cf773e849] selftests/mount_settattr:=
+ don't define sys_open_tree() twice
+git bisect bad 449f3214ce15b697277d5991f096140cf773e849
+# bad: [a6c7a78f1b6b974a10fcf4646769ba8bf2596c58] fs/namespace: defer RCU s=
+ync for MNT_DETACH umount
+git bisect bad a6c7a78f1b6b974a10fcf4646769ba8bf2596c58
+# first bad commit: [a6c7a78f1b6b974a10fcf4646769ba8bf2596c58] fs/namespace=
+: defer RCU sync for MNT_DETACH umount
+
+--QXNPbZDwSBbfcPw6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgAKyYACgkQJNaLcl1U
+h9DaZgf/Z6f+BESM3p3WNzVxn3l8LfgDrlJ2lYZCogS9SBQJXCw0lq85tWApAUBl
+N67Y3dM9TOPkAzvdiK34efXk6ddIxhjPO4Kpdxu0ZO8ZQ49HeWZ6bCnHKjhrcMXe
+qXdPgmUQ8nQOZ3c2UJzYuuLYC/ZuTovXRrs9MftoD5i9LfyC3ARE/YQvtYyY5eQj
+1NfplDjjj5gbxvCrR/b+Rk5oU1gexymRr29OhlOB+9WUTqsz+MYJYZHbKm/n9Ook
+GgBxH8teiGQ5ez6/g98Q7ZFwQdNc/aQV4cwTKz3nebdN+dMAP+uuGNXB8KxaHrwk
+glMfqw+1xwyV1P6GEPYAZTE867lH/g==
+=pZyw
+-----END PGP SIGNATURE-----
+
+--QXNPbZDwSBbfcPw6--
