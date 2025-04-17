@@ -1,198 +1,118 @@
-Received: from smtp01.aussiebb.com.au (smtp01.aussiebb.com.au [121.200.0.92])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C89C1D63D6
-	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 10:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.200.0.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489861D89E4
+	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 10:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744885044; cv=none; b=ph+lU35G7lqc3oId+Y77cAI9xGrc99A4guaoIqmuFlzlkUQyqU8wKP/T2TyZPWp6I6uV+ISx2E22m7srqnF/kQlxRg00eH6CYALsfiESTP+Ln86GpD8ckYWr09m8SBqcIFRsdWrksFO5ciPNC6tLqaEhyAXNjFGftF/ETSz/lDU=
+	t=1744885107; cv=none; b=t4e2Uctmceiuj2sa4gF422hRmQk1Qf/0P4Pf62D4Ku/jorH5dY2YLUXZl2JwOwxtIC6ip1iV6NuDf2ptMl7Bb7utsnmvwCb7NXZaOPy/Og6+GLyKavjKiSXmyhFu1j5VVffe0R3AM4o1LAuUNw7gOc7CHM3tFtwWvehoTyfNBI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744885044; c=relaxed/simple;
-	bh=AqX8HaBkhX9xGDH3YKFQNEKSEUlkIV9DvJ5twuJWzak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GphNntUiku0aqvYckTiG8rdVvFyWhryniKxvejP3PgNM2rUKPLIyKmMgZ8gODFdQ32Blu+3+DnD1ZVNije01YaC9kKWcuDADSVwJoTpzgvFxO0/xICCEVr1U3uUpUEXR6RHWVvsnOl/b8Y9V3daR508wndKQS/l/qdcE+VmqeuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=themaw.net; spf=fail smtp.mailfrom=themaw.net; arc=none smtp.client-ip=121.200.0.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=themaw.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=themaw.net
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp01.aussiebb.com.au (Postfix) with ESMTP id 5667E1011C3
-	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 20:17:05 +1000 (AEST)
-X-Virus-Scanned: Debian amavisd-new at smtp01.aussiebb.com.au
-Received: from smtp01.aussiebb.com.au ([127.0.0.1])
-	by localhost (smtp01.aussiebb.com.au [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ouLF1IJKYvNk for <linux-rt-devel@lists.linux.dev>;
-	Thu, 17 Apr 2025 20:17:05 +1000 (AEST)
-Received: by smtp01.aussiebb.com.au (Postfix, from userid 116)
-	id 43A82101183; Thu, 17 Apr 2025 20:17:05 +1000 (AEST)
-X-Spam-Level: 
-Received: from [192.168.0.229] (159-196-82-144.9fc452.per.static.aussiebb.net [159.196.82.144])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian146@aussiebb.com.au)
-	by smtp01.aussiebb.com.au (Postfix) with ESMTPSA id B9642100664;
-	Thu, 17 Apr 2025 20:17:02 +1000 (AEST)
-Message-ID: <fb566638-a739-41dc-bafc-aa8c74496fa4@themaw.net>
-Date: Thu, 17 Apr 2025 18:17:01 +0800
+	s=arc-20240116; t=1744885107; c=relaxed/simple;
+	bh=VdnIizSKaKnQaEzVJTxQTMFkT/43s85uJANzeDqLLLs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nrxpAGmeo9VfHDDKYUNcRSg18Cdz0HphQEpoeJr+ukqrNCEITzGvOKH1b7rZPDIeI/cXrp8TxV9JpGGwJuo2A/4cV+vHK1B0hGJTtA1Jsi2RTEb9rmJ2qPwNlsX75vMuAazw5iu5UDiSPyeSuVaDDgeLcBZRsUzqACalvTKW13A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PeHBBnuV; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zMvFsUCa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PeHBBnuV";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zMvFsUCa"
+Date: Thu, 17 Apr 2025 12:18:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1744885102;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pTKpGtLbS7EfzjXuUckXrnmWMsKaCwDfYnf04jixevg=;
+	b=PeHBBnuVdwJSEOWRskO1rqxfDC4ZdBsZRkgr59TSjhlM3osq7E682Uo1mVAkIwsIggvM89
+	RWerwrWAI4vQHDLU736A6gyYrit+pTyW4r8xjyhYFr28TbuP0TKrZDbHRTeI04yT0HCHhZ
+	h+KsAJaQmGaI3IKLLIBlbLrNtwijHhW6DLVtdN7gKpaGMbjbaXJFuj+u5OjDY/+WLDbcWg
+	yelhWaaC8da8Art5XZDXvdhrxnK2YT+9Fi0GdJoAz0ie8VChqSh/Pj58woYrRC9Lxg3Ab/
+	qYVIamNxYbbMYEbGjjbi1ScHsZPeLB4976P95tbY5SvtXAWYFJqj8BsJuKoKyg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1744885102;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pTKpGtLbS7EfzjXuUckXrnmWMsKaCwDfYnf04jixevg=;
+	b=zMvFsUCaGlfEzXnBZumc9i9+cP5BwatNBbFBP6c7XG1ucWta+F6M/bdS1gdp/n6leYB+w7
+	I94JsVxS3vfG4eAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Aaron Conole <aconole@redhat.com>, netdev@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>, dev@openvswitch.org
+Subject: Re: [PATCH net-next v2 12/18] openvswitch: Move
+ ovs_frag_data_storage into the struct ovs_pcpu_storage
+Message-ID: <20250417101820.Cd0BZc0G@linutronix.de>
+References: <20250414160754.503321-1-bigeasy@linutronix.de>
+ <20250414160754.503321-13-bigeasy@linutronix.de>
+ <f7tbjsxfl22.fsf@redhat.com>
+ <20250416164509.FOo_r2m1@linutronix.de>
+ <867bb4b6-df27-4948-ab51-9dcc11c04064@redhat.com>
+ <20250417090810.ps1WZHQQ@linutronix.de>
+ <94076638-1bc7-4408-b09c-7c51f995d36f@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
-To: Christian Brauner <brauner@kernel.org>, Mark Brown <broonie@kernel.org>,
- Eric Chanudet <echanude@redhat.com>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>,
- Aishwarya.TCV@arm.com
-References: <20250408210350.749901-12-echanude@redhat.com>
- <fbbafa84-f86c-4ea4-8f41-e5ebb51173ed@sirena.org.uk>
- <20250417-wolfsrudel-zubewegt-10514f07d837@brauner>
-Content-Language: en-US
-From: Ian Kent <raven@themaw.net>
-Autocrypt: addr=raven@themaw.net; keydata=
- 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
-In-Reply-To: <20250417-wolfsrudel-zubewegt-10514f07d837@brauner>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <94076638-1bc7-4408-b09c-7c51f995d36f@redhat.com>
 
+On 2025-04-17 11:48:03 [+0200], Paolo Abeni wrote:
+> 
+> 
+> On 4/17/25 11:08 AM, Sebastian Andrzej Siewior wrote:
+> > On 2025-04-17 10:01:17 [+0200], Paolo Abeni wrote:
+> >> @Sebastian: I think the 'owner' assignment could be optimized out at
+> >> compile time for non RT build - will likely not matter for performances,
+> >> but I think it will be 'nicer', could you please update the patches to
+> >> do that?
+> > 
+> > If we don't assign the `owner' then we can't use the lock even on !RT
+> > because lockdep should complain. What about this then:
+> > 
+> > diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
+> > index a3989d450a67f..b8f766978466d 100644
+> > --- a/net/openvswitch/datapath.c
+> > +++ b/net/openvswitch/datapath.c
+> > @@ -294,8 +294,11 @@ void ovs_dp_process_packet(struct sk_buff *skb, struct sw_flow_key *key)
+> >  	sf_acts = rcu_dereference(flow->sf_acts);
+> >  	/* This path can be invoked recursively: Use the current task to
+> >  	 * identify recursive invocation - the lock must be acquired only once.
+> > +	 * Even with disabled bottom halves this can be preempted on PREEMPT_RT.
+> > +	 * Limit the provecc to RT to avoid assigning `owner' if it can be
+> > +	 * avoided.
+> >  	 */
+> > -	if (ovs_pcpu->owner != current) {
+> > +	if (IS_ENABLED(CONFIG_PREEMPT_RT) && ovs_pcpu->owner != current) {
+> >  		local_lock_nested_bh(&ovs_pcpu_storage.bh_lock);
+> >  		ovs_pcpu->owner = current;
+> >  		ovs_pcpu_locked = true;
+> > @@ -687,9 +690,11 @@ static int ovs_packet_cmd_execute(struct sk_buff *skb, struct genl_info *info)
+> >  
+> >  	local_bh_disable();
+> >  	local_lock_nested_bh(&ovs_pcpu_storage.bh_lock);
+> > -	this_cpu_write(ovs_pcpu_storage.owner, current);
+> > +	if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> > +		this_cpu_write(ovs_pcpu_storage.owner, current);
+> 
+> Perhaps implement the above 2 lines in an helper, to keep the code tidy?
+> otherwise LGTM.
 
-On 17/4/25 17:01, Christian Brauner wrote:
-> On Wed, Apr 16, 2025 at 11:11:51PM +0100, Mark Brown wrote:
->> On Tue, Apr 08, 2025 at 04:58:34PM -0400, Eric Chanudet wrote:
->>> Defer releasing the detached file-system when calling namespace_unlock()
->>> during a lazy umount to return faster.
->>>
->>> When requesting MNT_DETACH, the caller does not expect the file-system
->>> to be shut down upon returning from the syscall. Calling
->>> synchronize_rcu_expedited() has a significant cost on RT kernel that
->>> defaults to rcupdate.rcu_normal_after_boot=1. Queue the detached struct
->>> mount in a separate list and put it on a workqueue to run post RCU
->>> grace-period.
->> For the past couple of days we've been seeing failures in a bunch of LTP
->> filesystem related tests on various arm64 systems.  The failures are
->> mostly (I think all) in the form:
->>
->> 20101 10:12:40.378045  tst_test.c:1833: TINFO: === Testing on vfat ===
->> 20102 10:12:40.385091  tst_test.c:1170: TINFO: Formatting /dev/loop0 with vfat opts='' extra opts=''
->> 20103 10:12:40.391032  mkfs.vfat: unable to open /dev/loop0: Device or resource busy
->> 20104 10:12:40.395953  tst_test.c:1170: TBROK: mkfs.vfat failed with exit code 1
->>
->> ie, a failure to stand up the test environment on the loopback device
->> all happening immediately after some other filesystem related test which
->> also used the loop device.  A bisect points to commit a6c7a78f1b6b97
->> which is this, which does look rather relevant.  LTP is obviously being
->> very much an edge case here.
-> Hah, here's something I didn't consider and that I should've caught.
->
-> Look, on current mainline no matter if MNT_DETACH/UMOUNT_SYNC or
-> non-MNT_DETACH/UMOUNT_SYNC. The mntput() calls after the
-> synchronize_rcu_expedited() calls will end up in task_work():
->
->          if (likely(!(mnt->mnt.mnt_flags & MNT_INTERNAL))) {
->                  struct task_struct *task = current;
->                  if (likely(!(task->flags & PF_KTHREAD))) {
->                          init_task_work(&mnt->mnt_rcu, __cleanup_mnt);
->                          if (!task_work_add(task, &mnt->mnt_rcu, TWA_RESUME))
->                                  return;
->                  }
->                  if (llist_add(&mnt->mnt_llist, &delayed_mntput_list))
->                          schedule_delayed_work(&delayed_mntput_work, 1);
->                  return;
->          }
->
-> because all of those mntput()s are done from the task's contect.
->
-> IOW, if userspace does umount(MNT_DETACH) and the task has returned to
-> userspace it is guaranteed that all calls to cleanup_mnt() are done.
->
-> With your change that simply isn't true anymore. The call to
-> queue_rcu_work() will offload those mntput() to be done from a kthread.
-> That in turn means all those mntputs end up on the delayed_mntput_work()
-> queue. So the mounts aren't cleaned up by the time the task returns to
-> userspace.
->
-> And that's likely problematic even for the explicit MNT_DETACH use-case
-> because it means EBUSY errors are a lot more likely to be seen by
-> concurrent mounters especially for loop devices.
->
-> And fwiw, this is exactly what I pointed out in a prior posting to this
-> patch series.
+I've been thinking about it but the two cases are slightly different.
+Maybe open coding right next to the comment isn't that bad.
 
-And I didn't understand what you said then but this problem is more
+> Thanks,
+> 
+> Paolo
 
-understandable to me now.
-
-
->
-> But we've also worsened that situation by doing the deferred thing for
-> any non-UMOUNT_SYNC. That which includes namespace exit. IOW, if the
-> last task in a new mount namespace exits it will drop_collected_mounts()
-> without UMOUNT_SYNC because we know that they aren't reachable anymore,
-> after all the mount namespace is dead.
->
-> But now we defer all cleanup to the kthread which means when the task
-> returns to userspace there's still mounts to be cleaned up.
-
-Correct me if I'm wrong but the actual problem is that the mechanism used
-
-to wait until there are no processes doing an rcu-walk on mounts in the
-
-discard list is unnecessarily long according to what Eric has seen. So a
-
-different was to know there are no processes doing an rcu-walk for one of
-
-these mounts is needed.
-
-
-There must be a better way to do this than the current rcu wait method ...
-
-
-Ian
-
+Sebastian
