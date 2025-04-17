@@ -1,147 +1,102 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F50D1A4F21
-	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 15:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8116A2475C7;
+	Thu, 17 Apr 2025 15:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744902445; cv=none; b=bJo6raWZqhn2AXBcWrH+qffx4B48SsHuaUfAgXr5cQ2iR6yDDRf8P2sQA3qlqaTH+Knnszjcak5CU4TMVZUvEXUkLrgXJt/p63MBmmNd53fykSXu1gv0shuqSrqwWWNCZaD+jLCCCazzK9eA7PqGPZWh2QPMWtujq8Ubk6Md0ZM=
+	t=1744902678; cv=none; b=WClIdkyTdNmBV3jYN151OP3vuTp6XcJmjUn4Fo3gg4dd81Vv4YLvtqKHGEE5RIaYi/5KkyPJLwQC1p4Xcrx0fZ2CwX0sBq16zrc0mK8OsE6TbJ9kTS85RhMGYxUKfhjwmf3I8/j6qoPqPS8fNtjBJq4OJA+rR2CVvLFNaPvieaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744902445; c=relaxed/simple;
-	bh=B7XexERuaMMMLPg8aDrwbEfwzYiQp47UuvLtUdrvycw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kJJ+rRI6spvJDZTiqyqM5RYK+VcT9j850BqaWpV0PgZCgpoyK9l1oaNBhiNoOOO0m9UpFkSkkHxmp6SLJehzaOa8CMnmqMy8s9MeUqNKInotB3hn+aplks2o2V6Pc5FB37DkCZdTUn7UkARKz0kjSXtL36yCbSEB+wVjsn37AVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=H3oBwfDn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744902678; c=relaxed/simple;
+	bh=E5X679uCPTpvbUEqHbRpM/QTNZhAVmDvQfzsKO4PpZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=az+QLZVACxFmZ/GkXFzCP0/8mTeg1aSonTQETJaaR1turdDJLJ4JMm/uRdkZcMsqA8l37VTxM/8H7d6mUAyohwjCS2wPP/TnNGDHkLYs6iYSEIj3kmpG315oEJa9oqGJHn+3x/5ISqBiDjulfWclaFvpSfBqO5zO9jZ01J1DSKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DLlMefr8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uSvd5H2/; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="H3oBwfDn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744902443;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DLlMefr8";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uSvd5H2/"
+Date: Thu, 17 Apr 2025 17:11:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1744902674;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H0kdA5rFfxf/6wSGoecn+F+bnq14+8ogjP5bxs/pSuI=;
-	b=H3oBwfDnvl5GQG785nShH9I5fi36aiaiJPXnNlx0/oK5L+S5MTBtJurcyp8HB88/Rqop9x
-	IwmgqAFd3BEMlror7RNqNzeS5T1r7L9c/RjYU1B7iv7KKIWtGJNicIHMFIN1HDjriYutQL
-	kkKyEhaWwwHvmSTaZeowfkdoAtODS54=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-547-fCm0jeN6PkOUjWTAnvMrog-1; Thu,
- 17 Apr 2025 11:07:19 -0400
-X-MC-Unique: fCm0jeN6PkOUjWTAnvMrog-1
-X-Mimecast-MFC-AGG-ID: fCm0jeN6PkOUjWTAnvMrog_1744902436
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 504741800980;
-	Thu, 17 Apr 2025 15:07:16 +0000 (UTC)
-Received: from RHTRH0061144 (unknown [10.22.64.251])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5C9C319560A3;
-	Thu, 17 Apr 2025 15:07:13 +0000 (UTC)
-From: Aaron Conole <aconole@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-  netdev@vger.kernel.org,  linux-rt-devel@lists.linux.dev,  "David S.
- Miller" <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>,  Jakub
- Kicinski <kuba@kernel.org>,  Simon Horman <horms@kernel.org>,  Thomas
- Gleixner <tglx@linutronix.de>,  Eelco Chaudron <echaudro@redhat.com>,
-  Ilya Maximets <i.maximets@ovn.org>,  dev@openvswitch.org
-Subject: Re: [PATCH net-next v2 12/18] openvswitch: Move
- ovs_frag_data_storage into the struct ovs_pcpu_storage
-In-Reply-To: <867bb4b6-df27-4948-ab51-9dcc11c04064@redhat.com> (Paolo Abeni's
-	message of "Thu, 17 Apr 2025 10:01:17 +0200")
-References: <20250414160754.503321-1-bigeasy@linutronix.de>
-	<20250414160754.503321-13-bigeasy@linutronix.de>
-	<f7tbjsxfl22.fsf@redhat.com> <20250416164509.FOo_r2m1@linutronix.de>
-	<867bb4b6-df27-4948-ab51-9dcc11c04064@redhat.com>
-Date: Thu, 17 Apr 2025 11:07:11 -0400
-Message-ID: <f7t4iymg734.fsf@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	bh=A447NPfUbEt6lE5p6p/8N6z6RAiec9Hb+rOLO+lknAY=;
+	b=DLlMefr8mPvyddF0F4L+paGa/bkNrTTg5Z8lK2Ms6UeU9exl7xKccuJR8TACqyrR6r7noq
+	kB4tFbVZPNy5lVJJ/VqbL8WRGoA/e4InC3i5F1Y+riQG/mnKTamztVuf0orlfCpdcjN5Zd
+	O0WUVOGlVvxyKZQgxmLfM55ZaAuYP3t2bn9PlBzgoyv7PrBF/tbmMYsCMIHj1kRWgnomH7
+	tixdkYuV8m5mZwW9w6IfpRV89DzhI+6tCYJtCMWbGKeDjvDqAyswyDFcRgB0WXck87lujn
+	mO00Rr1BibjhhUjFeUvMjvCpSu8YR15NIjGQpp8s2kG2FfspJskyLBW6mF72tQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1744902674;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A447NPfUbEt6lE5p6p/8N6z6RAiec9Hb+rOLO+lknAY=;
+	b=uSvd5H2/iQWgLwz53npXjF8a/6AKjTvDI3kxE5pKAbkFIYXeFZ244xjyLoAUZyiVpWyyDR
+	gF8fWvnXva18AdBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Gustavo Padovan <gus@collabora.com>
+Cc: kernelci <kernelci@lists.linux.dev>,
+	linux-rt-devel <linux-rt-devel@lists.linux.dev>,
+	stable-rt <stable-rt@vger.kernel.org>,
+	Daniel Wagner <wagi@monom.org>
+Subject: Re: PREEMPT_RT testing on kernelci
+Message-ID: <20250417151113.W9MG8dy3@linutronix.de>
+References: <20250211090511.xeFJVnH_@linutronix.de>
+ <194f4c989de.bdd18d3279996.2067896388251039576@collabora.com>
+ <20250211152018.sK91dh93@linutronix.de>
+ <194f5b4b029.e5ee4014194612.536900249866001318@collabora.com>
+ <20250213085256.nhWptGL3@linutronix.de>
+ <20250411194432.pwc6U7Ds@linutronix.de>
+ <19634ddfa6f.10623b4b6827067.8120388710582651736@collabora.com>
+ <20250417100410.zxlZCBp-@linutronix.de>
+ <19643df8092.ac2e879d858176.2114269254543526159@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19643df8092.ac2e879d858176.2114269254543526159@collabora.com>
 
-Paolo Abeni <pabeni@redhat.com> writes:
+On 2025-04-17 10:10:43 [-0300], Gustavo Padovan wrote:
+> 
+> 
+> ---- On Thu, 17 Apr 2025 07:04:10 -0300 Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote ---
+> 
+>  > On 2025-04-14 12:14:44 [-0300], Gustavo Padovan wrote: 
+>  > > Hi Sebastian, 
+>  > Hi Gustavo, 
+>  >  
+>  > > In my understanding you want to know when results for any rt-tests change status (eg PASS -> FAIL or 
+>  > > vice versa) for a selection of trees (eg mainline, next, etc). Can you confirm? 
+>  >  
+>  > The results change is definitely interesting. The other thing is what is 
+>  > tested and how. I remember you added/ changed some architectures for the 
+>  > RT subset. I also assume that warnings at bootime (as in lockdep or 
+>  > general warnings) are reported. 
+> 
+> We have some support around that, but this work is still evolving.
 
-> On 4/16/25 6:45 PM, Sebastian Andrzej Siewior wrote:
->> On 2025-04-15 12:26:13 [-0400], Aaron Conole wrote:
->>> I'm going to reply here, but I need to bisect a bit more (though I
->>> suspect the results below are due to 11/18).  When I tested with this
->>> patch there were lots of "unexplained" latency spikes during processing
->>> (note, I'm not doing PREEMPT_RT in my testing, but I guess it would
->>> smooth the spikes out at the cost of max performance).
->>>
->>> With the series:
->>> [SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec  9417             sender
->>> [SUM]   0.00-300.00 sec  3.28 TBytes  96.1 Gbits/sec                  receiver
->>>
->>> Without the series:
->>> [SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec  149             sender
->>> [SUM]   0.00-300.00 sec  3.26 TBytes  95.5 Gbits/sec                  receiver
->>>
->>> And while the 'final' numbers might look acceptable, one thing I'll note
->>> is I saw multiple stalls as:
->>>
->>> [  5]  57.00-58.00  sec   128 KBytes   903 Kbits/sec    0   4.02 MBytes
->>>
->>> But without the patch, I didn't see such stalls.  My testing:
->>>
->>> 1. Install openvswitch userspace and ipcalc
->>> 2. start userspace.
->>> 3. Setup two netns and connect them (I have a more complicated script to
->>>    set up the flows, and I can send that to you)
->>> 4. Use iperf3 to test (-P5 -t 300)
->>>
->>> As I wrote I suspect the locking in 11 is leading to these stalls, as
->>> the data I'm sending shouldn't be hitting the frag path.
->>>
->>> Do these results seem expected to you?
->> 
->> You have slightly better throughput but way more retries. I wouldn't
->> expect that. And then the stall.
->> 
->> Patch 10 & 12 move per-CPU variables around and makes them "static"
->> rather than allocating them at module init time. I would not expect this
->> to have a negative impact.
->> Patch #11 assigns the current thread to a variable and clears it again.
->> The remaining lockdep code disappears. The whole thing runs with BH
->> disabled so no preemption.
->> 
->> I can't explain what you observe here. Unless it is a random glitch
->> please send the script and I try to take a look.
->
-> I also think this series should not have any visible performance impact
-> on not RT OVS tests. @Aaron: could you please double check the results
-> (both the good on unpatched kernel and the bad with the series applied)
-> are reproducible and not due some glitches.
+Okay.
 
-I agree, it doesn't seem like it should.  I guess a v3 is coming, so I
-will retry with that.  I planned to ack 10/18 and 12/18 anyway; even
-without the lock restructure, it seems 'nicer' to have the pcpu
-variables in a single location.
+>  > I remember Daniel asked for some cyclictests/rt-tests integration so I 
+>  > don't know what is tested here ;) 
+>  >  
+>  > From the commandline you sent that there are a few boards running the 
+>  > cyclictests and everything either passes or is in state "INCONCLUSIVE". 
+>  > So this looks nice. 
+> 
+> Okay.
+> 
+> As for notifications, for which trees/branches you want to see it?
 
-BTW, I am using a slightly modified version of:
-https://gist.github.com/apconole/ed78c9a2e76add9942dc3d6cbcfff4ca
+Linus' master and the -next tree would be good. If you plan add to add
+Cc here, it would be nice if you could add linux-rt-devel@lists.linux.dev
 
-It sets things up similarly to an SDN deployment (although not perfectly
-since I was testing something very special at the time), and I was just
-doing netns->netns testing (so it would go through ct() calls but not
-ct(nat) calls).
-
-> @Sebastian: I think the 'owner' assignment could be optimized out at
-> compile time for non RT build - will likely not matter for performances,
-> but I think it will be 'nicer', could you please update the patches to
-> do that?
->
-> Thanks!
->
-> Paolo
-
+Sebastian
