@@ -1,187 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA6022ACCE
-	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 11:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B57922B8A0;
+	Thu, 17 Apr 2025 11:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744889481; cv=none; b=t+DEvYmy9X5wvvANAoMg6wHNRtETBTmZbXfVzYPU8cIOFjrFoAWt+h/9dJAYjFVOveDHpHRJqYY0KwbfTzUOmodo/clxzg/Ux2ygxnDzE8v9jDviOtUmqP8g6tPKainFzIW3779N3rtYKSSoM/hGrmaWIxZImv3H9ZVJ9fnMgrg=
+	t=1744889506; cv=none; b=QseI0mkm8RvpLiLGGdZ6qJT7CtEZ6SGcvVOAfGOwiHjRy4Zr+Beeu8JB/ccMOnrCM8n7cc9duO8/5oNQoTYct1RW6LW5W6RsKjpLSXiqGzcNVYYp+hS25NACOu9vw7GhD5AOHlxC4xeeZlnA8eQTqfyOk8qC87wdRvfQV3RDS1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744889481; c=relaxed/simple;
-	bh=1RJ/CV4N2DVmoWSVYLenzw7jqr9hxjWOzIF5NG74DiM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oYr9SKjeBviXJDe+w85dBaQra9bND9iw3Gmxe+QO3S6Dwsc4UPHcxSSgsmSjs0+EfTKfsvOIbxyXU2numCB4K1Ra68ULYRXf9M4Rh3Gnnid8HDjvHmbMDtz/hGOzUbOw2VUTQhqhhjKHWDPY+k8Axw0BQJae7YAAuHdeqbhOhQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cJBfCifU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744889506; c=relaxed/simple;
+	bh=JlRulFzNFZtoQaYZU/WuQDk588L61tWLNXlAY7Ox9wo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3q4k5tIPtSHib/qYXFgodPZ2BB8MvTzxNF5te2HNfGjKxGy4T6r5AQ5Yy8NioUhgIyGo3T/9OqkPy7VB2qArqEcq54Zx6mHLsR+ISzloijPUwvnVTf5fXjKvLaHOYHL9FFUvDJ5Ic733GT/ARbgsVwJ6Df6SpT5/X8PRaTZfj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T3WNnHf0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cJBfCifU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744889478;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tEHMEBHjvrO7PpcasZwzrx+ZnESuX/sK9Us9aU6KrI0=;
-	b=cJBfCifU/8GR5a9KHp58YdvWgVGzs9/FVv0D26+ICX++ZQZd6A5yFk6YbgVZrMFFZD7RBE
-	IURO00vo18IUioeZ0zYpOheXozSeulvIefJ9jWk1yWRKAP87MvGB6q4FtOZ82aj3WX+r1t
-	4NDvo6UdAOCMjWD9jYU8IKjg3+GQo9I=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-311-_UidLYO6OnCgom4ePVzpCg-1; Thu, 17 Apr 2025 07:31:15 -0400
-X-MC-Unique: _UidLYO6OnCgom4ePVzpCg-1
-X-Mimecast-MFC-AGG-ID: _UidLYO6OnCgom4ePVzpCg_1744889474
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3978ef9a284so223356f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 17 Apr 2025 04:31:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744889474; x=1745494274;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tEHMEBHjvrO7PpcasZwzrx+ZnESuX/sK9Us9aU6KrI0=;
-        b=oJvd4PLsHueoQR9hdBMY4tIcPqKMSawAyj2zM1yIPuA0PHhVAudMc9yhNbbnQi3Wew
-         yQ50Fdno1w8dJe/41hPwYuQCVn6rOZ6PT//fT1K8hQIv8gwe33Y1Tdnbzp/7xkwQ86pw
-         MiD2pEzGC93aZbcg6aun3K6jvxiKHFpN2Yx4XDvByOq2gvmCXbyIHg7Sql74a3m9qOeU
-         H1g9wX9FBnTyarislQ+cmyCYhWIpVLFhC04+V8ScxYxDLs5v7SIuAwyo7D4GHV1eGw4w
-         vr63MXbvpTLJGsHrCAGLmoUwVCatoFKChYdLsUGdaGsgsUJOp6+Q9+qc/5beijCsvuSI
-         pQ2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUmJZqtyLf5wWyVenfrbH6P3R3kO+QYiZf6uBaIQSqi0+Q50jeDvXvIlXrB5AzrChZftT5goZwJvE8g1RPW4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWoDA4XU+w60a/z6W5OV+MfTQmW6tL+z5xRyRnRO8c5qtL+rz8
-	5ToXSO5BkPZq+4W4Ew9DnbLIqquQqzKQwjuJRY5bbD4YTt+kwKIshuLwIt+F2AzeTybYwbHMUGq
-	5jY3cKs2IVPRJaYbzs1AkhMPz7pAJBiwInmSTObY7EJKnfBLvXVM/IwtHpxGwwbk0
-X-Gm-Gg: ASbGnct6SKOj2Z6Tl7ourG4NgH7tuh8AqRKI4ifro2UUOvAro9F69mJZh6qbFyzOEHD
-	SwedjFNP3Trxyqs+OZbQ/Cg+MLNwMGCe531gN2x7gyySkNr8JBepBqJlssSg9NXE072ELA1FSM2
-	1T0A8oXtHhalinrgezY3Mk9y8vhChDztaZ7Y97PGiMZblTmgCFzo72fA2T681lig0RJcux2zfPN
-	JHgLm4QY4r0CEbQmufmCDtnjy1nzBvvhidTgsQtNUMnXU5teVv7GVC3FwoUjYPFfyXzvaWWbJVN
-	YIaWHHucqM4a8SnzJ3vEUom5DxjcekAIhS/jgQST1A==
-X-Received: by 2002:a05:6000:1a8d:b0:39a:c9ac:cd3a with SMTP id ffacd0b85a97d-39ee5bb18cemr4883769f8f.51.1744889474127;
-        Thu, 17 Apr 2025 04:31:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGVh2XSH9ICxYx7OtIie2cVOvMLCFJqq0rQsaoeQZZs4AayYJ6WUwXCYLPEbxTa1fEk3zWwYA==
-X-Received: by 2002:a05:6000:1a8d:b0:39a:c9ac:cd3a with SMTP id ffacd0b85a97d-39ee5bb18cemr4883732f8f.51.1744889473682;
-        Thu, 17 Apr 2025 04:31:13 -0700 (PDT)
-Received: from [192.168.88.253] (146-241-55-253.dyn.eolo.it. [146.241.55.253])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf43d053sm20106093f8f.68.2025.04.17.04.31.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 04:31:13 -0700 (PDT)
-Message-ID: <090c7522-34a0-4e9b-bfb8-1b8d5698b902@redhat.com>
-Date: Thu, 17 Apr 2025 13:31:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3WNnHf0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98141C4CEEB;
+	Thu, 17 Apr 2025 11:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744889506;
+	bh=JlRulFzNFZtoQaYZU/WuQDk588L61tWLNXlAY7Ox9wo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T3WNnHf0xvRbrBaSFtv3tjay2+MZVXycQPXt4mcXCst5UGPueBDlD/K+rU5w3tXu3
+	 R5v/ODDvUNtbnhlKYQtzilhW7LY0Ci00gMfBvaBKM3nVxsJcFFJcx9N/sbd+rzzH/8
+	 W0Qtw0aKJOBgoTHtcD3djZjDfCZtgYIQ3/qHTa5DyA45Z8MDUZkdByv6eSXdKFxfjJ
+	 Q8cti5FB33kq0gpdTM2nJQDluXi+Xf55lEt4ue6MZnh5blFaCwv9HYaYBcuQhEPMV/
+	 DRZeLzYpnwuGh5d0YgxmPAAQ6g6KbE+dVTU2AhpcW1EEn7mIOHU9VBzUD0deeviChk
+	 AeIE6uhKOx8vA==
+Date: Thu, 17 Apr 2025 13:31:40 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Ian Kent <raven@themaw.net>
+Cc: Mark Brown <broonie@kernel.org>, Eric Chanudet <echanude@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Message-ID: <20250417-abartig-abfuhr-40e558b85f97@brauner>
+References: <20250408210350.749901-12-echanude@redhat.com>
+ <fbbafa84-f86c-4ea4-8f41-e5ebb51173ed@sirena.org.uk>
+ <20250417-wolfsrudel-zubewegt-10514f07d837@brauner>
+ <fb566638-a739-41dc-bafc-aa8c74496fa4@themaw.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 13/18] net/sched: act_mirred: Move the
- recursion counter struct netdev_xmit
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
- Thomas Gleixner <tglx@linutronix.de>, Jamal Hadi Salim <jhs@mojatatu.com>,
- Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>
-References: <20250414160754.503321-1-bigeasy@linutronix.de>
- <20250414160754.503321-14-bigeasy@linutronix.de>
- <75e10631-00a3-405a-b4d8-96b422ffbe41@redhat.com>
- <20250417104736.pD2sMYXv@linutronix.de>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250417104736.pD2sMYXv@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Lt1krwmT4UZtuHV-O9Y2ijiPR9ABKay_2ITvz1kVGfU_1744889474
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fb566638-a739-41dc-bafc-aa8c74496fa4@themaw.net>
 
-On 4/17/25 12:47 PM, Sebastian Andrzej Siewior wrote:
-> + Ingo/ PeterZ for sched, see below.
+On Thu, Apr 17, 2025 at 06:17:01PM +0800, Ian Kent wrote:
 > 
-> On 2025-04-17 10:29:05 [+0200], Paolo Abeni wrote:
->>
->> How many of such recursion counters do you foresee will be needed?
+> On 17/4/25 17:01, Christian Brauner wrote:
+> > On Wed, Apr 16, 2025 at 11:11:51PM +0100, Mark Brown wrote:
+> > > On Tue, Apr 08, 2025 at 04:58:34PM -0400, Eric Chanudet wrote:
+> > > > Defer releasing the detached file-system when calling namespace_unlock()
+> > > > during a lazy umount to return faster.
+> > > > 
+> > > > When requesting MNT_DETACH, the caller does not expect the file-system
+> > > > to be shut down upon returning from the syscall. Calling
+> > > > synchronize_rcu_expedited() has a significant cost on RT kernel that
+> > > > defaults to rcupdate.rcu_normal_after_boot=1. Queue the detached struct
+> > > > mount in a separate list and put it on a workqueue to run post RCU
+> > > > grace-period.
+> > > For the past couple of days we've been seeing failures in a bunch of LTP
+> > > filesystem related tests on various arm64 systems.  The failures are
+> > > mostly (I think all) in the form:
+> > > 
+> > > 20101 10:12:40.378045  tst_test.c:1833: TINFO: === Testing on vfat ===
+> > > 20102 10:12:40.385091  tst_test.c:1170: TINFO: Formatting /dev/loop0 with vfat opts='' extra opts=''
+> > > 20103 10:12:40.391032  mkfs.vfat: unable to open /dev/loop0: Device or resource busy
+> > > 20104 10:12:40.395953  tst_test.c:1170: TBROK: mkfs.vfat failed with exit code 1
+> > > 
+> > > ie, a failure to stand up the test environment on the loopback device
+> > > all happening immediately after some other filesystem related test which
+> > > also used the loop device.  A bisect points to commit a6c7a78f1b6b97
+> > > which is this, which does look rather relevant.  LTP is obviously being
+> > > very much an edge case here.
+> > Hah, here's something I didn't consider and that I should've caught.
+> > 
+> > Look, on current mainline no matter if MNT_DETACH/UMOUNT_SYNC or
+> > non-MNT_DETACH/UMOUNT_SYNC. The mntput() calls after the
+> > synchronize_rcu_expedited() calls will end up in task_work():
+> > 
+> >          if (likely(!(mnt->mnt.mnt_flags & MNT_INTERNAL))) {
+> >                  struct task_struct *task = current;
+> >                  if (likely(!(task->flags & PF_KTHREAD))) {
+> >                          init_task_work(&mnt->mnt_rcu, __cleanup_mnt);
+> >                          if (!task_work_add(task, &mnt->mnt_rcu, TWA_RESUME))
+> >                                  return;
+> >                  }
+> >                  if (llist_add(&mnt->mnt_llist, &delayed_mntput_list))
+> >                          schedule_delayed_work(&delayed_mntput_work, 1);
+> >                  return;
+> >          }
+> > 
+> > because all of those mntput()s are done from the task's contect.
+> > 
+> > IOW, if userspace does umount(MNT_DETACH) and the task has returned to
+> > userspace it is guaranteed that all calls to cleanup_mnt() are done.
+> > 
+> > With your change that simply isn't true anymore. The call to
+> > queue_rcu_work() will offload those mntput() to be done from a kthread.
+> > That in turn means all those mntputs end up on the delayed_mntput_work()
+> > queue. So the mounts aren't cleaned up by the time the task returns to
+> > userspace.
+> > 
+> > And that's likely problematic even for the explicit MNT_DETACH use-case
+> > because it means EBUSY errors are a lot more likely to be seen by
+> > concurrent mounters especially for loop devices.
+> > 
+> > And fwiw, this is exactly what I pointed out in a prior posting to this
+> > patch series.
 > 
-> I audited the static per-CPU variables and I am done with this series. I
-> need to go through the dynamic allocations of per-CPU but I don't expect
-> to see any there.
+> And I didn't understand what you said then but this problem is more
 > 
->> AFAICS this one does not fit the existing hole anymore; the binary
->> layout before this series is:
->>
->>  struct netdev_xmit {
->>                 /* typedef u16 -> __u16 */ short unsigned int recursion;
->>                 /*  2442     2 */
->>                 /* typedef u8 -> __u8 */ unsigned char      more;
->>                 /*  2444     1 */
->>                 /* typedef u8 -> __u8 */ unsigned char
->> skip_txqueue;                /*  2445     1 */
->>         } net_xmit; /*  2442     4 */
->>
->>         /* XXX 2 bytes hole, try to pack */
->>
->> and this series already added 2 u8 fields. Since all the recursion
->> counters could be represented with less than 8 bits, perhaps using a
->> bitfield here could be worthy?!?
+> understandable to me now.
 > 
-> The u8 is nice as the CPU can access in one go. The :4 counting fields
-> (or so) are usually loaded and shifted so there is a bit more assembly.
-> We should be able to shorten "recursion" down to an u8 as goes to 8
-> only.
 > 
-> I still used holes according to pahole on my RT build (the non-RT
-> shouldn't change):> 
-
-Please disregard my comment here. I misread the netdevice_xmit struct
-layout. You are right it still fit an hole.
-
->>> diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
->>> index 5b38143659249..5f01f567c934d 100644
->>> --- a/net/sched/act_mirred.c
->>> +++ b/net/sched/act_mirred.c
->>> @@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
->>>  static DEFINE_SPINLOCK(mirred_list_lock);
->>>  
->>>  #define MIRRED_NEST_LIMIT    4
->>> -static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
->>> +
->>> +#ifndef CONFIG_PREEMPT_RT
->>> +static u8 tcf_mirred_nest_level_inc_return(void)
->>> +{
->>> +	return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest);
->>> +}
->>> +
->>> +static void tcf_mirred_nest_level_dec(void)
->>> +{
->>> +	__this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
->>> +}
->>> +
->>> +#else
->>> +static u8 tcf_mirred_nest_level_inc_return(void)
->>> +{
->>> +	return current->net_xmit.sched_mirred_nest++;
->>> +}
->>> +
->>> +static void tcf_mirred_nest_level_dec(void)
->>> +{
->>> +	current->net_xmit.sched_mirred_nest--;
->>> +}
->>> +#endif
->>
->> There are already a few of this construct. Perhaps it would be worthy to
->> implement a netdev_xmit() helper returning a ptr to the whole struct and
->> use it to reduce the number of #ifdef
+> > 
+> > But we've also worsened that situation by doing the deferred thing for
+> > any non-UMOUNT_SYNC. That which includes namespace exit. IOW, if the
+> > last task in a new mount namespace exits it will drop_collected_mounts()
+> > without UMOUNT_SYNC because we know that they aren't reachable anymore,
+> > after all the mount namespace is dead.
+> > 
+> > But now we defer all cleanup to the kthread which means when the task
+> > returns to userspace there's still mounts to be cleaned up.
 > 
-> While I introduced this in the beginning, Jakub asked if there would be
-> much difference doing this and I said on x86 at least one opcode because
-> it replaces "var++" with "get-var, inc-var". I didn't hear back on this
-> so I assumed "keep it".
+> Correct me if I'm wrong but the actual problem is that the mechanism used
+> 
+> to wait until there are no processes doing an rcu-walk on mounts in the
+> 
+> discard list is unnecessarily long according to what Eric has seen. So a
 
-I forgot about that discussion. Given that note, I'm ok with the current
-implementation, but please add a comment (or a sentence in the commit
-message) for future memory.
-
-Thanks!
-
-Paolo
-
+I think that the current approach is still salvagable but I need to test
+this and currently LTP doesn't really compile for me.
