@@ -1,184 +1,304 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2051.outbound.protection.outlook.com [40.107.243.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEED215795
-	for <linux-rt-devel@lists.linux.dev>; Fri, 18 Apr 2025 16:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744993404; cv=fail; b=sEXeYRoPKy34D97BC17L8YP9ZfY177ofl4pg0Dt+xzbhboPAuwczLwDNd23F0Ytehj59wsk9o1U852xZjRZno7+gwp4NNKCP8y4rmk0Lv5hVSja19evY1O6nfTLFf/7kEtTa4/+Mcq1pjK8qOoC9coDKR4IGO+6eE/ljL2HjCRc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744993404; c=relaxed/simple;
-	bh=ietLSlrPVDSiVwwxDpbuA9QpAtXtVWFrt6bBbugJmHU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UrzVSma7z7LUnxPOX6+gxAE+EGI4iXckJrHRy4m0tLv9sg3YA9eA3rkex2VBAIjEkqn35XZkD0fOU6mYhd4/+CaZP5wmv4PDsE8RtIHpA3yshxdjM8YfyLzTRl50z/KOp9oU5fgj8nr8XSPmcwc8s6iy47lzjlFT0t+9CECeDoU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=JvW+3INb; arc=fail smtp.client-ip=40.107.243.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7C56DCE1;
+	Fri, 18 Apr 2025 19:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745006370; cv=none; b=BDhu5/130bzOnpYVOgrZI0aU1cYL64rNojs+gh08gR/0KzpcLGXUIiCX0RQbhLe6dOsPBb7eqohGCJuHetBvODoPyxC2gFl0GgfHAeuM13JSypwwckFPcLkQhH88rUg7TQnNOj61Ujq6RGdIp0vgf/kneHGvhxB6Fz4NqQTZhBI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745006370; c=relaxed/simple;
+	bh=gyBw2DM+jIc/hhY3YexqUJogoosVscXTFjVJLt9Ef30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=llo5ICodRuAHoaw9eEbqc59DfGRY7VTzZVf7ZUh6rJsb1kT8RgqLu1BjDXWxtTmLFXcHXsJ7eo2NwOuAUeiLzcsThCypboa7I03erUJH8zw9Qep6DR/AGfnhplQ8MMYroGQfahR8uGyecWkkWGrtNdX2MjVB61hqXIkmgDAqePE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iytmxcsy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="JvW+3INb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G7eE23XLoJygQ2BPRlO0qY6ydL4i1wkmX2gK5SPY+IrkjCjYAlpNlMrJD0MuVcafSk3LGlp5s8XW5gwA7NZCrdxnGHw3jrYpbg++fOn9ZywXnIRVZlUMV1B//Lr1jBosoOrl71XZaT+yKtSWTr2WLOD1e+RyOiIsfavo1CP15Anf7w9dFHqAKBx+Gt7FHp3OSab7PmP15Qw4ush7ZccyTyCxfTu4UUVMLE8twK++sdzkUcGAy7FkN1ChhURNsjMtTGaDpBOkcsJij9GrD4ttr7QjnWldnR0Xl5LClTWT8hWcHxueE2+E5repruSc2meXxSgH7J7RAlupvwG/T1nqSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UerI16cmWNVMPBZ/CFs+wgBL7SRYGYJjH2zEDX59HUg=;
- b=tozEKvtsLv2EePm4B8W5v3i2bD9di0VZ4tAyWR6vSOKgDeqgagrFFp3Fo5MIFr1xcH/5Dua28ssOYtkk1C1iUZhn7DhvpceE9GsVQPkzm8sxJSGDBe34oTsPg3PHP+uoTSiWonaPuqKqOGnqmkWPLSTna6b8TODMVIFNL8r145xzj/4uSNTLe5H4JpZgpHVCXk+deCwyDpAtmv+PmS/mZvgcyy4RyOrM12q1Pvrryh0grGj5WLd/4c4ZZRGXsBpXoebZNb7yeuMYn59Sagp2VEpcLHTTKSOHwnfbk0+84nYVma5Z97kn5FbO7yqnQbI5iX/qIHVsBg87tJV4zbKVZQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UerI16cmWNVMPBZ/CFs+wgBL7SRYGYJjH2zEDX59HUg=;
- b=JvW+3INbvkFkcnAtyVN5iCwnpunXWUVcJrrBVqmPY2p3vDaA6zpxVMdZg36SJIAMn862a3oFYLzxnLQe24/MYa4ESsAuUUGOIUefn5fnYOyazbWZHdV8E+AeWI4OEqG0tkzV92TxKkjd58ePfA0go+VX9ezqeIUNG0QW3SmzcjKNuLwDP1blfDFIB8R0+cHgvtHyOEwvMtxg5uIQ/1GNrNVsUwUSXURk4Q/A+HYjnrs3aDLDr9PyMYeRrgG23WENOF06OafAgeCv+esX7GNAlRkn2UZZuzxgY3UfscQqhOarr17U5Flo0tWDzXtEHz3vUWCE4Lao53/aXvlKSbQREg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by CH3PR12MB8726.namprd12.prod.outlook.com (2603:10b6:610:17b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Fri, 18 Apr
- 2025 16:23:20 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%6]) with mapi id 15.20.8655.022; Fri, 18 Apr 2025
- 16:23:20 +0000
-Message-ID: <7ce2d107-bae8-4c75-8988-31ee59c8cbdb@nvidia.com>
-Date: Fri, 18 Apr 2025 12:23:16 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/14] RCU torture changes for v6.16
-To: linux-kernel@vger.kernel.org,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>
-Cc: rcu@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- rust-for-linux@vger.kernel.org
-References: <20250418161005.2425391-1-joelagnelf@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <20250418161005.2425391-1-joelagnelf@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN0PR04CA0086.namprd04.prod.outlook.com
- (2603:10b6:408:ea::31) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iytmxcsy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51051C4CEE2;
+	Fri, 18 Apr 2025 19:59:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745006369;
+	bh=gyBw2DM+jIc/hhY3YexqUJogoosVscXTFjVJLt9Ef30=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iytmxcsyDe4jUx0gkedpiUtXOUpHB9SO/UiRwbo0c+v78CKAIazj89BlCMaO0X0Df
+	 CJ7koj2bke+s/btBuPmO3gdkLNZ/OsvcKXcZJVxpYSqPPxkOwuS/mfRvaZ4u/PG3jZ
+	 MPo7Xi71Q0eR4rKzLPqe2I7hUjusCSQW0oQWdmuEB6LQCGuYduG1Uavj3e+aYMquae
+	 g6o0HJTOugTN1kODHkuS0dayczZJfrdxtlxXyQofAvYPW63tzbOpxvyn5nrqn7mg3G
+	 6j2kPTlaIAmUlGs/2SZdIUXfxX2oaTq4e/n09Rht9Sf+lxVn1tabvgE+mwOuiS7FN5
+	 xAV2AW88lSnrw==
+Date: Fri, 18 Apr 2025 21:59:23 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Ian Kent <raven@themaw.net>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Mark Brown <broonie@kernel.org>, Eric Chanudet <echanude@redhat.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ian Kent <ikent@redhat.com>, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Alexander Larsson <alexl@redhat.com>, Lucas Karpinski <lkarpins@redhat.com>, Aishwarya.TCV@arm.com
+Subject: Re: [PATCH v4] fs/namespace: defer RCU sync for MNT_DETACH umount
+Message-ID: <20250418-armselig-kabel-4710dc466170@brauner>
+References: <20250417-wolfsrudel-zubewegt-10514f07d837@brauner>
+ <fb566638-a739-41dc-bafc-aa8c74496fa4@themaw.net>
+ <20250417-abartig-abfuhr-40e558b85f97@brauner>
+ <20250417-outen-dreihundert-7a772f78f685@brauner>
+ <20250417-zappeln-angesagt-f172a71839d3@brauner>
+ <20250417153126.QrVXSjt-@linutronix.de>
+ <20250417-pyrotechnik-neigung-f4a727a5c76b@brauner>
+ <39c36187-615e-4f83-b05e-419015d885e6@themaw.net>
+ <125df195-5cac-4a65-b8bb-8b1146132667@themaw.net>
+ <20250418-razzia-fixkosten-0569cf9f7b9d@brauner>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|CH3PR12MB8726:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8dc1fc91-601c-47bb-e2e9-08dd7e9554ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|7416014|366016|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TkNQelZGV05vdnIxR2sxWkpBaEZMNWxmeTZEbXVobEFOczJDcU5yRFZON3JC?=
- =?utf-8?B?eXZqbjYwMWVKR3NEMmhKa0tFcWl2bEx3dUhaK21EWGVzSE5ILytxZmVOY3hI?=
- =?utf-8?B?OHV1SXVCM25pQWtwTjlaWnUyVnFuMnhTVEovMURGY3d4cFVXbHJhUmcwRStU?=
- =?utf-8?B?Q3RhSkZoUW40eVZxU0hudVR6cjdWNVF5NGNkYnlibkVvajRLWFdrWEswNGFy?=
- =?utf-8?B?b3EvOE5VSFE5LzVBQi9nZ3Z5czVXc294YWs1eUlJbFZkbko5bEdmWjdPYmxw?=
- =?utf-8?B?Q2tacFJxaUVwTmlZNlpuek1LNjdVQStaNitLMXdCMjgrODJNUEp1SGFDd0Nm?=
- =?utf-8?B?c0tqR0R2WEdzcEpsU1l6OEVMNFJnckVjYWVsc1BZbmk3TFdSUE5iOHpIcFZQ?=
- =?utf-8?B?WDdEMWRzODJzazJ2WVZ5WFBoMW93NUx6U1NBWFN2YUR6NDdiMHFxdTZSQUpP?=
- =?utf-8?B?aGtYNkJjd1gwUVVpQWxua3hIUk1hMGdqZHkweTNuVHhNNko4ZWl2U0pBZms3?=
- =?utf-8?B?RE1OMWRmSzByLy9HWkd4THZ3MllnN1BxNWVYMGVQazhFOFJONlpOL0wrWTBN?=
- =?utf-8?B?Nk02RFdWZkxkRXBFTkR1MkhtMnUwT0tBQlc0STNNNjBsZXpvUi9ONUVjNFZS?=
- =?utf-8?B?cHVXZnlWL1c5TnlsUTNrRDJyRXBGQUpPSkNjSndYVlNXcUNRdW0xd3FyUnJo?=
- =?utf-8?B?K0hGZ1JlT1BvY284WEltNDhNby9JZzZCWUJhVHIyVytaK245N0ZCSVh1djFH?=
- =?utf-8?B?eXlnK0VpS1hOWnJWZlQ4TTh1c3dTcEZiMkU2Sk53ZEZ2eVlCVTY4emRROFM2?=
- =?utf-8?B?ck9uRWp3bWxRYVZ0S3NYYXduNmQ3VG5ieVMxbmdQS25Yc0p6aHA4S3E4RWht?=
- =?utf-8?B?dVMvRTljQjJXN29rWXAzODdDeE9kQXgxdUl1Z1NIZCtLR0dEakN1UllmVlky?=
- =?utf-8?B?SHo0N0Jqdmo2YnNJSG83TUxrUFIweDdGUjVtM1JHZHIzZ1JpNXljdnFmd1Rv?=
- =?utf-8?B?M3J2bzNCSmdiUk9JWWVGZ2U2QTB6aWtZdThERjRBQ1p6U0w4dkltSit5Njha?=
- =?utf-8?B?VW1HckE3ek55TVlSdlJXTzcxZElub294SG43MHdsTmQ0ZGJ3cTFCZnlhb2Y3?=
- =?utf-8?B?OXlCd2hCWk1UZ3J3emk2eklKa0xQSFhxOWFiTENLS3lIeVg5elBjcm5MMXN5?=
- =?utf-8?B?MitqSFNjaEpBQVBBM0dKbXUvaTJXbVlwVXVzanVwZW1UNmp0d0UrcHJOeWE3?=
- =?utf-8?B?Tk8xd00vaXFEcWdLdmZOc2pRNTNYVlZta25IUGxocTNvWHN3K3ZjWjhRbVg3?=
- =?utf-8?B?L1AvTHNzL25lSHRGMllhNnFIdzBoSndsTFh0aklGd0JXRklTYU5YakVjWm9W?=
- =?utf-8?B?SmRmMFhIaVExdkNpQ3NxeEJraVRMSk5PVW1ZdER0dVNxOHlZbHFCTXN5RDNy?=
- =?utf-8?B?MDFNVXhXT29CdTZTZnpzVEM4K2FPS1RwWldwbCtqV0hwbWFrZFpjM3FJdHJD?=
- =?utf-8?B?K0xBODM3eUxDU3E2dkhpY1VodUh5anA5cFB6Q1liOEJ3WCtIeDhmbTd5VUFh?=
- =?utf-8?B?OCszRm9zQUVQRFN3TFpjK1QvSlZiL1ZsbFNIUXJ1OVdYd1o4eitPWWdtL3o0?=
- =?utf-8?B?MjZvenVXZEtzdmRXRGcyRVJlOTNUcWh4VGJEMUdydGFlUXRBaFM0bEo1VFJh?=
- =?utf-8?B?NXpGSExIdHozVk9meEpGa3ZnZTJ6NGREZFJEKzdOQmM2WENzcjE2ZDEvY1ZY?=
- =?utf-8?B?anZmd2lheUY3SWJzMFpFYUxZS1VNbjdUbXQzN2ExVUEycVo3MHFLSUJUZ2Nq?=
- =?utf-8?B?aWZCRzdMdXJVekJ3b0hwb3NCMGRZUDI5REpXbDRET0Uvak1RVEdIUGVNNWVM?=
- =?utf-8?B?K3RuMGxjYjJhQmlPZHUwNGFJRFQ4ZWk0K3NleWlIVmZ1eSs2cjFJT0kwVTNE?=
- =?utf-8?B?azc0UnBscGpRT1BTLzc3eHhWbXpyMmdlc25nemxDdWF6Y3VsQnFOTmNsQmtk?=
- =?utf-8?B?WlJ5Z1YvaHhnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QnovRDl3a2MzT3QxTWJOTjVzOTNFWHJseFFzcUhjU1pJNk5EUSs1Ujk3dlo0?=
- =?utf-8?B?bkVlc2x6VDJQSXI5alB5S2pRU2RIVUQyeXg5ZEQycEZHT04zbmZyS3EzMndP?=
- =?utf-8?B?VVYyVk56T2Z6SDRqdWtsQkZvUC9iSkoxVE5TU0dMY1lISGM2RWJuNXZqcWZO?=
- =?utf-8?B?KzhOOWRFN1NaNkx5L05wc25LSHlQM29Fcm1Hb2Q3UmxOc1RNWVhKL1RiT01M?=
- =?utf-8?B?b1JBMWNHRVNoTUhnYS9ZR2VESUE3TC9aVEVNZis2ZStLajZwVFZHcWZKU0Vm?=
- =?utf-8?B?ZjNpUEErR0RVbTNnWFk1QmxKSHVVbVJ6N3A5RWRGY1lTNklXVG1mWXZ6Qmcx?=
- =?utf-8?B?K2xYMW5mclVKY2U0ZUxzcS8rUVF0Mk9WSUpsc1FOelhVcHZiVVczV2h4azNl?=
- =?utf-8?B?S29iaTA1SDFnZjFZYmpyZnB3RW4yQjBYSEFwVDA4aEFPYXZnWDAvdEFiSTR2?=
- =?utf-8?B?VW5peThVaTAvOHNsWkJ3am1paXp4ZW15citqSmpsTnFvTXZhemZLTXpoUkRy?=
- =?utf-8?B?Q1FsL2cyUXF0TFEwUzJ4dG1VNXR0bXdEMi96L0Q4b3JEQkV4bEY5Zk9PMVhE?=
- =?utf-8?B?OGh6V3I2R0FpRVZ2UzNwVFBxRUJBbnV0ZEdlTmtsMXZOOUU1bHAzNWtSd0Nu?=
- =?utf-8?B?VkhTZFQxMkY4eHIwSlhPMzRSR3ZtOUFDR2FiN2JYWlo2Q0R0cTE0eHNkYmNH?=
- =?utf-8?B?QzFLNnFtTkhBTkZEdUpOdGl3akhaK2lSQTIvOGkzK2pCVlBlYTc0VkZDNTQ1?=
- =?utf-8?B?cENudURMY1FTaitMVHExNit2US9UZ1FJRUlibm0xZzkwYm4vbk1xblpLYzRz?=
- =?utf-8?B?VXVuWlp2d3NyQWFpUDVOUitWRUREdHBSanpoKzkvZk8zN0lVNFJPMU5MVEw4?=
- =?utf-8?B?bDRxR241SnJvSk94TnkyMkZOTGhBUjBWZFVHU2k3VWlPeDFlS3REdjhlU0No?=
- =?utf-8?B?UC9taExtOXdXQ01Gb3o3V1hydG9NSkNmSDcyN3g2U3FqVkVlVVFLa0NheVlL?=
- =?utf-8?B?OGJvTzZsYWh4QnJTOExvdE96UDEyVWhLOVNZRk1UOUxOdHNzTHBjS1Z1cWtp?=
- =?utf-8?B?RWlLWEcvREQ3ZHhlalpYVjlCbjI0ZFRkbncrRmgxUDk1cHBtYTFQOEVBSjIx?=
- =?utf-8?B?aWYxVTZBSFN2VW5BRGVWc3pRWUZmY3FtTEptL2RYeFRkM2RWWmNpcDlQMit5?=
- =?utf-8?B?eE5RWmRBY0drb2JWT01oak93TnZiWGV5ZncycWdQWmlUK3hGdCt0WHlRb3FW?=
- =?utf-8?B?dHpZOVBnMVg1bDVvUW96cSt6M1Z1T3p4Vnk2UmQxdHVpRmg0SjZ0WWhnTzls?=
- =?utf-8?B?dG15ZVoxcGlHbElEcnBMVlduQ0Noc0tGcWk0cS9KTkxmRGwvUEdFYms2eXJr?=
- =?utf-8?B?UTJBWjl5K3p4WVBLMnJFTHV0N1NRdEp5dzY2UHVRSGhwK09JZ3U3L3R5V1k3?=
- =?utf-8?B?YlI3R2x0T2RLcUxHVmZ1L2JtbFRBQTdVd3hIbnc1UkNxdUxHTmFKNlBEd0J4?=
- =?utf-8?B?SXBEdkQ5RUVsOHJDbGlRTjdIanhwUmZ5SGFUdWhML2NBZUQ0Njl0QnF0NlRm?=
- =?utf-8?B?Y2k0RUxLVEluVXZ6Y1R5QzUxdEV5V2xOZUdhaVJ1MWRLU3YrVVVmUmllWjhU?=
- =?utf-8?B?ejNzNE9rZ3MxNUg0RGI3SjRmTzdidnFtcXVkY3JVR1JXcCtXd0V1SS9qck9R?=
- =?utf-8?B?cFVYbEk1UjdETW9BeFo2WVFseHZZUzlHV0xNYStzTGJvRWFSVTdGbkhDVmRo?=
- =?utf-8?B?QnZ4OVRkRUt2cXdYOHBnbEpMQWJxNEdjMUVpMWlaMlRTUktoRVFqTnhtMVB5?=
- =?utf-8?B?cVVoNWlsT3pWZHhtK3dzVWdrTEdnaDc0Nm1Wc1V3V05kbU5wN1hIRitXaStK?=
- =?utf-8?B?dWF3azBCU0FVNnB2RmtITElIWHZ6cGZNbk9zV0UxbmlmREhqaGdndGhmNldC?=
- =?utf-8?B?RlM4WWVOWng1dERrcjRxZUJISFEwR2MwbmhUaUU4akU1NjN2UFNudFlOdWVT?=
- =?utf-8?B?c0xha1ZxWTZXWU91MTBMVW9aVDF3Z3ZOTzVoRjNMTjZaUVMxdDZQVlVFdW1k?=
- =?utf-8?B?cVUvY0FpbWtUWkFyV2UwSFZEcHI2ZGNMQ0RldWRkSUNOMUI0QTJVVlJRcXlZ?=
- =?utf-8?Q?xyjwf4LtXUT00aiG17woY/sgA?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dc1fc91-601c-47bb-e2e9-08dd7e9554ed
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Apr 2025 16:23:20.4343
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SFz1REFnkNzFYra5s3Vvf+mrS/MFsTNVXKB+bklwHHg4c9zJwZ195LvtqZmc1VsRrO5sHHCs7pHIGSnfEuITRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8726
+Content-Type: multipart/mixed; boundary="wlvjtn7bxagetzkl"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250418-razzia-fixkosten-0569cf9f7b9d@brauner>
 
-On 4/18/2025 12:09 PM, Joel Fernandes wrote:
-> Hi,
+
+--wlvjtn7bxagetzkl
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+On Fri, Apr 18, 2025 at 10:47:10AM +0200, Christian Brauner wrote:
+> On Fri, Apr 18, 2025 at 09:20:52AM +0800, Ian Kent wrote:
+> > On 18/4/25 09:13, Ian Kent wrote:
+> > > 
+> > > On 18/4/25 00:28, Christian Brauner wrote:
+> > > > On Thu, Apr 17, 2025 at 05:31:26PM +0200, Sebastian Andrzej Siewior
+> > > > wrote:
+> > > > > On 2025-04-17 17:28:20 [+0200], Christian Brauner wrote:
+> > > > > > >      So if there's some userspace process with a broken
+> > > > > > > NFS server and it
+> > > > > > >      does umount(MNT_DETACH) it will end up hanging every other
+> > > > > > >      umount(MNT_DETACH) on the system because the dealyed_mntput_work
+> > > > > > >      workqueue (to my understanding) cannot make progress.
+> > > > > > Ok, "to my understanding" has been updated after going back
+> > > > > > and reading
+> > > > > > the delayed work code. Luckily it's not as bad as I thought it is
+> > > > > > because it's queued on system_wq which is multi-threaded so it's at
+> > > > > > least not causing everyone with MNT_DETACH to get stuck. I'm still
+> > > > > > skeptical how safe this all is.
+> > > > > I would (again) throw system_unbound_wq into the game because
+> > > > > the former
+> > > > > will remain on the CPU on which has been enqueued (if speaking about
+> > > > > multi threading).
+> > > > Yes, good point.
+> > > > 
+> > > > However, what about using polled grace periods?
+> > > > 
+> > > > A first simple-minded thing to do would be to record the grace period
+> > > > after umount_tree() has finished and the check it in namespace_unlock():
+> > > > 
+> > > > diff --git a/fs/namespace.c b/fs/namespace.c
+> > > > index d9ca80dcc544..1e7ebcdd1ebc 100644
+> > > > --- a/fs/namespace.c
+> > > > +++ b/fs/namespace.c
+> > > > @@ -77,6 +77,7 @@ static struct hlist_head *mount_hashtable
+> > > > __ro_after_init;
+> > > >   static struct hlist_head *mountpoint_hashtable __ro_after_init;
+> > > >   static struct kmem_cache *mnt_cache __ro_after_init;
+> > > >   static DECLARE_RWSEM(namespace_sem);
+> > > > +static unsigned long rcu_unmount_seq; /* protected by namespace_sem */
+> > > >   static HLIST_HEAD(unmounted);  /* protected by namespace_sem */
+> > > >   static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+> > > >   static DEFINE_SEQLOCK(mnt_ns_tree_lock);
+> > > > @@ -1794,6 +1795,7 @@ static void namespace_unlock(void)
+> > > >          struct hlist_head head;
+> > > >          struct hlist_node *p;
+> > > >          struct mount *m;
+> > > > +       unsigned long unmount_seq = rcu_unmount_seq;
+> > > >          LIST_HEAD(list);
+> > > > 
+> > > >          hlist_move_list(&unmounted, &head);
+> > > > @@ -1817,7 +1819,7 @@ static void namespace_unlock(void)
+> > > >          if (likely(hlist_empty(&head)))
+> > > >                  return;
+> > > > 
+> > > > -       synchronize_rcu_expedited();
+> > > > +       cond_synchronize_rcu_expedited(unmount_seq);
+> > > > 
+> > > >          hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
+> > > >                  hlist_del(&m->mnt_umount);
+> > > > @@ -1939,6 +1941,8 @@ static void umount_tree(struct mount *mnt,
+> > > > enum umount_tree_flags how)
+> > > >                   */
+> > > >                  mnt_notify_add(p);
+> > > >          }
+> > > > +
+> > > > +       rcu_unmount_seq = get_state_synchronize_rcu();
+> > > >   }
+> > > > 
+> > > >   static void shrink_submounts(struct mount *mnt);
+> > > > 
+> > > > 
+> > > > I'm not sure how much that would buy us. If it doesn't then it should be
+> > > > possible to play with the following possibly strange idea:
+> > > > 
+> > > > diff --git a/fs/mount.h b/fs/mount.h
+> > > > index 7aecf2a60472..51b86300dc50 100644
+> > > > --- a/fs/mount.h
+> > > > +++ b/fs/mount.h
+> > > > @@ -61,6 +61,7 @@ struct mount {
+> > > >                  struct rb_node mnt_node; /* node in the ns->mounts
+> > > > rbtree */
+> > > >                  struct rcu_head mnt_rcu;
+> > > >                  struct llist_node mnt_llist;
+> > > > +               unsigned long mnt_rcu_unmount_seq;
+> > > >          };
+> > > >   #ifdef CONFIG_SMP
+> > > >          struct mnt_pcp __percpu *mnt_pcp;
+> > > > diff --git a/fs/namespace.c b/fs/namespace.c
+> > > > index d9ca80dcc544..aae9df75beed 100644
+> > > > --- a/fs/namespace.c
+> > > > +++ b/fs/namespace.c
+> > > > @@ -1794,6 +1794,7 @@ static void namespace_unlock(void)
+> > > >          struct hlist_head head;
+> > > >          struct hlist_node *p;
+> > > >          struct mount *m;
+> > > > +       bool needs_synchronize_rcu = false;
+> > > >          LIST_HEAD(list);
+> > > > 
+> > > >          hlist_move_list(&unmounted, &head);
+> > > > @@ -1817,7 +1818,16 @@ static void namespace_unlock(void)
+> > > >          if (likely(hlist_empty(&head)))
+> > > >                  return;
+> > > > 
+> > > > -       synchronize_rcu_expedited();
+> > > > +       hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
+> > > > +               if (!poll_state_synchronize_rcu(m->mnt_rcu_unmount_seq))
+> > > > +                       continue;
 > 
-> Please find the upcoming miscellaneous RCU changes. The changes can also
+> This has a bug. This needs to be:
+> 
+> 	/* A grace period has already elapsed. */
+> 	if (poll_state_synchronize_rcu(m->mnt_rcu_unmount_seq))
+> 		continue;
+> 
+> 	/* Oh oh, we have to pay up. */
+> 	needs_synchronize_rcu = true;
+> 	break;
+> 
+> which I'm pretty sure will eradicate most of the performance gain you've
+> seen because fundamentally the two version shouldn't be different (Note,
+> I drafted this while on my way out the door. r.
+> 
+> I would test the following version where we pay the cost of the
+> smb_mb() from poll_state_synchronize_rcu() exactly one time:
+> 
+> diff --git a/fs/mount.h b/fs/mount.h
+> index 7aecf2a60472..51b86300dc50 100644
+> --- a/fs/mount.h
+> +++ b/fs/mount.h
+> @@ -61,6 +61,7 @@ struct mount {
+>                 struct rb_node mnt_node; /* node in the ns->mounts rbtree */
+>                 struct rcu_head mnt_rcu;
+>                 struct llist_node mnt_llist;
+> +               unsigned long mnt_rcu_unmount_seq;
+>         };
+>  #ifdef CONFIG_SMP
+>         struct mnt_pcp __percpu *mnt_pcp;
+> diff --git a/fs/namespace.c b/fs/namespace.c
+> index d9ca80dcc544..dd367c54bc29 100644
+> --- a/fs/namespace.c
+> +++ b/fs/namespace.c
+> @@ -1794,6 +1794,7 @@ static void namespace_unlock(void)
+>         struct hlist_head head;
+>         struct hlist_node *p;
+>         struct mount *m;
+> +       unsigned long mnt_rcu_unmount_seq = 0;
+>         LIST_HEAD(list);
+> 
+>         hlist_move_list(&unmounted, &head);
+> @@ -1817,7 +1818,10 @@ static void namespace_unlock(void)
+>         if (likely(hlist_empty(&head)))
+>                 return;
+> 
+> -       synchronize_rcu_expedited();
+> +       hlist_for_each_entry_safe(m, p, &head, mnt_umount)
+> +               mnt_rcu_unmount_seq = max(m->mnt_rcu_unmount_seq, mnt_rcu_unmount_seq);
+> +
+> +       cond_synchronize_rcu_expedited(mnt_rcu_unmount_seq);
+> 
+>         hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
+>                 hlist_del(&m->mnt_umount);
+> @@ -1923,8 +1927,10 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
+>                         }
+>                 }
+>                 change_mnt_propagation(p, MS_PRIVATE);
+> -               if (disconnect)
+> +               if (disconnect) {
+> +                       p->mnt_rcu_unmount_seq = get_state_synchronize_rcu();
+>                         hlist_add_head(&p->mnt_umount, &unmounted);
+> +               }
+> 
+>                 /*
+>                  * At this point p->mnt_ns is NULL, notification will be queued
 
-FYI: Sorry, s/miscellaneous/torture-related/ here.
+I'm appending a patch that improves on the first version of this patch.
+Instead of simply sampling the current rcu state and hoping that the rcu
+grace period has elapsed by the time we get to put the mounts we sample
+the rcu state and kick off a new grace period at the end of
+umount_tree(). That could even get us some performance improvement by on
+non-RT kernels. I have no clue how well this will fare on RT though.
 
-Also please ignore patches with "XX/12" in their subject, that was an error on
-my part.
+--wlvjtn7bxagetzkl
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: attachment;
+	filename="0001-UNTESTED-mount-sample-and-kick-of-grace-period-durin.patch"
 
-The rest of the series stands good for perusal.
+From 660bddec1241c46a7722f5c9b66a2450b5f85751 Mon Sep 17 00:00:00 2001
+From: Christian Brauner <brauner@kernel.org>
+Date: Fri, 18 Apr 2025 13:33:43 +0200
+Subject: [PATCH] [UNTESTED]: mount: sample and kick of grace period during
+ umount
 
-thanks,
+Sample the current rcu state and kick off a new grace period after we're
+done with umount_tree() and make namespace_unlock() take the previous
+state into account before invoking synchronize_rcu_expedited().
 
- - Joel
+Signed-off-by: Christian Brauner <brauner@kernel.org>
+---
+ fs/namespace.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/fs/namespace.c b/fs/namespace.c
+index d9ca80dcc544..287189e85af5 100644
+--- a/fs/namespace.c
++++ b/fs/namespace.c
+@@ -77,6 +77,7 @@ static struct hlist_head *mount_hashtable __ro_after_init;
+ static struct hlist_head *mountpoint_hashtable __ro_after_init;
+ static struct kmem_cache *mnt_cache __ro_after_init;
+ static DECLARE_RWSEM(namespace_sem);
++static struct rcu_gp_oldstate rcu_unmount_gp;
+ static HLIST_HEAD(unmounted);	/* protected by namespace_sem */
+ static LIST_HEAD(ex_mountpoints); /* protected by namespace_sem */
+ static DEFINE_SEQLOCK(mnt_ns_tree_lock);
+@@ -1817,7 +1818,7 @@ static void namespace_unlock(void)
+ 	if (likely(hlist_empty(&head)))
+ 		return;
+ 
+-	synchronize_rcu_expedited();
++	cond_synchronize_rcu_expedited_full(&rcu_unmount_gp);
+ 
+ 	hlist_for_each_entry_safe(m, p, &head, mnt_umount) {
+ 		hlist_del(&m->mnt_umount);
+@@ -1939,6 +1940,9 @@ static void umount_tree(struct mount *mnt, enum umount_tree_flags how)
+ 		 */
+ 		mnt_notify_add(p);
+ 	}
++
++	/* Record current grace period state and kick of new grace period. */
++	start_poll_synchronize_rcu_expedited_full(&rcu_unmount_gp);
+ }
+ 
+ static void shrink_submounts(struct mount *mnt);
+-- 
+2.47.2
+
+
+--wlvjtn7bxagetzkl--
