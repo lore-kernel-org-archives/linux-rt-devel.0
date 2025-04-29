@@ -1,114 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B36026D4FC
-	for <linux-rt-devel@lists.linux.dev>; Fri, 25 Apr 2025 15:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1832AEE1;
+	Tue, 29 Apr 2025 09:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745593867; cv=none; b=PkDt5oDvXmcagQawas/B6V6UGs6F+eNxqb5dgwARxKq/RtUqyYI4bxXGFEj8GOhb48UuruJyRv08q/SXHnCtLmCFCnpOzZ4fkzSXMrHKMHWYktrZfyrQXWkO1PQjsP/AXgzhvKKYThkVjn2JGaFCkEuX4Yqe8rSyEKCX9Vvbwvw=
+	t=1745918625; cv=none; b=ppJZ9dQEfXxO97d06ywxo4CVICr+VnG+EBduUpvjgTC/Zkanw526ca+AR892fSnjeh/Y9aFzCNnjeB7jSUV7m+wL/ritZ5G9s+PtJGrKZ8kj8u5tHDgA4bARNLQ6Ak0sk0507JjO8OBK7VkhT61ZdDyddEZxfdUXtSThWoi93L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745593867; c=relaxed/simple;
-	bh=5aYTKnW1uf91zxpbLRkRmehpF7E6EkPj5cYjxOKlKlk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=khx3AL3A8BPLJKDGkXDn1rGv3yj/1IdRrQAnYqrvHywvhnmIJfscXqKHBTJJgbDuJWL5Tyl9MvXJdNnugFCgUXIBzxUQjg7i/BK+FulUz4zh0WXTdCMByWyJrQeeWLR25Trsz5CuH3JbJOmbrAZ+gGcICgeDDH67sVqV++PHmoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3wQZAFA; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745918625; c=relaxed/simple;
+	bh=bxXi4bzflUGg0XRChcdu0vilXlrsAE9J350glGTXHc0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NnHj5vNdFwkJxznXKqWOJTszZcabmNxULuk5cN49LepS3a26+mXTmaRk+uPTQJ1wLW1lYl/rwPQ3BDhvZmmvZc17CdghlZCdELju9MGotqsM75KjCcni4ygmAOrhJJsbH8GtPWo5kfB6GEAS4MyqS0EpszG4CFSVMSswWDBGgZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QdVboiFC; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3wQZAFA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745593865; x=1777129865;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5aYTKnW1uf91zxpbLRkRmehpF7E6EkPj5cYjxOKlKlk=;
-  b=B3wQZAFAWjQe1TgLaGpitSdsRHNNDB67wS1VuwErgvC74bfhhobBxD8u
-   PcQMm/k65P2E90BJDfn+d3PVlOaTc3GvaAuWOWShMBxefQkU+6ZAjxJVr
-   EENVtkl2HbWwjTmkTy9MlXzRiFCjX97quCXzejtG1B7VcZ1ewCWOvLZzv
-   OEF+Qkpnl+PB7gWXxlZLnlCmfo+L24nTdhG85jNQ6SX5IcR45OF1cSPGh
-   hXFOKSJJeOaAdqSksVXQh/uC+owMpfLe/88WUxTWQoDh6xUErbHnLLmjB
-   +OcQBbVRX+TEbaxRYRw3ZpvptTp69Kn8/oC3GW4AYsS7EyeTNhsajMvUU
-   g==;
-X-CSE-ConnectionGUID: hlao1uzXT5KIqoJLEOlKrQ==
-X-CSE-MsgGUID: oi33PQt/TWG7IuIwdJTqYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47133758"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47133758"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 08:11:04 -0700
-X-CSE-ConnectionGUID: XWU8z64fTNawiwnxY2teIg==
-X-CSE-MsgGUID: /VdhN3htTS6WdDeoB86ywg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="137916047"
-Received: from junxiaochang.bj.intel.com ([10.238.157.86])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 08:10:59 -0700
-From: Junxiao Chang <junxiao.chang@intel.com>
-To: tomas.winkler@intel.com,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QdVboiFC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=x3bWo1ELL19pa+d0Sb967tWb6OV53ljAQpQ/pusGFUM=; b=QdVboiFCpHr/Orl+7h5UJxnfPZ
+	hdLs16FtVQaFTKC1TP7KW15TTm63H7983/ASTjWHimV6khmEn9j/+UYMp2rNuZiLYITxq5egqkcrz
+	/FUXDgPIokyVMnv+IIZuTRxhswRwyeZ3TlphFakhtwwtMvyYM0SsLFoaJptffjX0lAX5iSRMqx2EL
+	ap9r3KHVXBk5UJmb88OCrfvg7VK/cqS+C0iMIqMJYpsa3pEYF+8QG2eDq010coHphPydf98uGDqr8
+	gPxr3vgwFc2nKtp4xyZ55OdSz5XSYQZ6YcW9Fgfb24AfmJGq1iGFNC1q6ZU2w1+21iPoWcsj0fsqI
+	8D1hn0zQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1u9hBe-0000000DFRA-117H;
+	Tue, 29 Apr 2025 09:23:34 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B12EF30035E; Tue, 29 Apr 2025 11:23:33 +0200 (CEST)
+Date: Tue, 29 Apr 2025 11:23:33 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
-	Vitaly Lubart <vitaly.lubart@intel.com>,
-	Alexander Usyskin <alexander.usyskin@intel.com>,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: junxiao.chang@intel.com,
-	furong.zhou@intel.com
-Subject: [PATCH] drm/i915/gsc: mei interrupt top half should be in irq disabled context
-Date: Fri, 25 Apr 2025 23:11:07 +0800
-Message-Id: <20250425151108.643649-1-junxiao.chang@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250424065609.624457-1-junxiao.chang@intel.com>
-References: <20250424065609.624457-1-junxiao.chang@intel.com>
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: Re: [PATCH net-next v2 06/18] netfilter: nf_dup{4, 6}: Move
+ duplication check to task_struct
+Message-ID: <20250429092333.GG4198@noisy.programming.kicks-ass.net>
+References: <20250414160754.503321-1-bigeasy@linutronix.de>
+ <20250414160754.503321-7-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250414160754.503321-7-bigeasy@linutronix.de>
 
-MEI GSC interrupt comes from i915. It has top half and bottom half.
-Top half is called from i915 interrupt handler. It should be in
-irq disabled context.
+On Mon, Apr 14, 2025 at 06:07:42PM +0200, Sebastian Andrzej Siewior wrote:
+> nf_skb_duplicated is a per-CPU variable and relies on disabled BH for its
+> locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
+> this data structure requires explicit locking.
+> 
+> Due to the recursion involved, the simplest change is to make it a
+> per-task variable.
+> 
+> Move the per-CPU variable nf_skb_duplicated to task_struct and name it
+> in_nf_duplicate. Add it to the existing bitfield so it doesn't use
+> additional memory.
+> 
+> Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+> Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Vincent Guittot <vincent.guittot@linaro.org>
+> Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ben Segall <bsegall@google.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Valentin Schneider <vschneid@redhat.com>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  include/linux/netfilter.h        | 11 -----------
+>  include/linux/sched.h            |  1 +
+>  net/ipv4/netfilter/ip_tables.c   |  2 +-
+>  net/ipv4/netfilter/nf_dup_ipv4.c |  6 +++---
+>  net/ipv6/netfilter/ip6_tables.c  |  2 +-
+>  net/ipv6/netfilter/nf_dup_ipv6.c |  6 +++---
+>  net/netfilter/core.c             |  3 ---
+>  7 files changed, 9 insertions(+), 22 deletions(-)
 
-With RT kernel, by default i915 IRQ handler is in threaded IRQ. MEI GSC
-top half might be in threaded IRQ context. generic_handle_irq_safe API
-could be called from either IRQ or process context, it disables local
-IRQ then calls MEI GSC interrupt top half.
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-This change fixes A380/A770 GPU boot hang issue with RT kernel.
-
-Fixes: 1e3dc1d8622b ("drm/i915/gsc: add gsc as a mei auxiliary device")
-Tested-by: Furong Zhou <furong.zhou@intel.com>
-Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Junxiao Chang <junxiao.chang@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_gsc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_gsc.c b/drivers/gpu/drm/i915/gt/intel_gsc.c
-index 1e925c75fb080..c43febc862dc3 100644
---- a/drivers/gpu/drm/i915/gt/intel_gsc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gsc.c
-@@ -284,7 +284,7 @@ static void gsc_irq_handler(struct intel_gt *gt, unsigned int intf_id)
- 	if (gt->gsc.intf[intf_id].irq < 0)
- 		return;
- 
--	ret = generic_handle_irq(gt->gsc.intf[intf_id].irq);
-+	ret = generic_handle_irq_safe(gt->gsc.intf[intf_id].irq);
- 	if (ret)
- 		gt_err_ratelimited(gt, "error handling GSC irq: %d\n", ret);
- }
--- 
-2.34.1
 
