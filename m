@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9EB25B69D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Apr 2025 12:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D4325D524
+	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Apr 2025 12:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746017294; cv=none; b=YZ95SjjJ8kSnndgLvrtAThRCvs0PahusFIjzmWIOKiUAl5/1FZRCoX+7fIsdOXncnsQAyzhYuHNFK5a2ir7MDsxDxSdzKV5WayO2P0i92zZGezdDIYYwsVeHMG5N8h2CkSH5CGQkWe+ahsRPyzMFLmYddZjZzXrjjwqIJv7EsNY=
+	t=1746017297; cv=none; b=FMk1wofRsYV9UjCVmTua1a1kjJNzuPGZR+cKSfb5Lel1RmPgtPH7HyQIck3t/Xq2m0SdnGqxHNd58lfQk6g/XWqD8t7LFD4nQnW2X1rGf1MLZ/BLxn6ZgFpwT02ZsJD7Msr7gHYMkPsCvJD+GVq4wd5dhoSsCshOfOp2AjSUGDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746017294; c=relaxed/simple;
-	bh=ikhY+bHEuuPq+Wi377sZpWwI70FH5caxkwylptiayXo=;
+	s=arc-20240116; t=1746017297; c=relaxed/simple;
+	bh=Uk33jFZKOfaMLGhcGn8nbFMZJr4Y+ka3dnevkCrTwvs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bUFzIEptXZlWwj9Swov+/L0J/9gygNu2OYWXnsAD0s4F4RnnAK3uOI/G+1kF+hOKy7TqEPzu4WqseZrYkI2G8KBg2TwMCRF+ugfS/YTkTXX1LoAkx8+Fqq7k9m7i7kwPQEOhhffAzK+IZ4DKuR/rNQHoONe508NLcKkKzeokds8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tWYDR7I3; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VZ9DPvff; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=XYqdPv1sTkhEue8gnp8cX8mj0fawj/ALkVAxIRVga/BjWkmtj9JXzOFDr1Ax6DHFDgXULTMnPd6qLe33eHTSW9ANZUVeiNVl/3+sYpcCy/RbOG9QugPKvrbpr/8XJFwckukKSTAxyBMjSN/P88QOF4wOi3ZcBEnoDDnkfanHrbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oj3yLrJI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2R447asm; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tWYDR7I3";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VZ9DPvff"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oj3yLrJI";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2R447asm"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1746017291;
+	s=2020; t=1746017292;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uaElcyYJlHDajUNT3LTdSQakOyifkztF7WLYup3LZE4=;
-	b=tWYDR7I3/IaK+h2SDCzoDv8SmU+cCDNFqBKgrbP4qVtGR/UZiu3CO2qJlpsbkeHtl0ecw/
-	zS6sRLdOs7ty3Ma10R7nHajBhjbXZELPfsA3oHursJR9ihBfquemSZjZZ0cF3Utuf0oEnP
-	LVs6WI/HuZ38lLrttumQhDuPBX0rn37a/TrXenM7bky44jo5ugRx14wZ9WIv6/lIXSdqic
-	X6mB3cxRDj0zUKW5HDLj53cK1AEr4TET8MbZ93k+h1dasCqrbg1IcWCtC1/np66uYWwoJQ
-	dJ5wPxcgrA+iYgqFuI+6AYnfIiMwuhS/uj+aVsulvprUA5j1dptD6zWR9J/B+w==
+	bh=jIoZaVO5iMo/IzztrbNw0WYdjKIA8wg/j9DCE9fgn3Q=;
+	b=oj3yLrJIh7cRRbaLsVYaypLtbVfUJgkQT3JlDuXaI67NY7ww/3qZFf9cB/ioYMN7t6pCzN
+	vce++F0KvYQGdsSVRLOW4ZrgJb0ONZtBl5fBIucUgPicZjlfYKBS44HgUDqu5LQYqMUKwi
+	xE9h2PAUMN3oSGN4Za1F7TxgFWTtH0pr9YMLJ4RpHQyAc1mIiv+PKXgNv1ENv/nynF6QU6
+	6jEX5gGvblIqGYBgjGCSQbssjOR8tfCS4HAbW9mowJps5pOfeQ1++k9/lyYfIxj+LZUIOE
+	50zyaRKZGojd0vJmbXdcdPGkpmZ1pmAxyiazfYZLeiqFbdjQINrodzjywmkGvw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1746017291;
+	s=2020e; t=1746017292;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uaElcyYJlHDajUNT3LTdSQakOyifkztF7WLYup3LZE4=;
-	b=VZ9DPvffGN9O4cSerzd1zAm0jlSTs/KA+VFAoShitlOUAGzfu2dOBgLhVALiJwIe8JN/qi
-	QTmAbzTqCjgMSSCA==
+	bh=jIoZaVO5iMo/IzztrbNw0WYdjKIA8wg/j9DCE9fgn3Q=;
+	b=2R447asmWdSG9TNMbT768jrNV/pqxMbV4Bko1ucK3HaIEld86U5kQZRIMArEVcs8vWmuCU
+	RAdMm1NLPkXpaZBA==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,10 +48,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	David Ahern <dsahern@kernel.org>
-Subject: [PATCH net-next v3 04/18] ipv6: sr: Use nested-BH locking for hmac_storage
-Date: Wed, 30 Apr 2025 14:47:44 +0200
-Message-ID: <20250430124758.1159480-5-bigeasy@linutronix.de>
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org
+Subject: [PATCH net-next v3 07/18] netfilter: nft_inner: Use nested-BH locking for nft_pcpu_tun_ctx
+Date: Wed, 30 Apr 2025 14:47:47 +0200
+Message-ID: <20250430124758.1159480-8-bigeasy@linutronix.de>
 In-Reply-To: <20250430124758.1159480-1-bigeasy@linutronix.de>
 References: <20250430124758.1159480-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,61 +65,78 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-hmac_storage is a per-CPU variable and relies on disabled BH for its
+nft_pcpu_tun_ctx is a per-CPU variable and relies on disabled BH for its
 locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
 this data structure requires explicit locking.
 
-Add a local_lock_t to the data structure and use
-local_lock_nested_bh() for locking. This change adds only lockdep
-coverage and does not alter the functional behaviour for !PREEMPT_RT.
+Make a struct with a nft_inner_tun_ctx member (original
+nft_pcpu_tun_ctx) and a local_lock_t and use local_lock_nested_bh() for
+locking. This change adds only lockdep coverage and does not alter the
+functional behaviour for !PREEMPT_RT.
 
-Cc: David Ahern <dsahern@kernel.org>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Jozsef Kadlecsik <kadlec@netfilter.org>
+Cc: netfilter-devel@vger.kernel.org
+Cc: coreteam@netfilter.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/ipv6/seg6_hmac.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ net/netfilter/nft_inner.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/net/ipv6/seg6_hmac.c b/net/ipv6/seg6_hmac.c
-index bbf5b84a70fca..f78ecb6ad8383 100644
---- a/net/ipv6/seg6_hmac.c
-+++ b/net/ipv6/seg6_hmac.c
-@@ -40,7 +40,14 @@
- #include <net/seg6_hmac.h>
- #include <linux/random.h>
+diff --git a/net/netfilter/nft_inner.c b/net/netfilter/nft_inner.c
+index 817ab978d24a1..c4569d4b92285 100644
+--- a/net/netfilter/nft_inner.c
++++ b/net/netfilter/nft_inner.c
+@@ -23,7 +23,14 @@
+ #include <linux/ip.h>
+ #include <linux/ipv6.h>
 =20
--static DEFINE_PER_CPU(char [SEG6_HMAC_RING_SIZE], hmac_ring);
-+struct hmac_storage {
+-static DEFINE_PER_CPU(struct nft_inner_tun_ctx, nft_pcpu_tun_ctx);
++struct nft_inner_tun_ctx_locked {
++	struct nft_inner_tun_ctx ctx;
 +	local_lock_t bh_lock;
-+	char hmac_ring[SEG6_HMAC_RING_SIZE];
 +};
 +
-+static DEFINE_PER_CPU(struct hmac_storage, hmac_storage) =3D {
++static DEFINE_PER_CPU(struct nft_inner_tun_ctx_locked, nft_pcpu_tun_ctx) =
+=3D {
 +	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
 +};
 =20
- static int seg6_hmac_cmpfn(struct rhashtable_compare_arg *arg, const void =
-*obj)
- {
-@@ -187,7 +194,8 @@ int seg6_hmac_compute(struct seg6_hmac_info *hinfo, str=
-uct ipv6_sr_hdr *hdr,
- 	 */
+ /* Same layout as nft_expr but it embeds the private expression data area.=
+ */
+ struct __nft_expr {
+@@ -237,12 +244,15 @@ static bool nft_inner_restore_tun_ctx(const struct nf=
+t_pktinfo *pkt,
+ 	struct nft_inner_tun_ctx *this_cpu_tun_ctx;
 =20
  	local_bh_disable();
--	ring =3D this_cpu_ptr(hmac_ring);
-+	local_lock_nested_bh(&hmac_storage.bh_lock);
-+	ring =3D this_cpu_ptr(hmac_storage.hmac_ring);
- 	off =3D ring;
-=20
- 	/* source address */
-@@ -212,6 +220,7 @@ int seg6_hmac_compute(struct seg6_hmac_info *hinfo, str=
-uct ipv6_sr_hdr *hdr,
-=20
- 	dgsize =3D __do_hmac(hinfo, ring, plen, tmp_out,
- 			   SEG6_HMAC_MAX_DIGESTSIZE);
-+	local_unlock_nested_bh(&hmac_storage.bh_lock);
+-	this_cpu_tun_ctx =3D this_cpu_ptr(&nft_pcpu_tun_ctx);
++	local_lock_nested_bh(&nft_pcpu_tun_ctx.bh_lock);
++	this_cpu_tun_ctx =3D this_cpu_ptr(&nft_pcpu_tun_ctx.ctx);
+ 	if (this_cpu_tun_ctx->cookie !=3D (unsigned long)pkt->skb) {
+ 		local_bh_enable();
++		local_unlock_nested_bh(&nft_pcpu_tun_ctx.bh_lock);
+ 		return false;
+ 	}
+ 	*tun_ctx =3D *this_cpu_tun_ctx;
++	local_unlock_nested_bh(&nft_pcpu_tun_ctx.bh_lock);
  	local_bh_enable();
 =20
- 	if (dgsize < 0)
+ 	return true;
+@@ -254,9 +264,11 @@ static void nft_inner_save_tun_ctx(const struct nft_pk=
+tinfo *pkt,
+ 	struct nft_inner_tun_ctx *this_cpu_tun_ctx;
+=20
+ 	local_bh_disable();
+-	this_cpu_tun_ctx =3D this_cpu_ptr(&nft_pcpu_tun_ctx);
++	local_lock_nested_bh(&nft_pcpu_tun_ctx.bh_lock);
++	this_cpu_tun_ctx =3D this_cpu_ptr(&nft_pcpu_tun_ctx.ctx);
+ 	if (this_cpu_tun_ctx->cookie !=3D tun_ctx->cookie)
+ 		*this_cpu_tun_ctx =3D *tun_ctx;
++	local_unlock_nested_bh(&nft_pcpu_tun_ctx.bh_lock);
+ 	local_bh_enable();
+ }
+=20
 --=20
 2.49.0
 
