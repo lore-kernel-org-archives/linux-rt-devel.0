@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CF725CC4C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Apr 2025 12:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D965425D8E4
+	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Apr 2025 12:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746017298; cv=none; b=HtnsICIpZb/Stxf371+X1sgU664mzqTN5c6LW0jZUkIoDwyiaidco5zW8o5e9U0S0F884q1965C03YaqGSi9xBRX5mNIdGf+qJnXklQ6q8rnKX9e196ATE5BVlbRsoBlwI+kc3cNo3DFJJn7uPS0Gn+pjfd9Sgb9NNcl3i0ByHA=
+	t=1746017299; cv=none; b=kN50JV73t7PvMd8zyO8g+hk5JuQA2+dBFRdVJ+QIN6yV6k5P9r24F7syVUCftslGcq6D7kFV9uTzcZNZTzqEbxIvxk8i1NLdezcQ8gVFdxDR+c2/HuwZcajtCPT2GsgPymbE3Mh6pLptgn4aRmlOV4uFcPldTvCK4fn050zKuo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746017298; c=relaxed/simple;
-	bh=zrHr0oIdmFVvuqReRS6A1Vk8JfCJLTqEyMuMgmRm85A=;
+	s=arc-20240116; t=1746017299; c=relaxed/simple;
+	bh=bEWL0pVq0EBDlXfIZ2SPz8ZWrtWM6bM2KECMeiUlMd0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JufMN2eBSup+gywNsHaR1hFdyg3UT1X2ITRjqJu2h1zVDIM6aNIKRPfDfhfZjp/5dhxa5HqFDdAp9PaFfr0y4TwSfBiR7BXwbcO3GYACr1runbY6gQwlrPMPKi+IKNNr89dKWY5I4GdquWDaZTkoCJ8gnQBumlDiO43IvFeCVCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FvVEqPRy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Wc65Hd0r; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=gwiHkP6TOaD09zMrkmFNERM87Fjmrhm9rKudKXhAgrhXhJUEOYVMLbqOduQLMeB3Y4XOhvNWM1CVb4uLxz9u1JEnyRmDIOlkS35395UW3WwhTUxeFILfcwSHoktmLXNiSguTDybFGuKgnA5lABixD9c10z01tWAxVeoD8NY69Jg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RVI1Lw2o; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=A1BF97Mg; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FvVEqPRy";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wc65Hd0r"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RVI1Lw2o";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="A1BF97Mg"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1746017295;
+	s=2020; t=1746017293;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ItheQOXN0W8/U3eIeVElS1GMGBEBaL1p1NvXJGWnpLY=;
-	b=FvVEqPRygrxDDfoDvBaQM7fyavV3sOHCRiIVWJVIE2y422bKJq6Pswk49lN4yTcISejazj
-	3yxGokX2MeTI2W+gud7A24zxMerRvGK2hpCSWxfBLEsjdEMIIZSdvb1FoL6rGhtVwzGS06
-	zU255MMi1r1A9r0WPVPJW7Rxa4UN+xjdNCFTfzUcFM1Lu2OHHRV7OvOG6G0XV7jH9FThFo
-	kwwzFFnTjtZut925q868v8a1o07/hD0obChrFNixdDhLMXnCOoC5jYfLweeU4LiOQX39bB
-	JzedMux79QGPV6XhGljcjVEinqXrel8ZKNEX23bzYINizY+9a6Jp5cHzX1fPfg==
+	bh=ZQCXC/uVgpSDNQQQhkgw6eLXiyOg5+jam5JRoJqv1Bo=;
+	b=RVI1Lw2o7iwQuEmghqU8fPZ23pDwFFkYL8WT0TVfQTsLHhvkbRSjAvQeDJoyTwic3P+Qud
+	O/8/OV7g94D0H6WfO4pcLGQJG+yI25OWJlppvoTcrDyYhDraLlbf4Tnw6z1DXVteL320Nv
+	7prbgQcKmUGRQUSsihJ2Q94dCD5iGt4EjZbP0bFZPqPQsZnkQ92eJlGoLgGfBw7lJpbY/R
+	SpGL2zGPYnPwjWkYGvKVWYIrXlwkpO3CHp1Fp7VNiJicFsXFTuZIAMw+azMag0wjWpxI8j
+	ChGBPoENHw6CrSkRgokl8eO+79D/YY32E/kxZUHjyqA9y3v94OWKIbRIxETI4g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1746017295;
+	s=2020e; t=1746017293;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ItheQOXN0W8/U3eIeVElS1GMGBEBaL1p1NvXJGWnpLY=;
-	b=Wc65Hd0rrhZzI3GvZEmn9Tym6FUyXIYynEMleADo20VMbjX/uIVgVo6bCIScseyeXvM538
-	QAG61D5RH5ogYvCQ==
+	bh=ZQCXC/uVgpSDNQQQhkgw6eLXiyOg5+jam5JRoJqv1Bo=;
+	b=A1BF97MgmX/4rCtruGSzW/dGsOq1oL+PrTljSGdvm/3H9psINnpxt3TTI36wUkKBGevT8k
+	0q3AYmQr6uQmlpBQ==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,12 +48,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Subject: [PATCH net-next v3 13/18] net/sched: act_mirred: Move the recursion counter struct netdev_xmit
-Date: Wed, 30 Apr 2025 14:47:53 +0200
-Message-ID: <20250430124758.1159480-14-bigeasy@linutronix.de>
+	Aaron Conole <aconole@redhat.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>,
+	dev@openvswitch.org
+Subject: [PATCH net-next v3 10/18] openvswitch: Merge three per-CPU structures into one
+Date: Wed, 30 Apr 2025 14:47:50 +0200
+Message-ID: <20250430124758.1159480-11-bigeasy@linutronix.de>
 In-Reply-To: <20250430124758.1159480-1-bigeasy@linutronix.de>
 References: <20250430124758.1159480-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -64,91 +65,190 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+exec_actions_level is a per-CPU integer allocated at compile time.
+action_fifos and flow_keys are per-CPU pointer and have their data
+allocated at module init time.
+There is no gain in splitting it, once the module is allocated, the
+structures are allocated.
 
-Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
+Merge the three per-CPU variables into ovs_pcpu_storage, adapt callers.
 
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Cong Wang <xiyou.wangcong@gmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Aaron Conole <aconole@redhat.com>
+Cc: Eelco Chaudron <echaudro@redhat.com>
+Cc: Ilya Maximets <i.maximets@ovn.org>
+Cc: dev@openvswitch.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice_xmit.h |  3 +++
- net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ net/openvswitch/actions.c  | 49 +++++++++++++-------------------------
+ net/openvswitch/datapath.c |  9 +------
+ net/openvswitch/datapath.h |  3 ---
+ 3 files changed, 17 insertions(+), 44 deletions(-)
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 3bbbc1a9860a3..4793ec42b1faa 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -11,6 +11,9 @@ struct netdev_xmit {
- #if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
- 	u8 nf_dup_skb_recursion;
- #endif
-+#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-+	u8 sched_mirred_nest;
-+#endif
+diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
+index 61fea7baae5d5..bebaf16ba8af6 100644
+--- a/net/openvswitch/actions.c
++++ b/net/openvswitch/actions.c
+@@ -78,17 +78,22 @@ struct action_flow_keys {
+ 	struct sw_flow_key key[OVS_DEFERRED_ACTION_THRESHOLD];
  };
 =20
- #endif
-diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
-index 5b38143659249..5f01f567c934d 100644
---- a/net/sched/act_mirred.c
-+++ b/net/sched/act_mirred.c
-@@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
- static DEFINE_SPINLOCK(mirred_list_lock);
+-static struct action_fifo __percpu *action_fifos;
+-static struct action_flow_keys __percpu *flow_keys;
+-static DEFINE_PER_CPU(int, exec_actions_level);
++struct ovs_pcpu_storage {
++	struct action_fifo action_fifos;
++	struct action_flow_keys flow_keys;
++	int exec_level;
++};
++
++static DEFINE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage);
 =20
- #define MIRRED_NEST_LIMIT    4
--static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
-+
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	__this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+#else
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return current->net_xmit.sched_mirred_nest++;
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	current->net_xmit.sched_mirred_nest--;
-+}
-+#endif
-=20
- static bool tcf_mirred_is_act_redirect(int action)
+ /* Make a clone of the 'key', using the pre-allocated percpu 'flow_keys'
+  * space. Return NULL if out of key spaces.
+  */
+ static struct sw_flow_key *clone_key(const struct sw_flow_key *key_)
  {
-@@ -423,7 +445,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 	int m_eaction;
- 	u32 blockid;
+-	struct action_flow_keys *keys =3D this_cpu_ptr(flow_keys);
+-	int level =3D this_cpu_read(exec_actions_level);
++	struct ovs_pcpu_storage *ovs_pcpu =3D this_cpu_ptr(&ovs_pcpu_storage);
++	struct action_flow_keys *keys =3D &ovs_pcpu->flow_keys;
++	int level =3D ovs_pcpu->exec_level;
+ 	struct sw_flow_key *key =3D NULL;
 =20
--	nest_level =3D __this_cpu_inc_return(mirred_nest_level);
-+	nest_level =3D tcf_mirred_nest_level_inc_return();
- 	if (unlikely(nest_level > MIRRED_NEST_LIMIT)) {
- 		net_warn_ratelimited("Packet exceeded mirred recursion limit on dev %s\n=
-",
- 				     netdev_name(skb->dev));
-@@ -454,7 +476,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 				   retval);
+ 	if (level <=3D OVS_DEFERRED_ACTION_THRESHOLD) {
+@@ -132,10 +137,9 @@ static struct deferred_action *add_deferred_actions(st=
+ruct sk_buff *skb,
+ 				    const struct nlattr *actions,
+ 				    const int actions_len)
+ {
+-	struct action_fifo *fifo;
++	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_pcpu_storage.action_fifos);
+ 	struct deferred_action *da;
 =20
- dec_nest_level:
--	__this_cpu_dec(mirred_nest_level);
-+	tcf_mirred_nest_level_dec();
+-	fifo =3D this_cpu_ptr(action_fifos);
+ 	da =3D action_fifo_put(fifo);
+ 	if (da) {
+ 		da->skb =3D skb;
+@@ -1609,13 +1613,13 @@ static int clone_execute(struct datapath *dp, struc=
+t sk_buff *skb,
 =20
- 	return retval;
+ 		if (actions) { /* Sample action */
+ 			if (clone_flow_key)
+-				__this_cpu_inc(exec_actions_level);
++				__this_cpu_inc(ovs_pcpu_storage.exec_level);
+=20
+ 			err =3D do_execute_actions(dp, skb, clone,
+ 						 actions, len);
+=20
+ 			if (clone_flow_key)
+-				__this_cpu_dec(exec_actions_level);
++				__this_cpu_dec(ovs_pcpu_storage.exec_level);
+ 		} else { /* Recirc action */
+ 			clone->recirc_id =3D recirc_id;
+ 			ovs_dp_process_packet(skb, clone);
+@@ -1651,7 +1655,7 @@ static int clone_execute(struct datapath *dp, struct =
+sk_buff *skb,
+=20
+ static void process_deferred_actions(struct datapath *dp)
+ {
+-	struct action_fifo *fifo =3D this_cpu_ptr(action_fifos);
++	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_pcpu_storage.action_fifos);
+=20
+ 	/* Do not touch the FIFO in case there is no deferred actions. */
+ 	if (action_fifo_is_empty(fifo))
+@@ -1682,7 +1686,7 @@ int ovs_execute_actions(struct datapath *dp, struct s=
+k_buff *skb,
+ {
+ 	int err, level;
+=20
+-	level =3D __this_cpu_inc_return(exec_actions_level);
++	level =3D __this_cpu_inc_return(ovs_pcpu_storage.exec_level);
+ 	if (unlikely(level > OVS_RECURSION_LIMIT)) {
+ 		net_crit_ratelimited("ovs: recursion limit reached on datapath %s, proba=
+ble configuration error\n",
+ 				     ovs_dp_name(dp));
+@@ -1699,27 +1703,6 @@ int ovs_execute_actions(struct datapath *dp, struct =
+sk_buff *skb,
+ 		process_deferred_actions(dp);
+=20
+ out:
+-	__this_cpu_dec(exec_actions_level);
++	__this_cpu_dec(ovs_pcpu_storage.exec_level);
+ 	return err;
  }
+-
+-int action_fifos_init(void)
+-{
+-	action_fifos =3D alloc_percpu(struct action_fifo);
+-	if (!action_fifos)
+-		return -ENOMEM;
+-
+-	flow_keys =3D alloc_percpu(struct action_flow_keys);
+-	if (!flow_keys) {
+-		free_percpu(action_fifos);
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-void action_fifos_exit(void)
+-{
+-	free_percpu(action_fifos);
+-	free_percpu(flow_keys);
+-}
+diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
+index 5d548eda742df..aaa6277bb49c2 100644
+--- a/net/openvswitch/datapath.c
++++ b/net/openvswitch/datapath.c
+@@ -2729,13 +2729,9 @@ static int __init dp_init(void)
+=20
+ 	pr_info("Open vSwitch switching datapath\n");
+=20
+-	err =3D action_fifos_init();
+-	if (err)
+-		goto error;
+-
+ 	err =3D ovs_internal_dev_rtnl_link_register();
+ 	if (err)
+-		goto error_action_fifos_exit;
++		goto error;
+=20
+ 	err =3D ovs_flow_init();
+ 	if (err)
+@@ -2778,8 +2774,6 @@ static int __init dp_init(void)
+ 	ovs_flow_exit();
+ error_unreg_rtnl_link:
+ 	ovs_internal_dev_rtnl_link_unregister();
+-error_action_fifos_exit:
+-	action_fifos_exit();
+ error:
+ 	return err;
+ }
+@@ -2795,7 +2789,6 @@ static void dp_cleanup(void)
+ 	ovs_vport_exit();
+ 	ovs_flow_exit();
+ 	ovs_internal_dev_rtnl_link_unregister();
+-	action_fifos_exit();
+ }
+=20
+ module_init(dp_init);
+diff --git a/net/openvswitch/datapath.h b/net/openvswitch/datapath.h
+index 384ca77f4e794..a126407926058 100644
+--- a/net/openvswitch/datapath.h
++++ b/net/openvswitch/datapath.h
+@@ -281,9 +281,6 @@ int ovs_execute_actions(struct datapath *dp, struct sk_=
+buff *skb,
+=20
+ void ovs_dp_notify_wq(struct work_struct *work);
+=20
+-int action_fifos_init(void);
+-void action_fifos_exit(void);
+-
+ /* 'KEY' must not have any bits set outside of the 'MASK' */
+ #define OVS_MASKED(OLD, KEY, MASK) ((KEY) | ((OLD) & ~(MASK)))
+ #define OVS_SET_MASKED(OLD, KEY, MASK) ((OLD) =3D OVS_MASKED(OLD, KEY, MAS=
+K))
 --=20
 2.49.0
 
