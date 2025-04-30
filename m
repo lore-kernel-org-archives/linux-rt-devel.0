@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95A825D8E1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B992525D55D
 	for <linux-rt-devel@lists.linux.dev>; Wed, 30 Apr 2025 12:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746017298; cv=none; b=JHWqfs2Cvl04720BgxQyDmqjyN5LU6mNM47/IBJyqjcAq7WOfyVZ0JHuI1d8UoxiuXtltsmRkWQlFaOyasqXZkkG+01lDTnF++5kJLsCB7bg+ugMDR37fTBuGyP4V01r1Cc9KHB1id2Wc8+Wa5+Q4gWaIxdcFINDW4tuKJUjkg8=
+	t=1746017298; cv=none; b=KZCM7eKndwkSSCHN5f+KEbYevfoxR/eT5SzyEdIjyUiyUOsD4k7CX8rz2AvLPi/WBkpkckP4s51MI6mj0u3DWimViPZyCrCCpwitUCXHB2zCa0WH/0SRclWZfSBmkjcbPzWxY7ivkgDDH/6NC9786py6SMvf/tdEfDfYFQodNhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746017298; c=relaxed/simple;
-	bh=BzPUhbmNkCopiV7ExEaARyd19Lxmn+Cz6wHFBLAR19M=;
+	bh=XoUkxMlTRHC7S5YkyAYYLLJO+f90WFFyfs2F0MKsQcY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gzf+ZGLh3ZcgcbOWAyxuJ/ngyC3JIR87LZKYnIbwAWZgTIBFygDeEJvGACKedIQNYF6GG7cexMta7IXaOkfuQw7AmkzEm4z2iRf0/pe9/39cF5hE0n3Ep7v1YVN4cd4PRgPY/SzUPM8oofKy4Rzb662EbXCqkJIp33NQaBl9QNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4on7kKWG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1ZAtlbGS; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=c9SpaeElqAkh5U1tgfhhXmHNKi3Ie6FriylwlSrDLSXeqYvvSA/yNY8AwPH12iCoxZsssuvRfitKiMRd/gzfxouei3oma+pZTBYi8ByLAbsGMbwWspUleadCD4nETF94rO+fu6/A7KS7KcorunCMwPvDTyNJez/2hcleHLaphUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vRfnItSH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qBcVd9y2; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4on7kKWG";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1ZAtlbGS"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vRfnItSH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qBcVd9y2"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1746017293;
+	s=2020; t=1746017294;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
-	b=4on7kKWG6DJiojga49amZv5981Ufc5glhn2bU2K1kiLAv01O4DoPJp3Fe6/BFNNRIfV/dI
-	U9a5sPEVVjSVIB+W0NtREFlTAt8CfQaPSL7fTB/iapcGTpMACHEUGm3Utd0sC8I2W/AO/t
-	r3pdS0U5dCbEPxEHnxAuHRKIg3zLesvdA7ghz7j4E5WiZOpvPGVcq+JRDOsuKUNyX4QOu5
-	9cYfNkAjMcXC1bqfApusQkAOQU2zGveknkYVTrMgwR+4fAyX4GiPsa3WoHS+uof8aw5YTM
-	JuNlBCJDxymXLls/qmyjbnrFOctaXIklX9VS8EA6OhDKBY+KHBuuU/Xhgcp0iA==
+	bh=jWftsgc2E4reij74Jhx+0RuY5VC0kbtQaCTA4HRLCcg=;
+	b=vRfnItSHgVs0o/db4G0iLua2DYh8ZQ/K0lyKMxmSq+TVJ3//N8MzY+fDULPMbmn+vJRjUO
+	RhE9EZo+Zyto9KGGzB5JMhuAdauAzRbtqK6O7yRfLfHHDir9vtlliZXcHpI1FFC82/Khv2
+	4wVkGZH7Dmj5tr+tQ3Uyy+TL7Hz+zOwKhLwzmbS1cezDTq9dLMIgsaenTeCB8REtzPFyWl
+	cmAoqxLamCuRf+lqyyAEMvHl+a74SOtuyNFIuDDb8W1wGxboFomd3lZzN3L1nVRIwz3aOu
+	eaI+b+RoUKcOUxT49Zx6OyTu2C9SnHcRi3kQKSPUEKPgp779nmRPyj1AxaT1Vw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1746017293;
+	s=2020e; t=1746017294;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
-	b=1ZAtlbGSQwnNFIctYcFh72pi4vI/IQa8Zv/NtY2q6NUOEKKf0NkdtBqpe+odXn5w+CCGTH
-	nLYG9SjkG5CM4KCA==
+	bh=jWftsgc2E4reij74Jhx+0RuY5VC0kbtQaCTA4HRLCcg=;
+	b=qBcVd9y2HapcNvmbS9t6q1VHcNrF1gGKr1feI2NYf3Z6y4DTlYH2Zf4tvweFIKiwOryVG9
+	5fGMWY2C1v3/ZMAA==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,11 +48,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Subject: [PATCH net-next v3 09/18] xfrm: Use nested-BH locking for nat_keepalive_sk_ipv[46]
-Date: Wed, 30 Apr 2025 14:47:49 +0200
-Message-ID: <20250430124758.1159480-10-bigeasy@linutronix.de>
+	Aaron Conole <aconole@redhat.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>,
+	dev@openvswitch.org
+Subject: [PATCH net-next v3 11/18] openvswitch: Use nested-BH locking for ovs_pcpu_storage
+Date: Wed, 30 Apr 2025 14:47:51 +0200
+Message-ID: <20250430124758.1159480-12-bigeasy@linutronix.de>
 In-Reply-To: <20250430124758.1159480-1-bigeasy@linutronix.de>
 References: <20250430124758.1159480-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -63,114 +65,184 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-nat_keepalive_sk_ipv[46] is a per-CPU variable and relies on disabled BH
-for its locking. Without per-CPU locking in local_bh_disable() on
-PREEMPT_RT this data structure requires explicit locking.
+ovs_pcpu_storage is a per-CPU variable and relies on disabled BH for its
+locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
+this data structure requires explicit locking.
+The data structure can be referenced recursive and there is a recursion
+counter to avoid too many recursions.
 
-Use sock_bh_locked which has a sock pointer and a local_lock_t. Use
-local_lock_nested_bh() for locking. This change adds only lockdep
-coverage and does not alter the functional behaviour for !PREEMPT_RT.
+Add a local_lock_t to the data structure and use
+local_lock_nested_bh() for locking. Add an owner of the struct which is
+the current task and acquire the lock only if the structure is not owned
+by the current task.
 
-Cc: Steffen Klassert <steffen.klassert@secunet.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: Aaron Conole <aconole@redhat.com>
+Cc: Eelco Chaudron <echaudro@redhat.com>
+Cc: Ilya Maximets <i.maximets@ovn.org>
+Cc: dev@openvswitch.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/xfrm/xfrm_nat_keepalive.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ net/openvswitch/actions.c  | 31 ++-----------------------------
+ net/openvswitch/datapath.c | 24 ++++++++++++++++++++++++
+ net/openvswitch/datapath.h | 33 +++++++++++++++++++++++++++++++++
+ 3 files changed, 59 insertions(+), 29 deletions(-)
 
-diff --git a/net/xfrm/xfrm_nat_keepalive.c b/net/xfrm/xfrm_nat_keepalive.c
-index 82f0a301683f0..ebf95d48e86c1 100644
---- a/net/xfrm/xfrm_nat_keepalive.c
-+++ b/net/xfrm/xfrm_nat_keepalive.c
-@@ -9,9 +9,13 @@
- #include <net/ip6_checksum.h>
- #include <net/xfrm.h>
+diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
+index bebaf16ba8af6..f4996c11aefac 100644
+--- a/net/openvswitch/actions.c
++++ b/net/openvswitch/actions.c
+@@ -39,15 +39,6 @@
+ #include "flow_netlink.h"
+ #include "openvswitch_trace.h"
 =20
--static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv4);
-+static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv4) =3D {
+-struct deferred_action {
+-	struct sk_buff *skb;
+-	const struct nlattr *actions;
+-	int actions_len;
+-
+-	/* Store pkt_key clone when creating deferred action. */
+-	struct sw_flow_key pkt_key;
+-};
+-
+ #define MAX_L2_LEN	(VLAN_ETH_HLEN + 3 * MPLS_HLEN)
+ struct ovs_frag_data {
+ 	unsigned long dst;
+@@ -64,28 +55,10 @@ struct ovs_frag_data {
+=20
+ static DEFINE_PER_CPU(struct ovs_frag_data, ovs_frag_data_storage);
+=20
+-#define DEFERRED_ACTION_FIFO_SIZE 10
+-#define OVS_RECURSION_LIMIT 5
+-#define OVS_DEFERRED_ACTION_THRESHOLD (OVS_RECURSION_LIMIT - 2)
+-struct action_fifo {
+-	int head;
+-	int tail;
+-	/* Deferred action fifo queue storage. */
+-	struct deferred_action fifo[DEFERRED_ACTION_FIFO_SIZE];
++DEFINE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage) =3D {
 +	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
-+};
- #if IS_ENABLED(CONFIG_IPV6)
--static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv6);
-+static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv6) =3D {
-+	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
-+};
- #endif
+ };
 =20
- struct nat_keepalive {
-@@ -56,10 +60,12 @@ static int nat_keepalive_send_ipv4(struct sk_buff *skb,
+-struct action_flow_keys {
+-	struct sw_flow_key key[OVS_DEFERRED_ACTION_THRESHOLD];
+-};
+-
+-struct ovs_pcpu_storage {
+-	struct action_fifo action_fifos;
+-	struct action_flow_keys flow_keys;
+-	int exec_level;
+-};
+-
+-static DEFINE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage);
+-
+ /* Make a clone of the 'key', using the pre-allocated percpu 'flow_keys'
+  * space. Return NULL if out of key spaces.
+  */
+diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
+index aaa6277bb49c2..b8f766978466d 100644
+--- a/net/openvswitch/datapath.c
++++ b/net/openvswitch/datapath.c
+@@ -244,11 +244,13 @@ void ovs_dp_detach_port(struct vport *p)
+ /* Must be called with rcu_read_lock. */
+ void ovs_dp_process_packet(struct sk_buff *skb, struct sw_flow_key *key)
+ {
++	struct ovs_pcpu_storage *ovs_pcpu =3D this_cpu_ptr(&ovs_pcpu_storage);
+ 	const struct vport *p =3D OVS_CB(skb)->input_vport;
+ 	struct datapath *dp =3D p->dp;
+ 	struct sw_flow *flow;
+ 	struct sw_flow_actions *sf_acts;
+ 	struct dp_stats_percpu *stats;
++	bool ovs_pcpu_locked =3D false;
+ 	u64 *stats_counter;
+ 	u32 n_mask_hit;
+ 	u32 n_cache_hit;
+@@ -290,10 +292,26 @@ void ovs_dp_process_packet(struct sk_buff *skb, struc=
+t sw_flow_key *key)
 =20
- 	skb_dst_set(skb, &rt->dst);
-=20
--	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv4);
-+	local_lock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
-+	sk =3D this_cpu_read(nat_keepalive_sk_ipv4.sock);
- 	sock_net_set(sk, net);
- 	err =3D ip_build_and_send_pkt(skb, sk, fl4.saddr, fl4.daddr, NULL, tos);
- 	sock_net_set(sk, &init_net);
-+	local_unlock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
- 	return err;
- }
-=20
-@@ -89,15 +95,19 @@ static int nat_keepalive_send_ipv6(struct sk_buff *skb,
- 	fl6.fl6_sport =3D ka->encap_sport;
- 	fl6.fl6_dport =3D ka->encap_dport;
-=20
--	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv6);
-+	local_lock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
-+	sk =3D this_cpu_read(nat_keepalive_sk_ipv6.sock);
- 	sock_net_set(sk, net);
- 	dst =3D ipv6_stub->ipv6_dst_lookup_flow(net, sk, &fl6, NULL);
--	if (IS_ERR(dst))
-+	if (IS_ERR(dst)) {
-+		local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
- 		return PTR_ERR(dst);
+ 	ovs_flow_stats_update(flow, key->tp.flags, skb);
+ 	sf_acts =3D rcu_dereference(flow->sf_acts);
++	/* This path can be invoked recursively: Use the current task to
++	 * identify recursive invocation - the lock must be acquired only once.
++	 * Even with disabled bottom halves this can be preempted on PREEMPT_RT.
++	 * Limit the provecc to RT to avoid assigning `owner' if it can be
++	 * avoided.
++	 */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT) && ovs_pcpu->owner !=3D current) {
++		local_lock_nested_bh(&ovs_pcpu_storage.bh_lock);
++		ovs_pcpu->owner =3D current;
++		ovs_pcpu_locked =3D true;
++	}
++
+ 	error =3D ovs_execute_actions(dp, skb, sf_acts, key);
+ 	if (unlikely(error))
+ 		net_dbg_ratelimited("ovs: action execution error on datapath %s: %d\n",
+ 				    ovs_dp_name(dp), error);
++	if (ovs_pcpu_locked) {
++		ovs_pcpu->owner =3D NULL;
++		local_unlock_nested_bh(&ovs_pcpu_storage.bh_lock);
 +	}
 =20
- 	skb_dst_set(skb, dst);
- 	err =3D ipv6_stub->ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
- 	sock_net_set(sk, &init_net);
-+	local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
- 	return err;
- }
- #endif
-@@ -202,7 +212,7 @@ static void nat_keepalive_work(struct work_struct *work)
- 				      (ctx.next_run - ctx.now) * HZ);
- }
+ 	stats_counter =3D &stats->n_hit;
 =20
--static int nat_keepalive_sk_init(struct sock * __percpu *socks,
-+static int nat_keepalive_sk_init(struct sock_bh_locked __percpu *socks,
- 				 unsigned short family)
- {
- 	struct sock *sk;
-@@ -214,22 +224,22 @@ static int nat_keepalive_sk_init(struct sock * __perc=
-pu *socks,
- 		if (err < 0)
- 			goto err;
+@@ -671,7 +689,13 @@ static int ovs_packet_cmd_execute(struct sk_buff *skb,=
+ struct genl_info *info)
+ 	sf_acts =3D rcu_dereference(flow->sf_acts);
 =20
--		*per_cpu_ptr(socks, i) =3D sk;
-+		per_cpu_ptr(socks, i)->sock =3D sk;
- 	}
+ 	local_bh_disable();
++	local_lock_nested_bh(&ovs_pcpu_storage.bh_lock);
++	if (IS_ENABLED(CONFIG_PREEMPT_RT))
++		this_cpu_write(ovs_pcpu_storage.owner, current);
+ 	err =3D ovs_execute_actions(dp, packet, sf_acts, &flow->key);
++	if (IS_ENABLED(CONFIG_PREEMPT_RT))
++		this_cpu_write(ovs_pcpu_storage.owner, NULL);
++	local_unlock_nested_bh(&ovs_pcpu_storage.bh_lock);
+ 	local_bh_enable();
+ 	rcu_read_unlock();
 =20
- 	return 0;
- err:
- 	for_each_possible_cpu(i)
--		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
-+		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
- 	return err;
- }
+diff --git a/net/openvswitch/datapath.h b/net/openvswitch/datapath.h
+index a126407926058..4a665c3cfa906 100644
+--- a/net/openvswitch/datapath.h
++++ b/net/openvswitch/datapath.h
+@@ -173,6 +173,39 @@ struct ovs_net {
+ 	bool xt_label;
+ };
 =20
--static void nat_keepalive_sk_fini(struct sock * __percpu *socks)
-+static void nat_keepalive_sk_fini(struct sock_bh_locked __percpu *socks)
- {
- 	int i;
-=20
- 	for_each_possible_cpu(i)
--		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
-+		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
- }
-=20
- void xfrm_nat_keepalive_state_updated(struct xfrm_state *x)
++struct deferred_action {
++	struct sk_buff *skb;
++	const struct nlattr *actions;
++	int actions_len;
++
++	/* Store pkt_key clone when creating deferred action. */
++	struct sw_flow_key pkt_key;
++};
++
++#define DEFERRED_ACTION_FIFO_SIZE 10
++#define OVS_RECURSION_LIMIT 5
++#define OVS_DEFERRED_ACTION_THRESHOLD (OVS_RECURSION_LIMIT - 2)
++
++struct action_fifo {
++	int head;
++	int tail;
++	/* Deferred action fifo queue storage. */
++	struct deferred_action fifo[DEFERRED_ACTION_FIFO_SIZE];
++};
++
++struct action_flow_keys {
++	struct sw_flow_key key[OVS_DEFERRED_ACTION_THRESHOLD];
++};
++
++struct ovs_pcpu_storage {
++	struct action_fifo action_fifos;
++	struct action_flow_keys flow_keys;
++	int exec_level;
++	struct task_struct *owner;
++	local_lock_t bh_lock;
++};
++DECLARE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage);
++
+ /**
+  * enum ovs_pkt_hash_types - hash info to include with a packet
+  * to send to userspace.
 --=20
 2.49.0
 
