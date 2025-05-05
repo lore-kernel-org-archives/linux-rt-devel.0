@@ -1,205 +1,227 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B91E1D5CD1;
-	Mon,  5 May 2025 07:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D1C376
+	for <linux-rt-devel@lists.linux.dev>; Mon,  5 May 2025 08:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746431577; cv=none; b=riSJRRToi7lhTiUOf9TN0w3+SA8HFXMdOXkPwLmPGxb+GKgRVvYSDgRTIJ0GFf+QEyGszaNFYCqaXPFEHj5C6I4Cgw2PW8i4dPvWhmzOVBUsxgIAO2QNOAPD5eQQLsHm1VEJiDkdP6miCNFT0ROfwYB9Vm7og4iZR1D7/sT8Mik=
+	t=1746435440; cv=none; b=ct4yRwzl3uogEAvvStJYaPkRqHIT7LUTe07Ag0UKHRZF2CsXrNyfGEMDP47dQxxpGEGiSQ8jxEhezyP9xYIBnMjYmdchrOOnN3bvAfNYbJrBw/BQ0r5lZK/SGM9hvfz88vtgr3bCel0z0MAtj7gxwV2vC1WBUhTSSIDL2j4lpog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746431577; c=relaxed/simple;
-	bh=HPafJSzg8AswL4683yI+rs2BiCy6AV8f/eteILcdfMg=;
+	s=arc-20240116; t=1746435440; c=relaxed/simple;
+	bh=9KSOFqCouvAPXUIaFERVwNffS2Yd76AEW7nRjkeW0M0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SfIAyTVLB7xtxkilAho5BQBTBKIyeJtokoQ1R99c2tNMwk6CcYbyvHiXZrAOFQPe7b3djH3/WxPv4W9q4MmFHnSDAtOt0+2DsuubCWc6Pq2jGL60tmCnsko+Ki8PhUheZ+S0Vb8hM5PO6MpuuP1OGcc9WLFnro7EkOjN3viaqN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U/7uUIfa; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtdiZy63PibcFtGSoUiOnudLKXimwhB/zQdTETNNwXSjzRIjjRyOvqzyYl1c2IQBc+DSmZ1y7ngvWfggUTa38JCCECHuzWve9YPwJ6PnzCwMg26By9Mhq8iAy67oMUJ9khWKPQenzzIznG3NyzfG67ZzuDlm+8pnfjk3Yr1pGkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JsyZ1b4b; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E42hsZhg; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U/7uUIfa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746431576; x=1777967576;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HPafJSzg8AswL4683yI+rs2BiCy6AV8f/eteILcdfMg=;
-  b=U/7uUIfaMedIKPRPuDjSrkqzzj+ImJ7Ve9EyAlUzkW3yE8h9/7EBNSgk
-   NsTRm83PiBHLKe/4mFe6gXg9gpOJCgerZ6eIjlkkLPU5nqPOPd4ND/lxo
-   rLTI7ZR5Ual0xyU4lhdxHRQoxcfXDMl7SJArMoLWNbxevCfzLK8Q37CW/
-   70s98gSSPEB4j7mORoAfAwooTsGFLuQ36c7F3Gyb4qpvy1zxX24Lk+o0s
-   d5OG8c5oSJfsFt6Q4qKhmgTkwQNGc/DZMg0CiUYVD5EcHen8F5Ns3TQMo
-   0AradwvUb8Hq1kd3Iu4X3eWHkHiDrjmyjB+jqRHsd7APc4JrZ0SFlc3cC
-   w==;
-X-CSE-ConnectionGUID: 3ADX0XRRTjmQ/hevICBszQ==
-X-CSE-MsgGUID: MwpMNMHvSPyPaukJlie44w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="51681688"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="51681688"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 00:52:55 -0700
-X-CSE-ConnectionGUID: 9Xg5PftQQ2CGLpvp1msGMQ==
-X-CSE-MsgGUID: 732HjBh5RdCIOOfGcVGS3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="139951025"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 May 2025 00:52:52 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uBqd7-0005d7-0C;
-	Mon, 05 May 2025 07:52:49 +0000
-Date: Mon, 5 May 2025 15:52:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	intel-wired-lan@lists.osuosl.org, linux-rt-devel@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JsyZ1b4b";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E42hsZhg"
+Date: Mon, 5 May 2025 10:57:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1746435436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FfjRNTFSF4kCYdBoCLyc7uSjRO+tk2Tnewi5gynsu4=;
+	b=JsyZ1b4bi8qd2Hm9HfQvKPvHMVBy44eKwLDtuZqF9/MCFyYWT7JOoLHOVXNrgYKUq9UGOJ
+	ZvBrvRrM3TuF+o4QnW+nZEb8e5ksy0idIIYPuX+RMpK9ovudZUezMS6hkvD0/hxJuQrrVl
+	u4X5jlq1CQbD/2lQA0FPrM95fVvvcouxCU3b+YWK5GY+qNZFeKayKCAa9AV3vu3HT1Javf
+	SuVRZP74xO7ecPRA2tSnt30RWSFN3yMbdkygty869p+1XzH0wNN+8fx7sWss41UAm0USn+
+	m1lNXNDmYZmq2ai4tqZNL/B9aLw84ff+oi6M/fp9xO2+VRkDQNUQRKFFhelx6w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1746435436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8FfjRNTFSF4kCYdBoCLyc7uSjRO+tk2Tnewi5gynsu4=;
+	b=E42hsZhg6FhxonvcIWAfJWzajFY8m3o2o1jlaq3H6WEuzB/lMc71oT5lOg3OIDzye2e5Vk
+	3GwJ3GHwgQZgf7DQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>
-Subject: Re: [Intel-wired-lan] [PATCH] igb: Request igb_msix_other as a
- threaded interrupt handler
-Message-ID: <202505051357.VxQIHWOY-lkp@intel.com>
-References: <20250430144452.8zcAZc29@linutronix.de>
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>
+Subject: Re: [PATCH net-next v3 05/18] xdp: Use nested-BH locking for
+ system_page_pool
+Message-ID: <20250505085713.ZAgyY1mJ@linutronix.de>
+References: <20250430124758.1159480-1-bigeasy@linutronix.de>
+ <20250430124758.1159480-6-bigeasy@linutronix.de>
+ <878qng7i63.fsf@toke.dk>
+ <20250502133231.lS281-FN@linutronix.de>
+ <87ikmj5bh5.fsf@toke.dk>
+ <20250502150705.1sewZ77B@linutronix.de>
+ <87frhn57i3.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250430144452.8zcAZc29@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87frhn57i3.fsf@toke.dk>
 
-Hi Sebastian,
+On 2025-05-02 17:59:00 [+0200], Toke H=C3=B8iland-J=C3=B8rgensen wrote:
+> >> I had in mind moving the out: label (and the unlock) below the
+> >> skb->protocol assignment, which would save the if(skb) check; any reas=
+on
+> >> we can't call xsk_buff_free() while holding the lock?
+> >
+> > We could do that, I wasn't entirely sure about xsk_buff_free(). It is
+> > just larger scope but nothing else so far.
+> >
+> > I've been staring at xsk_buff_free() and the counterparts such as
+> > xsk_buff_alloc_batch() and I didn't really figure out what is protecting
+> > the list. Do we rely on the fact that this is used once per-NAPI
+> > instance within RX-NAPI and never somewhere else?
+>=20
+> Yeah, I believe so. The commit adding the API[0] mentions this being
+> "single core (single producer/consumer)".
 
-kernel test robot noticed the following build warnings:
+So if TX is excluded, it should work=E2=80=A6
+For the former, I have now this:
 
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-[also build test WARNING on tnguy-net-queue/dev-queue linus/master v6.15-rc5 next-20250502]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 2d11d013cabed..2018e2432cb56 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3502,7 +3502,12 @@ struct softnet_data {
+ };
+=20
+ DECLARE_PER_CPU_ALIGNED(struct softnet_data, softnet_data);
+-DECLARE_PER_CPU(struct page_pool *, system_page_pool);
++
++struct page_pool_bh {
++	struct page_pool *pool;
++	local_lock_t bh_lock;
++};
++DECLARE_PER_CPU(struct page_pool_bh, system_page_pool);
+=20
+ #ifndef CONFIG_PREEMPT_RT
+ static inline int dev_recursion_level(void)
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 1be7cb73a6024..b56becd070bc7 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -462,7 +462,9 @@ EXPORT_PER_CPU_SYMBOL(softnet_data);
+  * PP consumers must pay attention to run APIs in the appropriate context
+  * (e.g. NAPI context).
+  */
+-DEFINE_PER_CPU(struct page_pool *, system_page_pool);
++DEFINE_PER_CPU(struct page_pool_bh, system_page_pool) =3D {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
+=20
+ #ifdef CONFIG_LOCKDEP
+ /*
+@@ -5238,7 +5240,10 @@ netif_skb_check_for_xdp(struct sk_buff **pskb, const=
+ struct bpf_prog *prog)
+ 	struct sk_buff *skb =3D *pskb;
+ 	int err, hroom, troom;
+=20
+-	if (!skb_cow_data_for_xdp(this_cpu_read(system_page_pool), pskb, prog))
++	local_lock_nested_bh(&system_page_pool.bh_lock);
++	err =3D skb_cow_data_for_xdp(this_cpu_read(system_page_pool.pool), pskb, =
+prog);
++	local_unlock_nested_bh(&system_page_pool.bh_lock);
++	if (!err)
+ 		return 0;
+=20
+ 	/* In case we have to go down the path and also linearize,
+@@ -12629,7 +12634,7 @@ static int net_page_pool_create(int cpuid)
+ 		return err;
+ 	}
+=20
+-	per_cpu(system_page_pool, cpuid) =3D pp_ptr;
++	per_cpu(system_page_pool.pool, cpuid) =3D pp_ptr;
+ #endif
+ 	return 0;
+ }
+@@ -12759,13 +12764,13 @@ static int __init net_dev_init(void)
+ 		for_each_possible_cpu(i) {
+ 			struct page_pool *pp_ptr;
+=20
+-			pp_ptr =3D per_cpu(system_page_pool, i);
++			pp_ptr =3D per_cpu(system_page_pool.pool, i);
+ 			if (!pp_ptr)
+ 				continue;
+=20
+ 			xdp_unreg_page_pool(pp_ptr);
+ 			page_pool_destroy(pp_ptr);
+-			per_cpu(system_page_pool, i) =3D NULL;
++			per_cpu(system_page_pool.pool, i) =3D NULL;
+ 		}
+ 	}
+=20
+diff --git a/net/core/xdp.c b/net/core/xdp.c
+index f86eedad586a7..8696e8ffa3bcc 100644
+--- a/net/core/xdp.c
++++ b/net/core/xdp.c
+@@ -737,25 +737,27 @@ static noinline bool xdp_copy_frags_from_zc(struct sk=
+_buff *skb,
+  */
+ struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp)
+ {
+-	struct page_pool *pp =3D this_cpu_read(system_page_pool);
+ 	const struct xdp_rxq_info *rxq =3D xdp->rxq;
+ 	u32 len =3D xdp->data_end - xdp->data_meta;
+ 	u32 truesize =3D xdp->frame_sz;
+-	struct sk_buff *skb;
++	struct sk_buff *skb =3D NULL;
++	struct page_pool *pp;
+ 	int metalen;
+ 	void *data;
+=20
+ 	if (!IS_ENABLED(CONFIG_PAGE_POOL))
+ 		return NULL;
+=20
++	local_lock_nested_bh(&system_page_pool.bh_lock);
++	pp =3D this_cpu_read(system_page_pool.pool);
+ 	data =3D page_pool_dev_alloc_va(pp, &truesize);
+ 	if (unlikely(!data))
+-		return NULL;
++		goto out;
+=20
+ 	skb =3D napi_build_skb(data, truesize);
+ 	if (unlikely(!skb)) {
+ 		page_pool_free_va(pp, data, true);
+-		return NULL;
++		goto out;
+ 	}
+=20
+ 	skb_mark_for_recycle(skb);
+@@ -774,13 +776,16 @@ struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff=
+ *xdp)
+ 	if (unlikely(xdp_buff_has_frags(xdp)) &&
+ 	    unlikely(!xdp_copy_frags_from_zc(skb, xdp, pp))) {
+ 		napi_consume_skb(skb, true);
+-		return NULL;
++		skb =3D NULL;
++		goto out;
+ 	}
+=20
+ 	xsk_buff_free(xdp);
+=20
+ 	skb->protocol =3D eth_type_trans(skb, rxq->dev);
+=20
++out:
++	local_unlock_nested_bh(&system_page_pool.bh_lock);
+ 	return skb;
+ }
+ EXPORT_SYMBOL_GPL(xdp_build_skb_from_zc);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/igb-Request-igb_msix_other-as-a-threaded-interrupt-handler/20250430-225615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20250430144452.8zcAZc29%40linutronix.de
-patch subject: [Intel-wired-lan] [PATCH] igb: Request igb_msix_other as a threaded interrupt handler
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250505/202505051357.VxQIHWOY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250505/202505051357.VxQIHWOY-lkp@intel.com/reproduce)
+> -Toke
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505051357.VxQIHWOY-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/igb/igb_main.c: In function 'igb_request_msix':
->> drivers/net/ethernet/intel/igb/igb_main.c:916:61: warning: passing argument 4 of 'request_threaded_irq' makes integer from pointer without a cast [-Wint-conversion]
-     916 |                                    igb_msix_other, 0, netdev->name, adapter);
-         |                                                       ~~~~~~^~~~~~
-         |                                                             |
-         |                                                             char *
-   In file included from arch/x86/include/asm/highmem.h:24,
-                    from include/linux/highmem-internal.h:25,
-                    from include/linux/highmem.h:14,
-                    from include/linux/pagemap.h:11,
-                    from drivers/net/ethernet/intel/igb/igb_main.c:11:
-   include/linux/interrupt.h:153:36: note: expected 'long unsigned int' but argument is of type 'char *'
-     153 |                      unsigned long flags, const char *name, void *dev);
-         |                      ~~~~~~~~~~~~~~^~~~~
-   drivers/net/ethernet/intel/igb/igb_main.c:916:69: error: passing argument 5 of 'request_threaded_irq' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     916 |                                    igb_msix_other, 0, netdev->name, adapter);
-         |                                                                     ^~~~~~~
-         |                                                                     |
-         |                                                                     struct igb_adapter *
-   include/linux/interrupt.h:153:55: note: expected 'const char *' but argument is of type 'struct igb_adapter *'
-     153 |                      unsigned long flags, const char *name, void *dev);
-         |                                           ~~~~~~~~~~~~^~~~
-   drivers/net/ethernet/intel/igb/igb_main.c:915:15: error: too few arguments to function 'request_threaded_irq'
-     915 |         err = request_threaded_irq(adapter->msix_entries[vector].vector,
-         |               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/interrupt.h:151:1: note: declared here
-     151 | request_threaded_irq(unsigned int irq, irq_handler_t handler,
-         | ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/request_threaded_irq +916 drivers/net/ethernet/intel/igb/igb_main.c
-
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  901  
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  902  /**
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  903   *  igb_request_msix - Initialize MSI-X interrupts
-b980ac18c95f32 drivers/net/ethernet/intel/igb/igb_main.c Jeff Kirsher              2013-02-23  904   *  @adapter: board private structure to initialize
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  905   *
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  906   *  igb_request_msix allocates MSI-X vectors and requests interrupts from the
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  907   *  kernel.
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  908   **/
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  909  static int igb_request_msix(struct igb_adapter *adapter)
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  910  {
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  911  	unsigned int num_q_vectors = adapter->num_q_vectors;
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  912  	struct net_device *netdev = adapter->netdev;
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  913  	int i, err = 0, vector = 0, free_vector = 0;
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  914  
-086e5c4c0db155 drivers/net/ethernet/intel/igb/igb_main.c Sebastian Andrzej Siewior 2025-04-30  915  	err = request_threaded_irq(adapter->msix_entries[vector].vector,
-50d325bb05cef2 drivers/net/ethernet/intel/igb/igb_main.c Wander Lairson Costa      2024-11-06 @916  				   igb_msix_other, 0, netdev->name, adapter);
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  917  	if (err)
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  918  		goto err_out;
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  919  
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  920  	if (num_q_vectors > MAX_Q_VECTORS) {
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  921  		num_q_vectors = MAX_Q_VECTORS;
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  922  		dev_warn(&adapter->pdev->dev,
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  923  			 "The number of queue vectors (%d) is higher than max allowed (%d)\n",
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  924  			 adapter->num_q_vectors, MAX_Q_VECTORS);
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  925  	}
-6c19d772618fea drivers/net/ethernet/intel/igb/igb_main.c Aleksandr Loktionov       2021-04-22  926  	for (i = 0; i < num_q_vectors; i++) {
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  927  		struct igb_q_vector *q_vector = adapter->q_vector[i];
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  928  
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  929  		vector++;
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  930  
-7b06a6909555ff drivers/net/ethernet/intel/igb/igb_main.c Jarod Wilson              2015-10-19  931  		q_vector->itr_register = adapter->io_addr + E1000_EITR(vector);
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  932  
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  933  		if (q_vector->rx.ring && q_vector->tx.ring)
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  934  			sprintf(q_vector->name, "%s-TxRx-%u", netdev->name,
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  935  				q_vector->rx.ring->queue_index);
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  936  		else if (q_vector->tx.ring)
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  937  			sprintf(q_vector->name, "%s-tx-%u", netdev->name,
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  938  				q_vector->tx.ring->queue_index);
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  939  		else if (q_vector->rx.ring)
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  940  			sprintf(q_vector->name, "%s-rx-%u", netdev->name,
-0ba829943c5180 drivers/net/ethernet/intel/igb/igb_main.c Alexander Duyck           2011-08-26  941  				q_vector->rx.ring->queue_index);
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  942  		else
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  943  			sprintf(q_vector->name, "%s-unused", netdev->name);
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  944  
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  945  		err = request_irq(adapter->msix_entries[vector].vector,
-a0607fd3a25ba1 drivers/net/igb/igb_main.c                Joe Perches               2009-11-18  946  				  igb_msix_ring, 0, q_vector->name,
-047e0030f1e601 drivers/net/igb/igb_main.c                Alexander Duyck           2009-10-27  947  				  q_vector);
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  948  		if (err)
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  949  			goto err_free;
-1911329ae9ce05 drivers/net/ethernet/intel/igb/igb_main.c Kurt Kanzenbach           2025-03-19  950  
-1911329ae9ce05 drivers/net/ethernet/intel/igb/igb_main.c Kurt Kanzenbach           2025-03-19  951  		netif_napi_set_irq(&q_vector->napi,
-1911329ae9ce05 drivers/net/ethernet/intel/igb/igb_main.c Kurt Kanzenbach           2025-03-19  952  				   adapter->msix_entries[vector].vector);
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  953  	}
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  954  
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  955  	igb_configure_msix(adapter);
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  956  	return 0;
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  957  
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  958  err_free:
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  959  	/* free already assigned IRQs */
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  960  	free_irq(adapter->msix_entries[free_vector++].vector, adapter);
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  961  
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  962  	vector--;
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  963  	for (i = 0; i < vector; i++) {
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  964  		free_irq(adapter->msix_entries[free_vector++].vector,
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  965  			 adapter->q_vector[i]);
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  966  	}
-52285b762b3681 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann            2012-12-04  967  err_out:
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  968  	return err;
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  969  }
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok                  2008-01-24  970  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
