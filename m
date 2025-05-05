@@ -1,50 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86E828936C;
-	Mon,  5 May 2025 22:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CB6220F53;
+	Mon,  5 May 2025 22:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483353; cv=none; b=IArxg89xhEhtLAMEPqXECvE2rA9OwwMDgbZhW+51wBAq0+HQ2yQpz5rq68un4q7zNauVA90ZZbd3IhRWguMbUyqCFy8IFV0nTm+JnOvIj6N7RzJ2k1K3sdzTWXa6SQK7ok2zf6gm7oxfP5Ke/ExaV3+UXnnlfhC9I5tnfgX67dY=
+	t=1746483761; cv=none; b=Ygds+UvdcN/YEIWkZ4JRZ4+Ib1WM8rcZFGogU/1Y9a5sLabN33pQTymW9vMM+kuFKdonLUd3Y8/O/Tfgf7N+2/t+2j+jTWjJZ1eyniggHf1zCf43KvRZycC2Ys6CPkf4rxKvREwWFibXRAxSsuEs0xbVS2DQUBl1QHWsph6IaJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483353; c=relaxed/simple;
-	bh=aMJpZbhrk1lyvoxeycNtnIzcxhgtNw6ZUzzuEiCE7OE=;
+	s=arc-20240116; t=1746483761; c=relaxed/simple;
+	bh=xwd+FOSex4tZ5yD+cUdGipy3vTxciixJWmjKX8Hs6aI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WythtABK+Vbsli2dEz31KReEY/WUIkqRjrquj4CxVKqt7dqgnpkJ/DiwwYynueEuRgmSNelEHxfvM1h6qPbLfmGku2MiA31hNCS/KcUQtTLw6/y/EbcL52avk9Pe50QdtPVc+PIC7tCBIIqvJc9AON3OQOPXBJLbcsFVniF6dR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fp6TcLrp; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=XQ21utQSsl5/s/spkxoPI1bYi4UpvgLtj6mIp7OshjATpOMGMgHG/tQt3Gy0AYN+//8U5zc+EN8Ffqv59JaEqEu8dGTc8k4hsq6kntIExihlQp43tFyWkZhJSbCst/bW/Mrek0eM+uYMjnMqW3hxHX3tLaLz2Chhgl+b6vcbG98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hVv/vaB1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fp6TcLrp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 096DFC4CEE4;
-	Mon,  5 May 2025 22:15:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hVv/vaB1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78857C4CEE4;
+	Mon,  5 May 2025 22:22:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483353;
-	bh=aMJpZbhrk1lyvoxeycNtnIzcxhgtNw6ZUzzuEiCE7OE=;
+	s=k20201202; t=1746483761;
+	bh=xwd+FOSex4tZ5yD+cUdGipy3vTxciixJWmjKX8Hs6aI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Fp6TcLrpAt0Yo/GnDtZlH7IIHuwiLuY3f/Px8lWs5XIrVhy6MJET6QRFbOBxrdhh7
-	 /5QC+3rzGKnNe4UqMnIabeJAr8zuXh3g5IAnq6dmC9jzllqLzKpjdLh+aiJKnnDwxE
-	 qL9j1EAUx/PAIbbOOlRD1ZqNxkYHMVhyKrLuHKSTffNBWEoJaXau/G4bN/sgoQBAmI
-	 SUQhgItFFz2wvaXPE77FkPwh8vwql4tPi8rQ1IycvAj4VwUePFhvcN7AYxKHjqrr2q
-	 N8Cj+9aA9K8/JVz7pv5jL0J9L4IsYnC/Bh1cCs+ti4yMniAYyKzXvfa/FcgjVmDydl
-	 rulRBKTPjQfjw==
+	b=hVv/vaB1tRIQPIuK9Y6B8ZGIHNrHRO6USojDzu3uwv0+lfPKqlp1Q/iVtkoj8lIRD
+	 jnCmdlV2YRdJOdUsBcYxyRznrcwqqDTbp/I1RN+pVUu1TjdzFJiks57MQGS6tlWe/0
+	 QOz2XH7xEizfZnkzI0vz6CshnDwmrB5qnZHZd0QNt1DM9DZU8N4xoDhpZ4hGo5+TEd
+	 eK1zzJWBDgbGxz61yRW+UWgPkQiC1UmBY681Pv4GsBb5i020favzyxm6Y5pjgfjaft
+	 S4OdpCiiyzEueansPybeEqc05cRMPpi3yKPe2O5wNu+4wlhZl2c7eHIP+6RQMBb507
+	 I6s5ehMATv+iQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Ryo Takakura <ryotkkr98@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>,
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Mike Leach <mike.leach@linaro.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
 	Sasha Levin <sashal@kernel.org>,
+	alexander.shishkin@linux.intel.com,
 	bigeasy@linutronix.de,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	neilb@suse.de,
-	kprateek.nayak@amd.com,
-	csander@purestorage.com,
+	coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 049/642] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Date: Mon,  5 May 2025 18:04:25 -0400
-Message-Id: <20250505221419.2672473-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.14 204/642] coresight-etb10: change etb_drvdata spinlock's type to raw_spinlock_t
+Date: Mon,  5 May 2025 18:07:00 -0400
+Message-Id: <20250505221419.2672473-204-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -59,97 +58,147 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Ryo Takakura <ryotkkr98@gmail.com>
+From: Yeoreum Yun <yeoreum.yun@arm.com>
 
-[ Upstream commit 61c39d8c83e2077f33e0a2c8980a76a7f323f0ce ]
+[ Upstream commit 6b80c0abe475ed1017c5e862636049aa1cc17a1a ]
 
-Since:
+In coresight-etb10 drivers, etb_drvdata->spinlock can be held
+during __schedule() by perf_event_task_sched_out()/in().
 
-  0c1d7a2c2d32 ("lockdep: Remove softirq accounting on PREEMPT_RT.")
+Since etb_drvdata->spinlock type is spinlock_t and
+perf_event_task_sched_out()/in() is called after acquiring rq_lock,
+which is raw_spinlock_t (an unsleepable lock),
+this poses an issue in PREEMPT_RT kernel where spinlock_t is sleepable.
 
-the wait context test for mutex usage within "in softirq context" fails
-as it references @softirq_context:
+To address this, change type etb_drvdata->spinlock in coresight-etb10 drivers,
+which can be called by perf_event_task_sched_out()/in(),
+from spinlock_t to raw_spinlock_t.
 
-    | wait context tests |
-    --------------------------------------------------------------------------
-                                   | rcu  | raw  | spin |mutex |
-    --------------------------------------------------------------------------
-                 in hardirq context:  ok  |  ok  |  ok  |  ok  |
-  in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-                 in softirq context:  ok  |  ok  |  ok  |FAILED|
-
-As a fix, add lockdep map for BH disabled section. This fixes the
-issue by letting us catch cases when local_bh_disable() gets called
-with preemption disabled where local_lock doesn't get acquired.
-In the case of "in softirq context" selftest, local_bh_disable() was
-being called with preemption disable as it's early in the boot.
-
-[ boqun: Move the lockdep annotations into __local_bh_*() to avoid false
-         positives because of unpaired local_bh_disable() reported by
-	 Borislav Petkov and Peter Zijlstra, and make bh_lock_map
-	 only exist for PREEMPT_RT. ]
-
-[ mingo: Restored authorship and improved the bh_lock_map definition. ]
-
-Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Link: https://lore.kernel.org/r/20250321143322.79651-1-boqun.feng@gmail.com
+Reviewed-by: James Clark <james.clark@linaro.org>
+Reviewed-by: Mike Leach <mike.leach@linaro.org>
+Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Link: https://lore.kernel.org/r/20250306121110.1647948-6-yeoreum.yun@arm.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- kernel/softirq.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ drivers/hwtracing/coresight/coresight-etb10.c | 26 +++++++++----------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 4dae6ac2e83fb..513b1945987cc 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -126,6 +126,18 @@ static DEFINE_PER_CPU(struct softirq_ctrl, softirq_ctrl) = {
- 	.lock	= INIT_LOCAL_LOCK(softirq_ctrl.lock),
- };
+diff --git a/drivers/hwtracing/coresight/coresight-etb10.c b/drivers/hwtracing/coresight/coresight-etb10.c
+index aea9ac9c4bd06..7948597d483d2 100644
+--- a/drivers/hwtracing/coresight/coresight-etb10.c
++++ b/drivers/hwtracing/coresight/coresight-etb10.c
+@@ -84,7 +84,7 @@ struct etb_drvdata {
+ 	struct clk		*atclk;
+ 	struct coresight_device	*csdev;
+ 	struct miscdevice	miscdev;
+-	spinlock_t		spinlock;
++	raw_spinlock_t		spinlock;
+ 	local_t			reading;
+ 	pid_t			pid;
+ 	u8			*buf;
+@@ -145,7 +145,7 @@ static int etb_enable_sysfs(struct coresight_device *csdev)
+ 	unsigned long flags;
+ 	struct etb_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
  
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+static struct lock_class_key bh_lock_key;
-+struct lockdep_map bh_lock_map = {
-+	.name			= "local_bh",
-+	.key			= &bh_lock_key,
-+	.wait_type_outer	= LD_WAIT_FREE,
-+	.wait_type_inner	= LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-+	.lock_type		= LD_LOCK_PERCPU,
-+};
-+EXPORT_SYMBOL_GPL(bh_lock_map);
-+#endif
-+
- /**
-  * local_bh_blocked() - Check for idle whether BH processing is blocked
-  *
-@@ -148,6 +160,8 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+-	spin_lock_irqsave(&drvdata->spinlock, flags);
++	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
  
- 	WARN_ON_ONCE(in_hardirq());
+ 	/* Don't messup with perf sessions. */
+ 	if (coresight_get_mode(csdev) == CS_MODE_PERF) {
+@@ -163,7 +163,7 @@ static int etb_enable_sysfs(struct coresight_device *csdev)
  
-+	lock_map_acquire_read(&bh_lock_map);
-+
- 	/* First entry of a task into a BH disabled section? */
- 	if (!current->softirq_disable_cnt) {
- 		if (preemptible()) {
-@@ -211,6 +225,8 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
- 	WARN_ON_ONCE(in_hardirq());
- 	lockdep_assert_irqs_enabled();
+ 	csdev->refcnt++;
+ out:
+-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
++	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 	return ret;
+ }
  
-+	lock_map_release(&bh_lock_map);
-+
- 	local_irq_save(flags);
- 	curcnt = __this_cpu_read(softirq_ctrl.cnt);
+@@ -176,7 +176,7 @@ static int etb_enable_perf(struct coresight_device *csdev, void *data)
+ 	struct perf_output_handle *handle = data;
+ 	struct cs_buffers *buf = etm_perf_sink_config(handle);
  
-@@ -261,6 +277,8 @@ static inline void ksoftirqd_run_begin(void)
- /* Counterpart to ksoftirqd_run_begin() */
- static inline void ksoftirqd_run_end(void)
+-	spin_lock_irqsave(&drvdata->spinlock, flags);
++	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+ 
+ 	/* No need to continue if the component is already in used by sysFS. */
+ 	if (coresight_get_mode(drvdata->csdev) == CS_MODE_SYSFS) {
+@@ -219,7 +219,7 @@ static int etb_enable_perf(struct coresight_device *csdev, void *data)
+ 	}
+ 
+ out:
+-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
++	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 	return ret;
+ }
+ 
+@@ -352,11 +352,11 @@ static int etb_disable(struct coresight_device *csdev)
+ 	struct etb_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&drvdata->spinlock, flags);
++	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+ 
+ 	csdev->refcnt--;
+ 	if (csdev->refcnt) {
+-		spin_unlock_irqrestore(&drvdata->spinlock, flags);
++		raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 		return -EBUSY;
+ 	}
+ 
+@@ -366,7 +366,7 @@ static int etb_disable(struct coresight_device *csdev)
+ 	/* Dissociate from monitored process. */
+ 	drvdata->pid = -1;
+ 	coresight_set_mode(csdev, CS_MODE_DISABLED);
+-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
++	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 
+ 	dev_dbg(&csdev->dev, "ETB disabled\n");
+ 	return 0;
+@@ -443,7 +443,7 @@ static unsigned long etb_update_buffer(struct coresight_device *csdev,
+ 
+ 	capacity = drvdata->buffer_depth * ETB_FRAME_SIZE_WORDS;
+ 
+-	spin_lock_irqsave(&drvdata->spinlock, flags);
++	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+ 
+ 	/* Don't do anything if another tracer is using this sink */
+ 	if (csdev->refcnt != 1)
+@@ -566,7 +566,7 @@ static unsigned long etb_update_buffer(struct coresight_device *csdev,
+ 	__etb_enable_hw(drvdata);
+ 	CS_LOCK(drvdata->base);
+ out:
+-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
++	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 
+ 	return to_read;
+ }
+@@ -587,13 +587,13 @@ static void etb_dump(struct etb_drvdata *drvdata)
  {
-+	/* pairs with the lock_map_acquire_read() in ksoftirqd_run_begin() */
-+	lock_map_release(&bh_lock_map);
- 	__local_bh_enable(SOFTIRQ_OFFSET, true);
- 	WARN_ON_ONCE(in_interrupt());
- 	local_irq_enable();
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&drvdata->spinlock, flags);
++	raw_spin_lock_irqsave(&drvdata->spinlock, flags);
+ 	if (coresight_get_mode(drvdata->csdev) == CS_MODE_SYSFS) {
+ 		__etb_disable_hw(drvdata);
+ 		etb_dump_hw(drvdata);
+ 		__etb_enable_hw(drvdata);
+ 	}
+-	spin_unlock_irqrestore(&drvdata->spinlock, flags);
++	raw_spin_unlock_irqrestore(&drvdata->spinlock, flags);
+ 
+ 	dev_dbg(&drvdata->csdev->dev, "ETB dumped\n");
+ }
+@@ -746,7 +746,7 @@ static int etb_probe(struct amba_device *adev, const struct amba_id *id)
+ 	drvdata->base = base;
+ 	desc.access = CSDEV_ACCESS_IOMEM(base);
+ 
+-	spin_lock_init(&drvdata->spinlock);
++	raw_spin_lock_init(&drvdata->spinlock);
+ 
+ 	drvdata->buffer_depth = etb_get_buffer_depth(drvdata);
+ 
 -- 
 2.39.5
 
