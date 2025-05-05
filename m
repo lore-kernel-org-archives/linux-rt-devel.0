@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A965429D01C;
-	Mon,  5 May 2025 22:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9313136E0B8;
+	Mon,  5 May 2025 22:57:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484844; cv=none; b=brzLMPhSZ/PVZ32+RCxAkfuTRoDLhVg/gCoz9TUFH4Aezsnc1FpeQmK7bKN/TVWCoYMtSRbEBvgj+eTT56YA0iSvGNlXJq5eFqCM6olQ++qCCX0VEiiR/9WgZnOzv/iBybq7D/FMiieFiqI1gW0WrTNIgPysmP9wT1Q/RUNvU/4=
+	t=1746485852; cv=none; b=aGhDA79TqJOV5OY87Sq6vQSnw9iPNmD+8DYU6Wlh4cEK9HQVqzeEFgISFSbPgGyXTOg8PGnWlxnurEx9Ep5lHoR1v3fqAhz4YneWid5daDqiSmYDXAcOnTgb1B0jIU7Ev/FDYP+t2OM3ZYW5dJHcQfy5S+3g7opM2xRlwjUWyAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484844; c=relaxed/simple;
-	bh=tN3wMDnsoObKcsdiH+EXQU1j7gFeR8h4sHVHTa6rTnk=;
+	s=arc-20240116; t=1746485852; c=relaxed/simple;
+	bh=EdwILdVaire8vhmb2WBvXctMUcG6K6R7Qmm0MOIB+/s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=lr0zpD9YJCxVWpTyqw29ISGIEpGd6eT6QmsCcCSOGHlDO5z1RSBPEN1Baq1JvIGT4QHD5irtdzNJpf7eTZiN+hBvkihF4ARDIFUZMg4lBWvuu2BaXYAnO1TvyWnRkMoazVLhR9wWy3FUVGyyANhvaFrspgFMYM6Nr40SNRCkhq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lq9vhNog; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cN5T5kklbLGAOszfRNmzUHNgnE/cX0jcWWzNSXJ64J/AgRcekVG4zR5lwZ4YVuIyXXm/uqlBUO/O3c3stqcS86dNYHq5S1DLKFvun5lxY/vqTUFe7MUFrsTSfJv7SmSQLvplH8aOA7po9pqZsLj5QVx9TQjjqRTtsa6KPs/leRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXda2Gjb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lq9vhNog"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C6BC4CEE4;
-	Mon,  5 May 2025 22:40:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXda2Gjb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FC8C4CEED;
+	Mon,  5 May 2025 22:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484844;
-	bh=tN3wMDnsoObKcsdiH+EXQU1j7gFeR8h4sHVHTa6rTnk=;
+	s=k20201202; t=1746485852;
+	bh=EdwILdVaire8vhmb2WBvXctMUcG6K6R7Qmm0MOIB+/s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lq9vhNogAZ4JqTiMzkqfGZIpVrNkaV++668tObYvYCnO4h5I/aSJISEYAvaclrHxV
-	 J11IpTo+C/U5+1s0GPChY/Cv8CoN/CIzDGJWFevxJdh0A4uYF0x0AljNXKxdF3r2gS
-	 ng7ZvFgOrTAnzjQ0bzFKMzH0wUtBSIQ9GfFiZGHj9oEESLww7h3X8r4yIbKuW/JAiF
-	 ht8/hhDztCFVBIVPG6hJIhNy05gO/qR/YQ62oc1CaCQtXudjKj9v9BdNYDL3jeis/R
-	 5ISBAxQZDj2srMGJYIRi+uoVn+tt9qhYFVRBY+QRMd9nzeIsqUhmA/v+C1UPKd/QgO
-	 +UtYGZkyhJovw==
+	b=OXda2GjbqRspMtQ7aEL3rXtiSL9D1gtLHCbDT9ikM/x6V0/ZKXRTWVVLOzV+Obbbn
+	 DMGd/IMoaZStFpYy3LjoknZ5AlikRtPnh8Ebr0ct6HkKCi+1xnv0ACDF4Kz4mOTth/
+	 gA2ig25Z1wJirs80g2BuUlO+wyjvwQ0roHIwg2vVT6rMTRSr6myZu80PIdWEP3xn0N
+	 48mkvlvKhotKhyIbBOf9pEs9SzbrL/q77c71TW590+6xO/UDfggP8x5CzG5voE5LH0
+	 2STLtgX7RZdz7LsN/oDKAhIkALfEB1Se920oqhrkf4XoZdlv74l6LVcwmuLgopzQiP
+	 Qb1plv0rmhzRA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,17 +38,17 @@ Cc: Ryo Takakura <ryotkkr98@gmail.com>,
 	rostedt@goodmis.org,
 	tglx@linutronix.de,
 	peterz@infradead.org,
-	paulmck@kernel.org,
+	frederic@kernel.org,
+	kprateek.nayak@amd.com,
 	neilb@suse.de,
 	csander@purestorage.com,
-	kprateek.nayak@amd.com,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 043/486] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Date: Mon,  5 May 2025 18:31:59 -0400
-Message-Id: <20250505223922.2682012-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 029/294] lockdep: Fix wait context check on softirq for PREEMPT_RT
+Date: Mon,  5 May 2025 18:52:09 -0400
+Message-Id: <20250505225634.2688578-29-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
-References: <20250505223922.2682012-1-sashal@kernel.org>
+In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
+References: <20250505225634.2688578-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.26
+X-stable-base: Linux 6.6.89
 Content-Transfer-Encoding: 8bit
 
 From: Ryo Takakura <ryotkkr98@gmail.com>
@@ -102,10 +102,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 18 insertions(+)
 
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 8c4524ce65faf..00ff176350413 100644
+index f24d80cf20bd3..d9e37f3fa1303 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
-@@ -126,6 +126,18 @@ static DEFINE_PER_CPU(struct softirq_ctrl, softirq_ctrl) = {
+@@ -125,6 +125,18 @@ static DEFINE_PER_CPU(struct softirq_ctrl, softirq_ctrl) = {
  	.lock	= INIT_LOCAL_LOCK(softirq_ctrl.lock),
  };
  
@@ -124,7 +124,7 @@ index 8c4524ce65faf..00ff176350413 100644
  /**
   * local_bh_blocked() - Check for idle whether BH processing is blocked
   *
-@@ -148,6 +160,8 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
+@@ -147,6 +159,8 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
  
  	WARN_ON_ONCE(in_hardirq());
  
@@ -133,7 +133,7 @@ index 8c4524ce65faf..00ff176350413 100644
  	/* First entry of a task into a BH disabled section? */
  	if (!current->softirq_disable_cnt) {
  		if (preemptible()) {
-@@ -211,6 +225,8 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
+@@ -210,6 +224,8 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
  	WARN_ON_ONCE(in_hardirq());
  	lockdep_assert_irqs_enabled();
  
@@ -142,7 +142,7 @@ index 8c4524ce65faf..00ff176350413 100644
  	local_irq_save(flags);
  	curcnt = __this_cpu_read(softirq_ctrl.cnt);
  
-@@ -261,6 +277,8 @@ static inline void ksoftirqd_run_begin(void)
+@@ -260,6 +276,8 @@ static inline void ksoftirqd_run_begin(void)
  /* Counterpart to ksoftirqd_run_begin() */
  static inline void ksoftirqd_run_end(void)
  {
