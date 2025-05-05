@@ -1,156 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9313136E0B8;
-	Mon,  5 May 2025 22:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA402DA0EA;
+	Mon,  5 May 2025 23:02:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746485852; cv=none; b=aGhDA79TqJOV5OY87Sq6vQSnw9iPNmD+8DYU6Wlh4cEK9HQVqzeEFgISFSbPgGyXTOg8PGnWlxnurEx9Ep5lHoR1v3fqAhz4YneWid5daDqiSmYDXAcOnTgb1B0jIU7Ev/FDYP+t2OM3ZYW5dJHcQfy5S+3g7opM2xRlwjUWyAA=
+	t=1746486177; cv=none; b=M+T+PaijYZ7VKOCXAZWeQiOp9O9apIXXC8ndrMNw0RhfJYe7lJ+fXVlzT6dcEh/wKQwBdXYAR0yLDYUtC7RwOhgSudHWkOCBm8LQkuUQTaUcd7QhgSpAVpjTfbApeQue54NH/P7HmWU/bnDrwm9MDWpX5AW+bba+W5NMPyY2kow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746485852; c=relaxed/simple;
-	bh=EdwILdVaire8vhmb2WBvXctMUcG6K6R7Qmm0MOIB+/s=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cN5T5kklbLGAOszfRNmzUHNgnE/cX0jcWWzNSXJ64J/AgRcekVG4zR5lwZ4YVuIyXXm/uqlBUO/O3c3stqcS86dNYHq5S1DLKFvun5lxY/vqTUFe7MUFrsTSfJv7SmSQLvplH8aOA7po9pqZsLj5QVx9TQjjqRTtsa6KPs/leRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OXda2Gjb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746486177; c=relaxed/simple;
+	bh=pEmDVUXvc0J46+4t6pQY34qv1kz8YJhrfowiq+L+feA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gIjnDopG3EB3FvNPh07p7ILpgM2cSJHYBy80fHFfTptBzMpgnRIrIDbmxOgvcNwnWFgu1XWgZWNxFn/eFNxvMDeub/AAmAg9ZG7nl3E2Y2jFIBWqy0ZhmnQvMi0WZ3cQ7o9eiC3+daObQgIMgVpRQgedRhWUF0maCwHGe+K1SXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UXAcwsgW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OXda2Gjb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FC8C4CEED;
-	Mon,  5 May 2025 22:57:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UXAcwsgW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D1CC4CEED;
+	Mon,  5 May 2025 23:02:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746485852;
-	bh=EdwILdVaire8vhmb2WBvXctMUcG6K6R7Qmm0MOIB+/s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OXda2GjbqRspMtQ7aEL3rXtiSL9D1gtLHCbDT9ikM/x6V0/ZKXRTWVVLOzV+Obbbn
-	 DMGd/IMoaZStFpYy3LjoknZ5AlikRtPnh8Ebr0ct6HkKCi+1xnv0ACDF4Kz4mOTth/
-	 gA2ig25Z1wJirs80g2BuUlO+wyjvwQ0roHIwg2vVT6rMTRSr6myZu80PIdWEP3xn0N
-	 48mkvlvKhotKhyIbBOf9pEs9SzbrL/q77c71TW590+6xO/UDfggP8x5CzG5voE5LH0
-	 2STLtgX7RZdz7LsN/oDKAhIkALfEB1Se920oqhrkf4XoZdlv74l6LVcwmuLgopzQiP
-	 Qb1plv0rmhzRA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Ryo Takakura <ryotkkr98@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	frederic@kernel.org,
-	kprateek.nayak@amd.com,
-	neilb@suse.de,
-	csander@purestorage.com,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 029/294] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Date: Mon,  5 May 2025 18:52:09 -0400
-Message-Id: <20250505225634.2688578-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505225634.2688578-1-sashal@kernel.org>
-References: <20250505225634.2688578-1-sashal@kernel.org>
+	s=k20201202; t=1746486175;
+	bh=pEmDVUXvc0J46+4t6pQY34qv1kz8YJhrfowiq+L+feA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UXAcwsgWa1shdmgMd4J6YmBSb37jGGNWNiDwN5W0hrXuQCM4ei3rTEvGxbYQmpuOB
+	 0KBVWAzhLvuusSaEiWughaw8K96UmAZLjNC/a4kn4GhytEsFD5U20nuy1iqQxESjk8
+	 Gi5DW2Rm7rhtS96ChJgaN45Ae0+18fi3KuwW5c0F/7RWAKoW4g2OuDJxWCnpIkBgbL
+	 upx9EJrnmRlVrUc7RtdRj5ffRPtgry4B/7W6R8zhPWnr91k206yMzaaXfd/pLmZ6K0
+	 bjF1J84dHygQUCWIPwmL0vrVaHF+vhB+Eup9PwF2xmqGrhqs/whyzKEoGTBShkWw7m
+	 /eyDguntyItSA==
+Date: Mon, 5 May 2025 16:02:53 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Thomas Gleixner
+ <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v3 00/18] net: Cover more per-CPU storage with
+ local nested BH locking.
+Message-ID: <20250505160253.3d50ebab@kernel.org>
+In-Reply-To: <20250430124758.1159480-1-bigeasy@linutronix.de>
+References: <20250430124758.1159480-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.89
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Ryo Takakura <ryotkkr98@gmail.com>
+On Wed, 30 Apr 2025 14:47:40 +0200 Sebastian Andrzej Siewior wrote:
+> I was looking at the build-time defined per-CPU variables in net/ and
+> added the needed local-BH-locks in order to be able to remove the
+> current per-CPU lock in local_bh_disable() on PREMPT_RT.
+> 
+> The work is not yet complete, I just wanted to post what I have so far
+> instead of sitting on it.
 
-[ Upstream commit 61c39d8c83e2077f33e0a2c8980a76a7f323f0ce ]
+Looks fine overall but we're anticipating a respin for patch 5?
+When you repost could you split out the netfilter patches so they 
+can be applied by Pablo to the netfilter tree?
 
-Since:
-
-  0c1d7a2c2d32 ("lockdep: Remove softirq accounting on PREEMPT_RT.")
-
-the wait context test for mutex usage within "in softirq context" fails
-as it references @softirq_context:
-
-    | wait context tests |
-    --------------------------------------------------------------------------
-                                   | rcu  | raw  | spin |mutex |
-    --------------------------------------------------------------------------
-                 in hardirq context:  ok  |  ok  |  ok  |  ok  |
-  in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-                 in softirq context:  ok  |  ok  |  ok  |FAILED|
-
-As a fix, add lockdep map for BH disabled section. This fixes the
-issue by letting us catch cases when local_bh_disable() gets called
-with preemption disabled where local_lock doesn't get acquired.
-In the case of "in softirq context" selftest, local_bh_disable() was
-being called with preemption disable as it's early in the boot.
-
-[ boqun: Move the lockdep annotations into __local_bh_*() to avoid false
-         positives because of unpaired local_bh_disable() reported by
-	 Borislav Petkov and Peter Zijlstra, and make bh_lock_map
-	 only exist for PREEMPT_RT. ]
-
-[ mingo: Restored authorship and improved the bh_lock_map definition. ]
-
-Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Link: https://lore.kernel.org/r/20250321143322.79651-1-boqun.feng@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/softirq.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
-
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index f24d80cf20bd3..d9e37f3fa1303 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -125,6 +125,18 @@ static DEFINE_PER_CPU(struct softirq_ctrl, softirq_ctrl) = {
- 	.lock	= INIT_LOCAL_LOCK(softirq_ctrl.lock),
- };
- 
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+static struct lock_class_key bh_lock_key;
-+struct lockdep_map bh_lock_map = {
-+	.name			= "local_bh",
-+	.key			= &bh_lock_key,
-+	.wait_type_outer	= LD_WAIT_FREE,
-+	.wait_type_inner	= LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-+	.lock_type		= LD_LOCK_PERCPU,
-+};
-+EXPORT_SYMBOL_GPL(bh_lock_map);
-+#endif
-+
- /**
-  * local_bh_blocked() - Check for idle whether BH processing is blocked
-  *
-@@ -147,6 +159,8 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
- 
- 	WARN_ON_ONCE(in_hardirq());
- 
-+	lock_map_acquire_read(&bh_lock_map);
-+
- 	/* First entry of a task into a BH disabled section? */
- 	if (!current->softirq_disable_cnt) {
- 		if (preemptible()) {
-@@ -210,6 +224,8 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
- 	WARN_ON_ONCE(in_hardirq());
- 	lockdep_assert_irqs_enabled();
- 
-+	lock_map_release(&bh_lock_map);
-+
- 	local_irq_save(flags);
- 	curcnt = __this_cpu_read(softirq_ctrl.cnt);
- 
-@@ -260,6 +276,8 @@ static inline void ksoftirqd_run_begin(void)
- /* Counterpart to ksoftirqd_run_begin() */
- static inline void ksoftirqd_run_end(void)
- {
-+	/* pairs with the lock_map_acquire_read() in ksoftirqd_run_begin() */
-+	lock_map_release(&bh_lock_map);
- 	__local_bh_enable(SOFTIRQ_OFFSET, true);
- 	WARN_ON_ONCE(in_interrupt());
- 	local_irq_enable();
--- 
-2.39.5
-
+And there really doesn't seem to be a strong reason to make this
+series longer than 15 patches, so please don't add more:
+https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
