@@ -1,156 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F972EC016;
-	Mon,  5 May 2025 23:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDC3219CD07;
+	Wed,  7 May 2025 10:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486431; cv=none; b=hSIlg+SOA+Lb+1Nl2keH7NGezyp9ZfJ1DrW/N1yn+/jQ8B/9QWhiY9vcw9rZMLypl1fx7J83N8dIEFC7vIYTl/hY0ljSbvjTinLpU2MsX9nnLSCNlEUG2uimPSQSAyZJpwJYkHKDRewd3XufysP1GM6ymaM2CfJMIHbrpynJTSA=
+	t=1746612394; cv=none; b=Ori0a1M9SH5+R8JvAn41Vf1GSZrgJ+K/7bGZzo8b4wLnCBwny3roF6YO/RDEG5kTEWSFFrn3KOPStSTpfMrKFIUkNHSHFCXQqRjBDM4glxihpDn0figYrTkCzfRjraNdBENnnZtmN2cs9BASvtxMIQ3gT83NzKETofzP+wCjKDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486431; c=relaxed/simple;
-	bh=+iCTQXefiv7beKZtI1OTYnA/ZeUG5ws+vcTC6+XJFpo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XPdDj+Vr4a4sTL65dRk85VLFC0YSQnXQif2Mo+OPD26ECvNpbYBAYrc+FH/cnnl2w5rs60rgJGf7Mgvh38sdPRzWvXQusrbHj6Wi2tu8PiFGdas0SY0MzYFmDXTNH8EVRbqLh6qPKBJYD73J/L8qtUFtwmzupEKwuh8RJozFmwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k5MvtnoD; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k5MvtnoD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD81CC4CEE4;
-	Mon,  5 May 2025 23:07:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486431;
-	bh=+iCTQXefiv7beKZtI1OTYnA/ZeUG5ws+vcTC6+XJFpo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k5MvtnoDrGzkou72QmwLAbxvzT3SlDlzb0BcYZHbf7WZy9PdTDOOvxkFIA0qx44ut
-	 TQnqsFnlj3pPc5TPjTDW7Y7ObjQ8zYh1tYo7maS75fE91eaii4V/nEueO0/jTYpkHK
-	 RiUU0L249Ixi22VB/MfhCRtJes0gGuSsTdL8vZSvjxondh5lTjLhQ0O0Lk1/XtGpjL
-	 V8M4HVKgzDK1ZlTGQSZVH+8nf6NthLvFJPQv7h3ZGLoH66hfv7Lh9K0968acKi8c2E
-	 9xilqERCvGCn+wrp0+dTqYpMJhbKwfFOeXeyUqsGDza3iiRTpJB4/1zKScEcH2kVdQ
-	 IQQhoqUa8dblA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Ryo Takakura <ryotkkr98@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Ingo Molnar <mingo@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
+	s=arc-20240116; t=1746612394; c=relaxed/simple;
+	bh=TkYjw2gY1eODfPiUtFnFZw5vNxrfJTGcP3anVqaHl7c=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=crH7uC8CiDq++CBfgurUtkQgB++gVohnp0VCDAoTgZEA/V8EnoFQ/AbOrNKUTQwrFwPXTwOHwnBPK0A0R2qb5iIHopvfEh3uJfLoOzXGtGKJlMMWm4FPkqrLoPxku+uNcOfeFu7Py+jY1DB6CyXzCI2DZNCo4pPrmAJc17v7F0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.2.10.34])
+	by gateway (Coremail) with SMTP id _____8DxvnOjMBtoHgvYAA--.59778S3;
+	Wed, 07 May 2025 18:06:27 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.10.34])
+	by front1 (Coremail) with SMTP id qMiowMBxXsWiMBtoQcS5AA--.13196S2;
+	Wed, 07 May 2025 18:06:26 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
 	bigeasy@linutronix.de,
 	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	peterz@infradead.org,
-	tglx@linutronix.de,
-	frederic@kernel.org,
-	csander@purestorage.com,
-	neilb@suse.de,
-	kprateek.nayak@amd.com,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 023/212] lockdep: Fix wait context check on softirq for PREEMPT_RT
-Date: Mon,  5 May 2025 19:03:15 -0400
-Message-Id: <20250505230624.2692522-23-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
-References: <20250505230624.2692522-1-sashal@kernel.org>
+	rostedt@goodmis.org
+Cc: loongarch@lists.linux.dev,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH] Loongarch:Prevent cond_resched occurring within kernel-fpu
+Date: Wed,  7 May 2025 18:06:24 +0800
+Message-Id: <20250507100624.8925-1-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.136
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMBxXsWiMBtoQcS5AA--.13196S2
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoW7uryrJrW3Cw4rJr1fCF1fKrX_yoW8uF1rpr
+	yS9r95tr4UJ3ZIvay3Jr18Gry5J3ykGw1xWFZxGa4rA3y5Xry8Xwn2gr12qFy29FWIvFWf
+	ZFn5XrWIg3WUA3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+	xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+	6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwI
+	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
+	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+	AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
 
-From: Ryo Takakura <ryotkkr98@gmail.com>
+When CONFIG_PREEMPT_COUNT is not configured, preempt_disable/preempt_enable
+merely acts as a barrier. However, cond_resched can still trigger a
+context switch and modify the EUEN, resulting in do_fpu being activated
+within kernel-fpu critical section, as demonstrated in the following path:
 
-[ Upstream commit 61c39d8c83e2077f33e0a2c8980a76a7f323f0ce ]
+dcn32_calculate_wm_and_dlg
+    DC_FP_START
+	dcn32_calculate_wm_and_dlg_fpu
+	    dcn32_find_dummy_latency_index_for_fw_based_mclk_switch
+		dcn32_internal_validate_bw
+		    dcn32_enable_phantom_stream
+			dc_create_stream_for_sink
+			   kzalloc(GFP_KERNEL)
+				__kmem_cache_alloc_node
+				    __cond_resched
+    DC_FP_END
 
-Since:
+This patch is similar to d02198550423a0b695e7a24ec77153209ad45b09
+(x86/fpu: Improve crypto performance by making kernel-mode FPU reliably
+usablein softirqs),to avoids the issue, and extends kernel-fpu application
+scenarios to softirq.
 
-  0c1d7a2c2d32 ("lockdep: Remove softirq accounting on PREEMPT_RT.")
-
-the wait context test for mutex usage within "in softirq context" fails
-as it references @softirq_context:
-
-    | wait context tests |
-    --------------------------------------------------------------------------
-                                   | rcu  | raw  | spin |mutex |
-    --------------------------------------------------------------------------
-                 in hardirq context:  ok  |  ok  |  ok  |  ok  |
-  in hardirq context (not threaded):  ok  |  ok  |  ok  |  ok  |
-                 in softirq context:  ok  |  ok  |  ok  |FAILED|
-
-As a fix, add lockdep map for BH disabled section. This fixes the
-issue by letting us catch cases when local_bh_disable() gets called
-with preemption disabled where local_lock doesn't get acquired.
-In the case of "in softirq context" selftest, local_bh_disable() was
-being called with preemption disable as it's early in the boot.
-
-[ boqun: Move the lockdep annotations into __local_bh_*() to avoid false
-         positives because of unpaired local_bh_disable() reported by
-	 Borislav Petkov and Peter Zijlstra, and make bh_lock_map
-	 only exist for PREEMPT_RT. ]
-
-[ mingo: Restored authorship and improved the bh_lock_map definition. ]
-
-Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Link: https://lore.kernel.org/r/20250321143322.79651-1-boqun.feng@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
 ---
- kernel/softirq.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ arch/loongarch/kernel/kfpu.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 6665f5cd60cb0..9ab5ca399a990 100644
---- a/kernel/softirq.c
-+++ b/kernel/softirq.c
-@@ -140,6 +140,18 @@ static DEFINE_PER_CPU(struct softirq_ctrl, softirq_ctrl) = {
- 	.lock	= INIT_LOCAL_LOCK(softirq_ctrl.lock),
- };
+diff --git a/arch/loongarch/kernel/kfpu.c b/arch/loongarch/kernel/kfpu.c
+index ec5b28e570c9..e60bbaca357a 100644
+--- a/arch/loongarch/kernel/kfpu.c
++++ b/arch/loongarch/kernel/kfpu.c
+@@ -18,11 +18,28 @@ static unsigned int euen_mask = CSR_EUEN_FPEN;
+ static DEFINE_PER_CPU(bool, in_kernel_fpu);
+ static DEFINE_PER_CPU(unsigned int, euen_current);
  
-+#ifdef CONFIG_DEBUG_LOCK_ALLOC
-+static struct lock_class_key bh_lock_key;
-+struct lockdep_map bh_lock_map = {
-+	.name			= "local_bh",
-+	.key			= &bh_lock_key,
-+	.wait_type_outer	= LD_WAIT_FREE,
-+	.wait_type_inner	= LD_WAIT_CONFIG, /* PREEMPT_RT makes BH preemptible. */
-+	.lock_type		= LD_LOCK_PERCPU,
-+};
-+EXPORT_SYMBOL_GPL(bh_lock_map);
-+#endif
++static inline void fpu_lock(void)
++{
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		local_bh_disable();
++	else
++		preempt_disable();
++}
 +
- /**
-  * local_bh_blocked() - Check for idle whether BH processing is blocked
-  *
-@@ -162,6 +174,8 @@ void __local_bh_disable_ip(unsigned long ip, unsigned int cnt)
- 
- 	WARN_ON_ONCE(in_hardirq());
- 
-+	lock_map_acquire_read(&bh_lock_map);
++static inline void fpu_unlock(void)
++{
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		local_bh_enable();
++	else
++		preempt_enable();
++}
 +
- 	/* First entry of a task into a BH disabled section? */
- 	if (!current->softirq_disable_cnt) {
- 		if (preemptible()) {
-@@ -225,6 +239,8 @@ void __local_bh_enable_ip(unsigned long ip, unsigned int cnt)
- 	WARN_ON_ONCE(in_hardirq());
- 	lockdep_assert_irqs_enabled();
- 
-+	lock_map_release(&bh_lock_map);
-+
- 	local_irq_save(flags);
- 	curcnt = __this_cpu_read(softirq_ctrl.cnt);
- 
-@@ -275,6 +291,8 @@ static inline void ksoftirqd_run_begin(void)
- /* Counterpart to ksoftirqd_run_begin() */
- static inline void ksoftirqd_run_end(void)
+ void kernel_fpu_begin(void)
  {
-+	/* pairs with the lock_map_acquire_read() in ksoftirqd_run_begin() */
-+	lock_map_release(&bh_lock_map);
- 	__local_bh_enable(SOFTIRQ_OFFSET, true);
- 	WARN_ON_ONCE(in_interrupt());
- 	local_irq_enable();
+ 	unsigned int *euen_curr;
+ 
+-	preempt_disable();
++	if (!irqs_disabled())
++		fpu_lock();
+ 
+ 	WARN_ON(this_cpu_read(in_kernel_fpu));
+ 
+@@ -73,7 +90,8 @@ void kernel_fpu_end(void)
+ 
+ 	this_cpu_write(in_kernel_fpu, false);
+ 
+-	preempt_enable();
++	if (!irqs_disabled())
++		fpu_unlock();
+ }
+ EXPORT_SYMBOL_GPL(kernel_fpu_end);
+ 
 -- 
-2.39.5
+2.20.1
 
