@@ -1,141 +1,83 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 005248F77;
-	Fri,  9 May 2025 02:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B72C28F930
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 May 2025 11:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746756401; cv=none; b=A1Eau9LfohF97T3CVirpPd094TUjkeyrg/TLV7uEjDzAPMwbiTDuJiT1/967YPZxS9unRUgNw4idj92RtoL2o9TQLAROEeh1ScOB6+8tMpx2bTqbd/bSREL0zJHPR9yQ+BQXWTN88SRBw5tSK8OAaj+ibkORm2sCLi6FIVF6/no=
+	t=1746791911; cv=none; b=RMVYdWl5sR2R7BBIFLDd7OEaroI/kevuFshPKgKwSgj+Q093dKrPfYvNI/gqvLLMFBBejk/g1kM3FJ5DQaPNMiO9dTTtoRh/LLHxW+EpUEfeaR1YqpPQ4nXFTYen8ckpkC6fPjHbNpwQ1jQ7RhHDSfCeoWQZhQ6K5DHx1I+FbGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746756401; c=relaxed/simple;
-	bh=eOG+6uPAgB6kk87jbQU1jozNIa3ia4nGj0etd0Lgu8Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MXlbMwWWFRLscwOx5pifiPEgfgeyy73GC+jc12C59aaF4qTWogZToXs+mxz8JXHNN2YbrwGrPcO9XHHZfkFFSiAAv3ViBSehxsVd+HuhgqU/PpTvND9masZhDe9DwhzZBxoDVp2lBtdxqPtpmKj9DULZO9Y/+nD3Nti6mF8+lhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.2.10.34])
-	by gateway (Coremail) with SMTP id _____8CxeXElYx1okdPaAA--.30539S3;
-	Fri, 09 May 2025 10:06:29 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.10.34])
-	by front1 (Coremail) with SMTP id qMiowMBxLscjYx1owBG_AA--.32426S2;
-	Fri, 09 May 2025 10:06:27 +0800 (CST)
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-To: chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org
-Cc: loongarch@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>,
-	stable@vger.kernel.org,
-	Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH] LoongArch: Prevent cond_resched() occurring within kernel-fpu
-Date: Fri,  9 May 2025 10:06:26 +0800
-Message-Id: <20250509020626.23414-1-zhangtianyang@loongson.cn>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1746791911; c=relaxed/simple;
+	bh=dsSvYZvde6/5EkYxQikz4oG6dsceowppGFdoHhRq+tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ow3RsD8gnhhLAjx6SVbUDL/KQzCOiYL/CKyevwAqjIqdYwos/XzcSTLGMDVR2re0DBe8Yr7QnW3/cryODkV2IhC6PRx3KHIrmiay4jfC1111ftlkuprk4n1vyAXIByfPEbZdFszkpONwV7XrygHkW2Cey3kkTrrNeem9MVDPCVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dps4ANgQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bVQgTY4O; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dps4ANgQ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bVQgTY4O"
+Date: Fri, 9 May 2025 13:58:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1746791908;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=re3w9skpKOlyeZkqJb5/x4eZJzz+iBjimR0Qdp7eQDg=;
+	b=dps4ANgQsKAY23evt/ksJnxsSYBpxTmvnrpb86jPq5VhPbuncazyG9hlFYK/1CA7MgIVqs
+	FPAlRmWr3B0BBAEKvDPdmrPhLD1lObxgCbOVNGPtDyrd2BPdvbEqygCHcyLQ6iAu1JcBNC
+	T4iEXZdpLgeqVXyKVfiSRmWR9oUM6YO7QqXU6YMwyMxQR4mMPpzj9VCIxaY9oyOQ9CZQcH
+	dHJBiZIso5BPqjB8Jn3I/dVGN86AK3gRsSQVzW8roh2lTGfBV5ihG5sSNN1mnjHPNoQYUT
+	XRkqvK8rAB+igjXhgL4dPBKtB2cZKF7dzmSntd8nuFhejwAk6iKOtElh6isW4Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1746791908;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=re3w9skpKOlyeZkqJb5/x4eZJzz+iBjimR0Qdp7eQDg=;
+	b=bVQgTY4O2GeXFCfSyIG1jVXxzDinK8atXj5L7Zzt0l1/J/oQfsGnu6dJvpiNhzYy2Lkuyv
+	wKvBkVSyUaQYEdDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH net-next v3 00/18] net: Cover more per-CPU storage with
+ local nested BH locking.
+Message-ID: <20250509115823.DriYhjUm@linutronix.de>
+References: <20250430124758.1159480-1-bigeasy@linutronix.de>
+ <20250505160253.3d50ebab@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMBxLscjYx1owBG_AA--.32426S2
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uryUKFyDXFyxuryDtr15WrX_yoW5Jr4Upr
-	yfur95tr4UJa4ava9rJw18Cry5Awn7G34xWa9xG34rA34Yqr18Xwn29r12qF12vFyIyFyS
-	vFnYqrWI93W5A3cCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
-	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWU
-	AwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI4
-	8JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y
-	6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-	AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-	2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
-	UjIFyTuYvjxU2MKZDUUUU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250505160253.3d50ebab@kernel.org>
 
-When CONFIG_PREEMPT_COUNT is not configured (i.e. CONFIG_PREEMPT_NONE/
-CONFIG_PREEMPT_VOLUNTARY), preempt_disable() / preempt_enable() merely
-acts as a barrier(). However, in these cases cond_resched() can still
-trigger a context switch and modify the CSR.EUEN, resulting in do_fpu()
-exception being activated within the kernel-fpu critical sections, as
-demonstrated in the following path:
+On 2025-05-05 16:02:53 [-0700], Jakub Kicinski wrote:
+> On Wed, 30 Apr 2025 14:47:40 +0200 Sebastian Andrzej Siewior wrote:
+> > I was looking at the build-time defined per-CPU variables in net/ and
+> > added the needed local-BH-locks in order to be able to remove the
+> > current per-CPU lock in local_bh_disable() on PREMPT_RT.
+> > 
+> > The work is not yet complete, I just wanted to post what I have so far
+> > instead of sitting on it.
+> 
+> Looks fine overall but we're anticipating a respin for patch 5?
+> When you repost could you split out the netfilter patches so they 
+> can be applied by Pablo to the netfilter tree?
 
-dcn32_calculate_wm_and_dlg()
-    DC_FP_START()
-	dcn32_calculate_wm_and_dlg_fpu()
-	    dcn32_find_dummy_latency_index_for_fw_based_mclk_switch()
-		dcn32_internal_validate_bw()
-		    dcn32_enable_phantom_stream()
-			dc_create_stream_for_sink()
-			   kzalloc(GFP_KERNEL)
-				__kmem_cache_alloc_node()
-				    __cond_resched()
-    DC_FP_END()
+Yes, will do. I was mostly off the last week.
 
-This patch is similar to commit d021985 (x86/fpu: Improve crypto
-performance by making kernel-mode FPU reliably usable in softirqs).  It
-uses local_bh_disable() instead of preempt_disable() for non-RT kernels
-so it can avoid the cond_resched() issue, and also extend the kernel-fpu
-application scenarios to the softirq context.
+> And there really doesn't seem to be a strong reason to make this
+> series longer than 15 patches, so please don't add more:
+> https://www.kernel.org/doc/html/next/process/maintainer-netdev.html
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
----
- arch/loongarch/kernel/kfpu.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+Okay.
 
-diff --git a/arch/loongarch/kernel/kfpu.c b/arch/loongarch/kernel/kfpu.c
-index ec5b28e570c9..4e469b021cf4 100644
---- a/arch/loongarch/kernel/kfpu.c
-+++ b/arch/loongarch/kernel/kfpu.c
-@@ -18,11 +18,28 @@ static unsigned int euen_mask = CSR_EUEN_FPEN;
- static DEFINE_PER_CPU(bool, in_kernel_fpu);
- static DEFINE_PER_CPU(unsigned int, euen_current);
- 
-+static inline void fpregs_lock(void)
-+{
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+		local_bh_disable();
-+	else
-+		preempt_disable();
-+}
-+
-+static inline void fpregs_unlock(void)
-+{
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-+		local_bh_enable();
-+	else
-+		preempt_enable();
-+}
-+
- void kernel_fpu_begin(void)
- {
- 	unsigned int *euen_curr;
- 
--	preempt_disable();
-+	if (!irqs_disabled())
-+		fpregs_lock();
- 
- 	WARN_ON(this_cpu_read(in_kernel_fpu));
- 
-@@ -73,7 +90,8 @@ void kernel_fpu_end(void)
- 
- 	this_cpu_write(in_kernel_fpu, false);
- 
--	preempt_enable();
-+	if (!irqs_disabled())
-+		fpregs_unlock();
- }
- EXPORT_SYMBOL_GPL(kernel_fpu_end);
- 
--- 
-2.20.1
-
+Sebastian
