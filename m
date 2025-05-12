@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA57266B7D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 09:27:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B613E267393
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 09:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747042067; cv=none; b=CLDrYnhwdu64DhNfdNDuZKBZLhKppaiwCsKqmhH1afNwtjUoNwzbmAl0jW3gE8QiE/pqYf4Ftl7qRbIjEFIA2PLkFyznGbjBnqyvS6A+s+ka/VkEr1SzEGnyNxa1RNH0YlX6AO1oW6g44j2bKni3Rq26IqADJb474Th9bKcnthg=
+	t=1747042068; cv=none; b=gbheRMjegYq0jWZgWhTnW+1+EnZc3gfMTH16B1bNoPfUcimW5HWYBhAJuFhpJCrubUOaWXc6OqHrVTYfYZ3Jm3GWRGR84J/3D5lYsHjkUyNtS7y2Z5/pusbPP/4M7GsdZFIdpugheN5z6N2Ay++SFIdhgX+86OFbSO8cvavIUE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747042067; c=relaxed/simple;
-	bh=ikhY+bHEuuPq+Wi377sZpWwI70FH5caxkwylptiayXo=;
+	s=arc-20240116; t=1747042068; c=relaxed/simple;
+	bh=BzPUhbmNkCopiV7ExEaARyd19Lxmn+Cz6wHFBLAR19M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ItJyZ4F2N8pCZ3p6aUm+49yjv5H5NmlN2ABL6MH8NoB1PHSkHNlhCjg568Nkl4dCLTlxTXejC21crbNntLlbOHfod054qEFHJ9xD4LMmECMvbVW6dyE+ln2KjsJu7huxl/KtbX6C8alI0bYbV7Fznr3lGEbfcOUqRWusOYzx3Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MIsGH0qz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=670viFAy; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=jS+BrbDhhij6E/WyVxMPqhVlf3o2RIkNeFRhg9Wm/QiP13IOEWpPuaZIRQFce6bp2vK4yFnvzC13iVIkr1WFQp8tVjIIsAgIRdsT1jRRNIdTmbE3b/eMrzhldHjihz+l4+YHVQIoALDxIFy5CgYx/fayOgIDgz60TSjq6LlewUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=R+aTuzgG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=83XF6HP0; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MIsGH0qz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="670viFAy"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="R+aTuzgG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="83XF6HP0"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747042063;
+	s=2020; t=1747042064;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uaElcyYJlHDajUNT3LTdSQakOyifkztF7WLYup3LZE4=;
-	b=MIsGH0qzVbg3km3XR2VFVazMlc4FU7ou4pfJ2vDU8v4aYtT3BeMPAq91oNdUDcF8PGJjWS
-	PzblJ9Pft5Vn3k5Evcj6Ne0/ezrpZHGzILAyRfkeoD/buaR69Zu+hYUaXNJgbmW4qEH0MU
-	YEhPYY0fYYEUsC9PPQV+2+WbB2omEHO5shA6hSs104iQHQFrTNGP0r+bpXCLR/278TmP6W
-	EzZyZP193ak7Ry6807x4hZsG8UHwJrKM8V383PXG27Vxfc7G8P4OHgn6ZabZHp4ay7buaJ
-	zcMdWTADSLFWeAlJOllqvamP+GnAucdzrGkgdOZygv/5IFJi3Nmq9Ujf+3aBbw==
+	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
+	b=R+aTuzgGmLCtbRNldgoZzPO+G3g9TgoVwzIlDf5pmlSKNvcwxQgH/4UrFEBElYtvyl6l9N
+	3/3O/kPKJDBorHWHNcC/AeINGLTM19u0e+bzC1CLkO3OdBh393TlVZUpOy1azedulDmYp0
+	sikdOSm33u+XB+dW7isPbn61E74wT3aON2dkCxMT0ilajX5Oop1UX6r9x8K55MwX6wOP3S
+	9OXXzxvy/ITQoo6wPv1oqcdwd1LeNZ/jlgZrciVsKsKLFiWCzQ8Qxz5NuQFWeq44aRuw98
+	ZgCSjnkDSJZ+N6O8J47N9jUMaGswwLNPT/fNYWcee5INlM76pcBBofz5T8UiKA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747042063;
+	s=2020e; t=1747042064;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uaElcyYJlHDajUNT3LTdSQakOyifkztF7WLYup3LZE4=;
-	b=670viFAy43dRTDrMrK+kmNl0gsOZi1hptdpFyys0aN1NG68IhjGNKPF251p0GnfM5HeEYE
-	aTGgR+uWZZtc48AA==
+	bh=L/AroQXHgTdz77aroNbjmTlYg1DO9N7CgHo394BpLss=;
+	b=83XF6HP0m/rZXNwy0wXAEtUyJz1JuPilZqxMi4lJnM/jpaiHMKjMQtQR/JM3WmcOwP3+ob
+	va1lRyIXGiX2APDw==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,10 +48,11 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	David Ahern <dsahern@kernel.org>
-Subject: [PATCH net-next v4 04/15] ipv6: sr: Use nested-BH locking for hmac_storage
-Date: Mon, 12 May 2025 11:27:25 +0200
-Message-ID: <20250512092736.229935-5-bigeasy@linutronix.de>
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>
+Subject: [PATCH net-next v4 06/15] xfrm: Use nested-BH locking for nat_keepalive_sk_ipv[46]
+Date: Mon, 12 May 2025 11:27:27 +0200
+Message-ID: <20250512092736.229935-7-bigeasy@linutronix.de>
 In-Reply-To: <20250512092736.229935-1-bigeasy@linutronix.de>
 References: <20250512092736.229935-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,61 +63,114 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-hmac_storage is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+nat_keepalive_sk_ipv[46] is a per-CPU variable and relies on disabled BH
+for its locking. Without per-CPU locking in local_bh_disable() on
+PREEMPT_RT this data structure requires explicit locking.
 
-Add a local_lock_t to the data structure and use
+Use sock_bh_locked which has a sock pointer and a local_lock_t. Use
 local_lock_nested_bh() for locking. This change adds only lockdep
 coverage and does not alter the functional behaviour for !PREEMPT_RT.
 
-Cc: David Ahern <dsahern@kernel.org>
+Cc: Steffen Klassert <steffen.klassert@secunet.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- net/ipv6/seg6_hmac.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ net/xfrm/xfrm_nat_keepalive.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-diff --git a/net/ipv6/seg6_hmac.c b/net/ipv6/seg6_hmac.c
-index bbf5b84a70fca..f78ecb6ad8383 100644
---- a/net/ipv6/seg6_hmac.c
-+++ b/net/ipv6/seg6_hmac.c
-@@ -40,7 +40,14 @@
- #include <net/seg6_hmac.h>
- #include <linux/random.h>
+diff --git a/net/xfrm/xfrm_nat_keepalive.c b/net/xfrm/xfrm_nat_keepalive.c
+index 82f0a301683f0..ebf95d48e86c1 100644
+--- a/net/xfrm/xfrm_nat_keepalive.c
++++ b/net/xfrm/xfrm_nat_keepalive.c
+@@ -9,9 +9,13 @@
+ #include <net/ip6_checksum.h>
+ #include <net/xfrm.h>
 =20
--static DEFINE_PER_CPU(char [SEG6_HMAC_RING_SIZE], hmac_ring);
-+struct hmac_storage {
-+	local_lock_t bh_lock;
-+	char hmac_ring[SEG6_HMAC_RING_SIZE];
-+};
-+
-+static DEFINE_PER_CPU(struct hmac_storage, hmac_storage) =3D {
+-static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv4);
++static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv4) =3D {
 +	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
 +};
+ #if IS_ENABLED(CONFIG_IPV6)
+-static DEFINE_PER_CPU(struct sock *, nat_keepalive_sk_ipv6);
++static DEFINE_PER_CPU(struct sock_bh_locked, nat_keepalive_sk_ipv6) =3D {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
+ #endif
 =20
- static int seg6_hmac_cmpfn(struct rhashtable_compare_arg *arg, const void =
-*obj)
+ struct nat_keepalive {
+@@ -56,10 +60,12 @@ static int nat_keepalive_send_ipv4(struct sk_buff *skb,
+=20
+ 	skb_dst_set(skb, &rt->dst);
+=20
+-	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv4);
++	local_lock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
++	sk =3D this_cpu_read(nat_keepalive_sk_ipv4.sock);
+ 	sock_net_set(sk, net);
+ 	err =3D ip_build_and_send_pkt(skb, sk, fl4.saddr, fl4.daddr, NULL, tos);
+ 	sock_net_set(sk, &init_net);
++	local_unlock_nested_bh(&nat_keepalive_sk_ipv4.bh_lock);
+ 	return err;
+ }
+=20
+@@ -89,15 +95,19 @@ static int nat_keepalive_send_ipv6(struct sk_buff *skb,
+ 	fl6.fl6_sport =3D ka->encap_sport;
+ 	fl6.fl6_dport =3D ka->encap_dport;
+=20
+-	sk =3D *this_cpu_ptr(&nat_keepalive_sk_ipv6);
++	local_lock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
++	sk =3D this_cpu_read(nat_keepalive_sk_ipv6.sock);
+ 	sock_net_set(sk, net);
+ 	dst =3D ipv6_stub->ipv6_dst_lookup_flow(net, sk, &fl6, NULL);
+-	if (IS_ERR(dst))
++	if (IS_ERR(dst)) {
++		local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
+ 		return PTR_ERR(dst);
++	}
+=20
+ 	skb_dst_set(skb, dst);
+ 	err =3D ipv6_stub->ip6_xmit(sk, skb, &fl6, skb->mark, NULL, 0, 0);
+ 	sock_net_set(sk, &init_net);
++	local_unlock_nested_bh(&nat_keepalive_sk_ipv6.bh_lock);
+ 	return err;
+ }
+ #endif
+@@ -202,7 +212,7 @@ static void nat_keepalive_work(struct work_struct *work)
+ 				      (ctx.next_run - ctx.now) * HZ);
+ }
+=20
+-static int nat_keepalive_sk_init(struct sock * __percpu *socks,
++static int nat_keepalive_sk_init(struct sock_bh_locked __percpu *socks,
+ 				 unsigned short family)
  {
-@@ -187,7 +194,8 @@ int seg6_hmac_compute(struct seg6_hmac_info *hinfo, str=
-uct ipv6_sr_hdr *hdr,
- 	 */
+ 	struct sock *sk;
+@@ -214,22 +224,22 @@ static int nat_keepalive_sk_init(struct sock * __perc=
+pu *socks,
+ 		if (err < 0)
+ 			goto err;
 =20
- 	local_bh_disable();
--	ring =3D this_cpu_ptr(hmac_ring);
-+	local_lock_nested_bh(&hmac_storage.bh_lock);
-+	ring =3D this_cpu_ptr(hmac_storage.hmac_ring);
- 	off =3D ring;
+-		*per_cpu_ptr(socks, i) =3D sk;
++		per_cpu_ptr(socks, i)->sock =3D sk;
+ 	}
 =20
- 	/* source address */
-@@ -212,6 +220,7 @@ int seg6_hmac_compute(struct seg6_hmac_info *hinfo, str=
-uct ipv6_sr_hdr *hdr,
+ 	return 0;
+ err:
+ 	for_each_possible_cpu(i)
+-		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
++		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
+ 	return err;
+ }
 =20
- 	dgsize =3D __do_hmac(hinfo, ring, plen, tmp_out,
- 			   SEG6_HMAC_MAX_DIGESTSIZE);
-+	local_unlock_nested_bh(&hmac_storage.bh_lock);
- 	local_bh_enable();
+-static void nat_keepalive_sk_fini(struct sock * __percpu *socks)
++static void nat_keepalive_sk_fini(struct sock_bh_locked __percpu *socks)
+ {
+ 	int i;
 =20
- 	if (dgsize < 0)
+ 	for_each_possible_cpu(i)
+-		inet_ctl_sock_destroy(*per_cpu_ptr(socks, i));
++		inet_ctl_sock_destroy(per_cpu_ptr(socks, i)->sock);
+ }
+=20
+ void xfrm_nat_keepalive_state_updated(struct xfrm_state *x)
 --=20
 2.49.0
 
