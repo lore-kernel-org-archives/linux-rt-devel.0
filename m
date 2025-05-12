@@ -1,137 +1,155 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D3926563F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 10:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749692528F3
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 18:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747045734; cv=none; b=cyf72KRPzvzwMckRAPokBSKlX3WMW0CKNW7xPnXZ6/Z1usBtvJJLf9lZyd2WmZ/eEKs78SEhw+52Hq147vND9VbL9QC9ghauat/4mxOTmr5tF+h44RoWgQCHziVt9R5ZJ+F5LhrApzoJbmXVqO38r8DDbEC2PRwd8v05Q9tLxl8=
+	t=1747075727; cv=none; b=BetPZe0kZCGn8toAn8ErLT7wE56CNr7s1DJeDy78kDclHVGbiDgTnmLXdfGOjzjK2yHoS7vLXvc6bDKEYXEV64RIRbCjtIeaPGZKMtdlERi4154MoBh/yseCov5XI8Zbv3g25Rc40K1x3wFE3rYBuJTdXnSZyVuRK5PmEtcZcDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747045734; c=relaxed/simple;
-	bh=gAhJX9eAemw9+PWS8n+n+qxiyOMGRf1Y501+OX8uDNg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pehU4NfxHdpDMN9w2U0ackl7kwJ0kThlNbKNsaaedSzKX4P4WvWp3w6V/PoM70nPMbdN5AJDDA7EOKgqPvZuKAV9AzCy4dnMi9xlPXmTJy+KT1uLy63RD/0X4MNO52uDNSIT3ybK74INzz/Ptij6lD5NgiQAbiHkE5MZeMvciH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GipB8GnG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Dn+pJdzY; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1747075727; c=relaxed/simple;
+	bh=mI5i/GImq1ZnUQr2ekI8bE0fqAimP+Wb8ALeMzLg/18=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nTkPMVTHlfdzAP/kkDQHIvtNx3gTQwhrokh1r4WDrnu8NBMvyxmrpbfhjoe+xBxmnNh8Jg8UsCXicZvgs2TTyRIDA3npAgQVmKigfppwsFf7F5wcIMj91M8hkEbtk8LPug0T+Psn5MNJWOb9M8B1pyfQPL9mIqb8D68pIdyuYPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=doW6AABL; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GipB8GnG";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Dn+pJdzY"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747045731;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="doW6AABL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747075724;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dgeuGMr/JXNZkp67Cj25IB+ttfZNxcT5LQr2SIje890=;
-	b=GipB8GnGFaM2P2HeCLykaA8p61a4CbHb4K/c2ODpx7nP0vi9+UvNnYLpEgyngRiZJgVx4O
-	S+snih/63sk4BsfEZk3jSS8h7HHptnCqhLACkbjFegF5uyW3Q5uQCLWJ15fnibciquMc/a
-	CRtUfPQ9OjhyBS0yKmc2758HIEmu/+zm3LQKmG7iN2KuutxCts0Kagzsh9DfZCtyW66lkS
-	8EMIIX4lbVF6K2SrCLDU+5ic9d7o+QXnfg53wD94C86Pt6ubaB5KLUW0u1xLabDiwDZ2qv
-	n/qfQWHPAIM+6IRzACcCRWtk7IGFbMmYNPjNGskPL2WvY8ky0m3JRC/yYhhPNQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747045731;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dgeuGMr/JXNZkp67Cj25IB+ttfZNxcT5LQr2SIje890=;
-	b=Dn+pJdzYfrNSpwlPUxgcgOKbl2u+Ff7p1rljaYWRjtHsyPcUXxzBh+Y9FquUswzgrxhfIj
-	8bE5z4I2Dk+yVnBA==
-To: netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH nf-next v1 3/3] netfilter: nf_dup_netdev: Move the recursion counter struct netdev_xmit
-Date: Mon, 12 May 2025 12:28:46 +0200
-Message-ID: <20250512102846.234111-4-bigeasy@linutronix.de>
-In-Reply-To: <20250512102846.234111-1-bigeasy@linutronix.de>
-References: <20250512102846.234111-1-bigeasy@linutronix.de>
+	bh=Fe+TIk6WVks6ABD04kvwmyFaFFWKImSpZeKv17rlzew=;
+	b=doW6AABL3/76+/zpbqROKNf6rrwbZgCSQvpBxnksNb1CWvUVrNEW3D+I2ppMXPrP/PjBe6
+	LQkcApLI+MmUA3h+eQ10N7U1l4Wm62CZec8QJgyl8jzWoeVtIModYaNO3fUarAp8J5XQTb
+	TVeKZ/N8Dbf+hIWLus5e+EUcQtDppq8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-500-bYtFZULYN7OX6-Mi1X5-dg-1; Mon,
+ 12 May 2025 14:48:39 -0400
+X-MC-Unique: bYtFZULYN7OX6-Mi1X5-dg-1
+X-Mimecast-MFC-AGG-ID: bYtFZULYN7OX6-Mi1X5-dg_1747075716
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4846C1955BED;
+	Mon, 12 May 2025 18:48:36 +0000 (UTC)
+Received: from localhost (unknown [10.22.80.42])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F3D7918001DA;
+	Mon, 12 May 2025 18:48:34 +0000 (UTC)
+Date: Mon, 12 May 2025 15:48:33 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v4] sched: do not call __put_task_struct() on rt if
+ pi_blocked_on is set
+Message-ID: <aCJCgXdyz6pTkr4h@uudg.org>
+References: <Z_gLsK6rOjV3KElO@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_gLsK6rOjV3KElO@uudg.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-nf_dup_skb_recursion is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+On Thu, Apr 10, 2025 at 03:19:28PM -0300, Luis Claudio R. Goncalves wrote:
+> With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+> from rt_mutex_adjust_prio_chain() could happen in preemptible context and
+> with a mutex enqueued. That could lead to this sequence:
+> 
+>         rt_mutex_adjust_prio_chain()
+>           put_task_struct()
+>             __put_task_struct()
+>               sched_ext_free()
+>                 spin_lock_irqsave()
+>                   rtlock_lock() --->  TRIGGERS
+>                                       lockdep_assert(!current->pi_blocked_on);
+> 
+> Fix that by unconditionally resorting to the deferred call to
+> __put_task_struct() if PREEMPT_RT is enabled.
 
-Move nf_dup_skb_recursion to struct netdev_xmit, provide wrappers.
+Peter, Sebastian,
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/netdevice_xmit.h |  3 +++
- net/netfilter/nf_dup_netdev.c  | 22 ++++++++++++++++++----
- 2 files changed, 21 insertions(+), 4 deletions(-)
+Is this patch acceptable as is or do you think I should rework something?
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 38325e0702968..3bbbc1a9860a3 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -8,6 +8,9 @@ struct netdev_xmit {
- #ifdef CONFIG_NET_EGRESS
- 	u8  skip_txqueue;
- #endif
-+#if IS_ENABLED(CONFIG_NF_DUP_NETDEV)
-+	u8 nf_dup_skb_recursion;
-+#endif
- };
-=20
- #endif
-diff --git a/net/netfilter/nf_dup_netdev.c b/net/netfilter/nf_dup_netdev.c
-index a8e2425e43b0d..fab8b9011098f 100644
---- a/net/netfilter/nf_dup_netdev.c
-+++ b/net/netfilter/nf_dup_netdev.c
-@@ -15,12 +15,26 @@
-=20
- #define NF_RECURSION_LIMIT	2
-=20
--static DEFINE_PER_CPU(u8, nf_dup_skb_recursion);
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 *nf_get_nf_dup_skb_recursion(void)
-+{
-+	return this_cpu_ptr(&softnet_data.xmit.nf_dup_skb_recursion);
-+}
-+#else
-+
-+static u8 *nf_get_nf_dup_skb_recursion(void)
-+{
-+	return &current->net_xmit.nf_dup_skb_recursion;
-+}
-+
-+#endif
-=20
- static void nf_do_netdev_egress(struct sk_buff *skb, struct net_device *de=
-v,
- 				enum nf_dev_hooks hook)
- {
--	if (__this_cpu_read(nf_dup_skb_recursion) > NF_RECURSION_LIMIT)
-+	u8 *nf_dup_skb_recursion =3D nf_get_nf_dup_skb_recursion();
-+
-+	if (*nf_dup_skb_recursion > NF_RECURSION_LIMIT)
- 		goto err;
-=20
- 	if (hook =3D=3D NF_NETDEV_INGRESS && skb_mac_header_was_set(skb)) {
-@@ -32,9 +46,9 @@ static void nf_do_netdev_egress(struct sk_buff *skb, stru=
-ct net_device *dev,
-=20
- 	skb->dev =3D dev;
- 	skb_clear_tstamp(skb);
--	__this_cpu_inc(nf_dup_skb_recursion);
-+	(*nf_dup_skb_recursion)++;
- 	dev_queue_xmit(skb);
--	__this_cpu_dec(nf_dup_skb_recursion);
-+	(*nf_dup_skb_recursion)--;
- 	return;
- err:
- 	kfree_skb(skb);
---=20
-2.49.0
+Best regards,
+Luis
+ 
+> Suggested-by: Crystal Wood <crwood@redhat.com>
+> Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+> ---
+> 
+> v2: (Rostedt) remove the #ifdef from put_task_struct() and create
+>     tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
+> v3: (Sebastian, PeterZ) always call the deferred __put_task_struct() on RT.
+> v4: Fix the implementation of what was requested on v3.
+> 
+>  include/linux/sched/task.h |   17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> index 0f2aeb37bbb04..51678a541477a 100644
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -134,11 +134,8 @@ static inline void put_task_struct(struct task_struct *t)
+>  	if (!refcount_dec_and_test(&t->usage))
+>  		return;
+>  
+> -	/*
+> -	 * In !RT, it is always safe to call __put_task_struct().
+> -	 * Under RT, we can only call it in preemptible context.
+> -	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
+> +	/* In !RT, it is always safe to call __put_task_struct(). */
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+>  		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+>  
+>  		lock_map_acquire_try(&put_task_map);
+> @@ -148,11 +145,13 @@ static inline void put_task_struct(struct task_struct *t)
+>  	}
+>  
+>  	/*
+> -	 * under PREEMPT_RT, we can't call put_task_struct
+> +	 * Under PREEMPT_RT, we can't call __put_task_struct
+>  	 * in atomic context because it will indirectly
+> -	 * acquire sleeping locks.
+> +	 * acquire sleeping locks. The same is true if the
+> +	 * current process has a mutex enqueued (blocked on
+> +	 * a PI chain).
+>  	 *
+> -	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+> +	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+>  	 * to be called in process context.
+>  	 *
+>  	 * __put_task_struct() is called when
+> @@ -165,7 +164,7 @@ static inline void put_task_struct(struct task_struct *t)
+>  	 *
+>  	 * delayed_free_task() also uses ->rcu, but it is only called
+>  	 * when it fails to fork a process. Therefore, there is no
+> -	 * way it can conflict with put_task_struct().
+> +	 * way it can conflict with __put_task_struct().
+>  	 */
+>  	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
+>  }
+> 
+---end quoted text---
 
