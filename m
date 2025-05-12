@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5B5267398
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 09:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D021D26771F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 09:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747042069; cv=none; b=sa2+5MabC9dkXTmnvZul0qXUmjAOhfQFewxesr7GQyTTirOe7xMyJv3yXDUFnDDiG9amlCXOGGXETLAvOJRD6r8dZf5g5eHvsZdztyzOSVxd7csVBt06ZrH9yLPftiDh2gnnP/ahozGZvkQbFXKjS1ZJDS4+tYlnh790PU139mI=
+	t=1747042070; cv=none; b=olqVLgege9/zAyXZ2WzjKzFtwm+OQYh/TRYno3DbJbs3Perq67SswE5T4hsf/EKmRRdIm4ZYEsHeIa8IJHmicx3SO3egCV55h1OEoOcYfTBI7QhSP/8baXOB/t3Eqg20SC3GkqReb9i+IlDPdbS523SmAfLYVbx9JFoAziPg+Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747042069; c=relaxed/simple;
-	bh=qh7J470CfBzEAxPn480T84rM83kcQmcrW3pOpjRCrUk=;
+	s=arc-20240116; t=1747042070; c=relaxed/simple;
+	bh=ZFHsv9MfdWAnMdkF4r3KeSkDjqoVZm7LwWXkwOPPXcM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DhrrhUkKRZhVynKS6U3Vc0kciXWUwqy7xb3Fuly9isDXaBGPpY0mrrPO2DP8+ZwQLdhUQMwUh3LJpHjqvPWO1TdJHngjnhfWor5KYr6MBY+zya1RaebaDiFGDSNj6pxwN2tRN/5qdY+ic39EVyvehGK4yoPjOuhuNFLc0bFwtJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xvubmppU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7n6dRn+O; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=PRf18eHnK1cirdsxYS0bB6mSQzM3KxTPFyjKs7ujVsJhnmyyYSKGzqDQ3fPOEfQSjkMRYaqBc95x56fCugz3DV6ocrzDb4c5FkBIvU1suPTaLr+Bzvw8xeFUqM0J7mu/zEjy1png9dPnqRjwgl1+HOXkQlRHc19iIctsXAhDO5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zyr5/G/E; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IHop2t4j; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xvubmppU";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7n6dRn+O"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zyr5/G/E";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IHop2t4j"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747042064;
+	s=2020; t=1747042065;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RsMfkLJ9HsyUQY66xrCa1JuJnqr79xX6s1kOfdl4qFw=;
-	b=xvubmppUzUFSY7E8bkHeuuC8Xm2keFu6Gdbn7e7bDnOp3DnQYyopeiYu3P/yWVq6Q5kUVG
-	Vc346zWvtzRjNKWrG58SvWKusqi03zl91NY6OrW4u+5Tx1klNZrvXa4gSfS3WX/utKZb4V
-	7wCWC9S6KIWO7oJuqVwMVfxCQLXBm8LJRZuyh0VmwI+dvhuAgTtqin3gdDa78fpUDBxyXa
-	OoRyj4zQ+JMsxCbZJx9LFAkexxNhse3b7VucVvqg9Z4ACoNXR8piBeYJcOrO5CogRZPOol
-	i0fkNq9F2Vt+afrYExpmWNBxIZ+Q6U27T+556874u5ZfNaZI7aN8euFzysqqeQ==
+	bh=hUAetzXhkyZlGjVoKGX3J9oaibQ10D+Aj14FoV59e58=;
+	b=zyr5/G/EDQA+IdoydEwcuYiD94ws+JtXU1APbvLtGI4Lc4CJHDoZO5ZWO0FtJaXQ9/+SXJ
+	+JPHNClbEPqkZicqNWYvM+/SUd4TW7OIaJ83NdFCxLOrscIUluQkSMvv+FlCg8Bex8/D9G
+	ICq6F3AuyOnbUBBCHME34Vk1/dR62Pv5n+xFfGUyWDm9TJE7FWiPP54ekuCKYM4cHbeUPo
+	ne4gObkz++/ARWDETGuXnTEdgWKJO2xJ9fvmNA27tlJiM0WtQnnHe7qaEJMRJq+atyT42P
+	g58YJ99jg1NGUL27ilRXZIPg1EuHHM2sSOT6SIHbioPDqHzTv14bJBjYTD8ARg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747042064;
+	s=2020e; t=1747042065;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=RsMfkLJ9HsyUQY66xrCa1JuJnqr79xX6s1kOfdl4qFw=;
-	b=7n6dRn+Oo/EQF4IhaJgpPkBdNgiM5Nq86Ga0dGyhR4tJkE9LRbTlXH/tBoRIHl2Bi0AHpQ
-	mBwmjmzt9QA/OoBQ==
+	bh=hUAetzXhkyZlGjVoKGX3J9oaibQ10D+Aj14FoV59e58=;
+	b=IHop2t4jSUSnjDiYd7surAXJEYJ19n1/HOKkBGXZxDPCxfaosuMt7kTKiP1iOsqfBlYpp5
+	ZsygI68t7/fQHYDg==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,15 +48,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	=?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-Subject: [PATCH net-next v4 05/15] xdp: Use nested-BH locking for system_page_pool
-Date: Mon, 12 May 2025 11:27:26 +0200
-Message-ID: <20250512092736.229935-6-bigeasy@linutronix.de>
+	Aaron Conole <aconole@redhat.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>,
+	dev@openvswitch.org
+Subject: [PATCH net-next v4 07/15] openvswitch: Merge three per-CPU structures into one
+Date: Mon, 12 May 2025 11:27:28 +0200
+Message-ID: <20250512092736.229935-8-bigeasy@linutronix.de>
 In-Reply-To: <20250512092736.229935-1-bigeasy@linutronix.de>
 References: <20250512092736.229935-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -65,159 +63,192 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-system_page_pool is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+exec_actions_level is a per-CPU integer allocated at compile time.
+action_fifos and flow_keys are per-CPU pointer and have their data
+allocated at module init time.
+There is no gain in splitting it, once the module is allocated, the
+structures are allocated.
 
-Make a struct with a page_pool member (original system_page_pool) and a
-local_lock_t and use local_lock_nested_bh() for locking. This change
-adds only lockdep coverage and does not alter the functional behaviour
-for !PREEMPT_RT.
+Merge the three per-CPU variables into ovs_pcpu_storage, adapt callers.
 
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Daniel Borkmann <daniel@iogearbox.net>
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>
-Reviewed-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
+Cc: Aaron Conole <aconole@redhat.com>
+Cc: Eelco Chaudron <echaudro@redhat.com>
+Cc: Ilya Maximets <i.maximets@ovn.org>
+Cc: dev@openvswitch.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice.h |  7 ++++++-
- net/core/dev.c            | 15 ++++++++++-----
- net/core/xdp.c            | 15 ++++++++++-----
- 3 files changed, 26 insertions(+), 11 deletions(-)
+ net/openvswitch/actions.c  | 49 +++++++++++++-------------------------
+ net/openvswitch/datapath.c |  9 +------
+ net/openvswitch/datapath.h |  3 ---
+ 3 files changed, 17 insertions(+), 44 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 7ea022750e4e0..138bd7f3d2bef 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -3502,7 +3502,12 @@ struct softnet_data {
+diff --git a/net/openvswitch/actions.c b/net/openvswitch/actions.c
+index 2f22ca59586f2..7e4a8d41b9ed6 100644
+--- a/net/openvswitch/actions.c
++++ b/net/openvswitch/actions.c
+@@ -78,17 +78,22 @@ struct action_flow_keys {
+ 	struct sw_flow_key key[OVS_DEFERRED_ACTION_THRESHOLD];
  };
 =20
- DECLARE_PER_CPU_ALIGNED(struct softnet_data, softnet_data);
--DECLARE_PER_CPU(struct page_pool *, system_page_pool);
+-static struct action_fifo __percpu *action_fifos;
+-static struct action_flow_keys __percpu *flow_keys;
+-static DEFINE_PER_CPU(int, exec_actions_level);
++struct ovs_pcpu_storage {
++	struct action_fifo action_fifos;
++	struct action_flow_keys flow_keys;
++	int exec_level;
++};
 +
-+struct page_pool_bh {
-+	struct page_pool *pool;
-+	local_lock_t bh_lock;
-+};
-+DECLARE_PER_CPU(struct page_pool_bh, system_page_pool);
++static DEFINE_PER_CPU(struct ovs_pcpu_storage, ovs_pcpu_storage);
 =20
- #ifndef CONFIG_PREEMPT_RT
- static inline int dev_recursion_level(void)
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 11da1e272ec20..3c49366cda560 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -462,7 +462,9 @@ EXPORT_PER_CPU_SYMBOL(softnet_data);
-  * PP consumers must pay attention to run APIs in the appropriate context
-  * (e.g. NAPI context).
+ /* Make a clone of the 'key', using the pre-allocated percpu 'flow_keys'
+  * space. Return NULL if out of key spaces.
   */
--DEFINE_PER_CPU(struct page_pool *, system_page_pool);
-+DEFINE_PER_CPU(struct page_pool_bh, system_page_pool) =3D {
-+	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
-+};
-=20
- #ifdef CONFIG_LOCKDEP
- /*
-@@ -5238,7 +5240,10 @@ netif_skb_check_for_xdp(struct sk_buff **pskb, const=
- struct bpf_prog *prog)
- 	struct sk_buff *skb =3D *pskb;
- 	int err, hroom, troom;
-=20
--	if (!skb_cow_data_for_xdp(this_cpu_read(system_page_pool), pskb, prog))
-+	local_lock_nested_bh(&system_page_pool.bh_lock);
-+	err =3D skb_cow_data_for_xdp(this_cpu_read(system_page_pool.pool), pskb, =
-prog);
-+	local_unlock_nested_bh(&system_page_pool.bh_lock);
-+	if (!err)
- 		return 0;
-=20
- 	/* In case we have to go down the path and also linearize,
-@@ -12619,7 +12624,7 @@ static int net_page_pool_create(int cpuid)
- 		return err;
- 	}
-=20
--	per_cpu(system_page_pool, cpuid) =3D pp_ptr;
-+	per_cpu(system_page_pool.pool, cpuid) =3D pp_ptr;
- #endif
- 	return 0;
- }
-@@ -12749,13 +12754,13 @@ static int __init net_dev_init(void)
- 		for_each_possible_cpu(i) {
- 			struct page_pool *pp_ptr;
-=20
--			pp_ptr =3D per_cpu(system_page_pool, i);
-+			pp_ptr =3D per_cpu(system_page_pool.pool, i);
- 			if (!pp_ptr)
- 				continue;
-=20
- 			xdp_unreg_page_pool(pp_ptr);
- 			page_pool_destroy(pp_ptr);
--			per_cpu(system_page_pool, i) =3D NULL;
-+			per_cpu(system_page_pool.pool, i) =3D NULL;
- 		}
- 	}
-=20
-diff --git a/net/core/xdp.c b/net/core/xdp.c
-index f86eedad586a7..8696e8ffa3bcc 100644
---- a/net/core/xdp.c
-+++ b/net/core/xdp.c
-@@ -737,25 +737,27 @@ static noinline bool xdp_copy_frags_from_zc(struct sk=
-_buff *skb,
-  */
- struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp)
+ static struct sw_flow_key *clone_key(const struct sw_flow_key *key_)
  {
--	struct page_pool *pp =3D this_cpu_read(system_page_pool);
- 	const struct xdp_rxq_info *rxq =3D xdp->rxq;
- 	u32 len =3D xdp->data_end - xdp->data_meta;
- 	u32 truesize =3D xdp->frame_sz;
--	struct sk_buff *skb;
-+	struct sk_buff *skb =3D NULL;
-+	struct page_pool *pp;
- 	int metalen;
- 	void *data;
+-	struct action_flow_keys *keys =3D this_cpu_ptr(flow_keys);
+-	int level =3D this_cpu_read(exec_actions_level);
++	struct ovs_pcpu_storage *ovs_pcpu =3D this_cpu_ptr(&ovs_pcpu_storage);
++	struct action_flow_keys *keys =3D &ovs_pcpu->flow_keys;
++	int level =3D ovs_pcpu->exec_level;
+ 	struct sw_flow_key *key =3D NULL;
 =20
- 	if (!IS_ENABLED(CONFIG_PAGE_POOL))
- 		return NULL;
+ 	if (level <=3D OVS_DEFERRED_ACTION_THRESHOLD) {
+@@ -132,10 +137,9 @@ static struct deferred_action *add_deferred_actions(st=
+ruct sk_buff *skb,
+ 				    const struct nlattr *actions,
+ 				    const int actions_len)
+ {
+-	struct action_fifo *fifo;
++	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_pcpu_storage.action_fifos);
+ 	struct deferred_action *da;
 =20
-+	local_lock_nested_bh(&system_page_pool.bh_lock);
-+	pp =3D this_cpu_read(system_page_pool.pool);
- 	data =3D page_pool_dev_alloc_va(pp, &truesize);
- 	if (unlikely(!data))
--		return NULL;
-+		goto out;
+-	fifo =3D this_cpu_ptr(action_fifos);
+ 	da =3D action_fifo_put(fifo);
+ 	if (da) {
+ 		da->skb =3D skb;
+@@ -1608,13 +1612,13 @@ static int clone_execute(struct datapath *dp, struc=
+t sk_buff *skb,
 =20
- 	skb =3D napi_build_skb(data, truesize);
- 	if (unlikely(!skb)) {
- 		page_pool_free_va(pp, data, true);
--		return NULL;
-+		goto out;
- 	}
+ 		if (actions) { /* Sample action */
+ 			if (clone_flow_key)
+-				__this_cpu_inc(exec_actions_level);
++				__this_cpu_inc(ovs_pcpu_storage.exec_level);
 =20
- 	skb_mark_for_recycle(skb);
-@@ -774,13 +776,16 @@ struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff=
- *xdp)
- 	if (unlikely(xdp_buff_has_frags(xdp)) &&
- 	    unlikely(!xdp_copy_frags_from_zc(skb, xdp, pp))) {
- 		napi_consume_skb(skb, true);
--		return NULL;
-+		skb =3D NULL;
-+		goto out;
- 	}
+ 			err =3D do_execute_actions(dp, skb, clone,
+ 						 actions, len);
 =20
- 	xsk_buff_free(xdp);
+ 			if (clone_flow_key)
+-				__this_cpu_dec(exec_actions_level);
++				__this_cpu_dec(ovs_pcpu_storage.exec_level);
+ 		} else { /* Recirc action */
+ 			clone->recirc_id =3D recirc_id;
+ 			ovs_dp_process_packet(skb, clone);
+@@ -1650,7 +1654,7 @@ static int clone_execute(struct datapath *dp, struct =
+sk_buff *skb,
 =20
- 	skb->protocol =3D eth_type_trans(skb, rxq->dev);
+ static void process_deferred_actions(struct datapath *dp)
+ {
+-	struct action_fifo *fifo =3D this_cpu_ptr(action_fifos);
++	struct action_fifo *fifo =3D this_cpu_ptr(&ovs_pcpu_storage.action_fifos);
 =20
-+out:
-+	local_unlock_nested_bh(&system_page_pool.bh_lock);
- 	return skb;
+ 	/* Do not touch the FIFO in case there is no deferred actions. */
+ 	if (action_fifo_is_empty(fifo))
+@@ -1681,7 +1685,7 @@ int ovs_execute_actions(struct datapath *dp, struct s=
+k_buff *skb,
+ {
+ 	int err, level;
+=20
+-	level =3D __this_cpu_inc_return(exec_actions_level);
++	level =3D __this_cpu_inc_return(ovs_pcpu_storage.exec_level);
+ 	if (unlikely(level > OVS_RECURSION_LIMIT)) {
+ 		net_crit_ratelimited("ovs: recursion limit reached on datapath %s, proba=
+ble configuration error\n",
+ 				     ovs_dp_name(dp));
+@@ -1698,27 +1702,6 @@ int ovs_execute_actions(struct datapath *dp, struct =
+sk_buff *skb,
+ 		process_deferred_actions(dp);
+=20
+ out:
+-	__this_cpu_dec(exec_actions_level);
++	__this_cpu_dec(ovs_pcpu_storage.exec_level);
+ 	return err;
  }
- EXPORT_SYMBOL_GPL(xdp_build_skb_from_zc);
+-
+-int action_fifos_init(void)
+-{
+-	action_fifos =3D alloc_percpu(struct action_fifo);
+-	if (!action_fifos)
+-		return -ENOMEM;
+-
+-	flow_keys =3D alloc_percpu(struct action_flow_keys);
+-	if (!flow_keys) {
+-		free_percpu(action_fifos);
+-		return -ENOMEM;
+-	}
+-
+-	return 0;
+-}
+-
+-void action_fifos_exit(void)
+-{
+-	free_percpu(action_fifos);
+-	free_percpu(flow_keys);
+-}
+diff --git a/net/openvswitch/datapath.c b/net/openvswitch/datapath.c
+index 5d548eda742df..aaa6277bb49c2 100644
+--- a/net/openvswitch/datapath.c
++++ b/net/openvswitch/datapath.c
+@@ -2729,13 +2729,9 @@ static int __init dp_init(void)
+=20
+ 	pr_info("Open vSwitch switching datapath\n");
+=20
+-	err =3D action_fifos_init();
+-	if (err)
+-		goto error;
+-
+ 	err =3D ovs_internal_dev_rtnl_link_register();
+ 	if (err)
+-		goto error_action_fifos_exit;
++		goto error;
+=20
+ 	err =3D ovs_flow_init();
+ 	if (err)
+@@ -2778,8 +2774,6 @@ static int __init dp_init(void)
+ 	ovs_flow_exit();
+ error_unreg_rtnl_link:
+ 	ovs_internal_dev_rtnl_link_unregister();
+-error_action_fifos_exit:
+-	action_fifos_exit();
+ error:
+ 	return err;
+ }
+@@ -2795,7 +2789,6 @@ static void dp_cleanup(void)
+ 	ovs_vport_exit();
+ 	ovs_flow_exit();
+ 	ovs_internal_dev_rtnl_link_unregister();
+-	action_fifos_exit();
+ }
+=20
+ module_init(dp_init);
+diff --git a/net/openvswitch/datapath.h b/net/openvswitch/datapath.h
+index 384ca77f4e794..a126407926058 100644
+--- a/net/openvswitch/datapath.h
++++ b/net/openvswitch/datapath.h
+@@ -281,9 +281,6 @@ int ovs_execute_actions(struct datapath *dp, struct sk_=
+buff *skb,
+=20
+ void ovs_dp_notify_wq(struct work_struct *work);
+=20
+-int action_fifos_init(void);
+-void action_fifos_exit(void);
+-
+ /* 'KEY' must not have any bits set outside of the 'MASK' */
+ #define OVS_MASKED(OLD, KEY, MASK) ((KEY) | ((OLD) & ~(MASK)))
+ #define OVS_SET_MASKED(OLD, KEY, MASK) ((OLD) =3D OVS_MASKED(OLD, KEY, MAS=
+K))
 --=20
 2.49.0
 
