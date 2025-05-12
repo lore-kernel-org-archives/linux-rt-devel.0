@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1853A267AFF
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 09:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F1B267AFC;
+	Mon, 12 May 2025 09:27:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747042071; cv=none; b=prxhsuZwgobbkL0nT55k4in+Ll71l8vgWjUyIcV0p3OdN4cdYQyI1a34sPYu1E/bXajo6qGr8GrDQXl89cdVj+DrV17thhEoEFDnZYYOuNx9pBk+9tWca/Tq6VAzNtpMWJqy8a71bQpDkNKsdoeaJTSXEY1Dm44RJv5gxYS36NU=
+	t=1747042071; cv=none; b=hIo5io8vWeqBHP5irFKDvJwiUbCZ7fQQxPiTfCJ0tmQqaTUFCQZCGYLC9QK3j7zg4TjE086kF/yqvgiXCOaXjn1ALZHBUdVA2JOr6XgkXUQ/5tWyGJ+1qXJK8RdRfcHmTfAgXP8k5WWtsX00cRLSDUrFCMJCA6msyXGpIXYNTDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747042071; c=relaxed/simple;
-	bh=6gROV9Xhc9iKxYqUpJRUS2t/pH/fNlLUdkx0ZKaOOpU=;
+	bh=VXleKi/U/kMgP7jABQMiZxQCqP98FQpEysCuzMoNYOk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fKVCQtd7HaWt089XO3djiH+OBWQghu56d07ABATO5EDhPBrykUC6DcJfVGoZhw9rXEIIhOkoG2HNTz1DdaOWns6Yh3vUh6siHnvcM3ON64riENiO9vTFHYX6AfmQjVPQZHAbp7ZYqiChvRymi4TijkyZ34QPErygQ3dKAtuJ980=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aUzi2Y5u; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6i5YlaKb; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=OycCuNr3LrUSU2RPBw6oChiSgAsbB6oPOWan6+R6pni8h+Yr4A6JARsegmvR2LVkOimMQv8+8ObEBOfIElAxks6J90VDWmKGWTK0cyHwjW7lOGYzJgWqEBep5lSqtqt8QOUCPGhF5lvnqkoU/ljnbzXqZx5Ocguz//mWB6nRK4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vY/0/WVH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cTCln+Tg; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aUzi2Y5u";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6i5YlaKb"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vY/0/WVH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cTCln+Tg"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747042066;
+	s=2020; t=1747042067;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DKaaIvE6mMZEEpGXq0LGZKreo8xS5i1HD4lFek72h90=;
-	b=aUzi2Y5uqxZS9vvYQoRfjLRYbGhMQ766GP1HsKBN7NWf5sHZsXW86uDhKnh/3Ht1Me5FBp
-	Qp1UW5AJWyUkYP3t7dzgQ4j5iyMy8yWKbiJQYLSIWEtgG2v7x1ry27d1bjClx3KfQNcinD
-	Xi4BIvHKoCmitCiOVTvXJXZE28apLaB3k5ulruV3pvp5D4IGnryORDkE7gwDn7Gtd/saJc
-	t+vOhwD8tMn8jZcRcqTc2mvX3bC8ikqSDjyJPAgZA6+mm+gDinJVEME+GLyEKi3sgM781B
-	hgELOX/2qtsmTyNEtj0L9Zc4SFy+vL5uOWlpIn6+4rq8d9V3WggzLww7800mew==
+	bh=qqlT1nY5GZsGQPH1WnHjRykG1pCxKAGysrL3Y4gboDY=;
+	b=vY/0/WVHE2Kh0Lty8SbEQ0pxO7rnjMQnxHvhCtQ7onLBIxCaVcjSWKMAkJKVBmeH5OJ6kB
+	TVvA0LvM5lcxMRNkso+MsCJfhXT6nxhDCgXG2xyOXV5kR4kHXJf9wgb12ISP1LUEFGcOhy
+	1c2TDJpCLdMVN4cfStdN5hDWrAKah6HPwfrgy0CYrjbiRE6Mao+WNqDNu6bt3M4SSBl8Vn
+	s7m+M+TCPCEg6Qa5f/eXWkHq5bRNz1Oay1di6mxlz2egPFB1B65sq4HaOtxQR2fFk8Z++K
+	vo0qtgMbZW5yxxBpRGL8Ux44kH/T7tZ6WDOQ+tLwJ3vtQoVl/bmUIe1H/9U2yw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747042066;
+	s=2020e; t=1747042067;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DKaaIvE6mMZEEpGXq0LGZKreo8xS5i1HD4lFek72h90=;
-	b=6i5YlaKb3tv6fwK8PqcV4Vty2FlShxQrXILQM6XJ4zW5h/IBnQmqR2vsO5yWVBwT1aMh4A
-	OMHaKbW3o1Z9ogBw==
+	bh=qqlT1nY5GZsGQPH1WnHjRykG1pCxKAGysrL3Y4gboDY=;
+	b=cTCln+TgL4Q8HPXyPPIvzWnnmeP7qtVA/FTQQiElQKZlvk7MEskxG0khpq0eFe3yspK2Ai
+	+2v2UFcOoPIlbSDw==
 To: netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: "David S. Miller" <davem@davemloft.net>,
@@ -48,12 +48,13 @@ Cc: "David S. Miller" <davem@davemloft.net>,
 	Simon Horman <horms@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>,
-	Jiri Pirko <jiri@resnulli.us>
-Subject: [PATCH net-next v4 10/15] net/sched: act_mirred: Move the recursion counter struct netdev_xmit
-Date: Mon, 12 May 2025 11:27:31 +0200
-Message-ID: <20250512092736.229935-11-bigeasy@linutronix.de>
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>,
+	mptcp@lists.linux.dev
+Subject: [PATCH net-next v4 12/15] mptcp: Use nested-BH locking for hmac_storage
+Date: Mon, 12 May 2025 11:27:33 +0200
+Message-ID: <20250512092736.229935-13-bigeasy@linutronix.de>
 In-Reply-To: <20250512092736.229935-1-bigeasy@linutronix.de>
 References: <20250512092736.229935-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -64,91 +65,87 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+mptcp_delegated_actions is a per-CPU variable and relies on disabled BH for=
+ its
+locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT this d=
+ata
+structure requires explicit locking.
 
-Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
+Add a local_lock_t to the data structure and use local_lock_nested_bh() for
+locking. This change adds only lockdep coverage and does not alter the
+functional behaviour for !PREEMPT_RT.
 
-Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-Cc: Cong Wang <xiyou.wangcong@gmail.com>
-Cc: Jiri Pirko <jiri@resnulli.us>
+Cc: Matthieu Baerts <matttbe@kernel.org>
+Cc: Mat Martineau <martineau@kernel.org>
+Cc: Geliang Tang <geliang@kernel.org>
+Cc: mptcp@lists.linux.dev
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/netdevice_xmit.h |  3 +++
- net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
- 2 files changed, 28 insertions(+), 3 deletions(-)
+ net/mptcp/protocol.c | 4 +++-
+ net/mptcp/protocol.h | 9 ++++++++-
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-index 38325e0702968..848735b3a7c02 100644
---- a/include/linux/netdevice_xmit.h
-+++ b/include/linux/netdevice_xmit.h
-@@ -8,6 +8,9 @@ struct netdev_xmit {
- #ifdef CONFIG_NET_EGRESS
- 	u8  skip_txqueue;
- #endif
-+#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-+	u8 sched_mirred_nest;
-+#endif
+diff --git a/net/mptcp/protocol.c b/net/mptcp/protocol.c
+index 44f7ab463d755..b6cb93a3f9a2d 100644
+--- a/net/mptcp/protocol.c
++++ b/net/mptcp/protocol.c
+@@ -46,7 +46,9 @@ static struct percpu_counter mptcp_sockets_allocated ____=
+cacheline_aligned_in_sm
+ static void __mptcp_destroy_sock(struct sock *sk);
+ static void mptcp_check_send_data_fin(struct sock *sk);
+=20
+-DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions);
++DEFINE_PER_CPU(struct mptcp_delegated_action, mptcp_delegated_actions) =3D=
+ {
++	.bh_lock =3D INIT_LOCAL_LOCK(bh_lock),
++};
+ static struct net_device *mptcp_napi_dev;
+=20
+ /* Returns end sequence number of the receiver's advertised window */
+diff --git a/net/mptcp/protocol.h b/net/mptcp/protocol.h
+index d409586b5977f..88cc2a857adce 100644
+--- a/net/mptcp/protocol.h
++++ b/net/mptcp/protocol.h
+@@ -479,6 +479,7 @@ mptcp_subflow_rsk(const struct request_sock *rsk)
+=20
+ struct mptcp_delegated_action {
+ 	struct napi_struct napi;
++	local_lock_t bh_lock;
+ 	struct list_head head;
  };
 =20
- #endif
-diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
-index 5b38143659249..5f01f567c934d 100644
---- a/net/sched/act_mirred.c
-+++ b/net/sched/act_mirred.c
-@@ -30,7 +30,29 @@ static LIST_HEAD(mirred_list);
- static DEFINE_SPINLOCK(mirred_list_lock);
+@@ -670,9 +671,11 @@ static inline void mptcp_subflow_delegate(struct mptcp=
+_subflow_context *subflow,
+ 		if (WARN_ON_ONCE(!list_empty(&subflow->delegated_node)))
+ 			return;
 =20
- #define MIRRED_NEST_LIMIT    4
--static DEFINE_PER_CPU(unsigned int, mirred_nest_level);
-+
-+#ifndef CONFIG_PREEMPT_RT
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return __this_cpu_inc_return(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	__this_cpu_dec(softnet_data.xmit.sched_mirred_nest);
-+}
-+
-+#else
-+static u8 tcf_mirred_nest_level_inc_return(void)
-+{
-+	return current->net_xmit.sched_mirred_nest++;
-+}
-+
-+static void tcf_mirred_nest_level_dec(void)
-+{
-+	current->net_xmit.sched_mirred_nest--;
-+}
-+#endif
-=20
- static bool tcf_mirred_is_act_redirect(int action)
++		local_lock_nested_bh(&mptcp_delegated_actions.bh_lock);
+ 		delegated =3D this_cpu_ptr(&mptcp_delegated_actions);
+ 		schedule =3D list_empty(&delegated->head);
+ 		list_add_tail(&subflow->delegated_node, &delegated->head);
++		local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
+ 		sock_hold(mptcp_subflow_tcp_sock(subflow));
+ 		if (schedule)
+ 			napi_schedule(&delegated->napi);
+@@ -684,11 +687,15 @@ mptcp_subflow_delegated_next(struct mptcp_delegated_a=
+ction *delegated)
  {
-@@ -423,7 +445,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 	int m_eaction;
- 	u32 blockid;
+ 	struct mptcp_subflow_context *ret;
 =20
--	nest_level =3D __this_cpu_inc_return(mirred_nest_level);
-+	nest_level =3D tcf_mirred_nest_level_inc_return();
- 	if (unlikely(nest_level > MIRRED_NEST_LIMIT)) {
- 		net_warn_ratelimited("Packet exceeded mirred recursion limit on dev %s\n=
-",
- 				     netdev_name(skb->dev));
-@@ -454,7 +476,7 @@ TC_INDIRECT_SCOPE int tcf_mirred_act(struct sk_buff *sk=
-b,
- 				   retval);
+-	if (list_empty(&delegated->head))
++	local_lock_nested_bh(&mptcp_delegated_actions.bh_lock);
++	if (list_empty(&delegated->head)) {
++		local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
+ 		return NULL;
++	}
 =20
- dec_nest_level:
--	__this_cpu_dec(mirred_nest_level);
-+	tcf_mirred_nest_level_dec();
-=20
- 	return retval;
+ 	ret =3D list_first_entry(&delegated->head, struct mptcp_subflow_context, =
+delegated_node);
+ 	list_del_init(&ret->delegated_node);
++	local_unlock_nested_bh(&mptcp_delegated_actions.bh_lock);
+ 	return ret;
  }
+=20
 --=20
 2.49.0
 
