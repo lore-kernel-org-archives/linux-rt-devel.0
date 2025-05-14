@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B75C1F8676
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF091270EC5
 	for <linux-rt-devel@lists.linux.dev>; Wed, 14 May 2025 11:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747220880; cv=none; b=Wk6ilYM81enHbpuNb90jJr5qIL2kT339VyGN6gYY5ux8pJZRlvR1pHfqRCPzubc9HA0xs8EbLD/WMGDeENk0IutUEsl3Td/OEw8Wbn/A9JBo3YcxbXqEafHief3CwFfMJeDnuur1OM1qj+caLsQfVSXHzk0tVc9uTXgYUtkVOfo=
+	t=1747220881; cv=none; b=k4a6ZwM8diGtVF/a2SRoro3A8oparKe5wsU1HwFvK6ZCllWJJT4Q1k7MrkNeEBaJlK6rv2XtiT4+TLBlsk63ivxcwZv3vgAsAx8/1PhAox6dIUFz5QZWQ0Degsk49AsBIp4+jV+YAD8gxCro+y0LnS37KJ+zEbUbBSUcKGwtiww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747220880; c=relaxed/simple;
-	bh=pnumnEgMONqC2sB0h2/3e/8Px5yvws2pdjGq64D49Tg=;
+	s=arc-20240116; t=1747220881; c=relaxed/simple;
+	bh=73MAWfA/IcO6qc1HMLCTk5s8ngwMfvoWX72M1v6KFDs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rm/HLIDXeC1fFogFOZjx2OHLzPU6CYoSoUm5hhNw86AYHkaABvdUGg/TA99FZERAGhPQChYedz7cZbE/ni5wJ44aQG+lgBlNgO7BXW9x3yHcdPQBpP77EX4E2LjP6sbpeYK/bGfC+uqpVjh5Kt+oK1oV/ek7eBi3/bb0NbMVijc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gw/kboGv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NptUQNUC; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=aWajmL/oPXDw4KKS/Ekoq94cKBDEGRzyhIn2k+6CbhKCmT/Av9H9p/38U6Kp012qy/eRR0wE3wjPmK+oyc3gCTqjtd7O+zcpMvsdwPahC8/88CVGqDE82jC6ATxRS16P2tHcmMXECRvmcmk5n5lYK7wpIKZSJLV93S3jdEJ0eO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GrHGV44E; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Qgl4x/BN; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gw/kboGv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NptUQNUC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GrHGV44E";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Qgl4x/BN"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747220876;
+	s=2020; t=1747220877;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9L1epFIrxpVQ8bZI5Xv86SU+O2nArDBf9rMp846oO1Q=;
-	b=gw/kboGvHKtr3220Y4fWAvupL2+QPWKSaKrhK+EFDIy1LkV42q7CUQLA7ExGE95S1hKwqE
-	jbriUGYd9S0Iy3HY2FTBNtWd96uUS3CN0UjMGvlj7b0Pl74DlrA+EatFsvRh/hMtiarpwq
-	Vs7s7TdWuV1qBnMB3j1+c4j6ew7lSDHv05o3RiN5/a/UTI/iycPTpLpeqW8TIDIzHU+0Mu
-	mQLmiewu4fsVzcj2xsHS4Z51EJ37w0g5h7oE7YkQCnk+KTSGwYg05gaK7KhqooRbOHvuej
-	B27zeDXp7SLu6MozlyQztH0uX/on/2g/rz12wrTJvfZrwOHL5RJXllGxP17DJg==
+	bh=MzP2WP1u1oln3HgOxIAj7QaI8u7I75pQZbUSzwXdfFg=;
+	b=GrHGV44Eza4WsQIBCBpGNdb2Wq/OjAWa2FWavMwvcw42nJF/R15l+o6MT5yJn3Sz8obpYw
+	YNCF7NibSW6BaG4lmAJ6s1/3XBlTDQZGAJUV1zpm6Dvs5NVfo8d8IBmBUosJde69wfi1Ct
+	sNmG2kpvvbGhi43QEgg0sIj7n2W81pqVkIzY9/wqbx7MVnPxc3fr5j0jeqOxtz/nMyIn0i
+	5p5vd1INlQdoaMFJiUTZ/4h+Ndc7D2fXFxJv59G0W5AjdUKJgI0fjParIemr3sc0MhcN5R
+	cMk7iJ4FCOoalMWB6bv+i0eyypRqaXDf9z9ehuDRIvmaDIoWQiOQnGbCJJghMQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747220876;
+	s=2020e; t=1747220877;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9L1epFIrxpVQ8bZI5Xv86SU+O2nArDBf9rMp846oO1Q=;
-	b=NptUQNUC5PYCajkvYRCtRxwF23w8eD5EtDDGE6bulyVo0pf8Zj/O12MO0UNOSk/IbM27yv
-	zs4iOrK3f8QB9ZAA==
+	bh=MzP2WP1u1oln3HgOxIAj7QaI8u7I75pQZbUSzwXdfFg=;
+	b=Qgl4x/BNFjj1kLLG9C280mmnRC+Ietv66Yro7W7v49W+jD+R35AMc0ctXLFaa4bXnRcx5b
+	vEE8YkFmsu+R/yCg==
 To: linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Cc: tglx@linutronix.de,
@@ -48,10 +48,13 @@ Cc: tglx@linutronix.de,
 	Waiman Long <longman@redhat.com>,
 	Boqun Feng <boqun.feng@gmail.com>,
 	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 1/2] local_lock: Move this_cpu_ptr() notation from internal to main header.
-Date: Wed, 14 May 2025 13:07:49 +0200
-Message-ID: <20250514110750.852919-2-bigeasy@linutronix.de>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-crypto@vger.kernel.org
+Subject: [PATCH 2/2] cryptd: Use nested-BH locking for cryptd_cpu_queue
+Date: Wed, 14 May 2025 13:07:50 +0200
+Message-ID: <20250514110750.852919-3-bigeasy@linutronix.de>
 In-Reply-To: <20250514110750.852919-1-bigeasy@linutronix.de>
 References: <20250514110750.852919-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,224 +65,74 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The local_lock.h is the main entry for the local_lock_t type and
-provides wrappers around internal functions prefixed with __ in
-local_lock_internal.h.
+cryptd_queue::cryptd_cpu_queue is a per-CPU variable and relies on
+disabled BH for its locking. Without per-CPU locking in
+local_bh_disable() on PREEMPT_RT this data structure requires explicit
+locking.
 
-Move the this_cpu_ptr() dereference of the variable from the internal to
-the main header. Since it is all macro implemented, this_cpu_ptr() will
-still happen within the preempt/ IRQ disabled section.
-This will free the internal implementation (__) to be used on
-local_lock_t types which are local variables and must not be accessed
-via this_cpu_ptr().
+Add a local_lock_t to the struct cryptd_cpu_queue and use
+local_lock_nested_bh() for locking. This change adds only lockdep
+coverage and does not alter the functional behaviour for !PREEMPT_RT.
 
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: linux-crypto@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/local_lock.h          | 20 +++++++++----------
- include/linux/local_lock_internal.h | 30 ++++++++++++++---------------
- 2 files changed, 25 insertions(+), 25 deletions(-)
+ crypto/cryptd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/linux/local_lock.h b/include/linux/local_lock.h
-index 16a2ee4f8310b..2ba8464195244 100644
---- a/include/linux/local_lock.h
-+++ b/include/linux/local_lock.h
-@@ -13,13 +13,13 @@
-  * local_lock - Acquire a per CPU local lock
-  * @lock:	The lock variable
-  */
--#define local_lock(lock)		__local_lock(lock)
-+#define local_lock(lock)		__local_lock(this_cpu_ptr(lock))
+diff --git a/crypto/cryptd.c b/crypto/cryptd.c
+index 31d022d47f7a0..39c9e83a3a5b8 100644
+--- a/crypto/cryptd.c
++++ b/crypto/cryptd.c
+@@ -34,6 +34,7 @@ MODULE_PARM_DESC(cryptd_max_cpu_qlen, "Set cryptd Max que=
+ue depth");
+ static struct workqueue_struct *cryptd_wq;
 =20
- /**
-  * local_lock_irq - Acquire a per CPU local lock and disable interrupts
-  * @lock:	The lock variable
-  */
--#define local_lock_irq(lock)		__local_lock_irq(lock)
-+#define local_lock_irq(lock)		__local_lock_irq(this_cpu_ptr(lock))
+ struct cryptd_cpu_queue {
++	local_lock_t bh_lock;
+ 	struct crypto_queue queue;
+ 	struct work_struct work;
+ };
+@@ -110,6 +111,7 @@ static int cryptd_init_queue(struct cryptd_queue *queue,
+ 		cpu_queue =3D per_cpu_ptr(queue->cpu_queue, cpu);
+ 		crypto_init_queue(&cpu_queue->queue, max_cpu_qlen);
+ 		INIT_WORK(&cpu_queue->work, cryptd_queue_worker);
++		local_lock_init(&cpu_queue->bh_lock);
+ 	}
+ 	pr_info("cryptd: max_cpu_qlen set to %d\n", max_cpu_qlen);
+ 	return 0;
+@@ -135,6 +137,7 @@ static int cryptd_enqueue_request(struct cryptd_queue *=
+queue,
+ 	refcount_t *refcnt;
 =20
- /**
-  * local_lock_irqsave - Acquire a per CPU local lock, save and disable
-@@ -28,19 +28,19 @@
-  * @flags:	Storage for interrupt flags
-  */
- #define local_lock_irqsave(lock, flags)				\
--	__local_lock_irqsave(lock, flags)
-+	__local_lock_irqsave(this_cpu_ptr(lock), flags)
+ 	local_bh_disable();
++	local_lock_nested_bh(&queue->cpu_queue->bh_lock);
+ 	cpu_queue =3D this_cpu_ptr(queue->cpu_queue);
+ 	err =3D crypto_enqueue_request(&cpu_queue->queue, request);
 =20
- /**
-  * local_unlock - Release a per CPU local lock
-  * @lock:	The lock variable
-  */
--#define local_unlock(lock)		__local_unlock(lock)
-+#define local_unlock(lock)		__local_unlock(this_cpu_ptr(lock))
+@@ -151,6 +154,7 @@ static int cryptd_enqueue_request(struct cryptd_queue *=
+queue,
+ 	refcount_inc(refcnt);
 =20
- /**
-  * local_unlock_irq - Release a per CPU local lock and enable interrupts
-  * @lock:	The lock variable
-  */
--#define local_unlock_irq(lock)		__local_unlock_irq(lock)
-+#define local_unlock_irq(lock)		__local_unlock_irq(this_cpu_ptr(lock))
+ out:
++	local_unlock_nested_bh(&queue->cpu_queue->bh_lock);
+ 	local_bh_enable();
 =20
- /**
-  * local_unlock_irqrestore - Release a per CPU local lock and restore
-@@ -49,7 +49,7 @@
-  * @flags:      Interrupt flags to restore
-  */
- #define local_unlock_irqrestore(lock, flags)			\
--	__local_unlock_irqrestore(lock, flags)
-+	__local_unlock_irqrestore(this_cpu_ptr(lock), flags)
+ 	return err;
+@@ -169,8 +173,10 @@ static void cryptd_queue_worker(struct work_struct *wo=
+rk)
+ 	 * Only handle one request at a time to avoid hogging crypto workqueue.
+ 	 */
+ 	local_bh_disable();
++	__local_lock_nested_bh(&cpu_queue->bh_lock);
+ 	backlog =3D crypto_get_backlog(&cpu_queue->queue);
+ 	req =3D crypto_dequeue_request(&cpu_queue->queue);
++	__local_unlock_nested_bh(&cpu_queue->bh_lock);
+ 	local_bh_enable();
 =20
- /**
-  * local_lock_init - Runtime initialize a lock instance
-@@ -64,7 +64,7 @@
-  * locking constrains it will _always_ fail to acquire the lock in NMI or
-  * HARDIRQ context on PREEMPT_RT.
-  */
--#define local_trylock(lock)		__local_trylock(lock)
-+#define local_trylock(lock)		__local_trylock(this_cpu_ptr(lock))
-=20
- /**
-  * local_trylock_irqsave - Try to acquire a per CPU local lock, save and d=
-isable
-@@ -77,7 +77,7 @@
-  * HARDIRQ context on PREEMPT_RT.
-  */
- #define local_trylock_irqsave(lock, flags)			\
--	__local_trylock_irqsave(lock, flags)
-+	__local_trylock_irqsave(this_cpu_ptr(lock), flags)
-=20
- DEFINE_GUARD(local_lock, local_lock_t __percpu*,
- 	     local_lock(_T),
-@@ -91,10 +91,10 @@ DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __=
-percpu,
- 		    unsigned long flags)
-=20
- #define local_lock_nested_bh(_lock)				\
--	__local_lock_nested_bh(_lock)
-+	__local_lock_nested_bh(this_cpu_ptr(_lock))
-=20
- #define local_unlock_nested_bh(_lock)				\
--	__local_unlock_nested_bh(_lock)
-+	__local_unlock_nested_bh(this_cpu_ptr(_lock))
-=20
- DEFINE_GUARD(local_lock_nested_bh, local_lock_t __percpu*,
- 	     local_lock_nested_bh(_T),
-diff --git a/include/linux/local_lock_internal.h b/include/linux/local_lock=
-_internal.h
-index 8d5ac16a9b179..b4d7b24882835 100644
---- a/include/linux/local_lock_internal.h
-+++ b/include/linux/local_lock_internal.h
-@@ -99,14 +99,14 @@ do {								\
- 		local_trylock_t *tl;					\
- 		local_lock_t *l;					\
- 									\
--		l =3D (local_lock_t *)this_cpu_ptr(lock);			\
-+		l =3D (local_lock_t *)(lock);			\
- 		tl =3D (local_trylock_t *)l;				\
- 		_Generic((lock),					\
--			__percpu local_trylock_t *: ({			\
-+			local_trylock_t *: ({			\
- 				lockdep_assert(tl->acquired =3D=3D 0);	\
- 				WRITE_ONCE(tl->acquired, 1);		\
- 			}),						\
--			__percpu local_lock_t *: (void)0);		\
-+			local_lock_t *: (void)0);		\
- 		local_lock_acquire(l);					\
- 	} while (0)
-=20
-@@ -133,7 +133,7 @@ do {								\
- 		local_trylock_t *tl;				\
- 								\
- 		preempt_disable();				\
--		tl =3D this_cpu_ptr(lock);			\
-+		tl =3D (lock);					\
- 		if (READ_ONCE(tl->acquired)) {			\
- 			preempt_enable();			\
- 			tl =3D NULL;				\
-@@ -150,7 +150,7 @@ do {								\
- 		local_trylock_t *tl;				\
- 								\
- 		local_irq_save(flags);				\
--		tl =3D this_cpu_ptr(lock);			\
-+		tl =3D (lock);					\
- 		if (READ_ONCE(tl->acquired)) {			\
- 			local_irq_restore(flags);		\
- 			tl =3D NULL;				\
-@@ -167,15 +167,15 @@ do {								\
- 		local_trylock_t *tl;					\
- 		local_lock_t *l;					\
- 									\
--		l =3D (local_lock_t *)this_cpu_ptr(lock);			\
-+		l =3D (local_lock_t *)(lock);				\
- 		tl =3D (local_trylock_t *)l;				\
- 		local_lock_release(l);					\
- 		_Generic((lock),					\
--			__percpu local_trylock_t *: ({			\
-+			local_trylock_t *: ({			\
- 				lockdep_assert(tl->acquired =3D=3D 1);	\
- 				WRITE_ONCE(tl->acquired, 0);		\
- 			}),						\
--			__percpu local_lock_t *: (void)0);		\
-+			local_lock_t *: (void)0);		\
- 	} while (0)
-=20
- #define __local_unlock(lock)					\
-@@ -199,11 +199,11 @@ do {								\
- #define __local_lock_nested_bh(lock)				\
- 	do {							\
- 		lockdep_assert_in_softirq();			\
--		local_lock_acquire(this_cpu_ptr(lock));	\
-+		local_lock_acquire((lock));			\
- 	} while (0)
-=20
- #define __local_unlock_nested_bh(lock)				\
--	local_lock_release(this_cpu_ptr(lock))
-+	local_lock_release((lock))
-=20
- #else /* !CONFIG_PREEMPT_RT */
-=20
-@@ -227,7 +227,7 @@ typedef spinlock_t local_trylock_t;
- #define __local_lock(__lock)					\
- 	do {							\
- 		migrate_disable();				\
--		spin_lock(this_cpu_ptr((__lock)));		\
-+		spin_lock((__lock));				\
- 	} while (0)
-=20
- #define __local_lock_irq(lock)			__local_lock(lock)
-@@ -241,7 +241,7 @@ typedef spinlock_t local_trylock_t;
-=20
- #define __local_unlock(__lock)					\
- 	do {							\
--		spin_unlock(this_cpu_ptr((__lock)));		\
-+		spin_unlock((__lock));				\
- 		migrate_enable();				\
- 	} while (0)
-=20
-@@ -252,12 +252,12 @@ typedef spinlock_t local_trylock_t;
- #define __local_lock_nested_bh(lock)				\
- do {								\
- 	lockdep_assert_in_softirq_func();			\
--	spin_lock(this_cpu_ptr(lock));				\
-+	spin_lock((lock));					\
- } while (0)
-=20
- #define __local_unlock_nested_bh(lock)				\
- do {								\
--	spin_unlock(this_cpu_ptr((lock)));			\
-+	spin_unlock((lock));					\
- } while (0)
-=20
- #define __local_trylock(lock)					\
-@@ -268,7 +268,7 @@ do {								\
- 			__locked =3D 0;				\
- 		} else {					\
- 			migrate_disable();			\
--			__locked =3D spin_trylock(this_cpu_ptr((lock)));	\
-+			__locked =3D spin_trylock((lock));	\
- 			if (!__locked)				\
- 				migrate_enable();		\
- 		}						\
+ 	if (!req)
 --=20
 2.49.0
 
