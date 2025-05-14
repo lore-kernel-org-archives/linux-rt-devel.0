@@ -1,111 +1,92 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFDB1C862B
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 May 2025 19:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8AD270EC3
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 May 2025 11:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747076523; cv=none; b=pMinsiLq7m3liO6l6tjU9iH3FbmQtq4RvMC0zsybFXSHDtixp9ag5YrsKYookjUve0nMn6IXZQIb+SGpfIIbq5liF99P0xXomkI+Qc+S7K573Z9kVaDhujo+MfRmziE7GskFbgD3p6HC7gfjQaUuo4+kmzJaX7+cfygoI/59gT0=
+	t=1747220880; cv=none; b=c5hHQ9UMbWU5qgM4Or7fqUyyjkJR6ZbobiMV9KjW2ZU4z9H5MHYkH6X5rGmtDFLoEQxBREITevepZBzHwWvND6u2QGOJQFoSps0P0r3PfEwj6YBgpLpP9l0mCpR1epzxbdKKiWdfrYkmu1o5RFvvwV8mCYxVSIvqW4xdltcfNQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747076523; c=relaxed/simple;
-	bh=Iw4FMLxMzOsRhPUzCitoDc187twmhNXKei/YG2KflGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a9MyK2+QSwbjbEIPU7lpSAKLkv07e+RwbQPSVVC3Ymu8MUdI9NoK1bFVy/FT8L3IPfVizxtGcLnLSc9F0b6GlpDORnjkIoVZSoUG+vFQta/W2aM60/tAN0mqGU6wS7eG4e/jWZ3eIwX+u1dwEXG7GJlvsWz5RJfADdDYZxO0eV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fa++PwjA; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747220880; c=relaxed/simple;
+	bh=lPSEk3wUUElPEHAQ7MziHYylsTAKs/rmIfSOGUye8kw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=axEvC1wjBUpj39lW5UALQe+Wof7413nJ6FH3AoPw6eNxiXqTXZ2xKtZvpRoczQes70r2c5zDfV89UwEP3WaGgVB1OO1YDcT3pFAN9HGR6i471L86MyBRYNc1CAJAEKMxgJQFSoPrXCTsFojUAipFplZGxO6dMyHzj72UpsHDF1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Kd7csBhW; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o71gfT01; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fa++PwjA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747076520;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Kd7csBhW";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o71gfT01"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1747220876;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kWaIpBAE+GNW2dWuVErPfYy1v7Zx0jvZfL8ijBtInX8=;
-	b=Fa++PwjAMTZYEUQON1vNuI6ctN2hBI6qTLZ6475mXbNiHurWeN5VT0dlX7Ps9MncN7Zix4
-	nUSJuG2R48Mpz36yJNhR+yrx55nOGFeMUtysddYkioeZ2qFJuqwzFHhOALexfjX3Ksavwo
-	v2kc226yBtsfWcXHD59iJGGAp7PNkkg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-669-pdvLv3UxNZ24d8YSQeBYyw-1; Mon,
- 12 May 2025 15:01:56 -0400
-X-MC-Unique: pdvLv3UxNZ24d8YSQeBYyw-1
-X-Mimecast-MFC-AGG-ID: pdvLv3UxNZ24d8YSQeBYyw_1747076514
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 67EE318001CA;
-	Mon, 12 May 2025 19:01:54 +0000 (UTC)
-Received: from localhost (unknown [10.22.80.42])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6F1C31956095;
-	Mon, 12 May 2025 19:01:53 +0000 (UTC)
-Date: Mon, 12 May 2025 16:01:52 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v2] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-Message-ID: <aCJFoCq7Pp_luu2M@uudg.org>
-References: <Z_bDWN2pAnijPAMR@uudg.org>
- <20250410064844.wm4KbunL@linutronix.de>
- <20250410075103.GV9833@noisy.programming.kicks-ass.net>
- <20250410153205.u92eJDos@linutronix.de>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xslvri7PeNrCEs1KrVV6+pQBrviWFITMmrv7pJl4bJc=;
+	b=Kd7csBhWekY8l46d+QGXmRGXaHFdmzJ8mKdPVcCqyIpCPSoRl/vg/uLbm9CyWSNEb1gpBH
+	FKwf1fvrKIhxdUQn+KtmLUKpZQ6JqPZmwL+IgSZXwe6jDB8TO3CV/dTxop8ckM0aroQ1ID
+	4o9jW1fpgXJl6/Am3s3HsrVC4aQETVkA250GyMK/oB4npoKk7ldhjBg9JPmVFoo85p/xUs
+	0RZEAch6pSM1UYi9e427/mtaFrjpEpPHXv/aGGj3vDNUuKhtEze7VZPethjj9v/IZHMdt4
+	mExkEj0vDCDNBS7WaGpsTzpfzK5n2bdg9rauxc6RShLNEUBfU6/OjbwE0fOiTQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1747220876;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xslvri7PeNrCEs1KrVV6+pQBrviWFITMmrv7pJl4bJc=;
+	b=o71gfT0106du9YZguoUEM+iC3gI5v2AOG1CNieng8fn0a5MUc8ni4zPANQ7yXyUTpPSE4p
+	x9t71rdCtfqYElAQ==
+To: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: tglx@linutronix.de,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 0/2] local_lock: Move this_cpu_ptr() notation from internal to main header
+Date: Wed, 14 May 2025 13:07:48 +0200
+Message-ID: <20250514110750.852919-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410153205.u92eJDos@linutronix.de>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 10, 2025 at 05:32:05PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2025-04-10 09:51:03 [+0200], Peter Zijlstra wrote:
-> > > I complained about this special RT case in put_task_struct() when it was
-> > > first got introduced. Couldn't we just just unconditionally do the RCU
-> > > put?
-> > 
-> > Yeah, please make it simpler, not more complex.
-> 
-> Just so we clear: simpler as in everyone does call_rcu() or RT does
-> always call_rcu() and everyone else __put_task_struct()? I mean we would
-> end up with one call chain I am just not sure how expensive it gets for
-> !RT.
+While looking at what needs extra locks for PREEMPT_RT in order to rid
+of the lock in local_bh_disable() I stumbled uppon two users which need
+to lock the structure but the pointer is no longer per_cpu.
 
-Sebastian, I implemented the change where put_task_struct() unconditionally
-resorted to:
+Patch #1 moves this_cpu_ptr() from the internal header to the main on in
+         order to free the name space and have the __ prefix function to
+	 do the same but without the this_cpu_ptr(). So
+	   local_lock_nested_bh()   -> on per-CPU memory
+	   __local_lock_nested_bh() -> on local memory.
 
-	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
+         This change has been made to all local_lock*() functions.
 
-I submitted the kernels I built with that change and a pristine upstream
-kenrel to LTP and stress-ng and also ran 'perf bench all'. I built kernels
-with and without lockdep and extra debug. All kernels survived the tests
-without a scratch and I haven't observed differences in behaviors nor
-timings (for the tests that had that information).
+Patch #2 is an example why it is needed. In a nutshell the per-CPU
+         memory is allocated via alloc_percpu() and then the memory is
+	 passed to queue_work_on(). The worker then retrieves the
+	 structure via container_of(). No more per-CPU memory.
 
-What would be a good benchmark to compare the kernels with and without the
-put_task_struct() change? I would like to observe whether there is a
-penalty or added overhead with the change in place.
+I attached #2 as an example and would route via crypto once #1 is
+accepted. The user user I identified is nf_set_pipapo which is doing
+something similar. This makes two users in total.
 
-Best,
-Luis
+Sebastian Andrzej Siewior (2):
+  local_lock: Move this_cpu_ptr() notation from internal to main header.
+  cryptd: Use nested-BH locking for cryptd_cpu_queue
 
-> Sebastian
-> 
----end quoted text---
+ crypto/cryptd.c                     |  6 ++++++
+ include/linux/local_lock.h          | 20 +++++++++----------
+ include/linux/local_lock_internal.h | 30 ++++++++++++++---------------
+ 3 files changed, 31 insertions(+), 25 deletions(-)
+
+--=20
+2.49.0
 
