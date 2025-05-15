@@ -1,142 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856DC298CA1
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 May 2025 12:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737A672627;
+	Thu, 15 May 2025 13:40:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747313353; cv=none; b=pTmE7wE3PQuSkc+Ev78w+oSGWrkjBWXiTLwusUm0Z6/zs+Hwx24bxxCBuXVSuHaMiSs+GN5P4yW1G5BEfyMEcnhYkKGIaVAkQpQ7Zj61T3v/MEwY4M2dnh+qSo9dsa5g/DrrD3Kzhb4clBdoHGg5chL/4O0P7Xv5U6VQs+xiII4=
+	t=1747316415; cv=none; b=svqhlDMv1kMPq1wCSGajLXsFKS7oWCpcpKQ7jrVTcZhE9x0QAotgyeIZ/eHMFzOYi6cKK0cBFcWISUbqiGlTks/xNMYkKoowGkYwQ/Dr/xefovsxTE3GdP5e5Ow+bkAwjZHicH1HKUSWY7JZXnnrRTcNEsql9izG1yWkkZ3xhmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747313353; c=relaxed/simple;
-	bh=dCbb8ywsZWcjBClreW7efNTzbOoYTzghPq2VmBHjgqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=P84p/9k+OrwFuL2fFramw1sabH3oAYhrPoho0qOkfO54AxxYyL7yrdTT4KNFBAHAocb7bxgIkQujNcaTRaYd38Vm/CwXIDlLjKRPdVNS4ecbfc9qJ2CPCpZMnMFeiZr/jjTzNnYGDX2MFMlOXI9OusUFPvNmLR4XQnCQxbUlu8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KUlgD8M+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747316415; c=relaxed/simple;
+	bh=sfdZjbewTMVNDoBJL5YoyIK2t0DemT88eUZ1JLMuztc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=FKmYggi+BtxVE9gPG8MuZCGDwYWDeXnLT22wM97ZMm0mzvHacmiIz1mdsWk87WRk3RirNes8AXS5ZJfIlFoQTrX7+ZPY3Cdb9IruMhuHNuNRCDQDsNZDXQnpm16YpJsyPNj0Aefq5+ukjE0gyMl4NXkZFVi1qJ1wo1BmJ2U6GI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K5pghWdT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KUlgD8M+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747313349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F7XavHWSM3i2z8lTnk9nHsfzQ0iU3Bzb+tsiNPqcmRY=;
-	b=KUlgD8M+k1+SPVADu8KnL9IEk/k7G7FTaP+R5Au4wVzN+eFkbIg2gUwuVyg4GDqpNyuxts
-	C/SUI3n3lQswc5ALEuumseE6w0KgEdtmWlFrXxnltH6YKmSkpG53TcCf9J6yAvr9EFEwh5
-	tFXyK71/EaUcmtR/TyBNkKat4yBv1u0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-692-wGCeur7kNTqVjCBI-nXkUg-1; Thu, 15 May 2025 08:49:08 -0400
-X-MC-Unique: wGCeur7kNTqVjCBI-nXkUg-1
-X-Mimecast-MFC-AGG-ID: wGCeur7kNTqVjCBI-nXkUg_1747313347
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a205227595so460369f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 15 May 2025 05:49:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747313347; x=1747918147;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F7XavHWSM3i2z8lTnk9nHsfzQ0iU3Bzb+tsiNPqcmRY=;
-        b=o2NwrIsSqZ3L1N+R6Q24U8sKDl5zQMS6e2DfhxzneYvi94nDXlTZy3kwQyNXypUarh
-         swBaMMiBfUQ1WD4xDqVTuBNlSNcwUQX/mOhiKfuvZYDFZkPxFiiH6nEVeeVCYQhCgD7Z
-         FJmPPfAyvOPPbH7gIyD4RniGPLw9mgqDWJtforbzqpHpDaIqrqWi8Wz4j6LwBhqw1OSS
-         Il78EYLBMz81c/cb4U60jT1XkzwYZmJNpF5voXWSy3De/xY/2aWj+QvKI8wIVAZFDfor
-         4c/NTWjCiTctvtQWXUQtnMyfexEuMrmwaq+Zt14sV5GwFQIuJ2p95psW2CeeM2rHNwAv
-         4v6A==
-X-Forwarded-Encrypted: i=1; AJvYcCVXRuN8CxPDrhiqFdH+arEUhdrXVKr/JmN++OSpTSP80DuLQhjDTmlH0Lg79GJhy2+YYwUX8C3frLoL079hdA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlWohOyi7CAuyuRd4IaZ0wuhd+9qPtmYVv6kTbULx1jrHmwTmj
-	QM75N6AEX4UtQX4inDo+VJGRSnZMOVHF989GFx/E+yJEcaddf9gdDg2/3reY94tuVwRfc7OiWfQ
-	u1JzQ542/ttX07WaZUNRwrt/l+W6gvQJxRISrbXcMKLeKzQA6cbPTqDKNW6WKnb74
-X-Gm-Gg: ASbGncsAcaTQ/V61zAL/KS3fJDLlinw0tc4eWyw0br9QX77LBHUoqnSm9Nw4li5sd0y
-	Az9yeeUF88q3jdrdsVTbipVyvLW1DE6aSZci16poqbct+7ZnYuRcDJzh+ONVM9YKFQuFo/caOam
-	a0qct1G4z7ha0wm7QN07ckgkXTKL5shjUTZKty3tf5iJdV1lQT/ygAsIWB2zWayZiy4398Pn1wq
-	3LpTmsGb4YN9pULdhreasuGHGGp5Sp2oVQTJiCTxb7PP0ntLyqOfsjykKcNUZqcewLnwWpEWf4D
-	hqcfBCSC9Yp3qETsq5UyVoohsmh8+n9GtY+3Bcl3sA==
-X-Received: by 2002:adf:f909:0:b0:3a3:55ee:8658 with SMTP id ffacd0b85a97d-3a355ee86cbmr1329998f8f.0.1747313347154;
-        Thu, 15 May 2025 05:49:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0z8Z4IWABZZNTzRaHczvZipon+iso448bnAeHeqBaILeA/0ES4MK3K+jZgSD1fRZNH+rKXw==
-X-Received: by 2002:adf:f909:0:b0:3a3:55ee:8658 with SMTP id ffacd0b85a97d-3a355ee86cbmr1329971f8f.0.1747313346769;
-        Thu, 15 May 2025 05:49:06 -0700 (PDT)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.93.152])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f2f8csm22339420f8f.42.2025.05.15.05.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 05:49:06 -0700 (PDT)
-Date: Thu, 15 May 2025 14:49:04 +0200
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>
-Subject: Re: [PATCH net-next v4 10/15] net/sched: act_mirred: Move the
- recursion counter struct netdev_xmit
-Message-ID: <aCXiwEVJ8sLJLzxc@jlelli-thinkpadt14gen4.remote.csb>
-References: <20250512092736.229935-1-bigeasy@linutronix.de>
- <20250512092736.229935-11-bigeasy@linutronix.de>
- <235b93a5-6989-4131-9099-c0c03bb6afc1@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K5pghWdT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D80F5C4CEE7;
+	Thu, 15 May 2025 13:40:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747316413;
+	bh=sfdZjbewTMVNDoBJL5YoyIK2t0DemT88eUZ1JLMuztc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=K5pghWdTQar9e1XkR2CkizFk1jmHNrijTwo6Wl5L5G/BsqhqqZpNva3zaZp07S0lg
+	 76hazJQweNSnlPGGMkrsAwjQFgFWEtOmfvFKK4+U0Ps0TzyIAAVVtc3slMwfLT7UpQ
+	 i/xvama2nVcsZSKc7mc9mFmq+NbghyBWu72shGaGxcpmxhJgNVivTffAd9MwrCTAmL
+	 QkqKjXEKnlGiFw01di0rJaWdFcyTn0VkQZHxkEI0KGY3pqHlmpwvC3I9dWrY7Q0Twz
+	 DkV2WIaRfdzJuaX4X8+XX9a9rJqkK5ceCn6bHcj6aQBYr5Uzo32cdV90hoMuITxbWU
+	 bApFlXwBzxccA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3425E3806659;
+	Thu, 15 May 2025 13:40:52 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <235b93a5-6989-4131-9099-c0c03bb6afc1@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wdM-lKtZPk4gXRfVRZblgukthS7zmqjem1PkjPCu0Vo_1747313347
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 00/15] net: Cover more per-CPU storage with local
+ nested BH locking
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174731645065.3113565.10520070956038071992.git-patchwork-notify@kernel.org>
+Date: Thu, 15 May 2025 13:40:50 +0000
+References: <20250512092736.229935-1-bigeasy@linutronix.de>
+In-Reply-To: <20250512092736.229935-1-bigeasy@linutronix.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, tglx@linutronix.de
 
-On 15/05/25 11:55, Paolo Abeni wrote:
-> CC sched maintainers.
+Hello:
+
+This series was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
+
+On Mon, 12 May 2025 11:27:21 +0200 you wrote:
+> I was looking at the build-time defined per-CPU variables in net/ and
+> added the needed local-BH-locks in order to be able to remove the
+> current per-CPU lock in local_bh_disable() on PREMPT_RT.
 > 
-> On 5/12/25 11:27 AM, Sebastian Andrzej Siewior wrote:
-> > mirred_nest_level is a per-CPU variable and relies on disabled BH for its
-> > locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-> > this data structure requires explicit locking.
-> > 
-> > Move mirred_nest_level to struct netdev_xmit as u8, provide wrappers.
-> > 
-> > Cc: Jamal Hadi Salim <jhs@mojatatu.com>
-> > Cc: Cong Wang <xiyou.wangcong@gmail.com>
-> > Cc: Jiri Pirko <jiri@resnulli.us>
-> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > ---
-> >  include/linux/netdevice_xmit.h |  3 +++
-> >  net/sched/act_mirred.c         | 28 +++++++++++++++++++++++++---
-> >  2 files changed, 28 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/linux/netdevice_xmit.h b/include/linux/netdevice_xmit.h
-> > index 38325e0702968..848735b3a7c02 100644
-> > --- a/include/linux/netdevice_xmit.h
-> > +++ b/include/linux/netdevice_xmit.h
-> > @@ -8,6 +8,9 @@ struct netdev_xmit {
-> >  #ifdef CONFIG_NET_EGRESS
-> >  	u8  skip_txqueue;
-> >  #endif
-> > +#if IS_ENABLED(CONFIG_NET_ACT_MIRRED)
-> > +	u8 sched_mirred_nest;
-> > +#endif
-> >  };
+> The work is not yet complete, I just wanted to post what I have so far
+> instead of sitting on it.
 > 
-> The above struct is embedded into task_struct in RT build. The new field
->  *should* use an existing hole. According to my weak knowledge in that
-> area the task_struct binary layout is a critical, an explicit ack from
-> SMEs would be nice.
+> [...]
 
-Agree. Still fitting in an existing task_struct hole.
+Here is the summary with links:
+  - [net-next,v4,01/15] net: page_pool: Don't recycle into cache on PREEMPT_RT
+    https://git.kernel.org/netdev/net-next/c/32471b2f481d
+  - [net-next,v4,02/15] net: dst_cache: Use nested-BH locking for dst_cache::cache
+    https://git.kernel.org/netdev/net-next/c/c99dac52ffad
+  - [net-next,v4,03/15] ipv4/route: Use this_cpu_inc() for stats on PREEMPT_RT
+    https://git.kernel.org/netdev/net-next/c/1c0829788a6e
+  - [net-next,v4,04/15] ipv6: sr: Use nested-BH locking for hmac_storage
+    https://git.kernel.org/netdev/net-next/c/bc57eda646ce
+  - [net-next,v4,05/15] xdp: Use nested-BH locking for system_page_pool
+    https://git.kernel.org/netdev/net-next/c/b9eef3391de0
+  - [net-next,v4,06/15] xfrm: Use nested-BH locking for nat_keepalive_sk_ipv[46]
+    https://git.kernel.org/netdev/net-next/c/9c607d4b6589
+  - [net-next,v4,07/15] openvswitch: Merge three per-CPU structures into one
+    https://git.kernel.org/netdev/net-next/c/035fcdc4d240
+  - [net-next,v4,08/15] openvswitch: Use nested-BH locking for ovs_pcpu_storage
+    https://git.kernel.org/netdev/net-next/c/672318331b44
+  - [net-next,v4,09/15] openvswitch: Move ovs_frag_data_storage into the struct ovs_pcpu_storage
+    https://git.kernel.org/netdev/net-next/c/3af4cdd67f32
+  - [net-next,v4,10/15] net/sched: act_mirred: Move the recursion counter struct netdev_xmit
+    https://git.kernel.org/netdev/net-next/c/7fe70c06a182
+  - [net-next,v4,11/15] net/sched: Use nested-BH locking for sch_frag_data_storage
+    https://git.kernel.org/netdev/net-next/c/20d677d389e7
+  - [net-next,v4,12/15] mptcp: Use nested-BH locking for hmac_storage
+    https://git.kernel.org/netdev/net-next/c/82d9e6b9a0a1
+  - [net-next,v4,13/15] rds: Disable only bottom halves in rds_page_remainder_alloc()
+    https://git.kernel.org/netdev/net-next/c/aaaaa6639cf5
+  - [net-next,v4,14/15] rds: Acquire per-CPU pointer within BH disabled section
+    https://git.kernel.org/netdev/net-next/c/0af5928f358c
+  - [net-next,v4,15/15] rds: Use nested-BH locking for rds_page_remainder
+    https://git.kernel.org/netdev/net-next/c/c50d295c37f2
 
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Best,
-Juri
 
