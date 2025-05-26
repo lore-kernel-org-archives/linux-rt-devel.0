@@ -1,88 +1,173 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0CF72600
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 May 2025 01:32:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005051A23A9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 May 2025 05:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748223163; cv=none; b=W8oDxlba8pycsXO3ggP+sTnK1qMPAqbqaiTzBvku6X+spfmqoQ90Q1INGn2yp9KjMffIc6Mv/EHSh0oGcNAmmFl6CKF/8MVOwxDQr7wIb7A8rAZc2fEJG1hG5bLnkSVm1z4/a3IXq72qhLnC08b62NPe0+R5GsBLqZJJJgLzQbg=
+	t=1748237949; cv=none; b=Jb41pln6T+og2fXiDBbvL4H5wpLm4BTYPwZcknE2wyECT/sXj8Rv01X5NlLZqrmHN8cxo0VzUt7LBK3H0Ku5o+Dv9WKQjdAzylwON39aPz0Ocspx5c8ptJ7VvDsM0GhuGryO2KyQ/921EYNm4v/DYwrKfl4HBZoA/ZhS3PMtqzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748223163; c=relaxed/simple;
-	bh=DPzxGL+30NArKwSIOTj/H4E/kNjfJ6ShBCpRyVxyDJA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XAwUDm5GC7VtGC5BeCs96WlKrv9AykuY3WXSXLR7cqkW89d5ju5ECO4xc0+p0i+aJgN7VbH2ZbNb4Aj4EIevy8bn8ZXXgFJsZujcS2haMZaHmbnwGWgk2A/NJvTWbqmx18N7WoBrstZLOT7F9Ac4tLPLIxe35FXx9Y1avzOzqic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BXCVO64C; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748237949; c=relaxed/simple;
+	bh=bvi9/AnhH38DquhZv0IqLUVYPmYVpjwwJgZnzK0ONZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hRx02dHTrdBC6MrQFygOuPAVHbP06CGDiOdhCP8JaOzn0Udh7aR0U13TJ7mewPZxLAfe8ltgM982trIgJIBvrsO9DWNL7z0i68RiA4lIiC2Nxl/xHCc+nuyAqSLhaNEIvEv+jfCiYlLDoZ0gJjwivGNtyZd9icjJJ1sHx0Q1dVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PktyAzPG; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=L5mklkIN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BXCVO64C"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-442ec3ce724so14443585e9.0
-        for <linux-rt-devel@lists.linux.dev>; Sun, 25 May 2025 18:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748223160; x=1748827960; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7cGOAkilx+ZhrVPvSVqSnNR8OUi5MMrk7Cz9BvTY4qg=;
-        b=BXCVO64CVYxQ9Q7kgQY3GwDdYrsV9J14HrrrG6gGdGbtDsMz/wZLdX2IuD/d0ZpmlG
-         08DisY7bMoVHDiJuX+TUmcIu7lIs0a7hsuqGjsee1y9rGh9BZrLVae8ud26edf3mN8UN
-         UUjDIvc4ExH7I9fUA9xxp+AmeSsPwrwVQsW2Hsa5QP7W/ev+35ryC5jxXjWAMw69gcBR
-         jJKBzMMFhrJsLxLNAaAfHurBRAEY0ujt++H2RkTNL6XoRqKhHu26gG6Sd0L4eswM7Acc
-         bkYPOuSDO9TMhhn1oXrTjM53YzbJDmPFzzW1hUecel4j+ua/z8NJXszSQ71raeMGiWgY
-         sEHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748223160; x=1748827960;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7cGOAkilx+ZhrVPvSVqSnNR8OUi5MMrk7Cz9BvTY4qg=;
-        b=QNk1XNZ39LtJMx/Vajh38aDVLIt4otHy119+VAmS8D/IV2HKTQaiQAnJt9AgW5SS7u
-         WokZv6OkffPNjLvE09tvV3wdxRGuaUqLVFwPgmgttj0w5ZPb2wowxruLKGbm4VO1veEA
-         H8WYit3LRMVUEo91djazu15Cwo4LIkfeDQBcNgk3TAEvy2PdP5xjkt9rX1NXLCntjOXq
-         y5rITO85wknVcy0M2NsQlJmYxJQ69fyzMNVPeNanVFfT4qUh60egayU7o7WspEdY0kUW
-         2GoS+Gw1gSeKR6UWu3+YeSWGMRmUzbX8jNRKPWqcp/f01wQcB7DT+vWQzZuOGfVCFX94
-         Q5+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVvf788Qp3oB8vrtAiUeF9xktqLlH3AlfgAdV8o+3bzf2XtZm8qcxaYlCXr8etg4aTDHerX+1os85vGs/kh+g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9lacgwOvYRXmHRUU1IEsO85in2QPXXUYKmNCxFQL9gh8O1woA
-	EmiCE0ZDUBzm1U3MUQm1+huQ/oKWIRqL5478YmqswEkjbUhZ8sLfKq2vR6b3n+Z4ji9ay+XT8He
-	9ad8BJufYMOz1glSw0uxp9Yf0YMCREFk=
-X-Gm-Gg: ASbGnct8N9tQ4UaQVbFeCQqSZdDRHxYLmvnzbPSDvRIS6QpSixJ1kNfHfuAAEv3CdVk
-	i/lxhYJBuuDMEoqerKCtTIjbVDnj4rjB5cRybJcy3wsUxjKto2eEW2NHGKlHrK5A3RhxPW2NXo9
-	Ncud1dY5JBbS0QOJelcK+XnPpNOaEcV7V0woGXoF2LGdwq1gPisXqPJKRVzgly7g==
-X-Google-Smtp-Source: AGHT+IE/TAn2rgDxN+u4MYzZJ0OWwlVfL2WOif0YnXD+AwCVO8IKHxTOKFgz5WEb61zo8C8ufdqbNCvLPWBFScAdI60=
-X-Received: by 2002:a05:6000:22ca:b0:3a4:dcb0:a5f with SMTP id
- ffacd0b85a97d-3a4dcb00cb0mr71467f8f.16.1748223159473; Sun, 25 May 2025
- 18:32:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PktyAzPG";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="L5mklkIN"
+Date: Mon, 26 May 2025 07:39:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1748237945;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XFwlwfcUWsrciv3uqI5GflyLPzZ54rN6yZqsSqBaoTY=;
+	b=PktyAzPGgeoAdDzdgI+++hZu7fMbjfr6H+099v4my+y4508n4MJtiQACCvEsFZ3xAct+gU
+	boRl35+QrYJPScjva4DLTwapEu9rpM9aBpbLIplcNApH5gkBmhOz1B2Uokyfv69V6uUsBx
+	TEQotNpT9xs+PXbjnouMYjcjNHqty81ZRuhCNWfrezU2GdSPqfZUbPpujlj+gBL8qcOZn1
+	PES5mgYalFB+A3xxG/pQNBJVn4VKiDlZ5yU425BnpA9itXXPxGOfubOiR9RKUGSNab3xsE
+	ts9jPCucocoCFAVeR9ccxiZje1e3VguAAbTdaz7RnnAj+xhRXAN/mL0du1KE4g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1748237945;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XFwlwfcUWsrciv3uqI5GflyLPzZ54rN6yZqsSqBaoTY=;
+	b=L5mklkINJ3LFQ0YLlGpTfMRx3J90rM/lyphpIJf4TmO140xAbC8rlZUug/3iyyK6EV/Oa2
+	JWUZ6azxdyj8UqAw==
+From: Nam Cao <namcao@linutronix.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	John Ogness <john.ogness@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Jens Axboe <axboe@kernel.dk>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: Re: [PATCH v2] eventpoll: Fix priority inversion problem
+Message-ID: <20250526053900.asTaMltl@linutronix.de>
+References: <20250523061104.3490066-1-namcao@linutronix.de>
+ <20250523122611.Q64SSO7S@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250525224744.9640-1-spasswolf@web.de>
-In-Reply-To: <20250525224744.9640-1-spasswolf@web.de>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Sun, 25 May 2025 18:32:28 -0700
-X-Gm-Features: AX0GCFvm_Bez1rb1JzQSzoshh3hDkoxHtoczG6bLZpZvk_pvgCEczCjEXVFe4WI
-Message-ID: <CAADnVQLv3aX0iOrkAZRgP2x8UAVvy7oYA8x0dUPn7B6FD-10-g@mail.gmail.com>
-Subject: Re: BUG: scheduling while atomic with PREEMPT_RT=y and bpf selftests
-To: Bert Karwatzki <spasswolf@web.de>, Tejun Heo <tj@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Linux-Next Mailing List <linux-next@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	linux-rt-users <linux-rt-users@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
-	Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250523122611.Q64SSO7S@linutronix.de>
 
-On Sun, May 25, 2025 at 3:48=E2=80=AFPM Bert Karwatzki <spasswolf@web.de> w=
-rote:
->
-> [ T2916]  rtlock_slowlock_locked+0x635/0x1d00
-> [ T2916]  ? srso_alias_return_thunk+0x5/0xfbef5
-> [ T2916]  ? lock_acquire+0xca/0x300
-> [ T2916]  rt_spin_lock+0x99/0x190
-> [ T2916]  task_get_cgroup1+0xe8/0x340
-> [ T2916]  bpf_task_get_cgroup1+0xe/0x20
+On Fri, May 23, 2025 at 02:26:11PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-05-23 08:11:04 [+0200], Nam Cao wrote:
+> On the AMD I tried
+> Unpatched:
+> | $ perf bench epoll all 2>&1 | grep -v "^\["
+> | # Running epoll/wait benchmark...
+> | Run summary [PID 3019]: 255 threads monitoring on 64 file-descriptors for 8 secs.
+> |
+> |
+> | Averaged 785 operations/sec (+- 0.05%), total secs = 8
+> |
+> | # Running epoll/ctl benchmark...
+> | Run summary [PID 3019]: 256 threads doing epoll_ctl ops 64 file-descriptors for 8 secs.
+> |
+> |
+> | Averaged 2652 ADD operations (+- 1.19%)
+> | Averaged 2652 MOD operations (+- 1.19%)
+> | Averaged 2652 DEL operations (+- 1.19%)
+> 
+> Patched:
+> | $ perf bench epoll all 2>&1 | grep -v "^\["
+> | # Running epoll/wait benchmark...
+> | Run summary [PID 3001]: 255 threads monitoring on 64 file-descriptors for 8 secs.
+> | 
+> | 
+> | Averaged 1386 operations/sec (+- 3.94%), total secs = 8
+> | 
+> | # Running epoll/ctl benchmark...
+> | Run summary [PID 3001]: 256 threads doing epoll_ctl ops 64 file-descriptors for 8 secs.
+> | 
+> | 
+> | Averaged 1495 ADD operations (+- 1.11%)
+> | Averaged 1495 MOD operations (+- 1.11%)
+> | Averaged 1495 DEL operations (+- 1.11%)
+> 
+> The epoll_waits improves again, epoll_ctls does not. I'm not sure how to
+> read the latter. My guess would be that ADD/ MOD are fine but DEL is a
+> bit bad because it has to del, iterate, …, add back.
 
-Known issue.
-Please trim your emails.
+Yeah EPOLL_CTL_DEL is clearly worse. But epoll_ctl() is not
+performance-critical, so I wouldn't worry about it.
+
+> > diff --git a/fs/eventpoll.c b/fs/eventpoll.c
+> > index d4dbffdedd08e..483a5b217fad4 100644
+> > --- a/fs/eventpoll.c
+> > +++ b/fs/eventpoll.c
+> > @@ -136,14 +136,29 @@ struct epitem {
+> >  		struct rcu_head rcu;
+> >  	};
+> >  
+> > -	/* List header used to link this structure to the eventpoll ready list */
+> > -	struct list_head rdllink;
+> > +	/*
+> > +	 * Whether epitem.rdllink is currently used in a list. When used, it cannot be detached or
+> 
+> Notation wise I would either use plain "rdllink" or the C++ notation
+> "epitem::rdllink".
+> 
+> > +	 * inserted elsewhere.
+> 
+> When set, it is attached to eventpoll::rdllist and can not be attached
+> again.
+> This nothing to do with detaching.
+> 
+> > +	 * It may be in use for two reasons:
+> > +	 *
+> > +	 * 1. This item is on the eventpoll ready list.
+> > +	 * 2. This item is being consumed by a waiter and stashed on a temporary list. If inserting
+> > +	 *    is blocked due to this reason, the waiter will add this item to the list once
+> > +	 *    consuming is done.
+> > +	 */
+> > +	bool link_used;
+> >  
+> >  	/*
+> > -	 * Works together "struct eventpoll"->ovflist in keeping the
+> > -	 * single linked chain of items.
+> > +	 * Indicate whether this item is ready for consumption. All items on the ready list has this
+>                                                                                            have
+> > +	 * flag set. Item that should be on the ready list, but cannot be added because of
+> > +	 * link_used (in other words, a waiter is consuming the ready list), also has this flag
+> > +	 * set. When a waiter is done consuming, the waiter will add ready items to the ready list.
+> 
+> This sounds confusing. What about:
+> 
+> | Ready items should be on eventpoll::rdllist. This might be not the case
+> | if a waiter is consuming the list and removed temporary all items while
+> | doing so. Once done, the item will be added back to eventpoll::rdllist.
+> 
+> The reason is either an item is removed from the list and you have to
+> remove them all, look for the right one, remove it from the list, splice
+> what is left to the original list.
+> I did not find another reason for that.
+
+Thanks for the comments. However, while looking at them again, I think I
+complicate things with these flags.
+
+Instead of "link_used", I could take advantage of llist_node::next. Instead
+of "ready", I could do another ep_item_poll().
+
+Therefore I am removing them for v3, then there won't be any more confusion
+with these flags.
+
+Thanks for the review, I will resolve your other comments in v3.
+Nam
