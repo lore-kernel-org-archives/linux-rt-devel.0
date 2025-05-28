@@ -1,141 +1,98 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D5A1DE4F1;
-	Wed, 28 May 2025 07:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538872A1BA
+	for <linux-rt-devel@lists.linux.dev>; Wed, 28 May 2025 08:04:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748419124; cv=none; b=eAGNdVBBJ99ZfY//uBd7bklEHNmhRxq0pvkpua1MHRmSwXHGix/ukOdQ5FiLhtykyiCqMzg81syxwHddyFVcwTPAMuHyr65TQjzJzFOxKj2u16j3vffH3OerBr1ok6w+RgmvHM6RB1KSWUTTtLsugykkOwE6H6m/x7288eG8x9g=
+	t=1748419477; cv=none; b=c1wEY/s9/2ZvSqvS29sRt+f3sEwWymGRj6WRcCwpDC0H/Vs1Ude6EyXZdkb2HqMHI9FiESN3w5N500Wr/AOluM+LM0MIrlabFuvsJGwcOHshWpZ6r5N5EHEcOwCF1H8tu5vPwBknv2v2WxK82oDR0LS41kLRa7TWvZCYZjfiKEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748419124; c=relaxed/simple;
-	bh=GwAIH0J4QxodC4TBbWXZN0g8BBoWbus+4IO1ifLIQZ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=XEuXVlqt30kJX25hTbl4CGrKlgJfOeG3l9KTiILgvwf7/vOBwh0yoh2wtEvQpBR91g3TnXgSIgu5TuK/MjBEsoxvA3C3Q/68h71kjFxLRPKkfm+7GrXuidy2LDX9oTCU9dhlV1spjvSBiz5XKd9uo+vsNIc1kPyeD7xe6idfDX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=MZY20TUS; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1748419477; c=relaxed/simple;
+	bh=XqT576a4+pge7B4a4Rzz0v2Or+g/qgeLaa1Dg40HAWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oDnEnz7oTXacd9/v5x+ct8kNeyxigX2YmGHaiFW1M5arr5pGO3lk2E00PGS2WS5TOz0i+CAVHYQZEBYj5inuBS7GixK2gTIiqJnMiChSlVCYWdLIdvfFEHfFIzArd9+iM9bHRGvYmZhinix92Kzc8m4SiT/OWJZ6yF5shDxZMXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wNqcsvHH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=i72A5JCB; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="MZY20TUS"
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54S5K2Zc023650;
-	Wed, 28 May 2025 09:58:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	zs/m0sTwjcc/cPY4fbpGq8K8yrAOAzwWnhRtkFcb4oA=; b=MZY20TUSWorsKXkH
-	iZj2sXs6x5m2C5ADe4PIn1Ww24WqZxmm5Y0Nq3c+oiIck/cUZFB0vYxUbNYoWoPJ
-	yA0aQQ9f/469vaJMc2ScDZV4sNyfRF9faM8D9bqX5d6dVQLeVroAq3nNfLdIl3yz
-	QdFNDPs99aNgY95rsUYhltqttb88A147ZFAEoGPMCW0vz9XHg0G9bvZu+GZDxyLQ
-	xHugAG5+4JAtbTW3JrfktXlgc3LbzcscjNU+ZGj2wxwoAixkC3CyhYy2RtFApu3V
-	EbtGzyxVyKVqvD1LdjJmI0OLhiw4ul+xFt9cMWl6GZ4ocrrVToGUoGG7236MNtbT
-	3X3rTQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46u3hk84u6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 28 May 2025 09:58:20 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1A40240046;
-	Wed, 28 May 2025 09:57:03 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9B9E5B27A38;
-	Wed, 28 May 2025 09:55:46 +0200 (CEST)
-Received: from [10.48.87.141] (10.48.87.141) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 28 May
- 2025 09:55:46 +0200
-Message-ID: <bd6c5a45-f6ee-4cdc-99fe-6af22e30015b@foss.st.com>
-Date: Wed, 28 May 2025 09:55:38 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wNqcsvHH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="i72A5JCB"
+Date: Wed, 28 May 2025 10:04:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1748419474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ovrRv3FXIRrWqtjmQh9OpUxF47ZJQWlIULBJidB3gng=;
+	b=wNqcsvHH6McVUSiMrlgCo3LTQwVwhgf0mPCMpt9R2KGu+FVTqTVg5a44RP2KRT8Pc5+bUL
+	xAcg5mYhzBkLFccdvw9AEQMsMkcnwsOGdhqfA07+KXbUmfF/+Hs24egqAooz+xrvNoBJEC
+	77TZ5xYpidvzv0TUnWNf/IrD9VLDfuy2y3vKm82746Gtjoa2KimeBWr8/YiNdTOic68Zd9
+	TSHZ80jmP5k33g/IjGozXKDUflBl+oPF3WWmFd0LYehqLrJ89Z548y9LOpoe4ewY/JuUMG
+	6adKo/tWZ5vPFEwHAhiJxsGzHdmjpzgpKgZelfxg3gj7mcJoA6FAbcT9utqs0g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1748419474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ovrRv3FXIRrWqtjmQh9OpUxF47ZJQWlIULBJidB3gng=;
+	b=i72A5JCBGUIF5ClurNrGNHBichGzZbPsYF1G187CWSqEG0evuQoIdcPRiH7PHQLMuLtxSf
+	1uLDT5gD4W0S1DBg==
+From: Nam Cao <namcao@linutronix.de>
+To: Holger =?iso-8859-1?Q?Hoffst=E4tte?= <holger@applied-asynchrony.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Jens Axboe <axboe@kernel.dk>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: Re: [PATCH v2] eventpoll: Fix priority inversion problem
+Message-ID: <20250528080432.Qke-VMIY@linutronix.de>
+References: <20250523061104.3490066-1-namcao@linutronix.de>
+ <3475f3f1-4109-b6ac-6ea6-dadcdec8db1f@applied-asynchrony.com>
+ <20250528061252.AeDA23yH@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Input: gpio-keys - fix a sleep while atomic with
- PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Clark Williams
-	<clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Paul Cercueil
-	<paul@crapouillou.net>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-        Fabrice
- Gasnier <fabrice.gasnier@foss.st.com>
-References: <20250526-gpio_keys_preempt_rt-v1-1-09ddadf8e19d@foss.st.com>
- <20250526141321.FcXEgnV4@linutronix.de>
- <661af124-3072-4dcf-b613-ec3e48549626@foss.st.com>
- <20250527144159.Dcstk83c@linutronix.de>
-Content-Language: en-US
-From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20250527144159.Dcstk83c@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-28_04,2025-05-27_01,2025-03-28_01
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250528061252.AeDA23yH@linutronix.de>
 
-Hello Sebastian,
+On Wed, May 28, 2025 at 08:12:58AM +0200, Nam Cao wrote:
+> On Wed, May 28, 2025 at 07:57:26AM +0200, Holger Hoffstätte wrote:
+> > I have been running with v2 on 6.15.0 without any issues so far, but just
+> > found this in my server's kern.log:
+> 
+> Thanks for testing!
+> 
+> > It seems the condition (!n) in __ep_remove is not always true and the WARN_ON triggers.
+> > This is the first and only time I've seen this. Currently rebuilding with v3.
+> 
+> Yeah this means __ep_remove() thinks the item is in epoll's rdllist and
+> attempt to remove it, but then couldn't actually find the item in the list.
+> 
+> __ep_remove() relies on the 'ready' flag, and this flags is quite
+> complicated. And as my colleague pointed out off-list, I got memory
+> ordering wrong for this flag. Therefore it is likely that you stepped on a
+> bug with this flag.
+> 
+> I got rid of this flag in v3, so hopefully the problem goes away.
 
-On 5/27/25 16:41, Sebastian Andrzej Siewior wrote:
-> On 2025-05-27 15:36:37 [+0200], Gatien CHEVALLIER wrote:
->> Hello Sebastian,
-> Hello Gatien,
-> 
->> Can you elaborate on "This flag change makes not difference on
->> !PREEMPT_RT" please? IIUC,this makes the callback not run in hard IRQ
->> context, even in !PREEMPT_RT, no?
-> 
-> If you set
-> - HRTIMER_MODE_REL_HARD
->    then the callback runs in
->    - hardirq context on !PREEMPT_RT
->    - hardirq context on PREEMPT_RT.
-> 
-> - HRTIMER_MODE_REL
->    then the callback runs in
->    - hardirq context on !PREEMPT_RT
->    - preemptible softirq on PREEMPT_RT.
-> 
-> - HRTIMER_MODE_REL_SOFT
->    then the callback runs in
->    - softirq context on !PREEMPT_RT
->    - preemptible softirq on PREEMPT_RT.
-> 
-> Therefore if you switch HRTIMER_MODE_REL_HARD -> HRTIMER_MODE_REL then
-> it is a nop on !PREEMPT_RT.
-> 
+Sorry, I have been staring at this but still have no clue why. None of my
+stress test can reproduce the issue.
 
-Thank you for the details.
-
->> Regarding the need of the spin_lock: gpio_keys_irq_timer() and
->> gpio_keys_irq_isr() appear to access the same resources. Can't we
->> have a concurrent access on it from:
->> HR timer interrupt // GPIO interrupt?
-> 
-> Yes, it could.
-> 
->> But looking back at the patch, this situation does not depend on
->> the HRTIMER_MODE_REL_HARD flag. So maybe it should be addressed
->> separately.
-> 
-> Yes, please.
-> 
-
-Ok, I will do that in V2
-
->> On the other hand, I should use the new
->> guard(spinlock_irqsave)(&bdata->lock);
-> 
-> Yes, please. The other instance already does so.
-> 
-> Sebastian
-
-Ok
+Let me know if testing for v3 goes well.
 
 Best regards,
-Gatien
+Nam
