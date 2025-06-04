@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886F526659A;
-	Wed,  4 Jun 2025 01:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C97E78F5E;
+	Wed,  4 Jun 2025 01:04:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998976; cv=none; b=i24f6tu0nyoQX7iLQ1w48WF8aGvXgHTvVYztRMLfygtAmuS48MgrGisQx00GxAPlruaOa6EwZVf3eyUWbBlWeORxVVP+aQcXK6UG2d4CHXIIfUleaV7kmK8huikz1uwlTAA5pWxVJyw6vNoPpqNt7psY7VW5253FDtNu4Q2AMiQ=
+	t=1748999079; cv=none; b=vAQYtB96/MtWUAEMjf6+vKe1EUrZ4MQDOPglAVKVhThqujye4UbUD3aucx6uMv8lvHHeJvb14Zlz0kmHpsW/LOF8Cs1XiC48HuIyzP+7i6J4ugMqxgZ1+W3QHBcBFrdKSzXA1CCohFv3IZztkOCLoNv2vUtEzNAADZmN4Oz789o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998976; c=relaxed/simple;
-	bh=bcjZHj66sG3r51QRvPSies8OC4gVklExKbXEO7cipAc=;
+	s=arc-20240116; t=1748999079; c=relaxed/simple;
+	bh=8/oeYAg5iJhzdeDooHApMEPgP64/nvnW+56QP4na5aU=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ufp44ms3YNPzA0IX208QsTJUwsB5nZxjlSb+mNM0WOdnrHs9Vil+Wpmus8zdNaZluwe/yQ0y20jHGMwKq4uC2jahVFAnuGndRIRSz6TbLIjySweHLWsVEVL7SL8AOls6J/fYEuKF3F9jTIz0tSmOQgN7gZ34i6ueoVxGPLC11dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iD45h3vB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gTYZLuYtt8F1fgnNiuZdOWr7JSSD/+5YR7NaLjNWOkukB6WbhrkwVX/7rjdg6l4QFPgK87oriHPnkJkaXQJNKLDV7EC/9awwe4AN39mTKRpd5/fQgF/FIGuMTmPYAPOmA9YlqKqd2GQOGKLzUIX+6J53gaDykiMS6b15TyGKcVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EeQjMlHz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iD45h3vB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304EEC4CEF3;
-	Wed,  4 Jun 2025 01:02:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EeQjMlHz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B81ACC4CEED;
+	Wed,  4 Jun 2025 01:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998976;
-	bh=bcjZHj66sG3r51QRvPSies8OC4gVklExKbXEO7cipAc=;
+	s=k20201202; t=1748999079;
+	bh=8/oeYAg5iJhzdeDooHApMEPgP64/nvnW+56QP4na5aU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iD45h3vBUoU6xlv+NqytalQ3hXIdnpklsnFv+Z3nALGcv3jKfulHXbsKh8g4ZB2hU
-	 h8uNo0eRXUfOGgco+QG+ES1myC67gR/OhxEn7eqBBj4DHYW53+PHbMFSWzK/n62860
-	 jUrcLS4TZ/vOr/jJq42tMRIQnOuiP+m9C2odNuaGyx+k1JSbFqAwGpfwD+Q0YH6cNL
-	 +Dt01pAfzma1rpko7JsW97VwknbBpXcAuXr1KvcpiiC70gb0JiEIpLmM/GiwvaGRam
-	 7+ckhO5187k+93/HILpBkpzd2lE665TZjPLuuzakQXRiy6U74SWpEspLr7tzJh8q4G
-	 T7UIW/uSpAIiA==
+	b=EeQjMlHzjRwNvVeaLz4Ap9zZs2XA0GSzbQNmYqJOarwuJJjZDtpZVPOPAXXC51sWR
+	 ILfEPj27XadIWOMrCxofx7t7Bd6kqn2dhaMOQoOn8GdxzQiEA3tfZVlUWYc0lDt0gk
+	 RHKbwk7UXHh8YLs0zurty3q4+JDND0AJRiWFb4qGGB3guINssWNakE3OOxI1yNHCLN
+	 9pgr19Ece3MkuLNdC1Zr4FeUCbCUVNovJhES+3V1bJCePrL6BSsdaccD8Hv/UNpYXM
+	 8v5BZOESUzzc1387B3Henl/RC6iQSdzs/cvyJ2GAschNp9m310zJMkCAsP47mSZy17
+	 2PzZVElbeiUBg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -38,12 +38,12 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	rostedt@goodmis.org,
 	netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 23/62] ipv4/route: Use this_cpu_inc() for stats on PREEMPT_RT
-Date: Tue,  3 Jun 2025 21:01:34 -0400
-Message-Id: <20250604010213.3462-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 18/46] ipv4/route: Use this_cpu_inc() for stats on PREEMPT_RT
+Date: Tue,  3 Jun 2025 21:03:36 -0400
+Message-Id: <20250604010404.5109-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604010213.3462-1-sashal@kernel.org>
-References: <20250604010213.3462-1-sashal@kernel.org>
+In-Reply-To: <20250604010404.5109-1-sashal@kernel.org>
+References: <20250604010404.5109-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.92
+X-stable-base: Linux 6.1.140
 Content-Transfer-Encoding: 8bit
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
@@ -116,7 +116,7 @@ subset of users with minimal risk to the broader user base.
  1 file changed, 4 insertions(+)
 
 diff --git a/net/ipv4/route.c b/net/ipv4/route.c
-index 97dc30a03dbf2..8ee1ad2d8c13f 100644
+index 4574dcba9f193..8701081010173 100644
 --- a/net/ipv4/route.c
 +++ b/net/ipv4/route.c
 @@ -192,7 +192,11 @@ const __u8 ip_tos2prio[16] = {
