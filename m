@@ -1,49 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5731531D5;
-	Wed,  4 Jun 2025 01:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886F526659A;
+	Wed,  4 Jun 2025 01:02:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748998824; cv=none; b=lZV8EomEwHJEi9Kpam/hXusKP5DD0cJ4JttXVCiVSDukPthA7pWP52azhH0Fr7H0uLW9ICdk2fkH4xCxsvZtCkdO1E48teWbMMeK7DDgcB5xJiIPqKIlaVNGBi4yuORhquApONnEnSuypFrp9kaDa9q+3e0HHlNRXzwrmMVLT7I=
+	t=1748998976; cv=none; b=i24f6tu0nyoQX7iLQ1w48WF8aGvXgHTvVYztRMLfygtAmuS48MgrGisQx00GxAPlruaOa6EwZVf3eyUWbBlWeORxVVP+aQcXK6UG2d4CHXIIfUleaV7kmK8huikz1uwlTAA5pWxVJyw6vNoPpqNt7psY7VW5253FDtNu4Q2AMiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748998824; c=relaxed/simple;
-	bh=/a5wfOgEHDfH/zJ8gQyo/nreYxXDAiGIWFScxXUMfmU=;
+	s=arc-20240116; t=1748998976; c=relaxed/simple;
+	bh=bcjZHj66sG3r51QRvPSies8OC4gVklExKbXEO7cipAc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MmYgeRPgRs2i1F+5ak/t5YDxP1fqubgk2WrCUfGJE0STiS1o7jNgRfXyrYbjxSr4OQjD7RyVX4KrUyAjFW0unpWmGYE4gxCOsx4L5Cy2AuNBLyJL0BIBY50k7yGvZf2wRHp7oVv/TfDDDGfrelRpDC+wQn86O/mJ9B1RACyyhbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mDKRuZUH; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ufp44ms3YNPzA0IX208QsTJUwsB5nZxjlSb+mNM0WOdnrHs9Vil+Wpmus8zdNaZluwe/yQ0y20jHGMwKq4uC2jahVFAnuGndRIRSz6TbLIjySweHLWsVEVL7SL8AOls6J/fYEuKF3F9jTIz0tSmOQgN7gZ34i6ueoVxGPLC11dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iD45h3vB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mDKRuZUH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA86DC4CEF2;
-	Wed,  4 Jun 2025 01:00:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iD45h3vB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304EEC4CEF3;
+	Wed,  4 Jun 2025 01:02:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1748998824;
-	bh=/a5wfOgEHDfH/zJ8gQyo/nreYxXDAiGIWFScxXUMfmU=;
+	s=k20201202; t=1748998976;
+	bh=bcjZHj66sG3r51QRvPSies8OC4gVklExKbXEO7cipAc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mDKRuZUHh+YM+EiqFOD4xxaHSU0139zU264xxO2zBTb0J9W27J7Wj6E1NyPvxQ//G
-	 Bb1zCv7O61xvpHMpjHiuEBK2HawH0nr9CUEXY4d1ZNKsaMueRnybkYROnCdIVmaD4i
-	 s3JGeHa74PGDW6gGNnudePJvTOUHOOyhh5bxXPn4UzTidztqMtrgu3eRn/92W+5KhT
-	 +VmNqmKBaFuaNuf9MlNuNnNf9Lz3YrouTFfPoQZWY+FUynbhBj38DFU0TFr4zrr8lV
-	 GukFF/c13/vzS/G59g3hOw1ioUojHlYO/MRMkFXxEAoCRrz1tVlZ1qYg6c84yahloQ
-	 1fvE+OLhkN9qg==
+	b=iD45h3vBUoU6xlv+NqytalQ3hXIdnpklsnFv+Z3nALGcv3jKfulHXbsKh8g4ZB2hU
+	 h8uNo0eRXUfOGgco+QG+ES1myC67gR/OhxEn7eqBBj4DHYW53+PHbMFSWzK/n62860
+	 jUrcLS4TZ/vOr/jJq42tMRIQnOuiP+m9C2odNuaGyx+k1JSbFqAwGpfwD+Q0YH6cNL
+	 +Dt01pAfzma1rpko7JsW97VwknbBpXcAuXr1KvcpiiC70gb0JiEIpLmM/GiwvaGRam
+	 7+ckhO5187k+93/HILpBkpzd2lE665TZjPLuuzakQXRiy6U74SWpEspLr7tzJh8q4G
+	 T7UIW/uSpAIiA==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
 Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	David Ahern <dsahern@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Sasha Levin <sashal@kernel.org>,
+	davem@davemloft.net,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
 	netdev@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.12 34/93] net: page_pool: Don't recycle into cache on PREEMPT_RT
-Date: Tue,  3 Jun 2025 20:58:20 -0400
-Message-Id: <20250604005919.4191884-34-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 23/62] ipv4/route: Use this_cpu_inc() for stats on PREEMPT_RT
+Date: Tue,  3 Jun 2025 21:01:34 -0400
+Message-Id: <20250604010213.3462-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250604005919.4191884-1-sashal@kernel.org>
-References: <20250604005919.4191884-1-sashal@kernel.org>
+In-Reply-To: <20250604010213.3462-1-sashal@kernel.org>
+References: <20250604010213.3462-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,93 +52,85 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.31
+X-stable-base: Linux 6.6.92
 Content-Transfer-Encoding: 8bit
 
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-[ Upstream commit 32471b2f481dea8624f27669d36ffd131d24b732 ]
+[ Upstream commit 1c0829788a6e6e165846b9bedd0b908ef16260b6 ]
 
-With preemptible softirq and no per-CPU locking in local_bh_disable() on
-PREEMPT_RT the consumer can be preempted while a skb is returned.
+The statistics are incremented with raw_cpu_inc() assuming it always
+happens with bottom half disabled. Without per-CPU locking in
+local_bh_disable() on PREEMPT_RT this is no longer true.
 
-Avoid the race by disabling the recycle into the cache on PREEMPT_RT.
+Use this_cpu_inc() on PREEMPT_RT for the increment to not worry about
+preemption.
 
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>
-Cc: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Cc: David Ahern <dsahern@kernel.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Link: https://patch.msgid.link/20250512092736.229935-2-bigeasy@linutronix.de
+Link: https://patch.msgid.link/20250512092736.229935-4-bigeasy@linutronix.de
 Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-**YES** This commit should be backported to stable kernel trees. Here's
-my detailed analysis: ## Bug Fix Classification This is a **race
-condition fix** for PREEMPT_RT kernels that prevents potential memory
-corruption and system instability. The commit addresses a fundamental
-concurrency issue in the page_pool subsystem that only manifests on
-real-time kernels. ## Technical Analysis of the Race Condition The issue
-occurs in the `page_pool_napi_local()` function, which determines
-whether pages can be recycled directly into the page pool's fast cache
-(`pool->alloc.cache[]`). This lockless cache provides optimal
-performance by avoiding spinlock overhead. **On regular kernels:** -
-Softirqs are non-preemptible - Direct cache access is safe because
-producer and consumer cannot run concurrently **On PREEMPT_RT kernels:**
-- Softirqs can be preempted by higher priority tasks - A softirq
-returning pages can be interrupted while another context allocates from
-the same cache - This creates a classic race condition on the shared
-cache data structure ## Code Change Analysis The fix is minimal and
-surgical: ```c /bin /bin.usr-is-merged /boot /dev /etc /home /init /lib
-/lib.usr-is-merged /lib64 /lost+found /media /mnt /opt /proc /root /run
-/sbin /sbin.usr-is-merged /snap /srv /sys /tmp /usr /var On PREEMPT_RT
-the softirq can be preempted by the consumer linux/ if
-(IS_ENABLED(CONFIG_PREEMPT_RT)) return false; ``` This forces all page
-recycling on PREEMPT_RT to use the ring buffer path (`ptr_ring`) which
-has proper locking, instead of the lockless direct cache. ## Impact
-Assessment **Functional Impact:** Zero - pages are still recycled
-correctly, just through a different path **Performance Impact:** Minimal
-- ring buffer operations are slightly slower than direct cache access,
-but only affects PREEMPT_RT systems **Risk:** Very low - the change is
-isolated, well-understood, and follows established kernel patterns ##
-Backporting Suitability 1. **Clear bug fix:** Addresses a real race
-condition that could cause memory corruption 2. **Minimal and
-contained:** Single 4-line change with no dependencies 3. **High
-importance for affected systems:** Critical for PREEMPT_RT system
-stability 4. **Low regression risk:** Fallback to existing, proven ring
-buffer mechanism 5. **Follows established patterns:** Similar PREEMPT_RT
-guards exist throughout the networking stack ## Historical Context Based
-on my analysis of the kernel repository, the page_pool infrastructure
-has evolved significantly, with the direct caching mechanism being added
-for performance optimization. The `page_pool_napi_local()` function was
-introduced in commit 4a96a4e807c3 (Linux 6.9+) as part of the lockless
-caching optimization. This fix addresses an oversight in that
-optimization where PREEMPT_RT preemption semantics weren't considered.
-## Conclusion This commit represents exactly the type of fix that stable
-kernels should include: a focused, low-risk correction of a race
-condition that could cause system instability on specific
-configurations. While it only affects PREEMPT_RT systems, the potential
-consequences (memory corruption, crashes) are severe enough to warrant
-backporting to any stable tree that supports PREEMPT_RT and contains the
-page_pool caching infrastructure.
+**Answer: YES** This commit should be backported to stable kernel trees
+based on the following analysis: ## Technical Analysis **The Issue:**
+The commit fixes a correctness bug in IPv4 routing statistics collection
+on PREEMPT_RT kernels. The `RT_CACHE_STAT_INC` macro uses
+`raw_cpu_inc()` which assumes preemption is disabled, but this
+assumption is violated on PREEMPT_RT systems where many previously non-
+preemptible contexts become preemptible. **Code Changes:** The fix is
+minimal and surgical: ```c #ifndef CONFIG_PREEMPT_RT #define
+RT_CACHE_STAT_INC(field) raw_cpu_inc(rt_cache_stat.field) #else #define
+RT_CACHE_STAT_INC(field) this_cpu_inc(rt_cache_stat.field) #endif ```
+This conditional compilation ensures that: - Non-PREEMPT_RT systems
+maintain existing performance with `raw_cpu_inc()` - PREEMPT_RT systems
+get correctness with `this_cpu_inc()` which includes implicit preemption
+protection ## Backport Justification **1. Follows Stable Tree
+Criteria:** - **Bug Fix:** Corrects statistics corruption on PREEMPT_RT
+systems - **Small and Contained:** Only 4 lines changed in a single
+macro definition - **Low Risk:** No behavioral change for non-PREEMPT_RT
+systems - **No Architectural Changes:** Simple conditional compilation
+approach **2. Consistent with Similar Commits:** The change follows the
+exact same pattern as Similar Commit #1 and #3 (both marked "Backport
+Status: YES"), which fix preemption-related issues in per-CPU
+statistics. Like those commits, this addresses scenarios where
+`__this_cpu_*` or `raw_cpu_*` operations are called from preemptible
+context on PREEMPT_RT. **3. Real User Impact:** - **Affected Systems:**
+PREEMPT_RT kernels with IPv4 routing (real-time systems, industrial
+applications) - **Symptoms:** Inaccurate routing statistics due to race
+conditions during CPU migration - **Debugging Impact:** Could mislead
+network troubleshooting efforts **4. Technical Correctness:** Race
+conditions can occur when a process is preempted and migrated to another
+CPU between reading the per-CPU pointer and incrementing the counter,
+leading to lost statistics updates. The `this_cpu_inc()` variant
+prevents this by ensuring atomic access to per-CPU data. **5. Minimal
+Risk Profile:** - No functional changes to packet forwarding - Zero
+impact on non-PREEMPT_RT systems - Follows established kernel patterns
+for PREEMPT_RT safety - No performance regression expected This is
+exactly the type of targeted correctness fix that stable trees are
+designed to include - it addresses a real bug affecting a specific
+subset of users with minimal risk to the broader user base.
 
- net/core/page_pool.c | 4 ++++
+ net/ipv4/route.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-index c8ce069605c42..73a461d6c92e0 100644
---- a/net/core/page_pool.c
-+++ b/net/core/page_pool.c
-@@ -798,6 +798,10 @@ static bool page_pool_napi_local(const struct page_pool *pool)
- 	const struct napi_struct *napi;
- 	u32 cpuid;
+diff --git a/net/ipv4/route.c b/net/ipv4/route.c
+index 97dc30a03dbf2..8ee1ad2d8c13f 100644
+--- a/net/ipv4/route.c
++++ b/net/ipv4/route.c
+@@ -192,7 +192,11 @@ const __u8 ip_tos2prio[16] = {
+ EXPORT_SYMBOL(ip_tos2prio);
  
-+	/* On PREEMPT_RT the softirq can be preempted by the consumer */
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT))
-+		return false;
-+
- 	if (unlikely(!in_softirq()))
- 		return false;
+ static DEFINE_PER_CPU(struct rt_cache_stat, rt_cache_stat);
++#ifndef CONFIG_PREEMPT_RT
+ #define RT_CACHE_STAT_INC(field) raw_cpu_inc(rt_cache_stat.field)
++#else
++#define RT_CACHE_STAT_INC(field) this_cpu_inc(rt_cache_stat.field)
++#endif
  
+ #ifdef CONFIG_PROC_FS
+ static void *rt_cache_seq_start(struct seq_file *seq, loff_t *pos)
 -- 
 2.39.5
 
