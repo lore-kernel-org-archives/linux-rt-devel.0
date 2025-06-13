@@ -1,144 +1,104 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0879142E73
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Jun 2025 07:03:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668D52C15B8
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Jun 2025 10:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749711821; cv=none; b=VAeiHj1Zkg3iEI4/5APwAraT+gmyGaYe3jf3fOEVowhdpACa24OH+fDSch73TQjEC+xAFxSJ5Ew/bY3L+VIsWn41mYXWUtZwe6E3LbbEQYYJQgTq7GzOwoMGC3lYjjGdKhh24GEQRXHZlQVRo+1zDzP3kk2eQ65OsQ4UwG1Fubg=
+	t=1749812219; cv=none; b=N8sOV8FESFDLF/qSEIc/32JUhwoiA/uGXvP6B9gshe4sc8m4pqyGzULHKvYGxBfw2DgXeziTFkNPyTYDYUtsh8AFgtVwDZyfpBItXvBqLYnEnZ1+GyhK4A7KDcaNTZ7hquSesjp0PkRzQDSJu7+VCzgVFVafoUdJtlUNu0HZZqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749711821; c=relaxed/simple;
-	bh=jcZDLKqbqjAfKbQedgUODPcuNZG2Ql2waANaGALBD0U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rC1dEudVR1WfzuF+LWFpn0jdKIBSmMOUOeexbJQos3yXewzw2IWGKEJT4/K+l23fqQYxiKQjO2zsmjTFNkZpxPja3+9N+nirAy7pLBB3P6MZpnNqoXSeMjzucCh8J1O3+KoxozBCPoMIgAHCy4+TfSWGJIJ4X7yrVWfqfZHCKy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bgNzqeyx; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749812219; c=relaxed/simple;
+	bh=JITvwUOEuK6VMx0vH2dZBuvurvXF7sYMUXnX2S5XEz0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G658Xp+zGV5tbHm4HPOcSOgra70s6j+epb1MJ7VcX9O0/OGrQTsS3VvS7aG17DtX7cffpoPFAic4oOi7iq5of21J2VcV7kGretY1WUuGFkz7RTCiR0yjJg1xWHm5zXqV08Gk/X96fVTcv3NmWP9lNFFs0THulIAJi440lFoK6rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O5WVQyI2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KfJgzGdw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bgNzqeyx"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3109f106867so951926a91.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Jun 2025 00:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749711819; x=1750316619; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a2viZ0fvQanFU5qt8YT35F/R2lomO19AjWDbbjNosEQ=;
-        b=bgNzqeyxu0G4vKjey5DsKyVimRHoxebRC7NX0Jt0tOET72pv5bpMNOaGtl0SIillVC
-         KG+JxPLsCs/98GEB82Ak55ZJSGokBuGcqktQ251ju0SptfiTcS07stKl9akOuPrzzgYQ
-         e//YSyrMZ8X005O7l8TufJ1aEdyjsJCU24dJC8biuBk612iSVh++bwWMgBbMsFZd1i0Y
-         dOUIir1aBjUUDldyuXH7hcSxbmfMwBFfE3l5Xb3DvhJSDkYMSePc6s9pGEsw/NwYzQ7/
-         gRlKhOECbNpSLePkfsaXRyrK38U0qUs7qHG1sstqTFqm+fPfFf4eBJ/zDT7NWg9Sz9NW
-         yMLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749711819; x=1750316619;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a2viZ0fvQanFU5qt8YT35F/R2lomO19AjWDbbjNosEQ=;
-        b=wCnf49bqGzS59D6m4vLRvuBECYt9F/SJseBbjQUQvWlmmcE0EtkEFwrKGnjoHPAfpK
-         lsRqohlDqM5Ofcyur53vkO0OUaJ3DjVWwpcshFBRTjgJSX8L5Gtr6OEnRdyGoUgVYX7w
-         qyYw8OGdFbedrfQ6Ezb5v4qLrQP//KIlYvebCuBRg8UrBqM9AXRqjh0U5RkMMptlVoNw
-         Kw0PGWN9eFIwBBrhT7P8SAYitorMqsBxMfJrqWDp31FG2reif3LEaFW+gif0jhn4aJ5f
-         JAsILln6XEai91GSghTf2TPAACk8FAhl8yeObTN9E+vRHQqVL2TMJPUPgeZN75HvRGGI
-         Yqqw==
-X-Forwarded-Encrypted: i=1; AJvYcCXXh1KBuLjvuBm0al+RhRnTP7uY0+6ayE8NbiDKomzV+vBpw1ZZgWafldXGkWBLq9c6PYPufnZt8dxxh7sgsQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJI+XbsIhHS7eujaD8TPMkrkf4vRqVRFl1fjKn5/cUJFsV1JrE
-	9fccax4BHN17Yk41kX+19aPIO2ybAJ+8rm5eT91+bFte0knYM7HGUkjXHRYVb9EnLtDeyh78Vnp
-	hxtU9oc8w9kgALnBCYud/1ArGPxcrbp0=
-X-Gm-Gg: ASbGncvoys42zUyYTB+huU8b0srNBveI/7bofHBkCzAAVlJFHvDPL2EJtVegQiWggef
-	/g4XM/uLRUZaxQr98i1n3Lvr3d4Y/IdOV0fDkBp1QQfDLApQxxiWiYuN0bRhvoMGoJTi+SX4MIG
-	9d1TpOY6Ac8NZOyKgJghxgKG2y3ROFGf2Qa+5HJyNei1pQcUNdzPdYCIQ=
-X-Google-Smtp-Source: AGHT+IENKZbG1UVgSxMkbsR683h8ZS+NANUj8qRCEWN4KJPO/n5K8VlClSz08iFrHEgPCWpYK+IcgPjCIyzqEMtreeY=
-X-Received: by 2002:a17:90a:d60c:b0:313:279d:665c with SMTP id
- 98e67ed59e1d1-313af0fd099mr9895979a91.7.1749711819053; Thu, 12 Jun 2025
- 00:03:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O5WVQyI2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KfJgzGdw"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1749812216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0sTqX2tcvrlg+m1/ilDAXxr0xRBg7UGzOmG2GbyljDc=;
+	b=O5WVQyI2bsVC4qw4vaRyH1IC0CHCv3w3un8jiVX7BY8O/vM3h+GIRIdFiIDBqVvdl9edLK
+	gjCRrbxeNjXimysZ6AfSZYiHmPTJO6HJ4wclnj1bd5wACY7lUK5DYzTm3aJPyl/Hw5BTMP
+	vbiJDcTS8AyyRi8xQhGe6YlroCn9x7VdB1Evw20Yif1d8coOjy8mqSgUNxAAkuDxG45Bte
+	ZS3wNPEVC24buxIXeG1HlWblc04Iwuo9aLs0xZ7m+6sWbKnXHccEOwvkTGlS8auaS2ovzu
+	Moa3dEvVfeEe/bRLHJzRkci12iChu68Sr/PlgzPzxZ6wSGwcSD5f6uvgisAqHg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1749812216;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0sTqX2tcvrlg+m1/ilDAXxr0xRBg7UGzOmG2GbyljDc=;
+	b=KfJgzGdwN1ZZVng4IewzM4dIVR5F0iwnl75zrpX5cN68RdnFqXor599OwPSgM+dqMPBiK9
+	HH+hqijQHy405WDQ==
+To: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [RFC PATCH 0/1] softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT
+Date: Fri, 13 Jun 2025 12:56:52 +0200
+Message-ID: <20250613105653.1860729-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAFGhKbwVyxCwYSNrPaQ-GkuP008+uvDg-wNA5syWLLzODCfpcA@mail.gmail.com>
- <68c0649d-d9b3-44f4-9a92-7f72c51a5013@suse.cz> <CAADnVQK+wjvxmBM7WJOGNK=AqeJ7UHBO4tUZR3Gjc4kfgux1sw@mail.gmail.com>
-In-Reply-To: <CAADnVQK+wjvxmBM7WJOGNK=AqeJ7UHBO4tUZR3Gjc4kfgux1sw@mail.gmail.com>
-From: Charlemagne Lasse <charlemagnelasse@gmail.com>
-Date: Thu, 12 Jun 2025 09:03:27 +0200
-X-Gm-Features: AX0GCFvBcJwp9XkOkM0Sw3LXe5H0SSamdpy1Wp3lz3PcgPgcT0LbkH9Bh5kjWlk
-Message-ID: <CAFGhKbwP9e6yWM615FGuq0=eX-57E-f813MMdXZ98D4_+0TveQ@mail.gmail.com>
-Subject: Re: locking/local_lock, mm: sparse warnings about shadowed variable
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Jakub Kicinski <kuba@kernel.org>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Davidlohr Bueso <dave@stgolabs.net>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	"open list:CONTROL GROUP (CGROUP)" <cgroups@vger.kernel.org>, linux-mm <linux-mm@kvack.org>, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Am Mi., 11. Juni 2025 um 20:20 Uhr schrieb Alexei Starovoitov
-<alexei.starovoitov@gmail.com>:
-> I wouldn't bother messing with the code because of sparse.
-> Compilers don't warn here.
+After auditing the tree most of the local-BH locks are in tree now or
+the code has been changed to avoid the per-CPU ressource.
 
-Actually, they do:
+There are still a few places missing. While those are worked on, this
+patch allows to test the unlocked behaviour. Without the explicit
+softirq synchronisation, one softirq can interrupt and nest within.
 
-$ make W=3D2 mm/mlock.o
-[...]
-In file included from ./include/linux/preempt.h:11,
-                from ./include/linux/spinlock.h:56,
-                from ./include/linux/wait.h:9,
-                from ./include/linux/wait_bit.h:8,
-                from ./include/linux/fs.h:7,
-                from ./include/linux/mman.h:5,
-                from mm/mlock.c:10:
-./include/linux/local_lock.h: In function
-=E2=80=98class_local_lock_irqsave_constructor=E2=80=99:
-./include/linux/local_lock_internal.h:100:31: warning: declaration of
-=E2=80=98l=E2=80=99 shadows a parameter [-Wshadow]
- 100 |                 local_lock_t *l;                                    =
-    \
-     |                               ^
-./include/linux/cleanup.h:394:9: note: in definition of macro
-=E2=80=98__DEFINE_LOCK_GUARD_1=E2=80=99
- 394 |         _lock;                                                      =
-    \
-     |         ^~~~~
-./include/linux/local_lock.h:88:1: note: in expansion of macro
-=E2=80=98DEFINE_LOCK_GUARD_1=E2=80=99
-  88 | DEFINE_LOCK_GUARD_1(local_lock_irqsave, local_lock_t __percpu,
-     | ^~~~~~~~~~~~~~~~~~~
-./include/linux/local_lock_internal.h:128:17: note: in expansion of
-macro =E2=80=98__local_lock_acquire=E2=80=99
- 128 |                 __local_lock_acquire(lock);                     \
-     |                 ^~~~~~~~~~~~~~~~~~~~
-./include/linux/local_lock.h:31:9: note: in expansion of macro
-=E2=80=98__local_lock_irqsave=E2=80=99
-  31 |         __local_lock_irqsave(lock, flags)
-     |         ^~~~~~~~~~~~~~~~~~~~
-./include/linux/local_lock.h:89:21: note: in expansion of macro
-=E2=80=98local_lock_irqsave=E2=80=99
-  89 |                     local_lock_irqsave(_T->lock, _T->flags),
-     |                     ^~~~~~~~~~~~~~~~~~
-./include/linux/cleanup.h:391:68: note: shadowed declaration is here
- 391 | static inline class_##_name##_t class_##_name##_constructor(_type *l=
-)   \
-./include/linux/cleanup.h:410:1: note: in expansion of macro
-=E2=80=98__DEFINE_LOCK_GUARD_1=E2=80=99
- 410 | __DEFINE_LOCK_GUARD_1(_name, _type, _lock)
-     | ^~~~~~~~~~~~~~~~~~~~~
-./include/linux/local_lock.h:88:1: note: in expansion of macro
-=E2=80=98DEFINE_LOCK_GUARD_1=E2=80=99
-  88 | DEFINE_LOCK_GUARD_1
+This is what the behaviour can look like:
+
+|     ktimers/20-204  [020] ..s.1   33.291036: softirq_entry: vec=3D1 [acti=
+on=3DTIMER]
+|     ktimers/20-204  [020] d.s42   33.291054: sched_wakeup: comm=3Dkworker=
+/u133:3 pid=3D1215 prio=3D120 target_cpu=3D020
+|     ktimers/20-204  [020] d.H22   33.291146: irq_handler_entry: irq=3D37 =
+name=3Dahci[0000:00:1f.2]
+|     ktimers/20-204  [020] d.H22   33.291147: irq_handler_exit: irq=3D37 r=
+et=3Dhandled
+|     ktimers/20-204  [020] dNH52   33.291152: sched_wakeup: comm=3Dirq/37-=
+ahci[000 pid=3D810 prio=3D49 target_cpu=3D020
+|     ktimers/20-204  [020] d.s22   33.291162: sched_switch: prev_comm=3Dkt=
+imers/20 prev_pid=3D204 prev_prio=3D98 prev_state=3DR+ =3D=3D> next_comm=3D=
+irq/37-ahci[000 next_pid=3D810 next_prio=3D49
+|irq/37-ahci[000-810  [020] D..12   33.291177: softirq_raise: vec=3D4 [acti=
+on=3DBLOCK]
+|irq/37-ahci[000-810  [020] ..s.1   33.291179: softirq_entry: vec=3D4 [acti=
+on=3DBLOCK]
+^^
+|irq/37-ahci[000-810  [020] ..s.1   33.291187: softirq_exit: vec=3D4 [actio=
+n=3DBLOCK]
+|irq/37-ahci[000-810  [020] d..2.   33.291195: sched_switch: prev_comm=3Dir=
+q/37-ahci[000 prev_pid=3D810 prev_prio=3D49 prev_state=3DS =3D=3D> next_com=
+m=3Dktimers/20 next_pid=3D204 next_prio=3D98
+|     ktimers/20-204  [020] ..s.1   33.291227: softirq_exit: vec=3D1 [actio=
+n=3DTIMER]
 
 
-$ gcc --version
-gcc (Debian 14.2.0-19) 14.2.0
-Copyright (C) 2024 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+Sebastian Andrzej Siewior (1):
+  softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT
+
+ kernel/Kconfig.preempt | 13 +++++++
+ kernel/softirq.c       | 83 ++++++++++++++++++++++++++++++++----------
+ 2 files changed, 76 insertions(+), 20 deletions(-)
+
+--=20
+2.49.0
+
