@@ -1,148 +1,115 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6E71E32D7
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Jun 2025 15:05:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66371E1E1F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Jun 2025 15:22:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749827128; cv=none; b=H2g0EoX+0juFiY1SUhMMYZqcW5xVGo7o3TwlsnadWrw5P0aAjt2uOe4XVSGNUndYH+/kIj3+xQBZaxWfqDuixbQtLlkIpkZgzZbft6UBrTuw408xw77BnnKNjlaa0ESH/VcCbe9xUw0TXEf3IuQVBnmjMq0LCjSE+HJLqJ+Unrk=
+	t=1749828147; cv=none; b=TFpJ9jYubBvZfejd4UfNVbnrA/Zk0ycpeOsBUVTAZ50QLUNCN//vesDRIBLWQxlw21icWWhnbfViBdwh0ZT9JuVftLIiwMUdPfy4z+UYzedCPy5O8lvjFY+aGuhhLi1yUrwNyDDueZ23+eRwx1TqUDLrHEPS8iz2RYop6RTDF2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749827128; c=relaxed/simple;
-	bh=5htOi7Xq7BJFop/zGyQ8bAo3uW48aC6mu64egcsnLl8=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X3phEzbO11fIl+LtQ7vqRWXZOz4+UURgq5BBRCs0WWljBJ5lH8hrfHPPS9jvOIlDS5OqSV+0NVzDX1a13RM5o0QVoxD9B9HezfPu3KbK9sfkCBCkj1otSyPJFuBd3sv0UoVPzCGjqXMb9xSa19DZOsYJ6N+UYPGeH7rADMx3JM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XiKUzjJd; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1749828147; c=relaxed/simple;
+	bh=wMvy6gkTPZlbJBO2tAOt3uXhlB/7b6M6Kc/5mW8MlnQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b5NqKwcC2+x0z6aHcn3Yjgv1+Kao20qw8d3tCEBZKM7qPVfYIPK7nGn6LkQqz9IP7Otrieu4TyPQ7CgUzqbCzB6+OCgs0wXLCxxOQafv8puJMPlEqMVgJbOhmtlw7DQSbL3aottqzI/q4q1oq357nXQYN6ERWqsClx6d5azIehY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CU2/62Q3; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Np94UAB5; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XiKUzjJd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749827125;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CU2/62Q3";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Np94UAB5"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1749828143;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=eydungCzbjJFbEm6WAZhTNuaULfp1EVCeqjKqKlnSWY=;
-	b=XiKUzjJdhJyRiHsaISh/latfGA2pfZzbjFleM9sld5tFFF0qw7y77I/kCWHVdblvUBTueB
-	Hp/pdBWGd4xrYagreXV6GRZLe/HUdtEc9h6cvXWTzxWndBKwR32UoqyBl3MDaAqZU++Uyx
-	xYHT8WwdLkp3R/LIO9nCggT7FwhQuW8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-262-weIA_g6MMquHGSonfW0XDg-1; Fri,
- 13 Jun 2025 11:05:22 -0400
-X-MC-Unique: weIA_g6MMquHGSonfW0XDg-1
-X-Mimecast-MFC-AGG-ID: weIA_g6MMquHGSonfW0XDg_1749827119
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A73AD1800295;
-	Fri, 13 Jun 2025 15:05:18 +0000 (UTC)
-Received: from localhost (unknown [10.22.65.24])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 918ED195E340;
-	Fri, 13 Jun 2025 15:05:16 +0000 (UTC)
-Date: Fri, 13 Jun 2025 12:05:14 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	DietmarEggemann@uudg.org, dietmar.eggemann@arm.com,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PjT8ocJZ8brWOD8sQqNEE+jnldvhnA4/g6mdJ/EGG2g=;
+	b=CU2/62Q3uUuF6vckCfIYuKAykdd3AQOV2KuXoxr4pG987/HNYUN54p+/PVkiWR1Zh732sM
+	9u01cwHYoYUv/K/AFR6+XPHd5DM7G7C2f+RRrD0mSDU677Mz5HrsEa1ITMvzBtc5k+BUL4
+	JkUU57BiNRwQIqkJF+P/4OU5YIFPj2xJgLTl6lmhNCRedmrwYcQ3aMjQ4guMgsMAoUlz3b
+	WNoJg32Qis1PB1XrfKnqvgnvazV+jx7gLWTVwkf3TBZHe9LYzxztDcMekZm/E0RHu8Jtwn
+	Mfeqo5NcpYqUfU41Hln9JQlobU+i8IhgcCAgsAtmDIgt8JAiTGGavCp17Rnqkg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1749828143;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PjT8ocJZ8brWOD8sQqNEE+jnldvhnA4/g6mdJ/EGG2g=;
+	b=Np94UAB5Sx832fNmHKvWG41dcLA9sA/RGRTBjKShvnILhO69mwv97PZiqo8/+vWVt4c2S7
+	E7s8pBZ2Zvzf2FCQ==
+To: linux-rt-devel@lists.linux.dev,
+	rcu@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: "Paul E. McKenney" <paulmck@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>
-Subject: [RESEND PATCH v4] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-Message-ID: <aEw-KjUjjP2gYH6z@uudg.org>
+	Uladzislau Rezki <urezki@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [RFC PATCH 0/2] Switch tracing from sched-RCU to preempt-RCU
+Date: Fri, 13 Jun 2025 17:22:16 +0200
+Message-ID: <20250613152218.1924093-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
-from rt_mutex_adjust_prio_chain() could happen in preemptible context and
-with a mutex enqueued. That could lead to this sequence:
+This is a follow-up on
+	https://lore.kernel.org/all/20241206120709.736f943e@gandalf.local.home/T/#u
 
-        rt_mutex_adjust_prio_chain()
-          put_task_struct()
-            __put_task_struct()
-              sched_ext_free()
-                spin_lock_irqsave()
-                  rtlock_lock() --->  TRIGGERS
-                                      lockdep_assert(!current->pi_blocked_on);
+The problem is that trace points disable preemption due to sched-RCU.
+The arguments passed to tracepoints may used locks (yes, they should
+not) and eBPF programs can be attached to tracepoints which may use
+locks which become sleeping locks on PREEMPT_RT.
 
-Fix that by unconditionally resorting to the deferred call to
-__put_task_struct() if PREEMPT_RT is enabled.
+Mathieu said regarding the need for preempt_notrace:
+| There are a few things to consider here about the constraints of the
+| callsites where the tracepoints are inserted. In general, those need to
+| be:
+|=20
+| - NMI-safe
+| - notrace
+| - usable from the scheduler (with rq lock held)
+| - usable to trace the RCU implementation
 
-Suggested-by: Crystal Wood <crwood@redhat.com>
-Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
----
+This is covered by the here suggested rcu_read_lock_notrace().
 
-Resent as a gentle reminder, because this issue results in scary backtraces,
-not obvious to debug and pinpoint root cause.
+Mathieu's suggested steps were:
 
-v2: (Rostedt) remove the #ifdef from put_task_struct() and create
-    tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
-v3: (Sebastian, PeterZ) always call the deferred __put_task_struct() on RT.
-v4: Fix the implementation of what was requested on v3.
+| Well the first step would be to introduce a rcu_read_lock/unlock_notrace.
 
- include/linux/sched/task.h |   17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+Patch #1
 
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index 0f2aeb37bbb04..51678a541477a 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -134,11 +134,8 @@ static inline void put_task_struct(struct task_struct *t)
- 	if (!refcount_dec_and_test(&t->usage))
- 		return;
- 
--	/*
--	 * In !RT, it is always safe to call __put_task_struct().
--	 * Under RT, we can only call it in preemptible context.
--	 */
--	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
-+	/* In !RT, it is always safe to call __put_task_struct(). */
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
- 		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
- 
- 		lock_map_acquire_try(&put_task_map);
-@@ -148,11 +145,13 @@ static inline void put_task_struct(struct task_struct *t)
- 	}
- 
- 	/*
--	 * under PREEMPT_RT, we can't call put_task_struct
-+	 * Under PREEMPT_RT, we can't call __put_task_struct
- 	 * in atomic context because it will indirectly
--	 * acquire sleeping locks.
-+	 * acquire sleeping locks. The same is true if the
-+	 * current process has a mutex enqueued (blocked on
-+	 * a PI chain).
- 	 *
--	 * call_rcu() will schedule delayed_put_task_struct_rcu()
-+	 * call_rcu() will schedule __put_task_struct_rcu_cb()
- 	 * to be called in process context.
- 	 *
- 	 * __put_task_struct() is called when
-@@ -165,7 +164,7 @@ static inline void put_task_struct(struct task_struct *t)
- 	 *
- 	 * delayed_free_task() also uses ->rcu, but it is only called
- 	 * when it fails to fork a process. Therefore, there is no
--	 * way it can conflict with put_task_struct().
-+	 * way it can conflict with __put_task_struct().
- 	 */
- 	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
- }
+| This solves the problem at the tracepoint level, but requires that we
+| initially move the preempt disable to the tracer callbacks. Then we
+| can figure out within each tracer what needs to be done to further
+| reduce the preempt off critical section.
 
------ End forwarded message -----
+Here I am stuck. Patch #2 is probably not correct due to "move the
+preempt disable to the tracer callbacks". I didn't figure out where they
+are=E2=80=A6
+
+Sebastian Andrzej Siewior (2):
+  rcu: Add rcu_read_lock_notrace()
+  trace: Use rcu_read_lock() instead preempt_disable()
+
+ include/linux/rcupdate.h    | 41 +++++++++++++++++++++++++++++++++++++
+ include/linux/tracepoint.h  |  2 +-
+ kernel/rcu/tree_plugin.h    | 14 +++++++++++++
+ kernel/trace/trace_events.c |  8 +-------
+ 4 files changed, 57 insertions(+), 8 deletions(-)
+
+--=20
+2.49.0
 
