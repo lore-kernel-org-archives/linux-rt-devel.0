@@ -1,152 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AF9298CDE
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Jun 2025 11:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF63EACD
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 03:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750071859; cv=none; b=M/Rx2INkTToOeZHMBhaJ65DZJxFwJYmW+BKVSWBpy53YZNSm47mbnY6tlITjKa5IXTGFlbcsjmE8UOn6TPQzOJWdeufPL9PxWo4zKYPQduER7Bykq8pc/IUGThQpvVK/N6KZCIdi4wFSZEiIqOGGbJDG2v4e2M4qf+Cqll49aY8=
+	t=1750132747; cv=none; b=eBMqaceFhM41cAiyQZDsYsavHJntdGOaqIH1mjguEo31+D4Slddv4VpXOJKUKF+iJugqeuMtSOG57nDyWZuQICxgnnwa9j50LyXuLUoeuA5ue4TMjsAwrY/VLHTi8f37vEL/2sBSQukfE02G4SldEg4sCqdhibClwVIXKMIPNuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750071859; c=relaxed/simple;
-	bh=cZ96XbquQqST07cmpZCxaySWnUVgiBMaxoseaYKqZAE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gcQp3OT11FUFCw11NSlgg9l0s9k5UaRl5O4vQ8PGcN5RIkxMWYRMWZ8VrRjTfF1AVv0w5zZ4psJxFeNs6JamyCeNJP+Xxd6k+2FRPSZVlaRJrgb7EEeHjYveYRks9Xpk37Rn/LUeBiL/NZ8H5FOMqdjE3+9jkLAHC98QODKHCzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NwxSOp57; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750132747; c=relaxed/simple;
+	bh=x4nt4iNeJfsqzWygLbzAoicdlPD7trp0p/fleKKM5bA=;
+	h=MIME-Version:from:Date:Message-ID:Subject:To:Cc:Content-Type; b=E4k67ovxsFCd0h5u+icyMAT3gLdcS37rnXLXw67dcGX7N6SFNotZPi4+udE8Zc72FaaO4ifcXN97sM4nmnhTnISUQgsDRhjAoxEF2LMJEvLRFAqh8ckiYPAvOKSWDxFoPtJYPeDpz7teCqLMcSQVuylHItMvth0FVCH0lx2TDBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=UPHFnucm; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NwxSOp57"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750071856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RznKbWG0gfknAu3iwovxCiP4HQBREMLRrwNJpblRENQ=;
-	b=NwxSOp57qULHJKmsb9tQ5QadW/rkAT/pYjYu6jr+UUaA6NW+md8zqEmpP+RWdgVWyRgcgj
-	c2tt4YYwUU4FIZ/1qLJ4BBAh3UVykkuEzlIPPlGQjyt+K21dH6JJWUqD8/CKiQX8dorMfF
-	sbKHkxWZlO66K/58CBPxeZ0LIp5F1ok=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-3TpVPDTSMqaDXMKXkrGKcQ-1; Mon,
- 16 Jun 2025 07:04:12 -0400
-X-MC-Unique: 3TpVPDTSMqaDXMKXkrGKcQ-1
-X-Mimecast-MFC-AGG-ID: 3TpVPDTSMqaDXMKXkrGKcQ_1750071850
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E9D9119560B5;
-	Mon, 16 Jun 2025 11:04:08 +0000 (UTC)
-Received: from wcosta-thinkpadt14gen4.rmtbr.csb (unknown [10.22.88.154])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9AD881956096;
-	Mon, 16 Jun 2025 11:03:59 +0000 (UTC)
-Date: Mon, 16 Jun 2025 08:03:57 -0300
-From: Wander Lairson Costa <wander@redhat.com>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, David Vernet <dvernet@meta.com>, 
-	Barret Rhoden <brho@google.com>, Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>, DietmarEggemann@uudg.org, 
-	dietmar.eggemann@arm.com, Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [RESEND PATCH v4] sched: do not call __put_task_struct() on rt
- if pi_blocked_on is set
-Message-ID: <sebgq5zykuzb5qx22ejjlz5b4pnnrnpgcq7mk6cr7vkl455sjy@z3xx7l3s6ks6>
-References: <aEw-KjUjjP2gYH6z@uudg.org>
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="UPHFnucm"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8276224c65so267569276.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 16 Jun 2025 20:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1750132744; x=1750737544; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
+         :from:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NXr35vqFslJoXbNr4b4N5Ogmu3LfeaagVLe5cSS1Gv4=;
+        b=UPHFnucmqyURIR71E4u3c3WOozO7/P6GxxiasAVpt7vFuGcVz163hC+G1UwqAyR54s
+         Hu8r+GTsttCrS4pJLj8mfCqud5e7LxWY83FQ5KqUurYazTK3c1Zc7878mmuBShYDs1w8
+         yRnyiwlT44KWffeWjs+ru18+VqkkJjzrMTEEVCR6Db/JlKEZtwLvzLviZy9LkSS7gYMW
+         Mzrw+eGMLwaDo5Dyl6SnfuOKRwpLQAKdQ6TwIEyJVX+ot7ZiwY/7U/uUK8avveoAszAI
+         Vxp95LKCC+xTbiDxV/ZhWllHBK/VbLRQBN5WGO6ScyhQ+7OttIeAfOOZq3dCRWoua5ea
+         g0jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750132744; x=1750737544;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
+         :from:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NXr35vqFslJoXbNr4b4N5Ogmu3LfeaagVLe5cSS1Gv4=;
+        b=SCuJThxcQ8L5gZ3D3XaE4UnVOBf2/NT/gtKdJr4dCrBTDcCXs/xFAlF6bf9FXbH1Ov
+         EmazOVsKKtPQspmOA++WEOjOrr0AozTeq4lR9wcti6hvI7uFdGqpsf+6RG5ENTaLA+GE
+         a4V8TASX9VMOju7LPuClFjkqQMir9Hxtwu2awiOv4l4tl+3GcXgx0q3NxLUi6Ptiqo2L
+         WJ3XiMPYLBAWfqE8e3LJ+kxb1k1kB3+mEMn6nQPrAAbFS5OjEOPzf5rORrdkRqTaQJJv
+         ws54OrHMnANoqWgmtjBbPtRPyEyCGuVYpYjZaVVuRVIXb1VQbNkYfRmZY42SC5xgbpnL
+         LZrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUR3mKmEtOHZBiyD0DlnCVoowxJY82ky9JAaR9zW0Ih0UF3QuEbuApzCHHj5pgKYW5G/mBp/rz+p9AoeqtQjg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw8R6Ss8nEdVKAkTSlfsgZk/xH67tqi7MGUTfR90otvtlafb2vI
+	zB1SyzdZX7b0wqeLgMDgf9fefaSy0QypT10yDjitNrx7yQeh+qACPrRMi062Sq+hblXKy45MWXT
+	OaQGqvWZuw3K3tf39iwZ79AKVL1lXkqoivMphVd/YnQ==
+X-Gm-Gg: ASbGnctKWdC42JaIjkxeHjvBrK9tCxIk0MdxHnrgEfpX3heaPMiksivqALLT4xDWhC5
+	RNVyzcSttMuXPQEYdGVH/zO+eqIJ5Quf1HJio8mlFWGdEeqSDLl+v6Pdz8RU7SAt6CPIXJdKPjX
+	a3MS3kRSggpMuaoN249Br2Ri9uhXAnoaRfnQ5lbUsBcQ==
+X-Google-Smtp-Source: AGHT+IHcyTOLD1xW2pNcHSa1FM7XeTZVGMJlGkLhNfesW7dvZqjzDEZIkrGWWKvRPiu88lWNtmKEolcV8rb/6njEN88=
+X-Received: by 2002:a05:6902:1a47:b0:e81:9fc5:2592 with SMTP id
+ 3f1490d57ef6-e822ac785ffmr15705830276.29.1750132744331; Mon, 16 Jun 2025
+ 20:59:04 -0700 (PDT)
+Received: from 415818378487 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 16 Jun 2025 23:59:03 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEw-KjUjjP2gYH6z@uudg.org>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+from: KernelCI bot <bot@kernelci.org>
+Reply-To: kernelci@lists.linux.dev
+Date: Mon, 16 Jun 2025 23:59:03 -0400
+X-Gm-Features: AX0GCFsWeYSDM7mEIt9kIYbSUfCezDQhH3jIziU_5Bp6iv7BPu8ovW8wjsUr51A
+Message-ID: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
+Subject: =?UTF-8?B?W1JFR1JFU1NJT05dIHN0YWJsZS1ydC92Ni42LXJ0OiAoYnVpbGQpIGNvbmZsaWN0aW5nIA==?=
+	=?UTF-8?B?dHlwZXMgZm9yIOKAmGNoZWNrX3VuYWxpZ25lZF9hY2Nlc3PigJk7IGhhdmUg4oCYaW50KHZvaWQgKik=?=
+	=?UTF-8?B?4oCZLi4u?=
+To: kernelci-results@groups.io
+Cc: gus@collabora.com, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 13, 2025 at 12:05:14PM -0300, Luis Claudio R. Goncalves wrote:
-> With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
-> from rt_mutex_adjust_prio_chain() could happen in preemptible context and
-> with a mutex enqueued. That could lead to this sequence:
-> 
->         rt_mutex_adjust_prio_chain()
->           put_task_struct()
->             __put_task_struct()
->               sched_ext_free()
->                 spin_lock_irqsave()
->                   rtlock_lock() --->  TRIGGERS
->                                       lockdep_assert(!current->pi_blocked_on);
-> 
-> Fix that by unconditionally resorting to the deferred call to
-> __put_task_struct() if PREEMPT_RT is enabled.
-> 
-> Suggested-by: Crystal Wood <crwood@redhat.com>
-> Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> ---
-> 
-> Resent as a gentle reminder, because this issue results in scary backtraces,
-> not obvious to debug and pinpoint root cause.
-> 
-> v2: (Rostedt) remove the #ifdef from put_task_struct() and create
->     tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
-> v3: (Sebastian, PeterZ) always call the deferred __put_task_struct() on RT.
-> v4: Fix the implementation of what was requested on v3.
-> 
->  include/linux/sched/task.h |   17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-> index 0f2aeb37bbb04..51678a541477a 100644
-> --- a/include/linux/sched/task.h
-> +++ b/include/linux/sched/task.h
-> @@ -134,11 +134,8 @@ static inline void put_task_struct(struct task_struct *t)
->  	if (!refcount_dec_and_test(&t->usage))
->  		return;
->  
-> -	/*
-> -	 * In !RT, it is always safe to call __put_task_struct().
-> -	 * Under RT, we can only call it in preemptible context.
-> -	 */
-> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
-> +	/* In !RT, it is always safe to call __put_task_struct(). */
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
->  		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
->  
->  		lock_map_acquire_try(&put_task_map);
-> @@ -148,11 +145,13 @@ static inline void put_task_struct(struct task_struct *t)
->  	}
->  
->  	/*
-> -	 * under PREEMPT_RT, we can't call put_task_struct
-> +	 * Under PREEMPT_RT, we can't call __put_task_struct
->  	 * in atomic context because it will indirectly
-> -	 * acquire sleeping locks.
-> +	 * acquire sleeping locks. The same is true if the
-> +	 * current process has a mutex enqueued (blocked on
-> +	 * a PI chain).
->  	 *
-> -	 * call_rcu() will schedule delayed_put_task_struct_rcu()
-> +	 * call_rcu() will schedule __put_task_struct_rcu_cb()
->  	 * to be called in process context.
->  	 *
->  	 * __put_task_struct() is called when
-> @@ -165,7 +164,7 @@ static inline void put_task_struct(struct task_struct *t)
->  	 *
->  	 * delayed_free_task() also uses ->rcu, but it is only called
->  	 * when it fails to fork a process. Therefore, there is no
-> -	 * way it can conflict with put_task_struct().
-> +	 * way it can conflict with __put_task_struct().
->  	 */
->  	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
->  }
-> 
+Hello,
 
-Reviewed-by: Wander Laurson Costa <wander@redhat.com>
+New build issue found on stable-rt/v6.6-rt:
 
-> ----- End forwarded message -----
-> 
+---
+ conflicting types for =E2=80=98check_unaligned_access=E2=80=99; have =E2=
+=80=98int(void *)=E2=80=99 in
+arch/riscv/kernel/cpufeature.o (arch/riscv/kernel/cpufeature.c)
+[logspec:kbuild,kbuild.compiler.error]
+---
 
+- dashboard: https://d.kernelci.org/i/maestro:09fe4370872596f20cdca497ccf72=
+39e25067afa
+- giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-r=
+t.git
+- commit HEAD:  5495197730f86d3227ddfc243ff2980747a321ff
+
+
+Log excerpt:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+arch/riscv/kernel/cpufeature.c:580:12: error: conflicting types for
+=E2=80=98check_unaligned_access=E2=80=99; have =E2=80=98int(void *)=E2=80=
+=99
+  580 | static int check_unaligned_access(void *param)
+      |            ^~~~~~~~~~~~~~~~~~~~~~
+In file included from ./arch/riscv/include/asm/hwcap.h:73,
+                 from ./arch/riscv/include/asm/alternative.h:19,
+                 from ./arch/riscv/include/asm/errata_list.h:8,
+                 from ./arch/riscv/include/asm/tlbflush.h:12,
+                 from ./arch/riscv/include/asm/pgtable.h:117,
+                 from ./arch/riscv/include/asm/uaccess.h:12,
+                 from ./include/linux/uaccess.h:11,
+                 from ./include/linux/sched/task.h:11,
+                 from ./include/linux/sched/signal.h:9,
+                 from ./include/linux/rcuwait.h:6,
+                 from ./include/linux/percpu-rwsem.h:7,
+                 from ./include/linux/fs.h:33,
+                 from ./include/linux/compat.h:17,
+                 from ./arch/riscv/include/asm/elf.h:12,
+                 from ./include/linux/elf.h:6,
+                 from ./include/linux/module.h:19,
+                 from ./include/linux/device/driver.h:21,
+                 from ./include/linux/device.h:32,
+                 from ./include/linux/acpi.h:14,
+                 from arch/riscv/kernel/cpufeature.c:9:
+./arch/riscv/include/asm/cpufeature.h:33:6: note: previous declaration
+of =E2=80=98check_unaligned_access=E2=80=99 with type =E2=80=98void(int)=E2=
+=80=99
+   33 | void check_unaligned_access(int cpu);
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+  CC      crypto/proc.o
+  AS      arch/riscv/kernel/entry.o
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+
+
+# Builds where the incident occurred:
+
+## defconfig on (riscv):
+- compiler: gcc-12
+- dashboard: https://d.kernelci.org/build/maestro:6850dddddba9af5ad63ecee4
+
+
+#kernelci issue maestro:09fe4370872596f20cdca497ccf7239e25067afa
+
+Reported-by: kernelci.org bot <bot@kernelci.org>
+
+--
+This is an experimental report format. Please send feedback in!
+Talk to us at kernelci@lists.linux.dev
+
+Made with love by the KernelCI team - https://kernelci.org
