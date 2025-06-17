@@ -1,124 +1,161 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D3528DB57;
-	Tue, 17 Jun 2025 07:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AB23208
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 07:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750146244; cv=none; b=giQ3K3NlyGw1keFqia8i5fluGikSpPUsDmIAhZC55tA8XJ+BhD3u0Jg4YZMezGMhBbq7GP1+kjvu9ZeQ0oOSHYkyO86ZZVDZG3gEf3JQEokngmRC32a/D/Zz+3aCuBFnc3AjwQOPQ+CcGty+xU52kzCygQTbNJBWp6rpz8FyTyY=
+	t=1750146740; cv=none; b=DFKVYY9GKaQitR5AnrZIisrYT43EY5M4mhaDocXqZ9ybfLgLaX6z1hG3fwpkbgeBVHGEOToeditJ/evIloOmau9Vo0yS5MVwUrzTFSMy/yUj/Sbq/v8QczdNZ7lE5gXnm4Iqhsl6IneCM1PcIi4Xh3ySnhwCDu4MNOGPOJ4nQ3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750146244; c=relaxed/simple;
-	bh=4WTHFYz1KPEfTngz6Cxd3QDpVTVxy6AITJ7hz6khgek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVo1G1cKSsjlinKxzAf9MgbxCPN/BfG52rb2/RbV4zpEWHK2PvSZJdLQewT+uE2E0v6ovNAex2eaBLSgYh9XFvuTYfXi7rVmGNwYXmqGBR01ImGb7gFceQPNAPaPu22EsKn/kh3cIzdWjXW4Ad1737QPSZ/dUuCKaOZ7keBNIKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2239bYTU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IEz0xVB4; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750146740; c=relaxed/simple;
+	bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=XWLEE+TguQh7tPWv0tqU2Mkv9ahsJVsATdYDGFYh6zpUgl247Ia9k9C9vak8fzUpciE/PvkHjJ6uIdk3ryDoUSP0OxUuifID+izfMRNUyPhwKFdxjevrLjaetTkqUql0cbsvKZnWFFkiNemwqV2LHWfTSW0UPgXUQ4pUdDufnKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AuTeQD2A; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2239bYTU";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IEz0xVB4"
-Date: Tue, 17 Jun 2025 09:44:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750146241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SHw+LYCuKLsVEpOzyNsKG3uAxfu+BsQJDR2nDB6hLdg=;
-	b=2239bYTUjqneckR/wjogJlOwEFAAtgX+WNFfk2vc2uIOdBSF+Sg9T9zMMzQZknZlg7rKyy
-	mFAPoSwGZmcVoKLavGLvJp0EDE2dJWiJ+klYuD576TixX9w2VPEB5lld756bqYHhedpeId
-	QaqJff4Jw+ZbRPAkWyyyXXulF7PFQ9Nbt3bjybJo5I0IhAhWGdoyVN5IFUtahrz6LwmD6X
-	QlcqyzquEbnei3H+mF+3lYayP5J2DNFH2cwHJs5wdrKY3MDSDmv1uFan+7MLrILMXhHm7J
-	OlbuaB4iQ1MAmG12/b/2lbmwV0ywkxnzPoC7bCvr6Trawa7iD8reoxZsUegA/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750146241;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SHw+LYCuKLsVEpOzyNsKG3uAxfu+BsQJDR2nDB6hLdg=;
-	b=IEz0xVB4btunCUETNInZEqp4wZA4cztpwEGVdZOfTlQHU4W8Am447G+XVzz6TGMvyc/S4G
-	R2QS6r5OcNixcKDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: kernelci@lists.linux.dev, Clark Williams <williams@redhat.com>
-Cc: kernelci-results@groups.io, gus@collabora.com,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [REGRESSION] =?utf-8?Q?stable-rt=2Fv6?=
- =?utf-8?Q?=2E6-rt=3A_=28build=29_conflicting_types_for_=E2=80=98check=5Fu?=
- =?utf-8?B?bmFsaWduZWRfYWNjZXNz4oCZOyBoYXZlIOKAmGludCh2b2lkICop4oCZLi4u?=
-Message-ID: <20250617074400.iJhBLT0H@linutronix.de>
-References: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AuTeQD2A"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e5e6ab7b8so47057977b3.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 00:52:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750146738; x=1750751538; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
+        b=AuTeQD2APi6lR88H6fYPlR5nwCcO1TX0jNtY3lH7Ts76iUJDSI3/Eo1sYW5nCHe1bQ
+         RzDtl/P8yvGNgDoIe1F+ZudY14V2K+2UXfR3DPVFPbRX4Xh21Sm8LqVC9aA5W/UdsOlp
+         MF7GbPnilXGX6IFjkgoaDxQRAXImFrwFopOKq9ij9Ruw52qzxHVPkmK/LLMKW1lXAmdK
+         v0d0txx4oBliuaxNpiChNK5ziz9xiHrz9Ifdx2LyASojnvxpUXfjRrUoNYLBxlJgpMIs
+         kW9EqD74p/ZSkeAThbFqCQynraf/ua7i7pgBrzZTzjogFGcjHcSTeH+Y1Yj+XmwlyaGX
+         ompw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750146738; x=1750751538;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
+        b=wo1rNuFOYhbex6DO8sLd1CBSuUehisv5cbc0cQeEv+AdJ1MfajgX+99D/th3pcp70D
+         LLuqU2xQydmq2foWPOUsaHdfvE/BOaVhEOsNnPY3PbCs/p9/XfXn+thLOgp96NtEoMCD
+         5K7PLKl8pKrDAaA0plrlNKWntX/618ibwJaGDIfAny+1j52DcfoRpt8MuSpCEJ2gkjNj
+         YM09xevUe+9dnctpjcznTIsB77vf2i4gZ6Iw7KiP0tY2MdduLMTlir93ghX8jshC0eIK
+         51KEvRKqCT0m2IW+nQovEfFDRiki0kfVTBozjNOkDEzr20rQFp9H3LFcT52H5a6IgoOf
+         m8EQ==
+X-Gm-Message-State: AOJu0YztjA/vf/Z+OTfntqmMcceHAYua8NeqeGCOagzOLZCJv9VqThIq
+	kv5O2SuR04HGjUkm+RgJE2GQaig79qPsVMDGrtD/vyYjYsS7rLPsFnOzDNlUhnlhQZJzEJ7smRX
+	jZZgNe7hqaQkLTMOiw9VED5k3QVv0j5zZCxdE
+X-Gm-Gg: ASbGnctmEttSlsnRNJSWtoyxyQwyu3h4JZCnIrm4BJeKJckPcVP44K8zqX0tdXRrLoD
+	vpddcJQhIuZ/9cJ0+plXNE0RJLiq+yl0mdqqAU9+H68zA7lrv1K0W+nT8neU6TUu8HRYZI7yoV5
+	jfWJgjuTq1NSJMVvWdoT3ZLE+8ajJJWvjMBFhR4eEo7XE=
+X-Google-Smtp-Source: AGHT+IFAM5GT3eEKcQGrWdcc05FWA8qnwy1PJ6OOefeyairq92OkJPSkLh6Ril7D/DeA0QFz24AVsR5FVS4p3X5YSuw=
+X-Received: by 2002:a05:690c:60c5:b0:6f9:7a3c:1fe with SMTP id
+ 00721157ae682-71175431bcamr173834147b3.23.1750146738130; Tue, 17 Jun 2025
+ 00:52:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
+From: Kegl Rohit <keglrohit@gmail.com>
+Date: Tue, 17 Jun 2025 09:52:07 +0200
+X-Gm-Features: AX0GCFt5foxBB1eSOjLHXSnyGiqb4a0yY3VS586mA639DWFzdsvqEp7l1dTgyTk
+Message-ID: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
+Subject: ksoftirqd priority inversion wait_event_interruptible_timeout/schedule_timeout/del_timer_sync
+To: linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 2025-06-16 23:59:03 [-0400], KernelCI bot wrote:
-> Hello,
-Hi,
+Hello!
 
-> New build issue found on stable-rt/v6.6-rt:
->=20
-> ---
->  conflicting types for =E2=80=98check_unaligned_access=E2=80=99; have =E2=
-=80=98int(void *)=E2=80=99 in
-> arch/riscv/kernel/cpufeature.o (arch/riscv/kernel/cpufeature.c)
-> [logspec:kbuild,kbuild.compiler.error]
-> ---
->=20
-> - dashboard: https://d.kernelci.org/i/maestro:09fe4370872596f20cdca497ccf=
-7239e25067afa
-> - giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable=
--rt.git
-> - commit HEAD:  5495197730f86d3227ddfc243ff2980747a321ff
->=20
->=20
-> Log excerpt:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> arch/riscv/kernel/cpufeature.c:580:12: error: conflicting types for
-> =E2=80=98check_unaligned_access=E2=80=99; have =E2=80=98int(void *)=E2=80=
-=99
->   580 | static int check_unaligned_access(void *param)
->       |            ^~~~~~~~~~~~~~~~~~~~~~
-> In file included from ./arch/riscv/include/asm/hwcap.h:73,
-=E2=80=A6
-> #kernelci issue maestro:09fe4370872596f20cdca497ccf7239e25067afa
->=20
-> Reported-by: kernelci.org bot <bot@kernelci.org>
+Using 5.10.184-rt90 on arm (nxp imx6q).
 
-Oh this makes me happy. Well, it does not build, yes, but the bot
-noticed it and reported it. So this counts.
+A proprietary driver starts a `kthread` with `SCHED_FIFO` -98 priority.
+This `kthread` waits for a completion using
+`wait_event_interruptible_timeout(comp, 1000)`
+and wakes up every second to perform its work. The completion itself
+only fires very infrequently.
 
-On the productive side:
+Tracing the kernel showed that `ksoftirqd` was periodically boosted to
+the same `SCHED_FIFO` -98 priority.
+This is caused by the `schedule_timeout` handler within
+`wait_event_interruptible_timeout`.
 
-This was introduced by commit 502f0a5eb68b8 ("Merge tag 'v6.6.84' into
-v6.6-rt") noting a conflict in arch/riscv/include/asm/cpufeature.h.
+del_timer_wait_running takes spin_lock_bh and causes the priority inversion.
+This is very bad because e.g. network softirq processing happens with
+very high priority for some time.
 
-The prototype should be removed:
+Was this issue addressed in a more recent kernel version?
 
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/c=
-pufeature.h
-index 13b7d35648a9c..788fd575c21a9 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -30,7 +30,6 @@ DECLARE_PER_CPU(long, misaligned_access_speed);
- /* Per-cpu ISA extensions. */
- extern struct riscv_isainfo hart_isa[NR_CPUS];
-=20
--void check_unaligned_access(int cpu);
- void riscv_user_isa_enable(void);
-=20
- #endif
+----------------------------------
 
-This happened in the upstream commit 55e0bf49a0d03 ("RISC-V: Probe
-misaligned access speed in parallel")
+static long __sched
+wait_for_common(struct completion *x, long timeout, int state)
+{
+return __wait_for_common(x, schedule_timeout, timeout, state);
+}
 
-Sebastian
+----------------------------------
+
+signed long __sched schedule_timeout(signed long timeout)
+{
+....
+
+schedule();
+del_singleshot_timer_sync(&timer.timer);
+...
+}
+
+----------------------------------
+
+#define del_singleshot_timer_sync(t) del_timer_sync(t)
+
+----------------------------------
+
+int del_timer_sync(struct timer_list *timer)
+{
+...
+do {
+ret = try_to_del_timer_sync(timer);
+
+if (unlikely(ret < 0)) {
+del_timer_wait_running(timer);
+cpu_relax();
+}
+} while (ret < 0);
+...
+}
+
+----------------------------------
+
+/*
+ * This function is called on PREEMPT_RT kernels when the fast path
+ * deletion of a timer failed because the timer callback function was
+ * running.
+ *
+ * This prevents priority inversion, if the softirq thread on a remote CPU
+ * got preempted, and it prevents a life lock when the task which tries to
+ * delete a timer preempted the softirq thread running the timer callback
+ * function.
+ */
+static void del_timer_wait_running(struct timer_list *timer)
+{
+u32 tf;
+
+tf = READ_ONCE(timer->flags);
+if (!(tf & (TIMER_MIGRATING | TIMER_IRQSAFE))) {
+struct timer_base *base = get_timer_base(tf);
+
+/*
+* Mark the base as contended and grab the expiry lock,
+* which is held by the softirq across the timer
+* callback. Drop the lock immediately so the softirq can
+* expire the next timer. In theory the timer could already
+* be running again, but that's more than unlikely and just
+* causes another wait loop.
+*/
+atomic_inc(&base->timer_waiters);
+spin_lock_bh(&base->expiry_lock);
+atomic_dec(&base->timer_waiters);
+spin_unlock_bh(&base->expiry_lock);
+}
+}
+
+Thanks in advance.
