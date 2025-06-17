@@ -1,161 +1,145 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AB23208
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 07:52:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A6D293C57;
+	Tue, 17 Jun 2025 09:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750146740; cv=none; b=DFKVYY9GKaQitR5AnrZIisrYT43EY5M4mhaDocXqZ9ybfLgLaX6z1hG3fwpkbgeBVHGEOToeditJ/evIloOmau9Vo0yS5MVwUrzTFSMy/yUj/Sbq/v8QczdNZ7lE5gXnm4Iqhsl6IneCM1PcIi4Xh3ySnhwCDu4MNOGPOJ4nQ3U=
+	t=1750152380; cv=none; b=BzV0GpxvlvrqW2qGe7o5NAOTT4LLss6Pc2oaD13E3LQuOiyERWMeff3bci7of9taO168eEuzL7dAxDYp9Yo6/mdyxDhHZjxiLU9pHrWGHd4vQKCsk4DDRDuflWwMvkVWxksGo0xvccA1frulz0xKU10rZ311uuvfLgtdIZcOLwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750146740; c=relaxed/simple;
-	bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=XWLEE+TguQh7tPWv0tqU2Mkv9ahsJVsATdYDGFYh6zpUgl247Ia9k9C9vak8fzUpciE/PvkHjJ6uIdk3ryDoUSP0OxUuifID+izfMRNUyPhwKFdxjevrLjaetTkqUql0cbsvKZnWFFkiNemwqV2LHWfTSW0UPgXUQ4pUdDufnKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AuTeQD2A; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750152380; c=relaxed/simple;
+	bh=tEdbtuqZcchLoDWZOowWW0dNyOhuwX8zhFxOwPzEozM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pk+QuMxp3YIs4MxXYtKAnAdKnz5RMVVmUHvzn/2Yf8pCfBVDFWCRCXLJxKYPAzHXzmwSd8+BagkvE2lo+oqEmU2zhDlWIqi8DYOy5QRyKJMLTdemxcG9XWQrhhScw1IjiZ6l14pzKAxSyuvbZOhGWJTs5U6ZlGyHbdGc81xnZGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cRnCcT2G; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AuTeQD2A"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e5e6ab7b8so47057977b3.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 00:52:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750146738; x=1750751538; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
-        b=AuTeQD2APi6lR88H6fYPlR5nwCcO1TX0jNtY3lH7Ts76iUJDSI3/Eo1sYW5nCHe1bQ
-         RzDtl/P8yvGNgDoIe1F+ZudY14V2K+2UXfR3DPVFPbRX4Xh21Sm8LqVC9aA5W/UdsOlp
-         MF7GbPnilXGX6IFjkgoaDxQRAXImFrwFopOKq9ij9Ruw52qzxHVPkmK/LLMKW1lXAmdK
-         v0d0txx4oBliuaxNpiChNK5ziz9xiHrz9Ifdx2LyASojnvxpUXfjRrUoNYLBxlJgpMIs
-         kW9EqD74p/ZSkeAThbFqCQynraf/ua7i7pgBrzZTzjogFGcjHcSTeH+Y1Yj+XmwlyaGX
-         ompw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750146738; x=1750751538;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X/iCBnwMhCfi7aLPZ/bnaMCtPAyfxWj6HxhFinOL6zc=;
-        b=wo1rNuFOYhbex6DO8sLd1CBSuUehisv5cbc0cQeEv+AdJ1MfajgX+99D/th3pcp70D
-         LLuqU2xQydmq2foWPOUsaHdfvE/BOaVhEOsNnPY3PbCs/p9/XfXn+thLOgp96NtEoMCD
-         5K7PLKl8pKrDAaA0plrlNKWntX/618ibwJaGDIfAny+1j52DcfoRpt8MuSpCEJ2gkjNj
-         YM09xevUe+9dnctpjcznTIsB77vf2i4gZ6Iw7KiP0tY2MdduLMTlir93ghX8jshC0eIK
-         51KEvRKqCT0m2IW+nQovEfFDRiki0kfVTBozjNOkDEzr20rQFp9H3LFcT52H5a6IgoOf
-         m8EQ==
-X-Gm-Message-State: AOJu0YztjA/vf/Z+OTfntqmMcceHAYua8NeqeGCOagzOLZCJv9VqThIq
-	kv5O2SuR04HGjUkm+RgJE2GQaig79qPsVMDGrtD/vyYjYsS7rLPsFnOzDNlUhnlhQZJzEJ7smRX
-	jZZgNe7hqaQkLTMOiw9VED5k3QVv0j5zZCxdE
-X-Gm-Gg: ASbGnctmEttSlsnRNJSWtoyxyQwyu3h4JZCnIrm4BJeKJckPcVP44K8zqX0tdXRrLoD
-	vpddcJQhIuZ/9cJ0+plXNE0RJLiq+yl0mdqqAU9+H68zA7lrv1K0W+nT8neU6TUu8HRYZI7yoV5
-	jfWJgjuTq1NSJMVvWdoT3ZLE+8ajJJWvjMBFhR4eEo7XE=
-X-Google-Smtp-Source: AGHT+IFAM5GT3eEKcQGrWdcc05FWA8qnwy1PJ6OOefeyairq92OkJPSkLh6Ril7D/DeA0QFz24AVsR5FVS4p3X5YSuw=
-X-Received: by 2002:a05:690c:60c5:b0:6f9:7a3c:1fe with SMTP id
- 00721157ae682-71175431bcamr173834147b3.23.1750146738130; Tue, 17 Jun 2025
- 00:52:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cRnCcT2G"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=LpJtHAO+l391V4MTDYJdtbpzYP7Tob1XgARez9VAkgk=; b=cRnCcT2GzpjKy0QWJm5YQR+8Or
+	bzwk0WBy8L7GiYB4PNEh9jGyGUWnQEi4rHBzYiv1Yu74tbayYsQ1NlJ+fwYcYmVwkI7a6voy5jJx/
+	13NCMApPKbBC2laXjlmavhVLeb0seRjMAX1AQdRhyrFqxjZck51eTUJf3uQ0cUxin7h+U2Tdj76Hr
+	r+nQR6xFRbTuAniLpf8cIZknua6p4DQP7QSF0dgwt9N6035dTPO7Jw7dgRpyFFulKBOTdZ1Y10uYA
+	R4D5MR7arZ5Grupp/FN/AzEYuPHKfvmPnyKVf9CHWc6BrZLTBTar4HmfCqdRNlOuhhUXZiUqWVxmO
+	o5nBULTQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uRSa3-0000000Gwgx-0uHc;
+	Tue, 17 Jun 2025 09:26:11 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E5433308523; Tue, 17 Jun 2025 11:26:09 +0200 (CEST)
+Date: Tue, 17 Jun 2025 11:26:09 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	DietmarEggemann@uudg.org, dietmar.eggemann@arm.com,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>
+Subject: Re: [RESEND PATCH v4] sched: do not call __put_task_struct() on rt
+ if pi_blocked_on is set
+Message-ID: <20250617092609.GR1613376@noisy.programming.kicks-ass.net>
+References: <aEw-KjUjjP2gYH6z@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Kegl Rohit <keglrohit@gmail.com>
-Date: Tue, 17 Jun 2025 09:52:07 +0200
-X-Gm-Features: AX0GCFt5foxBB1eSOjLHXSnyGiqb4a0yY3VS586mA639DWFzdsvqEp7l1dTgyTk
-Message-ID: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
-Subject: ksoftirqd priority inversion wait_event_interruptible_timeout/schedule_timeout/del_timer_sync
-To: linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aEw-KjUjjP2gYH6z@uudg.org>
 
-Hello!
+On Fri, Jun 13, 2025 at 12:05:14PM -0300, Luis Claudio R. Goncalves wrote:
+> With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+> from rt_mutex_adjust_prio_chain() could happen in preemptible context and
+> with a mutex enqueued. That could lead to this sequence:
+> 
+>         rt_mutex_adjust_prio_chain()
+>           put_task_struct()
+>             __put_task_struct()
+>               sched_ext_free()
+>                 spin_lock_irqsave()
+>                   rtlock_lock() --->  TRIGGERS
+>                                       lockdep_assert(!current->pi_blocked_on);
+> 
+> Fix that by unconditionally resorting to the deferred call to
+> __put_task_struct() if PREEMPT_RT is enabled.
+> 
 
-Using 5.10.184-rt90 on arm (nxp imx6q).
+Should this have a Fixes: tag and go into /urgent?
 
-A proprietary driver starts a `kthread` with `SCHED_FIFO` -98 priority.
-This `kthread` waits for a completion using
-`wait_event_interruptible_timeout(comp, 1000)`
-and wakes up every second to perform its work. The completion itself
-only fires very infrequently.
-
-Tracing the kernel showed that `ksoftirqd` was periodically boosted to
-the same `SCHED_FIFO` -98 priority.
-This is caused by the `schedule_timeout` handler within
-`wait_event_interruptible_timeout`.
-
-del_timer_wait_running takes spin_lock_bh and causes the priority inversion.
-This is very bad because e.g. network softirq processing happens with
-very high priority for some time.
-
-Was this issue addressed in a more recent kernel version?
-
-----------------------------------
-
-static long __sched
-wait_for_common(struct completion *x, long timeout, int state)
-{
-return __wait_for_common(x, schedule_timeout, timeout, state);
-}
-
-----------------------------------
-
-signed long __sched schedule_timeout(signed long timeout)
-{
-....
-
-schedule();
-del_singleshot_timer_sync(&timer.timer);
-...
-}
-
-----------------------------------
-
-#define del_singleshot_timer_sync(t) del_timer_sync(t)
-
-----------------------------------
-
-int del_timer_sync(struct timer_list *timer)
-{
-...
-do {
-ret = try_to_del_timer_sync(timer);
-
-if (unlikely(ret < 0)) {
-del_timer_wait_running(timer);
-cpu_relax();
-}
-} while (ret < 0);
-...
-}
-
-----------------------------------
-
-/*
- * This function is called on PREEMPT_RT kernels when the fast path
- * deletion of a timer failed because the timer callback function was
- * running.
- *
- * This prevents priority inversion, if the softirq thread on a remote CPU
- * got preempted, and it prevents a life lock when the task which tries to
- * delete a timer preempted the softirq thread running the timer callback
- * function.
- */
-static void del_timer_wait_running(struct timer_list *timer)
-{
-u32 tf;
-
-tf = READ_ONCE(timer->flags);
-if (!(tf & (TIMER_MIGRATING | TIMER_IRQSAFE))) {
-struct timer_base *base = get_timer_base(tf);
-
-/*
-* Mark the base as contended and grab the expiry lock,
-* which is held by the softirq across the timer
-* callback. Drop the lock immediately so the softirq can
-* expire the next timer. In theory the timer could already
-* be running again, but that's more than unlikely and just
-* causes another wait loop.
-*/
-atomic_inc(&base->timer_waiters);
-spin_lock_bh(&base->expiry_lock);
-atomic_dec(&base->timer_waiters);
-spin_unlock_bh(&base->expiry_lock);
-}
-}
-
-Thanks in advance.
+> Suggested-by: Crystal Wood <crwood@redhat.com>
+> Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+> ---
+> 
+> Resent as a gentle reminder, because this issue results in scary backtraces,
+> not obvious to debug and pinpoint root cause.
+> 
+> v2: (Rostedt) remove the #ifdef from put_task_struct() and create
+>     tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
+> v3: (Sebastian, PeterZ) always call the deferred __put_task_struct() on RT.
+> v4: Fix the implementation of what was requested on v3.
+> 
+>  include/linux/sched/task.h |   17 ++++++++---------
+>  1 file changed, 8 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> index 0f2aeb37bbb04..51678a541477a 100644
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -134,11 +134,8 @@ static inline void put_task_struct(struct task_struct *t)
+>  	if (!refcount_dec_and_test(&t->usage))
+>  		return;
+>  
+> -	/*
+> -	 * In !RT, it is always safe to call __put_task_struct().
+> -	 * Under RT, we can only call it in preemptible context.
+> -	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
+> +	/* In !RT, it is always safe to call __put_task_struct(). */
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+>  		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+>  
+>  		lock_map_acquire_try(&put_task_map);
+> @@ -148,11 +145,13 @@ static inline void put_task_struct(struct task_struct *t)
+>  	}
+>  
+>  	/*
+> -	 * under PREEMPT_RT, we can't call put_task_struct
+> +	 * Under PREEMPT_RT, we can't call __put_task_struct
+>  	 * in atomic context because it will indirectly
+> -	 * acquire sleeping locks.
+> +	 * acquire sleeping locks. The same is true if the
+> +	 * current process has a mutex enqueued (blocked on
+> +	 * a PI chain).
+>  	 *
+> -	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+> +	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+>  	 * to be called in process context.
+>  	 *
+>  	 * __put_task_struct() is called when
+> @@ -165,7 +164,7 @@ static inline void put_task_struct(struct task_struct *t)
+>  	 *
+>  	 * delayed_free_task() also uses ->rcu, but it is only called
+>  	 * when it fails to fork a process. Therefore, there is no
+> -	 * way it can conflict with put_task_struct().
+> +	 * way it can conflict with __put_task_struct().
+>  	 */
+>  	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
+>  }
+> 
+> ----- End forwarded message -----
+> 
