@@ -1,150 +1,124 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF63EACD
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Jun 2025 03:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D3528DB57;
+	Tue, 17 Jun 2025 07:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750132747; cv=none; b=eBMqaceFhM41cAiyQZDsYsavHJntdGOaqIH1mjguEo31+D4Slddv4VpXOJKUKF+iJugqeuMtSOG57nDyWZuQICxgnnwa9j50LyXuLUoeuA5ue4TMjsAwrY/VLHTi8f37vEL/2sBSQukfE02G4SldEg4sCqdhibClwVIXKMIPNuk=
+	t=1750146244; cv=none; b=giQ3K3NlyGw1keFqia8i5fluGikSpPUsDmIAhZC55tA8XJ+BhD3u0Jg4YZMezGMhBbq7GP1+kjvu9ZeQ0oOSHYkyO86ZZVDZG3gEf3JQEokngmRC32a/D/Zz+3aCuBFnc3AjwQOPQ+CcGty+xU52kzCygQTbNJBWp6rpz8FyTyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750132747; c=relaxed/simple;
-	bh=x4nt4iNeJfsqzWygLbzAoicdlPD7trp0p/fleKKM5bA=;
-	h=MIME-Version:from:Date:Message-ID:Subject:To:Cc:Content-Type; b=E4k67ovxsFCd0h5u+icyMAT3gLdcS37rnXLXw67dcGX7N6SFNotZPi4+udE8Zc72FaaO4ifcXN97sM4nmnhTnISUQgsDRhjAoxEF2LMJEvLRFAqh8ckiYPAvOKSWDxFoPtJYPeDpz7teCqLMcSQVuylHItMvth0FVCH0lx2TDBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=UPHFnucm; arc=none smtp.client-ip=209.85.219.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1750146244; c=relaxed/simple;
+	bh=4WTHFYz1KPEfTngz6Cxd3QDpVTVxy6AITJ7hz6khgek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AVo1G1cKSsjlinKxzAf9MgbxCPN/BfG52rb2/RbV4zpEWHK2PvSZJdLQewT+uE2E0v6ovNAex2eaBLSgYh9XFvuTYfXi7rVmGNwYXmqGBR01ImGb7gFceQPNAPaPu22EsKn/kh3cIzdWjXW4Ad1737QPSZ/dUuCKaOZ7keBNIKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2239bYTU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IEz0xVB4; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="UPHFnucm"
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e8276224c65so267569276.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 16 Jun 2025 20:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1750132744; x=1750737544; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
-         :from:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NXr35vqFslJoXbNr4b4N5Ogmu3LfeaagVLe5cSS1Gv4=;
-        b=UPHFnucmqyURIR71E4u3c3WOozO7/P6GxxiasAVpt7vFuGcVz163hC+G1UwqAyR54s
-         Hu8r+GTsttCrS4pJLj8mfCqud5e7LxWY83FQ5KqUurYazTK3c1Zc7878mmuBShYDs1w8
-         yRnyiwlT44KWffeWjs+ru18+VqkkJjzrMTEEVCR6Db/JlKEZtwLvzLviZy9LkSS7gYMW
-         Mzrw+eGMLwaDo5Dyl6SnfuOKRwpLQAKdQ6TwIEyJVX+ot7ZiwY/7U/uUK8avveoAszAI
-         Vxp95LKCC+xTbiDxV/ZhWllHBK/VbLRQBN5WGO6ScyhQ+7OttIeAfOOZq3dCRWoua5ea
-         g0jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750132744; x=1750737544;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:reply-to
-         :from:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NXr35vqFslJoXbNr4b4N5Ogmu3LfeaagVLe5cSS1Gv4=;
-        b=SCuJThxcQ8L5gZ3D3XaE4UnVOBf2/NT/gtKdJr4dCrBTDcCXs/xFAlF6bf9FXbH1Ov
-         EmazOVsKKtPQspmOA++WEOjOrr0AozTeq4lR9wcti6hvI7uFdGqpsf+6RG5ENTaLA+GE
-         a4V8TASX9VMOju7LPuClFjkqQMir9Hxtwu2awiOv4l4tl+3GcXgx0q3NxLUi6Ptiqo2L
-         WJ3XiMPYLBAWfqE8e3LJ+kxb1k1kB3+mEMn6nQPrAAbFS5OjEOPzf5rORrdkRqTaQJJv
-         ws54OrHMnANoqWgmtjBbPtRPyEyCGuVYpYjZaVVuRVIXb1VQbNkYfRmZY42SC5xgbpnL
-         LZrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUR3mKmEtOHZBiyD0DlnCVoowxJY82ky9JAaR9zW0Ih0UF3QuEbuApzCHHj5pgKYW5G/mBp/rz+p9AoeqtQjg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8R6Ss8nEdVKAkTSlfsgZk/xH67tqi7MGUTfR90otvtlafb2vI
-	zB1SyzdZX7b0wqeLgMDgf9fefaSy0QypT10yDjitNrx7yQeh+qACPrRMi062Sq+hblXKy45MWXT
-	OaQGqvWZuw3K3tf39iwZ79AKVL1lXkqoivMphVd/YnQ==
-X-Gm-Gg: ASbGnctKWdC42JaIjkxeHjvBrK9tCxIk0MdxHnrgEfpX3heaPMiksivqALLT4xDWhC5
-	RNVyzcSttMuXPQEYdGVH/zO+eqIJ5Quf1HJio8mlFWGdEeqSDLl+v6Pdz8RU7SAt6CPIXJdKPjX
-	a3MS3kRSggpMuaoN249Br2Ri9uhXAnoaRfnQ5lbUsBcQ==
-X-Google-Smtp-Source: AGHT+IHcyTOLD1xW2pNcHSa1FM7XeTZVGMJlGkLhNfesW7dvZqjzDEZIkrGWWKvRPiu88lWNtmKEolcV8rb/6njEN88=
-X-Received: by 2002:a05:6902:1a47:b0:e81:9fc5:2592 with SMTP id
- 3f1490d57ef6-e822ac785ffmr15705830276.29.1750132744331; Mon, 16 Jun 2025
- 20:59:04 -0700 (PDT)
-Received: from 415818378487 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 16 Jun 2025 23:59:03 -0400
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2239bYTU";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IEz0xVB4"
+Date: Tue, 17 Jun 2025 09:44:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1750146241;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SHw+LYCuKLsVEpOzyNsKG3uAxfu+BsQJDR2nDB6hLdg=;
+	b=2239bYTUjqneckR/wjogJlOwEFAAtgX+WNFfk2vc2uIOdBSF+Sg9T9zMMzQZknZlg7rKyy
+	mFAPoSwGZmcVoKLavGLvJp0EDE2dJWiJ+klYuD576TixX9w2VPEB5lld756bqYHhedpeId
+	QaqJff4Jw+ZbRPAkWyyyXXulF7PFQ9Nbt3bjybJo5I0IhAhWGdoyVN5IFUtahrz6LwmD6X
+	QlcqyzquEbnei3H+mF+3lYayP5J2DNFH2cwHJs5wdrKY3MDSDmv1uFan+7MLrILMXhHm7J
+	OlbuaB4iQ1MAmG12/b/2lbmwV0ywkxnzPoC7bCvr6Trawa7iD8reoxZsUegA/g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1750146241;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SHw+LYCuKLsVEpOzyNsKG3uAxfu+BsQJDR2nDB6hLdg=;
+	b=IEz0xVB4btunCUETNInZEqp4wZA4cztpwEGVdZOfTlQHU4W8Am447G+XVzz6TGMvyc/S4G
+	R2QS6r5OcNixcKDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernelci@lists.linux.dev, Clark Williams <williams@redhat.com>
+Cc: kernelci-results@groups.io, gus@collabora.com,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [REGRESSION] =?utf-8?Q?stable-rt=2Fv6?=
+ =?utf-8?Q?=2E6-rt=3A_=28build=29_conflicting_types_for_=E2=80=98check=5Fu?=
+ =?utf-8?B?bmFsaWduZWRfYWNjZXNz4oCZOyBoYXZlIOKAmGludCh2b2lkICop4oCZLi4u?=
+Message-ID: <20250617074400.iJhBLT0H@linutronix.de>
+References: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-from: KernelCI bot <bot@kernelci.org>
-Reply-To: kernelci@lists.linux.dev
-Date: Mon, 16 Jun 2025 23:59:03 -0400
-X-Gm-Features: AX0GCFsWeYSDM7mEIt9kIYbSUfCezDQhH3jIziU_5Bp6iv7BPu8ovW8wjsUr51A
-Message-ID: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
-Subject: =?UTF-8?B?W1JFR1JFU1NJT05dIHN0YWJsZS1ydC92Ni42LXJ0OiAoYnVpbGQpIGNvbmZsaWN0aW5nIA==?=
-	=?UTF-8?B?dHlwZXMgZm9yIOKAmGNoZWNrX3VuYWxpZ25lZF9hY2Nlc3PigJk7IGhhdmUg4oCYaW50KHZvaWQgKik=?=
-	=?UTF-8?B?4oCZLi4u?=
-To: kernelci-results@groups.io
-Cc: gus@collabora.com, linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CACo-S-0_rffhUzvSbHZvQa1OHnxTpQiezNCga4Xnw+bNuBNNvA@mail.gmail.com>
 
-Hello,
+On 2025-06-16 23:59:03 [-0400], KernelCI bot wrote:
+> Hello,
+Hi,
 
-New build issue found on stable-rt/v6.6-rt:
-
----
- conflicting types for =E2=80=98check_unaligned_access=E2=80=99; have =E2=
+> New build issue found on stable-rt/v6.6-rt:
+>=20
+> ---
+>  conflicting types for =E2=80=98check_unaligned_access=E2=80=99; have =E2=
 =80=98int(void *)=E2=80=99 in
-arch/riscv/kernel/cpufeature.o (arch/riscv/kernel/cpufeature.c)
-[logspec:kbuild,kbuild.compiler.error]
----
-
-- dashboard: https://d.kernelci.org/i/maestro:09fe4370872596f20cdca497ccf72=
-39e25067afa
-- giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-r=
-t.git
-- commit HEAD:  5495197730f86d3227ddfc243ff2980747a321ff
-
-
-Log excerpt:
+> arch/riscv/kernel/cpufeature.o (arch/riscv/kernel/cpufeature.c)
+> [logspec:kbuild,kbuild.compiler.error]
+> ---
+>=20
+> - dashboard: https://d.kernelci.org/i/maestro:09fe4370872596f20cdca497ccf=
+7239e25067afa
+> - giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable=
+-rt.git
+> - commit HEAD:  5495197730f86d3227ddfc243ff2980747a321ff
+>=20
+>=20
+> Log excerpt:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-arch/riscv/kernel/cpufeature.c:580:12: error: conflicting types for
-=E2=80=98check_unaligned_access=E2=80=99; have =E2=80=98int(void *)=E2=80=
+=3D=3D=3D=3D
+> arch/riscv/kernel/cpufeature.c:580:12: error: conflicting types for
+> =E2=80=98check_unaligned_access=E2=80=99; have =E2=80=98int(void *)=E2=80=
 =99
-  580 | static int check_unaligned_access(void *param)
-      |            ^~~~~~~~~~~~~~~~~~~~~~
-In file included from ./arch/riscv/include/asm/hwcap.h:73,
-                 from ./arch/riscv/include/asm/alternative.h:19,
-                 from ./arch/riscv/include/asm/errata_list.h:8,
-                 from ./arch/riscv/include/asm/tlbflush.h:12,
-                 from ./arch/riscv/include/asm/pgtable.h:117,
-                 from ./arch/riscv/include/asm/uaccess.h:12,
-                 from ./include/linux/uaccess.h:11,
-                 from ./include/linux/sched/task.h:11,
-                 from ./include/linux/sched/signal.h:9,
-                 from ./include/linux/rcuwait.h:6,
-                 from ./include/linux/percpu-rwsem.h:7,
-                 from ./include/linux/fs.h:33,
-                 from ./include/linux/compat.h:17,
-                 from ./arch/riscv/include/asm/elf.h:12,
-                 from ./include/linux/elf.h:6,
-                 from ./include/linux/module.h:19,
-                 from ./include/linux/device/driver.h:21,
-                 from ./include/linux/device.h:32,
-                 from ./include/linux/acpi.h:14,
-                 from arch/riscv/kernel/cpufeature.c:9:
-./arch/riscv/include/asm/cpufeature.h:33:6: note: previous declaration
-of =E2=80=98check_unaligned_access=E2=80=99 with type =E2=80=98void(int)=E2=
-=80=99
-   33 | void check_unaligned_access(int cpu);
-      |      ^~~~~~~~~~~~~~~~~~~~~~
-  CC      crypto/proc.o
-  AS      arch/riscv/kernel/entry.o
+>   580 | static int check_unaligned_access(void *param)
+>       |            ^~~~~~~~~~~~~~~~~~~~~~
+> In file included from ./arch/riscv/include/asm/hwcap.h:73,
+=E2=80=A6
+> #kernelci issue maestro:09fe4370872596f20cdca497ccf7239e25067afa
+>=20
+> Reported-by: kernelci.org bot <bot@kernelci.org>
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
+Oh this makes me happy. Well, it does not build, yes, but the bot
+noticed it and reported it. So this counts.
 
+On the productive side:
 
-# Builds where the incident occurred:
+This was introduced by commit 502f0a5eb68b8 ("Merge tag 'v6.6.84' into
+v6.6-rt") noting a conflict in arch/riscv/include/asm/cpufeature.h.
 
-## defconfig on (riscv):
-- compiler: gcc-12
-- dashboard: https://d.kernelci.org/build/maestro:6850dddddba9af5ad63ecee4
+The prototype should be removed:
 
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/c=
+pufeature.h
+index 13b7d35648a9c..788fd575c21a9 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -30,7 +30,6 @@ DECLARE_PER_CPU(long, misaligned_access_speed);
+ /* Per-cpu ISA extensions. */
+ extern struct riscv_isainfo hart_isa[NR_CPUS];
+=20
+-void check_unaligned_access(int cpu);
+ void riscv_user_isa_enable(void);
+=20
+ #endif
 
-#kernelci issue maestro:09fe4370872596f20cdca497ccf7239e25067afa
+This happened in the upstream commit 55e0bf49a0d03 ("RISC-V: Probe
+misaligned access speed in parallel")
 
-Reported-by: kernelci.org bot <bot@kernelci.org>
-
---
-This is an experimental report format. Please send feedback in!
-Talk to us at kernelci@lists.linux.dev
-
-Made with love by the KernelCI team - https://kernelci.org
+Sebastian
