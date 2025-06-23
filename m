@@ -1,63 +1,49 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1C423E226
-	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Jun 2025 10:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67797263F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Jun 2025 14:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750675786; cv=none; b=pTANBhOdIgqnwrxeHGmH3TmWlEbL4xO4MIq+aV0XyvsTLzxn0O8HMlnq/31LA+4no/sogDTTqRK5jxMCUFMyqMnmwwS3px3bNRvTWxEG0DlRc8eI5Q8kMHEyzJyXRh8nOZ+QK8Z2mJETMRS3JN/GLGQlq0MWA1bW4oZWjvuzb9U=
+	t=1750689056; cv=none; b=q7wxPREOjAp6TrZc2PriMQJ4VLjuEf584AtNsKxyo6eLFkCTCdwDoSLOwk1EBg9oylJJaQDu8ITAXRpvExbBdleQJeQkUUcPjzW0sYnGjaUVrxt/NvJPVUUCNl2cI4QgpF8b+MnmJcfJ5Lo/A6BAACeDRaoH/1fD7bzbzDSrWdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750675786; c=relaxed/simple;
-	bh=7VU26WsfLwm50/m1Fdacy3rL7GUr7nmycZtoH1KxOO4=;
+	s=arc-20240116; t=1750689056; c=relaxed/simple;
+	bh=k4ey94IS37L+UFax0w8pC41J0bqKc/mFx3eS2PhQVbA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tDpQxkFEuj4LONaMHBODXSxMdPB5p9NpmMgHEqcGHCkmSCKqE1OmXCWwxp4wNwNw72Yfb6NejjkkMg1r0x7yUwXQjcgorahETlJnD/V6gG/spfKVX92ZsiIx6eoc1uEW6W8x+HhGtxkzbTDQ+Cl9bjsfe0YRjunzOBcA+JrKUVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2vedRkoo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YgUCTBPl; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBuylkhhVU4FnZ/JgQ9RkjjSGr8oRcqKoggjoxpIolXN2CJwU2q8i07xEkaaY9Qvsgm45MvMD303y4G4nR/PbAz7f5Cyb/waeS2n5Ky7NwtQUWv0ig20A7A/AoQPBl1rg4pmm0Wi+97BmKLIbNc9j2DAbopwPcWMPppknFQYvHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vcNbzUzT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HgZuYhiu; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2vedRkoo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YgUCTBPl"
-Date: Mon, 23 Jun 2025 12:49:41 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vcNbzUzT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HgZuYhiu"
+Date: Mon, 23 Jun 2025 16:30:51 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750675782;
+	s=2020; t=1750689053;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YjeIAngkCR4Ivgud1B82q064J6U4+VawToHZ/hWi4Dc=;
-	b=2vedRkooNti/MveWLwJ94UmyVb5dOBoUjNNzdjA+qiJvneZSjU/zty7jpFihItk8fyz0Gn
-	5VhaRfpbN+aEcW7WLAgxphmCgdA/ddUxYNRI2ctxmF7RVa4HJjzgeShvDUT630w+eGscHb
-	IhejSynjHjPg0dxeFhHmp7TkvSN94X5Z2Gx98AUrQ9OPDP46w75ukKdcg2LyOLU3UyeNFR
-	YOkd2CD8HYb/nyQypCR7T++D8oMcppOae/0V0bFFrix20CTGn8tw4yEH3jYK70V4JfHceE
-	xGXq1Nu77D36q/nZ1MEeO9Zg8J4RXpme3n6ADPy5PhuyTrXNknnBjjivH38KjQ==
+	bh=QqUKnV2rshrUszmkgK14mpM+y5P7xCTVJxxCr3ZgnNk=;
+	b=vcNbzUzTsPq7DTHDNgjq6HoShb2qs7C/CD31/7ZGV+yxXejs6RqIlNJTD3Ejog/Eqc6NQK
+	oAGBLttsanFyJX7IEA4umfYKORdFCN9utMKGsjptm0q8Zqfgl/s9S8Nc8tDsnQ2iwJ+4QF
+	axfBLlmIKYbfiwZJWuP13xxEPPvPnFNM8wo1e1hVflaynyCpdLP+7WO0FEqVvGI+Znk66I
+	4ZABmDRW9iiNK9jIpdWlzGP1WrMzNn8+9RsmPaJErbIJRWsSDXaUNyKXBXIbj00oGFpA9+
+	+RPxTpCAtZXQyyIPjpex+vPvAyAQnRwzG7G+gSDf7zvTYUHmyf66puD9w0xACw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750675782;
+	s=2020e; t=1750689053;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YjeIAngkCR4Ivgud1B82q064J6U4+VawToHZ/hWi4Dc=;
-	b=YgUCTBPlu3EVd1aZehKZ74ydQvNWDlYQUVOxotA2KkHErJAX7jJJH3eopYtiLenAl4ZFi9
-	ilHQDMTD2UJhxRAQ==
+	bh=QqUKnV2rshrUszmkgK14mpM+y5P7xCTVJxxCr3ZgnNk=;
+	b=HgZuYhiugehK/0m6BXVcF9jsyUDzbse+w08B1E/2TQQ5DI3Ef0SpaLeB1FyAFpEnMTzmQg
+	Cxw8cgVv70D2LDDA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
-Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
-Message-ID: <20250623104941.WxOQtAmV@linutronix.de>
-References: <20250613152218.1924093-1-bigeasy@linutronix.de>
- <20250613152218.1924093-2-bigeasy@linutronix.de>
- <aFL1pIGMDX5DG9f_@tardis.local>
- <20250620084334.Zb8O2SwS@linutronix.de>
- <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+To: Kegl Rohit <keglrohit@gmail.com>
+Cc: linux-rt-devel@lists.linux.dev
+Subject: Re: ksoftirqd priority inversion
+ wait_event_interruptible_timeout/schedule_timeout/del_timer_sync
+Message-ID: <20250623143051.pCoclIs7@linutronix.de>
+References: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,45 +52,35 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+In-Reply-To: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
 
-On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
-> > I hope not because it is not any different from
-> > 
-> >  	CPU 2			CPU 3
-> >  	=====                   =====
-> > 	NMI
-> >  	rcu_read_lock();
-> >  				synchronize_rcu();
-> >  				// need all CPUs report a QS.
-> >  	rcu_read_unlock();
-> >  	// no rcu_read_unlock_special() due to in_nmi().
-> > 
-> > If the NMI happens while the CPU is in userland (say a perf event) then
-> > the NMI returns directly to userland.
-> > After the tracing event completes (in this case) the CPU should run into
-> > another RCU section on its way out via context switch or the tick
-> > interrupt.
-> > I assume the tick interrupt is what makes the NMI case work.
+On 2025-06-17 09:52:07 [+0200], Kegl Rohit wrote:
+> Hello!
+Hi,
+
+> Using 5.10.184-rt90 on arm (nxp imx6q).
 > 
-> Are you promising that interrupts will be always be disabled across
-> the whole rcu_read_lock_notrace() read-side critical section?  If so,
-> could we please have a lockdep_assert_irqs_disabled() call to check that?
+> A proprietary driver starts a `kthread` with `SCHED_FIFO` -98 priority.
+> This `kthread` waits for a completion using
+> `wait_event_interruptible_timeout(comp, 1000)`
+> and wakes up every second to perform its work. The completion itself
+> only fires very infrequently.
+> 
+> Tracing the kernel showed that `ksoftirqd` was periodically boosted to
+> the same `SCHED_FIFO` -98 priority.
+> This is caused by the `schedule_timeout` handler within
+> `wait_event_interruptible_timeout`.
+> 
+> del_timer_wait_running takes spin_lock_bh and causes the priority inversion.
+> This is very bad because e.g. network softirq processing happens with
+> very high priority for some time.
+> 
+> Was this issue addressed in a more recent kernel version?
 
-No, that should stay preemptible because bpf can attach itself to
-tracepoints and this is the root cause of the exercise. Now if you say
-it has to be run with disabled interrupts to match the NMI case then it
-makes sense (since NMIs have interrupts off) but I do not understand why
-it matters here (since the CPU returns to userland without passing the
-kernel).
+The timer related bits moved to ktimersd thread (instead of ksoftirqd)
+but the basic boosting problem remains.
 
-I'm not sure how much can be done here due to the notrace part. Assuming
-rcu_read_unlock_special() is not doable, would forcing a context switch
-(via setting need-resched and irq_work, as the IRQ-off case) do the
-trick?
-Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
-be "usable from the scheduler (with rq lock held)" due to RCU-boosting
-or the wake of expedited_wq (which is one of the requirement).
+There is work in progress to address this. The endgame is:
+	https://lore.kernel.org/linux-rt-devel/20250613105653.1860729-1-bigeasy@linutronix.de/
 
-> 							Thanx, Paul
 Sebastian
