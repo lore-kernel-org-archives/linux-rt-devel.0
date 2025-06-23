@@ -1,86 +1,125 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67797263F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Jun 2025 14:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095152D3A7E;
+	Mon, 23 Jun 2025 18:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750689056; cv=none; b=q7wxPREOjAp6TrZc2PriMQJ4VLjuEf584AtNsKxyo6eLFkCTCdwDoSLOwk1EBg9oylJJaQDu8ITAXRpvExbBdleQJeQkUUcPjzW0sYnGjaUVrxt/NvJPVUUCNl2cI4QgpF8b+MnmJcfJ5Lo/A6BAACeDRaoH/1fD7bzbzDSrWdU=
+	t=1750702386; cv=none; b=DMs/nYYdtH6vRhviGy9TRnJIpxfGL20db8n349CTyOgTGA3tmAIlojbQbDW0B/wnNu3TFdVByDhyUhnCtB2ytnLZqWPhODaIZWfDaTK4kh34pLuYgk+uqjsWDsrTB7bXwASWJseUUbIXEH+N5ubtPke2uF+94k6BINpqIHCy36Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750689056; c=relaxed/simple;
-	bh=k4ey94IS37L+UFax0w8pC41J0bqKc/mFx3eS2PhQVbA=;
+	s=arc-20240116; t=1750702386; c=relaxed/simple;
+	bh=R+tsBdrCWa6UpsXA9DiKbE9aOVOJ4GPEEVP9lQEDbh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sBuylkhhVU4FnZ/JgQ9RkjjSGr8oRcqKoggjoxpIolXN2CJwU2q8i07xEkaaY9Qvsgm45MvMD303y4G4nR/PbAz7f5Cyb/waeS2n5Ky7NwtQUWv0ig20A7A/AoQPBl1rg4pmm0Wi+97BmKLIbNc9j2DAbopwPcWMPppknFQYvHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vcNbzUzT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HgZuYhiu; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=eUhcXMN1M/Ec+Acyq+mOSXDSkLYFzSjyVXn5UCzymkpdwaQ4Mmu1aF3OE+jdAHxxaEbE+SiyuJK38VXgfy9ajKfscUB5bF7lp7VbpTKxl3scSmgZu/aBKGPH3aKeDQfdWKXIDyULyq5abiFLiyp7338spyVtkNyc8cuxQEgkLds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=alOmVnq+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vcNbzUzT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HgZuYhiu"
-Date: Mon, 23 Jun 2025 16:30:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750689053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QqUKnV2rshrUszmkgK14mpM+y5P7xCTVJxxCr3ZgnNk=;
-	b=vcNbzUzTsPq7DTHDNgjq6HoShb2qs7C/CD31/7ZGV+yxXejs6RqIlNJTD3Ejog/Eqc6NQK
-	oAGBLttsanFyJX7IEA4umfYKORdFCN9utMKGsjptm0q8Zqfgl/s9S8Nc8tDsnQ2iwJ+4QF
-	axfBLlmIKYbfiwZJWuP13xxEPPvPnFNM8wo1e1hVflaynyCpdLP+7WO0FEqVvGI+Znk66I
-	4ZABmDRW9iiNK9jIpdWlzGP1WrMzNn8+9RsmPaJErbIJRWsSDXaUNyKXBXIbj00oGFpA9+
-	+RPxTpCAtZXQyyIPjpex+vPvAyAQnRwzG7G+gSDf7zvTYUHmyf66puD9w0xACw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750689053;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QqUKnV2rshrUszmkgK14mpM+y5P7xCTVJxxCr3ZgnNk=;
-	b=HgZuYhiugehK/0m6BXVcF9jsyUDzbse+w08B1E/2TQQ5DI3Ef0SpaLeB1FyAFpEnMTzmQg
-	Cxw8cgVv70D2LDDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Kegl Rohit <keglrohit@gmail.com>
-Cc: linux-rt-devel@lists.linux.dev
-Subject: Re: ksoftirqd priority inversion
- wait_event_interruptible_timeout/schedule_timeout/del_timer_sync
-Message-ID: <20250623143051.pCoclIs7@linutronix.de>
-References: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="alOmVnq+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE18C4CEEA;
+	Mon, 23 Jun 2025 18:13:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750702385;
+	bh=R+tsBdrCWa6UpsXA9DiKbE9aOVOJ4GPEEVP9lQEDbh8=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=alOmVnq+HdR8MT3tRmV6O0TmOprvIK85VGyIK5SZ2W/ECB9bVUtSIIC+AcVinDknT
+	 8r4hHiuOycRjkh6aKDZiRpj/qtaXBPbqL+lB6H0vczmcvoduL1zduQpSkYHIc7bLEN
+	 TQ/vWdiSzNZhs8M6JPZLHkJP9uWCWyeHFmfxXDxi4K6+if7HjJSa0/5LKoA2CyTmlx
+	 sh/81TX8ZZItaB+SLNrbA28ufB7d1/y3gp4JGsX481Cccb34zgKy6pC9DPZL/J8kcc
+	 8VYYCSB1LzMBI/g2r3lOqDCyJ5Rvm9onMvRHiypm99mLBnDY+qax66eLVPVAFqCeZb
+	 HPyDEmkOLMmHg==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 6D69DCE0B20; Mon, 23 Jun 2025 11:13:03 -0700 (PDT)
+Date: Mon, 23 Jun 2025 11:13:03 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
+	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
+Message-ID: <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250613152218.1924093-1-bigeasy@linutronix.de>
+ <20250613152218.1924093-2-bigeasy@linutronix.de>
+ <aFL1pIGMDX5DG9f_@tardis.local>
+ <20250620084334.Zb8O2SwS@linutronix.de>
+ <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+ <20250623104941.WxOQtAmV@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
+In-Reply-To: <20250623104941.WxOQtAmV@linutronix.de>
 
-On 2025-06-17 09:52:07 [+0200], Kegl Rohit wrote:
-> Hello!
-Hi,
-
-> Using 5.10.184-rt90 on arm (nxp imx6q).
+On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
+> > > I hope not because it is not any different from
+> > > 
+> > >  	CPU 2			CPU 3
+> > >  	=====                   =====
+> > > 	NMI
+> > >  	rcu_read_lock();
+> > >  				synchronize_rcu();
+> > >  				// need all CPUs report a QS.
+> > >  	rcu_read_unlock();
+> > >  	// no rcu_read_unlock_special() due to in_nmi().
+> > > 
+> > > If the NMI happens while the CPU is in userland (say a perf event) then
+> > > the NMI returns directly to userland.
+> > > After the tracing event completes (in this case) the CPU should run into
+> > > another RCU section on its way out via context switch or the tick
+> > > interrupt.
+> > > I assume the tick interrupt is what makes the NMI case work.
+> > 
+> > Are you promising that interrupts will be always be disabled across
+> > the whole rcu_read_lock_notrace() read-side critical section?  If so,
+> > could we please have a lockdep_assert_irqs_disabled() call to check that?
 > 
-> A proprietary driver starts a `kthread` with `SCHED_FIFO` -98 priority.
-> This `kthread` waits for a completion using
-> `wait_event_interruptible_timeout(comp, 1000)`
-> and wakes up every second to perform its work. The completion itself
-> only fires very infrequently.
-> 
-> Tracing the kernel showed that `ksoftirqd` was periodically boosted to
-> the same `SCHED_FIFO` -98 priority.
-> This is caused by the `schedule_timeout` handler within
-> `wait_event_interruptible_timeout`.
-> 
-> del_timer_wait_running takes spin_lock_bh and causes the priority inversion.
-> This is very bad because e.g. network softirq processing happens with
-> very high priority for some time.
-> 
-> Was this issue addressed in a more recent kernel version?
+> No, that should stay preemptible because bpf can attach itself to
+> tracepoints and this is the root cause of the exercise. Now if you say
+> it has to be run with disabled interrupts to match the NMI case then it
+> makes sense (since NMIs have interrupts off) but I do not understand why
+> it matters here (since the CPU returns to userland without passing the
+> kernel).
 
-The timer related bits moved to ktimersd thread (instead of ksoftirqd)
-but the basic boosting problem remains.
+Given your patch, if you don't disable interrupts in a preemptible kernel
+across your rcu_read_lock_notrace()/rcu_read_unlock_notrace() pair, then a
+concurrent expedited grace period might send its IPI in the middle of that
+critical section.  That IPI handler would set up state so that the next
+rcu_preempt_deferred_qs_irqrestore() would report the quiescent state.
+Except that without the call to rcu_read_unlock_special(), there might
+not be any subsequent call to rcu_preempt_deferred_qs_irqrestore().
 
-There is work in progress to address this. The endgame is:
-	https://lore.kernel.org/linux-rt-devel/20250613105653.1860729-1-bigeasy@linutronix.de/
+This is even more painful if this is a CONFIG_PREEMPT_RT kernel.
+Then if that critical section was preempted and then priority-boosted,
+the unboosting also won't happen until the next call to that same
+rcu_preempt_deferred_qs_irqrestore() function, which again might not
+happen.  Or might be significantly delayed.
 
-Sebastian
+Or am I missing some trick that fixes all of this?
+
+> I'm not sure how much can be done here due to the notrace part. Assuming
+> rcu_read_unlock_special() is not doable, would forcing a context switch
+> (via setting need-resched and irq_work, as the IRQ-off case) do the
+> trick?
+> Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
+> be "usable from the scheduler (with rq lock held)" due to RCU-boosting
+> or the wake of expedited_wq (which is one of the requirement).
+
+But if rq_lock is held, then interrupts are disabled, which will
+cause the unboosting to be deferred.
+
+Or are the various deferral mechanisms also unusable in this context?
+
+							Thanx, Paul
