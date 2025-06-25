@@ -1,85 +1,134 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB0A1991B6
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Jun 2025 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E3F25BF11
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Jun 2025 21:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750867352; cv=none; b=VTGmc8Lf+MuqGuPG0DkBMTRtfRl3Oot1V4fnvuevRm1u5dyOas+stImH30tBCPF8oHqzHP80u1+4aAVVGO0dFcrlmQ1bxLkBCBXazg33Xi66XPK9JLEMjMyD0un+wqOgmGfVHfyQUd2iVs9MWY9yY6343DuSyZ4j6qdVah5yC2M=
+	t=1750888122; cv=none; b=C6YK29FMGK5maUopA8lfOKFN7Dcdr1SovOH9iQYbNPJrVmlHajxFojAn5MQpXFqIt2jIm+z4+4wKJ+LVr1o1wg1zXoyY4NKRxgO6UzCv447lWfe7SfbNj7k5yz8CIKsGPn2KG6BqGl33dIXIUwbkw/jL2aUqAGWDeCkevh07vAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750867352; c=relaxed/simple;
-	bh=duzoY+pMo4GvUeP8s0Wcqxd5ma8zu9k983I5cbyMHj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tN9NlaagsqCxxoEQw9AucJK5EEalwVilT3OWEjp1rLPw7l3+wjIbbNr8Y8BGItB0F0UcfrgKPGV83yHmzxvgD337jCtFKsInOqET5s3XgIgynUxtEqd3Lpc37RRpl+1aGHxunMxDRcYiJceZ4WMpSlUw65vSy6CiZXg+AU6Ghqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FguH6EMx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=9ew88KGH; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1750888122; c=relaxed/simple;
+	bh=2Al1Xo1j+YCP/7/wS0Hh4MVF7Bsv2KTjyejkLKFeTL4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HNnGx3karKPnqBfCWRtO9TuU0I8IgtsjC8pFU1VCPWu26PyustCo52mahXBiSK00q783Y+MKblFBWsf7bfNbb5RZKYhevz0CoDEvuuBPmbNVRaNOMoEwS8sUSE7iFMyI+p/ypneJwLs440Uu5aCtHVucj/2E29Xg4MrciekU50k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RQL9DnYl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FguH6EMx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="9ew88KGH"
-Date: Wed, 25 Jun 2025 18:02:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1750867349;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RQL9DnYl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750888119;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2k28J0GqkwD41odig31t01aFjj1gFdE0i9C212uxb8Y=;
-	b=FguH6EMxIZWkIAqXUYxmX9Zvl5L9m2J3BtWzHm3oy0EG84efhNf1290d5tUfMcq2pB5z+o
-	wNnaG7IMcP8/xLDqS0eCAleBcIMcCu+9o5XDOK9refEsKM0/Ncn4AlTd+OVCtYqGHR/TIY
-	4qhcWSSYFz3VHpTydPE0QJ3fElGLRNZkTYSq6gCWvw6zR9JdvhDp071nXfVBLifwlPCs+n
-	xJMRvLpHRofcKp9bMq+EXYUKj3rZVN2OZ+pt2b0ZLBVHohv54NWf/gQ+qSkoHlvLAujOr8
-	vnA4CYOCZNTz4Dyed2dYQIOtugIqu/pZm8vRDPxIoGOePW1NGW/qAtlEz25+kg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1750867349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2k28J0GqkwD41odig31t01aFjj1gFdE0i9C212uxb8Y=;
-	b=9ew88KGHeSDR+rS2lIH9AgVoGhtpRMAqhhNgjueSYsNpFezge+eiIgL2zOiEVYgGqFKEU+
-	mxDvHTb227AesGDg==
-From: Nam Cao <namcao@linutronix.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	John Ogness <john.ogness@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Jens Axboe <axboe@kernel.dk>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>
-Subject: Re: [PATCH v3] eventpoll: Fix priority inversion problem
-Message-ID: <20250625160227.B9-NAdc2@linutronix.de>
-References: <20250527090836.1290532-1-namcao@linutronix.de>
- <20250625145031.GQ4Bnc4K@linutronix.de>
- <20250625152702.JiI8qdk-@linutronix.de>
- <20250625153354.0cgh85EQ@linutronix.de>
- <20250625155713.lckVkmJH@linutronix.de>
+	bh=yf7LN45AXmV/wr0eUVyPBaPat33AzTTVr9f1fotPlKU=;
+	b=RQL9DnYlrrtzBaMLSDDHcjRUG84cJEhH/R3Hq7pJZLQkgR7uu3v/G44T8yuTJG7BbXj/vw
+	y4Mkpj8FQuRijNzjM2UASjXSX111cYO4S6zglkfCLYiLkknpDWfTuqHVLMZ7iP2ro6fg04
+	A4QDq2AUXj/1vet07fr02/MOo+9B3a0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-2RjUxyDcNvOI8O9inlMNuA-1; Wed, 25 Jun 2025 17:48:38 -0400
+X-MC-Unique: 2RjUxyDcNvOI8O9inlMNuA-1
+X-Mimecast-MFC-AGG-ID: 2RjUxyDcNvOI8O9inlMNuA_1750888117
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6fd5e0bc378so7364536d6.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 25 Jun 2025 14:48:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750888117; x=1751492917;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yf7LN45AXmV/wr0eUVyPBaPat33AzTTVr9f1fotPlKU=;
+        b=qO16GTAN+KFq9QySlG8947Wc+Lj0l6mYTqd9hkCKjv79q41CGZKM3wzGlNwtbsR/oG
+         JQsmWeCh0e4BQGpIJ1yVeGP+bG1TzH7y6MzoSSbbNIu3P6f25E7Q4MABKXhAkKJaCuTh
+         E2cD+txTKKrdxa6XfQTHtGwiU+rf2aJB2scqHySymMS1grvOPegUnh4whQcXnuLxKM6j
+         MHwiQ2uIaRZtHndWzt3nJInsNCanvFg5PV27n7YMu6tTXQR3At03ysoQag5RzEivb6oA
+         NV7/mMSHSywGJXnBbXSk36VPB7hxrpBlRs6sBoSUpISHSYYWrXRCu9+AXdcU8N0iwIP+
+         Ijng==
+X-Forwarded-Encrypted: i=1; AJvYcCVK5Z1Co09CcckBgy2abknZXdZHFA1FhiGyUnBXxnAp1IXpnRc2jN8v5He08dKnrfDRZhOCHgypflRoL1OFkg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzozuPJ1onjxvwD1mS+XkEGkNt/DmJhB9gpbCnUgzcKihNxERGu
+	6GX2w0zK7ePYGWJ0Yo4J9qQG3wL1EwwgwO16DELyoyqO0CmokLWdkl/I9BcQxKthGVQk68r33na
+	/p5k91r9DguTfjv3XCGxFYPs16aALdSdSl+1D460exBP6OZpnqBOKfslW0xlyIrKZ3MKn
+X-Gm-Gg: ASbGnctZ7vIbTrHuanPA45kNwB83PweNInj6Uno0PqwAIA4nwHkBbvMhYdkoYUuR3bO
+	lSQ/7sHfSIjELuSWI7s54HZRpsSWfqz9ooCyXNydgpkt+gn2laBo4LOn1RT/ZfhE1MQt0sqbHRz
+	pC/8HNCuSwwlle7ofcHaXh0iNCcBO5e8iQUIiF2MDnIsKY/lDrMiWJ5H24WP1wCwF8EDqAVWSG2
+	W/IqAu2it5jgRWvNoRrCj+tv9QtLsPVZgH/d9+NaUlXiZz0fN5tKTrtNMP6byy74bRrhxIKaBCM
+	eEkFGVffyrXvcuyhTuTszQugrKhHbtOqA01m7Z7ZevFGaGJYa/goAQ==
+X-Received: by 2002:a05:620a:2721:b0:7d3:abb5:b57d with SMTP id af79cd13be357-7d429738d95mr576422685a.28.1750888117628;
+        Wed, 25 Jun 2025 14:48:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsLCB6jZfeylnPbGC4ONnPG6FgPUPsCN7asxvidsIyT3qk0W5gzp71Re109/DyqgsCAMiPPA==
+X-Received: by 2002:a05:620a:2721:b0:7d3:abb5:b57d with SMTP id af79cd13be357-7d429738d95mr576418985a.28.1750888117188;
+        Wed, 25 Jun 2025 14:48:37 -0700 (PDT)
+Received: from crwood-thinkpadp16vgen1.minnmso.csb ([2601:447:c680:2b50:ee6f:85c2:7e3e:ee98])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd772fcabdsm162736d6.85.2025.06.25.14.48.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 14:48:36 -0700 (PDT)
+Message-ID: <d2e98b4d7f76534c68c1a0cc30fdd61b109cbd3c.camel@redhat.com>
+Subject: Re: [PATCH v5] sched: do not call __put_task_struct() on rt if
+ pi_blocked_on is set
+From: Crystal Wood <crwood@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Luis Claudio R.
+ Goncalves" <lgoncalv@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, Clark Williams
+ <clrkwllms@kernel.org>,  Steven Rostedt <rostedt@goodmis.org>, Tejun Heo
+ <tj@kernel.org>, David Vernet <dvernet@meta.com>, Barret Rhoden	
+ <brho@google.com>, Josh Don <joshdon@google.com>,
+ linux-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev, Juri Lelli
+ <juri.lelli@redhat.com>, Ben Segall	 <bsegall@google.com>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Ingo Molnar	 <mingo@redhat.com>, Mel Gorman
+ <mgorman@suse.de>, Valentin Schneider	 <vschneid@redhat.com>, Vincent
+ Guittot <vincent.guittot@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Wander Lairson Costa <wander@redhat.com>
+Date: Wed, 25 Jun 2025 16:48:35 -0500
+In-Reply-To: <20250618070350.19JbjFnG@linutronix.de>
+References: <aFF1BKtdQCnuYMaS@uudg.org>
+	 <20250618070350.19JbjFnG@linutronix.de>
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250625155713.lckVkmJH@linutronix.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: O4B1BP3g5j0ckzeT8J1GRwhXXMnE49cz11d0rIR4SS8_1750888117
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 25, 2025 at 05:57:18PM +0200, Nam Cao wrote:
-> On Wed, Jun 25, 2025 at 05:33:54PM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2025-06-25 17:27:02 [+0200], Nam Cao wrote:
-> > > To be sure, I tried your suggestion. Systemd sometimes failed to boot, and
-> > > my stress test crashed instantly.
-> > 
-> > I had a trace_printk() there while testing and it never triggered.
-> 
-> This code path is only executed for broken userspace.
+On Wed, 2025-06-18 at 09:03 +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-06-17 11:00:36 [-0300], Luis Claudio R. Goncalves wrote:
+> > With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+> > from rt_mutex_adjust_prio_chain() could happen in preemptible context a=
+nd
+> > with a mutex enqueued. That could lead to this sequence:
+> >=20
+> >         rt_mutex_adjust_prio_chain()
+> >           put_task_struct()
+> >             __put_task_struct()
+> >               sched_ext_free()
+> >                 spin_lock_irqsave()
+> >                   rtlock_lock() --->  TRIGGERS
+> >                                       lockdep_assert(!current->pi_block=
+ed_on);
+>=20
+> Maybe with the addition of
+>=20
+> > The first case was observed with sched_ext_free().=20
+> > Crystal Wood was able to reproduce the problem to __put_task_struct()
+> > being called during rt_mutex_adjust_prio_chain().
+>=20
+> The first sentence will imply a Fixes: with the introduction of
+> sched_ext. The second implies that the original fix was not complete and
+> nobody managed to trigger it until now.
 
-Forgot to mention, my test crashed because the __llist_add(n, &txlist)
-below doesn't care if 'n' is already in a list. By changing to from
-llist_del_first() to llist_del_first_init(), it is possible for 'n' to be
-in a list, therefore __llist_add() would break.
+sched_ext_free() just happens to be the first cleanup function called,
+so that's where the blowup happens.  I think the "nobody managed to
+trigger it" was because we didn't have the pi_blocked_on assert until
+recently -- and my "other cases with a similar cause" was probably older
+kernels with the assert backported, but not sched_ext, so the backtrace
+was different.
 
-Nam
+-Crystal
+
