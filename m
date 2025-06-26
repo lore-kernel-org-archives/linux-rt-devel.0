@@ -1,134 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E3F25BF11
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Jun 2025 21:48:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092A817BA5
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Jun 2025 11:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750888122; cv=none; b=C6YK29FMGK5maUopA8lfOKFN7Dcdr1SovOH9iQYbNPJrVmlHajxFojAn5MQpXFqIt2jIm+z4+4wKJ+LVr1o1wg1zXoyY4NKRxgO6UzCv447lWfe7SfbNj7k5yz8CIKsGPn2KG6BqGl33dIXIUwbkw/jL2aUqAGWDeCkevh07vAs=
+	t=1750937863; cv=none; b=Tzd0wQpJAOxZAQ03GL0SXPkUwEeePIR6WuXTU/SR2rZLt++3TgevlhBLgMHXcA68QqpttO4NMehxBAHJa9i0+QHlqbhvfF/mm8YWvAvK2SbHKdHweyE3szIL6rCkZn3ZmSwxO2DkWfh/A+IkiVWk3xLLClCWr0XkX1UOjX2MDJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750888122; c=relaxed/simple;
-	bh=2Al1Xo1j+YCP/7/wS0Hh4MVF7Bsv2KTjyejkLKFeTL4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HNnGx3karKPnqBfCWRtO9TuU0I8IgtsjC8pFU1VCPWu26PyustCo52mahXBiSK00q783Y+MKblFBWsf7bfNbb5RZKYhevz0CoDEvuuBPmbNVRaNOMoEwS8sUSE7iFMyI+p/ypneJwLs440Uu5aCtHVucj/2E29Xg4MrciekU50k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RQL9DnYl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750937863; c=relaxed/simple;
+	bh=oijaoHUkd+q65l+4bZDfbmpmn8jmxpyjZB+m3EReZ5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AP4W4xz9p1u29I4grGLpiWuPGAfF5RIfiempffA71CaQh0jz/Fpz7vdk5a67U0Fljlfp3U2K+AZ2q4RfZgFRDCWaB0NUUufRqeYvt1ycHnYVdIWdHqJ52AnpSidEG1bSGdWXUABWI6jZe427DN15xLvVQrb6vDiOobUaLnQ85ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yydu/JQS; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RQL9DnYl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750888119;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yf7LN45AXmV/wr0eUVyPBaPat33AzTTVr9f1fotPlKU=;
-	b=RQL9DnYlrrtzBaMLSDDHcjRUG84cJEhH/R3Hq7pJZLQkgR7uu3v/G44T8yuTJG7BbXj/vw
-	y4Mkpj8FQuRijNzjM2UASjXSX111cYO4S6zglkfCLYiLkknpDWfTuqHVLMZ7iP2ro6fg04
-	A4QDq2AUXj/1vet07fr02/MOo+9B3a0=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-14-2RjUxyDcNvOI8O9inlMNuA-1; Wed, 25 Jun 2025 17:48:38 -0400
-X-MC-Unique: 2RjUxyDcNvOI8O9inlMNuA-1
-X-Mimecast-MFC-AGG-ID: 2RjUxyDcNvOI8O9inlMNuA_1750888117
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6fd5e0bc378so7364536d6.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 25 Jun 2025 14:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yydu/JQS"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-71173646662so9666007b3.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Jun 2025 04:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750937861; x=1751542661; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7T/PFAjUgAbCxF3fTY06Ptb9oq5X+RNiebYjCU0JVhA=;
+        b=Yydu/JQSzcuuQ4QpU8F9xY16ocsvD+3ICxncYbD5rHlOuiNT74UdML7jWPLr8A8OyP
+         /VAVYFdfxrYtyIGx7798dbDn6u0SRxgY4aAaHOZRYL1REWOd0QJO3ENEphpWVWgj9B9K
+         4kb4kOIA8sL9Snosy1iWrwOA3P4ALdweoVwLJqFoZB//rJb70EHhGCpdNT0PoWaMq95y
+         5ejo/AuzdtwvxnhOx8CzJjiXljGmOwFCj0Jrob5+0cEeYJwhYHGj3ReNl9iQjAjLi1bW
+         rkGNtctCIEoFPUJNlmy08GvWOKZj4ymKNnU/NRTWxCE/EdweWE0GEYYgVeASRVYSJ+DY
+         nvNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750888117; x=1751492917;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yf7LN45AXmV/wr0eUVyPBaPat33AzTTVr9f1fotPlKU=;
-        b=qO16GTAN+KFq9QySlG8947Wc+Lj0l6mYTqd9hkCKjv79q41CGZKM3wzGlNwtbsR/oG
-         JQsmWeCh0e4BQGpIJ1yVeGP+bG1TzH7y6MzoSSbbNIu3P6f25E7Q4MABKXhAkKJaCuTh
-         E2cD+txTKKrdxa6XfQTHtGwiU+rf2aJB2scqHySymMS1grvOPegUnh4whQcXnuLxKM6j
-         MHwiQ2uIaRZtHndWzt3nJInsNCanvFg5PV27n7YMu6tTXQR3At03ysoQag5RzEivb6oA
-         NV7/mMSHSywGJXnBbXSk36VPB7hxrpBlRs6sBoSUpISHSYYWrXRCu9+AXdcU8N0iwIP+
-         Ijng==
-X-Forwarded-Encrypted: i=1; AJvYcCVK5Z1Co09CcckBgy2abknZXdZHFA1FhiGyUnBXxnAp1IXpnRc2jN8v5He08dKnrfDRZhOCHgypflRoL1OFkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzozuPJ1onjxvwD1mS+XkEGkNt/DmJhB9gpbCnUgzcKihNxERGu
-	6GX2w0zK7ePYGWJ0Yo4J9qQG3wL1EwwgwO16DELyoyqO0CmokLWdkl/I9BcQxKthGVQk68r33na
-	/p5k91r9DguTfjv3XCGxFYPs16aALdSdSl+1D460exBP6OZpnqBOKfslW0xlyIrKZ3MKn
-X-Gm-Gg: ASbGnctZ7vIbTrHuanPA45kNwB83PweNInj6Uno0PqwAIA4nwHkBbvMhYdkoYUuR3bO
-	lSQ/7sHfSIjELuSWI7s54HZRpsSWfqz9ooCyXNydgpkt+gn2laBo4LOn1RT/ZfhE1MQt0sqbHRz
-	pC/8HNCuSwwlle7ofcHaXh0iNCcBO5e8iQUIiF2MDnIsKY/lDrMiWJ5H24WP1wCwF8EDqAVWSG2
-	W/IqAu2it5jgRWvNoRrCj+tv9QtLsPVZgH/d9+NaUlXiZz0fN5tKTrtNMP6byy74bRrhxIKaBCM
-	eEkFGVffyrXvcuyhTuTszQugrKhHbtOqA01m7Z7ZevFGaGJYa/goAQ==
-X-Received: by 2002:a05:620a:2721:b0:7d3:abb5:b57d with SMTP id af79cd13be357-7d429738d95mr576422685a.28.1750888117628;
-        Wed, 25 Jun 2025 14:48:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEsLCB6jZfeylnPbGC4ONnPG6FgPUPsCN7asxvidsIyT3qk0W5gzp71Re109/DyqgsCAMiPPA==
-X-Received: by 2002:a05:620a:2721:b0:7d3:abb5:b57d with SMTP id af79cd13be357-7d429738d95mr576418985a.28.1750888117188;
-        Wed, 25 Jun 2025 14:48:37 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([2601:447:c680:2b50:ee6f:85c2:7e3e:ee98])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6fd772fcabdsm162736d6.85.2025.06.25.14.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jun 2025 14:48:36 -0700 (PDT)
-Message-ID: <d2e98b4d7f76534c68c1a0cc30fdd61b109cbd3c.camel@redhat.com>
-Subject: Re: [PATCH v5] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-From: Crystal Wood <crwood@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Luis Claudio R.
- Goncalves" <lgoncalv@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Clark Williams
- <clrkwllms@kernel.org>,  Steven Rostedt <rostedt@goodmis.org>, Tejun Heo
- <tj@kernel.org>, David Vernet <dvernet@meta.com>, Barret Rhoden	
- <brho@google.com>, Josh Don <joshdon@google.com>,
- linux-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev, Juri Lelli
- <juri.lelli@redhat.com>, Ben Segall	 <bsegall@google.com>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ingo Molnar	 <mingo@redhat.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider	 <vschneid@redhat.com>, Vincent
- Guittot <vincent.guittot@linaro.org>, Thomas Gleixner <tglx@linutronix.de>,
- Wander Lairson Costa <wander@redhat.com>
-Date: Wed, 25 Jun 2025 16:48:35 -0500
-In-Reply-To: <20250618070350.19JbjFnG@linutronix.de>
-References: <aFF1BKtdQCnuYMaS@uudg.org>
-	 <20250618070350.19JbjFnG@linutronix.de>
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42)
+        d=1e100.net; s=20230601; t=1750937861; x=1751542661;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7T/PFAjUgAbCxF3fTY06Ptb9oq5X+RNiebYjCU0JVhA=;
+        b=sZsxbMOqdASslBK9umCI6ZMHKFJhiZ1FNkXyojw2nuCfVKFHX4WKiV2OpMvndh4gDt
+         BdPQsE2nt70EMfbnCycUzBi/Q+Rvk6jTfsBniLUTp1JA1OXLJGYPHfLq8nQvQ3flSQJI
+         T9mZPxi35mBdduEwuDXnmePETEpKBpKzQadwp6wOSLADZ21+UasTiYmIv7dVulNWYQmz
+         pfA0h+Etxgm4J7coh4+bvPPfn2MouK9DUyFV1iRVPd7AwFUGXk3K/5G61uftXT2E8Mtb
+         RlgNKNApywbMjLy8bOVB+kCVL7xFtwpS8K/XIqsBPEeSLneTLXF84tespjUtcRFUdfrB
+         76VQ==
+X-Gm-Message-State: AOJu0YxZ3ZzCtXY51zpnxx+RhJyP7LCH5TMGVLwWPx9+wKpcrWpmyGNk
+	EloRzYcnKrFAkDbUHfYz7bDqWbTGRITLNuQmL0EZEuy9qOwkMq7wDXtryu+49050loLP6VKGz9q
+	jtewhj3Mzjay5t5+izCj1y240uD23fvs=
+X-Gm-Gg: ASbGncsNuK7QMB0903tXWQLTpDF9dVH5w4ooHIashkVeKI0f9Q1PYpqBAYdPss3Cpr3
+	ouQQz8azsZHLZ1teOQNnm+nCuKT+u7Xh9TBJWLN4jog5PARQ/qpmxx7KMARSPWLk3p2CMnFgcMi
+	Tj8RLnBZkF7md3st3kW3CAmjIlj8RIeUvn2ajB2LAtc7Tr
+X-Google-Smtp-Source: AGHT+IGSZDXv0Fl9Sek1EYQSuTiEx7VI2AW6SAi74hyC1Xulp+Lhx9xstmR17Xwr9KXQibdpQNeO1ZidQsrGeFNUWwU=
+X-Received: by 2002:a05:690c:4d82:b0:70e:2ba2:659d with SMTP id
+ 00721157ae682-71406da0ba0mr100064607b3.23.1750937860762; Thu, 26 Jun 2025
+ 04:37:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: O4B1BP3g5j0ckzeT8J1GRwhXXMnE49cz11d0rIR4SS8_1750888117
-X-Mimecast-Originator: redhat.com
+References: <CAMeyCbgeL-UuxiJPVy_=zLSJfWgudKAvSQVViL8=u05yty_Pyg@mail.gmail.com>
+ <20250623143051.pCoclIs7@linutronix.de>
+In-Reply-To: <20250623143051.pCoclIs7@linutronix.de>
+From: Kegl Rohit <keglrohit@gmail.com>
+Date: Thu, 26 Jun 2025 13:37:29 +0200
+X-Gm-Features: Ac12FXyQuRLhBAOR7eQuicKCFs8zGf-yXTdaItkBStI0RJXAlC06SGIi-e_HwHk
+Message-ID: <CAMeyCbgB=iBVhePLKbUoyhcpE+E7oJjFYuK+dvFCjn8cXLK4SA@mail.gmail.com>
+Subject: Re: ksoftirqd priority inversion wait_event_interruptible_timeout/schedule_timeout/del_timer_sync
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2025-06-18 at 09:03 +0200, Sebastian Andrzej Siewior wrote:
-> On 2025-06-17 11:00:36 [-0300], Luis Claudio R. Goncalves wrote:
-> > With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
-> > from rt_mutex_adjust_prio_chain() could happen in preemptible context a=
-nd
-> > with a mutex enqueued. That could lead to this sequence:
-> >=20
-> >         rt_mutex_adjust_prio_chain()
-> >           put_task_struct()
-> >             __put_task_struct()
-> >               sched_ext_free()
-> >                 spin_lock_irqsave()
-> >                   rtlock_lock() --->  TRIGGERS
-> >                                       lockdep_assert(!current->pi_block=
-ed_on);
->=20
-> Maybe with the addition of
->=20
-> > The first case was observed with sched_ext_free().=20
-> > Crystal Wood was able to reproduce the problem to __put_task_struct()
-> > being called during rt_mutex_adjust_prio_chain().
->=20
-> The first sentence will imply a Fixes: with the introduction of
-> sched_ext. The second implies that the original fix was not complete and
-> nobody managed to trigger it until now.
+thanks for your answer.
+yes, I am aware of the ktimer thread split. In some kernel versions it
+is split in and in some not.
+In 5.10-rt the timers use ksoftirqd. Does a ktimer split backport
+exist? Or do you think a backport would be more harmful than helpful?
 
-sched_ext_free() just happens to be the first cleanup function called,
-so that's where the blowup happens.  I think the "nobody managed to
-trigger it" was because we didn't have the pi_blocked_on assert until
-recently -- and my "other cases with a similar cause" was probably older
-kernels with the assert backported, but not sched_ext, so the backtrace
-was different.
-
--Crystal
-
+On Mon, Jun 23, 2025 at 4:30=E2=80=AFPM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2025-06-17 09:52:07 [+0200], Kegl Rohit wrote:
+> > Hello!
+> Hi,
+>
+> > Using 5.10.184-rt90 on arm (nxp imx6q).
+> >
+> > A proprietary driver starts a `kthread` with `SCHED_FIFO` -98 priority.
+> > This `kthread` waits for a completion using
+> > `wait_event_interruptible_timeout(comp, 1000)`
+> > and wakes up every second to perform its work. The completion itself
+> > only fires very infrequently.
+> >
+> > Tracing the kernel showed that `ksoftirqd` was periodically boosted to
+> > the same `SCHED_FIFO` -98 priority.
+> > This is caused by the `schedule_timeout` handler within
+> > `wait_event_interruptible_timeout`.
+> >
+> > del_timer_wait_running takes spin_lock_bh and causes the priority inver=
+sion.
+> > This is very bad because e.g. network softirq processing happens with
+> > very high priority for some time.
+> >
+> > Was this issue addressed in a more recent kernel version?
+>
+> The timer related bits moved to ktimersd thread (instead of ksoftirqd)
+> but the basic boosting problem remains.
+>
+> There is work in progress to address this. The endgame is:
+>         https://lore.kernel.org/linux-rt-devel/20250613105653.1860729-1-b=
+igeasy@linutronix.de/
+>
+> Sebastian
