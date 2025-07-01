@@ -1,130 +1,54 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ABF241CB6
-	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Jul 2025 06:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04426D4D0
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Jul 2025 10:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751350181; cv=none; b=JTjhZoB5k3xADa5W8NZRRQhONUUz3NH6cmeWr70vOmBQQDS5dHWegJIPNjm/oo9eCKcpm6Q58fgImQ8zVr/sDm3nRbutXo3lFKdlksITPaGAORv8dkDChD4Pl/m37vPGe46q31W2tgusc+NpiJUZDhMu87kmvmhUAwNmQ7EzYc0=
+	t=1751366749; cv=none; b=FnW+k2TThrRKWkOGecmE7MfOuMovnRBoR2wq4jz6yVcvYxdBOewTl6Ys/V0OLEjj6+VqKzQF16G4PAqJ3A9rgmhN6PX8+H/NspvSWTWAGJW6NXxhEbXxHHbGIL8PwY43bGeZ/XKb4olSmQmzX77/p3eLUQrm2IZdrmtyVtlOwlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751350181; c=relaxed/simple;
-	bh=sZn1KgN8tgaYqNBol75eRQI21Lp06foomJyqYe+MuVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d1JxZS77twQT5S2mvAFNVEtt8c+uKxXWROda1dRramD92CNQfYGNcfcHtMEh2Yyj+j781j8h89V+YsS56/mseqrU2kXH15gwXMPIjiuaPzS/ggKKq3gnQC9gtSCX2rLxxs2EBft6MQ+wWOOHoVa7lFQHfiVm6u5NsNKeHpU+UZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jVlGCc7S; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BrpUd7oo; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jVlGCc7S";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BrpUd7oo"
-Date: Tue, 1 Jul 2025 08:09:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751350178;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=EiFSlrqpPfW1qkmBUTfWyy6a5h5zZAAmZJTwZwnI47E=;
-	b=jVlGCc7SFyom6K2ufBasnRNTrgiDWKOW32UWYUV1Laq9qW4yMqmP9b2WqYUzjQybuI5BAP
-	8EKN++Z19IewDxxLpce0wb+j4cb+WCWuTAv7PzXL1i8T4cJ0Y+5NqOUgFGWEds/lh5Us5z
-	PQMrW2RGFPcjs3T5S1UQW1tmyYdUQHL5Su/ekvhISG1O6CFwnVLebI5gy0TMaY3174MHy/
-	uwN9YjBDrfNMihxCAoolPsy49OZmdXndc1GZk3KL8Q3DT9unILIn6UF7CAXRglXeWx9bvv
-	h16pYGFZb9606s+QAHwCv3GUZaQ17tZUuIiT4xrIBMNt/tpzbY4eEzcIj3iVFA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751350178;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=EiFSlrqpPfW1qkmBUTfWyy6a5h5zZAAmZJTwZwnI47E=;
-	b=BrpUd7oofoVsBct+x62gPKUUOB96Aba7Tubgz/ZlqFAwyfbSHvPPl+59Mo3/yG0O8o37Ln
-	KypoegolQc3qkgDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-crypto@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Cc: 
-	Thomas Gleinxer <tglx@linutronix.de>;
-Subject: [PATCH] cryptd: Use nested-BH locking for cryptd_cpu_queue
-Message-ID: <20250701060936.r4gtQv9v@linutronix.de>
+	s=arc-20240116; t=1751366749; c=relaxed/simple;
+	bh=MCkWhHExPt0NI1h78HUpR4kZZtwcvrwYl4tf2eWUMks=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NCy6gTiukLgtECgZ7lqPNUWrVACY72xmNKkpB6fQB6hxIYYFSHzFuUUeET7A/jBOvTKyuD0YpZNPvF1P/qDwb8XBhrDyyKmgDOxVq8EAChkYEuGARrWBbBG06WJoXd9Oz67UUwWBk5FLzAlD6100vMZM3/qe83bmykhC2ul+2Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
+	id 6BE50602AC; Tue,  1 Jul 2025 12:45:45 +0200 (CEST)
+Date: Tue, 1 Jul 2025 12:45:45 +0200
+From: Florian Westphal <fw@strlen.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-rt-devel@lists.linux.dev,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v5 0/3] netfilter: Exclude LEGACY TABLES on PREEMPT_RT.
+Message-ID: <aGO8WbwbstF4Gc0K@strlen.de>
+References: <20250630154425.3830665-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630154425.3830665-1-bigeasy@linutronix.de>
 
-cryptd_queue::cryptd_cpu_queue is a per-CPU variable and relies on
-disabled BH for its locking. Without per-CPU locking in
-local_bh_disable() on PREEMPT_RT this data structure requires explicit
-locking.
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> This is v5 of the "exclude legacy tables".
+>
+> I retested the config fragments individually and as part of
+> kselftest-merge to ensure none of the requested option is lost.
+> The last patch in the series fixes up non-existing option which was
+> noticed during that exercise. The other finding has been sent to net.
+>
+> Patch #2 has been split out from Florian's patch, hopefully as
+> requested.
 
-Add a local_lock_t to the struct cryptd_cpu_queue and use
-local_lock_nested_bh() for locking. This change adds only lockdep
-coverage and does not alter the functional behaviour for !PREEMPT_RT.
+LGTM, thanks for the re-spin.  I think we should try again to get this
+merged.
 
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-crypto@vger.kernel.org
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
-
-This patch requires a prerequisite for __local_lock_nested_bh() which
-has been made available at
-   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git local-lock-for-net
-
-It can be pulled in so that the crypto bits are independent of the TIP
-tree.
-
- crypto/cryptd.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/crypto/cryptd.c b/crypto/cryptd.c
-index 5bb6f8d88cc2e..efff54e707cb5 100644
---- a/crypto/cryptd.c
-+++ b/crypto/cryptd.c
-@@ -34,6 +34,7 @@ MODULE_PARM_DESC(cryptd_max_cpu_qlen, "Set cryptd Max queue depth");
- static struct workqueue_struct *cryptd_wq;
- 
- struct cryptd_cpu_queue {
-+	local_lock_t bh_lock;
- 	struct crypto_queue queue;
- 	struct work_struct work;
- };
-@@ -110,6 +111,7 @@ static int cryptd_init_queue(struct cryptd_queue *queue,
- 		cpu_queue = per_cpu_ptr(queue->cpu_queue, cpu);
- 		crypto_init_queue(&cpu_queue->queue, max_cpu_qlen);
- 		INIT_WORK(&cpu_queue->work, cryptd_queue_worker);
-+		local_lock_init(&cpu_queue->bh_lock);
- 	}
- 	pr_info("cryptd: max_cpu_qlen set to %d\n", max_cpu_qlen);
- 	return 0;
-@@ -135,6 +137,7 @@ static int cryptd_enqueue_request(struct cryptd_queue *queue,
- 	refcount_t *refcnt;
- 
- 	local_bh_disable();
-+	local_lock_nested_bh(&queue->cpu_queue->bh_lock);
- 	cpu_queue = this_cpu_ptr(queue->cpu_queue);
- 	err = crypto_enqueue_request(&cpu_queue->queue, request);
- 
-@@ -151,6 +154,7 @@ static int cryptd_enqueue_request(struct cryptd_queue *queue,
- 	refcount_inc(refcnt);
- 
- out:
-+	local_unlock_nested_bh(&queue->cpu_queue->bh_lock);
- 	local_bh_enable();
- 
- 	return err;
-@@ -169,8 +173,10 @@ static void cryptd_queue_worker(struct work_struct *work)
- 	 * Only handle one request at a time to avoid hogging crypto workqueue.
- 	 */
- 	local_bh_disable();
-+	__local_lock_nested_bh(&cpu_queue->bh_lock);
- 	backlog = crypto_get_backlog(&cpu_queue->queue);
- 	req = crypto_dequeue_request(&cpu_queue->queue);
-+	__local_unlock_nested_bh(&cpu_queue->bh_lock);
- 	local_bh_enable();
- 
- 	if (!req)
--- 
-2.50.0
-
+Series: Reviewed-by: Florian Westphal <fw@strlen.de>
