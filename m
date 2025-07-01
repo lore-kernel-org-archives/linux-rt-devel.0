@@ -1,54 +1,93 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04426D4D0
-	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Jul 2025 10:45:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703602737F2;
+	Tue,  1 Jul 2025 12:03:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751366749; cv=none; b=FnW+k2TThrRKWkOGecmE7MfOuMovnRBoR2wq4jz6yVcvYxdBOewTl6Ys/V0OLEjj6+VqKzQF16G4PAqJ3A9rgmhN6PX8+H/NspvSWTWAGJW6NXxhEbXxHHbGIL8PwY43bGeZ/XKb4olSmQmzX77/p3eLUQrm2IZdrmtyVtlOwlA=
+	t=1751371431; cv=none; b=pOxdYTP8Xtl2hlU5iCfIHgM2MicZk+vBxvPbbFY7hFVRBXyQDR/ELVEAmP5P5FNOwW/jqKNznvpo4E+XZWAqJIUCHmwnEl6feKGGd5DHB2Bq5NHeWIu4pZSWSTp6mdVAtzTgpihbEN9ZbB6DIUBc4NSMYEFNAIYFaL3G2dFhhHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751366749; c=relaxed/simple;
-	bh=MCkWhHExPt0NI1h78HUpR4kZZtwcvrwYl4tf2eWUMks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCy6gTiukLgtECgZ7lqPNUWrVACY72xmNKkpB6fQB6hxIYYFSHzFuUUeET7A/jBOvTKyuD0YpZNPvF1P/qDwb8XBhrDyyKmgDOxVq8EAChkYEuGARrWBbBG06WJoXd9Oz67UUwWBk5FLzAlD6100vMZM3/qe83bmykhC2ul+2Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
-	id 6BE50602AC; Tue,  1 Jul 2025 12:45:45 +0200 (CEST)
-Date: Tue, 1 Jul 2025 12:45:45 +0200
-From: Florian Westphal <fw@strlen.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	s=arc-20240116; t=1751371431; c=relaxed/simple;
+	bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a1gjjiUSBIW6NZ+890JvOCQEfqRToXjCpRe6+YnTdwCW3ignTo/rNcVGbEFmGMNlxAj9fkf6grNjKnBHClnA3xKJJJf0PR4/MsdNfVZdSfBIKgM2btG86tRKHhYGVnZ1GngFBydPOwq7BZeClD+PUD/oKu3mcc5ioqNeat6in3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RXJJcXUr; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RXJJcXUr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39886C4CEEB;
+	Tue,  1 Jul 2025 12:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751371431;
+	bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RXJJcXUrvHSAIOPY2gI4XfjpcD2WMOoRpuEgtUiwLc9iKiaRf/krf8PhSdchunuJM
+	 8u4WdXAy7Y0lAjuaqgCxhvE5mdRI/Z/Bhz6v7ZTq3DO5qFtAmvy+fZ79lilbCEO+zE
+	 DyC82eMXBFcVinxD0Bq1Zl/0D6OADwhCc9kl6BmvhVS6tqonauHkLcJAZQRR+nWS24
+	 Ig9OwkHGHt3GJVFLkQxDVHQNy9mVlClJS2w92exPJHXe4GW1pms/B2EuiRgOh76FiT
+	 /QRyLz/jJ3FHlOtG54Y7wBA1O2+Tk4GI8Qj5vI7iIMD9uJ/MQyeLiWGQXzGig+olW3
+	 w7BWS9u7aqa0Q==
+From: Christian Brauner <brauner@kernel.org>
+To: Nam Cao <namcao@linutronix.de>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v5 0/3] netfilter: Exclude LEGACY TABLES on PREEMPT_RT.
-Message-ID: <aGO8WbwbstF4Gc0K@strlen.de>
-References: <20250630154425.3830665-1-bigeasy@linutronix.de>
+	linux-rt-users@vger.kernel.org,
+	Joe Damato <jdamato@fastly.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v3] eventpoll: Fix priority inversion problem
+Date: Tue,  1 Jul 2025 14:03:38 +0200
+Message-ID: <20250701-wochen-bespannt-33e745d23ff6@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250527090836.1290532-1-namcao@linutronix.de>
+References: <20250527090836.1290532-1-namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250630154425.3830665-1-bigeasy@linutronix.de>
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1208; i=brauner@kernel.org; h=from:subject:message-id; bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQkn1sQnrzZI0ljcfwpHbZEDYcZy5wUhU6vDzAqev/T+ FMGi4RqRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERefGT47+I7r6lfRrx4SZPC gr1nvyx/+ETLa9GU1lkpywpdORRPzmFk2P41wiBiwnsBnxR1dl8pydePEwQ5opmTf1rcsdl8aU4 PCwA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> This is v5 of the "exclude legacy tables".
->
-> I retested the config fragments individually and as part of
-> kselftest-merge to ensure none of the requested option is lost.
-> The last patch in the series fixes up non-existing option which was
-> noticed during that exercise. The other finding has been sent to net.
->
-> Patch #2 has been split out from Florian's patch, hopefully as
-> requested.
+On Tue, 27 May 2025 11:08:36 +0200, Nam Cao wrote:
+> The ready event list of an epoll object is protected by read-write
+> semaphore:
+> 
+>   - The consumer (waiter) acquires the write lock and takes items.
+>   - the producer (waker) takes the read lock and adds items.
+> 
+> The point of this design is enabling epoll to scale well with large number
+> of producers, as multiple producers can hold the read lock at the same
+> time.
+> 
+> [...]
 
-LGTM, thanks for the re-spin.  I think we should try again to get this
-merged.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Series: Reviewed-by: Florian Westphal <fw@strlen.de>
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/1] eventpoll: Fix priority inversion problem
+      https://git.kernel.org/vfs/vfs/c/e73f3008405b
