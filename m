@@ -1,93 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703602737F2;
-	Tue,  1 Jul 2025 12:03:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C952FE372
+	for <linux-rt-devel@lists.linux.dev>; Tue,  1 Jul 2025 20:33:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.136.65.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751371431; cv=none; b=pOxdYTP8Xtl2hlU5iCfIHgM2MicZk+vBxvPbbFY7hFVRBXyQDR/ELVEAmP5P5FNOwW/jqKNznvpo4E+XZWAqJIUCHmwnEl6feKGGd5DHB2Bq5NHeWIu4pZSWSTp6mdVAtzTgpihbEN9ZbB6DIUBc4NSMYEFNAIYFaL3G2dFhhHk=
+	t=1751401999; cv=none; b=qlZaWc1m2ca5QctquWBIkwnDs3r+WhbfDxrDNP18GtAor+Hwt4tfV92c7/W0URmg26b8yCUPP2ajwDMJDDOA1VGoZ5EGgINpik8i/ln4VHXBeBPMbcQVaWPVzlgeCgD8gbNx/JNRxTSERYhoiTm7ko4sEpUUvnsdRhUCqOYcOOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751371431; c=relaxed/simple;
-	bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a1gjjiUSBIW6NZ+890JvOCQEfqRToXjCpRe6+YnTdwCW3ignTo/rNcVGbEFmGMNlxAj9fkf6grNjKnBHClnA3xKJJJf0PR4/MsdNfVZdSfBIKgM2btG86tRKHhYGVnZ1GngFBydPOwq7BZeClD+PUD/oKu3mcc5ioqNeat6in3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RXJJcXUr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751401999; c=relaxed/simple;
+	bh=911JYjHmj6gjJY5DPIg00EEUOKP+CfWg2wJM8NLTVE0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=omc7YfgNjkRWhDyFeXxio/2tl9PoFTNn5hW5S+5Sbes86jeNOgkTu9JrUla9fgi4LJmSQTis4meMrRoxgt2FGB/8O1cGsCeXiPXWnTqJeZu2Yg47bUUAB0s1Ir/Re5Nmj67j+ayTJLqyqGFCbfQ9fkze6S8/5cat9JEk0CBtUw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com; dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b=Y6kN1y46; arc=none smtp.client-ip=185.136.65.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RXJJcXUr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39886C4CEEB;
-	Tue,  1 Jul 2025 12:03:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751371431;
-	bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RXJJcXUrvHSAIOPY2gI4XfjpcD2WMOoRpuEgtUiwLc9iKiaRf/krf8PhSdchunuJM
-	 8u4WdXAy7Y0lAjuaqgCxhvE5mdRI/Z/Bhz6v7ZTq3DO5qFtAmvy+fZ79lilbCEO+zE
-	 DyC82eMXBFcVinxD0Bq1Zl/0D6OADwhCc9kl6BmvhVS6tqonauHkLcJAZQRR+nWS24
-	 Ig9OwkHGHt3GJVFLkQxDVHQNy9mVlClJS2w92exPJHXe4GW1pms/B2EuiRgOh76FiT
-	 /QRyLz/jJ3FHlOtG54Y7wBA1O2+Tk4GI8Qj5vI7iIMD9uJ/MQyeLiWGQXzGig+olW3
-	 w7BWS9u7aqa0Q==
-From: Christian Brauner <brauner@kernel.org>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Christian Brauner <brauner@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org,
-	Joe Damato <jdamato@fastly.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Jens Axboe <axboe@kernel.dk>
+	dkim=pass (2048-bit key) header.d=siemens.com header.i=florian.bezdeka@siemens.com header.b="Y6kN1y46"
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2025070120330870d1b47ad2bcd28326
+        for <linux-rt-devel@lists.linux.dev>;
+        Tue, 01 Jul 2025 22:33:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=florian.bezdeka@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Md1ee6YGuXICMCHtrMUM5ihwD3M3vo1BsbApFOWCUKM=;
+ b=Y6kN1y46aoIqKlsuyz3ipyhxjA8T3yrHi7FTv7uqzZV1VRWR6FV6ZS62sR939Z65UEDhhv
+ FVvuTkMXVlc2RpyqYHzxBdA0HkyAUz3YtuSxqGXAvM32fAyGSrC7sFzHb0wk69k0JdmoWXoL
+ c0q52117v+p8JSyYJn7RvdK7eqnS2A6ZmBON75zJUDPLRFh3F90izn/b8ERM4R+ZKqtmIo3T
+ xY6HtvN2aHeaNwwZdGy+wGE4fXBr5vNVVupLrBM8Ph59F2wRWDxE3qaSkekpSxm6r+4261VN
+ HQ5Q/RMJHuIQw8kxHrm+8gZlhDOpsdVXkvx0EI2VaYjdPhexVs5Vd1SA==;
+Message-ID: <7d49c9b5b533ee2b4b1883faf4c87ac8ebf60eb4.camel@siemens.com>
 Subject: Re: [PATCH v3] eventpoll: Fix priority inversion problem
-Date: Tue,  1 Jul 2025 14:03:38 +0200
-Message-ID: <20250701-wochen-bespannt-33e745d23ff6@brauner>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250527090836.1290532-1-namcao@linutronix.de>
+From: Florian Bezdeka <florian.bezdeka@siemens.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>, Nam Cao
+ <namcao@linutronix.de>,  Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,  Sebastian
+ Andrzej Siewior	 <bigeasy@linutronix.de>, John Ogness
+ <john.ogness@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, 	linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-rt-devel@lists.linux.dev,
+ linux-rt-users@vger.kernel.org, Joe Damato	 <jdamato@fastly.com>, Martin
+ Karsten <mkarsten@uwaterloo.ca>, Jens Axboe	 <axboe@kernel.dk>
+Cc: Frederic Weisbecker <frederic@kernel.org>, Valentin Schneider
+	 <vschneid@redhat.com>
+Date: Tue, 01 Jul 2025 22:33:05 +0200
+In-Reply-To: <773266ac-aa33-497f-b889-6d9f784e850b@amd.com>
 References: <20250527090836.1290532-1-namcao@linutronix.de>
+	 <773266ac-aa33-497f-b889-6d9f784e850b@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1208; i=brauner@kernel.org; h=from:subject:message-id; bh=Q7QVc2qsYqqx0YXVW49AwV+9qD+1NySnWlFCXrePDPA=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWQkn1sQnrzZI0ljcfwpHbZEDYcZy5wUhU6vDzAqev/T+ FMGi4RqRykLgxgXg6yYIotDu0m43HKeis1GmRowc1iZQIYwcHEKwERefGT47+I7r6lfRrx4SZPC gr1nvyx/+ETLa9GU1lkpywpdORRPzmFk2P41wiBiwnsBnxR1dl8pydePEwQ5opmTf1rcsdl8aU4 PCwA=
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-68982:519-21489:flowmailer
 
-On Tue, 27 May 2025 11:08:36 +0200, Nam Cao wrote:
-> The ready event list of an epoll object is protected by read-write
-> semaphore:
-> 
->   - The consumer (waiter) acquires the write lock and takes items.
->   - the producer (waker) takes the read lock and adds items.
-> 
-> The point of this design is enabling epoll to scale well with large number
-> of producers, as multiple producers can hold the read lock at the same
-> time.
-> 
-> [...]
+On Mon, 2025-06-30 at 20:38 +0530, K Prateek Nayak wrote:
+> Hello Nam,
+>=20
+> On 5/27/2025 2:38 PM, Nam Cao wrote:
+> > The ready event list of an epoll object is protected by read-write
+> > semaphore:
+> >=20
+> >    - The consumer (waiter) acquires the write lock and takes items.
+> >    - the producer (waker) takes the read lock and adds items.
+> >=20
+> > The point of this design is enabling epoll to scale well with large num=
+ber
+> > of producers, as multiple producers can hold the read lock at the same
+> > time.
+> >=20
+> > Unfortunately, this implementation may cause scheduling priority invers=
+ion
+> > problem. Suppose the consumer has higher scheduling priority than the
+> > producer. The consumer needs to acquire the write lock, but may be bloc=
+ked
+> > by the producer holding the read lock. Since read-write semaphore does =
+not
+> > support priority-boosting for the readers (even with CONFIG_PREEMPT_RT=
+=3Dy),
+> > we have a case of priority inversion: a higher priority consumer is blo=
+cked
+> > by a lower priority producer. This problem was reported in [1].
+> >=20
+> > Furthermore, this could also cause stall problem, as described in [2].
+> >=20
+> > To fix this problem, make the event list half-lockless:
+> >=20
+> >    - The consumer acquires a mutex (ep->mtx) and takes items.
+> >    - The producer locklessly adds items to the list.
+> >=20
+> > Performance is not the main goal of this patch, but as the producer now=
+ can
+> > add items without waiting for consumer to release the lock, performance
+> > improvement is observed using the stress test from
+> > https://github.com/rouming/test-tools/blob/master/stress-epoll.c. This =
+is
+> > the same test that justified using read-write semaphore in the past.
+> >=20
+> > Testing using 12 x86_64 CPUs:
+> >=20
+> >            Before     After        Diff
+> > threads  events/ms  events/ms
+> >        8       6932      19753    +185%
+> >       16       7820      27923    +257%
+> >       32       7648      35164    +360%
+> >       64       9677      37780    +290%
+> >      128      11166      38174    +242%
+> >=20
+> > Testing using 1 riscv64 CPU (averaged over 10 runs, as the numbers are
+> > noisy):
+> >=20
+> >            Before     After        Diff
+> > threads  events/ms  events/ms
+> >        1         73        129     +77%
+> >        2        151        216     +43%
+> >        4        216        364     +69%
+> >        8        234        382     +63%
+> >       16        251        392     +56%
+> >=20
+>=20
+> I gave this patch a spin on top of tip:sched/core (PREEMPT_RT) with
+> Jan's reproducer from
+> https://lore.kernel.org/all/7483d3ae-5846-4067-b9f7-390a614ba408@siemens.=
+com/.
+>=20
+> On tip:sched/core, I see a hang few seconds into the run and rcu-stall
+> a minute after when I pin the epoll-stall and epoll-stall-writer on the
+> same CPU as the Bandwidth timer on a 2vCPU VM. (I'm using a printk to
+> log the CPU where the timer was started in pinned mode)
+>=20
+> With this series, I haven't seen any stalls yet over multiple short
+> runs (~10min) and even a longer run (~3Hrs).
 
-Applied to the vfs.fixes branch of the vfs/vfs.git tree.
-Patches in the vfs.fixes branch should appear in linux-next soon.
+Many thanks for running those tests and posting the results as comments
+to this series. Highly appreciated!
 
-Please report any outstanding bugs that were missed during review in a
-new review to the original patch series allowing us to drop it.
+Florian
 
-It's encouraged to provide Acked-bys and Reviewed-bys even though the
-patch has now been applied. If possible patch trailers will be updated.
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. If in doubt, please check the listed branch.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
-branch: vfs.fixes
-
-[1/1] eventpoll: Fix priority inversion problem
-      https://git.kernel.org/vfs/vfs/c/e73f3008405b
