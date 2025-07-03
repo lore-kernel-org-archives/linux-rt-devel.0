@@ -1,164 +1,132 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96B82F508D
-	for <linux-rt-devel@lists.linux.dev>; Wed,  2 Jul 2025 17:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F35829B783
+	for <linux-rt-devel@lists.linux.dev>; Thu,  3 Jul 2025 07:55:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751476162; cv=none; b=D7jF2NjVXPUwWYXkNOtXes07XtI5kF4hPeZ6/CxRKoQ95tjrQE81ToGKqeL2I5mmtzfRuAk5jzFGoa1tRwcqZjImR/rkL1GzxRyvwkt8G55/EBYN8HvQX/9T20DQTlRukYXGNed8Mj8+ruyTDeTx7Rb4/DD9PaG0gHtcczuh7LA=
+	t=1751529329; cv=none; b=ViRth5QmLIgow0GwZFK+T8ZcasENvHhR+Y5egqI7VSGaN7inS7MH5KlB5LlKYqavvoMxHu4PlT/JxmeHaQn+yfroQq+u7gWDKsrrbgGjaR0HC/cBRgKPnI0686AjeDcuGnb/3Dh8CQ45VJYyCK/jTjvq0P19teWTCBS8NxhUheA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751476162; c=relaxed/simple;
-	bh=NsWlTB8yMod+8yMKM8n6UgGR91Ftf1yT2Mvm5Fsu9KI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Otdtwmjml1hbyF8l6Uv/C3UW054Ode2TnW+PgiiPrb4R5FjkbJbMlKX68ilCr2HsUlU/OReN9Hqgaui35CZfbelxQsxdLv7DfJrbJi8YAcC1J9AJc6+RiN4Sv6M+4wlMfH2tPo2848VC+MLBZ4nSFAe/qhzPLjCx29c7q4rXiac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 3162610635E;
-	Wed,  2 Jul 2025 17:09:12 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 5DE8E2002E;
-	Wed,  2 Jul 2025 17:09:10 +0000 (UTC)
-Date: Wed, 2 Jul 2025 13:09:09 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: "=?UTF-8?B?xaBpbmRlbMOhxZksIEppbmTFmWljaA==?="
- <JindrichSindelar@eaton.com>
-Cc: "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
- "bigeasy@linutronix.de" <bigeasy@linutronix.de>, "kprateek.nayak@amd.com"
- <kprateek.nayak@amd.com>, "ryotkkr98@gmail.com" <ryotkkr98@gmail.com>
-Subject: Re: softirqs causing high IRQ jitter
-Message-ID: <20250702130909.0bc4702d@batman.local.home>
-In-Reply-To: <SA1PR17MB5553039BCE5C4C1A68CEFB87D740A@SA1PR17MB5553.namprd17.prod.outlook.com>
-References: <SA1PR17MB5553039BCE5C4C1A68CEFB87D740A@SA1PR17MB5553.namprd17.prod.outlook.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1751529329; c=relaxed/simple;
+	bh=4eQMR5Cxv3vb5mcNACtf57k9qc9ksHsIKZzfmokX3jg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Xv48X3OoT6rEr6OloNjLK85jDomtGaP4yjVeBjC57wE6CU3kOx6Z0ilody79o+pUWQTMFzLSmiYzApNsE79bOOUlKnAquGVMwjA36W/fenLX/ZiRPnfGJLVV0HfvdfaGuzEWwXRHW0AkEiei5Z8gQJBjMQphV0dYTtSgK46znlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gF9ILZ8D; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gF9ILZ8D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751529326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rHZg+urUsTPRagTEEFZ2q0TPLV/wheKvXpnortkonGg=;
+	b=gF9ILZ8DK/EUpzvOSA3afD5uAWFNELL5Eq3ik5ey8u/EZubGhDccaSQOqIReJL/dI2JJ8K
+	0upBDewg+TO5W7I9supjTHYZ3kVFLhyjYiWpfWV55GS2h6BCyex0OkmR2VJaVgcpyM+qhO
+	aPe/IPQJMhHWD45O1QTk3X5NId0x1xw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-57-2a_l0SZKNHGClP63iJp8cA-1; Thu, 03 Jul 2025 03:55:25 -0400
+X-MC-Unique: 2a_l0SZKNHGClP63iJp8cA-1
+X-Mimecast-MFC-AGG-ID: 2a_l0SZKNHGClP63iJp8cA_1751529324
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-450eaae2934so38931655e9.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 03 Jul 2025 00:55:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751529324; x=1752134124;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rHZg+urUsTPRagTEEFZ2q0TPLV/wheKvXpnortkonGg=;
+        b=UVMH2eP4KK0SGeiE+f+7IntDFLSeeXfuFov+tpotaTnx65sixeU20GDi2agqGssL8q
+         9kU+VwSeMvO3EOlPK1v+sMwpQr9OHakxVU9khh8P+3Cg4JEwFw5b78a+00NqeCbRnqqD
+         wUYC8z7ksixOeFJpgqC6apB2KQ7eCVDbR4LGfbX2fmd2I1FLy1jg0KoSUJBIRjlVyR12
+         xyAYx8p/L6rv2E1eiSOu1vc70CP8MgiJvD+18sn25azQHIedEAP3ntmMtTZhsGsJcPSb
+         BDoyE5zW53j4V49Grvd7Ge2YTKkvz2RypHrfb7IMfWm4d4Twbq6iUEuXtJxY3PcLsJRe
+         HvSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXNNCbwgp3fSNZrm0jyZuwd60mtDq+327VExjpbfdsdRfZq1mVdVUiOPkULja3K4aa1w+25S9OwArj7lia+xQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdUihwXa1UWln38LXC81E/kRrYuJtDDExLnzd9Pk4jhvsSZHBL
+	coROoM0FH3BwiJTFKpeQdw4R84xQPXlGd4Wfo6KHkfcLK3vDEGcdsVCPcL1Md++W6zYrwPilwy3
+	6EONFQD33+U6eMUKlYuak6e68P18Z9vcea/c9fW4r5SVZ3svShWHzQeO01YZH0qsCQSFq
+X-Gm-Gg: ASbGnctKJ5K1gBO8yzsePKB/Zo/s5c08Ywm5PuVooe0u9e+41kQAd4bp57eIX0kxNbe
+	3ZISRtqfbMLDHOI6ovItTkTuicRjt2Qow9nmxUxE2k9n6nqVT7fvfzt9xWhZKzRbbCEZik6Ok6F
+	FztH7cSm4ZKrqa3FGQwfIilVDgEwd7onRucJV8VJlaN+8AIb8Ll5RJaVfiyhWC17Eft2qDlm6sp
+	wWy9x9jUHM3++/e1+Np6v/0RMKAQ7eTaGWzKZy17lnuttYWLzk61l6uwICQkBOCkAvtiBSiUlH3
+	VD4j3QGLsvhwdvF9SgH9ui0n8ezy5aVGFiHLuf5n5WI8B8i91958A4tQ0Y0X+lMdNCQ=
+X-Received: by 2002:a05:600c:8208:b0:453:b44:eb69 with SMTP id 5b1f17b1804b1-454a9c7bb55mr26672325e9.13.1751529323702;
+        Thu, 03 Jul 2025 00:55:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEiHFj1UwVxSDWdgovCLzh2YT1kL2uHoVeghrzdOqaM06vcAM7xPfEjdU057FfSSf2GyYXOsA==
+X-Received: by 2002:a05:600c:8208:b0:453:b44:eb69 with SMTP id 5b1f17b1804b1-454a9c7bb55mr26671865e9.13.1751529323186;
+        Thu, 03 Jul 2025 00:55:23 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314? ([2a0d:3344:270a:b10:5fbf:faa5:ef2b:6314])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fa54dsm17665107f8f.23.2025.07.03.00.55.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Jul 2025 00:55:22 -0700 (PDT)
+Message-ID: <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
+Date: Thu, 3 Jul 2025 09:55:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] ppp: Replace per-CPU recursion counter with
+ lock-owner field
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Clark Williams <clrkwllms@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Gao Feng <gfree.wind@vip.163.com>, Guillaume Nault <g.nault@alphalink.fr>
+References: <20250627105013.Qtv54bEk@linutronix.de>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250627105013.Qtv54bEk@linutronix.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Gtg7pXjrvHf2YUf0NSX1AYfy4cH5x2aJDIZ8MXjEgFY_1751529324
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Stat-Signature: 79h9ms1i9b5dcpfbsg4x9hk5ob3ztcj9
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 5DE8E2002E
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX184snDrwtrFWu3Fgt400wq/b3jLJBa0Sg0=
-X-HE-Tag: 1751476150-304264
-X-HE-Meta: U2FsdGVkX19qAys2RLNghjyKmMQU+FcX26h9EkoCCb0GlvPzaqwLBM/x3jQP4GPNkqrGrNuAv6LAR0hKw5OLPX9Mr6bawaP4twccqVBLU8C+gri8VFOe5O73N5psUIqB0tC+tFzpXZ/BE9lfbc9friEwN1eFevx6vjsYYXhSqkXErfn7ixUBzdNB62hSRchHCUzZyai+UzVZEpFovManlIfcvOOFjUUtk6GLvsQvGn2y8KeFjTe3wzhB8+Y2xvqjRk/Sl4cHMtNg+xtWITWbHhzfrtHB1Jk3/Px4R/FN/ciT0N93bS3qM1GYLzC6dyjAIkNUKKhA+bHXoDaEGkWjmrjF5uii1PIhdhC99yHhOtLzuBlhCsTAAXdIrWwEmo0tBFBpEO4hN9SelutqRLqJag==
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2 Jul 2025 14:51:37 +0000
-"=C5=A0indel=C3=A1=C5=99, Jind=C5=99ich" <JindrichSindelar@eaton.com> wrote:
+On 6/27/25 12:50 PM, Sebastian Andrzej Siewior wrote:
+> The per-CPU variable ppp::xmit_recursion is protecting against recursion
+> due to wrong configuration of the ppp channels. The per-CPU variable
+> relies on disabled BH for its locking. Without per-CPU locking in
+> local_bh_disable() on PREEMPT_RT this data structure requires explicit
+> locking.
+> 
+> The ppp::xmit_recursion is used as a per-CPU boolean. The counter is
+> checked early in the send routing and the transmit path is only entered
+> if the counter is zero. Then the counter is incremented to avoid
+> recursion. It used to detect recursion on channel::downl and
+> ppp::wlock.
+> 
+> Replace the per-CPU ppp:xmit_recursion counter with an explicit owner
+> field for both structs.
+> pch_downl_lock() is helper to check for recursion on channel::downl and
+> either assign the owner field if there is no recursion.
+> __ppp_channel_push() is moved into ppp_channel_push() and gets the
+> recursion check unconditionally because it is based on the lock now.
+> The recursion check in ppp_xmit_process() is based on ppp::wlock which
+> is acquired by ppp_xmit_lock(). The locking is moved from
+> __ppp_xmit_process() into ppp_xmit_lock() to check the owner, lock and
+> then assign the owner in one spot.
+> The local_bh_disable() in ppp_xmit_lock() can be removed because
+> ppp_xmit_lock() disables BH as part of the locking.
+> 
+> Cc: Gao Feng <gfree.wind@vip.163.com>
+> Cc: Guillaume Nault <g.nault@alphalink.fr>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> Hello,
->=20
-> This is my first post here, hope everything is right with it :)
+Is there any special reason to not use local_lock here? I find this
+patch quite hard to read and follow, as opposed to the local_lock usage
+pattern. Also the fact that the code change does not affect RT enabled
+build only is IMHO a negative thing.
 
-Welcome!
-
->=20
-> Our team is observing high jitter in certain IRQ handlers on a PREEMPT_RT
-> kernel, and we have pinned the issue to softirqs. However, we're not sure
-> how to address the problem. I'll describe the situation first, sum up how
-> I understand things, and ask questions at the end.
->=20
-> We have an embedded system with the NXP i.MX6 single-core SoC, and our
-> kernel is based on linux-stable-rt v5.15.163-rt78. Our modifications are
-> rather small and don't touch anything softirq-related.
->=20
-> All of our IRQ threads are running at the default priority of 50
-> (SCHED_FIFO). There are also several user-space application SCHED_FIFO
-> threads - some above, some below the priority 50. We also noticed that the
-> application is raising the ksoftirqd priority to 60 (SCHED_FIFO), based on
-> recommendations from an external supplier - the reason being the ability
-> to handle TIMER and HRTIMER softirqs with minimal latency and jitter.
->=20
-> We observe that a UART "Tx complete" IRQ occasionally comes late, causing
-> unacceptable jitter in the communication. There are actually more threads
-> involved (SDMA IRQ, its tasklet, and UART "Tx complete" IRQ), and any of
-> these can come late.
->=20
-> We did some experiments and debugging through GPIOs and found that when
-> the UART "Tx complete" IRQ comes late, it is when there is a bunch of
-> softirqs processed in a row. We set a GPIO when entering the loop in
-> handle_softirqs() and clear the GPIO when leaving it. The pulse we observe
-> on that GPIO when it delays the UART IRQ can have a length of a few
-> hundred microseconds.
->=20
-> Furthermore, we found that in v6.6.12-rt20, an additional thread has been
-> introduced to primarily handle the timer-related softirqs
-> (https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git/co
-> mmit/?id=3D7f49c1dd9ab0c9f23c526f58241d6cc9d50f1778). We thought this mig=
-ht
-> be helpful in our situation, as we could leave the ksoftirqd thread at
-> prio 1 and set the timer thread prio to 60, as requested by the
-> application. We backported the patch, and it did improve the situation,
-> but it didn't resolve it completely. The IRQs we're interested in still
-> come late, but it's now more seldom. My understanding is that, despite the
-> claim in the commit message, the timer thread is not really dedicated to
-> timer softirqs only. It gets woken up when a timer softirq is raised, but
-> it will also handle any other softirqs that are pending at that moment.
-
-I think you may have found the main issue. That is the timer softirqd
-will pick up other softirqs that are pending. Yes it is a separate
-thread and will wake up to handle softirqs when the timer softirq needs
-to be handled but I don't see anything limiting it from handling other
-softirqs.
-
-This looks like it could be an enhancement to have the timer softirq
-only handle timer softirqs. But unfortunately, I don't have the time to
-implement this. Perhaps somebody else?
-
--- Steve
-
-
->=20
-> Additionally, the pending softirqs can also be executed in the context of
-> any threaded IRQ. So even if there was an isolation where the timer thread
-> handles (hr)timers only, the other softirqs could still cause unacceptabl=
-e jitter
-> in IRQ handling. In my understanding, the whole thing gets even more
-> complicated by priority inheritance - even if softirq processing gets
-> started in the context of a ksoftirqd thread with priority 1, its priority
-> may get PI-boosted when a higher priority thread runs into a lock held by
-> ksoftirqd.
->=20
-> Please correct me if any of my understandings or observations mentioned
-> above are wrong. Now, I'd like to ask these questions:
->=20
-> 1. In our view, not all of the softirqs have the same priority: e.g.,
-> (hr)timers and tasklets seem important, but things like NET_RX, NET_TX, or
-> BLOCK less so. Would it be a bad idea to try to introduce a more selective
-> approach, where a certain type of softirqs can only be executed with a
-> defined maximum priority? This could make more sense if we introduced some
-> IRQ priority partitioning instead of leaving all IRQ threads at prio 50
-> (we're considering this step as well).
->=20
-> 2. Several of our peripherals use a DMA (our SoC actually has 2 different=
- DMA
-> blocks), and we noticed that the dmaengine is using tasklets to execute
-> the DMA callbacks. This means the callbacks can be executed in the context
-> of an arbitrary thread (and thus arbitrary priority). It feels quite
-> strange to me, especially because the DMA callbacks can further
-> "cooperate" with other IRQs (such as enabling the "Tx complete" IRQ of our
-> UART). I understood that tasklets are deprecated and it's recommended to
-> use BH workqueues instead. Is there a reason why we shouldn't modify the
-> dmaengine (which I see as a very important component in the system) to
-> make it use BH workqueues instead of tasklets?
->=20
-> 3. Do you have any other recommendations on how we should configure and
-> balance our system? Setting different priorities to individual IRQ threads
-> based on how critical we see them looks quite straightforward, but the
-> fact that pending softirqs can be executed in the context of an arbitrary
-> IRQ thread still makes it look nondeterministic.
->=20
-> Best regards
-> Jindra
-> ________________________________
-> Eaton Elektrotechnika s.r.o. ~ S=C3=ADdlo spole=C4=8Dnosti, jak je zaps=
-=C3=A1no v rejst=C5=99=C3=ADku: Kom=C3=A1rovsk=C3=A1 2406, Praha 9 - Horn=
-=C3=AD Po=C4=8Dernice, 193 00, =C4=8Cesk=C3=A1 Republika ~ Jm=C3=A9no, m=C3=
-=ADsto, kde byla spole=C4=8Dnost zaregistrov=C3=A1na: Praha ~ Identifika=C4=
-=8Dn=C3=AD =C4=8D=C3=ADslo (I=C4=8CO): 498 11 894
-> ________________________________
+/P
 
