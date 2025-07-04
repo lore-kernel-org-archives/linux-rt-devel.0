@@ -1,133 +1,101 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D7C38DDB
-	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Jul 2025 13:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2564501A
+	for <linux-rt-devel@lists.linux.dev>; Fri,  4 Jul 2025 15:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751634558; cv=none; b=e9Q5deo1NVpwmILYhWGHDLpwSowPb175lKkZTzrWtB96v3QbJL1xu59BvLApB3dssb7EHvHGRXd/WVU0PvVMzvYP9iPGdJ9MxXWL2XQ9lIQ0T8gfXVw+uWg5IYREUVvOPPhxtiQ7LgMt6+DSYrgkngNJHXvLN/rhi6rjM9DDikM=
+	t=1751644091; cv=none; b=GYSeTdUpE0p4ZIZn1k/Q3/+OtO5W2AnHIc5ObzQ8G134XSQ7Gv0jMOufgKqdALepFeBwAuWzIRwBikmgApS1iNB+PoknI1rwWaoS47G2LtSnYXxXDbCGk0Zzr9athtBahyYUgVj8id+RoD+PEE7cq91kO4lkLi7fjFaiWJEHsew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751634558; c=relaxed/simple;
-	bh=Ta9oBCAhubod8prwYsmUDErfCxhu2NU7MOvICvUcjz0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kg2sB76GOkTt0YT8yzahQdd8wHJye9t7owVCY6o44c6IKCnNZKoUYa2+hOswJuWimst1C6T6TZPacoMiQE9t1WQnXPZfOFPhIVmVsUPRy9l+sxgcF8HUxwky6GH8W1tePds2yM8qIR5cuhaiosli75E3JjMK5y4TlmbplMGp+8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqG2zJPq; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751644091; c=relaxed/simple;
+	bh=RdGJjNv2wblzAbd2+QjjKHxAMv732coO3B9agM0VebU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ga4d2mjxpCFN6doBYWNPm5pZYJQR9B8cKPZm+4MJWtUZhR9c9CLg7s7yZBkD3ESrCDWBSk3zFA+a4QiHBxSMGfRFtUJ84gWPu91lysz8a8amTa80h8RY27rAC1f1cpZ54S0TdTMzXuUV8Mj5a6/HgbqWUCfesPPzQXf+tsK4guI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=syCl377n; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0y9LCHTD; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqG2zJPq"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-553d27801b4so38517e87.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 04 Jul 2025 06:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751634555; x=1752239355; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bPT/Yn9IyO9lNhZMkeKSyj5/KPjAxsknNyMSqLYzrPY=;
-        b=IqG2zJPqKn7nY5+o0h+o/WFkqNg0hVjqdUeFS/R2wEN/c+TQnz72qCsmgpKBCSrLJx
-         xZiW1edJrVDbg5PgdeIOpIVgRCE2ldWGHd9+RFz5dYLkZc0owe3Hn9hnZe30oh6lNuti
-         XXnZmgentWDny0OFFoACOrMvBwREPYwSJNvH8KKJ4Qv44atYF1KA0wpp+O9mM0Eo0v7Z
-         HBaaKun3k8qGKbuYpQmsugNETc9N38OL4t3MWlS93wbjiRilp/IFtbW1t+HhD6XLE/od
-         XPw64OqiFTFgYD9XLeCRKylhRo1dtQyn1E0Be+nxYH6HVgoECIgCyuZvmJgMOZAL21iQ
-         JuYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751634555; x=1752239355;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bPT/Yn9IyO9lNhZMkeKSyj5/KPjAxsknNyMSqLYzrPY=;
-        b=BuHa6H0b/xQHJUD32a57jZS4XrqaDrcEt9VMpvV95eWwWfl+OvKOaW4GisudHItoSe
-         BzSfNkuanxD9kfbXH71vXwNobnIoasUksvZYOsI618o/YcMV28R5aA/Hm2NfIFzF0WTY
-         nr0mTBpc3wt7e7XRFbsT8ve0+ZEk2UILDeqQJi52TOPItw/qeo09t/WlcYOwTw3cmnAa
-         9WdTlmbqp59b9XHpWVjaHMusBhC1EJqF68rnD9gHMrbqpVBa56Dpdn6yDs0nbS4Zbdt7
-         8hNlK5thyZFp+jyGXhUTxVQaVaEDJr5ntX91OgX+EEL4RlUL+fE6oUP4/usEi7c5Y3He
-         6seQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXufmesk8BHDPGwh1DwuJZ0RNpgNU4mM071kepttoHlXYdnzQE7esZ3/2wqXFSknABgKFl4bkRtCDb4LUw2wQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yymrv36HObZNSWjLj8ZtZQJhpwoapnLXVcE8AfG5b41QToFqJI5
-	ajocN3+gnXr3CbkcCufDUyibVMo/JJ9okRcwR+1JfQFmLwqVpm9K8/7x
-X-Gm-Gg: ASbGncv5crqS9fL13t0tpfwfW0VLYLFQpFfOELtmI84vOIKf7elq4H57Qq6nnz+r7xG
-	UXqokTM8CiHzfkvmO/c6lADR6xnS8cz+URCVRtQ1B+i3G7Fndoswn+SkNrDWYEMoNneGx/GC5nI
-	Fx6tFLCSM6WvtGnbyTew9QDnRNavJDOytzig5JU4wv+/Ow335Sy9hfh2JyZ0gUo3iNSh/G7BTNp
-	AnQEA1NXIrYw2Ec+fQjwRn39FgZBdj0o75D4D4k8kbRnwDRiliQ5H0F3VRvdD3R39NHcOgriaos
-	Ifyw2W1bfOMImpU7+9uwRFxl9oEFIsPaitxohgome4QcfxpT7bsdP5x9fPJSnA1JY4g6b19NDcB
-	rPxw=
-X-Google-Smtp-Source: AGHT+IHGkSf7b6gCzmikSMHbOGCPLDngVVQXuVASyhJ3m7+Ta9yHqoizqWxSIsu1KXw9T4avAiQtfA==
-X-Received: by 2002:a05:6512:2247:b0:549:8c32:78ea with SMTP id 2adb3069b0e04-556f3db2bb9mr271494e87.7.1751634554993;
-        Fri, 04 Jul 2025 06:09:14 -0700 (PDT)
-Received: from [10.214.35.248] ([80.93.240.68])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-556383bb14bsm246405e87.16.2025.07.04.06.09.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Jul 2025 06:09:13 -0700 (PDT)
-Message-ID: <b32229f0-0702-4047-9e71-e3d6ed85f0bf@gmail.com>
-Date: Fri, 4 Jul 2025 15:07:54 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="syCl377n";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0y9LCHTD"
+Date: Fri, 4 Jul 2025 17:48:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751644088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RdGJjNv2wblzAbd2+QjjKHxAMv732coO3B9agM0VebU=;
+	b=syCl377nyDvfkILocmeZExoZRf3uJ1bR56PF+GVyKuv3XQQUUbw4lZkhncVWzE5S7QcJbt
+	9z9BZTltkwAN65qrsYrrrglhrWHj8tmOSF0/qYTGE5ZlXkoxkHbZMw+mKuenns94wJ/1CI
+	tcKZm5i9nTzsUEFwP0mkXdGwaDegLd+QRlkcMxx3n2SY1s+fjUNQsYCpONsmDNtoHRdwzx
+	AlR/TlM4vj2tkFDh3uU9PzKqmyPOfVZbBmxPXfhgBD5o6gAbLnVsU/q+Je0l33EQMKLKjY
+	4P61+dHwG1e5BWgtGqCi9yGtI1QETnnwTN5p7igqEndJqs9zaokr9dFFTAjeAw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751644088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RdGJjNv2wblzAbd2+QjjKHxAMv732coO3B9agM0VebU=;
+	b=0y9LCHTDYvWkIxYD4f7w0hdJ/blng58wXCrdel++I/DAbarbpjkiwR6tkvyJdbvkKns5Wt
+	l4eB1N4s7UoT3nBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Gao Feng <gfree.wind@vip.163.com>,
+	Guillaume Nault <g.nault@alphalink.fr>
+Subject: Re: [PATCH net-next] ppp: Replace per-CPU recursion counter with
+ lock-owner field
+Message-ID: <20250704154806.twigjkbU@linutronix.de>
+References: <20250627105013.Qtv54bEk@linutronix.de>
+ <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent possible
- deadlock
-To: Andrey Konovalov <andreyknvl@gmail.com>, Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: glider@google.com, dvyukov@google.com, vincenzo.frascino@arm.com,
- akpm@linux-foundation.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, byungchul@sk.com, max.byungchul.park@gmail.com,
- ysk@kzalloc.com, kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
- <CA+fCnZeL4KQJYg=yozG7Tr9JA=d+pMFHag_dkPUT=06khjz4xA@mail.gmail.com>
- <aGbSCG2B6464Lfz7@e129823.arm.com>
- <CA+fCnZfq570HfXpS1LLUVm0sHXW+rpkSOMLVzafZ2q_ogha47g@mail.gmail.com>
-Content-Language: en-US
-From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-In-Reply-To: <CA+fCnZfq570HfXpS1LLUVm0sHXW+rpkSOMLVzafZ2q_ogha47g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
 
+On 2025-07-03 09:55:21 [+0200], Paolo Abeni wrote:
+> Is there any special reason to not use local_lock here? I find this
+> patch quite hard to read and follow, as opposed to the local_lock usage
+> pattern. Also the fact that the code change does not affect RT enabled
+> build only is IMHO a negative thing.
 
+Adding a local_lock_t to "protect" the counter isn't that simple. I
+still have to check for the owner of the lock before the lock is
+acquired to avoid recursion on that local_lock_t. I need to acquire the
+lock before checking the counter because another task might have
+incremented the counter (so acquiring the lock would not deadlock). This
+is similar to the recursion detection in openvswitch. That means I would
+need to add the local_lock_t and an owner field next to the recursion
+counter.
 
-On 7/3/25 9:05 PM, Andrey Konovalov wrote:
-> On Thu, Jul 3, 2025 at 8:55 PM Yeoreum Yun <yeoreum.yun@arm.com> wrote:
->>
->> Hi Andrey,
->>
->>>>
->>>> find_vm_area() couldn't be called in atomic_context.
->>>> If find_vm_area() is called to reports vm area information,
->>>> kasan can trigger deadlock like:
->>>>
->>>> CPU0                                CPU1
->>>> vmalloc();
->>>>  alloc_vmap_area();
->>>>   spin_lock(&vn->busy.lock)
->>>>                                     spin_lock_bh(&some_lock);
->>>>    <interrupt occurs>
->>>>    <in softirq>
->>>>    spin_lock(&some_lock);
->>>>                                     <access invalid address>
->>>>                                     kasan_report();
->>>>                                      print_report();
->>>>                                       print_address_description();
->>>>                                        kasan_find_vm_area();
->>>>                                         find_vm_area();
->>>>                                          spin_lock(&vn->busy.lock) // deadlock!
->>>>
->>>> To prevent possible deadlock while kasan reports, remove kasan_find_vm_area().
->>>
->>> Can we keep it for when we are in_task()?
->>
->> We couldn't do. since when kasan_find_vm_area() is called,
->> the report_lock is grabbed with irq disabled.
->>
->> Please check discuss with Andrey Ryabinin:
->>   https://lore.kernel.org/all/4599f645-f79c-4cce-b686-494428bb9e2a@gmail.com/
-> 
-> That was about checking for !in_interrupt(), but I believe checking
-> for in_task() is different? But I'm not an expert on these checks.
+I've been looking at the counter and how it is used and it did not look
+right. The recursion, it should detect, was described in commit
+55454a565836e ("ppp: avoid dealock on recursive xmit"). There are two
+locks that can be acquired due to recursion and that one counter is
+supposed to catch both cases based on current code flow.
 
-The problem is that CPU1 grabs '&vn->busy.lock' after the '&some_lock'. This could
-happen both in task and in irq contexts, so the in_task() guard just won't change anything.
+It is also not obvious why ppp_channel_push() makes the difference
+depending on pch->ppp while ->start_xmit callback is invoked based on
+pch->chan.
+It looked more natural to avoid the per-CPU usage and detect the
+recursion based on the lock that might be acquired recursively. I hope
+this makes it easier to understand what is going on here.
+While looking through the code I wasn't sure if
+ppp_channel_bridge_input() requires the same kind of check for recursion
+but adding it based on the lock, that is about to be acquired, would be
+easier.
 
-
-
+> /P
+Sebastian
