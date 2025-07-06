@@ -1,230 +1,243 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2080.outbound.protection.outlook.com [40.107.102.80])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C15023BD06
-	for <linux-rt-devel@lists.linux.dev>; Sat,  5 Jul 2025 20:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.80
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751747980; cv=fail; b=el13SVzScp/7acDy31jxnP+FgSpGhECFHK3+oL476Kf9AQAsY49VmRNIlRJeBT1SWCREhTQbkWsUsr+PiXShFrvltMZ9ZsMfWOU9ghLZF/bkMRxwxwfoJlQGIm8P317IPIiKy4ZJPCmYmV9t8KaegXZeeVAo7ksgW03VKHKI/kc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751747980; c=relaxed/simple;
-	bh=pTclOIsXO40mMxcqp02uf+8AypgB8yDrMMiydRAkLTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ubRKLaRi5PELmudzKpQ8nHS47EacGH0hDX39oqXpzGO2HKM7WJxCnHYHSgek9/gIrxg74jNwu6K5sUtyuKwzyihZWKioAkSBOyiyFo3MzqqY23wna2zI/LFnh9FxUOMFsHNQHYGxCp2VNyXsyJtxwt/kemTjU/X/R/GiYISwirk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=l75ZAjaz; arc=fail smtp.client-ip=40.107.102.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05A11F61C
+	for <linux-rt-devel@lists.linux.dev>; Sun,  6 Jul 2025 12:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751803316; cv=none; b=Uq+/HKyC1ULu7eCnN1N2A7Y1bEqj4ze6e99Kp4cSJRzrPu70ypXPCQixVyzzh/KH1Khk5yeHI0bI4EUBmCLtVv5Uk0XlAOQnX78TkHEbtzDw/ufIUpHghKmfNGfqAekS0EQz+SabaK4H1zAPkLVZwiw2ZrIzZ99wgdl2NzwDyEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751803316; c=relaxed/simple;
+	bh=9+Rw5JmLc8Nn86iqdSe4m1JHDm1Nblgh6a2vFe0+TAA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DUr4pq5zh7YWm5Dgwn4+2zw77JzpmJVlIAowN5bqnTtfe/j0r4kupIn7mh0vSl42rLq/wmV4+DL0K+Nlrgi4+8VwqMHjkJJ7Q2i2tFgTQnSihGquV5EIrAS9seEkUw/OEqD+iZkDP78lQJsCcCZjyQJ6v3wzun8umNVjykPEOO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LS2Qur7y; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="l75ZAjaz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gk6aVOYMkjmx8kVW/OMYUiRG6ZJuKalFpt2yU8pReB/u86Kp1XnIrUND4Zdjqo++pijQAPBIxMV41IECi1Hy+ypKnjRkMkHI4K2QoOyZoDKqxg81o20WgJv9EQ5Mx+q/9HHiZzWzwsEdrtuRpy1wmgkwc4s9bpPmOPlAsBz7X424jxTJIZJF356IyCsbZQGb8SsKOjKuxD7OXUc05JmvaasRAmQ32FN2snGCYPwSGTXdR2OjeMQP10Au3rRy4eYdpaOzpn+ISRuhUtRDa8j8js+ZjcWk2m/xuIigDft45q+YqzhU8GsCVSL4Oj4xCN2u+yZ6Yp1JU/LjXu0mKFZZRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kc0jGLof8qetzfgyP7n7bCxyuAfSPmbdg860hBEYqfg=;
- b=rKUzy/5AglYdryEJm7x0/LD9FjWajJ04JZANHVrGUs9SanirpI8hUTVKBtKTQ0N5nzoSD8cVmGH3GMMFbwQoZTc9SxNggtqw6e38a3mc4h6u7/dBUIi4ZEJtAwsCfORyraQ2dYbz4QxPpE6o2PZgJQDfuH9Xzl25YxIr2Tc2uU47tKcBanFnVUUkpnEU5HlgDUjVSh2V6f1+w4jE/CImPF+ZY1eoEi+4UOYX6KK1xsrb4wo2MfH+IA+cNVPzh38nfaJRgUgnK7wwXYIe6maDYPW0O/bN9zzEhr0c63iVJ/ubstboKBvIAM408BqvcMuzq3zUpZZzTncDy4qus9dPTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kc0jGLof8qetzfgyP7n7bCxyuAfSPmbdg860hBEYqfg=;
- b=l75ZAjazPWreHiWL6DdZLg9pwVuA+aUE3BRhvu1Tmcnh0WV6unwcepfT2h3qEnw5wqQtgC3QYhXa+k5mxjWFX8G3qfIzvdJUfwnkQwV+FvG06bgchjsFwTsOO28LGF7e5QWkpdiPUHIgQuXP2jxk5PxjlVjO6qgk77jcxZYuLDAImLuOebttrLec4VpXo+ussFeDP7wRhhmkEcT2i1YiymA8/wqrU25s21PLfBYoZmRJJxJPLdr6i3GnGEvuLQ27CR0BIrebsqEO770TbFqcuEOI7ZoII94aczA6/2ILwA38lVp5k6Np/3/vGpvN2uJ82DZLI2NGIlyejPWQRts8Qw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by SJ2PR12MB7989.namprd12.prod.outlook.com (2603:10b6:a03:4c3::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Sat, 5 Jul
- 2025 20:39:35 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%7]) with mapi id 15.20.8901.018; Sat, 5 Jul 2025
- 20:39:35 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>
-Cc: rcu@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH RFC 3/3] rcu: Remove redundant check for irq state during unlock
-Date: Sat,  5 Jul 2025 16:39:17 -0400
-Message-ID: <20250705203918.4149863-3-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250705203918.4149863-1-joelagnelf@nvidia.com>
-References: <20250705203918.4149863-1-joelagnelf@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN0PR03CA0021.namprd03.prod.outlook.com
- (2603:10b6:208:52f::35) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LS2Qur7y"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-311bd8ce7e4so1716027a91.3
+        for <linux-rt-devel@lists.linux.dev>; Sun, 06 Jul 2025 05:01:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751803314; x=1752408114; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GQuFgC4AY34EZXqQntQJRPQXCzjHHMCimbLbW/8CNHk=;
+        b=LS2Qur7ytoh0U8FCJFIQHpcMTH+K6VBETnDZoe5EeEIGeHaGyH1Jxc3RZ7HpZbpfIZ
+         XTj6Q8l4tmEKohigDpNSa/GGPqN24ge+P+CZwsmphpvw31QT0bp4Ya41Xlg6ijt+4xUp
+         2p7utghULz1HiDPvLj+MvFDbxfMEtsGO2NLdYLUVB03nH6SK8768a9sTCZN5f0HFArtE
+         SMWvbbvpISwr9DtAqxkgUtciaWLHmx/lPxWZNwkoBUiKtk3gXph+kM74Z8HtOG5bGu/j
+         PkUbUwihg18hmq6g3g1mILbKn2PIOrUYAiR9fRu2xabkn6/eXrmXod35lCRo5e7KO4lL
+         AfkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751803314; x=1752408114;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GQuFgC4AY34EZXqQntQJRPQXCzjHHMCimbLbW/8CNHk=;
+        b=DBlX1IngskSufJrmpy7eVlUzkTnEbuFGfnTLlkOS18+cjwr8LjpFqJZvqYhjuPkqr4
+         TrYGkhmN2I7axBZXbcxdzslWllDXq14wGeHYVo+xEzPhnhZ3jhieoFKXnKUjBjwatWa+
+         prB3Psct0GS2Vk8NIf207TXPDM2cAnsWxz5jYsUC833A4k4Id11jL3L0+nybTMABrjna
+         UWpSogear1xc/B+TNPrHvtK3BhbZsBjpJj6RGbcY/zz8umWvNK8TMsvNQ3VzGht+PSFj
+         xvJ1JonKVe5s//GrScTzFNcXkwoN201JLiu3G3pIQPX0d+iXALnYN0zEr3SuALF14CwM
+         YurA==
+X-Forwarded-Encrypted: i=1; AJvYcCXE0zJTetbdxjafVnNEC2a2wZPIdSyk8KX2xUjeGwJ3CStDuVWCTVwgnALUsKX5OFwwpi/38WSbxfuMUKuUsQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4sF9m1RAZo+rjpLSpxAVHJwPSfdvy2lgHRWvUGmbuTJMWHPT+
+	b/jOOywmmBJMrh8O+OwlWucvtwX47O7TVLQVkJkgyt10YPia2if+XJ1a
+X-Gm-Gg: ASbGnctLTw/oDhijfrvTfsZtgmr4cgloQgY+2Z6ZJsXaJcTj1q5gHM6vYmHlmQmzRWc
+	oVVha3x9M1VS5DdsoAXh2rpPDSanTRFU4yZ2RpmSCKzVxSbjejzSQ2ReDsR6j9hTO5TcUpCICn2
+	pU53HpWPiCsP0IK3/O8TgZbDDkkyXIh90CmzRaAX6+H8bM/ImZ8pQYTqAMdRpEPfa5H8xmCAWmH
+	YUT/Y3p2xl2S9rhgwDd3vtlz1YJ1r0kap9tnHNFqIEOXBXZTaAiJYrIldjr9yHxqIWC6vheKZCi
+	+f/DvMnMqGeYaA2l9mxyMkprtVc6oF3uSjBmVEAg3jDttE1Y09wZEtp6Gl5FIMYovB0k/uJ4qVL
+	xxmetCDVgYEobidXczN58LMsl+t4GdJIVQ5n64C8W0AUdRwuH0R0E4/yO
+X-Google-Smtp-Source: AGHT+IELUtzdFphb747R1FI7mtjA5nZY7T5CTeewMTjBIXzP+KRa3qqBgjMj9UHujZjwDOtoYXrbwQ==
+X-Received: by 2002:a17:90b:534b:b0:312:e744:5b76 with SMTP id 98e67ed59e1d1-31aba8e24fcmr9170847a91.33.1751803313690;
+        Sun, 06 Jul 2025 05:01:53 -0700 (PDT)
+Received: from DESKTOP-NBGHJ1C.localdomain (p12284229-ipxg45101marunouchi.tokyo.ocn.ne.jp. [60.39.60.229])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31a9ccf860bsm9859473a91.32.2025.07.06.05.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jul 2025 05:01:53 -0700 (PDT)
+From: Ryo Takakura <ryotkkr98@gmail.com>
+To: rostedt@goodmis.org,
+	JindrichSindelar@eaton.com
+Cc: bigeasy@linutronix.de,
+	kprateek.nayak@amd.com,
+	linux-rt-devel@lists.linux.dev,
+	ryotkkr98@gmail.com
+Subject: Re: softirqs causing high IRQ jitter
+Date: Sun,  6 Jul 2025 21:01:48 +0900
+Message-Id: <20250706120148.636285-1-ryotkkr98@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250702130909.0bc4702d@batman.local.home>
+References: <20250702130909.0bc4702d@batman.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|SJ2PR12MB7989:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8e96756-a79f-4505-e050-08ddbc040d9a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|366016|7416014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?I8/pEn/3yyQT1UBu6pCXxSUkSPzH8dv6AR3zS3XV8YO2cAPs+L41LTJA14V7?=
- =?us-ascii?Q?1kJgvYlaHp4NqTqkQ9yzsC+xVuSXbcnZDYz+5j8QR+ASfdyvGT79XR/PwFlo?=
- =?us-ascii?Q?sO96eLteN2YW1IzAuCpvO0DFnNmHlMz6ecaliSuUdGER9h3ab8ml1YphyZcH?=
- =?us-ascii?Q?QP8zQ9XCan8/adzYs8PJkLGbdS/lepFzzFbElbWiVs6K2bnL6ERCp/C02u0E?=
- =?us-ascii?Q?RgIhhfyuy+GxsWYw71OhadZp02SecoIS+6q2QlRmTk21/HmK90NUnnDwxTLU?=
- =?us-ascii?Q?TdRVIeSbWWDemkrwm6AvkUO8PljYgA67afxLQ/xYPtX57+XIIEMlyI4yFUha?=
- =?us-ascii?Q?lb6Cu5yvfHFS3KHVKoXtml0GbsNgtLD1xuP7sFAa9osGwz1zWnYTgVxHAIXJ?=
- =?us-ascii?Q?K/DHcXOA5VnpJpPXCXtn+IUFJwg8R2LrNvU2aPdAYFTWM/9S+1mbDXQdkQ9o?=
- =?us-ascii?Q?VcnWvOjw/xWq6B4c1KWbIdwCdrjLGLgskG0eJNQ8OIuVa5SeAwV6H7BztkS/?=
- =?us-ascii?Q?MMhOTGEF3oBr9vudyMtbl2UtvYe9DQn9ISxmidMblxI6MpmqF/tOToW4MNOr?=
- =?us-ascii?Q?kw1K5EUEvD7pGBikkfYcbldfdmSvp7bg316nQgfKsaf7x2ssAYdGzcAop1Pu?=
- =?us-ascii?Q?nFToOycwBUdGIpYighkj7q5hqeqqLWA7MjZzekGeA0R8qkNJVCpOQjdJ3d8C?=
- =?us-ascii?Q?QQeTlDPfE5JOUrD4hcY/0X6V4+TnqxBJslUkPjzyLLsWldF0b2XQyvoY7K6w?=
- =?us-ascii?Q?rcJXRHkMVTBIrgT936re3tFYjgu0pT89GL1ojIJ+p4swjBy5dIZt7QZTMs1M?=
- =?us-ascii?Q?a44ugr9cG2OOHNipM+6uNg8JIqAGjlPDPZI4GvRki60nlKCe5bc7naM7TsWH?=
- =?us-ascii?Q?Yvo6mkT33sK2kGC8ukhuyh0kTTFfZa834BUvyKrSlmtCJ7B9kReU9adSZGoO?=
- =?us-ascii?Q?na8NNjgCRsnvo8FsHApSp5ac9ysX9LD43vwMRC75VtdDQgbH0u7oQFtHAXHS?=
- =?us-ascii?Q?ttJ6ZRrZ7GC9SAbfVKuXiTKEm+88j/cmsdRknfydnUTCyL8IihnJPUbF1ud7?=
- =?us-ascii?Q?6nLOkikpL+l2ucoLcrFeaT8x3vKPeqSp4iJjt+Y+QBTJgxXy9yC+kThTzB8k?=
- =?us-ascii?Q?wpkC3cWU0+mnp3IikbtGU0TVC2itWeRUDYXTmYJ+aMOZwr7jlQ96uMDcSrua?=
- =?us-ascii?Q?QO3+ID2W3yTYWNX9brRsjDos8lt+JhMZ43LkevRCQtCC/qKlsUNg28xSXdct?=
- =?us-ascii?Q?Z6leQDwIFJmWWMddoDXV0GKusDmpTvgGDqTi2KkStIhLhrc/QCGGcoh7Jh+j?=
- =?us-ascii?Q?AsQ14C7l1zUypO5vX1n9SysZw7h0kzBe05Arg1ta1XIyci8MQPILXdumUg0c?=
- =?us-ascii?Q?fwJeM8v82QKy9hzWe67h9ngbodJq1j1xvtzoc5eE1q5ZdcRQdQKvM8usPf8Q?=
- =?us-ascii?Q?o7LuXDo6U1vWQVI6HoiXoQ1qV+zCAIo1?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RrRRQSjcUR2IiXhciR+qdtFz8KDqzsAYionORpptkO+7+A7SM9uwzhPJXZsE?=
- =?us-ascii?Q?wAsXmGnhOgscELlo+pEkpOofkA9uBocR3+dVrnvjoZzpzikOQYsq5z0f39i5?=
- =?us-ascii?Q?vSdmAXZD3smQmVgMyG4vhlPFl6rAXlaVeAwDOp4IzPwjCIpAXGj2tE+pDswf?=
- =?us-ascii?Q?4yOHrS199wLurc5VoAc7XpuLTIEHvyuSV3lavCQvOr0rZe63oq9gBYcQPrfH?=
- =?us-ascii?Q?YJWgKkMTEFVcyMSd1go43AKRxFg3ve+QXI5Impm1nRCZ1PaUDPYA2L6h/Vp5?=
- =?us-ascii?Q?11hkXbAKqFtSNy4rC3ajOaO/AbGPoNeeYBGzhA37T23P0a9dzdEuvb//dJTx?=
- =?us-ascii?Q?M95BSINvpOHrmrXr6P/nh5n7xplgmp82HLVP2N5PH2XYQVtOEFnq+IMqixCG?=
- =?us-ascii?Q?bF+pJ021fbmWEePNHzy2CukwJqIVUXwobaBdFgd6rEPySceI0+/9mG27fE26?=
- =?us-ascii?Q?HIZLwZtiskQg6lycaTvkKGS4tkI2QNEgBlVvBmVpEwxSCQ+5NTKY56Il71BG?=
- =?us-ascii?Q?wxa7HuArcVRlmEgFEdb2Puxhok0f360qEru0OPzDJ2U6s0/85+zVpwTCRFHc?=
- =?us-ascii?Q?ROPBURCyj+lsOgTiPmEjXsj18K54tfGeBx/aqzcnlcyNUxwledCGGnFe48dO?=
- =?us-ascii?Q?y0EbMbI8p3Y1mt7w0oZ9s+MTa+KMDttTiMwaQ/vV3NbcMF6rYp5JTf3uTEwB?=
- =?us-ascii?Q?btPdiQq3h5lj3XKkWgdP8NfmJcWA6LZ2pKYsw09cpRGo3Oyvkc9W3fof5m+C?=
- =?us-ascii?Q?o5jv4rYNFn97crptL9srsGn6s+hCW/WY5IXxp9BaLUmwslhEUQAM51XxW026?=
- =?us-ascii?Q?Xq9nhUM0WUsojVMjpVRv24iV/FS/j+tJQbBBXsG4SeYGcUtdrvmOUgJalILK?=
- =?us-ascii?Q?WXfKUA/yWi3OMRKOd/ZGv+GaGozkeR8DfWkBkOiZidF6xRpmARccNyrm3/kj?=
- =?us-ascii?Q?qmodZkUOZK6XoXq1IQPk4uggG4CzA7s5R2AS0j0MOGMQSZBMp1m9iO2aBbr+?=
- =?us-ascii?Q?UOh7UsgZSmQf55coh+GFRh8Uu0WG1GiOLJLRBfHjlqScRF47plaK4KbLxBx9?=
- =?us-ascii?Q?k7zqUVfArBqX2H9e5lIsC+NIWx1k+S1Xdu0UdHD5H6OnnfYgNl5JWlCxyLzG?=
- =?us-ascii?Q?6Np3Jz1Vf1pfVeg0ruq3nkOry2Pmb8s0S8ewKCGYGmkIgziFfIv0uPh2KA4Z?=
- =?us-ascii?Q?p4WGfCMg0xQMPq3KAny68S2t5HvkaUSIWowBWe9QzwCtkQRzs2TpdUIAabjb?=
- =?us-ascii?Q?QxgPS/Q58T6MGvdKfvr+j+NFP+uxsMJBxlMQOfnpXmlNN91o46UXZc2RiZvB?=
- =?us-ascii?Q?chqbaWGOpWD5G2j3bRl6aTtL5lTPzeRfBPPagJj9LOi70nqzX3QEC6uodQ2M?=
- =?us-ascii?Q?a0lD8sShmBvlN12vOgBZj7Lzv7m6WuQRb6Mj57Be0VTAcfI0+7P+ld+Zlcsv?=
- =?us-ascii?Q?Z13lmXywiAd65IQluSLXNj0c1pA1gAUz/fJHS1Ep64MPFxDDN51dbxG1UFMi?=
- =?us-ascii?Q?R6VTj4FSSnitmoyFKbOYwSAMYxRlaf/jWuhXXjMR5kmkwlKd+X+BJKeFFCd6?=
- =?us-ascii?Q?Bk7bNwp7D9w19GC2MiJg0jIrdSjakNbhU2+Dk/jZ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8e96756-a79f-4505-e050-08ddbc040d9a
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jul 2025 20:39:35.1751
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o2ybFZNy7TgkxNh4PiIn0nbRcOiWWpw+y29eh35yr08TFCYK8YhvDpCMFLX4aiY6yajLieON9OWyzz9avDYSQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7989
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The check for irqs_were_disabled is redundant in
-rcu_unlock_needs_exp_handling() as the caller already checks for this.
-This includes the boost case as well. Just remove the redundant check.
+Hi Jindra and Steven!
 
-This is a first win for the refactor of the needs_exp (formerly
-expboost) condition into a new rcu_unlock_needs_exp_handling() function,
-as the conditions became more easier to read.
+On Wed, 2 Jul 2025 13:09:09 -0400, Steven Rostedt wrote:
+>On Wed, 2 Jul 2025 14:51:37 +0000
+>"Šindelář, Jindřich" <JindrichSindelar@eaton.com> wrote:
+>> Our team is observing high jitter in certain IRQ handlers on a PREEMPT_RT
+>> kernel, and we have pinned the issue to softirqs. However, we're not sure
+>> how to address the problem. I'll describe the situation first, sum up how
+>> I understand things, and ask questions at the end.
+>> 
+>> We have an embedded system with the NXP i.MX6 single-core SoC, and our
+>> kernel is based on linux-stable-rt v5.15.163-rt78. Our modifications are
+>> rather small and don't touch anything softirq-related.
+>> 
+>> All of our IRQ threads are running at the default priority of 50
+>> (SCHED_FIFO). There are also several user-space application SCHED_FIFO
+>> threads - some above, some below the priority 50. We also noticed that the
+>> application is raising the ksoftirqd priority to 60 (SCHED_FIFO), based on
+>> recommendations from an external supplier - the reason being the ability
+>> to handle TIMER and HRTIMER softirqs with minimal latency and jitter.
+>> 
+>> We observe that a UART "Tx complete" IRQ occasionally comes late, causing
+>> unacceptable jitter in the communication. There are actually more threads
+>> involved (SDMA IRQ, its tasklet, and UART "Tx complete" IRQ), and any of
+>> these can come late.
+>> 
+>> We did some experiments and debugging through GPIOs and found that when
+>> the UART "Tx complete" IRQ comes late, it is when there is a bunch of
+>> softirqs processed in a row. We set a GPIO when entering the loop in
+>> handle_softirqs() and clear the GPIO when leaving it. The pulse we observe
+>> on that GPIO when it delays the UART IRQ can have a length of a few
+>> hundred microseconds.
+>> 
+>> Furthermore, we found that in v6.6.12-rt20, an additional thread has been
+>> introduced to primarily handle the timer-related softirqs
+>> (https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git/co
+>> mmit/?id=7f49c1dd9ab0c9f23c526f58241d6cc9d50f1778). We thought this might
+>> be helpful in our situation, as we could leave the ksoftirqd thread at
+>> prio 1 and set the timer thread prio to 60, as requested by the
+>> application. We backported the patch, and it did improve the situation,
+>> but it didn't resolve it completely. The IRQs we're interested in still
+>> come late, but it's now more seldom. My understanding is that, despite the
+>> claim in the commit message, the timer thread is not really dedicated to
+>> timer softirqs only. It gets woken up when a timer softirq is raised, but
+>> it will also handle any other softirqs that are pending at that moment.
+>
+>I think you may have found the main issue. That is the timer softirqd
+>will pick up other softirqs that are pending. Yes it is a separate
+>thread and will wake up to handle softirqs when the timer softirq needs
+>to be handled but I don't see anything limiting it from handling other
+>softirqs.
+>
+>This looks like it could be an enhancement to have the timer softirq
+>only handle timer softirqs. But unfortunately, I don't have the time to
+>implement this. Perhaps somebody else?
 
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
----
- kernel/rcu/tree_plugin.h | 22 ++++++++++------------
- 1 file changed, 10 insertions(+), 12 deletions(-)
+I tried to come up with an idea isolating (hr)timer softirq
+from the rest. Would be nice to get a comment!
 
-diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
-index 8504d95bb35b..112973ecebb8 100644
---- a/kernel/rcu/tree_plugin.h
-+++ b/kernel/rcu/tree_plugin.h
-@@ -659,14 +659,12 @@ static void rcu_preempt_deferred_qs_handler(struct irq_work *iwp)
-  * @t: The task being checked
-  * @rdp: The per-CPU RCU data
-  * @rnp: The RCU node for this CPU
-- * @irqs_were_disabled: Whether interrupts were disabled before rcu_read_unlock()
-  *
-  * Returns true if expedited processing of the rcu_read_unlock() is needed.
-  */
- static bool rcu_unlock_needs_exp_handling(struct task_struct *t,
- 				      struct rcu_data *rdp,
--				      struct rcu_node *rnp,
--				      bool irqs_were_disabled)
-+				      struct rcu_node *rnp)
+The idea is that we reorder the softirq vector and only handle
+(hr)timer softirq and HI_SOFTIRQ in non-ksoftirqd thread context,
+namely the timer threads and threaded IRQs' context, and leave
+the rest of softirqs to ksoftirqd by checking @ksirqd.
+
+This way I believe the jitter addressed below by Jindra caused
+by softirqs being executed in the threaded IRQ context can also
+be reduced as well.
+
+----- BEGIN -----
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 51b6484c0493..d43e59db6efa 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -548,13 +548,18 @@ enum
  {
- 	/*
- 	 * Check if this task is blocking an expedited grace period.
-@@ -692,7 +690,7 @@ static bool rcu_unlock_needs_exp_handling(struct task_struct *t,
- 	 * disturbing the system more. Check if either:
- 	 * - This CPU has not yet reported a quiescent state, or
- 	 * - This task was preempted within an RCU critical section
--	 * In either case, requird expedited handling for strict GP mode.
-+	 * In either case, require expedited handling for strict GP mode.
- 	 */
- 	if (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD) &&
- 	    ((rdp->grpmask & READ_ONCE(rnp->qsmask)) || t->rcu_blocked_node))
-@@ -700,14 +698,14 @@ static bool rcu_unlock_needs_exp_handling(struct task_struct *t,
- 
- 	/*
- 	 * RCU priority boosting case: If a task is subject to RCU priority
--	 * boosting and exits an RCU read-side critical section with interrupts
--	 * disabled, we need expedited handling to ensure timely deboosting.
--	 * Without this, a low-priority task could incorrectly run at high
--	 * real-time priority for an extended period effecting real-time
--	 * responsiveness. This applies to all CONFIG_RCU_BOOST=y kernels,
--	 * not just PREEMPT_RT.
-+	 * boosting and exits an RCU read-side critical section, we need
-+	 * expedited handling to ensure timely deboosting. Without this,
-+	 * a low-priority task could incorrectly run at high real-time
-+	 * priority for an extended period effecting real-time
-+	 * responsiveness. This applies to all RCU_BOOST=y kernels,
-+	 * not just to PREEMPT_RT.
- 	 */
--	if (IS_ENABLED(CONFIG_RCU_BOOST) && irqs_were_disabled && t->rcu_blocked_node)
-+	if (IS_ENABLED(CONFIG_RCU_BOOST) && t->rcu_blocked_node)
- 		return true;
- 
- 	return false;
-@@ -736,7 +734,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
- 		struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
- 		struct rcu_node *rnp = rdp->mynode;
- 
--		needs_exp = rcu_unlock_needs_exp_handling(t, rdp, rnp, irqs_were_disabled);
-+		needs_exp = rcu_unlock_needs_exp_handling(t, rdp, rnp);
- 	
- 		// Need to defer quiescent state until everything is enabled.
- 		if (use_softirq && (in_hardirq() || (needs_exp && !irqs_were_disabled))) {
--- 
-2.43.0
+        HI_SOFTIRQ=0,
+        TIMER_SOFTIRQ,
++#ifdef CONFIG_PREEMPT_RT
++       HRTIMER_SOFTIRQ,
++#endif
+        NET_TX_SOFTIRQ,
+        NET_RX_SOFTIRQ,
+        BLOCK_SOFTIRQ,
+        IRQ_POLL_SOFTIRQ,
+        TASKLET_SOFTIRQ,
+        SCHED_SOFTIRQ,
++#ifndef CONFIG_PREEMPT_RT
+        HRTIMER_SOFTIRQ,
++#endif
+        RCU_SOFTIRQ,    /* Preferable RCU should always be the last softirq */
 
+        NR_SOFTIRQS
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 513b1945987c..41df13c07aa2 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -571,6 +571,13 @@ static void handle_softirqs(bool ksirqd)
+                h += softirq_bit - 1;
+
+                vec_nr = h - softirq_vec;
++
++               if (IS_ENABLED(CONFIG_PREEMPT_RT) && vec_nr > HRTIMER_SOFTIRQ && !ksirqd) {
++                       /* Restore the pending bitmask for ksoftirqd to handle */
++                       or_softirq_pending(pending << (vec_nr - ffs(pending) + 1));
++                       break;
++               }
++
+                prev_count = preempt_count();
+
+                kstat_incr_softirqs_this_cpu(vec_nr);
+@@ -596,7 +603,7 @@ static void handle_softirqs(bool ksirqd)
+        pending = local_softirq_pending();
+        if (pending) {
+                if (time_before(jiffies, end) && !need_resched() &&
+-                   --max_restart)
++                   --max_restart && !IS_ENABLED(CONFIG_PREEMPT_RT))
+                        goto restart;
+
+                wakeup_softirqd();
+----- END -----
+
+Sincerely,
+Ryo Takakura
+
+>> 
+>> Additionally, the pending softirqs can also be executed in the context of
+>> any threaded IRQ. So even if there was an isolation where the timer thread
+>> handles (hr)timers only, the other softirqs could still cause unacceptable jitter
+>> in IRQ handling. In my understanding, the whole thing gets even more
+>> complicated by priority inheritance - even if softirq processing gets
+>> started in the context of a ksoftirqd thread with priority 1, its priority
+>> may get PI-boosted when a higher priority thread runs into a lock held by
+>> ksoftirqd.
+>> 
+>> Please correct me if any of my understandings or observations mentioned
+>> above are wrong. Now, I'd like to ask these questions:
+>> 
+>> 1. In our view, not all of the softirqs have the same priority: e.g.,
+>> (hr)timers and tasklets seem important, but things like NET_RX, NET_TX, or
+>> BLOCK less so. Would it be a bad idea to try to introduce a more selective
+>> approach, where a certain type of softirqs can only be executed with a
+>> defined maximum priority? This could make more sense if we introduced some
+>> IRQ priority partitioning instead of leaving all IRQ threads at prio 50
+>> (we're considering this step as well).
+>> 
+>> 2. Several of our peripherals use a DMA (our SoC actually has 2 different DMA
+>> blocks), and we noticed that the dmaengine is using tasklets to execute
+>> the DMA callbacks. This means the callbacks can be executed in the context
+>> of an arbitrary thread (and thus arbitrary priority). It feels quite
+>> strange to me, especially because the DMA callbacks can further
+>> "cooperate" with other IRQs (such as enabling the "Tx complete" IRQ of our
+>> UART). I understood that tasklets are deprecated and it's recommended to
+>> use BH workqueues instead. Is there a reason why we shouldn't modify the
+>> dmaengine (which I see as a very important component in the system) to
+>> make it use BH workqueues instead of tasklets?
+>> 
+>> 3. Do you have any other recommendations on how we should configure and
+>> balance our system? Setting different priorities to individual IRQ threads
+>> based on how critical we see them looks quite straightforward, but the
+>> fact that pending softirqs can be executed in the context of an arbitrary
+>> IRQ thread still makes it look nondeterministic.
