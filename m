@@ -1,64 +1,58 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416BD27587D
-	for <linux-rt-devel@lists.linux.dev>; Mon,  7 Jul 2025 14:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4716DEB3;
+	Mon,  7 Jul 2025 21:56:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751897068; cv=none; b=fxoYYvNDRxsn9Zs9Jd6/Vx/VYfbUu5wj9aQlE3jluDZzBP5EUTKwyvrTJuEbYrtmwbeefJeuNXXn7EWyRA6FqWOfS/IFgGOxQ+k2fgenkHG8wVRW2qL0TTwaR+lN3uwZpAwWIFXpNfNQyT6gDn1v2QhmsXRhp9B/P908rapA/U8=
+	t=1751925375; cv=none; b=A/SRVNs5UjdaMgXsIDQ0rxw8paev2ZZouv/BQroxEWcFiEGZrWL1K3gCgItG3floycXxsXn4Vl4RYkphh3n48gXIiEUjhs80QKgrQYbiVzgu9sBFWnzFZC1I+pbcs91outykCWoD1E2TrVBUED+rZFB3fcxK3onMWhTmAkM4zQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751897068; c=relaxed/simple;
-	bh=zjmPES/qMj2C6qWapuR4Rcsi2V/S6BbnyPqI5YbhQcw=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qTBmfuk3h9M6bl+fy/lduBZfjUTqlcyaz4aBHQ9/zdwKPyFkU4T9mXMAiC3hBCr+rtr3haKtOzhba5CcN8np/twDHDYsUHvpLkif/jKRi6G6yej3siexH+GHNlWHYab+0i6UtpAjA+/VrOJlfwNvwiKrAj7YvAYXBZIB6AyhBJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QUhynJCb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751925375; c=relaxed/simple;
+	bh=SN7gE7wv44HsOXYJxG4NYhkPrK17oXrOVljL+MEmuDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eOgNHTi658XoCz69FesYftqPLrq1gSA0Sp9XhWk5ubP6jmT+AwF918HuwyAgL+F8AZePsAKlVeb+zWxDfKQmrn/7i0Qs8/HUE0c7/vBuJHDDDgs+MwD1W0aTZz70HUHQGNlzNzXVuCtpH9BYPtWzpnkVGDPxylkcNo1jGFtA9i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euzUwa+h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QUhynJCb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751897065;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=pxPD34Ul1bvSrq91y/XFaT/LldnkRBWF3DvS4cmeDDY=;
-	b=QUhynJCbm2I3u8MrOf/SvJcI7wrQBkmC4w9V1dOLLnG30p/LJogpCDHhk3WO/O39WuxQtV
-	ICRms+xoJ9co9kFv1hnOZloykUv7GRgE9+AlPwvar0NqsNI6X9CBMGP9ER7Gob5WTLEHi/
-	u/qqEz4MIhNYPYd6It2SE5idhFdEbfs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-621-irXs6swOMwGdwR52WscQpQ-1; Mon,
- 07 Jul 2025 10:04:19 -0400
-X-MC-Unique: irXs6swOMwGdwR52WscQpQ-1
-X-Mimecast-MFC-AGG-ID: irXs6swOMwGdwR52WscQpQ_1751897043
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 907991809C9A;
-	Mon,  7 Jul 2025 14:04:02 +0000 (UTC)
-Received: from localhost (unknown [10.22.81.108])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5B2EE195608F;
-	Mon,  7 Jul 2025 14:04:00 +0000 (UTC)
-Date: Mon, 7 Jul 2025 11:03:59 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euzUwa+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C25C4CEE3;
+	Mon,  7 Jul 2025 21:56:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751925374;
+	bh=SN7gE7wv44HsOXYJxG4NYhkPrK17oXrOVljL+MEmuDw=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=euzUwa+hWzgM2vB6hlO5Ds4h8txZL0Ee+YHbwT6jEx3xE7NwaoevERCfTSnIRcvNf
+	 Z77BTpGPEhXKQSJRY7EESiXdvGQPSn5Yt0E1766VwQJ0fG2w8gdqdvEIYT9Gg6SpfV
+	 ggrv2/s86HLFP3cj8zq2RVcnPN/+b+RfWXJgHnF9BBFsX0Y+N3Z897M7/w2n5WSiSO
+	 ZWOqQe6Z4ISu2VVsLuSokujES01RBrTYKlSXv3/9wmWjUKYOKouC88xufDNgyg5wNY
+	 T5Gpt20kgvnmWiy6uvqZo1j8C/PaEHbCWqCZpScacvMXHLyg3B8+QZaAcIAaVijxea
+	 KjPk8Nr1qqclA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 3E7DCCE0E61; Mon,  7 Jul 2025 14:56:14 -0700 (PDT)
+Date: Mon, 7 Jul 2025 14:56:14 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
+	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>, lclaudio00@gmail.com
-Subject: [PATCH v6] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-Message-ID: <aGvTz5VaPFyj0pBV@uudg.org>
+	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
+Message-ID: <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250613152218.1924093-1-bigeasy@linutronix.de>
+ <20250613152218.1924093-2-bigeasy@linutronix.de>
+ <aFL1pIGMDX5DG9f_@tardis.local>
+ <20250620084334.Zb8O2SwS@linutronix.de>
+ <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+ <20250623104941.WxOQtAmV@linutronix.de>
+ <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -67,96 +61,105 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+In-Reply-To: <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
 
-With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
-from rt_mutex_adjust_prio_chain() could happen in preemptible context and
-with a mutex enqueued. That could lead to this sequence:
+On Mon, Jun 23, 2025 at 11:13:03AM -0700, Paul E. McKenney wrote:
+> On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
+> > On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
+> > > > I hope not because it is not any different from
+> > > > 
+> > > >  	CPU 2			CPU 3
+> > > >  	=====                   =====
+> > > > 	NMI
+> > > >  	rcu_read_lock();
+> > > >  				synchronize_rcu();
+> > > >  				// need all CPUs report a QS.
+> > > >  	rcu_read_unlock();
+> > > >  	// no rcu_read_unlock_special() due to in_nmi().
+> > > > 
+> > > > If the NMI happens while the CPU is in userland (say a perf event) then
+> > > > the NMI returns directly to userland.
+> > > > After the tracing event completes (in this case) the CPU should run into
+> > > > another RCU section on its way out via context switch or the tick
+> > > > interrupt.
+> > > > I assume the tick interrupt is what makes the NMI case work.
+> > > 
+> > > Are you promising that interrupts will be always be disabled across
+> > > the whole rcu_read_lock_notrace() read-side critical section?  If so,
+> > > could we please have a lockdep_assert_irqs_disabled() call to check that?
+> > 
+> > No, that should stay preemptible because bpf can attach itself to
+> > tracepoints and this is the root cause of the exercise. Now if you say
+> > it has to be run with disabled interrupts to match the NMI case then it
+> > makes sense (since NMIs have interrupts off) but I do not understand why
+> > it matters here (since the CPU returns to userland without passing the
+> > kernel).
+> 
+> Given your patch, if you don't disable interrupts in a preemptible kernel
+> across your rcu_read_lock_notrace()/rcu_read_unlock_notrace() pair, then a
+> concurrent expedited grace period might send its IPI in the middle of that
+> critical section.  That IPI handler would set up state so that the next
+> rcu_preempt_deferred_qs_irqrestore() would report the quiescent state.
+> Except that without the call to rcu_read_unlock_special(), there might
+> not be any subsequent call to rcu_preempt_deferred_qs_irqrestore().
+> 
+> This is even more painful if this is a CONFIG_PREEMPT_RT kernel.
+> Then if that critical section was preempted and then priority-boosted,
+> the unboosting also won't happen until the next call to that same
+> rcu_preempt_deferred_qs_irqrestore() function, which again might not
+> happen.  Or might be significantly delayed.
+> 
+> Or am I missing some trick that fixes all of this?
+> 
+> > I'm not sure how much can be done here due to the notrace part. Assuming
+> > rcu_read_unlock_special() is not doable, would forcing a context switch
+> > (via setting need-resched and irq_work, as the IRQ-off case) do the
+> > trick?
+> > Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
+> > be "usable from the scheduler (with rq lock held)" due to RCU-boosting
+> > or the wake of expedited_wq (which is one of the requirement).
+> 
+> But if rq_lock is held, then interrupts are disabled, which will
+> cause the unboosting to be deferred.
+> 
+> Or are the various deferral mechanisms also unusable in this context?
 
-        rt_mutex_adjust_prio_chain()
-          put_task_struct()
-            __put_task_struct()
-              sched_ext_free()
-                spin_lock_irqsave()
-                  rtlock_lock() --->  TRIGGERS
-                                      lockdep_assert(!current->pi_blocked_on);
+OK, looking back through this thread, it appears that you need both
+an rcu_read_lock_notrace() and an rcu_read_unlock_notrace() that are
+covered by Mathieu's list of requirements [1]:
 
-This is not a SCHED_EXT bug. The first cleanup function called by
-__put_task_struct() is sched_ext_free() and it happens to take a
-(RT) spin_lock, which in the scenario described above, would trigger
-the lockdep assertion of "!current->pi_blocked_on".
+| - NMI-safe
+	This is covered by the existing rcu_read_lock() and
+	rcu_read_unlock().
+| - notrace
+	I am guessing that by "notrace", you mean the "notrace" CPP
+	macro attribute defined in include/linux/compiler_types.h.
+	This has no fewer than four different definitions, so I will
+	need some help understanding what the restrictions are.
+| - usable from the scheduler (with rq lock held)
+	This is covered by the existing rcu_read_lock() and
+	rcu_read_unlock().
+| - usable to trace the RCU implementation
+	This one I don't understand.  Can I put tracepoints on
+	rcu_read_lock_notrace() and rcu_read_unlock_notrace() or can't I?
+	I was assuming that tracepoints would be forbidden.  Until I
+	reached this requirement, that is.
 
-Crystal Wood was able to identify the problem as __put_task_struct()
-being called during rt_mutex_adjust_prio_chain(), in the context of
-a process with a mutex enqueued.
+One possible path forward is to ensure that rcu_read_unlock_special()
+calls only functions that are compatible with the notrace/trace
+requirements.  The ones that look like they might need some help are
+raise_softirq_irqoff() and irq_work_queue_on().  Note that although
+rcu_preempt_deferred_qs_irqrestore() would also need help, it is easy to
+avoid its being invoked, for example, by disabing interrupts across the
+call to rcu_read_unlock_notrace().  Or by making rcu_read_unlock_notrace()
+do the disabling.
 
-Instead of adding more complex conditions to decide when to directly
-call __put_task_struct() and when to defer the call, unconditionally
-resort to the deferred call on PREEMPT_RT to simplify the code.
+However, I could easily be missing something, especially given my being
+confused by the juxtaposition of "notrace" and "usable to trace the
+RCU implementation".  These appear to me to be contradicting each other.
 
-Suggested-by: Crystal Wood <crwood@redhat.com>
-Reviewed-by: Wander Lairson Costa <wander@redhat.com>
-Fixes: 893cdaaa3977 ("sched: avoid false lockdep splat in put_task_struct()")
-Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
----
+Help?
 
-v6: (Sebastian) rework patch description with the note from Crystal Wood.
-v5: Add the "Fixes:" tag.
-v4: Fix the implementation of what was requested on v3.
-v3: (Sebastian, PeterZ) always call the deferred __put_task_struct() on RT.
-v2: (Rostedt) remove the #ifdef from put_task_struct() and create
-    tsk_is_pi_blocked_on() in sched.h to make the change cleaner.
+							Thanx, Paul
 
- include/linux/sched/task.h | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
-
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index 0f2aeb37bbb0..5873de8804d4 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -135,24 +135,17 @@ static inline void put_task_struct(struct task_struct *t)
- 		return;
- 
- 	/*
--	 * In !RT, it is always safe to call __put_task_struct().
--	 * Under RT, we can only call it in preemptible context.
--	 */
--	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
--		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
--
--		lock_map_acquire_try(&put_task_map);
--		__put_task_struct(t);
--		lock_map_release(&put_task_map);
--		return;
--	}
--
--	/*
--	 * under PREEMPT_RT, we can't call put_task_struct
-+	 * Under PREEMPT_RT, we can't call __put_task_struct
- 	 * in atomic context because it will indirectly
--	 * acquire sleeping locks.
-+	 * acquire sleeping locks. The same is true if the
-+	 * current process has a mutex enqueued (blocked on
-+	 * a PI chain).
-+	 *
-+	 * In !RT, it is always safe to call __put_task_struct().
-+	 * Though, in order to simplify the code, resort to the
-+	 * deferred call too.
- 	 *
--	 * call_rcu() will schedule delayed_put_task_struct_rcu()
-+	 * call_rcu() will schedule __put_task_struct_rcu_cb()
- 	 * to be called in process context.
- 	 *
- 	 * __put_task_struct() is called when
-@@ -165,7 +158,7 @@ static inline void put_task_struct(struct task_struct *t)
- 	 *
- 	 * delayed_free_task() also uses ->rcu, but it is only called
- 	 * when it fails to fork a process. Therefore, there is no
--	 * way it can conflict with put_task_struct().
-+	 * way it can conflict with __put_task_struct().
- 	 */
- 	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
- }
--- 
-2.50.0
-
+[1] https://lore.kernel.org/all/20250613152218.1924093-1-bigeasy@linutronix.de/
