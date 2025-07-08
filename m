@@ -1,165 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4716DEB3;
-	Mon,  7 Jul 2025 21:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC4F2BDC37
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Jul 2025 08:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751925375; cv=none; b=A/SRVNs5UjdaMgXsIDQ0rxw8paev2ZZouv/BQroxEWcFiEGZrWL1K3gCgItG3floycXxsXn4Vl4RYkphh3n48gXIiEUjhs80QKgrQYbiVzgu9sBFWnzFZC1I+pbcs91outykCWoD1E2TrVBUED+rZFB3fcxK3onMWhTmAkM4zQ8=
+	t=1751963319; cv=none; b=kbLpwnVVOWbjw3nvElRxodAjOJ9OnyD5X9/vtVbXviy46WckijBSu9RRHvC/RNxOc35e9pvcscZCPNLaBK9GNOciSDbGOHgtmBMHEbynY6fCc+Mm1FB9HW0/CdCXoSpNQRUpwbQVvsL4kuWnEgAJvAR+jACLwPxC57MJVSRc4IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751925375; c=relaxed/simple;
-	bh=SN7gE7wv44HsOXYJxG4NYhkPrK17oXrOVljL+MEmuDw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eOgNHTi658XoCz69FesYftqPLrq1gSA0Sp9XhWk5ubP6jmT+AwF918HuwyAgL+F8AZePsAKlVeb+zWxDfKQmrn/7i0Qs8/HUE0c7/vBuJHDDDgs+MwD1W0aTZz70HUHQGNlzNzXVuCtpH9BYPtWzpnkVGDPxylkcNo1jGFtA9i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=euzUwa+h; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751963319; c=relaxed/simple;
+	bh=aTVqbBJCrpdA/23ncYm6csiwV9ujBFQ/Zovn7BQNI0M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ED4Raaijo9xQuLqUFOt+Xu5lajaNlupT2rJlQI3CDz6/czbMRTDUQkDPyvU6uUgCTedKthf+ZfEZixFYFd1mLYQV2X1aSLluNx5hL3/O7qtBkLyJHjqaMjv/twF7wHJPaEvYuZGlL59tgjMzaQHobMD9cOa2aHs5gwIaBSUpmbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZazrS/8y; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="euzUwa+h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C25C4CEE3;
-	Mon,  7 Jul 2025 21:56:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751925374;
-	bh=SN7gE7wv44HsOXYJxG4NYhkPrK17oXrOVljL+MEmuDw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=euzUwa+hWzgM2vB6hlO5Ds4h8txZL0Ee+YHbwT6jEx3xE7NwaoevERCfTSnIRcvNf
-	 Z77BTpGPEhXKQSJRY7EESiXdvGQPSn5Yt0E1766VwQJ0fG2w8gdqdvEIYT9Gg6SpfV
-	 ggrv2/s86HLFP3cj8zq2RVcnPN/+b+RfWXJgHnF9BBFsX0Y+N3Z897M7/w2n5WSiSO
-	 ZWOqQe6Z4ISu2VVsLuSokujES01RBrTYKlSXv3/9wmWjUKYOKouC88xufDNgyg5wNY
-	 T5Gpt20kgvnmWiy6uvqZo1j8C/PaEHbCWqCZpScacvMXHLyg3B8+QZaAcIAaVijxea
-	 KjPk8Nr1qqclA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 3E7DCCE0E61; Mon,  7 Jul 2025 14:56:14 -0700 (PDT)
-Date: Mon, 7 Jul 2025 14:56:14 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
-Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
-Message-ID: <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20250613152218.1924093-1-bigeasy@linutronix.de>
- <20250613152218.1924093-2-bigeasy@linutronix.de>
- <aFL1pIGMDX5DG9f_@tardis.local>
- <20250620084334.Zb8O2SwS@linutronix.de>
- <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
- <20250623104941.WxOQtAmV@linutronix.de>
- <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZazrS/8y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751963317;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TxPFV3tFLky59XA4g/lfynYxXJjgy/YJX1OKkvxJ+rI=;
+	b=ZazrS/8yVS0fMdBs6U6IcugXlN1NsWwxIw4Iyy3uw2be1qb993pqMOvH/POnIHW85HjEBE
+	GRe4cQYLz2SL4Q5njBfJ5eGPsaivFD5/ay/W+pu5Z3q1+cg3DwU4hn2daUQIZhRWs8StN6
+	lFADHdelW0NL8hacydFBiMXeOIWbkdU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-163-s6iDsI2rOJqcKpFhxBIFrA-1; Tue, 08 Jul 2025 04:28:34 -0400
+X-MC-Unique: s6iDsI2rOJqcKpFhxBIFrA-1
+X-Mimecast-MFC-AGG-ID: s6iDsI2rOJqcKpFhxBIFrA_1751963313
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-450df53d461so31635095e9.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 08 Jul 2025 01:28:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751963313; x=1752568113;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TxPFV3tFLky59XA4g/lfynYxXJjgy/YJX1OKkvxJ+rI=;
+        b=Ms5UZW7jCE+1RbPN43DYH/HzWCLhBSVWQ0KRfHFisxJEoipZVRXtKDEUz/KoKETTBt
+         06iAsgn6TzWENcvmov/6/CCrb5dLrFyy4WHagakN7Cu02NJAsUzoy2jtlAVkXUDA6fdl
+         EsmV/CoUk8GCLGOf5QyOKFWsbfl8Y3wDBmwFDCiPoq+NsSV44U2OJpimhBC7Tmd4G7hg
+         FsV652H/ufUfL330KdGGRtPkVpWZb5xS/0Sdl1a0du85fjJIFMGAjdYX/AqFwr5Eey3i
+         LClA6aQhB37IiUNa7XJ0piPeJajHssf4Lunl3tYJ1Vpskb42DqQmLbAWHM5sHJL1iVm7
+         W2jA==
+X-Forwarded-Encrypted: i=1; AJvYcCX903Pv0VCpTtdVZbm0D+3xaTlQ6cZJn0/VXo/NzP3cXUh35lLNY5+abqlyYvUsw6ycUcxEmjr3CLeJJAw3dQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBfSJRFcw914X377nOphiJPRtmvkkrzjH1LKhVEkcD2FlM3Pmo
+	SuGxSX9eFw52VKNOq9g5FirlYqrOVQwvaf2QLWjujEl683+J2I+eXlKm2GFYRcIUnBDVg14wUYx
+	8V+YFGxSeJJrnY2knIITQ7yhDxyoqlrHHmQ3/Q8rKHdTt/RkY7Z0KMwPQBR7lecPOZeMx
+X-Gm-Gg: ASbGnct1/CPbcMNzl74ExSz1wNv77k8pjc7CrHjUirPDdw5IRZpwiu5AEZQX4KeVb3E
+	+OcFiEby79H/jk2pa5Ue0WugxZ7Cgj9Jy500Mrc4m6O+HQwcX6dl5ifJf0sNdPRJGOSF0zCyOTl
+	PkhOJ7VF6fCwp9RD0PcVMCCu6a51ZczRLJl/FiE4GmD1PjFx5ipW+8Lf+4cXu76ZB/drHaN8exM
+	znT2fgmQf2QV2uaMJ0sGsZlBSaKdkVaTOrpmL7781W4/ktHGg9B5vLew6X8+Eq6O3VbzazOwH0g
+	T5/0oVdm4MrKM8CsiBYiMOtEVT3/JS2rsWliMjIDOZqpAz19SOf95fWCc1AmKe2Ac9KQcw==
+X-Received: by 2002:a05:600c:a087:b0:454:ab1a:8c39 with SMTP id 5b1f17b1804b1-454b310d890mr135455765e9.26.1751963312710;
+        Tue, 08 Jul 2025 01:28:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKeZmp4gshJPfdVZLft+U6QKBU434mwlK26v/9HLXxDoFpa/+j0LPJFeFl/k2mvKbg4sYKig==
+X-Received: by 2002:a05:600c:a087:b0:454:ab1a:8c39 with SMTP id 5b1f17b1804b1-454b310d890mr135455575e9.26.1751963312271;
+        Tue, 08 Jul 2025 01:28:32 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2717:8910:b663:3b86:247e:dba2? ([2a0d:3344:2717:8910:b663:3b86:247e:dba2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b47285c90esm12502048f8f.91.2025.07.08.01.28.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Jul 2025 01:28:31 -0700 (PDT)
+Message-ID: <1eb149e6-68e7-4932-8090-34ee568c5832@redhat.com>
+Date: Tue, 8 Jul 2025 10:28:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] ppp: Replace per-CPU recursion counter with
+ lock-owner field
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, "David S. Miller" <davem@davemloft.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Clark Williams <clrkwllms@kernel.org>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Gao Feng <gfree.wind@vip.163.com>, Guillaume Nault <g.nault@alphalink.fr>
+References: <20250627105013.Qtv54bEk@linutronix.de>
+ <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
+ <20250704154806.twigjkbU@linutronix.de>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250704154806.twigjkbU@linutronix.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: VSpMhWogfBedzO4LTUwXGkxQECOc-FSV1FSterEaFxE_1751963313
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 23, 2025 at 11:13:03AM -0700, Paul E. McKenney wrote:
-> On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
-> > > > I hope not because it is not any different from
-> > > > 
-> > > >  	CPU 2			CPU 3
-> > > >  	=====                   =====
-> > > > 	NMI
-> > > >  	rcu_read_lock();
-> > > >  				synchronize_rcu();
-> > > >  				// need all CPUs report a QS.
-> > > >  	rcu_read_unlock();
-> > > >  	// no rcu_read_unlock_special() due to in_nmi().
-> > > > 
-> > > > If the NMI happens while the CPU is in userland (say a perf event) then
-> > > > the NMI returns directly to userland.
-> > > > After the tracing event completes (in this case) the CPU should run into
-> > > > another RCU section on its way out via context switch or the tick
-> > > > interrupt.
-> > > > I assume the tick interrupt is what makes the NMI case work.
-> > > 
-> > > Are you promising that interrupts will be always be disabled across
-> > > the whole rcu_read_lock_notrace() read-side critical section?  If so,
-> > > could we please have a lockdep_assert_irqs_disabled() call to check that?
-> > 
-> > No, that should stay preemptible because bpf can attach itself to
-> > tracepoints and this is the root cause of the exercise. Now if you say
-> > it has to be run with disabled interrupts to match the NMI case then it
-> > makes sense (since NMIs have interrupts off) but I do not understand why
-> > it matters here (since the CPU returns to userland without passing the
-> > kernel).
+Hi,
+
+I'm sorry for the latency, OoO here in between.
+
+On 7/4/25 5:48 PM, Sebastian Andrzej Siewior wrote:
+> On 2025-07-03 09:55:21 [+0200], Paolo Abeni wrote:
+>> Is there any special reason to not use local_lock here? I find this
+>> patch quite hard to read and follow, as opposed to the local_lock usage
+>> pattern. Also the fact that the code change does not affect RT enabled
+>> build only is IMHO a negative thing.
 > 
-> Given your patch, if you don't disable interrupts in a preemptible kernel
-> across your rcu_read_lock_notrace()/rcu_read_unlock_notrace() pair, then a
-> concurrent expedited grace period might send its IPI in the middle of that
-> critical section.  That IPI handler would set up state so that the next
-> rcu_preempt_deferred_qs_irqrestore() would report the quiescent state.
-> Except that without the call to rcu_read_unlock_special(), there might
-> not be any subsequent call to rcu_preempt_deferred_qs_irqrestore().
+> Adding a local_lock_t to "protect" the counter isn't that simple. I
+> still have to check for the owner of the lock before the lock is
+> acquired to avoid recursion on that local_lock_t. I need to acquire the
+> lock before checking the counter because another task might have
+> incremented the counter (so acquiring the lock would not deadlock). This
+> is similar to the recursion detection in openvswitch. That means I would
+> need to add the local_lock_t and an owner field next to the recursion
+> counter.
+
+IMHO using a similar approach to something already implemented is a
+plus, and the OVS code did not look that scaring. Also it had the IMHO
+significant advantage of keeping the changes constrained to the RT build.
+
+> I've been looking at the counter and how it is used and it did not look
+> right. The recursion, it should detect, was described in commit
+> 55454a565836e ("ppp: avoid dealock on recursive xmit"). There are two
+> locks that can be acquired due to recursion and that one counter is
+> supposed to catch both cases based on current code flow.
 > 
-> This is even more painful if this is a CONFIG_PREEMPT_RT kernel.
-> Then if that critical section was preempted and then priority-boosted,
-> the unboosting also won't happen until the next call to that same
-> rcu_preempt_deferred_qs_irqrestore() function, which again might not
-> happen.  Or might be significantly delayed.
-> 
-> Or am I missing some trick that fixes all of this?
-> 
-> > I'm not sure how much can be done here due to the notrace part. Assuming
-> > rcu_read_unlock_special() is not doable, would forcing a context switch
-> > (via setting need-resched and irq_work, as the IRQ-off case) do the
-> > trick?
-> > Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
-> > be "usable from the scheduler (with rq lock held)" due to RCU-boosting
-> > or the wake of expedited_wq (which is one of the requirement).
-> 
-> But if rq_lock is held, then interrupts are disabled, which will
-> cause the unboosting to be deferred.
-> 
-> Or are the various deferral mechanisms also unusable in this context?
+> It is also not obvious why ppp_channel_push() makes the difference
+> depending on pch->ppp while ->start_xmit callback is invoked based on
+> pch->chan.
+> It looked more natural to avoid the per-CPU usage and detect the
+> recursion based on the lock that might be acquired recursively. I hope
+> this makes it easier to understand what is going on here.
 
-OK, looking back through this thread, it appears that you need both
-an rcu_read_lock_notrace() and an rcu_read_unlock_notrace() that are
-covered by Mathieu's list of requirements [1]:
+Actually I'm a bit lost. According to 55454a565836e a single recursion
+check in ppp_xmit_process() should be enough, and I think that keeping
+the complexity constraint there be better.
 
-| - NMI-safe
-	This is covered by the existing rcu_read_lock() and
-	rcu_read_unlock().
-| - notrace
-	I am guessing that by "notrace", you mean the "notrace" CPP
-	macro attribute defined in include/linux/compiler_types.h.
-	This has no fewer than four different definitions, so I will
-	need some help understanding what the restrictions are.
-| - usable from the scheduler (with rq lock held)
-	This is covered by the existing rcu_read_lock() and
-	rcu_read_unlock().
-| - usable to trace the RCU implementation
-	This one I don't understand.  Can I put tracepoints on
-	rcu_read_lock_notrace() and rcu_read_unlock_notrace() or can't I?
-	I was assuming that tracepoints would be forbidden.  Until I
-	reached this requirement, that is.
+> While looking through the code I wasn't sure if
+> ppp_channel_bridge_input() requires the same kind of check for recursion
+> but adding it based on the lock, that is about to be acquired, would be
+> easier.
 
-One possible path forward is to ensure that rcu_read_unlock_special()
-calls only functions that are compatible with the notrace/trace
-requirements.  The ones that look like they might need some help are
-raise_softirq_irqoff() and irq_work_queue_on().  Note that although
-rcu_preempt_deferred_qs_irqrestore() would also need help, it is easy to
-avoid its being invoked, for example, by disabing interrupts across the
-call to rcu_read_unlock_notrace().  Or by making rcu_read_unlock_notrace()
-do the disabling.
+(still lost in PPP, but) The xmit -> input path transition should have
+already break the recursion (via the backlog). Recursion check in tx
+should be sufficient.
 
-However, I could easily be missing something, especially given my being
-confused by the juxtaposition of "notrace" and "usable to trace the
-RCU implementation".  These appear to me to be contradicting each other.
+All in all I think it would be safer the local lock based approach.
 
-Help?
+Thanks,
 
-							Thanx, Paul
+Paolo
 
-[1] https://lore.kernel.org/all/20250613152218.1924093-1-bigeasy@linutronix.de/
