@@ -1,176 +1,328 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
+Received: from CAN01-YQB-obe.outbound.protection.outlook.com (mail-yqbcan01on2121.outbound.protection.outlook.com [40.107.116.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D98A2E0B74
-	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Jul 2025 15:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17B721FF5F
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Jul 2025 19:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.116.121
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751987865; cv=fail; b=sTge28HlKMzD6QSqj38t0KuOOK3fmgAUDWds02a5SLOlB/RD/pic2+fLwulD4X5IBQ5QFJnRCAsBrPuhZpXUT6DI0Hk5HauI+vXcjFzhT73LZNaRiZFdNAaJZ4LgOTYP82fBxtjYu8x0aYCsVRchYuKZ+LtEHRHgKKhcu5Gkqq8=
+	t=1752003614; cv=fail; b=an9TqgZ3Yup1KqHR7TKfGtHcN1uOFFlvmxOWnQFX/aC30g+z82FUvkofMkzyPwN/0OhnUw2SsTKXGWYqe+zwxpYseZRlLcqDvkIeWRFE3ouhvl0j7WJMsV4lj2D7zWfQs8j1Pg5hR6rSGHYoY9itqlNRB4R88qQM0u+Ef0mQq/0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751987865; c=relaxed/simple;
-	bh=NJ8f+ews6xOgXjJqI4j+5NHyxaKFC6UwnNzIyx4nBw0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZeZPyvDNmUDANzCQq7ltkJ/jV11o5MtQQ5JZwKODiQLHEZVx/HEBDD4FghYxQtLNBb23dwAkQ563eL1yygQ9jWzrJQA55X4aA+4qEXdiJWs/LTNTcP/99ihQpRKp4q0AoElW3zZEWnFBlQACLZUZKsDSw+byng9nya3Kwhi1yyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=eaton.com; spf=pass smtp.mailfrom=eaton.com; dkim=pass (2048-bit key) header.d=eaton.com header.i=@eaton.com header.b=vrwkPrtx; arc=fail smtp.client-ip=40.107.94.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=eaton.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=eaton.com
+	s=arc-20240116; t=1752003614; c=relaxed/simple;
+	bh=iFKiEft9zisMRacn6rIea86EKOr4m91cb6a/2OYfazs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=mk2rN4zsFYOX76ETllVmpshOctiEIBretzD/3kANrXb5qP4MSFWqWBtWoygEAqz/eOB8wlUb8Je0wnmlsXgSkDT6B66Peb5t2R3yY6DRoB1EpGfyqgyVZ5yNdpfKKwrfUvvdMMTBWJoKshnWNt9rursIC5muIeGnyB+l2NeRKNU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com; spf=pass smtp.mailfrom=efficios.com; dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b=nZBbBINT; arc=fail smtp.client-ip=40.107.116.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=eaton.com header.i=@eaton.com header.b="vrwkPrtx"
+	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.b="nZBbBINT"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=A1llvrZX8K/hX7rIgSsep4/whW35hc/pybFZTueRhhYQM6ZDQBBAziTJ+7sXa2gn2jfA0255u67LY+nI1I1P9l7e/WbUTYYSxc9iSDd+TpIpNGKC6AG9hY8bwMXPBwMFyFEglFo8CXa3lMUXKVtGSvectqx841qxpbuXTDQgMdPi6IWobphdybCcmyUY+1fvsZ77h+7h2//+4FRSAi4zZEqOcWydcZXuntSzG2LdwjQll8gSVh/W0VPEA/5ehqVVdniPuWLxDIT//YGhJe8a+2KceK+e14QfdhosNUo1sEUFr+9cfNDAfjdfGN+yXPJytpMGbtPMpC/XMTyGVv2bNg==
+ b=I26e91yCkwvkuXWZZXXdJhN6/HQWL5NUSiEiI6H4/seJCPbp8+Nk2hF52DNCJDNXxwRp13u65Taj9iY6jHMxXeeW6V1jMx0xIAMoLewJxy9+906KgCD2mCfm0iEOCk5b1eUtJtZLWsxQaU3+POh2SM0YDYvGnHd/HYeLM4icbzH8mZWadUHDeLOtVWnXCIwp86wCHpr3ouyntiC9KYthmKbKi2yaerMEpGOpw8E9nt324A1b9ZAVXjCqKB5jQ7jKHExWO0IsYPVZaoWqlyIhky0hCiycKLk9RMWbf45nBymdHI0tQfOebdhf86Blxj/pM61H5oygNoGA9YwB3fBhcQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NJ8f+ews6xOgXjJqI4j+5NHyxaKFC6UwnNzIyx4nBw0=;
- b=KqR/+23QYAu9J04o0XplHtTsRWTqH8mjqW+YK9lSfrTwN8zMJuH/IGIMxtAz2J+c7dKElHCIvh/tHneAKJb+VXW2pdVMz/L3DntplShrN/gdUAj1nI2kK1e+WRmV57G7MhyIDFwp6Yw/yBN7pCRbwUHSFyhsbL/Hr+NRcs/tEEVMG2SOPEB6+HpqMGpubUq8SVxwgiOtkL+HzYpkNzikvS1AwZ/XuWU1IlD8w7ttgrNQSxUuJGEi03kzfK8teaWAxVLDpoT3Y/EwLzQk8M+9wRDmNttuetR9XUA57ESz7qMFm+8tS6mbY62h+CQOuTW4717hVsUN30FyExtuqGcXLg==
+ bh=y+zmWb4hTKpQVKuZv0ZR/KdXbvLL1WHZn3oyjEXNHNc=;
+ b=S8VX7ldvK/nX4HpC5yNvX7bisCTzvxr8G8fJga3qz3/L3KD9YFkoxNy2iOhS+etTe24CN9TtEi3atnjSX8mjsJ4BhhiaXFCwiuJxMzOcSUNeBs5n7zaeF3qQO6wiYMX8yNsDHrfROBCtrTvM8nXGfRoPNGl03OdO/16AqHOIhNNzTuTFYwzIwCYQKAe5uo0eZCy0OaPMV43tucU7tn8fJ6lMwhxexs8mSIWhV+LJjjIZIi6Wu05rWr4lxmrbZqKurmOB0gmgjFvCNgz43pyuTlOSkVSmevM306XFW8ltAs9u5rn5SObUiWSEhkuD1JX8mSvNrylRx2eHXy8L5Sz57A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=eaton.com; dmarc=pass action=none header.from=eaton.com;
- dkim=pass header.d=eaton.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eaton.com;
- s=selector2;
+ smtp.mailfrom=efficios.com; dmarc=pass action=none header.from=efficios.com;
+ dkim=pass header.d=efficios.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NJ8f+ews6xOgXjJqI4j+5NHyxaKFC6UwnNzIyx4nBw0=;
- b=vrwkPrtxAekaY5MiW5OQYjkJd6cBZb+Lo81DR2z2uoAGpT+MaRAocgZIZA32P2T3QHUZ8+thUUMYTw0eKd8rduO2E3I7jOZAeup4DQ8s3AJTJ5ZjUaBzViLGTcfXl1sRn4Sys/814vvWKnzNnJQkQBe0FxG2BeqbgdepMdPZ9euxKKqwpDaYfU1mOdhWFXR0jH1JzWpBfNc3y42TxyvK+2T3j2rTtU0W1146oC/qlpKCaplJT1nVhQvsFTzSE26tBZ9qedFflwDDuXuFeyYHPShMBGAnnZf8M1xQvOCH8nigQYUu46gRWw5+PHb/MvkCBwDcALHZp/aNDjzto1xreg==
-Received: from SJ0PR17MB5559.namprd17.prod.outlook.com (2603:10b6:a03:388::18)
- by DM6PR17MB4197.namprd17.prod.outlook.com (2603:10b6:5:2bc::17) with
+ bh=y+zmWb4hTKpQVKuZv0ZR/KdXbvLL1WHZn3oyjEXNHNc=;
+ b=nZBbBINTjW5XukJTnPZqKrKoJyqjyAF5NafUQWfMyO0mcBGxm3HY9aM0hSzm5xO/xdGkin/jo7S2vaSvQjqkzrdM7ttQ2C0dReicglD7uw5ORb947od78O7fRNSRkftPNzRTvhYTi9WjwY771UySKCKflRgV1m+PhAI+NKoucEU3wEXxoSvCzkALpxa9HO2NtBguK2qLDK1OMg8j6/B+JEmB4PQGPL/e/leCbBkHy3LXniv+flHQNmVkMBNT2wG1psYohfKAJBFTXPL8BU0wcA1eUJaicIsljSEvJVN+vhsYWBlilCzJGwbZWTv+hHScCPklTeOaFhuZ7nONargZew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=efficios.com;
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:be::5)
+ by YQBPR0101MB6604.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c01:4b::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
- 2025 15:17:37 +0000
-Received: from SJ0PR17MB5559.namprd17.prod.outlook.com
- ([fe80::669:b919:bceb:c275]) by SJ0PR17MB5559.namprd17.prod.outlook.com
- ([fe80::669:b919:bceb:c275%5]) with mapi id 15.20.8901.021; Tue, 8 Jul 2025
- 15:17:37 +0000
-From: =?iso-8859-2?B?qWluZGVs4fgsIEppbmT4aWNo?= <JindrichSindelar@eaton.com>
-To: Ryo Takakura <ryotkkr98@gmail.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>
-CC: "bigeasy@linutronix.de" <bigeasy@linutronix.de>, "kprateek.nayak@amd.com"
-	<kprateek.nayak@amd.com>, "linux-rt-devel@lists.linux.dev"
-	<linux-rt-devel@lists.linux.dev>
-Subject: Re: softirqs causing high IRQ jitter
-Thread-Topic: softirqs causing high IRQ jitter
-Thread-Index: AQHb7z/WV/f4z0P2vEGeXptD5Jq9m7QoS21wgAAMziA=
-Date: Tue, 8 Jul 2025 15:17:37 +0000
-Message-ID:
- <SJ0PR17MB5559C6B9A20520BE72CAE08BD74EA@SJ0PR17MB5559.namprd17.prod.outlook.com>
-References: <20250702130909.0bc4702d@batman.local.home>
- <20250706120148.636285-1-ryotkkr98@gmail.com>
- <SJ0PR17MB5559DFA08F96F9A6E2E2E4DFD74FA@SJ0PR17MB5559.namprd17.prod.outlook.com>
- <SJ0PR17MB5559A9917E0B59AA6203C633D74EA@SJ0PR17MB5559.namprd17.prod.outlook.com>
-In-Reply-To:
- <SJ0PR17MB5559A9917E0B59AA6203C633D74EA@SJ0PR17MB5559.namprd17.prod.outlook.com>
-Accept-Language: en-US
+ 2025 19:40:07 +0000
+Received: from YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::50f1:2e3f:a5dd:5b4]) by YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ ([fe80::50f1:2e3f:a5dd:5b4%3]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 19:40:07 +0000
+Message-ID: <29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
+Date: Tue, 8 Jul 2025 15:40:05 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
+To: paulmck@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
+ rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+References: <20250613152218.1924093-1-bigeasy@linutronix.de>
+ <20250613152218.1924093-2-bigeasy@linutronix.de>
+ <aFL1pIGMDX5DG9f_@tardis.local> <20250620084334.Zb8O2SwS@linutronix.de>
+ <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+ <20250623104941.WxOQtAmV@linutronix.de>
+ <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
+ <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
 Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_ActionId=b43ce4dd-939a-43a3-b779-feb5bfc44623;MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_ContentBits=0;MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Enabled=true;MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Method=Standard;MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_Name=Eaton
- Internal Only
- (IP2);MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_SetDate=2025-07-07T12:53:32Z;MSIP_Label_ff418558-72e5-4d8e-958f-cfe0e73e210d_SiteId=d6525c95-b906-431a-b926-e9b51ba43cc4;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=eaton.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR17MB5559:EE_|DM6PR17MB4197:EE_
-x-ms-office365-filtering-correlation-id: 4c65ac17-72a7-44c9-f3ef-08ddbe329269
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|42112799006|376014|38070700018|1580799027;
-x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?JEbakvL7tF+6yCRMTvnb0nJdBrVW0mQNV5OqLxU+u5zDMfJqxybWKVzpp7?=
- =?iso-8859-2?Q?w/pQ1mdeGoag6CgJLBGexqfb4zdzkb0liFS6URE2m7op5vvrG9WEVH5wdz?=
- =?iso-8859-2?Q?eW6XrVOyA74w9B9bnaGpgdGl/DvrGC+Hey9i0cshQCJrsB60LO4dmr2eh0?=
- =?iso-8859-2?Q?X2NUZk4/xUODPxMYWst6hoGC67nHJ+23DfvV8uNlus5ETBoBw2EaHyefOf?=
- =?iso-8859-2?Q?4GsRvTyio9cZw0/l09k7mXDprHqhXjXSkPe8aH3wdGYpz+ICYUXCz/qiKO?=
- =?iso-8859-2?Q?eMPzuWc0baDshJ5dsV6cyqp8TzQigfeRvv4WY8jgou+D5D2RaLqi24HTaF?=
- =?iso-8859-2?Q?3uYS+dJqw4JrGXGDu8752eNYRZD6uNjnsKOLQ9x3YwYgnMGeQRcTSrMS9w?=
- =?iso-8859-2?Q?Kp8s9ClUg0XCEWAm3yLi/iu+qY873zy1g3B7FAIqrL08VwjxLLEpoyzTDm?=
- =?iso-8859-2?Q?5qJ2+OiLACYdrhrIOeqlJlQuRZdL76WokrgUGX9BT/qaX5GU2dGjoZ6Swx?=
- =?iso-8859-2?Q?emlntnOO7Nri0OvL+Re4EGVj+9Zdhpe3pEtNqi1w9smzh7Ps4lVVnxh1Bl?=
- =?iso-8859-2?Q?ynKAx1MRRDXsw+ritl5DIrp+Ef6DKR7kN0L8E/jesBM3t+pIAblL5jPk5w?=
- =?iso-8859-2?Q?MFitrPCEqiO5OT3Ch1b63/8LlA5EsWjYkzh/Oan+f5V4sTtHLdaWglGV8/?=
- =?iso-8859-2?Q?h536DwQ6nH48+wZvjzq1FljqaBxsNspbuOJxru018QA8tFtbDRdI3md/Cu?=
- =?iso-8859-2?Q?DXUAzWTJrurwT8LC2g6yMeHCSoAdIaXB0BdwxNk9RZf4x7fZdhArO5Em+Z?=
- =?iso-8859-2?Q?RwB096EBIozoR7BIQkure+wHO0/xkBRj0Rv58UYg7KzEpMDiD9dW/ya9eW?=
- =?iso-8859-2?Q?8k45XLwnVG9qoLvhn6xpdeAk9sc7CeLAxNRTv1Tg9GkeysNLZpMsEnnCld?=
- =?iso-8859-2?Q?3rUy+vKzv363VBOjzxD+Wa56rsqj2maVhVVN+nLWcqD+2CXdbFBLpFJ38X?=
- =?iso-8859-2?Q?PKZEGc0Zz6lkqDHzmS3VBDRB6bSn36b1o0InM6x1z/r/9YAr3buSC6iUaR?=
- =?iso-8859-2?Q?AYp/OFE1JyU5gEuNlMfIwTSk8kLpjmVyVqgltM0CdTexpVRvjZyUbmbV5M?=
- =?iso-8859-2?Q?anZl/SMzmIwyJy8JCWXFXzdC7O9dOzqV3DlClDsxCSl8Z/YLAPSyaeUhER?=
- =?iso-8859-2?Q?BgtoYvpKD1DV7mEqg2DTc1sQ+3KZ14VMhYKheZUaIyQHP9hjsCb15e60m3?=
- =?iso-8859-2?Q?vPcNN8fv2R+Ac6L9KieoEXmJ1E5il9HnWB3pP3CqJdOV7uBxizeBft3KMv?=
- =?iso-8859-2?Q?UqnVewTxOps7d6by+l5HBifTck8ooujGlGHCiODj+Fw7iXpR0B2izBOf9H?=
- =?iso-8859-2?Q?04rCRpV14rgnCUIH+Ep6awZQ0OthNbP+rfAO8CpleWWfLdoDXpXBIZmv3Z?=
- =?iso-8859-2?Q?blq/ezKIEUeUjTpsZ4tVukX24pvXBLqFNc3rkNglzUqrlF2Y/mF6JtHcsG?=
- =?iso-8859-2?Q?Yv9NWWV2nqgNSIjPmL/LLZ/XvZ19Kr5A+braQpe8fmpHTmAN43mMwl/2p6?=
- =?iso-8859-2?Q?1YKBz+yh9cTti+FBWr3ejIkIoL2v?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR17MB5559.namprd17.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(42112799006)(376014)(38070700018)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?gRs696FBv2v8WvvVxWT3ilEgAuRA4Vvs+PQgCIvGtX/MCMH4xVxHGCpnkK?=
- =?iso-8859-2?Q?DdyU8mY7yHYjX3620g/aZ+359MZeguMEB9zumN/0adcYjG6b03HaTxjyi5?=
- =?iso-8859-2?Q?utkI+8/YbG8JLm8jEP6MFaZwDR6mGVE6GtTETq/AjOBOaKMDv+Q6RhSeKp?=
- =?iso-8859-2?Q?v8fLMO9/SpurU7ZRsvm1A+UI9rrBwasnP2eXxzIYS01mk12yvF4mQsKd0I?=
- =?iso-8859-2?Q?LxKxKbA93GheEl4OkdXmUCa1Yjl8tMC83dBtl4BAj6TwlvdcIUKoQyeP+K?=
- =?iso-8859-2?Q?FS+0TkXO2BC/M0IOFttdU1I/Lq0jIKWkTlKO+Ynu9EiMKTJJXcduCNiuQi?=
- =?iso-8859-2?Q?OjAxywksqqrGvM+yTXmj1eXP3f6u5b3V1t0JXqzigtosRirNuE7nxOTYd1?=
- =?iso-8859-2?Q?REnkLfjh2mpFoypiO4gsDb8WdDVKOTQQc+K6/RPKzfRRckZDKk4oMeWQ+b?=
- =?iso-8859-2?Q?zqOAg8g5yVdu/l6BGZo8zojw1y0hxpTD2E1MTuXD4Xbhd5UcotBKnWwA10?=
- =?iso-8859-2?Q?k1FmkfXqR9V/nsne7lYwtBV7HhGFF9NvRBBCSc7YBC9jBICOB0aRcdbAFO?=
- =?iso-8859-2?Q?qoteU6XDB8mj88+OCHe3aNbEwOGsXWpDy7vaoANNqnSE7ma0k3vsx4JGQV?=
- =?iso-8859-2?Q?S7ux8i3If4i8YPizAE2j/lc0qPhMNmOzand+t0KS34Jh3F2QFLrW2Lh0U5?=
- =?iso-8859-2?Q?Q+ymXLc4UyqrKixORiLBdmESZIsFFNGpOqzeWtSm7SkCb8m1uOrdYhosZJ?=
- =?iso-8859-2?Q?UlxQFS3U3elNpFTLnZ500WAspBJUyMjYjBnlzH9ZuKpeu0v/XheaBmDOQZ?=
- =?iso-8859-2?Q?sAAUEyrZKTlnh/Km3XCYjGYsthg5yK2yi30IJv82ZqQUiXktDIV/8/OcSS?=
- =?iso-8859-2?Q?Dx5KnHArpaf07ar/AbhGXDETiRK03wX/JjaCDQqf9A4Z59w/ZRGRQed3Ni?=
- =?iso-8859-2?Q?s8npf1mYQx04j1bn/WP/1IOx+VGRWOV57z4DhfoyLSMFkEpcPqxNkZzsXZ?=
- =?iso-8859-2?Q?DExn/xKMaMasJSXs7DZrSzq8rfZ4c959lMFqzrPJ5n3wVvoE/eiLW6OuEI?=
- =?iso-8859-2?Q?FwtvzsWl0h6taGJTC+ERp5Lo6lUJiFY7dpP3gtGwigGNMHUY1JG3AFW2wT?=
- =?iso-8859-2?Q?NIiByeSn2LiRSjV/2gOMd5mz9RnHYi53jcU78OEqPbrmknen5OEOfeQlN6?=
- =?iso-8859-2?Q?BUM2PQyf8FgGYg9Tdu2GqDVGpl0IQru8lYLhKMthqMUNdvIQorUzSQ9FKM?=
- =?iso-8859-2?Q?MgnlliKtK9rN6BlGbarU847v2gXUlSGUZPWRIzA4lHldIxY4dcBulNf343?=
- =?iso-8859-2?Q?Svs65ALPBqGFUApDwqTViaFDPVcKsvrLxF9FXlc6VXVFL1PcCpfOs6rxDl?=
- =?iso-8859-2?Q?ltyX0KwoHfITQl3mxEhWSbz5kAJHOV8I2Wlw4r0HFvu68sWpuptku9IOzk?=
- =?iso-8859-2?Q?fbk6rJJr4bE7zAATjc6w5OspiJ7EiJeqXFXECWJUianAegLNEkrQkrudi7?=
- =?iso-8859-2?Q?iiGf7b50KTFIZRZjAMmWhm0P+t+Fy6TvEvK+1aQAuW2hKgt8xJ06b+lkek?=
- =?iso-8859-2?Q?gzqsrO2gbs5QshhKVPpVU1uwIvY64zQ04kBk1CJJI35ZEUT72U47yj37Tz?=
- =?iso-8859-2?Q?Ua8FQ11Zp8mb6mzvDWPfttNDkDdV0XIPV/?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: QB1P288CA0013.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c00:2d::26) To YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:be::5)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: eaton.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: YT2PR01MB9175:EE_|YQBPR0101MB6604:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb0bb5ca-329c-46ff-9ba3-08ddbe573e28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TmYvQmpKN3FOWkhRYnhNOWJ4NjkzNU5oanRjYWJMWEhMV0h1OUZVRkNCYUlC?=
+ =?utf-8?B?c3B0bXRZUTBvNGZSdWpabGYvS3dlZ0FGQ3pRZWNDWkpPN2JZLzRudVNQOEt0?=
+ =?utf-8?B?b3RaZTh0TFhuQTl5aEFxVkZDQXc1V1B2SkpaRk5CazREdHJnUCtiaFk4Q044?=
+ =?utf-8?B?SnZKV2tFNXpBeTEvNjJWZGxKZ1plbVVnaVJSNUN1YzkySkNaL3VseTRCSldJ?=
+ =?utf-8?B?VFZDL3J3Vy9FeitXc3R1dFhJS3YvTU9RVmdhalVhb01pL1dweUxIUmFWTGgx?=
+ =?utf-8?B?dTdKUEhvOFR5TFF3bW5lTFJXclNzaENrM3lyVXNzbUwrdHZLMElSQW9LYktw?=
+ =?utf-8?B?M2x1K1ptQjhTbU1QZ1YxaUY2M01ZWWR3QTlVa09xT2FYQkRZanV2bnY4enhx?=
+ =?utf-8?B?U0JlaXc2VktkTkFnUTBMZVk3bmJwS1d4dU1La2FoaFEyRkx5NGlmMW5ObDU5?=
+ =?utf-8?B?STRmN0lZODU0TlUwd2ttTm5tTnc0LzUwaFVmb05pa3ZxYStvTlJrbGxWcjZO?=
+ =?utf-8?B?ZG9UUUJkK1VxLzdid3gwUDBtU0ZycDg5NjZiMzd6OHVUL2YyYUVXMkN1cElF?=
+ =?utf-8?B?MUFUOVoxbllXRHFLYmRyOHhSZThUL2ZsV1pkMlNCclJzY1I4K1VGS2FKMVR2?=
+ =?utf-8?B?NnJLajllYnRJcEhhK054Y0RJSjNhOUhLTXUrSC96dFZGdWs5SGNpN1U1T1Ju?=
+ =?utf-8?B?Y2Rnanl2ZjVVK3NmaWJaRnNYdjQ0SjVKOXNKWlpqWlBES1JJTDkrM1JWRVNB?=
+ =?utf-8?B?VjNsajhaS2ZoNUVQc2l0ZG81WFRwRXo0bEU5VTFsRlR1em51ei9WT3VtMXNn?=
+ =?utf-8?B?WXk3WDNNTTlGUXFmTDhTU3BiMCtzN1VkcVJZdlkrTmc2eXZpOXQvSmEwWnlh?=
+ =?utf-8?B?d0ZNM1FyaDk2bFUyME9QVzRqR1E4enA5cEpDdFNrQnByOFEzbXR5UVZuQkM1?=
+ =?utf-8?B?VTI3ZmgwQ2laNmk5U3REWlE5U3RZT3NvQUZTSWtTSjhRSTVLVVFFNmJmY0Vn?=
+ =?utf-8?B?RDBoNWZVbTc3bk5xaTAwR3MzVTB6K1JIeWQrZHpHVXVkWUNzcE9hcndqdDUy?=
+ =?utf-8?B?Tzg3S01SaXFKWGg2a0tHL3o2OUhZSFZNbmhVWEZyL2NHeHhwekZzekRlKzNX?=
+ =?utf-8?B?b0pKSFFpZldWdThXSUxEbHpjVjFsNkUrNTUvZ3RTS21Ydi9mTU1rUTF1L2xo?=
+ =?utf-8?B?Mjc3dk5USDBKYnRlT3pQVmRDYllCekl3MkJlM0VkUnJ1T3d0UGY4Q2t2NUxv?=
+ =?utf-8?B?cHFaOHJSZ0FzR3NTeWtpNWRBV2Z3ekVqL3ZtSi9XVDhtejhHcG1sMFJnbW83?=
+ =?utf-8?B?MjJiSTc5Y2REem1EcVNRRStjU3FxUXpFQTBtNS93aitHRWZyeVRLd2NmT3V5?=
+ =?utf-8?B?ZW16QjFpdnY3Y2dZMTBMcDRXU3ZRWlRaZ21OMVhoelR0Q2svVGE1QnQ1MXRZ?=
+ =?utf-8?B?RkVPaDdOSExGSzEyOWlGcWd6emdzdUMzR0pOOWlDOE84T0ZIZXJSajBqcEw3?=
+ =?utf-8?B?clFmaDR3a0VUY0VmU0RTenJ4dHpBQlZFS3hkeXRkK2lOVFkvamUvSVZFNDdW?=
+ =?utf-8?B?dzh1MStZeHZoRVdTeUVTK0JzcUtPUXl1anZBa3IrZ0E0Vk1iNkN1Q2xVdWg0?=
+ =?utf-8?B?TFYvOUxIRE9XTU1YdVVmcHUrYTV5Kyt5Q08waFN5cE80alZZS3M4TTBreHpO?=
+ =?utf-8?B?MU9FcVRiM09ZeHRpM2RDSENDSTVnanJ3TE92a0hnRU9hUU5vTHNKRy9JSXBa?=
+ =?utf-8?B?Ly9LSXlvRzlPZ0U3YjRkTHVnTzBWbU1qRWJOQkwvMm12a1llbVhoSWZ3ZW9Z?=
+ =?utf-8?Q?17hlq5monc+wJV2jVmKF846oDbJgqV+Tj7u28=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bXJoR3RRS3ZwRGlPSzB4eE96WUQvYmNTZ3I0MzhoRS8vSmZsN015UjhRNXZo?=
+ =?utf-8?B?R0oyeVJveWUwbThuUnA2UllmK3QxQi9RQXoySnlTWExwVWo0YithWlNvUDNM?=
+ =?utf-8?B?Zkg1Z09uSlgwY3NUZ3lQaFA2WFVDVmtuT2R6OEhSL291UUpVbzdWZ0NJdEhH?=
+ =?utf-8?B?d0VhSTVuSGVIZGIyWnVrSS9URGxlYUIrME1BdzB5d1RYdDhGVExOQ1U2bzFn?=
+ =?utf-8?B?TEh6dlBwM2dwM3pLUVVkN0x4cmlXQTloZStoOXlnZWFVM2lSa0JIU09qdm5I?=
+ =?utf-8?B?cWRWQUIzOEM0dk5Pc3QxSzZ3U0ExUjVJRDRRL3QwbWlMb3FhVnBSbXgwdDFW?=
+ =?utf-8?B?V3RRVjZoR2N6K2YwcStJOUhCVk11NGt3TGNUamNtSFIvQUFXd3YvSzF6eTRR?=
+ =?utf-8?B?M3NXdVJ3endQdklucCs3NE11NWVXNzQraGkzaGdkd2hnVUVCejBiLytCdXl0?=
+ =?utf-8?B?cVdCa1lzajJxNG9iVGV0bE9XQyt1UEs5K0hLTDU0MkVlVGdhVjkremdwc3E4?=
+ =?utf-8?B?YW0vZ29oNDVCQkJGdzU5aG1lSUo4Yy9vajZFK204bzBqc05DR3dMNm9TaVVw?=
+ =?utf-8?B?b2RtZkI5Y1hHcFdIajRGZkozc0oza0FrWUFpSEJBVEFVRGQvd2k5SWlGVWRB?=
+ =?utf-8?B?SXRNRW9SdlFwT05NMFBzUXlGRXAyNzdjeEd5ZXViODU5ZUdyWXVRakFGOVkr?=
+ =?utf-8?B?S09oN0JDZk92QXhGRE55Wko2T1pKZFUxK1FjKzZvZUxacWM3SFVjVXlPOU5W?=
+ =?utf-8?B?dXlSNWNtQ3RKRFM3dFg4WEcyeUVIQ3JCb0tsRHdTSVBwS0RYRHVJY3F3SXl4?=
+ =?utf-8?B?ODcrSEt2VnRmZGVLWHJkZnZzektYSmJsamp0MFpuQVd4K1ltdXcyWHRzTXFR?=
+ =?utf-8?B?UEMyNERvaUZodm03WTJYajQvUUF1Yzc5QUZiV3phQy9rVi9HV0RPeFdWSU90?=
+ =?utf-8?B?TmRJMTRxUzlld0hhYnNEdjZXK1lMWnQvT0RhTC9ZM1o1Y09SbURldXVmN1hi?=
+ =?utf-8?B?V1dNTFc4TFNPM3VNNTMzTVlLV1RpdWdORWlVUkoxOXM3T2Z1aEk4NnJJTWRM?=
+ =?utf-8?B?bUZrTlVuS3pzcWxteHpSL0RyYk1lRjJOdXBITXFxV2V0Y3c1TlRVV0Nmamt5?=
+ =?utf-8?B?Z3cyN1lxZWxzYU04KzJqV0lBQ3VpSzBFYWFzS2dNWE9kelNvL1VwdTVXaG5u?=
+ =?utf-8?B?S3NtRVRSVG1aR1luN3pUaEtsazErY1lJVjA3NUQ2d00yeXQ2UWJWd1NXdTFO?=
+ =?utf-8?B?MFB5S2dKNnZFMFoxVWY0MFRmZHI0SFNGQ2IraFZFQVVMbXozcVJkS29raWtt?=
+ =?utf-8?B?MkV0b1h3bzhrWmJ5Y1VBQy92eFNCc2RkMzlRcUZES1R4NFI4andIR0VSazRY?=
+ =?utf-8?B?WXFvZmJvK29WUFhVcHdkTTFxb1RKMnk1Si9neTg0a0ZDelNleVRYMjFKR0hm?=
+ =?utf-8?B?N0xvRmZFdFRpTld3VHRTaDlPbCtFMEtjcDBrTmYwZVVwanZHMkhNZjhRQ3pi?=
+ =?utf-8?B?REJVZjRGSlIzNldLM294cktFcHBNRUVLM2ZyV3lsQTlZRnBocTZ4S1NOTWVw?=
+ =?utf-8?B?b2k1NWtKODN6MVdXODdYbVd2R2g4SEVFckxEZUhGWlVURDN1TjIrR2FKdGRs?=
+ =?utf-8?B?YUFyMDE0TjhCWWlxNWJZcEFwNUxHc3BxQkNSSm5TUlFFK2xTZWo3WVhzWGVE?=
+ =?utf-8?B?TGtqMEZsU3RyRm1jb256SldLb2dRbTBlWUwzcGJmS21IalZ6dm1waU5KK21j?=
+ =?utf-8?B?YU50WTlySkFqSnJQeisyS1l2aE5TL3g1WS9rUUtnUEZ3Y3Mva0tvSWVrTTlx?=
+ =?utf-8?B?OEJSWDFvZHkxZ3JtVGVLQkdqckRQSWZJZit3TVVCc29Nd3ZLRDBWdHdSNFZ5?=
+ =?utf-8?B?VGdjcThiT3dDSWZHQ28wQjBLeHVBMld6Z2xPeXFKMGhrelVjb0xIU0Z5MXg0?=
+ =?utf-8?B?NXlNa2lGMzU2NnVZWXYvNGRvQnNjV2FwOHNvSFJhN0d2TnIwRk13NkwvdURt?=
+ =?utf-8?B?YmpRVW9HRVF1MUVjdWc5bnpIZ2N2bGh3OG5ZT0VMZ1JqREZybFdjU0pvcFBN?=
+ =?utf-8?B?WCtQYVRhR29CK3FvYkUvdVNESzhzejZPVk5JMm85cDhCRnhkR2lyUGtURzkv?=
+ =?utf-8?B?NjJSV2RhQnErTmczVjJ2SkpiRWkwbnRlRUJMTFpodU13RG9GZzc4a2N0UUdy?=
+ =?utf-8?B?UjNRU2lNdEJ0K2U5MHNwZlRaQ01tYmZtaEdSblU5RllSOXZucUdkK3VRcVhq?=
+ =?utf-8?Q?oQNNXW6RWGHXmdTkbYtF5VdK7+4GZbAK6WwdR44oEY=3D?=
+X-OriginatorOrg: efficios.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb0bb5ca-329c-46ff-9ba3-08ddbe573e28
+X-MS-Exchange-CrossTenant-AuthSource: YT2PR01MB9175.CANPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR17MB5559.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c65ac17-72a7-44c9-f3ef-08ddbe329269
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2025 15:17:37.0322
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 19:40:07.2502
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d6525c95-b906-431a-b926-e9b51ba43cc4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8dHzvVQAR4IYqp+O4wuIx2B9fVQ8nP82WbyUd2Yp9BybimGK0lXZSwsEZSlaBBKzFQ/1KEem5Azvig+GD0EIe/V29q0K+CWemUdOMqwiJN8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR17MB4197
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f278736-4ab6-415c-957e-1f55336bd31e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9kgSrAe9sX2poTQP2zb7O2oGQphha9Sm9/8XW6LRzlqZY1aEiil35fQF0gMVXyK8aPXr3bl9ilRJNbFRdc8krLtIoAkiP9TOgUblGWssIvA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: YQBPR0101MB6604
 
-> I think I'll focus on different ways how to reduce the number of
-> softirqs occurring, maybe trying to use something like BH workqueues
-> for some of them (NET_RX and NET_TX come to mind).
+On 2025-07-07 17:56, Paul E. McKenney wrote:
+> On Mon, Jun 23, 2025 at 11:13:03AM -0700, Paul E. McKenney wrote:
+>> On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
+>>> On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
+>>>>> I hope not because it is not any different from
+>>>>>
+>>>>>   	CPU 2			CPU 3
+>>>>>   	=====                   =====
+>>>>> 	NMI
+>>>>>   	rcu_read_lock();
+>>>>>   				synchronize_rcu();
+>>>>>   				// need all CPUs report a QS.
+>>>>>   	rcu_read_unlock();
+>>>>>   	// no rcu_read_unlock_special() due to in_nmi().
+>>>>>
+>>>>> If the NMI happens while the CPU is in userland (say a perf event) then
+>>>>> the NMI returns directly to userland.
+>>>>> After the tracing event completes (in this case) the CPU should run into
+>>>>> another RCU section on its way out via context switch or the tick
+>>>>> interrupt.
+>>>>> I assume the tick interrupt is what makes the NMI case work.
+>>>>
+>>>> Are you promising that interrupts will be always be disabled across
+>>>> the whole rcu_read_lock_notrace() read-side critical section?  If so,
+>>>> could we please have a lockdep_assert_irqs_disabled() call to check that?
+>>>
+>>> No, that should stay preemptible because bpf can attach itself to
+>>> tracepoints and this is the root cause of the exercise. Now if you say
+>>> it has to be run with disabled interrupts to match the NMI case then it
+>>> makes sense (since NMIs have interrupts off) but I do not understand why
+>>> it matters here (since the CPU returns to userland without passing the
+>>> kernel).
+>>
+>> Given your patch, if you don't disable interrupts in a preemptible kernel
+>> across your rcu_read_lock_notrace()/rcu_read_unlock_notrace() pair, then a
+>> concurrent expedited grace period might send its IPI in the middle of that
+>> critical section.  That IPI handler would set up state so that the next
+>> rcu_preempt_deferred_qs_irqrestore() would report the quiescent state.
+>> Except that without the call to rcu_read_unlock_special(), there might
+>> not be any subsequent call to rcu_preempt_deferred_qs_irqrestore().
+>>
+>> This is even more painful if this is a CONFIG_PREEMPT_RT kernel.
+>> Then if that critical section was preempted and then priority-boosted,
+>> the unboosting also won't happen until the next call to that same
+>> rcu_preempt_deferred_qs_irqrestore() function, which again might not
+>> happen.  Or might be significantly delayed.
+>>
+>> Or am I missing some trick that fixes all of this?
+>>
+>>> I'm not sure how much can be done here due to the notrace part. Assuming
+>>> rcu_read_unlock_special() is not doable, would forcing a context switch
+>>> (via setting need-resched and irq_work, as the IRQ-off case) do the
+>>> trick?
+>>> Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
+>>> be "usable from the scheduler (with rq lock held)" due to RCU-boosting
+>>> or the wake of expedited_wq (which is one of the requirement).
+>>
+>> But if rq_lock is held, then interrupts are disabled, which will
+>> cause the unboosting to be deferred.
+>>
+>> Or are the various deferral mechanisms also unusable in this context?
+> 
+> OK, looking back through this thread, it appears that you need both
+> an rcu_read_lock_notrace() and an rcu_read_unlock_notrace() that are
+> covered by Mathieu's list of requirements [1]:
+> 
 
-Correcting myself before someone else does: I meant threaded
-workqueues, and now realize that touching the NET_RX and NET_TX would
-be a bad idea. If anyone would have any suggestions on what I could
-move from softirqs to a more manageable mechanism for deferred work, I
-will be glad to read them :)
+I'm just jumping into this email thread, so I'll try to clarify
+what I may.
 
-Best regards
-Jindra
+> | - NMI-safe
+> 	This is covered by the existing rcu_read_lock() and
+> 	rcu_read_unlock().
 
-________________________________
-Eaton Elektrotechnika s.r.o. ~ S=EDdlo spole=E8nosti, jak je zaps=E1no v re=
-jst=F8=EDku: Kom=E1rovsk=E1 2406, Praha 9 - Horn=ED Po=E8ernice, 193 00, =
-=C8esk=E1 Republika ~ Jm=E9no, m=EDsto, kde byla spole=E8nost zaregistrov=
-=E1na: Praha ~ Identifika=E8n=ED =E8=EDslo (I=C8O): 498 11 894
-________________________________
+OK
+
+> | - notrace
+> 	I am guessing that by "notrace", you mean the "notrace" CPP
+> 	macro attribute defined in include/linux/compiler_types.h.
+> 	This has no fewer than four different definitions, so I will
+> 	need some help understanding what the restrictions are.
+
+When I listed notrace in my desiderata, I had in mind the
+preempt_{disable,enable}_notrace macros, which ensure that
+those macros don't call instrumentation, and therefore can be
+used from the implementation of tracepoint instrumentation or
+from a tracer callback.
+
+> | - usable from the scheduler (with rq lock held)
+> 	This is covered by the existing rcu_read_lock() and
+> 	rcu_read_unlock().
+
+OK
+
+> | - usable to trace the RCU implementation
+> 	This one I don't understand.  Can I put tracepoints on
+> 	rcu_read_lock_notrace() and rcu_read_unlock_notrace() or can't I?
+> 	I was assuming that tracepoints would be forbidden.  Until I
+> 	reached this requirement, that is.
+
+At a high level, a rcu_read_{lock,unlock}_notrace should be something
+that is safe to call from the tracepoint implementation or from a
+tracer callback.
+
+My expectation is that the "normal" (not notrace) RCU APIs would
+be instrumented with tracepoints, and tracepoints and tracer callbacks
+are allowed to use the _notrace RCU APIs.
+
+This provides instrumentation coverage of RCU with the exception of the
+_notrace users, which is pretty much the best we can hope for without
+having a circular dependency.
+
+> 
+> One possible path forward is to ensure that rcu_read_unlock_special()
+> calls only functions that are compatible with the notrace/trace
+> requirements.  The ones that look like they might need some help are
+> raise_softirq_irqoff() and irq_work_queue_on().  Note that although
+> rcu_preempt_deferred_qs_irqrestore() would also need help, it is easy to
+> avoid its being invoked, for example, by disabing interrupts across the
+> call to rcu_read_unlock_notrace().  Or by making rcu_read_unlock_notrace()
+> do the disabling.
+> 
+> However, I could easily be missing something, especially given my being
+> confused by the juxtaposition of "notrace" and "usable to trace the
+> RCU implementation".  These appear to me to be contradicting each other.
+> 
+> Help?
+
+You indeed need to ensure that everything that is called from
+rcu_{lock,unlock]_notrace don't end up executing instrumentation
+to prevent a circular dependency. You hinted at a few ways to achieve
+this. Other possible approaches:
+
+- Add a "trace" bool parameter to rcu_read_unlock_special(),
+- Duplicate rcu_read_unlock_special() and introduce a notrace symbol.
+- Keep some nesting count in the task struct to prevent calling the
+   instrumentation when nested in notrace,
+
+There are probably other possible approaches I am missing, each with
+their respective trade offs.
+
+Thanks,
+
+Mathieu
+
+
+> 
+> 							Thanx, Paul
+> 
+> [1] https://lore.kernel.org/all/20250613152218.1924093-1-bigeasy@linutronix.de/
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
