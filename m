@@ -1,140 +1,280 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2064.outbound.protection.outlook.com [40.107.243.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0238E265CC2
-	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Jul 2025 09:50:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751968204; cv=none; b=t0uTPgv6E+Wy77e4thCaBA9ar14TIv/azK3l/87HGoiSA/Sx0C0U/MMojzLUrZta0q4VGjXZmICvje1Ps+4rzwdYprPBRfOIbrRDN8yhjZfZywF9OAe9l7i6ciCwW3jXqexioC7PnPg/2u0nyAF49q5AY2CIykq4SzL9EhPegZQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751968204; c=relaxed/simple;
-	bh=a0Z9PfKfII98R7YGk4/s8F9FpfkBpu8y+L25NxNZzG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l7m4IN7FxVmHoH7756zMf0VWgN0R1bOV3rwx8wmbVHJhEk+i5zI/s7ZDVetD+5HGccon8RuWggfhPOwLWfRTlYIj3whFsAaJ/8/KjjFOyOJMmaDQN7JtAj3CNM0f/Ln93pu+OKLsUQPV5qni6hUv3GNgwzUrM489Axf+CYGuJYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=N7zAcvCh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BkSmsZcx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6C92E0B59
+	for <linux-rt-devel@lists.linux.dev>; Tue,  8 Jul 2025 14:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751984568; cv=fail; b=pe5gPSAZuCsiWR2gzRfAMzkVP2ioErAVQ8n9EGlrioctj7ccVxl0Mp+xEiBEogmTRDSUKvZzjDOi/9OJqu4fgpi9l25IJXLEZQ8vXUO/AacOd5lQ+KdsrWxAaBGpIpIEHOp6ucuo8dMBjLlR+XXjPW+B0m25CZyxZcFn6n1/EWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751984568; c=relaxed/simple;
+	bh=z09n3/Ugf/huroPYmmZeGEgjUYJ5LmaJ/jpelxpyy4Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=soiSf+EBQ4e8KdtbbEYjXSVZXwqjTf2Rk3OsprWqjN9cdmBVIPW7PFlet1lFWEGxnPhkH2iAQNiFwVCBCNinLoWHOQKwFi/VDACXdBAVP6BeVv2n7NRJX9oZokeZNjBShIfJc71DA7PcfF58NcCquGsXxhvcz+ZwbgPg+HQFjv8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=T8yPYrOE; arc=fail smtp.client-ip=40.107.243.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N7zAcvCh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BkSmsZcx"
-Date: Tue, 8 Jul 2025 11:49:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751968201;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VuW917uep+A/nkbFezjMxXDYk2Q/n07Yq/IsuY9f8ek=;
-	b=N7zAcvChEgp7fViiM5aiPukmkcHV5BLHrqg8ggWSy4AHDecucujIU6irH3DVGRCn7ZKQ0i
-	U6UHmKcGayOHCZ30JXPNEhPh8+38DUv/QsSb2hRFta2Tp7+AjGoqIUDbc4DdwEuCzXqARr
-	cLiuFC7Q5yrzJyseEk5zT95Fjm5pYABf/f8CGCi7shG3eQlKWWVNeOBAaL60WJcEaAqP5+
-	xwmICliLklNi0GUuwhit9+WAiSY26Z46UxmECZlt9wkyWIWHcin9aRW1GxV9T+SI3Vc/EG
-	xaAdOnGx2UQ2f2nl6hjkCf0b5zRyUhpf/iQrsKiD/GV86b0k+mhhivMSEqBHDQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751968201;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VuW917uep+A/nkbFezjMxXDYk2Q/n07Yq/IsuY9f8ek=;
-	b=BkSmsZcx6xnrvhUEP8tv10ymf9hwpIlnzDWRsxk0HNdl2rg6tsy8n1/V4Jn8nzcqeueRBW
-	FPhoCBixz9SBDeBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: linux-ppp@vger.kernel.org, netdev@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="T8yPYrOE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M2MYCuRNSz0r5Fh99/0ludjkTUWiDfSHast4COAsuYjSs4WEdHYB5spsjduBZAOlKggHsZPYK386WacPEzQieJCJU+yFrMf8uDf2FDsKfekNHCNtk0QdNHxzXnrPnzKs3FUevncL1w0a/0oLYry1Myv2lJTLI4RIWj5PCCgL1gsvmcPJlgN4gLqQNY09+v2f9KI46cvNgRTtSAZzUjP447C0AqYdsvitItv3b3PcxpR4qWUMwA0WXHiX/WniPVSWJp5vMGajctgZU7qUsIgZBqQG58KGA1zIErxyARds0deT9du4RzHPtbVORMq2HP4TqjnF8woSct+xfYVpxKkzZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NRpjPY4lmp4Pybtvg92F/7K02eBeJGCpy1hvhJnlybs=;
+ b=PaaA44FvnhyZPfeeBVpVZuhSQUe+/jYu184pn2J+GvVWnJX0GWt7IByapcOaG0W4oRYttjJJR2X6U+NSbnAqAqqboceW+f50pPxIL0YGUHkmO6lmpW2Og1X73sKqhP6NZaXfGol+CuEcF562F6rNJrXtmrhkG9gQ7o52l+Rmq1qHiQGYc/Uyfp3/H5IhL0VhWw4tHT/aQCtTPjbKl5qtLA1a+Yj0yr6eecazt3UFZwOoEqvHMlYA3CnMKhJruYrF2Q1/FQLHwazNGt9gTQZbJXH9FHUXD7UAIxFZHH0CSDcMZcURgs7nif2d/nlAB/bfP5s/O5SYdAmXSEKdeIgDhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NRpjPY4lmp4Pybtvg92F/7K02eBeJGCpy1hvhJnlybs=;
+ b=T8yPYrOEVbUgfXH1EgSB8cbh/qMpcnXbNtMgfOpTbhXzvswb58dvnllbS4uzObAZHbhhpKg1YJDrUhCwHDniNgws/J9SAJxlYd57CPMeUdyDlJF9W0A0QU2LsEmqVW7zyuDNmnKFX7ffak1xFOFZjJkX41GQ6ayds7mg6btzn0iAFSRkL6v15ibhO7lWG4/LvVSRoUDb2zB4CvcZWPCSHghmjzB+y75w/0ZIH3Q9JeRYfAwYJTyy7c2nzZ2CuzwCG7Ta+09BNGao1OUiLvlsiAT9NXiD3lhHnV7IjP/Dh3dwtCa8r40WUyQnw0PZPoyD/lqYSMCHOcCSK0jaVq3Gwg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by LV2PR12MB5726.namprd12.prod.outlook.com (2603:10b6:408:17e::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
+ 2025 14:22:43 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%7]) with mapi id 15.20.8901.018; Tue, 8 Jul 2025
+ 14:22:43 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Gao Feng <gfree.wind@vip.163.com>,
-	Guillaume Nault <g.nault@alphalink.fr>
-Subject: Re: [PATCH net-next] ppp: Replace per-CPU recursion counter with
- lock-owner field
-Message-ID: <20250708094959.zByWzNMQ@linutronix.de>
-References: <20250627105013.Qtv54bEk@linutronix.de>
- <9bffa021-2f33-4246-a8d4-cce0affe9efe@redhat.com>
- <20250704154806.twigjkbU@linutronix.de>
- <1eb149e6-68e7-4932-8090-34ee568c5832@redhat.com>
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>
+Cc: rcu@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH -rcu -next 3/7] rcu: Refactor expedited handling check in rcu_read_unlock_special()
+Date: Tue,  8 Jul 2025 10:22:20 -0400
+Message-Id: <20250708142224.3940851-3-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250708142224.3940851-1-joelagnelf@nvidia.com>
+References: <20250708142224.3940851-1-joelagnelf@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR0102CA0004.prod.exchangelabs.com
+ (2603:10b6:207:18::17) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1eb149e6-68e7-4932-8090-34ee568c5832@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|LV2PR12MB5726:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45859a66-79cc-49f6-0034-08ddbe2ae736
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?1hDWQQrYSMptsZlp+/y/E6DDCNcU63MS4llRm3+PbfRfKo7vAIwKpdXoFGB7?=
+ =?us-ascii?Q?gkjVtD4E1Z9Vzcj5j5eK3NzIeZ7gr1QCe00Vwem/3ctHkWsj9MSI8fXu6a5o?=
+ =?us-ascii?Q?t5jxMTeHDyE1l+Ap3+SnBGz3+taUyR6wNgDk8MFeMkI47Q7xFsH7FCCjvAdQ?=
+ =?us-ascii?Q?8Lvwt2GMmQHbXEoIcmuxqzDY2AhdqG1Lfl6yPx5yAXlduGdL5D39VVppWP36?=
+ =?us-ascii?Q?PBobgQ1AVBFNYtU/TKFFAdrDCedbIhseJwOcdRiCEFKcff5mTIrKM3jzHZQt?=
+ =?us-ascii?Q?r+O6JttJ8IAiMgCv0uBYQZa4Q9nyvMaOpYzqOosdFVW+lHDk/D+Gi7V5b3qk?=
+ =?us-ascii?Q?kgw9lND6VuuyjfWQqnoFn74PdRylfs/seOtPuUM7gnuyQOHU3Sr6jbr3xDwL?=
+ =?us-ascii?Q?z+6KTXmJhvgGbd7EvpumBfaSzjM7nNx6lX0RWfWGC0hPG8haGa6Q6oglPe+k?=
+ =?us-ascii?Q?jUFZ2Fp3znj+pTQVBpLoLlMMTM5fr/mZ2lXY8au2E6LXipfyO6BPuYLScNl5?=
+ =?us-ascii?Q?dugd2wx4qXV9D0XwKNxnXB3y+gZg9sK7v5NzQ1fbOFRRLSdnHOY/z1hiA+0X?=
+ =?us-ascii?Q?lMS3V7aHcriwdNRRyCS06ESooXeO6BHtyiTwR1AAJsluzwKeXc5JWxawRhOZ?=
+ =?us-ascii?Q?68ZLzsAslmXqqO9Nl0nx7zGG92dyZF/cIY4we9xjhEE2DFHjPXsWJJB0jmvf?=
+ =?us-ascii?Q?sNibeg9ofgCmZ2Ii6eKSgiNLodq9jHZhVIDwky5ryhm5ospggp+P1M3zVlf8?=
+ =?us-ascii?Q?so9wcIOfKUEYLt53kj+QxMt6M3pKuOimMDHynsQYEGxxTVCYh4L5IbqDFYY+?=
+ =?us-ascii?Q?Z0jYCRVwxTmnD6DC4HXLUZPcsVoo2cmmUZM2n2gbFKzPPy8qRfH0kxPLCuv3?=
+ =?us-ascii?Q?CjlC2ylnDGcIrL5Wo20YfIFPcs7sQxIj1n0PmWsLqZuvNr1YZlR0In8T4LFU?=
+ =?us-ascii?Q?b9nfbuIeDs21kEYgdrIZc7UBDqTCoNTfNk6asc4c1Eyictf59GpdOE4HZL1B?=
+ =?us-ascii?Q?xWct5h9oxLksd31c6HS0odFkTc8LcylyPEHmzuw0SsNSRC2z2eyV0oztkE8/?=
+ =?us-ascii?Q?8x0zWIh+0K7pswPxFlGExDEvyWpqA37iTzC7IOh7DkvGa452elsowbspk1PH?=
+ =?us-ascii?Q?jQZWG3oi+jYMhQPVEUxURQBhtvUVjK8qdOo5dndfhVdjQ8yhAah4vGnL8+Ll?=
+ =?us-ascii?Q?eVxMurfU9NTj8R7shX9hN4x1GCcBuriYpqA3rwZKURE5gT2NfarIevZ2L/Xt?=
+ =?us-ascii?Q?YuwREsrIe09dkl8kpedmh4hfoYbazhhvmZasxelIIEljqI69Ozlp84g8dV2d?=
+ =?us-ascii?Q?i6lWzK3NRDq5+X4aSW3zOnF714iWDA5Y9HV0W+/3sztnEnBk0Y0xx398FqWl?=
+ =?us-ascii?Q?knQWT6fsbGj4Uj7RDGqOtLngut+FfXyrEVl4Cq16PE37bkRfBB8FyOZyoBCF?=
+ =?us-ascii?Q?H5njw/d1KoMDy2hZT+f3wg1XH9iMeHWTC2UMjIPiHD5Wx8AFVH/YuQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?i5bDkfmcPlTusld6O6syUz/PGodgMbew1/PUY230VzdmTwrMTOPWnEA5wuxT?=
+ =?us-ascii?Q?N8fBDRlfTfw0RcJj0/qjYZYxkVcxZDHjf9almRbGrDqC9hYVQUSAULqL8ZPB?=
+ =?us-ascii?Q?EVSBDqpwuhHmIYcRHCrrwOkZP5d85TZbaMT7JytIf1UzrYTxNmofDAIKKbNY?=
+ =?us-ascii?Q?ramENjavFZXlfz+siD4ptOEYVL8caMUko9iUnkYRXCaXo6l+NO3Fl6PlPR6i?=
+ =?us-ascii?Q?+Qg2S4Jxc/wlzNnQ8q38G12jxINjyh1xIINvARNG+csrXst9DdC9q3u7phLz?=
+ =?us-ascii?Q?uVwQH0UdBzF9pporMBwPEVs4wk3gN/u9A42875zrMBq58ISeYLBSdr9Y2wCC?=
+ =?us-ascii?Q?tDUR6hk4Nongs4peWqSd+v+Dlk7EV2DykEkzWvkxvQyQ1bm+EKXKKQ26/D+2?=
+ =?us-ascii?Q?UhidOg5zz+yyIqv/Ie89Z4xBRsnEyx8e8Puf3r3sVLHT568XO4mKPK3yY8Lk?=
+ =?us-ascii?Q?SpH2VTIqAUzV/0I1F9j7N4QBOsW/Jl2LiNHWfKmYQkVlYLAjYoJAniPX0dDA?=
+ =?us-ascii?Q?Aac+9sq0mlrIKgb7VYxHyDVU8rb5ATQrVxXkPdIrKU72nSBSkKcVZ0i5f7jS?=
+ =?us-ascii?Q?21Ug2e63jnw5yEumzmgv3k1HQRl+PTT+HYAjLaGPqtI8LH/8ic67D1XGxHgH?=
+ =?us-ascii?Q?MEvRNlZ2Pb3mHgKJTrjU+Dd4psJOy2GZ4CXP/BMf6m64JmbrWQj+rnVU721c?=
+ =?us-ascii?Q?7uLRG7botpeUZaJMO3SGdVIIwSRZQCmVzogrTpCcM+VwaUID1lEnysqgZ3qI?=
+ =?us-ascii?Q?753vE1R5j4E3ix3kTepgQn/0FHgmV74MO6/5j4YyA+YXeLLq1Os/65ixhZI/?=
+ =?us-ascii?Q?IGaHE5JOmULlriY/4PrBa2eVEE4qMqZG/LZqS8CJ/h2r4ERVdOVhKkdTYr33?=
+ =?us-ascii?Q?CS3uOrZ5A6gy9jEuilbRdchr5u+4WLWi6cCUFimqOwWU/WFfTJJ7hzkI1nqO?=
+ =?us-ascii?Q?5xnWQ5bUBcHVQTuiDQqTjG3iqqrDsHg1FGR4FhOzeZapz2rqlu2Y7l5mCRIJ?=
+ =?us-ascii?Q?eWj8L43yau75Tk2tYOZotpAz+GqTPtfn9fNj97St8q1HneE09+UpHeY963H6?=
+ =?us-ascii?Q?31vdBXsC4+wnkKwCJykLCpikLNiuoZjeCuF5SMOGnBb8+asv3EQpzPU9c70y?=
+ =?us-ascii?Q?f3R1540SWi+FhU6NbfkUKVBB3W/7R9NgRO/oY/tFUk+EHHX6E0YIDpiGMkR5?=
+ =?us-ascii?Q?I61Ah5UZkiag5XQdV/Pc9If+LNdvBWRiqxmHeuBR+ZAlvxucAdueg7+iS407?=
+ =?us-ascii?Q?BbPbw/6ck9/JuQTYBN7cOHEdL+xWGbRPvWJpXNY6lA13IqVQJqEgAKdlygK2?=
+ =?us-ascii?Q?BSPKm6IgXtUvPW7CgAy8oN4vd/uiWGxgxSxqAhTrokiKkAIakNEu0fTwFg4x?=
+ =?us-ascii?Q?cxiYvo4Copd6a78JxWp2zwhsZMPI9mXOKOuYCyThHVj9kK1LiG/iO5MiN5xF?=
+ =?us-ascii?Q?p7/raXMhTH9RRYvyAz17QyDwSkbZeDDSYkvJvHNnAkna4Tbre7Yp3n6jlqGo?=
+ =?us-ascii?Q?4JGF8EyXhwhcJTi1OmPWRwYG00GP++D7CMa1jUUwLmJFLzox3/3JA6GuyOGj?=
+ =?us-ascii?Q?RTdfZWRnX28DXczF+WmuTMMWu1rJ4wrGtCIkeWkv?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45859a66-79cc-49f6-0034-08ddbe2ae736
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 14:22:43.4490
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B7nC5qdFQeWTjiy7FhUEGM1BkWmOFJHONDh5nFgXOIwweHIVrPwIuRzH6wskkh21gTXXhgUrsy9wdJ+nm4f8nw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5726
 
-On 2025-07-08 10:28:24 [+0200], Paolo Abeni wrote:
-> Hi,
-Hi,
+Extract the complex expedited handling condition in rcu_read_unlock_special()
+into a separate function rcu_unlock_needs_exp_handling() with detailed
+comments explaining each condition.
 
-> I'm sorry for the latency, OoO here in between.
+This improves code readability. No functional change intended.
 
-All good. I appreciate someone looking at it.
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+---
+ kernel/rcu/tree_plugin.h | 83 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 74 insertions(+), 9 deletions(-)
 
-> On 7/4/25 5:48 PM, Sebastian Andrzej Siewior wrote:
-> > On 2025-07-03 09:55:21 [+0200], Paolo Abeni wrote:
-> >> Is there any special reason to not use local_lock here? I find this
-> >> patch quite hard to read and follow, as opposed to the local_lock usage
-> >> pattern. Also the fact that the code change does not affect RT enabled
-> >> build only is IMHO a negative thing.
-> > 
-> > Adding a local_lock_t to "protect" the counter isn't that simple. I
-> > still have to check for the owner of the lock before the lock is
-> > acquired to avoid recursion on that local_lock_t. I need to acquire the
-> > lock before checking the counter because another task might have
-> > incremented the counter (so acquiring the lock would not deadlock). This
-> > is similar to the recursion detection in openvswitch. That means I would
-> > need to add the local_lock_t and an owner field next to the recursion
-> > counter.
-> 
-> IMHO using a similar approach to something already implemented is a
-> plus, and the OVS code did not look that scaring. Also it had the IMHO
-> significant advantage of keeping the changes constrained to the RT build.
+diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+index fa7b0d854833..e20c17163c13 100644
+--- a/kernel/rcu/tree_plugin.h
++++ b/kernel/rcu/tree_plugin.h
+@@ -646,6 +646,75 @@ static void rcu_preempt_deferred_qs_handler(struct irq_work *iwp)
+ 	local_irq_restore(flags);
+ }
+ 
++/*
++ * Check if expedited grace period processing during unlock is needed.
++ *
++ * This function determines whether expedited handling is required based on:
++ * 1. Task blocking an expedited grace period (based on a heuristic, could be
++ *    false-positive, see below.)
++ * 2. CPU participating in an expedited grace period
++ * 3. Strict grace period mode requiring expedited handling
++ * 4. RCU priority deboosting needs when interrupts were disabled
++ *
++ * @t: The task being checked
++ * @rdp: The per-CPU RCU data
++ * @rnp: The RCU node for this CPU
++ * @irqs_were_disabled: Whether interrupts were disabled before rcu_read_unlock()
++ *
++ * Returns true if expedited processing of the rcu_read_unlock() is needed.
++ */
++static bool rcu_unlock_needs_exp_handling(struct task_struct *t,
++				      struct rcu_data *rdp,
++				      struct rcu_node *rnp,
++				      bool irqs_were_disabled)
++{
++	/*
++	 * Check if this task is blocking an expedited grace period. If the
++	 * task was preempted within an RCU read-side critical section and is
++	 * on the expedited grace period blockers list (exp_tasks), we need
++	 * expedited handling to unblock the expedited GP. This is not an exact
++	 * check because 't' might not be on the exp_tasks list at all - its
++	 * just a fast heuristic that can be false-positive sometimes.
++	 */
++	if (t->rcu_blocked_node && READ_ONCE(t->rcu_blocked_node->exp_tasks))
++		return true;
++
++	/*
++	 * Check if this CPU is participating in an expedited grace period.
++	 * The expmask bitmap tracks which CPUs need to check in for the
++	 * current expedited GP. If our CPU's bit is set, we need expedited
++	 * handling to help complete the expedited GP.
++	 */
++	if (rdp->grpmask & READ_ONCE(rnp->expmask))
++		return true;
++
++	/*
++	 * In CONFIG_RCU_STRICT_GRACE_PERIOD=y kernels, all grace periods
++	 * are treated as short for testing purposes even if that means
++	 * disturbing the system more. Check if either:
++	 * - This CPU has not yet reported a quiescent state, or
++	 * - This task was preempted within an RCU critical section
++	 * In either case, require expedited handling for strict GP mode.
++	 */
++	if (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD) &&
++	    ((rdp->grpmask & READ_ONCE(rnp->qsmask)) || t->rcu_blocked_node))
++		return true;
++
++	/*
++	 * RCU priority boosting case: If a task is subject to RCU priority
++	 * boosting and exits an RCU read-side critical section with interrupts
++	 * disabled, we need expedited handling to ensure timely deboosting.
++	 * Without this, a low-priority task could incorrectly run at high
++	 * real-time priority for an extended period degrading real-time
++	 * responsiveness. This applies to all CONFIG_RCU_BOOST=y kernels,
++	 * not just to PREEMPT_RT.
++	 */
++	if (IS_ENABLED(CONFIG_RCU_BOOST) && irqs_were_disabled && t->rcu_blocked_node)
++		return true;
++
++	return false;
++}
++
+ /*
+  * Handle special cases during rcu_read_unlock(), such as needing to
+  * notify RCU core processing or task having blocked during the RCU
+@@ -665,18 +734,14 @@ static void rcu_read_unlock_special(struct task_struct *t)
+ 	local_irq_save(flags);
+ 	irqs_were_disabled = irqs_disabled_flags(flags);
+ 	if (preempt_bh_were_disabled || irqs_were_disabled) {
+-		bool expboost; // Expedited GP in flight or possible boosting.
++		bool needs_exp; // Expedited handling needed.
+ 		struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+ 		struct rcu_node *rnp = rdp->mynode;
+ 
+-		expboost = (t->rcu_blocked_node && READ_ONCE(t->rcu_blocked_node->exp_tasks)) ||
+-			   (rdp->grpmask & READ_ONCE(rnp->expmask)) ||
+-			   (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD) &&
+-			   ((rdp->grpmask & READ_ONCE(rnp->qsmask)) || t->rcu_blocked_node)) ||
+-			   (IS_ENABLED(CONFIG_RCU_BOOST) && irqs_were_disabled &&
+-			    t->rcu_blocked_node);
++		needs_exp = rcu_unlock_needs_exp_handling(t, rdp, rnp, irqs_were_disabled);
++	
+ 		// Need to defer quiescent state until everything is enabled.
+-		if (use_softirq && (in_hardirq() || (expboost && !irqs_were_disabled))) {
++		if (use_softirq && (in_hardirq() || (needs_exp && !irqs_were_disabled))) {
+ 			// Using softirq, safe to awaken, and either the
+ 			// wakeup is free or there is either an expedited
+ 			// GP in flight or a potential need to deboost.
+@@ -689,7 +754,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
+ 			set_tsk_need_resched(current);
+ 			set_preempt_need_resched();
+ 			if (IS_ENABLED(CONFIG_IRQ_WORK) && irqs_were_disabled &&
+-			    expboost && rdp->defer_qs_iw_pending != DEFER_QS_PENDING &&
++			    needs_exp && rdp->defer_qs_iw_pending != DEFER_QS_PENDING &&
+ 			    cpu_online(rdp->cpu)) {
+ 				// Get scheduler to re-evaluate and call hooks.
+ 				// If !IRQ_WORK, FQS scan will eventually IPI.
+-- 
+2.34.1
 
-I intended to improve the code and making it more understandable of what
-happens here and why. Additionally it would also fit with RT and not
-just make this change to fit with RT.
-
-> > I've been looking at the counter and how it is used and it did not look
-> > right. The recursion, it should detect, was described in commit
-> > 55454a565836e ("ppp: avoid dealock on recursive xmit"). There are two
-> > locks that can be acquired due to recursion and that one counter is
-> > supposed to catch both cases based on current code flow.
-> > 
-> > It is also not obvious why ppp_channel_push() makes the difference
-> > depending on pch->ppp while ->start_xmit callback is invoked based on
-> > pch->chan.
-> > It looked more natural to avoid the per-CPU usage and detect the
-> > recursion based on the lock that might be acquired recursively. I hope
-> > this makes it easier to understand what is going on here.
-> 
-> Actually I'm a bit lost. According to 55454a565836e a single recursion
-> check in ppp_xmit_process() should be enough, and I think that keeping
-> the complexity constraint there be better.
-
-Okay. I didn't think that this complicated the code flow.
-
-> > While looking through the code I wasn't sure if
-> > ppp_channel_bridge_input() requires the same kind of check for recursion
-> > but adding it based on the lock, that is about to be acquired, would be
-> > easier.
-> 
-> (still lost in PPP, but) The xmit -> input path transition should have
-> already break the recursion (via the backlog). Recursion check in tx
-> should be sufficient.
-> 
-> All in all I think it would be safer the local lock based approach.
-
-Okay. I disagree but let me do as you suggested.
-
-Thank you.
-
-> Thanks,
-> 
-> Paolo
-
-Sebastian
