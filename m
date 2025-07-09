@@ -1,60 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7F0241679;
-	Tue,  8 Jul 2025 20:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0661DA935;
+	Wed,  9 Jul 2025 00:06:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752007746; cv=none; b=MyQT4QY864IFRuGTsT4jFlgRNiy3r09yMz91kNYinWoO2gtHqDz4dJ1COIdVzykDj5PmpSrLXg6Igbac2VAZSeDHGfE3wrFI1B/J6IiDngAp+W3N9D7do5KxR8kqCwCH/bcqC9DTjE1k+yQ6EICC7jTGhuWzxQQuC7/k1inU7VY=
+	t=1752019609; cv=none; b=T+hgqzLmdXDFPAzUoXC5/2AcpSEqwMqu7E7GinY34BkV6yTkR4HabssU07/pzm3yagnNTtz6bGIVOuQbO2yUBIlS5bIpuUQwckwZaF+ukW0H7hIPsYcOO4TL/60B+GKnmXdzH3z19fqFsOUti04azghNOnI+ATwvPLIwroDku7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752007746; c=relaxed/simple;
-	bh=T959HA9XhI+zBTQ8LMfRnZYEo8DlfGYdxMV9+pKlsQQ=;
+	s=arc-20240116; t=1752019609; c=relaxed/simple;
+	bh=9rNRsvhb8ONPeHvn0FHJiNgz9RSnsvZiLhAZJKaONjk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/9+liCU7b8iMkwpa0x87DRBzKscbJ7Vs3Air1oz8h/+9eSczq8SObopgmnUaRomw8/4novdyApx5Q6Mm9yeknzihx4V3LF52HGCIE8cqtNulj0zCD3OBqD+60rM0RRpG0pFK7y1OzfOCdlQXe1OZmD0e8MBuBwfHDo8y/HlPOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uBN1Pavr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ha5H4rkPPJY+StgpGQDKAwWWTZwDTX+k+teNgwWf+pDXnUt1Z5pekNTeXnoeT61oW1Zt6RYG7Dvd6lkJ65Fp1pkG6Ip+WmK0vRnjvbusRAooF0DGSNiX/epw/AmeABdpoZ8ZzMpaQqQ3AHblp8p2iHG/gTFdmOo+Ikdrj8ZO5pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMOOOXKS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uBN1Pavr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06015C4CEED;
-	Tue,  8 Jul 2025 20:49:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMOOOXKS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82F32C4CEED;
+	Wed,  9 Jul 2025 00:06:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752007746;
-	bh=T959HA9XhI+zBTQ8LMfRnZYEo8DlfGYdxMV9+pKlsQQ=;
+	s=k20201202; t=1752019608;
+	bh=9rNRsvhb8ONPeHvn0FHJiNgz9RSnsvZiLhAZJKaONjk=;
 	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=uBN1Pavr7dqNGf1SThmdcNf4x6JJ3dCGV8mLAqqjG6hsgrRXEPVYvhypZL2fAgCDu
-	 +omTeuCgdM311hgxEahtP0ZO/FjaGdq4T7qAZYfOY0inETbTdvm0B4e+Vl2ECrGIg0
-	 zP61/rbQRCnuO+9IFwxGS0gilJxlPt2ZWfU++VwPHa6yib5HzHXP1jeC5RYNQ1rh6Q
-	 lRPU4DNL5gifK70mEq7wkgdHt5Y7FiWZxXeaCDin/mNQK595CdlhApHQEA0f7qXnhR
-	 6+BI5UTTrhnhxN5v6PZ+OdQRaxR173bRq8W4g3yP5E9aEbF7QiSHniXvMgfVxqq0yF
-	 3dKa8i4wSsy1A==
+	b=mMOOOXKSxMefVaPQRHc8qGIeW5dHMnOPMeUUGdq1aNQQl4xcr8FYKCLf1gefN03kO
+	 UJMmim2j+m0xG2IZbyarfL4y5MGdZL3cZMkKVdh+DrNgb5bI1E4ceQ+FP2fgzcM0RR
+	 7DpP3dU4s8qxgR7W6sFUNhQUhZcvlOTgH/dlNpB2CJ0aDmupOl882pIjzArSIlnxPU
+	 HgXLjIlzb3ISqzMg8VPJTCbD3oPSXHPvuPQ2sj6/QLi+/+CvUVQmN1ZbDoqbZw5w07
+	 3ema9QRsp/Vv9X9FnEVWSd0uAAm5WfGKTJDpWVq+hL/yafA+KCk44hcMhgJoawshv3
+	 J9YTVeNgnMHUQ==
 Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A098ACE0856; Tue,  8 Jul 2025 13:49:05 -0700 (PDT)
-Date: Tue, 8 Jul 2025 13:49:05 -0700
+	id 1E67FCE08A1; Tue,  8 Jul 2025 17:06:48 -0700 (PDT)
+Date: Tue, 8 Jul 2025 17:06:48 -0700
 From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>,
 	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
-Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
-Message-ID: <acb07426-db2f-4268-97e2-a9588c921366@paulmck-laptop>
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>, rcu@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH -rcu -next 3/7] rcu: Refactor expedited handling check in
+ rcu_read_unlock_special()
+Message-ID: <202666b7-801c-44c7-9402-8c357abb8e5d@paulmck-laptop>
 Reply-To: paulmck@kernel.org
-References: <20250613152218.1924093-1-bigeasy@linutronix.de>
- <20250613152218.1924093-2-bigeasy@linutronix.de>
- <aFL1pIGMDX5DG9f_@tardis.local>
- <20250620084334.Zb8O2SwS@linutronix.de>
- <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
- <20250623104941.WxOQtAmV@linutronix.de>
- <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
- <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
- <29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
+References: <20250708142224.3940851-1-joelagnelf@nvidia.com>
+ <20250708142224.3940851-3-joelagnelf@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,185 +57,135 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
+In-Reply-To: <20250708142224.3940851-3-joelagnelf@nvidia.com>
 
-On Tue, Jul 08, 2025 at 03:40:05PM -0400, Mathieu Desnoyers wrote:
-> On 2025-07-07 17:56, Paul E. McKenney wrote:
-> > On Mon, Jun 23, 2025 at 11:13:03AM -0700, Paul E. McKenney wrote:
-> > > On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
-> > > > On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
-> > > > > > I hope not because it is not any different from
-> > > > > > 
-> > > > > >   	CPU 2			CPU 3
-> > > > > >   	=====                   =====
-> > > > > > 	NMI
-> > > > > >   	rcu_read_lock();
-> > > > > >   				synchronize_rcu();
-> > > > > >   				// need all CPUs report a QS.
-> > > > > >   	rcu_read_unlock();
-> > > > > >   	// no rcu_read_unlock_special() due to in_nmi().
-> > > > > > 
-> > > > > > If the NMI happens while the CPU is in userland (say a perf event) then
-> > > > > > the NMI returns directly to userland.
-> > > > > > After the tracing event completes (in this case) the CPU should run into
-> > > > > > another RCU section on its way out via context switch or the tick
-> > > > > > interrupt.
-> > > > > > I assume the tick interrupt is what makes the NMI case work.
-> > > > > 
-> > > > > Are you promising that interrupts will be always be disabled across
-> > > > > the whole rcu_read_lock_notrace() read-side critical section?  If so,
-> > > > > could we please have a lockdep_assert_irqs_disabled() call to check that?
-> > > > 
-> > > > No, that should stay preemptible because bpf can attach itself to
-> > > > tracepoints and this is the root cause of the exercise. Now if you say
-> > > > it has to be run with disabled interrupts to match the NMI case then it
-> > > > makes sense (since NMIs have interrupts off) but I do not understand why
-> > > > it matters here (since the CPU returns to userland without passing the
-> > > > kernel).
-> > > 
-> > > Given your patch, if you don't disable interrupts in a preemptible kernel
-> > > across your rcu_read_lock_notrace()/rcu_read_unlock_notrace() pair, then a
-> > > concurrent expedited grace period might send its IPI in the middle of that
-> > > critical section.  That IPI handler would set up state so that the next
-> > > rcu_preempt_deferred_qs_irqrestore() would report the quiescent state.
-> > > Except that without the call to rcu_read_unlock_special(), there might
-> > > not be any subsequent call to rcu_preempt_deferred_qs_irqrestore().
-> > > 
-> > > This is even more painful if this is a CONFIG_PREEMPT_RT kernel.
-> > > Then if that critical section was preempted and then priority-boosted,
-> > > the unboosting also won't happen until the next call to that same
-> > > rcu_preempt_deferred_qs_irqrestore() function, which again might not
-> > > happen.  Or might be significantly delayed.
-> > > 
-> > > Or am I missing some trick that fixes all of this?
-> > > 
-> > > > I'm not sure how much can be done here due to the notrace part. Assuming
-> > > > rcu_read_unlock_special() is not doable, would forcing a context switch
-> > > > (via setting need-resched and irq_work, as the IRQ-off case) do the
-> > > > trick?
-> > > > Looking through rcu_preempt_deferred_qs_irqrestore() it does not look to
-> > > > be "usable from the scheduler (with rq lock held)" due to RCU-boosting
-> > > > or the wake of expedited_wq (which is one of the requirement).
-> > > 
-> > > But if rq_lock is held, then interrupts are disabled, which will
-> > > cause the unboosting to be deferred.
-> > > 
-> > > Or are the various deferral mechanisms also unusable in this context?
-> > 
-> > OK, looking back through this thread, it appears that you need both
-> > an rcu_read_lock_notrace() and an rcu_read_unlock_notrace() that are
-> > covered by Mathieu's list of requirements [1]:
+On Tue, Jul 08, 2025 at 10:22:20AM -0400, Joel Fernandes wrote:
+> Extract the complex expedited handling condition in rcu_read_unlock_special()
+> into a separate function rcu_unlock_needs_exp_handling() with detailed
+> comments explaining each condition.
 > 
-> I'm just jumping into this email thread, so I'll try to clarify
-> what I may.
-
-Thank you for jumping in!
-
-> > | - NMI-safe
-> > 	This is covered by the existing rcu_read_lock() and
-> > 	rcu_read_unlock().
+> This improves code readability. No functional change intended.
 > 
-> OK
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+
+Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+
+> ---
+>  kernel/rcu/tree_plugin.h | 83 +++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 74 insertions(+), 9 deletions(-)
 > 
-> > | - notrace
-> > 	I am guessing that by "notrace", you mean the "notrace" CPP
-> > 	macro attribute defined in include/linux/compiler_types.h.
-> > 	This has no fewer than four different definitions, so I will
-> > 	need some help understanding what the restrictions are.
+> diff --git a/kernel/rcu/tree_plugin.h b/kernel/rcu/tree_plugin.h
+> index fa7b0d854833..e20c17163c13 100644
+> --- a/kernel/rcu/tree_plugin.h
+> +++ b/kernel/rcu/tree_plugin.h
+> @@ -646,6 +646,75 @@ static void rcu_preempt_deferred_qs_handler(struct irq_work *iwp)
+>  	local_irq_restore(flags);
+>  }
+>  
+> +/*
+> + * Check if expedited grace period processing during unlock is needed.
+> + *
+> + * This function determines whether expedited handling is required based on:
+> + * 1. Task blocking an expedited grace period (based on a heuristic, could be
+> + *    false-positive, see below.)
+> + * 2. CPU participating in an expedited grace period
+> + * 3. Strict grace period mode requiring expedited handling
+> + * 4. RCU priority deboosting needs when interrupts were disabled
+> + *
+> + * @t: The task being checked
+> + * @rdp: The per-CPU RCU data
+> + * @rnp: The RCU node for this CPU
+> + * @irqs_were_disabled: Whether interrupts were disabled before rcu_read_unlock()
+> + *
+> + * Returns true if expedited processing of the rcu_read_unlock() is needed.
+> + */
+> +static bool rcu_unlock_needs_exp_handling(struct task_struct *t,
+> +				      struct rcu_data *rdp,
+> +				      struct rcu_node *rnp,
+> +				      bool irqs_were_disabled)
+> +{
+> +	/*
+> +	 * Check if this task is blocking an expedited grace period. If the
+> +	 * task was preempted within an RCU read-side critical section and is
+> +	 * on the expedited grace period blockers list (exp_tasks), we need
+> +	 * expedited handling to unblock the expedited GP. This is not an exact
+> +	 * check because 't' might not be on the exp_tasks list at all - its
+> +	 * just a fast heuristic that can be false-positive sometimes.
+> +	 */
+> +	if (t->rcu_blocked_node && READ_ONCE(t->rcu_blocked_node->exp_tasks))
+> +		return true;
+> +
+> +	/*
+> +	 * Check if this CPU is participating in an expedited grace period.
+> +	 * The expmask bitmap tracks which CPUs need to check in for the
+> +	 * current expedited GP. If our CPU's bit is set, we need expedited
+> +	 * handling to help complete the expedited GP.
+> +	 */
+> +	if (rdp->grpmask & READ_ONCE(rnp->expmask))
+> +		return true;
+> +
+> +	/*
+> +	 * In CONFIG_RCU_STRICT_GRACE_PERIOD=y kernels, all grace periods
+> +	 * are treated as short for testing purposes even if that means
+> +	 * disturbing the system more. Check if either:
+> +	 * - This CPU has not yet reported a quiescent state, or
+> +	 * - This task was preempted within an RCU critical section
+> +	 * In either case, require expedited handling for strict GP mode.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD) &&
+> +	    ((rdp->grpmask & READ_ONCE(rnp->qsmask)) || t->rcu_blocked_node))
+> +		return true;
+> +
+> +	/*
+> +	 * RCU priority boosting case: If a task is subject to RCU priority
+> +	 * boosting and exits an RCU read-side critical section with interrupts
+> +	 * disabled, we need expedited handling to ensure timely deboosting.
+> +	 * Without this, a low-priority task could incorrectly run at high
+> +	 * real-time priority for an extended period degrading real-time
+> +	 * responsiveness. This applies to all CONFIG_RCU_BOOST=y kernels,
+> +	 * not just to PREEMPT_RT.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_RCU_BOOST) && irqs_were_disabled && t->rcu_blocked_node)
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  /*
+>   * Handle special cases during rcu_read_unlock(), such as needing to
+>   * notify RCU core processing or task having blocked during the RCU
+> @@ -665,18 +734,14 @@ static void rcu_read_unlock_special(struct task_struct *t)
+>  	local_irq_save(flags);
+>  	irqs_were_disabled = irqs_disabled_flags(flags);
+>  	if (preempt_bh_were_disabled || irqs_were_disabled) {
+> -		bool expboost; // Expedited GP in flight or possible boosting.
+> +		bool needs_exp; // Expedited handling needed.
+>  		struct rcu_data *rdp = this_cpu_ptr(&rcu_data);
+>  		struct rcu_node *rnp = rdp->mynode;
+>  
+> -		expboost = (t->rcu_blocked_node && READ_ONCE(t->rcu_blocked_node->exp_tasks)) ||
+> -			   (rdp->grpmask & READ_ONCE(rnp->expmask)) ||
+> -			   (IS_ENABLED(CONFIG_RCU_STRICT_GRACE_PERIOD) &&
+> -			   ((rdp->grpmask & READ_ONCE(rnp->qsmask)) || t->rcu_blocked_node)) ||
+> -			   (IS_ENABLED(CONFIG_RCU_BOOST) && irqs_were_disabled &&
+> -			    t->rcu_blocked_node);
+> +		needs_exp = rcu_unlock_needs_exp_handling(t, rdp, rnp, irqs_were_disabled);
+> +	
+>  		// Need to defer quiescent state until everything is enabled.
+> -		if (use_softirq && (in_hardirq() || (expboost && !irqs_were_disabled))) {
+> +		if (use_softirq && (in_hardirq() || (needs_exp && !irqs_were_disabled))) {
+>  			// Using softirq, safe to awaken, and either the
+>  			// wakeup is free or there is either an expedited
+>  			// GP in flight or a potential need to deboost.
+> @@ -689,7 +754,7 @@ static void rcu_read_unlock_special(struct task_struct *t)
+>  			set_tsk_need_resched(current);
+>  			set_preempt_need_resched();
+>  			if (IS_ENABLED(CONFIG_IRQ_WORK) && irqs_were_disabled &&
+> -			    expboost && rdp->defer_qs_iw_pending != DEFER_QS_PENDING &&
+> +			    needs_exp && rdp->defer_qs_iw_pending != DEFER_QS_PENDING &&
+>  			    cpu_online(rdp->cpu)) {
+>  				// Get scheduler to re-evaluate and call hooks.
+>  				// If !IRQ_WORK, FQS scan will eventually IPI.
+> -- 
+> 2.34.1
 > 
-> When I listed notrace in my desiderata, I had in mind the
-> preempt_{disable,enable}_notrace macros, which ensure that
-> those macros don't call instrumentation, and therefore can be
-> used from the implementation of tracepoint instrumentation or
-> from a tracer callback.
-
-OK, that makes sense.  I have some questions:
-
-Are interrupts disabled at the calls to rcu_read_unlock_notrace()?
-
-If interrupts are instead enabled, is it OK for an IRQ-work handler that
-did an immediate self-interrupt and a bunch of non-notrace work?
-
-If interrupts are to be enabled, but an immediate IRQ-work handler is
-ruled out, what mechanism should I be using to defer the work, given
-that it cannot be deferred for very long without messing up real-time
-latencies?  As in a delay of nanoseconds or maybe a microsecond, but
-not multiple microseconds let alone milliseconds?
-
-(I could imagine short-timeout hrtimer, but I am not seeing notrace
-variants of these guys, either.)
-
-> > | - usable from the scheduler (with rq lock held)
-> > 	This is covered by the existing rcu_read_lock() and
-> > 	rcu_read_unlock().
-> 
-> OK
-> 
-> > | - usable to trace the RCU implementation
-> > 	This one I don't understand.  Can I put tracepoints on
-> > 	rcu_read_lock_notrace() and rcu_read_unlock_notrace() or can't I?
-> > 	I was assuming that tracepoints would be forbidden.  Until I
-> > 	reached this requirement, that is.
-> 
-> At a high level, a rcu_read_{lock,unlock}_notrace should be something
-> that is safe to call from the tracepoint implementation or from a
-> tracer callback.
-> 
-> My expectation is that the "normal" (not notrace) RCU APIs would
-> be instrumented with tracepoints, and tracepoints and tracer callbacks
-> are allowed to use the _notrace RCU APIs.
-> 
-> This provides instrumentation coverage of RCU with the exception of the
-> _notrace users, which is pretty much the best we can hope for without
-> having a circular dependency.
-
-OK, got it, and that does make sense.  I am not sure how I would have
-intuited that from the description, but what is life without a challenge?
-
-> > One possible path forward is to ensure that rcu_read_unlock_special()
-> > calls only functions that are compatible with the notrace/trace
-> > requirements.  The ones that look like they might need some help are
-> > raise_softirq_irqoff() and irq_work_queue_on().  Note that although
-> > rcu_preempt_deferred_qs_irqrestore() would also need help, it is easy to
-> > avoid its being invoked, for example, by disabing interrupts across the
-> > call to rcu_read_unlock_notrace().  Or by making rcu_read_unlock_notrace()
-> > do the disabling.
-> > 
-> > However, I could easily be missing something, especially given my being
-> > confused by the juxtaposition of "notrace" and "usable to trace the
-> > RCU implementation".  These appear to me to be contradicting each other.
-> > 
-> > Help?
-> 
-> You indeed need to ensure that everything that is called from
-> rcu_{lock,unlock]_notrace don't end up executing instrumentation
-> to prevent a circular dependency. You hinted at a few ways to achieve
-> this. Other possible approaches:
-> 
-> - Add a "trace" bool parameter to rcu_read_unlock_special(),
-> - Duplicate rcu_read_unlock_special() and introduce a notrace symbol.
-
-OK, both of these are reasonable alternatives for the API, but it will
-still be necessary to figure out how to make the notrace-incompatible
-work happen.
-
-> - Keep some nesting count in the task struct to prevent calling the
->   instrumentation when nested in notrace,
-
-OK, for this one, is the idea to invoke some TBD RCU API the tracing
-exits the notrace region?  I could see that working.  But there would
-need to be a guarantee that if the notrace API was invoked, a call to
-this TBD RCU API would follow in short order.  And I suspect that
-preemption (and probably also interrupts) would need to be disabled
-across this region.
-
-> There are probably other possible approaches I am missing, each with
-> their respective trade offs.
-
-I am pretty sure that we also have some ways to go before we have the
-requirements fully laid out, for that matter.  ;-)
-
-Could you please tell me where in the current tracing code these
-rcu_read_lock_notrace()/rcu_read_unlock_notrace() calls would be placed?
-
-							Thanx, Paul
