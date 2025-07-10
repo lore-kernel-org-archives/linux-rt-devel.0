@@ -1,188 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14712571A5
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 12:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CA4257AC8
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 12:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752151403; cv=none; b=ryz+JNjg5sYSBhgb7qa9AM/+kti3NiwqSxfl5raDNLedU+yMSBv7nOcTIX6N9DE1vlwexJRq7WGam6cQl1qd8Fa8JVYnhPMUu9/s8rt7CEaX5LFfZPnQi0y27ywmYyBdaXQQUc9RNAI6Jl3s2BbfPG3iCn7T4lUbcP1RlgYv5GA=
+	t=1752151410; cv=none; b=ervxw/Tgnn9gDinb9Mpz18KolPYLq9Z+1Um01mmQuCVUMi/C4DPdJqCpmHgupxiQqRkXOoCbt01aQH2MQTOnzaYz6Pyz2pA5EVouMja/bLfbp3gUnOMYHs87jj/LTXUGHeh/pcQ1NWykNshtLoKCTvrkEn1HwhdImXWXYTll3Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752151403; c=relaxed/simple;
-	bh=7LR3M2vikCU+8V3dzM8Tw6EVYtXDLd4AoVMr55GULjw=;
+	s=arc-20240116; t=1752151410; c=relaxed/simple;
+	bh=s6KFsIWe08m+NRGKyxGg6ZnduWNzBb00Sh/FpcugVHo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UPy+htJFH//upH2geeMFw2kAoEos84Om6GlXYt4v0TDp2JNzicbd233Dsk4hV5wbYvPWnuFtPDxkjV83m9coGALuVnnN6U0KdT4AAPrWFr+iO1F+TlprkzqN6JgoUEbfXBXkwqLZrbNjOhjILm2X+DsTgsMLyDHzHnDeD8V7Mms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FJ1BGpoz; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=VBRXXe0BYvdkQR9U8IriK4NcU7sarPxBs9L/8JQt0qFDUds9HOslIKc7xb3uqLEGZuqFfv2wsaTKdKwY+XfmSns4h/aQJ76vcPmHe9zx4M2A1WU5+WvWArGYPfbHrPiJBXHBBGUR8O0kfIdVJY59N/RP1zDrzEUmosY9qtIWEk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJK6rDt5; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FJ1BGpoz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D905C4CEF7
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 12:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752151402;
-	bh=7LR3M2vikCU+8V3dzM8Tw6EVYtXDLd4AoVMr55GULjw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=FJ1BGpozCVVV/FBzKD0hW+Z29tOJ6dQ8DkK+GFFFMP/yxMvN2aMm8e2QEw538QLTG
-	 VuqY/S8iMxOfFGvb6XGP8+2ZUHa9+jaC9X9Ee6J5FVidJ7l/o1qz7bYL7P7JYn+aNM
-	 dgg4GuwNecn6qUlJ40ce/WTvWQHjUABK91Xl96FK2HSMp4eNDJQudTmut7uDU4l1B4
-	 a6Kx3GoktfUZCLrcdXCnbjCFw5R2boGTCFI6EC4hmDkbB2eWptIDFiUqH7bKBHxxI7
-	 reJmUlZYLxnCCMWDoGs1CCKm7ZXFZvMmE2NijU1tZdu3nxVdvHTJQO5Ulxi6tBH538
-	 +vJdq4kMEy70Q==
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2eff5d1c7efso554512fac.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 05:43:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUS6eavBjPc4S8RxnQDlqfeK7USBUpNWWysZH2h84TTJdL5aLAvmKKtIrxmKFq6WkFVARKGHGy5tFxnYcRhlw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyPnwAyVHFd4qrqVyIp0X0ClZb11PGGb76FqRBJr+VNUwG6q9kW
-	Yninh7jJ5RPm+1XB/NqFWrYlsR4shOhM39ZZI3GLyUfUZihKnp0zVHY81GGTvQIiUKYbjbj8wl5
-	xPsYFiyQqQjOpqGoqeq92jUX2gNrnEew=
-X-Google-Smtp-Source: AGHT+IFvhWbPLYj4eyYbQzXbtE0MeMQJy/KvVIVtLmYaFaOZV9FQroiaEG97GUORa6EBLnC28282joaDVpduBrWrdBE=
-X-Received: by 2002:a05:6871:e494:b0:2b8:306f:c5ad with SMTP id
- 586e51a60fabf-2ff108aa4e7mr1575018fac.13.1752151401837; Thu, 10 Jul 2025
- 05:43:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJK6rDt5"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a54700a463so553223f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 05:43:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752151407; x=1752756207; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RLZ3wT/zIcTlhpVZ66G+GThU9XAAh1rTUV/NBZEfAJw=;
+        b=kJK6rDt5W2NSV/xBCtSnVCkDdWqbS3WxkKYfPOeKPhAtj+vH/4be1/0EJAca2uFIji
+         GquZu5xHlRxR+69bG6FxzDHFdh3QERwonnQRVNzYUJP4dEFGMg0LAqEjAb/I1rtgJ1Di
+         4TPwKfopy2VXkHyK0j3xWtyZ3pIXi+8B9hLBgTBUzSqV9/+oM2mE6YlyWWzMdwjsB2dm
+         m0ZRLkjNDHkkV9z3dKw2CSrNiuml/08tYa1nuXTUfxPRZEPzQseXRYoa3uKQhGalz+lo
+         G2dxiYxMKX3vUNxf9bl21reoeIgMLp50mZiclSj4w2rV40O43QpZF4Cp3P8ju7D906hy
+         dCOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752151407; x=1752756207;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RLZ3wT/zIcTlhpVZ66G+GThU9XAAh1rTUV/NBZEfAJw=;
+        b=iG4EyagtudhinNEuVnxu7ToRu0eTISMjcgdJ9oYhLJGW3N2UZGVFYbPgZ23+SquVJB
+         QDvtq2kzbSGBN/xjAvO5yQ15M5umLsBKsIc0upuckm159B/2rMvTcRBV47xZwMxsiAkr
+         sg5zSjV08ULNHCP1VOB/VaARqalHJ0UDy84w5KB3BeMzt3lIWoBAidm3ncfcv+Hwayc+
+         nxufGqMKldceSxVc6E5Oegx6zgw5wVhagfauUXTA4d95mKlBBubtzmV6k3Yf+iH3g5o3
+         kUxxCDZO6jjk7vUlAgoxMnF3bRk72sRjy9sNCWjB9dk1BXoftnliZfrwT7exPgUI+va5
+         BKLg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3CLF4caOAc6lL2SkuLXTuYfkF2DfONTD5rwAxDsUd/FvNNpNg/jkOb4oEfeEQCid4loOf6IEKIxJ+50RO+A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbNknTnMoW/nb+IA+fb5sSC1heF21swxntkFWwn7KmAHZEMoD7
+	rzuhox+rSAhn/SdFwPeeZL83thia95tmUInSVUv/9eaBeQicD0yvk9C0BO438fOtWJ5bW2NVh9A
+	uzTz/vWetvW3wozahfGXNDiuOgmEAWR4=
+X-Gm-Gg: ASbGnctns0ZyBTmOg94l22Ark43Q9rUYUmoyEtDajCBAtb1xiP1vAzGHNeraEt9Spb7
+	vKpo2u4b+jUfX5aT0CkHLyeeq6tQrEC7nNkuMzCbUFpwDcRVDFcVwgG2a8psdRcpXICGe5DO7zZ
+	ccQ+0lvT2N9QMtioVN9qWQF3WSyXIy86/exjzHhcMmEKPhhg==
+X-Google-Smtp-Source: AGHT+IEnLv+M1cm1e41yBczHzCqcGvBz2LxWly+f89XFFbMNN8WbM3UxVWoFEfEmHMVnnkn6nxf6P78yVudOGfXKEXQ=
+X-Received: by 2002:a05:6000:22c3:b0:3b5:e07f:9442 with SMTP id
+ ffacd0b85a97d-3b5e7f34672mr2613771f8f.19.1752151406804; Thu, 10 Jul 2025
+ 05:43:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250709154728.733920-1-daniel.lezcano@linaro.org>
-In-Reply-To: <20250709154728.733920-1-daniel.lezcano@linaro.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Thu, 10 Jul 2025 14:43:10 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0ixk5hZPPQc_1rDLMTzjh=KpMQF_A2U=HehMTuNSMQwtQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwvOAzyR1Avk5_RiGzd1H44RHJhITCmhz1WTwrDf6J5CAzXGMv8nRwyvJ4
-Message-ID: <CAJZ5v0ixk5hZPPQc_1rDLMTzjh=KpMQF_A2U=HehMTuNSMQwtQ@mail.gmail.com>
-Subject: Re: [PATCH] cpuidle: psci: Fix cpuhotplug routine with PREEMPT_RT=y
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, sudeep.holla@arm.com, ulf.hansson@linaro.org
-Cc: linux-pm@vger.kernel.org, linux-rt-users@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Raghavendra Kakarla <quic_rkakarla@quicinc.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, 
-	"open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>
+References: <20250703181018.580833-1-yeoreum.yun@arm.com>
+In-Reply-To: <20250703181018.580833-1-yeoreum.yun@arm.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 10 Jul 2025 14:43:15 +0200
+X-Gm-Features: Ac12FXxkeNT4SbQnhPymL-kgefhQmsJ3o4VsRU7W2osYTS5GaGgeUo2hYTeE0yw
+Message-ID: <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
+Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent possible deadlock
+To: Yeoreum Yun <yeoreum.yun@arm.com>, akpm@linux-foundation.org
+Cc: glider@google.com, dvyukov@google.com, vincenzo.frascino@arm.com, 
+	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, 
+	byungchul@sk.com, max.byungchul.park@gmail.com, ysk@kzalloc.com, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 9, 2025 at 5:47=E2=80=AFPM Daniel Lezcano <daniel.lezcano@linar=
-o.org> wrote:
+On Thu, Jul 3, 2025 at 8:10=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> wr=
+ote:
 >
-> Currently cpu hotplug with the PREEMPT_RT option set in the kernel is
-> not supported because the underlying generic power domain functions
-> used in the cpu hotplug callbacks are incompatible from a lock point
-> of view. This situation prevents the suspend to idle to reach the
-> deepest idle state for the "cluster" as identified in the
-> undermentioned commit.
+> find_vm_area() couldn't be called in atomic_context.
+> If find_vm_area() is called to reports vm area information,
+> kasan can trigger deadlock like:
 >
-> Use the compatible ones when PREEMPT_RT is enabled and remove the
-> boolean disabling the hotplug callbacks with this option.
+> CPU0                                CPU1
+> vmalloc();
+>  alloc_vmap_area();
+>   spin_lock(&vn->busy.lock)
+>                                     spin_lock_bh(&some_lock);
+>    <interrupt occurs>
+>    <in softirq>
+>    spin_lock(&some_lock);
+>                                     <access invalid address>
+>                                     kasan_report();
+>                                      print_report();
+>                                       print_address_description();
+>                                        kasan_find_vm_area();
+>                                         find_vm_area();
+>                                          spin_lock(&vn->busy.lock) // dea=
+dlock!
 >
-> With this change the platform can reach the deepest idle state
-> allowing at suspend time to consume less power.
+> To prevent possible deadlock while kasan reports, remove kasan_find_vm_ar=
+ea().
 >
-> Tested-on Lenovo T14s with the following script:
->
-> echo 0 > /sys/devices/system/cpu/cpu3/online
-> BEFORE=3D$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/idle_=
-states | grep S0 | awk '{ print $3 }') ;
-> rtcwake -s 1 -m mem;
-> AFTER=3D$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/idle_s=
-tates | grep S0 | awk '{ print $3 }');
-> if [ $BEFORE -lt $AFTER ]; then
->     echo "Test successful"
-> else
->     echo "Test failed"
-> fi
-> echo 1 > /sys/devices/system/cpu/cpu3/online
->
-> Fixes: 1c4b2932bd62 ("cpuidle: psci: Enable the hierarchical topology for=
- s2idle on PREEMPT_RT")
-> Cc: Raghavendra Kakarla <quic_rkakarla@quicinc.com>
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
+> Reported-by: Yunseong Kim <ysk@kzalloc.com>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 
-As per MAINTAINERS, this is for Ulf/Sudeep.
+As a fix:
 
-I can pick it up, but at least I need an ACK from them.
+Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
 
-Thanks!
+But it would be great to figure out a way to eventually restore this
+functionality; I'll file a bug for this once this patch lands. The
+virtual mapping info helps with real issues: e.g. just recently it
+helped me to quickly see the issue that caused a false-positive report
+[1].
 
-> ---
->  drivers/cpuidle/cpuidle-psci.c | 23 ++++++++++++-----------
->  1 file changed, 12 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psc=
-i.c
-> index 4e1ba35deda9..b19bc60cc627 100644
-> --- a/drivers/cpuidle/cpuidle-psci.c
-> +++ b/drivers/cpuidle/cpuidle-psci.c
-> @@ -45,7 +45,6 @@ struct psci_cpuidle_domain_state {
->  static DEFINE_PER_CPU_READ_MOSTLY(struct psci_cpuidle_data, psci_cpuidle=
-_data);
->  static DEFINE_PER_CPU(struct psci_cpuidle_domain_state, psci_domain_stat=
-e);
->  static bool psci_cpuidle_use_syscore;
-> -static bool psci_cpuidle_use_cpuhp;
->
->  void psci_set_domain_state(struct generic_pm_domain *pd, unsigned int st=
-ate_idx,
->                            u32 state)
-> @@ -124,8 +123,12 @@ static int psci_idle_cpuhp_up(unsigned int cpu)
->  {
->         struct device *pd_dev =3D __this_cpu_read(psci_cpuidle_data.dev);
->
-> -       if (pd_dev)
-> -               pm_runtime_get_sync(pd_dev);
-> +       if (pd_dev) {
-> +               if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +                       pm_runtime_get_sync(pd_dev);
-> +               else
-> +                       dev_pm_genpd_resume(pd_dev);
-> +       }
->
->         return 0;
->  }
-> @@ -135,7 +138,11 @@ static int psci_idle_cpuhp_down(unsigned int cpu)
->         struct device *pd_dev =3D __this_cpu_read(psci_cpuidle_data.dev);
->
->         if (pd_dev) {
-> -               pm_runtime_put_sync(pd_dev);
-> +               if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +                       pm_runtime_put_sync(pd_dev);
-> +               else
-> +                       dev_pm_genpd_suspend(pd_dev);
-> +
->                 /* Clear domain state to start fresh at next online. */
->                 psci_clear_domain_state();
->         }
-> @@ -196,9 +203,6 @@ static void psci_idle_init_cpuhp(void)
->  {
->         int err;
->
-> -       if (!psci_cpuidle_use_cpuhp)
-> -               return;
-> -
->         err =3D cpuhp_setup_state_nocalls(CPUHP_AP_CPU_PM_STARTING,
->                                         "cpuidle/psci:online",
->                                         psci_idle_cpuhp_up,
-> @@ -259,10 +263,8 @@ static int psci_dt_cpu_init_topology(struct cpuidle_=
-driver *drv,
->          * s2ram and s2idle.
->          */
->         drv->states[state_count - 1].enter_s2idle =3D psci_enter_s2idle_d=
-omain_idle_state;
-> -       if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
-> +       if (!IS_ENABLED(CONFIG_PREEMPT_RT))
->                 drv->states[state_count - 1].enter =3D psci_enter_domain_=
-idle_state;
-> -               psci_cpuidle_use_cpuhp =3D true;
-> -       }
->
->         return 0;
->  }
-> @@ -339,7 +341,6 @@ static void psci_cpu_deinit_idle(int cpu)
->
->         dt_idle_detach_cpu(data->dev);
->         psci_cpuidle_use_syscore =3D false;
-> -       psci_cpuidle_use_cpuhp =3D false;
->  }
->
->  static int psci_idle_init_cpu(struct device *dev, int cpu)
-> --
-> 2.43.0
->
+[1] https://lore.kernel.org/all/CA+fCnZfzHOFjVo43UZK8H6h3j=3DOHjfF13oFJvT0P=
+-SM84Oc4qQ@mail.gmail.com/
