@@ -1,120 +1,94 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CA4257AC8
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 12:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3D8F233D64
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 12:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752151410; cv=none; b=ervxw/Tgnn9gDinb9Mpz18KolPYLq9Z+1Um01mmQuCVUMi/C4DPdJqCpmHgupxiQqRkXOoCbt01aQH2MQTOnzaYz6Pyz2pA5EVouMja/bLfbp3gUnOMYHs87jj/LTXUGHeh/pcQ1NWykNshtLoKCTvrkEn1HwhdImXWXYTll3Uk=
+	t=1752152281; cv=none; b=dSCz13zxv2ahe9Bp+1mmJ6ifJl/XehvNeGkHZ44EGXqesIKBaa2lWlE91ST1c/1H8UKkwyuGNwmvaZVoYF7qoZYOWBXrDfdaGSPxjpcX4AAUihWMb9X34kxkBLqQDxWxFEfmGXEZW8WrNe3LLWJ6M9/5CLhjfzcml+RU4gor+IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752151410; c=relaxed/simple;
-	bh=s6KFsIWe08m+NRGKyxGg6ZnduWNzBb00Sh/FpcugVHo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VBRXXe0BYvdkQR9U8IriK4NcU7sarPxBs9L/8JQt0qFDUds9HOslIKc7xb3uqLEGZuqFfv2wsaTKdKwY+XfmSns4h/aQJ76vcPmHe9zx4M2A1WU5+WvWArGYPfbHrPiJBXHBBGUR8O0kfIdVJY59N/RP1zDrzEUmosY9qtIWEk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kJK6rDt5; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kJK6rDt5"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a54700a463so553223f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 05:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752151407; x=1752756207; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RLZ3wT/zIcTlhpVZ66G+GThU9XAAh1rTUV/NBZEfAJw=;
-        b=kJK6rDt5W2NSV/xBCtSnVCkDdWqbS3WxkKYfPOeKPhAtj+vH/4be1/0EJAca2uFIji
-         GquZu5xHlRxR+69bG6FxzDHFdh3QERwonnQRVNzYUJP4dEFGMg0LAqEjAb/I1rtgJ1Di
-         4TPwKfopy2VXkHyK0j3xWtyZ3pIXi+8B9hLBgTBUzSqV9/+oM2mE6YlyWWzMdwjsB2dm
-         m0ZRLkjNDHkkV9z3dKw2CSrNiuml/08tYa1nuXTUfxPRZEPzQseXRYoa3uKQhGalz+lo
-         G2dxiYxMKX3vUNxf9bl21reoeIgMLp50mZiclSj4w2rV40O43QpZF4Cp3P8ju7D906hy
-         dCOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752151407; x=1752756207;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RLZ3wT/zIcTlhpVZ66G+GThU9XAAh1rTUV/NBZEfAJw=;
-        b=iG4EyagtudhinNEuVnxu7ToRu0eTISMjcgdJ9oYhLJGW3N2UZGVFYbPgZ23+SquVJB
-         QDvtq2kzbSGBN/xjAvO5yQ15M5umLsBKsIc0upuckm159B/2rMvTcRBV47xZwMxsiAkr
-         sg5zSjV08ULNHCP1VOB/VaARqalHJ0UDy84w5KB3BeMzt3lIWoBAidm3ncfcv+Hwayc+
-         nxufGqMKldceSxVc6E5Oegx6zgw5wVhagfauUXTA4d95mKlBBubtzmV6k3Yf+iH3g5o3
-         kUxxCDZO6jjk7vUlAgoxMnF3bRk72sRjy9sNCWjB9dk1BXoftnliZfrwT7exPgUI+va5
-         BKLg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3CLF4caOAc6lL2SkuLXTuYfkF2DfONTD5rwAxDsUd/FvNNpNg/jkOb4oEfeEQCid4loOf6IEKIxJ+50RO+A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbNknTnMoW/nb+IA+fb5sSC1heF21swxntkFWwn7KmAHZEMoD7
-	rzuhox+rSAhn/SdFwPeeZL83thia95tmUInSVUv/9eaBeQicD0yvk9C0BO438fOtWJ5bW2NVh9A
-	uzTz/vWetvW3wozahfGXNDiuOgmEAWR4=
-X-Gm-Gg: ASbGnctns0ZyBTmOg94l22Ark43Q9rUYUmoyEtDajCBAtb1xiP1vAzGHNeraEt9Spb7
-	vKpo2u4b+jUfX5aT0CkHLyeeq6tQrEC7nNkuMzCbUFpwDcRVDFcVwgG2a8psdRcpXICGe5DO7zZ
-	ccQ+0lvT2N9QMtioVN9qWQF3WSyXIy86/exjzHhcMmEKPhhg==
-X-Google-Smtp-Source: AGHT+IEnLv+M1cm1e41yBczHzCqcGvBz2LxWly+f89XFFbMNN8WbM3UxVWoFEfEmHMVnnkn6nxf6P78yVudOGfXKEXQ=
-X-Received: by 2002:a05:6000:22c3:b0:3b5:e07f:9442 with SMTP id
- ffacd0b85a97d-3b5e7f34672mr2613771f8f.19.1752151406804; Thu, 10 Jul 2025
- 05:43:26 -0700 (PDT)
+	s=arc-20240116; t=1752152281; c=relaxed/simple;
+	bh=zwBtqkT25ZAX+sp1nl3oFbbZxZoeWwTF/wCZRk2t2ZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RmGbt6Hgm4LYZ+PsygB5oAn9GTmDmqX2T3he7oUDdUDUtOi5IUdFoUZfQ+CkzHlb8aC+x281lFBvUzS+q0Yp7llbHSybwjjb57wdUf7+7mxw4tRUR4Tp4hScWQsXVodllyR4QtL+PYTacpe5F08znD9w1aFz3tSf3bZFStffVr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ED9891EA6;
+	Thu, 10 Jul 2025 05:57:46 -0700 (PDT)
+Received: from bogus (e133711.arm.com [10.1.196.55])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B09F73F66E;
+	Thu, 10 Jul 2025 05:57:55 -0700 (PDT)
+Date: Thu, 10 Jul 2025 13:57:52 +0100
+From: Sudeep Holla <sudeep.holla@arm.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, ulf.hansson@linaro.org,
+	Sudeep Holla <sudeep.holla@arm.com>, linux-pm@vger.kernel.org,
+	linux-rt-users@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Raghavendra Kakarla <quic_rkakarla@quicinc.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH] cpuidle: psci: Fix cpuhotplug routine with PREEMPT_RT=y
+Message-ID: <aG-40INpi05v3-fQ@bogus>
+References: <20250709154728.733920-1-daniel.lezcano@linaro.org>
+ <CAJZ5v0ixk5hZPPQc_1rDLMTzjh=KpMQF_A2U=HehMTuNSMQwtQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
-In-Reply-To: <20250703181018.580833-1-yeoreum.yun@arm.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 10 Jul 2025 14:43:15 +0200
-X-Gm-Features: Ac12FXxkeNT4SbQnhPymL-kgefhQmsJ3o4VsRU7W2osYTS5GaGgeUo2hYTeE0yw
-Message-ID: <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent possible deadlock
-To: Yeoreum Yun <yeoreum.yun@arm.com>, akpm@linux-foundation.org
-Cc: glider@google.com, dvyukov@google.com, vincenzo.frascino@arm.com, 
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, 
-	byungchul@sk.com, max.byungchul.park@gmail.com, ysk@kzalloc.com, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0ixk5hZPPQc_1rDLMTzjh=KpMQF_A2U=HehMTuNSMQwtQ@mail.gmail.com>
 
-On Thu, Jul 3, 2025 at 8:10=E2=80=AFPM Yeoreum Yun <yeoreum.yun@arm.com> wr=
-ote:
->
-> find_vm_area() couldn't be called in atomic_context.
-> If find_vm_area() is called to reports vm area information,
-> kasan can trigger deadlock like:
->
-> CPU0                                CPU1
-> vmalloc();
->  alloc_vmap_area();
->   spin_lock(&vn->busy.lock)
->                                     spin_lock_bh(&some_lock);
->    <interrupt occurs>
->    <in softirq>
->    spin_lock(&some_lock);
->                                     <access invalid address>
->                                     kasan_report();
->                                      print_report();
->                                       print_address_description();
->                                        kasan_find_vm_area();
->                                         find_vm_area();
->                                          spin_lock(&vn->busy.lock) // dea=
-dlock!
->
-> To prevent possible deadlock while kasan reports, remove kasan_find_vm_ar=
-ea().
->
-> Fixes: c056a364e954 ("kasan: print virtual mapping info in reports")
-> Reported-by: Yunseong Kim <ysk@kzalloc.com>
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+On Thu, Jul 10, 2025 at 02:43:10PM +0200, Rafael J. Wysocki wrote:
+> On Wed, Jul 9, 2025 at 5:47 PM Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
+> >
+> > Currently cpu hotplug with the PREEMPT_RT option set in the kernel is
+> > not supported because the underlying generic power domain functions
+> > used in the cpu hotplug callbacks are incompatible from a lock point
+> > of view. This situation prevents the suspend to idle to reach the
+> > deepest idle state for the "cluster" as identified in the
+> > undermentioned commit.
+> >
+> > Use the compatible ones when PREEMPT_RT is enabled and remove the
+> > boolean disabling the hotplug callbacks with this option.
+> >
+> > With this change the platform can reach the deepest idle state
+> > allowing at suspend time to consume less power.
+> >
+> > Tested-on Lenovo T14s with the following script:
+> >
+> > echo 0 > /sys/devices/system/cpu/cpu3/online
+> > BEFORE=$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/idle_states | grep S0 | awk '{ print $3 }') ;
+> > rtcwake -s 1 -m mem;
+> > AFTER=$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/idle_states | grep S0 | awk '{ print $3 }');
+> > if [ $BEFORE -lt $AFTER ]; then
+> >     echo "Test successful"
+> > else
+> >     echo "Test failed"
+> > fi
+> > echo 1 > /sys/devices/system/cpu/cpu3/online
+> >
+> > Fixes: 1c4b2932bd62 ("cpuidle: psci: Enable the hierarchical topology for s2idle on PREEMPT_RT")
+> > Cc: Raghavendra Kakarla <quic_rkakarla@quicinc.com>
+> > Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> 
+> As per MAINTAINERS, this is for Ulf/Sudeep.
+> 
 
-As a fix:
+LGTM, so
 
-Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
+Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
 
-But it would be great to figure out a way to eventually restore this
-functionality; I'll file a bug for this once this patch lands. The
-virtual mapping info helps with real issues: e.g. just recently it
-helped me to quickly see the issue that caused a false-positive report
-[1].
+I still prefer to hear from Ulf who has more knowledge and hands-on experience
+with s2idle + PREEMPT_RT in case I am missing something.
 
-[1] https://lore.kernel.org/all/CA+fCnZfzHOFjVo43UZK8H6h3j=3DOHjfF13oFJvT0P=
--SM84Oc4qQ@mail.gmail.com/
+-- 
+Regards,
+Sudeep
