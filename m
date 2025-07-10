@@ -1,136 +1,130 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8F0248F78
-	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 14:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1CC2EFD84
+	for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 16:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752158500; cv=none; b=ecNUpA5a27kVV6P9micuhjsqxpcXjCA5oFoaK7mgIJZf7YZakmsvp69Fr2JNvBezbjyHYmGz7OWEr2TfdbgRb/755U/5QqR73zz9MIR9WsF9ETkLTUCmm+rpewmgf5K4bCLzuFhu6mGod/6WoDKDtxltmIevtvmz4httBRO5yVs=
+	t=1752164363; cv=none; b=bQJCrxpblnfowBXFB5/EnPCeE/IsfNPrmnuBIv26wcIUPKUjF3NJFTnLR+U66oaG4qKzJ4viUBhETIBziuw6idvJgNaWUC9HvQO+DzMOXQUeqETdHrkzFxVgA5k98qZQ3xWIVG11qREnkMSt/pcV1Ylw9uYOWb9it0c6fkskd0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752158500; c=relaxed/simple;
-	bh=rTCP0eFlUYf1cAy9AjZjkIhxqdiUY75FHK6S4X4wtU0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KVmlcO9jpZ7z99Ua/SkTMfeXHeQ4exA8l+jNX3yZMIWaet5jdfX89JukIqfAdJV8nVq7Wof+ev9+bMSJy0S0yg/f2bYc3maoz003eCoRF8DJFz264bmS/6IMd+oQc5cmWVDjp3z2/FHoclrRE/PV/iyHAmsjThpXi1DdKJfpbH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C37HOU3j; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752164363; c=relaxed/simple;
+	bh=YmAxF8TR1lUnIWjvJfSysEiQVexi9iMpay8Rx18dvyA=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GEaNkns/M6GJGOjF2lZBI5eTXAwmjph12qZtyByQLnUmb9urTcj3YLmh/YXNo2oikUN7onFv7/2LGopDjpDhbWAAaUT7pkY6vwtQAJl79H9ybVTMtWf8nm5NvtH3XXJWvflLnJJaXt+rcDpkMt8EwsXCAZ6TRdNbISxInC0dgYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WaOpZnDz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C37HOU3j"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-710f39f5cb9so10393887b3.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 07:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752158496; x=1752763296; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IlZgkHsxN8ZXtcGrfVzgc7A5zah0HXAJABQ2cFxyfyc=;
-        b=C37HOU3jlcg9aP+69wzLxOyVOgmyzbVBCf0+5QnmRzXz63N0asCMIaEn73IIPpeW45
-         +p3lUkcwHs90+zGjBlm+rhveW93n4ByH/BIzG6pS1qnDsoNMXq6VMgpAzT78Ly7tCpQQ
-         Svq3Tf36pFAtW8flEKG1Ca567bcAaqCzioWVuwq4x0gU1yENVcLtJdqi1BrIwvdtNr29
-         jv8Sx/pg2q6O4W9wkWMINQOjYGZgbxcTzRzgFM6KuaxMLcB8ojt2XDo8JuV4cYCPXqgy
-         VO9hytDGYEKSgARav70ABlOsXe7VjqNhB1ZGC5KqxY8CBJ+5BEjPLYDKChGwSrt7F74N
-         z0oA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WaOpZnDz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1752164361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Jb8MxRFJ7YDicHzCqkcmOzetiDqrKlL6YyrmCbXyEbA=;
+	b=WaOpZnDzWtKom+sCLNhNCe6GCXMVLv7ZoHQV7LMav3abdDEfOTmhX07ncrizCXNT/6bayz
+	0gRytNMyS0tNosFEcz9giACvQjqvTgoke0qf+vZD/nvwAV9XGPXd+svYeQf5BI5aTHlDt+
+	dVMIpmj94yC+89L3cKDPoMcn0087VEA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-624-iHETUA2NNEygaTZKEGTDXA-1; Thu, 10 Jul 2025 12:19:18 -0400
+X-MC-Unique: iHETUA2NNEygaTZKEGTDXA-1
+X-Mimecast-MFC-AGG-ID: iHETUA2NNEygaTZKEGTDXA_1752164357
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3a4f65a705dso842925f8f.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 10 Jul 2025 09:19:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752158496; x=1752763296;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IlZgkHsxN8ZXtcGrfVzgc7A5zah0HXAJABQ2cFxyfyc=;
-        b=dHO1DgykvmYe6mmFy89CoFCnkexuLkMEYiS793UjLwiDwWhkvXEmA2oyOBLoIYaJtZ
-         q13EoMq8EOOxSiTrJlYS/DXBYJ5RatPEXIoWc6DjBcuUZqxk5TrEDH4NyKjIIINwGIAS
-         Fz74+zEt8m8NhSSQnuDpaBIZX0bYiTIWK/t3U6WjUvGA1oYgAn3vZMNQvuTC9vwh8QJh
-         nnn8SWqGxlicGkmNoDBJD88LK6SOUIMd/M6ri0vrAsaxgAwytbvam8OmmGdF9NJkRz1d
-         seKGRK0PoyprfpTYCOwXuxQIrTcUbMtHaNhj1oQiQ2YigOLvu9FoyQcyJOWgoP/fraRe
-         Jtrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMhi6uS6iWm2/ZLG9hFkxz+MI/NGw65kgvbK12vm6rETNF5GXyvEVz8+OY8+DFkC3sDXf9u0oEdYibHyDthg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWqRiVwGZORxoEFMKSQSSZvmyW5zJiVumODNK61ygM7cnywl/Q
-	3QR4/VcucAZZgI25aDR73vQVlGFHYgjwN61z7rPytF2xrcaWeJHs4HvTS9mTyI6cq+Ifzq1euZv
-	XZhr/sMQJMZAF5/yA6GOZHbZn5kR4GgXaENWqOx2Yag==
-X-Gm-Gg: ASbGncvuPbTnGvGjyATJWJjLZBZ4Fu+LswBvZLPTr/swZEojrtuY+qpdpkTigRwvijC
-	9URwpn6YcopK/fUQTWVM6gE4sfEbN7VkSl0q04K4Xly2krD1ymG/vz8feo9PQURJlgd8dksfTDJ
-	o6c2V2NB+xnze9pYOISc3sP+hWxyeDU3boFZs91FsLASE=
-X-Google-Smtp-Source: AGHT+IHVD6gPsHq+Dexvu9tOsagl+k20PpDSEAg/CCtZ6R9oh9y4FIYINC4cgMj3d0zJYPGC/y7DQa6nR8qkXx9Q06g=
-X-Received: by 2002:a05:690c:d90:b0:6fb:b8a1:d3bb with SMTP id
- 00721157ae682-717b19cb233mr100039137b3.17.1752158495634; Thu, 10 Jul 2025
- 07:41:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752164357; x=1752769157;
+        h=mime-version:message-id:date:references:in-reply-to:subject:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jb8MxRFJ7YDicHzCqkcmOzetiDqrKlL6YyrmCbXyEbA=;
+        b=kE+Ta/6sOcQIJUSIGZUxz7r6Y2H5vRF0LB/kgcAr0tqMHdzJwOQq6ZqIJQSIWGs+MI
+         JUCnk4bHjB2sU5Q8uAARtMJ6ASvgO20FaRUvsuwJwa6Z/sFBd6OQ3QjNfC9v9K0BluFE
+         MhyZk3f2i5SOCJHeTJpp6FJmtwIC4DSrFotPESSZC5atq2nhfaZaiw+7uwgPHQ4N0pnN
+         KXvxrpiOd5V338I3lP0WQ6MUThNHy5k7/SRObDTPVpinNGoeZsRdcwzpQR27xNcmV5Dr
+         85eboEdIdldGPT7EvO6b2Kcc6VBVwYjtAnLtF0TI7wYGu7Hv63Szp7SgYpFBaCL8JihS
+         Rauw==
+X-Forwarded-Encrypted: i=1; AJvYcCXM1i0GKEhvr8f1CpKvxvh7BiOchoWsje9tj1cENammZUlODpe6nE9HSt6HMTcYOetbTlFE2Ivl9R6HWl3a3A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTJVlK7qfdLbvdc0bVlAtcdZgb/n8o6bX3tC874xJVpikDsn1k
+	Ptc6JOc/+dtedyDJKbplmaWgQdqiwrcoNW2a8jObXVrzCFWb2Bq1BHakj0wCsJwOEwgvQ3qiTxB
+	Kr8setS6XT6uPn92qCemLe2Es/JIIWSbz63cvUJ3Mjl3Yf2LM3mkTNDquW99zBIJ0H/v4
+X-Gm-Gg: ASbGncs3t3uQSQ1Ti444qrnAyWbKs5xg6Roi8wgWtT1Ea7HovB69ZbcjyrpKiNhrl5E
+	+42r01IH5jfyLEHNGgipZ+OXJAHh4o+T5bBclglnTTH6a9KAFUrsBJw8ZwSlHwqtE9Y5f294K4J
+	NvTcDGt06D+vbB5fdBV/IuSvmMwV8zBtW89vXjiSymjsTTq6wbhPoSMazFPSoDMjhuqna+ww6TS
+	fE/SjbJlacCuIaEWIdqcslUd1Bojh2IDdI9/cWFA78nmMZ1Eku90Co/EGJij8EzoFCLSXWLMIj8
+	VqRsZPxMec9opjBiHg5RupnjIRE5bqxQAeTdxy8gvMcV8WbLXhn7JJ+CIYuZiNCIoJA9GCBmoTK
+	alIozcm8=
+X-Received: by 2002:adf:b643:0:b0:3a4:ee3f:e9a6 with SMTP id ffacd0b85a97d-3b5f18a7a4dmr128551f8f.54.1752164356602;
+        Thu, 10 Jul 2025 09:19:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVAL5FTUNSY5NUppJgN69V9ZILsCc0pG1G2fmP70vWMvaMiOrIkOTJseQOmniZXHYXrNxzCA==
+X-Received: by 2002:adf:b643:0:b0:3a4:ee3f:e9a6 with SMTP id ffacd0b85a97d-3b5f18a7a4dmr128529f8f.54.1752164356213;
+        Thu, 10 Jul 2025 09:19:16 -0700 (PDT)
+Received: from vschneid-thinkpadt14sgen2i.remote.csb (213-44-135-146.abo.bbox.fr. [213.44.135.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8dc1ee1sm2221730f8f.23.2025.07.10.09.19.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Jul 2025 09:19:15 -0700 (PDT)
+From: Valentin Schneider <vschneid@redhat.com>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, David Vernet
+ <dvernet@meta.com>, Barret Rhoden <brho@google.com>, Josh Don
+ <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Juri Lelli
+ <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>, Dietmar Eggemann
+ <dietmar.eggemann@arm.com>, Ingo Molnar <mingo@redhat.com>, Mel Gorman
+ <mgorman@suse.de>, Vincent Guittot <vincent.guittot@linaro.org>, Thomas
+ Gleixner <tglx@linutronix.de>, Wander Lairson Costa <wander@redhat.com>,
+ lclaudio00@gmail.com
+Subject: Re: [PATCH v6] sched: do not call __put_task_struct() on rt if
+ pi_blocked_on is set
+In-Reply-To: <aGvTz5VaPFyj0pBV@uudg.org>
+References: <aGvTz5VaPFyj0pBV@uudg.org>
+Date: Thu, 10 Jul 2025 18:19:14 +0200
+Message-ID: <xhsmhtt3k10jh.mognet@vschneid-thinkpadt14sgen2i.remote.csb>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250709154728.733920-1-daniel.lezcano@linaro.org>
- <CAJZ5v0ixk5hZPPQc_1rDLMTzjh=KpMQF_A2U=HehMTuNSMQwtQ@mail.gmail.com> <aG-40INpi05v3-fQ@bogus>
-In-Reply-To: <aG-40INpi05v3-fQ@bogus>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 10 Jul 2025 16:40:59 +0200
-X-Gm-Features: Ac12FXw291rGaeQnkKGBJOE99wWaDDVeGF-LGyRZrV90PjOPwqUc_kzJDb-fgDQ
-Message-ID: <CAPDyKFqS9fawvgxEhk9W=o3oUpA_HGc71-5siw8AGqenQegrLA@mail.gmail.com>
-Subject: Re: [PATCH] cpuidle: psci: Fix cpuhotplug routine with PREEMPT_RT=y
-To: Sudeep Holla <sudeep.holla@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>, linux-pm@vger.kernel.org, 
-	linux-rt-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Raghavendra Kakarla <quic_rkakarla@quicinc.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	"open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: lpA5GvQQS4PZP_cTrkrhGoNEW6KTnMVPNaAyuUL-EzM_1752164357
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-On Thu, 10 Jul 2025 at 14:57, Sudeep Holla <sudeep.holla@arm.com> wrote:
+On 07/07/25 11:03, Luis Claudio R. Goncalves wrote:
+> With PREEMPT_RT enabled, some of the calls to put_task_struct() coming
+> from rt_mutex_adjust_prio_chain() could happen in preemptible context and
+> with a mutex enqueued. That could lead to this sequence:
 >
-> On Thu, Jul 10, 2025 at 02:43:10PM +0200, Rafael J. Wysocki wrote:
-> > On Wed, Jul 9, 2025 at 5:47=E2=80=AFPM Daniel Lezcano <daniel.lezcano@l=
-inaro.org> wrote:
-> > >
-> > > Currently cpu hotplug with the PREEMPT_RT option set in the kernel is
-> > > not supported because the underlying generic power domain functions
-> > > used in the cpu hotplug callbacks are incompatible from a lock point
-> > > of view. This situation prevents the suspend to idle to reach the
-> > > deepest idle state for the "cluster" as identified in the
-> > > undermentioned commit.
-> > >
-> > > Use the compatible ones when PREEMPT_RT is enabled and remove the
-> > > boolean disabling the hotplug callbacks with this option.
-> > >
-> > > With this change the platform can reach the deepest idle state
-> > > allowing at suspend time to consume less power.
-> > >
-> > > Tested-on Lenovo T14s with the following script:
-> > >
-> > > echo 0 > /sys/devices/system/cpu/cpu3/online
-> > > BEFORE=3D$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/i=
-dle_states | grep S0 | awk '{ print $3 }') ;
-> > > rtcwake -s 1 -m mem;
-> > > AFTER=3D$(cat /sys/kernel/debug/pm_genpd/power-domain-cpu-cluster0/id=
-le_states | grep S0 | awk '{ print $3 }');
-> > > if [ $BEFORE -lt $AFTER ]; then
-> > >     echo "Test successful"
-> > > else
-> > >     echo "Test failed"
-> > > fi
-> > > echo 1 > /sys/devices/system/cpu/cpu3/online
-> > >
-> > > Fixes: 1c4b2932bd62 ("cpuidle: psci: Enable the hierarchical topology=
- for s2idle on PREEMPT_RT")
-> > > Cc: Raghavendra Kakarla <quic_rkakarla@quicinc.com>
-> > > Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-> >
-> > As per MAINTAINERS, this is for Ulf/Sudeep.
-> >
+>         rt_mutex_adjust_prio_chain()
+>           put_task_struct()
+>             __put_task_struct()
+>               sched_ext_free()
+>                 spin_lock_irqsave()
+>                   rtlock_lock() --->  TRIGGERS
+>                                       lockdep_assert(!current->pi_blocked_on);
 >
-> LGTM, so
+> This is not a SCHED_EXT bug. The first cleanup function called by
+> __put_task_struct() is sched_ext_free() and it happens to take a
+> (RT) spin_lock, which in the scenario described above, would trigger
+> the lockdep assertion of "!current->pi_blocked_on".
 >
-> Reviewed-by: Sudeep Holla <sudeep.holla@arm.com>
+> Crystal Wood was able to identify the problem as __put_task_struct()
+> being called during rt_mutex_adjust_prio_chain(), in the context of
+> a process with a mutex enqueued.
 >
-> I still prefer to hear from Ulf who has more knowledge and hands-on exper=
-ience
-> with s2idle + PREEMPT_RT in case I am missing something.
+> Instead of adding more complex conditions to decide when to directly
+> call __put_task_struct() and when to defer the call, unconditionally
+> resort to the deferred call on PREEMPT_RT to simplify the code.
+>
+> Suggested-by: Crystal Wood <crwood@redhat.com>
+> Reviewed-by: Wander Lairson Costa <wander@redhat.com>
+> Fixes: 893cdaaa3977 ("sched: avoid false lockdep splat in put_task_struct()")
+> Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
 
-Rafael, Sudeep,
+FWIW:
 
-I will pick this patch via my pmdomain tree, but will run some tests
-of it first to be sure.
+Reviewed-by: Valentin Schneider <vschneid@redhat.com>
 
-Kind regards
-Uffe
