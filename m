@@ -1,367 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8851C3C11;
-	Fri, 11 Jul 2025 17:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2758179A7
+	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Jul 2025 23:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752253527; cv=none; b=ltRMhQbSS/bY6qCYu6zgJgz7Hvg5MKkeMLdUVZtleRKblVJg1XOa0CUudB/Lr/VJNHCBb/JCfDVRTZJ6FHYGRLOr2nCd6tsXvWu4D/bX4WebKkqb1quanjfORPaCrgo9bGAMaAereyYu/pnmmS6DytvDRerZc3nt/U14pMeclxA=
+	t=1752274868; cv=none; b=TrRq2pSXoSAfMkzW1YGyW/QolnobaMjWstE4ZJjVHfWAqi5RGRcF2SEeWL4xFfXsrfwh9N0NC2or4R8Yr3Gc2gfYYsm5lxuqgNlu+IL0ffQ5hKx3MGyv5yGSXtPTc3vIJbFM2JponLjQdszfA0aSDkCviE3lK6cSug/NeQzR2ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752253527; c=relaxed/simple;
-	bh=6ZJHLwP5Xlls7UnpMxvjtIwYhaPhNA0L/+4wEz0x2As=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C07SBGKBN4zMsqr8JupFZBoXXj59+lWXTr0CsSkcUY5SwfogOCEeH+i2kgC/KuGISVnd2yxobscS7m7RVzwYi2lqwy8AsDYh/aFSKQVlND61GAixocuT+pOqy1TVUQE/XzPn0bbpSl511nnIYA7T+HeJJoOV783/o8HUoxHbWww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZtpEEb0c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752274868; c=relaxed/simple;
+	bh=T0R8mMd+TFUa1v+YSwTe+DJt8/Sl5bDyLAy1wjCSOpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tFmgg5CSIH6rcaxB1KrNu1ZbUtMVTs9FNVbUFdBThF10BEdhBlcQHzLywrYlz8/610MRDB6T1bus+MXy8116+biUe76QrVCH0TmrZC7cCx5hqu0/eI/r68Hl886QrIQKxYFUJpUzAYNJY9MuNLLCeAAZgDG+E+srVzV+Nwvfxwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=o1mndYIo; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZtpEEb0c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F11E4C4CEED;
-	Fri, 11 Jul 2025 17:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752253527;
-	bh=6ZJHLwP5Xlls7UnpMxvjtIwYhaPhNA0L/+4wEz0x2As=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=ZtpEEb0cxG/E0IVZgx1jXS+XbOpzBpJG/s0ZPTmrNk0YBpWKcDWBnT+x6IMaDrax9
-	 uuPVGYEsiVl9qmPfdAPL68DC5mGVYcjjXau0y14c8AqXEWoYFzFPS6QJIJMuN4gHb/
-	 4YT2c45sfyWPLv8wzVAEdN6F7oJAlxx/y7NTFY/EH6eFg14E7oE7Pn+aCvpopcC/LK
-	 Wk4ycfEzh/Pfb/pJOfpR6JKQ56XEI7qB4F4edfdSLQWuIztO8UtEHZ6k3FZGEP1phe
-	 s5fJZ/fdumFWxni4GMQIyK4M/LZXRRk/t7dK56cpBye/UizbmrUTH8DATf3mrFjcKb
-	 /AdX6m/IsipGg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 9885BCE0C16; Fri, 11 Jul 2025 10:05:26 -0700 (PDT)
-Date: Fri, 11 Jul 2025 10:05:26 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
-Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
-Message-ID: <16dd7f3c-1c0f-4dfd-bfee-4c07ec844b72@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20250620084334.Zb8O2SwS@linutronix.de>
- <34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
- <20250623104941.WxOQtAmV@linutronix.de>
- <03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
- <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
- <29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
- <acb07426-db2f-4268-97e2-a9588c921366@paulmck-laptop>
- <ba0743dc-8644-4355-862b-d38a7791da4c@efficios.com>
- <512331d8-fdb4-4dc1-8d9b-34cc35ba48a5@paulmck-laptop>
- <bbe08cca-72c4-4bd2-a894-97227edcd1ad@efficios.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="o1mndYIo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1752274848; x=1752879648; i=spasswolf@web.de;
+	bh=ay/BgPFW43v/tyIlleQo0fRcj/fTei+y05pJfgd+ZDo=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=o1mndYIo6z5JwJGjGcRmdL9jnEWHakakWtRA9nGB1o81KTHx4LJFv1IjH6GjEPyC
+	 5096NtJQX1gnOWZpFfgOuBWdl/OIhDH5SYOxNXHsgrHCVxdOKHpEJ/QzjbvazPOYU
+	 78sXXP2T2OeV8NbhhIyZgCd2rXsc8aVjFeKJBmfgGmNl0H3p3kkIYZGWjihzhgObZ
+	 v6BXGmbdipdx2Z8+rMCYMzn9hTjhmR74uVJmt0UQOlYtCZLYSeZDiPYL/Xg9PY94u
+	 yLRkZTLhXUhbag4b67A5ECKhdLw7D00RTrFF6UnO32gShRDMTHSzNaZ6zWjoP4vNf
+	 mDlOMQ9i3SYnDLPSDg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from lisa ([95.223.134.88]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1Mcpuy-1v9yOw0qVm-00lD6G; Sat, 12
+ Jul 2025 01:00:48 +0200
+From: Bert Karwatzki <spasswolf@web.de>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Bert Karwatzki <spasswolf@web.de>,
+	linux-kernel@vger.kernel.org,
+	linux-next@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	ankur.a.arora@oracle.com,
+	bobo.shaobowang@huawei.com,
+	boqun.feng@gmail.com,
+	frederic@kernel.org,
+	joel@joelfernandes.org,
+	neeraj.upadhyay@kernel.org,
+	paulmck@kernel.org,
+	rcu@vger.kernel.org,
+	urezki@gmail.com,
+	wangxiongfeng2@huawei.com,
+	xiexiuqi@huawei.com,
+	xiqi2@huawei.com
+Subject: commit 3284e4adca9b causes hang on boot with CONFIG_PREEMPT_RT=y
+Date: Sat, 12 Jul 2025 01:00:41 +0200
+Message-ID: <20250711230042.3468-1-spasswolf@web.de>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: 58f405af-22a3-4d2e-b06c-d8572b38df40@nvidia.com
+References: 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bbe08cca-72c4-4bd2-a894-97227edcd1ad@efficios.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Jc0ibRlDKHQYSN66X3V2yoAA+Mc9gQn+jkm7FpEpioHX/CvrPWC
+ iCSzZR4HD0jfpUhHEJIN//eQDyIdTXTyFbIB+E1P3MyD8eTo2FwdRc4F30yAux/SnO4ruEw
+ FO6r0K0M/Ya6UCbh3eWzV/P2igu0UrfZvA1t7RY7R212QChd3dhKJA8t18okK+M7SfgVs6o
+ OiUWNDcJ/+EEhB1g6PxdA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ir1Lz3kqftw=;3wLybZqNOwrSIKM1PnPY3CtRVZo
+ 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
+ lTQ+XaLPC1Nm3GEj6o48FTk=
 
-On Fri, Jul 11, 2025 at 09:46:25AM -0400, Mathieu Desnoyers wrote:
-> On 2025-07-09 14:33, Paul E. McKenney wrote:
-> > On Wed, Jul 09, 2025 at 10:31:14AM -0400, Mathieu Desnoyers wrote:
-> > > On 2025-07-08 16:49, Paul E. McKenney wrote:
-> > > > On Tue, Jul 08, 2025 at 03:40:05PM -0400, Mathieu Desnoyers wrote:
-> > > > > On 2025-07-07 17:56, Paul E. McKenney wrote:
-> > > > > > On Mon, Jun 23, 2025 at 11:13:03AM -0700, Paul E. McKenney wrote:
-> > > > > > > On Mon, Jun 23, 2025 at 12:49:41PM +0200, Sebastian Andrzej Siewior wrote:
-> > > > > > > > On 2025-06-20 04:23:49 [-0700], Paul E. McKenney wrote:
-> [...]
-> > 
-> > > I have nothing against an immediate IRQ-work, but I'm worried about
-> > > _nested_ immediate IRQ-work, where we end up triggering a endless
-> > > recursion of IRQ-work through instrumentation.
-> > > 
-> > > Ideally we would want to figure out a way to prevent endless recursion,
-> > > while keeping the immediate IRQ-work within rcu_read_unlock_notrace()
-> > > to keep RT latency within bounded ranges, but without adding unwanted
-> > > overhead by adding too many conditional branches to the fast-paths.
-> > > 
-> > > Is there a way to issue a given IRQ-work only when not nested in that
-> > > IRQ-work handler ? Any way we can detect and prevent that recursion
-> > > should work fine.
-> > 
-> > You are looking for this commit from Joel Fernandes:
-> > 
-> > 3284e4adca9b ("rcu: Fix rcu_read_unlock() deadloop due to IRQ work")
-> > 
-> > This is in the shiny-ish new-ish shared RCU tree at:
-> > 
-> > 	git@gitolite.kernel.org:pub/scm/linux/kernel/git/rcu/linux
-> > 
-> > Or Message-Id <20250709104118.15532-6-neeraj.upadhyay@kernel.org>.
-> 
-> Whatever means of tracking whether we are already in an irq work
-> context and prevent emitting a recursive irq work should do.
-> 
-> Do I understand correctly that this commit takes care of preventing
-> recursive irq_work_queue_on() calls, but does not solve the issue of
-> recursive raise_softirq_irqoff() caused by tracepoint instrumentation ?
+When booting linux next-20250711 (with CONFIG_PREEMPT_RT=3Dy) on my MSI Al=
+pha 15=20
+Laptop running debian sid amd64 the boot process hangs with the last=20
+messages displayed on screen being:
 
-Exactly!
+fbcon: amdgpudrmfb (fb0) is primary device
+Console: switching to colour frame buffer device
+amdgpu: 0000:08:00.0: [drm]fb0: admgpudrmfb frame buffer device
 
-In case you are testing this, we do have a new version of the above
-commit with a bug fix:
+after some time (about 60s) this error messages appears (hand copied
+from screen, not entirely accurate)
 
-2e154d164418 ("rcu: Fix rcu_read_unlock() deadloop due to IRQ work")
+rcu_preempt self detected stall
 
-> [...]
-> 
-> > > 
-> > > As a side-note, I think the "_notrace" suffix I've described comes from
-> > > the "notrace" function attribute background, which is indeed also used
-> > > to prevent function tracing of the annotated functions, for similar
-> > > purposes.
-> > > 
-> > > Kprobes also has annotation mechanisms to prevent inserting breakpoints
-> > > in specific functions, and in other cases we rely on compiler flags to
-> > > prevent instrumentation of entire objects.
-> > > 
-> > > But mostly the goal of all of those mechanisms is the same: allow some
-> > > kernel code to be used from instrumentation and tracer callbacks without
-> > > triggering endless recursion.
-> > 
-> > OK, so is there some tracing anti-recursion flag in effect?
-> > Or is there something else that I must do before invoking either
-> > raise_softirq_irqoff() or irq_work_queue_on()?
-> 
-> Note that we have two scenarios:
-> 
-> - A nested scenario with a causality relationship, IOW circular
->   dependency, which leads to endless recursion and a crash, and
-> 
-> - A nested scenario which is just the result of softirq, irq, nmi
->   nesting,
-> 
-> In all of those scenarios, what we really care about here is to make
-> sure the outermost execution context emits the irq work to prevent
-> long latency, but we don't care if the nested contexts skip it.
+with call trace
+run_irq_workd
+smpboot_thread_fn
+kthread
+? kthreads_online_cpu
+? kthreads_online_cpu
+ret_from_fork
+? kthreads_online_cpu
+ret_from_fork
 
-From what I can see, the above commit deals with the endless recursion,
-but not with the calls to the non-notrace functions.  (If the calls to
-non-notrace functions are in fact a problem?)
+This only occurs when compiling with CONFIG_PREEMPT_RT=3Dy.
+I bisected this and found the first bad commit to be
 
-> > Plus RCU does need *some* hint that it is not supposed to invoke
-> > rcu_preempt_deferred_qs_irqrestore() in this case.  Which might be
-> > why you are suggesting an rcu_read_unlock_notrace().
-> 
-> The rcu_read_unlock_notrace() approach removes RCU instrumentation, even
-> for the outermost nesting level. We'd be losing some RCU instrumentation
-> coverage there, but on the upside we would prevent emitting an RCU read
-> unlock tracepoint for every other tracepoint hit, which I think is good.
-> 
-> If instead we take an approach where we track in which instrumentation
-> nesting level we are within the task_struct, then we can skip calls to
-> rcu_preempt_deferred_qs_irqrestore() in all nested contexts, but keep
-> calling it in the outermost context.
-> 
-> But I would tend to favor the notrace approach so we don't emit
-> semi-useless RCU read lock/unlock events for every other tracepoint
-> hit. It would clutter the trace.
+3284e4adca9b ("rcu: Fix rcu_read_unlock() deadloop due to IRQ work")
 
-But we still need to avoid grace-period hangs, needlessly high-latency
-RCU expedited grace periods, and delayed RCU priority deboosts.
+Reverting this commit in next-20250711 fixes the issue for me.
 
-> > > > > > One possible path forward is to ensure that rcu_read_unlock_special()
-> > > > > > calls only functions that are compatible with the notrace/trace
-> > > > > > requirements.  The ones that look like they might need some help are
-> > > > > > raise_softirq_irqoff() and irq_work_queue_on().  Note that although
-> > > > > > rcu_preempt_deferred_qs_irqrestore() would also need help, it is easy to
-> > > > > > avoid its being invoked, for example, by disabing interrupts across the
-> > > > > > call to rcu_read_unlock_notrace().  Or by making rcu_read_unlock_notrace()
-> > > > > > do the disabling.
-> > > > > > 
-> > > > > > However, I could easily be missing something, especially given my being
-> > > > > > confused by the juxtaposition of "notrace" and "usable to trace the
-> > > > > > RCU implementation".  These appear to me to be contradicting each other.
-> > > > > > 
-> > > > > > Help?
-> > > > > 
-> > > > > You indeed need to ensure that everything that is called from
-> > > > > rcu_{lock,unlock]_notrace don't end up executing instrumentation
-> > > > > to prevent a circular dependency. You hinted at a few ways to achieve
-> > > > > this. Other possible approaches:
-> > > > > 
-> > > > > - Add a "trace" bool parameter to rcu_read_unlock_special(),
-> > > > > - Duplicate rcu_read_unlock_special() and introduce a notrace symbol.
-> > > > 
-> > > > OK, both of these are reasonable alternatives for the API, but it will
-> > > > still be necessary to figure out how to make the notrace-incompatible
-> > > > work happen.
-> > > 
-> > > One downside of those two approaches is that they require to somewhat
-> > > duplicate the code (trace vs notrace). This makes it tricky in the
-> > > case of irq work, because the irq work is just some interrupt, so we're
-> > > limited in how we can pass around parameters that would use the
-> > > notrace code.
-> > 
-> > Joel's patch, which is currently slated for the upcoming merge window,
-> > should take care of the endless-IRQ-work recursion problem.  So the
-> > main remaining issue is how rcu_read_unlock_special() should go about
-> > safely invoking raise_softirq_irqoff() and irq_work_queue_on() when in
-> > notrace mode.
-> 
-> Are those two functions only needed from the outermost rcu_read_unlock
-> within a thread ? If yes, then keeping track of nesting level and
-> preventing those calls in nested contexts (per thread) should work.
+Hardware:
+$ lspci -nn
+00:00.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Renoir/Ceza=
+nne Root Complex [1022:1630]
+00:00.2 IOMMU [0806]: Advanced Micro Devices, Inc. [AMD] Renoir/Cezanne IO=
+MMU [1022:1631]
+00:01.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Renoir PCIe=
+ Dummy Host Bridge [1022:1632]
+00:01.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir PCIe =
+GPP Bridge [1022:1633]
+00:02.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Renoir PCIe=
+ Dummy Host Bridge [1022:1632]
+00:02.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir/Cezan=
+ne PCIe GPP Bridge [1022:1634]
+00:02.2 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir/Cezan=
+ne PCIe GPP Bridge [1022:1634]
+00:02.3 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir/Cezan=
+ne PCIe GPP Bridge [1022:1634]
+00:02.4 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir/Cezan=
+ne PCIe GPP Bridge [1022:1634]
+00:08.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Renoir PCIe=
+ Dummy Host Bridge [1022:1632]
+00:08.1 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD] Renoir Inter=
+nal PCIe GPP Bridge to Bus [1022:1635]
+00:14.0 SMBus [0c05]: Advanced Micro Devices, Inc. [AMD] FCH SMBus Control=
+ler [1022:790b] (rev 51)
+00:14.3 ISA bridge [0601]: Advanced Micro Devices, Inc. [AMD] FCH LPC Brid=
+ge [1022:790e] (rev 51)
+00:18.0 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 0 [1022:166a]
+00:18.1 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 1 [1022:166b]
+00:18.2 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 2 [1022:166c]
+00:18.3 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 3 [1022:166d]
+00:18.4 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 4 [1022:166e]
+00:18.5 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 5 [1022:166f]
+00:18.6 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 6 [1022:1670]
+00:18.7 Host bridge [0600]: Advanced Micro Devices, Inc. [AMD] Cezanne Dat=
+a Fabric; Function 7 [1022:1671]
+01:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 10 =
+XL Upstream Port of PCI Express Switch [1002:1478] (rev c3)
+02:00.0 PCI bridge [0604]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 10 =
+XL Downstream Port of PCI Express Switch [1002:1479]
+03:00.0 Display controller [0380]: Advanced Micro Devices, Inc. [AMD/ATI] =
+Navi 23 [Radeon RX 6600/6600 XT/6600M] [1002:73ff] (rev c3)
+03:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Navi 2=
+1/23 HDMI/DP Audio Controller [1002:ab28]
+04:00.0 Network controller [0280]: MEDIATEK Corp. MT7921K (RZ608) Wi-Fi 6E=
+ 80MHz [14c3:0608]
+05:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. RTL811=
+1/8168/8211/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev =
+15)
+06:00.0 Non-Volatile memory controller [0108]: Kingston Technology Company=
+, Inc. KC3000/FURY Renegade NVMe SSD [E18] [2646:5013] (rev 01)
+07:00.0 Non-Volatile memory controller [0108]: Micron/Crucial Technology P=
+1 NVMe PCIe SSD[Frampton] [c0a9:2263] (rev 03)
+08:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AM=
+D/ATI] Cezanne [Radeon Vega Series / Radeon Vega Mobile Series] [1002:1638=
+] (rev c5)
+08:00.1 Audio device [0403]: Advanced Micro Devices, Inc. [AMD/ATI] Renoir=
+ Radeon High Definition Audio Controller [1002:1637]
+08:00.2 Encryption controller [1080]: Advanced Micro Devices, Inc. [AMD] F=
+amily 17h (Models 10h-1fh) Platform Security Processor [1022:15df]
+08:00.3 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Renoir/C=
+ezanne USB 3.1 [1022:1639]
+08:00.4 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] Renoir/C=
+ezanne USB 3.1 [1022:1639]
+08:00.5 Multimedia controller [0480]: Advanced Micro Devices, Inc. [AMD] A=
+udio Coprocessor [1022:15e2] (rev 01)
+08:00.6 Audio device [0403]: Advanced Micro Devices, Inc. [AMD] Family 17h=
+/19h/1ah HD Audio Controller [1022:15e3]
+08:00.7 Signal processing controller [1180]: Advanced Micro Devices, Inc. =
+[AMD] Sensor Fusion Hub [1022:15e4]
 
-You lost me on this one.
+$ head /proc/cpuinfo=20
+processor	: 0
+vendor_id	: AuthenticAMD
+cpu family	: 25
+model		: 80
+model name	: AMD Ryzen 7 5800H with Radeon Graphics
+stepping	: 0
+microcode	: 0xa50000c
+cpu MHz		: 2826.830
+cache size	: 512 KB
+physical id	: 0
 
-Yes, these are invoked only by the outermost rcu_read_unlock{,_notrace}().
-And we already have a nexting counter, current->rcu_read_lock_nesting.
 
-However...
-
-If the tracing invokes an outermost rcu_read_unlock{,_notrace}(), then in
-some contexts we absolutely need to invoke the raise_softirq_irqoff()
-and irq_work_queue_on() functions, both of which are notrace functions.
-
-Or are you telling me that it is OK for a rcu_read_unlock_notrace()
-to directly call these non-notrace functions?
-
-> > > > > - Keep some nesting count in the task struct to prevent calling the
-> > > > >     instrumentation when nested in notrace,
-> > > > 
-> > > > OK, for this one, is the idea to invoke some TBD RCU API the tracing
-> > > > exits the notrace region?  I could see that working.  But there would
-> > > > need to be a guarantee that if the notrace API was invoked, a call to
-> > > > this TBD RCU API would follow in short order.  And I suspect that
-> > > > preemption (and probably also interrupts) would need to be disabled
-> > > > across this region.
-> > > 
-> > > No quite.
-> > > 
-> > > What I have in mind is to try to find the most elegant way to prevent
-> > > endless recursion of the irq work issued immediately on
-> > > rcu_read_unlock_notrace without slowing down most fast paths, and
-> > > ideally without too much code duplication.
-> > > 
-> > > I'm not entirely sure what would be the best approach though.
-> > 
-> > Joel's patch adjusts use of the rcu_data structure's ->defer_qs_iw_pending
-> > flag, so that it is cleared not in the IRQ-work handler, but
-> > instead in rcu_preempt_deferred_qs_irqrestore().  That prevents
-> > rcu_read_unlock_special() from requeueing the IRQ-work handler until
-> > after the previous request for a quiescent state has been satisfied.
-> > 
-> > So my main concern is again safely invoking raise_softirq_irqoff()
-> > and irq_work_queue_on() when in notrace mode.
-> 
-> Would the nesting counter (per thread) approach suffice for your use
-> case ?
-
-Over and above the t->rcu_read_lock_nesting that we already use?
-As in only the outermost rcu_read_unlock{,_notrace}() will invoke
-rcu_read_unlock_special().
-
-OK, let's look at a couple of scenarios.
-
-First, suppose that we apply Joel's patch above, and someone sets a trace
-point in task context outside of any RCU read-side critical section.
-Suppose further that this task is preempted in the tracepoint's RCU
-read-side critical section, and that RCU priority boosting is applied.
-
-This trace point will invoke rcu_read_unlock{,_notrace}(), which
-will in turn invoke rcu_read_unlock_special(), which will in turn
-will note that preemption, interrupts, and softirqs are all enabled.
-It will therefore directly invoke rcu_preempt_deferred_qs_irqrestore(),
-a non-notrace function, which can in turn invoke all sorts of interesting
-functions involving locking, the scheduler, ...
-
-Is this OK, or should I set some sort of tracepoint recursion flag?
-
-Second, suppose that we apply Joel's patch above, and someone sets a trace
-point in task context outside of an RCU read-side critical section, but in
-an preemption-disabled region of code.  Suppose further that this code is
-delayed, perhaps due to a flurry of interrupts, so that a scheduling-clock
-interrupt sets t->rcu_read_unlock_special.b.need_qs to true.
-
-This trace point will invoke rcu_read_unlock{,_notrace}(), which will
-note that preemption is disabled.  If rcutree.use_softirq is set and
-this task is blocking an expedited RCU grace period, it will directly
-invoke the non-notrace function raise_softirq_irqoff().  Otherwise,
-it will directly invoke the non-notrace function irq_work_queue_on().
-
-Is this OK, or should I set some sort of tracepoint recursion flag?
-
-There are other scenarios, but they require interrupts to be disabled
-across the rcu_read_unlock{,_notrace}(), but to have been enabled somewhere
-in the just-ended RCU read-side critical section.  It does not look to
-me like tracing does this.  But I might be missing something.  If so,
-we have more scenarios to think through.  ;-)
-
-> > > > > There are probably other possible approaches I am missing, each with
-> > > > > their respective trade offs.
-> > > > 
-> > > > I am pretty sure that we also have some ways to go before we have the
-> > > > requirements fully laid out, for that matter.  ;-)
-> > > > 
-> > > > Could you please tell me where in the current tracing code these
-> > > > rcu_read_lock_notrace()/rcu_read_unlock_notrace() calls would be placed?
-> > > 
-> > > AFAIU here:
-> > > 
-> > > include/linux/tracepoint.h:
-> > > 
-> > > #define __DECLARE_TRACE(name, proto, args, cond, data_proto) [...]
-> > > 
-> > >          static inline void __do_trace_##name(proto)                     \
-> > >          {                                                               \
-> > >                  if (cond) {                                             \
-> > >                          guard(preempt_notrace)();                       \
-> > >                          __DO_TRACE_CALL(name, TP_ARGS(args));           \
-> > >                  }                                                       \
-> > >          }                                                               \
-> > >          static inline void trace_##name(proto)                          \
-> > >          {                                                               \
-> > >                  if (static_branch_unlikely(&__tracepoint_##name.key))   \
-> > >                          __do_trace_##name(args);                        \
-> > >                  if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {             \
-> > >                          WARN_ONCE(!rcu_is_watching(),                   \
-> > >                                    "RCU not watching for tracepoint");   \
-> > >                  }                                                       \
-> > >          }
-> > > 
-> > > and
-> > > 
-> > > #define __DECLARE_TRACE_SYSCALL(name, proto, args, data_proto) [...]
-> > > 
-> > >          static inline void __do_trace_##name(proto)                     \
-> > >          {                                                               \
-> > >                  guard(rcu_tasks_trace)();                               \
-> > >                  __DO_TRACE_CALL(name, TP_ARGS(args));                   \
-> > >          }                                                               \
-> > >          static inline void trace_##name(proto)                          \
-> > >          {                                                               \
-> > >                  might_fault();                                          \
-> > >                  if (static_branch_unlikely(&__tracepoint_##name.key))   \
-> > >                          __do_trace_##name(args);                        \
-> > >                  if (IS_ENABLED(CONFIG_LOCKDEP)) {                       \
-> > >                          WARN_ONCE(!rcu_is_watching(),                   \
-> > >                                    "RCU not watching for tracepoint");   \
-> > >                  }                                                       \
-> > >          }
-> > 
-> > I am not seeing a guard(rcu)() in here, only guard(preempt_notrace)()
-> > and guard(rcu_tasks_trace)().  Or is the idea to move the first to
-> > guard(rcu_notrace)() in order to improve PREEMPT_RT latency?
-> 
-> AFAIU the goal here is to turn the guard(preempt_notrace)() into a
-> guard(rcu_notrace)() because the preempt-off critical sections don't
-> agree with BPF.
-
-OK, got it, thank you!
-
-The combination of BPF and CONFIG_PREEMPT_RT certainly has provided at
-least its share of entertainment, that is for sure.  ;-)
-
-							Thanx, Paul
+Bert Karwatzki
