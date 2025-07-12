@@ -1,161 +1,84 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE1F78F29
-	for <linux-rt-devel@lists.linux.dev>; Fri, 11 Jul 2025 23:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C2A81E
+	for <linux-rt-devel@lists.linux.dev>; Sat, 12 Jul 2025 00:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752276481; cv=none; b=TsPhJxyI4fMMrhhQMnaV8d6oQ38EvZMCWqgPzgOxoYn9gyjXKjQRZ26nOAelQYdPNDOg/Z1GmUCqslJiTlmsxUCwyppQi67ALmid9U0fCv74BKPUnMOSvY01VtwkK8T8HZQh0WQ5ZHeLMqoR9sC9wvtMeNbXsUOI/fmVffBv4J0=
+	t=1752278978; cv=none; b=YDqQ7wPNAoLFrSS2QF8CvmcnClVxa23bUwVLeXDwXpCG9oKlAvvBFHJQ60HIo4PC3Nty30a7u1a4jU7/BOS/BrtnJkFIqlgO0pVAhuICXUqu+e+ioMxouWp7oDW2mpDPaoFxzzx4+E5ijhJneIBPDE2+sYfuqjUiamzcsI2ELKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752276481; c=relaxed/simple;
-	bh=ezv84HK6NwO+u9ivLBOk9dRiooUBXGb+56H/5bkmEDM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kvN0+mM76N8Dyl8IDjNtD7/zxZGOkLnoqDgwxEU9cdnCIIdl7AenclSWgJZm9eww2TEo04O9sqQxPjXJcZNBMO2Q0rnIM9WAUJTzAWDNKAcezG+0Ed4ikE6e4HbpgTzLpqWUFGW6+3Jsxn60N5rMGgZ1VqTLLz1W/COJLlCmC04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=Kw+WCuTV; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1752278978; c=relaxed/simple;
+	bh=1zcWqARHBHhd9onhgWG62EpHRur3APNdJH6ch4VkW4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MIVNDj8xHYn9UAR+gRucd2P0P30GMksbdNuV7eMmKVh2dBcHkC+2RRFgaOrG8ymQTSQKEKpGufhOzkQMhUS7xHDJ0X+HDd64VwLLp+f/aUOruHZNuZ0hAcmR6+k41fsHJ4tBnIeoCP6yZLc9zU5Auk4uu9yn8058NRQ9tYrixbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FmGrkNSy; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jOu9u/bv; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="Kw+WCuTV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1752276462; x=1752881262; i=spasswolf@web.de;
-	bh=o6SaQoxZAgBhUi62Dz5rXp6jQE7b6I7cozEGJEeUERo=;
-	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=Kw+WCuTVBKCtzCreG2rRhycUtRRjX9C0/HjhhTrzQ9EUR7R0ZCshv/1PeMX9LKVp
-	 nECCw9YGjQji4jjw/tq6vEcaZQ2/o7eb7bA3Ob4buFHV0SGf+4pDKOfel9vPBO6nI
-	 hs8qw5PJMr54ym6PB+lDba13B8KsOI/CarmifW/0RnsDbTVznsPBVac6S4ux5LBVa
-	 TTWi8MMrv/p2l78uO4Oh1Qua/d3/lgF48Bl6bVv1wstbF3Nt8nYF3l6v+HHTlhz+c
-	 Tv4Ht6T/FACpxhyYkrOfLPqWWaWSiniaI1XYgWCvWiqB9/gE9y+4HeiomxvtuSZtT
-	 fG0RmtR2+W6l82M75A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MFayq-1uR1sp2aa6-006Kru; Sat, 12
- Jul 2025 01:27:41 +0200
-Message-ID: <21da96d766d92735e5fe022f54d686df8bdfc32d.camel@web.de>
-Subject: Re: commit 3284e4adca9b causes hang on boot with CONFIG_PREEMPT_RT=y
-From: Bert Karwatzki <spasswolf@web.de>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, ankur.a.arora@oracle.com, 
-	bobo.shaobowang@huawei.com, boqun.feng@gmail.com, frederic@kernel.org, 
-	joel@joelfernandes.org, neeraj.upadhyay@kernel.org, paulmck@kernel.org, 
-	rcu@vger.kernel.org, urezki@gmail.com, wangxiongfeng2@huawei.com, 
-	xiexiuqi@huawei.com, xiqi2@huawei.com, spasswolf@web.de
-Date: Sat, 12 Jul 2025 01:27:37 +0200
-In-Reply-To: <862fa11d-0f9a-4193-91d1-ea930d2d334f@nvidia.com>
-References: <20250711230042.3468-1-spasswolf@web.de>
-	 <862fa11d-0f9a-4193-91d1-ea930d2d334f@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.1-1 
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FmGrkNSy";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jOu9u/bv"
+Date: Sat, 12 Jul 2025 02:09:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752278975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1zcWqARHBHhd9onhgWG62EpHRur3APNdJH6ch4VkW4o=;
+	b=FmGrkNSyOeA49n8gt1SASTxSx2faLlzWDeQjn1jqpeO0NgP1qLW/DE1MOZNPwAawJJUDgJ
+	UP6qEYdWJtWvNUmRz6yZ3AcLFsWnYx+YMy+M1ROgEukziwjDON6p0ecGF8aqqAI5pSsmXH
+	UY0BkHophkC75xu+hO6Opmuq36Uk7hho/Yg6dMBywHnnNlfm6rI/+RCW1A0p9MRvYc+NDv
+	uc8URWywxZqZTgeoJToe+A2tpHY0imdkNfRh+WGKgJsgOveZNSKAjNQJRm671nWGgMlcC5
+	/4Zcq0KQOoP9X075OA9nES8TMraz5a2nEQszlFcs25xsksGwwA60ZC+ugfk30g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752278975;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1zcWqARHBHhd9onhgWG62EpHRur3APNdJH6ch4VkW4o=;
+	b=jOu9u/bvDc9i268ZxwwgufRBrr1A4HzFOvSFa9hxWSwpBPj+llpXXKkGGDs52eDBYnVISt
+	QGLyTdXtZEChkVBQ==
+From: Nam Cao <namcao@linutronix.de>
+To: Xi Ruoyao <xry111@xry111.site>
+Cc: Christian Brauner <brauner@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
+	Martin Karsten <mkarsten@uwaterloo.ca>,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH v3] eventpoll: Fix priority inversion problem
+Message-ID: <20250712000934.DwvOk7Hk@linutronix.de>
+References: <20250710062127.QnaeZ8c7@linutronix.de>
+ <d14bcceddd9f59a72ef54afced204815e9dd092e.camel@xry111.site>
+ <20250710083236.V8WA6EFF@linutronix.de>
+ <c720efb6a806e0ffa48e35d016e513943d15e7c0.camel@xry111.site>
+ <20250711050217.OMtx7Cz6@linutronix.de>
+ <20250711-ermangelung-darmentleerung-394cebde2708@brauner>
+ <6856a981f0505233726af0301a1fb1331acdce1c.camel@xry111.site>
+ <20250711095830.048P551B@linutronix.de>
+ <7a50fd8af9d21aade901fe4d32e14e698378c82f.camel@xry111.site>
+ <20250711122123.qXVK-EkF@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:jMEAIvEfKA672rFQgzl/sIUIuuh2lXuZ5UEY6cBH4Up/2RywE1y
- 3cEynfg/GMRmknGgugvVqJV7FXNRzeHYj7kr+79FwLGamVoSR23dCbS2zaona6oSTgpPg01
- jO7u6Gd8US/X7dDNyEA9SCDhLUEG2SMRe5row8cTKEL4fx0Dx/9DVhEOvZd99TpGiURwiSG
- R3uMcx+qBJPAnRWxTlXVQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:EnwNCCe803U=;g/8XPT4CbVP8Da0tAiw1LUyPlOi
- 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
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250711122123.qXVK-EkF@linutronix.de>
 
-Am Freitag, dem 11.07.2025 um 19:06 -0400 schrieb Joel Fernandes:
->=20
-> On 7/11/2025 7:00 PM, Bert Karwatzki wrote:
-> > When booting linux next-20250711 (with CONFIG_PREEMPT_RT=3Dy) on my MS=
-I Alpha 15=20
-> > Laptop running debian sid amd64 the boot process hangs with the last=
-=20
-> > messages displayed on screen being:
-> >=20
-> > fbcon: amdgpudrmfb (fb0) is primary device
-> > Console: switching to colour frame buffer device
-> > amdgpu: 0000:08:00.0: [drm]fb0: admgpudrmfb frame buffer device
-> >=20
-> > after some time (about 60s) this error messages appears (hand copied
-> > from screen, not entirely accurate)
-> >=20
-> > rcu_preempt self detected stall
-> >=20
-> > with call trace
-> > run_irq_workd
-> > smpboot_thread_fn
-> > kthread
-> > ? kthreads_online_cpu
-> > ? kthreads_online_cpu
-> > ret_from_fork
-> > ? kthreads_online_cpu
-> > ret_from_fork
-> >=20
-> > This only occurs when compiling with CONFIG_PREEMPT_RT=3Dy.
-> > I bisected this and found the first bad commit to be
-> >=20
-> > 3284e4adca9b ("rcu: Fix rcu_read_unlock() deadloop due to IRQ work")
->=20
-> This commit is still using old code which was fixed in the last day.
->=20
-> Here is the new commit:
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/rcu/linux.git/commit=
-/?h=3Dnext&id=3D2e154d164418e1eaadbf5dc58cbf19e7be8fdc67
->=20
-> Thanks!
->=20
->  - Joel
+On Fri, Jul 11, 2025 at 08:09:12PM +0800, Xi Ruoyao wrote:
+> And I'm afraid this may be a bug in my userspace... Then I'd feel guilty
+> if this is reverted because of an invalid bug report from I :(.
 
-I already found the new commit, it works!
+FYI I just got a separate bug report. So something is definitely wrong with
+this patch.
 
-Bert Karwatzki
+Best regards,
+Nam
