@@ -1,64 +1,64 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A302B2566
-	for <linux-rt-devel@lists.linux.dev>; Sun, 13 Jul 2025 01:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF0A4A00
+	for <linux-rt-devel@lists.linux.dev>; Sun, 13 Jul 2025 01:40:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752370518; cv=none; b=iwKd8GAadPRSaqLo7z1q7/1dBMUU/s6HHi5SkfLv+emVafuwv8VCtM6nzvYsqwiavTGRG06mh8fQtSyhauaUK4EGlOPcX1Ve4TvTxFjhe5YU+aafBDcGyzVv8evxxJGroRLK59Sz5khJ2/9xsH8p2w0JQMtU7WtX/1E7msjw4uw=
+	t=1752370808; cv=none; b=egb1yS34DqXvjCUajKmP3WevVWKv7MC+KEE3R/LDU/FTor83qzSGBWP3OY+1+ZdlwkDCouHnj6OK34HdVBMJ1i8g9jns38Jw2Wy8HNXvO16Xjsal1Uo0cuFFOO8OhUEiOg0NfOU/6jtTVm9JncZVKV0NZOA7mo4lcczaH5B1RW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752370518; c=relaxed/simple;
-	bh=K3TeXBj3Ce+xFB3ZDrkBEp2HkCMjY8mrws+L09Uloow=;
+	s=arc-20240116; t=1752370808; c=relaxed/simple;
+	bh=/AwR0ua/ED6LRRNkdUOFVPpiq1GEP1qDIYsBczx8pZ4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qLYsCqd2nTpxhorC+Y/Hf4ITNRPUERiVJUr/xQJcvINkZ49/1LZ/jvDRW9bUl0aNAlh195dszcyaZ0VtyOT9GYijmLzmZvuu7pliyRhLWpMwRY6hbhVA4+vjGpKPK8shhk7v1dPfa6Ghje/WOW1Xag/hPklm05ONPunX/iI3M2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6pLxIDz; arc=none smtp.client-ip=209.85.215.175
+	 MIME-Version:Content-Type; b=QvI8UttqeryyKMzifxU/Cjc9pkq8dZuNhHgo4pseY063gkfIWGLv3LsoGLTzLBEz5GAlmIzTAinoF60k7Na1uMSPlHwSFf4e4k2uqqu3GRNBDZQOvCWusiqn+nqeE0VvBzx5FKgfc3oTsbGRhg8y/kstuxCfHFBaGdD/2l7c+Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHKSmf+h; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6pLxIDz"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b3507b63c6fso3583551a12.2
-        for <linux-rt-devel@lists.linux.dev>; Sat, 12 Jul 2025 18:35:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHKSmf+h"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-23c8a5053c2so31525425ad.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 12 Jul 2025 18:40:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752370516; x=1752975316; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752370807; x=1752975607; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F1kIuH5vbQd+FTCmx9ylanJ8cVlQcaHabEKmMN3G/wM=;
-        b=h6pLxIDzOKdr1r+uNMtsxEk/+SgFkwy4H/pajm7n6W8ApEKqsL3y7xADLQ6KpFoQXS
-         KCXrxH1HjaBxs5cYY93WtI6+8gODIoOCdVNL4SFNWafv9Azz5fftZh63x+Hxzbkj7iws
-         VuJ/37vSXTQMFl2UDGNTFaAPfRfPlYTChMCXmRaEplIjX3XcJXsnwtZp8DoKfOjl4xlN
-         68BgdQMGsflMg7IV8sW8iCHds/F7M9GUu/F8gd/jEiT0gqBRPmvu7/T8vSuVNBNCm9qu
-         T0A5H2EOi56W2/6iuCXP52D93sqcuyYq57UkMLCHJaRbwTFxqWo4kXK8UVFTvgVmsoed
-         jTFA==
+        bh=kmrloEta2YZzoHnWuItiK6tYnNXcASCT61BfBLdbbg4=;
+        b=CHKSmf+hupNwvyEwm0+hYxEndq5/3JFasDQotta2ELYIruRobUQXPp4YHRsNJlNlhN
+         tfJB5DqeL4GzBweu+VRa5iF/hIxqNqK+hAT6j1LHXwqJDXgtxkO+VSldTfI9GAT6txga
+         70PXFDieo5yRHFhY8i+PZrdO4a8aJQb43mcGaM7xdQUptQfot0BTUD9bxUA8DLaq5avl
+         JJBiuHkgXLs/PLFzcEqcENNdkTZ272+P/0dEJmLXY7eqeDFZVFzGjlri1rlUZmMuBZ0I
+         twjXoCOeTAZpQ4hCFObTN8N17A3bbQ1SqGptfIV9iOf0VIj9e+iC9em50rTYQflwWIpY
+         TZ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752370516; x=1752975316;
+        d=1e100.net; s=20230601; t=1752370807; x=1752975607;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=F1kIuH5vbQd+FTCmx9ylanJ8cVlQcaHabEKmMN3G/wM=;
-        b=AZ1DSELYrLegF+KrEDFWKctQYgGPH9aJulsi7YflQa9xY+gojewSpQSfbAbeE7HKP8
-         ++/Y4ad7uRV/Y/kPDh+Wo+6KtUbUVHaI4T98P//NSaKreyHC+AImnWVEMz2gzbQs7jIc
-         5m8ziO3e4kSEUa0xu/gVhDHsmtk6mMcCH0D7isT8y/BpW8CYYe2EjEtCaUK22PRmeBxS
-         TOkfCijQJqMFHuSfsIZ3kraApqJupqHQTw1D2H6g18C5njhRQypmLGQqG6+i56eCrqoh
-         n7mLIyMZwpVTFVvxi5dvKkZ2bXsYY3PNgMQLmPG4GYoxTH4kGDilAfUDurE3avfgR3QA
-         5/fA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpoK2//crh6C4Ifl3vfCGkfQ5ZOhBFINtXthIq2pgxMYAdwyyEUNPv9q+OE3xUR9GLP4/nlN1Jv/gGXfQsBQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvLnnX1B2rksaznaT5ObyD10WL9LCnyMsopyNbIAlCZPl5vZXh
-	O1M3tfQUYWDSKUqGRapl9jdcVxubeNqTianOt8E/LruxsT7PUaq9Neee
-X-Gm-Gg: ASbGncuTLmd/yrqqqX5JcNVYFcUxFafEuaWrQxGfa2I/lhTwUbPww98wEeA+rUOqNNJ
-	+Y8pwWjia9LY2RoPKY2S85sfZOIH0UBWc/dJhPQPMm6/S9lMdFynf+QAv6hlrF1H8MKovm+MWHH
-	4L2AwXA07PcxFeAO7DtqYaWhQ+ajnNVYhXyT6LuHyuUNAAcARuA7Hl5pkxmenndIh2wF9KiSqPH
-	Tx13ErukkiZ6lSpyxySnnwTJVQNszeBLt6WRp14WtbYpPAHvu1H22jQS/v+DLnJ5GosH82CftfP
-	aR2BDIzJTJeD5fNRo/doxAkZi+2E+lwNOAC4sQf+ImR5M6MjJ4lJ8wjiyLO18YDQkQ9T+hP1F2/
-	/NXGI3TzaBCLcMK+MK7tEunQ7I+Lq8MU6p3DrZpJcwTH1KPxA2YhEaZd+i0dYM0410YZbyMa/Xw
-	yaR5lsPRO6IqpJUzMo
-X-Google-Smtp-Source: AGHT+IE51vSlxcujLC1zUQoeSyHLVKUuxpMpvj+mod4W2u2bTt0MhQlRD2uXH10sTRYqoWbVW0AoVA==
-X-Received: by 2002:a05:6a21:3990:b0:1f5:931d:ca6d with SMTP id adf61e73a8af0-23135d67a1emr15466908637.1.1752370515718;
-        Sat, 12 Jul 2025 18:35:15 -0700 (PDT)
+        bh=kmrloEta2YZzoHnWuItiK6tYnNXcASCT61BfBLdbbg4=;
+        b=PSxvkqpZMDl1Xlvy2p5f3K6fnzt1gjLaU6pmUJ0upR+tDbcxNa4+9Ck2cxk1Og3xk7
+         bHIse3ys4ciMbeBnM5+16ojrpsEvj9BI9yWIzYDDtos/PS/quL35QHXIFqq2pKc1Yelc
+         /k9Kfc1kmfLksqOrYXKi2qDOQ5IXXOSKIMkXWRX/3eRpS/j1z2ehLo0Ii+O9aBXadgDz
+         VPbAsoQ2Vl19VeetG/U9jw/lOT9tpwrgRTDePmCobr2O32TJBHZmhKfvRRN3qbVKg0bJ
+         Nc35wxc0NcgWwmO8v4MLJqpqD6F8aIPYzye9s6Lv8jFWUVr83U/VoBZpvFo3BgFg7WSi
+         Q+lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfjCqzD4bK53hswo0Dt4OvXEhvEI37/3g/6Hau5cVMfbitAfP2dwN8/DVzheTMH8ULhySAZEGgWRol8iYqLA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzes1zcGPFkHIwZIcp49QsbTkgESNanE/7pbkfUrJBg3gVUuEFu
+	XdIHAovYAR5ShydkO4zDOYDN74E+4iVm8tgwwIin5vseKJ+R/tE/DHzE
+X-Gm-Gg: ASbGncujM4rCnedbxWWTgIOds7FlYuXTDSCijHwMl9DO6HznQ2qZGJI2Cy2nhdBZJE/
+	Q3jMHErjg6LpU/uUb0TPCXJXrQuuIo/YRmnakuaP5u/VqdjJC/YqN/eaqyCe5zHN/1wUkQCeZP/
+	Ups2+o/z0Dx2MOWSg/yQ+FNi4l+Wvr6w8DBGff1eTMYM590WKtjGvojCQlXC8dB43m8PDkmfCCK
+	SQlU3LnK1noN1fCc3ONA2wudi5bjlPvI7mYPf9QLHno96vFTyIsUfMNpnQmNw0eavEsZu+dbEiH
+	/D4iPvnvmD6nwTeGgvUuHW+V42L2Z0H5i6N9a5aetaye9dYdZ4BvUGJ4/dgV3HkNS+6U82LNQMQ
+	GtMtDcA0NILlNn84sCnvcyOvz0sLpx8oG9xNEzV5N9pQRe8nTEF8hp9j+Dz0cpj1URgj7BKly7o
+	2Y6SvES2CPnGrUFLd3
+X-Google-Smtp-Source: AGHT+IHvGOae2sbHhP7YV5X+dN+9x/FRTMUpxvIZfDK9QtC9XhItyGQsAXWfvD1S9YmtqAatDUov6w==
+X-Received: by 2002:a17:903:98c:b0:224:76f:9e4a with SMTP id d9443c01a7336-23df080e23dmr109691755ad.14.1752370806740;
+        Sat, 12 Jul 2025 18:40:06 -0700 (PDT)
 Received: from DESKTOP-NBGHJ1C.localdomain (p12284229-ipxg45101marunouchi.tokyo.ocn.ne.jp. [60.39.60.229])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9e058fesm8055261b3a.40.2025.07.12.18.35.13
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23de4332d3asm74310765ad.152.2025.07.12.18.40.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jul 2025 18:35:15 -0700 (PDT)
+        Sat, 12 Jul 2025 18:40:06 -0700 (PDT)
 From: Ryo Takakura <ryotkkr98@gmail.com>
 To: jindrichsindelar@eaton.com
 Cc: bigeasy@linutronix.de,
@@ -67,11 +67,11 @@ Cc: bigeasy@linutronix.de,
 	rostedt@goodmis.org,
 	ryotkkr98@gmail.com
 Subject: Re: softirqs causing high IRQ jitter
-Date: Sun, 13 Jul 2025 10:35:11 +0900
-Message-Id: <20250713013511.221845-1-ryotkkr98@gmail.com>
+Date: Sun, 13 Jul 2025 10:40:02 +0900
+Message-Id: <20250713014002.221908-1-ryotkkr98@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <SJ0PR17MB5559DFA08F96F9A6E2E2E4DFD74FA@SJ0PR17MB5559.namprd17.prod.outlook.com>
-References: <SJ0PR17MB5559DFA08F96F9A6E2E2E4DFD74FA@SJ0PR17MB5559.namprd17.prod.outlook.com>
+In-Reply-To: <SJ0PR17MB5559A9917E0B59AA6203C633D74EA@SJ0PR17MB5559.namprd17.prod.outlook.com>
+References: <SJ0PR17MB5559A9917E0B59AA6203C633D74EA@SJ0PR17MB5559.namprd17.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -81,93 +81,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 7 Jul 2025 13:05:40 +0000, Šindelář, Jindřich wrote:
->On Wed, 2 Jul 2025 13:09:09 -0400, Steven Rostedt wrote:
->> I think you may have found the main issue. That is the timer softirqd
->> will pick up other softirqs that are pending. Yes it is a separate
->> thread and will wake up to handle softirqs when the timer softirq needs
->> to be handled but I don't see anything limiting it from handling other
->> softirqs.
+On Tue, 8 Jul 2025 14:36:23 +0000, Šindelář, Jindřich wrote:
+>an update from my side on this:
+>> Thank you for confirming this. I am now leaning more towards trying
+>> even more separation, to achieve a state where, if handle_softirqs()
+>> gets called in a context of an IRQ thread, it will only handle the
+>> softirq raised by that thread, leaving the rest of pending softirqs
+>> untouched.
 >
->Thank you for confirming this. I am now leaning more towards trying
->even more separation, to achieve a state where, if handle_softirqs()
->gets called in a context of an IRQ thread, it will only handle the
->softirq raised by that thread, leaving the rest of pending softirqs
->untouched.
->I have an idea in mind, but before trying, I would like to understand
->a bit more how the bitmask that holds the pending softirqs is protected
->against races. There's this block of code in the handle_softirqs():
+>My way of thinking about this separation (either only for the timers or
+>for per-IRQ-thread) was based on the idea that inside handle_softirqs(),
+>I'll only clear some bits of the per-CPU pending softirq bitmask and
+>leave the rest pending, i.e. modify the code mentioned above to
+>something like this:
 >
->        // ...
->        pending = local_softirq_pending();
+>    // ...
+>    __u32 softirq_mask = 0xFFFFFFFF;
 >
->        softirq_handle_begin();
->        in_hardirq = lockdep_softirq_start();
->        account_softirq_enter(current);
+>    if (in_timer_thread) {
+>        /* when running in the timer thread, only handle the (hr)timer softirqs */
+>        softirq_mask = (1UL << TIMER_SOFTIRQ) | (1UL << HRTIMER_SOFTIRQ);
+>    }
 >
->    restart:
->        /* Reset the pending bitmask before enabling irqs */
->        set_softirq_pending(0);
+>    pending = local_softirq_pending();
 >
->        local_irq_enable();
->        // ...
+>    softirq_handle_begin();
+>    in_hardirq = lockdep_softirq_start();
+>    account_softirq_enter(current);
 >
->Here, local_softirq_pending() and set_softirq_pending() access the same
->bitmask, and AFAICT, the code isn't surrounded by any lock or critical
->section. It is true that (hard)IRQs are disabled at that point, but to
->my knowledge, preemption is not. If all that is true, then a softirq
->can be set pending in the meantime and can get "lost" by the
->set_softirq_pending(0). I find it very unlikely that such a mistake
->would be there, so I'm probably wrong here. Could anyone please tell me
->what am I missing?
+>restart:
+>    /* Reset the softirqs we want to handle in this run, keep the rest pending */
+>    set_softirq_pending(pending & ~softirq_mask);
+>    pending &= softirq_mask;
+>
+>    local_irq_enable();
+>    // ...
+>
+>The issue here is once the IRQs get enabled, the rest of the code using
+>local_softirq_pending() to check what's pending can immediatelly start
+>handling softirqs again and again...
 
-I'm afraid I might be wrong, but my understanding is that there
-should be no scheduling happening if we disable interrupts (like
-timers), unless we call for it. And the path in question has no
-code that could trigger scheduling, so it should be safe.
+Maybe I'm missing something here, but my understanding is that pending bits
+are expected to be set once IRQs get enabled.
 
-I believe its documented here[0].
+I do think we need to try avoid restarting for those non-timer softirqs
+that won't be handled in in_timer_thread, something like below?
 
->> I tried to come up with an idea isolating (hr)timer softirq from the
->> rest. Would be nice to get a comment!
->
->Thank you for comming up with the suggestion. There will be people who
->are more entitled to review this than me, but I will try to comment on
->what I see.
-> - Your suggestion will not only modify the behavior when called in
->   the context of the timer thread, it will apply anytime it's called
->   outside of the ksoftirqd (including IRQ threads).
-> - IMHO it would be nicer to signify the fact it's called from the
->   timer thread with a function argument, similarly to the ksirqd one
-> - I would avoid reordering the softirqs and instead of re-raising
->   them in the loop, I would suggest to only clear the timer related
->   bits in the place where is currently the set_softirq_pending(0).
+        pending = local_softirq_pending();
+        if (pending) {
++               /* Don't restart for non-timer softirqs if in_timer_softirq */
+                if (time_before(jiffies, end) && !need_resched() &&
+-                   --max_restart)
++                   --max_restart && (pending & softirq_mask))
+                        goto restart;
 
-Thanks for the comment! It was my intention to include IRQ thread as well,
-and I wasn't really thinking of distinguishing the timer thread from others.
-If we were to signify that its called from the timer thread, I think what
-you suggested works better. I also think its better to clear those timer
-related bits to be executed rather than reordering the softirqs like you say.
-
-> - Your restart logic would mean restart never happens with PREEMPT_RT,
->   including when already running in the ksoftirqd. I'm not sure if
->   that's desired.
-
-Oh yes, ksoftirqd should better be allowed to restart. I should have
-given more thoughts to this... Thanks for pointing out.
+                wakeup_softirqd();
 
 Sincerely,
 Ryo Takakura
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/locking/preempt-locking.rst
-
->Overall, as written at the beginning, I'm now at a point where I'm not
->sure if the isolation of the timer softirqs will solve the whole
->problem we have - it may still happen that multiple pending softirqs
->will be handled in the context of an arbitrary IRQ thread. And trying
->to completely avoid the execution in that context (leaving it only to a
->low-prio ksoftirqd) doesn't look like a good idea either, as ksoftirqd
->could get starved out on heavily loaded systems.
+>I thought I could do these changes in a local and relatively non-invasive
+>way, but now I see the use of local_softirq_pending() is spread over
+>multiple places, also outside of softirq.c (namely in smp.c and
+>tick-sched.c). It appears to me that the approach of "let's only handle
+>some softirqs and leave the rest pending for now" may be very difficult
+>to achieve when the single pending softirq bitmask is checked at number
+>of different places and it's assumed that whenever it's non-zero, it
+>should be handled on the first next occasion.
 >
->Best regards
->Jindra
+>If anyone would suggest a different way, I'll be happy to hear it, but
+>I don't see any reasonable approach myself. I think I'll focus on
+>different ways how to reduce the number of softirqs occurring, maybe
+>trying to use something like BH workqueues for some of them (NET_RX and
+>NET_TX come to mind).
