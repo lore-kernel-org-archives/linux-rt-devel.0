@@ -1,60 +1,58 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE86E26281
-	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Jul 2025 14:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3971F4CBE
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Jul 2025 15:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752591335; cv=none; b=bvtXGKfy1rQU3pTAMnJiwzk1IWk9VXJdQEByK2BCxmE0VyLPc/03sMupciuFuitG5rQ9Pn2u1u+5BJ6iP2uVLIhwK5tNvE95qsybTKhqnvnOjU17ZeIeLAXBaFu0vUk97jvZ6NdVyyEBMwdFXAWsRjgnuK/lQjzzSE3pm167TYE=
+	t=1752592092; cv=none; b=Y/5BCOr1/ePtrZ/YNkk9Ct/qlZv0h1tVpJsxdc6IFBn4XgEgYKOwwC8KLTJnj7h/YkusEBkBUX8UbYsbqvCGDjdi4UAYSZCb9gv/TcUcDcow95R8dbwL9XwW64fGQmRXStG7QJYv8svz5qkxDL+js1leWaw4CQBNcLY3kXxhVy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752591335; c=relaxed/simple;
-	bh=HngQSBN6EYgWlWEconlHPxoRXQuQunnOYOhmdluNvvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l3tZsKh00rO1C3jbriRYDSe2bmf4mKwZx7T9faV94EnfUM+I74uof2I8+T1oTprsMaUe4LwAzBf34IuTMKIKx2R8BH6fs7VsCfIK6y6J0oSDeQ5twQgF4cEgYQH9HMfLP6HRFM7Cf+1ykcuK8Z3Z8xAFKNpJyO2mKR9q21T6MN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QYddt5gD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=563mM4cB; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1752592092; c=relaxed/simple;
+	bh=6QeSIAD6W5Fk0wIrHNtDcO2N5KUdaVmd0nRRmGW6ssM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tr1aygxBKtL0QSNhHJfNcGAqDiLqHExvU/iam66yuAmd+RdHLyIatBflpWznbuBG7xrkahmokPs1BqUdMAnf8iNajdZGfYcdrMNbl5yq0w5rvZSr/x/NRBBK2K5XtqBlR7j6vabnAdmVTCoeZI6EccF5IAty8MpbU8K4UbJrJes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DSPfuo0Q; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jBd1iSgC; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QYddt5gD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="563mM4cB"
-Date: Tue, 15 Jul 2025 16:55:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1752591331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=esBDBDN6FlIpvsUWf9eWcBpSKBzPnHD4m7HtXZDxmbc=;
-	b=QYddt5gDCDXsNMEV8LYL6KmUhZ22HlFpjxaqDwhCsyD6vucxTOFAJgQyEtSL5M6s3MdMfW
-	5MgBas+VSKOVZmJVqgcVA3bGErbu5ed5lupCYi9QRgWC5ohATv3tLrNue8Ya5MDJNQlxDv
-	Wu0Dx8RYk/aAfXjqkAFnyav+inW68Bjn/tATeTQNa+wA/YCym8hgqSDltotdo2oxHHFJFm
-	8JVRYUL/IyfP5tkaAhKevgO/QMoVDh1FPZFKrPYWrGlkcfcJV49YJKG7JwpizihilUs0cv
-	ez07IsgKN61UrxHptUzwWQLH/ruiXAm9ubq+GUMIRj5NzZjla3X4uYkLmGv4rA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1752591331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=esBDBDN6FlIpvsUWf9eWcBpSKBzPnHD4m7HtXZDxmbc=;
-	b=563mM4cBcMoIGVh434KmQp+HmWsN9BMkuaM32b7AQ3woUpyBfQhYxtQeJfikZn/reASLfM
-	SigdlmGBLGbAX0Bg==
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DSPfuo0Q";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jBd1iSgC"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1752592089;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5almdexjqBnkQqctZ+isdcmEgknj9Xuw31Qh+l8oUlo=;
+	b=DSPfuo0QmNb92pM1g0v809F8LzuFFIRe7JbiRUN2YYY9GhX84Byx1Ga+Z+zqeyOFX63M0q
+	N7NO+6/mSbnVCYRWlajxx0Dl1rwwA2yt0myGVCn9jIvMT3GsJzKV2kD5QuhejSB4sE399/
+	ypkdvIgdLNTkTE3lM30w+ehiZjSxfHSRfsWAcJEw8yvySqC/pCDIcyTReYHex6FeyT0obK
+	3zbnsiWU3lwwY9Zz1Ru7K+rp51AFVLsVJlE3nDWy3dVJH1wf15w6ubrR4o2IwlIffhCOsY
+	4GEdupTm3qDULGcB5tNGND+2RA4iDKQ8nUb+zRVtcbD35eMAfLyleRgOMpDKKw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1752592089;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5almdexjqBnkQqctZ+isdcmEgknj9Xuw31Qh+l8oUlo=;
+	b=jBd1iSgC3iafEdg0shcvuxCIM6Bnzk1W9e+7rx630OeB5VSq343yg09aKC8tU/Uu684FT9
+	AFnIniIG7NY9pdAw==
+To: netdev@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-ppp@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	John Ogness <john.ogness@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 3/3] Documentation: Add real-time
-Message-ID: <20250715145530.eAiJbEiG@linutronix.de>
-References: <20250715144127.697787-1-bigeasy@linutronix.de>
- <20250715144127.697787-4-bigeasy@linutronix.de>
- <87ecuhh5jr.fsf@trenco.lwn.net>
+	Guillaume Nault <gnault@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH net-next v3 0/1] ppp: Replace per-CPU recursion counter with lock-owner field
+Date: Tue, 15 Jul 2025 17:08:05 +0200
+Message-ID: <20250715150806.700536-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,31 +60,38 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87ecuhh5jr.fsf@trenco.lwn.net>
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-07-15 08:50:16 [-0600], Jonathan Corbet wrote:
-> > diff --git a/Documentation/real-time/differences.rst b/Documentation/real-time/differences.rst
-> > new file mode 100644
-> > index 0000000000000..0b9a46a7badf4
-> > --- /dev/null
-> > +++ b/Documentation/real-time/differences.rst
-> > @@ -0,0 +1,244 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _real_time_differences:
-> 
-> Here, too, you don't need this label, especially since you never
-> reference it.
+This is another approach to avoid relying on local_bh_disable() for
+locking of per-CPU in ppp.
 
-Okay.
+I redid it with the per-CPU lock and local_lock_nested_bh() as discussed
+in v1. The xmit_recursion counter has been removed since it served the
+same purpose as the owner field. Both were updated and checked.
 
-> I'll try to have a more substantive look shortly.
+The xmit_recursion looks like a counter in ppp_channel_push() but at
+this point, the counter should always be 0 so it always serves as a
+boolean. Therefore I removed it.
 
-Thank you.
+I do admit that this looks easier to review.
 
-> Thanks,
-> 
-> jon
+v2=E2=80=A6v3 https://lore.kernel.org/all/20250710162403.402739-1-bigeasy@l=
+inutronix.de/
+  - rebase on top of net-next
+  - replace "ppp channel" with "ppp unit" in the patch description
 
-Sebastian
+v1=E2=80=A6v2 https://lore.kernel.org/all/20250627105013.Qtv54bEk@linutroni=
+x.de/
+  - Instead of rewriting the sequence and adding two owner fields to
+    the two variables that may recurse it now adds a per-CPU variable
+    for locking and keeping mostly the old code flow.=20=20
+
+Sebastian Andrzej Siewior (1):
+  ppp: Replace per-CPU recursion counter with lock-owner field
+
+ drivers/net/ppp/ppp_generic.c | 38 ++++++++++++++++++++++++++---------
+ 1 file changed, 29 insertions(+), 9 deletions(-)
+
+--=20
+2.50.0
+
