@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A8F153BED
-	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Jul 2025 14:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A757C137923
+	for <linux-rt-devel@lists.linux.dev>; Tue, 15 Jul 2025 14:41:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752590496; cv=none; b=T2chGqouux+HgSxFEjQQ8OAjcwmtdSXZwYK6R/PJJC5yB88B8jxEYNM2nUfNQTy/ohyKx+E0jW7V2COn+KxTVoLtxaO3j95sbqle8iTTVGHS6+Dk9l0KM3F5C6pQfRmTpZr6St1ELs1YVA9z554qKKlgF8N2DLdhN9LuWiARWRE=
+	t=1752590497; cv=none; b=MPtA1UN9T7D+rNk1jZrW06RpMrqbD84Wo5Bl0zyztTeUrImWYd2mxvJdGePXDoefFN0d6RTduO7GWxgSNqtyYP/Ch6To4qt5KU7CWQ824XLWCnV/cpzNa/dVvDsDpgBEArJlRCc99Vur60fNxvq7nb5LmPVkywteggClCdBpwyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752590496; c=relaxed/simple;
-	bh=u3Ak9OzB3UU/dYH2vbh4tpuYzXyRph/EGgJAduPJPL8=;
+	s=arc-20240116; t=1752590497; c=relaxed/simple;
+	bh=HSW4UzF4/eLD6XbC5/VjpLyQ0TRbGw7tvI96NAikVJU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kH0VbJ7N7nPulQKZiyUTRjx+mSLIueanFOX+se0Lbocpfyp/pDaSgs4yFDlrGVNdZRWKDTlVKPuh4Jw6aIXx3/bgfABYnr2cyjqDaJ26BbdELvw6zWBkRjteFGAeZH1whbygrB96b6grZx1zNDIWtsTUxJBYkZn+41As3XOyWeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JHsK/jlE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UZUsBllC; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=hBbJHn7udzf/CDfmjQEH30e0FvnznNx3cuY6+ZUqwz4fpbL5zwdHL1xGTZHJ5PI0TCLhlKCiv54h7DKR5irIut7bKMX07GgdFqe0GhycReK2gl/eD8JOYz51RH96AnbuXiqHMv2s1o36Eg8eX7/M55QjPmv+7i4AxcbAQbe4hm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SYZJc8Z7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jCGxSRGo; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JHsK/jlE";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UZUsBllC"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SYZJc8Z7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jCGxSRGo"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1752590492;
+	s=2020; t=1752590493;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u3Ak9OzB3UU/dYH2vbh4tpuYzXyRph/EGgJAduPJPL8=;
-	b=JHsK/jlEWWwr7y6Ce8v5YhGYGCQf9vqMlKRecSi7oWuJ5VMArUEhI8dxozp7Io9EdFprCl
-	YdrnU/KUCiU5faREwZT6POZdxvjMvxrP7/vVzueuxrtutILteRVHGc6MvI/zHn5LXAaJfz
-	kc6rK3OUgIOKYotToJCJJwzcV2oYaBZC7hYsfhy+Vizz059habIDeNRJDG3veEMLzT98dz
-	3MEaky/T+OUJ9l4HQzTUCCGE/vON7JZ/f0fX47taKsM7SraG3yNNsoKF0iovFkrpJzALt7
-	gS4LZHow+0ozoreC9ZOE9EBpO5beBB3zFr+QM+D+Zj4NBC25bRfZoO5CKIGNeQ==
+	bh=nbiAB6YR5CRtORKxFpcV6A24V5+QMvF18tYB28MryGU=;
+	b=SYZJc8Z72Hh2xRtXKE4d6RB3d0e5M7jVvHX316JLHU/EeStBC+2Nouyi7F48Bm3SdfK7WE
+	z91xDKR6fmwcuFDrWeXs/CfGTtngabIguIhQblUIjyB0y8Pg9xnlmYtOaT/y7Ganh2a04C
+	r2nyk+Mc7Xvv8Aa9KgZvPIWWSZ2iX2vspNduHenzQ96takZQcIMZAQ0ISVpBPsoDMMSECb
+	S6JPE9nt0UuMMaVk5VorAtm93ZW8lPSZIBOuSMpx4d8U3lPI1mvsbyAK4Y4ociz68zuvp1
+	0oCcgv2MqMQ9KStqH4QkViAwg+BgzrTgXB11+Pd3EiTwbAWjU+ywNVWhfnDu6A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1752590492;
+	s=2020e; t=1752590493;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=u3Ak9OzB3UU/dYH2vbh4tpuYzXyRph/EGgJAduPJPL8=;
-	b=UZUsBllCwfjRaxdrAQ0hjUCml9EXoGj40Z9aU46NYGRn9X6Jdryma5V16PIZ8Nms74dmfe
-	HbA/UBllI4hgvmAg==
+	bh=nbiAB6YR5CRtORKxFpcV6A24V5+QMvF18tYB28MryGU=;
+	b=jCGxSRGoBht9q5w+H/5o9tRZJa0CuyG46G97FeaVADLxHqrbFt6MJfywC7+jKNdybcao7P
+	n3wPWz9Lq13YkTBQ==
 To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
@@ -54,11 +54,10 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	Valentin Schneider <vschneid@redhat.com>,
 	Waiman Long <longman@redhat.com>,
 	Will Deacon <will@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH 1/3] Documentation: seqlock: Add a reference label and license.
-Date: Tue, 15 Jul 2025 16:41:25 +0200
-Message-ID: <20250715144127.697787-2-bigeasy@linutronix.de>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 3/3] Documentation: Add real-time
+Date: Tue, 15 Jul 2025 16:41:27 +0200
+Message-ID: <20250715144127.697787-4-bigeasy@linutronix.de>
 In-Reply-To: <20250715144127.697787-1-bigeasy@linutronix.de>
 References: <20250715144127.697787-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -67,34 +66,539 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Add a reference label to the document so it can be crossed referenced
-from another document in the tree.
-While at it, add a SPDX identifier. The majority of the document has
-been written Ahmed S. Darwish.
-
-Cc: Ahmed S. Darwish <darwi@linutronix.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- Documentation/locking/seqlock.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/index.rst                 |   1 +
+ Documentation/real-time/differences.rst | 244 ++++++++++++++++++++++++
+ Documentation/real-time/index.rst       |  18 ++
+ Documentation/real-time/theory.rst      | 119 ++++++++++++
+ 4 files changed, 382 insertions(+)
+ create mode 100644 Documentation/real-time/differences.rst
+ create mode 100644 Documentation/real-time/index.rst
+ create mode 100644 Documentation/real-time/theory.rst
 
-diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seql=
-ock.rst
-index ec6411d02ac8f..4936b46dedc59 100644
---- a/Documentation/locking/seqlock.rst
-+++ b/Documentation/locking/seqlock.rst
-@@ -1,3 +1,7 @@
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index c0cf79a87c3a3..78c93d992b62b 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -42,6 +42,7 @@ kernel.
+    Driver APIs <driver-api/index>
+    Subsystems <subsystem-apis>
+    Locking <locking/index>
++   Real-Time <real-time/index>
+=20
+ Development tools and processes
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+diff --git a/Documentation/real-time/differences.rst b/Documentation/real-t=
+ime/differences.rst
+new file mode 100644
+index 0000000000000..0b9a46a7badf4
+--- /dev/null
++++ b/Documentation/real-time/differences.rst
+@@ -0,0 +1,244 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. _kernel_hacking_seqlock:
++.. _real_time_differences:
 +
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
- Sequence counters and sequential locks
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Significant differences
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++:Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
++
++Preface
++=3D=3D=3D=3D=3D=3D=3D
++
++With forced-threaded interrupts and sleeping spin locks, code paths that
++previously caused long scheduling latencies have been made preemptible and
++moved into process context. This allows the scheduler to manage them more
++effectively and respond to higher-priority tasks with reduced latency.
++
++The following chapters provide an overview of key differences between a
++PREEMPT_RT kernel and a standard, non-PREEMPT_RT kernel.
++
++Locking
++=3D=3D=3D=3D=3D=3D=3D
++
++Spinning locks such as spinlock_t are used to provide synchronization for =
+data
++structures accessed from both interrupt context and process context. For t=
+his
++reason, locking functions are also available with the _irq() or _irqsave()
++suffixes, which disable interrupts before acquiring the lock. This ensures=
+ that
++the lock can be safely acquired in process context when interrupts are ena=
+bled.
++
++However, on a PREEMPT_RT system, interrupts are forced-threaded and no lon=
+ger
++run in hard IRQ context. As a result, there is no need to disable interrup=
+ts as
++part of the locking procedure when using spinlock_t.
++
++For low-level core components such as interrupt handling, the scheduler, o=
+r the
++timer subsystem the kernel uses raw_spinlock_t. This lock type preserves
++traditional semantics: it disables preemption and, when used with _irq() or
++_irqsave(), also disables interrupts. This ensures proper synchronization =
+in
++critical sections that must remain non-preemptible or with interrupts disa=
+bled.
++
++Execution context
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Interrupt handling in a PREEMPT_RT system is invoked in process context th=
+rough
++the use of threaded interrupts. Other parts of the kernel also shift their
++execution into threaded context by different mechanisms. The goal is to ke=
+ep
++execution paths preemptible, allowing the scheduler to interrupt them when=
+ a
++higher-priority task needs to run.
++
++Below is an overview of the kernel subsystems involved in this transition =
+to
++threaded, preemptible execution.
++
++Interrupt handling
++------------------
++
++All interrupts are forced-threaded in a PREEMPT_RT system. The exceptions =
+are
++interrupts that are requested with the IRQF_NO_THREAD, IRQF_PERCPU, or
++IRQF_ONESHOT flags.
++
++The IRQF_ONESHOT flag is used together with threaded interrupts, meaning t=
+hose
++registered using request_threaded_irq() and providing only a threaded hand=
+ler.
++Its purpose is to keep the interrupt line masked until the threaded handle=
+r has
++completed.
++
++If a primary handler is also provided in this case, it is essential that t=
+he
++handler does not acquire any sleeping locks, as it will not be threaded. T=
+he
++handler should be minimal and must avoid introducing delays, such as
++busy-waiting on hardware registers.
++
++
++Soft interrupts, bottom half handling
++-------------------------------------
++
++Soft interrupts are raised by the interrupt handler and are executed after=
+ the
++handler returns. Since they run in thread context, they can be preempted by
++other threads. Do not assume that softirq context runs with preemption
++disabled. This means you must not rely on mechanisms like local_bh_disable=
+() in
++process context to protect per-CPU variables. Because softirq handlers are
++preemptible under PREEMPT_RT, this approach does not provide reliable
++synchronization.
++
++If this kind of protection is required for performance reasons, consider u=
+sing
++local_lock_nested_bh(). On non-PREEMPT_RT kernels, this allows lockdep to
++verify that bottom halves are disabled. On PREEMPT_RT systems, it adds the
++necessary locking to ensure proper protection.
++
++Using local_lock_nested_bh() also makes the locking scope explicit and eas=
+ier
++for readers and maintainers to understand.
++
++
++per-CPU variables
++-----------------
++
++Protecting access to per-CPU variables solely by using preempt_disable() s=
+hould
++be avoided, especially if the critical section has unbounded runtime or may
++call APIs that can sleep.
++
++If using a spinlock_t is considered too costly for performance reasons,
++consider using local_lock_t. On non-PREEMPT_RT configurations, this introd=
+uces
++no runtime overhead when lockdep is disabled. With lockdep enabled, it ver=
+ifies
++that the lock is only acquired in process context and never from softirq or
++hard IRQ context.
++
++On a PREEMPT_RT kernel, local_lock_t is implemented using a per-CPU spinlo=
+ck_t,
++which provides safe local protection for per-CPU data while keeping the sy=
+stem
++preemptible.
++
++Because spinlock_t on PREEMPT_RT does not disable preemption, it cannot be=
+ used
++to protect per-CPU data by relying on implicit preemption disabling. If th=
+is
++inherited preemption disabling is essential and if local_lock_t cannot be =
+used
++due to performance constraints, brevity of the code, or abstraction bounda=
+ries
++within an API then preempt_disable_nested() may be a suitable alternative.=
+ On
++non-PREEMPT_RT kernels, it verifies with lockdep that preemption is already
++disabled. On PREEMPT_RT, it explicitly disables preemption.
++
++Timers
++------
++
++By default, an hrtimer is executed in hard interrupt context. The exceptio=
+n is
++timers initialized with the HRTIMER_MODE_SOFT flag, which are executed in
++softirq context.
++
++On a PREEMPT_RT kernel, this behavior is reversed: hrtimers are executed in
++softirq context by default, typically within the ktimersd thread. This thr=
+ead
++runs at the lowest real-time priority, ensuring it executes before any
++SCHED_OTHER tasks but does not interfere with higher-priority real-time
++threads. To explicitly request execution in hard interrupt context on
++PREEMPT_RT, the timer must be marked with the HRTIMER_MODE_HARD flag.
++
++Memory allocation
++-----------------
++
++The memory allocation APIs, such as kmalloc() and alloc_pages(), require a
++gfp_t flag to indicate the allocation context. On non-PREEMPT_RT kernels, =
+it is
++necessary to use GFP_ATOMIC when allocating memory from interrupt context =
+or
++from sections where preemption is disabled. This is because the allocator =
+must
++not sleep in these contexts waiting for memory to become available.
++
++However, this approach does not work on PREEMPT_RT kernels. The memory
++allocator in PREEMPT_RT uses sleeping locks internally, which cannot be
++acquired when preemption is disabled. Fortunately, this is generally not a
++problem, because PREEMPT_RT moves most contexts that would traditionally r=
+un
++with preemption or interrupts disabled into threaded context, where sleepi=
+ng is
++allowed.
++
++What remains problematic is code that explicitly disables preemption or
++interrupts. In such cases, memory allocation must be performed outside the
++critical section.
++
++This restriction also applies to memory deallocation routines such as kfre=
+e()
++and free_pages(), which may also involve internal locking and must not be
++called from non-preemptible contexts.
++
++IRQ work
++--------
++
++The irq_work API provides a mechanism to schedule a callback in interrupt
++context. It is designed for use in contexts where traditional scheduling i=
+s not
++possible, such as from within NMI handlers or from inside the scheduler, w=
+here
++using a workqueue would be unsafe.
++
++On non-PREEMPT_RT systems, all irq_work items are executed immediately in
++interrupt context. Items marked with IRQ_WORK_LAZY are deferred until the =
+next
++timer tick but are still executed in interrupt context.
++
++On PREEMPT_RT systems, the execution model changes. Because irq_work callb=
+acks
++may acquire sleeping locks or have unbounded execution time, they are hand=
+led
++in thread context by a per-CPU irq_work kernel thread. This thread runs at=
+ the
++lowest real-time priority, ensuring it executes before any SCHED_OTHER tas=
+ks
++but does not interfere with higher-priority real-time threads.
++
++The exception are work items marked with IRQ_WORK_HARD_IRQ, which are still
++executed in hard interrupt context. Lazy items (IRQ_WORK_LAZY) continue to=
+ be
++deferred until the next timer tick and are also executed by the irq_work/
++thread.
++
++RCU callbacks
++-------------
++
++RCU callbacks are invoked by default in softirq context. Their execution is
++important because, depending on the use case, they either free memory or e=
+nsure
++progress in state transitions. Running these callbacks as part of the soft=
+irq
++chain can lead to undesired situations, such as contention for CPU resourc=
+es
++with other SCHED_OTHER tasks when executed within ksoftirqd.
++
++To avoid running callbacks in softirq context, the RCU subsystem provides a
++mechanism to execute them in process context instead. This behavior can be
++enabled by setting the boot command-line parameter rcutree.use_softirq=3D0=
+. This
++setting is enforced in kernels configured with PREEMPT_RT.
++
++Spin until ready
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The "spin until ready" pattern involves repeatedly checking (spinning on) =
+the
++state of a data structure until it becomes available. This pattern assumes=
+ that
++preemption, soft interrupts, or interrupts are disabled. If the data struc=
+ture
++is marked busy, it is presumed to be in use by another CPU, and spinning s=
+hould
++eventually succeed as that CPU makes progress.
++
++Some examples are hrtimer_cancel() or timer_delete_sync(). These functions
++cancel timers that execute with interrupts or soft interrupts disabled. If=
+ a
++thread attempts to cancel a timer and finds it active, spinning until the
++callback completes is safe because the callback can only run on another CP=
+U and
++will eventually finish.
++
++On PREEMPT_RT kernels, however, timer callbacks run in thread context. This
++introduces a challenge: a higher-priority thread attempting to cancel the =
+timer
++may preempt the timer callback thread. Since the scheduler cannot migrate =
+the
++callback thread to another CPU due to affinity constraints, spinning can r=
+esult
++in livelock even on multiprocessor systems.
++
++To avoid this, both the canceling and callback sides must use a handshake
++mechanism that supports priority inheritance. This allows the canceling th=
+read
++to suspend until the callback completes, ensuring forward progress without
++risking livelock.
++
++In order to solve the problem at the API level, the sequence locks were ex=
+tended
++to allow a proper handover between the the spinning reader and the maybe
++blocked writer.
++
++Sequence locks
++--------------
++
++Sequence counters and sequential locks are documented in
++:ref:`Documentation/locking/seqlock.rst <kernel_hacking_seqlock>`.
++
++The interface has been extended to ensure proper preemption states for the
++writer and spinning reader contexts. This is achieved by embedding the wri=
+ter
++serialization lock directly into the sequence counter type, resulting in
++composite types such as seqcount_spinlock_t or seqcount_mutex_t.
++
++These composite types allow readers to detect an ongoing write and actively
++boost the writer=E2=80=99s priority to help it complete its update instead=
+ of spinning
++and waiting for its completion.
++
++If the plain seqcount_t is used, extra care must be taken to synchronize t=
+he
++reader with the writer during updates. The writer must ensure its update is
++serialized and non-preemptible relative to the reader. This cannot be achi=
+eved
++using a regular spinlock_t because spinlock_t on PREEMPT_RT does not disab=
+le
++preemption. In such cases, using seqcount_spinlock_t is the preferred solu=
+tion.
++
++However, if there is no spinning involved i.e., if the reader only needs to
++detect whether a write has started and not serialize against it then using
++seqcount_t is reasonable.
+diff --git a/Documentation/real-time/index.rst b/Documentation/real-time/in=
+dex.rst
+new file mode 100644
+index 0000000000000..3b90cd9243258
+--- /dev/null
++++ b/Documentation/real-time/index.rst
+@@ -0,0 +1,18 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++Real-time Documentation
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
++
++.. toctree::
++   :maxdepth: 2
++
++   theory
++   differences
++
++.. only::  subproject and html
++
++   Indices
++   =3D=3D=3D=3D=3D=3D=3D
++
++   * :ref:`genindex`
+diff --git a/Documentation/real-time/theory.rst b/Documentation/real-time/t=
+heory.rst
+new file mode 100644
+index 0000000000000..3f5fdcdf2780e
+--- /dev/null
++++ b/Documentation/real-time/theory.rst
+@@ -0,0 +1,119 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _real_time_theory:
++
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Theory of operation
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++:Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
++
++Preface
++=3D=3D=3D=3D=3D=3D=3D
++
++PREEMPT_RT transforms the Linux kernel into a real-time kernel. It achieves
++this by replacing locking primitives, such as spinlock_t, with a preemptib=
+le
++and priority-inheritance aware implementation known as rtmutex, and by enf=
+orcing
++the use of threaded interrupts. As a result, the kernel becomes fully
++preemptible, with the exception of a few critical code paths, including en=
+try
++code, the scheduler, and low-level interrupt handling routines.
++
++This transformation places the majority of kernel execution contexts under=
+ the
++control of the scheduler and significantly increasing the number of preemp=
+tion
++points. Consequently, it reduces the latency between a high-priority task
++becoming runnable and its actual execution on the CPU.
++
++Scheduling
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The core principles of Linux scheduling and the associated user-space API =
+are
++documented in the man page sched(7)
++`sched(7) <https://man7.org/linux/man-pages/man7/sched.7.html>`_.
++By default, the Linux kernel uses the SCHED_OTHER scheduling policy. Under
++this policy, a task is preempted when the scheduler determines that it has
++consumed a fair share of CPU time relative to other runnable tasks. Howeve=
+r,
++the policy does not guarantee immediate preemption when a new SCHED_OTHER =
+task
++becomes runnable. The currently running task may continue executing.
++
++This behavior differs from that of real-time scheduling policies such as
++SCHED_FIFO. When a task with a real-time policy becomes runnable, the
++scheduler immediately selects it for execution if it has a higher priority=
+ than
++the currently running task. The task continues to run until it voluntarily
++yields the CPU, typically by blocking on an event.
++
++Sleeping spin locks
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The various lock types and their behavior under real-time configurations a=
+re
++described in detail in
++:ref:`Documentation/locking/locktypes.rst <kernel_hacking_locktypes>`.
++In a non-PREEMPT_RT configuration, a spinlock_t is acquired by first disab=
+ling
++preemption and then actively spinning until the lock becomes available. On=
+ce
++the lock is released, preemption is enabled. From a real-time perspective,
++this approach is undesirable because disabling preemption prevents the
++scheduler from switching to a higher-priority task, potentially increasing
++latency.
++
++To address this, PREEMPT_RT replaces spinning locks with sleeping spin loc=
+ks
++that do not disable preemption. On PREEMPT_RT, spinlock_t is implemented u=
+sing
++rtmutex. Instead of spinning, a task attempting to acquire a contended lock
++disables CPU migration, donates its priority to the lock owner (priority
++inheritance), and voluntarily schedules out while waiting for the lock to
++become available.
++
++Disabling CPU migration provides the same effect as disabling preemption, =
+while
++still allowing preemption and ensuring that the task continues to run on t=
+he
++same CPU while holding a sleeping lock.
++
++Priority inheritance
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Lock types such as spinlock_t and mutex_t in a PREEMPT_RT enabled kernel a=
+re
++implemented on top of rtmutex, which provides support for priority inherit=
+ance
++(PI). When a task blocks on such a lock, the PI mechanism temporarily
++propagates the blocked task=E2=80=99s scheduling parameters to the lock ow=
+ner.
++
++For example, if a SCHED_FIFO task A blocks on a lock currently held by a
++SCHED_OTHER task B, task A=E2=80=99s scheduling policy and priority are te=
+mporarily
++inherited by task B. After this inheritance, task A is put to sleep while
++waiting for the lock, and task B effectively becomes the highest-priority =
+task
++in the system. This allows B to continue executing, make progress, and
++eventually release the lock.
++
++Once B releases the lock, it reverts to its original scheduling parameters=
+, and
++task A can resume execution.
++
++Threaded interrupts
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Interrupt handlers are another source of code that executes with preemption
++disabled and outside the control of the scheduler. To bring interrupt hand=
+ling
++under scheduler control, PREEMPT_RT enforces threaded interrupt handlers.
++
++With forced threading, interrupt handling is split into two stages. The fi=
+rst
++stage, the primary handler, is executed in IRQ context with interrupts dis=
+abled.
++Its sole responsibility is to wake the associated threaded handler. The se=
+cond
++stage, the threaded handler, is the function passed to request_irq() as the
++interrupt handler. It runs in process context, scheduled by the kernel.
++
++From waking the interrupt thread until threaded handling is completed, the
++interrupt source is masked in the interrupt controller. This ensures that =
+the
++device interrupt remains pending but does not retrigger the CPU, allowing =
+the
++system to exit IRQ context and handle the interrupt in a scheduled thread.
++
++By default, the threaded handler executes with the SCHED_FIFO scheduling p=
+olicy
++and a priority of 50 (MAX_RT_PRIO / 2), which is midway between the minimu=
+m and
++maximum real-time priorities.
++
++If the threaded interrupt handler raises any soft interrupts during its
++execution, those soft interrupt routines are invoked after the threaded ha=
+ndler
++completes, within the same thread. Preemption remains enabled during the
++execution of the soft interrupt handler.
++
++Summary
++=3D=3D=3D=3D=3D=3D=3D
++
++By using sleeping locks and forced-threaded interrupts, PREEMPT_RT
++significantly reduces sections of code where interrupts or preemption is
++disabled, allowing the scheduler to preempt the current execution context =
+and
++switch to a higher-priority task.
 --=20
 2.50.0
 
