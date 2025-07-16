@@ -1,252 +1,132 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2089.outbound.protection.outlook.com [40.107.223.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E9C2EE996
-	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 08:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752654866; cv=fail; b=ZeExOgqCA9nLZ+OmPbaN7Kk5DiJIMw0NcQWMZADpzf+GuAudyGWffH52kfV6S7+k1prhyFdksoD5/PH3Jsx4HZzHpHXBsFz9rQtvW8EJfrJga6JiAZib9tlR2lmiG+7bMxokyg+1ehs0rkY09LexLlc3LT3+fiv9BqrfjI8CQ9M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752654866; c=relaxed/simple;
-	bh=XzfRhkyRZn8uJx5wQX+WbdkKWBygE8LBrsa5yyhedhg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gCAVW50EKwkfq3T9QKLXDjfNyoJ9/L9QQVu74CxUYGaXg2uW4WlrAQCIWng7hIE9O66TSiChqLnEcZ67O1cd0aBdty5FuhGv6WvHPlXc9jJHmPF7sJhRrbc6WsbF43a3IwF1/sylm43A3q28FPdVf0gTxv9r0Fkm+TPnBTE7qR4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LFYmlJ4j; arc=fail smtp.client-ip=40.107.223.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC622F2369
+	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 09:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752656968; cv=none; b=tqNMtj10tUaD93wyAjj5WHiKJfvdHBAj7FVRv1RvSeywOQAFtvWyysY118WFcP01SJ4Tro0VeVx443zGOnhEQEMR/2/E384zje+VUXml/aT3yBy9V6jWw7Gbg8Qzs1MviKNmMTHVTp5cu7UNkuzQIjFVUj7Avlgz2KNHBBh0qis=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752656968; c=relaxed/simple;
+	bh=Wlyj5BDsEtRjW9virg0GuEbkQegL6rlEcKbTaJYzgE4=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WlZsJ7aP2HnlG1xIrPIYLNSdut8zyD4hhALqWCIaBEZhkP11aijhZ3EGkVQp6EPfpxZA3vz6vAyNKooD4qY+2UOg8LdFxFCpbkm+HQJKkacOz1tupdiM8SKezeqY8WErgDI6oo4GKCYW8fZ1IKcm5jYmbGMpLM4FCXB5p/vj2ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4xCSRIB; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LFYmlJ4j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ydlnOJl68/sALe+nE9ZptsT0XTdmzjF2o6FTBg7bL/VWTyuRyyxxHwjLymDXnK9PR831wRAmmG9/Owg2h0NJ646aDyA0ZhwAl4wLBLcR9UkdyfJ90gctQEnM1lhxucyQyr7B7T203c3y5rm99F2PjyyEFAS/7vYQT6Og30+qAJK6a+FMm5jk0Ee2zEG/UGIE0tVG26jdP9LejNV3W9/cE5g7XNG2OwLnR75xzEAMI6ENQ9Wh7Gh3g81Tn4gM4AeLM9Np54ZwRALB9J+LVbo2L2aGVmBEl5muqJ2E1tWCRbL9Y2Qe1UOHGpgJ/2e/eUQKsnb7Rk2OT5KQE0PUJBhAUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dznyoN39twSHOk9h64oopq1p7l/ovxXtGqSjIu/Ppxg=;
- b=Rhvh/0ivON0iGJUYeCPq/Dit0a1kKxjyEb27BcD6v11YxycPpNzFydGk7jn/vAerTgSFn+Ev5dVKs0dnnPGQhrMu6CTuPIrt7mMqQ+IFbjMHg7eflso2hp+ClPBee9vkpilhprswrHW+ObBxljow9O/XpMt5aLWaeuYOYGzKi6YiH9xHZAK4MEt5IzSVBoO+T9T9IJ3f9tO4p4C+NQSlE+WfiWRxqrgTeH6yLWXBnjRal3TTRpyMj+J3WWfxWwJsHAnPHbQao/PT5GGTHMwp53pC6CpO30PJi0C7e1HF4KaU0/qGCAeWA2RZJ4TvaepJxxq5n54FTuLJ2keLORw3Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linutronix.de smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dznyoN39twSHOk9h64oopq1p7l/ovxXtGqSjIu/Ppxg=;
- b=LFYmlJ4jwzAOW+GZbO07PD1EU1x3Hf5uE4ezSfIj8zmbwMQTyu0Jbd26TIU8p1tUffn/ZcI/p6AQn7t8fQ0T764S3lK5odNcvbnXwhX0HFkpmKCr8h8nlNwJVvI34PVrbFjmIXRkhFv/tuZBaKKotU8yf8PObwEgxUWN4DYcF7g=
-Received: from BN9PR03CA0453.namprd03.prod.outlook.com (2603:10b6:408:139::8)
- by IA0PPF8FC6E1236.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bda) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Wed, 16 Jul
- 2025 08:34:21 +0000
-Received: from BL6PEPF0001AB4C.namprd04.prod.outlook.com
- (2603:10b6:408:139:cafe::35) by BN9PR03CA0453.outlook.office365.com
- (2603:10b6:408:139::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.19 via Frontend Transport; Wed,
- 16 Jul 2025 08:34:21 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BL6PEPF0001AB4C.mail.protection.outlook.com (10.167.242.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Wed, 16 Jul 2025 08:34:21 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
- 2025 03:34:20 -0500
-Received: from [10.252.218.128] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 16 Jul 2025 03:34:15 -0500
-Message-ID: <9b03a602-cfa9-431a-97b9-7f46d2238e6a@amd.com>
-Date: Wed, 16 Jul 2025 14:04:14 +0530
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4xCSRIB"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-553c31542b1so6015326e87.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 02:09:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752656965; x=1753261765; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2eOTiw68BIyhYHvtk2S5wRVGB/8ahHu3vX68UO+Adzs=;
+        b=N4xCSRIBrs7KqEsZkDO37aETugvCO0MzMEOb+p2lY8lxY20E9CEmebvr8EmEUDZ7XV
+         KMURwKUiWj2/7xtUPLTak2SpScG4hWIe7FZhtBYFlKToJFC9u+FQolQf+ffj9YU/6fSK
+         FIe5Bi51IKwc21H2aAGyVH2JIeb1DdPLXGx16EASP5y4/nx89TLuewzTnclxSHTbvOXc
+         DIdiUGXw4JA8SCUAQ754qIw0FUdxgw2tv+J+nvsibot7vCyAFHDU6wwJE8ft4fxMviKo
+         R7DMQRMCok7M0ACCvRiywA4xIrqvX9qNlO1P/gHzHGyQrPDSG4jq8l0oCCZ/pepc9LcW
+         Dy4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752656965; x=1753261765;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2eOTiw68BIyhYHvtk2S5wRVGB/8ahHu3vX68UO+Adzs=;
+        b=R02Jr42xxegA4eyPBB4XV5bw9tBtcytIJi50fhw5eitThFe0+5UluGCwzWwmX8oaL4
+         i+eiuHEA1uatkfUKxQEQu3gq3ujuTHitQFqS8EFeitsJE9qLwCKxFp7umJJolAN1iets
+         gm9DAb/3BndhAOh5R/uV93EdaXBa2w+HN3WQkhjtEi2Ue7/SqRsFWc5EMZJwnxZKZ2FD
+         mwCJ024ozOnq7QV4WqQJJ4Q86VeJ/mFQ5Ijz5bTGS7qUu1NyUoN/z4MBNauZ3stUKXEA
+         RSBGzNtSnuD9+BGLgL3n+bpk6xGA9DRk3JWJm50NJ8lCmfbQhW519q6gOuhTNvR4Oc5s
+         x45Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUx5PkfgHl42xGecwGa0LgehDmVkhy2n1gZGpnVMGJ8D2cCSx198Ewb39L8QB6k8O6vDOiCTT6Bcijt1Q4ztg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwO3V4BezPcoP1tUJjTJrUg6f40U+IpyO4bmjGn0imWCEI6lRDB
+	i0IGCrd044BnNJ9vf0+G+du+toI2cSeQGDtc3MGJ6AgNpDGF07NWRPgg
+X-Gm-Gg: ASbGncuab52sKP3YG9Mbo2DyxHXvBl36VD+cYgtp7iCOAAcdpR1Ncfm9TM3NIYzFgKi
+	Difq/XBfeLHqnB02eLWQYd+ZDCByyfx/TnN3aEFKKM1OB5oeqXAmaQRyFVjscDpO5+80ek/pbwF
+	WON3FkpjD7THpG6zgUyNrSfoNzcGqc/Juf3BgORjhVJbCcrUob7TeIIYkv3h+FDNcu0g4Y462Wi
+	z7csXfnIb15kcyasHr1N8jjsM9fyYvW/RB7fdJT34Xu4VMYudgD5gz933qE8bHX7qPZiPIvkV/J
+	GPVxaSS/DiV/vMV493d5F78WKfQnN0t3iofvFC3qj4wOYkRjj752hMehdwURScYmorfx6RPU9iq
+	lwE2D25+7GytCJJYM2u4RFrI4IW6j3mEPNttHR55Roa3gu6o=
+X-Google-Smtp-Source: AGHT+IG5WLfntZKDWbVYrqQzZ0ESIP+d42sAu4LjtSqz7jbMmWEtzmxAMa2+osPJFNGzNyu9Jnn4yg==
+X-Received: by 2002:a05:6512:1313:b0:553:1f90:cca4 with SMTP id 2adb3069b0e04-55a23eef245mr521782e87.13.1752656964569;
+        Wed, 16 Jul 2025 02:09:24 -0700 (PDT)
+Received: from pc636 (host-95-203-27-91.mobileonline.telia.com. [95.203.27.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f1fsm2561084e87.107.2025.07.16.02.09.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 02:09:23 -0700 (PDT)
+From: Uladzislau Rezki <urezki@gmail.com>
+X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
+Date: Wed, 16 Jul 2025 11:09:21 +0200
+To: Byungchul Park <byungchul@sk.com>, Yeo Reum Yun <YeoReum.Yun@arm.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Yeo Reum Yun <YeoReum.Yun@arm.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"glider@google.com" <glider@google.com>,
+	"dvyukov@google.com" <dvyukov@google.com>,
+	Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
+	"bigeasy@linutronix.de" <bigeasy@linutronix.de>,
+	"clrkwllms@kernel.org" <clrkwllms@kernel.org>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"max.byungchul.park@gmail.com" <max.byungchul.park@gmail.com>,
+	"ysk@kzalloc.com" <ysk@kzalloc.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	"kernel_team@skhynix.com" <kernel_team@skhynix.com>,
+	"urezki@gmail.com" <urezki@gmail.com>
+Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
+ possible deadlock
+Message-ID: <aHdsQYvKN-dLQG2O@pc636>
+References: <20250703181018.580833-1-yeoreum.yun@arm.com>
+ <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
+ <20250711020858.GA78977@system.software.com>
+ <20250711021100.GA4320@system.software.com>
+ <GV1PR08MB1052126BB553BD36DA768C998FB4AA@GV1PR08MB10521.eurprd08.prod.outlook.com>
+ <20250713232740.GA18327@system.software.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/1] eventpoll: Replace rwlock with spinlock
-To: Nam Cao <namcao@linutronix.de>, Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>, Xi Ruoyao
-	<xry111@xry111.site>, Frederic Weisbecker <frederic@kernel.org>, Valentin
- Schneider <vschneid@redhat.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, <linux-rt-users@vger.kernel.org>, Joe
- Damato <jdamato@fastly.com>, Martin Karsten <mkarsten@uwaterloo.ca>, Jens
- Axboe <axboe@kernel.dk>
-CC: <stable@vger.kernel.org>
-References: <cover.1752581388.git.namcao@linutronix.de>
- <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB03.amd.com: kprateek.nayak@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4C:EE_|IA0PPF8FC6E1236:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5b3969a-cac2-40b6-129f-08ddc4438fe2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|376014|1800799024|82310400026|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MFY1dEdNaGNoZUw1TUZST2RqaWtYUEQwdmZBaGhjQk8zd2lqZWUrL29zTUFW?=
- =?utf-8?B?QnJtTks4elEzU0k5b21yeG4yZ2phZjBBd1lxeHhub2E5MFZZQlREaXRHTCtS?=
- =?utf-8?B?cXRvSFIzU2xKa3pmbkpLRWYyRHJTYTF4Wjl3N0RvQ2FEN0NlazJwWmQ5d0ZR?=
- =?utf-8?B?QlFNQkJRWDRtL3Z6NitSeFo2cmMxYVYzSXh5VlZkRFlBdlpZd05yRENMd0pK?=
- =?utf-8?B?YkJ1ek5idThuUTBySHVFM0VHTDRMQVduQ3Nsd3l6SWdNZDFVdktuNUY5Y3JF?=
- =?utf-8?B?b1RpVU5sdENFSVJJZWdTc3VEdXdxaUkyOUU0UUZ2cEw5VW1Wbmd4ZGtCOEpy?=
- =?utf-8?B?cTlCb0V1ZzRaTDhhblppWkk2TW1PK1duam1wRW1maWJaOGFBdEJsc3VobXds?=
- =?utf-8?B?MEltYmFSRm1kcDJKaVRlZkZxV3ZxTldRWTREUHlwMHVkaG8vRlJNTkQ0Rllw?=
- =?utf-8?B?WTY5endYZUNGU1U0c3VjeVp5Mit3ZXZJRGdGcWdrVlZEcDJ2ckM4NmRzZk42?=
- =?utf-8?B?UUxETEtUSHhmcW16aHVQMDA1dlhlSU9EQXljRUMxS1BWbTE3dlNtV2NjaFJv?=
- =?utf-8?B?RGgxUk93S1Fuczh3N013S3hlQUN6a0s5eWYrK3FTbkkxS2RnWWtMcEZaUG5B?=
- =?utf-8?B?b3F0cFl5YmRWZW5TbmRyRHVUR3A5WlYzRjZDaURlYmNNWlZzaHpTR2JBRnpJ?=
- =?utf-8?B?bkM5blc0VVlVRDg1cUM1SlN4am5jMFZYQWtLZ3VyU1ZsdXQ1M0kyUlhSTy9p?=
- =?utf-8?B?S2RMblRVY1ZJK3pTdHBXank4c2ljcWFaUTlIcytxUXk3YjV1YVFLQU9FS29s?=
- =?utf-8?B?dUNUYWtMM3hFY0NHUytPUFVrd1VCNGlXMUZDcEZHYjMrZU5WRk1GVW9wMUdF?=
- =?utf-8?B?T1hWNkdnendSTjJDSU5uT2lGVnRPc00yaEpZWHhRNVpFRTZIVmhnRWRWVGF4?=
- =?utf-8?B?R3U1T2QyQ0lZajFpZ2lBVldoc0NHbUpYSElSQjZ5Q0FHQzd4b1J1TWNHQVpC?=
- =?utf-8?B?UUNOTHZiNUdiS2lURlAzd09nY1J6dExiTVFjTTdjVktzT2F1WmN5UUc5L2FB?=
- =?utf-8?B?Vjc1aFc0ODVYQzhjblZZb3ZpcUErUm9pQWxaRVMySEdkcnRpSExqQmJLMCs1?=
- =?utf-8?B?bWVyKzE0M3pKN0k2YVcwMTZ0ck5Nd2dBTG9zNytSdm53NG1sZDZWNlo1RXRx?=
- =?utf-8?B?TDVUcW1weVBKNjlpZ0RMUE9ySm9JdTBlMFdYSGV3UzRIbyswaWlTaWVZaEd0?=
- =?utf-8?B?SkxQUkR2dGQwNVZFK1Y2b0Z3V01aR3k3ZlNjRlpueG1jVUZES2dnU2cwaTZU?=
- =?utf-8?B?U1BBQjdoUEJzTlFWTC9vWnBCMjBlei8yQjNlc3ord21iSEd5RDhPTlF4Y1lX?=
- =?utf-8?B?akM5WGt0NHY3eVNoeFF5T056Q3RjdHpRdnJIZ05CVWFqQ3N0MlQ3NUdQUWFH?=
- =?utf-8?B?STRqTVVEQWN6YnRUOGJVc2xRLzRDMHJmcDVoaWlNRFJldlRxbWI0OHFEaGlV?=
- =?utf-8?B?L3QrbUlQL2NhRVVtQ1FIak1SWjdUTVF3VjVVcU1TYldLL2U3dkdKbnBqOTNI?=
- =?utf-8?B?dy9mOW1VSTdIOTNlTWJidUE5TE51aDBSeDRNdmxmYVFuVisxQUVGSjNiV25X?=
- =?utf-8?B?NWRGejJMdk9ORnVCeWljTXgrcHovZWhPTldrRXhDY2hsRDc2cGU0LzE2OTJK?=
- =?utf-8?B?NklZeXpyTEVzay8rZ1g4TmFtU2tRZ1dxZ1QrWk1CTU9Nakx2b3IyeXMyczZ4?=
- =?utf-8?B?eHRXcmxYekhxcUJxekJFcG9ZM2ZESll5TzBTYmMrYk1QUXphaDVSMmRqUUpo?=
- =?utf-8?B?aEMzUS9zL09WaXJCT0RVYTNrUmZwWVhVL0VTckFlV0cya1VlbVpWeVlsanYx?=
- =?utf-8?B?NWdVTytXRWF5ZWtaRmFLS2VIczJpYStKdEpaS0IwR0RaWHE3WlFyT1hGcmxH?=
- =?utf-8?B?QlhnTnRSemJjSExlYTd2WmVSazQ0QVhZSHB2ZnVhU29xSWdYS2NLdWNmSVY3?=
- =?utf-8?B?dTg1c01mcEVtdnEyZG9QR0Y1QzZybklKY0ZzVmRmZm1ZM204bUZMYzhrS2Nl?=
- =?utf-8?B?MSs1UEp4Wk8wNXFLMmlmWEppK2I3MVV0MjhIb2N1NHlLczNpZi81dTBpNzhu?=
- =?utf-8?Q?BwjI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(376014)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 08:34:21.1859
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5b3969a-cac2-40b6-129f-08ddc4438fe2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4C.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF8FC6E1236
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250713232740.GA18327@system.software.com>
 
-Hello Nam,
+On Mon, Jul 14, 2025 at 08:27:40AM +0900, Byungchul Park wrote:
+> On Sat, Jul 12, 2025 at 03:46:10PM +0000, Yeo Reum Yun wrote:
+> > Hi ByungChul,
+> > 
+> > [...]
+> > > I checked the critical section by &vn->busy.lock in find_vm_area().  The
+> > > time complextity looks O(log N).  I don't think an irq disabled section
+> > > of O(log N) is harmful.  I still think using
+> > > spin_lock_irqsave(&vn->busy.lock) can resolve this issue with no worry
+> > > of significant irq delay.  Am I missing something?
+> > 
+> > I don't agree for this.
+> > since in PREEMPT_RT case, it has the same problem.
+> > 
+> > In case of PREEMPT_RT, spin_lock_irqsave() becomes rt_spin_lock() which is sleepable.
+> > But, KASAN calls "rt_spin_lock()" holding raw_spin_lock_irqsave() which is definitely wrong.
+> 
+> It's another issue than irq handling latency, but it's about lock usage
+> correctness.  You are right.
+> 
+There is vmalloc_dump_obj() function which should be used IMO:
 
-On 7/15/2025 6:16 PM, Nam Cao wrote:
-> The ready event list of an epoll object is protected by read-write
-> semaphore:
-> 
->   - The consumer (waiter) acquires the write lock and takes items.
->   - the producer (waker) takes the read lock and adds items.
-> 
-> The point of this design is enabling epoll to scale well with large number
-> of producers, as multiple producers can hold the read lock at the same
-> time.
-> 
-> Unfortunately, this implementation may cause scheduling priority inversion
-> problem. Suppose the consumer has higher scheduling priority than the
-> producer. The consumer needs to acquire the write lock, but may be blocked
-> by the producer holding the read lock. Since read-write semaphore does not
-> support priority-boosting for the readers (even with CONFIG_PREEMPT_RT=y),
-> we have a case of priority inversion: a higher priority consumer is blocked
-> by a lower priority producer. This problem was reported in [1].
-> 
-> Furthermore, this could also cause stall problem, as described in [2].
-> 
-> Fix this problem by replacing rwlock with spinlock.
-> 
-> This reduces the event bandwidth, as the producers now have to contend with
-> each other for the spinlock. According to the benchmark from
-> https://github.com/rouming/test-tools/blob/master/stress-epoll.c:
-> 
->     On 12 x86 CPUs:
->                   Before     After        Diff
->         threads  events/ms  events/ms
->               8       7162       4956     -31%
->              16       8733       5383     -38%
->              32       7968       5572     -30%
->              64      10652       5739     -46%
->             128      11236       5931     -47%
-> 
->     On 4 riscv CPUs:
->                   Before     After        Diff
->         threads  events/ms  events/ms
->               8       2958       2833      -4%
->              16       3323       3097      -7%
->              32       3451       3240      -6%
->              64       3554       3178     -11%
->             128       3601       3235     -10%
-> 
-> Although the numbers look bad, it should be noted that this benchmark
-> creates multiple threads who do nothing except constantly generating new
-> epoll events, thus contention on the spinlock is high. For real workload,
-> the event rate is likely much lower, and the performance drop is not as
-> bad.
-> 
-> Using another benchmark (perf bench epoll wait) where spinlock contention
-> is lower, improvement is even observed on x86:
-> 
->     On 12 x86 CPUs:
->         Before: Averaged 110279 operations/sec (+- 1.09%), total secs = 8
->         After:  Averaged 114577 operations/sec (+- 2.25%), total secs = 8
-> 
->     On 4 riscv CPUs:
->         Before: Averaged 175767 operations/sec (+- 0.62%), total secs = 8
->         After:  Averaged 167396 operations/sec (+- 0.23%), total secs = 8
-> 
-> In conclusion, no one is likely to be upset over this change. After all,
-> spinlock was used originally for years, and the commit which converted to
-> rwlock didn't mention a real workload, just that the benchmark numbers are
-> nice.
-> 
-> This patch is not exactly the revert of commit a218cc491420 ("epoll: use
-> rwlock in order to reduce ep_poll_callback() contention"), because git
-> revert conflicts in some places which are not obvious on the resolution.
-> This patch is intended to be backported, therefore go with the obvious
-> approach:
-> 
->   - Replace rwlock_t with spinlock_t one to one
-> 
->   - Delete list_add_tail_lockless() and chain_epi_lockless(). These were
->     introduced to allow producers to concurrently add items to the list.
->     But now that spinlock no longer allows producers to touch the event
->     list concurrently, these two functions are not necessary anymore.
-> 
-> Fixes: a218cc491420 ("epoll: use rwlock in order to reduce ep_poll_callback() contention")
-> Signed-off-by: Nam Cao <namcao@linutronix.de>
-> Cc: stable@vger.kernel.org
+<snip>
+pr_err("The buggy address %px belongs to a vmalloc virtual mapping, dump it...\n", addr);
+vmalloc_dump_obj(addr);
+<snip>
 
-Tested this version with the reproducer that Jan shared in [1] on top of
-tip:sched/core (PREEMPT_RT) and I didn't run into any rcu-stalls with
-your patch applied on top (the VM is running the repro for over an hour
-now and is still responsive). Feel free to include:
+we use trylock there to eliminate an issue if invoked from the IRQ
+context.
 
-Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
-
-[1] https://lore.kernel.org/all/7483d3ae-5846-4067-b9f7-390a614ba408@siemens.com/
-
-> ---
->  fs/eventpoll.c | 139 +++++++++----------------------------------------
->  1 file changed, 26 insertions(+), 113 deletions(-)
--- 
-Thanks and Regards,
-Prateek
-
+--
+Uladzislau Rezki
