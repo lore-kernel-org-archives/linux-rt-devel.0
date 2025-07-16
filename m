@@ -1,132 +1,98 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC622F2369
-	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 09:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737B8199935
+	for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 15:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752656968; cv=none; b=tqNMtj10tUaD93wyAjj5WHiKJfvdHBAj7FVRv1RvSeywOQAFtvWyysY118WFcP01SJ4Tro0VeVx443zGOnhEQEMR/2/E384zje+VUXml/aT3yBy9V6jWw7Gbg8Qzs1MviKNmMTHVTp5cu7UNkuzQIjFVUj7Avlgz2KNHBBh0qis=
+	t=1752678572; cv=none; b=nobcWMrzs2rV0xQVfOBJx4Uy/ZOZVzzLkAYAxmYOH5c+xltHDV/Zaw6R4QZaIkCa60ciA6GGtWXrgnWGZOVEqJZ7Zs/ewGxdAWoCVy4B8oLBkVQ0oCRPpyGgcRwKnGB9pT3DPae7aWBm1L84/XVSeYK0nfqg3Zjql6Yil0GcCdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752656968; c=relaxed/simple;
-	bh=Wlyj5BDsEtRjW9virg0GuEbkQegL6rlEcKbTaJYzgE4=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WlZsJ7aP2HnlG1xIrPIYLNSdut8zyD4hhALqWCIaBEZhkP11aijhZ3EGkVQp6EPfpxZA3vz6vAyNKooD4qY+2UOg8LdFxFCpbkm+HQJKkacOz1tupdiM8SKezeqY8WErgDI6oo4GKCYW8fZ1IKcm5jYmbGMpLM4FCXB5p/vj2ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4xCSRIB; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4xCSRIB"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-553c31542b1so6015326e87.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 16 Jul 2025 02:09:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752656965; x=1753261765; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2eOTiw68BIyhYHvtk2S5wRVGB/8ahHu3vX68UO+Adzs=;
-        b=N4xCSRIBrs7KqEsZkDO37aETugvCO0MzMEOb+p2lY8lxY20E9CEmebvr8EmEUDZ7XV
-         KMURwKUiWj2/7xtUPLTak2SpScG4hWIe7FZhtBYFlKToJFC9u+FQolQf+ffj9YU/6fSK
-         FIe5Bi51IKwc21H2aAGyVH2JIeb1DdPLXGx16EASP5y4/nx89TLuewzTnclxSHTbvOXc
-         DIdiUGXw4JA8SCUAQ754qIw0FUdxgw2tv+J+nvsibot7vCyAFHDU6wwJE8ft4fxMviKo
-         R7DMQRMCok7M0ACCvRiywA4xIrqvX9qNlO1P/gHzHGyQrPDSG4jq8l0oCCZ/pepc9LcW
-         Dy4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752656965; x=1753261765;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2eOTiw68BIyhYHvtk2S5wRVGB/8ahHu3vX68UO+Adzs=;
-        b=R02Jr42xxegA4eyPBB4XV5bw9tBtcytIJi50fhw5eitThFe0+5UluGCwzWwmX8oaL4
-         i+eiuHEA1uatkfUKxQEQu3gq3ujuTHitQFqS8EFeitsJE9qLwCKxFp7umJJolAN1iets
-         gm9DAb/3BndhAOh5R/uV93EdaXBa2w+HN3WQkhjtEi2Ue7/SqRsFWc5EMZJwnxZKZ2FD
-         mwCJ024ozOnq7QV4WqQJJ4Q86VeJ/mFQ5Ijz5bTGS7qUu1NyUoN/z4MBNauZ3stUKXEA
-         RSBGzNtSnuD9+BGLgL3n+bpk6xGA9DRk3JWJm50NJ8lCmfbQhW519q6gOuhTNvR4Oc5s
-         x45Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUx5PkfgHl42xGecwGa0LgehDmVkhy2n1gZGpnVMGJ8D2cCSx198Ewb39L8QB6k8O6vDOiCTT6Bcijt1Q4ztg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwO3V4BezPcoP1tUJjTJrUg6f40U+IpyO4bmjGn0imWCEI6lRDB
-	i0IGCrd044BnNJ9vf0+G+du+toI2cSeQGDtc3MGJ6AgNpDGF07NWRPgg
-X-Gm-Gg: ASbGncuab52sKP3YG9Mbo2DyxHXvBl36VD+cYgtp7iCOAAcdpR1Ncfm9TM3NIYzFgKi
-	Difq/XBfeLHqnB02eLWQYd+ZDCByyfx/TnN3aEFKKM1OB5oeqXAmaQRyFVjscDpO5+80ek/pbwF
-	WON3FkpjD7THpG6zgUyNrSfoNzcGqc/Juf3BgORjhVJbCcrUob7TeIIYkv3h+FDNcu0g4Y462Wi
-	z7csXfnIb15kcyasHr1N8jjsM9fyYvW/RB7fdJT34Xu4VMYudgD5gz933qE8bHX7qPZiPIvkV/J
-	GPVxaSS/DiV/vMV493d5F78WKfQnN0t3iofvFC3qj4wOYkRjj752hMehdwURScYmorfx6RPU9iq
-	lwE2D25+7GytCJJYM2u4RFrI4IW6j3mEPNttHR55Roa3gu6o=
-X-Google-Smtp-Source: AGHT+IG5WLfntZKDWbVYrqQzZ0ESIP+d42sAu4LjtSqz7jbMmWEtzmxAMa2+osPJFNGzNyu9Jnn4yg==
-X-Received: by 2002:a05:6512:1313:b0:553:1f90:cca4 with SMTP id 2adb3069b0e04-55a23eef245mr521782e87.13.1752656964569;
-        Wed, 16 Jul 2025 02:09:24 -0700 (PDT)
-Received: from pc636 (host-95-203-27-91.mobileonline.telia.com. [95.203.27.91])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5593c9d0f1fsm2561084e87.107.2025.07.16.02.09.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 02:09:23 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
-Date: Wed, 16 Jul 2025 11:09:21 +0200
-To: Byungchul Park <byungchul@sk.com>, Yeo Reum Yun <YeoReum.Yun@arm.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Yeo Reum Yun <YeoReum.Yun@arm.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"glider@google.com" <glider@google.com>,
-	"dvyukov@google.com" <dvyukov@google.com>,
-	Vincenzo Frascino <Vincenzo.Frascino@arm.com>,
-	"bigeasy@linutronix.de" <bigeasy@linutronix.de>,
-	"clrkwllms@kernel.org" <clrkwllms@kernel.org>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"max.byungchul.park@gmail.com" <max.byungchul.park@gmail.com>,
-	"ysk@kzalloc.com" <ysk@kzalloc.com>,
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	"kernel_team@skhynix.com" <kernel_team@skhynix.com>,
-	"urezki@gmail.com" <urezki@gmail.com>
-Subject: Re: [PATCH v2] kasan: remove kasan_find_vm_area() to prevent
- possible deadlock
-Message-ID: <aHdsQYvKN-dLQG2O@pc636>
-References: <20250703181018.580833-1-yeoreum.yun@arm.com>
- <CA+fCnZcMpi6sUW2ksd_r1D78D8qnKag41HNYCHz=HM1-DL71jg@mail.gmail.com>
- <20250711020858.GA78977@system.software.com>
- <20250711021100.GA4320@system.software.com>
- <GV1PR08MB1052126BB553BD36DA768C998FB4AA@GV1PR08MB10521.eurprd08.prod.outlook.com>
- <20250713232740.GA18327@system.software.com>
+	s=arc-20240116; t=1752678572; c=relaxed/simple;
+	bh=udKVfp54jvTQVoUSNkCjh4UzprprEWcUqW5CgAHCeb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rzG9cfkaQoLoTRO4yXGOSW7Zdr3E7ckdCjg+GTotDgmMfE45sbFh/PsH461WUzChbbR0g1o448/ZZmjR9u8fSqmNm2SfsNjIVVjr66ilaLA1cKVPruAGzhZHMGLRAWSBCPsM/0oQKzvZx75pE/syJxMNsIveLy0xxlSg/tM0JlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id E7A111403BE;
+	Wed, 16 Jul 2025 15:09:26 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 8C5B73B;
+	Wed, 16 Jul 2025 15:09:23 +0000 (UTC)
+Date: Wed, 16 Jul 2025 11:09:22 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Boqun Feng <boqun.feng@gmail.com>,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, Frederic Weisbecker
+ <frederic@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Josh
+ Triplett <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Neeraj Upadhyay
+ <neeraj.upadhyay@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
+Message-ID: <20250716110922.0dadc4ec@batman.local.home>
+In-Reply-To: <16dd7f3c-1c0f-4dfd-bfee-4c07ec844b72@paulmck-laptop>
+References: <20250620084334.Zb8O2SwS@linutronix.de>
+	<34957424-1f92-4085-b5d3-761799230f40@paulmck-laptop>
+	<20250623104941.WxOQtAmV@linutronix.de>
+	<03083dee-6668-44bb-9299-20eb68fd00b8@paulmck-laptop>
+	<fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
+	<29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
+	<acb07426-db2f-4268-97e2-a9588c921366@paulmck-laptop>
+	<ba0743dc-8644-4355-862b-d38a7791da4c@efficios.com>
+	<512331d8-fdb4-4dc1-8d9b-34cc35ba48a5@paulmck-laptop>
+	<bbe08cca-72c4-4bd2-a894-97227edcd1ad@efficios.com>
+	<16dd7f3c-1c0f-4dfd-bfee-4c07ec844b72@paulmck-laptop>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250713232740.GA18327@system.software.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 173rm1wg47g3dcjidadpyy4ajng1pjje
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 8C5B73B
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19DAW/3/GdXtEluzb41g8XAo3DhAQN7QhU=
+X-HE-Tag: 1752678563-58156
+X-HE-Meta: U2FsdGVkX18tz3Yx0CoJowNA+6hIiLSDZdksIfMg0CZ4+eyfoZQQuQFv51+Q0ub/zvLQ1ffeGWjBNtGgHQIHS3e2pU0hhHxqFt4mWTMRUj+EPixtfJi2uzQ+lkxsOKR5GeOhU2Z5aPU9Nrhs7Xy+nWEMDEty77/PyYzLOsNgqAJTjdfLb/US0vhz8g1h9KAZaYP0b1i0ktiPe/7ostSmbC/WXMZx/Tr7od3EYMOnRPsHuA6T9N8WamIKgj1JxZsfijduyO1yhGmh+mkIVERkgO4Ka8W9JH66NBDHNY9Y4DFi5Y1ov0ten/T7No4UhX9uJ1fqokvEif3cQ94lYK7BuvjXa3g0ceRq
 
-On Mon, Jul 14, 2025 at 08:27:40AM +0900, Byungchul Park wrote:
-> On Sat, Jul 12, 2025 at 03:46:10PM +0000, Yeo Reum Yun wrote:
-> > Hi ByungChul,
-> > 
-> > [...]
-> > > I checked the critical section by &vn->busy.lock in find_vm_area().  The
-> > > time complextity looks O(log N).  I don't think an irq disabled section
-> > > of O(log N) is harmful.  I still think using
-> > > spin_lock_irqsave(&vn->busy.lock) can resolve this issue with no worry
-> > > of significant irq delay.  Am I missing something?
-> > 
-> > I don't agree for this.
-> > since in PREEMPT_RT case, it has the same problem.
-> > 
-> > In case of PREEMPT_RT, spin_lock_irqsave() becomes rt_spin_lock() which is sleepable.
-> > But, KASAN calls "rt_spin_lock()" holding raw_spin_lock_irqsave() which is definitely wrong.
-> 
-> It's another issue than irq handling latency, but it's about lock usage
-> correctness.  You are right.
-> 
-There is vmalloc_dump_obj() function which should be used IMO:
+On Fri, 11 Jul 2025 10:05:26 -0700
+"Paul E. McKenney" <paulmck@kernel.org> wrote:
 
-<snip>
-pr_err("The buggy address %px belongs to a vmalloc virtual mapping, dump it...\n", addr);
-vmalloc_dump_obj(addr);
-<snip>
+> This trace point will invoke rcu_read_unlock{,_notrace}(), which will
+> note that preemption is disabled.  If rcutree.use_softirq is set and
+> this task is blocking an expedited RCU grace period, it will directly
+> invoke the non-notrace function raise_softirq_irqoff().  Otherwise,
+> it will directly invoke the non-notrace function irq_work_queue_on().
 
-we use trylock there to eliminate an issue if invoked from the IRQ
-context.
+Just to clarify some things; A function annotated by "notrace" simply
+will not have the ftrace hook to that function, but that function may
+very well have tracing triggered inside of it.
 
---
-Uladzislau Rezki
+Functions with "_notrace" in its name (like preempt_disable_notrace())
+should not have any tracing instrumentation (as Mathieu stated)
+inside of it, so that it can be used in the tracing infrastructure.
+
+raise_softirq_irqoff() has a tracepoint inside of it. If we have the
+tracing infrastructure call that, and we happen to enable that
+tracepoint, we will have:
+
+  raise_softirq_irqoff()
+     trace_softirq_raise()
+       [..]
+         raise_softirq_irqoff()
+            trace_softirq_raise()
+               [..]
+                 Ad infinitum!
+
+I'm not sure if that's what is being proposed or not, but I just wanted
+to make sure everyone is aware of the above.
+
+-- Steve
+-
