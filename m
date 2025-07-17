@@ -1,158 +1,96 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF862FEE36
-	for <linux-rt-devel@lists.linux.dev>; Thu, 17 Jul 2025 18:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4073333E7;
+	Thu, 17 Jul 2025 19:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752777849; cv=none; b=TT/Rp361E3k412BjsbbieaPl8cvxq2wRMSmW36zyKUdGDCGMlXuBYm9alsE2hsYbeCc1qCdcrr7QZAZw8sZy4ADttnyNIxG3Nf3+AXxj9bp6DEJ/vSZ3RFae6kYMkXSHIWa3FtcmSpSlikVJWPL9TKUHRtImwUZnLUO0WKOrH7E=
+	t=1752779087; cv=none; b=klSlRjphJBcPDIRRk/Yb8ZHhHFTEPVVq1eQ7yJguHFQqiT6rWtauO9mR3J/emUePaKUvXikv7d9rW4xfhAuJDP7b4grFjmqYIHAnNTEoaftzV7rh1eaBc6EMb9pwDnNTYCYd98fznZTPxrprOnWGx4nSpcW1CnGWd2ft9AdA8/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752777849; c=relaxed/simple;
-	bh=AQjfxbsSgQ8+bGIul9QQBchw8w+/CSLDQXtKReefy8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F4f5TvDy45wioXn1iwr+sxiEXFqjDudu/qZlY5FjF4kDgHF+bCsMe4vhKKKdB7KIQDNxASfXKlZneGyL45WqwebI9BBbA6AlLDgNNHWMCmc9uYlKXiOg/7jQOXZwjxRFSTPAebaVt++9e/zvQ7t7EdT6uLLhucHYl+TY4OZi8MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ze3brX11; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752779087; c=relaxed/simple;
+	bh=qlDSg7cXxtkS8c4tqqN7K+vLRrKz0WPEcI/MUSBCl8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dbgZOCttSSCun4nqLp2ZVpw8p6VJYLyv9HJwmqb0cF8Ora1W6zgk0l6Zish510CRjXJ43dWD65IeT8xS5nZbvw6a/4UJeMOIyqoQDMGIPOSWAB4yJC8rdyusfa1TBafI5KhJjrFKvbKAnZhMp08ILKzM7RlNOaIw0hv3dgP/AOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDeVI+OT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ze3brX11"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752777847;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mcbr8RjxL0YRdjmqQIHNJc4faWeT43mIH6O75G3Vvbw=;
-	b=Ze3brX114pn1P0+rd0caJ0pc3MyxX2ufV+wx1vNcss9MNTwuzMoDc7XoE018C9LPUalTdn
-	vkR0dAv8Dk4krKtwdWceklHcpgJB0jhmc2d3FGifctTQ09DsgdDep3ic2U91jhVkPZcipA
-	oq8UOsxm9V6L1vVBmfrnIKv69nQb5oc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-195-idqioOuHOvyPbzxE4VeyBw-1; Thu,
- 17 Jul 2025 14:44:06 -0400
-X-MC-Unique: idqioOuHOvyPbzxE4VeyBw-1
-X-Mimecast-MFC-AGG-ID: idqioOuHOvyPbzxE4VeyBw_1752777844
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 359DC1800368;
-	Thu, 17 Jul 2025 18:44:04 +0000 (UTC)
-Received: from chopper.redhat.com (unknown [10.22.66.69])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CFD6230001B1;
-	Thu, 17 Jul 2025 18:44:01 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: rust-for-linux@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDeVI+OT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4EE2C4CEE3;
+	Thu, 17 Jul 2025 19:04:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752779086;
+	bh=qlDSg7cXxtkS8c4tqqN7K+vLRrKz0WPEcI/MUSBCl8E=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=WDeVI+OTHkCOFwGDGrmyFxoccQ4XkHDgGHa0/H9CO2M8MyKKoZG+/T+GPIBNkupuA
+	 fRnUlcR/eiHf8q8h7F5XcSAh2E8I+gqqIMJ0/9MQIU7CGa8TK5AfsdrHFOdHgXScaU
+	 sgE01HMza8kK5t7UadGloUtst+nl3YOsU+fExeq72bKzqmzxj3dKjf3KUBDlqIp6jU
+	 BGsjzA9E6N9GO6VShr792gFluzokGmd8v9HeJdONexO3VTpYik7nbBtjC65yFZyY/K
+	 bfoLZHavXnZUn6z0+PXefOlA9EBcs4778lxGLadQovDnV1f0XPMXjWUCaGnqKlIMsV
+	 3nMU/VhugUj3g==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 60437CE13CD; Thu, 17 Jul 2025 12:04:46 -0700 (PDT)
+Date: Thu, 17 Jul 2025 12:04:46 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
-Subject: [PATCH v11 14/14] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
-Date: Thu, 17 Jul 2025 14:38:06 -0400
-Message-ID: <20250717184055.2071216-15-lyude@redhat.com>
-In-Reply-To: <20250717184055.2071216-1-lyude@redhat.com>
-References: <20250717184055.2071216-1-lyude@redhat.com>
+	Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
+	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+	bpf@vger.kernel.org
+Subject: [PATCH RFC 6/4] srcu: Add guards for SRCU-fast readers
+Message-ID: <58866d6b-f4d9-4aaf-abce-10ddf526c3ad@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <fa80f087-d4ff-4499-aec9-157edafb85eb@paulmck-laptop>
+ <29b5c215-7006-4b27-ae12-c983657465e1@efficios.com>
+ <acb07426-db2f-4268-97e2-a9588c921366@paulmck-laptop>
+ <ba0743dc-8644-4355-862b-d38a7791da4c@efficios.com>
+ <512331d8-fdb4-4dc1-8d9b-34cc35ba48a5@paulmck-laptop>
+ <bbe08cca-72c4-4bd2-a894-97227edcd1ad@efficios.com>
+ <16dd7f3c-1c0f-4dfd-bfee-4c07ec844b72@paulmck-laptop>
+ <20250716110922.0dadc4ec@batman.local.home>
+ <895b48bd-d51e-4439-b5e0-0cddcc17a142@paulmck-laptop>
+ <bb20a575-235b-499e-aa1d-70fe9e2c7617@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bb20a575-235b-499e-aa1d-70fe9e2c7617@paulmck-laptop>
 
-From: Boqun Feng <boqun.feng@gmail.com>
+This adds the usual scoped_guard(srcu_fast, &my_srcu) and
+guard(srcu_fast)(&my_srcu).
 
-The semantics of various irq disabling guards match what
-*_irq_{disable,enable}() provide, i.e. the interrupt disabling is
-properly nested, therefore it's OK to switch to use
-*_irq_{disable,enable}() primitives.
-
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-Signed-off-by: Lyude Paul <lyude@redhat.com>
-
+Suggested-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
-V10:
-* Add PREEMPT_RT build fix from Guangbo Cui
+ srcu.h |    5 +++++
+ 1 file changed, 5 insertions(+)
 
----
- include/linux/spinlock.h | 26 ++++++++++++--------------
- 1 file changed, 12 insertions(+), 14 deletions(-)
-
-diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
-index b21da4bd51a42..7ff11c893940b 100644
---- a/include/linux/spinlock.h
-+++ b/include/linux/spinlock.h
-@@ -605,10 +605,10 @@ DEFINE_LOCK_GUARD_1(raw_spinlock_nested, raw_spinlock_t,
- 		    raw_spin_unlock(_T->lock))
+diff --git a/include/linux/srcu.h b/include/linux/srcu.h
+index 0aa2376cca0b1..ada65b58bc4c5 100644
+--- a/include/linux/srcu.h
++++ b/include/linux/srcu.h
+@@ -510,6 +510,11 @@ DEFINE_LOCK_GUARD_1(srcu, struct srcu_struct,
+ 		    srcu_read_unlock(_T->lock, _T->idx),
+ 		    int idx)
  
- DEFINE_LOCK_GUARD_1(raw_spinlock_irq, raw_spinlock_t,
--		    raw_spin_lock_irq(_T->lock),
--		    raw_spin_unlock_irq(_T->lock))
-+		    raw_spin_lock_irq_disable(_T->lock),
-+		    raw_spin_unlock_irq_enable(_T->lock))
- 
--DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irq, _try, raw_spin_trylock_irq(_T->lock))
-+DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irq, _try, raw_spin_trylock_irq_disable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(raw_spinlock_bh, raw_spinlock_t,
- 		    raw_spin_lock_bh(_T->lock),
-@@ -617,12 +617,11 @@ DEFINE_LOCK_GUARD_1(raw_spinlock_bh, raw_spinlock_t,
- DEFINE_LOCK_GUARD_1_COND(raw_spinlock_bh, _try, raw_spin_trylock_bh(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(raw_spinlock_irqsave, raw_spinlock_t,
--		    raw_spin_lock_irqsave(_T->lock, _T->flags),
--		    raw_spin_unlock_irqrestore(_T->lock, _T->flags),
--		    unsigned long flags)
-+		    raw_spin_lock_irq_disable(_T->lock),
-+		    raw_spin_unlock_irq_enable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irqsave, _try,
--			 raw_spin_trylock_irqsave(_T->lock, _T->flags))
-+			 raw_spin_trylock_irq_disable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
- 		    spin_lock(_T->lock),
-@@ -631,11 +630,11 @@ DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
- DEFINE_LOCK_GUARD_1_COND(spinlock, _try, spin_trylock(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(spinlock_irq, spinlock_t,
--		    spin_lock_irq(_T->lock),
--		    spin_unlock_irq(_T->lock))
-+		    spin_lock_irq_disable(_T->lock),
-+		    spin_unlock_irq_enable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1_COND(spinlock_irq, _try,
--			 spin_trylock_irq(_T->lock))
-+			 spin_trylock_irq_disable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(spinlock_bh, spinlock_t,
- 		    spin_lock_bh(_T->lock),
-@@ -645,12 +644,11 @@ DEFINE_LOCK_GUARD_1_COND(spinlock_bh, _try,
- 			 spin_trylock_bh(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
--		    spin_lock_irqsave(_T->lock, _T->flags),
--		    spin_unlock_irqrestore(_T->lock, _T->flags),
--		    unsigned long flags)
-+		    spin_lock_irq_disable(_T->lock),
-+		    spin_unlock_irq_enable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1_COND(spinlock_irqsave, _try,
--			 spin_trylock_irqsave(_T->lock, _T->flags))
-+			 spin_trylock_irq_disable(_T->lock))
- 
- DEFINE_LOCK_GUARD_1(read_lock, rwlock_t,
- 		    read_lock(_T->lock),
--- 
-2.50.0
-
++DEFINE_LOCK_GUARD_1(srcu_fast, struct srcu_struct,
++		    _T->scp = srcu_read_lock_fast(_T->lock),
++		    srcu_read_unlock_fast(_T->lock, _T->scp),
++		    struct srcu_ctr __percpu *scp)
++
+ DEFINE_LOCK_GUARD_1(srcu_fast_notrace, struct srcu_struct,
+ 		    _T->scp = srcu_read_lock_fast_notrace(_T->lock),
+ 		    srcu_read_unlock_fast_notrace(_T->lock, _T->scp),
