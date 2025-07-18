@@ -1,49 +1,45 @@
 Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE3C2BDC1D;
-	Fri, 18 Jul 2025 10:57:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865A028B41A;
+	Fri, 18 Jul 2025 11:11:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.181.231.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752836246; cv=none; b=VYR2dJ9Qa9fdSsjhICrkSw3RMT5IBvichAg/fTPccjYfPdwnLxKrZHetnNYUYHEWhN5btsnxh+QtVswNcKL+hg70vKEIFPOT4rvvjmbu6kjJsu2Da4t8881KJou1x9SMNQre0gZ9iAcXmBFYf5WyDlP44PmVnhJ7KF62+feAjG0=
+	t=1752837102; cv=none; b=NUf2C2bSi4oZnAyWN0zI4Hy9+DQN7I11ZHZCF8nqhebK7EtRGlWobJa+5oShPxCzqgQJiOq9AjGRwIYLsZNBUn2DPDmGvzWgwIQMAQSS6MSbLckr+GSfCr4J3aXHQiQWyaQ+gavL10afIxJ13Yai/NRazvR+KPO9flXZquA8sRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752836246; c=relaxed/simple;
-	bh=D/2ONEPn5x3RlP0XDxP4LGlt7iZhDJSvGf4xsnoV94k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WLJh9WuETLlvh31d6ncX2arWMHt6MUpC7/Q+W3E5CCrrTPluE8BGiymPimN3MWLuy9flPH5m04+SG0L0EMIlTIwGEgQI+A5QVo/yax7k4wXXGKhgNqaUi3d4PEwUwBLKkg9PNuvyupOCp/hmMB5fHK88/+f5ruQiGcSe9TzIDug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=B/RhhnCn; arc=none smtp.client-ip=180.181.231.80
+	s=arc-20240116; t=1752837102; c=relaxed/simple;
+	bh=h+SFilw+ons1Ma/HOlf+HSpOJa6aru4eoEZR0LBo6cI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dr9DqTZCIYuKroaGDjOfLVGhfP718d+zgJ0ZacpdYCxPHykpVMQLWwKsP3w1UBMeiYwQCbWLHAvP3dHERwOxq3bwOH5zFkI/m9Aj10bix4h1VPvSZlQeHhvgWZcV9X1h8QDKz/Dw4zZ54CcS+PECLC3r/OMIq8rQssZti9u38LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=eQS4Kvrs; arc=none smtp.client-ip=180.181.231.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="B/RhhnCn"
+	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="eQS4Kvrs"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:
+	From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
 	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=GfeGVLqaTw3EciNfGKSrH0BlEFzoUtY7Zvcj2pNDEAE=; b=B/RhhnCnMk9cq0S+bhDYXWm5Kf
-	+5hZrmpG+mKqbzUQUW1mvt/tQXVB7rE5sGka0pimRKR5Js7uzKZYnMo1dGn1zDeGH4yeZgVfhbEOb
-	/kSS0zzx7zfEKlIupiZOXYJ8unGxs2r/vVxVkGqHtOGN3yJkgUfUWJxL1XAKS0VgM1FX4Re43ROB9
-	PeGLeqbxNZSlaGbycdM+ETNy+DIfi8Q1hdHV5Yx/KxqRZQt4eo28UTD+aC/VipCUO3KfC3qHaiKfm
-	TQXwm5CCoM7xg3fmwW2NScBrf9+z7BKvUS//pqjhjer7i/kg6syg5Y8IlYjzhDOX04R6NCjXuK8Fo
-	RrGwwsjg==;
+	:Resent-Message-ID:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=b5zcfEOMXuz7RGxucdKJHtr/cKzUuWpBm3zVH5cKg+c=; b=eQS4Kvrs04xrCN48HvgJywFIrl
+	cV233Ps6BZrICCyFH9Rsc9j2SExHVFHZ/84zr07B8gZpMfGszP9cUarM/rfxYSPd7Zp/SSlrat+qF
+	XSJNkqghKuyGVWNxZfrZDhdrBgp30Uq+8Yh7C9KMgmwjdlp8vk1KB1EPhOL4ZkxV3FQMVqKPBZKno
+	pYA+eRfSWySveOsye087eCQVIHHjU6TNK0tKHFFYBCZyIGypkopM3KgbF4m73ckwwN/6Vu9NF6DLr
+	5v3xDuUcWa/6h4yrSpZJTbAlCCwbYCNRBZryCki1Cq4Pf9QJ57PDKRzlevss6xnevcGQXjsGfpQPv
+	1o1oMCKg==;
 Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
 	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uciWp-007yYe-2z;
-	Fri, 18 Jul 2025 18:57:21 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 18 Jul 2025 20:57:20 +1000
-Date: Fri, 18 Jul 2025 20:57:20 +1000
+	id 1ucikd-007ym0-10;
+	Fri, 18 Jul 2025 19:11:36 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 18 Jul 2025 21:11:35 +1000
+Date: Fri, 18 Jul 2025 21:11:35 +1000
 From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-crypto@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Cc: 
-	Thomas Gleinxer <tglx@linutronix.de>;
-Subject: Re: [PATCH] cryptd: Use nested-BH locking for cryptd_cpu_queue
-Message-ID: <aHookKMOLn-Z9Tk9@gondor.apana.org.au>
-References: <20250701060936.r4gtQv9v@linutronix.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	x86@kernel.org, linux-rt-devel@lists.linux.dev, ebiggers@kernel.org
+Subject: Re: [PATCH 0/2] x86 AEGIS fixes
+Message-ID: <aHor5-BxQPkh2GVc@gondor.apana.org.au>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,35 +48,24 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250701060936.r4gtQv9v@linutronix.de>
+In-Reply-To: <20250708193829.656988-1-ebiggers@kernel.org>
+X-Newsgroups: apana.lists.os.linux.cryptoapi,apana.lists.os.linux.kernel
 
-On Tue, Jul 01, 2025 at 08:09:36AM +0200, Sebastian Andrzej Siewior wrote:
-> cryptd_queue::cryptd_cpu_queue is a per-CPU variable and relies on
-> disabled BH for its locking. Without per-CPU locking in
-> local_bh_disable() on PREEMPT_RT this data structure requires explicit
-> locking.
+Eric Biggers <ebiggers@kernel.org> wrote:
+> Since the legacy crypto API likes to randomly allocate memory, the x86
+> AEGIS code has some bugs.  This series fixes them.
 > 
-> Add a local_lock_t to the struct cryptd_cpu_queue and use
-> local_lock_nested_bh() for locking. This change adds only lockdep
-> coverage and does not alter the functional behaviour for !PREEMPT_RT.
+> Eric Biggers (2):
+>  crypto: x86/aegis - Fix sleeping when disallowed on PREEMPT_RT
+>  crypto: x86/aegis - Add missing error checks
 > 
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: linux-crypto@vger.kernel.org
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
+> arch/x86/crypto/aegis128-aesni-glue.c | 40 +++++++++++++++++++--------
+> 1 file changed, 29 insertions(+), 11 deletions(-)
 > 
-> This patch requires a prerequisite for __local_lock_nested_bh() which
-> has been made available at
->    git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git local-lock-for-net
 > 
-> It can be pulled in so that the crypto bits are independent of the TIP
-> tree.
-> 
->  crypto/cryptd.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> base-commit: 181698af38d3f93381229ad89c09b5bd0496661a
 
-Patch applied.  Thanks.
+All applied.  Thanks.
 -- 
 Email: Herbert Xu <herbert@gondor.apana.org.au>
 Home Page: http://gondor.apana.org.au/~herbert/
