@@ -1,74 +1,53 @@
-Received: from mblankhorst.nl (lankhorst.se [141.105.120.124])
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890E421B191
-	for <linux-rt-devel@lists.linux.dev>; Tue, 22 Jul 2025 08:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A121DFE22
+	for <linux-rt-devel@lists.linux.dev>; Thu, 24 Jul 2025 22:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753172898; cv=none; b=ErvSuFLGS5jQcbh3iXPNefnwSO3yXlJoKCmcaMo10utWTWTWt0C7iY/0hH5RiW0oNuPb426IPlE6URBk/zNKU13Dgz51INbvkyLO0JBKqp4yeXGEYkC1Vv2Rb2nBV4IIInIm5ytM9vyVsibVFiwvMN5ts7Q8yfejc0KWtDjoAHY=
+	t=1753394801; cv=none; b=hhPlEa5ivoTQKqm3M+1h/zSSXcUb4JwOJP/bgWY+9xd39lPuvkPswc5M63Kb1vUJZ8v77+dfruFVHMAsFwLbOLIlTiwLa/KPu92UJW2Krv6mxa4XXJf1eHkLMlcyTZ66N+j0CRBIJiWVyAlh93J7xmhSHVsMwY1U2mZL/ufk8ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753172898; c=relaxed/simple;
-	bh=cykTOngrnbCr//Kc9KMRHa+O2/mlQEXw/ntI6485ZGM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tdX1YXDK/63DmcebCRiOw+heLi81nm6hKhddWG11m3xDi6udQzCwaBX/VjU0LvXOUDZPMLHGqgo2ph4GEpBq/m1mewR+rO6s4EZX2WdMnzCCqW1QmUyAPTM62GmkJZkQ63/JNCDzU02hVtQwfPDjAC6WC0W1cmAOpRCkCmOJgVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
-Message-ID: <60257b86-bba4-4f52-a5e4-1e4caeb3412f@lankhorst.se>
-Date: Tue, 22 Jul 2025 10:28:06 +0200
+	s=arc-20240116; t=1753394801; c=relaxed/simple;
+	bh=V0peJ6URUvypiKYqOVDJDVn6YD+1dTgKcg/FUhtRQ+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rkg52wi8llxPi1AoVInTGIcQpb0PmKCrpI1yUCbrV0TBAIPsiHo4Nezz5nME+qgOJ+iDB+b48DLcaN83khG/lNIKJsQnl5TEHTtvGRnosrpQnuvKMfjvY4cJQyHOKzUiuXcMqkZ2Kv4cnHl0t54N9GyTPUuHiaspdvM9A6DIksk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
+	id 44DE96048A; Fri, 25 Jul 2025 00:06:37 +0200 (CEST)
+Date: Fri, 25 Jul 2025 00:06:36 +0200
+From: Florian Westphal <fw@strlen.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	linux-rt-devel@lists.linux.dev,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH nf-next 0/3] netfilter: nft_set_pipapo: Use nested-BH
+ locking for nft_pipapo_scratch
+Message-ID: <aIKubJyzokB9-_rx@strlen.de>
+References: <20250701221304.3846333-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] accel/ivpu: Remove lockdep_assert_irqs_disabled()
-To: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Maciej Falkowski <maciej.falkowski@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20250715165919.33754-1-dev@lankhorst.se>
- <f14e9187-e3b1-494d-b04f-9e7875a17e5a@linux.intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <f14e9187-e3b1-494d-b04f-9e7875a17e5a@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250701221304.3846333-1-bigeasy@linutronix.de>
 
-Hey,
-
-Den 2025-07-22 kl. 09:53, skrev Jacek Lawrynowicz:
-> Reviewed-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-
-Thanks, pushed to misc-next.
-
-Best regards,
-~Maarten
- 
-> On 7/15/2025 6:59 PM, Maarten Lankhorst wrote:
->> This breaks on PREEMPT_RT, and should be unneeded since
->> lockdep can track irq disabled status itself.
->>
->> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
->> ---
->>  drivers/accel/ivpu/ivpu_ipc.c | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/drivers/accel/ivpu/ivpu_ipc.c b/drivers/accel/ivpu/ivpu_ipc.c
->> index 39f83225c1815..5f00809d448af 100644
->> --- a/drivers/accel/ivpu/ivpu_ipc.c
->> +++ b/drivers/accel/ivpu/ivpu_ipc.c
->> @@ -141,7 +141,6 @@ ivpu_ipc_rx_msg_add(struct ivpu_device *vdev, struct ivpu_ipc_consumer *cons,
->>  	struct ivpu_ipc_rx_msg *rx_msg;
->>  
->>  	lockdep_assert_held(&ipc->cons_lock);
->> -	lockdep_assert_irqs_disabled();
->>  
->>  	rx_msg = kzalloc(sizeof(*rx_msg), GFP_ATOMIC);
->>  	if (!rx_msg) {
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> The pipapo set type uses a per-CPU scratch buffer which is protected
+> only by disabling BH. This series reworks the scratch buffer handlingand
+> adds nested-BH locking which is only used on PREEMPT_RT.
 > 
+> This series requires a reworked __local_lock_nested_bh() which can be
+> pulled in via
+>   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git local-lock-for-net
 
+Whats your plan here?  This commit is neither in nf-next nor net-next,
+so applying your series breaks the build.
+
+Which trees do you intend your series to go through?
