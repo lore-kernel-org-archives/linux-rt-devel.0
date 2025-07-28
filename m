@@ -1,118 +1,138 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45DB21A443
-	for <linux-rt-devel@lists.linux.dev>; Sat, 26 Jul 2025 11:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2062A222576
+	for <linux-rt-devel@lists.linux.dev>; Mon, 28 Jul 2025 20:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753531196; cv=none; b=CI/d+PmhB5/J3QgH8KRihhjbfWG88SOAdzzKOkiDDDEo2jpWX8ONKSWprWNCxPqJkPlhCwn08qpVCxtD5BZMguMoVj3RFTQc9I9fGw0ZZyM4voFLXL7/qBzn8/Mtqnbl52H09sF282qUVe8ZdgJ/yUwqaC54eyJcl3HxnPt+h8c=
+	t=1753733772; cv=none; b=ZlE7mt5yNkCuhYzAKAM7smwf/bbDCpzOfRGLH5q//bnPKmKEHC53h0D12261IHMZ8+khKXcO5Ha98u1sRXoj8TV0hcsFhIUHYVD/QtYt9tBH3iy5JxwbCIpE22zI+ql+lGISYTE8hzoZCZ1DwoIa25lV/fZfCkKAPfVKw67F9YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753531196; c=relaxed/simple;
-	bh=e9ZHZi0F7JWdfqhdsjEBHsC+0Dy6+SkPdlpSOOJLwAA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XHRIkrbeOiuL5KG0tkj1pttiM9eQDi9VsQcPzhaVkd3JnA4ehMmJk+FgPa4VHRLvsZkX9/B+Js1kshR2z5Um416RykbZ7ZhmZ2Ru8NIz7br621EuKuV/NKgMgrFEkGNNAbi85Fxk9XSTsv+Sot5NOrJ11arhc0K3e/qMUHTPm7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cfXFPJlk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qu5Vv5Bx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1753733772; c=relaxed/simple;
+	bh=tSdmsZlF3Cyf3QsBATATBxVcKfKaXFUpA/aj0sdIYuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPJ3Cyoele7MSWsbSwZ6OdU75If1kWuwsy14hnAsxgA5gQjvWprlJxXAUFc+Q8GS3Zb2dXdwOeX+jAaz6UBTGfkYhhkQRSc8szW26oXdCY9ljGJ6goXH2mMvu+p9FcWsZia4STg5YWwH1UzQNJsFGqPjwX8QsYdEceFvMpUvUE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WvyBlJ/S; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cfXFPJlk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qu5Vv5Bx"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1753531186;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WvyBlJ/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1753733769;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6QLD/9vDRaxK7wnQrPT92N/0V2GDCn8DkNHpJH1+2ME=;
-	b=cfXFPJlk7jB/sMHf6ZzDQyfd2LIVeZJ8I39wANs0u8oRGHvKkhXz63gqfP5A9GLa9RYZAa
-	4fYMkwBOiGcsUXbJBP/pgEeDnytTcDNGF8h2suAm3yrWHKn4tdceaXafe63n2Syci7gMEX
-	ffGS7892X7j/53z/zCvrGplQs3bXIMdiSnHSIA1Vp1JK5l7D3ZfZ35t1wE3jpMnq6DJYPv
-	Kwv9Rjfl/39lN5SSh+JcxFIjWrjYURjpFQCZfrU5kEXB/91aWoNIrnvQPz0hzYUfVTSOrz
-	2LAw0ny6JKitQOHUZ0/NMQv+Eq8X2eql0qPc6RspX8DkyIBzDlh+szANN35KwQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1753531186;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6QLD/9vDRaxK7wnQrPT92N/0V2GDCn8DkNHpJH1+2ME=;
-	b=qu5Vv5Bxsuj0Aow+4si+jm72q35U4cUB5T/nEFzyJ41GvUFYqpf5F11Dqu+CwRuAtgKsyi
-	jWZkC7WdLCz3pCBg==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tetsuo Handa
- <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Yunseong Kim <ysk@kzalloc.com>, Dmitry Vyukov <dvyukov@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Byungchul Park
- <byungchul@sk.com>, max.byungchul.park@gmail.com, Yeoreum Yun
- <yeoreum.yun@arm.com>, Michelle Jin <shjy180909@gmail.com>,
- linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, stable@vger.kernel.org,
- kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
- linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
- PREEMPT_RT
-In-Reply-To: <2025072614-molehill-sequel-3aff@gregkh>
-References: <20250725201400.1078395-2-ysk@kzalloc.com>
- <2025072615-espresso-grandson-d510@gregkh>
- <77c582ad-471e-49b1-98f8-0addf2ca2bbb@I-love.SAKURA.ne.jp>
- <2025072614-molehill-sequel-3aff@gregkh>
-Date: Sat, 26 Jul 2025 13:59:45 +0200
-Message-ID: <87ldobp3gu.ffs@tglx>
+	bh=Ix+6Z4M7VAksEijsBIInwwoxZTs34otlPm1AzOGrkBI=;
+	b=WvyBlJ/SnqHZyxGcB+vlio+A8Xek8Q4vkDw3kwgEB+wL2Qf7VfeTsx1ecq4PMkrz1kqqXB
+	mZOvZ0dYDYjD+1N53+4mat8iDwSK6Ew5tguun/y2QIYYYTiggBRaqOYK7HSZITLZCnnsZ7
+	D8+Rlia9dbxHeCo+HMkPUeldjBqs7zY=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-655-hJNtQbreP-e8sh6DCiD4hw-1; Mon,
+ 28 Jul 2025 16:16:02 -0400
+X-MC-Unique: hJNtQbreP-e8sh6DCiD4hw-1
+X-Mimecast-MFC-AGG-ID: hJNtQbreP-e8sh6DCiD4hw_1753733760
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5090319560AD;
+	Mon, 28 Jul 2025 20:15:59 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.39])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9A85430001B1;
+	Mon, 28 Jul 2025 20:15:50 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Mon, 28 Jul 2025 22:14:50 +0200 (CEST)
+Date: Mon, 28 Jul 2025 22:14:41 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>, lclaudio00@gmail.com
+Subject: Re: [PATCH v6] sched: do not call __put_task_struct() on rt if
+ pi_blocked_on is set
+Message-ID: <20250728201441.GA4690@redhat.com>
+References: <aGvTz5VaPFyj0pBV@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aGvTz5VaPFyj0pBV@uudg.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Sat, Jul 26 2025 at 09:59, Greg Kroah-Hartman wrote:
-> On Sat, Jul 26, 2025 at 04:44:42PM +0900, Tetsuo Handa wrote:
->> static void __usb_hcd_giveback_urb(struct urb *urb)
->> {
->>   (...snipped...)
->>   kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum) {
->>     if (in_serving_softirq()) {
->>       local_irq_save(flags); // calling local_irq_save() is wrong if CONFIG_PREEMPT_RT=y
->>       kcov_remote_start_usb(id) {
->>         kcov_remote_start(id) {
->>           kcov_remote_start(kcov_remote_handle(KCOV_SUBSYSTEM_USB, id)) {
->>             (...snipped...)
->>             local_lock_irqsave(&kcov_percpu_data.lock, flags) {
->>               __local_lock_irqsave(lock, flags) {
->>                 #ifndef CONFIG_PREEMPT_RT
->>                   https://elixir.bootlin.com/linux/v6.16-rc7/source/include/linux/local_lock_internal.h#L125
->>                 #else
->>                   https://elixir.bootlin.com/linux/v6.16-rc7/source/include/linux/local_lock_internal.h#L235 // not calling local_irq_save(flags)
->>                 #endif
-
-Right, it does not invoke local_irq_save(flags), but it takes the
-underlying lock, which means it prevents reentrance.
-
-> Ok, but then how does the big comment section for
-> kcov_remote_start_usb_softirq() work, where it explicitly states:
+On 07/07, Luis Claudio R. Goncalves wrote:
 >
->  * 2. Disables interrupts for the duration of the coverage collection section.
->  *    This allows avoiding nested remote coverage collection sections in the
->  *    softirq context (a softirq might occur during the execution of a work in
->  *    the BH workqueue, which runs with in_serving_softirq() > 0).
->  *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
->  *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted in
->  *    the middle of its remote coverage collection section, and the interrupt
->  *    handler might invoke __usb_hcd_giveback_urb() again.
->
->
-> You are removing half of this function entirely, which feels very wrong
-> to me as any sort of solution, as you have just said that all of that
-> documentation entry is now not needed.
+> Instead of adding more complex conditions to decide when to directly
+> call __put_task_struct() and when to defer the call, unconditionally
+> resort to the deferred call on PREEMPT_RT to simplify the code.
+                              ^^^^^^^^^^^^^
+Confused... with this patch put_task_struct() always uses the deferred
+call, regardless of PREEMPT_RT?
 
-I'm not so sure because kcov_percpu_data.lock is only held within
-kcov_remote_start() and kcov_remote_stop(), but the above comment
-suggests that the whole section needs to be serialized.
+Oleg.
 
-Though I'm not a KCOV wizard and might be completely wrong here.
+> --- a/include/linux/sched/task.h
+> +++ b/include/linux/sched/task.h
+> @@ -135,24 +135,17 @@ static inline void put_task_struct(struct task_struct *t)
+>  		return;
+>  
+>  	/*
+> -	 * In !RT, it is always safe to call __put_task_struct().
+> -	 * Under RT, we can only call it in preemptible context.
+> -	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible()) {
+> -		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
+> -
+> -		lock_map_acquire_try(&put_task_map);
+> -		__put_task_struct(t);
+> -		lock_map_release(&put_task_map);
+> -		return;
+> -	}
+> -
+> -	/*
+> -	 * under PREEMPT_RT, we can't call put_task_struct
+> +	 * Under PREEMPT_RT, we can't call __put_task_struct
+>  	 * in atomic context because it will indirectly
+> -	 * acquire sleeping locks.
+> +	 * acquire sleeping locks. The same is true if the
+> +	 * current process has a mutex enqueued (blocked on
+> +	 * a PI chain).
+> +	 *
+> +	 * In !RT, it is always safe to call __put_task_struct().
+> +	 * Though, in order to simplify the code, resort to the
+> +	 * deferred call too.
+>  	 *
+> -	 * call_rcu() will schedule delayed_put_task_struct_rcu()
+> +	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+>  	 * to be called in process context.
+>  	 *
+>  	 * __put_task_struct() is called when
+> @@ -165,7 +158,7 @@ static inline void put_task_struct(struct task_struct *t)
+>  	 *
+>  	 * delayed_free_task() also uses ->rcu, but it is only called
+>  	 * when it fails to fork a process. Therefore, there is no
+> -	 * way it can conflict with put_task_struct().
+> +	 * way it can conflict with __put_task_struct().
+>  	 */
+>  	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
+>  }
+> -- 
+> 2.50.0
+> 
 
-If the whole section is required to be serialized, then this need
-another local lock in kcov_percpu_data to work correctly on RT.
-
-Thanks,
-
-        tglx
