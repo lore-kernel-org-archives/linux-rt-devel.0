@@ -1,49 +1,49 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011AA1EE7B7
-	for <linux-rt-devel@lists.linux.dev>; Sun,  3 Aug 2025 07:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1DE27F198
+	for <linux-rt-devel@lists.linux.dev>; Sun,  3 Aug 2025 07:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754205731; cv=none; b=RagaXKUPRcG617iqKX157IboQzggocuzUlA7Rbf5z/jsz6b22WSpUxQQZYGftGZQd16m9iD78hKqL6It0JL3kiY7cYm40ZiqKsdRFQEdTSFm1VO2o3/E7ne93yMUunV6yB6ZpEJThlRezCxfpFJ78QvDj9z60dnBtqXNL7zmj1I=
+	t=1754205758; cv=none; b=b1O9Wiu6bIRKozwNhpSt43Te55lc1jcyOdcCsy17wkgG+o69lbc7vu3UoRQnWOuXT2MAn1JnEHzn5zzG+haco9ej0B8Eqod2sMF2PIVd86Lvo6h+fTMwB6M3ho3dpT3wBxXsSQEeEVjSOJwPR0gFCmERJjx92GT4Huh0hfiEs8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754205731; c=relaxed/simple;
-	bh=fUq2Li45YAs5PecAJwEYKmqj5OXZ+QBFxr7/0K55pqs=;
+	s=arc-20240116; t=1754205758; c=relaxed/simple;
+	bh=a1wPu7qWEqbXSE3m92o14aGzkXL9K+CEYt6wZ0QdWlg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uhikyywkPPVuMtl33aTAIFK9ValxNtiK9Cr2CPkKXhxtPOjdj1lI+dNDJ7kS9zo7cGwZMQcIgzbN5RwjNe8xNwfm3o87vkJPaflGt639Y+qrkgsma8F4ks7yZRrArz/KGZ80t1P64WG2ot4ztfcJOhgcHQ7tNDsJcfQsjcc7rYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.46
+	 MIME-Version; b=rGukPVLxfqWD1W6x55ZxLLhCs8ohpcp7wqvAWSZ5FUZmFAE+DEEZAZTb5u4+3/hiJTW/LeeuGjBATV4eWr0OMarZ1ue27kXSS60jPdezLawremDTk+syq07qpIUxcJX708Sfdri9GMOiitkF+QZf4R3DVSoLlOMCNWFeIxz22xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-31f5ed172daso537862a91.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 03 Aug 2025 00:22:09 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-23ff92d05acso7500125ad.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 03 Aug 2025 00:22:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754205729; x=1754810529;
+        d=1e100.net; s=20230601; t=1754205755; x=1754810555;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=v5kjPMrRx3BCdvtMiXfak7wOA3clQMtvTSjhTHkH/fI=;
-        b=kROIzpp4ZVC9szuheAQov7CQf6SeS3fQhkmtPbB1Vcgmw+ZgKsVzc8+QyxQ9SM/7Pm
-         lz2IULNsr0BEJVcY+Lt03p7r/pIxm+cAHatFkg+aiYFFTYnrYYDkYNZwQ/rreAQHJgla
-         z/yk1LyHRUNIem95OXV5xF27uHKIW41BcDRdPl7o5Yfi1Ud2SMJRZuwZzZ87aPoVfivX
-         KqHUSSRTcCo/c7Pv2JYXV+70TYtl0o6zF7NpXkiqRzVguTqwA0PqiWXUOAMDYHsPaKhh
-         CW9bx0Rdwv8rk+f/Kyk5PZAaNltWAVEYQKbcsO7gIk8kmeblUjAEwphTvirb/fC9hC3q
-         1vEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcYa6ZcaOQbcXqKcwdL35ynN+Lb1Gd1var8PSWl8cOs39VyzDsXJ8CqFH0UBIpf+tn9GkhpNWBUOhu36GD/Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRUv3gkJFzcs/9IEP7fQAKfcGLP4UkcP4TopYRE9ViSrubO7ju
-	iUes/nBIRuvO3e9cQc8ZQ8ghQl+78fXPtQBr2j/pRZwtoh7sNNoY0ZI7
-X-Gm-Gg: ASbGncufSPdrZ6gc0KZTxR4VGN87OYuC5Kxp6NmRzkhPRtaZTuZmLSLHLg2TmsRhoA/
-	r6yE01aDwkkPAAFNDZNqaHw3xy8G/ujMe9iBgQ6r+RD4GfxiXMUUD2nNLToHLfPtluZKqWX+lFG
-	h1PY9hTfU/EDOyuMfLDloTZCqFXZ8TQCx3cXkgXQONGAYNGqxs4rUVIggy+my+CjwtDuTiE58pu
-	9uMp3giEigjqu4ZH8FxtV42QDb+OKC1TzRye9fAFx2oZcaSVcwd7BwHL1Ym8oGBYI0uikCAcm7t
-	Gm8j9eKJuHwOlDJFa7alaTmt8UZD5IVMLm2ljT8qlmVEumSnm3mU+OZAwMIzLi0UmcGuweLuahg
-	o5BKUWjQB2ZMi
-X-Google-Smtp-Source: AGHT+IFzgXBZ0NZjupPHVGqHGMmkqaVS7ylijLqV9m9w7OOaDlsbddfVokWVO7AIwAG6VLW8O6BILQ==
-X-Received: by 2002:a05:6a20:9f86:b0:1ee:d621:3c3f with SMTP id adf61e73a8af0-23df8d6cec9mr3955467637.0.1754205729321;
-        Sun, 03 Aug 2025 00:22:09 -0700 (PDT)
+        bh=7jgd1GNOsYadrfuybM239b5t7yZLqoDPXrAoeKpSwNM=;
+        b=WkgNjpmmUccFQ4TvqTi0WhKUTfDFkLMQ6/l0AvbKb3pff5Q5TpyJ1H0vDw1ks14/JY
+         QRScb/wAzH8STMj6QbrOxjPKdITnZJZh0ErKGya+BGvC9pUdrwWF1j4MPS1pHaMbX2n4
+         8NQVmDznSLuqkU7tzeC43O/X6xVZ4XMywOQLJuLU9WQ2ozpLJ2jWhPiLP8P5Fcrjsn6t
+         /qnKioFhK4LM/8tHUxxO0rvpoGarptUbw1iWTX/2YSHyxMpI4rq6qZkFqDvP2FDuXvHx
+         B5Dc3ZSJGmWTpy/Q/S5oq7nHFWlsr7ns3ULb6wgvd8x5jwOK7MxaUnYDno66JBoCGwcQ
+         Ez7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVbGHj/0sRDJATL7ym/VuxFsCPFVXaJGsJmDf+oZaw4pu6QiGb0T+btYtwU1udq7eunpJK5HnZ6q3ZjyH8LZg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxpl7FWDLbzZi7Fss2R8xsyaoxwXSwi8wDkD3SZrTMaeMsCjY6y
+	GEBcfad+r7ERHYl7r5avNsKGqEf/08rVO3RZ4/BIrLRrLYJPiJq7YdPc
+X-Gm-Gg: ASbGncvAA741XqCfvGjxlqKjKY/lx+kGZlXNzhS3iRv0Baz2sRftL2M5YdurBkOQLIA
+	g4sqHSPX96QhUaHiWiPevEEAFX3TcPrkzbV3v/LDK9YFN8YhJjTr7rXK56uz+4WSbUZGkAWg6m4
+	Jp1hUE7eWE7j2dJyLPEWPdhgf/kzpc+pAvhC9NVxrxbbkGrfdfxvTyJTy9mjYmjD7+qvn+OKlnM
+	W6e+wDHJo1tLOJ7pgbt0JaW4mzpkDix5ye3zjLhBvTyOQy1IrmxF/QGHLqKp1JPhetKVGYCrEYC
+	2rRWvdc+fN3nRxySK6oKo2cYsZqh9B3mvf8wdUwdVWdAPi6gyWEpZ/D1eJsrkkaepREw0F98L4w
+	Ku15TGg8gOVLH
+X-Google-Smtp-Source: AGHT+IEExGu5iIl8dO34DlMWk4OmiF1INIjAC/Q4dK9xAmegQ7x38dfO88DNWfygHfkGxkMXswX2Fw==
+X-Received: by 2002:a05:6a20:748c:b0:230:aa8c:f729 with SMTP id adf61e73a8af0-23df8e3d03emr3551485637.0.1754205755356;
+        Sun, 03 Aug 2025 00:22:35 -0700 (PDT)
 Received: from localhost ([218.152.98.97])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b423d2f4fcesm4517004a12.33.2025.08.03.00.22.04
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b423d2f4fcesm4517004a12.33.2025.08.03.00.22.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Aug 2025 00:22:08 -0700 (PDT)
+        Sun, 03 Aug 2025 00:22:35 -0700 (PDT)
 From: Yunseong Kim <ysk@kzalloc.com>
 To: Dmitry Vyukov <dvyukov@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
@@ -61,9 +61,9 @@ Cc: Thomas Gleixner <tglx@linutronix.de>,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Yunseong Kim <ysk@kzalloc.com>
-Subject: [PATCH 1/4] kcov: Use raw_spinlock_t for kcov->lock and kcov_remote_lock
-Date: Sun,  3 Aug 2025 07:20:43 +0000
-Message-ID: <20250803072044.572733-4-ysk@kzalloc.com>
+Subject: [PATCH 2/4] kcov: Replace per-CPU local_lock with local_irq_save/restore
+Date: Sun,  3 Aug 2025 07:20:45 +0000
+Message-ID: <20250803072044.572733-6-ysk@kzalloc.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250803072044.572733-2-ysk@kzalloc.com>
 References: <20250803072044.572733-2-ysk@kzalloc.com>
@@ -75,248 +75,157 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The locks kcov->lock and kcov_remote_lock can be acquired from
-atomic contexts, such as instrumentation hooks invoked from interrupt
-handlers.
+Commit f85d39dd7ed8 ("kcov, usb: disable interrupts in
+kcov_remote_start_usb_softirq") introduced a local_irq_save() in the
+kcov_remote_start_usb_softirq() wrapper, placing kcov_remote_start() in
+atomic context.
 
-On PREEMPT_RT-enabled kernels, spinlock_t is typically implemented
-as a sleeping lock (e.g., mapped to an rt_mutex). Acquiring such a
-lock in atomic context, where sleeping is not allowed, can lead to
-system hangs or crashes.
+The previous patch addressed this by converting the global
+kcov_remote_lock to a non-sleeping raw_spinlock_t. However, per-CPU
+data in kcov_remote_start() and kcov_remote_stop() remains protected
+by kcov_percpu_data.lock, which is a local_lock_t.
 
-To avoid this, convert both locks to raw_spinlock_t, which always
-provides non-sleeping spinlock semantics regardless of preemption model.
+On PREEMPT_RT kernels, local_lock_t is implemented as a sleeping lock.
+Acquiring it from atomic context triggers warnings or crashes due to
+invalid sleeping behavior.
+
+The original use of local_lock_t assumed that kcov_remote_start() would
+never be called in atomic context. Now that this assumption no longer
+holds, replace it with local_irq_save() and local_irq_restore(), which are
+safe in all contexts and compatible with the use of raw_spinlock_t.
+
+With this change, both global and per-CPU synchronization primitives are
+guaranteed to be non-sleeping, making kcov_remote_start() safe for
+use in atomic contexts.
 
 Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
 ---
- kernel/kcov.c | 58 +++++++++++++++++++++++++--------------------------
- 1 file changed, 29 insertions(+), 29 deletions(-)
+ kernel/kcov.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/kernel/kcov.c b/kernel/kcov.c
-index 187ba1b80bda..7d9b53385d81 100644
+index 7d9b53385d81..faad3b288ca7 100644
 --- a/kernel/kcov.c
 +++ b/kernel/kcov.c
-@@ -54,7 +54,7 @@ struct kcov {
- 	 */
- 	refcount_t		refcount;
- 	/* The lock protects mode, size, area and t. */
--	spinlock_t		lock;
-+	raw_spinlock_t		lock;
- 	enum kcov_mode		mode;
- 	/* Size of arena (in long's). */
- 	unsigned int		size;
-@@ -84,7 +84,7 @@ struct kcov_remote {
- 	struct hlist_node	hnode;
+@@ -90,7 +90,6 @@ static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
+ 
+ struct kcov_percpu_data {
+ 	void			*irq_area;
+-	local_lock_t		lock;
+ 
+ 	unsigned int		saved_mode;
+ 	unsigned int		saved_size;
+@@ -99,9 +98,7 @@ struct kcov_percpu_data {
+ 	int			saved_sequence;
  };
  
--static DEFINE_SPINLOCK(kcov_remote_lock);
-+static DEFINE_RAW_SPINLOCK(kcov_remote_lock);
- static DEFINE_HASHTABLE(kcov_remote_map, 4);
- static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
+-static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data) = {
+-	.lock = INIT_LOCAL_LOCK(lock),
+-};
++static DEFINE_PER_CPU(struct kcov_percpu_data, kcov_percpu_data);
  
-@@ -406,7 +406,7 @@ static void kcov_remote_reset(struct kcov *kcov)
- 	struct hlist_node *tmp;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&kcov_remote_lock, flags);
-+	raw_spin_lock_irqsave(&kcov_remote_lock, flags);
- 	hash_for_each_safe(kcov_remote_map, bkt, tmp, remote, hnode) {
- 		if (remote->kcov != kcov)
- 			continue;
-@@ -415,7 +415,7 @@ static void kcov_remote_reset(struct kcov *kcov)
- 	}
- 	/* Do reset before unlock to prevent races with kcov_remote_start(). */
- 	kcov_reset(kcov);
--	spin_unlock_irqrestore(&kcov_remote_lock, flags);
-+	raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
- }
- 
- static void kcov_disable(struct task_struct *t, struct kcov *kcov)
-@@ -450,7 +450,7 @@ void kcov_task_exit(struct task_struct *t)
- 	if (kcov == NULL)
+ /* Must be called with kcov_remote_lock locked. */
+ static struct kcov_remote *kcov_remote_find(u64 handle)
+@@ -862,7 +859,7 @@ void kcov_remote_start(u64 handle)
+ 	if (!in_task() && !in_softirq_really())
  		return;
  
--	spin_lock_irqsave(&kcov->lock, flags);
-+	raw_spin_lock_irqsave(&kcov->lock, flags);
- 	kcov_debug("t = %px, kcov->t = %px\n", t, kcov->t);
+-	local_lock_irqsave(&kcov_percpu_data.lock, flags);
++	local_irq_save(flags);
+ 
  	/*
- 	 * For KCOV_ENABLE devices we want to make sure that t->kcov->t == t,
-@@ -475,12 +475,12 @@ void kcov_task_exit(struct task_struct *t)
- 	 * By combining all three checks into one we get:
+ 	 * Check that kcov_remote_start() is not called twice in background
+@@ -870,7 +867,7 @@ void kcov_remote_start(u64 handle)
  	 */
- 	if (WARN_ON(kcov->t != t)) {
--		spin_unlock_irqrestore(&kcov->lock, flags);
-+		raw_spin_unlock_irqrestore(&kcov->lock, flags);
+ 	mode = READ_ONCE(t->kcov_mode);
+ 	if (WARN_ON(in_task() && kcov_mode_enabled(mode))) {
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
  		return;
  	}
- 	/* Just to not leave dangling references behind. */
- 	kcov_disable(t, kcov);
--	spin_unlock_irqrestore(&kcov->lock, flags);
-+	raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 	kcov_put(kcov);
- }
- 
-@@ -492,14 +492,14 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
- 	struct page *page;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&kcov->lock, flags);
-+	raw_spin_lock_irqsave(&kcov->lock, flags);
- 	size = kcov->size * sizeof(unsigned long);
- 	if (kcov->area == NULL || vma->vm_pgoff != 0 ||
- 	    vma->vm_end - vma->vm_start != size) {
- 		res = -EINVAL;
- 		goto exit;
- 	}
--	spin_unlock_irqrestore(&kcov->lock, flags);
-+	raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 	vm_flags_set(vma, VM_DONTEXPAND);
- 	for (off = 0; off < size; off += PAGE_SIZE) {
- 		page = vmalloc_to_page(kcov->area + off);
-@@ -511,7 +511,7 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
- 	}
- 	return 0;
- exit:
--	spin_unlock_irqrestore(&kcov->lock, flags);
-+	raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 	return res;
- }
- 
-@@ -525,7 +525,7 @@ static int kcov_open(struct inode *inode, struct file *filep)
- 	kcov->mode = KCOV_MODE_DISABLED;
- 	kcov->sequence = 1;
- 	refcount_set(&kcov->refcount, 1);
--	spin_lock_init(&kcov->lock);
-+	raw_spin_lock_init(&kcov->lock);
- 	filep->private_data = kcov;
- 	return nonseekable_open(inode, filep);
- }
-@@ -646,18 +646,18 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		kcov->t = t;
- 		kcov->remote = true;
- 		kcov->remote_size = remote_arg->area_size;
--		spin_lock_irqsave(&kcov_remote_lock, flags);
-+		raw_spin_lock_irqsave(&kcov_remote_lock, flags);
- 		for (i = 0; i < remote_arg->num_handles; i++) {
- 			if (!kcov_check_handle(remote_arg->handles[i],
- 						false, true, false)) {
--				spin_unlock_irqrestore(&kcov_remote_lock,
-+				raw_spin_unlock_irqrestore(&kcov_remote_lock,
- 							flags);
- 				kcov_disable(t, kcov);
- 				return -EINVAL;
- 			}
- 			remote = kcov_remote_add(kcov, remote_arg->handles[i]);
- 			if (IS_ERR(remote)) {
--				spin_unlock_irqrestore(&kcov_remote_lock,
-+				raw_spin_unlock_irqrestore(&kcov_remote_lock,
- 							flags);
- 				kcov_disable(t, kcov);
- 				return PTR_ERR(remote);
-@@ -666,7 +666,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		if (remote_arg->common_handle) {
- 			if (!kcov_check_handle(remote_arg->common_handle,
- 						true, false, false)) {
--				spin_unlock_irqrestore(&kcov_remote_lock,
-+				raw_spin_unlock_irqrestore(&kcov_remote_lock,
- 							flags);
- 				kcov_disable(t, kcov);
- 				return -EINVAL;
-@@ -674,14 +674,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 			remote = kcov_remote_add(kcov,
- 					remote_arg->common_handle);
- 			if (IS_ERR(remote)) {
--				spin_unlock_irqrestore(&kcov_remote_lock,
-+				raw_spin_unlock_irqrestore(&kcov_remote_lock,
- 							flags);
- 				kcov_disable(t, kcov);
- 				return PTR_ERR(remote);
- 			}
- 			t->kcov_handle = remote_arg->common_handle;
- 		}
--		spin_unlock_irqrestore(&kcov_remote_lock, flags);
-+		raw_spin_unlock_irqrestore(&kcov_remote_lock, flags);
- 		/* Put either in kcov_task_exit() or in KCOV_DISABLE. */
- 		kcov_get(kcov);
- 		return 0;
-@@ -716,16 +716,16 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		area = vmalloc_user(size * sizeof(unsigned long));
- 		if (area == NULL)
- 			return -ENOMEM;
--		spin_lock_irqsave(&kcov->lock, flags);
-+		raw_spin_lock_irqsave(&kcov->lock, flags);
- 		if (kcov->mode != KCOV_MODE_DISABLED) {
--			spin_unlock_irqrestore(&kcov->lock, flags);
-+			raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 			vfree(area);
- 			return -EBUSY;
- 		}
- 		kcov->area = area;
- 		kcov->size = size;
- 		kcov->mode = KCOV_MODE_INIT;
--		spin_unlock_irqrestore(&kcov->lock, flags);
-+		raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 		return 0;
- 	case KCOV_REMOTE_ENABLE:
- 		if (get_user(remote_num_handles, (unsigned __user *)(arg +
-@@ -749,9 +749,9 @@ static long kcov_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		 * All other commands can be normally executed under a spin lock, so we
- 		 * obtain and release it here in order to simplify kcov_ioctl_locked().
- 		 */
--		spin_lock_irqsave(&kcov->lock, flags);
-+		raw_spin_lock_irqsave(&kcov->lock, flags);
- 		res = kcov_ioctl_locked(kcov, cmd, arg);
--		spin_unlock_irqrestore(&kcov->lock, flags);
-+		raw_spin_unlock_irqrestore(&kcov->lock, flags);
- 		kfree(remote_arg);
- 		return res;
- 	}
-@@ -883,10 +883,10 @@ void kcov_remote_start(u64 handle)
+ 	/*
+@@ -879,7 +876,7 @@ void kcov_remote_start(u64 handle)
+ 	 * happened while collecting coverage from a background thread.
+ 	 */
+ 	if (WARN_ON(in_serving_softirq() && t->kcov_softirq)) {
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
  		return;
  	}
  
--	spin_lock(&kcov_remote_lock);
-+	raw_spin_lock(&kcov_remote_lock);
+@@ -887,7 +884,7 @@ void kcov_remote_start(u64 handle)
  	remote = kcov_remote_find(handle);
  	if (!remote) {
--		spin_unlock(&kcov_remote_lock);
-+		raw_spin_unlock(&kcov_remote_lock);
- 		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+ 		raw_spin_unlock(&kcov_remote_lock);
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
  		return;
  	}
-@@ -908,7 +908,7 @@ void kcov_remote_start(u64 handle)
- 		size = CONFIG_KCOV_IRQ_AREA_SIZE;
- 		area = this_cpu_ptr(&kcov_percpu_data)->irq_area;
- 	}
--	spin_unlock(&kcov_remote_lock);
-+	raw_spin_unlock(&kcov_remote_lock);
+ 	kcov_debug("handle = %llx, context: %s\n", handle,
+@@ -912,13 +909,13 @@ void kcov_remote_start(u64 handle)
  
  	/* Can only happen when in_task(). */
  	if (!area) {
-@@ -1037,19 +1037,19 @@ void kcov_remote_stop(void)
- 		kcov_remote_softirq_stop(t);
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
+ 		area = vmalloc(size * sizeof(unsigned long));
+ 		if (!area) {
+ 			kcov_put(kcov);
+ 			return;
+ 		}
+-		local_lock_irqsave(&kcov_percpu_data.lock, flags);
++		local_irq_save(flags);
  	}
  
--	spin_lock(&kcov->lock);
-+	raw_spin_lock(&kcov->lock);
+ 	/* Reset coverage size. */
+@@ -930,7 +927,7 @@ void kcov_remote_start(u64 handle)
+ 	}
+ 	kcov_start(t, kcov, size, area, mode, sequence);
+ 
+-	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++	local_irq_restore(flags);
+ 
+ }
+ EXPORT_SYMBOL(kcov_remote_start);
+@@ -1004,12 +1001,12 @@ void kcov_remote_stop(void)
+ 	if (!in_task() && !in_softirq_really())
+ 		return;
+ 
+-	local_lock_irqsave(&kcov_percpu_data.lock, flags);
++	local_irq_save(flags);
+ 
+ 	mode = READ_ONCE(t->kcov_mode);
+ 	barrier();
+ 	if (!kcov_mode_enabled(mode)) {
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
+ 		return;
+ 	}
  	/*
- 	 * KCOV_DISABLE could have been called between kcov_remote_start()
- 	 * and kcov_remote_stop(), hence the sequence check.
+@@ -1017,12 +1014,12 @@ void kcov_remote_stop(void)
+ 	 * actually found the remote handle and started collecting coverage.
  	 */
- 	if (sequence == kcov->sequence && kcov->remote)
- 		kcov_move_area(kcov->mode, kcov->area, kcov->size, area);
--	spin_unlock(&kcov->lock);
-+	raw_spin_unlock(&kcov->lock);
- 
- 	if (in_task()) {
--		spin_lock(&kcov_remote_lock);
-+		raw_spin_lock(&kcov_remote_lock);
- 		kcov_remote_area_put(area, size);
--		spin_unlock(&kcov_remote_lock);
-+		raw_spin_unlock(&kcov_remote_lock);
+ 	if (in_serving_softirq() && !t->kcov_softirq) {
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
+ 		return;
+ 	}
+ 	/* Make sure that kcov_softirq is only set when in softirq. */
+ 	if (WARN_ON(!in_serving_softirq() && t->kcov_softirq)) {
+-		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++		local_irq_restore(flags);
+ 		return;
  	}
  
- 	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
+@@ -1052,7 +1049,7 @@ void kcov_remote_stop(void)
+ 		raw_spin_unlock(&kcov_remote_lock);
+ 	}
+ 
+-	local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
++	local_irq_restore(flags);
+ 
+ 	/* Get in kcov_remote_start(). */
+ 	kcov_put(kcov);
 -- 
 2.50.0
 
