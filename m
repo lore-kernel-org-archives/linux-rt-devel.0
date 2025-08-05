@@ -1,110 +1,143 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F22274FE3
-	for <linux-rt-devel@lists.linux.dev>; Mon,  4 Aug 2025 16:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9917279DB2
+	for <linux-rt-devel@lists.linux.dev>; Tue,  5 Aug 2025 15:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754325459; cv=none; b=c3JqhCvVK5O8FKQXtNKt3Yw/c2vRHUchzCIT3AesSCTrC6PEksYNS9mkH5zWOD7bm34i72zAVVBEVkKiWqpltQLtLBHeSjp1uq4mTnOnzihHza/49R1hpYw6IA9cWlZ6rOnqMC5bP9HSgTvuDnIFfvn8q+mVzhg9HIVd9MXyz+E=
+	t=1754407630; cv=none; b=AW534nDlT35uUrBU3hmFxauwA132WV8PJAt2XNM3kz4aH9/c83c32xd8LeUnj8Qw6y2GekObfpdcsLIL+kZfQHNKF6PYeAyu6LWiIYFrg9UgCQn2uw2DwJNgm0NL5lMynpSHWhhKXO8iNFC6oVKTdDFax3kCO7EbbgxdRoM48tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754325459; c=relaxed/simple;
-	bh=eQ1B7fWck2plFM9ie7viO3hgpQX6fKWsnWwoHvKUBnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oIMYVYvTdBCLI34lHdMJ+HszaOsfh6n59MPlhm/Ms4LCXLugvSRDNJ3WebTYbIHYZO9866+BVbSjIgQ7n1kThisQYieUkzqodpEeLiR0Yc+/uoVM87KQFmKUDZWdz/Fpogt/hatLaew/H/Y7fPM4qLMvnjn2iNvdXiI07v2hoQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id B0C4A16081E;
-	Mon,  4 Aug 2025 16:37:31 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 694EE22;
-	Mon,  4 Aug 2025 16:37:28 +0000 (UTC)
-Date: Mon, 4 Aug 2025 12:37:56 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Yunseong Kim <ysk@kzalloc.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com, Yeoreum
- Yun <yeoreum.yun@arm.com>, ppbuk5246@gmail.com, linux-usb@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, syzkaller@googlegroups.com,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/4] kcov: Replace per-CPU local_lock with
- local_irq_save/restore
-Message-ID: <20250804123756.7678cb3d@gandalf.local.home>
-In-Reply-To: <20250803072044.572733-6-ysk@kzalloc.com>
-References: <20250803072044.572733-2-ysk@kzalloc.com>
-	<20250803072044.572733-6-ysk@kzalloc.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1754407630; c=relaxed/simple;
+	bh=lbWIMGmXSfPP8qxW81xC9fWF8J70sLsBiiZS09J+PqM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M/dKltzKLdsZjb6TdeuVM62cHmKydoBmrJbd/cx8iqjqN2R+9XXaayPsjYUAhLT6krFx6waJgYO0ZEk33MAwdPMSKeVJXwqgIlnmRbRREFl+gLWQ6UI2MUII1oTezEalG3+e+73o/exwE+iFO1UMT912enFVmj4OzUonV9K/EgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-76624ecc7efso535152b3a.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 05 Aug 2025 08:27:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754407628; x=1755012428;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6pr6DrCEDv+a0jbLHVvBac89tThXy65vIV2bUWnsRig=;
+        b=vlv6tEhYcDWVWxWNTtqzm3cxvelyvAb2hVsyH/53D7plr/30yeacSYT+ESIotzKSLE
+         bbXqo0ZOLRUQny1iYUf/Wg161rnX/6bSvJHPpbvO2P3/qHZe0EOgn+1l2VUYNKiSJz09
+         fZ3NpsI+tXIKGiu8W3hNOErSzW5KGQCeEl0vb6HN/T0ddn44wYTFFwVloDK8P4X28zrP
+         awoDy8SHYDQQhhNs1x53w4kToVnShnrD6YNVfU7gMSo8B2yyCufuCOdsqbXa922O+1bS
+         38oPuZTcOwGc/jqEuYDPFmRI7LieF9fw/9Xn9VzrOwjcVDi14aqjSVPAlHmZqKgyjy6R
+         JAvg==
+X-Forwarded-Encrypted: i=1; AJvYcCVTEYPJP2ZAPgjP8Zu7SGAmzkLqwy9tndwCunMXoyUodklbZEDNj8wx8glCHBEpNZzTi9Gju9l6GGlYw0+5pg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1gZyGT5JlWmwNmP94PxJ1YWUixeyhTlHAYQrni5BH5i96spj6
+	V5gUUiBOGiU+ak6SrwVXMS/g1uTw59weXP8e2WJQM91FKCGc/6bdpzof
+X-Gm-Gg: ASbGncvj2EyshuHm61AE7FRN1Lf52oUkBcyRLncM7WXi05TBqBfCuse1TZC+amnpfug
+	23KQW1SYh+njUgVtfkdeIVi5iheg+UmknA2DIEPYNzvuYsSEvLXZgsvMvf6B9dHxY1t0qA8gQVb
+	h2F7H+409vLj90vXs5JBBs8XjKPI/XYTn1yaIfzaPe8TsV/VMcEg7liL50yVnKUe8eXus4YQtri
+	tzCyO/HZJ5mQw/NnHwElWSh04z2Dk72WwMUxmmaQeqQGS5xttOyBDGwlNBwZhWqB96W0kn+7MN4
+	dsxj4pwV8LuDzBNad9ddSzwZ14/+TDwdQkZ8rU6Pmm7jMmYSQlAmGH8uOSU0/z2IohRncFiexna
+	NVw5uuszshsydOPauUm8r8nl29m19QAyw
+X-Google-Smtp-Source: AGHT+IEsKFfKhbmomJLvjN9Tv+WNDm8mFlc7vYZxJMukrVF3+0b0N+h3Y50ODx8JttQHR39Cg6w5ow==
+X-Received: by 2002:a05:6a00:856:b0:747:ae55:12e with SMTP id d2e1a72fcca58-76bec2ee69amr7829469b3a.1.1754407627955;
+        Tue, 05 Aug 2025 08:27:07 -0700 (PDT)
+Received: from [192.168.50.136] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce929aesm13090519b3a.49.2025.08.05.08.27.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Aug 2025 08:27:07 -0700 (PDT)
+Message-ID: <ddd14f62-b6c9-4984-84be-6c999ea92e30@kzalloc.com>
+Date: Wed, 6 Aug 2025 00:27:01 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 694EE22
-X-Stat-Signature: gbwrjeowoyigsjc9wictbdrsxum6r8iy
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/uQhOn1Fyqq2fpyzlrwEHVWYt5vTqRb7E=
-X-HE-Tag: 1754325448-434064
-X-HE-Meta: U2FsdGVkX1/mgT4nDHb3f7o/1ybC4xqUbhxzTP2su8vp+fivYgvjjOAYcFSuPpP3LB8ZeobyzjYoJvlb27F5buAymcjmspNzhskohp+GPlzRAoHT3Elce59c3sw4R+EitYmKmfYtJgXp6YXgXv1cS9pp3BTO5wexULUuB2twEit/Atiodkgzt1KXNazZWo2pqbtKpKdKMHFaZ7h0YeyxKCNfmSpbCRsc/6Pfjld0tmonws5hJkmPk7mQo6PHT4g1XTrzYXVyqzaQZtecMntogQM/DC1pJnQKk86CwW3BUu5hQHUOJCjEfA5EA/xApCgw8keBiHthkpXtfBuYLFNRoyKogOYHNEgae+L4sLfwuaZseaxL/hvjJAlmjEKbjQv8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/4] kcov, usb: Fix invalid context sleep in softirq
+ path on PREEMPT_RT
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+ Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
+ Yeoreum Yun <yeoreum.yun@arm.com>, ppbuk5246@gmail.com,
+ linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ syzkaller@googlegroups.com, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20250803072044.572733-2-ysk@kzalloc.com>
+ <20250804122405.3e9d83ed@gandalf.local.home>
+Content-Language: en-US
+From: Yunseong Kim <ysk@kzalloc.com>
+Organization: kzalloc
+In-Reply-To: <20250804122405.3e9d83ed@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun,  3 Aug 2025 07:20:45 +0000
-Yunseong Kim <ysk@kzalloc.com> wrote:
+Hi Steve,
 
-> Commit f85d39dd7ed8 ("kcov, usb: disable interrupts in
-> kcov_remote_start_usb_softirq") introduced a local_irq_save() in the
-> kcov_remote_start_usb_softirq() wrapper, placing kcov_remote_start() in
-> atomic context.
+You're absolutely right to ask for clarification, and I now realize that
+I didn’t explain the background clearly enough in my cover letter.
+
+On 8/5/25 1:24 오전, Steven Rostedt wrote:
+> On Sun,  3 Aug 2025 07:20:41 +0000
+> Yunseong Kim <ysk@kzalloc.com> wrote:
 > 
-> The previous patch addressed this by converting the global
-
-Don't ever use the phrase "The previous patch" in a change log. These get
-added to git and it's very hard to find any order of one patch to another.
-When doing a git blame 5 years from now, "The previous patch" will be
-meaningless.
-
-> kcov_remote_lock to a non-sleeping raw_spinlock_t. However, per-CPU
-> data in kcov_remote_start() and kcov_remote_stop() remains protected
-> by kcov_percpu_data.lock, which is a local_lock_t.
-
-Instead, you should say something like:
-
-  As kcov_remote_start() is now in atomic context, the kcov_remote lock was
-  converted to a non-sleeping raw_spinlock. However, per-cpu ...
-
-
+>> This patch series resolves a sleeping function called from invalid context
+>> bug that occurs when fuzzing USB with syzkaller on a PREEMPT_RT kernel.
+>>
+>> The regression was introduced by the interaction of two separate patches:
+>> one that made kcov's internal locks sleep on PREEMPT_RT for better latency
 > 
-> On PREEMPT_RT kernels, local_lock_t is implemented as a sleeping lock.
-> Acquiring it from atomic context triggers warnings or crashes due to
-> invalid sleeping behavior.
+> Just so I fully understand this change. It is basically reverting the
+> "better latency" changes? That is, with KCOV anyone running with PREEMPT_RT
+> can expect non deterministic latency behavior?
+
+The regression results from the interaction of two changes — and in my original
+description, I inaccurately characterized one of them as being 
+"for better latency." That was misleading.
+
+The first change d5d2c51 replaced spin_lock_irqsave() with local_lock_irqsave()
+in KCOV to ensure compatibility with PREEMPT_RT. This avoided using a
+potentially sleeping lock with interrupts disabled.
+At the time, as Sebastian noted:
+
+ "There is no compelling reason to change the lock type to raw_spin_lock_t...
+  Changing it would require to move memory allocation and deallocation outside
+  of the locked section."
+
+However, the situation changed after another patch 8fea0c8 converted the USB
+HCD tasklet to a BH workqueue. As a result, usb_giveback_urb_bh() began running
+with interrupts enabled, and the KCOV remote coverage collection section in
+this path became re-entrant. To prevent nested coverage sections — which KCOV
+doesn’t support — kcov_remote_start_usb_softirq() was updated to explicitly
+disable interrupts during coverage collection f85d39d.
+
+This combination — using a local_lock (which can sleep on RT) alongside
+local_irq_save() — inadvertently created a scenario where a sleeping lock was
+acquired in atomic context, triggering a kernel BUG on PREEMPT_RT.
+
+So while the original KCOV locking change didn't require raw spinlocks at
+the time, it became effectively incompatible with the USB softirq use case once
+that path began relying on interrupt disabling for correctness. In this sense,
+the "no compelling reason" eventually turned into a "necessary compromise."
+
+To clarify: this patch series doesn't revert the previous change entirely.
+It keeps the local_lock behavior for task context (where it's safe and
+appropriate), but ensures atomic safety in interrupt/softirq contexts by
+using raw spinlocks selectively where needed.
+
+> This should be fully documented. I assume this will not be a problem as
+> kcov is more for debugging and should not be enabled in production.
 > 
-> The original use of local_lock_t assumed that kcov_remote_start() would
-> never be called in atomic context. Now that this assumption no longer
-> holds, replace it with local_irq_save() and local_irq_restore(), which are
-> safe in all contexts and compatible with the use of raw_spinlock_t.
-
-Hmm, if the local_lock_t() is called inside of the taking of the
-raw_spinlock_t, then this patch should probably be first. Why introduce a
-different bug when fixing another one?
-
-Then the change log of this and the previous patch can both just mention
-being called from atomic context.
-
-This change log would probably then say, "in order to convert the kcov locks
-to raw_spinlocks, the local_lock_irqsave()s need to be converted over to
-local_irq_save()".
-
--- Steve
-
+> -- Steve
 > 
-> With this change, both global and per-CPU synchronization primitives are
-> guaranteed to be non-sleeping, making kcov_remote_start() safe for
-> use in atomic contexts.
-> 
-> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
-> ---
+
+Thanks again for raising this — I’ll make sure the changelog documents this
+interaction more clearly.
+
+Best regards,
+Yunseong Kim
