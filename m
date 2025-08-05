@@ -1,52 +1,52 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B6F2AEE1
-	for <linux-rt-devel@lists.linux.dev>; Tue,  5 Aug 2025 15:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A4E18DB37
+	for <linux-rt-devel@lists.linux.dev>; Tue,  5 Aug 2025 15:41:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754408002; cv=none; b=t+h6/W42jVlUuJjFG5VWLkmml+iJx7og2trnzY3yJ3SBsDEyZvFTCw+jVT3bENxkZD1eV1+bkbDr+QVbA2pu48PG4tjk/jtEIaZzjwq8/V64KcyVSdTU+rYqAdNdv1Kk3wRd2SVg7G9my176mK8rBc7vUwpUwBorbkP0xW9PiLk=
+	t=1754408504; cv=none; b=K0/ZgwOUpjusGItg3Z0PovZtLgI5xDXNEhHsxUuMKy8ztSegNty5vqn1t81QUzwE8iLFPrSpgYQRj1uHglRTlwUQGzcOUP4TrpBB3oLY2kMziVaQvCAxsc78XALaif6kVqVMJYy88emGNcm9k2FWECWlBCMAub5jrkXHCPVPRJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754408002; c=relaxed/simple;
-	bh=eaNb6v/jyYYmzGGznooW2Go7ynSoEs7m74+LhzyQ2KM=;
+	s=arc-20240116; t=1754408504; c=relaxed/simple;
+	bh=/yt3tHivUm51dHtkqDd0wR7z1y68m/D477BZ2GLOUAc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lffa4zL8p+ATKdyf/5aVmUo55rkHFHAzFiEIBv6jtaj/Ol0ZHM3q9ObP5gfjzSlOgEOc4nOEGudDqRi9YArGVqG+7f/WTr/odjH9bRfzyZk42Bq9gm0lAcgXXk+jziXcpcMQZKBCDj1l1yUOKYPfz0YgXM4zjBGjIQKzYwushxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.170
+	 In-Reply-To:Content-Type; b=uD6nYge9j9umBI+8Fywnu7oFB5mguFChQyfybewliHVhPJDwRM2Oe/cUFlFBLeMvdu1a4j1p2MdtQlJkA7xsFnyJwQXIrk/YVDo8J8PyayXIrh3ltb60Rq2inFw+xoJdsEelaIMv4fUM7B0E5RrYum3LH+cEBro91tGY1ZcFNGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b2700de85d0so493896a12.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 05 Aug 2025 08:33:21 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2400a0c3cf7so8549565ad.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 05 Aug 2025 08:41:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754408001; x=1755012801;
+        d=1e100.net; s=20230601; t=1754408502; x=1755013302;
         h=content-transfer-encoding:in-reply-to:organization:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1yel2b+4RblLJvMRHPT+ucYyrlWej/tApR3MO/sdfls=;
-        b=LgxahsqI0aTb8xyEVBkjqi2b9tlm+vopwPw5SQ2KNbWKLFtvs4/Pk36A1cCFQZ8pru
-         KY7yHypLggO+o3iGW2oPV+M8PiENQ3OQHB7F+UF7C4st/4PEYvf2mrFc29C8yOT5VAtW
-         Kzj13MlrPEjjOUhGL6qf4pBmNO9rI8f6TLaQZcLoIzgEMDGIFbbErb7Po/pRKYPrbzuK
-         DI9eTwVJLGFiSVKP/YzSS7S8m+Z943Al7pmKYwk4VARGBsMGO9254D9kmQY5h56YB4YO
-         Fj6er4kayS1D7yEcrMybzvSu87yT/m1KhtIYF5oZN/R6RjTmSYglPOeSXW4A00fhyYQ8
-         V0AA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGCpyvitb2joUXvswGGAj4LkCPfCDKPxu4uDAT13Hvi+JblfGJAuXQtX5DJI033eM9d/N+W01Xx0BruSkqQA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVtyTT4xyi5yFM2vFDMa4F2CuHMHWe/UZBFBm/+rmESKRDCL1Y
-	GyPrBzuYWr5fCwJActnSkxaz9ksunZ4oKZh4k1HhXh6u3rTOqzeTekC/
-X-Gm-Gg: ASbGncuQTKyjtHpDkklW/xnQrVIoALQPn22EpN621kdw/Li+gA0G3NULOrSpzya+Lka
-	V+hhAEXy/6YsRBO0QpTV5IH30WMrbWADG4Br0AJh1KK6vn4KsSodClzWp5alYWITyBoafWUHuFG
-	XbhqZgecW916HtBC6z2ufYuGlwi3ZKJZa3UKPoSzAyiVb0VQt1D5BzfTFFFFWTQRmJcm/jOtGq2
-	teElXJR1o6GCGuUxw/95ELJn7s/57iVzEN6DvVEtK6sq8wsrFfSjrFSvcneMK+3Fhm7cP9gPRhu
-	gloVPwXyBgzr7WqkmyUsBUDwIAGLywWBLybkvhOHMWtQnjlS2MxQkJtwKR/GsMSdeoBwjJhwe8q
-	CXkwX6Kt4Mp94Io0H/eBD1ShCRBxztC6AdutmCZp6dWA=
-X-Google-Smtp-Source: AGHT+IHULNJQv9btYgDl6fxqXCuB+doWn0u6Jk2OHizCXQnUCeNbkYhIJotgEaqwCog6LsLyr7rQFA==
-X-Received: by 2002:a05:6a21:684:b0:232:b78b:cdc5 with SMTP id adf61e73a8af0-23df91ae1c8mr8645872637.7.1754408000588;
-        Tue, 05 Aug 2025 08:33:20 -0700 (PDT)
+        bh=7ZMGhYD5OE1ylPdIIJZi93rO6zltU7tB53w2SBZXO9s=;
+        b=MMs5pqhazRPooXHg+nqsg+3qfWG/5YYIzCHme/msCNnE7OAqtD8KJwO1JGXfIdgFx/
+         E1uez0JvIIbsf9wyvxHP3Im5wD7PtSaMtxcev89Hy1Igg4AWUd+uNs1P5kGwxOxDKskp
+         +VfdZyrvBKuL7OcMVIf7poBL19JUqURaFyvqwwrn5leKQoYYijY1wo0X6a3dF6yjs7iK
+         x5w+7oJcDjmg9xKV7tMg/BJ0EnOR0fkmQ+Nnk0a3G2cMg5oZ5DdURMKc8czZqrCPpYsA
+         yJbXqbz4gTU1I05fjNd26XwBl4N2XUB70FHCBdi1kx4OVljHqMQmxVgJ5OsmmT+HCQK2
+         QXag==
+X-Forwarded-Encrypted: i=1; AJvYcCXJJGMeXNSrdnT7XSa+GpbZ9urAPWFopZgchXKtjvrxgrKdkxus/L9HqrQIHLswnEy09XgreXoqEAdlmonf2Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywcsjw1LHqxrLEC1BWnYCNZNbbbO8llEh0tUvhIND3T0HcWxoaJ
+	Ig5w/1cH2WSvqZKzQHflFHe6DF7oSO/BqC3XVQiC2PMnfRqPA/1TP3rJ
+X-Gm-Gg: ASbGnctFrxtamELwF57ERK5mBsVARatpXUuWjJY5iwAi7i5XcbvcyDaWma77keCkENR
+	DgBEsPh+tsNlndhTf/yrYK3urbh+deSD5P5Ny+eXQC8sX6HtV15S98puxZbhRBukw6Fum8LvEsS
+	lDyu9zU7/NfCAlBKE2JVCfvFDQFJqKF2W+J2XQgDiFITNsYx/tozXm78g68yNa/uPjH8CiAzXwm
+	LZkRp9HvVg7GDM/MCdkPpWAW90Jl0IZicYoJeehdCKJ6qcdjgEhvXpET9oB7CqgEfDQuHOwd5Hf
+	Djxv1ZkxCHBI8Ei6AB1B2RgBxKvVbOxTTh0zK8bljQaYoaIiuP+HbW2D7T6gj7asjmaIIAN7TpX
+	cL0U87f4xZjrKeep3vjViACcHfbu08jwa
+X-Google-Smtp-Source: AGHT+IFETrileTavzFogHlt3kpqW55YEJWqCTgysYCKWqbIjAeVGDBoRxanDjUE4RC0hSx+nzDcEEA==
+X-Received: by 2002:a17:903:28c6:b0:240:63bd:2701 with SMTP id d9443c01a7336-24246f64718mr63253245ad.6.1754408502230;
+        Tue, 05 Aug 2025 08:41:42 -0700 (PDT)
 Received: from [192.168.50.136] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bfcb26905sm6454802b3a.123.2025.08.05.08.33.15
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241e89769fasm135540565ad.107.2025.08.05.08.41.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Aug 2025 08:33:19 -0700 (PDT)
-Message-ID: <d08de0fa-9dfd-4fc4-b9c0-ff181df8d459@kzalloc.com>
-Date: Wed, 6 Aug 2025 00:33:14 +0900
+        Tue, 05 Aug 2025 08:41:41 -0700 (PDT)
+Message-ID: <78384abd-7fae-492d-947e-c3311f952d87@kzalloc.com>
+Date: Wed, 6 Aug 2025 00:41:36 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,8 +54,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] kcov: Use raw_spinlock_t for kcov->lock and
- kcov_remote_lock
+Subject: Re: [PATCH 2/4] kcov: Replace per-CPU local_lock with
+ local_irq_save/restore
 To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Dmitry Vyukov <dvyukov@google.com>,
  Andrey Konovalov <andreyknvl@gmail.com>,
@@ -69,94 +69,81 @@ Cc: Dmitry Vyukov <dvyukov@google.com>,
  syzkaller@googlegroups.com, linux-kernel@vger.kernel.org,
  stable@vger.kernel.org
 References: <20250803072044.572733-2-ysk@kzalloc.com>
- <20250803072044.572733-4-ysk@kzalloc.com>
- <20250804122758.620f934a@gandalf.local.home>
+ <20250803072044.572733-6-ysk@kzalloc.com>
+ <20250804123756.7678cb3d@gandalf.local.home>
 Content-Language: en-US
 From: Yunseong Kim <ysk@kzalloc.com>
 Organization: kzalloc
-In-Reply-To: <20250804122758.620f934a@gandalf.local.home>
+In-Reply-To: <20250804123756.7678cb3d@gandalf.local.home>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hi Steve,
 
-Thanks for the review and the suggestion.
+Thanks for the detailed feedback and suggestions.
 
-On 8/5/25 1:27 오전, Steven Rostedt wrote:
-> On Sun,  3 Aug 2025 07:20:43 +0000
+On 8/5/25 1:37 오전, Steven Rostedt wrote:
+> On Sun,  3 Aug 2025 07:20:45 +0000
 > Yunseong Kim <ysk@kzalloc.com> wrote:
 > 
->> The locks kcov->lock and kcov_remote_lock can be acquired from
->> atomic contexts, such as instrumentation hooks invoked from interrupt
->> handlers.
+>> Commit f85d39dd7ed8 ("kcov, usb: disable interrupts in
+>> kcov_remote_start_usb_softirq") introduced a local_irq_save() in the
+>> kcov_remote_start_usb_softirq() wrapper, placing kcov_remote_start() in
+>> atomic context.
 >>
->> On PREEMPT_RT-enabled kernels, spinlock_t is typically implemented
+>> The previous patch addressed this by converting the global
 > 
-> On PREEMPT_RT is implemented as a sleeping lock. You don't need to say
-> "typically".
+> Don't ever use the phrase "The previous patch" in a change log. These get
+> added to git and it's very hard to find any order of one patch to another.
+> When doing a git blame 5 years from now, "The previous patch" will be
+> meaningless.
 
-You're right — the phrase "typically implemented as a sleeping lock" was
-inaccurate. On PREEMPT_RT, spinlock_t is implemented as a sleeping lock, and
-I'll make sure to correct that wording in the next version.
+I agree that using phrases like "The previous patch" in changelogs is not a
+good practice, especially considering future maintenance and git blame
+scenarios.
 
->> as a sleeping lock (e.g., mapped to an rt_mutex). Acquiring such a
->> lock in atomic context, where sleeping is not allowed, can lead to
->> system hangs or crashes.
->>
->> To avoid this, convert both locks to raw_spinlock_t, which always
->> provides non-sleeping spinlock semantics regardless of preemption model.
->>
->> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
->> ---
->>  kernel/kcov.c | 58 +++++++++++++++++++++++++--------------------------
->>  1 file changed, 29 insertions(+), 29 deletions(-)
->>
->> diff --git a/kernel/kcov.c b/kernel/kcov.c
->> index 187ba1b80bda..7d9b53385d81 100644
->> --- a/kernel/kcov.c
->> +++ b/kernel/kcov.c
->> @@ -54,7 +54,7 @@ struct kcov {
->>  	 */
->>  	refcount_t		refcount;
->>  	/* The lock protects mode, size, area and t. */
->> -	spinlock_t		lock;
->> +	raw_spinlock_t		lock;
->>  	enum kcov_mode		mode;
->>  	/* Size of arena (in long's). */
->>  	unsigned int		size;
->> @@ -84,7 +84,7 @@ struct kcov_remote {
->>  	struct hlist_node	hnode;
->>  };
->>  
->> -static DEFINE_SPINLOCK(kcov_remote_lock);
->> +static DEFINE_RAW_SPINLOCK(kcov_remote_lock);
->>  static DEFINE_HASHTABLE(kcov_remote_map, 4);
->>  static struct list_head kcov_remote_areas = LIST_HEAD_INIT(kcov_remote_areas);
->>  
->> @@ -406,7 +406,7 @@ static void kcov_remote_reset(struct kcov *kcov)
->>  	struct hlist_node *tmp;
->>  	unsigned long flags;
->>  
->> -	spin_lock_irqsave(&kcov_remote_lock, flags);
->> +	raw_spin_lock_irqsave(&kcov_remote_lock, flags);
+>> kcov_remote_lock to a non-sleeping raw_spinlock_t. However, per-CPU
+>> data in kcov_remote_start() and kcov_remote_stop() remains protected
+>> by kcov_percpu_data.lock, which is a local_lock_t.
 > 
-> Not related to these patches, but have you thought about converting some of
-> these locks over to the "guard()" infrastructure provided by cleanup.h?
-
-Also, I appreciate your note about the guard() infrastructure from cleanup.h.
-I'll look into whether it's applicable in this context, and plan to adopt it
-where appropriate in the next iteration of the series.
-
->>  	hash_for_each_safe(kcov_remote_map, bkt, tmp, remote, hnode) {
->>  		if (remote->kcov != kcov)
->>  			continue;
+> Instead, you should say something like:
 > 
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+>   As kcov_remote_start() is now in atomic context, the kcov_remote lock was
+>   converted to a non-sleeping raw_spinlock. However, per-cpu ...
+
+I’ll revise the commit messages in the next iteration to explicitly
+describe the context.
+
+>> On PREEMPT_RT kernels, local_lock_t is implemented as a sleeping lock.
+>> Acquiring it from atomic context triggers warnings or crashes due to
+>> invalid sleeping behavior.
+>>
+>> The original use of local_lock_t assumed that kcov_remote_start() would
+>> never be called in atomic context. Now that this assumption no longer
+>> holds, replace it with local_irq_save() and local_irq_restore(), which are
+>> safe in all contexts and compatible with the use of raw_spinlock_t.
+> 
+> Hmm, if the local_lock_t() is called inside of the taking of the
+> raw_spinlock_t, then this patch should probably be first. Why introduce a
+> different bug when fixing another one?
+
+Regarding the patch ordering and the potential for introducing new bugs if the
+local_lock_t conversions come after the raw_spinlock conversion, that’s a very
+good point. I’ll review the patch sequence carefully to ensure the fixes apply
+cleanly without regressions.
+
+> Then the change log of this and the previous patch can both just mention
+> being called from atomic context.
+> 
+> This change log would probably then say, "in order to convert the kcov locks
+> to raw_spinlocks, the local_lock_irqsave()s need to be converted over to
+> local_irq_save()".
 > 
 > -- Steve
 
-Thanks again for the feedback and for the Reviewed-by tag!
+Also, I will update the changelog to clearly state.
+
+Thanks again for your thorough review and guidance!
 
 Best regards,
 Yunseong Kim
-
