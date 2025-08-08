@@ -1,56 +1,61 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D041226D1F
-	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Aug 2025 10:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC32425228C
+	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Aug 2025 16:33:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754650205; cv=none; b=VkZZZQMFscLfuHZkmzqhGsrTzuzPGYSEnr6TYox+Emx/niTBzfQzmPeSMMKI8Yf0Bp1ivVa/UmgxvE1rO3+PNOZcGQ1+ULAFJ/LKpocTzSSFWJxYDUoXvMCF2rqwo4elbVNkQ8Y+TzU+3ZDHNal/YKRkzyuRfZyJT8bD/RZu2ms=
+	t=1754670831; cv=none; b=iax6jRkAdQrZWTsJBGmIlQYpRjMapKm/GU+7Wq1D5eIGZb7xbRV0Pn7PmiggaXA9Z9z0+vxo7gucEYvk3xIXH8jX704p/TlF6Lr37wdP1kguT32Bpv6vgoktbEOvhVI2aExLX9DQruQ8C5QXkde5psoMQSeccqeNB3Gq4uwh7Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754650205; c=relaxed/simple;
-	bh=7ovIFhWjXZuDLJZR4cDBmjSpBjw0GzEJjCyqgUwvTE8=;
+	s=arc-20240116; t=1754670831; c=relaxed/simple;
+	bh=Pwdx/Tk5p4zqxvPam2CPyrJ36ROrTDvlqkdX+YdUIkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DAlto70YDOMd7GRvOZUZMWGOAkk6VZRj4oR0ZfDyg6WrCnH6QbXcWIahbR7/42Xm0rbaIN5k/fFo5sIZZRQC38qP+uScT0AHFxD+4aqWEZf6+iV7wLxNa87j53MK1ahmDRtB3iKrnMo5JT4S3qMo5uW3TVkNKlfI2PcEK7DKfj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vb1cfBF/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zWhwFypf; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=U72YsCtQqN1wfQV8ZLoXOM1zg8HrHYbNUjfvzPYY6Ll3VI8kxcFkN0xD+JJS8G+pubmSKXj2sVhn2z2Z/iDKcpJOD4zb9QTs/N1Nz3OjCqAaFXOrMwzORXoVgkGhZZiVmDxYxzcAOJW+iQP3IIkVjQUnkQV7pBHc3eHx/qh6cIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RVeye/4p; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yKo9boRD; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vb1cfBF/";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zWhwFypf"
-Date: Fri, 8 Aug 2025 12:50:01 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RVeye/4p";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yKo9boRD"
+Date: Fri, 8 Aug 2025 18:33:45 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754650202;
+	s=2020; t=1754670827;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7ovIFhWjXZuDLJZR4cDBmjSpBjw0GzEJjCyqgUwvTE8=;
-	b=vb1cfBF/7YK6hJyG15Ng7vqjhAkhPrbdIxz6thQRmzP0FY1QBq10oGYFTy5vNAMIkOF/Er
-	3iQgKB1rC8lZW5fDe3Qa/WN2skT13W5dkveRH3nI+HYxbopV8DDi7rFO6cc+AZ6joH2Bbr
-	HEwQv4vneewlJA+Iqvay0ZqPvBkM/pjpYBxVZZ0dtJynRV8+V/6yFP/TiurLSYMEjnFvH0
-	+C/BnUlOFxoiZuz1R3s6L3ZuTR4E/ndvg60LCsMMADC+Er66ekEIYKnc4IwtIzxXlDdCI+
-	V6eYVFhCSJxMCYTprygpDsUC2h4MxFE0z/kk1ihi8SOjsZBnjdlpsDjRyESkMw==
+	bh=JfkgxAstW/grwEhYFrNwo+E5fvmu5YawBnjm5gjeKEk=;
+	b=RVeye/4pqNL2Rxrp4JBr2Wp2ohhSaHCMyzNxVgG/9/7HGPigWp462OiTwF6vHVcrNpbow4
+	7wJkqa21ZP0mippivOz8YAtRyYxkhRuQoubHDzkE7nkMGDOzysQJZJ6GuggbDyo/iEXjvt
+	MIaWoSAL+nhJxyh5JqZmQjP1zRnJ/XlN/DCx2HXJK8+strGVM0pn+xidutZCla8Wlbwo+c
+	iwoGKNWR3rWkqFsN9frsYfPpJq3KmJEFo5bwkkwDnAdbqDfEgsi8l8YBiQ9dOkpIcRYN1F
+	i45zjDg/DIjJcGaGtrKLyDh56EKSEkpSjspVbdcgVfgguHLThjvs/cjlvK0GCg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754650202;
+	s=2020e; t=1754670827;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7ovIFhWjXZuDLJZR4cDBmjSpBjw0GzEJjCyqgUwvTE8=;
-	b=zWhwFypfYEil3TXTW4XJRR1LLvHkMukwxXK0TXus3PnXdZkKU15He4ft3uenbQeY3iceOb
-	rFpu98P1TY7Z4UAg==
+	bh=JfkgxAstW/grwEhYFrNwo+E5fvmu5YawBnjm5gjeKEk=;
+	b=yKo9boRDg7VkANZpRsdijWOQ+20lswktBfxzUY+LnXAzwElkHvWO+C+9kq+P/A1b/myyUo
+	hVMWnerjXL/uPHAQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Gautham R. Shenoy" <gautham.shenoy@amd.com>
-Cc: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org,
-	linux-next@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-pm@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: loading amd-pstate-ut kernel module crashes with PREEMPT_RT
-Message-ID: <20250808105001.N6t7p2-N@linutronix.de>
-References: <20250731092316.3191-1-spasswolf@web.de>
- <aJI9xbIllYV7ON8S@BLRRASHENOY1.amd.com>
- <d501ba67cbae1113c50fccf97155c1fa67a533ae.camel@web.de>
- <aJRN2wMLAnhDFykv@BLRRASHENOY1.amd.com>
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
+	Yeoreum Yun <yeoreum.yun@arm.com>,
+	Michelle Jin <shjy180909@gmail.com>, linux-kernel@vger.kernel.org,
+	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
+	kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
+ PREEMPT_RT
+Message-ID: <20250808163345.PPfA_T3F@linutronix.de>
+References: <20250725201400.1078395-2-ysk@kzalloc.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -59,19 +64,192 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aJRN2wMLAnhDFykv@BLRRASHENOY1.amd.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250725201400.1078395-2-ysk@kzalloc.com>
 
-On 2025-08-07 12:25:23 [+0530], Gautham R. Shenoy wrote:
-> Hello Bert,
-Hi Gautham,
+On 2025-07-25 20:14:01 [+0000], Yunseong Kim wrote:
+> When fuzzing USB with syzkaller on a PREEMPT_RT enabled kernel, following
+> bug is triggered in the ksoftirqd context.
+>=20
+=E2=80=A6
+> This issue was introduced by commit
+> f85d39dd7ed8 ("kcov, usb: disable interrupts in kcov_remote_start_usb_sof=
+tirq").
+>=20
+> However, this creates a conflict on PREEMPT_RT kernels. The local_irq_sav=
+e()
+> call establishes an atomic context where sleeping is forbidden. Inside th=
+is
+> context, kcov_remote_start() is called, which on PREEMPT_RT uses sleeping
+> locks (spinlock_t and local_lock_t are mapped to rt_mutex). This results =
+in
+> a sleeping function called from invalid context.
+>=20
+> On PREEMPT_RT, interrupt handlers are threaded, so the re-entrancy scenar=
+io
+> is already safely handled by the existing local_lock_t and the global
+> kcov_remote_lock within kcov_remote_start(). Therefore, the outer
+> local_irq_save() is not necessary.
+>=20
+> This preserves the intended re-entrancy protection for non-RT kernels whi=
+le
+> resolving the locking violation on PREEMPT_RT kernels.
+>=20
+> After making this modification and testing it, syzkaller fuzzing the
+> PREEMPT_RT kernel is now running without stopping on latest announced
+> Real-time Linux.
 
-> Thank you for confirming this. Let me see if we can delink the
-> cpufreq_driver_lock can be delinked w.r.t access and freeing of the
-> cpufreq policy object.
+This looks oddly familiar because I removed the irq-disable bits while
+adding local-locks.
 
-You identified all the spots. Please keep me in loop.
+Commit f85d39dd7ed8 looks wrong not that it shouldn't disable
+interrupts. The statement in the added comment
 
-> Thanks and Regards
-> gautham.
+| + * 2. Disables interrupts for the duration of the coverage collection se=
+ction.
+| + *    This allows avoiding nested remote coverage collection sections in=
+ the
+| + *    softirq context (a softirq might occur during the execution of a w=
+ork in
+| + *    the BH workqueue, which runs with in_serving_softirq() > 0).
+
+is wrong. Softirqs are never nesting. While the BH workqueue is
+running another softirq does not occur. The softirq is raised (again)
+and will be handled _after_ BH workqueue is done. So this is already
+serialised.
+
+The issue is __usb_hcd_giveback_urb() always invokes
+kcov_remote_start_usb_softirq(). __usb_hcd_giveback_urb() itself is
+invoked from BH context (for the majority of HCDs) and from hardirq
+context for the root-HUB. This gets us to the scenario that that we are
+in the give-back path in softirq context and then invoke the function
+once again in hardirq context.
+
+I have no idea how kcov works but reverting the original commit and
+avoiding the false nesting due to hardirq context should do the trick,
+an untested patch follows.
+
+This isn't any different than the tasklet handling that was used before
+so I am not sure why it is now a problem.
+
+Could someone maybe test this?
+
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -1636,7 +1636,6 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	struct usb_hcd *hcd =3D bus_to_hcd(urb->dev->bus);
+ 	struct usb_anchor *anchor =3D urb->anchor;
+ 	int status =3D urb->unlinked;
+-	unsigned long flags;
+=20
+ 	urb->hcpriv =3D NULL;
+ 	if (unlikely((urb->transfer_flags & URB_SHORT_NOT_OK) &&
+@@ -1654,14 +1653,13 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
+ 	/* pass ownership to the completion handler */
+ 	urb->status =3D status;
+ 	/*
+-	 * Only collect coverage in the softirq context and disable interrupts
+-	 * to avoid scenarios with nested remote coverage collection sections
+-	 * that KCOV does not support.
+-	 * See the comment next to kcov_remote_start_usb_softirq() for details.
++	 * This function can be called in task context inside another remote
++	 * coverage collection section, but kcov doesn't support that kind of
++	 * recursion yet. Only collect coverage in softirq context for now.
+ 	 */
+-	flags =3D kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
++	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
+ 	urb->complete(urb);
+-	kcov_remote_stop_softirq(flags);
++	kcov_remote_stop_softirq();
+=20
+ 	usb_anchor_resume_wakeups(anchor);
+ 	atomic_dec(&urb->use_count);
+diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+index 75a2fb8b16c32..0143358874b07 100644
+--- a/include/linux/kcov.h
++++ b/include/linux/kcov.h
+@@ -57,47 +57,21 @@ static inline void kcov_remote_start_usb(u64 id)
+=20
+ /*
+  * The softirq flavor of kcov_remote_*() functions is introduced as a temp=
+orary
+- * workaround for KCOV's lack of nested remote coverage sections support.
+- *
+- * Adding support is tracked in https://bugzilla.kernel.org/show_bug.cgi?i=
+d=3D210337.
+- *
+- * kcov_remote_start_usb_softirq():
+- *
+- * 1. Only collects coverage when called in the softirq context. This allo=
+ws
+- *    avoiding nested remote coverage collection sections in the task cont=
+ext.
+- *    For example, USB/IP calls usb_hcd_giveback_urb() in the task context
+- *    within an existing remote coverage collection section. Thus, KCOV sh=
+ould
+- *    not attempt to start collecting coverage within the coverage collect=
+ion
+- *    section in __usb_hcd_giveback_urb() in this case.
+- *
+- * 2. Disables interrupts for the duration of the coverage collection sect=
+ion.
+- *    This allows avoiding nested remote coverage collection sections in t=
+he
+- *    softirq context (a softirq might occur during the execution of a wor=
+k in
+- *    the BH workqueue, which runs with in_serving_softirq() > 0).
+- *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
+- *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted=
+ in
+- *    the middle of its remote coverage collection section, and the interr=
+upt
+- *    handler might invoke __usb_hcd_giveback_urb() again.
++ * work around for kcov's lack of nested remote coverage sections support =
+in
++ * task context. Adding support for nested sections is tracked in:
++ * https://bugzilla.kernel.org/show_bug.cgi?id=3D210337
+  */
+=20
+-static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
++static inline void kcov_remote_start_usb_softirq(u64 id)
+ {
+-	unsigned long flags =3D 0;
+-
+-	if (in_serving_softirq()) {
+-		local_irq_save(flags);
++	if (in_serving_softirq() && !in_hardirq())
+ 		kcov_remote_start_usb(id);
+-	}
+-
+-	return flags;
+ }
+=20
+-static inline void kcov_remote_stop_softirq(unsigned long flags)
++static inline void kcov_remote_stop_softirq(void)
+ {
+-	if (in_serving_softirq()) {
++	if (in_serving_softirq() && !in_hardirq())
+ 		kcov_remote_stop();
+-		local_irq_restore(flags);
+-	}
+ }
+=20
+ #ifdef CONFIG_64BIT
+@@ -131,11 +105,8 @@ static inline u64 kcov_common_handle(void)
+ }
+ static inline void kcov_remote_start_common(u64 id) {}
+ static inline void kcov_remote_start_usb(u64 id) {}
+-static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
+-{
+-	return 0;
+-}
+-static inline void kcov_remote_stop_softirq(unsigned long flags) {}
++static inline void kcov_remote_start_usb_softirq(u64 id) {}
++static inline void kcov_remote_stop_softirq(void) {}
+=20
+ #endif /* CONFIG_KCOV */
+ #endif /* _LINUX_KCOV_H */
+--=20
+2.50.1
 
 Sebastian
