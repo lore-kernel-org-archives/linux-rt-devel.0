@@ -1,266 +1,150 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0447D528
-	for <linux-rt-devel@lists.linux.dev>; Fri,  8 Aug 2025 17:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D65A242D89
+	for <linux-rt-devel@lists.linux.dev>; Sat,  9 Aug 2025 17:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754674557; cv=none; b=dpDxB+3Cfc95MmWJwU77MTjVSLbvRbGR9zIJkJJOeP2dxwkV5I42jBkdAYpX5goCF6br5msDlWtwALXCLdRfoLnUr52Gsyqd8DNJoCbridURpOHbF7ETyMMa21x6KDvHkeRpVyMH4QMVfHNN6rSpjr96UkqbJ2xOhVGm98gGfbc=
+	t=1754761273; cv=none; b=d5Mi7So3Q3u2NKiLp/Xtpvh7bQ1PrJzBFkeHWW4zQ1uLO+cdZfUvjH8lz3GRDXRIbAYdEXK28Arht2TbDler2AKHl/rE0BY+WtPQfCqThfxA22omzBD0zN486C0TV9twiks54IL1h363IkECQds+f6k8WlXUtTkFj/sbhwsbCRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754674557; c=relaxed/simple;
-	bh=UjKufUcDVuFCnbrLs4c4ZVltA4RZDogjR2wEue1jEZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dn4RtTjEbBZCrZClkHHTKPAK9wSXCdcpRnwdgP2GB3u2Q2J70ZAWFHFvrjxfgXtmezHAM8UShZb33Z7nIwyrKGHgXP3T7EGJ0QmxBgEFp4jHOICLJUhhDCZ1PQDIL1ZsVmoYPusonVVstHCxy5kgwyar3nZyjhhuQdZfjzs8owU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76624ecc7efso302345b3a.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 08 Aug 2025 10:35:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754674555; x=1755279355;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cWQx0Bz2e4dgqP38uiBm8lwh1j15JZqgNFOPKY08noI=;
-        b=eEvvkYWiyMJmfGGtl6704w5BUHsK8G5t/vEuAY3jWsmr4l0+VUwz52jA+CrAdcpWR4
-         +aIB7a31fYFvjI4x9bK2RfRgfWLf4t0KlxDxj8OykBKBz8NN8R3M4zo4Vj9HLVIOl1jD
-         nemFz7D2z5+QWvFGkywS13FNLGYSsOwS7ObEuT4ZOYZJS3uGd4yp5JUGNL7gNp0iwxMf
-         BstotUjSQFytg415PlVPSKIhKooHQbdPsI6XeX1JL7bfyuradTOpZ2e00fsxO3V03WPR
-         +eTTyM7++t/2J+9aXzzwRd0pMZLiQgDZVr7hiqLF6DkuwEtxVxI51kS2dEcEyTfknNF6
-         Qkuw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlZZbMF7EF/8E+BbjzIba2j+Wps9w6ezWGz+XsU+qYPgX+5FRV/0N5YQFhhRCVAuHnxsjSiYG7xTa420SjoA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0UqQCNyrTzWtqG+wnIGN9RLzoFl6xQ+ytN6hpep4BAxLLs8ad
-	C/Dhz5lXCY/hT8xGvPSN6KigDJ+q2gTWWD4HYJvNMqM6hkOzBw0JHnNV
-X-Gm-Gg: ASbGncuo/94NuTOahraqjN9H0FsNUNQFmr+nES/9BLbYi0hdbYJfNxjeWpiWh4pw2RN
-	cFtd21vzBx0oOM1SYT4Ec5uYkYnHQGg3z06YBQEkNsl3emfM5m2AfYfjoLHfVdmyLS35hJYC8zX
-	F2BevWb3ENBWKK4qKYUKLqLvf0kihah7JHAhgRSSiEARvUlx2V+LeaLYrlxV7ATTCAyhe4rUhfQ
-	CnNP1d2Mu+pMTedut7tmgx17ZYN2LzY90XVGt0kR+L3evMTLu8UyXXDqLoGfyO3iAfkUcdOSnHe
-	d5ji2/bLjilgppBA0X/Jl1n/3vFe2SMWWwot2rwisOZ7UkRLrvYdQDLGvOIBhn337lF3MwxZ+Zj
-	hIqOC3TFwleHWpeAmZ7iVumZOtGMprC6L
-X-Google-Smtp-Source: AGHT+IGfVl1ea8AUcfTPqFwGJwVmNGBWGoGwyWKPj4G+UWJHWkqCmbzR7KEypHCaHjfwbMseBlx5MQ==
-X-Received: by 2002:a05:6a00:2d85:b0:755:2c5d:482c with SMTP id d2e1a72fcca58-76c46135279mr2391297b3a.4.1754674554720;
-        Fri, 08 Aug 2025 10:35:54 -0700 (PDT)
-Received: from [192.168.50.136] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76bcce8de34sm20851670b3a.30.2025.08.08.10.35.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Aug 2025 10:35:54 -0700 (PDT)
-Message-ID: <ee26e7b2-80dd-49b1-bca2-61e460f73c2d@kzalloc.com>
-Date: Sat, 9 Aug 2025 02:35:48 +0900
+	s=arc-20240116; t=1754761273; c=relaxed/simple;
+	bh=yEgpWM9alLUuN7wZwmttedF5P1rg710YOjB98POZGbM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ah+wm0wgRLoHO9P50cHBUXlzqkzU1WTjFmyBPFFUwhgwxRlId+n+w83iiNfrK0/pIInQwnHk+PKbFIogig68i47CUX99raFtmTJBLnAosoR1rA9lSE6rwDt4n//NVkKbbdO0qsCX0q9iSIoY2km8ztoXj0DfLG9wrQTQIHivJgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=n26hh+VH; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="n26hh+VH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=yX
+	y9iTU1zIv1DoZeuTR4acBDv8VeQCTLTXLCgjA+LG8=; b=n26hh+VHKM+NUMhTn0
+	g1JSthHFf5P1DIKjgq2HcCdBIzmrTVMVsFEf3FZiYyqOyI04OZTqdM9Prg7tu6tb
+	5aOkv0+Si2gBPNj5aCpVAdvC8Sc7DJzVxcJ+wsNvIKdB1yWuE64z1cx8Mf9v62H1
+	gMqyuK0G/yMkTA/TmzEq/Za54=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wA3kqf1h5dorc5FAw--.44224S2;
+	Sun, 10 Aug 2025 01:40:06 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Xin Zhao <jackzxcui1989@163.com>
+Subject: [PATCH] sched/fair: Make the BW replenish timer expire in hardirq context for PREEMPT_RT
+Date: Sun, 10 Aug 2025 01:39:45 +0800
+Message-Id: <20250809173945.1953141-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
- PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Byungchul Park <byungchul@sk.com>,
- max.byungchul.park@gmail.com, Yeoreum Yun <yeoreum.yun@arm.com>,
- Michelle Jin <shjy180909@gmail.com>, linux-kernel@vger.kernel.org,
- Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
- Alan Stern <stern@rowland.harvard.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
- kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
- linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Austin Kim <austindh.kim@gmail.com>
-References: <20250725201400.1078395-2-ysk@kzalloc.com>
- <20250808163345.PPfA_T3F@linutronix.de>
-Content-Language: en-US
-From: Yunseong Kim <ysk@kzalloc.com>
-Organization: kzalloc
-In-Reply-To: <20250808163345.PPfA_T3F@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wA3kqf1h5dorc5FAw--.44224S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZrWkWw45ArW5uF1kGF1xZrb_yoWrury8pF
+	Wjkry5tr1UJr10q3WkCwn7WFyru397Jr47A3Z7G3ySyw13Cry8tF1Sgr1YgFZ0krZa9r1S
+	vF1Fvry3Zr90yaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zioGQ3UUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/1tbiRwqkCmiXWhlEMwABsp
 
-Hi Sebastian,
+Valentin Schneider has made changes in 2023 to move the callback logic of
+the BW replenish timer into the hardirq context in the PREEMPT_RT system.
+Given that the PREEMPT_RT code has already been merged into the mainline
+and considering the serious impact of this issue, I believe it is
+essential to incorporate this change into the mainline to prevent others
+using the PREEMPT_RT system from encountering this frustrating problem.
+Our project has also encountered the same issue on the Linux 6.1.134
+RT-Linux kernel, and I have written a reproducible program that almost
+100% triggers the panic caused by this problem on our system.
+The reproducible program is inspired by previous discussions related to
+the cgroup issue, which contained the following description:
+    Consider the following scenario under PREEMPT_RT:
+    o A CFS task p0 gets throttled while holding read_lock(&lock)
+    o A task p1 blocks on write_lock(&lock), making further readers enter the
+      slowpath
+    o A ktimers or ksoftirqd task blocks on read_lock(&lock)
+    If the cfs_bandwidth.period_timer to replenish p0's runtime is enqueued on
+    the same CPU as one where ktimers/ksoftirqd is blocked on read_lock(&lock),
+    this creates a circular dependency.
+My reproducible program also follows the logic described above. The detailed
+implementation of the 100% reproducible program runs on a Linux 6.1.134
+RT-Linux system with only six CPUs.
+I wrote a kernel module named testcgroupbug.ko, which creates a proc node that
+responds to an ioctl command. Depending on the mode parameter passed, it
+performs different operations. There are two modes: read mode and write mode.
+In read mode, it executes read_lock and then enters a loop, waiting for a
+write-mode task to exist before executing a dead loop that lasts for 0.25
+seconds, registering a pinned hrtimer in HRTIMER_MODE_ABS_PINNED mode,
+and finally executing read_unlock once the specified timeout expires.
+In write mode, it executes write_lock and waits for the specified timeout to
+expire before executing write_unlock.
+The script that runs the program is structured as follows (the main idea is
+to keep all CPUs busy except CPU 1, inducing the system to choose CPU 1 for
+executing the related cgroup period timer operations. Thus, when the
+read-mode task enters the kernel via ioctl, the creation of the soft-mode
+pinned hrtimer also occurs on CPU 1, thereby forming the aforementioned
+circular dependency):
+taskset -c 0 ./deadloop &
+taskset -c 2 ./deadloop &
+taskset -c 3 ./deadloop &
+taskset -c 4 ./deadloop &
+taskset -c 5 ./deadloop &
+sleep 3
+mkdir /sys/fs/cgroup/test
+echo "500000 1000000" > /sys/fs/cgroup/test/cpu.max
+sleep 1
+taskset -c 1 ./rwlock_read 5 &
+pid=$!
+echo $pid > /sys/fs/cgroup/test/cgroup.procs
+chrt -f 60 ./rwlock_write 3 &
+In the script above, rwlock_read is the read-mode function executed in the
+kernel module, where 5 indicates the timeout period of 5 seconds. The
+rwlock_write function represents the write-mode function executed in the
+kernel module, where 3 indicates the timeout period of 3 seconds.
 
-I was waiting for your review — thanks!
+Signed-off-by: Xin Zhao <jackzxcui1989@163.com>
+---
+ kernel/sched/fair.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-On 8/9/25 1:33 오전, Sebastian Andrzej Siewior wrote:
-> On 2025-07-25 20:14:01 [+0000], Yunseong Kim wrote:
->> When fuzzing USB with syzkaller on a PREEMPT_RT enabled kernel, following
->> bug is triggered in the ksoftirqd context.
->>
-> …
->> This issue was introduced by commit
->> f85d39dd7ed8 ("kcov, usb: disable interrupts in kcov_remote_start_usb_softirq").
->>
->> However, this creates a conflict on PREEMPT_RT kernels. The local_irq_save()
->> call establishes an atomic context where sleeping is forbidden. Inside this
->> context, kcov_remote_start() is called, which on PREEMPT_RT uses sleeping
->> locks (spinlock_t and local_lock_t are mapped to rt_mutex). This results in
->> a sleeping function called from invalid context.
->>
->> On PREEMPT_RT, interrupt handlers are threaded, so the re-entrancy scenario
->> is already safely handled by the existing local_lock_t and the global
->> kcov_remote_lock within kcov_remote_start(). Therefore, the outer
->> local_irq_save() is not necessary.
->>
->> This preserves the intended re-entrancy protection for non-RT kernels while
->> resolving the locking violation on PREEMPT_RT kernels.
->>
->> After making this modification and testing it, syzkaller fuzzing the
->> PREEMPT_RT kernel is now running without stopping on latest announced
->> Real-time Linux.
-> 
-> This looks oddly familiar because I removed the irq-disable bits while
-> adding local-locks.
-> 
-> Commit f85d39dd7ed8 looks wrong not that it shouldn't disable
-> interrupts. The statement in the added comment
-> 
-> | + * 2. Disables interrupts for the duration of the coverage collection section.
-> | + *    This allows avoiding nested remote coverage collection sections in the
-> | + *    softirq context (a softirq might occur during the execution of a work in
-> | + *    the BH workqueue, which runs with in_serving_softirq() > 0).
-> 
-> is wrong. Softirqs are never nesting. While the BH workqueue is
-> running another softirq does not occur. The softirq is raised (again)
-> and will be handled _after_ BH workqueue is done. So this is already
-> serialised.
-> 
-> The issue is __usb_hcd_giveback_urb() always invokes
-> kcov_remote_start_usb_softirq(). __usb_hcd_giveback_urb() itself is
-> invoked from BH context (for the majority of HCDs) and from hardirq
-> context for the root-HUB. This gets us to the scenario that that we are
-> in the give-back path in softirq context and then invoke the function
-> once again in hardirq context.
-> 
-> I have no idea how kcov works but reverting the original commit and
-> avoiding the false nesting due to hardirq context should do the trick,
-> an untested patch follows.
-> 
-> This isn't any different than the tasklet handling that was used before
-> so I am not sure why it is now a problem.
+diff --git a/kernel/sched/fair.c b/kernel/sched/fair.c
+index b173a0593..54c998661 100644
+--- a/kernel/sched/fair.c
++++ b/kernel/sched/fair.c
+@@ -6456,8 +6456,13 @@ void init_cfs_bandwidth(struct cfs_bandwidth *cfs_b, struct cfs_bandwidth *paren
+ 	cfs_b->hierarchical_quota = parent ? parent->hierarchical_quota : RUNTIME_INF;
+ 
+ 	INIT_LIST_HEAD(&cfs_b->throttled_cfs_rq);
++#ifdef CONFIG_PREEMPT_RT
++	hrtimer_setup(&cfs_b->period_timer, sched_cfs_period_timer, CLOCK_MONOTONIC,
++		      HRTIMER_MODE_ABS_PINNED_HARD);
++#else
+ 	hrtimer_setup(&cfs_b->period_timer, sched_cfs_period_timer, CLOCK_MONOTONIC,
+ 		      HRTIMER_MODE_ABS_PINNED);
++#endif
+ 
+ 	/* Add a random offset so that timers interleave */
+ 	hrtimer_set_expires(&cfs_b->period_timer,
+@@ -6483,7 +6488,11 @@ void start_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
+ 
+ 	cfs_b->period_active = 1;
+ 	hrtimer_forward_now(&cfs_b->period_timer, cfs_b->period);
++#ifdef CONFIG_PREEMPT_RT
++	hrtimer_start_expires(&cfs_b->period_timer, HRTIMER_MODE_ABS_PINNED_HARD);
++#else
+ 	hrtimer_start_expires(&cfs_b->period_timer, HRTIMER_MODE_ABS_PINNED);
++#endif
+ }
+ 
+ static void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b)
+-- 
+2.34.1
 
-Thank you for the detailed analysis and the patch. Your explanation about
-the real re-entrancy issue being "softirq vs. hardirq" and the faulty
-premise in the original commit makes perfect sense.
-
-> Could someone maybe test this?
-
-As you requested, I have tested your patch on my setup.
-
-I can check that your patch resolves the issue. I have been running
-the syzkaller for several hours, and the "sleeping function called
-from invalid context" bug is no longer triggered.
-
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -1636,7 +1636,6 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
->  	struct usb_hcd *hcd = bus_to_hcd(urb->dev->bus);
->  	struct usb_anchor *anchor = urb->anchor;
->  	int status = urb->unlinked;
-> -	unsigned long flags;
->  
->  	urb->hcpriv = NULL;
->  	if (unlikely((urb->transfer_flags & URB_SHORT_NOT_OK) &&
-> @@ -1654,14 +1653,13 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
->  	/* pass ownership to the completion handler */
->  	urb->status = status;
->  	/*
-> -	 * Only collect coverage in the softirq context and disable interrupts
-> -	 * to avoid scenarios with nested remote coverage collection sections
-> -	 * that KCOV does not support.
-> -	 * See the comment next to kcov_remote_start_usb_softirq() for details.
-> +	 * This function can be called in task context inside another remote
-> +	 * coverage collection section, but kcov doesn't support that kind of
-> +	 * recursion yet. Only collect coverage in softirq context for now.
->  	 */
-> -	flags = kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
-> +	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
->  	urb->complete(urb);
-> -	kcov_remote_stop_softirq(flags);
-> +	kcov_remote_stop_softirq();
->  
->  	usb_anchor_resume_wakeups(anchor);
->  	atomic_dec(&urb->use_count);
-> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-> index 75a2fb8b16c32..0143358874b07 100644
-> --- a/include/linux/kcov.h
-> +++ b/include/linux/kcov.h
-> @@ -57,47 +57,21 @@ static inline void kcov_remote_start_usb(u64 id)
->  
->  /*
->   * The softirq flavor of kcov_remote_*() functions is introduced as a temporary
-> - * workaround for KCOV's lack of nested remote coverage sections support.
-> - *
-> - * Adding support is tracked in https://bugzilla.kernel.org/show_bug.cgi?id=210337.
-> - *
-> - * kcov_remote_start_usb_softirq():
-> - *
-> - * 1. Only collects coverage when called in the softirq context. This allows
-> - *    avoiding nested remote coverage collection sections in the task context.
-> - *    For example, USB/IP calls usb_hcd_giveback_urb() in the task context
-> - *    within an existing remote coverage collection section. Thus, KCOV should
-> - *    not attempt to start collecting coverage within the coverage collection
-> - *    section in __usb_hcd_giveback_urb() in this case.
-> - *
-> - * 2. Disables interrupts for the duration of the coverage collection section.
-> - *    This allows avoiding nested remote coverage collection sections in the
-> - *    softirq context (a softirq might occur during the execution of a work in
-> - *    the BH workqueue, which runs with in_serving_softirq() > 0).
-> - *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
-> - *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted in
-> - *    the middle of its remote coverage collection section, and the interrupt
-> - *    handler might invoke __usb_hcd_giveback_urb() again.
-> + * work around for kcov's lack of nested remote coverage sections support in
-> + * task context. Adding support for nested sections is tracked in:
-> + * https://bugzilla.kernel.org/show_bug.cgi?id=210337
->   */
->  
-> -static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
-> +static inline void kcov_remote_start_usb_softirq(u64 id)
->  {
-> -	unsigned long flags = 0;
-> -
-> -	if (in_serving_softirq()) {
-> -		local_irq_save(flags);
-> +	if (in_serving_softirq() && !in_hardirq())
->  		kcov_remote_start_usb(id);
-> -	}
-> -
-> -	return flags;
->  }
->  
-> -static inline void kcov_remote_stop_softirq(unsigned long flags)
-> +static inline void kcov_remote_stop_softirq(void)
->  {
-> -	if (in_serving_softirq()) {
-> +	if (in_serving_softirq() && !in_hardirq())
->  		kcov_remote_stop();
-> -		local_irq_restore(flags);
-> -	}
->  }
->  
->  #ifdef CONFIG_64BIT
-> @@ -131,11 +105,8 @@ static inline u64 kcov_common_handle(void)
->  }
->  static inline void kcov_remote_start_common(u64 id) {}
->  static inline void kcov_remote_start_usb(u64 id) {}
-> -static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
-> -{
-> -	return 0;
-> -}
-> -static inline void kcov_remote_stop_softirq(unsigned long flags) {}
-> +static inline void kcov_remote_start_usb_softirq(u64 id) {}
-> +static inline void kcov_remote_stop_softirq(void) {}
->  
->  #endif /* CONFIG_KCOV */
->  #endif /* _LINUX_KCOV_H */
-
-
-I really impressed your "How to Not Break PREEMPT_RT" talk at LPC 22.
-
-
-Tested-by: Yunseong Kim <ysk@kzalloc.com>
-
-
-Thanks,
-
-Yunseong Kim
