@@ -1,27 +1,27 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A60B74EB38
-	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 15:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04FA41A9F96
+	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 16:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754925257; cv=none; b=Q74WmHwVKC0EAEVYj8y8NXid4uwkx9AtR2dfXzhw8uDrs4clthZ6nL0EJanuazwnYiwFHMpDGzXdlkoqV0j4/v7L/nkMpWf65zHRfwD+aBp8dxULAP3CHCSKhOLX5KALnX37zaYEzvkcgmS4HKHA76lkgxV+v1O/X96MGZ2zYxw=
+	t=1754928439; cv=none; b=UQB5qoOpASS/yhb/ufSrmS2chKZLtwaggcZWJHF23SgiSdOxTotcrJxijg8dJl1u+BU4CCPOIMM9DIjsIw5maMS3OUmrsjosByAK0DXcvA60AdvneYpCYQieHdWX1EQI4J2M+e3QLRaYpsh5db6JzwQmuduKpE6QpqOWQgHPigc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754925257; c=relaxed/simple;
-	bh=aTsbw2smJ5VIymi9ayK2LE0nzymwzY8VncqZhJ3BXqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E/3t1DSS1ullP1O7MIKR077Q7O5M61Uo3OFcJM6+CjaZ/ycHsff39yblLOWyEEs47XnSe7xnSsVv7STjP6lGys49v3V5gx5v9zNp6aT5PuvnEk2HZeo6l2sl1qo91vrpRrPfxnRjp1yZorJfbKn7sm/Al+w3r0lF4yeGJOyy5qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WeuM+lO7; arc=none smtp.client-ip=220.197.31.2
+	s=arc-20240116; t=1754928439; c=relaxed/simple;
+	bh=iAW1jKNjD0UVSoigxPrR9o3sKwZoev9A1KPjVuJvzAY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oaoXxKnu1P0g5chyHlvc7tH5pdim37HiMTeVg4p5zmMjhfUG9rqtV3VXGXUjQ893ydaf7MsyKvu2iLkw+CV0iVwKvQAn9Zj7QRHKiC2G9n5VHVkLMeO0rRs5mk6Csl0/lQAenEApoAefFf4T0W+j0ZAlj4PX25KWTgBhBCvK+f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=C+nOk/Fz; arc=none smtp.client-ip=117.135.210.2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WeuM+lO7"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="C+nOk/Fz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=aT
-	sbw2smJ5VIymi9ayK2LE0nzymwzY8VncqZhJ3BXqI=; b=WeuM+lO7vqO8Cpljb+
-	8ozhdmhynoSpVq9NUOLBe0UyWUQYuQZztKLlFHwlQKwnvfNFGEeoGLhYLERdgrlG
-	g/5O1D3FFNrrOt+MjJ+8W4DGhVYP36mzV70pumCa3D9To5fooESLnsWSCb1nmANH
-	yAA9ux82qbiR3L2KvTPVNi/VY=
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=iA
+	W1jKNjD0UVSoigxPrR9o3sKwZoev9A1KPjVuJvzAY=; b=C+nOk/Fz2j5xcQwo6/
+	YUGs7VSVwQuhtfQvBjbSasCUfl4XONEMJV9PyRODOJtEzFsB1iXLQJEn6e0xD8Uj
+	CnJWKvvSVqDwB7Vp2cEHEW0kLUWUxcy/vao2Tdi7KssTIYuIj9VPzMf92f/+HTya
+	Lm5g4rdCRdYqmq2jRlBiU/2GQ=
 Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDn5+2MCJposuAOAw--.27979S2;
-	Mon, 11 Aug 2025 23:13:17 +0800 (CST)
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnftqmFJpoiA8xAw--.21078S2;
+	Tue, 12 Aug 2025 00:04:55 +0800 (CST)
 From: Xin Zhao <jackzxcui1989@163.com>
 To: tj@kernel.org,
 	hannes@cmpxchg.org,
@@ -44,8 +44,8 @@ Cc: cgroups@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH] sched/cgroup: Lock optimize for cgroup cpu throttle
-Date: Mon, 11 Aug 2025 23:13:16 +0800
-Message-Id: <20250811151316.838707-1-jackzxcui1989@163.com>
+Date: Tue, 12 Aug 2025 00:04:54 +0800
+Message-Id: <20250811160454.884224-1-jackzxcui1989@163.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -54,40 +54,37 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDn5+2MCJposuAOAw--.27979S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrW8Kr4xGw4UKFWDJFyDAwb_yoW8XF1xp3
-	90vF43trs5ZF1IqF109w4ftay8Z395J3y5G3Z8GrW5Cr1Yq3WIyrsYgayY9an8Gws3ua1j
-	vr1jq3ZrGayYvaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8xhLUUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/1tbioxWmCmiaBhczAwAAsJ
+X-CM-TRANSID:_____wDnftqmFJpoiA8xAw--.21078S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF4DAr4UArW7uF1fGFW7Arb_yoW8GF13pa
+	yUJr9I9F4kKF13tw18J3yxZ34Fg3s8GrW3GFy8Jrs0ka1qqryF9F13Kr43ua1xCFZxu3WU
+	Xr1Y934DKFnrZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8DGOUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/1tbioxWmCmiaBhczAwABsI
 
-On Mon, 2025-08-11 at 16:36 +0800, Sebastian wrote:
+On Mon, 2025-08-11 at 22:18 +0800, Sebastian wrote:
 
-> What about using task_work_add() and throttling the task on its way to
-> userland? The callback will be invoked without any locks held.
+> Yeah, please have a look at:
+> https://lore.kernel.org/lkml/20250715071658.267-1-ziqianlu@bytedance.com/
 
 
-Dear Sebastian,
+Dear Valentin,
 
-I believe what you mentioned is related to the same issue that Valentin
-brought up later, which is the current solution of "delaying CPU throttling
-through the task_work mechanism until returning to user mode."
-My colleagues and I indeed noticed this from the beginning. However, on our
-6.1.134 RT-Linux system, we have tried new versions of this solution one by
-one, but they have all failed during basic script tests, so none have reached
-the stage of being used in our project. I see that this modification has been
-promoted in the community for more than two years, yet it remains in a state
-that doesn't work well (on our 6.1.134 RT-Linux system). I wonder if the
-changes require too many considerations or if this modification simply isn't
-suitable for running on RT-Linux. Our project cannot afford to wait, and
-there are many performance issues in RT-Linux.
-Therefore, I focused on making minimal changes to a complex and stable
-scheduling system (at least not altering the complex management logic of
-nr_running and related logic) and instead worked on the code of lock module
-and the logic of adjusting priorities, which are relatively easier to
-understand and modify.
-As a result, I implemented a patch that runs stably on 6.1.134 RT-Linux and
-meets the demands.
+In addition to the information in my previous response to Sebastian, I would
+like to add the following point as a reason for my self-recommendation (to
+explore my patch for solving the cgroup performance issue in RT-Linux):
+RT-Linux is a system that places a high emphasis on real-time performance.
+The fact that regular tasks are also included in cgroup groups and throttled
+suggests that they are relatively low-priority tasks that are not expected to
+interfere with high-priority tasks. Therefore, is it not a bit too late to
+impose limits only after returning to user mode? Furthermore, when a throttled
+task is awakened from S or D state, according to the logic of "imposing limits
+after returning to user mode," it could cause that low-priority task to wake
+up associated low-priority tasks one after another, leading to a sudden
+increase in running time, which contradicts the relatively precise CPU usage
+targets typically required in RT-Linux systems.
+Additionally, I believe there are still many areas for improvement in my patch,
+and I hope to bring it to the community to gather suggestions from experts to
+see if there are areas for iterative improvement.
 
 
 Thanks
