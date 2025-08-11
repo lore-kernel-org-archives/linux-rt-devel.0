@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDCB72BE7A3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 11:07:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8205D2D0C60
+	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 11:22:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754910467; cv=none; b=YmCjAXWe66nNbw9tzi4G+QRA8b08JpIJo5WGDtZ0mS7AVTLsTlxANac1BzS66x7Dp8uk5MuLU0ilBiA3vvcVF+RvgruHRIEh/NSrDKU3QZftFtrsOkuMiLLpTHBmijLDKnaMUKgT01Tw7Lnos+QNpl7rJKAaMkxI7ZrCWSk4aho=
+	t=1754911370; cv=none; b=q9tJojQMlcfv/u5gpaZdMjsde3lN0/fOcEtPuuqkbZoXFZUrTRJXnrLwux2Dacyhu2kohnyaibLzYeh97fWaizzdiVN3wdLGIP9t4zDRmgw1AY819BGvr6yskZEUMSqDmIo0iby3TkJ7gFYNqD5EeaMPUU2Vg6u6xheFw3ZY2J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754910467; c=relaxed/simple;
-	bh=O2SKs0Md1F3DfmxaC8UtIvZcyp1gvc16RhrpwvtZfu0=;
+	s=arc-20240116; t=1754911370; c=relaxed/simple;
+	bh=ZOqfIENZoCDHfFICtEOL8YJoPa60molw2ph21bKNCGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAIJadGZvhFgE/EWv19AemCT41VlTWTNe3ll+rRQ4iwclh+OXsjRo3Q5OolBbHL9ivyuYFpsz3/RULx4woeu6jTgpoUh0OWrzIRusmfGJ2pBw6Bnvq/rs0qviMFGMpvfFKRBLvEKqXOUIniZNCxIrY8iRtLkWEap/Wt5wHCD0Lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GqtAQaCh; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oij/yWQjbO4gLfahmHKRBEKZW7sw7QHAt0klKkAByDUzdbGpqEj5Vi+RsV8yNQWI96n0R2dPeinJVSvyJqLOU5XkQ6k9t2AlMWiKAOT6nuYhqZ+4jrs4NxWrHF4dI9Y9Y4c0pKWCO9W4apnDt0W6dXgayk/IP6+VAdkD25g9VFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HAkmPaVk; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GqtAQaCh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HAkmPaVk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1754910463;
+	s=mimecast20190719; t=1754911367;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O2SKs0Md1F3DfmxaC8UtIvZcyp1gvc16RhrpwvtZfu0=;
-	b=GqtAQaChLiYi0LlLLPXpkNKdCIwm3zE5khHt6BCgk1Xjq67BenT7BpyXjtB7ziGYGdJJXq
-	dRxgSkpzMrpt1GNmYK+buFUwb4xj6fBmmlXdMWP3Ja+uaIiz7EwnjPdHyHO+/xh5QO4Ajx
-	tZ2Yo5o1D9bOGdDi1gWI8IBlYqmwwLg=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=aTv5PwSwqaTOZ1ypCe+ttHkuGMC/kFwpTVvvw1cs3Lw=;
+	b=HAkmPaVkbHSa/acXU+UGDnPPwAAgyX+zGzPNF23tJJGmNO39VM3GiifmMvo2On6sFjyS3F
+	uYce1RiotQQlZh+0BQxvAP8+dt+DHSnpmCeCFC0Vz33V+egeKiJYdI1rpZ8cEPQW/9LwH4
+	z8+mNLCN/wAS7hlpLiJOw4mbovuEyYE=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-101-clhStL0ZPX67YSPKFCKKIw-1; Mon,
- 11 Aug 2025 07:07:42 -0400
-X-MC-Unique: clhStL0ZPX67YSPKFCKKIw-1
-X-Mimecast-MFC-AGG-ID: clhStL0ZPX67YSPKFCKKIw_1754910460
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-455-h1gUKyDaMoC7qTEaY5RMSg-1; Mon,
+ 11 Aug 2025 07:22:44 -0400
+X-MC-Unique: h1gUKyDaMoC7qTEaY5RMSg-1
+X-Mimecast-MFC-AGG-ID: h1gUKyDaMoC7qTEaY5RMSg_1754911362
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CA84F1956088;
-	Mon, 11 Aug 2025 11:07:39 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EDC441800285;
+	Mon, 11 Aug 2025 11:22:41 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.234])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 21D0B18004A3;
-	Mon, 11 Aug 2025 11:07:31 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 13EBF19560B0;
+	Mon, 11 Aug 2025 11:22:33 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Mon, 11 Aug 2025 13:06:27 +0200 (CEST)
-Date: Mon, 11 Aug 2025 13:06:18 +0200
+	oleg@redhat.com; Mon, 11 Aug 2025 13:21:29 +0200 (CEST)
+Date: Mon, 11 Aug 2025 13:21:20 +0200
 From: Oleg Nesterov <oleg@redhat.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
@@ -60,17 +60,13 @@ Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
 	Vincent Guittot <vincent.guittot@linaro.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Wander Lairson Costa <wander@redhat.com>
-Subject: Re: [PATCH v6] sched: do not call __put_task_struct() on rt if
- pi_blocked_on is set
-Message-ID: <20250811110617.GB5250@redhat.com>
-References: <aGvTz5VaPFyj0pBV@uudg.org>
- <20250728201441.GA4690@redhat.com>
- <aIh5QajyaVT7MtVp@uudg.org>
- <20250729114702.GA18541@redhat.com>
- <aIjCYEkgNvVpMYCS@uudg.org>
- <20250729130936.GB18541@redhat.com>
- <20250801102428.GB27835@redhat.com>
- <20250811105948.OafBprND@linutronix.de>
+Subject: Re: [RESEND PATCH] sched: restore the behavior of put_task_struct()
+ for non-rt
+Message-ID: <20250811112119.GC5250@redhat.com>
+References: <aJOwe_ZS5rHXMrsO@uudg.org>
+ <20250811100624.LuYV-ZuF@linutronix.de>
+ <20250811104033.GA5250@redhat.com>
+ <20250811110501.nTDNkPnM@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -79,26 +75,35 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250811105948.OafBprND@linutronix.de>
+In-Reply-To: <20250811110501.nTDNkPnM@linutronix.de>
 User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
 On 08/11, Sebastian Andrzej Siewior wrote:
 >
-> On 2025-08-01 12:24:29 [+0200], Oleg Nesterov wrote:
-> > s/LD_WAIT_SLEEP/LD_WAIT_CONFIG/ needs another discussion even if I am right,
-> > sorry for the confusion.
+> On 2025-08-11 12:40:34 [+0200], Oleg Nesterov wrote:
+> >
+> > What exactly do you think we could do regardless of PREEMPT_RT?
 >
-> You are correct Oleg. I've been just verifying it and yes: LD_WAIT_SLEEP
-> suppresses also mutex while the intention is to only suppress
-> spinlock_t.
+> Do what we do now and have one free path for task_struct regardless if
+> PREEMPT_RT is enabled or not. The one via RCU which delays the freeing
+> until after the grace period.
 
-Good, thanks.
+Ah, got it. I won't really argue, but...
 
-> We have four users in tree, based on quick check all four should use
-> CONFIG, three of them do use SLEEP.
+call_rcu() is not free, it obviously delays free_task/etc. To me this
+!PREEMPT_RT optimization makes sense.
 
-Yes. I'll send the simple patch when this patch from Luis is merged.
+But lets forget it for the moment. This patch
 
-Oleg
+	https://lore.kernel.org/all/aGvTz5VaPFyj0pBV@uudg.org
+	[PATCH v6] sched: do not call __put_task_struct() on rt if pi_blocked_on is set
+
+removed that optimization by mistake, this doesn't even match the changelog.
+I think it should be restored, and this is what the new patch from Luis does.
+
+Then we can discuss this all again and possibly remove it, but this
+should be explicitly documented in the changelog.
+
+Oleg.
 
