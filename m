@@ -1,62 +1,54 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55AB624A06D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 08:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659722DA769
+	for <linux-rt-devel@lists.linux.dev>; Mon, 11 Aug 2025 08:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754901100; cv=none; b=V6s7izr2jtxEOqkTqyEQdTAHE4LrGf+Of4ZiUVWDZ5Y9TTFs/3Gija3gVW0nIhRCZ6v5cR5itvmpLyVmfMil5PZ/v+Z+a/5rm+Y9eaKhwC58n4CS+9QcX8oig6/EThMroB8LDc+5oGWICfGikhj3O8g/lNSOtpFZ2WOkehnDJdo=
+	t=1754901387; cv=none; b=N2/Bc/hLiGRD/4t9aNC2X9bqlFfdRIbYmB4tVARyj4lRSgfZ5HarUpyBd0NFRyhAo/EDHpbwRTVVlFBiWZe1IK0unZEf4sCdIhJcVAbowtTMAIaJQC+H+hTr66bS1P1VSMxxzbnftVV6BI1wLEqSZjvH/bCneFuSKRWBl0GgCfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754901100; c=relaxed/simple;
-	bh=S4WuqofBa7Id6+qyAJHjdL5aqwr5DwpyzeUXtsy52u0=;
+	s=arc-20240116; t=1754901387; c=relaxed/simple;
+	bh=qkLNx9/jdqIjH/y0D4XPJ4PH80pKsVdpf+fHeeopqHg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ucEm7d3kLLboYRfAIEx+texHBT+ZyR8cXTNoegiz122gMUs30HvHFjR9sZTk1QLN/Lh7PU9GM+RVBtRlYQ26G9kOVB1WB5blU9cpdn+XR9Ec1Hvn6WQhUmMoi0NF37mvrGSsfImvAtXQAYig9fRN2fpPSkcjmTIJwDiz5Adrl58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cZNO6N2q; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lqsQIrkC; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=HlcAU4eOaKxT+zopzUr5DgsiHdxGJhqIGExWPpSwxPSrNjMaelpKm4zWHx7iyXVb4LiYZpseUUUcvztR8xg6MsBbRMgsnw0HHpjIv4sLGpS82Q15VX4LAGuSklDKbW3CfdNqC+Uqnd+UxD1HyhPvyz6tViMUPa08Pl8wKnDOA9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jYFR/GPs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8dElX3fL; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cZNO6N2q";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lqsQIrkC"
-Date: Mon, 11 Aug 2025 10:31:35 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jYFR/GPs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8dElX3fL"
+Date: Mon, 11 Aug 2025 10:36:22 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754901096;
+	s=2020; t=1754901384;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JeEYEDHr31+P2zVZyryZ2NEbaRwQuOh+nfUwKPEWE1U=;
-	b=cZNO6N2qunmSklZQNVYCQo5IIj9bIBmAgbV7ljn82yCgNMKRsvql6lShJ81ecxTLm3Cea8
-	s3Svi0EEJp2Z0Z1KNm6/DOaQwM74D5fo7OHtBHgOUewLhzgfVW7ElqxhU7QH2+rdFkTz0H
-	5/ogT5fYhQQgIjujBsmwXkk30pSWnTcsXE0qO0BbqPkrTRVIpPrK4xSgLlrMEx23lfuwnm
-	t868ImjD2MHvJmsiQgOhLztDE14D6VZVKfntxVHLvu+MvTj9MckEanpgP5OuuHzuRT2a+9
-	Fk7Qo2knjuhMizdljcbbowfyNlMdH7i1H8LIZ9hMor2fYvRSgGtezMPKLvmRGA==
+	bh=qkLNx9/jdqIjH/y0D4XPJ4PH80pKsVdpf+fHeeopqHg=;
+	b=jYFR/GPsR4/ksEJy7+2EWRq50gWo0tmSllRR+SYeaS4qgZrapIqQxcqZSFuTAaMH13jNW9
+	0+cNZRP+N3Z3+CkwXKgslR0fXb3Ur6AbfMRcFYWNzbgizqVOh0zQVQrxiTZvWtWaLaaeG+
+	SnfBUkT+7JeMxYeOk41v9UoP/latOV7CWxA/rYxqWN3apMj+vPYdzunY0w/wrFPgfJFFh6
+	cW3Np9gj719sdJ9Aa5nnUUEU7yTPhHg5qz7aJ1opuMCUgyeCgvq1xsPQOwypxs2CuKKyQy
+	2UqzXmnchALRUSi+CtjCvUwa1cD+laZDT4Bx5ZbxD+U2zaIiyQgPskG/epYfEQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754901096;
+	s=2020e; t=1754901384;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JeEYEDHr31+P2zVZyryZ2NEbaRwQuOh+nfUwKPEWE1U=;
-	b=lqsQIrkCdbT/b7o7yJ8/W5Y9Megw6NnMf5v16x2yzUciE9/VpFNPrhZstXL2XVYloQ5foV
-	lc3jcWA8RlDD2IAA==
+	bh=qkLNx9/jdqIjH/y0D4XPJ4PH80pKsVdpf+fHeeopqHg=;
+	b=8dElX3fL+T2gCN6B6RNrGBXGrWXMUnEFKmme9ACCcLnyFgFSY6ixcPIFjW7176RFUhTjiu
+	THJg0DI862ppBvBg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yunseong Kim <ysk@kzalloc.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Byungchul Park <byungchul@sk.com>, max.byungchul.park@gmail.com,
-	Yeoreum Yun <yeoreum.yun@arm.com>,
-	Michelle Jin <shjy180909@gmail.com>, linux-kernel@vger.kernel.org,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>, stable@vger.kernel.org,
-	kasan-dev@googlegroups.com, syzkaller@googlegroups.com,
-	linux-usb@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Austin Kim <austindh.kim@gmail.com>
-Subject: Re: [PATCH] kcov, usb: Fix invalid context sleep in softirq path on
- PREEMPT_RT
-Message-ID: <20250811083135.xtl2wSQz@linutronix.de>
-References: <20250725201400.1078395-2-ysk@kzalloc.com>
- <20250808163345.PPfA_T3F@linutronix.de>
- <ee26e7b2-80dd-49b1-bca2-61e460f73c2d@kzalloc.com>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, mingo@redhat.com,
+	peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, will@kernel.org, boqun.feng@gmail.com,
+	longman@redhat.com, clrkwllms@kernel.org, cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] sched/cgroup: Lock optimize for cgroup cpu throttle
+Message-ID: <20250811083622.C29-WNtR@linutronix.de>
+References: <20250811070838.416176-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -65,35 +57,36 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ee26e7b2-80dd-49b1-bca2-61e460f73c2d@kzalloc.com>
+In-Reply-To: <20250811070838.416176-1-jackzxcui1989@163.com>
 
-On 2025-08-09 02:35:48 [+0900], Yunseong Kim wrote:
-> Hi Sebastian,
-Hi Yunseong,
+On 2025-08-11 15:08:38 [+0800], Xin Zhao wrote:
+> After enabling PREEMPT_RT, ordinary spinlocks can also be subject to cgroup
+> limits during the lock-holding period. This can lead to seemingly unrelated
+> threads experiencing timing dependencies due to underlying logic, such as
+> memory allocation, resulting in delayed wake-up behaviors that are difficult
+> to understand when analyzing traces captured by tools like Perfetto.
+> Due to the prevalence of this performance issue when using cgroup CPU
+> throttling with PREEMPT_RT, the CGROUP_LOCK_OPTIMIZE configuration will be
+> enabled by default when both PREEMPT_RT and CFS_BANDWIDTH are activated.
+> This configuration option temporarily increases the priority of tasks to
+> SCHED_RR 1 if they hold a lock (excluding raw spinlocks, RCU, and seqlock)
+> and are limited by cgroup, provided they are SCHED_NORMAL. Once the lock is
+> released, the priority will be restored.
+> This patch is a derivative of the priority inheritance patch. While priority
+> inheritance can cover scenarios involving spinlocks and mutexes, it cannot
+> address the timing dependency issues between two SCHED_NORMAL tasks caused
+> by underlying locks. Additionally, the lazy_preempt feature does not cover
+> scenarios where a real-time task, such as a ktimer, interrupts a lock-holding
+> SCHED_NORMAL task, which is then throttled by cgroup cpu.
+> This patch not only addresses the issue of cgroup limits affecting spinlocks
+> under PREEMPT_RT but also resolves issues related to holding mutex or
+> semaphore locks, as well as other core rt_mutex locks under PREEMPT_RT.
+> The following stack trace illustrates the delayed wake-up behavior caused by
+> two seemingly unrelated threads due to underlying logic:
 
-> > Could someone maybe test this?
-> 
-> As you requested, I have tested your patch on my setup.
-> 
-> I can check that your patch resolves the issue. I have been running
-> the syzkaller for several hours, and the "sleeping function called
-> from invalid context" bug is no longer triggered.
+urgh.
 
-Thank you. I just sent this as a proper patch assuming kcov still does
-what it should. I just don't understand why this triggers after moving
-to workqueues and did not with the tasklet setup. Other that than
-workqueue code has a bit more overhead, it is the same thing.
-
-> I really impressed your "How to Not Break PREEMPT_RT" talk at LPC 22.
-
-Thank you.
-
-> 
-> Tested-by: Yunseong Kim <ysk@kzalloc.com>
-> 
-> 
-> Thanks,
-> 
-> Yunseong Kim
+What about using task_work_add() and throttling the task on its way to
+userland? The callback will be invoked without any locks held.
 
 Sebastian
