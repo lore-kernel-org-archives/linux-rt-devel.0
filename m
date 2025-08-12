@@ -1,54 +1,49 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0173A2DE6FC;
-	Tue, 12 Aug 2025 10:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E742EBB8E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 12 Aug 2025 14:39:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754995093; cv=none; b=nvzpuqg6JmFQcssIIHNEFxv6hgIYnnr08K+Zswk/lrqW94SYUwR9G5vtc6ABdO4t5KtSxNNFhEthkniizDG78VE2r13Vzo/RXw95msdRi7Zkv0kkJIJDjC6loqLll2IbavUinqwizwLR3twp5MmE35KYSnwtF8aWARUb0bgBwtU=
+	t=1755009576; cv=none; b=KBbxiH7axHmAhaWVv8NbGmKRxhlhRGsa7hTPQXA88QP6i1ivd+Mh/Nio0Pd5n/WdTpiwjatjAG6NqoMIBSic4ZuGsm/wRD1NumeckBnmgS5X+2kEYhSTygk3tcrOs/Y7Opb3ApGdfaZaCkbjIcCMEOWDwiAAg5Tk6Zlw/r6dkUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754995093; c=relaxed/simple;
-	bh=cLnBpd72VBS2+hhGUbX+DMUqzztxaUjmtieHDgku2+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fKwTJH8G2S2R+DRsUTAz62X7MoDDdn2nNuL2oe5PFCuk6Gfdw2KvgB5rHEKa8H3s1KKsz2rbKQYZN0mKnLPOfYp5rxJALxk1H7MNwEZlG2ms6/O55b9yB/aMa7mOoB6lxMQOPLwmUG1keEpD58dsdcldQrekqRxtEd0oYhWTj7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kkptLrlS; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZxXbnB89; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1755009576; c=relaxed/simple;
+	bh=9eLIi7E9C1QAgVIzG+G9/HQo3fUT4g3sGMcBJuO07Do=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kgrEYVyfV6yc/1rtjOiax29VVb4WoczsyAfaWuwd6KmfPoE2c5rFcVSYQSpsVkHPJrasd25LWRdom1VUeCizAxAfNm0BjRFBTXkkdna0uB1e1dwa5pVYQhqXhpXHYUpJR3uBy2Zdtxx3G8EFgs4KVxDUNt2VmnLWCA+DHEJqCSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zPxfBNjz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4oPLisjO; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kkptLrlS";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZxXbnB89"
-Date: Tue, 12 Aug 2025 12:38:08 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zPxfBNjz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4oPLisjO"
+Date: Tue, 12 Aug 2025 16:39:30 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1754995090;
+	s=2020; t=1755009571;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JAQ4XH9zyEGG2wHnV4u9Eqr0i5CTANCWMyZk/cAJB1g=;
-	b=kkptLrlS8UE5HjdN5eyZSlg/I2EZtUawlboIg5TiK68XByIfep7vNJN1j1ql/ZIChKNWQV
-	CdNqZYeUW7a1omZDnYSF7cpCY8gspH/yFgp6Ya0Kw6s4MZpZizM/zcgxrNSLocWgSkmOOp
-	Qv3BbgEPgOHmU3SFp0IolVSCvjXxCVMj8Msrkjfv0lZ2PtscqP5gRhLIqf8Ap+bqfspq5B
-	oC7ym1LDSLTElwpOLl+KGmqTTQ9vtvEVxnPoO+LR8IVUEnHnBh7/9cvGWkTIQQfkO1BQkz
-	qMDmlRx6kLmhz5bgwRYUKTUloJBKqMAongUN+rmedXf0Cy0+1pFHIyBiI0IaCA==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=mJ9c0MHZpKrJim1kv06EdDIC8iX3bNjJu87yC68CDw0=;
+	b=zPxfBNjz3h7YyoYp/jzvK8edl1m6WhEK4kVIeROH+90r8hh+q5OL5D2W64bZIq1/0I8Aj4
+	rHO6qi1fEaFh1VD33Zvwg7tr/zjFfKfeObZ9wXslshCzApYuY9YWdMcT7nHbM7qDFF79Jh
+	xcUAXajWDcrFFU0FVrGUUNN/NXDBhWjb0+WC4iW/23qp2suozgPeAar955nACbNQEO5AIM
+	TRedlN/Xtfz6/OseorwG0WCetnODPkshG+71cEPymUQ8SPLqJZnbfr1XrJVYy/IqX4cSIQ
+	VwQqm2DYtCCd9Ll8bGDZ5ecCJse/tBWXZpsTjipQ0NMe0/yprkTVxjmBkIWN0g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1754995090;
+	s=2020e; t=1755009571;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JAQ4XH9zyEGG2wHnV4u9Eqr0i5CTANCWMyZk/cAJB1g=;
-	b=ZxXbnB89qMkbg6cxtEQfKnszsXtu7CENbFvteG5G77LioBSRABWIni4Zryg2YwajaHPpGu
-	cONytd5M2p0LzMBw==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=mJ9c0MHZpKrJim1kv06EdDIC8iX3bNjJu87yC68CDw0=;
+	b=4oPLisjOn2sKgg0M3poOjnOgeIO9CdS37YnZiSK2zYhoEW7P35SwotD49dWbHhpSfRw/J7
+	lFoN0b4G3gg/KOBw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yunseong Kim <ysk@kzalloc.com>
-Cc: Andreas Gruenbacher <agruenba@redhat.com>,
-	Christian Brauner <brauner@kernel.org>, gfs2@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	syzkaller@googlegroups.com, Austin Kim <austindh.kim@gmail.com>
-Subject: Re: [BUG] gfs2: sleeping lock in gfs2_quota_init() with preempt
- disabled on PREEMPT_RT
-Message-ID: <20250812103808.3mIVpgs9@linutronix.de>
-References: <7a68c944-0199-468e-a0f2-ae2a9f21225b@kzalloc.com>
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>, Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>
+Subject: [PATCH] softirq: Provide a handshake for canceling tasklets via
+ polling on PREEMPT_RT
+Message-ID: <20250812143930.22RBn5BW@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -57,58 +52,136 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <7a68c944-0199-468e-a0f2-ae2a9f21225b@kzalloc.com>
 
-On 2025-08-12 14:39:29 [+0900], Yunseong Kim wrote:
-> While testing with PREEMPT_RT enabled, I encountered a potential issue in
-> gfs2_quota_init() where preemption is disabled via bit_spin_lock(), but a
-> subsequent call eventually reaches a sleepable lock.
->=20
-> Below is the simplified call flow:
-> [PREEMPT_RT]
-=E2=80=A6
-> At the moment, two possible approaches come to mind:
->=20
-> 1. Avoid using the bit-spinlock in this path entirely
->  - Rework the bucket protection so we do not call into code that may sleep
->    while preemption is disabled.
->  - no sleeping while preemption-disabled.
->  - May require reworking bucket protection/race re-check logic.
+The tasklet_unlock_spin_wait() via tasklet_disable_in_atomic() is
+provided for a few legacy tasklet users. The interface is used from
+atomic context (which is either softirq or disabled preemption) on
+non-PREEMPT_RT an relies on spinning until the tasklet callback
+completes.
+On PREEMPT_RT the context is never atomic but the busy polling logic
+remains. It possible that the thread invoking tasklet_unlock_spin_wait()
+has higher priority than the tasklet. If both run on the same CPU the
+the tasklet makes no progress and the thread trying to cancel the
+tasklet will live-lock the system.
+To avoid the lockup tasklet_unlock_spin_wait() uses local_bh_disable()/
+enable() which utilizes the local_lock_t for synchronisation. This lock
+is a central per-CPU BKL and about to be removed.
 
-So this would add 4096 spinlocks for RT. Given that those a bit bigger
-than the other ones, it will use a bit more than 16KiB of memory.
-Maybe fewer could be used assuming lock sharing is fine here but I
-haven't checked the code
+Acquire a lock in tasklet_action_common() which is held while the
+tasklet's callback is invoked. This lock will be acquired from
+tasklet_unlock_spin_wait() via tasklet_callback_cancel_wait_running().
+After the tasklet completed tasklet_callback_sync_wait_running() drops
+the lock and acquires it again. In order to avoid unlocking the lock
+even if there is no cancel request, there is a cb_waiters counter which
+is incremented during a cancel request.
+Blocking on the lock will PI-boost the tasklet if needed, ensuring
+progress is made.
 
-> 2. Replace the inner lock with a non-sleeping primitive
->  - (e.g., use a raw_spinlock_t for lockref->lock) so it can be taken while
->    preemption is disabled.
->  - Since lockref does not currently support raw_spinlock_t, this would re=
-quire
->    additional rework of the lockref structure.
->  - Minimal structural change; avoids sleeping in the problematic context.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/softirq.c | 60 ++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 55 insertions(+), 5 deletions(-)
 
-This is something.=20
-Looking at the layout of struct lockref USE_CMPXCHG_LOCKREF can only
-work if the spinlock is the raw_spinlock_t without lockdep. So it
-expects the lock to be unlocked and does a 64bit cmpxchg() to inc/ dec
-the counter that follows.
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 513b1945987cc..57a84758b8459 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -805,6 +805,56 @@ static bool tasklet_clear_sched(struct tasklet_struct *t)
+ 	return false;
+ }
+ 
++#ifdef CONFIG_PREEMPT_RT
++struct tasklet_sync_callback {
++	spinlock_t	cb_lock;
++	atomic_t	cb_waiters;
++};
++
++static DEFINE_PER_CPU(struct tasklet_sync_callback, tasklet_sync_callback) = {
++	.cb_lock	= __SPIN_LOCK_UNLOCKED(tasklet_sync_callback.cb_lock),
++	.cb_waiters	= ATOMIC_INIT(0),
++};
++
++static void tasklet_lock_callback(void)
++{
++	spin_lock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
++}
++
++static void tasklet_unlock_callback(void)
++{
++	spin_unlock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
++}
++
++static void tasklet_callback_cancel_wait_running(void)
++{
++	struct tasklet_sync_callback *sync_cb = this_cpu_ptr(&tasklet_sync_callback);
++
++	atomic_inc(&sync_cb->cb_waiters);
++	spin_lock(&sync_cb->cb_lock);
++	atomic_dec(&sync_cb->cb_waiters);
++	spin_unlock(&sync_cb->cb_lock);
++}
++
++static void tasklet_callback_sync_wait_running(void)
++{
++	struct tasklet_sync_callback *sync_cb = this_cpu_ptr(&tasklet_sync_callback);
++
++	if (atomic_read(&sync_cb->cb_waiters)) {
++		spin_unlock(&sync_cb->cb_lock);
++		spin_lock(&sync_cb->cb_lock);
++	}
++}
++
++#else
++
++static void tasklet_lock_callback(void) { }
++static void tasklet_unlock_callback(void) { }
++static void tasklet_callback_cancel_wait_running(void) { }
++static void tasklet_callback_sync_wait_running(void) { }
++
++#endif
++
+ static void tasklet_action_common(struct tasklet_head *tl_head,
+ 				  unsigned int softirq_nr)
+ {
+@@ -816,6 +866,7 @@ static void tasklet_action_common(struct tasklet_head *tl_head,
+ 	tl_head->tail = &tl_head->head;
+ 	local_irq_enable();
+ 
++	tasklet_lock_callback();
+ 	while (list) {
+ 		struct tasklet_struct *t = list;
+ 
+@@ -835,6 +886,7 @@ static void tasklet_action_common(struct tasklet_head *tl_head,
+ 					}
+ 				}
+ 				tasklet_unlock(t);
++				tasklet_callback_sync_wait_running();
+ 				continue;
+ 			}
+ 			tasklet_unlock(t);
+@@ -847,6 +899,7 @@ static void tasklet_action_common(struct tasklet_head *tl_head,
+ 		__raise_softirq_irqoff(softirq_nr);
+ 		local_irq_enable();
+ 	}
++	tasklet_unlock_callback();
+ }
+ 
+ static __latent_entropy void tasklet_action(void)
+@@ -897,12 +950,9 @@ void tasklet_unlock_spin_wait(struct tasklet_struct *t)
+ 			/*
+ 			 * Prevent a live lock when current preempted soft
+ 			 * interrupt processing or prevents ksoftirqd from
+-			 * running. If the tasklet runs on a different CPU
+-			 * then this has no effect other than doing the BH
+-			 * disable/enable dance for nothing.
++			 * running.
+ 			 */
+-			local_bh_disable();
+-			local_bh_enable();
++			tasklet_callback_cancel_wait_running();
+ 		} else {
+ 			cpu_relax();
+ 		}
+-- 
+2.50.1
 
-I was confused why lockref_mark_dead() works for dcache given that the
-lock is not released outside of lockref.c except for
-lockref_put_or_lock(). But then I noticed d_lock.
-
-So making the lock raw_spinlock_t breaks the few lockref_put_or_lock()
-users. The impact on dcache is huge and I noticed some waitqueue
-handling which would break. So there is that.
-
-Based on this I think it should be handled somehow within gfs2.
-
-> I can help test patches for this on both PREEMPT_RT and NON-RT kernels.
->=20
->=20
-> Thanks,
-> Yunseong Kim
-
-Sebastian
