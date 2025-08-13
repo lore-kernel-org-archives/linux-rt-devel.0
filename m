@@ -1,139 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA7D2EFDA9
-	for <linux-rt-devel@lists.linux.dev>; Wed, 13 Aug 2025 11:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10D244673;
+	Wed, 13 Aug 2025 18:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755085443; cv=none; b=f1Q2itbjDQPTJRy2Wi/emImaxwi6VASfDGUP/ED9msS4uu9IS/ISB3QL857WlQQKU348N+ILSSMOILfNqlhsoF3kbboFRgrTj+0DzRaIgMF2J0dgk5uxCg6AB9lsmoMU1Tw/w71qmXauqlBUYKx3Lrfpx2CIAfgRWN9Lgl0FzRQ=
+	t=1755108337; cv=none; b=e2F0XQ9KkiLLDLYTSlLV5X2mAZtTYlvrs4jaIWYxWpQ5+yYV0a2WIrgpvW1lV1I6vJdvbs4YRNhd+RKQh3uAguHOMUigywofN4faHHBaZnDWRbtNOIgxgSQGPw36zz69tbNX/IOYU0M8hazXFkHQhYNwrMnT1ONGp6KzARIYb7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755085443; c=relaxed/simple;
-	bh=Zf2QhI8jQ0RJ3JTvKnj4feUNlf+wUitU/3CBcHEaS3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RE5RFJ/k4zVWmsiszpdME0Ti1ezb306RPRFcRhr3xVUgKnEXPJ6WD16EoWEDzlq0Kt/jAQ1X7SR1Dydq5tSjQZtTCDgq5SBKOlFeDFJGW2mbTFkQXbL8pA772ZMLy0XWFLoh7rIIJkTHsyYEEaD+Yi/1GryVN1OcJGed/rjLLrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 354C712FC;
-	Wed, 13 Aug 2025 04:43:52 -0700 (PDT)
-Received: from [10.57.1.244] (unknown [10.57.1.244])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3BC853F738;
-	Wed, 13 Aug 2025 04:43:57 -0700 (PDT)
-Message-ID: <0d90f4c0-3eb8-4004-b22e-1a840d69fb50@arm.com>
-Date: Wed, 13 Aug 2025 12:43:50 +0100
+	s=arc-20240116; t=1755108337; c=relaxed/simple;
+	bh=VdllnDqoiojl2rXcVQgdytgzxs83C33rglqhv8B4mHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HX5VD4Hya58EGrZPt0w17sk03JUaaljxTLqLO6b//w9WGclUx0p/AW9InlqrLk+mw7W+WjG8E4rqbimOu3G39ovE5asw2ZumPTt1FfzxqakcRuf4mbbRdnjMOoQUEof9rrm7JR7R+QkN/I/4W8VUJRnGSeB/HuY1PKQJcZy7oCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUqyfZuz; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUqyfZuz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECDAC4CEF6;
+	Wed, 13 Aug 2025 18:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755108335;
+	bh=VdllnDqoiojl2rXcVQgdytgzxs83C33rglqhv8B4mHw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jUqyfZuziYDpH4FX/CYNPt33vDrQKsfI2nPQMFf2/LHeC8TNDs67jnIcRz4I03Kcv
+	 w1OIIWofG1ZnbdCHdTVXBU1HJSdv4R6XCMmUo5LRXPytViVxsCu0dZt3uh67IO9js7
+	 XwEjOiS2sVFf8bwS+YrAmZcl51g0grdb3ShqvGwhAqmM/f9TF7lLPUFwoysfv+1osa
+	 zk8qUnr+5yrBjCpRZGEgUfqx8zzMLjmI/SZhj5sbjiUluAAlrriQJpNNIjorj7PW/0
+	 l1uo+4mg8LcWI6D5GC1nzPx/E4sbCicNlFFbs/DHrnMxDKNAU7ckvzda4zmnaXilIC
+	 D2ValjDCUPh7A==
+Date: Wed, 13 Aug 2025 08:05:34 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] softirq: Provide a handshake for canceling tasklets via
+ polling on PREEMPT_RT
+Message-ID: <aJzT7rqwkRQrLGqo@slm.duckdns.org>
+References: <20250812143930.22RBn5BW@linutronix.de>
+ <20250812145359.QMcaYh9g@linutronix.de>
+ <aJuYStGVBjyfVmZM@slm.duckdns.org>
+ <20250813063311.33m0TDKl@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] arm64: Sleeping function called from invalid context in
- do_debug_exception on PREEMPT_RT
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- Yeoreum Yun <yeoreum.yun@arm.com>, Yunseong Kim <ysk@kzalloc.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, Mark Rutland <mark.rutland@arm.com>,
- Naresh Kamboju <naresh.kamboju@linaro.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Austin Kim <austindh.kim@gmail.com>,
- linux-rt-devel@lists.linux.dev, syzkaller@googlegroups.com,
- stable@vger.kernel.org, Ada Couprie Diaz <ada.coupriediaz@arm.com>
-References: <c36e8dca-d466-40ad-ad51-2b75e769ff47@kzalloc.com>
- <aJw3L7B7u5qAPOMz@e129823.arm.com>
- <17f91b9a-0a3a-47e1-bdfb-06237ae5da55@kzalloc.com>
- <aJxT2ie1wW2+/OCg@e129823.arm.com> <aJxjvh4sAcUOJT2V@uudg.org>
-From: Ada Couprie Diaz <ada.coupriediaz@arm.com>
-Content-Language: en-US
-Organization: Arm Ltd.
-In-Reply-To: <aJxjvh4sAcUOJT2V@uudg.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250813063311.33m0TDKl@linutronix.de>
 
-Hi all,
+Hello,
 
-On 13/08/2025 11:06, Luis Claudio R. Goncalves wrote:
-> On Wed, Aug 13, 2025 at 09:59:06AM +0100, Yeoreum Yun wrote:
->> +Ada Couprie Diaz
-Thanks for the ping !
->>> Hi Yeoreum,
->>>
->>> Thank you for pointing it!
->>>
->>> On 8/13/25 3:56 PM, Yeoreum Yun wrote:
->>>> Hi Yunseong,
->>>>
->>>>> | BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
->>>>> | in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 20466, name: syz.0.1689
->>>>> | preempt_count: 1, expected: 0
->>>>> | RCU nest depth: 0, expected: 0
->>>>> | Preemption disabled at:
->>>>> | [<ffff800080241600>] debug_exception_enter arch/arm64/mm/fault.c:978 [inline]
->>>>> | [<ffff800080241600>] do_debug_exception+0x68/0x2fc arch/arm64/mm/fault.c:997
->>>>> | CPU: 0 UID: 0 PID: 20466 Comm: syz.0.1689 Not tainted 6.16.0-rc1-rt1-dirty #12 PREEMPT_RT
->>>>> | Hardware name: QEMU KVM Virtual Machine, BIOS 2025.02-8 05/13/2025
->>>>> | Call trace:
->>>>> |  show_stack+0x2c/0x3c arch/arm64/kernel/stacktrace.c:466 (C)
->>>>> |  __dump_stack+0x30/0x40 lib/dump_stack.c:94
->>>>> |  dump_stack_lvl+0x148/0x1d8 lib/dump_stack.c:120
->>>>> |  dump_stack+0x1c/0x3c lib/dump_stack.c:129
->>>>> |  __might_resched+0x2e4/0x52c kernel/sched/core.c:8800
->>>>> |  __rt_spin_lock kernel/locking/spinlock_rt.c:48 [inline]
->>>>> |  rt_spin_lock+0xa8/0x1bc kernel/locking/spinlock_rt.c:57
->>>>> |  spin_lock include/linux/spinlock_rt.h:44 [inline]
->>>>> |  force_sig_info_to_task+0x6c/0x4a8 kernel/signal.c:1302
->>>>> |  force_sig_fault_to_task kernel/signal.c:1699 [inline]
->>>>> |  force_sig_fault+0xc4/0x110 kernel/signal.c:1704
->>>>> |  arm64_force_sig_fault+0x6c/0x80 arch/arm64/kernel/traps.c:265
->>>>> |  send_user_sigtrap arch/arm64/kernel/debug-monitors.c:237 [inline]
->>>>> |  single_step_handler+0x1f4/0x36c arch/arm64/kernel/debug-monitors.c:257
->>>>> |  do_debug_exception+0x154/0x2fc arch/arm64/mm/fault.c:1002
->>>>> |  el0_dbg+0x44/0x120 arch/arm64/kernel/entry-common.c:756
->>>>> |  el0t_64_sync_handler+0x3c/0x108 arch/arm64/kernel/entry-common.c:832
->>>>> |  el0t_64_sync+0x1ac/0x1b0 arch/arm64/kernel/entry.S:600
->>>>>
->>>>>
->>>>> It seems that commit eaff68b32861 ("arm64: entry: Add entry and exit functions
->>>>> for debug exception") in 6.17-rc1, also present as 6fb44438a5e1 in mainline,
->>>>> removed code that previously avoided sleeping context issues when handling
->>>>> debug exceptions:
->>>>> Link: https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/arch/arm64/mm/fault.c?id=eaff68b3286116d499a3d4e513a36d772faba587
->>>> No. Her patch commit 31575e11ecf7 (arm64: debug: split brk64 exception entry)
->>>> solves your splat since el0_brk64() doesn't call debug_exception_enter()
->>>> by spliting el0/el1 brk64 entry exception entry.
->>>>
->>>> Formerly, el(0/1)_dbg() are handled in do_debug_exception() together
->>>> and it calls debug_exception_enter() disabling preemption and this makes
->>>> your splat while handling brk excepttion from el0.
-That's correct : one of the goal of the series was to be able to
-adapt each debug exception handler to what is needed,
-which allowed us to keep preemption enabled, or re-enable it
-much earlier, to prevent issues as above for some exceptions.
->>> Do you think a fix is necessary if this issue also affects the LTS kernel
->>> before 6.17-rc1? As far as I know, most production RT kernels are still
->>> based on the existing LTS versions.
-Luis originally reported the issue on kernels 6.13-rt and 6.14-rc1[1].
-After some quick testing, the issue is present on
-6.1-rt, 6.6-rt and 6.12-rt as well.
-5.15-rt either doesn't have the issue, or doesn't report it.
->> IMHO, I think her patch should be backedported.
-> I also strongly suggest backporting Ada's patch series, as without them
-> using anything that resorts to debug exceptions (ptrace, gdb, ...) on
-> aarch64 with PREEMPT_RT enabled may result in a backtrace or worse.
->
-> Luis
-Hopefully it shouldn't be too hard to backport for recent kernels,
-as I don't think those areas change a lot, but I haven't looked into it.
+On Wed, Aug 13, 2025 at 08:33:11AM +0200, Sebastian Andrzej Siewior wrote:
+...
+> > The intention is to convert all BH users to workqueue-BH and remove BH
+> > (that's what Linus wants and why workqueue-BH came to be), so the APIs
+> > should be able to match up, I'm afraid. There were some attempts at pushing
+> > the conversion but we've only made minimal progress. If you're looking at BH
+> > users anyway and feel like it, please feel free to convert them.
+> 
+> I understand this but I am talking about legacy users:
+> 
+> | drivers/atm/eni.c:      tasklet_disable_in_atomic(&ENI_DEV(vcc->dev)->task);
+> | drivers/net/wireless/ath/ath9k/beacon.c:        tasklet_disable_in_atomic(&sc->bcon_tasklet);
+> | drivers/pci/controller/pci-hyperv.c:    tasklet_disable_in_atomic(&channel->callback_event);
+> 
+> This is what is left. (There is also i915 but this is "special").
+> So we are talking about establishing an API and behaviour for those here
+> after we painfully managed converting everyone else away:
 
-I'm not sure when I would have time to work on backporting, but
-I'd be happy to help anyway or do it if I have the time in the future,
-given there seems to be some interest (and good reasons).
->> [0]: https://lore.kernel.org/all/20250707114109.35672-1-ada.coupriediaz@arm.com/
->>
->> Thanks.
->>
->> --
->> Sincerely,
->> Yeoreum Yun
-Best,
-Ada
-[1]: https://lore.kernel.org/linux-arm-kernel/Z6YW_Kx4S2tmj2BP@uudg.org/
+Right, given how early in conversion, we can definitely leave this as
+something to think about later. I have no objection to leave it be for now.
+
+Thanks.
+
+-- 
+tejun
