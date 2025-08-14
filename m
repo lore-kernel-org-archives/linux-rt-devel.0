@@ -1,81 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC10D244673;
-	Wed, 13 Aug 2025 18:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6962E7F24
+	for <linux-rt-devel@lists.linux.dev>; Thu, 14 Aug 2025 08:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755108337; cv=none; b=e2F0XQ9KkiLLDLYTSlLV5X2mAZtTYlvrs4jaIWYxWpQ5+yYV0a2WIrgpvW1lV1I6vJdvbs4YRNhd+RKQh3uAguHOMUigywofN4faHHBaZnDWRbtNOIgxgSQGPw36zz69tbNX/IOYU0M8hazXFkHQhYNwrMnT1ONGp6KzARIYb7k=
+	t=1755160856; cv=none; b=Lenpqn/OgivP5JIFAlNLS7HiV9KcH90RlRZn3vbXSRv7LAyq8KLrQzJ0QqpAqusLwPgGIkU7FOMwFpMWgbUWs7Rxd5hqyfNU3wDE9BM/FkuyhIH11RMtXm/6lxuL+1HunAUVB1SL9x4j2pmpFRKhFR7+kP0ha47g+PfefQ45wAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755108337; c=relaxed/simple;
-	bh=VdllnDqoiojl2rXcVQgdytgzxs83C33rglqhv8B4mHw=;
+	s=arc-20240116; t=1755160856; c=relaxed/simple;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HX5VD4Hya58EGrZPt0w17sk03JUaaljxTLqLO6b//w9WGclUx0p/AW9InlqrLk+mw7W+WjG8E4rqbimOu3G39ovE5asw2ZumPTt1FfzxqakcRuf4mbbRdnjMOoQUEof9rrm7JR7R+QkN/I/4W8VUJRnGSeB/HuY1PKQJcZy7oCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUqyfZuz; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uau4LKARYCNMmRLdItlmMwlaQRgdIfy4ENNAddjjyA3WIlINtuuxwQEJ6WapQ06ekgH0RGQIvqMdpuGb1HhCTTTOLqfV6Fk6QQOpemT9isyCDJR5zyhlRcSTa1KH598hZ/MvRYJ3IViJvj19KZIovsxbClF+LK4a54+eaMAZAk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=E0tYJUhh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gVhM9bFj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUqyfZuz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EECDAC4CEF6;
-	Wed, 13 Aug 2025 18:05:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755108335;
-	bh=VdllnDqoiojl2rXcVQgdytgzxs83C33rglqhv8B4mHw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jUqyfZuziYDpH4FX/CYNPt33vDrQKsfI2nPQMFf2/LHeC8TNDs67jnIcRz4I03Kcv
-	 w1OIIWofG1ZnbdCHdTVXBU1HJSdv4R6XCMmUo5LRXPytViVxsCu0dZt3uh67IO9js7
-	 XwEjOiS2sVFf8bwS+YrAmZcl51g0grdb3ShqvGwhAqmM/f9TF7lLPUFwoysfv+1osa
-	 zk8qUnr+5yrBjCpRZGEgUfqx8zzMLjmI/SZhj5sbjiUluAAlrriQJpNNIjorj7PW/0
-	 l1uo+4mg8LcWI6D5GC1nzPx/E4sbCicNlFFbs/DHrnMxDKNAU7ckvzda4zmnaXilIC
-	 D2ValjDCUPh7A==
-Date: Wed, 13 Aug 2025 08:05:34 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="E0tYJUhh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gVhM9bFj"
+Date: Thu, 14 Aug 2025 10:40:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755160853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
+	b=E0tYJUhhqWGzJkLqlqnrXvx7ycRG9J+diDGQasFLbLXYzs/gzZkY6pqbjfDGvuzLOs5opb
+	aumB00UynmDf5h18xIsAomY2XQwdbaF9WyoaXH/Xg/8kuNqsWcyd7U/NYPIVpNaw5k/KGy
+	P4sgP50bGJAyciGWri3DXYC+K1vfgf9yKYBwMo9k2Wh0TvCXRK8HbWFVVj2zx/Qnl09/q8
+	cHPTr+9HbBqP/BiVLrHk0rhNEbYiXJKob+GRv+/aYhOdlgAuSWhpN5RUnEip6e4e6DotDf
+	dWNilAzOlugjXscBlgIldspg9m8sutktnw0QZLif9FKy302dwsjAJOls6slSQg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755160853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EGmdGalmSci7nSZoWt5x2LKRSVMsbV9SrPNPS2/ywi0=;
+	b=gVhM9bFjRi3QknRLLekuJWfdDbQEEigf5tdJfnp3sqelwXGvx+7jaq6Tkg0tS+Vym4dteO
+	Q/ZdeFGp+vY5ADCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] softirq: Provide a handshake for canceling tasklets via
- polling on PREEMPT_RT
-Message-ID: <aJzT7rqwkRQrLGqo@slm.duckdns.org>
-References: <20250812143930.22RBn5BW@linutronix.de>
- <20250812145359.QMcaYh9g@linutronix.de>
- <aJuYStGVBjyfVmZM@slm.duckdns.org>
- <20250813063311.33m0TDKl@linutronix.de>
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH 2/3] Documentation: locking: Add local_lock_nested_bh()
+ to locktypes
+Message-ID: <20250814084051.QU77fjQo@linutronix.de>
+References: <20250715144127.697787-1-bigeasy@linutronix.de>
+ <20250715144127.697787-3-bigeasy@linutronix.de>
+ <87zfd5dxlc.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250813063311.33m0TDKl@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87zfd5dxlc.fsf@trenco.lwn.net>
 
-Hello,
+On 2025-07-15 14:10:23 [-0600], Jonathan Corbet wrote:
+=E2=80=A6
+> > +A local_lock_t together with local_lock_nested_bh() and
+> > +local_unlock_nested_bh() for locking operations help to identify the l=
+ocking
+> > +scope.
+> > +
+> > +With lockdep is enabled, these functions verify that data structure ac=
+cess
+>=20
+> Did you mean *When* lockdep is enabled?
 
-On Wed, Aug 13, 2025 at 08:33:11AM +0200, Sebastian Andrzej Siewior wrote:
-...
-> > The intention is to convert all BH users to workqueue-BH and remove BH
-> > (that's what Linus wants and why workqueue-BH came to be), so the APIs
-> > should be able to match up, I'm afraid. There were some attempts at pushing
-> > the conversion but we've only made minimal progress. If you're looking at BH
-> > users anyway and feel like it, please feel free to convert them.
-> 
-> I understand this but I am talking about legacy users:
-> 
-> | drivers/atm/eni.c:      tasklet_disable_in_atomic(&ENI_DEV(vcc->dev)->task);
-> | drivers/net/wireless/ath/ath9k/beacon.c:        tasklet_disable_in_atomic(&sc->bcon_tasklet);
-> | drivers/pci/controller/pci-hyperv.c:    tasklet_disable_in_atomic(&channel->callback_event);
-> 
-> This is what is left. (There is also i915 but this is "special").
-> So we are talking about establishing an API and behaviour for those here
-> after we painfully managed converting everyone else away:
+Lets do "When". I most likely should have removed the "is".
 
-Right, given how early in conversion, we can definitely leave this as
-something to think about later. I have no objection to leave it be for now.
-
+> Otherwise no complaints here.
 Thanks.
 
--- 
-tejun
+>=20
+> jon
+
+Sebastian
