@@ -1,182 +1,161 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6298D2765C8
-	for <linux-rt-devel@lists.linux.dev>; Mon, 18 Aug 2025 11:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1070731AF27
+	for <linux-rt-devel@lists.linux.dev>; Mon, 18 Aug 2025 11:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755514941; cv=none; b=JJkdKSwopkGarvYQlQUat6aJxIp7zS1IvuAx/93ZYwFGy8+kEwncwb1z4id57PlgUM9GsO0Nvsa41BKGpAA1PnbPxZAs+a2ovh6UjCIUhBrGLagLTyvghOMZUz6vS9pUfXaHx3IGN/lrsac23h+dVHXNQyIc2G1ivl6BIdpOpng=
+	t=1755518069; cv=none; b=LjI/QuC6cDEiwg0gYlmSV7TgkkdQDVOXMSMI5IjbpNS8cUiuTk7AwuPFsD2bKP6w+F7VAxW3SjeChjuNBQi6xJTQonYyRxeznaikGMdmH2CAt6mF3t6T7NlE7cDLXxO/OxNo6RZ/+3cRjW0wKOg0Ck9cYYOx2RdfIrFcVscYWoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755514941; c=relaxed/simple;
-	bh=5UA3b8NBfZBqdneIyRPewYTo/RHw0HOzdU8VFJq8OF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=s54tYkLSCVdRVYwbfrumPMoLsCf9SVnB4jA6lwiT6f7MmbAmHNCgNGZ8s3WkIBvlgndRA5Nl2qWmGkgvglzc758GMURxi0bmldJTeJkwYaRoTxzByaIiThK4pZPR/tzySgpfE9MMxpFnTxAMVAeHxyhMO6pBisHfwT8fUgWJup8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0KEReYfb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=axKc2cft; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0KEReYfb";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="axKc2cft"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1755514937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uhZeEzrq6qOCRGlpOw8HyLUMa+Cbt1wucJZ4tGWRfDk=;
-	b=0KEReYfbsuB/fNBdx4Tmy8w2F0nuU2W44gBg+1LvpH5qTh8dusiDOkZSOycHanUIpI1IIF
-	/4ymjmCnerf7ZZT5tO3OOg91ZTa/XmIC60YD3CTFLONbch8dIGUSCRufshd7cT3iw54FE9
-	+s1KJtZbDa3dp2z6wMpk3DiiY59QlL9jKdpleWDM/zhoYhMQS8bkgaoO9dgbsxmycHa7Bb
-	nxQxDr3NhvWBD+YR1E7qrXWlBlR+HXSc/1bvt4l+Rdb7mquOkrcIUKnRvspc5Wk032pCsJ
-	7cC8R1Rdw1QctVWoCQ57ZHVRwzFRuBdFdkbJAf/LT15+P6Diuv1I0rlBRPEunw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1755514937;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uhZeEzrq6qOCRGlpOw8HyLUMa+Cbt1wucJZ4tGWRfDk=;
-	b=axKc2cft2fRJq65qLthodLjI+wxUJ48aqyy0sARbW8dBJRz2kUa1Tl/y3vu23OCvaZEqmG
-	e2svnaxatB0jD0DQ==
-To: netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH nft-testing v3 2/2] netfilter: nft_set_pipapo: Use nested-BH locking for nft_pipapo_scratch
-Date: Mon, 18 Aug 2025 13:02:13 +0200
-Message-ID: <20250818110213.1319982-3-bigeasy@linutronix.de>
-In-Reply-To: <20250818110213.1319982-1-bigeasy@linutronix.de>
-References: <20250818110213.1319982-1-bigeasy@linutronix.de>
+	s=arc-20240116; t=1755518069; c=relaxed/simple;
+	bh=/phsCS3I/nFd9s5kGe9o+G5yYz+VaOf1xq7h7J+KRIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gWauGgZqCJHtTnzs7b/n6Aw2gt9M3SOFWlaLQKeLAshS/UWpkHKMPgsMEq4zN4GunXowkjF/Xe5zQwGVcPedarYoqXVdJsnhHBKAT6OTF6DRbuOTwPX41s15AkvLQtEPJpRL+il6aQSE9b8Xnp2E31pmH4dW21qnozHIuJstPn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24458051ac6so6349375ad.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 18 Aug 2025 04:54:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755518066; x=1756122866;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8j0UaOO8rZF+g3Zx9pBFamOuPKGjUnRi+oCF5jlGQSg=;
+        b=D1kRHtBd/3wpW656fmWgN9qWH9yhgLY3ObY/j459MT22sFMDRdcDbkGsBR0HWIDFCN
+         YIcn31kAWwh3GUzBS0pjlz+35NVv9+i/6F4Tq/Pa/MkHhrj8dAeyW5BNeTszjc0urUel
+         uMW/f21EtjRKrQyAY3CUMcFClki3C/BkplnoK77uJf0GuBvJeWLQK4wXXAS0FdL9juRN
+         Zwl1yZ8+SSjAKPFOUdy8ua2icBppgkKpTeoUN7Xzcu9rcH/o2oLVEo5anVpu/dTmpeO2
+         1hHdrjY4d5o5nxdCFxGqFjfh9bxTUFs1RMSzgs8nI+xNnRaZo5g0ihJR/Sa7mB4NWmm+
+         nLuw==
+X-Forwarded-Encrypted: i=1; AJvYcCVhlsxDtnfJoEesaoUc1UCzSfuhp3/A7lTP7IF0TFh6BI3mZCYoirRBH7lC+p5j8Xoj0gb2SBXyP7hGzdBrDw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdSMSQ9rauYolDC10dcNBY4YDi8wBgJHvmiLOlq4GIOt8esHeB
+	OE2eoGP5bi9j3suKpRMgqqxtX+GWJa/Cy6vtBeOGfmpmyOOLstRi+8YP
+X-Gm-Gg: ASbGncuvpBtl3fR2TjMf/1Qj+ZJ9NoMrikf2SxOUSpGtQVpbatoJMSVEUWYxvHFYOED
+	lnoeIYe/lqjMAvGJCwK5KNq2hFea59lJbacAfpYxsxxat6OFCxB5VwsZOZYaAFF28yGalBt4PXG
+	RKXUaXaSgyW+SydduiC2945TjgKW7e7oR8MHqj2njzEkz5RazPdbd5UcjVRlEFX1o+RJ6RzqPjC
+	mZ2GsOd0NPb0LoJzIHj5c4MO9hoJSreMjZPx+coN95gOGARwybcnQYzrxz1qgk8aLEUAhJwu59h
+	YNUx2KWrNjNto1Q4ChRfKr+ZfnYRePBPVISBlVpX7gIDOstaAo0ScM3EuOVry2oIbN06BN/TOyx
+	pEYeIgk0D19e+OFZkJ2Avlt8mJ6brnscE
+X-Google-Smtp-Source: AGHT+IHcawVAvSljzh8Pdv1UKq7clEV5BqQhmAWfnxLDkORzc+FbZeWfscwEo5htvUHiUGKek6i6fw==
+X-Received: by 2002:a17:902:d488:b0:234:f1b5:6e9b with SMTP id d9443c01a7336-2446d6d4c76mr84107745ad.1.1755518066253;
+        Mon, 18 Aug 2025 04:54:26 -0700 (PDT)
+Received: from [192.168.50.136] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32331123409sm10860483a91.20.2025.08.18.04.54.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Aug 2025 04:54:25 -0700 (PDT)
+Message-ID: <6450c5b4-b3cf-490f-ba7e-6201669829d9@kzalloc.com>
+Date: Mon, 18 Aug 2025 20:54:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] md/raid5-ppl: Fix invalid context sleep in
+ ppl_io_unit_finished() on PREEMPT_RT
+To: Yu Kuai <yukuai1@huaweicloud.com>, Song Liu <song@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+ linux-raid@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, "yukuai (C)" <yukuai3@huawei.com>
+References: <20250817113114.1335810-3-ysk@kzalloc.com>
+ <acd0a040-18ce-05f5-4896-ad24dda6fb00@huaweicloud.com>
+Content-Language: en-US
+From: Yunseong Kim <ysk@kzalloc.com>
+Organization: kzalloc
+In-Reply-To: <acd0a040-18ce-05f5-4896-ad24dda6fb00@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-nft_pipapo_scratch is a per-CPU variable and relies on disabled BH for
-its locking. Without per-CPU locking in local_bh_disable() on PREEMPT_RT
-this data structure requires explicit locking.
+Hi Yu,
 
-Add a local_lock_t to the data structure and use local_lock_nested_bh() for
-locking. This change adds only lockdep coverage and does not alter the
-functional behaviour for !PREEMPT_RT.
+On 8/18/25 9:56 AM, Yu Kuai wrote:
+> Hi,
+> 
+> 在 2025/08/17 19:31, Yunseong Kim 写道:
+>> The function ppl_io_unit_finished() uses a local_irq_save()/spin_lock()
+>> sequence. On a PREEMPT_RT enabled kernel, spin_lock() can sleep. Calling it
+>> with interrupts disabled creates an atomic context where sleeping is
+>> forbidden.
+>>
+> What? I believe spin_lock can never sleep.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- net/netfilter/nft_set_pipapo.c      | 5 +++++
- net/netfilter/nft_set_pipapo.h      | 1 +
- net/netfilter/nft_set_pipapo_avx2.c | 4 ++++
- 3 files changed, 10 insertions(+)
+I think you might have been a bit surprised by me sending a patch out of
+the blue. It would be helpful to refer to the references below:
 
-diff --git a/net/netfilter/nft_set_pipapo.c b/net/netfilter/nft_set_pipapo.c
-index 1a1ba0b47696e..e7c28b009b9a7 100644
---- a/net/netfilter/nft_set_pipapo.c
-+++ b/net/netfilter/nft_set_pipapo.c
-@@ -429,6 +429,7 @@ static struct nft_pipapo_elem *pipapo_get_slow(const st=
-ruct nft_pipapo_match *m,
- 	scratch =3D *raw_cpu_ptr(m->scratch);
- 	if (unlikely(!scratch))
- 		goto out;
-+	__local_lock_nested_bh(&scratch->bh_lock);
-=20
- 	map_index =3D scratch->map_index;
-=20
-@@ -465,6 +466,7 @@ static struct nft_pipapo_elem *pipapo_get_slow(const st=
-ruct nft_pipapo_match *m,
- 				  last);
- 		if (b < 0) {
- 			scratch->map_index =3D map_index;
-+			__local_unlock_nested_bh(&scratch->bh_lock);
- 			local_bh_enable();
-=20
- 			return NULL;
-@@ -484,6 +486,7 @@ static struct nft_pipapo_elem *pipapo_get_slow(const st=
-ruct nft_pipapo_match *m,
- 			 * *next* bitmap (not initial) for the next packet.
- 			 */
- 			scratch->map_index =3D map_index;
-+			__local_unlock_nested_bh(&scratch->bh_lock);
- 			local_bh_enable();
- 			return e;
- 		}
-@@ -498,6 +501,7 @@ static struct nft_pipapo_elem *pipapo_get_slow(const st=
-ruct nft_pipapo_match *m,
- 		data +=3D NFT_PIPAPO_GROUPS_PADDING(f);
- 	}
-=20
-+	__local_unlock_nested_bh(&scratch->bh_lock);
- out:
- 	local_bh_enable();
- 	return NULL;
-@@ -1215,6 +1219,7 @@ static int pipapo_realloc_scratch(struct nft_pipapo_m=
-atch *clone,
- 		}
-=20
- 		pipapo_free_scratch(clone, i);
-+		local_lock_init(&scratch->bh_lock);
- 		*per_cpu_ptr(clone->scratch, i) =3D scratch;
- 	}
-=20
-diff --git a/net/netfilter/nft_set_pipapo.h b/net/netfilter/nft_set_pipapo.h
-index 3655aa41fa949..4d9addea854c4 100644
---- a/net/netfilter/nft_set_pipapo.h
-+++ b/net/netfilter/nft_set_pipapo.h
-@@ -129,6 +129,7 @@ struct nft_pipapo_field {
-  * @__map:	store partial matching results during lookup
-  */
- struct nft_pipapo_scratch {
-+	local_lock_t bh_lock;
- 	u8 map_index;
- 	unsigned long __map[];
- };
-diff --git a/net/netfilter/nft_set_pipapo_avx2.c b/net/netfilter/nft_set_pi=
-papo_avx2.c
-index 951868a904a25..8270a95c8ca27 100644
---- a/net/netfilter/nft_set_pipapo_avx2.c
-+++ b/net/netfilter/nft_set_pipapo_avx2.c
-@@ -1163,6 +1163,7 @@ struct nft_pipapo_elem *pipapo_get_avx2(const struct =
-nft_pipapo_match *m,
- 	if (unlikely(!scratch))
- 		return NULL;
-=20
-+	__local_lock_nested_bh(&scratch->bh_lock);
- 	map_index =3D scratch->map_index;
- 	map =3D NFT_PIPAPO_LT_ALIGN(&scratch->__map[0]);
- 	res  =3D map + (map_index ? m->bsize_max : 0);
-@@ -1228,6 +1229,7 @@ struct nft_pipapo_elem *pipapo_get_avx2(const struct =
-nft_pipapo_match *m,
- 		if (ret < 0) {
- 			scratch->map_index =3D map_index;
- 			kernel_fpu_end();
-+			__local_unlock_nested_bh(&scratch->bh_lock);
- 			return NULL;
- 		}
-=20
-@@ -1241,6 +1243,7 @@ struct nft_pipapo_elem *pipapo_get_avx2(const struct =
-nft_pipapo_match *m,
-=20
- 			scratch->map_index =3D map_index;
- 			kernel_fpu_end();
-+			__local_unlock_nested_bh(&scratch->bh_lock);
- 			return e;
- 		}
-=20
-@@ -1250,6 +1253,7 @@ struct nft_pipapo_elem *pipapo_get_avx2(const struct =
-nft_pipapo_match *m,
- 	}
-=20
- 	kernel_fpu_end();
-+	__local_unlock_nested_bh(&scratch->bh_lock);
- 	return NULL;
- }
-=20
---=20
-2.50.1
+ On PREEMPT_RT kernels, these lock types are converted to sleeping locks:
+  local_lock
+  spinlock_t
+  rwlock_t
 
+Link: https://docs.kernel.org/locking/locktypes.html#sleeping-locks
+
+>> Ensuring that the interrupt state is managed atomically with the lock
+>> itself. The change is applied to both the 'log->io_list_lock' and
+>> 'ppl_conf->no_mem_stripes_lock' critical sections within the function.
+>>
+>> Signed-off-by: Yunseong Kim <ysk@kzalloc.com>
+>> ---
+>>   drivers/md/raid5-ppl.c | 12 ++++--------
+>>   1 file changed, 4 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/md/raid5-ppl.c b/drivers/md/raid5-ppl.c
+>> index 56b234683ee6..650bd59ead72 100644
+>> --- a/drivers/md/raid5-ppl.c
+>> +++ b/drivers/md/raid5-ppl.c
+>> @@ -553,15 +553,13 @@ static void ppl_io_unit_finished(struct ppl_io_unit *io)
+>>         pr_debug("%s: seq: %llu\n", __func__, io->seq);
+>>   -    local_irq_save(flags);
+>> -
+>> -    spin_lock(&log->io_list_lock);
+>> +    spin_lock_irqsave(&log->io_list_lock, flags);
+
+ The changes in spinlock_t and rwlock_t semantics on PREEMPT_RT kernels
+ have a few implications. For example, on a non-PREEMPT_RT kernel the
+ following code sequence works as expected:
+
+ local_irq_disable();
+ spin_lock(&lock);
+ 
+ and is fully equivalent to:
+ 
+ spin_lock_irq(&lock);
+ 
+ Same applies to rwlock_t and the _irqsave() suffix variants.
+
+Link: https://docs.kernel.org/locking/locktypes.html#spinlock-t-and-rwlock-t
+
+
+>>       list_del(&io->log_sibling);
+>> -    spin_unlock(&log->io_list_lock);
+>> +    spin_unlock_irqrestore(&log->io_list_lock, flags);
+>>         mempool_free(io, &ppl_conf->io_pool);
+>>   -    spin_lock(&ppl_conf->no_mem_stripes_lock);
+>> +    spin_lock_irqsave(&ppl_conf->no_mem_stripes_lock, flags);
+> 
+> Please notice, local_irq_save + spin_lock is the same as
+> spin_lock_irqsave, I don't think your changes have any functonal
+> chagnes.
+
+This issue has also been a problem in other subsystems, such as USB:
+
+[BUG] usb: gadget: dummy_hcd: Sleeping function called from invalid
+context in dummy_dequeue on PREEMPT_RT
+
+Link: https://lore.kernel.org/lkml/20250816065933.EPwBJ0Sd@linutronix.de/t/#u
+
+I am currently contributing to the kernel to address the areas that need to
+adapt to this paradigm shift so that the PREEMPT_RT Linux kernel can be
+well supported. I have CC’d other RT people so they can also review
+this part.
+
+> Thanks,
+> Kuai
+
+Thank you!
+
+Yunseong
