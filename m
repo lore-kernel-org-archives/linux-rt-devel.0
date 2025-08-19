@@ -1,133 +1,100 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65896211A11
-	for <linux-rt-devel@lists.linux.dev>; Mon, 18 Aug 2025 18:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE29C49620
+	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Aug 2025 08:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755541911; cv=none; b=X0lzBM94d5NXwXrh1V21nNpyJVM7OYZ807IiBJewaE7ao76wVMVgMvo/GZbOEoOO6NtmCQ7InluVIprqU8tBWAiSZEV0ftxR7nQhJdqSug6CvDT3Nszah4rJoTkYSnr1invKuqFbin0GJPseMvnbHrKfh7cwKRP3CnRjrAVA50c=
+	t=1755590643; cv=none; b=STJ0JvICwAiDhGrZJ9GzgvW0DSiTmoXohzOQD2WPE6j704o2n1ZwvGaSb/szAN28kgPLKzBCOXTP5GsP++bq1TjVWAtbAPxmSc0IijN0cDkYoK6hQG6R5SyXLVRRgFoKoxIG9LeARLjUd91p+pkmKtmu66OvnyO0uERBiEH1S14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755541911; c=relaxed/simple;
-	bh=KOkgUuihs4pXMo5Uy+m5Qp4FIS7N4JkZmvcjw7qGj04=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=qd+7qi1LTArnnY7OT27xw2jtEjW7xlWlg14KyXgMDM/F8wQdTA4kFjr/AcQpWmoNMOHPtI5/MDLsiVHaOeKIf9zCJ/o6ufRQAmE3LJhuSv3Y4FYgVfXljjsKJOIp06+8S66DBT3KohdmtG/p1ez9bY+VP0RUBAJv+Pxeh7ybor8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k/i7RP/V; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755590643; c=relaxed/simple;
+	bh=o+GhxMSjLHuGqjJ8c1+AE4D5V08s+XzlJaf4edpTOeU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IVRIWIbcwazwyIFYe3EXoaauUmw0YHteuL15WCHQEPeAXKVQs95L4tdal1M4mPlXhjlvdzjnxXt9+VujRBcm7SyXm9UiUa/oQmHbuug+BKy8snDrNauAPjFldQN/bTb1lEzdLCtJ5C7rEc7lJfuaIAv78U7zcl0UFZyvab/WAQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=095Ez6P/; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=claD+OEY; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k/i7RP/V"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb73621fcso516550266b.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 18 Aug 2025 11:31:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755541907; x=1756146707; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=pjGB0SFkv4MBKb4iw4skaOsLgOvxbygJAcvKTc98B44=;
-        b=k/i7RP/V6UiPINkpS1IB2zFSxVfemcJ2oVmrLrd22tHBdIZodihkcqibO9lHbpBS92
-         +mzi2Ra5imxv8cfBdNZN+dKk+QE8ICBby7g9TAm9/neP213Ua4OsVJR+9Gk+J2R2vSqF
-         wkR827tn/G+L6MUVvg2V2QexmK5j468XFjPKP18hM6vfbFgDPI85Da89zKadM1la5N0G
-         8EkfFkTO3FfEuT2ViW+vgFPKWcvi/gtR+u+AWc3mFF3VDfBR4TXtE6c4tN7qp5Kz5Yer
-         RQc5xfNO6H0DIOci0vLdH8MICmfgDy1HEchwR0og/QHwiZItbHWIrXWPoanwMLpOcCXU
-         6PiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755541907; x=1756146707;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pjGB0SFkv4MBKb4iw4skaOsLgOvxbygJAcvKTc98B44=;
-        b=duOaUhSFCYr1qfoNTPsm6k3e1OoRiWfifaLGklwb4JiKYuMkrmk4MOm6R02ZaxvxQq
-         erXa0dLmqXky/S98jb7Rar1PMducoNZd1HvXUu2EoVQ7Q1wOOYOpqP9lWpIkXGg0VzC+
-         VU453fZrzFKKs6Rp9NavcjFe8AkkzPLBfaHny+4zQ/si6H7UetSQ9MBEnoiwrv4qAXfB
-         45Qvsgn8k7jcEk/Ot+JPPSFmSYn5dXgIwSQqs45zSgkvFfFofzc1mn8ZmXcAVUXvH1rD
-         +/MScDkqN9OVRaVKa8sbmYrg5NjvSJc4sJjlZDykeTxmNd6u46HSSVn9qaXDSvceRUUL
-         bCdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX5zlA1PlB/K029M6cc2L55MJW+5jWbrjLlJ3slXMHqQWSZgusEKSltw0VgCMk4h1Nef7lZAGQylPyN9BaSTA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5Ctm/QmlN4psw/jUTzyLfcYCm+PXNGHGDj2YxooLBLtX/Mpam
-	Xqyd2/yOKUKJBrkMzcsFn0y5BPwKi8Q0l2gFrH7a6oUrsqojgDEoqKjDob4rFbmU+ZXMBzlVmkr
-	vc0mmebLH/zR78p0ggXdw53tJXq78R/wsT7DBk8fwmg==
-X-Gm-Gg: ASbGnctZtLy5fU0t0/hjCop1aq9U5Vzqo99Mb3vbR5e01A77CxZLUSYG0AdkQB0yqoA
-	UqQlmwxfLEspYx1wvAkkVJOgRBtOUQ513VbUh8mLGmaHl6ZdIdAXH/rrW8L/GMqVaE14On6xe0n
-	sFo64Xk9iUt3k4GxJpJES7LfbM9bdQNIaYlhWPlAnGGWCvU/Njz0MIbT5fbm+vPpQKJ0c4zkxHR
-	7B9uuJiEFMx2ofDuKTUWQMj2l+52A9ep3I=
-X-Google-Smtp-Source: AGHT+IGqSl8L73R4Vo9ejBt0vBasMnPfvGJ08z8fntAtUKzrrLi0v8pEEOjQaG+5pgsw8Bcn1FtRYar+LPvGWV1YFDw=
-X-Received: by 2002:a17:907:986:b0:af9:9d7b:6f44 with SMTP id
- a640c23a62f3a-afdd9a8b1a5mr35098866b.19.1755541907580; Mon, 18 Aug 2025
- 11:31:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="095Ez6P/";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="claD+OEY"
+Date: Tue, 19 Aug 2025 10:03:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755590640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1gSpu6/ssZRPlPWCatq5ADgMRkNSrJr6QQcFGlfXj3k=;
+	b=095Ez6P/m+l/Wv8URnGFNdyRVMExWAvqVuyTwzh/xVRJNu4E5/7C64HkYIdoq/tfvwef7E
+	4QgqG6DHsWd2Wl+zD6bsOJCcvovtLlq8DOLD0fnkmr4EYpBJ10a8d0hB1pPDWHmEK+tCsc
+	h60ClF9n703sbAdzPWNdOSYnp+sc9OFT6ChYn/fiEmZf+FrA9t3kTDHxuZum7c9pzfXVMY
+	GAko9UpmD7T8AB8BQHxOqOqkJZ8Nx/pjU4Fes8LaqyTb1VweSZLFF7cevHR0Q4GcW7VDpw
+	si6ncWVA1hbQMJQoZXHkJ6rBwyIGde3DI/5E7jMXwB5uh31gEnIHOrFs5s5I1g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755590640;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1gSpu6/ssZRPlPWCatq5ADgMRkNSrJr6QQcFGlfXj3k=;
+	b=claD+OEYuqZGTuc+irwi0DIx78IlcSQ0PyrlbtuLC5Se2NauisCCuFXiLUVt69JncbGMyf
+	0cnl8taWM7TLDJBA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
+Message-ID: <20250819080358.H9R_64I7@linutronix.de>
+References: <20250815093858.930751-1-bigeasy@linutronix.de>
+ <20250815093858.930751-4-bigeasy@linutronix.de>
+ <87seho8v12.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Mon, 18 Aug 2025 20:31:36 +0200
-X-Gm-Features: Ac12FXzUhIUFY2dVNx6YHCxJPdcfbv7G4qSvst6qOsN6AJMqiBVTN1nrINRXEsA
-Message-ID: <CAKfTPtBp85jaM8sdOXqB1Fq7XcfgGP-T2A=fd4Qbhe48CUNUGA@mail.gmail.com>
-Subject: Call for Speakers: Join us at the Scheduler and Real-Time
- Microconference at LPC2025!
-To: linux-kernel <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <williams@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	John Stultz <jstultz@google.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Phil Auld <pauld@redhat.com>, dhaval@gianis.ca, Aaron Lu <ziqianlu@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87seho8v12.fsf@trenco.lwn.net>
 
-Hello everyone,
+On 2025-08-18 10:16:41 [-0600], Jonathan Corbet wrote:
+> Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+> 
+> One nit:
+> 
+> > diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+> > new file mode 100644
+> > index 0000000000000..50d994a31e11c
+> > --- /dev/null
+> > +++ b/Documentation/core-api/real-time/differences.rst
+> > @@ -0,0 +1,242 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +========================
+> > +Significant differences
+> > +========================
+> 
+> That heading text will appear in various places, including in the
+> rendering of your new index.rst file.  In such a setting, "significant
+> differences" doesn't give a lot of information.  Something like "How
+> realtime kernels differ" would be better, IMO.
+> 
+> Otherwise, this all looks good to me.  Did you want me to pick it up, or
+> did you have another path in mind for this work?
 
-We're pleased to announce that the Call for Topics for the upcoming
-Scheduler and Real-Time Microconference at Linux Plumbers 2025, is
-open!
+Right now this is it. Do you update the text above as suggested or do
+you want me to resend it?
 
-    https://lpc.events/event/19/sessions/218/
+> Thanks,
+> 
+> jon
 
-This event is designed to gather kernel developers and engineers to
-share knowledge on scheduler and/or real time issues in Linux and
-connect with peers. This year, we are joining the tightly linked
-Real-Time and scheduler topics in one same microconference.
-
-We're particularly interested in talks that:
-
-    - Spark Discussion: The goal is to discuss open problems,
-preferably with patch sets already on the mailing list.
-
-    - Are Concise: Presentations are meant to be limited to 2 or 3
-slides intended to seed a discussion and debate.
-
-Some possible topics for discussions:
-
-    - Improve responsiveness of fair tasks
-    - Improve PREEMPT_RT
-    - Improve Locking and priority inversion
-    - Impact of new topology, including hybrid or heterogeneous system
-    - Improvements on SCHED_DEADLINE and DL server
-    - Tooling for debugging low latency analysis
-
-It is also perfectly fine if you have a new topic that is not on the
-list above. People are encouraged to submit any topic related to
-real-time and/or scheduling.
-
-Ready to submit? Please fill out the submission form by
-
-    Sept 30th 2025
-
-at this link:
-
-    https://lpc.events/event/19/abstracts/
-
-and select
-
-    "Scheduler and Real-Time MC" as the track.
-
-We can't wait to see your proposal and build a fantastic lineup together.
-
-If you have any questions, don't hesitate to reach out.
-
-Best regards,
-
-The Scheduler and Real-Time Microconference Team
-- Dhaval Giani <dhaval.giani@gmail.com>
-- Juri Lelli <juri.lelli@redhat.com>
-- Phil Auld <pauld@redhat.com>
-- Steven Rostedt <rostedt@goodmis.org>
-- Vincent Guittot <vincent.guittot@linaro.org>
+Sebastian
