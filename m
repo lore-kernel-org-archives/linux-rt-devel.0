@@ -1,86 +1,95 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4764031577D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Aug 2025 13:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442EE3218CF
+	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Aug 2025 13:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755608822; cv=none; b=VJc+cZUwmfxJ0UglEslia9z7Ggk8mptjujnSZW43UDG0RN5KyWleofFuNpCnNpMq77S67nqG51WEAX0qKA3k997iDVDMi+hGXiMQIizLZZ36MML+5zJ5vp020NZxeXQpJk+vjCShweopMUnTWhm3ax+681XRYmxsHt02XvXGzRo=
+	t=1755609620; cv=none; b=mARX7sorNbbQaFOdsu0zmWQPbNPDlHsFSxkRQJwyBuxVx/OhgBcEDAYh2SAZdxIW17UPxIJJzYXt8E5+r7Uc1hZrvnMDCKMKLDNa/YyePsB+mcMH7+T8s1V1NGxUw0LXzJIHVanRiCvtxkP8jw/ttWBlPqqG/jmqXvem4qvM2B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755608822; c=relaxed/simple;
-	bh=G6B7tqpxuZUp89hJxYSF+ooqPCxIAKaEKj5LW0V4ZS8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iozM1lr/mcVEOgNO28SLwg+mqPaKpK0o1fOPQ1wqrVaAya0puhJ0hj3GBEGWL5PBR9NihLXvmHj9bEuzEr31uyBjAxxrCuP2k7IxNIGZOvuDkZVPU4Q5j7s0mhG0rHQkzdlHDc23W5/w0QUCGEkSsol28uZ6x9djWgFkcDpnEOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YyzS69Yp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KIUELU3C; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1755609620; c=relaxed/simple;
+	bh=XU7co7/IhKC1SFIOJ2ctmYNnp6ZOEwiQt191KNHFDnQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XY9KLjHKAe6lRAtA0lS77eapJKIhh/W25N8MKQ3cg2xhx+v0zlQw0hz5YvYwZb4lizNfu5N9GNfiCIkxlvmsByYJ0dfiOXA2Gfwi2qWba3OHQZh7hfZ1vS9uAqUAtpbT7AqDXSD6GFZta/VE48j/dHqdxwrFWryDP93AvIiLizg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ms7U26Tv; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YyzS69Yp";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KIUELU3C"
-Date: Tue, 19 Aug 2025 15:06:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1755608818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fcst1kKyduOpiM5s2IszivugeQbhO707fJBDCu3lH9c=;
-	b=YyzS69Ypo/ZY9PWLbcVo/0SaZTHTkU2z9GWAdWIfl2PVGl8qbWCxf0iwBmdt2wpu1G18Lp
-	S3lM0U5ttrZzq6c3uAwvALSee2wfxwRCMgMe/yUT9kxzdZS95Tz8SgswqEzVbZiKRA+Tfa
-	kSJB2k9/0sNkIj7gs7Zb7Q4h2Z+ZUbzbxQSHWypJy+CtGvAi4ZmCuAWbCfv06hHZoB1SGD
-	NY3ZsT85V0bKvS+T82gizkzunj5zHrEi21GVStaw6D+q5nWmJkAV6o4OZwB0/M2AoxmcSU
-	c2/MpDQKSLcIaviuoEX73bvc7AfxCC8rcETjCJR1UqCzwsj/lerFUAB02iC2eA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1755608818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fcst1kKyduOpiM5s2IszivugeQbhO707fJBDCu3lH9c=;
-	b=KIUELU3CQOrpO7y21PFpdTByTJkwCx2RliawJgLdkuLxXlZttxa2wnIAi2yPsDOYMySFLo
-	pzTMMJO8hjcocxDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, mingo@redhat.com,
-	peterz@infradead.org, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-	vschneid@redhat.com, will@kernel.org, boqun.feng@gmail.com,
-	longman@redhat.com, clrkwllms@kernel.org, cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] sched/cgroup: Lock optimize for cgroup cpu throttle
-Message-ID: <20250819130656.DdJqAScZ@linutronix.de>
-References: <20250811151316.838707-1-jackzxcui1989@163.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ms7U26Tv"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1313E40AB4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1755609617; bh=efICgIMOiqQPSZSk5RbTaKUwai8LvnXvLst5MTuVWT4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Ms7U26TvAhh2tBh57lX4Hwcs1DeYm4zZ9Ok8oKOzX9+lHT/N2Cf8fPUigYJMpjKMW
+	 GCSbXfwA2rbT7t9vNB4l1m94LO1PcF68hze9LUujTS/Um/WRAWShgel8VAm90JKlZh
+	 Kt98LYj63moZuo5wJQ8GTJizaSTGuz+EJPjQBd4p3cb384RK48dq+5XQD+Tm1SOAa+
+	 qLno0sJwUQ+CwA5IsrDQQrMGxCfytIsRHGe7yg5ZLZcGkSRp2Lv+GveV4D4gZnrMyn
+	 aDaOVfbxq3WK2+JGe++3abZvnlfZlXTzplXtltMTsW6srlieGYrgA7vUMrMct5bfsq
+	 2PdvkL/14WGIg==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1313E40AB4;
+	Tue, 19 Aug 2025 13:20:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>, Clark
+ Williams <clrkwllms@kernel.org>, Frederic Weisbecker
+ <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, John Ogness
+ <john.ogness@linutronix.de>, Peter Zijlstra <peterz@infradead.org>, Steven
+ Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Valentin Schneider <vschneid@redhat.com>, Waiman Long
+ <longman@redhat.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 3/3] Documentation: Add real-time to core-api
+In-Reply-To: <20250819080358.H9R_64I7@linutronix.de>
+References: <20250815093858.930751-1-bigeasy@linutronix.de>
+ <20250815093858.930751-4-bigeasy@linutronix.de>
+ <87seho8v12.fsf@trenco.lwn.net> <20250819080358.H9R_64I7@linutronix.de>
+Date: Tue, 19 Aug 2025 07:20:16 -0600
+Message-ID: <87ldnfv46n.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250811151316.838707-1-jackzxcui1989@163.com>
+Content-Type: text/plain
 
-On 2025-08-11 23:13:16 [+0800], Xin Zhao wrote:
-> Dear Sebastian,
-> 
-> I believe what you mentioned is related to the same issue that Valentin
-> brought up later, which is the current solution of "delaying CPU throttling
-> through the task_work mechanism until returning to user mode."
-> My colleagues and I indeed noticed this from the beginning. However, on our
-> 6.1.134 RT-Linux system, we have tried new versions of this solution one by
-> one, but they have all failed during basic script tests, so none have reached
-> the stage of being used in our project. I see that this modification has been
-> promoted in the community for more than two years, yet it remains in a state
-> that doesn't work well (on our 6.1.134 RT-Linux system). I wonder if the
-> changes require too many considerations or if this modification simply isn't
-> suitable for running on RT-Linux. Our project cannot afford to wait, and
-> there are many performance issues in RT-Linux.
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
 
-You are free to use the patch.
-Based on your description I assume that the patch Valentin referenced
-will solve your problem. If not, it will be interesting to know why it
-is not working. Otherwise you keep maintaining your patch.
+> On 2025-08-18 10:16:41 [-0600], Jonathan Corbet wrote:
+>> Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
+>> 
+>> One nit:
+>> 
+>> > diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+>> > new file mode 100644
+>> > index 0000000000000..50d994a31e11c
+>> > --- /dev/null
+>> > +++ b/Documentation/core-api/real-time/differences.rst
+>> > @@ -0,0 +1,242 @@
+>> > +.. SPDX-License-Identifier: GPL-2.0
+>> > +
+>> > +========================
+>> > +Significant differences
+>> > +========================
+>> 
+>> That heading text will appear in various places, including in the
+>> rendering of your new index.rst file.  In such a setting, "significant
+>> differences" doesn't give a lot of information.  Something like "How
+>> realtime kernels differ" would be better, IMO.
+>> 
+>> Otherwise, this all looks good to me.  Did you want me to pick it up, or
+>> did you have another path in mind for this work?
+>
+> Right now this is it. Do you update the text above as suggested or do
+> you want me to resend it?
 
-> Thanks
-> Xin Zhao
+I can apply it and make that tweak if you like, yes, no need to resend
+for that.
 
-Sebastian
+Thanks,
+
+jon
