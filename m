@@ -1,130 +1,203 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A84A26CE12
-	for <linux-rt-devel@lists.linux.dev>; Wed, 20 Aug 2025 08:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F4A2E03FF
+	for <linux-rt-devel@lists.linux.dev>; Wed, 20 Aug 2025 10:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755677160; cv=none; b=Pr6UvFSMXqnhk+4mpPOaT5Eyd0fS3ajOGU0P7wFoIA7kph60XZJFCqgfq89TmqffgofnCyp6u+7nP3dQHmHGMqiK6XX3Zhym/S28r6iP6PKL5v6nVsvt4itL7uTP3cfBlwVIONe21W77Ofeq/ZD2lQsofyEwTJiiXKNl7Is4PLY=
+	t=1755686222; cv=none; b=eVqfZmrj31M+MFjIaItfRzDkt0ZKZODPRYRnfsQFf2zEay/Boh6Z16uThRIbWMzAhRE+NyOrTHLm15zYZOQ1cMQ7u/5YCIokB1jn2gKR60rp50oZWgWwyOVkalo90DKtJOhK83ZVJMOAA24JTtUnrPGl25scHtEmPOcgLYemBsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755677160; c=relaxed/simple;
-	bh=LACSANs/cXxhNwNx9i9bL5RfMtRv89Vo0GjAwicriWU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EtotliR/5BnKbr2E5/kWDVDztmW5yZtwOgW7H4wfBXiqE1lsxAn7zQPWWIhoqQJGIVf+3TrC28zIt+kWi9uu923mrCgNU/XjtyuD+ZxmXWoJz4LUEYRMn/0saE3z1OpO1T7hT9b6I+VlQyTlEyeNDiKfuHb3MvQ9Hr4eWBdTyyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bEKilXbG; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1755686222; c=relaxed/simple;
+	bh=kv3W/G1ARmOcJJTz/9sGIEr4fqmIvswblhhL9o40NPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h5Z32HiXW7ptSwGehindOxZEG4DPvMK4JJ5Pa3yor1hK1aSHC4gAzFCUZ838D4DF6hkSPK6pKHmiYWkg79UOTe0+yNkgJYYXXWTNXvsIbiN9llNK60KVjZ8Vx3LtC5H4WySZuXzRvu+pR3CCHWxbgjOeePwNG83xm/N/qUal9xY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n1keIyXP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b8KVD0rv; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bEKilXbG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=kX
-	qtCea7zQ8Uhu8Ugt8mlqxt6yqXT08SO/KkM9oJF/o=; b=bEKilXbGOuflwEl7fW
-	xCrn1viykPnPkej+hg3jFKUhLuu9rHt7ExxWN1/UWmJiD5991RHzL28D7XYmRVxN
-	cMGka7b6QOjOUaa2Y+KzE5gnLP3yXLH3RYYSnfAxyaAAwWMInVBCTpuQN2wdRQC8
-	ca9pO4dTCKbQb5+1TUsFV/Zk4=
-Received: from zhaoxin-MS-7E12.. (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3DhScgaVo_nyKDA--.32905S2;
-	Wed, 20 Aug 2025 16:04:45 +0800 (CST)
-From: Xin Zhao <jackzxcui1989@163.com>
-To: tj@kernel.org,
-	hannes@cmpxchg.org,
-	mkoutny@suse.com,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	juri.lelli@redhat.com,
-	vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com,
-	rostedt@goodmis.org,
-	bsegall@google.com,
-	mgorman@suse.de,
-	vschneid@redhat.com,
-	will@kernel.org,
-	boqun.feng@gmail.com,
-	longman@redhat.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org
-Cc: cgroups@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] sched/cgroup: Lock optimize for cgroup cpu throttle
-Date: Wed, 20 Aug 2025 16:04:44 +0800
-Message-Id: <20250820080444.2060410-1-jackzxcui1989@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n1keIyXP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b8KVD0rv"
+Date: Wed, 20 Aug 2025 12:36:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1755686219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUAcx2/jO8NfEFGgnI4HZ0vELTMmQeqDK1jIGQqE9hE=;
+	b=n1keIyXP4kJDwb2X6G/j4BoY+EWoUdgKQs1UzgEhRMjD6wnbIahKcscOgTiZX2Nyn/kOa6
+	gaUdCDRguSYujJ/m5vSsEC+f+s8dAlgveIMUAVxHFEMFPe6eXfLltqWSLNzAuzs00bDrLb
+	HFQDBp+xpGYdOJlAyKIlkXGq34aBdhH9fD1vvvbBEa4XN3FuStiROsw9CxMOG9I6hscytY
+	gymqdKy3MYyQlWaWt/rPbv5Ha6s8l5xBYEuO4Wyi7DM6+jh2g/e0f++8zxZRDkJpNxn+UI
+	+4L9NVp43rdlixKlD3hFF1b7slcVE95iqb9Vp3fINhlXKwS4M4v8jNsrNf+FYA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1755686219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yUAcx2/jO8NfEFGgnI4HZ0vELTMmQeqDK1jIGQqE9hE=;
+	b=b8KVD0rvSA6QxdRuN7k4RM6lpdvanrn106bPzO9cPmxBCEKD1olS2bTNpxPg7fis0/4TyQ
+	IX4tZoltKy+L31Dw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Tejun Heo <tj@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] softirq: Provide a handshake for canceling tasklets via
+ polling on PREEMPT_RT
+Message-ID: <20250820103657.vDuDuLx6@linutronix.de>
+References: <20250812143930.22RBn5BW@linutronix.de>
+ <20250812145359.QMcaYh9g@linutronix.de>
+ <aJuYStGVBjyfVmZM@slm.duckdns.org>
+ <20250813063311.33m0TDKl@linutronix.de>
+ <aJzT7rqwkRQrLGqo@slm.duckdns.org>
+ <20250818125242.vJ4wGk20@linutronix.de>
+ <aKNlshZmWsHVXBo0@slm.duckdns.org>
+ <20250819150105.DYeV89fa@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3DhScgaVo_nyKDA--.32905S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXFy8Xr1xCw4ruFWDAw4Utwb_yoW5CF47pF
-	ZYqrWakan8tFn7tr1xGa1vq3y8X395t3y5GFn5Gr45C3yYqrySvrs3Ka15ua4kCws3C3Wj
-	vrWYvr93Ca4DZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jF_M3UUUUU=
-X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/1tbiJR6vCmileuyrDAAAsi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250819150105.DYeV89fa@linutronix.de>
 
-On Tue, 19 Aug 2025 13:28:52 +0200 Valentin wrote:
+On 2025-08-19 17:01:07 [+0200], To Tejun Heo wrote:
+> Okay. Then let me repost the tasklet patch and make one for workqueue to
+> stay in sync.
+> I do hope that we end up with a requirement that any kind of teardown
+> does not happen from an atomic context ;)
 
-> What about using task_work_add() and throttling the task on its way to
-> userland? The callback will be invoked without any locks held.
+That would be 
 
+------------->8-------------
 
-> > In addition to the information in my previous response to Sebastian, I would
-> > like to add the following point as a reason for my self-recommendation (to
-> > explore my patch for solving the cgroup performance issue in RT-Linux):
-> > RT-Linux is a system that places a high emphasis on real-time performance.
-> > The fact that regular tasks are also included in cgroup groups and throttled
-> > suggests that they are relatively low-priority tasks that are not expected to
-> > interfere with high-priority tasks. Therefore, is it not a bit too late to
-> > impose limits only after returning to user mode?
-> 
-> Throttling is purely a CFS construct, and does not affect RT or DL
-> tasks (outside of the lock contention issues we're trying to fix :-)). If
-> an RT or DL task needs to run, it'll just preempt the CFS tasks, it won't
-> wait for any throttle or other mechanism.
+Subject: [PATCH] workqueue: Provide a handshake for canceling BH workers
 
+While a BH work item is canceled, the core code spins until it
+determines that the item completed. On PREEMPT_RT the spinning relies on
+a lock in local_bh_disable() to avoid a live lock if the canceling
+thread has higher priority than the BH-worker and preempts it. This lock
+ensures that the BH-worker makes progress by PI-boosting it.
 
-Dear Valentin,
+This lock in local_bh_disable() is a central per-CPU BKL and about to be
+removed.
 
-Indeed, as you mentioned, delaying the throttle time does not affect the execution
-of high-priority tasks when they want to run.
+To provide the required synchronisation add a per pool lock. The lock is
+acquired by the bh_worker at the begin while the individual callbacks
+are invoked. To enforce progress in case of interruption, __flush_work()
+needs to acquire the lock.
+This will flush all BH-work items assigned to that pool.
 
-I should actually mark this as an RFC PATCH.
-On one hand, it allows others using the rt-linux system who are troubled by issues
-related to cgroup locking and limits to temporarily bypass these problems with my
-patch.
-On the other hand, I look forward experts may review the patch to see if there are
-any serious or obvious issues that I may have overlooked, or if there are areas
-for further improvement.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/workqueue.c | 51 ++++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 42 insertions(+), 9 deletions(-)
 
-
-On Tue, 19 Aug 2025 15:06:56 +0200 Sebastian wrote:
-
-> > Dear Sebastian,
-> > 
-> > I believe what you mentioned is related to the same issue that Valentin
-> > brought up later, which is the current solution of "delaying CPU throttling
-> > through the task_work mechanism until returning to user mode."
-> > My colleagues and I indeed noticed this from the beginning. However, on our
-> > 6.1.134 RT-Linux system, we have tried new versions of this solution one by
-> > one, but they have all failed during basic script tests, so none have reached
-> > the stage of being used in our project. I see that this modification has been
-> > promoted in the community for more than two years, yet it remains in a state
-> > that doesn't work well (on our 6.1.134 RT-Linux system). I wonder if the
-> > changes require too many considerations or if this modification simply isn't
-> > suitable for running on RT-Linux. Our project cannot afford to wait, and
-> > there are many performance issues in RT-Linux.
-> 
-> You are free to use the patch.
-> Based on your description I assume that the patch Valentin referenced
-> will solve your problem. If not, it will be interesting to know why it
-> is not working. Otherwise you keep maintaining your patch.
-
-Dear Sebastian,
-
-I am currently carefully reviewing the existing patches and applying them to our
-current project version of rt-linux 6.1.134 to see if I can reproduce the previously
-encountered issues. I will provide feedback on any problems as soon as possible.
-
-
-Thanks
-Xin Zhao
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index c6b79b3675c31..94e226f637992 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -222,7 +222,9 @@ struct worker_pool {
+ 	struct workqueue_attrs	*attrs;		/* I: worker attributes */
+ 	struct hlist_node	hash_node;	/* PL: unbound_pool_hash node */
+ 	int			refcnt;		/* PL: refcnt for unbound pools */
+-
++#ifdef CONFIG_PREEMPT_RT
++	spinlock_t		cb_lock;	/* BH worker cancel lock */
++#endif
+ 	/*
+ 	 * Destruction of pool is RCU protected to allow dereferences
+ 	 * from get_work_pool().
+@@ -3078,6 +3080,31 @@ __acquires(&pool->lock)
+ 		goto restart;
+ }
+ 
++#ifdef CONFIG_PREEMPT_RT
++static void worker_lock_callback(struct worker_pool *pool)
++{
++	spin_lock(&pool->cb_lock);
++}
++
++static void worker_unlock_callback(struct worker_pool *pool)
++{
++	spin_unlock(&pool->cb_lock);
++}
++
++static void workqueue_callback_cancel_wait_running(struct worker_pool *pool)
++{
++	spin_lock(&pool->cb_lock);
++	spin_unlock(&pool->cb_lock);
++}
++
++#else
++
++static void worker_lock_callback(struct worker_pool *pool) { }
++static void worker_unlock_callback(struct worker_pool *pool) { }
++static void workqueue_callback_cancel_wait_running(struct worker_pool *pool) { }
++
++#endif
++
+ /**
+  * manage_workers - manage worker pool
+  * @worker: self
+@@ -3557,6 +3584,7 @@ static void bh_worker(struct worker *worker)
+ 	int nr_restarts = BH_WORKER_RESTARTS;
+ 	unsigned long end = jiffies + BH_WORKER_JIFFIES;
+ 
++	worker_lock_callback(pool);
+ 	raw_spin_lock_irq(&pool->lock);
+ 	worker_leave_idle(worker);
+ 
+@@ -3585,6 +3613,7 @@ static void bh_worker(struct worker *worker)
+ 	worker_enter_idle(worker);
+ 	kick_pool(pool);
+ 	raw_spin_unlock_irq(&pool->lock);
++	worker_unlock_callback(pool);
+ }
+ 
+ /*
+@@ -4222,17 +4251,18 @@ static bool __flush_work(struct work_struct *work, bool from_cancel)
+ 		    (data & WORK_OFFQ_BH)) {
+ 			/*
+ 			 * On RT, prevent a live lock when %current preempted
+-			 * soft interrupt processing or prevents ksoftirqd from
+-			 * running by keeping flipping BH. If the BH work item
+-			 * runs on a different CPU then this has no effect other
+-			 * than doing the BH disable/enable dance for nothing.
+-			 * This is copied from
+-			 * kernel/softirq.c::tasklet_unlock_spin_wait().
++			 * soft interrupt processing by blocking on lock which
++			 * is owned by the thread invoking the callback.
+ 			 */
+ 			while (!try_wait_for_completion(&barr.done)) {
+ 				if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+-					local_bh_disable();
+-					local_bh_enable();
++					struct worker_pool *pool;
++
++					mutex_lock(&wq_pool_mutex);
++					pool = get_work_pool(work);
++					if (pool)
++						workqueue_callback_cancel_wait_running(pool);
++					mutex_unlock(&wq_pool_mutex);
+ 				} else {
+ 					cpu_relax();
+ 				}
+@@ -4782,6 +4812,9 @@ static int init_worker_pool(struct worker_pool *pool)
+ 	ida_init(&pool->worker_ida);
+ 	INIT_HLIST_NODE(&pool->hash_node);
+ 	pool->refcnt = 1;
++#ifdef CONFIG_PREEMPT_RT
++	spin_lock_init(&pool->cb_lock);
++#endif
+ 
+ 	/* shouldn't fail above this point */
+ 	pool->attrs = alloc_workqueue_attrs();
+-- 
+2.50.1
 
