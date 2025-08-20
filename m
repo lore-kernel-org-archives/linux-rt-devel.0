@@ -1,163 +1,130 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F973469F0
-	for <linux-rt-devel@lists.linux.dev>; Tue, 19 Aug 2025 17:39:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A84A26CE12
+	for <linux-rt-devel@lists.linux.dev>; Wed, 20 Aug 2025 08:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755625143; cv=none; b=hgKUx2pqHSKGggfmCgFmlcCPYxHiRBwLlh4eyfzVvNCmZpG/nlPeJ32BkpP0MSfeix92TM3syQ75N530ITvUTcxMilUNVl6RhYYEwUm6swV/hf68NTMSxik6LCkzDbcwmcM3mdOJzL4rlexN9NdxuXrlwtQMtRte8GOWNmYLWAQ=
+	t=1755677160; cv=none; b=Pr6UvFSMXqnhk+4mpPOaT5Eyd0fS3ajOGU0P7wFoIA7kph60XZJFCqgfq89TmqffgofnCyp6u+7nP3dQHmHGMqiK6XX3Zhym/S28r6iP6PKL5v6nVsvt4itL7uTP3cfBlwVIONe21W77Ofeq/ZD2lQsofyEwTJiiXKNl7Is4PLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755625143; c=relaxed/simple;
-	bh=n5fZDRdhpblR94HQcrZl3tuMZof3rDV6okZIfBL90lU=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RAd1vfWsebJEzZVKHSi1R5MzUydZySfSCXKR5vyitp932fwe4i3vCC4/WDjMq8lUBk6cYdCUvf4BZDqhChliOZk2bOjKODnmVrPdopaHPqtMetV8JNsHn+ZAgqYNT/ZSrlp7umyjaoID8UGvmQdH14LO1ZQUwu4k5/wvQLiS2JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=R3o8fPpG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1755677160; c=relaxed/simple;
+	bh=LACSANs/cXxhNwNx9i9bL5RfMtRv89Vo0GjAwicriWU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EtotliR/5BnKbr2E5/kWDVDztmW5yZtwOgW7H4wfBXiqE1lsxAn7zQPWWIhoqQJGIVf+3TrC28zIt+kWi9uu923mrCgNU/XjtyuD+ZxmXWoJz4LUEYRMn/0saE3z1OpO1T7hT9b6I+VlQyTlEyeNDiKfuHb3MvQ9Hr4eWBdTyyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bEKilXbG; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="R3o8fPpG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1755625140;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G1lVHf9B3MwbthIpxwmrqwUHvb4qbpr6q9mIydElOc0=;
-	b=R3o8fPpGl0GIjyv0sGbaks+tT2L3yRxQENcl1QBg3DV3+uFlwRNHot1/UQOaXyS3yhUJ/X
-	ZaiGcYSoG5u/xXami5BI3IAe6mzgUXRanmbb+szg1ahzW1X2Sd+KIXdGIa1c4kzKRl6GMb
-	65q8yNpdLFc4RIMW1WZ5aPN5+wOQ83U=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-33-z0JQWlgoMb2v7S_Uf534CA-1; Tue, 19 Aug 2025 13:38:59 -0400
-X-MC-Unique: z0JQWlgoMb2v7S_Uf534CA-1
-X-Mimecast-MFC-AGG-ID: z0JQWlgoMb2v7S_Uf534CA_1755625139
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7e87069677cso1598355485a.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 19 Aug 2025 10:38:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755625139; x=1756229939;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G1lVHf9B3MwbthIpxwmrqwUHvb4qbpr6q9mIydElOc0=;
-        b=TML/+n9L3eFoqqOWDxWpWwbEU8CkRBmM2XLNmY/n4y4RYsau4AsDCIumQLBCncqgOB
-         +VPGBIzXKYBnM7YIvrz7JGb40h31dEkNsM4tR8HBeUePVQtGcY7THYg+gWHpGYJtyRMe
-         d3UC0qnUWTYlOL8lIYOB+tj8eRFwun5o8dgYnskB1TWMmxeyrX2pHUw0D0IF8nVcpyGn
-         1VfrQPgt5ukXuloSexwtB3aeHdk+DUCnjaDk3szLjjTEMpFeHAB6jYYpVXCUNVBGqT1+
-         h50ZcdKJkjfSaeRdX9MUpCeHCUVAntEHDkoPLQOLXP/duR3XW5F/DDcSSHsTtLLa/yL6
-         S1bg==
-X-Forwarded-Encrypted: i=1; AJvYcCUbGIfmZy0yuZ2KIrESx9EpaTONEgXPoP9SweGV6gf/09AqSFO0uZFvaKIwYwX+QJs3rX2rW2chWll1S9dEJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8Nk+Hg6v7GuTpH49Vjp8pP1vJ/1wy3mr/TKRQUWxG9WFXdITa
-	6iJpcEMPavxQOotG9nmc5+qYtwrCpf2cIgASHYNmGmZ5psr+DIkf1JKBoriZMOF2mMwO9DChr59
-	k2ASSiujPAtF3iC4eQhE/ABF+MQGln0i26q2CNzjjn/KFvPcAhGw4JZE2nJhH5xh6Dmju
-X-Gm-Gg: ASbGncurDcdF7fjxgjUTZL07e5aD7XsMu4v7IjfjXH7pA+qRzDwNzzrQgZ1m+rprkqC
-	BhgSjfs6/ZvpoRoxC0tZ8tr1vC1zZUsfdFxOb031fzwNhJFV91ZbfZ14PhPXt7ca4X6/7sOEYzh
-	Qabm2BAJH6B1wvt+jdeMIYwYb7Rn+IaWrKr6PtuK/0VCYkll7ztWZTMPLqe6CNqs9LQ+vi0/+sF
-	kRpxR8od3/w+WrtqBE7blMUv4RTWUKSYUpEc+p0TuQzERpiCgyL+0AkeIQ1qBedme1EuKaknuoh
-	75X1kx0X9kgSWeV1RD45zUk58om3Wrf1jMYyKpQSy854pDlXkIW+HIZqSoHGTMhpjDJ9mmyW+Fr
-	04fb75cEFSw==
-X-Received: by 2002:a05:620a:2683:b0:7e6:8f41:2055 with SMTP id af79cd13be357-7e9fca94459mr16665385a.21.1755625138680;
-        Tue, 19 Aug 2025 10:38:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHgQk4w8WKFv31m629AzJg48gzsT3wV9vO3Klej86l6vqDXynU+1bYT1HQpPIZsZ30MYOYE+w==
-X-Received: by 2002:a05:620a:2683:b0:7e6:8f41:2055 with SMTP id af79cd13be357-7e9fca94459mr16660385a.21.1755625138182;
-        Tue, 19 Aug 2025 10:38:58 -0700 (PDT)
-Received: from ?IPV6:2601:188:c180:4250:ecbe:130d:668d:951d? ([2601:188:c180:4250:ecbe:130d:668d:951d])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e87e1e15besm805438385a.72.2025.08.19.10.38.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Aug 2025 10:38:57 -0700 (PDT)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <8f36131b-e326-4d0e-96d6-9067b6c439d8@redhat.com>
-Date: Tue, 19 Aug 2025 13:38:55 -0400
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bEKilXbG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=kX
+	qtCea7zQ8Uhu8Ugt8mlqxt6yqXT08SO/KkM9oJF/o=; b=bEKilXbGOuflwEl7fW
+	xCrn1viykPnPkej+hg3jFKUhLuu9rHt7ExxWN1/UWmJiD5991RHzL28D7XYmRVxN
+	cMGka7b6QOjOUaa2Y+KzE5gnLP3yXLH3RYYSnfAxyaAAwWMInVBCTpuQN2wdRQC8
+	ca9pO4dTCKbQb5+1TUsFV/Zk4=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3DhScgaVo_nyKDA--.32905S2;
+	Wed, 20 Aug 2025 16:04:45 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: tj@kernel.org,
+	hannes@cmpxchg.org,
+	mkoutny@suse.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com,
+	rostedt@goodmis.org,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	will@kernel.org,
+	boqun.feng@gmail.com,
+	longman@redhat.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org
+Cc: cgroups@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] sched/cgroup: Lock optimize for cgroup cpu throttle
+Date: Wed, 20 Aug 2025 16:04:44 +0800
+Message-Id: <20250820080444.2060410-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] Documentation: locking: Add local_lock_nested_bh()
- to locktypes
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Waiman Long <llong@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
- Clark Williams <clrkwllms@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- John Ogness <john.ogness@linutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>, Will Deacon <will@kernel.org>
-References: <20250815093858.930751-1-bigeasy@linutronix.de>
- <20250815093858.930751-3-bigeasy@linutronix.de>
- <db8defe4-14bf-4060-803f-e8b09a941d42@redhat.com>
- <20250819100046.ymb_o7VA@linutronix.de>
-In-Reply-To: <20250819100046.ymb_o7VA@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rz3P3-Md9_D55rfR28SUzQZvwYKK-hdlo82IfISKPv0_1755625139
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3DhScgaVo_nyKDA--.32905S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXFy8Xr1xCw4ruFWDAw4Utwb_yoW5CF47pF
+	ZYqrWakan8tFn7tr1xGa1vq3y8X395t3y5GFn5Gr45C3yYqrySvrs3Ka15ua4kCws3C3Wj
+	vrWYvr93Ca4DZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jF_M3UUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/1tbiJR6vCmileuyrDAAAsi
 
-On 8/19/25 6:00 AM, Sebastian Andrzej Siewior wrote:
-> On 2025-08-18 14:06:39 [-0400], Waiman Long wrote:
->>> index 80c914f6eae7a..37b6a5670c2fa 100644
->>> --- a/Documentation/locking/locktypes.rst
->>> +++ b/Documentation/locking/locktypes.rst
->>> @@ -204,6 +204,27 @@ per-CPU data structures on a non PREEMPT_RT kernel.
->>>    local_lock is not suitable to protect against preemption or interrupts on a
->>>    PREEMPT_RT kernel due to the PREEMPT_RT specific spinlock_t semantics.
->>> +CPU local scope and bottom-half
->>> +-------------------------------
->>> +
->>> +Per-CPU variables that are accessed only in softirq context should not rely on
->>> +the assumption that this context is implicitly protected due to being
->>> +non-preemptible. In a PREEMPT_RT kernel, softirq context is preemptible, and
->>> +synchronizing every bottom-half-disabled section via implicit context results
->>> +in an implicit per-CPU "big kernel lock."
->>> +
->>> +A local_lock_t together with local_lock_nested_bh() and
->>> +local_unlock_nested_bh() for locking operations help to identify the locking
->>> +scope.
->>> +
->>> +When lockdep is enabled, these functions verify that data structure access
->>> +occurs within softirq context.
->>> +Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
->>> +does not add overhead when used without lockdep.
->> Should it be local_lock_nested_bh()? It doesn't make sense to compare
->> local_unlock_nested_bh() against local_lock(). In a PREEMPT_RT kernel,
->> local_lock() disables migration but not preemption.
-> Yes, it should have been the lock and not the unlock part. I mention
-> just preemption part here because it focuses on the !RT part compared to
-> local_lock() and that it adds no overhead.
-> The PREEMPT_RT part below mentions that it behaves as a real lock so
-> that should be enough (not to mention the migration part (technically
-> migration must be already disabled so we could omit disabling migration
-> here but it is just a counter increment/ decrement at this point so we
-> don't win much by doing so)).
->
-> I made the following:
->
-> @@ -219,11 +219,11 @@ scope.
->   
->   When lockdep is enabled, these functions verify that data structure access
->   occurs within softirq context.
-> -Unlike local_lock(), local_unlock_nested_bh() does not disable preemption and
-> +Unlike local_lock(), local_lock_nested_bh() does not disable preemption and
->   does not add overhead when used without lockdep.
->   
->   On a PREEMPT_RT kernel, local_lock_t behaves as a real lock and
-> -local_unlock_nested_bh() serializes access to the data structure, which allows
-> +local_lock_nested_bh() serializes access to the data structure, which allows
->   removal of serialization via local_bh_disable().
->   
->   raw_spinlock_t and spinlock_t
->
-> Good?
+On Tue, 19 Aug 2025 13:28:52 +0200 Valentin wrote:
 
-LGTM, thanks!
+> What about using task_work_add() and throttling the task on its way to
+> userland? The callback will be invoked without any locks held.
 
-Cheers,
-Longman
+
+> > In addition to the information in my previous response to Sebastian, I would
+> > like to add the following point as a reason for my self-recommendation (to
+> > explore my patch for solving the cgroup performance issue in RT-Linux):
+> > RT-Linux is a system that places a high emphasis on real-time performance.
+> > The fact that regular tasks are also included in cgroup groups and throttled
+> > suggests that they are relatively low-priority tasks that are not expected to
+> > interfere with high-priority tasks. Therefore, is it not a bit too late to
+> > impose limits only after returning to user mode?
+> 
+> Throttling is purely a CFS construct, and does not affect RT or DL
+> tasks (outside of the lock contention issues we're trying to fix :-)). If
+> an RT or DL task needs to run, it'll just preempt the CFS tasks, it won't
+> wait for any throttle or other mechanism.
+
+
+Dear Valentin,
+
+Indeed, as you mentioned, delaying the throttle time does not affect the execution
+of high-priority tasks when they want to run.
+
+I should actually mark this as an RFC PATCH.
+On one hand, it allows others using the rt-linux system who are troubled by issues
+related to cgroup locking and limits to temporarily bypass these problems with my
+patch.
+On the other hand, I look forward experts may review the patch to see if there are
+any serious or obvious issues that I may have overlooked, or if there are areas
+for further improvement.
+
+
+On Tue, 19 Aug 2025 15:06:56 +0200 Sebastian wrote:
+
+> > Dear Sebastian,
+> > 
+> > I believe what you mentioned is related to the same issue that Valentin
+> > brought up later, which is the current solution of "delaying CPU throttling
+> > through the task_work mechanism until returning to user mode."
+> > My colleagues and I indeed noticed this from the beginning. However, on our
+> > 6.1.134 RT-Linux system, we have tried new versions of this solution one by
+> > one, but they have all failed during basic script tests, so none have reached
+> > the stage of being used in our project. I see that this modification has been
+> > promoted in the community for more than two years, yet it remains in a state
+> > that doesn't work well (on our 6.1.134 RT-Linux system). I wonder if the
+> > changes require too many considerations or if this modification simply isn't
+> > suitable for running on RT-Linux. Our project cannot afford to wait, and
+> > there are many performance issues in RT-Linux.
+> 
+> You are free to use the patch.
+> Based on your description I assume that the patch Valentin referenced
+> will solve your problem. If not, it will be interesting to know why it
+> is not working. Otherwise you keep maintaining your patch.
+
+Dear Sebastian,
+
+I am currently carefully reviewing the existing patches and applying them to our
+current project version of rt-linux 6.1.134 to see if I can reproduce the previously
+encountered issues. I will provide feedback on any problems as soon as possible.
+
+
+Thanks
+Xin Zhao
 
