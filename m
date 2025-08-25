@@ -1,106 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96BC1A9FB9;
-	Fri, 22 Aug 2025 18:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B12B393DCC
+	for <linux-rt-devel@lists.linux.dev>; Mon, 25 Aug 2025 03:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755886069; cv=none; b=PigwuGv4Eo+lgjh8y+nV54M5D21TkSt1yy6twv9Dktl/ZcS4QI5ylmNM56YndATDv3ttUqjvsSzfH1JOj2/wmRZAxKyKsFvCj5aVj9uuEwFVwW2u/8hk8w5mfHFm2vz/gj14a/+Dc0UAVOx51RfdbClZozBMMS3H9v13zw1Uf1g=
+	t=1756090958; cv=none; b=DgLjmQE5s7IU3o4tfnueqviwS5XP8WIqYyxoJ/AtB9BKzXgLjrCRDDe0doRj8+qCzTfx/TLlib7mI0IpEpJKnARkoO8fgUGQEOfc9o744/mBb0ry1hwhUrmYDi9Tfbd/2iYCXm5Oquob92mrc9XN8kt9xkJtBupEJS1Yv4EA+4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755886069; c=relaxed/simple;
-	bh=TRLO2DCNENsTrov5nyNcOD2c9LJ9eBSAaPzlTkEcayM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P9DgsdxQRmmmDFtLqQkX6643KEeCB9cOUh//L8d3zjWkNRG/z/S5JwsLjlM4Q5Wsw3LaxoIkhGeWyqcIEEB1PaWcZ6kccW8wEZN19rXYEmQYfpMl3aJWpZJWGueSSor4HnhTTX9FaGw52DMgsSKvrzGy/36UVy1ZQzouzMGUIPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hB230mCe; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hB230mCe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F508C4CEED;
-	Fri, 22 Aug 2025 18:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755886068;
-	bh=TRLO2DCNENsTrov5nyNcOD2c9LJ9eBSAaPzlTkEcayM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hB230mCefFRs7TfSvZjlWxnaB4i/QJcIMYBg0mFVphlFpKgjYJRFIGR531o2fE2bT
-	 mXLfGmqCK+WSZIaLOMaFwcr+1pwAIsxkXgbAlD24o70T331VkRZFc81SYfTz6z0iBm
-	 I31knfy3W6fKUVjoWaFWO+63IrvOrV3puxdfmvxcMWUFvLPp4ENR6aGWVAkXHelUNH
-	 w/QXUecfA39sfknub5dZOWBnvJopIKQIsgJMtID/VLdBIayvHsT2VL77Fk7Vwd/dmu
-	 WcbY0lB+jbIDBdDWUIcsuw7yzYIFFi+vVitgVfygVDl+K0EMQ19lQuyG1Rnc0umzcS
-	 b2Rl+HU+r1FzA==
-Date: Fri, 22 Aug 2025 08:07:47 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] softirq: Provide a handshake for canceling tasklets via
- polling on PREEMPT_RT
-Message-ID: <aKix80fycymWz3Mh@slm.duckdns.org>
-References: <aJzT7rqwkRQrLGqo@slm.duckdns.org>
- <20250818125242.vJ4wGk20@linutronix.de>
- <aKNlshZmWsHVXBo0@slm.duckdns.org>
- <20250819150105.DYeV89fa@linutronix.de>
- <20250820103657.vDuDuLx6@linutronix.de>
- <20250820105518.Yf36NzJd@linutronix.de>
- <aKYltdkLBRZJF0Ok@slm.duckdns.org>
- <20250821092827.zcFpdnNy@linutronix.de>
- <aKdTEkK5MBz_Fj47@slm.duckdns.org>
- <20250822094812.L4hiquhY@linutronix.de>
+	s=arc-20240116; t=1756090958; c=relaxed/simple;
+	bh=4EvB5Sl17xLgiHRIcTtMd7fiK41JtouMDEXa8ZRhXSU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QKYvdqlcqg0Ntlk4XxQLkCJM2AN7j6fRAuMEViWh9KISqK2i4Xkst8kZ4A0lm6yaZvxTR0mttbas//gHADk6Xuwy+sVuy5XXcxEkfiBYeJPcyoQRxGS4ncGpTD19BNFQIlnvrfzFUqEtwmVL+L9xVtoSMH6GOKuQUIfyV9UZ1P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: ee08adec815f11f0b29709d653e92f7d-20250825
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:406728a0-26b9-4e5b-a5aa-ff1ba4498ec2,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:bda81044142043a00ecf4e221c9a24fe,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|850,TC:nil,Content:0|50,EDM
+	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: ee08adec815f11f0b29709d653e92f7d-20250825
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <cuiguoqi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 425965928; Mon, 25 Aug 2025 11:02:26 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 205FDE008FA3;
+	Mon, 25 Aug 2025 11:02:26 +0800 (CST)
+X-ns-mid: postfix-68ABD241-930007515
+Received: from localhost.localdomain (unknown [10.41.103.97])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 2A0E9E008FA2;
+	Mon, 25 Aug 2025 11:02:21 +0800 (CST)
+From: cuiguoqi <cuiguoqi@kylinos.cn>
+To: pmladek@suse.com
+Cc: akpm@linux-foundation.org,
+	bigeasy@linutronix.de,
+	catalin.marinas@arm.com,
+	clrkwllms@kernel.org,
+	cuiguoqi@kylinos.cn,
+	farbere@amazon.com,
+	feng.tang@linux.alibaba.com,
+	guoqi0226@163.com,
+	joel.granados@kernel.org,
+	john.ogness@linutronix.de,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	namcao@linutronix.de,
+	rostedt@goodmis.org,
+	sravankumarlpu@gmail.com,
+	takakura@valinux.co.jp,
+	tglx@linutronix.de,
+	will@kernel.org
+Subject: Re: [PATCH] drivers: example: fix memory leak
+Date: Mon, 25 Aug 2025 11:02:17 +0800
+Message-Id: <20250825030217.1663575-1-cuiguoqi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <aKR-eBMoMBa4fnrF@pathway.suse.cz>
+References: <aKR-eBMoMBa4fnrF@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250822094812.L4hiquhY@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
 
-Hello, Sebastian.
+From: Petr Mladek <pmladek@suse.com>
 
-On Fri, Aug 22, 2025 at 11:48:12AM +0200, Sebastian Andrzej Siewior wrote:
-> > Okay, so, on !RT, that busy loop section is there to allow
-> > cancel_work_sync() to be called from BH-disabled contexts and the caller is
-> > responsible for ensuring there's no recursion. It's not great but matches
-> > the existing behavior. 
-> 
-> hold on for for a sec: existing behaviour for tasklet_unlock_spin_wait()
-> which has three users (a fourth one if we count i915 which has its own
-> tasklet layer). Not something that I would call common or wide spread
-> behaviour in the kernel (and task workqueue does not have it either).
+Hi Petr:
+> How did you find this problem, please?
+> Were you investigating why a log was missing?
+> Or was is just be reading the code?
 
-IIRC, there was a conversion patchset which didn't get pushed to completion
-and it hit those, so the patch to add the busy wait.
+  When I was developing the Linux real-time kernel, the system abnormally=
+ crashed,=20
+and kdump triggered the inability to normally enter the second kernel for=
+ demsg&vmcore saving.=20
+When an abnormal panic is triggered simultaneously, the abnormal scene an=
+d some of the jump logs
+of kexec are not output, which to some extent affects the efficiency of d=
+ebugging and testing
 
-> tasklet_disable() and tasklet_kill() both sleep while waiting for
-> completion and don't spin.
-> 
-> >                        Obviously, in !RT, we can't go to
-> > wait_for_completion() there because we can be in a non-sleepable context.
-> 
-> Again, only a small amount of users require to do so.
-> 
-> > Are you saying that, in RT, it'd be fine to call wait_for_completion()
-> > inside local_bh_disable() and won't trip any of the context warnings? If so,
-> > yeah, we don't need any of the looping.
-> 
-> No, that won't work. local_bh_disable() will start a RCU read section
-> and then RCU will complain during schedule().
-> So if the requirement is to cancel a BH workitem from within a BH
-> disabled section then we need the first patch in this thread.
-> 
-> But if we get rid of this requirement…
+Motivation for the fix:
+1. For RT kernels with Kdump deployed, ensure that all relevant informati=
+on such as call stacks is fully
+output to the serial port during the entire process from panic occurrence=
+ to transition to the second kernel,
+ which can better enhance debugging efficiency.
 
-Agreed, once we get rid of them, we can drop the whole block for both RT and
-!RT - ie. revert the patch that added it. But, wouldn't it be more orderly
-to match the semantics in both cases even if the behavior isn't quite
-optimal? We can put some comment noting what to do once the culprits are
-updated to not need it.
+2. When Kdump is not deployed, the call stack can be directly output in R=
+T kernels as shown below:
+```c
+vpanic{
++ printk_legacy_allow_panic_sync();
 
-Thanks.
++debug_locks_off();
++console_flush_on_panic(CONSOLE_FLUSH_PENDING);
++console_flush_on_panic(CONSOLE_FLUSH_PENDING);
++nbcon_atomic_flush_unsafe();
+}
+```
 
--- 
-tejun
+3. Therefore, currently I am wondering whether the issue lies with `debug=
+_locks_off();` or if there is an issue with=20
+the logical placement of `printk_legacy_allow_panic_sync();`.
+
+My understanding is that by the time we reach machine_kexec(kexec_crash_i=
+mage);
+other cores should have already been notified and shut down. Additionally=
+,=20
+since this is clearly an emergency situation, flushing the log buffer to =
+the terminal=20
+should not introduce further adverse effects.
+I would greatly appreciate your insights and guidance on this matter.
