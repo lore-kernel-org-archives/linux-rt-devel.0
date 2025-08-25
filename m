@@ -1,123 +1,120 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B12B393DCC
-	for <linux-rt-devel@lists.linux.dev>; Mon, 25 Aug 2025 03:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385F5277CAF
+	for <linux-rt-devel@lists.linux.dev>; Mon, 25 Aug 2025 13:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756090958; cv=none; b=DgLjmQE5s7IU3o4tfnueqviwS5XP8WIqYyxoJ/AtB9BKzXgLjrCRDDe0doRj8+qCzTfx/TLlib7mI0IpEpJKnARkoO8fgUGQEOfc9o744/mBb0ry1hwhUrmYDi9Tfbd/2iYCXm5Oquob92mrc9XN8kt9xkJtBupEJS1Yv4EA+4c=
+	t=1756129828; cv=none; b=rZ+fFj5b/8RcwdRcBJRQRfFP55WjZjAlC84U27Wd35UPnTrZZTwWLrWmAeEeDgRpioATTSDLsy3JLYsRDOQG3SnIr0ZnAtoBAfbProfEe7ocUhKoeBVmJSWiYd6qsJTEvwx/R/uKDpqaY47vh+pNBQRN6O3jradP4VMGAbOMiYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756090958; c=relaxed/simple;
-	bh=4EvB5Sl17xLgiHRIcTtMd7fiK41JtouMDEXa8ZRhXSU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QKYvdqlcqg0Ntlk4XxQLkCJM2AN7j6fRAuMEViWh9KISqK2i4Xkst8kZ4A0lm6yaZvxTR0mttbas//gHADk6Xuwy+sVuy5XXcxEkfiBYeJPcyoQRxGS4ncGpTD19BNFQIlnvrfzFUqEtwmVL+L9xVtoSMH6GOKuQUIfyV9UZ1P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ee08adec815f11f0b29709d653e92f7d-20250825
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:406728a0-26b9-4e5b-a5aa-ff1ba4498ec2,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:bda81044142043a00ecf4e221c9a24fe,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:81|82|83|102|850,TC:nil,Content:0|50,EDM
-	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
-	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: ee08adec815f11f0b29709d653e92f7d-20250825
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <cuiguoqi@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 425965928; Mon, 25 Aug 2025 11:02:26 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 205FDE008FA3;
-	Mon, 25 Aug 2025 11:02:26 +0800 (CST)
-X-ns-mid: postfix-68ABD241-930007515
-Received: from localhost.localdomain (unknown [10.41.103.97])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 2A0E9E008FA2;
-	Mon, 25 Aug 2025 11:02:21 +0800 (CST)
-From: cuiguoqi <cuiguoqi@kylinos.cn>
-To: pmladek@suse.com
-Cc: akpm@linux-foundation.org,
-	bigeasy@linutronix.de,
-	catalin.marinas@arm.com,
-	clrkwllms@kernel.org,
-	cuiguoqi@kylinos.cn,
-	farbere@amazon.com,
-	feng.tang@linux.alibaba.com,
-	guoqi0226@163.com,
-	joel.granados@kernel.org,
-	john.ogness@linutronix.de,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	namcao@linutronix.de,
-	rostedt@goodmis.org,
-	sravankumarlpu@gmail.com,
-	takakura@valinux.co.jp,
-	tglx@linutronix.de,
-	will@kernel.org
-Subject: Re: [PATCH] drivers: example: fix memory leak
-Date: Mon, 25 Aug 2025 11:02:17 +0800
-Message-Id: <20250825030217.1663575-1-cuiguoqi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <aKR-eBMoMBa4fnrF@pathway.suse.cz>
-References: <aKR-eBMoMBa4fnrF@pathway.suse.cz>
+	s=arc-20240116; t=1756129828; c=relaxed/simple;
+	bh=zwwHdWEZRsSquHKGP/iohqVzGkjZqpsnxqTlCxqdA8Y=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WZlNcBHHcleSCen0nO5yrEassqyaOEOkwRRxuVv6MwOCouzoi2sEqPqnduscrn28HGfRN/Qjf6ZPT5Xdz5Ec1Asz+dJQAqLb6AXBAIT818Vr9SGWEWf3/mNnOQR4Iluyijj5bxDvW6v5o/8iUDCxhCFXebS5hfg/+9wFjZBvjRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S1QZVI7+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S1QZVI7+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756129826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=9+JM+V1hLWq1T+pNLSsHiOlhhh9GbwHAvr+HDzIv5sw=;
+	b=S1QZVI7+nprt6D5X2APwjcH+EqX0EWdO/VWS6DXJqhgPF9wAf06rg6wYSfLYIta5K/ZK22
+	C3UcPbjoDJ93ndBb7/7PneclI5zz/JMbRBfb+G0qnEFel8Jfoo2zEhM+P1eMZlKvEPH11M
+	y+ELDNKI3PC5otcT7uC4euXBrrx+riY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-580-EI4c7fVyO1KVcZoPIPF_TA-1; Mon,
+ 25 Aug 2025 09:50:22 -0400
+X-MC-Unique: EI4c7fVyO1KVcZoPIPF_TA-1
+X-Mimecast-MFC-AGG-ID: EI4c7fVyO1KVcZoPIPF_TA_1756129820
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3079718002C6;
+	Mon, 25 Aug 2025 13:50:20 +0000 (UTC)
+Received: from localhost (unknown [10.22.81.168])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 82BF7195419F;
+	Mon, 25 Aug 2025 13:50:18 +0000 (UTC)
+Date: Mon, 25 Aug 2025 10:50:16 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>
+Subject: [RESEND PATCH] sched: restore the behavior of put_task_struct() for
+ non-rt
+Message-ID: <aKxqGLNOp2sWJwnZ@uudg.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-From: Petr Mladek <pmladek@suse.com>
+Commit 8671bad873eb ("sched: Do not call __put_task_struct() on rt
+if pi_blocked_on is set") changed the behavior of put_task_struct()
+unconditionally, even when PREEMPT_RT was not enabled, in clear mismatch
+with the commit description.
 
-Hi Petr:
-> How did you find this problem, please?
-> Were you investigating why a log was missing?
-> Or was is just be reading the code?
+Restore the previous behavior of put_task_struct() for the PREEMPT_RT
+disabled case.
 
-  When I was developing the Linux real-time kernel, the system abnormally=
- crashed,=20
-and kdump triggered the inability to normally enter the second kernel for=
- demsg&vmcore saving.=20
-When an abnormal panic is triggered simultaneously, the abnormal scene an=
-d some of the jump logs
-of kexec are not output, which to some extent affects the efficiency of d=
-ebugging and testing
+Fixes: 8671bad873eb ("sched: Do not call __put_task_struct() on rt if pi_blocked_on is set")
+Acked-by: Oleg Nesterov <oleg@redhat.com>
+Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+---
 
-Motivation for the fix:
-1. For RT kernels with Kdump deployed, ensure that all relevant informati=
-on such as call stacks is fully
-output to the serial port during the entire process from panic occurrence=
- to transition to the second kernel,
- which can better enhance debugging efficiency.
+  Note: This patch is a fix motivated by Oleg Nesterov's question at
+  https://lore.kernel.org/linux-rt-devel/20250728201441.GA4690@redhat.com/
 
-2. When Kdump is not deployed, the call stack can be directly output in R=
-T kernels as shown below:
-```c
-vpanic{
-+ printk_legacy_allow_panic_sync();
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index ea41795a352b..51678a541477 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -130,6 +133,16 @@ static inline void put_task_struct(struct task_struct *t)
+ 	if (!refcount_dec_and_test(&t->usage))
+ 		return;
+ 
++	/* In !RT, it is always safe to call __put_task_struct(). */
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
++		static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_SLEEP);
++
++		lock_map_acquire_try(&put_task_map);
++		__put_task_struct(t);
++		lock_map_release(&put_task_map);
++		return;
++	}
++
+ 	/*
+ 	 * Under PREEMPT_RT, we can't call __put_task_struct
+ 	 * in atomic context because it will indirectly
+@@ -137,10 +150,6 @@ static inline void put_task_struct(struct task_struct *t)
+ 	 * current process has a mutex enqueued (blocked on
+ 	 * a PI chain).
+ 	 *
+-	 * In !RT, it is always safe to call __put_task_struct().
+-	 * Though, in order to simplify the code, resort to the
+-	 * deferred call too.
+-	 *
+ 	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+ 	 * to be called in process context.
+ 	 *
 
-+debug_locks_off();
-+console_flush_on_panic(CONSOLE_FLUSH_PENDING);
-+console_flush_on_panic(CONSOLE_FLUSH_PENDING);
-+nbcon_atomic_flush_unsafe();
-}
-```
-
-3. Therefore, currently I am wondering whether the issue lies with `debug=
-_locks_off();` or if there is an issue with=20
-the logical placement of `printk_legacy_allow_panic_sync();`.
-
-My understanding is that by the time we reach machine_kexec(kexec_crash_i=
-mage);
-other cores should have already been notified and shut down. Additionally=
-,=20
-since this is clearly an emergency situation, flushing the log buffer to =
-the terminal=20
-should not introduce further adverse effects.
-I would greatly appreciate your insights and guidance on this matter.
