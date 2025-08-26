@@ -1,102 +1,132 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC12527A455
-	for <linux-rt-devel@lists.linux.dev>; Tue, 26 Aug 2025 08:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBC1199935
+	for <linux-rt-devel@lists.linux.dev>; Tue, 26 Aug 2025 11:08:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756197808; cv=none; b=Q9LFk/inLzRiHdNWgvf9IKMozM5L9DXUWCXA6t8HOpeVQifx3iuWia6QBmWQk7IjQUK9iiKu0eTgI/LPc16DHDdJcljMuYoZFQW8BYChycE3hKLco60d9TW0QbNqgqHI9lznJo2NX7N1E3nmJ0DsE2kpmcqjiKbg6D1tw959/9E=
+	t=1756206530; cv=none; b=K1JtJBc/paFgu4EFSyGomMxfCxWdWO8+ILDz6pkmV0hD6L5ZoqBMpjmIox/bPZ2jsQvXh+Ro4rJjqsXrdPDlTSNDNo1GzwJ78gdOkgQtqhYQeRqknZFpNTjLyauYT/hETQh4YIQLqQXbkk13U1m0fjgCBeROrSvKkcAZXapCOj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756197808; c=relaxed/simple;
-	bh=y4dwqQVgtSX6sPHPMwAuaPOfXvlILwfzYILH/VuFM1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ghkiV2tPuhG2E9Rr90EgWVpQp7UpO1wqngxQKSWBe//6yFoxXsPtw7e+vDttWx6mVaCbVCJTOqyWKTuaOYBepWX3nGQrHaer3BpTsBxYIeL/CpsOke58Mqf6EzlkjepYbGnor9P0hG4vuC2TLQ6uriNokiDTUArDy3hZSjDadAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EvcL5yqR; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=T32aPWHZ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EvcL5yqR";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="T32aPWHZ"
-Date: Tue, 26 Aug 2025 10:43:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756197804;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vW0GsgV7Ep6s4XIArheKm/LdDZZmdIK5t24jU+6kggw=;
-	b=EvcL5yqRd2AKS+Y8UMGkM5b9exWowZdlqZLZFId2q0cdJEUZ6rCghtwN2F2RL6mtYmm2BD
-	i+8+vbOBOVH+dQaEBkunBVi3JNeRGkUgQ+KNqcz2chZS1YkSfOzFoUdKhvt5D0OnZQzSxF
-	nTQkh3syh8J7XKjIAuYIpgzGXxanKF5RGamHo3bttlX9HMf2RlUDG1MCwU/eiz/0N6duPz
-	YZPYnd5iUeYHFSy+kSUTLv5EiXIn5oYkR1qXgX3j+hte5JQdtDUSsPqhMSfuyppcG5PCu8
-	iPchwwOW9ixRj+h+8Y7xiRB4BwGYZQeFWF8jDdosveKfYLqhRhluQ0D0gF1xgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756197804;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vW0GsgV7Ep6s4XIArheKm/LdDZZmdIK5t24jU+6kggw=;
-	b=T32aPWHZdJeTw+a5UJKU3WD36z2iBIV7xYlqQ6KAqP2pHQwPD7bhFhGgVpi2WefMqunUNQ
-	ps8p7jmoDxApSYCg==
-From: Nam Cao <namcao@linutronix.de>
-To: Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Xi Ruoyao <xry111@xry111.site>,
-	Frederic Weisbecker <frederic@kernel.org>,
+	s=arc-20240116; t=1756206530; c=relaxed/simple;
+	bh=puR3Q5FpsCoJW0ydNv1g/XPxcTcRZxqkXQRdgqRnf5g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nQDRXPbLymYYt2K4rcoGHQaJ0Oqogq3VMro3v4QSG4NScRMAOfhUF2u292KTFR6dt5Vmn9XtAsV8YbwU0i3oK1KkZxBbS0jQ4YiIcyjk1R4yHlTi/t71UPJYUa7bYc6TF9eEKRT5WyTGKR4d/nzQB8psFVcZELavF2PfE21Izuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 06474464826d11f0b29709d653e92f7d-20250826
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:ea2c325f-8204-4467-ac90-7ccd97c4b1ac,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:263e34cb3ead996cb463b486a99cd807,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 06474464826d11f0b29709d653e92f7d-20250826
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <cuiguoqi@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 26262188; Tue, 26 Aug 2025 19:08:41 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 7234EE008FAB;
+	Tue, 26 Aug 2025 19:08:41 +0800 (CST)
+X-ns-mid: postfix-68AD95B9-303499565
+Received: from localhost.localdomain (unknown [10.41.103.97])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 85003E008FAA;
+	Tue, 26 Aug 2025 19:08:37 +0800 (CST)
+From: cuiguoqi <cuiguoqi@kylinos.cn>
+To: Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
 	Valentin Schneider <vschneid@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Jens Axboe <axboe@kernel.dk>
-Cc: stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] eventpoll: Replace rwlock with spinlock
-Message-ID: <20250826084320.XeTd6XAK@linutronix.de>
-References: <cover.1752581388.git.namcao@linutronix.de>
- <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+	guoqi0226@163.com,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	cuiguoqi <cuiguoqi@kylinos.cn>
+Subject: [PATCH] sched: Fix race in rt_mutex_pre_schedule by removing non-atomic fetch_and_set
+Date: Tue, 26 Aug 2025 19:08:33 +0800
+Message-Id: <20250826110833.3274209-1-cuiguoqi@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 15, 2025 at 02:46:34PM +0200, Nam Cao wrote:
-> The ready event list of an epoll object is protected by read-write
-> semaphore:
-> 
->   - The consumer (waiter) acquires the write lock and takes items.
->   - the producer (waker) takes the read lock and adds items.
-> 
-> The point of this design is enabling epoll to scale well with large number
-> of producers, as multiple producers can hold the read lock at the same
-> time.
-> 
-> Unfortunately, this implementation may cause scheduling priority inversion
-> problem. Suppose the consumer has higher scheduling priority than the
-> producer. The consumer needs to acquire the write lock, but may be blocked
-> by the producer holding the read lock. Since read-write semaphore does not
-> support priority-boosting for the readers (even with CONFIG_PREEMPT_RT=y),
-> we have a case of priority inversion: a higher priority consumer is blocked
-> by a lower priority producer. This problem was reported in [1].
-> 
-> Furthermore, this could also cause stall problem, as described in [2].
-> 
-> Fix this problem by replacing rwlock with spinlock.
+During Wound/Wait testing on PREEMPT_RT, a WARNING was hit:
 
-Hi Christian,
+  WARNING: CPU: 0 PID: 0 at kernel/sched/core.c:7085 rt_mutex_pre_schedul=
+e+0xa8/0x108
+  Call trace:
+   rt_mutex_pre_schedule+0xa8/0x108
+   __ww_rt_mutex_lock+0x1d4/0x300
+   ww_mutex_lock+0x1c/0x30
 
-May I know your plan with this patch? Are you still waiting for something?
+The issue stems from the non-atomic `fetch_and_set` macro:
+    #define fetch_and_set(x, v) ({ int _x =3D (x); (x) =3D (v); _x; })
 
-You may still understandably be paranoid about epoll due to the last
-regression. But it's been weeks, and this patch is quite simple, so I start
-to wonder if it is forgotten.
+It lacks atomicity and memory ordering, leading to race conditions under
+preemption or interrupts, where `current->sched_rt_mutex` may be corrupte=
+d.
 
-Nam
+Since this flag is only used for lockdep assertions and accessed per-task=
+,
+replace the unsafe macro with direct assignment and explicit state checks=
+:
+
+- In rt_mutex_pre_schedule(): assert is 0 before setting to 1.
+- In rt_mutex_post_schedule(): assert is 1 before clearing to 0.
+
+This fixes the false-positive warning without needing atomic operations.
+
+Signed-off-by: cuiguoqi <cuiguoqi@kylinos.cn>
+---
+ kernel/sched/core.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 5e89a6eeadba..fb4c446e46f7 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -7078,11 +7078,11 @@ const struct sched_class *__setscheduler_class(st=
+ruct task_struct *p, int prio)
+  * name such that if someone were to implement this function we get to c=
+ompare
+  * notes.
+  */
+-#define fetch_and_set(x, v) ({ int _x =3D (x); (x) =3D (v); _x; })
+=20
+ void rt_mutex_pre_schedule(void)
+ {
+-	lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
++	lockdep_assert(!current->sched_rt_mutex);
++	current->sched_rt_mutex =3D 1;
+ 	sched_submit_work(current);
+ }
+=20
+@@ -7095,7 +7095,9 @@ void rt_mutex_schedule(void)
+ void rt_mutex_post_schedule(void)
+ {
+ 	sched_update_worker(current);
+-	lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
++	lockdep_assert(current->sched_rt_mutex);
++	current->sched_rt_mutex =3D 0;
++
+ }
+=20
+ /*
+--=20
+2.25.1
+
