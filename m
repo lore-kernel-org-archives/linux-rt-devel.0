@@ -1,132 +1,214 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBC1199935
-	for <linux-rt-devel@lists.linux.dev>; Tue, 26 Aug 2025 11:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC00267386
+	for <linux-rt-devel@lists.linux.dev>; Tue, 26 Aug 2025 11:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756206530; cv=none; b=K1JtJBc/paFgu4EFSyGomMxfCxWdWO8+ILDz6pkmV0hD6L5ZoqBMpjmIox/bPZ2jsQvXh+Ro4rJjqsXrdPDlTSNDNo1GzwJ78gdOkgQtqhYQeRqknZFpNTjLyauYT/hETQh4YIQLqQXbkk13U1m0fjgCBeROrSvKkcAZXapCOj0=
+	t=1756207163; cv=none; b=RU85S+3KmVaO7ygos+mRwhlsLkfa1jUJD76JdVmnNwvtyBSf7JhSYayAgeYTEiRWlAP2+ReL5TmpMU7uLaH8No0WOxsuKLjVFU/yHAuyBpil16ftMGreeHCxKQE13YKtYPg/CXO0VOk5Hj1tBFRE5yKHi17T5FFnMiuHQb1+VJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756206530; c=relaxed/simple;
-	bh=puR3Q5FpsCoJW0ydNv1g/XPxcTcRZxqkXQRdgqRnf5g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=nQDRXPbLymYYt2K4rcoGHQaJ0Oqogq3VMro3v4QSG4NScRMAOfhUF2u292KTFR6dt5Vmn9XtAsV8YbwU0i3oK1KkZxBbS0jQ4YiIcyjk1R4yHlTi/t71UPJYUa7bYc6TF9eEKRT5WyTGKR4d/nzQB8psFVcZELavF2PfE21Izuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 06474464826d11f0b29709d653e92f7d-20250826
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:ea2c325f-8204-4467-ac90-7ccd97c4b1ac,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:263e34cb3ead996cb463b486a99cd807,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850,TC:nil,Content:0|50,EDM:-3,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 06474464826d11f0b29709d653e92f7d-20250826
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <cuiguoqi@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 26262188; Tue, 26 Aug 2025 19:08:41 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 7234EE008FAB;
-	Tue, 26 Aug 2025 19:08:41 +0800 (CST)
-X-ns-mid: postfix-68AD95B9-303499565
-Received: from localhost.localdomain (unknown [10.41.103.97])
-	by mail.kylinos.cn (NSMail) with ESMTPA id 85003E008FAA;
-	Tue, 26 Aug 2025 19:08:37 +0800 (CST)
-From: cuiguoqi <cuiguoqi@kylinos.cn>
-To: Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	guoqi0226@163.com,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	cuiguoqi <cuiguoqi@kylinos.cn>
-Subject: [PATCH] sched: Fix race in rt_mutex_pre_schedule by removing non-atomic fetch_and_set
-Date: Tue, 26 Aug 2025 19:08:33 +0800
-Message-Id: <20250826110833.3274209-1-cuiguoqi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1756207163; c=relaxed/simple;
+	bh=D65QWKSM9pN9e8AMIUB748gQGVONPpAN1lsBSYePY+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ynty+SD8uBGqRzgL+5Ym6T7OurhCkqEv3KS2yQjpTenXfGzNHSYrL5CL7AiEPkEeIFVJljVT/WTVv1hIMFVbX7NfDy+jdPn1nnWn6kz2SeVmtTNsn44a6SM1RHhTnpWDpXRFQoDGX+cNGPxYQjx0qDVBVlG9wUvtRpB+WNQjidg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jfgt44fi; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jfgt44fi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1756207160;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pNRKdff2Ys8RanQTtN4VeDxIO5xowx3e0A00ZcmqvdY=;
+	b=Jfgt44fikoDQG5xbcMs5nqhbiyC75t2B6ZNZWrezrwPh7Yk2/OZYrknNDYhQ8raxMkxdfF
+	BnLs0OAH6h8ikKNmSbbxm2w+goHC/cmU0yXdfwQrx2GnQK86L2qgS8icJ4bTQgI3pDdFZ9
+	5BdVv5FcqqcLB41e8AzUxitvzVbRVPg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436-1turW6b0MOuCDdDCc66Lrw-1; Tue, 26 Aug 2025 07:19:18 -0400
+X-MC-Unique: 1turW6b0MOuCDdDCc66Lrw-1
+X-Mimecast-MFC-AGG-ID: 1turW6b0MOuCDdDCc66Lrw_1756207158
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-afcb7348249so481330966b.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 26 Aug 2025 04:19:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756207157; x=1756811957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pNRKdff2Ys8RanQTtN4VeDxIO5xowx3e0A00ZcmqvdY=;
+        b=a4C1XN2K8k8ZHmjprv8TGvgur2Bzy0CuidcjVcR/BrJNms+DE1C5WMBhBrHMWSdmsW
+         xjMLhZuB2+K5PEfekX3Vs5OUv1MiSgCZPsy6qmJffgMfaoy1YqihEXMcCn7CG9qbcin6
+         Wq+S6DE9nVM2F47IDUUsFC4qV7cPlt5wS2YOZwjVV7jOhaQX21f2XWKcXYYQjl+KRpLy
+         /pUbjOzjbnkhwNxTtTcUWW6IQOHPn1G1QIlO9MYamY3xJtFwZjQjA4rxD3gVuKzwFDSw
+         QXSH/peRU8vXMw9AATGiVrZgFRxqOI6MAmiz6neZnrOaaTrtA3Hlh/p6Mw1i41rhwuVi
+         mG4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWPYbKvjWhswuvOSjOfOHVVWdWOYl8JYyjXGqXuTXIxaoz8Mx6a49PjnZB/G82CRZXhR0vAJ9/yjoRG1ApWUQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNbwDLEKcHnICf/nG7srOI3aGIcYbfFyblRfdToeBKF/JkwY4p
+	DsH4Qvrrv2hiHZ8BN3myxiXFJ6Zatkfl04D/JM3aCEC0/kpi40atjZzrA10ddyC7Rcx81QJnhOZ
+	QANoMjNDwxyP005gMp9uEFausLb1PtwvHDZWnTGl9iXnJkSw9gRnuCZuU468Z3byE2ufr5ZLVoC
+	Om2+7Ec0F5YIvzpG3u5fUMPWLYbmQFSGuiNCXZ1AOgirg=
+X-Gm-Gg: ASbGnctMQt30qSMtGdqiyUfd8W6yZUJpNqDEM3AioK6oj7+oCDRDS6Hm5+5QKSLe/7K
+	Un4YritPB8X9Fwwit1rjoEfUUPmY9hD89txdweSMyRW90d6Oc+N/vxQiQjvlWO9qdB53/KaAnPz
+	sUsTEAX+DgPyrUolAehO8=
+X-Received: by 2002:a17:907:3e1c:b0:ae7:cb7:9005 with SMTP id a640c23a62f3a-afe296e6cc8mr1268931766b.35.1756207157556;
+        Tue, 26 Aug 2025 04:19:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFao4TulVQAY9LGiYxoOXfzex73euZlH6UjPDCDFtMrMw28PLaLq1IaRySZ5HlunfHtZekdhWXhTBZ9OHwc3pk=
+X-Received: by 2002:a17:907:3e1c:b0:ae7:cb7:9005 with SMTP id
+ a640c23a62f3a-afe296e6cc8mr1268929066b.35.1756207157017; Tue, 26 Aug 2025
+ 04:19:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20250816031657.906569-1-ysk@kzalloc.com>
+In-Reply-To: <20250816031657.906569-1-ysk@kzalloc.com>
+From: Tomas Glozar <tglozar@redhat.com>
+Date: Tue, 26 Aug 2025 13:19:05 +0200
+X-Gm-Features: Ac12FXzR8e-ZObNfxgNqsGRfcHjsPOiF_earOdPtLBTE-8cWeQFnZ8N63-z04hs
+Message-ID: <CAP4=nvTOE9W+6UtVZ5-5gAoYeEQE8g4cgG602FJDPesNko-Bgw@mail.gmail.com>
+Subject: Re: [WIP] coccinelle: rt: Add coccicheck on sleep in atomic context
+ on PREEMPT_RT
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
+	Easwar Hariharan <eahariha@linux.microsoft.com>, Gal Pressman <gal@nvidia.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Kees Cook <kees@kernel.org>, cocci@inria.fr, 
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: Qv3p4ZlXYDstV6K84bWImOLH2a8NrRY4l4T6niuKkac_1756207158
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-During Wound/Wait testing on PREEMPT_RT, a WARNING was hit:
+Hi Yunseong,
 
-  WARNING: CPU: 0 PID: 0 at kernel/sched/core.c:7085 rt_mutex_pre_schedul=
-e+0xa8/0x108
-  Call trace:
-   rt_mutex_pre_schedule+0xa8/0x108
-   __ww_rt_mutex_lock+0x1d4/0x300
-   ww_mutex_lock+0x1c/0x30
-
-The issue stems from the non-atomic `fetch_and_set` macro:
-    #define fetch_and_set(x, v) ({ int _x =3D (x); (x) =3D (v); _x; })
-
-It lacks atomicity and memory ordering, leading to race conditions under
-preemption or interrupts, where `current->sched_rt_mutex` may be corrupte=
-d.
-
-Since this flag is only used for lockdep assertions and accessed per-task=
-,
-replace the unsafe macro with direct assignment and explicit state checks=
+so 16. 8. 2025 v 6:56 odes=C3=ADlatel Yunseong Kim <ysk@kzalloc.com> napsal=
 :
+>
+> I'm working on a new Coccinelle script to detect sleep-in-atomic bugs in
+> PREEMPT_RT kernels. This script identifies calls to sleeping functions
+> (e.g., mutex_lock, msleep, kmalloc with GFP_KERNEL, spin_lock which may
+> sleep in PREEMPT_RT) within atomic contexts (e.g., raw_spin_lock,
+> preempt_disable, bit_spin_lock).
+>
+> It supports both direct calls and indirect call chains through
+> inter-procedural analysis using function call graphs. Memory allocations
+> are handled including GFP_ATOMIC/NOWAIT. This is a WIP patch for early
+> feedback. I've tested it with make coccicheck on various subsystems, but
+> there are still issues with position variables sometimes being tuples,
+> leading to "Invalid position info" warnings and incomplete data collectio=
+n.
 
-- In rt_mutex_pre_schedule(): assert is 0 before setting to 1.
-- In rt_mutex_post_schedule(): assert is 1 before clearing to 0.
+I can share some of my own experience. I wrote a similar tool for the
+same problem two years ago, called rtlockscope [1], which uses ctags
+to get a list of all functions, CScope to get a function call graph,
+and assigning a summary to each function based on its callees. The
+results could use some improvement, since it reduces control flow to
+an ordering of callees, and assumes that all symbols are global (e.g.
+an ARM-only function is seen as called from x86-only code).
 
-This fixes the false-positive warning without needing atomic operations.
+[1] Repo: https://gitlab.com/tglozar/rtlockscope, LPC talk slides:
+https://lpc.events/event/18/contributions/1735/attachments/1428/3051/lpc202=
+4talk.pdf;
+currently I'm focusing on getting more reliable results using automata
+abstractions.
 
-Signed-off-by: cuiguoqi <cuiguoqi@kylinos.cn>
----
- kernel/sched/core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> The script includes defensive checks, but indirect bugs are not always
+> detected. I'd appreciate any suggestions on improving the Python handling
+> of position variables or the SmPL rules for better matching in complex co=
+de
+> (e.g., macros, inlines). The script is added to scripts/coccinelle/rt/.
+>
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 5e89a6eeadba..fb4c446e46f7 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -7078,11 +7078,11 @@ const struct sched_class *__setscheduler_class(st=
-ruct task_struct *p, int prio)
-  * name such that if someone were to implement this function we get to c=
-ompare
-  * notes.
-  */
--#define fetch_and_set(x, v) ({ int _x =3D (x); (x) =3D (v); _x; })
-=20
- void rt_mutex_pre_schedule(void)
- {
--	lockdep_assert(!fetch_and_set(current->sched_rt_mutex, 1));
-+	lockdep_assert(!current->sched_rt_mutex);
-+	current->sched_rt_mutex =3D 1;
- 	sched_submit_work(current);
- }
-=20
-@@ -7095,7 +7095,9 @@ void rt_mutex_schedule(void)
- void rt_mutex_post_schedule(void)
- {
- 	sched_update_worker(current);
--	lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
-+	lockdep_assert(current->sched_rt_mutex);
-+	current->sched_rt_mutex =3D 0;
-+
- }
-=20
- /*
---=20
-2.25.1
+My tool captures macros, but it reports a lot of false positives via
+various KASAN and printing routines. For example:
+
+Sleeping lock called at:
+__cache_free at mm/slab.c:3617
+___cache_free at mm/slab.c:3378
+do_slab_free at mm/slub.c:3816
+__slab_free at mm/slub.c:3796
+put_cpu_partial at mm/slub.c:3679
+local_lock_irqsave at mm/slub.c:2703
+__local_lock_irqsave at include/linux/local_lock.h:31
+__local_lock at include/linux/local_lock_internal.h:128
+spin_lock at include/linux/local_lock_internal.h:119
+
+preemption disabled at:
+__cache_free at mm/slab.c:3617
+kasan_slab_free at mm/slab.c:3370
+__kasan_slab_free at include/linux/kasan.h:164
+____kasan_slab_free at mm/kasan/common.c:244
+kasan_quarantine_put at mm/kasan/common.c:238
+raw_spin_lock at mm/kasan/quarantine.c:224
+_raw_spin_lock at include/linux/spinlock.h:217
+__raw_spin_lock at kernel/locking/spinlock.c:154
+preempt_disable at include/linux/spinlock_api_smp.h:132
+
+But that might be just because I'm also tracking indirect
+preempt_disable though (see below). I'm not familiar with Coccinelle
+unfortunately, I considered it for a while, but opted for a different
+approach.
+
+> Detects sleep-in-atomic bugs in PREEMPT_RT kernels by identifying imprope=
+r
+> calls to functions that may sleep, such as mutex locks, explicit sleep
+> functions (e.g., msleep), memory allocations and sleepable spinlocks,
+> within atomic contexts created by preempt_disable, raw_spin_lock,
+> irq_disable (e.g. bit_spin_lock).
+>
+> 1. Detection of direct calls to sleeping functions in atomic scopes.
+> 2. Analysis of inter-procedural call chains to uncover indirect calls to
+>    sleeping functions via function call graphs.
+> 3. Handling of memory allocation functions that may sleep.
+>    (including GFP_ATOMIC).
+>
+
+If I understand your code properly, you only match on a specific case
+of sleeping in atomic context, where the offending call is directly in
+between "preempt disable" and "preempt enable".
+
+That means that your script only takes indirection into account for
+sleeping functions, not for disabling preemption/atomic context. There
+are some occurrences where custom "lock" functions call
+preempt_disable in the kernel, so this is needed in order not to miss
+those. But it might be better to skip them to prevent flooding the
+output with a lot of false positives, since one unmatched
+preempt_disable will pollute the rest of the function (and every
+function that calls it).
+
+> This cocci script should identify direct and indirect sleep-in-atomic
+> violations, improving PREEMPT_RT compatibility across kernel code.
+> For example:
+> Link: https://lore.kernel.org/linux-rt-devel/7a68c944-0199-468e-a0f2-ae2a=
+9f21225b@kzalloc.com/t/#u
+>
+
+There are likely still tens of these bugs across different subsystems,
+I remember fixing one in nvdimm and one in BPF.
+
+There is also a 2018 paper, Effective Detection of
+Sleep-in-Atomic-Context Bugs in the Linux Kernel [2], which covers
+this problem without taking PREEMPT_RT into account. They identify
+three challenges: accurately processing control flow, handling
+function pointers, and handling different code paths. Notably, they
+also use summaries, and handle sleeping in atomic context in interrupt
+handlers. Overall, it looks like it uses the same general approach as
+rtlockscope and your Coccinelle script, just more polished, so you
+might want to have a look at it (if you have not seen it yet). Of
+course, on PREEMPT_RT, there is an additional challenge in
+distinguishing between RT and non-RT paths (like code that sleeps only
+on RT and disables preemption only on non-RT).
+
+[2] https://hal.science/hal-03032244
+
+
+
+Tomas
 
