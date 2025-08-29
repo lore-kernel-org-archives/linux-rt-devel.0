@@ -1,113 +1,78 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E365A3203B2
-	for <linux-rt-devel@lists.linux.dev>; Fri, 29 Aug 2025 14:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0692E2459DC;
+	Fri, 29 Aug 2025 19:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756479424; cv=none; b=WO4izUHPZGru0cl8M/waOfmt4Sp/l/SfLxD7233aoeMHGhdus6cMXN0nY7mKweHZBW/JmWCohqiDTsQpXJl0JinqW135x/V/IljyUrpIeLLkPqmj6FpSx43Vto25k4VdFNMnlMOyL/lgbm7BaQuSRFRb4vcAC9/O97scRnfZO0g=
+	t=1756496074; cv=none; b=uWITmJ8rESBxxlSEYftrHzDHKt/+Nolmg34a9DtyjZGvrke2Fkurq/vfWzN9wU9bLWQ0mPyYdS/30yQFbP08Z5jCYERKcYcnIBGgHfmK66UicnV+3RJb/FFhkwdWsDaAfRacAsej4rv5t/QymfJgCH2+vq6+/bLSmqBTwUzV2GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756479424; c=relaxed/simple;
-	bh=8bSbkevf/G92cKQ5VDtBplC+twor4PMT3qW4D6vLW6I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AAS6ZqMA2VNNm2rR2rig1deQpozM7BkCVywELQvGilHKWGjl/BDeH2IRj+rm1eK8k9pc4Yyv7M+AtxNihl09i3kzDMIlUCIKaHrvxHOvzwo9lOel5cUvhep8wRwmf1a54OkC0zM/Q4c84IaKtZwIyl0ngJdBlZK/5Y+8MItL59Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=V/mAqSRr; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=n7VmNH+P; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1756496074; c=relaxed/simple;
+	bh=+w9IkauBo7cCrLno5CGhc+wFecYIkjUGCI33AwCLl1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxdGGKEpH1ZZ2Tq9OlPgYSS0TTa1TEzx8elWGkyKuqi+wk8/qLXMMu9cALobT+cFTnzXKYsxwddlptZmmEqebZWRkvMSEa9jF4QRiwg0Dx20EaFiDr/zQux3pFHQwCSYYGvWPH7kYDqvQhrbIkEHASnINS7ThQZbYlUIUzJOSJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwAneyXr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V/mAqSRr";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="n7VmNH+P"
-Date: Fri, 29 Aug 2025 16:56:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756479420;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=kr4sRakylDNKuYzFWgiGyKtWIDzSJvd1PY5Ehr6iK/0=;
-	b=V/mAqSRr1w+2nSnxGgJw0slH3XAw5QyajnalK4IHWN2FMghn1AJzsw/pU0immglXbqsG3v
-	LCQN4A+XqkknJOLAZwPMiHeaKIUWkab/gLKKLBkiYLwZkFZIHxZqKfuAIvFc+3S1D3+nMt
-	z7CsGJeSKG8Iw3R9ONXuoWd9DkDph2PBjraSvEriTWse1dcqBhgkc7FqkpbGqkvv6FHbyO
-	7vqKKzVT1gfBOQMsA0Vm6caX0qBksgSu0SFGwi7s7dPWdZN+2bQnF/K9qJU6A8NfEKZF9M
-	ZPZU2CJFl6uuWkiAxOHXA8Xt8Q3NBdQIfUN1VCWMZA/bK2wjbMziSgGfVieihA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756479420;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=kr4sRakylDNKuYzFWgiGyKtWIDzSJvd1PY5Ehr6iK/0=;
-	b=n7VmNH+PUJvNcE2wRng3WVnEghJ3MXrjaHK/1IpfIkwrq1NleMsvg0uH8KfxXW7otzLa0T
-	24RvUZUD6eeSBGAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: libc-alpha@sourceware.org
-Cc: John Ogness <john.ogness@linutronix.de>, linux-man@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwAneyXr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A0F0C4CEF0;
+	Fri, 29 Aug 2025 19:34:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756496072;
+	bh=+w9IkauBo7cCrLno5CGhc+wFecYIkjUGCI33AwCLl1g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AwAneyXrbjTglb77Jlm1LivVok9uTtra8zlDYIRPlvCoYO/pFigepdh249SWSQF8c
+	 wfcwYYNBTK9bEaTVXl92mlUFq66F0AjKNDbmwr3VsOKRNMA5XglUiyAD7YdIwdRhA7
+	 aTiU9geLUb4y1LE2h1HKwKRRYnLBomrFLNc56Az5wTz8eRaXy9KW9pWV2fbWo4ZI4l
+	 Tf/OaiR+d5pKuRAapMJe6jo9n46JTAkHx1LsawhqMPOp+mLworCz/QsBQFkuKNy/pl
+	 EZFrAYJ+mRRe12j/XsInY3n8Ygr7Zo+SMNzv5RcOMDqIdY2Y4+LuWUsDSoljAjLY4R
+	 dJzhkkEj9Q+BA==
+Date: Fri, 29 Aug 2025 09:34:31 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	Thomas Gleixner <tglx@linutronix.de>
-Subject: Real-time and pthread_cond_*() API
-Message-ID: <20250829145659.KhM4kIoQ@linutronix.de>
+Subject: Re: [PATCH] softirq: Provide a handshake for canceling tasklets via
+ polling on PREEMPT_RT
+Message-ID: <aLIAx5Cf6mLC2Y_A@slm.duckdns.org>
+References: <20250820103657.vDuDuLx6@linutronix.de>
+ <20250820105518.Yf36NzJd@linutronix.de>
+ <aKYltdkLBRZJF0Ok@slm.duckdns.org>
+ <20250821092827.zcFpdnNy@linutronix.de>
+ <aKdTEkK5MBz_Fj47@slm.duckdns.org>
+ <20250822094812.L4hiquhY@linutronix.de>
+ <aKix80fycymWz3Mh@slm.duckdns.org>
+ <20250826154942.BcGs2_U5@linutronix.de>
+ <aK3gbywOkrksPQeV@slm.duckdns.org>
+ <20250828160455.4dxzTug1@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250828160455.4dxzTug1@linutronix.de>
 
-Hi,
+Hello, Sebastian.
 
-I am in the process of reading man-pages and updating, when outdated, in
-the futex corner.
+On Thu, Aug 28, 2025 at 06:04:55PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-08-26 06:27:27 [-1000], Tejun Heo wrote:
+> > Oh yeah, that makes a lot of sense to me - splitting it out into something
+> > which is named explicitly to discourage further usages.
+> 
+> I am a bit lost now. Do you intend to apply the patch and we came up
+> with the bh-canceling-from-bh API later on or what is the plan?
 
-There is one part which mentions pthread_cond_.*() using
-FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI and being subject to
-unbounded priority inversion because the internal data lock (of
-pthread_cond_t) which is non-PI. This issue was tracked in 
-   https://sourceware.org/bugzilla/show_bug.cgi?id=11588
+I'd much prefer if the end result is that the busy waiting is a separate
+API. Whether that's done in a single patch or incremental patches doesn't
+really matter.
 
-but got nowhere. Eventually the code was rewritten as of commit
-   ed19993b5b0d0 ("New condvar implementation that provides stronger ordering guarantees.")
+Thanks.
 
-and the problem appeared to gone with the removal of the internal data
-lock.
-Browsing through the code, there is __condvar_acquire_lock(). This one
-acquires a lock and if the lock is already acquired it will wait via
-FUTEX_WAIT. 
-
-The problematic case: producer P and a consumer C. Scheduling priority
-of P > C:
-
-  C                                                              P
-  pthread_cond_timedwait(c, m, t);
-  -> err = __futex_abstimed_wait_cancelable64() // ETIMEDOUT
-  -> __condvar_cancel_waiting()
-    -> __condvar_acquire_lock()
-      -> atomic_compare_exchange_weak_acquire(, 1); // acquired
-         /* preempted by the scheduler */
-                          
-			                                        pthread_cond_signal(c)
-								-> __condvar_acquire_lock()
-                                                                  -> atomic_compare_exchange_weak_acquire(, 2);
-                                                                  -> futex_wait_simple();	// wait for a wakeup.
-
-Once C (SCHED_OTHER) gets preempted then P (SCHED_FIFO) has to wait
-until C gets back on the CPU and leaves the critical section. Other
-tasks may get on the CPU with a priority less than P's. There is no
-guarantee when P will be scheduled again.
-
-The situation improved a lot by the rewrite because the internal lock is
-almost always acquired by the signaler and only in corner cases by the
-waiter. 
-Two signaller shouldn't have the problem because they should have same
-priority.
-
-I think this behaviour should be documented and because of this I don't
-think it can be recommended for real-time purposes. Only
-pthread_cond_wait() should work as I didn't find a case where it
-would block on the lock in the wait-case.
-
-But then! I continued browsing and noticed that struct __pthread_cond_s
-has two unused members. Couldn't we use __unused_initialized_1 for PI
-locking? Instead the atomic operation on __g1_orig_size it would require
-to use that u32 and in case of contention fallback to kernel with
-FUTEX_LOCK_PI instead.
-Is this an option?
-
-Sebastian
+-- 
+tejun
