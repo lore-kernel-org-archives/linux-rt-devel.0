@@ -1,65 +1,65 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8C5265632
-	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 22:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4168932F743
+	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 23:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756853777; cv=none; b=ScQxzasRO9z0OWBL9nh3tO4Pgeg0gZEi8qQvdhgUMut6B0d7bSYyM+WRdBIoua7rx/IgA2T58JzOJKr1IW+swt/lJoumPP8zIXEAgITcOkI+DDxhadvxwtgyk/o+o3ur4nECXjtNs7m28AfDmOcaL53q8z+vnX0okTNAQYSSreE=
+	t=1756854449; cv=none; b=J7k/Jtg+YCCL68A5UsmGMtm90z4h/PPRbko9wTg4GkPU2uZxFhvzq+vix7rZB694E470S8m8H3V6HunNePnB/lW/tVclaA0C7m5I6VMqXmeFKdjbOH1E2oDI8fx5GR4iEWDyS3ZO6lgiA6HdmGoxLgKf2xDcoVUi8vUeiFbUNQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756853777; c=relaxed/simple;
-	bh=L1aSF83k8T/325D8EFCetHBmvrLfymIgil/+0GT0i+k=;
+	s=arc-20240116; t=1756854449; c=relaxed/simple;
+	bh=/uq6p19+kImpEi0OoSJrJGM2gwYSXlB+zJgcs3LOSgM=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=AQxebH5yxclnASXRe1b35THzEcGkA5hAGKX6Uq5htfvdQjHEmL9VrcKdWk9G1wZ1S3s4nygIgECankhhRm8jZbSlKmz7kfydnlzfQSjsklpLMHDeLHB/4LGin+0sYrKOUkiq3Jk1MemxRBgZrXaViEu9IzcIHO3sBEusitQRaOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONm5a19o; arc=none smtp.client-ip=209.85.219.43
+	 Mime-Version:Content-Type; b=IVnd5m6Psx36S/CqiveN29itm9VKpXQKTOXikTKsEBapsrPQ9Zk2oUwSwJaH/oQ2jdnRsiKetrBBHheEXv3/GkQiebkPQc2MLAhOChUjI+JKIHwQVA/PS7aELqOLaZV+f/TTUffxBSR1dbzTQY4283l0UiwRRhdW7SWtap4hAww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ydpmh8Bm; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONm5a19o"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-7240eb21ccaso728686d6.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 15:56:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ydpmh8Bm"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-544a59e1e87so872997e0c.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 16:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756853774; x=1757458574; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756854447; x=1757459247; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:subject:references
          :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6y60fL7NODA3Mze50fVdidlqngxPgWIM1G9KmQ67B7g=;
-        b=ONm5a19o8lrPU6lqR3fRbKh0u1gsZuTBNiVZrwvquual/JvA/dyrtFzfT1sVK+ggRg
-         Q877SRx14Oq4J1158Dk3kYt12UAqPdB7WkNFbkhU7uFaVwSMOURg24wa7nmpQ8ZYyI/J
-         gXolTLsA8YlN/ctZUiOSrKXnKtLBH59NTa9gIkgrFaQekeSgrAV2UEKdh81F+CLx2qij
-         65HEhMNcnuW7HBJXHMfTJKOPuKUuZQw3L4RFh1QBinZYASMvBsix9wOKw9+8hyG9Ljso
-         yxNTIPz5UHYKEDFfunVnUqvV1cY+VZan5SNMojmSGy1o0K9d8Nit9nuaNSa2upPO7u8k
-         dSeg==
+        bh=woWpwso7cgKxykh/N4zBwinfTsbNHangAXByJYsVVKA=;
+        b=Ydpmh8Bm/ZrJePzhjhNa4fCE+7qbJRPQG8RbHuEnX6MEoye8WvQ9oUTPNRa+/ic3P4
+         JuRjTpljTNHaSLy69j2ZsDA3x0ZDPOjtkAzIqrRxd5uNTwf8rlM+gZFGjF+BGMlTgguh
+         XY8W/sOajEYnBHJWpgzhS+mza5ypGYgbIpfKaZETYJKgq38srG5uixKnkIq0vD1sM0Z3
+         6D20EspsAB4s8ObOX6LECWBL0wnj494imW+BtM5bj78kVPFqaeUE1/jZYiv2dPr5OAYe
+         f7QcVc8yMMZIlvwfMXY7BpOyaCdvcmRCEH1Q7bJrG1UWC5/mc+0j3THnKmkZjhC7Xsp/
+         Re+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756853774; x=1757458574;
+        d=1e100.net; s=20230601; t=1756854447; x=1757459247;
         h=content-transfer-encoding:mime-version:subject:references
          :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=6y60fL7NODA3Mze50fVdidlqngxPgWIM1G9KmQ67B7g=;
-        b=rdHfDhdBm9RMm9Jhu6vUyYvyjveQwyvDhprQEENC3pzcMcjvFq37skNU+xOry5bEj7
-         tK1cQsVd1yrwk71NOOZhj3TWszkK8cp0CM7YEZhrSbSRxD8znHISB310w738zaiNuX+3
-         1Ekg/FGKO+uGNDzuducpFg2GGvsKbJbSTXw72FmWkXj04zkt+RtmAgICcOSMaLawaCS6
-         KmJCZUcqINAwgSsWbsdbCUteEALSkGPSlwHsvpZmiiEGDECADwjqBMvfRisVtL+wvU6i
-         Sty1YGEoa7Lc7zei9JALN6MdxX1/DOZQrAXRHjOxXGEEwvml1cKOfHuqGJzsM5DDRdoK
-         NoxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRaBh9xJcgjCp51HUbojLRwM7xwozIlrgsVe/+yrmEsFX3IxwC7axoEi6ytzLgRLsSmEG2YgXMdjKWrB1DKQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVzdsWgP7Qdgyhenb1i/8fuqdO2Er9FGDqyTrbgmCISO1VFqiz
-	chJgRps+vL2AzjggRzpJEPevBmLx/vI9TXsQLX0ZK+KgzPPdUPeXJnqQ
-X-Gm-Gg: ASbGncu1x7vfeYvU7Gw3X9t8KIfguJN8xp1N1MKNjmWHsM47A/b4aMIaMpuHbcwLXpv
-	c0ZFB1yqSwPpsmI0T39JF/GnE/9Dxv2hjku+YzBsqH0RjxuvAxLciF9hVWbf9sOEiIqQBspx3D9
-	DjjTzW1lRHWs6MigmXYnWHIc+VBtcOP0Ovh84iZjf1zHqMPuxatMPa/VA25ivpRcgzX/MfI0Ehr
-	WQsWDdq6jwd79K+aDtpJD7CJNq2Ckbaf+Tu4aEG3fGJsgT3hNPsvs8f/28eZI5lj3fOSyRtA1Kt
-	hgn3PQ1LgGHV/RZROufKjVeI5WHed9gfiKv2dOE/gzjGMLPqYZQjsxvIeNtHmLOy2dLxmYwrafZ
-	GKWNk0f532u9Q3y7j7ebIA15DS9JBS33w0cXfvY0SJ0QwU6aYJsMBayZkRK0JdbBCywoYoECaOh
-	umYfcj5DjLT/5bSG4ajJCGIoo=
-X-Google-Smtp-Source: AGHT+IGZcGFPDQK2aRbRHnSfA7r8wxVj7nChgols/TbbtyMaQgQza900R5sHWoInyWm5NemHw4jthw==
-X-Received: by 2002:a05:622a:2d2:b0:4b0:66a3:f13c with SMTP id d75a77b69052e-4b31b8895eemr134350461cf.12.1756853774064;
-        Tue, 02 Sep 2025 15:56:14 -0700 (PDT)
+        bh=woWpwso7cgKxykh/N4zBwinfTsbNHangAXByJYsVVKA=;
+        b=BOteciByLGuUZYFgM1ELD69+z8N7oRrQoDbekU4LBjfrZb7JGLsW9NUHOinuJhgSrj
+         VTpM2/ClacpOgT0xf1E3APwSB+XH2f8TtJV0c21IeeGji+rd79XC7OlGQJYw7Vkg0Z2u
+         puF9zT37Gf6WFKDnMoi/8D/rfmTpdWRXHHx5oJNVtEWWAf7L+vYeYhfwF1uFJe6ixher
+         wKM70b8RFMUR5lzxy+/taJzlyaGa0wPijoUivzxbgQtQ+EZKTIy2zIS59JhFtw0Y63bs
+         RT9bwEi4vaaFYeTZ6qyMMaxk9tSJL25Rw79YWDQB9xsGgEf5sONvpV/lSWKDdm+OmqmJ
+         LzCA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvYNL3Ck9oQvYoieUsjMzqxWXktvS0edPo+Horv/eyERblflk35hgwLuwBKPfS5yYWgZL6Zr127jWrzxyZgA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxLMaa+vB3LVKPOqr7MYojHhRfVPK7tPRba5PQCs6MwSXHmrDRP
+	52lMopwtUdQLfEUSx+kTE9EimOedUW3uHd8usa6Ilbdh7SiSvStBzXHk
+X-Gm-Gg: ASbGnctQrca7P0LdM850dYuyTc/DQrp+6maCepXzaVDsSui0WXBar1SAzr56Ob8bo4S
+	ez//sybiPJcpnfPfOe4UloHkqdSR2BzWvquMcxlcr+t3YCTXNlxoBLK/j72Xx9oSjQxo3ii81Wj
+	xcHEkIz/O1b5GyU7YsOYHv7PEQBPd9tiQqy9oXRqBe3FZOSuAXusXBlbFHp2H8rF83yIx9hc6bt
+	yfVFM7lZwfTldfRPuKb1y8KDdLsagBBbgnDuBza/j+hfF4HuDfZoamUqdI9O6sNnumAXFKvT+tw
+	ygba7bz1lj8tVlTEVSgTxw2LwSwK57gug+3se1Abp+ZsTuygmYmnWvZ6zIwuI2isgaz2ssJYUSG
+	kny06RjeKgzq22aMdnyeJ6GvO6kYdSF/wDa8nzjX7BU4r/qWxXStPBo5k6RufW3eFqxmmcbOQCE
+	cHHBFUhsDR6fB7
+X-Google-Smtp-Source: AGHT+IEZTjN2jVE7iIOvoJv2mmhQmtLnMlwuRxMJZ12YFhcWNXX5n2JgpSNvjoZVZahXX3eevAbUAA==
+X-Received: by 2002:a05:6122:1805:b0:544:75d1:15ba with SMTP id 71dfb90a1353d-544a01d3622mr3763896e0c.8.1756854447040;
+        Tue, 02 Sep 2025 16:07:27 -0700 (PDT)
 Received: from gmail.com (141.139.145.34.bc.googleusercontent.com. [34.145.139.141])
-        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-80aa60dbf87sm22282785a.3.2025.09.02.15.56.13
+        by smtp.gmail.com with UTF8SMTPSA id 71dfb90a1353d-544912c6f3esm6255218e0c.1.2025.09.02.16.07.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 15:56:13 -0700 (PDT)
-Date: Tue, 02 Sep 2025 18:56:13 -0400
+        Tue, 02 Sep 2025 16:07:26 -0700 (PDT)
+Date: Tue, 02 Sep 2025 19:07:26 -0400
 From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 To: Breno Leitao <leitao@debian.org>, 
  Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -78,11 +78,12 @@ Cc: netdev@vger.kernel.org,
  efault@gmx.de, 
  calvin@wbinvd.org, 
  Breno Leitao <leitao@debian.org>
-Message-ID: <willemdebruijn.kernel.a0f67bb6112a@gmail.com>
-In-Reply-To: <20250902-netpoll_untangle_v3-v1-5-51a03d6411be@debian.org>
+Message-ID: <willemdebruijn.kernel.7e2624ba7462@gmail.com>
+In-Reply-To: <20250902-netpoll_untangle_v3-v1-6-51a03d6411be@debian.org>
 References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
- <20250902-netpoll_untangle_v3-v1-5-51a03d6411be@debian.org>
-Subject: Re: [PATCH 5/7] netpoll: Move SKBs pool to netconsole side
+ <20250902-netpoll_untangle_v3-v1-6-51a03d6411be@debian.org>
+Subject: Re: [PATCH 6/7] netpoll: Move find_skb() to netconsole and make it
+ static
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -94,121 +95,34 @@ Content-Type: text/plain;
 Content-Transfer-Encoding: 7bit
 
 Breno Leitao wrote:
-> Since netconsole is the sole user of the SKBs pool within netpoll, move
-> the pool management into the netconsole driver.
+> Complete the SKB pool management refactoring by moving find_skb() from
+> netpoll core to netconsole driver, making it a static function.
 > 
-> This change prevents other netpoll users from allocating and holding
-> onto skb pool memory unnecessarily, thereby reducing memory usage when
-> the pool is not required (which is all the cases except netconsole).
+> This is the final step in removing SKB pool management from the generic
+> netpoll infrastructure. With this change:
 > 
-> The skb poll struct is still attached to the netpoll, but, eventually
-> this should move to the netconsole target, since it has nothing to do
-> with netpoll.
+> 1. Netpoll core is now purely transmission-focused: Contains only
+>    the essential netpoll_send_skb() function for low-level packet
+>    transmission, with no knowledge of SKB allocation or pool management.
+> 
+> 2. Complete encapsulation in netconsole: All SKB lifecycle
+>    management (allocation, pool handling, packet construction) is now
+>    contained within the netconsole driver where it belongs.
+> 
+> 3. Cleaner API surface: Removes the last SKB management export from
+>    netpoll, leaving only zap_completion_queue() as a utility function
+>    and netpoll_send_skb() for transmission.
+> 
+> 4. Better maintainability: Changes to SKB allocation strategies or
+>    pool management can now be made entirely within netconsole without
+>    affecting the core netpoll infrastructure.
+> 
+> The find_skb() function is made static since it's now only used within
+> netconsole.c for its internal SKB allocation needs.
+> 
+> This completes the architectural cleanup that separates generic netpoll
+> transmission capabilities from console-specific resource management.
 > 
 > Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  drivers/net/netconsole.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++--
->  net/core/netpoll.c       | 44 ------------------------------------
->  2 files changed, 56 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-> index 90e359b87469a..3fe55db07cfe5 100644
-> --- a/drivers/net/netconsole.c
-> +++ b/drivers/net/netconsole.c
-> @@ -57,6 +57,19 @@ MODULE_LICENSE("GPL");
->  #define MAX_EXTRADATA_ITEMS		16
->  #define MAX_PRINT_CHUNK			1000
->  
-> +/*
-> + * We maintain a small pool of fully-sized skbs, to make sure the
-> + * message gets out even in extreme OOM situations.
-> + */
-> +
-> +#define MAX_SKBS 32
-> +#define MAX_UDP_CHUNK 1460
-> +#define MAX_SKB_SIZE							\
-> +	(sizeof(struct ethhdr) +					\
-> +	 sizeof(struct iphdr) +						\
-> +	 sizeof(struct udphdr) +					\
-> +	 MAX_UDP_CHUNK)
-> +
->  static char config[MAX_PARAM_LENGTH];
->  module_param_string(netconsole, config, MAX_PARAM_LENGTH, 0);
->  MODULE_PARM_DESC(netconsole, " netconsole=[src-port]@[src-ip]/[dev],[tgt-port]@<tgt-ip>/[tgt-macaddr]");
-> @@ -172,6 +185,33 @@ struct netconsole_target {
->  	char			buf[MAX_PRINT_CHUNK];
->  };
->  
-> +static void refill_skbs(struct netpoll *np)
-> +{
-> +	struct sk_buff_head *skb_pool;
-> +	struct sk_buff *skb;
-> +	unsigned long flags;
-> +
-> +	skb_pool = &np->skb_pool;
-> +
-> +	spin_lock_irqsave(&skb_pool->lock, flags);
-> +	while (skb_pool->qlen < MAX_SKBS) {
-> +		skb = alloc_skb(MAX_SKB_SIZE, GFP_ATOMIC);
-> +		if (!skb)
-> +			break;
-> +
-> +		__skb_queue_tail(skb_pool, skb);
-> +	}
-> +	spin_unlock_irqrestore(&skb_pool->lock, flags);
-> +}
-> +
-> +static void refill_skbs_work_handler(struct work_struct *work)
-> +{
-> +	struct netpoll *np =
-> +		container_of(work, struct netpoll, refill_wq);
-> +
-> +	refill_skbs(np);
-> +}
-> +
->  #ifdef	CONFIG_NETCONSOLE_DYNAMIC
->  
->  static struct configfs_subsystem netconsole_subsys;
-> @@ -341,6 +381,20 @@ static int netpoll_parse_ip_addr(const char *str, union inet_addr *addr)
->  	return -1;
->  }
->  
-> +static int setup_netpoll(struct netpoll *np)
 
-Having both netpoll_setup and setup_netpoll is a bit confusing.
-Maybe netconsole_setup_netpoll?
-
-> +{
-> +	int err;
-> +
-> +	err = netpoll_setup(np);
-> +	if (err)
-> +		return err;
-> +
-> +	refill_skbs(np);
-> +	INIT_WORK(&np->refill_wq, refill_skbs_work_handler);
-> +
-> +	return 0;
-> +}
-> +
->  #ifdef	CONFIG_NETCONSOLE_DYNAMIC
->  
->  /*
-> @@ -615,7 +669,7 @@ static ssize_t enabled_store(struct config_item *item,
->  		 */
->  		netconsole_print_banner(&nt->np);
->  
-> -		ret = netpoll_setup(&nt->np);
-> +		ret = setup_netpoll(&nt->np);
->  		if (ret)
->  			goto out_unlock;
->  
-> @@ -2036,7 +2090,7 @@ static struct netconsole_target *alloc_param_target(char *target_config,
->  	if (err)
->  		goto fail;
->  
-> -	err = netpoll_setup(&nt->np);
-> +	err = setup_netpoll(&nt->np);
->  	if (err) {
->  		pr_err("Not enabling netconsole for %s%d. Netpoll setup failed\n",
->  		       NETCONSOLE_PARAM_TARGET_PREFIX, cmdline_count);
+Reviewed-by: Willem de Bruijn <willemb@google.com>
