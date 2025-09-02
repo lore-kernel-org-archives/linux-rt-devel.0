@@ -1,118 +1,168 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85D82DEA82
-	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 14:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F48320A2B
+	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 14:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756822782; cv=none; b=Qy4A3nB1ta3FQrSb4Cuz5/q5sDskyN0cHnWAg3aSApGJJuhGJIoqre/ocIOD0K6GPdMGxl7Jv3LJIZJPznve+ZAv4LMLSdPEqZoI3buHT80TjbPP46S1YkYqo9lvqKWR7zwNi6Z9wmqag748DbemkwQ55iYfAQJYM5m0QEHFRIA=
+	t=1756823807; cv=none; b=RGpv2Fk15dv1uKo2OdOpPNSwf4mvQU6XCTDBXcTpzBDVBSEKV2/HBDZMQvBH7qsbpVWVc1kd4rPPfk2643Mx1/KU0LM4yeNFL3HPAwWrXBH6TvZmo9+u0FPfXDcT8NYz2fnOHwBnVKtKf+j/ro9fFfR98PZDiDwBs6gudAY6XIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756822782; c=relaxed/simple;
-	bh=2r/d/DXkCCqfUiqYh4pT8N//8c5NvbXpQA4IUEu+M7w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Qxm/ddcg0mGBv+5Xbn5wqSvofoEPdhuo0L/NaG0SKed78YxYTu5ao5K1KTMH/KUIxL7JRbOp6EGk1YsAy33lQrFBZO/9O5MMUXit0zOaq+T6pIin/Bz1JkjqPJkyqkiG6HnuAxvFSGPU6gFyUYqiGvr49zrKE/vTYy0vVtZuVMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0JmYzi3; arc=none smtp.client-ip=209.85.128.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1756823807; c=relaxed/simple;
+	bh=VBwcVcv+GCCiU4bFHJtfDPxN0YsJ0jWc7OZVxkfIJtg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iJiZStpcTsurFGL5C2wMDU7N1B579yfMKy0/tes+XqVY0h/hvECIWrxXolL3x0Td1UfqIcOlUUC3uBJ4JzaArJQI6YJF3nFZAuy/Hvw7bPSlSMB11bAEfIu7HVyIZHVqVWJnkU0viCH/QYEviC1yfXOiM946wgYVj+Qz2zLWXN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0JmYzi3"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-72267c05050so26961507b3.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 07:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756822780; x=1757427580; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W60ago5VW57dbfLZcJC+4/A9yeK1QqRMxCl2bII8T1A=;
-        b=U0JmYzi3u1itQiBM7Cd8I8f3+3TKJtk/szLc1HZOaBX2Q5pT9/UZNbAOXlxJ4W8cGX
-         /qCJLgCao+IDaMXyO+t6sNjrdqxYRLffuR4Tvi2F5OuI5fOtiAyuJLwnXnmAkIAIYR5O
-         yTF4wAJVea2z7redIOhuQ02/wCGnV2g2toR4dyE5EZH8Z26ts9fXV6wWE7zk9tMRWazU
-         a9qL1DaRU2LWxB0SW+mjg2lxqZ8f8lVZQ0G6B4nQzp5xxOgWBk6Xn8ZvNR+JoHnIatbD
-         qj1SjXOYVsd2LspBiCDi7q6x9R4s6oXyYe5TyHqsZCTygTKnD8FPMTW52QhSD4CfF/tY
-         uy8A==
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6188b5ad681so6869064a12.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 07:36:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756822780; x=1757427580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W60ago5VW57dbfLZcJC+4/A9yeK1QqRMxCl2bII8T1A=;
-        b=N/bhvthTCXcj6dWu6gJTheOXQYyNzaJVl7/rOBHXM9aT6MLUsBNynDxB38wl+HFNv3
-         7L5KYWKojswa1wJxlunlLbz8+2tTDtfsFilH3mUu7kBmPOhPuSMWgOWw+2El2yf6/CMH
-         p+WSmBVBYl1uBOOkM8kT9IurPCwGtAqdxSRfNXImZVJWmiK7qWpNXPrV/gwWIe04oglr
-         i7yXLT1+aGFIN0Hblg1XmpP4m0QWsaM7ujBut8X2+rlcJHb0eHgW9BlQ6LjPrP/Meq5v
-         alnLKv+kdjVSfInUKAO+beLN02AXIDNJPuQmBaInfDCnfIBo324u7OfGrf1lbgBahp/r
-         TjGg==
-X-Gm-Message-State: AOJu0YwLVRkevgVTtRSK+uDV0Vi8nQkiRYfvpXhVicOTPgMBAGLtgPrp
-	87RTiCEQoz6vpJ5va5KYkLRyuZBHtckMOquijgdfY9N2jQaeiJrB+ooYRJbnGlegou0XKUzQ5Ci
-	BCd7cbjnb2plGKWqoDj8BYp4DgL4q0CE=
-X-Gm-Gg: ASbGncs4loORaasWxAogmGE4KQbHc+9Rtt15JB64OQ7bN7KDW/u4wiKaqYpvbVY8dZh
-	gZxI+xU1D++j/mhmDCarokew4bcPJQ808V5CBvcdi7b0A5voEh58Qr8D6Y94QDGnGmTnlg1kan/
-	CSjX2yWPagiUQbdjhCYzC1mhvm2JMPcWJW7LJks9LzPABUZetpYLedFaEVbGypalL5NKcT/QhO8
-	db5P4hL7Jd2+YAcbPYH9cnu1B0EeXH4NM8LO86ru31BPlvzZsq2orrZny4pVUfbvVU933ft22fI
-	kZScFFWbeP8uYLeWsw==
-X-Google-Smtp-Source: AGHT+IGa1EaDaFDmxnfeNJKhDTCxo8us1/bV8cd/W3/t0GnTRNqnMGNTnVcOOCSr3xfi66UPFbHGj1g+7yrfeYrrX7M=
-X-Received: by 2002:a05:690c:d88:b0:721:1649:b05b with SMTP id
- 00721157ae682-72276361de9mr136212497b3.13.1756822779444; Tue, 02 Sep 2025
- 07:19:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756823803; x=1757428603;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8+WxHSChZ9uRZ+pEZAY2pQJEcjFUMcbon+dgiXnsMb8=;
+        b=MYHIAu0Et1/p9zlJHDfrcalKN/JTTcp2fKGLdkT+EDNg3SbZsYLRUqvwXiS3h6TJXO
+         OQPjZVx8+G4ROZbPO3pUELg7DnrFRipodqfEwCdUyV3mzniBN+zeD94tDuiqxEE6ilyd
+         se6ffRs4W1TTPzZaHxOIgdXoE1vQWAGAjIOrilOlICoaeh77qsdhKeQv/mz9H9AZF1K2
+         G4D5kSRGApLSUDtybtjmo7apOM17OIVEVlqzuIZQhfu+TFhH1eoMDiRlPNXhxOfZ6Ssu
+         eLU9hMQIck2hgRyNC6Q5OajmqVkoBCwh17HsL+fzEzaW+8ALv8bs80YmUlWMgxF0fSvu
+         Hq8g==
+X-Forwarded-Encrypted: i=1; AJvYcCU2xCG+21n+2AS4Azl8oc3hCpBmuTeFl+CMIHb67kk8M3T0Mq4UpGZKVtdSzQGupPMf7l8cRNDCSp+QEGDB6Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0QgFFvtdiP7uhpS3sLgxQOC79A8h1MIePDnetyLO4ul2DMg+L
+	pf/q9ZhG5yVNKmpCLYFtEwXLaDoH/1DgWjRoWR6IILVAVEQlGQxmC/BcJh002w==
+X-Gm-Gg: ASbGncticbtkV6h2M2+Xja70l7HFrARxbgf55GmOU4Ss/KJ0iJ0TSlTRFF8wTcDlo4z
+	8bGALMZVKhIdiLHulpdunvr7Zd7dj4wcyTC/5zgnBKJua01mZWyy6HkGUiUdhEt3lAE8einZfpo
+	fPSaFuos6MFx4X67Jk0LKU3XSyRIZje2Jf/zVoUl5xPpb62bLwlsBQJxk1I3InNIcX2CA15z+jg
+	5Ca7KoUFlOvOUbGBybgP2keT6K/ZhaJRFljEc6PA1AiQ3DK+aC34DGet9xIy5wfXx2twwMlEwPF
+	RoOA1RZoeke6/x63GSxgVywWqNMAb1oUQHdiAlOLbEuc0U0t7M9CcInfSryMjwTjZfocLNIbzyZ
+	STbFW1jcDKIFku7I5EI0cmLuUsA+MeTE=
+X-Google-Smtp-Source: AGHT+IFaM9Cd1TN5RI9Q3pKmnGos4LhWt+mLuo031EIBB/SqZWcNMGXZWBh0z3APg1UJjHEAsEau0g==
+X-Received: by 2002:a17:907:8689:b0:b04:3783:7fc9 with SMTP id a640c23a62f3a-b043783a21emr643357666b.60.1756823803140;
+        Tue, 02 Sep 2025 07:36:43 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b042c7b3671sm508316766b.42.2025.09.02.07.36.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 07:36:42 -0700 (PDT)
+From: Breno Leitao <leitao@debian.org>
+Subject: [PATCH 0/7] netpoll: Untangle netpoll and netconsole
+Date: Tue, 02 Sep 2025 07:36:22 -0700
+Message-Id: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250901163811.963326-1-bigeasy@linutronix.de>
- <20250901163811.963326-2-bigeasy@linutronix.de> <CAJhGHyBaqn_HOoHX+YinKW5YSy1rncfbvYXktkEtmFgK44E9wg@mail.gmail.com>
- <20250902111740.hwMmUu4T@linutronix.de>
-In-Reply-To: <20250902111740.hwMmUu4T@linutronix.de>
-From: Lai Jiangshan <jiangshanlai@gmail.com>
-Date: Tue, 2 Sep 2025 22:19:26 +0800
-X-Gm-Features: Ac12FXxwiQL3_AxCPmxMyQd-juJULME8fi7RYO-LDay-Lw6Fm6cBtgOGJ8vZawo
-Message-ID: <CAJhGHyD7x9QLJ+uoRnbh4qOhphdxJU4c384D1Ph2tn5ktR_=kw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] workqueue: Provide a handshake for canceling BH workers
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOcAt2gC/x3MWwqDMBAF0K0M99tAHpZqtiIi0o52IIySqAji3
+ oWeBZwLhbNwQaQLmQ8psigiuYrw+Y06s5EvIsFb/7Kt9UZ5W5eUhl23UefEwxEMt1Pt3o0LoWZ
+ UhDXzJOd/7fr7fgAloAj2ZQAAAA==
+X-Change-ID: 20250902-netpoll_untangle_v3-e9f41781334e
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, kernel-team@meta.com, efault@gmx.de, 
+ calvin@wbinvd.org, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.15-dev-dd21f
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3487; i=leitao@debian.org;
+ h=from:subject:message-id; bh=VBwcVcv+GCCiU4bFHJtfDPxN0YsJ0jWc7OZVxkfIJtg=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBotwD59qKE6RT8PRbYyPbTM85HAKSAqTcygvP6H
+ kUI4KCL8JmJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaLcA+QAKCRA1o5Of/Hh3
+ bWO/D/4o6kbG/uH2OVl2XcF7yJ80HXV86ylwPkwdOQEIXfYtrYDgv+6UQoIZbxfpCaZMDvMcw2+
+ 3Y58x8+I3Pk1VfJQLLIi6/2dGWNVnNJ3Tqjg3X7pvteZ8IiZrVnSKb/u0JqCYdiFvItPNGOCEwz
+ qHc4LusgshSe08bdF33AZSOD9oYAHyf26aZO89csweqba7hNLATCnCLxqaa2KZdQwCyzL5x81cW
+ i5PEFlmUFlvJ0Rb4ZWvd1YSBwP6jDfkmdJsfHm4dsX2bSwgQv9Dkmic3IEJSufE8Ejy4Dd0v4vM
+ rlqeOsQfZmOQaqYNyRknjHkPmZmLlBVN35+6t7DBZB039WsQxsHORjVHzhBT8IBMWq5G4nILysI
+ 65cwdDkpWoaAgtf1/itoGniqYDUjQtHGFihD0Mx9IOBiXZdKdHkQ9fXS8FykaMiHqk5x5cB8cDM
+ nsyY4+P9rsobVQGqkzbzIeQPtZuIL6RM/g+917Mf6RtenOCwblIXe6W8S+7RL/UKVq8x3/MV2vJ
+ plNjoXHVvexOh5cUhWAgn/iFUd85HlfRRMHQz9m1IAwISdsxboEF+eL1e7X9w04VkugqZL8dLvR
+ /0LElYHPEZFYtx9vJLYpl2RCirsRpCmxwSAO+2CSIxcLUgFPtctMHH1qmg5XoIfRW4wiqsCwwsr
+ vgeN5oQiXWaAJBw==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+
+This patch series refactors the netpoll and netconsole subsystems to achieve
+better separation of concerns and improved code modularity. The main goal is
+to move netconsole-specific functionality out of the generic netpoll core,
+making netpoll a cleaner, more focused transmission-only interface.
+
+Current problems:
+   * SKB pool is only used by netconsole, but, available in all netpoll
+     instances, wasting memory.
+   * Given, netpoll populates the SKB and send the package for
+     netconsole, there is no way to have a fine grained lock, to protect
+     only the SKB population (specifically the netconsole target ->buf).
+   * In the future (when netconsole supports nbcon), the SKB will be
+     populated and the TX deferred, which is impossible in the current
+     configuration.
+
+Key architectural changes:
+
+1. SKB Pool Management Migration: Move all SKB pool management from netpoll
+   core to netconsole driver, since netconsole is the sole user of this
+   functionality. This reduces memory overhead for other netpoll users.
+
+2. UDP Packet Construction Separation: Move UDP/IP packet preparation logic
+   from netpoll to netconsole, making netpoll purely SKB transmission-focused.
+
+3. Function Splitting: Split netpoll_send_udp() into separate preparation
+   (netpoll_prepare_skb) and transmission (netpoll_send_skb) operations for
+   better modularity and locking strategies.
+
+4. Cleanup Consolidation: Move netpoll_cleanup() implementation to
+   netconsole since it's the only caller, centralizing cleanup logic.
+
+5. Enable netconsole to support nbcon, as being discussed in [1].
+  * I have a PoC[2] for migrating netconsole to nbcon, which depends on
+    this chage.
+
+The series maintains full backward compatibility, and shouldn't have any
+visible change for the user.
+
+Link: https://lore.kernel.org/all/tgp5ddd2xdcvmkrhsyf2r6iav5a6ksvxk66xdw6ghur5g5ggee@cuz2o53younx/ [1]
+Link: https://lore.kernel.org/all/b2qps3uywhmjaym4mht2wpxul4yqtuuayeoq4iv4k3zf5wdgh3@tocu6c7mj4lt/ [2]
+
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Simon Horman <horms@kernel.org>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Clark Williams <clrkwllms@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev
+Cc: kernel-team@meta.com
+Cc: efault@gmx.de
+Cc: calvin@wbinvd.org
 
-Hello, Sebastian
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+Breno Leitao (7):
+      netconsole: Split UDP message building and sending operations
+      netpoll: move prepare skb functions to netconsole
+      netpoll: Move netpoll_cleanup implementation to netconsole
+      netpoll: Export zap_completion_queue
+      netpoll: Move SKBs pool to netconsole side
+      netpoll: Move find_skb() to netconsole and make it static
+      netpoll: Flush skb_pool as part of netconsole cleanup
 
-On Tue, Sep 2, 2025 at 7:17=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
+ drivers/net/netconsole.c | 273 +++++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/netpoll.h  |   2 +-
+ net/core/netpoll.c       | 248 +-----------------------------------------
+ 3 files changed, 268 insertions(+), 255 deletions(-)
+---
+base-commit: 2fd4161d0d2547650d9559d57fc67b4e0a26a9e3
+change-id: 20250902-netpoll_untangle_v3-e9f41781334e
 
-> >
-> > Is it possible to use rt_mutex_init_proxy_locked(), rt_mutex_proxy_unlo=
-ck()
-> > and rt_mutex_wait_proxy_lock()?
-> >
-> > Or is it possible to add something like rt_spinlock_init_proxy_locked()=
-,
-> > rt_spinlock_proxy_unlock() and rt_spinlock_wait_proxy_lock() which work
-> > the same as the rt_mutex's proxy lock primitives but for non-sleep cont=
-ext?
->
-> I don't think so. I think non-sleep context is the killer part. Those
-> are for PI and this works by assigning waiter's priority, going to sleep
-> until "it" is done. Now if you want non-sleep then you would have to
-> remain on the CPU and spin until the "work" is done. This spinning would
-> work if the other task is on a remote CPU. But if both are on the same
-> CPU then spinning is not working.
->
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
-I meant to say that the supposed rt_spinlock_wait_proxy_lock() would
-work similarly to the rt_mutex proxy lock, which would wait until the
-boosted task (in this case, the kthread running the BH work) calls
-rt_spinlock_proxy_unlock(). It would also behave like the PREEMPT_RT
-version of spin_lock, where the task blocked  on a spin_lock has a
-special style of blocked/sleep instead of spinning on the CPU and this
-is what the prefix "rt_spinlock" means.
-
-
-By the way, I=E2=80=99m not objecting to this patch =E2=80=94 I just want t=
-o explore
-whether there might be other options.
-
-Thanks
-Lai
