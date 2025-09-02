@@ -1,53 +1,53 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A929431E11F
-	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 14:36:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2A3324B0C
+	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 14:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756823808; cv=none; b=ueSf4d8dWqIvgYR4YUNP9t9SpS14Mb2VfLtfGMDROzOZ7qdOLWcwPzAWFb6pRxGlFH0z43Fk1Nl+M6Wgz1NLPw5ZhtpCJrzIg/b9eYUU2xB7Uk0DHLyR6Jaw/b2+PD5D5ZMVHrL4i/34/BN7QHONo+W8pnKcNR7CE1NOD4WYb8s=
+	t=1756823811; cv=none; b=rneD7ANH4GKZrAAHmJxEe+og/SP6Ku3j5+kjfh8MtjDUZ1hoVmqTJo4kw2BX1HITG+On0hj7V+tCRBK277TLIL0c3Jalk3YxtNY+SkQmIp8VRDK3uVFnq6F0s8wjTcbJjW0hsp9KiEe5hcyr1c5+9HPnKiL5Hl6UZVU2cfbVdYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756823808; c=relaxed/simple;
-	bh=uv+sRDVE9UdYp/rrXBaRI2PRNEO+AlIgCJajD1luaOc=;
+	s=arc-20240116; t=1756823811; c=relaxed/simple;
+	bh=vdJ3o7SQzqokdbSPEfnxGV0IOZXYQuFhEVIrfm9ulm8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qxNAvNXSJ1Wow+7zJs9f9PAvqrO11B3CRAYl+Ho6p6MhbbnQ2ui81lPX3Aq/R6B9It0O1e43eY+9k+UQZZuCmqxBhfAab9aBe9Aj/kv+ZbZqVbBX7pBhdq8+7Y8JGza6kcfs+gTzXG7PXp1zNoZzPFMoK9ENkPQ9VkJxX4qIaAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.50
+	 In-Reply-To:To:Cc; b=Qmjd5Fak3VWmmB2EJIKtpqeOShT1FtZ7MkaJLTnXmSM+XEaXbRnNljBVOFAF5cK2kBk6bbRhgplDB1O1Jw6FjssetShdOJGtT1yg8oqNooc+/9CJHZRh4pFhGZQv/tPV0UAFoJm4EB7rEafjQ3tcldRNFcUxMHFKpVhZobIpcZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-61ebe5204c2so1087041a12.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 07:36:46 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afec5651966so379151066b.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 07:36:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756823805; x=1757428605;
+        d=1e100.net; s=20230601; t=1756823808; x=1757428608;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5ixDvZ/+7M4TDPK7mHzqbLvaRWPSa4oHJo2q4oJdkek=;
-        b=PXzmYhapgUBmFls/sNxi/1UqWVpWGsfbW2uj5kt1VycYkgD9R7C6Qo+CK+hKFqr+jU
-         nXV0YOyw3tIvwJTcrnexZfZ3TH3SglKgaJ6csVHTDVqC5s5ggGdB7ZDtZFMzXmYs5q5i
-         mmO4exZm80dCC2aXJHxEvrM0Q4ydEkdf9Ni1t2oA+FnRk8A2JQkfsO2CUX0z9w0NOdDV
-         AWg1WvcYPeOkKKhoWa4a6+bqti4TOpZhxcyWcaeUrLmNnONPvDznhH55PX09PNXmnsDE
-         iv3UB+hvCmCZALbuLY3so37J5/HtlBm1RWTwYuGnEeqF9knXoOYZZR/dbxxYYuz8ShRB
-         j9tg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1Tzkknx7H+1/S/KSR6rDvJv1RmenD4YCVTJzUqsUTGM+tPwF93TUFq3QBqynDvm7VkBDLdk5iZ+PvBb46fA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywsb6EIJ0XCqIWfO8XF2JfSJeiiDDneWtukHASZu4shnnTfMQ60
-	S2cWjlD6QFcgBg2zexOxzOZkM4So1QxgYp9VVmj4Am6ojjvTXIFwGLpR
-X-Gm-Gg: ASbGncuk8EWdtynY9sCIAD31lfGsS5PBWO3RCKfgon/o/DshDs3v5mGbb+MBh+42jzl
-	r1JuC16Aurv+YmIWdgbGk+a//A9m8lj267/drVIIei7jjbq8zeAcZlMF61FSRT8N70TzXYyoKho
-	Cl6VBw1U26cC/yQdeSD+/+qyQyBKxrZYuLD6YgBcKxDzQphq8wkDcUv6faeHogB8YEOy9dbQSpv
-	jq1WKYjPQpxHEEaoqRbghIM/zS+czBxiuIVQum7SaEthJCVj1Ck+/dm/zl4UIMIihNFpBRWINgN
-	DhMIhe5/HLgQMVUPkyn30uWpxOOohmnFGLi1OZiTqsgVAxmbngfIuxtCj9WlDsgcV0qKwpESZpS
-	jc/8+m3rACfTe
-X-Google-Smtp-Source: AGHT+IEJ8WIFf9X4wGSznvxjCKq9+or8baY6JK/xSM4+M8dwgeLla+mziXvq/7bTmdPlq+UE2gO+Pg==
-X-Received: by 2002:a17:907:3f9a:b0:b04:590a:a5b5 with SMTP id a640c23a62f3a-b04590ace5fmr169723166b.24.1756823804683;
-        Tue, 02 Sep 2025 07:36:44 -0700 (PDT)
-Received: from localhost ([2a03:2880:30ff:9::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b0432937d7esm447457966b.17.2025.09.02.07.36.44
+        bh=UiAPf+HDKdH8QBueSzvHjjUvhHwaKw+els1x3HrZ4RU=;
+        b=iaeCKWMZof1//78CmA9TZ4yweM07vPfZ53wv1EviMjOHKfjrF+ygmdD9EdToECPV0u
+         N48G4jI4FzRngNacs8yp9ny56DykNv97/tS7hh/Qa5RCNY2KOa03mZHK/aUNn32ihwiZ
+         UvDSHhCUQS6L75RdLhJW+s668EbhXt3+5lAoWyCtnNmFvpZsJudCm+O/gdzsUCKSXlNB
+         Vko1e08hiSZjdMS9x1wOKoR6nMaWCe0echx993n6fxWScb5LOO1K130/KEUvGcWPp6/Q
+         Yuh/ORDxVw1gQZ2BthmoDrVKGYPcoDmFz9ix2eIWouJ9ef0d/mZwLFOtSbaOW3g8I3OD
+         Gy+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUvZPUqguYd0s6DgaLRAwv18WqNlqIfdSnNuwSC+rawmmMac7X8HZNkthnGMoh1kvMOES4R33WtLg5knb66AA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWB0JMJJURXiz6KQwkt7Rxz2oAbexGAZgDu151Pi6ajD15k/wF
+	2W54tUVeo92INuy7C3gC4SQkg3/hjmCNrpdGTbrFB7grJew6zTswH0gt
+X-Gm-Gg: ASbGnctoAUGuadqrRt0WRzdnA+/aOiYo53GTW7h3AK1MKZb2ZMNvE/HhXIuj9sExRW8
+	nvHWA5E8XAbjRIjrDDTpoZ0hTRNMskAvouJ2EMAP80rgqWewgGUo62IxMYFXaK9DB3nUPDmyvdC
+	kzus5Ex/rM5+4ydezL1ABwqRUvMjxbSrEc4Hm/hM1uwxEYt7ID6i0FInd4eAtupOk4lYYox5TyU
+	vLwuUN8zR9ssRJ7OF3zm96ihwOK+2iKWyYTXKusTdpq7j/s7VjBHnTN2Nu96GDIbTfoJ5y4UKUu
+	1cbqd0HV2Vxs2lrQ0DAtiXGrn+wE67rdf2DIqkewn4F7fNdg5v9jAsI6zzonAZ4SYiCdiJC/kHJ
+	CnO5CGj7sqLUF
+X-Google-Smtp-Source: AGHT+IFBbylTXgioEB03UJeR/a9ael5sSxKGno3BrjK1Q6HEnT3bGvVV8SiL8gFlPBGOoxtICYj/2A==
+X-Received: by 2002:a17:906:c445:b0:b04:198c:54a9 with SMTP id a640c23a62f3a-b04198c5b14mr763047966b.61.1756823807717;
+        Tue, 02 Sep 2025 07:36:47 -0700 (PDT)
+Received: from localhost ([2a03:2880:30ff:1::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b042b0046ecsm523355066b.71.2025.09.02.07.36.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 07:36:44 -0700 (PDT)
+        Tue, 02 Sep 2025 07:36:47 -0700 (PDT)
 From: Breno Leitao <leitao@debian.org>
-Date: Tue, 02 Sep 2025 07:36:23 -0700
-Subject: [PATCH 1/7] netconsole: Split UDP message building and sending
- operations
+Date: Tue, 02 Sep 2025 07:36:25 -0700
+Subject: [PATCH 3/7] netpoll: Move netpoll_cleanup implementation to
+ netconsole
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-netpoll_untangle_v3-v1-1-51a03d6411be@debian.org>
+Message-Id: <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
 References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
 In-Reply-To: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -69,135 +69,87 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev, kernel-team@meta.com, efault@gmx.de, 
  calvin@wbinvd.org, Breno Leitao <leitao@debian.org>
 X-Mailer: b4 0.15-dev-dd21f
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3991; i=leitao@debian.org;
- h=from:subject:message-id; bh=uv+sRDVE9UdYp/rrXBaRI2PRNEO+AlIgCJajD1luaOc=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBotwD5rHYtgODXvDjBr+4mxuJmvXSRnDOQlekjb
- 8uY3bQrCaSJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaLcA+QAKCRA1o5Of/Hh3
- bQZoEACHZ96Nadl46FRJbWI/4E1Gzzlm+kqKGlfPX+MXLMSXtiA6t/LNDeliZvwvYJiYzN8+7r8
- Awb69iYfvz9djH/hl3znBuNkTrOmRsESsRyS/PXm5zImdPeRKl2p1tyS1sZQ1YMqrTZEYdMAZQR
- kctI5ZkHKBMPlcG04WXstHdTivxfFwHd2tKSxzZURVM37KCL2xbkyWAhQAKwozTjUqLurnZ5t3i
- IlxxhHdfTHJRd2uLPeg+Rw+WiJX0YWDIzb93Vw7JW5rPO62VpeBwLZBsrnc624n0CGt3jBMIGo7
- auEEY6aUqYigyZRb4kFheTVV/5FPxRkBPVUn9+zZ0zku1Ot/LvYW0EvYz9aKTVuXL5fMW98B4A8
- cjMZCBkjXKtZzdUp6JncE/QBh7A3ZT4tGPgqrlCid7oxxkR9aunXzg9JWwREbCR7q9KDtI9Neqv
- Rd6sYGZ8ulftOsHlBt7w7yjmn80r2H/ZEqVdq1+wM34HfGCOnVegXeb27o1syUR4kiRhAAPHRzR
- rLmlSbXSzLNYBBMMmctb8hyS9l/pVQtEHR/ljDRUcvDqHqT6RB4P3YsSQ5Ju4cBF6BvP+VBQ9uC
- 1Cr5a4sDBf2dtiMFUOEFHhclZycDQSQzdPAHCJmFj911hdVSNMlUaeXsTRQhD27uVkLuaPCAvhR
- iOXVNTHBxNMOGCw==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2154; i=leitao@debian.org;
+ h=from:subject:message-id; bh=vdJ3o7SQzqokdbSPEfnxGV0IOZXYQuFhEVIrfm9ulm8=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBotwD5fUdVRbJh9XQBsFtAPxXKE9nRNZAr8ehgN
+ T8VUZFGtkWJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaLcA+QAKCRA1o5Of/Hh3
+ bUFgD/0QFYgP3e916ToEj41ZVMjK8Hy81YOhOrzdsh/fRhQenOOgsfPXPa5TBmbSevlZZ5Qe+nW
+ Ati0sKNcuAhwrfir+A2iCgNb2KzFkwhvJOWrea3SMDEmyp8Cs7AbtV65sI5AUI8+pqj0w5amDPU
+ h2ic3xNiHxM0ytgibne1aasxf1Q5kKWsU6zQ51EzNZ1Xhh5pQqmuVGC9UfCRczH5ZNhBc/eQNXG
+ AcGPfppgEW3PEcSO2GwMH8ff96CKwK6DV33CUlvNcUTf9e8NKCLym3Y9Jru88mo5GqRsV38/uRO
+ 0JUN7TEPmFDiB/SROV/97ZyIKG4DeFeQunCDFMqgoOr3OXeiDdu3VyWNmlAbaL2nFb4S58Fz4Vl
+ P/iwHhTb0UpZgSc75k4ShSWpcNuMcHxuO0YhPLaCpli/3VivMJ0ldbbwlSRYsN/bTcDoKhLu3oe
+ +Oj+7wdrfj6tIht+6/mEkWumOc5N1WI6EdOdHKykOOKlrKQ/8oVTqs6SEFJosJPrjpYsYsb//fW
+ 9c+WGN1k+20B6q+gIZDCEPDphQMVipXOekj2DOKamwFHlG/pm0Mn+5FR730HGVC+qBAl7x6ej6a
+ 1bJqsFr8yHb6x7TpAtXh+b2saL057ftY4+veU9MtpGzViT9oBQNl52qBNH9a1Lk51hG8k3E/nIa
+ YEB2AaE2pObJCvA==
 X-Developer-Key: i=leitao@debian.org; a=openpgp;
  fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
 
-Split the netpoll_send_udp() function into two separate operations:
-netpoll_prepare_skb() for message preparation and netpoll_send_skb()
-for transmission.
+Shift the definition of netpoll_cleanup() from netpoll core to the
+netconsole driver, updating all relevant file references. This change
+centralizes cleanup logic alongside netconsole target management,
 
-This improves separation of concerns. SKB building logic is now isolated
-from the actual network transmission, improving code modularity and
-testability.
-
-Why?
-
-The separation of SKB preparation and transmission operations enables
-more granular locking strategies. The netconsole buffer requires lock
-protection during packet construction, but the transmission phase can
-proceed without holding the same lock.
-
-Also, this makes netpoll only reponsible for handling SKB.
-
-netpoll_prepare_skb() is now exported, but, in the upcoming change, it
-will be moved to netconsole, and become static.
+Given netpoll_cleanup() is only called by netconsole, keep it there.
 
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- drivers/net/netconsole.c | 21 ++++++++++++++-------
- include/linux/netpoll.h  |  2 ++
- net/core/netpoll.c       |  9 +++++----
- 3 files changed, 21 insertions(+), 11 deletions(-)
+ drivers/net/netconsole.c | 10 ++++++++++
+ include/linux/netpoll.h  |  1 -
+ net/core/netpoll.c       | 10 ----------
+ 3 files changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 194570443493b..5b8af2de719a2 100644
+index 30731711571be..90e359b87469a 100644
 --- a/drivers/net/netconsole.c
 +++ b/drivers/net/netconsole.c
-@@ -1492,18 +1492,25 @@ static struct notifier_block netconsole_netdev_notifier = {
-  */
- static void send_udp(struct netconsole_target *nt, const char *msg, int len)
- {
--	int result = netpoll_send_udp(&nt->np, msg, len);
-+	struct sk_buff *skb;
-+	netdev_tx_t result;
- 
--	if (IS_ENABLED(CONFIG_NETCONSOLE_DYNAMIC)) {
--		if (result == NET_XMIT_DROP) {
--			u64_stats_update_begin(&nt->stats.syncp);
--			u64_stats_inc(&nt->stats.xmit_drop_count);
--			u64_stats_update_end(&nt->stats.syncp);
--		} else if (result == -ENOMEM) {
-+	skb = netpoll_prepare_skb(&nt->np, msg, len);
-+	if (!skb) {
-+		if (IS_ENABLED(CONFIG_NETCONSOLE_DYNAMIC)) {
- 			u64_stats_update_begin(&nt->stats.syncp);
- 			u64_stats_inc(&nt->stats.enomem_count);
- 			u64_stats_update_end(&nt->stats.syncp);
- 		}
-+		return;
-+	}
-+
-+	result = netpoll_send_skb(&nt->np, skb);
-+
-+	if (IS_ENABLED(CONFIG_NETCONSOLE_DYNAMIC) && result == NET_XMIT_DROP) {
-+		u64_stats_update_begin(&nt->stats.syncp);
-+		u64_stats_inc(&nt->stats.xmit_drop_count);
-+		u64_stats_update_end(&nt->stats.syncp);
- 	}
+@@ -260,6 +260,16 @@ static struct netconsole_target *alloc_and_init(void)
+ 	return nt;
  }
  
++static void netpoll_cleanup(struct netpoll *np)
++{
++	rtnl_lock();
++	if (!np->dev)
++		goto out;
++	do_netpoll_cleanup(np);
++out:
++	rtnl_unlock();
++}
++
+ /* Clean up every target in the cleanup_list and move the clean targets back to
+  * the main target_list.
+  */
 diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index b5ea9882eda8b..ed74889e126c7 100644
+index 481ec474fa6b9..65bfade025f09 100644
 --- a/include/linux/netpoll.h
 +++ b/include/linux/netpoll.h
-@@ -69,6 +69,8 @@ static inline void netpoll_poll_enable(struct net_device *dev) { return; }
- #endif
- 
- int netpoll_send_udp(struct netpoll *np, const char *msg, int len);
-+struct sk_buff *netpoll_prepare_skb(struct netpoll *np, const char *msg,
-+				    int len);
+@@ -72,7 +72,6 @@ int netpoll_send_udp(struct netpoll *np, const char *msg, int len);
  int __netpoll_setup(struct netpoll *np, struct net_device *ndev);
  int netpoll_setup(struct netpoll *np);
  void __netpoll_free(struct netpoll *np);
+-void netpoll_cleanup(struct netpoll *np);
+ void do_netpoll_cleanup(struct netpoll *np);
+ netdev_tx_t netpoll_send_skb(struct netpoll *np, struct sk_buff *skb);
+ struct sk_buff *find_skb(struct netpoll *np, int len, int reserve);
 diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index 5f65b62346d4e..e2098c19987f4 100644
+index b4634e91568e8..9e12a667a5f0a 100644
 --- a/net/core/netpoll.c
 +++ b/net/core/netpoll.c
-@@ -496,7 +496,8 @@ static void push_eth(struct netpoll *np, struct sk_buff *skb)
- 		eth->h_proto = htons(ETH_P_IP);
+@@ -703,13 +703,3 @@ void do_netpoll_cleanup(struct netpoll *np)
  }
+ EXPORT_SYMBOL(do_netpoll_cleanup);
  
--int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
-+struct sk_buff *netpoll_prepare_skb(struct netpoll *np, const char *msg,
-+				    int len)
- {
- 	int total_len, ip_len, udp_len;
- 	struct sk_buff *skb;
-@@ -515,7 +516,7 @@ int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
- 	skb = find_skb(np, total_len + np->dev->needed_tailroom,
- 		       total_len - len);
- 	if (!skb)
--		return -ENOMEM;
-+		return NULL;
- 
- 	skb_copy_to_linear_data(skb, msg, len);
- 	skb_put(skb, len);
-@@ -528,9 +529,9 @@ int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
- 	push_eth(np, skb);
- 	skb->dev = np->dev;
- 
--	return (int)netpoll_send_skb(np, skb);
-+	return skb;
- }
--EXPORT_SYMBOL(netpoll_send_udp);
-+EXPORT_SYMBOL(netpoll_prepare_skb);
- 
- 
- static void skb_pool_flush(struct netpoll *np)
+-void netpoll_cleanup(struct netpoll *np)
+-{
+-	rtnl_lock();
+-	if (!np->dev)
+-		goto out;
+-	do_netpoll_cleanup(np);
+-out:
+-	rtnl_unlock();
+-}
+-EXPORT_SYMBOL(netpoll_cleanup);
 
 -- 
 2.47.3
