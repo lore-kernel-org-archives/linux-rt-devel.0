@@ -1,128 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CAC27990A
-	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 22:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F5E2765DC
+	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Sep 2025 22:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756853124; cv=none; b=QWc2UkQK9MRRNkdYmpoVTtU9uKczDAW/y42sWkSOsBXpIv1I65K8kHxk4DwmkH92evfYytzKtkFq7Ov9VyR2VkBXH0ygdK5Zj1kXfWk+zHL0GRmkVilf5VwE6Diq2jqyEfGcRXHvGLpG5NBy+kM8sJdBCmXxvyP+3+F3q5WKR8A=
+	t=1756853370; cv=none; b=YpZXL3LBOu2Q6BwRJi5B1UQhHu+mu84JwoEy9nWxGYCF/jQFqfVc33fMxEY5xkulWpKjZGdjb/mFhTBHfuZX7KfuRxcNlYb+rTg99/MVMUPSuW418zy6JAbBgNnYiK8wf6eU8Ex+PrD8X0qQARGVpRa4YnizXh00B98jyFg/2XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756853124; c=relaxed/simple;
-	bh=za1IhyeT1KHUL8P6O84MBxuBubv4gycG9hGlmDgXhbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=UYvDBfxxonsY2NN8MF/MXl/z4Tg1+Yqds9z3jnsE938Tqt5GdD22X5ajWxlAkQOXW/Fk+4o3wIsIeFVjZL6yild/X6elbcfc9qzBravHDcMnX6HRIAVir9wRikm6lD9e4GU4v4qazMLOSfK9sUi1xPDzGKBnF20hb7qkN/Iy/pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S9oERQyS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756853370; c=relaxed/simple;
+	bh=x1fYtz/DGQkJOfME3HltG5aYcqAWCkzmIqUC3vT/gOk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=pT1AlvwSyXiXHY1JGnCt1MBb9MZsUbahg3RadSrJwCnotzBau/fdFfPhARZ6cdI+yG/Disdv/amJj1Qgb7xSDuYhB/uPIKdYetECUZX3wZptT8YPBv8UoNBg695NVsWratuejuoBi8XOzBKOcHYsih5feV1nwnZda4M5zCXRqEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bw+3dPtx; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S9oERQyS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756853121;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=RJyVMg+m0HnoyVkyf5gUwY/kUFpbW+dsoDfxJhmLAUE=;
-	b=S9oERQySK8DiggByPPA7gDXN39N85kcQd9T6bv3Se61q4kO8jORUtnmghlDmAHhHU7npz8
-	42mHVaXu/VATrO2taMq7n/Gt0SOuzxjRbjudE8FSpi+7RHVGoAeojTXMef904DkcJLgtSu
-	mG/coo1zG/SOUw/pfbnW+hNW72tKJxY=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-410-lvtChdIvNuuijgp-x3zGvg-1; Tue, 02 Sep 2025 18:45:20 -0400
-X-MC-Unique: lvtChdIvNuuijgp-x3zGvg-1
-X-Mimecast-MFC-AGG-ID: lvtChdIvNuuijgp-x3zGvg_1756853120
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-70faf8b375cso70259436d6.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 15:45:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bw+3dPtx"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4b30d09da3aso53428341cf.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Sep 2025 15:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756853368; x=1757458168; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W/r8KI96FLIsXt7BTzjZmeT6WOrie+H7TpW2dI0xAa0=;
+        b=bw+3dPtxEWX7Fc1WGJqTziU3U9/d8ddELEoJRGRCSKMfkWGcxflNdak2ueXkBGpHd3
+         /6egessMtKuhKblZ1kFX73fJiE4y91y31MFGuP7v4uXZymAKgN08okuSqwux9zBPtkMN
+         zWHcz7GZQ2lz3HCvCaI/IH+dqHedaCGTrjbC9yIC5jh5trDwVDLhbl/lyihM1GVDUdzU
+         esiaXiRw+x4jv463BveidQZxxA4hrfijfskim5bJum8S76DhvSwpl6/hXz6V1LTdevVn
+         slefN0aTdU4BbMQda1fsjy3Zc+zs6atW5rHNn7G7GOMxnCEJgRxyTU6zBVipC889Bb/I
+         E+GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756853120; x=1757457920;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RJyVMg+m0HnoyVkyf5gUwY/kUFpbW+dsoDfxJhmLAUE=;
-        b=pgMEut0PaV/F0DTghM3CijeAPaneP8qeNISloNryuvQmL9ALbevoAk+qBhGbf0wEeV
-         Q0suWOeWVWPUgJrW1z4H5WHi7Kpc6d8MJxK4xzF3v4Ymju1NdBlPO9De0sozV60cD8fa
-         0oOS8MyMPWfwWPTdDZk0ZRvUlKXwj7I1Bn2XK2S42wUBkmGYYSGsfHwBMCkQ811iuXu0
-         85WW6TEaq4QlP8D94MyjA9r2RIvGoCW6/A7j/0uGE7ppImg3wA0MtGWdI56gp9V9lnG6
-         /yV+5PZuaVZJbmwXQuDQx10Gsi2ju8DF5mmJAlsC5SPLhMwMlGg7SxytDeubTp3txVX2
-         hgEw==
-X-Forwarded-Encrypted: i=1; AJvYcCURpTG1Mj209fDSvA+/SoPUc+8tETT0PlGDkayZPZTpS9KJ+yHPxkDv+rn8mXeqAOtY0z7wuw1LieW+u0RqaA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqhMQ22HiIo5uWCTb1jkZezl6ehzCKUJkK2FnlGApJceWP1yUc
-	ml6BbMEEAdK96Y5s8Mxrcqc5navi6Ip+++rIDfXmr538rzz+6wdAIGPERKtFjZrk5jJyMKWg3qc
-	tf8I2rZskr3kUNIgtLcgDwUgZhB5bvvduFCrIu/09h9zKZURJA97yX37XkpLLQejmQ0S4
-X-Gm-Gg: ASbGncuuDue0FjaEMerUuim2+Uas1AVVaOoc53CbQe8SsF0beOtiDL6pVj7UKW5JcGH
-	VtW5DdrNT2nsCd9fi9/2OQTEvf/7NdDqm6HrLP6MtNNZ2m90rNWOEZ6fgeL12iehfH1OmVQ4V6y
-	7a+T6JkGdWWm4vgSH1ZC9xFST0BKvllE/2eHd6ajMTpLowaxJpuTdofr3SXulbDHXp1255D0r22
-	vpX7hmQqMV+2iLv8kkK7Z/PXaSG7reOY6uohQ88+d8Lr5eFRHYWC9a/bfMjke1fLaDH9Lx5SmBJ
-	3m1uDronklcgTguiMD5Sqc5e6BtCtaoL1IqvOSRN5j16GKbZi+yhFX2BalFPVU3bdR90
-X-Received: by 2002:a05:6214:62d:b0:70d:6df3:9a7c with SMTP id 6a1803df08f44-70fac91f549mr163001536d6.60.1756853120051;
-        Tue, 02 Sep 2025 15:45:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGZJ7Rb63m7d1x/fV7yb6DC5dPEHvsph5C1Gwo41SOjU8ruCfu4BA/m7dr3bqjoAfkOYnnrlA==
-X-Received: by 2002:a05:6214:62d:b0:70d:6df3:9a7c with SMTP id 6a1803df08f44-70fac91f549mr163001246d6.60.1756853119647;
-        Tue, 02 Sep 2025 15:45:19 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([50.145.183.242])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ac16e430sm19861206d6.5.2025.09.02.15.45.18
+        d=1e100.net; s=20230601; t=1756853368; x=1757458168;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=W/r8KI96FLIsXt7BTzjZmeT6WOrie+H7TpW2dI0xAa0=;
+        b=v/IEDkx1YH9+68jen3rjgbanlfRfFyDJ+JaMilPvmYRYZCXtpgiV36Xdsd8tb46iMA
+         nC4gW1LL0x88EHnSfwCIP8ZVh7sMyr7yXLD5I4NKPQhZwItRVtnsiAoCaZHiasBDdoIf
+         9aaqQ/q6EU7yYGH0E9DpN9pHv4cW2LpxuqUZ84mu5O8c8kjVeyYI4WlM/SDbG/RXTZ+U
+         N4MvONJNDqDvPKtY/fi9yswFU3bpma/ia9g3Tg5rO3C07ToL7h6S0NtsWe98doGBf/ae
+         tN+xO8zP1ff75vpHc0yfUc4ocsxbAyC9+XITPfIveJmIfD5zQFZKi1Hd/cm31fpXfFpq
+         /HGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGt6ShLI6C+bxJku2iDYSHCL+BhFTLAFc3FOL2++L2glS1bvfZFm8czkc6jDO9oqCWP755bTSBZfGGOP1CEg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdPnBgefeQ0+RkIwq7fVon1IQxAAo9RTjAQtGogduooeDvxIji
+	k3R3XchsPKbmg/IxZWrnb476vDLtnZglauJFlexsI1mBzq35B0b2OwfJ
+X-Gm-Gg: ASbGncuEgT62uppQcm6eTmEiiQIN/+AJuzJayaWxRVf7wKQnW7rhkJOms2U2NB0pnzF
+	Boql6Rte23nhE9Hu2G4/MS2pVrG/5Z+fVk9edQ7Zc//4p5gxjhzTSrAP6Ol0NFglxIwSGsyGlR8
+	cptb95LdpKSvzjfLDsIL/QT+Sc5w2b1ntKu4eXLoBYQstBqnAp9Yr6LDvPiQyxNWBJY6WQUf6qH
+	E8aq78iPAjdrLPkJw/w0TrSpozWrbTY7yfQue8EY2l3iS/YJNsca067KE7N9zA7brYxVpFtHvZd
+	bZnUkWRWJn0cNYkHjAQXQrQn0zCmgp9ziCPecLqxikpF6YYWGE92O8YeDUa4yp9KvYQr4nFBAp7
+	KP4hQRyVh8NSyFRVQ2y1sjBZeSLsxC5cf4LBTFvRF0YExW7+mYQvShbJSqAfe1jFqG7SaUFGwfY
+	nh8X2PrTB+rOgV/aDQY05dXe8=
+X-Google-Smtp-Source: AGHT+IH46xUXV484hnHXmXzWd3NGpG10mKGi1xfUd31g1IcLmOmEJG4dfsIDEM5/R7lCxuphIRt6qg==
+X-Received: by 2002:ac8:594b:0:b0:4b2:eeed:6a17 with SMTP id d75a77b69052e-4b31db69339mr165830391cf.46.1756853367702;
+        Tue, 02 Sep 2025 15:49:27 -0700 (PDT)
+Received: from gmail.com (141.139.145.34.bc.googleusercontent.com. [34.145.139.141])
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b48f7823casm2163821cf.42.2025.09.02.15.49.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 15:45:19 -0700 (PDT)
-From: Crystal Wood <crwood@redhat.com>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Attila Fazekas <afazekas@redhat.com>,
-	linux-pci@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Crystal Wood <crwood@redhat.com>
-Subject: [PATCH] PCI/AER: Use IRQF_NO_THREAD on aer_irq
-Date: Tue,  2 Sep 2025 17:44:41 -0500
-Message-ID: <20250902224441.368483-1-crwood@redhat.com>
-X-Mailer: git-send-email 2.50.0
+        Tue, 02 Sep 2025 15:49:27 -0700 (PDT)
+Date: Tue, 02 Sep 2025 18:49:26 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Breno Leitao <leitao@debian.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>
+Cc: netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ kernel-team@meta.com, 
+ efault@gmx.de, 
+ calvin@wbinvd.org, 
+ Breno Leitao <leitao@debian.org>
+Message-ID: <willemdebruijn.kernel.2c7a6dc71163b@gmail.com>
+In-Reply-To: <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
+References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
+ <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
+Subject: Re: [PATCH 3/7] netpoll: Move netpoll_cleanup implementation to
+ netconsole
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: pFFBt1_9vzShET6MhBCGzNc1D9ZizcKQokCgnem4u-U_1756853120
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On PREEMPT_RT, currently both aer_irq and aer_isr run in separate threads,
-at the same FIFO priority.  This can lead to the aer_isr thread starving
-the aer_irq thread, particularly if multi_error_valid causes a scan of
-all devices, and multiple errors are raised during the scan.
+Breno Leitao wrote:
+> Shift the definition of netpoll_cleanup() from netpoll core to the
+> netconsole driver, updating all relevant file references. This change
+> centralizes cleanup logic alongside netconsole target management,
+> 
+> Given netpoll_cleanup() is only called by netconsole, keep it there.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-On !PREEMPT_RT, or if aer_irq runs at a higher priority than aer_isr, these
-errors can be queued as single-error events as they happen.  But if aer_irq
-can't run until aer_isr finishes, by that time the multi event bit will be
-set again, causing a new scan and an infinite loop.
+What's the rationale for making this a separate patch, as the
+previous patch also moves the other netconsole specific code from
+netpoll.c to netconsole.c?
 
-Signed-off-by: Crystal Wood <crwood@redhat.com>
----
-I'm seeing this on a particular ARM server when using /sys/bus/pci/rescan,
-though the internal reporter sometimes saw it happen on boot as well.
-On !PREEMPT_RT, or with this patch, a finite number of errors are emitted
-and the scan completes.
----
- drivers/pci/pcie/aer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+And/or consider updating prefix from netpoll_.. to netconsole_..
 
-diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
-index 15ed541d2fbe..6945a112a5cd 100644
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -1671,7 +1671,8 @@ static int aer_probe(struct pcie_device *dev)
- 	set_service_data(dev, rpc);
- 
- 	status = devm_request_threaded_irq(device, dev->irq, aer_irq, aer_isr,
--					   IRQF_SHARED, "aerdrv", dev);
-+					   IRQF_NO_THREAD | IRQF_SHARED,
-+					   "aerdrv", dev);
- 	if (status) {
- 		pci_err(port, "request AER IRQ %d failed\n", dev->irq);
- 		return status;
--- 
-2.47.1
+Just two considerations. Not blockers.
 
+Reviewed-by: Willem de Bruijn <willemb@google.com>
