@@ -1,139 +1,68 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CFC2E03EB
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 07:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BB52EA15D
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 08:10:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756885886; cv=none; b=B5aaJ3cePV1KANeI17RM9hbBIMP8huNGb/UNr/KFn2kKVAV9M28zns+8S+9nJuWl+nITEcbEb5TOPGgAaUbZMjJVlzmFN9//mdh8tP7DT7ZUocvOAl4e2x+G02hZt6QayYSM/GiwwcFyuPF3VWuuCXmtNaesthOCAuQrbO8fqPk=
+	t=1756887021; cv=none; b=t5c3bG6ba1VVG1XaMD8Vccu0X4E1ZF+LNFXLkpWO7w8ST5+2ultsmkbiYhpbSIbR8E7Ef5uaYofiI8CyldUVjps/Hcg3krmI8En+c6sbFdczF+vk/VFe3RH+ADSpAoptPkik3EsGT1Aw1GoNpci55DEPHIU6d8kPINRjn10s3MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756885886; c=relaxed/simple;
-	bh=Y0q0fONd4lqXADhnM4Y10plGfPCzTrgC7f6K8GHH+4o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tXA2srF5nnQroboAjeQLngjLVDi64FdDaHtbSqk7mgGmjFZpYvJRQwbBvKah2dGFEuTq217tgyAGV9kCOmIIfj6wZj7QJxOZiJcLufYbDsWvaigEZQbCBNFXlq2ElBl4Z+68Izq69X/XJA+61P2HBb8cYL/n36oeiwW1LzGDchc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fD3F46nE; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fD3F46nE"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7f7381bd1fcso258824785a.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 00:51:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756885884; x=1757490684; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y0q0fONd4lqXADhnM4Y10plGfPCzTrgC7f6K8GHH+4o=;
-        b=fD3F46nEFOYuC3/5k9WfRwnVuvgNVW2T95Il7bE67Vyj85PzOhmnuacDZMeHxNd9w/
-         wmqUWTr9rOuh77Is7YQwjnrqTV/O74TajfspJemWVvC+YeuXwksvbYswv1bzmBWztPYb
-         2IPQ2L8jmIUhBrqEc9jazHOM8gVMaAQxHZM+Cws8KWL0lBwcyQeEcJz00NI7chJaNPWw
-         zH9fnUDp41Th00nkBjyBgy5yG2QWbQKA8qSCqAQJIMoUSTjEwkfdQB+VlMhiRFYwHfqo
-         j94Z7hY/f9Vnm4HGpzFf8ksABTKSzxHgSr/zZAZ6s6bLoQN3XeLPevsxu2FKdrtYKFMF
-         Hdbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756885884; x=1757490684;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y0q0fONd4lqXADhnM4Y10plGfPCzTrgC7f6K8GHH+4o=;
-        b=Wwb1LcvBTKAtJ6HJ6DIKIJtk50ZiedJZv7pKZFG33QPvRCpqBF2odY+/oxirTEiW2D
-         hBysUIdkcM6tcBEWPFxPvBUmT+fMnqVT7zl3kpAPr5RlrtkCX7zTbWdTiB/lkfGNQAJ3
-         wimLFkFsMaQvV6m3fdObUPYcFxN8BSECzLfAFBEKHGtchJz5cntBhplR9OWysjd6rKTt
-         TZHgWVNHOilHpv4YcqQD95ULMeDrEKSEYH/fkZB53G5HJr4IGfUrdpay6xE8t67YrpLb
-         +BCHU8KiKJYl58eM7BgxDqJaW9sw586Qn5Z+nTgYQPyIPgIN478v3pAiXWMEBq3h6sgt
-         sMag==
-X-Gm-Message-State: AOJu0Yyy+a+0OROHdxFUEaP0BZWW8ftnamtpPJR/0KT0F9ndnGlmxyZl
-	+NmfnZ1vf7Ovb+7SpWWquRwje1HQjHUJXirFqsRI++YmPyOvxh9MS5KJ89g9yKOzt8HMSFrr31e
-	yUbVR089JEvNBB9OTDM98iEcRRNtW80Ee96dOr34=
-X-Gm-Gg: ASbGnctztmJvKu+MTg+HkM+5VLdmwMU5cJQ095NgWg4EeEzcYk/oP5VdLuFYEu8IQb/
-	gigKz83uoJo6cjiSxIux/TIfpQjPDCydyyEPfplCypet4UzCe670HrT0oSJ9+qLI569XOFKHylF
-	s/jdzdA0s28xOVi7yRCfeZG4bu4WYos3qv0aS7kneE4hZRkQJrfucOovJ/8I84fWTUWrzhGN+p+
-	LgbKm0UFpQk3YrCR0N4zhc7ohmCL+K94RWATAgQtSY+Nr+qD6+JHVbdHsfrnx8n1jUU/zL4Lg7z
-	eC21f3Q=
-X-Google-Smtp-Source: AGHT+IEqNirH6vnwrl45TL8m5PwLZsCvxgQzO3JS6HhkTWqWtA8GP+qDAQbgFGcl8U4L7If7ena+psWtw7l4ahcanrc=
-X-Received: by 2002:a05:620a:3704:b0:7fa:aea2:24f8 with SMTP id
- af79cd13be357-7ff27b2249fmr1730675385a.23.1756885883986; Wed, 03 Sep 2025
- 00:51:23 -0700 (PDT)
+	s=arc-20240116; t=1756887021; c=relaxed/simple;
+	bh=Z9Noai9/LnxNARQhjgKfDtreigcJw8Sv40SZrvb8jRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NX3wk0w2Uk0nOq7wwJSBEcu4NqOLbOXf8LguGufo9ThpzhvrTU7SlT5mPnkiWvIFN740oKzInDfWMHiV4ok7X5PG+QceFO/YL9xXkjuRGEhZe3QnHdcsTIgNwz/ozzddibQZVfLenfKlWBJEYPqGOjFrpEEuXOS6cPy9zNbz8Pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 2B5E22C0163B;
+	Wed,  3 Sep 2025 10:10:11 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id F290A54C8E; Wed,  3 Sep 2025 10:10:10 +0200 (CEST)
+Date: Wed, 3 Sep 2025 10:10:10 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Crystal Wood <crwood@redhat.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Attila Fazekas <afazekas@redhat.com>, linux-pci@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] PCI/AER: Use IRQF_NO_THREAD on aer_irq
+Message-ID: <aLf34pnRmk4ip7KS@wunner.de>
+References: <20250902224441.368483-1-crwood@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250901163811.963326-1-bigeasy@linutronix.de>
- <20250901163811.963326-2-bigeasy@linutronix.de> <CAJhGHyBaqn_HOoHX+YinKW5YSy1rncfbvYXktkEtmFgK44E9wg@mail.gmail.com>
- <20250902111740.hwMmUu4T@linutronix.de> <CAJhGHyD7x9QLJ+uoRnbh4qOhphdxJU4c384D1Ph2tn5ktR_=kw@mail.gmail.com>
- <20250902155634.enTifVKX@linutronix.de>
-In-Reply-To: <20250902155634.enTifVKX@linutronix.de>
-From: Lai Jiangshan <jiangshanlai@gmail.com>
-Date: Wed, 3 Sep 2025 15:51:12 +0800
-X-Gm-Features: Ac12FXxWehpghM_pE5-NdHiYQXidnzDtI6Lr5vtrO0rP3JX776WmpjHyFdBBDhk
-Message-ID: <CAJhGHyD3XQoxHph4pqTXjJQYovCsfvzCrg2UJ_G9v6MFGrQ77A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] workqueue: Provide a handshake for canceling BH workers
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Clark Williams <clrkwllms@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250902224441.368483-1-crwood@redhat.com>
 
-On Tue, Sep 2, 2025 at 11:56=E2=80=AFPM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
+On Tue, Sep 02, 2025 at 05:44:41PM -0500, Crystal Wood wrote:
+> On PREEMPT_RT, currently both aer_irq and aer_isr run in separate threads,
 
->
-> That interface is actually implementing that boosting for users which
-> don't use it directly. By "it" I mean the proper rtmutex.
->
-> This is used by the PI/ futex code where a rtmutex is created as a
-> substitute for the lock that is held by the user in userland. The lock
-> is acquired in userland without kernel's doing. So in case of contention
-> the user goes to kernel and creates a rtmutex as a representation of the
-> userland lock in the kernel and assign it to the task that is holding
-> the userland lock. Now you can block on the lock and userland tasks is
-> forced to go to the kernel for unlocking.
->
-> For RCU, as far as I remember, a task within an RCU can get preempted
-> and in that case it adds itself to a list during schedule() so it can be
-> identified later on. There can be more than one task which is preempted
-> within a RCU section and so block a GP. The boost mutex is assigned to
-> the first task currently blocking the GP and then next one if needed.
-> A poor substitute would be something like taking a lock during
-> schedule() and having a list of all those locks in case boosting is
-> needed so it be acquired one by one.
->
+My understanding is that if request_threaded_irq() is passed both a
+non-NULL handler and a non-NULL thread_fn, the former runs in hardirq
+context and the latter in kthread context.  Even on PREEMPT_RT.
 
+So how can aer_irq() and aer_isr() ever both run in kthread context?
+Am I missing something?
 
-Well explained why a =E2=80=9Cproxy=E2=80=9D lock is needed in these two ca=
-ses =E2=80=94 thanks a lot.
+> at the same FIFO priority.  This can lead to the aer_isr thread starving
+> the aer_irq thread, particularly if multi_error_valid causes a scan of
+> all devices, and multiple errors are raised during the scan.
 
+I'm not seeing aer_isr() waiting on a spinlock, so how can it be starved?
 
->
-> Right. So you would avoid taking the cb_lock in bh_worker(). Instead you
-> would need to assign the "acquired" lock to the bh_work() task in
-> __flush_work() and then block on that lock in __flush_work(). In order
-> to figure out which task it is, you need some bookkeeping for it. And a
-> lock to synchronise adding/ removing tasks on that list (bookkeeping) as
-> well as accessing the lock itself in case of "contention".
-> So given all this, that approach looks slightly more complicated. You
-> would avoid the need to acquire the lock in bh_worker() but you would
-> also substitute it with bookkeeping and its locking elsewhere. So I am
-> not sure it is worth it.
->
-> On !RT you can have only one running softirq at a time. On RT with the
-> removal of the lock in local_bh_disable() (patch #3) there can be
-> multiple softirqs instances in parallel on the same CPU. The primary
-> goal is avoid center bottleneck and make it possible to have one NIC
-> doing throughput and another NIC doing low latency packets and allowing
-> the low latency NIC preempt the throughput NIC in the middle of sending/
-> receiving packets instead of waiting for NAPI doing a handover.
->
+Thanks,
 
-The bookkeeping isn=E2=80=99t necessarily complicated. For bh_worker() on
-PREEMPT_RT, it could be done in worker_leave_idle(worker) with
-pool->lock already held. worker->task could be repurposed to record
-the task running bh_worker(), which I think would also be useful for
-debugging even on !RT.
-
-That said, since a proxy lock isn=E2=80=99t appropriate here, let=E2=80=99s=
- just leave it aside.
+Lukas
