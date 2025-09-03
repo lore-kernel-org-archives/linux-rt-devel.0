@@ -1,65 +1,65 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDBB1DE3CA
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 17:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8131E833D
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 17:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756919636; cv=none; b=Vizo+t6SiP+0yJlqI0VaR3nj1UrBC4CDHtDUC1JzuJnKCv+goxbthvFwm+1vZWH3IrMB7ypCMsH3XQdR6jEzHCp60vzVCzu/BUKN3gAM+XgDgRkt7X59Z2Hs4W4EzyCivp+v+40lO+13bn5KAFRP+uszeTwJdLxvTYEubAXd8Eg=
+	t=1756919814; cv=none; b=QZln9c7nmONB5k2szG3cI6qiKXqaVoPREiwgdxpxrdOKuHXUpNJ5S0L3P6lF48BovccpZvSFzs7wK0fJUtkQNdjeX+4i74VouwpBWMmxEVy+Ox7WEPYRSCSpKg/30VyZHM/nHyI1mZJhXy0WQ+Fw7uvJlEqAdd1Ha2nLjMj1J/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756919636; c=relaxed/simple;
-	bh=C2hAY7INmvGsaTMg5VSZEHBuZuox3UqW8ARZQkVGI0w=;
+	s=arc-20240116; t=1756919814; c=relaxed/simple;
+	bh=ZJ6DzOKUfHZ5IofQc/gAACB4SYGhZXU7IbTqulvb4aw=;
 	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=XAUtJgFbHTZtL6y4ZmmvGgh0s1WlcehQ3euw+VpkykTuKHKQPu5igo6u1f04gpd9/mzVZpZS7yYubdeJTGc5qe2hAF14KS2vHE0VrM49UBWW5QojVNlJhyJz19jhUnUl10nnGoaUaM7G7/iEuyLzV3J4yfzPVhDLB6a27Z4M/PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csLiF00c; arc=none smtp.client-ip=209.85.222.171
+	 Mime-Version:Content-Type; b=COa+wAtdiVTVmef6pXDKTjmhNGsJYhm09KJFy+qeAtrZqEJazPMrNrCARAJeqP6nICVA+V8u0F/QBX3pT00WaJ97cJKmCOmcuCjWKkxWZiiaGoC/BmIh9imdV0FvDCkoIYKgSeGx94Fv3/H+vgYNNZqD5fJ8jMXWCfLxualDFEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mIJ+CtFx; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csLiF00c"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-80e33b9e2d3so3311485a.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 10:13:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mIJ+CtFx"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4b490287648so2288811cf.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 10:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756919633; x=1757524433; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756919812; x=1757524612; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:subject:references
          :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nx3EdG8+5CrX23Fe+Kej5I4NIXOHb8mYU2LURNAI8JM=;
-        b=csLiF00cAkxQ7kTJOweijUchsepVCTp40LGH7TUGTO/tKjyBO0qPevB8cJ5KXCd5jB
-         zkZIgPzymlBkuCWOBds71VV+Dl1RisHbUi3vNBAjy604rauT7xFbyQ21ivnFt54U2xIX
-         MJdaJJLeytzy+x7yLYmlmP5te+aidWStUYxZft8KCciGlz/wuxRZlXIy4NM1hLVm0Ni1
-         oOE7sf8sOVZ0ZQ18iVgQUk74qu3OG/EfDWRgE0jQNf5YbRM1B9saRZbggumzte9arQFK
-         oamJbQWtCw1uvu/jFEHxFPfJNPwqwll4mT/P6SWfuEZ7bkOzJjLYJpJ2MtDnzj+yQ86/
-         FvaQ==
+        bh=AWlwFBgNWMjfUe6WnDjCIuuCR2uq0Rac7cIQSEflAow=;
+        b=mIJ+CtFxlmjiw6K1EG+sqO7BXBfULOh2DZG1bcsCsgSgj6bLdp5p8qRp7nOOCx6wK3
+         OPHGOkNxuz5L+DE9/VFusySm4SzGeSLMmiZ6k4qJJvnuVBfotLAGegK+MOwWFZpcbn4r
+         4i/LBXpz0UQ1CuXlCs5RX4teDDuVMW9bgptAr7kS2MmrERCFDRkG2wu68Qw6aFZoZzVp
+         o6xPqFXfJ12645dGL/4gxxiqjsMBOz87xJ0Ksi33tq9XScVcaQE0ACwaOeKqFby7/DwX
+         31bX1YWjwcniYrTu64YB7TNGian6HSwJQ0IpLnXygVZtII1yG1M4FQFeA+wMff57kXur
+         /21g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756919633; x=1757524433;
+        d=1e100.net; s=20230601; t=1756919812; x=1757524612;
         h=content-transfer-encoding:mime-version:subject:references
          :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=nx3EdG8+5CrX23Fe+Kej5I4NIXOHb8mYU2LURNAI8JM=;
-        b=Kj1fjTEmAMr/UxOzYPXG8KLu6ieCe2dkH4lGxdimmMKQdHkfxF0UuS2bUBWd4ZKhX4
-         ts3qi9TnvuG5fPKyLLzJh4jMv/LX/uU02rhXJBFnpTb+o1426oFIQRQIuiY1HR23UKAS
-         KLQUYdpYCz64y7C45jKf/VgjIaNQUvJQ9Dp6YQx8RFMJ+WJf2oeQnvClR7rf4t4zjXfE
-         IqUKqsTuRs0Zl9r3NlN/5ss9hROu1k0xFJCcBzz6w3Jn9rGipO9rs1db1JHWULVmhrJs
-         oLE4lhWs974Yik+uQdBr4Kgif2tK2WmFmcg83WSels5EQYLCWQ9zSnsEYoVOyqZ1KjpO
-         WgHA==
-X-Forwarded-Encrypted: i=1; AJvYcCXRCl16yn00hkk7dJY+wzuCiMgT3MyOM2j6OR7GTxZH+22PRL5UE0Pas1LgnyWJbgPM4Fr6MrcbdS/TA8GICA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzp55aOKAiaJupEsikNIXfqeXSNF0w47F5mR3Lt2Ir4FUVrUuBs
-	Mp0gvt2zQsSVECT7D2wHXLIRWGLrT8IJDGFE05XhWKXp1dlmxuFnxQqH
-X-Gm-Gg: ASbGnctncvj1M5JhGsiET/3JP6aq/G0g5zndxhNfHC4/bitV2gVbzJicR9+930XPvop
-	GvDQIIhQWk3KdFJjs5O0KSZMLdbJw6s/0WsHXB9SU4300iQM0Xg/m665qgjQf1XQ9i462KOk9bC
-	Wl/n4cESqL1qzbl8x4mOnMxDEHmpOLUVYDmGrKh0VTGroUYtgub2k0RyZlpMjihce65IiMAXUP3
-	UEp1lMSXvJc95LZ6mC6+kVRtT4zSUPFU2El0xy0uKwxWVDOCtHdSxChu5Q14j+SFGWMkfgLj4in
-	hrYG7bxLHLZICk+rbinLjZEi/Jan09r0hsqAmtWV30HIZ+u7xY407hHLhTCHh52liVg/jITgcEk
-	gD5nDxTs+z76T68gDM1oq6Jw8TDddpQJjIQ13f/mshwmlybgm5W4AGYEKlHxBGoqb5CcQNsYVdc
-	6lGg==
-X-Google-Smtp-Source: AGHT+IEyaVSC4HdW7YbvHVPqoMIBDbFbLTOUFyGpAyq4No9jI8fwuxQGryVgkoZi197op4qNDs6+Yw==
-X-Received: by 2002:a05:620a:2544:b0:807:1e23:8100 with SMTP id af79cd13be357-8071e23923emr706686185a.36.1756919633490;
-        Wed, 03 Sep 2025 10:13:53 -0700 (PDT)
+        bh=AWlwFBgNWMjfUe6WnDjCIuuCR2uq0Rac7cIQSEflAow=;
+        b=Mgdc3yTMQwgRvKuK+slNg4+qH5keaNuEngVo5tCeQ0z66D5YyylHm4b8RSCVwak6pk
+         f0fVXgRL+TQUceWqRSsPM9eFAojvkp8cjwVJzEriLOA2SGohiX2Ng+urmO6jRIDLaV7T
+         phvjeOQRzBqhMSsN22h6u0XX0rR8WuRiSm1uy56slzpMmQwO6GCSR6499cgbSlVmdsp/
+         jrdtfoNefWD0tfzmbg8y6iB2ZPuAvh0pahnRlMtPSb3UQBGdHvxuqqMKFfGOzbEaO0o/
+         7bkQCB8TVkSkdO7qQ1YB3eeXtznVGMrRx2duxwzSjt0L7dtprUkAKdY3o98i4tauPxLB
+         4BEw==
+X-Forwarded-Encrypted: i=1; AJvYcCXrEbt3fA7q5/cUZFpxPYpxlfoJcusJtZaCwVPotEoZwD6fpuGLCRgUWKTBodIhDNRTPjsZWv2gkIO7lgQ2Gg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQk/sNmfA4flcRmXwy9EtzClxi12ulbydaC4gW0YzW4fOO/mtY
+	qnNWMm+ogjAbHF9LOTDtBnieZyhGtDa5wyTeQNnTHunfIW/k7KLVcQJd
+X-Gm-Gg: ASbGncukDObkxi8XypD9hJXcnfkntyc+9jDmpkT0uErzXCDpaWH3onn+Pyclh1WY0+z
+	pcw7oRCXMufFoQqKLzlIv5U1t2Ql03jVQ++zmjMDGbJAuuw5WLdn08CKHxvx2DU7YJda6YmkkWz
+	haI0XxOY3DRL7pS31xanXf8wMG1JPjKVpZ87ADygUMVpxz2oYH8JHHN6J9JP8oDdJarpieN6KDH
+	t/yUDlgBTQ0uR9MyCfzSIENgj1jL7FLmWYViPrRHEFMiseEqTTfJSQnxeFV2XZB4M6oQ6Z+HrxZ
+	7PdLsHEva8TABHHRUQtJT9Odd5q0B34u17kftrfp6PkoAiWWOLLzTG7y1LQFHE+3HdX+UkfxrgU
+	6Tbb4xHtEWnf7U42cPfmMj1PzRRMm05UfsdXiMKJ8zCUF2QC1vqN0nweRFcw/4YaUNNLhjb6QEY
+	GZKA==
+X-Google-Smtp-Source: AGHT+IHQeEGvElRE3Z4ZiEhlcG0xfeqMhZUV+xEqkDaUsSNp4u1kO2SKqlQm+fAc1bfWx9X2QI3Egw==
+X-Received: by 2002:ac8:5fcb:0:b0:4b4:9773:586c with SMTP id d75a77b69052e-4b49782a0ccmr25315751cf.66.1756919811605;
+        Wed, 03 Sep 2025 10:16:51 -0700 (PDT)
 Received: from gmail.com (141.139.145.34.bc.googleusercontent.com. [34.145.139.141])
-        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b48f501690sm14876011cf.0.2025.09.03.10.13.52
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b5d57c6cc0sm1491041cf.53.2025.09.03.10.16.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 10:13:52 -0700 (PDT)
-Date: Wed, 03 Sep 2025 13:13:52 -0400
+        Wed, 03 Sep 2025 10:16:51 -0700 (PDT)
+Date: Wed, 03 Sep 2025 13:16:50 -0400
 From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 To: Breno Leitao <leitao@debian.org>, 
  Willem de Bruijn <willemdebruijn.kernel@gmail.com>
@@ -78,14 +78,13 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
  kernel-team@meta.com, 
  efault@gmx.de, 
  calvin@wbinvd.org
-Message-ID: <willemdebruijn.kernel.14cd8a5376059@gmail.com>
-In-Reply-To: <vxad5ijytxk66i2rja2uzmueajzpbccy3xcc4nokfnc6chapqb@j2kxvpyb63rh>
+Message-ID: <willemdebruijn.kernel.3093d8d8e5831@gmail.com>
+In-Reply-To: <v4bz7lyzs6f6mlfhvgy3p34sihu6sojwntbev3hz2sz425j76i@wanin427lov6>
 References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
- <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
- <willemdebruijn.kernel.2c7a6dc71163b@gmail.com>
- <vxad5ijytxk66i2rja2uzmueajzpbccy3xcc4nokfnc6chapqb@j2kxvpyb63rh>
-Subject: Re: [PATCH 3/7] netpoll: Move netpoll_cleanup implementation to
- netconsole
+ <20250902-netpoll_untangle_v3-v1-4-51a03d6411be@debian.org>
+ <willemdebruijn.kernel.9ee65133b4b7@gmail.com>
+ <v4bz7lyzs6f6mlfhvgy3p34sihu6sojwntbev3hz2sz425j76i@wanin427lov6>
+Subject: Re: [PATCH 4/7] netpoll: Export zap_completion_queue
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -97,42 +96,36 @@ Content-Type: text/plain;
 Content-Transfer-Encoding: 7bit
 
 Breno Leitao wrote:
-> On Tue, Sep 02, 2025 at 06:49:26PM -0400, Willem de Bruijn wrote:
+> On Tue, Sep 02, 2025 at 06:50:25PM -0400, Willem de Bruijn wrote:
 > > Breno Leitao wrote:
-> > > Shift the definition of netpoll_cleanup() from netpoll core to the
-> > > netconsole driver, updating all relevant file references. This change
-> > > centralizes cleanup logic alongside netconsole target management,
+> > >  include/linux/netpoll.h | 1 +
+> > >  net/core/netpoll.c      | 5 ++---
+> > >  2 files changed, 3 insertions(+), 3 deletions(-)
 > > > 
-> > > Given netpoll_cleanup() is only called by netconsole, keep it there.
-> > > 
-> > > Signed-off-by: Breno Leitao <leitao@debian.org>
+> ....
+> > > -static void zap_completion_queue(void)
+> > > +void zap_completion_queue(void)
+> > >  {
+> > >  	unsigned long flags;
+> > >  	struct softnet_data *sd = &get_cpu_var(softnet_data);
+> > > @@ -267,6 +265,7 @@ static void zap_completion_queue(void)
+> > >  
+> > >  	put_cpu_var(softnet_data);
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(zap_completion_queue);
 > > 
-> > What's the rationale for making this a separate patch, as the
-> > previous patch also moves the other netconsole specific code from
-> > netpoll.c to netconsole.c?
+> > consider EXPORT_SYMBOL_NS_GPL(zap_completion_queue, "NETDEV_INTERNAL");
 > 
-> I just tried to isolate the changes in small patches as possible.
-> previous functions needed to go all together, given it was they were in
-> a chain.
-> 
-> this one netpoll_cleanup() is more independent, so, I decided to
-> separate it, making the patches smaller individually.
+> Thanks for the suggestion. First time I've heard about the export by
+> Namespace. I suppose then I need to have
+> `MODULE_IMPORT_NS("NETDEV_INTERNAL");` called at the caller side, right?
 
-Sounds good. Thanks for clarifying.
- 
-> > And/or consider updating prefix from netpoll_.. to netconsole_..
-> 
-> Good point, and I agree with the feedback.
-> 
-> In cases like this, should I rename the function while moving, or,
-> adding an additional patch to rename them?
+That's right.
 
-In general, it helps review when move patches are entirely NOOPs.
+The feature is fairly new. I don't think we have clear guidelines what
+is and what isn't in scope yet.
 
-In this specific case, if this is the only case that gets renamed
-*and* it is such a small patch *and* it is a revision of an earlier
-patch that has already been verified to be a NOOP, then by exception
-it's also fine to squash.
+In this case, it seems clear to me that this API is not intended for
+broad use, so falls well within the area. More context in
+Documentation/networking/netdevices.rst
 
-If there are more renames, it might be best to bundle them in a single
-(otherwise NOOP, again) patch at the end of the series?
