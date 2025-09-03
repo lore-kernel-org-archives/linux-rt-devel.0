@@ -1,106 +1,101 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E31A26A0C7
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 08:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBCA303C88
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 16:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756888816; cv=none; b=mD4kBtoWEyT/qukJUNkSIXx8+jPwfp64f5alWgz9FTwqkPxf83MD0ngwztnR9O0augJ3uAo4rZ6mFxBEg7JoVMyZFGW3C2zA2yGfEeiy8GjArg6is9nW93nUnZ0g37+Wz1YGkr95XMA5Ol39cuMEDmqHX8KFlDc3qSPIc3xJ3aw=
+	t=1756917876; cv=none; b=nM/XStt4q0hugabBUDaLs2NcrxPECHxfUhjoFuWEN/jrYXOpm4JJ4rSsPKxRNFz1wnDznYpgn4eUglXqMyliDmUnU83XRsoLYJhE/T+hwn0X4ufMXhLq9ipOJhp42Ix0LKHDx0Z7HkkAsVKs5/aeE9wZmpLdlpwC3k90mUtQHlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756888816; c=relaxed/simple;
-	bh=KRqFvSzAOzh6xpHpW2TgXgZ9cEUGzyrAE8yaUm6zFIA=;
+	s=arc-20240116; t=1756917876; c=relaxed/simple;
+	bh=ariY+FcwAGaGYyROXJ//ip+a+qed9bzuJqi587Emzwg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OqaPx3YXfo5zK1iQrEsDxh1cWZLQUck9z5SvY/1JXaF0RpM7OTyDpfegB01j4b9erbTMN2ok6glo+leKwKHpaSFZYfLNgNhXmPknzbIsVB8HsCQgUbUn5DPvyD9/4+zS7APwan7FG/wfZKVD1Hci/29DY4DsG0XNLd+lXMS+eQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=e1x93UW+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PTw9nrho; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="e1x93UW+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PTw9nrho"
-Date: Wed, 3 Sep 2025 10:40:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756888813;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wogFgenDG1/W+A7VwzKgS47uNOS4th3XGCCabqsEsFs=;
-	b=e1x93UW+fXGbE9x+mkaYFYIGSaEwWnxr/aKUHww/6pu62fMhH9Idy84PE1HnY+D8LeZJxu
-	AuRNMSSRvijvRpvH4l+gMcMVAebcwKjwN1vbR21eDqkuIXVVLZ6mTMOKPNegWKcm11+Zmd
-	8YabgGHMgeBm9+6XuJQCZzl9X9/lj2NkenpzLovfhMsNW9alRox0YCTlDnsmGnmo1i4V7y
-	+6yvMx0awJudcX/KHVMLB9a91DB1Izpd2wryS5Ip3uKGBMA0Ex8z1lp+rJHEpqutNo1UBe
-	VFJKWzyFeGqdxHfHrJVEFHLW6XRK3r/V0EyVM1wmO3x5xLAlS4vWQhaqmekfkw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756888813;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wogFgenDG1/W+A7VwzKgS47uNOS4th3XGCCabqsEsFs=;
-	b=PTw9nrho0V342O0vBLEtKLxur6/CvaXZQdDl3QDB91D/RjkoovOULkypqUBuixvsCHYrv0
-	05+HFNt7BQbC7SDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Nam Cao <namcao@linutronix.de>, Christian Brauner <brauner@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Xi Ruoyao <xry111@xry111.site>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	John Ogness <john.ogness@linutronix.de>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-rt-users@vger.kernel.org, Joe Damato <jdamato@fastly.com>,
-	Martin Karsten <mkarsten@uwaterloo.ca>,
-	Jens Axboe <axboe@kernel.dk>, stable@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] eventpoll: Replace rwlock with spinlock
-Message-ID: <20250903084012.A8dd-A5z@linutronix.de>
-References: <cover.1752581388.git.namcao@linutronix.de>
- <ec92458ea357ec503c737ead0f10b2c6e4c37d47.1752581388.git.namcao@linutronix.de>
- <20250826084320.XeTd6XAK@linutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mWp5Tzmz9TkIBpWrMPmuYdpnnc23M/eahLFgS7WNwspHiOsAP/MPKgXzZpYKFxP7mNrDAPT02enD3hDyuYDtkFJGnHmHZfxRQOHIBBD5j8v/RkWTVibBIUDdRjeI36+4mgvqqNGSTy+KzPZj23mkYt5E/GK8SI2dxR9gYZ+Xv0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-61ce4c32a36so31507a12.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 09:44:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756917873; x=1757522673;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t9FL6tV8n13zlBvWYA3e3xfxYg9pjFXyRGdxyyVqxgY=;
+        b=L1IN4XtVM0hcvv7AXZ7CPr/tm6twDrfu46OZukpBpoyS8EhdJdscZmZCA91ashNb2x
+         +flU6WYiM1wwspreg5sT/WrYViXvrQXQWcKwvaMjgwMlhFrKklfmOqepQpHyM40e9oeH
+         6VYWaxWVTR8yttkiBnp7Ch8WWWqkQy5Yn6AwwJxDfPLvv2KTR17TE1iuVBNN/gM+F1dk
+         eIM1KZu4yTziqmT4ixZ5XfE2+xeiU289TUGc1sMTsEPH4+QJ68VssY8E419J9FiExtwS
+         rV3WiwVe/plsXYsd6Tx0dYDHZrvtVcCFstgKHQigSt5BA6D91Tj/Hr3kwBPap/JxeXPK
+         LZHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUJfmsgkoVUBW2va6xIf1cKnmjXBKboMKhhDcgYQMQ2p0T+79BskrQwK/6mlvym88JC2zSsRw31kHyzS1l07Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZ7SU5eenJAEh5Ekz51rOEZS+wcSyr4Xt8pWUrPIxVW1XabjQF
+	kvCnAOvXk7R5HVPoXkHsjBCUyjyxiGE5s/y2g6ZfnkFfxmLz0JzQ571Q
+X-Gm-Gg: ASbGnctAJBcAdXhgERW4pKf2aXqS+W2HEGg6wCAVOePBDdfh+NO0SvHssJBy2kE9Z74
+	fQ+0/+EFbBLgVydK3eEWDbdJQJ0avtK/cq7fgdkZ00WAzVMUoR0TfOXWPyE8u98sPZWhq044+5h
+	1kIXRUZUtr+w3WUhjhKD0kRQp+355xEUP0FsAE/ORMPw8QfIUTPpBKqiy5yUG1m6RE4p12hAblL
+	/riglkhs9ADngmMbcaXTNaWfm9kmkFaB7AHDkgwVT5PHcLy+heowMyr7v4bBgNub3XYnrzHvwJM
+	aNmcdInERngzhuIl8jxvuAW+TRWehSM7/qDyIfx3H1PdHrhiaV/qW1NMUp52e5kUu7GKnlnLYFN
+	q+aixKWYTud4E
+X-Google-Smtp-Source: AGHT+IHfDVVrl1wHNyJKDwCmpxOKb3QmVNSXv+pI7nurrc1BarqU4QHmNG3rluy6cGrnQiIAHjnrBA==
+X-Received: by 2002:a17:906:5909:b0:b04:1b90:8d7a with SMTP id a640c23a62f3a-b041b908f01mr1209368966b.27.1756917872692;
+        Wed, 03 Sep 2025 09:44:32 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:1::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b01af44a01fsm1099042866b.23.2025.09.03.09.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 09:44:32 -0700 (PDT)
+Date: Wed, 3 Sep 2025 09:44:29 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, kernel-team@meta.com, efault@gmx.de, calvin@wbinvd.org
+Subject: Re: [PATCH 3/7] netpoll: Move netpoll_cleanup implementation to
+ netconsole
+Message-ID: <vxad5ijytxk66i2rja2uzmueajzpbccy3xcc4nokfnc6chapqb@j2kxvpyb63rh>
+References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
+ <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
+ <willemdebruijn.kernel.2c7a6dc71163b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250826084320.XeTd6XAK@linutronix.de>
+In-Reply-To: <willemdebruijn.kernel.2c7a6dc71163b@gmail.com>
 
-On 2025-08-26 10:43:20 [+0200], Nam Cao wrote:
-> On Tue, Jul 15, 2025 at 02:46:34PM +0200, Nam Cao wrote:
-> > The ready event list of an epoll object is protected by read-write
-> > semaphore:
+On Tue, Sep 02, 2025 at 06:49:26PM -0400, Willem de Bruijn wrote:
+> Breno Leitao wrote:
+> > Shift the definition of netpoll_cleanup() from netpoll core to the
+> > netconsole driver, updating all relevant file references. This change
+> > centralizes cleanup logic alongside netconsole target management,
 > > 
-> >   - The consumer (waiter) acquires the write lock and takes items.
-> >   - the producer (waker) takes the read lock and adds items.
+> > Given netpoll_cleanup() is only called by netconsole, keep it there.
 > > 
-> > The point of this design is enabling epoll to scale well with large number
-> > of producers, as multiple producers can hold the read lock at the same
-> > time.
-> > 
-> > Unfortunately, this implementation may cause scheduling priority inversion
-> > problem. Suppose the consumer has higher scheduling priority than the
-> > producer. The consumer needs to acquire the write lock, but may be blocked
-> > by the producer holding the read lock. Since read-write semaphore does not
-> > support priority-boosting for the readers (even with CONFIG_PREEMPT_RT=y),
-> > we have a case of priority inversion: a higher priority consumer is blocked
-> > by a lower priority producer. This problem was reported in [1].
-> > 
-> > Furthermore, this could also cause stall problem, as described in [2].
-> > 
-> > Fix this problem by replacing rwlock with spinlock.
+> > Signed-off-by: Breno Leitao <leitao@debian.org>
 > 
-> Hi Christian,
-> 
-> May I know your plan with this patch? Are you still waiting for something?
-> 
-> You may still understandably be paranoid about epoll due to the last
-> regression. But it's been weeks, and this patch is quite simple, so I start
-> to wonder if it is forgotten.
+> What's the rationale for making this a separate patch, as the
+> previous patch also moves the other netconsole specific code from
+> netpoll.c to netconsole.c?
 
-A friendly reminder.
+I just tried to isolate the changes in small patches as possible.
+previous functions needed to go all together, given it was they were in
+a chain.
 
-> Nam
+this one netpoll_cleanup() is more independent, so, I decided to
+separate it, making the patches smaller individually.
 
-Sebastian
+> And/or consider updating prefix from netpoll_.. to netconsole_..
+
+Good point, and I agree with the feedback.
+
+In cases like this, should I rename the function while moving, or,
+adding an additional patch to rename them?
+
+Thanks for the review,
+--breno
