@@ -1,90 +1,138 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D67B2BE03E
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 16:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDBB1DE3CA
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 17:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756918512; cv=none; b=QiNIaCC9X2hsJHRSfUlIM5b8ylRtMFSG5Qd16RbpnOG211ZUfcg6PH2vSCsdpoEtdla9V7C37Y1Wk7Zzfq60Zdde/D2dUYAtA1HUO+AuNM/sVJ2hbX0fZdk+vJ+DRqFLcXNzF5mS7T9rzexzJK4shCJzdhYD3PKbtnVd/DiIVGs=
+	t=1756919636; cv=none; b=Vizo+t6SiP+0yJlqI0VaR3nj1UrBC4CDHtDUC1JzuJnKCv+goxbthvFwm+1vZWH3IrMB7ypCMsH3XQdR6jEzHCp60vzVCzu/BUKN3gAM+XgDgRkt7X59Z2Hs4W4EzyCivp+v+40lO+13bn5KAFRP+uszeTwJdLxvTYEubAXd8Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756918512; c=relaxed/simple;
-	bh=30uqmxUWwwZjA2mmV57rJmq7l79ruMZyoiTHZmBLM9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c2WsD1/SXqOz14itcRxgmPHCimuPTLLCVqz3Ckow6dHRpvHm/Zf8XNpFhDPOlHeJZcsznwIVGtmLSKIOoZx+tTxOZMYV3tSMetjqpH6PgUzgSsFwLCLjF5qGUI8nqsUNbEiKLfgk8ecW3kwla8oG+Ku3AqdLo1ArrEn1eZDeU3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+	s=arc-20240116; t=1756919636; c=relaxed/simple;
+	bh=C2hAY7INmvGsaTMg5VSZEHBuZuox3UqW8ARZQkVGI0w=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 Mime-Version:Content-Type; b=XAUtJgFbHTZtL6y4ZmmvGgh0s1WlcehQ3euw+VpkykTuKHKQPu5igo6u1f04gpd9/mzVZpZS7yYubdeJTGc5qe2hAF14KS2vHE0VrM49UBWW5QojVNlJhyJz19jhUnUl10nnGoaUaM7G7/iEuyLzV3J4yfzPVhDLB6a27Z4M/PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csLiF00c; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so14036466b.3
-        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 09:55:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756918509; x=1757523309;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csLiF00c"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-80e33b9e2d3so3311485a.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 10:13:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756919633; x=1757524433; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QDdwyuaVc8VSTl6NQmoSrQNloKdIcjoMxK537r629qc=;
-        b=RBrL9ufLKAUfdJS/L0a6rJvdfpG8wo+1NlCaQ1DnXPigW5Bs+IEhG6IlV9sGvz7ao9
-         HlrBPvboRSFR3vwa8TthMW18/az/K+PxHtFuuc9n8MPpEjkqMDL6orx+0E1oVPuLSdMD
-         ieJ7r+nn1iZRdy4VqCHqftPP/Eijzu4ign6zuPVVBweoZiDklXb4oPINSO2Og1MCZyJy
-         zd73XaSizod1nFz4FOdiPo5t25h3WDZPnJUFaU+h0xLOU3G6UmKn7inYWm+8idz6KBND
-         z4x7ZZ0KdjOmapwSiB4Czehsf2QGJ3P97hAOI0QI5DEyI4+7nNTaDCFuedPyWIrRCXLc
-         rADQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVjIeOiqg9Df5nBZsPV22b0DhhyOZFpQODLA9avrjwoOg6/Xe+nXHTSTPiIyyc1DLoTLed6loKknUt0bnmKg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0IcI8JSai3rg2a+ARceh81kmVRnC3HWIH22Cc4AsohPhPqYGk
-	sI1X4ZUQQ71HGKuj5GpMYZq1egTjhpPqPFmy/i/W9PmT2Qw0PgUbAdly
-X-Gm-Gg: ASbGncv55vK8g6CJj/1ONADsooTYOSZ1/pCjZooTnpCO6mM9DlB6i8YRJjQ43BV//tz
-	BAXOqqT1x3RE2x8u7+D46AiFuuf9A3wP1EgH74bHJhHL2pIHXHNYwCf91jZ6RmjJShF9Mb9RGmF
-	b2O4LBNPw8wCUc+diZuHIiwsvieJyyl6ALJ8THEqY0d7b4TJH9JcX+hI8oiJ4Lkwfb90RYhH4M8
-	yf+irw2kC2vhwGdpIELc2qVnQKXJJ6VFOzF40WWHXmxbfG3g5hRT2hVv0AO56a4Aj7uSwsqLtoN
-	gz5hSsPXUAlsf9wd0zQzQ/KR9+vRLm1DTybAV080bwMDxknpkohfVwbi0gJmUmyL+mSjfDXWUZ/
-	Pfze5tIdIVna4FdnamnxEE0s=
-X-Google-Smtp-Source: AGHT+IHj2ea6XeYQe5FG+mFIfrJNdxtnyrHgGC5qizxT1Mt2Lf2mzyFI4yV+cXlZTyes3qLz69Uv4A==
-X-Received: by 2002:a17:907:9444:b0:b04:4d7b:9ad2 with SMTP id a640c23a62f3a-b044d7ba932mr805242366b.39.1756918508646;
-        Wed, 03 Sep 2025 09:55:08 -0700 (PDT)
-Received: from gmail.com ([2a03:2880:30ff:6::])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b0236d310casm1115557966b.44.2025.09.03.09.55.07
+        bh=nx3EdG8+5CrX23Fe+Kej5I4NIXOHb8mYU2LURNAI8JM=;
+        b=csLiF00cAkxQ7kTJOweijUchsepVCTp40LGH7TUGTO/tKjyBO0qPevB8cJ5KXCd5jB
+         zkZIgPzymlBkuCWOBds71VV+Dl1RisHbUi3vNBAjy604rauT7xFbyQ21ivnFt54U2xIX
+         MJdaJJLeytzy+x7yLYmlmP5te+aidWStUYxZft8KCciGlz/wuxRZlXIy4NM1hLVm0Ni1
+         oOE7sf8sOVZ0ZQ18iVgQUk74qu3OG/EfDWRgE0jQNf5YbRM1B9saRZbggumzte9arQFK
+         oamJbQWtCw1uvu/jFEHxFPfJNPwqwll4mT/P6SWfuEZ7bkOzJjLYJpJ2MtDnzj+yQ86/
+         FvaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756919633; x=1757524433;
+        h=content-transfer-encoding:mime-version:subject:references
+         :in-reply-to:message-id:cc:to:from:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nx3EdG8+5CrX23Fe+Kej5I4NIXOHb8mYU2LURNAI8JM=;
+        b=Kj1fjTEmAMr/UxOzYPXG8KLu6ieCe2dkH4lGxdimmMKQdHkfxF0UuS2bUBWd4ZKhX4
+         ts3qi9TnvuG5fPKyLLzJh4jMv/LX/uU02rhXJBFnpTb+o1426oFIQRQIuiY1HR23UKAS
+         KLQUYdpYCz64y7C45jKf/VgjIaNQUvJQ9Dp6YQx8RFMJ+WJf2oeQnvClR7rf4t4zjXfE
+         IqUKqsTuRs0Zl9r3NlN/5ss9hROu1k0xFJCcBzz6w3Jn9rGipO9rs1db1JHWULVmhrJs
+         oLE4lhWs974Yik+uQdBr4Kgif2tK2WmFmcg83WSels5EQYLCWQ9zSnsEYoVOyqZ1KjpO
+         WgHA==
+X-Forwarded-Encrypted: i=1; AJvYcCXRCl16yn00hkk7dJY+wzuCiMgT3MyOM2j6OR7GTxZH+22PRL5UE0Pas1LgnyWJbgPM4Fr6MrcbdS/TA8GICA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzp55aOKAiaJupEsikNIXfqeXSNF0w47F5mR3Lt2Ir4FUVrUuBs
+	Mp0gvt2zQsSVECT7D2wHXLIRWGLrT8IJDGFE05XhWKXp1dlmxuFnxQqH
+X-Gm-Gg: ASbGnctncvj1M5JhGsiET/3JP6aq/G0g5zndxhNfHC4/bitV2gVbzJicR9+930XPvop
+	GvDQIIhQWk3KdFJjs5O0KSZMLdbJw6s/0WsHXB9SU4300iQM0Xg/m665qgjQf1XQ9i462KOk9bC
+	Wl/n4cESqL1qzbl8x4mOnMxDEHmpOLUVYDmGrKh0VTGroUYtgub2k0RyZlpMjihce65IiMAXUP3
+	UEp1lMSXvJc95LZ6mC6+kVRtT4zSUPFU2El0xy0uKwxWVDOCtHdSxChu5Q14j+SFGWMkfgLj4in
+	hrYG7bxLHLZICk+rbinLjZEi/Jan09r0hsqAmtWV30HIZ+u7xY407hHLhTCHh52liVg/jITgcEk
+	gD5nDxTs+z76T68gDM1oq6Jw8TDddpQJjIQ13f/mshwmlybgm5W4AGYEKlHxBGoqb5CcQNsYVdc
+	6lGg==
+X-Google-Smtp-Source: AGHT+IEyaVSC4HdW7YbvHVPqoMIBDbFbLTOUFyGpAyq4No9jI8fwuxQGryVgkoZi197op4qNDs6+Yw==
+X-Received: by 2002:a05:620a:2544:b0:807:1e23:8100 with SMTP id af79cd13be357-8071e23923emr706686185a.36.1756919633490;
+        Wed, 03 Sep 2025 10:13:53 -0700 (PDT)
+Received: from gmail.com (141.139.145.34.bc.googleusercontent.com. [34.145.139.141])
+        by smtp.gmail.com with UTF8SMTPSA id d75a77b69052e-4b48f501690sm14876011cf.0.2025.09.03.10.13.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 09:55:07 -0700 (PDT)
-Date: Wed, 3 Sep 2025 09:55:05 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Jakub Kicinski <kuba@kernel.org>
+        Wed, 03 Sep 2025 10:13:52 -0700 (PDT)
+Date: Wed, 03 Sep 2025 13:13:52 -0400
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Breno Leitao <leitao@debian.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, kernel-team@meta.com, efault@gmx.de, calvin@wbinvd.org, 
-	willemdebruijn.kernel@gmail.com
-Subject: Re: [PATCH 7/7] netpoll: Flush skb_pool as part of netconsole cleanup
-Message-ID: <sz3tq6rkykm2565stkd4qhj6k6t5wtd2nwboby47goq32hkfor@xwlmwuy7y27x>
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ kernel-team@meta.com, 
+ efault@gmx.de, 
+ calvin@wbinvd.org
+Message-ID: <willemdebruijn.kernel.14cd8a5376059@gmail.com>
+In-Reply-To: <vxad5ijytxk66i2rja2uzmueajzpbccy3xcc4nokfnc6chapqb@j2kxvpyb63rh>
 References: <20250902-netpoll_untangle_v3-v1-0-51a03d6411be@debian.org>
- <20250902-netpoll_untangle_v3-v1-7-51a03d6411be@debian.org>
- <20250902170938.0d671102@kernel.org>
+ <20250902-netpoll_untangle_v3-v1-3-51a03d6411be@debian.org>
+ <willemdebruijn.kernel.2c7a6dc71163b@gmail.com>
+ <vxad5ijytxk66i2rja2uzmueajzpbccy3xcc4nokfnc6chapqb@j2kxvpyb63rh>
+Subject: Re: [PATCH 3/7] netpoll: Move netpoll_cleanup implementation to
+ netconsole
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250902170938.0d671102@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 02, 2025 at 05:09:38PM -0700, Jakub Kicinski wrote:
-> On Tue, 02 Sep 2025 07:36:29 -0700 Breno Leitao wrote:
-> > @@ -607,8 +596,6 @@ static void __netpoll_cleanup(struct netpoll *np)
-> >  		call_rcu(&npinfo->rcu, rcu_cleanup_netpoll_info);
-> >  	} else
-> >  		RCU_INIT_POINTER(np->dev->npinfo, NULL);
-> > -
-> > -	skb_pool_flush(np);
-> >  }
-> >  
+Breno Leitao wrote:
+> On Tue, Sep 02, 2025 at 06:49:26PM -0400, Willem de Bruijn wrote:
+> > Breno Leitao wrote:
+> > > Shift the definition of netpoll_cleanup() from netpoll core to the
+> > > netconsole driver, updating all relevant file references. This change
+> > > centralizes cleanup logic alongside netconsole target management,
+> > > 
+> > > Given netpoll_cleanup() is only called by netconsole, keep it there.
+> > > 
+> > > Signed-off-by: Breno Leitao <leitao@debian.org>
+> > 
+> > What's the rationale for making this a separate patch, as the
+> > previous patch also moves the other netconsole specific code from
+> > netpoll.c to netconsole.c?
 > 
-> Please don't post conflicting patches to net and net-next.
-> Fixes have to go in first, trees converge, and then the net-next patches
-> can be posted.
+> I just tried to isolate the changes in small patches as possible.
+> previous functions needed to go all together, given it was they were in
+> a chain.
+> 
+> this one netpoll_cleanup() is more independent, so, I decided to
+> separate it, making the patches smaller individually.
 
-Ack. I will wait until the invalid cleanup patch[1] lands in net-next
-before submitting a v2 for this change.
+Sounds good. Thanks for clarifying.
+ 
+> > And/or consider updating prefix from netpoll_.. to netconsole_..
+> 
+> Good point, and I agree with the feedback.
+> 
+> In cases like this, should I rename the function while moving, or,
+> adding an additional patch to rename them?
 
-Link: https://lore.kernel.org/all/20250901-netpoll_memleak-v1-1-34a181977dfc@debian.org/ [1]
+In general, it helps review when move patches are entirely NOOPs.
+
+In this specific case, if this is the only case that gets renamed
+*and* it is such a small patch *and* it is a revision of an earlier
+patch that has already been verified to be a NOOP, then by exception
+it's also fine to squash.
+
+If there are more renames, it might be best to bundle them in a single
+(otherwise NOOP, again) patch at the end of the series?
