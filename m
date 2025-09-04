@@ -1,103 +1,189 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77B14AA9
-	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 13:38:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052443054CF
+	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 14:25:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756993138; cv=none; b=Uaax6lylQbwdjBglkHdULVDVVM7NZf9pTXgfuFsswNHT+YqoGC8yq00JivZ09mHw+PFzyTNPqWX/sitkIYDeYLYQarAzd6yYNe6qx8asdSrTkgWfEcb5LpK41jr9gsi7lWh3oT+ZE6u98nDuqSS1DVAa/33aorhWbUThYm4+mQs=
+	t=1756995932; cv=none; b=CYgwBMq1uKYp/8VFKddZ6HIYqnuOb4nv0nF2S1Rx4ZKL9zKobgtSN6EHofg7/ppN1i1DMZhURkvE0Uq7eBMgDSXNqJJ5j6u3K5/5usjDJJi7gXqUf21xpadt3uu8hkIRY8IPZxH8W5T+KAZz5ZtptlN/Wn4wJSo9TS5TtM1QUe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756993138; c=relaxed/simple;
-	bh=Fet4eNLC5HoZN9v7S1i9SdAH2WBIcMYVzW2HjnLEuzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRpQgooATk6h5jwczzcJ133+B6gbnGLmgszXIPtQ8FNSE6K96RJExJbf8icaot6kEtr/DdtLU7D4ncc+R0/QhaurQAw/6ByqIljtOmIch+dSx1lz+iFPJWtBsOaQCSZgPMHqBodK2p3hcWrGV1G4lX4cRtv/P3PaqpSq1K1MCBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zcLeODwl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MtzUsB2y; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1756995932; c=relaxed/simple;
+	bh=OrS1GLE8fZzJL/5WRFTo0sr5TpCRl02BRmGnO/uO/II=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TmzEXMyQ9ytk97diiomyfiEJq3fKdzFTKqTik7XzrY7oczU5tKsg6w48Ye+56u6zrCCQpIrKSyLIskjEzfpG2ini+yF40DCerXoc6tZ4GCCNafVEw/ZDHbdbbcde9A2dD+4e9zfI8zISxzL//muQbPfBvbwI5RWkNAk2s3v4Vjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xeuGdQQ4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3oS3Ydrn; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zcLeODwl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MtzUsB2y"
-Date: Thu, 4 Sep 2025 15:38:53 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756993135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=blnBh0GptY9N3EwYYRoYsdxSGDYmIObUzNnDIl/rxc8=;
-	b=zcLeODwlC9Lr80XZzCOBqncZzrBvS/2asLBqr6aeca3pa4kgZ+vchScwc0o22DLkJkDnsV
-	YXrg/KOo5Di07paxDHZiok8Mcczc0NFpxFKiP3HsnQRPdM553nqeL5Ub69kXk1Hhdgemma
-	tsTwX2of4RBnhmMmJ5yAMnXX9q1wIl5H2wEwTuKMhW7CFNNnJ/hCszFyKPDvhYag714R3Y
-	1bcsgHTITHQppU3GprNYJpKdpi2Lat3EyF/dtWxeCp3Y3RGrxFDi8daOJG9IVy+AloX7Aq
-	S7MpMWTdwjhmF+YvFNz7IHbJZuDvW88vQ9iuZF/OQHoc99NAmx4kTXuVf1Ztmw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756993135;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=blnBh0GptY9N3EwYYRoYsdxSGDYmIObUzNnDIl/rxc8=;
-	b=MtzUsB2yJZ/3Qh+iPa4+jUJHTi6LcaY2YHi3cgwSvB10fxtVLCrS6f3DoHQNZFcZlfd8BS
-	vFKXeGOLGc7Qg2Cw==
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xeuGdQQ4";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3oS3Ydrn"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Crystal Wood <crwood@redhat.com>, Bjorn Helgaas <bhelgaas@google.com>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1756995929;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0R+Kh082/1AWPhILklHbuMCbALmYooNHUNhKm2ZSP7E=;
+	b=xeuGdQQ4erUNqEd/mG46YAsDkzcFHffKLonhcBKcGK4neVFyyo7rhGkICi4e2Wav/2Ovtb
+	CDWbitnLvGZxh0FP8MVfLbzqu9fbMRpkRqYKbx+sc75gkk+PcpXoc8p069VEjWjQe7LL8x
+	X/jQ42Vaia8IIM71h7wYdgstrsfP0MBycmHvKlgy8QYvD9hpdVIfMBrVhw2iCotVc13XKE
+	W8iYr5YYkrUnpi2/wzsxSk55bYPpa8hjWpNON4498R8yK+R9fIuITqI9eDA8bEMLEjjQg7
+	aGULdU8/3rYyhNoWJVgfPUq/kQ3cQiVn0qUZtMUECuDM+iL8zxUI+XmLu6FAsA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1756995929;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0R+Kh082/1AWPhILklHbuMCbALmYooNHUNhKm2ZSP7E=;
+	b=3oS3YdrnFYMfSXWkdXUVM0DuwMInxZoDLlolA1NE91851K6usc0Ey8Q2mrrqgT9JuOc/3m
+	82llLXgjMv3fBVCw==
+To: linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Attila Fazekas <afazekas@redhat.com>, linux-pci@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] PCI/AER: Use IRQF_NO_THREAD on aer_irq
-Message-ID: <20250904133853.jk47sHLm@linutronix.de>
-References: <20250902224441.368483-1-crwood@redhat.com>
- <20250904073024.YsLeZqK_@linutronix.de>
- <aLmKlVaKSBurRys1@wunner.de>
- <aLmRujcci7hoY57r@wunner.de>
+	Tejun Heo <tj@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v3 1/3] workqueue: Provide a handshake for canceling BH workers
+Date: Thu,  4 Sep 2025 16:25:23 +0200
+Message-ID: <20250904142526.1845999-2-bigeasy@linutronix.de>
+In-Reply-To: <20250904142526.1845999-1-bigeasy@linutronix.de>
+References: <20250904142526.1845999-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aLmRujcci7hoY57r@wunner.de>
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-09-04 15:18:50 [+0200], Lukas Wunner wrote:
-> On Thu, Sep 04, 2025 at 02:48:21PM +0200, Lukas Wunner wrote:
-> > On Thu, Sep 04, 2025 at 09:30:24AM +0200, Sebastian Andrzej Siewior wrote:
-> > > On 2025-09-02 17:44:41 [-0500], Crystal Wood wrote:
-> > > > +++ b/drivers/pci/pcie/aer.c
-> > > > @@ -1671,7 +1671,8 @@ static int aer_probe(struct pcie_device *dev)
-> > > >  	set_service_data(dev, rpc);
-> > > >  
-> > > >  	status = devm_request_threaded_irq(device, dev->irq, aer_irq, aer_isr,
-> > > > -					   IRQF_SHARED, "aerdrv", dev);
-> > > > +					   IRQF_NO_THREAD | IRQF_SHARED,
-> > > > +					   "aerdrv", dev);
-> > > 
-> > > I'm not sure if this works with IRQF_SHARED. Your primary handler is
-> > > IRQF_SHARED + IRQF_NO_THREAD and another shared handler which is
-> > > forced-threaded will have IRQF_SHARED + IRQF_ONESHOT. 
-> > > If the core does not complain, all good. Worst case might be the shared
-> > > ONESHOT lets your primary handler starve. It would be nice if you could
-> > > check if you have shared handler here (I have no aer I three boxes I
-> > > checked).
-> > 
-> > Yes, interrupt sharing can happen if the Root Port uses legacy INTx
-> > interrupts.  In that case other port services such as hotplug,
-> > bandwidth control, PME or DPC may use the same interrupt.
-> 
-> I should add that none of these other port service drivers use
-> IRQF_ONESHOT.  They're all IRQF_SHARED only.
+While a BH work item is canceled, the core code spins until it
+determines that the item completed. On PREEMPT_RT the spinning relies on
+a lock in local_bh_disable() to avoid a live lock if the canceling
+thread has higher priority than the BH-worker and preempts it. This lock
+ensures that the BH-worker makes progress by PI-boosting it.
 
-Yes. But. If they get forced-threaded then we have a primary handler
-irq_default_primary_handler() as the hardirq handler. This one would be
-marked IRQF_ONESHOT. The other primary handler would be aer_irq() in
-this case. As long as all (or none) are forced-threaded then it is fine.
-In this case it could be a miss match, I'm not sure.
+This lock in local_bh_disable() is a central per-CPU BKL and about to be
+removed.
 
-> Thanks,
-> 
-> Lukas
+To provide the required synchronisation add a per pool lock. The lock is
+acquired by the bh_worker at the begin while the individual callbacks
+are invoked. To enforce progress in case of interruption, __flush_work()
+needs to acquire the lock.
+This will flush all BH-work items assigned to that pool.
 
-Sebastian
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/workqueue.c | 50 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 41 insertions(+), 9 deletions(-)
+
+diff --git a/kernel/workqueue.c b/kernel/workqueue.c
+index c6b79b3675c31..d6c94ee8edfc5 100644
+--- a/kernel/workqueue.c
++++ b/kernel/workqueue.c
+@@ -222,7 +222,9 @@ struct worker_pool {
+ 	struct workqueue_attrs	*attrs;		/* I: worker attributes */
+ 	struct hlist_node	hash_node;	/* PL: unbound_pool_hash node */
+ 	int			refcnt;		/* PL: refcnt for unbound pools */
+-
++#ifdef CONFIG_PREEMPT_RT
++	spinlock_t		cb_lock;	/* BH worker cancel lock */
++#endif
+ 	/*
+ 	 * Destruction of pool is RCU protected to allow dereferences
+ 	 * from get_work_pool().
+@@ -3078,6 +3080,31 @@ __acquires(&pool->lock)
+ 		goto restart;
+ }
+=20
++#ifdef CONFIG_PREEMPT_RT
++static void worker_lock_callback(struct worker_pool *pool)
++{
++	spin_lock(&pool->cb_lock);
++}
++
++static void worker_unlock_callback(struct worker_pool *pool)
++{
++	spin_unlock(&pool->cb_lock);
++}
++
++static void workqueue_callback_cancel_wait_running(struct worker_pool *poo=
+l)
++{
++	spin_lock(&pool->cb_lock);
++	spin_unlock(&pool->cb_lock);
++}
++
++#else
++
++static void worker_lock_callback(struct worker_pool *pool) { }
++static void worker_unlock_callback(struct worker_pool *pool) { }
++static void workqueue_callback_cancel_wait_running(struct worker_pool *poo=
+l) { }
++
++#endif
++
+ /**
+  * manage_workers - manage worker pool
+  * @worker: self
+@@ -3557,6 +3584,7 @@ static void bh_worker(struct worker *worker)
+ 	int nr_restarts =3D BH_WORKER_RESTARTS;
+ 	unsigned long end =3D jiffies + BH_WORKER_JIFFIES;
+=20
++	worker_lock_callback(pool);
+ 	raw_spin_lock_irq(&pool->lock);
+ 	worker_leave_idle(worker);
+=20
+@@ -3585,6 +3613,7 @@ static void bh_worker(struct worker *worker)
+ 	worker_enter_idle(worker);
+ 	kick_pool(pool);
+ 	raw_spin_unlock_irq(&pool->lock);
++	worker_unlock_callback(pool);
+ }
+=20
+ /*
+@@ -4222,17 +4251,17 @@ static bool __flush_work(struct work_struct *work, =
+bool from_cancel)
+ 		    (data & WORK_OFFQ_BH)) {
+ 			/*
+ 			 * On RT, prevent a live lock when %current preempted
+-			 * soft interrupt processing or prevents ksoftirqd from
+-			 * running by keeping flipping BH. If the BH work item
+-			 * runs on a different CPU then this has no effect other
+-			 * than doing the BH disable/enable dance for nothing.
+-			 * This is copied from
+-			 * kernel/softirq.c::tasklet_unlock_spin_wait().
++			 * soft interrupt processing by blocking on lock which
++			 * is owned by the thread invoking the callback.
+ 			 */
+ 			while (!try_wait_for_completion(&barr.done)) {
+ 				if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
+-					local_bh_disable();
+-					local_bh_enable();
++					struct worker_pool *pool;
++
++					guard(rcu)();
++					pool =3D get_work_pool(work);
++					if (pool)
++						workqueue_callback_cancel_wait_running(pool);
+ 				} else {
+ 					cpu_relax();
+ 				}
+@@ -4782,6 +4811,9 @@ static int init_worker_pool(struct worker_pool *pool)
+ 	ida_init(&pool->worker_ida);
+ 	INIT_HLIST_NODE(&pool->hash_node);
+ 	pool->refcnt =3D 1;
++#ifdef CONFIG_PREEMPT_RT
++	spin_lock_init(&pool->cb_lock);
++#endif
+=20
+ 	/* shouldn't fail above this point */
+ 	pool->attrs =3D alloc_workqueue_attrs();
+--=20
+2.51.0
+
