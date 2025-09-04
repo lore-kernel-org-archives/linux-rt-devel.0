@@ -1,96 +1,77 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40C74A3C
-	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 14:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA4730CD8B;
+	Thu,  4 Sep 2025 17:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756995933; cv=none; b=YH5QrtBrj2yE1mCMvtgwRYw7ykk6bqg7PG22cJG+toUANORVrHijQ/IzHSgbSIaUuJSJZQWOtOfThvNoblJXOLMCOBAA25R25df45E6CIs17eDjAIy3fwvTCo3KWZ2EYq+LarxhV55CVFjcxuCv+NvZPwMKcX5rxAE81hdrTi/I=
+	t=1757006936; cv=none; b=kS4O3Osd1ruCJT3IrW8UsDNxy8RaPnKmymPIhWIhJrF6e/GzPAYxMWEIU2Iwh3mViKc71lqcEtPni/3mqCotDVNTT+8bmGjCdLfOme4bopdGeqDPyyIaQ0+exv0EF51BwmBKpiUN5nuTz15X0owATgcGBE3mrnKX2FBf6VXkZWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756995933; c=relaxed/simple;
-	bh=bSbsonRjoAlhi/vZVAGanzqb9MT1cPH4oYtxvhApFQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KLViBexHNMWROtepPk1L0vigNMIZSTiuVFSIb1lKfEPZCnSnXhLubXyYPcy11BPQWFZlPv8Fg+ct/s3yAJKapjJg28ZyC6aNAvQRgWijT4J7EoaGSHxLzh2Sc0QQ7oKbsR/Tdz9yyZ8Kr7rRUEeO3P24Aq79k6usjcGwWQ0oRDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VdeNmq+R; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CbozpS02; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1757006936; c=relaxed/simple;
+	bh=PlgQy4W5xujkUoV4WOx8P4W9T6Qdb6LIgHalUSFF0Tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J3yj+7uHeM7AzyLYSIBgcT6Av5POgQwtJmOD9ITM8iUGl/P3QdK8lUnHg6KEhoongOg64NU0Y7XJwfUYss/2Ellpa/ic32q4mPb0B7MMfd3b6NZh2hIXFMEu4Io+15hqkksSmMf7V3T4/k0ra+2ntsRUbBE0hDz3Y0bbE/0oFbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oXdaBvvh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VdeNmq+R";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CbozpS02"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756995929;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qCx7oWYatUcftn5F4YlXfxcmcSa68JwRo8W7ICgnhrU=;
-	b=VdeNmq+RSskei2GX8ieFIaDJmscierdDADs4PTDeE6tHBosLL5kPV9oN62g41qbZoT4Dmg
-	cGesXES7UvI5kS/Bhxmw9gpbiHSwcgjFLBuW1Tq6mPvCKpaDCPdP7DjsDRjwJW1JQtGOqN
-	cLcHu6lRio+0q7B0SA5isaJQLLwC4CWh01At16fwzqNiAJR69JHF+8mY12tHBgILtHIeIb
-	Q1FGhJCiSmNfvnEXaOoMZ89+gx7xeiYdJ+k5ZGtx1qAFaZOk/zcb1uorZIRfNVSVbWU5GH
-	4vN+tz3ZKl1rpZ+RvNPqcmYT2xdjoNJl60PSji/GGfZOr7YNpXV18Wzr44aElQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756995929;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qCx7oWYatUcftn5F4YlXfxcmcSa68JwRo8W7ICgnhrU=;
-	b=CbozpS02VgSoiEuup9lE6/HSl9bZeomhqTU6EMueQFOFgQYagiZvGhlBDHY8sxqayh4ekz
-	SDUlWVNKJmsPwEBw==
-To: linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oXdaBvvh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79742C4CEF1;
+	Thu,  4 Sep 2025 17:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757006935;
+	bh=PlgQy4W5xujkUoV4WOx8P4W9T6Qdb6LIgHalUSFF0Tc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oXdaBvvhqz0QYRKGQNXB6aoEzT6sCMyV3XvExLCRJml5TOeDendih8TvlKcKP8lny
+	 /NN9uKMjD9YS+TtknxGgQlhEUBqKQOpaPGYutVw+IyGBy3cnqF65YC9T/AwS+bqiIu
+	 nHRjFwhuzSyqtA/6Pi9VC8M1oYP5yeHWHhs2b/rfLM3wpLlxrrQ8gbALZrG0dYPIn5
+	 rtjhSEy7QUJufhLA4FaSdc9i8K8UKzbdkPIpnSeFaWQSLpyjk6YZzA63SzemLjTE7n
+	 BsTQqR2gSn82khFm1uJ0VH62v0Z1GjDFL1MTAsNP8aBuWhsZGIO/YB8aJ+l30Sdhga
+	 ZfpGLsVv52pvw==
+Date: Thu, 4 Sep 2025 07:28:54 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Clark Williams <clrkwllms@kernel.org>,
 	Ingo Molnar <mingo@redhat.com>,
 	Lai Jiangshan <jiangshanlai@gmail.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Tejun Heo <tj@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 0/3] Allow to drop the softirq-BKL lock on PREEMPT_RT
-Date: Thu,  4 Sep 2025 16:25:22 +0200
-Message-ID: <20250904142526.1845999-1-bigeasy@linutronix.de>
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH v3 1/3] workqueue: Provide a handshake for canceling BH
+ workers
+Message-ID: <aLnMVqcHFQPnKHyi@slm.duckdns.org>
+References: <20250904142526.1845999-1-bigeasy@linutronix.de>
+ <20250904142526.1845999-2-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904142526.1845999-2-bigeasy@linutronix.de>
 
-Users which rely on synchronisation within a BH-disabled section as in
-- access to per-CPU data
-- per-CPU timers
-- synchronisation against another user within a BH-disabled section
+On Thu, Sep 04, 2025 at 04:25:23PM +0200, Sebastian Andrzej Siewior wrote:
+> While a BH work item is canceled, the core code spins until it
+> determines that the item completed. On PREEMPT_RT the spinning relies on
+> a lock in local_bh_disable() to avoid a live lock if the canceling
+> thread has higher priority than the BH-worker and preempts it. This lock
+> ensures that the BH-worker makes progress by PI-boosting it.
+> 
+> This lock in local_bh_disable() is a central per-CPU BKL and about to be
+> removed.
+> 
+> To provide the required synchronisation add a per pool lock. The lock is
+> acquired by the bh_worker at the begin while the individual callbacks
+> are invoked. To enforce progress in case of interruption, __flush_work()
+> needs to acquire the lock.
+> This will flush all BH-work items assigned to that pool.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-rely on the local_lock_t lock in local_bh_disable() on PREEMPT_RT.
-Almost all users dropped their dependency. The remaining (identified)
-user in networking (pipapo) is in net-next.
-What is left is the infrastructure as in tasklet and workqueue (for
-bh-worker).
-Both are part of this series. The last patch in the series adds an
-option to drop the lock.
+Applied to wq/for-6.18.
 
-v1=E2=80=A6v2: https://lore.kernel.org/all/20250901163811.963326-1-bigeasy@=
-linutronix.de/
-  - In workqueue, __flush_work(), replace wq_pool_mutex with RCU locking.
+Thanks.
 
-v1 tasklet https://lore.kernel.org/all/20250812143930.22RBn5BW@linutronix.de
-v1 workqueue https://lore.kernel.org/all/20250820103657.vDuDuLx6@linutronix=
-.de
-v1 lock-drop https://lore.kernel.org/all/20250613105653.1860729-2-bigeasy@l=
-inutronix.de
-
-Sebastian Andrzej Siewior (3):
-  workqueue: Provide a handshake for canceling BH workers
-  softirq: Provide a handshake for canceling tasklets via polling
-  softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT
-
- kernel/Kconfig.preempt |  13 ++++
- kernel/softirq.c       | 145 ++++++++++++++++++++++++++++++++++-------
- kernel/workqueue.c     |  50 +++++++++++---
- 3 files changed, 174 insertions(+), 34 deletions(-)
-
---=20
-2.51.0
-
+-- 
+tejun
