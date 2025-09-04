@@ -1,122 +1,117 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1C22EB87B
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Sep 2025 21:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2610726E717
+	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 07:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756935555; cv=none; b=FKdFcDAPHwtWwZwgYxqpjp0sfgKg/GuPcdkhZsheyk6KzCbRlrM5NMaoAuaGp3IJ7Ss+2ghb5uh7RPemWH7SAR33zXUGImgp5iOGvETtf/HVYh2yg75Qi1ngFz72fByBLJJL0w+V6/1zS5S8yMtkQwXt4I5P5bvGTqZs1MNedL0=
+	t=1756971029; cv=none; b=uI2PGo1Y6TgtZivlPE7mgEbHIdSX/UBSjV0qC8A6vhL5+zYOW9Qf2YtJ464IZ7F+Ybi8PAifpB4od7tn3h70l73UAgwQZla8v6pHJ/LVj08CEbvHp2ayVwjhJ3xWG99n9TUXnTo8O3Ay+Weyq1soJELqQ2XtW9gConLPMxiiYa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756935555; c=relaxed/simple;
-	bh=og1lhoElF6db9WxHKkfi+3t1iLGA0iXjfHdS+QkB0Z8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nK8suNdCqPQrJ1vqvaSvkO6huv7xc1sWdC4u2d9y8dArXvW2mgHWcDe0tTbhH2bOJMatwHoB7/h+hJ5YCZUMFTRdpyzBu+XMqZrkqeAr+nS0XIjU9BZZs4FYLsJ2uSbCU5J2jjQ1YmWTbzk2EMqzlBIKv3OWE5VI+XILTiJo3sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gWgJWF/W; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1756971029; c=relaxed/simple;
+	bh=Ixc98y50p4OgaTFwWHSM5zW9l2ONIM7iWep6P8DAQHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SbxlmruYAwt9dKCNzqgZZ8ZVDxFP4hsGq60fLhZF5TEu0bb/0rYEuI9elI5N76GYojvsZwJ0jyrhHVjkfCtKSpng5STyklMMsYvoOJa5BFKicODH3IMDtm1BjOZVZWeG55ZuYR1dVSCW5/KFqhHmr254xR6vhkr8vTQs7cJ9xbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=V1NcJy0u; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Gx6iCLxA; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gWgJWF/W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1756935552;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="V1NcJy0u";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Gx6iCLxA"
+Date: Thu, 4 Sep 2025 09:30:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1756971026;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tF/pjT3YTUMVt1BEngnlRmga+KCNH7T6bly4syRc1NE=;
-	b=gWgJWF/WbZ3lxavtGkzb65jPSFTQQ4zaUxXth1DkIn6rqM3TiM4kHb3BGkYtBSU/O9cTl8
-	il0k8WVaxbv7Ztfn2UoGHDF4PM+Bn+Poj5vvxJG0c8fHUkDUNKFRmhtiCMfDpt4xY8gFi4
-	nl16f3OryoibUDgtF1RQZKfoFmcvoZM=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-150-hKNZFjEMOGCYNt4_8AjZ1Q-1; Wed, 03 Sep 2025 17:39:09 -0400
-X-MC-Unique: hKNZFjEMOGCYNt4_8AjZ1Q-1
-X-Mimecast-MFC-AGG-ID: hKNZFjEMOGCYNt4_8AjZ1Q_1756935549
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4b32a58c3f9so7511851cf.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 03 Sep 2025 14:39:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756935549; x=1757540349;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tF/pjT3YTUMVt1BEngnlRmga+KCNH7T6bly4syRc1NE=;
-        b=fN5KxIJ6urPvQXJ0wu23uHVZc72PaBoTDk7eAlFq+H7x8rEm8VSZZU3/zrzRtnQbS3
-         ntz+vM2SUInAqY1FmqvCBAET2DxQ5VjpQ4iRG8jr4opyvoIoPD6X8X2zd+zEsrF638G4
-         Vb1KHI9rYlEJPqYdOTimxj9ppDu6yKGdJr6GKgYeb5OYRGNa+UgqFsmAoFf6qWafQU+J
-         1aUHl0HDpjpEeKE1v9CjmL8hamhAr2a1xy2anP7rT/hEaZcCy18mC/qjS0P8EAFy90B9
-         hdGyG2SrxkzRZIqyWh4ThwWaXUQoGZWAQQcrd7nDpdq3lB13FRvejru4c7ABz7PuG+NJ
-         XaUw==
-X-Forwarded-Encrypted: i=1; AJvYcCXpvtmQrVVQo1zOtjwuOOV4KzYTGnrltTZpOnPT+XyBAGTd+Wz4wbK+BAkGSYMQ7aS0nHNFtgRidDa9Ep430w==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywy88YMIYzPg6yHo0ogCvaAIhitv075L00rAuJE0HywS1efIpf6
-	rCz/2yZvXKatn1BWK1VnvGVmoqsF40u8ydBPuPZBXs1dOWeQYWw6y/4ynbJeykhFVayQuFoGi6g
-	+0t7bitxCBgZtUbluJajlvOqL3vysPqQhZhIENoNOm7A84fylGajQECnHvTek9V9fSZSn
-X-Gm-Gg: ASbGncvGTJRiwDrrwrRGdj3eslhwRL9JyhYVKptz2h9y4vsgogvFrlODvb5n0zi2QZ4
-	6fmT8S+FHF2NCug1LSwWkpK006l3/3Muca1e9pbrL/CmWHBnSjIWIzBrkFTcWP9ntMY1fGy72Ra
-	Ea6aBKuC6c8LY363kfDKmvEwi16/c38UaaDpxArixidScPnb6Y0nydkVIpmks3FYU1J4RVqiBxf
-	4jABpP/Il2EYRJcAOKoPs/d39UU7H2GvPaTLMQ5rDLYhy0eKjpyx9vhp7FKR8nRqmI4dOaZVyYL
-	BtDnOPP+3YO37UfM1bKSxTQfSPVD8dTMUR4c/POEM8/P7BZhkaATmKRhkWZEj29jlgwX5+M=
-X-Received: by 2002:ac8:5a47:0:b0:4b3:1697:4e53 with SMTP id d75a77b69052e-4b31dc68174mr218431451cf.66.1756935549112;
-        Wed, 03 Sep 2025 14:39:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHMFz3QEIBlrasaJqBAuiIO+woAELo43+OkB+gQBfqAVDSldF8huM9fr9dqA3cdog7xNrl/xQ==
-X-Received: by 2002:ac8:5a47:0:b0:4b3:1697:4e53 with SMTP id d75a77b69052e-4b31dc68174mr218431201cf.66.1756935548703;
-        Wed, 03 Sep 2025 14:39:08 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([2601:447:c680:2b50:ee6f:85c2:7e3e:ee98])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f673fecsm17501531cf.21.2025.09.03.14.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 14:39:08 -0700 (PDT)
-Message-ID: <72c259c60ce28d3e815d7f243e472661932ef2ad.camel@redhat.com>
+	bh=v19daYK7RwpDzpCxMt4efA2yMOM1nVWdKgeweEfjHSg=;
+	b=V1NcJy0uNeI3ubyp9McqZGo4tLpcgTDb/CzKO0rOO+2BbeYix7emyfrfet+68QCvQdBDhd
+	cOH5ANhZ4u+WhpQcSkVCu1tKwFuOSDP/YVzfBaGb1zcXRAt/o16pDfIfZZvt4oTihkAvul
+	HzMDjiSMuaLV40MQq1iLM7gIt9Xg/GUC7fRa8B1d0ZDirQmidQIqZaIQKsEsy3ylxEvJVu
+	/mfkfKSjffcJF6S5cJBLqLQYXmGbqHSQAQAQB+5Ij7dXe1A+2x4jcvp5mKUvNMeQ/v62fI
+	XU234yXPNjS440XAwczceH6QYE/8cznqLHz61T4A3hi8K3BZhac5cH2Qg7rLiA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1756971026;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v19daYK7RwpDzpCxMt4efA2yMOM1nVWdKgeweEfjHSg=;
+	b=Gx6iCLxAmkpVk52DjHEfnd9NV0p+6i6pzm4L8sM7xE6f/mC/LGrCR1PW346OmMhYTFMZZZ
+	1WIVGwWFze2T6fCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Crystal Wood <crwood@redhat.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Attila Fazekas <afazekas@redhat.com>, linux-pci@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH] PCI/AER: Use IRQF_NO_THREAD on aer_irq
-From: Crystal Wood <crwood@redhat.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Mahesh J Salgaonkar	
- <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,  Attila
- Fazekas <afazekas@redhat.com>, linux-pci@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Date: Wed, 03 Sep 2025 16:39:07 -0500
-In-Reply-To: <aLf34pnRmk4ip7KS@wunner.de>
+Message-ID: <20250904073024.YsLeZqK_@linutronix.de>
 References: <20250902224441.368483-1-crwood@redhat.com>
-	 <aLf34pnRmk4ip7KS@wunner.de>
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: f42FR1iq_HrPMTICdhMeVzDuJGK9yFTTx6XNXHfbAkM_1756935549
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250902224441.368483-1-crwood@redhat.com>
 
-On Wed, 2025-09-03 at 10:10 +0200, Lukas Wunner wrote:
-> On Tue, Sep 02, 2025 at 05:44:41PM -0500, Crystal Wood wrote:
-> > On PREEMPT_RT, currently both aer_irq and aer_isr run in separate threa=
-ds,
->=20
-> My understanding is that if request_threaded_irq() is passed both a
-> non-NULL handler and a non-NULL thread_fn, the former runs in hardirq
-> context and the latter in kthread context.  Even on PREEMPT_RT.
->=20
-> So how can aer_irq() and aer_isr() ever both run in kthread context?
-> Am I missing something?
+On 2025-09-02 17:44:41 [-0500], Crystal Wood wrote:
+> On PREEMPT_RT, currently both aer_irq and aer_isr run in separate threads,
+> at the same FIFO priority.  This can lead to the aer_isr thread starving
+> the aer_irq thread, particularly if multi_error_valid causes a scan of
+> all devices, and multiple errors are raised during the scan.
+> 
+> On !PREEMPT_RT, or if aer_irq runs at a higher priority than aer_isr, these
+> errors can be queued as single-error events as they happen.  But if aer_irq
+> can't run until aer_isr finishes, by that time the multi event bit will be
+> set again, causing a new scan and an infinite loop.
 
-They are both threaded.  See commit 2a1d3ab8986d1b2 ("genirq: Handle
-force threading of irqs with primary and thread handler")
+So if aer_irq is too slow we get new "work" pilled up? Is it because
+there is a timing constrains how long until the error needs to be
+acknowledged?
 
->=20
-> > at the same FIFO priority.  This can lead to the aer_isr thread starvin=
-g
-> > the aer_irq thread, particularly if multi_error_valid causes a scan of
-> > all devices, and multiple errors are raised during the scan.
->=20
-> I'm not seeing aer_isr() waiting on a spinlock, so how can it be starved?
+Another way would be to let the secondary handler run at a slightly lower
+priority than the primary handler. In this case making the primary
+non-threaded should not cause any harm.
 
-It's not about locks... Maybe starvation is too strong of a word since
-aer_irq does eventually get to run, just too late to avert yet another
-multi error that starts the whole thing over again.
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
--Crystal
+> Signed-off-by: Crystal Wood <crwood@redhat.com>
+> ---
+> I'm seeing this on a particular ARM server when using /sys/bus/pci/rescan,
+> though the internal reporter sometimes saw it happen on boot as well.
+> On !PREEMPT_RT, or with this patch, a finite number of errors are emitted
+> and the scan completes.
+> ---
+>  drivers/pci/pcie/aer.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pci/pcie/aer.c b/drivers/pci/pcie/aer.c
+> index 15ed541d2fbe..6945a112a5cd 100644
+> --- a/drivers/pci/pcie/aer.c
+> +++ b/drivers/pci/pcie/aer.c
+> @@ -1671,7 +1671,8 @@ static int aer_probe(struct pcie_device *dev)
+>  	set_service_data(dev, rpc);
+>  
+>  	status = devm_request_threaded_irq(device, dev->irq, aer_irq, aer_isr,
+> -					   IRQF_SHARED, "aerdrv", dev);
+> +					   IRQF_NO_THREAD | IRQF_SHARED,
+> +					   "aerdrv", dev);
 
+I'm not sure if this works with IRQF_SHARED. Your primary handler is
+IRQF_SHARED + IRQF_NO_THREAD and another shared handler which is
+forced-threaded will have IRQF_SHARED + IRQF_ONESHOT. 
+If the core does not complain, all good. Worst case might be the shared
+ONESHOT lets your primary handler starve. It would be nice if you could
+check if you have shared handler here (I have no aer I three boxes I
+checked).
+
+>  	if (status) {
+>  		pci_err(port, "request AER IRQ %d failed\n", dev->irq);
+>  		return status;
+
+Sebastian
