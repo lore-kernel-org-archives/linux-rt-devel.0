@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052443054CF
-	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 14:25:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D599305043
+	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 14:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756995932; cv=none; b=CYgwBMq1uKYp/8VFKddZ6HIYqnuOb4nv0nF2S1Rx4ZKL9zKobgtSN6EHofg7/ppN1i1DMZhURkvE0Uq7eBMgDSXNqJJ5j6u3K5/5usjDJJi7gXqUf21xpadt3uu8hkIRY8IPZxH8W5T+KAZz5ZtptlN/Wn4wJSo9TS5TtM1QUe4=
+	t=1756995933; cv=none; b=MGmJtTsL0PEGqvo6TsCYzBcL49e2qwt0p9uIKbwO1f4wCS/5vW89YcsOSpAYq3ZYt5bH5OKtJoZHsUh53F71NcDtKe4ycCMbhpzPGlqd4Ss6nkESY0JA8lTsgIsn/bbvOlQs+Yaaih8mdTRLYA+Y4VlKza72+p8ThZHe8CU1M5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756995932; c=relaxed/simple;
-	bh=OrS1GLE8fZzJL/5WRFTo0sr5TpCRl02BRmGnO/uO/II=;
+	s=arc-20240116; t=1756995933; c=relaxed/simple;
+	bh=BrexX74KTRK7FMalM1pY5dC2CuUGR6ggJVFFqo1/zDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TmzEXMyQ9ytk97diiomyfiEJq3fKdzFTKqTik7XzrY7oczU5tKsg6w48Ye+56u6zrCCQpIrKSyLIskjEzfpG2ini+yF40DCerXoc6tZ4GCCNafVEw/ZDHbdbbcde9A2dD+4e9zfI8zISxzL//muQbPfBvbwI5RWkNAk2s3v4Vjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xeuGdQQ4; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3oS3Ydrn; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=Lq+De5hUX79gr5l/9aIv3BoS0q0T3uFGwk24ZdREotSPsGiY+SbVlfe8IiVa8Dd2A6Xj+urwuag8XVU+ehfDrfT0h3Ywu7OZbUKpeWQznhQ1FboUXooMDyyve7crilXpxfKCT0IaIdXzzX1kz8Dn55PuOkv+zM2rTPjuR+MWXAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tRi50N8T; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eq+Enqs+; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xeuGdQQ4";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3oS3Ydrn"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tRi50N8T";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eq+Enqs+"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1756995929;
@@ -24,21 +24,21 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0R+Kh082/1AWPhILklHbuMCbALmYooNHUNhKm2ZSP7E=;
-	b=xeuGdQQ4erUNqEd/mG46YAsDkzcFHffKLonhcBKcGK4neVFyyo7rhGkICi4e2Wav/2Ovtb
-	CDWbitnLvGZxh0FP8MVfLbzqu9fbMRpkRqYKbx+sc75gkk+PcpXoc8p069VEjWjQe7LL8x
-	X/jQ42Vaia8IIM71h7wYdgstrsfP0MBycmHvKlgy8QYvD9hpdVIfMBrVhw2iCotVc13XKE
-	W8iYr5YYkrUnpi2/wzsxSk55bYPpa8hjWpNON4498R8yK+R9fIuITqI9eDA8bEMLEjjQg7
-	aGULdU8/3rYyhNoWJVgfPUq/kQ3cQiVn0qUZtMUECuDM+iL8zxUI+XmLu6FAsA==
+	bh=UVN5CLakpk5U9Y52EwxJn3/1VRy6LEwOBHWKO5lWw8o=;
+	b=tRi50N8TaJfHoiR1/oS8FuGU3YLegpsEe9eenEPHBu8kHbSXBCCzTxbhYavLOHSYuglSeT
+	jmMZvxT2N89ZJ+rjEv6qtwT3/gnD3IaCubOJyBAaIu3rqNPOhHf6vXwJSDrJIA4zOWHc+V
+	UJ7LZrKb1Sb5f/lfpS7vdRzVXxpSLgivPS0+7O7dIWmLsIc03RLHleRP1oemMd8dPhA4Mg
+	q1qGydnSEAlZIdZeImP5LIec/d1GJEQ67Ivo0WGPboPp3lo6ApnpIlMFUsVppDgXRALxNc
+	4VzCQPuwCs4AWJmb0Ze+DrYc7Q7nOwK4fKyzphykpRKHNC14PyDT7qVxyEs7kQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1756995929;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0R+Kh082/1AWPhILklHbuMCbALmYooNHUNhKm2ZSP7E=;
-	b=3oS3YdrnFYMfSXWkdXUVM0DuwMInxZoDLlolA1NE91851K6usc0Ey8Q2mrrqgT9JuOc/3m
-	82llLXgjMv3fBVCw==
+	bh=UVN5CLakpk5U9Y52EwxJn3/1VRy6LEwOBHWKO5lWw8o=;
+	b=eq+Enqs+y9cmK+cQYbzbKwDhX0hW6AFcHdkT20tOWpBkMWTdEsYldXEBwLWmRx4ExM2UG8
+	+PzUlw/w2oukWoBQ==
 To: linux-rt-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Clark Williams <clrkwllms@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Clark Williams <clrkwllms@kernel.org>,
 	Tejun Heo <tj@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 1/3] workqueue: Provide a handshake for canceling BH workers
-Date: Thu,  4 Sep 2025 16:25:23 +0200
-Message-ID: <20250904142526.1845999-2-bigeasy@linutronix.de>
+Subject: [PATCH v3 2/3] softirq: Provide a handshake for canceling tasklets via polling
+Date: Thu,  4 Sep 2025 16:25:24 +0200
+Message-ID: <20250904142526.1845999-3-bigeasy@linutronix.de>
 In-Reply-To: <20250904142526.1845999-1-bigeasy@linutronix.de>
 References: <20250904142526.1845999-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,128 +62,144 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-While a BH work item is canceled, the core code spins until it
-determines that the item completed. On PREEMPT_RT the spinning relies on
-a lock in local_bh_disable() to avoid a live lock if the canceling
-thread has higher priority than the BH-worker and preempts it. This lock
-ensures that the BH-worker makes progress by PI-boosting it.
+The tasklet_unlock_spin_wait() via tasklet_disable_in_atomic() is
+provided for a few legacy tasklet users. The interface is used from
+atomic context (which is either softirq or disabled preemption) on
+non-PREEMPT_RT an relies on spinning until the tasklet callback
+completes.
+On PREEMPT_RT the context is never atomic but the busy polling logic
+remains. It possible that the thread invoking tasklet_unlock_spin_wait()
+has higher priority than the tasklet. If both run on the same CPU the
+the tasklet makes no progress and the thread trying to cancel the
+tasklet will live-lock the system.
+To avoid the lockup tasklet_unlock_spin_wait() uses local_bh_disable()/
+enable() which utilizes the local_lock_t for synchronisation. This lock
+is a central per-CPU BKL and about to be removed.
 
-This lock in local_bh_disable() is a central per-CPU BKL and about to be
-removed.
-
-To provide the required synchronisation add a per pool lock. The lock is
-acquired by the bh_worker at the begin while the individual callbacks
-are invoked. To enforce progress in case of interruption, __flush_work()
-needs to acquire the lock.
-This will flush all BH-work items assigned to that pool.
+Acquire a lock in tasklet_action_common() which is held while the
+tasklet's callback is invoked. This lock will be acquired from
+tasklet_unlock_spin_wait() via tasklet_callback_cancel_wait_running().
+After the tasklet completed tasklet_callback_sync_wait_running() drops
+the lock and acquires it again. In order to avoid unlocking the lock
+even if there is no cancel request, there is a cb_waiters counter which
+is incremented during a cancel request.
+Blocking on the lock will PI-boost the tasklet if needed, ensuring
+progress is made.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- kernel/workqueue.c | 50 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 41 insertions(+), 9 deletions(-)
+ kernel/softirq.c | 62 ++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 57 insertions(+), 5 deletions(-)
 
-diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-index c6b79b3675c31..d6c94ee8edfc5 100644
---- a/kernel/workqueue.c
-+++ b/kernel/workqueue.c
-@@ -222,7 +222,9 @@ struct worker_pool {
- 	struct workqueue_attrs	*attrs;		/* I: worker attributes */
- 	struct hlist_node	hash_node;	/* PL: unbound_pool_hash node */
- 	int			refcnt;		/* PL: refcnt for unbound pools */
--
-+#ifdef CONFIG_PREEMPT_RT
-+	spinlock_t		cb_lock;	/* BH worker cancel lock */
-+#endif
- 	/*
- 	 * Destruction of pool is RCU protected to allow dereferences
- 	 * from get_work_pool().
-@@ -3078,6 +3080,31 @@ __acquires(&pool->lock)
- 		goto restart;
+diff --git a/kernel/softirq.c b/kernel/softirq.c
+index 513b1945987cc..4e2c980e7712e 100644
+--- a/kernel/softirq.c
++++ b/kernel/softirq.c
+@@ -805,6 +805,58 @@ static bool tasklet_clear_sched(struct tasklet_struct =
+*t)
+ 	return false;
  }
 =20
 +#ifdef CONFIG_PREEMPT_RT
-+static void worker_lock_callback(struct worker_pool *pool)
++struct tasklet_sync_callback {
++	spinlock_t	cb_lock;
++	atomic_t	cb_waiters;
++};
++
++static DEFINE_PER_CPU(struct tasklet_sync_callback, tasklet_sync_callback)=
+ =3D {
++	.cb_lock	=3D __SPIN_LOCK_UNLOCKED(tasklet_sync_callback.cb_lock),
++	.cb_waiters	=3D ATOMIC_INIT(0),
++};
++
++static void tasklet_lock_callback(void)
 +{
-+	spin_lock(&pool->cb_lock);
++	spin_lock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
 +}
 +
-+static void worker_unlock_callback(struct worker_pool *pool)
++static void tasklet_unlock_callback(void)
 +{
-+	spin_unlock(&pool->cb_lock);
++	spin_unlock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
 +}
 +
-+static void workqueue_callback_cancel_wait_running(struct worker_pool *poo=
-l)
++static void tasklet_callback_cancel_wait_running(void)
 +{
-+	spin_lock(&pool->cb_lock);
-+	spin_unlock(&pool->cb_lock);
++	struct tasklet_sync_callback *sync_cb =3D this_cpu_ptr(&tasklet_sync_call=
+back);
++
++	atomic_inc(&sync_cb->cb_waiters);
++	spin_lock(&sync_cb->cb_lock);
++	atomic_dec(&sync_cb->cb_waiters);
++	spin_unlock(&sync_cb->cb_lock);
 +}
 +
-+#else
++static void tasklet_callback_sync_wait_running(void)
++{
++	struct tasklet_sync_callback *sync_cb =3D this_cpu_ptr(&tasklet_sync_call=
+back);
 +
-+static void worker_lock_callback(struct worker_pool *pool) { }
-+static void worker_unlock_callback(struct worker_pool *pool) { }
-+static void workqueue_callback_cancel_wait_running(struct worker_pool *poo=
-l) { }
++	if (atomic_read(&sync_cb->cb_waiters)) {
++		spin_unlock(&sync_cb->cb_lock);
++		spin_lock(&sync_cb->cb_lock);
++	}
++}
 +
++#else /* !CONFIG_PREEMPT_RT: */
++
++static void tasklet_lock_callback(void) { }
++static void tasklet_unlock_callback(void) { }
++static void tasklet_callback_sync_wait_running(void) { }
++
++#ifdef CONFIG_SMP
++static void tasklet_callback_cancel_wait_running(void) { }
 +#endif
++#endif /* !CONFIG_PREEMPT_RT */
 +
- /**
-  * manage_workers - manage worker pool
-  * @worker: self
-@@ -3557,6 +3584,7 @@ static void bh_worker(struct worker *worker)
- 	int nr_restarts =3D BH_WORKER_RESTARTS;
- 	unsigned long end =3D jiffies + BH_WORKER_JIFFIES;
+ static void tasklet_action_common(struct tasklet_head *tl_head,
+ 				  unsigned int softirq_nr)
+ {
+@@ -816,6 +868,7 @@ static void tasklet_action_common(struct tasklet_head *=
+tl_head,
+ 	tl_head->tail =3D &tl_head->head;
+ 	local_irq_enable();
 =20
-+	worker_lock_callback(pool);
- 	raw_spin_lock_irq(&pool->lock);
- 	worker_leave_idle(worker);
++	tasklet_lock_callback();
+ 	while (list) {
+ 		struct tasklet_struct *t =3D list;
 =20
-@@ -3585,6 +3613,7 @@ static void bh_worker(struct worker *worker)
- 	worker_enter_idle(worker);
- 	kick_pool(pool);
- 	raw_spin_unlock_irq(&pool->lock);
-+	worker_unlock_callback(pool);
- }
-=20
- /*
-@@ -4222,17 +4251,17 @@ static bool __flush_work(struct work_struct *work, =
-bool from_cancel)
- 		    (data & WORK_OFFQ_BH)) {
- 			/*
- 			 * On RT, prevent a live lock when %current preempted
--			 * soft interrupt processing or prevents ksoftirqd from
--			 * running by keeping flipping BH. If the BH work item
--			 * runs on a different CPU then this has no effect other
--			 * than doing the BH disable/enable dance for nothing.
--			 * This is copied from
--			 * kernel/softirq.c::tasklet_unlock_spin_wait().
-+			 * soft interrupt processing by blocking on lock which
-+			 * is owned by the thread invoking the callback.
- 			 */
- 			while (!try_wait_for_completion(&barr.done)) {
- 				if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
--					local_bh_disable();
--					local_bh_enable();
-+					struct worker_pool *pool;
-+
-+					guard(rcu)();
-+					pool =3D get_work_pool(work);
-+					if (pool)
-+						workqueue_callback_cancel_wait_running(pool);
- 				} else {
- 					cpu_relax();
+@@ -835,6 +888,7 @@ static void tasklet_action_common(struct tasklet_head *=
+tl_head,
+ 					}
  				}
-@@ -4782,6 +4811,9 @@ static int init_worker_pool(struct worker_pool *pool)
- 	ida_init(&pool->worker_ida);
- 	INIT_HLIST_NODE(&pool->hash_node);
- 	pool->refcnt =3D 1;
-+#ifdef CONFIG_PREEMPT_RT
-+	spin_lock_init(&pool->cb_lock);
-+#endif
+ 				tasklet_unlock(t);
++				tasklet_callback_sync_wait_running();
+ 				continue;
+ 			}
+ 			tasklet_unlock(t);
+@@ -847,6 +901,7 @@ static void tasklet_action_common(struct tasklet_head *=
+tl_head,
+ 		__raise_softirq_irqoff(softirq_nr);
+ 		local_irq_enable();
+ 	}
++	tasklet_unlock_callback();
+ }
 =20
- 	/* shouldn't fail above this point */
- 	pool->attrs =3D alloc_workqueue_attrs();
+ static __latent_entropy void tasklet_action(void)
+@@ -897,12 +952,9 @@ void tasklet_unlock_spin_wait(struct tasklet_struct *t)
+ 			/*
+ 			 * Prevent a live lock when current preempted soft
+ 			 * interrupt processing or prevents ksoftirqd from
+-			 * running. If the tasklet runs on a different CPU
+-			 * then this has no effect other than doing the BH
+-			 * disable/enable dance for nothing.
++			 * running.
+ 			 */
+-			local_bh_disable();
+-			local_bh_enable();
++			tasklet_callback_cancel_wait_running();
+ 		} else {
+ 			cpu_relax();
+ 		}
 --=20
 2.51.0
 
