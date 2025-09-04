@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D599305043
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B037630AAD0
 	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Sep 2025 14:25:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756995933; cv=none; b=MGmJtTsL0PEGqvo6TsCYzBcL49e2qwt0p9uIKbwO1f4wCS/5vW89YcsOSpAYq3ZYt5bH5OKtJoZHsUh53F71NcDtKe4ycCMbhpzPGlqd4Ss6nkESY0JA8lTsgIsn/bbvOlQs+Yaaih8mdTRLYA+Y4VlKza72+p8ThZHe8CU1M5I=
+	t=1756995933; cv=none; b=rT10Sb/e0KJ1R9rm0yIa5RyCcnGqlKOnNHeQXBsfW2TFLJYrtqyRmP7WapiMd8srHqxtVDX+/wUYRsahf/cL1UVaC4drYOzszHz9rtWYPOZpnyDVvqyrbyxaKLKj3NucVdTN6KyXiSp1uzkNAwe5M+e4A4kcWuvcf0L5mWlaXTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756995933; c=relaxed/simple;
-	bh=BrexX74KTRK7FMalM1pY5dC2CuUGR6ggJVFFqo1/zDk=;
+	bh=ntLMxMTJJL8iq2rbfSuz0Vqw+9K2PaY2gC9lbyvr3xk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lq+De5hUX79gr5l/9aIv3BoS0q0T3uFGwk24ZdREotSPsGiY+SbVlfe8IiVa8Dd2A6Xj+urwuag8XVU+ehfDrfT0h3Ywu7OZbUKpeWQznhQ1FboUXooMDyyve7crilXpxfKCT0IaIdXzzX1kz8Dn55PuOkv+zM2rTPjuR+MWXAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tRi50N8T; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eq+Enqs+; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=FwXizOXImAeAqa2XvSEsBx5ASzL+weDuNlNW0PKDi8128EBY6A0/IbRN2i3Whp2hLZmiPHVXvpmuSsH3YmDuJNGnL70TZ2LZEIoi+sO1o2ajCp10o+q94wTnhuRieECdCgOq/cc33kjaBwAT7YelZOBHALgUlIy4Kr+jZFLq+EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JwHXLpl6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ATWbNFL0; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tRi50N8T";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eq+Enqs+"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JwHXLpl6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ATWbNFL0"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1756995929;
+	s=2020; t=1756995930;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UVN5CLakpk5U9Y52EwxJn3/1VRy6LEwOBHWKO5lWw8o=;
-	b=tRi50N8TaJfHoiR1/oS8FuGU3YLegpsEe9eenEPHBu8kHbSXBCCzTxbhYavLOHSYuglSeT
-	jmMZvxT2N89ZJ+rjEv6qtwT3/gnD3IaCubOJyBAaIu3rqNPOhHf6vXwJSDrJIA4zOWHc+V
-	UJ7LZrKb1Sb5f/lfpS7vdRzVXxpSLgivPS0+7O7dIWmLsIc03RLHleRP1oemMd8dPhA4Mg
-	q1qGydnSEAlZIdZeImP5LIec/d1GJEQ67Ivo0WGPboPp3lo6ApnpIlMFUsVppDgXRALxNc
-	4VzCQPuwCs4AWJmb0Ze+DrYc7Q7nOwK4fKyzphykpRKHNC14PyDT7qVxyEs7kQ==
+	bh=zpqMI9FznM8U9iJMEFpqpF+IGwhgXp8qLalooxsCxCo=;
+	b=JwHXLpl6xv9sfs63bZWNe0iyugit6HI/0Fc0SbY0Y/oQ17Ohn1JrknA/t4H8P+KKJH5qSj
+	rLhueLBLxDsqQGrDrqcm6S8fSulE82TCdgD4WN7CG4+ja52S7aYyIKllVmyH7xJDWDow92
+	BmFQPoJKapX51HShVAD+bcUCyp8Geyvb4h0+1KT8wjf8eK7Q35ICZhJTqVk05VTbWw4lBT
+	Zq6Vac4/3RI3kyxwJ8wmVoOy9U1iBLEdhdp0PWwOk3sT0uZnBPXG95vsoNLhYBMlYJ1B8d
+	E+MHmvf1D5mgkulHVIDSlI+Nsh6LXF4VLIWVyx5H6JAPXabpEWtwMVIgHtCUsg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1756995929;
+	s=2020e; t=1756995930;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UVN5CLakpk5U9Y52EwxJn3/1VRy6LEwOBHWKO5lWw8o=;
-	b=eq+Enqs+y9cmK+cQYbzbKwDhX0hW6AFcHdkT20tOWpBkMWTdEsYldXEBwLWmRx4ExM2UG8
-	+PzUlw/w2oukWoBQ==
+	bh=zpqMI9FznM8U9iJMEFpqpF+IGwhgXp8qLalooxsCxCo=;
+	b=ATWbNFL0nwNSTIilXUwnO3DMbkuntpl4xbBcB5vugC264PsT4MoCg8LIuJ0e4xdYNqVcZm
+	BkYFtsajdSh9lPAg==
 To: linux-rt-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Clark Williams <clrkwllms@kernel.org>,
@@ -49,9 +49,9 @@ Cc: Clark Williams <clrkwllms@kernel.org>,
 	Tejun Heo <tj@kernel.org>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 2/3] softirq: Provide a handshake for canceling tasklets via polling
-Date: Thu,  4 Sep 2025 16:25:24 +0200
-Message-ID: <20250904142526.1845999-3-bigeasy@linutronix.de>
+Subject: [PATCH v3 3/3] softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT
+Date: Thu,  4 Sep 2025 16:25:25 +0200
+Message-ID: <20250904142526.1845999-4-bigeasy@linutronix.de>
 In-Reply-To: <20250904142526.1845999-1-bigeasy@linutronix.de>
 References: <20250904142526.1845999-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,144 +62,182 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The tasklet_unlock_spin_wait() via tasklet_disable_in_atomic() is
-provided for a few legacy tasklet users. The interface is used from
-atomic context (which is either softirq or disabled preemption) on
-non-PREEMPT_RT an relies on spinning until the tasklet callback
-completes.
-On PREEMPT_RT the context is never atomic but the busy polling logic
-remains. It possible that the thread invoking tasklet_unlock_spin_wait()
-has higher priority than the tasklet. If both run on the same CPU the
-the tasklet makes no progress and the thread trying to cancel the
-tasklet will live-lock the system.
-To avoid the lockup tasklet_unlock_spin_wait() uses local_bh_disable()/
-enable() which utilizes the local_lock_t for synchronisation. This lock
-is a central per-CPU BKL and about to be removed.
+softirqs are preemptible on PREEMPT_RT. There is synchronisation between
+individual sections which disable bottom halves. This in turn means that
+a forced threaded interrupt can not preempt another forced threaded
+interrupt. Instead it will PI-boost the other handler and wait for its
+completion.
 
-Acquire a lock in tasklet_action_common() which is held while the
-tasklet's callback is invoked. This lock will be acquired from
-tasklet_unlock_spin_wait() via tasklet_callback_cancel_wait_running().
-After the tasklet completed tasklet_callback_sync_wait_running() drops
-the lock and acquires it again. In order to avoid unlocking the lock
-even if there is no cancel request, there is a cb_waiters counter which
-is incremented during a cancel request.
-Blocking on the lock will PI-boost the tasklet if needed, ensuring
-progress is made.
+This is required because code within a softirq section is assumed to be
+non-preemptible and may expect exclusive access to per-CPU resources
+such as variables or pinned timers.
+Code with such expectation has been identified and updated to use
+local_lock_nested_bh() for locking of the per-CPU resource. This means
+the lock can be removed.
+
+Add CONFIG_PREEMPT_RT_NEEDS_BH_LOCK which keeps the old behaviour if
+selected. Otherwise the softirq synchronising is lifted. The
+softirq_ctrl.cnt accounting remains to let NOHZ code if softirqs are
+currently handled.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- kernel/softirq.c | 62 ++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 57 insertions(+), 5 deletions(-)
+ kernel/Kconfig.preempt | 13 +++++++
+ kernel/softirq.c       | 83 ++++++++++++++++++++++++++++++++----------
+ 2 files changed, 76 insertions(+), 20 deletions(-)
 
+diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
+index 54ea59ff8fbeb..da326800c1c9b 100644
+--- a/kernel/Kconfig.preempt
++++ b/kernel/Kconfig.preempt
+@@ -103,6 +103,19 @@ config PREEMPT_RT
+ 	  Select this if you are building a kernel for systems which
+ 	  require real-time guarantees.
+=20
++config PREEMPT_RT_NEEDS_BH_LOCK
++	bool "Enforce softirq synchronisation on PREEMPT_RT"
++	depends on PREEMPT_RT
++	help
++	  Enforce synchronisation across the softirqs context. On PREEMPT_RT
++	  the softirq is preemptible. This enforces the same per-CPU BLK
++	  semantic non-PREEMPT_RT builds have. This should not be needed
++	  because per-CPU locks were added to avoid the per-CPU BKL.
++
++	  This switch provides the old behaviour for testing reasons. Select
++	  this if you suspect an error with preemptible softirq and want test
++	  the old synchronized behaviour.
++
+ config PREEMPT_COUNT
+        bool
+=20
 diff --git a/kernel/softirq.c b/kernel/softirq.c
-index 513b1945987cc..4e2c980e7712e 100644
+index 4e2c980e7712e..77198911b8dd4 100644
 --- a/kernel/softirq.c
 +++ b/kernel/softirq.c
-@@ -805,6 +805,58 @@ static bool tasklet_clear_sched(struct tasklet_struct =
-*t)
- 	return false;
- }
-=20
-+#ifdef CONFIG_PREEMPT_RT
-+struct tasklet_sync_callback {
-+	spinlock_t	cb_lock;
-+	atomic_t	cb_waiters;
-+};
+@@ -165,7 +165,11 @@ void __local_bh_disable_ip(unsigned long ip, unsigned =
+int cnt)
+ 	/* First entry of a task into a BH disabled section? */
+ 	if (!current->softirq_disable_cnt) {
+ 		if (preemptible()) {
+-			local_lock(&softirq_ctrl.lock);
++			if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK))
++				local_lock(&softirq_ctrl.lock);
++			else
++				migrate_disable();
 +
-+static DEFINE_PER_CPU(struct tasklet_sync_callback, tasklet_sync_callback)=
- =3D {
-+	.cb_lock	=3D __SPIN_LOCK_UNLOCKED(tasklet_sync_callback.cb_lock),
-+	.cb_waiters	=3D ATOMIC_INIT(0),
-+};
-+
-+static void tasklet_lock_callback(void)
-+{
-+	spin_lock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
-+}
-+
-+static void tasklet_unlock_callback(void)
-+{
-+	spin_unlock(this_cpu_ptr(&tasklet_sync_callback.cb_lock));
-+}
-+
-+static void tasklet_callback_cancel_wait_running(void)
-+{
-+	struct tasklet_sync_callback *sync_cb =3D this_cpu_ptr(&tasklet_sync_call=
-back);
-+
-+	atomic_inc(&sync_cb->cb_waiters);
-+	spin_lock(&sync_cb->cb_lock);
-+	atomic_dec(&sync_cb->cb_waiters);
-+	spin_unlock(&sync_cb->cb_lock);
-+}
-+
-+static void tasklet_callback_sync_wait_running(void)
-+{
-+	struct tasklet_sync_callback *sync_cb =3D this_cpu_ptr(&tasklet_sync_call=
-back);
-+
-+	if (atomic_read(&sync_cb->cb_waiters)) {
-+		spin_unlock(&sync_cb->cb_lock);
-+		spin_lock(&sync_cb->cb_lock);
-+	}
-+}
-+
-+#else /* !CONFIG_PREEMPT_RT: */
-+
-+static void tasklet_lock_callback(void) { }
-+static void tasklet_unlock_callback(void) { }
-+static void tasklet_callback_sync_wait_running(void) { }
-+
-+#ifdef CONFIG_SMP
-+static void tasklet_callback_cancel_wait_running(void) { }
-+#endif
-+#endif /* !CONFIG_PREEMPT_RT */
-+
- static void tasklet_action_common(struct tasklet_head *tl_head,
- 				  unsigned int softirq_nr)
- {
-@@ -816,6 +868,7 @@ static void tasklet_action_common(struct tasklet_head *=
-tl_head,
- 	tl_head->tail =3D &tl_head->head;
- 	local_irq_enable();
-=20
-+	tasklet_lock_callback();
- 	while (list) {
- 		struct tasklet_struct *t =3D list;
-=20
-@@ -835,6 +888,7 @@ static void tasklet_action_common(struct tasklet_head *=
-tl_head,
- 					}
- 				}
- 				tasklet_unlock(t);
-+				tasklet_callback_sync_wait_running();
- 				continue;
- 			}
- 			tasklet_unlock(t);
-@@ -847,6 +901,7 @@ static void tasklet_action_common(struct tasklet_head *=
-tl_head,
- 		__raise_softirq_irqoff(softirq_nr);
- 		local_irq_enable();
- 	}
-+	tasklet_unlock_callback();
- }
-=20
- static __latent_entropy void tasklet_action(void)
-@@ -897,12 +952,9 @@ void tasklet_unlock_spin_wait(struct tasklet_struct *t)
- 			/*
- 			 * Prevent a live lock when current preempted soft
- 			 * interrupt processing or prevents ksoftirqd from
--			 * running. If the tasklet runs on a different CPU
--			 * then this has no effect other than doing the BH
--			 * disable/enable dance for nothing.
-+			 * running.
- 			 */
--			local_bh_disable();
--			local_bh_enable();
-+			tasklet_callback_cancel_wait_running();
+ 			/* Required to meet the RCU bottomhalf requirements. */
+ 			rcu_read_lock();
  		} else {
- 			cpu_relax();
- 		}
+@@ -177,17 +181,34 @@ void __local_bh_disable_ip(unsigned long ip, unsigned=
+ int cnt)
+ 	 * Track the per CPU softirq disabled state. On RT this is per CPU
+ 	 * state to allow preemption of bottom half disabled sections.
+ 	 */
+-	newcnt =3D __this_cpu_add_return(softirq_ctrl.cnt, cnt);
+-	/*
+-	 * Reflect the result in the task state to prevent recursion on the
+-	 * local lock and to make softirq_count() & al work.
+-	 */
+-	current->softirq_disable_cnt =3D newcnt;
++	if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
++		newcnt =3D this_cpu_add_return(softirq_ctrl.cnt, cnt);
++		/*
++		 * Reflect the result in the task state to prevent recursion on the
++		 * local lock and to make softirq_count() & al work.
++		 */
++		current->softirq_disable_cnt =3D newcnt;
+=20
+-	if (IS_ENABLED(CONFIG_TRACE_IRQFLAGS) && newcnt =3D=3D cnt) {
+-		raw_local_irq_save(flags);
+-		lockdep_softirqs_off(ip);
+-		raw_local_irq_restore(flags);
++		if (IS_ENABLED(CONFIG_TRACE_IRQFLAGS) && newcnt =3D=3D cnt) {
++			raw_local_irq_save(flags);
++			lockdep_softirqs_off(ip);
++			raw_local_irq_restore(flags);
++		}
++	} else {
++		bool sirq_dis =3D false;
++
++		if (!current->softirq_disable_cnt)
++			sirq_dis =3D true;
++
++		this_cpu_add(softirq_ctrl.cnt, cnt);
++		current->softirq_disable_cnt +=3D cnt;
++		WARN_ON_ONCE(current->softirq_disable_cnt < 0);
++
++		if (IS_ENABLED(CONFIG_TRACE_IRQFLAGS) && sirq_dis) {
++			raw_local_irq_save(flags);
++			lockdep_softirqs_off(ip);
++			raw_local_irq_restore(flags);
++		}
+ 	}
+ }
+ EXPORT_SYMBOL(__local_bh_disable_ip);
+@@ -195,23 +216,42 @@ EXPORT_SYMBOL(__local_bh_disable_ip);
+ static void __local_bh_enable(unsigned int cnt, bool unlock)
+ {
+ 	unsigned long flags;
++	bool sirq_en =3D false;
+ 	int newcnt;
+=20
+-	DEBUG_LOCKS_WARN_ON(current->softirq_disable_cnt !=3D
+-			    this_cpu_read(softirq_ctrl.cnt));
++	if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
++		DEBUG_LOCKS_WARN_ON(current->softirq_disable_cnt !=3D
++				    this_cpu_read(softirq_ctrl.cnt));
++		if (softirq_count() =3D=3D cnt)
++			sirq_en =3D true;
++	} else {
++		if (current->softirq_disable_cnt =3D=3D cnt)
++			sirq_en =3D true;
++	}
+=20
+-	if (IS_ENABLED(CONFIG_TRACE_IRQFLAGS) && softirq_count() =3D=3D cnt) {
++	if (IS_ENABLED(CONFIG_TRACE_IRQFLAGS) && sirq_en) {
+ 		raw_local_irq_save(flags);
+ 		lockdep_softirqs_on(_RET_IP_);
+ 		raw_local_irq_restore(flags);
+ 	}
+=20
+-	newcnt =3D __this_cpu_sub_return(softirq_ctrl.cnt, cnt);
+-	current->softirq_disable_cnt =3D newcnt;
++	if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK)) {
++		newcnt =3D this_cpu_sub_return(softirq_ctrl.cnt, cnt);
++		current->softirq_disable_cnt =3D newcnt;
+=20
+-	if (!newcnt && unlock) {
+-		rcu_read_unlock();
+-		local_unlock(&softirq_ctrl.lock);
++		if (!newcnt && unlock) {
++			rcu_read_unlock();
++			local_unlock(&softirq_ctrl.lock);
++		}
++	} else {
++		current->softirq_disable_cnt -=3D cnt;
++		this_cpu_sub(softirq_ctrl.cnt, cnt);
++		if (unlock && !current->softirq_disable_cnt) {
++			migrate_enable();
++			rcu_read_unlock();
++		} else {
++			WARN_ON_ONCE(current->softirq_disable_cnt < 0);
++		}
+ 	}
+ }
+=20
+@@ -228,7 +268,10 @@ void __local_bh_enable_ip(unsigned long ip, unsigned i=
+nt cnt)
+ 	lock_map_release(&bh_lock_map);
+=20
+ 	local_irq_save(flags);
+-	curcnt =3D __this_cpu_read(softirq_ctrl.cnt);
++	if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK))
++		curcnt =3D this_cpu_read(softirq_ctrl.cnt);
++	else
++		curcnt =3D current->softirq_disable_cnt;
+=20
+ 	/*
+ 	 * If this is not reenabling soft interrupts, no point in trying to
 --=20
 2.51.0
 
