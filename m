@@ -1,119 +1,131 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E27F226D0F
-	for <linux-rt-devel@lists.linux.dev>; Mon,  8 Sep 2025 15:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD36F2B9A5
+	for <linux-rt-devel@lists.linux.dev>; Mon,  8 Sep 2025 16:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757343738; cv=none; b=OOBgm1rbVRFyKUZzpGvvnUyHmxOvEjNw4NsHw7pSTe/7d3SdcgIOL9G0ytVzk+uMH3uYchUNgQQPl+Tppe6tXcgBvqRGkpjqihNQaNfuBBPmc3SFr2oI/F+0aEOIxWrQwQjMgxizuvEUuQwlHEn7RDErobqOLSiPFXN64Gv76HU=
+	t=1757347721; cv=none; b=GOjq6U3k0P14lNZyIr2K7sAd322coV9K5HvdEB6NHJlmuphgtymBIVZHpIPu66TdMpcQATXilh1UbcO6XdKrTMvRSS3KH0X58m2SEE5mqxeh70szyvPsU2dFBGN7BZIJwJTvMVIL2LLZ2xEGt5d1V44CF6NGHmBaxIW+bzw8k7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757343738; c=relaxed/simple;
-	bh=NrN2puWX1Om2SrnX1fDXW1TXXcNPXJMRmgjE1JAHh6k=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k5FPkptsqEcMCAYpCFy3YiZZd/rvnZyD05SoH7GRhMaxLMrdqmBcEfnsnoZy4jedj2d+wPCf1gZM6K2q7/wODPsAvdhURqCEnUvMYjnHhe/ybFtbbEnfVzTn1FQF8pv/TdiBtOoD/qv44IlOOrUBLIipy6fcWIoFzRooBLm/8z4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OL/qYTYC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OL/qYTYC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757343734;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hEWLL5Vbb9k+xSLe/HZhU14b92+dTntX/09oDM7LBgo=;
-	b=OL/qYTYCeUPUu/ZgT52ZoWlQFTbdnbJfEDNxVqgZvVnJIcsrQHrnp2Fnkk58eIuoPlZUea
-	MGBLVOyMYTjBuLw+EfoMuQaoXACp42HggkwrVxrzU2CHLG5H9wT+lQ2gnvaotKkBg1vDyQ
-	n8Bw4sdKX5MB0gEV5Se0R/x/+wkbYVk=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-628-5VM5sfXJMQ-GlueFrmNn7A-1; Mon, 08 Sep 2025 11:02:13 -0400
-X-MC-Unique: 5VM5sfXJMQ-GlueFrmNn7A-1
-X-Mimecast-MFC-AGG-ID: 5VM5sfXJMQ-GlueFrmNn7A_1757343733
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4b5d5cc0f25so97957751cf.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 08 Sep 2025 08:02:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757343733; x=1757948533;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hEWLL5Vbb9k+xSLe/HZhU14b92+dTntX/09oDM7LBgo=;
-        b=IniZbDt69LObW+m+C5LJ/hWStkUXnIrhxkLCvxcunwEOSHCSu61iBBJiKeSb+2CPgv
-         mVkdqlatEU5kA/vJebTNhYQyMOg2EUjXWF9LpnxNNIl/rK3tUhTOSqHTwqJrFXJc/V/u
-         Jo5nVBgLIRdeu73AqlgOalQcTEnsa20JFWnK6WUh547iYz+zVILc5thsSWwspGZZgHTl
-         BN4Z4tzHHNBb6yS1hINK3g8ctY4hXy77TopJV+9XwYB1yvjYjQnbtmWtN+aifreOZuPh
-         bPKC0exOWAj4FGShFSx2COuY41LEqSor6Dp6YV5c/Hzb3U/DX7yUTdx8X4fG8WpC6io4
-         XKzg==
-X-Forwarded-Encrypted: i=1; AJvYcCU9Tz+6LY3y2lGGHMnxCFoLxN6WDWRDvhxzWba0YFSM5VHVXO8yohuy8afoBhu0apaa3wUWSFpH7hEIsCRcLQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSmkfE2nYD3ECaAuRSckeC3Q7WA6iikLISyWuiRbpZfPppa+EM
-	0FRR8b5zRqeMKQulbsehXumrsgm+0KaAwtSrv1n6WlRiHhbzvjiChseM+/F/vA+mCtRTMNwvXG5
-	SqbQGqrt77ga963DaK0X7PYkdE7hkwyEEJ904p2W51VWE1RTNJj9ZjGbg7LcmHSB2gTUM
-X-Gm-Gg: ASbGncubXpN8A+rZPSZIDN2jflmf4KmEQKpR2maL/ezIP7Ks31A4XMchyuVmqvyJTff
-	dONlzqeCS1HnTqchUkRKFuemvuuvCY/c43XFlmcJ1WKwLoPtwnMV+gyjayI59XS+rCcoUCQnugE
-	wO5iUfi0Mw6aIRxhsDDNoKOUm+y4lSg0gnTnWIfmMcpdMb3K2mZjYfNLXkSWuehnwygusMZfJwW
-	R4mjRL7sJQfH8okVANMxIgr2F3FGvPBEJXWLzcwV4Yl3mOx5ImyM3F7lb75IQbaJByS6GaI6kZA
-	k7GkIYJ6QKT6f2v/f6pdlqFpWyG09xG8tlL2H3aV+PqZLbiIP1Te2E9twxXfQbZ3crklmus=
-X-Received: by 2002:a05:622a:38c:b0:4b3:5081:24c8 with SMTP id d75a77b69052e-4b5f846a36emr96660171cf.56.1757343732628;
-        Mon, 08 Sep 2025 08:02:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF1uHxMn1TVqLXTn1Op3nB3byCrcQAFulbDefZ4JeRt6YV1a9xoXVRpsi2KDcyzNZDOkKnjOQ==
-X-Received: by 2002:a05:622a:38c:b0:4b3:5081:24c8 with SMTP id d75a77b69052e-4b5f846a36emr96658701cf.56.1757343731307;
-        Mon, 08 Sep 2025 08:02:11 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([2601:447:c680:2b50:ee6f:85c2:7e3e:ee98])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f652814sm104251941cf.12.2025.09.08.08.02.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 08:02:10 -0700 (PDT)
-Message-ID: <ad1f8cbe29e27dc70db136af5888774ab0b46288.camel@redhat.com>
-Subject: Re: [PATCH] PCI/AER: Use IRQF_NO_THREAD on aer_irq
-From: Crystal Wood <crwood@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Lukas Wunner
-	 <lukas@wunner.de>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Mahesh J Salgaonkar	
- <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>, Clark
- Williams	 <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Attila Fazekas	 <afazekas@redhat.com>, linux-pci@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Date: Mon, 08 Sep 2025 10:02:09 -0500
-In-Reply-To: <20250908075225.sDW_dYzG@linutronix.de>
-References: <20250902224441.368483-1-crwood@redhat.com>
-	 <20250904073024.YsLeZqK_@linutronix.de> <aLmKlVaKSBurRys1@wunner.de>
-	 <bb2b9df1b13fccb7829c5d73a0bddbd0083d105a.camel@redhat.com>
-	 <aL55cDBjsNk2xK10@wunner.de> <20250908075225.sDW_dYzG@linutronix.de>
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42)
+	s=arc-20240116; t=1757347721; c=relaxed/simple;
+	bh=L0oLhH7XTO62+cYljj+HqUg2QW/9wnUQVJlr7OlxZR0=;
+	h=Message-Id:From:Date:Subject:To:Cc; b=QFtzmcnvwLeDXT7huFEixSgeE1VliwyxntJC52ojIDpFxpIfqXLVpKIAVYt75BzaPaZYXh+nBqxPlcaW6Hhd4pPUZYMdcJifRMZTDTiJXGE7BDJNkGaOqFvkCqQaneFZiUYROBtCO9qh2F+8yU+0/GC+L4uO6eNChIr2De1s3x8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.78.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout2.hostsharing.net (Postfix) with ESMTPS id 4CCB020091A0;
+	Mon,  8 Sep 2025 18:08:30 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 45B715307EE; Mon,  8 Sep 2025 18:08:30 +0200 (CEST)
+Message-Id: <83f58870043e2ae64f19b3a2169b5c3cf3f95130.1757346718.git.lukas@wunner.de>
+From: Lukas Wunner <lukas@wunner.de>
+Date: Mon, 8 Sep 2025 18:08:31 +0200
+Subject: [PATCH] genirq/manage: Reduce priority of forced secondary IRQ
+ handler
+To: Thomas Gleixner <tglx@linutronix.de>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, Crystal Wood <crwood@redhat.com>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, linux-kernel@vger.kernel.org, Attila Fazekas <afazekas@redhat.com>, linux-pci@vger.kernel.org, linux-rt-devel@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Oliver OHalloran <oohall@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2qeWOto5BWD7Tg9zg-7V8D-3Ny_diULWFtPKY3M0a8A_1757343733
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2025-09-08 at 09:52 +0200, Sebastian Andrzej Siewior wrote:
-> On 2025-09-08 08:36:32 [+0200], Lukas Wunner wrote:
-> > --- a/kernel/sched/syscalls.c
-> > +++ b/kernel/sched/syscalls.c
-> > @@ -847,6 +847,15 @@ void sched_set_fifo(struct task_struct *p)
-> >  EXPORT_SYMBOL_GPL(sched_set_fifo);
-> > =20
-> >  /*
-> > + * Secondary IRQ handler has slightly lower priority than primary IRQ =
-handler.
->=20
->   For tasks that should be sched_set_fifo() but require not to preempt
->   another sched_set_fifo() task.
+Crystal reports the PCIe Advanced Error Reporting driver getting stuck
+in an infinite loop on PREEMPT_RT:  Both the primary IRQ handler
+aer_irq() as well as the secondary handler aer_isr() are forced into
+threads with identical priority.
 
-SCHED_FIFO already means that tasks of the same priority won't preempt
-each other.  I'd word it as:
+Crystal writes that on the ARM system in question, the primary IRQ
+handler has to clear an error in the Root Error Status register...
 
-For tasks that must be preemptible by a sched_set_fifo() task, such as
-to simulate the behavior of a non-PREEMPT_RT system where the
-sched_set_fifo() task is a hard interrupt.
+   "before the next error happens, or else the hardware will set the
+    Multiple ERR_COR Received bit.  If that bit is set, then aer_isr()
+    can't rely on the Error Source Identification register, so it scans
+    through all devices looking for errors -- and for some reason, on
+    this system, accessing the AER registers (or any Config Space above
+    0x400, even though there are capabilities located there) generates
+    an Unsupported Request Error (but returns valid data).  Since this
+    happens more than once, without aer_irq() preempting, it causes
+    another multi error and we get stuck in a loop."
 
+The issue does not show on non-PREEMPT_RT since the primary IRQ handler
+runs in hardirq context and thus clears the Root Error Status register
+before waking the secondary IRQ handler's thread.
 
--Crystal
+Simulate the same behavior on PREEMPT_RT by assigning a lower default
+priority to forced secondary IRQ handlers.
+
+Reported-by: Crystal Wood <crwood@redhat.com>
+Tested-by: Crystal Wood <crwood@redhat.com>
+Closes: https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+Crystal provided a Tested-by off-list.  I've used Crystal's suggestion
+for the code comment, but if anyone prefers Sebastian's or some other
+wording, I don't mind either respinning myself or a maintainer amending
+this or any other aspect of the patch when applying.  Thanks!
+
+ include/linux/sched.h   |  1 +
+ kernel/irq/manage.c     |  5 ++++-
+ kernel/sched/syscalls.c | 11 +++++++++++
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index 2b27238..ceed23d 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -1894,6 +1894,7 @@ static inline int task_nice(const struct task_struct *p)
+ extern int sched_setscheduler(struct task_struct *, int, const struct sched_param *);
+ extern int sched_setscheduler_nocheck(struct task_struct *, int, const struct sched_param *);
+ extern void sched_set_fifo(struct task_struct *p);
++extern void sched_set_fifo_minus_one(struct task_struct *p);
+ extern void sched_set_fifo_low(struct task_struct *p);
+ extern void sched_set_normal(struct task_struct *p, int nice);
+ extern int sched_setattr(struct task_struct *, const struct sched_attr *);
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index c948373..b09c18a 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1239,7 +1239,10 @@ static int irq_thread(void *data)
+ 
+ 	irq_thread_set_ready(desc, action);
+ 
+-	sched_set_fifo(current);
++	if (action->handler == irq_forced_secondary_handler)
++		sched_set_fifo_minus_one(current);
++	else
++		sched_set_fifo(current);
+ 
+ 	if (force_irqthreads() && test_bit(IRQTF_FORCED_THREAD,
+ 					   &action->thread_flags))
+diff --git a/kernel/sched/syscalls.c b/kernel/sched/syscalls.c
+index 77ae87f..4be85aa 100644
+--- a/kernel/sched/syscalls.c
++++ b/kernel/sched/syscalls.c
+@@ -847,6 +847,17 @@ void sched_set_fifo(struct task_struct *p)
+ EXPORT_SYMBOL_GPL(sched_set_fifo);
+ 
+ /*
++ * For tasks that must be preemptible by a sched_set_fifo() task, such as
++ * to simulate the behavior of a non-PREEMPT_RT system where the
++ * sched_set_fifo() task is a hard interrupt.
++ */
++void sched_set_fifo_minus_one(struct task_struct *p)
++{
++	struct sched_param sp = { .sched_priority = MAX_RT_PRIO / 2 - 1 };
++	WARN_ON_ONCE(sched_setscheduler_nocheck(p, SCHED_FIFO, &sp) != 0);
++}
++
++/*
+  * For when you don't much care about FIFO, but want to be above SCHED_NORMAL.
+  */
+ void sched_set_fifo_low(struct task_struct *p)
+-- 
+2.50.1
 
