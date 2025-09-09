@@ -1,101 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E52132CF83
-	for <linux-rt-devel@lists.linux.dev>; Tue,  9 Sep 2025 12:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F92133EAF8
+	for <linux-rt-devel@lists.linux.dev>; Tue,  9 Sep 2025 13:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757420558; cv=none; b=Qqn6aP3rnBwXFJVwxPH3ZSvycksevQUyUVAedaBX0rGFi1ZS1+BYqkwIvSNRk+jPBP9p/MO4RkWGEil68wvGISR6gpyUEX8Quo2RJSDbOw5xN4qoirO+37YjgcB4nEwrnTo4pTQH8l8XXDYPpHwo+pndsx2Y438pQD04fgUrbKI=
+	t=1757423383; cv=none; b=Utfl1y/gP6O3VZ/MvHdk6+xLwpWqBbtCidfEH1CpCKTbVn/pPYnUhHewZcegysOVf3pzfYlbNgG6lWGUosM1XBPTpub6TmheHzrsLIbejSFxhqxM1G/c1H16dlG5mIqlJe5SRvv313HqtRp5r29A4jQVptkFwcQaO7U/v39CAfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757420558; c=relaxed/simple;
-	bh=LEoIvUCZjmFRMqhlnS4k2kBDTkILS00++ijrZc+ysvQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=j9VlLE7Sy1h90LEQzsUxSFjqmhOkNPx4EGlWpx229TPdvjbpm5vzV/Rjm06/kWv/dn0q69YWXE4nF1rAOsSJZLQEzKFOI0f5NKLYhUkkJZcVSl9zvuAUfwrh2ZuCbvNP6CPp0EQwVOfKH/FV0KUBcRCzke76rr4eDFpMiF1c0VA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EonEZDih; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1757423383; c=relaxed/simple;
+	bh=+UVfjwCoBbPWtTlBKBtHS7oAtn+6cbbaP0o4IdyZkfM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TkcY3RD2l4w9Rs8p/0dH2kGVZIrpzw0LmAIUEPFNE0zzSDgyxWtUFMUIILZSWU4E2hKA9g8KvSid/WhK4wyEH4Ij1RHUzz+uiK8J5tC/RX0srkdu6e6sAhjmbMwi2Bxfu0ZptZXmoe0SvaBV0QHNn8M7KtdbPGg5EADnvkdXmbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PVkYhNqn; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EonEZDih"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757420555;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2wu8ICdLYs/cndqwtdIolQkmc1MMS+eRGXoe/OnyOz0=;
-	b=EonEZDihrxaOONDlzVdwOHpf1lk5ZmdpzNbUQXT31E7JVFsCkzhwdykFFe9Ov1PBtAi/JW
-	T/hsFz7cCKS9rgFhgSo2dV5NX3URg1uC1vYukmTYLPF0A/jbtWIRSjldD8IHDeAFNnSpSN
-	ZRBt0lNesVvwgbD6gDtvmtqf3fyfSOk=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-34-nkP3eaCROTuggPxvVA6xHg-1; Tue,
- 09 Sep 2025 08:22:32 -0400
-X-MC-Unique: nkP3eaCROTuggPxvVA6xHg-1
-X-Mimecast-MFC-AGG-ID: nkP3eaCROTuggPxvVA6xHg_1757420551
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 334F2180034D;
-	Tue,  9 Sep 2025 12:22:31 +0000 (UTC)
-Received: from fweimer-oldenburg.csb.redhat.com (unknown [10.45.225.76])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EA3FB19560A2;
-	Tue,  9 Sep 2025 12:22:28 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>,
-  libc-alpha@sourceware.org,  John Ogness <john.ogness@linutronix.de>,
-  linux-rt-devel@lists.linux.dev,  Thomas Gleixner <tglx@linutronix.de>,
-  Carlos O'Donell <carlos@redhat.com>
-Subject: Re: [PATCH] nptl: Use a PI-aware lock for internal
- pthread_cond-related locking
-In-Reply-To: <20250909073226.0qoHYZMo@linutronix.de> (Sebastian Andrzej
-	Siewior's message of "Tue, 9 Sep 2025 09:32:26 +0200")
-References: <20250908163329.Qq79ujq_@linutronix.de>
-	<4c9c86ae-a432-47fe-bede-7f98f4bb1f7c@linaro.org>
-	<20250909073226.0qoHYZMo@linutronix.de>
-Date: Tue, 09 Sep 2025 14:22:26 +0200
-Message-ID: <lhubjnjbyt9.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PVkYhNqn"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-53410d0f4e7so4455043137.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 09 Sep 2025 06:09:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757423380; x=1758028180; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=QxQ4D3devrX/oCb6PwEFal+/eB4lWSgr0y2485GZZpk=;
+        b=PVkYhNqnR3BgiHCi0mr1Z+yE5REyOWtyCmswJPLcaDetvKWe4+aC27Dz5e6jfGPNpB
+         krBMF/EjwXWBfgh94ttKP9qjW+f/IiW8baSTw8Jz8rbzR7sC2CtDEQSKch3qtb7Gl8cH
+         I/OhA6bFOpgA8dt+7yQuRuQdXKn0dd510x9CUw5lf27K/ano1EiCvIQ7e8bjkkc25kJU
+         3dOUQGnd25pVI07VeLzt6wBQPU+1ZJ10PFXjxFSSdcOC5sG3g7s41efI8d0iWl7lREDW
+         b1EIongQD8bjW8vK4o0sWMoAOTtQRughyQv4oY0MLoB1r6rGenVHtMSABoZQcDS5lYDz
+         EEgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757423380; x=1758028180;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QxQ4D3devrX/oCb6PwEFal+/eB4lWSgr0y2485GZZpk=;
+        b=Xi755rQdWlXrMrXheSFtLEEt50CU4n1VACXGhps/1va02XOekOs1o1acKfkA6jFF9x
+         dC0cPLODcHhM2f4tJ+LXxKj6gf+5aW8qsYbSH4fKOaT89ZdJzYlt1PjzV857R170/UUo
+         YnLSl6LiuhQwNzSqUQj1fFTBOGhTAu25ZWotFXIy1jkrMKE8CxUlhFvG1QTG7yXttOct
+         oQUexe2aHXZ5AtWZalUP3uNPxT2hLGmKU19qq4nkDelTFRX+nSaEbcZc8dXTmEhPbCCY
+         OPOgd9XnXZ5lYOjSSAhRz7dpHhWHyGunqKPUR6rElrTCxDrUhf1luUDcLgAKojWcnhrs
+         qRHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZkvl0WsrxLuMufvTv5gbNKqOAgH1fjeFl5RLeN/2yiI003U9BXsQ4RFVsTHk76ClhQTjdtgDthw9x9KTagw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHahiX6ZXHIGy33yZh7cWzSCbZtmP4S4EvyfOu2/n0mndJGB5W
+	SmNBoO40VnWld9956M5Ivj4vdAcegyERZ6F11JbtDb4m305Nfu2DFIsliGsOONFqVbo=
+X-Gm-Gg: ASbGnctWfAfAIe00vviFHutcfG65hZeCDSG/eyxspQu5bf+w7cqVwpSc9WGGoC+WPQL
+	0NtsPAUn1S8o9YZeUnR4T6OzG5vkiYZ6j5NQ1cIshvMoQBV5Z7OmQc+VsQKjAPGaB+03wKmGV5d
+	MspH1oMKzUsQkXvH2oC6AlGUI+4YkDdi0cSjRuylWmAm7OTfn8MlDh+3v5XhyyV18dtJ7WSfsLl
+	ii2J2SmeszU7Ge43Qeu850rkEHOtpaxKtb1N4PJwNzyV1mhWuNdxOdTeJMqnZ8tv9X7GPcFtI7R
+	kEYR9YMp5YM2mRtWnc3bkzFKke5spUXUE8ZlFEq4XhVlGAF45KiFsLxfWmwoVOpCIWPvQ6JgQTi
+	Y07eAFCxqjcj2P1CWeBdI7Cd5zrVuZIgG5QHZOS0qi7NnzWkiSsQYnLdwF0rxhKwMUcQolAjkMF
+	oKau1+TskAvSFvHLHpIIKOWdfU
+X-Google-Smtp-Source: AGHT+IHiYpUe2mZ+yRaMgn6EJDMtGOSzXUMIZ/IGClH3mj79Yo98v45jN0CqC43bdWnV5p99F7GtRQ==
+X-Received: by 2002:a05:6102:148a:b0:4e9:ba27:2c94 with SMTP id ada2fe7eead31-53d1aeacad2mr3659023137.6.1757423379796;
+        Tue, 09 Sep 2025 06:09:39 -0700 (PDT)
+Received: from ?IPV6:2804:1b3:a7c1:9993:549e:6cce:f6f6:7dea? ([2804:1b3:a7c1:9993:549e:6cce:f6f6:7dea])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-52af1e46f50sm10957301137.14.2025.09.09.06.09.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Sep 2025 06:09:39 -0700 (PDT)
+Message-ID: <660fc0c9-7768-4812-b532-5afc94131cf8@linaro.org>
+Date: Tue, 9 Sep 2025 10:09:36 -0300
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MfXzetRfjlsgacZyzy1HHROxEosltFMdwls6XvjAYys_1757420551
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] nptl: Use a PI-aware lock for internal
+ pthread_cond-related locking
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: libc-alpha@sourceware.org, John Ogness <john.ogness@linutronix.de>,
+ linux-rt-devel@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+ Carlos O'Donell <carlos@redhat.com>
+References: <20250908163329.Qq79ujq_@linutronix.de>
+ <4c9c86ae-a432-47fe-bede-7f98f4bb1f7c@linaro.org>
+ <20250909073226.0qoHYZMo@linutronix.de>
+Content-Language: en-US
+From: Adhemerval Zanella Netto <adhemerval.zanella@linaro.org>
+Organization: Linaro
+In-Reply-To: <20250909073226.0qoHYZMo@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Sebastian Andrzej Siewior:
 
+
+On 09/09/25 04:32, Sebastian Andrzej Siewior wrote:
 > On 2025-09-08 14:46:12 [-0300], Adhemerval Zanella Netto wrote:
->> > This change expects that PI-FUTEX is supported by the kernel. This is
->> > the case since a long time but it is possible to disable the FUTEX
->> > subsystem or the FUTEX_PI part of it while building the kernel.
->> > Is it okay to assume that PI-FUTEX is available or should there be a
->> > check somewhere during startup and in case of -ENOSYS a fallback to
->> > current implementation?
->>=20
->> We removed the __ASSUME_FUTEX_LOCK_PI (f5c77f78ec03363d5e550c4996deb75ee=
-3f2e32a)
->> in favor or always check for PI support at runtime during pthread_mutex_=
-init
+>>> This change expects that PI-FUTEX is supported by the kernel. This is
+>>> the case since a long time but it is possible to disable the FUTEX
+>>> subsystem or the FUTEX_PI part of it while building the kernel.
+>>> Is it okay to assume that PI-FUTEX is available or should there be a
+>>> check somewhere during startup and in case of -ENOSYS a fallback to
+>>> current implementation?
+>>
+>> We removed the __ASSUME_FUTEX_LOCK_PI (f5c77f78ec03363d5e550c4996deb75ee3f2e32a)
+>> in favor or always check for PI support at runtime during pthread_mutex_init
 >> (prio_inherit_missing).
->>=20
->> Since the kernel still might return ENOSYS for FUTEX_PI I think we shoul=
-d
+>>
+>> Since the kernel still might return ENOSYS for FUTEX_PI I think we should
 >> keep probing its support as runtime.
->
+> 
 > Okay. Since that one is static, I guess I would have to make my own
 > check in pthread_cond.
->
-> But=E2=80=A6 Now that I look at it again. The kernel has this FUTEX_PI op=
-tion
+> 
+
+Or move the prio_inherit_missing to its own TU and use is an internal
+symbol.
+
+> But… Now that I look at it again. The kernel has this FUTEX_PI option
 > which depends on RT_MUTEXES. But RT_MUTEXES has no off switch so it must
 > always be selected once FUTEX itself is enabled. The I2C subsystem
 > selects RT_MUTEXES and I don't think there is a config without PI-FUTEX
@@ -105,33 +120,73 @@ tion
 > all architectures as of v5.17 provide it. That would be commit
 >    3297481d688a5 ("futex: Remove futex_cmpxchg detection")
 >    https://git.kernel.org/torvalds/c/3297481d688a5
->
+> 
 > for reference. So I *think* this config option can be removed on kernel
 > side and it appears to me as of v5.17 there should be no need for a
 > runtime check regarding PI-futex.
 
-Are there seccomp filters for PI futexes?  I wouldn't be surprised if
-people added them after some of the high-profile futex vulnerabilities.
-I think we should not support such seccomp filters, but we need to know
-what we are up against.
+Right, but at least for glibc we will need to keep the runtime check
+because we still support old kernels.
 
+> 
+>>> --- a/nptl/pthread_cond_common.c
+>>> +++ b/nptl/pthread_cond_common.c
+>>> @@ -106,41 +106,23 @@ __condvar_fetch_xor_wseq_release (pthread_cond_t *cond, unsigned int val)
+> …
+>>>  static void __attribute__ ((unused))
+>>>  __condvar_acquire_lock (pthread_cond_t *cond, int private)
+>>>  {
+> …
+>>> +      int e;
+>>> +
+>>> +      e = __futex_lock_pi64 (&cond->__data.__pi_lock, 0, NULL, private);
+>>> +      if (e != 0)
+>>> +        futex_fatal_error ();
+>>
+>> The __futex_lock_pi64 already issues futex_fatal_error() non-expected return code;
+>> so I think we should only use it futex-internal.{c,h}.
+> 
 > There shouldn't be any error. There might be the case where the lock
 > owner is gone (ESRCH I believe) or the theoretical ENOMEM. ESRCH isn't
 > handled now but it can't be recognized either. It would require to kill
 > the thread owning the lock.
 > So either abort the operation if the futex-op returns an error because
 > "this shouldn't happen" or I don't know.
+> 
 
-ENOMEM needs to be reported to the caller because the application may
-want to react to it.
+On pthread_mutex_lock we handle ESRCH only for non-robust PI mutexes, and
+we delay the thread indefinitely. I am not sure which is the best approach,
+but I am tending for the delay one for consistency.
 
-Long term, we should probably have different interfaces for full locking
-(with expected failures during locking) and simple mutexes (where
-locking can only fail due to memory corruption).
+>> And I think we will need to handle ENOSYS here, maybe to use the old locking logic
+>> if the kernel does not support FUTEX_PI. I think it should be fair to assume that
+>> if your running your workload on an environment without FUTEX_PI support you are
+>> not subject to the issue you raised.
+> 
+> Yes, that is fair to assume. Also given the above it might be a
+> leftover. But let me add the fallback code and then we can remove once
+> it is certain on Kernel's side.
 
-Unlocking must never fail with ENOMEM or similar error codes, it must
-always suceed (except if there is memory corruption).
+I think we won't be able to remove because we still need to handle older
+kernels that might return ENOSYS.
 
-Thanks,
-Florian
+> 
+>> I am ccing Carlos, he has helped fix some issue on cond vars recently and he
+>> might have some idea if using PI aware locks does make sense here.
+>>
+>> Also, I think we really need regression testcases for this change.
+> 
+> I came up with something to test this. It required a few CPUs and task
+> pinning otherwise the small window didn't trigger.
+
+Right, I think the idea would to provide a way to over multiples runs from
+multiple developers in multiple machines we can assume that this is triggered.
+I agree that for such problems is really hard to come up with reliable test
+cases without spending a lot of cpu time.
+
+> 
+>>>      }
+>>>  }
+> 
+> Sebastian
 
