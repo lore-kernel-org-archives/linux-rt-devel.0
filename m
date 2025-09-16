@@ -1,330 +1,174 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4B8238140;
-	Tue, 16 Sep 2025 10:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C544B2C0F66
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 10:51:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758017403; cv=none; b=kZGOoIxrblSsAwhPvmJ1TUhjSt+Km4BvwisiDEqv8KhZTi3VEYudf3rWao1ueUKzDLoGtwKkRPOV8K4HEtAJlkl2HaRkgZ6/9q8TUjTw5nG78uz1sYDDvH9iRIEjxNrJMBYzMal1u3Hg/zJlDMp1GeMtO7BVnw5HGJnSCzAAXbc=
+	t=1758019891; cv=none; b=XAHVKm1Cxx7MOqs0Ny52op1gR82c419E2aoQlCKExLzQmPjbmA90DTat/rbOvPJIp6VJK8LUccpTqpytGEMdpM+VP6sRRlc8kssoz7VTMyEqAab+zVMxJOyAcc3ccNFnSZt4I2nx2ZNPp8uVpbdfp56aHoOFGmUeSO8Zc4b5BAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758017403; c=relaxed/simple;
-	bh=ze46u8/R33JuBIif2nf6P/mJdb3pka6dAVtmbEae0v4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avB47O93lJfV1V9vVxJ0oZfYceuBJj6jy3S0NvIBumBEiEeN2zA/JMAyTfdYCteO117bnqSdwWtq0VnV1hnE19c3nfovYKOG4n/DDcOunT9/QZQwOZrasuzUmjdoha+ddC+62LENSL0N610Fpq/l2d+TqCUgCYoxe0SV0SxCmBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BuVTb01p; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1758019891; c=relaxed/simple;
+	bh=nGtXyRb3El3m6A0XnwTidWGk9rdKsvA5L58wZQPcKTY=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=L+xB04Dvp+X2e33KC3SIPbPq62tnl2U3+JbvTkEd4+e9FmsBPppQ3Yy9tBh6ofpWMEuCSHiAJj37Ai+3/WC9Jcmjr13MGiUnFxhYqCNFDyv2SNhr8M8xAcupMM8K3gzFOl6fm+9TEn61OW0RsPTIaldLso8MX5zZBTblY37RtOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AbLSsMHN; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BuVTb01p"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Y1CVWQIsQOn7a8cjw6w6cUrilp9Uvw74NeFbCqBdqDs=; b=BuVTb01pgyX6v4DCA1GND44UBs
-	BrmW6Al/55YurZUTsN2/S7msHxxn3Zeu1PPzrEbwyoXYa/GG7RyDq1+/tmNFS3Nm0CPjy80//xsED
-	c3ff+pf7gBbiqhAfeorMG1TAB+qaqVlKeOXOLopb92ElFOf/jEaijNQ9ibBCrRn/bDT2f+GrNuO+J
-	D2giIwJm90QkP+AOfIWpECszmQGWz8oDq7ndirb0s5cCbLLxs+GJbC9Bvc6zsC6G7m1K63RrXdvgL
-	mpVoQBvGyMqsHs8oahbai6yRh2vsInl7jx20EMpXLs9/d+AliGEqUIoJ8OxiBQrhwiK7Vl8O+RpJ6
-	oqHvLnig==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uySdG-00000001xgi-1sVN;
-	Tue, 16 Sep 2025 10:09:54 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 363A8303004; Tue, 16 Sep 2025 12:09:53 +0200 (CEST)
-Date: Tue, 16 Sep 2025 12:09:53 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>
-Subject: Re: [RESEND PATCH] sched: restore the behavior of put_task_struct()
- for non-rt
-Message-ID: <20250916100953.GG3245006@noisy.programming.kicks-ass.net>
-References: <aMf1RzZHjdoPNOv_@uudg.org>
- <20250915113812.GB3245006@noisy.programming.kicks-ass.net>
- <20250915123539.GC23082@redhat.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AbLSsMHN"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G7VubJ017774;
+	Tue, 16 Sep 2025 10:51:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:to; s=pp1;
+	 bh=6tiMzpFySb6QheQKIvDTH6bfs6J9A1FW2+JoAuxFTeI=; b=AbLSsMHN4/7x
+	K1xNMtFDrE+TOYW1iIsk4Mpi83HqtjESBjZwkWHJ8kKIL6P1kWFgRbg5RHL/Vc3/
+	3gNiaqucIq+Hh51NRfzWX0tQi6l43nWNKIrpYWsuJRM6WFMkpMIumQPjbiBNolvo
+	Y5C7x/SgZ+Lg+AIaq8uXUg7N+k5h9pT/2jo/OiBPLGzNJmqVQ/uNJdo/uDuDiSBq
+	WEnHzpMxwUc0R/63Kg2X/G4mqzS8whBtZo73nJ9nqat9v/gFpoDFgpa6HdDBi/35
+	ZZtv0zCsk+pBvAE/vE0jbXVqaj9ApqBocZnQJNjhIpUknqNLYl+7NU0hbSMUKozo
+	aSRGgR2Zog==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g536k9u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Sep 2025 10:51:09 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58GAp8j4018605;
+	Tue, 16 Sep 2025 10:51:08 GMT
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g536k9s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Sep 2025 10:51:08 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58G85k50009486;
+	Tue, 16 Sep 2025 10:51:07 GMT
+Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 495nn3b4fg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 16 Sep 2025 10:51:07 +0000
+Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
+	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58GAp6EK11011482
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 16 Sep 2025 10:51:06 GMT
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6406D5803F;
+	Tue, 16 Sep 2025 10:51:06 +0000 (GMT)
+Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4345B58055;
+	Tue, 16 Sep 2025 10:51:04 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
+	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 16 Sep 2025 10:51:04 +0000 (GMT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250915123539.GC23082@redhat.com>
+Date: Tue, 16 Sep 2025 12:51:03 +0200
+From: Harald Freudenberger <freude@linux.ibm.com>
+To: pengdonglin <dolinux.peng@gmail.com>
+Cc: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com,
+        ap420073@gmail.com, jv@jvosburgh.net, bcrl@kvack.org,
+        trondmy@kernel.org, longman@redhat.com, kees@kernel.org,
+        bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        linux-nfs@vger.kernel.org, linux-aio@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+        netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-wireless@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-s390@vger.kernel.org, cgroups@vger.kernel.org,
+        Holger Dengler <dengler@linux.ibm.com>,
+        Vasily
+ Gorbik <gor@linux.ibm.com>,
+        Alexander Gordeev <agordeev@linux.ibm.com>,
+        pengdonglin <pengdonglin@xiaomi.com>
+Subject: Re: [PATCH v3 05/14] s390/pkey: Remove redundant
+ rcu_read_lock/unlock() in spin_lock
+Reply-To: freude@linux.ibm.com
+Mail-Reply-To: freude@linux.ibm.com
+In-Reply-To: <20250916044735.2316171-6-dolinux.peng@gmail.com>
+References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
+ <20250916044735.2316171-6-dolinux.peng@gmail.com>
+Message-ID: <31be6bb6541bb3e338e3025ac9e8fce5@linux.ibm.com>
+X-Sender: freude@linux.ibm.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dUB5GxZDVKC_6J2Ylb023C_3mzK49UHc
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA4NiBTYWx0ZWRfX5K5HvLPe748s
+ 1a0iccxe5DzHqpq2HHVExtQN3K3dDZAHmx+plczsOrZBuez8PS/bGeKlwxmdko1vp27MiJETJTG
+ rWBkahKjm6E+Lehe9W5AsUAlfhXLzBCKZl91u4s5pKGLTilBgre1vFNiCO4KLvO9XrWU1Caav6A
+ LP5y7FEjU/NnADi5ucPQYwViKT2GmRSmRBhcRXXpZEfspZ5l5uxEmXVcbW4As4eHjzGuflsj31H
+ fsacgfENVa2S7hh4yS1XXPBx2rL5+dQv2gYhPIFTz7huQ8NQh9IyA9t8ZyRl7UxTDbk1vmK6jmT
+ k/dl/Zv55pKlRrfw9Ym17kI1XWuEyzglymXJjQwZlfbaExngRAMTnR8i/K+0vtUxACA7W2YSZzh
+ NNpGuSjP
+X-Proofpoint-ORIG-GUID: okqK8s0OaduvH8SS01anEhfn0Ac3dkSd
+X-Authority-Analysis: v=2.4 cv=UJ7dHDfy c=1 sm=1 tr=0 ts=68c9411d cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=IeNN-m2dAAAA:8 a=VnNF1IyMAAAA:8
+ a=pGLkceISAAAA:8 a=6zuzY4jPHNdFWWqqfRgA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
+ clxscore=1011 suspectscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150086
 
-On Mon, Sep 15, 2025 at 02:35:40PM +0200, Oleg Nesterov wrote:
-> On 09/15, Peter Zijlstra wrote:
-> >
-> > On Mon, Sep 15, 2025 at 08:15:19AM -0300, Luis Claudio R. Goncalves wrote:
-> > > Commit 8671bad873eb ("sched: Do not call __put_task_struct() on rt
-> > > if pi_blocked_on is set") changed the behavior of put_task_struct()
-> > > unconditionally, even when PREEMPT_RT was not enabled, in clear mismatch
-> > > with the commit description.
-> > >
-> > > Restore the previous behavior of put_task_struct() for the PREEMPT_RT
-> > > disabled case.
-> > >
-> > > Fixes: 8671bad873eb ("sched: Do not call __put_task_struct() on rt if pi_blocked_on is set")
-> > > Acked-by: Oleg Nesterov <oleg@redhat.com>
-> > > Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> > > ---
-> > >
-> > >   Note: This patch is a fix motivated by Oleg Nesterov's question at
-> > >   https://lore.kernel.org/linux-rt-devel/20250728201441.GA4690@redhat.com/
-> >
-> > Right, but I thought we did want to make this behaviour consistent.
-> >
-> > Why have !RT behave differently? That is, why isn't this simply a
-> > 'buggy' comment/changelog issue?
+On 2025-09-16 06:47, pengdonglin wrote:
+> From: pengdonglin <pengdonglin@xiaomi.com>
 > 
-> Well, this was discussed several times, in particular see
-> https://lore.kernel.org/all/CAHk-=whtj+aSYftniMRG4xvFE8dmmYyrqcJyPmzStsfj5w9r=w@mail.gmail.com/
+> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side
+> function definitions")
+> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
+> rcu_read_lock_sched() in terms of RCU read section and the relevant 
+> grace
+> period. That means that spin_lock(), which implies 
+> rcu_read_lock_sched(),
+> also implies rcu_read_lock().
 > 
-> And task_struct->rcu_users was introduced to avoid RCU call in put_task_struct() ...
+> There is no need no explicitly start a RCU read section if one has 
+> already
+> been started implicitly by spin_lock().
+> 
+> Simplify the code and remove the inner rcu_read_lock() invocation.
+> 
+> Cc: Harald Freudenberger <freude@linux.ibm.com>
+> Cc: Holger Dengler <dengler@linux.ibm.com>
+> Cc: Vasily Gorbik <gor@linux.ibm.com>
+> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+> Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
+> Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
+> ---
+>  drivers/s390/crypto/pkey_base.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/s390/crypto/pkey_base.c 
+> b/drivers/s390/crypto/pkey_base.c
+> index b15741461a63..4c4a9feecccc 100644
+> --- a/drivers/s390/crypto/pkey_base.c
+> +++ b/drivers/s390/crypto/pkey_base.c
+> @@ -48,16 +48,13 @@ int pkey_handler_register(struct pkey_handler 
+> *handler)
+> 
+>  	spin_lock(&handler_list_write_lock);
+> 
+> -	rcu_read_lock();
+>  	list_for_each_entry_rcu(h, &handler_list, list) {
+>  		if (h == handler) {
+> -			rcu_read_unlock();
+>  			spin_unlock(&handler_list_write_lock);
+>  			module_put(handler->module);
+>  			return -EEXIST;
+>  		}
+>  	}
+> -	rcu_read_unlock();
+> 
+>  	list_add_rcu(&handler->list, &handler_list);
+>  	spin_unlock(&handler_list_write_lock);
 
-Ah, I forgot about that thing.. Although I had vague memories of that
-argument on rcu_assign_pointer() vs RCU_INIT_POINTER().
-
-> But I won't really argue if you decide to remove this !RT optimization, although
-> I think it would be better to do this in a separate patch.
-
-Right. So when they wanted to remove that preemptible() clause, I was
-like why again do we have this !RT exception at all, and can't we get
-rid of that.
-
-If git isn't confusing me again, this got merged in this cycle. But so
-far no benchmark came and told us this was a bad idea.
-
-So what do we do now... do we restore the !RT exception (so far there
-aren't any numbers to suggest this mattered) or do we let it be for a
-bit and then go and clean things up?
-
----
- include/linux/sched.h      |  1 -
- include/linux/sched/task.h | 37 +++----------------------------------
- kernel/bpf/helpers.c       |  6 +++---
- kernel/exit.c              | 21 ++-------------------
- kernel/fork.c              | 14 +++++++++-----
- kernel/sched/core.c        |  3 +--
- 6 files changed, 18 insertions(+), 64 deletions(-)
-
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index 644a01bdae70..fd6586c04ed3 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1576,7 +1576,6 @@ struct task_struct {
- # endif
- #endif
- 	struct rcu_head			rcu;
--	refcount_t			rcu_users;
- 	int				pagefault_disabled;
- #ifdef CONFIG_MMU
- 	struct task_struct		*oom_reaper_list;
-diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
-index ea41795a352b..1125c44b205a 100644
---- a/include/linux/sched/task.h
-+++ b/include/linux/sched/task.h
-@@ -122,41 +122,12 @@ static inline struct task_struct *tryget_task_struct(struct task_struct *t)
- 	return refcount_inc_not_zero(&t->usage) ? t : NULL;
- }
- 
--extern void __put_task_struct(struct task_struct *t);
- extern void __put_task_struct_rcu_cb(struct rcu_head *rhp);
- 
- static inline void put_task_struct(struct task_struct *t)
- {
--	if (!refcount_dec_and_test(&t->usage))
--		return;
--
--	/*
--	 * Under PREEMPT_RT, we can't call __put_task_struct
--	 * in atomic context because it will indirectly
--	 * acquire sleeping locks. The same is true if the
--	 * current process has a mutex enqueued (blocked on
--	 * a PI chain).
--	 *
--	 * In !RT, it is always safe to call __put_task_struct().
--	 * Though, in order to simplify the code, resort to the
--	 * deferred call too.
--	 *
--	 * call_rcu() will schedule __put_task_struct_rcu_cb()
--	 * to be called in process context.
--	 *
--	 * __put_task_struct() is called when
--	 * refcount_dec_and_test(&t->usage) succeeds.
--	 *
--	 * This means that it can't "conflict" with
--	 * put_task_struct_rcu_user() which abuses ->rcu the same
--	 * way; rcu_users has a reference so task->usage can't be
--	 * zero after rcu_users 1 -> 0 transition.
--	 *
--	 * delayed_free_task() also uses ->rcu, but it is only called
--	 * when it fails to fork a process. Therefore, there is no
--	 * way it can conflict with __put_task_struct().
--	 */
--	call_rcu(&t->rcu, __put_task_struct_rcu_cb);
-+	if (refcount_dec_and_test(&t->usage))
-+		call_rcu(&t->rcu, __put_task_struct_rcu_cb);
- }
- 
- DEFINE_FREE(put_task, struct task_struct *, if (_T) put_task_struct(_T))
-@@ -164,11 +135,9 @@ DEFINE_FREE(put_task, struct task_struct *, if (_T) put_task_struct(_T))
- static inline void put_task_struct_many(struct task_struct *t, int nr)
- {
- 	if (refcount_sub_and_test(nr, &t->usage))
--		__put_task_struct(t);
-+		call_rcu(&t->rcu, __put_task_struct_rcu_cb);
- }
- 
--void put_task_struct_rcu_user(struct task_struct *task);
--
- /* Free all architecture-specific resources held by a thread. */
- void release_thread(struct task_struct *dead_task);
- 
-diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
-index 8af62cb243d9..bdc4e65bca5c 100644
---- a/kernel/bpf/helpers.c
-+++ b/kernel/bpf/helpers.c
-@@ -2459,7 +2459,7 @@ __bpf_kfunc struct bpf_rb_node *bpf_rbtree_right(struct bpf_rb_root *root, struc
-  */
- __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
- {
--	if (refcount_inc_not_zero(&p->rcu_users))
-+	if (refcount_inc_not_zero(&p->usage))
- 		return p;
- 	return NULL;
- }
-@@ -2470,12 +2470,12 @@ __bpf_kfunc struct task_struct *bpf_task_acquire(struct task_struct *p)
-  */
- __bpf_kfunc void bpf_task_release(struct task_struct *p)
- {
--	put_task_struct_rcu_user(p);
-+	put_task_struct(p);
- }
- 
- __bpf_kfunc void bpf_task_release_dtor(void *p)
- {
--	put_task_struct_rcu_user(p);
-+	put_task_struct(p);
- }
- CFI_NOSEAL(bpf_task_release_dtor);
- 
-diff --git a/kernel/exit.c b/kernel/exit.c
-index 343eb97543d5..240a6faa0e26 100644
---- a/kernel/exit.c
-+++ b/kernel/exit.c
-@@ -220,23 +220,6 @@ static void __exit_signal(struct release_task_post *post, struct task_struct *ts
- 		tty_kref_put(tty);
- }
- 
--static void delayed_put_task_struct(struct rcu_head *rhp)
--{
--	struct task_struct *tsk = container_of(rhp, struct task_struct, rcu);
--
--	kprobe_flush_task(tsk);
--	rethook_flush_task(tsk);
--	perf_event_delayed_put(tsk);
--	trace_sched_process_free(tsk);
--	put_task_struct(tsk);
--}
--
--void put_task_struct_rcu_user(struct task_struct *task)
--{
--	if (refcount_dec_and_test(&task->rcu_users))
--		call_rcu(&task->rcu, delayed_put_task_struct);
--}
--
- void __weak release_thread(struct task_struct *dead_task)
- {
- }
-@@ -305,7 +288,7 @@ void release_task(struct task_struct *p)
- 	if (thread_group_leader(p))
- 		flush_sigqueue(&p->signal->shared_pending);
- 
--	put_task_struct_rcu_user(p);
-+	put_task_struct(p);
- 
- 	p = leader;
- 	if (unlikely(zap_leader))
-@@ -1057,7 +1040,7 @@ void __noreturn make_task_dead(int signr)
- 		pr_alert("Fixing recursive fault but reboot is needed!\n");
- 		futex_exit_recursive(tsk);
- 		tsk->exit_state = EXIT_DEAD;
--		refcount_inc(&tsk->rcu_users);
-+		get_task_struct(tsk);
- 		do_task_dead();
- 	}
- 
-diff --git a/kernel/fork.c b/kernel/fork.c
-index 33dfb82af25b..383c811626a3 100644
---- a/kernel/fork.c
-+++ b/kernel/fork.c
-@@ -106,6 +106,7 @@
- #include <linux/pidfs.h>
- #include <linux/tick.h>
- #include <linux/unwind_deferred.h>
-+#include <linux/kprobes.h>
- 
- #include <asm/pgalloc.h>
- #include <linux/uaccess.h>
-@@ -729,12 +730,17 @@ static inline void put_signal_struct(struct signal_struct *sig)
- 		free_signal_struct(sig);
- }
- 
--void __put_task_struct(struct task_struct *tsk)
-+static void __put_task_struct(struct task_struct *tsk)
- {
- 	WARN_ON(!tsk->exit_state);
- 	WARN_ON(refcount_read(&tsk->usage));
- 	WARN_ON(tsk == current);
- 
-+	kprobe_flush_task(tsk);
-+	rethook_flush_task(tsk);
-+	perf_event_delayed_put(tsk);
-+	trace_sched_process_free(tsk);
-+
- 	unwind_task_free(tsk);
- 	sched_ext_free(tsk);
- 	io_uring_free(tsk);
-@@ -915,12 +921,10 @@ static struct task_struct *dup_task_struct(struct task_struct *orig, int node)
- 	dup_user_cpus_ptr(tsk, orig, node);
- 
- 	/*
--	 * One for the user space visible state that goes away when reaped.
-+	 * One for user space visible state that goes away when reaped.
- 	 * One for the scheduler.
- 	 */
--	refcount_set(&tsk->rcu_users, 2);
--	/* One for the rcu users */
--	refcount_set(&tsk->usage, 1);
-+	refcount_set(&tsk->usage, 2);
- #ifdef CONFIG_BLK_DEV_IO_TRACE
- 	tsk->btrace_seq = 0;
- #endif
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index da2062de97a2..ad3c0e9f3eb4 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -5259,8 +5259,7 @@ static struct rq *finish_task_switch(struct task_struct *prev)
- 
- 		/* Task is done with its stack. */
- 		put_task_stack(prev);
--
--		put_task_struct_rcu_user(prev);
-+		put_task_struct(prev);
- 	}
- 
- 	return rq;
+Acked-by: Harald Freudenberger <freude@linux.ibm.com>
