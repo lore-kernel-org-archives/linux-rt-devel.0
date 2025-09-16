@@ -1,174 +1,141 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C544B2C0F66
-	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 10:51:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447651EDA2C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 11:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758019891; cv=none; b=XAHVKm1Cxx7MOqs0Ny52op1gR82c419E2aoQlCKExLzQmPjbmA90DTat/rbOvPJIp6VJK8LUccpTqpytGEMdpM+VP6sRRlc8kssoz7VTMyEqAab+zVMxJOyAcc3ccNFnSZt4I2nx2ZNPp8uVpbdfp56aHoOFGmUeSO8Zc4b5BAU=
+	t=1758022351; cv=none; b=MHwFsFhpSO0c4PjpFY8rXtLM+YUhFjurOl+Gca90CbgTbOoRCBW7+9KgOURWnJR9HLPIoIa48bQ/uJ+mINW5TGGs4v3F4R86nX1QHqjVhG1ERwErWcB7nZEPP1LB8JeQHkrze8Kg9fyMz5aTFcpJ4WhieD9jFrgRf1jQKcj3aWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758019891; c=relaxed/simple;
-	bh=nGtXyRb3El3m6A0XnwTidWGk9rdKsvA5L58wZQPcKTY=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=L+xB04Dvp+X2e33KC3SIPbPq62tnl2U3+JbvTkEd4+e9FmsBPppQ3Yy9tBh6ofpWMEuCSHiAJj37Ai+3/WC9Jcmjr13MGiUnFxhYqCNFDyv2SNhr8M8xAcupMM8K3gzFOl6fm+9TEn61OW0RsPTIaldLso8MX5zZBTblY37RtOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=AbLSsMHN; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1758022351; c=relaxed/simple;
+	bh=qrKm7Hjc2f6pjKnmdlrxFhFRJ74oWb1RCb7bzHCChWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBLHMG5/42hrx23C0ickPufuE0hAUCg11DJpbKrBDWG0B/dZnCOXp5iOynB5I6QJUtoprtxpD0Wa+xat/lQ9KV3//n//q8qMUghM26bibSOL8L0KSX2vmmKhyfqmHLTP2Cjqpa13uizJQKpT4758/1I6u9hYo9Jv3HH2+OTTz7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VvnILw2n; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="AbLSsMHN"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58G7VubJ017774;
-	Tue, 16 Sep 2025 10:51:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:to; s=pp1;
-	 bh=6tiMzpFySb6QheQKIvDTH6bfs6J9A1FW2+JoAuxFTeI=; b=AbLSsMHN4/7x
-	K1xNMtFDrE+TOYW1iIsk4Mpi83HqtjESBjZwkWHJ8kKIL6P1kWFgRbg5RHL/Vc3/
-	3gNiaqucIq+Hh51NRfzWX0tQi6l43nWNKIrpYWsuJRM6WFMkpMIumQPjbiBNolvo
-	Y5C7x/SgZ+Lg+AIaq8uXUg7N+k5h9pT/2jo/OiBPLGzNJmqVQ/uNJdo/uDuDiSBq
-	WEnHzpMxwUc0R/63Kg2X/G4mqzS8whBtZo73nJ9nqat9v/gFpoDFgpa6HdDBi/35
-	ZZtv0zCsk+pBvAE/vE0jbXVqaj9ApqBocZnQJNjhIpUknqNLYl+7NU0hbSMUKozo
-	aSRGgR2Zog==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g536k9u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Sep 2025 10:51:09 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 58GAp8j4018605;
-	Tue, 16 Sep 2025 10:51:08 GMT
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 496g536k9s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Sep 2025 10:51:08 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 58G85k50009486;
-	Tue, 16 Sep 2025 10:51:07 GMT
-Received: from smtprelay07.dal12v.mail.ibm.com ([172.16.1.9])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 495nn3b4fg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 16 Sep 2025 10:51:07 +0000
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay07.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 58GAp6EK11011482
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 16 Sep 2025 10:51:06 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6406D5803F;
-	Tue, 16 Sep 2025 10:51:06 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4345B58055;
-	Tue, 16 Sep 2025 10:51:04 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 16 Sep 2025 10:51:04 +0000 (GMT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VvnILw2n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758022348;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9hCLZ50vYlDxaPnHwAZOwSPKZAjcTojGhWt+bNONuqk=;
+	b=VvnILw2npz5dsOBFwt7dOpOVduRHIoHNV3wiIM5SqFR4sdlaWqcIR0oUYVBfibnhSIxwvl
+	UffO0Fp0JCBqbK23m7sA6t1Nz51Go9yn90pDSARhOBQA5i54VijUe0a39cPHhrLPTV23Ro
+	YTbmfQhpuAyOznIlzUAtUGPiMNHaJq8=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-140-AtP0HQ_5NM6pJLds3SjhZg-1; Tue,
+ 16 Sep 2025 07:32:25 -0400
+X-MC-Unique: AtP0HQ_5NM6pJLds3SjhZg-1
+X-Mimecast-MFC-AGG-ID: AtP0HQ_5NM6pJLds3SjhZg_1758022343
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1983F1800298;
+	Tue, 16 Sep 2025 11:32:22 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.65])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 7A2121800447;
+	Tue, 16 Sep 2025 11:32:14 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue, 16 Sep 2025 13:30:58 +0200 (CEST)
+Date: Tue, 16 Sep 2025 13:30:49 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>
+Subject: Re: [RESEND PATCH] sched: restore the behavior of put_task_struct()
+ for non-rt
+Message-ID: <20250916113043.GA32038@redhat.com>
+References: <aMf1RzZHjdoPNOv_@uudg.org>
+ <20250915113812.GB3245006@noisy.programming.kicks-ass.net>
+ <20250915123539.GC23082@redhat.com>
+ <20250916100953.GG3245006@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 16 Sep 2025 12:51:03 +0200
-From: Harald Freudenberger <freude@linux.ibm.com>
-To: pengdonglin <dolinux.peng@gmail.com>
-Cc: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com,
-        ap420073@gmail.com, jv@jvosburgh.net, bcrl@kvack.org,
-        trondmy@kernel.org, longman@redhat.com, kees@kernel.org,
-        bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        linux-nfs@vger.kernel.org, linux-aio@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
-        netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        linux-wireless@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-s390@vger.kernel.org, cgroups@vger.kernel.org,
-        Holger Dengler <dengler@linux.ibm.com>,
-        Vasily
- Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        pengdonglin <pengdonglin@xiaomi.com>
-Subject: Re: [PATCH v3 05/14] s390/pkey: Remove redundant
- rcu_read_lock/unlock() in spin_lock
-Reply-To: freude@linux.ibm.com
-Mail-Reply-To: freude@linux.ibm.com
-In-Reply-To: <20250916044735.2316171-6-dolinux.peng@gmail.com>
-References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
- <20250916044735.2316171-6-dolinux.peng@gmail.com>
-Message-ID: <31be6bb6541bb3e338e3025ac9e8fce5@linux.ibm.com>
-X-Sender: freude@linux.ibm.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: dUB5GxZDVKC_6J2Ylb023C_3mzK49UHc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE1MDA4NiBTYWx0ZWRfX5K5HvLPe748s
- 1a0iccxe5DzHqpq2HHVExtQN3K3dDZAHmx+plczsOrZBuez8PS/bGeKlwxmdko1vp27MiJETJTG
- rWBkahKjm6E+Lehe9W5AsUAlfhXLzBCKZl91u4s5pKGLTilBgre1vFNiCO4KLvO9XrWU1Caav6A
- LP5y7FEjU/NnADi5ucPQYwViKT2GmRSmRBhcRXXpZEfspZ5l5uxEmXVcbW4As4eHjzGuflsj31H
- fsacgfENVa2S7hh4yS1XXPBx2rL5+dQv2gYhPIFTz7huQ8NQh9IyA9t8ZyRl7UxTDbk1vmK6jmT
- k/dl/Zv55pKlRrfw9Ym17kI1XWuEyzglymXJjQwZlfbaExngRAMTnR8i/K+0vtUxACA7W2YSZzh
- NNpGuSjP
-X-Proofpoint-ORIG-GUID: okqK8s0OaduvH8SS01anEhfn0Ac3dkSd
-X-Authority-Analysis: v=2.4 cv=UJ7dHDfy c=1 sm=1 tr=0 ts=68c9411d cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=IeNN-m2dAAAA:8 a=VnNF1IyMAAAA:8
- a=pGLkceISAAAA:8 a=6zuzY4jPHNdFWWqqfRgA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-16_02,2025-09-12_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- clxscore=1011 suspectscore=0 phishscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509150086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250916100953.GG3245006@noisy.programming.kicks-ass.net>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 2025-09-16 06:47, pengdonglin wrote:
-> From: pengdonglin <pengdonglin@xiaomi.com>
-> 
-> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side
-> function definitions")
-> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
-> rcu_read_lock_sched() in terms of RCU read section and the relevant 
-> grace
-> period. That means that spin_lock(), which implies 
-> rcu_read_lock_sched(),
-> also implies rcu_read_lock().
-> 
-> There is no need no explicitly start a RCU read section if one has 
-> already
-> been started implicitly by spin_lock().
-> 
-> Simplify the code and remove the inner rcu_read_lock() invocation.
-> 
-> Cc: Harald Freudenberger <freude@linux.ibm.com>
-> Cc: Holger Dengler <dengler@linux.ibm.com>
-> Cc: Vasily Gorbik <gor@linux.ibm.com>
-> Cc: Alexander Gordeev <agordeev@linux.ibm.com>
-> Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
-> Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
-> ---
->  drivers/s390/crypto/pkey_base.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/s390/crypto/pkey_base.c 
-> b/drivers/s390/crypto/pkey_base.c
-> index b15741461a63..4c4a9feecccc 100644
-> --- a/drivers/s390/crypto/pkey_base.c
-> +++ b/drivers/s390/crypto/pkey_base.c
-> @@ -48,16 +48,13 @@ int pkey_handler_register(struct pkey_handler 
-> *handler)
-> 
->  	spin_lock(&handler_list_write_lock);
-> 
-> -	rcu_read_lock();
->  	list_for_each_entry_rcu(h, &handler_list, list) {
->  		if (h == handler) {
-> -			rcu_read_unlock();
->  			spin_unlock(&handler_list_write_lock);
->  			module_put(handler->module);
->  			return -EEXIST;
->  		}
->  	}
-> -	rcu_read_unlock();
-> 
->  	list_add_rcu(&handler->list, &handler_list);
->  	spin_unlock(&handler_list_write_lock);
+On 09/16, Peter Zijlstra wrote:
+>
+> On Mon, Sep 15, 2025 at 02:35:40PM +0200, Oleg Nesterov wrote:
+> > On 09/15, Peter Zijlstra wrote:
+> > >
+> > > Why have !RT behave differently? That is, why isn't this simply a
+> > > 'buggy' comment/changelog issue?
+> >
+> > Well, this was discussed several times, in particular see
+> > https://lore.kernel.org/all/CAHk-=whtj+aSYftniMRG4xvFE8dmmYyrqcJyPmzStsfj5w9r=w@mail.gmail.com/
+> >
+> > And task_struct->rcu_users was introduced to avoid RCU call in put_task_struct() ...
+>
+> Ah, I forgot about that thing.. Although I had vague memories of that
+> argument on rcu_assign_pointer() vs RCU_INIT_POINTER().
+>
+> > But I won't really argue if you decide to remove this !RT optimization, although
+> > I think it would be better to do this in a separate patch.
+>
+> Right. So when they wanted to remove that preemptible() clause, I was
+> like why again do we have this !RT exception at all, and can't we get
+> rid of that.
+>
+> If git isn't confusing me again, this got merged in this cycle. But so
+> far no benchmark came and told us this was a bad idea.
 
-Acked-by: Harald Freudenberger <freude@linux.ibm.com>
+I still think it would be safer to merge this patch from Luis before
+v6.17, then possibly remove this special case in a separate patch...
+
+> So what do we do now... do we restore the !RT exception (so far there
+> aren't any numbers to suggest this mattered) or do we let it be for a
+> bit and then go and clean things up?
+
+It is not that simple. Please note that put_task_struct_rcu_user()
+delays put(tsk->usage), not free(tsk).
+
+So for example with this change
+
+> @@ -305,7 +288,7 @@ void release_task(struct task_struct *p)
+>  	if (thread_group_leader(p))
+>  		flush_sigqueue(&p->signal->shared_pending);
+>
+> -	put_task_struct_rcu_user(p);
+> +	put_task_struct(p);
+>
+>  	p = leader;
+>  	if (unlikely(zap_leader))
+
+This code
+
+	rcu_read_lock();
+	tsk = find_task_by_vpid(...);
+	if (tsk)
+		get_task_struct(tsk);
+	rcu_read_unlock();
+
+becomes wrong, get_task_struct(tsk) can increment tsk->usage == 0.
+
+Oleg.
+
