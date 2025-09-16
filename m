@@ -1,91 +1,141 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D4E1F03EF
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Sep 2025 15:31:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2757C222578
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 01:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757950316; cv=none; b=j57YixvRGSHoZ2RyU6Yxfqc1KQeCA4nLDCMEccGP17e4Eor2EmmAqj56xSK1fOzcPL2OexdNerR04rKG0XC1L/hnDpalnroyvu0eUrQ3F9C19KSpEyYLkJUrH/A33LX2tIntiMBM+K2WHJPAercPL8Tj6RtpBGGH0hTqawvS4+4=
+	t=1757987741; cv=none; b=UuUGZaeetNTNpHzuOgpv5CMT4vh3g1d2vakmXwEM3MoXC9ed29mVpRfs4p0FObBycN70YRhV3nOWBbjZmWw+b23PHX+ueacTGkmrqYDkqJUEQnLaD7pz1sSqy8dHpPaZS03LQYE+sGnuovga8ZS43g8WrFdpC62eMCXm16/B1j4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757950316; c=relaxed/simple;
-	bh=iFihoKHZq4DfQWQgGJvrxJfcyMRoyDvnvVIvIAiilFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cMg2K2xs/ka43ixu3cZQtEwOzIKbUspis9XQ3l/IN6qjNhp60YBtbqLztOECoeWLC4jwFHx/bDZWIZroSiWUqOxArZqU2NDuPrJDX07E2Mh+PVX3mcPbFO9NzO7k9kSTzf8ZlWY0Ocob0GWG+rwFmVVnN5Dkb6S6iAFHdtrzlVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RiNhsm8j; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1ULRprKS; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1757987741; c=relaxed/simple;
+	bh=jep2u5VNTk538PUR4KP/b48BjYybUEbcPCBXSSZj1Jc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F0ly1KPgSuDkY1EwhB0jU7hiGsC6xspckYp2JsGo/hQUJ6c2PV0YTEdvFEO37snap3W4s4LKiM6B6DdGf7VGVrOyz/eyW7x+shXGtCVtzwm6cBiWTV1yLUJw3RWSKQ5QsTnhimPwQ6kf9zC3Y+UulX7EAdT2iWVhBqgcOAT1wM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTx38Uhw; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RiNhsm8j";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1ULRprKS"
-Date: Mon, 15 Sep 2025 17:31:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1757950312;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16BPyb79WnSLgcLqvDIXMPPG6yOIETfT08w7CMnijGM=;
-	b=RiNhsm8jJ8rTarD0TPzxSlAxgSDixb0CZN/qNT1ZY+1b/PxmeRiPMalH+zxejmCafjWkNq
-	LWAZWZRWDqJyFhXtXbvvEYgWrBkuo+gj2NLI224Cnnnql5wwyAF5nH0Y1QPfKibqXn7wVH
-	yZUcjMzbIZ97/xF789KG3UodW8CUaPUrAFfaNNsIW5ShRwCpeuZ3vfHHct+HAr6YX87xXp
-	iWXG4c6h7Uzmz9mQnE5r23+xJiETe8GmSG60IBt5OPFPvEDS5BxiIAHBymKJjm2+pcWtiH
-	p9bifu3hsplNiaHAxed7fFNCbub3JHwWHgYL0XVkB8Ktn2KUKo2Ua9V9Eu19JQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1757950312;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=16BPyb79WnSLgcLqvDIXMPPG6yOIETfT08w7CMnijGM=;
-	b=1ULRprKSedyefkPqzebhK+AoHbxwXKUOdMaIh4bSlrgObXlqoigoeVG20IbOyBpaCREjxq
-	s8AsX8YmxFFenxDQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>
-Subject: Re: [RESEND PATCH] sched: restore the behavior of put_task_struct()
- for non-rt
-Message-ID: <20250915153151.fPHJU6-d@linutronix.de>
-References: <aMf1RzZHjdoPNOv_@uudg.org>
- <20250915113812.GB3245006@noisy.programming.kicks-ass.net>
- <20250915122444.Gg_Tsymz@linutronix.de>
- <aMgngWdtqUKuqLcw@uudg.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTx38Uhw"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-62f28b8e12cso4026254a12.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Sep 2025 18:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757987737; x=1758592537; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3JiJuCf5fDbcsVFqie8KviQvSHh9fw4OMPm4D25E3/I=;
+        b=QTx38UhwVnTmOiaqm+CHnHcUIZAFsl3wUtnSEF2cPnBtBAAE06OfMnE9dypCiwM/9J
+         MNu/K1X9amTtounKLDeq+YG1c4fCABEzGAjIlQaYTlkjS8Q5qHT3ldkp4gmexKN+MZZN
+         dR0SUxtYYd/1ca97HDXydqBex18b3nt3IZ2gKR9bilmrnyVP9alicI/8WTQr1J4HwWc7
+         pvyWwMsYYlDphAA/X5+LKhtaqro5AtprmSHu0Df77tsFzWsYT2yF7lPKVmoP7kgWEgBY
+         A2bx8zdPDTcsLA8fNeQsUOtvqM7dX6/B7rMEij8jJAlqmrh73c3fWpGqMFyLzYtPCjWM
+         5gdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757987737; x=1758592537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3JiJuCf5fDbcsVFqie8KviQvSHh9fw4OMPm4D25E3/I=;
+        b=FP848NkpizBFtEPKnsZ6eGeFHZsxmXGvwa+10QDYh5OwppRh4VBGsEi4MnlkCTxnAa
+         7m/dEXfHyHVaLJoRVIFuaeg76P6TB2DpXTDBlJXQD0/uu+3aRzlBDibw9EaJ2hPGZlZ2
+         DoYtUrdKFL6NLRlmJqIrlg96dPqrLGYnVzaJ+21ARsK9Gf257rptQZLZrKaLsI7KtZk3
+         /DRhPy4VOd6vvOq4u1+hBUsAwTr8KyrJxzw4FLfuJsyCEyrfJnnov2C1DkSDU24UXDKt
+         fNjXXad9BeJfgG396CjU7nsPlolmNu0IVVQnRlsFh8Y/dswFtTAtASz84xglzSCAxX2v
+         1ndw==
+X-Forwarded-Encrypted: i=1; AJvYcCXuYx7DWuqdLA2B/crvVBF1AJqbYNeHslKNfGev+IBG/S21MHCNQM9AhvRvshzld2Gf8rVGYrgy0J4c/qAKQA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTR5lhkYcF/nhLnAcs6Ij2C7ZZiRRLpo5Oq0dzL30DWGwV7PFK
+	w3gCycYvo7rPbQW4sycXsd8zIOTRj+C83TF2y4HudbXfWFMkZL0u8OhyOteoNpiUTuBf6IlGZdc
+	he3BkvFDCNttg8jIbadr8IoH1ktd2f54=
+X-Gm-Gg: ASbGncu1o5BkaS2qJtoJsY4NT2vVIHHlfZAXNRX8mv1Y6HsyhQgyrFLaExCb9M+lVZp
+	GKwz4ZK/PonapFokIdC1bQpRNo0IEOVvXQu/tPMO8fIgk0vOe/Z4Aqe2kXbDi2gWXZX/qVKmnq9
+	S6DW/yCKFhw0c7LZbzsmoezalNDHwnZ2RdaQeir4ZgN2kin+nrBtN5/R9A/NvY0Wnf6Xzrs84QI
+	ZTyYCmb
+X-Google-Smtp-Source: AGHT+IHJugXW7PgqM4C561Es6pZ+yMEeghRxxr249HgOnA0uY3PnwVnYPJp7RZWq/M8Ro+g8NAKFEnS73k9uc/Q2N9g=
+X-Received: by 2002:a17:907:969e:b0:b04:6c19:ed8d with SMTP id
+ a640c23a62f3a-b07c35bdfa1mr1378153066b.26.1757987737286; Mon, 15 Sep 2025
+ 18:55:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aMgngWdtqUKuqLcw@uudg.org>
+References: <20250915134729.1801557-1-dolinux.peng@gmail.com> <20250915144052.VHYlgilw@linutronix.de>
+In-Reply-To: <20250915144052.VHYlgilw@linutronix.de>
+From: Donglin Peng <dolinux.peng@gmail.com>
+Date: Tue, 16 Sep 2025 09:55:25 +0800
+X-Gm-Features: AS18NWAOIt4gv03twwvlmnUbxI3Di3y_xFKnQycCNlJ75R-ks7_KB2ty8Keq5J8
+Message-ID: <CAErzpmsW7=3RmLZxByxVD+vD=FV0YDF6POHVZZce784r7jMQyg@mail.gmail.com>
+Subject: Re: [PATCH v2] rcu: Remove redundant rcu_read_lock/unlock() in
+ spin_lock critical sections
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com, 
+	ap420073@gmail.com, jv@jvosburgh.net, freude@linux.ibm.com, bcrl@kvack.org, 
+	trondmy@kernel.org, longman@redhat.com, kees@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-nfs@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, netdev@vger.kernel.org, 
+	intel-gfx@lists.freedesktop.org, linux-acpi@vger.kernel.org, 
+	linux-s390@vger.kernel.org, cgroups@vger.kernel.org, 
+	Hillf Danton <hdanton@sina.com>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	pengdonglin <pengdonglin@xiaomi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-09-15 11:49:37 [-0300], Luis Claudio R. Goncalves wrote:
-> On Mon, Sep 15, 2025 at 02:24:44PM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2025-09-15 13:38:12 [+0200], Peter Zijlstra wrote:
-> > > Right, but I thought we did want to make this behaviour consistent.
-> > 
-> > That is correct, that is what I asked for (either consistent or a
-> > compelling reason why not).
-> 
-> I received a ping from colleagues investigating a problem possible caused
-> by excessive pressure on RCU and this change could make the problem worse.
-> But last I heard from them, sounds like the problem they are investigating
-> lies elsewhere.
+On Mon, Sep 15, 2025 at 10:40=E2=80=AFPM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2025-09-15 21:47:29 [+0800], pengdonglin wrote:
+> > From: pengdonglin <pengdonglin@xiaomi.com>
+> >
+> > Per Documentation/RCU/rcu_dereference.rst [1], since Linux 4.20's RCU
+> > consolidation [2][3], RCU read-side critical sections include:
+> >   - Explicit rcu_read_lock()
+> >   - BH/interrupt/preemption-disabling regions
+> >   - Spinlock critical sections (including CONFIG_PREEMPT_RT kernels [4]=
+)
+> >
+> > Thus, explicit rcu_read_lock()/unlock() calls within spin_lock*() regio=
+ns are redundant.
+> > This patch removes them, simplifying locking semantics while preserving=
+ RCU protection.
+> >
+> > [1] https://elixir.bootlin.com/linux/v6.17-rc5/source/Documentation/RCU=
+/rcu_dereference.rst#L407
+> > [2] https://lore.kernel.org/lkml/20180829222021.GA29944@linux.vnet.ibm.=
+com/
+> > [3] https://lwn.net/Articles/777036/
+> > [4] https://lore.kernel.org/lkml/6435833a-bdcb-4114-b29d-28b7f436d47d@p=
+aulmck-laptop/
+>
+> What about something like this:
+>
+>   Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side
+>   function definitions") there is no difference between rcu_read_lock(),
+>   rcu_read_lock_bh() and rcu_read_lock_sched() in terms of RCU read
+>   section and the relevant grace period. That means that spin_lock(),
+>   which implies rcu_read_lock_sched(), also implies rcu_read_lock().
+>
+>   There is no need no explicitly start a RCU read section if one has
+>   already been started implicitly by spin_lock().
+>
+>   Simplify the code and remove the inner rcu_read_lock() invocation.
+>
+>
+> The description above should make it clear what:
+> - the intention is
+> - the proposed solution to it and why it is correct.
 
-Either way, if this change introduces a problem then it affects RT as
-today. So we should deal with this. If it is not a problem and it just
-put pressure on an existing problem then it shouldn't be an issue.
+Thanks, that's much clearer. I'll use this commit message in v3.
 
-> Luis
+>
+> You can't send a patch like this. You need to split it at the very least
+> by subsystem. The networking bits need to follow to follow for instance
+>    Documentation/process/maintainer-netdev.rst
 
-Sebastian
+Thanks, I will split this into a series for v3.
+
+>
+> and so on.
+>
+> Sebastian
