@@ -1,63 +1,63 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88152EC08B
-	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 04:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372CF27C869
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Sep 2025 04:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757998177; cv=none; b=f7IhyB6nZlbZ8NmD5e3jYmICl378zpJ4dDdkIcbQAjhgMfPwToTYMPxl7gY0hvXM/ja83bsjil1NXb4h1ADUhaV9ctiNjAREnPLwGE1TTlFuOMId9tDmMLWs6b7Dl+/aDR3lZcbvaB84lT0YCc12NB5utm2ke8tKMN5JLfAGVMQ=
+	t=1757998182; cv=none; b=BxiE8tieamuszBrvrEXqJt0moAPj8P5lwCE+CEKwFfMccWoySMaNHasMLRyeBKeLQGvOEIe7QEIG8naYcpJeO6ZS+TOjmowEz615wyEQD9B4QUh+kc8OglHb7+WwZ8l22ImEBGwkQkcwJ8YnE43XprqqDye4MTAVQJT0Yo80Y8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757998177; c=relaxed/simple;
-	bh=dy9spvLipBJ0oxpRy6D3U8JeqM1cA+2DUbEARoiEIho=;
+	s=arc-20240116; t=1757998182; c=relaxed/simple;
+	bh=xZie7XPvdT38eYIBnvXACDOKlp4uDfFQ6p8xkwCAypA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rXd9KQ6yVxNQPOZs9OBHXISEemHeFpgK5W4Ka8MM4CAIL+lW9r/eatNds5Uv1M7LwpU1DsiNLxcvTzRSv0CZsyKNYLV1QOPI8zdh/xNCsK9nKPypzDcY9Jhct3M5FTU9sGR6XnZaAENFtscOZZ6MOTFpRFxg1Is8hff7HJVhLww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3DXQxXr; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version; b=YSYGK0nUB5cW/0ErqRtg6+cPplwjj7OEFb2Cyaeu10YOC5mVE5mJoY5yH7Jef+bIwz/m0wIzxtEvVuwNO+elLa/eI8OHzkGHO8yO5pLJ2MosoG9zp5ySwRtW+6sWWLpNY65onRJW+J4VTOAko2pxSW853R3CysTHbq4tGoS9yBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Am5NBX0V; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3DXQxXr"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b54a588ad96so3311317a12.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Sep 2025 21:49:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Am5NBX0V"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2570bf605b1so48704935ad.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Sep 2025 21:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757998174; x=1758602974; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1757998181; x=1758602981; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kee/jWM05xMj5MjToYK8a9EUY/mguZ7xPQQnB3cJ53E=;
-        b=W3DXQxXrDuKx7/N7uNnuCus/AGNf35g6YUF7h+CMGLEMvozLGUxl2XZfj55/1LzceH
-         2+ZiWdIrjIULX1ypBCicwTHiXymNwITG10JKFouK4/z+jP/Qkw7S9w4RYwwCCt+ct0wa
-         7u8lP8HM3ZvzCmSJBSACnzQ/ZId9TrIabR1HSNEm+GvD0GbWYCgCXOy8hxstrNJxRw1T
-         deVT7p/PUJ5sQdvR8WafmS3CVf7S8r3SjV6O2Utr16YdGBYQhC7pz/G/Jo36wGAatbXq
-         WOZ/prLdZADZE3pKVDunC5GswH7+M8Wz1aNf4d4r9H5dPBbD44j1lu5tPnb/LsSs0EfC
-         pT8g==
+        bh=6Tcedso9pzLAwLQitmBj+2+6wC4HZyTUiqHFeMdiOi8=;
+        b=Am5NBX0Vjgobkb2mDjP3lxSt8aDJwewfmFcEJPPJsjufnciGLfGofP/ajAn4ojtb7d
+         Obg2YUkxZA7VynJ2iVYK1Foe8/oJ3crCvndqg4p+gU+AsRQz1ZJiQzM4ASIqO95QMqv0
+         42wg2WDsOv46iH8/6u8RcXRvOBegF/rX+pZndIGCbUS+0zE8MHfikHbMPbpcO0LPGmuH
+         K3i59VcWrPOwwTJRhz16obbednFaJUwijHy08Pqp4mEgm4ucd6KS8lkHYlH0SqX3fpsC
+         kaN0VKwEsUQB0rU1S3xLfejxRoM9B+DOR/5svVmb4CX8xT0X3BKLmreNLOxinWtW5EpM
+         y5Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757998174; x=1758602974;
+        d=1e100.net; s=20230601; t=1757998181; x=1758602981;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kee/jWM05xMj5MjToYK8a9EUY/mguZ7xPQQnB3cJ53E=;
-        b=FABcoskeD6GCllgT4eSQeuFocAhPQIO5tAKshEBvbuyYzJBBvCMhMF/FH/kUzvYV4i
-         BwKRI8L1ew/rFe/slth/SK5rCuSbfNYHz61uCXXCyjjJ9aJR0eV1NmbikA63JZYCcoX5
-         aC8D2HzMuCPmuM6udVFKBtsNHltjMUUJHYv47r7QJXuqScWKmR16uoedrrGtWk+4atv/
-         esVEpw3k4SM845wZdWUTV5YszKBW5nSpcuwl7wJ1JTD8JpFtGEzwrTtk3LTJplB/ubQn
-         olyOmZ9feBFKZSSHQLzPApkwtnn3nJ+J2NWRh581GXF5L6+kPCO6o9Z7JSu1tVrzk0M2
-         YvwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUZG6cOmatXLJA/MQhWjG/zKDW6nZZR/oEaW6vt6WofGBtmrYnkawuQTOonKNFLiPsqyxV7fPNuoP9FsBKRA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcGUhev37aEJ16QZ2+YPxKqbfJrt59gftxbzcNvXHGDsoTZe9U
-	qCU+eVbagDXnYABd6peI2uqLqdTRVvBxMARswTWmBZnoE+bS0WeJW9Ug
-X-Gm-Gg: ASbGncupid/CsZ+D3JOasRbP2AK3wwgKefp03FlnR90Kdlx0sNq5osB8M5RYTRBXhXX
-	ho1KwM/dBsr+51Qio6dsECcd3QeMTvJP8eSw96DsN/uDbWGXSpT70u44RwnVZDQpl8wBlH0dk8R
-	XSmPIAUEY6amKpDf0vIf7u4RPOHem2yqKwrAsuruPMrOE+hr6VsYonnmlyp4H1HoB3cViJQVoz1
-	R7o7dvq/vBcNL3tehAPLF7rXoOamyOAgAT9nHmbZBWhKrP4/1UDrab6ccKLx6xAro504/6rdrMl
-	fBHFmMFzf5/tOZYZ3pZIMQD72jvsmNjX/EFwaJQgsoZZBc48OejlL2u1UIvD5lvV6yvjM/fa0uk
-	CS+t6g1EPVSpzSpg+ZEevHzRSQz7lLO/+B9lHY9g=
-X-Google-Smtp-Source: AGHT+IHQsp/jp2h5qh/u2y0fwJLYw3kUJFgybrRxf3n883LnUrw88kxlxQMidQOFwo4KtZaOVgbKQg==
-X-Received: by 2002:a17:902:cecc:b0:267:a1d5:7372 with SMTP id d9443c01a7336-267d151fba1mr14211985ad.4.1757998173983;
-        Mon, 15 Sep 2025 21:49:33 -0700 (PDT)
+        bh=6Tcedso9pzLAwLQitmBj+2+6wC4HZyTUiqHFeMdiOi8=;
+        b=J9cjdXG9C4+RGWArN+wI2+LJF1edjmGTfqY0ipS7DA+ymMG3FPB0rf5+fg2NRy1fL/
+         pXyl5Du/JdH3awDOaoxNsLC8x85E7Vn+Ps2eE7yi81DCWR8NrFDXRtb8elhHr3/Zh2fn
+         CrBOnocMApHYsWHJ0A1FvFNA+QFWxqsj5modRxr4g5Ru6qy14YYiApi5SKNiglVoEbGN
+         Loo6F5Eu2KCGoQ2tkvgTHq7Wh7O8BbgSH9DL/DZ5wCh/rQv1d4RYNeK3XpE0Y1dH5Yyu
+         0eCcazmFN62/Jzde5j3BVhOGhd/xEns/mWz/0+0V86Brnt3C446v6n2ghprw2oxqfQ9v
+         WX9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUYDAUFR6Fm8mknzd/ktFVh7RBixp5zn3glNxQJDk/2gb1brjEYVzVEsiV121+bYQXXVvIpJzIlZAkRIzawxQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxbw8mGjY1lav1PjF44W8BLrq3Qp0cDARt2vhoiD/HfbuQ2rQOE
+	d3TDIjFIhNk5npWQ9rIqI527htWMlVWYWZ4BzQ/feemrWpibd7mZZ01F
+X-Gm-Gg: ASbGnctSU/QHlVb/vJFmObKlRLDexmn8X4hg26Y4wKxRf6t31O/anltOKXLB1Qjx17f
+	LGaZcEfL4ha3aVZL6W/1eXgkalinzlzJqWPeUhMeiXfuoeRt/s+uOjxm0rjxG8aaQTBXv6Iu47M
+	BX6OmYAn9OTd1auTwXfHOz2e1BRdZMJVV3yhKbtzqiKdXHRWyzygyHXY12lcG2y4lo6DPKluVca
+	Ri0BJt4T2++N907j76eRpWD6foIJMDdrOmytSAhQZc61ZDJzcxeqdGKeObjFjcrauXYGsWL2X/g
+	2hmWwd7XNwQpw7FkHgrN6dhZReuGj0jrYu38MYXb4uGp4VoQX+UhyeNO3QnFr8Qk5/7F1DVlmts
+	PC6cVKJHoyK1XREtmexkVFH8wKEPyeBcv4zjIDjg=
+X-Google-Smtp-Source: AGHT+IEk/DXYOCMhugqpymqTGh+KMlTQeAIuikssxOXlHLYZS5SBPJrXDrKkOxyomJ+DECodEM8EoQ==
+X-Received: by 2002:a17:902:c40d:b0:251:a3b3:1580 with SMTP id d9443c01a7336-25d24cac4eemr191581215ad.6.1757998180587;
+        Mon, 15 Sep 2025 21:49:40 -0700 (PDT)
 Received: from pengdl-pc.mioffice.cn ([43.224.245.249])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25ef09c77f8sm104600605ad.15.2025.09.15.21.49.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-25ef09c77f8sm104600605ad.15.2025.09.15.21.49.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Sep 2025 21:49:33 -0700 (PDT)
+        Mon, 15 Sep 2025 21:49:40 -0700 (PDT)
 From: pengdonglin <dolinux.peng@gmail.com>
 To: tj@kernel.org,
 	tony.luck@intel.com,
@@ -85,14 +85,12 @@ Cc: bigeasy@linutronix.de,
 	linux-s390@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	pengdonglin <dolinux.peng@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	pengdonglin <pengdonglin@xiaomi.com>
-Subject: [PATCH v3 12/14] net: amt: Remove redundant rcu_read_lock/unlock() in spin_lock
-Date: Tue, 16 Sep 2025 12:47:33 +0800
-Message-Id: <20250916044735.2316171-13-dolinux.peng@gmail.com>
+Subject: [PATCH v3 13/14] net: bonding: Remove redundant rcu_read_lock/unlock() in spin_lock
+Date: Tue, 16 Sep 2025 12:47:34 +0800
+Message-Id: <20250916044735.2316171-14-dolinux.peng@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250916044735.2316171-1-dolinux.peng@gmail.com>
 References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
@@ -117,77 +115,35 @@ been started implicitly by spin_lock().
 
 Simplify the code and remove the inner rcu_read_lock() invocation.
 
-Cc: Taehee Yoo <ap420073@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jay Vosburgh <jv@jvosburgh.net>
+Cc: Paolo Abeni <pabeni@redhat.com>
 Cc: Jakub Kicinski <kuba@kernel.org>
 Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
 Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
 ---
- drivers/net/amt.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/net/bonding/bond_3ad.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/net/amt.c b/drivers/net/amt.c
-index ed86537b2f61..aaed9fbc7526 100644
---- a/drivers/net/amt.c
-+++ b/drivers/net/amt.c
-@@ -295,7 +295,6 @@ static void amt_source_work(struct work_struct *work)
- 
- 	tunnel = gnode->tunnel_list;
- 	spin_lock_bh(&tunnel->lock);
+diff --git a/drivers/net/bonding/bond_3ad.c b/drivers/net/bonding/bond_3ad.c
+index 4edc8e6b6b64..c53ea73f103a 100644
+--- a/drivers/net/bonding/bond_3ad.c
++++ b/drivers/net/bonding/bond_3ad.c
+@@ -2485,7 +2485,6 @@ void bond_3ad_state_machine_handler(struct work_struct *work)
+ 	 * concurrently due to incoming LACPDU as well.
+ 	 */
+ 	spin_lock_bh(&bond->mode_lock);
 -	rcu_read_lock();
- 	if (gnode->filter_mode == MCAST_INCLUDE) {
- 		amt_destroy_source(snode);
- 		if (!gnode->nr_sources)
-@@ -306,7 +305,6 @@ static void amt_source_work(struct work_struct *work)
- 		 */
- 		snode->status = AMT_SOURCE_STATUS_D_FWD;
+ 
+ 	/* check if there are any slaves */
+ 	if (!bond_has_slaves(bond))
+@@ -2537,7 +2536,6 @@ void bond_3ad_state_machine_handler(struct work_struct *work)
+ 			break;
+ 		}
  	}
 -	rcu_read_unlock();
- 	spin_unlock_bh(&tunnel->lock);
- }
+ 	spin_unlock_bh(&bond->mode_lock);
  
-@@ -426,7 +424,6 @@ static void amt_group_work(struct work_struct *work)
- 		goto out;
- 	}
- 
--	rcu_read_lock();
- 	for (i = 0; i < buckets; i++) {
- 		hlist_for_each_entry_safe(snode, t,
- 					  &gnode->sources[i], node) {
-@@ -443,7 +440,6 @@ static void amt_group_work(struct work_struct *work)
- 		amt_del_group(amt, gnode);
- 	else
- 		gnode->filter_mode = MCAST_INCLUDE;
--	rcu_read_unlock();
- 	spin_unlock_bh(&tunnel->lock);
- out:
- 	dev_put(amt->dev);
-@@ -1327,11 +1323,9 @@ static void amt_clear_groups(struct amt_tunnel_list *tunnel)
- 	int i;
- 
- 	spin_lock_bh(&tunnel->lock);
--	rcu_read_lock();
- 	for (i = 0; i < amt->hash_buckets; i++)
- 		hlist_for_each_entry_safe(gnode, t, &tunnel->groups[i], node)
- 			amt_del_group(amt, gnode);
--	rcu_read_unlock();
- 	spin_unlock_bh(&tunnel->lock);
- }
- 
-@@ -1343,11 +1337,9 @@ static void amt_tunnel_expire(struct work_struct *work)
- 	struct amt_dev *amt = tunnel->amt;
- 
- 	spin_lock_bh(&amt->lock);
--	rcu_read_lock();
- 	list_del_rcu(&tunnel->list);
- 	amt->nr_tunnels--;
- 	amt_clear_groups(tunnel);
--	rcu_read_unlock();
- 	spin_unlock_bh(&amt->lock);
- 	kfree_rcu(tunnel, rcu);
- }
+ 	if (update_slave_arr)
 -- 
 2.34.1
 
