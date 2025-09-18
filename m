@@ -1,93 +1,103 @@
-Received: from r3-18.sinamail.sina.com.cn (r3-18.sinamail.sina.com.cn [202.108.3.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5991E9B1C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Sep 2025 13:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA9030FC3A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Sep 2025 15:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758203299; cv=none; b=LhO/qa/9nbv4b07MlbUrxRgIHLte1gDNVjSE/icjbxBtCRMF7uKD2T8fg2iVhIX7ewvctc1r4MeW0fPIxRTOO1QYVBs3X9S5mq0jq6TbHamoGYHV0vRlsfHRbgGr8tqHXNDn7NoRmUSX/I7A4YMqP5z877EGvo7ro7yJIRSNtiU=
+	t=1758210582; cv=none; b=AxMlwghOQwmFnuL51iIgo3Hm3+CEKrgTlnnN9qOPBP8AqmZXPsavArECwMpHEmT/VXLzTPLwyn0sVdrsxatxuXb6W9yZ/XjHaSXGUKYfTQMIlvmiITYWiIAYiD7BC54MajZLDfq4pdd7TVjE3X02xVclyfcY3ypGF0jsyF9wWEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758203299; c=relaxed/simple;
-	bh=lDadJAvyZmcx7PatuYxQJaBFZ0vOYRBOxKD7sc4NrxU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=td1gYUNsb+KOpFcT2gW3dos9/GmDlF6myKFFPFTbJ5VcbctTGf2C8bW9r6XK/Up2UsdxWGC296yel+XuaYkqfEr3aMikbH2/ys0Og3LUyBMn2I1sucMTlnI/FP0Bj/s1jgdjDbhFS/QbXuybkc0p7vy7oqgr0WUCkGADMHi+mnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=xrQKWE+/; arc=none smtp.client-ip=202.108.3.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1758210582; c=relaxed/simple;
+	bh=Tu3hQmIplag6Boj37rOZRIxg+q0RX8nAwgJMMdLlaqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUh7gZzheKFevA+i6iMYFOMe3Ry1Mcu1YlXgbn7taAXELmAMxvXnQN7JMYqJFPn49KZdSzuXSENsl0JVXW2c5LKiDohHmsZrWhiMo6fzV90W5asD3yTwK9BrYLw8nOX8lxQvCMxX1EF6INo7tHoiSGr0akMqAzGQ1h76OGBDiKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YAf5jvzH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=j7VBlfql; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="xrQKWE+/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1758203294;
-	bh=gjZ4m8+fnvvBoHeOxGVUc9aElTf4Aye6ynvpcFh61TI=;
-	h=From:Subject:Date:Message-ID;
-	b=xrQKWE+/oRfsgdMImYSP+oz8uBnRGWcvcMXgr+V1T0J6whGqlgcQrcAr6WnvVg7se
-	 k4dopYDs3XdY/9yD85cNhL2m8yf9UFXnf/mf4MNU+Oly9KEH3vPI4UwYCbc09h2C9w
-	 0iuKxtT9ynN/jMTgiS7ynYiIW5HRT5ogD32+Gfq4=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.58.236])
-	by sina.com (10.54.253.32) with ESMTP
-	id 68CC0D910000565D; Thu, 18 Sep 2025 21:48:02 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 8010254456942
-X-SMAIL-UIID: 9B565D5A1764478DAB38227F3EE49FFB-20250918-214802-1
-From: Hillf Danton <hdanton@sina.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Peter Zijlstra <peterz@infradead.org>
-Subject: Re: [PATCH v3 2/3] softirq: Provide a handshake for canceling tasklets via polling
-Date: Thu, 18 Sep 2025 21:47:52 +0800
-Message-ID: <20250918134753.7122-1-hdanton@sina.com>
-In-Reply-To: <20250915073933.L7UOtfkj@linutronix.de>
-References: 
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YAf5jvzH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="j7VBlfql"
+Date: Thu, 18 Sep 2025 17:49:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1758210578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cmvTuuz6y83mxY1NenzRoJM8fQybFqPitezBXCcZxWI=;
+	b=YAf5jvzHjpFNeJIpII5+JOB0lqoLy501EnRxXWEnySIMsDkbOxtZuir0rHD7+npu15njWK
+	T843wDkG+Hsq6TohJ2QbYfN+7f1nX1y0ozFLJ7XFcZ0EZQrmJB45lrG0f8VuEHrmYHtyjb
+	M//nkcH228fZL/g3hopQVBiTgqKlxHI33uI64Zi+Ya7GVd1O5yFaQayGKIEGeRt0xQN+oQ
+	hJ5WabTPG3K06y+5O7j0PFDhIuuRl5PTOq5JXnfVjTSSOvH5wCAV1MChU6fkF6pGUR1Jc5
+	pVaNqHVkWd5uhW3EOK+4wiz/vt6BN2zZbMf3QGhLlSl8jmhM/nCWwv8u4Z4OBg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1758210578;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cmvTuuz6y83mxY1NenzRoJM8fQybFqPitezBXCcZxWI=;
+	b=j7VBlfqlasNpWNGrU6gu9/tS7qbT5SOLbXS9XpbyJfuTyJCaJhGEMIeN1CavzqhvZDYsxZ
+	AMlZlg6ZXGRZqMCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Hillf Danton <hdanton@sina.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>, Peter Zijlstra <peterz@infradead.org>
+Subject: Re: [PATCH v3 2/3] softirq: Provide a handshake for canceling
+ tasklets via polling
+Message-ID: <20250918154937.RQqkeYxI@linutronix.de>
+References: <20250915073933.L7UOtfkj@linutronix.de>
+ <20250918134753.7122-1-hdanton@sina.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250918134753.7122-1-hdanton@sina.com>
 
-On Mon, 15 Sep 2025 09:39:33 +0200 Sebastian Andrzej Siewior wrote:
->On 2025-09-05 18:15:01 [+0800], Hillf Danton wrote:
->> 	CPU0			CPU1
->> 	----			----
->> 	lock A
->> 				tasklet C callback
->> 				lock A
->> 	cancel tasklet B
->> 	DEADLOCK-01
->> 
->> After this work could DEADLOCK-01 be triggered, given no chance for DEADLOCK-02 ?
->> 
->> 	CPU2			CPU3
->> 	----			----
->> 	lock A
->> 				timer C callback
->> 				lock A
->> 	timer_delete_sync(timer B)
->> 	DEADLOCK-02
->
-> You are not supposed to acquire the lock, that is also acquired in the
-> callback, while canceling the timer/ tasklet.
-> Tell me please, how is this relevant?
+On 2025-09-18 21:47:52 [+0800], Hillf Danton wrote:
+> On Mon, 15 Sep 2025 09:39:33 +0200 Sebastian Andrzej Siewior wrote:
+> >On 2025-09-05 18:15:01 [+0800], Hillf Danton wrote:
+> >> 	CPU0			CPU1
+> >> 	----			----
+> >> 	lock A
+> >> 				tasklet C callback
+> >> 				lock A
+> >> 	cancel tasklet B
+> >> 	DEADLOCK-01
+> >> 
+> >> After this work could DEADLOCK-01 be triggered, given no chance for DEADLOCK-02 ?
+> >> 
+> >> 	CPU2			CPU3
+> >> 	----			----
+> >> 	lock A
+> >> 				timer C callback
+> >> 				lock A
+> >> 	timer_delete_sync(timer B)
+> >> 	DEADLOCK-02
+> >
+> > You are not supposed to acquire the lock, that is also acquired in the
+> > callback, while canceling the timer/ tasklet.
+> > Tell me please, how is this relevant?
+> > 
+> > If lock A is acquired on CPU0/ 2 then tasklet/ timer on CPU1/ 3 can't
+> > make progress. Now CPU0/ 2 waits for the callback to complete. This
+> > deadlocks as of today regardless of PREEMPT_RT and this change.
+> > 
+> In case of !RT, the chance for DEADLOCK-02 is zero because deadlock is
+> detected based on per-timer instead of per-cpu.
+
+But your "lock A" is global, isn't it?
+
+> > The difference is that !RT requires two CPU for this to happen while RT
+> > is efficient and can trigger this with just one CPU.
 > 
-> If lock A is acquired on CPU0/ 2 then tasklet/ timer on CPU1/ 3 can't
-> make progress. Now CPU0/ 2 waits for the callback to complete. This
-> deadlocks as of today regardless of PREEMPT_RT and this change.
+> In case of RT OTOH, false positive deadlock could be triggered because
+> canceling taskletB has nothing to do with the callback of taskletC.
 > 
-In case of !RT, the chance for DEADLOCK-02 is zero because deadlock is
-detected based on per-timer instead of per-cpu.
+> In short I am highlighting the gap between per-timer/tasklet and per-cpu.
 
-> The difference is that !RT requires two CPU for this to happen while RT
-> is efficient and can trigger this with just one CPU.
+I don't see a problem here.
 
-In case of RT OTOH, false positive deadlock could be triggered because
-canceling taskletB has nothing to do with the callback of taskletC.
-
-In short I am highlighting the gap between per-timer/tasklet and per-cpu.
+Sebastian
