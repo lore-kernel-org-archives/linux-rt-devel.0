@@ -1,156 +1,107 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761811FF61E
-	for <linux-rt-devel@lists.linux.dev>; Sat, 20 Sep 2025 16:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FDC21ABC9;
+	Sat, 20 Sep 2025 17:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758384044; cv=none; b=K6DmEXpP/r7tPYe+Or5kRlBku6kL8Clm53njiOu1eZH/ul7DZtOoikFphalMBCdTtc0f9rmehnZOqrjSE6yAANt+uEriEaM8k1WbSwtctoq5+siu5iRAkEWXJLDgEqBOka07Abse+Fi0Pp5TW4q1Msz1lyrzHUkWvU9KSI8YLiE=
+	t=1758389815; cv=none; b=QfTpqDsyZ4kHiHTFxke2ybxLoZDJcD4ficY+Vr+uyR7clYLA3k9wUsoRuVYV7ggeWFia5TzJOel74k0B2PiPaDfrk+Tf1jayVSBEsXXnZ/wLjPImzNtvsNuQ7jSYwMl2Nl04LSG/swLpOq3uYkUj+tbNVplrynIB83ORh2UPaJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758384044; c=relaxed/simple;
-	bh=0FXSiX8LV1vGBvynLmEYz4qPHdBcTqMHOixN5CzoCzA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FQ3FT0V8MmtTLQZEmT+ZNpcrVnmhQdKdtrH99C7ft3FnYhX3zOcN+6Dt4+8D5n+WJujKkcg/AOj2PZY021LjT9b6r21E58PomhuWw+oG6T4Ke/6HSh4/OE1mdfiVCEvUi6+wxtX2iAAqbUHW1wGKBp59KFUukyNgNQiTDmqR5RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bMQICGNT; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758389815; c=relaxed/simple;
+	bh=bBKmMy4eylNzgrCT2jsvWF8aardX3t0sWZo4Y8ORPXA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qi8RTXRgGJjcvCqBp6ZkjfTYqsMZULcaVc9/gYn47jpLA2cNefs4LnfY6ryCOXRGe/FAozLYFytrPeGkLe3HZoFJiRC48Mqc6hQoseloYvbyBG6WMC0pjY7G5bwC5vCg4BlR52PGd5Gcp1oAN0mr6/h7b7R5kiVBPVel6/x8qxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sSN+mFiG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bMQICGNT"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-62fc14af3fbso3728958a12.3
-        for <linux-rt-devel@lists.linux.dev>; Sat, 20 Sep 2025 09:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758384039; x=1758988839; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6bGBwhqJX9F0xOuCnvuuNe/MoHdsR7Bf1qZLNoNX5Qk=;
-        b=bMQICGNTQnbsOqAs9U+0fCOpUes3wS5Evi6u5q8+x4oMQXoKMbOzBwgx1p8kHL9rto
-         ivZKHoS3PgjLJULhP6v7BaN7E3+M9rXaLMAfqlt5/5D3i1eoh0HUsid2WCLNYG6mGsZV
-         p0hiZvBiGUj4rdwfLopeIn95ERDy3DDVlhEZvP7RmZK+NqUjW47DzZhwvb43jUrQp3+2
-         8/DFFzDRx3Sk6A8h79qEHx+YTFQ8SGKMjzlalO0EhsbxLwQJjNFkw528Z3tTgHjPGIYf
-         RLeh0blUN80xXKFOR2namkkR5wuO423Sp/SZblU9vMk/H8f1J/Xt7fkJGRVL06L9vL0X
-         WoxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758384039; x=1758988839;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6bGBwhqJX9F0xOuCnvuuNe/MoHdsR7Bf1qZLNoNX5Qk=;
-        b=tOcr5ADK69krydz36XPZZxKknjvv40q2mIjqOn0+gQLg6BHMPHxULa6ERq4Dsw9CVb
-         D2UPtQ4HJFf5phQLo0Tt/4yg5Of+QRWAyOiLgOLGMKHyojwyAHwvatSPEtS7TOswVp74
-         Xw0zBua+89s0lKLSFp7UMNAN+rumcDgZ6TnhNWVlW5yiH2o/ZLCbbyPPg+miP9y+ox1j
-         ptFePHjx+ZfdxhTI03Li63qCpbfP/X9Wu58vmhrgLImFtK/7gJZfRPI1nLNmDS4Gzw8w
-         63UjI4h1vTETBBvzAdeHNzGb+QDhvh6F9aoNkmtBo/43QdGU1zknR7xTJPsUhnkLyn/b
-         EPlA==
-X-Forwarded-Encrypted: i=1; AJvYcCWToP9U1uTK/IXSlSX+TxtDt7nauRxffE7KGuXxcyXU5OvRSOgnqxr6IHfFQUEgeSeFF1AOvhGidb/kw7n+Hw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4zpc22k8e4t2EskK9jedrMYqWqsWI8u73LJHXAkARbR3jFAth
-	KR5Cc+fTCHBYiXN8zJURfJ06DwexqDwnt604hJCvhAb3SXzFB39zbjy2dtOGTfibxdn7pqrbyvu
-	KZSBgAVxbmthVoq9uEh6hpReQQJM42X+Xxe0dzYm23w==
-X-Gm-Gg: ASbGncugKq3BYu6lPspEBOuJW2heBqpOu78Y6sKhObS5O1K3lC1USTmMAZKZV6E4mIe
-	glDloCYB9rGQTuPxvcAEIa4mnvqvZAs8POaSh4sL9U45D/ZMM3s2KIGfm17+c+90Qyw2g8oej9K
-	cvC+T1W2XKc6Q5WM0VdvmtR0Nwu7fkqF44bu6BwsBX31mttM9l4eZuKW9nwWiXzyEB7RXoKYaTS
-	p69bRqZ1XhPnlPRq2FEJVlbFvGbM7GmxPsQ
-X-Google-Smtp-Source: AGHT+IGhUL+kILCgvIy42z2qBJz3nD98fFtf16ENDJwDcWGqNqZPLpWOf/WplU4dCmobMVHp3dmQfvBSGbyb8aaZ16k=
-X-Received: by 2002:a05:6402:208a:b0:62f:31f6:6aac with SMTP id
- 4fb4d7f45d1cf-62fc0a7b1e0mr6728772a12.23.1758384038519; Sat, 20 Sep 2025
- 09:00:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sSN+mFiG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 048C7C4CEEB;
+	Sat, 20 Sep 2025 17:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758389815;
+	bh=bBKmMy4eylNzgrCT2jsvWF8aardX3t0sWZo4Y8ORPXA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sSN+mFiGswwUlZWrglJA/+kCBTrxIDzhE17f0spBJ1cYq9Z339/L+kmMbno708jO9
+	 Cd2KSDvYIEUEcjxftQMnk7dLpokp4wjOpVoFYw0hPI7kFSzbhaxS8j2YmXmCk6und9
+	 7QZ/qR8Ynuw0a7CSARQVgvyfo1+AcBhMnQISPjk5d+J1SSaMROZxYTC1MLjKETICjK
+	 0eoUXBb8CUM9VeMMFU2mH2gMn6JO1qmVlhHVP47l2cx5bPuWifVIVA4kwwCGuhK3ag
+	 gcoz8sdoDcDMMh2dAiZD0MhdY//IX4WIcOmcEZRHVlFja3JQgu4s6zp2HoRAgPoC+V
+	 +XgMR5xsoLU0Q==
+Message-ID: <182ceffb-b038-4c4f-9c3b-383351a043d5@kernel.org>
+Date: Sat, 20 Sep 2025 19:36:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAKfTPtBp85jaM8sdOXqB1Fq7XcfgGP-T2A=fd4Qbhe48CUNUGA@mail.gmail.com>
-In-Reply-To: <CAKfTPtBp85jaM8sdOXqB1Fq7XcfgGP-T2A=fd4Qbhe48CUNUGA@mail.gmail.com>
-From: Vincent Guittot <vincent.guittot@linaro.org>
-Date: Sat, 20 Sep 2025 18:00:26 +0200
-X-Gm-Features: AS18NWCZwxYmt0CLn-uDv8qhYWdHHmD_8uweCDgoyxFrcUPIiuRHE3oZNODkeAQ
-Message-ID: <CAKfTPtBKB41LyyfSDm7RK=gbDt3JjY_k8SJAALxQzxGACEp+ig@mail.gmail.com>
-Subject: Re: Call for Speakers: Join us at the Scheduler and Real-Time
- Microconference at LPC2025!
-To: linux-kernel <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <williams@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	John Stultz <jstultz@google.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Phil Auld <pauld@redhat.com>, dhaval@gianis.ca, Aaron Lu <ziqianlu@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] page_pool: add debug for release to cache from
+ wrong CPU
+To: Dragos Tatulea <dtatulea@nvidia.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, Tariq Toukan <tariqt@nvidia.com>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20250918084823.372000-1-dtatulea@nvidia.com>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <20250918084823.372000-1-dtatulea@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi everyone,
 
-Just a friendly reminder that the Call for Proposals for the Scheduler
-and Real-Time Microconference at Linux Plumbers 2025 closes on Sept
-30th, 2025.
 
-We're looking forward to receiving your proposals!
+On 18/09/2025 10.48, Dragos Tatulea wrote:
+> Direct page releases to cache must be done on the same CPU as where NAPI
+> is running. Not doing so results in races that are quite difficult to
+> debug.
+> 
+> This change adds a debug configuration which issues a warning when
+> such buggy behaviour is encountered.
+> 
+> Signed-off-by: Dragos Tatulea<dtatulea@nvidia.com>
+> Reviewed-by: Tariq Toukan<tariqt@nvidia.com>
+> ---
+>   net/Kconfig.debug    | 10 +++++++
+>   net/core/page_pool.c | 66 ++++++++++++++++++++++++++------------------
+>   2 files changed, 49 insertions(+), 27 deletions(-)
+> 
+[...]
 
-Best regards,
-The Scheduler and Real-Time Microconference Team
-- Dhaval Giani <dhaval.giani@gmail.com>
-- Juri Lelli <juri.lelli@redhat.com>
-- Phil Auld <pauld@redhat.com>
-- Steven Rostedt <rostedt@goodmis.org>
-- Vincent Guittot <vincent.guittot@linaro.org>
+> @@ -768,6 +795,18 @@ static bool page_pool_recycle_in_cache(netmem_ref netmem,
+>   		return false;
+>   	}
+>   
+> +#ifdef CONFIG_DEBUG_PAGE_POOL_CACHE_RELEASE
+> +	if (unlikely(!page_pool_napi_local(pool))) {
+> +		u32 pp_cpuid = READ_ONCE(pool->cpuid);
+> +		u32 cpuid = smp_processor_id();
+> +
+> +		WARN_RATELIMIT(1, "page_pool %d: direct page release from wrong CPU %d, expected CPU %d",
+> +			       pool->user.id, cpuid, pp_cpuid);
+> +
+> +		return false;
+> +	}
+> +#endif
 
-On Mon, 18 Aug 2025 at 20:31, Vincent Guittot
-<vincent.guittot@linaro.org> wrote:
->
-> Hello everyone,
->
-> We're pleased to announce that the Call for Topics for the upcoming
-> Scheduler and Real-Time Microconference at Linux Plumbers 2025, is
-> open!
->
->     https://lpc.events/event/19/sessions/218/
->
-> This event is designed to gather kernel developers and engineers to
-> share knowledge on scheduler and/or real time issues in Linux and
-> connect with peers. This year, we are joining the tightly linked
-> Real-Time and scheduler topics in one same microconference.
->
-> We're particularly interested in talks that:
->
->     - Spark Discussion: The goal is to discuss open problems,
-> preferably with patch sets already on the mailing list.
->
->     - Are Concise: Presentations are meant to be limited to 2 or 3
-> slides intended to seed a discussion and debate.
->
-> Some possible topics for discussions:
->
->     - Improve responsiveness of fair tasks
->     - Improve PREEMPT_RT
->     - Improve Locking and priority inversion
->     - Impact of new topology, including hybrid or heterogeneous system
->     - Improvements on SCHED_DEADLINE and DL server
->     - Tooling for debugging low latency analysis
->
-> It is also perfectly fine if you have a new topic that is not on the
-> list above. People are encouraged to submit any topic related to
-> real-time and/or scheduling.
->
-> Ready to submit? Please fill out the submission form by
->
->     Sept 30th 2025
->
-> at this link:
->
->     https://lpc.events/event/19/abstracts/
->
-> and select
->
->     "Scheduler and Real-Time MC" as the track.
->
-> We can't wait to see your proposal and build a fantastic lineup together.
->
-> If you have any questions, don't hesitate to reach out.
->
-> Best regards,
->
-> The Scheduler and Real-Time Microconference Team
-> - Dhaval Giani <dhaval.giani@gmail.com>
-> - Juri Lelli <juri.lelli@redhat.com>
-> - Phil Auld <pauld@redhat.com>
-> - Steven Rostedt <rostedt@goodmis.org>
-> - Vincent Guittot <vincent.guittot@linaro.org>
+The page_pool_recycle_in_cache() is an extreme fast-path for page_pool.
+I know this is a debugging patch, but I would like to know the overhead
+this adds (when enabled, compared to not enabled).
+
+We (Mina) recently added a benchmark module for page_pool
+under tools/testing/selftests/net/bench/page_pool/ that you can use.
+
+Adding a WARN in fast-path code need extra careful review (maybe is it
+okay here), this is because it adds an asm instruction (on Intel CPUs
+ud2) what influence instruction cache prefetching.  Looks like this only
+gets inlined two places (page_pool_put_unrefed_netmem and
+page_pool_put_page_bulk), and it might be okay... I think it is.
+See how I worked around this in commit 34cc0b338a61 ("xdp: Xdp_frame add
+member frame_sz and handle in convert_to_xdp_frame").
+
+--Jesper
