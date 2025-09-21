@@ -1,271 +1,102 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14250241664
-	for <linux-rt-devel@lists.linux.dev>; Sat, 20 Sep 2025 21:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E525B2459DC
+	for <linux-rt-devel@lists.linux.dev>; Sun, 21 Sep 2025 13:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758403232; cv=none; b=EevHa1ltdeJFN3yYBMmrCDaDmuA7ZJyFgIPDK8Bl7V8UzSImW1DZkqAix64UNZoXrx/LCppbCiInEVGdVdlMFWczkNbKO+KIedLiSQ/fVSJaYDS96wVARR3vxIp439TVLRjvGWe0mcGCouCfMQIYgBnzbHPoLVqngnT/Lmfx64s=
+	t=1758460357; cv=none; b=Hlna1k4kXU5O4a3oZQp8/TGgtQoe+5dcD2Fyn2SR1YQveCwLejNKtdQkv/M73xTlQvL7fdROBb7GWP2q9RiphGhD8lABGKT3A6vHhyh6kn/aE6wOZWIGs7ZTfEiLOILdgmsYIIpkeZhe+zBJgHuipLF02tbUwZ27vzx+n7BXhUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758403232; c=relaxed/simple;
-	bh=ZwZ18KFBzUZRHxbiRVz4unvYpDgokHGk1bhNOrbb3cw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=g4QlvQo1JT5S/YlggqyVw8JrXsvGcfuE+keYgxHMoCb8HfDwqzZHKsqc3lu4INGgJqdJKr3EbFAnuKuZ+6EgtgIIwCxFyCS86lpagb4JPAEZIwAYk2N4F8GLt4bE0xlmjyD7nY32k1YotYKH8yMRfmdxAh7PY8TkKSYSIQcNWAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gS5GF416; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5hlu2eBl; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gS5GF416";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5hlu2eBl"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1758403227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o1GmvU8ma9x4F+83OCNr26kXzjtn2rKd3NDHRyJRbEQ=;
-	b=gS5GF41697IWVILXXTfnRaLCFZ3dnNwAAmdy5hDVVCxHUKnAPbebrW0MR4aPcZp2gpCidk
-	7r8psGgeaIQvsmsgPMLsjhftnlCj980WmewEuBcPr5YFCiH9OxrHI7w39X6sG1spkUTDOw
-	Bnob7rUtf1NqyD5hqVJdlPOykYD/QcoM4247N9dPW7FOtJRjbIdc2JMv7fmPvCAcBFOH/T
-	J4+ryolehwCT4BUMCEd0C50bCjqKYliOgJ8vZqZYXAZxUWNvf/tV8wUp4ALP0YBOJoVvKv
-	fMFXHZsXdTtIsiFuGiPLZmTAXGd5HrWfMPjwX7/Oh8kbi9EtAj47bDhA02rTvg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1758403227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o1GmvU8ma9x4F+83OCNr26kXzjtn2rKd3NDHRyJRbEQ=;
-	b=5hlu2eBl9ZXLefv8T82ofhCCllJaA2tjgj/l6uTzemIJC6DuQO7hCV54ikJGB78OIIi0R1
-	MnWNyH+d8mgT5hDg==
-To: Lukas Wunner <lukas@wunner.de>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Crystal Wood <crwood@redhat.com>, Ingo Molnar
- <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>, linux-kernel@vger.kernel.org, Attila Fazekas
- <afazekas@redhat.com>, linux-pci@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Bjorn Helgaas <helgaas@kernel.org>, Mahesh
- J Salgaonkar <mahesh@linux.ibm.com>, Oliver OHalloran <oohall@gmail.com>
+	s=arc-20240116; t=1758460357; c=relaxed/simple;
+	bh=A+t8Qo2X7e6ZL5vrxNtcYmymUXK2tAHjCMdMDGCZs+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F9l4vxh/DoyeMwZMMDkY6rFTXOEeqLb+RgoIieUykBuyOsbzBYq37UWIfYOJElLjmuSTXYIvyGyy0jOUhlZAt+aAfKLi49Qh+JuGWrm+g8mXIUiwR2fEx2vdA6GjUm24L9AKvbIS89bUjbNyjv4YUOloV9xPugw9jRs3pC503NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout3.hostsharing.net (Postfix) with ESMTPS id E02292C000B7;
+	Sun, 21 Sep 2025 15:12:25 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id B59C450BDD8; Sun, 21 Sep 2025 15:12:25 +0200 (CEST)
+Date: Sun, 21 Sep 2025 15:12:25 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Crystal Wood <crwood@redhat.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel@vger.kernel.org, Attila Fazekas <afazekas@redhat.com>,
+	linux-pci@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver OHalloran <oohall@gmail.com>
 Subject: Re: [PATCH] genirq/manage: Reduce priority of forced secondary IRQ
  handler
-In-Reply-To: <83f58870043e2ae64f19b3a2169b5c3cf3f95130.1757346718.git.lukas@wunner.de>
+Message-ID: <aM_5uXlknW286cfg@wunner.de>
 References: <83f58870043e2ae64f19b3a2169b5c3cf3f95130.1757346718.git.lukas@wunner.de>
-Date: Sat, 20 Sep 2025 23:20:26 +0200
-Message-ID: <87348g95yd.ffs@tglx>
+ <87348g95yd.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87348g95yd.ffs@tglx>
 
-On Mon, Sep 08 2025 at 18:08, Lukas Wunner wrote:
-> Crystal reports the PCIe Advanced Error Reporting driver getting stuck
-> in an infinite loop on PREEMPT_RT:  Both the primary IRQ handler
+On Sat, Sep 20, 2025 at 11:20:26PM +0200, Thomas Gleixner wrote:
+> I obviously understand that the proposed change squashs the whole class
+> of similar (not yet detected) issues, but that made me look at that
+> particular instance nevertheless.
+> 
+> All aer_irq() does is reading two PCI config words, writing one and then
+> sticking 64bytes into a KFIFO. All of that is hard interrupt safe. So
+> arguably this AER problem can be nicely solved by the below one-liner,
+> no?
 
-Can you please write out interrupt. This IRQ acronym is just not helpful
-at all.
+The one-liner (which sets IRQF_NO_THREAD) was what Crystal originally
+proposed:
 
-> aer_irq() as well as the secondary handler aer_isr() are forced into
-> threads with identical priority.
->
-> Crystal writes that on the ARM system in question, the primary IRQ
-> handler has to clear an error in the Root Error Status register...
->
->    "before the next error happens, or else the hardware will set the
->     Multiple ERR_COR Received bit.  If that bit is set, then aer_isr()
->     can't rely on the Error Source Identification register, so it scans
->     through all devices looking for errors -- and for some reason, on
->     this system, accessing the AER registers (or any Config Space above
->     0x400, even though there are capabilities located there) generates
->     an Unsupported Request Error (but returns valid data).  Since this
->     happens more than once, without aer_irq() preempting, it causes
->     another multi error and we get stuck in a loop."
->
-> The issue does not show on non-PREEMPT_RT since the primary IRQ handler
-> runs in hardirq context and thus clears the Root Error Status register
-> before waking the secondary IRQ handler's thread.
+https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
 
-That sentence does not make sense at all because on RT this is not any
-different. The primary handler clears the status register before waking
-the secondary handler, no?
+I guess your point is that handling the few operations in aer_irq()
+in hard interrupt context is cheaper than waking a thread and
+deferring them to that thread?
 
-What's different on non-RT is that the primary handler can interrupt the
-threaded secondary handler, which is required to make progress.
+Intuitively I would assume that most threaded interrupt handlers
+are architected in this way:  They only do minimal work in hard
+interrupt context and defer the actual work to the (secondary)
+thread.  E.g. pciehp_isr() + pciehp_ist() is likewise designed
+to follow this principle.
 
-> Simulate the same behavior on PREEMPT_RT by assigning a lower default
-> priority to forced secondary IRQ handlers.
+Your research that at first glance, at least 21 of 40 instances of
+request_threaded_irq() could just use IRQF_NO_THREAD, seems to
+support the notion that the majority of interrupt handlers only
+do minimal work in hard interrupt context.
 
-I'm not really fond of this new minus one interface naming. It's a
-horrible misnomer as it suggests that it sets the FIFO priority to -1,
-which doesn't make any sense at all and is confusing at best.
+But if that is the case, and if you believe that deferring that
+small amount of work to a thread is nonsensical, then why is the
+primary handler forced into a thread by default in the first place,
+requiring drivers to explicitly opt out by setting IRQF_NO_THREAD?
 
-Can you please pick a name, which makes it obvious what this is about
-and as this is really a special case for forced secondary interrupt
-handlers, it should just reflect that in the name.
-
-I obviously understand that the proposed change squashs the whole class
-of similar (not yet detected) issues, but that made me look at that
-particular instance nevertheless.
-
-All aer_irq() does is reading two PCI config words, writing one and then
-sticking 64bytes into a KFIFO. All of that is hard interrupt safe. So
-arguably this AER problem can be nicely solved by the below one-liner,
-no?
-
-And because that made me curious I looked at the first 40 instances of
-interrupt requests which have a primary and a secondary handler.
-
-   21 of them can simply set IRQF_NO_THREAD
-
-    3 of them are just silly. I really could not resist to create the
-      diff and append it below for entertainment.
-
-Which means going through all the 231 instances is definitely a
-worthwhile exercise.
-
-The rest:
-
-   1) is not immediately obvious as I did not follow (indirect)
-      call chains to figure out what's really behind them
-
-   2) sets IRQF_ONESHOT, which means the interrupt line is masked before
-      the primary handler runs and stays masked until the secondary
-      handler returns.
-
-#1 needs eyeballs
-
-#2 should actually not use the secondary thread mechanism at all when
-   forced threaded. This really should do:
-
-   hardirq()
-        wake(primary_thread);
-
-   primary_thread()
-        if (primary_handler() == IRQ_WAKE_THREAD) {
-              if (secondary_handler && ONESHOT)
-                 secondary_handler();
-              else
-                 wake(secondary_thread);
-
-   That spares a boat load of wakeups and scheduling on RT and reduces
-   the actual problem space significantly. This might need a new
-   IRQF_xxx flag to avoid overloading ONESHOT, but that's an
-   implementation detail.
-
-Hmm?
+Shouldn't it rather be the other way round, i.e. by default the
+primary handler is *not* forced into a thread, but only if the
+driver explicitly opts in?  (In cases where the primary handler
+does a sufficient amount of work that is justified to be deferred
+to a thread.)
 
 Thanks,
 
-        tglx
----
---- a/drivers/pci/pcie/aer.c
-+++ b/drivers/pci/pcie/aer.c
-@@ -1671,7 +1671,7 @@ static int aer_probe(struct pcie_device
- 	set_service_data(dev, rpc);
- 
- 	status = devm_request_threaded_irq(device, dev->irq, aer_irq, aer_isr,
--					   IRQF_SHARED, "aerdrv", dev);
-+					   IRQF_NO_THREAD | IRQF_SHARED, "aerdrv", dev);
- 	if (status) {
- 		pci_err(port, "request AER IRQ %d failed\n", dev->irq);
- 		return status;
-
-<ENTERTAINMENT>
-
---- a/drivers/bluetooth/btintel_pcie.c
-+++ b/drivers/bluetooth/btintel_pcie.c
-@@ -1482,11 +1482,6 @@ static void btintel_pcie_msix_rx_handle(
- 	}
- }
- 
--static irqreturn_t btintel_pcie_msix_isr(int irq, void *data)
--{
--	return IRQ_WAKE_THREAD;
--}
--
- static inline bool btintel_pcie_is_rxq_empty(struct btintel_pcie_data *data)
- {
- 	return data->ia.cr_hia[BTINTEL_PCIE_RXQ_NUM] == data->ia.cr_tia[BTINTEL_PCIE_RXQ_NUM];
-@@ -1585,13 +1580,9 @@ static int btintel_pcie_setup_irq(struct
- 		msix_entry = &data->msix_entries[i];
- 		msix_entry->vector = pci_irq_vector(data->pdev, i);
- 
--		err = devm_request_threaded_irq(&data->pdev->dev,
--						msix_entry->vector,
--						btintel_pcie_msix_isr,
--						btintel_pcie_irq_msix_handler,
--						IRQF_SHARED,
--						KBUILD_MODNAME,
--						msix_entry);
-+		err = devm_request_threaded_irq(&data->pdev->dev, msix_entry->vector,
-+						NULL, btintel_pcie_irq_msix_handler,
-+						IRQF_SHARED, KBUILD_MODNAME, msix_entry);
- 		if (err) {
- 			pci_free_irq_vectors(data->pdev);
- 			data->alloc_vecs = 0;
---- a/drivers/bus/fsl-mc/dprc-driver.c
-+++ b/drivers/bus/fsl-mc/dprc-driver.c
-@@ -381,17 +381,6 @@ int dprc_scan_container(struct fsl_mc_de
- EXPORT_SYMBOL_GPL(dprc_scan_container);
- 
- /**
-- * dprc_irq0_handler - Regular ISR for DPRC interrupt 0
-- *
-- * @irq_num: IRQ number of the interrupt being handled
-- * @arg: Pointer to device structure
-- */
--static irqreturn_t dprc_irq0_handler(int irq_num, void *arg)
--{
--	return IRQ_WAKE_THREAD;
--}
--
--/**
-  * dprc_irq0_handler_thread - Handler thread function for DPRC interrupt 0
-  *
-  * @irq_num: IRQ number of the interrupt being handled
-@@ -525,10 +514,8 @@ static int register_dprc_irq_handler(str
- 	 * NOTE: devm_request_threaded_irq() invokes the device-specific
- 	 * function that programs the MSI physically in the device
- 	 */
--	error = devm_request_threaded_irq(&mc_dev->dev,
--					  irq->virq,
--					  dprc_irq0_handler,
--					  dprc_irq0_handler_thread,
-+	error = devm_request_threaded_irq(&mc_dev->dev, irq->virq,
-+					  NULL, dprc_irq0_handler_thread,
- 					  IRQF_NO_SUSPEND | IRQF_ONESHOT,
- 					  dev_name(&mc_dev->dev),
- 					  &mc_dev->dev);
---- a/drivers/gpu/drm/arm/malidp_hw.c
-+++ b/drivers/gpu/drm/arm/malidp_hw.c
-@@ -1356,11 +1356,6 @@ void malidp_se_irq_hw_init(struct malidp
- 			     hwdev->hw->map.se_irq_map.irq_mask);
- }
- 
--static irqreturn_t malidp_se_irq_thread_handler(int irq, void *arg)
--{
--	return IRQ_HANDLED;
--}
--
- int malidp_se_irq_init(struct drm_device *drm, int irq)
- {
- 	struct malidp_drm *malidp = drm_to_malidp(drm);
-@@ -1371,8 +1366,7 @@ int malidp_se_irq_init(struct drm_device
- 	malidp_hw_disable_irq(hwdev, MALIDP_SE_BLOCK, 0xffffffff);
- 	malidp_hw_clear_irq(hwdev, MALIDP_SE_BLOCK, 0xffffffff);
- 
--	ret = devm_request_threaded_irq(drm->dev, irq, malidp_se_irq,
--					malidp_se_irq_thread_handler,
-+	ret = devm_request_threaded_irq(drm->dev, irq, malidp_se_irq, NULL,
- 					IRQF_SHARED, "malidp-se", drm);
- 	if (ret < 0) {
- 		DRM_ERROR("failed to install SE IRQ handler\n");
-
-
-
-
+Lukas
