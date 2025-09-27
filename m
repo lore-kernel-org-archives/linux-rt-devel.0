@@ -1,74 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E614B2E972C;
-	Tue, 23 Sep 2025 23:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A27D823DD
+	for <linux-rt-devel@lists.linux.dev>; Sat, 27 Sep 2025 03:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758670013; cv=none; b=trfxFzLWSNPlFAut8MZt746W/qYh5gvhH6OpePBz/6NHrsTenauKmnXA/g1+Id81E2ISTfylw24kAliH2xd+CQ+33w6dKZZ6KCqabyhHTfTVucO3gcAuYw0iNsAkWP4dTlJniWG1Yj1hGObM3jVG68PJqkXpHHBZ5ugKbPFBpkg=
+	t=1758943380; cv=none; b=lwObRHYFLhWUGTt4/fPfA7p5oPfuRpPVZ9t21nvcAm7hHe42VXguXyzrNLDFw/rjo5tRdEBtX++xvyklN3OZffeiPRrIg3DBNH7XsXhdPZ2+fwWcGr+G8y5xSzc90k3PmZyM0opILoMyGF/5YVKs8z+PPGRpJlwNOr31RO+PFfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758670013; c=relaxed/simple;
-	bh=lKlWiJd3M7QDuAOXQBGO4IRPr8x7/GMM9g9S7HUMktg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l6RJuUe+XdiXbsltxeRFxbJ4wL4ajcYLzydscFfYdcMpmHIxiuHyGZWMTg5S4ugx5qLSjvFxrtgAU1Ao2vjkESgTVQKRQIKkH4+u4vvK30/57C3CYNKaqQJtUTtgwhvqe7hy5yGX0XyqcXfKZKGQrzxQCRYdl3MvCPH6Xg2JVJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ft1eCxVU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ft1eCxVU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B188AC4CEF5;
-	Tue, 23 Sep 2025 23:26:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758670012;
-	bh=lKlWiJd3M7QDuAOXQBGO4IRPr8x7/GMM9g9S7HUMktg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Ft1eCxVUKQlIQBZe2ba5m2uTpzxNcXPCMaQXUD+I1Hmr2l6lGLnzAwStdL6HhqjGy
-	 KCswBoNri8NK4J17QSL3p5Ps30rFwBiP1za2gbNOlS1y1WVE0HwwcPh+gQUFZr7bm+
-	 msrtxp18FYK6LY3BhrexBKImIgHaLYfT90cIGHmitrds6m5WBeFKUN9Q9+RXnDhAi/
-	 1VxWuWHthixphvhG9N6WGhNKIh4Or6AzdOELq2pRHxnDq+0/Mgi3yyqI/JufNKSZvG
-	 lL4zGTDIhb4ynx4NKyWBuKuAgpSRXJe4IEAIpI1pZb/vAkDR/oQj6i7zve+8Y3rFnS
-	 4luEf1q6U7M3A==
-Date: Tue, 23 Sep 2025 16:26:50 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Dragos Tatulea <dtatulea@nvidia.com>
-Cc: Jesper Dangaard Brouer <hawk@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, netdev@vger.kernel.org, Tariq Toukan
- <tariqt@nvidia.com>, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net-next] page_pool: add debug for release to cache from
- wrong CPU
-Message-ID: <20250923162650.317f2527@kernel.org>
-In-Reply-To: <ztotepnqvbyzwtmqox5433lp6wix6jzj6tf3zkagwvfzf33trz@khcwhwwg7gxx>
-References: <20250918084823.372000-1-dtatulea@nvidia.com>
-	<20250919165746.5004bb8c@kernel.org>
-	<muuya2c2qrnmr3wzxslgkpeufet3rlnitw5dijcaq2gpy4tnwa@5p2xnefrp5rk>
-	<20250922161827.4c4aebd1@kernel.org>
-	<ncerbfkwxgdwvu57kmbdvtndc6ruxhwlbsugxzx7xnyjg5f6rv@x2rqjadywnuk>
-	<20250923083439.60c64f5e@kernel.org>
-	<ztotepnqvbyzwtmqox5433lp6wix6jzj6tf3zkagwvfzf33trz@khcwhwwg7gxx>
+	s=arc-20240116; t=1758943380; c=relaxed/simple;
+	bh=kg1d0MTY71zfQLb6meJ6ncRhMBIMtCldbRRgQF/Fyog=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=DwBnmoVFJS5Wbcg9x3gotGkptjXHXtdiofHziRdoZ+r4X0LDjXHcEc8dmJMTIlUvNmogZbkQ0s162pDKhUao+gBnzXDDle/g12px5/+DjwVQWoGPuMeuYChMYLoM8/LwNWd8RUead3XyTFX0O87af648EYpxC29AnEzVd9WUDw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4cYXn04fPVztTZc;
+	Sat, 27 Sep 2025 11:21:56 +0800 (CST)
+Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE906140121;
+	Sat, 27 Sep 2025 11:22:48 +0800 (CST)
+Received: from [10.174.178.247] (10.174.178.247) by
+ dggpemf500002.china.huawei.com (7.185.36.57) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 27 Sep 2025 11:22:47 +0800
+Subject: Re: [PATCH v3 01/14] ACPI: APEI: Remove redundant
+ rcu_read_lock/unlock() in spin_lock
+To: pengdonglin <dolinux.peng@gmail.com>, <tj@kernel.org>,
+	<tony.luck@intel.com>, <jani.nikula@linux.intel.com>, <ap420073@gmail.com>,
+	<jv@jvosburgh.net>, <freude@linux.ibm.com>, <bcrl@kvack.org>,
+	<trondmy@kernel.org>, <longman@redhat.com>, <kees@kernel.org>
+CC: <bigeasy@linutronix.de>, <hdanton@sina.com>, <paulmck@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+	<linux-nfs@vger.kernel.org>, <linux-aio@kvack.org>,
+	<linux-fsdevel@vger.kernel.org>, <linux-security-module@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <intel-gfx@lists.freedesktop.org>,
+	<linux-wireless@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-s390@vger.kernel.org>, <cgroups@vger.kernel.org>, "Rafael J. Wysocki"
+	<rafael@kernel.org>, pengdonglin <pengdonglin@xiaomi.com>
+References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
+ <20250916044735.2316171-2-dolinux.peng@gmail.com>
+From: Hanjun Guo <guohanjun@huawei.com>
+Message-ID: <03ad08d9-4510-19fb-bbad-652159308119@huawei.com>
+Date: Sat, 27 Sep 2025 11:22:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20250916044735.2316171-2-dolinux.peng@gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf500002.china.huawei.com (7.185.36.57)
 
-On Tue, 23 Sep 2025 16:00:27 +0000 Dragos Tatulea wrote:
-> > But you get what I'm saying right? I'm questioning whether _rx_napi()
-> > flavor of calls even make sense these days. If they don't I'd think
-> > the drivers can't be wrong and the need for the debug check is
-> > diminished?  
-> I got the point for XDP. I am not sure if you are arguing the same thing
-> for the other users though. For example. there are many drivers
-> releasing netmems with direct=true.
+On 2025/9/16 12:47, pengdonglin wrote:
+> From: pengdonglin <pengdonglin@xiaomi.com>
+> 
+> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side function definitions")
+> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
+> rcu_read_lock_sched() in terms of RCU read section and the relevant grace
+> period. That means that spin_lock(), which implies rcu_read_lock_sched(),
+> also implies rcu_read_lock().
+> 
+> There is no need no explicitly start a RCU read section if one has already
+> been started implicitly by spin_lock().
+> 
+> Simplify the code and remove the inner rcu_read_lock() invocation.
+> 
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Tony Luck <tony.luck@intel.com>
+> Cc: Hanjun Guo <guohanjun@huawei.com>
+> Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
+> Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
+> ---
+>   drivers/acpi/apei/ghes.c | 2 --
+>   1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
+> index a0d54993edb3..97ee19f2cae0 100644
+> --- a/drivers/acpi/apei/ghes.c
+> +++ b/drivers/acpi/apei/ghes.c
+> @@ -1207,12 +1207,10 @@ static int ghes_notify_hed(struct notifier_block *this, unsigned long event,
+>   	int ret = NOTIFY_DONE;
+>   
+>   	spin_lock_irqsave(&ghes_notify_lock_irq, flags);
+> -	rcu_read_lock();
+>   	list_for_each_entry_rcu(ghes, &ghes_hed, list) {
+>   		if (!ghes_proc(ghes))
+>   			ret = NOTIFY_OK;
+>   	}
+> -	rcu_read_unlock();
+>   	spin_unlock_irqrestore(&ghes_notify_lock_irq, flags);
+>   
+>   	return ret;
 
-Right, I was thinking that XDP is the only complex case.
-The other direct=true cases generally happen on the Rx path
-when we are processing the frame. So chances that we get the 
-context wrong are much lower. XDP is using the recycling from
-Tx completions paths IIUC. So we need far more care in checking
-that the frame actually came from the local NAPI.
+Reviewed-by: Hanjun Guo <guohanjun@huawei.com>
+
+Thanks
+Hanjun
