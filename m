@@ -1,125 +1,215 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6243002CD
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 08:28:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D762F39B8
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 08:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759393689; cv=none; b=XAR24v1rB3uWN38vi+iCgb+u3tfUtr8UlwpbHVCHHtCmlNe51Ool/HOVcnaMFXDIE30XQ38Jg+xtPuOtCarchsJu937Z0NrL78xXgJ5H5y/ZULxCrmnXXUHjvogvPikEkGcuL0CrpjcerM62bNFcF0aBDrgryjcIK2RXkq0iDQs=
+	t=1759394470; cv=none; b=fU4e2jQZ0/GPKZq7dTjd/ncMx3apIDWAUx0GSJgaX0P9HIJUlhyhGMLdKxMBTbTotbbGllgNa3h4KoexF2v90iuA4dSubDZlyAdh7y8QoJ/fjY8BpT5YlZoBC7x5GL9OmrCFTVqk/5S4cavtu44PA3yLiHJno0Yw1RMf1VhDTKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759393689; c=relaxed/simple;
-	bh=jBbJl1AjRG2VxRd4ZYUTAwB4pnyvbgugskoI/z/uBOY=;
+	s=arc-20240116; t=1759394470; c=relaxed/simple;
+	bh=/E6rhITb/cjoI1ukvXjl3cvtzThBqqtGQTWZo1ZqgVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnxRblaEquCe50Be4fR9AEIAucNSe6rXWJ46ndssSwKkH3OksxywXn513C3t0hJPwYsphh06e7Q7BUCEKaRyyeSdhCuzlWQdcWWLKyC/jzwyLYOeqU80RxEC4gpIoJOJCDtWgG1O1jhLT4B42Jv3dndAQil97Ke2+LE3xBpecpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cBgwrvab; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=atUm7nYydP2nrE4q2iw9BU6qDt+dHfcXqTgcSKNPqqXomNdH5hCo0TCqX/LZ7GMry9xLSmJ1jQ/iGw2uS8V+eG8jGUpA9KLeBJecLTLY/1hQaXJz0ov0PV1J3fh6oFwjxr2qGDFpbofi+ytA3+0U5qLGPWJXrRxd9CS19GLQLAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lc/6wD/n; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tcHAxREc; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Lc/6wD/n; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tcHAxREc; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cBgwrvab"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3ee1221ceaaso409319f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Oct 2025 01:28:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1759393686; x=1759998486; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PVDhg4/L7xBIfNP97EJSnQJG3YmsVSKM5wAeKg19HcE=;
-        b=cBgwrvabQN4k/7XbZfbUQ6MCu8vn9uY4SSdjZ41HCNJxql967N/nOWpWfmBQGqA5hG
-         oJo/RSnA7Hx7YRg+Ff2je6znmOu5ALWv36kN7Axt2o6rIw+xGkxfReA82IYVLbcUbR9J
-         cokfCz7cbyU8GDf02r+aulKLcy6SnBnTN4yPvChuyQiCfbvKsTz3pKVSkyGRZejWTd+K
-         y9/9SdCB05r0EnuXd01FNClNqD+lOftTqG66CS0K5XeOMuAmAmHQXtpEZWfMn/KNzd0V
-         e5aPRvfwgQoUsdELT5ZW/U5C+uEQ7ZE99hCzgq+vdNs4yXXWNCJvbjTg37UEnAPw+WU5
-         h6lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759393686; x=1759998486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PVDhg4/L7xBIfNP97EJSnQJG3YmsVSKM5wAeKg19HcE=;
-        b=Zm6ZMg4zRwGn4b0Xqh9R2DBTia5VWzN0DbDmWkQwL5bfBERsH7EaxneDCVjYCIHeMp
-         55z0arLMIej/dFO70VFb2Ghy8BVAzwrQVHvDaX5PtGzabuAOiTSxYOoHpjvMjkelPFeC
-         gpcxFN9Usj60DkDrQsvTYSycB6MuRzv9Z4RDNDAgF2CxD1pJbrNbDDlYJ3uE1hAuiBjH
-         cqJeBy6W7SLZsaLGrt+jBOZsLeJlKeN0Ywl3xdGFPqP+hXs9KaQGMzEyoJDEpUAk27fT
-         +PV1VJjb6b/VAS48S0kThKMJh4yLeDqcY7d1oMV1xOx2piTvSMZzv5gmg4H2KXk/kCkE
-         CTAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVG06PCvvhpxtDKbUqYAs09MMp1nX2hH7osLL6p58MdVYckqgtJcT62llc/Cw7sS4GfwqkS4NDEPEYa2rJrcg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpE5B+kbIhiv0cJDjAa1gw4EzOlsh775fazuCCYTOWW/mWZWr6
-	ybBdHaGmiwJmNgMZevRqXJFOjtepvG5jRMwC3WE6+UhLEflTOsYXXNe7rcPtesOCU5E=
-X-Gm-Gg: ASbGncufaQez0z4B5tu5uLgc7dXT2Kzf6PNOfyeMRk9HoCwDeySQZ8MsjYDKuxjiKTQ
-	Bf73qj4vd61n/rS+UbBJvVrsUxp+6lVI3DGWkV/UfI2mbc5IFO3qP3XPFFaFONsnUNOdzP1Shzh
-	ZMToOu7rRGvrGgsJvy2HKPMjFe1rXzGm6f/JIeiu6z8oyUPC7eRJ5JgpLYrLBpBh7ZuIGKX2WgJ
-	JSTXrD7wRGIR0OMke9Dd5qwMLFtZ/GzlgIwlBo+HqDIsll5QzgH/SATnybaTX9ce2auqkzecn8n
-	RPrvVuvO/EIxNXEN5ZdcabhIJ3KQD/bk2MiwgfIyL4ieNTxIT7BjdaI2O7pwXbyV2XWtmpLrmu2
-	aE+7DB9wiECA8wFdsrflLLF+zhjEn8GrrH7lp0qF5kXWjvG54C708r/Vwdz/zl2PgNb4=
-X-Google-Smtp-Source: AGHT+IF1S+CcnvbeXf66MSf7FcnB6dlBrYPMQf41lK3ANrq9TshhzWTtTWA6dJqkme/KOgZ70cPDQg==
-X-Received: by 2002:a5d:5d12:0:b0:3ee:126a:7aab with SMTP id ffacd0b85a97d-425578219femr4466590f8f.57.1759393685922;
-        Thu, 02 Oct 2025 01:28:05 -0700 (PDT)
-Received: from blackdock.suse.cz (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8ab909sm2591846f8f.19.2025.10.02.01.28.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 01:28:05 -0700 (PDT)
-Date: Thu, 2 Oct 2025 10:28:03 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tiffany Yang <ynaffit@google.com>, Kuniyuki Iwashima <kuni1840@gmail.com>, cgroups@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
-Subject: Re: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq
- when CONFIG_PREEMPT_RT=y.
-Message-ID: <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
-References: <20251002052215.1433055-1-kuniyu@google.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lc/6wD/n";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tcHAxREc";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Lc/6wD/n";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tcHAxREc"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 822D81F74C;
+	Thu,  2 Oct 2025 08:41:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1759394464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eH9XbwduDIGri+NeNAU5ni9kwX6UbbeLjDQ6VnltoGs=;
+	b=Lc/6wD/ntXWlBNi5/ZRhd/7YAZ8sznPJBX5RHRHKfwGfFA7B1tTT3QywcSDV1sOk0siYjH
+	R6hTmmAXBQb5d50njznYKxwYtXyLHanI1MbzPdd8LE2n2yQwo3SWXoEcpG3z9stQ7qfbpm
+	x4wQvipkO62kRiyy+xPyT3Whtjqjc5U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1759394464;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eH9XbwduDIGri+NeNAU5ni9kwX6UbbeLjDQ6VnltoGs=;
+	b=tcHAxREcGQBo6JX8Gtg5ds/wKcoNyYsuRu/FipYhTxV6aRrGhQF7GO85yTn7yHDEWd2ZQa
+	dfY0rdGFcBMCunAg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1759394464; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eH9XbwduDIGri+NeNAU5ni9kwX6UbbeLjDQ6VnltoGs=;
+	b=Lc/6wD/ntXWlBNi5/ZRhd/7YAZ8sznPJBX5RHRHKfwGfFA7B1tTT3QywcSDV1sOk0siYjH
+	R6hTmmAXBQb5d50njznYKxwYtXyLHanI1MbzPdd8LE2n2yQwo3SWXoEcpG3z9stQ7qfbpm
+	x4wQvipkO62kRiyy+xPyT3Whtjqjc5U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1759394464;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eH9XbwduDIGri+NeNAU5ni9kwX6UbbeLjDQ6VnltoGs=;
+	b=tcHAxREcGQBo6JX8Gtg5ds/wKcoNyYsuRu/FipYhTxV6aRrGhQF7GO85yTn7yHDEWd2ZQa
+	dfY0rdGFcBMCunAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F4EF13A85;
+	Thu,  2 Oct 2025 08:41:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id REPWGqA63mjbWgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Thu, 02 Oct 2025 08:41:04 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 15965A0A56; Thu,  2 Oct 2025 10:40:56 +0200 (CEST)
+Date: Thu, 2 Oct 2025 10:40:56 +0200
+From: Jan Kara <jack@suse.cz>
+To: Byungchul Park <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com, 
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org, 
+	adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com, 
+	peterz@infradead.org, will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org, 
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch, duyuyang@gmail.com, 
+	johannes.berg@intel.com, tj@kernel.org, tytso@mit.edu, willy@infradead.org, 
+	david@fromorbit.com, amir73il@gmail.com, gregkh@linuxfoundation.org, 
+	kernel-team@lge.com, linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org, 
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com, sj@kernel.org, 
+	jglisse@redhat.com, dennis@kernel.org, cl@linux.com, penberg@kernel.org, 
+	rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org, linux-block@vger.kernel.org, 
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org, 
+	dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org, 
+	dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, 
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com, 
+	gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com, boqun.feng@gmail.com, 
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com, 
+	netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net, 
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, 
+	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org, 
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, 
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org, 
+	frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, 
+	josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com, 
+	jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, 
+	vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com, 
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org, anna@kernel.org, 
+	kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	mark.rutland@arm.com, ada.coupriediaz@arm.com, kristina.martsenko@arm.com, 
+	wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk, 
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com, yuzhao@google.com, 
+	baolin.wang@linux.alibaba.com, usamaarif642@gmail.com, joel.granados@kernel.org, 
+	richard.weiyang@gmail.com, geert+renesas@glider.be, tim.c.chen@linux.intel.com, 
+	linux@treblig.org, alexander.shishkin@linux.intel.com, lillian@star-ark.net, 
+	chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com, link@vivo.com, 
+	jpoimboe@kernel.org, masahiroy@kernel.org, brauner@kernel.org, 
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com, andrii@kernel.org, 
+	wangfushuai@baidu.com, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, rcu@vger.kernel.org, 
+	linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 30/47] fs/jbd2: use a weaker annotation in journal
+ handling
+Message-ID: <bmthlv2tsd76mgzaoy5gspzdkved6le5xv23xjsc3yafkhrsgh@vvmjdwygm7gn>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-31-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="burn2oh7hadlsqsf"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251002052215.1433055-1-kuniyu@google.com>
+In-Reply-To: <20251002081247.51255-31-byungchul@sk.com>
+X-Spamd-Result: default: False [-0.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	FORGED_RECIPIENTS(2.00)[m:torvalds@linux-foundation.org,m:adilger.kernel@dilger.ca,m:peterz@infradead.org,m:will@kernel.org,m:tglx@linutronix.de,m:rostedt@goodmis.org,m:joel@joelfernandes.org,m:sashal@kernel.org,m:daniel.vetter@ffwll.ch,m:duyuyang@gmail.com,m:johannes.berg@intel.com,m:tj@kernel.org,m:willy@infradead.org,m:david@fromorbit.com,m:amir73il@gmail.com,m:kernel-team@lge.com,m:linux-mm@kvack.org,m:akpm@linux-foundation.org,m:mhocko@kernel.org,m:minchan@kernel.org,m:hannes@cmpxchg.org,m:vdavydov.dev@gmail.com,m:sj@kernel.org,m:dennis@kernel.org,m:cl@linux.com,m:penberg@kernel.org,m:rientjes@google.com,m:jlayton@kernel.org,m:dan.j.williams@intel.com,m:hch@infradead.org,m:djwong@kernel.org,m:rodrigosiqueiramelo@gmail.com,m:melissa.srw@gmail.com,m:hamohammed.sa@gmail.com,m:chris.p.wilson@intel.com,m:gwan-gyeong.mun@intel.com,m:max.byungchul.park@gmail.com,m:boqun.feng@gmail.com,m:yunseong.kim@ericsson.com,m:ysk@kzalloc.com,m:yeoreum.yun@arm.com,m:matthew.brost@intel.com,m:her0g
+ yugyu@gmail.com,m:catalin.marinas@arm.com,m:bp@alien8.de,m:dave.hansen@linux.intel.com,m:x86@kernel.org,m:luto@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:andi.shyti@kernel.org,m:arnd@arndb.de,m:rppt@kernel.org,m:surenb@google.com,m:mcgrof@kernel.org,m:da.gomez@kernel.org,m:samitolvanen@google.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:josh@joshtriplett.org,m:urezki@gmail.com,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:vincent.guittot@linaro.org,m:dietmar.eggemann@arm.com,m:bsegall@google.com,s:linux-arm-kernel@lists.infradead.org,s:linaro-mm-sig@lists.linaro.org,s:linux-rt-devel@lists.linux.dev,s:ziy@nvidia.com,s:Dai.Ngo@oracle.com,s:okorniev@redhat.com,s:oleg@redhat.com,s:lillian@star-ark.net,s:tom@talpey.com,s:linux@treblig.org,s:francesco@valla.it,s:linux-arch@vger.kernel.org,s:linux-doc@vger.kernel.org,s:linux-i2c@vger.kernel.org,s:linux-media@vger.kernel.org,s:linux-modules@vger.ke
+ rnel.org,s:linux-nfs@vger.kernel.org,s:rcu@vger.kernel.org,s:link@vivo.com];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[renesas];
+	FREEMAIL_CC(0.00)[vger.kernel.org,skhynix.com,linux-foundation.org,opensource.wdc.com,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,linux.intel.com,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLzt4hq9gcka5b6gad13h5baos)];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[150];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email,sk.com:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -0.30
 
+On Thu 02-10-25 17:12:30, Byungchul Park wrote:
+> jbd2 journal handling code doesn't want jbd2_might_wait_for_commit()
+> to be placed between start_this_handle() and stop_this_handle().  So it
+> marks the region with rwsem_acquire_read() and rwsem_release().
+> 
+> However, the annotation is too strong for that purpose.  We don't have
+> to use more than try lock annotation for that.
+> 
+> rwsem_acquire_read() implies:
+> 
+>    1. might be a waiter on contention of the lock.
+>    2. enter to the critical section of the lock.
+> 
+> All we need in here is to act 2, not 1.  So trylock version of
+> annotation is sufficient for that purpose.  Now that dept partially
+> relies on lockdep annotaions, dept interpets rwsem_acquire_read() as a
+> potential wait and might report a deadlock by the wait.
+> 
+> Replace it with trylock version of annotation.
+> 
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
 
---burn2oh7hadlsqsf
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq
- when CONFIG_PREEMPT_RT=y.
-MIME-Version: 1.0
+Indeed. Feel free to add:
 
-Hello.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-Thanks for looking into this Kuniyuki.
+								Honza
 
-On Thu, Oct 02, 2025 at 05:22:07AM +0000, Kuniyuki Iwashima <kuniyu@google.com> wrote:
-> The writer side is under spin_lock_irq(), but the section is still
-> preemptible with CONFIG_PREEMPT_RT=y.
-
-I see similar construction in other places, e.g.
-	mems_allowed_seq in set_mems_allowed
-	period_seqcount in ioc_start_period
-	pidmap_lock_seq in alloc_pid/pidfs_add_pid
-(where their outer lock becomes preemptible on PREEMPT_RT.)
-
-> Let's wrap the section with preempt_{disable,enable}_nested().
-
-Is it better to wrap them all (for CONFIG_PREEMPT_RT=y) or should they
-become seqlock_t on CONFIG_PREEMPT_RT=y?
-
-Thanks,
-Michal
-
---burn2oh7hadlsqsf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCaN43iBsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMSwyLDIACgkQfj0C55Tb+AgJ4gEAsLu6RZfLPNZtrX9B33q1
-+BNsRWF4AircIO6oJPBwB2IA/1NWvLTbgf7AeTK3VtiRcHlrBQjw9pKutmCZQKEj
-zJoH
-=8SvZ
------END PGP SIGNATURE-----
-
---burn2oh7hadlsqsf--
+> ---
+>  fs/jbd2/transaction.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/jbd2/transaction.c b/fs/jbd2/transaction.c
+> index c7867139af69..b4e65f51bf5e 100644
+> --- a/fs/jbd2/transaction.c
+> +++ b/fs/jbd2/transaction.c
+> @@ -441,7 +441,7 @@ static int start_this_handle(journal_t *journal, handle_t *handle,
+>  	read_unlock(&journal->j_state_lock);
+>  	current->journal_info = handle;
+>  
+> -	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 0, _THIS_IP_);
+> +	rwsem_acquire_read(&journal->j_trans_commit_map, 0, 1, _THIS_IP_);
+>  	jbd2_journal_free_transaction(new_transaction);
+>  	/*
+>  	 * Ensure that no allocations done while the transaction is open are
+> -- 
+> 2.17.1
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
