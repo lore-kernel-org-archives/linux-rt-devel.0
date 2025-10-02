@@ -1,211 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB2719C556
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 15:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385FE22A7E5
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 16:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759418561; cv=none; b=R99wLenylsLR4YAR5bh07jDWly7XaJ7oi5PfWw/m8hVKZui+ViHvGhBBGXvsklFYSW/7SzoNqulBzi3JheOYo+p47zCRPMZ2Z57pBbmngUpMqXCG9dCA6FqPzOyC6zY7+dId5t/1atz1hS61THMwgp3qlVNJ8zoHr+/jaDddYlk=
+	t=1759422158; cv=none; b=Gey/ZnFrlWKCsGEETIIjEEmKo9LpRyknTO+BM417YgGtZKCNXKv7eBcdZfk9rhr65xyXXdcbeaHvW5lXWlAxpwFU9ObbTVW6X37T/N6nFsgyf5/68F1RTicgh9LT6zJUADJOSciG/YjbO7+uzRyruhXoW/AaS4iK/ug6vxMr0OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759418561; c=relaxed/simple;
-	bh=S3MwlH8YkjyOEDNxmKqyDUdi0jp5jGqvML1MU0Fs+R4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=INPfFePpLMN7TFXcHZmwdp/z0IoJIB3rU9Qie1PFF63/A/LqNV1N27ToAYV9+dfGGmO6nLlmw2MKc671jjIHZEstnYo/pNI4utXjPlyaKO3a/yTGBOmETcXjOE05FO9DwUKoI5xN75yM1G8mL53+Yx2FfIkjJQTKsZOY6fKPJsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lJbLLDVe; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1759422158; c=relaxed/simple;
+	bh=QGIybxUWIo/fpWjPlVkioQPIUWX0XI99dAus9iHNj90=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xk6Mvh6bbPT52GOocHuZ8qOyljRO5bBliyhl4dAle6zdXJBI1USRH9jws6YZTgfKvBBux3Rn5nuvGykNOP14ElfHczDz7pVqKfdDlfuGMMqHsRzPbvCjfeaD7fkGDmpI/ipK6/x/pR426viC/qJmAagZqFRPDBJwvwJyFNvZ6Ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ur6coFX0; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lJbLLDVe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759418560; x=1790954560;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=S3MwlH8YkjyOEDNxmKqyDUdi0jp5jGqvML1MU0Fs+R4=;
-  b=lJbLLDVe0PbAnOXa9LcV/QMd5x13w6l67D1qbQFp2fVfSuRN+t/X8qcU
-   Qo0bFWphTCXZUsGMHore9AIgiW/x4CnGFChOz8sEECsfd8GBQ3rvKw6y9
-   DdZocvI7Vcy/9XTVBsdB/pSj106PM4JqnUEARWPZqYzeFdb0oZj4d13F7
-   iwEuAbzmg7bAcJFV/PqXfnWTTdA2BH3bRqXHQ2NvD/ovNrWKlgEfbkBbI
-   +NHo0oNvJJBOMsZ502Xm9ai8G4Oxoao53ZfO+Lmij6Rev/AbXab/F+3xM
-   GuwwKJb4OoZlse2WON3W9rnx4m6y39Teca5tJzaUBXL9Gn2d+yton36aM
-   w==;
-X-CSE-ConnectionGUID: p+yCSdMTTmyyI1OUdUKZpg==
-X-CSE-MsgGUID: TMod2V5uS3iRzWi+1fLe7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="84322288"
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="84322288"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:22:39 -0700
-X-CSE-ConnectionGUID: Wnfj603OToCU7K3W3E/LVg==
-X-CSE-MsgGUID: +iy4mVcrQz+ktPy0z5LcKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
-   d="scan'208";a="179474408"
-Received: from aschofie-mobl2.amr.corp.intel.com (HELO [10.125.109.249]) ([10.125.109.249])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:22:31 -0700
-Message-ID: <cd056d80-aadd-4f8a-8aad-c34b55686fac@intel.com>
-Date: Thu, 2 Oct 2025 08:22:29 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ur6coFX0"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b55517e74e3so1409277a12.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Oct 2025 09:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1759422156; x=1760026956; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vcmW+Ew4uz5zHRnSkRPvLKByvtHyprDgk3Fv0lQQWSQ=;
+        b=Ur6coFX0L7gX23dqKrXxT/fo6hUqDZPu9bc56Vwupu7gN59ZEOZu00JkAeaLk7BcUK
+         Sd49Cz/SacKst5QUl8j+0llrPuWzpryN6w5hdgjFo6ZHtO1zOGxRZMxfvX7WogpyfSpp
+         Q24MVERzwnJmnfC+aOco2+8L57oSF3czxPG/ew0nTNRysPFBkpOp/68SshKyigAaZIgF
+         +oJ+lG91FSm5dW/8/0tSjxiM1PkGh/BEs+WQo4apN8uJN0/Xi6wCW78iXnYN0PJ0WgdH
+         TE9TdZ8gqw4KDWN5WTQzOxblWZRD6sF2PbxvyXJ0XcWg61uDZLiE4DH3x+m1eo5VZ+ux
+         K8Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759422156; x=1760026956;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vcmW+Ew4uz5zHRnSkRPvLKByvtHyprDgk3Fv0lQQWSQ=;
+        b=Dz8ZLJV3lQ2s5J5GFeKR9cxNKSU5+/hZK61A5yu0NcK6mJiOcxuEbF9hqIto2Rj11K
+         aI5QpC9JPqbS0htt7OofCZFWrpF2UBmaM25ZUdKtsXqcMTUWfx+SzJebVzBIqLQwQkn8
+         ZYKyhSvfGKnhi/OKYAO+e3Tg1uQflaN6LpgKSziezVgvY7Qa0eUC6EBGsapnVSjcPfaN
+         7CGAU/5DemPSHxXk0o0DHa2qlNYElyc3lCUw7rTkRkSR8PtDNAUXWZ6AOFUaqcl3+ZfN
+         wdhLBYbN9pprriBaXr+5+2oitswsFIunR+QMYIAk3Fi6uBPQtjx5hi37ylOnaOVQxhVe
+         9veg==
+X-Forwarded-Encrypted: i=1; AJvYcCXV/6tPDv1lMNqEOgDkjCNWNu+74e41ZTTFCVRB1UJcPSqKNZg+DhuPPMGmXH9bdJZe3aS4kaedcgk6Fceo0g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXL47UA4SM0mT+2pngSaCdm7bizHjZOD2jNTOQnq7H843rrwUj
+	vs7AkEpiY5xsrm5u6Ih4FNjsNbsYZYU9aKOKqtsJq6LOwe/6aiPM99ZfVUTYtiZqoXcB+lP4rHX
+	8W8uQmJfcfFmjD6sgHCCcjfHdaJq0DMrJLNT2DCX1
+X-Gm-Gg: ASbGnctJIcHF2dkBZ01CJKOhogVZ1z1yQkgX6AoCMtVpjBc9EkDOzCQ2xlrB7Lo7I8Y
+	q6LUgyHmF90dJF4AVlBS2so7Ql3WLie5e5lroxJUx/2HqvD1JKBbfUz8TR/XOAvpg58B9UrjpvY
+	0IxYbW6suDs0Cwg7wApKQBvt02kBnMooXNpys0GlohxxIz4VJW9MHvP5Xo8vmfI8HxoyQPHgGzE
+	1vgj4yZNLxYG4VHO7ctwLcKbQOcWl+nos77xsXunVdDwLd474w62jm6YhWm0/pu78vfTLU=
+X-Google-Smtp-Source: AGHT+IFNTFrPHAbMV6/5Qvwr8vn9kT2v4YCrJnA1lgWdmelrsTV01jk/KvXHXcMsIf5vGWtTWuLVhQ+tJtc1zoQqtkk=
+X-Received: by 2002:a17:902:e552:b0:24b:24dc:91a7 with SMTP id
+ d9443c01a7336-28e7f2ff464mr99197155ad.45.1759422156184; Thu, 02 Oct 2025
+ 09:22:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 08/47] x86_64, dept: add support
- CONFIG_ARCH_HAS_DEPT_SUPPORT to x86_64
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
- damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
- adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
- peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
- rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
- daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
- tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org,
- sumit.semwal@linaro.org, gustavo@padovan.org, christian.koenig@amd.com,
- andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
- mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
- samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
- neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com, josh@joshtriplett.org,
- urezki@gmail.com, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang@linux.dev, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, chuck.lever@oracle.com, neil@brown.name,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
- anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
- kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
- ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
- baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
- joel.granados@kernel.org, richard.weiyang@gmail.com,
- geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-9-byungchul@sk.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20251002081247.51255-9-byungchul@sk.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251002052215.1433055-1-kuniyu@google.com> <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
+In-Reply-To: <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Thu, 2 Oct 2025 09:22:25 -0700
+X-Gm-Features: AS18NWAIrcPS3jKugFFIcPfVpeqpTYVrB7j_tzhODluDiOsPr4J2TubIgApxZCc
+Message-ID: <CAAVpQUCQaGbV1fUnHWCTqrFmXntpKfg7Gduf+Ezi2e-QMFUTRQ@mail.gmail.com>
+Subject: Re: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq
+ when CONFIG_PREEMPT_RT=y.
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Tiffany Yang <ynaffit@google.com>, 
+	Kuniyuki Iwashima <kuni1840@gmail.com>, cgroups@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, 
+	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/2/25 01:12, Byungchul Park wrote:
-> dept needs to notice every entrance from user to kernel mode to treat
-> every kernel context independently when tracking wait-event dependencies.
-> Roughly, system call and user oriented fault are the cases.
+On Thu, Oct 2, 2025 at 1:28=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.com=
+> wrote:
+>
+> Hello.
+>
+> Thanks for looking into this Kuniyuki.
+>
+> On Thu, Oct 02, 2025 at 05:22:07AM +0000, Kuniyuki Iwashima <kuniyu@googl=
+e.com> wrote:
+> > The writer side is under spin_lock_irq(), but the section is still
+> > preemptible with CONFIG_PREEMPT_RT=3Dy.
+>
+> I see similar construction in other places, e.g.
+>         mems_allowed_seq in set_mems_allowed
 
-"Roughly"?
+IIUC, local_irq_save() or local_irq_disable() is used
+for the writer of mems_allowed_seq, so there should
+be not preemptible.
 
->  #define __SYSCALL(nr, sym) extern long __x64_##sym(const struct pt_regs *);
->  #define __SYSCALL_NORETURN(nr, sym) extern long __noreturn __x64_##sym(const struct pt_regs *);
-> @@ -86,6 +87,12 @@ static __always_inline bool do_syscall_x32(struct pt_regs *regs, int nr)
->  /* Returns true to return using SYSRET, or false to use IRET */
->  __visible noinstr bool do_syscall_64(struct pt_regs *regs, int nr)
->  {
-> +	/*
-> +	 * This is a system call from user mode.  Make dept work with a
-> +	 * new kernel mode context.
-> +	 */
-> +	dept_update_cxt();
-> +
->  	add_random_kstack_offset();
->  	nr = syscall_enter_from_user_mode(regs, nr);
 
-Please take a look in syscall_enter_from_user_mode(). You'll see the
-quite nicely-named function: enter_from_user_mode(). That might be a
-nice place to put code that you want to run when the kernel is entered
-from user mode.
 
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index 998bd807fc7b..017edb75f0a0 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -19,6 +19,7 @@
->  #include <linux/mm_types.h>
->  #include <linux/mm.h>			/* find_and_lock_vma() */
->  #include <linux/vmalloc.h>
-> +#include <linux/dept.h>
->  
->  #include <asm/cpufeature.h>		/* boot_cpu_has, ...		*/
->  #include <asm/traps.h>			/* dotraplinkage, ...		*/
-> @@ -1219,6 +1220,12 @@ void do_user_addr_fault(struct pt_regs *regs,
->  	tsk = current;
->  	mm = tsk->mm;
->  
-> +	/*
-> +	 * This fault comes from user mode.  Make dept work with a new
-> +	 * kernel mode context.
-> +	 */
-> +	dept_update_cxt();
-No, this fault does not come from user mode. That's why we call it "user
-addr" fault, not "user mode" fault. You end up here if, for instance,
-the kernel faults doing a copy_from_user().
+>         period_seqcount in ioc_start_period
+>         pidmap_lock_seq in alloc_pid/pidfs_add_pid
+
+These two seem to have the same problem.
+
+> (where their outer lock becomes preemptible on PREEMPT_RT.)
+>
+> > Let's wrap the section with preempt_{disable,enable}_nested().
+>
+> Is it better to wrap them all (for CONFIG_PREEMPT_RT=3Dy) or should they
+> become seqlock_t on CONFIG_PREEMPT_RT=3Dy?
+
+I think wrapping them would be better as the wrapper is just
+an lockdep assertion when PREEMPT_RT=3Dn
+
+Thanks!
