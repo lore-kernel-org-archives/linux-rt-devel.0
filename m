@@ -1,117 +1,154 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385FE22A7E5
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 16:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9763223E342
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 16:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759422158; cv=none; b=Gey/ZnFrlWKCsGEETIIjEEmKo9LpRyknTO+BM417YgGtZKCNXKv7eBcdZfk9rhr65xyXXdcbeaHvW5lXWlAxpwFU9ObbTVW6X37T/N6nFsgyf5/68F1RTicgh9LT6zJUADJOSciG/YjbO7+uzRyruhXoW/AaS4iK/ug6vxMr0OI=
+	t=1759424115; cv=none; b=t6Ff543tsUqrr3JnI7QdzHfuQRMSxPywQ/CG9RIAiG9k8VxMWGbSIWL9bRS0xLWVL/otf8JasAXUlMm+dfM37F42FGLdAMGRgrPPS7VvqGw1IRvL9wIvTZrEgy3qm7LHUDrKWaoQ5ucPUnQxAxQQxyhZCAuHeTLa8xHXb5Y21QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759422158; c=relaxed/simple;
-	bh=QGIybxUWIo/fpWjPlVkioQPIUWX0XI99dAus9iHNj90=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xk6Mvh6bbPT52GOocHuZ8qOyljRO5bBliyhl4dAle6zdXJBI1USRH9jws6YZTgfKvBBux3Rn5nuvGykNOP14ElfHczDz7pVqKfdDlfuGMMqHsRzPbvCjfeaD7fkGDmpI/ipK6/x/pR426viC/qJmAagZqFRPDBJwvwJyFNvZ6Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ur6coFX0; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1759424115; c=relaxed/simple;
+	bh=zKVEHfikrBLsYfCRV7kwKngOq208ZexyOncJioCOxb0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qW5YpZJsNGqDXboSPzpBOsRuc/wRheqoUywvPGpEw/W1RbEeOfUccyXGvfuln49BPzvbD3el0IJCTj1MPKvbTjY0lojtdYmqeITXDQQ0QrEHXs3EKC+C2JdaAlMM3ml9ibXKOhfYaDUvYs4A7L8MX/nNpD0V/2DQXOTXSrCk5Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=m130edP2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OtkmpOzZ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ur6coFX0"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b55517e74e3so1409277a12.2
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Oct 2025 09:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1759422156; x=1760026956; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vcmW+Ew4uz5zHRnSkRPvLKByvtHyprDgk3Fv0lQQWSQ=;
-        b=Ur6coFX0L7gX23dqKrXxT/fo6hUqDZPu9bc56Vwupu7gN59ZEOZu00JkAeaLk7BcUK
-         Sd49Cz/SacKst5QUl8j+0llrPuWzpryN6w5hdgjFo6ZHtO1zOGxRZMxfvX7WogpyfSpp
-         Q24MVERzwnJmnfC+aOco2+8L57oSF3czxPG/ew0nTNRysPFBkpOp/68SshKyigAaZIgF
-         +oJ+lG91FSm5dW/8/0tSjxiM1PkGh/BEs+WQo4apN8uJN0/Xi6wCW78iXnYN0PJ0WgdH
-         TE9TdZ8gqw4KDWN5WTQzOxblWZRD6sF2PbxvyXJ0XcWg61uDZLiE4DH3x+m1eo5VZ+ux
-         K8Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759422156; x=1760026956;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vcmW+Ew4uz5zHRnSkRPvLKByvtHyprDgk3Fv0lQQWSQ=;
-        b=Dz8ZLJV3lQ2s5J5GFeKR9cxNKSU5+/hZK61A5yu0NcK6mJiOcxuEbF9hqIto2Rj11K
-         aI5QpC9JPqbS0htt7OofCZFWrpF2UBmaM25ZUdKtsXqcMTUWfx+SzJebVzBIqLQwQkn8
-         ZYKyhSvfGKnhi/OKYAO+e3Tg1uQflaN6LpgKSziezVgvY7Qa0eUC6EBGsapnVSjcPfaN
-         7CGAU/5DemPSHxXk0o0DHa2qlNYElyc3lCUw7rTkRkSR8PtDNAUXWZ6AOFUaqcl3+ZfN
-         wdhLBYbN9pprriBaXr+5+2oitswsFIunR+QMYIAk3Fi6uBPQtjx5hi37ylOnaOVQxhVe
-         9veg==
-X-Forwarded-Encrypted: i=1; AJvYcCXV/6tPDv1lMNqEOgDkjCNWNu+74e41ZTTFCVRB1UJcPSqKNZg+DhuPPMGmXH9bdJZe3aS4kaedcgk6Fceo0g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXL47UA4SM0mT+2pngSaCdm7bizHjZOD2jNTOQnq7H843rrwUj
-	vs7AkEpiY5xsrm5u6Ih4FNjsNbsYZYU9aKOKqtsJq6LOwe/6aiPM99ZfVUTYtiZqoXcB+lP4rHX
-	8W8uQmJfcfFmjD6sgHCCcjfHdaJq0DMrJLNT2DCX1
-X-Gm-Gg: ASbGnctJIcHF2dkBZ01CJKOhogVZ1z1yQkgX6AoCMtVpjBc9EkDOzCQ2xlrB7Lo7I8Y
-	q6LUgyHmF90dJF4AVlBS2so7Ql3WLie5e5lroxJUx/2HqvD1JKBbfUz8TR/XOAvpg58B9UrjpvY
-	0IxYbW6suDs0Cwg7wApKQBvt02kBnMooXNpys0GlohxxIz4VJW9MHvP5Xo8vmfI8HxoyQPHgGzE
-	1vgj4yZNLxYG4VHO7ctwLcKbQOcWl+nos77xsXunVdDwLd474w62jm6YhWm0/pu78vfTLU=
-X-Google-Smtp-Source: AGHT+IFNTFrPHAbMV6/5Qvwr8vn9kT2v4YCrJnA1lgWdmelrsTV01jk/KvXHXcMsIf5vGWtTWuLVhQ+tJtc1zoQqtkk=
-X-Received: by 2002:a17:902:e552:b0:24b:24dc:91a7 with SMTP id
- d9443c01a7336-28e7f2ff464mr99197155ad.45.1759422156184; Thu, 02 Oct 2025
- 09:22:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="m130edP2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OtkmpOzZ"
+Date: Thu, 2 Oct 2025 18:55:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1759424111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qj8Bd2v5gYYTeD4stgWq8SynyYYD/pL4zBPibltlhRU=;
+	b=m130edP2LZhDOUxLAk3l8qbOknqm1P0VaIEcUQaGTDBpZ5E8RBH5+YpyxqkHLcL8v6ihbj
+	nswuC1OdhqqqnhEkHC6euQdcEjqum1bJfEWmDCM3bLcoDBdNW6i4aBEFrAIjEVwLeqR6FM
+	aTsupBccXPf4dOGMWk88EKFmPSRX7R6eq+gu8BaaU/w2xzUxBSYrrtp/AqlwT5AhKjyhCC
+	FB4M3PIL7xfkEUCkf2f/DD0p7Ou5WHFbRV7iBnZMqhPuuXuFOOoWpBrihDOeGZI4b4vB1u
+	p3tSbbx06QJWqrchvX8wcJjbckpBcN6Y3BB+H2Ai98PsP+ejrBVMux/WLDK2vQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1759424111;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qj8Bd2v5gYYTeD4stgWq8SynyYYD/pL4zBPibltlhRU=;
+	b=OtkmpOzZJiHcQyAfqk0hmrKUOR8OFLeTCC9kQGFBmjnFbd+Gx6My0mDykIe7c4gWMKeCjl
+	TNebwumTN1LNIFAA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Kuniyuki Iwashima <kuniyu@google.com>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Tiffany Yang <ynaffit@google.com>,
+	Kuniyuki Iwashima <kuni1840@gmail.com>, cgroups@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
+Subject: Re: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq
+ when CONFIG_PREEMPT_RT=y.
+Message-ID: <20251002165510.KtY3IT--@linutronix.de>
+References: <20251002052215.1433055-1-kuniyu@google.com>
+ <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
+ <CAAVpQUCQaGbV1fUnHWCTqrFmXntpKfg7Gduf+Ezi2e-QMFUTRQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251002052215.1433055-1-kuniyu@google.com> <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
-In-Reply-To: <5k5g5hlc4pz4cafreojc5qtmp364ev3zxkmahwk4yx7c25fm67@gdxsaj5mwy2j>
-From: Kuniyuki Iwashima <kuniyu@google.com>
-Date: Thu, 2 Oct 2025 09:22:25 -0700
-X-Gm-Features: AS18NWAIrcPS3jKugFFIcPfVpeqpTYVrB7j_tzhODluDiOsPr4J2TubIgApxZCc
-Message-ID: <CAAVpQUCQaGbV1fUnHWCTqrFmXntpKfg7Gduf+Ezi2e-QMFUTRQ@mail.gmail.com>
-Subject: Re: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq
- when CONFIG_PREEMPT_RT=y.
-To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tiffany Yang <ynaffit@google.com>, 
-	Kuniyuki Iwashima <kuni1840@gmail.com>, cgroups@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, 
-	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAAVpQUCQaGbV1fUnHWCTqrFmXntpKfg7Gduf+Ezi2e-QMFUTRQ@mail.gmail.com>
 
-On Thu, Oct 2, 2025 at 1:28=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.com=
-> wrote:
->
-> Hello.
->
-> Thanks for looking into this Kuniyuki.
->
-> On Thu, Oct 02, 2025 at 05:22:07AM +0000, Kuniyuki Iwashima <kuniyu@googl=
-e.com> wrote:
-> > The writer side is under spin_lock_irq(), but the section is still
-> > preemptible with CONFIG_PREEMPT_RT=3Dy.
->
-> I see similar construction in other places, e.g.
->         mems_allowed_seq in set_mems_allowed
+On 2025-10-02 09:22:25 [-0700], Kuniyuki Iwashima wrote:
+> On Thu, Oct 2, 2025 at 1:28=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.c=
+om> wrote:
+> >
+> > Hello.
+> >
+> > Thanks for looking into this Kuniyuki.
+> >
+> > On Thu, Oct 02, 2025 at 05:22:07AM +0000, Kuniyuki Iwashima <kuniyu@goo=
+gle.com> wrote:
+> > > The writer side is under spin_lock_irq(), but the section is still
+> > > preemptible with CONFIG_PREEMPT_RT=3Dy.
+> >
+> > I see similar construction in other places, e.g.
+> >         mems_allowed_seq in set_mems_allowed
+>=20
+> IIUC, local_irq_save() or local_irq_disable() is used
+> for the writer of mems_allowed_seq, so there should
+> be not preemptible.
 
-IIUC, local_irq_save() or local_irq_disable() is used
-for the writer of mems_allowed_seq, so there should
-be not preemptible.
+That local_irq_disable() looks odd.
+mems_allowed_seq is different, it is associated with
+task_struct::alloc_lock. This lock is acquired by set_mems_allowed() so
+it is enough. That local_irq_disable() is there because seqcount
+read side can be used from softirq.
 
+>=20
+> >         period_seqcount in ioc_start_period
+> >         pidmap_lock_seq in alloc_pid/pidfs_add_pid
+>=20
+> These two seem to have the same problem.
 
+Nope. period_seqcount is a seqcount_spinlock_t. So is pidmap_lock_seq.
 
->         period_seqcount in ioc_start_period
->         pidmap_lock_seq in alloc_pid/pidfs_add_pid
+> > (where their outer lock becomes preemptible on PREEMPT_RT.)
+> >
+> > > Let's wrap the section with preempt_{disable,enable}_nested().
+> >
+> > Is it better to wrap them all (for CONFIG_PREEMPT_RT=3Dy) or should they
+> > become seqlock_t on CONFIG_PREEMPT_RT=3Dy?
+>=20
+> I think wrapping them would be better as the wrapper is just
+> an lockdep assertion when PREEMPT_RT=3Dn
 
-These two seem to have the same problem.
+Now that I swap in in everything.
 
-> (where their outer lock becomes preemptible on PREEMPT_RT.)
->
-> > Let's wrap the section with preempt_{disable,enable}_nested().
->
-> Is it better to wrap them all (for CONFIG_PREEMPT_RT=3Dy) or should they
-> become seqlock_t on CONFIG_PREEMPT_RT=3Dy?
+If you have a "naked" seqcount_t then you need manually ensure that
+there can be only one writer. And then need to disable preemption on top
+of it in order to ensure that the writer makes always progress.
 
-I think wrapping them would be better as the wrapper is just
-an lockdep assertion when PREEMPT_RT=3Dn
+In the freezer case, may I suggest the following instead:
 
-Thanks!
+diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
+index 539c64eeef38f..933c4487a8462 100644
+--- a/include/linux/cgroup-defs.h
++++ b/include/linux/cgroup-defs.h
+@@ -435,7 +435,7 @@ struct cgroup_freezer_state {
+ 	int nr_frozen_tasks;
+=20
+ 	/* Freeze time data consistency protection */
+-	seqcount_t freeze_seq;
++	seqcount_spinlock_t freeze_seq;
+=20
+ 	/*
+ 	 * Most recent time the cgroup was requested to freeze.
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index eb9fc7ae65b08..c0215e7de3666 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -5813,7 +5813,7 @@ static struct cgroup *cgroup_create(struct cgroup *pa=
+rent, const char *name,
+ 	 * if the parent has to be frozen, the child has too.
+ 	 */
+ 	cgrp->freezer.e_freeze =3D parent->freezer.e_freeze;
+-	seqcount_init(&cgrp->freezer.freeze_seq);
++	seqcount_spinlock_init(&cgrp->freezer.freeze_seq, &css_set_lock);
+ 	if (cgrp->freezer.e_freeze) {
+ 		/*
+ 		 * Set the CGRP_FREEZE flag, so when a process will be
+
+While former works, too this is way nicer. Not sure if it compiles but
+it should.
+
+> Thanks!
+
+Sebastian
