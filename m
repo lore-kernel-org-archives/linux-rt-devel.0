@@ -1,121 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17342D9EE5
-	for <linux-rt-devel@lists.linux.dev>; Sun, 28 Sep 2025 10:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E698264FB5
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 05:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759055603; cv=none; b=O+ecHk2ID6QEnnDQv0IPOIdI1Lc1NqlTvZ7X3L1cmZ3w6j3t9tn3hYTJtr2XMVzJ1JYLNp5dUWNjyPWWX9g4GCpmpkrUsWiQsbqvuMxrPMwmMDl9Et03lX1LG7g1wqLP6kxFvA4Zra6TTfoJH/64kuLf0GKYRldF0z04UK3wrYk=
+	t=1759382541; cv=none; b=FRPPf+1caTNlwEPoWrAdbKkw0XHIvEPal3c127KLPJRoo22aDLPl62e2gDnznQ8H7R3G355LjV3cQCBGtpycNQXm+PG4z0QyjdmzS92dsIxvL/TGnWHOVF5gHaQIsQ0xGC3bW84JpMn+ipQNFKp+US7iu3oV423kiCL0EtxguSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759055603; c=relaxed/simple;
-	bh=W1P4GzY1bC9YgmxJ2fNnWAboDU4JuIT0DBDqxALFX0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xp2wELqHfaP/5OOe2X1u7l6sFWWJR9WWl6u+qxrvEGA3IDxWmR4u5E2fgOgbwK6Wl2Gix4Qsapr2yDzUapkJdsoCgyVS3SPE7K1J7a2y4WUOUOMISZM0JVhfavKIbGipVq2V2KQluujDNydVS8yuUw4VIWFALGsaSHlt8+iGHNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ud20ASVs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759382541; c=relaxed/simple;
+	bh=K5dUnB/rPRs4/uFO5etlJrs3honC1ofWRtYjE7/z49I=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Mc0g2vC45tKPM1KJWx7Li894AL1+6MHcjY1oWwfWKBSK2LkVj7G6SvCagKuq1sSLnJOqqSI7+74CVcMooleeTec50XgJ8ybkUpNYV96PMr3g/4czUzC+3gh7WL8IRatB6TqKMdSUIExlfgwDLxGDuDkT+Dt0UmOmLTng8yuHjbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RzmubvY4; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--kuniyu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ud20ASVs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C6B3C19425
-	for <linux-rt-devel@lists.linux.dev>; Sun, 28 Sep 2025 10:33:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759055603;
-	bh=W1P4GzY1bC9YgmxJ2fNnWAboDU4JuIT0DBDqxALFX0M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ud20ASVsnYuE5kNMszyEQpSoR0Bq4bejcUKHOUGjiL35VMUaD5yL3aWJSfDAcC6Td
-	 gZvVM+w5J+fLJk+M+cm+C5F6V8+n4QeTYvqpgUamaRejIQgk3V0BlYAFNlqYQL24Bc
-	 DWcQUU6VEeKpDUxZxLhye5/BzKyKh/wIMTJhcQ4gOf6DwgjgyJduc9FxYI2tEQHU8G
-	 Smimz0KWLOn1bqbGAIREMMYENc9PlF8rWaED7GAKDBcxtwEhefJidnd2amv8AtvhLY
-	 P0w6Rw13h6lhC3C6zgIAqhb2YGn56pNaWFWlqBEqDnFrzkyAsiQ1FYLlftVUlNnfCZ
-	 N4zqSVcCig0bw==
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-35c80c1dc3fso2116947fac.3
-        for <linux-rt-devel@lists.linux.dev>; Sun, 28 Sep 2025 03:33:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX3stB6N7IILZSyZrzufuClvUfyYMaqOMgaoOmL04vH2BKK4tugu/Gl8fcRugFTCguKLrxGvytnZL3Kf1MLvA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxufFSVU2hlibzlpjqilVanxmquwPK6qWfJ5+gY4iNH7RVL1BJA
-	+Ym46O0gUeoHB7EzOB47KfGLWI072e7oA0BvEi1IUwwuQUVPVndH4x8WoTj8dSYaVIcINGdtbdC
-	tzo2tkiRd8e+9Nu+7lDH2C1MQkuIcHMQ=
-X-Google-Smtp-Source: AGHT+IHHkBehFxa/bp8CnX34GBVpEV5VAfmAS0oqHk9Wg6vhKkRCMfTaIXQ9hfF+1UwB0EGnwQh5Kq0MuUSpqvkAupk=
-X-Received: by 2002:a05:6870:a118:b0:315:b618:d6be with SMTP id
- 586e51a60fabf-35ef20c8e8fmr6297578fac.51.1759055602481; Sun, 28 Sep 2025
- 03:33:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RzmubvY4"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-28e8112143fso7862495ad.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 01 Oct 2025 22:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1759382538; x=1759987338; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2MskRbXWx9xZ3cfwXyeqyicyUNKx5SWmHPDU1DgfgcY=;
+        b=RzmubvY4mIlbgJ0EzLSFJ6Y0rGnAKQ8GR4RMN7M10FjqiVkUjARikLJUJSddv0sNlI
+         Gwe3CGjN2lIv/S6x9OUrTqeuUTUqjjpOSFqlYahposdokDIOGO4H15sk7ko58o6D+WZt
+         YDeqzILDTmBXUomlGID1yG6Y6h/DwYsNfKkAFzV3lgKlPkRY7qbmTv4dQ9AnIMLeKQED
+         ca8E2km2WTCkgNc42D1TzKhAiZQVb15pZVF8bfE5jtitT8Z1vkjz89gHwJFJjQ6XmkDS
+         9JwK3un4707MV0VlaCDDKNMQkMGIfPk50TF0JSt99GZoZ3AC9PEPeoShkTEi/F24McxZ
+         NZ4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759382538; x=1759987338;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2MskRbXWx9xZ3cfwXyeqyicyUNKx5SWmHPDU1DgfgcY=;
+        b=dBxy1eArNtdFYYrxlk9H83vPDUrtqZ7E4ikHwkPmPksc8Io2UjK+SznByhFJqKm2m9
+         q16LNyGht013J6BBDyzPfSJkBenbrnHc5t1sdw/5hBQfeazU/4xKnc//FS/dCCNFqW1A
+         yF1EIoKWhg4hx91npZlEd0kkGUMaZN+P//SlJTaCvc30iS035auCYSt9jSfsf/UpfNEp
+         ZJaSnLHUyFwWhusc5Ac4zCSXWpnSP+GKhm+ZN5j//eIOIjWqG4z1HOxaNdUW3uutFWyq
+         gSEZ5MVhg0iJIEcNltSoRcwlGoJ3tFYZBCKSxHMkaIfi1kJqwzuh6Ct94J58fkPSjeMO
+         AWSw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2YLOULk9Oi3zqSyZkusZx0KVNmgsvyOtFS/MfAaEoyWI75iO7AwfmRkbBPZb05mWk0hTFMW5fv8h2kgxBOA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7F4q9IP0dK1ACkILSC3vJXAruEmpc4DFk/XlxfDDjD4Dgmf8/
+	V4iIW9MhoC4zK30OyaKndGJrtmBl/368RiwQa/4KwPt/kTyeGssAqqvZAbG4xI7n32onaHv7wHu
+	02CBndQ==
+X-Google-Smtp-Source: AGHT+IHjyYf65SorjHPQ8Oqp9G8GmBeGyG/D8ncklMRdBiC3a9MYURwraenLFtVRqvU1dV8ysAn0qMO6hNw=
+X-Received: from plei3.prod.google.com ([2002:a17:902:e483:b0:269:7570:9ef0])
+ (user=kuniyu job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:1a2e:b0:25c:5bda:53a8
+ with SMTP id d9443c01a7336-28e7f489e8fmr71572145ad.37.1759382538285; Wed, 01
+ Oct 2025 22:22:18 -0700 (PDT)
+Date: Thu,  2 Oct 2025 05:22:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
- <20250916044735.2316171-2-dolinux.peng@gmail.com> <03ad08d9-4510-19fb-bbad-652159308119@huawei.com>
-In-Reply-To: <03ad08d9-4510-19fb-bbad-652159308119@huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sun, 28 Sep 2025 12:33:11 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0ix+taHWpKAeYsNBQMoxG6f7E9vyO=yqjrh5_AnjrXZbg@mail.gmail.com>
-X-Gm-Features: AS18NWDE1zAXVuNiUSbLmdX4xI4485zsbYvsUyBO0gNsC9FdVLBA2B2bjlgQB_4
-Message-ID: <CAJZ5v0ix+taHWpKAeYsNBQMoxG6f7E9vyO=yqjrh5_AnjrXZbg@mail.gmail.com>
-Subject: Re: [PATCH v3 01/14] ACPI: APEI: Remove redundant rcu_read_lock/unlock()
- in spin_lock
-To: Hanjun Guo <guohanjun@huawei.com>, pengdonglin <dolinux.peng@gmail.com>
-Cc: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com, 
-	ap420073@gmail.com, jv@jvosburgh.net, freude@linux.ibm.com, bcrl@kvack.org, 
-	trondmy@kernel.org, longman@redhat.com, kees@kernel.org, 
-	bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	linux-nfs@vger.kernel.org, linux-aio@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, netdev@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-s390@vger.kernel.org, 
-	cgroups@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	pengdonglin <pengdonglin@xiaomi.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.618.g983fd99d29-goog
+Message-ID: <20251002052215.1433055-1-kuniyu@google.com>
+Subject: [PATCH] cgroup: Disable preemption for cgrp->freezer.freeze_seq when CONFIG_PREEMPT_RT=y.
+From: Kuniyuki Iwashima <kuniyu@google.com>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	"=?UTF-8?q?Michal=20Koutn=C3=BD?=" <mkoutny@suse.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Tiffany Yang <ynaffit@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Kuniyuki Iwashima <kuni1840@gmail.com>, cgroups@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, 
+	syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 27, 2025 at 5:22=E2=80=AFAM Hanjun Guo <guohanjun@huawei.com> w=
-rote:
->
-> On 2025/9/16 12:47, pengdonglin wrote:
-> > From: pengdonglin <pengdonglin@xiaomi.com>
-> >
-> > Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side fun=
-ction definitions")
-> > there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
-> > rcu_read_lock_sched() in terms of RCU read section and the relevant gra=
-ce
-> > period. That means that spin_lock(), which implies rcu_read_lock_sched(=
-),
-> > also implies rcu_read_lock().
-> >
-> > There is no need no explicitly start a RCU read section if one has alre=
-ady
-> > been started implicitly by spin_lock().
-> >
-> > Simplify the code and remove the inner rcu_read_lock() invocation.
-> >
-> > Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-> > Cc: Tony Luck <tony.luck@intel.com>
-> > Cc: Hanjun Guo <guohanjun@huawei.com>
-> > Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
-> > Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
-> > ---
-> >   drivers/acpi/apei/ghes.c | 2 --
-> >   1 file changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> > index a0d54993edb3..97ee19f2cae0 100644
-> > --- a/drivers/acpi/apei/ghes.c
-> > +++ b/drivers/acpi/apei/ghes.c
-> > @@ -1207,12 +1207,10 @@ static int ghes_notify_hed(struct notifier_bloc=
-k *this, unsigned long event,
-> >       int ret =3D NOTIFY_DONE;
-> >
-> >       spin_lock_irqsave(&ghes_notify_lock_irq, flags);
-> > -     rcu_read_lock();
-> >       list_for_each_entry_rcu(ghes, &ghes_hed, list) {
-> >               if (!ghes_proc(ghes))
-> >                       ret =3D NOTIFY_OK;
-> >       }
-> > -     rcu_read_unlock();
-> >       spin_unlock_irqrestore(&ghes_notify_lock_irq, flags);
-> >
-> >       return ret;
->
-> Reviewed-by: Hanjun Guo <guohanjun@huawei.com>
+syzbot reported the splat below. [0]
 
-Applied as 6.18 material, thanks!
+Commit afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
+introduced cgrp->freezer.freeze_seq.
+
+The writer side is under spin_lock_irq(), but the section is still
+preemptible with CONFIG_PREEMPT_RT=y.
+
+Let's wrap the section with preempt_{disable,enable}_nested().
+
+[0]:
+WARNING: CPU: 0 PID: 6076 at ./include/linux/seqlock.h:221 __seqprop_assert include/linux/seqlock.h:221 [inline]
+WARNING: CPU: 0 PID: 6076 at ./include/linux/seqlock.h:221 cgroup_do_freeze kernel/cgroup/freezer.c:182 [inline]
+WARNING: CPU: 0 PID: 6076 at ./include/linux/seqlock.h:221 cgroup_freeze+0x80a/0xf90 kernel/cgroup/freezer.c:309
+Modules linked in:
+CPU: 0 UID: 0 PID: 6076 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)}
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+RIP: 0010:__seqprop_assert include/linux/seqlock.h:221 [inline]
+RIP: 0010:cgroup_do_freeze kernel/cgroup/freezer.c:182 [inline]
+RIP: 0010:cgroup_freeze+0x80a/0xf90 kernel/cgroup/freezer.c:309
+Code: 90 e9 9e fb ff ff 44 89 f1 80 e1 07 80 c1 03 38 c1 0f 8c e7 f9 ff ff 4c 89 f7 e8 e1 43 67 00 e9 da f9 ff ff e8 17 68 06 00 90 <0f> 0b 90 e9 10 fc ff ff 44 89 f9 80 e1 07 38 c1 48 8b 0c 24 0f 8c
+RSP: 0018:ffffc90003b178e0 EFLAGS: 00010293
+RAX: ffffffff81b6c6a9 RBX: 0000000000000000 RCX: ffff88803671bc00
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: ffffc90003b17a70 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: fffffbfff1d6d2a7 R12: dffffc0000000000
+R13: 0000000000000000 R14: 0000000000000001 R15: ffff88803623a791
+FS:  00005555915ae500(0000) GS:ffff888127017000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b33363fff CR3: 0000000023b98000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ cgroup_freeze_write+0x156/0x1c0 kernel/cgroup/cgroup.c:4174
+ cgroup_file_write+0x39b/0x740 kernel/cgroup/cgroup.c:4312
+ kernfs_fop_write_iter+0x3b0/0x540 fs/kernfs/file.c:352
+ new_sync_write fs/read_write.c:593 [inline]
+ vfs_write+0x5d5/0xb40 fs/read_write.c:686
+ ksys_write+0x14b/0x260 fs/read_write.c:738
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xfa/0x3b0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0dc3e9eec9
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd9b7b6198 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f0dc40f5fa0 RCX: 00007f0dc3e9eec9
+RDX: 0000000000000012 RSI: 0000200000000200 RDI: 0000000000000004
+RBP: 00007f0dc3f21f91 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f0dc40f5fa0 R14: 00007f0dc40f5fa0 R15: 0000000000000003
+ </TASK>
+
+Fixes: afa3701c0e45 ("cgroup: cgroup.stat.local time accounting")
+Reported-by: syzbot+27a2519eb4dad86d0156@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/68de0b21.050a0220.25d7ab.077d.GAE@google.com/
+Signed-off-by: Kuniyuki Iwashima <kuniyu@google.com>
+---
+ kernel/cgroup/freezer.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/kernel/cgroup/freezer.c b/kernel/cgroup/freezer.c
+index 6c18854bff34..7e779c8a6f89 100644
+--- a/kernel/cgroup/freezer.c
++++ b/kernel/cgroup/freezer.c
+@@ -179,6 +179,7 @@ static void cgroup_do_freeze(struct cgroup *cgrp, bool freeze, u64 ts_nsec)
+ 	lockdep_assert_held(&cgroup_mutex);
+ 
+ 	spin_lock_irq(&css_set_lock);
++	preempt_disable_nested();
+ 	write_seqcount_begin(&cgrp->freezer.freeze_seq);
+ 	if (freeze) {
+ 		set_bit(CGRP_FREEZE, &cgrp->flags);
+@@ -189,6 +190,7 @@ static void cgroup_do_freeze(struct cgroup *cgrp, bool freeze, u64 ts_nsec)
+ 			cgrp->freezer.freeze_start_nsec);
+ 	}
+ 	write_seqcount_end(&cgrp->freezer.freeze_seq);
++	preempt_enable_nested();
+ 	spin_unlock_irq(&css_set_lock);
+ 
+ 	if (freeze)
+-- 
+2.51.0.618.g983fd99d29-goog
+
