@@ -1,17 +1,17 @@
 Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74FD5314D23
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 08:14:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BC4B313E34
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Oct 2025 08:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759392857; cv=none; b=ARMMXhhbNApjRQJV43k6yHtq1qnTn37Se1d5NbirEcRgaRd7/y1jDHtvfPQ2surCfy2dV7NMax+4GIUSnkkxaWQ8HGvkV9X9OP0zIYUG/AKFqmeyFBiBhGuoE62jBns4OK+p7rcKcheNczZYF2p7/UmFuJxIi7VjNAHECZABCSU=
+	t=1759392856; cv=none; b=EF1s0ZGSNCsW/H1IYQf9AsMsgOR6dIHaFUeXTicyO+4jBxyzjHPC4zNjP+Z1bufglw0HqpFqLiqT13MmyhGN932WGnlzLSodlisL+Bt+yht4+gh6kNypMkWzyHAEWyuYhO3zMNw47ZdafhYTNnG6ppn+usAiaycsoi0C2zwkx3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759392857; c=relaxed/simple;
-	bh=IVs7UrTREahv4P4gaL8VNCv4Y1x1l3V8HrPMnx32xWM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=iYmz5knAkpXK4A1qL42RkQjExH6oLU8Au2c7vuyx4YwZMWJNG8tG4EcfDwficmyYYityUsq1jAGfkvNWRIxnjnJv+GpIxIMxlS6MXvCHT2Eb5xBvGqz3ggi0o6/iIG63GtZkLSN8LL7ZB+o4IYHeRWYIQq+/eMwhuO6+lFacVw8=
+	s=arc-20240116; t=1759392856; c=relaxed/simple;
+	bh=maf1QCGEx8ZicvuvjSO5P8pPxIBgYfqjp+uEFuf+J5I=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=D//HRYYMKhtTrc9v7br9Grj7dj9EdHyH7pcRWIZzUAU6c4Pl/QOu9CEf7iC784WLRkzGtCsZKaS7RNYD74r+EshizqrYKrDAbeRcBQK0bk3Ks85E9m7Knh/i648+CxpM8ZiSq4VIsF68jTAuZW4f0JrHZmWMAKiq3zT2V+u/SNc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-31-68de3419efec
+X-AuditID: a67dfc5b-c2dff70000001609-59-68de3414a856
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com,
@@ -162,44 +162,45 @@ Cc: kernel_team@skhynix.com,
 	rcu@vger.kernel.org,
 	linux-nfs@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v17 47/47] mm: percpu: increase PERCPU_DYNAMIC_SIZE_SHIFT on DEPT and large PAGE_SIZE
-Date: Thu,  2 Oct 2025 17:12:47 +0900
-Message-Id: <20251002081247.51255-48-byungchul@sk.com>
+Subject: [PATCH v17 40/47] dept: introduce event_site() to disable event tracking if it's recoverable
+Date: Thu,  2 Oct 2025 17:12:40 +0900
+Message-Id: <20251002081247.51255-41-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251002081247.51255-1-byungchul@sk.com>
 References: <20251002081247.51255-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTdxjG9z/3NlZOOpIeQLOtiTc2wQvON1EXvxjOFzKSZSZqiFQ5eppx
-	MS1XjQkC9TYxWAIk4FhrsVJaFMELKjUVtQSRUMBgRS4WAWWlNCPQDKV2rdFvv/yeJ2+eDy+D
-	y4fIWEadnStoslWZSkpKSH0rjBtjk8bETeecK2HolIOAyzdsFLiuWxHo7oUICOqdNCwsvaYh
-	ZHciqO7X4+B9PI/Ab76AYOZpMvjGH5DwMjCLwDz5CYNJxxkEf19po+Bjbx8ORs8oDu9bwu6W
-	cwyBvbGEgsHJlfBi0U9Bd9WfFPj6L2Mw10LBX3V6BKWmGxT0e5cxGKnWY2BtTYGaGQqqbyqg
-	qvkBBkvmJhqem0YIqOsdJGHZsxlChhxwWt/RcN3XR0L32BAJ3mk9BeNdp0m4W/wmvP+FBwPb
-	hWkcWt+GU/vwj2A83UDA2eACAmf7BAZjthAJLkcPCQNWFwHdtRYC+u43k9DW+xyHwMU4cF0q
-	J8FdMYWgcm4agTdgxsG86Kd3Z/BNbXcwXjcQpHhbvQ3xHz/oEa+rCNPjWT/OX+2ZpXh7wEDw
-	z65w/KXejfy92lGaL3s4TPOG1jy+7ImP5E0dMxg/7N2VmrBfujNDyFTnC5rEX9KlovuJmzx2
-	W1J492yILkYT9HkkYTg2ibN3vMe/8n+WKSrCFLuOc7uXPvto9nuurXyajDDO9qzihvp/ivC3
-	rMDd/6c93GEYgl3D1Zfui2gZ+zPnf2r5cvI7ztri+MySsB/09BARlrPbOJ2/DDuPpOGOScLN
-	ef79sieGe9ToJiqQzIC+aUJydXZ+lkqdmZQgFmWrCxMO52S1ovC3mU8uH2hH867fOhHLIOUK
-	mWvNqCgnVfnaoqxOxDG4MlqW3jgiymUZqqLjgibnoCYvU9B2ojiGUCpkWwIFGXL2qCpX+EMQ
-	jgmarynGSGKLkTowpdg1Hq8rHSg+NHwk+ZNhtCxK3hF/LeVRkiKvwRR8JfsgWn7fujposRzq
-	01Zvj0qdSN+7IMbhg111qvLXO6LRBuxouXhizxSZPL96d9OJk3tqCi7+Wuowxq5yd29arGku
-	+aF+dsvxlPHcqLnEZbKkKG19ljFm7a1KRX1MamWaktCKqs3xuEar+h+V1r69aQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSXUyTdxTG/b/fbax500H6jo2pNcRoJorKcqbG6IXh1UTizbKoF9LoG1op
-	H7YCZZuGUhrJhA2bFIQqVogNX2qlwKimC4JUsRCsVSBKZZBSUMBmE2QI2LWa3Zz8zvM8OXku
-	DoNL28g4RpV1VtBkKdRySkyIU3cbtny585VyW5FzAwzqOwmYnysh4MrtZgpKWqpIeHKrCcHo
-	fAmChSULDkZnmIAVk5uGucWXNIRdbgQVXhMOza16DN7ZP1Iw3f0PAvNYgILK13oCQrZSBNVB
-	Cw2ve1JgdvQeCWH/JAZD72cQ2AIfMQh0XkCwUpEB12odFCz1D+BQaX6C4PqYH4cpe8Rsdb9C
-	4KovomCivA0HX2ANPJsPUdBrvkjBrPcKBm/tFFiLXCRctZgQGOpuU1BxtYUA5193afBOL2Mw
-	UmHCoKnlMIzaggR4ymuxSL9I6o4MLJUGLDKmMDDfvIfBoq2Rhr66EQJshQlg6feRMF5fTcPy
-	WBKErdngbpqkwf+7mYBbswPkPjPiF4y/EXyjox3jjU9XKL65phnxSx9MiJ+7YcB5Y3lk7Z4J
-	4XyxI5+/4Zmh+A/zzyne9d5K8I9rOf5S/xbeWe2n+eI/X9BHdh0T7zklqFV5gmbr3jSxcvjB
-	MJnTJtL9URKmC9E4/SsSMRy7k/u3YYKKMsVu5IaHF/Eox7DrOEdZkIwyznq+5ga930b5C1bg
-	7r7piGQYhmATuBrD0agsYb/jQj0N+OeTa7kme+cnFkV035iHiLKUTeaMoWKsHImtaFUjilFl
-	5WUqVOrkRG2GsiBLpUs8mZ3ZgiLPZDu3fKkDzflSuhDLIPlqiTfBr5SSijxtQWYX4hhcHiNJ
-	qx9RSiWnFAU/CZrsE5pctaDtQl8xhFwmOfSjkCZl0xVnhQxByBE0/7sYI4orRPe/CQbzN+oa
-	7HT7YYv4oUO3Y2j/NVtsaezlX2JdPQe7c55bRb1Jsvjk0qKB9b7l3X2bJzpO63MT/e369B9k
-	lqGA2r6neMOChq5xn1fVulKdcoXgkf68nZAdonSbvj9Z2l125u/BxLbc1Ibt8Qf0+HR6X1Vw
-	ZrTV/Ch/U//+3uNyQqtUJG3GNVrFfyOFB8lIAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSb2xTZRTGfe9979u7supNwXgFFdNYJROYykYOiRg/mPCqMSFijIpGGnez
+	FrZBulGYoo5u1WUbc9R0k63MjjKy0QKjZcomk7HBYjfIWsrgBkZZZX9YttJktpsMRm0hfvvl
+	eZ7znJzk8Kxa5pbyhoIiyVigy9MQJVZG0ptWPZ0V0r9W285DPFaOwX7CTaDcc4AD/3EXgrn7
+	DSxYOhIYFqx9Cojdu6GARFcfgtqAlQX3qb0M/NP2kMBU7wwCW3iUQN3kXgzRI1UI6scbFDB5
+	YQNEbv3BwbXZaQSj3T8i+PWQl8CpvhCCrhYzgbGadhaCo0/ClXiUgM9WSSASsDNwt42Aw9zF
+	Qe1BD4aOkU4FBKYeMDBca2XA5fkguYlAQ10pAxedwxgaLgU5OB4Z5MAXusrB1LiVQOxKmAF3
+	1TgL5Z1xDJ7bSaPph8MYDjQOEzjT5cNQvhBDEOy0E6hqa+cg5E4kL+8e4OCyy4/hxITMgK++
+	FcNg5zEOwiMyB95LF1mYrV4G/v37OJBrxtDbOXTOUo3pUe9vDLVcXiDU3ehG9P68FdFYcylL
+	e6ejLC3z7qLNA9OEzseHCO0/JNKO+psKWvbndQV1eHZSb0sGdZ6ZZDau/Ez5Zo6UZzBJxsy3
+	tij1F/odeMftF3b3nl1fgprFCpTGi0KW6KgMKioQ/4in5tenZCK8IsryPTbFS4QXRe++cS7F
+	rDDwnHg1sDIVXyxI4sSx71MyFrSic2ROkWKVsFZMmE+ix+3LRVdb96OatKQeDA/gFKuFbNES
+	LWMqkDKZcaWJTf+ex48HnhXPtci4Bqkc6ImjSG0oMOXrDHlZq/XFBYbdq7/anu9ByX878u2D
+	zafRjH9TDxJ4pElX+bU39WpOZyoszu9BIs9qlqi2tAzr1aocXfHXknH7l8adeVJhD1rGY80z
+	qjdmd+WohVxdkbRNknZIxv9dhk9bWoJero6bXn1eXrR/6LA2s8T+hdkZFbNzfzmb2frT5s9t
+	Gct7fbn+dxPOflfouztDM+d+r3wqxH/zsdmybs/Gd0Kf6g5uOmn8y7H1WsgWCaSvzbaP/axd
+	1Hc6PPuRaWHx37b35RVb6d0PY2u0HSucwboNg6WfTBQ1rntpovW93IdVg+fnivQaXKjXvZ7B
+	Ggt1/wEbQeYJawMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTdxTG/d/7772Xxuq14rgRM0kX2MJENFE58YVs2QdujJvTL25LjDRy
+	Y5tCMa1DWDKFvkSGm4MmLYHyUiE0DQWsFM3QgAQCySgMuwq+UZHZFZCXJgISKFDbJfty8jvP
+	8+Tk+XAYUuoW7WaU6iuCRi3PlVFiLP7mmD4t/tArxYG6hQQYK+nBsLxUiqHmTgsFpe1VInjc
+	5kQwsVyKYCVsJcHYGcGwYRqgYWn1JQ2RrgEEFq+JhJaOEgIWXZsUzPa9Q2CeDFBQOVOCIWT/
+	FUF10ErDTH8WzE88FEHEP0XA0/dzCOyBTQICPTcQbFhUUN/gpiA8PEJCpfkxgtuTfhKmXVGz
+	Y+AVgi6HjoJ/y++R4AtsgyfLIQr+NN+kYN5bQ8CCiwKbrksEtVYTAn3jHQoste0YOl8/oME7
+	u07AuMVEgLP9a5iwBzF4yhuIaL9o6m4CWCv1RHRME2BufUjAqr2ZhqHGcQz24mSwDvtE8I+j
+	mob1yYMQseXDgHOKBv/vZgxt8yOiL8yIXzHewnyz+z7BG//eoPiWuhbEh9dMiF9q0pO8sTy6
+	9s2FSN7gvso3eeYofm15lOK73tswP9jA8RXDaXxntZ/mDd0v6G+P/iA+niPkKgsETXpmtljR
+	P2jDl998XNj36EQxauLKEMNw7CFudu1EGYpjKPZT7tmzVTLG8WwS5/4tKIoxyXr2cGPefbH4
+	Tlbgplqvx2TMJnONr1foGEvYI1xEdxfFmGP3ck5Xz39n4qK6b9KDYyxlD3PGkIEoR2Ib2tKM
+	4pXqgjy5Mvfwfq1KUaRWFu6/mJ/XjqKvZP95veIPtOTL6kUsg2RbJd5kv0Iqkhdoi/J6EceQ
+	snhJtmNcIZXkyIt+EjT5FzQ/5graXpTIYFmC5OQ5IVvKXpJfEVSCcFnQ/O8STNzuYnQmaHIl
+	ln1lw4spnYmXVMeqrB69z7Bz1InSdYHztpyZNPXp9GFLpa6wP/Xi8+/eyk9Vf57RzagyPurY
+	1fxL6WY4tcOxHQ2V/SXOHEtZufXZl63mPTsMfFKv4hNjf2Zove7q0LUKV1ZBd73j+9GEpH3o
+	rP6cgkg/EBbejAzm3zwvw1qF/GAqqdHKPwDtVNImRgMAAA==
 X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -207,41 +208,128 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Yunseong reported a build failure due to the BUILD_BUG_ON() statement in
-alloc_kmem_cache_cpus().  In the following test:
+With multi event sites for a single wait, dept allows to skip tracking
+an event that is recoverable by other recover paths.
 
-  PERCPU_DYNAMIC_EARLY_SIZE < NR_KMALLOC_TYPES * KMALLOC_SHIFT_HIGH * sizeof(struct kmem_cache_cpu)
+Introduce an API, event_site(), to skip tracking the event in the case.
 
-The following factors increase the right side of the equation:
-
-  1. PAGE_SIZE > 4KiB increases KMALLOC_SHIFT_HIGH.
-  2. DEPT increases the size of the local_lock_t in kmem_cache_cpu.
-
-Increase PERCPU_DYNAMIC_SIZE_SHIFT to 11 on configs with PAGE_SIZE
-larger than 4KiB and DEPT enabled.
-
-Reported-by: Yunseong Kim <ysk@kzalloc.com>
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- include/linux/percpu.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/dept.h     | 30 ++++++++++++++++++++++++++++++
+ include/linux/sched.h    |  6 ++++++
+ kernel/dependency/dept.c | 20 ++++++++++++++++++++
+ 3 files changed, 56 insertions(+)
 
-diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-index 85bf8dd9f087..dd74321d4bbd 100644
---- a/include/linux/percpu.h
-+++ b/include/linux/percpu.h
-@@ -43,7 +43,11 @@
- # define PERCPU_DYNAMIC_SIZE_SHIFT      12
- #endif /* LOCKDEP and PAGE_SIZE > 4KiB */
- #else
-+#if defined(CONFIG_DEPT) && !defined(CONFIG_PAGE_SIZE_4KB)
-+#define PERCPU_DYNAMIC_SIZE_SHIFT      11
-+#else
- #define PERCPU_DYNAMIC_SIZE_SHIFT      10
-+#endif /* DEPT and PAGE_SIZE > 4KiB */
- #endif
+diff --git a/include/linux/dept.h b/include/linux/dept.h
+index 25fdd324614a..0ac13129f308 100644
+--- a/include/linux/dept.h
++++ b/include/linux/dept.h
+@@ -487,6 +487,31 @@ extern void dept_task_exit(struct task_struct *t);
+ extern void dept_free_range(void *start, unsigned int sz);
+ extern void dept_mark_event_site_used(void *start, void *end);
  
++extern void disable_event_track(void);
++extern void enable_event_track(void);
++
++#define event_site(es, evt_func, ...)					\
++do {									\
++	unsigned long _flags;						\
++	bool _disable;							\
++									\
++	local_irq_save(_flags);						\
++	dept_event_site_used(es);					\
++	/*								\
++	 * If !list_empty(&(es)->dept_head), the event site can be	\
++	 * recovered by others.  Do not track event dependency if so.	\
++	 */								\
++	_disable = !list_empty(&(es)->dep_head);			\
++	if (_disable)							\
++		disable_event_track();					\
++									\
++	evt_func(__VA_ARGS__);						\
++									\
++	if (_disable)							\
++		enable_event_track();					\
++	local_irq_restore(_flags);					\
++} while (0)
++
+ extern void dept_map_init(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
+ extern void dept_map_reinit(struct dept_map *m, struct dept_key *k, int sub_u, const char *n);
+ extern void dept_ext_wgen_init(struct dept_ext_wgen *ewg);
+@@ -550,6 +575,11 @@ struct dept_event_site { };
+ #define dept_task_exit(t)				do { } while (0)
+ #define dept_free_range(s, sz)				do { } while (0)
+ #define dept_mark_event_site_used(s, e)			do { } while (0)
++#define event_site(es, evt_func, ...)					\
++do {									\
++	(void)(es);							\
++	evt_func(__VA_ARGS__);						\
++} while (0)
+ 
+ #define dept_map_init(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
+ #define dept_map_reinit(m, k, su, n)			do { (void)(n); (void)(k); } while (0)
+diff --git a/include/linux/sched.h b/include/linux/sched.h
+index a01c10f28dfd..24a9dc9d6f5f 100644
+--- a/include/linux/sched.h
++++ b/include/linux/sched.h
+@@ -876,6 +876,11 @@ struct dept_task {
+ 	 */
+ 	int				missing_ecxt;
+ 
++	/*
++	 * not to track events
++	 */
++	int				disable_event_track_cnt;
++
+ 	/*
+ 	 * for tracking IRQ-enable state
+ 	 */
+@@ -913,6 +918,7 @@ struct dept_task {
+ 	.stage_wait_stack = NULL,				\
+ 	.stage_lock = (arch_spinlock_t)__ARCH_SPIN_LOCK_UNLOCKED,\
+ 	.missing_ecxt = 0,					\
++	.disable_event_track_cnt = 0,				\
+ 	.hardirqs_enabled = false,				\
+ 	.softirqs_enabled = false,				\
+ 	.task_exit = false,					\
+diff --git a/kernel/dependency/dept.c b/kernel/dependency/dept.c
+index 07d883579269..3c3ec2701bd6 100644
+--- a/kernel/dependency/dept.c
++++ b/kernel/dependency/dept.c
+@@ -2573,6 +2573,23 @@ static void __dept_wait(struct dept_map *m, unsigned long w_f,
+ 	}
+ }
+ 
++void disable_event_track(void)
++{
++	dept_task()->disable_event_track_cnt++;
++}
++EXPORT_SYMBOL_GPL(disable_event_track);
++
++void enable_event_track(void)
++{
++	dept_task()->disable_event_track_cnt--;
++}
++EXPORT_SYMBOL_GPL(enable_event_track);
++
++static bool event_track_disabled(void)
++{
++	return !!dept_task()->disable_event_track_cnt;
++}
++
  /*
+  * Called between dept_enter() and dept_exit().
+  */
+@@ -2585,6 +2602,9 @@ static void __dept_event(struct dept_map *m, struct dept_map *real_m,
+ 	struct dept_key *k;
+ 	int e;
+ 
++	if (event_track_disabled())
++		return;
++
+ 	e = find_first_bit(&e_f, DEPT_MAX_SUBCLASSES_EVT);
+ 
+ 	if (DEPT_WARN_ON(e >= DEPT_MAX_SUBCLASSES_EVT))
 -- 
 2.17.1
 
