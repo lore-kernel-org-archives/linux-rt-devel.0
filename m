@@ -1,122 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5672DCF4C
-	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Oct 2025 18:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AB08462
+	for <linux-rt-devel@lists.linux.dev>; Sat,  4 Oct 2025 01:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759515961; cv=none; b=QpA956+ArFkBCdJI2W/mnZGiMta/BqnvFVDv2vbQgXu2m2R/sQ/o1upiqc8SXoaOWHDJJS2xf9o3Jsrgt67NtscVj4bPMUoo0ZZDyKDBiVMggaa9wEhsragz289jfDPK6gA7GhkuIu0lMwrXyJRZVVQBCZc/NBn4bUTttN6Vp0U=
+	t=1759539845; cv=none; b=t3yg9/fAiYQe3DezPn3wy7Nty0GAgpPBFSzKNZ8Uwc7oATzAD7AVpEsNWNHJqklgN00d0llKAQMTKJDdT6XPL/ldULbA/YXDRS4JhWdQ3zVQ6hD8jxV7hAsu0VSP7/mnzJVLnxr7XBFanPjXQ+PcY8TzrMRYWRkVh90u99cwhOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759515961; c=relaxed/simple;
-	bh=LActVDNHHJ01+cVP7NdYblEaRaHfOE6w3rkfKjPwdu0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=akvofxw2wKAOQwuTJoVoLaFKJbb++O0EI+yrhu4i0UPQW9tNgEwE8rVQ3h4Zb+266mRncD2BjYpiRn2luarYAr0UYAZZbZSzSm6ci4wcidbkILFEoSRwLQHrClWpGCCkB+SW8nKQrQ7x/rGjekmhHPmNqndB4Fx2VJxCSS3P0pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BqLyf++K; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BqLyf++K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759515959;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LActVDNHHJ01+cVP7NdYblEaRaHfOE6w3rkfKjPwdu0=;
-	b=BqLyf++KVkPmaFWBB1FXmVsvdA4XcZKAdmr+Nh6Bn+oPtv96BWPgw+bvBD35sBJkGxxnzH
-	nG3XUid6FGK/boc5YN9u8FOU4bqBBOwo6TG5/kEPCyQ6XwcVar9Fw7g/64Sndps+BOPo4Q
-	DObkUUpjhuirtQU1HONa11u0lcZdbP4=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-54-kjcVT7KPMhSAhQxYNo2hxQ-1; Fri, 03 Oct 2025 14:25:56 -0400
-X-MC-Unique: kjcVT7KPMhSAhQxYNo2hxQ-1
-X-Mimecast-MFC-AGG-ID: kjcVT7KPMhSAhQxYNo2hxQ_1759515955
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4dfe8dafd18so106687121cf.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Oct 2025 11:25:55 -0700 (PDT)
+	s=arc-20240116; t=1759539845; c=relaxed/simple;
+	bh=SOcgETh5xeubM838LXHr8nv9pfekOTux79h+0vKGLd0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=HbMWl+Atha4iu/VVTBPo4uqPkONW6DRocgfKPylGZxwgoS+RwQHNpY01UyQQtVGlSekdoaWHfYj9ntkXnA14PbOMTsWtHa21rC+Sm7na4cIQJRwMrDaaGs4xJ89sjmcxMwDFMEpLP7zGTYrxwiGuH1Pfl7HCwbUEjK+qQRwp+kA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-8ccb7d90c82so363911339f.2
+        for <linux-rt-devel@lists.linux.dev>; Fri, 03 Oct 2025 18:04:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759515955; x=1760120755;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LActVDNHHJ01+cVP7NdYblEaRaHfOE6w3rkfKjPwdu0=;
-        b=QtmWXrgOM6Jj2d6ET4UC5G6pmekQdZu02FjbMA2fEUIHCqhEb400cSKF7q7AUPJfFR
-         t4kv/R0k/1fTvwIYc3YNOyfwtZj5UErc6D2Gr0iuWSEYHvqTGDp8NLbjob22AwmF78JS
-         /AbemmyMKrK4rL1NA8i7w1ykI8LzMbhq0tbdisKj7/8t2ogRuAihNB8nHgw6bQ8k6Flq
-         9ZGTUDzZ9GmhVuL+yuMSbADXZ7Cicdn8pM9YVAIKsvmNVwxAhqAN2O1SGiIlVgkxU94+
-         K31A8ivwcUWv1Nwr7B+/LzHlLEqq+5gmdTS9lu36eoUoy6gSiiuOFL6/noUyq7VLi8Td
-         G/PQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoMxFvFwIvcPqXHj4Mc+d9Y8QeyIbFqm1xL19XMnJJuddDYIFYVwC4J7i3MbsVfbd/3oQy10UNnNDZrtXvIw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxEGI9HCzaiqAB9QkRhyXTXctqcOijT+OsqpVPt6NR8xcmgKulk
-	jTYqG2MTb+If59V4oLyc3ROgVMF9DRl7OHqHAjr85088WTr+cjpTJFs6/O0iP3t2q2P6WHPIMsX
-	MGON0NwMGHUAuzBk9S6HJi6AApn35AUOypt2Tt3+nQwi4dUvREvt9E8vZWLAF1LBh1u3G
-X-Gm-Gg: ASbGncuFDFu6rkbcxHT1nzfDiVyEcgkQCBfkFZ0Po5b3VT98Td4Y/HxfI2vxjSDqcu0
-	AYYQ2Whnb6ze+aePda9NaSDe1Dn9vanIYNGfUUBU2DX2GbDJmnRKM9pjdetYcf98zG2FTxMdfYM
-	u2ti4kSj0anuHZ1pftTKSor1NEa2n6kxRAD05MdmRDz3hUmUI9/dWFr26NhRSiKUHFWUpqhkp9P
-	NrYvgkEd2+NHD5/5Vk5cwOoG1v84EWLp2mzgu8IXlf7EAyWTrIKLOARGagx/27CzGUHBHxDGa6D
-	L+mb5829+4zZ2NGfAZgVQpfLC4VSC8zoe81RZziz0oBZv4+/o9fueeucn7bZwBcWyp3GQE83PA=
-	=
-X-Received: by 2002:a05:622a:420b:b0:4de:5adb:20df with SMTP id d75a77b69052e-4e576b49fc9mr51800441cf.75.1759515955471;
-        Fri, 03 Oct 2025 11:25:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHl6MbKs3Xb6exRfHKs8R/8W88faZKEv/f6HSCYFxtPk4/rUynv2mK5zOAipf0zbQgK3MTWtQ==
-X-Received: by 2002:a05:622a:420b:b0:4de:5adb:20df with SMTP id d75a77b69052e-4e576b49fc9mr51799931cf.75.1759515954967;
-        Fri, 03 Oct 2025 11:25:54 -0700 (PDT)
-Received: from crwood-thinkpadp16vgen1.minnmso.csb ([50.145.183.242])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878bdf52afcsm44134596d6.46.2025.10.03.11.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 11:25:54 -0700 (PDT)
-Message-ID: <1b3684b424af051b5cb1fbce9ab65fc5cdf2b1a1.camel@redhat.com>
-Subject: Re: [PATCH] genirq/manage: Reduce priority of forced secondary IRQ
- handler
-From: Crystal Wood <crwood@redhat.com>
-To: Lukas Wunner <lukas@wunner.de>, Thomas Gleixner <tglx@linutronix.de>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ingo Molnar	
- <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli	
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, Dietmar Eggemann	 <dietmar.eggemann@arm.com>, Ben
- Segall <bsegall@google.com>, Mel Gorman	 <mgorman@suse.de>, Valentin
- Schneider <vschneid@redhat.com>, 	linux-kernel@vger.kernel.org, Attila
- Fazekas <afazekas@redhat.com>, 	linux-pci@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Bjorn Helgaas	 <helgaas@kernel.org>, Mahesh
- J Salgaonkar <mahesh@linux.ibm.com>, Oliver OHalloran <oohall@gmail.com>
-Date: Fri, 03 Oct 2025 13:25:53 -0500
-In-Reply-To: <aM_5uXlknW286cfg@wunner.de>
-References: <83f58870043e2ae64f19b3a2169b5c3cf3f95130.1757346718.git.lukas@wunner.de>
-	 <87348g95yd.ffs@tglx> <aM_5uXlknW286cfg@wunner.de>
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42)
+        d=1e100.net; s=20230601; t=1759539843; x=1760144643;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HBSZwqSDmh1BSWgw4JtT806Jg7bQjBuA+gVX18qZT4E=;
+        b=dbTAdk2MZToEtotGtyn03/BGF28fPrHfkJChlFKKrkEcKN8Ia2stpsrE41AnV58/vI
+         qPFbTFsAusfcv8VQJ32/yr9NU2QpbmkFhFOYGIW3ugpu1tmjXwcAFYuBg1Ju+oYR4ech
+         BtA9jlIaM8ZjiFUd4fFp0WxAYfMMFelzlFEnuyLC1q/Th7xxysH1f833OSbl9ZrMqTW9
+         3kS+EMnSKVwAusSkRr56Ip+gLEAwfFIf2ZVeAnpWn2MI8EaGSPgWpJdvqP37ccHY8kDL
+         XykW8glDTlfy7cHvWUPwz1xqIcYB7SL5z0x/IpiG306vhFcgU0vIzCih7lfbSDQJ8Qgp
+         yL7g==
+X-Forwarded-Encrypted: i=1; AJvYcCWXHcIIHqJ5toVtiXQVqufIJ7er/4IAzVJZ0Wbj1HZhK+siBlFSZmEDZF4YrEfXVVDzB4yn7rqtx+U3gSqpQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyInHUwtSmIkHAJeBXc41R7yYwc4chPfOttCXOa6Hw/9erw7E8h
+	5a6d7xdmRDarzdVTRPl+K8jOkHLpvVCrpaMMsGO2iONHpB2kg2IzjeSWjFjRe4FoOALUimZXhE4
+	+f6TySJQbGeJwtmW9ClXpaNFk8Vwye4xSBRGs3HpY2iFjeon8h03UKMvnY48=
+X-Google-Smtp-Source: AGHT+IG5JM3/o6FGfsB9hA9pW+iiPTtSAdodFWPBkviXe5k4KQ+1mesDPtmy+8ZNmTIw34B4iexXbVyss3CJ246tUdhyhjSRaavg
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zFAph7Rh5bGwWiqZSQsmp6773fVrNYb8SHp1EsLM8nQ_1759515955
-X-Mimecast-Originator: redhat.com
+X-Received: by 2002:a92:ca0d:0:b0:42e:6e3a:3075 with SMTP id
+ e9e14a558f8ab-42e7ad84876mr59415045ab.21.1759539843090; Fri, 03 Oct 2025
+ 18:04:03 -0700 (PDT)
+Date: Fri, 03 Oct 2025 18:04:03 -0700
+In-Reply-To: <68c6c3b1.050a0220.2ff435.0382.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68e07283.a00a0220.102ee.0118.GAE@google.com>
+Subject: Re: [syzbot] [fs?] kernel BUG in qlist_free_all (2)
+From: syzbot <syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com>
+To: bigeasy@linutronix.de, boqun.feng@gmail.com, bp@alien8.de, 
+	brauner@kernel.org, clrkwllms@kernel.org, dave.hansen@linux.intel.com, 
+	davem@davemloft.net, dsahern@kernel.org, edumazet@google.com, 
+	horms@kernel.org, hpa@zytor.com, jack@suse.cz, kprateek.nayak@amd.com, 
+	kuba@kernel.org, kuniyu@google.com, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, luto@kernel.org, 
+	mingo@redhat.com, ncardwell@google.com, neil@brown.name, 
+	netdev@vger.kernel.org, pabeni@redhat.com, peterz@infradead.org, 
+	rostedt@goodmis.org, ryotkkr98@gmail.com, syzkaller-bugs@googlegroups.com, 
+	tglx@linutronix.de, viro@zeniv.linux.org.uk, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2025-09-21 at 15:12 +0200, Lukas Wunner wrote:
-> On Sat, Sep 20, 2025 at 11:20:26PM +0200, Thomas Gleixner wrote:
-> > I obviously understand that the proposed change squashs the whole class
-> > of similar (not yet detected) issues, but that made me look at that
-> > particular instance nevertheless.
-> >=20
-> > All aer_irq() does is reading two PCI config words, writing one and the=
-n
-> > sticking 64bytes into a KFIFO. All of that is hard interrupt safe. So
-> > arguably this AER problem can be nicely solved by the below one-liner,
-> > no?
->=20
-> The one-liner (which sets IRQF_NO_THREAD) was what Crystal originally
-> proposed:
->=20
-> https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
+syzbot has bisected this issue to:
 
-So, is the plan to apply the original patch then?
+commit 3253cb49cbad4772389d6ef55be75db1f97da910
+Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Date:   Thu Sep 4 14:25:25 2025 +0000
 
+    softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT
 
-Thanks,
-Crystal
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17566a7c580000
+start commit:   7f7072574127 Merge tag 'kbuild-6.18-1' of git://git.kernel..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14d66a7c580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10d66a7c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b78ebc06b51acd7e
+dashboard link: https://syzkaller.appspot.com/bug?extid=8715dd783e9b0bef43b1
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16ba76e2580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17741ee2580000
 
+Reported-by: syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com
+Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
