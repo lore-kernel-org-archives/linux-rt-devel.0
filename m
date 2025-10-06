@@ -1,103 +1,155 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DEB247281;
-	Mon,  6 Oct 2025 19:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D6F1ADC7E
+	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Oct 2025 20:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759777678; cv=none; b=QGon7vBFmNeB9rnuJmCrqsMurK4sR3KGhjaXKuSowwp1suvQoP1wU3Gxm89i+BSi3Cf9QUAHzzN8x2GmLwrpAlvDeGDGHnrjvmGPMncpRkLWjky8ggAwfw8RV1obxNK7Nm7oMrr0AM/ARTXyRBK9GUcZT9UhtRxpKfS6btnCMz4=
+	t=1759781939; cv=none; b=h5ubsLCG1nMBLVRLwFSyuefLEOk/khHW0YCqXuoTfI4iwN40bOFV9iO29Tu2zd/AjX0zaC+RHigOqcH8NOj+7HMxdLJllfG4h78DQibWmQryvebxfF0ZpzBUvhOpu1xnDPPCdpGWoo7RFt9YH1n0YbxZgJak0IH94zcTNlvxsPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759777678; c=relaxed/simple;
-	bh=K++5qxJVpYqWIl/13U8wEuzPuzmB0ihAKHJzOja16LY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gXEwR/NDeYDjBuTagGqXvvx8PPCyLYUC29lGb5CuHZtFGNNcNZh6FWvoUV4xxkbeQ0VULGI2E80a4gWeY7Tcn3LscGLM2TDv6+E9rq5xfQmddedsMPXdDAWfut8hKdw2s4BHBDt7G3bNeG8nXIcDUyaFDDsSfp61PwxSaBLrZ6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cKaSIEWl; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1759781939; c=relaxed/simple;
+	bh=5eQEIeNJ5EZYkPz01gAZjijISqu7bO+HYt1McJx8mUA=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=D+CR57k6IRKX4o+nYTNyNKTeW5vQuzFV8GPTAo4Fjs2pK+gdvnP+7FatWTIi6FX1jcq2o+a+U9/Tew5lMD24KdtHm4urlz1jm9fLBFX6RgEoI3ZnPoxhj6RWLEjxf9AOX8ny4QwqI8AfLcvH6Op9ywI9ayS/+j9dXC/5fKdmY30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GQd1ZB8T; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cKaSIEWl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=Gt6UOW/sVchKMmtHmO/QIVQId/DdO6/CiuTOEihhEPo=; b=cKaSIEWl3S9EuI52fXbr9UQl3o
-	eK8mc2PZIaxMQ9t5WI0kcHPz1IC+mCSReym7NzbC4Og13D7RtOp7OQe2d8zfX4bjDpKgPJGjmydWa
-	TczjmNdAuvpoyFuYdy+I0kbVIRB945K87HCTKvOCHiPstsrIAim+c3T6qd6lJfLvUIJFMnWwIbruw
-	y+MNuilGsstVRRLWpAIeVHHn7NWjS+dMjWvJKCQ6thcApbvUNt/gYw8OLvAb7oDzy5N8Lj6V00Ey8
-	+91opC2ib1Rr3IggpvpRpi1NKeOULpR6sz8AKLWQWQaLTSSFd8Ad4lQ3z6xTXkeGDzFyOUVKKB+FK
-	7yk+Lsog==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1v5qYd-0000000H7kP-49ye;
-	Mon, 06 Oct 2025 19:07:40 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 86AFD300325; Mon, 06 Oct 2025 21:07:39 +0200 (CEST)
-Date: Mon, 6 Oct 2025 21:07:39 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: cuiguoqi <cuiguoqi@kylinos.cn>
-Cc: rostedt@goodmis.org, bigeasy@linutronix.de, bsegall@google.com,
-	clrkwllms@kernel.org, dietmar.eggemann@arm.com, guoqi0226@163.com,
-	juri.lelli@redhat.com, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, mgorman@suse.de, mingo@redhat.com,
-	vincent.guittot@linaro.org, vschneid@redhat.com
-Subject: Re: [PATCH] sched: Fix race in rt_mutex_pre_schedule by removing
- non-atomic fetch_and_set
-Message-ID: <20251006190739.GZ3245006@noisy.programming.kicks-ass.net>
-References: <20250826095615.14259d90@gandalf.local.home>
- <20250827081750.3606616-1-cuiguoqi@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GQd1ZB8T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1759781936;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rRDjOk2UJBNY8OM4uijGV6YLvmoMX0A5enzMiF12TZI=;
+	b=GQd1ZB8TCA0GJK3xZ3rANzFduAIH9T6P7CFyjoIstJt4XpLhZHdtZfCG3XV7ixxR4rkN9w
+	8P4hJN4uSNylO/uuqDafP7uJNbHtOTu4Izu/8v1QPX+DzLhhvprSgv8KDsPus6UNOgGJ9a
+	hYjBC9mqRHIb6pIE/KAErifijPFhWS4=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-a0UrEDoFM3mwJU06F0KSNQ-1; Mon, 06 Oct 2025 16:18:55 -0400
+X-MC-Unique: a0UrEDoFM3mwJU06F0KSNQ-1
+X-Mimecast-MFC-AGG-ID: a0UrEDoFM3mwJU06F0KSNQ_1759781935
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-872d2ad9572so1209274585a.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 06 Oct 2025 13:18:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759781933; x=1760386733;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rRDjOk2UJBNY8OM4uijGV6YLvmoMX0A5enzMiF12TZI=;
+        b=AdECjo6F1hong5mIK8Ulz0nXJa9UhuHPv8Y8RWYG4Mlcq8lFjnp5/gI3ztWKBe3TiP
+         jtdjQ9EE5rnztzLm8ISSsMS+1t4mjAodxGxmKqsR2XCvCO9dm9Hym7mDyKNg072KFjem
+         J3mvihk9dfvWWuOgnWVTCTf9BjsASh8w9fQYgTeE/Mhjf1PAaEFbo0KR7qf6mpAgaOwj
+         6431hp1E6vTy0nq3gq0Pmg3w4TtIJ1fokVj++a9Lssm1t8ALeO+3Rd2D8yJfixmYu4OR
+         bq8cjImAtUnV/6v0CEeEW9rdzrKSl6/yYj9h9C4R/iu+bEnGHrdzrnFMtYrhtCTbf6XM
+         Gpiw==
+X-Gm-Message-State: AOJu0YyuQJnY3vfkyHGjHTp4am/P05fxdMj9Jg/VkOqo/kjW+X1RDUlA
+	Hpb6BugzExYs+g7EXF5PhU6w5gJKXMCtSz0nQ9ftg/CIWpTyGolXyCgQjHmjIOGE+u4LZBmUmYE
+	gHz8vxMgVzyT1RvjcjcDXPPyLliPWjVoQhHtjR3k0JmO27ZUdsXom/XsAd7G4ITdJJuot
+X-Gm-Gg: ASbGncveD9EvkffvSk8kI/GPaSLXh7xNEVPjJegZZ2MR8I2v5SqDcyKitWR1T38dWXW
+	FkP8+wQdEEtHthOFXd3/klGYH73nG7IrC7EX2z0wA0g2ndC/ejuWAdYXbGMC91dmehkykq8lCwP
+	ciHsVS+jUvfOu0poSuOIkY4Bnzru6OJYktfurKEmyjCTZxRLC+NYIL3/Hw7mtR2y+W24ZyNpBBH
+	5AAFLnGvvsH6yfHK+w6wh0UkJxZaDzBQWpPNFop3gtuuBkUkK/Xr9c/PUFT/EHcE2Z15FCyECM7
+	jQRJKvGrIFpbdT8DKLKf47t31ZlG3obWymzhlnOMVS0tq2rSz1KBcYtzQiYXqN7cOEMOA+1rXck
+	RJIdorqpUYiMxEYb5
+X-Received: by 2002:a05:620a:1707:b0:84b:ebcf:56a3 with SMTP id af79cd13be357-87a34aa4516mr1588124485a.21.1759781932759;
+        Mon, 06 Oct 2025 13:18:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH1dgJjNLxpPDAd6SOq/4Amrbct/qwou5kIt8RniF4E527vSqzwcPOgDR30Aenfez80Nn+SaQ==
+X-Received: by 2002:a05:620a:1707:b0:84b:ebcf:56a3 with SMTP id af79cd13be357-87a34aa4516mr1588121585a.21.1759781932301;
+        Mon, 06 Oct 2025 13:18:52 -0700 (PDT)
+Received: from ?IPV6:2601:188:c180:4250:ecbe:130d:668d:951d? ([2601:188:c180:4250:ecbe:130d:668d:951d])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-877725550b3sm1380084485a.26.2025.10.06.13.18.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Oct 2025 13:18:51 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <0bfeee57-d0dd-4480-8539-0ae5d7d4ea04@redhat.com>
+Date: Mon, 6 Oct 2025 16:18:50 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250827081750.3606616-1-cuiguoqi@kylinos.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] lockdep: Account for lockdep hardirq context in
+ irq_forced_thread_fn under PREEMPT_RT
+To: Guangbo Cui <2407018371@qq.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <tencent_B5CE9A8654E8B2476383AEC85C25BDA7BD05@qq.com>
+In-Reply-To: <tencent_B5CE9A8654E8B2476383AEC85C25BDA7BD05@qq.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: dbjDniTwt7OLG3KOoeuevDmuxnzuZmQ56eG2AyDBtkU_1759781935
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 27, 2025 at 04:17:50PM +0800, cuiguoqi wrote:
-> The issue arises during EDEADLK testing in `lib/locking-selftest.c` when `is_wait_die=1`.
-> 
-> In this mode, the current thread's `debug_locks` flag is disabled via `__debug_locks_off` (which calls `xchg(&debug_locks, 0)`) during the blocking path of `rt_mutex_slowlock`, specifically in `rt_mutex_slowlock_block()`:
-> 
->   rt_mutex_slowlock()
->     rt_mutex_pre_schedule()
->       rt_mutex_slowlock_block()
->         DEBUG_LOCKS_WARN_ON(ww_ctx->contending_lock)
->           __debug_locks_off();  // xchg(&debug_locks, 0)
-> 
-> However, `rt_mutex_post_schedule()` still performs:
-> 
->   lockdep_assert(fetch_and_set(current->sched_rt_mutex, 0));
-> 
-> Which expands to:
-> 
->   do {
->       WARN_ON(debug_locks && !( ({ int _x = current->sched_rt_mutex; current->sched_rt_mutex = 0; _x; }) ));
->   } while (0)
-> 
-> The generated assembly shows that the entire assertion is conditional on `debug_locks`:
-> 
->   adrp    x0, debug_locks
->   ldr     w0, [x0]
->   cbz     w0, .label_skip_warn   // Skip WARN if debug_locks == 0
-> 
-> This means: if `debug_locks` was cleared earlier, the check on `current->sched_rt_mutex` is effectively skipped, and the flag may remain set.
-> 
-> Later, when the same task re-enters `rt_mutex_slowlock`, it calls `lockdep_reset()` to re-enable `debug_locks`, but the stale `current->sched_rt_mutex` state (left over from the previous lock attempt) causes a false-positive warning in `rt_mutex_pre_schedule()`:
-> 
->   WARNING: CPU: 0 PID: 0 at kernel/sched/core.c:7085 rt_mutex_pre_schedule+0xa8/0x108
-> 
-> Because:
->   - `rt_mutex_pre_schedule()` asserts `!current->sched_rt_mutex`
->   - But the flag was never properly cleared due to the skipped post-schedule check.
-> 
-> This is not a data race on the flag itself, but a **state inconsistency caused by conditional debugging logic** — the `fetch_and_set` macro is not atomic, but more importantly, the assertion is bypassed when `debug_locks` is off, breaking the expected state transition.
+On 10/6/25 2:34 PM, Guangbo Cui wrote:
+> In PREEMPT_RT, IRQs are forced to run in threaded. However, lockdep did not correctly
+> account for this case, causing false-positive warnings about hardirq context violations
+> when analyzing lock acquisition in such threaded IRQs (see function `task_wait_context`).
+>
+> This patch updates `irq_forced_thread_fn` to explicitly call `lockdep_hardirq_enter()`
+> and `lockdep_hardirq_exit()` when PREEMPT_RT is enabled, ensuring lockdep correctly
+> tracks the hardirq context even when the IRQ is executed in a forced thread.
+>
+> This was discovered while testing PCIe AER error injection on an arm64 QEMU virtual machine:
+>
+> ```
+>    qemu-system-aarch64 \
+>        -nographic \
+>        -machine virt,highmem=off,gic-version=3 \
+>        -cpu cortex-a72 \
+>        -kernel arch/arm64/boot/Image \
+>        -initrd initramfs.cpio.gz \
+>        -append "console=ttyAMA0 root=/dev/ram rdinit=/linuxrc earlyprintk nokaslr" \
+>        -m 2G \
+>        -smp 1 \
+>        -netdev user,id=net0,hostfwd=tcp::2223-:22 \
+>        -device virtio-net-pci,netdev=net0 \
+>        -device pcie-root-port,id=rp0,chassis=1,slot=0x0 \
+>        -device pci-testdev -s -S
+> ```
+>
+> Injecting a correctable PCIe error via /dev/aer_inject caused a BUG
+> report with "Invalid wait context" in the irq/PCIe thread.
+>
+> ```
+> ~ # export HEX="00020000000000000100000000000000000000000000000000000000"
+> ~ # echo -n "$HEX" | xxd -r -p | tee /dev/aer_inject >/dev/null
+> [ 1850.947170] pcieport 0000:00:02.0: aer_inject: Injecting errors 00000001/00000000 into device 0000:00:02.0
+> [ 1850.949951]
+> [ 1850.950479] =============================
+> [ 1850.950780] [ BUG: Invalid wait context ]
+> [ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+> [ 1850.951457] -----------------------------
+> [ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+> [ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+> [ 1850.952731] other info that might help us debug this:
+> [ 1850.952997] context-{5:5}
+> [ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+> [ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+> [ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+> [ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
 
-Yeah, I can't really make myself care too much. This means you've
-already had errors before -- resulting in debug_locks getting cleared.
-Fix those and this problem goes away.
+data->lock is a rt_spin_lock and pci_lock is a raw_spinlock_t with irq 
+disabled. So the data->lock => pci_lock sequence is OK. However, 
+inject_lock is a rt_spin_lock again. So you can't acquire it with a 
+raw_spinlock held and interrupt disabled. It is something that needs to 
+be fixed not worked around as if it is OK. It is not a false positive.
 
-debug_locks is inherently racy; I don't see value in trying to fix all
-that.
+Cheers,
+Longman
+
