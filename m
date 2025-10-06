@@ -1,127 +1,169 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6820427FD52
-	for <linux-rt-devel@lists.linux.dev>; Sat,  4 Oct 2025 16:40:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025DC1F7098
+	for <linux-rt-devel@lists.linux.dev>; Mon,  6 Oct 2025 18:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759596010; cv=none; b=EtS34FacpPNvm03SDt2L0UttYabb3mKjnMeOrHIZ1DzZIDqbfMgLcDs2JoFxnd2plpWkEM9yqWOavs4zq6fFY9dtF2NgYL606z3gms0eh2gUtOh4DrdcG739DaWVU4hHIVLOK+wER2ZX8J+i6XErZ53i8xnk7qr/NLTJtCP+NNo=
+	t=1759775708; cv=none; b=jQEAl+tXpkf6DUjj0kHD8mmU+XhbQ/REG+jl+W+S4Z7L7JmyeJLBzAxd++XfnuSBFsXJ5OadQjm7HIrGLQGD4I3AteOjwzlWyawe8RAOvOdGJwav551/G7zZL+wGRuvQ10VOOdoajERTibwJuBq/mgL2LH3e30eERxf0Y2XKXOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759596010; c=relaxed/simple;
-	bh=RpD4KNUBmJSgm0bHWcZ0DvqxhqkKLHESkzxfIrCF35M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EezbDpg1wCeSNcbGv0KAX+9/tINWK8yfHDCuqEhy3oMMGW34JC5CDrz58tUqb63jkoM+5CGWBj/arqkQW7DiVCseCHKK5JZf1DxTHsFttizxy7tiQ/5Tji/o/7lJEiM4kjFrUhUBhW6gSCZQ3ZPfKbQFXXU3tplkh/gLBVAM+hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PNedKPiX; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1759775708; c=relaxed/simple;
+	bh=ji018SfjwN2M+GQX18OazxVjUwdrp8zoeY53TXXqyco=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=I/mPtnuHvHQopmlWTBcLjQ+vO9bRivj067n0j1zphevhSPzL39ucT3nRoXPZjBHdhTO67L92boehm41lrslnWiAIJH/VgPUjTMtr7x6hXNpsQk6Ph6+VJvqKHPnNxAz/S6Nglf8Z6lsLcU2npRnqIdkPjiSL5qDJCC8A+Jh7D1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=CQEaEYxL; arc=none smtp.client-ip=43.163.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PNedKPiX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=oYWX
-	AVcToZjL216N14wevIUTr5XEGs+BI72TKUQOPN8=; b=PNedKPiX4oCj4bpedhVz
-	E+/1zG4RS6etGvHx7daU2DUWMNccTF0z1BMx94C/uGTZ5muouJ1sCi+Rrrn+I0yb
-	QX0tCQTPUifcb+5NvLnilNYtzPuaMC9afpJzRPyfpW8YSMz2Kk2sAGveGofpt2/U
-	FgjEfDef1ztsgRt/i/fhnznfm7TM0Tf+A/tZDrAPd+4jSPssQfBLtqCfRE58HIfm
-	D8PcLW9fA6b0Ln4SDcQwSOwdrXhoroqBaJXPWi2lQd/dVTkvYzyJpOcaiTLwaahq
-	J+U+4x2W131yohhie5t+CaEw/7wpjC2Zja7YEDIcma8nk3Y5vfr5rBO/vRmlQllV
-	Rw==
-Received: (qmail 1087916 invoked from network); 4 Oct 2025 18:39:44 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 4 Oct 2025 18:39:44 +0200
-X-UD-Smtp-Session: l3s3148p1@ZNCL3VdA3IqSRnW9
-Date: Sat, 4 Oct 2025 18:39:43 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Byungchul Park <byungchul@sk.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-	sumit.semwal@linaro.org, gustavo@padovan.org,
-	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 35/47] i2c: rename wait_for_completion callback to
- wait_for_completion_cb
-Message-ID: <aOFNz2mKXCXUImwO@shikoro>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-36-byungchul@sk.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="CQEaEYxL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1759775684; bh=bZ3DcGJ+3f3q61fb0vjsoxJFDfw3N9Ux8Yh2qfDnDUM=;
+	h=From:To:Cc:Subject:Date;
+	b=CQEaEYxLVlbcsYzQ95k2IXnIjz/O7HH4R2I5zsInSTsxVK9I+McZUCOP7RM0UWAGX
+	 Ki3LFnoTE2I45ntW5fowYX33llp7GzhxytMzgXClnS7QOVN/t0C5S/QgD4a9RpfjPf
+	 /JpwDrb+2z/WRutuN025onn596Kr4oWLA5WOr428=
+Received: from localhost.localdomain ([113.102.239.212])
+	by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
+	id 8AAA6AD2; Tue, 07 Oct 2025 02:34:42 +0800
+X-QQ-mid: xmsmtpt1759775682tu8rjbowu
+Message-ID: <tencent_B5CE9A8654E8B2476383AEC85C25BDA7BD05@qq.com>
+X-QQ-XMAILINFO: Nr4sKL92GIu+xw0M0OARNyF+E4+Q6kKkdYlgvVFn21lPEPwycQ8X9mZKdqBnWg
+	 CjGz+Aeyqmvsafo24cOfWru0TwE1wW0BO74CxxmKfnfZ0EaBOuJR7OnZnkgE1J0fI4FtqzZKKXP4
+	 bpwvGshsTHCeuC00dAqjSODOZJM0GoQ/nPoq7/dKndSVgMU9Rklptcan0h0uULL3IgOb4MxL+Bx0
+	 SxbiAxqlE1nU8zdBYPIMCXU7tjM+kHTC7BPrQRuTBqLOvwrh9Cg2OnhvImxkMPFsBNx36X5FILeE
+	 IP3oVBn1+UNC22xC+Qdld27GW9qovPLAb3lPsIOh9g7Zq5lUVF9Djpthb4q2bZcbPWyHYQifU8BE
+	 6nNf3DGpdrRbwM/vOlYD24afYN8s+iVRrJcF8qKuCL6MhDfyefJzaiTKuWz/C5AsWNn7iaGKxMIT
+	 OBd0630UgAED9xYoLg+nOpI7OvdR7MbrQylRHk2dCpYKADjRQKui4bg1AGy70iWmbXdCnrqt8MHI
+	 Ls7c97g3fq+0Qsygi7oBCNFmCRvBGj1c4lnHbZ0EOV+aepdVCMAvxnU2xdUw4Y3ySHYuCe34HQ6X
+	 Mmq9aRkUzr1R0YFy5a2EdWNhwLLNBuqq3laAOBGWYMJVH3vcjWAYctDGKiPxq3kzuvj4v1tsLWnC
+	 TKrA4BKsOkszwRoE5MVscrVlFqs0nL+vqV9dnORSxRt9tDuDl2p2FxfEVwKqIeta0wEppdRQn6/+
+	 9TFylGuaNusZ7CicdQqDnp6x9pSrf0ljSfSp4Ejz3/R5YP0XkRcddh4lAQTFpAmslikHIX0Q/Lby
+	 ESGc60m4T38R5ILqzrIhNOqs6q+NeaILUGTlrgjE10AkFsqDhYK/3KmmpY+xWDJasNGeGlTajcNX
+	 Q2uMKYNdxQJ0lxKhn4ecZJWO5b288c9TatzlTFkp5ZeC9zmva27fusX8tsMOxa/b7OQTnn/D5uXG
+	 CCMQp3QwmmXZVNALrdOE0jzGz9mQ+6HVzJHvKSM0dEAaZc5Eb4AUYwbqq7BzaPxN4kEMP43NZ6wh
+	 buizhcin5P7YEN/lo8GsBzocO5cZ4=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Guangbo Cui <2407018371@qq.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rt-devel@lists.linux.dev,
+	Waiman Long <longman@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Guangbo Cui <2407018371@qq.com>
+Subject: [PATCH] lockdep: Account for lockdep hardirq context in irq_forced_thread_fn under PREEMPT_RT
+Date: Mon,  6 Oct 2025 18:34:09 +0000
+X-OQ-MSGID: <20251006183408.41851-2-2407018371@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002081247.51255-36-byungchul@sk.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 02, 2025 at 05:12:35PM +0900, Byungchul Park wrote:
-> Functionally no change.  This patch is a preparation for DEPT(DEPendency
-> Tracker) to track dependencies related to a scheduler API,
-> wait_for_completion().
-> 
-> Unfortunately, struct i2c_algo_pca_data has a callback member named
-> wait_for_completion, that is the same as the scheduler API, which makes
-> it hard to change the scheduler API to a macro form because of the
-> ambiguity.
-> 
-> Add a postfix _cb to the callback member to remove the ambiguity.
-> 
-> Signed-off-by: Byungchul Park <byungchul@sk.com>
+In PREEMPT_RT, IRQs are forced to run in threaded. However, lockdep did not correctly
+account for this case, causing false-positive warnings about hardirq context violations
+when analyzing lock acquisition in such threaded IRQs (see function `task_wait_context`).
 
-This patch seems reasonable in any case. I'll pick it, so you have one
-dependency less. Good luck with the series!
+This patch updates `irq_forced_thread_fn` to explicitly call `lockdep_hardirq_enter()`
+and `lockdep_hardirq_exit()` when PREEMPT_RT is enabled, ensuring lockdep correctly
+tracks the hardirq context even when the IRQ is executed in a forced thread.
 
-Applied to for-next, thanks!
+This was discovered while testing PCIe AER error injection on an arm64 QEMU virtual machine:
+
+```
+  qemu-system-aarch64 \
+      -nographic \
+      -machine virt,highmem=off,gic-version=3 \
+      -cpu cortex-a72 \
+      -kernel arch/arm64/boot/Image \
+      -initrd initramfs.cpio.gz \
+      -append "console=ttyAMA0 root=/dev/ram rdinit=/linuxrc earlyprintk nokaslr" \
+      -m 2G \
+      -smp 1 \
+      -netdev user,id=net0,hostfwd=tcp::2223-:22 \
+      -device virtio-net-pci,netdev=net0 \
+      -device pcie-root-port,id=rp0,chassis=1,slot=0x0 \
+      -device pci-testdev -s -S
+```
+
+Injecting a correctable PCIe error via /dev/aer_inject caused a BUG
+report with "Invalid wait context" in the irq/PCIe thread.
+
+```
+~ # export HEX="00020000000000000100000000000000000000000000000000000000"
+~ # echo -n "$HEX" | xxd -r -p | tee /dev/aer_inject >/dev/null
+[ 1850.947170] pcieport 0000:00:02.0: aer_inject: Injecting errors 00000001/00000000 into device 0000:00:02.0
+[ 1850.949951]
+[ 1850.950479] =============================
+[ 1850.950780] [ BUG: Invalid wait context ]
+[ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+[ 1850.951457] -----------------------------
+[ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+[ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+[ 1850.952731] other info that might help us debug this:
+[ 1850.952997] context-{5:5}
+[ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+[ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+[ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+[ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+[ 1850.955932] stack backtrace:
+[ 1850.956412] CPU: 0 UID: 0 PID: 56 Comm: irq/16-PCIe PME Not tainted 6.17.0-11316-g7a405dbb0f03-dirty #7 PREEMPT_{RT,(full)}
+[ 1850.957039] Hardware name: linux,dummy-virt (DT)
+[ 1850.957409] Call trace:
+[ 1850.957727]  show_stack+0x18/0x24 (C)
+[ 1850.958089]  dump_stack_lvl+0x40/0xbc
+[ 1850.958339]  dump_stack+0x18/0x24
+[ 1850.958586]  __lock_acquire+0xa84/0x3008
+[ 1850.958907]  lock_acquire+0x128/0x2a8
+[ 1850.959171]  rt_spin_lock+0x50/0x1b8
+[ 1850.959476]  aer_inj_read_config+0x38/0x1dc
+[ 1850.959821]  pci_bus_read_config_dword+0x80/0xd8
+[ 1850.960079]  pcie_capability_read_dword+0xac/0xd8
+[ 1850.960454]  pcie_pme_irq+0x44/0xc4
+[ 1850.960728]  irq_forced_thread_fn+0x30/0x94
+[ 1850.960984]  irq_thread+0x1ac/0x3a4
+[ 1850.961308]  kthread+0x1b4/0x208
+[ 1850.961557]  ret_from_fork+0x10/0x20
+[ 1850.963088] pcieport 0000:00:02.0: AER: Correctable error message received from 0000:00:02.0
+[ 1850.963330] pcieport 0000:00:02.0: PCIe Bus Error: severity=Correctable, type=Physical Layer, (Receiver ID)
+[ 1850.963351] pcieport 0000:00:02.0:   device [1b36:000c] error status/mask=00000001/0000e000
+[ 1850.963385] pcieport 0000:00:02.0:    [ 0] RxErr                  (First)
+```
+
+Signed-off-by: Guangbo Cui <2407018371@qq.com>
+---
+ kernel/irq/manage.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index c94837382037..80007bce5625 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1150,9 +1150,13 @@ static irqreturn_t irq_forced_thread_fn(struct irq_desc *desc, struct irqaction
+ 	local_bh_disable();
+ 	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+ 		local_irq_disable();
++	else
++		lockdep_hardirq_enter();
+ 	ret = irq_thread_fn(desc, action);
+ 	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+ 		local_irq_enable();
++	else
++		lockdep_hardirq_exit();
+ 	local_bh_enable();
+ 	return ret;
+ }
+-- 
+2.43.0
 
