@@ -1,100 +1,144 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F66C295511
-	for <linux-rt-devel@lists.linux.dev>; Wed,  8 Oct 2025 03:44:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06CA2D6E7A
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Oct 2025 09:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759895074; cv=none; b=RNsxJygTISPTYDE4561D07SLpQFODU4rpYPBPhlTtGtWiX2Qhq0j3vXzeunC6UvpwnHkY5jhLWXrsk12IEFwPziRAU3QuHFyrohOM74UP97HzuQ9GTMBg46p1MJkCGoYu5AhTT/wIje3BeZAqS6/V2TnK7yIe5RNwGHZ8oNwBdc=
+	t=1760003023; cv=none; b=UaJvDyppJipb4h8ylhZJt9c/r+SmDh2w62AYdnYQzMtSKsA905O9Z+fWJmCaTsnq/Xs6l+C7V8YdfEef7RWmvYEg5En2AEVQV23yhUCI006cQj81Fotay89WQmJ/Gt/zrEO9MfgCauSWzyxZ/B3GbK8m/n5978mxqeYnlv4XHBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759895074; c=relaxed/simple;
-	bh=QwxYTjM/Hs56IWPzeA4KrNyLGwDxDEJRONFXjgNhoyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ye+UVuOKI6UqxGTpq6ky2yCogJy9HcfySCv/y8FS/+p5L1sIlOaac4ItPhtKPZ2hPOXqYgJOyWLTtXnYY93413PtAyTy68LClNASHEsQntymHq4JEcV9SKfmQ99hFZxFFeE7wPukKUJ1lG5lkUbrfwiEdel2EtL9brF56vSxc8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mc+XvyzM; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760003023; c=relaxed/simple;
+	bh=bMGx3jti7pTNxXRhPr38++6PYG+wkiPqsKScc9EqXAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XM1NTOpXjAyQ9uDlzC38aP1eW1x9bgn5mWbndUc2MVLbFnA/JyuiYINozKcS0TMtyUSHRtH8bmF00ViaiAM2ttEA/DdxWDnV6DeOFBASJ4l8jX60vLzl8eZs2OkTiDhdQJFlKfYAZdoNZy1IsoYMzynxwEOBm80/B6nwLn5ykb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ELVXkexs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lhg2Sf5W; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mc+XvyzM"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b4755f37c3eso6063946a12.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 07 Oct 2025 20:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759895073; x=1760499873; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I759iT4j8SDZVd7J4MI01EBF6i0nlohVy9HPt2MhIoM=;
-        b=Mc+XvyzMP3p3ymvnuyt/qq/6mR0oFWFIW+l+aJ5mcquFM4fSOhjzSSbKVUnxVuGGm9
-         MPn1K8NkyUEG6qOdjWhQo5ffHXHdbLzj8DELCH7JPiF2jDu4ERUoNKqpvPZ9V/P1bNP9
-         FZ7nEtx4JuRmrx2vjy98Z+37AklJRyzZoSdnQ+Ya4sA1ICqZz/WYQrsSHRs7CzwZzf3M
-         gIk5zwPVAGbK9XaoOPklVoZMIUDC6bBIO0D+R3KPJ/7iHX/dRCiouGsSCf5jrnM5wt9V
-         fEJfqgUrAjLqTsVIv4YbLeOlFlhIod8qzbc10al1MMhhXhp/ardkUlbdFK+gCdB/IqsR
-         BJEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759895073; x=1760499873;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I759iT4j8SDZVd7J4MI01EBF6i0nlohVy9HPt2MhIoM=;
-        b=jZfkRiHsxB3u0IrU138kElD9mFyflwUpk0pzt2pefqey3M9NxOVVafdrNr9HILBVPF
-         cDx+YlnksJshwkQOJeY3BVUTLBKWT9ouuMWvxnMeX7cdVtymBbhJYqMABUPufMkQhU3n
-         sBJSJMImmVQbsx9O93hzYmcVgbmkHCQGNGCoDYqcP8iGxYqgqlPRffOplT7MPQ/v5eoB
-         /oPVYjFS5KPs7BgFWwB2NTKoOt1QzRO++zXFivql8TZRlHiUSMt3UhlYao63ruUlcN/5
-         Nj2tcpCbQLpJcCRCRnm0EI5CoiAqMeiw9y1E2wUMijgonw8OvhESwhkBun0Hvu57keYu
-         EZng==
-X-Forwarded-Encrypted: i=1; AJvYcCX+eQKLhuWCyM1HyrLJ3IXwaNrnIK4Qx1ECgWGQBId8dUqi9ICGonLJ1yheffqD6rDa/SojF5ZS30OhN4Vybw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywy9zsk15CxvM0/yi1sIJ1NJ9JylUQCksLi6v5rqSWd5mrx+Oxu
-	ksXv67fE6UdgUwlZhlQMAw9bqCyxlkxh3CqYIUpQKCzOSD8PoEv3kP0Y
-X-Gm-Gg: ASbGncvzWMMXyFm2DCy9MTr2th1kBoYKdn5iuhnsjuRFdBkBXVy4RMA52lXYhAsqjSq
-	JyKOFiaRPv2OhCrO0bL9586QvRHJly9S/KajLkDzCjnA6iP38K01vtcvPL/37/0B4ppzUtYWAQP
-	V5hgDQ95lSXyE8v5tShGYDGBT3+4NRk4oTY/zB6nZ5TMozXwzvq97kBxpn7X2OyQJQ24hrBesc+
-	7vw73FOSSxkeIQmwO8K7xKcoNj5Hv8gcb4Cg82ELOiDhsmEMdKod8xjpU/+RaESlp+JpBWZjdma
-	XxEeQaJo4ZMHpCBmhH47w0A+vjlN1PdjUETB8A3ZNPURDOdjrE1sBkCrzjouEtRLj5GGbfF+499
-	ZO8cHGHGzlJF6HacLYNtVTuIyRbSUxza5Op0E3nhvc/U9a4hj2uW+xsJBKhdIrDO6bvPav2ez
-X-Google-Smtp-Source: AGHT+IFupCckjpcLo39oZCGHlaErTF4u7UG/c6eq09cdH5+LiWmXwTrf7Bt/BU9N70lcGOmKNtu34g==
-X-Received: by 2002:a17:902:ef4d:b0:27e:c18a:dbb1 with SMTP id d9443c01a7336-29027373cb1mr26274475ad.16.1759895072595;
-        Tue, 07 Oct 2025 20:44:32 -0700 (PDT)
-Received: from 2a2a0ba7cec8 ([119.127.198.19])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1108c5sm182331855ad.16.2025.10.07.20.44.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 20:44:32 -0700 (PDT)
-Date: Wed, 8 Oct 2025 03:44:24 +0000
-From: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Waiman Long <llong@redhat.com>, Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ELVXkexs";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lhg2Sf5W"
+Date: Thu, 9 Oct 2025 11:43:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1760003019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=+8IXPc55NVOCJ5X7QDr4JEG2v0yHinquInyH837VNF0=;
+	b=ELVXkexsfdE1JtsJTBlgI1AEbCZKX/4NTa1BvhIOvyNGE8EqbZ/rIOv9Fzgwx625o+12eG
+	m4ihjnAo0ptSenOaVs73fmxFv1l22FCj2ZYSQhzSVNT+NYV+32dvkA+nOAvcArlykO0MPP
+	vSICfMb1T+WklATK3V3mDa5rkVh3KEG1j3dpDO29ThqATVbP++icnE61Wgyj9pCnTXMAyJ
+	+d7VbHpe4Mq4MaMVNfhqVfNzR6jp3mCgAm2qzbK0aiRF5EKLklQqQvoFJ9Hy09Yjw4pB+q
+	Sqn2l3gRDOgxv3I6Xkm4BoIlOigcUeoIEepN+TWZsEXzfCLXxtcrh45TGtM0zQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1760003019;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=+8IXPc55NVOCJ5X7QDr4JEG2v0yHinquInyH837VNF0=;
+	b=lhg2Sf5Wy/IHx6kWPHpRpCYO9OoowuyD1a+F1JUSesCOKCBdoIxXOKBLzj6jcncmvmZYUC
+	UX+dqEbDTubQDECA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] pci/aer_inject: switching inject_lock to raw_spinlock_t
-Message-ID: <aOXeGFJLuMsPqAjw@2a2a0ba7cec8>
-References: <20251007060218.57222-1-jckeep.cuiguangbo@gmail.com>
- <4ab58884-aad3-4c99-a5f9-b23e775a1514@redhat.com>
- <CAH6oFv+KYGZNzb7gySoyQAB3tn2CrH+H_-vi4E=4NS6pvTBHvw@mail.gmail.com>
- <20251007161229.7IT0x9Me@linutronix.de>
+	syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com
+Subject: [PATCH net] net: gro_cells: Use nested-BH locking for gro_cell
+Message-ID: <20251009094338.j1jyKfjR@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251007161229.7IT0x9Me@linutronix.de>
 
-On Tue, Oct 07, 2025 at 06:12:29PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2025-10-08 00:10:45 [+0800], guangbo cui wrote:
-> > As mentioned above, the list is usually short in typical use cases,
-> > since error injection is mainly used for debugging or development
-> > purposes. Perhaps we can also get some advice from the PCI folks.
-> 
-> Is this something that is used in "production" or more debugging/
-> development?
+The gro_cell data structure is per-CPU variable and relies on disabled
+BH for its locking. Without per-CPU locking in local_bh_disable() on
+PREEMPT_RT this data structure requires explicit locking.
 
-It's mainly for debugging/development. Debugging AER code is difficult
-cause it's hard to trigger real hardware errors.
+Add a local_lock_t to the data structure and use
+local_lock_nested_bh() for locking. This change adds only lockdep
+coverage and does not alter the functional behaviour for !PREEMPT_RT.
 
-Best regards,
-Guangbo
+Reported-by: syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/68c6c3b1.050a0220.2ff435.0382.GAE@google.com/
+Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+
+- I added have_bh_lock because there is this "goto drop, goto unlock"
+  flow and I did not want to duplicate the block.
+
+- gro_cell_poll() uses __local_lock_nested_bh() because the variable is
+  already local instead per-CPU.
+
+ net/core/gro_cells.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
+index ff8e5b64bf6b7..b43911562f4d1 100644
+--- a/net/core/gro_cells.c
++++ b/net/core/gro_cells.c
+@@ -8,11 +8,13 @@
+ struct gro_cell {
+ 	struct sk_buff_head	napi_skbs;
+ 	struct napi_struct	napi;
++	local_lock_t		bh_lock;
+ };
+ 
+ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
+ {
+ 	struct net_device *dev = skb->dev;
++	bool have_bh_lock = false;
+ 	struct gro_cell *cell;
+ 	int res;
+ 
+@@ -25,6 +27,8 @@ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
+ 		goto unlock;
+ 	}
+ 
++	local_lock_nested_bh(&gcells->cells->bh_lock);
++	have_bh_lock = true;
+ 	cell = this_cpu_ptr(gcells->cells);
+ 
+ 	if (skb_queue_len(&cell->napi_skbs) > READ_ONCE(net_hotdata.max_backlog)) {
+@@ -39,6 +43,9 @@ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
+ 	if (skb_queue_len(&cell->napi_skbs) == 1)
+ 		napi_schedule(&cell->napi);
+ 
++	if (have_bh_lock)
++		local_unlock_nested_bh(&gcells->cells->bh_lock);
++
+ 	res = NET_RX_SUCCESS;
+ 
+ unlock:
+@@ -54,6 +61,7 @@ static int gro_cell_poll(struct napi_struct *napi, int budget)
+ 	struct sk_buff *skb;
+ 	int work_done = 0;
+ 
++	__local_lock_nested_bh(&cell->bh_lock);
+ 	while (work_done < budget) {
+ 		skb = __skb_dequeue(&cell->napi_skbs);
+ 		if (!skb)
+@@ -64,6 +72,7 @@ static int gro_cell_poll(struct napi_struct *napi, int budget)
+ 
+ 	if (work_done < budget)
+ 		napi_complete_done(napi, work_done);
++	__local_unlock_nested_bh(&cell->bh_lock);
+ 	return work_done;
+ }
+ 
+@@ -79,6 +88,7 @@ int gro_cells_init(struct gro_cells *gcells, struct net_device *dev)
+ 		struct gro_cell *cell = per_cpu_ptr(gcells->cells, i);
+ 
+ 		__skb_queue_head_init(&cell->napi_skbs);
++		local_lock_init(&cell->bh_lock);
+ 
+ 		set_bit(NAPI_STATE_NO_BUSY_POLL, &cell->napi.state);
+ 
+-- 
+2.51.0
+
