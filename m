@@ -1,144 +1,366 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06CA2D6E7A
-	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Oct 2025 09:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FE22EC0AE
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Oct 2025 15:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760003023; cv=none; b=UaJvDyppJipb4h8ylhZJt9c/r+SmDh2w62AYdnYQzMtSKsA905O9Z+fWJmCaTsnq/Xs6l+C7V8YdfEef7RWmvYEg5En2AEVQV23yhUCI006cQj81Fotay89WQmJ/Gt/zrEO9MfgCauSWzyxZ/B3GbK8m/n5978mxqeYnlv4XHBc=
+	t=1760022429; cv=none; b=AkfaIoTJQhNWvLFq4iD/B+v9jqkvXjc5iTlb5ozWdm/EDT1oNa0AF0LQwo+Puo8DGBzsnrY+iIVFMAL/pU4ixNzNZEuaZ6RZ+gdrq5jcN4M9MnDzbEFc0MHfTCCOZEAI9kQ08LdHH4FqALY+412g3WuOuSeNnUEGXmTR2zNKolQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760003023; c=relaxed/simple;
-	bh=bMGx3jti7pTNxXRhPr38++6PYG+wkiPqsKScc9EqXAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XM1NTOpXjAyQ9uDlzC38aP1eW1x9bgn5mWbndUc2MVLbFnA/JyuiYINozKcS0TMtyUSHRtH8bmF00ViaiAM2ttEA/DdxWDnV6DeOFBASJ4l8jX60vLzl8eZs2OkTiDhdQJFlKfYAZdoNZy1IsoYMzynxwEOBm80/B6nwLn5ykb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ELVXkexs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lhg2Sf5W; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1760022429; c=relaxed/simple;
+	bh=MCV/UPvicPJb69eUQgmnsoFbwCslV+n9NPE5LP4vs4Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uyO8lynY86qqy3g6bd71ocO134gGVRksaLWtpYY+8+d7QAe4BR7DCfTQUfKUJAtPcHSMjuqqRZrRrECE1VDtNjd8HCYngtqBh7xfAPIB6UnxDljv2gYqDUlGsF81of24y2mm+AB+JWqLeaeWeh8epV1RqIgP0bRGrV7Xan66gyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m91adIcO; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ELVXkexs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lhg2Sf5W"
-Date: Thu, 9 Oct 2025 11:43:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1760003019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=+8IXPc55NVOCJ5X7QDr4JEG2v0yHinquInyH837VNF0=;
-	b=ELVXkexsfdE1JtsJTBlgI1AEbCZKX/4NTa1BvhIOvyNGE8EqbZ/rIOv9Fzgwx625o+12eG
-	m4ihjnAo0ptSenOaVs73fmxFv1l22FCj2ZYSQhzSVNT+NYV+32dvkA+nOAvcArlykO0MPP
-	vSICfMb1T+WklATK3V3mDa5rkVh3KEG1j3dpDO29ThqATVbP++icnE61Wgyj9pCnTXMAyJ
-	+d7VbHpe4Mq4MaMVNfhqVfNzR6jp3mCgAm2qzbK0aiRF5EKLklQqQvoFJ9Hy09Yjw4pB+q
-	Sqn2l3gRDOgxv3I6Xkm4BoIlOigcUeoIEepN+TWZsEXzfCLXxtcrh45TGtM0zQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1760003019;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=+8IXPc55NVOCJ5X7QDr4JEG2v0yHinquInyH837VNF0=;
-	b=lhg2Sf5Wy/IHx6kWPHpRpCYO9OoowuyD1a+F1JUSesCOKCBdoIxXOKBLzj6jcncmvmZYUC
-	UX+dqEbDTubQDECA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m91adIcO"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so1091992b3a.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Oct 2025 08:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760022427; x=1760627227; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jMhg/akYhh9FLVNXWkmixFsJkM0F7NIHl3Wh7qHVX1c=;
+        b=m91adIcO9EJW+85D0NJGNZnFW2VKciDY/C5X0tPAa9XbTrFx3UBhCAAnofByAos4nV
+         kIcJrMM8kzlp1r0TW9paORt5l6uMjF1aT/C9XOjp1V5GXwu3TTUn97swBBxgOYBFOIBn
+         eoCnudvfp7LXcl7Hd/k09G/ub34+A/ZD7TsK1CeS6F7goEbCT86BE2fClx6/R3Y85dKb
+         2oyGAqPuTXYxMtUe5Zjhwd/TXn627cZYs5MaU69U89SUSQHY0LeEByRH3BW2B0Z2G8C8
+         ZJ45qJ6Lm36hKDBfj/2DfdS6n/cJj55kgf29VNtmhKtj5jTPCwkonmaYLf1lE5YvuxnR
+         UHAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760022427; x=1760627227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jMhg/akYhh9FLVNXWkmixFsJkM0F7NIHl3Wh7qHVX1c=;
+        b=Qd2BfCiZhcUOOrULV8d4Hjo+JI4RKHdE/Qxif6vGRePgzyJhCyqo807BjgnfMTJoNC
+         QN5VDRXxOOWtviaGyvvEwyi37GDMAit5/rtDRozegoRscEMKdYdmNkomlIT327nmebIH
+         NGBR67B8s0NoUhDvaTc9FGkAoEhTfoAO4hIUdMPZPzcBXafFp1N2oD3VdVbt8ZTw/TLI
+         6VO9E8o2N49OXcipz9Cl/kTbjh/Ssmm6Fv7ggnNT0DPRWDFqrp5QfpjE908euqXd40Jr
+         MyHXYWP5vRq4Uhs3BHngkwGl3zTZHm7a143qkR449zQwqgEubdCkGLYEVHG8V4EJnqbq
+         +0Vg==
+X-Forwarded-Encrypted: i=1; AJvYcCW5v/KdsXZWo4RP2Bi69S4uL7gQMtth10vLNqmQJfhcLxb5Qqh3YDUgdukNl3ZHMUHra7pGxpOTu1wDBvcayA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfzataiYFR0DxSfTj9SnogDwj16GB1HVSFxlFglSJ5/A/6vxcG
+	n1uub51v4MmBHgsGbjOOwnHMGzqrcUsIWPvkrvGb4FtloviX5zpvJHwk
+X-Gm-Gg: ASbGncvXXYy1CM4o6h5xn7ewsavJD8yJ+/KCmtgH3ZzXxrB9YMffBz0l42nyJZke/iV
+	d5KWFY4U/PJnrwMxMAyf9vN+rMsTNcohHfrWxJ9z7M6/noVsV4XjGBNZevqZRnvAF9/EE8l0LYb
+	IDvAckMCDy8ZBp7r9oCXfnfmr57ppqkrtf4MYKzuUxs7MDwenweT0ZEPMEnZuUY04ygIoSdUz2d
+	IJtndAJMWNgoCbJbuyZjwtD3Zj3We3N3rR1nEyLNJS7730xKnOCyBVpdoQdrMafwcpHApnaYTS4
+	foqlCUH3UwyD9zV4vln0IAy5UK0C96m/4s83MdFcTu0VHBnFwMM0uQlOSrrvaELRbnYBPE+9VhE
+	xdlq9ERpQi2IDVRyAJARxxns+oCP7eO8zL/xXZIfZB/XKSoFgLRfaKmdp8Ox1ozAvcfpcy6l9y9
+	PzrMblEuqY
+X-Google-Smtp-Source: AGHT+IE8AaDi5/+pKe6FXYvrz6gOtwVnUjotnRHBWrfyDNasFLAlpbPt4G5A8FZhItpKwM89IDiRUw==
+X-Received: by 2002:a05:6a00:178e:b0:782:ec0f:d271 with SMTP id d2e1a72fcca58-79385ce0c44mr9485358b3a.8.1760022426811;
+        Thu, 09 Oct 2025 08:07:06 -0700 (PDT)
+Received: from localhost.localdomain ([119.127.198.19])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-794e33efc46sm3168825b3a.74.2025.10.09.08.07.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Oct 2025 08:07:06 -0700 (PDT)
+From: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com
-Subject: [PATCH net] net: gro_cells: Use nested-BH locking for gro_cell
-Message-ID: <20251009094338.j1jyKfjR@linutronix.de>
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Waiman Long <longman@redhat.com>,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Guangbo Cui <jckeep.cuiguangbo@gmail.com>
+Subject: [PATCH v2] pci/aer_inject: switching inject_lock to raw_spinlock_t
+Date: Thu,  9 Oct 2025 15:06:50 +0000
+Message-ID: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The gro_cell data structure is per-CPU variable and relies on disabled
-BH for its locking. Without per-CPU locking in local_bh_disable() on
-PREEMPT_RT this data structure requires explicit locking.
+When injecting AER errors under PREEMPT_RT, the kernel may trigger a
+lockdep warning about an invalid wait context:
 
-Add a local_lock_t to the data structure and use
-local_lock_nested_bh() for locking. This change adds only lockdep
-coverage and does not alter the functional behaviour for !PREEMPT_RT.
+```
+[ 1850.950780] [ BUG: Invalid wait context ]
+[ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+[ 1850.951457] -----------------------------
+[ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+[ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+[ 1850.952731] other info that might help us debug this:
+[ 1850.952997] context-{5:5}
+[ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+[ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+[ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+[ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+```
 
-Reported-by: syzbot+8715dd783e9b0bef43b1@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/68c6c3b1.050a0220.2ff435.0382.GAE@google.com/
-Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+This happens because the AER injection path (`aer_inj_read_config()`)
+is called in the context of the PCIe PME interrupt thread, which runs
+through `irq_forced_thread_fn()` under PREEMPT_RT. In this context,
+`pci_lock` (a raw_spinlock_t) is held with interrupts disabled
+(`spin_lock_irqsave()`), and then `aer_inj_read_config()` tries to
+acquire `inject_lock`, which is a `rt_spin_lock`. (Thanks Waiman Long)
+
+`rt_spin_lock` may sleep, so acquiring it while holding a raw spinlock
+with IRQs disabled violates the lock ordering rules. This leads to
+the “Invalid wait context” lockdep warning.
+
+In other words, the lock order looks like this:
+
+```
+  raw_spin_lock_irqsave(&pci_lock);
+      ↓
+  rt_spin_lock(&inject_lock);   <-- not allowed
+```
+
+To fix this, convert `inject_lock` from an `rt_spin_lock` to a
+`raw_spinlock_t`, a raw spinlock is safe and consistent with the
+surrounding locking scheme.
+
+This resolves the lockdep “Invalid wait context” warning observed when
+injecting correctable AER errors through `/dev/aer_inject` on PREEMPT_RT.
+
+This was discovered while testing PCIe AER error injection on an arm64
+QEMU virtual machine:
+
+```
+  qemu-system-aarch64 \
+      -nographic \
+      -machine virt,highmem=off,gic-version=3 \
+      -cpu cortex-a72 \
+      -kernel arch/arm64/boot/Image \
+      -initrd initramfs.cpio.gz \
+      -append "console=ttyAMA0 root=/dev/ram rdinit=/linuxrc earlyprintk nokaslr" \
+      -m 2G \
+      -smp 1 \
+      -netdev user,id=net0,hostfwd=tcp::2223-:22 \
+      -device virtio-net-pci,netdev=net0 \
+      -device pcie-root-port,id=rp0,chassis=1,slot=0x0 \
+      -device pci-testdev -s -S
+```
+
+Injecting a correctable PCIe error via /dev/aer_inject caused a BUG
+report with "Invalid wait context" in the irq/PCIe thread.
+
+```
+~ # export HEX="00020000000000000100000000000000000000000000000000000000"
+~ # echo -n "$HEX" | xxd -r -p | tee /dev/aer_inject >/dev/null
+[ 1850.947170] pcieport 0000:00:02.0: aer_inject: Injecting errors 00000001/00000000 into device 0000:00:02.0
+[ 1850.949951]
+[ 1850.950479] =============================
+[ 1850.950780] [ BUG: Invalid wait context ]
+[ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+[ 1850.951457] -----------------------------
+[ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+[ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+[ 1850.952731] other info that might help us debug this:
+[ 1850.952997] context-{5:5}
+[ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+[ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+[ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+[ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+[ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+[ 1850.955932] stack backtrace:
+[ 1850.956412] CPU: 0 UID: 0 PID: 56 Comm: irq/16-PCIe PME Not tainted 6.17.0-11316-g7a405dbb0f03-dirty #7 PREEMPT_{RT,(full)}
+[ 1850.957039] Hardware name: linux,dummy-virt (DT)
+[ 1850.957409] Call trace:
+[ 1850.957727]  show_stack+0x18/0x24 (C)
+[ 1850.958089]  dump_stack_lvl+0x40/0xbc
+[ 1850.958339]  dump_stack+0x18/0x24
+[ 1850.958586]  __lock_acquire+0xa84/0x3008
+[ 1850.958907]  lock_acquire+0x128/0x2a8
+[ 1850.959171]  rt_spin_lock+0x50/0x1b8
+[ 1850.959476]  aer_inj_read_config+0x38/0x1dc
+[ 1850.959821]  pci_bus_read_config_dword+0x80/0xd8
+[ 1850.960079]  pcie_capability_read_dword+0xac/0xd8
+[ 1850.960454]  pcie_pme_irq+0x44/0xc4
+[ 1850.960728]  irq_forced_thread_fn+0x30/0x94
+[ 1850.960984]  irq_thread+0x1ac/0x3a4
+[ 1850.961308]  kthread+0x1b4/0x208
+[ 1850.961557]  ret_from_fork+0x10/0x20
+[ 1850.963088] pcieport 0000:00:02.0: AER: Correctable error message received from 0000:00:02.0
+[ 1850.963330] pcieport 0000:00:02.0: PCIe Bus Error: severity=Correctable, type=Physical Layer, (Receiver ID)
+[ 1850.963351] pcieport 0000:00:02.0:   device [1b36:000c] error status/mask=00000001/0000e000
+[ 1850.963385] pcieport 0000:00:02.0:    [ 0] RxErr                  (First)
+```
+
+Signed-off-by: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
 ---
+Changes in v2:
+- Pulling kfree() out from the lock critical section. (Thanks Waiman Long)
+- Link to v1: https://lore.kernel.org/linux-pci/20251007060218.57222-1-jckeep.cuiguangbo@gmail.com/
 
-- I added have_bh_lock because there is this "goto drop, goto unlock"
-  flow and I did not want to duplicate the block.
+ drivers/pci/pcie/aer_inject.c | 40 ++++++++++++++++++-----------------
+ 1 file changed, 21 insertions(+), 19 deletions(-)
 
-- gro_cell_poll() uses __local_lock_nested_bh() because the variable is
-  already local instead per-CPU.
-
- net/core/gro_cells.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
-index ff8e5b64bf6b7..b43911562f4d1 100644
---- a/net/core/gro_cells.c
-+++ b/net/core/gro_cells.c
-@@ -8,11 +8,13 @@
- struct gro_cell {
- 	struct sk_buff_head	napi_skbs;
- 	struct napi_struct	napi;
-+	local_lock_t		bh_lock;
- };
+diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
+index 91acc7b17f68..6dd231d9fccd 100644
+--- a/drivers/pci/pcie/aer_inject.c
++++ b/drivers/pci/pcie/aer_inject.c
+@@ -72,7 +72,7 @@ static LIST_HEAD(einjected);
+ static LIST_HEAD(pci_bus_ops_list);
  
- int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
- {
- 	struct net_device *dev = skb->dev;
-+	bool have_bh_lock = false;
- 	struct gro_cell *cell;
- 	int res;
+ /* Protect einjected and pci_bus_ops_list */
+-static DEFINE_SPINLOCK(inject_lock);
++static DEFINE_RAW_SPINLOCK(inject_lock);
  
-@@ -25,6 +27,8 @@ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
- 		goto unlock;
- 	}
+ static void aer_error_init(struct aer_error *err, u32 domain,
+ 			   unsigned int bus, unsigned int devfn,
+@@ -126,12 +126,12 @@ static struct pci_bus_ops *pci_bus_ops_pop(void)
+ 	unsigned long flags;
+ 	struct pci_bus_ops *bus_ops;
  
-+	local_lock_nested_bh(&gcells->cells->bh_lock);
-+	have_bh_lock = true;
- 	cell = this_cpu_ptr(gcells->cells);
- 
- 	if (skb_queue_len(&cell->napi_skbs) > READ_ONCE(net_hotdata.max_backlog)) {
-@@ -39,6 +43,9 @@ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
- 	if (skb_queue_len(&cell->napi_skbs) == 1)
- 		napi_schedule(&cell->napi);
- 
-+	if (have_bh_lock)
-+		local_unlock_nested_bh(&gcells->cells->bh_lock);
-+
- 	res = NET_RX_SUCCESS;
- 
- unlock:
-@@ -54,6 +61,7 @@ static int gro_cell_poll(struct napi_struct *napi, int budget)
- 	struct sk_buff *skb;
- 	int work_done = 0;
- 
-+	__local_lock_nested_bh(&cell->bh_lock);
- 	while (work_done < budget) {
- 		skb = __skb_dequeue(&cell->napi_skbs);
- 		if (!skb)
-@@ -64,6 +72,7 @@ static int gro_cell_poll(struct napi_struct *napi, int budget)
- 
- 	if (work_done < budget)
- 		napi_complete_done(napi, work_done);
-+	__local_unlock_nested_bh(&cell->bh_lock);
- 	return work_done;
+-	spin_lock_irqsave(&inject_lock, flags);
++	raw_spin_lock_irqsave(&inject_lock, flags);
+ 	bus_ops = list_first_entry_or_null(&pci_bus_ops_list,
+ 					   struct pci_bus_ops, list);
+ 	if (bus_ops)
+ 		list_del(&bus_ops->list);
+-	spin_unlock_irqrestore(&inject_lock, flags);
++	raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 	return bus_ops;
  }
  
-@@ -79,6 +88,7 @@ int gro_cells_init(struct gro_cells *gcells, struct net_device *dev)
- 		struct gro_cell *cell = per_cpu_ptr(gcells->cells, i);
+@@ -223,7 +223,7 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
+ 	int domain;
+ 	int rv;
  
- 		__skb_queue_head_init(&cell->napi_skbs);
-+		local_lock_init(&cell->bh_lock);
+-	spin_lock_irqsave(&inject_lock, flags);
++	raw_spin_lock_irqsave(&inject_lock, flags);
+ 	if (size != sizeof(u32))
+ 		goto out;
+ 	domain = pci_domain_nr(bus);
+@@ -236,12 +236,12 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
+ 	sim = find_pci_config_dword(err, where, NULL);
+ 	if (sim) {
+ 		*val = *sim;
+-		spin_unlock_irqrestore(&inject_lock, flags);
++		raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 		return 0;
+ 	}
+ out:
+ 	rv = aer_inj_read(bus, devfn, where, size, val);
+-	spin_unlock_irqrestore(&inject_lock, flags);
++	raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 	return rv;
+ }
  
- 		set_bit(NAPI_STATE_NO_BUSY_POLL, &cell->napi.state);
+@@ -255,7 +255,7 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
+ 	int domain;
+ 	int rv;
  
+-	spin_lock_irqsave(&inject_lock, flags);
++	raw_spin_lock_irqsave(&inject_lock, flags);
+ 	if (size != sizeof(u32))
+ 		goto out;
+ 	domain = pci_domain_nr(bus);
+@@ -271,12 +271,12 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
+ 			*sim ^= val;
+ 		else
+ 			*sim = val;
+-		spin_unlock_irqrestore(&inject_lock, flags);
++		raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 		return 0;
+ 	}
+ out:
+ 	rv = aer_inj_write(bus, devfn, where, size, val);
+-	spin_unlock_irqrestore(&inject_lock, flags);
++	raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 	return rv;
+ }
+ 
+@@ -304,14 +304,14 @@ static int pci_bus_set_aer_ops(struct pci_bus *bus)
+ 	if (!bus_ops)
+ 		return -ENOMEM;
+ 	ops = pci_bus_set_ops(bus, &aer_inj_pci_ops);
+-	spin_lock_irqsave(&inject_lock, flags);
++	raw_spin_lock_irqsave(&inject_lock, flags);
+ 	if (ops == &aer_inj_pci_ops)
+ 		goto out;
+ 	pci_bus_ops_init(bus_ops, bus, ops);
+ 	list_add(&bus_ops->list, &pci_bus_ops_list);
+ 	bus_ops = NULL;
+ out:
+-	spin_unlock_irqrestore(&inject_lock, flags);
++	raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 	kfree(bus_ops);
+ 	return 0;
+ }
+@@ -383,7 +383,7 @@ static int aer_inject(struct aer_error_inj *einj)
+ 				       uncor_mask);
+ 	}
+ 
+-	spin_lock_irqsave(&inject_lock, flags);
++	raw_spin_lock_irqsave(&inject_lock, flags);
+ 
+ 	err = __find_aer_error_by_dev(dev);
+ 	if (!err) {
+@@ -404,14 +404,14 @@ static int aer_inject(struct aer_error_inj *einj)
+ 	    !(einj->cor_status & ~cor_mask)) {
+ 		ret = -EINVAL;
+ 		pci_warn(dev, "The correctable error(s) is masked by device\n");
+-		spin_unlock_irqrestore(&inject_lock, flags);
++		raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 		goto out_put;
+ 	}
+ 	if (!aer_mask_override && einj->uncor_status &&
+ 	    !(einj->uncor_status & ~uncor_mask)) {
+ 		ret = -EINVAL;
+ 		pci_warn(dev, "The uncorrectable error(s) is masked by device\n");
+-		spin_unlock_irqrestore(&inject_lock, flags);
++		raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 		goto out_put;
+ 	}
+ 
+@@ -445,7 +445,7 @@ static int aer_inject(struct aer_error_inj *einj)
+ 		rperr->source_id &= 0x0000ffff;
+ 		rperr->source_id |= PCI_DEVID(einj->bus, devfn) << 16;
+ 	}
+-	spin_unlock_irqrestore(&inject_lock, flags);
++	raw_spin_unlock_irqrestore(&inject_lock, flags);
+ 
+ 	if (aer_mask_override) {
+ 		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
+@@ -523,8 +523,8 @@ static int __init aer_inject_init(void)
+ static void __exit aer_inject_exit(void)
+ {
+ 	struct aer_error *err, *err_next;
+-	unsigned long flags;
+ 	struct pci_bus_ops *bus_ops;
++	LIST_HEAD(einjected_to_free);
+ 
+ 	misc_deregister(&aer_inject_device);
+ 
+@@ -533,12 +533,14 @@ static void __exit aer_inject_exit(void)
+ 		kfree(bus_ops);
+ 	}
+ 
+-	spin_lock_irqsave(&inject_lock, flags);
+-	list_for_each_entry_safe(err, err_next, &einjected, list) {
++	scoped_guard(raw_spinlock_irqsave, &inject_lock) {
++		list_splice_init(&einjected, &einjected_to_free);
++	}
++
++	list_for_each_entry_safe(err, err_next, &einjected_to_free, list) {
+ 		list_del(&err->list);
+ 		kfree(err);
+ 	}
+-	spin_unlock_irqrestore(&inject_lock, flags);
+ }
+ 
+ module_init(aer_inject_init);
 -- 
-2.51.0
+2.43.0
 
