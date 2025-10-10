@@ -1,221 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42B92FAC07;
-	Thu,  9 Oct 2025 15:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A86F1531C1
+	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Oct 2025 02:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025575; cv=none; b=Oc6jk7vEPfkc8CN+GOrzlrfF6A63UgUhqP7z0cKAWOzhdEXo3ireGU1mZZG1wjvTBn5m65AU+6ovsQ5/z74edZm8M4+wXtfygZrUICewcRIbA83zhjVafx7fYDQhou8RWG0YdEhtaycy94dmlp7mQUgwZUxJs+a6Q4TubMD7Uh0=
+	t=1760064748; cv=none; b=daVBQJ8EinSIrJv2kO+414hVr5kR+IJ6LULpF99SKtJlGeEzQnOUXlDO3K1WwoCmsm6qdkPjAY3moRtws3RJeVzl39jwkpIPNuY4QgVe4DOY09uFCNIuTg4E3PhVTOz/dYzUXPRw6Fam52PaAu15m2QDDysNrWSH4/lNGnJUfDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025575; c=relaxed/simple;
-	bh=td/9rpfVL5kc3539pOIYKE9FDVHoZjxCJ/AWHY0bREw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n9nB0yKQn1IfY4x6UOseLLgv291qq92JgIZClSk8cMoxgllOecQ9nIUsSdej0TMbH9i9iVA9G0Zr5a4T28BrvkIApLW8fQQ/VxTCmk32LktrJD1tpVaJpOfAf4xdtpz2GbJqNKE+DzrwteY/PpqeFIdu7zUB/yroVpm03Q99yik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LCqfnEUx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760064748; c=relaxed/simple;
+	bh=BtPGX0SCKTWOO/2pmFrKk9ubExIp15TCY8Ta2rehDnA=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HgpH69YueyuqoA8yuaDZHG8gNqxm+66B8mvQBhfn42LQ4ee6LosEdnUwpLVJBQfmeOsNJHSjP7/bRXxn1gp9NahfaNYxTUeLYDcoaYyvYF2f3jnNltagPDpQuCVmwnM31fSyq7hLJLu3L85lMBxuL4eXhDPnWqb4/AfAsvtqtQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h3W2G2ot; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LCqfnEUx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09AFAC4CEF8;
-	Thu,  9 Oct 2025 15:59:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760025575;
-	bh=td/9rpfVL5kc3539pOIYKE9FDVHoZjxCJ/AWHY0bREw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LCqfnEUxrDI+O+kg04A+r/81yBrBhLpEpLoH6HmMOlylAVBsbp4ee/MkJDp81/9Cn
-	 w9cvu9dg8BB6Wu1F2xFbvsny2pr+UbUnWhUtdUa9Jz9nIgEZFpBC7bHMA0p//IotW/
-	 susBnhGJu5T/R1xZ555hBA6dVaT4oRs3684sJ7RN3pPehD9IJybTalO4PJG+MZMGI7
-	 RsL6lCOMQ9f8nFkQTkwFuHdvOqNAsg6U4ywdDrFo1murksUavk/zaGR3/G3vgt6fUl
-	 18MUOphYnYT+riMDS4Did/9tlrf2FJUTNvjmVXiGFSt42dSLigsrfkVZuJOh99nB+Y
-	 BkZgvPj9m3e7g==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-spi@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.17-5.4] spi: loopback-test: Don't use %pK through printk
-Date: Thu,  9 Oct 2025 11:55:21 -0400
-Message-ID: <20251009155752.773732-55-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251009155752.773732-1-sashal@kernel.org>
-References: <20251009155752.773732-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h3W2G2ot"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760064745;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p77JZb+Mdci5/KEMJK1kpt1QjxLJZnP83075vW8bdvw=;
+	b=h3W2G2otOek2e79fsAMahCn4y5ymGHc7LM0BK/DQXBwaUg3fFQo9WT0lAuIL9XQyXoPc8N
+	EDcJeSK4U/DnYaLvdNY4jdtmo4cKoQFgByYxxJKJtG1DCnDSk+R4fQ82SR0DeIhYFioBle
+	9PjSm2+4uVy/JGhfQPKcZ7oQneltX30=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-502-sZrd59Q8OtGtdy5uGyAJ4w-1; Thu, 09 Oct 2025 22:52:24 -0400
+X-MC-Unique: sZrd59Q8OtGtdy5uGyAJ4w-1
+X-Mimecast-MFC-AGG-ID: sZrd59Q8OtGtdy5uGyAJ4w_1760064743
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-7946137e7c2so73344136d6.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 09 Oct 2025 19:52:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760064743; x=1760669543;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=p77JZb+Mdci5/KEMJK1kpt1QjxLJZnP83075vW8bdvw=;
+        b=JkySvSuSUrpqILjxtf+5luLSSSNcYkudyME2yPdiV7GyHgDLr/OugjRhPNIbAxH2ww
+         fvgwC1QEeKZBNMV/H2PtpAgJUWXCesTWNf+nBQpegejkP1js5/23dubVfQsUk7GEeFvh
+         ExjasGGUy8caU153mnBkaWMVluJq9PYK3Q5pKMUNgmE8V9CBMGommDsd6YBN0yjzov9U
+         LqqrwXzcmIaOuTQSJ3RlbnoVNinj+IWrZ/eqebKtOmr+TB2kAtLdEocfDx0Ly3XCTVqz
+         /+casNa4VxudEgHcYyaaJfHddo4ND+fbpCLsHoGACP2DREaONq5fm9KFg62CB+RFLy/E
+         hTeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUN/9KbpRfALfEqTQK+/jlDm2mmpUAUWXd0fF8GS6xupkFJ8rIOU/5Q9PNPEZtuJ+nms8JKpL/QkaeMXce/sw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yye093Cdmqc2qTNK9fE99KxCoipuObBHdlSbRbG0A84zdRzrQBF
+	EOqOS2sY/jKnlI4juLTUbHD8iI++QiGxm2a3F6CobDx3294QbiQbcLimsj34yokU6xYcr+vyeW8
+	RYqrxN6SF497MyHBrsC13Rwqpd56niPUqlZ2pA3wSATOsrwbZnSWJ8i4Dtq1KFiFeThjo
+X-Gm-Gg: ASbGncsXUbMXzPuA6uykYOsNmQXgYw6PSG6QTcpr2gdyjvvab1EreV/BNDwv7h0xFVL
+	Lj+Tj0awDPxqEISszRj13I6RJdBf8UkD5ZnZrnOn/KVNymFYCar3XHO3VKCIhcTfK6B0tdAMYYu
+	u74Fpsx6t+kkSOtwYUvYrGy2NTNlryUAPSPyHe80sLamQlNZ+gF/ZCUBJ7xIFFymjRdgr753LT7
+	NyEQRKgsR9xcHAvNoTOF6HHX1DuI92hwq08QM/v56vqvgnQhM2sffkhxj9a5veSMG/RH9cZQWSK
+	TI9jts7DQchl7WaYzogcsHbXwxSeX7zrsOHfyf/0Gds28qjXFbpI+D+dl7DBWY46l8szZNNO8AK
+	3zvVuzdmG+vs=
+X-Received: by 2002:ad4:594b:0:b0:873:f6bc:abb8 with SMTP id 6a1803df08f44-87b2101d5d4mr127529066d6.15.1760064743561;
+        Thu, 09 Oct 2025 19:52:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE0lkCcjXQD1DjvauUfSkRJqcrLhOc8z33VBbhKdHXGR8krbUUptEp7lztjXHaRk4Wn9gpyaw==
+X-Received: by 2002:ad4:594b:0:b0:873:f6bc:abb8 with SMTP id 6a1803df08f44-87b2101d5d4mr127528846d6.15.1760064743131;
+        Thu, 09 Oct 2025 19:52:23 -0700 (PDT)
+Received: from ?IPV6:2601:188:c180:4250:ecbe:130d:668d:951d? ([2601:188:c180:4250:ecbe:130d:668d:951d])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-87bc345da68sm7842246d6.13.2025.10.09.19.52.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Oct 2025 19:52:22 -0700 (PDT)
+From: Waiman Long <llong@redhat.com>
+X-Google-Original-From: Waiman Long <longman@redhat.com>
+Message-ID: <3c20a451-ebc6-4057-be77-2caaf6d2317c@redhat.com>
+Date: Thu, 9 Oct 2025 22:52:21 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.17.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] pci/aer_inject: switching inject_lock to
+ raw_spinlock_t
+To: Guangbo Cui <jckeep.cuiguangbo@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>,
+ linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
+In-Reply-To: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 1uetj7ZFGQkkFZinyRNS2wkihNvMj24-IKQJmwh-wwk_1760064743
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+On 10/9/25 11:06 AM, Guangbo Cui wrote:
+> When injecting AER errors under PREEMPT_RT, the kernel may trigger a
+> lockdep warning about an invalid wait context:
+>
+> ```
+> [ 1850.950780] [ BUG: Invalid wait context ]
+> [ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+> [ 1850.951457] -----------------------------
+> [ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+> [ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+> [ 1850.952731] other info that might help us debug this:
+> [ 1850.952997] context-{5:5}
+> [ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+> [ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+> [ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+> [ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+> ```
+>
+> This happens because the AER injection path (`aer_inj_read_config()`)
+> is called in the context of the PCIe PME interrupt thread, which runs
+> through `irq_forced_thread_fn()` under PREEMPT_RT. In this context,
+> `pci_lock` (a raw_spinlock_t) is held with interrupts disabled
+> (`spin_lock_irqsave()`), and then `aer_inj_read_config()` tries to
+> acquire `inject_lock`, which is a `rt_spin_lock`. (Thanks Waiman Long)
+>
+> `rt_spin_lock` may sleep, so acquiring it while holding a raw spinlock
+> with IRQs disabled violates the lock ordering rules. This leads to
+> the “Invalid wait context” lockdep warning.
+>
+> In other words, the lock order looks like this:
+>
+> ```
+>    raw_spin_lock_irqsave(&pci_lock);
+>        ↓
+>    rt_spin_lock(&inject_lock);   <-- not allowed
+> ```
+>
+> To fix this, convert `inject_lock` from an `rt_spin_lock` to a
+> `raw_spinlock_t`, a raw spinlock is safe and consistent with the
+> surrounding locking scheme.
+>
+> This resolves the lockdep “Invalid wait context” warning observed when
+> injecting correctable AER errors through `/dev/aer_inject` on PREEMPT_RT.
+>
+> This was discovered while testing PCIe AER error injection on an arm64
+> QEMU virtual machine:
+>
+> ```
+>    qemu-system-aarch64 \
+>        -nographic \
+>        -machine virt,highmem=off,gic-version=3 \
+>        -cpu cortex-a72 \
+>        -kernel arch/arm64/boot/Image \
+>        -initrd initramfs.cpio.gz \
+>        -append "console=ttyAMA0 root=/dev/ram rdinit=/linuxrc earlyprintk nokaslr" \
+>        -m 2G \
+>        -smp 1 \
+>        -netdev user,id=net0,hostfwd=tcp::2223-:22 \
+>        -device virtio-net-pci,netdev=net0 \
+>        -device pcie-root-port,id=rp0,chassis=1,slot=0x0 \
+>        -device pci-testdev -s -S
+> ```
+>
+> Injecting a correctable PCIe error via /dev/aer_inject caused a BUG
+> report with "Invalid wait context" in the irq/PCIe thread.
+>
+> ```
+> ~ # export HEX="00020000000000000100000000000000000000000000000000000000"
+> ~ # echo -n "$HEX" | xxd -r -p | tee /dev/aer_inject >/dev/null
+> [ 1850.947170] pcieport 0000:00:02.0: aer_inject: Injecting errors 00000001/00000000 into device 0000:00:02.0
+> [ 1850.949951]
+> [ 1850.950479] =============================
+> [ 1850.950780] [ BUG: Invalid wait context ]
+> [ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+> [ 1850.951457] -----------------------------
+> [ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+> [ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+> [ 1850.952731] other info that might help us debug this:
+> [ 1850.952997] context-{5:5}
+> [ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+> [ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+> [ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+> [ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+> [ 1850.955932] stack backtrace:
+> [ 1850.956412] CPU: 0 UID: 0 PID: 56 Comm: irq/16-PCIe PME Not tainted 6.17.0-11316-g7a405dbb0f03-dirty #7 PREEMPT_{RT,(full)}
+> [ 1850.957039] Hardware name: linux,dummy-virt (DT)
+> [ 1850.957409] Call trace:
+> [ 1850.957727]  show_stack+0x18/0x24 (C)
+> [ 1850.958089]  dump_stack_lvl+0x40/0xbc
+> [ 1850.958339]  dump_stack+0x18/0x24
+> [ 1850.958586]  __lock_acquire+0xa84/0x3008
+> [ 1850.958907]  lock_acquire+0x128/0x2a8
+> [ 1850.959171]  rt_spin_lock+0x50/0x1b8
+> [ 1850.959476]  aer_inj_read_config+0x38/0x1dc
+> [ 1850.959821]  pci_bus_read_config_dword+0x80/0xd8
+> [ 1850.960079]  pcie_capability_read_dword+0xac/0xd8
+> [ 1850.960454]  pcie_pme_irq+0x44/0xc4
+> [ 1850.960728]  irq_forced_thread_fn+0x30/0x94
+> [ 1850.960984]  irq_thread+0x1ac/0x3a4
+> [ 1850.961308]  kthread+0x1b4/0x208
+> [ 1850.961557]  ret_from_fork+0x10/0x20
+> [ 1850.963088] pcieport 0000:00:02.0: AER: Correctable error message received from 0000:00:02.0
+> [ 1850.963330] pcieport 0000:00:02.0: PCIe Bus Error: severity=Correctable, type=Physical Layer, (Receiver ID)
+> [ 1850.963351] pcieport 0000:00:02.0:   device [1b36:000c] error status/mask=00000001/0000e000
+> [ 1850.963385] pcieport 0000:00:02.0:    [ 0] RxErr                  (First)
+> ```
+>
+> Signed-off-by: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
+> ---
+> Changes in v2:
+> - Pulling kfree() out from the lock critical section. (Thanks Waiman Long)
+> - Link to v1: https://lore.kernel.org/linux-pci/20251007060218.57222-1-jckeep.cuiguangbo@gmail.com/
 
-[ Upstream commit b832b19318534bb4f1673b24d78037fee339c679 ]
+As PCI error injection is mainly for debug/development, I think it is OK 
+to change inject_lock to a raw_spinlock. I think you should also mention 
+about moving kfree() out of the lock critical section in the commit log. 
+Or better yet, break it out as a separate patch. It is just a nit. So I 
+am fine with the current version too.
 
-In the past %pK was preferable to %p as it would not leak raw pointer
-values into the kernel log.
-Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
-the regular %p has been improved to avoid this issue.
-Furthermore, restricted pointers ("%pK") were never meant to be used
-through printk(). They can still unintentionally leak raw pointers or
-acquire sleeping locks in atomic contexts.
+Now it is up to the PCI maintainer to decide if further change is needed.
 
-Switch to the regular pointer formatting which is safer and
-easier to reason about.
-There are still a few users of %pK left, but these use it through seq_file,
-for which its usage is safe.
-
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Link: https://patch.msgid.link/20250811-restricted-pointers-spi-v1-1-32c47f954e4d@linutronix.de
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-Based on my comprehensive analysis of this commit and the broader
-context, here is my determination:
-
-**Backport Status: YES**
-
-## Analysis
-
-### Nature of the Change
-This commit replaces the `%pK` (restricted pointer) format specifier
-with `%p` (regular pointer) in debugging output functions within the SPI
-loopback test driver. The changes affect:
-- `spi_test_dump_message()` - debugging output for SPI messages (lines
-  449, 459, 461, 467)
-- `spi_check_rx_ranges()` - error reporting (line 561)
-- `spi_test_translate()` - error reporting (line 699)
-
-### Technical Justification for Backporting
-
-**1. Real Bug Fix - Sleeping Locks in Atomic Context**
-
-The commit message's claim about "acquiring sleeping locks in atomic
-contexts" is accurate and documented. My investigation reveals:
-
-- `%pK` implementation (lib/vsprintf.c:863-904) calls
-  `has_capability_noaudit()` which invokes `security_capable()` through
-  the LSM framework
-- Under CONFIG_PREEMPT_RT with SELinux and kptr_restrict=1, this
-  triggers "sleeping function called from invalid context" warnings
-- The code explicitly checks for atomic context (lib/vsprintf.c:874) and
-  returns "pK-error" if in hardirq, softirq, or NMI context
-- This is a real correctness issue, not just theoretical
-
-**2. Security Improvement**
-
-Since commit ad67b74d2469 (v4.15-rc2, November 2017), `%p` already
-hashes addresses and doesn't leak raw pointers. The commit message
-correctly notes that `%pK` through printk() can "still unintentionally
-leak raw pointers" depending on kptr_restrict settings, whereas `%p`
-consistently hashes addresses.
-
-**3. Part of Tree-Wide Cleanup**
-
-This is part of a coordinated effort to remove `%pK` from printk() paths
-across the entire kernel:
-- Similar commits already backported: BPF (c2f48cb89b76f), SCSI, WiFi,
-  remoteproc, DRM, crypto, etc.
-- All authored by Thomas Weißschuh with identical commit messages
-- Shows this is recognized as a kernel-wide issue requiring systematic
-  fixing
-
-**4. Low Regression Risk**
-
-- Only changes format specifiers, no logic changes
-- Confined to test/debugging driver (spi-loopback-test.c) used for
-  regression testing, not production code
-- Changes 6 format strings across 3 functions
-- Output remains functionally equivalent (both show pointer addresses,
-  just hashed differently)
-
-**5. Stable Tree Criteria Compliance**
-
-✓ Fixes important bug (sleeping locks in atomic context under RT
-kernels)
-✓ No new features introduced
-✓ No architectural changes
-✓ Minimal regression risk
-✓ Small and contained change (12 lines, 1 file)
-✓ Part of security hardening effort
-
-### Evidence of Backport Intent
-
-The commit has already been queued for backport to this stable tree
-(commit c51f79c2aadcd with "Signed-off-by: Sasha Levin"), indicating it
-has passed stable tree review criteria. It's currently 66 commits ahead
-of the v6.17 release tag.
-
-### Conclusion
-
-This commit should definitively be backported to stable trees. It fixes
-a real correctness bug affecting RT kernel configurations, improves
-security posture, carries minimal risk, and is part of a systematic
-kernel-wide cleanup that's already being backported across subsystems.
-
- drivers/spi/spi-loopback-test.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/spi/spi-loopback-test.c b/drivers/spi/spi-loopback-test.c
-index 7dd92deffe3fb..e0b131aa29b62 100644
---- a/drivers/spi/spi-loopback-test.c
-+++ b/drivers/spi/spi-loopback-test.c
-@@ -446,7 +446,7 @@ static void spi_test_dump_message(struct spi_device *spi,
- 	int i;
- 	u8 b;
- 
--	dev_info(&spi->dev, "  spi_msg@%pK\n", msg);
-+	dev_info(&spi->dev, "  spi_msg@%p\n", msg);
- 	if (msg->status)
- 		dev_info(&spi->dev, "    status:        %i\n",
- 			 msg->status);
-@@ -456,15 +456,15 @@ static void spi_test_dump_message(struct spi_device *spi,
- 		 msg->actual_length);
- 
- 	list_for_each_entry(xfer, &msg->transfers, transfer_list) {
--		dev_info(&spi->dev, "    spi_transfer@%pK\n", xfer);
-+		dev_info(&spi->dev, "    spi_transfer@%p\n", xfer);
- 		dev_info(&spi->dev, "      len:    %i\n", xfer->len);
--		dev_info(&spi->dev, "      tx_buf: %pK\n", xfer->tx_buf);
-+		dev_info(&spi->dev, "      tx_buf: %p\n", xfer->tx_buf);
- 		if (dump_data && xfer->tx_buf)
- 			spi_test_print_hex_dump("          TX: ",
- 						xfer->tx_buf,
- 						xfer->len);
- 
--		dev_info(&spi->dev, "      rx_buf: %pK\n", xfer->rx_buf);
-+		dev_info(&spi->dev, "      rx_buf: %p\n", xfer->rx_buf);
- 		if (dump_data && xfer->rx_buf)
- 			spi_test_print_hex_dump("          RX: ",
- 						xfer->rx_buf,
-@@ -558,7 +558,7 @@ static int spi_check_rx_ranges(struct spi_device *spi,
- 		/* if still not found then something has modified too much */
- 		/* we could list the "closest" transfer here... */
- 		dev_err(&spi->dev,
--			"loopback strangeness - rx changed outside of allowed range at: %pK\n",
-+			"loopback strangeness - rx changed outside of allowed range at: %p\n",
- 			addr);
- 		/* do not return, only set ret,
- 		 * so that we list all addresses
-@@ -696,7 +696,7 @@ static int spi_test_translate(struct spi_device *spi,
- 	}
- 
- 	dev_err(&spi->dev,
--		"PointerRange [%pK:%pK[ not in range [%pK:%pK[ or [%pK:%pK[\n",
-+		"PointerRange [%p:%p[ not in range [%p:%p[ or [%p:%p[\n",
- 		*ptr, *ptr + len,
- 		RX(0), RX(SPI_TEST_MAX_SIZE),
- 		TX(0), TX(SPI_TEST_MAX_SIZE));
--- 
-2.51.0
+Acked-by: Waiman Long <longman@redhat.com>
 
