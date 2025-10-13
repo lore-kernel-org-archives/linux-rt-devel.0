@@ -1,215 +1,112 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21D0619DFA2
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Oct 2025 01:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F195C1E0DCB
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Oct 2025 01:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760318946; cv=none; b=azu59cK6g/evZ+uBhQDAM/qMXkDn08FS3X8nCfNSEMTzIZfRdrBE97urrc+nYDveFLwXRnTUUezxqRTSF6bKU0zaIzVTxjG4OBhYW6mieXdFmABb6YDmGn9nixGIuRMENas9LchneCGh2NlS71R6x3qS6mzpYQxnhx/cPSYNHVg=
+	t=1760319334; cv=none; b=lvSO/ScamtQzqKXYVpbcjnpQCbLY2iyFGZrULj4zsRFRTrSf6SfJk0J7ewTtwAU12e3EneyMN0uV8gY1m5jj0IW5qq13V4VGHTA3MTTvkl6gYAYTak3OfrILuD43u6QoXYa4WZZQOmDR5cOxym+X7jroZ1MBaKPYT6zPUyIETWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760318946; c=relaxed/simple;
-	bh=pF3SfRA5dJFIspkqg6jyyfpkzqFi8q+zCIaQtyNC6+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tsDQbMk+YEuXl4ovF+/B/qD/j9Q0npoBGSQkXmAvdOtxKNsUSdrFYGS7Pj472fB67JlluED53XFBbVBvtJYrvvbBM4eMI9VPqeQNiXhm1TBJyylESOEG4ImlTEhaG/lgLI7Tm2D+BvFyirTIpjlS/IHdL+pvNzJtmb0UVH/MzAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-c2-68ec55dc252c
-Date: Mon, 13 Oct 2025 10:28:55 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-	sumit.semwal@linaro.org, gustavo@padovan.org,
-	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
-Message-ID: <20251013012855.GB52546@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-29-byungchul@sk.com>
- <aN84jKyrE1BumpLj@archie.me>
+	s=arc-20240116; t=1760319334; c=relaxed/simple;
+	bh=SNT/gQXeYMQbe6CiuE3g4PgI7DmGrmHhWTT1uedgyFo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nIcKfpFmeiu857z45qc8ZiJMw4zzZiQeXqOAmKUa9t25HPee2baxOnL/jKtM0APj3Wf5vh8DuHbgk6LP1UgE+HfvUVe2AqWqJfiVpHulkAZfu1loXhTH1VUuIVvf2xCNzhYb6z6ZwxRJrx/67wPx8KWdN2kKQ19slbyVmAdUN60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTEVuN7w; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTEVuN7w"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-271067d66fbso35693365ad.3
+        for <linux-rt-devel@lists.linux.dev>; Sun, 12 Oct 2025 18:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760319332; x=1760924132; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qptI1D+UsB6BnqEGTBrzAfay9TK/go8UORV6E6C+E8A=;
+        b=gTEVuN7wchUjEI1MNJxvvQSxk9E8hN8DH5MwY4St7Flo4IDpWmAsOQQkeqz2mfl8g2
+         HfXAYJwUoNSrvfY7HaXxfmP7qZ8SVznhOE/8vBFPljZVLRKiyUu3UF4ZulBzuFaiq06d
+         RrXEe7ZcFVCzE5wa7eOqmGXWv9pSGnIhYDyoMiwvRanvJEfY+TLGMo5LHkp0yK3Phgvk
+         c0oFWQ98cTqDEjvr691+567Piomvh3+eHGUZdkHjOwVCLbAVItYeTB9E1D0lRxDHbJ7u
+         zm5RQW0ZW2/XdmZRgp5I8tJ0YAAJb8gtgZxqvqMyehNoIL1DollTLJTcisxW4yE0cQ1F
+         e45Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760319332; x=1760924132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qptI1D+UsB6BnqEGTBrzAfay9TK/go8UORV6E6C+E8A=;
+        b=ISLVMTOkt3OHJIu/DyP2HssPmFZDybShvzpHx1FFVjQRa/0zmlc8vSW7Rt2Z3cNqjX
+         7bvH7SuUI5b2e1v77/G2XdTRfzRkJ80pSyWTyBg8oGyqJVOgD2B/52eUpNYPwzXp9vnL
+         8c6RDJswVd0niJZNDld49MiIF/jeyNybZw/9NpnzLOB6uehM7omdg1AXxCtmvoK1X7Gk
+         /9y6xN5ZTh5hk1ugD02LcvUGgNlAHisk5/pL3eQgH0cSh35tcIc9PeXyRZAC7kws/FCc
+         GZzINc371Wpk+u3rG/bPL2cVwDBAcPRzhcuJv9RZabQfFhQp4eZGQfmCzPAZIYsECUJa
+         PANg==
+X-Forwarded-Encrypted: i=1; AJvYcCU6qA6uukbD2GFTHLk0fIzW9ZJhmaowz9ENCRxBhI7avK+9HYABJDEqpl4l4x8CTgvQSRNyZt30baunCfv2lg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1jsqTTcKM2+H0HENyNjM4AULxm6HIXUgupp5ITJ8R4I9DmJb6
+	2+t9467dqd10KpozOYbiRamP0PivmTZkKjxhZjvUGGI5JzVmxZLJwl4i
+X-Gm-Gg: ASbGncs1rEvM4cEGGW4hfpsSIxphjv96y/keCXA11DgIZ105m7NlWSRHMO1k6fAIcLj
+	lHTyTeYnkFfLX7lbfpHrtCJ7PM301MDHEPgUGzYc1piaa1+TfcYcT+MUhJQfvFbbyuS9/OnEi8o
+	lOzoCB7E5yYr1B/xR0JJ+JWl1mb0L47jG2zPTDB+SV8pLmdQ/IqCzXmtPiTdAq4ndjElgidw01C
+	Mpa+4JV5VYxD3GqCCxkZF1uLyZEOK2KegWlow5l9cLWbCBuNykdKUKzRm0WjchWvGkt5EQVwHkH
+	TYACscGQS2BrcKe6nucpGOEbZRy2yqW+uOJxEt0WeRzKmdcxEqvX0mI4NrrxUKYvW9nXSw9LCNV
+	nVuKMMVE2um4u+li2XMvGHHdSLzIvxU3SdJyl/PWDCaj48NaFg4hkzCUKGCZccnYjmr0/7k1T1p
+	GK+5NTIi5+bEoujDC+FeM/
+X-Google-Smtp-Source: AGHT+IGroTw4Ts05YI4y+eOASl5mjOVLbfKOD2hQkPWmmvN/0O+Vt+Jh4T1ULkHRoFOV/204fLbaYQ==
+X-Received: by 2002:a17:902:f641:b0:28e:cc41:b0e1 with SMTP id d9443c01a7336-290273ef139mr239114615ad.36.1760319332207;
+        Sun, 12 Oct 2025 18:35:32 -0700 (PDT)
+Received: from fedora.. (p12284229-ipxg45101marunouchi.tokyo.ocn.ne.jp. [60.39.60.229])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f35e62sm116996925ad.88.2025.10.12.18.35.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 18:35:31 -0700 (PDT)
+From: Ryo Takakura <ryotkkr98@gmail.com>
+To: catalin.marinas@arm.com,
+	will@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	leitao@debian.org,
+	mark.rutland@arm.com,
+	ardb@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Ryo Takakura <ryotkkr98@gmail.com>
+Subject: [PATCH] arm64: use SOFTIRQ_ON_OWN_STACK for enabling softirq stack
+Date: Mon, 13 Oct 2025 01:35:08 +0000
+Message-ID: <20251013013508.74677-1-ryotkkr98@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aN84jKyrE1BumpLj@archie.me>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH89z79OltR8m1Q/dMsizrZCpGNicJZ4lxI2bb/WLmdDOZL5lV
-	7tZmBVwLKMZtQIdj6BjUgFmLUiCtKEW0xSIvXRAipjgYyJjNtgLDgpJS2Rit7o2OYsz8cvLL
-	+Z3zz/lwOFZZS1Zy2qwcUZ+l1qmIHMtDcbXr/e/OaF4KXpNBeL4EQ3Wzg8DghUYE9/+2sFDc
-	FsUQ9fQiqBoyseBoKWTgj4sLBII9cwhm7ScQTF97E6L+OwzciswgsAcWGAh0fYGgps5FoPZX
-	PwstvaMIPA1FBCbLL7MwHIiHH8KzBLyVxwmEhqoZsBZ5JHDaYkJgrG8mUHXaiaFtvF0Kv1SZ
-	GGh0boUx+xSGG+V1DFhOGWPlLgOVTR0M2AuSYKLBLIWoNRv8X1di8I7+KIHglInA2PVjEmgt
-	GJdCSXsYg/P2ovD8tA46PV4MvVcmGBhuryZw4uJlCYw6ohK42TiIofmOjwGv+RyG79ubJGC7
-	NcSAq/87FiJlidB0r47AyXtTCIIROwv28Kz0tQzhfnEZFs673IzgOONAwrzNyArF5YvUMzPL
-	Cp+7Dgm2GzNE+Cs8QgRPxIqFvjoqVPSvF9rMfqlgdeYKroZkob5zmtmWsku+KUPUafNE/Yub
-	98k1ngcD+ODxhMMRixEVoPr4UiTjKJ9KLw0XsY+4ZqJbEmPMJ9FQ/7coxoRfTX2+P5dmEvg1
-	1Ot6IC1Fco7lWxPpUMvtJfEk/yodGHEsLSh4oPOtNSg2pOQLER34qgU/FMuo95vAErN8MvUt
-	TDOliFvkRHp2gYu1ZfxaOtYfIjFezj9Pu9zXmVgO5SdkdLTGRx5e+jS92uDD5Yg3PxZrfizW
-	/H+sFbHnkVKblZep1upSUzT5WdrDKQeyM51o8XHtn/yz+wqaG9zRjXgOqeIUmo6gRilR5xny
-	M7sR5VhVgqLi2F2NUpGhzj8i6rPf1+fqREM3SuSw6inFy5FDGUr+Q3WO+JEoHhT1jyzDyVYW
-	oO1d6YWr38uJz68dc7exKfsr4LdcqanvhfDJwNFtPfXPOUD25Z5/daua3OkV75R8utn6wdaj
-	e1rn3ni7L0224sKOLZ9VlenXXk3tcCx/xbbh401p44Nx0RXSI5bJZ2xpnvSQMrzKsLNsMvzz
-	W1uWPUue2Lmx092794Ax8vrI7/6NN1OTxlXYoFFvSGb1BvV/O4WOPLQDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfe69vffSUHLtSngUh0mNuhGBmWh2si2bn+aNi8ZoFqNmmTfz
-	xjaUYlpXxYWEWtkYvqx0aZFWpULoDNSBpaiM1DR1q0Eo2oFKJtDhqoLQsYzyJhTWsizzy8nv
-	nN/5J+fDYUl5QrKaVWuPiTqtoFHSUkq6631T3sCn46p3JhtWwSOjn4KpeAUFF5vdNFR4aiTw
-	4McmBJGpCgQz8w4SytuXKEhYggzE554wYDUiWPIFEdjCFhLcXiMBky2LNIzd+RuBdThKQ/Wo
-	kYIJ11kE9ucOBkZ/2Q6xSIcElgZfEPB4ehyBK7pIQNT/DYKErRBq61ppmA/dJ6Ha+gDBleFB
-	EkZaktIbHELgu3qKhmfmNhJ6oxnQNzVBQ6f1DA2x8EUC/myhwXnKJ4FLDgsCU30zDbZLHgra
-	f/+JgfDYAgEDNgsBTZ6dEHE9p6DLXEck70tuXc8CR7WJSJYRAqzXOgiYczUy0F0/QIGrbD04
-	Qr0SeHrVzsDC8GZYchZDsOkFA4PfWaltNsTPlJ+n+MbWGwRf/muC5t2X3Yiff2VBfLzBRPLl
-	5mR7Z3yC5E+3HucbusZp/tXUQ5r3TTsp/l4d5qtCeXy7fZDhT9/+jdn93gHpB4dFjdog6go+
-	PCRV+WZ7qKNnFCemHSZUhuozKlEai7ktuPZpQJJiiluPY6HbKMU0txH398+RKVZwb+HO1lmm
-	EklZkruZjcPeP5bFG9xHuOehezkg4wDHb9ai1JKcMyLcc85L/StW4s6a6DKTXC7uXxwlKhGb
-	5Gz8wyKbGqdxb+NIKEanOJNbh/037hJmJLO/lra/lrb/n3YishEp1FpDkaDWbM3XF6pKtOoT
-	+V8UF3lQ8ildpQtVt1C8d3sAcSxSpstUHWMquUQw6EuKAgizpFIhq/p6RCWXHRZKToq64s91
-	X2pEfQBls5QyS7Zjn3hIzh0RjomFonhU1P1nCTZtdRny1e4xXT8y9MRW9RJrMrW33u14PNTd
-	pzj4cYH35Q5DW9Ce2RxOLzDTipx9e3M/c3hItrt4Y9aKPZIN/q41+7e9uTUnbl678EhIK32m
-	adty4ORfm2LpwmT27NkLBuf3gcim46Ur/TUVI4nRn2fOF+Wv+KTh2wtfhWN5fTmGtXczVlUO
-	KSm9SticS+r0wj/gdz/3kAMAAA==
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 03, 2025 at 09:44:28AM +0700, Bagas Sanjaya wrote:
-> On Thu, Oct 02, 2025 at 05:12:28PM +0900, Byungchul Park wrote:
-> > This document describes the concept and APIs of dept.
-> >
-> > Signed-off-by: Byungchul Park <byungchul@sk.com>
-> > ---
-> >  Documentation/dependency/dept.txt     | 735 ++++++++++++++++++++++++++
-> >  Documentation/dependency/dept_api.txt | 117 ++++
-> >  2 files changed, 852 insertions(+)
-> >  create mode 100644 Documentation/dependency/dept.txt
-> >  create mode 100644 Documentation/dependency/dept_api.txt
-> 
-> What about writing dept docs in reST (like the rest of kernel documentation)?
+For those architectures with HAVE_SOFTIRQ_ON_OWN_STACK use
+their dedicated softirq stack when !PREEMPT_RT. This condition
+is ensured by SOFTIRQ_ON_OWN_STACK.
 
-Sorry for late reply, but sure.  I should and will.  Thank you!
+Let arm64 use SOFTIRQ_ON_OWN_STACK as well to select its
+usage of the stack.
 
-> ---- >8 ----
-> diff --git a/Documentation/dependency/dept.txt b/Documentation/locking/dept.rst
-> similarity index 92%
-> rename from Documentation/dependency/dept.txt
-> rename to Documentation/locking/dept.rst
-> index 5dd358b96734e6..7b90a0d95f0876 100644
-> --- a/Documentation/dependency/dept.txt
-> +++ b/Documentation/locking/dept.rst
+Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+---
+ arch/arm64/kernel/irq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-However, I'm not sure if dept is about locking.  dept is about general
-waits e.g. wait_for_completion(), wait_event(), and so on, rather than
-just waits involved in typical locking mechanisms e.g. spin lock, mutex,
-and so on.
+diff --git a/arch/arm64/kernel/irq.c b/arch/arm64/kernel/irq.c
+index c0065a1d77cf..15dedb385b9e 100644
+--- a/arch/arm64/kernel/irq.c
++++ b/arch/arm64/kernel/irq.c
+@@ -62,7 +62,7 @@ static void __init init_irq_stacks(void)
+ 	}
+ }
+ 
+-#ifndef CONFIG_PREEMPT_RT
++#ifdef CONFIG_SOFTIRQ_ON_OWN_STACK
+ static void ____do_softirq(struct pt_regs *regs)
+ {
+ 	__do_softirq();
+-- 
+2.34.1
 
-[snip]
-
-> > +
-> > +   context X            context Y
-> > +
-			     /*
-			      * Acquired A.
-			      */
-> > +                        mutex_lock A
-
-			     /*
-			      * Request something that will be handled
-			      * through e.g. wq, deamon or any its own
-			      * way, and then do 'complete B'.
-			      */
-			     request_xxx_and_complete_B();
-        /*
-	 * The request from
-	 * context Y has been
-	 * done.  So running
-	 * toward 'complete B'.
-	 */
-
-	/*
-	 * Wait for A to be
-	 * released, but will
-	 * never happen.
-	 */
-> > +   mutex_lock A <- DEADLOCK
-			     /*
-			      * Wait for 'complete B' to happen, but
-			      * will never happen.
-			      */
-> > +                        wait_for_complete B <- DEADLOCK
-	/*
-	 * Never reachable.
-	 */
-> > +   complete B
-
-			     /*
-			      * Never reachable.
-			      */
-> > +                        mutex_unlock A
-> > +   mutex_unlock A
-> 
-> Can you explain how DEPT detects deadlock on the second example above (like
-> the first one being described in "How DEPT works" section)?
-
-Sure.  I added the explanation inline above.  Don't hesitate if you have
-any questions.  Thanks.
-
-	Byungchul
-> 
-> Confused...
-> 
-> --
-> An old man doll... just what I always wanted! - Clara
