@@ -1,72 +1,156 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB862DD60F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Oct 2025 06:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB7E30FF32
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Oct 2025 15:55:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760336890; cv=none; b=M7JpFQRNV0bYsucVlWz2TM71OeYNQUEWfkWfFGmnfoIlrx6tKl9rT6leOoUKCFRvDSAKsrxmzTRQr4jxrtsoIbHklw3uB4RSktjwHr5qF7VDvG8rsIPpxSCW7DJOBuXzlIBdB0SlSNLCt2pJpZvYSa/GqZUnpqBiU3gK37t7H9g=
+	t=1760370914; cv=none; b=YgM8nt7CL4iR/N5rRtq25D9SHl4yfx2IQjeCgVezqPYgs8+ADi6zbtqAOaxM2kx0F/OJYe3dbHSAJi5/Ki9ISt81w64hFXDmzoVXKH9D0iihkohxTp57g9QhewoK4vwwaZf8OpnWQpsamtbWorcN1oUDQ8nDGlG5bhk8NnPYgsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760336890; c=relaxed/simple;
-	bh=RxVn2GQXUIB4qbHlA2Cb2iDd9E2/HPk15jFxklapqb4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehTgSjpaZwkvk/exf2PtU5LcAyCvtOmK00gSzLI12osJ6HaqDCS/GvL44koy0gyRNEM/GmfgLJa51jdHryc503wQiBLrGL3EBOb8kdxGs4U8o8O0WRU7xAk+UHfLMluTv1SCaSzbtarnuYtk95FWbP8lF7ktKjvTxO7a1bYqxCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=czIlbdGL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J7VZgV76; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1760370914; c=relaxed/simple;
+	bh=SR16SDEApWSuMuV78M5goXrZEkHtPoydA3cpBeRk3pk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=O2bE7f6wE0PF4kJ5NjLQd6PGYfIYdBz/oYcwosRiZNktyK6wzQSA2ypGkNJ4hB6uePodV5/u5wUwEL02t0tkQu33emX/lo2vKfjpCZrRYwa9wAS3yx4k+UP28NDFX3HvolCvZz1dFTLsTuUuE50rO2rX6RNW4bkAh9EhLHolTVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UGZq/Zcl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="czIlbdGL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J7VZgV76"
-Date: Mon, 13 Oct 2025 08:27:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1760336876;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UGZq/Zcl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760370912;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=C+lWtQFv2S+aF9dYafZDwwatkx8KiFcCSvwTyPK3+vM=;
-	b=czIlbdGLytDRKDs6vAw1zqCbwJNmJ7KQpCPt8XVR8wulBg4k96MFqm8Lt+Jaya3k6EMsK1
-	uEPXyCP4ME0Ov3QUlD93hqxyRTK39SYQd5ag3rOHnRQ5e76fipBK+wfeYWIYq8UoSYb64j
-	JXlieO4zvxkNab2qcrli8wYGIDeeSLQHdlnUAsi9gsWww2sL8mUCaChrI4eqM7qhyk2BUy
-	2cFVq48vtzBiTZrc/pOzXjGAN8n4a1Zz9e4anSGgb292FTCXoz8psDLaTQJgdKLV9mYg19
-	BHg1zPs14f3ApM7RI/60S8BetJ+1u740fQt2Zodz1KmxGFukrgx2mnCgKrQx8g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1760336876;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=C+lWtQFv2S+aF9dYafZDwwatkx8KiFcCSvwTyPK3+vM=;
-	b=J7VZgV76qYt6owRDosLVULkFKlKlRzfR8GYsIaVHlsPn5foBNC0b7Cgk0M1btbaoK4gQLz
-	QY3RW4+Mlc29vZBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ryo Takakura <ryotkkr98@gmail.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, clrkwllms@kernel.org,
-	rostedt@goodmis.org, leitao@debian.org, mark.rutland@arm.com,
-	ardb@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] arm64: use SOFTIRQ_ON_OWN_STACK for enabling softirq
- stack
-Message-ID: <20251013062754.6GDxEVID@linutronix.de>
-References: <20251013013508.74677-1-ryotkkr98@gmail.com>
+	bh=GcmkubQ76k3OEo3+5mJ3yaxqP/LkJrk4TvFyQj+rU4A=;
+	b=UGZq/Zcl/3tc2EjdThjzvSCU5wvvkeqZKn7QRkW2C1svlsKwoRS/1453gO7RyC6fzMtxcA
+	kNKjJ1Pk1McMjPh098HnZnm5lsxXtBpqdiZfcleW74wMHsSE2g07E9SlnWlwc7crBtt29W
+	bfwaHVKMli2i0xsz3EV0WDqkmp5vWy4=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-241-U3XbwU-2O6uDqALszE9nSA-1; Mon,
+ 13 Oct 2025 11:55:06 -0400
+X-MC-Unique: U3XbwU-2O6uDqALszE9nSA-1
+X-Mimecast-MFC-AGG-ID: U3XbwU-2O6uDqALszE9nSA_1760370901
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 440AF1954105;
+	Mon, 13 Oct 2025 15:55:00 +0000 (UTC)
+Received: from chopper.lan (unknown [10.22.81.1])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 716383000386;
+	Mon, 13 Oct 2025 15:54:57 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: rust-for-linux@vger.kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Subject: [PATCH v13 17/17] locking: Switch to _irq_{disable,enable}() variants in cleanup guards
+Date: Mon, 13 Oct 2025 11:48:19 -0400
+Message-ID: <20251013155205.2004838-18-lyude@redhat.com>
+In-Reply-To: <20251013155205.2004838-1-lyude@redhat.com>
+References: <20251013155205.2004838-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251013013508.74677-1-ryotkkr98@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 2025-10-13 01:35:08 [+0000], Ryo Takakura wrote:
-> For those architectures with HAVE_SOFTIRQ_ON_OWN_STACK use
-> their dedicated softirq stack when !PREEMPT_RT. This condition
-> is ensured by SOFTIRQ_ON_OWN_STACK.
-> 
-> Let arm64 use SOFTIRQ_ON_OWN_STACK as well to select its
-> usage of the stack.
-> 
-> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+From: Boqun Feng <boqun.feng@gmail.com>
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+The semantics of various irq disabling guards match what
+*_irq_{disable,enable}() provide, i.e. the interrupt disabling is
+properly nested, therefore it's OK to switch to use
+*_irq_{disable,enable}() primitives.
 
-Sebastian
+Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+
+---
+V10:
+* Add PREEMPT_RT build fix from Guangbo Cui
+
+ include/linux/spinlock.h | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
+
+diff --git a/include/linux/spinlock.h b/include/linux/spinlock.h
+index 80dfac144e10a..aff1b8c5f7cd7 100644
+--- a/include/linux/spinlock.h
++++ b/include/linux/spinlock.h
+@@ -567,10 +567,10 @@ DEFINE_LOCK_GUARD_1(raw_spinlock_nested, raw_spinlock_t,
+ 		    raw_spin_unlock(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(raw_spinlock_irq, raw_spinlock_t,
+-		    raw_spin_lock_irq(_T->lock),
+-		    raw_spin_unlock_irq(_T->lock))
++		    raw_spin_lock_irq_disable(_T->lock),
++		    raw_spin_unlock_irq_enable(_T->lock))
+ 
+-DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irq, _try, raw_spin_trylock_irq(_T->lock))
++DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irq, _try, raw_spin_trylock_irq_disable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(raw_spinlock_bh, raw_spinlock_t,
+ 		    raw_spin_lock_bh(_T->lock),
+@@ -579,12 +579,11 @@ DEFINE_LOCK_GUARD_1(raw_spinlock_bh, raw_spinlock_t,
+ DEFINE_LOCK_GUARD_1_COND(raw_spinlock_bh, _try, raw_spin_trylock_bh(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(raw_spinlock_irqsave, raw_spinlock_t,
+-		    raw_spin_lock_irqsave(_T->lock, _T->flags),
+-		    raw_spin_unlock_irqrestore(_T->lock, _T->flags),
+-		    unsigned long flags)
++		    raw_spin_lock_irq_disable(_T->lock),
++		    raw_spin_unlock_irq_enable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1_COND(raw_spinlock_irqsave, _try,
+-			 raw_spin_trylock_irqsave(_T->lock, _T->flags))
++			 raw_spin_trylock_irq_disable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
+ 		    spin_lock(_T->lock),
+@@ -593,11 +592,11 @@ DEFINE_LOCK_GUARD_1(spinlock, spinlock_t,
+ DEFINE_LOCK_GUARD_1_COND(spinlock, _try, spin_trylock(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(spinlock_irq, spinlock_t,
+-		    spin_lock_irq(_T->lock),
+-		    spin_unlock_irq(_T->lock))
++		    spin_lock_irq_disable(_T->lock),
++		    spin_unlock_irq_enable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1_COND(spinlock_irq, _try,
+-			 spin_trylock_irq(_T->lock))
++			 spin_trylock_irq_disable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(spinlock_bh, spinlock_t,
+ 		    spin_lock_bh(_T->lock),
+@@ -607,12 +606,11 @@ DEFINE_LOCK_GUARD_1_COND(spinlock_bh, _try,
+ 			 spin_trylock_bh(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(spinlock_irqsave, spinlock_t,
+-		    spin_lock_irqsave(_T->lock, _T->flags),
+-		    spin_unlock_irqrestore(_T->lock, _T->flags),
+-		    unsigned long flags)
++		    spin_lock_irq_disable(_T->lock),
++		    spin_unlock_irq_enable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1_COND(spinlock_irqsave, _try,
+-			 spin_trylock_irqsave(_T->lock, _T->flags))
++			 spin_trylock_irq_disable(_T->lock))
+ 
+ DEFINE_LOCK_GUARD_1(read_lock, rwlock_t,
+ 		    read_lock(_T->lock),
+-- 
+2.51.0
+
