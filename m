@@ -1,127 +1,151 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B99042049
-	for <linux-rt-devel@lists.linux.dev>; Fri, 10 Oct 2025 17:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E493D1A08DB
+	for <linux-rt-devel@lists.linux.dev>; Mon, 13 Oct 2025 01:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760116698; cv=none; b=gKLyUuf4KM4+JbEkx5jCXngS34jISuHOHpc44JFFCCxAQTf7iVcG8/dfhjIOhIG6Q81hQwvyiRcm2RYGPIUrPPV+iYnTawHnTx0J697zRsY3bciW8CXh4FXLScku2vNECaPJY6Jtzt2gU1wIIRDjkLRKrBnVohgvGd/EZ/7I8g0=
+	t=1760318321; cv=none; b=uH3DjG4RgHKgwA57SSkVvh59Gtqropg5knfQmSyBrl9YH5PnFv/No3RvR7C03XRHZjyITJYaNs/V2zPmWmH0IU71LRiOSrGioQk7A5oNkYV67Gmcbkm2hLcRTzEzhf1J3Kc/e7d6MToPEoqlGMuYNgAMWrVmwmrSkzZ5UGVRczg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760116698; c=relaxed/simple;
-	bh=Z8Bgg8Yh3z/S2AKEWMy72snzKqxcwIZAWYiJw1H/xlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ka0gyTOE7v7/8B1AwWaLGRm4IT2q5ca1Cb2Y/JYYTy+l51NpogsRIV5OI6b0IRmg29zwog1uP2IccQGTBaIHZ08gevHubsjtJ06BBhMAhLt0Diev/pPAS1Y10hvUzunPpVnKpEFyIpheU9tGfQtmZ563cWW6sVlW8MAg70/yeaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lo65CExJ; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lo65CExJ"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-32ee4817c43so1990133a91.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 10 Oct 2025 10:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760116696; x=1760721496; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4BfVsigI/RIm7lCLr6Chg7lwMcGQgn9TsXQSX3+pXnM=;
-        b=lo65CExJKYR0s+5NmmJzG50OS4hZ8f7kVB5vZ/yX7T38PBD2RuF4qrM/B3uA2cfHbc
-         HwAZ6HXc16fq+kI/fDcBpSoaeI+zX058E1h8Dr7kPVIVyrc9pwC+FHuQgkuu/B3AN0LS
-         n8WRE0MN9YlmzgJdKl4Zi3H1FRUAs7F9WKC9djBmWZ7VhwXoKY6Cb6fLBpHbepn9bef0
-         xms4tLENUUV2eFGeaxxKH3/XLsw2o2HILl2ampVoq3gcm4L4w/TBJobqpUPsvDEJeB4G
-         JnEjmaAKVkhjv6/qhYZIVmLuWZnbZIp58GmNSeiPKATErFQ1xE+WbJyklnutToQECFqD
-         w3aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760116696; x=1760721496;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4BfVsigI/RIm7lCLr6Chg7lwMcGQgn9TsXQSX3+pXnM=;
-        b=HGyrUG3gTpTm/L29kar9RQNaSUx0nwAIvbyW0ifI+nMvmFYbfmIvjan2F5L02G0BXa
-         YpvN4Cx5FFBFstg0U9Ca4FcOgLWKahiwk/H19AMioWuh/1/pM83xU/UhdR6YKn6/z59H
-         4qg0NDVBHh16eCYVPUPhW4ls8loYFy4QjMohl7rCzkWqzZgysGsCCiEFHV/eB0tXrW4s
-         vhGqz/K5hJkE0vxO7+aN8Y+1ctWGdkqZAdA5YUWedpSQia0ioDbHJh86hhUY2ZoyTBsr
-         gLdwbY9WYSmL/aFDv7kuOVAKbOXW8p1jW6zwpjpoNAkvVEpjOPxyYnCIu5In2B73Myex
-         ZCPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU1GLvEeOjHCa5SFFgBy5JzUdngj14TvCo/s6AbndlI48oGek1nuSiSjXQGEsEfpSnRfQdpsmSIe0nIBYgOXQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTcnu4HvAzIqJaVtRvDYnW8vHssKyfl3GwE48Cua422dy9vWV2
-	DN+mwuJq5yauAcuGJVUcPyKy9MO7Pp/ZY9fePS74ihwNjnRhSqf+KbAi1bHEBDrvcv3/osPcMw4
-	hLlZdrqhsWXuN/Ppqa9j/ODowmV78s5o=
-X-Gm-Gg: ASbGncv4epHCe7hrTv31P1IXZEYld8falM8Rvxq0hudXMU1HWeGxwcesiqhjmGcD1pd
-	SJoQ1+2RdK6c8VFdMWJX6grCeh/8vz3ykZS7WidSU/c0bbUMylNAfUdXmep0St51tRiFHM+k0Jk
-	kObveEOmuTNOivmWvFX2SRivtjb/1PUx2geKhFKBEL3uRC4wrv7zppdg6CUCuvLSb6MA8fYyim2
-	U9zybGIfugXn76KUFtT65wZpd3eJd7qWKvYUA==
-X-Google-Smtp-Source: AGHT+IH1giPZcnOv6CGAjB6Rl2QcFEzz3CPtE14GWTh10ezJZ6kvXIL6/4N3fdyqX9JAPTZlX1XtlfpaKep3fWug9Ws=
-X-Received: by 2002:a17:90b:1fc4:b0:32b:d8a9:8725 with SMTP id
- 98e67ed59e1d1-339edadd5b9mr23216650a91.18.1760116696201; Fri, 10 Oct 2025
- 10:18:16 -0700 (PDT)
+	s=arc-20240116; t=1760318321; c=relaxed/simple;
+	bh=NiasNDnL7bI+RWAs1WgZxXifIHYVm8cB4osG/bTqMcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qI4gq/gubdVW/h82Eeymu+iPWk2ya+celrB5tTW51bxjIL0jVxVbP3FVO8+IDzgXH7uAhUPjIokUrszEsDkxtwQmjUXrrh95TkuWLmL7t3wauQroqdbufdzHh8ttj2j/DM0ZZoEztjSYf9JX9KKlPEk4iqsAB/OBVT/e4VDDxH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-66-68ec4fde3b26
+Date: Mon, 13 Oct 2025 10:03:21 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
+Message-ID: <20251013010321.GA52546@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-29-byungchul@sk.com>
+ <87ldlssg1b.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com> <20251010071555.u4ubYPid@linutronix.de>
-In-Reply-To: <20251010071555.u4ubYPid@linutronix.de>
-From: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-Date: Sat, 11 Oct 2025 01:18:05 +0800
-X-Gm-Features: AS18NWB9IwjfwJLLXvf_C7PSNG6WlpQ2fa-Gc_uHnrsGBHqIZb9E1EFejDVQ0N0
-Message-ID: <CAH6oFv+SUo7B6nPPw=OgQ1AhqVfQYC1HvX=kjcHJX8W13kTwZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] pci/aer_inject: switching inject_lock to raw_spinlock_t
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Boqun Feng <boqun.feng@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ldlssg1b.fsf@trenco.lwn.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa2xLYRjH8557G7Wjbi+ND+oWwzbiw/NBXOJ2hCAk4hpO7EQb3UjH2Fhi
+	MjVzqy626EzGhtpq6MxmVGbXLLbqZqZmVruobbSJmY6xhTMRvv3yf/75Pc+HhyPVDfRETh99
+	QDJGiwYto6SU/hHX5njXfdJFBGvGQlNiKQX9PzJIGLRUsZBWbyHBfj+RgIttnQxYfRksdFeu
+	BL/3EQ2vgp8QpF90I3DajjPw3lxIQuAuA1nHnTSkZTooePiuhIWWNAsB3hs+CmqzWyj42TYX
+	alqbaPBWm2joa2wjwH7GR4KzeRYkD/YhqCpuJ6Ahz03B85LbNFx/VU9A8JwG3BfO0pAa8CGw
+	+HpZMH0ZoqH6bCkBdRkuGlrO9VBgyrlHQMWdIgKu2/w0DLwtpuH0iTQKkiuCJBRW9rOQ+MWL
+	IGDuoxdHCCcaBhnBfsWOhB8DFiQ8tL5lhSzHQSGpwk8LBbZQIftxNyE4ck8xQoq/kRBamh4z
+	QsDlYoXOxnRCeDPUQQpdBZeQ8Pl9M7V+/FblgkjJoI+VjOELdyl15c5Wan82c9jWueEYMtEp
+	SMFhfj4OfC1lUxA3zJ6rRjmm+Gm4dqCQkZnhZ2CP5zspV8bwU3HPqU0pSMmR/E0NTvVlDndG
+	84uw66UdyaziAWfWlw+zmk9C+HOt+CcfhWsudVIyk3wo9gx1E7KT5DX45hAnxwp+Nu43t5My
+	j+Wn4NIH1YS8C/M+Bb6c2Ir+nDwBP7V5KDPirf9prf9prf+0WYjMRWp9dGyUqDfMD9PFResP
+	h+3eF+VAvz/tRsLPbcWo172xDPEc0o5Q6R591KlpMTYmLqoMYY7UjlFdMHXp1KpIMS5eMu7b
+	aTxokGLKkIajtONV84KHItX8HvGAtFeS9kvGv1OCU0w8hpTT67xosL2D7uppWDp77a5NJx3z
+	NEnqcbdWxJqn561cHlblNoanJ0z9Fv68K/7I69bXmi27paJlCQUvaotylWsUzSXe/MuTR98R
+	DQs8YIiYZDB/WN0b8q48dceVkUtyvjZHLtdsT161In9vZcjMujNPnp6XnnUfrXKyt1zB+JDN
+	wQ4tFaMT54aSxhjxFy7b3xBlAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxbZRTHfe7Lc28bO68VtycjfrDuJRJBl+k8cUaXqNkNUXQz2Xxjrt2u
+	tuGlyy3D4WLCWxFxaqlp2dp1MtgKgbJ1BRaRdEEaWbaBDJFRdYV1qQxGkaiwhgLFdsa4Lye/
+	8z///8n5cHhaHWfX8obCIkku1OZrsJJR5mytyBx7Pap/ytWWBdfKehiYn6tm4PhZD4Zq3zEW
+	rp5pRTA+X40gtuikwdy1wsCytY+DuYXfOFjx9yGwD1lp8HSUUfC3N4FhOvAXAls4gqFuqoyB
+	WfcRBI4JJwdTP2yHmfFuFlZCtygYvRNF4I4kKIj0fIpg2Z4H3zS0Y1gcGKShznYVwclwiIZJ
+	b3LY0TeGwN9cjuF3SycNw5FV8PP8LIZLts8xzAwdp+APL4b6cj8LLqcVQUXjWQx2l4+Brhvf
+	cTA0vUTBdbuVglbfazDunmDgiqWBSt6XdJ1bA866CipZJimwtXVTsOBu4aC/8ToD7tL14BwY
+	ZuFms4ODpfAmWKk3Ql/rLQ5CX9kYODMzyG6zITFm/pIRW9rPU6L5p2Usek54kLgYtyJx7nQF
+	LZotyTYQnaXFyvaPxNNXoliMz49g0X+nnhEvNxCxdiBT7HKEOLHywq/cG8+9o3x+v5RvKJbk
+	J1/Yq9QH/GPMgUZ8qDmysxRVsTWI54nwNAmelGuQgmeE9aQ/3olTjIWNJBhcoFOWNGEduf3Z
+	rhqk5GmhKZ18PeG663lIeJH8OOJBKVYJQFxDgbusFioR+bNf+6/+ILl0LMKkmBYySDAxRaV2
+	0kI6aUrwKVkhPEFilpt0ih8WHiM95y9SFqRy3JN23JN2/J+uR3QLSjMUFhdoDfnPZJny9CWF
+	hkNZ+4wFPpT8SPcnS7Xfornh7b1I4JHmfpW+e1qvZrXFppKCXkR4WpOmqq2a1KtV+7UlH0uy
+	8X35YL5k6kXpPKNZo8reLe1VCx9qi6Q8STogyf9NKV6xthS5r+VIl2U245eD0cAjh+/b4jWe
+	em/j6Pe6dFfuznc/CDlWb6jLzlzep9PZSXlr7aPPvt0SfOXwjuwLqzdn9DpHXlLciK17tWkC
+	F9U8MCX4ir2d4qqcPbmzm31HwqNuz+Dtl+UtRp05trVKEX/z8Q7YlgiVNOTKF0+95Qwf5dp0
+	G77QMCa9dlMGLZu0/wCekX8tjQMAAA==
+X-CFilter-Loop: Reflected
 
-On Fri, Oct 10, 2025 at 09:15:55AM +0200, Sebastian Andrzej Siewior wrote:
-> On 2025-10-09 15:06:50 [+0000], Guangbo Cui wrote:
-> > index 91acc7b17f68..6dd231d9fccd 100644
-> > --- a/drivers/pci/pcie/aer_inject.c
-> > +++ b/drivers/pci/pcie/aer_inject.c
-> > @@ -523,8 +523,8 @@ static int __init aer_inject_init(void)
-> >  static void __exit aer_inject_exit(void)
-> >  {
-> >     struct aer_error *err, *err_next;
-> > -   unsigned long flags;
-> >     struct pci_bus_ops *bus_ops;
-> > +   LIST_HEAD(einjected_to_free);
+On Thu, Oct 02, 2025 at 11:36:16PM -0600, Jonathan Corbet wrote:
+> Byungchul Park <byungchul@sk.com> writes:
+> 
+> > This document describes the concept and APIs of dept.
 > >
-> >     misc_deregister(&aer_inject_device);
-> >
-> > @@ -533,12 +533,14 @@ static void __exit aer_inject_exit(void)
-> >             kfree(bus_ops);
-> >     }
-> >
-> > -   spin_lock_irqsave(&inject_lock, flags);
-> > -   list_for_each_entry_safe(err, err_next, &einjected, list) {
-> > +   scoped_guard(raw_spinlock_irqsave, &inject_lock) {
-> > +           list_splice_init(&einjected, &einjected_to_free);
-> > +   }
->
-> I would either convert _all_ instance of the lock usage to guard
-> notation or none. But not one.
+> > Signed-off-by: Byungchul Park <byungchul@sk.com>
+> > ---
+> >  Documentation/dependency/dept.txt     | 735 ++++++++++++++++++++++++++
+> >  Documentation/dependency/dept_api.txt | 117 ++++
+> >  2 files changed, 852 insertions(+)
+> >  create mode 100644 Documentation/dependency/dept.txt
+> >  create mode 100644 Documentation/dependency/dept_api.txt
+> 
+> As already suggested, this should be in RST; you're already 95% of the
+> way there.  Also, please put it under Documentation/dev-tools; we don't
+> need another top-level directory for this.
 
+Sure.  I will.  Thanks!
 
-> Also I wouldn't split everything to another list just to free it later.
-> I would argue here that locking in aer_inject_exit() locking is not
-> required because the misc device is removed (no one can keep it open as
-> it would not allow module removal) and so this is the only possible
-> user.
-> Therefore you can iterate over the list and free items lock less.
-> This reasoning of this change needs to be part of your commit
-> description. Also _why_ this becomes a problem. You do not mention this
-> change at all.
-
-Hi, Sebastian
-
-Yeah, you're right. Once misc_deregister is called, no new user can add
-err injection, and aer_inj_pci_ops was deleted by pci_bus_ops_pop below.
-All places that access einjected have already been released, so freeing
-einjected can be done without locking.
-
-I will drop the lock in aer_inject_exit, and update commit msg.
-
-Best regards,
-Guangbo
+	Byungchul
+> 
+> Thanks,
+> 
+> jon
