@@ -1,277 +1,108 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0FB71DA62E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Oct 2025 06:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5860313523
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Oct 2025 12:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760423931; cv=none; b=mQsu87H+umdhY8u1XR6gKMW8/3BaxCA1WaeCYLdu5TT2sIuDJ51f91ydZP4KYMAsrUoT2WUWwM5Lezt1CAcgQ5EaF4W6ZeprASAz44rvjmyKjOVF4Zx2gcxYF6t2ct8dpQ1/OhSupJjzLUePBkmKKzLWlEBpO2qVIK9PO8au1ZM=
+	t=1760444256; cv=none; b=GvpiyJsiE37ur7kUGL+pDB9vIr9DzlwPmYv7PZOGqlnIuGIdiErtJ+fpVrtmx/7jg5Us6UVJjaSDuKKR/jL3J/GJLWJmdBi9QhXbCnjdKfOQrjkuCZW3I/JFMrRa3N6KOKgA5cEWHnxfvIt0MNZXdZcRKJW46xijUMnh/xVegFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760423931; c=relaxed/simple;
-	bh=WTdEIPVnTjVYFmBVT010VFa83HYwQgS+DTRMlHzMHzE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p5NON7mG02PUiozuowqNgZh9FH7kVLZv6HuM6ccoEfHtUwX55Eq2l7PfPKN8X+BgheOJ7pPbZRiFTP7ZwufAuahqiVp2cPLVMaUi/Tt/fmSajVLmEABmWnw3guYKK6P7gZhF4c5//owAkpUzRZdVds/UwOJCaA4bpUGZEvVqJ0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-23-68edefefb741
-Date: Tue, 14 Oct 2025 15:38:33 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: NeilBrown <neil@brown.name>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-	sumit.semwal@linaro.org, gustavo@padovan.org,
-	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, okorniev@redhat.com, Dai.Ngo@oracle.com,
-	tom@talpey.com, trondmy@kernel.org, anna@kernel.org,
-	kees@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
-	mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
-Message-ID: <20251014063833.GA58074@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-29-byungchul@sk.com>
- <175947451487.247319.6809470356431942803@noble.neil.brown.name>
- <20251013052354.GA75512@system.software.com>
- <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
+	s=arc-20240116; t=1760444256; c=relaxed/simple;
+	bh=nfi0PfSq6Dox8FYapvzx2yyqZb6FV4A0jwmwDZVXYCA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qOkGxkWohCTvLORYkBlpAnxA/ZTS+SiLC4rsb0VxlPAngHgWuMi6hLgRECc8hJt2SJL/0vgoJHowxxP0p6gMQrcM297XABL+pO4qcVG8JAH5NoUZ1UyKr2GnoEnPnmrdL8ZDDyWWxzRQ+fS8D+8uAttp6bDBTc1jHkb1RR81p+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ble0H83e; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4I1a9cCQ; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ble0H83e";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4I1a9cCQ"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1760444252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FhJoJ9sh/rzNr2PrKp88Hxaryk64dOD8tUujsdzCgGQ=;
+	b=Ble0H83e0fuYY4+wv1NL+635xo7D3oTuXx8GedLjyBKm7HGLr9LAGuYEv8EXfOjzoN5Zar
+	1rYz1bqrZ/JkdxJ+zhLIcM+w9Vwjxmin6goO9MoLXULJtXk1e0IrTX5iExO+RYtHaJzCpF
+	xjEF40eUs57LwWMRekbKmply+VJ4DWiVrJmAkpyqPapquSClT94HZJh0srjueaVa4W2TEn
+	6IOTyg66dmMBEcGPTGsdbmfMdt/viORmp+7QsTjkwOq5n7EMzWGd96sflG7z7dGvGNZHst
+	i1683NGzGpdmgEctrcwusZB6Q6yHXZn97PzE3bpmH2GeLGN/uHpNz+U5VwdWGA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1760444252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FhJoJ9sh/rzNr2PrKp88Hxaryk64dOD8tUujsdzCgGQ=;
+	b=4I1a9cCQdKf3V0UthOuGjYRRLJAB9eXiEw304zCQm267VJ7N4g4wQUGlKTtjW8/uYKn7Si
+	FAE1dEr/cH4hWsCg==
+Date: Tue, 14 Oct 2025 14:17:23 +0200
+Subject: [PATCH] mempool: clarify behavior of mempool_alloc_preallocated()
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <176042183810.1793333.13639772065939276568@noble.neil.brown.name>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxbVRjGPfee+9Fm1WvF7DiMJjVzygJuhmTvovuKRm9MbDDGLZkxs8rN
-	2qwULIwNF5NuYxuyEbCmVMogZQzW0SKlsLlOapCPIim4goMVxnAQZCJ0TRDQAQVblsX993uf
-	J+/zvCc5PK2sZDfwOkOOZDRo9CpWjuXhdVXJkUhYu2VoaTsMHm/FcL7BxUKBp4yBf5bKaTjl
-	XcUQNfs5mHtwm4NVnx9BaZ+Zhun2WQSWsQkWrFPHMdgmyzmY6nwXbi3MIKidWKFgovUMgmjp
-	IbBaggj+dMcmn+MEC3+UXKHh5nyEhW7LWRbCfecpuO9mwX7Cx0BFuRnByeoGFkorPBj6ppcp
-	GCk1U+D0vA+BkgtUrC7mNa4HS/2PFPRUj2AYd9g4WB7bCqv2TPA773Fwp9iC4fvwDQa6RwcZ
-	+L3rNAM/mO7GHnFzjALXuUkaCq7PY/ANb4aq0xcxlFWOsNDi68ZQEJ1D4L82TsE59xUGRl2r
-	DARbAwz0O4MYGu6FKAj4f8Fw43o9A029PfTudLGu6SoluipdSFxaNCPxVEmM2mcitFgTmGHF
-	xfkBVvymN1n02u5wYv5Pw5xo9xwW8zvCjNjkSBKrW6YocXh6h+ip+5pNS9ovfzNd0utyJeNr
-	Oz+Vay8W27ksb/LR5vYOZEIVLxQiGU+EVNLRe5t7xN/5/qILEc9jYSPp9O6Oy6ywiYRCD+g4
-	JwgvksbmIaoQyXlaqE0kIevCmvGMsIv8OuBCcVYIQPqdDWuZSsFKkTOBDx7qT5PusgkcZ1pI
-	IqGVKSreRQuJ5NIKH5dlgprcGrWurT4rvERar3atdRFhXEYu50fRwzufIz87QrgECbbHYm2P
-	xdr+j7Ujug4pdYbcDI1On5qizTPojqZ8npnhQbFfW/vV8sfX0GzwwzYk8Ei1ThFamdEqGU1u
-	dl5GGyI8rUpQbDsWkxTpmrwvJWPmAeNhvZTdhhJ5rFqveH3hSLpSOKjJkQ5JUpZkfORSvGyD
-	CRVtbNlv6mF2vH32iTTZy2amf7a303z35LcH/o1gx2JKkfrVQJBseWcPU+PO21vwpDg+d+HI
-	TrXKmyDLMjz1yWb1exkfFadtP1b01vwrg5fIZM3BnC8GVPdrm02pVbs+G6kPLvu3DSwN/aZw
-	vxFU12xy/v28vmOPpXGfPaeoa2+0T8pV4WytZmsSbczW/Adn3NiEsQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHfe7z9N5LQ8214riRRLMaozFBZZnbyTCIH6ZXjUSJk8TEaKN3
-	tuHNtYKiMSkCgzCHpVlbaUUrjmpKFaQV7bCGgWVzDBWY2k2RQQqKgE2Ul/BWbF0W/XLyP7//
-	+eecD4fF8hnJYladdUTUZCkzFLSUSFMSC+KDwRHVWl+DBB7nNxEYGy0hcK7WSUNJfYUEHl6r
-	QdAzVoJgYtqKocgzR2DW0MrA6ORTBua8rQhMHQYMTnc+BW/rQjQMtbxBYOwN0GAezCcQtJ9G
-	YBmwMjDo2wwjPY0SmOt+QcGT8WEE9kCIgkBTMYJZUzpcqHLRMN3+AIPZ+BDBxd5uDC/rwqa7
-	9TkC75VTNPTrb2DoCsyHv8aCNNwz/kDDSMc5Cl7X0WA75ZVApdWAoOBSLQ2mynoCnn9/YaBj
-	aIaCZyYDBTX126HHPkCgTV9Fhe8LT12PBau5gAqXlxQYrzZSMGl3MPDnpWcE7LrlYG3vkkDf
-	FQsDM70JMGfLhtaaFwx0nzESuDbyQJJsRMJEURkRHK4GSijqnKUF53knEqanDEgYrS7AQpE+
-	3LYMB7FQ6DoqVLcN08LU2CNa8I7biPBHFS+Ut8cLHks3IxTe+YfZ8dUe6fqDYoY6V9SsSdov
-	Vf18xsYc9sQfc7fcRTpUuaQURbE89zl/1vsKlyKWJdxy3udJjmCaW8H7/ZM4omO4pfx1999U
-	KZKymLPH8X7z+HtjIbeBv//IiSJaxgHfWVPLRLScM1N8cdvO//gC/l5FgEQ05lbx/tAgFdmF
-	uTj+coiN4CguhX/y3Pw+uohbxjc1/EbpkczyUdryUdryIW1D2IFi1Fm5mUp1xrrV2nRVXpb6
-	2OoD2Zn1KPyT9pMz5bfQaNfmZsSxSBEt84eGVXKJMlebl9mMeBYrYmRfnggj2UFl3nFRk71P
-	k5MhaptRHEsUsbKtaeJ+OXdIeURMF8XDouZ/l2KjFutQ2cUV61y/uivcKYGeNbFJ3wf2vDLn
-	7N7Y79uk/2kfKf4s9VP/tOO2+2uTvR2/1e9NNva5BjatNMlzEnVeotmSoPnE7LtZ2VDtOKna
-	GN3YyS76duj+0vjTE0l76Xmvb32TFv208HHfiV3zE1MHf79bNlWecuDHAd0Xk9/1b9uWtrb/
-	0FEF0aqUCauwRqt8B4xzrPqPAwAA
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20251014-mempool-doc-v1-1-bc9ebf169700@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAFI/7mgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1NDA0MT3dzU3IL8/BzdlPxkXTMj05QUE0tLM0NDAyWgjoKi1LTMCrBp0bG
+ 1tQAutAIpXQAAAA==
+X-Change-ID: 20251014-mempool-doc-625dd4996110
+To: Vlastimil Babka <vbabka@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1760444246; l=1440;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=nfi0PfSq6Dox8FYapvzx2yyqZb6FV4A0jwmwDZVXYCA=;
+ b=wKeMfz8U2ptYpXr7OqbqIBhkLpbKS7lKG6KC01/LeijIueu/9G17xbRhhBgvjAE1NGGLTL70B
+ iKzdh5OSC/BAqg+8EF4qsMQBySXulgy5aBtlfgKBxExFORpBKTdRv4W
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-On Tue, Oct 14, 2025 at 05:03:58PM +1100, NeilBrown wrote:
-> On Mon, 13 Oct 2025, Byungchul Park wrote:
-> > On Fri, Oct 03, 2025 at 04:55:14PM +1000, NeilBrown wrote:
-> > > On Thu, 02 Oct 2025, Byungchul Park wrote:
-> > > > This document describes the concept and APIs of dept.
-> > > >
-> > >
-> > > Thanks for the documentation.  I've been trying to understand it.
-> >
-> > You're welcome.  Feel free to ask me if you have any questions.
-> >
-> > > > +How DEPT works
-> > > > +--------------
-> > > > +
-> > > > +Let's take a look how DEPT works with the 1st example in the section
-> > > > +'Limitation of lockdep'.
-> > > > +
-> > > > +   context X    context Y       context Z
-> > > > +
-> > > > +                mutex_lock A
-> > > > +   folio_lock B
-> > > > +                folio_lock B <- DEADLOCK
-> > > > +                                mutex_lock A <- DEADLOCK
-> > > > +                                folio_unlock B
-> > > > +                folio_unlock B
-> > > > +                mutex_unlock A
-> > > > +                                mutex_unlock A
-> > > > +
-> > > > +Adding comments to describe DEPT's view in terms of wait and event:
-> > > > +
-> > > > +   context X    context Y       context Z
-> > > > +
-> > > > +                mutex_lock A
-> > > > +                /* wait for A */
-> > > > +   folio_lock B
-> > > > +   /* wait for A */
-> > > > +   /* start event A context */
-> > > > +
-> > > > +                folio_lock B
-> > > > +                /* wait for B */ <- DEADLOCK
-> > > > +                /* start event B context */
-> > > > +
-> > > > +                                mutex_lock A
-> > > > +                                /* wait for A */ <- DEADLOCK
-> > > > +                                /* start event A context */
-> > > > +
-> > > > +                                folio_unlock B
-> > > > +                                /* event B */
-> > > > +                folio_unlock B
-> > > > +                /* event B */
-> > > > +
-> > > > +                mutex_unlock A
-> > > > +                /* event A */
-> > > > +                                mutex_unlock A
-> > > > +                                /* event A */
-> > > > +
-> > >
-> > > I can't see the value of the above section.
-> > > The first section with no comments is useful as it is easy to see the
-> > > deadlock being investigate.  The section below is useful as it add
-> > > comments to explain how DEPT sees the situation.  But the above section,
-> > > with some but not all of the comments, does seem (to me) to add anything
-> > > useful.
-> >
-> > I just wanted to convert 'locking terms' to 'wait and event terms' by
-> > one step.  However, I can remove the section you pointed out that you
-> > thought was useless.
-> 
-> But it seems you did it in two steps???
-> 
-> If you think the middle section with some but not all of the comments
-> adds value (And maybe it does - maybe I just haven't seen it yet), the
-> please explain what value is being added at each step.
-> 
-> It is currently documented as:
-> 
->  +Adding comments to describe DEPT's view in terms of wait and event:
-> 
-> then
-> 
->  +Adding more supplementary comments to describe DEPT's view in detail:
-> 
-> Maybe if you said more DEPT's view so at this point so that when we see
-> the supplementary comments, we can understand how they relate to DEPT's
-> view.
+The documentation of that function promises to never sleep.
+However on PREEMPT_RT a spinlock_t might in fact sleep.
 
-As you pointed out, I'd better remove the middle part so as to simplify
-it.  It doesn't give much information I also think.
+Reword the documentation so users can predict its behavior better.
 
-> > > > +
-> > > > +   context X    context Y       context Z
-> > > > +
-> > > > +                mutex_lock A
-> > > > +                /* might wait for A */
-> > > > +                /* start to take into account event A's context */
-> > >
-> > > What do you mean precisely by "context".
-> >
-> > That means one of task context, irq context, wq worker context (even
-> > though it can also be considered as task context), or something.
-> 
-> OK, that makes sense.  If you provide this definition for "context"
-> before you use the term, I think that will help the reader.
+mempool could also replace spinlock_t with raw_spinlock_t which doesn't
+sleep even on PREEMPT_RT but that would take away the improved
+preemptibility of sleeping locks.
 
-Thank you.  I will add it.
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ mm/mempool.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > > If the examples that follow It seems that the "context" for event A
-> > > starts at "mutex lock A" when it (possibly) waits for a mutex and ends
-> > > at "mutex unlock A" - which are both in the same process.  Clearly
-> > > various other events that happen between these two points in the same
-> > > process could be seen as the "context" for event A.
-> > >
-> > > However event B starts in "context X" with "folio_lock B" and ends in
-> > > "context Z" or "context Y" with "folio_unlock B".  Is that right?
-> >
-> > Right.
-> >
-> > > My question then is: how do you decide which, of all the event in all
-> > > the processes in all the system, between the start[S] and the end[E] are
-> > > considered to be part of the "context" of event A.
-> >
-> > DEPT can identify the "context" of event A only *once* the event A is
-> > actually executed, and builds dependencies between the event and the
-> > recorded waits in the "context" of event A since [S].
-> 
-> So a dependency is an ordered set of pairs of "context" and "wait" or
+diff --git a/mm/mempool.c b/mm/mempool.c
+index 1c38e873e546fadcc594f041874eb42774e3df16..cceb09b75ebe35f263a5fb95ff6d400221ecbdd5 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -461,8 +461,8 @@ EXPORT_SYMBOL(mempool_alloc_noprof);
+  *             mempool_create().
+  *
+  * This function is similar to mempool_alloc, but it only attempts allocating
+- * an element from the preallocated elements. It does not sleep and immediately
+- * returns if no preallocated elements are available.
++ * an element from the preallocated elements. It only takes a single spinlock_t
++ * and immediately returns if no preallocated elements are available.
+  *
+  * Return: pointer to the allocated element or %NULL if no elements are
+  * available.
 
-I don't get what you were trying to tell here.  FWIW, DEPT focuses on
-*event* contexts and, within each event context, it tracks pairs of
-waits that appears since [S] and the interesting event that identifies
-the event context.
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251014-mempool-doc-625dd4996110
 
-> "context" and "event".  "wait"s and "event"s are linked by some abstract
-> identifier for the event (like lockdep's lock classes).
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-Yeah, kind of.
-
-> How are the contexts abstracted. Is it just "same" or "different"
-
-I don't get this.  Can you explain in more detail?
-
-	Byungchul
-
-> I'll try reading the document again and see how much further I get.
-> 
-> Thanks,
-> NeilBrown
