@@ -1,212 +1,166 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011036.outbound.protection.outlook.com [52.101.125.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E492ED16C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Oct 2025 08:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760516911; cv=none; b=VsaN1ybHG5n4OdSr/k/PHaKLjrxDDcVNf6WMY6oTWaDxTDozi1fyvUGOTlYjYFC/pkiw17sTKphJ2g+6rUvBQ1SCVEL0O46oRxJNn3wO6+XBximmWj8J5Qlnvy+EXHJrY5ijYYeHnL4DW7FgKvejTEvJqr6o7bMFtZtPZZ8yPXI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760516911; c=relaxed/simple;
-	bh=Gjfb+IfhJc7M4yBtisKJV3diOk9SmHxVJeO0O6rUyrw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VbV4BmUaxPzeBB+6HA/QXcaGpBTEIZuFBeAJW5vLUDkIF6lBz/Mk2p4uTJTe7IYbOskWhX+zjxhPbFhu6reGUg3psSeqi5bOXDfob6nmP2GXt9msg3GmVdb+qo0x08WZlEPC6pmsFNW0t/GoZsh18oTua+zB1rsth3bWh122eXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pjlFy6pX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hK0+5+uH; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pjlFy6pX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=hK0+5+uH; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7871B30BBA8
+	for <linux-rt-devel@lists.linux.dev>; Wed, 15 Oct 2025 11:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760527481; cv=fail; b=j300OEquJ9mrSYuQtbNpJhNNJKDhar2NVEqjKE3FprYvi6d12xjsEjxkgR4zbD4L9d0t8SQOe4IJbRbkh4++cDNrDDfI7oh3Dn8kZJ4qwF9+BgWnBQDBWBMOmpnatA6xhBwwvNa+sgrIfp7gzDnDQwEDi8Rj5WP/qbD+9scNraU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760527481; c=relaxed/simple;
+	bh=zMLT/Zg/JOX2SY5fX3f/wFvJEJme6AzUGNJO5CzhRUc=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=hkUWRSSoTsLzSrd82i2ztxsMlZ7yPGjH3s3o+qMzP29il1YAU81nXFOkMAeRldx2PeYfp66xa/3he4NvYuP913qIzASBzFNm1ZTG6+0Tj8xzyUyHbFSFbv6hQqhMqEjRzrWvWDEOj9a1vs3J6IzBc9Kv9l3g8TJWqAW4f83rcpg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hboWjAOh; arc=fail smtp.client-ip=52.101.125.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pjlFy6pX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hK0+5+uH";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pjlFy6pX";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="hK0+5+uH"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EF38033853;
-	Wed, 15 Oct 2025 08:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1760516900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qqzB9JK9+uCij0k20PiNt2gVw+L4NpHiOSzfoVgzyLg=;
-	b=pjlFy6pXzOkp3UeHPyDVqKWq9KsbuPMvTIb3bv7vOlOqeLyuV/sXYenidAZvrR4OSD8x+b
-	EPnXyqq9UM2enEebsWDHZYLdU4VHA/dKVqiUuLxuZ59xoyueaUPfiGV3h7yRvmPEhFWnWc
-	VKaGl9/NZUpyNgkUyYdEBnywiugsjH4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1760516900;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qqzB9JK9+uCij0k20PiNt2gVw+L4NpHiOSzfoVgzyLg=;
-	b=hK0+5+uHgMQWFZQ68x2XXGlC6RvBH5phfiJzz4rdXIv4uOxA1NRVSPSUG9bDcnj5YhJrXs
-	AuipeVS4RGN/izAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=pjlFy6pX;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=hK0+5+uH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1760516900; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qqzB9JK9+uCij0k20PiNt2gVw+L4NpHiOSzfoVgzyLg=;
-	b=pjlFy6pXzOkp3UeHPyDVqKWq9KsbuPMvTIb3bv7vOlOqeLyuV/sXYenidAZvrR4OSD8x+b
-	EPnXyqq9UM2enEebsWDHZYLdU4VHA/dKVqiUuLxuZ59xoyueaUPfiGV3h7yRvmPEhFWnWc
-	VKaGl9/NZUpyNgkUyYdEBnywiugsjH4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1760516900;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=qqzB9JK9+uCij0k20PiNt2gVw+L4NpHiOSzfoVgzyLg=;
-	b=hK0+5+uHgMQWFZQ68x2XXGlC6RvBH5phfiJzz4rdXIv4uOxA1NRVSPSUG9bDcnj5YhJrXs
-	AuipeVS4RGN/izAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D135D13A29;
-	Wed, 15 Oct 2025 08:28:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eSL4LiNb72j4cwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 15 Oct 2025 08:28:19 +0000
-Message-ID: <86eb8759-426f-4460-8bde-1d88e70e266f@suse.cz>
-Date: Wed, 15 Oct 2025 10:28:19 +0200
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hboWjAOh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=te0fSxSMPetQgfV5DpQwKDKSX+RDKo/vOLTWimStgF6UPecePV1pnI8D+Voz55oLrcE23kIr6CkvAXneknkW1f8dPQ1+Q0NQ6HtbWEUJpaRVqANZ8PNPEB2b0H+Xrk2xBvzFHzejwkKAWa2vUW+etkVEkyiK7cqudSE4CjW+WIVRhnFwViWS0hjHy6az/6EWnKppPNlTHRmcs8LuTM3Oe7+5umMMHF7Viy51bsePqSSjFlLv3sQdRyRFxcZUlsU1P/aUD8sXHwbVTS7g5wJGTs83c8GtqH1v3H4rFcMRO6Rj/X9wgn6rU5vZihkt+j8YFx2N6DquxZ2qiDCWqeGBZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zMLT/Zg/JOX2SY5fX3f/wFvJEJme6AzUGNJO5CzhRUc=;
+ b=rF1fzhs8+vgYg4Pffl1XkN8Wm6gIa+bvZoFOZTVG8XOMoGVQ7ftCKuVyEul1DaZ0uCNmBLt509IocAkEw+TvBY1BuFoj65kYx7Rnz+F+8FQv/YO/r7Qh4cPV0/9O9aFSl7e41R5gdtz9ua6hMjoEaYgVI8y1tcRLTpKEa/dqUWHWstvQ9Sgrf1WiIQBDSO07sJl+BqE2lCPBwLunFxBgaTK1Mq/dJgX64bDYVzR8K5OjRt2iiz1+1Uj6gL6hL0XUyb/jOyM+pbFeMDNTeMLPp3KReE63KNKS7MZ8YK2CxcRBnkAhr9mCjiLZ5fy/9JT07saHHlF2+6pZ05F3xQHXTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zMLT/Zg/JOX2SY5fX3f/wFvJEJme6AzUGNJO5CzhRUc=;
+ b=hboWjAOhwUGUtjtCRQ+bNplT5iX+Fen9k3Bz+HvNLYrjtxLp7eji/3Y3kcldOUdUmUzmAOLeZJPzyBxNnMnw5dTQdotoO4zYIlJwrEFg1ZoKgH2qV44ojHjb1YLXGkc5pztSMUqmCoJ2Ol/eHgVT0ImRDdIj1yVZf7e66xCbV8U=
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com (2603:1096:400:448::7)
+ by TY7PR01MB15391.jpnprd01.prod.outlook.com (2603:1096:405:23f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Wed, 15 Oct
+ 2025 11:24:36 +0000
+Received: from TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430]) by TYCPR01MB12093.jpnprd01.prod.outlook.com
+ ([fe80::439:42dd:2bf:a430%4]) with mapi id 15.20.9228.009; Wed, 15 Oct 2025
+ 11:24:36 +0000
+From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To: "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "andrew@lunn.ch" <andrew@lunn.ch>,
+	"bigeasy@linutronix.de" <bigeasy@linutronix.de>, "clrkwllms@kernel.org"
+	<clrkwllms@kernel.org>, "rostedt@goodmis.org" <rostedt@goodmis.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>
+Subject: Query about the impact of using CONFIG_PREEMPT_RT on locking
+ mechanisms within networking drivers
+Thread-Topic: Query about the impact of using CONFIG_PREEMPT_RT on locking
+ mechanisms within networking drivers
+Thread-Index: Adw9xY/b5NfpgJ5gTyajqPRxZdkzng==
+Date: Wed, 15 Oct 2025 11:24:35 +0000
+Message-ID:
+ <TYCPR01MB12093B8476E1B9EC33CBA4953C2E8A@TYCPR01MB12093.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB12093:EE_|TY7PR01MB15391:EE_
+x-ms-office365-filtering-correlation-id: 71113ba1-4c9e-45d5-6c90-08de0bdd6bf5
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|7416014|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?HwUJmvYl0IH/KOhJCIJHQNEto5LlAyM5dI/ZnU6Uux5Kh4Rm70+OCXprb9qe?=
+ =?us-ascii?Q?BU+abkb8NruAr9p+Xaa2E9SGbk1QzpukDM1tgQV+koy7zHElUCmMbXwzFem1?=
+ =?us-ascii?Q?hXbDI6e+mNaZG8j7n8JwcWZSsSxiV4zjfWjTlSUsJsD0HU1qi8fqsLtKbFU2?=
+ =?us-ascii?Q?3DXvvRQOBk8jcdhCI67KekZDcb/rcevPp1P0XzOPYZzrzXDm14Pd6EYUGqjk?=
+ =?us-ascii?Q?ZKCsqIiMcG2xDzCIXHz9BwsbaVsR87PSoz8FlgkuflCyq/+NknCHWFcBUNFp?=
+ =?us-ascii?Q?iGTVVGFZ/9BlbUvG527ZFy5IQdT4rAuqscmpzZJatIBBPyi+OzbbV85LJpx3?=
+ =?us-ascii?Q?oYZYjGxsqcl1Qn9Uu7J74EISw1QfoZpvB3CpOCIurpHb7WP4owmuSxcaewbq?=
+ =?us-ascii?Q?pqBISLd96wR3zS3iNzUqLKrfkoB+xuqGMDLupXxNSp5wGIJk97fNRCJ3zfHL?=
+ =?us-ascii?Q?JE8nCjPBTO0jtPfFwvHFfTYU7oTExbgElAqB8ZKNN+UMoWo+0mwBmQfk8rB5?=
+ =?us-ascii?Q?wgcbWTsF++WUhXt/q+0gzotPtlvSwsXHMnPDbbGQFDHoi+2NXUbw7nRsJUV6?=
+ =?us-ascii?Q?BVRxsdmHOp4E2u9AxfxC1IGQBZet3GHgzOPPEQp+kset7pcOQ4FKeWtlbU1R?=
+ =?us-ascii?Q?1brTdYJV5/BixjQ6e7P5iHhrbqHhnbwrIDcaYh45gOs5UeNevO8mrw8fwKgS?=
+ =?us-ascii?Q?E8nfWZ/o4TCD1oWFJO2Ub95zCAPCQdC9SepriexPs08vgren6hgKWaLhh4Ao?=
+ =?us-ascii?Q?gvCRKJjA3JT+hhxPVzx9M0mg5bsVlLQs46e9VobJz7IAZyJcKjCY6g2EOLmj?=
+ =?us-ascii?Q?k8bPGJcFVaE86IRTqnG2wx+5a42fSib42qV3rTnhYOLJsavEP/fL5ALO3ctc?=
+ =?us-ascii?Q?OqG5CnNvob3NmtJau8hhiYJphE46HLnIbPdaTX6WOvcZ2haTWM4N/G31cX5d?=
+ =?us-ascii?Q?bqtkVAEBzxq7YNx5BhGAbsn2k80CDKQMFlXXMbqBVSMnowQ+IKegwdcc/YW2?=
+ =?us-ascii?Q?ApI1lwOCSewvAW3EKN2y1c+V9+XGwQD0YIKLp8ZOCmKBbjHit8xZzTsUkz/G?=
+ =?us-ascii?Q?DBdekGq0Ntc0DccoGW+88c8ee8NVkE3x5gXVtMp+a+sl2O90a/96tHHqcBPr?=
+ =?us-ascii?Q?lnDYXm+pmKJGFvGVkL9b7QgyIaKwqaSQm5IWtW9pq/1fTr+ZAWyH2jNpzhhc?=
+ =?us-ascii?Q?3gcQ/0GG90eKQ5Uzd5+TvZWs+Zv3/OM/zt5hoRwzYF3YeeGeJSokHof2zxd2?=
+ =?us-ascii?Q?+heYxkamv5pGfVnUarpytkva8RUuOiNL4EUncP6d5e3Gk8z1V8x0qg9MKNCL?=
+ =?us-ascii?Q?E2UICF0zADza6q9QxeO4UeiG3213UqUbr6uW/LOZNWrZxDCabKWeeXffD5u0?=
+ =?us-ascii?Q?XsGmZNTjPOlJDaxLYkf8tF5l3wn4LqvJPwAZqGk5R+g+4cHX5UGfGsYM1Cte?=
+ =?us-ascii?Q?YMQcDYAehkcWvuPPWQTsvdly7zX8Gagqtasbovb0nV1PIvutrXQ3vDNa4mKJ?=
+ =?us-ascii?Q?yy10CojWdW1gtnAw+lKhV4lNELicZF8ZasV1?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB12093.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?Mr9sYV7tQApDRNaS6XK8zdhtelN9v0V1/uCPOj3MoWYNHqRhtg+HL2x30JjW?=
+ =?us-ascii?Q?m99Wf057FrfSszTvOojNyu1IJV3wgDvty43xPNl3C7l7IIMAiqQwjcGqeHj+?=
+ =?us-ascii?Q?CaQO4QpCegHbaZN+Ouer7x+OgeymIO5pabVXcjYMPjjvDi58pdt0blHAiB/2?=
+ =?us-ascii?Q?iLPoM9/TUl3T3zLgSncMbGjZ8ze34pdflhnl4oi+d/tJVj0uHeXylKg6TCRA?=
+ =?us-ascii?Q?ZpkNGV7EejuIvWeK8xWxl0/emOvx/xO2UfDT9v3AfepSk/jL+ZfBZZ/ohmFg?=
+ =?us-ascii?Q?qkPoU6jHlryNF3aDIcJL8eQg7cPMBYgX3PrZ8bW/4yHmJ65gMHDp+HDIOg8Z?=
+ =?us-ascii?Q?/ol5nsEAc4Rcb5MxNro+AAwaCPatyxEqPuxtxuov5HeZZyKoYLe2u9Xccv16?=
+ =?us-ascii?Q?wfyDaEA/w0hKQwzH0P9GEtZLWQvhxz3Gg1CVH4h9KGf6FB/31twR9r8TxNFZ?=
+ =?us-ascii?Q?2Ke2hwUVEF6RavgWMMOgpnm9MP2d6OpguX5vOCDTBVwCr1BFG/oCUX7FcF5f?=
+ =?us-ascii?Q?CCtt06QAubbQgWE3h8GaFfFHfePmPVHBN5z+rdQo0Zk+YXLFUcF0oHlF7ogG?=
+ =?us-ascii?Q?zBGtF0hsfMbnI0X2QCzhAoBLG7ahGmkLajKmE31ra3aXwyO9TwBIwuFsxXKk?=
+ =?us-ascii?Q?vwgmn0sKSdBwoGM7oRmZGbb4x9GraHywAevScniP2UZi+1X5wBHADxhQVt7/?=
+ =?us-ascii?Q?2gu/AchSsTXvzWU08Zv+fVTqs7hnDg2+AMWw6/kh4mrw9RAi34AygM9gfFew?=
+ =?us-ascii?Q?D40WRaVlLBDUTjCAAbMmRHIz7LE9reABygLxLSraF9cbWvcuq8K07X/rCWP9?=
+ =?us-ascii?Q?i66DFiqpF9xmlGQc+kSariu3MErizKaSYFaVH788Gtvvs1cjsF+Lf8hcQ2w/?=
+ =?us-ascii?Q?2RExRaffz73WtFwvOqJ+FcX0eEtQus9JKoj+Y2u2YP1QoxeYzLlaHssrgq+H?=
+ =?us-ascii?Q?xyWVF4qlLR+p9BIY0edqYRY/VQd4i7OQS6dSMOsT1L7rLy3yib2+38b5XliH?=
+ =?us-ascii?Q?9QXvCoAmRHiei/EqJkX+gY9NTMbQ1M9myQXzzqP8ahDZdeoqZNnxhHeA46ka?=
+ =?us-ascii?Q?0wWJQBm4aAyMJmAWEayK5QY0+cLfdfHKgtDSH4IUQ+KIWSfM6qXNi3Tgr96a?=
+ =?us-ascii?Q?Mx1a8o1JKYA96vRqSAyMGbt21LkEFpqZF6HFklp37MaaSuiaD7w2oyasxeVU?=
+ =?us-ascii?Q?pmPXDMWNxm2EOE7AkSQJJkuMYdbqJOIXAfecnlmjYlZhkQsvgynJTD6moiJI?=
+ =?us-ascii?Q?RdHMMKaCAGOYytvSYmEDK3nJzR0zJCaazcsgKX13DKiVZflYFaKQLWBnX7f/?=
+ =?us-ascii?Q?sREYHZN0dYDKiZG0oyvND8eGPUnDv2gHBX2xo4TgGBiOO6ImpcQGEtXkTqrK?=
+ =?us-ascii?Q?8/NmtvMMwE6PkgUevhmdm/Z1NJNB+qcF45Eb8i7HKQheaj0xfrLXl2axTUgd?=
+ =?us-ascii?Q?oaJrERD2DVVOIntjgqtgm8LOPJrbP49fB9mPdvi64nZt1BL/+2eT0IpvsXJ2?=
+ =?us-ascii?Q?ED4OwhcHrJpSVFHv8zN+15xl1Bgbgjs7nO2dDZtWvrorlo2tf+Qlkajubb4Z?=
+ =?us-ascii?Q?W3pp2XWBJa8XtgEJpNyMIwQQ7yqpMi5LxTXN48LEvWW1ryTHsFLVv8Brb1XY?=
+ =?us-ascii?Q?pA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mempool: clarify behavior of mempool_alloc_preallocated()
-Content-Language: en-US
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
- <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20251014-mempool-doc-v1-1-bc9ebf169700@linutronix.de>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20251014-mempool-doc-v1-1-bc9ebf169700@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: EF38033853
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Score: -4.51
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB12093.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71113ba1-4c9e-45d5-6c90-08de0bdd6bf5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Oct 2025 11:24:35.9968
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: gimPtM8QDiY8/XWDNQnj1v+lIyDTdYKN7MRCqqHP6vXEc2IVdBP2PawDtN3SznRAEFYAr//gy+ohXvNucvxMHTqYcUepJyrXbki8q7BesPM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB15391
 
-On 10/14/25 14:17, Thomas Weißschuh wrote:
-> The documentation of that function promises to never sleep.
-> However on PREEMPT_RT a spinlock_t might in fact sleep.
-> 
-> Reword the documentation so users can predict its behavior better.
-> 
-> mempool could also replace spinlock_t with raw_spinlock_t which doesn't
-> sleep even on PREEMPT_RT but that would take away the improved
-> preemptibility of sleeping locks.
-> 
-> Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Dear All,
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
+We have recently started debugging some issues that only show up
+with the kernel built with CONFIG_PREEMPT_RT=3Dy, and we have noticed
+some differences w.r.t. the non-RT version.
 
-> ---
->  mm/mempool.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/mm/mempool.c b/mm/mempool.c
-> index 1c38e873e546fadcc594f041874eb42774e3df16..cceb09b75ebe35f263a5fb95ff6d400221ecbdd5 100644
-> --- a/mm/mempool.c
-> +++ b/mm/mempool.c
-> @@ -461,8 +461,8 @@ EXPORT_SYMBOL(mempool_alloc_noprof);
->   *             mempool_create().
->   *
->   * This function is similar to mempool_alloc, but it only attempts allocating
-> - * an element from the preallocated elements. It does not sleep and immediately
-> - * returns if no preallocated elements are available.
-> + * an element from the preallocated elements. It only takes a single spinlock_t
-> + * and immediately returns if no preallocated elements are available.
->   *
->   * Return: pointer to the allocated element or %NULL if no elements are
->   * available.
-> 
-> ---
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> change-id: 20251014-mempool-doc-625dd4996110
-> 
-> Best regards,
+One of the major differences that we have noticed is that spin locks
+basically become rtmutexes with the RT kernel, whereas they are mapped
+to raw spin locks in non-RT kernels.
 
+When is using raw spin locks directly in networking drivers considered
+acceptable (if ever)?
+
+Thank you for taking the time for reading this email, comments welcome.
+
+Kind regards,
+Fab
