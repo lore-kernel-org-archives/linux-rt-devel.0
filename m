@@ -1,56 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F461244693
-	for <linux-rt-devel@lists.linux.dev>; Sat, 18 Oct 2025 19:49:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109A527B353
+	for <linux-rt-devel@lists.linux.dev>; Sat, 18 Oct 2025 19:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760816978; cv=none; b=E1/H3OcBadZEZclNysNbIJLoLvP02OU2jhhP+mUj2/qYnaXa7Jrnxa27oX2UCu6tt48fRgTo7mrYCZjJhQotNTxNisrEqyKfxKOIKZmcVBKx+DzWUeysLEQN8wLDzpxy6C28q8XJ+JPdRz5nzfk1v/mWBDU0AGAn+XcxCTy0rIY=
+	t=1760817445; cv=none; b=JfAl4EIykCsddKu3VNUEB2TZhXUYTpcCHaXVcUMwdBIp/n/jnNVfUPmqbS+DFnLzf//RvI+xcHio2ujKwkZmshMaUcDEfFaYvZBMC7qRySMq+y8Q2behL0mpL5q2cXH7BVyKxXOtIkyFZ7ExNaRQpC3KvRPt63gBcIJAl8ojH4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760816978; c=relaxed/simple;
-	bh=mF146nvxhIPhZlhIovDy9Wf7Gzq7ShDPT997Xmh7MGY=;
+	s=arc-20240116; t=1760817445; c=relaxed/simple;
+	bh=C3CAlDvasJYb/FqzbSGerVnXeN+WXs2WxilVN3nwwuI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wf90Y4AdygZuF8M4b2vDdJwCdGc50lDfmSFqUi+s/GuIu0cIxRUY1fefDXTdIVgkzHdFydFmF4Y36Si9cEYKGv+k0A8ccZeqZpIje8OFchEvhLaJFgpo/cd49VqttA1CrVkkZlEpwjt75zT65jBB2V7o9pzqXcQqIX6jArU8Au8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Al7P/3nI; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bi2/892BGW+mrqukz8pibgO9QvMkn3Nm9sxzMCBTtIQl5r9wYxQuwy50E1i2TSn/CI4Mhpm2QjvK/yzGxWkupjSs+vNgWGPPuu+z6xqkPDpiCwc7OY5XtzPqanuFURPwY4a84iHhUnNnNpoV5qMzLm/GtzmfwgVzcAWaRnly4AA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oa6QHPxB; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Al7P/3nI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Oa6QHPxB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760816977; x=1792352977;
+  t=1760817444; x=1792353444;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=mF146nvxhIPhZlhIovDy9Wf7Gzq7ShDPT997Xmh7MGY=;
-  b=Al7P/3nI7DlnePtKMmTp7wX8dNAZlz+F81EWVDIl62XAbCsAgNQOCuKo
-   kFty+jKpmB16djBCP6fq7j3hu7ZAKlaiSLtqJt2fasF0MCDW07ke1GvVC
-   XcWHs39tgY7Tp0+N5A0WzgXDCIYdgLAsIaRcFdaglle3E2JndCQTWZeDT
-   tp7MxgEWjjJGIfHdLJ29Ye4fYxe9fgQ3P04pTQptjyEmC5NfX5jGyymmf
-   YgWGO+OXEzOVF7q9XFi08D5bju5yXKsE+4kHfT0zbfDj0dKrA5J85l7BM
-   19WV/bgO2DGUnOm+w80dkJ+IAf+Lu+INqmksXrUk+anIHZk7PF9/w8ycx
-   g==;
-X-CSE-ConnectionGUID: OXh06tt+TdCafZgz+1VZzQ==
-X-CSE-MsgGUID: BkUOlYFXTh+pusWzT5aZyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85619273"
+  bh=C3CAlDvasJYb/FqzbSGerVnXeN+WXs2WxilVN3nwwuI=;
+  b=Oa6QHPxB4Rmd5SwB3QviI1WzqFSXSQwbKsm9s6KUkaMEgJj0w5CQYPsW
+   ZokcovLwPbzOBAtrOawA1rQ9cr5odc7RUYdkzA3zhZRjish08CQ5SKpj3
+   KYbSR74BtdtHsTuZ3Yisx4myF+lsXCDv1ulFeqbPAhR9UU9UgWPI4FnrR
+   DH+aMVvUugd25D1+qCQgLNjg+HJa5YjaBB6t6j3My0CtZ2FY0Nbnh2ahJ
+   TxCm3kxSB2GHMc9t9NuPTylaHLNJP9tiDPxSJAr35LzU1GCUWgRtiqyRI
+   vncm9xEXEeWT8LhhlSppcyfCOQKLKN7QWPwYyjq5soqJ6ykWfdGF7Aj1S
+   Q==;
+X-CSE-ConnectionGUID: 2p16EA4zTFGj2OA1dycYnA==
+X-CSE-MsgGUID: G7jPugKhQZ2tJE7Bt8YbJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62895120"
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="85619273"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:49:37 -0700
-X-CSE-ConnectionGUID: e70Wc68JSnC6KsFO4anpnQ==
-X-CSE-MsgGUID: 3mTcsYCaTQqUgbfFTUrMBA==
+   d="scan'208";a="62895120"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:57:24 -0700
+X-CSE-ConnectionGUID: m6iXDhM9QlafJtnrrc72ew==
+X-CSE-MsgGUID: AjgmE32zQBaIKSFOr1hV+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
-   d="scan'208";a="183487714"
+   d="scan'208";a="183013719"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.194])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:49:32 -0700
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:57:19 -0700
 Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vACvh-00000000xoA-0lv2;
-	Sat, 18 Oct 2025 22:49:29 +0300
-Date: Sat, 18 Oct 2025 22:49:28 +0300
+	id 1vAD3D-00000000xtg-45aS;
+	Sat, 18 Oct 2025 22:57:15 +0300
+Date: Sat, 18 Oct 2025 22:57:15 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
-	Hans Verkuil <hverkuil@kernel.org>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
 Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
@@ -68,10 +67,11 @@ Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
 	Dmitry Guzman <dmitry.guzman@mobileye.com>,
 	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 0/3] i2c: designware: Improve support of multi-messages
- transfer
-Message-ID: <aPPvSCNnkzfH-2X7@ashevche-desk.local>
+Subject: Re: [PATCH 3/3] i2c: designware: Support of controller with
+ IC_EMPTYFIFO_HOLD_MASTER disabled
+Message-ID: <aPPxG9SgxmHVgq_V@ashevche-desk.local>
 References: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
+ <20251017-i2c-dw-v1-3-7b85b71c7a87@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -81,28 +81,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
+In-Reply-To: <20251017-i2c-dw-v1-3-7b85b71c7a87@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-+Cc: Hans. Hans, isn't it what you wanted to have for your use-case?
+On Fri, Oct 17, 2025 at 04:59:34PM +0200, Benoît Monin wrote:
+> If IC_EMPTYFIFO_HOLD_MASTER_EN parameter is 0, "Stop" and "Repeated
+> Start" bits in command register doesn't exist, thus it is impossible to
+> send several consecutive write messages in a single hardware batch. The
+> existing implementation worked with such configuration incorrectly: all
+> consequent write messages joined into a single message without any
+> Start/Stop or Repeated Start conditions. For example, the following
+> command:
+> 
+>     i2ctransfer -y 0 w1@0x55 0x00 w1@0x55 0x01
+> 
+> does the same as
+> 
+>     i2ctransfer -y 0 w2@0x55 0x00 0x01
+> 
+> To fix it, for the controllers that behave this way, if the next message
+> to the same slave device has the same direction as the previous one, it
+> is sent to the controller only after the previous message is sent and
+> STOP_DET IRQ flag is raised by the controller.
+> 
+> This behavior is activated by compatible entries, because the state of
+> the IC_EMPTYFIFO_HOLD_MASTER_EN parameter cannot be detected at runtime.
+> Add the compatible entries of Mobileye SoCs needing the work-around and
+> sort the entries alphabetically.
+> 
+> There is another possible problem with this controller configuration:
+> When the CPU is putting commands to the FIFO, this process must not be
+> interrupted because if FIFO buffer gets empty, the controller finishes
+> the I2C transaction and generates STOP condition on the bus.
+> 
+> In a PREEMPT-RT kernel, interrupt handlers are by default executed in
+> thread and may be interrupted, which can lead to breaking an I2C message
+> by inserting an unwanted STOP.
+> 
+> To ensure proper operation on realtime kernel, use IRQF_NO_THREAD flag
+> when requesting IRQ.
 
-On Fri, Oct 17, 2025 at 04:59:31PM +0200, Benoît Monin wrote:
-> Extend what can be done when transferring multiple messages in a single
-> call to .xfer().
-> 
-> Allow changing the target address by waiting for a STOP then looping
-> in i2c_dw_xfer() instead of erroring out when a change of address is
-> detected. The loop then re-run i2c_dw_xfer_init() which changes the
-> target address and restart the transfer for the rest of the messages.
-> 
-> Handle controllers that lack the ability to emit a RESTART when two
-> consecutive messages have the same address and direction, by waiting
-> for a STOP and restarting the rest of the transfer.
-> 
-> The i2c controllers found in the EyeQ6Lplus and EyeQ7H SoC from
-> Mobileye lack such capability, so compatible strings are added because
-> this cannot be detected at runtime.
+> Based on the work of Dmitry Guzman <dmitry.guzman@mobileye.com>
+
+You may also use a tag "Originally-by".
+
+...
+
+>  static const struct of_device_id dw_i2c_of_match[] = {
+> -	{ .compatible = "snps,designware-i2c", },
+> -	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
+>  	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
+> +	{ .compatible = "mobileye,eyeq6lplus-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
+> +	{ .compatible = "mobileye,eyeq7h-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
+> +	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
+> +	{ .compatible = "snps,designware-i2c", },
+
+Sorting can be moved to a separate change (and while at that the inner trailing
+comma can be dropped).
+
+>  	{}
+>  };
 
 -- 
 With Best Regards,
