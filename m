@@ -1,220 +1,175 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365C8336EE6
-	for <linux-rt-devel@lists.linux.dev>; Fri, 17 Oct 2025 15:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BAF42556E
+	for <linux-rt-devel@lists.linux.dev>; Sat, 18 Oct 2025 13:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760713327; cv=none; b=pKwYhdyzXZ8wkwlyb2FYZhmQCufdWk+tYvrC8FNg2M+i5cbPDk7AeT4c3IRcS5UoOEZ/vU8dIkxL530lxkfRu3bdDIWuBfn+0LTOIapuzue+j6T6tUF23ZmSxSizOJwPiqFn9k562ja4uaSaDuWbMkp1yZi6MoGNMrZuRT4GZvM=
+	t=1760793096; cv=none; b=kqHpYlK/o/xfd1iuNR21LE3uiLVEYkUZQwMlnzozDNKZOotm0fMceESyIttkyv1g7HP9GhKYe4FGnPnvl/ADI4ERletCw4lg5D/cVGG+5jkLOYu4V4qNKJ+ll2a+mNbf4yG+IVrSJ+x0d2YLmRRI/QqRUpJTD0cXbywaGNgbkHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760713327; c=relaxed/simple;
-	bh=CLWJhBu9K0krsl2W5BEPYqb1gmwqh8HxemHp6ZEorGM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CENUSW6sTDmqLF5HXwUs0GCpy2rUIOo3+f6REmHStxfRev4NBFFskplzS7s853BoNr6sK2N4Wu0PoBEzpWYFY6N22EiGqk4nfzi+jjCLTc9O5fMIZWELx3Sxs2c4AnIkwVUNnVR1qrpIPSjZpNNvfL+nT+PswCdbEZ/MiZ8KyWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=V6v37aVg; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1760793096; c=relaxed/simple;
+	bh=uQTvxX50ZJfMiCQOZSLOkiFdQCWCU4TR/M1b9/H4Es4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TRuKJhshDpx1ZRLeXC+IN1VlynWXMb+c5MmjjssEHWoD+c/lBG2W9Q6P1PvEsBMbaMPJ9Yn1bb5//rGzloTxDgbxzEUwQh2qezd99iYIHQ8dJdoZg1XwsRLWGDwTWxY9BX2I5Mo3Emzy6HUKpNtBWIAbPEOPEhIAFpckqdoGr44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e2PhoXeW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="V6v37aVg"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A384E4E41148;
-	Fri, 17 Oct 2025 15:02:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 727DA606DB;
-	Fri, 17 Oct 2025 15:02:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B1385102F2364;
-	Fri, 17 Oct 2025 17:01:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1760713321; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=OumetMRwPwRmXg7GTajWsCFnQn15iaJvKy3TjGNKXhI=;
-	b=V6v37aVgwogvdcW9UXTbBHOAWJDdPJ7oWTOX6zn3PJRGeZE92VLrH5MicWn7An8n/yL65P
-	lY4YM62v7/t8AEtLNlVTQj9rSJXIrXQlUFIJmM6/9zooVWqE2wZme/HErsqokpwIy0ml7c
-	WA4LXvYoC7MrwKpIMAzIDdobV+CAUFZ1zWBevf9wTTvUAd4NkjCONMBx7t0Ua2LnyjdHu9
-	gy+h9df4mS/rXLNPlcWnCpsRIrVB8+75qZMXW8PzyWPu+fz1mIoZ3aY+V8ACnoluhLhE/q
-	MYWzG1z0pWFWURGhD4238EUruBBewPu3kSqb4VR2c9asyVdkhVSeyUxI23K9pg==
-From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-Date: Fri, 17 Oct 2025 16:59:34 +0200
-Subject: [PATCH 3/3] i2c: designware: Support of controller with
- IC_EMPTYFIFO_HOLD_MASTER disabled
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e2PhoXeW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1760793093;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JbI+XjGZmYi6Q0RgYQx+mf1W/BhBhNTX2xUtn+SVKxw=;
+	b=e2PhoXeWlXSOXSqOVteLiVTfCe85v4dGtEmY7LcljN0Layf1sKpMS9rG8BweN6rULIirn4
+	x66ZR3cyoCpxXHFNn7JswSiXEfaSNpZP/+2DTtOaxTnLQDsFgEfXAYIaTKLGLbsKMX9HfB
+	lGE5aDVUGx6JrJYSMqQ6c5ba6lzF5cM=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-41-y2Uf-UiYNk2BdZzovxydcg-1; Sat,
+ 18 Oct 2025 09:11:29 -0400
+X-MC-Unique: y2Uf-UiYNk2BdZzovxydcg-1
+X-Mimecast-MFC-AGG-ID: y2Uf-UiYNk2BdZzovxydcg_1760793087
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ED9BB18002C9;
+	Sat, 18 Oct 2025 13:11:26 +0000 (UTC)
+Received: from localhost (unknown [10.22.88.15])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EF1E5180057E;
+	Sat, 18 Oct 2025 13:11:24 +0000 (UTC)
+Date: Sat, 18 Oct 2025 10:11:23 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>
+Subject: Re: [RESEND PATCH] sched: restore the behavior of put_task_struct()
+ for non-rt
+Message-ID: <aPOR--HRHViqmyQ-@uudg.org>
+References: <aMf1RzZHjdoPNOv_@uudg.org>
+ <20250915113812.GB3245006@noisy.programming.kicks-ass.net>
+ <20250915123539.GC23082@redhat.com>
+ <20250916100953.GG3245006@noisy.programming.kicks-ass.net>
+ <20250916113043.GA32038@redhat.com>
+ <20251017143944.GB21102@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251017-i2c-dw-v1-3-7b85b71c7a87@bootlin.com>
-References: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
-In-Reply-To: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
-To: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Jan Dabros <jsd@semihalf.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
- Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, 
- =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251017143944.GB21102@redhat.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-If IC_EMPTYFIFO_HOLD_MASTER_EN parameter is 0, "Stop" and "Repeated
-Start" bits in command register doesn't exist, thus it is impossible to
-send several consecutive write messages in a single hardware batch. The
-existing implementation worked with such configuration incorrectly: all
-consequent write messages joined into a single message without any
-Start/Stop or Repeated Start conditions. For example, the following
-command:
+On Fri, Oct 17, 2025 at 04:39:45PM +0200, Oleg Nesterov wrote:
+> Peter,
+> 
+> So I think that delayed_put_task_struct() has to stay and this means
+> that we have 2 RCU grace periods in the "typical" case when the exiting
+> task without extra references is reaped (or autoreaped if a subthread).
+> 
+> As I said I won't really argue, but what is your final thought on this?
+> Should we forget this patch from Luis? I'd prefer to restore the !RT
+> exception...
+> 
+> And another question. Sasha and Greg are going to add 8671bad873eb
+> ("sched: Do not call __put_task_struct() on rt if pi_blocked_on is set")
+> to -stable. Do you think it is fine to backport this commit as is?
 
-    i2ctransfer -y 0 w1@0x55 0x00 w1@0x55 0x01
+I am not aware of any specific RCU fixes that need to be present in order
+for commit 8671bad873eb to work properly on older kernels. That was my initial
+fear when Sasha and Greg mentioned the backport to Stable in August. The
+reference I have is that the deferred __put_task_struct() calls have been
+working for RT on older kernels for quite a while.
 
-does the same as
+Anyway, I asked them to hold because this discussion here was still happening.
 
-    i2ctransfer -y 0 w2@0x55 0x00 0x01
+If that helps to get the ball moving and sounds reasonable to you all, I could
+propose a STABLE-only patch that isolates the change to RT. Does that make
+sense?
 
-To fix it, for the controllers that behave this way, if the next message
-to the same slave device has the same direction as the previous one, it
-is sent to the controller only after the previous message is sent and
-STOP_DET IRQ flag is raised by the controller.
+Luis
 
-This behavior is activated by compatible entries, because the state of
-the IC_EMPTYFIFO_HOLD_MASTER_EN parameter cannot be detected at runtime.
-Add the compatible entries of Mobileye SoCs needing the work-around and
-sort the entries alphabetically.
-
-There is another possible problem with this controller configuration:
-When the CPU is putting commands to the FIFO, this process must not be
-interrupted because if FIFO buffer gets empty, the controller finishes
-the I2C transaction and generates STOP condition on the bus.
-
-In a PREEMPT-RT kernel, interrupt handlers are by default executed in
-thread and may be interrupted, which can lead to breaking an I2C message
-by inserting an unwanted STOP.
-
-To ensure proper operation on realtime kernel, use IRQF_NO_THREAD flag
-when requesting IRQ.
-
-Based on the work of Dmitry Guzman <dmitry.guzman@mobileye.com>
-
-Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
----
- drivers/i2c/busses/i2c-designware-core.h    |  1 +
- drivers/i2c/busses/i2c-designware-master.c  | 45 +++++++++++++++++++++--------
- drivers/i2c/busses/i2c-designware-platdrv.c |  6 ++--
- 3 files changed, 38 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-designware-core.h b/drivers/i2c/busses/i2c-designware-core.h
-index 347843b4f5dd7..a31a8698e511a 100644
---- a/drivers/i2c/busses/i2c-designware-core.h
-+++ b/drivers/i2c/busses/i2c-designware-core.h
-@@ -311,6 +311,7 @@ struct dw_i2c_dev {
- #define ACCESS_NO_IRQ_SUSPEND			BIT(1)
- #define ARBITRATION_SEMAPHORE			BIT(2)
- #define ACCESS_POLLING				BIT(3)
-+#define NO_EMPTYFIFO_HOLD_MASTER		BIT(4)
- 
- #define MODEL_MSCC_OCELOT			BIT(8)
- #define MODEL_BAIKAL_BT1			BIT(9)
-diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
-index f9a180b145da8..e5af0439ec832 100644
---- a/drivers/i2c/busses/i2c-designware-master.c
-+++ b/drivers/i2c/busses/i2c-designware-master.c
-@@ -443,18 +443,6 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
- 	for (; dev->msg_write_idx < dev->msgs_num; dev->msg_write_idx++) {
- 		u32 flags = msgs[dev->msg_write_idx].flags;
- 
--		/*
--		 * If target address has changed, we need to
--		 * reprogram the target address in the I2C
--		 * adapter when we are done with this transfer.
--		 * This can be done after STOP_DET IRQ flag is raised.
--		 * So, disable "TX FIFO empty" interrupt.
--		 */
--		if (msgs[dev->msg_write_idx].addr != addr) {
--			intr_mask &= ~DW_IC_INTR_TX_EMPTY;
--			break;
--		}
--
- 		if (!(dev->status & STATUS_WRITE_IN_PROGRESS)) {
- 			/* new i2c_msg */
- 			buf = msgs[dev->msg_write_idx].buf;
-@@ -470,6 +458,25 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
- 				need_restart = true;
- 		}
- 
-+		/*
-+		 * If target address has changed, we need to
-+		 * reprogram the target address in the I2C
-+		 * adapter when we are done with this transfer.
-+		 * This can be done after STOP_DET IRQ flag is raised.
-+		 * So, disable "TX FIFO empty" interrupt.
-+		 * Also force a stop-then-start between two messages
-+		 * in the same direction if we need to restart on a
-+		 * adapter that does not handle restart.
-+		 */
-+		if (msgs[dev->msg_write_idx].addr != addr ||
-+		    ((need_restart &&
-+		     dev->flags & NO_EMPTYFIFO_HOLD_MASTER &&
-+		     ((msgs[dev->msg_write_idx].flags & I2C_M_RD) ==
-+		      (msgs[dev->msg_write_idx - 1].flags & I2C_M_RD))))) {
-+			intr_mask &= ~DW_IC_INTR_TX_EMPTY;
-+			break;
-+		}
-+
- 		regmap_read(dev->map, DW_IC_TXFLR, &flr);
- 		tx_limit = dev->tx_fifo_depth - flr;
- 
-@@ -1062,6 +1069,20 @@ int i2c_dw_probe_master(struct dw_i2c_dev *dev)
- 		irq_flags = IRQF_SHARED | IRQF_COND_SUSPEND;
- 	}
- 
-+	/*
-+	 * The first writing to TX FIFO buffer causes transmission start. If
-+	 * IC_EMPTYFIFO_HOLD_MASTER_EN is not set, when TX FIFO gets empty, I2C
-+	 * controller finishes the transaction. If writing to FIFO is
-+	 * interrupted, FIFO can get empty and the transaction will be finished
-+	 * prematurely. FIFO buffer is filled in IRQ handler, but in PREEMPT_RT
-+	 * kernel IRQ handler by default is executed in thread that can be
-+	 * preempted with another higher priority thread or an interrupt. So,
-+	 * IRQF_NO_THREAD flag is required in order to prevent any preemption
-+	 * during filling the FIFO buffer and possible data lost.
-+	 */
-+	if (dev->flags & NO_EMPTYFIFO_HOLD_MASTER)
-+		irq_flags |= IRQF_NO_THREAD;
-+
- 	ret = i2c_dw_acquire_lock(dev);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/i2c/busses/i2c-designware-platdrv.c b/drivers/i2c/busses/i2c-designware-platdrv.c
-index 34d881572351c..5e459175dcdb2 100644
---- a/drivers/i2c/busses/i2c-designware-platdrv.c
-+++ b/drivers/i2c/busses/i2c-designware-platdrv.c
-@@ -345,9 +345,11 @@ static void dw_i2c_plat_remove(struct platform_device *pdev)
- }
- 
- static const struct of_device_id dw_i2c_of_match[] = {
--	{ .compatible = "snps,designware-i2c", },
--	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
- 	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
-+	{ .compatible = "mobileye,eyeq6lplus-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
-+	{ .compatible = "mobileye,eyeq7h-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
-+	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
-+	{ .compatible = "snps,designware-i2c", },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, dw_i2c_of_match);
-
--- 
-2.51.0
+> Oleg.
+> 
+> On 09/16, Oleg Nesterov wrote:
+> >
+> > On 09/16, Peter Zijlstra wrote:
+> > >
+> > > On Mon, Sep 15, 2025 at 02:35:40PM +0200, Oleg Nesterov wrote:
+> > > > On 09/15, Peter Zijlstra wrote:
+> > > > >
+> > > > > Why have !RT behave differently? That is, why isn't this simply a
+> > > > > 'buggy' comment/changelog issue?
+> > > >
+> > > > Well, this was discussed several times, in particular see
+> > > > https://lore.kernel.org/all/CAHk-=whtj+aSYftniMRG4xvFE8dmmYyrqcJyPmzStsfj5w9r=w@mail.gmail.com/
+> > > >
+> > > > And task_struct->rcu_users was introduced to avoid RCU call in put_task_struct() ...
+> > >
+> > > Ah, I forgot about that thing.. Although I had vague memories of that
+> > > argument on rcu_assign_pointer() vs RCU_INIT_POINTER().
+> > >
+> > > > But I won't really argue if you decide to remove this !RT optimization, although
+> > > > I think it would be better to do this in a separate patch.
+> > >
+> > > Right. So when they wanted to remove that preemptible() clause, I was
+> > > like why again do we have this !RT exception at all, and can't we get
+> > > rid of that.
+> > >
+> > > If git isn't confusing me again, this got merged in this cycle. But so
+> > > far no benchmark came and told us this was a bad idea.
+> >
+> > I still think it would be safer to merge this patch from Luis before
+> > v6.17, then possibly remove this special case in a separate patch...
+> >
+> > > So what do we do now... do we restore the !RT exception (so far there
+> > > aren't any numbers to suggest this mattered) or do we let it be for a
+> > > bit and then go and clean things up?
+> >
+> > It is not that simple. Please note that put_task_struct_rcu_user()
+> > delays put(tsk->usage), not free(tsk).
+> >
+> > So for example with this change
+> >
+> > > @@ -305,7 +288,7 @@ void release_task(struct task_struct *p)
+> > >  	if (thread_group_leader(p))
+> > >  		flush_sigqueue(&p->signal->shared_pending);
+> > >
+> > > -	put_task_struct_rcu_user(p);
+> > > +	put_task_struct(p);
+> > >
+> > >  	p = leader;
+> > >  	if (unlikely(zap_leader))
+> >
+> > This code
+> >
+> > 	rcu_read_lock();
+> > 	tsk = find_task_by_vpid(...);
+> > 	if (tsk)
+> > 		get_task_struct(tsk);
+> > 	rcu_read_unlock();
+> >
+> > becomes wrong, get_task_struct(tsk) can increment tsk->usage == 0.
+> >
+> > Oleg.
+> 
+---end quoted text---
 
