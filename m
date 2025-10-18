@@ -1,121 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC9A23958A;
-	Sat, 18 Oct 2025 15:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F461244693
+	for <linux-rt-devel@lists.linux.dev>; Sat, 18 Oct 2025 19:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760802961; cv=none; b=Ieg08e9jFeayQiPspi/xPEsXT9jRAmx5bczr/pS0oQCWvpJqOhaf8NvNxnA1fyntrNL4KBGyUKBzBF2+vCHlU+nJgDYeJ/CAW4OmfypUINnirh2YezyS+yNNCPjKXY0K1ajyyBkk1u0EXdlB8LCpI+k54p/jd31LbQp7IlgnZeg=
+	t=1760816978; cv=none; b=E1/H3OcBadZEZclNysNbIJLoLvP02OU2jhhP+mUj2/qYnaXa7Jrnxa27oX2UCu6tt48fRgTo7mrYCZjJhQotNTxNisrEqyKfxKOIKZmcVBKx+DzWUeysLEQN8wLDzpxy6C28q8XJ+JPdRz5nzfk1v/mWBDU0AGAn+XcxCTy0rIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760802961; c=relaxed/simple;
-	bh=rANeg7/9tDur3aPT6nLL3Vg3pGWC/QvMvYI+IkkU5QU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lIwQ2i80zdaesyEpGvH5khGgIUDshzaQbrDXNn7D/YxnZu9lmKyaorj5A1ZHIfqpO788SDJEQfUPPX+q6zEw/xI7laQT/rIidoNniLz7YDR2vGbLZEYoF7HsWBjFgyizJNGPf/38SP3CXLU9NF3iuk/EN/rFlusQh9GiTnKnfCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KAH3Ne8U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760816978; c=relaxed/simple;
+	bh=mF146nvxhIPhZlhIovDy9Wf7Gzq7ShDPT997Xmh7MGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wf90Y4AdygZuF8M4b2vDdJwCdGc50lDfmSFqUi+s/GuIu0cIxRUY1fefDXTdIVgkzHdFydFmF4Y36Si9cEYKGv+k0A8ccZeqZpIje8OFchEvhLaJFgpo/cd49VqttA1CrVkkZlEpwjt75zT65jBB2V7o9pzqXcQqIX6jArU8Au8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Al7P/3nI; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KAH3Ne8U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C90C4CEF8;
-	Sat, 18 Oct 2025 15:55:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760802961;
-	bh=rANeg7/9tDur3aPT6nLL3Vg3pGWC/QvMvYI+IkkU5QU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KAH3Ne8UzqQ3HFRkQ4+bxBdpamOTpQ2NnlNq0/lBpJS1y5kOYSlmsOhge9CfEoNXd
-	 yRAHz6a2eLoobNUV59Sb7dHCuSZGiMBveZnyrCvPR232luOM42EzKAGqDfho41xW3B
-	 u9QY9Kk/+JJBMc8WeUmZSbLr09RUo8SSQ2kd7hr4f6XfCYOm4tADQHowZGEqp2lxwh
-	 GLlimW8FNON0j7KXE/lSruJ9v2shClDSJk6232ZVaQlYEFOKS+fCUTCWUd3j0z8xY6
-	 T9+CND2EbZ72l4Wp4B0hRAy2Te06/65OWp/6fRO7VCYfZl0UE3SAilr6B0i/f54tq1
-	 pKQGQYa04TWZw==
-Message-ID: <5fca6d24-b84d-408e-874a-e86b811444fc@kernel.org>
-Date: Sat, 18 Oct 2025 17:55:55 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Al7P/3nI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760816977; x=1792352977;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mF146nvxhIPhZlhIovDy9Wf7Gzq7ShDPT997Xmh7MGY=;
+  b=Al7P/3nI7DlnePtKMmTp7wX8dNAZlz+F81EWVDIl62XAbCsAgNQOCuKo
+   kFty+jKpmB16djBCP6fq7j3hu7ZAKlaiSLtqJt2fasF0MCDW07ke1GvVC
+   XcWHs39tgY7Tp0+N5A0WzgXDCIYdgLAsIaRcFdaglle3E2JndCQTWZeDT
+   tp7MxgEWjjJGIfHdLJ29Ye4fYxe9fgQ3P04pTQptjyEmC5NfX5jGyymmf
+   YgWGO+OXEzOVF7q9XFi08D5bju5yXKsE+4kHfT0zbfDj0dKrA5J85l7BM
+   19WV/bgO2DGUnOm+w80dkJ+IAf+Lu+INqmksXrUk+anIHZk7PF9/w8ycx
+   g==;
+X-CSE-ConnectionGUID: OXh06tt+TdCafZgz+1VZzQ==
+X-CSE-MsgGUID: BkUOlYFXTh+pusWzT5aZyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="85619273"
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="85619273"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:49:37 -0700
+X-CSE-ConnectionGUID: e70Wc68JSnC6KsFO4anpnQ==
+X-CSE-MsgGUID: 3mTcsYCaTQqUgbfFTUrMBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,239,1754982000"; 
+   d="scan'208";a="183487714"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.194])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2025 12:49:32 -0700
+Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1vACvh-00000000xoA-0lv2;
+	Sat, 18 Oct 2025 22:49:29 +0300
+Date: Sat, 18 Oct 2025 22:49:28 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>,
+	Hans Verkuil <hverkuil@kernel.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Dmitry Guzman <dmitry.guzman@mobileye.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 0/3] i2c: designware: Improve support of multi-messages
+ transfer
+Message-ID: <aPPvSCNnkzfH-2X7@ashevche-desk.local>
+References: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] i2c: designware: Support of controller with
- IC_EMPTYFIFO_HOLD_MASTER disabled
-To: =?UTF-8?Q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jarkko Nikula <jarkko.nikula@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jan Dabros <jsd@semihalf.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
- Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
- <20251017-i2c-dw-v1-3-7b85b71c7a87@bootlin.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251017-i2c-dw-v1-3-7b85b71c7a87@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 17/10/2025 16:59, BenoÃ®t Monin wrote:
->  
->  static const struct of_device_id dw_i2c_of_match[] = {
-> -	{ .compatible = "snps,designware-i2c", },
-> -	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
->  	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
-> +	{ .compatible = "mobileye,eyeq6lplus-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
-> +	{ .compatible = "mobileye,eyeq7h-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
++Cc: Hans. Hans, isn't it what you wanted to have for your use-case?
 
-That's not necessary. Don't create duplicated entries, express
-compatibility.
+On Fri, Oct 17, 2025 at 04:59:31PM +0200, Benoît Monin wrote:
+> Extend what can be done when transferring multiple messages in a single
+> call to .xfer().
+> 
+> Allow changing the target address by waiting for a STOP then looping
+> in i2c_dw_xfer() instead of erroring out when a change of address is
+> detected. The loop then re-run i2c_dw_xfer_init() which changes the
+> target address and restart the transfer for the rest of the messages.
+> 
+> Handle controllers that lack the ability to emit a RESTART when two
+> consecutive messages have the same address and direction, by waiting
+> for a STOP and restarting the rest of the transfer.
+> 
+> The i2c controllers found in the EyeQ6Lplus and EyeQ7H SoC from
+> Mobileye lack such capability, so compatible strings are added because
+> this cannot be detected at runtime.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
