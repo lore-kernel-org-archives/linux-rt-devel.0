@@ -1,51 +1,44 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925F423F412
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Oct 2025 15:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D80F26FDB2
+	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Oct 2025 19:23:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761234920; cv=none; b=EC3lGSisfwXGs1KMDNzNJl7v+6e9PBiWyF+CBT0br9slajDnOnPvJ0kdC5nCnrCbHhZlV5FxGFLKD4T/jjCHlnWJwKteq+yMvdR5WLwC13jFZ4o3taKYj+kM5X3HY5LMIZzWTxGnvauACdo4tThFGzmSGI3crP855VUZqe0OgyY=
+	t=1761247438; cv=none; b=rwMcu7PJ0FaMw99783ESdBY/aFaTlRiPZctU/BHwjsWP+53u4LRh/QydBTKDQhv7DLpILDlXjnUK6ICZ7LBWFaFSgiWDHCqabOT/j5yGNv/ipdDDjuzVikHuN6QN/Zr0WXtdodwmepcD7DvX/loEoVCYrsf1VGpUJ1IACV1V/nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761234920; c=relaxed/simple;
-	bh=9vRQsWTU1bGawr6sv7Czwt/5D0tPFpG9DS3UtxnsHts=;
+	s=arc-20240116; t=1761247438; c=relaxed/simple;
+	bh=dyJm5kfT+wwoAXrFOv1gzXzfXi6fTeq4CMgppAJ+OhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QA7+IinwWKcqKOcJdbPAee7Ea5tJLSkJDHFe6WCNCKwHDpsb1MePnSqZWAFdBEG7O9mnxluJ+j6MdArWAocGUK3Kw9eEIPkp3QhYQOo1o9pMHcw/iOTarWMtdcbn86JsaVxyGNn3/2k63/js2ViTQsAVMCk+spA7dP0Z/9gWbn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EhXPYUft; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ax8PvHKLGF/wzoTs7vR+CT43FExI/5RezarH+rMLBlqro8oP/GB0WolyFRnCCHSuxHOuWE/v5ueXTRGK+5lEggzN4nzt08pvtE3bCqQ39AURQ1tmsnV6Vm6E0TAaIWEtJEhcGoV1FSOS3JBt+5Oxsbgkjj8Npj7Lv1PjcL7fCtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BeQGsgjY; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=m/gBCSeI; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EhXPYUft"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761234917;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BeQGsgjY";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="m/gBCSeI"
+Date: Thu, 23 Oct 2025 21:23:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1761247434;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=U7iSUgXoM0qVt7GRMqOCJs+1jLI6D2kNdaUPNd5OMOA=;
-	b=EhXPYUftlG8BONSAhyyYVY1oCxxG5ZWkblccz61K6sKX40ryVXjlSz7y2v36eX3fwBwNrd
-	jlh+3OBDJfJCvt/rSeKKn/g9laZ41swIsZUD4z/ULi2Zjt47crnj2/d1x31FWCxc9MKdRE
-	eSX45IMNkSRTLc2asSUt6L5nDCt7D+w=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-315-K2K8AlH-Mc6kF6nGQ8tj0g-1; Thu,
- 23 Oct 2025 11:55:11 -0400
-X-MC-Unique: K2K8AlH-Mc6kF6nGQ8tj0g-1
-X-Mimecast-MFC-AGG-ID: K2K8AlH-Mc6kF6nGQ8tj0g_1761234909
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3036E18001E4;
-	Thu, 23 Oct 2025 15:55:08 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.19])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 06C39180057C;
-	Thu, 23 Oct 2025 15:54:59 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Thu, 23 Oct 2025 17:53:49 +0200 (CEST)
-Date: Thu, 23 Oct 2025 17:53:40 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	bh=7ogCKyf+ZhAJJt4mNbS3YCVOVR0Q9eZHL6eEX+BzXhU=;
+	b=BeQGsgjYWkHrqj61jTAtbdLkEkbM+BrPGF0fak3f6Nl7kwgutaNbZdZI0jEZQlrtL2kmWV
+	WZ9h/S6kvquom8JHnBsL+fBYXy70DtqieGcJB32RiLgvlSS1WZWJ0r0LeZtgPEEd/y/UKu
+	iD5m+qsy/c+3biYKXrIJRD1PaQ+rDadhWDWqS8ixGERuFkmVLywROrgHCJTjLT3oJLNCnw
+	U6EH9MnFBqyWpdT/PNDtyXJRSboAlYTPevXZaDk+uIoI/v7FMbczxzRzESXGgrG3h9lfSU
+	xnFrd1x+CBMCipSd07+98oDVApltPbObyM+8ceG/fSbvTFy6hgmUAyc4acRNkw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1761247434;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7ogCKyf+ZhAJJt4mNbS3YCVOVR0Q9eZHL6eEX+BzXhU=;
+	b=m/gBCSeIxN6gk9DMIZ21dwkb3pz8ZXcoe2RRMqk6rf5DA8e+oC3uTtxz9QX4L3O5MYIiMo
+	MXTGyLm05jG1pCDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Oleg Nesterov <oleg@redhat.com>
 Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Clark Williams <clrkwllms@kernel.org>,
@@ -61,9 +54,8 @@ Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Wander Lairson Costa <wander@redhat.com>
 Subject: Re: usage of DEFINE_WAIT_OVERRIDE_MAP(LD_WAIT_SLEEP)
-Message-ID: <20251023155339.GE26461@redhat.com>
-References: <aIh5QajyaVT7MtVp@uudg.org>
- <20250729114702.GA18541@redhat.com>
+Message-ID: <20251023192353.Wkng87fi@linutronix.de>
+References: <20250729114702.GA18541@redhat.com>
  <aIjCYEkgNvVpMYCS@uudg.org>
  <20250729130936.GB18541@redhat.com>
  <20250801102428.GB27835@redhat.com>
@@ -72,55 +64,43 @@ References: <aIh5QajyaVT7MtVp@uudg.org>
  <20251023135316.1ZRx0UU5@linutronix.de>
  <20251023152942.GC26461@redhat.com>
  <20251023153750.C6EU9NL6@linutronix.de>
+ <20251023155339.GE26461@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251023153750.C6EU9NL6@linutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <20251023155339.GE26461@redhat.com>
 
-Sebastian,
+On 2025-10-23 17:53:40 [+0200], Oleg Nesterov wrote:
+> Sebastian,
+Hi Oleg,
 
-sorry. I guess this is my fault, but I can't understand your reply...
-Could you spell please?
+> sorry. I guess this is my fault, but I can't understand your reply...
+> Could you spell please?
 
-Just in case, I will read your reply tomorrow.
+So you refer to this:
+| /* PREEMPT_RT kernels map spinlock to rt_mutex */
+| #include <linux/rtmutex.h>
+| 
+| typedef struct spinlock {
+| 	struct rt_mutex_base	lock;
+| #ifdef CONFIG_DEBUG_LOCK_ALLOC
+| 	struct lockdep_map	dep_map;
+| #endif
+| } spinlock_t;
 
-Oleg.
+spinlock_t on PREEMPT_RT does not use (struct) rt_mutex as the comment
+claims. It uses just the basic building block which is "struct
+rt_mutex_base". This requires linux/rtmutex.h. 
 
-On 10/23, Sebastian Andrzej Siewior wrote:
->
-> On 2025-10-23 17:29:43 [+0200], Oleg Nesterov wrote:
-> > Hmm. I'll recheck, quite possibly I missed something.
-> >
-> > But. From include/linux/spinlock_types.h
-> >
-> > 	/* PREEMPT_RT kernels map spinlock to rt_mutex */
-> > 	#include <linux/rtmutex.h>
-> >
-> > 	typedef struct spinlock {
-> > 		struct rt_mutex_base	lock;
-> > 	#ifdef CONFIG_DEBUG_LOCK_ALLOC
-> > 		struct lockdep_map	dep_map;
-> > 	#endif
-> > 	} spinlock_t;
-> >
-> > > rt_mutex is defined as LD_WAIT_SLEEP but this one is not the one we use
-> > > for spinlock_t.
->
-> I may need to update the comment then if this is the source of your of
-> confusion. The rtmutex.h header is required for the rtmutex bits which
-> does contain struct rt_mutex_base which is used below you see.
-> struct rt_mutex iself is not used here and has a different semantic
-> (this one does use SLEEP).
->
-> > Oleg.
->
-> Sebastian
->
+spinlock_t on PREEMPT_RT uses LD_WAIT_CONFIG via SPIN_DEP_MAP_INIT as
+!PREEMPT_RT. Nothing changes here.
 
+struct rt_mutex on the other hand uses LD_WAIT_SLEEP and this one is
+like struct mutex but with PI.
+
+Sebastian
