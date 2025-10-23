@@ -1,217 +1,145 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D948337118
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Oct 2025 15:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC5D2D7DE8
+	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Oct 2025 15:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761232891; cv=none; b=YgOv/91Hbk/hEYag/a/QNimFSPmL+O+1rnPMEIpYUFbPW8fkxCdLFMIcIwJggyFN7yuJ5JPt/dDbNF4g/3O8b3g4yPYbsn3rf4nNK6UCnCTKYgeWbkwmzC4Ob001wALVxJMb8tb4gATcYF4qNxMqsiSVIiYAfYre1zNzwq4Mf74=
+	t=1761233483; cv=none; b=XBkGnxR4Uepj/r1qNd6FMlACSYYtzw57B2diub/m7LKhIDrGvCB8EQWFm3uL7EwraNYt04UVFllt6e77sEl/tzOSBx2hmP4DGykKtIQCdit2Am+Xn6/NEY6nb9LwIZbQ8/EQJiUKyjlj5VgWA0OHwtUtP/m0LY7LCTX9Wg+4h+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761232891; c=relaxed/simple;
-	bh=GkL9WA5K+ltHnePlGyw1wMGJQ1UFA0pchGig9Ct/wWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=llgeEi1XIa1YxhyhVitsW4wZvwc59BJVN9opXNHArJmYz0HC52zJoy5uyAp8T8Q1AI18/yvT6Rr3htYZRGZAXDghwf5/qOL9x8dTDk0imWI62ecG9areR5iJJjmFX5K6fwY4kN8zpnRsXBOouKD/JcoF7PPT2YtSjwNQRIqvTOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U0Q+aeFV; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1761233483; c=relaxed/simple;
+	bh=R/cQYVsqxroQX2KF38Lpi1wY6/SZ34iDsH0OQluS+M8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t8XzwZ//b/D9XLTYjGsHZkvtOHM3XeDmHtReLgKUDqz939LSZh3g0t6lJLMcEpJbfGeLwftc61rxbRUVqqlX2ZKWrJ9LMzochy3YhryJyDxAXdYs+wMlMcPSVAvNien6kLJNIWXTxVzKoYh2hjw5Ew/kDyAZ84qhajRRhNT3Vkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eG0GxnWX; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U0Q+aeFV"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-290ac2ef203so9112575ad.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 23 Oct 2025 08:21:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1761232888; x=1761837688; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2jwrgWQY1h1RtIcpPrpzP6Qz2BnEli8aRyjgsdjGiM=;
-        b=U0Q+aeFVqKrLB5t+UKWIIP0GGzghgNIrxpM5RnCsKfy9d+85mof5fY0ffSdVvPlAqV
-         exUUEFAEC/Plp6SqNUN7d/6S5z9pWizdPyGX4SRfiLF5e8OYkx6RID1tTQl7O4Faxsn0
-         TWjLb0OkPyCoBLOH4X5SbHTOJoeLymYO6LYpk4lo4PThF6QIzfFJOJYOfQzkjtuiPOhA
-         nCHJTHtxMh41AssJASM8WfEFgtSdZDdrR1sVsJe8YcUpFQIewHxO+FmHvoRz70jg3klo
-         wttLwAK7USlwlAAT0JhM4cky9vylKcvA1LSBr2ArJh5YSr04k2bKrFOCm19076XUd1v6
-         usIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761232888; x=1761837688;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G2jwrgWQY1h1RtIcpPrpzP6Qz2BnEli8aRyjgsdjGiM=;
-        b=m4pcAvMFkVNaHhf851daSwXGlgCsJnDY6OUVWM9dLP1I/M7mBKqi6Wb5MTbnGBr4uA
-         7Lq7NnYZ2yQtSqn2PJ7H04JGj2d1hiShlsIMecAFv8H7yauSqtURoUGUqDU7/aIEOQQh
-         px9oVH2ECwpJC1a1PpK1U+ND2XGY8JjEOW0t5l6lv/i/klwSSF70iegjlia36ZxN8lR8
-         79ifXrGHqe8IGFxxCNFhnzkf/sO8c4aurlnesv14AYlfVPpf2qENCPGfax4+MPBaQ2JO
-         YF4FxQ7kF442vJari7d1pkw0Nas7UfYlQKO3naJe4Q78w4bwioCIA09OVl19a64MKA+m
-         jBsw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1TXRzSPGuVf5wS/EBNcU2K1KI+GbLCQIApTT7nGiGmbC0BBvc/ahjyD80FdmWJNRtleY8Rn+ZT4rm0fBCGQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxiMaFG5PTzOxFbASexTXOOHozJfP8Va3403qBBYqoeD4UqF34
-	fMyzlHyIDBnpd5lboSXI7+QS3DUMkHd/XxFyCNErDVkb79CQo3LjFG+lI2GichfbCtqxKLb3H/r
-	RsI6/9mPLJ1UL34jIk2k/WBL4HBASK/KbQYEPRkaz
-X-Gm-Gg: ASbGncvXiOz4rtNAC/wMEylwebTTYrdNzZ7lZIxVN38nObBSSfIWKk4GlPa2hguC07m
-	YixKcRsom0Zmn1A82V1xalAerLMKpkTSUR5/2SjeRDvi0vz14UW42qvmGysUopTq0hQgmIQ9Pn4
-	7SkykGXJ+LljgBMpOXHMlNfTnHRlOwCuDagQLbwMq86c4+U27OmlnjbYfzYypacbTOpseQ7X9tv
-	zleBn37S12HUJavroytNToU/9t9beg8zLo1TOqSEMERVuiHpjkt2RiP8Y1bMolGW2j3sa/ylQfJ
-	4s73/igy/fz+yBJgqWRJEIfWQLJdL5D+VK2g
-X-Google-Smtp-Source: AGHT+IEWgZ7UzgS2PohV24hBKhF9JtPcksvlA1uoFSx8c8CFEwNgsBYtAGAlA8K3H24IvkOMh8whAfHS8cAKsM7wQww=
-X-Received: by 2002:a17:902:e746:b0:28d:195a:7d79 with SMTP id
- d9443c01a7336-290c9c897cemr312219295ad.5.1761232888223; Thu, 23 Oct 2025
- 08:21:28 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eG0GxnWX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761233480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gYNyTZdPSO1+EdVNImtZojSgxA1u0MZm8NZmU9klkxQ=;
+	b=eG0GxnWXRX0kanr8OZLeR1JS0VWPselCKO+XncbrDVvyE5gzRtXuZIRbyzAtE6Fd2ouEIX
+	dGc58J8ACHxNZtEcycIGMajLcAgQMP8SzMPij9tZ0eOTx7jf4k//G3JScKrOMYeG+vbfaY
+	y9/sjQYMwV0yWPLi1jr2+pfGM07/GpA=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-68-N2Kx_z8jNi69VvS1EyQDdA-1; Thu,
+ 23 Oct 2025 11:31:14 -0400
+X-MC-Unique: N2Kx_z8jNi69VvS1EyQDdA-1
+X-Mimecast-MFC-AGG-ID: N2Kx_z8jNi69VvS1EyQDdA_1761233471
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ACB72195608A;
+	Thu, 23 Oct 2025 15:31:10 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.19])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id CD89130002DB;
+	Thu, 23 Oct 2025 15:31:02 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Thu, 23 Oct 2025 17:29:52 +0200 (CEST)
+Date: Thu, 23 Oct 2025 17:29:43 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
+	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Wander Lairson Costa <wander@redhat.com>
+Subject: Re: usage of DEFINE_WAIT_OVERRIDE_MAP(LD_WAIT_SLEEP)
+Message-ID: <20251023152942.GC26461@redhat.com>
+References: <aGvTz5VaPFyj0pBV@uudg.org>
+ <20250728201441.GA4690@redhat.com>
+ <aIh5QajyaVT7MtVp@uudg.org>
+ <20250729114702.GA18541@redhat.com>
+ <aIjCYEkgNvVpMYCS@uudg.org>
+ <20250729130936.GB18541@redhat.com>
+ <20250801102428.GB27835@redhat.com>
+ <20250811105948.OafBprND@linutronix.de>
+ <20251020145310.GA9608@redhat.com>
+ <20251023135316.1ZRx0UU5@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz> <20251023-sheaves-for-all-v1-1-6ffa2c9941c0@suse.cz>
-In-Reply-To: <20251023-sheaves-for-all-v1-1-6ffa2c9941c0@suse.cz>
-From: Marco Elver <elver@google.com>
-Date: Thu, 23 Oct 2025 17:20:51 +0200
-X-Gm-Features: AS18NWBMguvD9NqZ0MBG1ww1DA9Wez_eaadFg_kTQ6tj-ZGocLoyPMGw450Hbw4
-Message-ID: <CANpmjNM06dVYKrraAb-XfF02u8+Jnh-rA5rhCEws4XLqVxdfWg@mail.gmail.com>
-Subject: Re: [PATCH RFC 01/19] slab: move kfence_alloc() out of internal bulk alloc
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023135316.1ZRx0UU5@linutronix.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Thu, 23 Oct 2025 at 15:53, Vlastimil Babka <vbabka@suse.cz> wrote:
+On 10/23, Sebastian Andrzej Siewior wrote:
 >
-> SLUB's internal bulk allocation __kmem_cache_alloc_bulk() can currently
-> allocate some objects from KFENCE, i.e. when refilling a sheaf. It works
-> but it's conceptually the wrong layer, as KFENCE allocations should only
-> happen when objects are actually handed out from slab to its users.
+> On 2025-10-20 16:53:10 [+0200], Oleg Nesterov wrote:
+> >
+> > If CONFIG_PREEMPT_RT=y and preemptible() is true, LD_WAIT_CONFIG won't work.
+> > lockdep will complain if fill_pool() takes a spinlock_t, spinlock is
+> > LD_WAIT_SLEEP on RT.
 >
-> Currently for sheaf-enabled caches, slab_alloc_node() can return KFENCE
-> object via kfence_alloc(), but also via alloc_from_pcs() when a sheaf
-> was refilled with KFENCE objects. Continuing like this would also
-> complicate the upcoming sheaf refill changes.
+> Where is this? This is then wrong then because _SLEEP is for MUTEX and
+> those things that sleep-sleep and pretend to sleep.
 >
-> Thus remove KFENCE allocation from __kmem_cache_alloc_bulk() and move it
-> to the places that return slab objects to users. slab_alloc_node() is
-> already covered (see above). Add kfence_alloc() to
-> kmem_cache_alloc_from_sheaf() to handle KFENCE allocations from
-> prefilled sheafs, with a comment that the caller should not expect the
-> sheaf size to decrease after every allocation because of this
-> possibility.
->
-> For kmem_cache_alloc_bulk() implement a different strategy to handle
-> KFENCE upfront and rely on internal batched operations afterwards.
-> Assume there will be at most once KFENCE allocation per bulk allocation
-> and then assign its index in the array of objects randomly.
->
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slub.c | 44 ++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 36 insertions(+), 8 deletions(-)
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 87a1d2f9de0d..4731b9e461c2 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -5530,6 +5530,9 @@ int kmem_cache_refill_sheaf(struct kmem_cache *s, gfp_t gfp,
->   *
->   * The gfp parameter is meant only to specify __GFP_ZERO or __GFP_ACCOUNT
->   * memcg charging is forced over limit if necessary, to avoid failure.
-> + *
-> + * It is possible that the allocation comes from kfence and then the sheaf
-> + * size is not decreased.
->   */
->  void *
->  kmem_cache_alloc_from_sheaf_noprof(struct kmem_cache *s, gfp_t gfp,
-> @@ -5541,7 +5544,10 @@ kmem_cache_alloc_from_sheaf_noprof(struct kmem_cache *s, gfp_t gfp,
->         if (sheaf->size == 0)
->                 goto out;
->
-> -       ret = sheaf->objects[--sheaf->size];
-> +       ret = kfence_alloc(s, s->object_size, gfp);
-> +
-> +       if (likely(!ret))
-> +               ret = sheaf->objects[--sheaf->size];
->
->         init = slab_want_init_on_alloc(gfp, s);
->
-> @@ -7361,14 +7367,8 @@ int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
->         local_lock_irqsave(&s->cpu_slab->lock, irqflags);
->
->         for (i = 0; i < size; i++) {
-> -               void *object = kfence_alloc(s, s->object_size, flags);
-> -
-> -               if (unlikely(object)) {
-> -                       p[i] = object;
-> -                       continue;
-> -               }
-> +               void *object = c->freelist;
->
-> -               object = c->freelist;
->                 if (unlikely(!object)) {
->                         /*
->                          * We may have removed an object from c->freelist using
-> @@ -7449,6 +7449,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
->                                  void **p)
->  {
->         unsigned int i = 0;
-> +       void *kfence_obj;
->
->         if (!size)
->                 return 0;
-> @@ -7457,6 +7458,20 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
->         if (unlikely(!s))
->                 return 0;
->
-> +       /*
-> +        * to make things simpler, only assume at most once kfence allocated
-> +        * object per bulk allocation and choose its index randomly
-> +        */
-> +       kfence_obj = kfence_alloc(s, s->object_size, flags);
-> +
-> +       if (unlikely(kfence_obj)) {
-> +               if (unlikely(size == 1)) {
-> +                       p[0] = kfence_obj;
-> +                       goto out;
-> +               }
-> +               size--;
-> +       }
-> +
->         if (s->cpu_sheaves)
->                 i = alloc_from_pcs_bulk(s, size, p);
->
-> @@ -7468,10 +7483,23 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
->                 if (unlikely(__kmem_cache_alloc_bulk(s, flags, size - i, p + i) == 0)) {
->                         if (i > 0)
->                                 __kmem_cache_free_bulk(s, i, p);
-> +                       if (kfence_obj)
-> +                               __kfence_free(kfence_obj);
->                         return 0;
->                 }
->         }
->
-> +       if (unlikely(kfence_obj)) {
+> spinlock_t should be LD_WAIT_CONFIG. This is used in
+> include/linux/spinlock_types.h via SPIN_DEP_MAP_INIT which is only
+> defined once as LD_WAIT_CONFIG.
 
-Might be nice to briefly write a comment here in code as well instead
-of having to dig through the commit logs.
+Hmm. I'll recheck, quite possibly I missed something.
 
-The tests still pass? (CONFIG_KFENCE_KUNIT_TEST=y)
+But. From include/linux/spinlock_types.h
 
-> +               int idx = get_random_u32_below(size + 1);
-> +
-> +               if (idx != size)
-> +                       p[size] = p[idx];
-> +               p[idx] = kfence_obj;
-> +
-> +               size++;
-> +       }
-> +
-> +out:
->         /*
->          * memcg and kmem_cache debug support and memory initialization.
->          * Done outside of the IRQ disabled fastpath loop.
+	/* PREEMPT_RT kernels map spinlock to rt_mutex */
+	#include <linux/rtmutex.h>
+
+	typedef struct spinlock {
+		struct rt_mutex_base	lock;
+	#ifdef CONFIG_DEBUG_LOCK_ALLOC
+		struct lockdep_map	dep_map;
+	#endif
+	} spinlock_t;
+
+> rt_mutex is defined as LD_WAIT_SLEEP but this one is not the one we use
+> for spinlock_t.
+
+see above...
+
+> What you want to have working in the end is the following scenario:
 >
-> --
-> 2.51.1
+> |static DEFINE_SPINLOCK(lock_spinlock);
+> |static DEFINE_RAW_SPINLOCK(lock_raw_spinlock);
+> |static DEFINE_RAW_SPINLOCK(lock_raw_spinlock2);
+> |
+> |static void lockdep_test(void)
+> |{
+> |        static DEFINE_WAIT_OVERRIDE_MAP(put_task_map, LD_WAIT_CONFIG);
+> |
+> |        raw_spin_lock(&lock_raw_spinlock);
+> |        lock_map_acquire_try(&put_task_map);
+> |
+> |        spin_lock(&lock_spinlock);
+
+Yes, but this won't work on RT? Again, I didn't check (yet), possibly I am
+wrong...
+
+> This will work. On RT as well but is wrong and will not happen due to
+> the preemptible() check. On !RT it will so you want lockdep to be quiet.
+
+See above and please correct me.
+
+Oleg.
+
