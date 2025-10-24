@@ -1,178 +1,89 @@
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2138031D742
-	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 15:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2748E1A83F9;
+	Fri, 24 Oct 2025 16:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761319800; cv=none; b=Nw/zaJceody5Z+IcY36Q2JqGbFK8J2Vv+KKKGmVYYeClA62ynarCyKKViEyhMq12MU3PuEMIh2Wrat9dLMfCEqUlmQf81ovPTiXMx/pOGXk96QM7KZh3AEAH+HkFZmuqg0IBvqTkFi2Gn7OVPoVzTs3b1oz/M38nQZxS7CpLNYk=
+	t=1761325173; cv=none; b=RIC3G7kp72Tr4rtzqzI0D3Px+d4KoD2eRncGvGfGx3Z+QZ/XgKzuIS00aRCnLQ0+qcR20C988RRv7ts7NQO+d7lJbNae88NmCaW0rNUGximk1ZqB5YHwnDT1zxYjRmHNtW18cJFN54348rEhcfpDhCNKf5ynv6xHCbR7iRo94ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761319800; c=relaxed/simple;
-	bh=xgEHwFgWaca40F8wGyBUFn8xI4qBVKtnd8Q7QUCNcqI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FTQm1eGyAZ3BvFdp/ReLGfwkTybUL+hdRXjmsyElwv1Pq/dyVJl/ZriNoTZOPiWlAx5ppr0vRCv40Y4W1Dys9QpbZc5UD+zCrrwDVdW9ErNLXDiCwrVut+npgXDVkdZhRWjws4KnzZ1/WaTrc66CkEBTOj2cAgsMeETHsm5e/ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=u1H8joWQ; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1761325173; c=relaxed/simple;
+	bh=NI/rc7eye74iVvlRLxjIh57O/Fz+QQfLbOm4CGCtKu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=DLqfKc3B+qSOvucorzTnPoAhesKAnxqVkEAtLHT8+aeCdoocdFV6uhu5SE3o5//LZ4eYgqxbrFGGWdNETcfUsODIUjtN4gIIK8pPE28f9+VZc+b6UEzl3qxDCDCuZMvSyqLDyB5uVQFodhZulsprNvmJ2ttE1w4bhlBmx/7cX44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlHaGBXH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="u1H8joWQ"
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 59OE2RhP2211218;
-	Fri, 24 Oct 2025 08:29:42 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=JYg1vP9W9v0SXXkTSNQM/3alSk45Op1+j7AlOwvEtcM=; b=u1H8joWQSvKP
-	lsrsEERu6cI1x3A5mfYS1zL8z0TQ0khpcMO8oYoKKD8h7+McjWX/ktRh8T6OlVd7
-	YTYfYTTlFhlbaEQxQ089POCXDGW4O4ZiFd2+HPGFe8v+yA9+5tITFlTOMM2QswD0
-	VpUEdNRVGQdCV9aikoHsmDQz2VGUO5389kHXGxz0TnWP8qKuS0sG6TTGir/ES96V
-	H2xX4fayiv6t2blL54E3ElLvGNPYJyjqq481ODsOAu1/biqcHXXU3LECt5+qHjhO
-	SVER6vuEUb3vlKr76lyqRFBGrbkBT5ZmPfENEG/Igm50m98ee4vYpQFalDF+f+S/
-	E+f1ht3MRA==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by m0001303.ppops.net (PPS) with ESMTPS id 49yxkh4c3r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 24 Oct 2025 08:29:42 -0700 (PDT)
-Received: from devbig091.ldc1.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Fri, 24 Oct 2025 15:29:40 +0000
-From: Chris Mason <clm@meta.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
-        "Liam R. Howlett"
-	<Liam.Howlett@oracle.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>,
-        Alexei Starovoitov
-	<ast@kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-        <bpf@vger.kernel.org>, <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH RFC 06/19] slab: introduce percpu sheaves bootstrap
-Date: Fri, 24 Oct 2025 08:29:09 -0700
-Message-ID: <20251024152913.1115220-1-clm@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251023-sheaves-for-all-v1-6-6ffa2c9941c0@suse.cz>
-References:
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlHaGBXH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCC1C4CEF1;
+	Fri, 24 Oct 2025 16:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761325172;
+	bh=NI/rc7eye74iVvlRLxjIh57O/Fz+QQfLbOm4CGCtKu0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=dlHaGBXHbSEjOtiqusEUlrKtOZ6KQUUkEohK4jVyq06y51ril3e2UyTzQlNqHa4fv
+	 xGWcwEbddkZw+j7nvdxYmFP01zdfzXbEvyw5k3ZF1rmu5BCBZKYTRja8qzwpYWx8GV
+	 IpA8xovmQI6jzsg1KOIbekIQsSZ7Ayx0jQiwxo5HHL6+KsvC+4Px5Uw2RCg0iGUiRl
+	 c5PstjMQIBCcQ5uL/sm7a093geQ4H17bWT94f2cAgcgzhGewsxGxKPtbGSyUXEop7U
+	 716uOwYJ5X4t+HFlZZdW9Pmlo7y1o9jYobv605l7b98M4ir6PDALPlLAS/RlR9Sdv+
+	 +6V9XLWXdib+Q==
+Date: Fri, 24 Oct 2025 11:59:31 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2] pci/aer_inject: switching inject_lock to
+ raw_spinlock_t
+Message-ID: <20251024165931.GA1354268@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: kkk2s3qprms9Z7I2EC8CkdtQeZfZNQk7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEzOSBTYWx0ZWRfX7OIXVkMX9geX
- 7pzjGpPRSpFcTx7fX8n9LXsYKQ3g0QZRGy/YPxIO393qaVutmBVwI5lA7gFo2Q5Hwa8+P741e63
- xa6tJDDXt4JLNHQXxoIcH9J3r2OhtgnPlM4/Dr6jsPRXB1oEw/kPigXQ63CZR62E3oWIRwP92bI
- Uyw/Rir17bhjlbv9m3LRbTZKG10KB7hH/N6P1EqnkT0Cqw/05VrvLihNzZyUp7LDWbJDlLeGXcc
- H/V7buo1lPWg9avwKIjQpsh4ufOJ0RbDY3XF7efzaPcvEl+kxGuwx0N75gZk9lfpaNVUS9+08yq
- tCSqvOvqHCgRAFoEYuICfiy9uaKRTDvTQ2t2EAEZ5GLOUuAXhopMjOObCyRbGyHI7KdUgqT79Bs
- +PdwDPQk/r7OGlJSV6buVYTVGDTVHg==
-X-Authority-Analysis: v=2.4 cv=RqHI7SmK c=1 sm=1 tr=0 ts=68fb9b66 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7e5GxzTNbid4F3B1EgkA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: kkk2s3qprms9Z7I2EC8CkdtQeZfZNQk7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
 
-On Thu, 23 Oct 2025 15:52:28 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
-
-> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
-> sheaves enabled. Since we want to enable them for almost all caches,
-> it's suboptimal to test the pointer in the fast paths, so instead
-> allocate it for all caches in do_kmem_cache_create(). Instead of testing
-> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
-> kmem_cache->sheaf_capacity for being 0, where needed.
+On Thu, Oct 09, 2025 at 03:06:50PM +0000, Guangbo Cui wrote:
+> When injecting AER errors under PREEMPT_RT, the kernel may trigger a
+> lockdep warning about an invalid wait context:
 > 
-> However, for the fast paths sake we also assume that the main sheaf
-> always exists (pcs->main is !NULL), and during bootstrap we cannot
-> allocate sheaves yet.
-> 
-> Solve this by introducing a single static bootstrap_sheaf that's
-> assigned as pcs->main during bootstrap. It has a size of 0, so during
-> allocations, the fast path will find it's empty. Since the size of 0
-> matches sheaf_capacity of 0, the freeing fast paths will find it's
-> "full". In the slow path handlers, we check sheaf_capacity to recognize
-> that the cache doesn't (yet) have real sheaves, and fall back. Thus
-> sharing the single bootstrap sheaf like this for multiple caches and
-> cpus is safe.
->
+> ```
+> [ 1850.950780] [ BUG: Invalid wait context ]
+> [ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
+> [ 1850.951457] -----------------------------
+> [ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
+> [ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
+> [ 1850.952731] other info that might help us debug this:
+> [ 1850.952997] context-{5:5}
+> [ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
+> [ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
+> [ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
+> [ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
+> [ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
+> ```
+> ...
 
-Hi Vlastimil,
+If/when you update the commit log, please:
 
-We're trying out the AI patch review automation on the BPF commits and it had
-some questions about a few of these.  Since the goal is to actually test the
-automation, I'm putting them in unedited, but I did try and make sure they
-were valid before sending.
+  - Update subject line to match history (use "git log --oneline")
 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index a6e58d3708f4..ecb10ed5acfe 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
+  - Drop the timestamps because they don't help understand the issue
 
-[ ... ]
+  - Drop the ```; just indent quoted material a couple spaces
 
-> @@ -7733,8 +7782,7 @@ static void free_kmem_cache_nodes(struct kmem_cache *s)
->  void __kmem_cache_release(struct kmem_cache *s)
->  {
->  	cache_random_seq_destroy(s);
-> -	if (s->cpu_sheaves)
-> -		pcs_destroy(s);
-> +	pcs_destroy(s);
+  - Drop the `` around code names; the () after functions is enough
 
-Can pcs_destroy() handle a NULL cpu_sheaves pointer? Looking at the
-error path in do_kmem_cache_create():
-
-    s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
-    if (!s->cpu_sheaves) {
-        err = -ENOMEM;
-        goto out;
-    }
-    ...
-    out:
-        if (err)
-            __kmem_cache_release(s);
-
-If alloc_percpu() fails, __kmem_cache_release() now calls pcs_destroy()
-unconditionally. In pcs_destroy(), the first operation is:
-
-    for_each_possible_cpu(cpu) {
-        pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
-
-Does per_cpu_ptr() dereference s->cpu_sheaves when it's NULL?
-
->  #ifdef CONFIG_PREEMPT_RT
->  	if (s->cpu_slab)
->  		lockdep_unregister_key(&s->lock_key);
-
-[ ... ]
-
-> @@ -8608,12 +8656,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
->
->  	set_cpu_partial(s);
->
-> -	if (s->sheaf_capacity) {
-> -		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
-> -		if (!s->cpu_sheaves) {
-> -			err = -ENOMEM;
-> -			goto out;
-> -		}
-> +	s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
-> +	if (!s->cpu_sheaves) {
-> +		err = -ENOMEM;
-> +		goto out;
->  	}
-
-This error path triggers the call chain: do_kmem_cache_create() error
-path -> __kmem_cache_release() -> pcs_destroy() with NULL cpu_sheaves.
-
-
+  - Trim it as others suggested; I appreciate the details about how
+    to reproduce it, but they could go after the ---, where we'll be
+    able to find them via the Link: tag
