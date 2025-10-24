@@ -1,42 +1,42 @@
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0551F542E
-	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 14:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1192DA771
+	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 14:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761315749; cv=none; b=fXUgrdRIcuNbYefOAn6Zs0d7xrutq3pp9nJixUok8PivIQscLkMtQ6fnoHipeNThUglbu4GwGkQRJwGd17Qk8wGvo+/kyOOIhdFOGiiCcyS1kJEDYnvTzusy6Dlz2eCrSWZC//VWa3L+M3GvNJtEg14MzO2BcuWkXqvwTzwN7Ww=
+	t=1761316203; cv=none; b=RzCrxQaEV4KwXtsp0sqNuWSzo5bM35UaUPFtLCsjMjk/2OJTixsTc74MwbAu1dTYZjk2gF4ujPh5IjkqUTSVq6BGL3YmjkWv33kOBYcYaQAwKH96OhU27Z6UKKFHze2klzFzPhCfQ7Uilvtwv27vhqhOWDZI8vgZc3FtcFtU/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761315749; c=relaxed/simple;
-	bh=2AIS1AnyVXmYXs2B/o3OhQYHrOJcyrvIst6+oyJcSEA=;
+	s=arc-20240116; t=1761316203; c=relaxed/simple;
+	bh=sXzz58hqxduSzGRDh3mLu3YJJIeqMSKkD/Imsf7uYNQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PbTrnu/RPFQkWhFeP3B9mwUSQWLUVvrM6ys/y1ZIofwxe07L569rGu4xyeN5jHvb3SRlOjXGDRZOywWVcNYFvDHktEVGypftHkv7WjQXVcvaXlXqJNejGLy4w/IOeuJLqRUA44MbMLGWLGsU77y+ksA+S4SQaGRNAXftDKRb7OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=ezQP+7u3; arc=none smtp.client-ip=67.231.153.30
+	 MIME-Version:Content-Type; b=By7UWzj4Xph7yVwUCHutStAvVHtx8aN0G7RBDlKWFTcF8U9LLiAMPUv5LapVPs/Yt6KaTo05uEIt405RkHsYUSTgBQUTUoLsl9I7vwkLhvB+ztvEOVU+SebN9r4e39fIqaz09RIY++xmoBGZ/TrmqAoIxBcOUVMKWPJWjh6ZfAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=lNiDEF6C; arc=none smtp.client-ip=67.231.145.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="ezQP+7u3"
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59OBwgYl419537;
-	Fri, 24 Oct 2025 07:21:55 -0700
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="lNiDEF6C"
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O2UEjG1836665;
+	Fri, 24 Oct 2025 07:29:45 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=b/ol2wZmOZszG9k8vxf893BYtcntNjtXKAqt3ZVyZ6M=; b=ezQP+7u3tFEf
-	zrYyaDhCkTMVQFov2O0qB6+PQ8nFCiz5xUxgfcMk2tR+A3R95RZzzaKIuV+0udnJ
-	CETmgt5bY2oOqy9mzXp4dlGP2sajgZMdyujqwW9Jd3+LwfTJJnmgMKee2hmQcqYr
-	WcE4brwFFiA3z7jYttDF5dcSZDq9hbl8VFDOJu5glQxQ96K+O8D1SKa4j6JalBSI
-	O5tzYojsleliqP7yWdADgof1zsQg4uANQ8T4e/jCWi4UAfCyP24qMqFgbZnB9oHV
-	Z2N/UdAhoSxb1Rht4AfWxZvy79778q+JYsFec/by5KkZgF6k0yclfpMdaDfD7DNN
-	vDn6vxt7NQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a09288x7k-1
+	 bh=6/h0G3p+CogW+KUD4A3h3rSaunnYLJugMgdAj9+txKM=; b=lNiDEF6CSP20
+	iTsKdShjwOWG080Ql4m0WuuhKTv/PnaxXYtx2oBXzSdEmmHN7jcBUwvLpsJ0l19i
+	2pN7xUXlwxalCx8zy3oAclMDLf2a059pw1umjoGUI1AgU+a0ybhiKuP4g6gRBzfB
+	L+k3vdZxzdnpzDjAMGaF8dQgxXkmg6C0sgUroTyp/7DXOvXQwxICSzLS6CXdk1XR
+	kgWoLESaE3lsZEq28cnhZibtC0cya778ashO/hCetb0FJPb2O0jFYSQKcKKDr0Fa
+	Yu0eoA8r6/MNE7kizbFCOCj9p1vhSMYZCMshku3Yz6hOLBoRoNX6W98joaTZs8QU
+	eq2VFCVJDQ==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a00qr3bp6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 24 Oct 2025 07:21:55 -0700 (PDT)
-Received: from devbig091.ldc1.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
+	Fri, 24 Oct 2025 07:29:45 -0700 (PDT)
+Received: from devbig091.ldc1.facebook.com (2620:10d:c0a8:1b::8e35) by
+ mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Fri, 24 Oct 2025 14:21:52 +0000
+ 15.2.2562.20; Fri, 24 Oct 2025 14:29:44 +0000
 From: Chris Mason <clm@meta.com>
 To: Vlastimil Babka <vbabka@suse.cz>
 CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
@@ -53,11 +53,11 @@ CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
 	<ast@kernel.org>, <linux-mm@kvack.org>,
         <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
         <bpf@vger.kernel.org>, <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH RFC 02/19] slab: handle pfmemalloc slabs properly with sheaves
-Date: Fri, 24 Oct 2025 07:21:35 -0700
-Message-ID: <20251024142137.739555-1-clm@meta.com>
+Subject: Re: [PATCH RFC 10/19] slab: remove cpu (partial) slabs usage from allocation paths
+Date: Fri, 24 Oct 2025 07:29:20 -0700
+Message-ID: <20251024142927.780367-1-clm@meta.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251023-sheaves-for-all-v1-2-6ffa2c9941c0@suse.cz>
+In-Reply-To: <20251023-sheaves-for-all-v1-10-6ffa2c9941c0@suse.cz>
 References:
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -67,43 +67,42 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEyOCBTYWx0ZWRfXwTD/VmjTrZA6
- JRMZKrwqksV2xp1yhJWxwn6gzdqQ6FLs2fQ0eb7xBONuzcwgzrrSURnRmWBCizGKI+13LbnEIl4
- ylNtvCoS+qc8ZaNrun/2WUn50FZBKyvgRCtxu011MC4I60o1A0gUQr7LQe1DnOC1f19Mw9W27VB
- MlWsAS28QxLMenEBX7/purq6SIW3f2Ls4I6uC6IrLhRbaN7uAosLW6+sFcqB5q5bySPDl5GzzE5
- R9gNXo0vhN4ZummzWu1+T3C/Fckz++HJCysc3xdveEplf4WxEoLA0JxvzvfFP6keHpZ+LjYmoHz
- lUK8NtClWc9hhIyXgA6umSdgtc7sWHlWqXnnspAxBWh4MhmjJc8arJC6lHS0Uji0i8FsmPJ+NE1
- uMZWCoJMv2b3asDyr7V0u3Kf1VWvBQ==
-X-Proofpoint-GUID: 1v7_B19uZD_UKIAK3zHZIbCsxtzfqkFk
-X-Authority-Analysis: v=2.4 cv=aK79aL9m c=1 sm=1 tr=0 ts=68fb8b83 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=PCJbmnWxFXnHO1kFQDsA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEyOSBTYWx0ZWRfXzo7mh/+QEEto
+ lN48tJt90rZ0v9oBAvXPrAsfwe+CenqqyK68LR7o0BOfvJujTaqFIdwroPduE2PBMa7VnKqUE/B
+ hR/lbf4iinufGfA1AoIc8lE3vKY7y4Hw5m21adIOtvFfDgLbh7c/rKrhMA+6RLDywjI9qT/AoPU
+ QMz8k7g4r2r6F7d78Ky9USlLG/pqBLtW9jbItBaZRSJncw/ge9eg3eKLxO5qPcfnkt2yRAOGPDZ
+ 0oDHjSRBppMO5yVVZV2peChq0H2i7zjAjvg8Sie6K49tWvOlXv5+AOIWEC9CFAuuk3C2lzCpqtT
+ +WAgDcHMs2kxxD4qDJk65eXaVVatHMy1wdEZjZIXRWbu9DTaF8gSAizL8JMHUtenNSM7KaKQCvX
+ uRzKVvQvjM8o8dsWfoKrJwWlFoOyMA==
+X-Authority-Analysis: v=2.4 cv=YfWwJgRf c=1 sm=1 tr=0 ts=68fb8d59 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Qud2Co-4zkO9aUnGrzwA:9
  a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-ORIG-GUID: 1v7_B19uZD_UKIAK3zHZIbCsxtzfqkFk
+X-Proofpoint-GUID: whmAAHXeJ-9g96VK63zLv5mAQoKsaiQB
+X-Proofpoint-ORIG-GUID: whmAAHXeJ-9g96VK63zLv5mAQoKsaiQB
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
 
-On Thu, 23 Oct 2025 15:52:24 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
+On Thu, 23 Oct 2025 15:52:32 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
 
-> When a pfmemalloc allocation actually dips into reserves, the slab is
-> marked accordingly and non-pfmemalloc allocations should not be allowed
-> to allocate from it. The sheaves percpu caching currently doesn't follow
-> this rule, so implement it before we expand sheaves usage to all caches.
+> We now rely on sheaves as the percpu caching layer and can refill them
+> directly from partial or newly allocated slabs. Start removing the cpu
+> (partial) slabs code, first from allocation paths.
 > 
-> Make sure objects from pfmemalloc slabs don't end up in percpu sheaves.
-> When freeing, skip sheaves when freeing an object from pfmemalloc slab.
-> When refilling sheaves, use __GFP_NOMEMALLOC to override any pfmemalloc
-> context - the allocation will fallback to regular slab allocations when
-> sheaves are depleted and can't be refilled because of the override.
+> This means that any allocation not satisfied from percpu sheaves will
+> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
+> slabs, so it will only perform get_partial() or new_slab().
 > 
-> For kfree_rcu(), detect pfmemalloc slabs after processing the rcu_sheaf
-> after the grace period in __rcu_free_sheaf_prepare() and simply flush
-> it if any object is from pfmemalloc slabs.
+> In get_partial_node() we used to return a slab for freezing as the cpu
+> slab and to refill the partial slab. Now we only want to return a single
+> object and leave the slab on the list (unless it became full). We can't
+> simply reuse alloc_single_from_partial() as that assumes freeing uses
+> free_to_partial_list(). Instead we need to use __slab_update_freelist()
+> to work properly against a racing __slab_free().
 > 
-> For prefilled sheaves, try to refill them first with __GFP_NOMEMALLOC
-> and if it fails, retry without __GFP_NOMEMALLOC but then mark the sheaf
-> pfmemalloc, which makes it flushed back to slabs when returned.
+> The rest of the changes is removing functions that no longer have any
+> callers.
 >
 
 Hi Vlastimil,
@@ -113,73 +112,111 @@ some questions about a few of these.  Since the goal is to actually test the
 automation, I'm putting them in unedited, but I did try and make sure they
 were valid before sending.
 
-For this one, I'm not sure if the behavior AI is flagging is intentional or
-not, so it feels like a reasonable question to me at least:
+This one seems pretty unlikely but still worth fixing:
 
+>
 > diff --git a/mm/slub.c b/mm/slub.c
-> index 4731b9e461c2..ab03f29dc3bf 100644
+> index e2b052657d11..bd67336e7c1f 100644
 > --- a/mm/slub.c
 > +++ b/mm/slub.c
 
 [ ... ]
 
-> @@ -5331,6 +5340,26 @@ void *kmem_cache_alloc_node_noprof(struct kmem_cache *s, gfp_t gfpflags, int nod
+> @@ -3575,15 +3532,15 @@ static bool get_partial_node_bulk(struct kmem_cache *s,
 >  }
->  EXPORT_SYMBOL(kmem_cache_alloc_node_noprof);
 >
-> +static int __prefill_sheaf_pfmemalloc(struct kmem_cache *s,
-> +				      struct slab_sheaf *sheaf, gfp_t gfp)
-> +{
-> +	int ret = 0;
-> +
-> +	ret = refill_sheaf(s, sheaf, gfp | __GFP_NOMEMALLOC);
-> +
-> +	if (likely(!ret || !gfp_pfmemalloc_allowed(gfp)))
-> +		return ret;
-> +
-> +	/*
-> +	 * if we are allowed to, refill sheaf with pfmemalloc but then remember
-> +	 * it for when it's returned
-> +	 */
-> +	ret = refill_sheaf(s, sheaf, gfp);
-> +	sheaf->pfmemalloc = true;
-> +
-> +	return ret;
-> +}
-
-[ ... ]
-
-> @@ -5497,7 +5528,7 @@ int kmem_cache_refill_sheaf(struct kmem_cache *s, gfp_t gfp,
+>  /*
+> - * Try to allocate a partial slab from a specific node.
+> + * Try to allocate object from a partial slab on a specific node.
+>   */
+> -static struct slab *get_partial_node(struct kmem_cache *s,
+> -				     struct kmem_cache_node *n,
+> -				     struct partial_context *pc)
+> +static void *get_partial_node(struct kmem_cache *s,
+> +			      struct kmem_cache_node *n,
+> +			      struct partial_context *pc)
+>  {
+> -	struct slab *slab, *slab2, *partial = NULL;
+> +	struct slab *slab, *slab2;
+>  	unsigned long flags;
+> -	unsigned int partial_slabs = 0;
+> +	void *object;
 >
->  	if (likely(sheaf->capacity >= size)) {
->  		if (likely(sheaf->capacity == s->sheaf_capacity))
-> -			return refill_sheaf(s, sheaf, gfp);
-> +			return __prefill_sheaf_pfmemalloc(s, sheaf, gfp);
+>  	/*
+>  	 * Racy check. If we mistakenly see no partial slabs then we
+> @@ -3599,54 +3556,54 @@ static struct slab *get_partial_node(struct kmem_cache *s,
+>  	else if (!spin_trylock_irqsave(&n->list_lock, flags))
+>  		return NULL;
+>  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
+> +
+> +		unsigned long counters;
+> +		struct slab new;
+> +
+>  		if (!pfmemalloc_match(slab, pc->flags))
+>  			continue;
+
+Can get_partial_node() return an uninitialized pointer? The variable
+'object' is declared but never initialized. If all slabs in the partial
+list fail the pfmemalloc_match() check, the loop completes without
+setting 'object', then returns it at the end of the function.
+
+In the previous version, the equivalent 'partial' variable was explicitly
+initialized to NULL. When all slabs were skipped, NULL was returned.
+
 >
->  		if (!__kmem_cache_alloc_bulk(s, gfp, sheaf->capacity - sheaf->size,
->  					     &sheaf->objects[sheaf->size])) {
-                                             ^^^
-
-In kmem_cache_refill_sheaf(), does the oversize sheaf path (when
-sheaf->capacity != s->sheaf_capacity) need __GFP_NOMEMALLOC too?
-
-The commit message says "When refilling sheaves, use __GFP_NOMEMALLOC
-to override any pfmemalloc context", and the normal capacity path now
-calls __prefill_sheaf_pfmemalloc() which adds __GFP_NOMEMALLOC.
-
-But this oversize path still calls __kmem_cache_alloc_bulk() with the
-raw gfp flags. If the calling context is pfmemalloc-enabled (e.g.,
-during swap or network operations), could pfmemalloc objects be
-allocated into the sheaf? Those objects would then be returned via
-kmem_cache_alloc_from_sheaf() to potentially non-pfmemalloc callers.
-
-Similar issue exists in kmem_cache_prefill_sheaf() for the oversize
-path at the function's start, though that code wasn't modified by this
-patch.
-
->  			return -ENOMEM;
+>  		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+> -			void *object = alloc_single_from_partial(s, n, slab,
+> +			object = alloc_single_from_partial(s, n, slab,
+>  							pc->orig_size);
+> -			if (object) {
+> -				partial = slab;
+> -				pc->object = object;
+> +			if (object)
+>  				break;
+> -			}
+>  			continue;
 >  		}
->  		sheaf->size = sheaf->capacity;
+>
+> -		remove_partial(n, slab);
+> -
+> -		if (!partial) {
+> -			partial = slab;
+> -			stat(s, ALLOC_FROM_PARTIAL);
+> -
+> -			if ((slub_get_cpu_partial(s) == 0)) {
+> -				break;
+> -			}
+> -		} else {
+> -			put_cpu_partial(s, slab, 0);
+> -			stat(s, CPU_PARTIAL_NODE);
+> -
+> -			if (++partial_slabs > slub_get_cpu_partial(s) / 2) {
+> -				break;
+> -			}
+> -		}
+> +		/*
+> +		 * get a single object from the slab. This might race against
+> +		 * __slab_free(), which however has to take the list_lock if
+> +		 * it's about to make the slab fully free.
+> +		 */
+> +		do {
+> +			object = slab->freelist;
+> +			counters = slab->counters;
+> +			new.freelist = get_freepointer(s, object);
+> +			new.counters = counters;
+> +			new.inuse++;
+> +		} while (!__slab_update_freelist(s, slab,
+> +			object, counters,
+> +			new.freelist, new.counters,
+> +			"get_partial_node"));
+> +
+> +		if (!new.freelist)
+> +			remove_partial(n, slab);
+>  	}
+>  	spin_unlock_irqrestore(&n->list_lock, flags);
+> -	return partial;
+> +	return object;
+>  }
 
 [ ... ]
 
