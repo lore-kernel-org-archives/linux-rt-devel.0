@@ -1,223 +1,109 @@
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1192DA771
-	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 14:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5675321323C
+	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 14:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761316203; cv=none; b=RzCrxQaEV4KwXtsp0sqNuWSzo5bM35UaUPFtLCsjMjk/2OJTixsTc74MwbAu1dTYZjk2gF4ujPh5IjkqUTSVq6BGL3YmjkWv33kOBYcYaQAwKH96OhU27Z6UKKFHze2klzFzPhCfQ7Uilvtwv27vhqhOWDZI8vgZc3FtcFtU/wo=
+	t=1761317682; cv=none; b=BGYBAl6B51qT7a/3/J9tL4TrZLtfOb0rvSU3Uy0hK0EWxNmHBhgPXY4bjwvC+Apzu/kPbP5i3bvkpX3Ari7D4l0RQqusKjjAoRojrecGcmwxW5okI/xqdYKKRS0SMD1cpRIvng/e7CK4Hoa0yHWhLLmOrCfmnVyjz9Yn6SjR44w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761316203; c=relaxed/simple;
-	bh=sXzz58hqxduSzGRDh3mLu3YJJIeqMSKkD/Imsf7uYNQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=By7UWzj4Xph7yVwUCHutStAvVHtx8aN0G7RBDlKWFTcF8U9LLiAMPUv5LapVPs/Yt6KaTo05uEIt405RkHsYUSTgBQUTUoLsl9I7vwkLhvB+ztvEOVU+SebN9r4e39fIqaz09RIY++xmoBGZ/TrmqAoIxBcOUVMKWPJWjh6ZfAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=lNiDEF6C; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	s=arc-20240116; t=1761317682; c=relaxed/simple;
+	bh=7IhR2vSj/blV12vbTgFp/+60dHurur0StmZegWMD0Kg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tSnM0GOKjEi+H4tgl+Tq5+XXesclJU34fpheKvLdD6lsOBOJSqDJnHj4pHSBGF1KVONKIvCEe42strK7hFU3RWLPDeSqLTvz+PRA1QK/jOrif5O+CG/cyiD8JFkTj57bhZQK1d4hCqLMRR8HTVcaeyh+sY+J9uNo3+fz7ehZ1KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BrBGXayH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7pTkKdAy; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="lNiDEF6C"
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59O2UEjG1836665;
-	Fri, 24 Oct 2025 07:29:45 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=6/h0G3p+CogW+KUD4A3h3rSaunnYLJugMgdAj9+txKM=; b=lNiDEF6CSP20
-	iTsKdShjwOWG080Ql4m0WuuhKTv/PnaxXYtx2oBXzSdEmmHN7jcBUwvLpsJ0l19i
-	2pN7xUXlwxalCx8zy3oAclMDLf2a059pw1umjoGUI1AgU+a0ybhiKuP4g6gRBzfB
-	L+k3vdZxzdnpzDjAMGaF8dQgxXkmg6C0sgUroTyp/7DXOvXQwxICSzLS6CXdk1XR
-	kgWoLESaE3lsZEq28cnhZibtC0cya778ashO/hCetb0FJPb2O0jFYSQKcKKDr0Fa
-	Yu0eoA8r6/MNE7kizbFCOCj9p1vhSMYZCMshku3Yz6hOLBoRoNX6W98joaTZs8QU
-	eq2VFCVJDQ==
-Received: from maileast.thefacebook.com ([163.114.135.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4a00qr3bp6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 24 Oct 2025 07:29:45 -0700 (PDT)
-Received: from devbig091.ldc1.facebook.com (2620:10d:c0a8:1b::8e35) by
- mail.thefacebook.com (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Fri, 24 Oct 2025 14:29:44 +0000
-From: Chris Mason <clm@meta.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
-        "Liam R. Howlett"
-	<Liam.Howlett@oracle.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>,
-        Alexei Starovoitov
-	<ast@kernel.org>, <linux-mm@kvack.org>,
-        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-        <bpf@vger.kernel.org>, <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH RFC 10/19] slab: remove cpu (partial) slabs usage from allocation paths
-Date: Fri, 24 Oct 2025 07:29:20 -0700
-Message-ID: <20251024142927.780367-1-clm@meta.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251023-sheaves-for-all-v1-10-6ffa2c9941c0@suse.cz>
-References:
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BrBGXayH";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7pTkKdAy"
+Date: Fri, 24 Oct 2025 16:54:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1761317678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=HWVNNi74jWPH4NGKAmlxWJhUNoDFgbuFi3sJhS766a8=;
+	b=BrBGXayH2dTNR7WQgaIFDXC9VmS2mG339Y5ODwtFWsIt5uPn2vltX8PnqbSe9S92VrNfjC
+	D44hrSkMx9S7TVQoLcP2laUFEXsmeryBaagalT3v7Fy+Yy91Ir0GmXhKUZD5dNxqMweEoT
+	yxB5i5nDFtkPirQCBgxZV0wBQeaphYAEGgCMxXPJGqmhGRhFAoR7EOK+OQg2YxCOxcPtZY
+	SbvygQAs94G2OzFnvikthPoYhKtwlL7CgIikHeKQroF8MT0MuTn4u+guMYxcKv5rpGvynB
+	GuHQA1trZ+t4shYGbJ7T7aVZcOqRHe/xIoHvDBX/joToEr625GUZDJDvI8b8Zg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1761317678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=HWVNNi74jWPH4NGKAmlxWJhUNoDFgbuFi3sJhS766a8=;
+	b=7pTkKdAyKJvy6e0v8Xt9jnERt9nm0ZX/YEkecGrPJIz2+dFpplLfHissGOwA2Hm1eBzjlg
+	YEvYIYLdriqIPeBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas Gleixner <tglx@linutronix.de>, linux-rt-devel@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-users@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [ANNOUNCE] v6.17.5-rt7
+Message-ID: <20251024145436.souGwBdZ@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEyOSBTYWx0ZWRfXzo7mh/+QEEto
- lN48tJt90rZ0v9oBAvXPrAsfwe+CenqqyK68LR7o0BOfvJujTaqFIdwroPduE2PBMa7VnKqUE/B
- hR/lbf4iinufGfA1AoIc8lE3vKY7y4Hw5m21adIOtvFfDgLbh7c/rKrhMA+6RLDywjI9qT/AoPU
- QMz8k7g4r2r6F7d78Ky9USlLG/pqBLtW9jbItBaZRSJncw/ge9eg3eKLxO5qPcfnkt2yRAOGPDZ
- 0oDHjSRBppMO5yVVZV2peChq0H2i7zjAjvg8Sie6K49tWvOlXv5+AOIWEC9CFAuuk3C2lzCpqtT
- +WAgDcHMs2kxxD4qDJk65eXaVVatHMy1wdEZjZIXRWbu9DTaF8gSAizL8JMHUtenNSM7KaKQCvX
- uRzKVvQvjM8o8dsWfoKrJwWlFoOyMA==
-X-Authority-Analysis: v=2.4 cv=YfWwJgRf c=1 sm=1 tr=0 ts=68fb8d59 cx=c_pps
- a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
- a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=Qud2Co-4zkO9aUnGrzwA:9
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: whmAAHXeJ-9g96VK63zLv5mAQoKsaiQB
-X-Proofpoint-ORIG-GUID: whmAAHXeJ-9g96VK63zLv5mAQoKsaiQB
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 23 Oct 2025 15:52:32 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
+Dear RT folks!
 
-> We now rely on sheaves as the percpu caching layer and can refill them
-> directly from partial or newly allocated slabs. Start removing the cpu
-> (partial) slabs code, first from allocation paths.
-> 
-> This means that any allocation not satisfied from percpu sheaves will
-> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
-> slabs, so it will only perform get_partial() or new_slab().
-> 
-> In get_partial_node() we used to return a slab for freezing as the cpu
-> slab and to refill the partial slab. Now we only want to return a single
-> object and leave the slab on the list (unless it became full). We can't
-> simply reuse alloc_single_from_partial() as that assumes freeing uses
-> free_to_partial_list(). Instead we need to use __slab_update_freelist()
-> to work properly against a racing __slab_free().
-> 
-> The rest of the changes is removing functions that no longer have any
-> callers.
->
+I'm pleased to announce the v6.17.5-rt7 patch set. 
 
-Hi Vlastimil,
+Changes since v6.17.5-rt6:
 
-We're trying out the AI patch review automation on the BPF commits and it had
-some questions about a few of these.  Since the goal is to actually test the
-automation, I'm putting them in unedited, but I did try and make sure they
-were valid before sending.
+  - The previously introduced gro-cells related suffered from a missing
+    unlock. Patch by Eric Dumazet.
 
-This one seems pretty unlikely but still worth fixing:
+Known issues
+    - Yoann Congal reported a bit spinlock in dm_exception_table_lock().
+        https://lore.kernel.org/all/Z8GTjqgDe_5EkE3t@P-ASN-ECS-830T8C3.local
 
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index e2b052657d11..bd67336e7c1f 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
+The delta patch against v6.17.5-rt6 is appended below and can be found here:
+ 
+     https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.17/incr/patch-6.17.5-rt6-rt7.patch.xz
 
-[ ... ]
+You can get this release via the git tree at:
 
-> @@ -3575,15 +3532,15 @@ static bool get_partial_node_bulk(struct kmem_cache *s,
->  }
->
->  /*
-> - * Try to allocate a partial slab from a specific node.
-> + * Try to allocate object from a partial slab on a specific node.
->   */
-> -static struct slab *get_partial_node(struct kmem_cache *s,
-> -				     struct kmem_cache_node *n,
-> -				     struct partial_context *pc)
-> +static void *get_partial_node(struct kmem_cache *s,
-> +			      struct kmem_cache_node *n,
-> +			      struct partial_context *pc)
->  {
-> -	struct slab *slab, *slab2, *partial = NULL;
-> +	struct slab *slab, *slab2;
->  	unsigned long flags;
-> -	unsigned int partial_slabs = 0;
-> +	void *object;
->
->  	/*
->  	 * Racy check. If we mistakenly see no partial slabs then we
-> @@ -3599,54 +3556,54 @@ static struct slab *get_partial_node(struct kmem_cache *s,
->  	else if (!spin_trylock_irqsave(&n->list_lock, flags))
->  		return NULL;
->  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
-> +
-> +		unsigned long counters;
-> +		struct slab new;
-> +
->  		if (!pfmemalloc_match(slab, pc->flags))
->  			continue;
+    https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.git v6.17.5-rt7
 
-Can get_partial_node() return an uninitialized pointer? The variable
-'object' is declared but never initialized. If all slabs in the partial
-list fail the pfmemalloc_match() check, the loop completes without
-setting 'object', then returns it at the end of the function.
+The RT patch against v6.17.5 can be found here:
 
-In the previous version, the equivalent 'partial' variable was explicitly
-initialized to NULL. When all slabs were skipped, NULL was returned.
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.17/older/patch-6.17.5-rt7.patch.xz
 
->
->  		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
-> -			void *object = alloc_single_from_partial(s, n, slab,
-> +			object = alloc_single_from_partial(s, n, slab,
->  							pc->orig_size);
-> -			if (object) {
-> -				partial = slab;
-> -				pc->object = object;
-> +			if (object)
->  				break;
-> -			}
->  			continue;
->  		}
->
-> -		remove_partial(n, slab);
-> -
-> -		if (!partial) {
-> -			partial = slab;
-> -			stat(s, ALLOC_FROM_PARTIAL);
-> -
-> -			if ((slub_get_cpu_partial(s) == 0)) {
-> -				break;
-> -			}
-> -		} else {
-> -			put_cpu_partial(s, slab, 0);
-> -			stat(s, CPU_PARTIAL_NODE);
-> -
-> -			if (++partial_slabs > slub_get_cpu_partial(s) / 2) {
-> -				break;
-> -			}
-> -		}
-> +		/*
-> +		 * get a single object from the slab. This might race against
-> +		 * __slab_free(), which however has to take the list_lock if
-> +		 * it's about to make the slab fully free.
-> +		 */
-> +		do {
-> +			object = slab->freelist;
-> +			counters = slab->counters;
-> +			new.freelist = get_freepointer(s, object);
-> +			new.counters = counters;
-> +			new.inuse++;
-> +		} while (!__slab_update_freelist(s, slab,
-> +			object, counters,
-> +			new.freelist, new.counters,
-> +			"get_partial_node"));
-> +
-> +		if (!new.freelist)
-> +			remove_partial(n, slab);
->  	}
->  	spin_unlock_irqrestore(&n->list_lock, flags);
-> -	return partial;
-> +	return object;
->  }
+The split quilt queue is available at:
 
-[ ... ]
+    https://cdn.kernel.org/pub/linux/kernel/projects/rt/6.17/older/patches-6.17.5-rt7.tar.xz
 
+Sebastian
 
+diff --git a/localversion-rt b/localversion-rt
+index 8fc605d806670..045478966e9f1 100644
+--- a/localversion-rt
++++ b/localversion-rt
+@@ -1 +1 @@
+--rt6
++-rt7
+diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
+index b43911562f4d1..fd57b845de333 100644
+--- a/net/core/gro_cells.c
++++ b/net/core/gro_cells.c
+@@ -43,12 +43,11 @@ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb)
+ 	if (skb_queue_len(&cell->napi_skbs) == 1)
+ 		napi_schedule(&cell->napi);
+ 
+-	if (have_bh_lock)
+-		local_unlock_nested_bh(&gcells->cells->bh_lock);
+-
+ 	res = NET_RX_SUCCESS;
+ 
+ unlock:
++	if (have_bh_lock)
++		local_unlock_nested_bh(&gcells->cells->bh_lock);
+ 	rcu_read_unlock();
+ 	return res;
+ }
