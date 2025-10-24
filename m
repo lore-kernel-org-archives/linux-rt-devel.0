@@ -1,103 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0305D2DEA89
-	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 15:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2138031D742
+	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 15:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761319293; cv=none; b=ZFUCNugxAJ9fpRURDGhg64xU+BSZYTOe6cGXOFzjuGOurVMrbITHKuizCHPWtne6PuuUGipJxhx02i5A3vwscZYq2PaDW8izuttuNR9bPEVUZ/LvzTSu93jRS7e/yEOtVzK/SBpsduyFZjeDmhkwUSmjEdJ5k4pxoPLejT9MqnY=
+	t=1761319800; cv=none; b=Nw/zaJceody5Z+IcY36Q2JqGbFK8J2Vv+KKKGmVYYeClA62ynarCyKKViEyhMq12MU3PuEMIh2Wrat9dLMfCEqUlmQf81ovPTiXMx/pOGXk96QM7KZh3AEAH+HkFZmuqg0IBvqTkFi2Gn7OVPoVzTs3b1oz/M38nQZxS7CpLNYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761319293; c=relaxed/simple;
-	bh=XhY8BiSTinI90ozZrWqRWXAea8xV/p4z/Bz/V0R1HJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQXNFsu8yIAsDuFJERvLAOg+4Nc9mqJH7rT+5Tc2pbklayg+u2S0WEY5XF0cpw1/qdwAHE5BuF+q1bFJP+FojPkFaJkXJA1sBVV49ZRetm9S/H2rCMHV0Jzin0iw4LZW4FJiF/GQls1UEjVET/45+HlGIj70llRbBvG/wrVMxX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jL9xRkWn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1761319800; c=relaxed/simple;
+	bh=xgEHwFgWaca40F8wGyBUFn8xI4qBVKtnd8Q7QUCNcqI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FTQm1eGyAZ3BvFdp/ReLGfwkTybUL+hdRXjmsyElwv1Pq/dyVJl/ZriNoTZOPiWlAx5ppr0vRCv40Y4W1Dys9QpbZc5UD+zCrrwDVdW9ErNLXDiCwrVut+npgXDVkdZhRWjws4KnzZ1/WaTrc66CkEBTOj2cAgsMeETHsm5e/ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=u1H8joWQ; arc=none smtp.client-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jL9xRkWn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1761319290;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhY8BiSTinI90ozZrWqRWXAea8xV/p4z/Bz/V0R1HJs=;
-	b=jL9xRkWnrUVOy0ykW/t/W/qPVuzn3G9j5CN11Bbyy9PxBQ7bsSjxxhHG9Ai4lQzNFlH3cE
-	arJFkV9aoE+GZHad53HFbPy/w26akOODdIWAgiWzoP55A1nkRWI0+RprqVVnmKHBgyLrk8
-	6r4+orwgcMTmWEycUGC24Ve6WwBxsgU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-41-W1tf5ks9OjWukPM9116WLg-1; Fri,
- 24 Oct 2025 11:21:27 -0400
-X-MC-Unique: W1tf5ks9OjWukPM9116WLg-1
-X-Mimecast-MFC-AGG-ID: W1tf5ks9OjWukPM9116WLg_1761319285
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E98AA1800675;
-	Fri, 24 Oct 2025 15:21:24 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.224.19])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id 9B15130002DB;
-	Fri, 24 Oct 2025 15:21:16 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri, 24 Oct 2025 17:20:06 +0200 (CEST)
-Date: Fri, 24 Oct 2025 17:19:57 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	David Vernet <dvernet@meta.com>, Barret Rhoden <brho@google.com>,
-	Josh Don <joshdon@google.com>, Crystal Wood <crwood@redhat.com>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Juri Lelli <juri.lelli@redhat.com>, Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Wander Lairson Costa <wander@redhat.com>
-Subject: Re: usage of DEFINE_WAIT_OVERRIDE_MAP(LD_WAIT_SLEEP)
-Message-ID: <20251024151956.GH771@redhat.com>
-References: <20250801102428.GB27835@redhat.com>
- <20250811105948.OafBprND@linutronix.de>
- <20251020145310.GA9608@redhat.com>
- <20251023135316.1ZRx0UU5@linutronix.de>
- <20251023152942.GC26461@redhat.com>
- <20251023153750.C6EU9NL6@linutronix.de>
- <20251023155339.GE26461@redhat.com>
- <20251023192353.Wkng87fi@linutronix.de>
- <20251024102616.GD771@redhat.com>
- <20251024103934.n4Lx1b9O@linutronix.de>
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="u1H8joWQ"
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 59OE2RhP2211218;
+	Fri, 24 Oct 2025 08:29:42 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
+	 bh=JYg1vP9W9v0SXXkTSNQM/3alSk45Op1+j7AlOwvEtcM=; b=u1H8joWQSvKP
+	lsrsEERu6cI1x3A5mfYS1zL8z0TQ0khpcMO8oYoKKD8h7+McjWX/ktRh8T6OlVd7
+	YTYfYTTlFhlbaEQxQ089POCXDGW4O4ZiFd2+HPGFe8v+yA9+5tITFlTOMM2QswD0
+	VpUEdNRVGQdCV9aikoHsmDQz2VGUO5389kHXGxz0TnWP8qKuS0sG6TTGir/ES96V
+	H2xX4fayiv6t2blL54E3ElLvGNPYJyjqq481ODsOAu1/biqcHXXU3LECt5+qHjhO
+	SVER6vuEUb3vlKr76lyqRFBGrbkBT5ZmPfENEG/Igm50m98ee4vYpQFalDF+f+S/
+	E+f1ht3MRA==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by m0001303.ppops.net (PPS) with ESMTPS id 49yxkh4c3r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Oct 2025 08:29:42 -0700 (PDT)
+Received: from devbig091.ldc1.facebook.com (2620:10d:c085:208::7cb7) by
+ mail.thefacebook.com (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Fri, 24 Oct 2025 15:29:40 +0000
+From: Chris Mason <clm@meta.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+CC: Chris Mason <clm@meta.com>, Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@gentwo.org>,
+        David Rientjes <rientjes@google.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
+        "Liam R. Howlett"
+	<Liam.Howlett@oracle.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>,
+        Alexei Starovoitov
+	<ast@kernel.org>, <linux-mm@kvack.org>,
+        <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+        <bpf@vger.kernel.org>, <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH RFC 06/19] slab: introduce percpu sheaves bootstrap
+Date: Fri, 24 Oct 2025 08:29:09 -0700
+Message-ID: <20251024152913.1115220-1-clm@meta.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20251023-sheaves-for-all-v1-6-6ffa2c9941c0@suse.cz>
+References:
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251024103934.n4Lx1b9O@linutronix.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: kkk2s3qprms9Z7I2EC8CkdtQeZfZNQk7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI0MDEzOSBTYWx0ZWRfX7OIXVkMX9geX
+ 7pzjGpPRSpFcTx7fX8n9LXsYKQ3g0QZRGy/YPxIO393qaVutmBVwI5lA7gFo2Q5Hwa8+P741e63
+ xa6tJDDXt4JLNHQXxoIcH9J3r2OhtgnPlM4/Dr6jsPRXB1oEw/kPigXQ63CZR62E3oWIRwP92bI
+ Uyw/Rir17bhjlbv9m3LRbTZKG10KB7hH/N6P1EqnkT0Cqw/05VrvLihNzZyUp7LDWbJDlLeGXcc
+ H/V7buo1lPWg9avwKIjQpsh4ufOJ0RbDY3XF7efzaPcvEl+kxGuwx0N75gZk9lfpaNVUS9+08yq
+ tCSqvOvqHCgRAFoEYuICfiy9uaKRTDvTQ2t2EAEZ5GLOUuAXhopMjOObCyRbGyHI7KdUgqT79Bs
+ +PdwDPQk/r7OGlJSV6buVYTVGDTVHg==
+X-Authority-Analysis: v=2.4 cv=RqHI7SmK c=1 sm=1 tr=0 ts=68fb9b66 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7e5GxzTNbid4F3B1EgkA:9
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: kkk2s3qprms9Z7I2EC8CkdtQeZfZNQk7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-24_02,2025-10-22_01,2025-03-28_01
 
-On 10/24, Sebastian Andrzej Siewior wrote:
+On Thu, 23 Oct 2025 15:52:28 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
+
+> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
+> sheaves enabled. Since we want to enable them for almost all caches,
+> it's suboptimal to test the pointer in the fast paths, so instead
+> allocate it for all caches in do_kmem_cache_create(). Instead of testing
+> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
+> kmem_cache->sheaf_capacity for being 0, where needed.
+> 
+> However, for the fast paths sake we also assume that the main sheaf
+> always exists (pcs->main is !NULL), and during bootstrap we cannot
+> allocate sheaves yet.
+> 
+> Solve this by introducing a single static bootstrap_sheaf that's
+> assigned as pcs->main during bootstrap. It has a size of 0, so during
+> allocations, the fast path will find it's empty. Since the size of 0
+> matches sheaf_capacity of 0, the freeing fast paths will find it's
+> "full". In the slow path handlers, we check sheaf_capacity to recognize
+> that the cache doesn't (yet) have real sheaves, and fall back. Thus
+> sharing the single bootstrap sheaf like this for multiple caches and
+> cpus is safe.
 >
-> On 2025-10-24 12:26:16 [+0200], Oleg Nesterov wrote:
-> > > | /* PREEMPT_RT kernels map spinlock to rt_mutex */
-> >
-> > Ah, indeed, I was confused and didn't even bother to read the definitions
-> > below, spinlock->dep_map is initialized by the same SPIN_DEP_MAP_INIT()...
-> >
-> > Sebastian, thanks for correcting me! Sorry, I could not carefully read
-> > your emails yesterday.
+
+Hi Vlastimil,
+
+We're trying out the AI patch review automation on the BPF commits and it had
+some questions about a few of these.  Since the goal is to actually test the
+automation, I'm putting them in unedited, but I did try and make sure they
+were valid before sending.
+
+> diff --git a/mm/slub.c b/mm/slub.c
+> index a6e58d3708f4..ecb10ed5acfe 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+
+[ ... ]
+
+> @@ -7733,8 +7782,7 @@ static void free_kmem_cache_nodes(struct kmem_cache *s)
+>  void __kmem_cache_release(struct kmem_cache *s)
+>  {
+>  	cache_random_seq_destroy(s);
+> -	if (s->cpu_sheaves)
+> -		pcs_destroy(s);
+> +	pcs_destroy(s);
+
+Can pcs_destroy() handle a NULL cpu_sheaves pointer? Looking at the
+error path in do_kmem_cache_create():
+
+    s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+    if (!s->cpu_sheaves) {
+        err = -ENOMEM;
+        goto out;
+    }
+    ...
+    out:
+        if (err)
+            __kmem_cache_release(s);
+
+If alloc_percpu() fails, __kmem_cache_release() now calls pcs_destroy()
+unconditionally. In pcs_destroy(), the first operation is:
+
+    for_each_possible_cpu(cpu) {
+        pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
+
+Does per_cpu_ptr() dereference s->cpu_sheaves when it's NULL?
+
+>  #ifdef CONFIG_PREEMPT_RT
+>  	if (s->cpu_slab)
+>  		lockdep_unregister_key(&s->lock_key);
+
+[ ... ]
+
+> @@ -8608,12 +8656,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
 >
-> No worries. Just let me know if the cited comment requires an update.
+>  	set_cpu_partial(s);
+>
+> -	if (s->sheaf_capacity) {
+> -		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+> -		if (!s->cpu_sheaves) {
+> -			err = -ENOMEM;
+> -			goto out;
+> -		}
+> +	s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+> +	if (!s->cpu_sheaves) {
+> +		err = -ENOMEM;
+> +		goto out;
+>  	}
 
-No, no, I think the comment is fine. Just the ignorance on my side.
+This error path triggers the call chain: do_kmem_cache_create() error
+path -> __kmem_cache_release() -> pcs_destroy() with NULL cpu_sheaves.
 
-Oleg.
 
