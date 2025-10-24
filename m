@@ -1,89 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2748E1A83F9;
-	Fri, 24 Oct 2025 16:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2FF186E40
+	for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 17:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761325173; cv=none; b=RIC3G7kp72Tr4rtzqzI0D3Px+d4KoD2eRncGvGfGx3Z+QZ/XgKzuIS00aRCnLQ0+qcR20C988RRv7ts7NQO+d7lJbNae88NmCaW0rNUGximk1ZqB5YHwnDT1zxYjRmHNtW18cJFN54348rEhcfpDhCNKf5ynv6xHCbR7iRo94ok=
+	t=1761327053; cv=none; b=Nbr+uj49gxKl+X/65UFXZExsY/yB87zBrah9MmZcRedG7Mzp+1cFbCT5exO4ddjY9aJdjk/Fzw2eStBvXCMUmUnYeVyfAblc5eWkHX9Bg24qzlevrIh4P/9IaQxFc4m0CGr00L+FBmruSfTHpPJLmD7uCEVnCGVQy0nzNjgkGOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761325173; c=relaxed/simple;
-	bh=NI/rc7eye74iVvlRLxjIh57O/Fz+QQfLbOm4CGCtKu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=DLqfKc3B+qSOvucorzTnPoAhesKAnxqVkEAtLHT8+aeCdoocdFV6uhu5SE3o5//LZ4eYgqxbrFGGWdNETcfUsODIUjtN4gIIK8pPE28f9+VZc+b6UEzl3qxDCDCuZMvSyqLDyB5uVQFodhZulsprNvmJ2ttE1w4bhlBmx/7cX44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dlHaGBXH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761327053; c=relaxed/simple;
+	bh=nsZ3xho59rfJltmBY1VoMiVkLm14bUFIBqE2RDJ0hoA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Dw+IrVu8h+oxi6xashd15mt2tpWaxXjx3B1Ub40o15U7vf2lQF/GRVKvmkigE7S0uVZMw8k9c8r5eYfeGNWwsMuk5B/8gCvinG3lwZbJ5qp8gAVp/Sc2dq7QpWdqa6vErbhhHhTE95MPGMe7e+pnze03j96Ldb7tUDWW7cccgGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fsb4N0hY; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dlHaGBXH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCC1C4CEF1;
-	Fri, 24 Oct 2025 16:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761325172;
-	bh=NI/rc7eye74iVvlRLxjIh57O/Fz+QQfLbOm4CGCtKu0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=dlHaGBXHbSEjOtiqusEUlrKtOZ6KQUUkEohK4jVyq06y51ril3e2UyTzQlNqHa4fv
-	 xGWcwEbddkZw+j7nvdxYmFP01zdfzXbEvyw5k3ZF1rmu5BCBZKYTRja8qzwpYWx8GV
-	 IpA8xovmQI6jzsg1KOIbekIQsSZ7Ayx0jQiwxo5HHL6+KsvC+4Px5Uw2RCg0iGUiRl
-	 c5PstjMQIBCcQ5uL/sm7a093geQ4H17bWT94f2cAgcgzhGewsxGxKPtbGSyUXEop7U
-	 716uOwYJ5X4t+HFlZZdW9Pmlo7y1o9jYobv605l7b98M4ir6PDALPlLAS/RlR9Sdv+
-	 +6V9XLWXdib+Q==
-Date: Fri, 24 Oct 2025 11:59:31 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2] pci/aer_inject: switching inject_lock to
- raw_spinlock_t
-Message-ID: <20251024165931.GA1354268@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fsb4N0hY"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2947d345949so18942265ad.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 24 Oct 2025 10:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761327051; x=1761931851; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nsZ3xho59rfJltmBY1VoMiVkLm14bUFIBqE2RDJ0hoA=;
+        b=fsb4N0hYXV09aeVUKHLW94Z9J2e2mM5y8WLGrpc7y3o3WB+hl23kSxFE8gWL6F8cDz
+         cImT4eaCkxqzPzPACpk7e3Cwet4dc12HE8NXmAWxF9f/wgAvt+hFjriMHkm6zRCnfBqe
+         yUFiXkgnngUzqBUaKlK4VJqRulrfKlfybjz/0EvMGmvos/NsRHGJ3JBCKbTI5NpOpYUV
+         1qmBuySGiqq7xhOJUFfDr/IrfDjluFip9imecBstMY/TS/1DjKgUnWosSyS+PPGrn8CM
+         IaSwzRi7Q9yNZNTUw2ThWlufQMy5FUI4k4p5g69OqBqmxtcg4zOOxrKhhLdnGLDaqAkM
+         8/Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761327051; x=1761931851;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nsZ3xho59rfJltmBY1VoMiVkLm14bUFIBqE2RDJ0hoA=;
+        b=eB5H9RHuSOYZ424jArBV6IRPY3cjOF/4INZSekzCtbGeOdb/hcNvymL88tqerOWQZF
+         96VYgY64eIxXFxSSNhhaFuNMJH4B2aLc192gXRF2pRM+W1pRY1JWz0QPS3NBW5hRZxRi
+         mpAlKkatEqfltxwpOS/GB5EWtNDsTuRWauE/aaPsg5PIXT8f0lGy/8NUSMTzHJUPllfa
+         Nrbs9aO2BHdrQolK4xv6sVym1MDkg4Ze5DGJ9r16sTJj3GPfsQeK4kvzTrlib42z4Lm5
+         M2/zSxjr2wwBcNFbl5om5azM8AGQZa+84dUOhLnitpY/65UHWR7TR9CTAtrvgBTgx/On
+         YA8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVbtmW58NqYnAkLyO6iu52ztXqwI1Yu8/gbvCw2bOAJAV5Cq+DjifPyCIFIsNlosENDE9ynpjnzERt5acsLkw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8hunSUz8iDebg+aZgTcHaHqLLJGqPfm62vUlkCPkz9HDPtR8w
+	wcm+o90pi/JQ03Z07DLk8RPbTffvcVERb4MH1xrvOnoqaFxXshfvmC9coE/a7zWfEdXEqY5CwcE
+	Q5CHWtmpOB1mxz+aEvojSy7ADFJBpkT8=
+X-Gm-Gg: ASbGnctMqcgAMXLQgz1G3yZVkXz7VHObkpGugHKuFcOSi7NsLPBUGr4MJq5oFpbRmyZ
+	Wz+K3INPnBLbW/xpd7LC6JO4gZWg+JmWOMnXxBpkSORy4bN/xn2q9QxvkzL/G4x9LujjmqpdxRM
+	FqEwY0inJb0kRw9lPFZrTc4DSARGQGsEfAC7yBFZJP7RaP+ueeCB932H3uRXvB3yyWn87PQ5Xxx
+	8EaIHLqci0Xqc1YDk9TOu3gEzDwBr0F/Wz3vfWdHLrU42bdu3oopwYFtfmEmQ==
+X-Google-Smtp-Source: AGHT+IHQhnjzmGIGhBDoQ4ngdvtx/yYjY0WDUYmMTlcSQSZ0eDN1W/dXc1+Jq8Cx2TnQgYBz6MVBdKFjMRDBtJx3n+Q=
+X-Received: by 2002:a17:902:cec7:b0:290:afe9:76ef with SMTP id
+ d9443c01a7336-290caf8505bmr377100585ad.40.1761327051116; Fri, 24 Oct 2025
+ 10:30:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
+References: <20251009150651.93618-1-jckeep.cuiguangbo@gmail.com>
+ <20251010071555.u4ubYPid@linutronix.de> <CAH6oFv+SUo7B6nPPw=OgQ1AhqVfQYC1HvX=kjcHJX8W13kTwZQ@mail.gmail.com>
+ <20251024131719.tJRyYGcD@linutronix.de>
+In-Reply-To: <20251024131719.tJRyYGcD@linutronix.de>
+From: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
+Date: Sat, 25 Oct 2025 01:30:40 +0800
+X-Gm-Features: AS18NWDuFjVwPVmnhn7ThOaKPPOq5x-YUVnqIn4rpEZv7zoFKB8wtJ_ayD8162s
+Message-ID: <CAH6oFvJ-24v2X_NrxXjYvODp_9+ZRXQQFGzWq0NcNn3Yb4-Gqw@mail.gmail.com>
+Subject: Re: [PATCH v2] pci/aer_inject: switching inject_lock to raw_spinlock_t
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Boqun Feng <boqun.feng@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 09, 2025 at 03:06:50PM +0000, Guangbo Cui wrote:
-> When injecting AER errors under PREEMPT_RT, the kernel may trigger a
-> lockdep warning about an invalid wait context:
-> 
-> ```
-> [ 1850.950780] [ BUG: Invalid wait context ]
-> [ 1850.951152] 6.17.0-11316-g7a405dbb0f03-dirty #7 Not tainted
-> [ 1850.951457] -----------------------------
-> [ 1850.951680] irq/16-PCIe PME/56 is trying to lock:
-> [ 1850.952004] ffff800082865238 (inject_lock){+.+.}-{3:3}, at: aer_inj_read_config+0x38/0x1dc
-> [ 1850.952731] other info that might help us debug this:
-> [ 1850.952997] context-{5:5}
-> [ 1850.953192] 5 locks held by irq/16-PCIe PME/56:
-> [ 1850.953415]  #0: ffff800082647390 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x30/0x268
-> [ 1850.953931]  #1: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
-> [ 1850.954453]  #2: ffff000004bb6c58 (&data->lock){+...}-{3:3}, at: pcie_pme_irq+0x34/0xc4
-> [ 1850.954949]  #3: ffff8000826c6b38 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire+0x4/0x48
-> [ 1850.955420]  #4: ffff800082863d10 (pci_lock){....}-{2:2}, at: pci_bus_read_config_dword+0x5c/0xd8
-> ```
-> ...
+On Fri, Oct 24, 2025 at 03:17:19PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2025-10-11 01:18:05 [+0800], Guangbo Cui wrote:
+> > I will drop the lock in aer_inject_exit, and update commit msg.
+>
+> Was here a follow-up?
 
-If/when you update the commit log, please:
+My apologies - I=E2=80=99ve been quite busy recently and it slipped my mind=
+.
+I will post a new version of the patch this weekend.
 
-  - Update subject line to match history (use "git log --oneline")
-
-  - Drop the timestamps because they don't help understand the issue
-
-  - Drop the ```; just indent quoted material a couple spaces
-
-  - Drop the `` around code names; the () after functions is enough
-
-  - Trim it as others suggested; I appreciate the details about how
-    to reproduce it, but they could go after the ---, where we'll be
-    able to find them via the Link: tag
+Best regards,
+Guangbo
