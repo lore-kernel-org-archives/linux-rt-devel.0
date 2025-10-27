@@ -1,134 +1,192 @@
-Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net [176.9.242.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595ED1991C9
-	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Oct 2025 06:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=176.9.242.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FA12BDC13
+	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Oct 2025 06:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761547252; cv=none; b=aJPp8mcxiOWnmGvqm4d3RWH3GvPl6Z+2EOcG1jDColaFY9e3dIC+38MwskZ44TaNyYoKLFLboIDR1hr7dhgjW1/iBYZMehHjklP6sappzfRkSEKJiM0S418bKPEd5izY9w1IekzPOjvWEzdGJaMyp8cBXbAcDD7S0gszKwvAdiY=
+	t=1761548068; cv=none; b=e689bqpszQctroKTz2exZgDgTyZkqgjSsHDTIjx//n5R2Yu3/qWje3pYTBTyVFHLrllU4O1RKTnEA5pbrhn9BF/aVOKeZgMqDyCPyLbf8NDD5TTp04/3h0JoOnazH/WWNM9KPU3J5rsKCG9xntJTJ+BxnIpLbp0vcZzRYiLn2gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761547252; c=relaxed/simple;
-	bh=1cPgG+9C6oCZXG+WREjZDOcDEmwQbfny6TBzvDyPlRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=thghfVGbA7xOZZ86eTFYqXz3Vr2GVL60A0aOPUNB2JKSxskw1rzTECM6W40j5q12d7g3qKwCYxBsneTQsJ4bxxhTnQX/NEeKlxcAmYQOv8IDkbq+UdMJzARUy60UuuAsTOKF6nhfDh/yjhqZPmDv+8W7jubdaNJixr13NQw44mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=176.9.242.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout3.hostsharing.net (Postfix) with ESMTPS id 138682C051FB;
-	Mon, 27 Oct 2025 07:40:47 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id BABE74B2A; Mon, 27 Oct 2025 07:40:46 +0100 (CET)
-Date: Mon, 27 Oct 2025 07:40:46 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Crystal Wood <crwood@redhat.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	linux-kernel@vger.kernel.org, Attila Fazekas <afazekas@redhat.com>,
-	linux-pci@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver OHalloran <oohall@gmail.com>
-Subject: Re: [PATCH] genirq/manage: Reduce priority of forced secondary IRQ
- handler
-Message-ID: <aP8T7rahGYzJqnP5@wunner.de>
-References: <83f58870043e2ae64f19b3a2169b5c3cf3f95130.1757346718.git.lukas@wunner.de>
- <87348g95yd.ffs@tglx>
- <aM_5uXlknW286cfg@wunner.de>
- <1b3684b424af051b5cb1fbce9ab65fc5cdf2b1a1.camel@redhat.com>
- <20251024133332.wSQOgUZb@linutronix.de>
- <de1ec7fcc1711e3062cc321ab55552339630de30.camel@redhat.com>
+	s=arc-20240116; t=1761548068; c=relaxed/simple;
+	bh=mUpMk+2KzSM3LgyuKinDbeu4n+ch3liL0DKEIyu00ng=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=LdIzjvxsgC2B25ePT7v//i+9YM6mZZid+kNLYh4Fm4C4MAP4hX6OeWkAxtIocdN/WlbqhdLOWX15+DI5VPYFoSEt7VOrQ8tC0IP++V0mNKTdeWFSlI7WXrWWT5Nr515BpKf/JJhNk4EcPLU3LCdN31Em3TXIjuTogZhVq5IJAYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-33e287ccf43so872171a91.3
+        for <linux-rt-devel@lists.linux.dev>; Sun, 26 Oct 2025 23:54:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761548066; x=1762152866;
+        h=content-transfer-encoding:organization:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PVKmLdguS7AfOuEMfq4aVZJS4TeMKkPMqGxNG1TyXBU=;
+        b=DLBUwAqmbR+lI1gcH3zr7MdXOtBxcAzkHZ2xl1pjBU7QF9Hl1mK2hN9eXdnBYf5mcQ
+         u6Jph9kUfY0tFh2T5Xs0uUh3rzwu8bM/i5obQjduemHzPgdziv/039mmuuzyjrpFDuOq
+         PH4woMHP3K/QnQjxHNxUn3NdLWLwxEWklHtejAeKU67hHjZ8wFlIZ5rip3RxWmPayb+Q
+         k4tNsYQKxT+o9NASn745obUGdT7dWgVtzND8cuhnSUfnrs4Z5bh6s92oRPLfqJlsNcsM
+         a8RmkcFg0HgwkC8tCtgsRsLh45B5zfFMqtOiPipnJW+YYor1Ou5pIDgJCtkZQLSb1l0i
+         vCuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUfBjLfBogoiqbdbX+3S5RiIYpBje/GTy+FEK+gVNBR9MZ2TQFnAAh4WC5o/o3RpF/MuPLh0tCnr6PMfo9fxg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCW81X7jANpYvuEPhDCOxhDnNanA8LdDOJccYajPYXF6Ic1aXE
+	fsnb7UDg7l/huMxZn3Cp3Upy9tWzulmY8jJL7Y4ohHA2peLxr5X5Ofb7Z9sN0A==
+X-Gm-Gg: ASbGncuylIRMB8E0P/i7SOkZH4BqQK5cWiW+gO9IJbnnZvWSK04vl0h2c/bpurCqJMM
+	tyhk97jSp8yKaxRnLAW2ilDAUU1DFrIyHDpGhoVtpIXzrv1lJe+CLKo1MkbgGJzfXyL/x1I44Qh
+	TDHLS0/bDwo0zWfKnYmCdMcAV52s1x5XSkMaSY9hfuo/3Ccdk2KT+CPo1W+7xMh2LJcz2QB+HMg
+	iL8Xws2ev3M0ewelLM8m0N+nm+m/rt01cGLKxFO47okzoG3DAohqNRMIxvhgeChVh/Hw02WYF5+
+	aIZcpWRsdHggrUvQTptBGbM6u1Ji6zDOegwhUOuQszOFUruT5/gBPkT2bz7/WQsJoLgxtN1plBF
+	/rZD6BWFTRyh+B3bF3gWtOmm1+XZps/sFMhXuXsPFkda0Qz1aJhxeeA1TGsA3rm7sgPcFGcc5iw
+	6KkhJ0ts3LaXZwQ8TtxHr4HQZbUg==
+X-Google-Smtp-Source: AGHT+IEnRBGDjtpkNuiU1iBSvNffsGVDA18gA44ZAZi+2gUhs2nqIUnhGs0/F+96E0WjTLYJtu5vWw==
+X-Received: by 2002:a17:90b:3811:b0:33d:ad3d:1a6f with SMTP id 98e67ed59e1d1-33dfabfb168mr13977735a91.8.1761548065894;
+        Sun, 26 Oct 2025 23:54:25 -0700 (PDT)
+Received: from [192.168.50.136] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33fed81ca93sm7272685a91.19.2025.10.26.23.54.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Oct 2025 23:54:25 -0700 (PDT)
+Message-ID: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
+Date: Mon, 27 Oct 2025 15:54:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de1ec7fcc1711e3062cc321ab55552339630de30.camel@redhat.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Nam Cao <nam.cao@linaro.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Tomas Glozar <tglozar@redhat.com>, Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+ Byungchul Park <byungchul@sk.com>, syzkaller@googlegroups.com,
+ linux-rt-devel@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+From: Yunseong Kim <ysk@kzalloc.com>
+Subject: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via RV
+ (Runtime Verification) monitor rtapp:sleep
+Organization: kzalloc
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 24, 2025 at 04:00:02PM -0500, Crystal Wood wrote:
-> On Fri, 2025-10-24 at 15:33 +0200, Sebastian Andrzej Siewior wrote:
-> > On 2025-10-03 13:25:53 [-0500], Crystal Wood wrote:
-> > > On Sun, 2025-09-21 at 15:12 +0200, Lukas Wunner wrote:
-> > > > On Sat, Sep 20, 2025 at 11:20:26PM +0200, Thomas Gleixner wrote:
-> > > > > I obviously understand that the proposed change squashs the whole
-> > > > > class of similar (not yet detected) issues, but that made me look at
-> > > > > that particular instance nevertheless.
-> > > > > 
-> > > > > All aer_irq() does is reading two PCI config words, writing one and
-> > > > > then sticking 64bytes into a KFIFO. All of that is hard interrupt
-> > > > > safe. So arguably this AER problem can be nicely solved by the below
-> > > > > one-liner, no?
-> > > > 
-> > > > The one-liner (which sets IRQF_NO_THREAD) was what Crystal originally
-> > > > proposed:
-> > > > 
-> > > > https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
-> > > 
-> > > So, is the plan to apply the original patch then?
-> > 
-> > Did we settle on something?
-> > I wasn't sure if you can mix IRQF_NO_THREAD with IRQF_ONESHOT for shared
-> > handlers. If that is a thing, we Crystal's original would do it.
-> 
-> Do you mean mixing IRQF_NO_THREAD on this irq (which should eliminate
-> the forced IRQF_ONESHOT) with another shared irq that still has
-> IRQF_ONESHOT?
-> 
-> I suspect it was a non-issue because of IRQCHIP_ONESHOT_SAFE disabling
-> the forced oneshot (the other irq was pciehp).  Given that these are
-> pcie-specific, do they ever get used without MSI (which sets
-> IRQCHIP_ONESHOT_SAFE)[1]?
+Hi Nam,
 
-It seems fragile to depend on IRQCHIP_ONESHOT_SAFE.  What about irqchips
-which don't set that?  What about PCIe ports which use legacy INTx
-instead of MSI?
+I've been very interested in RV (Runtime Verification) to proactively detect
+"sleep in atomic" scenarios on PREEMPT_RT kernels. Specifically, I'm looking
+for ways to find cases where sleeping spinlocks or memory allocations are used
+within preemption-disabled or irq-disabled contexts. While searching for
+solutions, I discovered the RV subsystem.
 
-As Sebastian pointed out, setting IRQF_NO_THREAD for the AER driver but
-not for any of the other PCIe port services risks starving the AER
-primary handler if any of the other PCIe port services' (threaded)
-primary handlers take a long time:
+I've tested with it as follows, and I have a few questions.
 
-https://lore.kernel.org/r/20250904073024.YsLeZqK_@linutronix.de/
+# cat /sys/kernel/tracing/rv/available_monitors
+wwnr
+rtapp
+rtapp:sleep
 
-I went through all PCIe port services to see if IRQF_NO_THREAD could be
-set on all of them.  Alas that's not possible:
+# cat /sys/kernel/tracing/rv/available_reactors
+nop
+printk
+panic
 
-pciehp's primary handler acquires a spinlock because of runtime PM API
-calls (device->power.lock).  It's not a raw_spin_lock_t, so it becomes
-a sleeping lock on RT which cannot be acquired in hardirq context and
-converting to a raw_spin_lock_t would be non-trivial and probably
-undesirable.
+# echo printk > /sys/kernel/tracing/rv/monitors/rtapp/sleep/reactors
 
-pme's primary handler also acquires a spinlock, this one could be
-converted to a raw_spin_lock_t.
+# cat /sys/kernel/tracing/rv/monitors/rtapp/sleep/enable
+1
 
-FWIW, PCIe port services requesting a (potentially shared) interrupt are:
-drivers/pci/hotplug/pciehp_hpc.c
-drivers/pci/pcie/aer.c
-drivers/pci/pcie/dpc.c
-drivers/pci/pcie/pme.c
-drivers/pci/pcie/bwctrl.c
+# echo rtapp:sleep > /sys/kernel/tracing/rv/enabled_monitors
 
-Long story short, I'll respin the patch to reduce the forced secondary
-thread's priority, taking into account Thomas' feedback.
-(Apologies for not having done this earlier.)
+> [192735.309072] [   T6957] rv: sleep: multipathd[6957]: violation detected
 
-Thanks,
+# echo panic > /sys/kernel/tracing/rv/monitors/rtapp/sleep/reactors
 
-Lukas
+> [ T6957] Kernel panic - not syncing: rv: sleep: multipathd[6957]: violation detected
+> [193521.768666][ T6957] CPU: 4 UID: 0 PID: 6957 Comm: multipathd Not tainted 6.17.0-rc3-g39f90c196721 #1 PREEMPT_{RT,(full)}
+> [193521.771727][ T6957] Hardware name: QEMU KVM Virtual Machine, BIOS 2025.02-8ubuntu3 10/08/2025
+> [193521.774126][ T6957] Call trace:
+> [193521.774998][ T6957]  show_stack+0x2c/0x3c (C)
+> [193521.776281][ T6957]  __dump_stack+0x30/0x40
+> [193521.777523][ T6957]  dump_stack_lvl+0x34/0x2bc
+> [193521.778797][ T6957]  dump_stack+0x1c/0x48
+> [193521.779984][ T6957]  vpanic+0x220/0x618
+> [193521.781211][ T6957]  oom_killer_enable+0x0/0x30
+> [193521.782512][ T6957]  ltl_validate+0x7ac/0xb1c
+> [193521.783870][ T6957]  ltl_atom_update+0xd0/0x32c
+> [193521.785198][ T6957]  handle_sched_set_state+0xb8/0x12c
+> [193521.786773][ T6957]  __trace_set_current_state+0x128/0x174
+> [193521.788450][ T6957]  do_nanosleep+0x128/0x2a4
+> [193521.789731][ T6957]  hrtimer_nanosleep+0xb4/0x160
+> [193521.791167][ T6957]  common_nsleep+0x6c/0x84
+> [193521.792404][ T6957]  __arm64_sys_clock_nanosleep+0x1a8/0x1f0
+> [193521.794031][ T6957]  invoke_syscall+0x64/0x168
+> [193521.795353][ T6957]  el0_svc_common+0x134/0x164
+> [193521.796707][ T6957]  do_el0_svc+0x2c/0x3c
+> [193521.797897][ T6957]  el0_svc+0x58/0x184
+> [193521.799048][ T6957]  el0t_64_sync_handler+0x84/0x12c
+> [193521.800514][ T6957]  el0t_64_sync+0x1b8/0x1bc
+> [193521.801818][ T6957] SMP: stopping secondary CPUs
+> [193521.803320][ T6957] Dumping ftrace buffer:
+> [193521.804510][ T6957]    (ftrace buffer empty)
+> [193521.805848][ T6957] Kernel Offset: disabled
+> [193521.807084][ T6957] CPU features: 0xc0000,00007800,149a3161,357ff667
+> [193521.808941][ T6957] Memory Limit: none
+> [193522.655297][ T6957] Rebooting in 86400 seconds..
+
+Here are my questions:
+
+1. Does the rtapp:sleep monitor proactively detect scenarios that
+   could lead to sleeping in atomic context, perhaps before
+   CONFIG_DEBUG_ATOMIC_SLEEP (enabled) would trigger at the actual point of
+   sleeping?
+
+2. Is there a way to enable this monitor (e.g., rtapp:sleep)
+   immediately as soon as the RV subsystem is loaded during boot time?
+   (How to make this "default turn on"?)
+
+3. When a "violation detected" message occurs at runtime, is it
+   possible to get a call stack of the location that triggered the
+   violation? The panic reactor provides a full stack, but I'm
+   wondering if this is also possible with the printk reactor.
+
+
+Here is some background on why I'm so interested in this topic:
+
+Recently, I was fuzzing the PREEMPT_RT kernel with syzkaller but ran into
+issues where fuzzing wouldn't proceed smoothly. It turned out to be a problem
+in the kcov USB API. This issue was fixed after I reported it, together
+with Sebastian’s patch.
+
+[PATCH] kcov, usb: Don't disable interrupts in kcov_remote_start_usb_softirq()
+ - https://lore.kernel.org/all/20250811082745.ycJqBXMs@linutronix.de/
+
+After this fix, syzkaller fuzzing ran well and was able to detect several
+runtime "sleep in atomic context" bugs:
+
+[PATCH] USB: gadget: dummy-hcd: Fix locking bug in RT-enabled kernels
+ - https://lore.kernel.org/all/bb192ae2-4eee-48ee-981f-3efdbbd0d8f0@rowland.harvard.edu/
+
+[BUG] usbip: vhci: Sleeping function called from invalid context in
+vhci_urb_enqueue on PREEMPT_RT
+ - https://lore.kernel.org/all/c6c17f0d-b71d-4a44-bcef-2b65e4d634f7@kzalloc.com/
+
+This led me to research ways to find these issues proactively at a
+static analysis level, and I created some regex and coccinelle scripts
+to detect them.
+
+[BUG] gfs2: sleeping lock in gfs2_quota_init() with preempt disabled
+on PREEMPT_RT
+ - https://lore.kernel.org/all/20250812103808.3mIVpgs9@linutronix.de/t/#u
+
+[PATCH] md/raid5-ppl: Fix invalid context sleep in
+ppl_io_unit_finished() on PREEMPT_RT
+ - https://lore.kernel.org/all/f2dbf110-e2a7-4101-b24c-0444f708fd4e@kernel.org/t/#u
+
+Tomas, the author of the rtlockscope project, also gave me some deep
+insights into this static analysis approach.
+
+Re: [WIP] coccinelle: rt: Add coccicheck on sleep in atomic context on
+PREEMPT_RT
+ - https://lore.kernel.org/all/CAP4=nvTOE9W+6UtVZ5-5gAoYeEQE8g4cgG602FJDPesNko-Bgw@mail.gmail.com/
+
+
+Thank you!
+
+Best regards,
+Yunseong Kim
