@@ -1,216 +1,275 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC68481B1
-	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Oct 2025 09:11:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761556321; cv=fail; b=ERqPGghZ9YFkcO0om2hRwyZwct6jUbbh/6RqyosaAWtKIoRq9hGdYKag3zaveNAM+lTyJ6A6hntWnWe3eN24n2RJPHj4A2wb60QiBGcWSwuvHJWGmKkkLlUbybUDN8drwz143k6g66WQzbf5ayfpgeIpUwFu68L/zJ0BDOiulfg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761556321; c=relaxed/simple;
-	bh=mlxvInib1JNb1KmtRuQdHhIZf7i39Ay7CAj74T4TnE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YDWzb9bEcZg/jpJ3OB4p3fzWOR3v3k/PJFeNeomQPHeT0CsXWjMUxMypIdFec2AuxO1ifUuMdmRmLCcXypG+9LRSCK5rFIEYDnCLzu7iOWSA5luABqIVpHHEWNkj0UFHPG3DtH4tnK2KPaIxZsb2LqNCUcbYod0ukiBqNEiqxng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=glyZgBo3; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=WvfT7GSP; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E3D2F12DE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Oct 2025 12:20:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761567656; cv=none; b=EvnJO35rh7esAzLa2xzzZ8jmNOvsiDy+NI5bYuCxHwKxjrobTJK5lHw0U0/14i97ha+fL+kaDxP8w79HGd33d+569NPihHRHKFJWb08ovDvFlDbRAKVaNEQhwcOKn1ZcbWkfA1G9fs8eXbybI277bg+WjcinUaEQoldqE3E49hU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761567656; c=relaxed/simple;
+	bh=8+SPhn7qqMJrmXX2oM/ERKmut/L/wxL9NKjHEeV08B8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h6KrANvlT9fpiYjweMdSvLYfPGg5+lF4n1yPquCCSG7L94/Dt5KuM14fMDlxziiL5zzT2dkoN+MKI9KI0KxgV9HNN2uxwLUzPDPktKBPv1bBblE7OcL9f+Qm2LrAp6XMSNIVdqckw/aXs8HRva47X7v8U2pujXRD1Yitrbqpk/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YGqhksdw; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="glyZgBo3";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="WvfT7GSP"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59R8gZ84015156;
-	Mon, 27 Oct 2025 09:11:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=+p2bZ5JOVzFlfB0y2/
-	AJmzbKorj/+Al/dmO5ujwE9Dc=; b=glyZgBo3vVI+UPjK22EN6vpFf9oItuXEP/
-	h0e1xg7pI7N0z+Oux+HBlVATsONL8J+1TwWtp2o0MJ+XnU6qq8JcYWbXPg0BbOjb
-	qL3eHCPakmGT1mQgYRqCmSdPQrGNvzTHybnJhMPf9meXABK4zH9ZOLb5+VQY3Iys
-	RkEmO7zt9XP0XaKcVoDXWoLs8xaY2sqNj7xPBCXIxaPZHgNWGHvgfTriaMzR/KVm
-	Vjm9yUToGNCka/51/DRtswJZQ8+GDwzRprvDY0Wujco28FoBDHUuYOdRpNJoPd1G
-	GN/ZelI73gRqKSpRE+uB7eXaQWTqBlNEEkF3w7VqxXmgqIleIECg==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4a0n4yjxmu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Oct 2025 09:11:36 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 59R8Dbrn025790;
-	Mon, 27 Oct 2025 09:11:36 GMT
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013061.outbound.protection.outlook.com [40.107.201.61])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4a0n06s99t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 27 Oct 2025 09:11:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bzJ4n1YQAwNq9cpyx6SDWU1AfEOZlg8r/WsHbBvu2FyuYZV8y8mNlM0fDzgeGY5e/QzDbOYrnblCd2NR6ttW1T+NmMxUPLq6yOS7/vk9xp2RDnJ9pbMLdNK7wpIzL0XpPdRngM1+4iB3yfeytVY2wmjJur+WG7LCrtD0ECAiEErR6ZNIH7tDHvdNFEuFXsXcfzYhgdPONKlWTIFuUs6xi9mkbwVrARq7+27E9pAlm9VDSJo9ONMM0D1d9AG6fXH03Q//o4ESH/ck0QIbVYPaV58NDnPtGYmcjxpUGZUALvl0ywID7kVTW9iAZ9K6O948i81wnPpknpCDA3d+py8+WQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+p2bZ5JOVzFlfB0y2/AJmzbKorj/+Al/dmO5ujwE9Dc=;
- b=EXFPJ7LchvVTwYkGbTQORCg94dGImwVWB4m/oH/iEyk9I0nhOFmJxrhaLpPwMSTrS9JiNxheS9oQt+gv7zqJgpfJiqeDZfo2NHowBQQM6O5LSlnNk3gku/ziHrxvggFfWoU62DLdRotGTlyzNevQCF3XE+xu9PyudRVoZP51G/b0sj6KKmuHik6+3Ui1LUIJVs96VgSaQC+Mx7w39/nKYhZ7AtBOKqXt9j+vQIwXkDsFzGMsjceayYdGdySj2Hu/txzo/745Dmy0lchML/b/wWaxClb92RIZAfGI92VinE+b/lxmm31k1cBGUoM4zXqwBpyXzBCgRpCsaxUf4UBeQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+p2bZ5JOVzFlfB0y2/AJmzbKorj/+Al/dmO5ujwE9Dc=;
- b=WvfT7GSPrD6jHBjoSh0sGOo/X33ZFDqMMIUDJSuB6u2vHMBPP8AJzu0RrDtdHU9tC7nN6DVs1FRM/7EWbkf7MAbzrtg3nlm7LquOrhxlAgGOp/1LnDUAHjxBB9P3tWYjuizk1+VEF1+OAAUZTHffLN2QFff3NLAJxmLHbTqHHYQ=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by SN4PR10MB5590.namprd10.prod.outlook.com (2603:10b6:806:205::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Mon, 27 Oct
- 2025 09:11:33 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::f238:6143:104c:da23%5]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
- 09:11:33 +0000
-Date: Mon, 27 Oct 2025 18:11:26 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH RFC 09/19] slab: add optimized sheaf refill from partial
- list
-Message-ID: <aP83Phkqnf7PGGmL@hyeyoo>
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <20251023-sheaves-for-all-v1-9-6ffa2c9941c0@suse.cz>
- <aP8dWDNiHVpAe7ak@hyeyoo>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aP8dWDNiHVpAe7ak@hyeyoo>
-X-ClientProxiedBy: SEWP216CA0069.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2ba::15) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YGqhksdw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1761567653;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=m8yw+KdoDk1+GlObHpWFGVZEPL4sfsRTgvMthBW335I=;
+	b=YGqhksdwhiC4wvKzqTmK6M+zDtaj7MULdjCeB42++BYypeNNdmucbWYFe7MfZdaohvtrha
+	4tE8x4tC6GndYc87FpClFprDT8k5C21jR2cbuYhCNkmm37sOnbDDrcF6r/rBnijmvaXz9s
+	WGtGzEuJ7w+uQ1z15SDBi8j0lBQmR+M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-399-aEmwzzDNO6iapIhx4Z5oow-1; Mon, 27 Oct 2025 08:20:52 -0400
+X-MC-Unique: aEmwzzDNO6iapIhx4Z5oow-1
+X-Mimecast-MFC-AGG-ID: aEmwzzDNO6iapIhx4Z5oow_1761567651
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-471168953bdso43157135e9.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 27 Oct 2025 05:20:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761567651; x=1762172451;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=m8yw+KdoDk1+GlObHpWFGVZEPL4sfsRTgvMthBW335I=;
+        b=pjx6ouV+txes8QPCKG72zW9VZoUa3//jDkvsBh2MmyingSlR1/SMG2TZ//lVGmgUmr
+         pDi5xZYa6B+DgxApzQIM+8y/ijsAsndpQBu8vahIhRe24CDpvdD1pyUX0tXQ9XZpLIv1
+         5sEvuzip5wAOb5lGWVyDdKvhMSaA64+2Qnd+GUw/VAHPZCuU5PZrAixhWNBvCHYXboY6
+         B+WbPjZYY/xbK2C/MKAW89LcoKn8p8vy/vbsAMD+8cXwbQGMHSY5fJTywpB3ifWKGHUI
+         MssVpyduPLo6PWxSZRU09iZ1gHNC7Ad0qFMFUxsiq+ekhr9hu42vMoI8xazeRfK/TpcY
+         lnsw==
+X-Forwarded-Encrypted: i=1; AJvYcCU93hY2jXFU3Qbx/rDZVVdWqeTgbnDruTSvZOX72BEqsXVekGTGeH6bnUpFObiBlWb/TIE/VyrvhRgDrw0K9w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUNLJpArDmAIcxHwBmYiLmpobhXGliZ4u+oreuei9huyTcHgxm
+	ZqggCxctj15rFqUDTS8hVW1wKsgGlmCJ5Ba+l+wysmp3Roj4hvEioK4dG94+wn3CchZB9yLE3P+
+	k75/8A89u8ARpsXXlNvaXrZMQa5xVrJ+awHrpbqBz39IRCFWavvL3zsGsQvkfytL0v55p
+X-Gm-Gg: ASbGncuSMhWcf2/5ynu/6JRJyL4td8LmUk4Rp0KofET45wtd7t9OqCgFVtL4iLB27Jd
+	BNSdAFa0mwF5h56Mcmx/G3Qzc33SRO1EF63qu9K1ibrkAbOVf3m4bSLZyeKlwhsHoCClhjyNDzL
+	A/XZg7ZP6DS3JY1CGtgQ8qytBa3rcwOmpgAMW5Zu85AmOVTzpukpIUsGywHkSBgHlWVXkyivjEv
+	HKCHBYkdNeOK2OgdmqYddMpp3iiEdj9mLoazGN37IVsDcyHyjYs3GzjsziEPgNSj0/cnKF4ejqq
+	LLQxXYjDY9XH9TRB0jX2yKclJvLCA+a0y42fpi+MMVS7O8jznFUejvh45iXuGxE2RR/sAV/B6rC
+	Mq10O4TlzVrtdvAYB9RrMQScK
+X-Received: by 2002:a05:600c:3b84:b0:477:c68:b4da with SMTP id 5b1f17b1804b1-4770c68b594mr44482325e9.20.1761567650876;
+        Mon, 27 Oct 2025 05:20:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHUHD5VEEMHXlx8Mtjq4Vh0L1doDEtzRU6V1VECOo/Fbuys+lVjtxXIKlXHDWL4p5T28mhLPg==
+X-Received: by 2002:a05:600c:3b84:b0:477:c68:b4da with SMTP id 5b1f17b1804b1-4770c68b594mr44481995e9.20.1761567650452;
+        Mon, 27 Oct 2025 05:20:50 -0700 (PDT)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd02cd6dsm137827585e9.2.2025.10.27.05.20.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 05:20:50 -0700 (PDT)
+Message-ID: <d23d133b52ef574d669f1656789b78d07c91c9f5.camel@redhat.com>
+Subject: Re: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via
+ RV (Runtime Verification) monitor rtapp:sleep
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Yunseong Kim <ysk@kzalloc.com>, Nam Cao <nam.cao@linaro.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Tomas Glozar	
+ <tglozar@redhat.com>, Shung-Hsi Yu <shung-hsi.yu@suse.com>, Byungchul Park	
+ <byungchul@sk.com>, syzkaller@googlegroups.com,
+ linux-rt-devel@lists.linux.dev,  LKML <linux-kernel@vger.kernel.org>
+Date: Mon, 27 Oct 2025 13:20:48 +0100
+In-Reply-To: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
+References: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|SN4PR10MB5590:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a24a7dd-67e5-47e2-c7da-08de1538d2a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ohD2E/xXLw1bkWq4oDc/D32ccCFhyoSgovk2EfDNyc5rLgMcNX05Ur6aVvOr?=
- =?us-ascii?Q?x9vK2uQmgLM30ymOQ3KXmeFkg3VHrbskPDb9+zBcWe/3ATD/jF/GsOq+ustC?=
- =?us-ascii?Q?9t187XNRQ3Sf/SkNssA3gMcyO2nxVojB/Nk7vFPvGMP5rWjBNg9o2+NzPqEz?=
- =?us-ascii?Q?audKlDbg0komS2FInmYPANBJ+vYEUzvchQtIkcdgcVjZfn35TE+FmNWCv+WE?=
- =?us-ascii?Q?wHZnaLs2MXgvlwmXtqgl/7rdJ2kJFRySO13w8Jaic1DGfR0b5heMALwJoy9P?=
- =?us-ascii?Q?7yijLUe0jWBe8+XdgXYADkh59bU3DN38mcuYD12aCe9LIbW0KJOZnU53uxMV?=
- =?us-ascii?Q?DPZg2TqvN4S4MoJRlv24Y48LvVSVzWMPntrUSpKFPDBBbdogOqnrleWUsW//?=
- =?us-ascii?Q?1U5c+eX7tVDx3wf1xHlM73aogNTatSlcj87hTlQlfsaw5VNagMzYoO4dl54i?=
- =?us-ascii?Q?FDt1XTakBKD437kAJxgxzvc2wwOSMpz9lLqbGEDawRZhR9oogvodIgJ/xCYj?=
- =?us-ascii?Q?HY9nd/oajZnfPbvMAuso6lujjo3E8bqqnRaJbZzUVR/rGUJBxrVFPouANOGz?=
- =?us-ascii?Q?k301ISsnUjzfH4LDt35KwavXFswVZ0eFTXt9ldVWA0XryFqss2BvRyohA1YH?=
- =?us-ascii?Q?rD+hAVx5Db16xMSgWijOmmmhnjuzdHWavdkqvLRBAzNLz97NOWrmWzMeBYDg?=
- =?us-ascii?Q?n2a48pCDCbRqfIpIxo1WHszs5f396EUAoTt0b8LkfIAeZiqfn5zYVBurtr5j?=
- =?us-ascii?Q?X687aYvMaobZmyrtt1y8ZD2L1p0fYHOBwOIxs/sswIo4yGeUO4vcgOkOguIU?=
- =?us-ascii?Q?TinXOEGODjdZ6MD/XIEvATeoXdezg4dOLlWwh6bctBMj1eaNcOTYs7a8Y3JG?=
- =?us-ascii?Q?gxi8vwuXsD+Gz5p7wNLnkc/7YNnZUmfscl+XXUbiEvyxgZyhEfWfnD4IH513?=
- =?us-ascii?Q?VsonH1w6Rti7aHix7OxKOngghd7xPQg9qruW3glbbXzfbukv5iU66qxQZueb?=
- =?us-ascii?Q?EZMErDb7tZV5cVMmFO1xqwIjI/JBGS8bfJqfAQL3Vn5GxbUC8x0bimpRIqAS?=
- =?us-ascii?Q?1eSq/Z+cyKfP5R7ZvVRTMN4xr1w2Im9/XDOZIj6L2CRRF0MTAolIHTUVMgnd?=
- =?us-ascii?Q?xDFM4hACCUree/PeGW/+hfqA1wqUKWNygefQyepHDsJsBPjPAWw1ZbmriXFy?=
- =?us-ascii?Q?GNlDnnFVpRTP56BFApPOEmmDu2tPQsbmRPKIOTXS0J2ISEHV6kT6n1Bd1HBW?=
- =?us-ascii?Q?yUbqaXHdIzaCgDmstpulUp9ku1gbSTlPNxaT35sPHTNcYMIdIImxkbZg5Ycx?=
- =?us-ascii?Q?CNnoX7Wz76iug5X4g7EeOtRKWb39LicQkNQuwny5/8sIzBy2sjpP/LINpocS?=
- =?us-ascii?Q?BtlpL78jgi3oBIv3h044SoFVLoJ5c9GJBNbQx5iRfhjED8qi836yPP+KfGp+?=
- =?us-ascii?Q?OhY3nhKgnWAV83CMH63pysvIxm/PPn5V?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bnPMPHGXkDnK9LgNFVZteyzmwpqPMhRvizycTs/DUwf09OOFNk95qaZrbFgo?=
- =?us-ascii?Q?vayQfiy8pyFC1PzpcVE99rNVQ0mnGsJwU09hNMboAsA16IWi664YRqiEDetu?=
- =?us-ascii?Q?SqyQGbEs8gkMPOHzKQchNrPzgUP+vgl9gFO3FFjHLySmDJBk2LVuH9ZH9Ull?=
- =?us-ascii?Q?XsFVsGoNip2sSMeDQ5/yFCKLlbcTfyZuTgVnyjsm/fLQMvvZLJLIVJndxAWL?=
- =?us-ascii?Q?uySMZxO6AnjNJ7GmysravAPgu2kb74QMst47t41rj+D0KxPhqxHuWp3Vy0iQ?=
- =?us-ascii?Q?bhnIPHV69q6OClb2jPMPKL4sVB42VHnG6MA7ul0Rzw47pE1A4OJJFBzrgxfY?=
- =?us-ascii?Q?um3GTijr/cbI3S0ub8ia6JBHGY/t9nuQiiSbtfHpk1497H4Rk7uCZYHgukx8?=
- =?us-ascii?Q?WGVDiUrRmVQlVxSykCKK4edryDbHQEJVZfo5O/c2gSGNFbrh5ZHs1Qtv3aZG?=
- =?us-ascii?Q?2hhIy1NvcxAzKzVwFBxKHSsEEg3Erqph1ifTQGDNFte/X7sqTnR7mS1JVc52?=
- =?us-ascii?Q?VaIRcWsom6t+pdkH7NPZy53jZh0C6hZuLcw4GyCgJoGQna16eLmc4NCxFMlk?=
- =?us-ascii?Q?uZDfp9n2FQ0uj+BoNn/XwWvmO6VqFiCrYmT6IVsCGPgYJPl1Myb8LUxvBm82?=
- =?us-ascii?Q?p7/eD25xhb6VkPrwSt8UkCjrjCbSa8qc5p63QIhtm8e47DULyq27MQxg01eh?=
- =?us-ascii?Q?3iLe4XIuD8YcRvxD8OKRGl81k/DynGIX0g6gCFu0uTGUAL5VamYrDrre6Ls9?=
- =?us-ascii?Q?WipJgMLKG9TySg+Ll9w+CEKoWgrhul9ucVkU0jb7kqvPE9wYRGPhsO+KVuGb?=
- =?us-ascii?Q?qa6rptKn5CC+fLhRCUWafp6kAqNj+QITBEIgMUD5tJOHC72PrCSfB42L7lJx?=
- =?us-ascii?Q?KKEKngq+ppBGYJ+o22Ddx03Rt+WBAv25JpO97hzm3p2QnBgD3M3UEwr7+LJo?=
- =?us-ascii?Q?6EU8SeN2E7rMbEb24Af1Gg5ezlwJniBQD65ITUfurNuYaOVKGNLoWoQjpxx7?=
- =?us-ascii?Q?IxnJZfO6EeNL3NBwx8jBXJQVtmoNsqkeKUUNMuD1orpZ9SI58fxXYwteYNhT?=
- =?us-ascii?Q?lk9vru5QyhJ7kBjlX59Xv2ymUi9sEfcS7opWFKM3eNNpa901tRLQXKdlQdDi?=
- =?us-ascii?Q?0a7bdwRCUCkovTEgKa8qmbEJ6abXJs1r3HMt7Yv9Ceae3w0GgQHyqgjtELsO?=
- =?us-ascii?Q?LfzSIVKBEgrkxzbhioVPD1Erlb4QGCoO3acdqm/3IrkPLx/ctmJzXhkCuKoz?=
- =?us-ascii?Q?JPxpIrgGDKX9wL3FD/apzwD+9aYhe6xOzH96meFTCCaYrkjJZJddpT+0WK1M?=
- =?us-ascii?Q?GMRSnG5SVdn5cVVCzUjNwWESnlAGq3JFuQnCgFdJ/Dwk+8n173WEu7UVfmt2?=
- =?us-ascii?Q?H9rr79sYza34jiSHgRdJw8Dh//skRrSJefth4uOfWl5587CI5Un+clSDCZrK?=
- =?us-ascii?Q?el3fnK6i46cK8q31i+e5NQJ3YuC+tUbLIAhKN9xUeuFK/NsDHQ3Vciwn6hEV?=
- =?us-ascii?Q?PiJDpZq3+cVqqJh7egTmP9F2ep8uoAFUDdswg0sVtFL8BubhZl/Bx+NBKKiA?=
- =?us-ascii?Q?OqgYE6k4QFlnq2on/IwzRoQQSZXq30bvOZ9cz5oQ?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	glIikd305AGz3D+sJS18HT4Q7fhMhj64B/hl6fCSJWLKj8uw/qnzeW1SESy5nQeurr1z24xzgvPN5B3u0pZRNAT/COymrNBO2ch0J1zACY5189dCn/GOvDJKl+5KFKQQnmO1JjDFwfe2Oyes40DDDt1j/4qV72paahaZ2WpXxpcE3BbJTTDWnRVEuZPmjOlrE3d5U8A1FnfQZA5DTil208iejPtItJWUMFPFiZ7n1lzuX89u9QrROssT2F5mYnQWB/cWrUqPKqg8ZA+9ZfIDRQFDUUyXn2d4rruoPB2GGjZ3pzvZ5tUrmSos89ULRDmIiFV7I3QW3l0Oa6JRVBTu7C84OlQdmQxKGwSE5e3ht+VJHHI2df1xWCOtIvhG36JsXomWumnvR1lzCvZpGXlH3HVC5R6f/GSXhrBpQ22H3MhPkRM9HexIxtEVexpAKhZk/yWY4SChjVlR7GdGEXsE/kdAC0yQFQ4EyZFvNnxZKhC49Foo76aHhKEFSEz/tRn8fRdpb3O8EyRxSG9GPwJ32+r9UrR4Do/P2t1k5BYvQ3Lyu7zC+rNNsYEZekJbGTQ/hl2XXzwPJlslPA+8mjswqzeTb/G8ZccxVa+SIQjNIrs=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a24a7dd-67e5-47e2-c7da-08de1538d2a6
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 09:11:33.1515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ttTz9iGb44/LT76aDNEAjv9nVEW08Bu7K16OjHBP/mGL5u7kPBWlIrxhAJPlGaw9RuYZFMD7AkJW8hUpCr5wKQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5590
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-27_04,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 adultscore=0 mlxscore=0
- phishscore=0 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510020000
- definitions=main-2510270084
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI1MDAxMyBTYWx0ZWRfX0nkH+/eR3NuS
- MLGlaetuyXEYH85hefohzAEJOnGtbo6PaJkxA+bfzYgdzaiVFHeJEsjtCG77C89Kmu2WbzCKBw2
- PHwY6F2qoOqUBSFf/S3nXhMQGPS2GVJIcoP78JRyImEZacGrP4ttjIge/G4fQ8OsABhGYxwQLp8
- DloK6ftRTqJwQ0MWN7sWk1td6q+zxrLjSFDjQ/p+eF2hzHLbui5Y5HYUI0LAld8xKI66HY4Kj/G
- RDB+HQA3hodCoyMsat6I99QZP0yj175WQC8HFK6sneLMHAf9ntrElHhjBVqmPfWz7ujb7fRN831
- IsQoct5mrouhF0SPakJe/LAFZkXszGsG+ckv7bBqxM6KF6SsEReRrqHpPVyDDLRUrrZh1ZPHajS
- RYWre1kZqfkRejrL/dYDW++3sPIGvQ==
-X-Authority-Analysis: v=2.4 cv=Z9vh3XRA c=1 sm=1 tr=0 ts=68ff3748 b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=AlIOxi0qyfaPRz1eFCsA:9 a=CjuIK1q_8ugA:10
-X-Proofpoint-ORIG-GUID: WZQna4yTk3B00cLETsXQvNxUQG95lOmT
-X-Proofpoint-GUID: WZQna4yTk3B00cLETsXQvNxUQG95lOmT
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: LeSUOtsf4ohAD_UHCqTsYQZcHVPoB7L3N6t5sU38sT0_1761567651
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 27, 2025 at 04:20:56PM +0900, Harry Yoo wrote:
-> On Thu, Oct 23, 2025 at 03:52:31PM +0200, Vlastimil Babka wrote:
-> > +	if (unlikely(!list_empty(&pc.slabs))) {
-> > +		struct kmem_cache_node *n = get_node(s, node);
-> > +
-> > +		spin_lock_irqsave(&n->list_lock, flags);
-> 
-> Do we surely know that trylock will succeed when
-> we succeeded to acquire it in get_partial_node_bulk()?
-> 
-> I think the answer is yes, but just to double check :)
+On Mon, 2025-10-27 at 15:54 +0900, Yunseong Kim wrote:
+> Hi Nam,
+>=20
+> I've been very interested in RV (Runtime Verification) to proactively det=
+ect
+> "sleep in atomic" scenarios on PREEMPT_RT kernels. Specifically, I'm look=
+ing
+> for ways to find cases where sleeping spinlocks or memory allocations are=
+ used
+> within preemption-disabled or irq-disabled contexts. While searching for
+> solutions, I discovered the RV subsystem.
+>=20
 
-Oh wait, this is not per-cpu lock, so the answer is no!
-We need to check gfpflags_allow_spinning() before spinning then.
+Hi Yunseong,
 
--- 
-Cheers,
-Harry / Hyeonggon
+I'm sure Nam can be more specific on this, but let me add my 2 cents here.
+
+The sleep monitor doesn't really do what you want, its violations are real =
+time
+tasks (typically userspace tasks with RR/FIFO policies) sleeping in a way t=
+hat
+might incur latencies. For instance using non PI locks or imprecise sleep.
+
+What you need here is to validate kernel code, RV was actually designed for
+that, but there's currently no monitor that does what you want.
+
+The closest thing I can think of is monitors like scpd and snep in the sche=
+d
+collection [1]. Those however won't catch what you need because they focus =
+on
+the preemption tracepoints and schedule, which works fine also in your scen=
+ario.
+
+We could add similar monitors to catch what you want though:
+
+                     |
+                     |
+                     v
+                   +-----------------+
+                   |   cant_sleep    | <+
+                   +-----------------+  |
+                     |                  |
+                     | preempt_enable   | preempt_disable
+                     v                  |
+    kmalloc                             |
+    lock_acquire                        |
+  +---------------      can_sleep       |
+  |                                     |
+  +-------------->                     -+
+
+which would become slightly more complicated if considering irq enable/disa=
+ble
+too. This is a deterministic automaton representation (see [1] for examples=
+),
+you could use an LTL like sleep as well, I assume (needs a per-CPU monitor =
+which
+is not merged yet for LTL).
+
+This is simplified but you can of course put conditions on what kind of
+allocations and locks you're interested in.
+
+Now this specific case would require lockdep for the definition of lock_acq=
+uire
+tracepoints. So I'm not sure how useful this monitor would be since lockdep=
+ is
+going to complain too. You could use contention tracepoints to catch exactl=
+y
+when sleep is going to occur and not /potential/ failures.
+
+I only gave a quick thought on this, there may be better models/event fitti=
+ng
+your usecase, but I hope you get the idea.
+
+[1] - https://docs.kernel.org/trace/rv/monitor_sched.html#monitor-scpd
+
+> Here are my questions:
+>=20
+> 1. Does the rtapp:sleep monitor proactively detect scenarios that
+> =C2=A0=C2=A0 could lead to sleeping in atomic context, perhaps before
+> =C2=A0=C2=A0 CONFIG_DEBUG_ATOMIC_SLEEP (enabled) would trigger at the act=
+ual point of
+> =C2=A0=C2=A0 sleeping?
+
+I guess I answered this already, but TL;DR no, you'd need a dedicated monit=
+or.
+
+> 2. Is there a way to enable this monitor (e.g., rtapp:sleep)
+> =C2=A0=C2=A0 immediately as soon as the RV subsystem is loaded during boo=
+t time?
+> =C2=A0=C2=A0 (How to make this "default turn on"?)
+
+Currently not, but you could probably use any sort of startup script to tur=
+n it
+on soon enough.
+
+> 3. When a "violation detected" message occurs at runtime, is it
+> =C2=A0=C2=A0 possible to get a call stack of the location that triggered =
+the
+> =C2=A0=C2=A0 violation? The panic reactor provides a full stack, but I'm
+> =C2=A0=C2=A0 wondering if this is also possible with the printk reactor.
+
+You can use ftrace and rely on error tracepoints instead of reactors. Each =
+RV
+violation triggers a tracepoint (e.g. error_sleep) and you can print a call
+stack there. E.g.:
+
+  echo stacktrace > /sys/kernel/tracing/events/rv/error_sleep/trigger
+
+Here I use sleep as an example, but all monitors have their own error event=
+s
+(e.g. error_wwnr, error_snep, etc.).
+
+Does this all look useful in your scenario?
+
+Gabriele
+
+>=20
+> Here is some background on why I'm so interested in this topic:
+>=20
+> Recently, I was fuzzing the PREEMPT_RT kernel with syzkaller but ran into
+> issues where fuzzing wouldn't proceed smoothly. It turned out to be a pro=
+blem
+> in the kcov USB API. This issue was fixed after I reported it, together
+> with Sebastian=E2=80=99s patch.
+>=20
+> [PATCH] kcov, usb: Don't disable interrupts in kcov_remote_start_usb_soft=
+irq()
+> =C2=A0- https://lore.kernel.org/all/20250811082745.ycJqBXMs@linutronix.de=
+/
+>=20
+> After this fix, syzkaller fuzzing ran well and was able to detect several
+> runtime "sleep in atomic context" bugs:
+>=20
+> [PATCH] USB: gadget: dummy-hcd: Fix locking bug in RT-enabled kernels
+> =C2=A0-
+> https://lore.kernel.org/all/bb192ae2-4eee-48ee-981f-3efdbbd0d8f0@rowland.=
+harvard.edu/
+>=20
+> [BUG] usbip: vhci: Sleeping function called from invalid context in
+> vhci_urb_enqueue on PREEMPT_RT
+> =C2=A0-
+> https://lore.kernel.org/all/c6c17f0d-b71d-4a44-bcef-2b65e4d634f7@kzalloc.=
+com/
+>=20
+> This led me to research ways to find these issues proactively at a
+> static analysis level, and I created some regex and coccinelle scripts
+> to detect them.
+>=20
+> [BUG] gfs2: sleeping lock in gfs2_quota_init() with preempt disabled
+> on PREEMPT_RT
+> =C2=A0- https://lore.kernel.org/all/20250812103808.3mIVpgs9@linutronix.de=
+/t/#u
+>=20
+> [PATCH] md/raid5-ppl: Fix invalid context sleep in
+> ppl_io_unit_finished() on PREEMPT_RT
+> =C2=A0-
+> https://lore.kernel.org/all/f2dbf110-e2a7-4101-b24c-0444f708fd4e@kernel.o=
+rg/t/#u
+>=20
+> Tomas, the author of the rtlockscope project, also gave me some deep
+> insights into this static analysis approach.
+>=20
+> Re: [WIP] coccinelle: rt: Add coccicheck on sleep in atomic context on
+> PREEMPT_RT
+> =C2=A0-
+> https://lore.kernel.org/all/CAP4=3DnvTOE9W+6UtVZ5-5gAoYeEQE8g4cgG602FJDPe=
+sNko-Bgw@mail.gmail.com/
+>=20
+>=20
+> Thank you!
+>=20
+> Best regards,
+> Yunseong Kim
+
