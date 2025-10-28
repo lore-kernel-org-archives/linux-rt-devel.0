@@ -1,44 +1,31 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F122D5957
-	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Oct 2025 12:06:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167A23081D9
+	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Oct 2025 13:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761653218; cv=none; b=CEHdbSGiJ+EfF9HbYgtHsDyh1sT5+FIZ2fWdhtA+hRIJnlicTJ2o9mUSQdQ66oBqzA8r55QHc7Bqu3QW3foaDS88sw8JM/2+Nj3A1Bvh2pqwXStY3DWteqxfLiKeTZeqe1vyvAZ12572Sj7eSfnOeqmcrF45uSHh4OoLBccPRwk=
+	t=1761659083; cv=none; b=TsgRg0meSu7VYfiQJCSBII3CYB/jT4waKRLMSB8Y77YpaWUJmJcgiqYI/yKi5tqbJXNK3lVhj75Lp/dlWhTxAIND1//7EiwueuMixbV4sptbFi3gp46CvEfBs66hG5v1od01yApYqpwrycMRAJRw4UMxebijb6xQvIIiUvYL1eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761653218; c=relaxed/simple;
-	bh=ei+CA+ZBh3hHsRnekGA32bPDegEeVgJXMO6rrJReISs=;
+	s=arc-20240116; t=1761659083; c=relaxed/simple;
+	bh=IxwKCbUXHJTMHTBOxpn47Gc03a6SOp3BE8zoqd4FhvQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EUi5FwODKSvCLr0KL9XwHhJvHOmJpFKiANMRy+F62eBdW1/lVU0E44DZ2TZB+Bbhi5DnIyBUSElN7G3L0kE4VIpIAfnNO6VV5XojB5yVzrW/ABnDHIRFWeIGRyjQT4Y64yd2ayWF9CS31vuHvk97pgkcENgCSibfcZTnOpKR6Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qKQXrRO6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gocl/jMn; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qKQXrRO6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gocl/jMn"
-Date: Tue, 28 Oct 2025 13:06:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1761653214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=crnGWfJ7+UbK0li8dGHZvc/h9PGKn2eAY0mmwg0N528=;
-	b=qKQXrRO6OVuHEcDSuInE5tNxabxKnup1VtOzPffIvExXjuF4xJEmj38AHd0xhxDPKZp7kE
-	MtM4/DZfqTPTSvLn6unZ520+2ok48bF8Ek0tfUKLejEKelVGlrIiXA3SMxx0AVIMpASl46
-	x4nffQQ8rOedTcEBYrHQ3OXaW6CewuEHIw41zuIVFVJ5Sm9YqVfWWjo0qenTh7JF4zTcex
-	NO+hEkwFLKbcVirJ/M/yvm0plZxdM3aTOSx5FcOh3nAeHQXpxuIqstMTSDl+zfKJN2szwv
-	LvMykX7eBEdO+HCKpeRp98X8YHANIxFgq51nxx7QrZPlRDSF+8BJP+g3lCa3Pw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1761653214;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=crnGWfJ7+UbK0li8dGHZvc/h9PGKn2eAY0mmwg0N528=;
-	b=gocl/jMnijFGp8u7+eYJkexAu4wF08rf5SfQNrcx5prs3WeJ9NFbyzWKcoQZjQi1SFSen7
-	hpKTIBmKXAqe5MDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Lukas Wunner <lukas@wunner.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMunvInp9+mbl4UopoQIsY9v5a7PiDgU/FAV/JvsIzWoH+JwZnozEtl5Eiy51mRlXRbXejFTY96N6Qs/PvIvE/wf+OXTtqX/8n+NEzD6/0s4WJ8gN8JbRJUF06cjlJrYMyvwKlLxLDejG61EdIEQLkJ7pSV9NAq+Q1A9Z8AeYK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id EF8402C0664E;
+	Tue, 28 Oct 2025 14:44:38 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id D868B587B; Tue, 28 Oct 2025 14:44:38 +0100 (CET)
+Date: Tue, 28 Oct 2025 14:44:38 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Crystal Wood <crwood@redhat.com>,
 	Ingo Molnar <mingo@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -56,69 +43,44 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Crystal Wood <crwood@redhat.com>,
 	Oliver OHalloran <oohall@gmail.com>
 Subject: Re: [PATCH v2] genirq/manage: Reduce priority of forced secondary
  interrupt handler
-Message-ID: <20251028120652.AJUTgtwZ@linutronix.de>
+Message-ID: <aQDIxvU18vzB-1G-@wunner.de>
 References: <f6dcdb41be2694886b8dbf4fe7b3ab89e9d5114c.1761569303.git.lukas@wunner.de>
+ <20251028120652.AJUTgtwZ@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f6dcdb41be2694886b8dbf4fe7b3ab89e9d5114c.1761569303.git.lukas@wunner.de>
+In-Reply-To: <20251028120652.AJUTgtwZ@linutronix.de>
 
-On 2025-10-27 13:59:31 [+0100], Lukas Wunner wrote:
-> Crystal reports that the PCIe Advanced Error Reporting driver gets stuck
-> in an infinite loop on PREEMPT_RT:
+On Tue, Oct 28, 2025 at 01:06:52PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-10-27 13:59:31 [+0100], Lukas Wunner wrote:
+> > The issue does not show on non-PREEMPT_RT because the primary handler
+> > runs in hardirq context and thus can preempt the threaded secondary
+> > handler, clear the Root Error Status register and prevent the secondary
+> > handler from getting stuck.
 > 
-> Both the primary interrupt handler aer_irq() as well as the secondary
-> handler aer_isr() are forced into threads with identical priority.
-> Crystal writes that on the ARM system in question, the primary handler
-> has to clear an error in the Root Error Status register...
-> 
->    "before the next error happens, or else the hardware will set the
->     Multiple ERR_COR Received bit.  If that bit is set, then aer_isr()
->     can't rely on the Error Source Identification register, so it scans
->     through all devices looking for errors -- and for some reason, on
->     this system, accessing the AER registers (or any Config Space above
->     0x400, even though there are capabilities located there) generates
->     an Unsupported Request Error (but returns valid data).  Since this
->     happens more than once, without aer_irq() preempting, it causes
->     another multi error and we get stuck in a loop."
-> 
-> The issue does not show on non-PREEMPT_RT because the primary handler
-> runs in hardirq context and thus can preempt the threaded secondary
-> handler, clear the Root Error Status register and prevent the secondary
-> handler from getting stuck.
+> Not sure if I mentioned it before but this is due to forced threaded
+> IRQs which can also be enabled on non-PREEMPT_RT systems via `threadirqs`.
 
-Not sure if I mentioned it before but this is due to forced threaded
-IRQs which can also be enabled on non-PREEMPT_RT systems via `threadirqs`.
+According to the commit which introduced the "threadirqs" command line
+option, 8d32a307e4fa ("genirq: Provide forced interrupt threading"),
+it is "mostly a debug option".  I guess the option allows testing
+the waters on arches which do not yet "select ARCH_SUPPORTS_RT"
+to see if force-threaded interrupts break anything.  I recall the
+option being available in mainline for much longer than PREEMPT_RT
+and it was definitely useful as a justification to upstream changes
+which were otherwise only needed by the out-of-tree PREEMPT_RT patches.
 
-> Emulate the same behavior on PREEMPT_RT by assigning a lower default
-> priority to the secondary handler if the primary handler is forced into
-> a thread.
-> 
-> Reported-by: Crystal Wood <crwood@redhat.com>
-> Tested-by: Crystal Wood <crwood@redhat.com>
-> Closes: https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> --- a/kernel/sched/syscalls.c
-> +++ b/kernel/sched/syscalls.c
-> @@ -856,6 +856,19 @@ void sched_set_fifo_low(struct task_struct *p)
->  }
->  EXPORT_SYMBOL_GPL(sched_set_fifo_low);
->  
-> +/*
-> + * For when the primary interrupt handler is forced into a thread, in addition
-> + * to the (always threaded) secondary handler.  The secondary handler gets a
-> + * slightly lower priority so that the primary handler can preempt it, thereby
-> + * emulating the behavior of a non-PREEMPT_RT system where the primary handler
-> + * runs in hardirq context.
+Intuitively I would assume that debug options are not worth calling out
+in commit messages or code comments as users and developers will
+primarily be interested in the real deal (i.e. PREEMPT_RT) and not
+an option which gets us only halfway there.  However if you
+(or anyone else) feels strongly about it, I'll be happy to respin.
 
-s/non-PREEMPT_RT/non-forced threaded/ ?
+Thanks for taking a look!
 
-Other than that,
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Sebastian
+Lukas
