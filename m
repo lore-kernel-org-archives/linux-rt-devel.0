@@ -1,61 +1,63 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8362BE621
-	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Oct 2025 07:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F122D5957
+	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Oct 2025 12:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761637944; cv=none; b=s2vaxRTgsMRpi18BO6DvDfu7Fkh4OFyk6oR3Zedkiecw9bMQFtI6CmfeR0z0E6QpQ/diBEMGNoeJDQQ9SG8ySsSPZcBk56ODbCjvrnNe5z7Wqec6BHGRQQBh8xH99noPwtk87kk3FTquWNpntPs9mZ1OQhPg9cfx3H0kCoHE+JM=
+	t=1761653218; cv=none; b=CEHdbSGiJ+EfF9HbYgtHsDyh1sT5+FIZ2fWdhtA+hRIJnlicTJ2o9mUSQdQ66oBqzA8r55QHc7Bqu3QW3foaDS88sw8JM/2+Nj3A1Bvh2pqwXStY3DWteqxfLiKeTZeqe1vyvAZ12572Sj7eSfnOeqmcrF45uSHh4OoLBccPRwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761637944; c=relaxed/simple;
-	bh=BlH1k/7FQlfjC1lJDoXjs5d1U9toPAOhi2tez2K7Kzg=;
+	s=arc-20240116; t=1761653218; c=relaxed/simple;
+	bh=ei+CA+ZBh3hHsRnekGA32bPDegEeVgJXMO6rrJReISs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F9FWL0fncMj852YnkqlCVnFGCfiX9PwCt6NgJiNars2LSai1Npo/1fb4rtJ/UHsPVYR5gSuWWhIGFNFmYdan5I5/PAT+RyOca/LxL4N8SHAg6aPL0rVvQtnzWhzRVssAW0Rfa55mtifvt/HPk+IBlJZAFCtMrgJ0QzOIJnnp93s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Kiu7UYNS; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TS/rXFHh; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=EUi5FwODKSvCLr0KL9XwHhJvHOmJpFKiANMRy+F62eBdW1/lVU0E44DZ2TZB+Bbhi5DnIyBUSElN7G3L0kE4VIpIAfnNO6VV5XojB5yVzrW/ABnDHIRFWeIGRyjQT4Y64yd2ayWF9CS31vuHvk97pgkcENgCSibfcZTnOpKR6Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qKQXrRO6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gocl/jMn; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Kiu7UYNS";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TS/rXFHh"
-Date: Tue, 28 Oct 2025 08:52:18 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qKQXrRO6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gocl/jMn"
+Date: Tue, 28 Oct 2025 13:06:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1761637940;
+	s=2020; t=1761653214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OHWV/31bypuym5GRXjxOlk2qZBuAxqMswHw50rJip1Q=;
-	b=Kiu7UYNSsTpAQpdqw2sVW2UvD1GqQshrx6wqHmt3innhVdRFyZU1pVblsbB4m5qBBfDp0W
-	lN8MnHStEMXA3UD13GEfJx76HHjOAb1UxoalqdxptlZOEEQzkJ5rztbNUHBIObrX9VIJiD
-	mjCm4hWNWv7+NoZ92y3/aI9bgATAD3PtkwRH7kWeYeZc4hBZbh014CPC3EyeWT09bmTh5+
-	+M/HUd5pqe+i5ckJVS6ZdIOMSgB0dhL7pP9Wle1TMXnBpnQ6zJBRRTwF+m0IAW9aedIu2q
-	TwxjO6v9tS3EsRCk4jo73UAvCJojwIHplVF37X+5LJq4MFHFWIQ3FZDk4iZmiQ==
+	bh=crnGWfJ7+UbK0li8dGHZvc/h9PGKn2eAY0mmwg0N528=;
+	b=qKQXrRO6OVuHEcDSuInE5tNxabxKnup1VtOzPffIvExXjuF4xJEmj38AHd0xhxDPKZp7kE
+	MtM4/DZfqTPTSvLn6unZ520+2ok48bF8Ek0tfUKLejEKelVGlrIiXA3SMxx0AVIMpASl46
+	x4nffQQ8rOedTcEBYrHQ3OXaW6CewuEHIw41zuIVFVJ5Sm9YqVfWWjo0qenTh7JF4zTcex
+	NO+hEkwFLKbcVirJ/M/yvm0plZxdM3aTOSx5FcOh3nAeHQXpxuIqstMTSDl+zfKJN2szwv
+	LvMykX7eBEdO+HCKpeRp98X8YHANIxFgq51nxx7QrZPlRDSF+8BJP+g3lCa3Pw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1761637940;
+	s=2020e; t=1761653214;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OHWV/31bypuym5GRXjxOlk2qZBuAxqMswHw50rJip1Q=;
-	b=TS/rXFHhiwPMG/jXJvataZ1SJRJMP44uwocqxI6+TbbESv3cus8zaGjEMZdGKn/eRKY4dj
-	z7oADzXFJeZWgpDw==
+	bh=crnGWfJ7+UbK0li8dGHZvc/h9PGKn2eAY0mmwg0N528=;
+	b=gocl/jMnijFGp8u7+eYJkexAu4wF08rf5SfQNrcx5prs3WeJ9NFbyzWKcoQZjQi1SFSen7
+	hpKTIBmKXAqe5MDw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yonghong Song <yonghong.song@linux.dev>
-Cc: Sahil Chandna <chandna.sahil@gmail.com>,
-	syzbot+b0cff308140f79a9c4cb@syzkaller.appspotmail.com,
-	andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
-	daniel@iogearbox.net, eddyz87@gmail.com, haoluo@google.com,
-	john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
-	linux-kernel@vger.kernel.org, listout@listout.xyz,
-	martin.lau@linux.dev, netdev@vger.kernel.org, sdf@fomichev.me,
-	song@kernel.org, syzkaller-bugs@googlegroups.com,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [syzbot] [bpf?] WARNING in bpf_bprintf_prepare (3)
-Message-ID: <20251028075218.aw9YABrW@linutronix.de>
-References: <68f6a4c8.050a0220.1be48.0011.GAE@google.com>
- <14371cf8-e49a-4c68-b763-fa7563a9c764@linux.dev>
- <aPklOxw0W-xUbMEI@chandna.localdomain>
- <8dd359dd-b42f-4676-bb94-07288b38fac1@linux.dev>
- <aP5_JbddrpnDs-WN@chandna.localdomain>
- <95e1fd95-896f-4d33-956f-a0ef0e0f152c@linux.dev>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Crystal Wood <crwood@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	linux-kernel@vger.kernel.org, Attila Fazekas <afazekas@redhat.com>,
+	linux-pci@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver OHalloran <oohall@gmail.com>
+Subject: Re: [PATCH v2] genirq/manage: Reduce priority of forced secondary
+ interrupt handler
+Message-ID: <20251028120652.AJUTgtwZ@linutronix.de>
+References: <f6dcdb41be2694886b8dbf4fe7b3ab89e9d5114c.1761569303.git.lukas@wunner.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -64,16 +66,59 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <95e1fd95-896f-4d33-956f-a0ef0e0f152c@linux.dev>
+In-Reply-To: <f6dcdb41be2694886b8dbf4fe7b3ab89e9d5114c.1761569303.git.lukas@wunner.de>
 
-On 2025-10-27 20:45:25 [-0700], Yonghong Song wrote:
-> This should work, but local lock disable interrupts which could have
-> negative side effects on the system. We don't want this.
-> That is the reason we have 3 nested level for bpf_bprintf_buffers.
+On 2025-10-27 13:59:31 [+0100], Lukas Wunner wrote:
+> Crystal reports that the PCIe Advanced Error Reporting driver gets stuck
+> in an infinite loop on PREEMPT_RT:
 > 
-> Please try my above preempt_disalbe/enable() solution.
+> Both the primary interrupt handler aer_irq() as well as the secondary
+> handler aer_isr() are forced into threads with identical priority.
+> Crystal writes that on the ARM system in question, the primary handler
+> has to clear an error in the Root Error Status register...
+> 
+>    "before the next error happens, or else the hardware will set the
+>     Multiple ERR_COR Received bit.  If that bit is set, then aer_isr()
+>     can't rely on the Error Source Identification register, so it scans
+>     through all devices looking for errors -- and for some reason, on
+>     this system, accessing the AER registers (or any Config Space above
+>     0x400, even though there are capabilities located there) generates
+>     an Unsupported Request Error (but returns valid data).  Since this
+>     happens more than once, without aer_irq() preempting, it causes
+>     another multi error and we get stuck in a loop."
+> 
+> The issue does not show on non-PREEMPT_RT because the primary handler
+> runs in hardirq context and thus can preempt the threaded secondary
+> handler, clear the Root Error Status register and prevent the secondary
+> handler from getting stuck.
 
-I meant to look into this yesterday but got distracted with other
-things. I try to take a look.
+Not sure if I mentioned it before but this is due to forced threaded
+IRQs which can also be enabled on non-PREEMPT_RT systems via `threadirqs`.
+
+> Emulate the same behavior on PREEMPT_RT by assigning a lower default
+> priority to the secondary handler if the primary handler is forced into
+> a thread.
+> 
+> Reported-by: Crystal Wood <crwood@redhat.com>
+> Tested-by: Crystal Wood <crwood@redhat.com>
+> Closes: https://lore.kernel.org/r/20250902224441.368483-1-crwood@redhat.com/
+> Signed-off-by: Lukas Wunner <lukas@wunner.de>
+> --- a/kernel/sched/syscalls.c
+> +++ b/kernel/sched/syscalls.c
+> @@ -856,6 +856,19 @@ void sched_set_fifo_low(struct task_struct *p)
+>  }
+>  EXPORT_SYMBOL_GPL(sched_set_fifo_low);
+>  
+> +/*
+> + * For when the primary interrupt handler is forced into a thread, in addition
+> + * to the (always threaded) secondary handler.  The secondary handler gets a
+> + * slightly lower priority so that the primary handler can preempt it, thereby
+> + * emulating the behavior of a non-PREEMPT_RT system where the primary handler
+> + * runs in hardirq context.
+
+s/non-PREEMPT_RT/non-forced threaded/ ?
+
+Other than that,
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 Sebastian
