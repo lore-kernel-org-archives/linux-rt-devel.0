@@ -1,194 +1,116 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C330233721
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Oct 2025 13:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9658435A924
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Oct 2025 15:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761830330; cv=none; b=SYHkNQXma/y+tC3tYEqSY3PyRSJKNlvYGzmCMesyER3BfxUPQIRH9xaxssibemXyqcpW++eCENqmpF6OQw6xonBBF+smjwryWeUFAqtsaJrjNSEPTDwl5foprrp7li8fjDHjzmuFZNMYTxo9GiWRsVfY6Z1TaHAiQMHoaQkptJg=
+	t=1761837367; cv=none; b=YbFFr3JUsNcRpPA8NlCOtJ+GvANE623ZfiV4SlFck5T420hK9u/VFjm9U9JbaML1jEcxLuRYRKAb6iwMcnd+Y6I2c0QLzZqpGXB7493+/jL1ZNk3oXgoOSnhxLarUHjhsoQaKGX2n7FP9CDQOFDjjs9Q5m2VYILAQRb+kO/ZLME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761830330; c=relaxed/simple;
-	bh=ndZjkRltjIWMIZQTZXqFH8q+092Arxeecw4S8L2kLLY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X+BV1/knn303+cZXJ2uCTvyHsg7qxWFbSxm/1aljJnaHjVnwS/ikr6C6dScB35nerQCtSgX+4xBUNuoHj0/rKU7ygq7brnQ5PctC/6xyezYi9rJse30/uC40qN3RP3a9bC+z1dP4H2UrgBSbWsPvE79nKn6nsV2uEC28ntC44kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kX0etpTo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZUhI6lNy; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kX0etpTo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZUhI6lNy; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1761837367; c=relaxed/simple;
+	bh=JcfFYNhi7LcRIrtBraNNg0VePjlTY8To76yruIzAZ9Y=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZucdLTwvJk4cbvQjOG+dkikirGlSjAVdKT3tsVzkqkfaHtVdMQERBMa8IrJ3jL/pT3Hk0BWRiCtp0YfSAbmVXDNlICJnKMICVoicqeHXpi94D45dv4Nmt5QAGdYT9A3qwQutrMGDOprtk5XuNsp+vOlAKGygfhh8XMchNLlE7fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=lIkAruG7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=QCnlcO60; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kX0etpTo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZUhI6lNy";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kX0etpTo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZUhI6lNy"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 06C7A1F6E6;
-	Thu, 30 Oct 2025 13:18:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1761830327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CgjcxRthmM6PCoG1BiMHfp5HdQ/ejgbzHCetCjaVfDk=;
-	b=kX0etpToU/L1+noHFXojTL4kScufLYFcskoWFzx2mIARRWUpb1JTr2uEeS1Jq3qi3aQpcH
-	pllhyT66jYnhEtyhJY6RYXzB4apxxL0kk7Rv3Bx+YAejbWtYMPhTvS4NqSJH1YTDqcne4Q
-	smkbzkAsq1IuPsAPcGL9zOSPVogWHyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1761830327;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CgjcxRthmM6PCoG1BiMHfp5HdQ/ejgbzHCetCjaVfDk=;
-	b=ZUhI6lNyYmBAkIoA2bbz6dL8p3QR/xEiF+UmKTMvPWT1WlevTqrz8tw5zNggFYZzGLinNK
-	mDLwhnkExICvJIDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=kX0etpTo;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ZUhI6lNy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1761830327; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CgjcxRthmM6PCoG1BiMHfp5HdQ/ejgbzHCetCjaVfDk=;
-	b=kX0etpToU/L1+noHFXojTL4kScufLYFcskoWFzx2mIARRWUpb1JTr2uEeS1Jq3qi3aQpcH
-	pllhyT66jYnhEtyhJY6RYXzB4apxxL0kk7Rv3Bx+YAejbWtYMPhTvS4NqSJH1YTDqcne4Q
-	smkbzkAsq1IuPsAPcGL9zOSPVogWHyY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1761830327;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=CgjcxRthmM6PCoG1BiMHfp5HdQ/ejgbzHCetCjaVfDk=;
-	b=ZUhI6lNyYmBAkIoA2bbz6dL8p3QR/xEiF+UmKTMvPWT1WlevTqrz8tw5zNggFYZzGLinNK
-	mDLwhnkExICvJIDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DCE5913393;
-	Thu, 30 Oct 2025 13:18:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ovyeNbZlA2kjWgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 30 Oct 2025 13:18:46 +0000
-Message-ID: <2a95b2db-c487-440c-b95c-35549c8f5ba6@suse.cz>
-Date: Thu, 30 Oct 2025 14:18:46 +0100
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="lIkAruG7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="QCnlcO60"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9631E1D00132;
+	Thu, 30 Oct 2025 11:16:03 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Oct 2025 11:16:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1761837363;
+	 x=1761923763; bh=PB77BhgDPVqLXInC5oE3SrEz8gPtJUc/9tkX6JDWI3c=; b=
+	lIkAruG7GNX3boS4q1978C5us8tEEkiLIB1C/TGac+iOp5kuJI6j+eqFyJYz+lXk
+	3mtF76x7jjeKXtoRouqUJaun1Rvmi2wOy4vp4Qx7IcgeLKU7+RUSFMdf+dVNkvDw
+	7pMHbtl1HO6FM8VgtYtfFXvfJanKvsYpEOZK53C0XmTfyH4E229gBZqUZ1E8CEuJ
+	M8eycMfbjKJ2r7BDJpZZ1Y5ugrgTVi8X3lcv2H6SaGhI60MrCHIUt44HWxigHi4J
+	fJYwQ8CEmj+Pt/9enqAgSbQq1o9UTc9DMUSQncdMrRPgl7UrKd71y3EVVU7CWOLQ
+	LzXa/UOcXYcb0XKE3GxXcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761837363; x=
+	1761923763; bh=PB77BhgDPVqLXInC5oE3SrEz8gPtJUc/9tkX6JDWI3c=; b=Q
+	CnlcO60Z2jfUgktsFJ6r+qan0HxY4cOH20ZqnyzXc7kNsgWpqU2qJMnhxrNggBVm
+	9YnJHj0S0utsBi/R4V7Zi1O43J7SufWim7kj7hd1YsZPWvEdPh8hq3OQ+t83QyFz
+	aHMN/xkbGvxEYHd1P+7tZvkRwePGQPwxPIusuZfuySJNs5y2ELnJZiWGNB9HtIrR
+	GBEeOvXpwGhaRyyU20iC7mc+qpKCJ//rBadEJn+U7/GAf481cRCY2N4f4Iyr4rLq
+	1oroNx4qxgIUAaQJLuX1uLsc/Dukiy4zvYHK5F3b4kiOUNu8GZrMa6pOO7WKZPc7
+	N2MCvlQbgy/SHhB0YpySw==
+X-ME-Sender: <xms:MoEDaaesw3fL0imeZTjWzBYoXX3UXP_hT6RqsdFw2tjwBun5TRDEZA>
+    <xme:MoEDafBg8aIiMq_HWtIzdtvdkETvoExPUP7eD8IgZkN5e9yDmdDkH0BUMdA61l5Dz
+    GJW5nydY4_G5oyKmE48clRl4wGCIeD3BktW9fBPEELd-lnzPrk_Fw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduieeileegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepfefhheetffduvdfgieeghfejtedvkeetkeejfeekkeelffejteevvdeghffhiefh
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgt
+    phhtthhopeehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigsegrrh
+    hmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepgihivgihuhgrnhgsihhnudeshhhu
+    rgifvghirdgtohhmpdhrtghpthhtohepsghighgvrghshieslhhinhhuthhrohhnihigrd
+    guvgdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhn
+    fhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhrthdquggvvhgvlheslh
+    hishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:MoEDaQyegoz89-uSebOVebeBHSh1jGV57kzTJFGYE9ZLQL5Z82H61w>
+    <xmx:MoEDaX9UHUA-8qB2AOkJvEGXcM4T6BxF1lGfGK-BniaR5P3mXZOpsA>
+    <xmx:MoEDacJuPvYxHJNcgjK4asRzeon9wm0D9u_tPIilDD_e6lZNluSedw>
+    <xmx:MoEDaVfk3Cris_NQTGKOCevlBnm4405jeaia25F8BnMzzkcAROkU4g>
+    <xmx:M4EDaXXih8gARFVQ63x3KWfJGwkjjLRB8d5e5OizjRw6cJZo-bAyZGAA>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 6D9E8700063; Thu, 30 Oct 2025 11:16:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 09/19] slab: add optimized sheaf refill from partial
- list
-Content-Language: en-US
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <20251023-sheaves-for-all-v1-9-6ffa2c9941c0@suse.cz>
- <aP8dWDNiHVpAe7ak@hyeyoo> <113a75f7-6846-48e4-9709-880602d44229@suse.cz>
- <aQKsNPQe--6QMOg0@hyeyoo>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <aQKsNPQe--6QMOg0@hyeyoo>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: ADO3ruLUhBC7
+Date: Thu, 30 Oct 2025 16:15:42 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Cc: "Russell King" <linux@armlinux.org.uk>,
+ "Xie Yuanbin" <xieyuanbin1@huawei.com>
+Message-Id: <324652fe-b5b8-45a6-9c57-096813e9092c@app.fastmail.com>
+In-Reply-To: <20251029155918.503060-4-bigeasy@linutronix.de>
+References: <20251029155918.503060-1-bigeasy@linutronix.de>
+ <20251029155918.503060-4-bigeasy@linutronix.de>
+Subject: Re: [PATCH 3/5] ARM: Disable FAST_GUP on PREEMPT_RT if HIGHPTE is also
+ enabled.
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 06C7A1F6E6
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,linux.dev,gmail.com,oracle.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:mid,suse.cz:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
 
-On 10/30/25 01:07, Harry Yoo wrote:
-> On Wed, Oct 29, 2025 at 09:48:27PM +0100, Vlastimil Babka wrote:
->> (side note: gfpflags_allow_blocking() might be too conservative now that
->> sheafs will be the only caching layer, that condition could be perhaps
->> changed to gfpflags_allow_spinning() to allow some cheap refill).
-> 
-> Sounds good to me.
+On Wed, Oct 29, 2025, at 16:59, Sebastian Andrzej Siewior wrote:
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -105,7 +105,7 @@ config ARM
+>  	select HAVE_DYNAMIC_FTRACE_WITH_REGS if HAVE_DYNAMIC_FTRACE
+>  	select HAVE_EFFICIENT_UNALIGNED_ACCESS if (CPU_V6 || CPU_V6K || CPU_V7) && MMU
+>  	select HAVE_EXIT_THREAD
+> -	select HAVE_GUP_FAST if ARM_LPAE
+> +	select HAVE_GUP_FAST if ARM_LPAE && !(PREEMPT_RT && HIGHPTE)
+>  	select HAVE_FUNCTION_ERROR_INJECTION
+>  	select HAVE_FUNCTION_GRAPH_TRACER
+>  	select HAVE_FUNCTION_GRAPH_FREGS
 
-Hm now I realized the gfpflags_allow_blocking() check is there to make sure
-we can take the local lock without trylock after obtaining a full sheaf, so
-we can install it - because it should mean we're not in an interrupt
-context. The fact we already succeeded trylock earlier should be enough, but
-we'd run again into inventing ugly tricks to make lockdep happy.
+I would still prefer the version I posted previous at
 
-Or we use trylock and have failure paths that are only possible to hit on RT
-in practice...
+https://lore.kernel.org/all/20241210160556.2341497-3-arnd@kernel.org/
+
+disabling HIGHPTE when PREEMPT_RT is enabled.
+
+     Arnd
