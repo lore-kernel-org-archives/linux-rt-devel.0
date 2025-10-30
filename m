@@ -1,85 +1,71 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE4B19E99F
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Oct 2025 07:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5441430C358
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Oct 2025 07:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761809025; cv=none; b=Y50V6dG2cRhYfYSlTjZ6Ak5NNzKW9ZFQSTXLuD9hCXrT5BpNODli82NC87CP+sIwtKcu+2YDpJgbZ8UP6yRRGCswaWm8QjQpSvG2YvQbr6Mz6fGhi53wXDqt8IpbI4jLKJ+RgiZRRATf5IvMCf2tO/c5WFc5t+bqI8Wk2l2xVME=
+	t=1761810325; cv=none; b=XsZMJHiixIkEPGOWbhe2vhNkYmd1gWv0KL33s5E2Ycx2PDknBHzAkt4nwzb8tQzrCqSGFCIQ/LkaZLzYp7u1ogBA05q/LsOW1rvdt+ZvTCkiNh+zU3JDbyQf+bmWKzDPM6zRA4NwcPvwnHlmL+dbIPYRWVLeg8CaPE0Dwy56uz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761809025; c=relaxed/simple;
-	bh=sKs0N99xA1oBZIoPfSPsHZDtQVAQtJxitEj9BbZkw+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUmStRpKV5T0FM3XG5gG6l38koPCybIaFQfntk81Pmvh20PObP8XNubvjLjqCTUAPJ8wecwj0b/wPnsSZVbhgd5bMJnj9UpsuE73EmXfdCtEsYnxThXtCnp0Cm66OH58ZReLBzRUigsUbZxdIfS8VjAV4cEVMBaWajd+UVVoDCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qpct3k3r; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MRut4j+S; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1761810325; c=relaxed/simple;
+	bh=7OSpskV0b3Z0Y8Bcg2JJJY4wTw6TjjgMjW58E+iZS7o=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FUON/8p7HafrIwATQ/UNNI6pEhHQaS+GABVdumeUGv1erFLHC0B9whb0MoMTYmMFXdD6j+rqL5fWP/ujx1DJuJJve/JRWCY4W8OzNe2PJW8AVdl3wQipHM2G615nfyXfhr1DV9ErNzVYXXtn6v9zVWcKEYAqDq8TP3Hs9X6g+fE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=kvOYlxtJ; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qpct3k3r";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MRut4j+S"
-Date: Thu, 30 Oct 2025 08:23:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1761809021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R0UKg1s0YVqcKspA8T+qvDLFzrwE2Nyk3FttwK4GUlA=;
-	b=qpct3k3rVBvatgBKRTOxrZf5oB9Jqi5BsS/7afPd1iblyTUd9udc5xd5XKdb1bUC7nVWbj
-	Ji9cFZniHZmIegtKRhjGzYAPlTvNEA+QNJKU84pZ6w41V6Bqd0AkERcutJIDWmNvo4eL62
-	HBJYwDURGGDpjhSjQdBO9P+CI8ci5lccMqHG/tjcHCgZRO6xoJuSfyi5qG15ap4Te9ITug
-	kk82e9AgyjaPlzEgZqrIVEmHJe4XIWBHk1WjyLRg2qDyvVDTmPUjpZhY3yhgvdmmwGyymQ
-	EDrx9jPTu7mY29wP9xKmAjASV8I+oSCXTYwLUAG5ZUbyfkcudZIvWQVlV9eXyg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1761809021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R0UKg1s0YVqcKspA8T+qvDLFzrwE2Nyk3FttwK4GUlA=;
-	b=MRut4j+SlWicT4fAROkg13ftS7GmIdFBbYQJE9Nok0ppJzqZKtgAPKtniYY1iNkqEGSKTX
-	7dZ+lGMo0vbe4YBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Xie Yuanbin <xieyuanbin1@huawei.com>
-Cc: arnd@arndb.de, linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev, linux@armlinux.org.uk,
-	tglx@linutronix.de
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="kvOYlxtJ"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=7OSpskV0b3Z0Y8Bcg2JJJY4wTw6TjjgMjW58E+iZS7o=;
+	b=kvOYlxtJmCYNMp9WeJIuVCzWorl+2SJZb2XtqxPvXNRCY0nlVMofkQ+a9r5v65P21+M9WhFCD
+	FVRr8qK/4uSz5pYaj0sePRZA8tLa/sMzeo/p58khjgr/V521yOYLwExrg0hJYPoXCA3uKkVbYiA
+	OJaDPY1NjSVK405Mgudpdf8=
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4cxx2z0ZhbzKm6c;
+	Thu, 30 Oct 2025 15:44:43 +0800 (CST)
+Received: from kwepemj100009.china.huawei.com (unknown [7.202.194.3])
+	by mail.maildlp.com (Postfix) with ESMTPS id 64FB41A016C;
+	Thu, 30 Oct 2025 15:45:12 +0800 (CST)
+Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
+ kwepemj100009.china.huawei.com (7.202.194.3) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 30 Oct 2025 15:45:11 +0800
+From: Xie Yuanbin <xieyuanbin1@huawei.com>
+To: <bigeasy@linutronix.de>
+CC: <arnd@arndb.de>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-rt-devel@lists.linux.dev>, <linux@armlinux.org.uk>,
+	<tglx@linutronix.de>, <xieyuanbin1@huawei.com>
 Subject: Re: [PATCH 4/5] ARM: Disable jump-label on PREEMPT_RT.
-Message-ID: <20251030072339.63vdFNo3@linutronix.de>
-References: <20251029155918.503060-5-bigeasy@linutronix.de>
- <20251030023959.5416-1-xieyuanbin1@huawei.com>
+Date: Thu, 30 Oct 2025 15:45:07 +0800
+Message-ID: <20251030074507.33863-1-xieyuanbin1@huawei.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251030072339.63vdFNo3@linutronix.de>
+References: <20251030072339.63vdFNo3@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251030023959.5416-1-xieyuanbin1@huawei.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemj100009.china.huawei.com (7.202.194.3)
 
-On 2025-10-30 10:39:59 [+0800], Xie Yuanbin wrote:
-> On Wed, 29 Oct 2025 16:59:17 +0100, Thomas Gleixner wrote:
-> > jump-labels are used to efficiently switch between two possible code
-> > paths. To achieve this, stop_machine() is used to keep the CPU in a
-> > known state while the opcode is modified. The usage of stop_machine()
-> > here leads to large latency spikes which can be observed on PREEMPT_RT.
-> >
-> > Jump labels may change the target during runtime and are not restricted
-> > to debug or "configuration/ setup" part of a PREEMPT_RT system where
-> > high latencies could be defined as acceptable.
-> >
-> > Disable jump-label support on a PREEMPT_RT system.
-> 
-> This sounds like a performance issue rather than a feature issue.
-> Banning users from using the jump label because of a performance problem
-> seems like throwing the baby out with the bathwater.
-> Perhaps we could add a config like CONFIG_ARM_JUMP_LABEL_RT_FORCE that
-> allows users to select, and inform users in the description about
-> potential latency.
+On Thu, 30 Oct 2025 08:23:39 +0100, Sebastian Andrzej Siewior wrote:
+> It is not a performance issue, it is a latency issue. If the scheduling
+> latency increases by 300us because of this then the PREEMPT_RT system
+> becomes worthless.
 
-It is not a performance issue, it is a latency issue. If the scheduling
-latency increases by 300us because of this then the PREEMPT_RT system
-becomes worthless.
+I understand what you mean. But this delay only occurs when the static
+key is enabled/disabled, right? For users, we can control when to
+enable/disable the static key, but it's a real shame if jump labels
+aren't available.
+Therefore, my personal opinion is that informing users that JUMP_LABEL
+might cause unexpected delays, rather than disabling it, would be more
+appropriate. ;)
 
-> Xie Yuanbin
-
-Sebastian
+Xie Yuanbin
