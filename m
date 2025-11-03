@@ -1,113 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE2B1DF74F
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A8C2E7BDF
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762166504; cv=none; b=pBL2YsSR91nXOMRVqzHkAwUxot8jUng34JWGLX5tsdjszpyHt9mvkIjvpAcU8M85dofuxA2mtsgfXYddT73RLoNyuISpFrVE5E1Sdjdb/wPBGQO5C5Imj7BCU1tNEzl9GessPYtoUSb/RvNBBSJJT/LJg2hFLI34/pKROh3qK/0=
+	t=1762166618; cv=none; b=LsER1pzdsmBbROEmMrsaQO1zuYj7wwtZrNtPK+RsiAB/79sArcbdpYh40oOc45KAOTZllAy0p3yhvqjb4UByyreQQsQPzTJwOexm4av9W1UWdCro9eRth2WZGQUEZZgq1+QntEYlNOou3hy1al3PGk7DM2MRJxKb7a7+kbslzmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762166504; c=relaxed/simple;
-	bh=ywHCDC6f70q+FVeVwqunZDaffuR4I1EUWoQ0AifeUk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NxvN3gunxJ8EEkJcsR7yp1hprbgWPIobCeAMoAfLRvb7RJBCtjP7ZqLkPkYTxWyv9FR29WhYfK78aE5LRa9cM4CaUnV+el5vsDYvJWFJYoG+KoUx7AhM1o0LrGbT5yG37QwQlqvF07yzuj2hSw/+txRiA6LfRNohXz4nnqxE27A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2KRnNo2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762166618; c=relaxed/simple;
+	bh=+HZfQNXteVIGhkepx735NQaIEheqrFgyrW9/UPsr+Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jnllcSLH/rSkbOIBMcCyBD1wEqMXVJBSj1nxrlWBFQEfS1/WhX2asUUrwim2auVDVD18h81LhWcVH6KwSIPX7/eQCMmCs3dW19x/gtNP86jbMwhSJLA7Ijvn7LzwoTzUeC1bX+M601PW4XAhXUUW7b+xN/8EM6Ia60ev+04mAIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewQs5UQG; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2KRnNo2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9386EC4CEFD
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:41:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762166503;
-	bh=ywHCDC6f70q+FVeVwqunZDaffuR4I1EUWoQ0AifeUk0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i2KRnNo2nLgcp0ju0M1YrqrrexGDv0pjZAm+p8PP1D261hfxiH2VgDYYQtWPFU2eI
-	 vBJHYNtTXvQbSMZmuLHeH3BYZImua4W5iYahjt3wCb4QEyxFQsI7R828b9e629QRrz
-	 p258VQ3CXkGgr9KV8bV33bgSUlajM+1x+0z+vVBOyZvM3bWdOvTBpJKmAFTqwd7tuV
-	 +ua0y5c7vVNHkd8elgkQvqUZD6JPebbB4Crsy9GESsxWKr+0FQ2GEOMV6e2UPy4pfz
-	 lebJv5yHWL82ORvjgvAHTq8hn3qpbCYLW/5yfI59Z2YHsxyTwFONfK9t6BKmh98Uhl
-	 3MBVwbqH0QUSQ==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-378d50e1cccso43714731fa.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 03 Nov 2025 02:41:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWtuNEjqhin1ud6UqWdAIfjnGKgXiOAmcKL0izEj6b0+DlmXCKPbI9bBW8NZRml49gBlkj1LJzwiuClj4cIrQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdE5gyAXjf5Pc3VNOVJPw2uhQT28JxMJ0QJxcslA4hE1kBQHIx
-	U6FQEw0C6LKiiMrQ3NfTUKbeZJK39N3gn1e1p+WmYlD4EUcmzn2qENT+RWek0yTWIUNZQz8dmRK
-	lDGGCOK7oKXECaAQjB+dO3xnObHQgyTc=
-X-Google-Smtp-Source: AGHT+IGkM8viXJNBlQ80+5YfdV3jjNXsEEVUkp5Q6j2EjUrf25AVLVkvSj9qeEV5Pd0r/i3Y1KW9dhFw83oDj2eOFzM=
-X-Received: by 2002:a05:651c:2103:b0:37a:15b6:f35b with SMTP id
- 38308e7fff4ca-37a18d8ecabmr37322841fa.2.1762166501972; Mon, 03 Nov 2025
- 02:41:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewQs5UQG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762166616; x=1793702616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+HZfQNXteVIGhkepx735NQaIEheqrFgyrW9/UPsr+Mw=;
+  b=ewQs5UQG4sIiOVvEJXN6e5nxXlQux+dghj6D6FvBnHrRUY/OH/GTIg9w
+   vs5bulUxnD6jTAjEAYLzEx7FrZX8xZU2svuN7CIbM8gd+rVnZ8WGfNTV6
+   N2en9za2TdqJMkSe7bZTFgGKCiPhbjOLX2KcIO+yJpd6ww5wlMCM5EX2/
+   2lxy8HAJBaerpkqQcZtJdcN+OPODlICSh+NIPtij4MdLw3kLHm86/VQwx
+   gZhxP8MZyxW95jdTqjs7TQ20xcwnHfxsgN16+PnGVhRRYPqja1LnisqAr
+   UUj8R3HTX+AFcwXgRybo4hx/lCAe5O5O0Q9n+rgRbMj2gZtGslvT94Tun
+   Q==;
+X-CSE-ConnectionGUID: tLMErWPaQXCpkIwkHoGrWA==
+X-CSE-MsgGUID: +YuO7sw+RhWdB+9cVDgciQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="74916113"
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="74916113"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 02:43:36 -0800
+X-CSE-ConnectionGUID: 7Y27IqzBQBeLd/4NODM1rg==
+X-CSE-MsgGUID: CMdTmpN2Qd2tucDz3o+uGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
+   d="scan'208";a="187152201"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 03 Nov 2025 02:43:31 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id A15EA95; Mon, 03 Nov 2025 11:43:30 +0100 (CET)
+Date: Mon, 3 Nov 2025 11:43:30 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Dmitry Guzman <dmitry.guzman@mobileye.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 5/5] i2c: designware: Support of controller with
+ IC_EMPTYFIFO_HOLD_MASTER disabled
+Message-ID: <20251103104330.GG2912318@black.igk.intel.com>
+References: <20251031-i2c-dw-v2-0-90416874fcc0@bootlin.com>
+ <20251031-i2c-dw-v2-5-90416874fcc0@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251103101545.760243-1-bigeasy@linutronix.de> <20251103101545.760243-4-bigeasy@linutronix.de>
-In-Reply-To: <20251103101545.760243-4-bigeasy@linutronix.de>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 3 Nov 2025 11:41:30 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEv2iZ7UOiG7OSR3KQVguFtASh5yhpxMTXzuiZTOFz7_Q@mail.gmail.com>
-X-Gm-Features: AWmQ_bmpyUNLlkLPqZocz3nncFM6nY6pwBfeKiZVNBLewlkUVJzl7p9usZ6XIY4
-Message-ID: <CAMj1kXEv2iZ7UOiG7OSR3KQVguFtASh5yhpxMTXzuiZTOFz7_Q@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] ARM: Disable jump-label on PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
-	Russell King <linux@armlinux.org.uk>, Xie Yuanbin <xieyuanbin1@huawei.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>, Mark Rutland <mark.rutland@arm.com>, 
-	Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251031-i2c-dw-v2-5-90416874fcc0@bootlin.com>
 
-On Mon, 3 Nov 2025 at 11:15, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> From: Thomas Gleixner <tglx@linutronix.de>
->
-> jump-labels are used to efficiently switch between two possible code
-> paths. To achieve this, stop_machine() is used to keep the CPU in a
-> known state while the opcode is modified. The usage of stop_machine()
-> here leads to large latency spikes which can be observed on PREEMPT_RT.
->
-> Jump labels may change the target during runtime and are not restricted
-> to debug or "configuration/ setup" part of a PREEMPT_RT system where
-> high latencies could be defined as acceptable.
->
-> On 64-bit Arm, it is possible to use jump labels without the
-> stop_machine() call, which architecturally provides a way to atomically
-> change one 32-bit instruction word while keeping maintaining consistency,
-> but this is not generally the case on 32-bit, in particular in thumb2
-> mode.
->
-> Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
->
-> [bigeasy: Patch description.]
-> [arnd: add !SMP case, extend changelog]
->
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
+On Fri, Oct 31, 2025 at 03:35:43PM +0100, Benoît Monin wrote:
+> If IC_EMPTYFIFO_HOLD_MASTER_EN parameter is 0, "Stop" and "Repeated Start"
+> bits in command register does not exist, thus it is impossible to send
+> several consecutive write messages in a single hardware batch. The
+> existing implementation worked with such configuration incorrectly:
+> all consecutive write messages are joined into a single message without
+> any Start/Stop or Repeated Start conditions. For example, the following
+> command:
+> 
+>     i2ctransfer -y 0 w1@0x55 0x00 w1@0x55 0x01
+> 
+> does the same as
+> 
+>     i2ctransfer -y 0 w2@0x55 0x00 0x01
+> 
+> In i2c_dw_xfer(), we ensure that we do not have such sequence of messages
+> requiring a RESTART, aborting the transfer on controller that cannot
+> emit them explicitly.
+> 
+> This behavior is activated by compatible entries because the state of
+> the IC_EMPTYFIFO_HOLD_MASTER_EN parameter cannot be detected at runtime.
+> Add the compatible entry for Mobileye SoCs needing the workaround.
+> 
+> There is another possible problem with this controller configuration:
+> When the CPU is putting commands to the FIFO, this process must not be
+> interrupted because if FIFO buffer gets empty, the controller finishes
+> the I2C transaction and generates STOP condition on the bus.
+> 
+> If we continue writing the remainder of the message to the FIFO, the
+> controller will start emitting a new transaction with those data. This
+> turns a single a single message into multiple I2C transactions. To
+> ensure that we do not keep processing a message after a FIFO underrun,
+> checks are added in two places.
+> 
+> First in i2c_dw_xfer_msg() we check the raw interrupt status register to
+> see if a STOP condition was detected while filling the FIFO, and abort
+> if so. This can happen with threaded interrupt on a PREEMPT_RT kernel
+> if we are preempted during the processing of each bytes of the message.
+> 
+> Second in i2c_dw_process_transfer(), we abort if a STOP is detected
+> while a read or a write is in progress. This can occur when processing
+> a message larger than the FIFO. In that case the message is processed in
+> parts, and rely on the TW EMPTY interrupt to refill the FIFO when it gets
+> below a threshold. If servicing this interrupt is delayed for too long,
+> it can trigger a FIFO underrun, thus an unwanted STOP.
+> 
+> Originally-by: Dmitry Guzman <dmitry.guzman@mobileye.com>
+> Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
 > ---
->  arch/arm/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index 2e3f93b690f47..92ca24336ec4b 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -80,7 +80,7 @@ config ARM
->         select HAS_IOPORT
->         select HAVE_ARCH_AUDITSYSCALL if AEABI && !OABI_COMPAT
->         select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
-> -       select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
-> +       select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU && (!PREEMPT_RT || !SMP)
->         select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
->         select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
->         select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
-> --
-> 2.51.0
->
+>  drivers/i2c/busses/i2c-designware-core.h    |  1 +
+>  drivers/i2c/busses/i2c-designware-master.c  | 51 +++++++++++++++++++++++++++++
+>  drivers/i2c/busses/i2c-designware-platdrv.c |  1 +
+>  3 files changed, 53 insertions(+)
+> 
+> diff --git a/drivers/i2c/busses/i2c-designware-core.h b/drivers/i2c/busses/i2c-designware-core.h
+> index 347843b4f5dd..a31a8698e511 100644
+> --- a/drivers/i2c/busses/i2c-designware-core.h
+> +++ b/drivers/i2c/busses/i2c-designware-core.h
+> @@ -311,6 +311,7 @@ struct dw_i2c_dev {
+>  #define ACCESS_NO_IRQ_SUSPEND			BIT(1)
+>  #define ARBITRATION_SEMAPHORE			BIT(2)
+>  #define ACCESS_POLLING				BIT(3)
+> +#define NO_EMPTYFIFO_HOLD_MASTER		BIT(4)
+>  
+>  #define MODEL_MSCC_OCELOT			BIT(8)
+>  #define MODEL_BAIKAL_BT1			BIT(9)
+> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
+> index da1963d25def..329bb69485f4 100644
+> --- a/drivers/i2c/busses/i2c-designware-master.c
+> +++ b/drivers/i2c/busses/i2c-designware-master.c
+> @@ -463,6 +463,7 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
+>  		rx_limit = dev->rx_fifo_depth - flr;
+>  
+>  		while (buf_len > 0 && tx_limit > 0 && rx_limit > 0) {
+> +			unsigned int raw_stat;
+>  			u32 cmd = 0;
+>  
+>  			/*
+> @@ -487,6 +488,21 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
+>  				need_restart = false;
+>  			}
+>  
+> +			/*
+> +			 * With threaded interrupt on a PREEMPT-RT kernel, we may
+> +			 * be interrupted while filling the FIFO. Abort the
+> +			 * transfer in case of a FIFO underrun on controller that
+> +			 * emits a STOP in that case.
+> +			 */
+> +			if (dev->flags & NO_EMPTYFIFO_HOLD_MASTER) {
+> +				regmap_read(dev->map, DW_IC_RAW_INTR_STAT,
+> +					    &raw_stat);
+> +				if (raw_stat & DW_IC_INTR_STOP_DET) {
+> +					dev->msg_err = -EIO;
+> +					goto done;
+> +				}
+> +			}
+> +
+>  			if (msgs[dev->msg_write_idx].flags & I2C_M_RD) {
+>  
+>  				/* Avoid rx buffer overrun */
+> @@ -526,6 +542,7 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
+>  			dev->status &= ~STATUS_WRITE_IN_PROGRESS;
+>  	}
+>  
+> +done:
+>  	/*
+>  	 * If i2c_msg index search is completed, we don't need TX_EMPTY
+>  	 * interrupt any more.
+> @@ -706,6 +723,14 @@ static void i2c_dw_process_transfer(struct dw_i2c_dev *dev, unsigned int stat)
+>  	if (stat & DW_IC_INTR_TX_EMPTY)
+>  		i2c_dw_xfer_msg(dev);
+>  
+> +	/* Abort if we detect a STOP in the middle of a read or a write */
+> +	if ((stat & DW_IC_INTR_STOP_DET) &&
+> +	    (dev->status & (STATUS_READ_IN_PROGRESS | STATUS_WRITE_IN_PROGRESS))) {
+> +		dev_err(dev->dev, "spurious STOP detected\n");
+> +		dev->rx_outstanding = 0;
+> +		dev->msg_err = -EIO;
+> +	}
+> +
+>  	/*
+>  	 * No need to modify or disable the interrupt mask here.
+>  	 * i2c_dw_xfer_msg() will take care of it according to
+> @@ -872,6 +897,21 @@ __i2c_dw_xfer_unlocked(struct dw_i2c_dev *dev, struct i2c_msg msgs[], int num)
+>  	return ret;
+>  }
+>  
+> +/*
+> + * Return true if the message needs an explicit RESTART before being sent.
+> + * Without an explicit RESTART, two consecutive messages in the same direction
+> + * will be merged into a single transfer.
+> + * The adapter always emits a RESTART when the direction changes.
+> + */
+> +static inline bool i2c_dw_msg_need_restart(struct i2c_msg msgs[], int idx)
+
+This can take const parameters.
+
+> +{
+
+Please move the dev->flags & NO_EMPTYFIFO_HOLD_MASTER here too.
+
+> +	/* No need for a RESTART on the first message */
+> +	if (idx == 0)
+> +		return false;
+
+That's
+
+	if (!idx) 
+
+But why not pass the actual message instead of the index?
+
+> +
+> +	return (msgs[idx - 1].flags & I2C_M_RD) == (msgs[idx].flags & I2C_M_RD);
+
+You don't need the outer parens.
+
+> +}
+> +
+>  static int
+>  i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>  {
+> @@ -918,6 +958,17 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>  				goto done;
+>  			}
+>  
+> +			/*
+> +			 * Make sure we don't need explicit RESTART for
+> +			 * controllers that cannot emit them.
+> +			 */
+> +			if (dev->flags & NO_EMPTYFIFO_HOLD_MASTER &&
+> +			    i2c_dw_msg_need_restart(msg, cnt - 1)) {
+> +				dev_err(dev->dev, "cannot emit RESTART\n");
+> +				ret = -EINVAL;
+> +				goto done;
+> +			}
+> +
+>  			if ((msg[cnt - 1].flags & I2C_M_STOP) ||
+>  			    (msg + cnt == msgs + num))
+>  				break;
+> diff --git a/drivers/i2c/busses/i2c-designware-platdrv.c b/drivers/i2c/busses/i2c-designware-platdrv.c
+> index d7d764f7554d..4aad3dc51fbc 100644
+> --- a/drivers/i2c/busses/i2c-designware-platdrv.c
+> +++ b/drivers/i2c/busses/i2c-designware-platdrv.c
+> @@ -346,6 +346,7 @@ static void dw_i2c_plat_remove(struct platform_device *pdev)
+>  
+>  static const struct of_device_id dw_i2c_of_match[] = {
+>  	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
+> +	{ .compatible = "mobileye,eyeq6lplus-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
+>  	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
+>  	{ .compatible = "snps,designware-i2c" },
+>  	{}
+> 
+> -- 
+> 2.51.1
