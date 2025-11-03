@@ -1,238 +1,469 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3566C26B742
-	for <linux-rt-devel@lists.linux.dev>; Sun,  2 Nov 2025 10:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9475B27B331
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 01:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762081091; cv=none; b=bFteDYdmv8Aq7TkA+1THmPScbIFGdVlnTFaz5UxFS03blVspeVozgBEruoy7BE9uLBXdoZfWOGwJ9YhaN92hd/6LD9nXShnI1fSwY0jOrneFlVObQGvjYQJmSOqo3L//bOukAsodpgXBeNVfLc4kPh5S3OKpwNEO8DSx+PV8bCw=
+	t=1762134618; cv=none; b=VbWm1XoZ6J42pwNazrX/XzmEAWjDXMbMrmSrO78mkSAVFrPg2T7eXv0feC+lTkwOQdudzjJcw/4beXhqCsq6WWZvxJ08PheMAb2BdwCXLtcmObk1QjC7AN++wGNxnvpRSv5Q9ArfYVqLi0giswof1MFtHp/l8nQWfaUfZvyeuak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762081091; c=relaxed/simple;
-	bh=iU945rxIytYge2u36qpKv+Z6kWAP0ds/jXgSSHdC0x0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rD4jci7R83uAkQVkRkJBI2ixD15WM2tajMZrvoZoecp2r3dzxiBlwDuQXHsJPNHTMclJzm2vC6cMeCo28jV8Z2sC3fUhOoerV/sFVKWQrjUYsMokBiuIG/VKCIo62A5pPVNc7vcOuOXzQ7g/SLqM3Xa4s4MiP0EqXkGDCcPHIOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OaLfwQMn; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1762134618; c=relaxed/simple;
+	bh=yUoYVyidpmD8I5QagVm/Su9JMUBnOyDLLTcuTzOlYn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hjyT3NyDYq3OI+kmp5fEIHRSLbtaTyN14jth9SHGbubleyowSn0l4LnSR5BXiGdPciL1wdjRx6tCM5AM6iDxuxTTakP7Un8G2gHiZNxFj6vdYQg/qJW3Ushl7WQ9mGe097nR9Kf40dX6QzeVpGUEjDdlXU+0dojLaxfk16ZIyLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHOw+lPt; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OaLfwQMn"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b6ceb3b68eeso2661060a12.2
-        for <linux-rt-devel@lists.linux.dev>; Sun, 02 Nov 2025 02:58:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EHOw+lPt"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7a1603a098eso2358228b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Sun, 02 Nov 2025 17:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762081087; x=1762685887; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NnvxcwW4nROqi/pUDVHqj/B8lAE5wjrS3W1SNd+wzqE=;
-        b=OaLfwQMnjdXKPTQFQP3/6yCb9FtE7Pf7rCoCLVNGAPFxdhDgIeUsj/GDFn1klvLDHE
-         zBGYKPoq5xnnHtwX+pjSa9dX6N5i6ReT9zcoyg9jiwSjO0f9UGnRYJ4KK2eGAnXcOX85
-         Y8wRXF3nZO6cSXpCShpAaabemfBAb/jU0r4L4N+M+tN2gug5L/6T9RmSAnLpx+flN5br
-         zilY4lmrByLWbuHb5cyCtfBlg+reIzZ9NNSZKDb7c8X/wt7FpHQ32VCejpZmRL0QJDJG
-         ZfwEiEzErhY3VLI/9d8pBzwsDM27/3+94OBTeFESGg+LC+8o2GIgY5GjbhnXiT4d75J/
-         Q/1g==
+        d=gmail.com; s=20230601; t=1762134616; x=1762739416; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ren3ilLe1f16OsS1xbj0H/DuznntzGndDqF1do2st/A=;
+        b=EHOw+lPtYdEVW7Z9hjyVwMHgWiPZOtvBAtzUkaj1RkiBjbKYsR5l4/XcjaXbA5FX+L
+         dkEBxuz+pO6784jTl1PdahJ4pk0sfDP7Z9pDIE7jm/DnEmpFwjNIZidH9T1z64q4e8EE
+         9pnMkmhY0t/tzWF9MTRFjJxm8exSqSB4ev2VaYG4HgxFf9OCPi7FbCQUS0FEU2vGkCUS
+         neqarrQHdtBbXjSrWbWbF7SxKOZyO3lVMJzYKOX/WmFKVsYQfOrKjRJIeXz3Bed8Dnhp
+         z6Y1jl7WO/JDaUb71BdU7gO5BiqViPT7YTYC2gmTRaaPJPXhZb9WhOOnXLOkWN4BdgEo
+         WJ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762081087; x=1762685887;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NnvxcwW4nROqi/pUDVHqj/B8lAE5wjrS3W1SNd+wzqE=;
-        b=Bf6Wg8mRSFC+VRIKMHYnkeI6xCHobiNFotAwGU7hKkqgknAL1QCdUn/XrC/g4gEcjd
-         S8fKxbmx3bKHw2YJGG5AB64bNXtuiXnVc+WsvxukrrruU0yeM51T3f7iP87U1WNbu6oG
-         huOGOuvG+TF0GcPewwttt0LWZtdTKBwsznupAwFHf81UQMQsFk5U93zbEX86hfGLj2CX
-         bne3UyklP5g3TtxGRRQjg0jreE1FqfUMXObpXleQl374VXHix7EFMBWGxNmCBxaMW3j8
-         mES4GQAsccogFgSG7hBH1+zLfhf/zNS93znbU+ZJBJdS26GnHF0tHv/BW2E86XhwTtxS
-         33RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUoPnfzXOdt65RidcZwYTkl60qFsFAkIRopMEU6McMDF26o0m9TPK4X9885B3GH+QmRlQAXfQ6wxho8dM+4vg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQMVYiH/8bGP0ajdN1GEXh4tihVTOsqE0BQOGldziPDuUnnMon
-	eDMNd0PeTK3iuLzUCw1fY6v95JN1WtT4eakForIQ3eorLrXNAS1dSPuj
-X-Gm-Gg: ASbGncuFEVgaTVbnMNbtF/AJXeeD6j0KIO1xNXtNHyD8lAZeuSvutpiqgGcJldfVngX
-	UTdDy+c94mmQ2hSG6/RY5jraNCqZ9Jm5YDrMnpw6xVNkK806TbvtWDrptpD54MZgdhVVIuwRf4w
-	B0D5kBQwVhQeAhybCDb89RlI4RL71bHPcH4KKN8jcwNF6A7CYMGHNhk05qcfA7GxQq1dvGlfw1g
-	BQFOFnlfyMdNlV7sLmtbg+qE25/Ru4H0V2E88G+HraIAsDSeORd7Ef7LIj06dmuO+bYiNqcQg9A
-	kRw6arR9hNGqP2+FQ8mxUgN1/+kbKxVAXEwaFBnqF+jzIhWYtofgiNH/MXyguqIeBAqdmkv/R3J
-	26IxxcqVIcgfvhLHO287OhVy9D5UrbUIi7Wq7xbYjOtYEqz+9thB9EXnNyhyrzfmu//07HpcDSt
-	hXvwdUfxX7+nngpdZtu72+yCwYPnkkKOhV5Q6sL5z/YT+raV3NEQ==
-X-Google-Smtp-Source: AGHT+IFw7LQmxvnT7Z6/GWYHHWlCaXIwYo97IH5BaRo8+IRI9C+4EfgykCBDqZa3hOGXe79E1lknOQ==
-X-Received: by 2002:a05:6a21:99a1:b0:340:a205:681a with SMTP id adf61e73a8af0-348ca75c051mr11435936637.4.1762081087211;
-        Sun, 02 Nov 2025 02:58:07 -0800 (PST)
-Received: from localhost.localdomain ([113.102.236.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7db67999bsm7488050b3a.56.2025.11.02.02.57.59
+        d=1e100.net; s=20230601; t=1762134616; x=1762739416;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ren3ilLe1f16OsS1xbj0H/DuznntzGndDqF1do2st/A=;
+        b=oLSZzrDNOcWNVu9eeoGwSfwy3ZrqG3AJADlFzHkxLKiAil/SKwP3cw/w6kDippVRcB
+         HhKdLAzJLDHDIxGLJh2k4kGEk3OPqJ3NJCHi5+1Fe05+hs8d4pMgGAP8fq/RmR7MF7dT
+         /arqlAb+7FytL7lWhAQaU+WMHOD1w4bQ4t6nhb6Tzhuv1wvn9w/bxq4MO6/XfTIVUVAC
+         WJr79pspuWrSccDJGdb2/kd9EjjW39YqLzRWKFV8584CC+1T46t8WbQ2Lpb3ALFiSUKF
+         iltCZznNqPbcrf5iWNue3qhrZVzFHloJrXOoEJuvd0v89eKk14Dyo+X3m5w0VhhzLs24
+         9wdA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1fKICUydvZH67sVaJZllLrUKJgNHWUbkm1pgDwiqs3DmzyCBW+C7TXV2gWzg3lBD5k/YyoJEwLccYjAYGMg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6Ry5FDRpl2TCCkOlISZiPS5mZ9I/eawT0uvSxWa7881FlqJUV
+	ld+OLjlNz1eK8Hfb/mAUWFEEDeFwGhPncAjBNEi9k7qg9xVRWAJxDt6Y
+X-Gm-Gg: ASbGncvTNVcZ6pS8kvcwKM7QmaX/6PSo2+UIjOYtEpz/Ye//q7Yhbfk6WzKEnFS0mP0
+	SWBpfXCfYVGVnnPmEHY/N7OKwYxshnBnBpi6yzNNKG7nW6G7rhe+1Dddyar1zT0bmYOmQLSoLpX
+	dx4AaG8ij3z7TZCkWZQ0ngR/5HhTXJJJRI1DB6u+3lSfwVFwc6OAOFEO20+DuP4HuVvGetfDWNF
+	zg374fn10CHavvcYB7rNHrSRhKifLaAYwMnA3UulylOnTnozyWjxwtBVvfGYKSkP+8Cs3sdurpc
+	qhRyzWDIWE6lWUBPznyBQmY6vAyZonHsc4+w0mYGkxzBnsO3ftMCCYL+oYZSFAd//7AGIzsD1hm
+	HCvK4JxiHqrsewOKtDocTG8BWVosXc2cAKaTtUvE/N95jXeJ7Y3M5evhOiT74bXeD3isAlYWp24
+	XPOXh23MSppED3+nx3Oei/okvquw==
+X-Google-Smtp-Source: AGHT+IEqIJl/aXCVxz+PEB1v1A2ESlobe4eE+GU2BwEnu4AgtY/81QZQtD4RHa5zpSlg44Eg5cpqFQ==
+X-Received: by 2002:a05:6a20:918a:b0:2d9:c2:5ce4 with SMTP id adf61e73a8af0-348ca75c0a9mr13598036637.7.1762134615633;
+        Sun, 02 Nov 2025 17:50:15 -0800 (PST)
+Received: from chandna.localdomain ([106.222.233.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a7d8a76f00sm9104582b3a.12.2025.11.02.17.50.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Nov 2025 02:58:06 -0800 (PST)
-From: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: Waiman Long <longman@redhat.com>,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-Subject: [PATCH v4 2/2] PCI/aer_inject: Convert inject_lock to raw_spinlock_t
-Date: Sun,  2 Nov 2025 10:57:06 +0000
-Message-ID: <20251102105706.7259-3-jckeep.cuiguangbo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251102105706.7259-1-jckeep.cuiguangbo@gmail.com>
-References: <20251102105706.7259-1-jckeep.cuiguangbo@gmail.com>
+        Sun, 02 Nov 2025 17:50:14 -0800 (PST)
+Date: Mon, 3 Nov 2025 07:19:57 +0530
+From: Sahil Chandna <chandna.sahil@gmail.com>
+To: Yonghong Song <yonghong.song@linux.dev>
+Cc: Tao Chen <chen.dylane@gmail.com>,
+	syzbot+b0cff308140f79a9c4cb@syzkaller.appspotmail.com,
+	andrii@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
+	daniel@iogearbox.net, eddyz87@gmail.com, haoluo@google.com,
+	john.fastabend@gmail.com, jolsa@kernel.org, kpsingh@kernel.org,
+	linux-kernel@vger.kernel.org, listout@listout.xyz,
+	martin.lau@linux.dev, netdev@vger.kernel.org, sdf@fomichev.me,
+	song@kernel.org, syzkaller-bugs@googlegroups.com,
+	linux-rt-devel@lists.linux.dev, bigeasy@linutronix.de
+Subject: Re: [syzbot] [bpf?] WARNING in bpf_bprintf_prepare (3)
+Message-ID: <aQgKRcPQYRUP-r42@chandna.localdomain>
+References: <68f6a4c8.050a0220.1be48.0011.GAE@google.com>
+ <14371cf8-e49a-4c68-b763-fa7563a9c764@linux.dev>
+ <aPklOxw0W-xUbMEI@chandna.localdomain>
+ <8dd359dd-b42f-4676-bb94-07288b38fac1@linux.dev>
+ <aP5_JbddrpnDs-WN@chandna.localdomain>
+ <95e1fd95-896f-4d33-956f-a0ef0e0f152c@linux.dev>
+ <aQH5EtKBbklfH0Wq@chandna.localdomain>
+ <541b7765-28eb-4d1f-9409-863db6798395@linux.dev>
+ <b9a8890e-9d0c-4ce3-8f10-eefd607b52fc@gmail.com>
+ <31779ad7-1e95-4033-8de6-a9afa3b89b8c@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <31779ad7-1e95-4033-8de6-a9afa3b89b8c@linux.dev>
 
-The AER injection path may run in interrupt-disabled context while
-holding inject_lock. On PREEMPT_RT kernels, spinlock_t becomes a
-sleeping lock, so it must not be taken while a raw_spinlock_t is held.
-Doing so violates lock ordering rules and trigger lockdep reports
-such as “Invalid wait context”.
+On Thu, Oct 30, 2025 at 08:52:13AM -0700, Yonghong Song wrote:
+>
+>
+>On 10/30/25 1:50 AM, Tao Chen wrote:
+>>在 2025/10/29 23:26, Yonghong Song 写道:
+>>>
+>>>
+>>>On 10/29/25 4:22 AM, Sahil Chandna wrote:
+>>>>On Mon, Oct 27, 2025 at 08:45:25PM -0700, Yonghong Song wrote:
+>>>>>
+>>>>>
+>>>>>On 10/26/25 1:05 PM, Sahil Chandna wrote:
+>>>>>>On Wed, Oct 22, 2025 at 12:56:25PM -0700, Yonghong Song wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>>On 10/22/25 11:40 AM, Sahil Chandna wrote:
+>>>>>>>>On Wed, Oct 22, 2025 at 09:57:22AM -0700, Yonghong Song wrote:
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>On 10/20/25 2:08 PM, syzbot wrote:
+>>>>>>>>>>Hello,
+>>>>>>>>>>
+>>>>>>>>>>syzbot found the following issue on:
+>>>>>>>>>>
+>>>>>>>>>>HEAD commit:    a1e83d4c0361 selftests/bpf: Fix 
+>>>>>>>>>>redefinition of 'off' as d..
+>>>>>>>>>>git tree:       bpf
+>>>>>>>>>>console output: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/log.txt? 
+>>>>>>>>>>x=12d21de2580000
+>>>>>>>>>>kernel config: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/.config? 
+>>>>>>>>>>x=9ad7b090a18654a7
+>>>>>>>>>>dashboard link: https://syzkaller.appspot.com/bug? 
+>>>>>>>>>>extid=b0cff308140f79a9c4cb
+>>>>>>>>>>compiler:       Debian clang version 20.1.8 (+ 
+>>>>>>>>>>+20250708063551+0c9f909b7976-1~exp1~20250708183702.136), 
+>>>>>>>>>>Debian LLD 20.1.8
+>>>>>>>>>>syz repro: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/repro.syz? 
+>>>>>>>>>>x=160cf542580000
+>>>>>>>>>>C reproducer: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/repro.c? 
+>>>>>>>>>>x=128d5c58580000
+>>>>>>>>>>
+>>>>>>>>>>Downloadable assets:
+>>>>>>>>>>disk image: https://storage.googleapis.com/syzbot- 
+>>>>>>>>>>assets/2f6a7a0cd1b7/disk-a1e83d4c.raw.xz
+>>>>>>>>>>vmlinux: https://storage.googleapis.com/syzbot- 
+>>>>>>>>>>assets/873984cfc71e/vmlinux-a1e83d4c.xz
+>>>>>>>>>>kernel image: https://storage.googleapis.com/syzbot- 
+>>>>>>>>>>assets/16711d84070c/bzImage-a1e83d4c.xz
+>>>>>>>>>>
+>>>>>>>>>>The issue was bisected to:
+>>>>>>>>>>
+>>>>>>>>>>commit 7c33e97a6ef5d84e98b892c3e00c6d1678d20395
+>>>>>>>>>>Author: Sahil Chandna <chandna.sahil@gmail.com>
+>>>>>>>>>>Date:   Tue Oct 14 18:56:35 2025 +0000
+>>>>>>>>>>
+>>>>>>>>>>    bpf: Do not disable preemption in bpf_test_run().
+>>>>>>>>>>
+>>>>>>>>>>bisection log: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/bisect.txt? 
+>>>>>>>>>>x=172fe492580000
+>>>>>>>>>>final oops: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/report.txt? 
+>>>>>>>>>>x=14afe492580000
+>>>>>>>>>>console output: 
+>>>>>>>>>>https://syzkaller.appspot.com/x/log.txt? 
+>>>>>>>>>>x=10afe492580000
+>>>>>>>>>>
+>>>>>>>>>>IMPORTANT: if you fix the issue, please add the 
+>>>>>>>>>>following tag to the commit:
+>>>>>>>>>>Reported-by: 
+>>>>>>>>>>syzbot+b0cff308140f79a9c4cb@syzkaller.appspotmail.com
+>>>>>>>>>>Fixes: 7c33e97a6ef5 ("bpf: Do not disable preemption 
+>>>>>>>>>>in bpf_test_run().")
+>>>>>>>>>>
+>>>>>>>>>>------------[ cut here ]------------
+>>>>>>>>>>WARNING: CPU: 1 PID: 6145 at 
+>>>>>>>>>>kernel/bpf/helpers.c:781 bpf_try_get_buffers 
+>>>>>>>>>>kernel/bpf/helpers.c:781 [inline]
+>>>>>>>>>>WARNING: CPU: 1 PID: 6145 at 
+>>>>>>>>>>kernel/bpf/helpers.c:781 
+>>>>>>>>>>bpf_bprintf_prepare+0x12cf/0x13a0 
+>>>>>>>>>>kernel/bpf/helpers.c:834
+>>>>>>>>>
+>>>>>>>>>Okay, the warning is due to the following WARN_ON_ONCE:
+>>>>>>>>>
+>>>>>>>>>static DEFINE_PER_CPU(struct 
+>>>>>>>>>bpf_bprintf_buffers[MAX_BPRINTF_NEST_LEVEL], 
+>>>>>>>>>bpf_bprintf_bufs);
+>>>>>>>>>static DEFINE_PER_CPU(int, bpf_bprintf_nest_level);
+>>>>>>>>>
+>>>>>>>>>int bpf_try_get_buffers(struct bpf_bprintf_buffers **bufs)
+>>>>>>>>>{
+>>>>>>>>>       int nest_level;
+>>>>>>>>>
+>>>>>>>>>       nest_level = this_cpu_inc_return(bpf_bprintf_nest_level);
+>>>>>>>>>       if (WARN_ON_ONCE(nest_level > MAX_BPRINTF_NEST_LEVEL)) {
+>>>>>>>>>               this_cpu_dec(bpf_bprintf_nest_level);
+>>>>>>>>>               return -EBUSY;
+>>>>>>>>>       }
+>>>>>>>>>       *bufs = this_cpu_ptr(&bpf_bprintf_bufs[nest_level - 1]);
+>>>>>>>>>
+>>>>>>>>>       return 0;
+>>>>>>>>>}
+>>>>>>>>>
+>>>>>>>>>Basically without preempt disable, at process level, 
+>>>>>>>>>it is possible
+>>>>>>>>>more than one process may trying to take bpf_bprintf_buffers.
+>>>>>>>>>Adding softirq and nmi, it is totally likely to have more than 3
+>>>>>>>>>level for buffers. Also, more than one process with 
+>>>>>>>>>bpf_bprintf_buffers
+>>>>>>>>>will cause problem in releasing buffers, so we need to have
+>>>>>>>>>preempt_disable surrounding bpf_try_get_buffers() and
+>>>>>>>>>bpf_put_buffers().
+>>>>>>>>Right, but using preempt_disable() may impact builds with
+>>>>>>>>CONFIG_PREEMPT_RT=y, similar to bug[1]? Do you think 
+>>>>>>>>local_lock() could be used here
+>>>>>>>
+>>>>>>>We should be okay. for all the kfuncs/helpers I mentioned below,
+>>>>>>>with the help of AI, I didn't find any spin_lock in the code path
+>>>>>>>and all these helpers although they try to *print* some contents,
+>>>>>>>but the kfuncs/helpers itself is only to deal with buffers and
+>>>>>>>actual print will happen asynchronously.
+>>>>>>>
+>>>>>>>>as nest level is per cpu variable and local lock semantics can work
+>>>>>>>>for both RT and non rt builds ?
+>>>>>>>
+>>>>>>>I am not sure about local_lock() in RT as for RT, local_lock() could
+>>>>>>>be nested and the release may not in proper order. See
+>>>>>>> https://www.kernel.org/doc/html/v5.8/locking/locktypes.html
+>>>>>>>
+>>>>>>> local_lock is not suitable to protect against preemption 
+>>>>>>>or interrupts on a
+>>>>>>> PREEMPT_RT kernel due to the PREEMPT_RT specific 
+>>>>>>>spinlock_t semantics.
+>>>>>>>
+>>>>>>>So I suggest to stick to preempt_disable/enable approach.
+>>>>>>>
+>>>>>>>>>
+>>>>>>>>>There are some kfuncs/helpers need such preempt_disable
+>>>>>>>>>protection, e.g. bpf_stream_printk, bpf_snprintf,
+>>>>>>>>>bpf_trace_printk, bpf_trace_vprintk, bpf_seq_printf.
+>>>>>>>>>But please double check.
+>>>>>>>>>
+>>>>>>>>Sure, thanks!
+>>>>>>
+>>>>>>Since these helpers eventually call bpf_bprintf_prepare(),
+>>>>>>I figured adding protection around bpf_try_get_buffers(),
+>>>>>>which triggers the original warning, should be sufficient.
+>>>>>>I tried a few approaches to address the warning as below :
+>>>>>>
+>>>>>>1. preempt_disable() / preempt_enable() around 
+>>>>>>bpf_prog_run_pin_on_cpu()
+>>>>>>diff --git a/net/core/flow_dissector.c b/net/core/flow_dissector.c
+>>>>>>index 1b61bb25ba0e..6a128179a26f 100644
+>>>>>>--- a/net/core/flow_dissector.c
+>>>>>>+++ b/net/core/flow_dissector.c
+>>>>>>@@ -1021,7 +1021,9 @@ u32 bpf_flow_dissect(struct bpf_prog 
+>>>>>>*prog, struct bpf_flow_dissector *ctx,
+>>>>>>               (int)FLOW_DISSECTOR_F_STOP_AT_ENCAP);
+>>>>>>      flow_keys->flags = flags;
+>>>>>>
+>>>>>>+    preempt_disable();
+>>>>>>      result = bpf_prog_run_pin_on_cpu(prog, ctx);
+>>>>>>+    preempt_enable();
+>>>>>>
+>>>>>>      flow_keys->nhoff = clamp_t(u16, flow_keys->nhoff, nhoff, hlen);
+>>>>>>      flow_keys->thoff = clamp_t(u16, flow_keys->thoff,
+>>>>>>This fixes the original WARN_ON in both PREEMPT_FULL and RT builds.
+>>>>>>However, when tested with the syz reproducer of the original 
+>>>>>>bug [1], it
+>>>>>>still triggers the expected 
+>>>>>>DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt)) warning 
+>>>>>>from __local_bh_disable_ip(), due to the preempt_disable() 
+>>>>>>interacting with RT spinlock semantics.
+>>>>>>[1] [https://syzkaller.appspot.com/bug?extid=1f1fbecb9413cdbfbef8
+>>>>>>So this approach avoids the buffer nesting issue, but 
+>>>>>>re-introduces the following issue:
+>>>>>>[  363.968103][T21257] 
+>>>>>>DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt))
+>>>>>>[  363.968922][T21257] WARNING: CPU: 0 PID: 21257 at kernel/ 
+>>>>>>softirq.c:176 __local_bh_disable_ip+0x3d9/0x540
+>>>>>>[  363.969046][T21257] Modules linked in:
+>>>>>>[  363.969176][T21257] Call Trace:
+>>>>>>[  363.969181][T21257]  <TASK>
+>>>>>>[  363.969186][T21257]  ? __local_bh_disable_ip+0xa1/0x540
+>>>>>>[  363.969197][T21257]  ? sock_map_delete_elem+0xa2/0x170
+>>>>>>[  363.969209][T21257]  ? preempt_schedule_common+0x83/0xd0
+>>>>>>[  363.969252][T21257]  ? rt_spin_unlock+0x161/0x200
+>>>>>>[  363.969269][T21257]  sock_map_delete_elem+0xaf/0x170
+>>>>>>[  363.969280][T21257] bpf_prog_464bc2be3fc7c272+0x43/0x47
+>>>>>>[  363.969289][T21257]  bpf_flow_dissect+0x22b/0x750
+>>>>>>[  363.969299][T21257] bpf_prog_test_run_flow_dissector+0x37c/0x5c0
+>>>>>>
+>>>>>>2. preempt_disable() inside bpf_try_get_buffers() and 
+>>>>>>bpf_put_buffers()
+>>>>>>
+>>>>>>diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+>>>>>>index 8eb117c52817..bc8630833a94 100644
+>>>>>>--- a/kernel/bpf/helpers.c
+>>>>>>+++ b/kernel/bpf/helpers.c
+>>>>>>@@ -777,12 +777,14 @@ int bpf_try_get_buffers(struct 
+>>>>>>bpf_bprintf_buffers **bufs)
+>>>>>> {
+>>>>>>        int nest_level;
+>>>>>>
+>>>>>>+       preempt_disable();
+>>>>>>        nest_level = this_cpu_inc_return(bpf_bprintf_nest_level);
+>>>>>>        if (WARN_ON_ONCE(nest_level > MAX_BPRINTF_NEST_LEVEL)) {
+>>>>>>                this_cpu_dec(bpf_bprintf_nest_level);
+>>>>>>                return -EBUSY;
+>>>>>>        }
+>>>>>>        *bufs = this_cpu_ptr(&bpf_bprintf_bufs[nest_level - 1]);
+>>>>>>+       preempt_enable();
+>>>>>>
+>>>>>>        return 0;
+>>>>>> }
+>>>>>>@@ -791,7 +793,10 @@ void bpf_put_buffers(void)
+>>>>>> {
+>>>>>>        if (WARN_ON_ONCE(this_cpu_read(bpf_bprintf_nest_level) == 0))
+>>>>>>                return;
+>>>>>>+
+>>>>>>+       preempt_disable();
+>>>>>>        this_cpu_dec(bpf_bprintf_nest_level);
+>>>>>>+       preempt_enable();
+>>>>>> }
+>>>>>>This *still* reproduces the original syz issue, so the 
+>>>>>>protection needs to be placed around the entire program run, 
+>>>>>>not inside the helper itself as
+>>>>>>in above experiment.
+>>>>>
+>>>>>This does not work. See my earlier suggestions.
+>>>>>
+>>>>>>Basically without preempt disable, at process level, it is possible
+>>>>>>more than one process may trying to take bpf_bprintf_buffers.
+>>>>>>Adding softirq and nmi, it is totally likely to have more than 3
+>>>>>>level for buffers. Also, more than one process with 
+>>>>>>bpf_bprintf_buffers
+>>>>>>will cause problem in releasing buffers, so we need to have
+>>>>>>preempt_disable surrounding bpf_try_get_buffers() and
+>>>>>>bpf_put_buffers().
+>>>>>
+>>>>>That is,
+>>>>> preempt_disable();
+>>>>> ...
+>>>>> bpf_try_get_buffers()
+>>>>> ...
+>>>>> bpf_put_buffers()
+>>>>> ...
+>>>>> preempt_enable();
+>>>>>
+>>>>>>
+>>>>>>3. Using a per-CPU local_lock
+>>>>>>Finally, I tested with a per-CPU local_lock around 
+>>>>>>bpf_prog_run_pin_on_cpu():
+>>>>>>+struct bpf_cpu_lock {
+>>>>>>+    local_lock_t lock;
+>>>>>>+};
+>>>>>>+
+>>>>>>+static DEFINE_PER_CPU(struct bpf_cpu_lock, bpf_cpu_lock) = {
+>>>>>>+    .lock = INIT_LOCAL_LOCK(),
+>>>>>>+};
+>>>>>>@@ -1021,7 +1030,9 @@ u32 bpf_flow_dissect(struct bpf_prog 
+>>>>>>*prog, struct bpf_flow_dissector *ctx,
+>>>>>>                     (int)FLOW_DISSECTOR_F_STOP_AT_ENCAP);
+>>>>>>        flow_keys->flags = flags;
+>>>>>>
+>>>>>>+       local_lock(&bpf_cpu_lock.lock);
+>>>>>>        result = bpf_prog_run_pin_on_cpu(prog, ctx);
+>>>>>>+       local_unlock(&bpf_cpu_lock.lock);
+>>>>>>
+>>>>>>This approach avoid the warning on both RT and non-RT 
+>>>>>>builds, with both the syz reproducer. The intention of 
+>>>>>>introducing the per-CPU local_lock is to maintain consistent 
+>>>>>>per-CPU execution semantics between RT and non-RT kernels.
+>>>>>>On non-RT builds, local_lock maps to preempt_disable()/enable(),
+>>>>>>which provides the same semantics as before.
+>>>>>>On RT builds, it maps to an RT-safe per-CPU spinlock, avoiding the
+>>>>>>softirq_ctrl.cnt issue.
+>>>>>
+>>>>>This should work, but local lock disable interrupts which could have
+>>>>>negative side effects on the system. We don't want this.
+>>>>>That is the reason we have 3 nested level for bpf_bprintf_buffers.
+>>>>>
+>>>>>Please try my above preempt_disalbe/enable() solution.
+>>>>>
+>>>>I tried following patch with reproducer from both syzbot [1] and [2]
+>>>>and issue *did not reproduce* with them.
+>>>>
+>>>>diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+>>>>index 8eb117c52817..4be6dde89d39 100644
+>>>>--- a/kernel/bpf/helpers.c
+>>>>+++ b/kernel/bpf/helpers.c
+>>>>@@ -777,9 +777,11 @@ int bpf_try_get_buffers(struct 
+>>>>bpf_bprintf_buffers **bufs)
+>>>> {
+>>>>        int nest_level;
+>>>>
+>>>>+       preempt_disable();
+>>>>        nest_level = this_cpu_inc_return(bpf_bprintf_nest_level);
+>>>>        if (WARN_ON_ONCE(nest_level > MAX_BPRINTF_NEST_LEVEL)) {
+>>>>                this_cpu_dec(bpf_bprintf_nest_level);
+>>>>+               preempt_enable();
+>>>>                return -EBUSY;
+>>>>        }
+>>>>        *bufs = this_cpu_ptr(&bpf_bprintf_bufs[nest_level - 1]);
+>>>>@@ -792,6 +794,7 @@ void bpf_put_buffers(void)
+>>>>        if (WARN_ON_ONCE(this_cpu_read(bpf_bprintf_nest_level) == 0))
+>>>
+>>>For completeness, we need to add preempt_enable() here as well.
+>>>
+>>>>return;
+>>>>        this_cpu_dec(bpf_bprintf_nest_level);
+>>>>+       preempt_enable();
+>>>> }
+>>>>
+>>>>[1] https://syzkaller.appspot.com/bug?extid=1f1fbecb9413cdbfbef8
+>>>>[2] https://syzkaller.appspot.com/bug?extid=b0cff308140f79a9c4cb
+>>>>>>
+>>>>>>Let me know if you’d like me to run some more experiments on this.
+>>>>>
+>>>>Shall I submit a patch with your suggested changes ?
+>>>
+>>>Please. The change looks good to me.
+>>>
+>>>>
+>>>>Regards,
+>>>>Sahil
+>>>
+>>>
+>>
+>>Hi Yonghong, Sahil
+>>
+>>Previously, I removed preempt_disable from bpf_try_get_buffers,
+>>In my understanding, it is safe
+>>to access this_cpu_inc_return(bpf_bprintf_nest_level), can we just
+>>remove the WARN_ON_ONCE? It seems that BPF allows preemption after
+>>run under migration disabled. Is it right?
+>
+>Yes, even with migration disabled, preemption can be disabled on
+>top of that.
+>
+>Probably we can remove WARN_ON_ONCE esp. with preemption disabled.
+>But this should be a separate patch.
+>
+Hi Yonghong, Tao,
+I printed nested level with the preempt_disable()/enable() patch and
+found nested level remains 1 with this patch(below). I tried this with original
+syzbot reproducer and ran for couple of hours.
+diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+index 4be6dde89d39..657d2100f33c 100644
+--- a/kernel/bpf/helpers.c
++++ b/kernel/bpf/helpers.c
+@@ -779,6 +779,7 @@ int bpf_try_get_buffers(struct bpf_bprintf_buffers **bufs)
 
-Convert inject_lock to raw_spinlock_t to ensure non-sleeping locking
-semantics. The protected list is bounded and used only for debugging,
-so raw locking will not cause latency issues.
+         preempt_disable();
+         nest_level = this_cpu_inc_return(bpf_bprintf_nest_level);
++       pr_info("bpf nest inc cpu=%d level=%d\n", smp_processor_id(), nest_level);
+         if (WARN_ON_ONCE(nest_level > MAX_BPRINTF_NEST_LEVEL)) {
+                 this_cpu_dec(bpf_bprintf_nest_level);
+                 preempt_enable();
 
-Acked-by: Waiman Long <longman@redhat.com>
-Signed-off-by: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
----
- drivers/pci/pcie/aer_inject.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
-index d0cabfc04d48..a064fa2acb94 100644
---- a/drivers/pci/pcie/aer_inject.c
-+++ b/drivers/pci/pcie/aer_inject.c
-@@ -72,7 +72,7 @@ static LIST_HEAD(einjected);
- static LIST_HEAD(pci_bus_ops_list);
- 
- /* Protect einjected and pci_bus_ops_list */
--static DEFINE_SPINLOCK(inject_lock);
-+static DEFINE_RAW_SPINLOCK(inject_lock);
- 
- static void aer_error_init(struct aer_error *err, u32 domain,
- 			   unsigned int bus, unsigned int devfn,
-@@ -126,12 +126,12 @@ static struct pci_bus_ops *pci_bus_ops_pop(void)
- 	unsigned long flags;
- 	struct pci_bus_ops *bus_ops;
- 
--	spin_lock_irqsave(&inject_lock, flags);
-+	raw_spin_lock_irqsave(&inject_lock, flags);
- 	bus_ops = list_first_entry_or_null(&pci_bus_ops_list,
- 					   struct pci_bus_ops, list);
- 	if (bus_ops)
- 		list_del(&bus_ops->list);
--	spin_unlock_irqrestore(&inject_lock, flags);
-+	raw_spin_unlock_irqrestore(&inject_lock, flags);
- 	return bus_ops;
- }
- 
-@@ -223,7 +223,7 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
- 	int domain;
- 	int rv;
- 
--	spin_lock_irqsave(&inject_lock, flags);
-+	raw_spin_lock_irqsave(&inject_lock, flags);
- 	if (size != sizeof(u32))
- 		goto out;
- 	domain = pci_domain_nr(bus);
-@@ -236,12 +236,12 @@ static int aer_inj_read_config(struct pci_bus *bus, unsigned int devfn,
- 	sim = find_pci_config_dword(err, where, NULL);
- 	if (sim) {
- 		*val = *sim;
--		spin_unlock_irqrestore(&inject_lock, flags);
-+		raw_spin_unlock_irqrestore(&inject_lock, flags);
- 		return 0;
- 	}
- out:
- 	rv = aer_inj_read(bus, devfn, where, size, val);
--	spin_unlock_irqrestore(&inject_lock, flags);
-+	raw_spin_unlock_irqrestore(&inject_lock, flags);
- 	return rv;
- }
- 
-@@ -255,7 +255,7 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
- 	int domain;
- 	int rv;
- 
--	spin_lock_irqsave(&inject_lock, flags);
-+	raw_spin_lock_irqsave(&inject_lock, flags);
- 	if (size != sizeof(u32))
- 		goto out;
- 	domain = pci_domain_nr(bus);
-@@ -271,12 +271,12 @@ static int aer_inj_write_config(struct pci_bus *bus, unsigned int devfn,
- 			*sim ^= val;
- 		else
- 			*sim = val;
--		spin_unlock_irqrestore(&inject_lock, flags);
-+		raw_spin_unlock_irqrestore(&inject_lock, flags);
- 		return 0;
- 	}
- out:
- 	rv = aer_inj_write(bus, devfn, where, size, val);
--	spin_unlock_irqrestore(&inject_lock, flags);
-+	raw_spin_unlock_irqrestore(&inject_lock, flags);
- 	return rv;
- }
- 
-@@ -304,14 +304,14 @@ static int pci_bus_set_aer_ops(struct pci_bus *bus)
- 	if (!bus_ops)
- 		return -ENOMEM;
- 	ops = pci_bus_set_ops(bus, &aer_inj_pci_ops);
--	spin_lock_irqsave(&inject_lock, flags);
-+	raw_spin_lock_irqsave(&inject_lock, flags);
- 	if (ops == &aer_inj_pci_ops)
- 		goto out;
- 	pci_bus_ops_init(bus_ops, bus, ops);
- 	list_add(&bus_ops->list, &pci_bus_ops_list);
- 	bus_ops = NULL;
- out:
--	spin_unlock_irqrestore(&inject_lock, flags);
-+	raw_spin_unlock_irqrestore(&inject_lock, flags);
- 	kfree(bus_ops);
- 	return 0;
- }
-@@ -383,7 +383,7 @@ static int aer_inject(struct aer_error_inj *einj)
- 				       uncor_mask);
- 	}
- 
--	spin_lock_irqsave(&inject_lock, flags);
-+	raw_spin_lock_irqsave(&inject_lock, flags);
- 
- 	err = __find_aer_error_by_dev(dev);
- 	if (!err) {
-@@ -404,14 +404,14 @@ static int aer_inject(struct aer_error_inj *einj)
- 	    !(einj->cor_status & ~cor_mask)) {
- 		ret = -EINVAL;
- 		pci_warn(dev, "The correctable error(s) is masked by device\n");
--		spin_unlock_irqrestore(&inject_lock, flags);
-+		raw_spin_unlock_irqrestore(&inject_lock, flags);
- 		goto out_put;
- 	}
- 	if (!aer_mask_override && einj->uncor_status &&
- 	    !(einj->uncor_status & ~uncor_mask)) {
- 		ret = -EINVAL;
- 		pci_warn(dev, "The uncorrectable error(s) is masked by device\n");
--		spin_unlock_irqrestore(&inject_lock, flags);
-+		raw_spin_unlock_irqrestore(&inject_lock, flags);
- 		goto out_put;
- 	}
- 
-@@ -445,7 +445,7 @@ static int aer_inject(struct aer_error_inj *einj)
- 		rperr->source_id &= 0x0000ffff;
- 		rperr->source_id |= PCI_DEVID(einj->bus, devfn) << 16;
- 	}
--	spin_unlock_irqrestore(&inject_lock, flags);
-+	raw_spin_unlock_irqrestore(&inject_lock, flags);
- 
- 	if (aer_mask_override) {
- 		pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
--- 
-2.43.0
-
+I am waiting for Sebastian review on this thread before sending out a patch with
+preempt_disable(), Shall I also
+send out patch after that for removing the WARN_ON_ONCE ?
+>>
+>>https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=4223bf833c8495e40ae2886acbc0ecbe88fa6306
+>>
+>>
+>
