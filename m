@@ -1,311 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F222FD7CE
-	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE2B1DF74F
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762166359; cv=none; b=ke95a4fqy08d+K3tGRcqyjkBSokxxIS68KGJwGvKs2n04fJFNEJjliWsDH+dFdJG2N5xuMaZ9sq5m6/GdgkO35T4cLtuGkQEiS5xuzmbu1EQASG5dTu1mdLfhwkb5kRScXnTXPmCPzQcXqz2Iix5rdYKsjuLmaHFxWtqFBt2jNk=
+	t=1762166504; cv=none; b=pBL2YsSR91nXOMRVqzHkAwUxot8jUng34JWGLX5tsdjszpyHt9mvkIjvpAcU8M85dofuxA2mtsgfXYddT73RLoNyuISpFrVE5E1Sdjdb/wPBGQO5C5Imj7BCU1tNEzl9GessPYtoUSb/RvNBBSJJT/LJg2hFLI34/pKROh3qK/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762166359; c=relaxed/simple;
-	bh=CLkRW+K6EonTnm3JAoeOcnWGUZYBkAwjcxjTvnIEpj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbDjTdOXZ9H48LX6d0MQd+PbDUOjX0VRSf9DqCXFWQvkfDjI8OX9uJ0OD8SEqkGuclt0HP0PeKZT26s8fs7MN6Rhy9e3u++lD6c151lwO/nghE3dJpPrWTDTyLlbLp7eFJGL3NvG8NSqstbuCblpzlD6KA6g+MbadS67U7VCxyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RUWuUlCo; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762166504; c=relaxed/simple;
+	bh=ywHCDC6f70q+FVeVwqunZDaffuR4I1EUWoQ0AifeUk0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NxvN3gunxJ8EEkJcsR7yp1hprbgWPIobCeAMoAfLRvb7RJBCtjP7ZqLkPkYTxWyv9FR29WhYfK78aE5LRa9cM4CaUnV+el5vsDYvJWFJYoG+KoUx7AhM1o0LrGbT5yG37QwQlqvF07yzuj2hSw/+txRiA6LfRNohXz4nnqxE27A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i2KRnNo2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RUWuUlCo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762166358; x=1793702358;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CLkRW+K6EonTnm3JAoeOcnWGUZYBkAwjcxjTvnIEpj4=;
-  b=RUWuUlCoFDvbzniEK/1oFOkwyCq1RV9WJy76c0cXJ6aLYjNB9rKpj/bd
-   F5GAZUMCo1sKCDS39MTLPtzIrTQ/AeLaxY9kyfFGJbn+YA2DoY9faUopt
-   r4eVkVx2Yi+KKE6/fygskn8c9UDmQqU0K+6O2u9H/XIrreg4rCnNwQD0O
-   1cbD2HUPUCFEtb5VgwOHdijGsApZuyM9Nkx5ftubu06JTqz4SL+CijUPk
-   42HdGon0v1P8rTKUFqxrQsr2Fk5/jonnMQ+CpTDkKsmuASSF9xB7cKPCF
-   Wek0+E8JMhwgQpN/JeKBEUPF9QfxxkU21ME6pt0ck4SRQyL6+ne7eOlUb
-   A==;
-X-CSE-ConnectionGUID: F5gGheMVSKix75zQjc2gAQ==
-X-CSE-MsgGUID: L8R1zfqIS92mpa1u1TuS3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11601"; a="86860635"
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="86860635"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2025 02:39:17 -0800
-X-CSE-ConnectionGUID: 6XG+0mW8R4WKmyc4dJ6Uig==
-X-CSE-MsgGUID: P+4yL3FORJa64CIrV/+Jcg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,276,1754982000"; 
-   d="scan'208";a="186982383"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 03 Nov 2025 02:39:08 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0C89395; Mon, 03 Nov 2025 11:39:08 +0100 (CET)
-Date: Mon, 3 Nov 2025 11:39:08 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2 4/5] i2c: designware: Implement I2C_M_STOP support
-Message-ID: <20251103103908.GF2912318@black.igk.intel.com>
-References: <20251031-i2c-dw-v2-0-90416874fcc0@bootlin.com>
- <20251031-i2c-dw-v2-4-90416874fcc0@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i2KRnNo2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9386EC4CEFD
+	for <linux-rt-devel@lists.linux.dev>; Mon,  3 Nov 2025 10:41:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762166503;
+	bh=ywHCDC6f70q+FVeVwqunZDaffuR4I1EUWoQ0AifeUk0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=i2KRnNo2nLgcp0ju0M1YrqrrexGDv0pjZAm+p8PP1D261hfxiH2VgDYYQtWPFU2eI
+	 vBJHYNtTXvQbSMZmuLHeH3BYZImua4W5iYahjt3wCb4QEyxFQsI7R828b9e629QRrz
+	 p258VQ3CXkGgr9KV8bV33bgSUlajM+1x+0z+vVBOyZvM3bWdOvTBpJKmAFTqwd7tuV
+	 +ua0y5c7vVNHkd8elgkQvqUZD6JPebbB4Crsy9GESsxWKr+0FQ2GEOMV6e2UPy4pfz
+	 lebJv5yHWL82ORvjgvAHTq8hn3qpbCYLW/5yfI59Z2YHsxyTwFONfK9t6BKmh98Uhl
+	 3MBVwbqH0QUSQ==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-378d50e1cccso43714731fa.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 03 Nov 2025 02:41:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtuNEjqhin1ud6UqWdAIfjnGKgXiOAmcKL0izEj6b0+DlmXCKPbI9bBW8NZRml49gBlkj1LJzwiuClj4cIrQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdE5gyAXjf5Pc3VNOVJPw2uhQT28JxMJ0QJxcslA4hE1kBQHIx
+	U6FQEw0C6LKiiMrQ3NfTUKbeZJK39N3gn1e1p+WmYlD4EUcmzn2qENT+RWek0yTWIUNZQz8dmRK
+	lDGGCOK7oKXECaAQjB+dO3xnObHQgyTc=
+X-Google-Smtp-Source: AGHT+IGkM8viXJNBlQ80+5YfdV3jjNXsEEVUkp5Q6j2EjUrf25AVLVkvSj9qeEV5Pd0r/i3Y1KW9dhFw83oDj2eOFzM=
+X-Received: by 2002:a05:651c:2103:b0:37a:15b6:f35b with SMTP id
+ 38308e7fff4ca-37a18d8ecabmr37322841fa.2.1762166501972; Mon, 03 Nov 2025
+ 02:41:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251031-i2c-dw-v2-4-90416874fcc0@bootlin.com>
+References: <20251103101545.760243-1-bigeasy@linutronix.de> <20251103101545.760243-4-bigeasy@linutronix.de>
+In-Reply-To: <20251103101545.760243-4-bigeasy@linutronix.de>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Mon, 3 Nov 2025 11:41:30 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXEv2iZ7UOiG7OSR3KQVguFtASh5yhpxMTXzuiZTOFz7_Q@mail.gmail.com>
+X-Gm-Features: AWmQ_bmpyUNLlkLPqZocz3nncFM6nY6pwBfeKiZVNBLewlkUVJzl7p9usZ6XIY4
+Message-ID: <CAMj1kXEv2iZ7UOiG7OSR3KQVguFtASh5yhpxMTXzuiZTOFz7_Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] ARM: Disable jump-label on PREEMPT_RT
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
+	Russell King <linux@armlinux.org.uk>, Xie Yuanbin <xieyuanbin1@huawei.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>, Mark Rutland <mark.rutland@arm.com>, 
+	Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Oct 31, 2025 at 03:35:42PM +0100, Benoît Monin wrote:
-> Add the support of the I2C_M_STOP flag in i2c_msg by splitting
-> i2c_dw_xfer() in two: __i2c_dw_xfer_unlocked() for the core transfer logic
-> and i2c_dw_xfer() for handling the high-level transaction management.
-> 
-> In detail __i2c_dw_xfer_unlocked() starts a transaction and wait for its
-> completion, either with a STOP on the bus or an error. i2c_dw_xfer()
-> loops over the messages to search for the I2C_M_STOP flag and calls
-> __i2c_dw_xfer_unlocked() for each part of the messages up to a STOP or
-> the end of the messages array.
-> 
-> i2c_dw_xfer() holds the device lock while calling __i2c_dw_xfer_unlocked(),
-> this allows to group multiple accesses to device that support a STOP in
-> a transaction when done via i2c_dev I2C_RDWR ioctl, in a single-master
-> configuration.
-> 
-> Also, now that we have a lookup of the messages in i2c_dw_xfer() prior
-> to each transaction, we use it to make sure the messages are valid for
-> the transaction. We check that the target address does not change before
-> starting the transaction instead of aborting the transfer while it is
-> happening, as it was done in i2c_dw_xfer_msg(). The target address can
-> only be changed after an I2C_M_STOP flag, thus a STOP on the i2c bus.
-> 
-> The I2C_FUNC_PROTOCOL_MANGLING flag is added to the list of
-> functionalities supported by the adapter, except for the AMD NAVI i2c
+On Mon, 3 Nov 2025 at 11:15, Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> From: Thomas Gleixner <tglx@linutronix.de>
+>
+> jump-labels are used to efficiently switch between two possible code
+> paths. To achieve this, stop_machine() is used to keep the CPU in a
+> known state while the opcode is modified. The usage of stop_machine()
+> here leads to large latency spikes which can be observed on PREEMPT_RT.
+>
+> Jump labels may change the target during runtime and are not restricted
+> to debug or "configuration/ setup" part of a PREEMPT_RT system where
+> high latencies could be defined as acceptable.
+>
+> On 64-bit Arm, it is possible to use jump labels without the
+> stop_machine() call, which architecturally provides a way to atomically
+> change one 32-bit instruction word while keeping maintaining consistency,
+> but this is not generally the case on 32-bit, in particular in thumb2
+> mode.
+>
+> Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
+>
+> [bigeasy: Patch description.]
+> [arnd: add !SMP case, extend changelog]
+>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-I2C controller
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-> controller which uses its own xfer() function and is left untouched.
-> 
-> Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
 > ---
->  drivers/i2c/busses/i2c-designware-master.c | 103 ++++++++++++++++++++---------
->  1 file changed, 70 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
-> index ec4fc2708d03..da1963d25def 100644
-> --- a/drivers/i2c/busses/i2c-designware-master.c
-> +++ b/drivers/i2c/busses/i2c-designware-master.c
-> @@ -431,7 +431,6 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
->  	struct i2c_msg *msgs = dev->msgs;
->  	u32 intr_mask;
->  	int tx_limit, rx_limit;
-> -	u32 addr = msgs[dev->msg_write_idx].addr;
->  	u32 buf_len = dev->tx_buf_len;
->  	u8 *buf = dev->tx_buf;
->  	bool need_restart = false;
-> @@ -442,18 +441,6 @@ i2c_dw_xfer_msg(struct dw_i2c_dev *dev)
->  	for (; dev->msg_write_idx < dev->msgs_num; dev->msg_write_idx++) {
->  		u32 flags = msgs[dev->msg_write_idx].flags;
->  
-> -		/*
-> -		 * If target address has changed, we need to
-> -		 * reprogram the target address in the I2C
-> -		 * adapter when we are done with this transfer.
-> -		 */
-> -		if (msgs[dev->msg_write_idx].addr != addr) {
-> -			dev_err(dev->dev,
-> -				"%s: invalid target address\n", __func__);
-> -			dev->msg_err = -EINVAL;
-> -			break;
-> -		}
-> -
->  		if (!(dev->status & STATUS_WRITE_IN_PROGRESS)) {
->  			/* new i2c_msg */
->  			buf = msgs[dev->msg_write_idx].buf;
-> @@ -801,26 +788,15 @@ static int i2c_dw_wait_transfer(struct dw_i2c_dev *dev)
->  }
->  
->  /*
-> - * Prepare controller for a transaction and call i2c_dw_xfer_msg.
-> + * Prepare controller for a transaction, start the transfer of the msgs
-> + * and wait for completion.
-> + * Caller must hold the device lock.
->   */
->  static int
-> -i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
-> +__i2c_dw_xfer_unlocked(struct dw_i2c_dev *dev, struct i2c_msg msgs[], int num)
->  {
-> -	struct dw_i2c_dev *dev = i2c_get_adapdata(adap);
->  	int ret;
->  
-> -	dev_dbg(dev->dev, "%s: msgs: %d\n", __func__, num);
-> -
-> -	pm_runtime_get_sync(dev->dev);
-> -
-> -	switch (dev->flags & MODEL_MASK) {
-> -	case MODEL_AMD_NAVI_GPU:
-> -		ret = amd_i2c_dw_xfer_quirk(adap, msgs, num);
-> -		goto done_nolock;
-> -	default:
-> -		break;
-> -	}
-> -
->  	reinit_completion(&dev->cmd_complete);
->  	dev->msgs = msgs;
->  	dev->msgs_num = num;
-> @@ -832,10 +808,6 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
->  	dev->abort_source = 0;
->  	dev->rx_outstanding = 0;
->  
-> -	ret = i2c_dw_acquire_lock(dev);
-> -	if (ret)
-> -		goto done_nolock;
-> -
->  	ret = i2c_dw_wait_bus_not_busy(dev);
->  	if (ret < 0)
->  		goto done;
-> @@ -896,13 +868,75 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
->  
->  	ret = -EIO;
->  
-> +done:
-> +	return ret;
-> +}
-> +
-> +static int
-> +i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
-
-Typically if you have
-
-i2c_dw_xfer()
-i2c_dw_xfer_unlocked()
-
-The only difference is that the former call the latter with lock held.
-However, this is not the case here which is confusing.
-
-I suggest move the lookup to be part of the _unlocked() variant.
-
-While there, can we use size_t with the num parameter.
-
-> +{
-> +	struct dw_i2c_dev *dev = i2c_get_adapdata(adap);
-> +	struct i2c_msg *msg;
-> +	int ret, cnt;
-> +
-> +	dev_dbg(dev->dev, "%s: msgs: %d\n", __func__, num);
-> +
-> +	pm_runtime_get_sync(dev->dev);
-> +
-> +	switch (dev->flags & MODEL_MASK) {
-> +	case MODEL_AMD_NAVI_GPU:
-> +		ret = amd_i2c_dw_xfer_quirk(adap, msgs, num);
-> +		goto done_nolock;
-
-Not really problem of this patch but I'm sure there is cleaner way to deal
-with this. I mean first of all we don't wan't to differentiate here what
-model this is. Instead we can look for a "quirks" based on dev->flags.
-
-Secondly goto inside switch is confusing too.
-
-This can be better written like:
-
-if ((dev->flags & MODEL_MASK) == MODEL_AMD_NAVI_GPU) {
-	...
-}
-
-> +	default:
-> +		break;
-> +	}
-> +
-> +	ret = i2c_dw_acquire_lock(dev);
-> +	if (ret)
-> +		goto done_nolock;
-> +
-> +	/*
-> +	 * If the I2C_M_STOP is present in some the messages,
-> +	 * we do one transaction for each part up to the STOP.
-> +	 */
-> +	for (msg = msgs; msg < msgs + num; msg += cnt) {
-> +		u16 addr = msg->addr;
-> +
-> +		/*
-> +		 * Count the messages in a transaction, up to a STOP
-> +		 * or the end of the msgs.
-> +		 */
-> +		for (cnt = 1; ; cnt++) {
-> +			/*
-> +			 * We cannot change the target address during
-> +			 * a transaction, so make sure the address stays
-> +			 * the same.
-> +			 */
-> +			if (msg[cnt - 1].addr != addr) {
-> +				dev_err(dev->dev, "invalid target address\n");
-> +				ret = -EINVAL;
-> +				goto done;
-> +			}
-> +
-> +			if ((msg[cnt - 1].flags & I2C_M_STOP) ||
-> +			    (msg + cnt == msgs + num))
-> +				break;
-> +		}
-> +
-> +		ret = __i2c_dw_xfer_unlocked(dev, msg, cnt);
-> +		if (ret < 0)
-> +			goto done;
-
-This can be
-
-	break;
-
-> +	}
-> +
->  done:
->  	i2c_dw_release_lock(dev);
->  
->  done_nolock:
->  	pm_runtime_put_autosuspend(dev->dev);
->  
-> -	return ret;
-> +	if (ret < 0)
-> +		return ret;
-> +	return num;
->  }
->  
->  static const struct i2c_algorithm i2c_dw_algo = {
-> @@ -920,6 +954,9 @@ void i2c_dw_configure_master(struct dw_i2c_dev *dev)
->  
->  	dev->functionality = I2C_FUNC_10BIT_ADDR | DW_IC_DEFAULT_FUNCTIONALITY;
->  
-> +	if ((dev->flags & MODEL_MASK) != MODEL_AMD_NAVI_GPU)
-> +		dev->functionality |= I2C_FUNC_PROTOCOL_MANGLING;
-> +
->  	dev->master_cfg = DW_IC_CON_MASTER | DW_IC_CON_SLAVE_DISABLE |
->  			  DW_IC_CON_RESTART_EN;
->  
-> 
-> -- 
-> 2.51.1
+>  arch/arm/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> index 2e3f93b690f47..92ca24336ec4b 100644
+> --- a/arch/arm/Kconfig
+> +++ b/arch/arm/Kconfig
+> @@ -80,7 +80,7 @@ config ARM
+>         select HAS_IOPORT
+>         select HAVE_ARCH_AUDITSYSCALL if AEABI && !OABI_COMPAT
+>         select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
+> -       select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
+> +       select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU && (!PREEMPT_RT || !SMP)
+>         select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
+>         select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
+>         select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
+> --
+> 2.51.0
+>
