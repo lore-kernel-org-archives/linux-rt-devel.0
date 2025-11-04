@@ -1,256 +1,105 @@
-Received: from lankhorst.se (lankhorst.se [141.105.120.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D262264C7
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Nov 2025 08:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D845F2E5400
+	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Nov 2025 11:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762245918; cv=none; b=LcckYerQZoq/IQteGW8EVFfhUEjHBurBrrvPm4CcOw+zDMNfwomW4FZx8ilokTfHf0WtyIqR+MWT/ymLH7LuWJEUZFFZKOkGVDoEijFue90GsVPffxvwAPYgY7ZUGmHc3mGY+XV80WUx/OZaaQ9/fYH5SHrJmPv5khn4PivSchA=
+	t=1762254727; cv=none; b=HbtmBBZUjvp6aOZdvUW8A1/uvzmDy3cJo1Jb++449lLDrYJa13iab4wjgKYnpYVR0kToQJ/rqqGC9e4r1c9Y/i60YGbsyHngvpMyvIpaXVngtOoSAmwPbGziVXzuXnU2loBa6i9vSeJZU+uOammlIyRvyYWkiCwceLmTO6J+d/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762245918; c=relaxed/simple;
-	bh=AQvvaI8aZQnR3L1P/SOC0a1pgsLF1Ps2+teQouWP36Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vdo37lumedX7Pru9rZWDwp7gvXPC/q3+Hq6o1fH79UCwIPFN/qUEEpBmbsXp9TGodKZRtAZpeFMBK9TzS+bl5TOj7zfMPYtxjTIvSBVKhdcSYXc9HE2Q/c6K4+pynanYQm549rlUYm4LQE/ZWR6CJYZgQXukFQ59O9lqem1kE5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=d73XRNhF; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
+	s=arc-20240116; t=1762254727; c=relaxed/simple;
+	bh=/YkuHa6v1dNtoE23mdpsRTScQ6ZC42fxCgxw7gY2lbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rD4RNfGDZeo0j0Wu+JET1l3SGXeQIOeK9S+y4pBs+1Dk/mXbD1H1sSc3mG+8xVzDzAQa33xeQTmBf2PTMzggmGZiyv9IqVhNRvQulccxfrj5+DszJVP5dFyfFfhdvP9+2rRQzCpQys35H3sDtWaolM9RsaFBDHdLxqexu6V07Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VGNDqEQh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iVIcykZX; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="d73XRNhF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1762245404;
-	bh=AQvvaI8aZQnR3L1P/SOC0a1pgsLF1Ps2+teQouWP36Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d73XRNhFd+ttElJM7xWjJis33Dw+hSeuPuynhuiH0Uv/0XKqR3ejwpQ78zjGSMJG0
-	 cnbmpBRM/Bf+63NSe1OjITFXhRT7AADC3Xm4VxvZjwS81MxW5oTcjFuKcq1zP/+BTU
-	 c175806AQpIUtgCKK4uPE2UlBNpt+vZea39HIYWT2qNDGdfiV6rcFllwT2FTZtc46r
-	 vYiOjbLcUxDWaFbv8yb1zgaFWU/TzOrczTrOwqskN/vsBQiBLG/QzS+vmwbmO1L4Yx
-	 Gv4uKrhLB2WrFQRk1/zeWuXtm3Hu+M8Z+T8PrzJlGoQlPP1EexG5X8pHq/+eb1Z+pp
-	 930s/KY5JcEEQ==
-From: Maarten Lankhorst <dev@lankhorst.se>
-To: intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: linux-rt-devel@lists.linux.dev,
-	Maarten Lankhorst <dev@lankhorst.se>,
-	Mario Kleiner <mario.kleiner.de@gmail.com>,
-	Mike Galbraith <umgwanakikbuti@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VGNDqEQh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iVIcykZX"
+Date: Tue, 4 Nov 2025 12:12:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762254723;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=GeSlkKbtcpufCLOJlTlGV4t9LhwRk+9N4J8rKH3yPSM=;
+	b=VGNDqEQhcThh4Cl+MtKeaN2cGbZ1Krt7fKgcOv27R7nYrOn6UBOOM7vIy62aUaVUw7EJgt
+	iv7Vp0Xbq98wae8mFNIlnK7mNLZvjLvPxNRXltxPgjreebE0+0lrJ5LFCbwrEnSbFF0IwR
+	ffET1/7yOxCHQD2DhIDekJGY5hjCfUaSsTPeL9DIXn7KRPQvkjeAEAwytiil0SxdHQruSx
+	NvJqujWauN47OZKxlzt52lpUnYXABLLZSvvxE7OppxrhIi6VbOwCY/VNz22q//25Z1iI/d
+	b2xWlzfNmKkNo8b/BNofNrn/2f+pK2WlEhWFOopn9zsrtySaEszTr+1aXEYLMQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762254723;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=GeSlkKbtcpufCLOJlTlGV4t9LhwRk+9N4J8rKH3yPSM=;
+	b=iVIcykZXAbJqUCb8O5ew69FPvjZtvE1ETAQ5EblF90LFxjjB4oaNOrvPkf6sGK4gaCeMkM
+	0zcQuuCKfoYHAcBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: netdev@vger.kernel.org
+Cc: Eric Dumazet <edumazet@google.com>, Gal Pressman <gal@nvidia.com>,
+	linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in intel_pipe_fastset
-Date: Tue,  4 Nov 2025 09:36:26 +0100
-Message-ID: <20251104083634.670753-3-dev@lankhorst.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251104083634.670753-1-dev@lankhorst.se>
-References: <20251104083634.670753-1-dev@lankhorst.se>
+Subject: [PATCH net] net: gro_cells: Provide lockdep class for gro_cell's
+ bh_lock
+Message-ID: <20251104111201.5eBxkOKb@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-intel_set_pipe_src_size(), hsw_set_linetime_wm(),
-intel_cpu_transcoder_set_m1_n1() and intel_set_transcoder_timings_lrr()
-are called from an atomic context on PREEMPT_RT, and should be using the
-_fw functions.
+One GRO-cell device's NAPI callback can nest into the GRO-cell of
+another device if the underlying device is also using GRO-cell.
+This is the case for IPsec over vxlan.
+These two GRO-cells are separate devices. From lockdep's point of view
+it is the same because each device is sharing the same lock class and so
+it reports a possible deadlock assuming one device is nesting into
+itself.
 
-This likely prevents a deadlock on i915.
+Provide a lockclass for the bh_lock on for gro-cell device allowing
+lockdep to distinguish between individual devices.
 
-Again noticed when trying to disable preemption in vblank evasion:
-<3> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-<3> in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1505, name: kms_cursor_lega
-<3> preempt_count: 1, expected: 0
-<3> RCU nest depth: 0, expected: 0
-<4> 4 locks held by kms_cursor_lega/1505:
-<4>  #0: ffffc90003c6f988 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0x13b/0xe90
-<4>  #1: ffffc90003c6f9b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: drm_mode_atomic_ioctl+0x13b/0xe90
-<4>  #2: ffff888135b838b8 (&intel_dp->psr.lock){+.+.}-{3:3}, at: intel_psr_lock+0xc5/0xf0 [xe]
-<4>  #3: ffff88812607bbc0 (&wl->lock){+.+.}-{2:2}, at: intel_dmc_wl_get+0x3c/0x140 [xe]
-<4> CPU: 6 UID: 0 PID: 1505 Comm: kms_cursor_lega Tainted: G     U              6.18.0-rc3-lgci-xe-xe-pw-156729v1+ #1 PREEMPT_{RT,(lazy)}
-<4> Tainted: [U]=USER
-<4> Hardware name: Intel Corporation Panther Lake Client Platform/PTL-UH LP5 T3 RVP1, BIOS PTLPFWI1.R00.3383.D02.2509240621 09/24/2025
-<4> Call Trace:
-<4>  <TASK>
-<4>  dump_stack_lvl+0xc1/0xf0
-<4>  dump_stack+0x10/0x20
-<4>  __might_resched+0x174/0x260
-<4>  rt_spin_lock+0x63/0x200
-<4>  ? intel_dmc_wl_get+0x3c/0x140 [xe]
-<4>  intel_dmc_wl_get+0x3c/0x140 [xe]
-<4>  intel_set_pipe_src_size+0x89/0xe0 [xe]
-<4>  intel_update_crtc+0x3c1/0x950 [xe]
-<4>  ? intel_pre_update_crtc+0x258/0x400 [xe]
-<4>  skl_commit_modeset_enables+0x217/0x720 [xe]
-<4>  intel_atomic_commit_tail+0xd4e/0x1af0 [xe]
-<4>  ? lock_release+0xce/0x2a0
-<4>  intel_atomic_commit+0x2e5/0x330 [xe]
-<4>  ? intel_atomic_commit+0x2e5/0x330 [xe]
-<4>  drm_atomic_commit+0xaf/0xf0
-<4>  ? __pfx___drm_printfn_info+0x10/0x10
-<4>  drm_mode_atomic_ioctl+0xbd5/0xe90
-<4>  ? lock_acquire+0xc4/0x2e0
-<4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-<4>  drm_ioctl_kernel+0xb6/0x120
-<4>  drm_ioctl+0x2d7/0x5a0
-<4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-<4>  ? rt_spin_unlock+0xa0/0x140
-<4>  ? __pm_runtime_resume+0x53/0x90
-<4>  xe_drm_ioctl+0x56/0x90 [xe]
-<4>  __x64_sys_ioctl+0xa8/0x110
-<4>  ? lock_acquire+0xc4/0x2e0
-<4>  x64_sys_call+0x1144/0x26a0
-<4>  do_syscall_64+0x93/0xae0
-<4>  ? lock_release+0xce/0x2a0
-<4>  ? __task_pid_nr_ns+0xd9/0x270
-<4>  ? do_syscall_64+0x1b7/0xae0
-<4>  ? find_held_lock+0x31/0x90
-<4>  ? __task_pid_nr_ns+0xcf/0x270
-<4>  ? __lock_acquire+0x43e/0x2860
-<4>  ? __task_pid_nr_ns+0xd9/0x270
-<4>  ? lock_acquire+0xc4/0x2e0
-<4>  ? find_held_lock+0x31/0x90
-<4>  ? __task_pid_nr_ns+0xcf/0x270
-<4>  ? lock_release+0xce/0x2a0
-<4>  ? __task_pid_nr_ns+0xd9/0x270
-<4>  ? do_syscall_64+0x1b7/0xae0
-<4>  ? do_syscall_64+0x1b7/0xae0
-<4>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-
-Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+Fixes: 25718fdcbdd2 ("net: gro_cells: Use nested-BH locking for gro_cell")
+Reported-by: Gal Pressman <gal@nvidia.com>
+Closes: https://lore.kernel.org/all/66664116-edb8-48dc-ad72-d5223696dd19@nvidia.com/
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 36 ++++++++++----------
- drivers/gpu/drm/i915/display/intel_vrr.c     | 16 ++++-----
- 2 files changed, 26 insertions(+), 26 deletions(-)
+ include/net/gro_cells.h | 1 +
+ net/core/gro_cells.c    | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 42ec787986666..1bff1148fe9d7 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -1573,9 +1573,9 @@ static void hsw_set_linetime_wm(const struct intel_crtc_state *crtc_state)
- 	struct intel_display *display = to_intel_display(crtc_state);
- 	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
+diff --git a/include/net/gro_cells.h b/include/net/gro_cells.h
+index 596688b67a2a8..2453d0139c205 100644
+--- a/include/net/gro_cells.h
++++ b/include/net/gro_cells.h
+@@ -10,6 +10,7 @@ struct gro_cell;
  
--	intel_de_write(display, WM_LINETIME(crtc->pipe),
--		       HSW_LINETIME(crtc_state->linetime) |
--		       HSW_IPS_LINETIME(crtc_state->ips_linetime));
-+	intel_de_write_fw(display, WM_LINETIME(crtc->pipe),
-+			  HSW_LINETIME(crtc_state->linetime) |
-+			  HSW_IPS_LINETIME(crtc_state->ips_linetime));
- }
+ struct gro_cells {
+ 	struct gro_cell __percpu	*cells;
++	struct lock_class_key		cells_bh_key;
+ };
  
- static void hsw_set_frame_start_delay(const struct intel_crtc_state *crtc_state)
-@@ -2543,14 +2543,14 @@ void intel_set_m_n(struct intel_display *display,
- 		   i915_reg_t data_m_reg, i915_reg_t data_n_reg,
- 		   i915_reg_t link_m_reg, i915_reg_t link_n_reg)
- {
--	intel_de_write(display, data_m_reg, TU_SIZE(m_n->tu) | m_n->data_m);
--	intel_de_write(display, data_n_reg, m_n->data_n);
--	intel_de_write(display, link_m_reg, m_n->link_m);
-+	intel_de_write_fw(display, data_m_reg, TU_SIZE(m_n->tu) | m_n->data_m);
-+	intel_de_write_fw(display, data_n_reg, m_n->data_n);
-+	intel_de_write_fw(display, link_m_reg, m_n->link_m);
- 	/*
- 	 * On BDW+ writing LINK_N arms the double buffered update
- 	 * of all the M/N registers, so it must be written last.
- 	 */
--	intel_de_write(display, link_n_reg, m_n->link_n);
-+	intel_de_write_fw(display, link_n_reg, m_n->link_n);
- }
+ int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb);
+diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
+index fd57b845de333..a91fdc47e8096 100644
+--- a/net/core/gro_cells.c
++++ b/net/core/gro_cells.c
+@@ -88,6 +88,7 @@ int gro_cells_init(struct gro_cells *gcells, struct net_device *dev)
  
- bool intel_cpu_transcoder_has_m2_n2(struct intel_display *display,
-@@ -2737,9 +2737,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
- 	}
+ 		__skb_queue_head_init(&cell->napi_skbs);
+ 		local_lock_init(&cell->bh_lock);
++		lockdep_set_class(&cell->bh_lock, &gcells->cells_bh_key);
  
- 	if (DISPLAY_VER(display) >= 13) {
--		intel_de_write(display,
--			       TRANS_SET_CONTEXT_LATENCY(display, cpu_transcoder),
--			       crtc_state->set_context_latency);
-+		intel_de_write_fw(display,
-+				  TRANS_SET_CONTEXT_LATENCY(display, cpu_transcoder),
-+				  crtc_state->set_context_latency);
+ 		set_bit(NAPI_STATE_NO_BUSY_POLL, &cell->napi.state);
  
- 		/*
- 		 * VBLANK_START not used by hw, just clear it
-@@ -2755,9 +2755,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
- 	 * The hardware actually ignores TRANS_VBLANK.VBLANK_END in DP mode.
- 	 * But let's write it anyway to keep the state checker happy.
- 	 */
--	intel_de_write(display, TRANS_VBLANK(display, cpu_transcoder),
--		       VBLANK_START(crtc_vblank_start - 1) |
--		       VBLANK_END(crtc_vblank_end - 1));
-+	intel_de_write_fw(display, TRANS_VBLANK(display, cpu_transcoder),
-+			  VBLANK_START(crtc_vblank_start - 1) |
-+			  VBLANK_END(crtc_vblank_end - 1));
- 	/*
- 	 * For platforms that always use VRR Timing Generator, the VTOTAL.Vtotal
- 	 * bits are not required. Since the support for these bits is going to
-@@ -2771,9 +2771,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
- 	 * The double buffer latch point for TRANS_VTOTAL
- 	 * is the transcoder's undelayed vblank.
- 	 */
--	intel_de_write(display, TRANS_VTOTAL(display, cpu_transcoder),
--		       VACTIVE(crtc_vdisplay - 1) |
--		       VTOTAL(crtc_vtotal - 1));
-+	intel_de_write_fw(display, TRANS_VTOTAL(display, cpu_transcoder),
-+			  VACTIVE(crtc_vdisplay - 1) |
-+			  VTOTAL(crtc_vtotal - 1));
- 
- 	intel_vrr_set_fixed_rr_timings(crtc_state);
- 	intel_vrr_transcoder_enable(crtc_state);
-@@ -2790,8 +2790,8 @@ static void intel_set_pipe_src_size(const struct intel_crtc_state *crtc_state)
- 	/* pipesrc controls the size that is scaled from, which should
- 	 * always be the user's requested size.
- 	 */
--	intel_de_write(display, PIPESRC(display, pipe),
--		       PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height - 1));
-+	intel_de_write_fw(display, PIPESRC(display, pipe),
-+			  PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height - 1));
- }
- 
- static bool intel_pipe_is_interlaced(const struct intel_crtc_state *crtc_state)
-diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
-index 00cbc126fb366..2e19673697fa4 100644
---- a/drivers/gpu/drm/i915/display/intel_vrr.c
-+++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-@@ -300,12 +300,12 @@ void intel_vrr_set_fixed_rr_timings(const struct intel_crtc_state *crtc_state)
- 	if (!intel_vrr_possible(crtc_state))
- 		return;
- 
--	intel_de_write(display, TRANS_VRR_VMIN(display, cpu_transcoder),
--		       intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
--	intel_de_write(display, TRANS_VRR_VMAX(display, cpu_transcoder),
--		       intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
--	intel_de_write(display, TRANS_VRR_FLIPLINE(display, cpu_transcoder),
--		       intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
-+	intel_de_write_fw(display, TRANS_VRR_VMIN(display, cpu_transcoder),
-+			  intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
-+	intel_de_write_fw(display, TRANS_VRR_VMAX(display, cpu_transcoder),
-+			  intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
-+	intel_de_write_fw(display, TRANS_VRR_FLIPLINE(display, cpu_transcoder),
-+			  intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
- }
- 
- static
-@@ -693,7 +693,7 @@ static void intel_vrr_tg_enable(const struct intel_crtc_state *crtc_state,
- 	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
- 	u32 vrr_ctl;
- 
--	intel_de_write(display, TRANS_PUSH(display, cpu_transcoder), TRANS_PUSH_EN);
-+	intel_de_write_fw(display, TRANS_PUSH(display, cpu_transcoder), TRANS_PUSH_EN);
- 
- 	vrr_ctl = VRR_CTL_VRR_ENABLE | trans_vrr_ctl(crtc_state);
- 
-@@ -705,7 +705,7 @@ static void intel_vrr_tg_enable(const struct intel_crtc_state *crtc_state,
- 	if (cmrr_enable)
- 		vrr_ctl |= VRR_CTL_CMRR_ENABLE;
- 
--	intel_de_write(display, TRANS_VRR_CTL(display, cpu_transcoder), vrr_ctl);
-+	intel_de_write_fw(display, TRANS_VRR_CTL(display, cpu_transcoder), vrr_ctl);
- }
- 
- static void intel_vrr_tg_disable(const struct intel_crtc_state *old_crtc_state)
 -- 
 2.51.0
 
