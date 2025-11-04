@@ -1,105 +1,79 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D845F2E5400
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Nov 2025 11:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1238F32ABF7;
+	Tue,  4 Nov 2025 13:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762254727; cv=none; b=HbtmBBZUjvp6aOZdvUW8A1/uvzmDy3cJo1Jb++449lLDrYJa13iab4wjgKYnpYVR0kToQJ/rqqGC9e4r1c9Y/i60YGbsyHngvpMyvIpaXVngtOoSAmwPbGziVXzuXnU2loBa6i9vSeJZU+uOammlIyRvyYWkiCwceLmTO6J+d/M=
+	t=1762264699; cv=none; b=VB/TTAU0mON/DMkOeMFwkD+rr2580pPvY7Z1PZkGNdeAyq6um9RZBNZaHt2RpDA5V+4w9xGbVCzS3q2HNve/aPy4dKxWhe+zE3xpoVAMjAk2wvTgNteHIBl2WKVdM9cAGYUOIkMsDVAXWjuCdzLjefWHsoFMj4H6hUt3dXt4Hzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762254727; c=relaxed/simple;
-	bh=/YkuHa6v1dNtoE23mdpsRTScQ6ZC42fxCgxw7gY2lbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rD4RNfGDZeo0j0Wu+JET1l3SGXeQIOeK9S+y4pBs+1Dk/mXbD1H1sSc3mG+8xVzDzAQa33xeQTmBf2PTMzggmGZiyv9IqVhNRvQulccxfrj5+DszJVP5dFyfFfhdvP9+2rRQzCpQys35H3sDtWaolM9RsaFBDHdLxqexu6V07Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VGNDqEQh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iVIcykZX; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1762264699; c=relaxed/simple;
+	bh=4K46elwz2t41thzEDIlkodjmZEybmO5RrzNgtf0xipA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hXKJ3KNaSx36TbN5giQa1cBap1fkTRQO+0DbjdX3vanPahP+r6NGa4whaRXCHYtzlApbJx2FyeQYzaVpoaZV+p/fF4I5ELjjVZ9fRf5L0Cn3dy/IMOHT7y2OiDAgGBr1/DeOGAOo2xSffMA1PibyOTczOlaCI50guF/LEY/WAHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTuYizHQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VGNDqEQh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iVIcykZX"
-Date: Tue, 4 Nov 2025 12:12:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762254723;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=GeSlkKbtcpufCLOJlTlGV4t9LhwRk+9N4J8rKH3yPSM=;
-	b=VGNDqEQhcThh4Cl+MtKeaN2cGbZ1Krt7fKgcOv27R7nYrOn6UBOOM7vIy62aUaVUw7EJgt
-	iv7Vp0Xbq98wae8mFNIlnK7mNLZvjLvPxNRXltxPgjreebE0+0lrJ5LFCbwrEnSbFF0IwR
-	ffET1/7yOxCHQD2DhIDekJGY5hjCfUaSsTPeL9DIXn7KRPQvkjeAEAwytiil0SxdHQruSx
-	NvJqujWauN47OZKxlzt52lpUnYXABLLZSvvxE7OppxrhIi6VbOwCY/VNz22q//25Z1iI/d
-	b2xWlzfNmKkNo8b/BNofNrn/2f+pK2WlEhWFOopn9zsrtySaEszTr+1aXEYLMQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762254723;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=GeSlkKbtcpufCLOJlTlGV4t9LhwRk+9N4J8rKH3yPSM=;
-	b=iVIcykZXAbJqUCb8O5ew69FPvjZtvE1ETAQ5EblF90LFxjjB4oaNOrvPkf6sGK4gaCeMkM
-	0zcQuuCKfoYHAcBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: netdev@vger.kernel.org
-Cc: Eric Dumazet <edumazet@google.com>, Gal Pressman <gal@nvidia.com>,
-	linux-rt-devel@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH net] net: gro_cells: Provide lockdep class for gro_cell's
- bh_lock
-Message-ID: <20251104111201.5eBxkOKb@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTuYizHQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F1C9C4CEF7;
+	Tue,  4 Nov 2025 13:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762264698;
+	bh=4K46elwz2t41thzEDIlkodjmZEybmO5RrzNgtf0xipA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FTuYizHQP/YaIbgF3vqNbGgvB8bHF6TItco2OMyJ9evUpo+GBr20DxE5Jer8+p4K1
+	 Q+hFVJhn3gpVicQ2H0Ofyp6uCJN9ymtHFPPLDjxYfofm6lejPtS8XJgwAO5RL0xfrh
+	 9nW/y6m3o1sA+lBbGYZwON+Afz1yEkvdQnsCyZWZFCuBjMh861BJOgw4ddIegP8vWw
+	 CDy27YlcgnSzhLSu0KN0TojEMMqpNqXy0n7zprfWIzmZl2LTtr0cVzEatQl7Bl8m/u
+	 lzMahpVNdy0kWug9HG1JgJqN1YX431c9LR57rP8r6A6CK5d+uRJpVZCbr+WC/wtS7y
+	 aFF7c7dek1JVQ==
+Date: Tue, 4 Nov 2025 13:58:13 +0000
+From: Will Deacon <will@kernel.org>
+To: Ryo Takakura <ryotkkr98@gmail.com>
+Cc: catalin.marinas@arm.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+	rostedt@goodmis.org, leitao@debian.org, mark.rutland@arm.com,
+	ardb@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] arm64: use SOFTIRQ_ON_OWN_STACK for enabling softirq
+ stack
+Message-ID: <aQoGdVYOddu9bxLg@willie-the-truck>
+References: <20251013013508.74677-1-ryotkkr98@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20251013013508.74677-1-ryotkkr98@gmail.com>
 
-One GRO-cell device's NAPI callback can nest into the GRO-cell of
-another device if the underlying device is also using GRO-cell.
-This is the case for IPsec over vxlan.
-These two GRO-cells are separate devices. From lockdep's point of view
-it is the same because each device is sharing the same lock class and so
-it reports a possible deadlock assuming one device is nesting into
-itself.
+On Mon, Oct 13, 2025 at 01:35:08AM +0000, Ryo Takakura wrote:
+> For those architectures with HAVE_SOFTIRQ_ON_OWN_STACK use
+> their dedicated softirq stack when !PREEMPT_RT. This condition
+> is ensured by SOFTIRQ_ON_OWN_STACK.
+> 
+> Let arm64 use SOFTIRQ_ON_OWN_STACK as well to select its
+> usage of the stack.
+> 
+> Signed-off-by: Ryo Takakura <ryotkkr98@gmail.com>
+> ---
+>  arch/arm64/kernel/irq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/kernel/irq.c b/arch/arm64/kernel/irq.c
+> index c0065a1d77cf..15dedb385b9e 100644
+> --- a/arch/arm64/kernel/irq.c
+> +++ b/arch/arm64/kernel/irq.c
+> @@ -62,7 +62,7 @@ static void __init init_irq_stacks(void)
+>  	}
+>  }
+>  
+> -#ifndef CONFIG_PREEMPT_RT
+> +#ifdef CONFIG_SOFTIRQ_ON_OWN_STACK
+>  static void ____do_softirq(struct pt_regs *regs)
+>  {
+>  	__do_softirq();
 
-Provide a lockclass for the bh_lock on for gro-cell device allowing
-lockdep to distinguish between individual devices.
+Acked-by: Will Deacon <will@kernel.org>
 
-Fixes: 25718fdcbdd2 ("net: gro_cells: Use nested-BH locking for gro_cell")
-Reported-by: Gal Pressman <gal@nvidia.com>
-Closes: https://lore.kernel.org/all/66664116-edb8-48dc-ad72-d5223696dd19@nvidia.com/
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/net/gro_cells.h | 1 +
- net/core/gro_cells.c    | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/include/net/gro_cells.h b/include/net/gro_cells.h
-index 596688b67a2a8..2453d0139c205 100644
---- a/include/net/gro_cells.h
-+++ b/include/net/gro_cells.h
-@@ -10,6 +10,7 @@ struct gro_cell;
- 
- struct gro_cells {
- 	struct gro_cell __percpu	*cells;
-+	struct lock_class_key		cells_bh_key;
- };
- 
- int gro_cells_receive(struct gro_cells *gcells, struct sk_buff *skb);
-diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
-index fd57b845de333..a91fdc47e8096 100644
---- a/net/core/gro_cells.c
-+++ b/net/core/gro_cells.c
-@@ -88,6 +88,7 @@ int gro_cells_init(struct gro_cells *gcells, struct net_device *dev)
- 
- 		__skb_queue_head_init(&cell->napi_skbs);
- 		local_lock_init(&cell->bh_lock);
-+		lockdep_set_class(&cell->bh_lock, &gcells->cells_bh_key);
- 
- 		set_bit(NAPI_STATE_NO_BUSY_POLL, &cell->napi.state);
- 
--- 
-2.51.0
-
+Will
