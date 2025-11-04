@@ -1,178 +1,121 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39AAD2EBDCB
-	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Nov 2025 14:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015F92F5A1D
+	for <linux-rt-devel@lists.linux.dev>; Tue,  4 Nov 2025 15:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762266124; cv=none; b=L2xyItnlzc56nQ1+vzcbXt10Bru/ev0BknQMRWytlTsstcDrg6vvXV4enOqyTAAZmZTTEhOSC9DKAuwC/+/bsuhRtLWMWI0iPOHsJstoHCXuoIJBwpdRhWkZS93+2oqy20UUvcsNlTxv9Y2VjrZN+6UgmAZLeQxJ0sUWF6eKJKg=
+	t=1762270483; cv=none; b=XLmhobrWVMNhNZy9yalYuaaxvTeKnEf7j0iYaecMqh9C6q3Ve2mTar+1QoOPmrilqAKs1URRgrUFC1c6tnlH9gnHdlVNqF8ys2c4cWWGIoq5llupRAUUUyUCitsAEXnWJ4Mr+OnM+f8F0OJFpnI5UMtkjlN2n/v9vdcS/1qWdvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762266124; c=relaxed/simple;
-	bh=6jIgJlHnumjsVCvAjEKio5uU/oww1S2wY5/AvwY31AE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=f8efvq0zNo8iTU1DtNMHMg/Ru3tzHiJ7WutVPG4ZzuiBCNYDGfK2u43WPg0GmdM0hjnQ0lzIl2Im6KjYd9fDH1TFfeKRspWa/G6sX/C0edoUiKLHnwx/AEeRIGFBAeMiceVIx4TxJIoVZfmxsLwPGif8F4kGF+m02RAnPxNGk80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-433270dad0dso23644185ab.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 04 Nov 2025 06:22:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762266122; x=1762870922;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xKdLwrQmemIG9kw2hdf/eFPzpoxPYGPbZwYFsHinfy0=;
-        b=faIIZAvtJKmU9iHt14XaSUI+QXIrcuMJfeTqB3al4456tbpuYfNaKF7SgEcrgLxiy7
-         L3o86zSrntYmBU1o0yfAiJG+HUGw/KKPqWwdcWeU5w2YVt17EZCDJdX+ssndW8GWg3/g
-         MLgLGxRtuMpTydd7nsvElUv4e60MlRk4CymH/VIu4E6jUfPRX04Fm65/+jHfafJk72Yj
-         Wj+ZzTlFyH8XNXgHkdF7T+bVuCdSBpQwyxxBcK/6CpOLhYVqP0m0e+AQtENruX3X94FF
-         y+cfDdvkj1SkZ5qVf42td0l0uKUGcGXTtXO74qtuqpqT+w+IDrW5qqZfjZzC0z+Z+Lyb
-         BDfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXoHFVRplNVETma0rt4tHlXziIF+jDpfbfBLuqsw6RU/8bwXM/eLe2xrePK7IB0dbxpZBWImgDuY+wNeSfRWg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy29blYM4EN3V6sumdYMRiYDMbn+Cx9THqH5Mqde3XmiBwTuRKx
-	MUGhOAABiXUrnRmFbFOAYmPq8DKKM3BCXOG/YQRfl74PcoWuq50KQIqbXw0PdKowDjUfwczKY3K
-	IJabqp0zpf9XLQg58qrKVaHvZ8UwhnzRLk/lUcNFDUENBCiur+4Hx1gwTybE=
-X-Google-Smtp-Source: AGHT+IGMkA7qZdgINA/IHNHUaeFr9++EDZQ4fETaxS4a+tgyecjDBSOY1s6NYOs7jiwUj9LcBLjMa8ChOX9K+YKyAoqyABny5LgN
+	s=arc-20240116; t=1762270483; c=relaxed/simple;
+	bh=EySwQ2aJa/1OXqPXf2jBcsyoM+JXlvG1QywvDd1KZfo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hx+e7FdaXrz7M5x3lumt/bo3zl04mD3R6DTKQ5sjuXIjyFS+ohpiU9L8mVGIiWELxUdYPix1SP+EtVzhGjgiCPRSkRXjbvuDOqtcApQwto8HbXdu1yNURp611QrBV/ucQZeUXgoGzwnF/XiVd0RXLI9//TaOpSSEzh3HXdU8nI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FWPfzR6i; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=exrtg4/y; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FWPfzR6i";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="exrtg4/y"
+Date: Tue, 4 Nov 2025 16:34:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762270477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EQEppDnHMPH5YJq1uT9VZmGPofKNVsb77C9HX3K1t2s=;
+	b=FWPfzR6iGW33Dz0bgZePuohUu1WrL1eq72Y8eEAF2wgpN+7keigd4RPw4st2VPo9EM188Q
+	YBHd7RVc6WIgT6R7g7B/cl9hWbdJ9jKq4PIiKJWex/C6F1rdd3+ReXL9iJWITEJYFABBp7
+	miEQVNr3yyKNf9vHrcWZm60Ilz5bQxxFa/K6tMqsuPUQwsQWWQu1yrM62+fEmf/GBBberw
+	kbOkOWCQgwgEJxPWOI5ySEoE3STlYlpk9dmg0uPArf3+rM1/6m+JDeg8Z+43Ir0W87Pbzl
+	EyxkEfCrSJ9akLAP5k/tqLj7X9dS+EfKAWLHR8XfjuAAebBQbmVUVqU9Dq/VLg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762270477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EQEppDnHMPH5YJq1uT9VZmGPofKNVsb77C9HX3K1t2s=;
+	b=exrtg4/y3hqOT1QmX7i/pqCGAmhQ+6odKrsikiun0bw2LIr8HmP/+B/voYydJ8xmP4+qGj
+	J1Tew3wLzfw6xXDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: netdev@vger.kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>,
+	Gal Pressman <gal@nvidia.com>, linux-rt-devel@lists.linux.dev,
+	"David S. Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH net v2] net: gro_cells: Reduce lock scope in gro_cell_poll
+Message-ID: <20251104153435.ty88xDQt@linutronix.de>
+References: <20251104111201.5eBxkOKb@linutronix.de>
+ <20251104060533.57c1bb79@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6602:1515:b0:940:d833:a83d with SMTP id
- ca18e2360f4ac-9485927e2e9mr542425939f.1.1762266122412; Tue, 04 Nov 2025
- 06:22:02 -0800 (PST)
-Date: Tue, 04 Nov 2025 06:22:02 -0800
-In-Reply-To: <20251104111201.5eBxkOKb@linutronix.de>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <690a0c0a.050a0220.98a6.00b0.GAE@google.com>
-Subject: [syzbot ci] Re: net: gro_cells: Provide lockdep class for gro_cell's bh_lock
-From: syzbot ci <syzbot+cicbd1a39d13eaaed7@syzkaller.appspotmail.com>
-To: bigeasy@linutronix.de, clrkwllms@kernel.org, davem@davemloft.net, 
-	edumazet@google.com, gal@nvidia.com, horms@kernel.org, kuba@kernel.org, 
-	linux-rt-devel@lists.linux.dev, netdev@vger.kernel.org, pabeni@redhat.com, 
-	rostedt@goodmis.org
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251104060533.57c1bb79@kernel.org>
 
-syzbot ci has tested the following series
+One GRO-cell device's NAPI callback can nest into the GRO-cell of
+another device if the underlying device is also using GRO-cell.
+This is the case for IPsec over vxlan.
+These two GRO-cells are separate devices. From lockdep's point of view
+it is the same because each device is sharing the same lock class and so
+it reports a possible deadlock assuming one device is nesting into
+itself.
 
-[v1] net: gro_cells: Provide lockdep class for gro_cell's bh_lock
-https://lore.kernel.org/all/20251104111201.5eBxkOKb@linutronix.de
-* [PATCH net] net: gro_cells: Provide lockdep class for gro_cell's bh_lock
+Hold the bh_lock only while accessing gro_cell::napi_skbs in
+gro_cell_poll(). This reduces the locking scope and avoids acquiring the
+same lock class multiple times.
 
-and found the following issue:
-BUG: key ADDR has not been registered!
-
-Full report is available here:
-https://ci.syzbot.org/series/487d8c1b-77a3-45c6-af6d-8195d5c60ad7
-
-***
-
-BUG: key ADDR has not been registered!
-
-tree:      net
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net.git
-base:      3d18a84eddde169d6dbf3c72cc5358b988c347d0
-arch:      amd64
-compiler:  Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
-config:    https://ci.syzbot.org/builds/45da8225-040a-4fda-9352-295e63030683/config
-
-gb_gbphy: registered new driver usb
-asus_wmi: ASUS WMI generic driver loaded
-gnss: GNSS driver registered with major 494
-usbcore: registered new interface driver gnss-usb
-usbcore: registered new interface driver hdm_usb
-usbcore: registered new interface driver snd-usb-audio
-usbcore: registered new interface driver snd-ua101
-usbcore: registered new interface driver snd-usb-usx2y
-usbcore: registered new interface driver snd-usb-us122l
-usbcore: registered new interface driver snd-usb-caiaq
-usbcore: registered new interface driver snd-usb-6fire
-usbcore: registered new interface driver snd-usb-hiface
-usbcore: registered new interface driver snd-bcd2000
-usbcore: registered new interface driver snd_usb_pod
-usbcore: registered new interface driver snd_usb_podhd
-usbcore: registered new interface driver snd_usb_toneport
-usbcore: registered new interface driver snd_usb_variax
-drop_monitor: Initializing network drop monitor service
-NET: Registered PF_LLC protocol family
-GACT probability on
-Mirror/redirect action on
-Simple TC action Loaded
-netem: version 1.3
-u32 classifier
-    Performance counters on
-    input device check on
-    Actions configured
-nf_conntrack_irc: failed to register helpers
-nf_conntrack_sane: failed to register helpers
-nf_conntrack_sip: failed to register helpers
-xt_time: kernel timezone is -0000
-IPVS: Registered protocols (TCP, UDP, SCTP, AH, ESP)
-IPVS: Connection hash table configured (size=4096, memory=32Kbytes)
-IPVS: ipvs loaded.
-IPVS: [rr] scheduler registered.
-IPVS: [wrr] scheduler registered.
-IPVS: [lc] scheduler registered.
-IPVS: [wlc] scheduler registered.
-IPVS: [fo] scheduler registered.
-IPVS: [ovf] scheduler registered.
-IPVS: [lblc] scheduler registered.
-IPVS: [lblcr] scheduler registered.
-IPVS: [dh] scheduler registered.
-IPVS: [sh] scheduler registered.
-IPVS: [mh] scheduler registered.
-IPVS: [sed] scheduler registered.
-IPVS: [nq] scheduler registered.
-IPVS: [twos] scheduler registered.
-IPVS: [sip] pe registered.
-ipip: IPv4 and MPLS over IPv4 tunneling driver
-BUG: key ffff88816c216e68 has not been registered!
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(1)
-WARNING: CPU: 0 PID: 1 at kernel/locking/lockdep.c:4976 lockdep_init_map_type+0x241/0x380
-Modules linked in:
-CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-RIP: 0010:lockdep_init_map_type+0x241/0x380
-Code: 75 cd 90 e8 21 dc e8 02 85 c0 74 22 83 3d 2a c9 df 0d 00 75 19 90 48 c7 c7 36 2e 8f 8d 48 c7 c6 93 c8 7e 8d e8 00 dd e5 ff 90 <0f> 0b 90 90 65 48 8b 05 93 fc d0 10 48 3b 44 24 08 0f 85 14 01 00
-RSP: 0000:ffffc900000672a8 EFLAGS: 00010246
-RAX: 40a598123e634300 RBX: ffffe8fee481dde8 RCX: ffff888102688000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-RBP: 0000000000000000 R08: 0000000000000003 R09: 0000000000000004
-R10: dffffc0000000000 R11: fffffbfff1bba650 R12: 0000000000000000
-R13: 0000000000000000 R14: ffff88816c216e68 R15: ffffe8fee481dde8
-FS:  0000000000000000(0000) GS:ffff88818eb3c000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000dd38000 CR4: 00000000000006f0
-Call Trace:
- <TASK>
- gro_cells_init+0x26c/0x380
- ip_tunnel_init+0xc9/0x650
- register_netdevice+0x6bf/0x1ae0
- __ip_tunnel_create+0x3e7/0x560
- ip_tunnel_init_net+0x2ba/0x800
- ops_init+0x35c/0x5c0
- register_pernet_operations+0x336/0x800
- register_pernet_device+0x2a/0x80
- ipip_init+0x1d/0xd0
- do_one_initcall+0x236/0x820
- do_initcall_level+0x104/0x190
- do_initcalls+0x59/0xa0
- kernel_init_freeable+0x334/0x4b0
- kernel_init+0x1d/0x1d0
- ret_from_fork+0x4bc/0x870
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
+Fixes: 25718fdcbdd2 ("net: gro_cells: Use nested-BH locking for gro_cell")
+Reported-by: Gal Pressman <gal@nvidia.com>
+Closes: https://lore.kernel.org/all/66664116-edb8-48dc-ad72-d5223696dd19@nv=
+idia.com/
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+v1=E2=80=A6v2:
+  - Drop the lock and reacquire it again in gro_cell_poll() instead
+    providing the lock class. The addition lock class needs to be
+    registered and unregistered. The latter must not have from the RCU
+    callback. This looks simpler.
+    Reported by Jakub.
+
+ net/core/gro_cells.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/core/gro_cells.c b/net/core/gro_cells.c
+index fd57b845de333..a725d21159a6f 100644
+--- a/net/core/gro_cells.c
++++ b/net/core/gro_cells.c
+@@ -60,9 +60,10 @@ static int gro_cell_poll(struct napi_struct *napi, int b=
+udget)
+ 	struct sk_buff *skb;
+ 	int work_done =3D 0;
+=20
+-	__local_lock_nested_bh(&cell->bh_lock);
+ 	while (work_done < budget) {
++		__local_lock_nested_bh(&cell->bh_lock);
+ 		skb =3D __skb_dequeue(&cell->napi_skbs);
++		__local_unlock_nested_bh(&cell->bh_lock);
+ 		if (!skb)
+ 			break;
+ 		napi_gro_receive(napi, skb);
+@@ -71,7 +72,6 @@ static int gro_cell_poll(struct napi_struct *napi, int bu=
+dget)
+=20
+ 	if (work_done < budget)
+ 		napi_complete_done(napi, work_done);
+-	__local_unlock_nested_bh(&cell->bh_lock);
+ 	return work_done;
+ }
+=20
+--=20
+2.51.0
+
