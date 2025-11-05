@@ -1,257 +1,69 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F63C314A93
-	for <linux-rt-devel@lists.linux.dev>; Wed,  5 Nov 2025 13:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5053385A0;
+	Wed,  5 Nov 2025 16:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762350466; cv=none; b=svmquPBRH7W8eWBdKD3gmhaRr8QEAJDhU5CQWzBFjSUW4Dtu0svHzpF34WuI7DlkrT8j4OpwOYtiRKHceNvirRpOFsTWUCXEEoI3X7FF+FAWnSoAUdLs+n5e4bnhnGK5NKZ6/h2MBp2SWb97+tS2NHpvu+a4YwMEmAdfkmDp6Lg=
+	t=1762359544; cv=none; b=ZC5Vou4/8aptBxYH4NjbbXwfoHwp1MrKLzwYpy+exmj8wGaY51vC+nFB4ihmEAydX/0o76pBL1wMQ5nXXuKgQ6DuJs0n5jTDuCaACtRPe3loLDiHwsT/uoVo4uHaqEiOsuUpj+LVB3TmG5RDJyiCbAmiUmXcI/VMqMSqYhsVERU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762350466; c=relaxed/simple;
-	bh=TJNRLnn62PJlBCB3zw4knBJMlHA1ANN7TK8B9liBaKU=;
+	s=arc-20240116; t=1762359544; c=relaxed/simple;
+	bh=NCcAa0pDfh+8ix09a1OPmKTAjDiOwhgcNW3yTAqYn9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pNYs4aHLPtneiHDUlXmlwOEmF6JO6/Prp+Ml5YrVq2w0Oj0BJ136+v/eUQDOS3M365gFfzBW/JjpB8+pLX9sEZ9EE/DNdEo3UA9pkeF116QHdR5cnq7j+JYn5tb26ggIfu9VwYgkB5Q3msg1dfQjNIVdbCGwuH0gNrBkxc3L0Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QwqSmZ/A; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4svM2I0o; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=k5n0Ba6X0UYv+HrNBzZeQexvjTPXUIUG2frkMYE9fjztJaQxJxMMptzQgEaLhlow205XTjSWdpsH5D14i0LWIPMFP1idBD8mWeWoJerlAd/TJngpu9WlW7MzsTpmnV2xWHpAi8RqajXjxQ1UF6va6Z06+gd2z1xY0CDs5Kj40fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIS7pvJI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QwqSmZ/A";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4svM2I0o"
-Date: Wed, 5 Nov 2025 14:47:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762350462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SR+2akXvSUUxdvBx3ePu8fPu5yCstdLDnkHoIlu+nCQ=;
-	b=QwqSmZ/ACjLiJGSrcLLMrLyf0wGbWr8vupu0HFpZ1ae44u22MIj+rv5DJGP5ngfj3h0bX0
-	vX3ZAmhq3ixTf5IIwl/1PAlWI/fXDEqMXtUPrqx7uzDKFJtEpiR1l5O87iwGdoRqVsWJe0
-	7NwrUr8Qg8LDxlnQHUcEtMU1fBsI2WowoV5cfobRoe4XK/fdy1gMzjZ7fltugKsEQime/b
-	Exa4UMe/fMVrz/3DMkthYCb6ycdIf8Zgh5H8EOTqv3CIHuc37FvbNJOK6ON0RcdN1mzHZD
-	UC7CUDksepElMp0a/TjFOCVvn+usDB63dQct3hi2u0GOI/5EwjjxPJd5/cjMaA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762350462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SR+2akXvSUUxdvBx3ePu8fPu5yCstdLDnkHoIlu+nCQ=;
-	b=4svM2I0ooFXOzGomett6WRsHF4s2h1yLq11m/VKE7hy2xu2e5mgj6Hm3GKuh0N4R2jyHBg
-	f3Vqzz+cX0Jnd6Aw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-rt-devel@lists.linux.dev,
-	Mario Kleiner <mario.kleiner.de@gmail.com>,
-	Mike Galbraith <umgwanakikbuti@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIS7pvJI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91FA7C2BCB0;
+	Wed,  5 Nov 2025 16:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1762359543;
+	bh=NCcAa0pDfh+8ix09a1OPmKTAjDiOwhgcNW3yTAqYn9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hIS7pvJIikT/daVfuiV6hOw8rowj5kF2jyQbPmqVAFcLSi/BrVw3VOFQj8kzc8LQZ
+	 BcEJjyvW51mn/gil4UEklR2UCI7uWz2xoeiwgAfIwwPnKAy/ClBPGF/Qx6MEs6DQnn
+	 fk5w3ty+2y3OhZ3BzMg0uhahAgno29sYHwIT0yJwUeNHjP1cxmUz2yweGOJmL5ARGE
+	 F8Y3XmHwKHl/HbDapWAEsr+p4YXenBiXqPsHNr/e5dBpT4m2GdekcoFdO+kTLUs0W9
+	 e6KlIWXhRo4IbK2XzltdkrC1u4ykAP4tvHNHE8h8yAxmCcbVZF/awAFDG6g6V61wyx
+	 vfvp1Co3/C2CQ==
+Date: Wed, 5 Nov 2025 06:19:02 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Calvin Owens <calvin@wbinvd.org>, linux-kernel@vger.kernel.org,
+	Dan Schatzberg <dschatzberg@meta.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2 0/7] drm/i915/display: Handle vblank evasion with
- CONFIG_PREEMPT_RT
-Message-ID: <20251105134740.NseZnpeZ@linutronix.de>
-References: <20251104083634.670753-1-dev@lankhorst.se>
+	Steven Rostedt <rostedt@goodmis.org>, cgroups@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH cgroup/for-6.19 1/2] cgroup: Convert css_set_lock from
+ spinlock_t to raw_spinlock_t
+Message-ID: <aQt49uB4lEDPqVYE@slm.duckdns.org>
+References: <20251104181114.489391-1-calvin@wbinvd.org>
+ <d03d2a6e0d0a09e9da6a54370f253c00@kernel.org>
+ <20251105073009.xNtOAM_u@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251104083634.670753-1-dev@lankhorst.se>
+In-Reply-To: <20251105073009.xNtOAM_u@linutronix.de>
 
-Thank you for looking into this. I applied this on top of
-drm-intel-next-2025-11-04 for testing.
+On Wed, Nov 05, 2025 at 08:30:09AM +0100, Sebastian Andrzej Siewior wrote:
+> This one has a kfree(link) and kfree takes spinlock_t so not working.
+...
+> 
+> I am also a bit worried about all these list iterations which happen
+> under the lock. There is no upper limit meaning the list can grow with
+> limits affecting the time the lock is held.
 
-On 2025-11-04 09:36:24 [+0100], Maarten Lankhorst wrote:
-> There is a critical section between intel_pipe_update_start() and
-> intel_pipe_update_end() where we only program hardware registers,
-> should not take any lock and complete as fast as possible.
->=20
-> The previous approach used to remove the local_irq_enable/disable()
-> in this critical, but that increases the probability that the time
-> sensitive section does not complete in 100 =C2=B5s, potentially causing
-> the hardware to hang.
->=20
-> I went through all the lockdep splats that occurred in CI, and fixed
-> them 1 by 1 until there were none left. This additionally improves
-> latency by not removing any locks in the fastpath.
->=20
-> In intel_de.h the implicit DMC wakelock was added, ideally we can get rid
-> of it, but for now we can simply use the same _fw variants as are
-> needed on i915.
->=20
-> I believe this series is enough to make xe and perhaps good enough to make
-> i915's display RT safe.
+Good points. Let me think of something else.
 
-I've been playing with it:
-- DRM_XE_DEBUG_GUC ended in a segfault:
-| xe 0000:00:02.0: enabling device (0006 -> 0007)
-| Console: switching to colour dummy device 80x25
-| xe 0000:00:02.0: vgaarb: deactivate vga console
-| xe 0000:00:02.0: [drm] Running in SR-IOV PF mode
-| xe 0000:00:02.0: [drm] Found tigerlake/uy (device ID 9a49) integrated dis=
-play version 12.00 stepping C0
-| xe 0000:00:02.0: vgaarb: VGA decodes changed: olddecodes=3Dio+mem,decodes=
-=3Dnone:owns=3Dmem
-| xe 0000:00:02.0: [drm] Finished loading DMC firmware i915/tgl_dmc_ver2_12=
-=2Ebin (v2.12)
-| xe 0000:00:02.0: [drm] Tile0: GT0: Using GuC firmware from i915/tgl_guc_7=
-0.bin version 70.49.4
-| xe 0000:00:02.0: [drm] Tile0: GT0: Using HuC firmware from i915/tgl_huc.b=
-in version 7.9.3
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs1 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs3 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs4 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs5 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs6 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vcs7 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vecs1 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vecs2 fused off
-| xe 0000:00:02.0: [drm] Tile0: GT0: vecs3 fused off
-| BUG: kernel NULL pointer dereference, address: 0000000000000000
-| #PF: supervisor read access in kernel mode
-| #PF: error_code(0x0000) - not-present page
-| PGD 0 P4D 0
-| Oops: Oops: 0000 [#1] SMP NOPTI
-| CPU: 1 UID: 0 PID: 631 Comm: kworker/u32:9 Tainted: G     U      E       =
-6.18.0-rc1+ #31 PREEMPT_{RT,(lazy)}
-| Tainted: [U]=3DUSER, [E]=3DUNSIGNED_MODULE
-| Hardware name: LENOVO 20TD00GLGE/20TD00GLGE, BIOS R1EET64W(1.64 ) 03/18/2=
-025
-| Workqueue:  drm_sched_run_job_work [gpu_sched]
-| RIP: 0010:stack_depot_save_flags+0x168/0xb00
-| Code: c2 44 31 d0 41 c1 ca 08 44 29 d0 41 89 c0 45 89 c2 44 23 15 82 68 a=
-1 03 49 c1 e2 04 4c 03 15 7f 68 a1 03 65 ff 05 f8 b9 f6 01 <4d> 8b 0a 4d 39=
- ca 75 1c e9 ae  00 00 00 66 66 2e 0f 1f 84 00 00 00
-| RSP: 0018:ffffaa58c1a9f6a8 EFLAGS: 00010282
-| RAX: 0000000006425a49 RBX: 0000000000000001 RCX: 000000000000000e
-| RDX: 000000000000000e RSI: 00000000be7f6f1a RDI: 0000000000000001
-| RBP: ffffaa58c1a9f700 R08: 0000000006425a49 R09: 000000000739c857
-| R10: 0000000000000000 R11: 00000000000025b3 R12: 0000000000004502
-| R13: ffff9c3a8f2b18b8 R14: 0000000000002800 R15: 000000000000000d
-| FS:  0000000000000000(0000) GS:ffff9c3e55884000(0000) knlGS:0000000000000=
-000
-| CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-| CR2: 0000000000000000 CR3: 000000003e854003 CR4: 0000000000f72ef0
-| PKRU: 55555554
-| Call Trace:
-| Call Trace:
-|  <TASK>
-|  fast_req_track+0x58/0xb0 [xe]
-|  h2g_write+0x39f/0x720 [xe]
-|  __guc_ct_send_locked+0x1e4/0x10f0 [xe]
-|  guc_ct_send_locked+0xa4/0x690 [xe]
-|  guc_ct_send+0x74/0x250 [xe]
-|  xe_guc_ct_send+0x19/0x50 [xe]
-|  __register_exec_queue.isra.0+0x7e/0xa0 [xe]
-|  register_exec_queue+0x2f4/0x750 [xe]
-|  guc_exec_queue_run_job+0x4f6/0x8f0 [xe]
-|  drm_sched_run_job_work+0x1ef/0x450 [gpu_sched]
+Thanks.
 
-This happens also without the series and without PREEMPT_RT enabled. I
-just to a while to figure this one out on the hardware in question since
-it all just froze=E2=80=A6
-
-Other than that, XE seems fine.
-
-i915.
-- drm/i915/display: Move vblank put until after critical section
- - intel_vblank_evade() is invoked with irq-off
-   - within its callchain intel_vblank_section_enter() does spin_lock()
-     in I915. XE does nothing so it is fine.
-   - intel_crtc_scanlines_since_frame_timestamp() does a while loop
-     What is the expected/ possible worst case here and when does it happen?
-   While at it, I noticed:
-   local_irq_disable();
-   if (new_plane_state->uapi.visible) {
-           intel_plane_update_noarm(NULL, plane, crtc_state, new_plane_stat=
-e);
-           if (plane->fbc)
-                  intel_fbc_dirty_rect_update_noarm(dsb, plane);
-                     if (!HAS_FBC_DIRTY_RECT(display))
-                         return;
-                     mutex_lock(&fbc->lock); <----
-
-   Haven't checked the callbacks but it feels like a lot of code with
-   disabled interrupts.
-
-- The GEM_BUG_ON(!irqs_disabled) in __i915_request_submit()/
-  __i915_request_unsubmit() case bugs/ warnings:
-| WARNING: CPU: 3 PID: 2115 at drivers/gpu/drm/i915/i915_request.c:611 __i9=
-15_request_submit+0x1db/0x1f0 [i915]
-| CPU: 3 UID: 0 PID: 2115 Comm: modprobe Not tainted 6.18.0-rc1+ #17 PREEMP=
-T_{RT,(lazy)}
-| Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./Z68 Pro3-M, =
-BIOS P2.30 06/29/2012
-| RIP: 0010:__i915_request_submit+0x1db/0x1f0 [i915]
-| Call Trace:
-|  <TASK>
-|  i915_request_submit+0x29/0x40 [i915]
-|  i9xx_submit_request+0xe/0x70 [i915]
-|  submit_notify+0xc1/0x230 [i915]
-|  __i915_sw_fence_complete+0x88/0x290 [i915]
-|  __engine_park+0x2d2/0x410 [i915]
-|  ____intel_wakeref_put_last+0x25/0x90 [i915]
-|  intel_gt_resume.part.0+0x2ec/0x380 [i915]
-|  intel_gt_init+0x14d/0x3d0 [i915]
-|  i915_gem_init+0x14b/0x290 [i915]
-|  i915_driver_probe+0x74a/0xc10 [i915]
-|  i915_pci_probe+0xd7/0x190 [i915]
-|  local_pci_probe+0x41/0x80
-
-- The change of irq-enable is not enough:
-| BUG: sleeping function called from invalid context at kernel/locking/spin=
-lock_rt.c:48
-| in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 2115, name: modpro=
-be
-| preempt_count: 0, expected: 0
-| RCU nest depth: 0, expected: 0
-| 4 locks held by modprobe/2115:
-|  #0: ffff99b9425161a0 (&dev->mutex){....}-{4:4}, at: __driver_attach+0xaf=
-/0x1c0
-|  #1: ffffaa224810f6c0 (crtc_ww_class_acquire){+.+.}-{0:0}, at: intel_init=
-ial_commit+0x4c/0x200 [i915]
-|  #2: ffffaa224810f6e8 (crtc_ww_class_mutex){+.+.}-{4:4}, at: intel_initia=
-l_commit+0x4c/0x200 [i915]
-|  #3: ffff99b94a6c9030 (&uncore->lock){+.+.}-{3:3}, at: gen6_write32+0x50/=
-0x290 [i915]
-| irq event stamp: 513344
-| hardirqs last  enabled at (513343): [<ffffffff8ba8d84c>] _raw_spin_unlock=
-_irqrestore+0x4c/0x60
-| hardirqs last disabled at (513344): [<ffffffffc1543646>] intel_pipe_updat=
-e_start+0x216/0x2c0 [i915]
-| softirqs last  enabled at (512766): [<ffffffff8af045cf>] __local_bh_enabl=
-e_ip+0x10f/0x170
-| softirqs last disabled at (512712): [<ffffffffc14dfb6a>] __i915_request_q=
-ueue+0x3a/0x70 [i915]
-| CPU: 3 UID: 0 PID: 2115 Comm: modprobe Tainted: G        W           6.18=
-=2E0-rc1+ #17 PREEMPT_{RT,(lazy)}
-| Tainted: [W]=3DWARN
-| Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./Z68 Pro3-M, =
-BIOS P2.30 06/29/2012
-| Call Trace:
-|  <TASK>
-|  dump_stack_lvl+0x68/0x90
-|  __might_resched.cold+0xf0/0x12b
-|  rt_spin_lock+0x5f/0x200
-|  gen6_write32+0x50/0x290 [i915]
-|  ilk_set_pipeconf+0x12d/0x230 [i915]
-|  ilk_color_commit_arm+0x2d/0x70 [i915]
-|  intel_update_crtc+0x15b/0x690 [i915]
-|  intel_commit_modeset_enables+0xa6/0xd0 [i915]
-|  intel_atomic_commit_tail+0xd55/0x19a0 [i915]
-|  intel_atomic_commit+0x25d/0x2a0 [i915]
-|  drm_atomic_commit+0xad/0xe0 [drm]
-|  intel_initial_commit+0x16c/0x200 [i915]
-|  intel_display_driver_probe+0x2e/0x80 [i915]
-|  i915_driver_probe+0x791/0xc10 [i915]
-|  i915_pci_probe+0xd7/0x190 [i915]
-
-This is the intel_pipe_update_start()/ intel_pipe_update_end() part in inte=
-l_update_crtc().
-
-Sebastian
+-- 
+tejun
