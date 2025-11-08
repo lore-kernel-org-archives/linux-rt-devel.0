@@ -1,61 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DF5289374;
-	Fri,  7 Nov 2025 20:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AE52DEA97
+	for <linux-rt-devel@lists.linux.dev>; Sat,  8 Nov 2025 06:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762548801; cv=none; b=Rgnln22aBQHsloDid9bAol3zw0Mju5CXz6tyW2pbcUMZP60i9BrA60GeAw3L1BJvmpYrw1ihe51xeIwLogJ3B9uCrIAFPeQZHdq1QH5LwD23cVMsChg2xYMtbqzWs+qZvKB8jrKvzGGgvxDUqiEgkFNP+pJPgK+QYHNXcemRMjg=
+	t=1762583587; cv=none; b=sKAdsi7ilMjsQeNOnfmXNP0WhpGd3I6NYmPHEx2VpAQbF5HBino/Ns55rBETseRm2qRmcO6ffD8l9y0e3srXTRoJ3VBboDYq7kqzQ1d+YVXJTg+4qel3cs7Sfy64gx1AjEO9jcvEjdW8g3yIJ8PSIlT1TILwy78xdD5OI5yd71s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762548801; c=relaxed/simple;
-	bh=DBmx+rm2lwQtKOPN9whXrQRvBhqEUJKcglae1D8o57Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RE4zKeHTHrOHd7qMzo6C5Fy9dyqSl6rlkdmkcAcr9qcoqTgrZ8H6BqcZFEVDIpJjIDhDH7G1pYrFYROwYj/I771DAJ/tk8UBHIslJRRHw7x3bjvc9QOpstYU3vErt4qY8NQiFC4xjYdmHMdtGgzgVdYsJLgN+93lOj/4cE8FmVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA43BC116C6;
-	Fri,  7 Nov 2025 20:53:18 +0000 (UTC)
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: will@kernel.org,
-	ardb@kernel.org,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	leitao@debian.org,
-	mark.rutland@arm.com,
-	rostedt@goodmis.org,
-	Ryo Takakura <ryotkkr98@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] arm64: use SOFTIRQ_ON_OWN_STACK for enabling softirq stack
-Date: Fri,  7 Nov 2025 20:53:13 +0000
-Message-ID: <176254876744.3846522.7990642471970534019.b4-ty@arm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251105074259.209131-1-ryotkkr98@gmail.com>
-References: <20251105074259.209131-1-ryotkkr98@gmail.com>
+	s=arc-20240116; t=1762583587; c=relaxed/simple;
+	bh=dbfhdtCKn+6nvZ6eJ1H7Lwiq1Z6gbhIUoQCHaumcd70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YJ9wd5OExK41HWQEE8R7PgmzT7l1PiXrv8ngRdmgUfqnIBGqXIPPXAAyxMGoklVTe5W3HUYlirXY/VgweTz9yhcL8SAiKUPE7P1PsybP5qNMjxX9Dq/29qFyesfUJ3bUz4MYMD63zl8egrDbufh5Lnv/3BBQrw+JLLZBCxXT2NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uzq6smUi; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uzq6smUi"
+Date: Fri, 7 Nov 2025 22:32:52 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1762583579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J/7T3JLvqIy8G97oSkwZiUgQ/us13qwXbaI51bbYH88=;
+	b=uzq6smUiUaadIABNL4WAH3kQ9/NWi6rV98ylBfMFIppw4E+N8btmKbgAwhGrszMoJj9rnz
+	CB2k+MOmm4mSUBVKeFZssHPocjdfCursoyR/iyfIffk6nTiCSrZTDcFQJPhgzISSZpcb6J
+	ZQS4G8+TUhTtakAd1HkSQXaXtPTzs0Y=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: Qi Zheng <qi.zheng@linux.dev>, hannes@cmpxchg.org, hughd@google.com, 
+	mhocko@suse.com, roman.gushchin@linux.dev, muchun.song@linux.dev, 
+	david@redhat.com, lorenzo.stoakes@oracle.com, ziy@nvidia.com, 
+	imran.f.khan@oracle.com, kamalesh.babulal@oracle.com, axelrasmussen@google.com, 
+	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	Muchun Song <songmuchun@bytedance.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
+Message-ID: <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
+References: <cover.1761658310.git.zhengqi.arch@bytedance.com>
+ <97ea4728568459f501ddcab6c378c29064630bb9.1761658310.git.zhengqi.arch@bytedance.com>
+ <aQ1_f_6KPRZknUGS@harry>
+ <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
+ <aQ3yLER4C4jY70BH@harry>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aQ3yLER4C4jY70BH@harry>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, 05 Nov 2025 16:42:59 +0900, Ryo Takakura wrote:
-> For those architectures with HAVE_SOFTIRQ_ON_OWN_STACK use
-> their dedicated softirq stack when !PREEMPT_RT. This condition
-> is ensured by SOFTIRQ_ON_OWN_STACK.
+On Fri, Nov 07, 2025 at 10:20:57PM +0900, Harry Yoo wrote:
 > 
-> Let arm64 use SOFTIRQ_ON_OWN_STACK as well to select its
-> usage of the stack.
+> Although it's mentioned in the locking documentation, I'm afraid that
+> local_lock is not the right interface to use here. Preemption will be
+> disabled anyway (on both PREEMPT_RT and !PREEMPT_RT) when the stats are
+> updated (in __mod_node_page_state()).
 > 
-> [...]
+> Here we just want to disable IRQ only on !PREEMPT_RT (to update
+> the stats safely).
 
-Applied to arm64 (for-next/misc), thanks!
+I don't think there is a need to disable IRQs. There are three stats
+update functions called in that hunk.
 
-[1/1] arm64: use SOFTIRQ_ON_OWN_STACK for enabling softirq stack
-      https://git.kernel.org/arm64/c/d3b570eba7bf
+1) __mod_lruvec_state
+2) __count_vm_events
+3) count_memcg_events
 
--- 
-Catalin
+count_memcg_events() can be called with IRQs. __count_vm_events can be
+replaced with count_vm_events. For __mod_lruvec_state, the
+__mod_node_page_state() inside needs preemption disabled.
 
+Easy way would be to just disable/enable preemption instead of IRQs.
+Otherwise go a bit more fine-grained approach i.e. replace
+__count_vm_events with count_vm_events and just disable preemption
+across __mod_node_page_state().
