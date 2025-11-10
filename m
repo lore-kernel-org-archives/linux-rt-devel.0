@@ -1,102 +1,102 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189CF2EA755
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 14:56:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8443630215F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 14:56:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762786583; cv=none; b=d3FS9lrKNGGhTWeAGxvjnVuA9EYFV9elngyt39V5Yc76uXW5tHPbE6UxLLDT5N7JjCqjyS3IKxwore5seP/AIIpqyQNdAoQxtjV5x6QFSMmNvaOLNYoUjecuVzNTvoqChoY9LlF6feRltYzmqGR7OZJTYRX11vsQyydIAtJMW9M=
+	t=1762786584; cv=none; b=W4p0RZOS0fUAt1NvrRPlgs7tfwHpsOnK0bC4hiszMh2W8d72EEW2vrO+SyWH6VfFsO0FUzZyDABjmefHme4X6lrFvxX3GaclNHAurYabNFDSiYjqeVi2A9AnXaH7uhzPf33z0LkfYsMD4cAg+9LZMnBNoe4LfkXqTeL28Swkudo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762786583; c=relaxed/simple;
-	bh=7v1TEDDrKxWZTrBfRp900GGo5uiRa9PaDhYCZRcv9m0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rMpI7nX8zZg8kPIYJPdsGCOaOWh5vKJDHSOx1eUMiTzEQFmfCVMTiWEqNb7Ls4VBLDTq4Ri68h4HGRSkFa/ifzn7VkJD6ddfOvUPXz/SCYH4RqzZyeMVwOtdERSTkZOv3O6LoWnqL+QmvC2neiHLzzF4kbJBnIrdeg6UUIn8fTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cDtieN82; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d/53tPbk; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1762786584; c=relaxed/simple;
+	bh=gvuphkX9MVwqb9yuTMDHMD9PJxkH/tN5jxv46FJiPWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c4imPJslGT+MW1vYk5jgABaaNZ4d8+2YSP3PdFQ6z4BaNwYPUAzkLjd8o5mWHYoU5hhKCe+8m78M145CTs/r4mt7KMVQ/Aw8080cy2j8d8ycjmu7FjTH2k/GcRUTHVFMpLlCq03O5uhxAuRji7cuPR88aBhvu/PriyvlzahC3uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JyC6l7+8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jspdRtBL; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cDtieN82";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d/53tPbk"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JyC6l7+8";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jspdRtBL"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762786579;
+	s=2020; t=1762786580;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vd/3FqZBEmb3t88zXyTeUc/Fqx5bvAc+Cgy+ABhvCx4=;
-	b=cDtieN82wpdjhzWTPsUOfwZG/p/1+oKraQcT/cbsAlj31MJty6qZD95TIDMDW7dOH+uBqf
-	QjmF6NYLuOPR7x+HTyN1n1qc+Zv28p/cyeEDO25RSDhgdMMcNsHsOtKa5l9HM7QRJPZnK2
-	eE0z8zPm9lrFYpaMAqxHjPc9Ojh9m4BUM/tr0hxLbk7e39GZo/r2kFWnGBkGmBJOeZReJD
-	BDTe+MKaZgnQAIX+nLsxhxCVjk7mP2d2p4EoaNO3mqee1AHG9rc50wygEMIzANos4tgZfb
-	0cL04Al0XP9huXLxT42fq3qvgnUnAZ6psvmFX5rbThnVNGxiXl5z5OskZySELg==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LrUC7JbXBMMxZugHWu6/YK600YFH5JwP0FwRYQIUf/M=;
+	b=JyC6l7+8FqVtcfYhbakSbUYu34GR7YTGq/u6DTGBUO6kpm1VLLA+XBgEFRI7a9ZrFMZNMn
+	5KWAMu+p3WT6x+redLeV29EmvxnGyg6PGS1uCQ4L4eVrdnhq5ePAlewey9xfBNU3oM6eSL
+	zlWbo58hQzt8CrzDaLtFysrBQoNx59l06sTGEVWRqwtDP8wD6oQ6eoZQysawwKSeWvEOmU
+	p5n5z81HQ/IMCNYYivvSenGPrTOcK3PBx+YkuGDiFRsCUzX2q66FUy/pBKXphIY69gAqq3
+	8qo/xcgDl94THVb9L+l6eidhu1fyHjY7yQL7Gi+opXS49WnPf+APrTDb7wPYlw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762786579;
+	s=2020e; t=1762786580;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=vd/3FqZBEmb3t88zXyTeUc/Fqx5bvAc+Cgy+ABhvCx4=;
-	b=d/53tPbkWQciAgJehnDhruamFYelbOrDDuj+CR34h0Hy9PlvA4ShfTJj5Z2kiVth0f+rrT
-	nbTQICMv6dJrJfBA==
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LrUC7JbXBMMxZugHWu6/YK600YFH5JwP0FwRYQIUf/M=;
+	b=jspdRtBLEAWqyMHczz5EJhINO7IkTsLK18N72je4bPgEtwAWt3eTpiACZi4pj0+us84yPa
+	huWf94jBVy6sYpCw==
 To: linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Russell King <linux@armlinux.org.uk>,
 	Xie Yuanbin <xieyuanbin1@huawei.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
+	"Yadi.hu" <yadi.hu@windriver.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 0/5] ARM: Remaining PREEMPT_RT bits 
-Date: Mon, 10 Nov 2025 15:55:50 +0100
-Message-ID: <20251110145555.2555055-1-bigeasy@linutronix.de>
+Subject: [PATCH v3 2/5] ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
+Date: Mon, 10 Nov 2025 15:55:52 +0100
+Message-ID: <20251110145555.2555055-3-bigeasy@linutronix.de>
+In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
+References: <20251110145555.2555055-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-this is the last batch I have to enable PREEMPT_RT on the ARM
-architecture.
-Last time I posted them there was some discussion about making the
-branch predictor hardening worse. I redid it hoping it improved now and
-does not make it worse.
+From: "Yadi.hu" <yadi.hu@windriver.com>
 
-Is this okay now?
+In the !LPAE case __do_user_fault() is invoked from do_bad_area(). If a
+user pointer cause the page fault then a signal is sent.
 
-v2=E2=80=A6v3: https://lore.kernel.org/all/20251103101545.760243-1-bigeasy@=
-linutronix.de
-  - Collected tags.
+Sending a signal requires to acquire sighand_struct::siglock which is a
+spinlock_t. On PREEMPT_RT spinlock_t becomes a sleeping spin lock which
+requires interrupts to be enabled. Since the calling context is user
+land, interrupts must have been enabled so it is fine to enable them in
+this case.
 
-v1=E2=80=A6v2: https://lore.kernel.org/all/20251029155918.503060-1-bigeasy@=
-linutronix.de
-  - Allow to enable jump-labels on UP. The UP build does not involve
-    stop_machine(). Reworked by Arnd.
+Enable interrupts in do_bad_area() before invoking __do_user_fault().
 
-  - Instead of forbidding HAVE_GUP_FAST with HIGHPTE enabled just
-    disable HIGHPTE on PREEMPT_RT. As Arnd explained, HIGHPTE is rarely
-    needed.
+[bigeasy: Initial patch/ report by Yadi. Maintained the patch and redid
+          the patch description since]
 
-  - Don't let ARCH_SUPPORTS_RT depend on HAVE_POSIX_CPU_TIMERS_TASK_WORK
-    which in turn depends on !KVM. Since KVM has been removed from ARM
-    it is sufficient to unconditionally allow ARCH_SUPPORTS_RT. Noted
-    by Arnd.
+Signed-off-by: Yadi.hu <yadi.hu@windriver.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ arch/arm/mm/fault.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Sebastian Andrzej Siewior (3):
-  ARM: mm: fault: Move harden_branch_predictor() before interrupts are
-    enabled
-  ARM: Disable HIGHPTE on PREEMPT_RT kernels
-  ARM: Allow to enable RT
-
-Thomas Gleixner (1):
-  ARM: Disable jump-label on PREEMPT_RT
-
-Yadi.hu (1):
-  ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
-
- arch/arm/Kconfig    |  5 +++--
- arch/arm/mm/fault.c | 16 ++++++++++------
- 2 files changed, 13 insertions(+), 8 deletions(-)
-
+diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
+index 5d28c28e877c1..ad58c1e22a5f9 100644
+--- a/arch/arm/mm/fault.c
++++ b/arch/arm/mm/fault.c
+@@ -218,6 +218,7 @@ void do_bad_area(unsigned long addr, unsigned int fsr, =
+struct pt_regs *regs)
+ 	if (user_mode(regs)) {
+ 		if (addr >=3D TASK_SIZE)
+ 			harden_branch_predictor();
++		local_irq_enable();
+ 		__do_user_fault(addr, fsr, SIGSEGV, SEGV_MAPERR, regs);
+ 	} else {
+ 		__do_kernel_fault(mm, addr, fsr, regs);
 --=20
 2.51.0
 
