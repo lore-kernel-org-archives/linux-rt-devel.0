@@ -1,157 +1,102 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDC62E7BC2
-	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 06:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 189CF2EA755
+	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 14:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762755134; cv=none; b=CQdOX3VlpnYzgWs4MsMTEBz3ipS8ZgZF2HeZWVnUOuJhZ9lfzuDPt47ldxNt9rD9LmKKz3uCVmj22AwkKWE+AgrXOslhb1uy390w9occejPfKw57J4nUe0RYNcMofB5f3nolOj6KERZ3iTnCBC7b/0YYawjd+Bim5q3lP+BRya4=
+	t=1762786583; cv=none; b=d3FS9lrKNGGhTWeAGxvjnVuA9EYFV9elngyt39V5Yc76uXW5tHPbE6UxLLDT5N7JjCqjyS3IKxwore5seP/AIIpqyQNdAoQxtjV5x6QFSMmNvaOLNYoUjecuVzNTvoqChoY9LlF6feRltYzmqGR7OZJTYRX11vsQyydIAtJMW9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762755134; c=relaxed/simple;
-	bh=SKzxiJe8Vf2TaHzdLS7X3O/aj+2n2Ru2BTWsVVQe4cs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iQKEIr3uZLBwYkA4f0MzxTwb2ZkUshjKRFJ3lw4TOqVBrizJT7b5MIW6tgRC41f9QPKzhXzHvs7iEC6+/rME5Hth4SQl6F6XFM623D1AWZj53g188cs5T/30k/1yliVoiTYa0/d/XN2BlzsJj0MOJ9i9yGwgjtEPZgZ98JpXlCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pyAN4c8D; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1762786583; c=relaxed/simple;
+	bh=7v1TEDDrKxWZTrBfRp900GGo5uiRa9PaDhYCZRcv9m0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rMpI7nX8zZg8kPIYJPdsGCOaOWh5vKJDHSOx1eUMiTzEQFmfCVMTiWEqNb7Ls4VBLDTq4Ri68h4HGRSkFa/ifzn7VkJD6ddfOvUPXz/SCYH4RqzZyeMVwOtdERSTkZOv3O6LoWnqL+QmvC2neiHLzzF4kbJBnIrdeg6UUIn8fTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cDtieN82; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d/53tPbk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pyAN4c8D"
-Message-ID: <79ba4e0c-eac8-420e-b6b2-b7cdede5dcfc@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762755129;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cDtieN82";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d/53tPbk"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762786579;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TVI42Ht4KJq3XQAXSl87HHit5RIvDqcfLhp3PfZoCwg=;
-	b=pyAN4c8DF7ukkFGezZGvuyGuPkdtfhlCZrR120hxx6n2B1ZrtYQFeoh9xaUxAvVhlX2p5R
-	mH+pNLp+RF8MNwIpi7g0gd++ZzHw9smbam92okspni+o12Co6uwIClrFQrzMrsLPO8NZXe
-	ZSadIjKfb+qAhPAwJ2VlAmxj3HswspY=
-Date: Mon, 10 Nov 2025 14:11:54 +0800
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vd/3FqZBEmb3t88zXyTeUc/Fqx5bvAc+Cgy+ABhvCx4=;
+	b=cDtieN82wpdjhzWTPsUOfwZG/p/1+oKraQcT/cbsAlj31MJty6qZD95TIDMDW7dOH+uBqf
+	QjmF6NYLuOPR7x+HTyN1n1qc+Zv28p/cyeEDO25RSDhgdMMcNsHsOtKa5l9HM7QRJPZnK2
+	eE0z8zPm9lrFYpaMAqxHjPc9Ojh9m4BUM/tr0hxLbk7e39GZo/r2kFWnGBkGmBJOeZReJD
+	BDTe+MKaZgnQAIX+nLsxhxCVjk7mP2d2p4EoaNO3mqee1AHG9rc50wygEMIzANos4tgZfb
+	0cL04Al0XP9huXLxT42fq3qvgnUnAZ6psvmFX5rbThnVNGxiXl5z5OskZySELg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762786579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vd/3FqZBEmb3t88zXyTeUc/Fqx5bvAc+Cgy+ABhvCx4=;
+	b=d/53tPbkWQciAgJehnDhruamFYelbOrDDuj+CR34h0Hy9PlvA4ShfTJj5Z2kiVth0f+rrT
+	nbTQICMv6dJrJfBA==
+To: linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Russell King <linux@armlinux.org.uk>,
+	Xie Yuanbin <xieyuanbin1@huawei.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v3 0/5] ARM: Remaining PREEMPT_RT bits 
+Date: Mon, 10 Nov 2025 15:55:50 +0100
+Message-ID: <20251110145555.2555055-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, hannes@cmpxchg.org,
- hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev,
- muchun.song@linux.dev, david@redhat.com, lorenzo.stoakes@oracle.com,
- ziy@nvidia.com, imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- akpm@linux-foundation.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
- Qi Zheng <zhengqi.arch@bytedance.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev
-References: <cover.1761658310.git.zhengqi.arch@bytedance.com>
- <97ea4728568459f501ddcab6c378c29064630bb9.1761658310.git.zhengqi.arch@bytedance.com>
- <aQ1_f_6KPRZknUGS@harry> <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
- <aQ3yLER4C4jY70BH@harry>
- <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
- <aRFKY5VGEujVOqBc@hyeyoo> <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
- <aRF7eYlBKmG3hEFF@hyeyoo>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <aRF7eYlBKmG3hEFF@hyeyoo>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+this is the last batch I have to enable PREEMPT_RT on the ARM
+architecture.
+Last time I posted them there was some discussion about making the
+branch predictor hardening worse. I redid it hoping it improved now and
+does not make it worse.
 
+Is this okay now?
 
-On 11/10/25 1:43 PM, Harry Yoo wrote:
-> On Mon, Nov 10, 2025 at 12:30:06PM +0800, Qi Zheng wrote:
->>
->>
->> On 11/10/25 10:13 AM, Harry Yoo wrote:
->>> On Fri, Nov 07, 2025 at 10:32:52PM -0800, Shakeel Butt wrote:
->>>> On Fri, Nov 07, 2025 at 10:20:57PM +0900, Harry Yoo wrote:
->>>>>
->>>>> Although it's mentioned in the locking documentation, I'm afraid that
->>>>> local_lock is not the right interface to use here. Preemption will be
->>>>> disabled anyway (on both PREEMPT_RT and !PREEMPT_RT) when the stats are
->>>>> updated (in __mod_node_page_state()).
->>>>>
->>>>> Here we just want to disable IRQ only on !PREEMPT_RT (to update
->>>>> the stats safely).
->>>>
->>>> I don't think there is a need to disable IRQs. There are three stats
->>>> update functions called in that hunk.
->>>>
->>>> 1) __mod_lruvec_state
->>>> 2) __count_vm_events
->>>> 3) count_memcg_events
->>>>
->>>> count_memcg_events() can be called with IRQs. __count_vm_events can be
->>>> replaced with count_vm_events.
->>>
->>> Right.
->>>
->>>> For __mod_lruvec_state, the
->>>> __mod_node_page_state() inside needs preemption disabled.
->>>
->>> The function __mod_node_page_state() disables preemption.
->>> And there's a comment in __mod_zone_page_state():
->>>
->>>> /*
->>>>    * Accurate vmstat updates require a RMW. On !PREEMPT_RT kernels,
->>>>    * atomicity is provided by IRQs being disabled -- either explicitly
->>>>    * or via local_lock_irq. On PREEMPT_RT, local_lock_irq only disables
->>>>    * CPU migrations and preemption potentially corrupts a counter so
->>>>    * disable preemption.
->>>>    */
->>>> preempt_disable_nested();
->>>
->>> We're relying on IRQs being disabled on !PREEMPT_RT.
->>
->> So it's possible for us to update vmstat within an interrupt context,
->> right?
-> 
-> Yes, for instance when freeing memory in an interrupt context we can
-> update vmstat and that's why we disable interrupts now.
+v2=E2=80=A6v3: https://lore.kernel.org/all/20251103101545.760243-1-bigeasy@=
+linutronix.de
+  - Collected tags.
 
-Got it.
+v1=E2=80=A6v2: https://lore.kernel.org/all/20251029155918.503060-1-bigeasy@=
+linutronix.de
+  - Allow to enable jump-labels on UP. The UP build does not involve
+    stop_machine(). Reworked by Arnd.
 
-> 
->> There is also a comment above __mod_zone_page_state():
->>
->> /*
->>   * For use when we know that interrupts are disabled,
->>   * or when we know that preemption is disabled and that
->>   * particular counter cannot be updated from interrupt context.
->>   */
-> 
-> Yeah we don't have to disable IRQs when we already know it's disabled.
-> 
->> BTW, the comment inside __mod_node_page_state() should be:
->>
->> /* See __mod_zone_page_state */
->>
->> instead of
->>
->> /* See __mod_node_page_state */
->>
->> Will fix it.
-> 
-> Right :) Thanks!
-> 
->>> Maybe we could make it safe against re-entrant IRQ handlers by using
->>> read-modify-write operations?
->>
->> Isn't it because of the RMW operation that we need to use IRQ to
->> guarantee atomicity? Or have I misunderstood something?
-> 
-> I meant using atomic operations instead of disabling IRQs, like, by
-> using this_cpu_add() or cmpxchg() instead.
+  - Instead of forbidding HAVE_GUP_FAST with HIGHPTE enabled just
+    disable HIGHPTE on PREEMPT_RT. As Arnd explained, HIGHPTE is rarely
+    needed.
 
-Got it. I will give it a try.
+  - Don't let ARCH_SUPPORTS_RT depend on HAVE_POSIX_CPU_TIMERS_TASK_WORK
+    which in turn depends on !KVM. Since KVM has been removed from ARM
+    it is sufficient to unconditionally allow ARCH_SUPPORTS_RT. Noted
+    by Arnd.
 
-Thanks,
-Qi
+Sebastian Andrzej Siewior (3):
+  ARM: mm: fault: Move harden_branch_predictor() before interrupts are
+    enabled
+  ARM: Disable HIGHPTE on PREEMPT_RT kernels
+  ARM: Allow to enable RT
 
-> 
+Thomas Gleixner (1):
+  ARM: Disable jump-label on PREEMPT_RT
+
+Yadi.hu (1):
+  ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
+
+ arch/arm/Kconfig    |  5 +++--
+ arch/arm/mm/fault.c | 16 ++++++++++------
+ 2 files changed, 13 insertions(+), 8 deletions(-)
+
+--=20
+2.51.0
 
