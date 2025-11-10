@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8443630215F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89993054F0
 	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 14:56:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762786584; cv=none; b=W4p0RZOS0fUAt1NvrRPlgs7tfwHpsOnK0bC4hiszMh2W8d72EEW2vrO+SyWH6VfFsO0FUzZyDABjmefHme4X6lrFvxX3GaclNHAurYabNFDSiYjqeVi2A9AnXaH7uhzPf33z0LkfYsMD4cAg+9LZMnBNoe4LfkXqTeL28Swkudo=
+	t=1762786584; cv=none; b=ZCb8+tQHKxCABOZmCPj/72ZlTs7MBjYjwj6DzBtmNV4ReyBp6mBDd2hkMfxlAeKati60OkmxObonPkmxW3A7UOVBOrKFmVWNb7b+KNze9q5BnJg1m2uAt9XUaB/lmn6U69eQCIa9JgmD41DmpviHo0DyYrVjDk3YqKIcf0ZhMXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762786584; c=relaxed/simple;
-	bh=gvuphkX9MVwqb9yuTMDHMD9PJxkH/tN5jxv46FJiPWo=;
+	bh=mk116HB0wD0tgFtMHc1ZVaXqMBEXFji78pctndst0qE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c4imPJslGT+MW1vYk5jgABaaNZ4d8+2YSP3PdFQ6z4BaNwYPUAzkLjd8o5mWHYoU5hhKCe+8m78M145CTs/r4mt7KMVQ/Aw8080cy2j8d8ycjmu7FjTH2k/GcRUTHVFMpLlCq03O5uhxAuRji7cuPR88aBhvu/PriyvlzahC3uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JyC6l7+8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jspdRtBL; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=R6sQjk6RYaEVnhIQIcwAMQ3LppSzBkBr/Kw6n+HZGQCeUsuTfLBxnTxPdRT6lJArsUKfILGvRM1o2Kh7V2L9LV1yWAN21NKoP2Y1KUKudP+T16zAk1Hnb1xybyNzyeMpHGj4XuAEeFUiN+YqT1GYtrzSPNpua8TcXhWRV6uaYfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sPz8UBEL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6q7RV/lv; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JyC6l7+8";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jspdRtBL"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sPz8UBEL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6q7RV/lv"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1762786580;
@@ -24,32 +24,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LrUC7JbXBMMxZugHWu6/YK600YFH5JwP0FwRYQIUf/M=;
-	b=JyC6l7+8FqVtcfYhbakSbUYu34GR7YTGq/u6DTGBUO6kpm1VLLA+XBgEFRI7a9ZrFMZNMn
-	5KWAMu+p3WT6x+redLeV29EmvxnGyg6PGS1uCQ4L4eVrdnhq5ePAlewey9xfBNU3oM6eSL
-	zlWbo58hQzt8CrzDaLtFysrBQoNx59l06sTGEVWRqwtDP8wD6oQ6eoZQysawwKSeWvEOmU
-	p5n5z81HQ/IMCNYYivvSenGPrTOcK3PBx+YkuGDiFRsCUzX2q66FUy/pBKXphIY69gAqq3
-	8qo/xcgDl94THVb9L+l6eidhu1fyHjY7yQL7Gi+opXS49WnPf+APrTDb7wPYlw==
+	bh=5c9ooz8wSRU2u6BlT2LPhS1jlGu4ehqNMANigrfTTlE=;
+	b=sPz8UBELIsmxkqtdMx/Qr3z0hMIn8xEcphfEOKUl0phKipK53nWRZ05fm05ino7wM6Byhc
+	SxV5CLFS34UVo90wZj4yurkecDUJ2a2aQTw2Omw4qtaqbEPWuZB5LeP7t6g264qNsXQkw7
+	RO24JyJo88e5QnlIwVcooDJ1nY4J/ZlAr2n7kCsSMnXRYvz3dj/a27fgM6BBg5cONa4PjS
+	bu8ngPMg9eE9CuQo8ifcKNnCaH63oCljAHJj9Fga1QFhcbEoKu9D5jAva/saucX4graKxw
+	H9fXjK8oY5LV6kF3xWP9m4Za9K4VJ7NQ4oRabAnjn0Sx5DIH165rlJ7v8esD+A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1762786580;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LrUC7JbXBMMxZugHWu6/YK600YFH5JwP0FwRYQIUf/M=;
-	b=jspdRtBLEAWqyMHczz5EJhINO7IkTsLK18N72je4bPgEtwAWt3eTpiACZi4pj0+us84yPa
-	huWf94jBVy6sYpCw==
+	bh=5c9ooz8wSRU2u6BlT2LPhS1jlGu4ehqNMANigrfTTlE=;
+	b=6q7RV/lvnibF77A9aLEfv5p4DKW5Y/jXq4K5BoqANlSwDMT00hJAv8/L8HCgyseZH8HNp+
+	lyZkZyMLO27nWdAA==
 To: linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Russell King <linux@armlinux.org.uk>,
 	Xie Yuanbin <xieyuanbin1@huawei.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
-	"Yadi.hu" <yadi.hu@windriver.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 2/5] ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
-Date: Mon, 10 Nov 2025 15:55:52 +0100
-Message-ID: <20251110145555.2555055-3-bigeasy@linutronix.de>
+Subject: [PATCH v3 3/5] ARM: Disable jump-label on PREEMPT_RT
+Date: Mon, 10 Nov 2025 15:55:53 +0100
+Message-ID: <20251110145555.2555055-4-bigeasy@linutronix.de>
 In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
 References: <20251110145555.2555055-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -60,43 +62,55 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-From: "Yadi.hu" <yadi.hu@windriver.com>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-In the !LPAE case __do_user_fault() is invoked from do_bad_area(). If a
-user pointer cause the page fault then a signal is sent.
+jump-labels are used to efficiently switch between two possible code
+paths. To achieve this, stop_machine() is used to keep the CPU in a
+known state while the opcode is modified. The usage of stop_machine()
+here leads to large latency spikes which can be observed on PREEMPT_RT.
 
-Sending a signal requires to acquire sighand_struct::siglock which is a
-spinlock_t. On PREEMPT_RT spinlock_t becomes a sleeping spin lock which
-requires interrupts to be enabled. Since the calling context is user
-land, interrupts must have been enabled so it is fine to enable them in
-this case.
+Jump labels may change the target during runtime and are not restricted
+to debug or "configuration/ setup" part of a PREEMPT_RT system where
+high latencies could be defined as acceptable.
 
-Enable interrupts in do_bad_area() before invoking __do_user_fault().
+On 64-bit Arm, it is possible to use jump labels without the
+stop_machine() call, which architecturally provides a way to atomically
+change one 32-bit instruction word while keeping maintaining consistency,
+but this is not generally the case on 32-bit, in particular in thumb2
+mode.
 
-[bigeasy: Initial patch/ report by Yadi. Maintained the patch and redid
-          the patch description since]
+Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
 
-Signed-off-by: Yadi.hu <yadi.hu@windriver.com>
+[bigeasy: Patch description.]
+[arnd: add !SMP case, extend changelog]
+
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- arch/arm/mm/fault.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
-index 5d28c28e877c1..ad58c1e22a5f9 100644
---- a/arch/arm/mm/fault.c
-+++ b/arch/arm/mm/fault.c
-@@ -218,6 +218,7 @@ void do_bad_area(unsigned long addr, unsigned int fsr, =
-struct pt_regs *regs)
- 	if (user_mode(regs)) {
- 		if (addr >=3D TASK_SIZE)
- 			harden_branch_predictor();
-+		local_irq_enable();
- 		__do_user_fault(addr, fsr, SIGSEGV, SEGV_MAPERR, regs);
- 	} else {
- 		__do_kernel_fault(mm, addr, fsr, regs);
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 4fb985b76e97f..5941566df3ed0 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -82,7 +82,7 @@ config ARM
+ 	select HAS_IOPORT
+ 	select HAVE_ARCH_AUDITSYSCALL if AEABI && !OABI_COMPAT
+ 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
+-	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
++	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU && =
+(!PREEMPT_RT || !SMP)
+ 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
+ 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
+ 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
 --=20
 2.51.0
 
