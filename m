@@ -1,57 +1,54 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89993054F0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B891D302774
 	for <linux-rt-devel@lists.linux.dev>; Mon, 10 Nov 2025 14:56:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762786584; cv=none; b=ZCb8+tQHKxCABOZmCPj/72ZlTs7MBjYjwj6DzBtmNV4ReyBp6mBDd2hkMfxlAeKati60OkmxObonPkmxW3A7UOVBOrKFmVWNb7b+KNze9q5BnJg1m2uAt9XUaB/lmn6U69eQCIa9JgmD41DmpviHo0DyYrVjDk3YqKIcf0ZhMXE=
+	t=1762786584; cv=none; b=cbtITAWr44iqtjJuQplUQOWSVLxThJpJhz0nj3X9PmZ0O0sWUuDjMU4LJq8BdhlCLNmiWLbWa0zme3ftNam/z5EiaHu72p8w8IZLDJC8HrOAO2B2RQ/gU2sI4qP5YRbL3a30N8Wm7xnn0EhcpxOc+V0wDZzKjtyUmrwkopIlJ2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762786584; c=relaxed/simple;
-	bh=mk116HB0wD0tgFtMHc1ZVaXqMBEXFji78pctndst0qE=;
+	bh=TCDeKAqSgeWEShhKZ42PlhGu31Qi5eSA4JkFTgVv6Dw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R6sQjk6RYaEVnhIQIcwAMQ3LppSzBkBr/Kw6n+HZGQCeUsuTfLBxnTxPdRT6lJArsUKfILGvRM1o2Kh7V2L9LV1yWAN21NKoP2Y1KUKudP+T16zAk1Hnb1xybyNzyeMpHGj4XuAEeFUiN+YqT1GYtrzSPNpua8TcXhWRV6uaYfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sPz8UBEL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6q7RV/lv; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=MaGByLKYqde6CbJzg5Gxm0ZuyjL0pWVu6OuKMxUe9cugH4J7O+MEyouGaJygFYf6c1yjNydfviZpk5okvlGWztto17QdW2h2w7gUwPBXMpu6wYzAwuKUG2yUQLeG0LYGhZPgB9+xHxfdHyaYDdmmh0sSKMua2+pGbGxGl+ZQxNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Z6RXScNg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lmKEleJ9; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sPz8UBEL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6q7RV/lv"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Z6RXScNg";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lmKEleJ9"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762786580;
+	s=2020; t=1762786581;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5c9ooz8wSRU2u6BlT2LPhS1jlGu4ehqNMANigrfTTlE=;
-	b=sPz8UBELIsmxkqtdMx/Qr3z0hMIn8xEcphfEOKUl0phKipK53nWRZ05fm05ino7wM6Byhc
-	SxV5CLFS34UVo90wZj4yurkecDUJ2a2aQTw2Omw4qtaqbEPWuZB5LeP7t6g264qNsXQkw7
-	RO24JyJo88e5QnlIwVcooDJ1nY4J/ZlAr2n7kCsSMnXRYvz3dj/a27fgM6BBg5cONa4PjS
-	bu8ngPMg9eE9CuQo8ifcKNnCaH63oCljAHJj9Fga1QFhcbEoKu9D5jAva/saucX4graKxw
-	H9fXjK8oY5LV6kF3xWP9m4Za9K4VJ7NQ4oRabAnjn0Sx5DIH165rlJ7v8esD+A==
+	bh=AGEd2ctvwFIV9lZCkqIgoelHcMqfqI31DvTGYMHpmGU=;
+	b=Z6RXScNgKW7qDh/q7fA53B9NytUe3pY3M7uWoTHpC/cl9yMpyTBr0x8SRnNwRoEvcXtr1X
+	RS1wLsk9JtQjXDwdK2O3TfyPXFv8jUUuTmvyML17O8GAe3SvKInkCoDxcjCq/HSYvVGXOh
+	hm8OOkaY7zTn1Z57zJv/sL/Q2ftDPFbxCXqzamXRNDhXgARh77sqE3dWYwbeMBPkuJYN6d
+	G8sBTxmtYD5nvrUSbaInmwrYls8qM37aLd0mvf1jzjjO/rwdoRB7VRhd1Oqwp8m8PSle6x
+	dqkjrSXCSMIdKB69+fE381QlCD+55FjmiVkyamYvUvHfTSrbAOAXyKWrhLnqpg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762786580;
+	s=2020e; t=1762786581;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5c9ooz8wSRU2u6BlT2LPhS1jlGu4ehqNMANigrfTTlE=;
-	b=6q7RV/lvnibF77A9aLEfv5p4DKW5Y/jXq4K5BoqANlSwDMT00hJAv8/L8HCgyseZH8HNp+
-	lyZkZyMLO27nWdAA==
+	bh=AGEd2ctvwFIV9lZCkqIgoelHcMqfqI31DvTGYMHpmGU=;
+	b=lmKEleJ94p+r6QN17FFVuwB7rcYnd8vM2XNPvFelfsuBp2BvoOx2z86kvGOZWoRMj1ShhE
+	fcXMd6jXYS3HIPCQ==
 To: linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
 Cc: Russell King <linux@armlinux.org.uk>,
 	Xie Yuanbin <xieyuanbin1@huawei.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Linus Walleij <linus.walleij@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v3 3/5] ARM: Disable jump-label on PREEMPT_RT
-Date: Mon, 10 Nov 2025 15:55:53 +0100
-Message-ID: <20251110145555.2555055-4-bigeasy@linutronix.de>
+Subject: [PATCH v3 4/5] ARM: Disable HIGHPTE on PREEMPT_RT kernels
+Date: Mon, 10 Nov 2025 15:55:54 +0100
+Message-ID: <20251110145555.2555055-5-bigeasy@linutronix.de>
 In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
 References: <20251110145555.2555055-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -62,34 +59,22 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-From: Thomas Gleixner <tglx@linutronix.de>
+gup_pgd_range() is invoked with disabled interrupts and invokes
+__kmap_local_page_prot() via pte_offset_map(), gup_p4d_range().
+With HIGHPTE enabled, __kmap_local_page_prot() invokes kmap_high_get()
+which uses a spinlock_t via lock_kmap_any(). This leads to an
+sleeping-while-atomic error on PREEMPT_RT because spinlock_t becomes a
+sleeping lock and must not be acquired in atomic context.
 
-jump-labels are used to efficiently switch between two possible code
-paths. To achieve this, stop_machine() is used to keep the CPU in a
-known state while the opcode is modified. The usage of stop_machine()
-here leads to large latency spikes which can be observed on PREEMPT_RT.
+The loop in map_new_virtual() uses wait_queue_head_t for wake up which
+also is using a spinlock_t.
 
-Jump labels may change the target during runtime and are not restricted
-to debug or "configuration/ setup" part of a PREEMPT_RT system where
-high latencies could be defined as acceptable.
+Since HIGHPTE is rarely needed at all, turn it off for PREEMPT_RT
+to allow the use of get_user_pages_fast().
 
-On 64-bit Arm, it is possible to use jump labels without the
-stop_machine() call, which architecturally provides a way to atomically
-change one 32-bit instruction word while keeping maintaining consistency,
-but this is not generally the case on 32-bit, in particular in thumb2
-mode.
+[arnd: rework patch to turn off HIGHPTE instead of HAVE_PAST_GUP]
 
-Disable jump-label support on a PREEMPT_RT system when SMP is enabled.
-
-[bigeasy: Patch description.]
-[arnd: add !SMP case, extend changelog]
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
+Co-developed-by: Arnd Bergmann <arnd@arndb.de>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 Reviewed-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
@@ -98,19 +83,18 @@ Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index 4fb985b76e97f..5941566df3ed0 100644
+index 5941566df3ed0..822d378f81ec8 100644
 --- a/arch/arm/Kconfig
 +++ b/arch/arm/Kconfig
-@@ -82,7 +82,7 @@ config ARM
- 	select HAS_IOPORT
- 	select HAVE_ARCH_AUDITSYSCALL if AEABI && !OABI_COMPAT
- 	select HAVE_ARCH_BITREVERSE if (CPU_32v7M || CPU_32v7) && !CPU_32v6
--	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU
-+	select HAVE_ARCH_JUMP_LABEL if !XIP_KERNEL && !CPU_ENDIAN_BE32 && MMU && =
-(!PREEMPT_RT || !SMP)
- 	select HAVE_ARCH_KFENCE if MMU && !XIP_KERNEL
- 	select HAVE_ARCH_KGDB if !CPU_ENDIAN_BE32 && MMU
- 	select HAVE_ARCH_KASAN if MMU && !XIP_KERNEL
+@@ -1215,7 +1215,7 @@ config HIGHMEM
+=20
+ config HIGHPTE
+ 	bool "Allocate 2nd-level pagetables from highmem" if EXPERT
+-	depends on HIGHMEM
++	depends on HIGHMEM && !PREEMPT_RT
+ 	default y
+ 	help
+ 	  The VM uses one page of physical memory for each page table.
 --=20
 2.51.0
 
