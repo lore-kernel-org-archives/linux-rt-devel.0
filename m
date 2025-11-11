@@ -1,63 +1,68 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A51318C008
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 08:02:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C374757EA
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 08:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762848124; cv=none; b=LF0lspnND+ViBvZfaXIX9AOqmuT8OrcCjlraF16lPlIydY56G5Hif3uB6uULp4RXX95uErONqwq9Z0J7EUEj5yyuR+XcnChCQG3mif609j8SQet9/omCBpFcyhbhptSHinn36kJq7en7PFhthWrr6LtN/nwDTaGKs1YnT4OIebE=
+	t=1762850946; cv=none; b=Jz0JZ8YQsxgQ4Ar44Ip2uy+IKA4Szor6706TBRDfHITdS0V5aAWynS0gB3DIZ7QkiMhFhjrwPHIX8fBY3ruQCv/NFxABpwPcYRgQkrFfShByg/0g1n6Y/xXIQhSe8/rqWRMcStG7doXg2vdw9jt88VEWOHr25xLEHvziepo1HVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762848124; c=relaxed/simple;
-	bh=4tiOI0qI5k+vWSZUXOPHz8VzDwicg9ES+8RHVjqXnMk=;
+	s=arc-20240116; t=1762850946; c=relaxed/simple;
+	bh=5kYM5+1Jza/SwfDmK/uU9CnWofuzjoM5cr1YVI6ReTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uOHvgEhGbDhSCqf7oo5nbMJRf5rj9UbzSse7WHavFaTaqNIMqAdvZAV9JSyrg6a0zZTblXydndSYY80hwXidOXqfqqt8PpcqwziwNJ/VCtBujRWaSKM4jDrT3XpzMZSYnwOdVpCR6BRsvJ1LQHdylMQZvGo/1gctSpZLIaVew50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vMvGc8hC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iUqoMMo0; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rlf63O9hXlsAZn4kRbgttjSKi+/lm7pVp3l9HgvjWWe9wirurK89EYpVqPkrcVkaXKYrxrrBp1unHN5/ReuymMxXlD+KBOEuqJM+j3NIC+yLnhzdPqowqyClmyJ29EMOC42KJ69D95e4TK4+siQylTmGzbuzSaZckU5cREbz1HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cCjfxdSd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HIm7hPIl; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vMvGc8hC";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iUqoMMo0"
-Date: Tue, 11 Nov 2025 09:01:53 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cCjfxdSd";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HIm7hPIl"
+Date: Tue, 11 Nov 2025 09:49:00 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762848115;
+	s=2020; t=1762850942;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Dx+P3tmh8RRhlJbEuybtXJQuyEPuClVVZRpIZ0Mh1q8=;
-	b=vMvGc8hCbnyKYogzWdAmHFKDT2esfKhiN/1WVwqSpRwIuyM0XqM+Hw24fN35m+ziuw1ZwN
-	H4+vaj9gT0so58eZaRH8Fghkk14qaV5iKGl816Bvl95Y1+05Nmsa5A22vn6+QLq44OC/av
-	mggOpIH2/avhHyT1+xzbnR58gA1b7XoWgsbtocODVQTNhB+0wYf9VyTPM8A41GgLZ5t4bq
-	Y7Cd9e8JFK5AD4aMSrGP8yz6Xp7DpeDz7i8KQdHg5RNahP/caaiOW4aB7ElRolz1Ir2Sxe
-	+puGZu1XqOOmIOzkpppJzZfHGNC2QM7Jac5cHnosNtxaDwcgYRsK2SVgt4aaIw==
+	bh=lug3ME6CtD6QvK/qR5uG3WWqf/M2ZdQU/OQnEwpHbAk=;
+	b=cCjfxdSdzShFAEa6SvGIzVs3lbcTA4pHEJ25qlpTUWLXnZtXrgeu1F9Lp05bUpaFskLvhr
+	lIi3lbU8+TKDKtBzNN4i+MfzDlppoHqpK1TeDkHtTXQqeP7TQBatHoVCUyibXb1/0bYevy
+	g1CBZoS2lGowkWa6daKovKfR5/XAEGsZpBb3GZaXTWb378xRVGe3AXhzwBh9atkqs+jUnI
+	CRNtILc65XaP0p7cWpTJXbgRCHGrro9ob4Lf627HvhLEVwuZhUhzj2Udx6psxpTJE1txF3
+	8eAdbFZyz1anOH4fXTM6iqEDaNJwaL7rrByrXovTa5H12vGtwCxQj/G91CpRwA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762848115;
+	s=2020e; t=1762850942;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Dx+P3tmh8RRhlJbEuybtXJQuyEPuClVVZRpIZ0Mh1q8=;
-	b=iUqoMMo0MCvnlPoaGp1XbX6sIHxU35Loi+T+vRoqwekh2f53jfWu9cCkH5+W+iunP1eY2N
-	T/1+j18ur9A+p5Cw==
+	bh=lug3ME6CtD6QvK/qR5uG3WWqf/M2ZdQU/OQnEwpHbAk=;
+	b=HIm7hPIlEuOw5BRjNF1vnYS3Kg1k6TeP51kIcZF3a318jajF+lq7IYXJkODd9SC+gCIdt7
+	Zcpr2GVKPiesiqAw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: Harry Yoo <harry.yoo@oracle.com>
 Cc: Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
-	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Meta kernel team <kernel-team@meta.com>,
+	hannes@cmpxchg.org, hughd@google.com, mhocko@suse.com,
+	roman.gushchin@linux.dev, muchun.song@linux.dev, david@redhat.com,
+	lorenzo.stoakes@oracle.com, ziy@nvidia.com, imran.f.khan@oracle.com,
+	kamalesh.babulal@oracle.com, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 0/4] memcg: cleanup the memcg stats interfaces
-Message-ID: <20251111080153.eo8vtb4P@linutronix.de>
-References: <20251110232008.1352063-1-shakeel.butt@linux.dev>
- <aRKKfdN3B68wxFvN@hyeyoo>
- <24969292-7543-456f-8b80-09c4521507e2@linux.dev>
- <gsew67sciieqxbcczp5mzx4lj6pvvclfrxn6or3pzjqmj7eeic@7bxuwqgnqaum>
- <99429fb8-dcec-43e7-a23b-bee54b8ed6e6@linux.dev>
- <aRKn4kqHx9m9lWfu@hyeyoo>
+Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
+Message-ID: <20251111084900.babaOj0w@linutronix.de>
+References: <aQ1_f_6KPRZknUGS@harry>
+ <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
+ <aQ3yLER4C4jY70BH@harry>
+ <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
+ <aRFKY5VGEujVOqBc@hyeyoo>
+ <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
+ <aRF7eYlBKmG3hEFF@hyeyoo>
+ <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
+ <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
+ <aRKqm24Lrg-JnCoh@hyeyoo>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,30 +71,27 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aRKn4kqHx9m9lWfu@hyeyoo>
+In-Reply-To: <aRKqm24Lrg-JnCoh@hyeyoo>
 
-> > I mean converting these places to use spin_lock() instead of
-> > spin_lock_irq().
+On 2025-11-11 12:16:43 [+0900], Harry Yoo wrote:
+> > However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
+> > still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
 > 
-> Just one thing I noticed while looking at __folio_migrate_mapping()...
+> Hmm I was going to say it's necessary, but AFAICT we don't allocate
+> or free memory in hardirq context on PREEMPT_RT (that's the policy)
+> and so I'd say it's not necessary to disable IRQs.
 > 
-> - xas_lock_irq() -> xas_unlock() -> local_irq_enable()
-> - swap_cluster_get_and_lock_irq() -> swap_cluster_unlock() -> local_irq_enable()
+> Sounds like we still want to disable IRQs only on !PREEMPT_RT on
+> such architectures?
 > 
-> is wrong because spin_lock_irq() doesn't disable IRQ on PREEMPT_RT.
-> 
-> Not 100% sure if it would be benign or lead to actual bugs that need
-> to be fixed in -stable kernels.
-> 
-> Cc'ing RT folks again :)
+> Not sure how seriously do PREEMPT_RT folks care about architectures
+> without HAVE_CMPXCHG_LOCAL. (riscv and loongarch have ARCH_SUPPORTS_RT
+> but doesn't have HAVE_CMPXCHG_LOCAL).
 
-The tail in __folio_migrate_mapping() after xas_unlock()/
-swap_cluster_unlock(), is limited to __mod_lruvec_state() based stats
-updates. There is a preempt_disable_nested() in __mod_zone_page_state()
-to ensure that the update happens on the same CPU and is not preempted.
-On PREEMPT_RT there should be no in-IRQ updates of these counters.
-The IRQ enable at the end does nothing. There might be CPU migration
-between the individual stats updates.
-If it remains like this, it is fine. Please don't advertise ;)
+We take things seriously and you shouldn't make assumption based on
+implementation. Either the API can be used as such or not.
+In case of mod_node_page_state(), the non-IRQ off version
+(__mod_node_page_state()) has a preempt_disable_nested() to ensure
+atomic update on PREEMPT_RT without disabling interrupts.
 
 Sebastian
