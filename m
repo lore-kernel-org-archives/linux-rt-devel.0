@@ -1,68 +1,59 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C374757EA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 08:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A712421C9E5
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 09:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762850946; cv=none; b=Jz0JZ8YQsxgQ4Ar44Ip2uy+IKA4Szor6706TBRDfHITdS0V5aAWynS0gB3DIZ7QkiMhFhjrwPHIX8fBY3ruQCv/NFxABpwPcYRgQkrFfShByg/0g1n6Y/xXIQhSe8/rqWRMcStG7doXg2vdw9jt88VEWOHr25xLEHvziepo1HVs=
+	t=1762854487; cv=none; b=DdMQ8sEDRBXmY2znvzkrQ2jHCs2L4baII6N76r6KA6K1po5gNFLjClfflfqRe65RX9JD/kGwaZVF0e61TrszRdz54UkgmcZHKc5+LuPq2NStUqi8qTW0MKIb9K/K+0SWViyor65Wh27GOpZ/yrqEd/BRPdl6Nehl1Wi5ox5TGGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762850946; c=relaxed/simple;
-	bh=5kYM5+1Jza/SwfDmK/uU9CnWofuzjoM5cr1YVI6ReTc=;
+	s=arc-20240116; t=1762854487; c=relaxed/simple;
+	bh=s4vZRjeHf8xm5v486mrL1l/04vl1J/l595ZP1oCwGXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rlf63O9hXlsAZn4kRbgttjSKi+/lm7pVp3l9HgvjWWe9wirurK89EYpVqPkrcVkaXKYrxrrBp1unHN5/ReuymMxXlD+KBOEuqJM+j3NIC+yLnhzdPqowqyClmyJ29EMOC42KJ69D95e4TK4+siQylTmGzbuzSaZckU5cREbz1HY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cCjfxdSd; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HIm7hPIl; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=TpnxDkXgeN+akpaCZd7QE11kc9wgT5CDOWbOz+fcZj4Lba/4jFX5nc08ri82Zj0KbA/qNf8nBlxq4rhD9jsmDZRgKcGv5CgdDbq2OK0k4/nuKnBz+nujkZ3d1170pmbU7AdgqysWpgWXQvi0VKiPv1AjVtb+39y6ONQhleVIJrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ipoXYAyj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RjNwJsoS; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cCjfxdSd";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HIm7hPIl"
-Date: Tue, 11 Nov 2025 09:49:00 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ipoXYAyj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RjNwJsoS"
+Date: Tue, 11 Nov 2025 10:47:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762850942;
+	s=2020; t=1762854483;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lug3ME6CtD6QvK/qR5uG3WWqf/M2ZdQU/OQnEwpHbAk=;
-	b=cCjfxdSdzShFAEa6SvGIzVs3lbcTA4pHEJ25qlpTUWLXnZtXrgeu1F9Lp05bUpaFskLvhr
-	lIi3lbU8+TKDKtBzNN4i+MfzDlppoHqpK1TeDkHtTXQqeP7TQBatHoVCUyibXb1/0bYevy
-	g1CBZoS2lGowkWa6daKovKfR5/XAEGsZpBb3GZaXTWb378xRVGe3AXhzwBh9atkqs+jUnI
-	CRNtILc65XaP0p7cWpTJXbgRCHGrro9ob4Lf627HvhLEVwuZhUhzj2Udx6psxpTJE1txF3
-	8eAdbFZyz1anOH4fXTM6iqEDaNJwaL7rrByrXovTa5H12vGtwCxQj/G91CpRwA==
+	bh=RUPk8N8N0fajnspcbCfKKCzQcyP7edfMte98l3Q1XEo=;
+	b=ipoXYAyjp91Nfb7CBlgWlVlWnoajYxUnSFBQMBg8ycaepgegc6av2qBU5AdsztGRMH1Kz4
+	ILwzFZB5aSNXXhplOEybXBmas4+bCFW2qwNdq54ScMbEi6y8vakJw4RzRn8hd5B7wEXYEr
+	HwyG6JI+/NO+vPs4YEx026V4kyTZsl19KHBOIHgO52XbFnq+RWJ9RpldG8wIKZ8HqnNVJl
+	bf5vzKhMjatmOsThgAV3W6Fc6cZymuuxQRjq1F9c+hFUeAbcb3iY+AnGKathXit0TKAF5k
+	mLwn1hIxeLSokqKpGiRFa9Mhg9ks5IKqplSSRiCZwPLgPJn4wcu5fbmi5tymBg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762850942;
+	s=2020e; t=1762854483;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lug3ME6CtD6QvK/qR5uG3WWqf/M2ZdQU/OQnEwpHbAk=;
-	b=HIm7hPIlEuOw5BRjNF1vnYS3Kg1k6TeP51kIcZF3a318jajF+lq7IYXJkODd9SC+gCIdt7
-	Zcpr2GVKPiesiqAw==
+	bh=RUPk8N8N0fajnspcbCfKKCzQcyP7edfMte98l3Q1XEo=;
+	b=RjNwJsoSUpmg58g7J10+HQCv8XxW43yJsRcSXPWVEVD8a5WBmWtCy3lbQF+I/yN2KLP42t
+	eu3FO7yDlKylt1Bw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
-	hannes@cmpxchg.org, hughd@google.com, mhocko@suse.com,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, david@redhat.com,
-	lorenzo.stoakes@oracle.com, ziy@nvidia.com, imran.f.khan@oracle.com,
-	kamalesh.babulal@oracle.com, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-rt-devel@lists.linux.dev,
+	Mario Kleiner <mario.kleiner.de@gmail.com>,
+	Mike Galbraith <umgwanakikbuti@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-Message-ID: <20251111084900.babaOj0w@linutronix.de>
-References: <aQ1_f_6KPRZknUGS@harry>
- <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
- <aQ3yLER4C4jY70BH@harry>
- <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
- <aRFKY5VGEujVOqBc@hyeyoo>
- <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
- <aRF7eYlBKmG3hEFF@hyeyoo>
- <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
- <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
- <aRKqm24Lrg-JnCoh@hyeyoo>
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2 0/7] drm/i915/display: Handle vblank evasion with
+ CONFIG_PREEMPT_RT
+Message-ID: <20251111094759.Y1Q9-nug@linutronix.de>
+References: <20251104083634.670753-1-dev@lankhorst.se>
+ <20251105134740.NseZnpeZ@linutronix.de>
+ <32bbb93a-3606-4488-ac3a-3dcd1fd38304@lankhorst.se>
+ <20251110160958._fKhNf8i@linutronix.de>
+ <7a370923-d430-4f3a-94b2-1749b452facf@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -71,27 +62,41 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aRKqm24Lrg-JnCoh@hyeyoo>
+In-Reply-To: <7a370923-d430-4f3a-94b2-1749b452facf@lankhorst.se>
 
-On 2025-11-11 12:16:43 [+0900], Harry Yoo wrote:
-> > However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
-> > still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
-> 
-> Hmm I was going to say it's necessary, but AFAICT we don't allocate
-> or free memory in hardirq context on PREEMPT_RT (that's the policy)
-> and so I'd say it's not necessary to disable IRQs.
-> 
-> Sounds like we still want to disable IRQs only on !PREEMPT_RT on
-> such architectures?
-> 
-> Not sure how seriously do PREEMPT_RT folks care about architectures
-> without HAVE_CMPXCHG_LOCAL. (riscv and loongarch have ARCH_SUPPORTS_RT
-> but doesn't have HAVE_CMPXCHG_LOCAL).
+On 2025-11-10 19:17:46 [+0100], Maarten Lankhorst wrote:
+> Hey,
+Hi Maarten,
 
-We take things seriously and you shouldn't make assumption based on
-implementation. Either the API can be used as such or not.
-In case of mod_node_page_state(), the non-IRQ off version
-(__mod_node_page_state()) has a preempt_disable_nested() to ensure
-atomic update on PREEMPT_RT without disabling interrupts.
+> I would like to recommend dropping the patch below. The hardware doesn't like being
+> programmed during vblank time, and may lock up or show glitches on the screen,
+> especially at older machines.
+
+Okay. I did include them for testing as requested. I would keep them in
+the series until we settle on something upstream.
+
+> That's why the whole complicated preparations exist, to be able to complete
+> programming the hardware before the vblank.
+> 
+> I created my series to be able to run that the timing sensitive parts safely without
+> any jitter from locking in between.
+> 
+> I tried running the following series through CI in response:
+> https://patchwork.freedesktop.org/series/157258/ 
+> 
+> After looking at the results and investigating more closely, I think the FBC warning
+> you mentioned is a false positive.
+> 
+> The code either runs in intel_pre_plane_update() when programming the hardware directly,
+> or it gets added to the list of mmio's programmed by the hardware, without the
+> vblank evasion mode active.
+> 
+> Still I would like to clean it up, but it's not as urgent as it was.
+
+Okay. Good.
+If there is anything you want me to test or look at, just le me know.
+
+> Kind regards,
+> ~Maarten Lankhorst
 
 Sebastian
