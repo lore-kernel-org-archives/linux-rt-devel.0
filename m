@@ -1,103 +1,95 @@
-Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16266330B00
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 03:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A51318C008
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 08:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762831504; cv=none; b=dhMk1cmdMl5QI1ltaFuruHzVtGv8dMmxkqSmZUoDzzJ1DQKtWZUrsgP4iX+Bm9/f0mVN1+2BqQIh6K2wP+iwamrLMqXxY8w89UKx6fVBgSgfTkM+zM+0kMrZa6h/CAS2+HDLj8LAs80IfMAGPLWqphoDfl+Lv6tStfNjgRWZCm4=
+	t=1762848124; cv=none; b=LF0lspnND+ViBvZfaXIX9AOqmuT8OrcCjlraF16lPlIydY56G5Hif3uB6uULp4RXX95uErONqwq9Z0J7EUEj5yyuR+XcnChCQG3mif609j8SQet9/omCBpFcyhbhptSHinn36kJq7en7PFhthWrr6LtN/nwDTaGKs1YnT4OIebE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762831504; c=relaxed/simple;
-	bh=OoSV22me2WuJEL6YRDR+17uiJzwO2z0GRrrBr44fTTM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SEiIq7pBNwGrTT9lXuawk2F6IaChwSVQeV/Ylx88RGUAMfgf50+sY4Glp3lDIPz2ejwksgDndQnFc2/bosYFHBicQnrOKJx074AaNGJQQBpNi1XElBsdOmTVVkIth1bHKGcKn9VX+J6svm5gy1i84HROvHzhExcJCr6lE1gCxeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ogFJes54; arc=none smtp.client-ip=95.215.58.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1762848124; c=relaxed/simple;
+	bh=4tiOI0qI5k+vWSZUXOPHz8VzDwicg9ES+8RHVjqXnMk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOHvgEhGbDhSCqf7oo5nbMJRf5rj9UbzSse7WHavFaTaqNIMqAdvZAV9JSyrg6a0zZTblXydndSYY80hwXidOXqfqqt8PpcqwziwNJ/VCtBujRWaSKM4jDrT3XpzMZSYnwOdVpCR6BRsvJ1LQHdylMQZvGo/1gctSpZLIaVew50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vMvGc8hC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iUqoMMo0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ogFJes54"
-Message-ID: <1a6dfda1-380d-4e6b-af72-4e6257838c08@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762831500;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vMvGc8hC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iUqoMMo0"
+Date: Tue, 11 Nov 2025 09:01:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762848115;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HakIRat1LMkIofrDpBtAbKRxMTQrzWYviIUr8PQmSMQ=;
-	b=ogFJes54pFGN05g+xE+mxRKl0VVn+YgldSLppe95wFlyb9aBoDjP+jF+JbbB1/Q27r7zkF
-	YEawhKNCho3YnnN0yEOB5fjIk9iM8KO0D5HOr5PC8rt+yhSwKVoiQ7IggLJr1XK99JhtrJ
-	dprOCkMUeB3Gj3cHItXB2SOg41/a2z8=
-Date: Tue, 11 Nov 2025 11:24:37 +0800
+	bh=Dx+P3tmh8RRhlJbEuybtXJQuyEPuClVVZRpIZ0Mh1q8=;
+	b=vMvGc8hCbnyKYogzWdAmHFKDT2esfKhiN/1WVwqSpRwIuyM0XqM+Hw24fN35m+ziuw1ZwN
+	H4+vaj9gT0so58eZaRH8Fghkk14qaV5iKGl816Bvl95Y1+05Nmsa5A22vn6+QLq44OC/av
+	mggOpIH2/avhHyT1+xzbnR58gA1b7XoWgsbtocODVQTNhB+0wYf9VyTPM8A41GgLZ5t4bq
+	Y7Cd9e8JFK5AD4aMSrGP8yz6Xp7DpeDz7i8KQdHg5RNahP/caaiOW4aB7ElRolz1Ir2Sxe
+	+puGZu1XqOOmIOzkpppJzZfHGNC2QM7Jac5cHnosNtxaDwcgYRsK2SVgt4aaIw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762848115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dx+P3tmh8RRhlJbEuybtXJQuyEPuClVVZRpIZ0Mh1q8=;
+	b=iUqoMMo0MCvnlPoaGp1XbX6sIHxU35Loi+T+vRoqwekh2f53jfWu9cCkH5+W+iunP1eY2N
+	T/1+j18ur9A+p5Cw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+	cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Meta kernel team <kernel-team@meta.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 0/4] memcg: cleanup the memcg stats interfaces
+Message-ID: <20251111080153.eo8vtb4P@linutronix.de>
+References: <20251110232008.1352063-1-shakeel.butt@linux.dev>
+ <aRKKfdN3B68wxFvN@hyeyoo>
+ <24969292-7543-456f-8b80-09c4521507e2@linux.dev>
+ <gsew67sciieqxbcczp5mzx4lj6pvvclfrxn6or3pzjqmj7eeic@7bxuwqgnqaum>
+ <99429fb8-dcec-43e7-a23b-bee54b8ed6e6@linux.dev>
+ <aRKn4kqHx9m9lWfu@hyeyoo>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>, hannes@cmpxchg.org, hughd@google.com,
- mhocko@suse.com, roman.gushchin@linux.dev, muchun.song@linux.dev,
- david@redhat.com, lorenzo.stoakes@oracle.com, ziy@nvidia.com,
- imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- akpm@linux-foundation.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
- Qi Zheng <zhengqi.arch@bytedance.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev
-References: <97ea4728568459f501ddcab6c378c29064630bb9.1761658310.git.zhengqi.arch@bytedance.com>
- <aQ1_f_6KPRZknUGS@harry> <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
- <aQ3yLER4C4jY70BH@harry>
- <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
- <aRFKY5VGEujVOqBc@hyeyoo> <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
- <aRF7eYlBKmG3hEFF@hyeyoo>
- <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
- <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
- <646pwrc7sxan6wlwndjyu7upx32fkd7bv5vqlut3tjt65eeyby@23efyxvpg2nx>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <646pwrc7sxan6wlwndjyu7upx32fkd7bv5vqlut3tjt65eeyby@23efyxvpg2nx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aRKn4kqHx9m9lWfu@hyeyoo>
 
-
-
-On 11/11/25 11:17 AM, Shakeel Butt wrote:
-> On Tue, Nov 11, 2025 at 11:04:09AM +0800, Qi Zheng wrote:
->>
->> On 11/11/25 12:47 AM, Shakeel Butt wrote:
->>> On Mon, Nov 10, 2025 at 02:43:21PM +0900, Harry Yoo wrote:
->>>> On Mon, Nov 10, 2025 at 12:30:06PM +0800, Qi Zheng wrote:
->>>>>> Maybe we could make it safe against re-entrant IRQ handlers by using
->>>>>> read-modify-write operations?
->>>>>
->>>>> Isn't it because of the RMW operation that we need to use IRQ to
->>>>> guarantee atomicity? Or have I misunderstood something?
->>>>
->>>> I meant using atomic operations instead of disabling IRQs, like, by
->>>> using this_cpu_add() or cmpxchg() instead.
->>>
->>> We already have mod_node_page_state() which is safe from IRQs and is
->>> optimized to not disable IRQs for archs with HAVE_CMPXCHG_LOCAL which
->>> includes x86 and arm64.
->>
->> However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
->> still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
->>
+> > I mean converting these places to use spin_lock() instead of
+> > spin_lock_irq().
 > 
-> Yes we can disable irqs on PREEMPT_RT but it is usually frown upon and
-> it is usually requested to do so only for short window. However if
-
-Got it.
-
-> someone running PREEMPT_RT on an arch without HAVE_CMPXCHG_LOCAL and has
-> issues with mod_node_page_state() then they can solve it then. I don't
-> think we need to fix that now.
-
-OK.
-
+> Just one thing I noticed while looking at __folio_migrate_mapping()...
 > 
+> - xas_lock_irq() -> xas_unlock() -> local_irq_enable()
+> - swap_cluster_get_and_lock_irq() -> swap_cluster_unlock() -> local_irq_enable()
+> 
+> is wrong because spin_lock_irq() doesn't disable IRQ on PREEMPT_RT.
+> 
+> Not 100% sure if it would be benign or lead to actual bugs that need
+> to be fixed in -stable kernels.
+> 
+> Cc'ing RT folks again :)
 
+The tail in __folio_migrate_mapping() after xas_unlock()/
+swap_cluster_unlock(), is limited to __mod_lruvec_state() based stats
+updates. There is a preempt_disable_nested() in __mod_zone_page_state()
+to ensure that the update happens on the same CPU and is not preempted.
+On PREEMPT_RT there should be no in-IRQ updates of these counters.
+The IRQ enable at the end does nothing. There might be CPU migration
+between the individual stats updates.
+If it remains like this, it is fine. Please don't advertise ;)
+
+Sebastian
