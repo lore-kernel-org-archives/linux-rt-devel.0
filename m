@@ -1,33 +1,33 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from out-176.mta1.migadu.com (out-176.mta1.migadu.com [95.215.58.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308583128BA
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 03:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16266330B00
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 03:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762831431; cv=none; b=EIfXPYIx69C5Oo+lxRKaTgA0tA/SFPT8lCJtxlq+2xRW2Nd6Nm6fDDIF2UnztP4Uu4Kg1D7GeOuQq7ElGAygfdawO4Rg2JCkk52OtoJXwCejfthkw5XAl7KDkQ0QxtMOH0yGJduZChV+QtmqdNPRNBh+rBNdkXW0wK7KgzXBxRk=
+	t=1762831504; cv=none; b=dhMk1cmdMl5QI1ltaFuruHzVtGv8dMmxkqSmZUoDzzJ1DQKtWZUrsgP4iX+Bm9/f0mVN1+2BqQIh6K2wP+iwamrLMqXxY8w89UKx6fVBgSgfTkM+zM+0kMrZa6h/CAS2+HDLj8LAs80IfMAGPLWqphoDfl+Lv6tStfNjgRWZCm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762831431; c=relaxed/simple;
-	bh=yC2MCngFM9KUY3X6276NkH+KVvQOjuSlw+e35s1JDmg=;
+	s=arc-20240116; t=1762831504; c=relaxed/simple;
+	bh=OoSV22me2WuJEL6YRDR+17uiJzwO2z0GRrrBr44fTTM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tY3NE4ed/WP3K3lwftu0xWhrbOGwJfuuHg55518Tem68ETnpTQknBFFcsYARU2yQPCtS8oLGHW8eFON8Y1TTRtHJTUHcNXox2vYQJ/8GGgIks14kdBFDlCdO2LFHTjuHqOasrLUjuG+FLNUIaae6RxrundXgxdk2F6UjKel+q10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UPsgop1U; arc=none smtp.client-ip=91.218.175.172
+	 In-Reply-To:Content-Type; b=SEiIq7pBNwGrTT9lXuawk2F6IaChwSVQeV/Ylx88RGUAMfgf50+sY4Glp3lDIPz2ejwksgDndQnFc2/bosYFHBicQnrOKJx074AaNGJQQBpNi1XElBsdOmTVVkIth1bHKGcKn9VX+J6svm5gy1i84HROvHzhExcJCr6lE1gCxeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ogFJes54; arc=none smtp.client-ip=95.215.58.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UPsgop1U"
-Message-ID: <8ee2e132-6f80-4da5-a03d-820e4031a9fc@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ogFJes54"
+Message-ID: <1a6dfda1-380d-4e6b-af72-4e6257838c08@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762831426;
+	t=1762831500;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=dRsaTINzsimOU7sZV8eoCiJrcZgmp+6Lp0gB2Wv5aQA=;
-	b=UPsgop1UdM6iVCJKMcwkLQQY5vs0SziOL+3tJ/VISeF+lny1aY3cMPROrx3D8xU1Knz0m9
-	plXApivp7nUGBs1nBOpcQsteaD4gZ2IUmuGCzVATmlxxRxRqknAme7SMVjU/wDvlKfS9zp
-	TplEvHow7j+IYgpq+bQVD88BJ3XJbYM=
-Date: Tue, 11 Nov 2025 11:23:33 +0800
+	bh=HakIRat1LMkIofrDpBtAbKRxMTQrzWYviIUr8PQmSMQ=;
+	b=ogFJes54pFGN05g+xE+mxRKl0VVn+YgldSLppe95wFlyb9aBoDjP+jF+JbbB1/Q27r7zkF
+	YEawhKNCho3YnnN0yEOB5fjIk9iM8KO0D5HOr5PC8rt+yhSwKVoiQ7IggLJr1XK99JhtrJ
+	dprOCkMUeB3Gj3cHItXB2SOg41/a2z8=
+Date: Tue, 11 Nov 2025 11:24:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,11 +35,11 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, hannes@cmpxchg.org,
- hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev,
- muchun.song@linux.dev, david@redhat.com, lorenzo.stoakes@oracle.com,
- ziy@nvidia.com, imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Harry Yoo <harry.yoo@oracle.com>, hannes@cmpxchg.org, hughd@google.com,
+ mhocko@suse.com, roman.gushchin@linux.dev, muchun.song@linux.dev,
+ david@redhat.com, lorenzo.stoakes@oracle.com, ziy@nvidia.com,
+ imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
  axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
  akpm@linux-foundation.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
@@ -54,17 +54,18 @@ References: <97ea4728568459f501ddcab6c378c29064630bb9.1761658310.git.zhengqi.arc
  <aRFKY5VGEujVOqBc@hyeyoo> <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
  <aRF7eYlBKmG3hEFF@hyeyoo>
  <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
- <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev> <aRKqm24Lrg-JnCoh@hyeyoo>
+ <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
+ <646pwrc7sxan6wlwndjyu7upx32fkd7bv5vqlut3tjt65eeyby@23efyxvpg2nx>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <aRKqm24Lrg-JnCoh@hyeyoo>
+In-Reply-To: <646pwrc7sxan6wlwndjyu7upx32fkd7bv5vqlut3tjt65eeyby@23efyxvpg2nx>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 11/11/25 11:16 AM, Harry Yoo wrote:
+On 11/11/25 11:17 AM, Shakeel Butt wrote:
 > On Tue, Nov 11, 2025 at 11:04:09AM +0800, Qi Zheng wrote:
 >>
 >> On 11/11/25 12:47 AM, Shakeel Butt wrote:
@@ -85,26 +86,18 @@ On 11/11/25 11:16 AM, Harry Yoo wrote:
 >>
 >> However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
 >> still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
+>>
 > 
-> Hmm I was going to say it's necessary, but AFAICT we don't allocate
-> or free memory in hardirq context on PREEMPT_RT (that's the policy)
-> and so I'd say it's not necessary to disable IRQs.
-> 
-> Sounds like we still want to disable IRQs only on !PREEMPT_RT on
-> such architectures?
-> 
-> Not sure how seriously do PREEMPT_RT folks care about architectures
-> without HAVE_CMPXCHG_LOCAL. (riscv and loongarch have ARCH_SUPPORTS_RT
-> but doesn't have HAVE_CMPXCHG_LOCAL).
-> 
-> If they do care, this can be done as a separate patch series because
-> we already call local_irq_{save,restore}() in many places in mm/vmstat.c
-> if the architecture doesn't not have HAVE_CMPXCHG_LOCAL.
+> Yes we can disable irqs on PREEMPT_RT but it is usually frown upon and
+> it is usually requested to do so only for short window. However if
 
-Got it. I will ignore it for now.
+Got it.
 
-> 
->>> Let me send the patch to cleanup the memcg code which uses
->>> __mod_node_page_state.
+> someone running PREEMPT_RT on an arch without HAVE_CMPXCHG_LOCAL and has
+> issues with mod_node_page_state() then they can solve it then. I don't
+> think we need to fix that now.
+
+OK.
+
 > 
 
