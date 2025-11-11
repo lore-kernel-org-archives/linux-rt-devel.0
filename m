@@ -1,85 +1,116 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FEC2FFDD6
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 14:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C607361DB6
+	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 15:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762871975; cv=none; b=LmMhOrVAO2AxHnJlX2KbIEmSu4xEOaMa/PDWmkPdp6j0UD8g71K+aAQtSsVLFNEagS0ZeXvrFGYChWi4z/VbHIyHklBGBv4VKG7iQCSokO8DKLpuyIkFzX8UaHeQHsOBqxqKrcoTz+oYjkpJ2lqOCxLtfXn8cLsGm4ghbLjv8po=
+	t=1762874257; cv=none; b=JhAxLapsG8PKFZLOAU3OMOXoMzsR4U05zpclXVTGx8QAHGLDQzMjBqUNjfKUHI9zwgCq4CtSoNJSdLCRThBpe58udErEmZLjACD1Srkmyrch8AMz/4SjjoGdRY0TB1zHH8FFVEENSsh9SalVvULasQ6OXMsA+y2+ZNBelhi9FAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762871975; c=relaxed/simple;
-	bh=T4YjsZoRwdzDgjx08Bih7n7FVxeKaoqwpPv8CdLIAvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5S2+Fdmd+n+c0okrlf1Yn36UjJiBm1W2cXzHTV6CK7+bMToUTOpOXoKci6HWxqebjt537NXyGZZPcVqGhktj9NJO2JoAxpkBptxuzlY9g9D/pr5SKkeAsth6nklnNM1GYYgH0H1TXyCk6wrT8D3Zip1Y8AZTn8yITp9mDkHlbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HpvA2JeL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UY84aFD5; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1762874257; c=relaxed/simple;
+	bh=YhoUZTyua1QAmmrb8e/8LARrMabF9LiuiX/42OF18QY=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=MkW727CKobiAD5VakefZ+QExyiFkv6q+HKd+POJ4tl/JMHGOoyg1m9dqcxLmKMs+P2XrdP/6bZhnnherS+/BI70Pr9yQIRAKT6qHwwaiiSxZD0eKDw1jRzEjzOTGnGLJsbxyDwJoYDlhoGSIJLTakugrm+4y7FAnaIx1+LlD0vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=VUti9/T3; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aMeGcHzI; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HpvA2JeL";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UY84aFD5"
-Date: Tue, 11 Nov 2025 15:39:31 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762871972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T4YjsZoRwdzDgjx08Bih7n7FVxeKaoqwpPv8CdLIAvg=;
-	b=HpvA2JeLK7wlX9zTW+73KNR1eVaI+ruGvWla9BmgOadRWKRhYFKgCqLzhrWJVKn5qANS2g
-	K533tGM81GbVBMpfssMw3oqdefgVuwYAhg3fN1QC1S4GtTcTZw9H5FTjZvMhgcWG2oaeX2
-	lGbD/k47DjaTPN5DF/n442zx8WWnUIby0xYSD3gZgY+m9X3QVB00icpA7XI0VOBtboRb/i
-	zBA6Dwv2s98sJoXMSGtbPVwdJE+pVUvoWJ+tBnQFbYO4uM2iWS9oyokfKRkkcrbsplHUb5
-	TnxRZuZa8+yBso7oe0poTH3qUd4MPAbLyndmXonWbk3iNnD0z9qfUpnRPoGbqg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762871972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T4YjsZoRwdzDgjx08Bih7n7FVxeKaoqwpPv8CdLIAvg=;
-	b=UY84aFD56kpelnYGfC1+L4F2qwxqNYNilDKCck2mXX58jbG9auEABUYiSbsP7lBcL/eNW1
-	/Q8SVQS4kup4WZBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Guangbo Cui <jckeep.cuiguangbo@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] PCI/aer_inject: Convert inject_lock to
- raw_spinlock_t
-Message-ID: <20251111143931.k7QsQ8Tb@linutronix.de>
-References: <20251102105706.7259-1-jckeep.cuiguangbo@gmail.com>
- <20251102105706.7259-3-jckeep.cuiguangbo@gmail.com>
- <20251103192120.GJ3419281@noisy.programming.kicks-ass.net>
- <20251103192709.GV1386988@noisy.programming.kicks-ass.net>
- <aQydxtOtgPTPxL_9@2a2a0ba7cec8>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="VUti9/T3";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aMeGcHzI"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 9D07A140008F;
+	Tue, 11 Nov 2025 10:17:34 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Tue, 11 Nov 2025 10:17:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1762874254;
+	 x=1762960654; bh=Fbu3o1viLABP5wwcyk1daQb3Sd8DU0YDTxiJGgrhldU=; b=
+	VUti9/T3aO3GOccYKmBXHz3ZdrMX+USsxgD0amkzVk56cWDvANDlSlFQnHoL7Kx0
+	gqEWgqKdmekAvqSegPZhBB/5VzCy0IM4F7lPqffkCugMHgGDkyp3I6eZh7ddCGvV
+	hA0cxUAa+uI3ad1XJVOLENV7i+WiczHGeZQjWbnmHYNjPqLoqK7NcKziXqoliPoc
+	IUV0jQAO17DR9PYC76X53DNKjYZD/3+eZFq/wFwsOLc6VMQWnQTGJsMteX9rOhzs
+	bVZOd1XOAmlfy4F+hT2XaPCA4Pc7ftIQjgA3tKXdUFDNJ7WTY3qtmOBV1dbjgDeD
+	EBZB0Z8Il4CbhJDK4hPowQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1762874254; x=
+	1762960654; bh=Fbu3o1viLABP5wwcyk1daQb3Sd8DU0YDTxiJGgrhldU=; b=a
+	MeGcHzISOSoh5+tCaefsiGr+j19DZT0+mU0YUmRIjtJpgZTg2e26E2A4PEW9HOH3
+	Jb9tZVhL/KiLA+NRSd80EC7s9lLyDvQcjvT/C/zuhh7chKjARrBKdMV3G6lQ5zsR
+	Tj8CapfRm4uP8G6a44DNsWRQkV6K0pLAQhRPLGnMPzn3kLx5qR2BIroXs2xLv0Yx
+	oWjK2iFzulajNzAYY6d6SMihuTQDMeToY6lZ/QaXlC6S0pOsS8p3FxvOuKbNrFAG
+	6D6I0ArYxUqJwPaUbZjK2BEZK+802ZtUF3YtDDJveUnofKoOhnA89uhsz1otvjGI
+	pGX50DBKVNdh//PkUdiVA==
+X-ME-Sender: <xms:jlMTaQQxtKQ-WgNTjxRcDDZ6uukGQ2s03XDaITI1-xtpUfxA7dUNyA>
+    <xme:jlMTaYlKAYhESnDvbZ3pVH0MWYlUE7qq6crNRXpVZmLmk2xXjoW_dwvPODCMmF070
+    uKYWslmioMtNCV-of0BfjPHvf_xnJj6e3ceW9-eL_GBoL1GGRY4H_Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggddvtdduheefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhepgfegkeelgeeuteejkeevjeekjeeijeehiedvteeghfdvvdetveeiuedugfehhefg
+    necuffhomhgrihhnpehlihhnuhigrdhorhhgrdhukhenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggp
+    rhgtphhtthhopeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigse
+    grrhhmlhhinhhugidrohhrghdruhhkpdhrtghpthhtohepgihivgihuhgrnhgsihhnudes
+    hhhurgifvghirdgtohhmpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinh
+    grrhhordhorhhgpdhrtghpthhtohepsghighgvrghshieslhhinhhuthhrohhnihigrdgu
+    vgdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdrihhnfh
+    hrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnuhigqdhrthdquggvvhgvlheslhhi
+    shhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:jlMTaU2k2-P6zMJQgGny2FLIzH1cIO1K-TAnCaWgBbTNQXTCy2ZtBg>
+    <xmx:jlMTaRUn7JWQaNE-MOQNT06EcmtP5qagvghBQRpUNVOqZ4syBuAbzw>
+    <xmx:jlMTafJdSSnYdOd4HB7dpcblw4vGBoyTCA_VuShPAuRJoRHuk3g2KA>
+    <xmx:jlMTaT3aa4RdA5wnMtHX-cCWmEp73qXsAS9dWpGWn_oeyQDvTng9PQ>
+    <xmx:jlMTaQCwAqvl9XRUFEp7s6TE3RBJJhlJh4sHdsi4-i9T6ar8kUGG1nPn>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0D718700054; Tue, 11 Nov 2025 10:17:34 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aQydxtOtgPTPxL_9@2a2a0ba7cec8>
+X-ThreadId: A3J-1TSmcyGB
+Date: Tue, 11 Nov 2025 16:16:52 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev
+Cc: "Russell King" <linux@armlinux.org.uk>,
+ "Xie Yuanbin" <xieyuanbin1@huawei.com>,
+ "Linus Walleij" <linus.walleij@linaro.org>
+Message-Id: <8d7c55f0-ba20-411c-93c7-bb354614c0df@app.fastmail.com>
+In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
+References: <20251110145555.2555055-1-bigeasy@linutronix.de>
+Subject: Re: [PATCH v3 0/5] ARM: Remaining PREEMPT_RT bits 
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2025-11-06 13:08:22 [+0000], Guangbo Cui wrote:
->=20
-> LGTM, If there are no objections, I=E2=80=99ll include these two patches =
-in the
-> next version of the patchset and add your Signed-off-by tag.
+On Mon, Nov 10, 2025, at 15:55, Sebastian Andrzej Siewior wrote:
+> this is the last batch I have to enable PREEMPT_RT on the ARM
+> architecture.
+> Last time I posted them there was some discussion about making the
+> branch predictor hardening worse. I redid it hoping it improved now and
+> does not make it worse.
+>
+> Is this okay now?
 
-I would suggest a Suggested-by or a Co-developed-by. Unless you take his
-work, make him the author and simply provide a patch description among
-his "patch".
+Looks all good to me.
 
-> Best regards,
-> Guangbo
+Please send the series to patches@armlinux.org.uk according to the
+description at https://www.arm.linux.org.uk/developer/patches/info.php
 
-Sebastian
+You can use
+
+$ git send-email --add-header=\"KernelVersion: $(git describe --abbrev=0)\" --to="patches@arm.linux.org.uk" --suppress-cc=all
+
+
+     Arnd
