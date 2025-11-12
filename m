@@ -1,88 +1,93 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1219E1E492A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 08:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30333385BE
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 15:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762937648; cv=none; b=VHxOeL86MZ7LcoW8/wrgSQi2hI3kXVDymORT7CZSvC2c8zh/MKv6zSidaIm6sig4r1grP9maepUETKeND03g/yiBInWqMEz2Z1sayvy3nMpj9D67wa5wkTW5UeipVp0alCEwGREFubfsUHO2SiupA0Nx3fe994YceAMAj07Y5PI=
+	t=1762962311; cv=none; b=DO4Km2/YnVSNIkBaPFysJl6+Ff6Oi+AIY2BA8+uXJkTE2X6PffFEvy0CI2q98+w9L7ZlVqY8CeDIPdnNiSa9/jg/DBDA1xDU+0IM0krqvXhXUdio/kJcqFwFli7g7UFtNmeSFZ0wcGr8FvhMAwV5Z6s1ANq0LPOoigqh5so1E9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762937648; c=relaxed/simple;
-	bh=tSeDYSdTakR0Jp4OF2Jm0a9M8Zm7izlqpSwMYkUzRVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PiuM6m0qkeuv/yD+wrqxmBIpA3be+X+T67A/J9hVsOHE3B3CM4ZJyb/sk5iNHPiqxylsxg+ODEnmEZb8VxTuOYKnpiYSHIUTFBBr7IXYlk+LBKAYQ/hjMoc4ukPxLOYVh4xgXI3pi8PAbVpwF91KDkdTJBIROLVnbikMhlY/RSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0XI7kQwN; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iYc+Xf07; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0XI7kQwN";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iYc+Xf07"
-Date: Wed, 12 Nov 2025 09:54:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1762937644;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+V65kbZ9DU351geqXdbjAKHkaUI37Nqr4MUCHI9acFg=;
-	b=0XI7kQwNRmOiy++ujh+bSWLTTxUj12k6FNh+VqQ0qP0Aa7jEBI+SRJfSv9sa68oMiPh+TS
-	YmlnV5Y0dnwWZ7pgENZpBHPa96fz2hEpI18ydhmq4M50UrKPDFYoyWvJzofOH6Hd1I/Dd+
-	il03UZHcMCtjIq7tGI9eE4Q599rnWD1utwrvMLz2XFstp190lCfO4+YqpRECS4UcJAhFIm
-	VHZrN5t1iY1HFmSaQdLVy55GaJ/lJO5z9vOR2WXcqMpMjRNHuQVre3eeHTn0J6SWsL9m8M
-	+1mIPodxkf3F4OTU4YE/IC8SByzgY+L+rGaOamuOkCfBQfRE7+vyOUxsm2uncQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1762937644;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+V65kbZ9DU351geqXdbjAKHkaUI37Nqr4MUCHI9acFg=;
-	b=iYc+Xf072ZiHDDTNwwAtlbIIW6UxlrZjsGBEUM25STRuau127eoPUU3ZFohjg511KAUkGS
-	qrweraEEcSKJeiBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Qi Zheng <qi.zheng@linux.dev>,
-	hannes@cmpxchg.org, hughd@google.com, mhocko@suse.com,
-	roman.gushchin@linux.dev, muchun.song@linux.dev, david@redhat.com,
-	lorenzo.stoakes@oracle.com, ziy@nvidia.com, imran.f.khan@oracle.com,
-	kamalesh.babulal@oracle.com, axelrasmussen@google.com,
-	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
-	Qi Zheng <zhengqi.arch@bytedance.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
+	s=arc-20240116; t=1762962311; c=relaxed/simple;
+	bh=K2NgcdDSsNIpmukvk9ZTuvgP7S9Fzwf2iF4Zv9Lx6wY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oPrmZLDlFcVCWuIc4/g0vGjZQw/zRM6jYpwAFjxQQo8bXzLWbRSWthIJaEkfhREUBNYXokKhjfufOjdoP00Dr6iTF9Q++96jrkaWKY17KgIRWk9qKiWkfiCmPfoziOQr3YYLssl+E3wTKGmlg92UhKZLFCt6HCCYoKCE6Ab/28Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id CDD17140573;
+	Wed, 12 Nov 2025 15:45:00 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf18.hostedemail.com (Postfix) with ESMTPA id C85DD32;
+	Wed, 12 Nov 2025 15:44:55 +0000 (UTC)
+Date: Wed, 12 Nov 2025 10:45:08 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Harry Yoo
+ <harry.yoo@oracle.com>, Qi Zheng <qi.zheng@linux.dev>, hannes@cmpxchg.org,
+ hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev,
+ muchun.song@linux.dev, david@redhat.com, lorenzo.stoakes@oracle.com,
+ ziy@nvidia.com, imran.f.khan@oracle.com, kamalesh.babulal@oracle.com,
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+ akpm@linux-foundation.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, Muchun Song
+ <songmuchun@bytedance.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Clark
+ Williams <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-Message-ID: <20251112085403.DDv0RU5k@linutronix.de>
-References: <aRFKY5VGEujVOqBc@hyeyoo>
- <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
- <aRF7eYlBKmG3hEFF@hyeyoo>
- <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
- <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
- <aRKqm24Lrg-JnCoh@hyeyoo>
- <20251111084900.babaOj0w@linutronix.de>
- <jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
- <20251112074930.mKu1J__U@linutronix.de>
- <aRRJe3PzN3cmgvcB@hyeyoo>
+Message-ID: <20251112104508.5500ad9b@gandalf.local.home>
+In-Reply-To: <jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
+References: <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
+	<aQ3yLER4C4jY70BH@harry>
+	<hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
+	<aRFKY5VGEujVOqBc@hyeyoo>
+	<2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
+	<aRF7eYlBKmG3hEFF@hyeyoo>
+	<aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
+	<8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
+	<aRKqm24Lrg-JnCoh@hyeyoo>
+	<20251111084900.babaOj0w@linutronix.de>
+	<jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aRRJe3PzN3cmgvcB@hyeyoo>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 8i46fu3i1uexab3gcai9n6jo5zxtnjew
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: C85DD32
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/zzJBKVnQjnF7+vD3iE7NPwFKeizQlGh4=
+X-HE-Tag: 1762962295-724363
+X-HE-Meta: U2FsdGVkX18sZXyIcTgAaFZzEaJim5B3AdsBNcnSuhkN2xVPR14V+jN/a1c5qbKBwiNNEDsYnm/64J4ywfekI1ESXBN6UJspS6OQJv2pFY4ePIxPhNzVl9Rm+8vU67m3SqAyq9LTVgOoNLhlzs0tmR4GFlK36oZ2M//1r6/uqVtRYmW841FrUMVYjYit8fHlXYKbBGeroJSS3BFYTvoXIMH5Z70gftOSU00Kt1bZvIjYFPdOyzv8A9vwq3mX3ifD5SZC3t2J5qSG6sJo6DrZkw5hpFnMuHHE12uSwei8c4W8RtEV9QEVyxIuOx7wSpSY
 
-On 2025-11-12 17:46:51 [+0900], Harry Yoo wrote:
-> > > Is PREEMPT_RT fine with this?
-> > 
-> > Yes.
-> > The local_irq_save() is not strictly needed but I am fine with it to
-> > keep it simple. The inner part is just counting.
+On Tue, 11 Nov 2025 08:44:14 -0800
+Shakeel Butt <shakeel.butt@linux.dev> wrote:
+
+> Harry is talking about mod_node_page_state() on
+> !CONFIG_HAVE_CMPXCHG_LOCAL which is disabling irqs.
 > 
-> Yeah I was wondering about this... and thanks for confirming!
-The preempt_disable_nested() and no in-IRQ user makes it okay. Not the
-counting, that was meant as "it is a small section". That might have
-been too short of an explanation.
+> void mod_node_page_state(struct pglist_data *pgdat, enum node_stat_item item,
+> 					long delta)
+> {
+> 	unsigned long flags;
+> 
+> 	local_irq_save(flags);
+> 	__mod_node_page_state(pgdat, item, delta);
+> 	local_irq_restore(flags);
+> }
+> 
+> Is PREEMPT_RT fine with this?
 
-Sebastian
+But should be:
+
+void mod_node_page_state(struct pglist_data *pgdat, enum node_stat_item item,
+					long delta)
+{
+	guard(irqsave)();
+	__mod_node_page_state(pgdat, item, delta);
+}
+
+-- Steve
