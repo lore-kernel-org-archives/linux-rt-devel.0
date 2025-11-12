@@ -1,100 +1,197 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012043.outbound.protection.outlook.com [52.101.48.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B6B27603F
-	for <linux-rt-devel@lists.linux.dev>; Tue, 11 Nov 2025 16:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762879471; cv=none; b=Ghrp4605JAlp5KCLEdzyKiDLiuD9NZ7jGgOKpgutHX3BwS4VlpJ4PR/9szM3/1O6nUl7+DTriUNEpOLIPmCoc3XRXwkw/FHNGysJNH4W4d+YyloyukZuL88+fk9gAJJn3lpO1MrKFTAb97B50eToIwDgQ23H9FZm3BDh1OcXatM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762879471; c=relaxed/simple;
-	bh=4cFlTn1ndDkONGK1hqa3YKpwy44LbNZPfGhXgFQq30w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ollaq/1q+Aw/lLh6NSl7ahCPTJmY/YLuLAQY9YJpFD6PXU1/7zmNowjRF68pErpUsbeaeHlTte5tUcRc/v5WlIJqyp4RG4XSwJvaM7rN5LB3bqdDVTA1KfG0GqKFf43FWgTa8E9wcEIK+wvbqHS9/fO3H7WsAtulY7CMgIeow3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rfXPZSdW; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DEA2C11D5
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 02:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762916015; cv=fail; b=eIgBtcE1yu4ugyr1XOhrnX5SFK+fbT3oF1vuo62FDnMTonhqZxphwKSb4PDNp9u9kPjyWQeBCPFrvHs6K5JZdvDG/yUIaZ5egl91ViyJB93G1gDN/l222tcj7KxW+YOVlntVzvEpDEAm0haF/f+Qh1Aj00i4UvQlDyn5N9W+HgY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762916015; c=relaxed/simple;
+	bh=SCAhPoEOwP30FoLaBSVUKZTz3h38uR4jUuuZSke7Uxg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BQudckvjZPGu5lhx3H9+DshbdC7t6wnithrjuU5Yv82tEJxo0TItvoWbWIMUgPbl/btNeF8RkDpISdnSbuGAtIYTSjFib1G8Ofi2bwC9mN657ZOXudJiYGXur+eX7aJA6MpeFnLFMuO1sziaeVvKayKMZOb6EcRgoc+Niwl+bAs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uQIB8lFG; arc=fail smtp.client-ip=52.101.48.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rfXPZSdW"
-Date: Tue, 11 Nov 2025 08:44:14 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1762879463;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AFGArA0AwyLodhjb1ON/WMsB8iA1cwp5MzvB1sHE/Ws=;
-	b=rfXPZSdWWJKvfp/fyeozoSkkYJwyDMDkRUVrEra7CvbSs6AFwxYotJETtKrWvS3TJZRC2h
-	Arwcb/Xt1oFuQUnzOeHaCFe/795zZ0GNk5RO/LZXgNAfpb+qLnIUjCIe0slSEGkSjAeNYH
-	bROAJPYA4Fq3TcbIL99NO0L3yuoCXjU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uQIB8lFG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AEFg3dbs8Vfh0QMAB0rB+RFaBRq20+WunPb5PVAGTd+seI+YjeX73h4lO/XCxKY6XZEkQj5JYPMVgfPns6XKc2r9aNmIWnP2ZJx8AlJvFaNZjmxMFZ9ZNduHZweqo+QpHSy8zzWuWJVqCtaeUecIraOq+dcDLvoUY/7ee6K02yv8iaHq20GJEICIVdHZnds4/pHKSp4KpXQTxZo9khMvRnsxAjWdgYEazmgKzTGwCYmPzcOTGlo+MNTPbCVLkwiO/VlojsMM2qVup+GqAxQcxYsTQ/tNrKovDCuta+RkYvYXYv2PVt9oUYeQJfTfevyfVEpCCyRLmTRwtsFgWHfOlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0U0KjDKden6CEfpTMOE0jW6qtYKcDN33d0O8J8TXPOg=;
+ b=PqkUg6qTcrFnrgFGerUYRjF3oWr+ZAWd6bfACtxigFYoOiO5Ujg4/mTwsOl1doG9qNj/v/xpvIXsZv1QGnZocCrJJ+UHnZspIqtA/SovIFotT44jZNU1pYYraAn1OyoEQ2s9i6BHT8IzLoztATMPwYhITSAGEoW+LcD8s+ecms5E/TDPPZv9RE3bHAHyK1AYKnBrw3a+VwyZSWhqGG3BQuOi/UjZjVRHFbPAyGaTP6D1OIXXGAGekpUwoaWEd+x+ds3/7dYoPg0BSaVCnlCoTEoOW48JENvcpVtJRjJtWbTwVFgbTY3GkhndfGP0m3fVPy49hutg9p7cX81eau5Q4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=linaro.org smtp.mailfrom=ti.com; dmarc=pass
+ (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0U0KjDKden6CEfpTMOE0jW6qtYKcDN33d0O8J8TXPOg=;
+ b=uQIB8lFG3s6mUZ98AJzCNiGju3K+I765xWuDz4lyoU3eYNcytwzJY5MhHXgbMS7R1dvEW7rKXbckB6kfMyynfw+maKvPbHJkK0Ld2yqi0FXXe0E/9wpB+JJY61Tye9fC7kY7doutmnm5jKI+mLQ2pciI9vAh4DeGRA+hGVYaYgQ=
+Received: from CH5PR05CA0017.namprd05.prod.outlook.com (2603:10b6:610:1f0::7)
+ by CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Wed, 12 Nov
+ 2025 02:53:28 +0000
+Received: from DS3PEPF000099D5.namprd04.prod.outlook.com
+ (2603:10b6:610:1f0:cafe::8) by CH5PR05CA0017.outlook.office365.com
+ (2603:10b6:610:1f0::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.5 via Frontend Transport; Wed,
+ 12 Nov 2025 02:53:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ DS3PEPF000099D5.mail.protection.outlook.com (10.167.17.6) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9320.13 via Frontend Transport; Wed, 12 Nov 2025 02:53:28 +0000
+Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 20:53:26 -0600
+Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE201.ent.ti.com
+ (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
+ 2025 20:53:26 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE204.ent.ti.com
+ (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Tue, 11 Nov 2025 20:53:26 -0600
+Received: from localhost (bb.dhcp.ti.com [128.247.81.12])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AC2rQmj1963711;
+	Tue, 11 Nov 2025 20:53:26 -0600
+Date: Tue, 11 Nov 2025 20:53:26 -0600
+From: Bryan Brattlof <bb@ti.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	hannes@cmpxchg.org, hughd@google.com, mhocko@suse.com, roman.gushchin@linux.dev, 
-	muchun.song@linux.dev, david@redhat.com, lorenzo.stoakes@oracle.com, ziy@nvidia.com, 
-	imran.f.khan@oracle.com, kamalesh.babulal@oracle.com, axelrasmussen@google.com, 
-	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
-	Muchun Song <songmuchun@bytedance.com>, Qi Zheng <zhengqi.arch@bytedance.com>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
-Message-ID: <jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
-References: <366385a3-ed0e-440b-a08b-9cf14165ee8f@linux.dev>
- <aQ3yLER4C4jY70BH@harry>
- <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
- <aRFKY5VGEujVOqBc@hyeyoo>
- <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
- <aRF7eYlBKmG3hEFF@hyeyoo>
- <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
- <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
- <aRKqm24Lrg-JnCoh@hyeyoo>
- <20251111084900.babaOj0w@linutronix.de>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-rt-devel@lists.linux.dev>,
+	Russell King <linux@armlinux.org.uk>, Xie Yuanbin <xieyuanbin1@huawei.com>,
+	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v3 0/5] ARM: Remaining PREEMPT_RT bits
+Message-ID: <20251112025326.d6dyoqcw5r3irpeo@bryanbrattlof.com>
+X-PGP-Fingerprint: D3D1 77E4 0A38 DF4D 1853 FEEF 41B9 0D5D 71D5 6CE0
+References: <20251110145555.2555055-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20251111084900.babaOj0w@linutronix.de>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D5:EE_|CO1PR10MB4722:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6fc98556-4871-4aa3-210c-08de2196a840
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bndXb1dUZFExWUdXZEVEUFBmTGtha2NkbTNkemEyenJlaGxqQW45bnBpNEp1?=
+ =?utf-8?B?dGVJU2sreG1OZHFYa2NxVVp3MVlQT2FLdnRyTDVMdUxFYWpqcys4MDhHTG9N?=
+ =?utf-8?B?Z2JlOGdpbDFBeW9vTFpXS1E4WHBMVFJuY1dFbVBobm5vQ2paeWtHdExOeWxa?=
+ =?utf-8?B?UzlrZC9sMzYvbzZscC9UOUdQaFdtRUdTNk90NjlwL2lIQmtOYXpuSHlaSkxx?=
+ =?utf-8?B?NTI3b01PZUtFa1RON2k0V3NrT3ZXRkZQYW1LU2MycytqOXpRN2xVRTV6anpp?=
+ =?utf-8?B?TWVHUjBBbGYrQTV0WmxPYlhYREVJSjB1NHFPVEE5dGVpczVzSnArekVQaSs2?=
+ =?utf-8?B?V0NXYTVaS0JLWkZ5U0V4Z0Z0YlZlNVQ3V3hKNXU0dld0NDNyYVVwakx0c0Yy?=
+ =?utf-8?B?UldCKythbVJ3dE5RNXFsVU9zR3ZoY1JhZDVoMHF2Y0htbFIyaWxrUEpzSm5n?=
+ =?utf-8?B?YWV1SUxOTzNjd0I5V0d6cFZMWml6OGFCM1BDS1NjMk1DQUFQMUFHc3pzbmJP?=
+ =?utf-8?B?TUFoUXJTbHd0Z3RBdVlLY3RWaWlDeU5MZ3NRN0RKWWIydkFIUFJEa2g2R05H?=
+ =?utf-8?B?RVJudVYwSUh2N2RYMzh2eEZEbk5WSWo4T3BLdkRialZYSDhnSmV0VkxGeVIz?=
+ =?utf-8?B?ZDR5eHVTRWxzcHdaTlpmQ2lsRzl5NWd5Titha0pQM0pRekYveU9EVGF0L3JU?=
+ =?utf-8?B?cFVpamhuc1YrRjVlYmZwcWpFTXZHbDlpTW5PazFhbzRHRDQ2R0t3ZjNWRit0?=
+ =?utf-8?B?bjNjaWdsNFl0bm41ZDJhdUhGY0xJTEFwMXNYcGgrMnhZRFhBTUFvL1NlZTNk?=
+ =?utf-8?B?QU1yNFJOR01KcjBjTThEQTI3YXdqWlczWDQ5Q2w4bm9RbVdJYzFTVFBoUEVO?=
+ =?utf-8?B?bFRuY1R3SmxVN0lqZlI1Qy9razB1K0RyRmNIeWl5WjYzaEpobXV5ZVBlZlNj?=
+ =?utf-8?B?Q20xeEg0dEVvVFd6OHJVYk5BdDFLMjArbVdRblVvaUJQZGtsMk5DSWZncjk2?=
+ =?utf-8?B?ZVI5ZjhYeTZBcDV1bTRVaFI2TXU1SkY1WG9uYzdYbDErWTRXbGhFb1NpclJ4?=
+ =?utf-8?B?N0ZkNzBrQnJRYk00am1WZEQ2NkZDMi9XaEY2VHQwYmNwKzlvdTFHK2tIVFEx?=
+ =?utf-8?B?TS80b2Evbkc2NndGbUIxVTZVNDR4dlhVdDkxcjJ6OEtuc0h6dlJMdEZLQnhG?=
+ =?utf-8?B?UkRacUxaTEhWQ2g0enJVaFJIbU9IM1lMQjRxRlBxbmNQTEVwd0xCNDRRMXNG?=
+ =?utf-8?B?czlTZDFhbFhsL2hlVlJjTGYwcHFKS2MxZFAwSjJoS2QzSUM1bnF3bHM5UXlk?=
+ =?utf-8?B?Qmd0YjF3emx0ZnFycmtKb0xFZEF5VjM1Q3ByM0hGeTVhVFRiM2EyYlI5bzdL?=
+ =?utf-8?B?YUpZbWpaNUNSVzVuaGZtQ0thUmZkRS9yZkxOb2ZTd1B2aDJwMlFzVy95aDVJ?=
+ =?utf-8?B?Tk1tZVVmWTFWMXJLRHhMK1JZbUNSQzJGTitlVEltVzNhM1orZ0QwSndkY3V0?=
+ =?utf-8?B?aTdpbmVMVHBZNFdyYUZuQTY0eDB4dnMvTzBxajFFbVVxbnFpekRBSm9zYmd1?=
+ =?utf-8?B?bUpHU3VxenlPRWdLYUoxNkVUT3pYMUNRZjdJakJYNHdJUWFpNURwUm5zbytM?=
+ =?utf-8?B?d1ZqWktnTElyaTEzZ1hGSUNIaVlYd0VVMU80d1NRVkxSUGxVLys3TkpJV0hu?=
+ =?utf-8?B?bzB2RDh0a3ByTndSUTNjczRoN1pzc2xaSzJxYlYxU1pDbE45NWlLTUk4Ulpo?=
+ =?utf-8?B?NTdYTEdoZkY5anFhUHlHeEl6NjZQb1ZEOEx1RTNFZFluRlp6UFdnWWNEUWFQ?=
+ =?utf-8?B?ZlRpMVJtWHFpMFJITnhDTU1hVFdFT2pzUDJsRHpwNkFBYW92MStETUNvbCs2?=
+ =?utf-8?B?T0NtVDlYaGlKV21hZjRhZmxZOHN4clNSdU1NOFZBM043c1o2eW1hczNBUUxl?=
+ =?utf-8?B?MkFoQ3RrdW03bmdXc1QzRUVtMXk3VGlVUkhsanA2NlNrYTVvZHZoWUhmSzZy?=
+ =?utf-8?B?VnQ3ZFdCa2ZaTi9VdjdQWkFVelFkYTcwTDc5R1VpNUs1SDRzcG5rM1QwK1VB?=
+ =?utf-8?B?UjViZTc1SHp4OWh3aGg3OGRWSWtVb1VWS3ZBaFdoR1ZLY2NZV2RFRmU2eW1Z?=
+ =?utf-8?Q?HcLk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 02:53:28.4007
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fc98556-4871-4aa3-210c-08de2196a840
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DS3PEPF000099D5.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4722
 
-On Tue, Nov 11, 2025 at 09:49:00AM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-11-11 12:16:43 [+0900], Harry Yoo wrote:
-> > > However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
-> > > still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
-> > 
-> > Hmm I was going to say it's necessary, but AFAICT we don't allocate
-> > or free memory in hardirq context on PREEMPT_RT (that's the policy)
-> > and so I'd say it's not necessary to disable IRQs.
-> > 
-> > Sounds like we still want to disable IRQs only on !PREEMPT_RT on
-> > such architectures?
-> > 
-> > Not sure how seriously do PREEMPT_RT folks care about architectures
-> > without HAVE_CMPXCHG_LOCAL. (riscv and loongarch have ARCH_SUPPORTS_RT
-> > but doesn't have HAVE_CMPXCHG_LOCAL).
+On November 10, 2025 thus sayeth Sebastian Andrzej Siewior:
+> this is the last batch I have to enable PREEMPT_RT on the ARM
+> architecture.
+> Last time I posted them there was some discussion about making the
+> branch predictor hardening worse. I redid it hoping it improved now and
+> does not make it worse.
 > 
-> We take things seriously and you shouldn't make assumption based on
-> implementation. Either the API can be used as such or not.
-> In case of mod_node_page_state(), the non-IRQ off version
-> (__mod_node_page_state()) has a preempt_disable_nested() to ensure
-> atomic update on PREEMPT_RT without disabling interrupts.
+> Is this okay now?
 > 
+> v2…v3: https://lore.kernel.org/all/20251103101545.760243-1-bigeasy@linutronix.de
+>   - Collected tags.
+> 
+> v1…v2: https://lore.kernel.org/all/20251029155918.503060-1-bigeasy@linutronix.de
+>   - Allow to enable jump-labels on UP. The UP build does not involve
+>     stop_machine(). Reworked by Arnd.
+> 
+>   - Instead of forbidding HAVE_GUP_FAST with HIGHPTE enabled just
+>     disable HIGHPTE on PREEMPT_RT. As Arnd explained, HIGHPTE is rarely
+>     needed.
+> 
+>   - Don't let ARCH_SUPPORTS_RT depend on HAVE_POSIX_CPU_TIMERS_TASK_WORK
+>     which in turn depends on !KVM. Since KVM has been removed from ARM
+>     it is sufficient to unconditionally allow ARCH_SUPPORTS_RT. Noted
+>     by Arnd.
+> 
+> Sebastian Andrzej Siewior (3):
+>   ARM: mm: fault: Move harden_branch_predictor() before interrupts are
+>     enabled
+>   ARM: Disable HIGHPTE on PREEMPT_RT kernels
+>   ARM: Allow to enable RT
+> 
+> Thomas Gleixner (1):
+>   ARM: Disable jump-label on PREEMPT_RT
+> 
+> Yadi.hu (1):
+>   ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
+> 
+>  arch/arm/Kconfig    |  5 +++--
+>  arch/arm/mm/fault.c | 16 ++++++++++------
+>  2 files changed, 13 insertions(+), 8 deletions(-)
 
-Harry is talking about mod_node_page_state() on
-!CONFIG_HAVE_CMPXCHG_LOCAL which is disabling irqs.
+Thank you Sebastian!
 
-void mod_node_page_state(struct pglist_data *pgdat, enum node_stat_item item,
-					long delta)
-{
-	unsigned long flags;
+There are quite a few systems which use 32b processors and need 
+PREEMPT_RT. Thank you for doing this. 
 
-	local_irq_save(flags);
-	__mod_node_page_state(pgdat, item, delta);
-	local_irq_restore(flags);
-}
+Acked-by: Bryan Brattlof <bb@ti.com>
 
-Is PREEMPT_RT fine with this?
+~Bryan
