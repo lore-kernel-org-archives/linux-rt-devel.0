@@ -1,197 +1,455 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012043.outbound.protection.outlook.com [52.101.48.43])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42DEA2C11D5
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 02:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762916015; cv=fail; b=eIgBtcE1yu4ugyr1XOhrnX5SFK+fbT3oF1vuo62FDnMTonhqZxphwKSb4PDNp9u9kPjyWQeBCPFrvHs6K5JZdvDG/yUIaZ5egl91ViyJB93G1gDN/l222tcj7KxW+YOVlntVzvEpDEAm0haF/f+Qh1Aj00i4UvQlDyn5N9W+HgY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762916015; c=relaxed/simple;
-	bh=SCAhPoEOwP30FoLaBSVUKZTz3h38uR4jUuuZSke7Uxg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BQudckvjZPGu5lhx3H9+DshbdC7t6wnithrjuU5Yv82tEJxo0TItvoWbWIMUgPbl/btNeF8RkDpISdnSbuGAtIYTSjFib1G8Ofi2bwC9mN657ZOXudJiYGXur+eX7aJA6MpeFnLFMuO1sziaeVvKayKMZOb6EcRgoc+Niwl+bAs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uQIB8lFG; arc=fail smtp.client-ip=52.101.48.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A512BDC0A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 03:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762919925; cv=none; b=q1YTS0PzviBXsLqf+t5KHxB0jIEf+M1+LQSFvIoOvT03ji7ITkYOU7IGqIpZt+Qrv3yPTJLqhmFbIgQbjeHgwwiXNV4HLBXspGNLHKh4VJiBioihFtMrm672Z7pGZLZjM2dZK9F8JlsfeGtevWboYLO7g9N6dnVWHNs0AvBcAWc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762919925; c=relaxed/simple;
+	bh=c/h+aA41Clq7jcaacbawmPY+fy/4YciowdLYV+X/BAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uKY9O9oNEKrHvG/ku7+AkIYRIH6zJqRRJDG0WD55VbLClRlQYRMGQEg1aLPiiROhPWZU2nWhdaCIYPymp81aHwWaWvj2D6vbqw2DGkb25twRee1E0G+6j0WD3o2aFILni98+v6kJ2JjKklemCBWIoD2gd0z48btgI393Ga1nU/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MESXicJ2; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uQIB8lFG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AEFg3dbs8Vfh0QMAB0rB+RFaBRq20+WunPb5PVAGTd+seI+YjeX73h4lO/XCxKY6XZEkQj5JYPMVgfPns6XKc2r9aNmIWnP2ZJx8AlJvFaNZjmxMFZ9ZNduHZweqo+QpHSy8zzWuWJVqCtaeUecIraOq+dcDLvoUY/7ee6K02yv8iaHq20GJEICIVdHZnds4/pHKSp4KpXQTxZo9khMvRnsxAjWdgYEazmgKzTGwCYmPzcOTGlo+MNTPbCVLkwiO/VlojsMM2qVup+GqAxQcxYsTQ/tNrKovDCuta+RkYvYXYv2PVt9oUYeQJfTfevyfVEpCCyRLmTRwtsFgWHfOlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0U0KjDKden6CEfpTMOE0jW6qtYKcDN33d0O8J8TXPOg=;
- b=PqkUg6qTcrFnrgFGerUYRjF3oWr+ZAWd6bfACtxigFYoOiO5Ujg4/mTwsOl1doG9qNj/v/xpvIXsZv1QGnZocCrJJ+UHnZspIqtA/SovIFotT44jZNU1pYYraAn1OyoEQ2s9i6BHT8IzLoztATMPwYhITSAGEoW+LcD8s+ecms5E/TDPPZv9RE3bHAHyK1AYKnBrw3a+VwyZSWhqGG3BQuOi/UjZjVRHFbPAyGaTP6D1OIXXGAGekpUwoaWEd+x+ds3/7dYoPg0BSaVCnlCoTEoOW48JENvcpVtJRjJtWbTwVFgbTY3GkhndfGP0m3fVPy49hutg9p7cX81eau5Q4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=linaro.org smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0U0KjDKden6CEfpTMOE0jW6qtYKcDN33d0O8J8TXPOg=;
- b=uQIB8lFG3s6mUZ98AJzCNiGju3K+I765xWuDz4lyoU3eYNcytwzJY5MhHXgbMS7R1dvEW7rKXbckB6kfMyynfw+maKvPbHJkK0Ld2yqi0FXXe0E/9wpB+JJY61Tye9fC7kY7doutmnm5jKI+mLQ2pciI9vAh4DeGRA+hGVYaYgQ=
-Received: from CH5PR05CA0017.namprd05.prod.outlook.com (2603:10b6:610:1f0::7)
- by CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.16; Wed, 12 Nov
- 2025 02:53:28 +0000
-Received: from DS3PEPF000099D5.namprd04.prod.outlook.com
- (2603:10b6:610:1f0:cafe::8) by CH5PR05CA0017.outlook.office365.com
- (2603:10b6:610:1f0::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9343.5 via Frontend Transport; Wed,
- 12 Nov 2025 02:53:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- DS3PEPF000099D5.mail.protection.outlook.com (10.167.17.6) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9320.13 via Frontend Transport; Wed, 12 Nov 2025 02:53:28 +0000
-Received: from DLEE201.ent.ti.com (157.170.170.76) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
- 2025 20:53:26 -0600
-Received: from DLEE204.ent.ti.com (157.170.170.84) by DLEE201.ent.ti.com
- (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 11 Nov
- 2025 20:53:26 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE204.ent.ti.com
- (157.170.170.84) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 11 Nov 2025 20:53:26 -0600
-Received: from localhost (bb.dhcp.ti.com [128.247.81.12])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5AC2rQmj1963711;
-	Tue, 11 Nov 2025 20:53:26 -0600
-Date: Tue, 11 Nov 2025 20:53:26 -0600
-From: Bryan Brattlof <bb@ti.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-rt-devel@lists.linux.dev>,
-	Russell King <linux@armlinux.org.uk>, Xie Yuanbin <xieyuanbin1@huawei.com>,
-	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v3 0/5] ARM: Remaining PREEMPT_RT bits
-Message-ID: <20251112025326.d6dyoqcw5r3irpeo@bryanbrattlof.com>
-X-PGP-Fingerprint: D3D1 77E4 0A38 DF4D 1853 FEEF 41B9 0D5D 71D5 6CE0
-References: <20251110145555.2555055-1-bigeasy@linutronix.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MESXicJ2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1762919922;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=HVGjzJVLKYy854UeaTbnQV8hoz0i2+ZeLSoZeWbkDos=;
+	b=MESXicJ2mRMX8+950Q6cjyxn6osPFObjCVwBJ+YA31Ql3l7Kjo81Yb+U2ape4Hy4ryDJii
+	iiyBmmHVGUhEW8BIrBDOVTWcsMWUxL1yiTOHh1xrM2WxXj8HzadVLdqFIFSWbjYBby94Ej
+	CTGopUjP6rkDNbF9dBRTJ4PuwbxKBK0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-r370gV40O42hI_X01s8uVg-1; Tue,
+ 11 Nov 2025 22:58:38 -0500
+X-MC-Unique: r370gV40O42hI_X01s8uVg-1
+X-Mimecast-MFC-AGG-ID: r370gV40O42hI_X01s8uVg_1762919917
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8233F19560B0;
+	Wed, 12 Nov 2025 03:58:36 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.81.133])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E70E81800451;
+	Wed, 12 Nov 2025 03:58:32 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Chen Ridong <chenridong@huawei.com>,
+	Pingfan Liu <piliu@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Waiman Long <longman@redhat.com>
+Subject: [cgroup/for-6.19 PATCH] cgroup/cpuset: Make callback_lock a raw_spinlock_t
+Date: Tue, 11 Nov 2025 22:57:59 -0500
+Message-ID: <20251112035759.1162541-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251110145555.2555055-1-bigeasy@linutronix.de>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D5:EE_|CO1PR10MB4722:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6fc98556-4871-4aa3-210c-08de2196a840
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bndXb1dUZFExWUdXZEVEUFBmTGtha2NkbTNkemEyenJlaGxqQW45bnBpNEp1?=
- =?utf-8?B?dGVJU2sreG1OZHFYa2NxVVp3MVlQT2FLdnRyTDVMdUxFYWpqcys4MDhHTG9N?=
- =?utf-8?B?Z2JlOGdpbDFBeW9vTFpXS1E4WHBMVFJuY1dFbVBobm5vQ2paeWtHdExOeWxa?=
- =?utf-8?B?UzlrZC9sMzYvbzZscC9UOUdQaFdtRUdTNk90NjlwL2lIQmtOYXpuSHlaSkxx?=
- =?utf-8?B?NTI3b01PZUtFa1RON2k0V3NrT3ZXRkZQYW1LU2MycytqOXpRN2xVRTV6anpp?=
- =?utf-8?B?TWVHUjBBbGYrQTV0WmxPYlhYREVJSjB1NHFPVEE5dGVpczVzSnArekVQaSs2?=
- =?utf-8?B?V0NXYTVaS0JLWkZ5U0V4Z0Z0YlZlNVQ3V3hKNXU0dld0NDNyYVVwakx0c0Yy?=
- =?utf-8?B?UldCKythbVJ3dE5RNXFsVU9zR3ZoY1JhZDVoMHF2Y0htbFIyaWxrUEpzSm5n?=
- =?utf-8?B?YWV1SUxOTzNjd0I5V0d6cFZMWml6OGFCM1BDS1NjMk1DQUFQMUFHc3pzbmJP?=
- =?utf-8?B?TUFoUXJTbHd0Z3RBdVlLY3RWaWlDeU5MZ3NRN0RKWWIydkFIUFJEa2g2R05H?=
- =?utf-8?B?RVJudVYwSUh2N2RYMzh2eEZEbk5WSWo4T3BLdkRialZYSDhnSmV0VkxGeVIz?=
- =?utf-8?B?ZDR5eHVTRWxzcHdaTlpmQ2lsRzl5NWd5Titha0pQM0pRekYveU9EVGF0L3JU?=
- =?utf-8?B?cFVpamhuc1YrRjVlYmZwcWpFTXZHbDlpTW5PazFhbzRHRDQ2R0t3ZjNWRit0?=
- =?utf-8?B?bjNjaWdsNFl0bm41ZDJhdUhGY0xJTEFwMXNYcGgrMnhZRFhBTUFvL1NlZTNk?=
- =?utf-8?B?QU1yNFJOR01KcjBjTThEQTI3YXdqWlczWDQ5Q2w4bm9RbVdJYzFTVFBoUEVO?=
- =?utf-8?B?bFRuY1R3SmxVN0lqZlI1Qy9razB1K0RyRmNIeWl5WjYzaEpobXV5ZVBlZlNj?=
- =?utf-8?B?Q20xeEg0dEVvVFd6OHJVYk5BdDFLMjArbVdRblVvaUJQZGtsMk5DSWZncjk2?=
- =?utf-8?B?ZVI5ZjhYeTZBcDV1bTRVaFI2TXU1SkY1WG9uYzdYbDErWTRXbGhFb1NpclJ4?=
- =?utf-8?B?N0ZkNzBrQnJRYk00am1WZEQ2NkZDMi9XaEY2VHQwYmNwKzlvdTFHK2tIVFEx?=
- =?utf-8?B?TS80b2Evbkc2NndGbUIxVTZVNDR4dlhVdDkxcjJ6OEtuc0h6dlJMdEZLQnhG?=
- =?utf-8?B?UkRacUxaTEhWQ2g0enJVaFJIbU9IM1lMQjRxRlBxbmNQTEVwd0xCNDRRMXNG?=
- =?utf-8?B?czlTZDFhbFhsL2hlVlJjTGYwcHFKS2MxZFAwSjJoS2QzSUM1bnF3bHM5UXlk?=
- =?utf-8?B?Qmd0YjF3emx0ZnFycmtKb0xFZEF5VjM1Q3ByM0hGeTVhVFRiM2EyYlI5bzdL?=
- =?utf-8?B?YUpZbWpaNUNSVzVuaGZtQ0thUmZkRS9yZkxOb2ZTd1B2aDJwMlFzVy95aDVJ?=
- =?utf-8?B?Tk1tZVVmWTFWMXJLRHhMK1JZbUNSQzJGTitlVEltVzNhM1orZ0QwSndkY3V0?=
- =?utf-8?B?aTdpbmVMVHBZNFdyYUZuQTY0eDB4dnMvTzBxajFFbVVxbnFpekRBSm9zYmd1?=
- =?utf-8?B?bUpHU3VxenlPRWdLYUoxNkVUT3pYMUNRZjdJakJYNHdJUWFpNURwUm5zbytM?=
- =?utf-8?B?d1ZqWktnTElyaTEzZ1hGSUNIaVlYd0VVMU80d1NRVkxSUGxVLys3TkpJV0hu?=
- =?utf-8?B?bzB2RDh0a3ByTndSUTNjczRoN1pzc2xaSzJxYlYxU1pDbE45NWlLTUk4Ulpo?=
- =?utf-8?B?NTdYTEdoZkY5anFhUHlHeEl6NjZQb1ZEOEx1RTNFZFluRlp6UFdnWWNEUWFQ?=
- =?utf-8?B?ZlRpMVJtWHFpMFJITnhDTU1hVFdFT2pzUDJsRHpwNkFBYW92MStETUNvbCs2?=
- =?utf-8?B?T0NtVDlYaGlKV21hZjRhZmxZOHN4clNSdU1NOFZBM043c1o2eW1hczNBUUxl?=
- =?utf-8?B?MkFoQ3RrdW03bmdXc1QzRUVtMXk3VGlVUkhsanA2NlNrYTVvZHZoWUhmSzZy?=
- =?utf-8?B?VnQ3ZFdCa2ZaTi9VdjdQWkFVelFkYTcwTDc5R1VpNUs1SDRzcG5rM1QwK1VB?=
- =?utf-8?B?UjViZTc1SHp4OWh3aGg3OGRWSWtVb1VWS3ZBaFdoR1ZLY2NZV2RFRmU2eW1Z?=
- =?utf-8?Q?HcLk=3D?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2025 02:53:28.4007
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6fc98556-4871-4aa3-210c-08de2196a840
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D5.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4722
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On November 10, 2025 thus sayeth Sebastian Andrzej Siewior:
-> this is the last batch I have to enable PREEMPT_RT on the ARM
-> architecture.
-> Last time I posted them there was some discussion about making the
-> branch predictor hardening worse. I redid it hoping it improved now and
-> does not make it worse.
-> 
-> Is this okay now?
-> 
-> v2…v3: https://lore.kernel.org/all/20251103101545.760243-1-bigeasy@linutronix.de
->   - Collected tags.
-> 
-> v1…v2: https://lore.kernel.org/all/20251029155918.503060-1-bigeasy@linutronix.de
->   - Allow to enable jump-labels on UP. The UP build does not involve
->     stop_machine(). Reworked by Arnd.
-> 
->   - Instead of forbidding HAVE_GUP_FAST with HIGHPTE enabled just
->     disable HIGHPTE on PREEMPT_RT. As Arnd explained, HIGHPTE is rarely
->     needed.
-> 
->   - Don't let ARCH_SUPPORTS_RT depend on HAVE_POSIX_CPU_TIMERS_TASK_WORK
->     which in turn depends on !KVM. Since KVM has been removed from ARM
->     it is sufficient to unconditionally allow ARCH_SUPPORTS_RT. Noted
->     by Arnd.
-> 
-> Sebastian Andrzej Siewior (3):
->   ARM: mm: fault: Move harden_branch_predictor() before interrupts are
->     enabled
->   ARM: Disable HIGHPTE on PREEMPT_RT kernels
->   ARM: Allow to enable RT
-> 
-> Thomas Gleixner (1):
->   ARM: Disable jump-label on PREEMPT_RT
-> 
-> Yadi.hu (1):
->   ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
-> 
->  arch/arm/Kconfig    |  5 +++--
->  arch/arm/mm/fault.c | 16 ++++++++++------
->  2 files changed, 13 insertions(+), 8 deletions(-)
+The callback_lock is a spinlock_t which is acquired either to read
+a stable set of cpu or node masks or to modify those masks when
+cpuset_mutex is also acquired. Sometime it may need to go up the
+cgroup hierarchy while holding the lock to find the right set of masks
+to use. Assuming that the depth of the cgroup hierarch is finite and
+typically small, the lock hold time should be limited.
 
-Thank you Sebastian!
+Some externally callable cpuset APIs like cpuset_cpus_allowed() and
+cpuset_mems_allowed() acquires callback_lock with irq disabled to ensure
+stable cpuset data. These APIs currently have the restriction that they
+can't be called when a raw spinlock is being held. This is needed to
+work correctly in a PREEMPT_RT kernel. This requires additional code
+changes to work around this limitation. See [1] for a discussion of that.
 
-There are quite a few systems which use 32b processors and need 
-PREEMPT_RT. Thank you for doing this. 
+Make these external cpuset APIs more useful by changing callback_lock
+to a raw_spinlock_t to remove this limitation so that they can be called
+from within other raw spinlock critical sections if needed.
 
-Acked-by: Bryan Brattlof <bb@ti.com>
+[1] https://lore.kernel.org/lkml/20251110014706.8118-1-piliu@redhat.com/
 
-~Bryan
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ kernel/cgroup/cpuset.c | 94 +++++++++++++++++++++---------------------
+ 1 file changed, 47 insertions(+), 47 deletions(-)
+
+diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+index 976bce6e5673..7b3a0345ee76 100644
+--- a/kernel/cgroup/cpuset.c
++++ b/kernel/cgroup/cpuset.c
+@@ -289,16 +289,16 @@ void cpuset_full_unlock(void)
+ 	cpus_read_unlock();
+ }
+ 
+-static DEFINE_SPINLOCK(callback_lock);
++static DEFINE_RAW_SPINLOCK(callback_lock);
+ 
+ void cpuset_callback_lock_irq(void)
+ {
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ }
+ 
+ void cpuset_callback_unlock_irq(void)
+ {
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ }
+ 
+ static struct workqueue_struct *cpuset_migrate_mm_wq;
+@@ -1616,11 +1616,11 @@ static int remote_partition_enable(struct cpuset *cs, int new_prs,
+ 	    prstate_housekeeping_conflict(new_prs, tmp->new_cpus))
+ 		return PERR_HKEEPING;
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	partition_xcpus_add(new_prs, NULL, tmp->new_cpus);
+ 	cs->remote_partition = true;
+ 	cpumask_copy(cs->effective_xcpus, tmp->new_cpus);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	update_isolation_cpumasks();
+ 	cpuset_force_rebuild();
+ 	cs->prs_err = 0;
+@@ -1647,7 +1647,7 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
+ 	WARN_ON_ONCE(!is_remote_partition(cs));
+ 	WARN_ON_ONCE(!cpumask_subset(cs->effective_xcpus, subpartitions_cpus));
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cs->remote_partition = false;
+ 	partition_xcpus_del(cs->partition_root_state, NULL, cs->effective_xcpus);
+ 	if (cs->prs_err)
+@@ -1658,7 +1658,7 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
+ 	/* effective_xcpus may need to be changed */
+ 	compute_excpus(cs, cs->effective_xcpus);
+ 	reset_partition_data(cs);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	update_isolation_cpumasks();
+ 	cpuset_force_rebuild();
+ 
+@@ -1717,7 +1717,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
+ 			goto invalidate;
+ 	}
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	if (adding)
+ 		partition_xcpus_add(prs, NULL, tmp->addmask);
+ 	if (deleting)
+@@ -1729,7 +1729,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
+ 	cpumask_copy(cs->effective_xcpus, excpus);
+ 	if (xcpus)
+ 		cpumask_copy(cs->exclusive_cpus, xcpus);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	update_isolation_cpumasks();
+ 	if (adding || deleting)
+ 		cpuset_force_rebuild();
+@@ -2060,7 +2060,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+ 	 * Newly added CPUs will be removed from effective_cpus and
+ 	 * newly deleted ones will be added back to effective_cpus.
+ 	 */
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	if (old_prs != new_prs)
+ 		cs->partition_root_state = new_prs;
+ 
+@@ -2073,7 +2073,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
+ 	if (deleting)
+ 		partition_xcpus_add(new_prs, parent, tmp->delmask);
+ 
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	update_isolation_cpumasks();
+ 
+ 	if ((old_prs != new_prs) && (cmd == partcmd_update))
+@@ -2154,9 +2154,9 @@ static void compute_partition_effective_cpumask(struct cpuset *cs,
+ 			/*
+ 			 * Invalidate child partition
+ 			 */
+-			spin_lock_irq(&callback_lock);
++			raw_spin_lock_irq(&callback_lock);
+ 			make_partition_invalid(child);
+-			spin_unlock_irq(&callback_lock);
++			raw_spin_unlock_irq(&callback_lock);
+ 			notify_partition_change(child, old_prs);
+ 			continue;
+ 		}
+@@ -2301,7 +2301,7 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+ 			new_prs = cp->partition_root_state;
+ 		}
+ 
+-		spin_lock_irq(&callback_lock);
++		raw_spin_lock_irq(&callback_lock);
+ 		cpumask_copy(cp->effective_cpus, tmp->new_cpus);
+ 		cp->partition_root_state = new_prs;
+ 		if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
+@@ -2316,7 +2316,7 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
+ 				    cp->cpus_allowed, parent->effective_xcpus);
+ 		else if (new_prs < 0)
+ 			reset_partition_data(cp);
+-		spin_unlock_irq(&callback_lock);
++		raw_spin_unlock_irq(&callback_lock);
+ 
+ 		notify_partition_change(cp, old_prs);
+ 
+@@ -2566,12 +2566,12 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+ 
+ 	partition_cpus_change(cs, trialcs, &tmp);
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cpumask_copy(cs->cpus_allowed, trialcs->cpus_allowed);
+ 	cpumask_copy(cs->effective_xcpus, trialcs->effective_xcpus);
+ 	if ((old_prs > 0) && !is_partition_valid(cs))
+ 		reset_partition_data(cs);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	/* effective_cpus/effective_xcpus will be updated here */
+ 	update_cpumasks_hier(cs, &tmp, force);
+@@ -2631,12 +2631,12 @@ static int update_exclusive_cpumask(struct cpuset *cs, struct cpuset *trialcs,
+ 	trialcs->prs_err = PERR_NONE;
+ 	partition_cpus_change(cs, trialcs, &tmp);
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cpumask_copy(cs->exclusive_cpus, trialcs->exclusive_cpus);
+ 	cpumask_copy(cs->effective_xcpus, trialcs->effective_xcpus);
+ 	if ((old_prs > 0) && !is_partition_valid(cs))
+ 		reset_partition_data(cs);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	/*
+ 	 * Call update_cpumasks_hier() to update effective_cpus/effective_xcpus
+@@ -2851,9 +2851,9 @@ static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
+ 			continue;
+ 		rcu_read_unlock();
+ 
+-		spin_lock_irq(&callback_lock);
++		raw_spin_lock_irq(&callback_lock);
+ 		cp->effective_mems = *new_mems;
+-		spin_unlock_irq(&callback_lock);
++		raw_spin_unlock_irq(&callback_lock);
+ 
+ 		WARN_ON(!is_in_v2_mode() &&
+ 			!nodes_equal(cp->mems_allowed, cp->effective_mems));
+@@ -2906,9 +2906,9 @@ static int update_nodemask(struct cpuset *cs, struct cpuset *trialcs,
+ 
+ 	check_insane_mems_config(&trialcs->mems_allowed);
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cs->mems_allowed = trialcs->mems_allowed;
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	/* use trialcs->mems_allowed as a temp variable */
+ 	update_nodemasks_hier(cs, &trialcs->mems_allowed);
+@@ -2962,9 +2962,9 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
+ 	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
+ 			|| (is_spread_page(cs) != is_spread_page(trialcs)));
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cs->flags = trialcs->flags;
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	if (!cpumask_empty(trialcs->cpus_allowed) && balance_flag_changed) {
+ 		if (cpuset_v2())
+@@ -3082,14 +3082,14 @@ static int update_prstate(struct cpuset *cs, int new_prs)
+ 		update_partition_exclusive_flag(cs, new_prs);
+ 	}
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cs->partition_root_state = new_prs;
+ 	WRITE_ONCE(cs->prs_err, err);
+ 	if (!is_partition_valid(cs))
+ 		reset_partition_data(cs);
+ 	else if (isolcpus_updated)
+ 		isolated_cpus_update(old_prs, new_prs, cs->effective_xcpus);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	update_isolation_cpumasks();
+ 
+ 	/* Force update if switching back to member & update effective_xcpus */
+@@ -3403,7 +3403,7 @@ int cpuset_common_seq_show(struct seq_file *sf, void *v)
+ 	cpuset_filetype_t type = seq_cft(sf)->private;
+ 	int ret = 0;
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 
+ 	switch (type) {
+ 	case FILE_CPULIST:
+@@ -3434,7 +3434,7 @@ int cpuset_common_seq_show(struct seq_file *sf, void *v)
+ 		ret = -EINVAL;
+ 	}
+ 
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	return ret;
+ }
+ 
+@@ -3627,12 +3627,12 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
+ 
+ 	cpuset_inc();
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	if (is_in_v2_mode()) {
+ 		cpumask_copy(cs->effective_cpus, parent->effective_cpus);
+ 		cs->effective_mems = parent->effective_mems;
+ 	}
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	if (!test_bit(CGRP_CPUSET_CLONE_CHILDREN, &css->cgroup->flags))
+ 		goto out_unlock;
+@@ -3659,12 +3659,12 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
+ 	}
+ 	rcu_read_unlock();
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cs->mems_allowed = parent->mems_allowed;
+ 	cs->effective_mems = parent->mems_allowed;
+ 	cpumask_copy(cs->cpus_allowed, parent->cpus_allowed);
+ 	cpumask_copy(cs->effective_cpus, parent->cpus_allowed);
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ out_unlock:
+ 	cpuset_full_unlock();
+ 	return 0;
+@@ -3715,7 +3715,7 @@ static void cpuset_css_free(struct cgroup_subsys_state *css)
+ static void cpuset_bind(struct cgroup_subsys_state *root_css)
+ {
+ 	mutex_lock(&cpuset_mutex);
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 
+ 	if (is_in_v2_mode()) {
+ 		cpumask_copy(top_cpuset.cpus_allowed, cpu_possible_mask);
+@@ -3727,7 +3727,7 @@ static void cpuset_bind(struct cgroup_subsys_state *root_css)
+ 		top_cpuset.mems_allowed = top_cpuset.effective_mems;
+ 	}
+ 
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 	mutex_unlock(&cpuset_mutex);
+ }
+ 
+@@ -3890,10 +3890,10 @@ hotplug_update_tasks(struct cpuset *cs,
+ 	if (nodes_empty(*new_mems))
+ 		*new_mems = parent_cs(cs)->effective_mems;
+ 
+-	spin_lock_irq(&callback_lock);
++	raw_spin_lock_irq(&callback_lock);
+ 	cpumask_copy(cs->effective_cpus, new_cpus);
+ 	cs->effective_mems = *new_mems;
+-	spin_unlock_irq(&callback_lock);
++	raw_spin_unlock_irq(&callback_lock);
+ 
+ 	if (cpus_updated)
+ 		cpuset_update_tasks_cpumask(cs, new_cpus);
+@@ -4055,7 +4055,7 @@ static void cpuset_handle_hotplug(void)
+ 	/* For v1, synchronize cpus_allowed to cpu_active_mask */
+ 	if (cpus_updated) {
+ 		cpuset_force_rebuild();
+-		spin_lock_irq(&callback_lock);
++		raw_spin_lock_irq(&callback_lock);
+ 		if (!on_dfl)
+ 			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
+ 		/*
+@@ -4073,17 +4073,17 @@ static void cpuset_handle_hotplug(void)
+ 			}
+ 		}
+ 		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
+-		spin_unlock_irq(&callback_lock);
++		raw_spin_unlock_irq(&callback_lock);
+ 		/* we don't mess with cpumasks of tasks in top_cpuset */
+ 	}
+ 
+ 	/* synchronize mems_allowed to N_MEMORY */
+ 	if (mems_updated) {
+-		spin_lock_irq(&callback_lock);
++		raw_spin_lock_irq(&callback_lock);
+ 		if (!on_dfl)
+ 			top_cpuset.mems_allowed = new_mems;
+ 		top_cpuset.effective_mems = new_mems;
+-		spin_unlock_irq(&callback_lock);
++		raw_spin_unlock_irq(&callback_lock);
+ 		cpuset_update_tasks_nodemask(&top_cpuset);
+ 	}
+ 
+@@ -4176,7 +4176,7 @@ void cpuset_cpus_allowed(struct task_struct *tsk, struct cpumask *pmask)
+ 	unsigned long flags;
+ 	struct cpuset *cs;
+ 
+-	spin_lock_irqsave(&callback_lock, flags);
++	raw_spin_lock_irqsave(&callback_lock, flags);
+ 
+ 	cs = task_cs(tsk);
+ 	if (cs != &top_cpuset)
+@@ -4198,7 +4198,7 @@ void cpuset_cpus_allowed(struct task_struct *tsk, struct cpumask *pmask)
+ 			cpumask_copy(pmask, possible_mask);
+ 	}
+ 
+-	spin_unlock_irqrestore(&callback_lock, flags);
++	raw_spin_unlock_irqrestore(&callback_lock, flags);
+ }
+ 
+ /**
+@@ -4269,9 +4269,9 @@ nodemask_t cpuset_mems_allowed(struct task_struct *tsk)
+ 	nodemask_t mask;
+ 	unsigned long flags;
+ 
+-	spin_lock_irqsave(&callback_lock, flags);
++	raw_spin_lock_irqsave(&callback_lock, flags);
+ 	guarantee_online_mems(task_cs(tsk), &mask);
+-	spin_unlock_irqrestore(&callback_lock, flags);
++	raw_spin_unlock_irqrestore(&callback_lock, flags);
+ 
+ 	return mask;
+ }
+@@ -4363,12 +4363,12 @@ bool cpuset_current_node_allowed(int node, gfp_t gfp_mask)
+ 		return true;
+ 
+ 	/* Not hardwall and node outside mems_allowed: scan up cpusets */
+-	spin_lock_irqsave(&callback_lock, flags);
++	raw_spin_lock_irqsave(&callback_lock, flags);
+ 
+ 	cs = nearest_hardwall_ancestor(task_cs(current));
+ 	allowed = node_isset(node, cs->mems_allowed);
+ 
+-	spin_unlock_irqrestore(&callback_lock, flags);
++	raw_spin_unlock_irqrestore(&callback_lock, flags);
+ 	return allowed;
+ }
+ 
+-- 
+2.51.1
+
