@@ -1,455 +1,119 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A512BDC0A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 03:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633922DC34F
+	for <linux-rt-devel@lists.linux.dev>; Wed, 12 Nov 2025 07:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762919925; cv=none; b=q1YTS0PzviBXsLqf+t5KHxB0jIEf+M1+LQSFvIoOvT03ji7ITkYOU7IGqIpZt+Qrv3yPTJLqhmFbIgQbjeHgwwiXNV4HLBXspGNLHKh4VJiBioihFtMrm672Z7pGZLZjM2dZK9F8JlsfeGtevWboYLO7g9N6dnVWHNs0AvBcAWc=
+	t=1762933775; cv=none; b=rZD0OdrdIhHcx8SnX0ukdeL7opDz/KyqhPevwZ4+zTBCOEppsGrnopNwQ0m9qzztkcZxu5wZp8MeVP2uQN6A85oJJibRr2u3ym8OgoE83OiPv9DAbonmJHskoxo2WN5tF9pNM0a57x/9LT/Suc3qMFLN+2z+l0WyaIKEjvuUyLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762919925; c=relaxed/simple;
-	bh=c/h+aA41Clq7jcaacbawmPY+fy/4YciowdLYV+X/BAs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uKY9O9oNEKrHvG/ku7+AkIYRIH6zJqRRJDG0WD55VbLClRlQYRMGQEg1aLPiiROhPWZU2nWhdaCIYPymp81aHwWaWvj2D6vbqw2DGkb25twRee1E0G+6j0WD3o2aFILni98+v6kJ2JjKklemCBWIoD2gd0z48btgI393Ga1nU/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MESXicJ2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1762933775; c=relaxed/simple;
+	bh=xbvMcM1IoFXOayGu/dX6p8mJi1v8/NnppEEb+PdNlEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pzPhLPBwxxW47eFjd4oRBtG8OFS3KlseKuDOlp92OhtiwVN1XBVBGcNhaRK5fb7vEnAKhXTwnKD7lBlKAHZUpmQ+5yrwIHLrCOcg5S0mgBKC4XL5LsW1oP8Z1QnP63n/WHV4W/X77wyqXAEgcdGVpgNiMs3mHG3eG9wCJFsG41k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=f2HB/A/h; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=l0o/LkGf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MESXicJ2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1762919922;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="f2HB/A/h";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="l0o/LkGf"
+Date: Wed, 12 Nov 2025 08:49:30 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1762933772;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=HVGjzJVLKYy854UeaTbnQV8hoz0i2+ZeLSoZeWbkDos=;
-	b=MESXicJ2mRMX8+950Q6cjyxn6osPFObjCVwBJ+YA31Ql3l7Kjo81Yb+U2ape4Hy4ryDJii
-	iiyBmmHVGUhEW8BIrBDOVTWcsMWUxL1yiTOHh1xrM2WxXj8HzadVLdqFIFSWbjYBby94Ej
-	CTGopUjP6rkDNbF9dBRTJ4PuwbxKBK0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-r370gV40O42hI_X01s8uVg-1; Tue,
- 11 Nov 2025 22:58:38 -0500
-X-MC-Unique: r370gV40O42hI_X01s8uVg-1
-X-Mimecast-MFC-AGG-ID: r370gV40O42hI_X01s8uVg_1762919917
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8233F19560B0;
-	Wed, 12 Nov 2025 03:58:36 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.81.133])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E70E81800451;
-	Wed, 12 Nov 2025 03:58:32 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hjmsQNbabVrHMjgajgEZibUL+efg9RjKcTRD2S+ysQ8=;
+	b=f2HB/A/hb6zPD+MvHy/KC6OdmWpC1V68JL0jW4qNfv0jLBEggJ0szbe/6OorO2hbDxG684
+	ArYQRJhVOGOBDvhNEI2ERthAEZnlBT2HjBfL/kf0+8KhcCPVsge0dLNgregR4MX6nJg5oo
+	bpS9gAPhIWKi072xVwjJTvnB0IiQKxoKaQNhLFwvkVDMFFkJ7UIf+oDNa48WnLmlaNROEq
+	5h/cgHgPc0QS7fhyI9Ff7mQduVeKdQ5HLfc6YYwGKQbSuZEok9BR/stoGLsi4VpqGFRO3c
+	EeLwmycKHbL72hmLC4HFwiReBONSFKPSBT/oOafm0ECnUZHz10SG/AKDCb3VVg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1762933772;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hjmsQNbabVrHMjgajgEZibUL+efg9RjKcTRD2S+ysQ8=;
+	b=l0o/LkGfxoyEmPkG6koDawTBPXTEvwbAYcuza/5SjiqDSmJto9UrhdHQKSLqA10+aCQusg
+	Q2gtdV349a9ij4Dg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Qi Zheng <qi.zheng@linux.dev>,
+	hannes@cmpxchg.org, hughd@google.com, mhocko@suse.com,
+	roman.gushchin@linux.dev, muchun.song@linux.dev, david@redhat.com,
+	lorenzo.stoakes@oracle.com, ziy@nvidia.com, imran.f.khan@oracle.com,
+	kamalesh.babulal@oracle.com, axelrasmussen@google.com,
+	yuanchu@google.com, weixugc@google.com, akpm@linux-foundation.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, Muchun Song <songmuchun@bytedance.com>,
+	Qi Zheng <zhengqi.arch@bytedance.com>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org,
-	cgroups@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Chen Ridong <chenridong@huawei.com>,
-	Pingfan Liu <piliu@redhat.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [cgroup/for-6.19 PATCH] cgroup/cpuset: Make callback_lock a raw_spinlock_t
-Date: Tue, 11 Nov 2025 22:57:59 -0500
-Message-ID: <20251112035759.1162541-1-longman@redhat.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v1 04/26] mm: vmscan: refactor move_folios_to_lru()
+Message-ID: <20251112074930.mKu1J__U@linutronix.de>
+References: <aQ3yLER4C4jY70BH@harry>
+ <hfutmuh4g5jtmrgeemq2aqr2tvxz6mnqaxo5l5vddqnjasyagi@gcscu5khrjxm>
+ <aRFKY5VGEujVOqBc@hyeyoo>
+ <2a68bddf-e6e6-4960-b5bc-1a39d747ea9b@linux.dev>
+ <aRF7eYlBKmG3hEFF@hyeyoo>
+ <aqdvjyzfk6vpespzcszfkmx522iy7hvddefcjgusrysglpdykt@uqedtngotzmy>
+ <8d6655f8-2756-45bb-85c1-223c3a5e656c@linux.dev>
+ <aRKqm24Lrg-JnCoh@hyeyoo>
+ <20251111084900.babaOj0w@linutronix.de>
+ <jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <jzihvbb6w26d4codfigy2o7b2h26izb4ahihouw54cvuzau54d@jyaa6rgpzuai>
 
-The callback_lock is a spinlock_t which is acquired either to read
-a stable set of cpu or node masks or to modify those masks when
-cpuset_mutex is also acquired. Sometime it may need to go up the
-cgroup hierarchy while holding the lock to find the right set of masks
-to use. Assuming that the depth of the cgroup hierarch is finite and
-typically small, the lock hold time should be limited.
+On 2025-11-11 08:44:14 [-0800], Shakeel Butt wrote:
+> On Tue, Nov 11, 2025 at 09:49:00AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2025-11-11 12:16:43 [+0900], Harry Yoo wrote:
+> > > > However, in the !CONFIG_HAVE_CMPXCHG_LOCAL case, mod_node_page_state()
+> > > > still calls local_irq_save(). Is this feasible in the PREEMPT_RT kernel?
+> > > 
+> > > Hmm I was going to say it's necessary, but AFAICT we don't allocate
+> > > or free memory in hardirq context on PREEMPT_RT (that's the policy)
+> > > and so I'd say it's not necessary to disable IRQs.
+> > > 
+> > > Sounds like we still want to disable IRQs only on !PREEMPT_RT on
+> > > such architectures?
+> > > 
+> > > Not sure how seriously do PREEMPT_RT folks care about architectures
+> > > without HAVE_CMPXCHG_LOCAL. (riscv and loongarch have ARCH_SUPPORTS_RT
+> > > but doesn't have HAVE_CMPXCHG_LOCAL).
+> > 
+> > We take things seriously and you shouldn't make assumption based on
+> > implementation. Either the API can be used as such or not.
+> > In case of mod_node_page_state(), the non-IRQ off version
+> > (__mod_node_page_state()) has a preempt_disable_nested() to ensure
+> > atomic update on PREEMPT_RT without disabling interrupts.
+> > 
+> 
+> Harry is talking about mod_node_page_state() on
+> !CONFIG_HAVE_CMPXCHG_LOCAL which is disabling irqs.
+> 
+> void mod_node_page_state(struct pglist_data *pgdat, enum node_stat_item item,
+> 					long delta)
+> {
+> 	unsigned long flags;
+> 
+> 	local_irq_save(flags);
+> 	__mod_node_page_state(pgdat, item, delta);
+> 	local_irq_restore(flags);
+> }
+> 
+> Is PREEMPT_RT fine with this?
 
-Some externally callable cpuset APIs like cpuset_cpus_allowed() and
-cpuset_mems_allowed() acquires callback_lock with irq disabled to ensure
-stable cpuset data. These APIs currently have the restriction that they
-can't be called when a raw spinlock is being held. This is needed to
-work correctly in a PREEMPT_RT kernel. This requires additional code
-changes to work around this limitation. See [1] for a discussion of that.
+Yes.
+The local_irq_save() is not strictly needed but I am fine with it to
+keep it simple. The inner part is just counting.
 
-Make these external cpuset APIs more useful by changing callback_lock
-to a raw_spinlock_t to remove this limitation so that they can be called
-from within other raw spinlock critical sections if needed.
-
-[1] https://lore.kernel.org/lkml/20251110014706.8118-1-piliu@redhat.com/
-
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- kernel/cgroup/cpuset.c | 94 +++++++++++++++++++++---------------------
- 1 file changed, 47 insertions(+), 47 deletions(-)
-
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index 976bce6e5673..7b3a0345ee76 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -289,16 +289,16 @@ void cpuset_full_unlock(void)
- 	cpus_read_unlock();
- }
- 
--static DEFINE_SPINLOCK(callback_lock);
-+static DEFINE_RAW_SPINLOCK(callback_lock);
- 
- void cpuset_callback_lock_irq(void)
- {
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- }
- 
- void cpuset_callback_unlock_irq(void)
- {
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- }
- 
- static struct workqueue_struct *cpuset_migrate_mm_wq;
-@@ -1616,11 +1616,11 @@ static int remote_partition_enable(struct cpuset *cs, int new_prs,
- 	    prstate_housekeeping_conflict(new_prs, tmp->new_cpus))
- 		return PERR_HKEEPING;
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	partition_xcpus_add(new_prs, NULL, tmp->new_cpus);
- 	cs->remote_partition = true;
- 	cpumask_copy(cs->effective_xcpus, tmp->new_cpus);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	update_isolation_cpumasks();
- 	cpuset_force_rebuild();
- 	cs->prs_err = 0;
-@@ -1647,7 +1647,7 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
- 	WARN_ON_ONCE(!is_remote_partition(cs));
- 	WARN_ON_ONCE(!cpumask_subset(cs->effective_xcpus, subpartitions_cpus));
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cs->remote_partition = false;
- 	partition_xcpus_del(cs->partition_root_state, NULL, cs->effective_xcpus);
- 	if (cs->prs_err)
-@@ -1658,7 +1658,7 @@ static void remote_partition_disable(struct cpuset *cs, struct tmpmasks *tmp)
- 	/* effective_xcpus may need to be changed */
- 	compute_excpus(cs, cs->effective_xcpus);
- 	reset_partition_data(cs);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	update_isolation_cpumasks();
- 	cpuset_force_rebuild();
- 
-@@ -1717,7 +1717,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
- 			goto invalidate;
- 	}
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	if (adding)
- 		partition_xcpus_add(prs, NULL, tmp->addmask);
- 	if (deleting)
-@@ -1729,7 +1729,7 @@ static void remote_cpus_update(struct cpuset *cs, struct cpumask *xcpus,
- 	cpumask_copy(cs->effective_xcpus, excpus);
- 	if (xcpus)
- 		cpumask_copy(cs->exclusive_cpus, xcpus);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	update_isolation_cpumasks();
- 	if (adding || deleting)
- 		cpuset_force_rebuild();
-@@ -2060,7 +2060,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 	 * Newly added CPUs will be removed from effective_cpus and
- 	 * newly deleted ones will be added back to effective_cpus.
- 	 */
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	if (old_prs != new_prs)
- 		cs->partition_root_state = new_prs;
- 
-@@ -2073,7 +2073,7 @@ static int update_parent_effective_cpumask(struct cpuset *cs, int cmd,
- 	if (deleting)
- 		partition_xcpus_add(new_prs, parent, tmp->delmask);
- 
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	update_isolation_cpumasks();
- 
- 	if ((old_prs != new_prs) && (cmd == partcmd_update))
-@@ -2154,9 +2154,9 @@ static void compute_partition_effective_cpumask(struct cpuset *cs,
- 			/*
- 			 * Invalidate child partition
- 			 */
--			spin_lock_irq(&callback_lock);
-+			raw_spin_lock_irq(&callback_lock);
- 			make_partition_invalid(child);
--			spin_unlock_irq(&callback_lock);
-+			raw_spin_unlock_irq(&callback_lock);
- 			notify_partition_change(child, old_prs);
- 			continue;
- 		}
-@@ -2301,7 +2301,7 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 			new_prs = cp->partition_root_state;
- 		}
- 
--		spin_lock_irq(&callback_lock);
-+		raw_spin_lock_irq(&callback_lock);
- 		cpumask_copy(cp->effective_cpus, tmp->new_cpus);
- 		cp->partition_root_state = new_prs;
- 		if (!cpumask_empty(cp->exclusive_cpus) && (cp != cs))
-@@ -2316,7 +2316,7 @@ static void update_cpumasks_hier(struct cpuset *cs, struct tmpmasks *tmp,
- 				    cp->cpus_allowed, parent->effective_xcpus);
- 		else if (new_prs < 0)
- 			reset_partition_data(cp);
--		spin_unlock_irq(&callback_lock);
-+		raw_spin_unlock_irq(&callback_lock);
- 
- 		notify_partition_change(cp, old_prs);
- 
-@@ -2566,12 +2566,12 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 
- 	partition_cpus_change(cs, trialcs, &tmp);
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cpumask_copy(cs->cpus_allowed, trialcs->cpus_allowed);
- 	cpumask_copy(cs->effective_xcpus, trialcs->effective_xcpus);
- 	if ((old_prs > 0) && !is_partition_valid(cs))
- 		reset_partition_data(cs);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	/* effective_cpus/effective_xcpus will be updated here */
- 	update_cpumasks_hier(cs, &tmp, force);
-@@ -2631,12 +2631,12 @@ static int update_exclusive_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	trialcs->prs_err = PERR_NONE;
- 	partition_cpus_change(cs, trialcs, &tmp);
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cpumask_copy(cs->exclusive_cpus, trialcs->exclusive_cpus);
- 	cpumask_copy(cs->effective_xcpus, trialcs->effective_xcpus);
- 	if ((old_prs > 0) && !is_partition_valid(cs))
- 		reset_partition_data(cs);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	/*
- 	 * Call update_cpumasks_hier() to update effective_cpus/effective_xcpus
-@@ -2851,9 +2851,9 @@ static void update_nodemasks_hier(struct cpuset *cs, nodemask_t *new_mems)
- 			continue;
- 		rcu_read_unlock();
- 
--		spin_lock_irq(&callback_lock);
-+		raw_spin_lock_irq(&callback_lock);
- 		cp->effective_mems = *new_mems;
--		spin_unlock_irq(&callback_lock);
-+		raw_spin_unlock_irq(&callback_lock);
- 
- 		WARN_ON(!is_in_v2_mode() &&
- 			!nodes_equal(cp->mems_allowed, cp->effective_mems));
-@@ -2906,9 +2906,9 @@ static int update_nodemask(struct cpuset *cs, struct cpuset *trialcs,
- 
- 	check_insane_mems_config(&trialcs->mems_allowed);
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cs->mems_allowed = trialcs->mems_allowed;
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	/* use trialcs->mems_allowed as a temp variable */
- 	update_nodemasks_hier(cs, &trialcs->mems_allowed);
-@@ -2962,9 +2962,9 @@ int cpuset_update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
- 	spread_flag_changed = ((is_spread_slab(cs) != is_spread_slab(trialcs))
- 			|| (is_spread_page(cs) != is_spread_page(trialcs)));
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cs->flags = trialcs->flags;
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	if (!cpumask_empty(trialcs->cpus_allowed) && balance_flag_changed) {
- 		if (cpuset_v2())
-@@ -3082,14 +3082,14 @@ static int update_prstate(struct cpuset *cs, int new_prs)
- 		update_partition_exclusive_flag(cs, new_prs);
- 	}
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cs->partition_root_state = new_prs;
- 	WRITE_ONCE(cs->prs_err, err);
- 	if (!is_partition_valid(cs))
- 		reset_partition_data(cs);
- 	else if (isolcpus_updated)
- 		isolated_cpus_update(old_prs, new_prs, cs->effective_xcpus);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	update_isolation_cpumasks();
- 
- 	/* Force update if switching back to member & update effective_xcpus */
-@@ -3403,7 +3403,7 @@ int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 	cpuset_filetype_t type = seq_cft(sf)->private;
- 	int ret = 0;
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 
- 	switch (type) {
- 	case FILE_CPULIST:
-@@ -3434,7 +3434,7 @@ int cpuset_common_seq_show(struct seq_file *sf, void *v)
- 		ret = -EINVAL;
- 	}
- 
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	return ret;
- }
- 
-@@ -3627,12 +3627,12 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
- 
- 	cpuset_inc();
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	if (is_in_v2_mode()) {
- 		cpumask_copy(cs->effective_cpus, parent->effective_cpus);
- 		cs->effective_mems = parent->effective_mems;
- 	}
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	if (!test_bit(CGRP_CPUSET_CLONE_CHILDREN, &css->cgroup->flags))
- 		goto out_unlock;
-@@ -3659,12 +3659,12 @@ static int cpuset_css_online(struct cgroup_subsys_state *css)
- 	}
- 	rcu_read_unlock();
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cs->mems_allowed = parent->mems_allowed;
- 	cs->effective_mems = parent->mems_allowed;
- 	cpumask_copy(cs->cpus_allowed, parent->cpus_allowed);
- 	cpumask_copy(cs->effective_cpus, parent->cpus_allowed);
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- out_unlock:
- 	cpuset_full_unlock();
- 	return 0;
-@@ -3715,7 +3715,7 @@ static void cpuset_css_free(struct cgroup_subsys_state *css)
- static void cpuset_bind(struct cgroup_subsys_state *root_css)
- {
- 	mutex_lock(&cpuset_mutex);
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 
- 	if (is_in_v2_mode()) {
- 		cpumask_copy(top_cpuset.cpus_allowed, cpu_possible_mask);
-@@ -3727,7 +3727,7 @@ static void cpuset_bind(struct cgroup_subsys_state *root_css)
- 		top_cpuset.mems_allowed = top_cpuset.effective_mems;
- 	}
- 
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 	mutex_unlock(&cpuset_mutex);
- }
- 
-@@ -3890,10 +3890,10 @@ hotplug_update_tasks(struct cpuset *cs,
- 	if (nodes_empty(*new_mems))
- 		*new_mems = parent_cs(cs)->effective_mems;
- 
--	spin_lock_irq(&callback_lock);
-+	raw_spin_lock_irq(&callback_lock);
- 	cpumask_copy(cs->effective_cpus, new_cpus);
- 	cs->effective_mems = *new_mems;
--	spin_unlock_irq(&callback_lock);
-+	raw_spin_unlock_irq(&callback_lock);
- 
- 	if (cpus_updated)
- 		cpuset_update_tasks_cpumask(cs, new_cpus);
-@@ -4055,7 +4055,7 @@ static void cpuset_handle_hotplug(void)
- 	/* For v1, synchronize cpus_allowed to cpu_active_mask */
- 	if (cpus_updated) {
- 		cpuset_force_rebuild();
--		spin_lock_irq(&callback_lock);
-+		raw_spin_lock_irq(&callback_lock);
- 		if (!on_dfl)
- 			cpumask_copy(top_cpuset.cpus_allowed, &new_cpus);
- 		/*
-@@ -4073,17 +4073,17 @@ static void cpuset_handle_hotplug(void)
- 			}
- 		}
- 		cpumask_copy(top_cpuset.effective_cpus, &new_cpus);
--		spin_unlock_irq(&callback_lock);
-+		raw_spin_unlock_irq(&callback_lock);
- 		/* we don't mess with cpumasks of tasks in top_cpuset */
- 	}
- 
- 	/* synchronize mems_allowed to N_MEMORY */
- 	if (mems_updated) {
--		spin_lock_irq(&callback_lock);
-+		raw_spin_lock_irq(&callback_lock);
- 		if (!on_dfl)
- 			top_cpuset.mems_allowed = new_mems;
- 		top_cpuset.effective_mems = new_mems;
--		spin_unlock_irq(&callback_lock);
-+		raw_spin_unlock_irq(&callback_lock);
- 		cpuset_update_tasks_nodemask(&top_cpuset);
- 	}
- 
-@@ -4176,7 +4176,7 @@ void cpuset_cpus_allowed(struct task_struct *tsk, struct cpumask *pmask)
- 	unsigned long flags;
- 	struct cpuset *cs;
- 
--	spin_lock_irqsave(&callback_lock, flags);
-+	raw_spin_lock_irqsave(&callback_lock, flags);
- 
- 	cs = task_cs(tsk);
- 	if (cs != &top_cpuset)
-@@ -4198,7 +4198,7 @@ void cpuset_cpus_allowed(struct task_struct *tsk, struct cpumask *pmask)
- 			cpumask_copy(pmask, possible_mask);
- 	}
- 
--	spin_unlock_irqrestore(&callback_lock, flags);
-+	raw_spin_unlock_irqrestore(&callback_lock, flags);
- }
- 
- /**
-@@ -4269,9 +4269,9 @@ nodemask_t cpuset_mems_allowed(struct task_struct *tsk)
- 	nodemask_t mask;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&callback_lock, flags);
-+	raw_spin_lock_irqsave(&callback_lock, flags);
- 	guarantee_online_mems(task_cs(tsk), &mask);
--	spin_unlock_irqrestore(&callback_lock, flags);
-+	raw_spin_unlock_irqrestore(&callback_lock, flags);
- 
- 	return mask;
- }
-@@ -4363,12 +4363,12 @@ bool cpuset_current_node_allowed(int node, gfp_t gfp_mask)
- 		return true;
- 
- 	/* Not hardwall and node outside mems_allowed: scan up cpusets */
--	spin_lock_irqsave(&callback_lock, flags);
-+	raw_spin_lock_irqsave(&callback_lock, flags);
- 
- 	cs = nearest_hardwall_ancestor(task_cs(current));
- 	allowed = node_isset(node, cs->mems_allowed);
- 
--	spin_unlock_irqrestore(&callback_lock, flags);
-+	raw_spin_unlock_irqrestore(&callback_lock, flags);
- 	return allowed;
- }
- 
--- 
-2.51.1
-
+Sebastian
