@@ -1,49 +1,52 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail.toke.dk (mail.toke.dk [45.145.95.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA74334371
-	for <linux-rt-devel@lists.linux.dev>; Fri, 14 Nov 2025 15:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C6D32C33B
+	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Nov 2025 11:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.145.95.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763134923; cv=none; b=m43cvpTJdqqVIMkHl/K5PCfATAqQ8wJ7jRq8Ww/HjR3G8/Vell3z0Ln+QS7TXpSrUXfet1NyPcBMeLBr+KeClr/lGLgoYt/1rukjqfs4xHs7WcTuGpazQs2fDyGV9W3KbaHDygOTNRyi2z46aB46YXUFPQ+Qx/SCVJOwDOvep34=
+	t=1763380036; cv=none; b=rf5bzaKX71raR0x7fYUM64t9uaw3DKYKeN5+/NjDd6eAGhugBM/tc0L9gpgvt336FsBf3dNnbEf8dDqsNKsSApXexbyzIJPK3bWHmpSk9Znfgt36c0DHNTnkFRqfsHY8RJ6DtZ/sItN0o09Y/njoczSME3OIwlW1dy8ToTz9J94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763134923; c=relaxed/simple;
-	bh=awJcRbOIqi/NwQQHQ2KUQztGb8zQCe0HWVKs51hyDdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OMIf2B509Eys2aT9gnsz9EDCS7s7+pW6yd8uuwCcLWjzJJKn8Z9PnVznqgJxxA2PsPSNnHF2nUGv8TxeZSs66kGEyOr/SUmMGfAC/cRRF9EREnvsQfwi/gc6BYJezSvBtO2VeHZwUCv6ruy1t0AvMNzyOI8iW1ffCa1qwndxSc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2/xYp0G8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1UNmPUpC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1763380036; c=relaxed/simple;
+	bh=18AThoJ1F5XQlVvAYjRYKKUnjnNDdRj8jhe5/a7p0Ss=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fihHClnSu06lbwCCo62Xbt7+OoD3hFTTQQ4IH+bL2cCx4bpESFf/+pz7KtIOHyDNKGPnXwpXHHQM/+U2N9TvX+L8pi48mBLRnwGi+m/W0w3bR7AJnVZgOJ0CM9W/sKP5OfbZUONM9VCprJH3eJUuh1OarZKtHTcWBMG7XOcrWwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=toke.dk; spf=pass smtp.mailfrom=toke.dk; dkim=pass (2048-bit key) header.d=toke.dk header.i=@toke.dk header.b=OER8VvtA; arc=none smtp.client-ip=45.145.95.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=toke.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toke.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2/xYp0G8";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1UNmPUpC"
-Date: Fri, 14 Nov 2025 16:41:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763134919;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IskL8g7V3/rjeI+B2keztCszWthJqS4V60vo4lqe23U=;
-	b=2/xYp0G8gfGd+laJWCiEwdSYzyy0cpWMKWQX2hJXX4Pk54k/BykHZ5JG/cVvPS+Wsn7H+0
-	WLNJRgQ4p4pMqRnc8SjyH7V0/ML9mF88HJHx/fnedHteLct0irWewocBVB0gMPPWYSf6su
-	jZCURrq+6cJN5E8y+i2ziMm9H48ha5K3oGsBDLI18UZvGlTDP9OxAXGBa+z4A9/tAM92Xy
-	sLubAubwjj12OJ4pnWg64qe60bFbNMNVHdLx209N/6/e5Alro2l6hQQ3eS4WXqBTMoehPq
-	/pkeznxB7tEmjYS3zOdhCjWzcgdxnxZemvMhT8HgtPgBUlPLqW3QCifza5K/IQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763134919;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IskL8g7V3/rjeI+B2keztCszWthJqS4V60vo4lqe23U=;
-	b=1UNmPUpCAzoKgao/nDnE4YrxQ7LVAUFPTfXHVYTgDW8b/8hLYGpfdK/yO0HjM/HQ4zLNNa
-	kJxcpTfhpp3ajwBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Thomas Gleixner <tglx@linutronix.de>, Oleg Nesterov <oleg@redhat.com>
-Subject: Re: [PATCH] debugobjects: Allow to refill the pool before
- SYSTEM_SCHEDULING
-Message-ID: <20251114154158.es3XCFy-@linutronix.de>
-References: <20251106120628.AxWa_Viy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=toke.dk header.i=@toke.dk header.b="OER8VvtA"
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=toke.dk; s=20161023;
+	t=1763380031; bh=18AThoJ1F5XQlVvAYjRYKKUnjnNDdRj8jhe5/a7p0Ss=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OER8VvtAWTP0L0fklHIXgvMbFN6jQ42q7ikGcR7PT1lfcpE+sk1vaFPlgwmYfxh2u
+	 Pq0y/kJUlVETtENUzSDWBD29nZ2oAwTrefvL8GaBT/YWNG1U5Mjq4+u8N2zaMvWGEW
+	 D0+efZ3KilUrlzGa4RTfgyZqCWS8ZZBaKN5UMhTzrzKUnNddCaSBPAq9WMvcT+Ds69
+	 3092p0XYV87EDLK8QwERXg2JcshEZMZcTB0vts1w1Xkp4t6mwezRfsELFuLCBJODqY
+	 ihba2OAwwWb9Fs/T1FQnHaijPFLuUVe/E+WYicL9bzWdCRfMuTnCXAFDCbIwAZWgF0
+	 sOcUAGdTe3FmA==
+To: pengdonglin <dolinux.peng@gmail.com>, tj@kernel.org,
+ tony.luck@intel.com, jani.nikula@linux.intel.com, ap420073@gmail.com,
+ jv@jvosburgh.net, freude@linux.ibm.com, bcrl@kvack.org,
+ trondmy@kernel.org, longman@redhat.com, kees@kernel.org
+Cc: bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ linux-nfs@vger.kernel.org, linux-aio@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+ netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-wireless@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-s390@vger.kernel.org, cgroups@vger.kernel.org, pengdonglin
+ <dolinux.peng@gmail.com>, Jakub Kicinski <kuba@kernel.org>, pengdonglin
+ <pengdonglin@xiaomi.com>
+Subject: Re: [PATCH v3 14/14] wifi: ath9k: Remove redundant
+ rcu_read_lock/unlock() in spin_lock
+In-Reply-To: <20250916044735.2316171-15-dolinux.peng@gmail.com>
+References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
+ <20250916044735.2316171-15-dolinux.peng@gmail.com>
+Date: Mon, 17 Nov 2025 12:47:07 +0100
+X-Clacks-Overhead: GNU Terry Pratchett
+Message-ID: <87fracop8k.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -51,27 +54,28 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251106120628.AxWa_Viy@linutronix.de>
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-11-06 13:06:28 [+0100], To linux-kernel@vger.kernel.org wrote:
-> The pool of free objects is refilled on several occasions such as object
-> initialisation. On PREEMPT_RT refilling is limited to preemptible
-> sections due to sleeping locks used by the memory allocator. The system
-> boots with disabled interrupts so the pool can not be refilled.
-> 
-> If too many objects are initialized and the pool gets empty then
-> debugobjects disables itself.
-> 
-> Refiling can also happen early in the boot with disabled interrupts as
-> long as the scheduler is not operational. If the scheduler can not
-> preempt a task then a sleeping lock can not be contended.
-> 
-> Allow to additionally refill the pool if the scheduler is not
-> operational.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+pengdonglin <dolinux.peng@gmail.com> writes:
 
-A gentle ping.
+> From: pengdonglin <pengdonglin@xiaomi.com>
+>
+> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side funct=
+ion definitions")
+> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
+> rcu_read_lock_sched() in terms of RCU read section and the relevant grace
+> period. That means that spin_lock(), which implies rcu_read_lock_sched(),
+> also implies rcu_read_lock().
+>
+> There is no need no explicitly start a RCU read section if one has already
+> been started implicitly by spin_lock().
+>
+> Simplify the code and remove the inner rcu_read_lock() invocation.
+>
+> Cc: "Toke" <toke@toke.dk>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
+> Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
 
-Sebastian
+Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk>
+
