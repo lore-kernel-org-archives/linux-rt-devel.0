@@ -1,52 +1,59 @@
-Received: from mail.toke.dk (mail.toke.dk [45.145.95.4])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C6D32C33B
-	for <linux-rt-devel@lists.linux.dev>; Mon, 17 Nov 2025 11:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.145.95.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B903E2FF67A
+	for <linux-rt-devel@lists.linux.dev>; Tue, 18 Nov 2025 07:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763380036; cv=none; b=rf5bzaKX71raR0x7fYUM64t9uaw3DKYKeN5+/NjDd6eAGhugBM/tc0L9gpgvt336FsBf3dNnbEf8dDqsNKsSApXexbyzIJPK3bWHmpSk9Znfgt36c0DHNTnkFRqfsHY8RJ6DtZ/sItN0o09Y/njoczSME3OIwlW1dy8ToTz9J94=
+	t=1763450695; cv=none; b=m6d7nErSryawtU4OMg61UuZ5dVBB4BqglwWDQ4aWtftze9QBSaC5OLU99549EKImMtKffHE39JHwhKDtQwN1aXR/+LrTpm17SHEC4yyR0WEPe72sAFFt+mVjFHpK05EsCqWA3E6rqxUPDH5QF0mg4RdbkXhJv6BFNFCW4qk33UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763380036; c=relaxed/simple;
-	bh=18AThoJ1F5XQlVvAYjRYKKUnjnNDdRj8jhe5/a7p0Ss=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fihHClnSu06lbwCCo62Xbt7+OoD3hFTTQQ4IH+bL2cCx4bpESFf/+pz7KtIOHyDNKGPnXwpXHHQM/+U2N9TvX+L8pi48mBLRnwGi+m/W0w3bR7AJnVZgOJ0CM9W/sKP5OfbZUONM9VCprJH3eJUuh1OarZKtHTcWBMG7XOcrWwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=toke.dk; spf=pass smtp.mailfrom=toke.dk; dkim=pass (2048-bit key) header.d=toke.dk header.i=@toke.dk header.b=OER8VvtA; arc=none smtp.client-ip=45.145.95.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=toke.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toke.dk
+	s=arc-20240116; t=1763450695; c=relaxed/simple;
+	bh=jrjinFXbeDbMX2dy8EHh/ldqeCkJ7jxk4YEibZJS9Kc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HoH1G0nO4PkeQnDKqBZDFO7sglur6hklTh6YiCKWNo2w62HZr7mf24LA5uRQXZBMfjHcz9q1XVSrbPQfx0UdXh96kD/8kdajyV3rM0X9DRRGhJMXBOJxTUA8nvxARGQbTJbjxUZLTQh2hVO9jM44/zcEnd5WhdprF+DpU7996LY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=24QE6ZMl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HemVkTlf; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=toke.dk header.i=@toke.dk header.b="OER8VvtA"
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=toke.dk; s=20161023;
-	t=1763380031; bh=18AThoJ1F5XQlVvAYjRYKKUnjnNDdRj8jhe5/a7p0Ss=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OER8VvtAWTP0L0fklHIXgvMbFN6jQ42q7ikGcR7PT1lfcpE+sk1vaFPlgwmYfxh2u
-	 Pq0y/kJUlVETtENUzSDWBD29nZ2oAwTrefvL8GaBT/YWNG1U5Mjq4+u8N2zaMvWGEW
-	 D0+efZ3KilUrlzGa4RTfgyZqCWS8ZZBaKN5UMhTzrzKUnNddCaSBPAq9WMvcT+Ds69
-	 3092p0XYV87EDLK8QwERXg2JcshEZMZcTB0vts1w1Xkp4t6mwezRfsELFuLCBJODqY
-	 ihba2OAwwWb9Fs/T1FQnHaijPFLuUVe/E+WYicL9bzWdCRfMuTnCXAFDCbIwAZWgF0
-	 sOcUAGdTe3FmA==
-To: pengdonglin <dolinux.peng@gmail.com>, tj@kernel.org,
- tony.luck@intel.com, jani.nikula@linux.intel.com, ap420073@gmail.com,
- jv@jvosburgh.net, freude@linux.ibm.com, bcrl@kvack.org,
- trondmy@kernel.org, longman@redhat.com, kees@kernel.org
-Cc: bigeasy@linutronix.de, hdanton@sina.com, paulmck@kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-nfs@vger.kernel.org, linux-aio@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
- netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-wireless@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-s390@vger.kernel.org, cgroups@vger.kernel.org, pengdonglin
- <dolinux.peng@gmail.com>, Jakub Kicinski <kuba@kernel.org>, pengdonglin
- <pengdonglin@xiaomi.com>
-Subject: Re: [PATCH v3 14/14] wifi: ath9k: Remove redundant
- rcu_read_lock/unlock() in spin_lock
-In-Reply-To: <20250916044735.2316171-15-dolinux.peng@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="24QE6ZMl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HemVkTlf"
+Date: Tue, 18 Nov 2025 08:24:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763450691;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9vA6V+bN9GTdLdJJnTr5BmlcMkR802o3dcmS/oJ4PA=;
+	b=24QE6ZMlr+aPw0mCJ5+WZU96Ur1bJED22ECyuR3qc6mknaLzxVccN1eBwGOEHnhDPXViIi
+	vYgzPxjYImC932JHg5SRA4a/U7iRiyXlufjgEKN4WCeGZs0vyBoTiY57FYZhIlaLZIjOYL
+	+alp7QvobezEF44LShBi4xm5QwByUm+lr5oir3v42WJgDcsNA1jjMRsN3D7i9qQlM6SH/w
+	Q7jKWbml/XlgMaWqRO6CbEuEcKtaMflllcFEPJbOfhRueQ9ruRBPn/TM+ku3PXkSxlYXiS
+	tZlF7YYrv2qXgzM7t0CdOvC+IbV/y+85xI811fdS8iBRo5Im02eMP11MJthBmA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763450691;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I9vA6V+bN9GTdLdJJnTr5BmlcMkR802o3dcmS/oJ4PA=;
+	b=HemVkTlfIKjmIexQaIi7tETka6Ixoo5dyRx/jz0Qu6Db6AH88jYgFE/IZlIzrJ2xfOoL2m
+	0DLyByvQHHJXBSDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: pengdonglin <dolinux.peng@gmail.com>
+Cc: tj@kernel.org, tony.luck@intel.com, jani.nikula@linux.intel.com,
+	ap420073@gmail.com, jv@jvosburgh.net, freude@linux.ibm.com,
+	bcrl@kvack.org, trondmy@kernel.org, longman@redhat.com,
+	kees@kernel.org, hdanton@sina.com, paulmck@kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-aio@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, netdev@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-s390@vger.kernel.org,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/14] Remove redundant rcu_read_lock/unlock() in
+ spin_lock
+Message-ID: <20251118072449.PFe_yjOF@linutronix.de>
 References: <20250916044735.2316171-1-dolinux.peng@gmail.com>
- <20250916044735.2316171-15-dolinux.peng@gmail.com>
-Date: Mon, 17 Nov 2025 12:47:07 +0100
-X-Clacks-Overhead: GNU Terry Pratchett
-Message-ID: <87fracop8k.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,28 +61,21 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20250916044735.2316171-1-dolinux.peng@gmail.com>
 
-pengdonglin <dolinux.peng@gmail.com> writes:
+On 2025-09-16 12:47:21 [+0800], pengdonglin wrote:
+Hi,
 
-> From: pengdonglin <pengdonglin@xiaomi.com>
->
-> Since commit a8bb74acd8efe ("rcu: Consolidate RCU-sched update-side funct=
-ion definitions")
-> there is no difference between rcu_read_lock(), rcu_read_lock_bh() and
-> rcu_read_lock_sched() in terms of RCU read section and the relevant grace
-> period. That means that spin_lock(), which implies rcu_read_lock_sched(),
-> also implies rcu_read_lock().
->
 > There is no need no explicitly start a RCU read section if one has already
 > been started implicitly by spin_lock().
->
+> 
 > Simplify the code and remove the inner rcu_read_lock() invocation.
->
-> Cc: "Toke" <toke@toke.dk>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: pengdonglin <pengdonglin@xiaomi.com>
-> Signed-off-by: pengdonglin <dolinux.peng@gmail.com>
 
-Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk>
+I'm not going argue if this is a good or not but: If you intend to get
+this merged I suggest you rebase your series (or what is left since I
+think a few patches got merged) on top of current tree and resend them
+individually targeting the relevant tree/ list. Otherwise everyone might
+think someone else is in charge of this big series.
 
+Sebastian
