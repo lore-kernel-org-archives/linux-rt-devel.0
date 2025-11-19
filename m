@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7E53176F2
-	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Nov 2025 18:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6632F3A1CE1
+	for <linux-rt-devel@lists.linux.dev>; Wed, 19 Nov 2025 20:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763578015; cv=none; b=mmgO45o6zQBWz5wto0TTRRtcEkEjJUHsPQg3bbGx+q9SJZmgymv+mO9H/YCXx3El6pEvtedhqpW9WCM/uNdVtQxZ56QtaMI6Mf/NcBrCiLavBn0eDTXE3SV6CW/7646G454FF8mvnzZmx5DQDNfJtv258KdrldWayb6NkGprwiE=
+	t=1763582639; cv=none; b=ByTVqkE+3xOuXVQxk7PGERyYcnRjA9hWdo/Ar3xPnLc+3PBKbP0FlN6cjsMagmhN3waB3E+y/HIbOd7oo0Z7eNQibCOmPnf6NZBol9VekfqX2X7VgN61WXKkkzAOFmyuSmhTjRVoZGqYLHDUv8OUlBHI2buYcy/E/kjcGltcHVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763578015; c=relaxed/simple;
-	bh=+L5dqYe4lbCTZNCO1ARmj3AGtDovp1AJchwoTDUFXvA=;
+	s=arc-20240116; t=1763582639; c=relaxed/simple;
+	bh=6FvheDxb079G/35qiI8mEO2FvYTKpcKFhNAWHP13xrI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VqDcRmvlvRoVV9vznjmefLmG12kD+feVY/sBeHNJSyuQreu9kG/7s3RT25yvv8NZb4sJfRHfH9VwP/NGSAIo6W6iy5KH53olnas0v5u/NWSsgOc2rG67aw4QTuRlg5M8UkDl0HAFoaXLb0/uQHovpTXlBQxaeqyXOH2yaJbj1EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V8FmaDmQ; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=euihXn6Zl4I2gOm+Jm5x439rWR7FdCkgswbvaqfFWMFaepkdjPMRBDJbo5zj58ZcRZEZ4YjQLXO9ytHGfX8JCUrMCqXd58vN5JSNl7hGgTElSd8xUQih9Cm/Pzo83fl/GAsDkkh8AonFZpycpX3ZVVk48lVp4L+5jlLMOKj4WWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jsCP3N4E; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V8FmaDmQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jsCP3N4E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763578009; x=1795114009;
+  t=1763582634; x=1795118634;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=+L5dqYe4lbCTZNCO1ARmj3AGtDovp1AJchwoTDUFXvA=;
-  b=V8FmaDmQGxd0VUij9SYU7IbfBK1LoCnzrNj9N8Tduonm/W0kdzp+LFTS
-   p2KS3BbHXGsdDVtTETPugH25lD4KPMhzi/fVJZewfJfINcj0A9MogIkQ6
-   ZSi20U8TgtoxhzTnPQKB0TMEYb1WtMgBJ0l5j2b3L+x5TQps44xnRWdZ+
-   RPj0EWXmBZVBB8ENt4G4x5mqCPzHEcZdXKY3z3ng4nKVNp5RIXHj9DUXZ
-   NJQnyEZceIRdnbup0Yxb6Ip+zH057LVlwrW3QE1ISjlodAGgi8l3IXH2B
-   8mltvl09MWZN1r37NSVNR/5ZhjNbbjWonrwBjGICu6yAvamZT4ktlb7lD
-   Q==;
-X-CSE-ConnectionGUID: 8xO6Bt26QZuV2mmpXMAyiQ==
-X-CSE-MsgGUID: fyqBPefJSdiXY/1iKCgaOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="65573184"
+  bh=6FvheDxb079G/35qiI8mEO2FvYTKpcKFhNAWHP13xrI=;
+  b=jsCP3N4EAmZWxvoHJQ7YhRZOALxfI5SwGHbeAMEKqetm4mbg+hL8Bf+q
+   bKgbbH9I38sB/7Xf4Ye14BfwyuT3ZiV4NqnaOJ4VxlT4RFeV3cc6i/Gv8
+   G9QkFy/c5TFPoo3+CM+iMKrvbCnJ1esMM/zTf3mKFoU9+m1mRf4bjnWCl
+   35+bcWtjdTdhoMUvmO5jSjRMxu7ukbrlO08GUf58in0+m38DB7ehY019O
+   jA1SbUFyZbuKfLgBwEGolXpHKDCLOWgQUwbCrrEwRGS0HmYCmfcTuqGpB
+   OXYaKSDEqU7WGTifTKrpqHS2Ct3mi13W/h7kEun7jCvD3GhPkyDS7Re1l
+   g==;
+X-CSE-ConnectionGUID: 635zfNKqRxi89Rly4H5yog==
+X-CSE-MsgGUID: LjuC7P4eSmiZ4wBiLsxThw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76249894"
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="65573184"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 10:46:45 -0800
-X-CSE-ConnectionGUID: HcqK3a3nQWCfPjIVvrmbNg==
-X-CSE-MsgGUID: fu3L7RF7SOmj4p82+bkv2g==
+   d="scan'208";a="76249894"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:03:49 -0800
+X-CSE-ConnectionGUID: QYbq4pmtT5ueZBxR1HyaHQ==
+X-CSE-MsgGUID: H2GvheIcQJqNCB3/GdCnVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,316,1754982000"; 
-   d="scan'208";a="222068970"
+   d="scan'208";a="191590733"
 Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.245])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 10:46:40 -0800
-Date: Wed, 19 Nov 2025 20:46:38 +0200
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 12:03:44 -0800
+Date: Wed, 19 Nov 2025 22:03:42 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
 Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -63,11 +63,10 @@ Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
 	Dmitry Guzman <dmitry.guzman@mobileye.com>,
 	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 4/7] i2c: designware: Use runtime PM macro for
- auto-cleanup
-Message-ID: <aR4QjtJqfZGN2_jw@smile.fi.intel.com>
+Subject: Re: [PATCH v3 6/7] i2c: designware: Implement I2C_M_STOP support
+Message-ID: <aR4inuzOitdpSDvd@smile.fi.intel.com>
 References: <20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com>
- <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
+ <20251119-i2c-dw-v3-6-bc4bc2a2cbac@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -77,19 +76,155 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
+In-Reply-To: <20251119-i2c-dw-v3-6-bc4bc2a2cbac@bootlin.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Nov 19, 2025 at 04:05:33PM +0100, Benoît Monin wrote:
-> Simplify runtime PM handling in i2c_dw_xfer() by using the
-> pm_runtime_active_auto_try guard. This adds the proper handling for
-> runtime PM resume errors and allows us to get rid of the done_nolock
-> label.
+On Wed, Nov 19, 2025 at 04:05:35PM +0100, Benoît Monin wrote:
+> Add the support of the I2C_M_STOP flag in i2c_msg by splitting
+> i2c_dw_xfer() in two: __i2c_dw_xfer_one_part() for the core transfer logic
+> and i2c_dw_xfer() for handling the high-level transaction management.
+> 
+> In detail __i2c_dw_xfer_one_part() starts a transaction and wait for its
+> completion, either with a STOP on the bus or an error. i2c_dw_xfer()
+> loops over the messages to search for the I2C_M_STOP flag and calls
+> __i2c_dw_xfer_one_part() for each part of the messages up to a STOP or
+> the end of the messages array.
+> 
+> i2c_dw_xfer() takes care of runtime PM and holds the hardware lock on
+> the bus while calling __i2c_dw_xfer_one_part(), this allows grouping
+> multiple accesses to device that support a STOP in a transaction when
+> done via i2c_dev I2C_RDWR ioctl.
+> 
+> Also, now that we have a lookup of the messages in i2c_dw_xfer() prior
+> to each transaction, we use it to make sure the messages are valid for
+> the transaction. We check that the target address does not change before
+> starting the transaction instead of aborting the transfer while it is
+> happening, as it was done in i2c_dw_xfer_msg(). The target address can
+> only be changed after an I2C_M_STOP flag, i.e after a STOP on the i2c bus.
+> 
+> The I2C_FUNC_PROTOCOL_MANGLING flag is added to the list of
+> functionalities supported by the controller, except for the AMD NAVI
+> i2c controller which uses its own xfer() function and is left untouched.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+...
 
-LGTM and order kept the same, shouldn't regress.
+>  	ret = -EIO;
+>  
+> +done:
+> +	return ret;
+
+I don't see the point of keeping this label anymore. Is there a followup
+that addresses this?
+
+> +static inline bool
+> +i2c_dw_msg_is_valid(struct dw_i2c_dev *dev, const struct i2c_msg *msgs, size_t idx)
+> +{
+> +	/* The first message of a transaction is valid */
+> +	if (!idx)
+> +		return true;
+> +
+> +	/*
+> +	 * We cannot change the target address during a transaction, so make
+> +	 * sure the address is identical to the one of the previous message.
+> +	 */
+> +	if (msgs[idx - 1].addr != msgs[idx].addr) {
+> +		dev_err(dev->dev, "invalid target address\n");
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+
+Hmm... I would do it in the nested conditionals if nothing comes between
+the lines in the future.
+
+static inline bool
+i2c_dw_msg_is_valid(struct dw_i2c_dev *dev, const struct i2c_msg *msgs, size_t idx)
+{
+	/*
+	 * We cannot change the target address during a transaction, so make
+	 * sure the address of the sequential messages is identical to the one
+	 * of the previous message.
+	 */
+	if (idx && (msgs[idx - 1].addr != msgs[idx].addr) {
+		dev_err(dev->dev, "invalid target address\n");
+		return false;
+	}
+
+	/*
+	 * Addresses match. For the first message return true as it sets the
+	 * address for the whole transaction.
+	 */
+	return true;
+}
+
+...
+
+> +static int
+> +i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
+> +{
+> +	struct dw_i2c_dev *dev = i2c_get_adapdata(adap);
+> +	struct i2c_msg *msgs_part;
+> +	size_t cnt;
+> +	int ret;
+> +
+> +	dev_dbg(dev->dev, "msgs: %d\n", num);
+> +
+> +	ACQUIRE(pm_runtime_active_auto_try, pm)(dev->dev);
+> +	if (ACQUIRE_ERR(pm_runtime_active_auto_try, &pm))
+> +		return -ENXIO;
+> +
+> +	ret = i2c_dw_acquire_lock(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * If the I2C_M_STOP is present in some the messages,
+> +	 * we do one transaction for each part up to the STOP.
+> +	 */
+> +	for (msgs_part = msgs; msgs_part < msgs + num; msgs_part += cnt) {
+> +		/*
+> +		 * Count the messages in a transaction, up to a STOP
+> +		 * or the end of the msgs.
+> +		 */
+> +		for (cnt = 1; ; cnt++) {
+> +			if (!i2c_dw_msg_is_valid(dev, msgs_part, cnt - 1)) {
+> +				ret = -EINVAL;
+> +				goto done;
+
+What about
+
+				break;
+
+> +			}
+> +
+> +			if ((msgs_part[cnt - 1].flags & I2C_M_STOP) ||
+> +			    (msgs_part + cnt == msgs + num))
+> +				break;
+> +		}
+		if (ret < 0)
+			break;
+
+?
+
+The motivation is to avoid mixing auto ptr with goto style
+(it's not recommended as per cleanup.h).
+
+> +		/* transfer one part up to a STOP */
+> +		ret = __i2c_dw_xfer_one_part(dev, msgs_part, cnt);
+> +		if (ret < 0)
+> +			break;
+> +	}
+> +
+>  done:
+>  	i2c_dw_release_lock(dev);
+>  
+> -	return ret;
+> +	if (ret < 0)
+> +		return ret;
+> +	return num;
+>  }
 
 -- 
 With Best Regards,
