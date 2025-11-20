@@ -1,282 +1,74 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECEF03101C9
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Nov 2025 11:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293172ECEA3
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Nov 2025 17:01:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763638637; cv=none; b=JAB4t0Z/Qm6OJ17EX0IcN6CL/9000UBQgpsVpbNMoGltNsJMo/QtFXtuQrJICcU6ND/xAczT2B/7a+QtM/9tDIIU32X2N73h5LMYnA2djpa70pbOLbPQySI9sC4V59UN4gvLPCvUpJrPeVVBm9QHqnSKeJrzM01cOIqJ0puOZDo=
+	t=1763658085; cv=none; b=iMcX3emejdQzarP0zhz6bic3/b/+7PPVYXgAtJK3YyJTVo58D/YUWyrcViqLtO0qJvsoS0mGywHMrwluybvPwoAcxFzXXoCXimpwRHT4LDVOH9lJhGVDYg+nbSoLajLu+1IVpzTFzYyY7Z0/oLQ57Ysc4d9L9XPxYo2zDa7lvlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763638637; c=relaxed/simple;
-	bh=fZNKUQsFVE1t1uphqz9t0AoQUDH/JdNpi8q7/61pQbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q1W/DdJw2nH6gHV6MtXWDF9oUXNAD7+rISWRTKeJLi+G3J6p36StzSh8xRqC24La/Q2BVltsUDQQVwwUfhiyiTeBRsUunf1lGyn8wQj0eftd3BAaAppZ4Q9+oCz87lFOIAfsbefxVi+GHCIUNA4fZq5Y3E+UAtvc6cLFhjhKMcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Qhfr00GD; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gCe5WVxc; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Qhfr00GD";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gCe5WVxc"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1763638633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PTLRfnMKknqj+tCmpvzA6teeIrR7xMPQdDGiPXPUVAE=;
-	b=Qhfr00GDHiwZakzfBr/GxmO+GxOHJ/UgTMgbsPGvZFkmmaOmHt/gitMB0pDlWvG9oc4BOD
-	J1PEy8kaUdTYwxIUxRMo4r9WPPmATeK4uMi5RxKYnKtYIwB9Tp8AsIz7ak5dPGahtEcOKJ
-	cTMAgtUk57Wiqq5IPHZSKmxjOjLNs951N0p07dsqT44T+kEvI+8Ecv7hwueLgBnQxua2LQ
-	A4l2UD7s2WJl2qOxupAtmyssAEuxS7yEQVBDKLulXo5d+hmqDRVXTQDLdUHuafnhR+o9IB
-	VuIAscAQipf+bpAQRxSkH74pQGH5yRgcZdIOLZGT3v402zOtJnYTVtb4zJqoCQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1763638633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PTLRfnMKknqj+tCmpvzA6teeIrR7xMPQdDGiPXPUVAE=;
-	b=gCe5WVxcahTG5x7rH8p4FgypS82DhbbSwzaeRev6C7DE5MO4XxvdDCErEQdkfAc+SLtKgI
-	iTcQ6R2BQAhxo9CA==
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 1/3] Documentation: Add some hardware hints for real-time
-Date: Thu, 20 Nov 2025 12:37:06 +0100
-Message-ID: <20251120113708.83671-2-bigeasy@linutronix.de>
-In-Reply-To: <20251120113708.83671-1-bigeasy@linutronix.de>
+	s=arc-20240116; t=1763658085; c=relaxed/simple;
+	bh=TkpOwHtF5LJnOc2a1tGVUuodYnNcHIwiksPn1c7zfso=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=StPO28DS47qOlBvW97mH/H6ZSy9kwDhz9N7ZeZPAgdufedotnzTeX3XnGxQFpp9OXnDEriOhPGoGtb+G2BhssASUiECEakq3y4HOMdSyl0A7jb50ZpCQ6+Ea3MLsC+l/fz4JJhiEyD0NPWHslcpzPXMIs+KrHEoetpuKEwHxMUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id B608D86BDA;
+	Thu, 20 Nov 2025 17:01:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 9404530;
+	Thu, 20 Nov 2025 17:01:12 +0000 (UTC)
+Date: Thu, 20 Nov 2025 12:01:44 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Clark Williams <clrkwllms@kernel.org>, John
+ Ogness <john.ogness@linutronix.de>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 1/3] Documentation: Add some hardware hints for
+ real-time
+Message-ID: <20251120120144.1725ef3e@gandalf.local.home>
+In-Reply-To: <20251120113708.83671-2-bigeasy@linutronix.de>
 References: <20251120113708.83671-1-bigeasy@linutronix.de>
+	<20251120113708.83671-2-bigeasy@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 9404530
+X-Stat-Signature: pu1kwd3i74ibddc4rwfmktbe5wzuerdm
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/u6RIpLEd/pPmmxmxTxhkLQuIJG+7Fu+I=
+X-HE-Tag: 1763658072-575639
+X-HE-Meta: U2FsdGVkX1/g7eESry6NRcMJWnrdDL83qWPFwvQegMZ3rKRkisggegbfCVOs/malU9hYF1krkmKR9i9zPxRXWf2WxoGgHe9lwkihyDk3IQDRfwuI6oVwqHioxlfw0O963spmI6ICVfD/A6GprLXL7BFcBtPFljifAIEFUBAQqpSt1aGv9eveCwAPwQn4lR1KqC1yJYf7ZYg6Y6DIliqDgia3lEBsDQiHMsPx3luaL9cQVqxaabx8g4ESZ6L2Qt1oX/gFIGLsyQWmXUaAh3lfbBU9owVROXK9hunBcG177Gn64M5LZamT61GVmkjuY+6SpDpIxqppB/PBgJTS0d5n3kJImcJzyOX4R16fGBY9x1w2wbYdx6QqpwWi3+XQRGAO
 
-Some thoughts on hardware that is used for real-time workload. Certainly
-not complete but should cover some of the import topics such as:
+On Thu, 20 Nov 2025 12:37:06 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-- Main memory, caches and the possiblie control given by the hardware.
-- What could happen by putting critical hardware behind USB or VirtIO.
-- Allowing real-time tasks to consume the CPU entirely without giving
-  the system some time to breath.
-- Networking with what the kernel provides.
+> Some thoughts on hardware that is used for real-time workload. Certainly
+> not complete but should cover some of the import topics such as:
+> 
+> - Main memory, caches and the possiblie control given by the hardware.
+> - What could happen by putting critical hardware behind USB or VirtIO.
+> - Allowing real-time tasks to consume the CPU entirely without giving
+>   the system some time to breath.
+> - Networking with what the kernel provides.
+> 
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  Documentation/core-api/real-time/hardware.rst | 132 ++++++++++++++++++
+>  Documentation/core-api/real-time/index.rst    |   1 +
+>  2 files changed, 133 insertions(+)
+>  create mode 100644 Documentation/core-api/real-time/hardware.rst
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- Documentation/core-api/real-time/hardware.rst | 132 ++++++++++++++++++
- Documentation/core-api/real-time/index.rst    |   1 +
- 2 files changed, 133 insertions(+)
- create mode 100644 Documentation/core-api/real-time/hardware.rst
+Very nice write up!
 
-diff --git a/Documentation/core-api/real-time/hardware.rst b/Documentation/=
-core-api/real-time/hardware.rst
-new file mode 100644
-index 0000000000000..57e9191cca640
---- /dev/null
-+++ b/Documentation/core-api/real-time/hardware.rst
-@@ -0,0 +1,132 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Considering hardware
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+:Author: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-+
-+The way a workload is handled can be influenced by the hardware it runs on.
-+Key components include the CPU, memory, and the buses that connect them.
-+These resources are shared among all applications on the system.
-+As a result, heavy utilization of one resource by a single application
-+can affect the deterministic handling of workloads in other applications.
-+
-+Below is a brief overview.
-+
-+System memory and cache
-+-----------------------
-+
-+Main memory and the associated caches are the most common shared resources=
- among
-+tasks in a system. One task can dominate the available caches, forcing ano=
-ther
-+task to wait until a cache line is written back to main memory before it c=
-an
-+proceed. The impact of this contention varies based on write patterns and =
-the
-+size of the caches available. Larger caches may reduce stalls because more=
- lines
-+can be buffered before being written back. Conversely, certain write patte=
-rns
-+may trigger the cache controller to flush many lines at once, causing
-+applications to stall until the operation completes.
-+
-+This issue can be partly mitigated if applications do not share the same C=
-PU
-+cache. The kernel is aware of the cache topology and exports this informat=
-ion to
-+user space. Tools such as **lstopo** from the Portable Hardware Locality (=
-hwloc)
-+project (https://www.open-mpi.org/projects/hwloc/) can visualize the hiera=
-rchy.
-+
-+Avoiding shared L2 or L3 caches is not always possible. Even when cache sh=
-aring
-+is minimized, bottlenecks can still occur when accessing system memory. Me=
-mory
-+is used not only by the CPU but also by peripheral devices via DMA, such as
-+graphics cards or network adapters.
-+
-+In some cases, cache and memory bottlenecks can be controlled if the hardw=
-are
-+provides the necessary support. On x86 systems, Intel offers Cache Allocat=
-ion
-+Technology (CAT), which enables cache partitioning among applications and
-+provides control over the interconnect. AMD provides similar functionality=
- under
-+Platform Quality of Service (PQoS). On Arm64, the equivalent is Memory
-+System Resource Partitioning and Monitoring (MPAM).
-+
-+These features can be configured through the Linux Resource Control interf=
-ace.
-+For details, see Documentation/filesystems/resctrl.rst.
-+
-+The perf tool can be used to monitor cache behavior. It can analyze
-+cache misses of an application and compare how they change under
-+different workloads on a neighboring CPU. Even more powerful, the perf
-+c2c tool can help identify cache-to-cache issues, where multiple CPU
-+cores repeatedly access and modify data on the same cache line.
-+
-+Hardware busses
-+---------------
-+
-+Real-time systems often need to access hardware directly to perform their =
-work.
-+Any latency in this process is undesirable, as it can affect the outcome o=
-f the
-+task. For example, on an I/O bus, a changed output may not become immediat=
-ely
-+visible but instead appear with variable delay depending on the latency of=
- the
-+bus used for communication.
-+
-+A bus such as PCI is relatively simple because register accesses are routed
-+directly to the connected device. In the worst case, a read operation stal=
-ls the
-+CPU until the device responds.
-+
-+A bus such as USB is more complex, involving multiple layers. A register r=
-ead
-+or write is wrapped in a USB Request Block (URB), which is then sent by the
-+USB host controller to the device. Timing and latency are influenced by the
-+underlying USB bus. Requests cannot be sent immediately; they must align w=
-ith
-+the next frame boundary according to the endpoint type and the host contro=
-ller's
-+scheduling rules. This can introduce delays and additional latency. For ex=
-ample,
-+a network device connected via USB may still deliver sufficient throughput=
-, but
-+the added latency when sending or receiving packets may fail to meet the
-+requirements of certain real-time use cases.
-+
-+Additional restrictions on bus latency can arise from power management. For
-+instance, PCIe with Active State Power Management (ASPM) enabled can suspe=
-nd
-+the link between the device and the host. While this behavior is beneficia=
-l for
-+power savings, it delays device access and adds latency to responses. This=
- issue
-+is not limited to PCIe; internal buses within a System-on-Chip (SoC) can a=
-lso be
-+affected by power management mechanisms.
-+
-+Virtualization
-+--------------
-+
-+In a virtualized environment such as KVM, each guest CPU is represented as=
- a
-+thread on the host. If such a thread runs with real-time priority, the sys=
-tem
-+should be tested to confirm it can sustain this behavior over extended per=
-iods.
-+Because of its priority, the thread will not be preempted by lower-priority
-+threads (such as SCHED_OTHER), which may then receive no CPU time. This can
-+cause problems if a lower-priority thread is pinned to a CPU already occup=
-ied by
-+a real-time task and unable to make progress. Even if a CPU has been isola=
-ted,
-+the system may still (accidentally) start a per=E2=80=91CPU thread on that=
- CPU.
-+Ensuring that a guest CPU goes idle is difficult, as it requires avoiding =
-both
-+task scheduling and interrupt handling. Furthermore, if the guest CPU does=
- go
-+idle but the guest system is booted with the option **idle=3Dpoll**, the g=
-uest
-+CPU will never enter an idle state and will instead spin until an event
-+arrives.
-+
-+Device handling introduces additional considerations. Emulated PCI devices=
- or
-+VirtIO devices require a counterpart on the host to complete requests. This
-+adds latency because the host must intercept and either process the request
-+directly or schedule a thread for its completion. These delays can be avoi=
-ded if
-+the required PCI device is passed directly through to the guest. Some devi=
-ces,
-+such as networking or storage controllers, support the PCIe SR-IOV feature.
-+SR-IOV allows a single PCIe device to be divided into multiple virtual fun=
-ctions,
-+which can then be assigned to different guests.
-+
-+Networking
-+----------
-+
-+For low-latency networking, the full networking stack may be undesirable, =
-as it
-+can introduce additional sources of delay. In this context, XDP can be used
-+as a shortcut to bypass much of the stack while still relying on the kerne=
-l's
-+network driver.
-+
-+The requirements are that the network driver must support XDP- preferably =
-using
-+an "skb pool" and that the application must use an XDP socket. Additional
-+configuration may involve BPF filters, tuning networking queues, or config=
-uring
-+qdiscs for time-based transmission. These techniques are often
-+applied in Time-Sensitive Networking (TSN) environments.
-+
-+Documenting all required steps exceeds the scope of this text. For detailed
-+guidance, see the TSN documentation at https://tsn.readthedocs.io.
-+
-+Another useful resource is the Linux Real-Time Communication Testbench
-+https://github.com/Linutronix/RTC-Testbench.
-+The goal of this project is to validate real-time network communication. I=
-t can
-+be thought of as a "cyclictest" for networking and also serves as a starti=
-ng
-+point for application development.
-diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/cor=
-e-api/real-time/index.rst
-index 7e14c4ea3d592..f08d2395a22c9 100644
---- a/Documentation/core-api/real-time/index.rst
-+++ b/Documentation/core-api/real-time/index.rst
-@@ -13,4 +13,5 @@ the required changes compared to a non-PREEMPT_RT configu=
-ration.
-=20
-    theory
-    differences
-+   hardware
-    architecture-porting
---=20
-2.51.0
+Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
+-- Steve
