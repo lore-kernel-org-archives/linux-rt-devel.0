@@ -1,48 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EFD184E;
-	Thu, 20 Nov 2025 07:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4533B224B1B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Nov 2025 10:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763625324; cv=none; b=PN3LVxRE15AZ9aJH4BdZhfSLV3VGDqnhwlPyr6+00FfME7VoRGM4EGWS0Hqdco3sU7BegHK/5Jwvzvesi0YokWzNBkH+lT+zxqlDGFswyMaiAvY+YrL1BagCn55ZfsZskL9QQti1eq5a4Xfs2Sp40XS57cbccLcZZDKHZBJnLtk=
+	t=1763634855; cv=none; b=rEtSyEmnVgZjB5Z7LbqaaAmGgXYJLwzZEsKqJUYMn1pfAQwk7sP8bvLbTZNR67csDrbXF58KVOhoKqlJVXu2Cgx6NRM2/HAjAb8CVrx+LeEzHoIC+ox2dczMkTqQ8d2NcFBuOM6rQ2hZ/J8a5K5gskOC0XzMXg7YKyWuhXNF8ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763625324; c=relaxed/simple;
-	bh=3MJTLL2jvRU91p6wVEUoe3Zsr/EBDozQFEsbAVHw1Yo=;
+	s=arc-20240116; t=1763634855; c=relaxed/simple;
+	bh=0kC3JVbniNzr/ImDlkOT0dNJwNLVLcsG6+ixM/BI2sI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RsfzTuqdTuzgWE1xrNbr9OLhmO54pTWivYz3puRHv+xVgBggfygEroJgwIOgUL8kNKjcAH7fpUeK/Dn/ofUsVRNhNU/+DyFtpXAM0jDvgvQi+Qpmi69FeMQQ4zbiAM/KNilIBfkpcfAJnoEGY5vOBqZ+gJ8Xpy9o9GEUG6vdB8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uJwT9epb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q78ETH3lk7C6BdWnFEKAw1hHW1FKC50Icvgpc2HyXNTpFwDiSmDmSgRWt8+Eh0/uBeRtFsZy4JhMKdb1qqVOTPWmicxrvFKIey6lgO3xtYsfWpT6zT4xg6Guu7hVp6idCtdkDen1dXA7CPvHtpVG7k+ENoRsyuALCPIlFuc1fMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R634Dkwn; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uJwT9epb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27EC9C4CEF1;
-	Thu, 20 Nov 2025 07:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763625324;
-	bh=3MJTLL2jvRU91p6wVEUoe3Zsr/EBDozQFEsbAVHw1Yo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uJwT9epbVXUn3nkO4Oyn+/pcx8uxSOzbQcz89V+Bx/++xGPVEO4WNh7l5k4NELThz
-	 WGa4EQ+hCMcPRdmp8MWFTC9IK4raaK2q9PdnkhEoMCxfdTMYx3XTGBtmNeQynFkq0I
-	 lxT55lVuyiuTxqz/W4yPEeS7tkHjvKc9o+UZtFtjL/WPpH0tElV22L+jbThWzU3bBK
-	 bTcNU9Ngo21IxBCT9FI6lHSkv+p7zb7TEyAxHNONddg9yhjihHL8/BJRh8Mr7uBQGn
-	 lkLL6VhEh/+mdlCxeeDY01qWNAzX16FCctCOSeUO8gtTU8o0ST0EuiRMOWwiRsiW/+
-	 HEA/EAwuvFt9Q==
-Date: Thu, 20 Nov 2025 08:55:22 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R634Dkwn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763634854; x=1795170854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=0kC3JVbniNzr/ImDlkOT0dNJwNLVLcsG6+ixM/BI2sI=;
+  b=R634DkwnCAGalqYwCscEn5XiFKz4lNkToYqCnfPZE0Axfyn88qUnmO5H
+   5u0nKXz5qvUE6WC6DD9B3Dmh28rzl+JRU9Zg/lDuZjtGuI2H8kAlwVrn8
+   nXbWSOIby2dOUfkF0CXGLPd4J8hOy4yXA9Wd61dsV+FIXPoP6dsWKjZHH
+   nId3i65xtGzGQ805Tce/s7pVN8YJ/K2iREOyDIHgMVXi1ZxpWPUewaX05
+   pRxb1pbfC35NrLUKdVxmJte94iOOueyuGG7UkkMvvTAGekKJbUvbJCxAX
+   7eyFw8/59ZRmIJGh9r4xnwUYQaNr5Z0g2fktyIuUOE+HmZZ4Inyeu+qwG
+   A==;
+X-CSE-ConnectionGUID: joRitdeXTsqJ+zqLSFM2Wg==
+X-CSE-MsgGUID: 7oy7pZmORwa7ldnsK+gfvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76308540"
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="76308540"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 02:34:13 -0800
+X-CSE-ConnectionGUID: w0355Oc6SFu/ZzuNlAwbEA==
+X-CSE-MsgGUID: Sf5bM+iTTw6SqHjQxv4REA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
+   d="scan'208";a="195465708"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2025 02:34:09 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id AACE196; Thu, 20 Nov 2025 11:34:07 +0100 (CET)
+Date: Thu, 20 Nov 2025 11:34:07 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
-	Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
+Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Dmitry Guzman <dmitry.guzman@mobileye.com>,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 1/7] dt-bindings: i2c: dw: Add Mobileye I2C controllers
-Message-ID: <20251120-tough-sturdy-woodpecker-7dcbdf@kuoka>
+Subject: Re: [PATCH v3 4/7] i2c: designware: Use runtime PM macro for
+ auto-cleanup
+Message-ID: <20251120103407.GO2912318@black.igk.intel.com>
 References: <20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com>
- <20251119-i2c-dw-v3-1-bc4bc2a2cbac@bootlin.com>
+ <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -51,23 +78,65 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20251119-i2c-dw-v3-1-bc4bc2a2cbac@bootlin.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
 
-On Wed, Nov 19, 2025 at 04:05:30PM +0100, Beno=C3=AEt Monin wrote:
-> Add compatible string for the DesignWare-based I2C controllers present
-> in Mobileye Eyeq6Lplus SoC, with a fallback to the default compatible.
-> The same controllers are also present in the EyeQ7H, so add a compatible
-> for those with a fallback to the Eyeq6Lplus compatible.
->=20
-> Signed-off-by: Beno=C3=AEt Monin <benoit.monin@bootlin.com>
+On Wed, Nov 19, 2025 at 04:05:33PM +0100, Benoît Monin wrote:
+> Simplify runtime PM handling in i2c_dw_xfer() by using the
+> pm_runtime_active_auto_try guard. This adds the proper handling for
+> runtime PM resume errors and allows us to get rid of the done_nolock
+> label.
+> 
+> Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
 > ---
->  Documentation/devicetree/bindings/i2c/snps,designware-i2c.yaml | 7 +++++=
-++
->  1 file changed, 7 insertions(+)
+>  drivers/i2c/busses/i2c-designware-master.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
+> index ec4fc2708d03..fe708c7cd282 100644
+> --- a/drivers/i2c/busses/i2c-designware-master.c
+> +++ b/drivers/i2c/busses/i2c-designware-master.c
+> @@ -811,12 +811,13 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>  
+>  	dev_dbg(dev->dev, "%s: msgs: %d\n", __func__, num);
+>  
+> -	pm_runtime_get_sync(dev->dev);
+> +	ACQUIRE(pm_runtime_active_auto_try, pm)(dev->dev);
+> +	if (ACQUIRE_ERR(pm_runtime_active_auto_try, &pm))
+> +		return -ENXIO;
+>  
+>  	switch (dev->flags & MODEL_MASK) {
+>  	case MODEL_AMD_NAVI_GPU:
+> -		ret = amd_i2c_dw_xfer_quirk(adap, msgs, num);
+> -		goto done_nolock;
+> +		return amd_i2c_dw_xfer_quirk(adap, msgs, num);
+>  	default:
+>  		break;
+>  	}
+> @@ -834,7 +835,7 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>  
+>  	ret = i2c_dw_acquire_lock(dev);
+>  	if (ret)
+> -		goto done_nolock;
+> +		return ret;
+>  
+>  	ret = i2c_dw_wait_bus_not_busy(dev);
+>  	if (ret < 0)
+> @@ -899,9 +900,6 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>  done:
+>  	i2c_dw_release_lock(dev);
 
-Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+There is still this goto here. I don't think it is good to mix the
+"cleanup" helpers and gotos. So if we want to use the cleanup helpers then
+I think we should convert the whole function.
 
-Best regards,
-Krzysztof
-
+>  
+> -done_nolock:
+> -	pm_runtime_put_autosuspend(dev->dev);
+> -
+>  	return ret;
+>  }
+>  
+> 
+> -- 
+> 2.51.1
