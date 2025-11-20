@@ -1,142 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4533B224B1B
-	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Nov 2025 10:34:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82E33002A8
+	for <linux-rt-devel@lists.linux.dev>; Thu, 20 Nov 2025 11:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763634855; cv=none; b=rEtSyEmnVgZjB5Z7LbqaaAmGgXYJLwzZEsKqJUYMn1pfAQwk7sP8bvLbTZNR67csDrbXF58KVOhoKqlJVXu2Cgx6NRM2/HAjAb8CVrx+LeEzHoIC+ox2dczMkTqQ8d2NcFBuOM6rQ2hZ/J8a5K5gskOC0XzMXg7YKyWuhXNF8ns=
+	t=1763638636; cv=none; b=NkshQSob+pVU9sehLNtFKEdOy0QfepBWEJte0ursDdGULwXJ58qJ+PHRKWGKWvc3SW/fEHY/Z+h1GOGa61VEZLk92uwLpvGwWe3yZsFnWHhdzQOmqDEdToavnjznFjSvRCGkM6nlEge9DykPcJGE9Jf178AjjVr/btBZoXb2dW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763634855; c=relaxed/simple;
-	bh=0kC3JVbniNzr/ImDlkOT0dNJwNLVLcsG6+ixM/BI2sI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q78ETH3lk7C6BdWnFEKAw1hHW1FKC50Icvgpc2HyXNTpFwDiSmDmSgRWt8+Eh0/uBeRtFsZy4JhMKdb1qqVOTPWmicxrvFKIey6lgO3xtYsfWpT6zT4xg6Guu7hVp6idCtdkDen1dXA7CPvHtpVG7k+ENoRsyuALCPIlFuc1fMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R634Dkwn; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1763638636; c=relaxed/simple;
+	bh=K/EVnkdRwdFApDd8v3uR33pUgHgktexI2GhyGhpnKYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cAGhqZs0B/DI60lYzITig4Sdwi9naX+Fg/gLJgm5YKZg+NEu0/LluvEF2Js6W2SXht8CFLCTCPn1i7Ln9LWf0ZKpM0eC/BCaTzM7Px+gjXtUsrxEG/cEILaedLIBOVv4+ORvCMEkg3N4VJbRadsokO3Ycig2ZUMDDlF8MEBuBto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NT0bBN+k; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8w4DLPDa; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R634Dkwn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763634854; x=1795170854;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=0kC3JVbniNzr/ImDlkOT0dNJwNLVLcsG6+ixM/BI2sI=;
-  b=R634DkwnCAGalqYwCscEn5XiFKz4lNkToYqCnfPZE0Axfyn88qUnmO5H
-   5u0nKXz5qvUE6WC6DD9B3Dmh28rzl+JRU9Zg/lDuZjtGuI2H8kAlwVrn8
-   nXbWSOIby2dOUfkF0CXGLPd4J8hOy4yXA9Wd61dsV+FIXPoP6dsWKjZHH
-   nId3i65xtGzGQ805Tce/s7pVN8YJ/K2iREOyDIHgMVXi1ZxpWPUewaX05
-   pRxb1pbfC35NrLUKdVxmJte94iOOueyuGG7UkkMvvTAGekKJbUvbJCxAX
-   7eyFw8/59ZRmIJGh9r4xnwUYQaNr5Z0g2fktyIuUOE+HmZZ4Inyeu+qwG
-   A==;
-X-CSE-ConnectionGUID: joRitdeXTsqJ+zqLSFM2Wg==
-X-CSE-MsgGUID: 7oy7pZmORwa7ldnsK+gfvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11618"; a="76308540"
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="76308540"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2025 02:34:13 -0800
-X-CSE-ConnectionGUID: w0355Oc6SFu/ZzuNlAwbEA==
-X-CSE-MsgGUID: Sf5bM+iTTw6SqHjQxv4REA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,317,1754982000"; 
-   d="scan'208";a="195465708"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2025 02:34:09 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id AACE196; Thu, 20 Nov 2025 11:34:07 +0100 (CET)
-Date: Thu, 20 Nov 2025 11:34:07 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NT0bBN+k";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8w4DLPDa"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1763638633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Yzf+ZcC/90WbFfPGW7ZXdVC4JWwawLj0A5twWRn8DK0=;
+	b=NT0bBN+kvJEgnhT/LQCjKe2hQlrFL9L5LweiAQMiHCE5Wrt/ThTA7WiNEQSRiyPmoNUsgo
+	+wZ7yggXc2vkMSCLpJzItV3bdH7YcpughBgY0KWjl+qj4I/jYQikhkrsz2Raqhilg5/Cfp
+	MKGPPFoJ6S0URE7+6e2Bf5JZ0E9P0/c57lqMf8agQDi/Ude8VRMtGo/ju5Gc7lx2Rf/xFM
+	4qo+G+VCTG6HL1rf50b/aotsJlUr8/YY46Q19FykfLgKHtUI2x4dANq7EkHoidfVEM5Ssj
+	0wMndh9twvnRATwdWhGhMVG0PGjvsu/eRW2TNSjy92Tn9DtO8cQE2oDpO+e5Qw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1763638633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Yzf+ZcC/90WbFfPGW7ZXdVC4JWwawLj0A5twWRn8DK0=;
+	b=8w4DLPDaVIX9nydEJE7UlqnZ9+vobc9KVa5ETJen2u6CBG76RqO6CD4iiUHEamWTc061dC
+	ues9KtlYpNKhU8Bg==
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 4/7] i2c: designware: Use runtime PM macro for
- auto-cleanup
-Message-ID: <20251120103407.GO2912318@black.igk.intel.com>
-References: <20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com>
- <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 0/3] Documentation: Update the real-time documentation
+Date: Thu, 20 Nov 2025 12:37:05 +0100
+Message-ID: <20251120113708.83671-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251119-i2c-dw-v3-4-bc4bc2a2cbac@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 19, 2025 at 04:05:33PM +0100, Benoît Monin wrote:
-> Simplify runtime PM handling in i2c_dw_xfer() by using the
-> pm_runtime_active_auto_try guard. This adds the proper handling for
-> runtime PM resume errors and allows us to get rid of the done_nolock
-> label.
-> 
-> Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
-> ---
->  drivers/i2c/busses/i2c-designware-master.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
-> index ec4fc2708d03..fe708c7cd282 100644
-> --- a/drivers/i2c/busses/i2c-designware-master.c
-> +++ b/drivers/i2c/busses/i2c-designware-master.c
-> @@ -811,12 +811,13 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
->  
->  	dev_dbg(dev->dev, "%s: msgs: %d\n", __func__, num);
->  
-> -	pm_runtime_get_sync(dev->dev);
-> +	ACQUIRE(pm_runtime_active_auto_try, pm)(dev->dev);
-> +	if (ACQUIRE_ERR(pm_runtime_active_auto_try, &pm))
-> +		return -ENXIO;
->  
->  	switch (dev->flags & MODEL_MASK) {
->  	case MODEL_AMD_NAVI_GPU:
-> -		ret = amd_i2c_dw_xfer_quirk(adap, msgs, num);
-> -		goto done_nolock;
-> +		return amd_i2c_dw_xfer_quirk(adap, msgs, num);
->  	default:
->  		break;
->  	}
-> @@ -834,7 +835,7 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
->  
->  	ret = i2c_dw_acquire_lock(dev);
->  	if (ret)
-> -		goto done_nolock;
-> +		return ret;
->  
->  	ret = i2c_dw_wait_bus_not_busy(dev);
->  	if (ret < 0)
-> @@ -899,9 +900,6 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
->  done:
->  	i2c_dw_release_lock(dev);
+This series adds an overview over hardware. It does not explain every
+tiny bit but explains for instance why power management or USB might be
+a bad thing.
 
-There is still this goto here. I don't think it is good to mix the
-"cleanup" helpers and gotos. So if we want to use the cleanup helpers then
-I think we should convert the whole function.
+I also collected Lukas' patches which rename a referenced Kconfig symbol
+and a maintainers entry for the docs.
 
->  
-> -done_nolock:
-> -	pm_runtime_put_autosuspend(dev->dev);
-> -
->  	return ret;
->  }
->  
-> 
-> -- 
-> 2.51.1
+Lukas Bulwahn (2):
+  Documentation: update config name in real-time architecture support
+  MAINTAINERS: Add doc files on real-time support to Real-time Linux
+
+Sebastian Andrzej Siewior (1):
+  Documentation: Add some hardware hints for real-time
+
+ .../real-time/architecture-porting.rst        |   3 +-
+ Documentation/core-api/real-time/hardware.rst | 132 ++++++++++++++++++
+ Documentation/core-api/real-time/index.rst    |   1 +
+ MAINTAINERS                                   |   1 +
+ 4 files changed, 136 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/core-api/real-time/hardware.rst
+
+--=20
+2.51.0
+
