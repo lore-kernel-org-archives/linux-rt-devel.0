@@ -1,142 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8247C314B9D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 25 Nov 2025 11:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFDA230D14
+	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Nov 2025 10:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764069195; cv=none; b=HjMcE6G0yMc9C7kIxag2FyaW9vJX+l9S5cgoqz3jIiI4K1N1x7wq0g1YZymoU+Y4U/hUVEPed5GIgokJLOL56nXuA3G/IJ1os4vn2Km8zLOk6o89WDe8T4xZQJ7InPZMV9cCj6naGuFcBHHSZLaCJhWAx7cD1vNcRKytsZCdK5k=
+	t=1764154011; cv=none; b=FRc77OPc1jlrbXQjUtJI5mYSYp6vqJyJ5JIYWYx0HGR4ai3hTeVSq0/v6Zjz7BZL3Ymy1TMlPxm5R2kjxlt9NElKjT1lsUVCjU/imsLp5039kOMoUjlQXOz5dOPtTmA/fAqng4QyQQxmIKSyxTc52GIPRzCHepeBYoNkRQzcNUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764069195; c=relaxed/simple;
-	bh=3uqm+MjePg84BAMPvn5vTFxWADyS8ea7euE9WSlVPK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pZZZNRAj7RSxetHHJSzg+xeRGXJiGU+mAIkcmcsEss04pwO9JRDq2AtPBauZXXEuwW7w4S+lqKbaWWD3BXEwKuEeatt9FY32NtInvqLMBm8XQkgbA23VzB9R01Arw45fxzviQMJvY2m0BsPRMV5OWSR76rL/OBJcuRdSsXYI22A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jkl5jeLy; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764154011; c=relaxed/simple;
+	bh=mIiAraEhSTgJhM9r59CMhCNViKT0ulb2M8CujRugpok=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=a/YSqwFWq8De91IkhiZl9ShA8ca4lDLjLPzd7P6mlYXec+p9LbSTxfrC1h+/NUJzQz+IY1rtH81TrB1F6RF8IxsNo+/Z8nhpBXIROe81WxWnHst6sWQpLSxw0iwi0+2RuUsZx/Vjs2XB9Od6raRnqzvSYCMIIEAkXgEgsv+lsGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=eKD/KeAe; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jkl5jeLy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764069194; x=1795605194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=3uqm+MjePg84BAMPvn5vTFxWADyS8ea7euE9WSlVPK4=;
-  b=Jkl5jeLyTszNzFOigBnr1uqSGMLwZ6Uxt6RiLLl+Qnel8UQANgP2LV3J
-   2PqpquEy7WwXifCOMo0fKt1J9HcdvRtNP2n3uTJ4Lj6C38+LEL7vUC5na
-   aB+Qq1vb30+oziH/tb9v0AZJObobIvCTxH/EHD9tdjMRW+Iyy0jiy/bPm
-   1hh5dxWqXyIxGJ2CQEJ+yJ9uR6/4H8PreVJemQrrmz8w157USxweQqX/I
-   EmotlDDFtqcUUlDyLaGocqIomVfJRyNZ4Hgp8MdvtxBedWDLkrmW2dSve
-   IVlm7x9rLYTN5+kxT7AwUct660Aha2/YhHq3nYSLrt5Kj2sBJyC0d56GF
-   w==;
-X-CSE-ConnectionGUID: R0h/dUoTTw2+PVOufa+a9w==
-X-CSE-MsgGUID: 9taywJXETqKOBd0ruhIZQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11623"; a="83476055"
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="83476055"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 03:13:03 -0800
-X-CSE-ConnectionGUID: dQwKuBEbSvKV0ggVs+Zgjw==
-X-CSE-MsgGUID: oTraJmbWToeEqdjJhppksA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,225,1758610800"; 
-   d="scan'208";a="192606705"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.152])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2025 03:12:59 -0800
-Date: Tue, 25 Nov 2025 13:12:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v3 7/7] i2c: designware: Support of controller with
- IC_EMPTYFIFO_HOLD_MASTER disabled
-Message-ID: <aSWPOJca9dOz2x6B@smile.fi.intel.com>
-References: <20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com>
- <20251119-i2c-dw-v3-7-bc4bc2a2cbac@bootlin.com>
- <aR4lVB8FRzHLcXJT@smile.fi.intel.com>
- <3583116.sQuhbGJ8Bu@benoit.monin>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eKD/KeAe"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 8FA3A1A1D6E;
+	Wed, 26 Nov 2025 10:46:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6229660721;
+	Wed, 26 Nov 2025 10:46:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B044C102F0828;
+	Wed, 26 Nov 2025 11:46:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1764154002; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=yb84UQ4K4Vt3Jb+5rolXm9Z3vaTMJXGhobv4cyvcfeA=;
+	b=eKD/KeAejqF+84cJpJ7wGV8gLEV9V1LWeVBYAGqnFD68y/W8XuLv7nm+ZMY7nRxM+vEgqq
+	VgEgXjs9ErRaMYE92VLFdw389B+MbFax4LARm+boT3jXKLJOaFTPJ+WeXioarAPCM4kuir
+	hmMUEWGyJEVcqZKR/PQz2uk5nNYbBVeX8YRu4OoeJdB7X0VVRX5GgIBRvVn3XssUw1wflt
+	B2g+6m9J+RphlOqUM1s4UzCPdWCf1aiT3k/MVaGEC0tRd9kO1MHYQcmjQWlFQe5lQK0MYl
+	XdTx3NuLK+QLSzCOL/4cKfJOtnqtXJavcA72gm4qL92pwLl3YQn85fjqiqLy6Q==
+From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+Subject: [PATCH v4 0/7] i2c: designware: Improve support of multi-messages
+ transfer
+Date: Wed, 26 Nov 2025 11:46:23 +0100
+Message-Id: <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3583116.sQuhbGJ8Bu@benoit.monin>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-B4-Tracking: v=1; b=H4sIAH/aJmkC/2XMTQ6CMBCG4auQrq3p9IeCK+9hXLRDkSZKDZCqI
+ dzdQgJqXH6Ted6R9K7zrieHbCSdi773oU1D7jKCjWkvjvoqbcIZV8BAUs+RVg9aGQGq1qrgZU7
+ S871ztX8uodM57cb3Q+heSzfCfF0Tek1EoIxqWyirAbUp9NGGMFx9u8dwI3Mk8i8oYIM8wZJJy
+ Asta0T2D8UHApQbFAlalBa54WgN/sJpmt4KjiQQEAEAAA==
+X-Change-ID: 20251014-i2c-dw-da315f758296
+To: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jan Dabros <jsd@semihalf.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Nov 25, 2025 at 11:45:35AM +0100, BenoÓt Monin wrote:
-> On Wednesday, 19 November 2025 at 21:15:16 CET, Andy Shevchenko wrote:
-> > On Wed, Nov 19, 2025 at 04:05:36PM +0100, BenoÓt Monin wrote:
+Add support for the I2C_M_STOP flag to the .xfer() function of the
+designware driver. This allows grouping multiple accesses in a single
+call and changing the target address after a STOP flag. This is achieved
+by splitting i2c_dw_xfer() in two functions. The core logic handling
+the transaction is now in __i2c_dw_xfer_one_part(), while i2c_dw_xfer()
+loops over the messages to search for the I2C_M_STOP flag and calls
+__i2c_dw_xfer_one_part().
 
-[...]
+Handle controllers that lack the ability to emit a RESTART when two
+consecutive messages have the same address and direction by aborting
+transfers that contain such a sequence of messages. For those controllers,
+we also check that we do not get any unwanted STOP caused by a Tx FIFO
+underrun, as they lack the ability to hold the clock during a transaction.
+And we set the irq as non-threaded to prevent underrun on PREEMPT-RT
+kernel when filling the FIFO.
 
-> > > +	/*
-> > > +	 * Make sure we don't need explicit RESTART between two messages
-> > > +	 * in the same direction for controllers that cannot emit them.
-> > > +	 */
-> > > +	if (dev->flags & NO_EMPTYFIFO_HOLD_MASTER &&
-> > > +	    (msgs[idx - 1].flags & I2C_M_RD) == (msgs[idx].flags & I2C_M_RD)) {
-> > > +		dev_err(dev->dev, "cannot emit RESTART\n");
-> > > +		return false;
-> > > +	}
-> > 
-> > Ah, Now I see the point of checking the idx first, but can we rather call it
-> > with idx >= 1 to begin with?
-> > 
-> We would still have to check it when calling i2c_dw_msg_is_valid(), as the
-> first message after a STOP don't have any limitation. It is not just for
-> protecting against an out-of-bound access to msgs. The validity of a
-> message is in relation to the previous message in the same transaction.
-> 
-> I will change the comment to make this clearer.
+The I2C controllers found in the EyeQ6Lplus and EyeQ7H SoCs from Mobileye
+lack such capability, so a compatible string is added because this cannot
+be detected at runtime.
 
-OK!
+This patch series also brings four cleanups:
+* Optimize the read of the message flags in i2c_dw_read().
+* Sort the compatible strings alphabetically in dw_i2c_of_match[].
+* Simplify runtime PM handling in i2c_dw_xfer() with guard.
+* Add a dedicated i2c_algorithm for AMD NAVI controller.
 
-> > >  	return true;
+Signed-off-by: Beno√Æt Monin <benoit.monin@bootlin.com>
+---
+Changes in v4:
+- Use a boolean property instead of a flag for handling controllers
+  IC_EMPTYFIFO_HOLD_MASTER_EN.
+- Reorder the patches so goto and runtime PM auto-cleanup are not mixed
+  in i2c_dw_xfer().
+- Drop goto in __i2c_dw_xfer_one_part() and use return.
+- Tidy up comments for i2c_dw_msg_is_valid() and irq_flags.
+- Link to v3: https://lore.kernel.org/r/20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com
 
-[...]
+Changes in v3:
+- Add a compatible entry for Mobileye EyeQ7H i2c controllers.
+- Use runtime PM macro for auto-cleanup in i2c_dw_xfer().
+- Add a dedicated i2c_algorithm for AMD NAVI controllers.
+- Rename __i2c_dw_xfer_unlocked() as it is not about locking at all.
+- Rework the validity check of i2c_msg.
+- Flag the irq as non-threaded for controllers that cannot hold the
+  clock to avoid underrun.
+- Link to v2: https://lore.kernel.org/r/20251031-i2c-dw-v2-0-90416874fcc0@bootlin.com
 
-> > >  	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
-> > > +	{ .compatible = "mobileye,eyeq6lplus-i2c", .data = (void *)NO_EMPTYFIFO_HOLD_MASTER },
-> > 
-> > Are you expecting more with this? I would rather use a compatible matching
-> > instead of the flag,
-> > 
-> The IC_EMPTYFIFO_HOLD_MASTER_EN parameter is part of the DesignWare IP, it
-> is not specific to Mobileye. Given that typical i2c accesses (single read,
-> single write, write-then-read) work on non-PREMPT_RT without this patch, I
-> suspect there are other controllers that lack the ability to hold the clock
-> when the FIFO is empty that could benefit from this flag.
+Changes in v2:
+- Add a single compatible for mobileye i2c controllers based in
+  DesignWare IP.
+- Handle the I2C_M_STOP flag instead of emitting a STOP on target address
+  change.
+- Abort transfer when it requires a RESTART on controller that cannot
+  emit them.
+- Detect FIFO underrun instead of disabling threaded interrupt on
+  PREEMPT_RT kernel.
+- Sort the compatible entries in a separate patch.
+- Add a cleanup patch on flag reading in i2c_dw_read().
+- Link to v1: https://lore.kernel.org/r/20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com
 
-USB DWC3 driver uses properties for that. We really should go away from this
-MODEL_*/FLAG_* legacy approach in the driver. Either compatible string or
-a specific property would be better than inventing yet another no so scalable
-flag.
+---
+Beno√Æt Monin (7):
+      dt-bindings: i2c: dw: Add Mobileye I2C controllers
+      i2c: designware: Optimize flag reading in i2c_dw_read()
+      i2c: designware: Sort compatible strings in alphabetical order
+      i2c: designware: Add dedicated algorithm for AMD NAVI
+      i2c: designware: Implement I2C_M_STOP support
+      i2c: designware: Use runtime PM macro for auto-cleanup
+      i2c: designware: Support of controller with IC_EMPTYFIFO_HOLD_MASTER disabled
 
-> > >  	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
-> > >  	{ .compatible = "snps,designware-i2c" },
+ .../bindings/i2c/snps,designware-i2c.yaml          |   7 +
+ drivers/i2c/busses/i2c-designware-common.c         |   6 +
+ drivers/i2c/busses/i2c-designware-core.h           |   3 +
+ drivers/i2c/busses/i2c-designware-master.c         | 197 +++++++++++++++------
+ drivers/i2c/busses/i2c-designware-platdrv.c        |   5 +-
+ 5 files changed, 160 insertions(+), 58 deletions(-)
+---
+base-commit: 6772718099e29703ed50dcd0941a135d1fb6e612
+change-id: 20251014-i2c-dw-da315f758296
 
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Beno√Æt Monin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
