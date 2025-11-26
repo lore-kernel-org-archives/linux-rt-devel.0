@@ -1,240 +1,451 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A17322C7B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Nov 2025 10:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764154022; cv=none; b=oUweq950isAlZPw5bRiwu8TKY7srEeY6bzb5192J69b02hfxT4A4/dyjCH1CETsg1QCB7mTzMtXISv8T6byMFPWWLQm8LgfPJ8+BTbfCwA2/JFYVDmynqzfYNUXfGX9wmw55XOXwWYLrzUHtdU5Q2CPYT61yAwxow6AwDDEOp6U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764154022; c=relaxed/simple;
-	bh=zfNxIsoGGcHLp4dAZtbBdFX5D0e6AXXZvgFVxvU84fs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gxWCs8QkMxpA0OxAARrCQPXyUfiASyVJQsBTX371VrNaNljMlzrGUh/f2zP1cWsyBB6H4tIb3KtW0qR/wtrUY115CLooCe+pHT5dMoKdQqBMQkftbE31ccy3ufMlB0UMthkFHa65d2gnO5rrjmakfbq2tW1NNncOq6LpKxBByXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TG8YJP0o; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8352264BB
+	for <linux-rt-devel@lists.linux.dev>; Wed, 26 Nov 2025 19:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1764184853; cv=fail; b=Dv32GlLYwIWPFc1w7kUGhnCooHi6P2yqgSYuFiI566kUu0AE8Moh46Bbx6Y7UGYzrq0WmoHY1LMCwXQTQFlSfXygQvWSXZhRCwPdwl7YMJkQ7BnrGbluS79dnqg27WWjaVikRuuuy3qlGMGhiZxci18a5RAmPgZnzcDeWXJct8M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1764184853; c=relaxed/simple;
+	bh=IcrvOibpnehOTMuADsKYIPped8qTosvcIXRgQZFYdg8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Za1XalpAgehKxAiztuZnBZHHqdzDznVPt47OR+J8Kti9NCdWf9xC8QcoEOqq5E5DZkYiUNL0qSlqpTNq0cgWbR/VVwIDPNZkHTbSqMQQ+EGpL293x6c5dKKVvkcoZMVeLE739yu8eLJi5RvStOgyLIe8X6qoa1OwFoaBo6Mk3mE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lPOfvYH6; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TG8YJP0o"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 5EB544E418DE;
-	Wed, 26 Nov 2025 10:46:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 35DD660721;
-	Wed, 26 Nov 2025 10:46:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DC19F102F08E5;
-	Wed, 26 Nov 2025 11:46:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764154018; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=aL19MBw9rbt+Wa3zJ/ps4nC2JNiqTqhjMhgiPrDJBog=;
-	b=TG8YJP0o2/imzBbXwob/bYHNMd5Kzoq6+RE73scw4AlMIA0xUvjefKKGhfRAoYUUsRLlpq
-	wf0Fkt/RBgFfl9oZa33bXTR9JVxMWGrSbJHpl5GzoSBTmgDCuMwXx+n039WtTTHhshmB0c
-	utgsV0DohjhFn7XE9FtwEfCeHVwxXfJA0EN7skGh+Hk0JEEzQ1GeVIAeKgVvDjmpy3A/ZJ
-	jKsq9hIZ3LlLBhoB+nwgFE86XfYy9VfN9nUZFsiE9LymvrCGp96eefBROcZagLsGmmOF0A
-	MB4wAaR2WdXyBLypvORJgfjXqkouoOjwkU6olGnU7+ZMuZDZd0zQKhScaqSYgA==
-From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-Date: Wed, 26 Nov 2025 11:46:30 +0100
-Subject: [PATCH v4 7/7] i2c: designware: Support of controller with
- IC_EMPTYFIFO_HOLD_MASTER disabled
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lPOfvYH6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764184851; x=1795720851;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=IcrvOibpnehOTMuADsKYIPped8qTosvcIXRgQZFYdg8=;
+  b=lPOfvYH631SYCwf7Vgl6d8DlAwxiJKCLyPMqOBfL9LEGPEJ+5IYOWiFY
+   U/OWFTje2nY0ZkkCx19NiJkLM7ePwqeo7DEenrbc/IzLwqhA1wT7A0oif
+   gzRiAfZWuO0NdQVk3Gnxl4VYSY1kRYysMkfPrVJxMVqxA56tpBxwxqBQV
+   wFKeeRxTbo8CZEuurqNkjF3eFC/fSXRJ00TVfFYDjeRsuIk1pnDYN8i0V
+   BLCxNkVSua5eSUALD/KmGD1kGFUc9SPG7ntlMcTzZGTPzmBuSNQMggCMj
+   3AoAt5xz4vQJCrGNDP7BaPsg9v0OfIncSny5muYCesLHIQY0aL3eKb/s5
+   Q==;
+X-CSE-ConnectionGUID: 6TvpmhAxTcGE03cMKhZM+g==
+X-CSE-MsgGUID: dFpwQQDcTFqJlm5BA0pBbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="68824834"
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="68824834"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 11:19:58 -0800
+X-CSE-ConnectionGUID: 6HxKoiAAS8OaMQxKAdzIhg==
+X-CSE-MsgGUID: 5Xu/1XdnT2eQM856JBPd1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.20,229,1758610800"; 
+   d="scan'208";a="192843662"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 11:19:51 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 11:19:50 -0800
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29 via Frontend Transport; Wed, 26 Nov 2025 11:19:50 -0800
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.45) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Wed, 26 Nov 2025 11:19:50 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eF0O+biiaoUBEuKZ+13MLOvDXBIsOF+fu2KPGD0TKah1/pAmjAdLohOM60jXXzLHDtg2ky8L5pDFdeODCRaj5giMXSUXQCrMVno4vfnF1LJTvsnFyCTONkaz/778TUStu0ucrTFA7Al4yHr6WYU9NIC4QLUtcFEWDyGbGLyyG6hDKG/2Gvg+EB5rgwJkiZ1EBwrQBckl8RBjh5lpn010vW5NFMSRZJvgvJQCUfkj4p7fjJpKCH7CFyEuDRVa395KCUi7Kh+jHpdUVd5u/khTKN1ltV6tMuOrL0TdC1iJCpkjb/iYwIh2J1hTebzXoFLQPwDEZDCkf2kv1QjlCpUb3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=STTkpdEOzB8tCCeYp5kr6c4nYBFy2H0GAGci6HsX03M=;
+ b=D+MW68EZSq/mZjE92nBwn1mqcwoCvabMzUDCPxNYnNDldcHajHjX6A7rXd+HryfxxFE/nDGLeKvJmuLvW+QLCENJ+nqLQWmpbGprg44yp/GaBuxOIKG6RyDDQNGAAP2D4C77PJ3RaPVwMxPlvrDUeMxDQ3LaZYh2DU8/TjuYGkTGT0f4i33k3oiqvCaiTVJh/ZvkFJDGFDaChYOVT2uHIcv3buA0aXYJ7DWsHCUY8Lku0AKlX1li2pBfKHVMUFVdiLh9rfXljRR/LWSVLov9Kjt+s1u0/aQMO/O2CHTDHKqmwzJyQzURNk2h3Jkj+4QmK5XN/yQ5gTgGPjPgPu3q2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM4PR11MB6360.namprd11.prod.outlook.com (2603:10b6:8:bd::12) by
+ IA3PR11MB9302.namprd11.prod.outlook.com (2603:10b6:208:579::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9366.12; Wed, 26 Nov 2025 19:19:47 +0000
+Received: from DM4PR11MB6360.namprd11.prod.outlook.com
+ ([fe80::8648:3a6b:af5c:b6e6]) by DM4PR11MB6360.namprd11.prod.outlook.com
+ ([fe80::8648:3a6b:af5c:b6e6%4]) with mapi id 15.20.9366.009; Wed, 26 Nov 2025
+ 19:19:47 +0000
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: Maarten Lankhorst <dev@lankhorst.se>, "intel-gfx@lists.freedesktop.org"
+	<intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+	<intel-xe@lists.freedesktop.org>, =?iso-8859-1?Q?Ville_Syrj=E4l=E4?=
+	<ville.syrjala@linux.intel.com>
+CC: "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>, "Mario
+ Kleiner" <mario.kleiner.de@gmail.com>, Mike Galbraith
+	<umgwanakikbuti@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, "Sebastian
+ Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Subject: RE: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+ intel_pipe_fastset
+Thread-Topic: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+ intel_pipe_fastset
+Thread-Index: AQHcTWY1yWfvSF63uUSMAhwOOG89ErUFd4mg
+Date: Wed, 26 Nov 2025 19:19:47 +0000
+Message-ID: <DM4PR11MB63609A43C9B11091A5FB41EFF4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
+References: <20251104083634.670753-1-dev@lankhorst.se>
+ <20251104083634.670753-3-dev@lankhorst.se>
+In-Reply-To: <20251104083634.670753-3-dev@lankhorst.se>
+Accept-Language: en-US
+Content-Language: en-US
+X-Mentions: ville.syrjala@linux.intel.com
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM4PR11MB6360:EE_|IA3PR11MB9302:EE_
+x-ms-office365-filtering-correlation-id: cfa6b5f9-1965-476f-b0fe-08de2d20c34b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?dOEUNdLkI2artj7KUeF3VXEhNMArqd2KBUj7XkJlIzQG+WSao/8EGVEvfT?=
+ =?iso-8859-1?Q?zj2TSfLmI3UOFx6rMyK01wddrxjvw4kQQ6TeyXHuK31ptPCh1lgiwZQxqB?=
+ =?iso-8859-1?Q?LtLO6jzKRn58ZPNXYHVjVApK3A3T+5KinWY6X1Qtm3auc8S6V/zDqc5pTa?=
+ =?iso-8859-1?Q?rxTziFIe1YS8CXWvSE31KU4w62/L6A3Vf8CPUDaFyGSaumzRqAiPHQxob0?=
+ =?iso-8859-1?Q?s3r7XaxHWYM/4OcHUN4y9Ri2qHOHRSV1JAJqun1B6gmRoN3JnPbr5iHeKB?=
+ =?iso-8859-1?Q?cvKAiLAvW1GxmdXaQ84xxgkhs6WbF0JAHWS9lXIcSKYKDqLRGTaYFi8Vh3?=
+ =?iso-8859-1?Q?tPhSXSqAEc/xkYFhF/S2A88DNEse4Po0nWD7bmWxGHZFvoS7wVxrYMB5uu?=
+ =?iso-8859-1?Q?PR8h9+N5OQyZithnMqTU1GCxMLaRNZ0a1y2j70beabhlUajwQfi6LyznEs?=
+ =?iso-8859-1?Q?decXCQ3XjPya4MVkSgXwM0OtaEGPC8d4XsJqavtcoLrmtvfK2pe2t564zA?=
+ =?iso-8859-1?Q?bC2DPH5kNZt/dl1fEjHAcBVveFZLSa0DKo1b03Mg5h+jvQKNB/EPWoDqtm?=
+ =?iso-8859-1?Q?+VSz9uGu87172QtNnXG8p59anDETVxw/qopQV4Z1nZrweu3DkH4uil784G?=
+ =?iso-8859-1?Q?vWcb6XJWpWAwsXy/0UWjBaBxQqBIF5NtdzZJC/gN7BXQfRoXyD8SKxc31K?=
+ =?iso-8859-1?Q?VHecqaDUCsXrzPtKys63yb+x40LPgmYv/17lRv2nL8VkWhn79bpHu6gpgh?=
+ =?iso-8859-1?Q?KLvycpkvvBRCKOOPblJQeEyI64seZPPSNgdiABOx7tKwxjbHRVv0uTc+Rv?=
+ =?iso-8859-1?Q?j1hOUecvDu9pvkgmY3+NOu188FKfmL7EWh6XkneqXUxNbduUXXvVpVRnNR?=
+ =?iso-8859-1?Q?mbp8bD/PUaIZ8egj1v1V4ITYrbfTCLWpiBchcVUsGToFfmJUs4Qc+pK6FU?=
+ =?iso-8859-1?Q?6Y6sXVlAdq5Bu+OxWVAUMSgqZZhaPf+a01GcnWN3qQafL4UxFuTlToXAAq?=
+ =?iso-8859-1?Q?GwK5uwqDQYc47CUjskQv2sOsHd7t4cvB45/0o4ygUkkPFYAIjBmGuDIiqg?=
+ =?iso-8859-1?Q?BcQyheFN8VqfKqFLQwKoHfIGkYTE/KQydpPu0pKJ/H+C83Lf123HXeFU6v?=
+ =?iso-8859-1?Q?U8ufRuaeBMDLkpc09m0QBRH62o9QCAkrIsEadjtQWmGlNV5R4IgYLOrvBI?=
+ =?iso-8859-1?Q?yyzB9yDtfeORYndZKi8Nz0tnQZXGk4yIPFdlG08ZZ+FpbhwFsGhneJkic0?=
+ =?iso-8859-1?Q?YkX6gj5hPJvJ0W2qA3JdVDIHvKs1c/5DdpuZJwBFOn6flxaeVvuLtFlJMD?=
+ =?iso-8859-1?Q?dTXH77tf+ubAZfbg4jfDKEMtU1eAa9JgKeTcedWW0yCdzxi4QcEFNYzhIy?=
+ =?iso-8859-1?Q?lhPnWYe8HZhDgwl0kUFRwVB4Uoj7BpgIyyDZoT96VqtcgKy6mdh/d1o8qo?=
+ =?iso-8859-1?Q?/woqx94J2v9gWejK0xEUeAm87EIY0zJs522jscogH2lVJP7IrRJ2izk/0J?=
+ =?iso-8859-1?Q?SeDPlLhftxhOn/c+t0x27H7443WtoWIhyqzA6oHKOK0GlEi3z44CK8GAgB?=
+ =?iso-8859-1?Q?6H/Rg3e082yHRm9FUJdPUa/p7ZpV?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6360.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?yuJNupX9iyLHxbknTLCebjJ4ig31UwQz4By6hmr+Gc3Kc/Witsl2bXm/h9?=
+ =?iso-8859-1?Q?GSYZYY5KGq6f6MdNwFAxvr+K2Y7/vEvUjtIeir9XQjTErVVDpPyHmEPP1E?=
+ =?iso-8859-1?Q?oPHF8ahv54HVq2/C/5YCdOcAiqEjt8kYEVBwHB6VkQ3J6NcEjHAzStzjBe?=
+ =?iso-8859-1?Q?Mz5qLMPaLqUWXIDF72msL6JoCP+yBil+i7cvd/haiq+tL8a7LJP7jog+hf?=
+ =?iso-8859-1?Q?gz2upl8fp4dm33iONFcuPW+GikLWZVx9s5YqgrlGFmUy56toMWpOSN2qj/?=
+ =?iso-8859-1?Q?17qz40mxv1pxSPu+3kWZhVfCoNE4v0YDlonDqDH8fiAA1EdYB8e2+ls4p1?=
+ =?iso-8859-1?Q?uUjGKwpqAEkZFJW/japO499yxJhWzHjRClCZU1+CC8ZL+NnrwqXBDWLA1B?=
+ =?iso-8859-1?Q?DY+r9NOi+XjR/QnJBt2pjLRnmSwdgbTodqiEfikyb+qrKP9N8vxqtXyNLZ?=
+ =?iso-8859-1?Q?l+HwcCs91R/03tuU5nG6YwptV8UxNYiZe3OKkJyxhNDHu1hIYDMnw2ACgx?=
+ =?iso-8859-1?Q?D5pJwFLTPwsYjPAhalUnI4oz1YrbTCnMQtxKX+wh4dxaz4/dkVScCAaNYu?=
+ =?iso-8859-1?Q?f5zau0uRhzWQYqKDFbi+NORHZhIjvwZjLPo0yKPmDCBqHzuXe0XvQC1jdn?=
+ =?iso-8859-1?Q?Q2xZH0u/uidHV4/2ZhlQ6f9/mAWp2t6XS8BhoMeNeGnulMDt6xKTsJHjA0?=
+ =?iso-8859-1?Q?Hs0YurmnL5FMN3kE9yNsEOU4MU0z3wLym4O92sApquXOUW+nUnWAAusJM+?=
+ =?iso-8859-1?Q?YBBUIOmUnxUVclNE0WSXHzzY3ZwXcWGng3EqTCT606Gp2GDS7FInYKmzOg?=
+ =?iso-8859-1?Q?C46CaqOAnASfjjCxYeaJAXKUsg+O+LsClomQuFzZwU5sOy2e9VaITStVmY?=
+ =?iso-8859-1?Q?1/vKAR8AIWc8SyzOPQrHPvPIZpGoR+ysy3RTldpGQmzAvA+Dn/53qN50Nf?=
+ =?iso-8859-1?Q?V47p3xtKiNi3Hv0NcDREy9mv7ZDkWy9pTpGzN8SmRr5qD+n7yXJyWw9EPA?=
+ =?iso-8859-1?Q?EPlvUjm2nU1ehw7YvSkr9tuUrZRkZns9VjwupRXl3HEnHnwV62sv3l+uyp?=
+ =?iso-8859-1?Q?QaFMRxJzdVOekDTM6Ak3uQQJqIvCOHAstyJpL+BMwaVr4h30pEAuhzj9LV?=
+ =?iso-8859-1?Q?VfeBZqzkLCTNT04CL0uU31Lh/N+4GjvQWEE15nyCBvx84bkDCaWX8pGOBP?=
+ =?iso-8859-1?Q?cXB157d11BTuUnTbtO59FCDu8UgmbpZJl5XWREvJjv7K08W0U+RIGOhEC1?=
+ =?iso-8859-1?Q?/A74B5kblcxSBsfwDnPnssdND9MYuPud2pnVwKPH1u77azkYcTBvGYa0kj?=
+ =?iso-8859-1?Q?+6I92LIvep9SDo5ka86SW7vPztc+RuCl7Q+sjqdLmyXktidS8fg6Nefau2?=
+ =?iso-8859-1?Q?+lYPJgdzi1mfBJgqM5Dcufi69o6qbNh2HKpVuNeCKWZGhWmdnGTvFBW3QZ?=
+ =?iso-8859-1?Q?1jMoaRJT2xsrB/YdlIpkKNCdKAZkBk/zQQH9XJoAP+hxfXsScbfy24mkXK?=
+ =?iso-8859-1?Q?E7ZHrWObc02E7bofqZpoTfAQUDhymYpwQ3S1UHbcN0ByX71Ltzs+YwE0y8?=
+ =?iso-8859-1?Q?QLRwItuM7gX/OgrZvznAHNrpy5ilbqCOItWbt8OJDZFaB6PcfJ6Dt9wt1Q?=
+ =?iso-8859-1?Q?V7Hv6qU/k8uqYN9gwbX8GwaX9so+gDJ7XR?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251126-i2c-dw-v4-7-b0654598e7c5@bootlin.com>
-References: <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
-In-Reply-To: <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
-To: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jarkko Nikula <jarkko.nikula@linux.intel.com>, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Jan Dabros <jsd@semihalf.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
- Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, 
- =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6360.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfa6b5f9-1965-476f-b0fe-08de2d20c34b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Nov 2025 19:19:47.1516
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7wCXNocWdxU4NSrckJzZqDs5bOl79XygsNzyAWFG4S6tX3aFYu5vobkU5DcijFui97GmJino0zTuQAYc2tVDYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9302
+X-OriginatorOrg: intel.com
 
-If IC_EMPTYFIFO_HOLD_MASTER_EN parameter is 0, "Stop" and "Repeated Start"
-bits in command register does not exist, thus it is impossible to send
-several consecutive write messages in a single hardware batch. The
-existing implementation worked with such configuration incorrectly:
-all consecutive write messages are joined into a single message without
-any Start/Stop or Repeated Start conditions. For example, the following
-command:
 
-    i2ctransfer -y 0 w1@0x55 0x00 w1@0x55 0x01
 
-does the same as
+> -----Original Message-----
+> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Ma=
+arten
+> Lankhorst
+> Sent: Tuesday, November 4, 2025 2:06 PM
+> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org
+> Cc: linux-rt-devel@lists.linux.dev; Maarten Lankhorst <dev@lankhorst.se>;=
+ Mario
+> Kleiner <mario.kleiner.de@gmail.com>; Mike Galbraith
+> <umgwanakikbuti@gmail.com>; Thomas Gleixner <tglx@linutronix.de>; Sebasti=
+an
+> Andrzej Siewior <bigeasy@linutronix.de>; Clark Williams
+> <clrkwllms@kernel.org>; Steven Rostedt <rostedt@goodmis.org>
+> Subject: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+> intel_pipe_fastset
+>=20
+> intel_set_pipe_src_size(), hsw_set_linetime_wm(),
+> intel_cpu_transcoder_set_m1_n1() and intel_set_transcoder_timings_lrr()
+> are called from an atomic context on PREEMPT_RT, and should be using the =
+_fw
+> functions.
 
-    i2ctransfer -y 0 w2@0x55 0x00 0x01
+This could be ok but we need to be sure that all are called with power doma=
+ins up.
+I think would be safe to keep this under RT check so that we don't end up b=
+reaking any
+generic non RT usecase.
 
-In i2c_dw_msg_is_valid(), we ensure that we do not have such sequence
-of messages requiring a RESTART, aborting the transfer on controller
-that cannot emit them explicitly.
+@Ville Syrj=E4l=E4 Any thoughts on this ?
 
-This behavior is activated by compatible entries because the state of
-the IC_EMPTYFIFO_HOLD_MASTER_EN parameter cannot be detected at runtime.
-The new flag emptyfifo_hold_master reflects the state of the parameter,
-it is set to true for all controllers except those found in Mobileye
-SoCs. For now, the controllers in Mobileye SoCs are the only ones known
-to need the workaround. The behavior of the driver is left unmodified
-for other controllers.
+Regards,
+Uma Shankar
 
-There is another possible problem with this controller configuration:
-When the CPU is putting commands to the FIFO, this process must not be
-interrupted because if FIFO buffer gets empty, the controller finishes
-the I2C transaction and generates STOP condition on the bus.
-
-If we continue writing the remainder of the message to the FIFO, the
-controller will start emitting a new transaction with those data. This
-turns a single a single message into multiple I2C transactions. To
-protect against FIFO underrun, two changes are done:
-
-First we flag the interrupt with IRQF_NO_THREAD, to prevent it from
-running in a thread on PREEMPT-RT kernel. This ensures that we are not
-interrupted when filling the FIFO as it is very time-senstive. For
-example, being preempted after writing a single byte in the FIFO with
-a 1MHz bus gives us only 18µs before an underrun.
-
-Second in i2c_dw_process_transfer(), we abort if a STOP is detected
-while a read or a write is in progress. This can occur when processing
-a message larger than the FIFO. In that case the message is processed in
-parts, and rely on the TX EMPTY interrupt to refill the FIFO when it gets
-below a threshold. If servicing this interrupt is delayed for too long,
-it can trigger a FIFO underrun, thus an unwanted STOP.
-
-Originally-by: Dmitry Guzman <dmitry.guzman@mobileye.com>
-Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
----
- drivers/i2c/busses/i2c-designware-common.c  |  6 ++++++
- drivers/i2c/busses/i2c-designware-core.h    |  3 +++
- drivers/i2c/busses/i2c-designware-master.c  | 32 +++++++++++++++++++++++++++++
- drivers/i2c/busses/i2c-designware-platdrv.c |  1 +
- 4 files changed, 42 insertions(+)
-
-diff --git a/drivers/i2c/busses/i2c-designware-common.c b/drivers/i2c/busses/i2c-designware-common.c
-index 5b1e8f74c4ac..446d567eafeb 100644
---- a/drivers/i2c/busses/i2c-designware-common.c
-+++ b/drivers/i2c/busses/i2c-designware-common.c
-@@ -388,6 +388,12 @@ int i2c_dw_fw_parse_and_configure(struct dw_i2c_dev *dev)
- 
- 	dev->clk_freq_optimized = device_property_read_bool(device, "snps,clk-freq-optimized");
- 
-+	/* Mobileye controllers do not hold the clock on empty FIFO */
-+	if (device_is_compatible(device, "mobileye,eyeq6lplus-i2c"))
-+		dev->emptyfifo_hold_master = false;
-+	else
-+		dev->emptyfifo_hold_master = true;
-+
- 	i2c_dw_adjust_bus_speed(dev);
- 
- 	if (is_of_node(fwnode))
-diff --git a/drivers/i2c/busses/i2c-designware-core.h b/drivers/i2c/busses/i2c-designware-core.h
-index 347843b4f5dd..620472b15730 100644
---- a/drivers/i2c/busses/i2c-designware-core.h
-+++ b/drivers/i2c/busses/i2c-designware-core.h
-@@ -246,6 +246,8 @@ struct reset_control;
-  * @clk_freq_optimized: if this value is true, it means the hardware reduces
-  *	its internal clock frequency by reducing the internal latency required
-  *	to generate the high period and low period of SCL line.
-+ * @emptyfifo_hold_master: true if the controller acting as master holds
-+ *	the clock when the Tx FIFO is empty instead of emitting a stop.
-  *
-  * HCNT and LCNT parameters can be used if the platform knows more accurate
-  * values than the one computed based only on the input clock frequency.
-@@ -305,6 +307,7 @@ struct dw_i2c_dev {
- 	struct i2c_bus_recovery_info rinfo;
- 	u32			bus_capacitance_pF;
- 	bool			clk_freq_optimized;
-+	bool			emptyfifo_hold_master;
- };
- 
- #define ACCESS_INTR_MASK			BIT(0)
-diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
-index 907597c7a05c..cef2231a2571 100644
---- a/drivers/i2c/busses/i2c-designware-master.c
-+++ b/drivers/i2c/busses/i2c-designware-master.c
-@@ -710,6 +710,14 @@ static void i2c_dw_process_transfer(struct dw_i2c_dev *dev, unsigned int stat)
- 	if (stat & DW_IC_INTR_TX_EMPTY)
- 		i2c_dw_xfer_msg(dev);
- 
-+	/* Abort if we detect a STOP in the middle of a read or a write */
-+	if ((stat & DW_IC_INTR_STOP_DET) &&
-+	    (dev->status & (STATUS_READ_IN_PROGRESS | STATUS_WRITE_IN_PROGRESS))) {
-+		dev_err(dev->dev, "spurious STOP detected\n");
-+		dev->rx_outstanding = 0;
-+		dev->msg_err = -EIO;
-+	}
-+
- 	/*
- 	 * No need to modify or disable the interrupt mask here.
- 	 * i2c_dw_xfer_msg() will take care of it according to
-@@ -892,6 +900,16 @@ i2c_dw_msg_is_valid(struct dw_i2c_dev *dev, const struct i2c_msg *msgs, size_t i
- 		return false;
- 	}
- 
-+	/*
-+	 * Make sure we don't need explicit RESTART between two messages
-+	 * in the same direction for controllers that cannot emit them.
-+	 */
-+	if (!dev->emptyfifo_hold_master &&
-+	    (msgs[idx - 1].flags & I2C_M_RD) == (msgs[idx].flags & I2C_M_RD)) {
-+		dev_err(dev->dev, "cannot emit RESTART\n");
-+		return false;
-+	}
-+
- 	return true;
- }
- 
-@@ -1110,6 +1128,20 @@ int i2c_dw_probe_master(struct dw_i2c_dev *dev)
- 		irq_flags = IRQF_SHARED | IRQF_COND_SUSPEND;
- 	}
- 
-+	/*
-+	 * The first writing to TX FIFO buffer causes transmission start.
-+	 * If IC_EMPTYFIFO_HOLD_MASTER_EN is not set, when TX FIFO gets
-+	 * empty, I2C controller finishes the transaction. If writing to
-+	 * FIFO is interrupted, FIFO can get empty and the transaction will
-+	 * be finished prematurely. FIFO buffer is filled in IRQ handler,
-+	 * but in PREEMPT_RT kernel IRQ handler by default is executed
-+	 * in thread that can be preempted with another higher priority
-+	 * thread or an interrupt. So, IRQF_NO_THREAD flag is required in
-+	 * order to prevent any preemption when filling the FIFO.
-+	 */
-+	if (!dev->emptyfifo_hold_master)
-+		irq_flags |= IRQF_NO_THREAD;
-+
- 	ret = i2c_dw_acquire_lock(dev);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/i2c/busses/i2c-designware-platdrv.c b/drivers/i2c/busses/i2c-designware-platdrv.c
-index d7d764f7554d..f1714d287462 100644
---- a/drivers/i2c/busses/i2c-designware-platdrv.c
-+++ b/drivers/i2c/busses/i2c-designware-platdrv.c
-@@ -346,6 +346,7 @@ static void dw_i2c_plat_remove(struct platform_device *pdev)
- 
- static const struct of_device_id dw_i2c_of_match[] = {
- 	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
-+	{ .compatible = "mobileye,eyeq6lplus-i2c" },
- 	{ .compatible = "mscc,ocelot-i2c", .data = (void *)MODEL_MSCC_OCELOT },
- 	{ .compatible = "snps,designware-i2c" },
- 	{}
-
--- 
-2.52.0
+> This likely prevents a deadlock on i915.
+>=20
+> Again noticed when trying to disable preemption in vblank evasion:
+> <3> BUG: sleeping function called from invalid context at
+> kernel/locking/spinlock_rt.c:48 <3> in_atomic(): 1, irqs_disabled(): 0, n=
+on_block:
+> 0, pid: 1505, name: kms_cursor_lega <3> preempt_count: 1, expected: 0 <3>
+> RCU nest depth: 0, expected: 0 <4> 4 locks held by kms_cursor_lega/1505:
+> <4>  #0: ffffc90003c6f988 (crtc_ww_class_acquire){+.+.}-{0:0}, at:
+> drm_mode_atomic_ioctl+0x13b/0xe90 <4>  #1: ffffc90003c6f9b0
+> (crtc_ww_class_mutex){+.+.}-{3:3}, at: drm_mode_atomic_ioctl+0x13b/0xe90 =
+<4>
+> #2: ffff888135b838b8 (&intel_dp->psr.lock){+.+.}-{3:3}, at:
+> intel_psr_lock+0xc5/0xf0 [xe] <4>  #3: ffff88812607bbc0 (&wl->lock){+.+.}=
+-{2:2},
+> at: intel_dmc_wl_get+0x3c/0x140 [xe]
+> <4> CPU: 6 UID: 0 PID: 1505 Comm: kms_cursor_lega Tainted: G     U
+> 6.18.0-rc3-lgci-xe-xe-pw-156729v1+ #1 PREEMPT_{RT,(lazy)}
+> <4> Tainted: [U]=3DUSER
+> <4> Hardware name: Intel Corporation Panther Lake Client Platform/PTL-UH =
+LP5
+> T3 RVP1, BIOS PTLPFWI1.R00.3383.D02.2509240621 09/24/2025 <4> Call Trace:
+> <4>  <TASK>
+> <4>  dump_stack_lvl+0xc1/0xf0
+> <4>  dump_stack+0x10/0x20
+> <4>  __might_resched+0x174/0x260
+> <4>  rt_spin_lock+0x63/0x200
+> <4>  ? intel_dmc_wl_get+0x3c/0x140 [xe]
+> <4>  intel_dmc_wl_get+0x3c/0x140 [xe]
+> <4>  intel_set_pipe_src_size+0x89/0xe0 [xe] <4>  intel_update_crtc+0x3c1/=
+0x950
+> [xe] <4>  ? intel_pre_update_crtc+0x258/0x400 [xe] <4>
+> skl_commit_modeset_enables+0x217/0x720 [xe] <4>
+> intel_atomic_commit_tail+0xd4e/0x1af0 [xe] <4>  ? lock_release+0xce/0x2a0=
+ <4>
+> intel_atomic_commit+0x2e5/0x330 [xe] <4>  ? intel_atomic_commit+0x2e5/0x3=
+30
+> [xe] <4>  drm_atomic_commit+0xaf/0xf0 <4>  ?
+> __pfx___drm_printfn_info+0x10/0x10
+> <4>  drm_mode_atomic_ioctl+0xbd5/0xe90
+> <4>  ? lock_acquire+0xc4/0x2e0
+> <4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> <4>  drm_ioctl_kernel+0xb6/0x120
+> <4>  drm_ioctl+0x2d7/0x5a0
+> <4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
+> <4>  ? rt_spin_unlock+0xa0/0x140
+> <4>  ? __pm_runtime_resume+0x53/0x90
+> <4>  xe_drm_ioctl+0x56/0x90 [xe]
+> <4>  __x64_sys_ioctl+0xa8/0x110
+> <4>  ? lock_acquire+0xc4/0x2e0
+> <4>  x64_sys_call+0x1144/0x26a0
+> <4>  do_syscall_64+0x93/0xae0
+> <4>  ? lock_release+0xce/0x2a0
+> <4>  ? __task_pid_nr_ns+0xd9/0x270
+> <4>  ? do_syscall_64+0x1b7/0xae0
+> <4>  ? find_held_lock+0x31/0x90
+> <4>  ? __task_pid_nr_ns+0xcf/0x270
+> <4>  ? __lock_acquire+0x43e/0x2860
+> <4>  ? __task_pid_nr_ns+0xd9/0x270
+> <4>  ? lock_acquire+0xc4/0x2e0
+> <4>  ? find_held_lock+0x31/0x90
+> <4>  ? __task_pid_nr_ns+0xcf/0x270
+> <4>  ? lock_release+0xce/0x2a0
+> <4>  ? __task_pid_nr_ns+0xd9/0x270
+> <4>  ? do_syscall_64+0x1b7/0xae0
+> <4>  ? do_syscall_64+0x1b7/0xae0
+> <4>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>=20
+> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
+> ---
+>  drivers/gpu/drm/i915/display/intel_display.c | 36 ++++++++++----------
+>  drivers/gpu/drm/i915/display/intel_vrr.c     | 16 ++++-----
+>  2 files changed, 26 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c
+> b/drivers/gpu/drm/i915/display/intel_display.c
+> index 42ec787986666..1bff1148fe9d7 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -1573,9 +1573,9 @@ static void hsw_set_linetime_wm(const struct
+> intel_crtc_state *crtc_state)
+>  	struct intel_display *display =3D to_intel_display(crtc_state);
+>  	struct intel_crtc *crtc =3D to_intel_crtc(crtc_state->uapi.crtc);
+>=20
+> -	intel_de_write(display, WM_LINETIME(crtc->pipe),
+> -		       HSW_LINETIME(crtc_state->linetime) |
+> -		       HSW_IPS_LINETIME(crtc_state->ips_linetime));
+> +	intel_de_write_fw(display, WM_LINETIME(crtc->pipe),
+> +			  HSW_LINETIME(crtc_state->linetime) |
+> +			  HSW_IPS_LINETIME(crtc_state->ips_linetime));
+>  }
+>=20
+>  static void hsw_set_frame_start_delay(const struct intel_crtc_state *crt=
+c_state)
+> @@ -2543,14 +2543,14 @@ void intel_set_m_n(struct intel_display *display,
+>  		   i915_reg_t data_m_reg, i915_reg_t data_n_reg,
+>  		   i915_reg_t link_m_reg, i915_reg_t link_n_reg)  {
+> -	intel_de_write(display, data_m_reg, TU_SIZE(m_n->tu) | m_n->data_m);
+> -	intel_de_write(display, data_n_reg, m_n->data_n);
+> -	intel_de_write(display, link_m_reg, m_n->link_m);
+> +	intel_de_write_fw(display, data_m_reg, TU_SIZE(m_n->tu) | m_n-
+> >data_m);
+> +	intel_de_write_fw(display, data_n_reg, m_n->data_n);
+> +	intel_de_write_fw(display, link_m_reg, m_n->link_m);
+>  	/*
+>  	 * On BDW+ writing LINK_N arms the double buffered update
+>  	 * of all the M/N registers, so it must be written last.
+>  	 */
+> -	intel_de_write(display, link_n_reg, m_n->link_n);
+> +	intel_de_write_fw(display, link_n_reg, m_n->link_n);
+>  }
+>=20
+>  bool intel_cpu_transcoder_has_m2_n2(struct intel_display *display, @@ -2=
+737,9
+> +2737,9 @@ static void intel_set_transcoder_timings_lrr(const struct
+> intel_crtc_state *crtc
+>  	}
+>=20
+>  	if (DISPLAY_VER(display) >=3D 13) {
+> -		intel_de_write(display,
+> -			       TRANS_SET_CONTEXT_LATENCY(display,
+> cpu_transcoder),
+> -			       crtc_state->set_context_latency);
+> +		intel_de_write_fw(display,
+> +				  TRANS_SET_CONTEXT_LATENCY(display,
+> cpu_transcoder),
+> +				  crtc_state->set_context_latency);
+>=20
+>  		/*
+>  		 * VBLANK_START not used by hw, just clear it @@ -2755,9
+> +2755,9 @@ static void intel_set_transcoder_timings_lrr(const struct
+> intel_crtc_state *crtc
+>  	 * The hardware actually ignores TRANS_VBLANK.VBLANK_END in DP
+> mode.
+>  	 * But let's write it anyway to keep the state checker happy.
+>  	 */
+> -	intel_de_write(display, TRANS_VBLANK(display, cpu_transcoder),
+> -		       VBLANK_START(crtc_vblank_start - 1) |
+> -		       VBLANK_END(crtc_vblank_end - 1));
+> +	intel_de_write_fw(display, TRANS_VBLANK(display, cpu_transcoder),
+> +			  VBLANK_START(crtc_vblank_start - 1) |
+> +			  VBLANK_END(crtc_vblank_end - 1));
+>  	/*
+>  	 * For platforms that always use VRR Timing Generator, the
+> VTOTAL.Vtotal
+>  	 * bits are not required. Since the support for these bits is going to =
+@@ -
+> 2771,9 +2771,9 @@ static void intel_set_transcoder_timings_lrr(const stru=
+ct
+> intel_crtc_state *crtc
+>  	 * The double buffer latch point for TRANS_VTOTAL
+>  	 * is the transcoder's undelayed vblank.
+>  	 */
+> -	intel_de_write(display, TRANS_VTOTAL(display, cpu_transcoder),
+> -		       VACTIVE(crtc_vdisplay - 1) |
+> -		       VTOTAL(crtc_vtotal - 1));
+> +	intel_de_write_fw(display, TRANS_VTOTAL(display, cpu_transcoder),
+> +			  VACTIVE(crtc_vdisplay - 1) |
+> +			  VTOTAL(crtc_vtotal - 1));
+>=20
+>  	intel_vrr_set_fixed_rr_timings(crtc_state);
+>  	intel_vrr_transcoder_enable(crtc_state);
+> @@ -2790,8 +2790,8 @@ static void intel_set_pipe_src_size(const struct
+> intel_crtc_state *crtc_state)
+>  	/* pipesrc controls the size that is scaled from, which should
+>  	 * always be the user's requested size.
+>  	 */
+> -	intel_de_write(display, PIPESRC(display, pipe),
+> -		       PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height -
+> 1));
+> +	intel_de_write_fw(display, PIPESRC(display, pipe),
+> +			  PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height
+> - 1));
+>  }
+>=20
+>  static bool intel_pipe_is_interlaced(const struct intel_crtc_state *crtc=
+_state) diff --
+> git a/drivers/gpu/drm/i915/display/intel_vrr.c
+> b/drivers/gpu/drm/i915/display/intel_vrr.c
+> index 00cbc126fb366..2e19673697fa4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vrr.c
+> +++ b/drivers/gpu/drm/i915/display/intel_vrr.c
+> @@ -300,12 +300,12 @@ void intel_vrr_set_fixed_rr_timings(const struct
+> intel_crtc_state *crtc_state)
+>  	if (!intel_vrr_possible(crtc_state))
+>  		return;
+>=20
+> -	intel_de_write(display, TRANS_VRR_VMIN(display, cpu_transcoder),
+> -		       intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
+> -	intel_de_write(display, TRANS_VRR_VMAX(display, cpu_transcoder),
+> -		       intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
+> -	intel_de_write(display, TRANS_VRR_FLIPLINE(display, cpu_transcoder),
+> -		       intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
+> +	intel_de_write_fw(display, TRANS_VRR_VMIN(display, cpu_transcoder),
+> +			  intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
+> +	intel_de_write_fw(display, TRANS_VRR_VMAX(display, cpu_transcoder),
+> +			  intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
+> +	intel_de_write_fw(display, TRANS_VRR_FLIPLINE(display,
+> cpu_transcoder),
+> +			  intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
+>  }
+>=20
+>  static
+> @@ -693,7 +693,7 @@ static void intel_vrr_tg_enable(const struct
+> intel_crtc_state *crtc_state,
+>  	enum transcoder cpu_transcoder =3D crtc_state->cpu_transcoder;
+>  	u32 vrr_ctl;
+>=20
+> -	intel_de_write(display, TRANS_PUSH(display, cpu_transcoder),
+> TRANS_PUSH_EN);
+> +	intel_de_write_fw(display, TRANS_PUSH(display, cpu_transcoder),
+> +TRANS_PUSH_EN);
+>=20
+>  	vrr_ctl =3D VRR_CTL_VRR_ENABLE | trans_vrr_ctl(crtc_state);
+>=20
+> @@ -705,7 +705,7 @@ static void intel_vrr_tg_enable(const struct
+> intel_crtc_state *crtc_state,
+>  	if (cmrr_enable)
+>  		vrr_ctl |=3D VRR_CTL_CMRR_ENABLE;
+>=20
+> -	intel_de_write(display, TRANS_VRR_CTL(display, cpu_transcoder),
+> vrr_ctl);
+> +	intel_de_write_fw(display, TRANS_VRR_CTL(display, cpu_transcoder),
+> +vrr_ctl);
+>  }
+>=20
+>  static void intel_vrr_tg_disable(const struct intel_crtc_state *old_crtc=
+_state)
+> --
+> 2.51.0
 
