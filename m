@@ -1,97 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3325831A07C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Nov 2025 07:43:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DBD333758
+	for <linux-rt-devel@lists.linux.dev>; Thu, 27 Nov 2025 14:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764229399; cv=none; b=FeNi+3W/NQuGy74B1UVLXFl4QEZeBV1UkdFvouEuJdldFnLn4nMuxgKJT6vuMrSlFggRdx62+Ur7TUbpcSMq8DtyKpGWr7IfjcfMX1VNxmf9RWGAFV3CCbHE430v+8p/ZQKYIBre94bwScztYRitvFNmTfUeD52frWnxP4ceTs4=
+	t=1764254509; cv=none; b=QPvClFzHTCZw8WPCAuBB4dkladQtiKLF1Q4vei95/IMxUwji2wF4OXMJUr5FtIHGxjO5GjnmvbuPbiC7xWgtmgji4hes2gmHN1KE/GWL6pq0AnC4vYQjjkiVFk9DI1L3+9A2PlhS64hmNa4oKMGu0Wb4b1zlY9pi1SN6+FxhMQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764229399; c=relaxed/simple;
-	bh=IgSnVci3DoQXYjVvI5E+txl5IZvhgQkySPJ6PPebZwM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F6/czEXoNrJRJI0AILTpTcx6wDtpHmcwwCAu0ap8/QwkOKNWNBrk4q1IKQ1yZxOm/7tq8S/HDY3oceJXMErJDvmN2IovpXKjwy9FkncMoKYhAMj+JCPR7cLD6tbuT9tFO+GUoLVje6shrodBuqB0KibtUP9Rl2BI5MuC7VCr6/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P7R/K4sc; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1764254509; c=relaxed/simple;
+	bh=S+wsllhbJoXpSzjuRs6ALvS49uum7jtLAV3yeCxQZiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k/R9PCAr6qbZaFkNt7n5TRJViRxhb7SgSwPi6S8ucR+SYUHwa3DygiWDDKwtvUmkRuM+DCkmlq0cBnOsx3iV/8mtIVXZW/QF3fjd/I0JiMp0rWH2C4ijv+NHa5WtzDqclTTP2dTyFRF4xk4qyqxAGdkoebeg/J/z10klXNu29ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QYBUa8Ld; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bOgrARZA; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P7R/K4sc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1764229398; x=1795765398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=IgSnVci3DoQXYjVvI5E+txl5IZvhgQkySPJ6PPebZwM=;
-  b=P7R/K4scGQRkY0jJHEyJQPrCgQkRcDTBpzNnbnjx4WPJFfN36mF7F8tz
-   qgRwcODy5hWttr6/Mcretia/1iWafevHMx72mGiCRiIWKJ8QN1I4quQ1j
-   IxXAhpW97uc7gREvbwV6gJ4ltCekKzTpeUHI15UEq3d8697K5e/NDuqRW
-   0aGI7IlryJ/nu5k2E6KT2DNZ6to6EJAItOzRs3FI+mvQOjIrY1EWXr6Xt
-   zJnYLqJx1jof8ioL5QbLBO6GA6BAgqQ6OCKy+ne9gOvhtb4zE3SCnp0Re
-   nR3oRkh0RxqQpR2ADPcHk9vMqlAgttx58ZOJ/lf7QCCWoIeCmSZI+k2TW
-   Q==;
-X-CSE-ConnectionGUID: R/ts+U78SuahfkNSX3Zycw==
-X-CSE-MsgGUID: cWeGL+SXRpGzpmC2j9j4KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11625"; a="68864882"
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="68864882"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 23:43:17 -0800
-X-CSE-ConnectionGUID: cI3DtGSsR3O+b0/Z0bHTvA==
-X-CSE-MsgGUID: POdg8W7zQ8yPeWjbmMRjug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.20,230,1758610800"; 
-   d="scan'208";a="197320014"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.225])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2025 23:43:13 -0800
-Date: Thu, 27 Nov 2025 09:43:10 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 6/7] i2c: designware: Use runtime PM macro for
- auto-cleanup
-Message-ID: <aSgBDvQ9hqaJDKTM@smile.fi.intel.com>
-References: <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
- <20251126-i2c-dw-v4-6-b0654598e7c5@bootlin.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QYBUa8Ld";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bOgrARZA"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1764254505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UqzZZE1LlVGOe3Wwo5gk2zeWoxauGBlGaiVGbVuZG1Y=;
+	b=QYBUa8LdhmETZff6VXXcuqKG2VsBUEDZB7kw9QiZYQjF4WScrx2Nkm9pYufi1jp8nguGIS
+	0p1waOlCVcuHPE/nE0hUi8ktPzaEQkRyX+dTwcgHO1QnBLTiKlChE5thNGL8SyMP+dgNv3
+	U9zfcJFSk/H/a5wLRRIrhbMt9Aoe5/zGHzQdlh+PNugcZYLV9Pu5HmJAHgHiAFcAp6qRWk
+	ZHU9E6nXiCWfoEc1nmENs4/PNDXX8pHnnx4OFvoiqwm+0BDSsDVhvstwTBzymD5rvXZsnx
+	PhUEPjpfz4Ptl6Rgm1fgYDen8fLz3dRech7vrPFmiA7qToDQOyjjq93HdLcBzg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1764254505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UqzZZE1LlVGOe3Wwo5gk2zeWoxauGBlGaiVGbVuZG1Y=;
+	b=bOgrARZAza53LuC5C5rw4/XSnicC0ErgnnIDj79sWBOH2/WzULi2UWrlT3J1LaRfQpNjTz
+	q7rVf15R1Z+QpbCA==
+To: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: tglx@linutronix.de,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v3 RESEND 0/2] locking/local_lock: shadowing and maintainers entry
+Date: Thu, 27 Nov 2025 15:41:38 +0100
+Message-ID: <20251127144140.215722-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251126-i2c-dw-v4-6-b0654598e7c5@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 26, 2025 at 11:46:29AM +0100, Benoît Monin wrote:
-> Simplify runtime PM handling in i2c_dw_xfer() by using the
-> pm_runtime_active_auto_try guard. This adds the proper handling for
-> runtime PM resume errors and allows us to get rid of the done and
-> done_nolock labels.
+This is a repost of two individual postings earlier:
+	https://lore.kernel.org/all/20250927090110.t8Tm9yrk@linutronix.de/=09
+	https://lore.kernel.org/all/20251009103900.2Fk8stnM@linutronix.de/
 
-LGTM,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Sebastian Andrzej Siewior (1):
+  locking: Add local_locks to MAINTAINERS
 
--- 
-With Best Regards,
-Andy Shevchenko
+Vincent Mailhol (1):
+  locking/local_lock: s/l/__l/ and s/tl/__tl/ to reduce risk of
+    shadowing
 
+ MAINTAINERS                         |  1 +
+ include/linux/local_lock_internal.h | 62 ++++++++++++++---------------
+ 2 files changed, 32 insertions(+), 31 deletions(-)
+
+--=20
+2.51.0
 
