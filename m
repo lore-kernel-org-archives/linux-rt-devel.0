@@ -1,33 +1,33 @@
 Received: from lankhorst.se (lankhorst.se [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EE921CC4F
-	for <linux-rt-devel@lists.linux.dev>; Mon,  1 Dec 2025 17:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4512629D28A
+	for <linux-rt-devel@lists.linux.dev>; Mon,  1 Dec 2025 17:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764610777; cv=none; b=bx09mWPyIUebKJIzMZHPZNfHgUaOfavIAWuLu1HfMi9TwxGr7aY9a5BPILy1nHITGfYaIKT1eFHSZGMXSpy64j9nYH4tsr2YRPcnVwTJvuqx1P2mhGbPyDFoJwRuu9IGFGe1lIMXrYBjoVUOCiVULKAVQck2qLgw9lRd6gB/eoY=
+	t=1764611008; cv=none; b=cNNaYtOPXYEcHHmPDibcvP2aDSRJRAxOfXwBoED9rKTzdQMw3YOtGJTtF0ENePA07Spwr2qhef9no8yrxUW7PCYoVxJyWaRhfGfFMe5t9DdKQh625uVbY3OzIsyfPIWi9Wn5RuNymjyPiAOavTBjjygoCVbMlzClCuREmNQaVEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764610777; c=relaxed/simple;
-	bh=nj69vDfQ1J5Yg610pI7e7INnJWVwsFbGOOnJeRlqGcg=;
+	s=arc-20240116; t=1764611008; c=relaxed/simple;
+	bh=BxsDMISbQaxID58sHXEnj5BiEwpTY+LpadDzPx4lhb4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OhppsP1KI4UBQrbs2Z6caOYNQFsV1g+nlnMMlyZJ0nIBEN2jZqFyokuZXjpoQqwY7FfxfBKpx0ndOmGRcmG8LNMcSJ+IFtFHLfkmbtBsfiVEzbqsMN/1HpnINGTTZX4BFlJjcDA1K+WjebEgTtKdr3tJIwHgWcGSvVuAABx7t3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=LV4hDDjr; arc=none smtp.client-ip=141.105.120.124
+	 In-Reply-To:Content-Type; b=qaUphk7x9a7kAB42DCzYgmUVOYYV9fFrnmuU4FDhCUxLdnVcPesGHg6omtnQ7vs8HjuR7+t2dEkv+MFdrqanCD0FEZKRM5SKkiBjbNQZN7/PhlFthcteIZzVd4kOHUTc3UM5NUAywBJP27XFLGRvjhwTxe3OwEm9y6IDT3OjLRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=O2mkU5pi; arc=none smtp.client-ip=141.105.120.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="LV4hDDjr"
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="O2mkU5pi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1764610771;
-	bh=nj69vDfQ1J5Yg610pI7e7INnJWVwsFbGOOnJeRlqGcg=;
+	s=default; t=1764611004;
+	bh=BxsDMISbQaxID58sHXEnj5BiEwpTY+LpadDzPx4lhb4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LV4hDDjrFj3Vp79lsRSplt3ypNAtHaoO7a8Mvu8Xz3AxckAhN96k0UCuiuNDCcY0D
-	 I31qq58lAeaAIQurkMHjhrQGSclVRGj4LdY4NWmw0Tl7xGy5qy5xU7JU+XHZgsZTDg
-	 rbNIjR1QiE6y70e7P60OUXIEms3vHz4o+hdIOUsTINMYqBg8lmkaRK6YipTU3L+h60
-	 1fOfsDb9VQ43pH1Hx6l4wmZ87MMjSizd8yqzYmKGJe7Hq02cobNAyS6mzhXoufeDmV
-	 v3BWdH5F7/hn2QIN/gf7NJjciMX9GFWTngLILp0Pb8RvTgiB9WwObmLPQXkAHU9IFn
-	 1x8HktxyBtKnA==
-Message-ID: <bb5c566e-6a9e-4d60-be74-b42a751032aa@lankhorst.se>
-Date: Mon, 1 Dec 2025 18:39:30 +0100
+	b=O2mkU5piUNT4OBKWPiULKjn7UM17dn4aArrm5TYlYkGumURqjrmfpE1UHNxMHlh3X
+	 qT/vnpiEl5JysI5RNJVlB0vRkKElSV9IZ9RPS4/rbY+Hi+AZms6M8SWN40UwkYrU5U
+	 ZKYAcdRLSnkJdT9C4Qewb4WV9WGrYmRyMt6eBd2FmS/lVrPfBgYSW3vuscKeRh0YGj
+	 Iy2Rw1QqJ+3zdpBahYpjxnMhTTT2IC6nWRR8y/NVy7sdl4ALwvhWMGwSCtFPICmuwa
+	 t4Fy4un+OwPLxAQ2lhJI8OXBkY4FvfLIvjFfsxCG5Cg4db9Qe+leETRoP0rSpyISg3
+	 olBJUoPSjOlzw==
+Message-ID: <e3cbdd41-951b-4e4d-9d47-3e0cb1a9fb45@lankhorst.se>
+Date: Mon, 1 Dec 2025 18:43:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,10 +35,10 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] drm/i915/display: Enable interrupts earlier on
- PREEMPT_RT
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>
+Subject: Re: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+ intel_pipe_fastset
+To: "Shankar, Uma" <uma.shankar@intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
 Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
  "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
@@ -48,105 +48,83 @@ Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 References: <20251104083634.670753-1-dev@lankhorst.se>
- <20251104083634.670753-7-dev@lankhorst.se>
- <DM4PR11MB63603779042D13B89E36BB02F4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
- <aSeFyN1iD5CwCZZ6@intel.com>
+ <20251104083634.670753-3-dev@lankhorst.se>
+ <DM4PR11MB63609A43C9B11091A5FB41EFF4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
+ <aSdYPKUJgbe84G1M@intel.com>
+ <DM4PR11MB6360D148BD7067E0BF59656AF4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
 Content-Language: en-US
 From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <aSeFyN1iD5CwCZZ6@intel.com>
+In-Reply-To: <DM4PR11MB6360D148BD7067E0BF59656AF4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Hey,
 
-Den 2025-11-26 kl. 23:57, skrev Ville Syrjälä:
-> On Wed, Nov 26, 2025 at 08:45:31PM +0000, Shankar, Uma wrote:
+Den 2025-11-26 kl. 20:56, skrev Shankar, Uma:
+> 
+> 
+>> -----Original Message-----
+>> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>> Sent: Thursday, November 27, 2025 1:13 AM
+>> To: Shankar, Uma <uma.shankar@intel.com>
+>> Cc: Maarten Lankhorst <dev@lankhorst.se>; intel-gfx@lists.freedesktop.org;
+>> intel-xe@lists.freedesktop.org; linux-rt-devel@lists.linux.dev; Mario Kleiner
+>> <mario.kleiner.de@gmail.com>; Mike Galbraith <umgwanakikbuti@gmail.com>;
+>> Thomas Gleixner <tglx@linutronix.de>; Sebastian Andrzej Siewior
+>> <bigeasy@linutronix.de>; Clark Williams <clrkwllms@kernel.org>; Steven
+>> Rostedt <rostedt@goodmis.org>
+>> Subject: Re: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+>> intel_pipe_fastset
 >>
+>> On Wed, Nov 26, 2025 at 07:19:47PM +0000, Shankar, Uma wrote:
+>>>
+>>>
+>>>> -----Original Message-----
+>>>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf
+>>>> Of Maarten Lankhorst
+>>>> Sent: Tuesday, November 4, 2025 2:06 PM
+>>>> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org
+>>>> Cc: linux-rt-devel@lists.linux.dev; Maarten Lankhorst
+>>>> <dev@lankhorst.se>; Mario Kleiner <mario.kleiner.de@gmail.com>; Mike
+>>>> Galbraith <umgwanakikbuti@gmail.com>; Thomas Gleixner
+>>>> <tglx@linutronix.de>; Sebastian Andrzej Siewior
+>>>> <bigeasy@linutronix.de>; Clark Williams <clrkwllms@kernel.org>;
+>>>> Steven Rostedt <rostedt@goodmis.org>
+>>>> Subject: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
+>>>> intel_pipe_fastset
+>>>>
+>>>> intel_set_pipe_src_size(), hsw_set_linetime_wm(),
+>>>> intel_cpu_transcoder_set_m1_n1() and
+>>>> intel_set_transcoder_timings_lrr()
+>>>> are called from an atomic context on PREEMPT_RT, and should be using
+>>>> the _fw functions.
+>>>
+>>> This could be ok but we need to be sure that all are called with power domains
+>> up.
+>>> I think would be safe to keep this under RT check so that we don't end
+>>> up breaking any generic non RT usecase.
 >>
->>> -----Original Message-----
->>> From: Intel-xe <intel-xe-bounces@lists.freedesktop.org> On Behalf Of Maarten
->>> Lankhorst
->>> Sent: Tuesday, November 4, 2025 2:07 PM
->>> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org
->>> Cc: linux-rt-devel@lists.linux.dev; Maarten Lankhorst <dev@lankhorst.se>; Mario
->>> Kleiner <mario.kleiner.de@gmail.com>; Mike Galbraith
->>> <umgwanakikbuti@gmail.com>; Thomas Gleixner <tglx@linutronix.de>; Sebastian
->>> Andrzej Siewior <bigeasy@linutronix.de>; Clark Williams
->>> <clrkwllms@kernel.org>; Steven Rostedt <rostedt@goodmis.org>
->>> Subject: [PATCH v2 6/7] drm/i915/display: Enable interrupts earlier on
->>> PREEMPT_RT
->>>
->>> The last part of the vblank evasion is about updating bookkeeping, not
->>> programming hardware registers.
->>>
->>> The interrupts cannot stay disabled here on PREEMPT_RT since the spinlocks get
->>> converted to mutexes.
->>>
->>> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
->>> ---
->>>  drivers/gpu/drm/i915/display/intel_crtc.c | 10 ++++++++++
->>>  1 file changed, 10 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c
->>> b/drivers/gpu/drm/i915/display/intel_crtc.c
->>> index 9d2a23c96c61b..b87f6b4a4f3d7 100644
->>> --- a/drivers/gpu/drm/i915/display/intel_crtc.c
->>> +++ b/drivers/gpu/drm/i915/display/intel_crtc.c
->>> @@ -688,6 +688,14 @@ void intel_pipe_update_end(struct intel_atomic_state
->>> *state,
->>>  	    intel_crtc_has_type(new_crtc_state, INTEL_OUTPUT_DSI))
->>>  		icl_dsi_frame_update(new_crtc_state);
->>>
->>> +#if IS_ENABLED(CONFIG_PREEMPT_RT)
->>> +	/*
->>> +	 * Timing sensitive register writing completed, non-deterministic
->>> +	 * locking from here on out.
->>> +	 */
->>> +	local_irq_enable();
->>> +#endif
+>> When removing the locks from register accesses one needs to consider what
+>> platforms the code runs on, what other register are on the same cacheline, and
+>> whether they can be accessed in parallel. If there is something there then we may
+>> not be able to remove the locks.
 >>
->> I think we do have VRR send push etc handled here, also arming registers are being updated.
->> Not sure we can allow interrupts here. Please check once
+>> That's assuming the "system hangs when same cacheline is accessed from
+>> multiple cpus" issue is real for display registers, and I'm actually not 100% it is.
+>> But we'd need to run some tests on the affected systems
+>> (~ivb/hsw) to get any kind of confidence here. IIRC some old intel_gpu_top thhat
+>> directly poked the registers was very good at hitting it on hsw at least, so that
+>> would be a decent starting point.
+>>
+>> Anyways, I'm going to be replacing the uncore lock with a display specific lock
+>> soonish, and I suppose I can just make that a raw spinlock to appease RT.
 > 
-> Yeah, this doesn't seem exactly great.
-> 
-> Even without VRR we want the register writes and vblank event arming
-> to happen in the same frame. Though without VRR I suppose the worst
-> that could happen is that we complete the commit one frame too late.
-> 
-> With VRR however we need the vblank event arming and push to happen
-> in the same frame. Otherwise we'll comple		te the flip early and leave
-> push send assrted, which causes the next frame to terminate at vmin.
-> Basically that makes the next frame a mailbox flip as far as push
-> send is concerned.
-> 
-> The race is already there, but allowing the CPU to get scheduled away
-> will widen it. We do try to handle it in the vblank evasion, but I
-> think we're handling it way too early (in intel_vblank_evade_init())
-> so that part itself is racy. I suppose we should rather do the vmin
-> vs. vmax evasion decision after we've actually read out the current
-> scanline. That should at least make it a bit more robust.
-> 
-> One other thing we could maybe think about is arming the vblank
-> event after the push is sent (with seq = current+1), and then
-> immediately check if the push bit already cleared, and if so
-> cancel the arming and send the event directly (with seq = current).
-> But that's just a quick idead that popped to my head, didn't really
-> think it through in detail.
-> 
-> I'm tempted to say we should just make the vblank locks raw spinlocks
-> as well. But I've not looked at what other drivers do in the vblank
-> hooks so dunno how feasible that is.
-> 
-Ideally we make the time critical code even faster, and fastest is
-pre-obtaining the vblank locks so no race is even possible in the timing sensitive part.
+> Thanks Ville, yeah I am also not confident to switch to the fw version. Even if we have
+> to try this should be made limited to RT cases, where we can contain and stabilize as
+> we test and find out any issues.
+> Direct poking of registers requires root privileges, so that should not be something we have to worry about. It's not something required by any driver.
 
-If we acquire a drm_vblank_get() and dev->event_lock before we begin
-vblank evasion, and release them afterwards then no conversion of the
-lock to a raw spinlock is required.
-
-This eliminates even more jitter, and turns the support of PREEMPT_RT
-in something positive. :-)
+The specific calls are called during modeset, fastset and pageflip, and by design there is no chance of those racing with each other. They're serialized between each other.
 
 Kind regards,
 ~Maarten Lankhorst
