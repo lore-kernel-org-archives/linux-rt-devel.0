@@ -1,108 +1,334 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C74398F82
-	for <linux-rt-devel@lists.linux.dev>; Thu,  4 Dec 2025 08:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2952B1A5B9E
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Dec 2025 07:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764836216; cv=none; b=sZ3cQeqTTeg+U5vSosWn9dnWsexrgpxPjFswLw/lsUZ7WuxxaWfQj0QlJaVpoCKHQ535nOLwBYcVc+ytUn4pIZfWnH9iLANfDTHARHBAre+7lNbO4hs3fVd/EOWw9YT4ZqKtDZlm3P4zMN2MM5S/iHF6k9Ip1Ps0DhsMLlHe1C4=
+	t=1764919159; cv=none; b=a1IISogPiMsFqXA9QS4i1meMBPRKBYJFbP5xSOp2qtx0E0fVoHbV3t7TI2Qb8bFhLi+Lx9Ta+otgvYzkDgWlGijDou/METTAUQifXL8Hk+hcC283LN3Na6OmhvHYN0wYQNRgtrrYaUeKGna5LKg3r0bwp42x/wIgg+zThthjRME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764836216; c=relaxed/simple;
-	bh=PBqHVl89VO5kWueOyW8krV36UzqYbqbHnFu6R2WlmXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qa3Nzh91JeW+1ecdOysvJvkYFnWMnvouqCaCN/EGwda1Z4/oA360lHyITIMmNzt6mjTZCLGeF1h5cqkd8b2S2b3ceGhgN6LxGTzQbGjCisOQu2yJoehiO7Xx734nhjFGsBM4brrZnD6VshZQ0ZvZKhJuQyTBBRsRqWOlXke/2Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BaVTv6rc; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BaVTv6rc"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 1A285C17841;
-	Thu,  4 Dec 2025 08:16:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 655CF6068C;
-	Thu,  4 Dec 2025 08:16:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E5E1211921FA4;
-	Thu,  4 Dec 2025 09:16:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1764836211; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=QO7KRtA5uIdpxLcOIs8l1kl0Fm67eo/lupIarBigM1I=;
-	b=BaVTv6rc3EtT0zdadVqYYAlViy6rZN0D2I0kymA6hAw9HegCchEyZjbk94U/i5Uq8wTctW
-	f9BPhKHLDSct0WDdX3Vjpw96fQylDD/dd0+gI3Xb0TBCEs4+6Om0dhmm4Pd7oUcueIfiVS
-	DSaaTPelYQ4uELRcGsAIQtGznzi8VDgDFhd09nTJZ95sHT2zzXsuoWRzkLPdDTLHGVZZqh
-	H1nmRGCEcxGTrybDt+1PB9QVQTEUyu/ZN9VXLBJjkhPrTI2ZYVQPUo1MYWFyhiffev19y3
-	yVgVU+aHp7e8LkbaQEJK3tYJhxv76f7X9pUVthUP9sSOmLgqNm48xbz/V2coJg==
-From: =?UTF-8?B?QmVub8OudA==?= Monin <benoit.monin@bootlin.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jarkko Nikula <jarkko.nikula@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Jan Dabros <jsd@semihalf.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>,
- =?UTF-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
- Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
- Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject:
- Re: [PATCH v4 0/7] i2c: designware: Improve support of multi-messages
- transfer
-Date: Thu, 04 Dec 2025 09:16:46 +0100
-Message-ID: <4840417.vXUDI8C0e8@benoit.monin>
-In-Reply-To: <gbuthxg24mqk3ofvnyqabwfxhwjwemrdtdowluvwub7odsm36u@jutqnsrthvv2>
-References:
- <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
- <gbuthxg24mqk3ofvnyqabwfxhwjwemrdtdowluvwub7odsm36u@jutqnsrthvv2>
+	s=arc-20240116; t=1764919159; c=relaxed/simple;
+	bh=UPgrUdj2zJuIcM2CRwF3Ndg48wh45GAuitrkG1THTag=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=Gog7LyH2r2u/CKkOdBp5Jy+GW55KRiPLoouF0Gsnj/LACtKUPBr5ZYC7tARYUaSQLj5GYP2BK63i3CHvl8WMcJ6xicHolEan8W0r++8LF2N2cztYQfEvKr1rgemSmh4y+kNqNf/hbLYRSfAescrcWDLAwncpOlaJ5BMz2q+xqTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-2b-6932876a9648
+From: Byungchul Park <byungchul@sk.com>
+To: linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com,
+	torvalds@linux-foundation.org,
+	damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org,
+	adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	will@kernel.org,
+	tglx@linutronix.de,
+	rostedt@goodmis.org,
+	joel@joelfernandes.org,
+	sashal@kernel.org,
+	daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com,
+	johannes.berg@intel.com,
+	tj@kernel.org,
+	tytso@mit.edu,
+	willy@infradead.org,
+	david@fromorbit.com,
+	amir73il@gmail.com,
+	gregkh@linuxfoundation.org,
+	kernel-team@lge.com,
+	linux-mm@kvack.org,
+	akpm@linux-foundation.org,
+	mhocko@kernel.org,
+	minchan@kernel.org,
+	hannes@cmpxchg.org,
+	vdavydov.dev@gmail.com,
+	sj@kernel.org,
+	jglisse@redhat.com,
+	dennis@kernel.org,
+	cl@linux.com,
+	penberg@kernel.org,
+	rientjes@google.com,
+	vbabka@suse.cz,
+	ngupta@vflare.org,
+	linux-block@vger.kernel.org,
+	josef@toxicpanda.com,
+	linux-fsdevel@vger.kernel.org,
+	jack@suse.cz,
+	jlayton@kernel.org,
+	dan.j.williams@intel.com,
+	hch@infradead.org,
+	djwong@kernel.org,
+	dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com,
+	melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com,
+	harry.yoo@oracle.com,
+	chris.p.wilson@intel.com,
+	gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com,
+	boqun.feng@gmail.com,
+	longman@redhat.com,
+	yunseong.kim@ericsson.com,
+	ysk@kzalloc.com,
+	yeoreum.yun@arm.com,
+	netdev@vger.kernel.org,
+	matthew.brost@intel.com,
+	her0gyugyu@gmail.com,
+	corbet@lwn.net,
+	catalin.marinas@arm.com,
+	bp@alien8.de,
+	x86@kernel.org,
+	hpa@zytor.com,
+	luto@kernel.org,
+	sumit.semwal@linaro.org,
+	gustavo@padovan.org,
+	christian.koenig@amd.com,
+	andi.shyti@kernel.org,
+	arnd@arndb.de,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	rppt@kernel.org,
+	surenb@google.com,
+	mcgrof@kernel.org,
+	petr.pavlu@suse.com,
+	da.gomez@kernel.org,
+	samitolvanen@google.com,
+	paulmck@kernel.org,
+	frederic@kernel.org,
+	neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com,
+	josh@joshtriplett.org,
+	urezki@gmail.com,
+	mathieu.desnoyers@efficios.com,
+	jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev,
+	juri.lelli@redhat.com,
+	vincent.guittot@linaro.org,
+	dietmar.eggemann@arm.com,
+	bsegall@google.com,
+	mgorman@suse.de,
+	vschneid@redhat.com,
+	chuck.lever@oracle.com,
+	neil@brown.name,
+	okorniev@redhat.com,
+	Dai.Ngo@oracle.com,
+	tom@talpey.com,
+	trondmy@kernel.org,
+	anna@kernel.org,
+	kees@kernel.org,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	mark.rutland@arm.com,
+	ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com,
+	wangkefeng.wang@huawei.com,
+	broonie@kernel.org,
+	kevin.brodsky@arm.com,
+	dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev,
+	ast@kernel.org,
+	ziy@nvidia.com,
+	yuzhao@google.com,
+	baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com,
+	joel.granados@kernel.org,
+	richard.weiyang@gmail.com,
+	geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com,
+	linux@treblig.org,
+	alexander.shishkin@linux.intel.com,
+	lillian@star-ark.net,
+	chenhuacai@kernel.org,
+	francesco@valla.it,
+	guoweikang.kernel@gmail.com,
+	link@vivo.com,
+	jpoimboe@kernel.org,
+	masahiroy@kernel.org,
+	brauner@kernel.org,
+	thomas.weissschuh@linutronix.de,
+	oleg@redhat.com,
+	mjguzik@gmail.com,
+	andrii@kernel.org,
+	wangfushuai@baidu.com,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	2407018371@qq.com,
+	dakr@kernel.org,
+	miguel.ojeda.sandonis@gmail.com,
+	neilb@ownmail.net,
+	bagasdotme@gmail.com,
+	wsa+renesas@sang-engineering.com,
+	dave.hansen@intel.com,
+	geert@linux-m68k.org,
+	ojeda@kernel.org,
+	alex.gaynor@gmail.com,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	lossin@kernel.org,
+	a.hindborg@kernel.org,
+	aliceryhl@google.com,
+	tmgross@umich.edu,
+	rust-for-linux@vger.kernel.org
+Subject: [PATCH v18 02/42] dept: add single event dependency tracker APIs
+Date: Fri,  5 Dec 2025 16:18:15 +0900
+Message-Id: <20251205071855.72743-3-byungchul@sk.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
+References: <20251205071855.72743-1-byungchul@sk.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0xTZxjHfc95z+lpY/WkmHjGPmCaLCYoDgiaZxkzxg/mGDNDMk1U5qWR
+	E1stoC1yMTPWcmnXqGE1QKCoBYairVLbLMOOai0GJUAoEqBhQIsQkBTihlTCZbAW45cnvyf/
+	y6c/Q8qGqHhGlZMnaHIUajktwZLZjfVJFwypqmSfUQzG0mswHJygYOC6F0Nk3oihttlOg9FZ
+	TcGbQT0G/xMbgmDEiGBh2ULCf+Z2Ecwv/i2CNU87gspeMwkfHas0hNvmEFSMTdCwNjJFwITX
+	gOBevSsqVP5Dw3J3DwlVFX4EdWMjJMxNhxB4mvQ09E1sAqveQ8EdixnB5JCHgOKGZhqehdwi
+	6A2vEGBz/gid5fUEVE3TYKkqJqLnPQEVj/8ioKthGIOlu4+Cd001IlgZS4E1ay48me2hoGN0
+	gILwpJmG4OsyCv7UhURgvzFJgtEdweAcj6p1Zb9jaG95R0Cfu5aGG44/KBi1r1GgsyxQ4Pd2
+	UvDW5sfQPBUgoKPmIYbGwV4CxkIBal8Wv1B6C/P2u3bELy+ZET/fWEzypeXRt23mA8mXuAr4
+	pUg/zXs+WTH/W3cS/6xmRMSXPB8S8VbnZb7k1SzFu5oS+YbWaSJjxwlJepagVuULmm/3npEo
+	P/Y2kxe7uML6UQfWIVecCTEMx6ZxluuHTUi8jj3eahxjmt3OBQKLZIy3sNs4181JyoQkDMn2
+	JXCGxVtkLBvHHuRuDx2NeTD7DdfSbSRiLGV3cxFbNf25M4GzObzrPWJ2D1cxuLTOsqjnnmlh
+	vZNjH4g5vyeIPge+4l42BXA5klrRhkdIpsrJz1ao1Gm7lEU5qsJdZ3OznSi6uPtXVzJb0Jz/
+	Jx9iGSTfKPUWpKhklCJfW5TtQxxDyrdIZ9TJKpk0S1F0RdDkntZcVgtaH/qawfKt0tRPBVky
+	9pwiT7ggCBcFzReVYMTxOvSzpFVxaqVls+PAvsT92heVPkdtXMbV7f2G/sxDZUmW7+RpCblP
+	Zz7s0dO/FIb6L6Xuz0iWHXHoF4+ePLCqm0nQiKfvhOLcb+ZbTULmMX6bW3Pu+K8/JIVXO/89
+	H1Rekbe1mZUyLq/rLhqo/n7KGb6WnlLQGe8YX2rMr+sYNuy0yrFWqUhJJDVaxf+EPtdSbQMA
+	AA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxScRTG+997uVxJ6o5c3VnNxlatF80y22m9zNaWt7ayVq3Wl2J1lwSa
+	A7Os9aLGJCunNCAkyyiphNSkIjMmWbreXJKVzjdqEenUbAoaGhnW+nL2O3ue8+z5cChcZOdF
+	UtLUdE6RKpGLSQEh2LIqJ/pQ7jJp7GBnJKhVp6HD7eHBxywnAX6fmoArFVYSgkY7H9RVBh68
+	aMkmoKncgsDtVyMYGTPioKoeJyCoaeCDL9DOB20WgnFHAwKdS4NDa1MtDtb7WRgMVf4moffZ
+	IALtZw8J+p4sAgbMFxAUeY186KlPhH53DQ/GO79h0DLch8Ds+Y2Bx5mLIKiTwTWTLXSu+0HC
+	WONbHPTaJgTXP3fiMNjzCcH9hi4EjtvZJHwteIBDs2cKvPcPkPBSe56EftcVDL5XklCS7eCB
+	600vgmKjBoG3zYFBzo0KEnTFVQRUf3rMB1fvLww6dBoMLFWbwW32EvC6wISF6oZc92aAUZ+D
+	hUY3Btq7NRgEzGX8hFLEjqjyCbbM9hBjVe+CJGu9akXs2KgGsb7SHJxVFYTWZ30DOHvWdpQt
+	fd1HsqP+DyTrGC4h2Fcmhr15bhRjCxuj2eqiTv7WdXsEqw9wcmkGp1iydp8gechVgae9YY6Z
+	uiqJM8g2LQ+FUQy9nHnrNBATTNLzmdbWAD7BEfQcxnbRy8tDAgqnm6OY3EB+SKCoafRG5lLb
+	zgkPQc9lHjWqsQkW0vGM32Ig/2VGMZZK59+cMHoFo20Z/cuikOda3givAAlK0KQyFCFNzUiR
+	SOXxMUpZcmaq9FjM/sMpVSj0TuaTvwofIV9zYh2iKSQOFzqPLpWKeJIMZWZKHWIoXBwh7JPH
+	SkXCA5LM45zi8F7FETmnrEMzKUI8Q7hpF7dPRB+UpHMyjkvjFP9VjAqLPIPu7diysnz5ne7n
+	SWsSmPcyr2xF++LJCy/vnt59h1s/OGwyShLT9SvLtxu+747dekowZP8yZeRdftRsePJ0SWGc
+	xndj1tRt+qBodrE9Zs18wyJLW239PEX95sjaqeF3b00PjO9Ns9d87IpLdnf/3PSt6PGCU3P7
+	mQ3+uKSk9mjbiYoTVjGhTJYsXYgrlJI/9TaX10oDAAA=
+X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Andy,
+Wrapped the base APIs for easier annotation on wait and event.  Start
+with supporting waiters on each single event.  More general support for
+multiple events is a future work.  Do more when the need arises.
 
-On Wednesday, 3 December 2025 at 19:36:04 CET, Andi Shyti wrote:
-> Hi Beno=C3=AEt,
->=20
-> >       dt-bindings: i2c: dw: Add Mobileye I2C controllers
-> >       i2c: designware: Optimize flag reading in i2c_dw_read()
-> >       i2c: designware: Sort compatible strings in alphabetical order
-> >       i2c: designware: Add dedicated algorithm for AMD NAVI
->=20
-> I merged to i2c/i2c-host until here.
->=20
-> >       i2c: designware: Implement I2C_M_STOP support
->=20
-> I'd like to check this a little better.
->=20
-> >       i2c: designware: Use runtime PM macro for auto-cleanup
-> >       i2c: designware: Support of controller with IC_EMPTYFIFO_HOLD_MAS=
-TER disabled
->=20
-> I will shift the last three patches for the next release. Is it
-> OK with you?
->=20
-Yes, no problem.
+How to annotate:
 
-> Andi
->=20
+1. Initaialize a map for the interesting wait.
 
-Best regards,
-=2D-=20
-Beno=C3=AEt Monin, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+   /*
+    * Place along with the wait instance.
+    */
+   struct dept_map my_wait;
 
+   /*
+    * Place in the initialization code.
+    */
+   sdt_map_init(&my_wait);
 
+2. Place the following at the wait code.
+
+   sdt_wait(&my_wait);
+
+3. Place the following at the event code.
+
+   sdt_event(&my_wait);
+
+That's it!
+
+Signed-off-by: Byungchul Park <byungchul@sk.com>
+---
+ include/linux/dept_sdt.h | 65 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 include/linux/dept_sdt.h
+
+diff --git a/include/linux/dept_sdt.h b/include/linux/dept_sdt.h
+new file mode 100644
+index 000000000000..0535f763b21b
+--- /dev/null
++++ b/include/linux/dept_sdt.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Single-event Dependency Tracker
++ *
++ * Started by Byungchul Park <max.byungchul.park@gmail.com>:
++ *
++ *  Copyright (c) 2020 LG Electronics, Inc., Byungchul Park
++ *  Copyright (c) 2024 SK hynix, Inc., Byungchul Park
++ */
++
++#ifndef __LINUX_DEPT_SDT_H
++#define __LINUX_DEPT_SDT_H
++
++#include <linux/kernel.h>
++#include <linux/dept.h>
++
++#ifdef CONFIG_DEPT
++#define sdt_map_init(m)							\
++	do {								\
++		static struct dept_key __key;				\
++		dept_map_init(m, &__key, 0, #m);			\
++	} while (0)
++
++#define sdt_map_init_key(m, k)		dept_map_init(m, k, 0, #m)
++
++#define sdt_wait(m)							\
++	do {								\
++		dept_request_event(m);					\
++		dept_wait(m, 1UL, _THIS_IP_, __func__, 0);		\
++	} while (0)
++
++/*
++ * sdt_might_sleep() and its family will be committed in __schedule()
++ * when it actually gets to __schedule(). Both dept_request_event() and
++ * dept_wait() will be performed on the commit.
++ */
++
++/*
++ * Use the code location as the class key if an explicit map is not used.
++ */
++#define sdt_might_sleep_start(m)					\
++	do {								\
++		struct dept_map *__m = m;				\
++		static struct dept_key __key;				\
++		dept_stage_wait(__m, __m ? NULL : &__key, _THIS_IP_, __func__);\
++	} while (0)
++
++#define sdt_might_sleep_end()		dept_clean_stage()
++
++#define sdt_ecxt_enter(m)		dept_ecxt_enter(m, 1UL, _THIS_IP_, "start", "event", 0)
++#define sdt_event(m)			dept_event(m, 1UL, _THIS_IP_, __func__)
++#define sdt_ecxt_exit(m)		dept_ecxt_exit(m, 1UL, _THIS_IP_)
++#define sdt_request_event(m)		dept_request_event(m)
++#else /* !CONFIG_DEPT */
++#define sdt_map_init(m)			do { } while (0)
++#define sdt_map_init_key(m, k)		do { (void)(k); } while (0)
++#define sdt_wait(m)			do { } while (0)
++#define sdt_might_sleep_start(m)	do { } while (0)
++#define sdt_might_sleep_end()		do { } while (0)
++#define sdt_ecxt_enter(m)		do { } while (0)
++#define sdt_event(m)			do { } while (0)
++#define sdt_ecxt_exit(m)		do { } while (0)
++#define sdt_request_event(m)		do { } while (0)
++#endif
++#endif /* __LINUX_DEPT_SDT_H */
+-- 
+2.17.1
 
