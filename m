@@ -1,17 +1,17 @@
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A56E628506C
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Dec 2025 07:21:06 +0000 (UTC)
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC12339B32
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Dec 2025 07:21:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764919281; cv=none; b=d3xJISHgxaRnNebexTGNwcbP6p5uSp2QPCKKWAJmpwCf+trjq5FOtPlxjT27WbzhCD98uMtYolosX/mercdslbTquIk7Fy5sbrBeXVxBNYIS+JnRWa6x2LwDUQUHAPvLD1Momji02KYKuXIlFfcEGkf6HlLxM7fh6rnh1wyvhdw=
+	t=1764919289; cv=none; b=h6dDcTPxhfskMhEMbptqXXY0wXm7xUnRleUQ3hKZQA1lnM1hjZpDV9qdgMKfSmN/QIsTSUqjCfqOTB3XkEY8YHh7f8rX2ZrbiSidDYbBU7TQeSBcLafPbAWyTsu4tnpZlaIDS/0/ipPGBBaP6sHa4sJaTAlXNZil12hifVSuKcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764919281; c=relaxed/simple;
-	bh=3Y5WjXAVqFBbgNUdLO4Qpu6CxaI1rV8QHBa3XuJFo4g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=s0I7nbS9u39jW9LLUPPss8EA42R5mFP0i66WrNrhXWGZZzjOLoyJ8CC428zYWzWlFpDDvb35lteUXcnJ/fFhhKdrkraGnKN215bS5xapYs7spPYqMXqOzFEI0rknimja8dU2bV0WIlzob9Vo8Cb4NLwrX8M+FJ1f/RyCC1S0pxM=
+	s=arc-20240116; t=1764919289; c=relaxed/simple;
+	bh=VvHpXatW22wnPVqhff/utuqTfKeAlK4aRZ43Lr2HYS0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=tKZV0HsD04q/HFhUt/+CdwkJ9rVArJctT1/yV1ksE1EZdpGnBMGQD3NImZZj7pfqZFZSZH8FSXK3/mbLs8azeIT0S9eVFQu5oNqCUYL3ZmLQ06IEf36FxVJ/QuQQxjvKIKkPFtSAtb6r075vAEKcl2cTB5RXwD+pCNVYeH+cW5I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-4c-69328771ac77
+X-AuditID: a67dfc5b-c45ff70000001609-a0-693287756ec0
 From: Byungchul Park <byungchul@sk.com>
 To: linux-kernel@vger.kernel.org
 Cc: kernel_team@skhynix.com,
@@ -178,45 +178,45 @@ Cc: kernel_team@skhynix.com,
 	aliceryhl@google.com,
 	tmgross@umich.edu,
 	rust-for-linux@vger.kernel.org
-Subject: [PATCH v18 28/42] dept: assign unique dept_key to each distinct dma fence caller
-Date: Fri,  5 Dec 2025 16:18:41 +0900
-Message-Id: <20251205071855.72743-29-byungchul@sk.com>
+Subject: [PATCH v18 39/42] dept: introduce APIs to set page usage and use subclasses_evt for the usage
+Date: Fri,  5 Dec 2025 16:18:52 +0900
+Message-Id: <20251205071855.72743-40-byungchul@sk.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
 References: <20251205071855.72743-1-byungchul@sk.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTZxTH9zz3ufe2DdWbquFOl0g6zTK2oRjnzpK5+GGw+2Vm2T45l7mr
-	3MgNBc0FEbZsKWARu4FNN2rGi7QOGbbdQosuQygvdbh1wqTg5EUbhJliU1g2hEJ5iYNufvud
-	8z/n/z8fjorS3aO3quS8AknJEw16RkM0M0mOV5Sze+TdFyMb4P74QxoqvN/Q8OtwKYFV600W
-	bEErBe6rJRguREoIDMemEazaciBq+5sBx0SIgtnIAwRDDzfATLAOg73UR0OwL4ogPObDEIyu
-	YLhlubS+zoDNkwy1F8owVH/fjiHe5GShybgTVibS4aZrioXQ+WoC0bCVgfFfymnwjvYimLsz
-	gcH9ZZiCiuvzBHxjL4GjvJFAhy9AYOh6HQPG2gUaBrpv0TDoGiAQqLlC4F7/eRYGu+0Ywn+U
-	Y2g5U8NCeaMHw53RdgSdFQ8weN13GZiqqcdwY34aw1eDdgYmq2ZYcAUJfGGyEaj4OUbBtd4F
-	Flr++Y6B5cW1sKrf34bFlj9pmHM5GfjLMkcfOCA4W3/EgvuiGwnLS1YkzF0uowSTZa30xexE
-	aDy3hIW2mhArnOkcYwW795TQ2pwqfNsRwYJjdp4WvM5zjOBYfkQJ9+92MO/qP9C8kSUZ5EJJ
-	2fXmx5psa6eZPjn5etHtyBRrRG1pZqRW8dxe3nzVxDxlU60TrzPDvcCPjMSpdd7MpfCtlWHa
-	jDQqihvazp+NVyWETdwh3vOogawz4XbyC/19CSMtt48va/Xj/0y3866W7sS8eq1fPbyUYB33
-	Kt9gXkiY8lyDmu8KBP6/4lm+p3mEWJDWjp5xIp2cV5gryoa9adnFeXJR2rETuV609nJNn60c
-	/gnNDrzvR5wK6ZO03afTZR0tFuYX5/oRr6L0m7XTht2yTpslFn8iKSeOKKcMUr4fbVMRfbJ2
-	T+x0lo47LhZIOZJ0UlKeqlil3mpE2tc8SmVlWhtL+bfktIV8+yefPB/IUNfHP92/+E7mwRd9
-	Rwp2fN413PebcnyUlh+XtH84Ht0Uk16uD1yLpjp3ZDa8l3JwcVfJxvke4xVfnH18dKKw96Oi
-	fc1JGV+neOt6bnvEULLJXdrUt6Wx/4eM5yxPVm5kbus65HiLmlwVN5aG9CQ/W0xPpZR88V/1
-	HJDrbgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAAzWSa0iTcRTG+7+3zdHkZRm9WVCMLhBlKl1OFJFf8o9g9CGK+pIzX/LFOWsz
-	SyNqruVaF3S0SXszzXSV01JnpdVSlOympK3ULqbFsoaaZepwpjaNvhx+5zzPeTgfjpRU1NLh
-	UkGTzms1KrWSkVGyHZsNaw7nRAuRP3sXgsl4Ej72eGno0DdQMDpiouDKnXIGJsX7EjBVX6bh
-	WWc2BW23nQh6Rk0I/BMiCca6aQomLc0SGBn/IAGrHsG0uxmBrd1CQldbPQnlNXoCfldOMdDf
-	NIzA+tnLQL5PT8GQ4zwCe58oAd+TWBjseUjDdPc3AjrHBhA4vFMEeBtyEEzaUqCw2BVct/1k
-	YKL1FQn51jYE1z53kzDs60VQ0/wJgftmNgNfc++S4PGGwpvRIQaeW88xMNh+hYAflQwUZbtp
-	aG/pR1AgWhD0vXcTYLh+hwFbQTUFdb0PJNDe/4eAjzYLAc7qeOhx9FHwMreYCJ4bdFUtADHf
-	QATLdwKsFQ8JGHeUSbaVIuw3XqRwmesegY2vJxlcfrUc4YmABeGRUgOJjbnBtmlgiMSnXUdx
-	6csBBgdG3zLYPVZE4RfFHC45GyBwXusaXGfvluyM2SfbksSrhQxeu3ZrgizZ8thMH/qy6dgr
-	3zfJKVQXYUYhUo5dxxnFMmKGGXYl19U1Ts5wGLuUc13oo81IJiVZzxIuZ/zirDCP3ctVfS+k
-	Zphil3P+1hZmhuXsBs7gaiT+hS7hnJUNs/6Q4NzaGZhlBbueKzT76VwkK0JzylCYoMlIVQnq
-	9RG6lORMjXAs4kBaajUK/pPjxJ+8WjTiiW1ErBQp58objkYJClqVoctMbUSclFSGyQfUkYJC
-	nqTKzOK1afu1R9S8rhEtklLKBfK4PXyCgj2oSudTeP4Qr/2vEtKQ8FNoRY0u/tYt14V5VOz8
-	wK/E+DT75po4W3LJjY2mqIgVOPQ+Tszj02sLOnaeGdtzoinag/M7B7dUxeigUJEYWn/Jt53f
-	WLFacM8RF2tUYn9M2HExZJHeHKc5s3rpo6QE++5d4RV2jbM1MPSgw+l/+sNT4ihKSF9oyTK+
-	w1lTy4aVlC5ZFbWK1OpUfwEB28b5SwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUxTdxTG/d/7v7eXSs1NJfFOnC41xvmOTM0xcwsJMd5EFol+Yx+0ynV0
+	lhfLi2CypE6xyBRLY2FShm3BxkDFQkVF6OgabQRpLMigAcrLRIQgYhgvUmFdi/HLye885zzP
+	+XIYUtpNrWUUaVmCKk2ulNFiLJ6MNO3I0cQqYoIDK6F/cISC7gtODOX3rDQsGR6K4FnPrxi8
+	tTUI8huDGJZ0bhHMLPSJIOhwI/B5W0j41/YfDaXjFzBMWa4iKBs1iGD86SEI+t8QMOLUIFgq
+	OQO3zHYaJkre0/DR84KEUr0XgWnYT8L0+BCC++4BBK+1DSR0zU7RMNlRTsA7Gw0d7RMI/jDo
+	EDQOPRZBf4mOgEHLKIbnWjMROkpDSd0aMJReJEJljAD93SYC2iv7MVjUmyBoTAf/dT2G2skX
+	FLQOdFMwMaqjYaZrmID6V6HW0bsNTJerMDQ7WjEULM0gcD/6h4CXj8tpuGproEBtmKfA63xO
+	QWeNF8PwkI+CuaJo8BZfo8CnfY3ikvn5/CLMV9sfELy1wor4jwEd4vO1IQrM/k3zjjkj5tvM
+	HF91JUDwxZ4dfGOZX8Qb67N5+52tfGXzOMGbpmcpvnfiu8TtSeIDyYJSkSOodn1/QpyS3xcg
+	M67vy+24ZKPUqHR7IWIYjt3D1eviClHEMlZbK1CYaXYz5/MtkGGOYr/i7NdGqUIkZkj25QZO
+	s1BEhr2r2dOc1RUV3sHsJq7iQ4MozBJ2H3fbXEt9ytzA1dicyzkRIV3fE1hmKbuXu1U4v5zJ
+	sZUR3H1PE/nJ8AX31x0f1iKJEa2oRlJFWk6qXKHcszMlL02Ru/NUemo9Cn2b5ZfFHx+hae8x
+	F2IZJIuUOM/tVkgpeU5mXqoLcQwpi5K8VcYopJJked55QZV+XJWtFDJdKJrBsjWS2LlzyVL2
+	J3mWcEYQMgTV5ynBRKxVoxWrvl5/ae/v8fu3nGw3XvGwP5RZNn/TWxCv+TbhYF9urOl0pyVp
+	0B/n3Wi/cXhg+GDNuuafE98VjbWebbF06bMSKvMK/oxLjNxf7O5vWZQeabMvenIL5KsSmtQn
+	OuPb6k7Zmlo1sW/Nx9e9GYGuLSeLHa6pwM0v6446LrtXPnn2m8opw5kp8t1bSVWm/H/KgEc/
+	aQMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAAzWSbUhTcRTG+9+3XVeLy7K8FfSyiOhNLTIOFVF96Rb0AgVRETnqpsM5bVNL
+	I2qu4dK0udiGrtQsR+nK5bKyGommZBa6LB3psmitlpa9OG0ztVn05fA753nOw/lwaFx8l5xF
+	yxRpvFIhlUsoISHcvlazPD1npSy2qWUB6LSnoKfXS0Knup6AwKCOgIvVNgpGLXcFoKspIuFJ
+	VzYB7TerEPQGdAiGRyw4aOvGCRg1NAtgMNgtAKMawbizGYHJZcDB3f4IB9ttNQY/7WMU9DX+
+	QGB856XA7FcTMGA9h6DYZxGAv2kzfOl9QMK45yMGXUP9CKzeMQy89TkIRk1JUFruCK+bvlEw
+	8rwNB7OxHcHldx4cfvjfIrjd/AaB81o2BR/0tTh0eKfCy8AABS3GPAq+uC5i8NVOQVm2kwTX
+	sz4ElywGBL7XTgw0V6opMF2qIaDu7X0BuPp+Y9BjMmBQVbMNeq0+Alr15Vj43LDrVhRYzBos
+	XD5hYLzxAIOgtVKwoQJxw9oCgqt03ME47YtRirOV2BA3EjIgbrBCg3Nafbht7B/AuTOOY1xF
+	az/FhQKvKM45VEZwT8tZ7urZEMYVPl/O1RV7BDs37hOuO8zLZRm8MmZ9vDBR2x3CU8+vPu46
+	YydPI/OyXBRBs8wqttJWgiaYYhaxbncQn+BIZh7ryPeRuUhI40zHXDYnWBAWaHoac4S1NURO
+	eAhmIVvyq1YwwSJmNVtRfpP8lzmXrbLX/82JCM+NXaG/LGbi2NLcYVKPhGVoUiWKlCkykqUy
+	eVy0KikxUyE7Hn0oJbkGhd/JevJ34T002LG5ATE0kkwR1R9bIROT0gxVZnIDYmlcEinql8fK
+	xKLD0swsXplyUJku51UNaDZNSKJEW/fw8WImQZrGJ/F8Kq/8r2J0xKzTSId2z0iIsU/Z1bfl
+	gjuqMPHCx7jieU3eTXZ+vXZGfmiLqzW7TV9qWKMXzV+cvzfa86zHn7d7//TFKuECn07zvrjt
+	c9ZjddHO+7U+/9KD14d+TU6ammXurD5wMvbct8I5EQ9L3Am+oz3x4470bt4Wow94gidOHMop
+	+i6dWTBfEb9jjYRQJUpXLMGVKukfSrjLMUoDAAA=
 X-CFilter-Loop: Reflected
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -224,209 +224,231 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-dma fence can be used at various points in the code and it's very hard
-to distinguish dma fences between different usages.  Using a single
-dept_key for all the dma fences could trigger false positive reports.
+False positive reports have been observed since dept assumes that all
+the pages have the same dept class, but the class should be split since
+the call paths are different depending on what the page is used for.
 
-Assign unique dept_key to each distinct dma fence wait to avoid false
-positive reports.
+At least, ones for block device and ones for regular file have
+exclusively different usages.
+
+Define usage candidates like:
+
+   DEPT_PAGE_REGFILE_CACHE /* page in regular file's address_space */
+   DEPT_PAGE_BDEV_CACHE    /* page in block device's address_space */
+   DEPT_PAGE_DEFAULT       /* the others */
+
+Introduce APIs to set each page usage properly and make sure not to
+interact between DEPT_PAGE_REGFILE_CACHE and DEPT_PAGE_BDEV_CACHE.
+Besides that, it allows the other cases:
+
+   interaction between DEPT_PAGE_DEFAULT and DEPT_PAGE_REGFILE_CACHE,
+   interaction between DEPT_PAGE_DEFAULT and DEPT_PAGE_BDEV_CACHE,
+   interaction between DEPT_PAGE_DEFAULT and DEPT_PAGE_DEFAULT.
 
 Signed-off-by: Byungchul Park <byungchul@sk.com>
 ---
- drivers/dma-buf/dma-fence.c | 18 ++++-----
- include/linux/dma-fence.h   | 74 +++++++++++++++++++++++++++++--------
- 2 files changed, 68 insertions(+), 24 deletions(-)
+ include/linux/dept.h       | 34 ++++++++++++++-
+ include/linux/mm_types.h   |  1 +
+ include/linux/page-flags.h | 89 +++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 120 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index f2cc7068af65..ca0ff298859b 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -479,7 +479,7 @@ int dma_fence_signal(struct dma_fence *fence)
- EXPORT_SYMBOL(dma_fence_signal);
+diff --git a/include/linux/dept.h b/include/linux/dept.h
+index 7b822caee874..b3bb1a1a7eb5 100644
+--- a/include/linux/dept.h
++++ b/include/linux/dept.h
+@@ -19,8 +19,8 @@ struct task_struct;
+ #define DEPT_MAX_WAIT_HIST		64
+ #define DEPT_MAX_ECXT_HELD		48
  
- /**
-- * dma_fence_wait_timeout - sleep until the fence gets signaled
-+ * __dma_fence_wait_timeout - sleep until the fence gets signaled
-  * or until timeout elapses
-  * @fence: the fence to wait on
-  * @intr: if true, do an interruptible wait
-@@ -497,7 +497,7 @@ EXPORT_SYMBOL(dma_fence_signal);
-  * See also dma_fence_wait() and dma_fence_wait_any_timeout().
-  */
- signed long
--dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
-+__dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
- {
- 	signed long ret;
+-#define DEPT_MAX_SUBCLASSES		16
+-#define DEPT_MAX_SUBCLASSES_EVT		2
++#define DEPT_MAX_SUBCLASSES		24
++#define DEPT_MAX_SUBCLASSES_EVT		3
+ #define DEPT_MAX_SUBCLASSES_USR		(DEPT_MAX_SUBCLASSES / DEPT_MAX_SUBCLASSES_EVT)
+ #define DEPT_MAX_SUBCLASSES_CACHE	2
  
-@@ -526,7 +526,7 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
- 	}
- 	return ret;
- }
--EXPORT_SYMBOL(dma_fence_wait_timeout);
-+EXPORT_SYMBOL(__dma_fence_wait_timeout);
+@@ -142,6 +142,35 @@ struct dept_ext_wgen {
+ 	unsigned int wgen;
+ };
  
- /**
-  * dma_fence_release - default release function for fences
-@@ -762,7 +762,7 @@ dma_fence_default_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
- }
- 
- /**
-- * dma_fence_default_wait - default sleep until the fence gets signaled
-+ * __dma_fence_default_wait - default sleep until the fence gets signaled
-  * or until timeout elapses
-  * @fence: the fence to wait on
-  * @intr: if true, do an interruptible wait
-@@ -774,7 +774,7 @@ dma_fence_default_wait_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
-  * functions taking a jiffies timeout.
-  */
- signed long
--dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
-+__dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- {
- 	struct default_wait_cb cb;
- 	unsigned long flags;
-@@ -823,7 +823,7 @@ dma_fence_default_wait(struct dma_fence *fence, bool intr, signed long timeout)
- 	spin_unlock_irqrestore(fence->lock, flags);
- 	return ret;
- }
--EXPORT_SYMBOL(dma_fence_default_wait);
-+EXPORT_SYMBOL(__dma_fence_default_wait);
- 
- static bool
- dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
-@@ -843,7 +843,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
- }
- 
- /**
-- * dma_fence_wait_any_timeout - sleep until any fence gets signaled
-+ * __dma_fence_wait_any_timeout - sleep until any fence gets signaled
-  * or until timeout elapses
-  * @fences: array of fences to wait on
-  * @count: number of fences to wait on
-@@ -863,7 +863,7 @@ dma_fence_test_signaled_any(struct dma_fence **fences, uint32_t count,
-  * See also dma_fence_wait() and dma_fence_wait_timeout().
-  */
- signed long
--dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
-+__dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
- 			   bool intr, signed long timeout, uint32_t *idx)
- {
- 	struct default_wait_cb *cb;
-@@ -931,7 +931,7 @@ dma_fence_wait_any_timeout(struct dma_fence **fences, uint32_t count,
- 
- 	return ret;
- }
--EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-+EXPORT_SYMBOL(__dma_fence_wait_any_timeout);
- 
- /**
-  * DOC: deadline hints
-diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index 64639e104110..1062fbb637e5 100644
---- a/include/linux/dma-fence.h
-+++ b/include/linux/dma-fence.h
-@@ -369,8 +369,22 @@ int dma_fence_signal_locked(struct dma_fence *fence);
- int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t timestamp);
- int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
- 				      ktime_t timestamp);
--signed long dma_fence_default_wait(struct dma_fence *fence,
-+signed long __dma_fence_default_wait(struct dma_fence *fence,
- 				   bool intr, signed long timeout);
++enum {
++	DEPT_PAGE_DEFAULT = 0,
++	DEPT_PAGE_REGFILE_CACHE,	/* regular file page cache */
++	DEPT_PAGE_BDEV_CACHE,		/* block device cache */
++	DEPT_PAGE_USAGE_NR,		/* nr of usages options */
++};
++
++#define DEPT_PAGE_USAGE_SHIFT 16
++#define DEPT_PAGE_USAGE_MASK ((1U << DEPT_PAGE_USAGE_SHIFT) - 1)
++#define DEPT_PAGE_USAGE_PENDING_MASK (DEPT_PAGE_USAGE_MASK << DEPT_PAGE_USAGE_SHIFT)
 +
 +/*
-+ * Associate every caller with its own dept map.
++ * Identify each page's usage type
 + */
-+#define dma_fence_default_wait(f, intr, t)				\
-+({									\
-+	signed long __ret;						\
-+									\
-+	sdt_might_sleep_start_timeout(NULL, t);				\
-+	__ret = __dma_fence_default_wait(f, intr, t);			\
-+	sdt_might_sleep_end();						\
-+	__ret;								\
-+})
++struct dept_page_usage {
++	/*
++	 * low 16 bits  : the current usage type
++	 * high 16 bits : usage type requested to be set
++	 *
++	 * Do not apply usage type on request immediately but postpone
++	 * it until the next use of PG flags.  For example, if the page
++	 * is already within a PG_locked critical section, regard it as
++	 * DEPT_PAGE_DEFAULT temporarily at least until the section ends
++	 * e.g. folio_unlock() since it's still unclear which usage type
++	 * the page acts within the section.
++	 */
++	atomic_t type; /* Update and read atomically */
++};
 +
- int dma_fence_add_callback(struct dma_fence *fence,
- 			   struct dma_fence_cb *cb,
- 			   dma_fence_func_t func);
-@@ -607,12 +621,37 @@ static inline ktime_t dma_fence_timestamp(struct dma_fence *fence)
- 	return fence->timestamp;
- }
+ struct dept_event_site {
+ 	/*
+ 	 * event site name
+@@ -314,6 +343,7 @@ extern void dept_hardirqs_off(void);
+ struct dept_key { };
+ struct dept_map { };
+ struct dept_ext_wgen { };
++struct dept_page_usage { };
+ struct dept_event_site { };
  
--signed long dma_fence_wait_timeout(struct dma_fence *,
-+signed long __dma_fence_wait_timeout(struct dma_fence *,
- 				   bool intr, signed long timeout);
--signed long dma_fence_wait_any_timeout(struct dma_fence **fences,
-+signed long __dma_fence_wait_any_timeout(struct dma_fence **fences,
- 				       uint32_t count,
- 				       bool intr, signed long timeout,
- 				       uint32_t *idx);
-+/*
-+ * Associate every caller with its own dept map.
-+ */
-+#define dma_fence_wait_timeout(f, intr, t)				\
-+({									\
-+	signed long __ret;						\
-+									\
-+	sdt_might_sleep_start_timeout(NULL, t);				\
-+	__ret = __dma_fence_wait_timeout(f, intr, t);			\
-+	sdt_might_sleep_end();						\
-+	__ret;								\
-+})
+ #define DEPT_MAP_INITIALIZER(n, k) { }
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 42b6959882b3..85d06073d37b 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -220,6 +220,7 @@ struct page {
+ 	struct page *kmsan_shadow;
+ 	struct page *kmsan_origin;
+ #endif
++	struct dept_page_usage usage;
+ 	struct dept_ext_wgen pg_locked_wgen;
+ } _struct_page_alignment;
+ 
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 8ab39823ea31..0b0655354b08 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -204,6 +204,80 @@ enum pageflags {
+ 
+ extern struct dept_map pg_locked_map;
+ 
++static inline void dept_set_page_usage(struct page *p,
++		unsigned int new_type)
++{
++	/*
++	 * Consider the page as DEPT_PAGE_DEFAULT until the next use of
++	 * PG flags e.g. folio_lock().
++	 */
++	unsigned int type = DEPT_PAGE_DEFAULT;
 +
-+/*
-+ * Associate every caller with its own dept map.
-+ */
-+#define dma_fence_wait_any_timeout(fpp, count, intr, t, idx)		\
-+({									\
-+	signed long __ret;						\
-+									\
-+	sdt_might_sleep_start_timeout(NULL, t);				\
-+	__ret = __dma_fence_wait_any_timeout(fpp, count, intr, t, idx);	\
-+	sdt_might_sleep_end();						\
-+	__ret;								\
-+})
- 
- /**
-  * dma_fence_wait - sleep until the fence gets signaled
-@@ -628,19 +667,24 @@ signed long dma_fence_wait_any_timeout(struct dma_fence **fences,
-  * fence might be freed before return, resulting in undefined behavior.
++	if (WARN_ON_ONCE(new_type >= DEPT_PAGE_USAGE_NR))
++		return;
++
++	new_type <<= DEPT_PAGE_USAGE_SHIFT;
++	new_type |= type & DEPT_PAGE_USAGE_MASK;
++	atomic_set(&p->usage.type, new_type);
++}
++
++static inline void dept_set_folio_usage(struct folio *f,
++		unsigned int new_type)
++{
++	dept_set_page_usage(&f->page, new_type);
++}
++
++static inline void dept_reset_page_usage(struct page *p)
++{
++	dept_set_page_usage(p, DEPT_PAGE_DEFAULT);
++}
++
++static inline void dept_reset_folio_usage(struct folio *f)
++{
++	dept_reset_page_usage(&f->page);
++}
++
++static inline void dept_update_page_usage(struct page *p)
++{
++	unsigned int type = atomic_read(&p->usage.type);
++	unsigned int new_type;
++
++retry:
++	new_type = type & DEPT_PAGE_USAGE_PENDING_MASK;
++	new_type >>= DEPT_PAGE_USAGE_SHIFT;
++	new_type |= type & DEPT_PAGE_USAGE_PENDING_MASK;
++
++	/*
++	 * Already updated by others.
++	 */
++	if (type == new_type)
++		return;
++
++	if (!atomic_try_cmpxchg(&p->usage.type, &type, new_type))
++		goto retry;
++}
++
++static inline unsigned long dept_event_flags(struct page *p, bool wait)
++{
++	unsigned int type;
++
++	type = atomic_read(&p->usage.type) & DEPT_PAGE_USAGE_MASK;
++
++	if (WARN_ON_ONCE(type >= DEPT_PAGE_USAGE_NR))
++		return 0;
++
++	/*
++	 * wait
++	 */
++	if (wait)
++		return (1UL << DEPT_PAGE_DEFAULT) | (1UL << type);
++
++	/*
++	 * event
++	 */
++	return 1UL << type;
++}
++
+ /*
+  * Place the following annotations in its suitable point in code:
   *
-  * See also dma_fence_wait_timeout() and dma_fence_wait_any_timeout().
-+ *
-+ * Associate every caller with its own dept map.
-  */
--static inline signed long dma_fence_wait(struct dma_fence *fence, bool intr)
--{
--	signed long ret;
--
--	/* Since dma_fence_wait_timeout cannot timeout with
--	 * MAX_SCHEDULE_TIMEOUT, only valid return values are
--	 * -ERESTARTSYS and MAX_SCHEDULE_TIMEOUT.
--	 */
--	ret = dma_fence_wait_timeout(fence, intr, MAX_SCHEDULE_TIMEOUT);
--
--	return ret < 0 ? ret : 0;
--}
-+#define dma_fence_wait(f, intr)						\
-+({									\
-+	signed long __ret;						\
-+									\
-+	sdt_might_sleep_start_timeout(NULL, MAX_SCHEDULE_TIMEOUT);	\
-+	__ret = __dma_fence_wait_timeout(f, intr, MAX_SCHEDULE_TIMEOUT);\
-+	sdt_might_sleep_end();						\
-+									\
-+	/*								\
-+	 * Since dma_fence_wait_timeout cannot timeout with		\
-+	 * MAX_SCHEDULE_TIMEOUT, only valid return values are		\
-+	 * -ERESTARTSYS and MAX_SCHEDULE_TIMEOUT.			\
-+	 */								\
-+	__ret < 0 ? __ret : 0;						\
-+})
+@@ -214,20 +288,29 @@ extern struct dept_map pg_locked_map;
  
- void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline);
+ static inline void dept_page_set_bit(struct page *p, int bit_nr)
+ {
++	dept_update_page_usage(p);
++
+ 	if (bit_nr == PG_locked)
+ 		dept_request_event(&pg_locked_map, &p->pg_locked_wgen);
+ }
  
+ static inline void dept_page_clear_bit(struct page *p, int bit_nr)
+ {
++	unsigned long evt_f = dept_event_flags(p, false);
++
+ 	if (bit_nr == PG_locked)
+-		dept_event(&pg_locked_map, 1UL, _RET_IP_, __func__, &p->pg_locked_wgen);
++		dept_event(&pg_locked_map, evt_f, _RET_IP_, __func__, &p->pg_locked_wgen);
+ }
+ 
+ static inline void dept_page_wait_on_bit(struct page *p, int bit_nr)
+ {
++	unsigned long evt_f;
++
++	dept_update_page_usage(p);
++	evt_f = dept_event_flags(p, true);
++
+ 	if (bit_nr == PG_locked)
+-		dept_wait(&pg_locked_map, 1UL, _RET_IP_, __func__, 0, -1L);
++		dept_wait(&pg_locked_map, evt_f, _RET_IP_, __func__, 0, -1L);
+ }
+ 
+ static inline void dept_folio_set_bit(struct folio *f, int bit_nr)
+@@ -245,6 +328,8 @@ static inline void dept_folio_wait_on_bit(struct folio *f, int bit_nr)
+ 	dept_page_wait_on_bit(&f->page, bit_nr);
+ }
+ #else
++#define dept_set_page_usage(p, t)		do { } while (0)
++#define dept_reset_page_usage(p)		do { } while (0)
+ #define dept_page_set_bit(p, bit_nr)		do { } while (0)
+ #define dept_page_clear_bit(p, bit_nr)		do { } while (0)
+ #define dept_page_wait_on_bit(p, bit_nr)	do { } while (0)
 -- 
 2.17.1
 
