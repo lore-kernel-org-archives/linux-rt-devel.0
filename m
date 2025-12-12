@@ -1,115 +1,129 @@
-Received: from lankhorst.se (lankhorst.se [141.105.120.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491892327A3
-	for <linux-rt-devel@lists.linux.dev>; Thu, 11 Dec 2025 14:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB692030A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 01:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765463763; cv=none; b=XZilWrsW5GofLWRUyDcemCAw5ErkPjP22vWxfa1I9ISH6qh+n+CfmCxa5YvFmYJ8Gleu3B245sk0AxDNLv3lcw16I5QLGJiLFhROqItwvblEC5D2SgnWCgr0HgXCFtjlqcLxb6RM5DlJUYr7nnoWIh3q3PxLiP+W17/iteoKeqg=
+	t=1765501306; cv=none; b=aVOUJwQAo0JI654H8AWIsoSd9hVwiTfg1PJTiKeaRZqOWPaRZdHsAtnLrPahrRP4sdX2vif0HgT8bGpsitxbNag4eFmGOHOte7CFRloomtaiTP8dHJWQfmKXZoTKbIXlgjM5zKTJxmdT8Kd1nt8psMzalmE+RJQepya220OZjoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765463763; c=relaxed/simple;
-	bh=KjJyYZXS5w/90m6sboJIUnxN21swsqeAlbXxq94pxBg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GzTtpubA9+/JKbkJ4Uv8sFmHliKhbSBU4EF2tPKXbZBYsRMkofg2RstgsCle7c4sImFeRKGtniHaX9POeX2RxuOPgG4LW8ET/rEB0b/LAOJ2dYk98SJBGbzcf7sf14T55J9tvqdvm3h9Tg2I7DFafVkmyetM3iuxv/6aP0KFdp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=ckx07Zxv; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="ckx07Zxv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1765463758;
-	bh=KjJyYZXS5w/90m6sboJIUnxN21swsqeAlbXxq94pxBg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ckx07ZxvTz3aEHHw7Yj/3EICiyAglE+mehmQwxKF3T37UNXU3iIM5UGArJjFex+qa
-	 RvYFx5geBXNtPR+My928gYobNO5LpIoIMBg5qXRKgmwTrEK79S8/ArzIVe6tE+isYS
-	 iYCJH1nXSfxzv8rUNhXmkCFJJ5UiVOL+IEs3EtGw9Je8+vKseQuVdZPKdVEd16tI6B
-	 FoHaL82XXNRbvSWq+XnkqbE6alOPxASjgF5JX6cGIBUWFpRacptvkJmN9I0HG/NC/d
-	 6CyQevzXdZ469Ov9uqpZ7YjMXspAp4SwDnWyFVVHpD04RAUYf2l1LAc9LiJZue+I3g
-	 qvsKg56xBMzOA==
-Message-ID: <e3fcf1ce-e194-42b5-865d-0b9d6669cfe6@lankhorst.se>
-Date: Thu, 11 Dec 2025 15:35:57 +0100
+	s=arc-20240116; t=1765501306; c=relaxed/simple;
+	bh=RvqkoCui2IQB/RgbUMRXZgPo927HN07kQXHCLZ0t/ko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVSqGh3jkQEL1bdHT1SsjcGgvjeNsRWpIKyObILcBWMTVBcVZZEKF7aZ6YqIwOw/WNC8vrrIr4YmVThyoYIBYleFz/rgziIZHH10dqXHN0G4Io520F7MHcwz21LeKJJsdNRAjndLDU8lH/An7K7ge4LXicImIIWVEXehtVJesHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id D440E72C8CC;
+	Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
+Received: from pony.office.basealt.ru (unknown [193.43.10.9])
+	by imap.altlinux.org (Postfix) with ESMTPSA id CCDD536D016E;
+	Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
+Received: by pony.office.basealt.ru (Postfix, from userid 500)
+	id AD8A7360D63C; Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
+Date: Fri, 12 Dec 2025 03:54:26 +0300
+From: Vitaly Chikunov <vt@altlinux.org>
+To: Ranganath V N <vnranganath.20@gmail.com>, 
+	linux-rt-devel@lists.linux.dev
+Cc: edumazet@google.com, davem@davemloft.net, david.hunter.linux@gmail.com, 
+	horms@kernel.org, jhs@mojatatu.com, jiri@resnulli.us, khalid@kernel.org, 
+	kuba@kernel.org, pabeni@redhat.com, xiyou.wangcong@gmail.com, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH net v4 2/2] net: sched: act_ife: initialize struct tc_ife
+ to fix KMSAN kernel-infoleak
+Message-ID: <tnqp5igbbqyl6emzqnei2o4kuz@altlinux.org>
+References: <20251109091336.9277-1-vnranganath.20@gmail.com>
+ <20251109091336.9277-3-vnranganath.20@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
- intel_pipe_fastset
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- "Shankar, Uma" <uma.shankar@intel.com>
-Cc: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
- "linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
- Mario Kleiner <mario.kleiner.de@gmail.com>,
- Mike Galbraith <umgwanakikbuti@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-References: <20251104083634.670753-1-dev@lankhorst.se>
- <20251104083634.670753-3-dev@lankhorst.se>
- <DM4PR11MB63609A43C9B11091A5FB41EFF4DEA@DM4PR11MB6360.namprd11.prod.outlook.com>
- <aSdYPKUJgbe84G1M@intel.com>
-Content-Language: en-US
-From: Maarten Lankhorst <dev@lankhorst.se>
-In-Reply-To: <aSdYPKUJgbe84G1M@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251109091336.9277-3-vnranganath.20@gmail.com>
 
-Hey,
-
-Den 2025-11-26 kl. 20:42, skrev Ville Syrjälä:
-> On Wed, Nov 26, 2025 at 07:19:47PM +0000, Shankar, Uma wrote:
->>
->>
->>> -----Original Message-----
->>> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Maarten
->>> Lankhorst
->>> Sent: Tuesday, November 4, 2025 2:06 PM
->>> To: intel-gfx@lists.freedesktop.org; intel-xe@lists.freedesktop.org
->>> Cc: linux-rt-devel@lists.linux.dev; Maarten Lankhorst <dev@lankhorst.se>; Mario
->>> Kleiner <mario.kleiner.de@gmail.com>; Mike Galbraith
->>> <umgwanakikbuti@gmail.com>; Thomas Gleixner <tglx@linutronix.de>; Sebastian
->>> Andrzej Siewior <bigeasy@linutronix.de>; Clark Williams
->>> <clrkwllms@kernel.org>; Steven Rostedt <rostedt@goodmis.org>
->>> Subject: [PATCH v2 2/7] drm/i915/display: Use intel_de_write_fw in
->>> intel_pipe_fastset
->>>
->>> intel_set_pipe_src_size(), hsw_set_linetime_wm(),
->>> intel_cpu_transcoder_set_m1_n1() and intel_set_transcoder_timings_lrr()
->>> are called from an atomic context on PREEMPT_RT, and should be using the _fw
->>> functions.
->>
->> This could be ok but we need to be sure that all are called with power domains up.
->> I think would be safe to keep this under RT check so that we don't end up breaking any
->> generic non RT usecase.
+On Sun, Nov 09, 2025 at 02:43:36PM +0530, Ranganath V N wrote:
+> Fix a KMSAN kernel-infoleak detected  by the syzbot .
 > 
-> When removing the locks from register accesses one needs to consider
-> what platforms the code runs on, what other register are on the same
-> cacheline, and whether they can be accessed in parallel. If there is
-> something there then we may not be able to remove the locks.
+> [net?] KMSAN: kernel-infoleak in __skb_datagram_iter
 > 
-> That's assuming the "system hangs when same cacheline is accessed from
-> multiple cpus" issue is real for display registers, and I'm actually
-> not 100% it is. But we'd need to run some tests on the affected systems
-> (~ivb/hsw) to get any kind of confidence here. IIRC some old
-> intel_gpu_top thhat directly poked the registers was very good at
-> hitting it on hsw at least, so that would be a decent starting point.
+> In tcf_ife_dump(), the variable 'opt' was partially initialized using a
+> designatied initializer. While the padding bytes are reamined
+> uninitialized. nla_put() copies the entire structure into a
+> netlink message, these uninitialized bytes leaked to userspace.
 > 
-> Anyways, I'm going to be replacing the uncore lock with a display
-> specific lock soonish, and I suppose I can just make that a raw
-> spinlock to appease RT.
+> Initialize the structure with memset before assigning its fields
+> to ensure all members and padding are cleared prior to beign copied.
+> 
+> This change silences the KMSAN report and prevents potential information
+> leaks from the kernel memory.
+> 
+> This fix has been tested and validated by syzbot. This patch closes the
+> bug reported at the following syzkaller link and ensures no infoleak.
+> 
+> Reported-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=0c85cae3350b7d486aee
+> Tested-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
+> Fixes: ef6980b6becb ("introduce IFE action")
+> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
+> ---
+>  net/sched/act_ife.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/net/sched/act_ife.c b/net/sched/act_ife.c
+> index 107c6d83dc5c..7c6975632fc2 100644
+> --- a/net/sched/act_ife.c
+> +++ b/net/sched/act_ife.c
+> @@ -644,13 +644,15 @@ static int tcf_ife_dump(struct sk_buff *skb, struct tc_action *a, int bind,
+>  	unsigned char *b = skb_tail_pointer(skb);
+>  	struct tcf_ife_info *ife = to_ife(a);
+>  	struct tcf_ife_params *p;
+> -	struct tc_ife opt = {
+> -		.index = ife->tcf_index,
+> -		.refcnt = refcount_read(&ife->tcf_refcnt) - ref,
+> -		.bindcnt = atomic_read(&ife->tcf_bindcnt) - bind,
+> -	};
+> +	struct tc_ife opt;
+>  	struct tcf_t t;
+>  
+> +	memset(&opt, 0, sizeof(opt));
+> +
+> +	opt.index = ife->tcf_index,
+> +	opt.refcnt = refcount_read(&ife->tcf_refcnt) - ref,
+> +	opt.bindcnt = atomic_read(&ife->tcf_bindcnt) - bind,
+
+Are you sure this is correct to delimit with commas instead of
+semicolons?
+
+This already causes build failures of 5.10.247-rt141 kernel, because
+their spin_lock_bh unrolls into do { .. } while (0):
+
+     CC [M]  net/sched/act_ife.o
+   In file included from ./include/linux/spinlock.h:329,
+                    from ./include/linux/mmzone.h:8,
+                    from ./include/linux/gfp.h:6,
+                    from ./include/linux/mm.h:10,
+                    from ./include/linux/bvec.h:14,
+                    from ./include/linux/skbuff.h:17,
+                    from net/sched/act_ife.c:20:
+   net/sched/act_ife.c: In function 'tcf_ife_dump':
+   ./include/linux/spinlock_rt.h:44:2: error: expected expression before 'do'
+      44 |  do {     \
+         |  ^~
+   net/sched/act_ife.c:655:2: note: in expansion of macro 'spin_lock_bh'
+     655 |  spin_lock_bh(&ife->tcf_lock);
+         |  ^~~~~~~~~~~~
+   make[2]: *** [scripts/Makefile.build:286: net/sched/act_ife.o] Error 1
+   make[2]: *** Waiting for unfinished jobs....
 
 
-You're correct about the cacheline problem!
+Thanks,
 
-We shouldn't be having a race in those specific registers though. On the current
-kernel they would likely hang the system if the _fw variants are not taken, as it
-means the uncore lock would be taken twice.
-
-This means the fastset path is already broken on systems requiring uncore lock, and
-this simply fixes it instead.
-
-Kind regards,
-~Maarten Lankhorst
+> +
+>  	spin_lock_bh(&ife->tcf_lock);
+>  	opt.action = ife->tcf_action;
+>  	p = rcu_dereference_protected(ife->params,
+> -- 
+> 2.43.0
+> 
