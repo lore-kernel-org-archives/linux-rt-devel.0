@@ -1,117 +1,102 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A123C38
-	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 07:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07E01D514E
+	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 16:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765522954; cv=none; b=ZqcoM+/rN/gkAlPqrYuCSx1MZrFhO2XiZ9sbeyySOu5Y7UuVuBM2fFy6p8xLfNAfvaT0JKctXuVL0UZ0BdR4MmLhkypCOKOFn3WhhGytvk6I1EI9L1xxSNKNOfnm+KyTprcC9yvghsvDcbFuoTvaTlu0aACGeicaDz8f7+FEtuo=
+	t=1765556322; cv=none; b=g9kts3ZHCtpaPuOE5wXMmzNZejBK5iIoG9LgP2j8+WwtN2GSF827zn7WDIapKxS48yy7TEyMZRxIAm01y1Vb8ljC3ogqHZpcuktRFMlPiraZWOmucsUQ3XIMgdfCcwujIeQp158+qiP4SW2QQ5eRf5R7t5z/F2vONSRPeDGC0yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765522954; c=relaxed/simple;
-	bh=KNEjlvnFjnMK2hlwcSghpX4aglZgdkRodgMgPJTdQyg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DfWWXhf0yCeT23uyXsxOWqFhie5jVjc9tidXQE8oa1q9FvWmzVOVlhSfDdPllUAQYlKzAxuwjRCMIGRKREUKKZZvOaG6LWsVbeFpcnHgMM7A7TX4m2JRBT+MOA2kmgeTV+31ibufxPXuCBpj9ijrciWHJ/hQCPAvWRUgMkir3G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BesI6mC+; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BesI6mC+"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47a8195e515so7369535e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 11 Dec 2025 23:02:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765522950; x=1766127750; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8J31nkKLMTJ/Qo0J4+PLRi2H/hsgHiES0A2U3TOlxM8=;
-        b=BesI6mC+3GYbrW73eoU+EZFqEKSHiJFi+Vk3D7dPXyjUu6HIXKZ6HGN7kNmWdvdLHW
-         QnsmhUKmJ+zLcrqN0MEYJvPacyZByGshxKEqqqjbaKKIQthKUOZ9MOolE20HCJ5sv9il
-         OK/yamdtM0U2C28WjdG7W65NjNsHD9oplLot0TFQTv7KxGLZxpXFMcIDhbiNbq0z8omx
-         RkAQwRNiEsNi32obm8HShSlXgoATKSfNjgMzqFZrMxVrD64ONqdBLhqa4k0m1756VvJs
-         2hSDHF9b4940DY0tbRwEhDTsJIToMlWY/hnsHcfwQ98bDBIlftCYZ+cRFQBHdLhY7FxL
-         na5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765522950; x=1766127750;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8J31nkKLMTJ/Qo0J4+PLRi2H/hsgHiES0A2U3TOlxM8=;
-        b=GAUL0sSfTTnk9AVPzGYDTda+AHod1PHNZb8Cva6+M0iPJDKShuTHEYroEWX9BkC6U5
-         xhmKW7Rhsrv55fuP0WDxIxu937b29axuv+yYmF9yN9FtG9La2/PM5X43r/W+XGvaFLR/
-         yeGji8JvvetVSF/IqxzAal/N8Eg3v4Ik8cyLzc+uP9QgC48hzNp+5HAMwH0S6oy4g4QM
-         GevHla/ImVAOjFrRxr0PufrUWge7ntZfT3pI6jASdRu9zCvH1Dx1GVXUQGELZRFoKNlb
-         hQdep97hXhkJTyMdodXZrAyJbbHYRs/5KUqgQjpC7CTtp2+jupJDMqfVBaZYMSR3L6nV
-         wesQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjgnUe9ZwhpFHuDCGwHjVLYOEsaGgFgTTDPbcn87F+m7MUakuYJjp/roF36aIYWdPLY7ckCXroLPVujFcH5g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwixKAlrtW9Ck47d2qdvhekbzs+Lw9wReqp8GSzU5A+zYISYWIf
-	p9Yunt7X6R4EmqmW//5Z8FBqO/oksJgROIO/BKGgTfQX1bW+VS7VmIZQRQwSdutTlWs=
-X-Gm-Gg: AY/fxX5HG/8JLAKHz4HY0BdwmjrVJqrpuR37dm24COMW35LgBxIccmEwCBdI/CeewbM
-	u80UvgqpC2N0ivxHjxnpBPeS7fVwoVXhdgtTD4shUnbf+ulv6xnf8L8xYZuFASrt7+53ksn7Awz
-	Ivpakj670yngwpryUzOOPNiVuUWm3rDMDkizGr/lcCOuVvUAR25aK35e4czBe4DmhZhdHL4WgeC
-	/eM8R6Kri9JyCalJ/q47JNxgBFdvxHwqYyWgbxgQjZ4EPeJjymL47qxuANGC0NREGKiLMwihnia
-	kdQbODeuyea+LUIkZy1PvHlxpPkCrSCBZIQrHvoYRFhIXseM504HgsGIQVI9vHxZcJuXxWgSGSc
-	2SucC+VKuhnQWodFEf3cxI51U1BsOYUlSRJFw6OKAWWF6dt2yRiIrDXZDMzR54dZvBcJgIeEvK5
-	JBVw0pCqBUGFA9zRG6
-X-Google-Smtp-Source: AGHT+IGAznv12+yx0m4z+hfisaKwl9TD4ly79IiQswuss6K34VrQ44sHBEHY9oPy8lOOyq9J3PK0JA==
-X-Received: by 2002:a05:600c:1c91:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-47a8f8bdc58mr11091745e9.10.1765522949461;
-        Thu, 11 Dec 2025 23:02:29 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8a9efsm10976215f8f.33.2025.12.11.23.02.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Dec 2025 23:02:28 -0800 (PST)
-Date: Fri, 12 Dec 2025 10:02:25 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Nam Cao <namcao@linutronix.de>, Yunseong Kim <ysk@kzalloc.com>,
-	Nam Cao <nam.cao@linaro.org>, Tomas Glozar <tglozar@redhat.com>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>,
-	Byungchul Park <byungchul@sk.com>, syzkaller@googlegroups.com,
-	linux-rt-devel@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via
- RV (Runtime Verification) monitor rtapp:sleep
-Message-ID: <aTu-Afezd9uXzDqr@stanley.mountain>
-References: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
- <87fraslu9c.fsf@yellow.woof>
- <87jyz5kuf2.fsf@yellow.woof>
- <20251202112644.YUux4LKd@linutronix.de>
+	s=arc-20240116; t=1765556322; c=relaxed/simple;
+	bh=PvZUUv3hTC62+IbO1R8DkTxB4VU97n1yoZSO3javBG8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=A2vS8mH7BRPiSyFPHTvc2Pp0vYoCxHlzUbHeTPxRtL8fqIHtcNaENre9geEZMorwh/6BVlMN56jUYz1gIczS5AqJsyY3+OhwrnHlkJjXeWW0h7SO6jr2kSuBU2QWBgR5XjsC1EU+cliJKfOiYLWAwaKvb6MI/l79pYkOdxx6IJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D589B1063;
+	Fri, 12 Dec 2025 08:18:32 -0800 (PST)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EC0EB3F762;
+	Fri, 12 Dec 2025 08:18:34 -0800 (PST)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: akpm@linux-foundation.org,
+	david@kernel.org,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	vbabka@suse.cz,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	andrii@kernel.org,
+	martin.lau@linux.dev,
+	eddyz87@gmail.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	john.fastabend@gmail.com,
+	kpsingh@kernel.org,
+	sdf@fomichev.me,
+	haoluo@google.com,
+	jolsa@kernel.org,
+	jackmanb@google.com,
+	hannes@cmpxchg.org,
+	ziy@nvidia.com,
+	bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	ryan.roberts@arm.com,
+	kevin.brodsky@arm.com,
+	dev.jain@arm.com,
+	yang@os.amperecomputing.com
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH 0/2] introduce pagetable_alloc_nolock()
+Date: Fri, 12 Dec 2025 16:18:30 +0000
+Message-Id: <20251212161832.2067134-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251202112644.YUux4LKd@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 02, 2025 at 12:26:44PM +0100, Sebastian Andrzej Siewior wrote:
-> On 2025-12-02 12:14:09 [+0100], Nam Cao wrote:
-> > > RV is not a static checker, it is a run-time checker.
-> > >
-> > > Just in case you are not aware yet, there is also Smatch:
-> > > https://github.com/error27/smatch. But I can't offer much help there.
-> > 
-> > I was looking up something unrelated, and I found that Smatch does
-> > detect this sleep-in-atomic problem:
-> > https://staticthinking.wordpress.com/2024/05/24/sleeping-in-atomic-warnings/
-> > 
-> > I'm not sure if its design takes PREEMPT_RT into consideration. But
-> > seems worth having a look.
-> 
-> It does not look like it does. Judging from
-> 	https://github.com/error27/smatch/blob/master/check_preempt_info.c
-> 
-> it increments the preempt-counter on preempt_disable() and spin_lock().
-> So it won't yell at
-> 	preempt_disable();
-> 	spin_lock();
-> 
-> while CONFIG_DEBUG_ATOMIC_SLEEP would.
+Some architectures invoke pagetable_alloc() or __get_free_pages()
+with preemption disabled.
+For example, in arm64, linear_map_split_to_ptes() calls pagetable_alloc()
+while spliting block entry to ptes and __kpti_install_ng_mappings()
+calls __get_free_pages() to create kpti pagetable.
 
-Yeah.  Sorry, I haven't updated this check for PREEMPT_RT.
+Under PREEMPT_RT, calling pagetable_alloc() with
+preemption disabled is not allowed, because it may acquire
+a spin lock that becomes sleepable on RT, potentially
+causing a sleep during page allocation.
 
-There is a bug to do with cleanup.h that affects it as well.  If you
-have a goto from inside a scoped guard that isn't handled correctly.
-I need to fix that as well.
+Since above two functions is called as callback of stop_machine()
+where its callback is called in preemption disabled,
+They could make a potential problem. (sleeping in preemption disabled).
 
-regards,
-dan carpenter
+To address this, introduce pagetable_alloc_nolock() API.
+
+Yeoreum Yun (2):
+  mm: introduce pagetable_alloc_nolock()
+  arm64: mmu: use pagetable_alloc_nolock() while stop_machine()
+
+ arch/arm64/mm/mmu.c  | 23 ++++++++++++++++++-----
+ include/linux/mm.h   | 18 ++++++++++++++++++
+ kernel/bpf/stream.c  |  2 +-
+ kernel/bpf/syscall.c |  2 +-
+ mm/page_alloc.c      | 10 +++-------
+ 5 files changed, 41 insertions(+), 14 deletions(-)
+
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+
