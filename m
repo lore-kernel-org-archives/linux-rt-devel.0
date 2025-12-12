@@ -1,342 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C1B30E0EB;
-	Fri, 12 Dec 2025 06:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A123C38
+	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 07:02:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765519959; cv=none; b=e5ibbflbJVs9U1n5Q6U7OCU6sCvel+IzgFz2T1W3tkhi1dJ9bB3hm7sxLOmq6Zbe1tVV4HFASlgbWJF0ieNrs+Fa03/wUcO0ZmG1S7A2Xc+8U8e3SK5r1m6drmM8kmuBe4jfwe6jOycLI8WNFBSIgJ3b6NbzUBTDq/Crhid8p0k=
+	t=1765522954; cv=none; b=ZqcoM+/rN/gkAlPqrYuCSx1MZrFhO2XiZ9sbeyySOu5Y7UuVuBM2fFy6p8xLfNAfvaT0JKctXuVL0UZ0BdR4MmLhkypCOKOFn3WhhGytvk6I1EI9L1xxSNKNOfnm+KyTprcC9yvghsvDcbFuoTvaTlu0aACGeicaDz8f7+FEtuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765519959; c=relaxed/simple;
-	bh=05xYo20/GHTIaq4/s7wjhs+/FWTiMvP8O5HV5Ohd5RE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WWx/jiRdeoqecseF4cGCwZRdG5gt0hgG8QW75hSGkh7F7RyYhlIgTaJ6UgfKActt7kceWz1bIUWi4McvRmfvsEn3k4m4VMjwb2lW8OujL6AZWXdBW/qFkU0eyfM3Csf4oeekTDsQtHhpS3aQ/xCbZrJQKuN1tZ7KEQun/8bTrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rA8II03q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765522954; c=relaxed/simple;
+	bh=KNEjlvnFjnMK2hlwcSghpX4aglZgdkRodgMgPJTdQyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DfWWXhf0yCeT23uyXsxOWqFhie5jVjc9tidXQE8oa1q9FvWmzVOVlhSfDdPllUAQYlKzAxuwjRCMIGRKREUKKZZvOaG6LWsVbeFpcnHgMM7A7TX4m2JRBT+MOA2kmgeTV+31ibufxPXuCBpj9ijrciWHJ/hQCPAvWRUgMkir3G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BesI6mC+; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rA8II03q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B069C4CEF1;
-	Fri, 12 Dec 2025 06:12:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765519958;
-	bh=05xYo20/GHTIaq4/s7wjhs+/FWTiMvP8O5HV5Ohd5RE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rA8II03qD8BpKqF1AvjxVaFzWwJ9HWlgMzbAQN0shHaT+fJK6cAIAtHLNMZ+EITmB
-	 LjzjwBAGgh23xFidjiqhRJw6V5wqOeHhPe6jmVOGEibAgCU9b3mas+aj/Lig2VhM52
-	 15NUwapW4FDO6Wy0H1HmzCYFisM7hKbI/oQwteRlvPYTOt214HBzFfTp3FVhVYCOu5
-	 eWsmD30Y3avJ7Ar0JdoiHqm36e0j71SnVpukZ2+ZCDvlOGHoH6YWBcroPtsTuPRPq2
-	 VW27AeNEd/CHlua0xVq16Nj+poFTz3EhU8ZrROVhPKF+ttaxG7p8nDcUBtDhwCIdho
-	 z6lRIuRArCihg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Mikulas Patocka <mpatocka@redhat.com>,
-	Jiping Ma <jiping.ma2@windriver.com>,
-	Sasha Levin <sashal@kernel.org>,
-	agk@redhat.com,
-	snitzer@kernel.org,
-	bmarzins@redhat.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	dm-devel@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.18-6.6] dm-snapshot: fix 'scheduling while atomic' on real-time kernels
-Date: Fri, 12 Dec 2025 01:12:14 -0500
-Message-ID: <20251212061223.305139-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251212061223.305139-1-sashal@kernel.org>
-References: <20251212061223.305139-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BesI6mC+"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47a8195e515so7369535e9.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 11 Dec 2025 23:02:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765522950; x=1766127750; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8J31nkKLMTJ/Qo0J4+PLRi2H/hsgHiES0A2U3TOlxM8=;
+        b=BesI6mC+3GYbrW73eoU+EZFqEKSHiJFi+Vk3D7dPXyjUu6HIXKZ6HGN7kNmWdvdLHW
+         QnsmhUKmJ+zLcrqN0MEYJvPacyZByGshxKEqqqjbaKKIQthKUOZ9MOolE20HCJ5sv9il
+         OK/yamdtM0U2C28WjdG7W65NjNsHD9oplLot0TFQTv7KxGLZxpXFMcIDhbiNbq0z8omx
+         RkAQwRNiEsNi32obm8HShSlXgoATKSfNjgMzqFZrMxVrD64ONqdBLhqa4k0m1756VvJs
+         2hSDHF9b4940DY0tbRwEhDTsJIToMlWY/hnsHcfwQ98bDBIlftCYZ+cRFQBHdLhY7FxL
+         na5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765522950; x=1766127750;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8J31nkKLMTJ/Qo0J4+PLRi2H/hsgHiES0A2U3TOlxM8=;
+        b=GAUL0sSfTTnk9AVPzGYDTda+AHod1PHNZb8Cva6+M0iPJDKShuTHEYroEWX9BkC6U5
+         xhmKW7Rhsrv55fuP0WDxIxu937b29axuv+yYmF9yN9FtG9La2/PM5X43r/W+XGvaFLR/
+         yeGji8JvvetVSF/IqxzAal/N8Eg3v4Ik8cyLzc+uP9QgC48hzNp+5HAMwH0S6oy4g4QM
+         GevHla/ImVAOjFrRxr0PufrUWge7ntZfT3pI6jASdRu9zCvH1Dx1GVXUQGELZRFoKNlb
+         hQdep97hXhkJTyMdodXZrAyJbbHYRs/5KUqgQjpC7CTtp2+jupJDMqfVBaZYMSR3L6nV
+         wesQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjgnUe9ZwhpFHuDCGwHjVLYOEsaGgFgTTDPbcn87F+m7MUakuYJjp/roF36aIYWdPLY7ckCXroLPVujFcH5g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwixKAlrtW9Ck47d2qdvhekbzs+Lw9wReqp8GSzU5A+zYISYWIf
+	p9Yunt7X6R4EmqmW//5Z8FBqO/oksJgROIO/BKGgTfQX1bW+VS7VmIZQRQwSdutTlWs=
+X-Gm-Gg: AY/fxX5HG/8JLAKHz4HY0BdwmjrVJqrpuR37dm24COMW35LgBxIccmEwCBdI/CeewbM
+	u80UvgqpC2N0ivxHjxnpBPeS7fVwoVXhdgtTD4shUnbf+ulv6xnf8L8xYZuFASrt7+53ksn7Awz
+	Ivpakj670yngwpryUzOOPNiVuUWm3rDMDkizGr/lcCOuVvUAR25aK35e4czBe4DmhZhdHL4WgeC
+	/eM8R6Kri9JyCalJ/q47JNxgBFdvxHwqYyWgbxgQjZ4EPeJjymL47qxuANGC0NREGKiLMwihnia
+	kdQbODeuyea+LUIkZy1PvHlxpPkCrSCBZIQrHvoYRFhIXseM504HgsGIQVI9vHxZcJuXxWgSGSc
+	2SucC+VKuhnQWodFEf3cxI51U1BsOYUlSRJFw6OKAWWF6dt2yRiIrDXZDMzR54dZvBcJgIeEvK5
+	JBVw0pCqBUGFA9zRG6
+X-Google-Smtp-Source: AGHT+IGAznv12+yx0m4z+hfisaKwl9TD4ly79IiQswuss6K34VrQ44sHBEHY9oPy8lOOyq9J3PK0JA==
+X-Received: by 2002:a05:600c:1c91:b0:477:2f7c:314f with SMTP id 5b1f17b1804b1-47a8f8bdc58mr11091745e9.10.1765522949461;
+        Thu, 11 Dec 2025 23:02:29 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8a9efsm10976215f8f.33.2025.12.11.23.02.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Dec 2025 23:02:28 -0800 (PST)
+Date: Fri, 12 Dec 2025 10:02:25 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Nam Cao <namcao@linutronix.de>, Yunseong Kim <ysk@kzalloc.com>,
+	Nam Cao <nam.cao@linaro.org>, Tomas Glozar <tglozar@redhat.com>,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+	Byungchul Park <byungchul@sk.com>, syzkaller@googlegroups.com,
+	linux-rt-devel@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via
+ RV (Runtime Verification) monitor rtapp:sleep
+Message-ID: <aTu-Afezd9uXzDqr@stanley.mountain>
+References: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
+ <87fraslu9c.fsf@yellow.woof>
+ <87jyz5kuf2.fsf@yellow.woof>
+ <20251202112644.YUux4LKd@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251202112644.YUux4LKd@linutronix.de>
 
-From: Mikulas Patocka <mpatocka@redhat.com>
+On Tue, Dec 02, 2025 at 12:26:44PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2025-12-02 12:14:09 [+0100], Nam Cao wrote:
+> > > RV is not a static checker, it is a run-time checker.
+> > >
+> > > Just in case you are not aware yet, there is also Smatch:
+> > > https://github.com/error27/smatch. But I can't offer much help there.
+> > 
+> > I was looking up something unrelated, and I found that Smatch does
+> > detect this sleep-in-atomic problem:
+> > https://staticthinking.wordpress.com/2024/05/24/sleeping-in-atomic-warnings/
+> > 
+> > I'm not sure if its design takes PREEMPT_RT into consideration. But
+> > seems worth having a look.
+> 
+> It does not look like it does. Judging from
+> 	https://github.com/error27/smatch/blob/master/check_preempt_info.c
+> 
+> it increments the preempt-counter on preempt_disable() and spin_lock().
+> So it won't yell at
+> 	preempt_disable();
+> 	spin_lock();
+> 
+> while CONFIG_DEBUG_ATOMIC_SLEEP would.
 
-[ Upstream commit 8581b19eb2c5ccf06c195d3b5468c3c9d17a5020 ]
+Yeah.  Sorry, I haven't updated this check for PREEMPT_RT.
 
-There is reported 'scheduling while atomic' bug when using dm-snapshot on
-real-time kernels. The reason for the bug is that the hlist_bl code does
-preempt_disable() when taking the lock and the kernel attempts to take
-other spinlocks while holding the hlist_bl lock.
+There is a bug to do with cleanup.h that affects it as well.  If you
+have a goto from inside a scoped guard that isn't handled correctly.
+I need to fix that as well.
 
-Fix this by converting a hlist_bl spinlock into a regular spinlock.
-
-Signed-off-by: Mikulas Patocka <mpatocka@redhat.com>
-Reported-by: Jiping Ma <jiping.ma2@windriver.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-### Summary
-
-**Bug Analysis:**
-The commit fixes a genuine runtime bug on PREEMPT_RT kernels. The
-`hlist_bl` implementation uses bit spinlocks with `preempt_disable()`,
-creating an atomic context. When dm-snapshot code then tries to take
-other spinlocks (which on RT kernels are sleeping locks/rt_mutexes), it
-triggers "scheduling while atomic" warnings.
-
-**Historical Context:**
-The buggy code (using `hlist_bl` in dm-snapshot) was introduced in
-commit `f79ae415b64c35` ("dm snapshot: Make exception tables scalable")
-which landed in **v5.2**. This means all current stable/LTS trees
-(5.4.y, 5.10.y, 5.15.y, 6.1.y, 6.6.y, 6.12.y) contain the vulnerable
-code.
-
-**Risk vs Benefit:**
-
-| Factor | Assessment |
-|--------|------------|
-| Bug severity | HIGH - causes kernel BUG on RT systems |
-| Fix correctness | HIGH - straightforward lock type conversion |
-| Code scope | CONTAINED - dm-snapshot only |
-| Regression risk | LOW - semantically equivalent locking |
-| User impact | RT kernel users with dm-snapshot |
-
-**Stable Criteria Checklist:**
-- ✅ Fixes a real bug (scheduling while atomic)
-- ✅ Obviously correct (converts bit spinlock to regular spinlock)
-- ✅ Small and contained (within dm-snapshot subsystem)
-- ✅ No new features or APIs
-- ✅ Authored by subsystem maintainer (Mikulas Patocka)
-- ✅ Has Reported-by indicating real user impact
-- ⚠️ No explicit `Cc: stable` tag (but this isn't required)
-
-**Conclusion:**
-This commit is an excellent stable backport candidate. It fixes a real,
-reported bug that causes kernel warnings and potential instability on
-PREEMPT_RT kernels when using dm-snapshot. The fix is well-understood,
-uses standard kernel primitives, and is authored by the DM subsystem
-maintainer. The change is self-contained and poses low regression risk
-since it maintains the same locking semantics while fixing RT
-compatibility.
-
-**YES**
-
- drivers/md/dm-exception-store.h |  2 +-
- drivers/md/dm-snap.c            | 73 +++++++++++++++------------------
- 2 files changed, 35 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/md/dm-exception-store.h b/drivers/md/dm-exception-store.h
-index b679766375381..061b4d3108132 100644
---- a/drivers/md/dm-exception-store.h
-+++ b/drivers/md/dm-exception-store.h
-@@ -29,7 +29,7 @@ typedef sector_t chunk_t;
-  * chunk within the device.
-  */
- struct dm_exception {
--	struct hlist_bl_node hash_list;
-+	struct hlist_node hash_list;
- 
- 	chunk_t old_chunk;
- 	chunk_t new_chunk;
-diff --git a/drivers/md/dm-snap.c b/drivers/md/dm-snap.c
-index f40c18da40000..dbd148967de42 100644
---- a/drivers/md/dm-snap.c
-+++ b/drivers/md/dm-snap.c
-@@ -40,10 +40,15 @@ static const char dm_snapshot_merge_target_name[] = "snapshot-merge";
- #define DM_TRACKED_CHUNK_HASH(x)	((unsigned long)(x) & \
- 					 (DM_TRACKED_CHUNK_HASH_SIZE - 1))
- 
-+struct dm_hlist_head {
-+	struct hlist_head head;
-+	spinlock_t lock;
-+};
-+
- struct dm_exception_table {
- 	uint32_t hash_mask;
- 	unsigned int hash_shift;
--	struct hlist_bl_head *table;
-+	struct dm_hlist_head *table;
- };
- 
- struct dm_snapshot {
-@@ -628,8 +633,8 @@ static uint32_t exception_hash(struct dm_exception_table *et, chunk_t chunk);
- 
- /* Lock to protect access to the completed and pending exception hash tables. */
- struct dm_exception_table_lock {
--	struct hlist_bl_head *complete_slot;
--	struct hlist_bl_head *pending_slot;
-+	spinlock_t *complete_slot;
-+	spinlock_t *pending_slot;
- };
- 
- static void dm_exception_table_lock_init(struct dm_snapshot *s, chunk_t chunk,
-@@ -638,20 +643,20 @@ static void dm_exception_table_lock_init(struct dm_snapshot *s, chunk_t chunk,
- 	struct dm_exception_table *complete = &s->complete;
- 	struct dm_exception_table *pending = &s->pending;
- 
--	lock->complete_slot = &complete->table[exception_hash(complete, chunk)];
--	lock->pending_slot = &pending->table[exception_hash(pending, chunk)];
-+	lock->complete_slot = &complete->table[exception_hash(complete, chunk)].lock;
-+	lock->pending_slot = &pending->table[exception_hash(pending, chunk)].lock;
- }
- 
- static void dm_exception_table_lock(struct dm_exception_table_lock *lock)
- {
--	hlist_bl_lock(lock->complete_slot);
--	hlist_bl_lock(lock->pending_slot);
-+	spin_lock_nested(lock->complete_slot, 1);
-+	spin_lock_nested(lock->pending_slot, 2);
- }
- 
- static void dm_exception_table_unlock(struct dm_exception_table_lock *lock)
- {
--	hlist_bl_unlock(lock->pending_slot);
--	hlist_bl_unlock(lock->complete_slot);
-+	spin_unlock(lock->pending_slot);
-+	spin_unlock(lock->complete_slot);
- }
- 
- static int dm_exception_table_init(struct dm_exception_table *et,
-@@ -661,13 +666,15 @@ static int dm_exception_table_init(struct dm_exception_table *et,
- 
- 	et->hash_shift = hash_shift;
- 	et->hash_mask = size - 1;
--	et->table = kvmalloc_array(size, sizeof(struct hlist_bl_head),
-+	et->table = kvmalloc_array(size, sizeof(struct dm_hlist_head),
- 				   GFP_KERNEL);
- 	if (!et->table)
- 		return -ENOMEM;
- 
--	for (i = 0; i < size; i++)
--		INIT_HLIST_BL_HEAD(et->table + i);
-+	for (i = 0; i < size; i++) {
-+		INIT_HLIST_HEAD(&et->table[i].head);
-+		spin_lock_init(&et->table[i].lock);
-+	}
- 
- 	return 0;
- }
-@@ -675,16 +682,17 @@ static int dm_exception_table_init(struct dm_exception_table *et,
- static void dm_exception_table_exit(struct dm_exception_table *et,
- 				    struct kmem_cache *mem)
- {
--	struct hlist_bl_head *slot;
-+	struct dm_hlist_head *slot;
- 	struct dm_exception *ex;
--	struct hlist_bl_node *pos, *n;
-+	struct hlist_node *pos;
- 	int i, size;
- 
- 	size = et->hash_mask + 1;
- 	for (i = 0; i < size; i++) {
- 		slot = et->table + i;
- 
--		hlist_bl_for_each_entry_safe(ex, pos, n, slot, hash_list) {
-+		hlist_for_each_entry_safe(ex, pos, &slot->head, hash_list) {
-+			hlist_del(&ex->hash_list);
- 			kmem_cache_free(mem, ex);
- 			cond_resched();
- 		}
-@@ -700,7 +708,7 @@ static uint32_t exception_hash(struct dm_exception_table *et, chunk_t chunk)
- 
- static void dm_remove_exception(struct dm_exception *e)
- {
--	hlist_bl_del(&e->hash_list);
-+	hlist_del(&e->hash_list);
- }
- 
- /*
-@@ -710,12 +718,11 @@ static void dm_remove_exception(struct dm_exception *e)
- static struct dm_exception *dm_lookup_exception(struct dm_exception_table *et,
- 						chunk_t chunk)
- {
--	struct hlist_bl_head *slot;
--	struct hlist_bl_node *pos;
-+	struct hlist_head *slot;
- 	struct dm_exception *e;
- 
--	slot = &et->table[exception_hash(et, chunk)];
--	hlist_bl_for_each_entry(e, pos, slot, hash_list)
-+	slot = &et->table[exception_hash(et, chunk)].head;
-+	hlist_for_each_entry(e, slot, hash_list)
- 		if (chunk >= e->old_chunk &&
- 		    chunk <= e->old_chunk + dm_consecutive_chunk_count(e))
- 			return e;
-@@ -762,18 +769,17 @@ static void free_pending_exception(struct dm_snap_pending_exception *pe)
- static void dm_insert_exception(struct dm_exception_table *eh,
- 				struct dm_exception *new_e)
- {
--	struct hlist_bl_head *l;
--	struct hlist_bl_node *pos;
-+	struct hlist_head *l;
- 	struct dm_exception *e = NULL;
- 
--	l = &eh->table[exception_hash(eh, new_e->old_chunk)];
-+	l = &eh->table[exception_hash(eh, new_e->old_chunk)].head;
- 
- 	/* Add immediately if this table doesn't support consecutive chunks */
- 	if (!eh->hash_shift)
- 		goto out;
- 
- 	/* List is ordered by old_chunk */
--	hlist_bl_for_each_entry(e, pos, l, hash_list) {
-+	hlist_for_each_entry(e, l, hash_list) {
- 		/* Insert after an existing chunk? */
- 		if (new_e->old_chunk == (e->old_chunk +
- 					 dm_consecutive_chunk_count(e) + 1) &&
-@@ -804,13 +810,13 @@ static void dm_insert_exception(struct dm_exception_table *eh,
- 		 * Either the table doesn't support consecutive chunks or slot
- 		 * l is empty.
- 		 */
--		hlist_bl_add_head(&new_e->hash_list, l);
-+		hlist_add_head(&new_e->hash_list, l);
- 	} else if (new_e->old_chunk < e->old_chunk) {
- 		/* Add before an existing exception */
--		hlist_bl_add_before(&new_e->hash_list, &e->hash_list);
-+		hlist_add_before(&new_e->hash_list, &e->hash_list);
- 	} else {
- 		/* Add to l's tail: e is the last exception in this slot */
--		hlist_bl_add_behind(&new_e->hash_list, &e->hash_list);
-+		hlist_add_behind(&new_e->hash_list, &e->hash_list);
- 	}
- }
- 
-@@ -820,7 +826,6 @@ static void dm_insert_exception(struct dm_exception_table *eh,
-  */
- static int dm_add_exception(void *context, chunk_t old, chunk_t new)
- {
--	struct dm_exception_table_lock lock;
- 	struct dm_snapshot *s = context;
- 	struct dm_exception *e;
- 
-@@ -833,17 +838,7 @@ static int dm_add_exception(void *context, chunk_t old, chunk_t new)
- 	/* Consecutive_count is implicitly initialised to zero */
- 	e->new_chunk = new;
- 
--	/*
--	 * Although there is no need to lock access to the exception tables
--	 * here, if we don't then hlist_bl_add_head(), called by
--	 * dm_insert_exception(), will complain about accessing the
--	 * corresponding list without locking it first.
--	 */
--	dm_exception_table_lock_init(s, old, &lock);
--
--	dm_exception_table_lock(&lock);
- 	dm_insert_exception(&s->complete, e);
--	dm_exception_table_unlock(&lock);
- 
- 	return 0;
- }
-@@ -873,7 +868,7 @@ static int calc_max_buckets(void)
- 	/* use a fixed size of 2MB */
- 	unsigned long mem = 2 * 1024 * 1024;
- 
--	mem /= sizeof(struct hlist_bl_head);
-+	mem /= sizeof(struct dm_hlist_head);
- 
- 	return mem;
- }
--- 
-2.51.0
-
+regards,
+dan carpenter
