@@ -1,129 +1,244 @@
-Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB692030A
-	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 01:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D80872618;
+	Fri, 12 Dec 2025 06:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765501306; cv=none; b=aVOUJwQAo0JI654H8AWIsoSd9hVwiTfg1PJTiKeaRZqOWPaRZdHsAtnLrPahrRP4sdX2vif0HgT8bGpsitxbNag4eFmGOHOte7CFRloomtaiTP8dHJWQfmKXZoTKbIXlgjM5zKTJxmdT8Kd1nt8psMzalmE+RJQepya220OZjoU=
+	t=1765519952; cv=none; b=Dp5CkZvBSdmhr1AIJ1HBGOGtF1L5YA1IsHqY7gC1NYzZZAZdoheSsVM7SFWWcsZZLmRSxaPGjJkO3N+LkohuLWoYQVFlHYQkp+35TVIWCmHyOMDHC3cvmH8n5tDW4y5O0oiqMTf8ckhK718CfRwconxlBAeDHUznKZLgAueo9Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765501306; c=relaxed/simple;
-	bh=RvqkoCui2IQB/RgbUMRXZgPo927HN07kQXHCLZ0t/ko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gVSqGh3jkQEL1bdHT1SsjcGgvjeNsRWpIKyObILcBWMTVBcVZZEKF7aZ6YqIwOw/WNC8vrrIr4YmVThyoYIBYleFz/rgziIZHH10dqXHN0G4Io520F7MHcwz21LeKJJsdNRAjndLDU8lH/An7K7ge4LXicImIIWVEXehtVJesHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
-	by vmicros1.altlinux.org (Postfix) with ESMTP id D440E72C8CC;
-	Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
-Received: from pony.office.basealt.ru (unknown [193.43.10.9])
-	by imap.altlinux.org (Postfix) with ESMTPSA id CCDD536D016E;
-	Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
-Received: by pony.office.basealt.ru (Postfix, from userid 500)
-	id AD8A7360D63C; Fri, 12 Dec 2025 03:54:26 +0300 (MSK)
-Date: Fri, 12 Dec 2025 03:54:26 +0300
-From: Vitaly Chikunov <vt@altlinux.org>
-To: Ranganath V N <vnranganath.20@gmail.com>, 
+	s=arc-20240116; t=1765519952; c=relaxed/simple;
+	bh=tu35v5JnahKDsmp5vWzJfU95RMwm0sPSKcmBSUpkSDs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lK4sVeWkyPSmhVyHm82muYG2JhH1/nHgnswiW9WHJQNoJCntjZLhhtzSLSpYLJ3R1r5fT83pCvSiQj5J9uHSu7SeCFR6kxRf9asoS+BQ4BEYjonIUKaniQ25zuObt6cVSsXP/dn+6QU3rONM+U0NsCeGoHXGcc7BEg31L4UW2uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Szdrq9GD; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Szdrq9GD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9964CC16AAE;
+	Fri, 12 Dec 2025 06:12:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765519952;
+	bh=tu35v5JnahKDsmp5vWzJfU95RMwm0sPSKcmBSUpkSDs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Szdrq9GDzcfXkTz1z+U+6vV8FIPOGzAfB01ToY0aURn2Eqmimse2bmGIiuHu9i6fZ
+	 jPdpVxBN2O5t9+uT3j1gdpDRQZQZ+tAuqGdPrKrCaTCFTLomVvogf6x5myDGhBhKO7
+	 6qhV6yNRgnZ6/NCpE4fiFWVwpKRZc7S/BfrQZQYITFzeIMEERG3TYrwsMnJTQqR98k
+	 jJFvZuwRYVhjsSklsVmrbEfb0LWxxaYs02uTYnTM6rXxYPyaOGyShTPWFLMhzN53Jx
+	 tFqp/3Gak1U44YAiDTbMJZB60eVjI6ASl1i7EZnKnX+qVpM2VfEept5Nw5F1kZtns5
+	 YJDDUN+dIcHoA==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Sasha Levin <sashal@kernel.org>,
+	linux@armlinux.org.uk,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	nathan@kernel.org,
+	kees@kernel.org,
+	peterz@infradead.org,
+	lumag@kernel.org,
+	richard@nod.at,
+	chrisi.schrefl@gmail.com,
+	lukas.bulwahn@redhat.com,
+	afd@ti.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-rt-devel@lists.linux.dev
-Cc: edumazet@google.com, davem@davemloft.net, david.hunter.linux@gmail.com, 
-	horms@kernel.org, jhs@mojatatu.com, jiri@resnulli.us, khalid@kernel.org, 
-	kuba@kernel.org, pabeni@redhat.com, xiyou.wangcong@gmail.com, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH net v4 2/2] net: sched: act_ife: initialize struct tc_ife
- to fix KMSAN kernel-infoleak
-Message-ID: <tnqp5igbbqyl6emzqnei2o4kuz@altlinux.org>
-References: <20251109091336.9277-1-vnranganath.20@gmail.com>
- <20251109091336.9277-3-vnranganath.20@gmail.com>
+Subject: [PATCH AUTOSEL 6.18-5.10] ARM: 9461/1: Disable HIGHPTE on PREEMPT_RT kernels
+Date: Fri, 12 Dec 2025 01:12:12 -0500
+Message-ID: <20251212061223.305139-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251212061223.305139-1-sashal@kernel.org>
+References: <20251212061223.305139-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251109091336.9277-3-vnranganath.20@gmail.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 09, 2025 at 02:43:36PM +0530, Ranganath V N wrote:
-> Fix a KMSAN kernel-infoleak detected  by the syzbot .
-> 
-> [net?] KMSAN: kernel-infoleak in __skb_datagram_iter
-> 
-> In tcf_ife_dump(), the variable 'opt' was partially initialized using a
-> designatied initializer. While the padding bytes are reamined
-> uninitialized. nla_put() copies the entire structure into a
-> netlink message, these uninitialized bytes leaked to userspace.
-> 
-> Initialize the structure with memset before assigning its fields
-> to ensure all members and padding are cleared prior to beign copied.
-> 
-> This change silences the KMSAN report and prevents potential information
-> leaks from the kernel memory.
-> 
-> This fix has been tested and validated by syzbot. This patch closes the
-> bug reported at the following syzkaller link and ensures no infoleak.
-> 
-> Reported-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0c85cae3350b7d486aee
-> Tested-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
-> Fixes: ef6980b6becb ("introduce IFE action")
-> Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> ---
->  net/sched/act_ife.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/net/sched/act_ife.c b/net/sched/act_ife.c
-> index 107c6d83dc5c..7c6975632fc2 100644
-> --- a/net/sched/act_ife.c
-> +++ b/net/sched/act_ife.c
-> @@ -644,13 +644,15 @@ static int tcf_ife_dump(struct sk_buff *skb, struct tc_action *a, int bind,
->  	unsigned char *b = skb_tail_pointer(skb);
->  	struct tcf_ife_info *ife = to_ife(a);
->  	struct tcf_ife_params *p;
-> -	struct tc_ife opt = {
-> -		.index = ife->tcf_index,
-> -		.refcnt = refcount_read(&ife->tcf_refcnt) - ref,
-> -		.bindcnt = atomic_read(&ife->tcf_bindcnt) - bind,
-> -	};
-> +	struct tc_ife opt;
->  	struct tcf_t t;
->  
-> +	memset(&opt, 0, sizeof(opt));
-> +
-> +	opt.index = ife->tcf_index,
-> +	opt.refcnt = refcount_read(&ife->tcf_refcnt) - ref,
-> +	opt.bindcnt = atomic_read(&ife->tcf_bindcnt) - bind,
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Are you sure this is correct to delimit with commas instead of
-semicolons?
+[ Upstream commit fedadc4137234c3d00c4785eeed3e747fe9036ae ]
 
-This already causes build failures of 5.10.247-rt141 kernel, because
-their spin_lock_bh unrolls into do { .. } while (0):
+gup_pgd_range() is invoked with disabled interrupts and invokes
+__kmap_local_page_prot() via pte_offset_map(), gup_p4d_range().
+With HIGHPTE enabled, __kmap_local_page_prot() invokes kmap_high_get()
+which uses a spinlock_t via lock_kmap_any(). This leads to an
+sleeping-while-atomic error on PREEMPT_RT because spinlock_t becomes a
+sleeping lock and must not be acquired in atomic context.
 
-     CC [M]  net/sched/act_ife.o
-   In file included from ./include/linux/spinlock.h:329,
-                    from ./include/linux/mmzone.h:8,
-                    from ./include/linux/gfp.h:6,
-                    from ./include/linux/mm.h:10,
-                    from ./include/linux/bvec.h:14,
-                    from ./include/linux/skbuff.h:17,
-                    from net/sched/act_ife.c:20:
-   net/sched/act_ife.c: In function 'tcf_ife_dump':
-   ./include/linux/spinlock_rt.h:44:2: error: expected expression before 'do'
-      44 |  do {     \
-         |  ^~
-   net/sched/act_ife.c:655:2: note: in expansion of macro 'spin_lock_bh'
-     655 |  spin_lock_bh(&ife->tcf_lock);
-         |  ^~~~~~~~~~~~
-   make[2]: *** [scripts/Makefile.build:286: net/sched/act_ife.o] Error 1
-   make[2]: *** Waiting for unfinished jobs....
+The loop in map_new_virtual() uses wait_queue_head_t for wake up which
+also is using a spinlock_t.
 
+Since HIGHPTE is rarely needed at all, turn it off for PREEMPT_RT
+to allow the use of get_user_pages_fast().
 
-Thanks,
+[arnd: rework patch to turn off HIGHPTE instead of HAVE_PAST_GUP]
 
-> +
->  	spin_lock_bh(&ife->tcf_lock);
->  	opt.action = ife->tcf_action;
->  	p = rcu_dereference_protected(ife->params,
-> -- 
-> 2.43.0
-> 
+Co-developed-by: Arnd Bergmann <arnd@arndb.de>
+
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+# Commit Analysis: ARM: 9461/1: Disable HIGHPTE on PREEMPT_RT kernels
+
+## 1. COMMIT MESSAGE ANALYSIS
+
+**Problem identified**: The commit addresses a "sleeping-while-atomic"
+bug on PREEMPT_RT ARM kernels. The issue occurs because:
+- `gup_pgd_range()` runs with interrupts disabled (atomic context)
+- With HIGHPTE enabled, the code path calls `kmap_high_get()` which
+  acquires a `spinlock_t` via `lock_kmap_any()`
+- On PREEMPT_RT, `spinlock_t` becomes a sleeping lock (mutex)
+- Attempting to acquire a sleeping lock in atomic context is a bug
+
+**Tags present**:
+- Acked-by: Linus Walleij (ARM/pinctrl maintainer)
+- Reviewed-by: Arnd Bergmann (major ARM contributor)
+- Signed-off-by: Sebastian Andrzej Siewior (PREEMPT_RT maintainer)
+- Signed-off-by: Russell King (ARM maintainer)
+
+**Missing tags**: No `Cc: stable@vger.kernel.org` or `Fixes:` tag.
+
+## 2. CODE CHANGE ANALYSIS
+
+The change is a single-line Kconfig modification:
+
+```diff
+- depends on HIGHMEM
++       depends on HIGHMEM && !PREEMPT_RT
+```
+
+This simply prevents the `HIGHPTE` configuration option from being
+selected when `PREEMPT_RT` is enabled. The technical mechanism of the
+bug is clear:
+
+1. `get_user_pages_fast()` → `gup_pgd_range()` (runs with interrupts
+   disabled)
+2. → `pte_offset_map()` → `__kmap_local_page_prot()` → `kmap_high_get()`
+3. `kmap_high_get()` calls `lock_kmap_any()` which uses `spinlock_t`
+4. On PREEMPT_RT: `spinlock_t` = sleeping lock → BUG in atomic context
+
+The commit message notes that "HIGHPTE is rarely needed at all" - it's
+an optimization to put page tables in high memory, which is typically
+unnecessary on modern systems.
+
+## 3. CLASSIFICATION
+
+- **Bug type**: Runtime crash/BUG (sleeping-while-atomic violation)
+- **Not a new feature**: Disables a problematic configuration
+  combination
+- **Not a security fix**: No CVE or security-sensitive code
+- **Build fix category**: No, this is a runtime issue
+
+## 4. SCOPE AND RISK ASSESSMENT
+
+**Scope**:
+- 1 file changed (`arch/arm/Kconfig`)
+- 1 line modified
+- Affects only ARM + PREEMPT_RT + HIGHMEM configurations
+
+**Risk**: **Very low**
+- This is a Kconfig dependency change only
+- Users who previously had HIGHPTE enabled will now have it disabled on
+  PREEMPT_RT
+- The workaround is conservative (disable the problematic feature rather
+  than complex code fixes)
+- Cannot introduce regressions in other code paths
+
+## 5. USER IMPACT
+
+**Affected users**: ARM systems running PREEMPT_RT kernels with HIGHMEM
+(systems with >~800MB RAM on 32-bit ARM)
+
+**Severity**: High for affected users
+- `get_user_pages_fast()` is a commonly used path for I/O and memory
+  management
+- Without this fix, users would hit kernel warnings/crashes when GUP
+  fast path is used
+- This completely breaks PREEMPT_RT usability on affected configurations
+
+## 6. STABILITY INDICATORS
+
+**Review chain is strong**:
+- Sebastian Andrzej Siewior (PREEMPT_RT maintainer) developed this
+- Arnd Bergmann reworked and reviewed it
+- Linus Walleij acked it
+- Russell King (ARM maintainer) accepted it
+
+## 7. DEPENDENCY CHECK
+
+This is a standalone Kconfig change. Dependencies:
+- `PREEMPT_RT` must exist in the kernel - PREEMPT_RT was merged into
+  mainline in kernel 6.12
+- `HIGHPTE` and `HIGHMEM` options exist on ARM in all relevant kernel
+  versions
+
+The fix should apply cleanly to any stable tree with PREEMPT_RT support.
+
+## STABLE KERNEL CRITERIA EVALUATION
+
+| Criterion | Assessment |
+|-----------|------------|
+| Obviously correct | ✅ Yes - disables problematic config combination |
+| Fixes real bug | ✅ Yes - sleeping-while-atomic crash |
+| Important issue | ✅ Yes - crashes on PREEMPT_RT systems |
+| Small and contained | ✅ Yes - 1 line Kconfig change |
+| No new features | ✅ Yes - only disables an option |
+| Clean application | ✅ Yes - simple dependency addition |
+
+## CONCERNS
+
+1. **No explicit stable request**: Maintainers didn't add `Cc: stable`.
+   However, the fix is clearly appropriate for stable.
+2. **PREEMPT_RT availability**: Only relevant for kernels 6.12+ where
+   PREEMPT_RT was merged into mainline.
+
+## CONCLUSION
+
+This commit fixes a real, reproducible crash on ARM PREEMPT_RT systems.
+The fix is minimal (1 line), obviously correct (disables problematic
+feature combination), well-reviewed by relevant maintainers (ARM, RT),
+and carries essentially zero risk. While there's no explicit stable tag,
+the technical merits strongly support backporting.
+
+The sleeping-while-atomic bug would make `get_user_pages_fast()`
+unusable on affected configurations, which is a serious correctness
+issue for PREEMPT_RT users who require deterministic behavior.
+
+**YES**
+
+ arch/arm/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 4fb985b76e97f..70cd3b5b5a059 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1215,7 +1215,7 @@ config HIGHMEM
+ 
+ config HIGHPTE
+ 	bool "Allocate 2nd-level pagetables from highmem" if EXPERT
+-	depends on HIGHMEM
++	depends on HIGHMEM && !PREEMPT_RT
+ 	default y
+ 	help
+ 	  The VM uses one page of physical memory for each page table.
+-- 
+2.51.0
+
