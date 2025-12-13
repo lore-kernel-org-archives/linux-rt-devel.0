@@ -1,116 +1,183 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69FEE3002A0
-	for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 19:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765566225; cv=none; b=XKZidz6sasyGZa6QK/dmNueYUp8ulAEQpjzI1pOlftbVTAUQQpxZugFl7oW2K4d1R8cB1r2+4kzImU+a+tlbOvZFQ4u0uTJwRwXjg/FZ779IWgFSGSqeU7DuxQNO4FmZJMjNnMvp4AQl4pdtseKA3xFB7oTGFtvdw29t9cfiI0M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765566225; c=relaxed/simple;
-	bh=lVKS6Y7TeGlvB2l0JwHXx0Wv058Rb5Lk7W9y/3Z96Eo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S9MjEyLajEioIohQjtpqFnatexKlxRrymCPWUJlZz5KrnZLz995841b6Ji+f3FaNgT/4eH6z8GRorneGT84zIvbxIbY/RmXW1R1iaiNJW8ElJLGKqGvxG7quNAO6NNZY7k+UB+YlYuMgwv8W8L9Sk42MXsfoG4eGzugqTNCUVdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3835B165C;
-	Fri, 12 Dec 2025 11:03:35 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 472E13F762;
-	Fri, 12 Dec 2025 11:03:40 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: nico@fluxnic.net,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	dongdong.deng@windriver.com
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v2] smc91x: fix broken irq-context in PREEMPT_RT
-Date: Fri, 12 Dec 2025 19:03:38 +0000
-Message-Id: <20251212190338.2318843-1-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8418B1F874C
+	for <linux-rt-devel@lists.linux.dev>; Sat, 13 Dec 2025 07:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765609543; cv=pass; b=F8K9xKBPv69KMA1dEBzgktMVFahTskIlVRFHa7rYE3M48K3T0+WLFEheOy2ffO26yVK1ve73K5Hi92xhyE8TE7ZZovLuJXDrVJdHIAvEOVieJh1NI/uewyNifZ++SyQwkyS1eC6adIRHwaiQJ9n2kxgK09Oci4dfc+wm3JbNNBw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765609543; c=relaxed/simple;
+	bh=oveY6ghAYYW1/assJTaVUMOm3ALmNhblLmKgXg0pPvc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NP04iTBHiwl5leHsVRKKeAaBadSkHbUE9/pobfS8csAMhZNBp9WENlJI8rIOPnuMLARHAOQkOTAzvWVKVuaMfnSSmS1l6wUwtrGObOEfPIyHfPrUeapI6M0AhDhOEvTxC7M656nE8p2Lfe8KKwW0IXr8k8NHEzaxm0MsV0gCchc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TLDpfBD7; arc=pass smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TLDpfBD7"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-597ceef6eebso23731e87.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 12 Dec 2025 23:05:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1765609540; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JDHIERLZw5rIvtvoAy2sahUL/pqm0yA+qSJvlrqicypvGzK0bDWn78qYLulmrpWpbr
+         g4Qvpl9N2tufn9h6aM2nZ6VuTDYQvxj2MzcE34WQ41BFEFIEJAJ2k9Rr+UIbBtDW8uL3
+         D8hs+8hQYAyxqRmMEKzSfgCro0UG1nwzAcsOUfM0ev3xd99RMrM7rCzj+PmAos466iQc
+         I9LXUyCCRn9KmnlBZVSJbntbqHxvmbPvWM3v4YilwaZJ9i3FIwKpOdv2YXPzAX7u6XZG
+         5R48xY9hTw+TM5dGFrEgsPjA3q449PUXVBywR7vBvRFdIY6kO/DtCK4oeTyvKU2v8bpg
+         7T2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Ot7CTaOEn9MEJkbjFKG93I03AklZCblxqt7tGVu1gvM=;
+        fh=CcfcP98qantUgFbzyOOt3mXrHcSOgAWXGoc0A8YFt3k=;
+        b=Oj39rUvkEMKVClCqQZ4dby4TeUdsKUz73+UGCUEAVncSF9As8qzCxf5QEWpJtgMrHu
+         e44Fc35SrTz8sYOQrU3gFTHJ9E+vAq67Wo4ezjK5zNGjSKcWJcSObyBmtMTfOZbMX9LP
+         Hmemw1WkVpuX3M57oQNbP36L4lJnGSJrz8SPbtl+0H/iRpRPxcMlzLbYFvAYm8M3qCKB
+         FEA6EAUpYhg+/d9uRtkHDz7OIkgjuvMIGmQLfx+KaOD69Zkgujv5uyFe4+yuQFRLEvXy
+         zUPu8vwT2IUecfhg/JsSQV2fkGm33KoxLCW/jrLcp/QASH++vgTPOexny/+/6has3oZh
+         JkzQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765609540; x=1766214340; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ot7CTaOEn9MEJkbjFKG93I03AklZCblxqt7tGVu1gvM=;
+        b=TLDpfBD7S8jGV0M0CJTZ+WnEYNiZ77Jz+7P7b1Asb2TgP3HQC4U5ZOdIiesImzC4N3
+         Hrs373fU0KOWv0/ilHJsqdE/ezbaCaIsZRtQkDbI/NtKvMcRe1J8phbDuQdLH6l/Omdg
+         2o1Kt/ov9POLG1O1v+kjijhj+/KVZCKbMD2JesGVNeOZV+6c7itz7pG3bo3XaQ0w2o/A
+         K9yEKoLM7mWST1tGChqMJ0JdXAL2OmgmN0qJwEyvo7caaPCtrJ/uGkYpE75vH7Dcy6Tz
+         l0fUv4tEb1aiMJGb8/ySE2xqsTL/IgwDkkzYOOPRq0Ur8D3O3i3RoZgrT0zNltmdZKhR
+         6+iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765609540; x=1766214340;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ot7CTaOEn9MEJkbjFKG93I03AklZCblxqt7tGVu1gvM=;
+        b=BYuaK11pha/qzQePUYdYaAdunjrlnp7Mrz+sezNrQU1m13+Iht3Y8cUgDapuCI52U0
+         zLxZdnnJbrTmlN/BMFo1PVUs0tafqAITvi2Y8QYfQuTupiM+TucnJpmVayTaGUCjPB0f
+         8braMaHTBjvFDlHGmO22fRXcuoOkQciJ8Ow3ZPRnVsiI9ESm/90gdB+rjuRGkoBggeuZ
+         gLKtsp5fbPnDMt2eDH9b7+j8gFnAU5/AWpba2L444MprCMMQAijl78oDirNbShvQriTB
+         LcikWr2aQTwE9X0KXGmGFSYQWa2cbcQcAzz9zcqoaslctdWKbYye9qvVYGTfLNDqL8xh
+         Ywyg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRyBR6Yu9kHP/BKoCz3x6G/C52lHBoa+lx27VVYcE4SKIE84kTN/m7IByKRLuUkQ0zReF1cMmn/A4KBGpdrw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzixzC3C1r+MBkMstLpZeq5W54SBZOBpTwu2XlmwOmFkV+8qQVK
+	4caJk3DMsYwPK+R/t4XT/Q6Z64+tI0Y0YYOSHuAKWv6St60go74b4gZcea/5BaGhlZbJo73Ed8p
+	mjDO9z/WaQ+PNS/unzLDsxTiEenqbFyWk+1fYGJNB
+X-Gm-Gg: AY/fxX5doy4lBoKKQzi0rVD+RSM8LaCFG5cwbaL08FjufdVRKL1ipVkUKzLkVwU29XW
+	nBGeAqPSMlOwImML3aHC6004yBEYomkxhJDkiOqYKUOd99qorC+0NewQuID3eXxX9z+JcFYG5uw
+	uThhUuB84YI7ckrO7FKxjFsHcDSqCcF7/rmRxjXueXrp7CFpONzqYqAIizJpZuYAPCp7halkx2B
+	f3ywOcRbtIqPjtEZmTnIFdYRF5nPMwrc34YXEs7gDU9c6vJmwt0QzNrLop0KlKQbif7mmiV
+X-Google-Smtp-Source: AGHT+IFxhjah2N2uFy306dItOjP0R93hkCDyo1Kn++vNhOwiYTt8khSjxmS7193oFeZUUiU7KewI20Oqx5FGrhIwBmA=
+X-Received: by 2002:ac2:5de3:0:b0:594:43e1:ed43 with SMTP id
+ 2adb3069b0e04-598fe1eb38cmr60101e87.2.1765609539221; Fri, 12 Dec 2025
+ 23:05:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251212161832.2067134-1-yeoreum.yun@arm.com> <20251212161832.2067134-3-yeoreum.yun@arm.com>
+In-Reply-To: <20251212161832.2067134-3-yeoreum.yun@arm.com>
+From: Brendan Jackman <jackmanb@google.com>
+Date: Sat, 13 Dec 2025 16:05:20 +0900
+X-Gm-Features: AQt7F2rPm7R-wCwVHPTjXe_bQj-qNecTeNkHkP5H4J7QvG1ylb2YhWsPANW--u8
+Message-ID: <CA+i-1C2e7QNTy5u=HF7tLsLXLq4xYbMTCbNjWGAxHz4uwgR05g@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: mmu: use pagetable_alloc_nolock() while stop_machine()
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com, 
+	mhocko@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, hannes@cmpxchg.org, 
+	ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org, 
+	rostedt@goodmis.org, catalin.marinas@arm.com, will@kernel.org, 
+	ryan.roberts@arm.com, kevin.brodsky@arm.com, dev.jain@arm.com, 
+	yang@os.amperecomputing.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-When smc91x.c is built with PREEMPT_RT, the following splat occurs
-in FVP_RevC:
+On Sat, 13 Dec 2025 at 01:18, Yeoreum Yun <yeoreum.yun@arm.com> wrote:
+>
+> linear_map_split_to_ptes() and __kpti_install_ng_mappings()
+> are called as callback of stop_machine().
+> That means these functions context are preemption disabled.
+>
+> Unfortunately, under PREEMPT_RT, the pagetable_alloc() or
+> __get_free_pages() couldn't be called in this context
+> since spin lock that becomes sleepable on RT,
+> potentially causing a sleep during page allocation.
+>
+> To address this, pagetable_alloc_nolock().
+>
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+>  arch/arm64/mm/mmu.c | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> index 2ba01dc8ef82..0e98606d8c4c 100644
+> --- a/arch/arm64/mm/mmu.c
+> +++ b/arch/arm64/mm/mmu.c
+> @@ -475,10 +475,15 @@ static void __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
+>  static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
+>                                        enum pgtable_type pgtable_type)
+>  {
+> -       /* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
+> -       struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
+> +       struct ptdesc *ptdesc;
+>         phys_addr_t pa;
+>
+> +       /* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
+> +       if (gfpflags_allow_spinning(gfp))
+> +               ptdesc  = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
+> +       else
+> +               ptdesc  = pagetable_alloc_nolock(gfp & ~__GFP_ZERO, 0);
+> +
+>         if (!ptdesc)
+>                 return INVALID_PHYS_ADDR;
+>
+> @@ -869,6 +874,7 @@ static int __init linear_map_split_to_ptes(void *__unused)
+>                 unsigned long kstart = (unsigned long)lm_alias(_stext);
+>                 unsigned long kend = (unsigned long)lm_alias(__init_begin);
+>                 int ret;
+> +               gfp_t gfp = IS_ENABLED(CONFIG_PREEMPT_RT) ? __GFP_HIGH : GFP_ATOMIC;
+>
+>                 /*
+>                  * Wait for all secondary CPUs to be put into the waiting area.
+> @@ -881,9 +887,9 @@ static int __init linear_map_split_to_ptes(void *__unused)
+>                  * PTE. The kernel alias remains static throughout runtime so
+>                  * can continue to be safely mapped with large mappings.
+>                  */
+> -               ret = range_split_to_ptes(lstart, kstart, GFP_ATOMIC);
+> +               ret = range_split_to_ptes(lstart, kstart, gfp);
+>                 if (!ret)
+> -                       ret = range_split_to_ptes(kend, lend, GFP_ATOMIC);
+> +                       ret = range_split_to_ptes(kend, lend, gfp);
+>                 if (ret)
+>                         panic("Failed to split linear map\n");
+>                 flush_tlb_kernel_range(lstart, lend);
+> @@ -1207,7 +1213,14 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+>         remap_fn = (void *)__pa_symbol(idmap_kpti_install_ng_mappings);
+>
+>         if (!cpu) {
+> -               alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
+> +               if (IS_ENABLED(CONFIG_PREEMPT_RT))
+> +                       alloc = (u64) pagetable_alloc_nolock(__GFP_HIGH | __GFP_ZERO, order);
+> +               else
+> +                       alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
+> +
+> +               if (!alloc)
+> +                       panic("Failed to alloc kpti_ng_pgd\n");
+> +
 
-[   13.055000] smc91x LNRO0003:00 eth0: link up, 10Mbps, half-duplex, lpa 0x0000
-[   13.062137] BUG: workqueue leaked atomic, lock or RCU: kworker/2:1[106]
-[   13.062137]      preempt=0x00000000 lock=0->0 RCU=0->1 workfn=mld_ifc_work
-[   13.062266] C
-** replaying previous printk message **
-[   13.062266] CPU: 2 UID: 0 PID: 106 Comm: kworker/2:1 Not tainted 6.18.0-dirty #179 PREEMPT_{RT,(full)}
-[   13.062353] Hardware name:  , BIOS
-[   13.062382] Workqueue: mld mld_ifc_work
-[   13.062469] Call trace:
-[   13.062494]  show_stack+0x24/0x40 (C)
-[   13.062602]  __dump_stack+0x28/0x48
-[   13.062710]  dump_stack_lvl+0x7c/0xb0
-[   13.062818]  dump_stack+0x18/0x34
-[   13.062926]  process_scheduled_works+0x294/0x450
-[   13.063043]  worker_thread+0x260/0x3d8
-[   13.063124]  kthread+0x1c4/0x228
-[   13.063235]  ret_from_fork+0x10/0x20
+I don't have the context on what this code is doing so take this with
+a grain of salt, but...
 
-This happens because smc_special_trylock() disables IRQs even on PREEMPT_RT,
-but smc_special_unlock() does not restore IRQs on PREEMPT_RT.
-The reason is that smc_special_unlock() calls spin_unlock_irqrestore(),
-and rcu_read_unlock_bh() in __dev_queue_xmit() cannot invoke
-rcu_read_unlock() through __local_bh_enable_ip() when current->softirq_disable_cnt becomes zero.
-
-To address this issue, replace smc_special_trylock() with spin_trylock_irqsave().
-
-Fixes: 8ff499e43c53 ("smc91x: let smc91x work well under netpoll")
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
-This patch based on v6.18.
-
-History
-========
-
-From v1 to v2:
-  - remove debug log.
-  - https://lore.kernel.org/all/20251212185818.2209573-1-yeoreum.yun@arm.com/
-
----
- drivers/net/ethernet/smsc/smc91x.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
-
-diff --git a/drivers/net/ethernet/smsc/smc91x.c b/drivers/net/ethernet/smsc/smc91x.c
-index 9d1a83a5fa7e..d16c178d1034 100644
---- a/drivers/net/ethernet/smsc/smc91x.c
-+++ b/drivers/net/ethernet/smsc/smc91x.c
-@@ -516,15 +516,7 @@ static inline void  smc_rcv(struct net_device *dev)
-  * any other concurrent access and C would always interrupt B. But life
-  * isn't that easy in a SMP world...
-  */
--#define smc_special_trylock(lock, flags)				\
--({									\
--	int __ret;							\
--	local_irq_save(flags);						\
--	__ret = spin_trylock(lock);					\
--	if (!__ret)							\
--		local_irq_restore(flags);				\
--	__ret;								\
--})
-+#define smc_special_trylock(lock, flags)	spin_trylock_irqsave(lock, flags)
- #define smc_special_lock(lock, flags)		spin_lock_irqsave(lock, flags)
- #define smc_special_unlock(lock, flags) 	spin_unlock_irqrestore(lock, flags)
- #else
---
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
+The point of the _nolock alloc is to give the allocator an excuse to
+fail. Panicking on that failure doesn't seem like a great idea to me?
