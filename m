@@ -1,184 +1,122 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447DC3101A2
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Dec 2025 16:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC81431352C;
+	Mon, 15 Dec 2025 17:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765816043; cv=none; b=WRaP1J/+NxwAbGA9nF2Dq6wOlFTEeILBziQzY06U8LWQvvIh5+3++BRLgXuuvRiaM7xu+NF6LKkJAZnBt+DnVr/RYKiFDbzycqypchjFCX7+CMdYcu8HBaGxAEJnscYMGInr+sQpHdX2smv3P3U4+1/1YPEII/cgUlQGbM17jQU=
+	t=1765818650; cv=none; b=TGQASUT5C3OaV6K2E8FJSWrov1NFc4MTEyTt+MHacmjYcvq8XtSIScvublHRNvM1FxEauobtRI0z8QUBTAR+nrJWCX+SzEs1Q+yZ/qjlYCfV0HDgaqorGhfKyc+2kS1Jry6TqcK3KLfpf8HTHyhEPkx4q5iA41QkIZ0AFHk3CE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765816043; c=relaxed/simple;
-	bh=pGfGkm/LJKhlHj8QpkNFdNobVUFr7n+CQPnxy61rcfY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iuM8Qr9H2LOkBiLWhWDtdXeC6G9UFtRcziefrwnn1zaV2ajpBQBQVxPglfTabBIuu9Sqw3XSEU9fYI9j8jgyDvZG//Zl+ipal/M5isGM46Pb8nIBZatFqccem1RTKX81XbWH7QRro9dKNfSp9fBTVC4FGhdSoCyPHIKAdLLTHBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com; spf=none smtp.mailfrom=mojatatu.com; dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b=OV1+s9t9; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mojatatu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mojatatu.com
+	s=arc-20240116; t=1765818650; c=relaxed/simple;
+	bh=cwMR/Fk5tha92MiDNpmUeFP+QNMa9XhwhgULZKix1PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mczn1qRV9iFy1wQ8mFkp6Xehrgg9QkGDjwDM9PsyfKrCCl1veT0C2o7G8wE3Mqkh7L/qCVcnkyHNriGfohRN6udTGpXpratD3xdmnLnNVkLhB1PQUZJ6Bd2AaMI1CZmXBA7mHZf62sdvxW/cEnYbBthbpM7l7l/U4Nii8c6KS2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZMVOEwP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mojatatu-com.20230601.gappssmtp.com header.i=@mojatatu-com.20230601.gappssmtp.com header.b="OV1+s9t9"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2a09d981507so15007835ad.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Dec 2025 08:27:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mojatatu-com.20230601.gappssmtp.com; s=20230601; t=1765816040; x=1766420840; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eeFjW4GGBlfUil//ONawh35XqY0NMR/rqexb+Jz1U8Y=;
-        b=OV1+s9t9cgz3SuMHmLztv5rZWjkRLP3HDrYBo5JrNVuDiWSV1TqqzUBRnigAWycMVe
-         OR76i4+WodnUGm6hZGe/ig0x9CvS8MTLpyNqaFJwiWMN/hbfGfVUG/2EviVxx7an7zvN
-         fe+KOaWLK6NBW8QBBRQLDWFIFFYvdoM4oyfHhPS52adbzfrXrXiuNnVd8aSrDiN5oqEE
-         jZYesWGewH8EtseAzatKnBq3sL5DR/WRkNgNHZGYde1W8//FZ9v5M9IH+wMFr1MjWUJa
-         zBAedZGnRZumoXDxE1luuen9ZBNodZ8OW/NL6PRapfqLjauD0XYcDYFS6rGia9TcyHB7
-         v8sQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765816040; x=1766420840;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eeFjW4GGBlfUil//ONawh35XqY0NMR/rqexb+Jz1U8Y=;
-        b=tszm6VP5baXj12I/kNuiuJO33vVm/1bUtK7rDqkuvfQ/JWiTVOlgprTh+74tLmNdyg
-         jBynVZ9wuuMh1G+uZqAarV1pqThh6N6HyZ9kZ8uOWq09+b6B4x+Aw2RSLym9bdbNYH2z
-         Osd6OioMlTpoEu8vPkcuoU1s6PGdD5iwpYK5VGOwjB9JCa4fD2dGW0WrpG+NJIXos4rA
-         3m9PY/DORtsmG/mnxKIb+jcshM+mM5DHE22dj98NirKEHNL8KWC6gDG872JpdUOIvM+s
-         P8Is0aR/9j8so/zjWf4KUq/24jWmOH82OhZIBgv5h3dyVBa7cl1/6EsBItKmSXbt3qRA
-         8RvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJwOfpMqI3kYv20nFIm4JeI36b1ONYKoPJeEQZemGqqTow28m+VZ/g7E1wy0cSSyCH8muf+MhU5au9muCM+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvSTz1845fAtNnJ1ObtZIo1Enb5HN2vv4zmpyoEmiHwJ1PQBI2
-	e0EX3bsb5lwvkUqkdDslTLUpqvC3ow2KodryDoww0BWhlsROXMB7oNfJTyb5TW8xMiCawn6VuxL
-	W4DWIk4CPwiGatlICrWupCsjekg9MuWn0XskCK51D
-X-Gm-Gg: AY/fxX5+Ew6r85z1wfDTx/WYyagQ9aW01adxl2gRf+BJ1awFirOrKoHbXGAP9i2QQqZ
-	zk5rl976npJOCdNhgXlMBZGctqQmjGiuppSxJ5PQYyRsD7YLRDxzKvwjtknSKNYEiQXqD9vijO4
-	s5VrR06HoUzAo4JU2joxuVU/xljimo52BKYYVt6SdFwuKg1O0aYeJ9Yip1Sy0XgywWYWlkvwjcW
-	O415CDjzEEtX1y1kvj0w9NGUAXYvOnQ6CIS7fJsW9pagtgC3QEdbb0VIGGedYQkvX+vZ0wi1OLF
-	vMM=
-X-Google-Smtp-Source: AGHT+IFUVGYJxDeOj/+7z2Sw/SnjfxffqQt8jBtVOKRWth8gPUTjMl0KDV8NE/zl2q1+LXxUhP1x5cGN20SnRcoqe3s=
-X-Received: by 2002:a17:902:c94d:b0:295:6117:c597 with SMTP id
- d9443c01a7336-29eee9f1eb6mr160256245ad.5.1765816040355; Mon, 15 Dec 2025
- 08:27:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZMVOEwP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F880C4CEF5;
+	Mon, 15 Dec 2025 17:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765818648;
+	bh=cwMR/Fk5tha92MiDNpmUeFP+QNMa9XhwhgULZKix1PY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FZMVOEwPzqZZWOFPQ6Wa00Okn6d0OJMvDCcP+Ke/6f59VpIzMzvl9yX9EQWOGXLL3
+	 k9G8gIrcVqMjIjyJBnyNy7wyFBMTpxQ0PgBtCdwsOj2DqJL8Px3KVTBbjZs3TXeW06
+	 Qx3dtmbRvVyym2X9vldBHcSErJ+2/7lD6UYGgbGCAOnvcuDB874wIsHJluhHL9uTd5
+	 sOqtEe4FkdAKX5H89+7i5gVZ2DT6GO/hRx+dS83zP5R+d9Do1kJmKi37Qxa0YRiMI7
+	 fHE3p1zn0APIXoXguSrqvXgkJamO9sentpByvn77geIUgGt2kX7MMn7Wj7+SBHZj+8
+	 XnzY4Tz4lrE2g==
+Date: Mon, 15 Dec 2025 17:10:43 +0000
+From: Simon Horman <horms@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: nico@fluxnic.net, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+	dongdong.deng@windriver.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] smc91x: fix broken irq-context in PREEMPT_RT
+Message-ID: <aUBBE-W4kwQbsp9t@horms.kernel.org>
+References: <20251212190338.2318843-1-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251109091336.9277-1-vnranganath.20@gmail.com>
- <20251109091336.9277-3-vnranganath.20@gmail.com> <tnqp5igbbqyl6emzqnei2o4kuz@altlinux.org>
- <CAM0EoMmnDe+Re5P0YPiRTJ=N+4omhtv=r3i5iicav8R7hg6TTQ@mail.gmail.com>
- <CAM0EoMneOSX=AMe53hQibY=O6n=KYnudAWfVtUdOf8qc_Bmw+Q@mail.gmail.com> <3kwhg36anlckq57bez25aimvyj@altlinux.org>
-In-Reply-To: <3kwhg36anlckq57bez25aimvyj@altlinux.org>
-From: Jamal Hadi Salim <jhs@mojatatu.com>
-Date: Mon, 15 Dec 2025 11:27:08 -0500
-X-Gm-Features: AQt7F2qOz_HulbV6PMgGMsTzSxb-3zDgxkIjNkh0vPROCEBMB_qv8gXlxJpj1fA
-Message-ID: <CAM0EoMk+5z0uiwdjvm6Fvx-RWOy0hWJrM4C6iPnCKv-Sh=uk4g@mail.gmail.com>
-Subject: Re: [PATCH net v4 2/2] net: sched: act_ife: initialize struct tc_ife
- to fix KMSAN kernel-infoleak
-To: Vitaly Chikunov <vt@altlinux.org>, stable@kernel.org
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ranganath V N <vnranganath.20@gmail.com>, 
-	linux-rt-devel@lists.linux.dev, edumazet@google.com, davem@davemloft.net, 
-	david.hunter.linux@gmail.com, horms@kernel.org, jiri@resnulli.us, 
-	khalid@kernel.org, kuba@kernel.org, pabeni@redhat.com, 
-	xiyou.wangcong@gmail.com, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212190338.2318843-1-yeoreum.yun@arm.com>
 
-On Sun, Dec 14, 2025 at 4:38=E2=80=AFPM Vitaly Chikunov <vt@altlinux.org> w=
-rote:
->
-> Jamal, and linux-rt-devel,
->
-> On Fri, Dec 12, 2025 at 11:29:24AM -0500, Jamal Hadi Salim wrote:
-> > On Fri, Dec 12, 2025 at 11:26=E2=80=AFAM Jamal Hadi Salim <jhs@mojatatu=
-.com> wrote:
-> > >
-> > > On Thu, Dec 11, 2025 at 7:54=E2=80=AFPM Vitaly Chikunov <vt@altlinux.=
-org> wrote:
-> > > >
-> > > > On Sun, Nov 09, 2025 at 02:43:36PM +0530, Ranganath V N wrote:
-> > > > > Fix a KMSAN kernel-infoleak detected  by the syzbot .
-> > > > >
-> > > > > [net?] KMSAN: kernel-infoleak in __skb_datagram_iter
-> > > > >
-> > > > > In tcf_ife_dump(), the variable 'opt' was partially initialized u=
-sing a
-> > > > > designatied initializer. While the padding bytes are reamined
-> > > > > uninitialized. nla_put() copies the entire structure into a
-> > > > > netlink message, these uninitialized bytes leaked to userspace.
-> > > > >
-> > > > > Initialize the structure with memset before assigning its fields
-> > > > > to ensure all members and padding are cleared prior to beign copi=
-ed.
-> > > > >
-> > > > > This change silences the KMSAN report and prevents potential info=
-rmation
-> > > > > leaks from the kernel memory.
-> > > > >
-> > > > > This fix has been tested and validated by syzbot. This patch clos=
-es the
-> > > > > bug reported at the following syzkaller link and ensures no infol=
-eak.
-> > > > >
-> > > > > Reported-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.co=
-m
-> > > > > Closes: https://syzkaller.appspot.com/bug?extid=3D0c85cae3350b7d4=
-86aee
-> > > > > Tested-by: syzbot+0c85cae3350b7d486aee@syzkaller.appspotmail.com
-> > > > > Fixes: ef6980b6becb ("introduce IFE action")
-> > > > > Signed-off-by: Ranganath V N <vnranganath.20@gmail.com>
-> > > > > ---
-> > > > >  net/sched/act_ife.c | 12 +++++++-----
-> > > > >  1 file changed, 7 insertions(+), 5 deletions(-)
-> > > > >
-> > > > > diff --git a/net/sched/act_ife.c b/net/sched/act_ife.c
-> > > > > index 107c6d83dc5c..7c6975632fc2 100644
-> > > > > --- a/net/sched/act_ife.c
-> > > > > +++ b/net/sched/act_ife.c
-> > > > > @@ -644,13 +644,15 @@ static int tcf_ife_dump(struct sk_buff *skb=
-, struct tc_action *a, int bind,
-> > > > >       unsigned char *b =3D skb_tail_pointer(skb);
-> > > > >       struct tcf_ife_info *ife =3D to_ife(a);
-> > > > >       struct tcf_ife_params *p;
-> > > > > -     struct tc_ife opt =3D {
-> > > > > -             .index =3D ife->tcf_index,
-> > > > > -             .refcnt =3D refcount_read(&ife->tcf_refcnt) - ref,
-> > > > > -             .bindcnt =3D atomic_read(&ife->tcf_bindcnt) - bind,
-> > > > > -     };
-> > > > > +     struct tc_ife opt;
-> > > > >       struct tcf_t t;
-> > > > >
-> > > > > +     memset(&opt, 0, sizeof(opt));
-> > > > > +
-> > > > > +     opt.index =3D ife->tcf_index,
-> > > > > +     opt.refcnt =3D refcount_read(&ife->tcf_refcnt) - ref,
-> > > > > +     opt.bindcnt =3D atomic_read(&ife->tcf_bindcnt) - bind,
-> > > >
-> > > > Are you sure this is correct to delimit with commas instead of
-> > > > semicolons?
-> > > >
-> > > > This already causes build failures of 5.10.247-rt141 kernel, becaus=
-e
-> > > > their spin_lock_bh unrolls into do { .. } while (0):
-> > > >
-> > >
-> > > Do you have access to this?
-> > > commit 205305c028ad986d0649b8b100bab6032dcd1bb5
-> > > Author: Chen Ni <nichen@iscas.ac.cn>
-> > > Date:   Wed Nov 12 15:27:09 2025 +0800
-> > >
-> > >     net/sched: act_ife: convert comma to semicolon
-> > >
-> >
-> > Sigh. I see the problem: that patch did not have a Fixes tag;
-> > otherwise, it would have been backported.
->
-> Thanks! I will pick this for the local builds. But, perhaps, someone
-> should send it to stable@kernel.org to fix the older -rt kernels too.
->
+On Fri, Dec 12, 2025 at 07:03:38PM +0000, Yeoreum Yun wrote:
+> When smc91x.c is built with PREEMPT_RT, the following splat occurs
+> in FVP_RevC:
+> 
+> [   13.055000] smc91x LNRO0003:00 eth0: link up, 10Mbps, half-duplex, lpa 0x0000
+> [   13.062137] BUG: workqueue leaked atomic, lock or RCU: kworker/2:1[106]
+> [   13.062137]      preempt=0x00000000 lock=0->0 RCU=0->1 workfn=mld_ifc_work
+> [   13.062266] C
+> ** replaying previous printk message **
+> [   13.062266] CPU: 2 UID: 0 PID: 106 Comm: kworker/2:1 Not tainted 6.18.0-dirty #179 PREEMPT_{RT,(full)}
+> [   13.062353] Hardware name:  , BIOS
+> [   13.062382] Workqueue: mld mld_ifc_work
+> [   13.062469] Call trace:
+> [   13.062494]  show_stack+0x24/0x40 (C)
+> [   13.062602]  __dump_stack+0x28/0x48
+> [   13.062710]  dump_stack_lvl+0x7c/0xb0
+> [   13.062818]  dump_stack+0x18/0x34
+> [   13.062926]  process_scheduled_works+0x294/0x450
+> [   13.063043]  worker_thread+0x260/0x3d8
+> [   13.063124]  kthread+0x1c4/0x228
+> [   13.063235]  ret_from_fork+0x10/0x20
+> 
+> This happens because smc_special_trylock() disables IRQs even on PREEMPT_RT,
+> but smc_special_unlock() does not restore IRQs on PREEMPT_RT.
+> The reason is that smc_special_unlock() calls spin_unlock_irqrestore(),
+> and rcu_read_unlock_bh() in __dev_queue_xmit() cannot invoke
+> rcu_read_unlock() through __local_bh_enable_ip() when current->softirq_disable_cnt becomes zero.
+> 
+> To address this issue, replace smc_special_trylock() with spin_trylock_irqsave().
+> 
+> Fixes: 8ff499e43c53 ("smc91x: let smc91x work well under netpoll")
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> ---
+> This patch based on v6.18.
+> 
+> History
+> ========
+> 
+> >From v1 to v2:
+>   - remove debug log.
+>   - https://lore.kernel.org/all/20251212185818.2209573-1-yeoreum.yun@arm.com/
+> 
 
-+ @stable
-Not sure if this is enough. Let me know if @stable needs something more for=
-mal.
+Firstly, I'd like to note that it seems to me that the last
+non-trivial update to this driver seems to have occurred back in 2016.
+Do you know if it is still actively used?
 
-cheers,
-jamal
+I agree that this patch seems appropriate as a bug fix.
+But I do wonder if, as a follow-up for net-next when it re-opens,
+smc_special_*lock could be removed entirely.
+Other than being the source of this bug (which I guess is special),
+they don't seem very special anymore. Perhaps they were once,
+but that time seems to have passed.
+
+Regarding the Fixes tag. I wonder if this one, which post-dates the
+currently cited commit is correct. It seems to be when RT variants of
+these locks was introduced.
+
+Fixes: 342a93247e08 ("locking/spinlock: Provide RT variant header: <linux/spinlock_rt.h>")
+
+Lastly, for reference, when posting fixes for Networking code, please:
+
+* Target the patches at net like this:
+
+  [PATCH net] ...
+
+* Allow at least 24h to pass before posting updated patch versions
+
+More can be found here: https://docs.kernel.org/process/maintainer-netdev.html
+
+
+Reviewed-by: Simon Horman <horms@kernel.org>
