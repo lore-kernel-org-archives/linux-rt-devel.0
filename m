@@ -1,276 +1,330 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010028.outbound.protection.outlook.com [52.101.69.28])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7706130BB83
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Dec 2025 10:07:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.28
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765793275; cv=fail; b=BfJbWr13plv3Ysnm0/zB4E0DVVNjFNQp2t0aSlPgAgcEqIRFY9odEwhct+NhC82+ZtMewIjVOlBpx4Isd+q+UtiuoVbRWq0FJwXl1pyvxvCVJEoqomo+eKKIWJcY35oV3o0AiyxKOWCnbKbpCvPqRT1S/YvGjb2iUMvGVvJNS1A=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765793275; c=relaxed/simple;
-	bh=ei1h3HimI82bN0vJNUE+Q4UXF2VZp8GvTRo23T012fw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=gytTdEx153ybSIvbloUC++QFHJYUg78xEJRx1HDNzJ/zvcHxDqgFn0Aty3+HlyG1uh428ctfbyJUrRgUhUSvjtwwk75djQu5akZ8nVa0aZRWea9kYWLeH02DxzWV3yZlh5ASiT4yWc4ff4LM2k4ZjSThf0sw4NBHPGqER7PGg78=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ni+7SixG; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ni+7SixG; arc=fail smtp.client-ip=52.101.69.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62BB11C3BF7
+	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Dec 2025 12:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1765801101; cv=none; b=RfISqogesk/Arh3u2z1LfFGiPfNWgvQAQDgjhEAZ+3d4DKw/FlZfpsUHhWCcgxttV7U73C+mA2osupiPnM5K+ec3bxprKbBTYKtfV34ettuiMrTpEpFnW2JK+Yy4WF+sgVZMhwfC11i+oqld1ZKe/6Ao9MV+PpeASlpJHW44R9Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1765801101; c=relaxed/simple;
+	bh=zWPlDMrXoHksqLEI+Q9jNtjOZuOq8St2TadW5e6zU9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TwuNnOXMgr8CpwnaJOpQOqGEpFv2cxug+cdy88XKDsqFHotbnLkJSFsns/yOExlhdHw0cv1/zQNWPwBGdLhRfA8voxWifICpnPekwcCr3RbU5pL75BE5C4zVwEMhInUTVc2ZJ/GkvsMtV5tlQ0IRNe/kY8jB32g3hIUMZ+WjvYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OpOHNmeb; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ni+7SixG";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ni+7SixG"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=AoDc7Qlsl1OhxAkYrKni0MSg5yegjqG1TCeHLc9eekeAmPm5oOpr7xN6Vhxe7JIRqgWc+0Eoj70oDnczMoFDFLYvoHZYdoZd/EVIiWolVfKWZekfYiWPJbL5yoU3+3P/mFJs9wP8F+XgAKUFt6kU26GUzW+kdRspvbshnQWzmq5Rvw04IPF28AywPgsVibZ9n/akkxsRBiKWZMI7eBIo8wLZwXktqC1lB+ig0n45Px4eZLWbIjejxCsPeaUkEGLpn+zani7eXuktA2dw2J6KHhDgY9igZrKtZpr/2QYTafumBaijgZu4Kj0OhBH+b/E5PL7t0ObEcm1k0WLC92j9nw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KGIRq0E9K4iLo5rVR6sOX3z6XnMD3R4ajv9E7JKv9jA=;
- b=xBy933rBtanxVbMvlSgm4FiW8fullH6w+tPf6X6ZqTIlozIlzRGX5gpqSyku+4mR1oGUTGILRY0TFjTSRIh2XMiB8M5MOrC2fUBKAaZ5yZ0qzhQBRFyFRK36twnI+dwqjk75+nsy7nvwbzHGBgUBO+j0rk/6HgAIREOPSH5VupjN0ANGHCBrezt3ekOmNuBoyvGUND6XLXzZf/ViFsuiUAoqn0EVUfNuQvbF+cqK81eRV0qiv+114x1ah/Th/sO2kzKBAD9juY8L1jY60xuwEy3kTrBQXbdkDclkVF2E3TrsqN/V8ZJIN4EGRw4pJUqcV+XJ9IOKQ+dz5xvlmuYSSg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=google.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KGIRq0E9K4iLo5rVR6sOX3z6XnMD3R4ajv9E7JKv9jA=;
- b=ni+7SixGYmO+qgVXC/RJlqSEYNtFU4q8/wZsWKVPTpA71tCXnClZDdSu2h4jvLqiTQZ+uYTCCdBavY7NrcdZYt4EAUG7k8yjYrjX+y+0nLM+gPVN3n35deXBptxFfHzSVwUPyppgtcxAfzNGEOu02nRSRsDoppdFzWpHRo7sOyI=
-Received: from DUZPR01CA0280.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b9::26) by PA4PR08MB7642.eurprd08.prod.outlook.com
- (2603:10a6:102:260::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.9; Mon, 15 Dec
- 2025 10:07:47 +0000
-Received: from DB1PEPF000509F1.eurprd03.prod.outlook.com
- (2603:10a6:10:4b9:cafe::85) by DUZPR01CA0280.outlook.office365.com
- (2603:10a6:10:4b9::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9412.13 via Frontend Transport; Mon,
- 15 Dec 2025 10:07:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB1PEPF000509F1.mail.protection.outlook.com (10.167.242.75) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6
- via Frontend Transport; Mon, 15 Dec 2025 10:07:46 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NyccDOf6BBG2i4rGzfJqK41BGpgZClxFfnZAtLU7z3PjeubxIkl2T8Jj+UsOurKSs8UrsrObSyEYZSeLYL53jAk8NiDcrg3PNQ0ZspOCZPwrb8KRwQ8HDF3Ar1KCXYgtaUz8MhI7B3taRlnCdSMz70pgQPobJX4scOnQly7ERTNsbNWRVhzIvn6RtYUZlxDOSbilh2J8nE7DuN/LYdq2dHTmmaXgtzRD3UCzjukayLRUzXRrCCDE54AJJ2FyLZ54wVVb6zhuH2LbQ+kLWr83NtHSWla+gQ3We9ChfXxqY7ed6zdziLSXnIjeGYP3KB2jJB4VxirIWqgdTeWwEOkk2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KGIRq0E9K4iLo5rVR6sOX3z6XnMD3R4ajv9E7JKv9jA=;
- b=o2lcTFovJjSi5TYkT3bstlgdT6upO9/CFclAF2sDfmxDMZJ+zNQ0IDodDuvxTqMwJ3TGXkBmzRUmPnsJ7hU8IgAJaaNzuLPsPMrQAVVOOPjhJxpahx82X09IrkWhyUXjp0BK76sbZXpjs3+3/jCTS118JknZOlx3uF+6mEsRmjSvieYxtJMXUvykOoaT5OBTfm07h0m2g4zasuJiJVwYc4FrxBNKNqmjtJqmnay1RkAQc7S/bCUM6OzPqrC56nc8ohXDxo0pS2iTIEHHpPKoWHYAKyh3aTq+JVHmhboU8DNX5fJT9R25NLCzWxldF9sbdliBjaNtBI48GQ5IQNyKVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KGIRq0E9K4iLo5rVR6sOX3z6XnMD3R4ajv9E7JKv9jA=;
- b=ni+7SixGYmO+qgVXC/RJlqSEYNtFU4q8/wZsWKVPTpA71tCXnClZDdSu2h4jvLqiTQZ+uYTCCdBavY7NrcdZYt4EAUG7k8yjYrjX+y+0nLM+gPVN3n35deXBptxFfHzSVwUPyppgtcxAfzNGEOu02nRSRsDoppdFzWpHRo7sOyI=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by DB9PR08MB9804.eurprd08.prod.outlook.com
- (2603:10a6:10:45f::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9412.13; Mon, 15 Dec
- 2025 10:06:43 +0000
-Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
- ([fe80::d430:4ef9:b30b:c739%3]) with mapi id 15.20.9412.011; Mon, 15 Dec 2025
- 10:06:42 +0000
-Date: Mon, 15 Dec 2025 10:06:38 +0000
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: Brendan Jackman <jackmanb@google.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me,
-	haoluo@google.com, jolsa@kernel.org, hannes@cmpxchg.org,
-	ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
-	rostedt@goodmis.org, catalin.marinas@arm.com, will@kernel.org,
-	ryan.roberts@arm.com, kevin.brodsky@arm.com, dev.jain@arm.com,
-	yang@os.amperecomputing.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 2/2] arm64: mmu: use pagetable_alloc_nolock() while
- stop_machine()
-Message-ID: <aT/drjN1BkvyAGoi@e129823.arm.com>
-References: <20251212161832.2067134-1-yeoreum.yun@arm.com>
- <20251212161832.2067134-3-yeoreum.yun@arm.com>
- <CA+i-1C2e7QNTy5u=HF7tLsLXLq4xYbMTCbNjWGAxHz4uwgR05g@mail.gmail.com>
- <aT5/y3cSGIzi2K+m@e129823.arm.com>
- <DEYOI8H2OESD.1H56D3H8HKILB@google.com>
- <aT/WOAr4osoJWaMS@e129823.arm.com>
- <DEYP7JSVTB9D.3EFN2KEHH3O79@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DEYP7JSVTB9D.3EFN2KEHH3O79@google.com>
-X-ClientProxiedBy: LO3P123CA0005.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::10) To GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OpOHNmeb"
+Date: Mon, 15 Dec 2025 20:17:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765801087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hQyowvHu09ybpNC76sRIKOM8wjKkC+jHN9wA1E3FUh4=;
+	b=OpOHNmebkuVD+CaR8k7iu7rWCKZZ4lB6ccBvk01SUtAA5Yj+/PIEOHwXklkW4zhqmVhj8b
+	pkZwK5KdtosDocXBQ/ikEeRH32jMkjYazz6Vz7u37DT25Tby9qgYnBHeN8C/vAuqzGp0UT
+	Y+0OCHOOCybj5RFhSdq5HyT0QehSHV4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC 06/19] slab: introduce percpu sheaves bootstrap
+Message-ID: <ct5pjdx3k4sxw5qjuzs7rsblkxpkah3qdx6kbhe2oeuaontaii@fwgb6ovi36zj>
+References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
+ <20251023-sheaves-for-all-v1-6-6ffa2c9941c0@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10521:EE_|DB9PR08MB9804:EE_|DB1PEPF000509F1:EE_|PA4PR08MB7642:EE_
-X-MS-Office365-Filtering-Correlation-Id: a26f722a-8b62-479f-26e3-08de3bc1cbb8
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original:
- =?utf-8?B?OGNTU05FTHNaZTAvZlRQVXhrNUUzTEJSdng4aEpqcVIyQm5VM3Y0OGx5MXZw?=
- =?utf-8?B?Y0FsdXNWcTYyNlFVRTRwamdvNktjcUNIOEY0bUtmWVduTmptZWFlUEVCS2o4?=
- =?utf-8?B?bUo5aUQ1ZnVTT3ljSVhEOVU4U0NSeE9OMHg0QUVnaXdHT0U0K2poN3pqMEJZ?=
- =?utf-8?B?bGYzK0RUYVIvRTYrSzVNYXhFSGlIR0dNd1hOQ3I3MDRtdHhVS2ErVFFEVW5s?=
- =?utf-8?B?TEV6WXZQS00yY2RCcUZqcGt2Q0lTSmVmTklITU03WUFaZlA5WllLL0hlak5o?=
- =?utf-8?B?NVVKczNoa3licHd6YzhKdWNlQ21WQWo3aUtXbWVWQmpPNHJYQVVjdUFDNG84?=
- =?utf-8?B?NHIxRTQwTi9xRi9DLzUyYWluZTRRazdvc2pYS08xUlRhM21FNXp6MUowUzN5?=
- =?utf-8?B?eFprdWMzMU13dUZiV0NFcXovUy9Bd3pMUENKbUtmcVcwRHRYbkw5dC9mUkx6?=
- =?utf-8?B?QnB6SkpsRThGYUM1bzZ2QUNSUmt2aFRhTGVFckcyTFV1QWZzUmRhZHhmaDFI?=
- =?utf-8?B?Q1A5aEFHcU16bi9EcHQ5VkNQbFdmeVh3bFd1OXh5WkhnUmM1WVl2dFhuY004?=
- =?utf-8?B?ampMVHhUbHFYREhJN1pBU1BMMnVTN3BPZVNHYUlPQkJIYzJ6ZktmR1hLdzU2?=
- =?utf-8?B?NldNVm9IbWdIUzVHUlFyQ25DMi9IRlZuVy9XYWc0NEJWZ094TzBuWHlBU0ox?=
- =?utf-8?B?SXZQQ1AzaXV6dnRPNE9FNDhsTWFTR3FtSFJrN2o4UXlRRWFSQkJCdHJCVWp5?=
- =?utf-8?B?WjdXSy95THRqMDhBVlpPUTdJNHpsRFlGeE4rVHRkNmRZcmJBMXZLUGxVK1Zt?=
- =?utf-8?B?MHBxdmYzY3EzRm5MK0JSSUh3bFpDYkpMQlJrTWVjdU4rU1lMTHBVR040YVVr?=
- =?utf-8?B?ZUttYjcvb1VxblpBU0JlS1M4VDlUUExzTmQ2cFFKajc1V2s1MUU2MXhYNHZs?=
- =?utf-8?B?M3JhNjBzWEpHQmoxa09sVnZNNXpDaitGMG9Cdjk4cXZWQW9RRytsN1hZclg4?=
- =?utf-8?B?MWFES01JeENPUkxhQk0yL2l1RmQyT0c5YzI1L2FaZUk2Nk1hd01TTnhNZGVa?=
- =?utf-8?B?aFMxMzFEcGRhUk4rQmtaT1pPK3MxWWNQakRaMHR6aSs4dE5FQXlSLytKMzVP?=
- =?utf-8?B?S0dNcU9oeWZCWnNuQ3ZkaGdSUlhvRUtid25VaUZYZlkzalNhV3oyRWlGMEE3?=
- =?utf-8?B?T25jeGRKNVBaTHYyMHZab055SndJZnp4WXgyaE16eXRQTkpBTHlWeVdTWjZE?=
- =?utf-8?B?WkpKZHZSVzMya3lGVC9VbURFSnhtSWlVQlZGalR6NktMRWtZWHBvci9BOG1K?=
- =?utf-8?B?UCtTU2JDb3RmOE5HZVRwWnJTWnNMaG45K2tlMXNKYW13ZWxISDErOFBFRUV0?=
- =?utf-8?B?Rng0VTJjd2diaGlEQ2UxMWp6U2t4K1BqMldmbG1qcGZ6WS9WQ3IzdXBiL0dE?=
- =?utf-8?B?dGxlMnltODgwbkZWWExJY0s2K0c0K2QzcFlpMHpoUEVVZGdJSlJRQTZWcHNq?=
- =?utf-8?B?NkxNelFpaXQrTVBuSXZKZzJwRTl6NERsK2FGdFI5SWYvTmJlQlQwOFFVTzcv?=
- =?utf-8?B?NUNjQVpZdlhKSGE0RGZjK3h2MkwydzBibFpMMjF2ZGIyYU9sYkg3dXE1WlQv?=
- =?utf-8?B?elpqRExYbmF5cWU4dEVsMGVXT2dSYU1PbVBMalhDQ09XMURZd0xEcUowYjRr?=
- =?utf-8?B?VXVEUk1hWDBSSXcxWEZVVDF0QmdxWlJTSHZTbjltK0krc1I0am1BSXRsbWlH?=
- =?utf-8?B?MHVLc3ZkWWZDandZcHpXSHZFdHFIQjZFUU1NbXZrQ2J6WHNMR1lMak5COHVW?=
- =?utf-8?B?ZTU4TmE3TEdsZisrUjFqV1VSSXlGT3VzSGlXK0JqVmtYOU51SkhTQUxheEtO?=
- =?utf-8?B?L3N2T1I4ZVVLcWhKeGh1emIxTUQ5ZWlnd2wyMW9OSTNVc0dycVk1T2lZemNV?=
- =?utf-8?Q?SVkaxDxbUnHlg+c8YaDmilvEWQw2houn?=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9804
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB1PEPF000509F1.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	6cba7bb2-7d07-4016-7506-08de3bc1a55f
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|14060799003|36860700013|35042699022|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dXNIeTNKK3h4Y0Uxdi96NUJ5NzdLVnlRN0FhSnY3dGdiNFVNUVZiOFpWQ0VM?=
- =?utf-8?B?VlpQQjAyUGVJTjYwVzc3eVVHMUFoc2lhaVlwK2hETVJ2ano2d0c3QWRkTDU0?=
- =?utf-8?B?N09JdlJLZUdOQlpkOFJUQ25iRmVaMk5OV2VsQk80akpQRm1lblJUOVJJazRt?=
- =?utf-8?B?cjhXZm83djhNSCtxSzZCVXJzelhJbmJENFFldG5PcFA5MVdDNnZnMC9qU29I?=
- =?utf-8?B?SDRrdDRVYU5QNHlDcjlwWWRVeXBMQk11a0trTyt2eWZqZ05WWXVZbmlEL01M?=
- =?utf-8?B?Sms5REhydDRhNGJlTlVOczFVaXR4OG52K25wRDlxZGdtV2QrSm5aSjZHTW1l?=
- =?utf-8?B?ZW1sdWhpaHdTd2pkeXZJRkUyKzVTWkd2NHZFVTNFaWpwTVZWZDVMMkJscHI3?=
- =?utf-8?B?SDVDWkpQZEhPMGpkUE9ybnk3R1FwT1BPZTFqOFZUUFZHZzBwZ0svRVUyaDdv?=
- =?utf-8?B?OURXSGdKazlUYnA0UXFRS25jL0Q1dGdRRzZnRDVmbVhpU09ZbHMyWC95YWxF?=
- =?utf-8?B?bFlkSkZwbUxSTmpuN01PZ2NGOGJOeFY1V05STGtaTVJIcDJibVE0OXVBRmVK?=
- =?utf-8?B?cGsvQnh4MW0ybllldHFDMWJZTXNTSzk1NkU1M2RaM0szRmVtWUpNTWt3eU00?=
- =?utf-8?B?VFZ3SUZ3aWpBQ3JWbHhIZVYrUTVVYUN2U2pRY0djQ1g4bSt1bE50WnJCODRK?=
- =?utf-8?B?ZmM2YzIwMTlGWlBoaThCdW9HYnN6TEFwTkdycWN6UENUZEdqbVpnSUtaeGN5?=
- =?utf-8?B?QU84VWwxWU1EVDBrUXdibzJPVnVrb0NKVXVmZjNYY1cyMjZYZWVQbHBPeXRZ?=
- =?utf-8?B?NlJHV3M0bTBYejdDZzlnMTdHT0RsMlZ2QitGYmYzQzNYSVZaK2cwSU50SXo4?=
- =?utf-8?B?VStJMzk2bHdyd3BqSWYzd3NTSlBUelJoY0dDZnIrdUxRRDlXd21qbTgwcjUv?=
- =?utf-8?B?QUY5OGs4WDVvVTNVeVhLT3FVNWphSkNpQUJLQVlVS2xDVTAvZVpqTTZXeU5L?=
- =?utf-8?B?V1lEdTkyeWMzbFc4cjFYanBhNHpKbGVSVjBPY1lYYkVaSEtJZDVzMkhxV1pv?=
- =?utf-8?B?dUZUZjUvYVdVTlM1U1FhSjdoeUErTzBHUnJOUkVGM0doMEVhVE9scWxYK2Y4?=
- =?utf-8?B?aFFQSlhicm9ieGdCeEJIaVF4N0NMeVU0QXc0ZEpaVi93YTBwcFlpdXQ0bnpr?=
- =?utf-8?B?MTd4SmNZb0NDMnJzOFk5VUZrMTI4WDk2dmJRaUc4ME0zKytWUEdDUkxCUlA0?=
- =?utf-8?B?S2lwcWJWNmExQmZuK2hGeUN2K2tTejdpNEh6Y3JtQ0Y4V2c3NVhGa1BmVTgx?=
- =?utf-8?B?N3pOVjg5N2d6WG1ZLzEvZTlBMzhCQzRqSDY4V0hCR0tROTllMkh1aWdlQXdV?=
- =?utf-8?B?WmJqRU5vbkF6SXQrcmE3NEdKNEdUZUtXS2o4NXVjL3dGRzJoQVBITER2ZjRB?=
- =?utf-8?B?WTZuMGZWanJqRkhxVXZEYmt5TkR2MXFVTEZuNzdsTG9mRFNVb3Z3VUlJTW4y?=
- =?utf-8?B?QlpHcUgxek13MzNGcGVsVkFVQmIzNm5pSE5ZclhnUlNVbUZHd3M3UHlHQ1NC?=
- =?utf-8?B?bDRab1FuNnNibFZTRkRVcWtJZ1ZrVit4LzgwbHZSVUZMdFEzQkZtejh2c3lF?=
- =?utf-8?B?VmRNcFNhcVlHdVpGV1ZWVHozSXRmYjE1UW91c0lGTUdGZkhWejI0b01IMVJC?=
- =?utf-8?B?TStqNk4yS2psc1o0UHNUcXl5UEtlQ2krSHJqMUNGV0pNRWkzSVFpTURydWhY?=
- =?utf-8?B?SzlYT20zeDg3M1M4M2p4M29TZkx6OWJJMFltZ3NYN3E5WjB4OHhyMW9Nb2tT?=
- =?utf-8?B?aDR5S0hmNTFFUFZKTGdlT1NkWTVSUHBVQ1Nxa2lCNUYvODloYVFiZkFrOTNa?=
- =?utf-8?B?QzcxY3R1UjUva3V0Yi91NmtlT3pTQmhhcXplb25QazNmR1dKc1FCSkxkV1l0?=
- =?utf-8?B?bjFmd3RkaU5RYWJKbFQrdWU1dFI5cVk1Q2pWYXR6RzVNOVpxdmhrMFNRenhp?=
- =?utf-8?B?M3ZLeUlRSm8wdUY0eXF6dEJOZi81dW1Ic1p1NzU2NlVXWWY1VDN6SzNHa2dT?=
- =?utf-8?B?dXhPYld3NEs2VG9vN1lHZ3RKZElRdFZBeEdyZHNzdm9DY0R6V0k3dzNyc1V4?=
- =?utf-8?Q?xtbE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(14060799003)(36860700013)(35042699022)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2025 10:07:46.5160
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a26f722a-8b62-479f-26e3-08de3bc1cbb8
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB1PEPF000509F1.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB7642
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251023-sheaves-for-all-v1-6-6ffa2c9941c0@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-> On Mon Dec 15, 2025 at 9:34 AM UTC, Yeoreum Yun wrote:
-> > Hi Brendan,
-> >> On Sun Dec 14, 2025 at 9:13 AM UTC, Yeoreum Yun wrote:
-> >> >> I don't have the context on what this code is doing so take this with
-> >> >> a grain of salt, but...
-> >> >>
-> >> >> The point of the _nolock alloc is to give the allocator an excuse to
-> >> >> fail. Panicking on that failure doesn't seem like a great idea to me?
-> >> >
-> >> > I thought first whether it changes to "static" memory area to handle
-> >> > this in PREEMPT_RT.
-> >> > But since this function is called while smp_cpus_done().
-> >> > So, I think it's fine since there wouldn't be a contention for
-> >> > memory allocation in this phase.
-> >>
-> >> Then shouldn't it use _nolock unconditionally?
-> >
-> > As you pointed out, I think it should be fine even in the !PREEMPT_RT case.
-> > However, in case I missed something or if my understanding is incorrect,
-> > I applied it only to the PREEMPT_RT case for now.
->
-> Hmm, I don't think "this code might be broken so let's cage it behind a
-> conditional" is a good strategy.
->
-> 1. It bloats the codebase.
->
-> 2. It's confusing to readers, now you have to try an understand why this
->    conditional is here, which is a doomed effort. This could be
->    mitigated with comments but, see point 1.
->
-> 3. It expands the testing matrix. So now we have code that we aren't
->    really sure is correct, AND it gets less test coverage.
->
-> Overall I am feeling a bit uncomfortable about this use of _nolock, but
-> I am also feeling pretty ignorant about PREEMPT_RT and also about this
-> arm64 code, so I am hesitant to suggest alternatives, I hope someone
-> else can offer some input here...
+On Thu, Oct 23, 2025 at 03:52:28PM +0200, Vlastimil Babka wrote:
+> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
+> sheaves enabled. Since we want to enable them for almost all caches,
+> it's suboptimal to test the pointer in the fast paths, so instead
+> allocate it for all caches in do_kmem_cache_create(). Instead of testing
+> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
+> kmem_cache->sheaf_capacity for being 0, where needed.
+> 
+> However, for the fast paths sake we also assume that the main sheaf
+> always exists (pcs->main is !NULL), and during bootstrap we cannot
+> allocate sheaves yet.
+> 
+> Solve this by introducing a single static bootstrap_sheaf that's
+> assigned as pcs->main during bootstrap. It has a size of 0, so during
+> allocations, the fast path will find it's empty. Since the size of 0
+> matches sheaf_capacity of 0, the freeing fast paths will find it's
+> "full". In the slow path handlers, we check sheaf_capacity to recognize
+> that the cache doesn't (yet) have real sheaves, and fall back. Thus
+> sharing the single bootstrap sheaf like this for multiple caches and
+> cpus is safe.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slub.c | 96 ++++++++++++++++++++++++++++++++++++++++++++++-----------------
+>  1 file changed, 70 insertions(+), 26 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index a6e58d3708f4..ecb10ed5acfe 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2850,6 +2850,10 @@ static void pcs_destroy(struct kmem_cache *s)
+>  		if (!pcs->main)
+>  			continue;
+>  
+> +		/* bootstrap or debug caches, it's the bootstrap_sheaf */
+> +		if (!pcs->main->cache)
+> +			continue;
+> +
+>  		/*
+>  		 * We have already passed __kmem_cache_shutdown() so everything
+>  		 * was flushed and there should be no objects allocated from
+> @@ -4054,7 +4058,7 @@ static void flush_cpu_slab(struct work_struct *w)
+>  
+>  	s = sfw->s;
+>  
+> -	if (s->cpu_sheaves)
+> +	if (s->sheaf_capacity)
+>  		pcs_flush_all(s);
+>  
+>  	flush_this_cpu_slab(s);
+> @@ -4176,7 +4180,7 @@ static int slub_cpu_dead(unsigned int cpu)
+>  	mutex_lock(&slab_mutex);
+>  	list_for_each_entry(s, &slab_caches, list) {
+>  		__flush_cpu_slab(s, cpu);
+> -		if (s->cpu_sheaves)
+> +		if (s->sheaf_capacity)
+>  			__pcs_flush_all_cpu(s, cpu);
+>  	}
+>  	mutex_unlock(&slab_mutex);
+> @@ -4979,6 +4983,12 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>  
+>  	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+> +	/* Bootstrap or debug cache, back off */
+> +	if (unlikely(!s->sheaf_capacity)) {
+> +		local_unlock(&s->cpu_sheaves->lock);
+> +		return NULL;
+> +	}
+> +
+>  	if (pcs->spare && pcs->spare->size > 0) {
+>  		swap(pcs->main, pcs->spare);
+>  		return pcs;
+> @@ -5162,6 +5172,11 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  		struct slab_sheaf *full;
+>  		struct node_barn *barn;
+>  
+> +		if (unlikely(!s->sheaf_capacity)) {
+> +			local_unlock(&s->cpu_sheaves->lock);
+> +			return allocated;
+> +		}
+> +
+>  		if (pcs->spare && pcs->spare->size > 0) {
+>  			swap(pcs->main, pcs->spare);
+>  			goto do_alloc;
+> @@ -5241,8 +5256,7 @@ static __fastpath_inline void *slab_alloc_node(struct kmem_cache *s, struct list
+>  	if (unlikely(object))
+>  		goto out;
+>  
+> -	if (s->cpu_sheaves)
+> -		object = alloc_from_pcs(s, gfpflags, node);
+> +	object = alloc_from_pcs(s, gfpflags, node);
+>  
+>  	if (!object)
+>  		object = __slab_alloc_node(s, gfpflags, node, addr, orig_size);
+> @@ -6042,6 +6056,12 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  restart:
+>  	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>  
+> +	/* Bootstrap or debug cache, back off */
+> +	if (unlikely(!s->sheaf_capacity)) {
+> +		local_unlock(&s->cpu_sheaves->lock);
+> +		return NULL;
+> +	}
+> +
+>  	barn = get_barn(s);
+>  	if (!barn) {
+>  		local_unlock(&s->cpu_sheaves->lock);
+> @@ -6240,6 +6260,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
+>  		struct slab_sheaf *empty;
+>  		struct node_barn *barn;
+>  
+> +		/* Bootstrap or debug cache, fall back */
+> +		if (!unlikely(s->sheaf_capacity)) {
+> +			local_unlock(&s->cpu_sheaves->lock);
+> +			goto fail;
+> +		}
+> +
+>  		if (pcs->spare && pcs->spare->size == 0) {
+>  			pcs->rcu_free = pcs->spare;
+>  			pcs->spare = NULL;
+> @@ -6364,6 +6390,9 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  	if (likely(pcs->main->size < s->sheaf_capacity))
+>  		goto do_free;
+>  
+> +	if (unlikely(!s->sheaf_capacity))
+> +		goto no_empty;
+> +
+>  	barn = get_barn(s);
+>  	if (!barn)
+>  		goto no_empty;
+> @@ -6628,9 +6657,8 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>  	if (unlikely(!slab_free_hook(s, object, slab_want_init_on_free(s), false)))
+>  		return;
+>  
+> -	if (s->cpu_sheaves && likely(!IS_ENABLED(CONFIG_NUMA) ||
+> -				     slab_nid(slab) == numa_mem_id())
+> -			   && likely(!slab_test_pfmemalloc(slab))) {
+> +	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
+> +	    && likely(!slab_test_pfmemalloc(slab))) {
+>  		if (likely(free_to_pcs(s, object)))
+>  			return;
+>  	}
+> @@ -7437,8 +7465,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
+>  		size--;
+>  	}
+>  
+> -	if (s->cpu_sheaves)
+> -		i = alloc_from_pcs_bulk(s, size, p);
+> +	i = alloc_from_pcs_bulk(s, size, p);
+>  
+>  	if (i < size) {
+>  		/*
+> @@ -7649,6 +7676,7 @@ static inline int alloc_kmem_cache_cpus(struct kmem_cache *s)
+>  
+>  static int init_percpu_sheaves(struct kmem_cache *s)
+>  {
+> +	static struct slab_sheaf bootstrap_sheaf = {};
+>  	int cpu;
+>  
+>  	for_each_possible_cpu(cpu) {
+> @@ -7658,7 +7686,28 @@ static int init_percpu_sheaves(struct kmem_cache *s)
+>  
+>  		local_trylock_init(&pcs->lock);
+>  
+> -		pcs->main = alloc_empty_sheaf(s, GFP_KERNEL);
+> +		/*
+> +		 * Bootstrap sheaf has zero size so fast-path allocation fails.
+> +		 * It has also size == s->sheaf_capacity, so fast-path free
+> +		 * fails. In the slow paths we recognize the situation by
+> +		 * checking s->sheaf_capacity. This allows fast paths to assume
+> +		 * s->pcs_sheaves and pcs->main always exists and is valid.
+> +		 * It's also safe to share the single static bootstrap_sheaf
+> +		 * with zero-sized objects array as it's never modified.
+> +		 *
+> +		 * bootstrap_sheaf also has NULL pointer to kmem_cache so we
+> +		 * recognize it and not attempt to free it when destroying the
+> +		 * cache
+> +		 *
+> +		 * We keep bootstrap_sheaf for kmem_cache and kmem_cache_node,
+> +		 * caches with debug enabled, and all caches with SLUB_TINY.
+> +		 * For kmalloc caches it's used temporarily during the initial
+> +		 * bootstrap.
+> +		 */
+> +		if (!s->sheaf_capacity)
+> +			pcs->main = &bootstrap_sheaf;
+> +		else
+> +			pcs->main = alloc_empty_sheaf(s, GFP_KERNEL);
+>  
+>  		if (!pcs->main)
+>  			return -ENOMEM;
+> @@ -7733,8 +7782,7 @@ static void free_kmem_cache_nodes(struct kmem_cache *s)
+>  void __kmem_cache_release(struct kmem_cache *s)
+>  {
+>  	cache_random_seq_destroy(s);
+> -	if (s->cpu_sheaves)
+> -		pcs_destroy(s);
+> +	pcs_destroy(s);
+>  #ifdef CONFIG_PREEMPT_RT
+>  	if (s->cpu_slab)
+>  		lockdep_unregister_key(&s->lock_key);
+> @@ -7756,7 +7804,7 @@ static int init_kmem_cache_nodes(struct kmem_cache *s)
+>  			continue;
+>  		}
+>  
+> -		if (s->cpu_sheaves) {
+> +		if (s->sheaf_capacity) {
+>  			barn = kmalloc_node(sizeof(*barn), GFP_KERNEL, node);
+>  
+>  			if (!barn)
+> @@ -8074,7 +8122,7 @@ int __kmem_cache_shutdown(struct kmem_cache *s)
+>  	flush_all_cpus_locked(s);
+>  
+>  	/* we might have rcu sheaves in flight */
+> -	if (s->cpu_sheaves)
+> +	if (s->sheaf_capacity)
+>  		rcu_barrier();
+>  
+>  	/* Attempt to free all objects */
+> @@ -8375,7 +8423,7 @@ static int slab_mem_going_online_callback(int nid)
+>  		if (get_node(s, nid))
+>  			continue;
+>  
+> -		if (s->cpu_sheaves) {
+> +		if (s->sheaf_capacity) {
+>  			barn = kmalloc_node(sizeof(*barn), GFP_KERNEL, nid);
+>  
+>  			if (!barn) {
+> @@ -8608,12 +8656,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+>  
+>  	set_cpu_partial(s);
+>  
+> -	if (s->sheaf_capacity) {
+> -		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+> -		if (!s->cpu_sheaves) {
+> -			err = -ENOMEM;
+> -			goto out;
+> -		}
+> +	s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
 
-I understand. However, as I mentioned earlier,
-my main intention was to hear opinions specifically about memory contention.
+After this change, all SLUB caches enable cpu_sheaves; therefore,
+slab_unmergeable() will always return 1.
 
-That said, if there is no memory contention,
-I don’t think using the _nolock API is necessarily a bad approach.
-In fact, I believe a bigger issue is that, under PREEMPT_RT,
-code that uses the regular memory allocation APIs may give users the false impression
-that those APIs are “safe to use,” even though they are not.
+int slab_unmergeable(struct kmem_cache *s)
+{
+...
+	if (s->cpu_sheaves)
+		return 1;
+...
+}
 
---
-Sincerely,
-Yeoreum Yun
+Maybe we need to update slab_unmergeable() accordingly..
+
+> +	if (!s->cpu_sheaves) {
+> +		err = -ENOMEM;
+> +		goto out;
+>  	}
+>  
+>  #ifdef CONFIG_NUMA
+> @@ -8632,11 +8678,9 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+>  	if (!alloc_kmem_cache_cpus(s))
+>  		goto out;
+>  
+> -	if (s->cpu_sheaves) {
+> -		err = init_percpu_sheaves(s);
+> -		if (err)
+> -			goto out;
+> -	}
+> +	err = init_percpu_sheaves(s);
+> +	if (err)
+> +		goto out;
+>  
+>  	err = 0;
+>  
+> 
+> -- 
+> 2.51.1
+> 
