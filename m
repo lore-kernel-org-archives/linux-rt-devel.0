@@ -1,43 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC81431352C;
-	Mon, 15 Dec 2025 17:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041F61F78E6
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Dec 2025 02:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765818650; cv=none; b=TGQASUT5C3OaV6K2E8FJSWrov1NFc4MTEyTt+MHacmjYcvq8XtSIScvublHRNvM1FxEauobtRI0z8QUBTAR+nrJWCX+SzEs1Q+yZ/qjlYCfV0HDgaqorGhfKyc+2kS1Jry6TqcK3KLfpf8HTHyhEPkx4q5iA41QkIZ0AFHk3CE0=
+	t=1765852563; cv=none; b=c0Isn8CmvsHU72edNcFrsubb/0SNhwVvNL7jsAyj3VCx4tKuy1AO1IYCysHukgbcvBsPUPI32fe/oa/wiks+XdqbEstZpbtMRwveO9K7wMuC6GZdSU9Wqrae+tWnqSwQLnLbtOfCZs5RdDP+VYKKRKvO/cp5ZR3QqbNg4cpuiv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765818650; c=relaxed/simple;
-	bh=cwMR/Fk5tha92MiDNpmUeFP+QNMa9XhwhgULZKix1PY=;
+	s=arc-20240116; t=1765852563; c=relaxed/simple;
+	bh=JPeaMZtvPrn4JDeyPvd8OGnQClDxkNnfU1n1HQ0I+Fs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mczn1qRV9iFy1wQ8mFkp6Xehrgg9QkGDjwDM9PsyfKrCCl1veT0C2o7G8wE3Mqkh7L/qCVcnkyHNriGfohRN6udTGpXpratD3xdmnLnNVkLhB1PQUZJ6Bd2AaMI1CZmXBA7mHZf62sdvxW/cEnYbBthbpM7l7l/U4Nii8c6KS2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZMVOEwP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=l6TSsj8QLZB6r2HSQAVHRCi+OL7LqaspNUV+BTpV5hBD9Iz0rBQv06MdIMTT9o3tT2hAKO5rv54xRkLe0N5SrJrhZ5tvpCy15UO8Qj3CuxR0MMLXW6a3VrTu0KKmenBGVpMk7ox7tqx8IWGivHtZM9rPN2F6ulwY7RAEbsX2qzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TxI7E3/S; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZMVOEwP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F880C4CEF5;
-	Mon, 15 Dec 2025 17:10:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765818648;
-	bh=cwMR/Fk5tha92MiDNpmUeFP+QNMa9XhwhgULZKix1PY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZMVOEwPzqZZWOFPQ6Wa00Okn6d0OJMvDCcP+Ke/6f59VpIzMzvl9yX9EQWOGXLL3
-	 k9G8gIrcVqMjIjyJBnyNy7wyFBMTpxQ0PgBtCdwsOj2DqJL8Px3KVTBbjZs3TXeW06
-	 Qx3dtmbRvVyym2X9vldBHcSErJ+2/7lD6UYGgbGCAOnvcuDB874wIsHJluhHL9uTd5
-	 sOqtEe4FkdAKX5H89+7i5gVZ2DT6GO/hRx+dS83zP5R+d9Do1kJmKi37Qxa0YRiMI7
-	 fHE3p1zn0APIXoXguSrqvXgkJamO9sentpByvn77geIUgGt2kX7MMn7Wj7+SBHZj+8
-	 XnzY4Tz4lrE2g==
-Date: Mon, 15 Dec 2025 17:10:43 +0000
-From: Simon Horman <horms@kernel.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: nico@fluxnic.net, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
-	dongdong.deng@windriver.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] smc91x: fix broken irq-context in PREEMPT_RT
-Message-ID: <aUBBE-W4kwQbsp9t@horms.kernel.org>
-References: <20251212190338.2318843-1-yeoreum.yun@arm.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TxI7E3/S"
+Date: Tue, 16 Dec 2025 10:35:33 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1765852550;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=14Qnu6glJrs2grpIMzCNPU4lzsGBr4BJiAY7oS1kvoU=;
+	b=TxI7E3/S7+4rZCQiKf2z+nSpsjXv+tW2r+ReSrfzDPjxW8ym0KAf3HLlrO8k+fZMNghWQg
+	rsDmHDr7bfSLTfChuKT90dtdQvKT0wF57vu4O49CYaMNzdreB68BU/fx8kIu4+OHg+7LnB
+	RuSslJFJZoAwtcWSqNWEcv+ik+jJNM4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
+Message-ID: <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
+References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
+ <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -46,77 +48,212 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251212190338.2318843-1-yeoreum.yun@arm.com>
+In-Reply-To: <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Dec 12, 2025 at 07:03:38PM +0000, Yeoreum Yun wrote:
-> When smc91x.c is built with PREEMPT_RT, the following splat occurs
-> in FVP_RevC:
+On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
+> The kmalloc_nolock() implementation has several complications and
+> restrictions due to SLUB's cpu slab locking, lockless fastpath and
+> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
+> things:
 > 
-> [   13.055000] smc91x LNRO0003:00 eth0: link up, 10Mbps, half-duplex, lpa 0x0000
-> [   13.062137] BUG: workqueue leaked atomic, lock or RCU: kworker/2:1[106]
-> [   13.062137]      preempt=0x00000000 lock=0->0 RCU=0->1 workfn=mld_ifc_work
-> [   13.062266] C
-> ** replaying previous printk message **
-> [   13.062266] CPU: 2 UID: 0 PID: 106 Comm: kworker/2:1 Not tainted 6.18.0-dirty #179 PREEMPT_{RT,(full)}
-> [   13.062353] Hardware name:  , BIOS
-> [   13.062382] Workqueue: mld mld_ifc_work
-> [   13.062469] Call trace:
-> [   13.062494]  show_stack+0x24/0x40 (C)
-> [   13.062602]  __dump_stack+0x28/0x48
-> [   13.062710]  dump_stack_lvl+0x7c/0xb0
-> [   13.062818]  dump_stack+0x18/0x34
-> [   13.062926]  process_scheduled_works+0x294/0x450
-> [   13.063043]  worker_thread+0x260/0x3d8
-> [   13.063124]  kthread+0x1c4/0x228
-> [   13.063235]  ret_from_fork+0x10/0x20
+> - the local_lock_cpu_slab() macros became unused, remove them
 > 
-> This happens because smc_special_trylock() disables IRQs even on PREEMPT_RT,
-> but smc_special_unlock() does not restore IRQs on PREEMPT_RT.
-> The reason is that smc_special_unlock() calls spin_unlock_irqrestore(),
-> and rcu_read_unlock_bh() in __dev_queue_xmit() cannot invoke
-> rcu_read_unlock() through __local_bh_enable_ip() when current->softirq_disable_cnt becomes zero.
+> - we no longer need to set up lockdep classes on PREEMPT_RT
 > 
-> To address this issue, replace smc_special_trylock() with spin_trylock_irqsave().
+> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
+>   since there's no lockless cpu freelist manipulation anymore
 > 
-> Fixes: 8ff499e43c53 ("smc91x: let smc91x work well under netpoll")
-> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
+>   unconditionally
+> 
+> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
+> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
+> slab freelist, and the alternative is slab_lock() which can be
+> interrupted by a nmi. Clarify the comment to mention it specifically.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
-> This patch based on v6.18.
+>  mm/slab.h |   1 -
+>  mm/slub.c | 100 ++++----------------------------------------------------------
+>  2 files changed, 6 insertions(+), 95 deletions(-)
 > 
-> History
-> ========
+> diff --git a/mm/slab.h b/mm/slab.h
+> index b2663cc594f3..7dde0b56a7b0 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -208,7 +208,6 @@ struct kmem_cache_order_objects {
+>   */
+>  struct kmem_cache {
+>  	struct kmem_cache_cpu __percpu *cpu_slab;
+> -	struct lock_class_key lock_key;
+>  	struct slub_percpu_sheaves __percpu *cpu_sheaves;
+>  	/* Used for retrieving partial slabs, etc. */
+>  	slab_flags_t flags;
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 6f5ca26bbb00..6dd7fd153391 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3679,29 +3679,12 @@ static inline unsigned int init_tid(int cpu)
+>  
+>  static void init_kmem_cache_cpus(struct kmem_cache *s)
+>  {
+> -#ifdef CONFIG_PREEMPT_RT
+> -	/*
+> -	 * Register lockdep key for non-boot kmem caches to avoid
+> -	 * WARN_ON_ONCE(static_obj(key))) in lockdep_register_key()
+> -	 */
+> -	bool finegrain_lockdep = !init_section_contains(s, 1);
+> -#else
+> -	/*
+> -	 * Don't bother with different lockdep classes for each
+> -	 * kmem_cache, since we only use local_trylock_irqsave().
+> -	 */
+> -	bool finegrain_lockdep = false;
+> -#endif
+>  	int cpu;
+>  	struct kmem_cache_cpu *c;
+>  
+> -	if (finegrain_lockdep)
+> -		lockdep_register_key(&s->lock_key);
+>  	for_each_possible_cpu(cpu) {
+>  		c = per_cpu_ptr(s->cpu_slab, cpu);
+>  		local_trylock_init(&c->lock);
+> -		if (finegrain_lockdep)
+> -			lockdep_set_class(&c->lock, &s->lock_key);
+>  		c->tid = init_tid(cpu);
+>  	}
+>  }
+> @@ -3792,47 +3775,6 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
+>  	}
+>  }
+>  
+> -/*
+> - * ___slab_alloc()'s caller is supposed to check if kmem_cache::kmem_cache_cpu::lock
+> - * can be acquired without a deadlock before invoking the function.
+> - *
+> - * Without LOCKDEP we trust the code to be correct. kmalloc_nolock() is
+> - * using local_lock_is_locked() properly before calling local_lock_cpu_slab(),
+> - * and kmalloc() is not used in an unsupported context.
+> - *
+> - * With LOCKDEP, on PREEMPT_RT lockdep does its checking in local_lock_irqsave().
+> - * On !PREEMPT_RT we use trylock to avoid false positives in NMI, but
+> - * lockdep_assert() will catch a bug in case:
+> - * #1
+> - * kmalloc() -> ___slab_alloc() -> irqsave -> NMI -> bpf -> kmalloc_nolock()
+> - * or
+> - * #2
+> - * kmalloc() -> ___slab_alloc() -> irqsave -> tracepoint/kprobe -> bpf -> kmalloc_nolock()
+> - *
+> - * On PREEMPT_RT an invocation is not possible from IRQ-off or preempt
+> - * disabled context. The lock will always be acquired and if needed it
+> - * block and sleep until the lock is available.
+> - * #1 is possible in !PREEMPT_RT only.
+> - * #2 is possible in both with a twist that irqsave is replaced with rt_spinlock:
+> - * kmalloc() -> ___slab_alloc() -> rt_spin_lock(kmem_cache_A) ->
+> - *    tracepoint/kprobe -> bpf -> kmalloc_nolock() -> rt_spin_lock(kmem_cache_B)
+> - *
+> - * local_lock_is_locked() prevents the case kmem_cache_A == kmem_cache_B
+> - */
+> -#if defined(CONFIG_PREEMPT_RT) || !defined(CONFIG_LOCKDEP)
+> -#define local_lock_cpu_slab(s, flags)	\
+> -	local_lock_irqsave(&(s)->cpu_slab->lock, flags)
+> -#else
+> -#define local_lock_cpu_slab(s, flags)					       \
+> -	do {								       \
+> -		bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
+> -		lockdep_assert(__l);					       \
+> -	} while (0)
+> -#endif
+> -
+> -#define local_unlock_cpu_slab(s, flags)	\
+> -	local_unlock_irqrestore(&(s)->cpu_slab->lock, flags)
+> -
+>  static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
+>  {
+>  	unsigned long flags;
+> @@ -4320,19 +4262,6 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  
+>  	return freelist;
+>  }
+> -/*
+> - * We disallow kprobes in ___slab_alloc() to prevent reentrance
+> - *
+> - * kmalloc() -> ___slab_alloc() -> local_lock_cpu_slab() protected part of
+> - * ___slab_alloc() manipulating c->freelist -> kprobe -> bpf ->
+> - * kmalloc_nolock() or kfree_nolock() -> __update_cpu_freelist_fast()
+> - * manipulating c->freelist without lock.
+> - *
+> - * This does not prevent kprobe in functions called from ___slab_alloc() such as
+> - * local_lock_irqsave() itself, and that is fine, we only need to protect the
+> - * c->freelist manipulation in ___slab_alloc() itself.
+> - */
+> -NOKPROBE_SYMBOL(___slab_alloc);
+>  
+>  static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
+>  		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
+> @@ -5201,10 +5130,11 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	if (!(s->flags & __CMPXCHG_DOUBLE) && !kmem_cache_debug(s))
+>  		/*
+>  		 * kmalloc_nolock() is not supported on architectures that
+> -		 * don't implement cmpxchg16b, but debug caches don't use
+> -		 * per-cpu slab and per-cpu partial slabs. They rely on
+> -		 * kmem_cache_node->list_lock, so kmalloc_nolock() can
+> -		 * attempt to allocate from debug caches by
+> +		 * don't implement cmpxchg16b and thus need slab_lock()
+> +		 * which could be preempted by a nmi.
+> +		 * But debug caches don't use that and only rely on
+> +		 * kmem_cache_node->list_lock, so kmalloc_nolock() can attempt
+> +		 * to allocate from debug caches by
+>  		 * spin_trylock_irqsave(&n->list_lock, ...)
+>  		 */
+>  		return NULL;
+> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	if (ret)
+>  		goto success;
+>  
+> -	ret = ERR_PTR(-EBUSY);
+> -
+>  	/*
+>  	 * Do not call slab_alloc_node(), since trylock mode isn't
+>  	 * compatible with slab_pre_alloc_hook/should_failslab and
+>  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
+>  	 * and slab_post_alloc_hook() directly.
+> -	 *
+> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
+> -	 * in irq saved region. It assumes that the same cpu will not
+> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
+> -	 * Therefore use in_nmi() to check whether particular bucket is in
+> -	 * irq protected section.
+> -	 *
+> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
+> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
+> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
+> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
+>  	 */
+> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
+> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+>  
+>  	if (PTR_ERR(ret) == -EBUSY) {
+
+After Patch 10 is applied, the logic that returns `EBUSY` has been
+removed along with the `s->cpu_slab` logic. As a result, it appears that
+`__slab_alloc_node` will no longer return `EBUSY`.
+
+>  		if (can_retry) {
+> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
+>  {
+>  	cache_random_seq_destroy(s);
+>  	pcs_destroy(s);
+> -#ifdef CONFIG_PREEMPT_RT
+> -	if (s->cpu_slab)
+> -		lockdep_unregister_key(&s->lock_key);
+> -#endif
+>  	free_percpu(s->cpu_slab);
+>  	free_kmem_cache_nodes(s);
+>  }
 > 
-> >From v1 to v2:
->   - remove debug log.
->   - https://lore.kernel.org/all/20251212185818.2209573-1-yeoreum.yun@arm.com/
+> -- 
+> 2.51.1
 > 
-
-Firstly, I'd like to note that it seems to me that the last
-non-trivial update to this driver seems to have occurred back in 2016.
-Do you know if it is still actively used?
-
-I agree that this patch seems appropriate as a bug fix.
-But I do wonder if, as a follow-up for net-next when it re-opens,
-smc_special_*lock could be removed entirely.
-Other than being the source of this bug (which I guess is special),
-they don't seem very special anymore. Perhaps they were once,
-but that time seems to have passed.
-
-Regarding the Fixes tag. I wonder if this one, which post-dates the
-currently cited commit is correct. It seems to be when RT variants of
-these locks was introduced.
-
-Fixes: 342a93247e08 ("locking/spinlock: Provide RT variant header: <linux/spinlock_rt.h>")
-
-Lastly, for reference, when posting fixes for Networking code, please:
-
-* Target the patches at net like this:
-
-  [PATCH net] ...
-
-* Allow at least 24h to pass before posting updated patch versions
-
-More can be found here: https://docs.kernel.org/process/maintainer-netdev.html
-
-
-Reviewed-by: Simon Horman <horms@kernel.org>
