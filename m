@@ -1,259 +1,124 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041F61F78E6
-	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Dec 2025 02:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714052701BB
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Dec 2025 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765852563; cv=none; b=c0Isn8CmvsHU72edNcFrsubb/0SNhwVvNL7jsAyj3VCx4tKuy1AO1IYCysHukgbcvBsPUPI32fe/oa/wiks+XdqbEstZpbtMRwveO9K7wMuC6GZdSU9Wqrae+tWnqSwQLnLbtOfCZs5RdDP+VYKKRKvO/cp5ZR3QqbNg4cpuiv8=
+	t=1765879850; cv=none; b=DbSbviGSduw8RdDrvszBI2K1pcosku38pVhGLa5DfEMfnimWi2l/JoTRQbJ839kGih5F/WeQ5BYW/uZ8mDeGxee4e9vKmTYlRRUcEocv7YWSQncesiaBrew/jmlGA4W6A3B0owzcP2LjA6BgiTokKTwC9JHanvpXjUd7fwJ0rHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765852563; c=relaxed/simple;
-	bh=JPeaMZtvPrn4JDeyPvd8OGnQClDxkNnfU1n1HQ0I+Fs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6TSsj8QLZB6r2HSQAVHRCi+OL7LqaspNUV+BTpV5hBD9Iz0rBQv06MdIMTT9o3tT2hAKO5rv54xRkLe0N5SrJrhZ5tvpCy15UO8Qj3CuxR0MMLXW6a3VrTu0KKmenBGVpMk7ox7tqx8IWGivHtZM9rPN2F6ulwY7RAEbsX2qzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TxI7E3/S; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1765879850; c=relaxed/simple;
+	bh=t5rEzB0XfV2HhggtoY+1nXODslnee9LcIT7edg43TyE=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=I9leAeLT/oSMad/wvgLTXk6t6t1V4AMlMJBnSyv4kw6pic6OXgMo4ZrXHc+bWiSBS43U4tOw7CaEyDAK7ceb/arzswmpT1B/1W8AXikZeliJ5j/KOmRWcYMFQGN6xBx7bqW7HARx1d/3Kl9/8osuqJT5b6Q/P36BNfSN/8HB+BY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZY2Jgba7; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TxI7E3/S"
-Date: Tue, 16 Dec 2025 10:35:33 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1765852550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=14Qnu6glJrs2grpIMzCNPU4lzsGBr4BJiAY7oS1kvoU=;
-	b=TxI7E3/S7+4rZCQiKf2z+nSpsjXv+tW2r+ReSrfzDPjxW8ym0KAf3HLlrO8k+fZMNghWQg
-	rsDmHDr7bfSLTfChuKT90dtdQvKT0wF57vu4O49CYaMNzdreB68BU/fx8kIu4+OHg+7LnB
-	RuSslJFJZoAwtcWSqNWEcv+ik+jJNM4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
-Message-ID: <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZY2Jgba7"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4779981523fso41474115e9.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 16 Dec 2025 02:10:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1765879847; x=1766484647; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t5rEzB0XfV2HhggtoY+1nXODslnee9LcIT7edg43TyE=;
+        b=ZY2Jgba7cddfwQyfdxk2CUv0rKXlbyNnoDNVhHD/C5s4s1YQn0razuQh22sBDjcttk
+         gf185pGSxHoGXE0tQMb45/PzFg0dit/6ehd+lYweZ1MrFTygMMEa7TlHOoEZ2k0XfdTQ
+         4CabEtL3tmUID01n5GhpVPEmuhsio7nMKB+TYKEdu9fmw/FmfDNoV5QokwbxZEJjncsb
+         KIQOl1CVpCd4FM6mW7DgLtgTEP1R9HxeKasJfvNGKtYxUNhIKpNcuxMOacK+GalDGb6Q
+         YkxlScUUWD22bBwgBdDKMlnzrIrpt96ZcaP3c0a5NEqaqsg3ARP9jYMRgxI6nIoDcJRM
+         RUkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765879847; x=1766484647;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=t5rEzB0XfV2HhggtoY+1nXODslnee9LcIT7edg43TyE=;
+        b=wcGRcifhkzgfBm/LQMpojAsXpy53d17ia07gs393zwy60ToUZElvPqb3wiI1GyIkNX
+         Tz0/a2vQ0F9v6Cs1xha41XeJz4Xc57LfzGc05HxOkq9YsOVEDOoN1CT3NtLSBcJKRZ5k
+         ic5/8i2wjdu3p/OKxuTJQEhwftUrt6J+P75qge/XSbtdDedFNQUasMY47o/u80F1lLvF
+         B9XUiiGjMINg43XSJxml+af8xifqizGzGMEjwh2yzYoEdEXSATkaFt27BA1lRhH6xcBm
+         nAA7I2ptFr4dt6MBVSeI4+eOADu3k/aS34sRW2WzlAMSrrYxDvyTI6ZsnKmSkZ3bxxou
+         ehMg==
+X-Forwarded-Encrypted: i=1; AJvYcCXuAC8xSr+fDzuC/TA22IuS0ol95oJu85Y79VKssfz4AoQgkZuqDu07K8riW2kCLQryS3D7gO0EH81bWdx2sg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/e81LhQOJ3D7qEuhA/r9ps7d1sWJzyAzR6fCw2nr567eMT2zE
+	ncI9xp3Hunwac+FNl9Q9WYsl/GCaZJ9F1O3t+D0UeH1pPmoYKwwUitILshhFhXyORwSx6iNTE9+
+	ndeF5kZfbdaX4hQ==
+X-Google-Smtp-Source: AGHT+IEd1DtqS9iGujKBf5Wl3HxnREueKAOxGRaJlybjiAz1XyBUCEjyQ5pN21ilTcLVd3HJFgAC3/iwKoa2lQ==
+X-Received: from wmbd22.prod.google.com ([2002:a05:600c:58d6:b0:477:632b:1238])
+ (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:3104:b0:479:3a86:dc1a with SMTP id 5b1f17b1804b1-47a8f9155fcmr137796355e9.36.1765879846765;
+ Tue, 16 Dec 2025 02:10:46 -0800 (PST)
+Date: Tue, 16 Dec 2025 10:10:46 +0000
+In-Reply-To: <aT/drjN1BkvyAGoi@e129823.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <20251212161832.2067134-1-yeoreum.yun@arm.com> <20251212161832.2067134-3-yeoreum.yun@arm.com>
+ <CA+i-1C2e7QNTy5u=HF7tLsLXLq4xYbMTCbNjWGAxHz4uwgR05g@mail.gmail.com>
+ <aT5/y3cSGIzi2K+m@e129823.arm.com> <DEYOI8H2OESD.1H56D3H8HKILB@google.com>
+ <aT/WOAr4osoJWaMS@e129823.arm.com> <DEYP7JSVTB9D.3EFN2KEHH3O79@google.com> <aT/drjN1BkvyAGoi@e129823.arm.com>
+X-Mailer: aerc 0.21.0
+Message-ID: <DEZK5U2YP6I0.27VJHSVK14646@google.com>
+Subject: Re: [PATCH 2/2] arm64: mmu: use pagetable_alloc_nolock() while stop_machine()
+From: Brendan Jackman <jackmanb@google.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>, Brendan Jackman <jackmanb@google.com>
+Cc: <akpm@linux-foundation.org>, <david@kernel.org>, 
+	<lorenzo.stoakes@oracle.com>, <Liam.Howlett@oracle.com>, <vbabka@suse.cz>, 
+	<rppt@kernel.org>, <surenb@google.com>, <mhocko@suse.com>, <ast@kernel.org>, 
+	<daniel@iogearbox.net>, <andrii@kernel.org>, <martin.lau@linux.dev>, 
+	<eddyz87@gmail.com>, <song@kernel.org>, <yonghong.song@linux.dev>, 
+	<john.fastabend@gmail.com>, <kpsingh@kernel.org>, <sdf@fomichev.me>, 
+	<haoluo@google.com>, <jolsa@kernel.org>, <hannes@cmpxchg.org>, 
+	<ziy@nvidia.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>, 
+	<rostedt@goodmis.org>, <catalin.marinas@arm.com>, <will@kernel.org>, 
+	<ryan.roberts@arm.com>, <kevin.brodsky@arm.com>, <dev.jain@arm.com>, 
+	<yang@os.amperecomputing.com>, <linux-mm@kvack.org>, 
+	<linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>, 
+	<linux-rt-devel@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
-> The kmalloc_nolock() implementation has several complications and
-> restrictions due to SLUB's cpu slab locking, lockless fastpath and
-> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
-> things:
-> 
-> - the local_lock_cpu_slab() macros became unused, remove them
-> 
-> - we no longer need to set up lockdep classes on PREEMPT_RT
-> 
-> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
->   since there's no lockless cpu freelist manipulation anymore
-> 
-> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
->   unconditionally
-> 
-> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
-> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
-> slab freelist, and the alternative is slab_lock() which can be
-> interrupted by a nmi. Clarify the comment to mention it specifically.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slab.h |   1 -
->  mm/slub.c | 100 ++++----------------------------------------------------------
->  2 files changed, 6 insertions(+), 95 deletions(-)
-> 
-> diff --git a/mm/slab.h b/mm/slab.h
-> index b2663cc594f3..7dde0b56a7b0 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -208,7 +208,6 @@ struct kmem_cache_order_objects {
->   */
->  struct kmem_cache {
->  	struct kmem_cache_cpu __percpu *cpu_slab;
-> -	struct lock_class_key lock_key;
->  	struct slub_percpu_sheaves __percpu *cpu_sheaves;
->  	/* Used for retrieving partial slabs, etc. */
->  	slab_flags_t flags;
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 6f5ca26bbb00..6dd7fd153391 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -3679,29 +3679,12 @@ static inline unsigned int init_tid(int cpu)
->  
->  static void init_kmem_cache_cpus(struct kmem_cache *s)
->  {
-> -#ifdef CONFIG_PREEMPT_RT
-> -	/*
-> -	 * Register lockdep key for non-boot kmem caches to avoid
-> -	 * WARN_ON_ONCE(static_obj(key))) in lockdep_register_key()
-> -	 */
-> -	bool finegrain_lockdep = !init_section_contains(s, 1);
-> -#else
-> -	/*
-> -	 * Don't bother with different lockdep classes for each
-> -	 * kmem_cache, since we only use local_trylock_irqsave().
-> -	 */
-> -	bool finegrain_lockdep = false;
-> -#endif
->  	int cpu;
->  	struct kmem_cache_cpu *c;
->  
-> -	if (finegrain_lockdep)
-> -		lockdep_register_key(&s->lock_key);
->  	for_each_possible_cpu(cpu) {
->  		c = per_cpu_ptr(s->cpu_slab, cpu);
->  		local_trylock_init(&c->lock);
-> -		if (finegrain_lockdep)
-> -			lockdep_set_class(&c->lock, &s->lock_key);
->  		c->tid = init_tid(cpu);
->  	}
->  }
-> @@ -3792,47 +3775,6 @@ static void deactivate_slab(struct kmem_cache *s, struct slab *slab,
->  	}
->  }
->  
-> -/*
-> - * ___slab_alloc()'s caller is supposed to check if kmem_cache::kmem_cache_cpu::lock
-> - * can be acquired without a deadlock before invoking the function.
-> - *
-> - * Without LOCKDEP we trust the code to be correct. kmalloc_nolock() is
-> - * using local_lock_is_locked() properly before calling local_lock_cpu_slab(),
-> - * and kmalloc() is not used in an unsupported context.
-> - *
-> - * With LOCKDEP, on PREEMPT_RT lockdep does its checking in local_lock_irqsave().
-> - * On !PREEMPT_RT we use trylock to avoid false positives in NMI, but
-> - * lockdep_assert() will catch a bug in case:
-> - * #1
-> - * kmalloc() -> ___slab_alloc() -> irqsave -> NMI -> bpf -> kmalloc_nolock()
-> - * or
-> - * #2
-> - * kmalloc() -> ___slab_alloc() -> irqsave -> tracepoint/kprobe -> bpf -> kmalloc_nolock()
-> - *
-> - * On PREEMPT_RT an invocation is not possible from IRQ-off or preempt
-> - * disabled context. The lock will always be acquired and if needed it
-> - * block and sleep until the lock is available.
-> - * #1 is possible in !PREEMPT_RT only.
-> - * #2 is possible in both with a twist that irqsave is replaced with rt_spinlock:
-> - * kmalloc() -> ___slab_alloc() -> rt_spin_lock(kmem_cache_A) ->
-> - *    tracepoint/kprobe -> bpf -> kmalloc_nolock() -> rt_spin_lock(kmem_cache_B)
-> - *
-> - * local_lock_is_locked() prevents the case kmem_cache_A == kmem_cache_B
-> - */
-> -#if defined(CONFIG_PREEMPT_RT) || !defined(CONFIG_LOCKDEP)
-> -#define local_lock_cpu_slab(s, flags)	\
-> -	local_lock_irqsave(&(s)->cpu_slab->lock, flags)
-> -#else
-> -#define local_lock_cpu_slab(s, flags)					       \
-> -	do {								       \
-> -		bool __l = local_trylock_irqsave(&(s)->cpu_slab->lock, flags); \
-> -		lockdep_assert(__l);					       \
-> -	} while (0)
-> -#endif
-> -
-> -#define local_unlock_cpu_slab(s, flags)	\
-> -	local_unlock_irqrestore(&(s)->cpu_slab->lock, flags)
-> -
->  static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cpu *c)
->  {
->  	unsigned long flags;
-> @@ -4320,19 +4262,6 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
->  
->  	return freelist;
->  }
-> -/*
-> - * We disallow kprobes in ___slab_alloc() to prevent reentrance
-> - *
-> - * kmalloc() -> ___slab_alloc() -> local_lock_cpu_slab() protected part of
-> - * ___slab_alloc() manipulating c->freelist -> kprobe -> bpf ->
-> - * kmalloc_nolock() or kfree_nolock() -> __update_cpu_freelist_fast()
-> - * manipulating c->freelist without lock.
-> - *
-> - * This does not prevent kprobe in functions called from ___slab_alloc() such as
-> - * local_lock_irqsave() itself, and that is fine, we only need to protect the
-> - * c->freelist manipulation in ___slab_alloc() itself.
-> - */
-> -NOKPROBE_SYMBOL(___slab_alloc);
->  
->  static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
->  		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
-> @@ -5201,10 +5130,11 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  	if (!(s->flags & __CMPXCHG_DOUBLE) && !kmem_cache_debug(s))
->  		/*
->  		 * kmalloc_nolock() is not supported on architectures that
-> -		 * don't implement cmpxchg16b, but debug caches don't use
-> -		 * per-cpu slab and per-cpu partial slabs. They rely on
-> -		 * kmem_cache_node->list_lock, so kmalloc_nolock() can
-> -		 * attempt to allocate from debug caches by
-> +		 * don't implement cmpxchg16b and thus need slab_lock()
-> +		 * which could be preempted by a nmi.
-> +		 * But debug caches don't use that and only rely on
-> +		 * kmem_cache_node->list_lock, so kmalloc_nolock() can attempt
-> +		 * to allocate from debug caches by
->  		 * spin_trylock_irqsave(&n->list_lock, ...)
->  		 */
->  		return NULL;
-> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  	if (ret)
->  		goto success;
->  
-> -	ret = ERR_PTR(-EBUSY);
-> -
->  	/*
->  	 * Do not call slab_alloc_node(), since trylock mode isn't
->  	 * compatible with slab_pre_alloc_hook/should_failslab and
->  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
->  	 * and slab_post_alloc_hook() directly.
-> -	 *
-> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
-> -	 * in irq saved region. It assumes that the same cpu will not
-> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
-> -	 * Therefore use in_nmi() to check whether particular bucket is in
-> -	 * irq protected section.
-> -	 *
-> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
-> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
-> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
-> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
->  	 */
-> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
-> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
-> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
->  
->  	if (PTR_ERR(ret) == -EBUSY) {
+On Mon Dec 15, 2025 at 10:06 AM UTC, Yeoreum Yun wrote:
+[snip]
+>> Overall I am feeling a bit uncomfortable about this use of _nolock, but
+>> I am also feeling pretty ignorant about PREEMPT_RT and also about this
+>> arm64 code, so I am hesitant to suggest alternatives, I hope someone
+>> else can offer some input here...
+>
+> I understand. However, as I mentioned earlier,
+> my main intention was to hear opinions specifically about memory contenti=
+on.
+>
+> That said, if there is no memory contention,
+> I don=E2=80=99t think using the _nolock API is necessarily a bad approach=
+.
 
-After Patch 10 is applied, the logic that returns `EBUSY` has been
-removed along with the `s->cpu_slab` logic. As a result, it appears that
-`__slab_alloc_node` will no longer return `EBUSY`.
 
->  		if (can_retry) {
-> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
->  {
->  	cache_random_seq_destroy(s);
->  	pcs_destroy(s);
-> -#ifdef CONFIG_PREEMPT_RT
-> -	if (s->cpu_slab)
-> -		lockdep_unregister_key(&s->lock_key);
-> -#endif
->  	free_percpu(s->cpu_slab);
->  	free_kmem_cache_nodes(s);
->  }
-> 
-> -- 
-> 2.51.1
-> 
+> In fact, I believe a bigger issue is that, under PREEMPT_RT,
+> code that uses the regular memory allocation APIs may give users the fals=
+e impression
+> that those APIs are =E2=80=9Csafe to use,=E2=80=9D even though they are n=
+ot.
+
+Yeah, I share this concern. I would bet I have written code that's
+broken under PREEMPT_RT (luckily only in Google's kernel fork). The
+comment for GFP_ATOMIC says:
+
+ * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lo=
+wer
+ * watermark is applied to allow access to "atomic reserves".
+ * The current implementation doesn't support NMI and few other strict
+ * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_N=
+OWAIT.
+
+It kinda sounds like it's supposed to be OK to use GFP_ATOMIC in a
+normal preempt_disable() context. So do you know exactly why it's
+invalid to use it in this stop_machine() context here? Maybe we need to
+update this comment. Or, maybe actually we need to fix the allocator so
+that GFP_ATOMIC allocs are safe in this context?
