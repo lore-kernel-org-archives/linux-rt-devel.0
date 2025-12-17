@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AC9387B2D;
-	Wed, 17 Dec 2025 14:29:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA26A39BEAF;
+	Wed, 17 Dec 2025 14:30:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765981783; cv=none; b=I2DU4Q7Un1mM5cLoscSY3u7H2HlzwNoMFPaiq7edwekI8R3ckZgoqybpqZ8l+IzfVqO4fZ+ZIGVPMj0C56pNv3oyqIeBGed0ezVRJMi8IUdnaRxANNBSexAws1828AII6Aiu00Qjlc+jLZSy27z79bU3PpPQqBfRVBkz6Or7BLc=
+	t=1765981846; cv=none; b=UAAodMSZ+yhz3cUTgMsBHPRK5VCbHjPdI6T4qtKM1bpzDHoyHhEyK8IWGbRo3x6A4/Dl/zHReqCL+xjCnD6H9RHwdAwhvptsM8Nw9WGUwIMF734EQ8qa94noDMR0nXLZt0KX+trBpzSilR+YztkM4D4psAvh1hizQDyaCjpzISs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765981783; c=relaxed/simple;
-	bh=+b0zbJKTVU4wL/is9T0X2/DEKt1H+pdpd6OhWTz/zxA=;
+	s=arc-20240116; t=1765981846; c=relaxed/simple;
+	bh=hPrViA/mDV5njR4QGkK0WGZBy9Y1e9ziNuDvAB7tbGQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZvF8+cEOm7e6msPTHdyXxr08LLaC3YlcjcZ/YTRhq83/Z52oaVoCcePSn9Mpa8unsMUKktW3F67yiVH0WnABwQ9K7rtKJHUghgGEhAfYgKfxTgDUEnQ8JaCtMX86fpRrkuwd3btUOj8+BEFD3E1NZSomQn1IApHgveU/X6oaALM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DDDQlNSN; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=iP2LyLRLe6ktz5notjXVR4wsj6l/FReQZK4B7dM/1jQlF2m+BDCqayHv9yakqxcN63+6q/7DC01ZPEj0QB/1KTp2YKiK6a2+Bm6vV1RREBRMScl1tW5d5gBXRQMhcOFwOU2ulxyzxyoi5gkah3w0LdcJumENjk92Xt7QYqhPw7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S0B5RPAA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DDDQlNSN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A0EC113D0;
-	Wed, 17 Dec 2025 14:29:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S0B5RPAA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C2CC4CEF5;
+	Wed, 17 Dec 2025 14:30:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765981782;
-	bh=+b0zbJKTVU4wL/is9T0X2/DEKt1H+pdpd6OhWTz/zxA=;
+	s=k20201202; t=1765981845;
+	bh=hPrViA/mDV5njR4QGkK0WGZBy9Y1e9ziNuDvAB7tbGQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DDDQlNSNF5zWuVlnA7eFaMQ1RKkvhaA2oWaALIHE/PWDxcneheF3r4+Whi4PXsNox
-	 JJ/dPH/0b9lFhgnGs4wy16aJzDx5GCZSsFSjwshqf8CI0Yj6FBm9MSrvhO3rD4/8Dv
-	 PYX8IahI/r/APf/9G7KzfrL+oG01q77SG33A4Y0eBnQ7PSwm2VyWHG4hKvB/RVMuCN
-	 2fgP0Q7r+gEseS8xsMOYMPgZRvyWgi7SHPx2QkBFVWCZ0PNC6fl5tWdP0ZFmt4Vnfj
-	 nB87gAxPIr1s3mNkwUTmsVaIVBjDGkrOll3szWpiWpL55oaQax4Hdlrsgub/Pd5bYD
-	 78+4Gc18T2wuw==
-Message-ID: <ebbe7852-6f1d-4bfe-995d-5d6d668e9961@kernel.org>
-Date: Wed, 17 Dec 2025 15:29:36 +0100
+	b=S0B5RPAATTBsHNL48b+HWLvopFBrpBJwOFKNEcPtsaGX1grspiH7IAJzGjSi3iATF
+	 y0xdWPm3j4ZlypSsgEMNsLjoxb/5eULJr80saUSDlBpV9jEU+ch06a9WosL0SUQvUA
+	 c0ag4ppBNZTe0+fp8CuF4TR4KXrIgs/SiA27Esu6e/94avgKAfozKlZgdresEGfDVD
+	 jurR9Lg7A22UAHBjS8OOkBdU3BrfiCSs24Ug0nJiRvXTgc2GfO6QQIrILmDrk6PksW
+	 syVOwTCT1/l1n6Tol3ZZJw5Rw8NNo7tzm0eeQlPs9Ufk89mrsD3Vvdfsk2WkO9/HCa
+	 13VG3TtbDMiXw==
+Message-ID: <07f8f657-8d9e-4310-ad9b-99fa6055eb5e@kernel.org>
+Date: Wed, 17 Dec 2025 15:30:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/11] ASoC: dt-bindings: add avdd and iovdd supply
+Subject: Re: [PATCH 08/11] ASoC: dt-bindings: clarify areg-supply
+ documentation
 To: Sascha Hauer <s.hauer@pengutronix.de>,
  Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
  Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
@@ -48,9 +49,9 @@ To: Sascha Hauer <s.hauer@pengutronix.de>,
  Dan Murphy <dmurphy@ti.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev,
- devicetree@vger.kernel.org
+ devicetree@vger.kernel.org, Emil-Juhl <emdj@bang-olufsen.dk>
 References: <20251217-sound-soc-codecs-tvl320adcx140-v1-0-293dea149d7b@pengutronix.de>
- <20251217-sound-soc-codecs-tvl320adcx140-v1-7-293dea149d7b@pengutronix.de>
+ <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -96,41 +97,46 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-7-293dea149d7b@pengutronix.de>
+In-Reply-To: <20251217-sound-soc-codecs-tvl320adcx140-v1-8-293dea149d7b@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 17/12/2025 14:54, Sascha Hauer wrote:
-> Add bindings for the avdd-supply and iovdd-supply which are named after
-> the corresponding pins on the tlv320adcx140 chips.
+> From: Emil-Juhl <emdj@bang-olufsen.dk>
 > 
+> The documentation for areg-supply could cause confusion mainly in terms
+> of the relationship between AREG and AVDD.
+> According to the datasheet[1] the AREG can be one of two cases:
+> 
+> 1) an external 1.8V supply
+> 2) generated by an internal regulator (hence a 1.8V output)
+> 
+> [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+> 
+
+Incomplete DCO chain.
+
+
 > Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 > ---
->  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-> index 876fa97bfbcdd3b9450aa6ff57de42f1faed350d..0f043a51f1822f4d39214438818e3bc84d3e8681 100644
+> index 0f043a51f1822f4d39214438818e3bc84d3e8681..0c550c04f5ef239f403bea668ffd8c6051d86821 100644
 > --- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
 > +++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-> @@ -44,6 +44,16 @@ properties:
->        Regulator with AVDD at 3.3V.  If not defined then the internal regulator
->        is enabled.
+> @@ -41,8 +41,8 @@ properties:
 >  
-> +  avdd-supply:
-> +    description: |
-> +      Provide a handle to the regulator supplying AVDD. If not provided, a dummy
-> +      regulator will be used.
+>    areg-supply:
+>      description: |
+> -      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
+> -      is enabled.
+> +      External supply of 1.8V. If not defined then the internal regulator is
+> +      enabled instead.
 
-Drop description, you did not say anything useful. Core already tells
-this is phandle, "AVDD" duplicates property name and Linux kernel
-behavior is here irrelevant.
-
-If BSD does not create a dummy regulator, does this mean binding is wrong?
-
-The bigger problem is that you are duplicating AVDD already described
-under name areg. At least that's my impression and commit msg idd not
-clarify anything here.
+Please re-order the patches. Fixes are always before new features and
+you would solve yourself one review question...
 
 Best regards,
 Krzysztof
