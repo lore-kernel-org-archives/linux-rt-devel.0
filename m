@@ -1,121 +1,155 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A967343D77
-	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Dec 2025 08:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0C933D4E0
+	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Dec 2025 09:34:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765961482; cv=none; b=WcIrCKM7QDxMYZRYxF794Xv7bDa7vCIOVpbcvaGzb4vzJRCHaVMShUtnI5ypaaAT6qcv1F1juqwGCxTnpEGPp7EJSboyBk2mhVHKEF2VBKWuhJtaOG7Hq/0RehK7r3ti5xKdSd9mLTNcrXE1wVHQ36ygGdzNcIERcCyCc5iKzMI=
+	t=1765964066; cv=none; b=eTlDcrr1WYx1HT/6ME8nw8FSiivphVP30bHGb0dSt8k+4u6zDw704IOlsiSzT6/egLBGzAYJFu+UWy3PbCuZohm3JwqrtJ7LSS3VtkR93TmTu68E5stkxzl6Wdnj4dhdHVhZJZQSVSfwwRWdZXmxFK97ELfxBj5Bf0nYPLJrLNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765961482; c=relaxed/simple;
-	bh=A7N5NDvI6ISdPckRnCurYiKkVOINMm1iWlitFhGoPbM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u6TM5LOBZmmo7i5JfE8y3SEtbaRAXiaxSK2FQbSIenbWOAL3HWJmbLPboeLUC8ELbI2iW+4x6afoDdnzUNTiA8bqzy+SCviF6uF2cm9nvrXsGij4d4rjc/PLq1Cujuu9rWBkWHMbZXEAFpHkNYn0c9m7hMST6bNhi8LT/yPxVuM=
+	s=arc-20240116; t=1765964066; c=relaxed/simple;
+	bh=pA6OyNOPqic2PU25XHzrUn7XCNr0QY2cPEtn3K+4NLg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OXd8wYwekDpPzHOHI+Rz3lJYwhe1HPp8aGhmd7J0bcUCBZT9uQyTRducOjdhHkHPWVZfXMA9Hd+X9HIMDITeIKCcNKDjI7iEB8L+MC6mZjwtayCVFr8vE4POfGOlzYl7dT2mjpCBzh5QOWyF5ZTmYAwNUrtTqTb80FpiyLUKDF8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB49414BF;
-	Wed, 17 Dec 2025 00:51:12 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9B9D93F73F;
-	Wed, 17 Dec 2025 00:51:17 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: nico@fluxnic.net,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	dongdong.deng@windriver.com,
-	horms@kernel.org
-Cc: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH net v3] smc91x: fix broken irq-context in PREEMPT_RT
-Date: Wed, 17 Dec 2025 08:51:15 +0000
-Message-Id: <20251217085115.1730036-1-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9305914BF;
+	Wed, 17 Dec 2025 01:34:16 -0800 (PST)
+Received: from [10.57.91.77] (unknown [10.57.91.77])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 894773F73B;
+	Wed, 17 Dec 2025 01:34:17 -0800 (PST)
+Message-ID: <100cc8da-b826-4fc2-a624-746bf6fb049d@arm.com>
+Date: Wed, 17 Dec 2025 09:34:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] introduce pagetable_alloc_nolock()
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com,
+ Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, jackmanb@google.com,
+ hannes@cmpxchg.org, ziy@nvidia.com, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, rostedt@goodmis.org, catalin.marinas@arm.com,
+ will@kernel.org, kevin.brodsky@arm.com, dev.jain@arm.com,
+ yang@os.amperecomputing.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20251212161832.2067134-1-yeoreum.yun@arm.com>
+ <916c17ba-22b1-456e-a184-cb3f60249af7@arm.com>
+ <aUGOPd7gNRf1xHEc@e129823.arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <aUGOPd7gNRf1xHEc@e129823.arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When smc91x.c is built with PREEMPT_RT, the following splat occurs
-in FVP_RevC:
+On 16/12/2025 16:52, Yeoreum Yun wrote:
+> Hi Ryan,
+> 
+>> On 12/12/2025 16:18, Yeoreum Yun wrote:
+>>> Some architectures invoke pagetable_alloc() or __get_free_pages()
+>>> with preemption disabled.
+>>> For example, in arm64, linear_map_split_to_ptes() calls pagetable_alloc()
+>>> while spliting block entry to ptes and __kpti_install_ng_mappings()
+>>> calls __get_free_pages() to create kpti pagetable.
+>>>
+>>> Under PREEMPT_RT, calling pagetable_alloc() with
+>>> preemption disabled is not allowed, because it may acquire
+>>> a spin lock that becomes sleepable on RT, potentially
+>>> causing a sleep during page allocation.
+>>>
+>>> Since above two functions is called as callback of stop_machine()
+>>> where its callback is called in preemption disabled,
+>>> They could make a potential problem. (sleeping in preemption disabled).
+>>>
+>>> To address this, introduce pagetable_alloc_nolock() API.
+>>
+>> I don't really understand what the problem is that you're trying to fix. As I
+>> see it, there are 2 call sites in arm64 arch code that are calling into the page
+>> allocator from stop_machine() - one via via pagetable_alloc() and another via
+>> __get_free_pages(). But both of those calls are passing in GFP_ATOMIC. It was my
+>> understanding that the page allocator would ensure it never sleeps when
+>> GFP_ATOMIC is passed in, (even for PREEMPT_RT)?
+> 
+> Although GFP_ATOMIC is specify, it only affects of "water mark" of the
+> page with __GFP_HIGH. and to get a page, it must grab the lock --
+> zone->lock or pcp_lock in the rmqueue().
+> 
+> This zone->lock and pcp_lock is spin_lock and it's a sleepable in
+> PREEMPT_RT that's why the memory allocation/free using general API
+> except nolock() version couldn't be called since
+> if "contention" happens they'll sleep while waiting to get the lock.
+> 
+> The reason why "nolock()" can use, it always uses "trylock" with
+> ALLOC_TRYLOCK flags. otherwise GFP_ATOMIC also can be sleepable in
+> PREEMPT_RT.
+> 
+>>
+>> What is the actual symptom you are seeing?
+> 
+> Since the place where called while smp_cpus_done() and there seems no
+> contention, there seems no problem. However as I mention in another
+> thread
+> (https://lore.kernel.org/all/aT%2FdrjN1BkvyAGoi@e129823.arm.com/),
+> This gives a the false impression --
+> GFP_ATOMIC are “safe to use in preemption disabled”
+> even though they are not in PREEMPT_RT case, I've changed it.
+> 
+>>
+>> If the page allocator is somehow ignoring the GFP_ATOMIC request for PREEMPT_RT,
+>> then isn't that a bug in the page allocator? I'm not sure why you would change
+>> the callsites? Can't you just change the page allocator based on GFP_ATOMIC?
+> 
+> It doesn't ignore the GFP_ATOMIC feature:
+>   - __GFP_HIGH: use water mark till min reserved
+>   - __GFP_KSWAPD_RECLAIM: wake up kswapd if reclaim required.
+> 
+> But, it's a restriction -- "page allocation / free" API cannot be called
+> in preempt-disabled context at PREEMPT_RT.
+> 
+> That's why I think it's wrong usage not a page allocator bug.
 
-[   13.055000] smc91x LNRO0003:00 eth0: link up, 10Mbps, half-duplex, lpa 0x0000
-[   13.062137] BUG: workqueue leaked atomic, lock or RCU: kworker/2:1[106]
-[   13.062137]      preempt=0x00000000 lock=0->0 RCU=0->1 workfn=mld_ifc_work
-[   13.062266] C
-** replaying previous printk message **
-[   13.062266] CPU: 2 UID: 0 PID: 106 Comm: kworker/2:1 Not tainted 6.18.0-dirty #179 PREEMPT_{RT,(full)}
-[   13.062353] Hardware name:  , BIOS
-[   13.062382] Workqueue: mld mld_ifc_work
-[   13.062469] Call trace:
-[   13.062494]  show_stack+0x24/0x40 (C)
-[   13.062602]  __dump_stack+0x28/0x48
-[   13.062710]  dump_stack_lvl+0x7c/0xb0
-[   13.062818]  dump_stack+0x18/0x34
-[   13.062926]  process_scheduled_works+0x294/0x450
-[   13.063043]  worker_thread+0x260/0x3d8
-[   13.063124]  kthread+0x1c4/0x228
-[   13.063235]  ret_from_fork+0x10/0x20
+I've taken a look at this and I agree with your analysis. Thanks for explaining.
 
-This happens because smc_special_trylock() disables IRQs even on PREEMPT_RT,
-but smc_special_unlock() does not restore IRQs on PREEMPT_RT.
-The reason is that smc_special_unlock() calls spin_unlock_irqrestore(),
-and rcu_read_unlock_bh() in __dev_queue_xmit() cannot invoke
-rcu_read_unlock() through __local_bh_enable_ip() when current->softirq_disable_cnt becomes zero.
+Looking at other stop_machine() callbacks, there are some that call printk() and
+I would assume that spinlocks could be taken there which may present the same
+kind of issue or PREEMPT_RT? (I'm guessing). I don't see any others that attempt
+to allocate memory though.
 
-To address this issue, replace smc_special_trylock() with spin_trylock_irqsave().
+Anyway, to fix the 2 arm64 callsites, I see 2 possible approaches:
 
-Fixes: 342a93247e08 ("locking/spinlock: Provide RT variant header: <linux/spinlock_rt.h>")
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-Reviewed-by: Simon Horman <horms@kernel.org>
----
+- Call the nolock variant (as you are doing). But that would just convert a
+deadlock to a panic; if the lock is held when stop_machine() runs, without your
+change, we now have a deadlock due to waiting on the lock inside stop_machine().
+With your change, we notice the lock is already taken and panic. I guess it is
+marginally better, but not by much. Certainly I would just _always_ call the
+nolock variant regardless of PREEMPT_RT if we take this route; For !PREEMPT_RT,
+the lock is guarranteed to be free so nolock will always succeed.
 
-History
-========
-From v2 to v3:
-  - rebased to linux-net tree.
-  - modify patch title & add r-b tags
-  - https://lore.kernel.org/all/20251212190338.2318843-1-yeoreum.yun@arm.com/
+- Preallocate the memory before entering stop_machine(). I think this would be
+much more robust. For kpti_install_ng_mappings() I think you could hoist the
+allocation/free out of stop_machine() and pass the pointer in pretty easily. For
+linear_map_split_to_ptes() its a bit more complex; Perhaps, we need to walk the
+pgtable to figure out how much to preallocate, allocate it, then set it up as a
+special allocator, wrapped by an allocation function and modify the callchain to
+take a callback function instead of gfp flags.
 
-From v1 to v2:
-  - remove debug log.
-  - https://lore.kernel.org/all/20251212185818.2209573-1-yeoreum.yun@arm.com/
+What do you think?
 
----
- drivers/net/ethernet/smsc/smc91x.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+Thanks,
+Ryan
 
-diff --git a/drivers/net/ethernet/smsc/smc91x.c b/drivers/net/ethernet/smsc/smc91x.c
-index 9d1a83a5fa7e..d16c178d1034 100644
---- a/drivers/net/ethernet/smsc/smc91x.c
-+++ b/drivers/net/ethernet/smsc/smc91x.c
-@@ -516,15 +516,7 @@ static inline void  smc_rcv(struct net_device *dev)
-  * any other concurrent access and C would always interrupt B. But life
-  * isn't that easy in a SMP world...
-  */
--#define smc_special_trylock(lock, flags)				\
--({									\
--	int __ret;							\
--	local_irq_save(flags);						\
--	__ret = spin_trylock(lock);					\
--	if (!__ret)							\
--		local_irq_restore(flags);				\
--	__ret;								\
--})
-+#define smc_special_trylock(lock, flags)	spin_trylock_irqsave(lock, flags)
- #define smc_special_lock(lock, flags)		spin_lock_irqsave(lock, flags)
- #define smc_special_unlock(lock, flags) 	spin_unlock_irqrestore(lock, flags)
- #else
---
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> 
+> [...]
+> 
+> --
+> Sincerely,
+> Yeoreum Yun
 
