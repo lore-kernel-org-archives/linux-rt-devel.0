@@ -1,131 +1,536 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87C82E6CAB
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 15:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA87C313532
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 15:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766070354; cv=none; b=b3lzBeqAkyicfm2fPJcq3Mdm28rgZEfWSEHbDoJVrAphQQq1z/DhlryPC89xYRywOf7oM+bur1PWHbH0YynXczTLAEI5dLJITZYGLcCAnMfKWJhwo3bSx+lNSZVqqAGZk9jLE41Q3GEwJJUdzLE67mICB+9PnfehvGSr7qeDCDc=
+	t=1766072579; cv=none; b=ohxM0CE9ndnVZhoBug7gs54K7of3mw+PepUvbcbeG6ZPiUAqISDk5r/Bt1+Q456CYa1PqwnpT5IqZsjgDdGutv1PYWAT5VKKhCamlRTE88je4GX8t3rsoHAIG0eiuepNhbPIyU6FQZnIFJ+NSWEth3tHGFH3RHHbN5+2CPZ+j7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766070354; c=relaxed/simple;
-	bh=zIzI+RWN8I+PPp7gM10QfdwWfky+ttRAA/4WGgQBPSs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RK8+nxJq4fmYPsr1+PRYM5yRAeVQHZ3Xpz7xxHBQroyA1pxFFBnGNWaepJFltqQF5EhL8yf93BIbvdU2a7y7k9sZ4KBTj40uayx1V1Gg0K/sMe1qaQl4hiyaKviuw6Rj4rjfYciq579kl4eiOrXehaU3Nl5vTu0TxwoeuKLA7fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWFZS-00080k-Oi; Thu, 18 Dec 2025 16:05:38 +0100
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWFZR-006IkO-2Q;
-	Thu, 18 Dec 2025 16:05:37 +0100
-Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
-	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWFY1-00000002kPh-224q;
-	Thu, 18 Dec 2025 16:04:09 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Thu, 18 Dec 2025 16:04:16 +0100
-Subject: [PATCH v2 10/10] ASoC: tlv320adcx140: add channel sum control
+	s=arc-20240116; t=1766072579; c=relaxed/simple;
+	bh=yBqpw5CZbNqfhEiR7HcANRTexEkZOp2orV9AcacCMb0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d/UPLXqFvvXik9/XwKuYJjIjqyHy66v7c+5OfqrGPdsIJy5QzteLFL31CAR8vkmMgO4+WQgXbq+v5U8yv36Jk4SlqYE7O83qUEA62eQt+ToVnVF1+wI3X5JItPcl6xnBtoP8gJIqorWoMfHchp3TSMu6M5qlX6NNdpG8jFYXodY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F586FEC;
+	Thu, 18 Dec 2025 07:42:27 -0800 (PST)
+Received: from [10.1.39.180] (unknown [10.1.39.180])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 591053F73F;
+	Thu, 18 Dec 2025 07:42:31 -0800 (PST)
+Message-ID: <73644c65-57fd-4d0c-9179-167277214f26@arm.com>
+Date: Thu, 18 Dec 2025 15:42:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] arm64: mmu: don't allocate page while spliting
+ linear mapping
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
+ david@kernel.org, kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com,
+ dev.jain@arm.com, yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+ vbabka@suse.cz, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20251217182007.2345700-1-yeoreum.yun@arm.com>
+ <20251217182007.2345700-2-yeoreum.yun@arm.com>
+ <73ced1db-a2e2-49ea-927e-9fc4a30e771e@arm.com>
+ <aUQXRpLzKbl+I3Gu@e129823.arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <aUQXRpLzKbl+I3Gu@e129823.arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v2-10-3c2270c34bac@pengutronix.de>
-References: <20251218-sound-soc-codecs-tvl320adcx140-v2-0-3c2270c34bac@pengutronix.de>
-In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v2-0-3c2270c34bac@pengutronix.de>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
- Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766070249; l=1805;
- i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=0KnIM+Y4QBq/N0NnDfRAKNRfpAubDFVWi/5K2Fijr9k=;
- b=DyJ5K/YS/KOBuHz5cwQlYzcr0nvB/FdzrWmoR44Zs8aFCe7Sk41MiXXjEHNgiXZLlUfHPNc9G
- 6NklkWiv0bxBTpIa0UV9MLLlthEnECv1LBoi0AZVS3CvQfH8VJaRqY5
-X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
- pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: s.hauer@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+On 18/12/2025 15:01, Yeoreum Yun wrote:
+> Hi Ryan,
+> 
+>> On 17/12/2025 18:20, Yeoreum Yun wrote:
+>>> Current linear_map_split_to_ptes() allocate the pagetable
+>>> while split linear mapping to ptes by stop_machine() with GFP_ATOMIC.
+>>>
+>>> This is fine for non-PREEMPR_RT case.
+>>> However It's a problem in PREEMPR_RT case since
+>>> generic memory allocation/free APIs (e.x) pgtable_alloc(), __get_free_pages and etc
+>>> couldn't be called in non-preemptible context except _nolock() APIs
+>>> since generic memory allocation/free APIs are *sleepable* for using *spin_lock()*
+>>>
+>>> IOW, calling a pgtable_alloc() even with GFP_ATOMIC
+>>> doesn't allow in __linear_map_split_to_pte() executed by stopper thread
+>>> where preemption is disabled in PREEMPR_RT.
+>>>
+>>> To address this, divide linear_map_maybe_split_ptes:
+>>>   - collect number of pages to require for spliting.
+>>>   - allocate the required number of pages for spliting.
+>>>   - with pre-allocate page, split the linear map.
+>>
+>> Thanks for working on this fix!
+>>
+>> First some high level comments: I'm not a huge fan of the approach with the
+>> different modes to modify behaviour.
+>>
+>> For the first step of figuring out the number of pages required; there is no
+>> need to be inside stop_machine() for that. Can should be able to just walk the
+>> linear map without any locking since it is created once and remains static, with
+>> the exception of hotplug, but that is not enabled yet.
+>>
+>> I think it would be cleaner to just create separate walker callbacks rather than
+>> repurpose the existing walker.
+> 
+> Okay. I'll repsin with separate walker.
+> 
+>>
+>> Then you could simply change the gfp flag to a callback function pointer and
+>> pass the desired allocator as a function pointer. This would match the existing
+>> patterns used in mmu.c today.
+>>
+>> The preallocated page list could be stored in a global static variable and you
+>> could create an allocation function that just strims a page from that list. See
+>> kpti_ng_pgd_alloc() for an existing example. That assumes a contiguous block,
+>> but you could generalize it to hold a list of struct pages and reuse it for both
+>> cases?
+> 
+> If we use walker callbacks, I think it not only pass the callback
+> function, but it need to pass the gfp flag too since split_xxx() is
+> called by another functions. (i.e) set_memory_xxx()
+> 
+> I think I can remove the mode with the suggestion of @David
+> but, I think it would be still use split_args with information of
+> gfp and preallocate buffer.
 
-Add control for channel summation.
+I don't think that's necessary; all other users pass GFP_PGTABLE_KERNEL, so we
+just need one allocator function that allocates with GFP_PGTABLE_KERNEL and
+another allocator function that allocates from the prealloc'ed list. Then the
+user passes the function they want to use.
 
-3 modes are supported:
+That would work, I think?
 
-1. "Disabled": Normal operation
+>>
+>>>
+>>> Fixes: 3df6979d222b ("arm64: mm: split linear mapping if BBML2 unsupported on secondary CPUs")
+>>> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+>>> ---
+>>>  arch/arm64/mm/mmu.c | 213 +++++++++++++++++++++++++++++++++++---------
+>>>  1 file changed, 170 insertions(+), 43 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+>>> index 9ae7ce00a7ef..e4e6c7e0a016 100644
+>>> --- a/arch/arm64/mm/mmu.c
+>>> +++ b/arch/arm64/mm/mmu.c
+>>> @@ -527,18 +527,28 @@ static void early_create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
+>>>  		panic("Failed to create page tables\n");
+>>>  }
+>>>
+>>> -static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
+>>> -				       enum pgtable_type pgtable_type)
+>>> -{
+>>> -	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
+>>> -	struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
+>>> -	phys_addr_t pa;
+>>> -
+>>> -	if (!ptdesc)
+>>> -		return INVALID_PHYS_ADDR;
+>>> +enum split_modes {
+>>> +	SPLIT_ALLOC,
+>>> +	SPLIT_PREALLOC,
+>>> +	SPLIT_COLLECT,
+>>> +};
+>>>
+>>> -	pa = page_to_phys(ptdesc_page(ptdesc));
+>>> +struct split_args {
+>>> +	enum split_modes mode;
+>>> +	union {
+>>> +		struct {
+>>> +			unsigned long nr;
+>>> +			unsigned long i;
+>>> +			struct page **pages;
+>>> +		};
+>>> +		gfp_t gfp;
+>>> +	};
+>>> +};
+>>>
+>>> +static __always_inline void __pgd_pgtable_init(struct mm_struct *mm,
+>>> +					       struct ptdesc *ptdesc,
+>>> +					       enum pgtable_type pgtable_type)
+>>> +{
+>>>  	switch (pgtable_type) {
+>>>  	case TABLE_PTE:
+>>>  		BUG_ON(!pagetable_pte_ctor(mm, ptdesc));
+>>> @@ -554,19 +564,56 @@ static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
+>>>  		break;
+>>>  	}
+>>>
+>>> +}
+>>> +
+>>> +static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
+>>> +				       enum pgtable_type pgtable_type)
+>>> +{
+>>> +	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
+>>> +	struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
+>>> +	phys_addr_t pa;
+>>> +
+>>> +	if (!ptdesc)
+>>> +		return INVALID_PHYS_ADDR;
+>>> +
+>>> +	pa = page_to_phys(ptdesc_page(ptdesc));
+>>> +
+>>> +	__pgd_pgtable_init(mm, ptdesc, pgtable_type);
+>>> +
+>>>  	return pa;
+>>>  }
+>>>
+>>> +static phys_addr_t __pgd_pgtable_prealloc(struct mm_struct *mm,
+>>> +					  struct split_args *split_args,
+>>> +					  enum pgtable_type pgtable_type)
+>>> +{
+>>> +	struct page *page;
+>>> +
+>>> +	BUG_ON(split_args->i >= split_args->nr);
+>>> +
+>>> +	page = split_args->pages[split_args->i++];
+>>> +	if (!page)
+>>> +		return INVALID_PHYS_ADDR;
+>>> +
+>>> +	__pgd_pgtable_init(mm, page_ptdesc(page), pgtable_type);
+>>> +
+>>> +	return page_to_phys(page);
+>>> +}
+>>> +
+>>>  static phys_addr_t
+>>> -pgd_pgtable_alloc_init_mm_gfp(enum pgtable_type pgtable_type, gfp_t gfp)
+>>> +pgd_pgtable_alloc_split(enum pgtable_type pgtable_type,
+>>> +		        struct split_args *split_args)
+>>>  {
+>>> -	return __pgd_pgtable_alloc(&init_mm, gfp, pgtable_type);
+>>> +	if (split_args->mode == SPLIT_ALLOC)
+>>> +		return __pgd_pgtable_alloc(&init_mm, split_args->gfp, pgtable_type);
+>>> +
+>>> +	return __pgd_pgtable_prealloc(&init_mm, split_args, pgtable_type);
+>>>  }
+>>>
+>>>  static phys_addr_t __maybe_unused
+>>>  pgd_pgtable_alloc_init_mm(enum pgtable_type pgtable_type)
+>>>  {
+>>> -	return pgd_pgtable_alloc_init_mm_gfp(pgtable_type, GFP_PGTABLE_KERNEL);
+>>> +	return __pgd_pgtable_alloc(&init_mm, GFP_PGTABLE_KERNEL, pgtable_type);
+>>>  }
+>>>
+>>>  static phys_addr_t
+>>> @@ -584,7 +631,9 @@ static void split_contpte(pte_t *ptep)
+>>>  		__set_pte(ptep, pte_mknoncont(__ptep_get(ptep)));
+>>>  }
+>>>
+>>> -static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
+>>> +static int split_pmd(pmd_t *pmdp, pmd_t pmd,
+>>> +		     struct split_args *split_args,
+>>> +		     bool to_cont)
+>>>  {
+>>>  	pmdval_t tableprot = PMD_TYPE_TABLE | PMD_TABLE_UXN | PMD_TABLE_AF;
+>>>  	unsigned long pfn = pmd_pfn(pmd);
+>>> @@ -593,7 +642,7 @@ static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
+>>>  	pte_t *ptep;
+>>>  	int i;
+>>>
+>>> -	pte_phys = pgd_pgtable_alloc_init_mm_gfp(TABLE_PTE, gfp);
+>>> +	pte_phys = pgd_pgtable_alloc_split(TABLE_PTE, split_args);
+>>>  	if (pte_phys == INVALID_PHYS_ADDR)
+>>>  		return -ENOMEM;
+>>>  	ptep = (pte_t *)phys_to_virt(pte_phys);
+>>> @@ -628,7 +677,9 @@ static void split_contpmd(pmd_t *pmdp)
+>>>  		set_pmd(pmdp, pmd_mknoncont(pmdp_get(pmdp)));
+>>>  }
+>>>
+>>> -static int split_pud(pud_t *pudp, pud_t pud, gfp_t gfp, bool to_cont)
+>>> +static int split_pud(pud_t *pudp, pud_t pud,
+>>> +		    struct split_args *split_args,
+>>> +		    bool to_cont)
+>>>  {
+>>>  	pudval_t tableprot = PUD_TYPE_TABLE | PUD_TABLE_UXN | PUD_TABLE_AF;
+>>>  	unsigned int step = PMD_SIZE >> PAGE_SHIFT;
+>>> @@ -638,7 +689,7 @@ static int split_pud(pud_t *pudp, pud_t pud, gfp_t gfp, bool to_cont)
+>>>  	pmd_t *pmdp;
+>>>  	int i;
+>>>
+>>> -	pmd_phys = pgd_pgtable_alloc_init_mm_gfp(TABLE_PMD, gfp);
+>>> +	pmd_phys = pgd_pgtable_alloc_split(TABLE_PMD, split_args);
+>>>  	if (pmd_phys == INVALID_PHYS_ADDR)
+>>>  		return -ENOMEM;
+>>>  	pmdp = (pmd_t *)phys_to_virt(pmd_phys);
+>>> @@ -672,6 +723,10 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
+>>>  	pmd_t *pmdp, pmd;
+>>>  	pte_t *ptep, pte;
+>>>  	int ret = 0;
+>>> +	struct split_args split_args = {
+>>> +		.mode = SPLIT_ALLOC,
+>>> +		.gfp = GFP_PGTABLE_KERNEL,
+>>> +	};
+>>>
+>>>  	/*
+>>>  	 * PGD: If addr is PGD aligned then addr already describes a leaf
+>>> @@ -707,7 +762,7 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
+>>>  	if (!pud_present(pud))
+>>>  		goto out;
+>>>  	if (pud_leaf(pud)) {
+>>> -		ret = split_pud(pudp, pud, GFP_PGTABLE_KERNEL, true);
+>>> +		ret = split_pud(pudp, pud, &split_args, true);
+>>>  		if (ret)
+>>>  			goto out;
+>>>  	}
+>>> @@ -732,7 +787,7 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
+>>>  		 */
+>>>  		if (ALIGN_DOWN(addr, PMD_SIZE) == addr)
+>>>  			goto out;
+>>> -		ret = split_pmd(pmdp, pmd, GFP_PGTABLE_KERNEL, true);
+>>> +		ret = split_pmd(pmdp, pmd, &split_args, true);
+>>>  		if (ret)
+>>>  			goto out;
+>>>  	}
+>>> @@ -831,12 +886,17 @@ int split_kernel_leaf_mapping(unsigned long start, unsigned long end)
+>>>  static int split_to_ptes_pud_entry(pud_t *pudp, unsigned long addr,
+>>>  				   unsigned long next, struct mm_walk *walk)
+>>>  {
+>>> -	gfp_t gfp = *(gfp_t *)walk->private;
+>>> +	struct split_args *split_args = (struct split_args *)walk->private;
+>>
+>> no need for the casting here; it's a void *.
+> 
+> Right. I'll remove it.
+> 
+>>
+>>>  	pud_t pud = pudp_get(pudp);
+>>>  	int ret = 0;
+>>>
+>>> -	if (pud_leaf(pud))
+>>> -		ret = split_pud(pudp, pud, gfp, false);
+>>> +	if (!pud_leaf(pud))
+>>> +		return 0;
+>>> +
+>>> +	if (split_args->mode == SPLIT_COLLECT)
+>>> +		split_args->nr++;
+>>
+>> bug: you're incrementing this for the pmd table that you would have inserted,
+>> but because you're not actually splitting, split_to_ptes_pmd_entry() will never
+>> be called for the 512 pte tables you also need. So you need:
+>>
+>> 		nr += 1 + PTRS_PER_PMD;
+>>
+>> I'm guessing you didn't test this as the BUG would have triggered when you ran
+>> out of preallocated memory?
+>>
+> 
+> Good catch! Yes. This is definitely bug.
+> The reason why I didn't hit the but there is no "block pud" in my enviroment.
+> 
+>>> +	else
+>>> +		ret = split_pud(pudp, pud, split_args, false);
+>>>
+>>>  	return ret;
+>>>  }
+>>> @@ -844,22 +904,29 @@ static int split_to_ptes_pud_entry(pud_t *pudp, unsigned long addr,
+>>>  static int split_to_ptes_pmd_entry(pmd_t *pmdp, unsigned long addr,
+>>>  				   unsigned long next, struct mm_walk *walk)
+>>>  {
+>>> -	gfp_t gfp = *(gfp_t *)walk->private;
+>>> +	struct split_args *split_args = (struct split_args *)walk->private;
+>>>  	pmd_t pmd = pmdp_get(pmdp);
+>>> -	int ret = 0;
+>>> +	int ret;
+>>>
+>>> -	if (pmd_leaf(pmd)) {
+>>> -		if (pmd_cont(pmd))
+>>> -			split_contpmd(pmdp);
+>>> -		ret = split_pmd(pmdp, pmd, gfp, false);
+>>> +	if (!pmd_leaf(pmd))
+>>> +		return 0;
+>>>
+>>> -		/*
+>>> -		 * We have split the pmd directly to ptes so there is no need to
+>>> -		 * visit each pte to check if they are contpte.
+>>> -		 */
+>>> -		walk->action = ACTION_CONTINUE;
+>>> +	if (split_args->mode == SPLIT_COLLECT) {
+>>> +		split_args->nr++;
+>>> +		return 0;
+>>>  	}
+>>>
+>>> +	if (pmd_cont(pmd))
+>>> +		split_contpmd(pmdp);
+>>> +	ret = split_pmd(pmdp, pmd, split_args, false);
+>>> +
+>>> +	/*
+>>> +	 * We have split the pmd directly to ptes so there is no need to
+>>> +	 * visit each pte to check if they are contpte.
+>>> +	 */
+>>> +	walk->action = ACTION_CONTINUE;
+>>> +
+>>> +
+>>>  	return ret;
+>>>  }
+>>>
+>>> @@ -880,13 +947,15 @@ static const struct mm_walk_ops split_to_ptes_ops = {
+>>>  	.pte_entry	= split_to_ptes_pte_entry,
+>>>  };
+>>>
+>>> -static int range_split_to_ptes(unsigned long start, unsigned long end, gfp_t gfp)
+>>> +static int range_split_to_ptes(unsigned long start, unsigned long end,
+>>> +		 	       struct split_args *split_args)
+>>>  {
+>>>  	int ret;
+>>>
+>>>  	arch_enter_lazy_mmu_mode();
+>>>  	ret = walk_kernel_page_table_range_lockless(start, end,
+>>> -					&split_to_ptes_ops, NULL, &gfp);
+>>> +						    &split_to_ptes_ops, NULL,
+>>> +						    split_args);
+>>>  	arch_leave_lazy_mmu_mode();
+>>>
+>>>  	return ret;
+>>> @@ -903,7 +972,7 @@ static void __init init_idmap_kpti_bbml2_flag(void)
+>>>  	smp_mb();
+>>>  }
+>>>
+>>> -static int __init linear_map_split_to_ptes(void *__unused)
+>>> +static int __init linear_map_split_to_ptes(void *data)
+>>>  {
+>>>  	/*
+>>>  	 * Repainting the linear map must be done by CPU0 (the boot CPU) because
+>>> @@ -911,6 +980,7 @@ static int __init linear_map_split_to_ptes(void *__unused)
+>>>  	 * be held in a waiting area with the idmap active.
+>>>  	 */
+>>>  	if (!smp_processor_id()) {
+>>> +		struct split_args *split_args = data;
+>>>  		unsigned long lstart = _PAGE_OFFSET(vabits_actual);
+>>>  		unsigned long lend = PAGE_END;
+>>>  		unsigned long kstart = (unsigned long)lm_alias(_stext);
+>>> @@ -928,12 +998,13 @@ static int __init linear_map_split_to_ptes(void *__unused)
+>>>  		 * PTE. The kernel alias remains static throughout runtime so
+>>>  		 * can continue to be safely mapped with large mappings.
+>>>  		 */
+>>> -		ret = range_split_to_ptes(lstart, kstart, GFP_ATOMIC);
+>>> +		ret = range_split_to_ptes(lstart, lend, split_args);
+>>>  		if (!ret)
+>>> -			ret = range_split_to_ptes(kend, lend, GFP_ATOMIC);
+>>> +			ret = range_split_to_ptes(kstart, kend, split_args);
+>>>  		if (ret)
+>>>  			panic("Failed to split linear map\n");
+>>> -		flush_tlb_kernel_range(lstart, lend);
+>>> +		if (split_args->mode != SPLIT_COLLECT)
+>>> +			flush_tlb_kernel_range(lstart, lend);
+>>>
+>>>  		/*
+>>>  		 * Relies on dsb in flush_tlb_kernel_range() to avoid reordering
+>>> @@ -963,10 +1034,61 @@ static int __init linear_map_split_to_ptes(void *__unused)
+>>>
+>>>  void __init linear_map_maybe_split_to_ptes(void)
+>>>  {
+>>> -	if (linear_map_requires_bbml2 && !system_supports_bbml2_noabort()) {
+>>> -		init_idmap_kpti_bbml2_flag();
+>>> -		stop_machine(linear_map_split_to_ptes, NULL, cpu_online_mask);
+>>> +	struct page **pages = NULL;
+>>> +	struct split_args split_args;
+>>> +	int order;
+>>> +	int nr_populated;
+>>> +	int err;
+>>> +
+>>> +	if (!linear_map_requires_bbml2 || system_supports_bbml2_noabort())
+>>> +		return;
+>>> +
+>>> +	/*
+>>> +	 * Phase 1: Collect required extra pages to split.
+>>> +	 */
+>>> +	split_args.mode = SPLIT_COLLECT;
+>>> +	split_args.nr = 0;
+>>> +
+>>> +	init_idmap_kpti_bbml2_flag();
+>>> +	stop_machine(linear_map_split_to_ptes, &split_args, cpu_online_mask);
+>>
+>> This doesn't require stop_machine().
+> 
+> Yes. I'll separate with new walker as you suggest.
+> 
+>>
+>>> +
+>>> +	/*
+>>> +	 * Phase 2: Allocate necessary pages to split.
+>>> +	 */
+>>> +	if (split_args.nr == 0) {
+>>> +		err = 0;
+>>> +		split_args.mode = SPLIT_ALLOC;
+>>
+>> How would we hit this condition? If everything is already split why not just
+>> exit early?
+> 
+> I'm thinking about if all of pages map with CONTPTE only then
+> it need to be splited, but would you let me know whether It wouldn't be possible
+> for cross checking?
 
-2. "2 Channel": Every two channels are summed and divided by 2
+Ahh, yes good point!
 
-  Out 1 <- (CH1 + CH2) / 2
-  Out 2 <- (CH1 + CH2) / 2
-  Out 3 <- (CH3 + CH4) / 2
-  Out 4 <- (CH3 + CH4) / 2
-
-3. "4 Channel": Every four channels are summed and divided by 4
-
-  Out 1 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 2 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 3 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 4 <- (CH1 + CH2 + CH3 + CH4) / 4
-
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- sound/soc/codecs/tlv320adcx140.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index e7c607af642f43b2b783597f3cba3a8cbb31de4a..ac6aab8d722409b2c47b4e1df2a23760bebe795b 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -222,6 +222,13 @@ static const struct snd_kcontrol_new decimation_filter_controls[] = {
- 	SOC_DAPM_ENUM("Decimation Filter", decimation_filter_enum),
- };
- 
-+static const char * const channel_summation_text[] = {
-+	"Disabled", "2 Channel", "4 Channel"
-+};
-+
-+static SOC_ENUM_SINGLE_DECL(channel_summation_enum, ADCX140_DSP_CFG0, 2,
-+			    channel_summation_text);
-+
- static const char * const pdmclk_text[] = {
- 	"2.8224 MHz", "1.4112 MHz", "705.6 kHz", "5.6448 MHz"
- };
-@@ -711,6 +718,8 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
- 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
- 
- 	SOC_SINGLE("Biquads Per Channel", ADCX140_DSP_CFG1, 5, 3, 0),
-+
-+	SOC_ENUM("Channel Summation", channel_summation_enum),
- };
- 
- static int adcx140_reset(struct adcx140_priv *adcx140)
-
--- 
-2.47.3
+> 
+>>
+>>> +	} else {
+>>> +		err = -ENOMEM;
+>>> +		order = order_base_2(PAGE_ALIGN(split_args.nr *
+>>> +					sizeof(struct page *)) >> PAGE_SHIFT);
+>>> +
+>>> +		pages = (struct page **)__get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
+>>
+>> As per the other patch, I'd prefer to see GFP_KERNEL | __GFP_ZERO here.
+>>
+>> Let's make this a list of struct ptdesc * though.
+> 
+> Agree. I'll change it.
+> 
+>>
+>>> +		if (!pages)
+>>> +			goto error;
+>>> +
+>>> +		nr_populated = alloc_pages_bulk(GFP_ATOMIC | __GFP_ZERO, split_args.nr, pages);
+>>
+>> Just GFP_KERNEL. No need for __GFP_ZERO as they will all be fully overwritten
+>> with PTEs.
+>>
+>> I'd prefer to use pagetable_alloc(GFP_KERNEL, 0) in a loop since that will
+>> return a proper ptdesc.
+> 
+> Okay.
+> 
+>>
+>>> +		if (nr_populated < split_args.nr)
+>>> +			goto error;
+>>> +
+>>> +		err = 0;
+>>> +		split_args.mode = SPLIT_PREALLOC;
+>>> +		split_args.i = 0;
+>>> +		split_args.pages = pages;
+>>>  	}
+>>> +
+>>> +	/*
+>>> +	 * Phase 3: Split linear map.
+>>> +	 */
+>>> +	init_idmap_kpti_bbml2_flag();
+>>> +	stop_machine(linear_map_split_to_ptes, &split_args, cpu_online_mask);
+>>> +
+>>> +error:
+>>> +	if (pages)
+>>> +		free_pages((unsigned long)pages, order);
+>>
+>> It's possible (but unlikely) that another CPU caused a split between figuring
+>> out the required number of tables and actually doing the full split. In this
+>> case, you would have preallocated pages left over that you will need to free here.
+> 
+> You're right. I've overlooked this case.
+> I'll handle it.
+> 
+> 
+> Thanks for your review!
+> 
+> --
+> Sincerely,
+> Yeoreum Yun
 
