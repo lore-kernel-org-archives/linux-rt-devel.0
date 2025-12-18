@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD062D94A4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C6D2D877A
 	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 18:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766082133; cv=none; b=Wz35vHMdOt4WjgfoheSvc7nJQV+XafzatN9Kk/gC5LO/haCt4DP5lFjT8T/4TFSqlPjViJs8v47COzbKWpw2IcH5Osme0R0BNaNrASNK3BmbI1qC0ujY9RvrkM/IiQl4+W3F8lnPzfUJRLvlqxZSk6m1UATqPVASaXZ4pEXlwx0=
+	t=1766082134; cv=none; b=I/sMqi+PMsJF6Y8fDEDssRx5IS5uZI1fYEzTCr3KPwkSOrjtKNXGJz5kxEvzNYHp9542vf2Pk/0EAaCawIJYn0sKgDJiHNix2wV5B/sJOEpler+kU15lJovVyT4eMLriooBO96Pp6EVUIV7XiVuubdMy7q9whrcjWIPpA0ORIu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766082133; c=relaxed/simple;
-	bh=41flRPH4TSGsnCvQyNzqSTUzQqo/QHTY/SRkQLuvrVs=;
+	s=arc-20240116; t=1766082134; c=relaxed/simple;
+	bh=XLqH3l6PU4VmqJ4ZW7Obnr3k+/J5JRnsXv0iCi8V8Z8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JaF0v6xPVhLgxIRFp99nZ/2pwp8hVagTyD5KmYA4YTPoLX6kl2/dIxnq7OfjW+o4yHfZQ1vQGEITM0NybuxHHPQdOIpHHAsbv0HLgFfp6qgf5oLfeXH7i+A+X7eIsmTi8GKG2VpiXfKpP8A/V0IBkV2g9xLl9oEVe4DzAoKQwog=
+	 In-Reply-To:To:Cc; b=BXMngjLKpEGRXShy3+OPu4ShOAgsBifkraSAuPAGxuVLB4mU8ATOdJkvWwUUikSH7JYBKKGLeqCA0Nyis85vq/+YEmapNckN3INiZRhsVfIq+OsV3DSPSE/m7T2lc3ilZjd4AK2ExqZi3xWklU8VceWqi0/72MuaeSGg8A3qYp8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdV-0003AD-2E; Thu, 18 Dec 2025 19:22:01 +0100
+	id 1vWIdV-0003AC-2G; Thu, 18 Dec 2025 19:22:01 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdP-006KXQ-2a;
+	id 1vWIdP-006KXV-2c;
 	Thu, 18 Dec 2025 19:21:55 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vWIdP-00000002wYr-2LGY;
+	id 1vWIdP-00000002wYr-2Ste;
 	Thu, 18 Dec 2025 19:21:55 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Thu, 18 Dec 2025 19:21:56 +0100
-Subject: [PATCH v3 02/10] ASoC: tlv320adcx140: fix null pointer
+Date: Thu, 18 Dec 2025 19:22:01 +0100
+Subject: [PATCH v3 07/10] ASoC: dt-bindings: clarify areg-supply
+ documentation
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-2-70ff66e5b93f@pengutronix.de>
+Message-Id: <20251218-sound-soc-codecs-tvl320adcx140-v3-7-70ff66e5b93f@pengutronix.de>
 References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
 In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -56,13 +57,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
+ Emil-Juhl <emdj@bang-olufsen.dk>, Emil-Juhl <juhl.emildahl@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=1573;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1766082115; l=1285;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=Rp2iiRNuVwV+taJffar+hJiVimp4OjAE0fMMm0vIwyQ=;
- b=SzNQJul35q+y1lx/Ajz4MN8bqE2itAKbnkAoVeuSXIjBeoNjaR9q98Fs+1ctGWKKHj2JnEXtS
- AwJlKbgRtZVAx645ZQ4RgRWQTTyaj0p9KsBbEYP7K1rFkyz6DBWEK48
+ bh=7RfFbFyTNGaSY6avmnHjxprtJDzNzxIoQg0ZhbFwspg=;
+ b=Zalm6ByaShgUN68niRjjhOa8iPjxAkKg+rRu3M6aEL7ahcFDkoOztnf1xxPuzFV+prUGs7TwX
+ DCuPwMaRHIqB9Q+G3imnxwH68mXFYlic5K48XvXTmKqyx6gnC4c5f6/
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -70,48 +71,38 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+From: Emil-Juhl <emdj@bang-olufsen.dk>
 
-The "snd_soc_component" in "adcx140_priv" was only used once but never
-set. It was only used for reaching "dev" which is already present in
-"adcx140_priv".
+The documentation for areg-supply could cause confusion mainly in terms
+of the relationship between AREG and AVDD.
+According to the datasheet[1] the AREG can be one of two cases:
 
-Fixes: 4e82971f7b55 ("ASoC: tlv320adcx140: Add a new kcontrol")
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+1) an external 1.8V supply
+2) generated by an internal regulator (hence a 1.8V output)
+
+[1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+
+Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- sound/soc/codecs/tlv320adcx140.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 75e1007012a48a569586bc2896400e79ddce1c71..3fb1b6251e6f8b361e8f82ce6381a7e8cfcd1935 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -23,7 +23,6 @@
- #include "tlv320adcx140.h"
+diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+index 876fa97bfbcdd3b9450aa6ff57de42f1faed350d..b34ea7824360310434d8b826392864dbfa5fc369 100644
+--- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
++++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+@@ -41,8 +41,8 @@ properties:
  
- struct adcx140_priv {
--	struct snd_soc_component *component;
- 	struct regulator *supply_areg;
- 	struct gpio_desc *gpio_reset;
- 	struct regmap *regmap;
-@@ -699,7 +698,6 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- {
- 	int pwr_ctrl = 0;
- 	int ret = 0;
--	struct snd_soc_component *component = adcx140->component;
+   areg-supply:
+     description: |
+-      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
+-      is enabled.
++      External supply of 1.8V. If not defined then the internal regulator is
++      enabled instead.
  
- 	if (power_state)
- 		pwr_ctrl = ADCX140_PWR_CFG_ADC_PDZ | ADCX140_PWR_CFG_PLL_PDZ;
-@@ -711,7 +709,7 @@ static void adcx140_pwr_ctrl(struct adcx140_priv *adcx140, bool power_state)
- 		ret = regmap_write(adcx140->regmap, ADCX140_PHASE_CALIB,
- 			adcx140->phase_calib_on ? 0x00 : 0x40);
- 		if (ret)
--			dev_err(component->dev, "%s: register write error %d\n",
-+			dev_err(adcx140->dev, "%s: register write error %d\n",
- 				__func__, ret);
- 	}
- 
+   ti,mic-bias-source:
+     description: |
 
 -- 
 2.47.3
