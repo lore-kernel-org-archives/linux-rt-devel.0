@@ -1,536 +1,273 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA87C313532
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 15:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766072579; cv=none; b=ohxM0CE9ndnVZhoBug7gs54K7of3mw+PepUvbcbeG6ZPiUAqISDk5r/Bt1+Q456CYa1PqwnpT5IqZsjgDdGutv1PYWAT5VKKhCamlRTE88je4GX8t3rsoHAIG0eiuepNhbPIyU6FQZnIFJ+NSWEth3tHGFH3RHHbN5+2CPZ+j7g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766072579; c=relaxed/simple;
-	bh=yBqpw5CZbNqfhEiR7HcANRTexEkZOp2orV9AcacCMb0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d/UPLXqFvvXik9/XwKuYJjIjqyHy66v7c+5OfqrGPdsIJy5QzteLFL31CAR8vkmMgO4+WQgXbq+v5U8yv36Jk4SlqYE7O83qUEA62eQt+ToVnVF1+wI3X5JItPcl6xnBtoP8gJIqorWoMfHchp3TSMu6M5qlX6NNdpG8jFYXodY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010054.outbound.protection.outlook.com [52.101.69.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C76286430
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 15:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.54
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766073353; cv=fail; b=Tuc6dbWJ/DIz1D/JBYNKOMkkCOiypWmHHbOKj9M5JvYai24yf1yCDfG/uovVb4VCKB9truJEo+SlEHTHngqdvB3JWu3tvWqgmHPuv6svJSuB7EnVqXtZzK0416OAvhT7NFhp7TqKKt5Z6WJIRW634TNGmgm2DSHz/ukzCVe8rE0=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766073353; c=relaxed/simple;
+	bh=bKyxZ+QQCtGeDv4acqQpCd5govZx+ybynVcZN35DBOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=Q7nJsn7+88Zdxge7HZjBAXGs0xS3pgJEGAk+Z2ukNSTFgFAnqG/7iowSA0q1kWBduwpKnL3G/B9KJZaU71Bqy1LjokH3BJpaNCV4fre0zXC+LobCDM32PxjNDLbnwYK9IEf3UttyOIR0bdsWhq0coun6K8tSurBPUTVt/DGvf3Y=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fXx4KNoW; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=fXx4KNoW; arc=fail smtp.client-ip=52.101.69.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F586FEC;
-	Thu, 18 Dec 2025 07:42:27 -0800 (PST)
-Received: from [10.1.39.180] (unknown [10.1.39.180])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 591053F73F;
-	Thu, 18 Dec 2025 07:42:31 -0800 (PST)
-Message-ID: <73644c65-57fd-4d0c-9179-167277214f26@arm.com>
-Date: Thu, 18 Dec 2025 15:42:29 +0000
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fXx4KNoW";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="fXx4KNoW"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=g7Gofu6lp4ghdbrLG3uSAILFNWHUEruwbG9v5GWlXt8o5Y0dkJ6sQCxjrAHrAUZcD6tzGeND0mkfCrFffWL/WIClhCmCYy1TsKGd/cL+JW+ccOhYe7r5wpF6kRIKnxNnBe0DIxSZhuUjPyqvH171x3dUPYIktgw1lmfrR7Qb2vMwfuPFlL+RFaf0fYRkbN5h+t3ZMk6fVEI4PNZez3935XqUpd9PAs21wKuJGtSRnhaz6Bku0d/F04QhXQ/OpAIMwCLwbkvg12W2v+/x7Gc/k5itWeDEIR5FTUNit1nFV1XSu6U7JdepGrUuQ67irO1LILcOxcMl7VY/ZGhiHBCo5w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PJQs9k4obSAH8/J5UDxSYVR3UStb9z+eWCYk17Z8zr4=;
+ b=igE2fWa18YOEzHxFiViaCBvHBdfNiGhIIfPa2oPAB7XZDkxhgQ7lKRFJlEzIYIFO6mP7Om25HrcPodz6pF6DhU0jwDJFvsW6lMUXuelFUJdjfKJUSsGSkvk+Plq4GrJBIne7yz6dSvtIsXgbDz69JZ3tn/t3Y9f26rnejihG87I7xBSvo8cP085yPPH0B5Zid3AWIqAaQO2y0eLaB89dKFQW1mF+Zgeo2UBhHcfmDZgCdbWfw+mLKO29yVrx9Jg9rl+ZqAlSgHSIA+W8n0eX3QGtaDKSXYsUHV2iw/70DGSSWuBSBmnmgvORp3ZEgxke/wqK01AIXNzezI1SsmX1zA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PJQs9k4obSAH8/J5UDxSYVR3UStb9z+eWCYk17Z8zr4=;
+ b=fXx4KNoWIXxflC7+0UJeYBITBRnfvooGkTBlKpvpf5wriwAmuOIQMUaJQL73957pHCdlT4rWtyMsipGkTLYK/XHsmFjE6f+pAWR2gzIVVzgjgt11LAtEgNGJS/nW/iAB9wjlyhP0l8gHxghktsp9sTXOq/OmqWeAPFKLH+w++Qw=
+Received: from DU2P251CA0026.EURP251.PROD.OUTLOOK.COM (2603:10a6:10:230::28)
+ by DU0PR08MB7416.eurprd08.prod.outlook.com (2603:10a6:10:354::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
+ 2025 15:55:46 +0000
+Received: from DU6PEPF0000A7DD.eurprd02.prod.outlook.com
+ (2603:10a6:10:230:cafe::59) by DU2P251CA0026.outlook.office365.com
+ (2603:10a6:10:230::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.8 via Frontend Transport; Thu,
+ 18 Dec 2025 15:55:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DU6PEPF0000A7DD.mail.protection.outlook.com (10.167.8.37) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9434.6 via
+ Frontend Transport; Thu, 18 Dec 2025 15:55:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wOGwjiTjpVBLB3wxXCbZSTl9pTFYM0JqkfjqcvJRT9ODvALG2psJ6y9YDlYrzBX0nuWuELsAWQ7vSaAhoMHOVAE7qodZbzr56230hnNy+I6yBc6b4dkQAxTuvJVJ+azx1s/lK5ZvfrNZ2b62WYEzLqFC5r6oJ3dklH4GI1eiemk6ZZ4CbDMGShyjZxYYgDQMZJt8VXFed2AGfH4fzvCFABgf0/ptOIOOHhBIUdPB6zdG5vyRtccfCndKBFZSfwGYr3+K7K4YfaBauxpIQeZvQyzpikJbNZcjVpuZqRJi5SbHIC3xSzqxGfE7SSTj1gOTwz+HeYuBnksUTwr0zukG0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PJQs9k4obSAH8/J5UDxSYVR3UStb9z+eWCYk17Z8zr4=;
+ b=wpi8Tdt+D+WiLanaMAO9L9fF5dHWEx4+l8G1+xtZW/xPCN4VpCUSdq/j1ekSUIfJaKYflJ6+0ohkvjXvZYw7stSx3laWI38Rlxk04cbX2Kn19vTRKBJOw89kaoUPoU/82LA/ZtXVFD0UxUrg5L8SoGotAM/zQk2hf6QKoF0zJwwUpy5RaW7FwxmdcLYHLwXxTbjEUXFe+DyhpMMgIMhEVLXXtVjNip766J2N/LAjxRw6nAxMIeqW5PkODdfMQqdWpMTUfPKA9UX5pf3Adjjvwn5iQz1AYBsWYFCy1rriTenTXiUpNUHLxlcTZ3fSnCvEILpFO8/KBFJ5jAXM2zaAEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PJQs9k4obSAH8/J5UDxSYVR3UStb9z+eWCYk17Z8zr4=;
+ b=fXx4KNoWIXxflC7+0UJeYBITBRnfvooGkTBlKpvpf5wriwAmuOIQMUaJQL73957pHCdlT4rWtyMsipGkTLYK/XHsmFjE6f+pAWR2gzIVVzgjgt11LAtEgNGJS/nW/iAB9wjlyhP0l8gHxghktsp9sTXOq/OmqWeAPFKLH+w++Qw=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20) by AM0PR08MB11756.eurprd08.prod.outlook.com
+ (2603:10a6:20b:745::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9434.6; Thu, 18 Dec
+ 2025 15:54:43 +0000
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739]) by GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::d430:4ef9:b30b:c739%3]) with mapi id 15.20.9434.001; Thu, 18 Dec 2025
+ 15:54:43 +0000
+Date: Thu, 18 Dec 2025 15:54:40 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
+	david@kernel.org, kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com,
+	dev.jain@arm.com, yang@os.amperecomputing.com,
+	chaitanyas.prakash@arm.com, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, rostedt@goodmis.org,
+	lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+	vbabka@suse.cz, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] arm64: mmu: don't allocate page while spliting
+ linear mapping
+Message-ID: <aUQjwKClvatP7zFP@e129823.arm.com>
+References: <20251217182007.2345700-1-yeoreum.yun@arm.com>
+ <20251217182007.2345700-2-yeoreum.yun@arm.com>
+ <73ced1db-a2e2-49ea-927e-9fc4a30e771e@arm.com>
+ <aUQXRpLzKbl+I3Gu@e129823.arm.com>
+ <73644c65-57fd-4d0c-9179-167277214f26@arm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <73644c65-57fd-4d0c-9179-167277214f26@arm.com>
+X-ClientProxiedBy: LO4P123CA0638.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:296::18) To GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] arm64: mmu: don't allocate page while spliting
- linear mapping
-Content-Language: en-GB
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
- david@kernel.org, kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com,
- dev.jain@arm.com, yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
- vbabka@suse.cz, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20251217182007.2345700-1-yeoreum.yun@arm.com>
- <20251217182007.2345700-2-yeoreum.yun@arm.com>
- <73ced1db-a2e2-49ea-927e-9fc4a30e771e@arm.com>
- <aUQXRpLzKbl+I3Gu@e129823.arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <aUQXRpLzKbl+I3Gu@e129823.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-TrafficTypeDiagnostic:
+	GV1PR08MB10521:EE_|AM0PR08MB11756:EE_|DU6PEPF0000A7DD:EE_|DU0PR08MB7416:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7571980-a0fd-4aec-22d1-08de3e4de7e5
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?us-ascii?Q?CatGOoR2aJy4bMz4myRZryO80MAXe9N9loTtpB0ocZ5T1yXzymregbs3ZLig?=
+ =?us-ascii?Q?q4rTpru7WdU71f1F3WWob9LVu4Yx6KubgRJsrgUcSOAaWi4waIdb7VLNIYwV?=
+ =?us-ascii?Q?YCFlZKHxzZ0RBYQOxdMH5/3XoWRH4Q+cI1TYXvFdLCbhKcx/sURUwS3WxpKk?=
+ =?us-ascii?Q?yNRE3PhyX2j6nP7+T7ak9g4FSnPO+hl5xWpQARBZ9kgTq+VoieCen++3LjdU?=
+ =?us-ascii?Q?cxXut3N8L18i9P90sxsOrFZIoUn1qNHcjQqrDshN0i59hwsby+vRZIWMov+H?=
+ =?us-ascii?Q?z9gi13P8OStkSmIAo1dTVfxY89XB7Sml26vl14RHOYlGEiFnd3TC77ojauWG?=
+ =?us-ascii?Q?R1CR1YYgxFn875zVjG8aipkpDi6ek9ns83ZK8B3Gy4PDFX0LjUJz69fQ/P9B?=
+ =?us-ascii?Q?WiDp1gy8fQV+ngx++I9f6AZSj2OGlj6rs7L0lVxxWANJ6IjRTj3KMniE52tC?=
+ =?us-ascii?Q?owKu29BYeB9qnRO528NLVMJr3gMh3g/chcd4CHdBJZ0EpOIK2Jy4VrAL6wCF?=
+ =?us-ascii?Q?G9O9iXWNfN6sAiIf6/kjtkwWUXbytxGyRMz3RxWaf00uqHmV3IkuJe2zIMXl?=
+ =?us-ascii?Q?NjOrqxuBTs2UQ/vL1KPk2yNdLcUig+8TMWtNJwACa+u0WAhB0eJtA5U2sHWo?=
+ =?us-ascii?Q?0iSAEJnBOoyeau91V0iMn01IZhyZi7+/5RR3JZcfSzDz4jXI4xm3j8qMTrdL?=
+ =?us-ascii?Q?1449qYDJFv0MPriwkblqllXVcag77mKntKDLl6/LZak3wuTeRL1iqS7daszu?=
+ =?us-ascii?Q?mMMGIkw8+0fk7BbmZ476ojyFY2i59OCo9FjsriITxSp3z7lbyN57Y8WsY0sM?=
+ =?us-ascii?Q?ybpD/nZ5WomBLzaPE7DiZdgnzryzYWV5qXtOrKqitAzSsuB7TNUmOh9odeDX?=
+ =?us-ascii?Q?d8ecjAtEv2F/COOuFOMcl3Bh6by2DUA55h3qjsavFUou0OrO+b0Dbqa03kAT?=
+ =?us-ascii?Q?HnDEcj1c+0ZBcHCLPnNLzL4ErgWht7Pem9UV2+FYGeQ3m/gNa5Qc2VspXu3y?=
+ =?us-ascii?Q?I56L63K0FlkcJ/XofAvBikq0Vc0+1FwDMWyZaJNdYWI7rtV7BceSXMvxySq3?=
+ =?us-ascii?Q?a0jPveJOQcF41L9rElvTJgRNnGoPCW+EEZz4Zzs34r0LZLTp2KNOuRjPy5ft?=
+ =?us-ascii?Q?pxFmVc5u2ehOJBvp26pxX6wq0tmS98n0rOU7+0UcnCD/nAd9KzHMSAbiPQH0?=
+ =?us-ascii?Q?llgknONfvomob3uA6wBeZxErYBLCRmRhJV0Fft0NWNg/8oOVjkksjI/tsoy0?=
+ =?us-ascii?Q?n1GuktjVZg7I/oy9+MM00LrcA9q826Uz8pF5E/3zeMUI1SQWoJR9FrNuS03+?=
+ =?us-ascii?Q?z+CkkAx6jHRIZ/YmQp0EvxaPSyYb1QjIynSnonovJt4RVNwEEJUrY8tuoP2O?=
+ =?us-ascii?Q?iN+glNXp5WZjH6VCdj2XmtJAPycUq/rJzK9Pe7vQrUCPi8N8z/Z8tV3cctCb?=
+ =?us-ascii?Q?Sr+XY2QieQmaVfHNB4wxfDTLU0iQyxUt?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB11756
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ DU6PEPF0000A7DD.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	8406f044-2ca8-44e4-5203-08de3e4dc297
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|35042699022|36860700013|14060799003|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?N0mmWN36VeobXROegPsRUQ3nAVOeII2yby1pdEJjbJI7sKH2HUgvpBUb11sm?=
+ =?us-ascii?Q?iH/S6t82MH1bTJvHc+u4Wa/qt2sZh3bkBxkjhEBBsrCY/RZmXH/YyaVPEn5i?=
+ =?us-ascii?Q?BSOKNUy9kicoiitesbV/0ousVbI+6vLTptNl8QUCEMkEs1hNq6jCuPLOVdA6?=
+ =?us-ascii?Q?u1wM6IJHNYogjbbvFfr9Qw00rDtBo8lsKgVA/pziunbpwHdF8GObhCCDSI27?=
+ =?us-ascii?Q?ZeVK28m8zuhV5k04/4HVKp5mFbUkf2n8sXBkzt/tUAxjRP+zm681vviZZrdm?=
+ =?us-ascii?Q?g4fsmQ+QdaDvaQQLQiXAO0xm9YYerwL6330Yl2xnjdIkzYsw4yAUt3Z2IAwy?=
+ =?us-ascii?Q?Ecza2pR4fnJ3uHvdA5pJCObF1hIYgadr/7OzWjt2QE9ylb1dJSMGEtxx76MX?=
+ =?us-ascii?Q?eZTV4DT5IMSdx/acnX3KPYR5k2PQNykn64YnXI8s8+EO+NcsnJ0XqoHtirg2?=
+ =?us-ascii?Q?BXNpSVaszeshrNYsM2oJryTsan1gr25u3ghy0/h7dQ8A7a/HyfW4erMROuax?=
+ =?us-ascii?Q?T3GWVL2cz0oqUz1aZYub9nsPw6QZTk9YIVuXJcahGQZIdwm+F33WAqn4JVND?=
+ =?us-ascii?Q?HFw+sf/YPnGUOdQubf8O53Bq7l8laP61qAaSFq/ejyE0KKglbNGUtW0Tj00r?=
+ =?us-ascii?Q?zVBKqvel3YLjeyZE21Gbf51SOBktO7dPAOzgWa8O/RXToyP4T4kUYRE6/ctX?=
+ =?us-ascii?Q?h4bmX6lqZeJrO2UFIgx1oZed19GX3FV6IwRBNxfyDD9NzANZmsSRpMjgUV/9?=
+ =?us-ascii?Q?5GHwNg/ujWG5PFVeLJ8JJibaEFuo5SfbL9fYSerWMOmgt67H8SZyxByRPcjZ?=
+ =?us-ascii?Q?ijoBa9OCB+C3bWNtYzTaZoY53y4EJgCiUTSNp301DF8hRFybS2Zz4+06Buei?=
+ =?us-ascii?Q?478dqAV4EWSaxtL4vTucdCbmCli7moW70mtZa5C2XTO/sRDgE0xI6KU08blO?=
+ =?us-ascii?Q?xeymmhukZkViJlGsPpfkMPsfTOC8JP5htbhpY6px5x5YZT6t1jNvOZ7y5N3U?=
+ =?us-ascii?Q?Wvb7Uk6BoK2r2WrkmBFxQQsXeeYiiivYt2znx0ltUzP0Xp5eqX+shkaRphw0?=
+ =?us-ascii?Q?6Her+osmKjTlQWfn+rq+MBgqZufUkz12DLjHCYudmiM32NMxg9Ify25DpN0A?=
+ =?us-ascii?Q?yqmyZ6E5Bmseb1mc3VTi8ulVinIO9QDFxd5rvG8OUPESTQyaacvm2k9K/8v1?=
+ =?us-ascii?Q?a0VoKKzXh0GQiMG6Vf3ZFx7DPuTnhFQa7XfoaNcF+8jM+V9akD3G70hXQpvg?=
+ =?us-ascii?Q?rNncAZS7jTXSjI/X4sTZXTcrNNd+SAbCzl1NZd1MjBsXAr49t6M//H6Tfx2k?=
+ =?us-ascii?Q?LCYmHVMpSx4aMu6Vh2xjZRcojCPNmxtsvB+VyJFjVF+qBrMQlYTfBevHnbbN?=
+ =?us-ascii?Q?roITo9cpC0/okPlD1B9r2oZvCXoWp4WtsNa2LUil/HXIV251hVaM6kauTY8U?=
+ =?us-ascii?Q?hua7k+fJV0niszmNEb3xpfem53IOeCih2IUWww3VxiShdyLNjWJfZzgSFU1i?=
+ =?us-ascii?Q?8kNOWbuW94VJNb4J5Tlwwq15O47w2FfmvVvcmcOK6BgN0vR4vLqeJ6n8vJ70?=
+ =?us-ascii?Q?vd1nX6Nua1i5+/slRLA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(35042699022)(36860700013)(14060799003)(376014)(7416014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2025 15:55:45.6139
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7571980-a0fd-4aec-22d1-08de3e4de7e5
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU6PEPF0000A7DD.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB7416
 
-On 18/12/2025 15:01, Yeoreum Yun wrote:
-> Hi Ryan,
-> 
->> On 17/12/2025 18:20, Yeoreum Yun wrote:
->>> Current linear_map_split_to_ptes() allocate the pagetable
->>> while split linear mapping to ptes by stop_machine() with GFP_ATOMIC.
->>>
->>> This is fine for non-PREEMPR_RT case.
->>> However It's a problem in PREEMPR_RT case since
->>> generic memory allocation/free APIs (e.x) pgtable_alloc(), __get_free_pages and etc
->>> couldn't be called in non-preemptible context except _nolock() APIs
->>> since generic memory allocation/free APIs are *sleepable* for using *spin_lock()*
->>>
->>> IOW, calling a pgtable_alloc() even with GFP_ATOMIC
->>> doesn't allow in __linear_map_split_to_pte() executed by stopper thread
->>> where preemption is disabled in PREEMPR_RT.
->>>
->>> To address this, divide linear_map_maybe_split_ptes:
->>>   - collect number of pages to require for spliting.
->>>   - allocate the required number of pages for spliting.
->>>   - with pre-allocate page, split the linear map.
->>
->> Thanks for working on this fix!
->>
->> First some high level comments: I'm not a huge fan of the approach with the
->> different modes to modify behaviour.
->>
->> For the first step of figuring out the number of pages required; there is no
->> need to be inside stop_machine() for that. Can should be able to just walk the
->> linear map without any locking since it is created once and remains static, with
->> the exception of hotplug, but that is not enabled yet.
->>
->> I think it would be cleaner to just create separate walker callbacks rather than
->> repurpose the existing walker.
-> 
-> Okay. I'll repsin with separate walker.
-> 
->>
->> Then you could simply change the gfp flag to a callback function pointer and
->> pass the desired allocator as a function pointer. This would match the existing
->> patterns used in mmu.c today.
->>
->> The preallocated page list could be stored in a global static variable and you
->> could create an allocation function that just strims a page from that list. See
->> kpti_ng_pgd_alloc() for an existing example. That assumes a contiguous block,
->> but you could generalize it to hold a list of struct pages and reuse it for both
->> cases?
-> 
-> If we use walker callbacks, I think it not only pass the callback
-> function, but it need to pass the gfp flag too since split_xxx() is
-> called by another functions. (i.e) set_memory_xxx()
-> 
-> I think I can remove the mode with the suggestion of @David
-> but, I think it would be still use split_args with information of
-> gfp and preallocate buffer.
+> On 18/12/2025 15:01, Yeoreum Yun wrote:
+> > Hi Ryan,
+> >
+> >> On 17/12/2025 18:20, Yeoreum Yun wrote:
+> >>> Current linear_map_split_to_ptes() allocate the pagetable
+> >>> while split linear mapping to ptes by stop_machine() with GFP_ATOMIC.
+> >>>
+> >>> This is fine for non-PREEMPR_RT case.
+> >>> However It's a problem in PREEMPR_RT case since
+> >>> generic memory allocation/free APIs (e.x) pgtable_alloc(), __get_free_pages and etc
+> >>> couldn't be called in non-preemptible context except _nolock() APIs
+> >>> since generic memory allocation/free APIs are *sleepable* for using *spin_lock()*
+> >>>
+> >>> IOW, calling a pgtable_alloc() even with GFP_ATOMIC
+> >>> doesn't allow in __linear_map_split_to_pte() executed by stopper thread
+> >>> where preemption is disabled in PREEMPR_RT.
+> >>>
+> >>> To address this, divide linear_map_maybe_split_ptes:
+> >>>   - collect number of pages to require for spliting.
+> >>>   - allocate the required number of pages for spliting.
+> >>>   - with pre-allocate page, split the linear map.
+> >>
+> >> Thanks for working on this fix!
+> >>
+> >> First some high level comments: I'm not a huge fan of the approach with the
+> >> different modes to modify behaviour.
+> >>
+> >> For the first step of figuring out the number of pages required; there is no
+> >> need to be inside stop_machine() for that. Can should be able to just walk the
+> >> linear map without any locking since it is created once and remains static, with
+> >> the exception of hotplug, but that is not enabled yet.
+> >>
+> >> I think it would be cleaner to just create separate walker callbacks rather than
+> >> repurpose the existing walker.
+> >
+> > Okay. I'll repsin with separate walker.
+> >
+> >>
+> >> Then you could simply change the gfp flag to a callback function pointer and
+> >> pass the desired allocator as a function pointer. This would match the existing
+> >> patterns used in mmu.c today.
+> >>
+> >> The preallocated page list could be stored in a global static variable and you
+> >> could create an allocation function that just strims a page from that list. See
+> >> kpti_ng_pgd_alloc() for an existing example. That assumes a contiguous block,
+> >> but you could generalize it to hold a list of struct pages and reuse it for both
+> >> cases?
+> >
+> > If we use walker callbacks, I think it not only pass the callback
+> > function, but it need to pass the gfp flag too since split_xxx() is
+> > called by another functions. (i.e) set_memory_xxx()
+> >
+> > I think I can remove the mode with the suggestion of @David
+> > but, I think it would be still use split_args with information of
+> > gfp and preallocate buffer.
+>
+> I don't think that's necessary; all other users pass GFP_PGTABLE_KERNEL, so we
+> just need one allocator function that allocates with GFP_PGTABLE_KERNEL and
+> another allocator function that allocates from the prealloc'ed list. Then the
+> user passes the function they want to use.
+>
+> That would work, I think?
 
-I don't think that's necessary; all other users pass GFP_PGTABLE_KERNEL, so we
-just need one allocator function that allocates with GFP_PGTABLE_KERNEL and
-another allocator function that allocates from the prealloc'ed list. Then the
-user passes the function they want to use.
+True. I forgot I removed GFP_ATOMIC myself for pgtable alloc.
+Okay. then I'll move the preallocated buffer information to global
+and just pass function pointer then.
 
-That would work, I think?
+Thanks
 
->>
->>>
->>> Fixes: 3df6979d222b ("arm64: mm: split linear mapping if BBML2 unsupported on secondary CPUs")
->>> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
->>> ---
->>>  arch/arm64/mm/mmu.c | 213 +++++++++++++++++++++++++++++++++++---------
->>>  1 file changed, 170 insertions(+), 43 deletions(-)
->>>
->>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
->>> index 9ae7ce00a7ef..e4e6c7e0a016 100644
->>> --- a/arch/arm64/mm/mmu.c
->>> +++ b/arch/arm64/mm/mmu.c
->>> @@ -527,18 +527,28 @@ static void early_create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
->>>  		panic("Failed to create page tables\n");
->>>  }
->>>
->>> -static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
->>> -				       enum pgtable_type pgtable_type)
->>> -{
->>> -	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
->>> -	struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
->>> -	phys_addr_t pa;
->>> -
->>> -	if (!ptdesc)
->>> -		return INVALID_PHYS_ADDR;
->>> +enum split_modes {
->>> +	SPLIT_ALLOC,
->>> +	SPLIT_PREALLOC,
->>> +	SPLIT_COLLECT,
->>> +};
->>>
->>> -	pa = page_to_phys(ptdesc_page(ptdesc));
->>> +struct split_args {
->>> +	enum split_modes mode;
->>> +	union {
->>> +		struct {
->>> +			unsigned long nr;
->>> +			unsigned long i;
->>> +			struct page **pages;
->>> +		};
->>> +		gfp_t gfp;
->>> +	};
->>> +};
->>>
->>> +static __always_inline void __pgd_pgtable_init(struct mm_struct *mm,
->>> +					       struct ptdesc *ptdesc,
->>> +					       enum pgtable_type pgtable_type)
->>> +{
->>>  	switch (pgtable_type) {
->>>  	case TABLE_PTE:
->>>  		BUG_ON(!pagetable_pte_ctor(mm, ptdesc));
->>> @@ -554,19 +564,56 @@ static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
->>>  		break;
->>>  	}
->>>
->>> +}
->>> +
->>> +static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
->>> +				       enum pgtable_type pgtable_type)
->>> +{
->>> +	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
->>> +	struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
->>> +	phys_addr_t pa;
->>> +
->>> +	if (!ptdesc)
->>> +		return INVALID_PHYS_ADDR;
->>> +
->>> +	pa = page_to_phys(ptdesc_page(ptdesc));
->>> +
->>> +	__pgd_pgtable_init(mm, ptdesc, pgtable_type);
->>> +
->>>  	return pa;
->>>  }
->>>
->>> +static phys_addr_t __pgd_pgtable_prealloc(struct mm_struct *mm,
->>> +					  struct split_args *split_args,
->>> +					  enum pgtable_type pgtable_type)
->>> +{
->>> +	struct page *page;
->>> +
->>> +	BUG_ON(split_args->i >= split_args->nr);
->>> +
->>> +	page = split_args->pages[split_args->i++];
->>> +	if (!page)
->>> +		return INVALID_PHYS_ADDR;
->>> +
->>> +	__pgd_pgtable_init(mm, page_ptdesc(page), pgtable_type);
->>> +
->>> +	return page_to_phys(page);
->>> +}
->>> +
->>>  static phys_addr_t
->>> -pgd_pgtable_alloc_init_mm_gfp(enum pgtable_type pgtable_type, gfp_t gfp)
->>> +pgd_pgtable_alloc_split(enum pgtable_type pgtable_type,
->>> +		        struct split_args *split_args)
->>>  {
->>> -	return __pgd_pgtable_alloc(&init_mm, gfp, pgtable_type);
->>> +	if (split_args->mode == SPLIT_ALLOC)
->>> +		return __pgd_pgtable_alloc(&init_mm, split_args->gfp, pgtable_type);
->>> +
->>> +	return __pgd_pgtable_prealloc(&init_mm, split_args, pgtable_type);
->>>  }
->>>
->>>  static phys_addr_t __maybe_unused
->>>  pgd_pgtable_alloc_init_mm(enum pgtable_type pgtable_type)
->>>  {
->>> -	return pgd_pgtable_alloc_init_mm_gfp(pgtable_type, GFP_PGTABLE_KERNEL);
->>> +	return __pgd_pgtable_alloc(&init_mm, GFP_PGTABLE_KERNEL, pgtable_type);
->>>  }
->>>
->>>  static phys_addr_t
->>> @@ -584,7 +631,9 @@ static void split_contpte(pte_t *ptep)
->>>  		__set_pte(ptep, pte_mknoncont(__ptep_get(ptep)));
->>>  }
->>>
->>> -static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
->>> +static int split_pmd(pmd_t *pmdp, pmd_t pmd,
->>> +		     struct split_args *split_args,
->>> +		     bool to_cont)
->>>  {
->>>  	pmdval_t tableprot = PMD_TYPE_TABLE | PMD_TABLE_UXN | PMD_TABLE_AF;
->>>  	unsigned long pfn = pmd_pfn(pmd);
->>> @@ -593,7 +642,7 @@ static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
->>>  	pte_t *ptep;
->>>  	int i;
->>>
->>> -	pte_phys = pgd_pgtable_alloc_init_mm_gfp(TABLE_PTE, gfp);
->>> +	pte_phys = pgd_pgtable_alloc_split(TABLE_PTE, split_args);
->>>  	if (pte_phys == INVALID_PHYS_ADDR)
->>>  		return -ENOMEM;
->>>  	ptep = (pte_t *)phys_to_virt(pte_phys);
->>> @@ -628,7 +677,9 @@ static void split_contpmd(pmd_t *pmdp)
->>>  		set_pmd(pmdp, pmd_mknoncont(pmdp_get(pmdp)));
->>>  }
->>>
->>> -static int split_pud(pud_t *pudp, pud_t pud, gfp_t gfp, bool to_cont)
->>> +static int split_pud(pud_t *pudp, pud_t pud,
->>> +		    struct split_args *split_args,
->>> +		    bool to_cont)
->>>  {
->>>  	pudval_t tableprot = PUD_TYPE_TABLE | PUD_TABLE_UXN | PUD_TABLE_AF;
->>>  	unsigned int step = PMD_SIZE >> PAGE_SHIFT;
->>> @@ -638,7 +689,7 @@ static int split_pud(pud_t *pudp, pud_t pud, gfp_t gfp, bool to_cont)
->>>  	pmd_t *pmdp;
->>>  	int i;
->>>
->>> -	pmd_phys = pgd_pgtable_alloc_init_mm_gfp(TABLE_PMD, gfp);
->>> +	pmd_phys = pgd_pgtable_alloc_split(TABLE_PMD, split_args);
->>>  	if (pmd_phys == INVALID_PHYS_ADDR)
->>>  		return -ENOMEM;
->>>  	pmdp = (pmd_t *)phys_to_virt(pmd_phys);
->>> @@ -672,6 +723,10 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
->>>  	pmd_t *pmdp, pmd;
->>>  	pte_t *ptep, pte;
->>>  	int ret = 0;
->>> +	struct split_args split_args = {
->>> +		.mode = SPLIT_ALLOC,
->>> +		.gfp = GFP_PGTABLE_KERNEL,
->>> +	};
->>>
->>>  	/*
->>>  	 * PGD: If addr is PGD aligned then addr already describes a leaf
->>> @@ -707,7 +762,7 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
->>>  	if (!pud_present(pud))
->>>  		goto out;
->>>  	if (pud_leaf(pud)) {
->>> -		ret = split_pud(pudp, pud, GFP_PGTABLE_KERNEL, true);
->>> +		ret = split_pud(pudp, pud, &split_args, true);
->>>  		if (ret)
->>>  			goto out;
->>>  	}
->>> @@ -732,7 +787,7 @@ static int split_kernel_leaf_mapping_locked(unsigned long addr)
->>>  		 */
->>>  		if (ALIGN_DOWN(addr, PMD_SIZE) == addr)
->>>  			goto out;
->>> -		ret = split_pmd(pmdp, pmd, GFP_PGTABLE_KERNEL, true);
->>> +		ret = split_pmd(pmdp, pmd, &split_args, true);
->>>  		if (ret)
->>>  			goto out;
->>>  	}
->>> @@ -831,12 +886,17 @@ int split_kernel_leaf_mapping(unsigned long start, unsigned long end)
->>>  static int split_to_ptes_pud_entry(pud_t *pudp, unsigned long addr,
->>>  				   unsigned long next, struct mm_walk *walk)
->>>  {
->>> -	gfp_t gfp = *(gfp_t *)walk->private;
->>> +	struct split_args *split_args = (struct split_args *)walk->private;
->>
->> no need for the casting here; it's a void *.
-> 
-> Right. I'll remove it.
-> 
->>
->>>  	pud_t pud = pudp_get(pudp);
->>>  	int ret = 0;
->>>
->>> -	if (pud_leaf(pud))
->>> -		ret = split_pud(pudp, pud, gfp, false);
->>> +	if (!pud_leaf(pud))
->>> +		return 0;
->>> +
->>> +	if (split_args->mode == SPLIT_COLLECT)
->>> +		split_args->nr++;
->>
->> bug: you're incrementing this for the pmd table that you would have inserted,
->> but because you're not actually splitting, split_to_ptes_pmd_entry() will never
->> be called for the 512 pte tables you also need. So you need:
->>
->> 		nr += 1 + PTRS_PER_PMD;
->>
->> I'm guessing you didn't test this as the BUG would have triggered when you ran
->> out of preallocated memory?
->>
-> 
-> Good catch! Yes. This is definitely bug.
-> The reason why I didn't hit the but there is no "block pud" in my enviroment.
-> 
->>> +	else
->>> +		ret = split_pud(pudp, pud, split_args, false);
->>>
->>>  	return ret;
->>>  }
->>> @@ -844,22 +904,29 @@ static int split_to_ptes_pud_entry(pud_t *pudp, unsigned long addr,
->>>  static int split_to_ptes_pmd_entry(pmd_t *pmdp, unsigned long addr,
->>>  				   unsigned long next, struct mm_walk *walk)
->>>  {
->>> -	gfp_t gfp = *(gfp_t *)walk->private;
->>> +	struct split_args *split_args = (struct split_args *)walk->private;
->>>  	pmd_t pmd = pmdp_get(pmdp);
->>> -	int ret = 0;
->>> +	int ret;
->>>
->>> -	if (pmd_leaf(pmd)) {
->>> -		if (pmd_cont(pmd))
->>> -			split_contpmd(pmdp);
->>> -		ret = split_pmd(pmdp, pmd, gfp, false);
->>> +	if (!pmd_leaf(pmd))
->>> +		return 0;
->>>
->>> -		/*
->>> -		 * We have split the pmd directly to ptes so there is no need to
->>> -		 * visit each pte to check if they are contpte.
->>> -		 */
->>> -		walk->action = ACTION_CONTINUE;
->>> +	if (split_args->mode == SPLIT_COLLECT) {
->>> +		split_args->nr++;
->>> +		return 0;
->>>  	}
->>>
->>> +	if (pmd_cont(pmd))
->>> +		split_contpmd(pmdp);
->>> +	ret = split_pmd(pmdp, pmd, split_args, false);
->>> +
->>> +	/*
->>> +	 * We have split the pmd directly to ptes so there is no need to
->>> +	 * visit each pte to check if they are contpte.
->>> +	 */
->>> +	walk->action = ACTION_CONTINUE;
->>> +
->>> +
->>>  	return ret;
->>>  }
->>>
->>> @@ -880,13 +947,15 @@ static const struct mm_walk_ops split_to_ptes_ops = {
->>>  	.pte_entry	= split_to_ptes_pte_entry,
->>>  };
->>>
->>> -static int range_split_to_ptes(unsigned long start, unsigned long end, gfp_t gfp)
->>> +static int range_split_to_ptes(unsigned long start, unsigned long end,
->>> +		 	       struct split_args *split_args)
->>>  {
->>>  	int ret;
->>>
->>>  	arch_enter_lazy_mmu_mode();
->>>  	ret = walk_kernel_page_table_range_lockless(start, end,
->>> -					&split_to_ptes_ops, NULL, &gfp);
->>> +						    &split_to_ptes_ops, NULL,
->>> +						    split_args);
->>>  	arch_leave_lazy_mmu_mode();
->>>
->>>  	return ret;
->>> @@ -903,7 +972,7 @@ static void __init init_idmap_kpti_bbml2_flag(void)
->>>  	smp_mb();
->>>  }
->>>
->>> -static int __init linear_map_split_to_ptes(void *__unused)
->>> +static int __init linear_map_split_to_ptes(void *data)
->>>  {
->>>  	/*
->>>  	 * Repainting the linear map must be done by CPU0 (the boot CPU) because
->>> @@ -911,6 +980,7 @@ static int __init linear_map_split_to_ptes(void *__unused)
->>>  	 * be held in a waiting area with the idmap active.
->>>  	 */
->>>  	if (!smp_processor_id()) {
->>> +		struct split_args *split_args = data;
->>>  		unsigned long lstart = _PAGE_OFFSET(vabits_actual);
->>>  		unsigned long lend = PAGE_END;
->>>  		unsigned long kstart = (unsigned long)lm_alias(_stext);
->>> @@ -928,12 +998,13 @@ static int __init linear_map_split_to_ptes(void *__unused)
->>>  		 * PTE. The kernel alias remains static throughout runtime so
->>>  		 * can continue to be safely mapped with large mappings.
->>>  		 */
->>> -		ret = range_split_to_ptes(lstart, kstart, GFP_ATOMIC);
->>> +		ret = range_split_to_ptes(lstart, lend, split_args);
->>>  		if (!ret)
->>> -			ret = range_split_to_ptes(kend, lend, GFP_ATOMIC);
->>> +			ret = range_split_to_ptes(kstart, kend, split_args);
->>>  		if (ret)
->>>  			panic("Failed to split linear map\n");
->>> -		flush_tlb_kernel_range(lstart, lend);
->>> +		if (split_args->mode != SPLIT_COLLECT)
->>> +			flush_tlb_kernel_range(lstart, lend);
->>>
->>>  		/*
->>>  		 * Relies on dsb in flush_tlb_kernel_range() to avoid reordering
->>> @@ -963,10 +1034,61 @@ static int __init linear_map_split_to_ptes(void *__unused)
->>>
->>>  void __init linear_map_maybe_split_to_ptes(void)
->>>  {
->>> -	if (linear_map_requires_bbml2 && !system_supports_bbml2_noabort()) {
->>> -		init_idmap_kpti_bbml2_flag();
->>> -		stop_machine(linear_map_split_to_ptes, NULL, cpu_online_mask);
->>> +	struct page **pages = NULL;
->>> +	struct split_args split_args;
->>> +	int order;
->>> +	int nr_populated;
->>> +	int err;
->>> +
->>> +	if (!linear_map_requires_bbml2 || system_supports_bbml2_noabort())
->>> +		return;
->>> +
->>> +	/*
->>> +	 * Phase 1: Collect required extra pages to split.
->>> +	 */
->>> +	split_args.mode = SPLIT_COLLECT;
->>> +	split_args.nr = 0;
->>> +
->>> +	init_idmap_kpti_bbml2_flag();
->>> +	stop_machine(linear_map_split_to_ptes, &split_args, cpu_online_mask);
->>
->> This doesn't require stop_machine().
-> 
-> Yes. I'll separate with new walker as you suggest.
-> 
->>
->>> +
->>> +	/*
->>> +	 * Phase 2: Allocate necessary pages to split.
->>> +	 */
->>> +	if (split_args.nr == 0) {
->>> +		err = 0;
->>> +		split_args.mode = SPLIT_ALLOC;
->>
->> How would we hit this condition? If everything is already split why not just
->> exit early?
-> 
-> I'm thinking about if all of pages map with CONTPTE only then
-> it need to be splited, but would you let me know whether It wouldn't be possible
-> for cross checking?
 
-Ahh, yes good point!
-
-> 
->>
->>> +	} else {
->>> +		err = -ENOMEM;
->>> +		order = order_base_2(PAGE_ALIGN(split_args.nr *
->>> +					sizeof(struct page *)) >> PAGE_SHIFT);
->>> +
->>> +		pages = (struct page **)__get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
->>
->> As per the other patch, I'd prefer to see GFP_KERNEL | __GFP_ZERO here.
->>
->> Let's make this a list of struct ptdesc * though.
-> 
-> Agree. I'll change it.
-> 
->>
->>> +		if (!pages)
->>> +			goto error;
->>> +
->>> +		nr_populated = alloc_pages_bulk(GFP_ATOMIC | __GFP_ZERO, split_args.nr, pages);
->>
->> Just GFP_KERNEL. No need for __GFP_ZERO as they will all be fully overwritten
->> with PTEs.
->>
->> I'd prefer to use pagetable_alloc(GFP_KERNEL, 0) in a loop since that will
->> return a proper ptdesc.
-> 
-> Okay.
-> 
->>
->>> +		if (nr_populated < split_args.nr)
->>> +			goto error;
->>> +
->>> +		err = 0;
->>> +		split_args.mode = SPLIT_PREALLOC;
->>> +		split_args.i = 0;
->>> +		split_args.pages = pages;
->>>  	}
->>> +
->>> +	/*
->>> +	 * Phase 3: Split linear map.
->>> +	 */
->>> +	init_idmap_kpti_bbml2_flag();
->>> +	stop_machine(linear_map_split_to_ptes, &split_args, cpu_online_mask);
->>> +
->>> +error:
->>> +	if (pages)
->>> +		free_pages((unsigned long)pages, order);
->>
->> It's possible (but unlikely) that another CPU caused a split between figuring
->> out the required number of tables and actually doing the full split. In this
->> case, you would have preallocated pages left over that you will need to free here.
-> 
-> You're right. I've overlooked this case.
-> I'll handle it.
-> 
-> 
-> Thanks for your review!
-> 
-> --
-> Sincerely,
-> Yeoreum Yun
-
+--
+Sincerely,
+Yeoreum Yun
