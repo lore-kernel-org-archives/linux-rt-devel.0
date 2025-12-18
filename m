@@ -1,80 +1,80 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA34419CC28
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 07:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899432E3360
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 07:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766044069; cv=none; b=EUyYEd4qC4/zlogwQ5W4dSvGmggq+JLl9cZCF0qj6nyzQzlbyqSCx9AT1JTyhLkk6H0tNuKuzgffAk/voJjl6mKtg39UvO4fpDEJJfi5Vn7vw4jAgLqDUzq6D0G589A5H5uwzUUTsyK53H1FLzIsEpIMGPZJNCLtrDJjdnSfm4s=
+	t=1766044317; cv=none; b=CVElQ+031mvhxdcGm6SPnllZZbt7Z8pvjA6GEYspjmqiu/oGqVBmK3s46YVxE01bTeS3mJ2YNuC7pRP+dPMwNo7naEEc+9DF1HMqXuFR7c4YkWER1Q2SKJfc+SkHUoG7h40VMMCaIGKiAN2Qc08Nb4nIXmmAdch2mrUUwNJZs/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766044069; c=relaxed/simple;
-	bh=wmQ7vEP1PE0L/cKNh93jn2cAhRr2WL13ibxMSXvSHkI=;
+	s=arc-20240116; t=1766044317; c=relaxed/simple;
+	bh=xKllaczr+QwMHef82Z7J0M4Hkf2HX4n5ZGD+S5ZFOKI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lTqPeqYL7tGZ3VABcZiL3Eyu8iFvfOVklEWRa4bObWX9O3yo1Rk6MqMKEBsdNc26oldJAglbmX6nlnfVxkrh6cVMYZmv17yyMAMaWH+YNQgiDW+Tp43neN64pKw4AUb3MinW++ROcWdr8taeNuve5eCWKsceZQ52c8rM5l/AzsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xGswW9mm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=12xfeIIr; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xGswW9mm; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=12xfeIIr; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=rJxZxsrd7hBB7r3TqpEX7jEC/6LYnzC8UW+08GY4qgVUfEXHYwdSt0iHSbQeYRNYMpvV1go/y2ARCqh9Xs4JdtdFVhE1Psnk/PSq/gozNH1ewAJuZHDDp5u357PjQO5RVagMgvJSqNo4QgoScdvuqssHz9l6zoA220poVHlKd6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Yulxcs0E; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VkG2oQg1; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KWFQUgcN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=R1h2VVnd; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xGswW9mm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="12xfeIIr";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xGswW9mm";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="12xfeIIr"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Yulxcs0E";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VkG2oQg1";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KWFQUgcN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="R1h2VVnd"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1608E336E3;
-	Thu, 18 Dec 2025 07:47:45 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CC3D0336E3;
+	Thu, 18 Dec 2025 07:51:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1766044065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1766044314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pSlq6nuapXlPZtqsKEQ7mS1ImZ01jhm7Caka7wJ5hO8=;
-	b=xGswW9mmEdYxve8qWfUjRzkM0alEkhjtKTJql2b1uFo3KxBid93Ccp2YT5lW/tnR2/aq83
-	GnVwshDLCQ9OEARRJ+blcWw5Wl7RurDK7UmOcEhlE2Z2F4SfrzBbvbhYAVHXE9j6R5t4Lp
-	2PMhlBjHPhxgTYbOSHjVGtxyJ/yuGyQ=
+	bh=Qj9TGZ/7LLeJN5JCas/6jSdNR1umkabrxnMSewPfrPY=;
+	b=Yulxcs0EZYRUKAQOUDStV3SROc49T4/MJLq51M4FHfBOiBka21LSX3EG+QjcxeK7XgJ4mY
+	IAb6KZmIWT+4R9czFHhcLzc9D9jdMBVUYhNQpMQ+A1Ed0hg/BjxEsBnvDWsgLhvJ5kH3lV
+	iRY4CjfYScljWAqPLz2koJEtiyoSEhA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1766044065;
+	s=susede2_ed25519; t=1766044314;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pSlq6nuapXlPZtqsKEQ7mS1ImZ01jhm7Caka7wJ5hO8=;
-	b=12xfeIIr0TEtg0oz9K8ds5m3lHbkuGcVBzuNqIxhI3qsl8sqFDjbH9XpqfCu6RFoILRFqv
-	lhZYgT/Cb4LCAyBA==
+	bh=Qj9TGZ/7LLeJN5JCas/6jSdNR1umkabrxnMSewPfrPY=;
+	b=VkG2oQg1Z6xph6w0yQY8raXDkPdw7B1ayPYoJT6MgoAGyXy+uNEv/+VWY9IAr70dL4jabu
+	L3k5iozwI99i+PCQ==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1766044065; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1766044312; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pSlq6nuapXlPZtqsKEQ7mS1ImZ01jhm7Caka7wJ5hO8=;
-	b=xGswW9mmEdYxve8qWfUjRzkM0alEkhjtKTJql2b1uFo3KxBid93Ccp2YT5lW/tnR2/aq83
-	GnVwshDLCQ9OEARRJ+blcWw5Wl7RurDK7UmOcEhlE2Z2F4SfrzBbvbhYAVHXE9j6R5t4Lp
-	2PMhlBjHPhxgTYbOSHjVGtxyJ/yuGyQ=
+	bh=Qj9TGZ/7LLeJN5JCas/6jSdNR1umkabrxnMSewPfrPY=;
+	b=KWFQUgcNAvfC8MNfkqa5cdDIgElH8Uh4zgcJI3XOMFGVH6szHd6fxSSrXdJQTQZbVUWPvn
+	nXErcyCZbd2DhaBDImxDWBdAVs3G29JYspFQgsxWX+qYqPoLJcOfbchO2bMDXN3II5XZ4n
+	gIpodE2+/BTzSk8JxNewnO8fPwDGWso=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1766044065;
+	s=susede2_ed25519; t=1766044312;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=pSlq6nuapXlPZtqsKEQ7mS1ImZ01jhm7Caka7wJ5hO8=;
-	b=12xfeIIr0TEtg0oz9K8ds5m3lHbkuGcVBzuNqIxhI3qsl8sqFDjbH9XpqfCu6RFoILRFqv
-	lhZYgT/Cb4LCAyBA==
+	bh=Qj9TGZ/7LLeJN5JCas/6jSdNR1umkabrxnMSewPfrPY=;
+	b=R1h2VVndmaQbmfIkUAkuw4InbqgEJS74T6peDr7SBtn0Qm3RwOMXt0BAPD7SKUhKoRiV9a
+	lkgjyKlgckNT6YDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BE9853EA63;
-	Thu, 18 Dec 2025 07:47:44 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 94ECB3EA63;
+	Thu, 18 Dec 2025 07:51:52 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fLIwLqCxQ2nnCwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 18 Dec 2025 07:47:44 +0000
-Message-ID: <7b2673cb-1f0e-4a5a-84e3-0ae10437308d@suse.cz>
-Date: Thu, 18 Dec 2025 08:47:44 +0100
+	id GiPwI5iyQ2mjDAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 18 Dec 2025 07:51:52 +0000
+Message-ID: <586d24f9-a54d-4c14-bd25-fed18423d709@suse.cz>
+Date: Thu, 18 Dec 2025 08:51:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -82,32 +82,20 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] introduce pagetable_alloc_nolock()
-To: Brendan Jackman <jackmanb@google.com>, Yeoreum Yun <yeoreum.yun@arm.com>,
- Ryan Roberts <ryan.roberts@arm.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
- yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
- sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, hannes@cmpxchg.org,
- ziy@nvidia.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, catalin.marinas@arm.com, will@kernel.org,
- kevin.brodsky@arm.com, dev.jain@arm.com, yang@os.amperecomputing.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-References: <20251212161832.2067134-1-yeoreum.yun@arm.com>
- <916c17ba-22b1-456e-a184-cb3f60249af7@arm.com>
- <aUGOPd7gNRf1xHEc@e129823.arm.com>
- <100cc8da-b826-4fc2-a624-746bf6fb049d@arm.com>
- <aUKKZR0u22KOPfd7@e129823.arm.com>
- <d96ac977-222e-4e8d-9487-da1306198419@arm.com>
- <aUKnfU/3FREY13g1@e129823.arm.com>
- <d912480a-5229-4efe-9336-b31acded30f5@suse.cz>
- <DF0J58HOVLL4.2E16Q87D2UXRW@google.com>
- <d5354d96-6f28-41d7-9f66-64c254d9477b@suse.cz>
- <DF0NWLWKRKYI.3PLY78UGGG2PD@google.com>
+Subject: Re: [PATCH v2 2/2] arm64: mmu: avoid allocating pages while
+ installing ng-mapping for KPTI
 Content-Language: en-US
+To: Ryan Roberts <ryan.roberts@arm.com>, Yeoreum Yun <yeoreum.yun@arm.com>,
+ catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
+ david@kernel.org, kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com,
+ dev.jain@arm.com, yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+References: <20251217182007.2345700-1-yeoreum.yun@arm.com>
+ <20251217182007.2345700-3-yeoreum.yun@arm.com>
+ <731e3f48-e0a3-4c89-a13a-65ef37faa443@arm.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -148,86 +136,137 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <DF0NWLWKRKYI.3PLY78UGGG2PD@google.com>
+In-Reply-To: <731e3f48-e0a3-4c89-a13a-65ef37faa443@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Spamd-Result: default: False [-4.27 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
+	NEURAL_HAM_SHORT(-0.17)[-0.832];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	TAGGED_RCPT(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLaoo9k1mcqc4e3ec8ywf517mf)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,oracle.com,google.com,suse.com,iogearbox.net,linux.dev,gmail.com,fomichev.me,cmpxchg.org,nvidia.com,linutronix.de,goodmis.org,arm.com,os.amperecomputing.com,kvack.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Level: 
 X-Spam-Flag: NO
-X-Spam-Score: -2.80
+X-Spam-Score: -4.27
 
-On 12/17/25 18:19, Brendan Jackman wrote:
->>> From 4c6b4d4cb08aee9559d02a348b9ecf799142c96f Mon Sep 17 00:00:00 2001
->>> From: Brendan Jackman <jackmanb@google.com>
->>> Date: Wed, 17 Dec 2025 13:26:28 +0000
->>> Subject: [PATCH] mm: clarify GFP_ATOMIC/GFP_NOWAIT doc-comment
->>> 
->>> The current description of contexts where it's invalid to make
->>> GFP_ATOMIC and GFP_NOWAIT calls is rather vague.
->>> 
->>> Replace this with a direct description of the actual contexts of concern
->>> and refer to the RT docs where this is explained more discursively.
->>> 
->>> While rejigging this prose, also move the documentation of GFP_NOWAIT to
->>> the GFP_NOWAIT section.
->>
->> There doesn't seem to be any move?
+On 12/17/25 20:03, Ryan Roberts wrote:
+> On 17/12/2025 18:20, Yeoreum Yun wrote:
+>> The current __kpti_install_ng_mappings() allocates a temporary PGD
+>> while installing the NG mapping for KPTI under stop_machine(),
+>> using GFP_ATOMIC.
+>> 
+>> This is fine in the non-PREEMPT_RT case. However, it becomes a problem
+>> under PREEMPT_RT because generic memory allocation/free APIs
+>> (e.g., pgtable_alloc(), __get_free_pages(), etc.) cannot be invoked
+>> in a non-preemptible context, except for the *_nolock() variants.
+>> These generic allocators may sleep due to their use of spin_lock().
+>> 
+>> In other words, calling __get_free_pages(), even with GFP_ATOMIC,
+>> is not allowed in __kpti_install_ng_mappings(), which is executed by
+>> the stopper thread where preemption is disabled under PREEMPT_RT.
+>> 
+>> To address this, preallocate the page needed for the temporary PGD
+>> before invoking __kpti_install_ng_mappings() via stop_machine().
+>> 
+>> Fixes: 47546a1912fc ("arm64: mm: install KPTI nG mappings with MMU enabled")
+>> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+>> ---
+>>  arch/arm64/mm/mmu.c | 22 +++++++++++++---------
+>>  1 file changed, 13 insertions(+), 9 deletions(-)
+>> 
+>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+>> index e4e6c7e0a016..69d9651de0cd 100644
+>> --- a/arch/arm64/mm/mmu.c
+>> +++ b/arch/arm64/mm/mmu.c
+>> @@ -1360,7 +1360,7 @@ static phys_addr_t __init kpti_ng_pgd_alloc(enum pgtable_type type)
+>>  	return kpti_ng_temp_alloc;
+>>  }
+>>  
+>> -static int __init __kpti_install_ng_mappings(void *__unused)
+>> +static int __init __kpti_install_ng_mappings(void *data)
+>>  {
+>>  	typedef void (kpti_remap_fn)(int, int, phys_addr_t, unsigned long);
+>>  	extern kpti_remap_fn idmap_kpti_install_ng_mappings;
+>> @@ -1368,10 +1368,9 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+>>  
+>>  	int cpu = smp_processor_id();
+>>  	int levels = CONFIG_PGTABLE_LEVELS;
+>> -	int order = order_base_2(levels);
+>>  	u64 kpti_ng_temp_pgd_pa = 0;
+>>  	pgd_t *kpti_ng_temp_pgd;
+>> -	u64 alloc = 0;
+>> +	u64 alloc = *(u64 *)data;
+>>  
+>>  	if (levels == 5 && !pgtable_l5_enabled())
+>>  		levels = 4;
+>> @@ -1382,8 +1381,6 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+>>  
+>>  	if (!cpu) {
+>>  		int ret;
+>> -
+>> -		alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
+>>  		kpti_ng_temp_pgd = (pgd_t *)(alloc + (levels - 1) * PAGE_SIZE);
+>>  		kpti_ng_temp_alloc = kpti_ng_temp_pgd_pa = __pa(kpti_ng_temp_pgd);
+>>  
+>> @@ -1414,16 +1411,17 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+>>  	remap_fn(cpu, num_online_cpus(), kpti_ng_temp_pgd_pa, KPTI_NG_TEMP_VA);
+>>  	cpu_uninstall_idmap();
+>>  
+>> -	if (!cpu) {
+>> -		free_pages(alloc, order);
+>> +	if (!cpu)
+>>  		arm64_use_ng_mappings = true;
+>> -	}
+>>  
+>>  	return 0;
+>>  }
+>>  
+>>  void __init kpti_install_ng_mappings(void)
+>>  {
+>> +	int order = order_base_2(CONFIG_PGTABLE_LEVELS);
+>> +	u64 alloc;
+>> +
+>>  	/* Check whether KPTI is going to be used */
+>>  	if (!arm64_kernel_unmapped_at_el0())
+>>  		return;
+>> @@ -1436,8 +1434,14 @@ void __init kpti_install_ng_mappings(void)
+>>  	if (arm64_use_ng_mappings)
+>>  		return;
+>>  
+>> +	alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
 > 
-> This is referring to [0] and [1].
+> I don't think this requires GFP_ATOMIC now?
 
-Oh I missed [0]. Thanks!
+Do you mean it's fine to use GFP_KERNEL now, or still not, and you mean that
+GFP_NOWAIT is sufficient?
 
->>> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
->>> index 3de43b12209ee..07a378542caf2 100644
->>> --- a/include/linux/gfp_types.h
->>> +++ b/include/linux/gfp_types.h
->>> @@ -309,8 +309,10 @@ enum {
->>>   *
->>>   * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
->>>   * watermark is applied to allow access to "atomic reserves".
->>> - * The current implementation doesn't support NMI and few other strict
->>> - * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
-> [0]                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> + * The current implementation doesn't support NMI, nor contexts that disable
->>> + * preemption under PREEMPT_RT. This includes raw_spin_lock() and plain
->>> + * preempt_disable() - see Documentation/core-api/real-time/differences.rst for
->>> + * more info.
->>
->> Can we reference the "Memory allocation" section directly?
+> With that removed:
 > 
-> Yeah good point. I will send this as a standalone [PATCH] mail tomorrow.
+> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
 > 
->>>   *
->>>   * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
->>>   * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
->>> @@ -321,6 +323,7 @@ enum {
->>>   * %GFP_NOWAIT is for kernel allocations that should not stall for direct
->>>   * reclaim, start physical IO or use any filesystem callback.  It is very
->>>   * likely to fail to allocate memory, even for very small allocations.
->>> + * The same restrictions on calling contexts apply as for %GFP_ATOMIC.
-> [1]     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>> +	if (!alloc)
+>> +		panic("Failed to alloc page tables\n");
+>> +
+>>  	init_idmap_kpti_bbml2_flag();
+>> -	stop_machine(__kpti_install_ng_mappings, NULL, cpu_online_mask);
+>> +	stop_machine(__kpti_install_ng_mappings, &alloc, cpu_online_mask);
+>> +
+>> +	free_pages(alloc, order);
+>>  }
+>>  
+>>  static pgprot_t __init kernel_exec_prot(void)
 > 
 
