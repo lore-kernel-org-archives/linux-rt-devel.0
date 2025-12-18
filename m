@@ -1,155 +1,130 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6A4239099
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 19:48:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9E6221FBA;
+	Thu, 18 Dec 2025 19:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766087283; cv=none; b=E/Qe5vSWokkkpigE8thRRQ6elodom0I6G8J80pyw+8/3YgHuCJuvwNlZfWmAK740MVn3rosm2iuDpEsBtiC1Q0zfeNvWUWH4lAxwy4oWED2nTE6US17orvmmPcNXHYc23GMTqGNuVxiw07eYuRzux+cj8Omz2+ZsxO+bcFn0ko8=
+	t=1766087859; cv=none; b=X3jxpiGS5Ruy71/L8Zd0vEMy822R4lf0rWtS1I4Nc6LQO8MY1m8YBPeZJRHvKc5jRVbYfg4HcoiCysoC8Y/ylzxHIQzXtbyrV2c6GbO05b9crTWCLhUnZBbXOla7bYiJaEpgwufAXDJkeXAUL4tr7PTYxQK7VTbyXQBBHvUPQgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766087283; c=relaxed/simple;
-	bh=/e8eQsTQi4rndWYxlM8kV6VgM4jrF2N3g+ytpb1b9K8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cx96zHX/8slvGwWk6c2GQjFXg5DZ2IO8+jbv3RGnEcFeApQUc2HP/gpgiumK3uZotb88HU5YLJn0rIKbFV+uYf8KaMCWpPGw6SHljZAyKrPgUqCQv/naqX+pobczQk/y64YS36qWGjqK4HUDVPYnnY/thi0mAPd9hoMW9ZbneX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70339106F;
-	Thu, 18 Dec 2025 11:47:54 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 845433F73F;
-	Thu, 18 Dec 2025 11:47:58 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	will@kernel.org,
-	ryan.roberts@arm.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	kevin.brodsky@arm.com,
-	quic_zhenhuah@quicinc.com,
-	dev.jain@arm.com,
-	yang@os.amperecomputing.com,
-	chaitanyas.prakash@arm.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	lorenzo.stoakes@oracle.com,
-	ardb@kernel.org,
-	jackmanb@google.com,
-	vbabka@suse.cz,
-	mhocko@suse.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v3 2/2] arm64: mmu: avoid allocating pages while installing ng-mapping for KPTI
-Date: Thu, 18 Dec 2025 19:47:50 +0000
-Message-Id: <20251218194750.395301-3-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251218194750.395301-1-yeoreum.yun@arm.com>
-References: <20251218194750.395301-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1766087859; c=relaxed/simple;
+	bh=IiB+gHwWpiyovjEmGP/G/NH4rnknxwDxN8kGZDSHlYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=be05VfK8u7t+yicbDaMFUgWuWwdCgSAR8Yl/Bd0Drr73S818DH47i+Z14gNBWqg5rkhim4oEg4SUYuJT5PuNpfRZDEAD52MIF/dYb3mn5hK4HcQiTaYWWTVIetscN1YTA+9I41RM6TPKD+XOxyyN/5/wSssCcDdjBFwCcxSssQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aY9LqyLA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aY9LqyLA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF2DC4CEFB;
+	Thu, 18 Dec 2025 19:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766087858;
+	bh=IiB+gHwWpiyovjEmGP/G/NH4rnknxwDxN8kGZDSHlYw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aY9LqyLAkAKvQm7U5Ncu3+kFayEmShmoTfe6mSh2sY/EMkGEbeK9mCHQXZbl6zuA1
+	 jx6GK6Wh706afnpG+A1cFh0R6VOn5v2a+mEEprvHcJDCVNUwny1PM23XOX7zonrw5b
+	 AXYNXg+hoxMh1sz2mfSU+85H/HFPsW5Cgc5AYEZHSK0etYZH2EFwQ7No/Xgx3UH0r7
+	 R4p4gPjx0TeIQDUV/AVm80cu0kQm3VWdP0351rZbantJEW+M5K9YdKWFvpx8yuBRnt
+	 llhBHc8dqpe5KLptTbkBIWch579tJpaxOTp4xdr2om7IAnQH9P7mOFC8F/eRyS0p7Z
+	 Mrng8b1z/AHEw==
+Message-ID: <827963fb-c72a-4595-97b8-769c43400e48@kernel.org>
+Date: Thu, 18 Dec 2025 20:57:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 07/10] ASoC: dt-bindings: clarify areg-supply
+ documentation
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+ Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev,
+ devicetree@vger.kernel.org, Emil-Juhl <emdj@bang-olufsen.dk>,
+ Emil-Juhl <juhl.emildahl@gmail.com>
+References: <20251218-sound-soc-codecs-tvl320adcx140-v3-0-70ff66e5b93f@pengutronix.de>
+ <20251218-sound-soc-codecs-tvl320adcx140-v3-7-70ff66e5b93f@pengutronix.de>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251218-sound-soc-codecs-tvl320adcx140-v3-7-70ff66e5b93f@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The current __kpti_install_ng_mappings() allocates a temporary PGD
-while installing the NG mapping for KPTI under stop_machine(),
-using GFP_ATOMIC.
+On 18/12/2025 19:22, Sascha Hauer wrote:
+> From: Emil-Juhl <emdj@bang-olufsen.dk>
+> 
+> The documentation for areg-supply could cause confusion mainly in terms
+> of the relationship between AREG and AVDD.
+> According to the datasheet[1] the AREG can be one of two cases:
+> 
+> 1) an external 1.8V supply
+> 2) generated by an internal regulator (hence a 1.8V output)
+> 
+> [1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+> 
+> Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
 
-This is fine in the non-PREEMPT_RT case. However, it becomes a problem
-under PREEMPT_RT because generic memory allocation/free APIs
-(e.g., pgtable_alloc(), __get_free_pages(), etc.) cannot be invoked
-in a non-preemptible context, except for the *_nolock() variants.
-These generic allocators may sleep due to their use of spin_lock().
+Does not match from. Please use consistent identities. The SoB must not
+be different than From address.
 
-In other words, calling __get_free_pages(), even with GFP_ATOMIC,
-is not allowed in __kpti_install_ng_mappings(), which is executed by
-the stopper thread where preemption is disabled under PREEMPT_RT.
+> Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+> ---
+>  Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-To address this, preallocate the page needed for the temporary PGD
-before invoking __kpti_install_ng_mappings() via stop_machine().
 
-Fixes: 47546a1912fc ("arm64: mm: install KPTI nG mappings with MMU enabled")
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
----
- arch/arm64/mm/mmu.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
-
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index 96a9fa505e71..9ad9612728e6 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -1369,7 +1369,7 @@ static phys_addr_t __init kpti_ng_pgd_alloc(enum pgtable_type type)
- 	return kpti_ng_temp_alloc;
- }
- 
--static int __init __kpti_install_ng_mappings(void *__unused)
-+static int __init __kpti_install_ng_mappings(void *data)
- {
- 	typedef void (kpti_remap_fn)(int, int, phys_addr_t, unsigned long);
- 	extern kpti_remap_fn idmap_kpti_install_ng_mappings;
-@@ -1377,10 +1377,9 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 
- 	int cpu = smp_processor_id();
- 	int levels = CONFIG_PGTABLE_LEVELS;
--	int order = order_base_2(levels);
- 	u64 kpti_ng_temp_pgd_pa = 0;
- 	pgd_t *kpti_ng_temp_pgd;
--	u64 alloc = 0;
-+	u64 alloc = *(u64 *)data;
- 
- 	if (levels == 5 && !pgtable_l5_enabled())
- 		levels = 4;
-@@ -1391,8 +1390,6 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 
- 	if (!cpu) {
- 		int ret;
--
--		alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
- 		kpti_ng_temp_pgd = (pgd_t *)(alloc + (levels - 1) * PAGE_SIZE);
- 		kpti_ng_temp_alloc = kpti_ng_temp_pgd_pa = __pa(kpti_ng_temp_pgd);
- 
-@@ -1423,16 +1420,17 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 	remap_fn(cpu, num_online_cpus(), kpti_ng_temp_pgd_pa, KPTI_NG_TEMP_VA);
- 	cpu_uninstall_idmap();
- 
--	if (!cpu) {
--		free_pages(alloc, order);
-+	if (!cpu)
- 		arm64_use_ng_mappings = true;
--	}
- 
- 	return 0;
- }
- 
- void __init kpti_install_ng_mappings(void)
- {
-+	int order = order_base_2(CONFIG_PGTABLE_LEVELS);
-+	u64 alloc;
-+
- 	/* Check whether KPTI is going to be used */
- 	if (!arm64_kernel_unmapped_at_el0())
- 		return;
-@@ -1445,8 +1443,14 @@ void __init kpti_install_ng_mappings(void)
- 	if (arm64_use_ng_mappings)
- 		return;
- 
-+	alloc = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
-+	if (!alloc)
-+		panic("Failed to alloc page tables\n");
-+
- 	init_idmap_kpti_bbml2_flag();
--	stop_machine(__kpti_install_ng_mappings, NULL, cpu_online_mask);
-+	stop_machine(__kpti_install_ng_mappings, &alloc, cpu_online_mask);
-+
-+	free_pages(alloc, order);
- }
- 
- static pgprot_t __init kernel_exec_prot(void)
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
+Best regards,
+Krzysztof
