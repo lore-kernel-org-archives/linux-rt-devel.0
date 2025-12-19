@@ -1,84 +1,103 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from localhost.localdomain (unknown [147.136.157.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6527F946C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Dec 2025 21:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B4A2BB17
+	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Dec 2025 03:02:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=147.136.157.0
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766091878; cv=none; b=iS5ed3svtP6fxcZZyIsA2k+0w8KPVhhmNVX/y0Y9t+10bpZUnlf5TnMCDMMKEfCbejMeF7XzapPaGzSOBXzow6YSpFyhEqBPPfnTyfB2OECxP8Ck0i7AydIqyRyItgu9qKjkFwC7PMoj0eqo84/cxfOS/PzmTaE+xzYk8UAXVVw=
+	t=1766113337; cv=none; b=KUS+b++7NbSKghn1IGTXlcIaSqUCa9Tgi6SSbk078/Fm7Qnq/eacPYHbGfKff23UcxGFlBdXBaq7qB6EudBUAQYqUQejfuoZoR6OETR9K/GztjCHvGXimcjVNHfIBFNuAhXs2HUUrOBsvrvVXfcmoMv0neTvzF+h93GlIFkhVnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766091878; c=relaxed/simple;
-	bh=Ftf6V3r3Zip5ge5N9Z7hCqESZ7wtkFQLwDCe4A8VW2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uG5VnUN5h8WHsG5bdQzds59GmAYfoeSLKjMMK2EBt6TGrBP5G74Q1V1WPYhGI7nXd6X53kYBSn2XDjNvaBfb8hoHQIp+cEeCPj1AJvNX2gCdIQEWCtVY41lYVH6iBNc930zzEV5h2YZPSVVUoOvlOnaE/wvjjm8bwomcrtlVhec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 4D0958A3F0;
-	Thu, 18 Dec 2025 21:04:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id 7E6382000D;
-	Thu, 18 Dec 2025 21:04:31 +0000 (UTC)
-Date: Thu, 18 Dec 2025 16:06:10 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
- syzbot+9b35e9bc0951140d13e6@syzkaller.appspotmail.com, "David S. Miller"
- <davem@davemloft.net>, David Ahern <dsahern@kernel.org>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Simon Horman
- <horms@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net-next v1] ipv6: fix a BUG in rt6_get_pcpu_route()
- under PREEMPT_RT
-Message-ID: <20251218160610.788b0bf8@gandalf.local.home>
-In-Reply-To: <280b18c6-2348-426f-a1b1-8c17d229c21c@redhat.com>
-References: <20251209124805.379112-1-jiayuan.chen@linux.dev>
-	<280b18c6-2348-426f-a1b1-8c17d229c21c@redhat.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1766113337; c=relaxed/simple;
+	bh=wWx04aQ6g06P4aDR+O3WO/Y3zLXaoh0Cs00LSg9xp4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rhWEewwzu2v3y6nqksm0FbvpN2fhokNjqi2uVmh3j912fFZ2D2TjwsEd2hsNgFlPc//em4r6jd1976Sqg89UYFxi0P9/tXuqU+KhXoRCEu+Tg7W9kgAbcrQnG4qgxA/1ikpYDmB7OSorluSETnT5bEBZ664at4BsY/FfxLpry9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=none smtp.mailfrom=localhost.localdomain; arc=none smtp.client-ip=147.136.157.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=localhost.localdomain
+Received: by localhost.localdomain (Postfix, from userid 1007)
+	id 0DC778B2A3F; Fri, 19 Dec 2025 10:52:02 +0800 (+08)
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: netdev@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	syzbot+9b35e9bc0951140d13e6@syzkaller.appspotmail.com,
+	"David S. Miller" <davem@davemloft.net>,
+	David Ahern <dsahern@kernel.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH net v2] ipv6: fix a BUG in rt6_get_pcpu_route() under PREEMPT_RT
+Date: Fri, 19 Dec 2025 10:51:39 +0800
+Message-ID: <20251219025140.77695-1-jiayuan.chen@linux.dev>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 5176k8bcqhqgndosue6ob497dre74ekh
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 7E6382000D
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/JNyIy4Sezb99pwWameEqN+xRHKird9jI=
-X-HE-Tag: 1766091871-587984
-X-HE-Meta: U2FsdGVkX1/YEVG6Il4gdYatoVu9UEzV9c4VIQR+8tM8qV/ag0rdaZjdJ6ilvyNps+ExLg+sFZW84GuUF6wGyyWVgNjRf7JwH9J2pHSTwzsFz/QAGjCBgyLS3LI8ev9GU3aK+pYgXtK4qG8DTesiNRQNdblcDiTKOx+qrdM8lOSQ0ONfFtEp9b8akqvH7UkCnffShUJIe7LVefltziYZ75xvHmFAP345TIyFZHVzu43mjw5wxB5cqDCkUzq0EgAXpqvG2Ror7KlFXD/cSDAqwEvNKxF615TePWENsQjQgVunpL2MP2eSYXJc6KH9IGyG2huJqOtU/5E0iX5now+qpGVQBKOAKzDx
+Content-Transfer-Encoding: 8bit
 
-On Thu, 18 Dec 2025 13:25:31 +0100
-Paolo Abeni <pabeni@redhat.com> wrote:
+On PREEMPT_RT kernels, after rt6_get_pcpu_route() returns NULL, the
+current task can be preempted. Another task running on the same CPU
+may then execute rt6_make_pcpu_route() and successfully install a
+pcpu_rt entry. When the first task resumes execution, its cmpxchg()
+in rt6_make_pcpu_route() will fail because rt6i_pcpu is no longer
+NULL, triggering the BUG_ON(prev). It's easy to reproduce it by adding
+mdelay() after rt6_get_pcpu_route().
 
-> AFAICS, this part is not needed: local_bh_disable() ensures migrating is
-> already disabled, if !CONFIG_PREEMPT_RT_NEEDS_BH_LOCK or preemption is
-> disabled, when CONFIG_PREEMPT_RT_NEEDS_BH_LOCK==y
+Using preempt_disable/enable is not appropriate here because
+ip6_rt_pcpu_alloc() may sleep.
 
-As the code has this:
+Fix this by:
+1. Removing the BUG_ON and instead handling the race gracefully by
+   freeing our allocation and returning the existing pcpu_rt when
+   cmpxchg() fails.
+2. Keeping the BUG_ON for non-PREEMPT_RT kernels, since preemption
+   should not occur in this context and a cmpxchg failure would
+   indicate a real bug.
 
-	/* First entry of a task into a BH disabled section? */
-	if (!current->softirq_disable_cnt) {
-		if (preemptible()) {
-			if (IS_ENABLED(CONFIG_PREEMPT_RT_NEEDS_BH_LOCK))
-				local_lock(&softirq_ctrl.lock);
-			else
-				migrate_disable();
+Link: https://syzkaller.appspot.com/bug?extid=9b35e9bc0951140d13e6
+Fixes: 951f788a80ff ("ipv6: fix a BUG in rt6_get_pcpu_route()")
+Reported-by: syzbot+9b35e9bc0951140d13e6@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6918cd88.050a0220.1c914e.0045.GAE@google.com/T/
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 
-			/* Required to meet the RCU bottomhalf requirements. */
-			rcu_read_lock();
-		} else {
-			DEBUG_LOCKS_WARN_ON(this_cpu_read(softirq_ctrl.cnt));
-		}
-	}
+---
+v1 -> v2: Drop migrate_{disable, enabled} suggested by Steven and Paolo.
+          https://lore.kernel.org/all/20251209124805.379112-1-jiayuan.chen@linux.dev/T/
+---
+ net/ipv6/route.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-It looks as though migration will always be disabled (local_lock() also
-disables migration). It will warn if preemption is disabled.
+diff --git a/net/ipv6/route.c b/net/ipv6/route.c
+index aee6a10b112a..9e7afda7cba2 100644
+--- a/net/ipv6/route.c
++++ b/net/ipv6/route.c
+@@ -1470,7 +1470,18 @@ static struct rt6_info *rt6_make_pcpu_route(struct net *net,
+ 
+ 	p = this_cpu_ptr(res->nh->rt6i_pcpu);
+ 	prev = cmpxchg(p, NULL, pcpu_rt);
+-	BUG_ON(prev);
++	if (unlikely(prev)) {
++		/*
++		 * Another task on this CPU already installed a pcpu_rt.
++		 * This can happen on PREEMPT_RT where preemption is possible.
++		 * Free our allocation and return the existing one.
++		 */
++		BUG_ON(!IS_ENABLED(CONFIG_PREEMPT_RT));
++
++		dst_dev_put(&pcpu_rt->dst);
++		dst_release(&pcpu_rt->dst);
++		return prev;
++	}
+ 
+ 	if (res->f6i->fib6_destroying) {
+ 		struct fib6_info *from;
+-- 
+2.43.0
 
-But yeah, the added migrate_disable() is not needed.
-
--- Steve
