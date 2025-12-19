@@ -1,128 +1,145 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA135317709
-	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Dec 2025 11:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A4B2DFF1D
+	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Dec 2025 13:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766143985; cv=none; b=tKd/J9rGiVFyR0GSpayeFaAO7M+jh8nesmSUlOdC7I+nLxxGza5VglAKtRDu3YGj+NbSLg8vFesQ/FZgY3gTgbpYzc1L+mqvACQcV20PPZabnmpZm0BqizjB2S9N37q2cd8R5ngb/sqDaO+3s5167MrnIQQi0eYDF+uJamBju5M=
+	t=1766150965; cv=none; b=sG8W4SwVV+3RzLGTD1EaWdSX+QkqhokWdfRtjmou/Ab4XK5EmqLkjGEI5O9jhsETCJdGYTBsI16mkHgZAY61idFDj0Qdn7BWOLlbMJ0da1eFVhddF9FvhDiyI3+I+BTJFYjVyfR7SVRGR18op64YVLu3NBSzu6u2pkx2vF7NPlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766143985; c=relaxed/simple;
-	bh=M6hvy/jCZMiK74z2GIEIrV8DdZf0DoXTol/OpIZNaCY=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=btGh8bXNuiIHRowqExRyWDtI5h/U64rBtGsdbImCX/AO6y365mrBlSwALgmfMK0tHUIi9M3V8+M38cKYFrIevfunT1L1e48KVEJFVMPaUJ0XLLWXhFO5BZKfS4zmzQ+EIhM6OV3AHWsNm6L2PZ31xDhJbMqYsU13tNZ5DB96JL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zbd9OrxH; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
+	s=arc-20240116; t=1766150965; c=relaxed/simple;
+	bh=jMR1Q/5NIyA9WhQrohMWm7loijOvNJ/k3FKdjjS1fTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YM/JjWz7ejRy4OjVIptELvQMLEmIJaXGaDQNQxLerggTWCi9WzCDj+vJnSkkx/+ldWMLIUMjW7VJeotCHLN3Wnvgl0aR/YNeGsnxUmPAaH8ddneb2Thwh3iDHwbz2rC2h3Nw6GEB8NiaxqrNfqIrovwI/21esAG1Nn9eC3Fft+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Aiu9E2yv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zbd9OrxH"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4775f51ce36so15647855e9.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 19 Dec 2025 03:33:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1766143981; x=1766748781; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hAAxcJSHCKa5e7JujPbI6PKo3xCnh6kgp+1s4KhQ0VM=;
-        b=Zbd9OrxHHaMoGeAyFTZARVUdTc4PBHS3o+tIO89SmrVk6feeEpIgIssHONPfdCwVlp
-         UAGrvl+e2JWDApou7AflIpDMbg5801jpEPL8pGN+OYFGbvPelYWKRnNtKXJ/M/9fiILa
-         ptclx+N4+smE/DR4djMP4kHlAO7Ko0q6YYdJDP0JTQrP5ScBiIYK0/09/fOPCqdXIZq/
-         XGEVDftSisJBM71Cx5TG9eQKqzQ2dLcdniYtO0pUjGct/Lk6qm9Xuvv2Sq68vA/zdK7f
-         1lD2tjNzovnWCHh/Z+XV9GwEoc9RqQfS43Pc6zR/12Kj/HyW7ECOkcV17nhjaDVHNYwn
-         EItg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766143981; x=1766748781;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hAAxcJSHCKa5e7JujPbI6PKo3xCnh6kgp+1s4KhQ0VM=;
-        b=n0OC0YrJs7zHJ68Q7xKfUoEOgOS2ilpUXaAxOuhbySOkHHPrE2Oe7hQkNFg7KTOUbd
-         v5iji1nomyqiNaOS/2LwmSp0P2VjaXkfexSLB2NEAAlhJHkRIHNFFBji6OOfiCXahgZs
-         oR74Eb6ACLOs3n6QJBMGogwMHow64ZKIKNnyB7Lue6OvC2kblsJ0Ecqic4DCy9/1ZoLc
-         uIHbrZFfGvyLullETGB+Hkbd8G/wnIHVpHPWBKUA2gid51QGUJymR8l+gakbTfVNSIfd
-         pj0XULg1cG6hqEmOaBS+wD6mJoWltowkrBH/w5HU8zcmOoKqO3N+7GI56Z5FcAAkbRrA
-         dvzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUxpc8RCbjql7pEDgIEyN/nz/r/ny+E2cYVNmiCKVcY1+omIWJUrWJEoHXTnOkxf7Z6flU/Dk/y7M3ezv61Fg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtyfOacOaPx+/jj3Impi8sU28HlXH0fmXqRKk8YNf016OvUScH
-	lcPazU0fo2KfqEksb3/PkjbNDfi+03n7S6W+npGBmU/ErMRSbeImm3lp7E4UwptFWxG3wMLnAKT
-	K0K9Ge+UfFIutnQ==
-X-Google-Smtp-Source: AGHT+IFtEw/tE5Tma1oMoU1xWJDXu8dPIDS5WBCwLqxTONYM7wj02qZJ3F/C/QiLC8f4W8TibL2BPHLQh6Hw1g==
-X-Received: from wmps26.prod.google.com ([2002:a05:600c:319a:b0:479:2d82:5535])
- (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:c08a:b0:46e:1abc:1811 with SMTP id 5b1f17b1804b1-47d197f67edmr16343165e9.27.1766143980920;
- Fri, 19 Dec 2025 03:33:00 -0800 (PST)
-Date: Fri, 19 Dec 2025 11:32:18 +0000
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Aiu9E2yv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1766150963;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gc1KgNJYDUojdtdDVs3DJiTbaHAULdvjgF82hY95pD4=;
+	b=Aiu9E2yvJP6IW3x2uDk1xfvTlimjjXx/7T+is8+IYpYCgGV4u/hF34Ke6wbIXXDSbSmPS1
+	GBKN1KQN8JpPdAet4bU2gLWoq3oGYie7qpEmPFe2BcgX7UL1tSPCVCeAs7msRhj2IgkdLI
+	ThZ3RiNjXg4d8xBjZmUgHYMd2XzvX0A=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-680-EKtsByJJPmyEl0rqWcX71A-1; Fri,
+ 19 Dec 2025 08:29:17 -0500
+X-MC-Unique: EKtsByJJPmyEl0rqWcX71A-1
+X-Mimecast-MFC-AGG-ID: EKtsByJJPmyEl0rqWcX71A_1766150955
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 722961956054;
+	Fri, 19 Dec 2025 13:29:14 +0000 (UTC)
+Received: from localhost (unknown [10.22.64.26])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C049619540DF;
+	Fri, 19 Dec 2025 13:29:12 +0000 (UTC)
+Date: Fri, 19 Dec 2025 10:29:11 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	"open list:SLAB ALLOCATOR" <linux-mm@kvack.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>,
+	skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+	syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+Subject: Re: [PATCH] slab: fix kmalloc_nolock() context check for PREEMPT_RT
+Message-ID: <aUVTJyd74OoCtSyN@redhat.com>
+References: <20251219085755.139846-1-swarajgaikwad1925@gmail.com>
+ <6fcfe0cc-3826-42c2-9c54-c127dc8379e1@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAME3RWkC/x3MQQqAIBBA0avErBvIKRd2lYgom2oWamhEIN09a
- fkW/2dIHIUT9FWGyLckCb6A6grsMfudUdZioIa0ImVw6XDfzmm+ghOLNjjH/sKWtdGN0qRaA6U 9I2/y/N9hfN8PG6QN7WcAAAA=
-X-Change-Id: 20251219-b4-gfp_atomic-comment-3e5950152139
-X-Mailer: b4 0.14.2
-Message-ID: <20251219-b4-gfp_atomic-comment-v2-1-4c4ce274c2b6@google.com>
-Subject: [PATCH v2] mm: clarify GFP_ATOMIC/GFP_NOWAIT doc-comment
-From: Brendan Jackman <jackmanb@google.com>
-To: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fcfe0cc-3826-42c2-9c54-c127dc8379e1@suse.cz>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The current description of contexts where it's invalid to make
-GFP_ATOMIC and GFP_NOWAIT calls is rather vague.
+On Fri, Dec 19, 2025 at 10:31:55AM +0100, Vlastimil Babka wrote:
+> On 12/19/25 09:57, Swaraj Gaikwad wrote:
+> > On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
+> > check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
+> > context, but misses the case where preemption is disabled.
+> > 
+> > When a BPF program runs from a tracepoint with preemption disabled
+> > (preempt_count > 0), kmalloc_nolock() proceeds to call
+> > local_lock_irqsave() which attempts to acquire a sleeping lock,
+> > triggering:
+> > 
+> >   BUG: sleeping function called from invalid context
+> >   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
+> >   preempt_count: 2, expected: 0
+> > 
+> > Fix this by also checking preempt_count() on PREEMPT_RT, ensuring
+> > kmalloc_nolock() returns NULL early when called from any
+> > non-preemptible context.
+> > 
+> > Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+> > Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
+> > Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+> > ---
+> > Tested by building with syz config and running the syzbot
+> > reproducer - kernel no longer crashes.
+> > 
+> >  mm/slub.c | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/mm/slub.c b/mm/slub.c
+> > index 2acce22590f8..1dd8a25664c5 100644
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -5689,8 +5689,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+> >  	if (unlikely(!size))
+> >  		return ZERO_SIZE_PTR;
+> > 
+> > -	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+> > -		/* kmalloc_nolock() in PREEMPT_RT is not supported from irq */
+> > +	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq() || preempt_count() ))
+> 
+> AFAICS we can just simplify that to preempt_count() then, since in_nmi() and
+> in_hardirq() both are a special cases of that.
+> 
+> Any comment from RT folks please?
 
-Replace this with a direct description of the actual contexts of concern
-and refer to the RT docs where this is explained more discursively.
+Maybe, for the purpose of this change, using in_atomic() or !preemptible()
+would be a bit more descriptive, as both macros check preempt_count()?
 
-While rejigging this prose, also move the documentation of GFP_NOWAIT to
-the GFP_NOWAIT section.
-
-Link: https://lore.kernel.org/all/d912480a-5229-4efe-9336-b31acded30f5@suse.cz/
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
-Signed-off-by: Brendan Jackman <jackmanb@google.com>
----
-Changes in v2:
-- Specified section in docs reference
-- Link to v1: https://lore.kernel.org/all/DF0J58HOVLL4.2E16Q87D2UXRW@google.com/
----
- include/linux/gfp_types.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-index 3de43b12209ee79f84e7c9c919729303338433ff..814bb2892f99b829fde9b6dce1a317b3f29d01dc 100644
---- a/include/linux/gfp_types.h
-+++ b/include/linux/gfp_types.h
-@@ -309,8 +309,10 @@ enum {
-  *
-  * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
-  * watermark is applied to allow access to "atomic reserves".
-- * The current implementation doesn't support NMI and few other strict
-- * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
-+ * The current implementation doesn't support NMI, nor contexts that disable
-+ * preemption under PREEMPT_RT. This includes raw_spin_lock() and plain
-+ * preempt_disable() - see "Memory allocation" in
-+ * Documentation/core-api/real-time/differences.rst for more info.
-  *
-  * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
-  * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
-@@ -321,6 +323,7 @@ enum {
-  * %GFP_NOWAIT is for kernel allocations that should not stall for direct
-  * reclaim, start physical IO or use any filesystem callback.  It is very
-  * likely to fail to allocate memory, even for very small allocations.
-+ * The same restrictions on calling contexts apply as for %GFP_ATOMIC.
-  *
-  * %GFP_NOIO will use direct reclaim to discard clean pages or slab pages
-  * that do not require the starting of any physical IO.
-
----
-base-commit: fc2af7a8060126c3a99fc1dfd7c5abd71a4dc81d
-change-id: 20251219-b4-gfp_atomic-comment-3e5950152139
-
-Best regards,
--- 
-Brendan Jackman <jackmanb@google.com>
+Luis
+ 
+> > +		/*
+> > +		 * kmalloc_nolock() in PREEMPT_RT is not supported from
+> > +		 * non-preemptible context because local_lock becomes a
+> > +		 * sleeping lock on RT.
+> > +		 */
+> >  		return NULL;
+> >  retry:
+> >  	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE))
+> > 
+> > base-commit: 559e608c46553c107dbba19dae0854af7b219400
+> > --
+> > 2.52.0
+> > 
+> 
+> 
+---end quoted text---
 
