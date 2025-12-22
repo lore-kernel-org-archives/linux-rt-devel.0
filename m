@@ -1,77 +1,86 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5351E7C2E
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Dec 2025 17:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3433587D9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Dec 2025 22:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766424656; cv=none; b=DDvELn9z9NfCZbhodg2wK4KPhDZYH+9cdjiT13vNjhwEJucn2OtvsY8RIbBpPOD6Z1Chi67urKCHS7pzo2CBufXqn1aalTQfdxDG74/UKKmBiAv0Y/RjMqPyCKdLULP3eq5tjggrX+k6xnmLtwgQok8axtxc/TuDRWZV6aWJE74=
+	t=1766442919; cv=none; b=oZmPb8cGhhb7d4Pxsne+Hv97anH1MCM77Ko9s5Cc37lWNSTR6b8Eji9WhE6T1s9X6GIq6jJDVgH+edCdBQ+dzureMYf/z+Z/4kxhEqCJzIdnwv3JDpzFvoPqHFmouqAkkQVd4t2SBA2wVnqfjFGUu7TgwhiS+YU3n6fQYaFktrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766424656; c=relaxed/simple;
-	bh=Lv1tifWSSAu97WJmWQDHDADcPhJWieLqs0WZxgRO3xI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Rt8eAW3aLPBv+JZWzv+kQtxq6IB+EFBV3WUOmRICxxVUe0gL4b2j9gitsg/kEmKhCUTto/TLYFvBpd074JZJQYWb24ZjKqaDtNLQRxO8/c8T6dS+G+99Oggxb8rk3ViJ8tgNCitOxqCVbpviJpNRkbHvL7PB5PwXTQO5ZJoefCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 5A1A81A026B;
-	Mon, 22 Dec 2025 17:24:43 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id 96E1E2000F;
-	Mon, 22 Dec 2025 17:24:40 +0000 (UTC)
-Date: Mon, 22 Dec 2025 12:26:28 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
- syzbot+9b35e9bc0951140d13e6@syzkaller.appspotmail.com, "David S. Miller"
- <davem@davemloft.net>, David Ahern <dsahern@kernel.org>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1766442919; c=relaxed/simple;
+	bh=GSKsp1tL5XWySG9N8gPclLRwT1ctjdcM0v5lU06dUaI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JETZ2m8eKR5ARBumCTgYXeIiu3F1+Vpdg6WCAnnayC3NUNHP5M7/nbA96wUNaGQpLNj+p+WWHtkRVjUPbJ1oSPMYNYhtXdUdESr/7GoFPD+FmmLLtY/VbiA9T7L9GRxNs/o58R1HpIsm7Uw9vg9BhRSXQLDT2hQj0mXYw5L0YRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XNUz8oPX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XNUz8oPX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E004C4040B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1766442915; bh=TUEuW0fHa6kMfeithA5xJodq6Ikm0TL8c0pT5q/8Q50=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XNUz8oPXKygV64KpxvjI2rOiUr1HrQm1qsn28edY/HVNTO9bnXPyBjKzPHvDkIDnH
+	 MngCOgbGWnhKTtNvlc10bTyZe5tU6CZSto0IcZbEej6atAF/liL3Q7g2Cgs2RUGN0I
+	 XuBeG3EEdqzHamA2Z/93OrklFoR3DY0kyqAYjW179sXUT4wP8ECma2u0f8J0x0gchZ
+	 53cAJXqbspHpawAdo3y6MhbkIOAP30A2hBi28ZLxp/eOICK82K1VfuYiH3+Y4TiLFl
+	 B80JFE7DPeKf0hBebroNUGewgMFKjZU4EpW7909rwUBnSsan1ol/4WzECg7Bf2heLj
+	 64TG0HFsw3nZQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E004C4040B;
+	Mon, 22 Dec 2025 22:35:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net v2] ipv6: fix a BUG in rt6_get_pcpu_route() under
- PREEMPT_RT
-Message-ID: <20251222122628.38e9bc89@gandalf.local.home>
-In-Reply-To: <20251222121639.3953ea08@gandalf.local.home>
-References: <20251219025140.77695-1-jiayuan.chen@linux.dev>
-	<CANn89iLeASUZyonYSLX0AG5mbC=gxux0efehkBc_j1bbj6xrvA@mail.gmail.com>
-	<20251222121639.3953ea08@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: Clark Williams <clrkwllms@kernel.org>, John Ogness
+ <john.ogness@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: [PATCH v2 0/3] Documentation: Update the real-time documentation
+In-Reply-To: <20251127154343.292156-1-bigeasy@linutronix.de>
+References: <20251127154343.292156-1-bigeasy@linutronix.de>
+Date: Mon, 22 Dec 2025 15:35:14 -0700
+Message-ID: <87zf7axhzx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 96E1E2000F
-X-Stat-Signature: 9i3hpyxor4p4sb7rzgjh6mcpxdefcgga
-X-Rspamd-Server: rspamout08
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19qDrVqYSa0iEs6XcszNqiIWakCG1vHKeY=
-X-HE-Tag: 1766424280-938894
-X-HE-Meta: U2FsdGVkX1//i2lGNRX/XANnKqiYMMBVA+zbELtJSIzCY62u8nwLmyETToVIkmc4gsZJAIsI+/u2ueorbztRO2o5Mx5QlY9pMXYQ+HVhaRB7C6OIm4HTWOsUa5YbFwLfBEqJhWKZEhc/2uR+UTJJbsN6P4VMb1bqJI4Y/sMrza+/ZP9VTfJK4zu+wzPH59Vq0wFlXZ9HQRbFiWsutRxU2oRlr/14ZafD65Aq3FrboudtKyG0sSVqiQu7NXOikLctZUHdMyBKfRgoIjsyx0eb3WheytPbZmiJvi8xt92NoAEmEASR5larMP5vdqhGcIZgO0YfPIkW06kGHttULL+3wAL26qJupM6ujNEVRyUcAxB53Ow8o73PEi++8tVM9kVKRlvFLRcelNGTWIMsfxEOrybq8ucQ7q8EoyvLsgiq7w0RTFdjQp13WyAZk6HPmMXUcsSzMuWHA4Yv5y4M9+cVCg==
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 22 Dec 2025 12:16:39 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
 
-> On Mon, 22 Dec 2025 09:50:58 +0100
-> Eric Dumazet <edumazet@google.com> wrote:
-> 
-> > > Link: https://syzkaller.appspot.com/bug?extid=9b35e9bc0951140d13e6
-> > > Fixes: 951f788a80ff ("ipv6: fix a BUG in rt6_get_pcpu_route()")    
-> > 
-> > I would rather find when PREEMPT_RT was added/enabled, there is no
-> > point blaming such an old commit
-> > which was correct at the time, and forcing pointless backports to old
-> > linux kernels.  
-> 
-> Ack!
+> This series adds an overview over hardware. It does not explain every
+> tiny bit but explains for instance why power management or USB might be
+> a bad thing.
+>
+> I also collected Lukas' patches which rename a referenced Kconfig symbol
+> and a maintainers entry for the docs.
+>
+> v1=E2=80=A6v2: https://lore.kernel.org/all/20251120113708.83671-1-bigeasy=
+@linutronix.de/
+> - picked up tags
+> - s/busses/buses/ as per Randy Dunlap
+>
+> Lukas Bulwahn (2):
+>   Documentation: update config name in real-time architecture support
+>   MAINTAINERS: Add doc files on real-time support to Real-time Linux
+>
+> Sebastian Andrzej Siewior (1):
+>   Documentation: Add some hardware hints for real-time
+>
+>  .../real-time/architecture-porting.rst        |   3 +-
+>  Documentation/core-api/real-time/hardware.rst | 132 ++++++++++++++++++
+>  Documentation/core-api/real-time/index.rst    |   1 +
+>  MAINTAINERS                                   |   1 +
+>  4 files changed, 136 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/core-api/real-time/hardware.rst
 
-Fixes: d2d6422f8bd1 ("x86: Allow to enable PREEMPT_RT.")
+Set applied, thanks.
 
-That was the first commit to enable PREEMPT_RT on any architecture (just
-happened to be x86).
-
--- Steve
+jon
