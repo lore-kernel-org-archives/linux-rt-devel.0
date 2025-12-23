@@ -1,156 +1,149 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F40B2DAFA1
-	for <linux-rt-devel@lists.linux.dev>; Tue, 23 Dec 2025 14:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6AD256C6C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 23 Dec 2025 15:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766500321; cv=none; b=F/SUgnANgt61ok82VszEimqy0B1QmuoeXOnK3boKNZVDR6E7zm0tAGX4axf+tqgIuRBTTDEUwkhO8mKbBl3zhaJLMnELptSpNhlNatlvH6KtqnP/MzYxKQ5xlwkQb+dButymhwok1ww1OiNmF0EhKqXAgi1VQi40FKBDvDcunYs=
+	t=1766503285; cv=none; b=XqSfYfmkOGpl9Kw8vR0VGraHgQQUDXhEvy+09TgovGPFSSEc6K29QAmKO/J0r8KrtemzSQnCfy7+VQUMzlV1E/APq8lx4xg/2C4fWGDEe/iae6f8ewj0h0/KbWJVBxwXWeJkNpR8lwRzW87FDOBnhUftSUgTGx6F3REVFPHSpTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766500321; c=relaxed/simple;
-	bh=iCxNjgh2Jb2apyi67NCDapy5cpoy/aQmSir4jaW/WnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YIcuA0AAGmcJkO+nVbaG+7gDAzZZYZrMPbDYKzp0jDGz1jwzNRDor0w4DhWrSXS8d6B3r4qEDje/B3ICcMKUZbrsL3t49m4psWkm5Y7rTMl6anL3EsBqRwFThjComE2qQpQOnJ6YDYy0L4kcNWN+qJ02I8XL3ttGsRgdQlDu3nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kzalloc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34b3f61fd0cso418970a91.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 23 Dec 2025 06:32:00 -0800 (PST)
+	s=arc-20240116; t=1766503285; c=relaxed/simple;
+	bh=mP2xfOnRZfIAueUZPo5/b7tVu1PN2HIzvA4puU7q8mA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fFoF/ZL+JAXkMPwI1LCu9N9yzn7C+gtGlDtydFOi48KgueVsRwnzoIDLCL9HRH2KvkUcq/MCjgVgE4d8xpEKLPYyhJ8wjdvwN6w6XXUpEZuPApmSBuHRW0aO8f8cbWyZ6RgGWzu8hHeZkAfS9lJ+8mHSLzadZoQ4vlka7b+Und4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pe8scNCT; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pe8scNCT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1766503282;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=mP2xfOnRZfIAueUZPo5/b7tVu1PN2HIzvA4puU7q8mA=;
+	b=Pe8scNCTsICK4IV1swHr4Uk86FXp3O+7KBUqOYp6hcybBvO9knp3Pi3NyQUxMYHtTZM9qe
+	BMsdGFa1b1pJApyPymq9tuSBDeA4LvwWuzRwFG9H7wng20otykk48QeTjLHBGTKvtXsPQA
+	OLA6dTXBbpCw8XTNCyilxeZZuFia9iY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-622-ierxvZpbMu-vLveO0TXkOA-1; Tue, 23 Dec 2025 10:21:21 -0500
+X-MC-Unique: ierxvZpbMu-vLveO0TXkOA-1
+X-Mimecast-MFC-AGG-ID: ierxvZpbMu-vLveO0TXkOA_1766503280
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-43009df5ab3so2835804f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 23 Dec 2025 07:21:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766500319; x=1767105119;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ijJxP8v5AVEEgKb0/Y9mwcrJkwFTeayWUwFNsqY/b5Q=;
-        b=LPfkDtehIAkS9MsZOY/sJnIsrH6SXk83UUazTugoVfkHqFMCXgKLX2LmgOeNNzimeS
-         O/jpcPXKxe4d22AtKCNVrmg9QlZ4afFRVj23d0nyOzPQ8iVRcjqF0Xnf03k6Yflh0crO
-         WYe1kP0ofNVAvrQr5pzkDdAl5jfrVP1Jm20RRP2lyWskdCUYpsBfiOBSmALkoClaPD/o
-         oz6BTGeNSNEtIScO1KUnQbO42cNhm15utnhsczspNg5qfbZJdP0RcS5xuub4UFVrqYpa
-         +/QmAR0vzsU+rM9KqWEf4X9ovXVtocG/dKNMrz6yb+UEn88gVPG+Z0Ur/XuaNytm12RM
-         FO/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU+7ilbrvuGGad5KeGFbSmwAVGHUN76394sMtSa//gTMeeUKBSYIvvSO83UhcEaAlr5NYJgqA1MTnmx9u27sw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCD/9yU8ynR1cxW0NbZjeLtZBB7NXrYgLs7R1/VV067VIbi8Mk
-	ml7E2R8Up0+tdF3fkrQvKRc36/AC9un+SUw0PgE76F8mIBJ04x5skP0k
-X-Gm-Gg: AY/fxX7n/gGfZ8XEqGjIfXyXEl+5GudiCix9OwD5J9Okv0udaZvv8m4tUo5dGEn4pNJ
-	d6j3ab+kUD+S9Y63vbY/I5BLQ4LrcEv5UVrFL4Nd/UojfbvNUUfDSgWXZaX2mzdM/egbLmu2dFk
-	k8C9PF0hcVGovEwIDNfuLacHEj3gGl5e8A4ewX2PAjAYQ8l+1Od2/oxt1Ad6GNhft0fcDfwsjXa
-	Nr68Z9yD8ITJR7uZ/s+H/0oO/jJc2MZY57zIgxZPS25W0SfG41sDv8w1WBIwhNm1etLs8WKnUfJ
-	61yKs5EaafzTvSAey7X6rUYzAS1YaXY5SOmv9CPIcnsXepOZB2Si8IO1PwbMb0f3izXd5RtTxGf
-	WOD4CSgCX1kTkkb6nhiHKYD5SZSRJqIZ8K9pRw/ipaezHFtW+XtTxAY4z690LqJJajkWYCcA+fA
-	7Ech1NPTz5oblWELVoNAC+XQ9fsBkL2qSGG2Vch7zBYIwZh5YkeEshcER9296c2mxbFLCJgrqud
-	nQXWUHzYPma04A=
-X-Google-Smtp-Source: AGHT+IF76wK9lhAOxM/G4Y8ZDMLkkU0FNMLgoYkfxF60ieay2Upp5vjmOPdV+zrwjsOwmn7mDb+sYw==
-X-Received: by 2002:a17:90b:3f86:b0:340:e8e4:1166 with SMTP id 98e67ed59e1d1-34e921c1ab2mr9629255a91.5.1766500319409;
-        Tue, 23 Dec 2025 06:31:59 -0800 (PST)
-Received: from [192.168.50.136] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7af2b60bsm14069542b3a.15.2025.12.23.06.31.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Dec 2025 06:31:59 -0800 (PST)
-Message-ID: <92a7c013-0676-4c81-867f-b55c69a1edd6@kzalloc.com>
-Date: Tue, 23 Dec 2025 23:31:54 +0900
+        d=1e100.net; s=20230601; t=1766503280; x=1767108080;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mP2xfOnRZfIAueUZPo5/b7tVu1PN2HIzvA4puU7q8mA=;
+        b=j8Ow5kKx+amALRcnGALDIbtGZeKNhe1MYQv70WGHnwECZmplTb2BnhCMTnn8GySiev
+         3Jgpn2dfWTzPPz6wD80Ww0h5o6gE38WdTaxawciLcfzf03Oso8HzH+kedsKoSbcipR2N
+         bIghedbrJV0kQBrWPckPvPUpssvv/RcHokJZgmKUdaflbPMM0Ff0MvOeVvn1vyly/6Zv
+         CXay3Qhgr37kh8Hpej9ftxxSzG9nqeshSiNzW3xvzRNFyRXq5maVM6wPiAjSjy5BLjfk
+         1ueDmoxKgF617O81wMiXj6uBKS7S08lyWM0YPJLiHpBt5SAXC9lWjVXEqo8zWz+4CV/X
+         1syw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+HRn1o8Z+B4uPFSXUXwPMDjjh8GO4P6xLw/DBQGD/mi/RDR91rPFd5hbSnQy3e+jsX5XxGFVLbfiWj0MCNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkrI40T0bsx7K2gePVVkGqqObUrHE9JZ9zwE5Uu15rrx309AZs
+	R2HglBiFkLbdThzCRc37bJ6hQvfsvn6ffzXHJPKYryTL0jcCJBPqjFNVwKanptQh/j/p1BgGVMR
+	w2cjZuhPIIy4SkUQncpHY/roaDBLDh0HkEvrRwLkpa9J9L7x0/PpGf8chdqytT/kF20N/
+X-Gm-Gg: AY/fxX7AOJIJO+0TjMRa6gzoMvgi++YVYYNZko8WY2M55MSaJ8Gy9FFyzL4T+F82N1O
+	eMDSdJMSvB+BSi1AhsQoTDFsmq0PhwWj87eUFzPTwPXbRmbVcJycFexw8I+Uk7tEQXlCUC6Ewd4
+	QLPQAuGENfOFtB/UfL0Favg9m9PgIpCLA5lonR/BvJvrK0taHUpGo7HcmOmCXweu51gS5HFCtsB
+	cPwxlPQaFdjG0ZEJG2jmX6nf533G0daRylouwVA0pGCexM74H8emfhjSUbY+aHZmrEiwPT4hCpp
+	8y04bmBT4moAQ0gv/KEzLQ5npq3gBBxa2zVWEdu5359mLYa8jG/VEN1aXE2R87wQcDvPtLTyyhH
+	3d6Ef1fQYLBv9oxZzzTEzvHTOV+3hxeisLJyR7xycywgCFFMpCoOsJWEA6JUV///2ujjnBYgfJ8
+	wV+2D74OaG
+X-Received: by 2002:a5d:5885:0:b0:431:5ac:1df with SMTP id ffacd0b85a97d-4324e4c0a8emr17448187f8f.11.1766503279352;
+        Tue, 23 Dec 2025 07:21:19 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHYAqtmVXRmtmnSXxRYPfwHaCOlHVNgXuHEop9haWGNrA8D+acuq+GtZUVEOtNJU1zZ6J3S9g==
+X-Received: by 2002:a5d:5885:0:b0:431:5ac:1df with SMTP id ffacd0b85a97d-4324e4c0a8emr17448163f8f.11.1766503278954;
+        Tue, 23 Dec 2025 07:21:18 -0800 (PST)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb (185-132-178-103.hosted-by-worldstream.net. [185.132.178.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324ea226d1sm29012815f8f.13.2025.12.23.07.21.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Dec 2025 07:21:18 -0800 (PST)
+Message-ID: <c966b103b002e520f5a4bf80b18835a485cf0cfa.camel@redhat.com>
+Subject: Re: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via
+ RV (Runtime Verification) monitor rtapp:sleep
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Yunseong Kim <ysk@kzalloc.com>, Nam Cao <namcao@linutronix.de>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, rostedt@goodmis.org, 
+ Tomas Glozar <tglozar@redhat.com>, Shung-Hsi Yu <shung-hsi.yu@suse.com>,
+ Byungchul Park <byungchul@sk.com>, 	syzkaller@googlegroups.com,
+ linux-rt-devel@lists.linux.dev, LKML	 <linux-kernel@vger.kernel.org>, Dan
+ Carpenter <dan.carpenter@linaro.org>
+Date: Tue, 23 Dec 2025 16:21:16 +0100
+In-Reply-To: <92a7c013-0676-4c81-867f-b55c69a1edd6@kzalloc.com>
+References: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
+	 <87fraslu9c.fsf@yellow.woof> <87jyz5kuf2.fsf@yellow.woof>
+	 <20251202112644.YUux4LKd@linutronix.de>
+	 <53f17978-40e5-4b2e-b719-552612b0e775@kzalloc.com>
+	 <871pl1y3oh.fsf@yellow.woof>
+	 <0d06ce4c-6ff2-401a-90d9-5a4dfd2abebb@kzalloc.com>
+	 <ee8474631ce309539918e17b60e4ca150327115d.camel@redhat.com>
+	 <92a7c013-0676-4c81-867f-b55c69a1edd6@kzalloc.com>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Question] Detecting Sleep-in-Atomic Context in PREEMPT_RT via RV
- (Runtime Verification) monitor rtapp:sleep
-To: Gabriele Monaco <gmonaco@redhat.com>, Nam Cao <namcao@linutronix.de>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, rostedt@goodmis.org,
- Tomas Glozar <tglozar@redhat.com>, Shung-Hsi Yu <shung-hsi.yu@suse.com>,
- Byungchul Park <byungchul@sk.com>, syzkaller@googlegroups.com,
- linux-rt-devel@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>
-References: <32839fb6-dbcb-4c5c-9e3f-d46f27ae9a73@kzalloc.com>
- <87fraslu9c.fsf@yellow.woof> <87jyz5kuf2.fsf@yellow.woof>
- <20251202112644.YUux4LKd@linutronix.de>
- <53f17978-40e5-4b2e-b719-552612b0e775@kzalloc.com>
- <871pl1y3oh.fsf@yellow.woof>
- <0d06ce4c-6ff2-401a-90d9-5a4dfd2abebb@kzalloc.com>
- <ee8474631ce309539918e17b60e4ca150327115d.camel@redhat.com>
-Content-Language: en-US
-From: Yunseong Kim <ysk@kzalloc.com>
-Organization: kzalloc
-In-Reply-To: <ee8474631ce309539918e17b60e4ca150327115d.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: n6-Ev5SzTPn9vOZwFE_zk5l6X0hEJcgMHtY8kzffHSM_1766503280
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Gabriele,
+Hi Yunseong,
 
-Thanks for the follow-up and for taking the time to double-check the
-configuration details.
+> I will also double-check sleepable memory allocations in the context of
+> PREEMPT_RT kernels to see if there are other patterns being missed.
 
-On 12/22/25 4:40 PM, Gabriele Monaco wrote:
-> On Thu, 2025-12-11 at 16:58 +0900, Yunseong Kim wrote:
->> I am currently considering how to model this to cover cases that go 
->> beyond what CONFIG_DEBUG_ATOMIC_SLEEP covers.
->>
->> My specific concern is about custom functions where might_sleep() might 
->> be missing. In such cases, if the code hits a fast path (no scheduling),
->> CONFIG_DEBUG_ATOMIC_SLEEP won't trigger. I'm wondering if RV can detect
->> these potential bugs.
-> 
-> Hi Yunseong,
-> 
-> I finally got to reflect a bit more on this.
-> As we discussed at LPC, RV wouldn't help with not annotated functions because
-> you'd need to add tracepoints there, so probably the best is to just add a
-> might_sleep and be done with it.
+You may want to play with lockdep as well, it's much heavier but can catch =
+a lot
+of those issues. I believe it still relies on annotations though, so it mig=
+ht
+have blind spots too (though it's battle-tested on locks).
 
-Thanks for your insight! I agree that for unannotated functions, adding
-might_sleep() directly is the most straightforward approach.
+> My interest in this arose because I've been seeing these legacy patterns
+> consistently reported as bugs in the Real-Time (PREEMPT_RT) kernel. It
+> seems many kernel developers are still unaware that these patterns are
+> problematic, partly because some older Linux learning materials actually
+> recommended them. This makes it quite likely that such code will continue
+> to find its way into the upstream.
 
-I will also double-check sleepable memory allocations in the context of
-PREEMPT_RT kernels to see if there are other patterns being missed.
+Yeah that's quite common indeed, I see kernel functions claiming to be atom=
+ic
+while in fact using (sleeping) spinlocks.
 
-> Other than that, I double checked and CONFIG_DEBUG_ATOMIC_SLEEP is in fact
-> disabled on non-debug kernels in Fedora/RHEL (and I presume also in Debian and
-> friends), so the other concern you raised is indeed valid.
+Reading the material Daniel left (RV's original author), he thought of a si=
+milar
+model, so at least we know there was interest in this kind of thing.
 
-I agree that CONFIG_DEBUG_ATOMIC_SLEEP covers most cases, but as you
-pointed out, the fact that it's disabled in production kernels (Fedora,
-RHEL, Debian, Ubuntu etc.) gives this approach real-world value. I was
-hesitant about whether this was worth a contribution, so I truly appreciate
-your encouraging feedback.
 
-> Although perhaps rather unlikely, I'm not sure we can completely rule out cases
-> in which non-debug kernel (where several other debugging features besides
-> CONFIG_DEBUG_ATOMIC_SLEEP are disabled) behave differently enough for some bugs,
-> otherwise invisible on debug kernels, to pop up.
-> 
-> Another use could be debugging kernel modules on non-debug kernels, perhaps to
-> avoid some other debug features to be present while still relying on the
-> packaged kernel.
-> 
-> For this to work you'd need to add a tracepoint on might_sleep when
-> CONFIG_DEBUG_ATOMIC_SLEEP is disabled (and it's currently a NOP), hopefully that
-> wouldn't make people too angry.
+> I will keep looking into more meaningful contributions for RV. For instan=
+ce,
+> I=E2=80=99ve been considering a monitor to detect excessive memory compac=
+tion issues
+> under specific workloads, which I=E2=80=99ve encountered during kernel de=
+velopment.
 
-My interest in this arose because I've been seeing these legacy patterns
-consistently reported as bugs in the Real-Time (PREEMPT_RT) kernel. It
-seems many kernel developers are still unaware that these patterns are
-problematic, partly because some older Linux learning materials actually
-recommended them. This makes it quite likely that such code will continue
-to find its way into the upstream.
+Looking forward to knowing more!
 
-> Again, none of this would be ground-breaking but it doesn't look useless either.
-> 
-> Any thoughts?
+Cheers,
+Gabriele
 
-I will keep looking into more meaningful contributions for RV. For instance,
-I’ve been considering a monitor to detect excessive memory compaction issues
-under specific workloads, which I’ve encountered during kernel development.
-
-> Thanks,
-> Gabriele
-
-It was a great pleasure discussing these ideas with you and Nam. I sorry
-for any lack of clarity in my previous explanations during LPC 25.
-
-Thanks again for your insights! :)
-
-Best regards,
-Yunseong
