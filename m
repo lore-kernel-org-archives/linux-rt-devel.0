@@ -1,79 +1,81 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9BCA937
-	for <linux-rt-devel@lists.linux.dev>; Fri, 26 Dec 2025 16:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB1B274B26;
+	Tue, 30 Dec 2025 11:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766764982; cv=none; b=iUViolOwQPysniJmMO8e695mFCaxwQWpR8ZGBMEooLoqPTkIhvWMIIsDB2lKlTokartDbVVoHflvJcSCmEB9c64yiHKR3wtV1iTprwKS/gKZyDIqm957SC4b+RJhxFC00hRe/8G76f7g7MFFVfgLXHy9E37IeRTVVfogZkgN+ao=
+	t=1767093804; cv=none; b=XF1WbcwwCguOo1RmcU0DOoeJUPFsXSkWeA+F1AzY2m46bRPPKThfiPHZVSyD/PfF2FL04KqMVqQttlzUaYysdX8Ecq4PhGAt0SfCdbyKftuBeufHFcA7L1hcWpqDbq0YjTRvCkbgHZnJdB2PrSLD979cX8/fqRZ2LYwwkB2H96c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766764982; c=relaxed/simple;
-	bh=BIOrZ3q7R08cNltIPmA+0z3+IN5IxCLYmB2KPu12120=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=N0sZKHA480HZ/QD6Twa7dMV5OU/3sJO+OUqLBGkTp3RFwD6+udgg41DwW1yZt6s2JkO5H50doWvn+juCERJaO2PX/dGxiJvIAp/JynBGL7qf5zLlXdHtMy3UQAIvkzXG9PvAkgYGZR/G7EM4Gyeo9NNsRWL4OGIbrFjAPy/i85E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 209CC8D0EA;
-	Fri, 26 Dec 2025 16:02:53 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 7F4D920026;
-	Fri, 26 Dec 2025 16:02:51 +0000 (UTC)
-Date: Fri, 26 Dec 2025 11:02:49 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, liangjlee@google.com
-Subject: Regression in performance when using PREEMPT_RT
-Message-ID: <20251226110249.0c2f1d8d@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767093804; c=relaxed/simple;
+	bh=LUbYC9m9QSm0+6NC2jl2C0+EOLgVSDhYN5AzbBac224=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=P1SFYd1seNQeWkYe2vvVz+47PAx4AnS8xDly5wX5jUdbsBZ9emNEJvMOSiDMMIoPB8YKFAAN8tf6CNkfZTJGotuGgg785MOkCVdmc0HIYoDpvPkaoFkoYUUocfH/KQsTiIlO/l2KS21tgjSofw3OAC/9nVVWwaOFLZZ0JgEgCxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWGQZAFV; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWGQZAFV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1208C4CEFB;
+	Tue, 30 Dec 2025 11:23:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1767093803;
+	bh=LUbYC9m9QSm0+6NC2jl2C0+EOLgVSDhYN5AzbBac224=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=cWGQZAFVLf6Wd414/3//a26yqEjWY+fPQL+ogerptFUa2MWOsyhf8zYGiYF9XeZGU
+	 c3JggSxoU9WrXhuFa2MXa/mIi0msDQUIoIwMF5Thb3xsvw18RLfGwa4o+ijuBjp337
+	 H00OESATlnm2sn3ofMCyMv6TolP0+1o+KUbzLn6nVMK0zhNIpPocpGkJwtrhyVTlZn
+	 qMIJYbzIsdbb0XSoqRu3Jrm56IGeVVjC+6eYMWS/SnUUytw4YoapQ42zjXqqq68Fiy
+	 vqrOIH8H/KzZpFadQNUOZQtYHeGX3oAFMIDRnB8OWax/MKuKS4GnVlxo8LJddDm4pl
+	 GCiNZi3eXCjgQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F2C9A3808205;
+	Tue, 30 Dec 2025 11:20:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 5iojb77gqd99fqam9ujz6jgqdcczpqth
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 7F4D920026
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19g/oDC/7wy7nOHJYzm3uVipgAPSedGnuw=
-X-HE-Tag: 1766764971-713396
-X-HE-Meta: U2FsdGVkX1/PYAL5kBdOeEomb4I1spK3YUE0zLOph0jrQrDYSeM/4awQRBGajr9aUZbXk5zgAh2tnrtNbT2DSv5pJ3aMJF8SoScuwO7cBVAUlMOdJayTIuwSxledOHHEh6rIiztvgZRp+oQjLyWHW0XKF92dAImSRbzlwxRwR86wnFqK83BGK3uN/wOi80rag2kqQX9nQJ40+O5Ac7VUrqznQ0iGPwgkMqTvm3VA3iJh4ciijW+td0I9Rbk7pfu77YfsbE1hZmHRx+3ZtzQ6cKdAzXpKP9mAnz/uEQf5Q4lI41yCLwTddUA9PpMDfI2B
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v4] ipv6: fix a BUG in rt6_get_pcpu_route() under
+ PREEMPT_RT
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <176709360580.3217338.10030913382633316233.git-patchwork-notify@kernel.org>
+Date: Tue, 30 Dec 2025 11:20:05 +0000
+References: <20251223051413.124687-1-jiayuan.chen@linux.dev>
+In-Reply-To: <20251223051413.124687-1-jiayuan.chen@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org,
+ syzbot+9b35e9bc0951140d13e6@syzkaller.appspotmail.com, davem@davemloft.net,
+ dsahern@kernel.org, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ rostedt@goodmis.org, tglx@linutronix.de, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
 
-Hi Sebastian,
+Hello:
 
-We are doing some experiments in running Android Pixel with a PREEMPT_RT
-kernel, we found a few unacceptable performance regressions. One was in the
-block layer. In non-rt, the ufshcd interrupt would trigger the BLOCK
-softirq on another CPU. In RT, it always triggered the softirq on the same
-CPU as the interrupt. As the interrupt line always triggers on CPU0, it
-forces the BLOCK softirq to also always run on CPU 0, which is bad because
-CPU 0 is a little core and the main work should be running on a big core.
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-In block/blk-mq.c:blk_mq_complete_need_ipi() there's this code:
+On Tue, 23 Dec 2025 13:14:12 +0800 you wrote:
+> On PREEMPT_RT kernels, after rt6_get_pcpu_route() returns NULL, the
+> current task can be preempted. Another task running on the same CPU
+> may then execute rt6_make_pcpu_route() and successfully install a
+> pcpu_rt entry. When the first task resumes execution, its cmpxchg()
+> in rt6_make_pcpu_route() will fail because rt6i_pcpu is no longer
+> NULL, triggering the BUG_ON(prev). It's easy to reproduce it by adding
+> mdelay() after rt6_get_pcpu_route().
+> 
+> [...]
 
-	/*
-	 * With force threaded interrupts enabled, raising softirq from an SMP
-	 * function call will always result in waking the ksoftirqd thread.
-	 * This is probably worse than completing the request on a different
-	 * cache domain.
-	 */
-	if (force_irqthreads())
-		return false;
+Here is the summary with links:
+  - [net,v4] ipv6: fix a BUG in rt6_get_pcpu_route() under PREEMPT_RT
+    https://git.kernel.org/netdev/net/c/1adaea51c61b
 
-When I saw "probably worse", I'm thinking this was decided by analysis and
-not by any real numbers. Was it?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-When we commented out the above if statement so that it did not return
-false, things sped up to almost non-rt speeds again.
 
-The fio benchmark went from 76MB to 94MB (higher is better). It's still not
-at the level of non-rt, but this was definitely one of the areas that
-caused the regression.
-
-Is that exit out of the function truly needed?
-
-Thanks,
-
--- Steve
