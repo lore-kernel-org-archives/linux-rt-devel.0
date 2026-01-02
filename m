@@ -1,154 +1,147 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0087C24A05D
-	for <linux-rt-devel@lists.linux.dev>; Fri,  2 Jan 2026 15:09:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A27E7269CE7
+	for <linux-rt-devel@lists.linux.dev>; Fri,  2 Jan 2026 15:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767366559; cv=none; b=AluC18KbW2yGurtBrn0ucXo/rkT04W6tNOHJM5XxSuncCkdq4exMFDTmHCN7WhEKPYAOHK9wngm28fRYBpOdw9wyw/bEZgZKQaFPyqQICIaMvQL4+2bzeWKERTLDMdyR/9aF/LUmgM3OSZXErQR59V/ax97ccfP2XJv/5F2HHjA=
+	t=1767367736; cv=none; b=iWBgsWCoxRbAffBbNL73j2mPeFugYnXYE/prYhQTwjtfDUyMkQoL9tMvUxswmVuilzTsD7wv7puXNf7wEarO/+59eNappldtK4bdwluBUywP5d98TCafo8540bX9DpySA3rqaL+AGxO2h9TXd7yq9+OtCqllDmPincHUj/7Mp10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767366559; c=relaxed/simple;
-	bh=pE7l7ZGNHGoAo69MkgNtsOEtyJAFXcks8HAkfhuT3nE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JIJil3NnAaiSU6w9eZB8rLcXYyraF79aa3UAH+fwdZTfUI/zCfeLobxuoW4QSUt+XsZpsxdozLoHWzNkDoe4mlnAEuxJ4NEB6dc+z37augiSaNu7tutGveybnGPLCL+6zJA6DCAZtWTTfgM/W/sQkpIAqlEqqoYS31zGYhutXfI=
+	s=arc-20240116; t=1767367736; c=relaxed/simple;
+	bh=bWwQkslUTi59G6Sx/Bn5ra5MgEZNdAgS5pk5H94jO7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UfneIuT6mF2UKF7xSLhGHXFEmW+aPTMgNo6+3CzXrVSXJXXaInAul/rcM5RaEaI5S12z+VUNdZAA/GYupGX8J3eHsbqXdBmqBzWrTpDErFrcVi1dGINkZHhazTktUFkFw1rd8msgG5uHouT+Tv5q8ArV01+z946USXDx8cH4hZ8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D3141424;
-	Fri,  2 Jan 2026 07:09:10 -0800 (PST)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 643B73F5A1;
-	Fri,  2 Jan 2026 07:09:14 -0800 (PST)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	will@kernel.org,
-	ryan.roberts@arm.com,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	kevin.brodsky@arm.com,
-	quic_zhenhuah@quicinc.com,
-	dev.jain@arm.com,
-	yang@os.amperecomputing.com,
-	chaitanyas.prakash@arm.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	lorenzo.stoakes@oracle.com,
-	ardb@kernel.org,
-	jackmanb@google.com,
-	vbabka@suse.cz,
-	mhocko@suse.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v4 3/3] arm64: mmu: avoid allocating pages while installing ng-mapping for KPTI
-Date: Fri,  2 Jan 2026 15:07:36 +0000
-Message-Id: <20260102150736.1378818-4-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260102150736.1378818-1-yeoreum.yun@arm.com>
-References: <20260102150736.1378818-1-yeoreum.yun@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2145B497;
+	Fri,  2 Jan 2026 07:28:47 -0800 (PST)
+Received: from [10.57.94.221] (unknown [10.57.94.221])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D04B83F5A1;
+	Fri,  2 Jan 2026 07:28:50 -0800 (PST)
+Message-ID: <4a315d79-bf82-4a90-9c9c-8dd1bdc43d38@arm.com>
+Date: Fri, 2 Jan 2026 15:28:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/3] arm64: mmu: introduce pgtable_alloc_t
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>, catalin.marinas@arm.com,
+ will@kernel.org, akpm@linux-foundation.org, david@kernel.org,
+ kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com, dev.jain@arm.com,
+ yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+ vbabka@suse.cz, mhocko@suse.com
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+References: <20260102150736.1378818-1-yeoreum.yun@arm.com>
+ <20260102150736.1378818-2-yeoreum.yun@arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <20260102150736.1378818-2-yeoreum.yun@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The current __kpti_install_ng_mappings() allocates a temporary PGD
-while installing the NG mapping for KPTI under stop_machine(),
-using GFP_ATOMIC.
+On 02/01/2026 15:07, Yeoreum Yun wrote:
+> This is preparation patch to use preallocated page tables
+> for linear_map_split_to_ptes().
+> 
+> Define pgtable_alloc_t type for callback used by create_XXX_mapping().
+> 
+> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 
-This is fine in the non-PREEMPT_RT case. However, it becomes a problem
-under PREEMPT_RT because generic memory allocation/free APIs
-(e.g., pgtable_alloc(), __get_free_pages(), etc.) cannot be invoked
-in a non-preemptible context, except for the *_nolock() variants.
-These generic allocators may sleep due to their use of spin_lock().
-
-In other words, calling __get_free_pages(), even with GFP_ATOMIC,
-is not allowed in __kpti_install_ng_mappings(), which is executed by
-the stopper thread where preemption is disabled under PREEMPT_RT.
-
-To address this, preallocate the page needed for the temporary PGD
-before invoking __kpti_install_ng_mappings() via stop_machine().
-
-Fixes: 47546a1912fc ("arm64: mm: install KPTI nG mappings with MMU enabled")
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
 Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
----
- arch/arm64/mm/mmu.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index cc086e91a506..7a7804dba381 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -1362,7 +1362,7 @@ static phys_addr_t __init kpti_ng_pgd_alloc(enum pgtable_type type)
- 	return kpti_ng_temp_alloc;
- }
- 
--static int __init __kpti_install_ng_mappings(void *__unused)
-+static int __init __kpti_install_ng_mappings(void *data)
- {
- 	typedef void (kpti_remap_fn)(int, int, phys_addr_t, unsigned long);
- 	extern kpti_remap_fn idmap_kpti_install_ng_mappings;
-@@ -1370,10 +1370,9 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 
- 	int cpu = smp_processor_id();
- 	int levels = CONFIG_PGTABLE_LEVELS;
--	int order = order_base_2(levels);
- 	u64 kpti_ng_temp_pgd_pa = 0;
- 	pgd_t *kpti_ng_temp_pgd;
--	u64 alloc = 0;
-+	u64 alloc = *(u64 *)data;
- 
- 	if (levels == 5 && !pgtable_l5_enabled())
- 		levels = 4;
-@@ -1384,8 +1383,6 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 
- 	if (!cpu) {
- 		int ret;
--
--		alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
- 		kpti_ng_temp_pgd = (pgd_t *)(alloc + (levels - 1) * PAGE_SIZE);
- 		kpti_ng_temp_alloc = kpti_ng_temp_pgd_pa = __pa(kpti_ng_temp_pgd);
- 
-@@ -1416,16 +1413,16 @@ static int __init __kpti_install_ng_mappings(void *__unused)
- 	remap_fn(cpu, num_online_cpus(), kpti_ng_temp_pgd_pa, KPTI_NG_TEMP_VA);
- 	cpu_uninstall_idmap();
- 
--	if (!cpu) {
--		free_pages(alloc, order);
-+	if (!cpu)
- 		arm64_use_ng_mappings = true;
--	}
- 
- 	return 0;
- }
- 
- void __init kpti_install_ng_mappings(void)
- {
-+	int order = order_base_2(CONFIG_PGTABLE_LEVELS);
-+	u64 alloc;
- 	/* Check whether KPTI is going to be used */
- 	if (!arm64_kernel_unmapped_at_el0())
- 		return;
-@@ -1438,8 +1435,14 @@ void __init kpti_install_ng_mappings(void)
- 	if (arm64_use_ng_mappings)
- 		return;
- 
-+	alloc = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
-+	if (!alloc)
-+		panic("Failed to alloc page tables\n");
-+
- 	init_idmap_kpti_bbml2_flag();
--	stop_machine(__kpti_install_ng_mappings, NULL, cpu_online_mask);
-+	stop_machine(__kpti_install_ng_mappings, &alloc, cpu_online_mask);
-+
-+	free_pages(alloc, order);
- }
- 
- static pgprot_t __init kernel_exec_prot(void)
--- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> ---
+>  arch/arm64/mm/mmu.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> index 8e1d80a7033e..4b4908ae189b 100644
+> --- a/arch/arm64/mm/mmu.c
+> +++ b/arch/arm64/mm/mmu.c
+> @@ -74,6 +74,8 @@ EXPORT_SYMBOL(empty_zero_page);
+>  static DEFINE_SPINLOCK(swapper_pgdir_lock);
+>  static DEFINE_MUTEX(fixmap_lock);
+>  
+> +typedef phys_addr_t (pgtable_alloc_t)(enum pgtable_type);
+> +
+>  void noinstr set_swapper_pgd(pgd_t *pgdp, pgd_t pgd)
+>  {
+>  	pgd_t *fixmap_pgdp;
+> @@ -197,7 +199,7 @@ static void init_pte(pte_t *ptep, unsigned long addr, unsigned long end,
+>  static int alloc_init_cont_pte(pmd_t *pmdp, unsigned long addr,
+>  			       unsigned long end, phys_addr_t phys,
+>  			       pgprot_t prot,
+> -			       phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +			       pgtable_alloc_t pgtable_alloc,
+>  			       int flags)
+>  {
+>  	unsigned long next;
+> @@ -252,7 +254,7 @@ static int alloc_init_cont_pte(pmd_t *pmdp, unsigned long addr,
+>  
+>  static int init_pmd(pmd_t *pmdp, unsigned long addr, unsigned long end,
+>  		    phys_addr_t phys, pgprot_t prot,
+> -		    phys_addr_t (*pgtable_alloc)(enum pgtable_type), int flags)
+> +		    pgtable_alloc_t pgtable_alloc, int flags)
+>  {
+>  	unsigned long next;
+>  
+> @@ -292,7 +294,7 @@ static int init_pmd(pmd_t *pmdp, unsigned long addr, unsigned long end,
+>  static int alloc_init_cont_pmd(pud_t *pudp, unsigned long addr,
+>  			       unsigned long end, phys_addr_t phys,
+>  			       pgprot_t prot,
+> -			       phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +			       pgtable_alloc_t pgtable_alloc,
+>  			       int flags)
+>  {
+>  	int ret;
+> @@ -349,7 +351,7 @@ static int alloc_init_cont_pmd(pud_t *pudp, unsigned long addr,
+>  
+>  static int alloc_init_pud(p4d_t *p4dp, unsigned long addr, unsigned long end,
+>  			  phys_addr_t phys, pgprot_t prot,
+> -			  phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +			  pgtable_alloc_t pgtable_alloc,
+>  			  int flags)
+>  {
+>  	int ret = 0;
+> @@ -415,7 +417,7 @@ static int alloc_init_pud(p4d_t *p4dp, unsigned long addr, unsigned long end,
+>  
+>  static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
+>  			  phys_addr_t phys, pgprot_t prot,
+> -			  phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +			  pgtable_alloc_t pgtable_alloc,
+>  			  int flags)
+>  {
+>  	int ret;
+> @@ -467,7 +469,7 @@ static int alloc_init_p4d(pgd_t *pgdp, unsigned long addr, unsigned long end,
+>  static int __create_pgd_mapping_locked(pgd_t *pgdir, phys_addr_t phys,
+>  				       unsigned long virt, phys_addr_t size,
+>  				       pgprot_t prot,
+> -				       phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +				       pgtable_alloc_t pgtable_alloc,
+>  				       int flags)
+>  {
+>  	int ret;
+> @@ -500,7 +502,7 @@ static int __create_pgd_mapping_locked(pgd_t *pgdir, phys_addr_t phys,
+>  static int __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
+>  				unsigned long virt, phys_addr_t size,
+>  				pgprot_t prot,
+> -				phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +				pgtable_alloc_t pgtable_alloc,
+>  				int flags)
+>  {
+>  	int ret;
+> @@ -516,7 +518,7 @@ static int __create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
+>  static void early_create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
+>  				     unsigned long virt, phys_addr_t size,
+>  				     pgprot_t prot,
+> -				     phys_addr_t (*pgtable_alloc)(enum pgtable_type),
+> +				     pgtable_alloc_t pgtable_alloc,
+>  				     int flags)
+>  {
+>  	int ret;
 
