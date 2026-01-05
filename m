@@ -1,228 +1,195 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E142D97A6
-	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 19:04:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC66622068F
+	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 19:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767639842; cv=none; b=SGLzDU/kRQMDDBcFw5G6/cPHwUY13z+8Sdpamshb30poGlErcpxkKBRW5M+h2cUfc84oSdr/hePcW+7tPELrtBakp9ovuMg0w/wybhHVWcf/peLBViiQNKYobWcy0q85lrsT+Zac8I4ZRxb89Ds1i1YfYZMJWQyo1KmlBySTxZ4=
+	t=1767640747; cv=none; b=i4Qoz0K0e27w3PCvrAkoK/hs/ZwCSOF9KAvbosF3vy8Rq1HIzOzXpw2xYHgPZhOrhiiz6dhCfQI1nBfLU3YfNKqmzau8FZEdPBndXyeWjflAfGFgiMDYFpCvjIJ6b7/Kp3gVQWEPnjBYOefqQZXj895AsOjvexswErrOJFndrXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767639842; c=relaxed/simple;
-	bh=I3tXSvAiTdiWGgkSi6+ecYZmDAG3V4d+Vdb3BWNisHY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Yeb7jChWgnT+h6UOWLFyClFmjLDfJo7hrr3vMKGUHQj2GNWlBOnoh9lY0QMPgZD4ZeeceLss3kO/SOnRSjc6PT4SCV84rmFJYlpoYlNORMTxKkSyrax56bxHCWXITmzsI2DYj288yBiEUZoVxuPnV3aokNv9n26VxEgcAbQXDfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ZiqisDZS; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1767640747; c=relaxed/simple;
+	bh=xrjYTxkqbcRPkuSmFHPByLvRNWzKhGhQSfDm7xQHv8s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SxNpjawCptASZdSqimwBDoeOMKYpNyM5PRaG1fG8pgcIX2NWo7NQXT0d36o17jAQSZYqm456sFpC7J4bAxf2GXLeKiCPQHyIYrJFQ07WxqtUACQXUBoh05Wk63vY/+OisqiJ+KYWe2ymrsQHGYE8Yg98gxvDIF+GeJ1VXssTccw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UF9KYGhY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b8/vA1fQ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=UF9KYGhY; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=b8/vA1fQ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ZiqisDZS"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4ee05b2b1beso2029191cf.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 05 Jan 2026 11:04:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767639840; x=1768244640; darn=lists.linux.dev;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=FeKtBDsJt1gX24SqhD7ZSBYL+NzR9qHzMlaESQhyeis=;
-        b=ZiqisDZSpkn/1b+6KcKmlKy7XKtD5xEjT+jjBsNSRxh/Odazl4kWrCadFe2qyjtDGE
-         OdiaYPBmL/hDE/Qsv7ungkxMCnei8H0jngDI5+p0KF9WbKZ30QUAX8UumdazN2OJ1Lyp
-         Yo+zlBDSA2oxrehvblcoyaTPzR7bt8GvkEJaozJC/rS1FZ00Yzbb9DqN2zZ8tkbpTxDq
-         0BtkYul4azVDRbmvCLEV/yfNnOOWHD1jkkT0OMbYulp88D4DZlA4uMQX5qrN+GmlWkeH
-         TR6o3VR2KKBqYP3EG7qeq/7ZFcvCj3Ut3M2Fl0F4HLL/Kj+0P7EPAwUvt4QRSuUkbbFv
-         AYBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767639840; x=1768244640;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FeKtBDsJt1gX24SqhD7ZSBYL+NzR9qHzMlaESQhyeis=;
-        b=liw2G/GVStwDgnh+VQ8R99UvA1yr6TPfjtwX9JVBMD7ESk0axEYwyIXKdC1OMut44k
-         On4LKCG0jPQgE6iv9TtPHuvUYlPG331/887QcidSi073jRt/LpurW85DVy38dWm5plBK
-         zyOJeVnlgNmi7e+fMZJ+4kghabEA+tmiaG9MBWXQGg5oc2uV7AjvQYhbRFyru94cXY21
-         zHYilqRxpMPXzGD2a29QJyGXgtFpx4jZ50q1M4eP0BCWIOh6YInZddSFkWhWkqIR4Auk
-         4zNIzSIeSfnNN07H3n3OY4QHOzT5msJN4JKSpcqfuy+/Q4mN1m5qOz4DCfRgAg1cp94f
-         ZeFg==
-X-Forwarded-Encrypted: i=1; AJvYcCWxkVLkadmMl4xtXDOYl+AK/I/VWfE126qY9rZ7y3a0FBRU05C07hVjARRHr01XPT3sRkKdI+NT3bOKFqjyOw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvUA38ZqGsf/55MFihDdPZlPrf9Kceva2zgbwvU4N5dftc70zx
-	IC2P+3N5pKMhd4mTfc5I8SXJ2uGshukentRFMABUUxBd6wmkQAG6ADIZoWXqMz+rh4U=
-X-Gm-Gg: AY/fxX5ahDHg/aFXLnqirMjLgAO5twHQyJazgS2ikBFQq84onRW72TJYwPwsMqOCq11
-	a/HCAl7qdkA6mp5cmgy2KKd8t1ptEg+x5g5FPPeRqyJqDIPQOeCjaWdxYuB3C6ch2aGxP4i70Ps
-	hBK+22vR/e6QNkVtUoGRZ2sSEGmtC+1kCovryT/FiMVZv3eWg87eK75vmBbMAhbIe1zI60Y7nm9
-	oV/ld/KvNasA+BEXTmtagAEts94+uXeknaIdATu94+CqoGC3Ck3fDsaQVgIfUEzHi5yth0YjOCY
-	RGJEzBBrjeBg84Y3mpBxYhfYtd93pVw5z5v4pLM8tuTc+LpCHrhsLq3ZfdPOYqJIqCVQPzb6c0Z
-	2QA0WTfSe1y7G6broJe2Ixa/Qcj95aL7x2Cs8mjNj7qKPLixJ/T+sn5Y2PakAr7AY4Ze53J4be1
-	0fBjWDrIqKcTgzPA+Y
-X-Google-Smtp-Source: AGHT+IEnEgzIDnY39n5gQuZja4vjNZ3BfPuYzRbiRzQouli3RfXg1JXmGP7KEZbAr7NNftQ95LCl0g==
-X-Received: by 2002:a05:622a:130d:b0:4ee:1676:faa6 with SMTP id d75a77b69052e-4ffa76bd600mr8775391cf.20.1767639840109;
-        Mon, 05 Jan 2026 11:04:00 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa71987casm3827561cf.18.2026.01.05.11.03.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 11:03:59 -0800 (PST)
-Message-ID: <1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
-Subject: Re: [PATCH 4/4] media: dw100: Split interrupt handler to fix
- timeout error
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Stefan Klug <stefan.klug@ideasonboard.com>, Xavier Roumegue	
- <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt	 <rostedt@goodmis.org>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Date: Mon, 05 Jan 2026 14:03:58 -0500
-In-Reply-To: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
-References: 
-	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-fNdR0Jihn8NMZ/VEQhEe"
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UF9KYGhY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b8/vA1fQ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="UF9KYGhY";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="b8/vA1fQ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 8D41C5BCC1;
+	Mon,  5 Jan 2026 19:19:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767640743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4Gk7wjaXN1GmwZPiHBvOLEBq0hQxeWIal5KrLUNa/Zg=;
+	b=UF9KYGhYxKbIY6im4cAVFphaF79JcyJa2lMjJ51kISmpG8q7mRJX9OTYOdfJIdtDj2xTQL
+	3FJFykCad4G+0df/w0v7+CoAN0IeZD9pLjZdKQTeOJtqh7a5t7tEQgahETyOyTKiRSDRxn
+	7ti+G98zPmp7ANmHcDqM2om5vDrHQFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767640743;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4Gk7wjaXN1GmwZPiHBvOLEBq0hQxeWIal5KrLUNa/Zg=;
+	b=b8/vA1fQlxADDvjyk76zcNr7jSl2Yy2c0vnIvXu/kQ1H7f6oiLYvi/Jq5XEWY5BYFzwmNp
+	4hZI9g9h4QGPpaBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=UF9KYGhY;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="b8/vA1fQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767640743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4Gk7wjaXN1GmwZPiHBvOLEBq0hQxeWIal5KrLUNa/Zg=;
+	b=UF9KYGhYxKbIY6im4cAVFphaF79JcyJa2lMjJ51kISmpG8q7mRJX9OTYOdfJIdtDj2xTQL
+	3FJFykCad4G+0df/w0v7+CoAN0IeZD9pLjZdKQTeOJtqh7a5t7tEQgahETyOyTKiRSDRxn
+	7ti+G98zPmp7ANmHcDqM2om5vDrHQFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767640743;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4Gk7wjaXN1GmwZPiHBvOLEBq0hQxeWIal5KrLUNa/Zg=;
+	b=b8/vA1fQlxADDvjyk76zcNr7jSl2Yy2c0vnIvXu/kQ1H7f6oiLYvi/Jq5XEWY5BYFzwmNp
+	4hZI9g9h4QGPpaBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C49613964;
+	Mon,  5 Jan 2026 19:19:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qU36EacOXGlbPAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 05 Jan 2026 19:19:03 +0000
+Message-ID: <56598d76-02ca-490f-a100-0f223fb5717e@suse.cz>
+Date: Mon, 5 Jan 2026 20:19:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] slab: fix kmalloc_nolock() context check for PREEMPT_RT
+Content-Language: en-US
+To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, lgoncalv@redhat.com
+Cc: akpm@linux-foundation.org, ast@kernel.org, bigeasy@linutronix.de,
+ cl@gentwo.org, clrkwllms@kernel.org, david.hunter.linux@gmail.com,
+ harry.yoo@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-rt-devel@lists.linux.dev, rientjes@google.com,
+ roman.gushchin@linux.dev, rostedt@goodmis.org, skhan@linuxfoundation.org,
+ syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com,
+ Hao Li <hao.li@linux.dev>
+References: <aUVTJyd74OoCtSyN@redhat.com>
+ <20251219135143.7337-1-swarajgaikwad1925@gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20251219135143.7337-1-swarajgaikwad1925@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com,redhat.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linutronix.de,gentwo.org,gmail.com,oracle.com,vger.kernel.org,kvack.org,lists.linux.dev,google.com,linux.dev,goodmis.org,linuxfoundation.org,syzkaller.appspotmail.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[b1546ad4a95331b2101e];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 8D41C5BCC1
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+
+On 12/19/25 14:51, Swaraj Gaikwad wrote:
+> I agree that we can simplify this. I think !preemptible() would be
+> the most descriptive choice here, as it directly expresses the
+> constraint, we cannot take a sleeping lock when preemption is
+> disabled.
+> The updated check would be:
+>     if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
+> 
+> I'll send a v2 with this change unless there are objections.
+
+I think it's the best solution for now, so please do. We can change it back
+later with sheaves, as Hao Li pointed out. It will limit PREEMPT_RT
+kmalloc_nolock() for now. Steven explained to me it's the tracepoints
+disabling preemption, but that will be also improved soon:
+
+https://lore.kernel.org/all/20251219120607.7371034e@gandalf.local.home/
 
 
---=-fNdR0Jihn8NMZ/VEQhEe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Swaraj
 
-Hi,
-
-Le lundi 05 janvier 2026 =C3=A0 12:35 +0100, Stefan Klug a =C3=A9crit=C2=A0=
-:
-> In the previous commit, the interrupt handler was changed to threaded.
-> This sometimes leads to DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being
-> set after changing the vertex map. This can be seen by repeated error
-> outputs in dmesg:
->=20
-> dw100 32e30000.dwe: Interrupt error: 0x1
->=20
-> As there is no documentation available, it is unclear why that happens
-> and if this condition can simply be ignored. By splitting the interrupt
-> handling into two parts and only handling the dw100_job_finish() within
-> the threaded part, the error does not occur anymore.
->=20
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-
-Ok, but arguably, this could be squashed.
-
-Nicolas
-
->=20
-> ---
->=20
-> As noted on the cover letter, this patch still is intended to start the
-> discussion for a proper fix.
->=20
-> While writing this I noted that when
-> DW100_INTERRUPT_STATUS_INT_FRAME_DONE is set, the job gets finished
-> without error even when err_irqs !=3D 0. Is that on purpose?
-> ---
-> =C2=A0drivers/media/platform/nxp/dw100/dw100.c | 20 +++++++++++++++-----
-> =C2=A01 file changed, 15 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/media/platform/nxp/dw100/dw100.c
-> b/drivers/media/platform/nxp/dw100/dw100.c
-> index
-> 4f5ef70e5f4a052fb5f208e35f8785f9d30dc54e..67d941bdf768398edc611c94896cc42=
-a70b8
-> 8225 100644
-> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> @@ -10,6 +10,7 @@
-> =C2=A0#include <linux/clk.h>
-> =C2=A0#include <linux/debugfs.h>
-> =C2=A0#include <linux/interrupt.h>
-> +#include <linux/irqreturn.h>
-> =C2=A0#include <linux/io.h>
-> =C2=A0#include <linux/minmax.h>
-> =C2=A0#include <linux/module.h>
-> @@ -74,6 +75,7 @@ struct dw100_device {
-> =C2=A0	struct clk_bulk_data		*clks;
-> =C2=A0	int				num_clks;
-> =C2=A0	struct dentry			*debugfs_root;
-> +	bool				frame_failed;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct dw100_q_data {
-> @@ -1411,7 +1413,8 @@ static irqreturn_t dw100_irq_handler(int irq, void
-> *dev_id)
-> =C2=A0{
-> =C2=A0	struct dw100_device *dw_dev =3D dev_id;
-> =C2=A0	u32 pending_irqs, err_irqs, frame_done_irq;
-> -	bool with_error =3D true;
-> +
-> +	dw_dev->frame_failed =3D true;
-> =C2=A0
-> =C2=A0	pending_irqs =3D dw_hw_get_pending_irqs(dw_dev);
-> =C2=A0	frame_done_irq =3D pending_irqs &
-> DW100_INTERRUPT_STATUS_INT_FRAME_DONE;
-> @@ -1419,7 +1422,7 @@ static irqreturn_t dw100_irq_handler(int irq, void
-> *dev_id)
-> =C2=A0
-> =C2=A0	if (frame_done_irq) {
-> =C2=A0		dev_dbg(&dw_dev->pdev->dev, "Frame done interrupt\n");
-> -		with_error =3D false;
-> +		dw_dev->frame_failed =3D false;
-> =C2=A0		err_irqs &=3D ~DW100_INTERRUPT_STATUS_INT_ERR_STATUS
-> =C2=A0			(DW100_INTERRUPT_STATUS_INT_ERR_FRAME_DONE);
-> =C2=A0	}
-> @@ -1432,7 +1435,14 @@ static irqreturn_t dw100_irq_handler(int irq, void
-> *dev_id)
-> =C2=A0	dw100_hw_clear_irq(dw_dev, pending_irqs |
-> =C2=A0			=C2=A0=C2=A0 DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT);
-> =C2=A0
-> -	dw100_job_finish(dw_dev, with_error);
-> +	return IRQ_WAKE_THREAD;
-> +}
-> +
-> +static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
-> +{
-> +	struct dw100_device *dw_dev =3D dev_id;
-> +
-> +	dw100_job_finish(dw_dev, dw_dev->frame_failed);
-> =C2=A0
-> =C2=A0	return IRQ_HANDLED;
-> =C2=A0}
-> @@ -1600,8 +1610,8 @@ static int dw100_probe(struct platform_device *pdev=
-)
-> =C2=A0
-> =C2=A0	pm_runtime_put_sync(&pdev->dev);
-> =C2=A0
-> -	ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL,
-> -					dw100_irq_handler, IRQF_ONESHOT,
-> +	ret =3D devm_request_threaded_irq(&pdev->dev, irq, dw100_irq_handler,
-> +					dw100_irq_thread_fn, IRQF_ONESHOT,
-> =C2=A0					dev_name(&pdev->dev), dw_dev);
-> =C2=A0	if (ret < 0) {
-> =C2=A0		dev_err(&pdev->dev, "Failed to request irq: %d\n", ret);
-
---=-fNdR0Jihn8NMZ/VEQhEe
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaVwLHgAKCRDZQZRRKWBy
-9CK7AP9nU4xsk5uJ9qTIjT9aqkUElBbvCfqnzaDZlty2zYi1jgEApKwo6EeVrFsd
-lBcXpgMgMqOznz8YaGI+BF2mZDHIpQI=
-=jqzk
------END PGP SIGNATURE-----
-
---=-fNdR0Jihn8NMZ/VEQhEe--
