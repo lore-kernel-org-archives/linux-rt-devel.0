@@ -1,247 +1,92 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49591262FD0
-	for <linux-rt-devel@lists.linux.dev>; Fri,  2 Jan 2026 17:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292F632B9A8
+	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 11:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767373472; cv=none; b=jPgjdYgEdRCVpWfwSdQEWMyyPr1GHuVBhKPVlY8yGXUn6q5qEgrjmtjxdt6bOmqKLsoSFra54LB/dGFNitMp23WNdHC4DLHPW8f+6Zwz/T0ajwWhm8SBzaWCbyuHTBO41b3j4OL7DHnJYVaym8xaGBRv6M7iMx5CF97MCwBoqfU=
+	t=1767612988; cv=none; b=GZJ4/ZlNmRg4tpDvY+w6PDXKLFJ2UipgI4gUey89mhFhn4Yd+NH3jU3DosBfe6Y6GVHsgVEDJvGkvAJks69mNTYMT4EaepaAzmYeyiCreOxuMO5f5RKnPXjw61xHz+yZsc4l9fk0INKK/DMECtnKetyVaIGxasRuRALa0pN46kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767373472; c=relaxed/simple;
-	bh=55pLin5c8TW3Aa2aA/LuJo2JW/m0wU2eGZOMf2uMaP8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BwOQENNsUKfE2BbkyLEMn6QpNqgEJFK/8oGbgye6NA2QkvORi+NoOnvyDcv0Lid1QTGSFvq5IPBx1oPpx5BV0u5wseeJu20Lm9lHmhnxi8BHyHOhXfW+xldHItQovOEGeNBWiOiXPGtEnaI78btAy0YN5mrDTT/QYz0m/4QyX3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B060497;
-	Fri,  2 Jan 2026 09:04:21 -0800 (PST)
-Received: from [10.57.94.221] (unknown [10.57.94.221])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 179BA3F5A1;
-	Fri,  2 Jan 2026 09:04:24 -0800 (PST)
-Message-ID: <85b23ed5-6219-4da6-a19a-3577ebaeac3f@arm.com>
-Date: Fri, 2 Jan 2026 17:04:23 +0000
+	s=arc-20240116; t=1767612988; c=relaxed/simple;
+	bh=XR44IfZoG7E2F15OfJorFS0OEFQAHjTSH3tln9pFcJ4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FdfoB+0N0ibUfFxIBeIlQ2zAc3q/dz1X4bKRra/0cfVn+zDwNyLmrfm+1+GsZQecYtxuz0uoQ+W0jmjZ6BN0kZ7CNso7Jth2CBAnGqtf6FpYH2/PI7NA8C7gAjkRGbMSz1x1B65td178M+UVkgwQKI8hb8tzGYA5IGdyVehd0cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyrRu6PV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QyrRu6PV"
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:c12b:c5c7:ad08:9cf2])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0F8FB8CB;
+	Mon,  5 Jan 2026 12:36:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767612965;
+	bh=XR44IfZoG7E2F15OfJorFS0OEFQAHjTSH3tln9pFcJ4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=QyrRu6PVYoQvJGDg/qYpx2qY+lBIEow7F6sLdwv02A7JVnhbKx3nOjRHHh27zwyCH
+	 N7UOEAxo5dN2u/Rnj++YN3y5/MATT1L04XEDnrubGB71AGiho83GDgJwOosyEca9d/
+	 sDLP9SfGPkvz49dxTojYODcGK3XBpSBf8TQgbkVM=
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: [PATCH 0/4] media: dw100: Dynamic vertex map updates and fixes for
+ PREEMPT_RT
+Date: Mon, 05 Jan 2026 12:35:52 +0100
+Message-Id: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] arm64: mmu: avoid allocating pages while splitting
- the linear mapping
-Content-Language: en-GB
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
- david@kernel.org, kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com,
- dev.jain@arm.com, yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
- vbabka@suse.cz, mhocko@suse.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260102150736.1378818-1-yeoreum.yun@arm.com>
- <20260102150736.1378818-3-yeoreum.yun@arm.com>
- <df057023-7a06-41f7-ac6f-caf6b8d8c144@arm.com>
- <aVfu5EZM1XyJjrYp@e129823.arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <aVfu5EZM1XyJjrYp@e129823.arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABiiW2kC/x3NywrCQAxG4VcpWftDUpl4eRVxYTuxBqUtM3UUS
+ t/dweW3OWelbMkt07lZKVnx7NNYIbuG+sdtHAweq6nlVlk4ID9f7wFFIYplmr1H/Agzyh6CaAX
+ dMaiGQ+z0FKhm5mR3//4Xl+u2/QCTXktUcgAAAA==
+X-Change-ID: 20260105-sklug-v6-16-topic-dw100-v3-1-dev-b856657db695
+To: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, Stefan Klug <stefan.klug@ideasonboard.com>
+X-Mailer: b4 0.14.2
 
-On 02/01/2026 16:14, Yeoreum Yun wrote:
-> Hi Ryan,
-> 
->>> linear_map_split_to_ptes() currently allocates page tables while
->>> splitting the linear mapping into PTEs under stop_machine() using GFP_ATOMIC.
->>>
->>> This is fine for non-PREEMPT_RT configurations.
->>> However, it becomes problematic on PREEMPT_RT, because
->>> generic memory allocation/free APIs (e.g. pgtable_alloc(), __get_free_pages(), etc.)
->>> cannot be called from a non-preemptible context, except for the _nolock() variants.
->>> This is because generic memory allocation/free paths are sleepable,
->>> as they rely on spin_lock(), which becomes sleepable on PREEMPT_RT.
->>>
->>> In other words, even calling pgtable_alloc() with GFP_ATOMIC is not permitted
->>> in __linear_map_split_to_pte() when it is executed by the stopper thread,
->>>  where preemption is disabled on PREEMPT_RT.
->>>
->>> To address this, the required number of page tables is first collected
->>> and preallocated, and the preallocated page tables are then used
->>> when splitting the linear mapping in __linear_map_split_to_pte().
->>>
->>> Fixes: 3df6979d222b ("arm64: mm: split linear mapping if BBML2 unsupported on secondary CPUs")
->>> Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
->>
->> Looks good from my perspective.
->>
->> I have a couple more small comments below. With those addressed:
->>
->> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
->>
->>> ---
->>>  arch/arm64/mm/mmu.c | 204 +++++++++++++++++++++++++++++++++++---------
->>>  1 file changed, 166 insertions(+), 38 deletions(-)
->>>
->>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
->>> index 4b4908ae189b..cc086e91a506 100644
->>> --- a/arch/arm64/mm/mmu.c
->>> +++ b/arch/arm64/mm/mmu.c
->>> @@ -529,18 +529,14 @@ static void early_create_pgd_mapping(pgd_t *pgdir, phys_addr_t phys,
->>>  		panic("Failed to create page tables\n");
->>>  }
->>>
->>> -static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
->>> -				       enum pgtable_type pgtable_type)
->>> -{
->>> -	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
->>> -	struct ptdesc *ptdesc = pagetable_alloc(gfp & ~__GFP_ZERO, 0);
->>> -	phys_addr_t pa;
->>> -
->>> -	if (!ptdesc)
->>> -		return INVALID_PHYS_ADDR;
->>> -
->>> -	pa = page_to_phys(ptdesc_page(ptdesc));
->>> +static struct ptdesc **split_pgtables;
->>> +static unsigned long split_pgtables_count;
->>> +static unsigned long split_pgtables_idx;
->>
->> I think these could all be __initdata, if you make
->> pgd_pgtable_get_preallocated() __init (see below) ?
-> 
-> I don't think so since range_split_to_ptes() couldn't be __init.
-> That's why there is warning while compiling below:
-> 
->   WARNING: modpost: vmlinux: section mismatch in reference: range_split_to_ptes+0x3c (section: .text) -> pgd_pgtable_get_preallocated (section: .init.text)
+Hi all,
 
-Ahh ok, the compiler beats me :)
+This series contains a few updates to the dw100 dewarper. Patches 1-2
+implement V4L2 requests support and dynamic updates of the vertex map.
+This enables advanced use cases like interactive pan, zoom and rotate. A
+first attempt to implement the dynamic update was posted a while back in
+[1] but wasn't merged due to races in the implementation. By switching
+to V4L2 requests the implementation is a lot simpler now.
 
->>
->>>
->>> +static __always_inline void __pgd_pgtable_init(struct mm_struct *mm,
->>
->> Is there a reason for __always_inline? If not, I think it's preferable to just
->> leave it static and let the compiler decide.
-> 
-> Okay. I'll remove __always_inline. Thanks.
-> 
->>
->>> +					       struct ptdesc *ptdesc,
->>> +					       enum pgtable_type pgtable_type)
->>> +{
->>>  	switch (pgtable_type) {
->>>  	case TABLE_PTE:
->>>  		BUG_ON(!pagetable_pte_ctor(mm, ptdesc));
->>> @@ -555,26 +551,49 @@ static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm, gfp_t gfp,
->>>  		pagetable_p4d_ctor(ptdesc);
->>>  		break;
->>>  	}
->>> -
->>> -	return pa;
->>>  }
->>>
->>> -static phys_addr_t
->>> -pgd_pgtable_alloc_init_mm_gfp(enum pgtable_type pgtable_type, gfp_t gfp)
->>> +static phys_addr_t __pgd_pgtable_alloc(struct mm_struct *mm,
->>> +				       enum pgtable_type pgtable_type)
->>>  {
->>> -	return __pgd_pgtable_alloc(&init_mm, gfp, pgtable_type);
->>> +	/* Page is zeroed by init_clear_pgtable() so don't duplicate effort. */
->>> +	struct ptdesc *ptdesc = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
->>> +
->>> +	if (!ptdesc)
->>> +		return INVALID_PHYS_ADDR;
->>> +
->>> +	__pgd_pgtable_init(mm, ptdesc, pgtable_type);
->>> +
->>> +	return page_to_phys(ptdesc_page(ptdesc));
->>>  }
->>>
->>> -static phys_addr_t __maybe_unused
->>> +static phys_addr_t
->>>  pgd_pgtable_alloc_init_mm(enum pgtable_type pgtable_type)
->>>  {
->>> -	return pgd_pgtable_alloc_init_mm_gfp(pgtable_type, GFP_PGTABLE_KERNEL);
->>> +	return __pgd_pgtable_alloc(&init_mm, pgtable_type);
->>>  }
->>>
->>>  static phys_addr_t
->>>  pgd_pgtable_alloc_special_mm(enum pgtable_type pgtable_type)
->>>  {
->>> -	return  __pgd_pgtable_alloc(NULL, GFP_PGTABLE_KERNEL, pgtable_type);
->>> +	return  __pgd_pgtable_alloc(NULL, pgtable_type);
->>> +}
->>> +
->>> +static phys_addr_t
->>> +pgd_pgtable_get_preallocated(enum pgtable_type pgtable_type)
->>
->> I think this could probably be __init?
-> 
-> See above.
-> 
->>
->>> +{
->>> +	struct ptdesc *ptdesc;
->>> +
->>> +	if (WARN_ON(split_pgtables_idx >= split_pgtables_count))
->>> +		return INVALID_PHYS_ADDR;
->>> +
->>> +	ptdesc = split_pgtables[split_pgtables_idx++];
->>> +	if (!ptdesc)
->>> +		return INVALID_PHYS_ADDR;
->>> +
->>> +	__pgd_pgtable_init(&init_mm, ptdesc, pgtable_type);
->>> +
->>> +	return page_to_phys(ptdesc_page(ptdesc));
->>>  }
->>>
->>>  static void split_contpte(pte_t *ptep)
->>> @@ -586,7 +605,9 @@ static void split_contpte(pte_t *ptep)
->>>  		__set_pte(ptep, pte_mknoncont(__ptep_get(ptep)));
->>>  }
->>>
->>> -static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
->>> +static int split_pmd(pmd_t *pmdp, pmd_t pmd,
->>> +		     pgtable_alloc_t pgtable_alloc,
->>> +		     bool to_cont)
->>
->> nit: this will easily fit in 2 lines and still be within 80 chars:
-> 
-> Okay. I'll change it.
-> 
->>
->> static int split_pmd(pmd_t *pmdp, pmd_t pmd, pgtable_alloc_t pgtable_alloc,
->> 		     bool to_cont)
->>
->>>  {
->>>  	pmdval_t tableprot = PMD_TYPE_TABLE | PMD_TABLE_UXN | PMD_TABLE_AF;
->>>  	unsigned long pfn = pmd_pfn(pmd);
->>> @@ -595,7 +616,7 @@ static int split_pmd(pmd_t *pmdp, pmd_t pmd, gfp_t gfp, bool to_cont)
->>>  	pte_t *ptep;
->>>  	int i;
->>>
->>> -	pte_phys = pgd_pgtable_alloc_init_mm_gfp(TABLE_PTE, gfp);
->>> +	pte_phys = pgtable_alloc(TABLE_PTE);
->>>  	if (pte_phys == INVALID_PHYS_ADDR)
->>>  		return -ENOMEM;
->>>  	ptep = (pte_t *)phys_to_virt(pte_phys);
->>> @@ -630,7 +651,9 @@ static void split_contpmd(pmd_t *pmdp)
->>>  		set_pmd(pmdp, pmd_mknoncont(pmdp_get(pmdp)));
->>>  }
->>>
->>> -static int split_pud(pud_t *pudp, pud_t pud, gfp_t gfp, bool to_cont)
->>> +static int split_pud(pud_t *pudp, pud_t pud,
->>> +		     pgtable_alloc_t pgtable_alloc,
->>> +		     bool to_cont)
->>
->> nit: same comment.
-> 
-> Thanks for your review :D
-> BTW, except the __init related comments, Could I add R-b tag
-> after fixing others?
+Patches 3-4 fix an issue on PREEMPT_RT enabled kernels. These patches
+should possibly be squashed into one. I expected patch 3 to be
+sufficient but during testing I hit an error condition that is worked
+around in patch 4. As I don't have documentation for the hardware it is
+difficult to decide on the proper fix. So feedback on that is greatly
+appreciated.
 
-Yes, please add my R-b.
+Best regards,
+Stefan
 
-> 
-> --
-> Sincerely,
-> Yeoreum Yun
+[1] https://lore.kernel.org/linux-media/20241022063155.506191-1-umang.jain@ideasonboard.com/
+
+Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+---
+Stefan Klug (4):
+      media: dw100: Implement V4L2 requests support
+      media: dw100: Implement dynamic vertex map update
+      media: dw100: Fix kernel oops with PREEMPT_RT enabled
+      media: dw100: Split interrupt handler to fix timeout error
+
+ drivers/media/platform/nxp/dw100/dw100.c | 89 ++++++++++++++++++++++++++------
+ 1 file changed, 73 insertions(+), 16 deletions(-)
+---
+base-commit: 9ace4753a5202b02191d54e9fdf7f9e3d02b85eb
+change-id: 20260105-sklug-v6-16-topic-dw100-v3-1-dev-b856657db695
+
+Best regards,
+-- 
+Stefan Klug <stefan.klug@ideasonboard.com>
 
