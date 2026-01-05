@@ -1,97 +1,94 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BA410FD
-	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 21:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736293A1E74
+	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 23:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767649221; cv=none; b=Es796x/ZEvolSk14zx6oXM9OEJRGzIGZ023Sbd1msas66JkFr68Wt+3ay7T6CacQAX49tWf+zJBN1b3P3NKLCXykxswOIe+1/vjcw1mEoCvFrFbZpSgmahhZD/jWfE8rc8JdB4iF9NtH6vQlZ8WhbfSZTD0phJWT8Cg84ThC0EU=
+	t=1767656722; cv=none; b=IhMZnKrQf5hixTptQ1act1rTqR+ygN7vm+GuGKrvL1MW5U7SHKb+DmIfOhKlPJi1L4sAFc4ORS+QSAgbgXUe72sVn9tPSf/ndL0pUAZjD7a926pDWG4tLNQslWNzS9bBIMXB3eJXycF76pQfdQOoAKabRUgcSFpFMmQwjlqTaJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767649221; c=relaxed/simple;
-	bh=OEnaVrS9NCvNISNrMcGe9dvl6dlXMtmhgGoftwocHxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DvZmF8Uc02rovEebUOkAENQJH7bkHkYggs4FhbREnkk/BswHP6GWCbWdVebFcJDrG2gCNhl/9fBVhtyjeb7Bt9cq2tVYClWv2gEmFdgeFN01G8fyID1ovNdbGvZ2s26F59rZrVtm2qdcacx34E8HimpLsLzC9HVueXazCjr9opw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay01.hostedemail.com (Postfix) with ESMTP id 2DBF31AE85;
-	Mon,  5 Jan 2026 21:40:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id E27946000B;
-	Mon,  5 Jan 2026 21:40:13 +0000 (UTC)
-Date: Mon, 5 Jan 2026 16:40:36 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
- <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Brendan Jackman
- <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan
- <ziy@nvidia.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark
- Williams <clrkwllms@kernel.org>, Mel Gorman <mgorman@techsingularity.net>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, kernel test robot
- <oliver.sang@intel.com>, Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH mm-hotfixes] mm/page_alloc: prevent pcp corruption with
- SMP=n
-Message-ID: <20260105164036.32a22c2e@gandalf.local.home>
-In-Reply-To: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
-References: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767656722; c=relaxed/simple;
+	bh=1udTEG1rrOGddP0tf1nuF4S9QpeftqT/36M8cqJBoAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ciAOcRjU+TwAcZjipW5eixOyiUB7vDL+apwSFpHqJ+XcwWbBcmnwwyxVbo74YzTpF1LG92Bn0Bk4mTs5zl5NQbh4b3cfr6aM12Tik2GaC/CR5mMVqJSfcPQgZcVP9itdWKcnzExbP0+ToLZAWofkXLdyQtbrDCovqZKJVpsxc10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HCApnSpg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HCApnSpg"
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 67EA355A;
+	Tue,  6 Jan 2026 00:44:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1767656690;
+	bh=1udTEG1rrOGddP0tf1nuF4S9QpeftqT/36M8cqJBoAs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HCApnSpgg2YPavVNsNtNunjsth5gStYETUKtlZ7Mi+upr9BV589a88Kxqu5M2Z1UH
+	 ZBdGM2CopVuxS49PnMbN6/5uk//XQmbPARnFYN6mTSJCFWB75FL8tL861yXRpVRAvO
+	 OhBZbXZwH1IPUvhTNU0MusfV9CWQDu1nkbhE9R7s=
+Date: Tue, 6 Jan 2026 01:44:52 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 4/4] media: dw100: Split interrupt handler to fix timeout
+ error
+Message-ID: <20260105234452.GH10026@pendragon.ideasonboard.com>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
+ <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
+ <1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
+ <20260105163748.2488d506@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: E27946000B
-X-Stat-Signature: q3rc73ahsu5xyypthgfwoq69wzw3c14m
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18uqG90fClQgYqM+gD7rF9u4JBB5PDylXs=
-X-HE-Tag: 1767649213-413291
-X-HE-Meta: U2FsdGVkX18D8vhglud99GU7CXmQ3Vimslye/1+TjZjBXISc1kIieVs/XQKSr4g6+QlVr7/o2HccNhzJQETTMl/B3o7ZZ56IUoHf+eDzwZQpMU3U7Kxey0/E/eyNuopzOc9dYfGhezalTsrvwlIiLoSX4GAONhfUChSXPxSdcw1SQnIxlwxuhU2ylSOQB12csT3H+njuA4KavBrP7AnFflX+0Wzx3ckM6TQLMNk/Hg8irAcqYims6mxoijVg+8zN6RVMSh0T96rx17VrqsQCPD8gXu9HHDiVQaVi4wdFyYT8UtwbpxS2cd+aIawIEQ8o
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260105163748.2488d506@gandalf.local.home>
 
-On Mon, 05 Jan 2026 16:08:56 +0100
-Vlastimil Babka <vbabka@suse.cz> wrote:
+On Mon, Jan 05, 2026 at 04:37:48PM -0500, Steven Rostedt wrote:
+> On Mon, 05 Jan 2026 14:03:58 -0500 Nicolas Dufresne wrote:
+> > Le lundi 05 janvier 2026 à 12:35 +0100, Stefan Klug a écrit :
+> > > In the previous commit, the interrupt handler was changed to threaded.
+> > > This sometimes leads to DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being
+> > > set after changing the vertex map. This can be seen by repeated error
+> > > outputs in dmesg:
+> > > 
+> > > dw100 32e30000.dwe: Interrupt error: 0x1
+> > > 
+> > > As there is no documentation available, it is unclear why that happens
+> > > and if this condition can simply be ignored. By splitting the interrupt
+> > > handling into two parts and only handling the dw100_job_finish() within
+> > > the threaded part, the error does not occur anymore.
+> > > 
+> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>  
+> > 
+> > Ok, but arguably, this could be squashed.
 
-> +++ b/mm/page_alloc.c
-> @@ -167,6 +167,31 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
->  	pcp_trylock_finish(UP_flags);					\
->  })
->  
-> +/*
-> + * With the UP spinlock implementation, when we spin_lock(&pcp->lock) (for i.e.
-> + * a potentially remote cpu drain) and get interrupted by an operation that
-> + * attempts pcp_spin_trylock(), we can't rely on the trylock failure due to UP
-> + * spinlock assumptions making the trylock a no-op. So we have to turn that
-> + * spin_lock() to a spin_lock_irqsave(). This works because on UP there are no
-> + * remote cpu's so we can only be locking the only existing local one.
-> + */
-> +#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
-> +static inline void __flags_noop(unsigned long *flags) { }
-> +#define spin_lock_maybe_irqsave(lock, flags)		\
-> +({							\
-> +	 __flags_noop(&(flags));			\
-> +	 spin_lock(lock);				\
-> +})
-> +#define spin_unlock_maybe_irqrestore(lock, flags)	\
-> +({							\
-> +	 spin_unlock(lock);				\
-> +	 __flags_noop(&(flags));			\
-> +})
-> +#else
-> +#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
-> +#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
-> +#endif
-> +
+Stefan mentioned that in the cover letter, yes. The patches are
+currently split because 4/4 shouldn't be needed based on our
+understanding of the hardware. We're hoping for feedback on the issue
+from someone with knowledge of the DW100 and access to its
+documentation.
 
-These are very generic looking names for something specific for
-page_alloc.c. Could you add a prefix of some kind to make it easy to see
-that these are specific to the mm code?
+> Agreed. Because it doesn't seem to make sense to have a oneshot threaded
+> irq handler that doesn't have the two parts (non-threaded to acknowledge the
+> irq, and the threaded to handle it and re-enable it).
 
- mm_spin_lock_maybe_irqsave() ?
+Why is so ? Isn't oneshot meant exactly for this purpose ? It's
+documented as not reenabling the interrupt after the hardirq handler
+(which is absent after 3/4) returns, why would a hardirq handler be
+mandatory then ?
 
-Thanks,
+-- 
+Regards,
 
--- Steve
+Laurent Pinchart
