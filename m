@@ -1,40 +1,40 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856CE30E83F
-	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 21:37:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BA410FD
+	for <linux-rt-devel@lists.linux.dev>; Mon,  5 Jan 2026 21:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767649052; cv=none; b=P2OAFPXnEr6NWRCLxU8xGCgIHrftljp1g/CgIyR3fjOv6GsD87ZLJnXgR9uruhknf30LqMuFmi25lYMCeeGV5BUCGkmOzmXh2axPSuBsj2JwYQTOHDC2DFiLTNV6eHrVHxlqizRZwnLh+uwskiE39YsAbs9C/Vf4LOK+FTgebmA=
+	t=1767649221; cv=none; b=Es796x/ZEvolSk14zx6oXM9OEJRGzIGZ023Sbd1msas66JkFr68Wt+3ay7T6CacQAX49tWf+zJBN1b3P3NKLCXykxswOIe+1/vjcw1mEoCvFrFbZpSgmahhZD/jWfE8rc8JdB4iF9NtH6vQlZ8WhbfSZTD0phJWT8Cg84ThC0EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767649052; c=relaxed/simple;
-	bh=FyZO+9ibu4CKxEhQHU6i8IzzIGF0ZXUN545OY+SdEuI=;
+	s=arc-20240116; t=1767649221; c=relaxed/simple;
+	bh=OEnaVrS9NCvNISNrMcGe9dvl6dlXMtmhgGoftwocHxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QiVl0XlSh7xlsZF+GamCwKckJ96nd7R6s8ZuUUdYAXpf2Ri1qzS44DifcjH6xW0D6FZ+Vbb8nIujrg6a4Mrdq5nnTuc1csvxrpWN5Gj3S1Y+6WIcebIzzVVKacOodTMQMhqb18yMSV5r3cjXfWARsoOaTBZc9VQgAhsU7bjxeLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+	 MIME-Version:Content-Type; b=DvZmF8Uc02rovEebUOkAENQJH7bkHkYggs4FhbREnkk/BswHP6GWCbWdVebFcJDrG2gCNhl/9fBVhtyjeb7Bt9cq2tVYClWv2gEmFdgeFN01G8fyID1ovNdbGvZ2s26F59rZrVtm2qdcacx34E8HimpLsLzC9HVueXazCjr9opw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id D33891A93E3;
-	Mon,  5 Jan 2026 21:37:27 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf08.hostedemail.com (Postfix) with ESMTPA id 9E97520026;
-	Mon,  5 Jan 2026 21:37:25 +0000 (UTC)
-Date: Mon, 5 Jan 2026 16:37:48 -0500
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 2DBF31AE85;
+	Mon,  5 Jan 2026 21:40:17 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id E27946000B;
+	Mon,  5 Jan 2026 21:40:13 +0000 (UTC)
+Date: Mon, 5 Jan 2026 16:40:36 -0500
 From: Steven Rostedt <rostedt@goodmis.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>, Xavier Roumegue	
- <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 4/4] media: dw100: Split interrupt handler to fix
- timeout error
-Message-ID: <20260105163748.2488d506@gandalf.local.home>
-In-Reply-To: <1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
-References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
-	<1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Brendan Jackman
+ <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan
+ <ziy@nvidia.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark
+ Williams <clrkwllms@kernel.org>, Mel Gorman <mgorman@techsingularity.net>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, kernel test robot
+ <oliver.sang@intel.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH mm-hotfixes] mm/page_alloc: prevent pcp corruption with
+ SMP=n
+Message-ID: <20260105164036.32a22c2e@gandalf.local.home>
+In-Reply-To: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
+References: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
 X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -42,39 +42,56 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 9E97520026
-X-Stat-Signature: cik51y5k5ssgchwn8isgo54acwdhpad8
-X-Rspamd-Server: rspamout08
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: E27946000B
+X-Stat-Signature: q3rc73ahsu5xyypthgfwoq69wzw3c14m
 X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19fub4PfZma5Tgy9eHC7w371AcU1/PYolU=
-X-HE-Tag: 1767649045-606340
-X-HE-Meta: U2FsdGVkX1+cqPXwC75nQ7mQOic4I/XPYNIOYvfEtn9E7kcfW69ryyx9TgOGDyPOrHsP/LEYqNIrmYA+LX1O8EbYu47os8d7laO48sXb0Dv8Sh1r37NIdxa0v12TS/TG/1Dp7swrbZf8snUrh/iWP4nMxYwOn21qeHs7aZ+cM807Qlub+IjzZnc/ouVQVPyvuqxL5TNB3oQR58vKS5997VboZ2oXU/3RNPck1aT6GdLm71cMCKaWzaFS+8VTtv4NZCiFkKvchMJoedD6WMmmjnu+kXdbACeQqvZl27vrMToawIoQr/g/bSEzafIFqA8n64z3AsemTRbSzVmMoel27oTfpTGTzcfsS0S3GTyQt1Tk2zRk22+gfdAyhCzbtaAyb4rOUos9ErIontJoF1xU1durvjhdxS58RSbCwn+m4a5jStmSIR+g7UFKMfmZkyW1
+X-Session-ID: U2FsdGVkX18uqG90fClQgYqM+gD7rF9u4JBB5PDylXs=
+X-HE-Tag: 1767649213-413291
+X-HE-Meta: U2FsdGVkX18D8vhglud99GU7CXmQ3Vimslye/1+TjZjBXISc1kIieVs/XQKSr4g6+QlVr7/o2HccNhzJQETTMl/B3o7ZZ56IUoHf+eDzwZQpMU3U7Kxey0/E/eyNuopzOc9dYfGhezalTsrvwlIiLoSX4GAONhfUChSXPxSdcw1SQnIxlwxuhU2ylSOQB12csT3H+njuA4KavBrP7AnFflX+0Wzx3ckM6TQLMNk/Hg8irAcqYims6mxoijVg+8zN6RVMSh0T96rx17VrqsQCPD8gXu9HHDiVQaVi4wdFyYT8UtwbpxS2cd+aIawIEQ8o
 
-On Mon, 05 Jan 2026 14:03:58 -0500
-Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+On Mon, 05 Jan 2026 16:08:56 +0100
+Vlastimil Babka <vbabka@suse.cz> wrote:
 
-> Le lundi 05 janvier 2026 =C3=A0 12:35 +0100, Stefan Klug a =C3=A9crit=C2=
-=A0:
-> > In the previous commit, the interrupt handler was changed to threaded.
-> > This sometimes leads to DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being
-> > set after changing the vertex map. This can be seen by repeated error
-> > outputs in dmesg:
-> >=20
-> > dw100 32e30000.dwe: Interrupt error: 0x1
-> >=20
-> > As there is no documentation available, it is unclear why that happens
-> > and if this condition can simply be ignored. By splitting the interrupt
-> > handling into two parts and only handling the dw100_job_finish() within
-> > the threaded part, the error does not occur anymore.
-> >=20
-> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com> =20
->=20
-> Ok, but arguably, this could be squashed.
+> +++ b/mm/page_alloc.c
+> @@ -167,6 +167,31 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
+>  	pcp_trylock_finish(UP_flags);					\
+>  })
+>  
+> +/*
+> + * With the UP spinlock implementation, when we spin_lock(&pcp->lock) (for i.e.
+> + * a potentially remote cpu drain) and get interrupted by an operation that
+> + * attempts pcp_spin_trylock(), we can't rely on the trylock failure due to UP
+> + * spinlock assumptions making the trylock a no-op. So we have to turn that
+> + * spin_lock() to a spin_lock_irqsave(). This works because on UP there are no
+> + * remote cpu's so we can only be locking the only existing local one.
+> + */
+> +#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+> +static inline void __flags_noop(unsigned long *flags) { }
+> +#define spin_lock_maybe_irqsave(lock, flags)		\
+> +({							\
+> +	 __flags_noop(&(flags));			\
+> +	 spin_lock(lock);				\
+> +})
+> +#define spin_unlock_maybe_irqrestore(lock, flags)	\
+> +({							\
+> +	 spin_unlock(lock);				\
+> +	 __flags_noop(&(flags));			\
+> +})
+> +#else
+> +#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
+> +#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
+> +#endif
+> +
 
-Agreed. Because it doesn't seem to make sense to have a oneshot threaded
-irq handler that doesn't have the two parts (non-threaded to acknowledge the
-irq, and the threaded to handle it and re-enable it).
+These are very generic looking names for something specific for
+page_alloc.c. Could you add a prefix of some kind to make it easy to see
+that these are specific to the mm code?
+
+ mm_spin_lock_maybe_irqsave() ?
+
+Thanks,
 
 -- Steve
