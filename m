@@ -1,315 +1,176 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73251D5CC6
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 08:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E7930C617
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 09:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767688114; cv=none; b=kIA+wySENDgNFFm7/dlR2iW0TirlVGh3edx7Jk9vAB8vTZA0wS3Ppifw9XGR8jKf7603ZW6++7O6QlJNED+PXyeks773yCodUACwE1KD8S/tK2pwfEYbEHyJV+rVKRKRIdzVwV43sYqkJUjX+snm94HSgFeBJ/b4syHboAcyDPg=
+	t=1767690655; cv=none; b=YXmptTcNlf1nU/e/aYBsYqzOAH/x3BHftN2UuGFr6C+fRwUiVPWaO8sd2v4DCD4rdcU6HElR4QgZyEm3dMEwOoW01BVVL2F5+IHct+q/Qk3PmV8BtWXFSduOddYo/GA1jrdKl8/JbEr0q17FV8E5eW5AlmGQU360voxhQ4iEQxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767688114; c=relaxed/simple;
-	bh=/JkOEcc/UOgWKttC28XtNlDDzqgtqouXzNtbKsMmcsA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TyDWAXJT8daeuEkqBBiNpf68x6ye8MKwfpNYwii9njOakSqEVkWp9Q67nibveZmX/iUkt1FNOZFfk6kcmlrYgMA0EBaiFNG9XfRtE2DG53NFFcRmZUOBUAp5Do6T9DSXhp2bAelv3YuwOgev0KJ+7g6+l6e3prXwPwXFpGwE+lI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sNYnzVxe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7zaTXcK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sNYnzVxe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7zaTXcK; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1767690655; c=relaxed/simple;
+	bh=/YCcFx9fK4X6vkZb2r65rdSswmVUHKmtCmFNEnHBgpk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gmvfvno4m6Po7Ec7TaFPVYnZT84kd0u3diOrc266JTZRckgOCahUORrqthX7RXuG6A+NC2WWTYJd89zP5OMf4/ZDzU0CCawfq3zTXJb941wksyLS2b27lFxJ7FbRHfKecdnVwqEGEKK3oPPWYkdIIhND9DVmJD2bC87uHFd/WRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=MT73i4nj; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sNYnzVxe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7zaTXcK";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sNYnzVxe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7zaTXcK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2463C33919;
-	Tue,  6 Jan 2026 08:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767688110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
-	b=sNYnzVxeR/bZ8vGV0nF5yiqdoV5vZLHCsj3otCOF21QQUn9V2IFuwJa1ycg0tQvZPcLbPq
-	SWJvv4OOTXAa/nlqMFmpudHhyxOFA4u4zo0CrrnmrYnU5argXvc5Ho5iVL9Rl6GI/DzDCk
-	iySBvlZo9CBil6x55fkSsLqy12UIBX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767688110;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
-	b=K7zaTXcKE77J8MZVHMPM7QPEoYqCKgmmSe9vrlh5JsxeDyl/Tr6M50jLEZq3/Dds9tWhB6
-	QY5EQZjxqazkKvDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767688110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
-	b=sNYnzVxeR/bZ8vGV0nF5yiqdoV5vZLHCsj3otCOF21QQUn9V2IFuwJa1ycg0tQvZPcLbPq
-	SWJvv4OOTXAa/nlqMFmpudHhyxOFA4u4zo0CrrnmrYnU5argXvc5Ho5iVL9Rl6GI/DzDCk
-	iySBvlZo9CBil6x55fkSsLqy12UIBX0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767688110;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
-	b=K7zaTXcKE77J8MZVHMPM7QPEoYqCKgmmSe9vrlh5JsxeDyl/Tr6M50jLEZq3/Dds9tWhB6
-	QY5EQZjxqazkKvDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0704E3EA63;
-	Tue,  6 Jan 2026 08:28:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DCpeAa7HXGmVNAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 06 Jan 2026 08:28:30 +0000
-Message-ID: <04624b16-40ea-42c6-b687-4013796e4779@suse.cz>
-Date: Tue, 6 Jan 2026 09:28:29 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="MT73i4nj"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-42fb8aa0c3eso19711f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 01:10:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767690651; x=1768295451; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pq+ApTTyCsVEAV3Mh5mFQtTRHKhX3x1YwcZ2qcrzmns=;
+        b=MT73i4nj7PPZTrMdtC8jlDG+UmPy13+BQh4udC/QCeks591glOLiWKEUunibOULI+Y
+         wcqLgeKTyKLiLYERkYFluTSK3cQSuC+Gs2nxs8SiiAMaVmCoHUlLgMtwq3warQmi/C6H
+         e/F7DUrc+7YU9QEPY7jHkdn0dwibXRsBm0OByIoUVkHwL+MLFDq2HCtjAT3WS/fdN1BH
+         2/epI450l2GqbUMK0UB4/2fTx9tAabrvLrYiS5zO52jvMG/QLTtTyUNwYOdYtttC56US
+         TDx1JCVz840w/W7/+3g03yNuCSTdrrIVeQUwwQVb0kMz8M2Tuqz2LY41XQXugztiLvaV
+         o3Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767690651; x=1768295451;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pq+ApTTyCsVEAV3Mh5mFQtTRHKhX3x1YwcZ2qcrzmns=;
+        b=MVt+abxI3IgOru+KH2hd/Sch0xVLR0vJA/m5z2exBu90EH3sRf5e4wgFSj07VsIuKC
+         vV2Uwwm86TNVnRbZ8+vA1wMenw6QUP6hQq8VM5CRgS9Y2YDwS02UGovlDFrXlQ/28Jym
+         EKH4ge43tMrPJ/cVNR8HGJdnjbNvA4rLyPYVc1MaCZpqlOP82gtVAczxLc3uR5YvtnSR
+         xBEw4Nyl5DTvqs4hWZbSb4s2yz4BHpPzmfZIeGfqzfBjTWaNHTbb54tqCJhCZv4IeeLd
+         rO40aa4dwy4b6xMTWA4sU2Z4xtSlz5aRaTOWSod90RW7L2jeyePnwAWY6DERDDlVQER5
+         9+jg==
+X-Forwarded-Encrypted: i=1; AJvYcCXg5z/fF8vZDzUdGioWzIyMKFzf38LZDvL0HSVU88Tmfhdg3TlqZ/zGwiZY+YthDBKumDKdxy/PQWj8HzbylA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzANcy2v/3RFGvSsY5zhMoQXTlo7qINNEDPSD7zJY/+z/I9PgT0
+	1bBQvqJ7umZt0EtNHSd2LeiP2QaGd9O6DHbd5U+U0uv/wbGYCychYBrQbgQLkVM0/vw=
+X-Gm-Gg: AY/fxX4vgOMEftUJmLfpqasYRI/B/ET13jtZFAcC8vS54taSBkvru6VSRNoZdxKOHmk
+	piQICiCkd3Ux4tcxhF6xmWZNDMa4cVh6xT585sZ2S4r6xddDegK54kI2QE8WtLGVl9Ku37ESZhW
+	5e0eyb4oi/aejE80TnjhzSH+avQYCWRoRW+Wg0m2Obn44bcMmUuJ5S8NKmqOJVRLcn2K6Yyk0yw
+	SidX6BY8dAedWek1I2JiiMWODKWeDOc2PyexGDv2+ANXoSspaj+Et4BbMTiegCjzacKrQft1JEv
+	VSqotvA8YcOxnx8xg1jMH4fVtJI8ejzOkN8EayHp262ZFI2W9ibJ7l6TiI3Ar4BUErR74oniVKk
+	fDFcmCSChxfFRBb2K+J8xNLlvj00zygzIRY2PQFSxeZ8i3iPbuYai9pN4/xYT549rv3nvGffzix
+	GkjLjb57qr/3t/OwlRQoaeDuJ9i9zoMTVE
+X-Google-Smtp-Source: AGHT+IHcR0555ohsRlawXEi+d03mZxbXk81vFyB7IVZMXoTi2fYsuDrx0nGHYaHbE3bLvtvjD41pxQ==
+X-Received: by 2002:a05:600c:4753:b0:477:9dd9:ac57 with SMTP id 5b1f17b1804b1-47d7f01502cmr13171025e9.0.1767690651096;
+        Tue, 06 Jan 2026 01:10:51 -0800 (PST)
+Received: from localhost (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f653c78sm33651745e9.11.2026.01.06.01.10.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 01:10:50 -0800 (PST)
+From: Petr Tesarik <ptesarik@suse.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Petr Tesarik <ptesarik@suse.com>
+Subject: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Date: Tue,  6 Jan 2026 10:10:39 +0100
+Message-ID: <20260106091039.2012108-1-ptesarik@suse.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-hotfixes] mm/page_alloc: prevent pcp corruption with
- SMP=n
-Content-Language: en-US
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>,
- Mel Gorman <mgorman@techsingularity.net>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- stable@vger.kernel.org, kernel test robot <oliver.sang@intel.com>,
- Matthew Wilcox <willy@infradead.org>
-References: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
- <20260105164036.32a22c2e@gandalf.local.home>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20260105164036.32a22c2e@gandalf.local.home>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.26
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.26 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.16)[-0.821];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+Content-Transfer-Encoding: 8bit
 
-On 1/5/26 22:40, Steven Rostedt wrote:
-> On Mon, 05 Jan 2026 16:08:56 +0100
-> Vlastimil Babka <vbabka@suse.cz> wrote:
-> 
->> +++ b/mm/page_alloc.c
->> @@ -167,6 +167,31 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
->>  	pcp_trylock_finish(UP_flags);					\
->>  })
->>  
->> +/*
->> + * With the UP spinlock implementation, when we spin_lock(&pcp->lock) (for i.e.
->> + * a potentially remote cpu drain) and get interrupted by an operation that
->> + * attempts pcp_spin_trylock(), we can't rely on the trylock failure due to UP
->> + * spinlock assumptions making the trylock a no-op. So we have to turn that
->> + * spin_lock() to a spin_lock_irqsave(). This works because on UP there are no
->> + * remote cpu's so we can only be locking the only existing local one.
->> + */
->> +#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
->> +static inline void __flags_noop(unsigned long *flags) { }
->> +#define spin_lock_maybe_irqsave(lock, flags)		\
->> +({							\
->> +	 __flags_noop(&(flags));			\
->> +	 spin_lock(lock);				\
->> +})
->> +#define spin_unlock_maybe_irqrestore(lock, flags)	\
->> +({							\
->> +	 spin_unlock(lock);				\
->> +	 __flags_noop(&(flags));			\
->> +})
->> +#else
->> +#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
->> +#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
->> +#endif
->> +
-> 
-> These are very generic looking names for something specific for
-> page_alloc.c. Could you add a prefix of some kind to make it easy to see
-> that these are specific to the mm code?
-> 
->  mm_spin_lock_maybe_irqsave() ?
-OK, I think it's best like this:
+Avoid running the wakeup irq_work on an isolated CPU. Since the wakeup can
+run on any CPU, let's pick a housekeeping CPU to do the job.
 
-----8<----
-From a6da5d9e3db005a2f44f3196814d7253dce21d3e Mon Sep 17 00:00:00 2001
-From: Vlastimil Babka <vbabka@suse.cz>
-Date: Tue, 6 Jan 2026 09:23:37 +0100
-Subject: [PATCH] mm/page_alloc: prevent pcp corruption with SMP=n - fix
+This change reduces additional noise when tracing isolated CPUs. For
+example, the following ipi_send_cpu stack trace was captured with
+nohz_full=2 on the isolated CPU:
 
-Add pcp_ prefix to the spin_lock_irqsave wrappers, per Steven.
-With that make them also take pcp pointer and reference the lock
-field themselves, to be like the existing pcp trylock wrappers.
+          <idle>-0       [002] d.h4.  1255.379293: ipi_send_cpu: cpu=2 callsite=irq_work_queue+0x2d/0x50 callback=rb_wake_up_waiters+0x0/0x80
+          <idle>-0       [002] d.h4.  1255.379329: <stack trace>
+ => trace_event_raw_event_ipi_send_cpu
+ => __irq_work_queue_local
+ => irq_work_queue
+ => ring_buffer_unlock_commit
+ => trace_buffer_unlock_commit_regs
+ => trace_event_buffer_commit
+ => trace_event_raw_event_x86_irq_vector
+ => __sysvec_apic_timer_interrupt
+ => sysvec_apic_timer_interrupt
+ => asm_sysvec_apic_timer_interrupt
+ => pv_native_safe_halt
+ => default_idle
+ => default_idle_call
+ => do_idle
+ => cpu_startup_entry
+ => start_secondary
+ => common_startup_64
 
-Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+The IRQ work interrupt alone adds considerable noise, but the impact can
+get even worse with PREEMPT_RT, because the IRQ work interrupt is then
+handled by a separate kernel thread. This requires a task switch and makes
+tracing useless for analyzing latency on an isolated CPU.
+
+Signed-off-by: Petr Tesarik <ptesarik@suse.com>
 ---
- mm/page_alloc.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
+ kernel/trace/ring_buffer.c | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index ec3551d56cde..dd72ff39da8c 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -177,19 +177,21 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
+diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
+index 41c9f5d079beb..ed9160599091d 100644
+--- a/kernel/trace/ring_buffer.c
++++ b/kernel/trace/ring_buffer.c
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2008 Steven Rostedt <srostedt@redhat.com>
   */
- #if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
- static inline void __flags_noop(unsigned long *flags) { }
--#define spin_lock_maybe_irqsave(lock, flags)		\
-+#define pcp_spin_lock_maybe_irqsave(ptr, flags)		\
- ({							\
- 	 __flags_noop(&(flags));			\
--	 spin_lock(lock);				\
-+	 spin_lock(&(ptr)->lock);			\
- })
--#define spin_unlock_maybe_irqrestore(lock, flags)	\
-+#define pcp_spin_unlock_maybe_irqrestore(ptr, flags)	\
- ({							\
--	 spin_unlock(lock);				\
-+	 spin_unlock(&(ptr)->lock);			\
- 	 __flags_noop(&(flags));			\
- })
- #else
--#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
--#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
-+#define pcp_spin_lock_maybe_irqsave(ptr, flags)		\
-+		spin_lock_irqsave(&(ptr)->lock, flags)
-+#define pcp_spin_unlock_maybe_irqrestore(ptr, flags)	\
-+		spin_unlock_irqrestore(&(ptr)->lock, flags)
- #endif
++#include <linux/sched/isolation.h>
+ #include <linux/trace_recursion.h>
+ #include <linux/trace_events.h>
+ #include <linux/ring_buffer.h>
+@@ -4011,19 +4012,31 @@ static void rb_commit(struct ring_buffer_per_cpu *cpu_buffer)
+ 	rb_end_commit(cpu_buffer);
+ }
  
- #ifdef CONFIG_USE_PERCPU_NUMA_NODE_ID
-@@ -2601,9 +2603,9 @@ bool decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp)
- 	to_drain = pcp->count - pcp->high;
- 	while (to_drain > 0) {
- 		to_drain_batched = min(to_drain, batch);
--		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
-+		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
- 		free_pcppages_bulk(zone, to_drain_batched, pcp, 0);
--		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
-+		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
- 		todo = true;
- 
- 		to_drain -= to_drain_batched;
-@@ -2626,9 +2628,9 @@ void drain_zone_pages(struct zone *zone, struct per_cpu_pages *pcp)
- 	batch = READ_ONCE(pcp->batch);
- 	to_drain = min(pcp->count, batch);
- 	if (to_drain > 0) {
--		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
-+		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
- 		free_pcppages_bulk(zone, to_drain, pcp, 0);
--		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
-+		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
++static inline bool
++rb_irq_work_queue(struct rb_irq_work *irq_work)
++{
++	int cpu = housekeeping_any_cpu(HK_TYPE_KERNEL_NOISE);
++
++	/*
++	 * If CPU isolation is not active, cpu is always the current
++	 * CPU, and the following is equivallent to irq_work_queue().
++	 */
++	return irq_work_queue_on(&irq_work->work, cpu);
++}
++
+ static __always_inline void
+ rb_wakeups(struct trace_buffer *buffer, struct ring_buffer_per_cpu *cpu_buffer)
+ {
+ 	if (buffer->irq_work.waiters_pending) {
+ 		buffer->irq_work.waiters_pending = false;
+ 		/* irq_work_queue() supplies it's own memory barriers */
+-		irq_work_queue(&buffer->irq_work.work);
++		rb_irq_work_queue(&buffer->irq_work);
  	}
- }
- #endif
-@@ -2643,7 +2645,7 @@ static void drain_pages_zone(unsigned int cpu, struct zone *zone)
- 	int count;
  
- 	do {
--		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
-+		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
- 		count = pcp->count;
- 		if (count) {
- 			int to_drain = min(count,
-@@ -2652,7 +2654,7 @@ static void drain_pages_zone(unsigned int cpu, struct zone *zone)
- 			free_pcppages_bulk(zone, to_drain, pcp, 0);
- 			count -= to_drain;
- 		}
--		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
-+		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
- 	} while (count);
+ 	if (cpu_buffer->irq_work.waiters_pending) {
+ 		cpu_buffer->irq_work.waiters_pending = false;
+ 		/* irq_work_queue() supplies it's own memory barriers */
+-		irq_work_queue(&cpu_buffer->irq_work.work);
++		rb_irq_work_queue(&cpu_buffer->irq_work);
+ 	}
+ 
+ 	if (cpu_buffer->last_pages_touch == local_read(&cpu_buffer->pages_touched))
+@@ -4043,7 +4056,7 @@ rb_wakeups(struct trace_buffer *buffer, struct ring_buffer_per_cpu *cpu_buffer)
+ 	cpu_buffer->irq_work.wakeup_full = true;
+ 	cpu_buffer->irq_work.full_waiters_pending = false;
+ 	/* irq_work_queue() supplies it's own memory barriers */
+-	irq_work_queue(&cpu_buffer->irq_work.work);
++	rb_irq_work_queue(&cpu_buffer->irq_work);
  }
  
-@@ -6148,12 +6150,12 @@ static void zone_pcp_update_cacheinfo(struct zone *zone, unsigned int cpu)
- 	 * This can reduce zone lock contention without hurting
- 	 * cache-hot pages sharing.
- 	 */
--	spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
-+	pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
- 	if ((cci->per_cpu_data_slice_size >> PAGE_SHIFT) > 3 * pcp->batch)
- 		pcp->flags |= PCPF_FREE_HIGH_BATCH;
- 	else
- 		pcp->flags &= ~PCPF_FREE_HIGH_BATCH;
--	spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
-+	pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
- }
- 
- void setup_pcp_cacheinfo(unsigned int cpu)
+ #ifdef CONFIG_RING_BUFFER_RECORD_RECURSION
 -- 
 2.52.0
-
 
