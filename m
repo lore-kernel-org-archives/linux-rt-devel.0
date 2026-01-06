@@ -1,68 +1,189 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012071.outbound.protection.outlook.com [52.101.43.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C766F1F8BD6
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 00:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767661028; cv=none; b=QIR0M/9ZINFkN6uw1zhfP+FgZ1aMObyUiskNR+xPEBfLApy0QNj/nNH7QnM5//ZcIo7BEULO6LbRgL8u1bHlQXPw/XQbbQoSsXQLFsH/+/oYIOfYlNO0TunPqs5O0NoEuemTyZaVFY1OeKH+txNaV/Y/iv1K8geLgXCLW71nNP0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767661028; c=relaxed/simple;
-	bh=wRpkTHh1jTr/o59OlKWtqDUCmmxKkOs69l3X4pCbQDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V6tcnfQ5UakyeavRkNe98bToARsv4RXZcNvbrQddySHgdMOls7r3vM8kgzDf+lEKoJcKwsmKtXZ/bYuZT2HQ8W/jax/3Gvpc59TWuMdQz7yOyqTqdITyGcOuESWLNHV16cACFKAMgeN7A3IowqXeNTqFXZ+CMsSYdrZ/et4ZRC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 55A38160330;
-	Tue,  6 Jan 2026 00:56:58 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 147A920026;
-	Tue,  6 Jan 2026 00:56:56 +0000 (UTC)
-Date: Mon, 5 Jan 2026 19:57:17 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Stefan Klug
- <stefan.klug@ideasonboard.com>, Xavier Roumegue
- <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 4/4] media: dw100: Split interrupt handler to fix
- timeout error
-Message-ID: <20260105195717.48b8ad78@gandalf.local.home>
-In-Reply-To: <20260106005135.GM10026@pendragon.ideasonboard.com>
-References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-4-65af34d04fd8@ideasonboard.com>
-	<1c04d8cd1a6cf29f45d7ea9422dd3fe0a633a957.camel@ndufresne.ca>
-	<20260105163748.2488d506@gandalf.local.home>
-	<20260105234452.GH10026@pendragon.ideasonboard.com>
-	<20260105194350.5a4c9138@gandalf.local.home>
-	<20260106005135.GM10026@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A28B26C3BE
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 07:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767685004; cv=fail; b=j4TeBixx7+XwqD01bAn25INvf1NPwwQQRfl3Tcsrq9aLz3WwUFRI+P63r0WMwKEdiB14svwW0/bl7OGaubS3vFJYrHgAw4/Etg/9QPb5cSDjO0vTi4uLLoF1RGCYIWUN1fXGQTw6xmjBlhKiep+HrHZWmJrA/kg5lhvbXeNe8L8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767685004; c=relaxed/simple;
+	bh=Z0c5hW4iN0W0C6qpGWWK/x3R+2nhtdtx0DbFMGewLz8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eaPbrZxeGkFNly1KuuoK86A9/Bghkw071GPPH0dSp6I1SnwmUOHjxhbPWrcx6R2foj4qvgxDJrmvQcq/a5co2vgXDtlqqyA4DzywXbzDHi2ieDy1a2zBi7v14YI2GtG9FSPq2uLtEOwa4MpvO4BaOP1UdljC4E84g1YcPhY0bJI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=r3l9q7Zk; arc=fail smtp.client-ip=52.101.43.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="r3l9q7Zk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pNaw5CbjxPdFbAy4YTNwZdwszVW/OPgnSuRX6Y38z5eg6OAct+B8Y7z4CF8ZtynkMaOk6N5E0ZvNm3Kn1vNIPPAlGGBbGZ16yng1oaPIsJZbqzUF2nMdj4zLiHaxW7HnTOKUH2a/BSiTDuT6aqfLC5q/iIJnHPeSB7NAJ0/WDb6uilymepsMGrjQ/+sR8Ros2lbWgEbc5H/5OlLKI5k8euCiUxdO+zMxbgIUaHc83TRVZhYDJ9lmbejVHHFy30iYzwHRqJdtwy+TK51M0HDOxU6yEUoXspY3qZ29UprHULplP2fbFGVz6sZ9Jq+X2C8f/gPAP1csZD8FFcjDn9SaIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ffNBY5FoTAMpfTo43absTAFkN6GADZ0A3zmayeLid8s=;
+ b=fGLWszvtJ2PYgqDBOXYpycy66qQ8qN+/hBg6pQDsXe9+eujufx7lRK0zuzTsAVm+SP56SMDEMlrrr6jFwnoGLQl2K6LxM/fBlOeCd554GCPc9z3Bu3FKiiPydc2qEJSaqK4s9OaDi6OBO4ejtZyEJri+HUVB1lVKbnIBJAwB9LBw1m69/qGK3Bs8piHwB/MRHjme648jstY86NTDj/isiN3csHmfJQIZSPv6Escsr4ldWgESzY+uvplrF1/T6oZvwrWWVBR5kVj57SITWYT1KUIRceww8EUiCFE1x38KHVB3iCVktyH3/Y4jl+YYVtP8tdka6v3uF3NWFJFDEuQ0Ag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ffNBY5FoTAMpfTo43absTAFkN6GADZ0A3zmayeLid8s=;
+ b=r3l9q7ZkLLLVERyJImMcSPW6IAZ8p5mvkFd3+NpithPm8EEN1L95F9AT87Ias4UbH7Fc/eg1QzxXrMPeO6t8OMUsBufx32pj33PV3KKfOGbCo+AN7tMw+qPViuwWW/c//4WUnlD59JB5b33QDcQxHCBPEEDUktlSRwBfdz2JRmA=
+Received: from PH7P220CA0024.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:326::11)
+ by SA1PR12MB999108.namprd12.prod.outlook.com (2603:10b6:806:4a2::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Tue, 6 Jan
+ 2026 07:36:38 +0000
+Received: from CY4PEPF0000FCC3.namprd03.prod.outlook.com
+ (2603:10b6:510:326:cafe::63) by PH7P220CA0024.outlook.office365.com
+ (2603:10b6:510:326::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Tue, 6
+ Jan 2026 07:36:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CY4PEPF0000FCC3.mail.protection.outlook.com (10.167.242.105) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.1 via Frontend Transport; Tue, 6 Jan 2026 07:36:38 +0000
+Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
+ 2026 01:36:33 -0600
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+To: Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
+	<gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
+	<viresh.kumar@linaro.org>, Srinivas Pandruvada
+	<srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>,
+	"Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>,
+	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>
+CC: Perry Yuan <perry.yuan@amd.com>
+Subject: [RFC PATCH 0/2] cpufreq/amd-pstate: Prevent scheduling when atomic on PREEMPT_RT
+Date: Tue, 6 Jan 2026 07:36:06 +0000
+Message-ID: <20260106073608.278644-1-kprateek.nayak@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 1o4d8qz4wcbjs4kzh3k5r8tux6psuzor
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 147A920026
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/JVaao9PBLZ8c14WAF2S5e53fByNw6ftk=
-X-HE-Tag: 1767661016-841309
-X-HE-Meta: U2FsdGVkX1/AAuJy64oiT7nFyxtJsivFAo5pV1NRxDqAnewRJjH0tyAc+AUGOuGfwZ5gAHzwh2KhkMMtB3GSj1C97gNFLE6vTZsSpmYqXLYR/KlcGkq6wmRJM8u1MZKj43tF50QU4aCykGYHJcwIXFhMhBrLgj2bMY8Gm+YTCwQnto8s66cP3G0yFxtWrAUp32lP9l9YF8phyJB/0uRVntt7IYYNN4kxMinuj9+GKHPruTBjIzPmBYxLyoUbEA3j1LRrubfdwgnreBGTciEzptBILT3DxRL4rwrh1MfIdycC0LihNYb9zD/gjuIjE6uvmzM8CdBK2y4/tiE/YCbvFZzKx0TOfKQFPhz8MKWwY0RUe6WT/qG/4gq5STZYid4q
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000FCC3:EE_|SA1PR12MB999108:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0e7d63a3-b3d5-483d-512d-08de4cf653a3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|36860700013|82310400026|921020|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?1zYncUX/Tj9eGz6QydWZ1LaUO1K5SghLfIrl1QmIt4SDGO9soYIEGnTvFGND?=
+ =?us-ascii?Q?Aqrk3owDkYxryr9aKdVqJgn5x0O7gPtjCNDZaymLl+t6hUykwFF1AtF7aqgl?=
+ =?us-ascii?Q?qd+PdbyrSEchUrf5waFg1xYE2pzE33wtO2Kza2cqNMhvDEqfd/Poit1QcPsy?=
+ =?us-ascii?Q?9NAUOLMwXfU7A51SVO3BiwLdF9SKme6hb5J4cUtojU/TpdTWo0cJT3OMEU3S?=
+ =?us-ascii?Q?fXJ1zqXOdqAYMrbEewQ8YK7b7YlK+fgmlP/KJA1N+uSA9SqxCtJPZ+WslqEI?=
+ =?us-ascii?Q?D8zAN+d6IrLduUe51yXi5CC439tuQt2vROmJXTBSW1RRNGF7jUItHK4SVqQu?=
+ =?us-ascii?Q?y9yTcMDTEfU+lRqpTOOZUZo06VMP5kDMkB1Fq6MOStc0kP43QKpQf3L67L0J?=
+ =?us-ascii?Q?8AjFdVwMSzR4mgXQWA/FaBbgcCZs2rs+h9VgODpX6QpxDiybhWfn+G0uAX6A?=
+ =?us-ascii?Q?zDQRpZPkniaRD4/5CFJxlhda6enGoMMmeMyjQLgEvJnZyYgZhoxieF6UEOIK?=
+ =?us-ascii?Q?d6ePHoQ9fjdNBkVBvE7yR5xR2dKE2fLOlV8LStxtMyXqjMGTWYFy0sdqrPec?=
+ =?us-ascii?Q?aFo0jTHfvPTYn5q7ro8RYqxOgIxMVRlOYyGXKNsoPOoKuKtNfHbkdbAEzpZn?=
+ =?us-ascii?Q?W2547QdtbBD7qnJebIrj2ViRg+6oPjEbLhJbP0kCR+BleQYXB7Uq3yA20hYJ?=
+ =?us-ascii?Q?NupwGKkK1mYthNzNgftvNYLy6jq0PeVyqj7W8aVNY3v5MhfpvR29ubk3cYDw?=
+ =?us-ascii?Q?ri119npqW5AQjK2PMRe8jHU3qrugrt4O23cd5WjbQ0ITXe4J7X2cstvcCk2Y?=
+ =?us-ascii?Q?DhcJqobZ6oR6zzyCDqx8AsykSZZ8ebaKuBx6O5zzaV1oI791YeSKnfyNI3Fl?=
+ =?us-ascii?Q?Fn24D2DjLE09aVPkdx4MTA7iBsW1DGqipim/CnJ1P1JJGJxjgJerDe0SzaUu?=
+ =?us-ascii?Q?sPHRBVYvUHbIcHLRRnl5gKU9Kw5JSNFHBgzmeZqRT+SjKpeBznkZo5M9soXn?=
+ =?us-ascii?Q?CrIt4ywKLaDhgcuPbvzN66icC9Mfaz/8dxc2EcwTNCXF9ZS0OQ7EOBj6omnO?=
+ =?us-ascii?Q?ZwRcOmjy9M4RlivuwGOYTgEwLTpBSN5MPd12GFs1s2mWBFrBcwLNLNCIS8oT?=
+ =?us-ascii?Q?sibBKzU95g5/rfS7TW5QcjHfMnqEv0xbEy7WQQ3rO4THJaTNd77oMi5bTFXB?=
+ =?us-ascii?Q?BCX4Ftx9fQTaaeAQsiexOjTKzLyXHhTzL4NvBr/cX4PcwmagdKahX6dMbjIV?=
+ =?us-ascii?Q?ehTAkyCkoKn2W38F6FsOkHMVW87W8DgqI3wR2G2xMa4V+7gttFj9vfTa5wcY?=
+ =?us-ascii?Q?a4VuNaxkWRhzYa31wQz+7v2Br3CMD8PP1mhrPX9xw7ACLSuyDljXOGbSJbfB?=
+ =?us-ascii?Q?4tWScObud2bG71Cu/yuxJIcIhlyFL3Ie2vyH5b0Z1rHPQm/Hs6yWtwsxnSwq?=
+ =?us-ascii?Q?xXV3ll6xgWRDghHUhjWWE53Az1r9NwisElaojjBUmxkjxpVqU821Vi7AcB/G?=
+ =?us-ascii?Q?HhhyQj6VJVQ+JsAEuUD4hdMnOVNx0y8/A/UUfmTG83qEgrkW5npFIyEXrbI+?=
+ =?us-ascii?Q?tCScRmHhREpHBFy1eM8OC5smhpHaLtwQLTzodoeY?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(36860700013)(82310400026)(921020)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2026 07:36:38.1197
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e7d63a3-b3d5-483d-512d-08de4cf653a3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000FCC3.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB999108
 
-On Tue, 6 Jan 2026 02:51:35 +0200
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+Bert reported hitting "BUG: scheduling while atomic" when running
+amd-pstate-ut on a PREEMPT_RT kernel [1].
 
-> My point is that we (neither I nor Stefan) don't know why it's "timing
-> out" and what it means. There's no documentation publicly available.
-> I'd like to get to the bottom of this.
+Since reader-writer locks turn sleepable on PREEMPT_RT, they are not
+suitable to be used in the scheduler hot-path under rq_lock to grab the
+cpufreq policy object.
 
-OK, that's beyond my knowledge as it's independent from PREEMPT_RT ;-)
+Unfortunately, the amd-pstate driver has a tight coupling between the
+cpufreq_policy object and the cpudata stored in it as the driver_data.
 
--- Steve
+Trying to grab a read reference on PREEMPT_RT can cause "scheduling
+while atomic" if a concurrent writer is active, and trying to grab a
+nested reference in presence of a writer can cause a deadlock (manifests
+as lockup) since the reader fast-path is disabled on PREEMPT_RT to
+prevent write-side starvation.
+
+The two patches included removes cases of grabbing a nested read
+reference to the cpufreq policy in amd-pstate, and modifies the
+cpufreq_driver->adjust_perf() callback to take the raw policy reference
+cached by the schedutil governor respectively.
+
+The policy object outlives the governor and the driver making it safe to
+use this cache reference from the sugov data. Any changes to the policy
+will end up calling cpufreq_driver->set_policy() or
+governor->set_limits() once the policy is modified which should ensure
+eventual consistency despite not holding the read-side.
+
+Series has been tested with amd-pstate-ut on PREEMPT_RT kernel which
+successfully passes without any splats on LOCKDEP + DEBUG_ATOMIC_SLEEP
+config. Additionally, the driver switch test from Gautham [2] was run
+for 10min on the same config without observing any splats.
+
+[1] https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/
+[2] https://lore.kernel.org/all/aJRN2wMLAnhDFykv@BLRRASHENOY1.amd.com/
+
+Patches are based on:
+
+  git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+
+at commit 8aa9e2868a8e ("Merge branch 'pm-runtime-cleanup' into
+bleeding-edge").
+---
+K Prateek Nayak (2):
+  cpufreq/amd-pstate: Pass the policy to amd_pstate_update()
+  cpufreq: Pass the policy to cpufreq_driver->adjust_perf()
+
+ drivers/cpufreq/amd-pstate.c     | 14 +++++---------
+ drivers/cpufreq/cpufreq.c        |  4 ++--
+ drivers/cpufreq/intel_pstate.c   |  4 ++--
+ include/linux/cpufreq.h          |  4 ++--
+ kernel/sched/cpufreq_schedutil.c |  5 +++--
+ 5 files changed, 14 insertions(+), 17 deletions(-)
+
+
+base-commit: 8aa9e2868a8e38ccc5228399fc641d54aea444ed
+-- 
+2.34.1
+
