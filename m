@@ -1,182 +1,479 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2072629CE9
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 14:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452D8203710
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 14:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767709777; cv=none; b=ahk6uRLaJdeTPQSwNPlRq0oQg2jaQpaDsyaUZGPteEuL6yGINlTAVReeepwxnNQz2I+t3DplO5xDCKrXwGKmy0zsusUq3h3FkqCec6z4zZYAxqt8DUjsW2YPjApZDdmcJu5kyr30C2b/AhO+UARpZpFwg2NZtt4cLfoHyQ9j9sY=
+	t=1767710125; cv=none; b=IO/WmEsrNbcuPAGhNPZGRmwqYXEtHf+Ik5Fb2Fg7mZt5y1b9owcMYV8PzsEullN7CTHo3EvTZAi7FTUeSZDOgT4CBeZKUM69yjSLsvSSs00CfHM/XNaA45b90UVrpBEHiFZG2lngwEjHw6q1W/S4Yph3AIkRR/0EZ9Yv58OctHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767709777; c=relaxed/simple;
-	bh=Xey4HgxTlOR3c58sZv8yRrSGsEqzKn0D+tUwZfCM3Co=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=TAbd+fbXoYlp36licyUtQKbnylyxYFzkZKasiZi8vIhEb0i6AUx0whUW86JzWYAODpp2WOuVhMPmlCyLXva55QRqzTOCiSJpzBoUOIW1HAL6DtZo0cVJnegdxUNGHgP1Cyrz3oGYir6VbXrw78e4r8gyxcI2ZLPgmiJGSmCqtbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WrueaeCe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1767710125; c=relaxed/simple;
+	bh=h39ke5y9f92AbzBI2RDb47yNXk0tfTSItxjwn8ZJRUE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nxY9FTkXNlInjovAqt0u4PngUcB6qaQtXIeTOCvxFSiT7KiWPoE2VvCOUwAbGXPMhoUU4sN6jgWGDfuuU05+cQDWcnOk/HgO++6jU7uxJK1iBcOgWmdyTlajjyZ3vEuWQqAclVedoj56mZvDqBrOpMF3A2Q1j5fnhjJUu6txml8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=ORpe4Q4o; arc=none smtp.client-ip=209.85.219.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WrueaeCe"
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:8c3f:64f1:feb8:928b])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 969E0129;
-	Tue,  6 Jan 2026 15:29:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1767709752;
-	bh=Xey4HgxTlOR3c58sZv8yRrSGsEqzKn0D+tUwZfCM3Co=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=WrueaeCerldplzbYGqb2Rb36M0iy1yBGB2nu2QptSAElUyMsAbOG/8Bins2z6Ybmd
-	 /PhOvcFoab3LSsVXRy+k5J+2K8HvGFZD5Mv+fpgk3+tDFEfFOf5USZstSFFExtRDDY
-	 O+2pMLIgBawkWBUzhI4AgNzY9mu1ArrxDyfHEPjU=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="ORpe4Q4o"
+Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-88a2fe9e200so8042856d6.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 06:35:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767710122; x=1768314922; darn=lists.linux.dev;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=h39ke5y9f92AbzBI2RDb47yNXk0tfTSItxjwn8ZJRUE=;
+        b=ORpe4Q4oI0GV94ly+FxHL38ul0p8xGYWQN3SDAhDsjH4GEcIIjUwEQTpHa8QnRexCP
+         m3+apKIORKlIhPAULBwScEAYDGE8EbSzBOU96/6e4wGRcA3LXxIJYCIrf7NGVwcA840w
+         2BEaGPeQmIny66Tc3TmMv5g30EUq0XXL/JeQ3gJpAoIyI/IVbsW+MX3BuZJo1p5A/4Cs
+         vpB7r5FFyuXSVnTJRw7/G+Nf0ZrPLZZJU0bpuH/1X1Y+7yW8zHY0zcqCPCghuWHWNJCz
+         MYjSO23tkuR1crX56jzGnRJ036LWeIZhHVJVRAEU28Yrbht5wD/5m4g430J9LfOzyGqp
+         UjfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767710122; x=1768314922;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h39ke5y9f92AbzBI2RDb47yNXk0tfTSItxjwn8ZJRUE=;
+        b=onkaTAT2aKkxh3Dt/qbNq901TOEdFtYCwIo2zEhp7no+RusIw8b6MUTLfGja+appUs
+         C5yluTNuYjaXP7Q5AftL8GoFjIo9yst2g36/HPFQcGPRLAIuvoMduzO1Vuf8s7HiSTt6
+         TfC1bc0SOrj48/QA1moU9dAG6xgGufPPsvL6mCGpTl12yos6tMTOkUavmdGm/cPJciJp
+         zW+K3SpOdM2cJWpYwLpL7oriLooy4h+0//GB1COnnXpig6vvLKwDqDaV6fQ5tByl5ZRo
+         GYYLb5sXobg8C0bW4IqFaddlsDsHtjD9ce5DQVRVyqbalbadJJKnN+cyWkXL0gbyWPQT
+         lNOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVW0tQBMSk6+HuOtZkXBddLrYuu4fuRuVzI7lD/z3PYRW8yD5YMfFywNcvIrErX32pXOJSYNCWbj/PHhPwtwA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzvrlM35dmco4nrEIliG5FWXbXiMPDxYkcKvGJpIm+6cGrVY5l
+	jotpLwYK7o3immymiMZ+NlupItFHjMJhD5Mh+P8vy3NFXQYIpBOeLizYZPcU+EBdMjM=
+X-Gm-Gg: AY/fxX6RW3EFAxLsns0q3wWtoguJLZrEBm7leP5VJ3rE7zxOnmgSd06EfXGxv9QBPXB
+	FPWT4JH67Vu0M+5ppZ6h08ktYtP8/b1QCVZZgq9+U2zHjZ30g81+aqcxw1bqKV1QmPRAkGwB1kL
+	ZneR181OibzOVEGgCgnNsXTbhoddD1q2220vC/dNvBKPxDBJP8VQLb8pFEXRpa3yu+vknuA/x5H
+	0YHaTW9JjeNWVV57MfmVfpUh9NqUBO1wUkp2M2Ytl2Z+E+pPLVcIAObOniSluQULP/EMnDKjzr6
+	w6rIM4g0+qnhwM63Bpx2seeTzdkaFIFzC30kh9DlEHGEJ7UTwt7hwAWkYJNKl1/Pv8/78yUYRdW
+	/PLegKFrEotYg5n6lqLUvwSJG5lJU3EiLhdzM9hlqJmtfCiQi1qJfJlR4bcutxy8ZpFlVOeiNVU
+	x54l2bRed0L9t8gL9A
+X-Google-Smtp-Source: AGHT+IF+FZylM/r3oYsQSJvqqbGM5TwMEFuIMFSWCueH63ZefAjpoXo0SzyB/LJZbXcRuONdROAdxw==
+X-Received: by 2002:a05:6214:f2b:b0:87c:2360:d404 with SMTP id 6a1803df08f44-89075d17393mr48106976d6.7.1767710121916;
+        Tue, 06 Jan 2026 06:35:21 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-890770e2aa5sm14514676d6.19.2026.01.06.06.35.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 06:35:20 -0800 (PST)
+Message-ID: <7c514e1165f49c2e043b7f4ab5fcbd1003c517ae.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/4] media: dw100: Implement V4L2 requests support
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Stefan Klug <stefan.klug@ideasonboard.com>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>
+Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
+ <rostedt@goodmis.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Date: Tue, 06 Jan 2026 09:35:19 -0500
+In-Reply-To: <176770897731.12184.12302111059048415045@localhost>
+References: 
+	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
+	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-1-65af34d04fd8@ideasonboard.com>
+	 <40dfd12b585681d8edf9641967160c086cc120c3.camel@ndufresne.ca>
+	 <20260106003302.GJ10026@pendragon.ideasonboard.com>
+	 <176770897731.12184.12302111059048415045@localhost>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-2CUpOHeKO6W6wYQ05w18"
+User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+
+
+--=-2CUpOHeKO6W6wYQ05w18
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2dbb2c41422cb4dbc8c3692646aeaf70c4d87df0.camel@ndufresne.ca>
-References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com> <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-2-65af34d04fd8@ideasonboard.com> <f4e0b1f13ee54d88d1035828af548f5cf3a25c16.camel@ndufresne.ca> <20260106004206.GK10026@pendragon.ideasonboard.com> <2dbb2c41422cb4dbc8c3692646aeaf70c4d87df0.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/4] media: dw100: Implement dynamic vertex map update
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne <nicolas@ndufresne.ca>
-Date: Tue, 06 Jan 2026 15:29:30 +0100
-Message-ID: <176770977089.12184.13455944501335843394@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-Hi,
-
-Quoting Nicolas Dufresne (2026-01-06 14:47:59)
-> Hi,
+Le mardi 06 janvier 2026 =C3=A0 15:16 +0100, Stefan Klug a =C3=A9crit=C2=A0=
+:
+> Hi Nicolas, hi Laurent,
 >=20
-> Le mardi 06 janvier 2026 =C3=A0 02:42 +0200, Laurent Pinchart a =C3=A9cri=
-t=C2=A0:
-> > On Mon, Jan 05, 2026 at 01:58:25PM -0500, Nicolas Dufresne wrote:
+> Thank you for the review.
+>=20
+> Quoting Laurent Pinchart (2026-01-06 01:33:02)
+> > On Mon, Jan 05, 2026 at 01:46:46PM -0500, Nicolas Dufresne wrote:
 > > > Le lundi 05 janvier 2026 =C3=A0 12:35 +0100, Stefan Klug a =C3=A9crit=
 =C2=A0:
-> > > > Implement dynamic vertex map updates by handling the
-> > > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control during streaming.=
- This
-> > > > allows to implement features like dynamic zoom, pan, rotate and dew=
-arp.
+> > > > The dw100 dewarper hardware present on the NXP i.MX8MP allows very
+> > > > flexible dewarping using a freely configurable vertex map. Aside fr=
+om
+> > > > lens dewarping the vertex map can be used to implement things like
+> > > > arbitrary zoom, pan and rotation. The current driver supports setti=
+ng
+> > > > that vertex map before calling VIDIOC_STREAMON.
 > > > >=20
-> > > > To stay compatible with the old version, updates of
-> > > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP are ignored during stream=
-ing
-> > > > when requests are not used. Print a corresponding warning once.
+> > > > To control above mentioned features during streaming it is necessar=
+y to
+> > > > update the vertex map dynamically. To do that in a race free manner=
+ V4L2
+> > > > requests support is required. This patch adds V4L2 requests support=
+ to
+> > > > prepare for dynamic vertex map updates.
 > > > >=20
 > > > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > > ---
-> > > > =C2=A0drivers/media/platform/nxp/dw100/dw100.c | 27 +++++++++++++++=
-++++++------
 > > > >=20
->=20
-> [...]
->=20
-> > > > =C2=A0 dev_dbg(&ctx->dw_dev->pdev->dev,
-> > > > =C2=A0         "%ux%u %s mapping created (d:%pad-c:%p) for stream %=
-ux%u->%ux%u\n",
-> > > > @@ -351,6 +355,7 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > > =C2=A0 switch (ctrl->id) {
-> > > > =C2=A0 case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> > > > =C2=A0         ctx->user_map_is_set =3D true;
-> > > > +         ctx->user_map_needs_update =3D true;
-> > >=20
-> > > This will be called before the new mapping is applied by
-> > > v4l2_ctrl_request_complete(), and then may be cleared too soon if you=
- queue
-> > > depth is high enough.
-> >=20
-> > v4l2_ctrl_request_complete() does not apply a mapping, what am I missing
-> > ?
->=20
-> Sorry for my confusion, after reading back, you are correct, this is call=
-ed
-> v4l2_ctrl_request_setup() inside the device_run() function. You can dismi=
-ss the
-> bit about user_map_needs_update in my review (the paragraph below).
->=20
-
-That means nothing has to change here, right?
-
-> >=20
-> > > Instead, you should check in the request for the presence of
-> > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP to optimize the updates. Yo=
- may still
-> > > set this to true if if there is no request, in the case you also want=
-ed to
-> > > change the original behaviour of only updating that vertex on streamo=
-n, but I
-> > > don't see much point though.
-> > >=20
-> > > > =C2=A0         break;
-> > > > =C2=A0 }
-> > > > =C2=A0
-> > > > @@ -405,6 +410,7 @@ static void dw100_ctrl_dewarping_map_init(const=
- struct v4l2_ctrl *ctrl,
-> > > > =C2=A0 }
-> > > > =C2=A0
-> > > > =C2=A0 ctx->user_map_is_set =3D false;
-> > > > + ctx->user_map_needs_update =3D true;
+> > > > ---
+> > > >=20
+> > > > Changes in v1:
+> > > > - Moved v4l2_ctrl_request_complete into dw100_device_run
+> > > > ---
+> > > > =C2=A0drivers/media/platform/nxp/dw100/dw100.c | 41
+> > > > ++++++++++++++++++++++++++++----
+> > > > =C2=A01 file changed, 36 insertions(+), 5 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/media/platform/nxp/dw100/dw100.c
+> > > > b/drivers/media/platform/nxp/dw100/dw100.c
+> > > > index
+> > > > 4aaf9c3fff5397f0441944ee926f2c8ba6fc864a..7f14b82c15a071605c124dbb8=
+68f80
+> > > > 03856c4fc0 100644
+> > > > --- a/drivers/media/platform/nxp/dw100/dw100.c
+> > > > +++ b/drivers/media/platform/nxp/dw100/dw100.c
+> > > > @@ -459,6 +459,15 @@ static int dw100_queue_setup(struct vb2_queue =
+*vq,
+> > > > =C2=A0=C2=A0=C2=A0 return 0;
 > > > > =C2=A0}
 > > > > =C2=A0
-> > > > =C2=A0static const struct v4l2_ctrl_type_ops dw100_ctrl_type_ops =
-=3D {
-> > > > @@ -1482,6 +1488,15 @@ static void dw100_device_run(void *priv)
-> > > > =C2=A0 v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> > > > =C2=A0                         &ctx->hdl);
-> > > > =C2=A0
-> > > > + if (src_buf->vb2_buf.req_obj.req) {
-> > > > +         dw100_update_mapping(ctx);
-> > > > + } else if (ctx->user_map_needs_update && !ctx->warned_dynamic_upd=
-ate) {
-> > > > +         ctx->warned_dynamic_update =3D true;
-> > > > +         dev_warn(&ctx->dw_dev->pdev->dev,
-> > > > +                 "V4L2 requests are required to update the vertex =
-map dynamically"
-> > >=20
-> > > Do you know about dev_warn_once() ? That being said, the driver is us=
-able
-> > > without requests and a static vertex (and must stay this way to not b=
-reak the
-> > > ABI). I don't think you should warn here at all.
-
-My idea was that I'd like to see the warning once per context and not
-once per boot. Afaik I can't use dev_warn_once() for that.
-
-> >=20
-> > Applications should move to using requests. We'll do so in libcamera
-> > unconditionally. I don't expect many other direct users, so warning that
-> > the mapping won't be applied when an application sets the corresponding
-> > control during streaming without using requests seems fair to me. It
-> > will help debugging issues.
->=20
-> It is also a miss-use of dev_warn which is meant to indicate a problem wi=
-th the
-> driver or the hardware. The V4L2 core uses dev_dbg() or customer log leve=
-l for
-> that in general. Also, don't re-implement _once() variants with
-> warned_dynamic_update please. Personally, I would just let the out-of req=
-uest
-> change the control on the next device_run(), even if that means its out o=
-f sync.
-
-But then you end up with potentially difficult to debug issues, because
-users would not know that they should use requests. Not warning (or
-dev_dbg) has the same effect from my point of view, because users just
-see a device not working as expected. Is a customer log level the
-solution?
-
-Best regards,
-Stefan
-
->=20
-> Nicolas
->=20
-> >=20
-> > > > +         );
-> > > > + }
+> > > > +static int dw100_buf_out_validate(struct vb2_buffer *vb)
+> > > > +{
+> > > > +=C2=A0=C2=A0 struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer(v=
+b);
 > > > > +
-> > > > =C2=A0 v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> > > > =C2=A0                         =C2=A0=C2=A0 &ctx->hdl);
-> > > >
+> > > > +=C2=A0=C2=A0 vbuf->field =3D V4L2_FIELD_NONE;
+> > > > +
+> > > > +=C2=A0=C2=A0 return 0;
+> > > > +}
+> >=20
+> > Stefan, how is this related to requests support ?
+>=20
+> vb2_queue_or_prepare_buf() errors out if this is not implemented and the
+> buffer uses requests. This was the implementation I saw on most drivers.
+> And as I don't expect anyone to try to use the dewarper with interleaved
+> data I didn't bother to add a warning.
+
+I'm stumbled on this one too, but I completely forgot what this callback wa=
+s
+about and assume something like this. I suspect it might be some left over =
+from
+when we required all request to hold all the controls, we should find a way=
+ to
+make that optional, and sort out this field thing, but I'd say its not a pr=
+oblem
+for this serie.
+
+>=20
+> >=20
+> > > > +
+> > > > =C2=A0static int dw100_buf_prepare(struct vb2_buffer *vb)
+> > > > =C2=A0{
+> > > > =C2=A0=C2=A0=C2=A0 unsigned int i;
+> > > > @@ -500,6 +509,13 @@ static void dw100_buf_queue(struct vb2_buffer =
+*vb)
+> > > > =C2=A0=C2=A0=C2=A0 v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > +static void dw100_buf_request_complete(struct vb2_buffer *vb)
+> > > > +{
+> > > > +=C2=A0=C2=A0 struct dw100_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_qu=
+eue);
+> > > > +
+> > > > +=C2=A0=C2=A0 v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl=
+);
+> >=20
+> > Unless I'm missing something, this will call
+> > v4l2_ctrl_request_complete() twice, once on each of the source and
+> > destination buffers, for the same request and control handler. Is that
+> > desired ?
+>=20
+> The docs say "a buffer that was never queued to the driver but is
+> associated with a queued request was canceled..." So to my understanding
+> the only purpose of this function is to mark all controls in the request
+> as being handled, so that the request can be finished.
+>=20
+> All the implementations I found in the kernel are exactly the same and
+> are to my understanding only necessary to map from a vb2_buffer to a
+> v4l2_ctrl_handler (which is then passed to v4l2_ctrl_request_complete())
+
+vb2 does not have access to the control handler, so it cannot call
+v4l2_ctrl_request_complete() when the request is never passed to the driver=
+.
+This is only called if the request is being discarded in the background. Th=
+ere
+is certainly room for improvement here.
+
+>=20
+> >=20
+> > > > +}
+> > > > +
+> > > > =C2=A0static void dw100_return_all_buffers(struct vb2_queue *q,
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 enum vb2_buffer_state state)
+> > > > =C2=A0{
+> > > > @@ -553,11 +569,13 @@ static void dw100_stop_streaming(struct vb2_q=
+ueue
+> > > > *q)
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > =C2=A0static const struct vb2_ops dw100_qops =3D {
+> > > > -=C2=A0=C2=A0 .queue_setup=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw100_queue_=
+setup,
+> > > > -=C2=A0=C2=A0 .buf_prepare=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw100_buf_pr=
+epare,
+> > > > -=C2=A0=C2=A0 .buf_queue=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw=
+100_buf_queue,
+> > > > -=C2=A0=C2=A0 .start_streaming =3D dw100_start_streaming,
+> > > > -=C2=A0=C2=A0 .stop_streaming=C2=A0 =3D dw100_stop_streaming,
+> > > > +=C2=A0=C2=A0 .queue_setup=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D dw100_queue_setup,
+> > > > +=C2=A0=C2=A0 .buf_out_validate=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw100_b=
+uf_out_validate,
+> > > > +=C2=A0=C2=A0 .buf_prepare=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D dw100_buf_prepare,
+> > > > +=C2=A0=C2=A0 .buf_queue=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 =3D dw100_buf_queue,
+> > > > +=C2=A0=C2=A0 .start_streaming=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw=
+100_start_streaming,
+> > > > +=C2=A0=C2=A0 .stop_streaming=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+=3D dw100_stop_streaming,
+> > > > +=C2=A0=C2=A0 .buf_request_complete =3D dw100_buf_request_complete,
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > =C2=A0static int dw100_m2m_queue_init(void *priv, struct vb2_queue =
+*src_vq,
+> > > > @@ -575,6 +593,7 @@ static int dw100_m2m_queue_init(void *priv, str=
+uct
+> > > > vb2_queue *src_vq,
+> > > > =C2=A0=C2=A0=C2=A0 src_vq->timestamp_flags =3D V4L2_BUF_FLAG_TIMEST=
+AMP_COPY;
+> > > > =C2=A0=C2=A0=C2=A0 src_vq->lock =3D &ctx->vq_mutex;
+> > > > =C2=A0=C2=A0=C2=A0 src_vq->dev =3D ctx->dw_dev->v4l2_dev.dev;
+> > > > +=C2=A0=C2=A0 src_vq->supports_requests =3D true;
+> > > > =C2=A0
+> > > > =C2=A0=C2=A0=C2=A0 ret =3D vb2_queue_init(src_vq);
+> > > > =C2=A0=C2=A0=C2=A0 if (ret)
+> > > > @@ -1460,6 +1479,12 @@ static void dw100_device_run(void *priv)
+> > > > =C2=A0=C2=A0=C2=A0 src_buf =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ct=
+x);
+> > > > =C2=A0=C2=A0=C2=A0 dst_buf =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ct=
+x);
+> > > > =C2=A0
+> > > > +=C2=A0=C2=A0 v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 &ctx->hdl);
+> > > > +
+> > > > +=C2=A0=C2=A0 v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.r=
+eq,
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 =C2=A0=C2=A0 &ctx->hdl);
+> > >=20
+> > > The request should always be signalled last, so nothing wrong with
+> > > applying the
+> > > controls as soon as possible in this case. Complete is a bit of a mis=
+s-
+> > > leading
+> > > name, this function actually changes the global controls value (apply=
+) and
+> > > removes its participation in request completion. Since the OUTPUT buf=
+fer
+> > > for
+> > > that request is still queued, the request is not signalled yet.
+> >=20
+> > I'm very confused here. As far as I can tell,
+> > v4l2_ctrl_request_complete() doesn't apply controls (i.e. cause
+> > .s_ctrl() to be called), it copies the value of controls back to the
+> > request to report them to the application. Am I missing something ?
+> >=20
+> > As there's nothing to report back to the application (no volatile
+> > control whose value will come from the hardware), calling
+> > v4l2_ctrl_request_complete() here seems fine to me. Is that what you
+> > were trying to explain ?
+>=20
+> I think that was meant, yes (see next comment)
+>=20
+> >=20
+> > > But you have to flip over the order to buffer signalling in
+> > > dw100_job_finish()
+> > > though. My recommendation is to use the helper
+> > > v4l2_m2m_buf_done_and_job_finish(). Something like this (not tested):
+> > >=20
+> > > =C2=A0=C2=A0 diff --git a/drivers/media/platform/nxp/dw100/dw100.c
+> > > b/drivers/media/platform/nxp/dw100/dw100.c
+> > > =C2=A0=C2=A0 index 4aaf9c3fff53..c5f9ee238345 100644
+> > > =C2=A0=C2=A0 --- a/drivers/media/platform/nxp/dw100/dw100.c
+> > > =C2=A0=C2=A0 +++ b/drivers/media/platform/nxp/dw100/dw100.c
+> > > =C2=A0=C2=A0 @@ -1058,7 +1058,6 @@ static const struct v4l2_ioctl_ops
+> > > dw100_ioctl_ops =3D {
+> > > =C2=A0=C2=A0=C2=A0 static void dw100_job_finish(struct dw100_device *=
+dw_dev, bool
+> > > with_error)
+> > > =C2=A0=C2=A0=C2=A0 {
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct d=
+w100_ctx *curr_ctx;
+> > > =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vb2_v4l2_bu=
+ffer *src_vb, *dst_vb;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum vb2=
+_buffer_state buf_state;
+> > > =C2=A0=C2=A0=C2=A0=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 curr_ctx=
+ =3D v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
+> > > =C2=A0=C2=A0 @@ -1069,16 +1068,12 @@ static void dw100_job_finish(str=
+uct
+> > > dw100_device *dw_dev, bool with_error)
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > =C2=A0=C2=A0=C2=A0=20
+> > > =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_vb =3D v4l2_m2=
+m_src_buf_remove(curr_ctx->fh.m2m_ctx);
+> > > =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dst_vb =3D v4l2_m2=
+m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
+> > > =C2=A0=C2=A0 -
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (like=
+ly(!with_error))
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf_state =3D VB2_BUF_STATE_DONE;
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf_state =3D VB2_BUF_STATE_ERROR;
+> > > =C2=A0=C2=A0=C2=A0=20
+> > > =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_buf_done(=
+src_vb, buf_state);
+> > > =C2=A0=C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_buf_done(=
+dst_vb, buf_state);
+> > > =C2=A0=C2=A0 +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_m2m_buf_done_=
+and_job_finish(dw_dev->m2m_dev, buf_state);
+> > > =C2=A0=C2=A0=C2=A0=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_dbg(=
+&dw_dev->pdev->dev, "Finishing transaction with%s
+> > > error(s)\n",
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with_error ? "" : "out");
+> > > =C2=A0=C2=A0=20
+> > > You might be tempted to keep the logical order, and move the
+> > > v4l2_ctrl_request_complete() call into dw100_job_finish(), unfortunat=
+ely
+> > > this
+> > > does not work, since nothing mandate that any control was included in=
+ this
+> > > request, and that will lead to calling v4l2_ctrl_request_complete() o=
+n an
+> > > already completed request. Since its a single function HW, I don't se=
+e why
+> > > you'd
+> > > want this, but it would require the manual request completion.
+> > >=20
+>=20
+> Nicolas, if I go you right you mean that one might be tempted to do
+>=20
+> v4l2_ctrl_request_setup()
+> v4l2_m2m_buf_done(src)
+> v4l2_m2m_buf_done(dst)
+> v4l2_ctrl_request_complete()
+>=20
+> which feels natural from the names of the functions, but the
+> v4l2_m2m_buf_done(src) might complete the request if it has no
+> associated controls and therefore the later v4l2_ctrl_request_complete()
+> would fail...
+>=20
+> I see that the usage of v4l2_m2m_buf_done_and_job_finish() is more
+> compact and will use that in v2. For the sake of understanding: The only
+> functional issue with my code is that v4l2_m2m_buf_done(src_buf) is
+> called before v4l2_m2m_buf_done(dest_buf), right?
+
+Correct, swapping these two would work too, but as you said, I proposed
+v4l2_m2m_buf_done_and_job_finish() simply because it is more compact and fi=
+ts
+your use case. The extra code in the helper is for capture buffer holding, =
+which
+at least for now does not apply to you.
+
+>=20
+> > > > +
+> > > > =C2=A0=C2=A0=C2=A0 dw100_start(ctx, src_buf, dst_buf);
+> > >=20
+> > > nit: I really don't see why this is a separate function ...
+>=20
+> I wondered that also, but didn't want to mess too much with existing
+> code. Maybe as a fixup on top?
+
+Feel free to do so.
+
+Nicolas
+
+>=20
+> Best regards,
+> Stefan
+>=20
+> > >=20
+> > > > =C2=A0}
+> > > > =C2=A0
+> > > > @@ -1467,6 +1492,11 @@ static const struct v4l2_m2m_ops dw100_m2m_o=
+ps =3D
+> > > > {
+> > > > =C2=A0=C2=A0=C2=A0 .device_run=C2=A0=C2=A0=C2=A0=C2=A0 =3D dw100_de=
+vice_run,
+> > > > =C2=A0};
+> > > > =C2=A0
+> > > > +static const struct media_device_ops dw100_m2m_media_ops =3D {
+> > > > +=C2=A0=C2=A0 .req_validate =3D vb2_request_validate,
+> > > > +=C2=A0=C2=A0 .req_queue =3D v4l2_m2m_request_queue,
+> > > > +};
+> > > > +
+> > > > =C2=A0static struct video_device *dw100_init_video_device(struct dw=
+100_device
+> > > > *dw_dev)
+> > > > =C2=A0{
+> > > > =C2=A0=C2=A0=C2=A0 struct video_device *vfd =3D &dw_dev->vfd;
+> > > > @@ -1578,6 +1608,7 @@ static int dw100_probe(struct platform_device
+> > > > *pdev)
+> > > > =C2=A0=C2=A0=C2=A0 dw_dev->mdev.dev =3D &pdev->dev;
+> > > > =C2=A0=C2=A0=C2=A0 strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_d=
+ev->mdev.model));
+> > > > =C2=A0=C2=A0=C2=A0 media_device_init(&dw_dev->mdev);
+> > > > +=C2=A0=C2=A0 dw_dev->mdev.ops =3D &dw100_m2m_media_ops;
+> > > > =C2=A0=C2=A0=C2=A0 dw_dev->v4l2_dev.mdev =3D &dw_dev->mdev;
+> > > > =C2=A0
+> > > > =C2=A0=C2=A0=C2=A0 ret =3D video_register_device(vfd, VFL_TYPE_VIDE=
+O, -1);
+> >=20
+> > --=20
+> > Regards,
+> >=20
+> > Laurent Pinchart
+
+--=-2CUpOHeKO6W6wYQ05w18
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0dpwAKCRDZQZRRKWBy
+9I38AQD5puf4F/s5OB+QaY8CPkUKJpSnUjUCwRCaNoLxLcm8gwEA+YlfTbMqNr2N
++gRRtiiA361YHfouIByR0bIJ/+JkDAU=
+=um3x
+-----END PGP SIGNATURE-----
+
+--=-2CUpOHeKO6W6wYQ05w18--
