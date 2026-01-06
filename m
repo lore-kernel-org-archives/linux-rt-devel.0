@@ -1,83 +1,83 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721A92F6188
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 15:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2856345CB2
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 15:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767714124; cv=none; b=thbYVeYuKFRL+if5tgIO+iVQYdFZJV4rfC2uZuOYCE3ZdzD53pC6qpnm6iheS7hVD/AxjN/w2sMlVlq6DP/bAF9BF6ECHSJ2JOygw6eqa5x0XpJjTqe4oj3R6dFd0w/iNHaFcTFu1J7/N87xVnrcP20zsjncPOoYRKjyeEQoeBg=
+	t=1767714264; cv=none; b=ak+1qsVLDIcnqB/rbcbXNU28Za3yz8hhWt7GiSvyUXjZte+4VBOMDfIYtTwGfhGVA+NlVPTTfwi2Rdc8fqRyZ52JW5yeQIQbls4qCe7JVBYs/x6LVBxI6uYr4A/FM3aW7v1IRyKzGzyorxy8QqYCxggAqh0Sj9j4YAc5+3ngpwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767714124; c=relaxed/simple;
-	bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
+	s=arc-20240116; t=1767714264; c=relaxed/simple;
+	bh=wivJ7felNUHvUVLgibxXU9HP050SGeUS1In0+3vMtEg=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RWy37uXmICYvmrQRExNuJVTnWl8aFp1OvaY1aa+003d2lpm6eR7BKAYF5sUvfN2eRhdJ25IIi1h7NXx9FNGz/xplWucUYQ4Pet/2Dh+PtPgfjU3Oyxu12THJsPYGe0tNt2uGbItMh1C6U1rq8vaavmubei+btF778G65S2nvfEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0fTOzOaE; arc=none smtp.client-ip=209.85.222.181
+	 Content-Type:MIME-Version; b=owOUJ8q/wPAnakK3Z9EetMJc6zXKZaNugdMuThW0dOFa81b/HCi/yapsAAXlsCc8fULk8qkZdf4CuHc8ZVgX0W0W2jnhBgFY7Rd3d2f6bbfsD2Fei05xhuXj0bLSJIxgQo6ASjEIEtQSNVZgozFznvoAiFqyprJfANI7S4jsP1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=bRFYm7f3; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0fTOzOaE"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c0d16bb24dso89319785a.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 07:42:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="bRFYm7f3"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8bb6a27d390so72610985a.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 07:44:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767714119; x=1768318919; darn=lists.linux.dev;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767714259; x=1768319059; darn=lists.linux.dev;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
-        b=0fTOzOaENitGK83nFcpjoJadnxtKSoOmMQk/KDOfyzhvhtuyuguqZkLYNwyiU/2Pp8
-         sfp9bd+0QRBjSoAvK9hkZPqnpPX7YhDOxcmBPC3vUhbrUJ+ofToC+dTJlROifqZrYXBz
-         SAaxdz+0kLj7y+Z1WXO6L0KgM+M/+qYQOn0z+1AFi0DZpDmAwIF7sQuu1LWCdLitEVej
-         /iEqvrPuczmlYNLlhMW3rDiauWwmXUaCPW/ZAdbSrDFaaONbjbhT6eo/utsXEv9jvG2w
-         CH+slMtU7unxTi+QzK5ZKt12u0/0IFuX2YCltiuFso7nm4TAzYV3vU5ArxVEapaMz6q6
-         RYMw==
+        bh=wivJ7felNUHvUVLgibxXU9HP050SGeUS1In0+3vMtEg=;
+        b=bRFYm7f3tMLBzo5eA9AJO6T3wdV4xNb2E7zXMWoGLF5TY/GMAfzkA8ldXjcwa3Tx9S
+         Mfl3YBMpWolM7mboiL5oxDJEB77+W/c7nh1BuOMnwA4DN9fDz943eQSNIPiWhojvXwfW
+         qxcnoV6oYYC4QmMnIYH+SdsWBDtOXawHK1I428d6chIDd98oiTC6ZLev2Z2MoYBmeX6l
+         VJ3mr9nJtX9L9lzYAW0FmxmQ47RmiLya46rjhqrDqSVfg97L0C4VEDG0WOCNF1wmgJ7O
+         pQ7f00RG3sSeE6XLIrjo6pEnd16qw2gQ9HFte513HNmnGufohaeA5H5/NCf6djC3clrx
+         E2jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767714119; x=1768318919;
+        d=1e100.net; s=20230601; t=1767714259; x=1768319059;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
-        b=DTBLFo3TetAMh1X0EDZ5kOpXZhrl9gBL/GREEV7cU0DqRpQj/K4tm3oTULrPbvxFho
-         v51MhSAOsLotKkRcIMTpfNPkFWygUrJuiZhn/KaJtlWtImc74omIIy2x1oz19vEHGS5a
-         16HMeJDqQ9fFcs2mpp9J/4WLQ8b2M/zcEibp06ODn8C+mDpJlmSo6UJ5E2zaU4k3Ceb7
-         yOE+5/pNPhXItVR/kYFnu9eSgC3yvOc639pEKrZNDVXvcVNDcc64te3dz+sHlhXJ5K6h
-         FvM5072hiAcHUJddr8oFKgp7Q/zhjodjJtseDCe107x0e807LWq37Vss/yokoXxM2F5l
-         5kJA==
-X-Forwarded-Encrypted: i=1; AJvYcCUHYrDO0/GMdt//kakRblkaUz6IEvysql0ROrIGW7f9CJYbIqYXZB8dEcTm5JRLnYYbXuNdA9xJctP03BcvXA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz7BC7/AdmsYuxIJEQ6SRzDtW8b9IlBySixCnROxnEBg4O9dOGJ
-	apO31fr4mVh1fOsBsbMO2ZikOMf7iH8IeaVkzu8Cn5NS+3AOq+rSRovqnaSDWv2teEM=
-X-Gm-Gg: AY/fxX793pRr+JAjfSIP4AUB9JZNw5CS0MK00/Zks2wf4HBvG10t99Qlfu4OsYR/fOo
-	6q2JMLvqqKHUqSebAnU/dwry1rPBns5cUbpm8QeuRIXIWjtHedAloLrOjHFykgIeiNggH/eSh7l
-	hePBMr+tKf3XZENulJgeLQgEuw73Ie3lpRaRHdWgidwLWM++8ECvNfDGsXkDFfmNxoj623aGeQh
-	J1OzzVhuTMDr5v3aFuFcp9ldrgmpVv7kfh/3Qx3w+a+kMERFp3feCcSQCeb+KfzgHe7mtc9KgXG
-	VC8IJyjfbaT0GVbaux8/Gmc9cZtW/6j8XPTcNRMyhiLxXJQemKJSl5bxNIBgIqgRZNiHj6Ky3Ai
-	LGfMCoFfBDa9rJBgu05tJvq4A26+2tp9XfSlQWLjKlJlMQbBZlicRf8TQJVwmC1Ginf9RF3JJFs
-	tLfhCSWMSOsAjXkOGt
-X-Google-Smtp-Source: AGHT+IGOjr7+Fr5tWYcAPd24+dhrl2pCBfmz4dMnYF307/sgHCL4jktrKPsJUTO8WaP3DJTmPx3M7w==
-X-Received: by 2002:a05:620a:4623:b0:892:a186:6b4f with SMTP id af79cd13be357-8c37ebb50fdmr482415285a.77.1767714118936;
-        Tue, 06 Jan 2026 07:41:58 -0800 (PST)
+        bh=wivJ7felNUHvUVLgibxXU9HP050SGeUS1In0+3vMtEg=;
+        b=hsrpNZVDkw+HV7jRFVSpEXaVzPE2cQO3z+3heKNJ2YMz44xmkkAM64yq43HvQoOtnT
+         /M+1g5sAJ6HB7ztZgB5UqQYRiYlBXei568saIl60sxhJKk33tQvhp5j3mkXGeabyrOZR
+         GQTnWvRUC/dDYYOE5tDHKUAr3wi8KeA+ONI0WLjkSW0kI/gcgX6AhBpdindrAj3VNKM+
+         R+uObIPjzY3ppRQDWfqFgLXbOu3YqM/cgL8YiYA996Ix91bpXc5vqq4neR7NAMJjIMd8
+         cxF0cl/HrsLs/1Ffh1kud4Lhgv5DryLTfISJnVIvOYd+RpcUd/Juh2Qbz10/HCD9xWz0
+         RPtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWR6vhxxklsI+83jgXlrxF1z/bL6JnUloQjIsYnymGAhtBAqFMulqYiMLsvwua40iMxt7dVMoXd7PEkfPjy5Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyG2Qu1rKri3S7j2JgY+9mAK7mPnblzSL8ZKC/b/jCevM+22HLh
+	x8w/10+cPDhtXAIBwyVB8xvhiZt6nkvelQoJrEmsx4CnQd7tBMercVwX1ZHf3rS7s1Y=
+X-Gm-Gg: AY/fxX71GkdjMqSEw/3aUHUCh91G5MEM7+Xio4PgLU9Qe1LWdvwKxtdP8UjfvS6TEcq
+	MLEy2i44HygyEdRiVhTzrMFSPVEmOBkpDwn3yNzblpEyDX+tTaK0gDkFri5Jt044xvG3n6oIigo
+	KD95ozLK3UtRS6Zij+HUJC8koOf2LjXkfivapgEU5xqOtwEzwgUfr2fTjYWzbnCYrKtNKztsL/0
+	ynz50wa/m8rdPVj/rMYUZOm0aFC2VnOTEPNGH/bPX8ZXDjaT9JOFS7/SbBHpQ0FfxJBV04ljvjy
+	/tdMDrKLjh7XYh20p9VaEiG9HCWoun/R8TsVYtxLKo+ouLG4F9GyCbg6s9PxI9wtezwOh57OkqV
+	JhxshGtDb102qs2CpgLbwA3c+cXWc6CLygFsN5YpIq6B23MB7Og5C8e3jCpIJjN5wnqPCbekYxF
+	BG/bf3aIRJHRq2lSCkd5uGSctut14=
+X-Google-Smtp-Source: AGHT+IH30kwxuPyB0HdKD45B3C5FJpr1+vJ0SQ87m9C7GJ87NTgkQBGmR4/iCOhQs5nEjUWqZnP+Ig==
+X-Received: by 2002:a05:6214:e61:b0:888:87ea:c7db with SMTP id 6a1803df08f44-89075ee369bmr44553266d6.39.1767714258381;
+        Tue, 06 Jan 2026 07:44:18 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f540650sm187549385a.47.2026.01.06.07.41.57
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89077253218sm15274796d6.43.2026.01.06.07.44.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 07:41:58 -0800 (PST)
-Message-ID: <f4eef909a0f9b787dd4720fe005de0c4e41f5c5a.camel@ndufresne.ca>
+        Tue, 06 Jan 2026 07:44:17 -0800 (PST)
+Message-ID: <5e6655351d22721344340d5227492bd55cd12a21.camel@ndufresne.ca>
 Subject: Re: [PATCH 1/4] media: dw100: Implement V4L2 requests support
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Stefan Klug
-	 <stefan.klug@ideasonboard.com>
-Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
- <rostedt@goodmis.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Hans Verkuil	
- <hans@jjverkuil.nl>
-Date: Tue, 06 Jan 2026 10:41:56 -0500
-In-Reply-To: <20260106145354.GB26157@pendragon.ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>, Xavier Roumegue	
+ <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sebastian Andrzej Siewior	 <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt	 <rostedt@goodmis.org>,
+ linux-media@vger.kernel.org, 	linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, Hans Verkuil	 <hans@jjverkuil.nl>
+Date: Tue, 06 Jan 2026 10:44:16 -0500
+In-Reply-To: <20260106145939.GC26157@pendragon.ideasonboard.com>
 References: 
 	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
 	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-1-65af34d04fd8@ideasonboard.com>
 	 <40dfd12b585681d8edf9641967160c086cc120c3.camel@ndufresne.ca>
 	 <20260106003302.GJ10026@pendragon.ideasonboard.com>
 	 <176770897731.12184.12302111059048415045@localhost>
-	 <20260106145354.GB26157@pendragon.ideasonboard.com>
+	 <7c514e1165f49c2e043b7f4ab5fcbd1003c517ae.camel@ndufresne.ca>
+	 <20260106145939.GC26157@pendragon.ideasonboard.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -92,7 +92,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-w6Qd9dvsJZkBofCWsLKx"
+	protocol="application/pgp-signature"; boundary="=-NKZAV5Xowi3wbKejnDM5"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -102,96 +102,44 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 
---=-w6Qd9dvsJZkBofCWsLKx
+--=-NKZAV5Xowi3wbKejnDM5
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
-
-Le mardi 06 janvier 2026 =C3=A0 16:53 +0200, Laurent Pinchart a =C3=A9crit=
+Le mardi 06 janvier 2026 =C3=A0 16:59 +0200, Laurent Pinchart a =C3=A9crit=
 =C2=A0:
-> CC'ing Hans Verkuil for two questions below.
-> >=20
-
-[...]
-
-> > The docs say "a buffer that was never queued to the driver but is
-> > associated with a queued request was canceled..." So to my understandin=
-g
-> > the only purpose of this function is to mark all controls in the reques=
-t
-> > as being handled, so that the request can be finished.
+> > I'm stumbled on this one too, but I completely forgot what this callbac=
+k was
+> > about and assume something like this. I suspect it might be some left o=
+ver
+> > from
+> > when we required all request to hold all the controls, we should find a=
+ way
+> > to
+> > make that optional, and sort out this field thing, but I'd say its not =
+a
+> > problem
+> > for this serie.
 >=20
-> That doesn't explain why it should be done twice per request. Hans,
-> could you clarify this ?
+> Definitely not a problem for this series :-) Please see my other reply
+> about using .buf_prepare(), let's avoid splitting the discussion.
 
-I explained it in another thread, it is only called if device_run() is not =
-going
-to be called, so only once. vb2 does not have access to the the control han=
-dler,
-so it can't call the v4l2_ctrl_request_complete() fonction directly.
+I replied 22 minutes before you did, so to be accurate, you did split the
+discussion.
 
->=20
-[...]
-
-> > Nicolas, if I go you right you mean that one might be tempted to do
-> >=20
-> > v4l2_ctrl_request_setup()
-> > v4l2_m2m_buf_done(src)
-> > v4l2_m2m_buf_done(dst)
-> > v4l2_ctrl_request_complete()
-> >=20
-> > which feels natural from the names of the functions, but the
-> > v4l2_m2m_buf_done(src) might complete the request if it has no
-> > associated controls and therefore the later v4l2_ctrl_request_complete(=
-)
-> > would fail...
-> >=20
-> > I see that the usage of v4l2_m2m_buf_done_and_job_finish() is more
-> > compact and will use that in v2. For the sake of understanding: The onl=
-y
-> > functional issue with my code is that v4l2_m2m_buf_done(src_buf) is
-> > called before v4l2_m2m_buf_done(dest_buf), right?
->=20
-> Is that an issue, why would the destination buffer need to be completed
-> first ?
-
-The VB2 media_request_object is being removed from the request once the OUT=
-PUT
-(src) buffer is marked done. If this was the last media_request_object, the
-request will move to completed state, which will signal its FD.
-
-If you do that before you mark the CAPTURE (dst) buffer as done, an applica=
-tion
-that uses non blocking IOs may endup calling DQBUF(dst) too soon, which wil=
-l
-return EBUSY. Since we really want the request FD to be used as the only
-synchronisation point, we made the rule that the request FD must be signall=
-ed
-last. Since its error prone, and its not illegal to synchronise on the devi=
-ce
-read/write/pri state, we made a condensed helper for it.
-
-Alternatively, the manual request completion is being added for cases this
-implicit request completion does not work, or when it makes everything too
-complicated to adhere to this rule. This is the case for dual-stage video
-decoders (MTK/RPi).
-
+cheers,
 Nicolas
 
-
-[...]
-
---=-w6Qd9dvsJZkBofCWsLKx
+--=-NKZAV5Xowi3wbKejnDM5
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0tRAAKCRDZQZRRKWBy
-9I2cAP40X1kizGKniAJpnsxW2HVfKMWON8DejJHlAutRKMtHtQEA9121yKIa29+0
-ZM9e4HsunUX7z6c6rzdYPCcV1KvYeAg=
-=PX6j
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0t0AAKCRDZQZRRKWBy
+9CPCAPwNlgOMCYz1GIjZeOfS+Fru6cfY2/EhiWeL/fmSUMB9fAEAsKSZI7IenrJq
+kWi0l7O8c+VMwUl4/imkqmQrNA2HwgI=
+=Ld/d
 -----END PGP SIGNATURE-----
 
---=-w6Qd9dvsJZkBofCWsLKx--
+--=-NKZAV5Xowi3wbKejnDM5--
