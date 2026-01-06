@@ -1,292 +1,315 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013016.outbound.protection.outlook.com [40.93.196.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A070231DDA4
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 07:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767685997; cv=fail; b=c9SGSXjhNu/SeMogDG5L1XNysft21HET+5yofOmgtHfPWu2EuASy+biev3RlAgxwxPfg6WlC8uYU4Xzbyee4t+rvbfSxCR53Ut3u2CNA9K3SNVzHdJ2FlLrXaiirqDSPR0QmQl9p3SWZH47CquMeWFXjqku7IkSaZGyeKfsB/wc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767685997; c=relaxed/simple;
-	bh=dMQSLgNr37Vy2SLoLVGAkD2hFEcms3PkgY+amdJZ7Zo=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AnVy0XzHts0HITvZhnDk36IZO+WFm5ejOAoPDVGmLWcqWvtKRtL7WOi3Z8c3aq92M1VL4GBLSbozfUqtGlwhKw6zfGZg/l6pMi0F6h19Sflg8GeRbt+M3S6UnBHmmhXXVTNq3gE0vM71hISPcSorE7bs8qVNYRdz4o92tYGpFvg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fBbCLnkW; arc=fail smtp.client-ip=40.93.196.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73251D5CC6
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 08:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767688114; cv=none; b=kIA+wySENDgNFFm7/dlR2iW0TirlVGh3edx7Jk9vAB8vTZA0wS3Ppifw9XGR8jKf7603ZW6++7O6QlJNED+PXyeks773yCodUACwE1KD8S/tK2pwfEYbEHyJV+rVKRKRIdzVwV43sYqkJUjX+snm94HSgFeBJ/b4syHboAcyDPg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767688114; c=relaxed/simple;
+	bh=/JkOEcc/UOgWKttC28XtNlDDzqgtqouXzNtbKsMmcsA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TyDWAXJT8daeuEkqBBiNpf68x6ye8MKwfpNYwii9njOakSqEVkWp9Q67nibveZmX/iUkt1FNOZFfk6kcmlrYgMA0EBaiFNG9XfRtE2DG53NFFcRmZUOBUAp5Do6T9DSXhp2bAelv3YuwOgev0KJ+7g6+l6e3prXwPwXFpGwE+lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sNYnzVxe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7zaTXcK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=sNYnzVxe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K7zaTXcK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fBbCLnkW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nVGT1TOg3x5xlSs2xGB1KuX/fiz3aSgCBe5QAhU6S7EloRAQVAxZU9pGfyKdZ/ELE0bgazpXZ8ZYmECGn4denT6a0JndLhnn/g6/cfrtXgN4CT36f1KvyyLXOYRwhU7Iun9qWJlo1b2lmI1gnaEumX/9kbZ1cjOVQiAA56h3Uo0jm0UZGlIBmIM0Ck6MyF2ji8Khs2M3z+N1EwrRIBCteLtCVakImhrDVSnY6mdm3+k4QWOJtOyslFEyLLw/xcUxgeXfcI3xa5Z/TMmoq/JMWhhrGhTVuXh6/1iML++cAAmuStXvP0BAnHRKceLhZIQLGrRjEfNlC9wbfYADsc7LAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=27c6a6qC9K03JEwuAqsWVckosHc7KCXIxLSVivcWmw8=;
- b=b3kWnMc1c1gL6jKuc+LYI5eqInmutn5ZQTIcj/MJJiRuXwW0L4rUXCe865gEupY8y28HKEG4KOeZhfDBkp6tN5LN+SvmoDmQWZP3ZVr0DczilYjtj2POrfTdC4pT9xjOQWIyrzfwHakmZH5wwkSxvwpoK/Pm5T3YAUnYVUWARU7K4AT1MVVhqWMFzdQJa42eIplMYANGNivGCwXVcdPdwia+2tL9sqkf7kf8duPzNWZ1jyXtfmeA2F3hUaU9CiBgy3sIvOl5imFTkpjcN15XDq/HfNr9itRy9l7K+zPOc272Sunx9tDMfXqoAtWr+unXjo6cRWj0nuHHNv96Sy9zWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=27c6a6qC9K03JEwuAqsWVckosHc7KCXIxLSVivcWmw8=;
- b=fBbCLnkW8cKKu631+iAzX8UKccn3FJuY9PPTQFyM5eIGSoTjc8ID0O33E4DDIKH+yqwNwXrCW49sI4hasQ/f99/xddd2QtCUpScNcYSj9x4DTmHho1z5CDTH1G/e4qT/Mzw8QdvffnQ6/CxkLl9x3Hkt1Osgr+FAUanAZk1qq6E=
-Received: from MN2PR19CA0064.namprd19.prod.outlook.com (2603:10b6:208:19b::41)
- by CYXPR12MB9320.namprd12.prod.outlook.com (2603:10b6:930:e6::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Tue, 6 Jan
- 2026 07:53:09 +0000
-Received: from BL02EPF00021F6B.namprd02.prod.outlook.com
- (2603:10b6:208:19b:cafe::c6) by MN2PR19CA0064.outlook.office365.com
- (2603:10b6:208:19b::41) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9478.5 via Frontend Transport; Tue, 6
- Jan 2026 07:53:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL02EPF00021F6B.mail.protection.outlook.com (10.167.249.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.1 via Frontend Transport; Tue, 6 Jan 2026 07:53:08 +0000
-Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
- 2026 01:53:02 -0600
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
-	<vincent.guittot@linaro.org>, Sebastian Andrzej Siewior
-	<bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
-CC: Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
-	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Tejun Heo
-	<tj@kernel.org>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, "K Prateek
- Nayak" <kprateek.nayak@amd.com>
-Subject: [RFC PATCH] sched/core: Stash task priority after dequeue and put_prev_task() in sched_change_begin()
-Date: Tue, 6 Jan 2026 07:52:39 +0000
-Message-ID: <20260106075239.279072-1-kprateek.nayak@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sNYnzVxe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7zaTXcK";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="sNYnzVxe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K7zaTXcK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2463C33919;
+	Tue,  6 Jan 2026 08:28:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767688110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
+	b=sNYnzVxeR/bZ8vGV0nF5yiqdoV5vZLHCsj3otCOF21QQUn9V2IFuwJa1ycg0tQvZPcLbPq
+	SWJvv4OOTXAa/nlqMFmpudHhyxOFA4u4zo0CrrnmrYnU5argXvc5Ho5iVL9Rl6GI/DzDCk
+	iySBvlZo9CBil6x55fkSsLqy12UIBX0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767688110;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
+	b=K7zaTXcKE77J8MZVHMPM7QPEoYqCKgmmSe9vrlh5JsxeDyl/Tr6M50jLEZq3/Dds9tWhB6
+	QY5EQZjxqazkKvDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767688110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
+	b=sNYnzVxeR/bZ8vGV0nF5yiqdoV5vZLHCsj3otCOF21QQUn9V2IFuwJa1ycg0tQvZPcLbPq
+	SWJvv4OOTXAa/nlqMFmpudHhyxOFA4u4zo0CrrnmrYnU5argXvc5Ho5iVL9Rl6GI/DzDCk
+	iySBvlZo9CBil6x55fkSsLqy12UIBX0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767688110;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=tvKwPH/bBOdM6Vqgx5KzmOB0oEuOsw5gHG+7gbN9Y54=;
+	b=K7zaTXcKE77J8MZVHMPM7QPEoYqCKgmmSe9vrlh5JsxeDyl/Tr6M50jLEZq3/Dds9tWhB6
+	QY5EQZjxqazkKvDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0704E3EA63;
+	Tue,  6 Jan 2026 08:28:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DCpeAa7HXGmVNAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 06 Jan 2026 08:28:30 +0000
+Message-ID: <04624b16-40ea-42c6-b687-4013796e4779@suse.cz>
+Date: Tue, 6 Jan 2026 09:28:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6B:EE_|CYXPR12MB9320:EE_
-X-MS-Office365-Filtering-Correlation-Id: 206cdae1-9dfc-44b5-47f7-08de4cf8a229
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|7416014|82310400026|36860700013|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?4niUmwRC3o9O27hkxKX0OowL5bg9gL2wUjOxC+LHEOAhaQUBhLee/fPBSRLD?=
- =?us-ascii?Q?p0tVEa0GtqoVJoaU+inFPkzS+AtYfEdB7qimEI7RBNFf/B3dfmPYQSB6X1CR?=
- =?us-ascii?Q?maakRlp8O8/WvlCVeeMxSSyFfGawbZZfo1Hpjlgspn+ZJa+l0rj4pHwRcPNc?=
- =?us-ascii?Q?tVcYhRPI2+Q8r4DQh234r5mW4V65+Mi63SOIB/ZSUCzIV386EFjJ/TZlbYn1?=
- =?us-ascii?Q?/Wnh/L5zgFotsXWG9qNoxMjxXvlsQIrpSo2MK5OPdV2M8bQpWIu1Xc9N6M3l?=
- =?us-ascii?Q?zG1nOyU1S6ue8CQq1uBoiOhQfmL4VomUHUf2aWqtCBBQHjqn9qgRxwjSKPPJ?=
- =?us-ascii?Q?pS8bj7qkdsuPDfWFcGtIBT3sBLLxBV1zvklhBBoxSYy9Fvdnp+d1jy7NKg1I?=
- =?us-ascii?Q?0NRN7gzNIxo6U0qt46PcxRpmKWXR72yDeWr3foRJbVITOGqjvT+YPH04gGe6?=
- =?us-ascii?Q?ioHlBqpxNbOwYgF407+AItBImhfkx1T6WdYYKUR4qQmx4zP43jS1dFyEjyPv?=
- =?us-ascii?Q?5mPPxzFh1hm+vFjUzBdWYEPxupbehqz+gWF53tFXjSlhz9OrQPThcArrl+tR?=
- =?us-ascii?Q?i5MZwVRx9dbQA4nDhuuQzALMxqsRO4IZIF1j8hv/X3clC7uC6WUZe4Olhg0a?=
- =?us-ascii?Q?mPGQhf0s6JF9PXc39BJqk2fbxvltbFaIikxA3+SZKiP3BETkF/EjyCkCazav?=
- =?us-ascii?Q?VKeR/YLwOlau/w6Ds1xcDP/VUKLi4q6YNCszIueEMr9iDame3tkdc6kSRIlm?=
- =?us-ascii?Q?Jqcr1nbTD789mhHUzCLk3R9/My9FjgeX4rpb9AXz6fN59x4OJU4qz/EaIDwC?=
- =?us-ascii?Q?G3ht0wTrm/szt5MLYLGkts5BuTBO+qL6IrSw7kkcqQubiRoYQrbTcZP4GA0R?=
- =?us-ascii?Q?vmcU4o4xy6z8BwXtIaym2oQcojcOgYcv7xwncd491L6z26VQf02Q9uHvvYX1?=
- =?us-ascii?Q?dJQKHdvCFmWHf8pIvfVZzwsp1HrYWSBmGhLjx5MWIp0RjZUrY+CjV/MFqhYb?=
- =?us-ascii?Q?SnL7WPsmpPKvFgklvor9RdDUP9kDdapz1/jOVtqti2qcK1o7hVajqSnLRgzI?=
- =?us-ascii?Q?B55dmmTjYuZoVHYUkO0FBpbSqtLLEMKBgpqpU7yMKFkTKv8rNW5a5FlTXuSv?=
- =?us-ascii?Q?rXsf9l/05BGieWLOFAoT3suJlsAmC9/upUUhHFWUwtaqvuDDMYTqNQKDPwE9?=
- =?us-ascii?Q?eGscODEEvYBbK1/LI9sWcr7es5usQPu0SQESTW0jJYKfxLG2yrt3HOtM9pvE?=
- =?us-ascii?Q?K6kOJktJtdeIBzFRCJCN/baCA1Bhf7sXXpChl1EtdhTasOCOTsC7goFN2xde?=
- =?us-ascii?Q?wPa5RQF56ctpw7pvE4Ln9nO8f762LHATr4kgO9PJDxHsyQ+Ww6PTMaCCeF9i?=
- =?us-ascii?Q?3rdqa1crcPNrF8+5nMR9sdbjkKf3ljnLugIl/b8+wO/6OK7BQiwxdNome5nZ?=
- =?us-ascii?Q?GDePHtAT6yA/cO6jGzmanQNPgJooF3kETBdti6VjUFZi14RvdMRBymnMd7RI?=
- =?us-ascii?Q?OQMu1iiWiu/S5YWuNJmD7uYBbUVVtWbep1xB?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(82310400026)(36860700013)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2026 07:53:08.9044
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 206cdae1-9dfc-44b5-47f7-08de4cf8a229
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00021F6B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR12MB9320
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-hotfixes] mm/page_alloc: prevent pcp corruption with
+ SMP=n
+Content-Language: en-US
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>,
+ Mel Gorman <mgorman@techsingularity.net>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ stable@vger.kernel.org, kernel test robot <oliver.sang@intel.com>,
+ Matthew Wilcox <willy@infradead.org>
+References: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
+ <20260105164036.32a22c2e@gandalf.local.home>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <20260105164036.32a22c2e@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.26
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.26 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.16)[-0.821];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-When running amd-pstate driver on a PREEMPT_RT kernel on a shared memory
-system (Zen3 and prior), the following splat was observed from
-triggering the WARN_ON_ONCE() in rq_pin_lock():
+On 1/5/26 22:40, Steven Rostedt wrote:
+> On Mon, 05 Jan 2026 16:08:56 +0100
+> Vlastimil Babka <vbabka@suse.cz> wrote:
+> 
+>> +++ b/mm/page_alloc.c
+>> @@ -167,6 +167,31 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
+>>  	pcp_trylock_finish(UP_flags);					\
+>>  })
+>>  
+>> +/*
+>> + * With the UP spinlock implementation, when we spin_lock(&pcp->lock) (for i.e.
+>> + * a potentially remote cpu drain) and get interrupted by an operation that
+>> + * attempts pcp_spin_trylock(), we can't rely on the trylock failure due to UP
+>> + * spinlock assumptions making the trylock a no-op. So we have to turn that
+>> + * spin_lock() to a spin_lock_irqsave(). This works because on UP there are no
+>> + * remote cpu's so we can only be locking the only existing local one.
+>> + */
+>> +#if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+>> +static inline void __flags_noop(unsigned long *flags) { }
+>> +#define spin_lock_maybe_irqsave(lock, flags)		\
+>> +({							\
+>> +	 __flags_noop(&(flags));			\
+>> +	 spin_lock(lock);				\
+>> +})
+>> +#define spin_unlock_maybe_irqrestore(lock, flags)	\
+>> +({							\
+>> +	 spin_unlock(lock);				\
+>> +	 __flags_noop(&(flags));			\
+>> +})
+>> +#else
+>> +#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
+>> +#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
+>> +#endif
+>> +
+> 
+> These are very generic looking names for something specific for
+> page_alloc.c. Could you add a prefix of some kind to make it easy to see
+> that these are specific to the mm code?
+> 
+>  mm_spin_lock_maybe_irqsave() ?
+OK, I think it's best like this:
 
-    ------------[ cut here ]------------
-    WARNING: kernel/sched/sched.h:1807 at __schedule+0x122/0x17c0, CPU#8: swapper/0/1
-    Modules linked in:
-    CPU: 8 UID: 0 PID: 1 Comm: swapper/0 Not tainted 6.19.0-rc1-rt-amd-pstate+ #153 PREEMPT_{RT,(full)}
-    Hardware name: Dell Inc. PowerEdge R6525/024PW1, BIOS 2.7.3 03/30/2022
-    RIP: 0010:__schedule+0x122/0x17c0
-    Code: 3...
-    RSP: 0018:ffffd2f8800e7a50 EFLAGS: 00010082
-    RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000005
-    RDX: ffff89f2fd41d1e0 RSI: 0000000000000000 RDI: ffff89f2fd432480
-    RBP: ffffd2f8800e7af8 R08: 0000000000000643 R09: 000000037328de2f
-    R10: 0000000373168f59 R11: 000000037328de2f R12: 0000000000000001
-    R13: ffff89f2fd432480 R14: 0000000000000008 R15: ffff89b4d9072810
-    FS:  0000000000000000(0000) GS:ffff89f34fee5000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 0000000000000000 CR3: 000000807dc4a001 CR4: 0000000000f70ef0
-    PKRU: 55555554
-    Call Trace:
-     <TASK>
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? psi_group_change+0x1ff/0x460
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     preempt_schedule+0x41/0x60
-     preempt_schedule_thunk+0x16/0x30
-     try_to_wake_up+0x341/0x7c0
-     autoremove_wake_function+0x12/0x40
-     __wake_up_common+0x78/0xa0
-     __wake_up+0x31/0x50
-     send_pcc_cmd+0x133/0x310
-     cppc_set_reg_val+0x10e/0x220
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? amd_pstate_init_boost_support+0x33/0xb0
-     amd_pstate_cpu_init+0x159/0x270
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     cpufreq_online+0x6b0/0xd90
-     ? rtlock_slowlock_locked+0xce1/0xd30
-     cpufreq_add_dev+0xa9/0xd0
-     subsys_interface_register+0x10b/0x120
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_amd_pstate_init+0x10/0x10
-     cpufreq_register_driver+0x1a7/0x370
-     amd_pstate_register_driver.part.0+0x2a/0xa0
-     amd_pstate_init+0xe3/0x3a0
-     ? __pfx_amd_pstate_init+0x10/0x10
-     do_one_initcall+0x47/0x310
-     kernel_init_freeable+0x33c/0x500
-     ? __pfx_kernel_init+0x10/0x10
-     kernel_init+0x1b/0x1f0
-     ? __pfx_kernel_init+0x10/0x10
-     ret_from_fork+0x222/0x280
-     ? __pfx_kernel_init+0x10/0x10
-     ret_from_fork_asm+0x1a/0x30
-     </TASK>
-    ---[ end trace 0000000000000000 ]---
+----8<----
+From a6da5d9e3db005a2f44f3196814d7253dce21d3e Mon Sep 17 00:00:00 2001
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Tue, 6 Jan 2026 09:23:37 +0100
+Subject: [PATCH] mm/page_alloc: prevent pcp corruption with SMP=n - fix
 
-Inspecting the set of events that led to the warning being triggered
-showed the following:
+Add pcp_ prefix to the spin_lock_irqsave wrappers, per Steven.
+With that make them also take pcp pointer and reference the lock
+field themselves, to be like the existing pcp trylock wrappers.
 
-    systemd-1  [008] dN.31 ...: do_set_cpus_allowed: set_cpus_allowed begin!
-
-    systemd-1  [008] dN.31 ...: sched_change_begin: Begin!
-    systemd-1  [008] dN.31 ...: sched_change_begin: Before dequeue_task()!
-    systemd-1  [008] dN.31 ...: update_curr_dl_se: update_curr_dl_se: ENQUEUE_REPLENISH
-    systemd-1  [008] dN.31 ...: enqueue_dl_entity: enqueue_dl_entity: ENQUEUE_REPLENISH
-    systemd-1  [008] dN.31 ...: replenish_dl_entity: Replenish before: 14815760217
-    systemd-1  [008] dN.31 ...: replenish_dl_entity: Replenish after: 14816960047
-    systemd-1  [008] dN.31 ...: sched_change_begin: Before put_prev_task()!
-
-    systemd-1  [008] dN.31 ...: sched_change_end: Before enqueue_task()!
-    systemd-1  [008] dN.31 ...: sched_change_end: Before put_prev_task()!
-    systemd-1  [008] dN.31 ...: prio_changed_dl: Queuing pull task on prio change: 14815760217 -> 14816960047
-    systemd-1  [008] dN.31 ...: prio_changed_dl: Queuing balance callback!
-    systemd-1  [008] dN.31 ...: sched_change_end: End!
-
-    systemd-1  [008] dN.31 ...: do_set_cpus_allowed: set_cpus_allowed end!
-    systemd-1  [008] dN.21 ...: __schedule: Woops! Balance callback found!
-
-1. sched_change_begin() from guard(sched_change) in
-   do_set_cpus_allowed() stashes the priority, which for the deadline
-   task, is "p->dl.deadline".
-2. The dequeue of the deadline task replenishes the deadline.
-3. The task is enqueued back after guard's scope ends and since there is
-   no *_CLASS flags set, sched_change_end() calls
-   dl_sched_class->prio_changed() which compares the deadline.
-4. Since deadline was moved on dequeue, prio_changed_dl() sees the value
-   differ from the stashed value and queues a balance pull callback.
-5. do_set_cpus_allowed() finishes and drops the rq_lock without doing a
-   do_balance_callbacks().
-6. Grabbing the rq_lock() at subsequent __schedule() triggers the
-   warning since the balance pull callback was never executed before
-   dropping the lock.
-
-Since the dequeue on a deadline task can push its deadline, stash the
-task prio towards the end of sched_change_begin().
-
-The modification to priority within the sched_change guard's scope will
-still be considered as sched_change_end() will supply the priority
-stashed at the end of constructor's execution as the old priority to
-sched_class->prio_changed().
-
-Fixes: 6455ad5346c9c ("sched: Move sched_class::prio_changed() into the change pattern")
-Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
-Since I'm not too familiar with the deadline bits, I've marked this as
-RFC for now. If you require any data from my setup, please do let me
-know.
+ mm/page_alloc.c | 30 ++++++++++++++++--------------
+ 1 file changed, 16 insertions(+), 14 deletions(-)
 
-Patches are based on:
-
-  git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core
-
-at commit 6ab7973f2540 ("sched/fair: Fix sched_avg fold").
-
-To run with amd-pstate on PREEMPT_RT, you'll first need the patches from
-https://lore.kernel.org/lkml/20260106073608.278644-1-kprateek.nayak@amd.com/
-Most of the testing was done on top of Rafael's tree (v6.19.0-rc4 based)
-with the above series where the issue was first seen.
----
- kernel/sched/core.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index 5b17d8e3cb55..ce05957e8055 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -10791,20 +10791,19 @@ struct sched_change_ctx *sched_change_begin(struct task_struct *p, unsigned int
- 		.running = task_current_donor(rq, p),
- 	};
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index ec3551d56cde..dd72ff39da8c 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -177,19 +177,21 @@ static inline void __pcp_trylock_noop(unsigned long *flags) { }
+  */
+ #if defined(CONFIG_SMP) || defined(CONFIG_PREEMPT_RT)
+ static inline void __flags_noop(unsigned long *flags) { }
+-#define spin_lock_maybe_irqsave(lock, flags)		\
++#define pcp_spin_lock_maybe_irqsave(ptr, flags)		\
+ ({							\
+ 	 __flags_noop(&(flags));			\
+-	 spin_lock(lock);				\
++	 spin_lock(&(ptr)->lock);			\
+ })
+-#define spin_unlock_maybe_irqrestore(lock, flags)	\
++#define pcp_spin_unlock_maybe_irqrestore(ptr, flags)	\
+ ({							\
+-	 spin_unlock(lock);				\
++	 spin_unlock(&(ptr)->lock);			\
+ 	 __flags_noop(&(flags));			\
+ })
+ #else
+-#define spin_lock_maybe_irqsave(lock, flags)		spin_lock_irqsave(lock, flags)
+-#define spin_unlock_maybe_irqrestore(lock, flags)	spin_unlock_irqrestore(lock, flags)
++#define pcp_spin_lock_maybe_irqsave(ptr, flags)		\
++		spin_lock_irqsave(&(ptr)->lock, flags)
++#define pcp_spin_unlock_maybe_irqrestore(ptr, flags)	\
++		spin_unlock_irqrestore(&(ptr)->lock, flags)
+ #endif
  
--	if (!(flags & DEQUEUE_CLASS)) {
--		if (p->sched_class->get_prio)
--			ctx->prio = p->sched_class->get_prio(rq, p);
--		else
--			ctx->prio = p->prio;
--	}
--
- 	if (ctx->queued)
- 		dequeue_task(rq, p, flags);
- 	if (ctx->running)
- 		put_prev_task(rq, p);
+ #ifdef CONFIG_USE_PERCPU_NUMA_NODE_ID
+@@ -2601,9 +2603,9 @@ bool decay_pcp_high(struct zone *zone, struct per_cpu_pages *pcp)
+ 	to_drain = pcp->count - pcp->high;
+ 	while (to_drain > 0) {
+ 		to_drain_batched = min(to_drain, batch);
+-		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
++		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
+ 		free_pcppages_bulk(zone, to_drain_batched, pcp, 0);
+-		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
++		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
+ 		todo = true;
  
--	if ((flags & DEQUEUE_CLASS) && p->sched_class->switched_from)
-+	if (!(flags & DEQUEUE_CLASS)) {
-+		if (p->sched_class->get_prio)
-+			ctx->prio = p->sched_class->get_prio(rq, p);
-+		else
-+			ctx->prio = p->prio;
-+	} else if (p->sched_class->switched_from) {
- 		p->sched_class->switched_from(rq, p);
-+	}
- 
- 	return ctx;
+ 		to_drain -= to_drain_batched;
+@@ -2626,9 +2628,9 @@ void drain_zone_pages(struct zone *zone, struct per_cpu_pages *pcp)
+ 	batch = READ_ONCE(pcp->batch);
+ 	to_drain = min(pcp->count, batch);
+ 	if (to_drain > 0) {
+-		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
++		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
+ 		free_pcppages_bulk(zone, to_drain, pcp, 0);
+-		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
++		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
+ 	}
  }
-
-base-commit: 6ab7973f254071faf20fe5fcc502a3fe9ca14a47
+ #endif
+@@ -2643,7 +2645,7 @@ static void drain_pages_zone(unsigned int cpu, struct zone *zone)
+ 	int count;
+ 
+ 	do {
+-		spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
++		pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
+ 		count = pcp->count;
+ 		if (count) {
+ 			int to_drain = min(count,
+@@ -2652,7 +2654,7 @@ static void drain_pages_zone(unsigned int cpu, struct zone *zone)
+ 			free_pcppages_bulk(zone, to_drain, pcp, 0);
+ 			count -= to_drain;
+ 		}
+-		spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
++		pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
+ 	} while (count);
+ }
+ 
+@@ -6148,12 +6150,12 @@ static void zone_pcp_update_cacheinfo(struct zone *zone, unsigned int cpu)
+ 	 * This can reduce zone lock contention without hurting
+ 	 * cache-hot pages sharing.
+ 	 */
+-	spin_lock_maybe_irqsave(&pcp->lock, UP_flags);
++	pcp_spin_lock_maybe_irqsave(pcp, UP_flags);
+ 	if ((cci->per_cpu_data_slice_size >> PAGE_SHIFT) > 3 * pcp->batch)
+ 		pcp->flags |= PCPF_FREE_HIGH_BATCH;
+ 	else
+ 		pcp->flags &= ~PCPF_FREE_HIGH_BATCH;
+-	spin_unlock_maybe_irqrestore(&pcp->lock, UP_flags);
++	pcp_spin_unlock_maybe_irqrestore(pcp, UP_flags);
+ }
+ 
+ void setup_pcp_cacheinfo(unsigned int cpu)
 -- 
-2.34.1
+2.52.0
+
 
