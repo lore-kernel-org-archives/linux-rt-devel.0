@@ -1,82 +1,83 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BA41D7E42
-	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 15:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721A92F6188
+	for <linux-rt-devel@lists.linux.dev>; Tue,  6 Jan 2026 15:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767713258; cv=none; b=nUQR3xacgHwZaSXYL54QTkKcUn8M0+OzvampGU9BK0874qUfkvvinUu3UfWAvsjmgnN3to9Cey3eSHkv1gVk+Hc3XBGssfez6+sNriKd70k9pqYMFTT1xFXSoYN06Av39en4rrlrURuhrt2zbG8uYkD8fH/YgWgUXD3utW0UNJc=
+	t=1767714124; cv=none; b=thbYVeYuKFRL+if5tgIO+iVQYdFZJV4rfC2uZuOYCE3ZdzD53pC6qpnm6iheS7hVD/AxjN/w2sMlVlq6DP/bAF9BF6ECHSJ2JOygw6eqa5x0XpJjTqe4oj3R6dFd0w/iNHaFcTFu1J7/N87xVnrcP20zsjncPOoYRKjyeEQoeBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767713258; c=relaxed/simple;
-	bh=QX2LtdUErqvD4jZsxkBCFKr82NhjKu96wSqyajbvVkY=;
+	s=arc-20240116; t=1767714124; c=relaxed/simple;
+	bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=n8I0sFFupMq9y0He7EiSfRYRZIlBDc+hfQcOSBRW15adWXO9VBQSwVb7FFlwSGaYqdDIq5ThsKlnEOGsEdnsNvxb09F3/6BGpuVql8fqb4C/IFmbi8k2aFDKRpJC5RQd0d5ydakh6nw+Wf3Mqx2/rmxFVesyNXynsJay6vxJvyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=iBu16f3I; arc=none smtp.client-ip=209.85.160.174
+	 Content-Type:MIME-Version; b=RWy37uXmICYvmrQRExNuJVTnWl8aFp1OvaY1aa+003d2lpm6eR7BKAYF5sUvfN2eRhdJ25IIi1h7NXx9FNGz/xplWucUYQ4Pet/2Dh+PtPgfjU3Oyxu12THJsPYGe0tNt2uGbItMh1C6U1rq8vaavmubei+btF778G65S2nvfEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=0fTOzOaE; arc=none smtp.client-ip=209.85.222.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="iBu16f3I"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4ed66b5abf7so32317891cf.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 07:27:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="0fTOzOaE"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c0d16bb24dso89319785a.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 07:42:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767713255; x=1768318055; darn=lists.linux.dev;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1767714119; x=1768318919; darn=lists.linux.dev;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=HlyL6ir9rr6kD5Uup2D4ImbUfywS89pe0m/jczEyFK8=;
-        b=iBu16f3Iqcfy3dVkcxs8+KBrRAFe5ifpCOD5jcZZIgr9b632aCAlPcEtVnEFDsGULh
-         aKce0arpmTokCzUYnxQR8wFEEitkxDaar66+DxBJkS4bkqNs+9Mj6cq6ynlVWXA9FLKr
-         CcTLxjX2OuidSkg3xrURa2pCcZ8nb19SJAqwlrKB2rLMJ5adhK7Q7M9WEkAGS2FoY055
-         SeGNMelwI0OUwmxqcnYODYQbJ4jXuaWCWSyYMrG34jFLO1iAUv0zbTf0oLFgjRiYg0G0
-         IGugaQku1XU7tXHkwuRK6oS9/NwY61PkXeYFXbebraDGjPeaf5kyycqw68S2kVIRRBdR
-         UwBw==
+        bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
+        b=0fTOzOaENitGK83nFcpjoJadnxtKSoOmMQk/KDOfyzhvhtuyuguqZkLYNwyiU/2Pp8
+         sfp9bd+0QRBjSoAvK9hkZPqnpPX7YhDOxcmBPC3vUhbrUJ+ofToC+dTJlROifqZrYXBz
+         SAaxdz+0kLj7y+Z1WXO6L0KgM+M/+qYQOn0z+1AFi0DZpDmAwIF7sQuu1LWCdLitEVej
+         /iEqvrPuczmlYNLlhMW3rDiauWwmXUaCPW/ZAdbSrDFaaONbjbhT6eo/utsXEv9jvG2w
+         CH+slMtU7unxTi+QzK5ZKt12u0/0IFuX2YCltiuFso7nm4TAzYV3vU5ArxVEapaMz6q6
+         RYMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767713255; x=1768318055;
+        d=1e100.net; s=20230601; t=1767714119; x=1768318919;
         h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
          :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HlyL6ir9rr6kD5Uup2D4ImbUfywS89pe0m/jczEyFK8=;
-        b=rC4qmj9rCYVWnMVD1FxJjVgqwNK3t2I93e3dSX/A5UdDG/bvCW9AANSyye74MXFCiZ
-         1R9Xzg41wRljt3GLXtFXl5eSzSFVqaBnfz9RmttePCaOXIQkHBOPFNja2GI2uXP7PCFw
-         vd+tjLTQILLH6ol6hJ5lMjoRsuPMXXI4tyO/PDJ6krz5qRUXXFyMXjLXWgJwGLrroEFA
-         RtGQuuRcBf+8kiqQ6IBXZelcIWlyLGPbljXAk0lQjdmYpftgWF+0AGtz3f/nL7iETxBi
-         jZXpX/ziF89UhH5vEXFh0qVXXqbiKAX8KWbxY+3XQ/j2Td2Il9adGD+LstFlhvQ/Ib7t
-         92jw==
-X-Forwarded-Encrypted: i=1; AJvYcCU8kzF93ZFLmhZhFtaMLnzt7ONSqTTAahghCRcGYCP5ehDwZ+3gTlDLA2gYemBnz/T2G1S5WLvjC7VL2xzvsA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhpvvQAzhj6rMdnKaFTwe6qZIeAnafFE/lJGhPgKbK4PxOZt08
-	vl1jhy08oO7IvlwYRFjFgV2ohzRPrsev6pQHy6rCAnlzo1Depi+GVw9M9ORDUUaw+Mc=
-X-Gm-Gg: AY/fxX6MEj6xLa6OPFD5rxt3OTBdQj8HNsBbkh+n99eIXy/vgEurrV6HFkoQBtdZmwH
-	Efe2SC9MOgka9Dy4GGa6MBgbPdFrc9LsnIW8Aw5Q7THgXsoaMMMlUFoIT1xZzP8kfLzN/5Yvy1Q
-	rnP6N38bOUmucbUjElVcgRDSEMBo6rHG74I96HlT3ISKQNRQxbVXl4pqCjxae4cfwV4VYhyjxgK
-	6cQL7IOrCjmsdEO4Xzkeo8F7eTH1i5up+eEG7AhNPGmOXgSQUs0qfsWgM5LfDvZj6wj6CTfRecy
-	JofoMcpFRtW/nvcO7mck/r6jn6SJ4f6T4Cy3m+HZGkC+UuQe0mT2SOwEMNWpV39fJWWhOIH74Zt
-	HuaMP8yaSS8TyttsT/1s8Fkrf83R9vwtlJ+1FUPAXR2D/sGywjDZsUl0PVX6jxl52aCjiojHlhu
-	xp3W+Mzdu2WKkL8jGNXGOwksYaQLI=
-X-Google-Smtp-Source: AGHT+IHybAbF3H+IJN/yvYCsk7W4cWAGrCLZ8GzdP+IKOzhpBxC7YXlvzlqofYK3609iFN8lfn51iQ==
-X-Received: by 2002:ac8:59ca:0:b0:4ff:b0f4:c307 with SMTP id d75a77b69052e-4ffb0f4c3b3mr9966711cf.24.1767713254789;
-        Tue, 06 Jan 2026 07:27:34 -0800 (PST)
+        bh=ZyHIVjtaj7HpnU+gARNjSz9uHM0V5SJQC9EL6UP72qc=;
+        b=DTBLFo3TetAMh1X0EDZ5kOpXZhrl9gBL/GREEV7cU0DqRpQj/K4tm3oTULrPbvxFho
+         v51MhSAOsLotKkRcIMTpfNPkFWygUrJuiZhn/KaJtlWtImc74omIIy2x1oz19vEHGS5a
+         16HMeJDqQ9fFcs2mpp9J/4WLQ8b2M/zcEibp06ODn8C+mDpJlmSo6UJ5E2zaU4k3Ceb7
+         yOE+5/pNPhXItVR/kYFnu9eSgC3yvOc639pEKrZNDVXvcVNDcc64te3dz+sHlhXJ5K6h
+         FvM5072hiAcHUJddr8oFKgp7Q/zhjodjJtseDCe107x0e807LWq37Vss/yokoXxM2F5l
+         5kJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHYrDO0/GMdt//kakRblkaUz6IEvysql0ROrIGW7f9CJYbIqYXZB8dEcTm5JRLnYYbXuNdA9xJctP03BcvXA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz7BC7/AdmsYuxIJEQ6SRzDtW8b9IlBySixCnROxnEBg4O9dOGJ
+	apO31fr4mVh1fOsBsbMO2ZikOMf7iH8IeaVkzu8Cn5NS+3AOq+rSRovqnaSDWv2teEM=
+X-Gm-Gg: AY/fxX793pRr+JAjfSIP4AUB9JZNw5CS0MK00/Zks2wf4HBvG10t99Qlfu4OsYR/fOo
+	6q2JMLvqqKHUqSebAnU/dwry1rPBns5cUbpm8QeuRIXIWjtHedAloLrOjHFykgIeiNggH/eSh7l
+	hePBMr+tKf3XZENulJgeLQgEuw73Ie3lpRaRHdWgidwLWM++8ECvNfDGsXkDFfmNxoj623aGeQh
+	J1OzzVhuTMDr5v3aFuFcp9ldrgmpVv7kfh/3Qx3w+a+kMERFp3feCcSQCeb+KfzgHe7mtc9KgXG
+	VC8IJyjfbaT0GVbaux8/Gmc9cZtW/6j8XPTcNRMyhiLxXJQemKJSl5bxNIBgIqgRZNiHj6Ky3Ai
+	LGfMCoFfBDa9rJBgu05tJvq4A26+2tp9XfSlQWLjKlJlMQbBZlicRf8TQJVwmC1Ginf9RF3JJFs
+	tLfhCSWMSOsAjXkOGt
+X-Google-Smtp-Source: AGHT+IGOjr7+Fr5tWYcAPd24+dhrl2pCBfmz4dMnYF307/sgHCL4jktrKPsJUTO8WaP3DJTmPx3M7w==
+X-Received: by 2002:a05:620a:4623:b0:892:a186:6b4f with SMTP id af79cd13be357-8c37ebb50fdmr482415285a.77.1767714118936;
+        Tue, 06 Jan 2026 07:41:58 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:7b4b::5ac? ([2606:6d00:17:7b4b::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4ffa8d3d92esm13054401cf.5.2026.01.06.07.27.33
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c37f540650sm187549385a.47.2026.01.06.07.41.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 07:27:34 -0800 (PST)
-Message-ID: <542f97c1b2dee066f9961b508958f7397faaaf8f.camel@ndufresne.ca>
-Subject: Re: [PATCH 2/4] media: dw100: Implement dynamic vertex map update
+        Tue, 06 Jan 2026 07:41:58 -0800 (PST)
+Message-ID: <f4eef909a0f9b787dd4720fe005de0c4e41f5c5a.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/4] media: dw100: Implement V4L2 requests support
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Stefan Klug <stefan.klug@ideasonboard.com>, Laurent Pinchart
-	 <laurent.pinchart@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Stefan Klug
+	 <stefan.klug@ideasonboard.com>
 Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab	
  <mchehab@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt
  <rostedt@goodmis.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Date: Tue, 06 Jan 2026 10:27:31 -0500
-In-Reply-To: <176770977089.12184.13455944501335843394@localhost>
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Hans Verkuil	
+ <hans@jjverkuil.nl>
+Date: Tue, 06 Jan 2026 10:41:56 -0500
+In-Reply-To: <20260106145354.GB26157@pendragon.ideasonboard.com>
 References: 
 	<20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
-	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-2-65af34d04fd8@ideasonboard.com>
-	 <f4e0b1f13ee54d88d1035828af548f5cf3a25c16.camel@ndufresne.ca>
-	 <20260106004206.GK10026@pendragon.ideasonboard.com>
-	 <2dbb2c41422cb4dbc8c3692646aeaf70c4d87df0.camel@ndufresne.ca>
-	 <176770977089.12184.13455944501335843394@localhost>
+	 <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-1-65af34d04fd8@ideasonboard.com>
+	 <40dfd12b585681d8edf9641967160c086cc120c3.camel@ndufresne.ca>
+	 <20260106003302.GJ10026@pendragon.ideasonboard.com>
+	 <176770897731.12184.12302111059048415045@localhost>
+	 <20260106145354.GB26157@pendragon.ideasonboard.com>
 Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -91,7 +92,7 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-WOl4j+GsYoelptSN5dqf"
+	protocol="application/pgp-signature"; boundary="=-w6Qd9dvsJZkBofCWsLKx"
 User-Agent: Evolution 3.58.2 (3.58.2-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -101,198 +102,96 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 
---=-WOl4j+GsYoelptSN5dqf
+--=-w6Qd9dvsJZkBofCWsLKx
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-	Le mardi 06 janvier 2026 =C3=A0 15:29 +0100, Stefan Klug a =C3=A9crit=C2=
-=A0:
-> Hi,
->=20
-> Quoting Nicolas Dufresne (2026-01-06 14:47:59)
-> > Hi,
-> >=20
-> > Le mardi 06 janvier 2026 =C3=A0 02:42 +0200, Laurent Pinchart a =C3=A9c=
-rit=C2=A0:
-> > > On Mon, Jan 05, 2026 at 01:58:25PM -0500, Nicolas Dufresne wrote:
-> > > > Le lundi 05 janvier 2026 =C3=A0 12:35 +0100, Stefan Klug a =C3=A9cr=
-it=C2=A0:
-> > > > > Implement dynamic vertex map updates by handling the
-> > > > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control during streamin=
-g. This
-> > > > > allows to implement features like dynamic zoom, pan, rotate and d=
-ewarp.
-> > > > >=20
-> > > > > To stay compatible with the old version, updates of
-> > > > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP are ignored during stre=
-aming
-> > > > > when requests are not used. Print a corresponding warning once.
-> > > > >=20
-> > > > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > > > ---
-> > > > > =C2=A0drivers/media/platform/nxp/dw100/dw100.c | 27 +++++++++++++=
-++++++++------
-> > > > >=20
-> >=20
-> > [...]
-> >=20
-> > > > > =C2=A0 dev_dbg(&ctx->dw_dev->pdev->dev,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "%ux%u %s =
-mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
-> > > > > @@ -351,6 +355,7 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctr=
-l)
-> > > > > =C2=A0 switch (ctrl->id) {
-> > > > > =C2=A0 case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->user_=
-map_is_set =3D true;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->user_map_n=
-eeds_update =3D true;
-> > > >=20
-> > > > This will be called before the new mapping is applied by
-> > > > v4l2_ctrl_request_complete(), and then may be cleared too soon if y=
-ou queue
-> > > > depth is high enough.
-> > >=20
-> > > v4l2_ctrl_request_complete() does not apply a mapping, what am I miss=
-ing
-> > > ?
-> >=20
-> > Sorry for my confusion, after reading back, you are correct, this is ca=
-lled
-> > v4l2_ctrl_request_setup() inside the device_run() function. You can dis=
-miss the
-> > bit about user_map_needs_update in my review (the paragraph below).
-> >=20
->=20
-> That means nothing has to change here, right?
+Hi Laurent,
 
-Correct.
+Le mardi 06 janvier 2026 =C3=A0 16:53 +0200, Laurent Pinchart a =C3=A9crit=
+=C2=A0:
+> CC'ing Hans Verkuil for two questions below.
+> >=20
+
+[...]
+
+> > The docs say "a buffer that was never queued to the driver but is
+> > associated with a queued request was canceled..." So to my understandin=
+g
+> > the only purpose of this function is to mark all controls in the reques=
+t
+> > as being handled, so that the request can be finished.
+>=20
+> That doesn't explain why it should be done twice per request. Hans,
+> could you clarify this ?
+
+I explained it in another thread, it is only called if device_run() is not =
+going
+to be called, so only once. vb2 does not have access to the the control han=
+dler,
+so it can't call the v4l2_ctrl_request_complete() fonction directly.
 
 >=20
-> > >=20
-> > > > Instead, you should check in the request for the presence of
-> > > > V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP to optimize the updates. =
-Yo may still
-> > > > set this to true if if there is no request, in the case you also wa=
-nted to
-> > > > change the original behaviour of only updating that vertex on strea=
-mon, but I
-> > > > don't see much point though.
-> > > >=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> > > > > =C2=A0 }
-> > > > > =C2=A0
-> > > > > @@ -405,6 +410,7 @@ static void dw100_ctrl_dewarping_map_init(con=
-st struct v4l2_ctrl *ctrl,
-> > > > > =C2=A0 }
-> > > > > =C2=A0
-> > > > > =C2=A0 ctx->user_map_is_set =3D false;
-> > > > > + ctx->user_map_needs_update =3D true;
-> > > > > =C2=A0}
-> > > > > =C2=A0
-> > > > > =C2=A0static const struct v4l2_ctrl_type_ops dw100_ctrl_type_ops =
-=3D {
-> > > > > @@ -1482,6 +1488,15 @@ static void dw100_device_run(void *priv)
-> > > > > =C2=A0 v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 &ctx->hdl);
-> > > > > =C2=A0
-> > > > > + if (src_buf->vb2_buf.req_obj.req) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dw100_update_ma=
-pping(ctx);
-> > > > > + } else if (ctx->user_map_needs_update && !ctx->warned_dynamic_u=
-pdate) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ctx->warned_dyn=
-amic_update =3D true;
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_warn(&ctx->=
-dw_dev->pdev->dev,
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "V4L2 requests are required to update the=
- vertex map dynamically"
-> > > >=20
-> > > > Do you know about dev_warn_once() ? That being said, the driver is =
-usable
-> > > > without requests and a static vertex (and must stay this way to not=
- break the
-> > > > ABI). I don't think you should warn here at all.
->=20
-> My idea was that I'd like to see the warning once per context and not
-> once per boot. Afaik I can't use dev_warn_once() for that.
+[...]
 
-I didn't catch this detail (commit comment welcome), fair enough if that's =
-the
-direction we are heading. Again, I don't understand why we don't just apply=
- that
-on next device_run in "legacy" mode.
-
->=20
-> > >=20
-> > > Applications should move to using requests. We'll do so in libcamera
-> > > unconditionally. I don't expect many other direct users, so warning t=
-hat
-> > > the mapping won't be applied when an application sets the correspondi=
-ng
-> > > control during streaming without using requests seems fair to me. It
-> > > will help debugging issues.
+> > Nicolas, if I go you right you mean that one might be tempted to do
 > >=20
-> > It is also a miss-use of dev_warn which is meant to indicate a problem =
-with the
-> > driver or the hardware. The V4L2 core uses dev_dbg() or customer log le=
-vel for
-> > that in general. Also, don't re-implement _once() variants with
-> > warned_dynamic_update please. Personally, I would just let the out-of r=
-equest
-> > change the control on the next device_run(), even if that means its out=
- of sync.
+> > v4l2_ctrl_request_setup()
+> > v4l2_m2m_buf_done(src)
+> > v4l2_m2m_buf_done(dst)
+> > v4l2_ctrl_request_complete()
+> >=20
+> > which feels natural from the names of the functions, but the
+> > v4l2_m2m_buf_done(src) might complete the request if it has no
+> > associated controls and therefore the later v4l2_ctrl_request_complete(=
+)
+> > would fail...
+> >=20
+> > I see that the usage of v4l2_m2m_buf_done_and_job_finish() is more
+> > compact and will use that in v2. For the sake of understanding: The onl=
+y
+> > functional issue with my code is that v4l2_m2m_buf_done(src_buf) is
+> > called before v4l2_m2m_buf_done(dest_buf), right?
 >=20
-> But then you end up with potentially difficult to debug issues, because
-> users would not know that they should use requests. Not warning (or
-> dev_dbg) has the same effect from my point of view, because users just
-> see a device not working as expected. Is a customer log level the
-> solution?
+> Is that an issue, why would the destination buffer need to be completed
+> first ?
 
-Custom level are hard to discover for sure, but the rules around dev_warn()
-aren't mine. We can perhaps makes an argument that the driver is broken, bu=
-t why
-don't we fix it to match the V4L2 spec is still unknown, specially that its=
- an
-easy fix match the V4L2 spec (even if in practice, this is not quite usable=
-).
-Normally everything else we add above the V4L2 spec, specially stuff using
-request get a domain specific spec. With that in hand, we could create bett=
-er
-rules, but otherwise I don't have much foundation to make a good call here.
+The VB2 media_request_object is being removed from the request once the OUT=
+PUT
+(src) buffer is marked done. If this was the last media_request_object, the
+request will move to completed state, which will signal its FD.
+
+If you do that before you mark the CAPTURE (dst) buffer as done, an applica=
+tion
+that uses non blocking IOs may endup calling DQBUF(dst) too soon, which wil=
+l
+return EBUSY. Since we really want the request FD to be used as the only
+synchronisation point, we made the rule that the request FD must be signall=
+ed
+last. Since its error prone, and its not illegal to synchronise on the devi=
+ce
+read/write/pri state, we made a condensed helper for it.
+
+Alternatively, the manual request completion is being added for cases this
+implicit request completion does not work, or when it makes everything too
+complicated to adhere to this rule. This is the case for dual-stage video
+decoders (MTK/RPi).
 
 Nicolas
 
->=20
-> Best regards,
-> Stefan
->=20
-> >=20
-> > Nicolas
-> >=20
-> > >=20
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 );
-> > > > > + }
-> > > > > +
-> > > > > =C2=A0 v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 =C2=A0=C2=A0 &ctx->hdl);
-> > > > >=20
 
---=-WOl4j+GsYoelptSN5dqf
+[...]
+
+--=-w6Qd9dvsJZkBofCWsLKx
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0p5AAKCRDZQZRRKWBy
-9FTJAP9laFUh4oNuGbatX55S4EZoM1i0MWKK4qSoXWvoIj5h2QEAnSLwsjCq+Wgq
-EGsT96v3o5wXkrMLCHylAnMUoqhgLw8=
-=lDcR
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaV0tRAAKCRDZQZRRKWBy
+9I2cAP40X1kizGKniAJpnsxW2HVfKMWON8DejJHlAutRKMtHtQEA9121yKIa29+0
+ZM9e4HsunUX7z6c6rzdYPCcV1KvYeAg=
+=PX6j
 -----END PGP SIGNATURE-----
 
---=-WOl4j+GsYoelptSN5dqf--
+--=-w6Qd9dvsJZkBofCWsLKx--
