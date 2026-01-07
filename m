@@ -1,209 +1,163 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011051.outbound.protection.outlook.com [40.93.194.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4BE261B83
-	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 05:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767763884; cv=fail; b=hrtJOD2yYQG95nJvWaggHmZnd8QpvPMbBhw9T5TokhzA83pZ180uQ497nEpF/bMmC3ngMXAGsNbMNi8zOtt884BseyB42t/wWwWRnt4Rp8kJHfvfDtROcDhq/xYzqLIpJh8FiuKc+/9bDCapdLgmBTx7EIx3JG2WcwgcSYPF6W4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767763884; c=relaxed/simple;
-	bh=H4EHUgvIL1ovnsQEZKaLVHF166cwSWzyseKrKiGcZ8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=BFUhiMOBegKh0yiYO9PFudaWI/S4m1z7Q07dCY1nhyYJF8SkpE2h3fWbwcpuhXQXZjTYdZemS9lYk4twkTv5rx203BfsrPWI1Bh3ehmq/NMp7XhK0Wnb/mfeLtV6jOnOr3eftrHVCBXrG84BMoaZqGSQq2oLhy2o/AwLmZgfmkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QZrbM1PX; arc=fail smtp.client-ip=40.93.194.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E1D280325
+	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 07:50:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767772219; cv=none; b=NQ3QU0CX/omeZQvN5tRhU51M7PnORVt6gvLuM7ASedzuBKqy+ZVYlJJqh/JAWOyojg230cmLKDUBJkmqLHrvf+m7dh+yzLfwuSumRZ48FvxJIZo33+LJrFT9g7AxefbBL4Gjde58PCJeafkrz9jILlWF5weoy0nUVwDHKGdWg30=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767772219; c=relaxed/simple;
+	bh=7tiwIhJYnE3dx5jyQCWjPRVoHabKi0Yd5MocQaeuTG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kw31qxzm8WCRHaQJSVE+MXbLXBzCrIS8p3khtT7VxdxXVNBHWpPmXOxDJsIN6RzeWkeq/dwckYG847ADvVvsmdjWX7MbFsx3gPJA5So+EJlkZxX83Z/cw8fvrouegHi8suWAi7aKKLZvh/nbMGyqarU3Xy4nFs+R5vDHODWMew8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=BYYvGIkP; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QZrbM1PX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=odzpOWUjK6aKo3rKKOmPhvMF83CDBZkXMZco9ii64d4YzU4MLS9wJjVstEYvSE/sUgKMuEDt/Mf3QtyIKK0o2W7gPQqfA2l22/f3gey4WBX8LpVlO7QFd35MMDbKOMP57ip/aBi59H+nNan9oUOFol1PcTvaWcRmRMaK4aHZqSqF9b/PrSJ5s99vyddWC77BIPDFoqd7hGEOXbYQ2CYIp2fnPI9ZMGQfFrQykf/9M1i3BEGejakTGQCgiZXTkVcPBRR30C1Emxm5WV6E1lzFq+IE8ew79HDnEUQnofiCrrP0leCn7wza6IhScmsB4z1BA8LQjswcF6coOv/n1J4+yA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cWeh4nmS+YFYKULop6/0/AYD2aGdXYsK1fA6QXASikA=;
- b=Q1Y5CKFKmQacZ4DYdhAZ6NW9jT3Q1SYF6u6x8cAiHClnsuRoS2RMRRF9zZvyc+LGsvZDnoo29yEivDssd3jiK0gHgmwL04J4FMlw/E+vO9F+UMl3enZBN87Cs8etKeysN5p1RkFsyfl+zcMS6iz4GlTeutx0v8lxS3mbYeKRBdjMDiefYQLGfxeZhv1bPdgloOyY8bEJmCDtkVIAoXIm6v3aIH+53iL5wESjrAxZ2TrQwN+glqdYSNaiJnGrcMOz1H80L9H2P6LlI/tMqcOW+rSxb5EjDTMYfzURt0PGMQ6j81EzVPfYkElKVQIPpXzNGeywaLcwiJ7EsTN3dGLr9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cWeh4nmS+YFYKULop6/0/AYD2aGdXYsK1fA6QXASikA=;
- b=QZrbM1PX3szGpT3LpoLoLeCPi4BmPoZAMGLUkRUrrkLF8sFp56arMKbn/f2qKibwhz1Twa2jiMNGH3mvbRILEdVZE4C5q6SDdri/+Pw+UMFNL50RR0cL1q+J5QlPLL2cy9aIgs2OO3LR1cLkSEfM+RMeklFmkbAcPHnRu1Glvqc=
-Received: from BY3PR05CA0050.namprd05.prod.outlook.com (2603:10b6:a03:39b::25)
- by BY5PR12MB4323.namprd12.prod.outlook.com (2603:10b6:a03:211::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.2; Wed, 7 Jan
- 2026 05:31:17 +0000
-Received: from SJ1PEPF000023D2.namprd02.prod.outlook.com
- (2603:10b6:a03:39b:cafe::ab) by BY3PR05CA0050.outlook.office365.com
- (2603:10b6:a03:39b::25) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
- Jan 2026 05:31:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ1PEPF000023D2.mail.protection.outlook.com (10.167.244.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 05:31:17 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
- 2026 23:31:17 -0600
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
- 2026 21:31:16 -0800
-Received: from [172.31.184.125] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 6 Jan 2026 21:31:13 -0800
-Message-ID: <693c35a3-a83c-4ed8-ad5d-5ff4ab7b40c6@amd.com>
-Date: Wed, 7 Jan 2026 11:01:11 +0530
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="BYYvGIkP"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779d8286d8so2112975e9.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 23:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767772213; x=1768377013; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NTwsEdCvk1LcWq9yzHvV8qXzDbqu/xI5jjC5aep5ibc=;
+        b=BYYvGIkPa8+/JXAr9K+BAuo0v8SgS8CGa4Ozi9+htdtIRLANpkHbLgZGPXFlbJfNKf
+         OmIrZBMEsrb6IN0y4GicXGuh1zlBt2qT7Zqda+34qXIbDCxTp6WL4/+jjvcDvBBvsaqR
+         pBNID387nHsQpNUqQU/HS/IQf0KWuPA+rMDxHMEBS/+jELOrU/w3RHaRsF+UwckKDcJq
+         FudhZQjnCDLmeB1kl67e5pSuzIdNcKandS/BgfKIGhylti6Zp3meUWdE+zOzNs4abIfb
+         KRdgHE7OvTfTqK/77TJTvu3Yo+Eo+DzWdl48Uk0mLcz0sS1zDJuEUiXKDP1x5THFtt9r
+         VCBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767772213; x=1768377013;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NTwsEdCvk1LcWq9yzHvV8qXzDbqu/xI5jjC5aep5ibc=;
+        b=vH2b1i06JTSysRwx5ihnCHpkhkb9KYy7cbD3meYPccfDh6PspF9QiiM5WgKA+A61Jw
+         ZQWthMAajneAq4NxCsfn3ONOjAh5Vl+wX39TOp1K6dESfqWRbz9NzGzKYGNm/jVOxqeY
+         JmRceICCa668KIos2bTebHVj6lT1Pngvd4AKLhgpg+YGsdcPRGqFtggBu+X1YNfTRIqm
+         tDZd8yGmuJ3tv3oECDbchIJuF2OmAuYQqrsjdWGSwGUJ6uOo4lhpNlKbZOnqxAY7VkZy
+         uGreY89gwoCn8WPZHlqJ0nZ9HanP9/hH7CPW//OwFdIH44uatA5A7T89qEMOjWLMdWhH
+         g3sA==
+X-Forwarded-Encrypted: i=1; AJvYcCWrMgkBbiK0uxrbtqvEkpbNlfxEw/Xu4+y/ktnA3L2B0qFKjUeArbcV8CRAzw6pEbqPzZtNk7K3g/OJiS2tkg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjA8TEnHrUELCpQygvagspHez6fAtB3IX4k9SQUvoJdHYs8aJG
+	wbiwEXpp9kJLISGNy9lQpGDXlg6FFJ9KN6RLIc8c+Q7ZgGzLz4eymk+pxBGvmFC9k14=
+X-Gm-Gg: AY/fxX7ZPVDA+fUm/DxH4nU30mgEsrZAZmztfRzK7KmTqamqPnCFNA234KDscTNrQRI
+	D0vlMy7TnZc4WJMQzI7XDtjAl/76V7Le03hWbJIePwwnZIqa33tw6twYR0cOeHDRGAR8QgplTrX
+	wkUXSPrnQegWe3RmBvviznGiMRzChTWi8yhChx0qiF+fljKCezPkOWCPZsy5vNdEiMpWsyIjylP
+	gtqR3lU4nCI7yKR4ZOfBPYYPhagYN9ALI8NIS0AUh8+7FZYLEyOglU2FHK064Vvwv1DKG6dMdCU
+	AqyW8dS24jegGnb1SmnU7hIbsPNp7NKJC/Y63jjlNboHM0SuN4GLTUL20sKPyySkN+7GzwuoKKN
+	4AswoEwgSW7ir1NSCrRNPEJPrpa/SZDG1N/tDg9hW50hwi2JGhhu4i+wZh7sFgJKss/v9b+0V9f
+	+Vv3O4LxKWO5a48Q7t/EL5hvzdKvhKuYTRa+ziqA4Sga9A5FeDpyWK/9mdULTw7kIbhmAqarCPh
+	YeS
+X-Google-Smtp-Source: AGHT+IEeSL9a0sO/p+itJvQV8zFNgZvIXQnOGqZK2SqTOEnng5pUuSMZXMvpl/vjk4ZvT6vQlklhNA==
+X-Received: by 2002:a05:600c:310b:b0:477:9a4d:b92d with SMTP id 5b1f17b1804b1-47d84b37d1bmr7849795e9.5.1767772212776;
+        Tue, 06 Jan 2026 23:50:12 -0800 (PST)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f41eb3bsm85554685e9.7.2026.01.06.23.50.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Jan 2026 23:50:12 -0800 (PST)
+Date: Wed, 7 Jan 2026 08:50:09 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Message-ID: <20260107085009.58fcffd4@mordecai>
+In-Reply-To: <20260106170405.425f469e@gandalf.local.home>
+References: <20260106091039.2012108-1-ptesarik@suse.com>
+	<20260106170405.425f469e@gandalf.local.home>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] sched/core: Stash task priority after dequeue and
- put_prev_task() in sched_change_begin()
-To: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>, Sebastian Andrzej Siewior
-	<bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>, "Dietmar
- Eggemann" <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, "Valentin
- Schneider" <vschneid@redhat.com>, Tejun Heo <tj@kernel.org>, "Gautham R.
- Shenoy" <gautham.shenoy@amd.com>
-References: <20260106075239.279072-1-kprateek.nayak@amd.com>
- <20260106104113.GX3707891@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <20260106104113.GX3707891@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF000023D2:EE_|BY5PR12MB4323:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9cfce886-c52d-4b51-e166-08de4dadfb5e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|36860700013|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dUtvZzAydytONXpkNStNOVdNd3Bzb1JUTFNqUkVLRGVpWmN2VVFaR3lyVllI?=
- =?utf-8?B?dDE1WVVXOG1EeThEOE5pcFNvNlRiQ2VPaGZnc2xsUVJHM2VRalB4dEJqZzF1?=
- =?utf-8?B?L0E0TmNmSVl5dnpaU0o4MmZ1alVrQlJhL2d4aDB4Ynk1TCtzaTBUYmVZcEx5?=
- =?utf-8?B?d2RkM0xMZit3NmNFMlZKamtrVjhmbTZGd2lUcHdoVFkyVGR1cEdONWxucXhM?=
- =?utf-8?B?MUhzaHltTjZlTitKdkRXV0NRY0hZdTUrNlp0VEY1TU9MdGtYTWFzc3R4N3lU?=
- =?utf-8?B?K3ZxWlgwNXEySDhqcVVnd0I4eEYrekF5VWE2c0piNzFGRWM2bTJsN1Jpb01F?=
- =?utf-8?B?alFVUmNDd3JuMzFZWStwN29Yb1QxQW1VcTV3SmJDWHVSaU5xU3FtQ1FoRXk3?=
- =?utf-8?B?bzRsMlltSEVFRXQzNmg3Q09rS0ZuM3lKZmVrQUd3SzkrQ2hkbjBHeit0ZVpO?=
- =?utf-8?B?dUk2VVpEcGlhRmNqNUVpVDlNYTJCZzJNdTI1QnMrNEs5UmZLTGMvSERpb0N6?=
- =?utf-8?B?aXlWL016TUViVHNadjBrb2VJTGNHa2M1WDh2d2t6VzdQTWs3WkZ3V1pTQlVC?=
- =?utf-8?B?TTJEOHVNczlVeUFOcW45RU8rV1puLzNUYUVCemxzMGt1bEVCUVpiMWdJcmNs?=
- =?utf-8?B?OFhySy9ianNzWmt4RHVrWUt6bVdPSDZFUVU2N2VkQ1J6RnFyWTN3aXJ3ZG1y?=
- =?utf-8?B?SnlTMk13bVlyakRYTzZ4UTV3TndLcUdyUE55dHhlT3l6SVczbjROaElEODBs?=
- =?utf-8?B?NGxMN2RuUVVOZGFWSXpodjNhdDdzelh1cjF1S2Q0SS91ampuQkNEd0NTaW9y?=
- =?utf-8?B?N09LRWdkY1g2VDczamFtd0lnaDZIbzE0c2J2SHN0Wk5wd0hNWTVmQ0t1SVFo?=
- =?utf-8?B?UzNqbkNKcmlwVzhFNTZ0c3l5ZGl3NmxvRmkzWUgyZHpvaTNJZWg3TmN0enFB?=
- =?utf-8?B?ZFBUSVMyRFovVEcvNWdQcmswV3VIdVhBUGd3M2NzWU8yVEVWaFN2dW1Gei9Y?=
- =?utf-8?B?d2dwNjlaTlBjazlmYXJ2dlV6UnlYM3o2ditmMS9VTW5yVHJNd0Y1Zi9YK25P?=
- =?utf-8?B?cm1Hb2lUWjNjeU9NdHQzSllQWGRwSVhiQXZGQWQ4cWpmSVYyQU4zdkpYdDVE?=
- =?utf-8?B?cHVsK1g3MEw0bU5vVjB5eGlLWnpDZCs1akxiaHQrdVpZcTU4STFzamlpaSsz?=
- =?utf-8?B?QUtIOUMwNXdFZmcxWXAxRHlxUjNkdG04S013UVRNejhSK0k5NFZ1RnVYa1RG?=
- =?utf-8?B?eWlVTW41VWszaXpSV2dLZHhTcEgzZHRsT2dwWkpNakJmL1B3L1VxM0tISEty?=
- =?utf-8?B?QzZOQVRBTE9IR3NGT1krOTQzcFhMbUNBSTZLUmhLbTJrUXBnTGRQOU1ueHRh?=
- =?utf-8?B?czNxa0hFY0JrbUlHSmlyUGxjQjE5ZzlMMTRqc2JZUGhZdko5QlR5UlltTGRF?=
- =?utf-8?B?blcxSE9OcERYd2NUdGg3YWxmaEd1S3pjdUdvVjZLNmx2K2VrckVRYy9ISkI5?=
- =?utf-8?B?SzhxcmZDRXgrNE9tc2ZQbTVIMUNFOUtrZjVMN2NwbnMrVkpFY3ZEaG80U25z?=
- =?utf-8?B?QThuL1lhenIzUzg3MEVWVytSWkY2VVdCOVZ3bDlLY1ZPS3czTHNJR1d4UWJC?=
- =?utf-8?B?VlA1ZW5INVpDUndEaWloMHpPUlI2ZXdudlc5QnhDTmpsaDI4dGJjWWNQc3BK?=
- =?utf-8?B?c2hJa0dOZmRDR1Y1K0xNUVI5NHBXaWFJQVNOS3pobjJXLzVkWVkxSnZ5Mzlr?=
- =?utf-8?B?VzdoSGU3YWQybXFRdGdwbFFjUTJ1K05RNm9ZVFZuWDQ2ZXZXNTM2dU5xWEdN?=
- =?utf-8?B?UW13NSt2OVFrYSs0SFNGenZRV1ArWVVDRWxpQStDeVBQRFh6c2NPRkhaNnQ4?=
- =?utf-8?B?Q3FRUjFYUms2ZmpNUjliMlRwNG4wQ3F2NUJvVXNxdlpYdVNYM1FFYkY5WmdT?=
- =?utf-8?B?cFpYU1NwNUc1cGhYZVJnK2pGUVBQNnNsZThYVzZ2VlMrTWs2SWFCaTNscXVT?=
- =?utf-8?B?TTBOejZTdUpxZ3lqbVJxVStwbUdqdkRoVm93MC9ucXNYb1FURkdwa0FiVkJ4?=
- =?utf-8?B?Wk9nelcwRU8xWEtiQXY3YWhmeUtieHNSM0w2dDY0d3lXb3RGVXp3OG9Rd0V4?=
- =?utf-8?Q?cT9w=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(7416014)(36860700013)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 05:31:17.4419
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cfce886-c52d-4b51-e166-08de4dadfb5e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF000023D2.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4323
 
-Hello Peter,
+On Tue, 6 Jan 2026 17:04:05 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-On 1/6/2026 4:11 PM, Peter Zijlstra wrote:
-> On Tue, Jan 06, 2026 at 07:52:39AM +0000, K Prateek Nayak wrote:
->> When running amd-pstate driver on a PREEMPT_RT kernel on a shared memory
->> system (Zen3 and prior), the following splat was observed from
->> triggering the WARN_ON_ONCE() in rq_pin_lock():
->>
->>     ------------[ cut here ]------------
->>     WARNING: kernel/sched/sched.h:1807 at __schedule+0x122/0x17c0, CPU#8: swapper/0/1
+> On Tue,  6 Jan 2026 10:10:39 +0100
+> Petr Tesarik <ptesarik@suse.com> wrote:
 > 
-> Can you enable CONFIG_DEBUG_BUGVERBOSE_DETAILED?
-
-Ack! I didn't know this was the config that printed the condition for
-the warn on. I'll make sure to enable it henceforth.
-
-[..snip..]
-
->> Since the dequeue on a deadline task can push its deadline, stash the
->> task prio towards the end of sched_change_begin().
->>
->> The modification to priority within the sched_change guard's scope will
->> still be considered as sched_change_end() will supply the priority
->> stashed at the end of constructor's execution as the old priority to
->> sched_class->prio_changed().
->>
+> > Avoid running the wakeup irq_work on an isolated CPU. Since the wakeup can
+> > run on any CPU, let's pick a housekeeping CPU to do the job.
+> > 
+> > This change reduces additional noise when tracing isolated CPUs. For
+> > example, the following ipi_send_cpu stack trace was captured with
+> > nohz_full=2 on the isolated CPU:
+> > 
+> >           <idle>-0       [002] d.h4.  1255.379293: ipi_send_cpu: cpu=2 callsite=irq_work_queue+0x2d/0x50 callback=rb_wake_up_waiters+0x0/0x80
+> >           <idle>-0       [002] d.h4.  1255.379329: <stack trace>  
+> >  => trace_event_raw_event_ipi_send_cpu
+> >  => __irq_work_queue_local
+> >  => irq_work_queue
+> >  => ring_buffer_unlock_commit
+> >  => trace_buffer_unlock_commit_regs
+> >  => trace_event_buffer_commit
+> >  => trace_event_raw_event_x86_irq_vector
+> >  => __sysvec_apic_timer_interrupt
+> >  => sysvec_apic_timer_interrupt
+> >  => asm_sysvec_apic_timer_interrupt
+> >  => pv_native_safe_halt
+> >  => default_idle
+> >  => default_idle_call
+> >  => do_idle
+> >  => cpu_startup_entry
+> >  => start_secondary
+> >  => common_startup_64    
 > 
-> Would not something like so make more sense?
+> I take it that even with this patch you would still get the above events.
+> The only difference would be the "cpu=" in the event info will not be the
+> same as the CPU it executed on, right?
+
+Yes, this is trace of a similar event after applying the patch:
+
+          <idle>-0       [002] d.h4.   313.334367: ipi_send_cpu: cpu=1 callsite=irq_work_queue_on+0x55/0x90 callback=generic_smp_call_function_single_interrupt+0x0/0x20
+          <idle>-0       [002] d.h4.   313.334390: <stack trace>
+ => trace_event_raw_event_ipi_send_cpu
+ => __smp_call_single_queue
+ => irq_work_queue_on
+ => ring_buffer_unlock_commit
+ => trace_buffer_unlock_commit_regs
+ => trace_event_buffer_commit
+ => trace_event_raw_event_x86_irq_vector
+ => __sysvec_apic_timer_interrupt
+ => sysvec_apic_timer_interrupt
+ => asm_sysvec_apic_timer_interrupt
+ => pv_native_safe_halt
+ => default_idle
+ => default_idle_call
+ => do_idle
+ => cpu_startup_entry
+ => start_secondary
+ => common_startup_64
+
+The callback function in the trace event is different. That's because
+send_call_function_single_ipi() always uses this value. Maybe it can be
+improved, and I can look into it, but that's clearly a very separate
+issue.
+
+> > The IRQ work interrupt alone adds considerable noise, but the impact can
+> > get even worse with PREEMPT_RT, because the IRQ work interrupt is then
+> > handled by a separate kernel thread. This requires a task switch and makes
+> > tracing useless for analyzing latency on an isolated CPU.
+> > 
+> > Signed-off-by: Petr Tesarik <ptesarik@suse.com>  
 > 
-> ---
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index 80c9559a3e30..60e0c25aae78 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -3306,6 +3306,8 @@ static void switched_to_dl(struct rq *rq, struct task_struct *p)
->  
->  static u64 get_prio_dl(struct rq *rq, struct task_struct *p)
->  {
-> +	if (task_current_donor(rq, p))
-> +		update_curr_dl(rq);
->  	return p->dl.deadline;
->  }
->  
+> LGTM,
+> 
+> I'll queue it up for the next merge window.
 
-Yup this makes sense too! Feel free to add a small note like:
+Thank you!
 
-Catch up the deadline before returning it from get_prio() for the
-current donor. This ensures the sched_change guard caches the latest
-value and doesn't mistake the subsequent dequeue to have changed the
-task's priority.
-
-and include:
-
-Reviewed-and-tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
-
--- 
-Thanks and Regards,
-Prateek
-
+Petr T
