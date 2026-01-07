@@ -1,276 +1,183 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012030.outbound.protection.outlook.com [40.93.195.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056451A2C04
-	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 01:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767749224; cv=none; b=ZVb4Ig+3XHWHG13uVA1gyQZ7o2TAhYRbk2ncrkEI4SHrHoRfdZM2v5fYdUB0dEKPm+dMfqbjy6TQKaVtMBqSLT2lKGBT91wAbqDOoaLatPSVkuhIz485dlvvwzvRtD7cjJUKUoAgFyaf+XDGCSWdsF9Mjja4HJOkXqhEtNV4EnI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767749224; c=relaxed/simple;
-	bh=6qXjRweWr5OFMI1uMaCKHIO4u+FEgaxRzVd236c9p1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e2/DIA+V4YnJrcI+NNgMbPK5lBM3FzTyx2PdDhlT05Zqb8fceAlw4YfjHuU/fQIAur5URa8osJeZvkg55JFeUw79zsDBreUtcdCLks0jaH0QOSEe/GSN628is3hGZs+tbWWnWYXy4dZlucXbQkxbMXMFPPluNz7pBgUwB66V5IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org; spf=pass smtp.mailfrom=joelfernandes.org; dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b=AD/VdQRZ; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF9278F29
+	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 04:50:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1767761404; cv=fail; b=LLbQCIwdhxSFYKHYoliCWbvlnyskayOWct7sdyq5+hPS1GNbCJDTODW0rnaZ/yq38BKQcZreX8tNER/MLwpIVc3pGiFTKwKAnP43OwjZywXXKZJrPZsq1OXbVu1dOfo7RsL/sETyJM97O1FMMmg2usS+8oO1TwAeZhHa3lOtEA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1767761404; c=relaxed/simple;
+	bh=86GoidyRphMvMHa0O7J2LWiaehFVu+ZyC7seA3J9qI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Tzi2uoNPVPlJLmKzbE0r29tTcTXCla1TRKP13PTz3WnrWsFEIkLXxn7qPKwQwICKt5JpSaU7Sua78lVtP//UmZLbUC4spExlvMx62DLNJBDgbHf09I0DObTKXiSE5dsF9oN4heBrGKi81UrzDvGlyDlhgeYOoDeCRIhjGcCfauY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ia2gC+FF; arc=fail smtp.client-ip=40.93.195.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.b="AD/VdQRZ"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-11f36012fb2so1234265c88.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 06 Jan 2026 17:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1767749222; x=1768354022; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=GeAh2oKmLRqPafqLvM6s5CboOQWCOtACKHcMjuL8GSI=;
-        b=AD/VdQRZLUQeggE7gdLvLdtTx1M4JUdMaJZdQKZG7cghdxD/sL1csINdzhwYTiuaJW
-         7r3DKGPEh39i2AVZOkOQHlyrodaTamXdjN0DZHNCBeQMS3WMlUGKjFXPzqU+wyNfnlFE
-         14/mp0razUtWE96YnZouwnjRgx7D0dpqBTgu0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767749222; x=1768354022;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GeAh2oKmLRqPafqLvM6s5CboOQWCOtACKHcMjuL8GSI=;
-        b=NS7Nk+e7XqtPp1s5ABERCztkaPh1SZ+1A9VJh9EfXbR2hDKc1+Xg8iDiL3+5XNNFK7
-         ceH7rGdYSGfQGjGpJHQbp7aRy1DYSQX4tcO+KKXq/QCOS1O/cD2CNgPOFWdCRW5z9mUd
-         FSF5lm0El3Fv6UxolDk78GQ5oErADvfxXME5VsRnM7pRptBZPXJVYTqGBk41IkWvTsAg
-         VHwTyrFN28NP7xqRy9wD/0gG8dF3PKfQMdl4A6i9ojzfULW9rvu0CK53aNZPb10jfY9l
-         j4qCWMOMy23Ur1Eca2TMH3zVvwpNRlausAe4HpjXsm8aLtBEI7RnIYenldX72IYWPO+o
-         JMdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVT17wkDhW79PHdDu+7Bd8G/O3KUMGCT2KZAaICd8eq0d41XVUsdmrY8prQ2ATH4anOdxsgI1WQHUesIJz8DQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YykV8kqmRLKtuFlyxfqMN0bwF1IIB+zpmMTA8uExHiSddU+Fo/O
-	jkf3TuxQnyQYS8fgOFh87nV/UUEKkcssEoX3v8a82so2UBDRg+3F1UDFP7SOYDpavUA=
-X-Gm-Gg: AY/fxX6lwnYIkxAtRtnIccN+beBrlAxy7epeQI6xmIUsbcTOv6xv3Eu/Lzm8hCwM5Bm
-	M8CY87HiF6AQEZKleXOdmAbDD8EUeyf7fOLsT1ybvHHqijmh/U1rlwqyCG/Bk3EMHhiX4s936c+
-	exdDK5hyHSGlScl7pF9p3K2GabCgjhYmFZgEm3bZyA6w25rBSzvQHfqgGsnN9FJsGYUzFky+JRI
-	wdOLsyGoI+q4JBzpmi0+gAXcd7F/x7jlWtUKERQpfD6hR/TKL4q1gRDgvQ8we+GiU7Ez4PhcxL+
-	OYW8Eo/HoaQrYXQJQOTQ4OHU4O6IOwKuzY4HWCP4dXQUCgLsZwIVo4Pg9/Kqh40M79ipRxM97mC
-	IB3aeIGk3+Lc9YYC2o5F97SRZIUE0kk1VDUBH+Y3Rq0CoCJ2FXpiiDoqrWSDofgd0kRVaQx/+GE
-	DcWJQourGd
-X-Google-Smtp-Source: AGHT+IHZQx7+l7Sc5UZXM50GfCbv4DjIAmwjloCxQW/7xarVJPvutxwydUwZqJ/IhGEhunEvC26rIw==
-X-Received: by 2002:a05:7022:2385:b0:11b:c2fd:3960 with SMTP id a92af1059eb24-121f8b46199mr642850c88.28.1767749221848;
-        Tue, 06 Jan 2026 17:27:01 -0800 (PST)
-Received: from localhost ([71.219.3.177])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121f248c239sm6792347c88.9.2026.01.06.17.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Jan 2026 17:27:01 -0800 (PST)
-Date: Tue, 6 Jan 2026 20:26:59 -0500
-From: Joel Fernandes <joel@joelfernandes.org>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: paulmck@kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>, linux-rt-devel@lists.linux.dev,
-	rcu@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
-	bpf@vger.kernel.org
-Subject: Re: [RFC PATCH 1/2] rcu: Add rcu_read_lock_notrace()
-Message-ID: <20260107012659.GA3677916@joelbox2>
-References: <512331d8-fdb4-4dc1-8d9b-34cc35ba48a5@paulmck-laptop>
- <bbe08cca-72c4-4bd2-a894-97227edcd1ad@efficios.com>
- <16dd7f3c-1c0f-4dfd-bfee-4c07ec844b72@paulmck-laptop>
- <20250716110922.0dadc4ec@batman.local.home>
- <895b48bd-d51e-4439-b5e0-0cddcc17a142@paulmck-laptop>
- <bb20a575-235b-499e-aa1d-70fe9e2c7617@paulmck-laptop>
- <e8f7829c-51c9-494a-827a-ee471b2e17cd@efficios.com>
- <2d9eb910-f880-4966-ba40-9b1e0835279c@efficios.com>
- <2f8bb8bb-320e-480f-9a56-8eb5cbd4438a@paulmck-laptop>
- <5dc49f5a-ddda-422b-a8af-c662ee53d503@efficios.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ia2gC+FF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wWEbu9u4JkPsCfvfHJMsWv8mcoQSJvhzQKqOoXln4toL35PKGBo2Uf1R2bmnqx84fGbij1j0hDN5EguAX8lVTQGtr7xdKEddJgSyCPRu5EAAhIe98Gb31wpndwTn6abk5WcTJ/e+YHzjaiow9m5VuYCv+U6XaAxM94QHSdR6VQkFemBSx3mzAWkhZrJRkxOK8UcvmH3yAo4KLWPxsONwnkkWJdIeyX4AXnh/ayTXPjTxVD5EuMsj+7DxAqqvyBwfCXD3mluqu3blWB7GszU8GoMYIs4FDwVta+uUgAnog6sZUzb0DpNn77JCtu19VOfnY8Qt4vDR4eRr21F1ilMf0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Gq09EMj1mLc2gaeXQ30D9i8Ed3Tpkr9ifBblmLPs+J0=;
+ b=mYCmO8nhKJ8UJJc5uC60qF2YIBfPMzYXmuhSI3rHwzrSQYzLRoOAyeMlBWY5kqs4UpT1vkBMZqO0hRhEtzP7cIoisQ2Xd+jh6rTAlhAUwmB6LE6irFcDRcjqGo6qbX5yxvNn/Spl0gDTMoBPhm7AIX6R01K+xl/JShs5iE70owPi0/rOZZKq0fZI4XVMpIDhbDGYq0dE41TNfNONZzt8hMvKzvg+zMnlNeovY9f8MlF05ueLB6PCxxol6BTrkoezhho/wp1W6iqn3QfltFSMSfWH5kzK6tVeKy87Rryt3ufdsKoTfXlJXTWqX6a9afXtQPgmvCLDLRUamgjHSMMVXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gq09EMj1mLc2gaeXQ30D9i8Ed3Tpkr9ifBblmLPs+J0=;
+ b=ia2gC+FFdM1TRV6dNif/J3FfaOte8ArFCNAnFdha4BaFBU4CMwaP1ZleMNhxiZYRLa84SlDx29Sq/l9bdXiTAUFoDLnq6LXC9mo/1+igOeySlI2YrrOOQOUjBaMDS4pWvxykARWYbwHIYggt/z6zby1gC+VEG99Cd84ST0n+izI=
+Received: from SA1P222CA0079.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:35e::16)
+ by LV3PR12MB9093.namprd12.prod.outlook.com (2603:10b6:408:19d::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.5; Wed, 7 Jan
+ 2026 04:49:54 +0000
+Received: from SA2PEPF00003F66.namprd04.prod.outlook.com
+ (2603:10b6:806:35e:cafe::20) by SA1P222CA0079.outlook.office365.com
+ (2603:10b6:806:35e::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9499.2 via Frontend Transport; Wed, 7
+ Jan 2026 04:49:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SA2PEPF00003F66.mail.protection.outlook.com (10.167.248.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9499.1 via Frontend Transport; Wed, 7 Jan 2026 04:49:54 +0000
+Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 6 Jan
+ 2026 22:49:53 -0600
+Received: from [172.31.184.125] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Tue, 6 Jan 2026 22:49:49 -0600
+Message-ID: <a29f0be2-5d8f-4585-8cf0-baabfd316e12@amd.com>
+Date: Wed, 7 Jan 2026 10:19:48 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5dc49f5a-ddda-422b-a8af-c662ee53d503@efficios.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/2] cpufreq: Pass the policy to
+ cpufreq_driver->adjust_perf()
+To: "Mario Limonciello (AMD) (kernel.org)" <superm1@kernel.org>, Huang Rui
+	<ray.huang@amd.com>, "Gautham R. Shenoy" <gautham.shenoy@amd.com>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Len Brown
+	<lenb@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Clark
+ Williams" <clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>,
+	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>
+CC: Perry Yuan <perry.yuan@amd.com>
+References: <20260106073608.278644-1-kprateek.nayak@amd.com>
+ <20260106073608.278644-3-kprateek.nayak@amd.com>
+ <1e51babe-d112-44fb-96e6-8ee7c8050302@kernel.org>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <1e51babe-d112-44fb-96e6-8ee7c8050302@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00003F66:EE_|LV3PR12MB9093:EE_
+X-MS-Office365-Filtering-Correlation-Id: 290a974d-2823-42cf-87fe-08de4da83328
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|36860700013|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dmRsWnZoVTVuYlYySGYvdnR6V2NLcUpzUTdvMjJOYkVrSnFVMTFiME1BU25M?=
+ =?utf-8?B?bGhZeWZOWlFrRk9qaCsvS084NHUwSklBSGpMbDhsV3NPMSt6cDErOEVXald1?=
+ =?utf-8?B?c1liZ2lpaW5pc25GL1huWGdxOVhEdERtYlkzVC80dEt6NFozcEVhdnZXcWVE?=
+ =?utf-8?B?V29MTmt1Vm4rYmI3YTlsaUdGdnh1cEZ3dDlNR09uSXcwbTZ1U3hNNXV1aHN0?=
+ =?utf-8?B?QUtteHhsYTdTUTl1VVI3c2p3NzdPQi96aDRvTUxSQkRVaXMyM3pIbCtYSnZ1?=
+ =?utf-8?B?Z09NZWs1amVmb0lFQWVia3kxQXE2aXFNV1J5TWlnVTFwUTNuUTlGZ1M5TnlO?=
+ =?utf-8?B?ZVNRU2FaY1UvRjQrWm0xenI0ZHpaVWNXN0ZhRXZJck83YWdHQ3g0S2ZBUmx5?=
+ =?utf-8?B?NE52WFJrMVVtdHI4dFViTTl3TW5LUjR1RmpBdElsazFPK240Y1c4eHBjMjRl?=
+ =?utf-8?B?bXJhdm9EZFdBbXhuY2FWcTZianJTTngzNFNTT1BpZDFTdW5uSWhLQUpkNHYv?=
+ =?utf-8?B?WlNWbUNQWmVlQlBGYXF6VmU1U0FGL1hqUm5KWm1oMW8rUGRZaE5BSGhrL3RF?=
+ =?utf-8?B?UHdqZ3huT1dqT3ovMXFzaitZS3ZiMkgrby9Cd0dPUVY0UmcxQ05TM0tMd0oy?=
+ =?utf-8?B?bUZUVHpLZkQzdnRQQ1NZN0ZZek5jU0JiRlJvRWlvS3hGTWQxK3Q5RFEwUXZi?=
+ =?utf-8?B?R0p0N3pIKzNDTG02Y3JMc1hJQlpqSllkOHRmRU43Q05YSi9ZZUJCNlJENVZu?=
+ =?utf-8?B?ZE00QmVwekRacldzc2liWllXYTFaNDFpaWdEbk9zbGpLNXh0a2hTK3FtbXda?=
+ =?utf-8?B?aFVmQUNYQTBHN1VIMlVqakJuMndycitNVUxERnlscnkzQ203ODdIQ3RRYTdR?=
+ =?utf-8?B?cVRnK1lFTnRieUUvVHlGSzVHSjJ5V0RnOEhDeXMrZ2VrTFR0UnJhT2twdm16?=
+ =?utf-8?B?YWpCYTBlZGoyK2tPSnNPcWRpZUloU014WkFpZFlvaHFUZWhrd2dJT3hZVkEw?=
+ =?utf-8?B?bGxpNUlUaG5iSWxVdzlWS2tBb2JuS0xMZTVOTEg1OVJaSUJmSzlnNkFMOWhL?=
+ =?utf-8?B?K0pmY3psQ044N1FmQThoY00zWmlYV0RnSW1NLyt4dlpMT01HTGRRR2NvZnA1?=
+ =?utf-8?B?ODlXNk14eDlsYlU3ZjJHUC8zNllUYjZzRkxxaGxpYjdwM2ZCQisrdVdCRjU2?=
+ =?utf-8?B?eFo3SkFyek1ubm5hQmFpMUxpRXMvb1NWaWlYRTFwdTdWUTZOdkZJbENFZHNs?=
+ =?utf-8?B?MjNUOG1mNGkzQTB3ZU1WUmRGKzN4NndGbXJ1R0FEV2t3UEJubGZlREZSeEcw?=
+ =?utf-8?B?VFBXVk15bDdEbmk5MEEyQ1UvOWdJa1RxOXlxSHBEQVZzTTFEMVVYbDB2QUpw?=
+ =?utf-8?B?ZTBzZ3g1d0hhOUlHaEhzK2dFbmtKeks1aVRwZU1UdkhZUHZQd2ZONThQNFBT?=
+ =?utf-8?B?Rm1vMG9yanMrajdFbU44SGx1R3NyWlB2cjQxSTYvNzIzMkIzQWdhWHNRdVM2?=
+ =?utf-8?B?U050NHhILy8yMjZwMHBaYVRjdDZxUXZOWlBIRkYweWdFUWU0ck52dDVJUmNT?=
+ =?utf-8?B?aVJhU0JTTWtESDJuRWNhaFNVczY5ZXduZVBwOUtDVDRwL0JsTzIyUk9yYVRP?=
+ =?utf-8?B?UnpDczlSWWFwbnlocnNBZkpaY3lzellDWDZPclNvbUozUVk2aXBERUd1QTJi?=
+ =?utf-8?B?V2hNWkNDM0xVWVFoUDlSd0NPVHdtNld0bHNBNTA0Y1N5STd6ak1zcnNlQTBX?=
+ =?utf-8?B?QmJsQlVmWExBNVROMG5UVi80WVh5Rm13S2NUOEQydEdaMkw4WE5iY1BsL01u?=
+ =?utf-8?B?QXpuWlVXNTArWFpUY0VyUUtEMWVscFhscy9ibEk3K1BFbEJ4YVdoZlhWSDNS?=
+ =?utf-8?B?eDlUVy9rUXlqMmdxOWl6Z1dLOTh6N1o5dURVQmVXOGNES1FCSmFjL0c2MVlo?=
+ =?utf-8?B?d2RIYUtTWVNqWUg3QXlaemJ2VzVCQnNEdFFEb1pma1h3aTZ4V05zZkthVk1s?=
+ =?utf-8?B?SFpod1dqRGdBRFhEcFdZaUY0dmhDOTFxd3RZa0xIQ1VIK2ZmYTJhODg3cTBa?=
+ =?utf-8?B?VDlXNkhiOGtKQUJ4K1RsTU9rZzFtdTI2Z2VsMjRGRlJncXBvU1BYeFh1aXpL?=
+ =?utf-8?Q?YWKzM87x+r3r4vlXtnKwSuOKL?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(36860700013)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2026 04:49:54.0714
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 290a974d-2823-42cf-87fe-08de4da83328
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00003F66.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9093
 
-On Thu, Jul 17, 2025 at 03:36:46PM -0400, Mathieu Desnoyers wrote:
-> On 2025-07-17 11:18, Paul E. McKenney wrote:
-> > On Thu, Jul 17, 2025 at 10:46:46AM -0400, Mathieu Desnoyers wrote:
-> > > On 2025-07-17 09:14, Mathieu Desnoyers wrote:
-> > > > On 2025-07-16 18:54, Paul E. McKenney wrote:
-> > > [...]
-> > > > 
-> > > > 2) I think I'm late to the party in reviewing srcu-fast, I'll
-> > > >      go have a look :)
-> > > 
-> > > OK, I'll bite. :) Please let me know where I'm missing something:
-> > > 
-> > > Looking at srcu-lite and srcu-fast, I understand that they fundamentally
-> > > depend on a trick we published here https://lwn.net/Articles/573497/
-> > > "The RCU-barrier menagerie" that allows turning, e.g. this Dekker:
-> > > 
-> > > volatile int x = 0, y = 0
-> > > 
-> > > CPU 0              CPU 1
-> > > 
-> > > x = 1              y = 1
-> > > smp_mb             smp_mb
-> > > r2 = y             r4 = x
-> > > 
-> > > BUG_ON(r2 == 0 && r4 == 0)
-> > > 
-> > > into
-> > > 
-> > > volatile int x = 0, y = 0
-> > > 
-> > > CPU 0            CPU 1
-> > > 
-> > > rcu_read_lock()
-> > > x = 1              y = 1
-> > >                     synchronize_rcu()
-> > > r2 = y             r4 = x
-> > > rcu_read_unlock()
-> > > 
-> > > BUG_ON(r2 == 0 && r4 == 0)
-> > > 
-> > > So looking at srcu-fast, we have:
-> > > 
-> > >   * Note that both this_cpu_inc() and atomic_long_inc() are RCU read-side
-> > >   * critical sections either because they disables interrupts, because they
-> > >   * are a single instruction, or because they are a read-modify-write atomic
-> > >   * operation, depending on the whims of the architecture.
-> > > 
-> > > It appears to be pairing, as RCU read-side:
-> > > 
-> > > - irq off/on implied by this_cpu_inc
-> > > - atomic
-> > > - single instruction
-> > > 
-> > > with synchronize_rcu within the grace period, and hope that this behaves as a
-> > > smp_mb pairing preventing the srcu read-side critical section from leaking
-> > > out of the srcu read lock/unlock.
-> > > 
-> > > I note that there is a validation that rcu_is_watching() within
-> > > __srcu_read_lock_fast, but it's one thing to have rcu watching, but
-> > > another to have an actual read-side critical section. Note that
-> > > preemption, irqs, softirqs can very well be enabled when calling
-> > > __srcu_read_lock_fast.
-> > > 
-> > > My understanding of the how memory barriers implemented with RCU
-> > > work is that we need to surround the memory accesses on the fast-path
-> > > (where we turn smp_mb into barrier) with an RCU read-side critical
-> > > section to make sure it does not spawn across a synchronize_rcu.
-> > > 
-> > > What I am missing here is how can a RCU side-side that only consist
-> > > of the irq off/on or atomic or single instruction cover all memory
-> > > accesses we are trying to order, namely those within the srcu
-> > > critical section after the compiler barrier() ? Is having RCU
-> > > watching sufficient to guarantee this ?
-> > 
-> > Good eyes!!!
-> > 
-> > The trick is that this "RCU read-side critical section" consists only of
-> > either this_cpu_inc() or atomic_long_inc(), with the latter only happening
-> > in systems that have NMIs, but don't have NMI-safe per-CPU operations.
-> > Neither this_cpu_inc() nor atomic_long_inc() can be interrupted, and
-> > thus both act as an interrupts-disabled RCU read-side critical section.
-> > 
-> > Therefore, if the SRCU grace-period computation fails to see an
-> > srcu_read_lock_fast() increment, its earlier code is guaranteed to
-> > happen before the corresponding critical section.  Similarly, if the SRCU
-> > grace-period computation sees an srcu_read_unlock_fast(), its subsequent
-> > code is guaranteed to happen after the corresponding critical section.
-> > 
-> > Does that help?  If so, would you be interested and nominating a comment?
-> > 
-> > Or am I missing something subtle here?
-> 
-> Here is the root of my concern: considering a single instruction
-> as an RCU-barrier "read-side" for a classic Dekker would not work,
-> because the read-side would not cover both memory accesses that need
-> to be ordered.
+Hello Mario,
 
-I had similar questions, so let me share, assuming I even got your question
-correct. I think what might help is to note that for synchronize_rcu(), any
-transition to and from RCU watching is a full memory barrier. And if I
-understand correctly, because SRCU fast is not allowed when RCU is not
-watching, the memory ordering Required for RCU correctness is automatically
-taken care of because the update side uses synchronize_rcu(). 
+On 1/7/2026 1:01 AM, Mario Limonciello (AMD) (kernel.org) wrote:
+> 
+> 
+> On 1/6/2026 1:36 AM, K Prateek Nayak wrote:
+>> cpufreq_cpu_get() can sleep on PREEMPT_RT in presence of concurrent
+>> writer(s), however amd-pstate depends on fetching the cpudata via the
+>> policy's driver data which necessitates grabbing the reference.
+>>
+>> Since schedutil governor can call "cpufreq_driver->update_perf()"
+>> during sched_tick/enqueue/dequeue with rq_lock held and IRQs disabled,
+>> fetching the policy object using the cpufreq_cpu_get() helper in the
+>> scheduler fast-path leads to "BUG: scheduling while atomic" on
+>> PREEMPT_RT [1].
+>>
+>> Pass the cached cpufreq policy object in sg_policy to the update_perf()
+>> instead of just the CPU. The CPU can be inferred using "policy->cpu".
+>>
+>> The lifetime of cpufreq_policy object outlasts that of the governor and
+>> the cpufreq driver (allocated when the CPU is onlined and only reclaimed
+>> when the CPU is offlined / the CPU device is removed) which makes it
+>> safe to be referenced throughout the governor's lifetime.
+>>
+>> Link: https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/ [1]
+> 
+> I think you should have these tags instead:
+> Reported-by: Bert Karwatzki <spasswolf@web.de>
+> Closes:https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/ [1]
 
-That is my understanding. Could you clarify how your question is related to the
-single instruction thing? I think if you apply the
-classical RCU reasoning where RCU (regular RCU) read-side critical sections
-do not have any memory barriers, then you will see the similarity of that
-with srcu-fast.
+Ack! I'll update it in the next version. Thank you for the review.
 
-thanks,
+-- 
+Thanks and Regards,
+Prateek
 
- - Joel
-
-> 
-> I cannot help but notice the similarity between this pattern of
-> barrier vs synchronize_rcu and what we allow userspace to do with
-> barrier vs sys_membarrier, which has one implementation
-> based on synchronize_rcu (except for TICK_NOHZ_FULL). Originally
-> when membarrier was introduced, this was based on synchronize_sched(),
-> and I recall that this was OK because userspace execution acted as
-> a read-side critical section from the perspective of synchronize_sched().
-> As commented in kernel v4.10 near synchronize_sched():
-> 
->  * Note that this guarantee implies further memory-ordering guarantees.
->  * On systems with more than one CPU, when synchronize_sched() returns,
->  * each CPU is guaranteed to have executed a full memory barrier since the
->  * end of its last RCU-sched read-side critical section whose beginning
->  * preceded the call to synchronize_sched().  In addition, each CPU having
->  * an RCU read-side critical section that extends beyond the return from
->  * synchronize_sched() is guaranteed to have executed a full memory barrier
->  * after the beginning of synchronize_sched() and before the beginning of
->  * that RCU read-side critical section.  Note that these guarantees include
->  * CPUs that are offline, idle, or executing in user mode, as well as CPUs
->  * that are executing in the kernel.
-> 
-> So even though I see how synchronize_rcu() nowadays is still a good
-> choice to implement sys_membarrier, it only apply to RCU read side
-> critical sections, which covers userspace code and the specific
-> read-side critical sections in the kernel.
-> 
-> But what I don't get is how synchronize_rcu() can help us promote
-> the barrier() in SRCU-fast to smp_mb when outside of any RCU read-side
-> critical section tracked by the synchronize_rcu grace period,
-> mainly because unlike the sys_membarrier scenario, this is *not*
-> userspace code.
-> 
-> And what we want to order here on the read-side is the lock/unlock
-> increments vs the memory accesses within the critical section, but
-> there is no RCU read-side that contain all those memory accesses
-> that match those synchronize_rcu calls, so the promotion from barrier
-> to smp_mb don't appear to be valid.
-> 
-> But perhaps there is something more that is specific to the SRCU
-> algorithm that I missing here ?
-> 
-> Thanks,
-> 
-> Mathieu
-> 
-> > 
-> > Either way, many thanks for digging into this!!!
-> > 
-> > 							Thanx, Paul
-> > 
-> > > Thanks,
-> > > 
-> > > Mathieu
-> > > 
-> > > -- 
-> > > Mathieu Desnoyers
-> > > EfficiOS Inc.
-> > > https://www.efficios.com
-> 
-> 
-> -- 
-> Mathieu Desnoyers
-> EfficiOS Inc.
-> https://www.efficios.com
