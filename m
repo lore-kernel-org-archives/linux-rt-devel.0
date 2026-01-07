@@ -1,85 +1,167 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from mail17.out.titan.email (mail17.out.titan.email [3.64.226.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E198B37D1C0
-	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 16:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCBD2868A7
+	for <linux-rt-devel@lists.linux.dev>; Wed,  7 Jan 2026 21:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.64.226.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767803379; cv=none; b=K2nc+l/xOa4oFQDFG4BSnS98FsYkfvo1rzs6OeYIwjuydyQasZ96R4+WGbA9b3nw2EjH5U/Vr49d//uS28FUcKl5o5jZMXAbHGaXDwDL5YMZAVc7i8iAkZ2RwC48TXNP3RHLYQRyRr9qxy76ZpVJ6I6emb+2n/u9AUPyBMb5t28=
+	t=1767821738; cv=none; b=ScURgbi0IQ2i91e0yxwDNbgiZUArvwezipXFUrKOQVskw7SZ0zlAOB7Qyn7fLVEPTp+JJLd/MgPcn5qWhkz298b/YYV2ngGj3E/N160TQbbyOcJgY4DK3ZhifLxR7+wBFcIjPNbOguon6MbbiyQOwAVBhWli8prPL7JfmugHkZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767803379; c=relaxed/simple;
-	bh=h4g1T8+nTdGRiKEX2zWnm5RgnG79J06XV+19EmwzTxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=o+KtzKmuytDfJEFBOiiHt1cIje9d+h977TNExpssENELIRA1auSkmJfQR1ehr2b5MfVWrPHRafgke18SnoHFyJm8BKt0dtXAMEKsgkBaoOUc06GSPFObCzA4Ei+x0bCU+K6kY7eeU8LTuc8AyVYmRaa1oqvx98Mf+u3eKQLtc8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 4E792160476;
-	Wed,  7 Jan 2026 16:19:11 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id 37D5E20018;
-	Wed,  7 Jan 2026 16:19:09 +0000 (UTC)
-Date: Wed, 7 Jan 2026 11:19:35 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Petr Tesarik <ptesarik@suse.com>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
-Message-ID: <20260107111935.3befc296@gandalf.local.home>
-In-Reply-To: <20260107111709.0d115cd8@gandalf.local.home>
-References: <20260106091039.2012108-1-ptesarik@suse.com>
-	<20260106170405.425f469e@gandalf.local.home>
-	<20260107085009.58fcffd4@mordecai>
-	<20260107105137.4cf9a67e@mordecai>
-	<20260107111709.0d115cd8@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1767821738; c=relaxed/simple;
+	bh=f064EZ0dqGRVg3dkxlUTLTwy1SIOsSTpUSYzFm4tCpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RxU0Qq1qxpwO7POXSzRpGMF+fVuXCq+xpdfvm8MVmzCK3AyMGkWw3VT1wgWOPJBPyky1KmWyc06K2nr99utNcVEi578eheiuqROPx1idT9kA9AIsHtYXjVmXveKNcQ/oaVeO9mgWYvrCg+UVfUyyuRO0Bwe3IWtUE+s0PBmf7RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=techsingularity.net; spf=pass smtp.mailfrom=techsingularity.net; dkim=pass (1024-bit key) header.d=techsingularity.net header.i=@techsingularity.net header.b=GRT6GfwD; arc=none smtp.client-ip=3.64.226.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=techsingularity.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=techsingularity.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=techsingularity.net header.i=@techsingularity.net header.b="GRT6GfwD"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp-out0101.titan.email (Postfix) with ESMTP id 4dmgsD0gw6z4vxF;
+	Wed,  7 Jan 2026 21:19:28 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=3Gsude5bCr/12iFzuhvBklS0UCcOFjMel4nHpQJlVUA=;
+	c=relaxed/relaxed; d=techsingularity.net;
+	h=date:cc:subject:references:from:to:message-id:mime-version:in-reply-to:from:to:cc:subject:date:message-id:in-reply-to:references:reply-to;
+	q=dns/txt; s=titan1; t=1767820768; v=1;
+	b=GRT6GfwDFe8MjeAHbU3WKrjHJH5MTG7P8YHkSbQMBx54D0v53MuQJdCG5+JS3kgyrGD8/SK4
+	0xIJuW6Q/2GJUf4qzG63maVHTQrzpMu5pRc9JTwzGkn0K8keeQZYXtRxc5kaz5DUiUGKzH0QJU5
+	uxSEYB1hDcy8bRcRj6eAeiQk=
+Received: from techsingularity.net (ip-84-203-20-110.broadband.digiweb.ie [84.203.20.110])
+	by smtp-out0101.titan.email (Postfix) with ESMTPA id 4dmgsB4LfWz4vxD;
+	Wed,  7 Jan 2026 21:19:26 +0000 (UTC)
+Date: Wed, 7 Jan 2026 21:19:20 +0000
+Feedback-ID: :mgorman@techsingularity.net:techsingularity.net:flockmailId
+From: Mel Gorman <mgorman@techsingularity.net>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, stable@vger.kernel.org, 
+	kernel test robot <oliver.sang@intel.com>, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH mm-hotfixes] mm/page_alloc: prevent pcp corruption with
+ SMP=n
+Message-ID: <h33pscn2orhpb5dapttmo4vy4s3drfsjaahmjp4arsjjfngzno@bzbacqjvfe6r>
+References: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: regmgp5xptze837exf5tromfaembwfp4
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: 37D5E20018
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19t1uYnw622G91V7nQiZPO3aimEGwqxAoA=
-X-HE-Tag: 1767802749-236976
-X-HE-Meta: U2FsdGVkX18/wIi3/OMgHpXPjGUWt6PrTQOjaOrUDU49HogZnJHHwu/Vm2eb5nYUPuBswgrudCYbFK+vo10c6w2pMHNJK7/+WEwVvkSJLf36+FPI+RKB5AeZs3FpGCNIcOToiqYvHRHb/k7FvXEfvEDrt0NvqhLbvBPL5fFjsbXWDmBQRidwfZBOlSHDVKrA1pJsRzRUp8MEsOTMheAINzSHEBq2dNsj6GomR4KOCjB8KVbaVPcI8+lAbquE3f4FbbNhpGEwykX3OtF5Dg06cxsRGeGWaIingNANJERPMnRvvG++Q/TODzxbQxRTgQS7kPoY4qTrURw3ZSW6Yp+BsVsOPExFFjcH3LJC1NYS8UNcsN8pPOCfRLvzdocTvn7G
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+In-Reply-To: <20260105-fix-pcp-up-v1-1-5579662d2071@suse.cz>
+X-F-Verdict: SPFVALID
+X-Titan-Src-Out: 1767820767945683141.1240.1245684775781968541@prod-euc1-smtp-out1002.
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.4 cv=d4QPyQjE c=1 sm=1 tr=0 ts=695ecddf
+	a=ycgmuL0lqxUANBz+XI9aLQ==:117 a=ycgmuL0lqxUANBz+XI9aLQ==:17
+	a=Q9fys5e9bTEA:10 a=CEWIc4RMnpUA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
+	a=JfrnYn6hAAAA:8 a=R_Myd5XaAAAA:8 a=MC9sqzVPiPx8m3HZA18A:9
+	a=PUjeQqilurYA:10 a=1CNFftbPRP8L7MoqJWF3:22 a=L2g4Dz8VuBQ37YGmWQah:22
 
-On Wed, 7 Jan 2026 11:17:09 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
-
-> Or we simply change it to:
+On Mon, Jan 05, 2026 at 04:08:56PM +0100, Vlastimil Babka wrote:
+> The kernel test robot has reported:
 > 
-> static inline void
-
-Actually, the above should be noinline, as it's in a slower path, and
-should not be adding logic into the cache of the fast path.
-
--- Steve
-
-
-> rb_irq_work_queue(struct rb_irq_work *irq_work)
-> {
-> 	int cpu;
+>  BUG: spinlock trylock failure on UP on CPU#0, kcompactd0/28
+>   lock: 0xffff888807e35ef0, .magic: dead4ead, .owner: kcompactd0/28, .owner_cpu: 0
+>  CPU: 0 UID: 0 PID: 28 Comm: kcompactd0 Not tainted 6.18.0-rc5-00127-ga06157804399 #1 PREEMPT  8cc09ef94dcec767faa911515ce9e609c45db470
+>  Call Trace:
+>   <IRQ>
+>   __dump_stack (lib/dump_stack.c:95)
+>   dump_stack_lvl (lib/dump_stack.c:123)
+>   dump_stack (lib/dump_stack.c:130)
+>   spin_dump (kernel/locking/spinlock_debug.c:71)
+>   do_raw_spin_trylock (kernel/locking/spinlock_debug.c:?)
+>   _raw_spin_trylock (include/linux/spinlock_api_smp.h:89 kernel/locking/spinlock.c:138)
+>   __free_frozen_pages (mm/page_alloc.c:2973)
+>   ___free_pages (mm/page_alloc.c:5295)
+>   __free_pages (mm/page_alloc.c:5334)
+>   tlb_remove_table_rcu (include/linux/mm.h:? include/linux/mm.h:3122 include/asm-generic/tlb.h:220 mm/mmu_gather.c:227 mm/mmu_gather.c:290)
+>   ? __cfi_tlb_remove_table_rcu (mm/mmu_gather.c:289)
+>   ? rcu_core (kernel/rcu/tree.c:?)
+>   rcu_core (include/linux/rcupdate.h:341 kernel/rcu/tree.c:2607 kernel/rcu/tree.c:2861)
+>   rcu_core_si (kernel/rcu/tree.c:2879)
+>   handle_softirqs (arch/x86/include/asm/jump_label.h:36 include/trace/events/irq.h:142 kernel/softirq.c:623)
+>   __irq_exit_rcu (arch/x86/include/asm/jump_label.h:36 kernel/softirq.c:725)
+>   irq_exit_rcu (kernel/softirq.c:741)
+>   sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1052)
+>   </IRQ>
+>   <TASK>
+>  RIP: 0010:_raw_spin_unlock_irqrestore (arch/x86/include/asm/preempt.h:95 include/linux/spinlock_api_smp.h:152 kernel/locking/spinlock.c:194)
+>   free_pcppages_bulk (mm/page_alloc.c:1494)
+>   drain_pages_zone (include/linux/spinlock.h:391 mm/page_alloc.c:2632)
+>   __drain_all_pages (mm/page_alloc.c:2731)
+>   drain_all_pages (mm/page_alloc.c:2747)
+>   kcompactd (mm/compaction.c:3115)
+>   kthread (kernel/kthread.c:465)
+>   ? __cfi_kcompactd (mm/compaction.c:3166)
+>   ? __cfi_kthread (kernel/kthread.c:412)
+>   ret_from_fork (arch/x86/kernel/process.c:164)
+>   ? __cfi_kthread (kernel/kthread.c:412)
+>   ret_from_fork_asm (arch/x86/entry/entry_64.S:255)
+>   </TASK>
 > 
-> 	/* irq_work_queue_on() is not allowed in NMI context */
-> 	if (in_nmi()) {
-> 		irq_work_queue(&irq_work->work, cpu);
-> 		return;
-> 	}
+> Matthew has analyzed the report and identified that in drain_page_zone()
+> we are in a section protected by spin_lock(&pcp->lock) and then get an
+> interrupt that attempts spin_trylock() on the same lock. The code is
+> designed to work this way without disabling IRQs and occasionally fail
+> the trylock with a fallback. However, the SMP=n spinlock implementation
+> assumes spin_trylock() will always succeed, and thus it's normally a
+> no-op. Here the enabled lock debugging catches the problem, but
+> otherwise it could cause a corruption of the pcp structure.
 > 
-> 	cpu = housekeeping_any_cpu(HK_TYPE_KERNEL_NOISE);
-> 	/*
-> 	 * If CPU isolation is not active, cpu is always the current
-> 	 * CPU, and the following is equivallent to irq_work_queue().
-> 	 */
-> 	irq_work_queue_on(&irq_work->work, cpu);
-> }
+> The problem has been introduced by commit 574907741599 ("mm/page_alloc:
+> leave IRQs enabled for per-cpu page allocations"). The pcp locking
+> scheme recognizes the need for disabling IRQs to prevent nesting
+> spin_trylock() sections on SMP=n, but the need to prevent the nesting in
+> spin_lock() has not been recognized. Fix it by introducing local
+> wrappers that change the spin_lock() to spin_lock_iqsave() with SMP=n
+> and use them in all places that do spin_lock(&pcp->lock).
+> 
 
+Bah, correct.
+
+> Fixes: 574907741599 ("mm/page_alloc: leave IRQs enabled for per-cpu page allocations")
+> Cc: stable@vger.kernel.org
+> Reported-by: kernel test robot <oliver.sang@intel.com>
+> Closes: https://lore.kernel.org/oe-lkp/202512101320.e2f2dd6f-lkp@intel.com
+> Analyzed-by: Matthew Wilcox <willy@infradead.org>
+> Link: https://lore.kernel.org/all/aUW05pyc9nZkvY-1@casper.infradead.org/
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> This fix is intentionally made self-contained and not trying to expand
+> upon the existing pcp[u]_spin() helpers. This is to make stable
+> backports easier due to recent cleanups to that helpers.
+> 
+> We could follow up with a proper helpers integration going forward.
+> However I think the assumptions SMP=n of the spinlock UP implementation
+> are just wrong. It should be valid to do a spin_lock() without disabling
+> irq's and rely on a nested spin_trylock() to fail. I will thus try
+> proposing the remove the UP implementation first. It should be within
+> the current trend of removing stuff that's optimized for a minority
+> configuration if it makes maintainability of the majority worse.
+> (c.f. recent scheduler SMP=n removal)
+
+It would be fair. Maybe it'll take a performance hit because from a
+maintenance perspective, it would be preferable. It's true that
+spin_trylock within a lock protected region on UP is somewhat bogus, but
+not impossible either. Even if the resulting code is buggy anyway, it
+would be preferable to fail early than hide.
+
+> ---
+>  mm/page_alloc.c | 45 +++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 37 insertions(+), 8 deletions(-)
+> 
+
+With or without the renaming on top;
+
+Acked-by: Mel Gorman <mgorman@techsingularity.net>
+
+Thanks.
+
+-- 
+Mel Gorman
+SUSE Labs
