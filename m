@@ -1,189 +1,120 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71343BFE49
-	for <linux-rt-devel@lists.linux.dev>; Thu,  8 Jan 2026 13:21:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3CF27603C
+	for <linux-rt-devel@lists.linux.dev>; Thu,  8 Jan 2026 16:57:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767878500; cv=none; b=kCnq2N7VtFFeYd1umH1a23dnEMZAXb9SZiu6NXaNeaQsGFpGvLb8ZKc34WY/vUz1Pc7Evw4J/dJo6v7vp3OsiEtwXSL0/LclUpHiWzTl0ejbNER2Y9FOtk7nOHWGlzKRvtFIvLn7kplnE4CAYMyX3P+Rz9SkTS07i0btUbeQDKo=
+	t=1767891457; cv=none; b=jeyPRAcicJry83w0dWoHvcn+hK2r/oXL2201pSZaWXs9McuopY2CF3GPBioxELZVYGlX6OaaBo/PZC/k9fsvzngJ7cMs9iZXVgMPA3Ysv85Y0jJYB1tIgAeBTjOMWkbEh49RKVxTnYnD7whIMZM5oXW6B5NZvD2dix3KFcGVgqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767878500; c=relaxed/simple;
-	bh=U0qom55Gacebp+UsdiJ+b/O2aMKVG7upFL5zmx5Y39w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cGPpOgjTzrc9qttd/73/VXxRBYVzNOS+F58vFSt1ZrRIXNnS8/3QtnrUZk2Aw/Db79vLphDAAUy6LpvfZlWcFkL1qDPpSSEdw3Iu+/8wiVuzmdVMjQ+i4YhrhInps0YjBnhaIB7rPVuM3Avby7QFPq9mYIbOjAt3o8GiqSbxa7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=XXLSATMl; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="XXLSATMl"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-47797676c62so4291545e9.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 08 Jan 2026 05:21:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767878494; x=1768483294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=50StYY8PqE6LiYEa0yWmqhA7lvAJPF7Z/gwReWUz/Us=;
-        b=XXLSATMltIofJe17F3yMMtB/shwHYD5BFt5dqGFJHjwR8oqq/Jz6L9ptXGBwio0WRG
-         sVlih2F5PMEmHKTUrCZZUDU+6cnBTYiy/cY7+JE4jt9z0Fm8xDK2bCDxPuGykWh7yS/c
-         7Mfft6F+MAfXG55g+259bOfYxgX2QXzDFU40tPdWClfeKzEVeN9MB12+eexrP4A9pBgp
-         ELZr8ySrDll/bJiUSSr1as3WLI79EBV1A4r5T4mkWjgxtlnGeLruDDXTI6EpYxLa/s3q
-         HcNvB9VWxL+QbqOP9tINXaVhPBjCqq6to0LmzBcjecR7eG5dycYlS6WQfSWUX/WJjjcl
-         BFXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767878494; x=1768483294;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=50StYY8PqE6LiYEa0yWmqhA7lvAJPF7Z/gwReWUz/Us=;
-        b=eHxo5R9rHZZz7QtRMCMJ1VGkpGJDce9ArLBsWnDzq2AHURkg8SRhbqC5W9rk2Nzefc
-         iWshsZ1i8XSsVdhLcv8BsPGHBaKZ9gkMCBVpaSfSwvya/JYGzXRpTSLIMJLJV4cn7oIo
-         aukIU07xli6Xszn8o9wAqGGUUvGxnBC8TZrYGilfy9XUqov4Mas89UJF/ysDhj7dGKcR
-         5DdcrbVZMYCV1l11Ouva766w301+x2cWijZm1dbj5dkVCYbe2VCmvvD1erEpNfJmjO23
-         HL/6iV90qgL2zuRz1ryoY0RKRIAknVNwhZ4IMq4n7WY3+hR1WLYaroANHudr0C13VUdv
-         dHbA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNGcwyGllCXbn87gYzLoSsBCz722EgJQwAGy8mBUg3XXDTzCFe0AOC73ayCzYHrPRNqwzDxPGLVMWvqaLtUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAtxIreFeaSitcFBmhVei9YYdr2fwKuAJiOdYGDT398qQMyWz1
-	/izISSN7750h4xmlDb7EM3gKuct142akm3VMzt7ESVUDXTZDvgfRSyphcNIbpdzJYnQ=
-X-Gm-Gg: AY/fxX6TQPjgsQS3xBulem/bu6lkhAWQIdQ5VPUFIbnMZ1BMAP292gu8uqa9bx3ayBv
-	Tze3hlGhEjRq83t0Woax5dY7oXSq/LSBAc1BUX6XGQO1kVkjuzC0UYmNdIRdV6UgI9gEcBovWsZ
-	5YGSJnsPOsOxgmhQqQey8VZMG9P+VinuRpWr+P0SrL+ee1zZixuQRnglco9sUSt9DQHsx0WMMhA
-	R5cmjZ2JmfRXEzeiP5C9HjckD8bTpx+3qC4aBFKZy7SkIJ/VtbtsmVhnFPpVOrPZiZiI7CJkhVg
-	G2gHHesWOgU0sb7M2OYrr9f7imNSux3/YEPQN8yMixiRbidAaZ5E04hzazvQWCIszxdg7/YVM87
-	VykaiCiGOuC+09xSXe6aWxq8EQUE9CKJa85Hfj7ThnK7mUsCYyj2opBU5EZEEuRj8igzLsetFdr
-	9kq6HmN8Jf5Q3WJ1nQ/Mcicg0D7Com7WhyqavQLP0XkfqpKE9b+UFepfHj9mRIg6/kCnL4K9GpS
-	CSy9A==
-X-Google-Smtp-Source: AGHT+IHq/wrpgA3iesPBNelbuVXoRqPd5yt2K8zm7TeHF/SLN+p3ooObhZ0itLQOkHFAeGG4uoF4wQ==
-X-Received: by 2002:a05:600c:4453:b0:477:9c9e:ec7e with SMTP id 5b1f17b1804b1-47d84b37ae2mr44763915e9.6.1767878494376;
-        Thu, 08 Jan 2026 05:21:34 -0800 (PST)
-Received: from localhost (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d7f6f0e15sm148940005e9.10.2026.01.08.05.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Jan 2026 05:21:34 -0800 (PST)
-From: Petr Tesarik <ptesarik@suse.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>
-Cc: Frederic Weisbecker <frederic@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Petr Tesarik <ptesarik@suse.com>
-Subject: [PATCH v2 1/1] ring-buffer: Use a housekeeping CPU to wake up waiters
-Date: Thu,  8 Jan 2026 14:21:32 +0100
-Message-ID: <20260108132132.2473515-1-ptesarik@suse.com>
-X-Mailer: git-send-email 2.52.0
+	s=arc-20240116; t=1767891457; c=relaxed/simple;
+	bh=UAceDZbYRNkfpisY6eAs0QIMEBlYEfpWlQGxjpRJ42g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E/c9MuX367ukibxgayKoT9ORqT8bpmf6F/tw+FFRQgyOoT4KjvqLg8cLgBP/vBVjqlrbXd1quHwt/U8BfBnhzuP22JXbwqmB1ahnILxYI1FaaoIOzJ7xA8JERadYGgu5z32IRYCVON94RLmazBxCfVZxPad9JgoxZrtjUjLK7oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id B7B5B88E48;
+	Thu,  8 Jan 2026 16:57:33 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id B19DA2000D;
+	Thu,  8 Jan 2026 16:57:31 +0000 (UTC)
+Date: Thu, 8 Jan 2026 11:58:00 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Petr Tesarik <ptesarik@suse.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Message-ID: <20260108115800.7a7fc8a7@gandalf.local.home>
+In-Reply-To: <20260108093932.252f6bc7@mordecai>
+References: <20260106091039.2012108-1-ptesarik@suse.com>
+	<20260106170405.425f469e@gandalf.local.home>
+	<20260107085009.58fcffd4@mordecai>
+	<20260107105137.4cf9a67e@mordecai>
+	<20260107111709.0d115cd8@gandalf.local.home>
+	<20260107111935.3befc296@gandalf.local.home>
+	<20260108093932.252f6bc7@mordecai>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 63ugwo84xqjrch88aahuntsngh5dw5bb
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: B19DA2000D
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18NxNBArmXgF7QTPXJ5Rx0qWwuxNuUbN64=
+X-HE-Tag: 1767891451-247880
+X-HE-Meta: U2FsdGVkX19oHAgwvPNM/nkkKUBwSkMpLSpmlFGlnPiOigI0xtOz1kalxNYz0blyC21FQ7czDr+KiDLHK299ckm1HTxv6gLhGJ1MyVVHx5xUTDc7BdV3D1z0yunfpCCclS36oqkx8Em0miyCrgQtAXyA2aLJ8UEnPcb411jMx4GWMm7NJ9deqOP3nqVVIe2A+BvMRPOHhS9sEaHHrriC1KJCLiDYzkOp/QfPu60dESyqU65BAnkcXJaI2XBdI/R6PdtyKIQhl/REsbnPjpeHImOJ1HHCHJneG9o81SEEX+S35M111S5FKEAvzzjfriOpS/KyDe8QSer1FbjLGpG256uNR5yp/k1fe8HdK9FqS+C7S3d4V1H77BWN2yOk6MmN
 
-Avoid running the wakeup irq_work on an isolated CPU. Since the wakeup can
-run on any CPU, let's pick a housekeeping CPU to do the job.
+On Thu, 8 Jan 2026 09:39:32 +0100
+Petr Tesarik <ptesarik@suse.com> wrote:
 
-This change reduces additional noise when tracing isolated CPUs. For
-example, the following ipi_send_cpu stack trace was captured with
-nohz_full=2 on the isolated CPU:
+> > > Or we simply change it to:
+> > > 
+> > > static inline void    
+> > 
+> > Actually, the above should be noinline, as it's in a slower path, and
+> > should not be adding logic into the cache of the fast path.  
+> 
+> However, to be honest, I'm surprized this is considered slow path. My
+> use case is to record a few selected trace events with "trace-cmd
+> record", which spends most time polling trace_pipe_raw. Consequently,
+> there is almost always a pending waiter that requires a wakeup.
+> 
+> In short, irq_work_queue() is the hot path for me.
+> 
+> OTOH I don't mind making it noinline, because on recent Intel and AMD
+> systems, a function call (noinline) is often cheaper than an increase
+> in L1 cache footprint (caused by inlining). But I'm confused. I have
+> always thought most people use tracing same way as I do.
 
-          <idle>-0       [002] d.h4.  1255.379293: ipi_send_cpu: cpu=2 callsite=irq_work_queue+0x2d/0x50 callback=rb_wake_up_waiters+0x0/0x80
-          <idle>-0       [002] d.h4.  1255.379329: <stack trace>
- => trace_event_raw_event_ipi_send_cpu
- => __irq_work_queue_local
- => irq_work_queue
- => ring_buffer_unlock_commit
- => trace_buffer_unlock_commit_regs
- => trace_event_buffer_commit
- => trace_event_raw_event_x86_irq_vector
- => __sysvec_apic_timer_interrupt
- => sysvec_apic_timer_interrupt
- => asm_sysvec_apic_timer_interrupt
- => pv_native_safe_halt
- => default_idle
- => default_idle_call
- => do_idle
- => cpu_startup_entry
- => start_secondary
- => common_startup_64
+The call to rb_wakeups() is a fast path, but the wakeup itself is a slow
+path. This is the case even when you have user space in a loop that is just
+waiting on data.
 
-The IRQ work interrupt alone adds considerable noise, but the impact can
-get even worse with PREEMPT_RT, because the IRQ work interrupt is then
-handled by a separate kernel thread. This requires a task switch and makes
-tracing useless for analyzing latency on an isolated CPU.
+User space tool:
 
-After applying the patch, the trace is similar, but ipi_send_cpu always
-targets a non-isolated CPU.
+  ring_buffer_wait() {
+    wake_event_interruptible(.., rb_wait_cond(..));
+  }
 
-Unfortunately, irq_work_queue_on() is not NMI-safe. When running in NMI
-context, fall back to queuing the irq work on the local CPU.
+Writer:
 
-Signed-off-by: Petr Tesarik <ptesarik@suse.com>
----
- kernel/trace/ring_buffer.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+  rb_wakeups() {
+    if (!full_hit())
+      return;
+  }
 
-diff --git a/kernel/trace/ring_buffer.c b/kernel/trace/ring_buffer.c
-index 41c9f5d079beb..5cf4c6baa2771 100644
---- a/kernel/trace/ring_buffer.c
-+++ b/kernel/trace/ring_buffer.c
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (C) 2008 Steven Rostedt <srostedt@redhat.com>
-  */
-+#include <linux/sched/isolation.h>
- #include <linux/trace_recursion.h>
- #include <linux/trace_events.h>
- #include <linux/ring_buffer.h>
-@@ -4011,19 +4012,36 @@ static void rb_commit(struct ring_buffer_per_cpu *cpu_buffer)
- 	rb_end_commit(cpu_buffer);
- }
- 
-+static bool
-+rb_irq_work_queue(struct rb_irq_work *irq_work)
-+{
-+	int cpu;
-+
-+	/* irq_work_queue_on() is not NMI-safe */
-+	if (unlikely(in_nmi()))
-+		return irq_work_queue(&irq_work->work);
-+
-+	/*
-+	 * If CPU isolation is not active, cpu is always the current
-+	 * CPU, and the following is equivallent to irq_work_queue().
-+	 */
-+	cpu = housekeeping_any_cpu(HK_TYPE_KERNEL_NOISE);
-+	return irq_work_queue_on(&irq_work->work, cpu);
-+}
-+
- static __always_inline void
- rb_wakeups(struct trace_buffer *buffer, struct ring_buffer_per_cpu *cpu_buffer)
- {
- 	if (buffer->irq_work.waiters_pending) {
- 		buffer->irq_work.waiters_pending = false;
- 		/* irq_work_queue() supplies it's own memory barriers */
--		irq_work_queue(&buffer->irq_work.work);
-+		rb_irq_work_queue(&buffer->irq_work);
- 	}
- 
- 	if (cpu_buffer->irq_work.waiters_pending) {
- 		cpu_buffer->irq_work.waiters_pending = false;
- 		/* irq_work_queue() supplies it's own memory barriers */
--		irq_work_queue(&cpu_buffer->irq_work.work);
-+		rb_irq_work_queue(&cpu_buffer->irq_work);
- 	}
- 
- 	if (cpu_buffer->last_pages_touch == local_read(&cpu_buffer->pages_touched))
-@@ -4043,7 +4061,7 @@ rb_wakeups(struct trace_buffer *buffer, struct ring_buffer_per_cpu *cpu_buffer)
- 	cpu_buffer->irq_work.wakeup_full = true;
- 	cpu_buffer->irq_work.full_waiters_pending = false;
- 	/* irq_work_queue() supplies it's own memory barriers */
--	irq_work_queue(&cpu_buffer->irq_work.work);
-+	rb_irq_work_queue(&cpu_buffer->irq_work);
- }
- 
- #ifdef CONFIG_RING_BUFFER_RECORD_RECURSION
--- 
-2.52.0
+The full_hit() is the watermark check. If you look at the tracefs
+directory, you'll see a "buffer_percent" file, which is default set to 50.
+That means that full_hit() will not return true until the ring buffer is
+around 50 percent full. This function is called thousands of times before
+the first wakeup happens.
 
+Let's look at even a waiter that isn't using the buffer percent. This means
+it will be woken up on any event in the buffer.
+
+  rb_wakeups() {
+	if (buffer->irq_work.waiters_pending) {
+		buffer->irq_work.waiters_pending = false;
+		/* irq_work_queue() supplies it's own memory barriers */
+		irq_work_queue(&buffer->irq_work.work);
+
+
+So it clears the waiters_pending flag and wakes up the waiter. Now the
+waiter wakes up and starts reading the ring buffer. While the ring buffer
+has content, it will continue to read and doesn't block again until the
+ring buffer is empty. This means that thousands of events are being
+recorded with no waiters to wake up.
+
+See why this is a slow path?
+
+-- Steve
