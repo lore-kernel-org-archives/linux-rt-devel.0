@@ -1,193 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C913C3ACF1C;
-	Thu,  8 Jan 2026 08:26:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4462C379967
+	for <linux-rt-devel@lists.linux.dev>; Thu,  8 Jan 2026 08:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767860777; cv=none; b=jfMfbk5V9Liy/AijAokUG+VqDP99BLblXhhyU0CCz+b9iGx5EKtNQMnaxVGqaL7rwglTaoH35CQfjRiA8MTfTGsEiynznsIWghgA6HUP79zfzBi0Ul2Sncb+rjgc/I0qX9er6VTigsME2jik38X4i9ypeZ6XuwMFk4GVFhvTpuc=
+	t=1767861585; cv=none; b=W3L3YW8iD4g+Y/iTF0J5sGQiFIKbhdfABQy9+2hkH6C2c6z9y9tz8SRDFy1ZXMgZ1yNwY7GMD438nsLxJFiZA7UM414lSOM4dcglTPxPCxEZp/nfzYDbOk0k74czZJeRsAoOENBJHfQ3pp1fFTwAfrt25hX5FLxjNpKjb44SPho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767860777; c=relaxed/simple;
-	bh=IiIY2CdkSYWlB6GwGKjGlhZ6z8O6XDQYU49akh0KXkM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BmBcl5prunPN4cb0JHfonOTulg00Jo1UQwV3xlsAE5OoJSMK47kOCU/IAqPa4Jc4hsYGG+kOBxKVk+ZMsaSqO/k1+uO282eECT3e8kBAnGA0szSYo1v/GTDbF6MxWHXLVcH0de2jRToOqiAjefcoLQVWeFGvnS8Jv3mVXPkD3oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOkqm+Sr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767861585; c=relaxed/simple;
+	bh=KBSq5ozp9nWK7xE1oaTKEnG55tvkaczknOCnKuHL4hY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GbkLC1MRnPaLSA/549pp2BywNYkhxgLwpS4F6vtm0PbFxH/GhqBItcl+cdF7mfbANYxp7YRvc8FJUj19arB74gVstORyLR9YzvkQT9DbkYdyHa07jmSxUXoaJZTcO5c5TZKSrxeWIjTY/VsQqSrm43+Ofr/Wr46k4HUEZR3pspg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=f1juCo9O; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOkqm+Sr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0931BC116C6;
-	Thu,  8 Jan 2026 08:26:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767860777;
-	bh=IiIY2CdkSYWlB6GwGKjGlhZ6z8O6XDQYU49akh0KXkM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TOkqm+SrXu3kx/Bn4tPdK92T7s6eXcuMqNAehNZTlpBCLyXWDcMJh8WYm/F6LMab/
-	 v5/BAUAIZEwVOInvi3d130tOCu+eslnDjk8DL97syGst92MaBZ73bJj6VT5oJ5COYi
-	 by6WW/axJNZBf1MuO+bJ+t2Jkd2voS1PHvC8anWODIibp/ClUvSG6c8DqGOhefTljI
-	 mY6TIJMiDM3qa/Od2vmm+CRY02wb8vRf+XeBgfYqazNi/0559mDGhEQ/TeGVbx9QMS
-	 qSctvFarqKZjC/mHrMoZMa4H0P21k1fuQpZCqtV4R03G2pITUl07QDEJjtfy06fDMh
-	 N4pv1qE8yFGvA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vdlLS-00000000KPo-1t9i;
-	Thu, 08 Jan 2026 08:26:14 +0000
-Date: Thu, 08 Jan 2026 08:26:13 +0000
-Message-ID: <864iowmrx6.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <20260107215353.75612-1-longman@redhat.com>
-References: <20260107215353.75612-1-longman@redhat.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="f1juCo9O"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43263e1ce4eso236078f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 08 Jan 2026 00:39:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767861575; x=1768466375; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n/vUisi3Mqmn3VVAgeiq/GIYmN1ZatSlGnG9ei2N00E=;
+        b=f1juCo9Oi6tavfJpqp/g95JWaorIwikoPKy69KRe+2GCucNxSEnwxmvubyDZJifyZQ
+         wPQO8vxefi5kOdeiqAoYYXha9yfHdXQvN/D1+bIGHba8vbtH3kzUFC88oX+FL0iK1BiT
+         JEh7YM6NF05Z/GDUcqibThVYy5vi8PolgUXCdPnVJQwlNjFphaYFB9BBq4vttHTJArqH
+         xtGzZmwefZi/IBng5rnw0J/QCUgVcKakgolRNDNeAY6t0nwb7DWHqCM9NGOkmro83Pr+
+         B9nG8A0JZlNG1jxi5wCJViZnz+coA5h2HAkB1yxnP1Zc4BwtkC6IUGhGAan5CA9NpOiX
+         h39A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767861575; x=1768466375;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=n/vUisi3Mqmn3VVAgeiq/GIYmN1ZatSlGnG9ei2N00E=;
+        b=pbJTdMPZ6pT38W9orpGn9M6SF2rZVFhp1D/Z8tffzO5ojS5cy/A4o0pHzJbl5ZZWEY
+         L7ba0YSuCPERHpiHpxVUUnHRSjJ3wVar6K2T1Owg1LX3qRZo3Zl8cQQhBzWEV+0+PIMu
+         bfeX4/REYraD+zYQa5sgRA2E+y4n+LOXVV7agerGFCAqz52Xh6Ei1DAPCoTxH3sIa+1C
+         OZBTAyFcu6wyjWaU/Y4hGwWCy6C4yhA7IOr63vUJuo1KBDeivlAr5Dqhv/tOvQUmlB7Y
+         gS5MHcbd6apZ+nAI4vaBN7kd6rRLdTg7OTpuQGiKT6j0qUNZbPjuOkMPScg72sLhvGLw
+         mHWw==
+X-Forwarded-Encrypted: i=1; AJvYcCXS1iuNYKkS6MKt9SYJv2RIAXJMCvy3zczHHUBxFft7wpa4xgtwp4FPNu8j+2jPnzX+yWls/4f8EPZy3OjIsA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcBDA8Z1tgAOrVnoPCxMOADV74VVTo+l5H2duCtWsF+uAAkECQ
+	8//NFWWnfoGCxpKWjZd7/QKYREoHC2HQpy56ZVamgtZKVRvf/AOI61QK75Wv5NqgaQA=
+X-Gm-Gg: AY/fxX5hVk5HhhLhUOcKhYsEdUfvKx18xsKg6GiYiS8c5uk9XQkRs29Z2+YKOLvWtE3
+	Cia9pqDWlnSyYQmhzZ2Y5wgpm5anHayl77LYMTvVpJRXbOVXWYgkU0SmiiBgKHYL5Z97gWBBTN6
+	e+RcnAHo0ynPmsSiiyB0NDWDaNzE1yTZjWC0Xz4zFMAnIwx5yBxtwLzeyXrCF2IVTTtXXDgDqIv
+	1qF5Vg8eNlSOmglU4uNsIVePepbDjNZKq0VslRLmzWS0iJtMZ+9QV3qVoxWva/OWxx0j0pfX/EO
+	oV2LVdxjo+/cfYSPUUtUUkR7M+qvRk/eDzHGjBsCMI5TbDiehCRBE4gVJACpwTRno79yjiKC3v2
+	og+N+bMybF0wMrLbDkEGuG/vsRq3ogEpDxrrCoUhkrJsWOIf/2zZgxjvm/ao2Hmmx6SUPf7kQO/
+	hHI4fK3DYH2fWZ/uGcWog/OYBHD0sWeg48ojv3PIpGtzGDO2DsWAt+3g4q6uckKetmhm4EbXKxn
+	nuL
+X-Google-Smtp-Source: AGHT+IE+AxG15zz8e6XqsM+Ihev+zYB7TD2+tvKX+z3mSuMcV9zIClsWCLuPxib3hoIzZay0GziECg==
+X-Received: by 2002:a05:6000:2c0c:b0:431:66a:cbcb with SMTP id ffacd0b85a97d-432c37c1eddmr3835457f8f.7.1767861574850;
+        Thu, 08 Jan 2026 00:39:34 -0800 (PST)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432bd5fe83bsm15596057f8f.38.2026.01.08.00.39.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Jan 2026 00:39:34 -0800 (PST)
+Date: Thu, 8 Jan 2026 09:39:32 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Message-ID: <20260108093932.252f6bc7@mordecai>
+In-Reply-To: <20260107111935.3befc296@gandalf.local.home>
+References: <20260106091039.2012108-1-ptesarik@suse.com>
+	<20260106170405.425f469e@gandalf.local.home>
+	<20260107085009.58fcffd4@mordecai>
+	<20260107105137.4cf9a67e@mordecai>
+	<20260107111709.0d115cd8@gandalf.local.home>
+	<20260107111935.3befc296@gandalf.local.home>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: longman@redhat.com, tglx@linutronix.de, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 7bit
 
-On Wed, 07 Jan 2026 21:53:53 +0000,
-Waiman Long <longman@redhat.com> wrote:
+On Wed, 7 Jan 2026 11:19:35 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
+
+> On Wed, 7 Jan 2026 11:17:09 -0500
+> Steven Rostedt <rostedt@goodmis.org> wrote:
 > 
-> When running a PREEMPT_RT debug kernel on a 2-socket Grace arm64 system,
-> the following bug report was produced at bootup time.
+> > Or we simply change it to:
+> > 
+> > static inline void  
 > 
->   BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
->   in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 0, name: swapper/72
->   preempt_count: 1, expected: 0
->   RCU nest depth: 1, expected: 1
->    :
->   CPU: 72 UID: 0 PID: 0 Comm: swapper/72 Tainted: G        W           6.19.0-rc4-test+ #4 PREEMPT_{RT,(full)}
->   Tainted: [W]=WARN
->   Call trace:
->     :
->    rt_spin_lock+0xe4/0x408
->    rmqueue_bulk+0x48/0x1de8
->    __rmqueue_pcplist+0x410/0x650
->    rmqueue.constprop.0+0x6a8/0x2b50
->    get_page_from_freelist+0x3c0/0xe68
->    __alloc_frozen_pages_noprof+0x1dc/0x348
->    alloc_pages_mpol+0xe4/0x2f8
->    alloc_frozen_pages_noprof+0x124/0x190
->    allocate_slab+0x2f0/0x438
->    new_slab+0x4c/0x80
->    ___slab_alloc+0x410/0x798
->    __slab_alloc.constprop.0+0x88/0x1e0
->    __kmalloc_cache_noprof+0x2dc/0x4b0
->    allocate_vpe_l1_table+0x114/0x788
->    its_cpu_init_lpis+0x344/0x790
->    its_cpu_init+0x60/0x220
->    gic_starting_cpu+0x64/0xe8
->    cpuhp_invoke_callback+0x438/0x6d8
->    __cpuhp_invoke_callback_range+0xd8/0x1f8
->    notify_cpu_starting+0x11c/0x178
->    secondary_start_kernel+0xc8/0x188
->    __secondary_switched+0xc0/0xc8
-> 
-> This is due to the fact that allocate_vpe_l1_table() will call
-> kzalloc() to allocate a cpumask_t when the first CPU of the
-> second node of the 72-cpu Grace system is being called from the
-> CPUHP_AP_MIPS_GIC_TIMER_STARTING state inside the starting section of
+> Actually, the above should be noinline, as it's in a slower path, and
+> should not be adding logic into the cache of the fast path.
 
-Surely *not* that particular state.
+However, to be honest, I'm surprized this is considered slow path. My
+use case is to record a few selected trace events with "trace-cmd
+record", which spends most time polling trace_pipe_raw. Consequently,
+there is almost always a pending waiter that requires a wakeup.
 
-> the CPU hotplug bringup pipeline where interrupt is disabled. This is an
-> atomic context where sleeping is not allowed and acquiring a sleeping
-> rt_spin_lock within kzalloc() may lead to system hang in case there is
-> a lock contention.
-> 
-> To work around this issue, a static buffer is used for cpumask
-> allocation when running a PREEMPT_RT kernel via the newly introduced
-> vpe_alloc_cpumask() helper. The static buffer is currently set to be
-> 4 kbytes in size. As only one cpumask is needed per node, the current
-> size should be big enough as long as (cpumask_size() * nr_node_ids)
-> is not bigger than 4k.
+In short, irq_work_queue() is the hot path for me.
 
-What role does the node play here? The GIC topology has nothing to do
-with NUMA. It may be true on your particular toy, but that's
-definitely not true architecturally. You could, at worse, end-up with
-one such cpumask per *CPU*. That'd be a braindead system, but this
-code is written to support the architecture, not any particular
-implementation.
+OTOH I don't mind making it noinline, because on recent Intel and AMD
+systems, a function call (noinline) is often cheaper than an increase
+in L1 cache footprint (caused by inlining). But I'm confused. I have
+always thought most people use tracing same way as I do.
 
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  drivers/irqchip/irq-gic-v3-its.c | 26 +++++++++++++++++++++++++-
->  1 file changed, 25 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index ada585bfa451..9185785524dc 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -2896,6 +2896,30 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
->  	return true;
->  }
->  
-> +static void *vpe_alloc_cpumask(void)
-> +{
-> +	/*
-> +	 * With PREEMPT_RT kernel, we can't call any k*alloc() APIs as they
-> +	 * may acquire a sleeping rt_spin_lock in an atomic context. So use
-> +	 * a pre-allocated buffer instead.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_PREEMPT_RT)) {
-> +		static unsigned long mask_buf[512];
-> +		static atomic_t	alloc_idx;
-> +		int idx, mask_size = cpumask_size();
-> +		int nr_cpumasks = sizeof(mask_buf)/mask_size;
-> +
-> +		/*
-> +		 * Fetch an allocation index and if it points to a buffer within
-> +		 * mask_buf[], return that. Fall back to kzalloc() otherwise.
-> +		 */
-> +		idx = atomic_fetch_inc(&alloc_idx);
-> +		if (idx < nr_cpumasks)
-> +			return &mask_buf[idx * mask_size/sizeof(long)];
-> +	}
+> > rb_irq_work_queue(struct rb_irq_work *irq_work)
+> > {
+> > 	int cpu;
+> > 
+> > 	/* irq_work_queue_on() is not allowed in NMI context */
+> > 	if (in_nmi()) {
+> > 		irq_work_queue(&irq_work->work, cpu);
+> > 		return;
+> > 	}
 
-Err, no. That's horrible. I can see three ways to address this in a
-more appealing way:
+Thanks for the idea. There are some downsides. IIUC there is no
+fundamental reason IPIs to other CPUs cannot be sent from NMI context.
+It's just a limitation of the current Linux kernel code. As such, it
+may be lifted in the future, and at that point nobody will remember to
+remove this condition.
 
-- you give RT a generic allocator that works for (small) atomic
-  allocations. I appreciate that's not easy, and even probably
-  contrary to the RT goals. But I'm also pretty sure that the GIC code
-  is not the only pile of crap being caught doing that.
+My current plan is it to keep the patch on hold and have a look why IPI
+backends are not NMI-safe. In fact, I'm not even 100% sure the comment
+is correct. The issue may have fixed itself e.g. by removing the last
+affected architecture. ;-)
 
-- you pre-compute upfront how many cpumasks you are going to require,
-  based on the actual GIC topology. You do that on CPU0, outside of
-  the hotplug constraints, and allocate what you need. This is
-  difficult as you need to ensure the RD<->CPU matching without the
-  CPUs having booted, which means wading through the DT/ACPI gunk to
-  try and guess what you have.
-
-- you delay the allocation of L1 tables to a context where you can
-  perform allocations, and before we have a chance of running a guest
-  on this CPU. That's probably the simplest option (though dealing
-  with late onlining while guests are already running could be
-  interesting...).
-
-But I'm always going to say no to something that is a poor hack and
-ultimately falling back to the same broken behaviour.
-
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Petr T
