@@ -1,167 +1,226 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282B53559F6
-	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 08:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6165233557C
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 10:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767949086; cv=none; b=kGD8xXVmHL2w6+o0l8hVqDbktt3oWpNTzgH80PE8MuLtNG7x2SAqBsIlNKYLOEBP/dTVh5RQIX4btT7dTX26ee2tyaGz/uP48r0VQGCtfyX1rPW2nojAtBlTtM15Vd0z3JS43AnyVBJwqqHoKv+bErpwFkKyVaFrbkfvNdbyiCU=
+	t=1767953491; cv=none; b=FMc8bJVD10hPDUtXJS+6zrEif5GXj3YJtZvQ82YpIwFOBVbAjK/OdAqxRolS6XR20cjoq/Txs+UgPDsUrQE0J0CeHMrjr26lhwvpLgNn7comKCz7kixgGJcfrPvarUfrDyOi7Z3U1UEa6Y2SNAw3ZwoWaKvnGyuWgeq88tkaA7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767949086; c=relaxed/simple;
-	bh=Ye1BtRyDyCZ7fcEJvKPT/mRELE9PMSLftW7wgjHmKhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nxcmlAbmjgbRUr+X+E6hq6gWb5U9Tos+zAyPLhNkBsq9yVGHKdnGcJeZfW9L/ro37FIoW0QDOyndak3CElhgcRZC6w+P3c4w38MDiZQG2UnjcCq1TngSOpZhwiIM3skDbKjsxLQEsM/LJ5KRvWwoti95V12/i2yOLjGNdW4B++0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AFYx6xwx; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1767953491; c=relaxed/simple;
+	bh=llswQ1hPgMQ/UnsbvOvUSE3gqVRRSU5hnwpNULCUQZI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TmNhjbZeRWkH8Qyi1W/51J2wUXJJMNHvCIBwYWz7dpoUkHRd+izxqv+yHzOHkqalWp/SuoqcEdzVqvqz91TzigslG7wiqKvob3s2haVy01vkBX95sWQx5X2chY1lnVf1MgrtUVD/809PNtbpsZGohWOGjvPGmoPPeVx5GFrYCAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jYDrvCuk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pO1wG4vq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jYDrvCuk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pO1wG4vq; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AFYx6xwx"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47928022b93so7594025e9.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 09 Jan 2026 00:58:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1767949079; x=1768553879; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fXYuN6xeN+Ya8/ES460opJxIhbpHbZkVlPrAHWs4g/A=;
-        b=AFYx6xwxF/DrRVL56NimH5GspzOURn7TBwNBY6Kvh9FMnUrauWvevtSR1czzj7Gxhw
-         ZPG/A81rz4Xed4RxcmhP6rTnA1YxtKItQss5dDn3+ZwNbW86q2UqWKmaX0kbCUvs3TL/
-         8St1dmGCKhyKf9RqL8mkjIngdcQ84sfWukFARqPvBLcIYSUQyoA0Gbpd74NXV8blzAP/
-         VD659srgnQ2NO78TiFBdyEtsjt0Yd+mJkDTJFjF/F43R+z/4C4rb48KZXMSHW4va0E/q
-         ThjyJv/InalV0sM0ECA+Pth80vwrhGt7PzfH5KPdytD6AvvtEA4OdPGyhw+qOBH4Hh5e
-         eZgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767949079; x=1768553879;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fXYuN6xeN+Ya8/ES460opJxIhbpHbZkVlPrAHWs4g/A=;
-        b=bB8R5JbWvMOvRAys9MkOojCQe9bGBUDXJVuyjes9xoCFDrb8appJmGobvCW21nhm6k
-         Aba122bLMnssSGZ7pNp92MTVJgtPVR9dMXvT2hF3rJaDo4GpXjcTGr78dCPphmgbHcts
-         ngXCQlJIzSBSLyAjdaPPJ3O1fQCClE4J+CiYHN1IsChIgCvzI+o9vVotcUINV06iL7Zj
-         iRvfWq0QBcO8libKmFhl48980eVnQVtUHSGIyOC2f0CiF6vqMOw8FT+3d5FcSY1RWuBC
-         4VkmU+UeETxNPZxB8SYlDxqes5jlwCOoKwy3b1oATqj6fCAhTDOtGU9pd3gyu6ChdwSc
-         zCKg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDEI3icdd2Tg4UcJllteh78JK7G7cPpvSftnAz3p6gITSykTXB2FItLPPixSwxHKyTofvSlFNg7BMP06XjAQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOhajiGGfxanU6lqJcytikR7nYZQcdbC2hR1HynWlsMUFinz4Y
-	U/knAYVTpLVosVJ5L7OC61zVfV5O9mtGABbpKNrwxNdeYrt/IqmzVYHMZwzCHi3K28w=
-X-Gm-Gg: AY/fxX6TVVVEWZPKWK9PtpoUQ6urmHo4mqJo/5bNQYz53/Z/9+Cw6F8UpxX2vw4coMP
-	MVKmiO0xCNO9ql8DbkD+iiLEhv+z8oUebm+8t+Zb4sYox61nPqJOy+FvP0LPL41yHiVZEpUS4q/
-	0B9huX0e4UZTS2vYlfytH2UcLjOMg0nMepUts4iO0pdUW17tFUwufXu6NBlyKkC9s35VHMbXpxF
-	aqohoCyIFKOf+DoQt6x/lhTxQYbTA+5XeO5EE5TgKeIf4ULiHhtBTOY8HTLnnW08XNdqVPbhI0U
-	xIo3Dy4TC6CXPg75faiUHzWesbGcbi8pDckViFSZHGNO1B0kkOH+Fwz22IBygnG44sv9Js59e/I
-	cewCBAMDARfpr5ipdel2ACem/sbZFBYDjglWdgQvjibkNUmH7vmKuA745YHCslEy0hCNqBOyvku
-	kz8tJVNkg940MuondGdYa7fOAXUAd9ADkErMYIWWw9K8cefIuadvmFCksrBz0N4EHgYP/BPKIAc
-	qB7
-X-Google-Smtp-Source: AGHT+IFgxQgdBinp7wbCc/TkbY/jHrzbeepppdW/KOxOAc/R3j+vhEOCPBjEv3iR0E9dqk/KefCpyw==
-X-Received: by 2002:a05:6000:26d3:b0:42b:55a1:214d with SMTP id ffacd0b85a97d-432c379ddebmr6492578f8f.1.1767949078874;
-        Fri, 09 Jan 2026 00:57:58 -0800 (PST)
-Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432dd78f5a8sm1002142f8f.27.2026.01.09.00.57.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Jan 2026 00:57:58 -0800 (PST)
-Date: Fri, 9 Jan 2026 09:57:56 +0100
-From: Petr Tesarik <ptesarik@suse.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
-Message-ID: <20260109095756.13deb429@mordecai>
-In-Reply-To: <20260108115800.7a7fc8a7@gandalf.local.home>
-References: <20260106091039.2012108-1-ptesarik@suse.com>
-	<20260106170405.425f469e@gandalf.local.home>
-	<20260107085009.58fcffd4@mordecai>
-	<20260107105137.4cf9a67e@mordecai>
-	<20260107111709.0d115cd8@gandalf.local.home>
-	<20260107111935.3befc296@gandalf.local.home>
-	<20260108093932.252f6bc7@mordecai>
-	<20260108115800.7a7fc8a7@gandalf.local.home>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jYDrvCuk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pO1wG4vq";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jYDrvCuk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pO1wG4vq"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BCDCE33A6D;
+	Fri,  9 Jan 2026 10:11:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767953486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
+	b=jYDrvCuknmTbZ4Km+702ira2OKx+LAwxW4LTam+Xo/k19G2yIZcR+AllLxC9lNHA173kjD
+	aGn0yew/MfXHnNWV2kAcETbTaLtsewot5R5N4SAQBY1iTSZXIWOjONuZnyIEboM4t0WRpt
+	uzy/DONnntfAve0X49ZsgnYQ2gBN+SQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767953486;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
+	b=pO1wG4vq3OVgIos0y6jNT8kWxPk8vQ8meQuCU0dF5qv/XdzC4HvyI3zTQFlBRGwKRwwzpU
+	Thrz//jivolVMUDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1767953486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
+	b=jYDrvCuknmTbZ4Km+702ira2OKx+LAwxW4LTam+Xo/k19G2yIZcR+AllLxC9lNHA173kjD
+	aGn0yew/MfXHnNWV2kAcETbTaLtsewot5R5N4SAQBY1iTSZXIWOjONuZnyIEboM4t0WRpt
+	uzy/DONnntfAve0X49ZsgnYQ2gBN+SQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1767953486;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
+	b=pO1wG4vq3OVgIos0y6jNT8kWxPk8vQ8meQuCU0dF5qv/XdzC4HvyI3zTQFlBRGwKRwwzpU
+	Thrz//jivolVMUDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FA133EA63;
+	Fri,  9 Jan 2026 10:11:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gTGnJk7UYGlzLQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 09 Jan 2026 10:11:26 +0000
+Message-ID: <4fca7893-60bd-41da-844f-971934de19b6@suse.cz>
+Date: Fri, 9 Jan 2026 11:11:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
+Content-Language: en-US
+To: Hao Li <hao.li@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com
+References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
+ <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
+ <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_SOME(0.00)[]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Thu, 8 Jan 2026 11:58:00 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+On 12/16/25 03:35, Hao Li wrote:
+> On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
+>> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>>  	if (ret)
+>>  		goto success;
+>>  
+>> -	ret = ERR_PTR(-EBUSY);
+>> -
+>>  	/*
+>>  	 * Do not call slab_alloc_node(), since trylock mode isn't
+>>  	 * compatible with slab_pre_alloc_hook/should_failslab and
+>>  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
+>>  	 * and slab_post_alloc_hook() directly.
+>> -	 *
+>> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
+>> -	 * in irq saved region. It assumes that the same cpu will not
+>> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
+>> -	 * Therefore use in_nmi() to check whether particular bucket is in
+>> -	 * irq protected section.
+>> -	 *
+>> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
+>> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
+>> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
+>> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
+>>  	 */
+>> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
+>> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+>> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+>>  
+>>  	if (PTR_ERR(ret) == -EBUSY) {
+> 
+> After Patch 10 is applied, the logic that returns `EBUSY` has been
+> removed along with the `s->cpu_slab` logic. As a result, it appears that
+> `__slab_alloc_node` will no longer return `EBUSY`.
 
-> On Thu, 8 Jan 2026 09:39:32 +0100
-> Petr Tesarik <ptesarik@suse.com> wrote:
-> 
-> > > > Or we simply change it to:
-> > > > 
-> > > > static inline void      
-> > > 
-> > > Actually, the above should be noinline, as it's in a slower path, and
-> > > should not be adding logic into the cache of the fast path.    
-> > 
-> > However, to be honest, I'm surprized this is considered slow path. My
-> > use case is to record a few selected trace events with "trace-cmd
-> > record", which spends most time polling trace_pipe_raw. Consequently,
-> > there is almost always a pending waiter that requires a wakeup.
-> > 
-> > In short, irq_work_queue() is the hot path for me.
-> > 
-> > OTOH I don't mind making it noinline, because on recent Intel and AMD
-> > systems, a function call (noinline) is often cheaper than an increase
-> > in L1 cache footprint (caused by inlining). But I'm confused. I have
-> > always thought most people use tracing same way as I do.  
-> 
-> The call to rb_wakeups() is a fast path, but the wakeup itself is a slow
-> path. This is the case even when you have user space in a loop that is just
-> waiting on data.
-> 
-> User space tool:
-> 
->   ring_buffer_wait() {
->     wake_event_interruptible(.., rb_wait_cond(..));
->   }
-> 
-> Writer:
-> 
->   rb_wakeups() {
->     if (!full_hit())
->       return;
->   }
-> 
-> The full_hit() is the watermark check. If you look at the tracefs
-> directory, you'll see a "buffer_percent" file, which is default set to 50.
-> That means that full_hit() will not return true until the ring buffer is
-> around 50 percent full. This function is called thousands of times before
-> the first wakeup happens.
-> 
-> Let's look at even a waiter that isn't using the buffer percent. This means
-> it will be woken up on any event in the buffer.
-> 
->   rb_wakeups() {
-> 	if (buffer->irq_work.waiters_pending) {
-> 		buffer->irq_work.waiters_pending = false;
-> 		/* irq_work_queue() supplies it's own memory barriers */
-> 		irq_work_queue(&buffer->irq_work.work);
-> 
-> 
-> So it clears the waiters_pending flag and wakes up the waiter. Now the
-> waiter wakes up and starts reading the ring buffer. While the ring buffer
-> has content, it will continue to read and doesn't block again until the
-> ring buffer is empty. This means that thousands of events are being
-> recorded with no waiters to wake up.
-> 
-> See why this is a slow path?
+True, I missed that, thanks.
+Since we can still get failures due to the cpu_sheaves local lock held, I
+think we could just do the single retry with a larger bucket if ret is NULL.
+Whlle it may be NULL for other reasons (being genuinely out of memory and
+the limited context not allowing reclaim etc), it wouldn't hurt, and it's
+better than to introduce returning EBUSY into various paths.
 
-Thank you for the detailed explanation. So, yeah, most people use it
-differently from me, generating trace events fast enough that the
-reader does not consume the previous event before the next one arrives.
+>>  		if (can_retry) {
+>> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
+>>  {
+>>  	cache_random_seq_destroy(s);
+>>  	pcs_destroy(s);
+>> -#ifdef CONFIG_PREEMPT_RT
+>> -	if (s->cpu_slab)
+>> -		lockdep_unregister_key(&s->lock_key);
+>> -#endif
+>>  	free_percpu(s->cpu_slab);
+>>  	free_kmem_cache_nodes(s);
+>>  }
+>> 
+>> -- 
+>> 2.51.1
+>> 
 
-I have removed both "inline" and "noinline" in v2, leaving it at the
-discretion of the compiler. If you believe it deserves a "noinline",
-feel free to add it. FWIW on x86-64, I didn't observe any measurable
-diference either in latency or instruction cache footprint.
-
-Petr T
