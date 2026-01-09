@@ -1,314 +1,167 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581CD11713
-	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 08:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282B53559F6
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 08:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767946603; cv=none; b=ORCHE8hE262w8D2g6dMYgn9S14hHA62q3J96ZeesuC7i8mY4HZWikOfg6Ld5DK144/PIyDK/rHSwBefBQmSbXOITstP/4gDbfbEeGbzrs5CIZqbmTGbtcw4/xZTK4u9nc3pgU98SOfq6mtfp0Wn54qhfd40zaNqpQs6cf4OR4ho=
+	t=1767949086; cv=none; b=kGD8xXVmHL2w6+o0l8hVqDbktt3oWpNTzgH80PE8MuLtNG7x2SAqBsIlNKYLOEBP/dTVh5RQIX4btT7dTX26ee2tyaGz/uP48r0VQGCtfyX1rPW2nojAtBlTtM15Vd0z3JS43AnyVBJwqqHoKv+bErpwFkKyVaFrbkfvNdbyiCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767946603; c=relaxed/simple;
-	bh=ubzx7ZpkZu6IGVzLW79IOQoSSBML1f/jn7dmqnt0JlA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G5YQz15EXUQJBja/uhyEfeTOpao5+DpNP9aKgHSld9KgY9ae1iiYAlEqY8C0TltCXwQRpD2d2/8bT9cFKs5lbLqo2zGkHWqJJsLkrlRQQ6r5ji/nu9GxyKPNgjuKMFNL57b0dseaVFU8k4MIuCx6ieF4U8381Hfj9Jby/Kx0OKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FkPvOdy0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VpF9TpUl; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FkPvOdy0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=VpF9TpUl; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1767949086; c=relaxed/simple;
+	bh=Ye1BtRyDyCZ7fcEJvKPT/mRELE9PMSLftW7wgjHmKhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nxcmlAbmjgbRUr+X+E6hq6gWb5U9Tos+zAyPLhNkBsq9yVGHKdnGcJeZfW9L/ro37FIoW0QDOyndak3CElhgcRZC6w+P3c4w38MDiZQG2UnjcCq1TngSOpZhwiIM3skDbKjsxLQEsM/LJ5KRvWwoti95V12/i2yOLjGNdW4B++0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AFYx6xwx; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FkPvOdy0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VpF9TpUl";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FkPvOdy0";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="VpF9TpUl"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5C7B55D26F;
-	Fri,  9 Jan 2026 08:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767946598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G1ZOpYG1RRBOh0980GoYceIDOSrHq5NcrrJc5uKkl0U=;
-	b=FkPvOdy0sQddOf6QKdCSucqMynteBedhjGe6uj9PAiZ+ZmNNI0oCkifZLBtrU7HstPOTJJ
-	l7YWlb/769veZh12glwpf5g9xHUMT0KzR7UmJj3Kl0icR9BRH/QXS6yfXyeMuVb8PKnf86
-	++LEsCh4NhnkwqPQE3llKVxPbJJMnUs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767946598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G1ZOpYG1RRBOh0980GoYceIDOSrHq5NcrrJc5uKkl0U=;
-	b=VpF9TpUlE4adfKB6l/UFaCwK2gdFSlC9NRGvz2X73c3sPaXQ4QRI3AarSUs0Ww5IX7FoDu
-	GwM6mM4bmajdHVAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767946598; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G1ZOpYG1RRBOh0980GoYceIDOSrHq5NcrrJc5uKkl0U=;
-	b=FkPvOdy0sQddOf6QKdCSucqMynteBedhjGe6uj9PAiZ+ZmNNI0oCkifZLBtrU7HstPOTJJ
-	l7YWlb/769veZh12glwpf5g9xHUMT0KzR7UmJj3Kl0icR9BRH/QXS6yfXyeMuVb8PKnf86
-	++LEsCh4NhnkwqPQE3llKVxPbJJMnUs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767946598;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=G1ZOpYG1RRBOh0980GoYceIDOSrHq5NcrrJc5uKkl0U=;
-	b=VpF9TpUlE4adfKB6l/UFaCwK2gdFSlC9NRGvz2X73c3sPaXQ4QRI3AarSUs0Ww5IX7FoDu
-	GwM6mM4bmajdHVAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D9E33EA63;
-	Fri,  9 Jan 2026 08:16:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id rTO2Dma5YGnkOwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 09 Jan 2026 08:16:38 +0000
-Message-ID: <28e6827e-f689-45d9-b2b5-804a8aafad2e@suse.cz>
-Date: Fri, 9 Jan 2026 09:16:37 +0100
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AFYx6xwx"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47928022b93so7594025e9.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 09 Jan 2026 00:58:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1767949079; x=1768553879; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fXYuN6xeN+Ya8/ES460opJxIhbpHbZkVlPrAHWs4g/A=;
+        b=AFYx6xwxF/DrRVL56NimH5GspzOURn7TBwNBY6Kvh9FMnUrauWvevtSR1czzj7Gxhw
+         ZPG/A81rz4Xed4RxcmhP6rTnA1YxtKItQss5dDn3+ZwNbW86q2UqWKmaX0kbCUvs3TL/
+         8St1dmGCKhyKf9RqL8mkjIngdcQ84sfWukFARqPvBLcIYSUQyoA0Gbpd74NXV8blzAP/
+         VD659srgnQ2NO78TiFBdyEtsjt0Yd+mJkDTJFjF/F43R+z/4C4rb48KZXMSHW4va0E/q
+         ThjyJv/InalV0sM0ECA+Pth80vwrhGt7PzfH5KPdytD6AvvtEA4OdPGyhw+qOBH4Hh5e
+         eZgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767949079; x=1768553879;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=fXYuN6xeN+Ya8/ES460opJxIhbpHbZkVlPrAHWs4g/A=;
+        b=bB8R5JbWvMOvRAys9MkOojCQe9bGBUDXJVuyjes9xoCFDrb8appJmGobvCW21nhm6k
+         Aba122bLMnssSGZ7pNp92MTVJgtPVR9dMXvT2hF3rJaDo4GpXjcTGr78dCPphmgbHcts
+         ngXCQlJIzSBSLyAjdaPPJ3O1fQCClE4J+CiYHN1IsChIgCvzI+o9vVotcUINV06iL7Zj
+         iRvfWq0QBcO8libKmFhl48980eVnQVtUHSGIyOC2f0CiF6vqMOw8FT+3d5FcSY1RWuBC
+         4VkmU+UeETxNPZxB8SYlDxqes5jlwCOoKwy3b1oATqj6fCAhTDOtGU9pd3gyu6ChdwSc
+         zCKg==
+X-Forwarded-Encrypted: i=1; AJvYcCXDEI3icdd2Tg4UcJllteh78JK7G7cPpvSftnAz3p6gITSykTXB2FItLPPixSwxHKyTofvSlFNg7BMP06XjAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOhajiGGfxanU6lqJcytikR7nYZQcdbC2hR1HynWlsMUFinz4Y
+	U/knAYVTpLVosVJ5L7OC61zVfV5O9mtGABbpKNrwxNdeYrt/IqmzVYHMZwzCHi3K28w=
+X-Gm-Gg: AY/fxX6TVVVEWZPKWK9PtpoUQ6urmHo4mqJo/5bNQYz53/Z/9+Cw6F8UpxX2vw4coMP
+	MVKmiO0xCNO9ql8DbkD+iiLEhv+z8oUebm+8t+Zb4sYox61nPqJOy+FvP0LPL41yHiVZEpUS4q/
+	0B9huX0e4UZTS2vYlfytH2UcLjOMg0nMepUts4iO0pdUW17tFUwufXu6NBlyKkC9s35VHMbXpxF
+	aqohoCyIFKOf+DoQt6x/lhTxQYbTA+5XeO5EE5TgKeIf4ULiHhtBTOY8HTLnnW08XNdqVPbhI0U
+	xIo3Dy4TC6CXPg75faiUHzWesbGcbi8pDckViFSZHGNO1B0kkOH+Fwz22IBygnG44sv9Js59e/I
+	cewCBAMDARfpr5ipdel2ACem/sbZFBYDjglWdgQvjibkNUmH7vmKuA745YHCslEy0hCNqBOyvku
+	kz8tJVNkg940MuondGdYa7fOAXUAd9ADkErMYIWWw9K8cefIuadvmFCksrBz0N4EHgYP/BPKIAc
+	qB7
+X-Google-Smtp-Source: AGHT+IFgxQgdBinp7wbCc/TkbY/jHrzbeepppdW/KOxOAc/R3j+vhEOCPBjEv3iR0E9dqk/KefCpyw==
+X-Received: by 2002:a05:6000:26d3:b0:42b:55a1:214d with SMTP id ffacd0b85a97d-432c379ddebmr6492578f8f.1.1767949078874;
+        Fri, 09 Jan 2026 00:57:58 -0800 (PST)
+Received: from mordecai (dynamic-2a00-1028-83b8-1e7a-3010-3bd6-8521-caf1.ipv6.o2.cz. [2a00:1028:83b8:1e7a:3010:3bd6:8521:caf1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-432dd78f5a8sm1002142f8f.27.2026.01.09.00.57.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Jan 2026 00:57:58 -0800 (PST)
+Date: Fri, 9 Jan 2026 09:57:56 +0100
+From: Petr Tesarik <ptesarik@suse.com>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Message-ID: <20260109095756.13deb429@mordecai>
+In-Reply-To: <20260108115800.7a7fc8a7@gandalf.local.home>
+References: <20260106091039.2012108-1-ptesarik@suse.com>
+	<20260106170405.425f469e@gandalf.local.home>
+	<20260107085009.58fcffd4@mordecai>
+	<20260107105137.4cf9a67e@mordecai>
+	<20260107111709.0d115cd8@gandalf.local.home>
+	<20260107111935.3befc296@gandalf.local.home>
+	<20260108093932.252f6bc7@mordecai>
+	<20260108115800.7a7fc8a7@gandalf.local.home>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 10/19] slab: remove cpu (partial) slabs usage from
- allocation paths
-Content-Language: en-US
-To: Chris Mason <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Harry Yoo <harry.yoo@oracle.com>, Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com,
- Petr Tesarik <ptesarik@suse.com>, "Paul E . McKenney" <paulmck@kernel.org>
-References: <20251024142927.780367-1-clm@meta.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20251024142927.780367-1-clm@meta.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,suse.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
 
-On 10/24/25 16:29, Chris Mason wrote:
-> On Thu, 23 Oct 2025 15:52:32 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
-> 
->> We now rely on sheaves as the percpu caching layer and can refill them
->> directly from partial or newly allocated slabs. Start removing the cpu
->> (partial) slabs code, first from allocation paths.
->> 
->> This means that any allocation not satisfied from percpu sheaves will
->> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
->> slabs, so it will only perform get_partial() or new_slab().
->> 
->> In get_partial_node() we used to return a slab for freezing as the cpu
->> slab and to refill the partial slab. Now we only want to return a single
->> object and leave the slab on the list (unless it became full). We can't
->> simply reuse alloc_single_from_partial() as that assumes freeing uses
->> free_to_partial_list(). Instead we need to use __slab_update_freelist()
->> to work properly against a racing __slab_free().
->> 
->> The rest of the changes is removing functions that no longer have any
->> callers.
->>
-> 
-> Hi Vlastimil,
-> 
-> We're trying out the AI patch review automation on the BPF commits and it had
-> some questions about a few of these.  Since the goal is to actually test the
-> automation, I'm putting them in unedited, but I did try and make sure they
-> were valid before sending.
-> 
-> This one seems pretty unlikely but still worth fixing:
-> 
->>
->> diff --git a/mm/slub.c b/mm/slub.c
->> index e2b052657d11..bd67336e7c1f 100644
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
-> 
-> [ ... ]
-> 
->> @@ -3575,15 +3532,15 @@ static bool get_partial_node_bulk(struct kmem_cache *s,
->>  }
->>
->>  /*
->> - * Try to allocate a partial slab from a specific node.
->> + * Try to allocate object from a partial slab on a specific node.
->>   */
->> -static struct slab *get_partial_node(struct kmem_cache *s,
->> -				     struct kmem_cache_node *n,
->> -				     struct partial_context *pc)
->> +static void *get_partial_node(struct kmem_cache *s,
->> +			      struct kmem_cache_node *n,
->> +			      struct partial_context *pc)
->>  {
->> -	struct slab *slab, *slab2, *partial = NULL;
->> +	struct slab *slab, *slab2;
->>  	unsigned long flags;
->> -	unsigned int partial_slabs = 0;
->> +	void *object;
->>
->>  	/*
->>  	 * Racy check. If we mistakenly see no partial slabs then we
->> @@ -3599,54 +3556,54 @@ static struct slab *get_partial_node(struct kmem_cache *s,
->>  	else if (!spin_trylock_irqsave(&n->list_lock, flags))
->>  		return NULL;
->>  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
->> +
->> +		unsigned long counters;
->> +		struct slab new;
->> +
->>  		if (!pfmemalloc_match(slab, pc->flags))
->>  			continue;
-> 
-> Can get_partial_node() return an uninitialized pointer? The variable
-> 'object' is declared but never initialized. If all slabs in the partial
-> list fail the pfmemalloc_match() check, the loop completes without
-> setting 'object', then returns it at the end of the function.
-> 
-> In the previous version, the equivalent 'partial' variable was explicitly
-> initialized to NULL. When all slabs were skipped, NULL was returned.
+On Thu, 8 Jan 2026 11:58:00 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-By the way, there was another bug in this patch, causing a severe memory
-leak, which the AI unfortunately didn't flag. Petr reported it during
-performance testing and it took me more than a day to find it. Oh well :)
+> On Thu, 8 Jan 2026 09:39:32 +0100
+> Petr Tesarik <ptesarik@suse.com> wrote:
+> 
+> > > > Or we simply change it to:
+> > > > 
+> > > > static inline void      
+> > > 
+> > > Actually, the above should be noinline, as it's in a slower path, and
+> > > should not be adding logic into the cache of the fast path.    
+> > 
+> > However, to be honest, I'm surprized this is considered slow path. My
+> > use case is to record a few selected trace events with "trace-cmd
+> > record", which spends most time polling trace_pipe_raw. Consequently,
+> > there is almost always a pending waiter that requires a wakeup.
+> > 
+> > In short, irq_work_queue() is the hot path for me.
+> > 
+> > OTOH I don't mind making it noinline, because on recent Intel and AMD
+> > systems, a function call (noinline) is often cheaper than an increase
+> > in L1 cache footprint (caused by inlining). But I'm confused. I have
+> > always thought most people use tracing same way as I do.  
+> 
+> The call to rb_wakeups() is a fast path, but the wakeup itself is a slow
+> path. This is the case even when you have user space in a loop that is just
+> waiting on data.
+> 
+> User space tool:
+> 
+>   ring_buffer_wait() {
+>     wake_event_interruptible(.., rb_wait_cond(..));
+>   }
+> 
+> Writer:
+> 
+>   rb_wakeups() {
+>     if (!full_hit())
+>       return;
+>   }
+> 
+> The full_hit() is the watermark check. If you look at the tracefs
+> directory, you'll see a "buffer_percent" file, which is default set to 50.
+> That means that full_hit() will not return true until the ring buffer is
+> around 50 percent full. This function is called thousands of times before
+> the first wakeup happens.
+> 
+> Let's look at even a waiter that isn't using the buffer percent. This means
+> it will be woken up on any event in the buffer.
+> 
+>   rb_wakeups() {
+> 	if (buffer->irq_work.waiters_pending) {
+> 		buffer->irq_work.waiters_pending = false;
+> 		/* irq_work_queue() supplies it's own memory barriers */
+> 		irq_work_queue(&buffer->irq_work.work);
+> 
+> 
+> So it clears the waiters_pending flag and wakes up the waiter. Now the
+> waiter wakes up and starts reading the ring buffer. While the ring buffer
+> has content, it will continue to read and doesn't block again until the
+> ring buffer is empty. This means that thousands of events are being
+> recorded with no waiters to wake up.
+> 
+> See why this is a slow path?
 
-Wonder if things got better since then perhaps, and your or Roman's tools
-would find it today? :)
+Thank you for the detailed explanation. So, yeah, most people use it
+differently from me, generating trace events fast enough that the
+reader does not consume the previous event before the next one arrives.
 
->>
->>  		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
->> -			void *object = alloc_single_from_partial(s, n, slab,
->> +			object = alloc_single_from_partial(s, n, slab,
->>  							pc->orig_size);
->> -			if (object) {
->> -				partial = slab;
->> -				pc->object = object;
->> +			if (object)
->>  				break;
->> -			}
->>  			continue;
->>  		}
->>
->> -		remove_partial(n, slab);
->> -
->> -		if (!partial) {
->> -			partial = slab;
->> -			stat(s, ALLOC_FROM_PARTIAL);
->> -
->> -			if ((slub_get_cpu_partial(s) == 0)) {
->> -				break;
->> -			}
->> -		} else {
->> -			put_cpu_partial(s, slab, 0);
->> -			stat(s, CPU_PARTIAL_NODE);
->> -
->> -			if (++partial_slabs > slub_get_cpu_partial(s) / 2) {
->> -				break;
->> -			}
->> -		}
->> +		/*
->> +		 * get a single object from the slab. This might race against
->> +		 * __slab_free(), which however has to take the list_lock if
->> +		 * it's about to make the slab fully free.
->> +		 */
->> +		do {
->> +			object = slab->freelist;
->> +			counters = slab->counters;
->> +			new.freelist = get_freepointer(s, object);
->> +			new.counters = counters;
->> +			new.inuse++;
->> +		} while (!__slab_update_freelist(s, slab,
->> +			object, counters,
->> +			new.freelist, new.counters,
->> +			"get_partial_node"));
->> +
->> +		if (!new.freelist)
->> +			remove_partial(n, slab);
->>  	}
->>  	spin_unlock_irqrestore(&n->list_lock, flags);
->> -	return partial;
->> +	return object;
->>  }
-> 
-> [ ... ]
-> 
-> 
-> 
+I have removed both "inline" and "noinline" in v2, leaving it at the
+discretion of the compiler. If you believe it deserves a "noinline",
+feel free to add it. FWIW on x86-64, I didn't observe any measurable
+diference either in latency or instruction cache footprint.
 
+Petr T
