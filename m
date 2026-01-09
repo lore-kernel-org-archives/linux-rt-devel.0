@@ -1,80 +1,67 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6165233557C
-	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 10:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886EA31CA50
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 11:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767953491; cv=none; b=FMc8bJVD10hPDUtXJS+6zrEif5GXj3YJtZvQ82YpIwFOBVbAjK/OdAqxRolS6XR20cjoq/Txs+UgPDsUrQE0J0CeHMrjr26lhwvpLgNn7comKCz7kixgGJcfrPvarUfrDyOi7Z3U1UEa6Y2SNAw3ZwoWaKvnGyuWgeq88tkaA7w=
+	t=1767957827; cv=none; b=G2+fH37ttChyncLe59VMEbA4KksMOJ0iobjbnmvq+QcnnYdYxhFcmUQHuCgmtzSBhRTLx/0yucU/fF1QJ5AfZAYU/DwCtUz2OfZfSuhqM72ujdmb1KOQcIo5s0DdTCeXPZvyKuRAR/r5IfIRrEloB7is5HRuD0z1iUtaUJPq4VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767953491; c=relaxed/simple;
-	bh=llswQ1hPgMQ/UnsbvOvUSE3gqVRRSU5hnwpNULCUQZI=;
+	s=arc-20240116; t=1767957827; c=relaxed/simple;
+	bh=sXYPbVWOPeHQbG08JRmsQ5d2gTU7uqXNpY6bcgJMx90=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TmNhjbZeRWkH8Qyi1W/51J2wUXJJMNHvCIBwYWz7dpoUkHRd+izxqv+yHzOHkqalWp/SuoqcEdzVqvqz91TzigslG7wiqKvob3s2haVy01vkBX95sWQx5X2chY1lnVf1MgrtUVD/809PNtbpsZGohWOGjvPGmoPPeVx5GFrYCAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jYDrvCuk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pO1wG4vq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jYDrvCuk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pO1wG4vq; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 In-Reply-To:Content-Type; b=rGK6dLK8V1U/BRlzqABTBW0GB07/CeFx9OJGs/BIVTrScTpaJhDU59pRDp5Q7xDVJMdRghECQy8ag9BIf69M4ElrqUIkJ5vM3dzADRbofMKI/1tl/4CFI/CLaSVhhhFAoEECvrLrDUXjotfA0bA5Xp0s/PV+F6IYQsa2obrlNyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BbG9BTLo; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jYDrvCuk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pO1wG4vq";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jYDrvCuk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pO1wG4vq"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id BCDCE33A6D;
-	Fri,  9 Jan 2026 10:11:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767953486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
-	b=jYDrvCuknmTbZ4Km+702ira2OKx+LAwxW4LTam+Xo/k19G2yIZcR+AllLxC9lNHA173kjD
-	aGn0yew/MfXHnNWV2kAcETbTaLtsewot5R5N4SAQBY1iTSZXIWOjONuZnyIEboM4t0WRpt
-	uzy/DONnntfAve0X49ZsgnYQ2gBN+SQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767953486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
-	b=pO1wG4vq3OVgIos0y6jNT8kWxPk8vQ8meQuCU0dF5qv/XdzC4HvyI3zTQFlBRGwKRwwzpU
-	Thrz//jivolVMUDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1767953486; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
-	b=jYDrvCuknmTbZ4Km+702ira2OKx+LAwxW4LTam+Xo/k19G2yIZcR+AllLxC9lNHA173kjD
-	aGn0yew/MfXHnNWV2kAcETbTaLtsewot5R5N4SAQBY1iTSZXIWOjONuZnyIEboM4t0WRpt
-	uzy/DONnntfAve0X49ZsgnYQ2gBN+SQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1767953486;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=OeuS+cvfUoQlEy8DHNi+SqxMUrSUL35iDWvtyKO6N2g=;
-	b=pO1wG4vq3OVgIos0y6jNT8kWxPk8vQ8meQuCU0dF5qv/XdzC4HvyI3zTQFlBRGwKRwwzpU
-	Thrz//jivolVMUDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9FA133EA63;
-	Fri,  9 Jan 2026 10:11:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gTGnJk7UYGlzLQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 09 Jan 2026 10:11:26 +0000
-Message-ID: <4fca7893-60bd-41da-844f-971934de19b6@suse.cz>
-Date: Fri, 9 Jan 2026 11:11:26 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BbG9BTLo"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 608LHPDu029308;
+	Fri, 9 Jan 2026 11:23:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=FeIuBh
+	hbcNpZ0Ykr+FEQZL/FlSRu1Y6p3taKQA0v7fI=; b=BbG9BTLoFegpsmoXlMuG9l
+	suB2iYyAL8Oxdq0JYyj3RJ7jcX0IHk7yAO3pvpsZOB5nV4bXcRyBNY1rFA277nAG
+	H8efkqooMy6b6m+vh9ErdH42/+/5sBt75XkAnr26pokN4ry4ltxL7huT2U8zcIN2
+	5/9ob9rLu3jmKI/T6qID/0n7uiLee4vpg98NwT7kAACUfgUUpLXf22FOvfLzPpNu
+	ftCurADtGeEBGU3oKofWNwD7Whst0QcvJT9U0gEe4GnloksEMIJKy+1mpKvPl4o5
+	1+2OmCvddxcvKqrZ8mwwEwZ4ti4jLU1B56vNP1bHKyorf4b5Y7aq+76N6WEC+FnQ
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4berhkhp0r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Jan 2026 11:23:12 +0000 (GMT)
+Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 609BHAVe003488;
+	Fri, 9 Jan 2026 11:23:11 GMT
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4berhkhp0p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Jan 2026 11:23:11 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 609AhKB8012568;
+	Fri, 9 Jan 2026 11:23:10 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bffnjvaju-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Jan 2026 11:23:10 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 609BN8fK53084428
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 9 Jan 2026 11:23:08 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7BA252004E;
+	Fri,  9 Jan 2026 11:23:08 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 68F9C20040;
+	Fri,  9 Jan 2026 11:23:05 +0000 (GMT)
+Received: from [9.39.17.37] (unknown [9.39.17.37])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  9 Jan 2026 11:23:05 +0000 (GMT)
+Message-ID: <a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
+Date: Fri, 9 Jan 2026 16:53:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -82,145 +69,148 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
 Content-Language: en-US
-To: Hao Li <hao.li@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
- <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
-Content-Type: text/plain; charset=UTF-8
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=P4s3RyAu c=1 sm=1 tr=0 ts=6960e520 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=JfrnYn6hAAAA:8 a=IHo9bmG76QJ_CpW-HQAA:9 a=QEXdDO2ut3YA:10
+ a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-ORIG-GUID: Sfmjoe6b_QINIz1_bew5dkarZ-nazBUu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDA3OSBTYWx0ZWRfX2C1mHvUF7+yk
+ 8HM0pJCBOOuVJYlfDhemThWwevyO5/nJKmYZITd5zdUrTLzujgBvfwYmTfuJPvSrceCPYMEFdaj
+ 4By417MatGrpeiA4FopMdm9eC4Wg/sYkUMsIMXOAWSOa9QT48d+lEb2ImDPxUyN3vDUWvGBXYZ9
+ TpY/htXYMrdpkhbzh74OMG8U1WZdBvqjnaXiUm5g2iUKqmjMbY6N7/9zyH96Na/MrnLxrYNGQ55
+ 293VM8WcO9JzSjW0+iPMvQVST8DeMIDYINJLXweCKiqYptunTWVOUleoEgRnbzzjb9dX/kOr/m+
+ rk9y4bxrPUq0fokeivhF65JSAi1wyGpS1LGHPtIMjRQS1beWvjPAXB2a/8Xal46fay7EtbpzTEI
+ n3takGL4ioqLSdne40KhZnr5hE2+QBUwewASrlKP+gXNqKK9SMLw2yyn6OcHmpdD+N+4Qe8CHIp
+ Jnj5mXXFB1EbElrt3Ug==
+X-Proofpoint-GUID: Cf6pq-sRckJMHsiStlj-1Fkn-kxHReg6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-09_03,2026-01-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1011 suspectscore=0
+ phishscore=0 adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601090079
 
-On 12/16/25 03:35, Hao Li wrote:
-> On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
->> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->>  	if (ret)
->>  		goto success;
->>  
->> -	ret = ERR_PTR(-EBUSY);
->> -
->>  	/*
->>  	 * Do not call slab_alloc_node(), since trylock mode isn't
->>  	 * compatible with slab_pre_alloc_hook/should_failslab and
->>  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
->>  	 * and slab_post_alloc_hook() directly.
->> -	 *
->> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
->> -	 * in irq saved region. It assumes that the same cpu will not
->> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
->> -	 * Therefore use in_nmi() to check whether particular bucket is in
->> -	 * irq protected section.
->> -	 *
->> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
->> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
->> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
->> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
->>  	 */
->> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
->> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
->> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
->>  
->>  	if (PTR_ERR(ret) == -EBUSY) {
+Hi Peter.
+
+On 12/19/25 3:45 PM, Peter Zijlstra wrote:
 > 
-> After Patch 10 is applied, the logic that returns `EBUSY` has been
-> removed along with the `s->cpu_slab` logic. As a result, it appears that
-> `__slab_alloc_node` will no longer return `EBUSY`.
+> [ with 6.18 being an LTS release, it might be a good time for this ]
+> 
+> The introduction of PREEMPT_LAZY was for multiple reasons:
+> 
+>    - PREEMPT_RT suffered from over-scheduling, hurting performance compared to
+>      !PREEMPT_RT.
+> 
+>    - the introduction of (more) features that rely on preemption; like
+>      folio_zero_user() which can do large memset() without preemption checks.
+> 
+>      (Xen already had a horrible hack to deal with long running hypercalls)
+> 
+>    - the endless and uncontrolled sprinkling of cond_resched() -- mostly cargo
+>      cult or in response to poor to replicate workloads.
+> 
+> By moving to a model that is fundamentally preemptable these things become
+> manageable and avoid needing to introduce more horrible hacks.
+> 
+> Since this is a requirement; limit PREEMPT_NONE to architectures that do not
+> support preemption at all. Further limit PREEMPT_VOLUNTARY to those
+> architectures that do not yet have PREEMPT_LAZY support (with the eventual goal
+> to make this the empty set and completely remove voluntary preemption and
+> cond_resched() -- notably VOLUNTARY is already limited to !ARCH_NO_PREEMPT.)
+> 
+> This leaves up-to-date architectures (arm64, loongarch, powerpc, riscv, s390,
+> x86) with only two preemption models: full and lazy (like PREEMPT_RT).
+> 
+> While Lazy has been the recommended setting for a while, not all distributions
+> have managed to make the switch yet. Force things along. Keep the patch minimal
+> in case of hard to address regressions that might pop up.
+> 
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> ---
+>   kernel/Kconfig.preempt |    3 +++
+>   kernel/sched/core.c    |    2 +-
+>   kernel/sched/debug.c   |    2 +-
+>   3 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> --- a/kernel/Kconfig.preempt
+> +++ b/kernel/Kconfig.preempt
+> @@ -16,11 +16,13 @@ config ARCH_HAS_PREEMPT_LAZY
+>   
+>   choice
+>   	prompt "Preemption Model"
+> +	default PREEMPT_LAZY if ARCH_HAS_PREEMPT_LAZY
+>   	default PREEMPT_NONE
+>   
+>   config PREEMPT_NONE
+>   	bool "No Forced Preemption (Server)"
+>   	depends on !PREEMPT_RT
+> +	depends on ARCH_NO_PREEMPT
+>   	select PREEMPT_NONE_BUILD if !PREEMPT_DYNAMIC
+>   	help
+>   	  This is the traditional Linux preemption model, geared towards
+> @@ -35,6 +37,7 @@ config PREEMPT_NONE
+>   
+>   config PREEMPT_VOLUNTARY
+>   	bool "Voluntary Kernel Preemption (Desktop)"
+> +	depends on !ARCH_HAS_PREEMPT_LAZY
+>   	depends on !ARCH_NO_PREEMPT
+>   	depends on !PREEMPT_RT
+>   	select PREEMPT_VOLUNTARY_BUILD if !PREEMPT_DYNAMIC
+> --- a/kernel/sched/core.c
+> +++ b/kernel/sched/core.c
+> @@ -7553,7 +7553,7 @@ int preempt_dynamic_mode = preempt_dynam
+>   
+>   int sched_dynamic_mode(const char *str)
+>   {
+> -# ifndef CONFIG_PREEMPT_RT
+> +# if !(defined(CONFIG_PREEMPT_RT) || defined(CONFIG_ARCH_HAS_PREEMPT_LAZY))
+>   	if (!strcmp(str, "none"))
+>   		return preempt_dynamic_none;
+>   
+> --- a/kernel/sched/debug.c
+> +++ b/kernel/sched/debug.c
+> @@ -243,7 +243,7 @@ static ssize_t sched_dynamic_write(struc
+>   
+>   static int sched_dynamic_show(struct seq_file *m, void *v)
+>   {
+> -	int i = IS_ENABLED(CONFIG_PREEMPT_RT) * 2;
+> +	int i = (IS_ENABLED(CONFIG_PREEMPT_RT) || IS_ENABLED(CONFIG_ARCH_HAS_PREEMPT_LAZY)) * 2;
+>   	int j;
+>   
+>   	/* Count entries in NULL terminated preempt_modes */
 
-True, I missed that, thanks.
-Since we can still get failures due to the cpu_sheaves local lock held, I
-think we could just do the single retry with a larger bucket if ret is NULL.
-Whlle it may be NULL for other reasons (being genuinely out of memory and
-the limited context not allowing reclaim etc), it wouldn't hurt, and it's
-better than to introduce returning EBUSY into various paths.
+Maybe only change the default to LAZY, but keep other options possible 
+via dynamic update?
 
->>  		if (can_retry) {
->> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
->>  {
->>  	cache_random_seq_destroy(s);
->>  	pcs_destroy(s);
->> -#ifdef CONFIG_PREEMPT_RT
->> -	if (s->cpu_slab)
->> -		lockdep_unregister_key(&s->lock_key);
->> -#endif
->>  	free_percpu(s->cpu_slab);
->>  	free_kmem_cache_nodes(s);
->>  }
->> 
->> -- 
->> 2.51.1
->> 
+- When the kernel changes to lazy being the default, the scheduling 
+pattern can change and it may affect the workloads. having ability to 
+dynamically change to none/voluntary could help one to figure out where
+it is regressing. we could document cases where regression is expected.
+
+- with preempt=full/lazy we will likely never see softlockups. How are 
+we going to find out longer kernel paths(some maybe design, some may be 
+bugs) apart from observing workload regression?
+
+
+Also, is softlockup code is of any use in preempt=full/lazy?
+
 
