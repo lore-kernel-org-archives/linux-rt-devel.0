@@ -1,216 +1,127 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886EA31CA50
-	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 11:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E54532BF21
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 11:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767957827; cv=none; b=G2+fH37ttChyncLe59VMEbA4KksMOJ0iobjbnmvq+QcnnYdYxhFcmUQHuCgmtzSBhRTLx/0yucU/fF1QJ5AfZAYU/DwCtUz2OfZfSuhqM72ujdmb1KOQcIo5s0DdTCeXPZvyKuRAR/r5IfIRrEloB7is5HRuD0z1iUtaUJPq4VA=
+	t=1767959330; cv=none; b=owVZTQvKeQTs4YdpN126ayQ8suv3emT4OD4nzXzXDlejdIYG20CBaBqd2DCWrbFpbxg8licCXc2Nwtt+YggMmG1wuQh4cz6I33n88RuolYuDEUGp7+vj2Z5iyHcYbdVk8aNhkH2ce0lqpjcOreS5yVkoZfZ1n8newwN2T4AwldM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767957827; c=relaxed/simple;
-	bh=sXYPbVWOPeHQbG08JRmsQ5d2gTU7uqXNpY6bcgJMx90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rGK6dLK8V1U/BRlzqABTBW0GB07/CeFx9OJGs/BIVTrScTpaJhDU59pRDp5Q7xDVJMdRghECQy8ag9BIf69M4ElrqUIkJ5vM3dzADRbofMKI/1tl/4CFI/CLaSVhhhFAoEECvrLrDUXjotfA0bA5Xp0s/PV+F6IYQsa2obrlNyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=BbG9BTLo; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1767959330; c=relaxed/simple;
+	bh=eErXE//ncGyeU4JQY/JXneK1qVVCn2SNPo5WntgoMWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OHvnlx3XYn6xG5v+24iJ7352YcXjcnYbS6Nk6UN3jlMIMls97NZHj4NCDq6sajj86XoyGchF3B/essLuN+674TQ8WTj2DlIhq6WyIJGNlPxuUNXibzzFFs7/G3Q64i7E4pRBJM2CoDyEC65o0kYMrUxwo/3okMfuUbBwELMrhBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DGG+debD; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="BbG9BTLo"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 608LHPDu029308;
-	Fri, 9 Jan 2026 11:23:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=FeIuBh
-	hbcNpZ0Ykr+FEQZL/FlSRu1Y6p3taKQA0v7fI=; b=BbG9BTLoFegpsmoXlMuG9l
-	suB2iYyAL8Oxdq0JYyj3RJ7jcX0IHk7yAO3pvpsZOB5nV4bXcRyBNY1rFA277nAG
-	H8efkqooMy6b6m+vh9ErdH42/+/5sBt75XkAnr26pokN4ry4ltxL7huT2U8zcIN2
-	5/9ob9rLu3jmKI/T6qID/0n7uiLee4vpg98NwT7kAACUfgUUpLXf22FOvfLzPpNu
-	ftCurADtGeEBGU3oKofWNwD7Whst0QcvJT9U0gEe4GnloksEMIJKy+1mpKvPl4o5
-	1+2OmCvddxcvKqrZ8mwwEwZ4ti4jLU1B56vNP1bHKyorf4b5Y7aq+76N6WEC+FnQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4berhkhp0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Jan 2026 11:23:12 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 609BHAVe003488;
-	Fri, 9 Jan 2026 11:23:11 GMT
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4berhkhp0p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Jan 2026 11:23:11 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 609AhKB8012568;
-	Fri, 9 Jan 2026 11:23:10 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4bffnjvaju-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 Jan 2026 11:23:10 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 609BN8fK53084428
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 9 Jan 2026 11:23:08 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7BA252004E;
-	Fri,  9 Jan 2026 11:23:08 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 68F9C20040;
-	Fri,  9 Jan 2026 11:23:05 +0000 (GMT)
-Received: from [9.39.17.37] (unknown [9.39.17.37])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  9 Jan 2026 11:23:05 +0000 (GMT)
-Message-ID: <a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
-Date: Fri, 9 Jan 2026 16:53:04 +0530
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DGG+debD"
+Date: Fri, 9 Jan 2026 19:48:20 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1767959323;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oYF757VFZbjPp9+rgGQc+tuvo82+suocCGJ/1TmFUs0=;
+	b=DGG+debD1nXBpLE0MoRfyiShZtxYlLel08B5gTq+kCz48gVHJQcOg0/1PR9z7KH/fhJbRi
+	+YEQA1Le1H2Bu4DPWxSQyN7g6gxXcrzw9wUwJ68Z1KZtbsot2V9xdcPpeZsFkyVHo8vwrD
+	yusszebGfsODVk/Td+V3bNeApIR86+0=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC 14/19] slab: simplify kmalloc_nolock()
+Message-ID: <6lagtqkkxsnuphgmluwodah7nlhiuovw74fzdzr7xgq4nwdwup@eyfgwukzbynd>
+References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
+ <20251023-sheaves-for-all-v1-14-6ffa2c9941c0@suse.cz>
+ <4ukrk3ziayvxrcfxm2izwrwt3qrmr4fcsefl4n7oodc4t2hxgt@ijk63r4f3rkr>
+ <4fca7893-60bd-41da-844f-971934de19b6@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=P4s3RyAu c=1 sm=1 tr=0 ts=6960e520 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=JfrnYn6hAAAA:8 a=IHo9bmG76QJ_CpW-HQAA:9 a=QEXdDO2ut3YA:10
- a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-ORIG-GUID: Sfmjoe6b_QINIz1_bew5dkarZ-nazBUu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTA5MDA3OSBTYWx0ZWRfX2C1mHvUF7+yk
- 8HM0pJCBOOuVJYlfDhemThWwevyO5/nJKmYZITd5zdUrTLzujgBvfwYmTfuJPvSrceCPYMEFdaj
- 4By417MatGrpeiA4FopMdm9eC4Wg/sYkUMsIMXOAWSOa9QT48d+lEb2ImDPxUyN3vDUWvGBXYZ9
- TpY/htXYMrdpkhbzh74OMG8U1WZdBvqjnaXiUm5g2iUKqmjMbY6N7/9zyH96Na/MrnLxrYNGQ55
- 293VM8WcO9JzSjW0+iPMvQVST8DeMIDYINJLXweCKiqYptunTWVOUleoEgRnbzzjb9dX/kOr/m+
- rk9y4bxrPUq0fokeivhF65JSAi1wyGpS1LGHPtIMjRQS1beWvjPAXB2a/8Xal46fay7EtbpzTEI
- n3takGL4ioqLSdne40KhZnr5hE2+QBUwewASrlKP+gXNqKK9SMLw2yyn6OcHmpdD+N+4Qe8CHIp
- Jnj5mXXFB1EbElrt3Ug==
-X-Proofpoint-GUID: Cf6pq-sRckJMHsiStlj-1Fkn-kxHReg6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-09_03,2026-01-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1011 suspectscore=0
- phishscore=0 adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2512120000 definitions=main-2601090079
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4fca7893-60bd-41da-844f-971934de19b6@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Peter.
+On Fri, Jan 09, 2026 at 11:11:26AM +0100, Vlastimil Babka wrote:
+> On 12/16/25 03:35, Hao Li wrote:
+> > On Thu, Oct 23, 2025 at 03:52:36PM +0200, Vlastimil Babka wrote:
+> >> @@ -5214,27 +5144,13 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+> >>  	if (ret)
+> >>  		goto success;
+> >>  
+> >> -	ret = ERR_PTR(-EBUSY);
+> >> -
+> >>  	/*
+> >>  	 * Do not call slab_alloc_node(), since trylock mode isn't
+> >>  	 * compatible with slab_pre_alloc_hook/should_failslab and
+> >>  	 * kfence_alloc. Hence call __slab_alloc_node() (at most twice)
+> >>  	 * and slab_post_alloc_hook() directly.
+> >> -	 *
+> >> -	 * In !PREEMPT_RT ___slab_alloc() manipulates (freelist,tid) pair
+> >> -	 * in irq saved region. It assumes that the same cpu will not
+> >> -	 * __update_cpu_freelist_fast() into the same (freelist,tid) pair.
+> >> -	 * Therefore use in_nmi() to check whether particular bucket is in
+> >> -	 * irq protected section.
+> >> -	 *
+> >> -	 * If in_nmi() && local_lock_is_locked(s->cpu_slab) then it means that
+> >> -	 * this cpu was interrupted somewhere inside ___slab_alloc() after
+> >> -	 * it did local_lock_irqsave(&s->cpu_slab->lock, flags).
+> >> -	 * In this case fast path with __update_cpu_freelist_fast() is not safe.
+> >>  	 */
+> >> -	if (!in_nmi() || !local_lock_is_locked(&s->cpu_slab->lock))
+> >> -		ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+> >> +	ret = __slab_alloc_node(s, alloc_gfp, node, _RET_IP_, size);
+> >>  
+> >>  	if (PTR_ERR(ret) == -EBUSY) {
+> > 
+> > After Patch 10 is applied, the logic that returns `EBUSY` has been
+> > removed along with the `s->cpu_slab` logic. As a result, it appears that
+> > `__slab_alloc_node` will no longer return `EBUSY`.
+> 
+> True, I missed that, thanks.
+> Since we can still get failures due to the cpu_sheaves local lock held, I
+> think we could just do the single retry with a larger bucket if ret is NULL.
 
-On 12/19/25 3:45 PM, Peter Zijlstra wrote:
-> 
-> [ with 6.18 being an LTS release, it might be a good time for this ]
-> 
-> The introduction of PREEMPT_LAZY was for multiple reasons:
-> 
->    - PREEMPT_RT suffered from over-scheduling, hurting performance compared to
->      !PREEMPT_RT.
-> 
->    - the introduction of (more) features that rely on preemption; like
->      folio_zero_user() which can do large memset() without preemption checks.
-> 
->      (Xen already had a horrible hack to deal with long running hypercalls)
-> 
->    - the endless and uncontrolled sprinkling of cond_resched() -- mostly cargo
->      cult or in response to poor to replicate workloads.
-> 
-> By moving to a model that is fundamentally preemptable these things become
-> manageable and avoid needing to introduce more horrible hacks.
-> 
-> Since this is a requirement; limit PREEMPT_NONE to architectures that do not
-> support preemption at all. Further limit PREEMPT_VOLUNTARY to those
-> architectures that do not yet have PREEMPT_LAZY support (with the eventual goal
-> to make this the empty set and completely remove voluntary preemption and
-> cond_resched() -- notably VOLUNTARY is already limited to !ARCH_NO_PREEMPT.)
-> 
-> This leaves up-to-date architectures (arm64, loongarch, powerpc, riscv, s390,
-> x86) with only two preemption models: full and lazy (like PREEMPT_RT).
-> 
-> While Lazy has been the recommended setting for a while, not all distributions
-> have managed to make the switch yet. Force things along. Keep the patch minimal
-> in case of hard to address regressions that might pop up.
-> 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> ---
->   kernel/Kconfig.preempt |    3 +++
->   kernel/sched/core.c    |    2 +-
->   kernel/sched/debug.c   |    2 +-
->   3 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> --- a/kernel/Kconfig.preempt
-> +++ b/kernel/Kconfig.preempt
-> @@ -16,11 +16,13 @@ config ARCH_HAS_PREEMPT_LAZY
->   
->   choice
->   	prompt "Preemption Model"
-> +	default PREEMPT_LAZY if ARCH_HAS_PREEMPT_LAZY
->   	default PREEMPT_NONE
->   
->   config PREEMPT_NONE
->   	bool "No Forced Preemption (Server)"
->   	depends on !PREEMPT_RT
-> +	depends on ARCH_NO_PREEMPT
->   	select PREEMPT_NONE_BUILD if !PREEMPT_DYNAMIC
->   	help
->   	  This is the traditional Linux preemption model, geared towards
-> @@ -35,6 +37,7 @@ config PREEMPT_NONE
->   
->   config PREEMPT_VOLUNTARY
->   	bool "Voluntary Kernel Preemption (Desktop)"
-> +	depends on !ARCH_HAS_PREEMPT_LAZY
->   	depends on !ARCH_NO_PREEMPT
->   	depends on !PREEMPT_RT
->   	select PREEMPT_VOLUNTARY_BUILD if !PREEMPT_DYNAMIC
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -7553,7 +7553,7 @@ int preempt_dynamic_mode = preempt_dynam
->   
->   int sched_dynamic_mode(const char *str)
->   {
-> -# ifndef CONFIG_PREEMPT_RT
-> +# if !(defined(CONFIG_PREEMPT_RT) || defined(CONFIG_ARCH_HAS_PREEMPT_LAZY))
->   	if (!strcmp(str, "none"))
->   		return preempt_dynamic_none;
->   
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -243,7 +243,7 @@ static ssize_t sched_dynamic_write(struc
->   
->   static int sched_dynamic_show(struct seq_file *m, void *v)
->   {
-> -	int i = IS_ENABLED(CONFIG_PREEMPT_RT) * 2;
-> +	int i = (IS_ENABLED(CONFIG_PREEMPT_RT) || IS_ENABLED(CONFIG_ARCH_HAS_PREEMPT_LAZY)) * 2;
->   	int j;
->   
->   	/* Count entries in NULL terminated preempt_modes */
+Sounds good - this is a clean approach.
 
-Maybe only change the default to LAZY, but keep other options possible 
-via dynamic update?
+> Whlle it may be NULL for other reasons (being genuinely out of memory and
+> the limited context not allowing reclaim etc), it wouldn't hurt, and it's
+> better than to introduce returning EBUSY into various paths.
 
-- When the kernel changes to lazy being the default, the scheduling 
-pattern can change and it may affect the workloads. having ability to 
-dynamically change to none/voluntary could help one to figure out where
-it is regressing. we could document cases where regression is expected.
+I agree - it seems cleaner for __slab_alloc_node() to return only NULL
+or a valid pointer. If it could also return -EBUSY, the return semantics
+would be a bit less clear.
 
-- with preempt=full/lazy we will likely never see softlockups. How are 
-we going to find out longer kernel paths(some maybe design, some may be 
-bugs) apart from observing workload regression?
+-- 
+Thanks,
+Hao
 
-
-Also, is softlockup code is of any use in preempt=full/lazy?
-
-
+> 
+> >>  		if (can_retry) {
+> >> @@ -7250,10 +7166,6 @@ void __kmem_cache_release(struct kmem_cache *s)
+> >>  {
+> >>  	cache_random_seq_destroy(s);
+> >>  	pcs_destroy(s);
+> >> -#ifdef CONFIG_PREEMPT_RT
+> >> -	if (s->cpu_slab)
+> >> -		lockdep_unregister_key(&s->lock_key);
+> >> -#endif
+> >>  	free_percpu(s->cpu_slab);
+> >>  	free_kmem_cache_nodes(s);
+> >>  }
+> >> 
+> >> -- 
+> >> 2.51.1
+> >> 
+> 
