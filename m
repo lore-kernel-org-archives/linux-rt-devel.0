@@ -1,109 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B208E255F2D;
-	Fri,  9 Jan 2026 16:13:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE79225408
+	for <linux-rt-devel@lists.linux.dev>; Fri,  9 Jan 2026 16:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767975185; cv=none; b=W3uUGZaDQfgFlqpOIfv6nvYoSfYNPP/aGHp+4DWJm1ujNeRuutnGo7e8/J1t/8hFYRH74UdaRVe57f5AL33HDOsPZE25Ax/ygTsnjHTgIiiyQJDXK+Bt5vr/RE7RqZ3+7ae7uaVcbt8kjUsNdNZzsR9LGA8LZ+wGQhouxxahFr0=
+	t=1767975280; cv=none; b=OVPr2wlmsCJiJbqT5ntMsWUI91Pe0cDu4QrKY8TU4+AABLc+JEIaYmHxJ/mu587zsLXwGHPU86YXw0M562UOLhRgiGdtC5snRTCQur8JS/x+pWT/sihONBzBwtnvpSa6ITDAGBC2Vkwtx96+ptReRHNY0aj2zUP7AjIIxf/7jDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767975185; c=relaxed/simple;
-	bh=oCvECle5CMTUsJbpndJH1a7dO2J2qJfeumT+tt40pDA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aCoeMIGfSsM/IAdhqGOk2eXaemKIPpeJUkIAHeFkf6UpOxB0t7453OLvKWX0L4qfAu+sYGAXBxC2bcJ8VDtew3S8t6F7/RtTR/DvPQrWO3RCn5eRJli1FBqYwaMc7A1SJX/8ZgjH4xvyYv4aOh8dBJneaw4oaZPceaMWEMt7uvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBi5gmD+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBi5gmD+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E3F5C4CEF7;
-	Fri,  9 Jan 2026 16:13:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767975185;
-	bh=oCvECle5CMTUsJbpndJH1a7dO2J2qJfeumT+tt40pDA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VBi5gmD+EtrSCN1v0UuEQgVtE19f4fPlvRy4380qgQ2QMVc6su3Vgh90KMnbruTqU
-	 jco4xy0K7lALPjfSHNoGmEqsHpdWZN4Zd38cpqWtegZh8Bs6G+NNa0OAmRVTz+Gr1o
-	 jMkawIhzuaOn/U1eauuAhGBXTiE0TB42ae//EZuWLn71WVLyL34LOWfNHt2s9cH80/
-	 rgp63UMcC1OhYsBuViilYQTblk1vSmDBiESbuxD/XgZjnbzXbzWcOj1/XlLZ+Tgb+M
-	 1TbVbs2LI+i9dg/cUaHD1nvGfx7MvT+QauikTgrddH9b03LP0P/9HbTC6oACdTzP1R
-	 plN1FOCK7LtdA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1veF6k-00000000qBe-3tDG;
-	Fri, 09 Jan 2026 16:13:03 +0000
-Date: Fri, 09 Jan 2026 16:13:02 +0000
-Message-ID: <86wm1qlq7l.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Waiman Long <longman@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams
- <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <87ms2nsqju.ffs@tglx>
-References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=arc-20240116; t=1767975280; c=relaxed/simple;
+	bh=OWC1ntZBQKWTkIZk633veMv1AKus1gRIEYKhERIX7BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=srsECCxdeYXC1d10HpqhzPgI7aV5B4ytanrzqDf65Ue3ofuaYmyfclubDLs4TL+44+AMY+2BymLawHxNj61Y7Lad9iEBjIeoyrUDuwhQTVztOMSuHa4WJsZvrRKadTB9baZKLylq4Wlphzz8HCLTlWqtWH/DDheiRtERRy2H6RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 8CCA61A0325;
+	Fri,  9 Jan 2026 16:14:37 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id 77B3730;
+	Fri,  9 Jan 2026 16:14:35 +0000 (UTC)
+Date: Fri, 9 Jan 2026 11:15:06 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Petr Tesarik <ptesarik@suse.com>
+Cc: Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] ring-buffer: Use a housekeeping CPU to wake up waiters
+Message-ID: <20260109111506.66ad545a@gandalf.local.home>
+In-Reply-To: <20260109095756.13deb429@mordecai>
+References: <20260106091039.2012108-1-ptesarik@suse.com>
+	<20260106170405.425f469e@gandalf.local.home>
+	<20260107085009.58fcffd4@mordecai>
+	<20260107105137.4cf9a67e@mordecai>
+	<20260107111709.0d115cd8@gandalf.local.home>
+	<20260107111935.3befc296@gandalf.local.home>
+	<20260108093932.252f6bc7@mordecai>
+	<20260108115800.7a7fc8a7@gandalf.local.home>
+	<20260109095756.13deb429@mordecai>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: tglx@kernel.org, longman@redhat.com, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: ihb8rxsfsw8zrdo3szasojjm3ouwg3zs
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 77B3730
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+oky8s4MPjftNUIdm5FDOaAGDH+y5fxEA=
+X-HE-Tag: 1767975275-701826
+X-HE-Meta: U2FsdGVkX19shqUHAwfxAoXdYF4FPvcwR/jQmaYQwN2e1O6cR4XGs/kBLqxWcBQDErfEO2PCfRGVEMCv+MuQz/T1PTHAWDFTEK4tKq+KpqLUDPtVsyPPBCynXC3nOGDTpLBqcaJRw1phM2Rd0l7MW0S8UYxv1mRA+VOifB4Kw07DJssOj5YUDQOPYlsJhR3mev3uce6rLBKzjzTXnYz071S9YpkYTUt9ZaPUvZ7AYC2eaBtm4q+OcZQnLjIeM8oHqK0VQv3vCqr8vKAg95uZQm3V9P7vkDUR/MajcHlHaMZ7hWj1XntnsmW5XD9dF7dkomoUZXs5Hak9z37u0giCxYbZ51k5mXYIMUusxjcuOQpteWDA2i0vAT2iOkUYGYio
 
-On Thu, 08 Jan 2026 22:11:33 +0000,
-Thomas Gleixner <tglx@kernel.org> wrote:
-> 
-> On Thu, Jan 08 2026 at 08:26, Marc Zyngier wrote:
-> > Err, no. That's horrible. I can see three ways to address this in a
-> > more appealing way:
-> >
-> > - you give RT a generic allocator that works for (small) atomic
-> >   allocations. I appreciate that's not easy, and even probably
-> >   contrary to the RT goals. But I'm also pretty sure that the GIC code
-> >   is not the only pile of crap being caught doing that.
-> >
-> > - you pre-compute upfront how many cpumasks you are going to require,
-> >   based on the actual GIC topology. You do that on CPU0, outside of
-> >   the hotplug constraints, and allocate what you need. This is
-> >   difficult as you need to ensure the RD<->CPU matching without the
-> >   CPUs having booted, which means wading through the DT/ACPI gunk to
-> >   try and guess what you have.
-> >
-> > - you delay the allocation of L1 tables to a context where you can
-> >   perform allocations, and before we have a chance of running a guest
-> >   on this CPU. That's probably the simplest option (though dealing
-> >   with late onlining while guests are already running could be
-> >   interesting...).
-> 
-> At the point where a CPU is brought up, the topology should be known
-> already, which means this can be allocated on the control CPU _before_
-> the new CPU comes up, no?
+On Fri, 9 Jan 2026 09:57:56 +0100
+Petr Tesarik <ptesarik@suse.com> wrote:
 
-No. Each CPU finds *itself* in the forest of redistributors, and from
-there tries to find whether it has some shared resource with a CPU
-that has booted before it. That's because firmware is absolutely awful
-and can't present a consistent view of the system.
+> I have removed both "inline" and "noinline" in v2, leaving it at the
+> discretion of the compiler. If you believe it deserves a "noinline",
+> feel free to add it. FWIW on x86-64, I didn't observe any measurable
+> diference either in latency or instruction cache footprint.
 
-Anyway, I expect it could be solved by moving this part of the init to
-an ONLINE HP callback.
+Please add the noinline. I went through and added strategic "noinline" and
+"__always_inline", as well as placing "likely()" and "unlikely()" and
+dropped the cost of adding an event from just under 300ns down to less than
+150ns.
 
-Thanks,
+This code is called during function tracing (hit at every function call),
+and yes, every little bit helps!
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+-- Steve
