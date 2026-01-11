@@ -1,107 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB08F3328F3;
-	Sun, 11 Jan 2026 10:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C23314F70;
+	Sun, 11 Jan 2026 16:20:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768127921; cv=none; b=hsx53tbneFcT6byCqPjgtTK6AvYgC6zHA9snuVgJkpiUiDM9VlmzQdhqDoA9c+a59sjQSHkq8IEWFaJWe+QW2Azo+L26gpjBYD0TJ1kk+ZcK7lNdlzYiQc1sbG24AMra8DOgRHerl81aPcIz6wkvtEvfuxPfY4WQ8/gZipXqMME=
+	t=1768148450; cv=none; b=dGNc3so+GWvFgHWgLZ+gUEyDjsJFzGbd4aVWm/QZ3URz1eF3+BZ0CEwFDqYRZnWKy2rXJT8zDu/cvoxdmmnwswfIsUkBotVZ18uzQbEjW2yc90SB1Rot6pmF52Cq4FYV1ZTX6Wi54QYPcDjfoSqmDS12Tmnxq913LBkAllZTB+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768127921; c=relaxed/simple;
-	bh=7I4kxU/y7yloFCNkfGJ50mHLmQEVZqEXA/AJs91wt9s=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PlbuQ18P6JbVWBQoIR8RHIu+9sY7EszUm9qdSvX1thmJInCkg8spNuB9U+m+mXoYNBggkXFRgftBwydGMaOsi8v3/ntAjli7ZlrrefRkLHVMWjHURCqvHj6bp2NbL27Zn0vP3xDi0/Jk1W717cYJo1PwRHpIPwWke7wsKj0oeYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJfWGYjd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768148450; c=relaxed/simple;
+	bh=XxASkA9n76GnwdXuy4myQ5dyLLeDuGEtOKbjql8OspE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=N85cQudkjGYVvOxnS/5spKY3g5py2O9WbQBUQo1VQd0itlfwGFy0ep0kbybfwBj2Xt8iVapPpReP0VMArh9H8pmLb/3aNQd7Mt8WIs0jwmL3o6Wum0a3NdjHrve1+TVREva4y/xAvfeb/YhU7NlqZk8CB874RHPiIu5RceqxuN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WI7bynz5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJfWGYjd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 425E6C4CEF7;
-	Sun, 11 Jan 2026 10:38:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WI7bynz5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3493C4CEF7;
+	Sun, 11 Jan 2026 16:20:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768127921;
-	bh=7I4kxU/y7yloFCNkfGJ50mHLmQEVZqEXA/AJs91wt9s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qJfWGYjd+ZepmxK7UEPHv2i2vi4c7ObyN52kIRk9uUCxov7X1YtYwxGdg9Zw7tX5P
-	 EXUzn52p+KLdIAT3mmXrvWX5LOQJR870gJnOWdZ1vvmOzeuQfg0JVtz931J/IjlsA9
-	 csvfX5wvrWKN3r0psLpyRMWyQNglTIA0KCjsA8Mm0cIxbJf1yzCCKq5fB2Eu3f5GCV
-	 YPepkJK4PAH+mVAt3r7m0YGL7syYjdRbf8/BTvcW4FRN4zxmfYVCUUWkeRUOncw1Ou
-	 RSGwpn3wZDxxu7fD45fi37+6gxwi7X8Qd2QMZkd2jIqQvAnSd2qw42yH2oFDzNwUY9
-	 43Ykms3o4+F7Q==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vesqE-00000001Awb-3nA4;
-	Sun, 11 Jan 2026 10:38:39 +0000
-Date: Sun, 11 Jan 2026 10:38:38 +0000
-Message-ID: <86v7h8l9ht.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Thomas Gleixner <tglx@kernel.org>
-Cc: Waiman Long <longman@redhat.com>,
-	Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven
- Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <87ecnwij44.ffs@tglx>
+	s=k20201202; t=1768148449;
+	bh=XxASkA9n76GnwdXuy4myQ5dyLLeDuGEtOKbjql8OspE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=WI7bynz5q61zhbhcxgLoZgd735Qm/pJNbIxIV6+NNY3x2kTRnlHiFMUbmLEayjxq1
+	 yWVOHyHZjv8Pl4e1cwdFgcfFddfw6n0xvOnqJyleyW/500rO8uAUH+VyB5fmRpxmdV
+	 HnPBZyNHF+UqiOUxFDj/g+N1rf+k9gVtH2Hg9R2tDrTM3aCTLcWrw+bi7JNU7SSgJz
+	 2GZH9JGLIuf/5hkcm/BZuC+ipi+gXUp+1aOc58IE2dkklwrgTokLMwqBRuJmk7S9T/
+	 IdwcvOrAMsz0eKBHbRt2xLQfMun//6P6432sG637lpF+oChtvkkrvioKSqTfEuG+xq
+	 xypiuRQ1P3eww==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: Waiman Long <longman@redhat.com>, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
+ Rostedt <rostedt@goodmis.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
+ allocate_vpe_l1_table()
+In-Reply-To: <86v7h8l9ht.wl-maz@kernel.org>
 References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-	<86wm1qlq7l.wl-maz@kernel.org>
-	<87ecnwij44.ffs@tglx>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+ <864iowmrx6.wl-maz@kernel.org> <87ms2nsqju.ffs@tglx>
+ <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
+ <86v7h8l9ht.wl-maz@kernel.org>
+Date: Sun, 11 Jan 2026 17:20:45 +0100
+Message-ID: <87pl7gglya.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: tglx@kernel.org, longman@redhat.com, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Sun, 11 Jan 2026 09:39:07 +0000,
-Thomas Gleixner <tglx@kernel.org> wrote:
-> 
-> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
-> > On Thu, 08 Jan 2026 22:11:33 +0000,
-> > Thomas Gleixner <tglx@kernel.org> wrote:
-> >> At the point where a CPU is brought up, the topology should be known
-> >> already, which means this can be allocated on the control CPU _before_
-> >> the new CPU comes up, no?
-> >
-> > No. Each CPU finds *itself* in the forest of redistributors, and from
-> > there tries to find whether it has some shared resource with a CPU
-> > that has booted before it. That's because firmware is absolutely awful
-> > and can't present a consistent view of the system.
-> 
-> Groan....
+On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
+> On Sun, 11 Jan 2026 09:39:07 +0000,
+> Thomas Gleixner <tglx@kernel.org> wrote:
+>> 
+>> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
+>> > On Thu, 08 Jan 2026 22:11:33 +0000,
+>> > Thomas Gleixner <tglx@kernel.org> wrote:
+>> >> At the point where a CPU is brought up, the topology should be known
+>> >> already, which means this can be allocated on the control CPU _before_
+>> >> the new CPU comes up, no?
+>> >
+>> > No. Each CPU finds *itself* in the forest of redistributors, and from
+>> > there tries to find whether it has some shared resource with a CPU
+>> > that has booted before it. That's because firmware is absolutely awful
+>> > and can't present a consistent view of the system.
+>> 
+>> Groan....
+>>
+>> > Anyway, I expect it could be solved by moving this part of the init to
+>> > an ONLINE HP callback.
+>> 
+>> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
+>> might be to late because there are callbacks in the STARTING section,
+>> i.e. timer, perf, which might rely on interrupts being accessible.
 >
-> > Anyway, I expect it could be solved by moving this part of the init to
-> > an ONLINE HP callback.
-> 
-> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
-> might be to late because there are callbacks in the STARTING section,
-> i.e. timer, perf, which might rely on interrupts being accessible.
+> Nah. This stuff is only for direct injection of vLPIs into guests, so
+> as long as this is done before we can schedule a vcpu on this physical
+> CPU, we're good. No physical interrupt is concerned with this code.
 
-Nah. This stuff is only for direct injection of vLPIs into guests, so
-as long as this is done before we can schedule a vcpu on this physical
-CPU, we're good. No physical interrupt is concerned with this code.
+That's fine then. vCPUs are considered "user-space" tasks and can't be
+scheduled before CPUHP_AP_ACTIVE sets the CPU active for the scheduler.
 
-> Also that patch seems to be incomplete because there is another
-> allocation further down in allocate_vpe_l1_table()....
+Thanks,
 
-Yeah, I wondered why page allocation wasn't affected by this issue,
-but didn't try to find out.
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+        tglx
