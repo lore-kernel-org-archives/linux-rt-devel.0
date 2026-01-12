@@ -1,60 +1,52 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA572356A23
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 11:43:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8163590AA
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 13:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768218199; cv=none; b=Ja5ViMQ4zYkD6vVMNngCGEb3Z078cQYqqcPgwbgEVk7YhmFI6xHm57hVA14oE6+QciOeURPsVIv0S72z6c8uVx9Q+GKa7VaKF2YMtzsEqjJp7VgcuW9dkpTCdcDH3RcW8YjW7YBqjvpfiNHjM6e3OO9NNJdJQ+6qppvzRDb0Peg=
+	t=1768225217; cv=none; b=Fe9jLIynoLT5m85DQmW2YBeQiv6yMiI1+JZRFr0mfGcNVCh50DIIwBbeI63yHm/zYMGGRUrHOYtF1arydyFRb9wgKz+FHVtMdRNs1U5+PG1eKps1VcNPPhJ28IaEmud8XUOVse23+Y76Ps8KeGDYna9LP8YLYC4/+ES6OltprgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768218199; c=relaxed/simple;
-	bh=FR2uZsoo66h4Nk5/I2ZK0kwZbKETV3eY+yMO6voVimY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fNhuMuaOiEfAew+QO60mxqB8pkGfmJ0/LlcaUF/2wbPlD2U+6pJEGShUqJRUTcnvTtB9zav4u44Na2o6UbaOay4m9jzE2A6OooOO4sMfRTsWSxmGlTtozSVP7D+aqmxq8OLpZXhP1bVcaaBOUVnLD78kPYpAV5z1pQvu0W5BGDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eVkktZvJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OPLn+7ot; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1768225217; c=relaxed/simple;
+	bh=DLckgycVy9554dxLpUCfGuks/cVbMldsljvw2huZ3QU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VBA39HeW0/vragN89h1TqEPel40susfZHoeYTGgt2/V9o6s5NiTGh0xsK/Ysvu+sIY+KKI7RYzluxIHC6rLJwT68UxRdOcfEb9RDnATgKXIHRocI9rJt1wbM2CSK7zC+XWcaRWAaEh/Cs16I2h/TO7RN1RmjgLZxFzGXRu10QYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IeO2iNyn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yMXu3JMY; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eVkktZvJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OPLn+7ot"
-Date: Mon, 12 Jan 2026 12:43:13 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IeO2iNyn";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yMXu3JMY"
+Date: Mon, 12 Jan 2026 14:40:13 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768218195;
+	s=2020; t=1768225215;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
-	b=eVkktZvJ38ZAxJs6ySz/B7kjT4hCOdXD9zbhfB/OEPK0uFSjDqcORnGETjU1GuZZzsoWvz
-	/ExxRZH0YZLjwTYccVdT/FprMu2SqE5NtLxYhD8egBw4HxiOMSXeuJhZZhZand3HEhhgFC
-	MUUa13DcZnzxN0T5z3MbHGIgOcNXIUg4iTngi7i1JRohitGzqHTgaw3UJ19tFQLIZ2K88i
-	fJDJCKvEuqth15UUDz9EjPBtRXC39zQqgQ6QoHa10jzxAuetqC4QscSr/une2YueOOe+xB
-	NZgUty5jIQQF6WD97y1O1jq5Px4QyA/pAipNQ2m5MlhwnCsxGD9+fIapJWSvpg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OJ7xtkAwDk/02NqkeYkN1FD2k7qQMBoom8ZC1wcY0wg=;
+	b=IeO2iNyneVhRGh2MntiX78PMshlVX6FyIZwqAw8bUZEuKzfYJ4oqTHzMyCUD0hyYeOMYFL
+	EamCEADCH3s/Ye0ZM/ZWgXf5LZVSHKJZTreTiT6aguvSkhlZuT2m77gKXBDK4cCprot4xO
+	yQ9YbiQnU+ELU3gQyN+X02nelIgbGnbqAtGKY4CcC2Mg6jBIFMwTUIzyqMUt4BUTVQYvzd
+	jV3haoMEFj+/bDmA+cblk02b6nfIeP/SFThQTlWIzoZOD7DDKJ2OwSCNLanEwLGXkAmHsA
+	WTPoG2GH/Jy9auRDodc5HA/CM6SGwP1ShDuh564/+5RFOaVxwUypgYQc/sXgXw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768218195;
+	s=2020e; t=1768225215;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
-	b=OPLn+7otecFzTYhsQpPPinjW30U84YdReV1WEN0Yq9zNA81v7Cd0Y2ul4k2O7DiCRpCiOx
-	JV8sd5uPq4lKW2Dw==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OJ7xtkAwDk/02NqkeYkN1FD2k7qQMBoom8ZC1wcY0wg=;
+	b=yMXu3JMYYI+gJJkFeSrwVgFG0nc+IDLlFRn3E6Qvm6CEbDpxzq/5vFGUPfXJIyNe4drgDm
+	y98Mh7vPFjef4PDQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
-Message-ID: <20260112114313.woeZoGZP@linutronix.de>
-References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
- <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com>
- <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
- <20260105235921.GI10026@pendragon.ideasonboard.com>
- <20260105193933.40485807@gandalf.local.home>
- <20260106004928.GL10026@pendragon.ideasonboard.com>
- <176771948736.12184.11458532023194713133@localhost>
+	Clark Williams <clrkwllms@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: [PATCH] genirq: Warn about using IRQF_ONESHOT without a threaded
+ handler
+Message-ID: <20260112134013.eQWyReHR@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,87 +55,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <176771948736.12184.11458532023194713133@localhost>
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-01-06 18:11:27 [+0100], Stefan Klug wrote:
-> Hah, if I knew that :-).
-> 
-> The pieces I have are:
-> In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
-> know why and couldn't find a reference to that in the reference manual.
+IRQF_ONESHOT disables the interrupt source until after the threaded
+handler completed its work. This is needed to allow the threaded handler
+to run - otherwise the CPU will get back to the interrupt handler
+because the interrupt source remains active and the threaded handler
+will not able to do its work.
 
-It is either a LEVEL interrupt or just marked as such. But it seems to
-behave as such.
+Specifying IRQF_ONESHOT without a threaded handler does not make sense.
+It could be a leftover if the handler _was_ threaded and changed back to
+primary and the flag was not removed. This can be problematic in the
+`threadirqs' case because the handler is exempt from forced-threading.
+This in turn can become a problem on a PREEMPT_RT system if the handler
+attempts to acquire sleeping locks.
 
-> Assuming it is a level interrupt, then it makes sense to treat it as ONESHOT,
-> otherwise it would fire again immediately after handling the hard
-> interrupt...but it was a hard interrupt in first place - huh.
+Warn about missing threaded handlers with the IRQF_ONESHOT flag.
 
-So setting it ONESHOT while it is non-threaded does not seem to make
-sense, correct.
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
 
-> I just realize that I still miss a bit of the puzzle:
-> ONESHOT is doumented as:
-> 
-> "Interrupt is not reenabled after the hardirq handler finished. Used by
-> threaded interrupts which need to keep the irq line disabled until the
-> threaded handler has been run."
-> 
-> That makes perfect sense. So ONESHOT disables the irq line until the
-> thread_fn has completed (if it was set). Now on preempt_rt inside
-> irq_setup_forced_threading() we don't force threading if ONESHOT is
-> requested. Why is that?
+This popped up after Stefan Klug posted
+   https://lore.kernel.org/all/20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1=
+-3-65af34d04fd8@ideasonboard.com/
 
-Because ONESHOT is usually used where there is no primary handler/ the
-primary handler does just a wake of thread.
+There are a few drivers in tree which will trigger this warning such as
+- arch/arm/mach-versatile/spc.c
+- drivers/char/tpm/tpm_tis_spi_cr50.c
+- drivers/edac/altera_edac.c
+- drivers/i2c/busses/i2c-k1.c
+- =E2=80=A6
 
-> So I'm left with two questions:
-> - Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
+just to name a few. I *think* if IRQF_ONESHOT was on purpose and not
+driven by copy/paste then the they wanted to use IRQF_NO_THREAD.
 
-See above. Also PREEMPT_RT just enforces the kernel command line
-threadirqs
+ kernel/irq/manage.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> - Why was ONESHOT requested in first place as to my current knowledge it
->   really only makes sense if a thread_fn is defined.
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index 349ae7979da0e..18a8405cadb26 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1473,6 +1473,13 @@ __setup_irq(unsigned int irq, struct irq_desc *desc,=
+ struct irqaction *new)
+ 	if (!(new->flags & IRQF_TRIGGER_MASK))
+ 		new->flags |=3D irqd_get_trigger_type(&desc->irq_data);
+=20
++	/*
++	 * IRQF_ONESHOT means the interrupt source in the IRQ chip will be
++	 * masked until the threaded handled is done. If there is no thread
++	 * handler then it makes no sense to have IRQF_ONESHOT.
++	 */
++	WARN_ON_ONCE(new->flags & IRQF_ONESHOT && !new->thread_fn);
++
+ 	/*
+ 	 * Check whether the interrupt nests into another interrupt
+ 	 * thread.
+--=20
+2.51.0
 
-I would say it was a mistake and nobody noticed it. There is no visible
-difference if there is just the primary handler and the system does not
-use threadirqs (or PREEMPT_RT which enforces it).
-
-> Did I just answer my own question? ONESHOT only makes sense if there is
-> a thread_fn and it is assumed that the hard handler is necessary. So
-> preempt_rt doesn't try to change that?
-
-Yes. ONESHOT is used if the interrupt source within the IRQ chip has to
-be masked until after the thread completed. So setting ONESHOT without a
-threaded handler is dubious.
-
-> That would mean the ONESHOT in the dw100 was not necessary in first
-> place but didn't do any harm until preempt_rt was enabled... And if
-> ONSHOT is *not* set preempt_rt would automatically force the irq handler
-> to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
-
-correct.
-
-> So everything would be fine except that we'd still hit the timeout issue
-> from patch 4/4.
-> 
-> So if I got that right, the dw100 driver is in the unfortunate
-> situation, that the irq handler consists of two parts where the first
-> part *must* run in hard interrupt context and the second part *should* run
-> in hard interrupt context but it is fine if it becomes threaded due to
-> preempt_rt. As we can't model that, the best we can do is to always run
-> the second part threaded...
-
-So happens if you avoid the IRQF_ONESHOT? Do you still get these
-timeout errors?
-
-> So patch 4/4 seems correct until we get new information about the
-> hardware.
-> 
-> Any thoughts?
-> 
-> Best regards,
-> Stefan
-
-Sebastian
