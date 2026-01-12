@@ -1,69 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D6726CE17;
-	Mon, 12 Jan 2026 15:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093052E7BDE
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 15:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768230593; cv=none; b=HSNtC5UcL9zjeS96Zyrz1CXSursnEq5+uNsa+U53kyQUKTYfn4Xzja+AzfDTcKouHR1Npbe8+1L7uOmWmuYSm4OYpYq60YFEmi/oHB7KSLFB8Xj0uPM3EpNyuY5KafiIInkTM4cQ8bSNDet8sUnOO9t/Phfgai7ffV8HxyAYWSQ=
+	t=1768231021; cv=none; b=JrO+QbJIX44mE1CqcLtFdAbi24Psrx5J6R1XLpQjARRJy3mXBosbHwr0WCH2OFP8Zk7PvImX/ftSf3b+ejPAqfJZk+LoLbXQMNmWmxW7+Trx16wp9VU8xc2Qxo00jb4WYLyRGURCr3WAFSBBXnBNPYf6A/I/jeXJaK2ECCSzYfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768230593; c=relaxed/simple;
-	bh=SLLkOQ5pxC+Xfk84C/8GnkXcwep/asaQqw3bn0kNW0c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=MvP1uZOHVM/bsd/IaUsFyrBJYXkTVdxHL6Q47iTdpbKDcqZPSYeaa6GkRVX7OgPeUNN3cnFpkDbu4D0fDd2VcOgXRzLGlHHP2co3k3qw0QEgVN6biTfhoEnbjmeUaWhSpWYatodt5Z9utj66L3UPdO1IgQqj07lfGB/QBwQS/nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoQG3MNb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768231021; c=relaxed/simple;
+	bh=Z5H1PGWHvYiSsArxVxZSAYKBZ/Qk8SWJ5dU3IfJYlXw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=dMUGE+hiR80UGkddgCfEb8zyfESz5f07s+353hSdKQgh7nXnndTLTQrHoFvr+FTeJpxYZynWKXEC7dZdiFqUCudgPZi9QwghlKGUwetPk56tzPiGX3/RMm97eKS8l0mnvbltdBfV1YtMmKyJdCcBNJoVHn64pYrEnM0otSPztF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=viR1PWyE; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=MHNqA7Sl; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoQG3MNb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D25EC16AAE;
-	Mon, 12 Jan 2026 15:09:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768230593;
-	bh=SLLkOQ5pxC+Xfk84C/8GnkXcwep/asaQqw3bn0kNW0c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=PoQG3MNbzDflVzcD8PDZTq+p3TS6E4HKQMo/CnosiFbQgC6ToFRKjRh8W7BtW1j+/
-	 F2KSeN0J1sO74fQ6WkQnw0BiRv8ROqBrIMdIVWheMozYjHI6Fe88+8sx/2B4fjbaEf
-	 qwwfikKji8Hb4ug0YcpLbYkxhd+xDKj4aQOIMDihcCD9TpwkHW+9v50MVZDVewZ8py
-	 tLJpx9mPsIE40lEtYy7JM+1OddpQsyjn+/uYdmku45XRrt1GqFs9NaqLWTwUAFxO1g
-	 MsR87UOq+cSoYZl4w4cqDqfrBLgz3QhzeiBzadvBXCglJC47OiLn7KCxgO1fpGac3d
-	 8tVNRQMSYv0KA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Waiman Long <llong@redhat.com>, Marc Zyngier <maz@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
- allocate_vpe_l1_table()
-In-Reply-To: <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
-References: <20260107215353.75612-1-longman@redhat.com>
- <864iowmrx6.wl-maz@kernel.org> <87ms2nsqju.ffs@tglx>
- <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
- <86v7h8l9ht.wl-maz@kernel.org>
- <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
-Date: Mon, 12 Jan 2026 16:09:49 +0100
-Message-ID: <87cy3eg94y.ffs@tglx>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="viR1PWyE";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="MHNqA7Sl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 553755BCC4;
+	Mon, 12 Jan 2026 15:16:57 +0000 (UTC)
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768231017; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KrA6Fyw2WVDJmDZKCXu6ahFK/Dsl+EjYPaRIRf6Zix8=;
+	b=viR1PWyEA3I2y9RBXkTHUFEdpybyaimIOGmmoaxT+5c74ln3o4M8CIADqr7dNs2s49/DLO
+	rPIVypmdFCv2XbYStysO7Jz+I3q4wyUVkS4zBt/ymQB0JlM5oLxS9zyV5FlLpZzy5IB4Oi
+	haoSlZYqaECrVY5rank+ctV3Cg5R7rA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768231017;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KrA6Fyw2WVDJmDZKCXu6ahFK/Dsl+EjYPaRIRf6Zix8=;
+	b=MHNqA7SljFEDHwgBsaHY/qfV2Os1q2qRfud6yxlSlQ5GZCDMqxMDwoEIe0a8RME/vzZrpB
+	Bew+4AuS4w5NxrCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 306713EA65;
+	Mon, 12 Jan 2026 15:16:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id oEhwC2kQZWn7FgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 12 Jan 2026 15:16:57 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Date: Mon, 12 Jan 2026 16:16:55 +0100
+Subject: [PATCH RFC v2 01/20] mm/slab: add rcu_barrier() to
+ kvfree_rcu_barrier_on_cache()
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260112-sheaves-for-all-v2-1-98225cfb50cf@suse.cz>
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+In-Reply-To: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
+ Vlastimil Babka <vbabka@suse.cz>, kernel test robot <oliver.sang@intel.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
+X-Rspamd-Queue-Id: 553755BCC4
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On Sun, Jan 11 2026 at 18:02, Waiman Long wrote:
-> On 1/11/26 5:38 AM, Marc Zyngier wrote:
->>> Also that patch seems to be incomplete because there is another
->>> allocation further down in allocate_vpe_l1_table()....
->> Yeah, I wondered why page allocation wasn't affected by this issue,
->> but didn't try to find out.
->
-> The use of GFP_ATOMIC flag in the page allocation request may help it to 
-> dip into the reserved area and avoid taking any spinlock. In my own 
-> test, just removing the kzalloc() call is enough to avoid any invalid 
-> context warning. In the page allocation code, there is a zone lock and a 
-> per_cpu_pages lock. They were not acquired in my particular test case, 
-> though further investigation may be needed to make sure it is really safe.
+After we submit the rcu_free sheaves to call_rcu() we need to make sure
+the rcu callbacks complete. kvfree_rcu_barrier() does that via
+flush_all_rcu_sheaves() but kvfree_rcu_barrier_on_cache() doesn't. Fix
+that.
 
-They might be acquired though. Only alloc_pages_nolock() guarantees that
-no lock is taken IIRC.
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202601121442.c530bed3-lkp@intel.com
+Fixes: 0f35040de593 ("mm/slab: introduce kvfree_rcu_barrier_on_cache() for cache destruction")
+Cc: stable@vger.kernel.org
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ mm/slab_common.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index eed7ea556cb1..ee994ec7f251 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -2133,8 +2133,11 @@ EXPORT_SYMBOL_GPL(kvfree_rcu_barrier);
+  */
+ void kvfree_rcu_barrier_on_cache(struct kmem_cache *s)
+ {
+-	if (s->cpu_sheaves)
++	if (s->cpu_sheaves) {
+ 		flush_rcu_sheaves_on_cache(s);
++		rcu_barrier();
++	}
++
+ 	/*
+ 	 * TODO: Introduce a version of __kvfree_rcu_barrier() that works
+ 	 * on a specific slab cache.
+
+-- 
+2.52.0
 
