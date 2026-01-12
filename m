@@ -1,114 +1,121 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB32537E317
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 17:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1D637F8BF
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 17:46:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768239244; cv=none; b=CSERTvbVMBZ7oZtL0y6vuA7iBMZmPnwbmuSBpS2Nvuobutb6kZNretnlGjOZKPWFyTPMO35nKtuVg+LnxaXffjxaCu14QN+LgVJhIBUxUZz+ESbDhBcxY94Y9ZER637Ra57akfRd2sFNzJ59ynuDQA7Lp+NTxfTP5NdjTnLJkfo=
+	t=1768240008; cv=none; b=L4pUwE0o9iuGoMgA2CzliuahB9GOeeMEZJwi4IX/OE0G7e/X9kCqMeuRnjslpRmmu76T1cRjjY17ouNY8VW7N5GYyfwgqMOe2Xf/FGZYmIQ42/OBZiOObEau8SBqklrbOwuF57FUHVIoY053CGIt4vSep1ftLn1lIsvWznPwQW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768239244; c=relaxed/simple;
-	bh=uO0yHBbW4NFOGcdG/4kflmmtqX0ELaA9M6ePpTV5n5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nehmIuMSjRU8vmfVLsr8Hn8IE9effxPdHXKqbfSQ3SPfKbZD3LrouPvy7lqUurVygCenjKQQYurO2vd3k/F2u/EZk35kYd4Y4NPjd5XPHeQ0PDa3om4tOI3r+BroTEJhKVXg/CIU3l1aWYuPpdejAn0jvvfK44iCP9M1CioIKoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id C9DA713BD10;
-	Mon, 12 Jan 2026 17:33:55 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id 196652002E;
-	Mon, 12 Jan 2026 17:33:54 +0000 (UTC)
-Date: Mon, 12 Jan 2026 12:33:56 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1768240008; c=relaxed/simple;
+	bh=7qsr8JjTXoeh5XTV7P8+rS/KrEgiIN4KUlQ4pOp7ys0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PkfCDkApzMRqxwldhCU0tbY5FjwEtSpGGfwAXtxdUDqkK76YIPMLYd7tdDH574A2SBycnLIyNX/d1aKfWYYFHkOfprK8OSeN6nXPV7jPpNZ09aR4q3QCM+DzZlvO52XgPSMGcgXGP6zEL6/pBpZuf6oOmfSdUAmfvnzf23HBxss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k8wGEvuQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k8wGEvuQ"
+Received: from pendragon.ideasonboard.com (81-175-209-152.bb.dnainternet.fi [81.175.209.152])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id E21EC316;
+	Mon, 12 Jan 2026 18:46:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768239971;
+	bh=7qsr8JjTXoeh5XTV7P8+rS/KrEgiIN4KUlQ4pOp7ys0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k8wGEvuQqoJRELaYNm9zFsMHA37Kcn/2Mix4fNYvVPNVqRCuF8Xcc2MxeijQafgrq
+	 zMLyAFn6FlRXIDiAxaODuM40dQnGNDO0kDst7G6J++7WanWJVcPedc8mKFLrffF3Kv
+	 iUZ6Lu5CHfUr0XCz9jsVDKw+bzATyxTjtP7clRqg=
+Date: Mon, 12 Jan 2026 19:46:16 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
- liangjlee@google.com
-Subject: Re: Regression in performance when using PREEMPT_RT
-Message-ID: <20260112123356.5bc120b6@gandalf.local.home>
-In-Reply-To: <20260112152702.-73BFhnF@linutronix.de>
-References: <20251226110249.0c2f1d8d@gandalf.local.home>
-	<20260112152702.-73BFhnF@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: Re: [PATCH] genirq: Warn about using IRQF_ONESHOT without a threaded
+ handler
+Message-ID: <20260112174616.GB26365@pendragon.ideasonboard.com>
+References: <20260112134013.eQWyReHR@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: 196652002E
-X-Stat-Signature: saka9igbyhgkpnz3jjk9boj886j4h4zp
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX189AImW5+ksEVsAGftLwalSpyHttoZ4w58=
-X-HE-Tag: 1768239234-329354
-X-HE-Meta: U2FsdGVkX1+2ETPEeV3gQKrarwsMHe5iEoL151Di86OHuYO+72gd/RrIOM8tLEsVG8qlWa6KIWLsmal3UwMygNchhpzNfWvDjxQdWvYDOEgS9fvHash68C5PEYiZbyNl04BXBGqRM6OSD78PH/UF0TAYrIlU2Yf3BkBZQdi3qA1cwwxiIxOX17EUqfAg1ZlMsjYgDkK2Rh6jW1OyBL2A59SWvBRjd4cro+UGpfp/ThXsprkAxLYfMpQqFxQFL+dN3sOEPvqyUjZmcD5rfw5O/UUPuHvHFhBmxvErGMtdmRVFVI+e1zJ5oO7abzKxkKKq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260112134013.eQWyReHR@linutronix.de>
 
-On Mon, 12 Jan 2026 16:27:02 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+Hi Sebastian,
 
+Thank you for the patch.
 
-> If I remember correctly, it completes in the context the
-> threaded-handler. It only does the remote-IPI thingy if the queue is
-> assigned to a different CPU than the CPU where it completes the request.
-> In your case it seems that either the device has multiple queues
-> configured and just one interrupt or the queue is configured to a
-> different CPU than the interrupt.
+On Mon, Jan 12, 2026 at 02:40:13PM +0100, Sebastian Andrzej Siewior wrote:
+> IRQF_ONESHOT disables the interrupt source until after the threaded
+> handler completed its work. This is needed to allow the threaded handler
+> to run - otherwise the CPU will get back to the interrupt handler
+> because the interrupt source remains active and the threaded handler
+> will not able to do its work.
 > 
-> If you have multiple queues but just one interrupt then the lack
-> distributing the load is unfortunate. If the queue has been moved to a
-> BIG CPU then I suggest to move the IRQ to a BIG CPU, too.
+> Specifying IRQF_ONESHOT without a threaded handler does not make sense.
+> It could be a leftover if the handler _was_ threaded and changed back to
+> primary and the flag was not removed. This can be problematic in the
+> `threadirqs' case because the handler is exempt from forced-threading.
+> This in turn can become a problem on a PREEMPT_RT system if the handler
+> attempts to acquire sleeping locks.
 > 
-> If you ignore the statement and allow the remote-IPI to kick the softirq
-> then the request ends up in ksoftirqd on the remote CPU probably
-> accompanied by a warning. Here it runs as SCHED_OTHER and competes for
-
-I'm not sure it triggers a warning. Jack, have you seen that when you
-removed the force_irqthreads() check?
-
-> CPU resources with any other task on that CPU which different than
-> softirq on !RT where it has to wait until other hardirqs complete.
-> The other thing is that if something "else" is busy, say a
-> threaded-interrupt then it will pickup this request (before ksoftirqd
-> had the chance). The result is that handler now does the I/O at its end
-> instead ksoftirqd. If the interrupt is important and has a higher
-> priority then the average MAX_RT_PRIO / 2 then this block I/O might
-> disrupt its schedule.
-
-I'm not sure what the affect of that would be.
-
+> Warn about missing threaded handlers with the IRQF_ONESHOT flag.
 > 
-> I think moving the interrupt to a BIG CPU (as the block queue), if
-> possible, would be the easiest thing to do.
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+> 
+> This popped up after Stefan Klug posted
+>    https://lore.kernel.org/all/20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com/
 
-We have done that. It appears that the hardware simply picks the first CPU
-it can use and *always* uses that. By setting it to a big core, it did get
-some improvement but the problem is still that the softirq only runs on
-that CPU.
+This patch would have saved us from trouble with the DW100 driver, so
 
-> If the hardware restricts it, I would suggest having a dedicated
-> SCHED_FIFO thread for its duty would be better than an anonymous
-> catch-all ksoftirqd.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I think the solution may be to give up on PREEMPT_RT if that's the case,
-unless there's a non PREEMPT_RT reason to make that change.
+I wonder if some people would object due to panic_on_warn, but I think
+the issue will be caught early when testing kernel updates way before it
+should hit users.
 
-To give you an idea of what the issue is here, it is the distribution of the
-block softirq (even when the irq itself is always coming in on a single
-CPU).
+> There are a few drivers in tree which will trigger this warning such as
+> - arch/arm/mach-versatile/spc.c
+> - drivers/char/tpm/tpm_tis_spi_cr50.c
+> - drivers/edac/altera_edac.c
+> - drivers/i2c/busses/i2c-k1.c
+> - …
+> 
+> just to name a few. I *think* if IRQF_ONESHOT was on purpose and not
+> driven by copy/paste then the they wanted to use IRQF_NO_THREAD.
+> 
+>  kernel/irq/manage.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+> index 349ae7979da0e..18a8405cadb26 100644
+> --- a/kernel/irq/manage.c
+> +++ b/kernel/irq/manage.c
+> @@ -1473,6 +1473,13 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
+>  	if (!(new->flags & IRQF_TRIGGER_MASK))
+>  		new->flags |= irqd_get_trigger_type(&desc->irq_data);
+>  
+> +	/*
+> +	 * IRQF_ONESHOT means the interrupt source in the IRQ chip will be
+> +	 * masked until the threaded handled is done. If there is no thread
+> +	 * handler then it makes no sense to have IRQF_ONESHOT.
+> +	 */
+> +	WARN_ON_ONCE(new->flags & IRQF_ONESHOT && !new->thread_fn);
+> +
+>  	/*
+>  	 * Check whether the interrupt nests into another interrupt
+>  	 * thread.
 
- cat /proc/softirqs | grep -i block
+-- 
+Regards,
 
-non-rt:
-	BLOCK:          6          0          0          0          1          7     162986     164750
-
-RT unmodified:
-	BLOCK:     329875          0          0          0          0          0          0          0
-
-RT without the forced_irqthreads check:
-	BLOCK:          0          0          0          0         11         15     164116     163619
-
--- Steve
-
+Laurent Pinchart
