@@ -1,196 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C7A18A6D4;
-	Mon, 12 Jan 2026 14:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D6726CE17;
+	Mon, 12 Jan 2026 15:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768228696; cv=none; b=P2pAqhPn6vFyxTLlmyNJL0ramaUHGcPWR5X5wWSnmIeVE2VecSEOlTvZYOWSn/BmhsDkmb0N4/ARmfi+TkxxFuC7HLyL053vjuwxbf/4TisaZEwlmynbnhueBUk7E1jF+LiVWr8dkZd6+czAA/96d/DxwdPW2m3jwT9e59Oah2E=
+	t=1768230593; cv=none; b=HSNtC5UcL9zjeS96Zyrz1CXSursnEq5+uNsa+U53kyQUKTYfn4Xzja+AzfDTcKouHR1Npbe8+1L7uOmWmuYSm4OYpYq60YFEmi/oHB7KSLFB8Xj0uPM3EpNyuY5KafiIInkTM4cQ8bSNDet8sUnOO9t/Phfgai7ffV8HxyAYWSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768228696; c=relaxed/simple;
-	bh=hPnVCOatYGzLOa+t8h7DMKJS+uAKexx4C+dG22dwM8E=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eW74n0uLEmZJaonp4W4TTPOABTM9Wl6SevDnK5mQWsve+Ukd39dTf3jZDqHjkzNQ2t1iJB2sKuuGSUKsJku58DwwOh1KaYLgF7CVszBnL7YPoSK6gGGBEGW+BC+D39kHmRPU3Aa524EgQ+/tkOcdLCaCSEX/wAWuZ7a3olAcVIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s8c5A5Z5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768230593; c=relaxed/simple;
+	bh=SLLkOQ5pxC+Xfk84C/8GnkXcwep/asaQqw3bn0kNW0c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MvP1uZOHVM/bsd/IaUsFyrBJYXkTVdxHL6Q47iTdpbKDcqZPSYeaa6GkRVX7OgPeUNN3cnFpkDbu4D0fDd2VcOgXRzLGlHHP2co3k3qw0QEgVN6biTfhoEnbjmeUaWhSpWYatodt5Z9utj66L3UPdO1IgQqj07lfGB/QBwQS/nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PoQG3MNb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s8c5A5Z5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E7E6C16AAE;
-	Mon, 12 Jan 2026 14:38:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PoQG3MNb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D25EC16AAE;
+	Mon, 12 Jan 2026 15:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768228696;
-	bh=hPnVCOatYGzLOa+t8h7DMKJS+uAKexx4C+dG22dwM8E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=s8c5A5Z5PG/he936n0Psk1RDtotttGleVl4zanApayBG803WUi+LTfcWHEid8y4ww
-	 Cd9Kjgm7Pneay4rK1lwtud/3ERJc2DHLKs+yvGU9Xtno8rgAJTCyTofDQG/wF7iZx7
-	 D3T0pyJfeOtPFvpNE1PJDPu05vPwWz4n0aKei/7z0EuQEeDsgfudgGXIQEYVM/rBUK
-	 06QAYg+XbPE7hLZP45f5yPoo36aiWqs+WoRtLYBsg+Yd2BJD5LkW1SZwZ3dkWoKdbu
-	 dJxG5NxIRuaYGsXiLEKEAR2ngk6ufQxP3FabqLJCnPbqi2VbKTC8pNAUy113mwc+ng
-	 6+ubVeestQw6A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vfJ3d-00000001TVR-2NXP;
-	Mon, 12 Jan 2026 14:38:13 +0000
-Date: Mon, 12 Jan 2026 14:38:13 +0000
-Message-ID: <86qzrulwve.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Waiman Long <longman@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <20260112140837.UNQYT563@linutronix.de>
+	s=k20201202; t=1768230593;
+	bh=SLLkOQ5pxC+Xfk84C/8GnkXcwep/asaQqw3bn0kNW0c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=PoQG3MNbzDflVzcD8PDZTq+p3TS6E4HKQMo/CnosiFbQgC6ToFRKjRh8W7BtW1j+/
+	 F2KSeN0J1sO74fQ6WkQnw0BiRv8ROqBrIMdIVWheMozYjHI6Fe88+8sx/2B4fjbaEf
+	 qwwfikKji8Hb4ug0YcpLbYkxhd+xDKj4aQOIMDihcCD9TpwkHW+9v50MVZDVewZ8py
+	 tLJpx9mPsIE40lEtYy7JM+1OddpQsyjn+/uYdmku45XRrt1GqFs9NaqLWTwUAFxO1g
+	 MsR87UOq+cSoYZl4w4cqDqfrBLgz3QhzeiBzadvBXCglJC47OiLn7KCxgO1fpGac3d
+	 8tVNRQMSYv0KA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Waiman Long <llong@redhat.com>, Marc Zyngier <maz@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
+ allocate_vpe_l1_table()
+In-Reply-To: <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
 References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-	<86wm1qlq7l.wl-maz@kernel.org>
-	<87ecnwij44.ffs@tglx>
-	<86v7h8l9ht.wl-maz@kernel.org>
-	<87pl7gglya.ffs@tglx>
-	<86tswrkrh4.wl-maz@kernel.org>
-	<20260112140837.UNQYT563@linutronix.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+ <864iowmrx6.wl-maz@kernel.org> <87ms2nsqju.ffs@tglx>
+ <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
+ <86v7h8l9ht.wl-maz@kernel.org>
+ <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
+Date: Mon, 12 Jan 2026 16:09:49 +0100
+Message-ID: <87cy3eg94y.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: bigeasy@linutronix.de, longman@redhat.com, tglx@kernel.org, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Mon, 12 Jan 2026 14:08:37 +0000,
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
->=20
-> On 2026-01-12 11:20:07 [+0000], Marc Zyngier wrote:
-> > On Sun, 11 Jan 2026 16:20:45 +0000,
-> > Thomas Gleixner <tglx@kernel.org> wrote:
-> > >=20
-> > > On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
-> > > > On Sun, 11 Jan 2026 09:39:07 +0000,
-> > > > Thomas Gleixner <tglx@kernel.org> wrote:
-> > > >>=20
-> > > >> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
-> > > >> > On Thu, 08 Jan 2026 22:11:33 +0000,
-> > > >> > Thomas Gleixner <tglx@kernel.org> wrote:
-> > > >> >> At the point where a CPU is brought up, the topology should be =
-known
-> > > >> >> already, which means this can be allocated on the control CPU _=
-before_
-> > > >> >> the new CPU comes up, no?
-> > > >> >
-> > > >> > No. Each CPU finds *itself* in the forest of redistributors, and=
- from
-> > > >> > there tries to find whether it has some shared resource with a C=
-PU
-> > > >> > that has booted before it. That's because firmware is absolutely=
- awful
-> > > >> > and can't present a consistent view of the system.
-> > > >>=20
-> > > >> Groan....
-> > > >>
-> > > >> > Anyway, I expect it could be solved by moving this part of the i=
-nit to
-> > > >> > an ONLINE HP callback.
-> > > >>=20
-> > > >> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even th=
-at
-> > > >> might be to late because there are callbacks in the STARTING secti=
-on,
-> > > >> i.e. timer, perf, which might rely on interrupts being accessible.
-> > > >
-> > > > Nah. This stuff is only for direct injection of vLPIs into guests, =
-so
-> > > > as long as this is done before we can schedule a vcpu on this physi=
-cal
-> > > > CPU, we're good. No physical interrupt is concerned with this code.
-> > >=20
-> > > That's fine then. vCPUs are considered "user-space" tasks and can't be
-> > > scheduled before CPUHP_AP_ACTIVE sets the CPU active for the schedule=
-r.
-> >=20
-> > Waiman, can you please give the following hack a go on your box? The
-> > machines I have are thankfully limited to a single ITS group, so I
-> > can't directly reproduce your issue.
-> >=20
-> > Thanks,
-> >=20
-> > 	M.
-> >=20
-> > diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic=
--v3-its.c
-> > index ada585bfa4517..20967000f2348 100644
-> > --- a/drivers/irqchip/irq-gic-v3-its.c
-> > +++ b/drivers/irqchip/irq-gic-v3-its.c
-> > @@ -2896,7 +2896,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
-> >  	return true;
-> >  }
-> > =20
-> > -static int allocate_vpe_l1_table(void)
-> > +static int allocate_vpe_l1_table(unsigned int cpu)
-> >  {
-> >  	void __iomem *vlpi_base =3D gic_data_rdist_vlpi_base();
-> >  	u64 val, gpsz, npg, pa;
-> > @@ -3012,10 +3012,11 @@ static int allocate_vpe_l1_table(void)
-> > =20
-> >  out:
-> >  	gicr_write_vpropbaser(val, vlpi_base + GICR_VPROPBASER);
-> > -	cpumask_set_cpu(smp_processor_id(), gic_data_rdist()->vpe_table_mask);
-> > +	cpumask_set_cpu(cpu, gic_data_rdist()->vpe_table_mask);
-> > +	dsb(sy);
-> > =20
-> >  	pr_debug("CPU%d: VPROPBASER =3D %llx %*pbl\n",
-> > -		 smp_processor_id(), val,
-> > +		 cpu, val,
-> >  		 cpumask_pr_args(gic_data_rdist()->vpe_table_mask));
-> > =20
-> >  	return 0;
-> > @@ -3264,15 +3265,9 @@ static void its_cpu_init_lpis(void)
-> >  		val =3D its_clear_vpend_valid(vlpi_base, 0, 0);
-> >  	}
-> > =20
-> > -	if (allocate_vpe_l1_table()) {
-> > -		/*
-> > -		 * If the allocation has failed, we're in massive trouble.
-> > -		 * Disable direct injection, and pray that no VM was
-> > -		 * already running...
-> > -		 */
-> > -		gic_rdists->has_rvpeid =3D false;
-> > -		gic_rdists->has_vlpis =3D false;
-> > -	}
-> > +	if (smp_processor_id() =3D=3D 0)
-> > +		cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "irqchip/arm/gicv3:vpe",
-> > +				  allocate_vpe_l1_table, NULL);
->=20
-> If you move it the online state then you could also
-> s/GFP_ATOMIC/GFP_KERNEL.
->=20
-> Also previously you checked the error code set has_rvpeid, has_vlpis on
-> failure. Now you you should the same in case of a failure during
-> registration.
-> This also happens happens on CPU hotplug and I don't see how you avoid a
-> second allocation. But I also don't understand why this registrations
-> happens on CPU0. It might be just a test patch=E2=80=A6
+On Sun, Jan 11 2026 at 18:02, Waiman Long wrote:
+> On 1/11/26 5:38 AM, Marc Zyngier wrote:
+>>> Also that patch seems to be incomplete because there is another
+>>> allocation further down in allocate_vpe_l1_table()....
+>> Yeah, I wondered why page allocation wasn't affected by this issue,
+>> but didn't try to find out.
+>
+> The use of GFP_ATOMIC flag in the page allocation request may help it to 
+> dip into the reserved area and avoid taking any spinlock. In my own 
+> test, just removing the kzalloc() call is enough to avoid any invalid 
+> context warning. In the page allocation code, there is a zone lock and a 
+> per_cpu_pages lock. They were not acquired in my particular test case, 
+> though further investigation may be needed to make sure it is really safe.
 
-It's just a test hack. There is way more things that would need to
-change in order to cope with moving this to CPUHP, but I want
-confirmation that this indeed solves the original issue before I start
-breaking more things.
+They might be acquired though. Only alloc_pages_nolock() guarantees that
+no lock is taken IIRC.
 
-Thanks,
-
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
