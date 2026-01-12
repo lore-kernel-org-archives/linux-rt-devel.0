@@ -1,126 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8223301704
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 17:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB32537E317
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 17:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768238083; cv=none; b=aMlndnXijiY+mUlMjESP+TnbeZaDUi1uUDYyO12F+hqclf1odNp47ecgdK3yCMihJLqeQd4VadVT/YwZLuF+mr7K/mJwg272pGTHrnWnzAeiFVndKcjiCQZc4cA9l25BuBVqG2LEzsf5vhFOyEwUAfPJkJe+IiX/BHgSOD4xaIY=
+	t=1768239244; cv=none; b=CSERTvbVMBZ7oZtL0y6vuA7iBMZmPnwbmuSBpS2Nvuobutb6kZNretnlGjOZKPWFyTPMO35nKtuVg+LnxaXffjxaCu14QN+LgVJhIBUxUZz+ESbDhBcxY94Y9ZER637Ra57akfRd2sFNzJ59ynuDQA7Lp+NTxfTP5NdjTnLJkfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768238083; c=relaxed/simple;
-	bh=p2RIxY5fGlPnWZZI5ZaSHBVwyZ9upWMBTdLTBFx8kA8=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=j4/o0uPbNMna9SX0qZnaOME3+TfD3z0kk1alYOhb5YfPdUnimiBUdHlpG7VYcjrF4EFzLujRabmaDdNM7X2/anHc45nSJmRdidYYVLzsEIU6DQ6tVpCMenF74n/y8mCwiUXHr4RlsWBw8oFCe9aht7Z28C/pkw0KXxK4IY2ttw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QNIldvAT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QNIldvAT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1768238080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=niuwlukY4G5Spngj6ahATQFt383vhuD9uikDSg5CgGU=;
-	b=QNIldvATYbSWnJde4YkTNg0iRKOE9IHEHE63PYEXB2TtDR5kpWZGsJjnGk7VqYN+YMx0IV
-	oak2o1B29qBqntCBR+AMjfs+Lm/75NfWVwQqCRPfBBdhPV1ePgpysHpP4Czo9yi8OnpgZ2
-	aCaQ3xBBqJC9tWd96RUF5gZ1pvRfT94=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-2s4lxKKXOFy0rlVB53ON1A-1; Mon, 12 Jan 2026 12:14:37 -0500
-X-MC-Unique: 2s4lxKKXOFy0rlVB53ON1A-1
-X-Mimecast-MFC-AGG-ID: 2s4lxKKXOFy0rlVB53ON1A_1768238077
-Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-56361fd5879so3612230e0c.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 09:14:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768238077; x=1768842877;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=niuwlukY4G5Spngj6ahATQFt383vhuD9uikDSg5CgGU=;
-        b=A5AuucCmxrsM/9zlYvudaL85UgBsik+fDkF+U7jyyBu+gWYSG2zED249az/xIOCmbb
-         dpPqzfqP0NK23WwgVNEb7nRywLw5kcBoehA9y+IpVf/jzjXCcnRAvwLoCGyjOHbAAX3n
-         DZEK3AJ9EXwu4EB4ipcl119tjwFYH8rzn95KZsk1FbPTWSvOHvnbIJQLvT3aqTnTiVhl
-         gvtHcXYQiMzmpgGhNLqNw8Io3qcrNvaHGlTYi96CP2jqdIhx23ajMkCrQ8IAT3arrXKD
-         BMstmdV36mLksc3M6Y+XRGkNGXh/7qckrxUbd2E5RdvsOzOPtd8CuTHgEmNGf4m1AiCI
-         dPcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWB9JTABZAO95Ql/GRMGNuvgT+o40kNgICb8iZ2GTJVUS2gBOwsHoWM28N/KMtbig8KlQpzFY+6AEtKa5Qy3Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEXtNCaZG/TlKFltZd9CyyzypzBL5IKwL4u/F5SjF6hx45TtPt
-	yvgD0Bq6TeGFP7njAXVWoQFxeRH6rjfQYtNYZkO/Q5eFXW1iwEcAWGBpT617rDgKIgR79zeQR//
-	O5HoacoP1gVr1A+iYX5KcCbn1yv0UB9eWIAga3IIsntKoW1ZfScRY9Sk1+Up4odiwjwKN
-X-Gm-Gg: AY/fxX7/aXjz6enqRvOg9JGwnRc8XjxtlWdqhnTL+gBBqIZHCbXv5lwGIWq/muOmfUA
-	fJOqjzSnu4d7r8evlyIFTeFZR+ReYVzycpa00PXH++Py3OMHPBHiT7WUjk+yFxGS8mO+1gVW5GN
-	9JQBaJ7q5YdPYBL8mLn3AnlQFQiuQmx7DoEVEqCGXkKGVcT0shEuiOo3EjaOg4MMACU/akxTDtI
-	5tW29QHqP5I0qgNuApCMmEm26lhamFnHIq7wVo5D49Cmyr6CmkO7aQebgCd2WYMjtkxJJirAoQ8
-	X5K9NRHqKfuuwtbom6D3gqbeW84xhIUKG4YrWkcoWpxRBVtn5S//nMdJwsD3kFSyikdf8OasQos
-	q9tCm2wd8PfAmdvTwTkCbGMTftxyhBIjwr40sVwoS4jCzySOITuEqVzNU
-X-Received: by 2002:a05:6122:2887:b0:55b:305b:4e3e with SMTP id 71dfb90a1353d-56347ffb9edmr5814840e0c.20.1768238076676;
-        Mon, 12 Jan 2026 09:14:36 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFlqbRNk7nmg9s0QyR3wuxXiH+S603lyrhRY4LiNHJf7Z/PHgn/i4o1R+LczeMDwvDVUwoqOg==
-X-Received: by 2002:a05:6122:2887:b0:55b:305b:4e3e with SMTP id 71dfb90a1353d-56347ffb9edmr5814824e0c.20.1768238076243;
-        Mon, 12 Jan 2026 09:14:36 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56374ba06efsm7016541e0c.11.2026.01.12.09.14.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jan 2026 09:14:35 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com>
-Date: Mon, 12 Jan 2026 12:14:30 -0500
+	s=arc-20240116; t=1768239244; c=relaxed/simple;
+	bh=uO0yHBbW4NFOGcdG/4kflmmtqX0ELaA9M6ePpTV5n5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nehmIuMSjRU8vmfVLsr8Hn8IE9effxPdHXKqbfSQ3SPfKbZD3LrouPvy7lqUurVygCenjKQQYurO2vd3k/F2u/EZk35kYd4Y4NPjd5XPHeQ0PDa3om4tOI3r+BroTEJhKVXg/CIU3l1aWYuPpdejAn0jvvfK44iCP9M1CioIKoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id C9DA713BD10;
+	Mon, 12 Jan 2026 17:33:55 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id 196652002E;
+	Mon, 12 Jan 2026 17:33:54 +0000 (UTC)
+Date: Mon, 12 Jan 2026 12:33:56 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
+ liangjlee@google.com
+Subject: Re: Regression in performance when using PREEMPT_RT
+Message-ID: <20260112123356.5bc120b6@gandalf.local.home>
+In-Reply-To: <20260112152702.-73BFhnF@linutronix.de>
+References: <20251226110249.0c2f1d8d@gandalf.local.home>
+	<20260112152702.-73BFhnF@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
- allocate_vpe_l1_table()
-To: Thomas Gleixner <tglx@kernel.org>, Waiman Long <llong@redhat.com>,
- Marc Zyngier <maz@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20260107215353.75612-1-longman@redhat.com>
- <864iowmrx6.wl-maz@kernel.org> <87ms2nsqju.ffs@tglx>
- <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
- <86v7h8l9ht.wl-maz@kernel.org>
- <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com> <87cy3eg94y.ffs@tglx>
-In-Reply-To: <87cy3eg94y.ffs@tglx>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: KWlDRfPV-S1prZm77O3oBijSzqD8rz9A-tsDy0uPY0c_1768238077
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout06
+X-Rspamd-Queue-Id: 196652002E
+X-Stat-Signature: saka9igbyhgkpnz3jjk9boj886j4h4zp
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX189AImW5+ksEVsAGftLwalSpyHttoZ4w58=
+X-HE-Tag: 1768239234-329354
+X-HE-Meta: U2FsdGVkX1+2ETPEeV3gQKrarwsMHe5iEoL151Di86OHuYO+72gd/RrIOM8tLEsVG8qlWa6KIWLsmal3UwMygNchhpzNfWvDjxQdWvYDOEgS9fvHash68C5PEYiZbyNl04BXBGqRM6OSD78PH/UF0TAYrIlU2Yf3BkBZQdi3qA1cwwxiIxOX17EUqfAg1ZlMsjYgDkK2Rh6jW1OyBL2A59SWvBRjd4cro+UGpfp/ThXsprkAxLYfMpQqFxQFL+dN3sOEPvqyUjZmcD5rfw5O/UUPuHvHFhBmxvErGMtdmRVFVI+e1zJ5oO7abzKxkKKq
 
-On 1/12/26 10:09 AM, Thomas Gleixner wrote:
-> On Sun, Jan 11 2026 at 18:02, Waiman Long wrote:
->> On 1/11/26 5:38 AM, Marc Zyngier wrote:
->>>> Also that patch seems to be incomplete because there is another
->>>> allocation further down in allocate_vpe_l1_table()....
->>> Yeah, I wondered why page allocation wasn't affected by this issue,
->>> but didn't try to find out.
->> The use of GFP_ATOMIC flag in the page allocation request may help it to
->> dip into the reserved area and avoid taking any spinlock. In my own
->> test, just removing the kzalloc() call is enough to avoid any invalid
->> context warning. In the page allocation code, there is a zone lock and a
->> per_cpu_pages lock. They were not acquired in my particular test case,
->> though further investigation may be needed to make sure it is really safe.
-> They might be acquired though. Only alloc_pages_nolock() guarantees that
-> no lock is taken IIRC.
+On Mon, 12 Jan 2026 16:27:02 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-Thanks for the suggestion. I will look into using that for page 
-allocation. I had actually attempt to use kmalloc_nolock() to replace 
-kzalloc() initially. Even though it removed the call to rmqueue(), but 
-there were other spinlocks in the slub code that were still being 
-acquired like the local_lock() or the spinlock in the get_random() code. 
-So I gave up using that. Anyway, kmalloc_nolock() doesn't seem to be 
-fully working yet.
 
-Cheers,
-Longman
+> If I remember correctly, it completes in the context the
+> threaded-handler. It only does the remote-IPI thingy if the queue is
+> assigned to a different CPU than the CPU where it completes the request.
+> In your case it seems that either the device has multiple queues
+> configured and just one interrupt or the queue is configured to a
+> different CPU than the interrupt.
+> 
+> If you have multiple queues but just one interrupt then the lack
+> distributing the load is unfortunate. If the queue has been moved to a
+> BIG CPU then I suggest to move the IRQ to a BIG CPU, too.
+> 
+> If you ignore the statement and allow the remote-IPI to kick the softirq
+> then the request ends up in ksoftirqd on the remote CPU probably
+> accompanied by a warning. Here it runs as SCHED_OTHER and competes for
+
+I'm not sure it triggers a warning. Jack, have you seen that when you
+removed the force_irqthreads() check?
+
+> CPU resources with any other task on that CPU which different than
+> softirq on !RT where it has to wait until other hardirqs complete.
+> The other thing is that if something "else" is busy, say a
+> threaded-interrupt then it will pickup this request (before ksoftirqd
+> had the chance). The result is that handler now does the I/O at its end
+> instead ksoftirqd. If the interrupt is important and has a higher
+> priority then the average MAX_RT_PRIO / 2 then this block I/O might
+> disrupt its schedule.
+
+I'm not sure what the affect of that would be.
+
+> 
+> I think moving the interrupt to a BIG CPU (as the block queue), if
+> possible, would be the easiest thing to do.
+
+We have done that. It appears that the hardware simply picks the first CPU
+it can use and *always* uses that. By setting it to a big core, it did get
+some improvement but the problem is still that the softirq only runs on
+that CPU.
+
+> If the hardware restricts it, I would suggest having a dedicated
+> SCHED_FIFO thread for its duty would be better than an anonymous
+> catch-all ksoftirqd.
+
+I think the solution may be to give up on PREEMPT_RT if that's the case,
+unless there's a non PREEMPT_RT reason to make that change.
+
+To give you an idea of what the issue is here, it is the distribution of the
+block softirq (even when the irq itself is always coming in on a single
+CPU).
+
+ cat /proc/softirqs | grep -i block
+
+non-rt:
+	BLOCK:          6          0          0          0          1          7     162986     164750
+
+RT unmodified:
+	BLOCK:     329875          0          0          0          0          0          0          0
+
+RT without the forced_irqthreads check:
+	BLOCK:          0          0          0          0         11         15     164116     163619
+
+-- Steve
 
