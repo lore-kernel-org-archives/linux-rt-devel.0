@@ -1,163 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6211A356A1A;
-	Mon, 12 Jan 2026 11:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA572356A23
+	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 11:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768216810; cv=none; b=KexzbLM8eU6tkhOkgxWbqlBB7fSVtcL2imF9DoglF59iSx1AIzbR0MoyC1illXuIaVAqSV/dAQT0vioxZanucLh2/cMQjHWCO21ntcqGwWqMgdXnZAjXhRovjXckPQTCl2dMD7DX32q5xcyMh4U9ur3lSAquzoMYa8YZA3p/VZs=
+	t=1768218199; cv=none; b=Ja5ViMQ4zYkD6vVMNngCGEb3Z078cQYqqcPgwbgEVk7YhmFI6xHm57hVA14oE6+QciOeURPsVIv0S72z6c8uVx9Q+GKa7VaKF2YMtzsEqjJp7VgcuW9dkpTCdcDH3RcW8YjW7YBqjvpfiNHjM6e3OO9NNJdJQ+6qppvzRDb0Peg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768216810; c=relaxed/simple;
-	bh=cJwAJiB1jDAkBYN22k41gWvMxKzsKOodAtpaC8n3zfk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fOOz/ACuh1sSwLoHp4QSxnhJTiWH/pPPx9Gm+It/e2C4PwgyaL5BVKasG1JDCSOrmC9zAu0hOcGwiA8si7SyUxC19cKX93w0YjPtfSmQnMwHspjvo0WJFARUNdQBBYDpwCNZ34Kyt6nTiaTJtiOTrl9SK1InaBJptE6wjolWDfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+YTDjvL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768218199; c=relaxed/simple;
+	bh=FR2uZsoo66h4Nk5/I2ZK0kwZbKETV3eY+yMO6voVimY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fNhuMuaOiEfAew+QO60mxqB8pkGfmJ0/LlcaUF/2wbPlD2U+6pJEGShUqJRUTcnvTtB9zav4u44Na2o6UbaOay4m9jzE2A6OooOO4sMfRTsWSxmGlTtozSVP7D+aqmxq8OLpZXhP1bVcaaBOUVnLD78kPYpAV5z1pQvu0W5BGDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=eVkktZvJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OPLn+7ot; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+YTDjvL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8815C19425;
-	Mon, 12 Jan 2026 11:20:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768216810;
-	bh=cJwAJiB1jDAkBYN22k41gWvMxKzsKOodAtpaC8n3zfk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=k+YTDjvLgj0Ngt3Asj6+TNfDI47XpsY5fG5ZrR5Eq1cVmMxduFr8OOyQs40ioUa8l
-	 HHQxofOYUHuj6/fWBq01ZDoN0P3VbXRL5NYWnHaoPnwEVTm5kJZH2MoIR6i4djptmC
-	 4i+Ps2suLKI2ayaLNbcDQjjlvqb+8zqrYQmFchh04HxV0KdnBoC7rZ5sPsqHzbRAC8
-	 V2k3JyIA9RSjJYoisal5jgUC2EKlulBnzyNqV22OEq/PG3HKyuwEW6+jlscVbYdh9v
-	 X5aus6OFAMiojLxDSja2Z3houjEUZ6RSl2I/q2J7YKtg5S/seUF/7IxBNjmlnQRTeT
-	 EmBhiEBOERY1A==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vfFxv-00000001PSo-2ND2;
-	Mon, 12 Jan 2026 11:20:07 +0000
-Date: Mon, 12 Jan 2026 11:20:07 +0000
-Message-ID: <86tswrkrh4.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Waiman Long <longman@redhat.com>, Thomas Gleixner <tglx@kernel.org>
-Cc: 	Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven
- Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <87pl7gglya.ffs@tglx>
-References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-	<86wm1qlq7l.wl-maz@kernel.org>
-	<87ecnwij44.ffs@tglx>
-	<86v7h8l9ht.wl-maz@kernel.org>
-	<87pl7gglya.ffs@tglx>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eVkktZvJ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OPLn+7ot"
+Date: Mon, 12 Jan 2026 12:43:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768218195;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
+	b=eVkktZvJ38ZAxJs6ySz/B7kjT4hCOdXD9zbhfB/OEPK0uFSjDqcORnGETjU1GuZZzsoWvz
+	/ExxRZH0YZLjwTYccVdT/FprMu2SqE5NtLxYhD8egBw4HxiOMSXeuJhZZhZand3HEhhgFC
+	MUUa13DcZnzxN0T5z3MbHGIgOcNXIUg4iTngi7i1JRohitGzqHTgaw3UJ19tFQLIZ2K88i
+	fJDJCKvEuqth15UUDz9EjPBtRXC39zQqgQ6QoHa10jzxAuetqC4QscSr/une2YueOOe+xB
+	NZgUty5jIQQF6WD97y1O1jq5Px4QyA/pAipNQ2m5MlhwnCsxGD9+fIapJWSvpg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768218195;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rkzi987TcoICfrsQFj2zvBdxgU9Mxrngu2PrpsNfLsQ=;
+	b=OPLn+7otecFzTYhsQpPPinjW30U84YdReV1WEN0Yq9zNA81v7Cd0Y2ul4k2O7DiCRpCiOx
+	JV8sd5uPq4lKW2Dw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+Message-ID: <20260112114313.woeZoGZP@linutronix.de>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com>
+ <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com>
+ <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca>
+ <20260105235921.GI10026@pendragon.ideasonboard.com>
+ <20260105193933.40485807@gandalf.local.home>
+ <20260106004928.GL10026@pendragon.ideasonboard.com>
+ <176771948736.12184.11458532023194713133@localhost>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: longman@redhat.com, tglx@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <176771948736.12184.11458532023194713133@localhost>
 
-On Sun, 11 Jan 2026 16:20:45 +0000,
-Thomas Gleixner <tglx@kernel.org> wrote:
+On 2026-01-06 18:11:27 [+0100], Stefan Klug wrote:
+> Hah, if I knew that :-).
 > 
-> On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
-> > On Sun, 11 Jan 2026 09:39:07 +0000,
-> > Thomas Gleixner <tglx@kernel.org> wrote:
-> >> 
-> >> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
-> >> > On Thu, 08 Jan 2026 22:11:33 +0000,
-> >> > Thomas Gleixner <tglx@kernel.org> wrote:
-> >> >> At the point where a CPU is brought up, the topology should be known
-> >> >> already, which means this can be allocated on the control CPU _before_
-> >> >> the new CPU comes up, no?
-> >> >
-> >> > No. Each CPU finds *itself* in the forest of redistributors, and from
-> >> > there tries to find whether it has some shared resource with a CPU
-> >> > that has booted before it. That's because firmware is absolutely awful
-> >> > and can't present a consistent view of the system.
-> >> 
-> >> Groan....
-> >>
-> >> > Anyway, I expect it could be solved by moving this part of the init to
-> >> > an ONLINE HP callback.
-> >> 
-> >> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
-> >> might be to late because there are callbacks in the STARTING section,
-> >> i.e. timer, perf, which might rely on interrupts being accessible.
-> >
-> > Nah. This stuff is only for direct injection of vLPIs into guests, so
-> > as long as this is done before we can schedule a vcpu on this physical
-> > CPU, we're good. No physical interrupt is concerned with this code.
+> The pieces I have are:
+> In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
+> know why and couldn't find a reference to that in the reference manual.
+
+It is either a LEVEL interrupt or just marked as such. But it seems to
+behave as such.
+
+> Assuming it is a level interrupt, then it makes sense to treat it as ONESHOT,
+> otherwise it would fire again immediately after handling the hard
+> interrupt...but it was a hard interrupt in first place - huh.
+
+So setting it ONESHOT while it is non-threaded does not seem to make
+sense, correct.
+
+> I just realize that I still miss a bit of the puzzle:
+> ONESHOT is doumented as:
 > 
-> That's fine then. vCPUs are considered "user-space" tasks and can't be
-> scheduled before CPUHP_AP_ACTIVE sets the CPU active for the scheduler.
+> "Interrupt is not reenabled after the hardirq handler finished. Used by
+> threaded interrupts which need to keep the irq line disabled until the
+> threaded handler has been run."
+> 
+> That makes perfect sense. So ONESHOT disables the irq line until the
+> thread_fn has completed (if it was set). Now on preempt_rt inside
+> irq_setup_forced_threading() we don't force threading if ONESHOT is
+> requested. Why is that?
 
-Waiman, can you please give the following hack a go on your box? The
-machines I have are thankfully limited to a single ITS group, so I
-can't directly reproduce your issue.
+Because ONESHOT is usually used where there is no primary handler/ the
+primary handler does just a wake of thread.
 
-Thanks,
+> So I'm left with two questions:
+> - Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
 
-	M.
+See above. Also PREEMPT_RT just enforces the kernel command line
+threadirqs
 
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index ada585bfa4517..20967000f2348 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -2896,7 +2896,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
- 	return true;
- }
- 
--static int allocate_vpe_l1_table(void)
-+static int allocate_vpe_l1_table(unsigned int cpu)
- {
- 	void __iomem *vlpi_base = gic_data_rdist_vlpi_base();
- 	u64 val, gpsz, npg, pa;
-@@ -3012,10 +3012,11 @@ static int allocate_vpe_l1_table(void)
- 
- out:
- 	gicr_write_vpropbaser(val, vlpi_base + GICR_VPROPBASER);
--	cpumask_set_cpu(smp_processor_id(), gic_data_rdist()->vpe_table_mask);
-+	cpumask_set_cpu(cpu, gic_data_rdist()->vpe_table_mask);
-+	dsb(sy);
- 
- 	pr_debug("CPU%d: VPROPBASER = %llx %*pbl\n",
--		 smp_processor_id(), val,
-+		 cpu, val,
- 		 cpumask_pr_args(gic_data_rdist()->vpe_table_mask));
- 
- 	return 0;
-@@ -3264,15 +3265,9 @@ static void its_cpu_init_lpis(void)
- 		val = its_clear_vpend_valid(vlpi_base, 0, 0);
- 	}
- 
--	if (allocate_vpe_l1_table()) {
--		/*
--		 * If the allocation has failed, we're in massive trouble.
--		 * Disable direct injection, and pray that no VM was
--		 * already running...
--		 */
--		gic_rdists->has_rvpeid = false;
--		gic_rdists->has_vlpis = false;
--	}
-+	if (smp_processor_id() == 0)
-+		cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "irqchip/arm/gicv3:vpe",
-+				  allocate_vpe_l1_table, NULL);
- 
- 	/* Make sure the GIC has seen the above */
- 	dsb(sy);
+> - Why was ONESHOT requested in first place as to my current knowledge it
+>   really only makes sense if a thread_fn is defined.
 
+I would say it was a mistake and nobody noticed it. There is no visible
+difference if there is just the primary handler and the system does not
+use threadirqs (or PREEMPT_RT which enforces it).
 
--- 
-Without deviation from the norm, progress is not possible.
+> Did I just answer my own question? ONESHOT only makes sense if there is
+> a thread_fn and it is assumed that the hard handler is necessary. So
+> preempt_rt doesn't try to change that?
+
+Yes. ONESHOT is used if the interrupt source within the IRQ chip has to
+be masked until after the thread completed. So setting ONESHOT without a
+threaded handler is dubious.
+
+> That would mean the ONESHOT in the dw100 was not necessary in first
+> place but didn't do any harm until preempt_rt was enabled... And if
+> ONSHOT is *not* set preempt_rt would automatically force the irq handler
+> to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
+
+correct.
+
+> So everything would be fine except that we'd still hit the timeout issue
+> from patch 4/4.
+> 
+> So if I got that right, the dw100 driver is in the unfortunate
+> situation, that the irq handler consists of two parts where the first
+> part *must* run in hard interrupt context and the second part *should* run
+> in hard interrupt context but it is fine if it becomes threaded due to
+> preempt_rt. As we can't model that, the best we can do is to always run
+> the second part threaded...
+
+So happens if you avoid the IRQF_ONESHOT? Do you still get these
+timeout errors?
+
+> So patch 4/4 seems correct until we get new information about the
+> hardware.
+> 
+> Any thoughts?
+> 
+> Best regards,
+> Stefan
+
+Sebastian
