@@ -1,225 +1,163 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709C534EF14
-	for <linux-rt-devel@lists.linux.dev>; Mon, 12 Jan 2026 10:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6211A356A1A;
+	Mon, 12 Jan 2026 11:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768215314; cv=none; b=cCgSbKbRcujwLqlMMLIHuABGCgJxY+uJ/V4BQf19Kf8gAXnbEwxzCzWXzDZJHTWvdpiwjLh06nKi7g5yHuQ1tUY/j0PnJky/Dd0kzx4CVsjjU9ekSQXTtLb04zOkxa/d/VLmUNR7ncIY3uHEuQR12jIq2bX3DYYra44H1I0hKe8=
+	t=1768216810; cv=none; b=KexzbLM8eU6tkhOkgxWbqlBB7fSVtcL2imF9DoglF59iSx1AIzbR0MoyC1illXuIaVAqSV/dAQT0vioxZanucLh2/cMQjHWCO21ntcqGwWqMgdXnZAjXhRovjXckPQTCl2dMD7DX32q5xcyMh4U9ur3lSAquzoMYa8YZA3p/VZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768215314; c=relaxed/simple;
-	bh=+vzexkOZbMYGJE4dipwOnlFRvr8Ynw0m2cxotmJ+jE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Njpd7xp4Y7ThDUnez26rxbA5g1TKfHTR8N9L6IWJ+TtHNl+nPXHRO+m7ndfXcYVkdOMf3kHFNbHe5XWNqsdd14xqHqkBD//jOMzo22beFcE91Z2lQabgimlv7dU1WONQJQiAUIAtObbfw80rJGD9hoaLOqrZoB63DiMSJ3Ou4sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pbLM/krQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xMKJOGkD; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=pbLM/krQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=xMKJOGkD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1768216810; c=relaxed/simple;
+	bh=cJwAJiB1jDAkBYN22k41gWvMxKzsKOodAtpaC8n3zfk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fOOz/ACuh1sSwLoHp4QSxnhJTiWH/pPPx9Gm+It/e2C4PwgyaL5BVKasG1JDCSOrmC9zAu0hOcGwiA8si7SyUxC19cKX93w0YjPtfSmQnMwHspjvo0WJFARUNdQBBYDpwCNZ34Kyt6nTiaTJtiOTrl9SK1InaBJptE6wjolWDfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+YTDjvL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pbLM/krQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xMKJOGkD";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="pbLM/krQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="xMKJOGkD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7138D5BD08;
-	Mon, 12 Jan 2026 10:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768215308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yQnLU2w7dK6piodCTax/NpreN6qBl/Gte0TSTHMUnzk=;
-	b=pbLM/krQiyS4EYDLdL5/3AWqj35K6/N9uMR1an60W2x5Asw6eBRgKbL17LL5gM50SQQbOA
-	oVDW4WY6k4FVBkW7dzYDg+7uWyosFF2Lws5nVc17I+6jTSD3zWGZxAvRxD84BweaD9Lsfq
-	fvY05kz9+AUND/z7L2jWLgrDWX0GMto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768215308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yQnLU2w7dK6piodCTax/NpreN6qBl/Gte0TSTHMUnzk=;
-	b=xMKJOGkD+hqy/9QkXnnjbhoIdfusqAbAuA3TiOGLdG39Ffr2nPDvacv0GWEjAKkkuGdIb4
-	JstcluC0eFdzGGDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768215308; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yQnLU2w7dK6piodCTax/NpreN6qBl/Gte0TSTHMUnzk=;
-	b=pbLM/krQiyS4EYDLdL5/3AWqj35K6/N9uMR1an60W2x5Asw6eBRgKbL17LL5gM50SQQbOA
-	oVDW4WY6k4FVBkW7dzYDg+7uWyosFF2Lws5nVc17I+6jTSD3zWGZxAvRxD84BweaD9Lsfq
-	fvY05kz9+AUND/z7L2jWLgrDWX0GMto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768215308;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yQnLU2w7dK6piodCTax/NpreN6qBl/Gte0TSTHMUnzk=;
-	b=xMKJOGkD+hqy/9QkXnnjbhoIdfusqAbAuA3TiOGLdG39Ffr2nPDvacv0GWEjAKkkuGdIb4
-	JstcluC0eFdzGGDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4DB173EA63;
-	Mon, 12 Jan 2026 10:55:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ylyeEgzTZGkPEgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 12 Jan 2026 10:55:08 +0000
-Message-ID: <3b7b610d-6482-49f0-8e46-6ae553bf8b98@suse.cz>
-Date: Mon, 12 Jan 2026 11:55:08 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+YTDjvL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8815C19425;
+	Mon, 12 Jan 2026 11:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768216810;
+	bh=cJwAJiB1jDAkBYN22k41gWvMxKzsKOodAtpaC8n3zfk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=k+YTDjvLgj0Ngt3Asj6+TNfDI47XpsY5fG5ZrR5Eq1cVmMxduFr8OOyQs40ioUa8l
+	 HHQxofOYUHuj6/fWBq01ZDoN0P3VbXRL5NYWnHaoPnwEVTm5kJZH2MoIR6i4djptmC
+	 4i+Ps2suLKI2ayaLNbcDQjjlvqb+8zqrYQmFchh04HxV0KdnBoC7rZ5sPsqHzbRAC8
+	 V2k3JyIA9RSjJYoisal5jgUC2EKlulBnzyNqV22OEq/PG3HKyuwEW6+jlscVbYdh9v
+	 X5aus6OFAMiojLxDSja2Z3houjEUZ6RSl2I/q2J7YKtg5S/seUF/7IxBNjmlnQRTeT
+	 EmBhiEBOERY1A==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vfFxv-00000001PSo-2ND2;
+	Mon, 12 Jan 2026 11:20:07 +0000
+Date: Mon, 12 Jan 2026 11:20:07 +0000
+Message-ID: <86tswrkrh4.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Waiman Long <longman@redhat.com>, Thomas Gleixner <tglx@kernel.org>
+Cc: 	Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven
+ Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
+In-Reply-To: <87pl7gglya.ffs@tglx>
+References: <20260107215353.75612-1-longman@redhat.com>
+	<864iowmrx6.wl-maz@kernel.org>
+	<87ms2nsqju.ffs@tglx>
+	<86wm1qlq7l.wl-maz@kernel.org>
+	<87ecnwij44.ffs@tglx>
+	<86v7h8l9ht.wl-maz@kernel.org>
+	<87pl7gglya.ffs@tglx>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/19] slab: replace cpu (partial) slabs with sheaves
-Content-Language: en-US
-To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Mike Rapoport <rppt@kernel.org>
-References: <20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz>
- <f7c33974-e520-387e-9e2f-1e523bfe1545@gentwo.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <f7c33974-e520-387e-9e2f-1e523bfe1545@gentwo.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,google.com,linux.dev,oracle.com,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: longman@redhat.com, tglx@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On 11/4/25 23:11, Christoph Lameter (Ampere) wrote:
-> On Thu, 23 Oct 2025, Vlastimil Babka wrote:
+On Sun, 11 Jan 2026 16:20:45 +0000,
+Thomas Gleixner <tglx@kernel.org> wrote:
 > 
->> Besides (hopefully) improved performance, this removes the rather
->> complicated code related to the lockless fastpaths (using
->> this_cpu_try_cmpxchg128/64) and its complications with PREEMPT_RT or
->> kmalloc_nolock().
-
-Sorry for the late reply and thanks for the insights, I will incorporate
-them to the cover letter.
-
-> Going back to a strict LIFO scheme for alloc/free removes the following
-> performance features:
+> On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
+> > On Sun, 11 Jan 2026 09:39:07 +0000,
+> > Thomas Gleixner <tglx@kernel.org> wrote:
+> >> 
+> >> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
+> >> > On Thu, 08 Jan 2026 22:11:33 +0000,
+> >> > Thomas Gleixner <tglx@kernel.org> wrote:
+> >> >> At the point where a CPU is brought up, the topology should be known
+> >> >> already, which means this can be allocated on the control CPU _before_
+> >> >> the new CPU comes up, no?
+> >> >
+> >> > No. Each CPU finds *itself* in the forest of redistributors, and from
+> >> > there tries to find whether it has some shared resource with a CPU
+> >> > that has booted before it. That's because firmware is absolutely awful
+> >> > and can't present a consistent view of the system.
+> >> 
+> >> Groan....
+> >>
+> >> > Anyway, I expect it could be solved by moving this part of the init to
+> >> > an ONLINE HP callback.
+> >> 
+> >> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
+> >> might be to late because there are callbacks in the STARTING section,
+> >> i.e. timer, perf, which might rely on interrupts being accessible.
+> >
+> > Nah. This stuff is only for direct injection of vLPIs into guests, so
+> > as long as this is done before we can schedule a vcpu on this physical
+> > CPU, we're good. No physical interrupt is concerned with this code.
 > 
-> 1. Objects are served randomly from a variety of slab pages instead of
-> serving all available objects from a single slab page and then from the
-> next. This means that the objects require a larger set of TLB entries to
-> cover. TLB pressure will increase.
+> That's fine then. vCPUs are considered "user-space" tasks and can't be
+> scheduled before CPUHP_AP_ACTIVE sets the CPU active for the scheduler.
 
-OK. Should be mitigated by the huge direct mappings hopefully. Also IIRC
-when Mike was evaluating patches to preserve the huge mappings better
-against splitting, the benefits were so low it was abandoned, so that
-suggests the TLB pressure on direct map isn't that bad.
+Waiman, can you please give the following hack a go on your box? The
+machines I have are thankfully limited to a single ITS group, so I
+can't directly reproduce your issue.
 
-> 2. The number of partial slabs will increase since the free objects in a
-> partial page are not used up before moving onto the next. Instead free
-> objects from random slab pages are used.
+Thanks,
 
-Agreed. Should be bounded by the number of cpu+barn sheaves.
+	M.
 
-> Spatial object locality is reduced. Temporal object hotness increases.
+diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+index ada585bfa4517..20967000f2348 100644
+--- a/drivers/irqchip/irq-gic-v3-its.c
++++ b/drivers/irqchip/irq-gic-v3-its.c
+@@ -2896,7 +2896,7 @@ static bool allocate_vpe_l2_table(int cpu, u32 id)
+ 	return true;
+ }
+ 
+-static int allocate_vpe_l1_table(void)
++static int allocate_vpe_l1_table(unsigned int cpu)
+ {
+ 	void __iomem *vlpi_base = gic_data_rdist_vlpi_base();
+ 	u64 val, gpsz, npg, pa;
+@@ -3012,10 +3012,11 @@ static int allocate_vpe_l1_table(void)
+ 
+ out:
+ 	gicr_write_vpropbaser(val, vlpi_base + GICR_VPROPBASER);
+-	cpumask_set_cpu(smp_processor_id(), gic_data_rdist()->vpe_table_mask);
++	cpumask_set_cpu(cpu, gic_data_rdist()->vpe_table_mask);
++	dsb(sy);
+ 
+ 	pr_debug("CPU%d: VPROPBASER = %llx %*pbl\n",
+-		 smp_processor_id(), val,
++		 cpu, val,
+ 		 cpumask_pr_args(gic_data_rdist()->vpe_table_mask));
+ 
+ 	return 0;
+@@ -3264,15 +3265,9 @@ static void its_cpu_init_lpis(void)
+ 		val = its_clear_vpend_valid(vlpi_base, 0, 0);
+ 	}
+ 
+-	if (allocate_vpe_l1_table()) {
+-		/*
+-		 * If the allocation has failed, we're in massive trouble.
+-		 * Disable direct injection, and pray that no VM was
+-		 * already running...
+-		 */
+-		gic_rdists->has_rvpeid = false;
+-		gic_rdists->has_vlpis = false;
+-	}
++	if (smp_processor_id() == 0)
++		cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "irqchip/arm/gicv3:vpe",
++				  allocate_vpe_l1_table, NULL);
+ 
+ 	/* Make sure the GIC has seen the above */
+ 	dsb(sy);
 
-Ack.
 
->> The lockless slab freelist+counters update operation using
->> try_cmpxchg128/64 remains and is crucial for freeing remote NUMA objects
->> without repeating the "alien" array flushing of SLUB, and to allow
->> flushing objects from sheaves to slabs mostly without the node
->> list_lock.
-> 
-> Hmm... So potential cache hot objects are lost that way and reused on
-> another node next. The role of the alien caches in SLAB was to cover that
-> case and we saw performance regressions without these caches.
-
-Interesting observation. I think commit e00946fe2351 ("[PATCH] slab: Bypass
-free lists for __drain_alien_cache()") is relevant?
-
-But I wonder, wouldn't the objects tend to be cache hot on the cpu which was
-freeing them (and to which they were remote), but after that alien->shared
-array transfer then reallocated on a different cpu (to which they are
-local)? So I wouldn't expect cache hotness benefits there?
-
-> The method of freeing still reduces the amount of remote partial slabs
-> that have to be managed and increases the locality of the objects.
-
-Ack.
+-- 
+Without deviation from the norm, progress is not possible.
