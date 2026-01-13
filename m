@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAE3363C73
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 10:59:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D444A3803EC
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 10:59:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301958; cv=none; b=R5tglTAzCNqwMHFGeILKHejdYs9QEyM4A0+pnrC5AbgVXeX5ihVlQWeC3MIW4Etmgjq8CM4oV6d3XsRsGTLdXPTG/i64i1nBgRjSEOLOgYnLxQDXQ5LOp2VG5P3o1tjhd1T5nNyWDVfYrDxBlp41Mw4BOkgbuaes1i1GYFAx7H4=
+	t=1768301958; cv=none; b=EJQuzcgi6YsSwBmQHPY307jv8bfoy3tJWzf77Q2vwQZeoyFOVC64TXYRThIaATh/Q6kzJPKOyKF/OIA9eODyVPqiifp2KyASh6w+IY/lmxTh2lRKrNhK9OEirak8ekxDctaAGP6EbT62GJrciAEkoQS08oT+GgmCtIc/O8JU850=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1768301958; c=relaxed/simple;
-	bh=uiStrhAEZdmOxCwCYfF8DOPBHOR/dQ2/Q2UFYc8U8tI=;
+	bh=gdrzL2hpuvE/T85VvevHoKJTMlwTxRECaR7H6qpVTv4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Sl5Pzqt1kcEQMnRo+9CdzSgPRB/wzAeAaGuld92qwUDS4/3+of71hYm8IDrn9t7VCy9cKVZGW5P6VkMTmLpSDAA6kAjms49V5HFUfAYLhUFR8394L5HmXQsedq0fZNgc0CxgGetPshk2K53NvcGCX2I03JwpDukh/cwqexgIvj8=
+	 In-Reply-To:To:Cc; b=VZgsB0ZRt/fr+f9mxarHR+Fs76bmQV01eoFd/7jGANzT7wImBV3OTT8ngqPlVRLbwxskcWWe4u+hv7iz6ityDjS8XA+h6SZBcGWawuuNXjf8xhadSVcZU8HemMKUrfe0gSgplXpM53K8tF1XzymasLQIGL+0fgKCZLlJ/RgoIkM=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,21 +18,22 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc78-0008DN-Al; Tue, 13 Jan 2026 11:59:06 +0100
+	id 1vfc78-0008DK-Ak; Tue, 13 Jan 2026 11:59:06 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc74-000PMG-2m;
+	id 1vfc74-000PMF-2n;
 	Tue, 13 Jan 2026 11:59:02 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc73-00000004mJf-40rQ;
+	id 1vfc73-00000004mJf-3zOc;
 	Tue, 13 Jan 2026 11:59:01 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Tue, 13 Jan 2026 11:58:49 +0100
-Subject: [PATCH v4 06/10] ASoC: tlv320adcx140: add avdd and iovdd supply
+Date: Tue, 13 Jan 2026 11:58:48 +0100
+Subject: [PATCH v4 05/10] ASoC: tlv320adcx140: power on/off the device on
+ demand
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -41,7 +42,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-6-8f7ecec525c8@pengutronix.de>
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-5-8f7ecec525c8@pengutronix.de>
 References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -58,11 +59,11 @@ Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
  Emil-Juhl <juhl.emildahl@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=3062;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=4932;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=O/aJfQS58lHdzjkzWpckHiUhyDbcXaaLEfqrqhEcuH4=;
- b=oszZrkFa0AJJT8Ur2BwoDJZnhmm/gu348P2mzWMUUh0n1ikk8PdcEpEqVtskHUeWrDjRThWak
- /l9LQn3MRHqDu8oS3c+RJPPTlboqwrDEQu++9vE7gQhefZKmDKNZHJs
+ bh=0JjyB3wIqRORtMOOqEPcPC785mmT9Gy0HFJXKq2Y3dY=;
+ b=mjN49dq5OgG4ouzHuGBbRNY4l3fJlUF3H8MRwT4LOjYgjzYYFXqwGTtrnYBgVMzOtzRQ+fijM
+ OkRBQkOa3BdB69sjDIaG5+Pl3bCcRNxXCgSb+ZOPIq+y5qAiJmaySMV
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -72,99 +73,150 @@ X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
 
 From: Emil-Juhl <juhl.emildahl@gmail.com>
 
-The datasheet, under "10 Power Supply Recommendations" section,
-specifies that both the AVDD and IOVDD supplies must be up and stable
-for at least 100us before the SHDNZ can be released. After that, the
-chip is ready to receive commands after another 2ms.
-Currently the driver doesn't contain any options to bind AVDD and IOVDD
-supplies to the tlv320adcx140.
-
-This commit adds bindings for AVDD and IOVDD supplies which the driver
-will enable when used.
+The tlv320adcx140 can be connected to controllable AVDD/IOVDD regulators
+which when disabled will reset the registers to their default.  In
+preparation for that switch to register writes to cache only when
+powered off and sync the cached values to the registers when powered
+back on.
 
 Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- sound/soc/codecs/tlv320adcx140.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ sound/soc/codecs/tlv320adcx140.c | 89 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 87 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index 444c0e80f0907de201ed1818b5612164a48b0fca..a7200e149e5f40ddd61e3c0455b796c81f55e2e8 100644
+index fdf4a9add852deb5e879dba5c8a09458fc6e709d..444c0e80f0907de201ed1818b5612164a48b0fca 100644
 --- a/sound/soc/codecs/tlv320adcx140.c
 +++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -22,8 +22,16 @@
+@@ -121,6 +121,34 @@ static const struct reg_default adcx140_reg_defaults[] = {
+ 	{ ADCX140_DEV_STS1, 0x80 },
+ };
  
- #include "tlv320adcx140.h"
- 
-+static const char *const adcx140_supply_names[] = {
-+	"avdd",
-+	"iovdd",
++static const struct regmap_range adcx140_wr_ranges[] = {
++	regmap_reg_range(ADCX140_PAGE_SELECT, ADCX140_SLEEP_CFG),
++	regmap_reg_range(ADCX140_SHDN_CFG, ADCX140_SHDN_CFG),
++	regmap_reg_range(ADCX140_ASI_CFG0, ADCX140_ASI_CFG2),
++	regmap_reg_range(ADCX140_ASI_CH1, ADCX140_MST_CFG1),
++	regmap_reg_range(ADCX140_CLK_SRC, ADCX140_CLK_SRC),
++	regmap_reg_range(ADCX140_PDMCLK_CFG, ADCX140_GPO_CFG3),
++	regmap_reg_range(ADCX140_GPO_VAL, ADCX140_GPO_VAL),
++	regmap_reg_range(ADCX140_GPI_CFG0, ADCX140_GPI_CFG1),
++	regmap_reg_range(ADCX140_GPI_MON, ADCX140_GPI_MON),
++	regmap_reg_range(ADCX140_INT_CFG, ADCX140_INT_MASK0),
++	regmap_reg_range(ADCX140_BIAS_CFG, ADCX140_CH4_CFG4),
++	regmap_reg_range(ADCX140_CH5_CFG2, ADCX140_CH5_CFG4),
++	regmap_reg_range(ADCX140_CH6_CFG2, ADCX140_CH6_CFG4),
++	regmap_reg_range(ADCX140_CH7_CFG2, ADCX140_CH7_CFG4),
++	regmap_reg_range(ADCX140_CH8_CFG2, ADCX140_CH8_CFG4),
++	regmap_reg_range(ADCX140_DSP_CFG0, ADCX140_DRE_CFG0),
++	regmap_reg_range(ADCX140_AGC_CFG0, ADCX140_AGC_CFG0),
++	regmap_reg_range(ADCX140_IN_CH_EN, ADCX140_PWR_CFG),
++	regmap_reg_range(ADCX140_PHASE_CALIB, ADCX140_PHASE_CALIB),
++	regmap_reg_range(0x7e, 0x7e),
 +};
 +
-+#define ADCX140_NUM_SUPPLIES ARRAY_SIZE(adcx140_supply_names)
++static const struct regmap_access_table adcx140_wr_table = {
++	.yes_ranges = adcx140_wr_ranges,
++	.n_yes_ranges = ARRAY_SIZE(adcx140_wr_ranges),
++};
 +
- struct adcx140_priv {
- 	struct regulator *supply_areg;
-+	struct regulator_bulk_data supplies[ADCX140_NUM_SUPPLIES];
- 	struct gpio_desc *gpio_reset;
- 	struct regmap *regmap;
- 	struct device *dev;
-@@ -1104,6 +1112,8 @@ static int adcx140_codec_probe(struct snd_soc_component *component)
+ static const struct regmap_range_cfg adcx140_ranges[] = {
+ 	{
+ 		.range_min = 0,
+@@ -156,6 +184,7 @@ static const struct regmap_config adcx140_i2c_regmap = {
+ 	.num_ranges = ARRAY_SIZE(adcx140_ranges),
+ 	.max_register = 12 * 128,
+ 	.volatile_reg = adcx140_volatile,
++	.wr_table = &adcx140_wr_table,
+ };
  
- static int adcx140_pwr_off(struct adcx140_priv *adcx140)
- {
-+	int ret;
-+
- 	regcache_cache_only(adcx140->regmap, true);
- 	regcache_mark_dirty(adcx140->regmap);
- 
-@@ -1117,6 +1127,14 @@ static int adcx140_pwr_off(struct adcx140_priv *adcx140)
- 	 */
- 	usleep_range(30000, 100000);
- 
-+	/* Power off the regulators, `avdd` and `iovdd` */
-+	ret = regulator_bulk_disable(ARRAY_SIZE(adcx140->supplies),
-+				     adcx140->supplies);
-+	if (ret) {
-+		dev_err(adcx140->dev, "Failed to disable supplies: %d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
+ /* Digital Volume control. From -100 to 27 dB in 0.5 dB steps */
+@@ -1073,19 +1102,73 @@ static int adcx140_codec_probe(struct snd_soc_component *component)
+ 	return ret;
  }
  
-@@ -1124,6 +1142,14 @@ static int adcx140_pwr_on(struct adcx140_priv *adcx140)
++static int adcx140_pwr_off(struct adcx140_priv *adcx140)
++{
++	regcache_cache_only(adcx140->regmap, true);
++	regcache_mark_dirty(adcx140->regmap);
++
++	/* Assert the reset GPIO */
++	gpiod_set_value_cansleep(adcx140->gpio_reset, 0);
++
++	/*
++	 * Datasheet - TLV320ADC3140 Rev. B, TLV320ADC5140 Rev. A,
++	 * TLV320ADC6140 Rev. A 8.4.1:
++	 * wait for hw shutdown (25ms) + >= 1ms
++	 */
++	usleep_range(30000, 100000);
++
++	return 0;
++}
++
++static int adcx140_pwr_on(struct adcx140_priv *adcx140)
++{
++	int ret;
++
++	/* De-assert the reset GPIO */
++	gpiod_set_value_cansleep(adcx140->gpio_reset, 1);
++
++	/*
++	 * Datasheet - TLV320ADC3140 Rev. B, TLV320ADC5140 Rev. A,
++	 * TLV320ADC6140 Rev. A 8.4.2:
++	 * wait >= 10 ms after entering sleep mode.
++	 */
++	usleep_range(10000, 100000);
++
++	regcache_cache_only(adcx140->regmap, false);
++
++	/* Flush the regcache */
++	ret = regcache_sync(adcx140->regmap);
++	if (ret) {
++		dev_err(adcx140->dev, "Failed to restore register map: %d\n",
++			ret);
++		return  ret;
++	}
++
++	return 0;
++}
++
+ static int adcx140_set_bias_level(struct snd_soc_component *component,
+ 				  enum snd_soc_bias_level level)
  {
- 	int ret;
+ 	struct adcx140_priv *adcx140 = snd_soc_component_get_drvdata(component);
++	enum snd_soc_bias_level prev_level
++		= snd_soc_component_get_bias_level(component);
  
-+	/* Power on the regulators, `avdd` and `iovdd` */
-+	ret = regulator_bulk_enable(ARRAY_SIZE(adcx140->supplies),
-+					adcx140->supplies);
-+	if (ret) {
-+		dev_err(adcx140->dev, "Failed to enable supplies: %d\n", ret);
-+		return ret;
-+	}
-+
- 	/* De-assert the reset GPIO */
- 	gpiod_set_value_cansleep(adcx140->gpio_reset, 1);
+ 	switch (level) {
+ 	case SND_SOC_BIAS_ON:
+ 	case SND_SOC_BIAS_PREPARE:
++		if (prev_level == SND_SOC_BIAS_STANDBY)
++			adcx140_pwr_ctrl(adcx140, true);
++		break;
+ 	case SND_SOC_BIAS_STANDBY:
+-		adcx140_pwr_ctrl(adcx140, true);
++		if (prev_level == SND_SOC_BIAS_PREPARE)
++			adcx140_pwr_ctrl(adcx140, false);
++		if (prev_level == SND_SOC_BIAS_OFF)
++			return adcx140_pwr_on(adcx140);
+ 		break;
+ 	case SND_SOC_BIAS_OFF:
+-		adcx140_pwr_ctrl(adcx140, false);
++		if (prev_level == SND_SOC_BIAS_STANDBY)
++			return adcx140_pwr_off(adcx140);
+ 		break;
+ 	}
  
-@@ -1234,6 +1260,16 @@ static int adcx140_i2c_probe(struct i2c_client *i2c)
- 	adcx140->phase_calib_on = false;
- 	adcx140->dev = &i2c->dev;
+@@ -1186,6 +1269,8 @@ static int adcx140_i2c_probe(struct i2c_client *i2c)
+ 		return ret;
+ 	}
  
-+	for (int i = 0; i < ADCX140_NUM_SUPPLIES; i++)
-+		adcx140->supplies[i].supply = adcx140_supply_names[i];
++	regcache_cache_only(adcx140->regmap, true);
 +
-+	ret = devm_regulator_bulk_get(&i2c->dev, ADCX140_NUM_SUPPLIES,
-+				 adcx140->supplies);
-+	if (ret) {
-+		dev_err_probe(&i2c->dev, ret, "Failed to request supplies\n");
-+		return ret;
-+	}
-+
- 	adcx140->gpio_reset = devm_gpiod_get_optional(adcx140->dev,
- 						      "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(adcx140->gpio_reset))
+ 	i2c_set_clientdata(i2c, adcx140);
+ 
+ 	return devm_snd_soc_register_component(&i2c->dev,
 
 -- 
 2.47.3
