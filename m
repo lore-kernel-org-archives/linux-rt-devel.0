@@ -1,131 +1,100 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D576A346AFC
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 11:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ABA735B12B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 11:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768302094; cv=none; b=d5FIJJNKZDAzFoxYALBQexVHYh6G1AnSbO6o9FhadwSTJp9HHh76a4dXkKY2DrNDxP0g1BsU/ZoJvFzxIHwqYSkZ+Ot8kJnZ7d59zoGbD1Cmha3ESpPA/6P1A5lkPoMH+5jGmXaHUJIdxN65kQPgwoDS/00aqUbrfplm6tuhHQA=
+	t=1768305321; cv=none; b=CMPAtuFIIsprxUh4VNAdzIXg9hwzvyEbnwqVJvmwQDiQPNHrV6d1m2GaQFHzu0d85sbv/r7BHDPXtoVy/HPMr+Qm7+KHqi7ye8nupqJn6n+X1YZliOeZhEneLuSqA/O+mV15IqKRRWP+Qvz95i2yYf+/iBWmqMX7XfzrwqASFdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768302094; c=relaxed/simple;
-	bh=zIzI+RWN8I+PPp7gM10QfdwWfky+ttRAA/4WGgQBPSs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DbbV9Pq0c4Wnn94sh+rFyMOuCx0TmZc1FK1U4AG3r1uiqETGHsgs4sO7O+G+6p/zxiuEAl3O7v4X5DeDTQWDASNY+Y8VPsTAK3wq3MbmeDUp3nrEFOGkPYTd9QRPrQXEjBUlHqWv9NA1L+ADPQM7leS6JAWkVtrSXEbPgHEPtA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc9T-0000pd-4l; Tue, 13 Jan 2026 12:01:31 +0100
-Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc9R-000PMy-33;
-	Tue, 13 Jan 2026 12:01:29 +0100
-Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
-	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc73-00000004mJf-47l9;
-	Tue, 13 Jan 2026 11:59:01 +0100
-From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Tue, 13 Jan 2026 11:58:53 +0100
-Subject: [PATCH v4 10/10] ASoC: tlv320adcx140: add channel sum control
+	s=arc-20240116; t=1768305321; c=relaxed/simple;
+	bh=cutP4QSbJkKtU/3jRNqDgWpdh8LIDRO43lYA8yyVYZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WLwYOwadgbojGyFDiy/B7pzTQVmZxyaP1ey2oPAhvgi5ITVQZwWKMHvX2I3NkK8+hsa9X/e2G+NKYCEMC2+gbcdsUPKVtlEpmT7/fR2PtElHmiew9Z+diWvJBuQkYFdpKnZdaj5fDqTH1kl0eTIGxVOCFYg+WJTRXzfu7fkp5XY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aNUIsG7O; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IR1pUfTN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aNUIsG7O";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IR1pUfTN"
+Date: Tue, 13 Jan 2026 12:55:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768305316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t1TqJ/QytQ4pwnW0ti9Z6aH6KsPUuA9eSuB4Dv3RC0=;
+	b=aNUIsG7ODXHBXQCF7fvbI53vWnCXJ7BjljV3qdn53vS+0hFdDKZCyxHxZId/nq+kwqrKGp
+	mU8TRE2qBujeQzZswDXy1EFSLk0QKxnBbx+pwdp6D9+GIHN3o5G383gvOiQmcb1Lc+R+0a
+	3DmkFkFThf7xlcTikmuVeGpGj+m7xb8DN8TbEtNVVPKghgimbwvH9U3tEXz0qC20XUVGpj
+	mLC6/p+Y0rhJZUIih0pLIBLiR0ZMzYxdMoCJy4uE8u0xN+RT7cgVelg1IqgyhhW8mcTBdl
+	M7MmhjEV4/VCQTTQVF5rnVnd3Ld6yeGUppFZm8xZTrAZyYxP4s8bEQTcvn4clQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768305316;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t1TqJ/QytQ4pwnW0ti9Z6aH6KsPUuA9eSuB4Dv3RC0=;
+	b=IR1pUfTN8KG8eSEJOvT2Nop/9mwi3jU1rVIWE0jaKQ7DjndFPE6lXIzZHIPqNs/IXVoBHv
+	mncQ3oCkNt+WuyDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Waiman Long <llong@redhat.com>
+Cc: Thomas Gleixner <tglx@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
+ allocate_vpe_l1_table()
+Message-ID: <20260113115515.98Mc29Nm@linutronix.de>
+References: <20260107215353.75612-1-longman@redhat.com>
+ <864iowmrx6.wl-maz@kernel.org>
+ <87ms2nsqju.ffs@tglx>
+ <86wm1qlq7l.wl-maz@kernel.org>
+ <87ecnwij44.ffs@tglx>
+ <86v7h8l9ht.wl-maz@kernel.org>
+ <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
+ <87cy3eg94y.ffs@tglx>
+ <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-10-8f7ecec525c8@pengutronix.de>
-References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
-In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
- Dan Murphy <dmurphy@ti.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil Svendsen <emas@bang-olufsen.dk>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1805;
- i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=0KnIM+Y4QBq/N0NnDfRAKNRfpAubDFVWi/5K2Fijr9k=;
- b=Bj+rKRk752Qpv5Rmpdax53pKUfFD5uWTAI35FT9QJzqWtNuxyZNRJueGdpjSTYrTgWYC6TTqK
- 9xXTbBBb4UDAdWRTEbH4YiLVUdPzRDIYhnBnRDc38L3uVZrnrc8H74I
-X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
- pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: s.hauer@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com>
 
-From: Emil Svendsen <emas@bang-olufsen.dk>
+On 2026-01-12 12:14:30 [-0500], Waiman Long wrote:
+> On 1/12/26 10:09 AM, Thomas Gleixner wrote:
+> > They might be acquired though. Only alloc_pages_nolock() guarantees that
+> > no lock is taken IIRC.
+> 
+> Thanks for the suggestion. I will look into using that for page allocation.
+> I had actually attempt to use kmalloc_nolock() to replace kzalloc()
+> initially. Even though it removed the call to rmqueue(), but there were
+> other spinlocks in the slub code that were still being acquired like the
+> local_lock() or the spinlock in the get_random() code. So I gave up using
+> that. Anyway, kmalloc_nolock() doesn't seem to be fully working yet.
 
-Add control for channel summation.
+with kmalloc_nolock() you have to be able to deal with a NULL pointer.
+Looking at kmalloc_nolock(), it has this (in_nmi() || in_hardirq())
+check on PREEMPT_RT. The reasoning was unconditional raw_spinlock_t
+locking and bad lock-owner recording for hardirq.
+There was a trylock path for local_lock to make it work from atomic
+context. But from what I can tell this goes
+  kmalloc_nolock_noprof() -> __slab_alloc_node() -> __slab_alloc() ->
+  ___slab_alloc() -> local_lock_cpu_slab()
 
-3 modes are supported:
+The last one does local_lock_irqsave() on PREEMPT_RT which does a
+spin_lock(). That means atomic context is not possible. Where did I make
+a wrong turn? Or did this change recently? I do remember that Alexei
+reworked parts of the allocator to make the local_lock based trylock
+allocation work.
 
-1. "Disabled": Normal operation
+> Cheers,
+> Longman
 
-2. "2 Channel": Every two channels are summed and divided by 2
-
-  Out 1 <- (CH1 + CH2) / 2
-  Out 2 <- (CH1 + CH2) / 2
-  Out 3 <- (CH3 + CH4) / 2
-  Out 4 <- (CH3 + CH4) / 2
-
-3. "4 Channel": Every four channels are summed and divided by 4
-
-  Out 1 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 2 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 3 <- (CH1 + CH2 + CH3 + CH4) / 4
-  Out 4 <- (CH1 + CH2 + CH3 + CH4) / 4
-
-Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
-Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
----
- sound/soc/codecs/tlv320adcx140.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
-index e7c607af642f43b2b783597f3cba3a8cbb31de4a..ac6aab8d722409b2c47b4e1df2a23760bebe795b 100644
---- a/sound/soc/codecs/tlv320adcx140.c
-+++ b/sound/soc/codecs/tlv320adcx140.c
-@@ -222,6 +222,13 @@ static const struct snd_kcontrol_new decimation_filter_controls[] = {
- 	SOC_DAPM_ENUM("Decimation Filter", decimation_filter_enum),
- };
- 
-+static const char * const channel_summation_text[] = {
-+	"Disabled", "2 Channel", "4 Channel"
-+};
-+
-+static SOC_ENUM_SINGLE_DECL(channel_summation_enum, ADCX140_DSP_CFG0, 2,
-+			    channel_summation_text);
-+
- static const char * const pdmclk_text[] = {
- 	"2.8224 MHz", "1.4112 MHz", "705.6 kHz", "5.6448 MHz"
- };
-@@ -711,6 +718,8 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
- 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
- 
- 	SOC_SINGLE("Biquads Per Channel", ADCX140_DSP_CFG1, 5, 3, 0),
-+
-+	SOC_ENUM("Channel Summation", channel_summation_enum),
- };
- 
- static int adcx140_reset(struct adcx140_priv *adcx140)
-
--- 
-2.47.3
-
+Sebastian
