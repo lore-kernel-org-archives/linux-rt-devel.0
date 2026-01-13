@@ -1,117 +1,104 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2457F2E7186
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 23:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E397C35BDDF
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 23:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768346740; cv=none; b=YTRdVem6ffCDSWcJ0UFQp3XuNYfDURFDAh2OljSoVNC2c0W9tvxwSKQSeRy8scUwTArDv3+Xlou1GNauCmKqsuY5KzJGktdzQOkyIqBn0qVZBoZ6adI7cMW0t1U1jMoQcpnKo6kL9yMKKhscLeTNWGY5r795pgaAuYCYcKZxGW4=
+	t=1768346827; cv=none; b=AqV5frHlRFmCmi9ciIrhzXMnAUdCqcWY/2abY1yawahe4A8ZnIvXNkUhMnLCxJrPG8dDXwtrtBd0E4s9TckWhBtKfU3FdwFhOEYVK/Fr3fJiEFQ5nS4jXQHpEPk2CVsJSe+CuxvDCjkR+j/hwsb/A/wifmyKAWbD3om0es0LrPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768346740; c=relaxed/simple;
-	bh=fFxJAQHjLl3nfg1tIDWMSmd6vloHAmf0HKT0kzLD18g=;
+	s=arc-20240116; t=1768346827; c=relaxed/simple;
+	bh=PQjxtvb69+p85Hb04eIo6x789En0DT9HhMnHggq9OYE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DJWZX/PqvOt0apuV/lIQACh7+Kce2YgN50yiMuW0zZJUUjNsmaFx52n298DkMAMMeA0wx4dO/ghoark2UXdjcUguwImw55YUq8uoYzKTIfkXmB8ZJ1+qo3xMA0SvUXNbQOKE0l99gty26esrd4b+Zd3qBae2GZJsuWT3ye6lmtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=daNw3K9W; arc=none smtp.client-ip=209.85.221.48
+	 To:Cc:Content-Type; b=stgbKVy2fGM2z/dBeHqeXdRMnxFW3dfu2CzZqn4uJbqzznfuCmSM/81XbYw63l98+WJZRBBT9B+o+kK/JZCNQwa0evPNwZb/TljWIweRurhheJKI2A81cR/LUk3sTxYYmTIDxlPWUjL32swtyYT3yy9spyaHE57DwegXL38JaO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITPINgx+; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="daNw3K9W"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43277900fb4so121963f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:25:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITPINgx+"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-430fbb6012bso6495430f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:27:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768346737; x=1768951537; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1768346824; x=1768951624; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wHU+/HLwiitPDlXwom6qRitlX1fipBA+Q9yORBvMlwY=;
-        b=daNw3K9WAS4q2yRk47iiYzUUf1gkOIHVguXn5PWs4RWYpjf/HbFSQ9bojpvUOjfTV9
-         /Gkvj3itdUjkP5fWrOgBsVD9ps9Bg9H3t7zZGX5NkhhwjgScjSTGu2yVCGYh/Tq4XBiq
-         u/wuHQaj2Rhwb0OQf9+HeelW6GwMEMLF8ek+/wj9OTkNfcQjhiO+DEHEeTFJzOP/B4mu
-         QnUIVKuHYja+NmxbA4AvLNYCO0CqYNV1NXdOp2TBJNGQLnCzI1CTRlt5AvQq3h3FSDM2
-         IZJHNSYQheVuaiuY+vONYwv8GX4fxO85xXExe3OVq9CI99ZDMFdeoUEepzHimBSV65OY
-         tBmg==
+        bh=XIxHGmAm1SZZrcYdW9mVCY8ENSWv9Idzn4C9R7aSfY4=;
+        b=ITPINgx+OnrY0dORpzegRV3X/B5s/mLt2NldDXnxbisDJNAciwbzhwSYlKucYPbLi8
+         lY+J/EJGqyJ6fYbhy2goSflDwXXA34GPDMeoPVKXlJOZ1ilc+q543A6UOD8OlKyEkT79
+         D0wCtT03/c3b5SABIp7yuv4tPoM4PkUjGajVuTDsaN/hMj7oU2n4lKfChF6t78m1k8rA
+         adtz0JT3/zDJUHAMjb0KoRxQ9ouAVXFANwCART3K9GCWfn1pYGHhjg9Izsxo1NjdF7zp
+         fY7FlQCiT9ow37gfrkGLY3jiMF59uS77/zXsDJrudgVH5wSrUJGnXReQkqg0RMbEQoCn
+         dKgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768346737; x=1768951537;
+        d=1e100.net; s=20230601; t=1768346824; x=1768951624;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wHU+/HLwiitPDlXwom6qRitlX1fipBA+Q9yORBvMlwY=;
-        b=eDpQXfthjxYGb/8seGAAd3+RMZQSn+FrEIkqSetLComiYNyDNsmPBxx9XNUhoXp7fF
-         Bgq84NZ443LdjsI8H0gsbdClwFOmSYBTHggKphrr2NR/sZglbkNW/5n52xoqZP8LFcpu
-         YfGBLJDoPTUXaDxeFRXQidthyA1EabW16aDoM++fsuB5L7T5s/YK+Otp8qQu68cdVP5Z
-         GHluWISkT4lEuJthcpxJfUPNZ9SoP7IHYOFZyPYNmv0TdLc0f812YsCdTZSVxiZMfxRz
-         JjzJqq2u8pwWKDq3X1j3tzjdU7IULbqGKdWNL/DEsklMGNiL/5dyMQE4k0j1jart6Pjk
-         1PqA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7cZTSxKAmXqXbk+RKW92yCkD2LR/6HIMpwN0vlI1+ycZqgQdbVUv+1W9kD+thmXZhRiPnZ16CvWHUHBcshA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy6d3SfnHug7VsXgNWUiliDcFTrc/7XyRORdyEwp8MNMv1At0uM
-	KDOgj9Y8lf2eCwZV2xfugdT3DnGGtDrVzu9xPo9AxYoF4CB1fNH7lJsX1fnjhSw1fHs6SsVpMZM
-	20yqUm6DlruMQsULpaDfh90t4bKm22jk=
-X-Gm-Gg: AY/fxX5wdKp61RsXhLPAOXByaHJ3/yZ7PWPuV/llTV4phUII7bt4Hn1xK77wyMPw67b
-	6tzEepPMYywIImkxYbsFqwqhTUAdmKsduY5QXAVsdvf2gYf7SrEhhbKgaCAOp8gEe/xV0+WKsTC
-	4PS1CGrS2uXkI8nJI4q3XO5yY0mmw6Gf0T2eOt0MuiD+lyhpATS19P9M0FiQGPn8E0y+ndKY934
-	QsUWjykshmFHrygTRDQrWhejjPJ4wdafQ1qxTesLY5DDRK9FThlDrO2cQSdnCYsn3kNXDGVgjug
-	7APlo05qeRXKHLPccjF4PhKBZAgK
-X-Received: by 2002:a05:6000:200d:b0:431:8bf:f08c with SMTP id
- ffacd0b85a97d-4342c0e33fcmr746753f8f.21.1768346737371; Tue, 13 Jan 2026
- 15:25:37 -0800 (PST)
+        bh=XIxHGmAm1SZZrcYdW9mVCY8ENSWv9Idzn4C9R7aSfY4=;
+        b=SanODiF51eg8NlbI7s9he2KM2jWus6iJCGRaejcScqLKg3AifGVxqxfRjnkUKsH6sf
+         LBPP7qKpjvrWO9e9QMgQlfZVTH7wnjdXxbWSMLHFs/4fY5Zg7wfBy66x77zMujiV3uTe
+         +tSyzOfyasZiBTcfbvdBwqe+rEtmMShSLJAxgYwYhgYNjue0iLCN1Pquih+Ea8i3gLlM
+         y7Q38iX047lSk9Aolnp+LJMV1/CrIHwFw7cVeuBB3ZQDpK6RVqAwca6PfLk0WrSDsqC/
+         RfZLmKmIgYPtIuU4rZenC04Gi5C4TL9cpgWlUt3ik9Kw+d+NYnMB3ChEBcqujIGtX2ZV
+         enbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWl0cKlhESfvkdSpemGVYm0RthDrnoNWAif/u/9DlHkvq02yVZrZ9e0TUSx4+9BRfINzam26tyGgGCBwWX32w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUiJ7sn+HLXV+Spt3z/FLHQ3e3ARNCGfVWXKFW/W+RdmnF4csF
+	LmG8glsixhRAIFK2jRRE7ItPxlQUa4raxgltFdrAWyDR8JmVtNJlA+yQKadsbUOjgxB6ZRAsXTI
+	PtjEgyUIT15ZDVe7xzFg6AZnpo94g22w=
+X-Gm-Gg: AY/fxX4YzI5R2ZSpKl5mXgc2d33QoRjhUCD8hFfxdWlvHG4gRCp4mS3qsyOCc6nVkEO
+	37CD857YACL9elbtxU73G4WKIQZsPM8eue7pafZ/4yzfp3lzYMNQNX/zNWD6ZHip93WUG/cxJza
+	1apJiOhRqalefGNRGzIKvz+GX6UsVtkZI3mh9oWbufD0laZzCOBBNxtwkwZc+2Hs6RM/U1rNTbv
+	mxTWMt5qTDCMwm/Xm3JE1Mn1CLvvOEf7GR6j7TK9pnqvvrM/boj+wD6ZWcMgbBhuz3KShxeALJp
+	tDEIOpbGDqrogqtZEkiQFux6rC2G
+X-Received: by 2002:a5d:64c5:0:b0:430:fd0f:2910 with SMTP id
+ ffacd0b85a97d-4342c501a57mr685880f8f.26.1768346824132; Tue, 13 Jan 2026
+ 15:27:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260107215353.75612-1-longman@redhat.com> <864iowmrx6.wl-maz@kernel.org>
- <87ms2nsqju.ffs@tglx> <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
- <86v7h8l9ht.wl-maz@kernel.org> <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
- <87cy3eg94y.ffs@tglx> <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com> <20260113115515.98Mc29Nm@linutronix.de>
-In-Reply-To: <20260113115515.98Mc29Nm@linutronix.de>
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+ <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz> <20260113183604.ykHFYvV2@linutronix.de>
+In-Reply-To: <20260113183604.ykHFYvV2@linutronix.de>
 From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 13 Jan 2026 15:25:26 -0800
-X-Gm-Features: AZwV_QgNIEr3g_107xkIOrrw3Ge4zQle_mq-J4yht-YAYcdNLGT_KWBNo0kRCyQ
-Message-ID: <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
+Date: Tue, 13 Jan 2026 15:26:53 -0800
+X-Gm-Features: AZwV_Qg0xd2SuSeZtzkfObEmnG4DkzskoYODoJFcrxj4bx-h7Wvm-bafCffVqCQ
+Message-ID: <CAADnVQK0Y2ha--EndLUfk_7n8na9CfnTpvqPMYbH07+MTJ9UpA@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with kmalloc_nolock()/kfree_nolock()
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Waiman Long <llong@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>, 
-	Alexei Starovoitov <ast@kernel.org>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>, 
+	Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-rt-devel@lists.linux.dev, bpf <bpf@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 13, 2026 at 3:55=E2=80=AFAM Sebastian Andrzej Siewior
+On Tue, Jan 13, 2026 at 10:36=E2=80=AFAM Sebastian Andrzej Siewior
 <bigeasy@linutronix.de> wrote:
 >
-> On 2026-01-12 12:14:30 [-0500], Waiman Long wrote:
-> > On 1/12/26 10:09 AM, Thomas Gleixner wrote:
-> > > They might be acquired though. Only alloc_pages_nolock() guarantees t=
-hat
-> > > no lock is taken IIRC.
+> On 2026-01-12 16:17:00 [+0100], Vlastimil Babka wrote:
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -5727,6 +5742,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t g=
+fp_flags, int node)
+> >                */
+> >               return NULL;
 > >
-> > Thanks for the suggestion. I will look into using that for page allocat=
-ion.
-> > I had actually attempt to use kmalloc_nolock() to replace kzalloc()
-> > initially. Even though it removed the call to rmqueue(), but there were
-> > other spinlocks in the slub code that were still being acquired like th=
-e
-> > local_lock() or the spinlock in the get_random() code. So I gave up usi=
-ng
-> > that. Anyway, kmalloc_nolock() doesn't seem to be fully working yet.
+> > +     ret =3D alloc_from_pcs(s, alloc_gfp, node);
+> > +     if (ret)
+> > +             goto success;
 >
-> with kmalloc_nolock() you have to be able to deal with a NULL pointer.
-> Looking at kmalloc_nolock(), it has this (in_nmi() || in_hardirq())
-> check on PREEMPT_RT. The reasoning was unconditional raw_spinlock_t
-> locking and bad lock-owner recording for hardirq.
-> There was a trylock path for local_lock to make it work from atomic
-> context. But from what I can tell this goes
->   kmalloc_nolock_noprof() -> __slab_alloc_node() -> __slab_alloc() ->
->   ___slab_alloc() -> local_lock_cpu_slab()
->
-> The last one does local_lock_irqsave() on PREEMPT_RT which does a
-> spin_lock(). That means atomic context is not possible. Where did I make
-> a wrong turn? Or did this change recently? I do remember that Alexei
-> reworked parts of the allocator to make the local_lock based trylock
-> allocation work.
+> I'm sorry if I am slow but this actually should actually allow
+> kmalloc_nolock() allocations on PREEMPT_RT from atomic context. I am
+> mentioning this because of the patch which removes the nmi+hardirq
+> condtion (https://lore.kernel.org/all/20260113150639.48407-1-swarajgaikwa=
+d1925@gmail.com)
 
-Are you forgetting about local_lock_is_locked() in __slab_alloc() ?
-With sheaves the whole thing will be very different.
+Right. With sheaves kmalloc_nolock() on RT will be more reliable.
