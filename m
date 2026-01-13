@@ -1,164 +1,149 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2103921F6
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 13:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786F12E11B8
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768312782; cv=none; b=OH5P2C6oDyluGa+MkXfPgc/1nHcV0srPjIgyc9IC+Tcb0YjawHvupcJAKdKY9QMsc77WKz3awVUzJpLG92lovDDAlN3VAd42BBQdNiXgSYEb79Rkb6O2nGxQOR7Xyiasy/6DRrHgJdPR6LAkLy64Ej6z1Uno7wu7LhOj/yQNfz0=
+	t=1768316843; cv=none; b=f13pzEhn2vmgIky09G4oFmobjtmoAD9F6pjrdGS0etk/jW1p1oLKyeje2No9Q8dUZ9nvD6UOUVUetRBil75mxdMx/EONZ+7mdwK3cRxPFtj6ajQ9IVvgtSHy4m1kRMlZ3XJYeHYY3EE1tlXyFsw4bYLDEX9thvAscVRbDIOgFiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768312782; c=relaxed/simple;
-	bh=DYcgB1W2ixwboOHHle2/6V3Qcy1cobHs4KreiDncyRI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RD1DqoTskhuEgB7hZ+khkcw+31EoZiNJs8A9Bi5HLYAFGyWFdO02sccjfGwAtcAmiccmtnE78/RBUnzOBPdEFtaiyKUUBBfgkX3WlkUjYwYync8TwJbD9/mNSLsZX5TY78THIg0NMhi8yALtkobrg4GId+IrdeqXkPvcELxelSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EFlaAwY7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vOW8eTPd; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=EFlaAwY7; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vOW8eTPd; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1768316843; c=relaxed/simple;
+	bh=bVPIfKS/5fXxENMewaVZzRevyuDMEikMCDmxAN/yMPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gq0T4bU2f68kx89KszN2W0ClI0NhPnLNKrBGzPREmlFULjK3Vers93k4ubmeJtgNoo31kkbfJoPzhq/x39mviC3tlfSuNrTdAN74njeUhdQxEbEFA4YM890sHyacYl3FP1pZQOuNioxgwPDYwuqr/J7p+iX6h5gJLxiNli8z6Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PAUd6wi9; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EFlaAwY7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vOW8eTPd";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="EFlaAwY7";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vOW8eTPd"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A356033681;
-	Tue, 13 Jan 2026 13:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768312778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsxGz7lXxf9Fc7o+3YTmQDIIh2zdHHfX8+mDLHhYXuY=;
-	b=EFlaAwY75zzBevnmi4U8yTk0gl++rzWcCywlgFbs+kNoT3c7aOkv+lb5xikamLmKm9h0UW
-	J+lhtEMWUczsEOe0IZNo9aFhVctN9csVOhOSWtXHHIhSON9vU0Okp1OZa2OaYtbFNg1Orb
-	c8tLcVLpkZ3qIcDj5I8ubVMGakQUxJw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768312778;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsxGz7lXxf9Fc7o+3YTmQDIIh2zdHHfX8+mDLHhYXuY=;
-	b=vOW8eTPd4fmF22JWfMzdk724fqgp2bTTyWjjn5g6EBh52VRgWGaWh6P0u1/mIqm3WJrSrj
-	s+/1xhbkC21JMkBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=EFlaAwY7;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=vOW8eTPd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768312778; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsxGz7lXxf9Fc7o+3YTmQDIIh2zdHHfX8+mDLHhYXuY=;
-	b=EFlaAwY75zzBevnmi4U8yTk0gl++rzWcCywlgFbs+kNoT3c7aOkv+lb5xikamLmKm9h0UW
-	J+lhtEMWUczsEOe0IZNo9aFhVctN9csVOhOSWtXHHIhSON9vU0Okp1OZa2OaYtbFNg1Orb
-	c8tLcVLpkZ3qIcDj5I8ubVMGakQUxJw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768312778;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsxGz7lXxf9Fc7o+3YTmQDIIh2zdHHfX8+mDLHhYXuY=;
-	b=vOW8eTPd4fmF22JWfMzdk724fqgp2bTTyWjjn5g6EBh52VRgWGaWh6P0u1/mIqm3WJrSrj
-	s+/1xhbkC21JMkBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8FB3E3EA63;
-	Tue, 13 Jan 2026 13:59:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bPbZIspPZmnvMAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 13 Jan 2026 13:59:38 +0000
-Message-ID: <ce970598-fbef-4b58-bde6-fb099f1cb6be@suse.cz>
-Date: Tue, 13 Jan 2026 14:59:38 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PAUd6wi9"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a0ac29fca1so49483395ad.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 07:07:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768316841; x=1768921641; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DQnWPRxNH9q72zgZ6FoCl23Dsj1j6a70O0K1DDg0+mo=;
+        b=PAUd6wi9UfrYuSIWUdObZkgpdRTZGw+us2GP4FRMWK5SJkdQsJWjU6NZVKP/XomX7n
+         tCK5ZuSSUVBE8OlHZAbv35qe9RKPl8NEtxWjiRhJj0oQyH1tgApt5KagDnxq4sYVWSur
+         YPjW+AE3PX1OUF1jyEfMr/cE4IclZpDL6H4xbCI9SHqD+RKR43B748BMEdMj1IaaQMFj
+         wpMTHYmmwSjVYXbsUkVguR2cqiZi79UETpjtaCmvgnaG81oc+nDbtk0q3Mu/y4sp6dNv
+         3Ivd5wjRiJoBEZoRyX0M7QZ41dJ0590q2FGRnbFokN2YdPtY14w8dYDjoncwj6P3JoiC
+         N0yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768316841; x=1768921641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DQnWPRxNH9q72zgZ6FoCl23Dsj1j6a70O0K1DDg0+mo=;
+        b=t5QwFK8bWP/FvzHarzNxHlQEFo5AjKA2/OKdRJmW4UYJbrJajVJhqhPE6u3D2BtRUf
+         M+4oUonvG5k7EScDTD52+1sAyeOYts8KSAs9cw9h91TLyZ9+YsS62J7U0P8xO6PNbQb1
+         oX58k4JXgFhhLUtyXOV1UP6JRJvko6X6aVFrRsGC71yU42ZZxL3I5AqmyJUE2Y16wUap
+         /tSKbmUOYYishjNWkbr8WYYnQHgJWtCBa2bzFhwFi2LX4wONNB4p3oESVwxHCvLRkI71
+         Ltxq5LrAHvEjlnE8VIOabf9S8W4TVbjs3ZmIqla1jlCFP2ku0MX2VvxdupPtoungSKaM
+         Gqrg==
+X-Forwarded-Encrypted: i=1; AJvYcCVI25+hwpuU7roXMOXvKRKi4N14X2VucZDto3cNwpFSWFcLAVd/QFNWl1kjzdnuiH+LHEc44VCEojSbby9KfA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlsojcRFkqVbZLI6+XpeZXtfh4vUCWy1smklwSaTVMAEj8izJY
+	SmgIhtSYO8iyRQytjXFVqAVfRp2eom/rW1uqS0G3PkjhQK6vnchbhOSL
+X-Gm-Gg: AY/fxX57LDuRQYLr8rM2sI3ttGGivpZpoxntabU1F6pztNokWN6LnqHpRQz5LNFGRVd
+	Ck/LzE7CHKRTyUXtUJ3ygBH3snO9nsG40pGTpHy+x0KTRe0jVQZSpYPW8hmfp42SevljLH+3b21
+	iAdckQDwiO+1MUK35jsq9LkXeSQLmWoz99kvm12EAz1DOShCWzMif1rS5gVFcsfkD8p+7hkKIj2
+	HgDY2XzZZMmGCsmiYn3uv9oXrkAO8gsrA5dC6C4wYiS/h0Vo0i6pcNNycrk2N7BV2AX7dz1XcV+
+	+SIK/xr9Z3pgRW7ruGGMYe+jTD29neQ57VJaR2FU3HaYWyB430piSmOt5im9uUR0KCeqhXXK1Yz
+	QZXd7b/lMo2p2SSrs5u0nwejqHqEhyd7eG88IKfEWc5a55iC+JH4sUcpJe4cPfIzxJ1/Wz8Xsv4
+	iI2gmfEMSgUQCbwWD/QAz58PW8nkvU
+X-Google-Smtp-Source: AGHT+IHKPSJ8kXxnj8Kql9+bODbOjeYJ8UeB1XiJVxthrhBSw85O6NRJi1luNAgVbTgInY27JkJcvw==
+X-Received: by 2002:a17:90b:3c09:b0:34c:2db6:57f1 with SMTP id 98e67ed59e1d1-34f68c28425mr17392421a91.30.1768316840509;
+        Tue, 13 Jan 2026 07:07:20 -0800 (PST)
+Received: from LilGuy ([2409:40c2:1000:ae08:9f24:c96f:d20:3f76])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-34f5fb7419csm20596125a91.13.2026.01.13.07.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jan 2026 07:07:20 -0800 (PST)
+From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+To: Vlastimil Babka <vbabka@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	linux-mm@kvack.org (open list:SLAB ALLOCATOR),
+	linux-kernel@vger.kernel.org (open list),
+	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
+Cc: skhan@linuxfoundation.org,
+	david.hunter.linux@gmail.com,
+	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+	syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+Subject: [PATCH v2] slab: fix kmalloc_nolock() context check for PREEMPT_RT
+Date: Tue, 13 Jan 2026 20:36:39 +0530
+Message-ID: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] slab: fix kmalloc_nolock() context check for PREEMPT_RT
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, lgoncalv@redhat.com
-Cc: akpm@linux-foundation.org, ast@kernel.org, bigeasy@linutronix.de,
- cl@gentwo.org, clrkwllms@kernel.org, david.hunter.linux@gmail.com,
- harry.yoo@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-rt-devel@lists.linux.dev, rientjes@google.com,
- roman.gushchin@linux.dev, rostedt@goodmis.org, skhan@linuxfoundation.org,
- syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com,
- Hao Li <hao.li@linux.dev>
-References: <aUVTJyd74OoCtSyN@redhat.com>
- <20251219135143.7337-1-swarajgaikwad1925@gmail.com>
- <56598d76-02ca-490f-a100-0f223fb5717e@suse.cz>
-Content-Language: en-US
-In-Reply-To: <56598d76-02ca-490f-a100-0f223fb5717e@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -3.01
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com,redhat.com];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux-foundation.org,kernel.org,linutronix.de,gentwo.org,gmail.com,oracle.com,vger.kernel.org,kvack.org,lists.linux.dev,google.com,linux.dev,goodmis.org,linuxfoundation.org,syzkaller.appspotmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	TAGGED_RCPT(0.00)[b1546ad4a95331b2101e];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: A356033681
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On 1/5/26 8:19 PM, Vlastimil Babka wrote:
-> On 12/19/25 14:51, Swaraj Gaikwad wrote:
->> I agree that we can simplify this. I think !preemptible() would be
->> the most descriptive choice here, as it directly expresses the
->> constraint, we cannot take a sleeping lock when preemption is
->> disabled.
->> The updated check would be:
->>     if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
->>
->> I'll send a v2 with this change unless there are objections.
+On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
+check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
+context, but misses the case where preemption is disabled.
 
-Ping? Are you planning to? Otherwise we have to do it ourselves as we
-can't leave things broken?
+When a BPF program runs from a tracepoint with preemption disabled
+(preempt_count > 0), kmalloc_nolock() proceeds to call
+local_lock_irqsave() which attempts to acquire a sleeping lock,
+triggering:
 
-Also Sebastian do you agree? Thanks.
+  BUG: sleeping function called from invalid context
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
+  preempt_count: 2, expected: 0
 
-> I think it's the best solution for now, so please do. We can change it back
-> later with sheaves, as Hao Li pointed out. It will limit PREEMPT_RT
-> kmalloc_nolock() for now. Steven explained to me it's the tracepoints
-> disabling preemption, but that will be also improved soon:
-> 
-> https://lore.kernel.org/all/20251219120607.7371034e@gandalf.local.home/
-> 
-> 
->> Swaraj
-> 
+Fix this by checking !preemptible() on PREEMPT_RT, which directly
+expresses the constraint that we cannot take a sleeping lock when
+preemption is disabled. This encompasses the previous checks for NMI
+and hard IRQ contexts while also catching cases where preemption is
+disabled.
+
+Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
+Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+---
+Changes in v2:
+- Simplified condition from (in_nmi() || in_hardirq() || preempt_count())
+  to !preemptible() as suggested by Luis Claudio R. Goncalves and agreed
+  by Vlastimil Babka
+- Updated comment to reflect the more descriptive check
+
+Tested by building with syz config and running the syzbot
+reproducer - kernel no longer crashes.
+
+ mm/slub.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/mm/slub.c b/mm/slub.c
+index 2acce22590f8..642f4744d5c6 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -5689,8 +5689,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+ 	if (unlikely(!size))
+ 		return ZERO_SIZE_PTR;
+
+-	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+-		/* kmalloc_nolock() in PREEMPT_RT is not supported from irq */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
++		/*
++		 * kmalloc_nolock() in PREEMPT_RT is not supported from
++		 * non-preemptible context because local_lock becomes a
++		 * sleeping lock on RT.
++		 */
+ 		return NULL;
+ retry:
+ 	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE))
+
+base-commit: 559e608c46553c107dbba19dae0854af7b219400
+--
+2.52.0
 
