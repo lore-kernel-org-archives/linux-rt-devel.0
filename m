@@ -1,149 +1,345 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786F12E11B8
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560152C15AC
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768316843; cv=none; b=f13pzEhn2vmgIky09G4oFmobjtmoAD9F6pjrdGS0etk/jW1p1oLKyeje2No9Q8dUZ9nvD6UOUVUetRBil75mxdMx/EONZ+7mdwK3cRxPFtj6ajQ9IVvgtSHy4m1kRMlZ3XJYeHYY3EE1tlXyFsw4bYLDEX9thvAscVRbDIOgFiE=
+	t=1768318975; cv=none; b=huRokyvjju+HNw6sN7HjmoZ0soVlJU+357Reb2YPWDr4PBe5ANhyWDiX8UsU7Ps10ClbNUu1Vnoyz5hbBUoS0qjXNTKf6dM9etos/ADxaRpA+fNQfzowTeLuKRid+BAJukjrHaHS+MqgrTZhNm7HDSWMBkSKnrocykdxPf7cINg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768316843; c=relaxed/simple;
-	bh=bVPIfKS/5fXxENMewaVZzRevyuDMEikMCDmxAN/yMPk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gq0T4bU2f68kx89KszN2W0ClI0NhPnLNKrBGzPREmlFULjK3Vers93k4ubmeJtgNoo31kkbfJoPzhq/x39mviC3tlfSuNrTdAN74njeUhdQxEbEFA4YM890sHyacYl3FP1pZQOuNioxgwPDYwuqr/J7p+iX6h5gJLxiNli8z6Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PAUd6wi9; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1768318975; c=relaxed/simple;
+	bh=JgIlqtTWa84pDzYHYRBImp47HFwfIHOmtysB9ghZeBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nt5eRG7e81TMHVSSOKXiifXy0qeAniiad+eaZsvp1bwt+HP/ZWubulC0K2gfqx8MaFRAfH1FpzH5ZK4UrQMqvF3H5bfM7IE2IwMRDFnDGQVKkKV25NPGT3kn6QqJAQqNrKtHyRrrrHy72H/72MrW+R5y5mpAQC0lk1EpTxQtK44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=eCIGcp39; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PAUd6wi9"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2a0ac29fca1so49483395ad.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 07:07:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768316841; x=1768921641; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DQnWPRxNH9q72zgZ6FoCl23Dsj1j6a70O0K1DDg0+mo=;
-        b=PAUd6wi9UfrYuSIWUdObZkgpdRTZGw+us2GP4FRMWK5SJkdQsJWjU6NZVKP/XomX7n
-         tCK5ZuSSUVBE8OlHZAbv35qe9RKPl8NEtxWjiRhJj0oQyH1tgApt5KagDnxq4sYVWSur
-         YPjW+AE3PX1OUF1jyEfMr/cE4IclZpDL6H4xbCI9SHqD+RKR43B748BMEdMj1IaaQMFj
-         wpMTHYmmwSjVYXbsUkVguR2cqiZi79UETpjtaCmvgnaG81oc+nDbtk0q3Mu/y4sp6dNv
-         3Ivd5wjRiJoBEZoRyX0M7QZ41dJ0590q2FGRnbFokN2YdPtY14w8dYDjoncwj6P3JoiC
-         N0yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768316841; x=1768921641;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DQnWPRxNH9q72zgZ6FoCl23Dsj1j6a70O0K1DDg0+mo=;
-        b=t5QwFK8bWP/FvzHarzNxHlQEFo5AjKA2/OKdRJmW4UYJbrJajVJhqhPE6u3D2BtRUf
-         M+4oUonvG5k7EScDTD52+1sAyeOYts8KSAs9cw9h91TLyZ9+YsS62J7U0P8xO6PNbQb1
-         oX58k4JXgFhhLUtyXOV1UP6JRJvko6X6aVFrRsGC71yU42ZZxL3I5AqmyJUE2Y16wUap
-         /tSKbmUOYYishjNWkbr8WYYnQHgJWtCBa2bzFhwFi2LX4wONNB4p3oESVwxHCvLRkI71
-         Ltxq5LrAHvEjlnE8VIOabf9S8W4TVbjs3ZmIqla1jlCFP2ku0MX2VvxdupPtoungSKaM
-         Gqrg==
-X-Forwarded-Encrypted: i=1; AJvYcCVI25+hwpuU7roXMOXvKRKi4N14X2VucZDto3cNwpFSWFcLAVd/QFNWl1kjzdnuiH+LHEc44VCEojSbby9KfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlsojcRFkqVbZLI6+XpeZXtfh4vUCWy1smklwSaTVMAEj8izJY
-	SmgIhtSYO8iyRQytjXFVqAVfRp2eom/rW1uqS0G3PkjhQK6vnchbhOSL
-X-Gm-Gg: AY/fxX57LDuRQYLr8rM2sI3ttGGivpZpoxntabU1F6pztNokWN6LnqHpRQz5LNFGRVd
-	Ck/LzE7CHKRTyUXtUJ3ygBH3snO9nsG40pGTpHy+x0KTRe0jVQZSpYPW8hmfp42SevljLH+3b21
-	iAdckQDwiO+1MUK35jsq9LkXeSQLmWoz99kvm12EAz1DOShCWzMif1rS5gVFcsfkD8p+7hkKIj2
-	HgDY2XzZZMmGCsmiYn3uv9oXrkAO8gsrA5dC6C4wYiS/h0Vo0i6pcNNycrk2N7BV2AX7dz1XcV+
-	+SIK/xr9Z3pgRW7ruGGMYe+jTD29neQ57VJaR2FU3HaYWyB430piSmOt5im9uUR0KCeqhXXK1Yz
-	QZXd7b/lMo2p2SSrs5u0nwejqHqEhyd7eG88IKfEWc5a55iC+JH4sUcpJe4cPfIzxJ1/Wz8Xsv4
-	iI2gmfEMSgUQCbwWD/QAz58PW8nkvU
-X-Google-Smtp-Source: AGHT+IHKPSJ8kXxnj8Kql9+bODbOjeYJ8UeB1XiJVxthrhBSw85O6NRJi1luNAgVbTgInY27JkJcvw==
-X-Received: by 2002:a17:90b:3c09:b0:34c:2db6:57f1 with SMTP id 98e67ed59e1d1-34f68c28425mr17392421a91.30.1768316840509;
-        Tue, 13 Jan 2026 07:07:20 -0800 (PST)
-Received: from LilGuy ([2409:40c2:1000:ae08:9f24:c96f:d20:3f76])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-34f5fb7419csm20596125a91.13.2026.01.13.07.07.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jan 2026 07:07:20 -0800 (PST)
-From: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-To: Vlastimil Babka <vbabka@suse.cz>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	linux-mm@kvack.org (open list:SLAB ALLOCATOR),
-	linux-kernel@vger.kernel.org (open list),
-	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT)
-Cc: skhan@linuxfoundation.org,
-	david.hunter.linux@gmail.com,
-	Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
-	syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-Subject: [PATCH v2] slab: fix kmalloc_nolock() context check for PREEMPT_RT
-Date: Tue, 13 Jan 2026 20:36:39 +0530
-Message-ID: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="eCIGcp39"
+Date: Tue, 13 Jan 2026 23:42:29 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768318971;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kcT0Rq2eZ+lNzxPFLAdKQnxD9hPonR7DRC64KveBJ74=;
+	b=eCIGcp39cm1nzeXHF6v15sJCklJtGZ5xlNyipFNcX4XcjcZemAhgzbLyf9nJKR4d3Aa+sI
+	gwwX0qDl5Mr4glgVXXp8RED3x6I56Vw13qkj+0H6NnM4cdR/tCVQIRcrM2cT+0uzyxqF0b
+	97J55dhMMXrsT3/hQ1K8wN9/rw1iiTM=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with
+ kmalloc_nolock()/kfree_nolock()
+Message-ID: <2hsm2byyftzi2d4xxdtkakqnfggtyemr23ofrnqgkzhkh7q7vc@zoqqfr7hba6f>
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+ <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
-check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
-context, but misses the case where preemption is disabled.
+On Mon, Jan 12, 2026 at 04:17:00PM +0100, Vlastimil Babka wrote:
+> Before we enable percpu sheaves for kmalloc caches, we need to make sure
+> kmalloc_nolock() and kfree_nolock() will continue working properly and
+> not spin when not allowed to.
+> 
+> Percpu sheaves themselves use local_trylock() so they are already
+> compatible. We just need to be careful with the barn->lock spin_lock.
+> Pass a new allow_spin parameter where necessary to use
+> spin_trylock_irqsave().
+> 
+> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
+> for now it will always fail until we enable sheaves for kmalloc caches
+> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slub.c | 79 +++++++++++++++++++++++++++++++++++++++++++++------------------
+>  1 file changed, 57 insertions(+), 22 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 06d5cf794403..0177a654a06a 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2881,7 +2881,8 @@ static void pcs_destroy(struct kmem_cache *s)
+>  	s->cpu_sheaves = NULL;
+>  }
+>  
+> -static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
+> +static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn,
+> +					       bool allow_spin)
+>  {
+>  	struct slab_sheaf *empty = NULL;
+>  	unsigned long flags;
+> @@ -2889,7 +2890,10 @@ static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
+>  	if (!data_race(barn->nr_empty))
+>  		return NULL;
+>  
+> -	spin_lock_irqsave(&barn->lock, flags);
+> +	if (likely(allow_spin))
+> +		spin_lock_irqsave(&barn->lock, flags);
+> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +		return NULL;
+>  
+>  	if (likely(barn->nr_empty)) {
+>  		empty = list_first_entry(&barn->sheaves_empty,
+> @@ -2966,7 +2970,8 @@ static struct slab_sheaf *barn_get_full_or_empty_sheaf(struct node_barn *barn)
+>   * change.
+>   */
+>  static struct slab_sheaf *
+> -barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
+> +barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty,
+> +			 bool allow_spin)
+>  {
+>  	struct slab_sheaf *full = NULL;
+>  	unsigned long flags;
+> @@ -2974,7 +2979,10 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
+>  	if (!data_race(barn->nr_full))
+>  		return NULL;
+>  
+> -	spin_lock_irqsave(&barn->lock, flags);
+> +	if (likely(allow_spin))
+> +		spin_lock_irqsave(&barn->lock, flags);
+> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +		return NULL;
+>  
+>  	if (likely(barn->nr_full)) {
+>  		full = list_first_entry(&barn->sheaves_full, struct slab_sheaf,
+> @@ -2995,7 +3003,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
+>   * barn. But if there are too many full sheaves, reject this with -E2BIG.
+>   */
+>  static struct slab_sheaf *
+> -barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
+> +barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
+> +			bool allow_spin)
+>  {
+>  	struct slab_sheaf *empty;
+>  	unsigned long flags;
+> @@ -3006,7 +3015,10 @@ barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
+>  	if (!data_race(barn->nr_empty))
+>  		return ERR_PTR(-ENOMEM);
+>  
+> -	spin_lock_irqsave(&barn->lock, flags);
+> +	if (likely(allow_spin))
+> +		spin_lock_irqsave(&barn->lock, flags);
+> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +		return ERR_PTR(-EBUSY);
+>  
+>  	if (likely(barn->nr_empty)) {
+>  		empty = list_first_entry(&barn->sheaves_empty, struct slab_sheaf,
+> @@ -5000,7 +5012,8 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>  		return NULL;
+>  	}
+>  
+> -	full = barn_replace_empty_sheaf(barn, pcs->main);
+> +	full = barn_replace_empty_sheaf(barn, pcs->main,
+> +					gfpflags_allow_spinning(gfp));
+>  
+>  	if (full) {
+>  		stat(s, BARN_GET);
+> @@ -5017,7 +5030,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+>  			empty = pcs->spare;
+>  			pcs->spare = NULL;
+>  		} else {
+> -			empty = barn_get_empty_sheaf(barn);
+> +			empty = barn_get_empty_sheaf(barn, true);
+>  		}
+>  	}
+>  
+> @@ -5157,7 +5170,8 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+>  }
+>  
+>  static __fastpath_inline
+> -unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+> +unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
+> +				 void **p)
+>  {
+>  	struct slub_percpu_sheaves *pcs;
+>  	struct slab_sheaf *main;
+> @@ -5191,7 +5205,8 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  			return allocated;
+>  		}
+>  
+> -		full = barn_replace_empty_sheaf(barn, pcs->main);
+> +		full = barn_replace_empty_sheaf(barn, pcs->main,
+> +						gfpflags_allow_spinning(gfp));
+>  
+>  		if (full) {
+>  			stat(s, BARN_GET);
+> @@ -5700,7 +5715,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
+>  	struct kmem_cache *s;
+>  	bool can_retry = true;
+> -	void *ret = ERR_PTR(-EBUSY);
+> +	void *ret;
+>  
+>  	VM_WARN_ON_ONCE(gfp_flags & ~(__GFP_ACCOUNT | __GFP_ZERO |
+>  				      __GFP_NO_OBJ_EXT));
+> @@ -5727,6 +5742,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  		 */
+>  		return NULL;
+>  
+> +	ret = alloc_from_pcs(s, alloc_gfp, node);
+> +	if (ret)
+> +		goto success;
+> +
+> +	ret = ERR_PTR(-EBUSY);
+> +
+>  	/*
+>  	 * Do not call slab_alloc_node(), since trylock mode isn't
+>  	 * compatible with slab_pre_alloc_hook/should_failslab and
+> @@ -5763,6 +5784,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  		ret = NULL;
+>  	}
+>  
+> +success:
+>  	maybe_wipe_obj_freeptr(s, ret);
+>  	slab_post_alloc_hook(s, NULL, alloc_gfp, 1, &ret,
+>  			     slab_want_init_on_alloc(alloc_gfp, s), size);
+> @@ -6083,7 +6105,8 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
+>   * unlocked.
+>   */
+>  static struct slub_percpu_sheaves *
+> -__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+> +__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
+> +			bool allow_spin)
+>  {
+>  	struct slab_sheaf *empty;
+>  	struct node_barn *barn;
+> @@ -6107,7 +6130,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  	put_fail = false;
+>  
+>  	if (!pcs->spare) {
+> -		empty = barn_get_empty_sheaf(barn);
+> +		empty = barn_get_empty_sheaf(barn, allow_spin);
+>  		if (empty) {
+>  			pcs->spare = pcs->main;
+>  			pcs->main = empty;
+> @@ -6121,7 +6144,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  		return pcs;
+>  	}
+>  
+> -	empty = barn_replace_full_sheaf(barn, pcs->main);
+> +	empty = barn_replace_full_sheaf(barn, pcs->main, allow_spin);
+>  
+>  	if (!IS_ERR(empty)) {
+>  		stat(s, BARN_PUT);
+> @@ -6129,6 +6152,17 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>  		return pcs;
+>  	}
+>  
+> +	if (!allow_spin) {
+> +		/*
+> +		 * sheaf_flush_unused() or alloc_empty_sheaf() don't support
+> +		 * !allow_spin and instead of trying to support them it's
+> +		 * easier to fall back to freeing the object directly without
+> +		 * sheaves
+> +		 */
+> +		local_unlock(&s->cpu_sheaves->lock);
+> +		return NULL;
+> +	}
 
-When a BPF program runs from a tracepoint with preemption disabled
-(preempt_count > 0), kmalloc_nolock() proceeds to call
-local_lock_irqsave() which attempts to acquire a sleeping lock,
-triggering:
+It looks like when "allow_spin" is false, __pcs_replace_full_main() can
+still end up calling alloc_empty_sheaf() if pcs->spare is NULL (via the
+"goto alloc_empty" path). Would it make sense to bail out a bit earlier
+in that case?
 
-  BUG: sleeping function called from invalid context
-  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
-  preempt_count: 2, expected: 0
+-- 
+Thanks
+Hao
 
-Fix this by checking !preemptible() on PREEMPT_RT, which directly
-expresses the constraint that we cannot take a sleeping lock when
-preemption is disabled. This encompasses the previous checks for NMI
-and hard IRQ contexts while also catching cases where preemption is
-disabled.
-
-Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
-Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
-Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
----
-Changes in v2:
-- Simplified condition from (in_nmi() || in_hardirq() || preempt_count())
-  to !preemptible() as suggested by Luis Claudio R. Goncalves and agreed
-  by Vlastimil Babka
-- Updated comment to reflect the more descriptive check
-
-Tested by building with syz config and running the syzbot
-reproducer - kernel no longer crashes.
-
- mm/slub.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/mm/slub.c b/mm/slub.c
-index 2acce22590f8..642f4744d5c6 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -5689,8 +5689,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
- 	if (unlikely(!size))
- 		return ZERO_SIZE_PTR;
-
--	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
--		/* kmalloc_nolock() in PREEMPT_RT is not supported from irq */
-+	if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
-+		/*
-+		 * kmalloc_nolock() in PREEMPT_RT is not supported from
-+		 * non-preemptible context because local_lock becomes a
-+		 * sleeping lock on RT.
-+		 */
- 		return NULL;
- retry:
- 	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE))
-
-base-commit: 559e608c46553c107dbba19dae0854af7b219400
---
-2.52.0
-
+> +
+>  	if (PTR_ERR(empty) == -E2BIG) {
+>  		/* Since we got here, spare exists and is full */
+>  		struct slab_sheaf *to_flush = pcs->spare;
+> @@ -6196,7 +6230,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>   * The object is expected to have passed slab_free_hook() already.
+>   */
+>  static __fastpath_inline
+> -bool free_to_pcs(struct kmem_cache *s, void *object)
+> +bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
+>  {
+>  	struct slub_percpu_sheaves *pcs;
+>  
+> @@ -6207,7 +6241,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object)
+>  
+>  	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
+>  
+> -		pcs = __pcs_replace_full_main(s, pcs);
+> +		pcs = __pcs_replace_full_main(s, pcs, allow_spin);
+>  		if (unlikely(!pcs))
+>  			return false;
+>  	}
+> @@ -6314,7 +6348,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
+>  			goto fail;
+>  		}
+>  
+> -		empty = barn_get_empty_sheaf(barn);
+> +		empty = barn_get_empty_sheaf(barn, true);
+>  
+>  		if (empty) {
+>  			pcs->rcu_free = empty;
+> @@ -6435,7 +6469,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  		goto no_empty;
+>  
+>  	if (!pcs->spare) {
+> -		empty = barn_get_empty_sheaf(barn);
+> +		empty = barn_get_empty_sheaf(barn, true);
+>  		if (!empty)
+>  			goto no_empty;
+>  
+> @@ -6449,7 +6483,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+>  		goto do_free;
+>  	}
+>  
+> -	empty = barn_replace_full_sheaf(barn, pcs->main);
+> +	empty = barn_replace_full_sheaf(barn, pcs->main, true);
+>  	if (IS_ERR(empty)) {
+>  		stat(s, BARN_PUT_FAIL);
+>  		goto no_empty;
+> @@ -6699,7 +6733,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>  
+>  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
+>  	    && likely(!slab_test_pfmemalloc(slab))) {
+> -		if (likely(free_to_pcs(s, object)))
+> +		if (likely(free_to_pcs(s, object, true)))
+>  			return;
+>  	}
+>  
+> @@ -6960,7 +6994,8 @@ void kfree_nolock(const void *object)
+>  	 * since kasan quarantine takes locks and not supported from NMI.
+>  	 */
+>  	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
+> -	do_slab_free(s, slab, x, x, 0, _RET_IP_);
+> +	if (!free_to_pcs(s, x, false))
+> +		do_slab_free(s, slab, x, x, 0, _RET_IP_);
+>  }
+>  EXPORT_SYMBOL_GPL(kfree_nolock);
+>  
+> @@ -7512,7 +7547,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
+>  		size--;
+>  	}
+>  
+> -	i = alloc_from_pcs_bulk(s, size, p);
+> +	i = alloc_from_pcs_bulk(s, flags, size, p);
+>  
+>  	if (i < size) {
+>  		/*
+> 
+> -- 
+> 2.52.0
+> 
