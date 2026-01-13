@@ -1,190 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4593E3314DE
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 09:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8FA3502BB
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 10:59:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768296757; cv=none; b=BMpS704tyfeZ/WUQtTWo8AlNB77gKRaeuIoruQ38y+QqZkMFX8jHMm4XVoWj7xBYXzA58LiRESS0RHj3EWEBAqGCZ1Nsj9JaKsJgeBrrC04nDLYQp0fylAjoPnP+ocS2I5/ceZfb2TOOdI39GPf/VAnqT2e2lKuFbOIuLZon4Ac=
+	t=1768301956; cv=none; b=pYVfDJVZtoKkXVyz0tLFz26IgAtZ9kcH9Y0srzscyrm8v56ja27O/rVifphFAaNv3EuV7lDCV+4e1eaQzyPPxXyNB7uQfPydPNsyP2PDlxLGpE+aFPUEPYpSs+LioNWC3eybavIlVPjAEWUFC1C4llo5hspIfOZ9NTCIB2plFik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768296757; c=relaxed/simple;
-	bh=wGnKQNo7Kd1KJYajajOdOMbpeDZoEUeNqQHYV983hdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KBaCVqLppb3qcZUK4GlJDYrXX89ITMCWYPvgu/bCDwGP1P7d7+aP33GLKRPgBCF78YqmOZb0VS2mJJrDcDvPlRgzshHRONydzAjh4K97qXXnYgrs67IlLM2YOnjRd4Fh/s89t9xPQMnTvAfWH81RG11v6FRayh/xi4RyIGiq0Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dtSqIOQ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GQDk8z3I; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=dtSqIOQ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GQDk8z3I; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dtSqIOQ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GQDk8z3I";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="dtSqIOQ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GQDk8z3I"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6731E33681;
-	Tue, 13 Jan 2026 09:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768296754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ni5ivzvbOKwDsRa7XDDenum4lALdFzhgJFrmTN2UCmk=;
-	b=dtSqIOQ12BXFfKLtxgnjE/IaYiF4HHlDVb+m/teg9el5HNuos1q1kN2uceNn4zyG+ZM9zH
-	jVfITQTPzpixoGFHmI6PsmzrJG8c8eLzLkT5qkK7dsZxILJfyaCpSxs/JVgfoyamK38VQp
-	CzEiIi9YoYsf2S/mzQyR9zRqEabUzL0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768296754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ni5ivzvbOKwDsRa7XDDenum4lALdFzhgJFrmTN2UCmk=;
-	b=GQDk8z3IRzKEh01tOAKI4OZ8y3unBKOZ7Nul5hsedpFDFPgTb0fro1bEnhvJjhe4nC+2At
-	+/x5zsDoxHIiuMDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768296754; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ni5ivzvbOKwDsRa7XDDenum4lALdFzhgJFrmTN2UCmk=;
-	b=dtSqIOQ12BXFfKLtxgnjE/IaYiF4HHlDVb+m/teg9el5HNuos1q1kN2uceNn4zyG+ZM9zH
-	jVfITQTPzpixoGFHmI6PsmzrJG8c8eLzLkT5qkK7dsZxILJfyaCpSxs/JVgfoyamK38VQp
-	CzEiIi9YoYsf2S/mzQyR9zRqEabUzL0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768296754;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ni5ivzvbOKwDsRa7XDDenum4lALdFzhgJFrmTN2UCmk=;
-	b=GQDk8z3IRzKEh01tOAKI4OZ8y3unBKOZ7Nul5hsedpFDFPgTb0fro1bEnhvJjhe4nC+2At
-	+/x5zsDoxHIiuMDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4E3843EA63;
-	Tue, 13 Jan 2026 09:32:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Eh3mEjIRZmnYNgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 13 Jan 2026 09:32:34 +0000
-Message-ID: <6e1f4acd-23f3-4a92-9212-65e11c9a7d1a@suse.cz>
-Date: Tue, 13 Jan 2026 10:32:33 +0100
+	s=arc-20240116; t=1768301956; c=relaxed/simple;
+	bh=VZx0u1LV4OE/RGQRohcWYqHEcQkYI+lNdynE0cp27ZQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qHm3IeNgwLL1tkXmqyE33rxd7sETUOREoLCeietqAKF9JsygY470s/SB+K50ieyO5R3jd1kiYuRvVVcunZu/JfaErtd5JQcINZ+/Meg0XLN9by3X4rv6N9+SjK94kqAoeqGOruOF1OwXzol3plgAfFHSRVmDir2HtKhSFDxVEC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc78-0008DG-Al; Tue, 13 Jan 2026 11:59:06 +0100
+Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc74-000PME-2e;
+	Tue, 13 Jan 2026 11:59:02 +0100
+Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
+	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
+	(envelope-from <s.hauer@pengutronix.de>)
+	id 1vfc73-00000004mJf-3wJr;
+	Tue, 13 Jan 2026 11:59:01 +0100
+From: Sascha Hauer <s.hauer@pengutronix.de>
+Date: Tue, 13 Jan 2026 11:58:47 +0100
+Subject: [PATCH v4 04/10] ASoC: tlv320adcx140: fix word length
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 01/20] mm/slab: add rcu_barrier() to
- kvfree_rcu_barrier_on_cache()
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com,
- kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-1-98225cfb50cf@suse.cz>
- <aWWpE-7R1eBF458i@hyeyoo>
-From: Vlastimil Babka <vbabka@suse.cz>
-Content-Language: en-US
-In-Reply-To: <aWWpE-7R1eBF458i@hyeyoo>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,oracle.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,intel.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-4-8f7ecec525c8@pengutronix.de>
+References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
+In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
+ Dan Murphy <dmurphy@ti.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
+ devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Emil Svendsen <emas@bang-olufsen.dk>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1458;
+ i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
+ bh=v43nJHLbOeXsx5JJSDE5Vevx6RwD4qkqiA+EJyAWPpo=;
+ b=eYZWxZZyC+4MaDN9ffemKsnFovArbxNxfeyj9XfzFbm0qUpWn+/U45E9veNPZEP3r7sb8ZO5q
+ w11NremxVzQBjBIswzztinOJlFzRY3vmFzotqyKoJMQtJRhoBeoliTr
+X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
+ pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: s.hauer@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
 
-On 1/13/26 3:08 AM, Harry Yoo wrote:
-> On Mon, Jan 12, 2026 at 04:16:55PM +0100, Vlastimil Babka wrote:
->> After we submit the rcu_free sheaves to call_rcu() we need to make sure
->> the rcu callbacks complete. kvfree_rcu_barrier() does that via
->> flush_all_rcu_sheaves() but kvfree_rcu_barrier_on_cache() doesn't. Fix
->> that.
-> 
-> Oops, my bad.
-> 
->> Reported-by: kernel test robot <oliver.sang@intel.com>
->> Closes: https://lore.kernel.org/oe-lkp/202601121442.c530bed3-lkp@intel.com
->> Fixes: 0f35040de593 ("mm/slab: introduce kvfree_rcu_barrier_on_cache() for cache destruction")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
-> 
-> The fix looks good to me, but I wonder why
-> `if (s->sheaf_capacity) rcu_barrier();` in __kmem_cache_shutdown()
-> didn't prevent the bug from happening?
+From: Emil Svendsen <emas@bang-olufsen.dk>
 
-Hmm good point, didn't notice it's there.
+The word length is the physical width of the channel slots. So the
+hw_params would misconfigure when format width and physical width
+doesn't match. Like S24_LE which has data width of 24 bits but physical
+width of 32 bits. So if using asymmetric formats you will get a lot of
+noise.
 
-I think it doesn't help because it happens only after
-flush_all_cpus_locked(). And the callback from rcu_free_sheaf_nobarn()
-will do sheaf_flush_unused() and end up installing the cpu slab again.
+Fixes: 689c7655b50c5 ("ASoC: tlv320adcx140: Add the tlv320adcx140 codec driver family")
+Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
+Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
+---
+ sound/soc/codecs/tlv320adcx140.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Because the bot flagged commit "slab: add sheaves to most caches" where
-cpu slabs still exist. It's thus possible that with the full series, the
-bug is gone. But we should prevent it upfront anyway. The rcu_barrier()
-in __kmem_cache_shutdown() however is probably unnecessary then and we
-can remove it, right?
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index 58a6dfa228cc326d18b3c3f126732033749c8e49..fdf4a9add852deb5e879dba5c8a09458fc6e709d 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -725,7 +725,7 @@ static int adcx140_hw_params(struct snd_pcm_substream *substream,
+ 	struct adcx140_priv *adcx140 = snd_soc_component_get_drvdata(component);
+ 	u8 data = 0;
+ 
+-	switch (params_width(params)) {
++	switch (params_physical_width(params)) {
+ 	case 16:
+ 		data = ADCX140_16_BIT_WORD;
+ 		break;
+@@ -740,7 +740,7 @@ static int adcx140_hw_params(struct snd_pcm_substream *substream,
+ 		break;
+ 	default:
+ 		dev_err(component->dev, "%s: Unsupported width %d\n",
+-			__func__, params_width(params));
++			__func__, params_physical_width(params));
+ 		return -EINVAL;
+ 	}
+ 
 
->>  mm/slab_common.c | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/mm/slab_common.c b/mm/slab_common.c
->> index eed7ea556cb1..ee994ec7f251 100644
->> --- a/mm/slab_common.c
->> +++ b/mm/slab_common.c
->> @@ -2133,8 +2133,11 @@ EXPORT_SYMBOL_GPL(kvfree_rcu_barrier);
->>   */
->>  void kvfree_rcu_barrier_on_cache(struct kmem_cache *s)
->>  {
->> -	if (s->cpu_sheaves)
->> +	if (s->cpu_sheaves) {
->>  		flush_rcu_sheaves_on_cache(s);
->> +		rcu_barrier();
->> +	}
->> +
->>  	/*
->>  	 * TODO: Introduce a version of __kvfree_rcu_barrier() that works
->>  	 * on a specific slab cache.
->>
->> -- 
->> 2.52.0
->>
-> 
+-- 
+2.47.3
 
