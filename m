@@ -1,107 +1,117 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA632EC090
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 18:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2457F2E7186
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 23:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768330297; cv=none; b=sv0rLaEC3sxTE1iaHnVU1FFV+nwGH5pvS08F2H7DO6ohqDj8dRN2YxUc88GUqKP2UHNS3t6TxXAscURBBchfsgr1w9ZOO6TnEFDBqJZcrMcfveP9pBmyTUjQnOkBOAVcZvhQbkpwLVKwS5RMQ/aXDSurK09nO6CAZaMQeTkvcKc=
+	t=1768346740; cv=none; b=YTRdVem6ffCDSWcJ0UFQp3XuNYfDURFDAh2OljSoVNC2c0W9tvxwSKQSeRy8scUwTArDv3+Xlou1GNauCmKqsuY5KzJGktdzQOkyIqBn0qVZBoZ6adI7cMW0t1U1jMoQcpnKo6kL9yMKKhscLeTNWGY5r795pgaAuYCYcKZxGW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768330297; c=relaxed/simple;
-	bh=3XA9gA6YFpI0E9iu1XTrfZKSm2PNmHfW/1Gg5ohzBtQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mzCQhngS55Z/VcqbOiUmKM38ebNAbNxU5jEmtsLe0HmnPuKPO1z5ofzoLW1KOXma1Jb15GcwMhPQXSx1ICnFug80mhsLonhjLkCDS2ic23UdqPRpO5618W9RqCKyuN9YzDMitI3GvAL9nfDb6uLT0ZEgj2/CVvwvhJjMomHjwSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kIsn8PND; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1768346740; c=relaxed/simple;
+	bh=fFxJAQHjLl3nfg1tIDWMSmd6vloHAmf0HKT0kzLD18g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DJWZX/PqvOt0apuV/lIQACh7+Kce2YgN50yiMuW0zZJUUjNsmaFx52n298DkMAMMeA0wx4dO/ghoark2UXdjcUguwImw55YUq8uoYzKTIfkXmB8ZJ1+qo3xMA0SvUXNbQOKE0l99gty26esrd4b+Zd3qBae2GZJsuWT3ye6lmtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=daNw3K9W; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kIsn8PND"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768330292;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YSyCYm4RI/yOISWqF0EpwwOCB780fUcqokCOrTMCaj4=;
-	b=kIsn8PNDwk/uIEAwdGjqTZ9RFbMGqbD5t/OD3hzJ4Ifr+7yWtFRpLFXOnXJxBeHaEhUxPz
-	xx8kF/7Tr9UrUn10mTQ0ciIeDwd8AbjaoTuT5X3ua0HqZyqstTQCjV2ZatcM+UVHf2QSzi
-	0ZkPHCG2ZYnwPrCuvx3ABUZU6Dp/4Ac=
-From: Roman Gushchin <roman.gushchin@linux.dev>
-To: Chris Mason <clm@meta.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,  Andrew Morton
- <akpm@linux-foundation.org>,  Christoph Lameter <cl@gentwo.org>,  David
- Rientjes <rientjes@google.com>,  Harry Yoo <harry.yoo@oracle.com>,
-  Uladzislau Rezki <urezki@gmail.com>,  "Liam R. Howlett"
- <Liam.Howlett@oracle.com>,  Suren Baghdasaryan <surenb@google.com>,
-  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,  Alexei Starovoitov
- <ast@kernel.org>,  linux-mm@kvack.org,  linux-kernel@vger.kernel.org,
-  linux-rt-devel@lists.linux.dev,  bpf@vger.kernel.org,
-  kasan-dev@googlegroups.com,  Petr Tesarik <ptesarik@suse.com>,  "Paul E .
- McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH RFC 10/19] slab: remove cpu (partial) slabs usage from
- allocation paths
-In-Reply-To: <a4b0be3f-bb6f-42d7-9176-a2bc0dcbd3a8@meta.com> (Chris Mason's
-	message of "Mon, 12 Jan 2026 09:36:25 -0500")
-References: <20251024142927.780367-1-clm@meta.com>
-	<28e6827e-f689-45d9-b2b5-804a8aafad2e@suse.cz>
-	<9a00f5c2-7c9b-44c3-a2ac-357f46f25095@meta.com>
-	<01cf95d7-4e38-43c6-80ef-c990f66f1e26@suse.cz>
-	<a4b0be3f-bb6f-42d7-9176-a2bc0dcbd3a8@meta.com>
-Date: Tue, 13 Jan 2026 10:51:21 -0800
-Message-ID: <875x95ibx2.fsf@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="daNw3K9W"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43277900fb4so121963f8f.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:25:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768346737; x=1768951537; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wHU+/HLwiitPDlXwom6qRitlX1fipBA+Q9yORBvMlwY=;
+        b=daNw3K9WAS4q2yRk47iiYzUUf1gkOIHVguXn5PWs4RWYpjf/HbFSQ9bojpvUOjfTV9
+         /Gkvj3itdUjkP5fWrOgBsVD9ps9Bg9H3t7zZGX5NkhhwjgScjSTGu2yVCGYh/Tq4XBiq
+         u/wuHQaj2Rhwb0OQf9+HeelW6GwMEMLF8ek+/wj9OTkNfcQjhiO+DEHEeTFJzOP/B4mu
+         QnUIVKuHYja+NmxbA4AvLNYCO0CqYNV1NXdOp2TBJNGQLnCzI1CTRlt5AvQq3h3FSDM2
+         IZJHNSYQheVuaiuY+vONYwv8GX4fxO85xXExe3OVq9CI99ZDMFdeoUEepzHimBSV65OY
+         tBmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768346737; x=1768951537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wHU+/HLwiitPDlXwom6qRitlX1fipBA+Q9yORBvMlwY=;
+        b=eDpQXfthjxYGb/8seGAAd3+RMZQSn+FrEIkqSetLComiYNyDNsmPBxx9XNUhoXp7fF
+         Bgq84NZ443LdjsI8H0gsbdClwFOmSYBTHggKphrr2NR/sZglbkNW/5n52xoqZP8LFcpu
+         YfGBLJDoPTUXaDxeFRXQidthyA1EabW16aDoM++fsuB5L7T5s/YK+Otp8qQu68cdVP5Z
+         GHluWISkT4lEuJthcpxJfUPNZ9SoP7IHYOFZyPYNmv0TdLc0f812YsCdTZSVxiZMfxRz
+         JjzJqq2u8pwWKDq3X1j3tzjdU7IULbqGKdWNL/DEsklMGNiL/5dyMQE4k0j1jart6Pjk
+         1PqA==
+X-Forwarded-Encrypted: i=1; AJvYcCU7cZTSxKAmXqXbk+RKW92yCkD2LR/6HIMpwN0vlI1+ycZqgQdbVUv+1W9kD+thmXZhRiPnZ16CvWHUHBcshA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6d3SfnHug7VsXgNWUiliDcFTrc/7XyRORdyEwp8MNMv1At0uM
+	KDOgj9Y8lf2eCwZV2xfugdT3DnGGtDrVzu9xPo9AxYoF4CB1fNH7lJsX1fnjhSw1fHs6SsVpMZM
+	20yqUm6DlruMQsULpaDfh90t4bKm22jk=
+X-Gm-Gg: AY/fxX5wdKp61RsXhLPAOXByaHJ3/yZ7PWPuV/llTV4phUII7bt4Hn1xK77wyMPw67b
+	6tzEepPMYywIImkxYbsFqwqhTUAdmKsduY5QXAVsdvf2gYf7SrEhhbKgaCAOp8gEe/xV0+WKsTC
+	4PS1CGrS2uXkI8nJI4q3XO5yY0mmw6Gf0T2eOt0MuiD+lyhpATS19P9M0FiQGPn8E0y+ndKY934
+	QsUWjykshmFHrygTRDQrWhejjPJ4wdafQ1qxTesLY5DDRK9FThlDrO2cQSdnCYsn3kNXDGVgjug
+	7APlo05qeRXKHLPccjF4PhKBZAgK
+X-Received: by 2002:a05:6000:200d:b0:431:8bf:f08c with SMTP id
+ ffacd0b85a97d-4342c0e33fcmr746753f8f.21.1768346737371; Tue, 13 Jan 2026
+ 15:25:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Migadu-Flow: FLOW_OUT
+References: <20260107215353.75612-1-longman@redhat.com> <864iowmrx6.wl-maz@kernel.org>
+ <87ms2nsqju.ffs@tglx> <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
+ <86v7h8l9ht.wl-maz@kernel.org> <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
+ <87cy3eg94y.ffs@tglx> <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com> <20260113115515.98Mc29Nm@linutronix.de>
+In-Reply-To: <20260113115515.98Mc29Nm@linutronix.de>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 13 Jan 2026 15:25:26 -0800
+X-Gm-Features: AZwV_QgNIEr3g_107xkIOrrw3Ge4zQle_mq-J4yht-YAYcdNLGT_KWBNo0kRCyQ
+Message-ID: <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Waiman Long <llong@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Marc Zyngier <maz@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-rt-devel@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>, 
+	Alexei Starovoitov <ast@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Chris Mason <clm@meta.com> writes:
+On Tue, Jan 13, 2026 at 3:55=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
+>
+> On 2026-01-12 12:14:30 [-0500], Waiman Long wrote:
+> > On 1/12/26 10:09 AM, Thomas Gleixner wrote:
+> > > They might be acquired though. Only alloc_pages_nolock() guarantees t=
+hat
+> > > no lock is taken IIRC.
+> >
+> > Thanks for the suggestion. I will look into using that for page allocat=
+ion.
+> > I had actually attempt to use kmalloc_nolock() to replace kzalloc()
+> > initially. Even though it removed the call to rmqueue(), but there were
+> > other spinlocks in the slub code that were still being acquired like th=
+e
+> > local_lock() or the spinlock in the get_random() code. So I gave up usi=
+ng
+> > that. Anyway, kmalloc_nolock() doesn't seem to be fully working yet.
+>
+> with kmalloc_nolock() you have to be able to deal with a NULL pointer.
+> Looking at kmalloc_nolock(), it has this (in_nmi() || in_hardirq())
+> check on PREEMPT_RT. The reasoning was unconditional raw_spinlock_t
+> locking and bad lock-owner recording for hardirq.
+> There was a trylock path for local_lock to make it work from atomic
+> context. But from what I can tell this goes
+>   kmalloc_nolock_noprof() -> __slab_alloc_node() -> __slab_alloc() ->
+>   ___slab_alloc() -> local_lock_cpu_slab()
+>
+> The last one does local_lock_irqsave() on PREEMPT_RT which does a
+> spin_lock(). That means atomic context is not possible. Where did I make
+> a wrong turn? Or did this change recently? I do remember that Alexei
+> reworked parts of the allocator to make the local_lock based trylock
+> allocation work.
 
-> On 1/10/26 10:41 AM, Vlastimil Babka wrote:
->> On 1/10/26 14:20, Chris Mason wrote:
->>> On 1/9/26 3:16 AM, Vlastimil Babka wrote:
->>>> On 10/24/25 16:29, Chris Mason wrote:
->>>>> On Thu, 23 Oct 2025 15:52:32 +0200 Vlastimil Babka <vbabka@suse.cz> wrote:
->>>
->>> [ ... ]
->>>
->>>> By the way, there was another bug in this patch, causing a severe memory
->>>> leak, which the AI unfortunately didn't flag. Petr reported it during
->>>> performance testing and it took me more than a day to find it. Oh well :)
->>>>
->>>> Wonder if things got better since then perhaps, and your or Roman's tools
->>>> would find it today? :)
->>>
->>> Yes and no.  It didn't find the leak until I changed the prompt to say:
->>> "there is a leak, find it".  I'll see if I can improve things...
->> 
->> Thanks. Hmm even if it has to be done like this, it could be a substantial
->> time saver vs finding the leak myself.
->
-> Finding the missing break on the first pass was tricky because claude
-> consistently focused on concerns about potential NULL pointers and
-> mostly ignored the loop flow control changes.
->
-> I think I've fixed things by expanding the loop analysis and also
-> forcing it to make a more fine grained list of changes to analyze before
-> it jumps into the review.
->
-> It caught the missing break 5 out of 6 times in a loop, so maybe?
-> That's probably the best I can get right now for a generic review, but
-> claude will almost always be more reliable with extra directions like
-> "there is a leak, find it" on top of the review prompt.
->
-> I've pushed out two new commits to:
-> https://github.com/masoncl/review-prompts
->
-> 9a44c271 CS-001.md: pay more attention to loop control flow and memory
-> allocations
-> 7fad3996 review-core.md: make change categories more fine grained
-
-It helped Gemini too. With these changes even the flash-3 model caught it
-from the first attempt.
-
-Thanks
+Are you forgetting about local_lock_is_locked() in __slab_alloc() ?
+With sheaves the whole thing will be very different.
