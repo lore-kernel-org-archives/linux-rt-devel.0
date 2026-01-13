@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34BF5369233
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 10:59:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D576A346AFC
+	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 11:01:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768301967; cv=none; b=oYre82/oar5jRmUlSTGq+z0UV4J60nTzZF9JuMSOqyUuNt0t8NFYnAPVnWF2WxGxPnvNOWU2iu30AbZWmtsyhzjG42nIqLWi5Kggl58NjntS+kAI4+HxCzrcQMCHeooYg1n7xif6pghSbn8f0/1YSSs2smENM/FBIbqYCjvsp1k=
+	t=1768302094; cv=none; b=d5FIJJNKZDAzFoxYALBQexVHYh6G1AnSbO6o9FhadwSTJp9HHh76a4dXkKY2DrNDxP0g1BsU/ZoJvFzxIHwqYSkZ+Ot8kJnZ7d59zoGbD1Cmha3ESpPA/6P1A5lkPoMH+5jGmXaHUJIdxN65kQPgwoDS/00aqUbrfplm6tuhHQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768301967; c=relaxed/simple;
-	bh=7TG8ChsmEKxx4/BuNL3tSZPzlIU0WQm6MqDGP2DlTJw=;
+	s=arc-20240116; t=1768302094; c=relaxed/simple;
+	bh=zIzI+RWN8I+PPp7gM10QfdwWfky+ttRAA/4WGgQBPSs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kx1V35Twl8VPtzLceemcnYi/zp8DZ8kb3dR3Yuk18mZZvjdxGevhJbadxTX2MliGS96NzaDtjrAxybonk+svfXClmoFvwCSAFqJWE2m2moExg62RXhcqDQnTBzxmh+OGQtJzujMoV6A6gK1ZYdOna0Bl+DfzVE2K5haIPkzSVjg=
+	 In-Reply-To:To:Cc; b=DbbV9Pq0c4Wnn94sh+rFyMOuCx0TmZc1FK1U4AG3r1uiqETGHsgs4sO7O+G+6p/zxiuEAl3O7v4X5DeDTQWDASNY+Y8VPsTAK3wq3MbmeDUp3nrEFOGkPYTd9QRPrQXEjBUlHqWv9NA1L+ADPQM7leS6JAWkVtrSXEbPgHEPtA8=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,22 +18,21 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc78-0008DM-Al; Tue, 13 Jan 2026 11:59:06 +0100
+	id 1vfc9T-0000pd-4l; Tue, 13 Jan 2026 12:01:31 +0100
 Received: from dude02.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::28])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc74-000PMH-2j;
-	Tue, 13 Jan 2026 11:59:02 +0100
+	id 1vfc9R-000PMy-33;
+	Tue, 13 Jan 2026 12:01:29 +0100
 Received: from localhost ([::1] helo=dude02.red.stw.pengutronix.de)
 	by dude02.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
 	(envelope-from <s.hauer@pengutronix.de>)
-	id 1vfc73-00000004mJf-43P4;
+	id 1vfc73-00000004mJf-47l9;
 	Tue, 13 Jan 2026 11:59:01 +0100
 From: Sascha Hauer <s.hauer@pengutronix.de>
-Date: Tue, 13 Jan 2026 11:58:50 +0100
-Subject: [PATCH v4 07/10] ASoC: dt-bindings: clarify areg-supply
- documentation
+Date: Tue, 13 Jan 2026 11:58:53 +0100
+Subject: [PATCH v4 10/10] ASoC: tlv320adcx140: add channel sum control
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -42,7 +41,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-7-8f7ecec525c8@pengutronix.de>
+Message-Id: <20260113-sound-soc-codecs-tvl320adcx140-v4-10-8f7ecec525c8@pengutronix.de>
 References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
 To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
@@ -57,13 +56,13 @@ To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
  devicetree@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>, 
- Emil-Juhl <juhl.emildahl@gmail.com>
+ Emil Svendsen <emas@bang-olufsen.dk>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1285;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1768301941; l=1805;
  i=s.hauer@pengutronix.de; s=20230412; h=from:subject:message-id;
- bh=7RfFbFyTNGaSY6avmnHjxprtJDzNzxIoQg0ZhbFwspg=;
- b=UBHlJ/236Ziodfh+SzYNxLFSl0PVrHj9nCxIZcNe4js09atVM98k6bbIjGkiXUhCK1rGh+WIB
- Hlwn4fF/VHEA+PhZvuJB692JtlfjeOpS4UVDyrnVOJST2F/YJMjfnBm
+ bh=0KnIM+Y4QBq/N0NnDfRAKNRfpAubDFVWi/5K2Fijr9k=;
+ b=Bj+rKRk752Qpv5Rmpdax53pKUfFD5uWTAI35FT9QJzqWtNuxyZNRJueGdpjSTYrTgWYC6TTqK
+ 9xXTbBBb4UDAdWRTEbH4YiLVUdPzRDIYhnBnRDc38L3uVZrnrc8H74I
 X-Developer-Key: i=s.hauer@pengutronix.de; a=ed25519;
  pk=4kuc9ocmECiBJKWxYgqyhtZOHj5AWi7+d0n/UjhkwTg=
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -71,38 +70,61 @@ X-SA-Exim-Mail-From: s.hauer@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-rt-devel@lists.linux.dev
 
-From: Emil-Juhl <juhl.emildahl@gmail.com>
+From: Emil Svendsen <emas@bang-olufsen.dk>
 
-The documentation for areg-supply could cause confusion mainly in terms
-of the relationship between AREG and AVDD.
-According to the datasheet[1] the AREG can be one of two cases:
+Add control for channel summation.
 
-1) an external 1.8V supply
-2) generated by an internal regulator (hence a 1.8V output)
+3 modes are supported:
 
-[1] https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf
+1. "Disabled": Normal operation
 
-Signed-off-by: Emil-Juhl <juhl.emildahl@gmail.com>
+2. "2 Channel": Every two channels are summed and divided by 2
+
+  Out 1 <- (CH1 + CH2) / 2
+  Out 2 <- (CH1 + CH2) / 2
+  Out 3 <- (CH3 + CH4) / 2
+  Out 4 <- (CH3 + CH4) / 2
+
+3. "4 Channel": Every four channels are summed and divided by 4
+
+  Out 1 <- (CH1 + CH2 + CH3 + CH4) / 4
+  Out 2 <- (CH1 + CH2 + CH3 + CH4) / 4
+  Out 3 <- (CH1 + CH2 + CH3 + CH4) / 4
+  Out 4 <- (CH1 + CH2 + CH3 + CH4) / 4
+
+Signed-off-by: Emil Svendsen <emas@bang-olufsen.dk>
 Signed-off-by: Sascha Hauer <s.hauer@pengutronix.de>
 ---
- Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ sound/soc/codecs/tlv320adcx140.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-index 876fa97bfbcdd3b9450aa6ff57de42f1faed350d..b34ea7824360310434d8b826392864dbfa5fc369 100644
---- a/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-+++ b/Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
-@@ -41,8 +41,8 @@ properties:
+diff --git a/sound/soc/codecs/tlv320adcx140.c b/sound/soc/codecs/tlv320adcx140.c
+index e7c607af642f43b2b783597f3cba3a8cbb31de4a..ac6aab8d722409b2c47b4e1df2a23760bebe795b 100644
+--- a/sound/soc/codecs/tlv320adcx140.c
++++ b/sound/soc/codecs/tlv320adcx140.c
+@@ -222,6 +222,13 @@ static const struct snd_kcontrol_new decimation_filter_controls[] = {
+ 	SOC_DAPM_ENUM("Decimation Filter", decimation_filter_enum),
+ };
  
-   areg-supply:
-     description: |
--      Regulator with AVDD at 3.3V.  If not defined then the internal regulator
--      is enabled.
-+      External supply of 1.8V. If not defined then the internal regulator is
-+      enabled instead.
++static const char * const channel_summation_text[] = {
++	"Disabled", "2 Channel", "4 Channel"
++};
++
++static SOC_ENUM_SINGLE_DECL(channel_summation_enum, ADCX140_DSP_CFG0, 2,
++			    channel_summation_text);
++
+ static const char * const pdmclk_text[] = {
+ 	"2.8224 MHz", "1.4112 MHz", "705.6 kHz", "5.6448 MHz"
+ };
+@@ -711,6 +718,8 @@ static const struct snd_kcontrol_new adcx140_snd_controls[] = {
+ 	ADCX140_PHASE_CALIB_SWITCH("Phase Calibration Switch"),
  
-   ti,mic-bias-source:
-     description: |
+ 	SOC_SINGLE("Biquads Per Channel", ADCX140_DSP_CFG1, 5, 3, 0),
++
++	SOC_ENUM("Channel Summation", channel_summation_enum),
+ };
+ 
+ static int adcx140_reset(struct adcx140_priv *adcx140)
 
 -- 
 2.47.3
