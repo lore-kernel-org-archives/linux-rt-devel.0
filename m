@@ -1,127 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860222D5940;
-	Wed, 14 Jan 2026 16:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B0E2FE595
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 17:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768407906; cv=none; b=J0rDBSh6+ngRsC4feh4+q7WvAZXDTB0hxPn5baqz9l5IPoSKbGZjkDZWqBbIboalD4hK+yOmOo8ygaLY47aej0PrEzH1oQ16d7QHm3ILQmkXEL7ntwRE/CDQZr5DeVmZvP6g1f1vLd8Xfi63isb6X5vTb4hJmGKIgA3rgBDbw9g=
+	t=1768411360; cv=none; b=CBgPMZ3lFvn6V22mvT6NkW1hxHXOZ18JcMdSlIU6dixvlAGZB+EHsmwOZJd5NaVdPPwnpus4UhNVIKml8G9bIg7UHY7YoUnnhCCAlU3M+My8LbEEywn/mgS1HsXp0/Yt8igILB8tWFMrQiHWNytZS7nFjXp1zchfNASR/qLo7WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768407906; c=relaxed/simple;
-	bh=F2VgcPqyHuUhbWpqo8TeO6os/XgKfmFxGplvGgMgn80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qbOSDSMeP7ZFOyBjxqdLbGUJPho6sQL7PDi7cR8vtaBhhcDRk+Tin5MlAA6XsOKydueSheCLk0iX1+otTb7bCFdjG9y74REC3AE8gxH4FMdiOLQHiIkt37JslU7iQLcKMcvGu/07rT1WCAkCqO+FQhwqpFR6yOZZNecxtRRTf4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3v/CDCV; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1768411360; c=relaxed/simple;
+	bh=4mSho9ntc1U97UdaBzFzP2NPXFg0G4kuUCkpBWD4ffg=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=ifK6uOXoFs9bEtYjBkgRgAFOuv6zezzj4vCiNQ9fR8SnfnLneTHc0j3A8xzTa5LoPtZbwwryvC4ul7BWEfTSkPCnMdHe1VmrYExNmErQWdf1rsbfYNspblwOB7POX8hfZRkf2Mz0HpRYmfi+NlDJchsem/FnWybNZeqRDCghqhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YzenFs2T; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3v/CDCV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1768407905; x=1799943905;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F2VgcPqyHuUhbWpqo8TeO6os/XgKfmFxGplvGgMgn80=;
-  b=R3v/CDCVqY5xOmoFUGlPNgrEb4ytwwAc427Rx6mCMoahNh8ty7ypnHbF
-   yRwgfSJKGlWMdnPqOfkV2BoLqHIG3jab3bT0jROyl/Ma0P956rvP0R6QB
-   KZ48kPuGMnWWKNUjLsrwH/++ZQaLZ0wq9IXLn//R7ksr8xhpYh955gsbF
-   nXLI0CaJn6vQYL+Dka2FHxYxeSoU4tNN4OSd+1ezadR5XZFFVkmEvvffY
-   LrJVrTfm138jH+CNukYLcQ7Hkqb+L3Nm5nxf2F6EkevXlwSYs0JBCpy9Y
-   kYgWevkCnjDCk9ioCzLxhW5SJF5tGX/VEo4Dm8k0IRqmcmbpcHJnWk2lV
-   w==;
-X-CSE-ConnectionGUID: HjhK2ViDSH+7ITK6StBgsA==
-X-CSE-MsgGUID: WYy8qxnnRpiPG4vWNV5qCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69610904"
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="69610904"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:25:05 -0800
-X-CSE-ConnectionGUID: k/wY7Qf9TGyO2mozsXsRcQ==
-X-CSE-MsgGUID: JyfDNc2UT/yeTU6ZMNFmLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
-   d="scan'208";a="205261971"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2026 08:25:00 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vg3g1-00000000Gdw-34L8;
-	Wed, 14 Jan 2026 16:24:57 +0000
-Date: Thu, 15 Jan 2026 00:24:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: K Prateek Nayak <kprateek.nayak@amd.com>, Huang Rui <ray.huang@amd.com>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Bert Karwatzki <spasswolf@web.de>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Perry Yuan <perry.yuan@amd.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>
-Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
- cpufreq_driver->adjust_perf()
-Message-ID: <202601150006.r4sCNEZq-lkp@intel.com>
-References: <20260114085113.21378-3-kprateek.nayak@amd.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YzenFs2T"
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:b781:dff2:957:7831])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 29BC255C;
+	Wed, 14 Jan 2026 18:22:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1768411330;
+	bh=4mSho9ntc1U97UdaBzFzP2NPXFg0G4kuUCkpBWD4ffg=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YzenFs2T3Q3EEa9Y4lJHfVd4saGsTHNpqVnOix1bm7KXWNClbus4oeFsfOvRsUgMi
+	 Oex4gu3Qm8fjSxAKQ39TmjXvQhZ0G05NLE7ApzDmj1xJiGRUBqZu1wXdh74jGEheW2
+	 y9M8TzcjrwiYx6fWLNc7sC/ZsJAqVUV9RgdLVmF4=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114085113.21378-3-kprateek.nayak@amd.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260112114313.woeZoGZP@linutronix.de>
+References: <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-0-65af34d04fd8@ideasonboard.com> <20260105-sklug-v6-16-topic-dw100-v3-1-dev-v1-3-65af34d04fd8@ideasonboard.com> <8a8ec84e5484d7a1a5e6fac9a5238f3cae66abc3.camel@ndufresne.ca> <20260105235921.GI10026@pendragon.ideasonboard.com> <20260105193933.40485807@gandalf.local.home> <20260106004928.GL10026@pendragon.ideasonboard.com> <176771948736.12184.11458532023194713133@localhost> <20260112114313.woeZoGZP@linutronix.de>
+Subject: Re: [PATCH 3/4] media: dw100: Fix kernel oops with PREEMPT_RT enabled
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Steven Rostedt <rostedt@goodmis.org>, Nicolas Dufresne <nicolas@ndufresne.ca>, Xavier Roumegue <xavier.roumegue@oss.nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Clark Williams <clrkwllms@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Date: Wed, 14 Jan 2026 18:22:34 +0100
+Message-ID: <176841135424.20276.2623851494182415213@localhost>
+User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-Hi Prateek,
+Hi Sebastian,
 
-kernel test robot noticed the following build errors:
+Thanks for your support.
 
-[auto build test ERROR on 1f630297e183aa2abbafdbe8c4f916ee647e6e21]
+Quoting Sebastian Andrzej Siewior (2026-01-12 12:43:13)
+> On 2026-01-06 18:11:27 [+0100], Stefan Klug wrote:
+> > Hah, if I knew that :-).
+> >=20
+> > The pieces I have are:
+> > In the DT the interrupt line is marked as IRQ_TYPE_LEVEL_HIGH. I don't
+> > know why and couldn't find a reference to that in the reference manual.
+>=20
+> It is either a LEVEL interrupt or just marked as such. But it seems to
+> behave as such.
+>=20
+> > Assuming it is a level interrupt, then it makes sense to treat it as ON=
+ESHOT,
+> > otherwise it would fire again immediately after handling the hard
+> > interrupt...but it was a hard interrupt in first place - huh.
+>=20
+> So setting it ONESHOT while it is non-threaded does not seem to make
+> sense, correct.
+>=20
+> > I just realize that I still miss a bit of the puzzle:
+> > ONESHOT is doumented as:
+> >=20
+> > "Interrupt is not reenabled after the hardirq handler finished. Used by
+> > threaded interrupts which need to keep the irq line disabled until the
+> > threaded handler has been run."
+> >=20
+> > That makes perfect sense. So ONESHOT disables the irq line until the
+> > thread_fn has completed (if it was set). Now on preempt_rt inside
+> > irq_setup_forced_threading() we don't force threading if ONESHOT is
+> > requested. Why is that?
+>=20
+> Because ONESHOT is usually used where there is no primary handler/ the
+> primary handler does just a wake of thread.
+>=20
+> > So I'm left with two questions:
+> > - Why aren't ONESHOT irq handlers forced to threaded on preempt_rt?
+>=20
+> See above. Also PREEMPT_RT just enforces the kernel command line
+> threadirqs
+>=20
+> > - Why was ONESHOT requested in first place as to my current knowledge it
+> >   really only makes sense if a thread_fn is defined.
+>=20
+> I would say it was a mistake and nobody noticed it. There is no visible
+> difference if there is just the primary handler and the system does not
+> use threadirqs (or PREEMPT_RT which enforces it).
+>=20
+> > Did I just answer my own question? ONESHOT only makes sense if there is
+> > a thread_fn and it is assumed that the hard handler is necessary. So
+> > preempt_rt doesn't try to change that?
+>=20
+> Yes. ONESHOT is used if the interrupt source within the IRQ chip has to
+> be masked until after the thread completed. So setting ONESHOT without a
+> threaded handler is dubious.
+>=20
+> > That would mean the ONESHOT in the dw100 was not necessary in first
+> > place but didn't do any harm until preempt_rt was enabled... And if
+> > ONSHOT is *not* set preempt_rt would automatically force the irq handler
+> > to be threaded and set the ONESHOT flag in irq_setup_forced_threading().
+>=20
+> correct.
+>=20
+> > So everything would be fine except that we'd still hit the timeout issue
+> > from patch 4/4.
+> >=20
+> > So if I got that right, the dw100 driver is in the unfortunate
+> > situation, that the irq handler consists of two parts where the first
+> > part *must* run in hard interrupt context and the second part *should* =
+run
+> > in hard interrupt context but it is fine if it becomes threaded due to
+> > preempt_rt. As we can't model that, the best we can do is to always run
+> > the second part threaded...
+>=20
+> So happens if you avoid the IRQF_ONESHOT? Do you still get these
+> timeout errors?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/K-Prateek-Nayak/cpufreq-amd-pstate-Pass-the-policy-to-amd_pstate_update/20260114-165940
-base:   1f630297e183aa2abbafdbe8c4f916ee647e6e21
-patch link:    https://lore.kernel.org/r/20260114085113.21378-3-kprateek.nayak%40amd.com
-patch subject: [PATCH v2 2/2] cpufreq: Pass the policy to cpufreq_driver->adjust_perf()
-config: arm64-randconfig-001-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150006.r4sCNEZq-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150006.r4sCNEZq-lkp@intel.com/reproduce)
+I did a bit more testing and got results that I fail to completely
+understand.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601150006.r4sCNEZq-lkp@intel.com/
+If I enable IRQF_ONESHOT and use the threaded_fn, on a non PREEMPT_RT
+system I regularly observe the timeout message.
 
-All errors (new ones prefixed by >>):
+If I pass irqflags=3D0 and use the hard handler on a PREEMPT_RT system I
+expected the same behavior (as the hard handler gets changed to be
+threaded and implicitely ONESHOT is set). But I don't see the timeout
+messages.
 
->> error[E0308]: mismatched types
-   --> rust/kernel/cpufreq.rs:946:18
-   |
-   946 |             Some(Self::adjust_perf_callback)
-   |             ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
-   |             |
-   |             arguments to this enum variant are incorrect
-   |
-   = note: expected fn pointer `unsafe extern "C" fn(*mut bindings::cpufreq_policy, _, _, _)`
-   found fn item `unsafe extern "C" fn(u32, _, _, _) {cpufreq::Registration::<T>::adjust_perf_callback}`
-   help: the type constructed contains `unsafe extern "C" fn(u32, usize, usize, usize) {cpufreq::Registration::<T>::adjust_perf_callback}` due to the type of the argument passed
-   --> rust/kernel/cpufreq.rs:946:13
-   |
-   946 |             Some(Self::adjust_perf_callback)
-   |             ^^^^^--------------------------^
-   |                  |
-   |                  this argument influences the type of `Some`
-   note: tuple variant defined here
-   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
-   |
-   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
-   |     ^^^^
+Is there anything else that I need to do on PREEMPT_RT to force the
+threaded behavior besides enabling the config? Or is the irq thread
+running with higher priority and therefore possibly faster?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Running irqflags=3D0 and the hard handler on a non PREEMPT_RT system
+didn't have any negative side effects. So maybe that is really the
+solution...
+
+I'll ping Xavier if he has more details on the hardware.
+
+Best regards,
+Stefan
+
+>=20
+> > So patch 4/4 seems correct until we get new information about the
+> > hardware.
+> >=20
+> > Any thoughts?
+> >=20
+> > Best regards,
+> > Stefan
+>=20
+> Sebastian
+>
