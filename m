@@ -1,93 +1,127 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B043A1CED
-	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 16:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860222D5940;
+	Wed, 14 Jan 2026 16:25:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768406516; cv=none; b=SKROJtrRzCgA2C84U6Tgs0XoReDNbh7ETk/oMufQJ6C5dG+KFyQpi+pLZkmFeatzVHxCb3vHoHgsvi/E1+yh3DPrRlTaKrZDYA7KZsNnQV7QeIYHk09+wDa6NAruNSIVGXZm6hkYQoNfv9SSTA9Htqz0oEBifMfnJrHd5usAQeI=
+	t=1768407906; cv=none; b=J0rDBSh6+ngRsC4feh4+q7WvAZXDTB0hxPn5baqz9l5IPoSKbGZjkDZWqBbIboalD4hK+yOmOo8ygaLY47aej0PrEzH1oQ16d7QHm3ILQmkXEL7ntwRE/CDQZr5DeVmZvP6g1f1vLd8Xfi63isb6X5vTb4hJmGKIgA3rgBDbw9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768406516; c=relaxed/simple;
-	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
+	s=arc-20240116; t=1768407906; c=relaxed/simple;
+	bh=F2VgcPqyHuUhbWpqo8TeO6os/XgKfmFxGplvGgMgn80=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WCjNIL29HIi96Zpb5/lMiYcZhYBjdBXpND1u6VPWescg4kMUvDuasRpZ+UTEJ/I1UaChyf+oV9YR8qAsV6EnIJs4sJj6YmfN+9CTkuP4f8Jd2JovOHfAC8BE906on//1GV22MQJhwxuHXB0uflBqrc1qWD4AEQ6UjmpMA13vpG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rfd7vHBz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3DxY1P3G; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=qbOSDSMeP7ZFOyBjxqdLbGUJPho6sQL7PDi7cR8vtaBhhcDRk+Tin5MlAA6XsOKydueSheCLk0iX1+otTb7bCFdjG9y74REC3AE8gxH4FMdiOLQHiIkt37JslU7iQLcKMcvGu/07rT1WCAkCqO+FQhwqpFR6yOZZNecxtRRTf4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3v/CDCV; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rfd7vHBz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3DxY1P3G"
-Date: Wed, 14 Jan 2026 17:01:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768406513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
-	b=rfd7vHBz1WLpBHPczQ9hBag1uDo0KrUEd8bXS0fbsoVEZPkBXa29t6yJQcrbonhGArJmYS
-	DjKDiUNu936WcaJhnoLGjVVHSIQWrcuecyATrfQ5RgEVjT8W7kf7hGFlhI0XgdN5v9eaHQ
-	OESy5zqu76PVbymLrsjJJMCVM+PjjbmLNI6mGL22NjNHVdYu0EA2O+xlLplv+MlsZWjQSq
-	qNo4feUlMl1XxxXsOsucxoYEeHlNwhsZuQNevxPeuB0gnzH7KZKUPYTq/P5PE149JPciIj
-	+hrkg6762jROj9jkM/49OZQZOr61ANEPIrDI7CICW9L8yvuABiq/ekJ5Ba3qfA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768406513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
-	b=3DxY1P3GNYDLGzssQhKPKAP4fVb2O4OwkDPQU++qPNhVw73yzXipwIyScTrN8CYLMVDwjv
-	SEaCksFXfofKgJBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Waiman Long <llong@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3v/CDCV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768407905; x=1799943905;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F2VgcPqyHuUhbWpqo8TeO6os/XgKfmFxGplvGgMgn80=;
+  b=R3v/CDCVqY5xOmoFUGlPNgrEb4ytwwAc427Rx6mCMoahNh8ty7ypnHbF
+   yRwgfSJKGlWMdnPqOfkV2BoLqHIG3jab3bT0jROyl/Ma0P956rvP0R6QB
+   KZ48kPuGMnWWKNUjLsrwH/++ZQaLZ0wq9IXLn//R7ksr8xhpYh955gsbF
+   nXLI0CaJn6vQYL+Dka2FHxYxeSoU4tNN4OSd+1ezadR5XZFFVkmEvvffY
+   LrJVrTfm138jH+CNukYLcQ7Hkqb+L3Nm5nxf2F6EkevXlwSYs0JBCpy9Y
+   kYgWevkCnjDCk9ioCzLxhW5SJF5tGX/VEo4Dm8k0IRqmcmbpcHJnWk2lV
+   w==;
+X-CSE-ConnectionGUID: HjhK2ViDSH+7ITK6StBgsA==
+X-CSE-MsgGUID: WYy8qxnnRpiPG4vWNV5qCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11671"; a="69610904"
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="69610904"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2026 08:25:05 -0800
+X-CSE-ConnectionGUID: k/wY7Qf9TGyO2mozsXsRcQ==
+X-CSE-MsgGUID: JyfDNc2UT/yeTU6ZMNFmLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,225,1763452800"; 
+   d="scan'208";a="205261971"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jan 2026 08:25:00 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vg3g1-00000000Gdw-34L8;
+	Wed, 14 Jan 2026 16:24:57 +0000
+Date: Thu, 15 Jan 2026 00:24:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: K Prateek Nayak <kprateek.nayak@amd.com>, Huang Rui <ray.huang@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Len Brown <lenb@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
- allocate_vpe_l1_table()
-Message-ID: <20260114160151.a6y9OxQW@linutronix.de>
-References: <864iowmrx6.wl-maz@kernel.org>
- <87ms2nsqju.ffs@tglx>
- <86wm1qlq7l.wl-maz@kernel.org>
- <87ecnwij44.ffs@tglx>
- <86v7h8l9ht.wl-maz@kernel.org>
- <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
- <87cy3eg94y.ffs@tglx>
- <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com>
- <20260113115515.98Mc29Nm@linutronix.de>
- <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
+	Bert Karwatzki <spasswolf@web.de>, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Perry Yuan <perry.yuan@amd.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>
+Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
+ cpufreq_driver->adjust_perf()
+Message-ID: <202601150006.r4sCNEZq-lkp@intel.com>
+References: <20260114085113.21378-3-kprateek.nayak@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
+In-Reply-To: <20260114085113.21378-3-kprateek.nayak@amd.com>
 
-On 2026-01-13 15:25:26 [-0800], Alexei Starovoitov wrote:
-> On Tue, Jan 13, 2026 at 3:55=E2=80=AFAM Sebastian Andrzej Siewior
-> <bigeasy@linutronix.de> wrote:
-> > The last one does local_lock_irqsave() on PREEMPT_RT which does a
-> > spin_lock(). That means atomic context is not possible. Where did I make
-> > a wrong turn? Or did this change recently? I do remember that Alexei
-> > reworked parts of the allocator to make the local_lock based trylock
-> > allocation work.
->=20
-> Are you forgetting about local_lock_is_locked() in __slab_alloc() ?
+Hi Prateek,
 
-Yeah but this just checks it. Further down the road there is
-local_lock_cpu_slab() for the allocation and there is no try-lock on RT.
+kernel test robot noticed the following build errors:
 
-> With sheaves the whole thing will be very different.
-Yes.
+[auto build test ERROR on 1f630297e183aa2abbafdbe8c4f916ee647e6e21]
 
-Sebastian
+url:    https://github.com/intel-lab-lkp/linux/commits/K-Prateek-Nayak/cpufreq-amd-pstate-Pass-the-policy-to-amd_pstate_update/20260114-165940
+base:   1f630297e183aa2abbafdbe8c4f916ee647e6e21
+patch link:    https://lore.kernel.org/r/20260114085113.21378-3-kprateek.nayak%40amd.com
+patch subject: [PATCH v2 2/2] cpufreq: Pass the policy to cpufreq_driver->adjust_perf()
+config: arm64-randconfig-001-20260114 (https://download.01.org/0day-ci/archive/20260115/202601150006.r4sCNEZq-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260115/202601150006.r4sCNEZq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601150006.r4sCNEZq-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> error[E0308]: mismatched types
+   --> rust/kernel/cpufreq.rs:946:18
+   |
+   946 |             Some(Self::adjust_perf_callback)
+   |             ---- ^^^^^^^^^^^^^^^^^^^^^^^^^^ expected fn pointer, found fn item
+   |             |
+   |             arguments to this enum variant are incorrect
+   |
+   = note: expected fn pointer `unsafe extern "C" fn(*mut bindings::cpufreq_policy, _, _, _)`
+   found fn item `unsafe extern "C" fn(u32, _, _, _) {cpufreq::Registration::<T>::adjust_perf_callback}`
+   help: the type constructed contains `unsafe extern "C" fn(u32, usize, usize, usize) {cpufreq::Registration::<T>::adjust_perf_callback}` due to the type of the argument passed
+   --> rust/kernel/cpufreq.rs:946:13
+   |
+   946 |             Some(Self::adjust_perf_callback)
+   |             ^^^^^--------------------------^
+   |                  |
+   |                  this argument influences the type of `Some`
+   note: tuple variant defined here
+   --> /opt/cross/rustc-1.88.0-bindgen-0.72.1/rustup/toolchains/1.88.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:597:5
+   |
+   597 |     Some(#[stable(feature = "rust1", since = "1.0.0")] T),
+   |     ^^^^
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
