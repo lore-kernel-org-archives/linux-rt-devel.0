@@ -1,226 +1,919 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C99B31062C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 04:56:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768366626; cv=fail; b=YOyGZvLtFL7mx4aMQHu1Ctux1p5cXAGZJWhH7aPmIfYSytPTDaPW14tjc5HPD0FxwmD6txB/57LAMdbAi84rySPOnKPWaXsSnXQuFfQaBpYg76OrVhFKzlEO/8mnfYXjaMzJxENHnbdOtOTgrG1DbSNjwa6lTJOxCLdP4SFTX70=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768366626; c=relaxed/simple;
-	bh=0BbabbN9AmZGA9MxTjb+z4nwl93kfCMpZGlCMJKqW54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=jpPQSvEzMne7I6rrIryLUxLD0WZ/GDZlei5SoJnIUC6+oOmt/osvJjrYEqKOaMnnPc/QvuKNM5KPAvKodp2vXufZIymouSHjJmFJ87cg4nJanMJ1xAzJ09HG0x8AVLcpBsqiZePEJkNhzLA0IZOA+L+l7XggUIQxT9/4TMFBW7k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=BobCP4eT; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=D+9ZvI3S; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EF5262FFC
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 06:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768370891; cv=none; b=p80L83tqJ8H6I3+nkpQqzFAp7eC5aL0XmyWACHrlcq6GxXq7mD3To9kN0kAp+nk8WWyElgdjnkA+VPUG4GWbVZPoBzjclsLJbX2UrSf1ssw/ZlxSGYTmlORi87MdBfWnxvMBR2kDc8mdQUw/WzvXVGVYpWDKkI7GwLFKcqgLoqA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768370891; c=relaxed/simple;
+	bh=D4sPYcVSe6dkXprROobk6C437pU4TklspL0JLQS7Nuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q7Yf93O9xP8GfH6ILDFsNiVzcmVOV6pxDqcnSfuToqtahX5MxdTcaOa5iW6pgRPw3Wlb0P18iW3mZ6gkwN4m0fBWPGXQfoO6g4tjnuXeyVqdUmpS0xzlhMAfbdvUaI5Doc3ITn9ajZKri1wB2e9NRN7Yuaq6uaPsK7hwFH48hZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=aocnKVEZ; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BobCP4eT";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="D+9ZvI3S"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DGDcCg3333478;
-	Wed, 14 Jan 2026 04:56:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=3/RTBrbaKeEwYDH/4M
-	eKnnwSSPOM/dUfy4keA9S4lAg=; b=BobCP4eTAOlhuUDPA2lVsDeVD3xX10pFU6
-	NdK/3TPyBxCL7EBstxrDnnbe10AdYCM11iPxFTiZC6jAkw5S4A/frjIhttSMAwYq
-	LIWDkgwEl/oPAHHNHBw2dJgf8FUAanQfc4xMmXrO1QPESq0rPfdplacLz63ZLkHy
-	IuYBMVyftfpYnICrTacAgKXvydE3JngWpctGZUdM2RCCy9848tpVoKN8DdZX4UaD
-	HxFEhHRIDI2VnnxvM6qWJ9/bQPU1mSXfq0Rj7elfr03Zj+jkVgQglZPRDrTQkuxR
-	QlKNspoN9za71DKZ8YQyoGvjYop2HiuWyRL80L+EsyaIDnQziz1w==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkrp8mpkv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 04:56:24 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60E2SQQ3004635;
-	Wed, 14 Jan 2026 04:56:23 GMT
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011015.outbound.protection.outlook.com [52.101.62.15])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd79jcr2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 04:56:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KI8UmTwBs8xEwIZNFXGrcc47Ymj+aPZLsAJ0DLJL3PAbloDXmSCWlXvee//+iYNuxGWAdmkA9dQ9VDOAGsHvk8P5p+DS0dsaMjqEMQpU15eGSJoKQvuFkhIjXSBwKqE4/b+WwVvhWwJxLCp55O/N+89P3QfVNebV79VeOveZEgv565yqkkKcX65R6qugcEpgSbYm7uKVpHygE6ixEceuY2HwaC2b0T0NarM3Y6qpfEfLO2ZHGLBiaQQSBgF6j7WU0RdKOPa8b2JpWBqToGRWKaR+QQJOABo8BEG9XCitj+1+JcFxXvX0raYItWuyALotUts8Ko26/ra940KLG5aZXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3/RTBrbaKeEwYDH/4MeKnnwSSPOM/dUfy4keA9S4lAg=;
- b=KpjgDuzApqTlof3qjTU/sGhkEBdtapf+Fg7ZVwxk13AgNV5sPiDQNzrk0HO0mx+dkKh5J4n7ifRP/dXRM+hiCxNYs8K4rN74WKRNUWgNxmGb4bTeM37gdC8ATjCRPziggbejeOEJ2BTnRBzlRM1HoLuu7sRPi6u8X1kLrE/TMN9A1ngfMwmrFi+Z8EQ2REj44a0e4KzQVyH5+wwQ+PpY9GU5hyvvPGZIRsJKtRkPqAo+mgAJDXPFaxL2NFQyJnhFQDq/z2eD/PBTIjktRiCF6ahUybGHX8Mp3Fq/MSC6C/abOM/kayZA9uKEHAMgp52PorfCAMF7CmXm8Fv3pHJtZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3/RTBrbaKeEwYDH/4MeKnnwSSPOM/dUfy4keA9S4lAg=;
- b=D+9ZvI3SJpG+Hb6cbjaGAT0R6oL90IEQ1HkMEXsvA2cz+dDnH/EDzBb+VPSu7YvkxH92zNTBLaMf+YolCSDWvBjRYB0dmwV4c8Ht/yKZQqK5kkSrL04ewQU8udCS6JgiZyiLgGAr53fUyoEypA6x6EOOt54UXPECkDTFtVRT1wU=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by CY8PR10MB7218.namprd10.prod.outlook.com (2603:10b6:930:76::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.7; Wed, 14 Jan
- 2026 04:56:20 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
- 04:56:20 +0000
-Date: Wed, 14 Jan 2026 13:56:12 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="aocnKVEZ"
+Date: Wed, 14 Jan 2026 14:07:40 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768370877;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n08rQGqpj11nHUCAMi/f22AsHiR2vC2VJqIQFlhq3C0=;
+	b=aocnKVEZHdabReIBzLtHc4eH9MCvPxD4G9Li3UrFrEnWwqKeJbytpoUf6108HwbT4NGKqv
+	bKXABswQaYr3WHFnE54bKiWZg9mlayWZe3Sd/RMTM23Ge60CYdGvI1qsem8a9YlHAOe6qF
+	n8Ku2yw4G7PErZYVlmAs+sjic6Ezs8g=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
 To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        bpf@vger.kernel.org, kasan-dev@googlegroups.com,
-        kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC v2 01/20] mm/slab: add rcu_barrier() to
- kvfree_rcu_barrier_on_cache()
-Message-ID: <aWch7G1ovZtHVadM@hyeyoo>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH RFC v2 09/20] slab: remove cpu (partial) slabs usage from
+ allocation paths
+Message-ID: <3k4wy7gavxczpqn63jt66423fqa3wvdztigvbmejbvcpbr7ld2@fbylldpeuvgi>
 References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-1-98225cfb50cf@suse.cz>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260112-sheaves-for-all-v2-1-98225cfb50cf@suse.cz>
-X-ClientProxiedBy: SEWP216CA0141.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2be::8) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+ <20260112-sheaves-for-all-v2-9-98225cfb50cf@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|CY8PR10MB7218:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6c8be54-f28a-434f-7fec-08de532941e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?MB17o+6cdv7IcId4Qo+gtl1pn71OFk+LNnAYQl9yCTaGb0JDNGhNlpmhMG4k?=
- =?us-ascii?Q?H8PSmbIHhCo8+FMCVLad7t1wuY3hmKnjoIIEBQPzGMkSzBa8nybTLyDgEe2c?=
- =?us-ascii?Q?yIpdGxvpBCvQa8Aq5LwBnJlJ6yoE20QBFrGTH+u2n9aI6dQ3ByV+UGz/h1te?=
- =?us-ascii?Q?ycFI0vBJOZfB74J1+W+B6GDmOERk3bpw4WfcYP1TfSK52vVFIlBHTRJQj90R?=
- =?us-ascii?Q?ce5uxiswo/qWIUycGiVOfXSPuf6CsseRR60vi3eq+77mgjdouBVkyVg8/HPF?=
- =?us-ascii?Q?DHS5a9MVa7DZdbmA2/JX2118MzoD82yUfpaTC0ku9WbxmCA8XlpyHcI2Kdq3?=
- =?us-ascii?Q?Zq0y6ZirFDk6rNKSVYnMBaMqtCs7WqE4hf3/tlrXylvvkAtg5oX5Ih5ReYD6?=
- =?us-ascii?Q?ehHiwl2ILqbB0THFI1fqwI5j0/V4OdbBBmeEuQqGmuHeMxcouM3776ylhRq9?=
- =?us-ascii?Q?fbt2vmsTG5xRxKdXfo8qwnK68hK68Z/kFARO+BKCCJtMcBtskdD67lp53K9D?=
- =?us-ascii?Q?jmJjOSf52bqrI9jbq2SUb5BCh/FkDO0oUAcsnmbex8NU0TCuzgW+LsiBeFZ1?=
- =?us-ascii?Q?PzT1ZmMcQEFprX5Zd7dB5ENOHLEM/MvUb7M5i0EwY8/+a2rykPOJ+bjw5Q/A?=
- =?us-ascii?Q?YdtI+4GN3xJA/scoK4G/gUt4DYdKP0GrOdyZ8D3vtlsrBLu1ZTit7h8RRNU1?=
- =?us-ascii?Q?54UoFd4+pW8HMN7iNjGK1Xj4y1u8HCcThLhvkRldYPHLY4Ih+A8qf7JvLmRJ?=
- =?us-ascii?Q?/eFv1xvtl2pI4xhrQtyJojMd1w+Wx8NIt+Nz5OrzKJN/QGhA0PoTUH5JDVlc?=
- =?us-ascii?Q?LEioRnqc7w43dLA8HHBvIPXsset/7AAAiTnB+U3yJLBQmvQPsAxNBjW4S8t+?=
- =?us-ascii?Q?8wZ4uIIl2b6GCazJ3cvf2MMS+2/IdXjSaoHFrnKipWhAP9qmRQbbd7xG3Di5?=
- =?us-ascii?Q?WEfhwVUBFnJ3uF9P1VzVTobLA8L2hzONJg3hW/dBiHRZ0xJNRpIlxKeTot0m?=
- =?us-ascii?Q?k/dEzzBiBVgF+COYUXmYb/whhGkOa+qu+fpU0u++a9vf+N0CMGoDbolmyIyl?=
- =?us-ascii?Q?pI+EwWjWHnf1pqWl6zxl3r9S01OoIN51VULvunX/fN0NLgCQSdZK647l4YuZ?=
- =?us-ascii?Q?g8cmMYpeXG3wH2RPIw5gs2bGFaVcGQtBlT+YEUeXjgH9ubDsdj9+BmgF/fDR?=
- =?us-ascii?Q?E2ObD5qrK5Au9awMbQHe81OQaqxZI52X54QbtU2Dc7uUuUUimb4GGH4uRIlz?=
- =?us-ascii?Q?tjFt9mvOx/5WfRmqOAw+zDV11Iaybv87V4cCQWgg7eJvn90dxNH7Nw/Nd6Yl?=
- =?us-ascii?Q?Pq+1c8BN5/PpSybPi3fEOBj1AVrXCPH6+/gZuT3iI5GPDMLXw/zWHKN+SJnD?=
- =?us-ascii?Q?ZsGQ5vQTzxuL6Y97/cISChZAH+8wS1NzceWGcmGEPhzJL3PCxoc9obwP4Hgr?=
- =?us-ascii?Q?JUU5UvZVuBBAIBkRVd2X/Hbs8ctrysV30WuZ6jwNj408wiU39BvMvg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8G/+Dop5jrqA+ELuPyyi9Vg9BblW0WszvrlM61ud9uUWMqo+OmyfR0hs1kzq?=
- =?us-ascii?Q?tAf9N7YMC7PEYe2sl+vKZHZvjZkY4k1F7qkCcIs+FjSHpWP5UVv+IsDBqCeL?=
- =?us-ascii?Q?yWQiQbG8Q+KWYWU9/sENM2P84BfY8MHcWApYOzI8PjffF3z9ih6il0/hkkEr?=
- =?us-ascii?Q?6MJOTvsHdxikoZByXRR/yVvBYQ+LgyK6vQxDsFGQZOQ64ZEgfmUlbLdvS+zW?=
- =?us-ascii?Q?R8H33SzG3dcmGs3qsLLIk8GG8ud4lpCpzeY2sE4ny8HDIW++RhBIsAZwkrfK?=
- =?us-ascii?Q?DbGkFGWgwntFqqcha3RKC9Ei4ajHjhvh1f+mN/SPcLZeqkdckf2osXG9tCnI?=
- =?us-ascii?Q?mxG23EQjoYX4tmv3mxDjJaNeOSWnbua52sxvIM55rmzy9RgfZaTwmaqM6w58?=
- =?us-ascii?Q?rGCch3OoWEyFYK6mASueLGkHnEfdVMw6/51zumH6uNfUY5vbWBHeLrHUEs39?=
- =?us-ascii?Q?EWY8QFT49cd3KuTV9IuH+AFt2tO5PZW5v9UgyROOGhv8+agVeJ9gGWmmEso4?=
- =?us-ascii?Q?tGs8faIGacZYs5grjfTF6IAlX7cuQfJGuhwfAf301/eyCMQ2VVzj0EGoLWcB?=
- =?us-ascii?Q?qQ/OYyIXD7ikp8vfjr1tiUCUh3eKBF8Zn8Sj5b++Ny4WrMsMFjB7DlBLMBjc?=
- =?us-ascii?Q?dR+s61mgiJivt1DP5OLviQYikcFJcG1SBrhQg1/ycfZaTK7tPem1PyAt7+8c?=
- =?us-ascii?Q?VIhnuf2A5FK78dK8pzfhgR/wlVCbzYbIPzBesv7MkfUC7f3aoTFyxiZRYEV6?=
- =?us-ascii?Q?46KBR1evoIla0EFo3fE5B3UWsFCKGFfxHtTR4v5yueQqHclVIZBTTW98CTwW?=
- =?us-ascii?Q?iqKUKuJ0j99Btss42zotZWx6Hev5z1aMs28eM/fWCmEXQEbs8gTMF5ttnNGx?=
- =?us-ascii?Q?cB2B9tHk2e/jx5H2sby3QZkjswIDS7izBrwPtBuJfbzjj8tJak8KmMM4/+4h?=
- =?us-ascii?Q?oHdIxsU4STLsjYiUQEnmT7VOO7EEILn+FbK6chUZwq4bft3NvIyrGdZTL61w?=
- =?us-ascii?Q?fvayGrqg6QJXeRrRSeayNx0xC0eGYTCNZeMHPgWWor8jQ3FmwBelDrvkbcIm?=
- =?us-ascii?Q?grGtmLtNAYp6OUpriJJ9WUEM6UbMl6HYx2Ak5PNNxApUEkhcSkinS5PQ/uqh?=
- =?us-ascii?Q?WwjBgGjGaHU/fTCEFAxrROnnkHKxRu965RvGXeNIbigpmkQJ/8b2AWVIo6O2?=
- =?us-ascii?Q?wzvhdAD3EiqztLVE1w7RoGdLTgnSN/BI9SnDK/lIUuONNWNJmHb9fiXlJMU5?=
- =?us-ascii?Q?cWl/XI/U26m4Ml7B6/q1c08odmzaZwqms21YlO9MBXVuJqCssIzYs8AEN+nC?=
- =?us-ascii?Q?nmqIyuTTLE+rVHzAs3/v8voiPtO49hYCo9FKguk1JZdkRDCdxdCB1muVlKgs?=
- =?us-ascii?Q?O0XgG1oFdEkXsijSfkeY6dGOlGWGTooh858C3yL2uh+SonVu3od0aHVab19m?=
- =?us-ascii?Q?emOphtIEDOB/VCZNftveJmxpopLJ6ccYSM14WvNOPi9u5GZBXMB461//zMA0?=
- =?us-ascii?Q?L8wA5xudXrdeiQx4j+9Mycu4mM1CFmFtXQqxLX+rPK++JsEQmaxwnhMkMK5Y?=
- =?us-ascii?Q?q7Om0c6xB50DByRHNuUNfHi5HgYLH1pag3ROBgkX83vS5JQWIThFR8ROeBJM?=
- =?us-ascii?Q?SBoLFMuKQYKquIoQYNraxUsBvPHRkv1fA6MUEmO+YLCkGAaFFZTvH1wVE/Iv?=
- =?us-ascii?Q?oUGTWQtQ5C8r7bI9lrkEX7isHv6pIs+zx7tQJ1o5V5fKbFGWRCMwdRuNdOnO?=
- =?us-ascii?Q?kMGOiahdCg=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	y6vW0wOzd9cykaadmp5apOt20uCbwQE1c7UlcP5a0uDQQUTI4fPiMs039U65NhhChw2p3UvHHOrJk7/FhfXc4UbiH1Mo39nda75AoM1VJA9rt6+a9nx+vzKtoL933/gYsiMqZ2+/tCBG4H6h4NL/RqlDu///RGFA+ZuaNfwDp3/UKBJMkL1+m/QZkruUWq5efNaRxPK6OKSvoEeHZeVwD7WUwSue9tbR7ltrqnx2QSA5z6HywI+PtyNw6XAX5cQJwScv3Aegflgum5Bcgb2gyo+dPdw6oJc6t6qDihX5aIZrq37sC7jguZet/jt5LR6vzLfsF3gK6xdR5gBXe6g2P4hCOMEsjulw3G5SFVWR+gFe9t8CmsTSVJCLadncJn7x3XuGk+0FF3MFqIV5NzSurkgZ//iOeXxoBiS5o94KdkWGCfKaWE+vFhPHtfd3j/MAhmueB7EXhuAWPjGIe90ArUNIi8JLJ85sIBxkYVwzNw8g8501KN3n0jVT5m7ZpEawX1wJYqJIqhBD10z3EH8lU6Zj9tBR4Ta/SIR//G9MB/6ELIEDQIFFeeGLkYGVgvv4UsWth8gNQvf4bSQcEypmql7+BHv+T7PH5hrfsi8Njeg=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6c8be54-f28a-434f-7fec-08de532941e7
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 04:56:19.9361
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eLGpymObKUVB6rjHlY/Jg0iNY7FEnqFjQ47rt2RkAVZ6/I6DJzVnH1yAcwu3UKH0wTbKlBkqX2Ae0EuRFHfkyw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB7218
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-14_01,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601140035
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAzNSBTYWx0ZWRfX9j5TVR2lW5CO
- MNJEu2XPgvHdg6u1eJMxlrggmU2mEcoTgC2lglwJfqFvN3AmdEpFxdJFpY1q4kpXfh8CrBmWxgM
- PV4rcW7zW3W8UVRpoWf7qbPgRo4MdbuiWNckrazWv9WTvMkJIY5w2wd7NQiIMv2DwyzgGX95LXL
- nIZABoEaPHre+PWvLs5p5na9WaPXRAH+gp35ggmpmZlmxINVnidB5Q+xzYnDZFGPN2tUd3jgj6y
- BhWjX8kTvzt9ogfxa5vulGjaoYP/ejbjTYtEkFDdukNNMFXm6l5zU/Ka/zhJ6tGIKicJHPPbwA9
- V473mhCOCgcP7Oj3TAhfbEuQrXmi8gmKwU9TB7u+TzqNcRbxNCO8afJaeCsnIDu5D8XSBDvh5El
- bS/2BUS4mrKN7T5NcntKt5WOUAA3II4/UAd9gflXCV2/gFdDKRd/rYC5udYkhyn9OeqzlZF/TZN
- +6zE6MeqyIGLf5CvW4Q==
-X-Authority-Analysis: v=2.4 cv=YcGwJgRf c=1 sm=1 tr=0 ts=696721f8 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=yPCof4ZbAAAA:8 a=w9RPrIt6g6G62PjUTAIA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-GUID: OjfZuQinCFXOcMX4gZ7cPFxXOOByEunw
-X-Proofpoint-ORIG-GUID: OjfZuQinCFXOcMX4gZ7cPFxXOOByEunw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260112-sheaves-for-all-v2-9-98225cfb50cf@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jan 12, 2026 at 04:16:55PM +0100, Vlastimil Babka wrote:
-> After we submit the rcu_free sheaves to call_rcu() we need to make sure
-> the rcu callbacks complete. kvfree_rcu_barrier() does that via
-> flush_all_rcu_sheaves() but kvfree_rcu_barrier_on_cache() doesn't. Fix
-> that.
+On Mon, Jan 12, 2026 at 04:17:03PM +0100, Vlastimil Babka wrote:
+> We now rely on sheaves as the percpu caching layer and can refill them
+> directly from partial or newly allocated slabs. Start removing the cpu
+> (partial) slabs code, first from allocation paths.
 > 
-> Reported-by: kernel test robot <oliver.sang@intel.com>
-> Closes: https://lore.kernel.org/oe-lkp/202601121442.c530bed3-lkp@intel.com
-> Fixes: 0f35040de593 ("mm/slab: introduce kvfree_rcu_barrier_on_cache() for cache destruction")
-> Cc: stable@vger.kernel.org
+> This means that any allocation not satisfied from percpu sheaves will
+> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
+> slabs, so it will only perform get_partial() or new_slab().
+> 
+> In get_partial_node() we used to return a slab for freezing as the cpu
+> slab and to refill the partial slab. Now we only want to return a single
+> object and leave the slab on the list (unless it became full). We can't
+> simply reuse alloc_single_from_partial() as that assumes freeing uses
+> free_to_partial_list(). Instead we need to use __slab_update_freelist()
+> to work properly against a racing __slab_free().
+> 
+> The rest of the changes is removing functions that no longer have any
+> callers.
+> 
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
+>  mm/slub.c | 611 ++++++++------------------------------------------------------
+>  1 file changed, 78 insertions(+), 533 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index b568801edec2..7173f6716382 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -245,7 +245,6 @@ static DEFINE_STATIC_KEY_FALSE(strict_numa);
+>  struct partial_context {
+>  	gfp_t flags;
+>  	unsigned int orig_size;
+> -	void *object;
+>  	unsigned int min_objects;
+>  	unsigned int max_objects;
+>  	struct list_head slabs;
+> @@ -599,36 +598,6 @@ static inline void *get_freepointer(struct kmem_cache *s, void *object)
+>  	return freelist_ptr_decode(s, p, ptr_addr);
+>  }
+>  
+> -static void prefetch_freepointer(const struct kmem_cache *s, void *object)
+> -{
+> -	prefetchw(object + s->offset);
+> -}
+> -
+> -/*
+> - * When running under KMSAN, get_freepointer_safe() may return an uninitialized
+> - * pointer value in the case the current thread loses the race for the next
+> - * memory chunk in the freelist. In that case this_cpu_cmpxchg_double() in
+> - * slab_alloc_node() will fail, so the uninitialized value won't be used, but
+> - * KMSAN will still check all arguments of cmpxchg because of imperfect
+> - * handling of inline assembly.
+> - * To work around this problem, we apply __no_kmsan_checks to ensure that
+> - * get_freepointer_safe() returns initialized memory.
+> - */
+> -__no_kmsan_checks
+> -static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
+> -{
+> -	unsigned long freepointer_addr;
+> -	freeptr_t p;
+> -
+> -	if (!debug_pagealloc_enabled_static())
+> -		return get_freepointer(s, object);
+> -
+> -	object = kasan_reset_tag(object);
+> -	freepointer_addr = (unsigned long)object + s->offset;
+> -	copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+> -	return freelist_ptr_decode(s, p, freepointer_addr);
+> -}
+> -
+>  static inline void set_freepointer(struct kmem_cache *s, void *object, void *fp)
+>  {
+>  	unsigned long freeptr_addr = (unsigned long)object + s->offset;
+> @@ -708,23 +677,11 @@ static void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
+>  	nr_slabs = DIV_ROUND_UP(nr_objects * 2, oo_objects(s->oo));
+>  	s->cpu_partial_slabs = nr_slabs;
+>  }
+> -
+> -static inline unsigned int slub_get_cpu_partial(struct kmem_cache *s)
+> -{
+> -	return s->cpu_partial_slabs;
+> -}
+> -#else
+> -#ifdef SLAB_SUPPORTS_SYSFS
+> +#elif defined(SLAB_SUPPORTS_SYSFS)
+>  static inline void
+>  slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
+>  {
+>  }
+> -#endif
+> -
+> -static inline unsigned int slub_get_cpu_partial(struct kmem_cache *s)
+> -{
+> -	return 0;
+> -}
+>  #endif /* CONFIG_SLUB_CPU_PARTIAL */
+>  
+>  /*
+> @@ -1065,7 +1022,7 @@ static void set_track_update(struct kmem_cache *s, void *object,
+>  	p->handle = handle;
+>  #endif
+>  	p->addr = addr;
+> -	p->cpu = smp_processor_id();
+> +	p->cpu = raw_smp_processor_id();
+>  	p->pid = current->pid;
+>  	p->when = jiffies;
+>  }
+> @@ -3571,15 +3528,15 @@ static bool get_partial_node_bulk(struct kmem_cache *s,
+>  }
+>  
+>  /*
+> - * Try to allocate a partial slab from a specific node.
+> + * Try to allocate object from a partial slab on a specific node.
+>   */
+> -static struct slab *get_partial_node(struct kmem_cache *s,
+> -				     struct kmem_cache_node *n,
+> -				     struct partial_context *pc)
+> +static void *get_partial_node(struct kmem_cache *s,
+> +			      struct kmem_cache_node *n,
+> +			      struct partial_context *pc)
+>  {
+> -	struct slab *slab, *slab2, *partial = NULL;
+> +	struct slab *slab, *slab2;
+>  	unsigned long flags;
+> -	unsigned int partial_slabs = 0;
+> +	void *object = NULL;
+>  
+>  	/*
+>  	 * Racy check. If we mistakenly see no partial slabs then we
+> @@ -3595,54 +3552,55 @@ static struct slab *get_partial_node(struct kmem_cache *s,
+>  	else if (!spin_trylock_irqsave(&n->list_lock, flags))
+>  		return NULL;
+>  	list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
+> +
+> +		struct freelist_counters old, new;
+> +
+>  		if (!pfmemalloc_match(slab, pc->flags))
+>  			continue;
+>  
+>  		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+> -			void *object = alloc_single_from_partial(s, n, slab,
+> +			object = alloc_single_from_partial(s, n, slab,
+>  							pc->orig_size);
+> -			if (object) {
+> -				partial = slab;
+> -				pc->object = object;
+> +			if (object)
+>  				break;
+> -			}
+>  			continue;
+>  		}
+>  
+> -		remove_partial(n, slab);
+> +		/*
+> +		 * get a single object from the slab. This might race against
+> +		 * __slab_free(), which however has to take the list_lock if
+> +		 * it's about to make the slab fully free.
+> +		 */
+> +		do {
+> +			old.freelist = slab->freelist;
+> +			old.counters = slab->counters;
+>  
+> -		if (!partial) {
+> -			partial = slab;
+> -			stat(s, ALLOC_FROM_PARTIAL);
+> +			new.freelist = get_freepointer(s, old.freelist);
+> +			new.counters = old.counters;
+> +			new.inuse++;
+>  
+> -			if ((slub_get_cpu_partial(s) == 0)) {
+> -				break;
+> -			}
+> -		} else {
+> -			put_cpu_partial(s, slab, 0);
+> -			stat(s, CPU_PARTIAL_NODE);
+> +		} while (!__slab_update_freelist(s, slab, &old, &new, "get_partial_node"));
+>  
+> -			if (++partial_slabs > slub_get_cpu_partial(s) / 2) {
+> -				break;
+> -			}
+> -		}
+> +		object = old.freelist;
+> +		if (!new.freelist)
+> +			remove_partial(n, slab);
+> +
+> +		break;
+>  	}
+>  	spin_unlock_irqrestore(&n->list_lock, flags);
+> -	return partial;
+> +	return object;
+>  }
+>  
+>  /*
+> - * Get a slab from somewhere. Search in increasing NUMA distances.
+> + * Get an object from somewhere. Search in increasing NUMA distances.
+>   */
+> -static struct slab *get_any_partial(struct kmem_cache *s,
+> -				    struct partial_context *pc)
+> +static void *get_any_partial(struct kmem_cache *s, struct partial_context *pc)
+>  {
+>  #ifdef CONFIG_NUMA
+>  	struct zonelist *zonelist;
+>  	struct zoneref *z;
+>  	struct zone *zone;
+>  	enum zone_type highest_zoneidx = gfp_zone(pc->flags);
+> -	struct slab *slab;
+>  	unsigned int cpuset_mems_cookie;
+>  
+>  	/*
+> @@ -3677,8 +3635,8 @@ static struct slab *get_any_partial(struct kmem_cache *s,
+>  
+>  			if (n && cpuset_zone_allowed(zone, pc->flags) &&
+>  					n->nr_partial > s->min_partial) {
+> -				slab = get_partial_node(s, n, pc);
+> -				if (slab) {
+> +				void *object = get_partial_node(s, n, pc);
+> +				if (object) {
+>  					/*
+>  					 * Don't check read_mems_allowed_retry()
+>  					 * here - if mems_allowed was updated in
+> @@ -3686,7 +3644,7 @@ static struct slab *get_any_partial(struct kmem_cache *s,
+>  					 * between allocation and the cpuset
+>  					 * update
+>  					 */
+> -					return slab;
+> +					return object;
+>  				}
+>  			}
+>  		}
+> @@ -3696,20 +3654,20 @@ static struct slab *get_any_partial(struct kmem_cache *s,
+>  }
+>  
+>  /*
+> - * Get a partial slab, lock it and return it.
+> + * Get an object from a partial slab
+>   */
+> -static struct slab *get_partial(struct kmem_cache *s, int node,
+> -				struct partial_context *pc)
+> +static void *get_partial(struct kmem_cache *s, int node,
+> +			 struct partial_context *pc)
+>  {
+> -	struct slab *slab;
+>  	int searchnode = node;
+> +	void *object;
+>  
+>  	if (node == NUMA_NO_NODE)
+>  		searchnode = numa_mem_id();
+>  
+> -	slab = get_partial_node(s, get_node(s, searchnode), pc);
+> -	if (slab || (node != NUMA_NO_NODE && (pc->flags & __GFP_THISNODE)))
+> -		return slab;
+> +	object = get_partial_node(s, get_node(s, searchnode), pc);
+> +	if (object || (node != NUMA_NO_NODE && (pc->flags & __GFP_THISNODE)))
+> +		return object;
+>  
+>  	return get_any_partial(s, pc);
+>  }
+> @@ -4269,19 +4227,6 @@ static int slub_cpu_dead(unsigned int cpu)
+>  	return 0;
+>  }
+>  
+> -/*
+> - * Check if the objects in a per cpu structure fit numa
+> - * locality expectations.
+> - */
+> -static inline int node_match(struct slab *slab, int node)
+> -{
+> -#ifdef CONFIG_NUMA
+> -	if (node != NUMA_NO_NODE && slab_nid(slab) != node)
+> -		return 0;
+> -#endif
+> -	return 1;
+> -}
+> -
+>  #ifdef CONFIG_SLUB_DEBUG
+>  static int count_free(struct slab *slab)
+>  {
+> @@ -4466,36 +4411,6 @@ __update_cpu_freelist_fast(struct kmem_cache *s,
+>  					     &old.freelist_tid, new.freelist_tid);
+>  }
+>  
+> -/*
+> - * Check the slab->freelist and either transfer the freelist to the
+> - * per cpu freelist or deactivate the slab.
+> - *
+> - * The slab is still frozen if the return value is not NULL.
+> - *
+> - * If this function returns NULL then the slab has been unfrozen.
+> - */
+> -static inline void *get_freelist(struct kmem_cache *s, struct slab *slab)
+> -{
+> -	struct freelist_counters old, new;
+> -
+> -	lockdep_assert_held(this_cpu_ptr(&s->cpu_slab->lock));
+> -
+> -	do {
+> -		old.freelist = slab->freelist;
+> -		old.counters = slab->counters;
+> -
+> -		new.freelist = NULL;
+> -		new.counters = old.counters;
+> -
+> -		new.inuse = old.objects;
+> -		new.frozen = old.freelist != NULL;
+> -
+> -
+> -	} while (!__slab_update_freelist(s, slab, &old, &new, "get_freelist"));
+> -
+> -	return old.freelist;
+> -}
+> -
+>  /*
+>   * Get the slab's freelist and do not freeze it.
+>   *
+> @@ -4523,29 +4438,6 @@ static inline void *get_freelist_nofreeze(struct kmem_cache *s, struct slab *sla
+>  	return old.freelist;
+>  }
+>  
+> -/*
+> - * Freeze the partial slab and return the pointer to the freelist.
+> - */
+> -static inline void *freeze_slab(struct kmem_cache *s, struct slab *slab)
+> -{
+> -	struct freelist_counters old, new;
+> -
+> -	do {
+> -		old.freelist = slab->freelist;
+> -		old.counters = slab->counters;
+> -
+> -		new.freelist = NULL;
+> -		new.counters = old.counters;
+> -		VM_BUG_ON(new.frozen);
+> -
+> -		new.inuse = old.objects;
+> -		new.frozen = 1;
+> -
+> -	} while (!slab_update_freelist(s, slab, &old, &new, "freeze_slab"));
+> -
+> -	return old.freelist;
+> -}
+> -
+>  /*
+>   * If the object has been wiped upon free, make sure it's fully initialized by
+>   * zeroing out freelist pointer.
+> @@ -4603,172 +4495,24 @@ static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct slab *slab,
+>  
+>  	return allocated;
+>  }
+> -
+>  /*
+> - * Slow path. The lockless freelist is empty or we need to perform
+> - * debugging duties.
+> - *
+> - * Processing is still very fast if new objects have been freed to the
+> - * regular freelist. In that case we simply take over the regular freelist
+> - * as the lockless freelist and zap the regular freelist.
+> - *
+> - * If that is not working then we fall back to the partial lists. We take the
+> - * first element of the freelist as the object to allocate now and move the
+> - * rest of the freelist to the lockless freelist.
+> - *
+> - * And if we were unable to get a new slab from the partial slab lists then
+> - * we need to allocate a new slab. This is the slowest path since it involves
+> - * a call to the page allocator and the setup of a new slab.
+> + * Slow path. We failed to allocate via percpu sheaves or they are not available
+> + * due to bootstrap or debugging enabled or SLUB_TINY.
+>   *
+> - * Version of __slab_alloc to use when we know that preemption is
+> - * already disabled (which is the case for bulk allocation).
+> + * We try to allocate from partial slab lists and fall back to allocating a new
+> + * slab.
+>   */
+>  static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+> -			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+> +			   unsigned long addr, unsigned int orig_size)
+>  {
+>  	bool allow_spin = gfpflags_allow_spinning(gfpflags);
+>  	void *freelist;
+>  	struct slab *slab;
+> -	unsigned long flags;
+>  	struct partial_context pc;
+>  	bool try_thisnode = true;
+>  
+>  	stat(s, ALLOC_SLOWPATH);
+>  
+> -reread_slab:
+> -
+> -	slab = READ_ONCE(c->slab);
+> -	if (!slab) {
+> -		/*
+> -		 * if the node is not online or has no normal memory, just
+> -		 * ignore the node constraint
+> -		 */
+> -		if (unlikely(node != NUMA_NO_NODE &&
+> -			     !node_isset(node, slab_nodes)))
+> -			node = NUMA_NO_NODE;
+> -		goto new_slab;
+> -	}
+> -
+> -	if (unlikely(!node_match(slab, node))) {
+> -		/*
+> -		 * same as above but node_match() being false already
+> -		 * implies node != NUMA_NO_NODE.
+> -		 *
+> -		 * We don't strictly honor pfmemalloc and NUMA preferences
+> -		 * when !allow_spin because:
+> -		 *
+> -		 * 1. Most kmalloc() users allocate objects on the local node,
+> -		 *    so kmalloc_nolock() tries not to interfere with them by
+> -		 *    deactivating the cpu slab.
+> -		 *
+> -		 * 2. Deactivating due to NUMA or pfmemalloc mismatch may cause
+> -		 *    unnecessary slab allocations even when n->partial list
+> -		 *    is not empty.
+> -		 */
+> -		if (!node_isset(node, slab_nodes) ||
+> -		    !allow_spin) {
+> -			node = NUMA_NO_NODE;
+> -		} else {
+> -			stat(s, ALLOC_NODE_MISMATCH);
+> -			goto deactivate_slab;
+> -		}
+> -	}
+> -
+> -	/*
+> -	 * By rights, we should be searching for a slab page that was
+> -	 * PFMEMALLOC but right now, we are losing the pfmemalloc
+> -	 * information when the page leaves the per-cpu allocator
+> -	 */
+> -	if (unlikely(!pfmemalloc_match(slab, gfpflags) && allow_spin))
+> -		goto deactivate_slab;
+> -
+> -	/* must check again c->slab in case we got preempted and it changed */
+> -	local_lock_cpu_slab(s, flags);
+> -
+> -	if (unlikely(slab != c->slab)) {
+> -		local_unlock_cpu_slab(s, flags);
+> -		goto reread_slab;
+> -	}
+> -	freelist = c->freelist;
+> -	if (freelist)
+> -		goto load_freelist;
+> -
+> -	freelist = get_freelist(s, slab);
+> -
+> -	if (!freelist) {
+> -		c->slab = NULL;
+> -		c->tid = next_tid(c->tid);
+> -		local_unlock_cpu_slab(s, flags);
+> -		stat(s, DEACTIVATE_BYPASS);
+> -		goto new_slab;
+> -	}
+> -
+> -	stat(s, ALLOC_REFILL);
+> -
+> -load_freelist:
+> -
+> -	lockdep_assert_held(this_cpu_ptr(&s->cpu_slab->lock));
+> -
+> -	/*
+> -	 * freelist is pointing to the list of objects to be used.
+> -	 * slab is pointing to the slab from which the objects are obtained.
+> -	 * That slab must be frozen for per cpu allocations to work.
+> -	 */
+> -	VM_BUG_ON(!c->slab->frozen);
+> -	c->freelist = get_freepointer(s, freelist);
+> -	c->tid = next_tid(c->tid);
+> -	local_unlock_cpu_slab(s, flags);
+> -	return freelist;
+> -
+> -deactivate_slab:
+> -
+> -	local_lock_cpu_slab(s, flags);
+> -	if (slab != c->slab) {
+> -		local_unlock_cpu_slab(s, flags);
+> -		goto reread_slab;
+> -	}
+> -	freelist = c->freelist;
+> -	c->slab = NULL;
+> -	c->freelist = NULL;
+> -	c->tid = next_tid(c->tid);
+> -	local_unlock_cpu_slab(s, flags);
+> -	deactivate_slab(s, slab, freelist);
+> -
+> -new_slab:
+> -
+> -#ifdef CONFIG_SLUB_CPU_PARTIAL
+> -	while (slub_percpu_partial(c)) {
+> -		local_lock_cpu_slab(s, flags);
+> -		if (unlikely(c->slab)) {
+> -			local_unlock_cpu_slab(s, flags);
+> -			goto reread_slab;
+> -		}
+> -		if (unlikely(!slub_percpu_partial(c))) {
+> -			local_unlock_cpu_slab(s, flags);
+> -			/* we were preempted and partial list got empty */
+> -			goto new_objects;
+> -		}
+> -
+> -		slab = slub_percpu_partial(c);
+> -		slub_set_percpu_partial(c, slab);
+> -
+> -		if (likely(node_match(slab, node) &&
+> -			   pfmemalloc_match(slab, gfpflags)) ||
+> -		    !allow_spin) {
+> -			c->slab = slab;
+> -			freelist = get_freelist(s, slab);
+> -			VM_BUG_ON(!freelist);
+> -			stat(s, CPU_PARTIAL_ALLOC);
+> -			goto load_freelist;
+> -		}
+> -
+> -		local_unlock_cpu_slab(s, flags);
+> -
+> -		slab->next = NULL;
+> -		__put_partials(s, slab);
+> -	}
+> -#endif
+> -
+>  new_objects:
+>  
+>  	pc.flags = gfpflags;
+> @@ -4793,33 +4537,11 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  	}
+>  
+>  	pc.orig_size = orig_size;
+> -	slab = get_partial(s, node, &pc);
+> -	if (slab) {
+> -		if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+> -			freelist = pc.object;
+> -			/*
+> -			 * For debug caches here we had to go through
+> -			 * alloc_single_from_partial() so just store the
+> -			 * tracking info and return the object.
+> -			 *
+> -			 * Due to disabled preemption we need to disallow
+> -			 * blocking. The flags are further adjusted by
+> -			 * gfp_nested_mask() in stack_depot itself.
+> -			 */
+> -			if (s->flags & SLAB_STORE_USER)
+> -				set_track(s, freelist, TRACK_ALLOC, addr,
+> -					  gfpflags & ~(__GFP_DIRECT_RECLAIM));
+> -
+> -			return freelist;
+> -		}
+> -
+> -		freelist = freeze_slab(s, slab);
+> -		goto retry_load_slab;
+> -	}
+> +	freelist = get_partial(s, node, &pc);
+> +	if (freelist)
+> +		goto success;
+>  
+> -	slub_put_cpu_ptr(s->cpu_slab);
+>  	slab = new_slab(s, pc.flags, node);
+> -	c = slub_get_cpu_ptr(s->cpu_slab);
+>  
+>  	if (unlikely(!slab)) {
+>  		if (node != NUMA_NO_NODE && !(gfpflags & __GFP_THISNODE)
+> @@ -4836,68 +4558,31 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>  	if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+>  		freelist = alloc_single_from_new_slab(s, slab, orig_size, gfpflags);
+>  
+> -		if (unlikely(!freelist)) {
+> -			/* This could cause an endless loop. Fail instead. */
+> -			if (!allow_spin)
+> -				return NULL;
+> -			goto new_objects;
+> +		if (likely(freelist)) {
+> +			goto success;
+>  		}
+> +	} else {
+> +		alloc_from_new_slab(s, slab, &freelist, 1, allow_spin);
 
-LGTM,
-Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+IIUC, when CONFIG_SLUB_DEBUG is enabled, each successful new_slab() call
+should have a matching inc_slabs_node(), since __kmem_cache_shutdown()
+rely on the accounting done by inc_slabs_node(). Here
+alloc_single_from_new_slab() does call inc_slabs_node(), but
+alloc_from_new_slab() doesn't. Could this mismatch cause any issues?
 
-and I reproduced it locally and this resolves the issue, so:
-Tested-by: Harry Yoo <harry.yoo@oracle.com>
-
--- 
-Cheers,
-Harry / Hyeonggon
+>  
+> -		if (s->flags & SLAB_STORE_USER)
+> -			set_track(s, freelist, TRACK_ALLOC, addr,
+> -				  gfpflags & ~(__GFP_DIRECT_RECLAIM));
+> -
+> -		return freelist;
+> -	}
+> -
+> -	/*
+> -	 * No other reference to the slab yet so we can
+> -	 * muck around with it freely without cmpxchg
+> -	 */
+> -	freelist = slab->freelist;
+> -	slab->freelist = NULL;
+> -	slab->inuse = slab->objects;
+> -	slab->frozen = 1;
+> -
+> -	inc_slabs_node(s, slab_nid(slab), slab->objects);
+> -
+> -	if (unlikely(!pfmemalloc_match(slab, gfpflags) && allow_spin)) {
+> -		/*
+> -		 * For !pfmemalloc_match() case we don't load freelist so that
+> -		 * we don't make further mismatched allocations easier.
+> -		 */
+> -		deactivate_slab(s, slab, get_freepointer(s, freelist));
+> -		return freelist;
+> +		/* we don't need to check SLAB_STORE_USER here */
+> +		if (likely(freelist)) {
+> +			return freelist;
+> +		}
+>  	}
+>  
+> -retry_load_slab:
+> -
+> -	local_lock_cpu_slab(s, flags);
+> -	if (unlikely(c->slab)) {
+> -		void *flush_freelist = c->freelist;
+> -		struct slab *flush_slab = c->slab;
+> -
+> -		c->slab = NULL;
+> -		c->freelist = NULL;
+> -		c->tid = next_tid(c->tid);
+> -
+> -		local_unlock_cpu_slab(s, flags);
+> -
+> -		if (unlikely(!allow_spin)) {
+> -			/* Reentrant slub cannot take locks, defer */
+> -			defer_deactivate_slab(flush_slab, flush_freelist);
+> -		} else {
+> -			deactivate_slab(s, flush_slab, flush_freelist);
+> -		}
+> +	if (allow_spin)
+> +		goto new_objects;
+>  
+> -		stat(s, CPUSLAB_FLUSH);
+> +	/* This could cause an endless loop. Fail instead. */
+> +	return NULL;
+>  
+> -		goto retry_load_slab;
+> -	}
+> -	c->slab = slab;
+> +success:
+> +	if (kmem_cache_debug_flags(s, SLAB_STORE_USER))
+> +		set_track(s, freelist, TRACK_ALLOC, addr, gfpflags);
+>  
+> -	goto load_freelist;
+> +	return freelist;
+>  }
+> +
+>  /*
+>   * We disallow kprobes in ___slab_alloc() to prevent reentrance
+>   *
+> @@ -4912,87 +4597,11 @@ static void *___slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+>   */
+>  NOKPROBE_SYMBOL(___slab_alloc);
+>  
+> -/*
+> - * A wrapper for ___slab_alloc() for contexts where preemption is not yet
+> - * disabled. Compensates for possible cpu changes by refetching the per cpu area
+> - * pointer.
+> - */
+> -static void *__slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+> -			  unsigned long addr, struct kmem_cache_cpu *c, unsigned int orig_size)
+> -{
+> -	void *p;
+> -
+> -#ifdef CONFIG_PREEMPT_COUNT
+> -	/*
+> -	 * We may have been preempted and rescheduled on a different
+> -	 * cpu before disabling preemption. Need to reload cpu area
+> -	 * pointer.
+> -	 */
+> -	c = slub_get_cpu_ptr(s->cpu_slab);
+> -#endif
+> -	if (unlikely(!gfpflags_allow_spinning(gfpflags))) {
+> -		if (local_lock_is_locked(&s->cpu_slab->lock)) {
+> -			/*
+> -			 * EBUSY is an internal signal to kmalloc_nolock() to
+> -			 * retry a different bucket. It's not propagated
+> -			 * to the caller.
+> -			 */
+> -			p = ERR_PTR(-EBUSY);
+> -			goto out;
+> -		}
+> -	}
+> -	p = ___slab_alloc(s, gfpflags, node, addr, c, orig_size);
+> -out:
+> -#ifdef CONFIG_PREEMPT_COUNT
+> -	slub_put_cpu_ptr(s->cpu_slab);
+> -#endif
+> -	return p;
+> -}
+> -
+>  static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
+>  		gfp_t gfpflags, int node, unsigned long addr, size_t orig_size)
+>  {
+> -	struct kmem_cache_cpu *c;
+> -	struct slab *slab;
+> -	unsigned long tid;
+>  	void *object;
+>  
+> -redo:
+> -	/*
+> -	 * Must read kmem_cache cpu data via this cpu ptr. Preemption is
+> -	 * enabled. We may switch back and forth between cpus while
+> -	 * reading from one cpu area. That does not matter as long
+> -	 * as we end up on the original cpu again when doing the cmpxchg.
+> -	 *
+> -	 * We must guarantee that tid and kmem_cache_cpu are retrieved on the
+> -	 * same cpu. We read first the kmem_cache_cpu pointer and use it to read
+> -	 * the tid. If we are preempted and switched to another cpu between the
+> -	 * two reads, it's OK as the two are still associated with the same cpu
+> -	 * and cmpxchg later will validate the cpu.
+> -	 */
+> -	c = raw_cpu_ptr(s->cpu_slab);
+> -	tid = READ_ONCE(c->tid);
+> -
+> -	/*
+> -	 * Irqless object alloc/free algorithm used here depends on sequence
+> -	 * of fetching cpu_slab's data. tid should be fetched before anything
+> -	 * on c to guarantee that object and slab associated with previous tid
+> -	 * won't be used with current tid. If we fetch tid first, object and
+> -	 * slab could be one associated with next tid and our alloc/free
+> -	 * request will be failed. In this case, we will retry. So, no problem.
+> -	 */
+> -	barrier();
+> -
+> -	/*
+> -	 * The transaction ids are globally unique per cpu and per operation on
+> -	 * a per cpu queue. Thus they can be guarantee that the cmpxchg_double
+> -	 * occurs on the right processor and that there was no operation on the
+> -	 * linked list in between.
+> -	 */
+> -
+> -	object = c->freelist;
+> -	slab = c->slab;
+> -
+>  #ifdef CONFIG_NUMA
+>  	if (static_branch_unlikely(&strict_numa) &&
+>  			node == NUMA_NO_NODE) {
+> @@ -5001,47 +4610,20 @@ static __always_inline void *__slab_alloc_node(struct kmem_cache *s,
+>  
+>  		if (mpol) {
+>  			/*
+> -			 * Special BIND rule support. If existing slab
+> +			 * Special BIND rule support. If the local node
+>  			 * is in permitted set then do not redirect
+>  			 * to a particular node.
+>  			 * Otherwise we apply the memory policy to get
+>  			 * the node we need to allocate on.
+>  			 */
+> -			if (mpol->mode != MPOL_BIND || !slab ||
+> -					!node_isset(slab_nid(slab), mpol->nodes))
+> -
+> +			if (mpol->mode != MPOL_BIND ||
+> +					!node_isset(numa_mem_id(), mpol->nodes))
+>  				node = mempolicy_slab_node();
+>  		}
+>  	}
+>  #endif
+>  
+> -	if (!USE_LOCKLESS_FAST_PATH() ||
+> -	    unlikely(!object || !slab || !node_match(slab, node))) {
+> -		object = __slab_alloc(s, gfpflags, node, addr, c, orig_size);
+> -	} else {
+> -		void *next_object = get_freepointer_safe(s, object);
+> -
+> -		/*
+> -		 * The cmpxchg will only match if there was no additional
+> -		 * operation and if we are on the right processor.
+> -		 *
+> -		 * The cmpxchg does the following atomically (without lock
+> -		 * semantics!)
+> -		 * 1. Relocate first pointer to the current per cpu area.
+> -		 * 2. Verify that tid and freelist have not been changed
+> -		 * 3. If they were not changed replace tid and freelist
+> -		 *
+> -		 * Since this is without lock semantics the protection is only
+> -		 * against code executing on this cpu *not* from access by
+> -		 * other cpus.
+> -		 */
+> -		if (unlikely(!__update_cpu_freelist_fast(s, object, next_object, tid))) {
+> -			note_cmpxchg_failure("slab_alloc", s, tid);
+> -			goto redo;
+> -		}
+> -		prefetch_freepointer(s, next_object);
+> -		stat(s, ALLOC_FASTPATH);
+> -	}
+> +	object = ___slab_alloc(s, gfpflags, node, addr, orig_size);
+>  
+>  	return object;
+>  }
+> @@ -7709,62 +7291,25 @@ static inline
+>  int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+>  			    void **p)
+>  {
+> -	struct kmem_cache_cpu *c;
+> -	unsigned long irqflags;
+>  	int i;
+>  
+>  	/*
+> -	 * Drain objects in the per cpu slab, while disabling local
+> -	 * IRQs, which protects against PREEMPT and interrupts
+> -	 * handlers invoking normal fastpath.
+> +	 * TODO: this might be more efficient (if necessary) by reusing
+> +	 * __refill_objects()
+>  	 */
+> -	c = slub_get_cpu_ptr(s->cpu_slab);
+> -	local_lock_irqsave(&s->cpu_slab->lock, irqflags);
+> -
+>  	for (i = 0; i < size; i++) {
+> -		void *object = c->freelist;
+>  
+> -		if (unlikely(!object)) {
+> -			/*
+> -			 * We may have removed an object from c->freelist using
+> -			 * the fastpath in the previous iteration; in that case,
+> -			 * c->tid has not been bumped yet.
+> -			 * Since ___slab_alloc() may reenable interrupts while
+> -			 * allocating memory, we should bump c->tid now.
+> -			 */
+> -			c->tid = next_tid(c->tid);
+> +		p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE, _RET_IP_,
+> +				     s->object_size);
+> +		if (unlikely(!p[i]))
+> +			goto error;
+>  
+> -			local_unlock_irqrestore(&s->cpu_slab->lock, irqflags);
+> -
+> -			/*
+> -			 * Invoking slow path likely have side-effect
+> -			 * of re-populating per CPU c->freelist
+> -			 */
+> -			p[i] = ___slab_alloc(s, flags, NUMA_NO_NODE,
+> -					    _RET_IP_, c, s->object_size);
+> -			if (unlikely(!p[i]))
+> -				goto error;
+> -
+> -			c = this_cpu_ptr(s->cpu_slab);
+> -			maybe_wipe_obj_freeptr(s, p[i]);
+> -
+> -			local_lock_irqsave(&s->cpu_slab->lock, irqflags);
+> -
+> -			continue; /* goto for-loop */
+> -		}
+> -		c->freelist = get_freepointer(s, object);
+> -		p[i] = object;
+>  		maybe_wipe_obj_freeptr(s, p[i]);
+> -		stat(s, ALLOC_FASTPATH);
+>  	}
+> -	c->tid = next_tid(c->tid);
+> -	local_unlock_irqrestore(&s->cpu_slab->lock, irqflags);
+> -	slub_put_cpu_ptr(s->cpu_slab);
+>  
+>  	return i;
+>  
+>  error:
+> -	slub_put_cpu_ptr(s->cpu_slab);
+>  	__kmem_cache_free_bulk(s, i, p);
+>  	return 0;
+>  
+> 
+> -- 
+> 2.52.0
+> 
