@@ -1,81 +1,80 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFA52BFC85
-	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 14:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BFB286416
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 14:27:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768399538; cv=none; b=NvTryexT6FTA3AgpALqhdThhGgStWV528M4K0krvUhLvW8bZB4CBxsz3wCVH0UE1nqDAOSQ3klglFYYsA/BtPFqQ6h+8FOiR6EPSwQZ69HyU0bsqCxPruILUwZKRgV7o3q3Z2Z+CtDgms5IRE0Au4ZjC8JRiURucpuw83xoK5w4=
+	t=1768400841; cv=none; b=p8/v7HuurnqdPXs96PGmWiAenmLbPRIEkYf5YJ/54bXscfQDyk1qk+qMm/9aagRUH8DE3IbBHwrNjr+enGujALM1vmKTny+27bKHvt2SF+T46fw/ulDaAdKyVOm1CdHaExaBCtpVU6H2pR1A34xd+7E0XicNgs638zEdPiNFQaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768399538; c=relaxed/simple;
-	bh=Re5nYprEe07pa8M9hJpjngj8C///D6MBAoN5dwgLyC8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TP486inlvCcV1ayHg9+EAv1dknFmEtri9+hQhNnofKCUABtLcu5ReQpHVZPUSegFaFvTC/VKdZjtHXrwQVzyVl/ggUvOH4uZUQ4uUYnlSUP0HQKt9QD/exoT8ABu3x7xV+T8gbEjMHA9sfnyyPpdQnsVhe/BhwFzMb/NdTF9mQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FS5BqfKk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tAT9MaKn; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FS5BqfKk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=tAT9MaKn; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1768400841; c=relaxed/simple;
+	bh=0O98yro1jPn4hl8y2JwWH0+/6SpbbL9gJZHoC0RjOvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B9uOpCZo9yN5LVkx/3B6ykDTnDvY3n+rlbRbZiKyWAJWHzwLFPXLbBp8q8G9xhn1u3WyXhiuPOSSEJvcx1jxGFoOERHGTfoV/a1kPUlcdjaZvqq7xA2+TYYHFVUIFv4/fMTwznWJIWk0DUmcH0ZLmMEjt0/+M/6pxkltK5CeKPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=MW4GGyfe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=74Ziwu1o; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=hHY3ND4u; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=GUme21VT; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FS5BqfKk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tAT9MaKn";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FS5BqfKk";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="tAT9MaKn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="MW4GGyfe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="74Ziwu1o";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="hHY3ND4u";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="GUme21VT"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 541695C832;
-	Wed, 14 Jan 2026 14:05:35 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EDEAB5C9B8;
+	Wed, 14 Jan 2026 14:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768399535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768400837; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7C4MdemR39tmXRA9yl0PqmV94vggPiQ1JGGHQvEbWMs=;
-	b=FS5BqfKkS561EJ/5Zl2nUjX3n/PdgVOOmZ4Bl54k6lUEYIGgk3JYEa8DJJy2CNjd6KBl7/
-	qOISaZrOyFAC+U8thd/oyPioqordlQhnaFJQPpeaKP09HDbBSK+54qH/tZfnDxvPtTveAU
-	WuGVXVQdCnrnCRKjPovOPVDRlQr+NDw=
+	bh=l1v0fTkoGFDb/2np0GkwTVI3vsgeJZfvm+cmCONlDas=;
+	b=MW4GGyfeD0H7IgguxMIa/dYigPdhrxD4Z3yvY7MhjhSiUg9bjmx4T6mMsvvmOVhevTqWlh
+	31HCauJzcC92UmslUAgwrxyDVonaoTub6QWNF1+0n99JlHmzQUX/L2gCEznO0Obmkwgvpd
+	qLnVDR8Ge8ad7EdfjAXcS/YuKdGFB/0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768399535;
+	s=susede2_ed25519; t=1768400837;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7C4MdemR39tmXRA9yl0PqmV94vggPiQ1JGGHQvEbWMs=;
-	b=tAT9MaKnICwwrpVPLeiYCCY+ryZve23Hsgk2WXsbleQlrGufbCbCpRZpVbWUOWEjiRGC7J
-	7hOwg7slDDYwCuAg==
+	bh=l1v0fTkoGFDb/2np0GkwTVI3vsgeJZfvm+cmCONlDas=;
+	b=74Ziwu1owD5J4geJcvPlUD03GnMXK+HKYH3tuHSnLMFgBNAc3z1FgXDN3UR0kMki59HZwE
+	nOD4ft32O04b2ZCQ==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FS5BqfKk;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=tAT9MaKn
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768399535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768400835; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7C4MdemR39tmXRA9yl0PqmV94vggPiQ1JGGHQvEbWMs=;
-	b=FS5BqfKkS561EJ/5Zl2nUjX3n/PdgVOOmZ4Bl54k6lUEYIGgk3JYEa8DJJy2CNjd6KBl7/
-	qOISaZrOyFAC+U8thd/oyPioqordlQhnaFJQPpeaKP09HDbBSK+54qH/tZfnDxvPtTveAU
-	WuGVXVQdCnrnCRKjPovOPVDRlQr+NDw=
+	bh=l1v0fTkoGFDb/2np0GkwTVI3vsgeJZfvm+cmCONlDas=;
+	b=hHY3ND4uN0cYet/7VWBW3y2R8NXoagb+5Rxgi2abwvsDNro8+UqxQQLvRwNCIFlrP2STMR
+	LIy1RnqHZbWNxY2ue+RIvyaoggBiwiNX0cZkN2HVSmNjJiNsk5QgAzWSZXlP46CmHPuRa0
+	UrCCnRl8r/T7llospToIoJ2HGZhDXcs=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768399535;
+	s=susede2_ed25519; t=1768400835;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7C4MdemR39tmXRA9yl0PqmV94vggPiQ1JGGHQvEbWMs=;
-	b=tAT9MaKnICwwrpVPLeiYCCY+ryZve23Hsgk2WXsbleQlrGufbCbCpRZpVbWUOWEjiRGC7J
-	7hOwg7slDDYwCuAg==
+	bh=l1v0fTkoGFDb/2np0GkwTVI3vsgeJZfvm+cmCONlDas=;
+	b=GUme21VTNXlFWevXsX5cmlTrN9JJgiwozTGx5imoWCX9R83M6CNecchjx/dEon2mbnFcsI
+	LUNE7jf1wl0NOqBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2510B3EA63;
-	Wed, 14 Jan 2026 14:05:35 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C28E43EA63;
+	Wed, 14 Jan 2026 14:27:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DBFZCK+iZ2mlNAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 14 Jan 2026 14:05:35 +0000
-Message-ID: <d8d25eb3-63c4-4449-ae9c-a7e4f207a2bc@suse.cz>
-Date: Wed, 14 Jan 2026 15:05:34 +0100
+	id EbC7LsOnZ2nwSgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 14 Jan 2026 14:27:15 +0000
+Message-ID: <dd21a95e-3c78-4259-a20a-4d580bea96ee@suse.cz>
+Date: Wed, 14 Jan 2026 15:27:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,27 +82,24 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
+Subject: Re: [PATCH v2] slab: fix kmalloc_nolock() context check for
+ PREEMPT_RT
 Content-Language: en-US
+To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
+ <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Alexei Starovoitov <ast@kernel.org>,
+ "open list:SLAB ALLOCATOR" <linux-mm@kvack.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT"
+ <linux-rt-devel@lists.linux.dev>
+Cc: skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+ syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+References: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
 From: Vlastimil Babka <vbabka@suse.cz>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>, Alexei Starovoitov <ast@kernel.org>,
- linux-mm <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
- linux-rt-devel@lists.linux.dev, bpf <bpf@vger.kernel.org>,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
- <20260113183604.ykHFYvV2@linutronix.de>
- <CAADnVQK0Y2ha--EndLUfk_7n8na9CfnTpvqPMYbH07+MTJ9UpA@mail.gmail.com>
- <596a5461-eb50-40e5-88ca-d5dbe1fc6a67@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
  KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
@@ -143,73 +139,99 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <596a5461-eb50-40e5-88ca-d5dbe1fc6a67@suse.cz>
+In-Reply-To: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	RCVD_TLS_ALL(0.00)[];
 	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	TAGGED_RCPT(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	TAGGED_RCPT(0.00)[b1546ad4a95331b2101e];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	FREEMAIL_TO(0.00)[gmail.com,linutronix.de];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,gmail.com,syzkaller.appspotmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,linux-foundation.org,gentwo.org,google.com,linux.dev,oracle.com,linutronix.de,kernel.org,goodmis.org,kvack.org,vger.kernel.org,lists.linux.dev];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
 X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Rspamd-Queue-Id: 541695C832
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Score: -2.80
 X-Spam-Level: 
 
-On 1/14/26 14:57, Vlastimil Babka wrote:
-> On 1/14/26 00:26, Alexei Starovoitov wrote:
->> On Tue, Jan 13, 2026 at 10:36 AM Sebastian Andrzej Siewior
->> <bigeasy@linutronix.de> wrote:
->>>
->>> On 2026-01-12 16:17:00 [+0100], Vlastimil Babka wrote:
->>> > --- a/mm/slub.c
->>> > +++ b/mm/slub.c
->>> > @@ -5727,6 +5742,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->>> >                */
->>> >               return NULL;
->>> >
->>> > +     ret = alloc_from_pcs(s, alloc_gfp, node);
->>> > +     if (ret)
->>> > +             goto success;
->>>
->>> I'm sorry if I am slow but this actually should actually allow
->>> kmalloc_nolock() allocations on PREEMPT_RT from atomic context. I am
->>> mentioning this because of the patch which removes the nmi+hardirq
->>> condtion (https://lore.kernel.org/all/20260113150639.48407-1-swarajgaikwad1925@gmail.com)
->> 
->> Right. With sheaves kmalloc_nolock() on RT will be more reliable.
+On 1/13/26 16:06, Swaraj Gaikwad wrote:
+> On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
+> check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
+> context, but misses the case where preemption is disabled.
 > 
-> Yes IIRC Hao Li pointed that out before. We'll be able to remove that
-> !preemptible() check that we area about to add by the patch above.
+> When a BPF program runs from a tracepoint with preemption disabled
+> (preempt_count > 0), kmalloc_nolock() proceeds to call
+> local_lock_irqsave() which attempts to acquire a sleeping lock,
+> triggering:
 > 
-> But I'm not sure we can remove (or "not put back") the "in_nmi() ||
-> in_hardirq()" too, because as you said it was added with different reasoning
-> initially?
+>   BUG: sleeping function called from invalid context
+>   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
+>   preempt_count: 2, expected: 0
+> 
+> Fix this by checking !preemptible() on PREEMPT_RT, which directly
+> expresses the constraint that we cannot take a sleeping lock when
+> preemption is disabled. This encompasses the previous checks for NMI
+> and hard IRQ contexts while also catching cases where preemption is
+> disabled.
+> 
+> Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+> Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
+> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
 
-Ah right, it was "copied" from alloc_frozen_pages_nolock_noprof() where it's
-explained more, and AFAICS will be still applicable with sheaves. We should
-add a comment to kmalloc_nolock() referring to the
-alloc_frozen_pages_nolock_noprof() comment...
+Added to slab/for-next-fixes, thanks!
+
+> ---
+> Changes in v2:
+> - Simplified condition from (in_nmi() || in_hardirq() || preempt_count())
+>   to !preemptible() as suggested by Luis Claudio R. Goncalves and agreed
+>   by Vlastimil Babka
+> - Updated comment to reflect the more descriptive check
+> 
+> Tested by building with syz config and running the syzbot
+> reproducer - kernel no longer crashes.
+> 
+>  mm/slub.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 2acce22590f8..642f4744d5c6 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -5689,8 +5689,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
+>  	if (unlikely(!size))
+>  		return ZERO_SIZE_PTR;
+> 
+> -	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+> -		/* kmalloc_nolock() in PREEMPT_RT is not supported from irq */
+> +	if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
+> +		/*
+> +		 * kmalloc_nolock() in PREEMPT_RT is not supported from
+> +		 * non-preemptible context because local_lock becomes a
+> +		 * sleeping lock on RT.
+> +		 */
+>  		return NULL;
+>  retry:
+>  	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE))
+> 
+> base-commit: 559e608c46553c107dbba19dae0854af7b219400
+> --
+> 2.52.0
+> 
+
