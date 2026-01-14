@@ -1,66 +1,67 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC24315D58
-	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 15:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B043A1CED
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 16:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768403272; cv=none; b=rsrpBP8QGn3xfu2LSpZlSyR/dutqgRNWG2/F17LWrAECflvJGLBYnvseNUtwshAO9Yip2tMB16TB+RWurHCKawtDFMdMpy/17JpVDnICxFXS7/vNqYu3xVUeae8EHq4z3axApjUnByAwA/NSMusgp7Dy8GRtJhs5EleYa3OaFoQ=
+	t=1768406516; cv=none; b=SKROJtrRzCgA2C84U6Tgs0XoReDNbh7ETk/oMufQJ6C5dG+KFyQpi+pLZkmFeatzVHxCb3vHoHgsvi/E1+yh3DPrRlTaKrZDYA7KZsNnQV7QeIYHk09+wDa6NAruNSIVGXZm6hkYQoNfv9SSTA9Htqz0oEBifMfnJrHd5usAQeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768403272; c=relaxed/simple;
-	bh=ijoxmLcpYK8TmrtRBiqA3q93MmpkarK1JAhh1J+Mtr4=;
+	s=arc-20240116; t=1768406516; c=relaxed/simple;
+	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2X1xNAdN6hY1QrU3+5n0PeFzoCNpSTDJD11y+YoWX8D/XDd+Z0ehUroiT3DZdyndGPLerdlprCMhKwOwhYKK3J2neiarGwei6IbaX9uRyvCuZVTO6dDOwTF0kSaCCGmdsH2ejBxb+Pbig11iTgSFTefMo4teyKFopQEl+PNuCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DpI+2DhX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XVZv71+I; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=WCjNIL29HIi96Zpb5/lMiYcZhYBjdBXpND1u6VPWescg4kMUvDuasRpZ+UTEJ/I1UaChyf+oV9YR8qAsV6EnIJs4sJj6YmfN+9CTkuP4f8Jd2JovOHfAC8BE906on//1GV22MQJhwxuHXB0uflBqrc1qWD4AEQ6UjmpMA13vpG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rfd7vHBz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3DxY1P3G; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DpI+2DhX";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XVZv71+I"
-Date: Wed, 14 Jan 2026 16:07:47 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rfd7vHBz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3DxY1P3G"
+Date: Wed, 14 Jan 2026 17:01:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768403269;
+	s=2020; t=1768406513;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4C72mCKj6g75hWi4SDABu63k1LKvcFbsA+RvmMJke0I=;
-	b=DpI+2DhXGNoB3K9LoI1svHbcKbv3kxb2YyFFdspbE5qXTTBPF+9h8s+FkerT3INURZk5p/
-	kBC4L+PoGogVnYmWhgwtvG9+TCDDITAdJYtste182B6otosAomrdWroG5Tbv5B6Yc2uTQ+
-	GJQFj6T9tnxuLbW1XUpoqfqjq0CpAV1W4jvu1ogkvswQPrE/c+QHamLYa+ZiRKeKtc294b
-	psHNbgTT91lHQklnZcMYINuG1AtadMiWoojmUNN/TJd4ET2c0Qy5/mfpwRF+3VCRm8rnCG
-	VZmF0F8rXveRojhDwnXI4kf8N6X2BFd5voVKrZT9HMRi3bv38Q+SGQg7TlZtLg==
+	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
+	b=rfd7vHBz1WLpBHPczQ9hBag1uDo0KrUEd8bXS0fbsoVEZPkBXa29t6yJQcrbonhGArJmYS
+	DjKDiUNu936WcaJhnoLGjVVHSIQWrcuecyATrfQ5RgEVjT8W7kf7hGFlhI0XgdN5v9eaHQ
+	OESy5zqu76PVbymLrsjJJMCVM+PjjbmLNI6mGL22NjNHVdYu0EA2O+xlLplv+MlsZWjQSq
+	qNo4feUlMl1XxxXsOsucxoYEeHlNwhsZuQNevxPeuB0gnzH7KZKUPYTq/P5PE149JPciIj
+	+hrkg6762jROj9jkM/49OZQZOr61ANEPIrDI7CICW9L8yvuABiq/ekJ5Ba3qfA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768403269;
+	s=2020e; t=1768406513;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4C72mCKj6g75hWi4SDABu63k1LKvcFbsA+RvmMJke0I=;
-	b=XVZv71+IElwl1uhi03hZmyhqfq9kC8+MP1iK9rfNstyKTMmeHAzHgb7zHvRiRzgdQqo5vQ
-	AO99yxFvYK6TmyBg==
+	bh=hZ0OFnIX7hUMbsNflNAslWyTKRUhy/o2U+HmtUmHfGI=;
+	b=3DxY1P3GNYDLGzssQhKPKAP4fVb2O4OwkDPQU++qPNhVw73yzXipwIyScTrN8CYLMVDwjv
+	SEaCksFXfofKgJBQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hao Li <hao.li@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>,
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Waiman Long <llong@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Marc Zyngier <maz@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
 	LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev,
-	bpf <bpf@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
-Message-ID: <20260114150747.ziWhVVQM@linutronix.de>
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
- <20260113183604.ykHFYvV2@linutronix.de>
- <CAADnVQK0Y2ha--EndLUfk_7n8na9CfnTpvqPMYbH07+MTJ9UpA@mail.gmail.com>
- <596a5461-eb50-40e5-88ca-d5dbe1fc6a67@suse.cz>
- <d8d25eb3-63c4-4449-ae9c-a7e4f207a2bc@suse.cz>
+	Vlastimil Babka <vbabka@suse.cz>,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
+ allocate_vpe_l1_table()
+Message-ID: <20260114160151.a6y9OxQW@linutronix.de>
+References: <864iowmrx6.wl-maz@kernel.org>
+ <87ms2nsqju.ffs@tglx>
+ <86wm1qlq7l.wl-maz@kernel.org>
+ <87ecnwij44.ffs@tglx>
+ <86v7h8l9ht.wl-maz@kernel.org>
+ <40cec799-f363-4642-969b-24f5a2d56dfb@redhat.com>
+ <87cy3eg94y.ffs@tglx>
+ <5f4bfd8b-8699-4bef-bf49-f29965e95ca4@redhat.com>
+ <20260113115515.98Mc29Nm@linutronix.de>
+ <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -69,22 +70,24 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d8d25eb3-63c4-4449-ae9c-a7e4f207a2bc@suse.cz>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAADnVQ+eQU+isNBXOJwQ=RYZUyO00e48ESHUhh8Kp7pgRgQu0Q@mail.gmail.com>
 
-On 2026-01-14 15:05:34 [+0100], Vlastimil Babka wrote:
-> > Yes IIRC Hao Li pointed that out before. We'll be able to remove that
-> > !preemptible() check that we area about to add by the patch above.
-> > 
-> > But I'm not sure we can remove (or "not put back") the "in_nmi() ||
-> > in_hardirq()" too, because as you said it was added with different reasoning
-> > initially?
-> 
-> Ah right, it was "copied" from alloc_frozen_pages_nolock_noprof() where it's
-> explained more, and AFAICS will be still applicable with sheaves. We should
-> add a comment to kmalloc_nolock() referring to the
-> alloc_frozen_pages_nolock_noprof() comment...
+On 2026-01-13 15:25:26 [-0800], Alexei Starovoitov wrote:
+> On Tue, Jan 13, 2026 at 3:55=E2=80=AFAM Sebastian Andrzej Siewior
+> <bigeasy@linutronix.de> wrote:
+> > The last one does local_lock_irqsave() on PREEMPT_RT which does a
+> > spin_lock(). That means atomic context is not possible. Where did I make
+> > a wrong turn? Or did this change recently? I do remember that Alexei
+> > reworked parts of the allocator to make the local_lock based trylock
+> > allocation work.
+>=20
+> Are you forgetting about local_lock_is_locked() in __slab_alloc() ?
 
-Right. This looks halfway what I remember. And this was works in atomic
-context on RT because of rmqueue_pcplist()/ pcp_spin_trylock() usage.
+Yeah but this just checks it. Further down the road there is
+local_lock_cpu_slab() for the allocation and there is no try-lock on RT.
+
+> With sheaves the whole thing will be very different.
+Yes.
 
 Sebastian
