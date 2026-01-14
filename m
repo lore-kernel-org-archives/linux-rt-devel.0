@@ -1,168 +1,236 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A112D352C26
-	for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 23:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768347260; cv=none; b=R79oAR1fEPpXn/Lzx+qRN2CPO/8QKMl6WUSJx4a5hSuDA8h6yOlNmhT6x6rdp10BY1jxkecwgv1y4hE/zB+F9qellYUsLhz9USd9rProiUo9bKJk/tXR57ugfhBda0ingQGplWjDaZ6xrirnd/alvLYdsZ6FIusrmOYVsiJV8rE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768347260; c=relaxed/simple;
-	bh=vSIHbN/AFsi9IyiiDINfkuH9r4GDwCzfGxmBEllwNAw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aOYR1YCOjPdditXmX8GTKrVaTypKi1CmJuCYHYd1FyJkxi9++v/kSsPcUufsfkV7MOOKFr7eyyzEr3y6NInFGfl0af5933IOZFX+MI/GEolnG0hlzmaPKeu3/ATyRTpkPSuiGh8HZQGPh1uJOs4RPASxqO1uw4yiokuk4uHOFtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ifLDAQ6r; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFCD242D88
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 01:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768353577; cv=fail; b=vBJ9nwPABle8xHPEj/R20T5ObnBC3rCvmwg0I5zMbf0dDmC63IREdUGn6CVjKW7HeuOwX7t9+HQmbn4/ysLnf+2Q/dAu3AD9j9ZcVTlF7JRkwG5eoxFcNqezF48nD9b6ChKEsmfeN96EjSKTF82HGN3FGRYmTEl4aNt2nwsBlJE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768353577; c=relaxed/simple;
+	bh=zl0QFKW9p3wvW6K7PmiVifztyr8ipDVlKlCZySIIkJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=s694hyEfYH2Hp5in6h5x68CCcGZYk7lycPQ2HfrA1LFNtj2Ikzmzew8v0ADsIlm0agGypk7DwoNC2Eo+keXU+/Vitv04wusaD8NkfWcjYVjIG2bRdcnrXQW/5Stq2moVdfjlkksIHMmqylxSojfXEYvIFUBnIltyJV4KnZ2RG4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=sKmRFBbQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=AfzrR1qt; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ifLDAQ6r"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4327778df7fso5057620f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 15:34:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="sKmRFBbQ";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="AfzrR1qt"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DGAZx12419471;
+	Wed, 14 Jan 2026 01:19:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=8HQKKtCxEr9ZcQtXvR
+	t/MFwzNleZTw1g1itEJ4QMQzY=; b=sKmRFBbQVaf3VIPCWEAWae/v1IPPk1rywm
+	Z/ztYNbnB2+EMH2lXkSrHkSoT8FnyGk22dzxEA+IkuJcqsCRqYNOtRis4ReBcPz3
+	MOouWEURF7hDpIgHOE/JCg2IfSd7JlXwUHZd7CzPFeRVWYBZ80ooyHwqkmUR5MBK
+	nGbOhkblyinvLtf+ut1nzNatQW6TbiHdqVJPc0SMUw7753EcdCyPbdd4IDw6IUPQ
+	o7PdBHnrt7kL+qWZ0dV2n+tCddPvKt0qmhAylYnm/f7x+lO+WRA36QQMjTmQiX8/
+	ynPeuUIas2LBBKvfvGltO2PQaLhI6RViCGH1/Iclqr3eTlxfcE6A==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkre3vfyq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jan 2026 01:19:09 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60E0WvPq038038;
+	Wed, 14 Jan 2026 01:19:08 GMT
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011025.outbound.protection.outlook.com [40.107.208.25])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7d7acf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 14 Jan 2026 01:19:08 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GHxYy5dNPGLcYPsK6ni1dkV1q9Dp81cMZNg+h+5cJ0uSS1Jd5lLO19Fs04uchH+jGL3StivwJFYWNcTp0uaK5RFYZ39W6855ZayYRdjGZE5492SVVVl/YI4gxyiPiLz0Py7V/LyuhtTbwE7kvMDHBWGzktVEYCKf7odRYZvkqLqMMeSeZtqj7T1sKQw0CpcV8MV2798BPyec5xwno4+dTn6K1w+JjLtOdY//cSMqg0EgcVWlF6aQQkJMRscLvin2Xe1Qbagjz7fBZfUTCbeQkeqLiklBCts5S3GEDj30P70ZEO0BX7az2SFWW/PSQeE5InU+7+v8XUVJYRsH9gRgBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8HQKKtCxEr9ZcQtXvRt/MFwzNleZTw1g1itEJ4QMQzY=;
+ b=PaFgEp+1sI0cS1c0zWVQDJirDkb1lC42B7E3op3blA/4FeOFUdm7VYXR6bnjuZc7Mv8za1B+d1q2bj00Jt83ZOQmGbq1u3jLOUcPYCxAmrLA9mJqlXGAIWyKMlDhuJ+DxhRhCQ23ThGQFdTwMARw0f9oqdsgJoYYUuQT/+orfh3kOCkHCdxPZb7YALUDe66GPy3X4JBFoBajG9Wj2t8r83g57i0pKLXUvrUw57yi3Deih2ADC6ojk3Jtqk5LqwKEkDuzdgC6VMESOk/1qwq17nWBC8C3SWN9PXtYuPWBu9AeBtomjNuhVVkX9FhIy/S7by249jFUk0FgWqCGTQx9pQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768347256; x=1768952056; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K7s9rxJWckSpPn5eremPzEyroaJb9H+mV+4Z95ehOgA=;
-        b=ifLDAQ6rfb9egVBvL0qQMem2JiK8ea2wi0Fq4dhs+LSxjLeVbiA6JHw0JJbXtbKjKh
-         42u8q6EwKKFyM9k3VIlWyFGWIg4wD+BB6c4EDo4UfyPhjHVT7U11/oVj4AaUhZWI6fwc
-         3avLITEIkxXhIV7sGdIKsOnf9HXPE8B9n/N+ZBIJhDlqZWwLdcohVNjBs1mjKMpqCZYl
-         lmNShA2O5v4CM4G/yZU0XjYXB3fmBr4clfZL3d/VIl2H+2jqtRcCc0ownHI4p6y1WNay
-         jJEKFNFCbi/0QXDPxRX0EJL4ozKR6dRh/aYisTLg58Cv8xHazrCrCmtunb8txbxitb+G
-         nWCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768347256; x=1768952056;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=K7s9rxJWckSpPn5eremPzEyroaJb9H+mV+4Z95ehOgA=;
-        b=aRZgPEavhFhzLRUu+OszVRul1H0kEiJ1gMuHX2xtRcD0lbyQaiUnMmyFYE6OjUZxw9
-         NaVOqOj7kv9UoPp8iU52a+MO/W0z1zZPDDHnXP4Ed4BUxDIMpfCn01x8XCvyP5dqvEAc
-         MqM41ySIGyVu/8K4ktvCojvTnchChJsEsPDVaMiRhtcEQzZcxycuJbI4GJCEIXGdosBB
-         TK1SDfH7irfVLaO4rE0QH7F5+07rdMLXEjY5h77QhOoEClHXKHURT6kpDCjOK8BnZ8su
-         IvjaZD0+3ryC24EVRjB5MXBReNogIPyfmrcphGgrIeN1LDjY27OjkzCAEpPh0Ch23CwT
-         SE8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXS+HO6n66YzaZtW6FLYG9a/Ae+eAdVHK2T+tq+4RRXAZuNm/hzPVbxwMAdR0ZPZ51nFMCC6/R/DMwlJp4JnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7BoxzSTJeyVTKrXj0vzZ9H0AeU+HkY0f9/OE7zm2ntss1x7kF
-	/6IbtUel9KX1f6RsrxCvOr5rIrCcvXdTthzPk6+OJMoKgvQaaw/jX7szy+0+nvJh1yisOIFs8xz
-	evd3dlpMcETFPgsCIYDOv0Ad9wrZ+4JY=
-X-Gm-Gg: AY/fxX4F+TlFyk9rxcvxi6wIhO7AhxIj3er/Pn7I6YfObeXINFTPa49eTXNUzCRgqdl
-	PZeRJExvasZc9woomdsdk6t73LYOl+6/+0x+vYTHv79uS9ElY3xl3X0JBedviBlb1tgdYrXcn7z
-	ES9R5NvvIVkrIDA5EhNVwCIvjskmw+sgY+lNwmkf2pBg6txflD5aIvaomo688YgxPxUp5KGe2pP
-	/fZnZQJJd06xduzHSLzrEmzjvLIw5TA9Lwuj8hSka8ouflz0rx8a7r+rDdlR68Ss49yhVG49ajT
-	E0n1FiCpyUlb8lNHjuYM0SKn2s/x
-X-Received: by 2002:a05:6000:4284:b0:431:9b2:61c1 with SMTP id
- ffacd0b85a97d-4342c4f40dfmr471528f8f.6.1768347255789; Tue, 13 Jan 2026
- 15:34:15 -0800 (PST)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8HQKKtCxEr9ZcQtXvRt/MFwzNleZTw1g1itEJ4QMQzY=;
+ b=AfzrR1qthgM1Bp7ixHOTHW6pqSP44EfjbtguBSYfJM7EgH2GgCN3zZhodUWma0cgPjj2chjoz0znkiCTL3j/fOZlr52m81rD18b2urk+HfOxy+THXnXST2NNW/24+W1Ahar5j1QAEsKGI1SM9seUDeEAMy7CjbgpXd6eVPCndU0=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by PH3PPF57C8E5D36.namprd10.prod.outlook.com (2603:10b6:518:1::7a4) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.6; Wed, 14 Jan
+ 2026 01:19:05 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
+ 01:19:05 +0000
+Date: Wed, 14 Jan 2026 10:18:55 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@gentwo.org>,
+        David Rientjes <rientjes@google.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "open list:SLAB ALLOCATOR" <linux-mm@kvack.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>,
+        skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
+        syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] slab: fix kmalloc_nolock() context check for
+ PREEMPT_RT
+Message-ID: <aWbu_3bQN3nOJ1Bd@hyeyoo>
+References: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
+X-ClientProxiedBy: SE2P216CA0067.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:118::9) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260113150639.48407-1-swarajgaikwad1925@gmail.com> <20260113180036.Zl8j3vIY@linutronix.de>
-In-Reply-To: <20260113180036.Zl8j3vIY@linutronix.de>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 13 Jan 2026 15:34:04 -0800
-X-Gm-Features: AZwV_QjYt435EovaX3Vefewc_Yb9AEHtH7N6cRpOO2cyq9Oe5XpDAMX_LWYuCTo
-Message-ID: <CAADnVQ+no23M8x-00yZXHo=0BqwwR0kyq8Z=oE9OK8G71PO5Yw@mail.gmail.com>
-Subject: Re: [PATCH v2] slab: fix kmalloc_nolock() context check for PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Harry Yoo <harry.yoo@oracle.com>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Alexei Starovoitov <ast@kernel.org>, 
-	"open list:SLAB ALLOCATOR" <linux-mm@kvack.org>, open list <linux-kernel@vger.kernel.org>, 
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>, Shuah Khan <skhan@linuxfoundation.org>, 
-	david.hunter.linux@gmail.com, 
-	syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|PH3PPF57C8E5D36:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4c06630e-0acb-4fd8-3976-08de530ae89d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?9R9ot+tHd4GRxJP4/CeEa1HIcYPwxfR6mGlgHTuMqoZeqNElbOxFjepeSoRx?=
+ =?us-ascii?Q?6iRc9qv6M8hinHt9On/NobrKVCkGcPb0oeZd3yr8BTGxV2bx/N4C7RKd0g4f?=
+ =?us-ascii?Q?/MzSYCBVqsY5g26CeP98f9tp4A+Espwa/FqFAqG14/lXNUTi/xzKnnPy5nPH?=
+ =?us-ascii?Q?ss4aa9Mq61ihm4prVPpZWrP154OmzbjVfhZCnTKTVdTRuG+pnDt4CrL/cmej?=
+ =?us-ascii?Q?etqfLOEEVmeIo6j/O4R+YRd1mHTU40OlbaefZP6DGWFKJ8NX4QgSshcOkZ+7?=
+ =?us-ascii?Q?M4FkpBLd8/FIWXli629Byxb8oIaKycGLf6y0k+/7a+Yw+9fj/Gjh6B8Q2/Us?=
+ =?us-ascii?Q?Fet7a703RPo1mnL3VcsGIg6tkpU1erriN7EUEMbfuB6dBbgGzwraYUdN7c9j?=
+ =?us-ascii?Q?1pVnqQTBo+7qr+3edVYeMRPU1miTTsqBH7u5Z1Z7eZi/xtcdMZ9c9m3+BFHk?=
+ =?us-ascii?Q?NNdtauFKBc2PvTsgeR748SkDF/GoXLj1ZMLHavezIM6FYMLNXXRxZOfyCrH9?=
+ =?us-ascii?Q?ycfU2dk6vfCXgC5IoY8caF2hAiPOqsYzJ4W+Y1X90RLzST30Mh5fV8ESPXpu?=
+ =?us-ascii?Q?M20PH6K7HkS82Pw8waFXKPtqnKZ+GLU1ABpk2RoRme0cjJt/WcwAtXZbSWWi?=
+ =?us-ascii?Q?TFr+X9mIuRx2c1Wsocf87R1y9ha4XCo9dARt2OzuET6o7FCXnK59cVUwosF1?=
+ =?us-ascii?Q?ORKOg5nN2IE8LhGy4APAcbG3kVTLHQt0FMSjxoWo93cBgS+/5i+XH/6RTH9h?=
+ =?us-ascii?Q?yTBcLFIKnXAOswY0JAXt7wQaK9wnANO1tt4oCdBESBVcN2F3d+FxVCDxRcP+?=
+ =?us-ascii?Q?BtckM3XuFK6mwBxvc58v5PXUjFBXVIQP5KoXF6mSTpw5vMxRLerON4COp7wp?=
+ =?us-ascii?Q?+Uz9xJlZqO/0lEj07N1/tufYeOTcdadZCExqutXG7uI0hIa8IaRjca6fY4Vd?=
+ =?us-ascii?Q?VeIFfivfFrh0i5teIbvgI1b85SKS5T5wmYRMrVW9b+HAgHu0XdNE7XfrpH29?=
+ =?us-ascii?Q?XVQ+AUciOe4wG2D/OwbSFqgq+34zGsjofrb7mcSVtrWMoaf4q/n0z2398zyG?=
+ =?us-ascii?Q?JN3tMEvp8a7fCn6eV3rPAecsogUPLYHBhEOerNLCMcXDIN1OCb/rkDow5jHR?=
+ =?us-ascii?Q?GDcdsP1NPappYUA35glF90MZfZTpIeFFZTRzRrAoOmxflSIBTv+Fo075Ov6n?=
+ =?us-ascii?Q?4yzUi0CO7dj6pJdJ3KFu8FyqlDBG1RnnBkpeXEe4nnu49sR+N7mpTs3p6Qwo?=
+ =?us-ascii?Q?BOT/34zCKQ764pgz3q65Sh9oVBRqY85SEPeDW3gf9oF+mluWvW4AOhusXMMs?=
+ =?us-ascii?Q?j/xcQaSs2lNt2MiRNUz7XlPKXulMgXxjKffusg4PBObq3KQJ6JxCXKlEAi/t?=
+ =?us-ascii?Q?eFeN0BryGR9YaAuHOWSxfSzNZEXSXCkl8dary2VyvpDTNW1c/A=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?E1PLpY5J2WUepXHrrOn+YV+A6lLUd/tz/RmLXsRg76qdFnN+T30MbmA/y+5N?=
+ =?us-ascii?Q?aH0k8y3fOQjCXjEN5Xy+7xPDUSifcEvvwJxegoJWpluek8nkNx4nDC0KhrMS?=
+ =?us-ascii?Q?NtCmM8gU8NK9QQdyqOVBIWmCsg7bUzBtS0cnp/6cLyXmOnQyzy+eDBujSdAn?=
+ =?us-ascii?Q?t9X5zExSdhPI0cu3INfa+T2HXPAQ+tY/xNLczmvt+vXeoOoMBB/x2CNXz52R?=
+ =?us-ascii?Q?kmMLZfA/FJdJ10el/ls7SQuGyjXP2lppkxQ0MZhbjKBSBURZgjv0cn5d17oc?=
+ =?us-ascii?Q?HFA00Qskd1i6viuRXqIc5fCmi9S0x4/fsZoaXynhBuUDOXv48S+gfQ7kGNSz?=
+ =?us-ascii?Q?phY1B0ErZEGQU9aDf4Ox0L6Tlx3CmlZoGCBYravp/1ui47qQvI949A0l8O8e?=
+ =?us-ascii?Q?TYcSQCW1nZcVOjf9Y5bSerphSw54MTCuP2w6ScENXuzWLa+ElXlDSfirLFgi?=
+ =?us-ascii?Q?Csxjez3OeO5tfCZLWF8KaGQ5FQAQqOIyT39RxqMf5SZBvHdMn+5AGj3HatfN?=
+ =?us-ascii?Q?nbrlTV5fOvwBk7hsi89qlx1HGsK9bbuUonbuwH4Doja+FRWpYB9aEfznKfPm?=
+ =?us-ascii?Q?8wsbp6OYuhCtjg4UZ4hKBAEDSuXwFIy9SxI+ogff6zQmNER9XmWz/cLRCrhl?=
+ =?us-ascii?Q?bDMC3KpCCCVXz0S5azuy7Xmsgsl3mpxuhHHE9uH/wlDUa/Nt7hqUSMYlxM6L?=
+ =?us-ascii?Q?FCAeMU9WL/AXhM1BZ0kJSAKQNBPP2C9g9LPwWvIrKzOXw73EWxLsa0uIQA7R?=
+ =?us-ascii?Q?P+FhsG07k7KRbsELB1J8XYWUQoIihv6ld6h4PUP28QYPUPXLdIOKUE0ybIdo?=
+ =?us-ascii?Q?iNTtB3NxSMCnVB3ywZlAGk4TNksdjPPPvsIGm4Fjan+puH+Y5ICLL6xQRePD?=
+ =?us-ascii?Q?9hShFhFANcTSucbEOCRrcsDi0fH5kI5vCoGbrhOLYASzBJreCsV0G5EA2o9B?=
+ =?us-ascii?Q?zK95yuP8HjCAFEEnJpArDvMmlUicT0ozEMSW6XfyX2FQaxoVTy9L1FnYdVwl?=
+ =?us-ascii?Q?C1EY9OH2Yl0aDZ+fpJpNbKrTGYsTTJs5WFYLfDeXK6ve+DgvfTzN13rqLXlt?=
+ =?us-ascii?Q?RwCx4Sx+byZJ5F+KTSBF37zh81hLRs0Z46mzEa+A6UrrYuRYFf0LIdx8OFue?=
+ =?us-ascii?Q?sBxB+bc/mAkwOvOR2C1sh/6AKsAintmAiwYNdxcMyD79NL+pnd/UAdIuU2Hd?=
+ =?us-ascii?Q?AUvvh0kIxs8OQjJg/wtAhNT1Kkpc3qE3PSJQNK/Na6hmPzlZUpqPGf1K/tLP?=
+ =?us-ascii?Q?j7kyTLeD9xbD/txh8ews5kjoaigNIgoLPg9m+5ekSWS0I4KEOYhLS4/I06Yc?=
+ =?us-ascii?Q?cKiyb5IYJQlytKCtitOpJ0yu7jwDIjwcPsnnT+XEt9QiHRN/4cXM05d+zwzS?=
+ =?us-ascii?Q?dhbug+FDuELsG81a0oTnk9DFZKs4Ckd+Kuk7aOzPQq9EUfcioOsLwzFNWBHF?=
+ =?us-ascii?Q?Dfp6BxqinbD0ojWvKGmtME4kKzTfFT32qEzf3Y/NojA3cWIP1VFtpDwutTaq?=
+ =?us-ascii?Q?Sy0JuS5WgwxThNwPsqQOcVsyyFabh7xYoFzvgG4ixUHreNVpXLQpJkj3yzSi?=
+ =?us-ascii?Q?ajFuuV1Rdb/mPVA2GpyLdzRm27K0mJH+hBuVyBX7MYIY7w5J1FsO0nvI6aGi?=
+ =?us-ascii?Q?mQ9gUAI6tYFX2hvPX1C/STPyVpbWSU2cJGaak3u8MWMdbrztHSostXZ0SgmT?=
+ =?us-ascii?Q?g0Uuerkae5Ji+ZLm/CDLOuJTvYCfIPKZEn2kKGhZLqxKrFH4ubSNp0j7is5U?=
+ =?us-ascii?Q?6GeGX0pXtA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	skgg5bqqjP4cUu4/ldzPmSotUsTAUMCdDvqgleqmwiWF63aQzIgG/DU3QZbNNz6fXMRKBNAMhwzRwu60YNP3NtRvF89362N/y7E1SC8B3QkPndcgKUOijwsjUo6+2J5zZ9glm6muVsCVnXTlQJt+Y8mS5lFTlO8lsvT5jYY/+m9gTc7hRIXkNrTxWJ9OUpYxvDDaeyodE0o5XSgDJvuPWg1enkkS0jvMUQzszOcwH2ondMQeev7qXBc074KaQV5epUSS0hvKsDh0p1SAt5h01L0dfElZHq2dGq7yxSnbwj94he51oR1tFnfGMAlnw2xLImO+OEpw8E16gMqb7jv32Vmf6XrLvNSduZaE4wRnxWdx/Ys4Tq55QPpkZTHdkDP7e9wQpojc0fY0TviW6pAHwwbpKGVlE8ox2u78nT1bkZbOk+7qwciglolPkVSSnN1os3pbvlqtLXuH9VhxM9WiSMvahfZKwBfB6717906HiUYaYChzi14FJskmaCHQQCZ7A3z6ibK8E0kKysZXDElGU/dgYmowOVI0PHrcq5vOJh1NFcuUqeHAG2SHTcEdJy6BsKEdA8AdD1t2bqCkXycFPk2+q3XO/RDbH6v7Yx3p6ss=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c06630e-0acb-4fd8-3976-08de530ae89d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 01:19:05.2611
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ySzi9xRjbrPdhCHYrFXrYZzH4YEEoetIZR5jeqMYOQ47OGqCOZxZJ/nu5hzJ8020W+M2qQdP9xpc6hSmirfgZw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF57C8E5D36
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
+ definitions=main-2601140006
+X-Proofpoint-ORIG-GUID: mE-Dq8H-KGLnXDVM5AQxMJQaaV-BXzSv
+X-Authority-Analysis: v=2.4 cv=YKOSCBGx c=1 sm=1 tr=0 ts=6966ef0d b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=pGLkceISAAAA:8 a=yPCof4ZbAAAA:8
+ a=YU4pcquq95DOUhH41acA:9 a=CjuIK1q_8ugA:10 a=DcSpbTIhAlouE1Uv7lRv:22
+ a=cQPPKAXgyycSBL8etih5:22 cc=ntf awl=host:13654
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAwNiBTYWx0ZWRfX6Ktl4SD9UmKb
+ f/yfeq11pkmv6w/t3ZzlIe0vK46YNCjN2RchVANxwV/omcqY/EwFTTToTUfAZYwpP4kWA6gP5cz
+ hZ6+is+VaRc1XejlJsnvSPXz5hTAlFo4FHteijA5nLGtuTpk81AN3NgXFXMSZnDM2e2hjGXrHpM
+ v6zGbHGm/Parl2iufizNooung4PHeoMmPGNECzUJ+EXsho4joljovs+E0BWHh2SSr2/nRFpJ3dp
+ tIMXGfoNmR0WckG38+5dxbtTPnAlNp2ZRRMVscz0d6xj/tvowxSIk9CUzVfr5ja0sGSf0biMmI7
+ S79uMjoTId2Np5GOwqhWAhAlZHb1HaDO5OXymimIhRwXlFcLHXPDYZaKMzoaPrOKkaTDXvy+n2I
+ 92M/jLissO1YW2vazrZYXd0gBody9u5H5rF9S5Y6KC7PXEFG9AjU0kQoN5r/QTqCeu/BqM5rXqt
+ 4YhPqVLeIbkPE86LCInGFmDeEbFK58y1mflJ4ooQ=
+X-Proofpoint-GUID: mE-Dq8H-KGLnXDVM5AQxMJQaaV-BXzSv
 
-On Tue, Jan 13, 2026 at 10:00=E2=80=AFAM Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-01-13 20:36:39 [+0530], Swaraj Gaikwad wrote:
-> > On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
-> > check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
-> > context, but misses the case where preemption is disabled.
->
-> The reasoning was different back then.
->
-> > When a BPF program runs from a tracepoint with preemption disabled
-> > (preempt_count > 0), kmalloc_nolock() proceeds to call
-> > local_lock_irqsave() which attempts to acquire a sleeping lock,
-> > triggering:
-> >
-> >   BUG: sleeping function called from invalid context
-> >   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
-> >   preempt_count: 2, expected: 0
-> >
-> > Fix this by checking !preemptible() on PREEMPT_RT, which directly
-> > expresses the constraint that we cannot take a sleeping lock when
-> > preemption is disabled. This encompasses the previous checks for NMI
-> > and hard IRQ contexts while also catching cases where preemption is
-> > disabled.
-> >
-> > Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock=
-().")
-> > Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=3Db1546ad4a95331b2101e
-> > Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-> > ---
->
-> Acked-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->
-> for now.
->
-> > Changes in v2:
-> > - Simplified condition from (in_nmi() || in_hardirq() || preempt_count(=
-))
-> >   to !preemptible() as suggested by Luis Claudio R. Goncalves and agree=
-d
-> >   by Vlastimil Babka
-> > - Updated comment to reflect the more descriptive check
-> >
-> > Tested by building with syz config and running the syzbot
-> > reproducer - kernel no longer crashes.
-> >
-> >  mm/slub.c | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/mm/slub.c b/mm/slub.c
-> > index 2acce22590f8..642f4744d5c6 100644
-> > --- a/mm/slub.c
-> > +++ b/mm/slub.c
-> > @@ -5689,8 +5689,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t g=
-fp_flags, int node)
-> >       if (unlikely(!size))
-> >               return ZERO_SIZE_PTR;
-> >
-> > -     if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
-> > -             /* kmalloc_nolock() in PREEMPT_RT is not supported from i=
-rq */
-> > +     if (IS_ENABLED(CONFIG_PREEMPT_RT) && !preemptible())
-> > +             /*
-> > +              * kmalloc_nolock() in PREEMPT_RT is not supported from
-> > +              * non-preemptible context because local_lock becomes a
-> > +              * sleeping lock on RT.
->
-> I would say that despite the _nolock() suffix a local_lock() is still
-> acquired. The !PREEMPT_RT does a trylock.
->
-> As I noticed this myself today while looking at other patches, was the
-> trylock removed on RT by accident, was it there only in an earlier
-> version which was never merged and will it ever come back so we can go
-> back to !nmi || !hardirq?
+On Tue, Jan 13, 2026 at 08:36:39PM +0530, Swaraj Gaikwad wrote:
+> On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
+> check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
+> context, but misses the case where preemption is disabled.
+> 
+> When a BPF program runs from a tracepoint with preemption disabled
+> (preempt_count > 0), kmalloc_nolock() proceeds to call
+> local_lock_irqsave() which attempts to acquire a sleeping lock,
+> triggering:
+> 
+>   BUG: sleeping function called from invalid context
+>   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
+>   preempt_count: 2, expected: 0
+> 
+> Fix this by checking !preemptible() on PREEMPT_RT, which directly
+> expresses the constraint that we cannot take a sleeping lock when
+> preemption is disabled. This encompasses the previous checks for NMI
+> and hard IRQ contexts while also catching cases where preemption is
+> disabled.
+> 
+> Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
+> Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
+> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
+> ---
 
-The root cause of this syzbot splat is preempt_disable() in
-trace_virtio_transport_alloc_pkt() that is being fixed separately.
-I guess this patch doesn't hurt, but I suspect with tracepoints
-moving to srcu_fast syzbot won't be able to find
-preempt_disable() + kmalloc_nolock() case
+Acked-by: Harry Yoo <harry.yoo@oracle.com>
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
-
-for now :)
-until shaves come.
+-- 
+Cheers,
+Harry / Hyeonggon
