@@ -1,236 +1,112 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFCD242D88
-	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 01:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768353577; cv=fail; b=vBJ9nwPABle8xHPEj/R20T5ObnBC3rCvmwg0I5zMbf0dDmC63IREdUGn6CVjKW7HeuOwX7t9+HQmbn4/ysLnf+2Q/dAu3AD9j9ZcVTlF7JRkwG5eoxFcNqezF48nD9b6ChKEsmfeN96EjSKTF82HGN3FGRYmTEl4aNt2nwsBlJE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768353577; c=relaxed/simple;
-	bh=zl0QFKW9p3wvW6K7PmiVifztyr8ipDVlKlCZySIIkJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=s694hyEfYH2Hp5in6h5x68CCcGZYk7lycPQ2HfrA1LFNtj2Ikzmzew8v0ADsIlm0agGypk7DwoNC2Eo+keXU+/Vitv04wusaD8NkfWcjYVjIG2bRdcnrXQW/5Stq2moVdfjlkksIHMmqylxSojfXEYvIFUBnIltyJV4KnZ2RG4c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=sKmRFBbQ; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=AfzrR1qt; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3790215E5DC
+	for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 03:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768361485; cv=none; b=GLx5Wdu0MZ2t3Xz+U0hM+KRhU3cD5yS4F5+jSm0JuuyUGZXviWCihHj+OJxt5bCnZtTfvxLk5UmJ6rj1Y1Arpjivl4DIY5HZ1GyECV6EZztSRW5jcLaceC5pENXddlWPEax91wai2OHMyxcavjMl4L1iKx0N/vj9BpSfsIitxd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768361485; c=relaxed/simple;
+	bh=cfrqsW8sP5o7ktsIS6ZHNgJ7VMmSDGubBh2uclhq+J8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q3c+xp/BuhrT/pDrncGV1GIWie9+uSNnA8Ybl2AyFI/H7iofRyYEVExGjru0wAr05VER2cw92s2mbj42Lfkubrb/t4EBye9R4NMhw4zX8nh43szw3sJQVOq5fxABZ3EpwZLYDBcC9jGpfN3U/FgAvv+cVihKjlXvOT0718PHcrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGZPW8jU; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="sKmRFBbQ";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="AfzrR1qt"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60DGAZx12419471;
-	Wed, 14 Jan 2026 01:19:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=8HQKKtCxEr9ZcQtXvR
-	t/MFwzNleZTw1g1itEJ4QMQzY=; b=sKmRFBbQVaf3VIPCWEAWae/v1IPPk1rywm
-	Z/ztYNbnB2+EMH2lXkSrHkSoT8FnyGk22dzxEA+IkuJcqsCRqYNOtRis4ReBcPz3
-	MOouWEURF7hDpIgHOE/JCg2IfSd7JlXwUHZd7CzPFeRVWYBZ80ooyHwqkmUR5MBK
-	nGbOhkblyinvLtf+ut1nzNatQW6TbiHdqVJPc0SMUw7753EcdCyPbdd4IDw6IUPQ
-	o7PdBHnrt7kL+qWZ0dV2n+tCddPvKt0qmhAylYnm/f7x+lO+WRA36QQMjTmQiX8/
-	ynPeuUIas2LBBKvfvGltO2PQaLhI6RViCGH1/Iclqr3eTlxfcE6A==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkre3vfyq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 01:19:09 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60E0WvPq038038;
-	Wed, 14 Jan 2026 01:19:08 GMT
-Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11011025.outbound.protection.outlook.com [40.107.208.25])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7d7acf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 14 Jan 2026 01:19:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GHxYy5dNPGLcYPsK6ni1dkV1q9Dp81cMZNg+h+5cJ0uSS1Jd5lLO19Fs04uchH+jGL3StivwJFYWNcTp0uaK5RFYZ39W6855ZayYRdjGZE5492SVVVl/YI4gxyiPiLz0Py7V/LyuhtTbwE7kvMDHBWGzktVEYCKf7odRYZvkqLqMMeSeZtqj7T1sKQw0CpcV8MV2798BPyec5xwno4+dTn6K1w+JjLtOdY//cSMqg0EgcVWlF6aQQkJMRscLvin2Xe1Qbagjz7fBZfUTCbeQkeqLiklBCts5S3GEDj30P70ZEO0BX7az2SFWW/PSQeE5InU+7+v8XUVJYRsH9gRgBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8HQKKtCxEr9ZcQtXvRt/MFwzNleZTw1g1itEJ4QMQzY=;
- b=PaFgEp+1sI0cS1c0zWVQDJirDkb1lC42B7E3op3blA/4FeOFUdm7VYXR6bnjuZc7Mv8za1B+d1q2bj00Jt83ZOQmGbq1u3jLOUcPYCxAmrLA9mJqlXGAIWyKMlDhuJ+DxhRhCQ23ThGQFdTwMARw0f9oqdsgJoYYUuQT/+orfh3kOCkHCdxPZb7YALUDe66GPy3X4JBFoBajG9Wj2t8r83g57i0pKLXUvrUw57yi3Deih2ADC6ojk3Jtqk5LqwKEkDuzdgC6VMESOk/1qwq17nWBC8C3SWN9PXtYuPWBu9AeBtomjNuhVVkX9FhIy/S7by249jFUk0FgWqCGTQx9pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGZPW8jU"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-47ed9b04365so9370785e9.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 13 Jan 2026 19:31:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8HQKKtCxEr9ZcQtXvRt/MFwzNleZTw1g1itEJ4QMQzY=;
- b=AfzrR1qthgM1Bp7ixHOTHW6pqSP44EfjbtguBSYfJM7EgH2GgCN3zZhodUWma0cgPjj2chjoz0znkiCTL3j/fOZlr52m81rD18b2urk+HfOxy+THXnXST2NNW/24+W1Ahar5j1QAEsKGI1SM9seUDeEAMy7CjbgpXd6eVPCndU0=
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
- by PH3PPF57C8E5D36.namprd10.prod.outlook.com (2603:10b6:518:1::7a4) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9499.6; Wed, 14 Jan
- 2026 01:19:05 +0000
-Received: from CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
- ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9499.005; Wed, 14 Jan 2026
- 01:19:05 +0000
-Date: Wed, 14 Jan 2026 10:18:55 +0900
-From: Harry Yoo <harry.yoo@oracle.com>
-To: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "open list:SLAB ALLOCATOR" <linux-mm@kvack.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>,
-        skhan@linuxfoundation.org, david.hunter.linux@gmail.com,
-        syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] slab: fix kmalloc_nolock() context check for
- PREEMPT_RT
-Message-ID: <aWbu_3bQN3nOJ1Bd@hyeyoo>
-References: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260113150639.48407-1-swarajgaikwad1925@gmail.com>
-X-ClientProxiedBy: SE2P216CA0067.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:118::9) To CH3PR10MB7329.namprd10.prod.outlook.com
- (2603:10b6:610:12c::16)
+        d=gmail.com; s=20230601; t=1768361482; x=1768966282; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tAwkswLSDvceXj/iX0pI2u7qJO+mp3M2B3KW95gBNSc=;
+        b=FGZPW8jUXZY6sQOMoTFE7mYWwG0fdkTk8sMqVkCME8pEDUxhJG4s4tGjhOHRvDDsXM
+         XnRiobk291Q9K61rjaNPE+kjS0fxvWiNHF03bJqll4+NsAe4flI+BhCGqSJy5Vbtgqt4
+         iuk//eTcskxJBpsF0H1OQC8mFCQ5Uz0hB9nW9nEceqGAL1OBfUGCx5w5wV8sI3HwAAs2
+         jKqh0+69p5XX5Uk7V1Rp+ZctsW1CwFeV6J0Nm2US07eKZvpLpDgNoEUOSBFWJTry8kmI
+         lRrYOQf2RcfOubiQlFeenwGU4azTMIn/R4CrCT2TNhwGyW7C0RP8XQLEfWNAEweUFnpw
+         RyNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768361483; x=1768966283;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tAwkswLSDvceXj/iX0pI2u7qJO+mp3M2B3KW95gBNSc=;
+        b=tMWHtXVAUASVAMyId+2liroTmOU2EM+xihGF9gFKzs6XR2/vx2frchyOhmVa9TSgBD
+         x55/bQTHYfTSSpP+LqMGFgrpmYAZWK0IBQ78jjy4+7zH28+CLgwMzLs84A0On5ieZAeY
+         82f3Ry2Uvu7l0U5u+3N0gVGW9tgFnQUQMrdhTuvVwVvxwCYq0+dFRQIOpi+EljH1IL17
+         lF7cgQQGTxn1mL8XtQosmFTQ2Q+AnVaFfPZMKNuui3gTmlHkS+RREiDVGwFU1iBEPeBN
+         t23RUzQ/R1Zsp48rTVreXWHWJ2GT+JAV/d9O7JpBy3tc1E7mO6WPh3aXMF/1PMiuH58j
+         OAbA==
+X-Forwarded-Encrypted: i=1; AJvYcCV3l6SxWPlpj59umonF/ou0AcVq7Nyjuu5MwFv3iCQ2G27pIKwhPOUSk/pGnANn0u2Q4+fa6KM/ffz3uqmmIw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/doBzP+d12cAelV0PXfLxn+jls0nddh7pSRjO/qYLa6p1RLgE
+	EUerYN3jG/OpPVEuXkvoqNKubydTxW/HUpA1+9QTEduqK4aSSeQTogtHIN4UZU63cGj8i64VYxZ
+	xaZ/OPGe9/HVMMNSaeCwsFqm7ta9GJqQ=
+X-Gm-Gg: AY/fxX6n6IzxN2r1Hb5urqC5xgPADJDn8JZtTv2rZuBs3vfQ8T1ZS9iB1o1e/MRvMJV
+	F+0o6+g4jAmN/m/zQayf1FQ7J0F6nQIwhDCoVER0bVlIID8vZxk1m4m1PXNVALQ/jrUUYRyT1QP
+	k615gx7tXDJXaO85M92uQjTq4x/VDwLGXuXov68GRi61jFOyfqX03m6K/QkBGCGVVns82DkQOD6
+	kZS/pc9s6EUCaFBisstNVQgIrMscQ/yN631Sqf7F8oCwZWuMeQmBdlQwfDSH1zRmRsFgVvujTXK
+	IxZtPxHJn5YnoCzSV4MZs5X3hkHI
+X-Received: by 2002:a05:6000:310c:b0:430:fc63:8c8 with SMTP id
+ ffacd0b85a97d-4342c54759dmr1005118f8f.35.1768361482534; Tue, 13 Jan 2026
+ 19:31:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|PH3PPF57C8E5D36:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4c06630e-0acb-4fd8-3976-08de530ae89d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9R9ot+tHd4GRxJP4/CeEa1HIcYPwxfR6mGlgHTuMqoZeqNElbOxFjepeSoRx?=
- =?us-ascii?Q?6iRc9qv6M8hinHt9On/NobrKVCkGcPb0oeZd3yr8BTGxV2bx/N4C7RKd0g4f?=
- =?us-ascii?Q?/MzSYCBVqsY5g26CeP98f9tp4A+Espwa/FqFAqG14/lXNUTi/xzKnnPy5nPH?=
- =?us-ascii?Q?ss4aa9Mq61ihm4prVPpZWrP154OmzbjVfhZCnTKTVdTRuG+pnDt4CrL/cmej?=
- =?us-ascii?Q?etqfLOEEVmeIo6j/O4R+YRd1mHTU40OlbaefZP6DGWFKJ8NX4QgSshcOkZ+7?=
- =?us-ascii?Q?M4FkpBLd8/FIWXli629Byxb8oIaKycGLf6y0k+/7a+Yw+9fj/Gjh6B8Q2/Us?=
- =?us-ascii?Q?Fet7a703RPo1mnL3VcsGIg6tkpU1erriN7EUEMbfuB6dBbgGzwraYUdN7c9j?=
- =?us-ascii?Q?1pVnqQTBo+7qr+3edVYeMRPU1miTTsqBH7u5Z1Z7eZi/xtcdMZ9c9m3+BFHk?=
- =?us-ascii?Q?NNdtauFKBc2PvTsgeR748SkDF/GoXLj1ZMLHavezIM6FYMLNXXRxZOfyCrH9?=
- =?us-ascii?Q?ycfU2dk6vfCXgC5IoY8caF2hAiPOqsYzJ4W+Y1X90RLzST30Mh5fV8ESPXpu?=
- =?us-ascii?Q?M20PH6K7HkS82Pw8waFXKPtqnKZ+GLU1ABpk2RoRme0cjJt/WcwAtXZbSWWi?=
- =?us-ascii?Q?TFr+X9mIuRx2c1Wsocf87R1y9ha4XCo9dARt2OzuET6o7FCXnK59cVUwosF1?=
- =?us-ascii?Q?ORKOg5nN2IE8LhGy4APAcbG3kVTLHQt0FMSjxoWo93cBgS+/5i+XH/6RTH9h?=
- =?us-ascii?Q?yTBcLFIKnXAOswY0JAXt7wQaK9wnANO1tt4oCdBESBVcN2F3d+FxVCDxRcP+?=
- =?us-ascii?Q?BtckM3XuFK6mwBxvc58v5PXUjFBXVIQP5KoXF6mSTpw5vMxRLerON4COp7wp?=
- =?us-ascii?Q?+Uz9xJlZqO/0lEj07N1/tufYeOTcdadZCExqutXG7uI0hIa8IaRjca6fY4Vd?=
- =?us-ascii?Q?VeIFfivfFrh0i5teIbvgI1b85SKS5T5wmYRMrVW9b+HAgHu0XdNE7XfrpH29?=
- =?us-ascii?Q?XVQ+AUciOe4wG2D/OwbSFqgq+34zGsjofrb7mcSVtrWMoaf4q/n0z2398zyG?=
- =?us-ascii?Q?JN3tMEvp8a7fCn6eV3rPAecsogUPLYHBhEOerNLCMcXDIN1OCb/rkDow5jHR?=
- =?us-ascii?Q?GDcdsP1NPappYUA35glF90MZfZTpIeFFZTRzRrAoOmxflSIBTv+Fo075Ov6n?=
- =?us-ascii?Q?4yzUi0CO7dj6pJdJ3KFu8FyqlDBG1RnnBkpeXEe4nnu49sR+N7mpTs3p6Qwo?=
- =?us-ascii?Q?BOT/34zCKQ764pgz3q65Sh9oVBRqY85SEPeDW3gf9oF+mluWvW4AOhusXMMs?=
- =?us-ascii?Q?j/xcQaSs2lNt2MiRNUz7XlPKXulMgXxjKffusg4PBObq3KQJ6JxCXKlEAi/t?=
- =?us-ascii?Q?eFeN0BryGR9YaAuHOWSxfSzNZEXSXCkl8dary2VyvpDTNW1c/A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?E1PLpY5J2WUepXHrrOn+YV+A6lLUd/tz/RmLXsRg76qdFnN+T30MbmA/y+5N?=
- =?us-ascii?Q?aH0k8y3fOQjCXjEN5Xy+7xPDUSifcEvvwJxegoJWpluek8nkNx4nDC0KhrMS?=
- =?us-ascii?Q?NtCmM8gU8NK9QQdyqOVBIWmCsg7bUzBtS0cnp/6cLyXmOnQyzy+eDBujSdAn?=
- =?us-ascii?Q?t9X5zExSdhPI0cu3INfa+T2HXPAQ+tY/xNLczmvt+vXeoOoMBB/x2CNXz52R?=
- =?us-ascii?Q?kmMLZfA/FJdJ10el/ls7SQuGyjXP2lppkxQ0MZhbjKBSBURZgjv0cn5d17oc?=
- =?us-ascii?Q?HFA00Qskd1i6viuRXqIc5fCmi9S0x4/fsZoaXynhBuUDOXv48S+gfQ7kGNSz?=
- =?us-ascii?Q?phY1B0ErZEGQU9aDf4Ox0L6Tlx3CmlZoGCBYravp/1ui47qQvI949A0l8O8e?=
- =?us-ascii?Q?TYcSQCW1nZcVOjf9Y5bSerphSw54MTCuP2w6ScENXuzWLa+ElXlDSfirLFgi?=
- =?us-ascii?Q?Csxjez3OeO5tfCZLWF8KaGQ5FQAQqOIyT39RxqMf5SZBvHdMn+5AGj3HatfN?=
- =?us-ascii?Q?nbrlTV5fOvwBk7hsi89qlx1HGsK9bbuUonbuwH4Doja+FRWpYB9aEfznKfPm?=
- =?us-ascii?Q?8wsbp6OYuhCtjg4UZ4hKBAEDSuXwFIy9SxI+ogff6zQmNER9XmWz/cLRCrhl?=
- =?us-ascii?Q?bDMC3KpCCCVXz0S5azuy7Xmsgsl3mpxuhHHE9uH/wlDUa/Nt7hqUSMYlxM6L?=
- =?us-ascii?Q?FCAeMU9WL/AXhM1BZ0kJSAKQNBPP2C9g9LPwWvIrKzOXw73EWxLsa0uIQA7R?=
- =?us-ascii?Q?P+FhsG07k7KRbsELB1J8XYWUQoIihv6ld6h4PUP28QYPUPXLdIOKUE0ybIdo?=
- =?us-ascii?Q?iNTtB3NxSMCnVB3ywZlAGk4TNksdjPPPvsIGm4Fjan+puH+Y5ICLL6xQRePD?=
- =?us-ascii?Q?9hShFhFANcTSucbEOCRrcsDi0fH5kI5vCoGbrhOLYASzBJreCsV0G5EA2o9B?=
- =?us-ascii?Q?zK95yuP8HjCAFEEnJpArDvMmlUicT0ozEMSW6XfyX2FQaxoVTy9L1FnYdVwl?=
- =?us-ascii?Q?C1EY9OH2Yl0aDZ+fpJpNbKrTGYsTTJs5WFYLfDeXK6ve+DgvfTzN13rqLXlt?=
- =?us-ascii?Q?RwCx4Sx+byZJ5F+KTSBF37zh81hLRs0Z46mzEa+A6UrrYuRYFf0LIdx8OFue?=
- =?us-ascii?Q?sBxB+bc/mAkwOvOR2C1sh/6AKsAintmAiwYNdxcMyD79NL+pnd/UAdIuU2Hd?=
- =?us-ascii?Q?AUvvh0kIxs8OQjJg/wtAhNT1Kkpc3qE3PSJQNK/Na6hmPzlZUpqPGf1K/tLP?=
- =?us-ascii?Q?j7kyTLeD9xbD/txh8ews5kjoaigNIgoLPg9m+5ekSWS0I4KEOYhLS4/I06Yc?=
- =?us-ascii?Q?cKiyb5IYJQlytKCtitOpJ0yu7jwDIjwcPsnnT+XEt9QiHRN/4cXM05d+zwzS?=
- =?us-ascii?Q?dhbug+FDuELsG81a0oTnk9DFZKs4Ckd+Kuk7aOzPQq9EUfcioOsLwzFNWBHF?=
- =?us-ascii?Q?Dfp6BxqinbD0ojWvKGmtME4kKzTfFT32qEzf3Y/NojA3cWIP1VFtpDwutTaq?=
- =?us-ascii?Q?Sy0JuS5WgwxThNwPsqQOcVsyyFabh7xYoFzvgG4ixUHreNVpXLQpJkj3yzSi?=
- =?us-ascii?Q?ajFuuV1Rdb/mPVA2GpyLdzRm27K0mJH+hBuVyBX7MYIY7w5J1FsO0nvI6aGi?=
- =?us-ascii?Q?mQ9gUAI6tYFX2hvPX1C/STPyVpbWSU2cJGaak3u8MWMdbrztHSostXZ0SgmT?=
- =?us-ascii?Q?g0Uuerkae5Ji+ZLm/CDLOuJTvYCfIPKZEn2kKGhZLqxKrFH4ubSNp0j7is5U?=
- =?us-ascii?Q?6GeGX0pXtA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	skgg5bqqjP4cUu4/ldzPmSotUsTAUMCdDvqgleqmwiWF63aQzIgG/DU3QZbNNz6fXMRKBNAMhwzRwu60YNP3NtRvF89362N/y7E1SC8B3QkPndcgKUOijwsjUo6+2J5zZ9glm6muVsCVnXTlQJt+Y8mS5lFTlO8lsvT5jYY/+m9gTc7hRIXkNrTxWJ9OUpYxvDDaeyodE0o5XSgDJvuPWg1enkkS0jvMUQzszOcwH2ondMQeev7qXBc074KaQV5epUSS0hvKsDh0p1SAt5h01L0dfElZHq2dGq7yxSnbwj94he51oR1tFnfGMAlnw2xLImO+OEpw8E16gMqb7jv32Vmf6XrLvNSduZaE4wRnxWdx/Ys4Tq55QPpkZTHdkDP7e9wQpojc0fY0TviW6pAHwwbpKGVlE8ox2u78nT1bkZbOk+7qwciglolPkVSSnN1os3pbvlqtLXuH9VhxM9WiSMvahfZKwBfB6717906HiUYaYChzi14FJskmaCHQQCZ7A3z6ibK8E0kKysZXDElGU/dgYmowOVI0PHrcq5vOJh1NFcuUqeHAG2SHTcEdJy6BsKEdA8AdD1t2bqCkXycFPk2+q3XO/RDbH6v7Yx3p6ss=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c06630e-0acb-4fd8-3976-08de530ae89d
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2026 01:19:05.2611
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ySzi9xRjbrPdhCHYrFXrYZzH4YEEoetIZR5jeqMYOQ47OGqCOZxZJ/nu5hzJ8020W+M2qQdP9xpc6hSmirfgZw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPF57C8E5D36
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2026-01-13_04,2026-01-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 bulkscore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 adultscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2512120000
- definitions=main-2601140006
-X-Proofpoint-ORIG-GUID: mE-Dq8H-KGLnXDVM5AQxMJQaaV-BXzSv
-X-Authority-Analysis: v=2.4 cv=YKOSCBGx c=1 sm=1 tr=0 ts=6966ef0d b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=pGLkceISAAAA:8 a=yPCof4ZbAAAA:8
- a=YU4pcquq95DOUhH41acA:9 a=CjuIK1q_8ugA:10 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 cc=ntf awl=host:13654
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE0MDAwNiBTYWx0ZWRfX6Ktl4SD9UmKb
- f/yfeq11pkmv6w/t3ZzlIe0vK46YNCjN2RchVANxwV/omcqY/EwFTTToTUfAZYwpP4kWA6gP5cz
- hZ6+is+VaRc1XejlJsnvSPXz5hTAlFo4FHteijA5nLGtuTpk81AN3NgXFXMSZnDM2e2hjGXrHpM
- v6zGbHGm/Parl2iufizNooung4PHeoMmPGNECzUJ+EXsho4joljovs+E0BWHh2SSr2/nRFpJ3dp
- tIMXGfoNmR0WckG38+5dxbtTPnAlNp2ZRRMVscz0d6xj/tvowxSIk9CUzVfr5ja0sGSf0biMmI7
- S79uMjoTId2Np5GOwqhWAhAlZHb1HaDO5OXymimIhRwXlFcLHXPDYZaKMzoaPrOKkaTDXvy+n2I
- 92M/jLissO1YW2vazrZYXd0gBody9u5H5rF9S5Y6KC7PXEFG9AjU0kQoN5r/QTqCeu/BqM5rXqt
- 4YhPqVLeIbkPE86LCInGFmDeEbFK58y1mflJ4ooQ=
-X-Proofpoint-GUID: mE-Dq8H-KGLnXDVM5AQxMJQaaV-BXzSv
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz> <20260112-sheaves-for-all-v2-13-98225cfb50cf@suse.cz>
+In-Reply-To: <20260112-sheaves-for-all-v2-13-98225cfb50cf@suse.cz>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Tue, 13 Jan 2026 19:31:11 -0800
+X-Gm-Features: AZwV_QjU8IHt4ADtGwZuCMWdsEN668TGd1jbbhsvRKh-PS7J4GcDNvMn4EbhZYo
+Message-ID: <CAADnVQKBt2xmqs+o0onUwd7G-0UDbE8LECnkJJUCVbywAr2tUg@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 13/20] slab: simplify kmalloc_nolock()
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
+	bpf <bpf@vger.kernel.org>, kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 13, 2026 at 08:36:39PM +0530, Swaraj Gaikwad wrote:
-> On PREEMPT_RT kernels, local_lock becomes a sleeping lock. The current
-> check in kmalloc_nolock() only verifies we're not in NMI or hard IRQ
-> context, but misses the case where preemption is disabled.
-> 
-> When a BPF program runs from a tracepoint with preemption disabled
-> (preempt_count > 0), kmalloc_nolock() proceeds to call
-> local_lock_irqsave() which attempts to acquire a sleeping lock,
-> triggering:
-> 
->   BUG: sleeping function called from invalid context
->   in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 6128
->   preempt_count: 2, expected: 0
-> 
-> Fix this by checking !preemptible() on PREEMPT_RT, which directly
-> expresses the constraint that we cannot take a sleeping lock when
-> preemption is disabled. This encompasses the previous checks for NMI
-> and hard IRQ contexts while also catching cases where preemption is
-> disabled.
-> 
-> Fixes: af92793e52c3 ("slab: Introduce kmalloc_nolock() and kfree_nolock().")
-> Reported-by: syzbot+b1546ad4a95331b2101e@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=b1546ad4a95331b2101e
-> Signed-off-by: Swaraj Gaikwad <swarajgaikwad1925@gmail.com>
-> ---
+On Mon, Jan 12, 2026 at 7:17=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> The kmalloc_nolock() implementation has several complications and
+> restrictions due to SLUB's cpu slab locking, lockless fastpath and
+> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
+> things:
+>
+> - the local_lock_cpu_slab() macros became unused, remove them
+>
+> - we no longer need to set up lockdep classes on PREEMPT_RT
+>
+> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
+>   since there's no lockless cpu freelist manipulation anymore
+>
+> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
+>   unconditionally. It can also no longer return EBUSY. But trylock
+>   failures can still happen so retry with the larger bucket if the
+>   allocation fails for any reason.
+>
+> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
+> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
+> slab freelist, and the alternative is slab_lock() which can be
+> interrupted by a nmi. Clarify the comment to mention it specifically.
+>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-Acked-by: Harry Yoo <harry.yoo@oracle.com>
+sheaves and corresponding simplification of nolock() logic
+in patches 11,12,13 look very promising to me.
 
--- 
-Cheers,
-Harry / Hyeonggon
+Acked-by: Alexei Starovoitov <ast@kernel.org>
