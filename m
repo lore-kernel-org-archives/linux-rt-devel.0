@@ -1,115 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B927D36C5A1;
-	Wed, 14 Jan 2026 21:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F61291C33
+	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 04:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768426616; cv=none; b=gY6k97fCxpsd9NdSBJFboKUCn2/G3mF4Rb5tiPbTZY9LVBTOG+ZF9tDuQy1gDr20nsZx0d/7UlguyT7mshFLCfubisTV00LdLvPaHw86QBwYc7jH1oKSmtoatDFma3nJJS4/JcqZz+dVwUSoXtmP/oNuwixsNSih325x9Oft3Jc=
+	t=1768450464; cv=none; b=VoeWtw9gZfK0g0yaPOb17GuzlB/wVrSWCjoyvgUDcpf3RCrnT6i9Rt0N53bmke58307jY40UzqFrY1Ub6xod6ph9J7v1gY/VFg0UFc27rZHPKuBnhgpF2En629Yh/3LVX/aS8aoEQBEhjnC0QBTMcUWf1KSQsk3FL9uwo6aXoVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768426616; c=relaxed/simple;
-	bh=L/ajtLTp+UwmxkvNxgpr4k0d3uNJwnctABro5LBQATs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OfnmASZ5Jf9fMA65Pc8hC7e4um+ZHPebYUrVLoQ5DkHpIXM0JNplVzF8dBWzosqOu9f731MDEUJ3OwGvD3SPZzdKXBgPVD6YeGWsCcu35UW9CSww4jB/XOZU3iDwWaK1jWVtp1a5WgPb62JUrUCTH3QyiKjezhO28ZBw9Gcjy8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KbhiY9Np; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768450464; c=relaxed/simple;
+	bh=iQXAcib2oRD600WPIfM+1RfvWKx32iOPMF/YK+XRJ64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SeiI9UzrkxvXZ+pCrSkZNWRm0/pVyrgXRhpBBEw1rh6LqU+hulZHoirdMotYbOkHci9auAW3mdvXhn2DqzfgESHb3oMwSnXse1OAtZk+alVOFGHGc/2YhyaUDcoYRreNqZSWxiY+Tt/L43rbmpiAgnMTHqJGQ3TbvPh4ozrhEqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DayIyr8A; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KbhiY9Np"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30278C4CEF7;
-	Wed, 14 Jan 2026 21:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768426615;
-	bh=L/ajtLTp+UwmxkvNxgpr4k0d3uNJwnctABro5LBQATs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KbhiY9Npe3rsRRElnpp52TeMGpd6DQmKNy02KV1RIIFQ2Pz5GTIEPcx1uU6SlBx3X
-	 il59qx3FEGk0oQW1sUumeBt2BF7pGPvghifcDKIli6BGOOl1j8BDh+vig6Js7V4bup
-	 CuE5TjjfbAJv/sxonm4LO1AzaF7ka/9J0WdmbX+X5fTHCss0OjTItVxrAFpMgRhbaD
-	 ux32zCDRXhC6AS87JtMMoq8UYk/J89WX+QYNGEjV4ko5WBnL5RK32ddB5kvcBf6Gwq
-	 HOuMY1ddJFkkHGHhmjEHl9cMhj3Ep5IqJ2dQvYer+w7jsf++eO0Ljm/TCCDzecjNO0
-	 GPDEPXtSMVpBw==
-From: Mark Brown <broonie@kernel.org>
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>, 
- Dan Murphy <dmurphy@ti.com>, Sascha Hauer <s.hauer@pengutronix.de>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Kevin Lu <luminlong@139.com>, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Emil Svendsen <emas@bang-olufsen.dk>, 
- Dimitrios Katsaros <patcherwork@gmail.com>, 
- Emil-Juhl <juhl.emildahl@gmail.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
-References: <20260113-sound-soc-codecs-tvl320adcx140-v4-0-8f7ecec525c8@pengutronix.de>
-Subject: Re: [PATCH v4 00/10] sound: codecs: tlv320adcx140: assorted
- patches
-Message-Id: <176842661093.229619.8670109372292591040.b4-ty@kernel.org>
-Date: Wed, 14 Jan 2026 21:36:50 +0000
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DayIyr8A"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a0f3f74587so3710635ad.2
+        for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 20:14:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1768450462; x=1769055262; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ttW/0VPnzpmGU5Uwq1WgWZISL693I/ws1/HEZYT9FVc=;
+        b=DayIyr8AwlHqWYnDwqy4CD2swvhZzmk4VnRcHKkEncxPIJptWME/Qe+iKC71ZXddfB
+         D8WJgoG27jd7zhirv/GFntw07WZ23KZK/P31EjXowwNnD5MoG0NSzVR7GgE2wxnmPPMm
+         Ezh73VH8ElipotztiLH8myYuGPWKDi8xgLQC5xeaZst/c7G9SrBIN3efpm7KRN/FfyIR
+         TNRuwLMgAMttYDJWifkWZWprm+Xx9Br9ZebI2BQJfWzet7Udr5rmYWIhtHc1gt+WXj/k
+         mTU+4lLq58G30rTQUIF56jwrRDlTYLKT9XPZYUKU9YS8yBAEbeEIk+eqgs9pXyqhYjZy
+         V2ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768450462; x=1769055262;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ttW/0VPnzpmGU5Uwq1WgWZISL693I/ws1/HEZYT9FVc=;
+        b=kgtaWN8KDIggyq9DiA+8Oi/R3zd4RyujKd0XhusZSwT/l/nNihjxMt/Fjegxy+i359
+         JDCCeW38orJGFD4G0OsehndkaAYVxXhUmqWoInDfBZ8EmURW5YCrfcs0oOSShNMyRqxY
+         jdCaSuumvbQ3nA8RGSNzj1s6UpsNP//H4lJfvT5u9nTO4afirogAX/85j8kPOhoxEdu3
+         Hn2NlDFtRjDgAh5bzqZhbrpkQTn5rGxmLrW0cpagzNO2lxHDsrKcWdneyzpg0dQ6VYie
+         u7/voQwoWjGECTDIwFpm6P/4SqS61FonsWlMitHYlIfSrdhB5mV34E+PmhVAnP7MU0mC
+         PveA==
+X-Forwarded-Encrypted: i=1; AJvYcCXs96M3f/Ibw5ItBZaG0ziX5+Wwgm+YjUXufjoYXWpmkulh6O8QHbaIUEKReOMqH8bRHb96bGU/LE4OcXtoQg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXQ09bSYPBgUMSv92TZ6sU6pYOipNpn0D3l0O1/tUntkNbnO2n
+	EaHgyMcAq4xoTCa6jTPmpgEXClWWdUiYcAIE6PlInsywETpBqLaA2HPIbh9pkAZwgYA=
+X-Gm-Gg: AY/fxX6S6vrEc7gEg0d6c9SSZGF6zKIukfROcjB31ZqcU563rQ3MpNTS8E7pZ/Exrff
+	N4JV+QSmwqaM+09AZJ3b6FBNvEaD2DYjVxET53OMkeeF7THIY1z/b01Zu1/zJ6FwVXHUp/6wPcY
+	kcGO6W8lHmkDFUQ2MxyOgR8FaPI4+TifNpuglqBOcB+ohngnIG/HwcwGO21+RA4XV2LuREpp9Sv
+	z+sUz+v8SzRQu0bvxvWllG211Id3Y6TMj5XgmDRPb97a9S6rbG8BuRVcO6E5MP15pRfLMmMUeR8
+	szZoAyUzy2oJFADE6o78/vDvdB866e1pQ1Bxin9BFWSEABgpAWL3iRpa2h/+E6z7jB8xS7hsenG
+	qVWZRjkDDxiDwauh966FIuq65sbWrr/DU0/3anxG4ivMto2oXR/5L9Z4d/OhnOAGh8edOaomIV0
+	0aZaDd9IPr8So=
+X-Received: by 2002:a17:903:189:b0:298:4ee2:19f3 with SMTP id d9443c01a7336-2a599e51d5fmr51014125ad.49.1768450462206;
+        Wed, 14 Jan 2026 20:14:22 -0800 (PST)
+Received: from localhost ([122.172.80.63])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm242276725ad.64.2026.01.14.20.14.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jan 2026 20:14:21 -0800 (PST)
+Date: Thu, 15 Jan 2026 09:44:19 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: K Prateek Nayak <kprateek.nayak@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>, 
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
+	Len Brown <lenb@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>, linux-pm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Perry Yuan <perry.yuan@amd.com>
+Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
+ cpufreq_driver->adjust_perf()
+Message-ID: <bqvpt465nowq3jipfsciaoafjpjhu42l63vi6p67qscwx5oil4@t2tkh2u5giuy>
+References: <20260114085113.21378-1-kprateek.nayak@amd.com>
+ <20260114085113.21378-3-kprateek.nayak@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-47773
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260114085113.21378-3-kprateek.nayak@amd.com>
 
-On Tue, 13 Jan 2026 11:58:43 +0100, Sascha Hauer wrote:
-> These are some patches for the tlv320adcx140 codec we are carrying
-> around for a while, time to upstream them.
+On 14-01-26, 08:51, K Prateek Nayak wrote:
+> cpufreq_cpu_get() can sleep on PREEMPT_RT in presence of concurrent
+> writer(s), however amd-pstate depends on fetching the cpudata via the
+> policy's driver data which necessitates grabbing the reference.
 > 
-> First four patches are fixes. The following four add regulator support
-> for AVDD and IOVDD. The remaining three patches add more controls to the
-> driver.
+> Since schedutil governor can call "cpufreq_driver->update_perf()"
+> during sched_tick/enqueue/dequeue with rq_lock held and IRQs disabled,
+> fetching the policy object using the cpufreq_cpu_get() helper in the
+> scheduler fast-path leads to "BUG: scheduling while atomic" on
+> PREEMPT_RT [1].
 > 
-> [...]
+> Pass the cached cpufreq policy object in sg_policy to the update_perf()
+> instead of just the CPU. The CPU can be inferred using "policy->cpu".
+> 
+> The lifetime of cpufreq_policy object outlasts that of the governor and
+> the cpufreq driver (allocated when the CPU is onlined and only reclaimed
+> when the CPU is offlined / the CPU device is removed) which makes it
+> safe to be referenced throughout the governor's lifetime.
+> 
+> Reported-by: Bert Karwatzki <spasswolf@web.de>
+> Closes:https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/ [1]
+> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
 
-Applied to
+Ahh, you need to fix the Rust binding as well. Minor change there.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[01/10] ASoC: tlv320adcx140: invert DRE_ENABLE
-        commit: 4130dc47ce8f60d289d91e2bdd18c4d863ca3237
-[02/10] ASoC: tlv320adcx140: fix null pointer
-        commit: be7664c81d3129fc313ef62ff275fd3d33cfecd4
-[03/10] ASoC: tlv320adcx140: Propagate error codes during probe
-        commit: d89aad92cfd15edbd704746f44c98fe687f9366f
-[04/10] ASoC: tlv320adcx140: fix word length
-        commit: 46378ab9fcb796dca46b51e10646f636e2c661f9
-[05/10] ASoC: tlv320adcx140: power on/off the device on demand
-        commit: 24175015263d3c72166902a5a4451c18dc836d56
-[06/10] ASoC: tlv320adcx140: add avdd and iovdd supply
-        commit: 57be1f67401005e33e8c88db6707b4482b509589
-[07/10] ASoC: dt-bindings: clarify areg-supply documentation
-        commit: 5682093fc80674ee7f4a96dd9f0f1919111ab16d
-[08/10] ASoC: dt-bindings: add avdd and iovdd supply
-        commit: 4a1bc07e6d9ecd29b95c41e34402793619f1874a
-[09/10] ASoC: tlv320adcx140: add kcontrol for num biquads
-        commit: 2219823f7d6ac01c8eb55b90e954b4466146c397
-[10/10] ASoC: tlv320adcx140: add channel sum control
-        commit: 8a98e7f55f975360975083166e21982ef307b8fd
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+viresh
