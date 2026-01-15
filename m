@@ -1,81 +1,81 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D06333A9E2
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 10:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802D436E48B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 11:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768471879; cv=none; b=KEY15baxeFtAumg6nAWhIiUEWzXGNTOCcNAzCGEVPboMzLCK0tZ7PkxvACOi1DaW5O84Q6LgXuUEQvq4soOvkrj2M2II7i4/AslszLxLCFfnpgi7efXopxx/Y0AwpQRbVEoy6A1dGu3DGIAJe10rt3i+7RM+sucouayvQqHJs94=
+	t=1768475227; cv=none; b=ixLj0rKYG5TRchu4weNUv1JbobYFgJxfL4jKrORjV/f+TAyHBEId/X05Gd1PjTYO5sQMB9Y5084pJUsJST9pQ0ECJAIrpI/bNn2AvDsQzI1M8lj6NlkW7UO9S01m9atARekiNNU70HDHYy9hjERAILl1wU4ihmTFpy/arwIWLsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768471879; c=relaxed/simple;
-	bh=g0YOmsvmK07wWgdxBTMzfoRs3dC51AGbWNRcKooHeIo=;
+	s=arc-20240116; t=1768475227; c=relaxed/simple;
+	bh=ne6FXxwTz2TjY+5zwYWD8Kq4oVMHNJjLZiAqyiveK5o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QnF8k+dLBRV/DwfE51FgwTuWiGkCSiacnrabLh/RgDsSrqS2Wqvrc2UXZ527x2GcUTbSKWxafv4aI/YB8TSBCKf9brZfICaNQiZPG+Pyjem8IAusILKOZeU3K4vDCfbBDKFhMHOUgNRt/eMGK4YpJmRD3ZT3qRRAbIJOIAeWRuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lWUu2Tbe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JtkAr0qa; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lWUu2Tbe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JtkAr0qa; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:Content-Type; b=t3tGnw5MKtNmO7dLQ3C+hKLpgRQ1yh9tQMifW2sEx4tUE04uKz7LDwAh7duQVWhkxAh3J9KWc8ZLPUQWxYcZYu0hIkReGBviKxgJyxhKxFXiEOvqIOWG3yOZIpmQlsLeUjYZ7iN3oR26M1ooXKcs+q0ch2Us+ju0dPr7k+g6kuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DzIHnt6o; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PhtbcgpZ; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=DzIHnt6o; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=PhtbcgpZ; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lWUu2Tbe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JtkAr0qa";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lWUu2Tbe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JtkAr0qa"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DzIHnt6o";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PhtbcgpZ";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="DzIHnt6o";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="PhtbcgpZ"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 80B715BCEB;
-	Thu, 15 Jan 2026 10:11:16 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 98CF55BCF8;
+	Thu, 15 Jan 2026 11:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768471876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768475223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
-	b=lWUu2TbeZY6RbZ01DhcVeFrmvAsySDFDk0yGL7KxxRgj7H0omhhsI5oH21/J5Ky4XfZ/Ul
-	e22VJxJfZ25vUJjcg3TkLNMpoRoao8jCZUKbDJt9/iwes9Hf+Lj9E55A2tv2nUo9/lgMDu
-	SYg8PyiOPyZ0yFy5wSQK46fqzRQVY5c=
+	bh=CMDfavExPfC/FICQX2UPPaUz4Jt0PBH/HWBal9RBdsk=;
+	b=DzIHnt6orUzRCjYb5JLGvRIpeE2yHI8uAaXqF1/buvFeALUtevEkxBKxl5pX+3iw7H8IS1
+	SMeuEAJLgYFCFOrv9ypOg1zRnLXB2bqmUO+1etfT3Hceu2BHVCm8vs/hirEG7qCOlvSwCp
+	YtTspVNOwogdFPGqgn4QvWJjEH0dcU8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768471876;
+	s=susede2_ed25519; t=1768475223;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
-	b=JtkAr0qaXG5Lhs4NEaVJnny1x36VnIMUXEApK8+cQDbTaGfyiovtrcYUdgOTSj4pWSD/3F
-	rhc3IX4yTzW6XEDw==
+	bh=CMDfavExPfC/FICQX2UPPaUz4Jt0PBH/HWBal9RBdsk=;
+	b=PhtbcgpZ28KPLRtLV9294kHuGiy0/i83FiDqUxx9XESVkVGJz7TRpW09X1o1ZA4GyDKJ3j
+	xQsQVuAuh2fYYrBA==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=lWUu2Tbe;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=JtkAr0qa
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=DzIHnt6o;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=PhtbcgpZ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768471876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1768475223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
-	b=lWUu2TbeZY6RbZ01DhcVeFrmvAsySDFDk0yGL7KxxRgj7H0omhhsI5oH21/J5Ky4XfZ/Ul
-	e22VJxJfZ25vUJjcg3TkLNMpoRoao8jCZUKbDJt9/iwes9Hf+Lj9E55A2tv2nUo9/lgMDu
-	SYg8PyiOPyZ0yFy5wSQK46fqzRQVY5c=
+	bh=CMDfavExPfC/FICQX2UPPaUz4Jt0PBH/HWBal9RBdsk=;
+	b=DzIHnt6orUzRCjYb5JLGvRIpeE2yHI8uAaXqF1/buvFeALUtevEkxBKxl5pX+3iw7H8IS1
+	SMeuEAJLgYFCFOrv9ypOg1zRnLXB2bqmUO+1etfT3Hceu2BHVCm8vs/hirEG7qCOlvSwCp
+	YtTspVNOwogdFPGqgn4QvWJjEH0dcU8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768471876;
+	s=susede2_ed25519; t=1768475223;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
-	b=JtkAr0qaXG5Lhs4NEaVJnny1x36VnIMUXEApK8+cQDbTaGfyiovtrcYUdgOTSj4pWSD/3F
-	rhc3IX4yTzW6XEDw==
+	bh=CMDfavExPfC/FICQX2UPPaUz4Jt0PBH/HWBal9RBdsk=;
+	b=PhtbcgpZ28KPLRtLV9294kHuGiy0/i83FiDqUxx9XESVkVGJz7TRpW09X1o1ZA4GyDKJ3j
+	xQsQVuAuh2fYYrBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6164D3EA63;
-	Thu, 15 Jan 2026 10:11:16 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 784253EA63;
+	Thu, 15 Jan 2026 11:07:03 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Zbt1F0S9aGkJdQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 15 Jan 2026 10:11:16 +0000
-Message-ID: <66de652b-3c0d-4ad7-a23e-2a46e862edd7@suse.cz>
-Date: Thu, 15 Jan 2026 11:11:16 +0100
+	id +OwJHVfKaGlmKgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 15 Jan 2026 11:07:03 +0000
+Message-ID: <d0f5f72d-77de-4be7-990c-a5e47f326dd9@suse.cz>
+Date: Thu, 15 Jan 2026 12:07:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,7 +83,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 05/20] slab: introduce percpu sheaves bootstrap
+Subject: Re: [PATCH RFC v2 06/20] slab: make percpu sheaves compatible with
+ kmalloc_nolock()/kfree_nolock()
 Content-Language: en-US
 To: Hao Li <hao.li@linux.dev>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
@@ -98,8 +99,8 @@ Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com
 References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-5-98225cfb50cf@suse.cz>
- <leaboap7yhlnvuxnxvqtl5kazbseimfq3efwfhaon74glfmmc3@paib6qlfee3i>
+ <20260112-sheaves-for-all-v2-6-98225cfb50cf@suse.cz>
+ <2hsm2byyftzi2d4xxdtkakqnfggtyemr23ofrnqgkzhkh7q7vc@zoqqfr7hba6f>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -140,10 +141,9 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <leaboap7yhlnvuxnxvqtl5kazbseimfq3efwfhaon74glfmmc3@paib6qlfee3i>
+In-Reply-To: <2hsm2byyftzi2d4xxdtkakqnfggtyemr23ofrnqgkzhkh7q7vc@zoqqfr7hba6f>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.51
 X-Spamd-Result: default: False [-4.51 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
@@ -151,61 +151,54 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:mid]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 80B715BCEB
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 98CF55BCF8
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On 1/13/26 13:49, Hao Li wrote:
-> On Mon, Jan 12, 2026 at 04:16:59PM +0100, Vlastimil Babka wrote:
->> @@ -8641,12 +8690,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+On 1/13/26 16:42, Hao Li wrote:
+>> @@ -6129,6 +6152,17 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
+>>  		return pcs;
+>>  	}
 >>  
->>  	set_cpu_partial(s);
->>  
->> -	if (s->sheaf_capacity) {
->> -		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
->> -		if (!s->cpu_sheaves) {
->> -			err = -ENOMEM;
->> -			goto out;
->> -		}
->> +	s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+>> +	if (!allow_spin) {
+>> +		/*
+>> +		 * sheaf_flush_unused() or alloc_empty_sheaf() don't support
+>> +		 * !allow_spin and instead of trying to support them it's
+>> +		 * easier to fall back to freeing the object directly without
+>> +		 * sheaves
+>> +		 */
+>> +		local_unlock(&s->cpu_sheaves->lock);
+>> +		return NULL;
+>> +	}
 > 
-> Since we allocate cpu_sheaves for all SLUB caches, the "if (!s->cpu_sheaves)"
-> condition in has_pcs_used() should be always false in practice (unless I'm
-> misunderstanding something). Would it make sense to change it to "if
-> (!s->sheaf_capacity)" instead?
+> It looks like when "allow_spin" is false, __pcs_replace_full_main() can
+> still end up calling alloc_empty_sheaf() if pcs->spare is NULL (via the
 
-Right.
+Oops your're right, we can't allow that. Thanks!
 
-> Also, while trying to understand the difference between checking s->cpu_sheaves
-> vs s->sheaf_capacity, I noticed that most occurrences of "if (s->cpu_sheaves)"
-> (except the one in __kmem_cache_release) could be expressed as "if
-> (s->sheaf_capacity)" as well.
-> 
-> And Perhaps we could introduce a small helper around "if (s->sheaf_capacity)" to
-> make the intent a bit more explicit.
+> "goto alloc_empty" path). Would it make sense to bail out a bit earlier
+> in that case?
 
-Good idea, will do. Thanks!
-
+I've reorganized the code a bit so it shouldn't happen anymore.
 
