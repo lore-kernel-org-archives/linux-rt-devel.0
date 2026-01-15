@@ -1,111 +1,211 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F61291C33
-	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 04:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D06333A9E2
+	for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 10:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768450464; cv=none; b=VoeWtw9gZfK0g0yaPOb17GuzlB/wVrSWCjoyvgUDcpf3RCrnT6i9Rt0N53bmke58307jY40UzqFrY1Ub6xod6ph9J7v1gY/VFg0UFc27rZHPKuBnhgpF2En629Yh/3LVX/aS8aoEQBEhjnC0QBTMcUWf1KSQsk3FL9uwo6aXoVc=
+	t=1768471879; cv=none; b=KEY15baxeFtAumg6nAWhIiUEWzXGNTOCcNAzCGEVPboMzLCK0tZ7PkxvACOi1DaW5O84Q6LgXuUEQvq4soOvkrj2M2II7i4/AslszLxLCFfnpgi7efXopxx/Y0AwpQRbVEoy6A1dGu3DGIAJe10rt3i+7RM+sucouayvQqHJs94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768450464; c=relaxed/simple;
-	bh=iQXAcib2oRD600WPIfM+1RfvWKx32iOPMF/YK+XRJ64=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SeiI9UzrkxvXZ+pCrSkZNWRm0/pVyrgXRhpBBEw1rh6LqU+hulZHoirdMotYbOkHci9auAW3mdvXhn2DqzfgESHb3oMwSnXse1OAtZk+alVOFGHGc/2YhyaUDcoYRreNqZSWxiY+Tt/L43rbmpiAgnMTHqJGQ3TbvPh4ozrhEqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DayIyr8A; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1768471879; c=relaxed/simple;
+	bh=g0YOmsvmK07wWgdxBTMzfoRs3dC51AGbWNRcKooHeIo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QnF8k+dLBRV/DwfE51FgwTuWiGkCSiacnrabLh/RgDsSrqS2Wqvrc2UXZ527x2GcUTbSKWxafv4aI/YB8TSBCKf9brZfICaNQiZPG+Pyjem8IAusILKOZeU3K4vDCfbBDKFhMHOUgNRt/eMGK4YpJmRD3ZT3qRRAbIJOIAeWRuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lWUu2Tbe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JtkAr0qa; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=lWUu2Tbe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=JtkAr0qa; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DayIyr8A"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2a0f3f74587so3710635ad.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 14 Jan 2026 20:14:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1768450462; x=1769055262; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttW/0VPnzpmGU5Uwq1WgWZISL693I/ws1/HEZYT9FVc=;
-        b=DayIyr8AwlHqWYnDwqy4CD2swvhZzmk4VnRcHKkEncxPIJptWME/Qe+iKC71ZXddfB
-         D8WJgoG27jd7zhirv/GFntw07WZ23KZK/P31EjXowwNnD5MoG0NSzVR7GgE2wxnmPPMm
-         Ezh73VH8ElipotztiLH8myYuGPWKDi8xgLQC5xeaZst/c7G9SrBIN3efpm7KRN/FfyIR
-         TNRuwLMgAMttYDJWifkWZWprm+Xx9Br9ZebI2BQJfWzet7Udr5rmYWIhtHc1gt+WXj/k
-         mTU+4lLq58G30rTQUIF56jwrRDlTYLKT9XPZYUKU9YS8yBAEbeEIk+eqgs9pXyqhYjZy
-         V2ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768450462; x=1769055262;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ttW/0VPnzpmGU5Uwq1WgWZISL693I/ws1/HEZYT9FVc=;
-        b=kgtaWN8KDIggyq9DiA+8Oi/R3zd4RyujKd0XhusZSwT/l/nNihjxMt/Fjegxy+i359
-         JDCCeW38orJGFD4G0OsehndkaAYVxXhUmqWoInDfBZ8EmURW5YCrfcs0oOSShNMyRqxY
-         jdCaSuumvbQ3nA8RGSNzj1s6UpsNP//H4lJfvT5u9nTO4afirogAX/85j8kPOhoxEdu3
-         Hn2NlDFtRjDgAh5bzqZhbrpkQTn5rGxmLrW0cpagzNO2lxHDsrKcWdneyzpg0dQ6VYie
-         u7/voQwoWjGECTDIwFpm6P/4SqS61FonsWlMitHYlIfSrdhB5mV34E+PmhVAnP7MU0mC
-         PveA==
-X-Forwarded-Encrypted: i=1; AJvYcCXs96M3f/Ibw5ItBZaG0ziX5+Wwgm+YjUXufjoYXWpmkulh6O8QHbaIUEKReOMqH8bRHb96bGU/LE4OcXtoQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXQ09bSYPBgUMSv92TZ6sU6pYOipNpn0D3l0O1/tUntkNbnO2n
-	EaHgyMcAq4xoTCa6jTPmpgEXClWWdUiYcAIE6PlInsywETpBqLaA2HPIbh9pkAZwgYA=
-X-Gm-Gg: AY/fxX6S6vrEc7gEg0d6c9SSZGF6zKIukfROcjB31ZqcU563rQ3MpNTS8E7pZ/Exrff
-	N4JV+QSmwqaM+09AZJ3b6FBNvEaD2DYjVxET53OMkeeF7THIY1z/b01Zu1/zJ6FwVXHUp/6wPcY
-	kcGO6W8lHmkDFUQ2MxyOgR8FaPI4+TifNpuglqBOcB+ohngnIG/HwcwGO21+RA4XV2LuREpp9Sv
-	z+sUz+v8SzRQu0bvxvWllG211Id3Y6TMj5XgmDRPb97a9S6rbG8BuRVcO6E5MP15pRfLMmMUeR8
-	szZoAyUzy2oJFADE6o78/vDvdB866e1pQ1Bxin9BFWSEABgpAWL3iRpa2h/+E6z7jB8xS7hsenG
-	qVWZRjkDDxiDwauh966FIuq65sbWrr/DU0/3anxG4ivMto2oXR/5L9Z4d/OhnOAGh8edOaomIV0
-	0aZaDd9IPr8So=
-X-Received: by 2002:a17:903:189:b0:298:4ee2:19f3 with SMTP id d9443c01a7336-2a599e51d5fmr51014125ad.49.1768450462206;
-        Wed, 14 Jan 2026 20:14:22 -0800 (PST)
-Received: from localhost ([122.172.80.63])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a3e3cb2d6csm242276725ad.64.2026.01.14.20.14.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jan 2026 20:14:21 -0800 (PST)
-Date: Thu, 15 Jan 2026 09:44:19 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: K Prateek Nayak <kprateek.nayak@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>, 
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	Len Brown <lenb@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>, linux-pm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Perry Yuan <perry.yuan@amd.com>
-Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
- cpufreq_driver->adjust_perf()
-Message-ID: <bqvpt465nowq3jipfsciaoafjpjhu42l63vi6p67qscwx5oil4@t2tkh2u5giuy>
-References: <20260114085113.21378-1-kprateek.nayak@amd.com>
- <20260114085113.21378-3-kprateek.nayak@amd.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lWUu2Tbe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JtkAr0qa";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="lWUu2Tbe";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="JtkAr0qa"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 80B715BCEB;
+	Thu, 15 Jan 2026 10:11:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768471876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
+	b=lWUu2TbeZY6RbZ01DhcVeFrmvAsySDFDk0yGL7KxxRgj7H0omhhsI5oH21/J5Ky4XfZ/Ul
+	e22VJxJfZ25vUJjcg3TkLNMpoRoao8jCZUKbDJt9/iwes9Hf+Lj9E55A2tv2nUo9/lgMDu
+	SYg8PyiOPyZ0yFy5wSQK46fqzRQVY5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768471876;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
+	b=JtkAr0qaXG5Lhs4NEaVJnny1x36VnIMUXEApK8+cQDbTaGfyiovtrcYUdgOTSj4pWSD/3F
+	rhc3IX4yTzW6XEDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=lWUu2Tbe;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=JtkAr0qa
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1768471876; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
+	b=lWUu2TbeZY6RbZ01DhcVeFrmvAsySDFDk0yGL7KxxRgj7H0omhhsI5oH21/J5Ky4XfZ/Ul
+	e22VJxJfZ25vUJjcg3TkLNMpoRoao8jCZUKbDJt9/iwes9Hf+Lj9E55A2tv2nUo9/lgMDu
+	SYg8PyiOPyZ0yFy5wSQK46fqzRQVY5c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1768471876;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cgS+YfLmxtAaHSdATGA5HBi4gCQegNTgh7ni6TZTR30=;
+	b=JtkAr0qaXG5Lhs4NEaVJnny1x36VnIMUXEApK8+cQDbTaGfyiovtrcYUdgOTSj4pWSD/3F
+	rhc3IX4yTzW6XEDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6164D3EA63;
+	Thu, 15 Jan 2026 10:11:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Zbt1F0S9aGkJdQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 15 Jan 2026 10:11:16 +0000
+Message-ID: <66de652b-3c0d-4ad7-a23e-2a46e862edd7@suse.cz>
+Date: Thu, 15 Jan 2026 11:11:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260114085113.21378-3-kprateek.nayak@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 05/20] slab: introduce percpu sheaves bootstrap
+Content-Language: en-US
+To: Hao Li <hao.li@linux.dev>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
+ <20260112-sheaves-for-all-v2-5-98225cfb50cf@suse.cz>
+ <leaboap7yhlnvuxnxvqtl5kazbseimfq3efwfhaon74glfmmc3@paib6qlfee3i>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <leaboap7yhlnvuxnxvqtl5kazbseimfq3efwfhaon74glfmmc3@paib6qlfee3i>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.51
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.cz:mid]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 80B715BCEB
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On 14-01-26, 08:51, K Prateek Nayak wrote:
-> cpufreq_cpu_get() can sleep on PREEMPT_RT in presence of concurrent
-> writer(s), however amd-pstate depends on fetching the cpudata via the
-> policy's driver data which necessitates grabbing the reference.
+On 1/13/26 13:49, Hao Li wrote:
+> On Mon, Jan 12, 2026 at 04:16:59PM +0100, Vlastimil Babka wrote:
+>> @@ -8641,12 +8690,10 @@ int do_kmem_cache_create(struct kmem_cache *s, const char *name,
+>>  
+>>  	set_cpu_partial(s);
+>>  
+>> -	if (s->sheaf_capacity) {
+>> -		s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
+>> -		if (!s->cpu_sheaves) {
+>> -			err = -ENOMEM;
+>> -			goto out;
+>> -		}
+>> +	s->cpu_sheaves = alloc_percpu(struct slub_percpu_sheaves);
 > 
-> Since schedutil governor can call "cpufreq_driver->update_perf()"
-> during sched_tick/enqueue/dequeue with rq_lock held and IRQs disabled,
-> fetching the policy object using the cpufreq_cpu_get() helper in the
-> scheduler fast-path leads to "BUG: scheduling while atomic" on
-> PREEMPT_RT [1].
-> 
-> Pass the cached cpufreq policy object in sg_policy to the update_perf()
-> instead of just the CPU. The CPU can be inferred using "policy->cpu".
-> 
-> The lifetime of cpufreq_policy object outlasts that of the governor and
-> the cpufreq driver (allocated when the CPU is onlined and only reclaimed
-> when the CPU is offlined / the CPU device is removed) which makes it
-> safe to be referenced throughout the governor's lifetime.
-> 
-> Reported-by: Bert Karwatzki <spasswolf@web.de>
-> Closes:https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/ [1]
-> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
-> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> Since we allocate cpu_sheaves for all SLUB caches, the "if (!s->cpu_sheaves)"
+> condition in has_pcs_used() should be always false in practice (unless I'm
+> misunderstanding something). Would it make sense to change it to "if
+> (!s->sheaf_capacity)" instead?
 
-Ahh, you need to fix the Rust binding as well. Minor change there.
+Right.
 
--- 
-viresh
+> Also, while trying to understand the difference between checking s->cpu_sheaves
+> vs s->sheaf_capacity, I noticed that most occurrences of "if (s->cpu_sheaves)"
+> (except the one in __kmem_cache_release) could be expressed as "if
+> (s->sheaf_capacity)" as well.
+> 
+> And Perhaps we could introduce a small helper around "if (s->sheaf_capacity)" to
+> make the intent a bit more explicit.
+
+Good idea, will do. Thanks!
+
+
