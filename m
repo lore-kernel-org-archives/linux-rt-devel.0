@@ -1,137 +1,249 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEA033B6EF
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 16:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768581703; cv=none; b=jz+OjEurTYf+PsGQU8QrykydiY5VKZ9yC+c2u2Tj1nbWF8XwwpK4QiyowYys8QHgKoMsj81RpUi3GFsN/RIE9G9ILUSlN8kCWnbppqF9hmuQLe0Eyc5WvEvyNTNbrJ7QyO+5aPZzPGe3jer1X2OcPzA/7leAwqJEXSoa/qnJhFM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768581703; c=relaxed/simple;
-	bh=W5qqiffb+6g0QVwSlVFeG2w/0xxRiZ8Rl/H/1wBjfK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQgdgeX0JNEeeOtwFms30TFzV/xjiutjC25eHKdfnsSZVZ5e95FjN0tbqW8ANQ2Rh4rabtInbC0D6GCIK8wRcKQojFA7OwjbVzv2eO260X4JBpHyFjvhLIUuAoL6v1+WDC7NPz3cmi37EpVxgofKN8ocTOj6FudO38IFS4RFHNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ljkU0wOj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vb3vzNeB; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC442571BE
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 16:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768582600; cv=fail; b=hm2Yl+u+e/Eab1eE8W3LR+MsDQAab3FjFm0in8EPhTrI1EljD1UyIoUH0zibfoS0GqXuIMpYmwn6PM/XbcEDPN73hEVSAAHaVDzObuEO/UcnPa6QkpgBeGB4AdEfKuVEsaT8eiHbKDmtu3iSu5+W4CnOnlN9vfuYQiSx91OZTg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768582600; c=relaxed/simple;
+	bh=LXCkT5sm1xQ0PIy1po2npjs0EpNf1QoPKjSmTdQc03c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BUsPC7/U4Z0j6w4noiRItqMQvaJ0NKvqTcbX4cQzAUh3fDNmcexEnlzv+DgcZoZJpGDttxLyRt/mOEX4nx/aiu3wrdnSoT986B1M44m3FlnYJ4Ry25Gwb41tOiY0ZBsztOBi6qirmCEv11mduzGd7C3reWDayneELw1ut4M98sI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=ikUYtPqo; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=yn4M9PhQ; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ljkU0wOj";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vb3vzNeB"
-Date: Fri, 16 Jan 2026 17:41:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1768581700;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VBUoLPWSKpuo6CuQ7wHh1j/tBavqQozUcWFWj2skMc4=;
-	b=ljkU0wOjmbbu5GdN+yCB8VOn1tVFTyrVsfDFIMwgb33xhlIGtrAsyj8g0auZ3q+LoaM4uL
-	0C/Xm6SsCSRGHmedgnJzPcPWMuVQlJsOTm7syhXXp0ypY9dH6ORAh+pqzwQeWZdt8m0cbs
-	4yxNneclfyIyuWWCPvszFVmcaENUkMFD+nEhAr9lhbe7VTlLNJ+9i0U4kAo9ZZ4wT7ca/w
-	ZyB73DkJitApkow0nL4ODJUJcETrPV4iLXTzExafkOUIC28RUsJgYZQZnbGxxljscvpl84
-	mZFS//ohc80U2Ji4TT1ABDqIdADQiLuSve3Xis8y1dr/8ruKtGn4covJmZa1eQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1768581700;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VBUoLPWSKpuo6CuQ7wHh1j/tBavqQozUcWFWj2skMc4=;
-	b=vb3vzNeB7UJoIXhaDc97Gvm0agwiYu0/lVifQ07a84Kj9AcG9tGBrGCwRN29Plw4/ZnUDr
-	Wnzhe/NmnNWTvjDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ikUYtPqo";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="yn4M9PhQ"
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60GDV3OF1433051;
+	Fri, 16 Jan 2026 16:56:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=LXCkT5sm1xQ0PIy1po
+	2npjs0EpNf1QoPKjSmTdQc03c=; b=ikUYtPqogcPvzzwohBekBuTF8y72zMIQVy
+	rDkLc7ikGHDTF6PgkGoFV33xZ6i3hLatD0B9B8keqZsUnJWftlqmFFKnHKEVib6U
+	VHrJM+PIEvaavxs4h0COvu1Abz+ROAO+fr/WroG47PvQVEbFbIDmSP63lj6JDN1u
+	ygJDfQsONuMpvvLXRMPnLG3wYa7nEN39gd90aheDDhQFCkQ58YOKPxmEaIyhxFWE
+	FL15pnjKuqUuqMc8LtyeRtYxrd6w5Kr5mJPAGOjDvSdoFSFKLgVrZ+iaZKsnl+di
+	rz16/uNj9INrDYAjmvEaKnBSx24fN6QBLd9O1ePbbjwPLbzR6l1w==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkqq5a8qj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Jan 2026 16:56:17 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GF0cHt029228;
+	Fri, 16 Jan 2026 16:56:16 GMT
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010028.outbound.protection.outlook.com [52.101.201.28])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7pwbxk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Jan 2026 16:56:16 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bRH1PiCIRbUQRgnbp3FMpS7dx6noz2iWYq50ppr02fR+vch0oIDB/0Fal+SDTO1cyEdKM0mgsQFC3rVI0Ym6ZstpjOBn9bZzlJfHIjhnHUdA6PE5ZB4azBoJNSqmVB3NW9+FWyp8ltXuepnLn8p7FNHgzMebBsUTsHZSYcQIop+QFIghXj7o89kfbXTKIfMJB3HNbI96SKzHeniz2pCXd++r5cmRwVyJc8ckxQq0BCNbuD1QMmwXz8XSayxufOdzu41R6WFuoHgcuQRLiLoedKEHyM5I9zHX/PrjsGRYE1SvXJZsP0Z2pqZp5/dXsVxBaL9ugob/xoaSZ5gcQppVKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LXCkT5sm1xQ0PIy1po2npjs0EpNf1QoPKjSmTdQc03c=;
+ b=LNvOgq69SQ7wImSfYsyDMAwBtt+vINgMiijiX7y8h3DziSfnlOZBYVc+NlchQH1efCWv16noT9ZZhxyqbD322i1uoGbBbl0siLNzwkfLo+xin9AWQMxz5QBy/JlsSx8WqNEuSzyr8rDrQhrcnghNLX3O7aMcYyec8q9l3lXGT3PLv8oB0spxlZjVmTjd/qQ4hR03uaSeZ0C73LI7JDTRmZT10Y7dYU78ccIHVNRk7K+jixoPmYFNyNGbLKq9Ob6arRqgxdkTyhwQMfxn2MOA0QyAxwJ7GP9xWnfbc0cZbx56wVVbewsJ63x/HdV0XDpwU6zwcGFRureypdRJoJUDDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LXCkT5sm1xQ0PIy1po2npjs0EpNf1QoPKjSmTdQc03c=;
+ b=yn4M9PhQIYfSWVIgG2pUhsjGllKG5INYeW6kseBlMEMsTzZ2Phg1lDLng2IfyDkZ1ZOZcc+OIJgfpL+nNmQDXb1EGhgJOLUXy6zLvrQ6pMOUUcls9BktH7xLRGvbCQ6vjaWhEd3ua7xE10JsKlnjAORng6B1c67hY7GO4ukJs/U=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by SA3PR10MB7023.namprd10.prod.outlook.com (2603:10b6:806:313::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 16:56:06 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 16:56:06 +0000
+Date: Fri, 16 Jan 2026 16:56:09 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
-	Waiman Long <longman@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        Waiman Long <longman@redhat.com>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
 Subject: Re: [PATCH RESEND 1/3] locking: add rwsem_is_write_locked(), update
  non-lockdep asserts
-Message-ID: <20260116164139.8Sm2sJxG@linutronix.de>
+Message-ID: <75459722-0bb9-49a3-82e5-e034307b09e0@lucifer.local>
 References: <cover.1768569863.git.lorenzo.stoakes@oracle.com>
  <8e343ccb9319433364f5949a69519f1bb521fc8a.1768569863.git.lorenzo.stoakes@oracle.com>
  <20260116151215.GH831050@noisy.programming.kicks-ass.net>
  <99818e30-9f88-4751-af82-0bed019156eb@lucifer.local>
  <20260116155743.AuMKcTAO@linutronix.de>
  <5ca7b2a2-1e9d-4d90-8459-1aa35b30b49c@lucifer.local>
+ <20260116164139.8Sm2sJxG@linutronix.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116164139.8Sm2sJxG@linutronix.de>
+X-ClientProxiedBy: LO4P123CA0560.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::18) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5ca7b2a2-1e9d-4d90-8459-1aa35b30b49c@lucifer.local>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|SA3PR10MB7023:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05e19be4-65a7-4da2-57f9-08de5520240b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?T7Vk50uXXgawB3AnWzkCIhJHAdayYWfPW0j6svyr52I+2gY50isQHl008jaf?=
+ =?us-ascii?Q?e1hvlNehPwGa8827yt3tyq617phdIJPb8BlVYfMG+ERFFua67G58rFTJl/ZG?=
+ =?us-ascii?Q?3OhyQuLeod+B6kfSpjL/W1b/x70V+a7MOVxhn4/0y5LfXNWZtAPqVV58Uy4p?=
+ =?us-ascii?Q?0YgYttQdWZSJzp6f0MJf1CF/pA3JKCZlHTQ6xk1XaE7JK07HCjUdnzLDH60m?=
+ =?us-ascii?Q?3Q6USzGubG6v7qvMnkRVBqe/FwZcKRAn03E/V1wQ/IvlZYDwQ69p0TUGrnpJ?=
+ =?us-ascii?Q?UzybY8BS5T5Rnj9YD8kHmL9/Qf1aGKFPYnGDxkoDnyQ3I3ve8QZYTW7xbwxE?=
+ =?us-ascii?Q?oXoi3MeKf1LxHJ8/SgbWn4/BS5CNAj/YbxXkbGk6GCm8gLtqVwgtRnkaEMBn?=
+ =?us-ascii?Q?lwQwq57gsUPJM/6Jb+F4aXmOLD3HCZDPi1QV3V9WYLheXUWi+OYCcsh6RYzA?=
+ =?us-ascii?Q?v/KzXAC48GL2hoAtiPf4wTacrXvoQL07+tPeXZpFZVRzBa2rx+tGGi7Qdirn?=
+ =?us-ascii?Q?/bR0vXZNno3yiwS+SgqtNjcnBnknPXsyi29xg68e8/n/YPLd32AM4pnVzKXE?=
+ =?us-ascii?Q?7KW1kvTxMJ4z1mPVUJLXmKRS8eddpA+hjecYzu8jQzrTluxG4V6kdzuzeK++?=
+ =?us-ascii?Q?8ysSaXL7Qf07eg4I7FCr5wFraQ8ICDF/3183sl5ePAdsiP+WHNm0QRYXEwjK?=
+ =?us-ascii?Q?ojfebX3wWKv5blbH5sS+JszzyYi+PNB591J1z00X1Sf/Gdle4GtZV4KMzlM7?=
+ =?us-ascii?Q?VhIodaev6zUpcGuTxOjOo0iW4mWDrhsSE5fG038vkZfpMCP18VA6u+C4B0T6?=
+ =?us-ascii?Q?c+ot9tngFKzpnI2arzQ3ba6xtzkz/FkcCz51UBeTjnFqMW/3jQsRJxp4C9U7?=
+ =?us-ascii?Q?MXelFcrNgruvViX0FGMpk9/KZNe5XZHts+6RJjQYF89ZbiIVVqL0zODkn277?=
+ =?us-ascii?Q?9/KrNb/649I4JPOXaVLFfTkVeqqDiVDG+R4+uo7yGHFVIR3en97/A3cF7BRj?=
+ =?us-ascii?Q?6wQYk3Uc8EIgNWrMq2BvQKFhuRZPrd5SJmf1IHjpCdZs5o9JeqUyKIxZvUvt?=
+ =?us-ascii?Q?RcADulgWNJCgMiAXKQ2ShgTafBy3mA0kUgPG4FMQyfwieG+01LzxE4b69DEZ?=
+ =?us-ascii?Q?tHxMiDJRO9YRbNhvDrZTAwVLMZ4RB/FFfAH91aXtfbuzg6RBszSkhgA2nDe1?=
+ =?us-ascii?Q?VMeQjfC3Lw6wWV4Ulgeb0HQQs22BJX4F8W2neAlgdQpRagajqGCvmpzk1huO?=
+ =?us-ascii?Q?PS0iD1BQe+RPKuXbrxqucinMEha9vOTAZxqPDahpDUAKvHKkMpo0/U4P3UKl?=
+ =?us-ascii?Q?DDXOIv78BKBlOseoMP5YgMv95G3bAUK+aZ+AHr3hyp+AFvgh52JjVH96I7WK?=
+ =?us-ascii?Q?1xzl2skij6ImmtUT6tnju1PpgT/MRsmsc1DCmdTYlCw0Prc86uz/varANzX1?=
+ =?us-ascii?Q?c0WwmiGIyURALQoo7m63cgoZy6eTqkbcorQ0o7eqV87oLRl4EDwutRUJKRRS?=
+ =?us-ascii?Q?d6zsGks0fwERuonFEQi7cTBZj7EwYFGx3ypkr2sy7RoJoGftaxaYvtkv3if4?=
+ =?us-ascii?Q?ivn18mfNeN6x0LxE+Ww=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?fy420mn78QjWo6Yuzx9LPWMc1/QBha0WCdtvFQf3Afk8bwOm5lgXvRY71kOA?=
+ =?us-ascii?Q?pkbodA8iQ6QFQwIX3iTGZIMnDVFbxqDg6H/5Qb3g1/9/9lIIuLvsa2Wozjod?=
+ =?us-ascii?Q?gSXJDmf7qXvPk/ugv57N8QWOFK6RD96FUrLKU8IXHtW6oHpTrkBsO3jtKgch?=
+ =?us-ascii?Q?jkKblpoLzhf3FwywNsuAKGIPvM6hR3UvLbpRkZWHsJtSyAzxRPpa0zEFOHuH?=
+ =?us-ascii?Q?/NS9IYwaAqZEQfQ14TDM1UWxtZw1R2FsRQGLEu/6XBs7xpuDM/7DdaPAHbgS?=
+ =?us-ascii?Q?jdbQHtDkOcTLx8LFVd5UhcR8+1cHQPDtSrUhcIg7kaf9bBNB5eH+GX4Ofvkq?=
+ =?us-ascii?Q?BaU/C202jqM0YIRGd/wJ04tDv/ks7GtTTfxxBmj5m9SQT66fXdh5YcAg3rqd?=
+ =?us-ascii?Q?BhIUW0Vd4CTOhJKt26Fg9sQ1aJzQnZP7bcmmGjF2KcFuqkKccGbohSuI557S?=
+ =?us-ascii?Q?vBO7Oy3v5yLM1vy+FcmmkJtJKN38HUtjVMn81+awIMh/uYELfFpPgc6Ol+mJ?=
+ =?us-ascii?Q?o/K1ZeSkOYLwDjOPd2D3tC7lPJJpeWkax5r1LFH+kRT/AEhgE+ut2nuGJT2H?=
+ =?us-ascii?Q?+LN6g0A2bphxZ7Zk5SfUmu89HawK2ITrbvBZzprs6xW/engmbSo4CXS+QlHs?=
+ =?us-ascii?Q?sdQdqq4hqvJehSQGBQ7HWwYruXpO9Nn0+jZfwhtk/yGBKTnLHDMdszxAyBLL?=
+ =?us-ascii?Q?IfMZw7DNVwvi0vwr3LTT6mU/Wil66ElU40tMkuanUWdp9rgtgxPn2NCuvZ4G?=
+ =?us-ascii?Q?GfiBXgjpN6zWurAGzWWXVg0KYA4SVWo0uMqj0TueTGN9nPiU8dpuK+fkeI8d?=
+ =?us-ascii?Q?/QtC45TfQyrL+z4ILd7vgCxuv4d5cFDrJrGNXA8nIYIKoahK3SW2j4NtJoX9?=
+ =?us-ascii?Q?eZ+KOli9G1MMY4ufhS89isvTeJ6TJ5EXiA0VgbL17fT2+MdpeQ2vpdHw20kW?=
+ =?us-ascii?Q?zu95M4d7diA0R+HRdR165xCGXszqzzhb1egRMJyh6EPLmvzj2vEqduWrOYW8?=
+ =?us-ascii?Q?kqSxvpeVcXhbsIqoljWlnRSGbOE9hK1fZbbJNeReJ+gkQ9ScYAPgyU6Ij3+4?=
+ =?us-ascii?Q?ICKutu8M2YAqrL6y0YaddON+iaGhWk1KMRT4D4MKLufgm9ZJPZgXQywPFiQz?=
+ =?us-ascii?Q?b4OVtNCau/6UUQUf77jyy3M9XhLHKg9tAVyOYIPRJci+TJpWsrff/t4Hgk6K?=
+ =?us-ascii?Q?xXsu3aYn43O9oihsb5G2QV9tRpLGS6giDSdo5mhuPmahA26Tv1X2rZu98k7s?=
+ =?us-ascii?Q?2aSAa+JO8c6XpbJ+y8NrsUF+gQzgqWz6N8XtrLuaXYC9s42zyiMc8MaSz8Sb?=
+ =?us-ascii?Q?jDpvkHqz2TERClBblnSzoyIGqOfOpLsz0J9AN4laFaSoXO9UudI9LW5S2qzR?=
+ =?us-ascii?Q?oMdcbDqPxBg+WiWDqIXbIJd57G7giQcswdUqIhaDztynxz8npwAQ/gq/yqBy?=
+ =?us-ascii?Q?GJSbGL3oWFUaQlWqYtqfVRkn2QIn/4heHyfXhF8je+O09LOl/XimwuyHpZwm?=
+ =?us-ascii?Q?+TBAfkT9dxw2TM7YlR9N2WrTa66Mxvp6hFboxpUdgHlTWpI+x6aiZhVA+SKi?=
+ =?us-ascii?Q?YjyFBrSmtvmfojgx7GSbYakpvGRDNBBEMZb2KXWTtUPQi0s2la2Jc3uRWh2d?=
+ =?us-ascii?Q?qLl7G0iJhdINzI31qWE9ZdfF6DsL2YWdIc/1/63HiDXMaY0m3gyecEF/Kpgz?=
+ =?us-ascii?Q?q7M6B4DQzka46iiNeqPBLkIpV4Uu5aV/yd4oOVIqUh0aAjmGwRF4b0B6u8Tv?=
+ =?us-ascii?Q?xMJGaDDLsFFvtZKKjOHZGGVyyb84WS4=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	Pm4hbrjk1s9Pe3GGEMJJs/YG6w5a50yZWAEuiL0b8k5XMOKWWYBATbbWHI50QWD+r5ipWWF/rfNYz/wWcl2h6jAN3AqejPCYZdCwwMWTwnF8lw7nbfjmzUkTXqK98qxA+mLkP7jMmPlOdtw5KHd+bn3wyP3eerMoSad8Y6GR4tZkQJDDA5hKYAf/H4jvMDgXyj6YxkQAIB8yqbzokm0MAoGm5FLLhLpH2+9kf+Ha/aRvDf90IUNgVl0jVK5hJqDmIZdg1nAshcz7zXI+B4nAO80HVri8QxKsx6YppSo9C58CD4q0y0yisP/2C7b6PD02c4r5D37/H2eIANlnWy4u4yct3PcZWncB7xQ7VvvM9LeBYaRbYrv9tcVCeAgnlCwDOTPgI8kOvYQOm8stxqQZyc7UotuknyUp6ogJNUL1QDpsqXvn3vFjM1OrOLxHwbrCrusGeLeRfmFlbiC9ScUET0/aSG94XMI3FS5q2qRVYY+X848l4QL7yCbDvgQbeeZGgLI/UBBzGxTcpex3rh+fR+718wU/YMvcRdg+55HpLskMl3sqbRBPxhof6uavBPz++yUw0E/db+dOcdr5HGq2ZvnpnJqUP/e44kWQXatyPS4=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05e19be4-65a7-4da2-57f9-08de5520240b
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 16:56:06.6213
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8CAKPJbwo7tXlnCPmRPuuBEjNDvupQZDnOj+3W/aRqgIYMzIM5SoAk3iH9w946CHfctagxO6f6bRwxmz1qSvABViGc8Bef4Zj4VbC2+3v9s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR10MB7023
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_06,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2512120000 definitions=main-2601160123
+X-Proofpoint-ORIG-GUID: 6fbrK8fvNEq7S8Y0AVk1rr2cETWwCZ9B
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDEyMyBTYWx0ZWRfX4zUWbP1nuA2L
+ JNB9U5empewHX++7ZRrrFVMNotM+zQwDzpfqaWLVywstDP2Io9YCS6rPqBr0dlcer2FNKodS7GU
+ QMhBI69Kmjckz+SNDKq034w9pSKkaqE0WMb7KFjmrQwiQJyy9Ff4N2ObYaWpyE6cVCkUKPuT4wj
+ Tv2PUzPw9m7HSQHiK3sbmxqMvxxVTYM0f/cLepKBrpkTEzk0CcBcEpQESivS14SSZHsqgPEQQl8
+ tY/oayS1kROkZHFHn6aA3V0bAyZ5TUcYH6QcfY8qLdCT3fvSMSmP4Jl0iuhrB8HukQvFVh1hut+
+ v2xI3/pB+keghLC4NglL9qTAhiZiSBazZUhkjP7iatagaUEyG91JofkffHUrAx6A6ayieR5AYu5
+ 19EkJhUQUBgmlXISvaNEUi3iUnUT/h4Q+sCxd6wMsz6Tbwbxr/Pnr+yC/eqR74Ip7pmmhgEhwWk
+ WKUgN9J7tFsj8h1VmzGY0x9OgzogXIPX2rlq4y1A=
+X-Authority-Analysis: v=2.4 cv=J9KnLQnS c=1 sm=1 tr=0 ts=696a6db1 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=KOMtQaz_S5jxQzxE6_AA:9 a=CjuIK1q_8ugA:10 cc=ntf awl=host:12109
+X-Proofpoint-GUID: 6fbrK8fvNEq7S8Y0AVk1rr2cETWwCZ9B
 
-On 2026-01-16 16:21:29 [+0000], Lorenzo Stoakes wrote:
-> On Fri, Jan 16, 2026 at 04:57:43PM +0100, Sebastian Andrzej Siewior wrote:
-> > On 2026-01-16 15:50:24 [+0000], Lorenzo Stoakes wrote:
-> > > No, but we need to be able to assert that one of two locks are held and we
-> > > don't want the failure of one being held to cause an assert when the other
-> > > isn't.
+On Fri, Jan 16, 2026 at 05:41:39PM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-01-16 16:21:29 [+0000], Lorenzo Stoakes wrote:
+> > On Fri, Jan 16, 2026 at 04:57:43PM +0100, Sebastian Andrzej Siewior wrote:
+> > > On 2026-01-16 15:50:24 [+0000], Lorenzo Stoakes wrote:
+> > > > No, but we need to be able to assert that one of two locks are held and we
+> > > > don't want the failure of one being held to cause an assert when the other
+> > > > isn't.
+> > >
+> > > But why don't you use the lockdep based check? That assert only ensures
 > >
-> > But why don't you use the lockdep based check? That assert only ensures
-> 
-> Not sure what you mean, the checks I'm adding don't exist yet.
+> > Not sure what you mean, the checks I'm adding don't exist yet.
+>
+> The checks you add are not lockdep.
 
-The checks you add are not lockdep.
+I understand that thanks (?)
 
-> > that it is locked at the time you did the check. This does not mean you
-> > are owner - it could be owned by another task which is unrelated to your
-> > cause.
-> 
-> Yup I'm aware that lockdep tests more than a simple assert.
-> 
-> I wasn't aware this was possible with the lockdep primitives, mea culpa.
-> 
-> Also this came out of a previous discussion where I added a similar
-> predicate vma_is_detached() and Suren suggested similar for the locks.
-> 
-> Anyway, I went and looked and yes I see there's lockdep_is_held() for
-> instance.
-> 
-> However, I'd STILL need to do what I'm doing here to account for
-> CONFIG_DEBUG_VM && !CONFIG_LOCKDEP configurations right?
+I'm not sure responding point by point is productive here, so let me
+summarise:
 
-Without CONFIG_LOCKDEP the locking view is not really accurate. So maybe
-it is not worth doing it. The complains are that lockdep is too slow but
-the other checks are just "is it locked by someone? - fine". 
+We often run code locally without lockdep, testing isn't always ideal
+across mm and these asserts are gated by CONFIG_DEBUG_VM anyway so yes I
+want a non-lockdep version also.
 
-> So I'll respin later with if (IS_ENABLED(CONFIG_LOCKDEP)) ...
-> And sprinkle with some lockdep_is_held() and see how that works.
-> 
-> I mean rwsem_is_locked() is already specified, so naming is going to be a
-> thing now but I guess:
-> 
-> static inline bool rwsem_is_locked_nolockdep(const struct rw_semaphore *sem)
-> {
-> 	return rw_base_is_locked(&sem->rwbase);
-> }
-> 
-> static inline bool rwsem_is_locked(const struct rw_semaphore *sem)
-> {
-> 	if (IS_ENABLED(CONFIG_LOCKDEP))
-> 		return lockdep_is_held(sem);
-> 
-> 	return rwsem_is_locked_nolockdep(sem);
-> }
-> 
-> And obviously equivalent for the write case is what's necessary now right?
+Note that existing mm lock asserts already work this way, so that's
+consistent (though mmap asserts are also at runtime...)
 
-I would drop the rwsem_is_locked.* and just go with
-lockdep_assert_held()/ lockdep_assert_held_write(). Unless you want that
-verification in production because it is important and false positives
-(as in held by other thread and not caller) are zero.
+I can't just use existing asserts because I need to test that EITHER one
+lock OR the other is held. If there's a way to do that with lockdep in a
+way other than what I have suggested, I am more than happy to hear it?
 
-> Or am I misunderstanding you?
+If not I'll respin this with both a lockdep + not-lockdep version.
 
-Sebastian
+What you're suggesting, just using the existing lockdep asserts, won't work
+unless I'm missing something, because of this _either_ lock requirement.
+
+But if there is an existing solution that you can point me at I'd be more
+than happy to use it.
+
+Thanks, Lorenzo
