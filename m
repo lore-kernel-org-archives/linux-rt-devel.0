@@ -1,278 +1,232 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010030.outbound.protection.outlook.com [52.101.61.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23C03385BF
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 06:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768544863; cv=none; b=qTqYGYL/DtcxDFic0POOQpKY+lOPrGA2h8zj/c8Tr3Zj8trq8KhB7F00gGmA8ehGIq6r+qKbGOjrv/lLY11eqoMIqU9KY/rXga/qZ24VP5fYBPynnDmEwE/ZS7JUyprb/+C//C+oPSEGtHhCoXNR9Nbhy/L6VxQbakfoqi62Xow=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768544863; c=relaxed/simple;
-	bh=j2PO0YsyUoxtquDQPkeDI3JHhZ1hOFAZIbrvV52+arw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qKGLT1vgBCxB8LRa73jhDSraNip8Z6R77Fx08eQNGOVEwQcRnioIddhMXYgPPwRlRYHFYIT4GcNFz0aLuOJhma80VcXAsKk/siSkZyjXCP3Hmm0oEc73F4pI86SOMSRm9Ij9DosTFvKwjYEp5SjCi0eVUjIBml9xhY5pJviUk3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=YTxvBXK0; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA2225EF9C
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 06:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768545178; cv=fail; b=c1szGwNnww3ygYqiCGgjw5rqPp1iRj8m/DfrrjOUfdBVVWFeeHQW3vkkqXAQ//JyPFiMoi83vj6hiunZaPKzdg47jC0ldqdsno1AmFMQhawFpneS6zMgzv1PjcdLf3Z39jP0lTfLb/SK7ACdf5N8FzxcL5IEk08JnAgQdz0xkR4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768545178; c=relaxed/simple;
+	bh=Bq0a9waL62aEU0/o6H6ZpFaZuLSi0ndwwvuz08BCGzo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UxKXSghIqMxhbfY0BeHPtzpocOW0nY0pzisRq6Pa1MSxjLnTi5WAq8b7qW+n46ihYNwi/2C7tDKmVCnSETgMpC1/2c+JVxMj6gkYGC9QaR0YVFU9uPSjqV1kfOR8wqAjmGjLpoiJB8+6ETsb4N58jRVp5XFnEgAUlaV/9cSX1Tc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mfXjkeZf; arc=fail smtp.client-ip=52.101.61.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="YTxvBXK0"
-Date: Fri, 16 Jan 2026 14:27:28 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768544859;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZtRqq1YheiNBBvVmImDMizfzqDOKIgcriEPR9727W+A=;
-	b=YTxvBXK0JBNk0RbWd3h8MJih88revancn1zLe8lx27VZO9joNgTadN2VzM/l6k1bIL5pap
-	czE0RgU8pSmFOxCnYRduit8IdxaQhwO+0ObsWermDa+LI1bEr82fMrAXrzsmmlZa4XhfDI
-	xw1CXap5a2b4p/rnYcg01tNYL6P88+U=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH RFC v2 08/20] slab: add optimized sheaf refill from
- partial list
-Message-ID: <kp7fvhxxjyyzk47n67m4xwzgm7gxoqmgglqdvzpkcxqb26sjc4@bu4lil75nc3c>
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-8-98225cfb50cf@suse.cz>
- <38de0039-e0ea-41c4-a293-400798390ea1@suse.cz>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mfXjkeZf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o6O+C7c4TziuJkfeQPoOP9k883m19tQX4KEwsTTDHHYTtSmOqhYlHS0pK/0HHuMFAnLxB74ofAKDkHA1T7QyJ0ItAFtTlibee1cZWWM+3Eveu6f+C/Vhw+GvSC3dOvAYSZVlPVXrMegF2LLCvsRcuCgVrOYtU5HAMUa51VFCsyvn0Q8lHqLbiM7pMZWi0Cky7ZJRDjWh973pXEvD3yywNGABsNT2ONl3YAvDH/A5VN4s9Ns1tEkmQCjMu8khCDgPWLTyiNCiQlc7yPYf3ghWTjBSgEjRpAvbUI/pGJRCwTFZyw4pRyAxoMwoQvP6tYwRD4iZBb3sevOHGpZBJWcrLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sRE9sfcz2GZfzQj1lmyzRXH9rbBAdrvWn5c4eLx010M=;
+ b=v57vZ7CIB2vwLQbly0VRTC7fkCuLi4dIKjvnriCo+etqA+MgbzrzBJ5dUiQuXCPMEjsHaoQpIWDe+5+Iri7uLHzCBPijulufZUYc6JVIUE3l/YYrQ9gKeA3HmzOQgea+aiWAHJaRbUHOdO/J0CO0FElaScUrkW+TJUcAdh7d930rPZpAAHp+cTxlJlgsbwt+S737CnevAzEl4XzS6oF2Gu5i8JVDdAEZSe+i520vr3CMfKonZ96hypdqDbyK170zlnGEI7GHuiQ4hjnHMwM4KDU5UYsP912ieoLgvs1Ly3TJMqjuk/U35pkPsTLzxJQdGFXCW32ogxYjlAnHc98jUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sRE9sfcz2GZfzQj1lmyzRXH9rbBAdrvWn5c4eLx010M=;
+ b=mfXjkeZfr1cbRYeutUbwqv58Lrem/XMpUX0zbZorfI5+x04pxVFF93NUl0WDwCI7heG1HOsB2Y0Cy7ZO7q/39LASSXdX103dWJO0wTT+hTE9P4ke1bAzGWm6T6fiTHy7iKIW6Ggh0cNUzECxLf/Kv228IOQ330F2rOncnSulK1I=
+Received: from SN7PR04CA0011.namprd04.prod.outlook.com (2603:10b6:806:f2::16)
+ by LV2PR12MB5990.namprd12.prod.outlook.com (2603:10b6:408:170::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 06:32:51 +0000
+Received: from SA2PEPF00001504.namprd04.prod.outlook.com
+ (2603:10b6:806:f2:cafe::b3) by SN7PR04CA0011.outlook.office365.com
+ (2603:10b6:806:f2::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.8 via Frontend Transport; Fri,
+ 16 Jan 2026 06:32:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SA2PEPF00001504.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 06:32:51 +0000
+Received: from BLRKPRNAYAK.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 16 Jan
+ 2026 00:32:42 -0600
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+To: Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
+	<gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar
+	<viresh.kumar@linaro.org>, Srinivas Pandruvada
+	<srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>,
+	"Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>,
+	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>, <rust-for-linux@vger.kernel.org>, "Ingo
+ Molnar" <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Juri Lelli
+	<juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+	"Miguel Ojeda" <ojeda@kernel.org>
+CC: Perry Yuan <perry.yuan@amd.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
+	<rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
+	<mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, Boqun Feng
+	<boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>, Benno Lossin
+	<lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
+	<aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+	<dakr@kernel.org>
+Subject: [PATCH v3 0/2] cpufreq/amd-pstate: Prevent scheduling when atomic on PREEMPT_RT
+Date: Fri, 16 Jan 2026 06:32:32 +0000
+Message-ID: <20260116063234.24084-1-kprateek.nayak@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <38de0039-e0ea-41c4-a293-400798390ea1@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001504:EE_|LV2PR12MB5990:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd37f0a3-ee9b-4ca3-b1fa-08de54c912de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|36860700013|376014|7416014|82310400026|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?VBznT9snlDGJ0XFaqf1xw9UqH4rjUC/+N/1VFiuvguYpWOnHVnmBtM/bN7Ti?=
+ =?us-ascii?Q?XPXUt+KuCWKuHxtJHlGfiaB9LkKN2bG6znWUelE99nl470fbmo2V5aD0tSjM?=
+ =?us-ascii?Q?mXMK5rs7iKXKbDUTh12XMga5UK4nUsqAwGhCRRCJjNA+4dIdsR5XMMBeNPDO?=
+ =?us-ascii?Q?L1l+cmlG3XuoQTRe+DzbHxVl16xMgJ/ve31/Uqbc+ADOTrywpsIhHX5+FDh7?=
+ =?us-ascii?Q?K/l60WCmSIKzBYSsfb1G2S+KWxuh3/5BH5UcpPUoxUaTz3lYofGPUsT1KqVS?=
+ =?us-ascii?Q?eGgtMuYU9AtT+QLpk3AnPaka8KhqRJJhr4BjFkrLADD4BUfnOX+SXp+pAN1k?=
+ =?us-ascii?Q?UxXLVS+nk3wxvdpTN/wacwCXvLvKmrJ/5ihPb5MMw3GK0YEwlP5Pbc/YONey?=
+ =?us-ascii?Q?iQdVLCk2aZ4BTNNI/sC/DiP0K/W2QYKQkKpV+mFHlew2CYCei37lpaIz3zak?=
+ =?us-ascii?Q?7b4ahAooJkKKEVfBmc5T4ExEQk7Cnm3oeEGrtvIzkLiVkewI2B/ybUbaf8fm?=
+ =?us-ascii?Q?da0WYUwL2A5htuYHn7QocvPj8Prt4i1BNI71vjq7i7jc4K9e95Frlyrd32+Y?=
+ =?us-ascii?Q?ozKOrY9N8DEMJnkEK7NkVSmKMIaN+OY3wGT0u4tudS5QeHwG3kXdAkMmDylZ?=
+ =?us-ascii?Q?87pcUI5gogtGkdSMyRf9V7p7KPst71vMaXg2aJ0g8CWiqIz08RoW2tqQPZxp?=
+ =?us-ascii?Q?o+zh7nkqxN/u+OYMuZrezCZjfdCKyQgxA2LpHtdXZc1LQkHMrq1/apkH0DTI?=
+ =?us-ascii?Q?/0d7V30Mpkw7qnwTmsTrx0DWoVzYlUu7z5drec2qGC6EmD6Sd3kbg1dT4Jfo?=
+ =?us-ascii?Q?4dOnp7Exe1z4ezQfr3iC0+yL9XeVCZFUTyVaHw7PwU0LZgWqRsSAw029RkRb?=
+ =?us-ascii?Q?orp6PXAWCQ5K+15FCZoFvpaIiTYq6gHlIA4qNhmVncg3bJPYe8SGxgxLXjLd?=
+ =?us-ascii?Q?obdEHCmN3kb5E7CE2yTUdVDKrG2/pkC++gJ25t4DG1Z+JDTpa45CTguvMz+k?=
+ =?us-ascii?Q?H9htVPX3Xy1W5dPS7+A6pre6YR+BZRbYEIP3gBK3xDqSne3+U17+fZxIILEq?=
+ =?us-ascii?Q?qJ/XufgkdpOMh3YuE62kBtPxPTT1Nt5Rxb+y5ANQzFALlZ5ovJHGEwZBrgoK?=
+ =?us-ascii?Q?PwbOXUPJiviciFDxnCGCTKtH7U3ABaZCX92YxbFSjF6F3UcsFso9F2w05Dff?=
+ =?us-ascii?Q?0wrw6V2ZGJf2ENlHZ4y43jcbg8yvveG4BSpGj9KS0D+9sTqIaNg+S6tgilA3?=
+ =?us-ascii?Q?xrBIcIrQbEdBt1/KEwm5NO8mCDd/duqpZPPJyhNtMyyhZsvOqVegDv/puKbe?=
+ =?us-ascii?Q?5Rh4IUSHaHWzhhANRnKL43lXpAgbbu7hjVFD1KsjIyeE0eJU3YIgP30189Iu?=
+ =?us-ascii?Q?5D86tr6MIy1zKEEbTrKdFdm/0zVoxc9g5GFCNDJBEsbNSpyO7MKQsYMe+JL5?=
+ =?us-ascii?Q?S5zrzlWtdypR7SHea26itoZwRW5TIz33fWVYa5B7zT6Nn5we1gY1rWvrKq06?=
+ =?us-ascii?Q?17v1KtMF4VBe4glGzp1zUWlg9RCL+qgm/HxED2oOZMR6EE8y5R5wXbSu8MeN?=
+ =?us-ascii?Q?OFReup3Bx0Mv0SXCYq2VPuI19NyPAq2Bxp80i5w7ZB5f+cEBa2AO2HsiJHes?=
+ =?us-ascii?Q?ca/3P+j7wtkDbUu5lAKocH1Bnx/f6xu6vB9sxHfCS3MF?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(7416014)(82310400026)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 06:32:51.4270
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd37f0a3-ee9b-4ca3-b1fa-08de54c912de
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SA2PEPF00001504.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5990
 
-On Thu, Jan 15, 2026 at 03:25:59PM +0100, Vlastimil Babka wrote:
-> On 1/12/26 16:17, Vlastimil Babka wrote:
-> > At this point we have sheaves enabled for all caches, but their refill
-> > is done via __kmem_cache_alloc_bulk() which relies on cpu (partial)
-> > slabs - now a redundant caching layer that we are about to remove.
-> > 
-> > The refill will thus be done from slabs on the node partial list.
-> > Introduce new functions that can do that in an optimized way as it's
-> > easier than modifying the __kmem_cache_alloc_bulk() call chain.
-> > 
-> > Extend struct partial_context so it can return a list of slabs from the
-> > partial list with the sum of free objects in them within the requested
-> > min and max.
-> > 
-> > Introduce get_partial_node_bulk() that removes the slabs from freelist
-> > and returns them in the list.
-> > 
-> > Introduce get_freelist_nofreeze() which grabs the freelist without
-> > freezing the slab.
-> > 
-> > Introduce alloc_from_new_slab() which can allocate multiple objects from
-> > a newly allocated slab where we don't need to synchronize with freeing.
-> > In some aspects it's similar to alloc_single_from_new_slab() but assumes
-> > the cache is a non-debug one so it can avoid some actions.
-> > 
-> > Introduce __refill_objects() that uses the functions above to fill an
-> > array of objects. It has to handle the possibility that the slabs will
-> > contain more objects that were requested, due to concurrent freeing of
-> > objects to those slabs. When no more slabs on partial lists are
-> > available, it will allocate new slabs. It is intended to be only used
-> > in context where spinning is allowed, so add a WARN_ON_ONCE check there.
-> > 
-> > Finally, switch refill_sheaf() to use __refill_objects(). Sheaves are
-> > only refilled from contexts that allow spinning, or even blocking.
-> > 
-> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> 
-> ...
-> 
-> > +static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct slab *slab,
-> > +		void **p, unsigned int count, bool allow_spin)
-> > +{
-> > +	unsigned int allocated = 0;
-> > +	struct kmem_cache_node *n;
-> > +	unsigned long flags;
-> > +	void *object;
-> > +
-> > +	if (!allow_spin && (slab->objects - slab->inuse) > count) {
-> > +
-> > +		n = get_node(s, slab_nid(slab));
-> > +
-> > +		if (!spin_trylock_irqsave(&n->list_lock, flags)) {
-> > +			/* Unlucky, discard newly allocated slab */
-> > +			defer_deactivate_slab(slab, NULL);
-> 
-> This actually does dec_slabs_node() only with slab->frozen which we don't set.
+Bert reported hitting "BUG: scheduling while atomic" when running
+amd-pstate-ut on a PREEMPT_RT kernel [1].
 
-Hi, I think I follow the intent, but I got a little tripped up here: patch 08
-(current patch) seems to assume "slab->frozen = 1" is already gone. That's true
-after the whole series, but the removal only happens in patch 09.
+Since reader-writer locks turn sleepable on PREEMPT_RT, they are not
+suitable to be used in the scheduler hot-path under rq_lock to grab the
+cpufreq policy object.
 
-Would it make sense to avoid relying on that assumption when looking at patch 08
-in isolation?
+Unfortunately, the amd-pstate driver has a tight coupling between the
+cpufreq_policy object and the cpudata stored in it as the driver_data.
 
-> 
-> > +			return 0;
-> > +		}
-> > +	}
-> > +
-> > +	object = slab->freelist;
-> > +	while (object && allocated < count) {
-> > +		p[allocated] = object;
-> > +		object = get_freepointer(s, object);
-> > +		maybe_wipe_obj_freeptr(s, p[allocated]);
-> > +
-> > +		slab->inuse++;
-> > +		allocated++;
-> > +	}
-> > +	slab->freelist = object;
-> > +
-> > +	if (slab->freelist) {
-> > +
-> > +		if (allow_spin) {
-> > +			n = get_node(s, slab_nid(slab));
-> > +			spin_lock_irqsave(&n->list_lock, flags);
-> > +		}
-> > +		add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> > +		spin_unlock_irqrestore(&n->list_lock, flags);
-> > +	}
-> 
-> So we should only do inc_slabs_node() here.
-> This also addresses the problem in 9/20 that Hao Li pointed out...
+Trying to grab a read reference on PREEMPT_RT can cause "scheduling
+while atomic" if a concurrent writer is active, and trying to grab a
+nested reference in presence of a writer can cause a deadlock (manifests
+as lockup) since the reader fast-path is disabled on PREEMPT_RT to
+prevent write-side starvation.
 
-Yes, thanks,
-Looking at the patchset as a whole, I think this part - together with the later
-removal of inc_slabs_node() - does address the issue.
+The two patches included removes cases of grabbing a nested read
+reference to the cpufreq policy in amd-pstate, and modifies the
+cpufreq_driver->adjust_perf() callback to take the raw policy reference
+cached by the schedutil governor respectively.
 
-> 
-> > +	return allocated;
-> > +}
-> > +
-> 
-> ...
-> 
-> > +static unsigned int
-> > +__refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int min,
-> > +		 unsigned int max)
-> > +{
-> > +	struct slab *slab, *slab2;
-> > +	struct partial_context pc;
-> > +	unsigned int refilled = 0;
-> > +	unsigned long flags;
-> > +	void *object;
-> > +	int node;
-> > +
-> > +	pc.flags = gfp;
-> > +	pc.min_objects = min;
-> > +	pc.max_objects = max;
-> > +
-> > +	node = numa_mem_id();
-> > +
-> > +	if (WARN_ON_ONCE(!gfpflags_allow_spinning(gfp)))
-> > +		return 0;
-> > +
-> > +	/* TODO: consider also other nodes? */
-> > +	if (!get_partial_node_bulk(s, get_node(s, node), &pc))
-> > +		goto new_slab;
-> > +
-> > +	list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_list) {
-> > +
-> > +		list_del(&slab->slab_list);
-> > +
-> > +		object = get_freelist_nofreeze(s, slab);
-> > +
-> > +		while (object && refilled < max) {
-> > +			p[refilled] = object;
-> > +			object = get_freepointer(s, object);
-> > +			maybe_wipe_obj_freeptr(s, p[refilled]);
-> > +
-> > +			refilled++;
-> > +		}
-> > +
-> > +		/*
-> > +		 * Freelist had more objects than we can accomodate, we need to
-> > +		 * free them back. We can treat it like a detached freelist, just
-> > +		 * need to find the tail object.
-> > +		 */
-> > +		if (unlikely(object)) {
-> > +			void *head = object;
-> > +			void *tail;
-> > +			int cnt = 0;
-> > +
-> > +			do {
-> > +				tail = object;
-> > +				cnt++;
-> > +				object = get_freepointer(s, object);
-> > +			} while (object);
-> > +			do_slab_free(s, slab, head, tail, cnt, _RET_IP_);
-> > +		}
-> > +
-> > +		if (refilled >= max)
-> > +			break;
-> > +	}
-> > +
-> > +	if (unlikely(!list_empty(&pc.slabs))) {
-> > +		struct kmem_cache_node *n = get_node(s, node);
-> > +
-> > +		spin_lock_irqsave(&n->list_lock, flags);
-> > +
-> > +		list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_list) {
-> > +
-> > +			if (unlikely(!slab->inuse && n->nr_partial >= s->min_partial))
-> > +				continue;
-> > +
-> > +			list_del(&slab->slab_list);
-> > +			add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> > +		}
-> > +
-> > +		spin_unlock_irqrestore(&n->list_lock, flags);
-> > +
-> > +		/* any slabs left are completely free and for discard */
-> > +		list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_list) {
-> > +
-> > +			list_del(&slab->slab_list);
-> > +			discard_slab(s, slab);
-> > +		}
-> > +	}
-> > +
-> > +
-> > +	if (likely(refilled >= min))
-> > +		goto out;
-> > +
-> > +new_slab:
-> > +
-> > +	slab = new_slab(s, pc.flags, node);
-> > +	if (!slab)
-> > +		goto out;
-> > +
-> > +	stat(s, ALLOC_SLAB);
-> > +	inc_slabs_node(s, slab_nid(slab), slab->objects);
-> 
-> And remove it from here.
-> 
-> > +
-> > +	/*
-> > +	 * TODO: possible optimization - if we know we will consume the whole
-> > +	 * slab we might skip creating the freelist?
-> > +	 */
-> > +	refilled += alloc_from_new_slab(s, slab, p + refilled, max - refilled,
-> > +					/* allow_spin = */ true);
-> > +
-> > +	if (refilled < min)
-> > +		goto new_slab;
-> > +out:
-> > +
-> > +	return refilled;
-> > +}
-> > +
-> >  static inline
-> >  int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
-> >  			    void **p)
-> > 
-> 
+The policy object outlives the governor and the driver making it safe to
+use this cached reference from the sugov data. Any changes to the policy
+will end up calling cpufreq_driver->set_policy() or
+governor->set_limits() once the policy is modified which should ensure
+eventual consistency despite not holding the read-side.
+
+Series has been tested with amd-pstate-ut on PREEMPT_RT kernel which
+successfully passes without any splats on LOCKDEP + DEBUG_ATOMIC_SLEEP
+config. Additionally, the driver switch test from Gautham [2] was run
+for 10min on the same config without observing any splats.
+
+[1] https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/
+[2] https://lore.kernel.org/all/aJRN2wMLAnhDFykv@BLRRASHENOY1.amd.com/
+
+Patches are based on:
+
+  git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+
+at commit d22b6c061c99 ("Merge branch 'pm-runtime-cleanup' into
+bleeding-edge") (2026-01-16).
+---
+Changelog v2..v3:
+
+o Fixed the rust bindings for adjust_perf_callaback in Patch 2 (kernel
+  test robot).
+
+o Tested PREEMPT_RT + CONFIG_RUST builds using amd-pstate-ut.
+
+o Viresh's ack on Patch 2 was retained since the incremental diff for
+  Rust bindings was discussed on v2. (Viresh let me know in case you
+  have additional comments and if I should drop the tag.)
+
+o Adding the Rust and sched folks to Cc for awareness on rust bindings
+  and the schedutil bits respectively.
+
+v2: https://lore.kernel.org/lkml/20260114085113.21378-1-kprateek.nayak@amd.com/
+
+Changelog rfc v1..v2:
+
+o Updated the kdoc comment above cpufreq_driver_adjust_perf() in Patch 2
+  to reflect that cpufreq_policy is passed as an argument now instead of
+  the target CPU. (kernel test robot)
+
+o Added "Reported-by:" and "Closes:" tags to Patch 2. (Mario)
+
+o Collected tags from v1. (Thank you Mario, Viresh)
+
+o Dropped the RFC tag.
+
+v1: https://lore.kernel.org/lkml/20260106073608.278644-1-kprateek.nayak@amd.com/
+---
+K Prateek Nayak (2):
+  cpufreq/amd-pstate: Pass the policy to amd_pstate_update()
+  cpufreq: Pass the policy to cpufreq_driver->adjust_perf()
+
+ drivers/cpufreq/amd-pstate.c     | 14 +++++---------
+ drivers/cpufreq/cpufreq.c        |  6 +++---
+ drivers/cpufreq/intel_pstate.c   |  4 ++--
+ include/linux/cpufreq.h          |  4 ++--
+ kernel/sched/cpufreq_schedutil.c |  5 +++--
+ rust/kernel/cpufreq.rs           | 13 ++++++-------
+ 6 files changed, 21 insertions(+), 25 deletions(-)
+
+
+base-commit: d22b6c061c9911a8d0f76c6e902c951455c8c4ba
+-- 
+2.34.1
+
