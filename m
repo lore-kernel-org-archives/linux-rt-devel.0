@@ -1,214 +1,265 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010028.outbound.protection.outlook.com [52.101.61.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3987347FD8
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 04:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B870261B83
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 05:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768539056; cv=fail; b=XSJ5dHdl4StjBqm8nNQ229rRzIWSw8W+7j9fsfJdt7tiTbrLOKBbFf35EWogC6rBFLw/UmghBlLE363l48f0Iw90dKbMc9wCJCl0aSjNBDNC6O7JFgEie1RcW8inL3m8UqQGKbPRSgk2kozKse8iQlPVbt4xR+o4ZgPFJaNPej4=
+	t=1768542340; cv=pass; b=tYlQQCegixXQVklNJWDNmn5fsoLruSLEYcJoR7PcZtu/raw9R6q2oRsNeIP6Y+9J4gUymofEfn9RenJUUtKoeyCWGXSk6FJrqxF+zjWz4IOZnO1aHlRLe+bXQpKdk8rcG1gQz44mTJhiOCQIsWyji2u92NQEkyg9ZOQKQQlHAU4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768539056; c=relaxed/simple;
-	bh=LsABI3zk9VvI8FTIJ1Jo/g09t0B5vuZdeXCX6xNWgCY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WFZcZXmXkrRUmoWWqVbq5uQVBU6n836FGJ4B/91+Yf5zKca1u+QFPoOOye0JuCMFRyThL2nj27kzYo6q1Kj3tEzDlnJPWGZx8vAWCEdunfAEgSQW5i6a1xNqVD2m3Pkipd7gFhA9s11WFwRr0XALcikxE/Rm2Ky4NyR+mfWd2mg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CHQIfs0u; arc=fail smtp.client-ip=52.101.61.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1768542340; c=relaxed/simple;
+	bh=O7GOd0Lhv+RwGmCCcJI3vXg56EI/++xWS58YgV3u1t4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tstsTB//ThN0WqytdeGzgID4XEIK8Y5CehxwBHBvp8hQcIbHwfQcABJE9iD4mbnBDEUHgA/3HVO5KdVEkDq0fkajukd9Ggcik+oQo1dJ5k6ojF3naikRo9dqro0HPuJcyJPsqD5jnTCNQ+b+a+MdYEWaXCNj3XYBPFgtSqREna4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=26PEHiJO; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CHQIfs0u"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vfOvKhCVKeYEiPy+SSiga0bY0qL2Rvo66sNXGSNIXCztk4/4PCx13rCdsH3S08xQfVz4REP11XHt/EIzs20rSxWJlQzzPpmXFQYKf4PJ48V19RqSPn4BiwTZdfD5XBw1RiPbGHystykLNxUo3qt2aLsA/+1QMBf/WdnpS1psIhIFF578L6i6xt8EF4KbZVsS/OKkmFbMAyG5/1fJWVuaO8vVRI+0xvhWwUWBt07q+l3KrlGFoCwyqdFmEaD16VEC1eqp73hC0ytJuLELUlafig4BpLD+weUBvhnKVBXzYL2pEMEheJ5PUGGnel+Xm8Vh89X/LHhoW6NnYLwyIbLQeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2SRf3nbhIftAWscw7N24nCin5M7j8I9v+56LW1Zlkp8=;
- b=faYOFLhQL8/lNKFjQsUGnpG3O6Al5SbqTWKIYenK89jddTK/wgqpoyUhK8t5O5laHs4pfOeSwjAEqlLWg+Tw/7U3IrB+kjnsXdVDBpBlVgvnzt3yxr0tEEv3oXJrISR/jGKAkvxK7AFgWRKXnVv/Ks/7s/dat/3w9xcLXJQHdiX9CmEoibLJmu8MxDH3nvXTTCeuamojlPZHNQ2gYLAcFlj3JPDDaF8n8nmAGvvqD5KYSdVY2HQU7RE21gQ0Oz0LZwJ1jK4gncxoMLM7vJUXRul85IpQYlP5UfnMgyfP8YMOdMiJAH2kRpSJxarT4ClnnEpFW43xGbu9dnd82DYkfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2SRf3nbhIftAWscw7N24nCin5M7j8I9v+56LW1Zlkp8=;
- b=CHQIfs0uzIENLaTnlIcNLidzgHVL6M0vPyQxOsiBw5Zhl/OO9ngPGOGfuCViM/TVHfQLSV5OWRl90pnlC09u1Ff0MjBcXaUolXJNh00gTfAj988XUpK/1c4k90XNwYiitFUjRTVXX+EfzTl0zviBJA8Ep994hE2Bos4pQYZGRio=
-Received: from BLAP220CA0009.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:32c::14)
- by CH8PR12MB9840.namprd12.prod.outlook.com (2603:10b6:610:271::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Fri, 16 Jan
- 2026 04:50:38 +0000
-Received: from BL6PEPF0001AB57.namprd02.prod.outlook.com
- (2603:10b6:208:32c:cafe::b9) by BLAP220CA0009.outlook.office365.com
- (2603:10b6:208:32c::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.6 via Frontend Transport; Fri,
- 16 Jan 2026 04:50:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL6PEPF0001AB57.mail.protection.outlook.com (10.167.241.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 04:50:38 +0000
-Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 15 Jan
- 2026 22:50:37 -0600
-Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 15 Jan
- 2026 22:50:37 -0600
-Received: from [10.136.34.241] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Thu, 15 Jan 2026 22:50:33 -0600
-Message-ID: <549095b9-c12e-4415-999a-f2589451f5e0@amd.com>
-Date: Fri, 16 Jan 2026 10:20:32 +0530
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="26PEHiJO"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-501511aa012so241311cf.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 21:45:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768542337; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fOp1RwgGP8yuEegLiLzPNwZS7YETvLGT1nMnyMJofhhAQkjLx//m9a/LlOUWdc+2qx
+         eiCWmFQomtzSUzs+jUzGNoj+g8a489w4VPHLnki3w7RRl9KVm/2ddePJY7Xy2xbqZhut
+         wXzka3G/twpC+cogon+MnfMCgVK+Eg2ls9ypLosooTHHoyVZ0sRWnENLoPXrvg+5sAxK
+         9e2v0kW+gc+jeGpc9c9GgKSXGlaaBo/mpkeGtN2q7k92G9DMNiTwOoyQFmh+5zu+v8Eq
+         G/ngI5zjltV4+yGn9MvTpZLU0mXf5w1VRyjlI18Q0+wxPzZWZzNoxdxybnT77JWpdcpB
+         35KQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oD4lKTyPruUjM+2ZGAjFWRV4Lq8q1KPCB1ITiVRP8FE=;
+        fh=QLbuhgC7A3aNTU/bctXvZnGbj7flntypP4gIV3KW0Nw=;
+        b=gad0yckcmwHZlDl2UQWgctTHxI0SsXuSuf0ZgZuWFw0vPh+FFyIUN4W8CmA70Q5HQW
+         Brb1QBnp9Y54WsJLYGJrP2+9+VjhaOLn4uKZliEYWj9Q9AcIDqOlHK6UXCcYzyhwq2Va
+         dCMsLIBL9ZPx9bdRugWDZ8WPdJQzbvGw87PMoa9WmIINBnuKdv1yBAMpe18O1MP65awp
+         RGm3HQXGzfR6t7sCfQN6GrUJ4Gk0njIbeNVmJFUYZYeO5ci/pVQOnbFY0ZlEckCBGRha
+         38IJJM0dWmoDxT0u1+Q7B8jHzd9aBj1fS+dORAXXtv+JyDPqEZKjJ9lh6cwotuGAiK+u
+         Mb8A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768542337; x=1769147137; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oD4lKTyPruUjM+2ZGAjFWRV4Lq8q1KPCB1ITiVRP8FE=;
+        b=26PEHiJOkXfGEgjKP/n5WWLaDT8Zw3gOKWTzlr7dH0G6xKyEtHafg8dNyAsGvY6sSt
+         TCFPpXDt+MaiVyuo8vnTsykWPtAjQUj+e0NfjUtzFa15OcuqH7kFtRQkqIC6m2rxnMJj
+         13RY2dGJmLsAMUTPzHb9Vq3SMA62SbG030jyoQnZzCb8pmjbj8IsrWJASx6cwfwp9f+5
+         mWofynLNgkYyjPwtv8ddOQ96tQc1+x3YA1c1/yZcMa3GThIJ9E/Ftlckf2yAFq3k8pLv
+         u7825kBN6qUb/Qd6BvAcJyN274fK6xuS5Au3efgzrqPeHZXSpMgf2pSXj8wXanjgggOx
+         bPKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768542337; x=1769147137;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oD4lKTyPruUjM+2ZGAjFWRV4Lq8q1KPCB1ITiVRP8FE=;
+        b=nzbQACIk/jZEheFuRwVS1PPLVeRtbUUnECw2Pe88XAVddmz+LuZcu+utJOMH4Ewt2T
+         GK4eYajmL8lu4iChT5JGd2SUagduhU8DykjToCxo4a+sUqCRrC7UC3RbkLT4iAUh3wy+
+         NHv0Z6biJ3trNg5xYjunIqvce/q4wJAhN6qHCfpf4z8quMXwYsKK8HxqP57V36cbK7Zu
+         si/KSKMhsl99UqC/Ncnj+bQdFZsODOSIA6o3CQ1iJlq93kK5Q7ZqM9lOyz7dItHptSSH
+         Cb21EFc/R+mJG9p/UUBiR0xCv9UdJjejOcJZE4/Sz02ulg8rqetzCKfH+rmjQOMahBRq
+         TlIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXGmUrZsHvF/8+E5+kBMKfEXbRc9TgGGR/6u+hq09BsT+rOmN+iJrRLrlj5hKYpzlwVbrpS4bl0z7LA3uU81g==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy445RUvnerEM0FbYpXAjpvdUiXQnwbLOOmIFhCyMoKiM0/p+eg
+	ensO+I6a9Mvq3d/kh7RjIg4lvO+eopzBofz/vYv9VC5qciVrG91DS/N1VHBapFWBpvJkFpV/NmC
+	2O1kY/bep6pCwwp5LZ1l+f5yahfIqtTs5+rypOy+B
+X-Gm-Gg: AY/fxX7TCsoc+VGwWG2jEe2hVPwNHjPhyN8V9bX8PYL2AuCQOgPNUgtXjRvgB0iPMq5
+	M4vgEckjcuRhuye5aE2aw4FU45ohZsy57ekB8YC8IRvltMCzZiEAyBXqxa8Goc5M3A3UCaf39oB
+	R58Zcf2/lcPwgRrqr94FK40eeqFtdfd54lI9jPLcBpjWkocct9TrPnXBeZx7T2B+EzINp15ylhp
+	2yCT9hr9M3qX3U04W1m+glNJgN8vVM9+J54guCEdf32lht1zn2/UFplTiibL3uTCmPa76j/q6pb
+	A+7v6ZDA81FwFVljDnWu70pPWF/+cwlLfg==
+X-Received: by 2002:ac8:5a93:0:b0:4ed:8103:8c37 with SMTP id
+ d75a77b69052e-502a23ba0bemr6815851cf.12.1768542336851; Thu, 15 Jan 2026
+ 21:45:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
- cpufreq_driver->adjust_perf()
-To: Viresh Kumar <viresh.kumar@linaro.org>
-CC: Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
-	<gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Srinivas Pandruvada
-	<srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>,
-	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, Perry Yuan <perry.yuan@amd.com>
-References: <20260114085113.21378-1-kprateek.nayak@amd.com>
- <20260114085113.21378-3-kprateek.nayak@amd.com>
- <bqvpt465nowq3jipfsciaoafjpjhu42l63vi6p67qscwx5oil4@t2tkh2u5giuy>
- <6eabf604-9168-47fb-8fd8-b2f0d985db6a@amd.com>
- <rs4z34vntq4inwbl6nhzwsmefcgud33a4jpec44ff5ylrxtnur@rczzlmhgejky>
-Content-Language: en-US
-From: K Prateek Nayak <kprateek.nayak@amd.com>
-In-Reply-To: <rs4z34vntq4inwbl6nhzwsmefcgud33a4jpec44ff5ylrxtnur@rczzlmhgejky>
+References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz> <20260112-sheaves-for-all-v2-4-98225cfb50cf@suse.cz>
+In-Reply-To: <20260112-sheaves-for-all-v2-4-98225cfb50cf@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 16 Jan 2026 05:45:26 +0000
+X-Gm-Features: AZwV_Qj313U65TQKJGcZKomalyp4G4s3S9dwtw3N-deAJ8pCUFL8HFCSglYguDc
+Message-ID: <CAJuCfpFKKtxB2mREuOSa4oQu=MBGkbQRQNYSSnubAAgPENcO-Q@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 04/20] slab: add sheaves to most caches
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: None (SATLEXMB04.amd.com: kprateek.nayak@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB57:EE_|CH8PR12MB9840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 28398957-3c0b-4c2b-f208-08de54bacb27
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?V2ZKNis4b3czSTFGVGtCY2pvZ3htUTdzTnlMdG1hREl2MTRCMGNyYnR3eExi?=
- =?utf-8?B?YWdla3ZzbGVjc2JaUlpReDVlYThxZnFaaTBlYlZrbzRub0diQTFHRkpYTmdt?=
- =?utf-8?B?U0JORlhsR2IvOHQyMUtXakZGQ3k4eFJIYUJBb1Ercm1mRmRDS2tvRWNqU2kx?=
- =?utf-8?B?S0JqU3lDSUkzaW9kRVBoeHJFZ3VqM1I2ZC9xcUpTajZpalNsRVMzVnBDTzNa?=
- =?utf-8?B?MWQ1UXUrVTYzZlYwVmZzZ1NqSkdSQTRJOW40Mzc0a0RTYmZYbkhpeTBlVzNE?=
- =?utf-8?B?S05WVWt0RHVWMGExYldJMFViL2kybE9hblpQNzA5dmI3R0ZDVER3QzN4VXBh?=
- =?utf-8?B?MkJIdkhySlFaMTd5NG4vUkthZU51L0dHdVowT3dDcEMyYXl5VitRWDFnRFA0?=
- =?utf-8?B?dkVDeUdjK1Zya2F2U0VkLzlnNXdUN3FZNmdISzdnSXVmaFl0RTd2b0wrVVRv?=
- =?utf-8?B?Yk53NUlSaUZZME1MWTRYdXEra0FvS1JxbkR1V0p0YVVEemtUZnR6Wkc2VjRJ?=
- =?utf-8?B?YnN5MnJQcy92ejZVazIrdnFHRTBsZkFkZm45WHFNdjVFWU5MR3JWTnZ0WnA4?=
- =?utf-8?B?Zlg1L2FwNjBKSGRCWWFpQ1Q0OUV2ZFZVbzJMSU11M01TQmVBa1B3cDlwT1Az?=
- =?utf-8?B?QTBSY29NM0s3Z0dzWTdUNGRCeTVKNFFaRGwvekVIZmlmV0ZiKzM4UUZWQjND?=
- =?utf-8?B?UW1aTCtmSWt5aE5TbEVDcWFDWVJhM3lMaWxsUGhGMjRKOU8rKzdRZmk5dlZL?=
- =?utf-8?B?QW9yVkU0TXpaeXEzUlpITnNJZ1puM05HOGpaZEc0ZW51c29vVkltcDVNNEFs?=
- =?utf-8?B?anlEVmEzV1VUV29nc1JjQnF4d1RXbFRHNlZud3F0cWlLdEg3L0N6NXFNRzR4?=
- =?utf-8?B?WTBwM1h4TUdZMTVFTGE0N2xBTUQwUnFkbHp2ekZtd2gvS0JjYllxVDB0eVBY?=
- =?utf-8?B?M0FlN0VMTStOTExwUDB5VUhwbkE1YmRvL1VyZERrdGN3OVVRNVM0YVUrZ0Uv?=
- =?utf-8?B?VDAvb01yckVnL3JoRTMyOENPOG96WWJMUHBxQVFsUHNKZjZSMXpTK3BlS25N?=
- =?utf-8?B?UnorbHBIOUZWcks0MmxxcjhrT2tZVUVtVmR6dXhINjFQRkZ5Uk9kVmJwRGE2?=
- =?utf-8?B?NXFERDA5czZ0alF2dTlONG1zeDJVWStucmFrdHpiVkluUUlGcDJlQzVnT2Nq?=
- =?utf-8?B?V001MGN6bmFhUGRpRGxBWEhzdWFTT2xiVnhFdmFmNDhLUVFoZkFUZlAxNFpx?=
- =?utf-8?B?UkNFTy9RWjRHYVZUYUNRMHEwcTdxZnRFREhJbS9YN2psNHB5QlpDSGsyQy93?=
- =?utf-8?B?eURYNStUMXVIVVRnMnN5aktTOFdnNFlHaTFmQVdEUGp2UlFxL1B4V1FBb0c4?=
- =?utf-8?B?S0xnUDFyeXVIMFpZTUkyMDBrcmt1WGxhc0dkbEY1cGgzR2VnOU5OMFVoaWQv?=
- =?utf-8?B?L1BZY3ZZT3JPWnJoYkcrY2lsak94YlowcGtyd3FvYkRwaEZDb01HUGV2S0Nm?=
- =?utf-8?B?ZWNhTGxpTWcrekZWUzRQSml4V0JxY0Q2UjVmUmpvQlg4R2hWYXZIcVFqbDQ0?=
- =?utf-8?B?YkVkdW1TbVc1bDlSREdSWmVrZzAyQmdlcGdnWWM2Y1IrbXJ1dXF1MTNvazhp?=
- =?utf-8?B?V1Nhbm5tUUpBVEFrNWNTWWNxa2RTSGRKdTZIT3NNUGhNOU5relpxT0J1ei90?=
- =?utf-8?B?WVl1QmZxclNpSmVYZEZpdXhEeVltaFhPUm1QeHFudk5VU2xaek1UaU5Genl6?=
- =?utf-8?B?ckNMSDdzcE0zRHp2WlVkRk9WWFNKMUdWaVI0a3k4cXpFS3k0dmFCeFl2VVF1?=
- =?utf-8?B?NW1uTGlIYkZlTkJXQTBRZEdVajVRS3dlbkhoa3lCUlNNL0hUQUFLdE1ieFFR?=
- =?utf-8?B?Q1FjUjdhUlB5NjVtREYvMUVVYkdZN2ZwVVpJSVQrcnV3WXMydncwMWhOeUxv?=
- =?utf-8?B?dktKV2FRVHp1U1lHM084V1V1V2ZqOHNkTitpYUNPdGFORTgwL2Q0RUc5M2xN?=
- =?utf-8?B?ejRRT0Z5MXR0V2k0c2VwaS9pNmh2MDRWdGFXT3VuaGw1ZzI2SHhKQXRlVFFh?=
- =?utf-8?B?SmlxeFVDY01qYnFTY0dkbW1OUDRoRVpyQzduMmhDUCsvWXA3VlFxY3pUYzVm?=
- =?utf-8?B?aTBpTVZxMlFNRTJPSW1KNVRmd2Ercko1SVdZNElrNldKTkxOckNERlhMNnkx?=
- =?utf-8?B?UHNuV0NIUFNXTk5CT2wybWdOY0p2UGp6TjBZMDlpS04yOWlsV1FZOHdqVWpL?=
- =?utf-8?B?eDRrUU1hSi9nZWVySmtNeG9nVHVRPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 04:50:38.1791
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 28398957-3c0b-4c2b-f208-08de54bacb27
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB57.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR12MB9840
+Content-Transfer-Encoding: quoted-printable
 
-Hello Viresh,
+On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> In the first step to replace cpu (partial) slabs with sheaves, enable
+> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
+> and calculate sheaf capacity with a formula that roughly follows the
+> formula for number of objects in cpu partial slabs in set_cpu_partial().
+>
+> This should achieve roughly similar contention on the barn spin lock as
+> there's currently for node list_lock without sheaves, to make
+> benchmarking results comparable. It can be further tuned later.
+>
+> Don't enable sheaves for bootstrap caches as that wouldn't work. In
+> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
+> even for !CONFIG_SLAB_OBJ_EXT.
+>
+> This limitation will be lifted for kmalloc caches after the necessary
+> bootstrapping changes.
+>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-On 1/16/2026 10:14 AM, Viresh Kumar wrote:
-> On 16-01-26, 10:08, K Prateek Nayak wrote:
->> Guilty of not having CONFIG_RUST enabled! I've arrived at the
->> following after tasking a look at cpufreq.rs (specifically the
->> fast_switch_callback implementation):
->>
->>   (Only build tested currently)
->>
->> diff --git a/rust/kernel/cpufreq.rs b/rust/kernel/cpufreq.rs
->> index f968fbd22890..bea109f8ff78 100644
->> --- a/rust/kernel/cpufreq.rs
->> +++ b/rust/kernel/cpufreq.rs
->> @@ -1255,18 +1255,17 @@ impl<T: Driver> Registration<T> {
->>      /// # Safety
->>      ///
->>      /// - This function may only be called from the cpufreq C infrastructure.
->> +    /// - The pointer arguments must be valid pointers.
->>      unsafe extern "C" fn adjust_perf_callback(
->> -        cpu: c_uint,
->> +        ptr: *mut bindings::cpufreq_policy,
->>          min_perf: c_ulong,
->>          target_perf: c_ulong,
->>          capacity: c_ulong,
->>      ) {
->> -        // SAFETY: The C API guarantees that `cpu` refers to a valid CPU number.
->> -        let cpu_id = unsafe { CpuId::from_u32_unchecked(cpu) };
->> -
->> -        if let Ok(mut policy) = PolicyCpu::from_cpu(cpu_id) {
->> -            T::adjust_perf(&mut policy, min_perf, target_perf, capacity);
->> -        }
->> +        // SAFETY: The `ptr` is guaranteed to be valid by the contract with the C code for the
->> +        // lifetime of `policy`.
->> +        let policy = unsafe { Policy::from_raw_mut(ptr) };
->> +        T::adjust_perf(policy, min_perf, target_perf, capacity);
->>      }
->>  
->>      /// Driver's `get_intermediate` callback.
->> ---
->>
->> Let me know what you think. If you think this is alright, I'll fold it
->> into this same patch in the next version to preserve bisectiblity with
->> CONFIG_RUST (or should I keep it separate?).
->>
->> Since this is my first time dealing with the rust bindings, comments are
->> highly appreciated.
-> 
-> Yeah looks fine. Just make sure it builds fine.
+One nit but otherwise LGTM.
 
-Ack! Let me give it a spin before sending out the v3. Thank you again
-for taking a look.
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
--- 
-Thanks and Regards,
-Prateek
+> ---
+>  include/linux/slab.h |  6 ------
+>  mm/slub.c            | 51 ++++++++++++++++++++++++++++++++++++++++++++++=
++----
+>  2 files changed, 47 insertions(+), 10 deletions(-)
+>
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index 2482992248dc..2682ee57ec90 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -57,9 +57,7 @@ enum _slab_flag_bits {
+>  #endif
+>         _SLAB_OBJECT_POISON,
+>         _SLAB_CMPXCHG_DOUBLE,
+> -#ifdef CONFIG_SLAB_OBJ_EXT
+>         _SLAB_NO_OBJ_EXT,
+> -#endif
+>         _SLAB_FLAGS_LAST_BIT
+>  };
+>
+> @@ -238,11 +236,7 @@ enum _slab_flag_bits {
+>  #define SLAB_TEMPORARY         SLAB_RECLAIM_ACCOUNT    /* Objects are sh=
+ort-lived */
+>
+>  /* Slab created using create_boot_cache */
+> -#ifdef CONFIG_SLAB_OBJ_EXT
+>  #define SLAB_NO_OBJ_EXT                __SLAB_FLAG_BIT(_SLAB_NO_OBJ_EXT)
+> -#else
+> -#define SLAB_NO_OBJ_EXT                __SLAB_FLAG_UNUSED
+> -#endif
+>
+>  /*
+>   * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 8ffeb3ab3228..6e05e3cc5c49 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -7857,6 +7857,48 @@ static void set_cpu_partial(struct kmem_cache *s)
+>  #endif
+>  }
+>
+> +static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
+> +                                            struct kmem_cache_args *args=
+)
+> +
+> +{
+> +       unsigned int capacity;
+> +       size_t size;
+> +
+> +
+> +       if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAGS)
+> +               return 0;
+> +
+> +       /* bootstrap caches can't have sheaves for now */
+> +       if (s->flags & SLAB_NO_OBJ_EXT)
+> +               return 0;
+> +
+> +       /*
+> +        * For now we use roughly similar formula (divided by two as ther=
+e are
+> +        * two percpu sheaves) as what was used for percpu partial slabs,=
+ which
+> +        * should result in similar lock contention (barn or list_lock)
+> +        */
+> +       if (s->size >=3D PAGE_SIZE)
+> +               capacity =3D 4;
+> +       else if (s->size >=3D 1024)
+> +               capacity =3D 12;
+> +       else if (s->size >=3D 256)
+> +               capacity =3D 26;
+> +       else
+> +               capacity =3D 60;
+> +
+> +       /* Increment capacity to make sheaf exactly a kmalloc size bucket=
+ */
+> +       size =3D struct_size_t(struct slab_sheaf, objects, capacity);
+> +       size =3D kmalloc_size_roundup(size);
+> +       capacity =3D (size - struct_size_t(struct slab_sheaf, objects, 0)=
+) / sizeof(void *);
+> +
+> +       /*
+> +        * Respect an explicit request for capacity that's typically moti=
+vated by
+> +        * expected maximum size of kmem_cache_prefill_sheaf() to not end=
+ up
+> +        * using low-performance oversize sheaves
+> +        */
+> +       return max(capacity, args->sheaf_capacity);
+> +}
+> +
+>  /*
+>   * calculate_sizes() determines the order and the distribution of data w=
+ithin
+>   * a slab object.
+> @@ -7991,6 +8033,10 @@ static int calculate_sizes(struct kmem_cache_args =
+*args, struct kmem_cache *s)
+>         if (s->flags & SLAB_RECLAIM_ACCOUNT)
+>                 s->allocflags |=3D __GFP_RECLAIMABLE;
+>
+> +       /* kmalloc caches need extra care to support sheaves */
+> +       if (!is_kmalloc_cache(s))
 
+nit: All the checks for the cases when sheaves should not be used
+(like SLAB_DEBUG_FLAGS and SLAB_NO_OBJ_EXT) are done inside
+calculate_sheaf_capacity(). Only this is_kmalloc_cache() one is here.
+It would be nice to have all of them in the same place but maybe you
+have a reason for keeping it here?
+
+> +               s->sheaf_capacity =3D calculate_sheaf_capacity(s, args);
+> +
+>         /*
+>          * Determine the number of objects per slab
+>          */
+> @@ -8595,15 +8641,12 @@ int do_kmem_cache_create(struct kmem_cache *s, co=
+nst char *name,
+>
+>         set_cpu_partial(s);
+>
+> -       if (args->sheaf_capacity && !IS_ENABLED(CONFIG_SLUB_TINY)
+> -                                       && !(s->flags & SLAB_DEBUG_FLAGS)=
+) {
+> +       if (s->sheaf_capacity) {
+>                 s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheave=
+s);
+>                 if (!s->cpu_sheaves) {
+>                         err =3D -ENOMEM;
+>                         goto out;
+>                 }
+> -               // TODO: increase capacity to grow slab_sheaf up to next =
+kmalloc size?
+> -               s->sheaf_capacity =3D args->sheaf_capacity;
+>         }
+>
+>  #ifdef CONFIG_NUMA
+>
+> --
+> 2.52.0
+>
