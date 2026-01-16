@@ -1,289 +1,100 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504013933FE
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 16:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768582773; cv=pass; b=NKsRCNfSOoUCsig/Mf1QaySc+AI/uxLrN0Tt+XnFBvo/tBcUFslt6dDXEHhaj8X/QTixTcYzjzbTbUwli1nDK8Xl71PfO2V4XTHPo1e4K/4vrrhVnwXu9nY6RXQQT+emM03m7HuckGQTpMAyz0JGNPOahW+muEO2sRo6YJt/Evo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768582773; c=relaxed/simple;
-	bh=KyyqyVl5S3DjX/Y/TAbdf3ewJUO7HkhUFESxlLUupeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IkIFxakVZVK99c5/3rgVF4epCGOIicok+hC5vn1J05VR1X+8q2ZpGctq+dTn88lat91nhAin+Q2zP/wHsQhJVs+qRU7LquqILLfemguG/Z3D1pFewlcICebczk9z0IT/+dXrXAjiRp1jpl3lD7fvXYMVzBz2Hpvxy0izHi99Pqg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=w5a/BTyL; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5968132ED51
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 17:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768582854; cv=none; b=qIiiydR1aTZ7LNTusNxPmlAxAsjGrgPlY3GYKAS2WitE80hl7OH46Buh8m/X4G9ZKiJQ3ZvohXQucyYqUUSEQi41tK3zBIMTEsE8p/WjI7TKO9ClPkjEOnvqmwKCpThrAzbbjD6ENL+7dgw6Sws8q+wGBqX7dDURtLLDWZTWqzk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768582854; c=relaxed/simple;
+	bh=5ZGS62oE39Fwza+XbBPy8QYoFXd9kwKu1BVhUyyOOgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nUwOJ5/8jpYBmljzexlxrZmATeANndJ7GCBkoybhj9t8GhGkej9Ntgk1ZxzDUhr94hur0gG2Bt0C7EO3+funJSRzMJuuXeQ4wELd/wvqKfZ8F0blxcdZNXP6oL+ZsKn34Re6GN6Amfm9J27I4nIZGeH9NBgsQ0k1UxOQEvSQGfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oBuaSpEn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5JzoZReB; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="w5a/BTyL"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50299648ae9so518911cf.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 08:59:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768582770; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jkdq2Z9EtcWqsw/gRqLK45iQ4xY9yJ887zYX/Pl70FnCDw1sk9hjND9aOtqWQJT5GC
-         A+NkgWqrQDj3opI3U8Ge82+hdQGhqPfbsKZ7AQVLarzg7Rr6nB3PnyFlUTO9WUHU1/l/
-         At1yuAWzHN6THn4Wi4vQL/DWcakXNO7zNqWgcnleW+eNeL9jumwr5Md3pPcQaOLvthIv
-         ONVJfZqKFohuX5UxrEc+WSAd+czg8X/vgIFInjURtw5WRoD3flV+96MZ9ASWvmplSglJ
-         pLgRIIoCIZwOkyXUKyjOtBBhsSV8kYrmrZ1Ye+zgsuvJAZzsZCQaHZ+SvzHAlWzI803e
-         0xiA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=s1BTvLdErVOVTXbojE/mp4bn56MJT1unyCMZ/1mKqI8=;
-        fh=uECDdDycjND0Uop9UI5eVA8uDchC6mKpMNyyc2NDw7s=;
-        b=KALV14GsKfrMTpAkj4cp1TuYdiGvpd77sEHFJ9OlaLMAr29zQgBI89w7Xj8F4aqXee
-         jEWasA36VxmBH1JPRR/n8DXTTQFAQEn7B2JtTWX3vkSEeNe/olZD58HmKgjusKUCgkJ6
-         KsmP8sQOC/iZcf6xiHQs4U5Y2bZM7DZAF0XXgIF21R2NhrHRgSX2SJEb7y9LzSZ8hjIP
-         lFxMLywTnYUSok5s5seRxLdvGvnDwxnz1gGdBlCLvV6Rp1D846E2ayHdvwVO10KC4rl8
-         4iMDHAK5GN3z1KsfHt2zOOCye1WqbtURKGE9hcJwx+jPmW51zTDQDTL0ADDf4BBMHHua
-         C8Wg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768582770; x=1769187570; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s1BTvLdErVOVTXbojE/mp4bn56MJT1unyCMZ/1mKqI8=;
-        b=w5a/BTyLHS3rMdiO8ja/bXAXzc5RAn292mtkV1cyMDSzhl/14AzDcHnmwFfwN6gbPK
-         QuKoA5QcO0ZvSP7fJkNec1XtXRQqUTPnJl5HzokYrM/u9KVvOTfn5Ev+ZX6LFAw2UlfN
-         pChqv+Ok/yWU8csK7X8HA1Ck7YcF9x7FC6rapQUlcFSy2H9lSf9kfdh5ZsbrT9RSaRjj
-         36oaYWDJ8PVun6MoTIpHxd9g6PhWgV+zioppsA3NKf/ZOblU1Zar9RRjywlSfsZe+omT
-         BBIxm00yvud8Tm2xmZnKz0WX3EXreUpWfAdGq2FrbadpugCuYe+dStwpgOewd8qOJ9YF
-         MpNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768582770; x=1769187570;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s1BTvLdErVOVTXbojE/mp4bn56MJT1unyCMZ/1mKqI8=;
-        b=SF599sYn8aH8NhskQiTXh+LDRDh7SyTNyzuxHwWsVJJKw1YMEOdt+z6d6IWi3SVWcq
-         zA5VmkgAX7bBuqXA1WvlbxmStR6/CBBnQ8KiUY2S7N5inTpRjSTdEdBo/G+pJ9vCKvgT
-         /RLFIOeIXfuAIb1jvigLnTeWks+MDMjO2h/ouuEa30CnoGeQNhB38xD0/BZTouLUstZh
-         4AlNmo0fuOYXVGpIW1mH83wwc1lDBLCez33lRq9FQz07w7WCe/jBk3qUR9WQs4PNx4yP
-         Ax+N3QRy0G6Ft5c7qtq+8HvlEgOUdwTyQDqYqV/6qwHJX8vwwcfLXTz0Dgvdj0QEGKw5
-         SEBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhzlQVYnb/GU7G35vHLqs+9Zz3j5OfXSV6gMV4eLjvVd6tgiwQmVt6+eDyjvoYZUw/+IMJvnZpSr8k5liPUQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzM4B/BAJHvR3z5dbxTh/+b/mB8mLUQdgSS71U6yeJtni47NMFu
-	efspMISq7KE53DG3m15m1uadHQ+8nBadwOpCAcTpwsSv3bqRJx+l5d7qf06lrv7gcwcrj9JTA+U
-	2AYIK1B6P6ValnHtW04Q/QVxLZC8+XFB5MUj+VEKE
-X-Gm-Gg: AY/fxX7iC15etOAONzY6iNWmCCAP/WzjKtI6iRGSaw7HwqdaY7lKiXYgA4e49Z0aIs7
-	AxvUhN4ig1mv+1IllmBSLeYBxYFVkja04TIWPn4Id+dxFmNITCKlq1rNPhdWDaPU65bV1PGDvBq
-	Ax5UD9RUv3RJVh10BeqPOseTWCB/i0MUah2sBplSZIey4scLaHKt1O8j+DtnR60uVyfyUro7M9c
-	VL55rOEZ8SfKZKEkE8k3YxjUs3P7cKkpoy/QJKLiwf3+85uy0b6p3mluXG4uAYmN7R5yw==
-X-Received: by 2002:a05:622a:4c:b0:4f3:7b37:81b with SMTP id
- d75a77b69052e-502a23a54c0mr4530661cf.18.1768582769172; Fri, 16 Jan 2026
- 08:59:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oBuaSpEn";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5JzoZReB"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768582850;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ir0CVKUMRv2yB1rebgvkDwl7f00eEDBHBCY9mtzPkFE=;
+	b=oBuaSpEnY0FAZnKcl1nDCO2CbxNqmEdea/3a4UojU0oe2QGrT8lJz2BgDmwSsm8Y6YtHwu
+	p99tgud8WaUJa7EXA8xrt/UfY8Tfn5W7N2iLQRCiigPURbDSXnu0GcxC9u4CHm1yXWlxVG
+	aGjXGE1zyX01n1azCAldJEM6+hI8Xs8i7LaU3KzBu+xQvlsvcsnimCYtJQxf93vW8fzV6T
+	b9q31ySqLF/yxyF1N83j74O8StgQ2gNog2tT5ZyyJTdCpssRNjoEo/2k+RHwbsBqw8oH9V
+	dUNlnZ9Rg90GdO39UggyD0zxUEbfQaGa4fmNNANuYSOEpB8hbxOHoHE1Kl7BFQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768582850;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ir0CVKUMRv2yB1rebgvkDwl7f00eEDBHBCY9mtzPkFE=;
+	b=5JzoZReBxbJyKJrqWTaVoEl/TQhXwqsQliA+TyrMfQ697xAQ1ctbDAvgZOgDF8uqWqKOKf
+	Nh+1RToP2BzNJABw==
+To: linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Russell King <linux@armlinux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v4 0/2] ARM: Remaining PREEMPT_RT bits
+Date: Fri, 16 Jan 2026 18:00:39 +0100
+Message-ID: <20260116170041.1059997-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz>
- <20260112-sheaves-for-all-v2-4-98225cfb50cf@suse.cz> <CAJuCfpFKKtxB2mREuOSa4oQu=MBGkbQRQNYSSnubAAgPENcO-Q@mail.gmail.com>
- <d310d788-b6df-47dc-9557-643813351838@suse.cz>
-In-Reply-To: <d310d788-b6df-47dc-9557-643813351838@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 16 Jan 2026 08:59:18 -0800
-X-Gm-Features: AZwV_QgPp527tGrUgX7CIcyuFqzTixlPtSEyPVxRBLdI9BmrU9Axe1wzPof38j0
-Message-ID: <CAJuCfpEqZwgB65y3zbm0Pwb_sVLjMbmHbTmJY6SdiVvvOPq+2A@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 04/20] slab: add sheaves to most caches
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 3:24=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> On 1/16/26 06:45, Suren Baghdasaryan wrote:
-> > On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz=
-> wrote:
-> >>
-> >> In the first step to replace cpu (partial) slabs with sheaves, enable
-> >> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum=
-,
-> >> and calculate sheaf capacity with a formula that roughly follows the
-> >> formula for number of objects in cpu partial slabs in set_cpu_partial(=
-).
-> >>
-> >> This should achieve roughly similar contention on the barn spin lock a=
-s
-> >> there's currently for node list_lock without sheaves, to make
-> >> benchmarking results comparable. It can be further tuned later.
-> >>
-> >> Don't enable sheaves for bootstrap caches as that wouldn't work. In
-> >> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
-> >> even for !CONFIG_SLAB_OBJ_EXT.
-> >>
-> >> This limitation will be lifted for kmalloc caches after the necessary
-> >> bootstrapping changes.
-> >>
-> >> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >
-> > One nit but otherwise LGTM.
-> >
-> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->
-> Thanks.
->
-> >> ---
-> >>  include/linux/slab.h |  6 ------
-> >>  mm/slub.c            | 51 +++++++++++++++++++++++++++++++++++++++++++=
-++++----
-> >>  2 files changed, 47 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> >> index 2482992248dc..2682ee57ec90 100644
-> >> --- a/include/linux/slab.h
-> >> +++ b/include/linux/slab.h
-> >> @@ -57,9 +57,7 @@ enum _slab_flag_bits {
-> >>  #endif
-> >>         _SLAB_OBJECT_POISON,
-> >>         _SLAB_CMPXCHG_DOUBLE,
-> >> -#ifdef CONFIG_SLAB_OBJ_EXT
-> >>         _SLAB_NO_OBJ_EXT,
-> >> -#endif
-> >>         _SLAB_FLAGS_LAST_BIT
-> >>  };
-> >>
-> >> @@ -238,11 +236,7 @@ enum _slab_flag_bits {
-> >>  #define SLAB_TEMPORARY         SLAB_RECLAIM_ACCOUNT    /* Objects are=
- short-lived */
-> >>
-> >>  /* Slab created using create_boot_cache */
-> >> -#ifdef CONFIG_SLAB_OBJ_EXT
-> >>  #define SLAB_NO_OBJ_EXT                __SLAB_FLAG_BIT(_SLAB_NO_OBJ_E=
-XT)
-> >> -#else
-> >> -#define SLAB_NO_OBJ_EXT                __SLAB_FLAG_UNUSED
-> >> -#endif
-> >>
-> >>  /*
-> >>   * ZERO_SIZE_PTR will be returned for zero sized kmalloc requests.
-> >> diff --git a/mm/slub.c b/mm/slub.c
-> >> index 8ffeb3ab3228..6e05e3cc5c49 100644
-> >> --- a/mm/slub.c
-> >> +++ b/mm/slub.c
-> >> @@ -7857,6 +7857,48 @@ static void set_cpu_partial(struct kmem_cache *=
-s)
-> >>  #endif
-> >>  }
-> >>
-> >> +static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
-> >> +                                            struct kmem_cache_args *a=
-rgs)
-> >> +
-> >> +{
-> >> +       unsigned int capacity;
-> >> +       size_t size;
-> >> +
-> >> +
-> >> +       if (IS_ENABLED(CONFIG_SLUB_TINY) || s->flags & SLAB_DEBUG_FLAG=
-S)
-> >> +               return 0;
-> >> +
-> >> +       /* bootstrap caches can't have sheaves for now */
-> >> +       if (s->flags & SLAB_NO_OBJ_EXT)
-> >> +               return 0;
-> >> +
-> >> +       /*
-> >> +        * For now we use roughly similar formula (divided by two as t=
-here are
-> >> +        * two percpu sheaves) as what was used for percpu partial sla=
-bs, which
-> >> +        * should result in similar lock contention (barn or list_lock=
-)
-> >> +        */
-> >> +       if (s->size >=3D PAGE_SIZE)
-> >> +               capacity =3D 4;
-> >> +       else if (s->size >=3D 1024)
-> >> +               capacity =3D 12;
-> >> +       else if (s->size >=3D 256)
-> >> +               capacity =3D 26;
-> >> +       else
-> >> +               capacity =3D 60;
-> >> +
-> >> +       /* Increment capacity to make sheaf exactly a kmalloc size buc=
-ket */
-> >> +       size =3D struct_size_t(struct slab_sheaf, objects, capacity);
-> >> +       size =3D kmalloc_size_roundup(size);
-> >> +       capacity =3D (size - struct_size_t(struct slab_sheaf, objects,=
- 0)) / sizeof(void *);
-> >> +
-> >> +       /*
-> >> +        * Respect an explicit request for capacity that's typically m=
-otivated by
-> >> +        * expected maximum size of kmem_cache_prefill_sheaf() to not =
-end up
-> >> +        * using low-performance oversize sheaves
-> >> +        */
-> >> +       return max(capacity, args->sheaf_capacity);
-> >> +}
-> >> +
-> >>  /*
-> >>   * calculate_sizes() determines the order and the distribution of dat=
-a within
-> >>   * a slab object.
-> >> @@ -7991,6 +8033,10 @@ static int calculate_sizes(struct kmem_cache_ar=
-gs *args, struct kmem_cache *s)
-> >>         if (s->flags & SLAB_RECLAIM_ACCOUNT)
-> >>                 s->allocflags |=3D __GFP_RECLAIMABLE;
-> >>
-> >> +       /* kmalloc caches need extra care to support sheaves */
-> >> +       if (!is_kmalloc_cache(s))
-> >
-> > nit: All the checks for the cases when sheaves should not be used
-> > (like SLAB_DEBUG_FLAGS and SLAB_NO_OBJ_EXT) are done inside
-> > calculate_sheaf_capacity(). Only this is_kmalloc_cache() one is here.
-> > It would be nice to have all of them in the same place but maybe you
-> > have a reason for keeping it here?
->
-> Yeah, in "slab: handle kmalloc sheaves bootstrap" we call
-> calculate_sheaf_capacity() from another place for kmalloc normal caches s=
-o
-> the check has to be outside.
+this is the last batch I have to enable PREEMPT_RT on the ARM
+architecture. It is just sending a signal with disabled interrupts and fina=
+lly
+enabling PREEMPT_RT on ARM.
 
-Ok, I suspected the answer will be in the later patches. Thanks!
+Is this okay?
 
->
-> >> +               s->sheaf_capacity =3D calculate_sheaf_capacity(s, args=
-);
-> >> +
-> >>         /*
-> >>          * Determine the number of objects per slab
-> >>          */
-> >> @@ -8595,15 +8641,12 @@ int do_kmem_cache_create(struct kmem_cache *s,=
- const char *name,
-> >>
-> >>         set_cpu_partial(s);
-> >>
-> >> -       if (args->sheaf_capacity && !IS_ENABLED(CONFIG_SLUB_TINY)
-> >> -                                       && !(s->flags & SLAB_DEBUG_FLA=
-GS)) {
-> >> +       if (s->sheaf_capacity) {
-> >>                 s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_she=
-aves);
-> >>                 if (!s->cpu_sheaves) {
-> >>                         err =3D -ENOMEM;
-> >>                         goto out;
-> >>                 }
-> >> -               // TODO: increase capacity to grow slab_sheaf up to ne=
-xt kmalloc size?
-> >> -               s->sheaf_capacity =3D args->sheaf_capacity;
-> >>         }
-> >>
-> >>  #ifdef CONFIG_NUMA
-> >>
-> >> --
-> >> 2.52.0
-> >>
->
+v3=E2=80=A6v4: https://lore.kernel.org/all/20251110145555.2555055-1-bigeasy=
+@linutronix.de
+  - Dropped applied patches
+  - Rebased the remaining one on top of the recent fault handler and branch
+    predictor fixes.
+
+v2=E2=80=A6v3: https://lore.kernel.org/all/20251103101545.760243-1-bigeasy@=
+linutronix.de
+  - Collected tags.
+
+v1=E2=80=A6v2: https://lore.kernel.org/all/20251029155918.503060-1-bigeasy@=
+linutronix.de
+  - Allow to enable jump-labels on UP. The UP build does not involve
+    stop_machine(). Reworked by Arnd.
+
+  - Instead of forbidding HAVE_GUP_FAST with HIGHPTE enabled just
+    disable HIGHPTE on PREEMPT_RT. As Arnd explained, HIGHPTE is rarely
+    needed.
+
+  - Don't let ARCH_SUPPORTS_RT depend on HAVE_POSIX_CPU_TIMERS_TASK_WORK
+    which in turn depends on !KVM. Since KVM has been removed from ARM
+    it is sufficient to unconditionally allow ARCH_SUPPORTS_RT. Noted
+    by Arnd.
+
+Sebastian Andrzej Siewior (1):
+  ARM: Allow to enable RT
+
+Yadi.hu (1):
+  ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
+
+ arch/arm/Kconfig    | 1 +
+ arch/arm/mm/fault.c | 4 ++++
+ 2 files changed, 5 insertions(+)
+
+--=20
+2.51.0
+
