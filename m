@@ -1,107 +1,283 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA3C1C3BEB;
-	Fri, 16 Jan 2026 12:36:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768567004; cv=none; b=ZsG+0Q76PBk+T+BHy+T7r4uNpJVut0KEJ//wOghzcbU+6/QO8Pn/12iTw2Wj88P9Cwmj3xYBfHrxdR7Bae9bDaMgmFsqTZKKpjYAsOr2Z6SS7oxE+SwUM0tgA9/RGt/QvM5bbjoTdCkFthbluWXMvsZ4A4kSDu2+fKKSo8iS19M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768567004; c=relaxed/simple;
-	bh=hcAovDiVqYbJBPJqcxeru0ecxEMs1UaBo05POzzeyGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XWnDVuZwUn5yDyZNR344es+pRssXSrJOEsDQNIjMA7dPz90W6X1/zqbEj0Qp6zyGpLengsMGzHDWHuTr8MS1kWcLvCxlzpGqaxi6nTgY66QLBYgwWeF59PYFLXMaW/kiVN3s/Xwdi4BKEjNXF3+bJ9TiiZZgP6iChlVAU3ZG/oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bgJ1VVet; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B88A26CE0A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 13:37:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768570638; cv=fail; b=U2zDEIQ6C9whr6w+cJowzyZdNk5Nj5BumxZrEQn07I2/RouT925pnoOuU0Of3iB7TmibNnR3jJeuZHhR8Dd/iiSbblbA0meoJDwpxy4DOvcxmawzn7BtTAEfy/14Am0YH24jqbcObqpVoLVlsYBx3q8+WBoVSmsTfJMx5+ZGMEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768570638; c=relaxed/simple;
+	bh=WorW2KCEvhtee/OblEFhECg1JEhAbsx5FMjnvO+rFOg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KEqMs/HKU3C4dl4HHB4Go57yywsfDfZEjn/MpMVG4R2SrTE1crDsj6fuDfgmYY7pfGFRBo016CxfWPATQLHtSbq0ZFtIZDhtHgQVX1gockNZ4pb3riMjL91B54r70bh73yCJAYdOIo4uGfpIf+PPD5Uga7L1F+5Byx/VYNSNQMQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=bcTPI7m1; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=lXAJjNBe; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bgJ1VVet"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83246C116C6;
-	Fri, 16 Jan 2026 12:36:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768567004;
-	bh=hcAovDiVqYbJBPJqcxeru0ecxEMs1UaBo05POzzeyGA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bgJ1VVetkwUdjA3hIL5DV1VVg6+qB/4WV31MVSl/mKVbiwmOhEYj5C/C2IQun79Zx
-	 qpKrXssZkZVXyWcrf09ycvMCjsaCrgobRiee2RUN4eYy4v8+sWL/7htWDiDBUcLgZA
-	 H7iOMska7APkZ6+O/S8dgDDyJjOEDKaKzi2bRSgypBTljUtNYEl1i84l2e6TEOF84B
-	 xfGVd0wcgGE7iEWnWZuI/ethPjqBX1gOHDG7RGb7NAN+yG9UR1b3EGtweYqfg3Gbli
-	 qILPiZeMKeGiHwaGGvPdYJjoTKoQczqwexUnsIwxraRyPHqQJftT84P/wsRySWRIeO
-	 5KR6Z3yzaGj/Q==
-Date: Fri, 16 Jan 2026 13:36:39 +0100
-From: Andi Shyti <andi.shyti@kernel.org>
-To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jarkko Nikula <jarkko.nikula@linux.intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	Gregory CLEMENT <gregory.clement@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
-	Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 5/7] i2c: designware: Implement I2C_M_STOP support
-Message-ID: <aWoFLngIi5ZTtYzz@zenone.zhora.eu>
-References: <20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com>
- <20251126-i2c-dw-v4-5-b0654598e7c5@bootlin.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bcTPI7m1";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="lXAJjNBe"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60G1fd6K1971956;
+	Fri, 16 Jan 2026 13:36:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=HrRoSjFkjhff7jjCvc3wIHd09e2mFQC+m7LhhWkUeDk=; b=
+	bcTPI7m1buxwhuV+l4HwBz5/bykgkT9md0nMOK/0z2BfYlB5HKLteB8HYApkj1sX
+	DB1uBspGhg/WnEUiFkG0fXpvHfqeDx8vyN09plPAl0AaZ5jj4Nd992fsgkXQZBEi
+	Q4unuSKuWXmfF2VX8NrLUPb73b716O6TJEnw9KKcHk/LpGh8suVNwcW8Z53Ds7ck
+	ZGg3eRZ4xuW7PcTrqdy2WoYfmMFBwqprroiajpWCxbSIRBmZg7gFuf7pPYlCVWxr
+	+V/LNg84dU8Zr82TSVLglkMy5RNH4pGNZMgoaS0XC6tw1iFVP74lK0yHgNaal7BB
+	37bJumBh+k36OaQ9e91lYQ==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bkntb9xhs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Jan 2026 13:36:56 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60GDL0Sx029434;
+	Fri, 16 Jan 2026 13:36:55 GMT
+Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11012016.outbound.protection.outlook.com [40.107.209.16])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bkd7ppbag-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 Jan 2026 13:36:55 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k7Wsr3LWeGkIGYKRTXdXE6MSXtlaNyQimD9n72xtfORKUUow/lxh3iX2no+rGe+njaxSd63OXJK+i4gv9lNE63SDE98qVVkHbMu5X2HEnoB9qWrjjJ+4AgUAWdxZefbTukgGCSvFGp/oSRdyb6czZeTQBB1dOLLbGyx6WFt8jvtDn8mKTIUsoqTaAN5Y3MjcQ8HvJIZiOoVFv7gAP0j/Xmfdg4+zdiP47H9rnkng/Ux85NdIMIjX/Ihqp/3qSYh3CkY6yMwVqtQcd4QkgzIe6l1pVFDMyMw7pyBie/RbrYKkiIJHR3dR07AE3edkBRkYt0bM6j0kSCqh8RWJsOhHTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HrRoSjFkjhff7jjCvc3wIHd09e2mFQC+m7LhhWkUeDk=;
+ b=MeTHvTQdkLQPLCQOJ1cI3wO5gBitlRDrjWIxg3Rl3oaRk/xTu4hRuYnFgyteuOqL1HjfBEw5peupFpGxi+dxKYUzOWjoPhqJSkvdH72ER8/cjHGxtp6zp5tRxGngMoqDisNJpBLoyAvHpRlM67kyALl29DkvhwiQxWJ2JL90B0usl5yEZye9B1WYiykqfbO4eHNn1GcYr8uT2JWgBqDJSyeuh6gDujCwXfdkZU2Lbi0O4HmxFzPzi2u9mljiE/FXW8n4bw1p93RalA/X7ZV5JGWNMsq2u0QSFUTcn1biDi9CvEnxc9sAxHwG5L2nSwWfGb+ny9Q+kVw25XvpXBU5Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HrRoSjFkjhff7jjCvc3wIHd09e2mFQC+m7LhhWkUeDk=;
+ b=lXAJjNBerK9qpUrp2KEqRCCuKXHSJ97RNYi3EeYkhm4al2fyl+Hp5S4pfxTd+kGYa2CZ/VwH6r9BxgVHkrFruKldFdmVdQD/lZSdHx1ormcDoMhgH9qQ7fOWC06b5R2ukOEgLGbw/RY/veFGUepUT9ASBoSOmfPBd0C9y6QjZD0=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by PH0PR10MB5659.namprd10.prod.outlook.com (2603:10b6:510:fe::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 13:36:51 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Fri, 16 Jan 2026
+ 13:36:51 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+        Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH RESEND 1/3] locking: add rwsem_is_write_locked(), update non-lockdep asserts
+Date: Fri, 16 Jan 2026 13:36:45 +0000
+Message-ID: <8e343ccb9319433364f5949a69519f1bb521fc8a.1768569863.git.lorenzo.stoakes@oracle.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1768569863.git.lorenzo.stoakes@oracle.com>
+References: <cover.1768569863.git.lorenzo.stoakes@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: LO0P123CA0005.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:354::17) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251126-i2c-dw-v4-5-b0654598e7c5@bootlin.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|PH0PR10MB5659:EE_
+X-MS-Office365-Filtering-Correlation-Id: abe3e258-46e0-4480-24a9-08de55044ddf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?HgsF2ebUy4JNbNketzCvysTtiAgCnfmn93LrXkj+RShMWOyiMOMb24E8z7W5?=
+ =?us-ascii?Q?Cch+TRuM/x2M0q566dSdaNROo3Up1Sh8jiArEkTh0gVrFsvFMlR5ctQfC4Eo?=
+ =?us-ascii?Q?FSnzqoR7CRRzqyJQPCsuKsACHsgXidRJlprLV+tFU87/BBXKZim0Tez52jMN?=
+ =?us-ascii?Q?Y55X/FkfHmLToRC34GfK05NoDflXYEL/CLFGgAdVEaYQi651ASal5np+Qbaa?=
+ =?us-ascii?Q?QLquZ8pszSgI71ixiWzQQc99EAvJ6MkbAhCyxKYBIxwdNo/aFTR8gEzDL1Yd?=
+ =?us-ascii?Q?9g23c0XXaCJW06SJY/dLSCEho5iDjmbnF1PwqZyeYCp/lL99hQR2WQy3IcqF?=
+ =?us-ascii?Q?McTXgPv1+uI6UpnKj0Qf4Qubg0LT0/0/+MUrwODevwOvPipNcT0NT2zfTO7v?=
+ =?us-ascii?Q?XQ+J1REu+EopwMcICjTFzN6gDbpJ+CaQ28K2nLtqW+z4M8jyBWippaZ085JO?=
+ =?us-ascii?Q?n9F2FVg88bqqg53/lGVRwEZkwUF4Zp9VPrkXTVEkOq3qd+D2XFs6kVDBB6NQ?=
+ =?us-ascii?Q?4YjkgCNHEuB4eMzTGZ1WmdL8inAO1J5WK3qH2AMGm2XQJP9FZTPlkoSVGefv?=
+ =?us-ascii?Q?MWTc5G8ZB3q3egJ5Rma4QuCD+t/CEQBYkDmCXozJeNyAGObPy9e0gDEXpRN+?=
+ =?us-ascii?Q?mFPBC85dX/2UrqJ19wD5cLor6DYrbdPwkDHGXav8yqR0fc0G6Sx59ptKuMIG?=
+ =?us-ascii?Q?txnp4FjpBpGbvd5g9HItzZue9zCv57Ur6y1Kjz4gCAHJjFzdgc2sdjtEj9A2?=
+ =?us-ascii?Q?bkf5MFyoExKSWxrWX9DmJVDspXHNwILEM4uKzuyQYqCnfipdUI2VkKCY3nxb?=
+ =?us-ascii?Q?Zj/tZWYB0/j9TXklLAerEqcjjEo9F4Ib4uRqFYyf1YdwkXIfg+ja8kXAV8JO?=
+ =?us-ascii?Q?4J3eRWN79eyg437tbAwB6MiU9d6EgxY5PiLbrEzIL8IsZF0CM4EinqK5sETO?=
+ =?us-ascii?Q?n2enHZJrbbhinyXZIHl8H89wT9TL7E3ynW6TVSORBSDHcJMaX8mL1SHnR5sG?=
+ =?us-ascii?Q?IsLG27ZpdfjbzKZZ5pZiq7q5lFJzC1Kb/cJgvjFY4FbSBjzOXd39nuAHUZRA?=
+ =?us-ascii?Q?LB1wKid7VQO7xeIEc+q1c3nELTkQ5cj+OGm5WO4gCGYM6pwNGru4JkMhyAmk?=
+ =?us-ascii?Q?r2TsYxTp3q7AgHSIlJp164XS6D5S8iUYpNtPpwJCDa+dS7OigzlgLVv4oj98?=
+ =?us-ascii?Q?akDYjrKtrdkiBtz21XyakF7iUiTSbhKBCScODucOfrwaKa13wYk6HH2T0JSW?=
+ =?us-ascii?Q?YRPnwqY/ySUiw0X/NoGekcuT5bZbZ7z3saf6ad+K16AlV4LzQJrN2rVgLOS3?=
+ =?us-ascii?Q?0QcH2M2Qf5rd6peJk0RLPzXv4p9W4dLgUKNaXjwTff9E9otSFNGMTG1jx596?=
+ =?us-ascii?Q?f3c/dpY/xpyfIM+hXg+j5manhk8Bk0FvdZDHcqM/f3LWzaSVcqBzy3tea3hI?=
+ =?us-ascii?Q?rendODix8MROlA8YB5tXZsS370IDV2445/lqx/GqPa2NMMRNZ4WO1pAzerqS?=
+ =?us-ascii?Q?x5ZZ1/6XB6uEN/Z3Ag41J76kkO3toFB8et+UbxuGKNdQFEMMhi9uL5TBKumF?=
+ =?us-ascii?Q?US6VcpRRNFEuB8+d7oo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+0Ndt2eNqCLkAqn0P2niXgcZ8rIcW3Od9PGVmQG58awb6WmYxGHtK+hMM4/Z?=
+ =?us-ascii?Q?thbFx7u+2MVnQ2Pd4uhSHVva/pnPXEp7ljfUxVmSqjbmG88t4DMrvtOX6VB+?=
+ =?us-ascii?Q?MDICgW6/qIZbZ4ep9sE2qf9TA7JTpldNYFJUmMlayE3fTkhx2soDvXDm0sO1?=
+ =?us-ascii?Q?EggMGMDWz5zaXxOanUTrhg7lZEdc+ksmkYr1QEAcHPUTf1Jm7qTZzXv/V0He?=
+ =?us-ascii?Q?KAkpjYaLaYcGPr8SF/ohAYjgq25NeWzgOP/5vFA0yHkG0SXy7L4W507JNv3M?=
+ =?us-ascii?Q?7QQJQx6wdbIGF4Ttu9Z/cIQQNfrIo3RtxeqdMF0GIje8xZcm9a5vTvHce9af?=
+ =?us-ascii?Q?UX1gML/y9P55p8vVJfYiKz7HHH6cNgfFXQ/ScS8Q3oj5gY1oFmIlkQnuTdWz?=
+ =?us-ascii?Q?Ey6QxJ8FR574fepWTviqlO3UGNMzojbdfWyqicUghsG/vDEFT/fYc5n6W0Fq?=
+ =?us-ascii?Q?3AV/bJKDVX6/MzgkGsVI8knjOchy3PH+Lst4hdiNZYgNd0lICsDetorzV7S2?=
+ =?us-ascii?Q?lh/J0bNXkKI/b1irleIjsTAjciiwThLtmtc0QKuREVYuFmxk2Od7ghnUzTfr?=
+ =?us-ascii?Q?b0cYA35F6i0KuA5sRdZFDI690fmtwrnnbIMZ1L2+99Q3BSXOHUpVh7YAcron?=
+ =?us-ascii?Q?MiG9UtPQmlzrOr4CyUt44wRelBu/DVE2465bKUjGWg/BzJ/hBX7R3JcHY66O?=
+ =?us-ascii?Q?0ZG+UIw6KHmQoyrQMyzpRyrRPSWM2n0H2FcM3uvQAF2hY0PPQasi653HR/0x?=
+ =?us-ascii?Q?XrQHKXkYM6eskExjbMQX2NdGrWStz7dMWus0lP5HxZa3JIZK+xAK1j7t3wIC?=
+ =?us-ascii?Q?5OY+RnZpZ7mG1/goYXINV1oQGxYnDw6s2bvuBA2qs4LPxVcTOotCX2W6T75v?=
+ =?us-ascii?Q?YtVUDu8/opxgNsrmZBuSgjWflLLm4myZNq30ijRReFvJeeNwp8LSQkRfAV5N?=
+ =?us-ascii?Q?fhitR+kEbngAzB4piUFNbfnd6hHvnrZ9yok5fDLENmvLmVjeGUAd8ksH3uWA?=
+ =?us-ascii?Q?QQ4dqeKgIMwHKWFDPK7qcl7Oh0D0punzRzQSlO4ltPApbAIUF8cawgq3B0VV?=
+ =?us-ascii?Q?Lz+GZPPXej/xD2pSzYPDQRPjUybZDaqbLqiMwBDNQCUhp2wJLCN0oBFPZSDZ?=
+ =?us-ascii?Q?g+BX2R+ols0UOzPikkEQjPlfKuUQGAG34xuqiw5Y+gDd8nF2+KqLlKB4CtWX?=
+ =?us-ascii?Q?UcLOBJ6giKXjW8lRhfOcshwGQUoutdz8qsSvSD7PA5QiPEgg1nA9kx+dOLf7?=
+ =?us-ascii?Q?Msaj+KCH+UVTJHGv6XK20L6dL3xi7Hmiplr9TTzI/X3UjhxVA9mO9F7axchO?=
+ =?us-ascii?Q?486eX3JJId8gkSqU7LTETZRDSrr7Iw4wnOufuuBT8HIz7T4J24uu293YVSmP?=
+ =?us-ascii?Q?6EDSlCHWtFWcM/X5W3E0o3oN6Np3zQXYk2VI0EpBe0faJKVbSy+2a+yW6CAm?=
+ =?us-ascii?Q?2p1BTFr8wCZPMjepX/KuyWJONRQb9MM/eVI5Z38ozK7VMpPsOi+ZZDAZ2vXq?=
+ =?us-ascii?Q?mbtPEnrOHVzEpN7Y1/AYYZgZeQrFOwkeBdlBi/MGMRxSP7Td31D54YYVcEXl?=
+ =?us-ascii?Q?xYbjz9cX+jOMQaUTlgCcMTpr+sRlEit8QH5jaIuNL+lwA5oq29mfn5wnSdvf?=
+ =?us-ascii?Q?1gjDdJEcK7/J7cIzV8c655KC8F79GYuiMUQga7Kl3wv5J9UOX2uW+rqE+Epq?=
+ =?us-ascii?Q?p7uRIOGYUAcyFDxchKBuv3mHga4xezm4Hz2rQ8pQBsxRQTdhSYA0OXnGVU2V?=
+ =?us-ascii?Q?GPipwFg6gpIXOKXNGx25Um8j/6aPwoQ=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	Q5AqH9Flo6EQkQHUcNvk3uCShYsqtxm/hj40wUhiNIPhOWmwP3ozZ1XzKvyNWQd8sHLnqhBxFgVA1xina2Bd1AUbqpXMuzWqe2NdsnEGwjLuiua5/oapQhyhR7MXgg2P6kIeTXoMn3OZjuKMnV1ERDT3pbTq3AgyJQL8Uie0YKipDekTNJSRt4VgqdTQwuo+D1cIfkebqIDiTc5ExXZLOKFXTdpp0IN/F8FffYH+4DG0WrOYtjFfaCDBHZBXaqFqBO55STLSdTkFyNiL5P3n/qo++PuWPP796gASdDzvOy74LlVfM0LLf4Csj13Vb8QFt9aGA+Gz5giJ4dbPcwf9vfRzCUP0eYY3jebdKVnVf2bGMTicoaNKVHaul5aORZPjTQO5OWoTcJX/In0FbPeXdiFKQ6oLEal5AF8X5DLvLt8HYo0DIUcMqEw/RQLfrLVId8b9Igso9kuZzRcWcu4IGsC0zte18KbRc1939niYEfdYTJK807zO86zyySUG0j3R2zXFGify38KIy4ueCWWu/Uiac4ZALA7zEWRanvsfRdW6tXxYgSE4oLkb5EjlwSSygbCAgBNj8N3k/T+b89aupkwkWCdTf11b3VNUUr/iDoM=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abe3e258-46e0-4480-24a9-08de55044ddf
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 13:36:50.9895
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LG1q9EjX0MVdf9uVD759EsdYFNTikZhuQ3Si9J0BrZmSDq4U5OUL1HmeoX2wXD6mvXj0TQ+b9vpR+ObShKKRLtSO+3UAi1JYNCvL736MTwM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR10MB5659
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2026-01-16_05,2026-01-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0
+ mlxlogscore=999 suspectscore=0 mlxscore=0 phishscore=0 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2512120000 definitions=main-2601160095
+X-Proofpoint-GUID: 6lA6yrVXdsy53GoO6DAf4vHL-EhSvc_n
+X-Proofpoint-ORIG-GUID: 6lA6yrVXdsy53GoO6DAf4vHL-EhSvc_n
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTE2MDA5NiBTYWx0ZWRfX1plGMXwkCcus
+ Zh0VWdT6lyYgSMkluJXgmo8yW3/Hw8HkblA3CDULiLZuoHchbMJWaQPsuqlMvTbrelsO8XpLfCz
+ B+tBow1NftU6zRH0OsJlqyw3tbe5JVay1vWVTOwdEa0fw+HmUhv8Z6BiK+JZPay9Oi8I4bnxigs
+ AIFBnjhlVwuPnJMalmZVlN+CWXmhvlMWr0/fKqBCn9aubxyAnZMvN5/YKQ+zueoYhPMVjDao+ks
+ xuDGrMivrAaTwS0La9oUQYfPowYo/pabTB87ELFQwR5V87RuIGnpD9McA77eYgdgsGjM7dLZYg1
+ 2b7Pz0D5RzoGqeol4/So0UzZqoJQFOEWmMgXkRWtW9rECLBY1cCh+OXV6bkh/J7WE/wgE/XKo0U
+ XJNhwWSX67KJPf8UoTjmPx3rb/7vWwXZlv0XRAE0OglGbHOfDoHYw7iNThQ35cuTVDko5pnYAGT
+ OIUC6ihwjCl8tqD6jaXvTKrINtoxlvaO+9XRp8vI=
+X-Authority-Analysis: v=2.4 cv=fIc0HJae c=1 sm=1 tr=0 ts=696a3ef8 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=vUbySO9Y5rIA:10
+ a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
+ a=8lXeI3z0JR6vcHFVmzMA:9 cc=ntf awl=host:12109
 
-Hi Benoit,
+As part of adding some additional lock asserts in mm, we wish to be able to
+determine if a read/write semaphore is write-locked, so add
+rwsem_is_write_locked() to do the write-lock equivalent of
+rwsem_is_locked().
 
-the patch looks good, just a couple of nits.
+While we're here, update rwsem_assert_[write_]held_nolockdep() to utilise
+the rwsem_is_[write_]locked() helpers directly to reduce code duplication,
+and also update rwsem_is_locked() to take a const rwsem and return a
+boolean.
 
-...
+This patch also updates the CONFIG_PREEMPT_RT helpers to do the same thing
+there.
 
-> @@ -805,18 +792,15 @@ static int i2c_dw_wait_transfer(struct dw_i2c_dev *dev)
->  }
->  
->  /*
-> - * Prepare controller for a transaction and call i2c_dw_xfer_msg.
-> + * Prepare controller for a transaction, start the transfer of the msgs
-> + * and wait for completion, either a STOP or a error.
-> + * Return the number of messages transferred or a negative error code.
+Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+---
+ include/linux/rwsem.h | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-we are ignoring the number of messages returned, though. Do we
-really need it?
+diff --git a/include/linux/rwsem.h b/include/linux/rwsem.h
+index f1aaf676a874..b25b7944ad99 100644
+--- a/include/linux/rwsem.h
++++ b/include/linux/rwsem.h
+@@ -70,19 +70,24 @@ struct rw_semaphore {
+ #define RWSEM_WRITER_LOCKED		(1UL << 0)
+ #define __RWSEM_COUNT_INIT(name)	.count = ATOMIC_LONG_INIT(RWSEM_UNLOCKED_VALUE)
 
->   */
->  static int
-> -i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
-> +__i2c_dw_xfer_one_part(struct dw_i2c_dev *dev, struct i2c_msg *msgs, size_t num)
->  {
-> -	struct dw_i2c_dev *dev = i2c_get_adapdata(adap);
->  	int ret;
->  
-> -	dev_dbg(dev->dev, "%s: msgs: %d\n", __func__, num);
-> -
-> -	pm_runtime_get_sync(dev->dev);
-> -
->  	reinit_completion(&dev->cmd_complete);
->  	dev->msgs = msgs;
->  	dev->msgs_num = num;
+-static inline int rwsem_is_locked(struct rw_semaphore *sem)
++static inline bool rwsem_is_locked(const struct rw_semaphore *sem)
+ {
+ 	return atomic_long_read(&sem->count) != RWSEM_UNLOCKED_VALUE;
+ }
 
-...
++static inline bool rwsem_is_write_locked(const struct rw_semaphore *sem)
++{
++	return atomic_long_read(&sem->count) & RWSEM_WRITER_LOCKED;
++}
++
+ static inline void rwsem_assert_held_nolockdep(const struct rw_semaphore *sem)
+ {
+-	WARN_ON(atomic_long_read(&sem->count) == RWSEM_UNLOCKED_VALUE);
++	WARN_ON(!rwsem_is_locked(sem));
+ }
 
-> +/*
-> + * Verify that the message at index @idx can be processed as part
-> + * of a single transaction. The @msgs array contains the messages
-> + * of the transaction. The message is checked against its predecessor
-> + * to ensure that it respects the limitation of the controller.
-> + */
-> +static inline bool
+ static inline void rwsem_assert_held_write_nolockdep(const struct rw_semaphore *sem)
+ {
+-	WARN_ON(!(atomic_long_read(&sem->count) & RWSEM_WRITER_LOCKED));
++	WARN_ON(!rwsem_is_write_locked(sem));
+ }
 
-why does this need to be explicitely declared as inline? I don't
-think it's necessary.
+ /* Common initializer macros and functions */
+@@ -174,11 +179,16 @@ do {								\
+ 	__init_rwsem((sem), #sem, &__key);			\
+ } while (0)
 
-Thanks,
-Andi
+-static __always_inline int rwsem_is_locked(const struct rw_semaphore *sem)
++static __always_inline bool rwsem_is_locked(const struct rw_semaphore *sem)
+ {
+ 	return rw_base_is_locked(&sem->rwbase);
+ }
 
-> +i2c_dw_msg_is_valid(struct dw_i2c_dev *dev, const struct i2c_msg *msgs, size_t idx)
-> +{
++static __always_inline bool rwsem_is_write_locked(const struct rw_semaphore *sem)
++{
++	return rw_base_is_write_locked(&sem->rwbase);
++}
++
+ static __always_inline void rwsem_assert_held_nolockdep(const struct rw_semaphore *sem)
+ {
+ 	WARN_ON(!rwsem_is_locked(sem));
+@@ -186,7 +196,7 @@ static __always_inline void rwsem_assert_held_nolockdep(const struct rw_semaphor
+
+ static __always_inline void rwsem_assert_held_write_nolockdep(const struct rw_semaphore *sem)
+ {
+-	WARN_ON(!rw_base_is_write_locked(&sem->rwbase));
++	WARN_ON(!rwsem_is_write_locked(sem));
+ }
+
+ static __always_inline int rwsem_is_contended(struct rw_semaphore *sem)
+--
+2.52.0
