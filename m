@@ -1,167 +1,232 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010052.outbound.protection.outlook.com [52.101.193.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A0A2F12C1
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 00:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8C8346FD2
+	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 04:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768522975; cv=pass; b=SpAif8VrOVmsxHspaAftmFvU7PGt28Pqsn44ee/JTNPAV+MeG8zXwzWgi4LinRvRINM10Vdnpn0+m66+Va2o++9momHrBQiN1RFo0vZSxP4fc/hm7/QjkY6RQRlYEiDoLNfiikx6blAqxC43zjmUhvGbaGbj8ynjekYYhYeGq+s=
+	t=1768538370; cv=fail; b=YUXNm0tIdNZWzfogU+Zv+dk7aUqtxb7ilnhCH/YK6nc6cib+ucBJ8YFCi65wzSvDo1ej7jnKXL6GCe6xh8BtwEsfzFhNDFg7lSbK3OObO7biCuq3nqEwXZfZAIsX4zAPef5BwtVKxAdsD3p1gA9y5i6R3qM89j0ZYnchKBR+enQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768522975; c=relaxed/simple;
-	bh=7IjaKVr9Qjs79eTGTTDTXYnTpcN3WgBNmCFA4kCF0BU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cINfWy1py2TRHA0Sj4NaDJNIcxfr9E+14ZTWNDH6+ARi122ufZPY+rNm/ZX6EGqSirRVPNok8HqS/rYcN0cs0CHZlZnUAaLqUrzr1jByoXIfwEsBmTVRpQs/8eQnIvbvzVkTFI1UXLMMYqQ230FkAzfCpsq3OJcbDHzYq+RTvWA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D7JNN3mW; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1768538370; c=relaxed/simple;
+	bh=xoz4hugNZHEWfGDYtD+2com4DcQnGB1ngBdzV2jbFRQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XM0xQWl2Dx+IUXSP0RuMHbJfDc8XFU48B4vwvL9vB7PTYs/C7XKrYZOcHG4EsdFUUA/erYTxrILjkL2Tk+yC81gdVD48JXRBb0eIlnLSJEKEfHm/zQinhWo4DnodWYaKCba24M6PLgusWvbhRkSDVc9dyGIZMcyIpKTZ2XFGk4c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=E8cg7c5M; arc=fail smtp.client-ip=52.101.193.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D7JNN3mW"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50299648ae9so103621cf.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 15 Jan 2026 16:22:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768522973; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aTZzEymp0bjt9KkMp5HdLKa4R5IG6wTZmt/QTn4R/VDfpAEvYYNzOEddr1Rz9ecXz/
-         QU4c0w2GJx/hV0EzXE9BmK6SNgFl3QvF4e0AKNsTl+mtjlswQomxNdmVF0aNECFHsniD
-         S3zTUaYTqXiAUryD8FIxHNagh3hlPhiDhIye6cU8b6IuKAqm2g1OT00GjJtltb1XBHmr
-         7ecIAihr2yjlOGhuTFiY3hdVKFIWy6CCbwVk6CRX+Rv7d+dQZOxHtBw5CzVMIL/AQfMK
-         ow7Xd70f12MCFVRLm/QyhHYCrm3uFH2O6zxH9GPorZ9EQ89KA6fXogNKND822R2RafCm
-         D11g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DW/ITMg56jRAZJtQnAt5F58BDqK/01GQKI49GCbQ0F8=;
-        fh=UsKN0k1sQnN8HRNZOEqJrIGbZHyIMi2CTFGHOqj8DTM=;
-        b=iN5CLajRJUeTzLB2qeedvbSoWf4cwmf390lZK6ptjouMk88VCjKxHNeQwFpy2Ks0h/
-         3g/ySuhTIMXly9oxNkrcYDKnqJRx9Cj3YNRe4uCkgGbhGvnpS8rVDLcu6QCiHx25grWt
-         nDy9Vm1/9HcE9ibP4RsAmp7GPi62SvdxmJGlcPqTqHyd8BMKm4JLgzktxMvmdDsk+pVq
-         ndNUDJkV+VyGgXkSNgwrLqxYPA+VRpTfDvcB72S/s2uxKjiM25ORgFmULtUzExtoo4jQ
-         xTWCk+EwsEg2eB8WxdqtmNhmgK5aYBelcIFnDUp4vdAAgMHCvBYAEJ7frBvE62PPxttJ
-         QegA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768522973; x=1769127773; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DW/ITMg56jRAZJtQnAt5F58BDqK/01GQKI49GCbQ0F8=;
-        b=D7JNN3mWi0LEgUDvkNp29zJ1ZFoAjIPw2LdkrDvLchqdAO5V0WdyOvhdlk0HgtuEKE
-         2T/7y0qq+dEbXX0Xt5/fHjRSFzId70psng7Z07JTb3oSKgrWltXnaf2Dx93j+SD8U8Li
-         BeaMrVneDPkCS/wENnHWi7M6ZioPFStkbX5J0gmS37041UVgNr6Pnr970Xjjs1bCWLIb
-         MHqkTGePJRS9HesexE/PLLm2TOe/NbZSQFcMWqvY6HOEzWabryKLva0udCBqoffkW/Wg
-         mBwNs9Jra4Hc4m6Oi8VAba8aJPnMkKmTvA5uMYP0dJRb9Ox+mlUw0H61MyNBxlnlrRzd
-         XCXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768522973; x=1769127773;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DW/ITMg56jRAZJtQnAt5F58BDqK/01GQKI49GCbQ0F8=;
-        b=VrMs9twZ1lkw54s8qln37xfS3VQ0x557TdMugwK+tQ2Jx0AUzRMcIiJvxf4ek7g5ih
-         GmdFeEHsEVSimkHdNS+hKfXJdVSqtOvLFhRgGNVwy3qcfCzwx/hkthKz4jdPGsM52ZY2
-         TDrMsMOLLPyLUju+iwoXRTnfBmUVtJK3FoKflpZLXvVEwXzNEmd1HwTe/uf2IAVAf9nK
-         MrpFg5gJMQXHs9udcuiUPvCglf5jbKEWd7Hatt/otMUfxxS+NBi7aTLIyApV5xXUjScz
-         Kcv8hCUGEjlPKqfD8Jm3MkIM5eR2JNV+HLxCoL4O5UiJKnEL8lLmTT8XXJ/oSZBk+9CS
-         ulyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWCHaY3SMevTzbtCA6R2mL5mXtnkBoxKXRbklD+VwERerDbZ/nYrXaaqM2PO/o5ayDhboGeoDcyyY/Juj9G4A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyL/WGTXxnOFyPcaf7zEWeq+r8pMHRPhgMg7+EaoJEJUlrgaGrP
-	dvUAuILdOSOMa6NAtAYN3VjWh3olOdzQxdxZYQJJc2C8TZflX1Uvkh3J4/+oPbIMqMbtt2cBo0o
-	yT4PmQ3Esdc/aWyDVLIVxDpnKaVeuWY16CXFcXlag
-X-Gm-Gg: AY/fxX62EU9y2v0gekqj2WbqEo6G06jvnVSuHoTIve9wPrl9P46dZ/cQcelSmECsq9y
-	7wG6OyV1l1Mhl9LUPX/eP2wHYgsajTAeD2l6DHz/RsWWw8PpEjpfp608j+kGLgNlaXvVnuzDV0S
-	YwbOHW9tbMFhpF7wjuC1gBLLn27fnOfLOX/tfKR5rkj0VKvnmfUj76nNU7bcAmZrikD+5nggJ/H
-	5aRoKapE8zZnjMUxZVAgvo4ix6d/qJA5Sej1lVCwG21MD1Ee5RjD1HW+NyySSxQG8DIBsbmi6jw
-	xGtEW+RMzohItzD7pV3e9fw=
-X-Received: by 2002:ac8:7d0b:0:b0:4f3:54eb:f26e with SMTP id
- d75a77b69052e-502a367742fmr2431351cf.1.1768522972940; Thu, 15 Jan 2026
- 16:22:52 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="E8cg7c5M"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sLnN6gZs9iDnyjR5WzKVAX6rmCLfAyOcPwEzrho6npQ893gtK6Pc/aE6xQO/8M8qkYElvwQeLF+dX1AivIIVoBwbYhPSYL0PxLfRqTM7z5q52oDCNJqZcTjabJJRORe4vMDP1RDGKFu4iBmENpAnuCApdMeKd/XlPtMFvQeg9oTUTIXbSjY/Mm1uQsjzQEmKDJluQP7XQpH9zrxsbgpcmfUtU0k835COoIAfh0VhFpjUngCPXKbzm2MJF1kVI/EOvenrUQjzIAGNVMNODM3OQ0IUOujsqpjTJWN0eTR5ol5Qn/vZLs/hp6R3NroePXk1WP9X3qLvve8XyEJ2k+xVjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Yoi5licWXk9Hmy4rNNO/zzimHWCyZN9cG8+rb9iARI=;
+ b=UvVJSKPRIZdeRugvjcBP3IUYr+Tyq61UZ69djQ3jjGC15BeYjQYj6KEGA0nkkPUYsf5Ye5oNZ3XJdhEcmKv4iSFyzDtwf76YQa3edGkAccwOTKJnwUD2tI7eB0HIHqsrnQzMqO5e5WgTw/itv8U/M7DgQumfaSoFtqaJruy/r+10VNZQt6Y5My5erZJthvyJ9KU8NLxWBxHFKf7950eGdE7jg0vunDwihpZLe/2ExVPbLZK2Oo2hbFEoTEOIyRyadKhf/bxHhqoejSyaDQnHNMOOciNGwoy/Tlkl9IduNDAVnLmS6dAz2lh2U9fIdZxdCc/Oa4uwWmyScDpwuJjQAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6Yoi5licWXk9Hmy4rNNO/zzimHWCyZN9cG8+rb9iARI=;
+ b=E8cg7c5MagzqZaPmGJgCM7YUJMtkF9qTuFRyE1OPO0WJyLbW0JO7snrVsmedprnRWBHtzao1NvfSMAhlSddJxr6Mzj9ly039Kug6m2FYKddRmr8BZPU/LfaWKb9Q2nABci098YbBYIEirBaxF7zvsPABWXriQ+kv7bue4ukXTeo=
+Received: from CH2PR18CA0018.namprd18.prod.outlook.com (2603:10b6:610:4f::28)
+ by DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.5; Fri, 16 Jan
+ 2026 04:39:09 +0000
+Received: from CH1PEPF0000AD76.namprd04.prod.outlook.com
+ (2603:10b6:610:4f:cafe::23) by CH2PR18CA0018.outlook.office365.com
+ (2603:10b6:610:4f::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.8 via Frontend Transport; Fri,
+ 16 Jan 2026 04:39:09 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ CH1PEPF0000AD76.mail.protection.outlook.com (10.167.244.53) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Fri, 16 Jan 2026 04:39:08 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.17; Thu, 15 Jan
+ 2026 22:39:07 -0600
+Received: from satlexmb08.amd.com (10.181.42.217) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 15 Jan
+ 2026 22:39:07 -0600
+Received: from [10.136.34.241] (10.180.168.240) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 15 Jan 2026 22:39:03 -0600
+Message-ID: <6eabf604-9168-47fb-8fd8-b2f0d985db6a@amd.com>
+Date: Fri, 16 Jan 2026 10:08:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz> <20260112-sheaves-for-all-v2-3-98225cfb50cf@suse.cz>
-In-Reply-To: <20260112-sheaves-for-all-v2-3-98225cfb50cf@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 16 Jan 2026 00:22:42 +0000
-X-Gm-Features: AZwV_Qi0xiGM2d4FuoLFqXrZf077B4nd0NZeqj4924Qs7epHRHPkVirBgIQQHEM
-Message-ID: <CAJuCfpHowLbqn7ex1COBTZBchhWFy=C3sgD0Uo=J-nKX+NYBvA@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 03/20] mm/slab: make caches with sheaves mergeable
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] cpufreq: Pass the policy to
+ cpufreq_driver->adjust_perf()
+To: Viresh Kumar <viresh.kumar@linaro.org>
+CC: Huang Rui <ray.huang@amd.com>, "Gautham R. Shenoy"
+	<gautham.shenoy@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Srinivas Pandruvada
+	<srinivas.pandruvada@linux.intel.com>, Len Brown <lenb@kernel.org>, Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
+	<clrkwllms@kernel.org>, Bert Karwatzki <spasswolf@web.de>,
+	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rt-devel@lists.linux.dev>, Perry Yuan <perry.yuan@amd.com>
+References: <20260114085113.21378-1-kprateek.nayak@amd.com>
+ <20260114085113.21378-3-kprateek.nayak@amd.com>
+ <bqvpt465nowq3jipfsciaoafjpjhu42l63vi6p67qscwx5oil4@t2tkh2u5giuy>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <bqvpt465nowq3jipfsciaoafjpjhu42l63vi6p67qscwx5oil4@t2tkh2u5giuy>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Received-SPF: None (SATLEXMB04.amd.com: kprateek.nayak@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD76:EE_|DM6PR12MB4401:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5b34ec55-98ee-42d0-c92a-08de54b92fe1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|36860700013|376014|1800799024|82310400026|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VG53ZnpWRGJieWE0V0JDS0RQN0NWb3ZUMVB0cUtqNXJLTjlKL0s4Tlg0eUNK?=
+ =?utf-8?B?Yyt6QWcydDRYbWtXSkk4YnN3elc0NmMwNEQvVmtLNnBVK3ZTVW9IOHhDaXpR?=
+ =?utf-8?B?Vkc4KzdrZDhMR0h2Nk01azRIalBYWTZaenhkb25Ndi9rSXZDRmN5R1dwcDJM?=
+ =?utf-8?B?M0l3YmFmSEJjMnZDaXQrZmVqM0xMK1V5eENoVnZlRjU2NXhlbGwxZDlNK21j?=
+ =?utf-8?B?RFFrS3creEJUVnFmUG0vaHRSWlA2R0gzTjZBOVYyakZVSnp5dWVDdU5GMmIr?=
+ =?utf-8?B?U0NaVWlDaE1hc0dMWVlNV3UxbjBIOXFncE9EZTUwT1kydFlCVEU4bndReEtM?=
+ =?utf-8?B?Yy8rQWZpeXlUZ1lLUHVYaTRTVmR1RUNIZGE3dlpjR2lxUGNIaHNROFY0cGMy?=
+ =?utf-8?B?KzlkY1VEWnRsTDhRNkphR1A1Tk5waXI2aXVIcGx2dTVQRE1ocUpTY3lsMU4v?=
+ =?utf-8?B?WkhkNTRpQjBmOVhmQitjK1NtNTQ5a3BkOTdITTdtTGoxR3NXTm0vN0o3MUZh?=
+ =?utf-8?B?amczWkZNRjcvRzA1ZUM3K3FCVjBoeTMwU0pHRnV6b1pzaWN6U0JyTGkzTXBy?=
+ =?utf-8?B?V242ZllRMkNVNTRnMW1NSnN0QTN3MkZITC9KWU8wNkZvMyt1dDlCYVlUWXhJ?=
+ =?utf-8?B?VHJhK0owaDVla0RDTm9oK2FUWXlYcE5HbW55blBxNDMzejJVQllXU0UwMDFu?=
+ =?utf-8?B?TVZ0MGxVQU93YStmVFIwZDEzTEtmalhCSE5rN0dydzRiTTAwbmRZVi9Fdk95?=
+ =?utf-8?B?UUNaRTI2VHBxVTBOWHVFbWFxQnlVWUc3QlBub09IOGF6SUJwdEdMRXpneVpU?=
+ =?utf-8?B?QVAybURhcnlxelMrZHdGeHI0VGxXRkVLM1E2Y3dBVGtXYXo0aE1FcnMyOWFq?=
+ =?utf-8?B?bVBNTEo3NG5uOVQwMkVaWXhveVZJUWd3aExiWElWbVpVNmUvOWVUZjVSWVcy?=
+ =?utf-8?B?SWh2RUxtUnUvb1BuS3ZhWXhCSHRQMVhCRFFCeDRGMGZmbm04RzQrZnVJTHNJ?=
+ =?utf-8?B?Nnp3VCsyMXFEWFNqbGlTUmhhQktJQ0FnUE9JNVNnSjdlc0FXeDhIUzNwYm91?=
+ =?utf-8?B?dVFhLzhhaUxsYW10b25BWVZjNU9nVGNOcVVDVlg2emt0TmI3d1NqOFd0M0pz?=
+ =?utf-8?B?WWMyM2tURk0rRGY3NlBDeWlzbUlmMk5oTlVkTzcraDBRcXFseHQwUmdHUnBt?=
+ =?utf-8?B?MVFLSWRqemVZN3JKNnJHQ0Q2NGNEcCtadmpCdk5nOHlKWldrYzFobG50RXA1?=
+ =?utf-8?B?aDZIMi84QnJ0Z1pJbExQMlpYNWxYUXRTL2NCVEo1Yjc1Q1Z2cjhtY3hBOVJy?=
+ =?utf-8?B?UEtybS9DR210ZWI1Z0JPMXU2V2dSaDZVTlFUbG4vQUljM2dJcFhpOTFodUw5?=
+ =?utf-8?B?aTJWamFVSjRUSk5pb0kwOUg3Rk14SnJaOU9LUDNvQ2NVWVBSZVE0N0wwdDla?=
+ =?utf-8?B?d0lsS2lMbHlLWHB1aTJxU1l2TnQzWnhwcVhyRzJCQi83aTlmZENEWlVNbXhH?=
+ =?utf-8?B?THMzUC9nK09SZHhURDVMOXJ5N2ZhSlFsZTVwaFFiZXppcVYxb0F3K0U1eVJQ?=
+ =?utf-8?B?eDVjWndsc3V0Vi9sbDEyMmx5S3A0eGlxMWJzWDk5UHQrM3I3cmU4dERXdEpz?=
+ =?utf-8?B?dXgwVnU1U0tnU0hZaUwrQ2JjeFlTMG0yYm5DcVJZcjU1VTZicVgvY3hwS1FS?=
+ =?utf-8?B?NjExSXptODB0ODhtaGIvM0RPMEJOY1JET21nNEY2OG1MVksxbUlRYXI5enpJ?=
+ =?utf-8?B?YnV0VFE5SmY4dDBYQzRBL2ZkYUNvdXpsVmt5bGp1VWVPcHV6YldaandpNGti?=
+ =?utf-8?B?OVlpTjVJRndoUjl5bHRyT0s4ZFk1dkFlK2hNNmloMmRzOTBybkdKVEFLa292?=
+ =?utf-8?B?RERwZUliUjJRVFQ5ekhwbzB3eG5MbTRSMXBuVWIvWFFyRWd5ekQrRHNEVW9m?=
+ =?utf-8?B?aERSZDdub3Mzbjd3QjgvOFBySlJOSGFoQmgxUVVONWZEaVVXL3ZoY1g5OTEr?=
+ =?utf-8?B?Vjl1ekYvNklPeG9lVFJISllqMnVDamNtOVl1U2grYllEc1BPK1JpMU9EaFN0?=
+ =?utf-8?B?VFZ0ZHpibEVBYzQ2VFoxVGpZclhCMlBjYXVTWVhDY1lzUEhySjlsVldXYlhm?=
+ =?utf-8?B?YWpvZmdZVHQxOWhtcW1FS2pmUnI4N3cvUDV6dUhFekdITnh6dUp5WFg2VjlR?=
+ =?utf-8?B?NjlJb2lCUGthcnV3RG5VTUliTTlWdFpPWWQ4R0g1bjZlbDQ2cmFRUHVDMTVY?=
+ =?utf-8?B?LzRwSkNhME4wL0RJd3Q0R3ZBamVRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(376014)(1800799024)(82310400026)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 04:39:08.1902
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b34ec55-98ee-42d0-c92a-08de54b92fe1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH1PEPF0000AD76.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4401
 
-On Mon, Jan 12, 2026 at 3:17=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> Before enabling sheaves for all caches (with automatically determined
-> capacity), their enablement should no longer prevent merging of caches.
-> Limit this merge prevention only to caches that were created with a
-> specific sheaf capacity, by adding the SLAB_NO_MERGE flag to them.
->
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slab_common.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 52591d9c04f3..54c17dc6d5ec 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -163,9 +163,6 @@ int slab_unmergeable(struct kmem_cache *s)
->                 return 1;
->  #endif
->
-> -       if (s->cpu_sheaves)
-> -               return 1;
-> -
->         /*
->          * We may have set a slab to be unmergeable during bootstrap.
->          */
-> @@ -190,9 +187,6 @@ static struct kmem_cache *find_mergeable(unsigned int=
- size, slab_flags_t flags,
->         if (IS_ENABLED(CONFIG_HARDENED_USERCOPY) && args->usersize)
->                 return NULL;
->
-> -       if (args->sheaf_capacity)
-> -               return NULL;
-> -
->         flags =3D kmem_cache_flags(flags, name);
->
->         if (flags & SLAB_NEVER_MERGE)
-> @@ -337,6 +331,13 @@ struct kmem_cache *__kmem_cache_create_args(const ch=
-ar *name,
->         flags &=3D ~SLAB_DEBUG_FLAGS;
->  #endif
->
-> +       /*
-> +        * Caches with specific capacity are special enough. It's simpler=
- to
-> +        * make them unmergeable.
-> +        */
-> +       if (args->sheaf_capacity)
-> +               flags |=3D SLAB_NO_MERGE;
+Hello Viresh,
 
-So, this is very subtle and maybe not that important but the comment
-for kmem_cache_args.sheaf_capacity claims "When slub_debug is enabled
-for the cache, the sheaf_capacity argument is ignored.". With this
-change this argument is not completely ignored anymore... It sets
-SLAB_NO_MERGE even if slub_debug is enabled, doesn't it?
+On 1/15/2026 9:44 AM, Viresh Kumar wrote:
+> On 14-01-26, 08:51, K Prateek Nayak wrote:
+>> cpufreq_cpu_get() can sleep on PREEMPT_RT in presence of concurrent
+>> writer(s), however amd-pstate depends on fetching the cpudata via the
+>> policy's driver data which necessitates grabbing the reference.
+>>
+>> Since schedutil governor can call "cpufreq_driver->update_perf()"
+>> during sched_tick/enqueue/dequeue with rq_lock held and IRQs disabled,
+>> fetching the policy object using the cpufreq_cpu_get() helper in the
+>> scheduler fast-path leads to "BUG: scheduling while atomic" on
+>> PREEMPT_RT [1].
+>>
+>> Pass the cached cpufreq policy object in sg_policy to the update_perf()
+>> instead of just the CPU. The CPU can be inferred using "policy->cpu".
+>>
+>> The lifetime of cpufreq_policy object outlasts that of the governor and
+>> the cpufreq driver (allocated when the CPU is onlined and only reclaimed
+>> when the CPU is offlined / the CPU device is removed) which makes it
+>> safe to be referenced throughout the governor's lifetime.
+>>
+>> Reported-by: Bert Karwatzki <spasswolf@web.de>
+>> Closes:https://lore.kernel.org/all/20250731092316.3191-1-spasswolf@web.de/ [1]
+>> Acked-by: Viresh Kumar <viresh.kumar@linaro.org>
+>> Signed-off-by: K Prateek Nayak <kprateek.nayak@amd.com>
+> 
+> Ahh, you need to fix the Rust binding as well. Minor change there.
 
-> +
->         mutex_lock(&slab_mutex);
->
->         err =3D kmem_cache_sanity_check(name, object_size);
->
-> --
-> 2.52.0
->
+Guilty of not having CONFIG_RUST enabled! I've arrived at the
+following after tasking a look at cpufreq.rs (specifically the
+fast_switch_callback implementation):
+
+  (Only build tested currently)
+
+diff --git a/rust/kernel/cpufreq.rs b/rust/kernel/cpufreq.rs
+index f968fbd22890..bea109f8ff78 100644
+--- a/rust/kernel/cpufreq.rs
++++ b/rust/kernel/cpufreq.rs
+@@ -1255,18 +1255,17 @@ impl<T: Driver> Registration<T> {
+     /// # Safety
+     ///
+     /// - This function may only be called from the cpufreq C infrastructure.
++    /// - The pointer arguments must be valid pointers.
+     unsafe extern "C" fn adjust_perf_callback(
+-        cpu: c_uint,
++        ptr: *mut bindings::cpufreq_policy,
+         min_perf: c_ulong,
+         target_perf: c_ulong,
+         capacity: c_ulong,
+     ) {
+-        // SAFETY: The C API guarantees that `cpu` refers to a valid CPU number.
+-        let cpu_id = unsafe { CpuId::from_u32_unchecked(cpu) };
+-
+-        if let Ok(mut policy) = PolicyCpu::from_cpu(cpu_id) {
+-            T::adjust_perf(&mut policy, min_perf, target_perf, capacity);
+-        }
++        // SAFETY: The `ptr` is guaranteed to be valid by the contract with the C code for the
++        // lifetime of `policy`.
++        let policy = unsafe { Policy::from_raw_mut(ptr) };
++        T::adjust_perf(policy, min_perf, target_perf, capacity);
+     }
+ 
+     /// Driver's `get_intermediate` callback.
+---
+
+Let me know what you think. If you think this is alright, I'll fold it
+into this same patch in the next version to preserve bisectiblity with
+CONFIG_RUST (or should I keep it separate?).
+
+Since this is my first time dealing with the rust bindings, comments are
+highly appreciated.
+
+-- 
+Thanks and Regards,
+Prateek
+
