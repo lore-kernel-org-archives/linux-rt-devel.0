@@ -1,307 +1,490 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012044.outbound.protection.outlook.com [52.101.43.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E915F25EF9C
-	for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 20:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A7F281520
+	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Jan 2026 02:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768596453; cv=fail; b=CkRKfHVy0rb4LKVW393aw2RpnETdVAI/NF3ouTiNKT29BW1HFu74ZfkCXmtsxVHq7hFTHK7liB1+vIB42SYE8I6Zw9BiFudfJxinextWkbOHLNNus0URKoQxFjTuFqBS/Me7yr9gLEfHn6DRNPYzjJ89DZL8GTwQpVp94e6uX7Y=
+	t=1768615877; cv=pass; b=gcNpowTrGmeQlyB7k75vwksDtLAUalL2ZRep3rrh9Mt4J+Gx5Pxovm8gEe0M62ZgyR1eq+CIUTjEtSJHxbWnLZB9Ims/dN50KCmu0eoquVFHjE4s1XPwQ6+OinlBPvsM1R0rXovwzm+PkSSHXjg2AgZMqo6AKNwkIMmBGRidkCI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768596453; c=relaxed/simple;
-	bh=X3IoRqmrchlDXzEfNWBxfMlKKGYvvZeW3xDKJThOlWA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M//q8ChqNQJpUS2GxfSwqB9a66llM4yysi7axVX+f/YuL0PXEzqIqH1d1xF27NcpAgzM0X+QoKCrBWyAkK/O/lo/JIgMAuHi/syRSQ1bLaUWY7eqMWlXWG15ug7JtboQEOZulgD+46pl/6qY6eWFvD39sa7hB1u4bVZW9ujBmfk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qqtNuR8p; arc=fail smtp.client-ip=52.101.43.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1768615877; c=relaxed/simple;
+	bh=oidOtNJnku2S6cVt6JlSLpEyGp2/mdpd0iSErBFe6Gc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JraOojnFoqddZarbtIFZAXthrh86Yek+QHOaxsrBoSXm1Jgl8ldsylah0S78oahi41MaoClsEOuA2MKXNEWSYl8cqJmozNR8s0j+7km/vrEA+1Xl0GKW9f8vRSUZFwMP+upVa6vxWx4lBPhC4PBU3U2o+HkBj/498lCMAFxW1PI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=G6wfQLxr; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qqtNuR8p"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f9gtOPbSrdrDTactcV2b5ZduYYSYNvuCf8QoiqNxaN4flxyqWcNFpu4FgXcAx+QF4QULvdCMI/aiI0aS3W29Ecom9aGrrv2DhqKG476nyteuK96UudmJpcuRmMynv0ko+m7ChONEGNU5NfZvYfi+o8x+v42kL5idZQmPakVRLO5s/W3gMo+3UKw5/ztakyG1ggZjWMG7AR+leI1nOOhFA6Fy4TGx9IV97mW3ydjEAhTecbbYnqjpZW7UGjiVUM9R+MvUQ0cyocrUQX68DvqwtnP/+UYqFXjrKR27r2dui5EIK0AuMA0Rymet0ByjMpI2zArNckx8MlST/gW9YvCwRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rZ2vRG00rGFN2TQlg/lihRFa3OdD6pK0B8tWbrLT2HY=;
- b=YsYLeJZym1qBxrl9caOjb71zrffFiuOD0AZ0WgtU8sC6gwLyFwrBlA3QQ+WlvRZA4MB73yL9LMU5c3VUL8Lj/qXH97Yo0AXB+y9+VyCPwTOv5c+H1fuMUgVzPHZbff9ScIyu16hdMbiM+hSW8GFfrpaZEZexoJfaqqghq5oD9o+BCiFRnk4vzHyaRBG23mb1ExAumvGqRyqmvI+/rNaRCNIFS2Lt2QI2vMoIjRxBkQBn/QMAUJglFZ3swyKe/iJLpZNVFMOrXQtZnJxT/Uj+zxjsRfom88RLWOhLg5bEEXZYubgLp/iHOnNGVy7aZBdB0l3fLmBLQZFBY9zicYZXlQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rZ2vRG00rGFN2TQlg/lihRFa3OdD6pK0B8tWbrLT2HY=;
- b=qqtNuR8p5ZeEQOleyju2+JZZ2tQm29zHUrgcqceqa8NG2RZTvZFmGyfuejPJUpID5erUdC6uDJWeC4WtUt/UcB6ufbYFtCxLmwwbZQysT7fNEh9+HUQxryfZkphD2kcN7XXlHu+Twwkni2w73HG8kliRm1+IKPMAdaxKGkuQLu3iePyAwLoKhN88f2wnpkOdmDQ2oiwh1u8LmOT/o7kVNjVP6UbO5cd7zyNfhgUmO/l5jNY6U8Vqq4lBcG5Z/XcmOTIkRLoT2RTxNTSVaYLIwZ6UajFNIiqEAQs2WEUWXpVsFLHA0xt9yw67AFQKAiEifC46l3X6DBbrOrfhSrCpyw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- DS5PPFB8FBD73EA.namprd12.prod.outlook.com (2603:10b6:f:fc00::65e) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9478.4; Fri, 16 Jan
- 2026 20:47:28 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9520.006; Fri, 16 Jan 2026
- 20:47:28 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RESEND 3/3] mm: add + use vma_is_stabilised(),
- vma_assert_stabilised() helpers
-Date: Fri, 16 Jan 2026 15:47:23 -0500
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <F2B8BED7-E2A9-4D0C-BCDC-5B83CC58302A@nvidia.com>
-In-Reply-To: <87b36e11c632fee6c965b944974d8dc4357b5904.1768569863.git.lorenzo.stoakes@oracle.com>
-References: <cover.1768569863.git.lorenzo.stoakes@oracle.com>
- <87b36e11c632fee6c965b944974d8dc4357b5904.1768569863.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BY1P220CA0013.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59d::17) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="G6wfQLxr"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-50299648ae9so112371cf.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 18:11:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768615873; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Re0kxz1s97CahsgVOpa45ACtOzQmUZPZOBcXO6qqsJG6vxcD0/B8h94GOPDHB++Jq5
+         pxPELxMCmDH4E/yf7qmUv8iHE8sl3QPVKA67K6dXsrtHLbWDdj4z74XtbcsSjoQlO+Q4
+         jbX2EtMUk0R4kDx3BlopBpWp+5RtbvvnlwvCuWd/C92P3S8radd9apfhrVK923ahjix4
+         olKmLUnWg2ecyPrUWnNKUwDzaLdjQpBcB5BlWHrpQMrT7IYvfarIOtVp0WAc+hObGHKf
+         6qYp9OQLeWSareD6nX5X+sOOWA6wzviE3AxHKvX1Y3dyXCwhSu8HGqu6zE9dZhzSCJBa
+         npsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Z8XfzdTcYbKXbttOZYCkhexZVaSChWM1LNoqV+hh1gE=;
+        fh=EZLNphotMfYaH36LFp9u+875NrszAniSxC1RZDW3z3o=;
+        b=cDGzDoltAuM39ZFOT10fv1ezCItsfUJ8sjmQdBMl36QY6dDXYThnTh0C+cB0vDlQKB
+         nxNfX+lO6YlSfMuN3bN7MEu4qGHzqNssja/6Ix9lt1EuTBawJ5WIIfZcY7r3IRBdgztn
+         wrW22/VHJkUoA79wNElomoizkzy6xAtqDOzRscoxKBKPgB0Q1c4OA8ubk/DzEyDLUZkR
+         zNqy+AARsly27O8U05cHtY8J4aESd274ofWNS+uCgFXCFogDMg9HFkk8iOJIoJGZZhyw
+         2DVl63CqHZ/eznQuXWdKnRE7oz0S2sN9Sh5yBsWPEkaHqOsQ6nnnAcgOKiOLOMykjrAt
+         8YAQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1768615873; x=1769220673; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z8XfzdTcYbKXbttOZYCkhexZVaSChWM1LNoqV+hh1gE=;
+        b=G6wfQLxrod21/Z/tP8rGAcOE7NzjRblHpgNp2zy8OdfsNYb5y+oVZkCPNqONDl4xrh
+         l7PlIrJYwCUoO2K59x4MW+PjAczaCVIxbzsFq7SIYL7mAMhHsfvCpsap78l6JIeMNuPd
+         TJG+JzGNRJUVbcm0hFii7NNskBPD6I6YBjilCA7EKo5BbhiKPv4js8bYlf7tY6Ue7SVP
+         KtiBsuLM3kUlq2dlrtmour3AlFg04EYJnpEgwC8co4BYiqGiEoSIfqiSbjpAz6WV19q8
+         llt5sx44y66Up09YEMiWnpdME+AlG3afQZ5zlXG5iTHqha+2IV0GuwAI4MVRpKx28aiA
+         7GkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768615873; x=1769220673;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Z8XfzdTcYbKXbttOZYCkhexZVaSChWM1LNoqV+hh1gE=;
+        b=mgbE0PKMKkZ/paj/bfqACIgcs0e6GygWaJYL342HYB45wYhTEob2a0rxSvkXdp81Qq
+         eSViAh8mCv1cC+an5MrTocHusgFhatuxi48xz3D+RhyfXnVu/fLX3M46S8odnY3n+Aab
+         hA7zu5sMqC5qkuwOfkQT+yjnEIAP1LezLAW8XjclnHttPakE3mA4mr9rDHLLqMGLKbOS
+         yv9RP8eN5RIiK6ZnYhncf0O2mKjbrSxawv1OyazVNVt1bugLcJ0miPAfR99upFWgC/qX
+         6dP97Kg2gz3T+yFNp/sm0JbJKMF4ZqyWP6OLhnlORNfTUABmk/rSomFzRcp7S8OYdIqR
+         V3tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWYX6TOO1psvOz80d9G3VsEd0PheHB9Nhz6SJuXygUn3LnmviJGD3b49BqcwoqvmdaSUTWviTYHyqhXhb3Tkw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwhWJzdA0O0X1aOMpwj/PD5tqwJxON9hDgXAoxL14pVTFLLO7+D
+	zDyrqX0s/3CJ2ulN2zBfoDfsjinyooIlV3tjc93sKPZPKLsEHy89pcjHWvWtmgYU40k/QnOIdqf
+	bQ9dq2etVKU+ussZMcgCot24ECFPRVtN1/+x1aru6ugx6ige256A/KUmqMlI=
+X-Gm-Gg: AY/fxX46ZSME87a1Nk8zeDusl5BlO2Iy4FJv35p2kMVYOz7gsaKiinILkdgbDU3ZoBp
+	WPbtw0CVRzVh9k26lHGL2+ZAlx+4w30kcZnBRJUw3YWpzMjwUdG4UoywabaNVkIwTHYws1U13ji
+	PKoYWE85vgBCJNnJyoEpkKy2Fxv0hqXhhJQhrZqxSaTS865ipVCKsA3PqQ9pVS4OY6NHPMPgL3X
+	dx/PYk/xTksjVmDbolmW/NB9PAQsPGJjXKgRqGsHWe/iEM+ihIkQk/36INYWYH0U5d2EiM8aaEL
+	4nzOexKvfUQbNVrvtCgTfSIkfF15qSbdfA==
+X-Received: by 2002:a05:622a:607:b0:4ff:cb25:998b with SMTP id
+ d75a77b69052e-502afa038cbmr4649721cf.12.1768615873084; Fri, 16 Jan 2026
+ 18:11:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DS5PPFB8FBD73EA:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19be061f-447e-4261-0cc5-08de55407665
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?z9VmvgRRqolXp6ki4U9FOHtZuypgsMAn6sDE8baQ1sPYsHJPbk+zWu1nz9cn?=
- =?us-ascii?Q?bkKUEyzB+WbZrBwLc3aX6a7a7KefOZqEhxRb0F46DkDJ+SAfwdRQtPhiLCBb?=
- =?us-ascii?Q?7mhOGxZ62sKvxCCqjgQ04TKajgRqulVxQ9YkAP2420SWCED/7tdKfh3+7eoy?=
- =?us-ascii?Q?IF3cRnPAZxO4O+Tii848bM5lDkz3iHEeuQOobqe1oHUSY6NUcgt3Ile8ZAgb?=
- =?us-ascii?Q?wMXyfXsbQaiOVbpStj1FOcWTAdSWIKrMWprvVI62VXfnwDhQ2yh8P42XtBTf?=
- =?us-ascii?Q?kNz7XnkZMq3HVmGdyfvP55Rda7SU+UgbPshTBA2DWWgXQCwOWwbBltZOF7j4?=
- =?us-ascii?Q?PxjsRkZO1q1hxfCtrdThQmG6yE6WDd/efoizJ1t4oSIokUZslbYkXUDM8fJn?=
- =?us-ascii?Q?sw+ZcEhsj/VlSBIpltqT2ROy7ReeWOiVeoBzS27i3egzRftpByQ5SnWOC63F?=
- =?us-ascii?Q?EHjBGqQ+f3DThELW/J9e5dj1GmEeTdFNkhggmcJCpjN+7hhRxhe4TyBcXoZY?=
- =?us-ascii?Q?6HdnJjQwr4VzoWQ4s7H2u9hqJo2+vtLa7RVoGpPxyUXAUXJ1Sh8Af3RI3sB7?=
- =?us-ascii?Q?ytPvusqbHOBnKxAdLWe1WLt3OZtdV0JVgMA9j1pJwF3uSIW8WQ+hWElZR55H?=
- =?us-ascii?Q?yjNgDoTHlMsY/xLH8fXdMAEkNvBgyz0AK9sb5/4t06PFuanLJJa+EItCVL6j?=
- =?us-ascii?Q?uZ5V5vvTYBxCd/OZElxPmHDN1XEyOupQVVtpeubySjc6XydgMN7zc4UovC0h?=
- =?us-ascii?Q?u+h62H+YU2QXSIWjO4Y6RAhA9BudQXxC/tjnEPxFMgfhMCrXEURIzVSwD2Tj?=
- =?us-ascii?Q?4f2k0ZqXibT0YDSEk16cx1P05R40ebYKv3C/IDLmw4tLu4Bm+2H99S3qzdFU?=
- =?us-ascii?Q?mDS4vbXoH/KpWZDRfmzYh0M5LsIpua1Xwz1jIDGs6tr8MuFC4FYzZ+afmi6B?=
- =?us-ascii?Q?digWOcZNkOsVwLQJX4Ht6ALDrMn2cYxB+/Hnn/WYfTY4exW6l+yZ/0FK6wok?=
- =?us-ascii?Q?wXyUytVIKaBb6bA5VDRqe2tvhlg+3uwYMQHGGNCunfmcyfYGeuCRPMPPO+kI?=
- =?us-ascii?Q?efH+iv+PanXurntKEd2WsAmjtbLXQW8cnUsjS6QfeN0KZ9Yj92fJZjKNNPvk?=
- =?us-ascii?Q?36QTBVlsMhEQzMmD4a0ZB4gB83e9fXV0LzZiBZBoku8kDXbnlojXcg1Mh6wB?=
- =?us-ascii?Q?ndAb4iTpmZqW5K2LR2asCIlEM+B8tJ/BLnwea+0ufZphyniQ06DMDaxI/Dzk?=
- =?us-ascii?Q?4S4vwQgIPRfS+NJXOP7rzi/YEbJmY1ZcA4GvIGXe8TieUj7z5fa3x/e7nvvX?=
- =?us-ascii?Q?bKmjK6Dkp+wQzOy1JWpiP8hc+IJYvOtdyl2QrOsEt56xlZIjTFFrgLwnfHpg?=
- =?us-ascii?Q?6rRf15BKugCtaFrGokN863wAUNEZebj3sz4ZFtiUfHwA0tcBOFrSf0VHQVKB?=
- =?us-ascii?Q?5YorNoeE64aLKbcnxzCJXAVWSaAN9c0JSEy93fbcPfWAeM2s4EObLA6hzZyq?=
- =?us-ascii?Q?KtJuw7hcAGnMiCWntrv3iHROanTcqgMs1Bn9ISVQXN38xuisWlXwuXsTB2l7?=
- =?us-ascii?Q?ooGPIl+DzkQitFYDRvI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WDvxIsWC3bE3HFr9TiZo2FSdOG/G1sOPWWzOIbn9zolYzIdEDLf/H3lNnYnV?=
- =?us-ascii?Q?LSKkOQLQg4sR/tmu4M1UTQ+ccWHimx7asGhdG2Jf9CXv0r5WtqIp/E/4cewP?=
- =?us-ascii?Q?lD4G7scoIRw5GBuuLVR0gd5IU7tSHlBnRKFqxhZ1YSgVI+WB3REpusOQzT2C?=
- =?us-ascii?Q?/NgPX0WLer2jevtIHz7MRjQ94QnTH/In3fmE/6mCAfdB8swTff+3c6H12cOh?=
- =?us-ascii?Q?k85gOg56CofBRAG1pxej9Jl8kxAcE+TkpiG4t2nC8WnCmkp9mzQlejlHGQ30?=
- =?us-ascii?Q?pPblXGB17RG2ISBYexDt4gIEsOZT6mWKfd0SZijUUXDGc+hnrGTucNeBte7t?=
- =?us-ascii?Q?OOw18PeRM6FbaWyOelaPxFoLSoQ+heNWcLx6fZpK+pogR9jEeGKQSwufOMbo?=
- =?us-ascii?Q?fAXAJDw4yJT6kR3YqS60n65dW5hLDasoGVi7FUobjskWDX4R6C/P+q5ya4Vg?=
- =?us-ascii?Q?wj4GJ4wOeSTGcdeRbKP9BhmwDXo5xh64A6IiwPMsmQrowLvrbPktMzhyDhEo?=
- =?us-ascii?Q?g1iS/JmIjPGCjyUmTtIR8td78czetdjA9nXrdGHkKTQ9ce7HFX698u+Wl1dw?=
- =?us-ascii?Q?NYGYPRUAaNM8TrMTZsRutrjCZOKJ7nc1XsxZT3j3KwY2xFpMPRH8RjhtsQBI?=
- =?us-ascii?Q?YcovBy5mJz526I6TPWpAu1BbDjmRapp12YsS91TK7yz5tDUfo2jMS6VSX/Ht?=
- =?us-ascii?Q?8CjBfXeQic6FRuBJc+8lSGfQihiboIVSpPEjHnfhAfPnTij1RO5RGvsetHWI?=
- =?us-ascii?Q?Sqcj2HK3dCNtzfKoZ8ryxBbSSwSLAYH5bqOcl0cR8UoYbK8QAfpQ+0Ydm88Z?=
- =?us-ascii?Q?JJNc+S1dcik5PbM4qGCT5OgP7h6C1rTyRbp88EBXlkqW059xP0hO3ciJUaGU?=
- =?us-ascii?Q?tMiXfdIjekjpqC/ktVqPGyuZxyqNZwY5CPiwxvRomMlbcnZkCT503Jn81C3F?=
- =?us-ascii?Q?4YF/0xfdAjWqPUIm9KEUa5ltpBSmjy9NQBfnj8oOMjrmrE7akpRbLgLSpuPA?=
- =?us-ascii?Q?Mm1FaWjPhGNe9HgcwgtegP5nYZBwTsbYWzz1nFT82hcTdxeSOPVEiQYYMu5z?=
- =?us-ascii?Q?G/nYdQcK8aR5wOEnmHCSYD95QGCIuheBBFjJDVKhDtvujgXxL9uFDnS4v8Ry?=
- =?us-ascii?Q?UgXF4GDgFQ4kzWxSXbsz5QeA1JQ4lTNSfQ3KTGYtBWK8cO/P4RtTB+v4WZXY?=
- =?us-ascii?Q?opvK7QMw4GCLT1U36QYcTmljKqkGbWTR6XghJ2aWd9eWxwYq4nut6pOoXxgm?=
- =?us-ascii?Q?BGSLjpL76rhX07fMbW1oRnTlVHP2DZBzolsa7gkw4G4xT+2GZM/N6Gc4As2/?=
- =?us-ascii?Q?9PmY753t4f2c1EGQcbRdTIgJLhDNvHpMdzmocn4jLwXiC8EueKtWpIt/ajPF?=
- =?us-ascii?Q?Ik4cJzvvCcz+i4svtuY/FgNW4kxAxpFId257W6Jzz7PcULWd3Aucwklou7g3?=
- =?us-ascii?Q?gqEV4rtgLXtHcsk4wqtprzCb7XjDs10jf7twzv1cMvyVwwQRFPwmX9JnLNVT?=
- =?us-ascii?Q?xvjE6GwCBKYiPMUzJzipDDP8XJQPxXlVcXYQ+yih0umU218RZbq8B/ouET8q?=
- =?us-ascii?Q?slf52hnkjU8fOZ+9pEvIYw2L8yNZm/IaZPWLOf+wrVqRUxIreG3WY7b4vKvj?=
- =?us-ascii?Q?/CwxhXOT8vvniXnt8jJm4xTfjnOVudWOcsDD1bmxrwy1/aXA4uPlmsTEF7eF?=
- =?us-ascii?Q?v+lGXWuqEoi8A82KnpJqLkiTB0/x8Ft1F3yvl/k//q8Q0d1w?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19be061f-447e-4261-0cc5-08de55407665
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2026 20:47:28.7117
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eIwJ3CncNvuSFfnoiYDr0tHmiLt8miizWLQyL4z2z3RkkqI+ElCWk3Nv+Sj/7DRY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPFB8FBD73EA
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-6-5595cb000772@suse.cz>
+In-Reply-To: <20260116-sheaves-for-all-v3-6-5595cb000772@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sat, 17 Jan 2026 02:11:02 +0000
+X-Gm-Features: AZwV_QgrFpJPgQWV97FWxIc0ZsJ8CltGCxNFZv_PPGY8cU_AH1jVOdq1pMTHKpM
+Message-ID: <CAJuCfpERcCzBysPVh63g7d0FpUBNQeq9nCL+ycem1iR08gDmaQ@mail.gmail.com>
+Subject: Re: [PATCH v3 06/21] slab: introduce percpu sheaves bootstrap
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reply again using the right email. Sorry for the noise.
+On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
+> sheaves enabled. Since we want to enable them for almost all caches,
+> it's suboptimal to test the pointer in the fast paths, so instead
+> allocate it for all caches in do_kmem_cache_create(). Instead of testing
+> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
+> kmem_cache->sheaf_capacity for being 0, where needed, using a new
+> cache_has_sheaves() helper.
+>
+> However, for the fast paths sake we also assume that the main sheaf
+> always exists (pcs->main is !NULL), and during bootstrap we cannot
+> allocate sheaves yet.
+>
+> Solve this by introducing a single static bootstrap_sheaf that's
+> assigned as pcs->main during bootstrap. It has a size of 0, so during
+> allocations, the fast path will find it's empty. Since the size of 0
+> matches sheaf_capacity of 0, the freeing fast paths will find it's
+> "full". In the slow path handlers, we use cache_has_sheaves() to
+> recognize that the cache doesn't (yet) have real sheaves, and fall back.
 
-On 16 Jan 2026, at 8:36, Lorenzo Stoakes wrote:
+I don't think kmem_cache_prefill_sheaf() handles this case, does it?
+Or do you rely on the caller to never try prefilling a bootstrapped
+sheaf?
+kmem_cache_refill_sheaf() and kmem_cache_return_sheaf() operate on a
+sheaf obtained by calling kmem_cache_prefill_sheaf(), so if
+kmem_cache_prefill_sheaf() never returns a bootstrapped sheaf we don't
+need special handling there.
 
-> Sometimes we wish to assert that a VMA is stable, that is - the VMA can=
-not
-> be changed underneath us. This will be the case if EITHER the VMA lock =
-or
-> the mmap lock is held.
+> Thus sharing the single bootstrap sheaf like this for multiple caches
+> and cpus is safe.
 >
-> In order to be able to do so this patch adds a vma_is_stabilised()
-> predicate.
->
-> We specify this differently based on whether CONFIG_PER_VMA_LOCK is
-> specified - if it is then naturally we check both whether a VMA lock is=
-
-> held or an mmap lock held, otherwise we need only check the mmap lock.
->
-> Note that we only trigger the assert is CONFIG_DEBUG_VM is set, as havi=
-ng
-> this lock unset would indicate a programmatic error, so a release kerne=
-l
-> runtime assert doesn't make much sense.
->
-> There are a couple places in the kernel where we already do this check =
--
-> the anon_vma_name() helper in mm/madvise.c and vma_flag_set_atomic() in=
-
-> include/linux/mm.h, which we update to use vma_assert_stabilised().
->
-> These were in fact implemented incorrectly - if neither the mmap lock n=
-or
-> the VMA lock were held, these asserts did not fire.
->
-> However since these asserts are debug-only, and a large number of test
-> configurations will have CONFIG_PER_VMA_LOCK set, it has likely had no
-> real-world impact.
->
-> This change corrects this mistake at any rate.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
->  include/linux/mm.h        |  4 +---
->  include/linux/mmap_lock.h | 23 ++++++++++++++++++++++-
->  mm/madvise.c              |  4 +---
->  3 files changed, 24 insertions(+), 7 deletions(-)
+>  mm/slub.c | 119 ++++++++++++++++++++++++++++++++++++++++++--------------=
+------
+>  1 file changed, 81 insertions(+), 38 deletions(-)
 >
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 44a2a9c0a92f..8707059f4d37 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1008,9 +1008,7 @@ static inline void vma_flag_set_atomic(struct vm_=
-area_struct *vma,
->  {
->  	unsigned long *bitmap =3D ACCESS_PRIVATE(&vma->flags, __vma_flags);
+> diff --git a/mm/slub.c b/mm/slub.c
+> index edf341c87e20..706cb6398f05 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -501,6 +501,18 @@ struct kmem_cache_node {
+>         struct node_barn *barn;
+>  };
 >
-> -	/* mmap read lock/VMA read lock must be held. */
-> -	if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> -		vma_assert_locked(vma);
-
-Ideally, this should have been converted to use mmap_is_locked(vma->vm_mm=
-)
-in Patch 2. But this is a bug fix here, so that churn is not necessary.
-
-> +	vma_assert_stabilised(vma);
->
->  	if (__vma_flag_atomic_valid(vma, bit))
->  		set_bit((__force int)bit, bitmap);
-> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index 9f6932ffaaa0..711885cb5372 100644
-> --- a/include/linux/mmap_lock.h
-> +++ b/include/linux/mmap_lock.h
-> @@ -66,7 +66,6 @@ static inline void __mmap_lock_trace_released(struct =
-mm_struct *mm, bool write)
->
->  #endif /* CONFIG_TRACING */
->
-> -
->  static inline bool mmap_lock_is_contended(struct mm_struct *mm)
->  {
->  	return rwsem_is_contended(&mm->mmap_lock);
-> @@ -272,6 +271,11 @@ static inline bool vma_is_locked(struct vm_area_st=
-ruct *vma)
->  	return vma_is_read_locked(vma) || vma_is_write_locked(vma);
->  }
->
-> +static inline bool vma_is_stabilised(struct vm_area_struct *vma)
-> +{
-> +	return vma_is_locked(vma) || mmap_is_locked(vma->vm_mm);
-> +}
-> +
->  static inline void vma_assert_write_locked(struct vm_area_struct *vma)=
-
->  {
->  	VM_BUG_ON_VMA(!vma_is_write_locked(vma), vma);
-> @@ -358,6 +362,11 @@ static inline struct vm_area_struct *lock_vma_unde=
-r_rcu(struct mm_struct *mm,
->  	return NULL;
->  }
->
-> +static inline bool vma_is_stabilised(struct vm_area_struct *vma)
-> +{
-> +	return mmap_is_locked(vma->vm_mm);
-> +}
-> +
->  static inline void vma_assert_locked(struct vm_area_struct *vma)
->  {
->  	mmap_assert_locked(vma->vm_mm);
-> @@ -463,4 +472,16 @@ static inline void mmap_read_unlock_non_owner(stru=
-ct mm_struct *mm)
->  	up_read_non_owner(&mm->mmap_lock);
->  }
->
-> +/**
-> + * vma_assert_stabilised() - assert that this VMA cannot be changed fr=
-om
-> + * underneath us either by having a VMA or mmap lock held.
-> + * @vma: The VMA whose stability we wish to assess.
-> + *
-> + * Note that this will only trigger an assert if CONFIG_DEBUG_VM is se=
-t.
+> +/*
+> + * Every cache has !NULL s->cpu_sheaves but they may point to the
+> + * bootstrap_sheaf temporarily during init, or permanently for the boot =
+caches
+> + * and caches with debugging enabled, or all caches with CONFIG_SLUB_TIN=
+Y. This
+> + * helper distinguishes whether cache has real non-bootstrap sheaves.
 > + */
-> +static inline void vma_assert_stabilised(struct vm_area_struct *vma)
+> +static inline bool cache_has_sheaves(struct kmem_cache *s)
 > +{
-> +	VM_BUG_ON_VMA(!vma_is_stabilised(vma), vma);
+> +       /* Test CONFIG_SLUB_TINY for code elimination purposes */
+> +       return !IS_ENABLED(CONFIG_SLUB_TINY) && s->sheaf_capacity;
 > +}
 > +
->  #endif /* _LINUX_MMAP_LOCK_H */
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 4bf4c8c38fd3..1f3040688f04 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -109,9 +109,7 @@ void anon_vma_name_free(struct kref *kref)
->
->  struct anon_vma_name *anon_vma_name(struct vm_area_struct *vma)
+>  static inline struct kmem_cache_node *get_node(struct kmem_cache *s, int=
+ node)
 >  {
-> -	if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> -		vma_assert_locked(vma);
-> -
-> +	vma_assert_stabilised(vma);
->  	return vma->anon_name;
->  }
+>         return s->node[node];
+> @@ -2855,6 +2867,10 @@ static void pcs_destroy(struct kmem_cache *s)
+>                 if (!pcs->main)
+>                         continue;
 >
+> +               /* bootstrap or debug caches, it's the bootstrap_sheaf */
+> +               if (!pcs->main->cache)
+> +                       continue;
 
-LGTM.
+I wonder why we can't simply check cache_has_sheaves(s) at the
+beginning and skip the loop altogether.
+I realize that __kmem_cache_release()->pcs_destroy() is called in the
+failure path of do_kmem_cache_create() and s->cpu_sheaves might be
+partially initialized if alloc_empty_sheaf() fails somewhere in the
+middle of the loop inside init_percpu_sheaves(). But for that,
+s->sheaf_capacity should still be non-zero, so checking
+cache_has_sheaves() at the beginning of pcs_destroy() should still
+work, no?
 
-Reviewed-by: Zi Yan <ziy@nvidia.com>
+BTW, I see one last check for s->cpu_sheaves that you didn't replace
+with cache_has_sheaves() inside __kmem_cache_release(). I think that's
+because it's also in the failure path of do_kmem_cache_create() and
+it's possible that s->sheaf_capacity > 0 while s->cpu_sheaves =3D=3D NULL
+(if alloc_percpu(struct slub_percpu_sheaves) fails). It might be
+helpful to add a comment inside __kmem_cache_release() to explain why
+cache_has_sheaves() can't be used there.
 
-Best Regards,
-Yan, Zi
+> +
+>                 /*
+>                  * We have already passed __kmem_cache_shutdown() so ever=
+ything
+>                  * was flushed and there should be no objects allocated f=
+rom
+> @@ -4030,7 +4046,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache=
+ *s)
+>  {
+>         struct slub_percpu_sheaves *pcs;
+>
+> -       if (!s->cpu_sheaves)
+> +       if (!cache_has_sheaves(s))
+>                 return false;
+>
+>         pcs =3D per_cpu_ptr(s->cpu_sheaves, cpu);
+> @@ -4052,7 +4068,7 @@ static void flush_cpu_slab(struct work_struct *w)
+>
+>         s =3D sfw->s;
+>
+> -       if (s->cpu_sheaves)
+> +       if (cache_has_sheaves(s))
+>                 pcs_flush_all(s);
+>
+>         flush_this_cpu_slab(s);
+> @@ -4157,7 +4173,7 @@ void flush_all_rcu_sheaves(void)
+>         mutex_lock(&slab_mutex);
+>
+>         list_for_each_entry(s, &slab_caches, list) {
+> -               if (!s->cpu_sheaves)
+> +               if (!cache_has_sheaves(s))
+>                         continue;
+>                 flush_rcu_sheaves_on_cache(s);
+>         }
+> @@ -4179,7 +4195,7 @@ static int slub_cpu_dead(unsigned int cpu)
+>         mutex_lock(&slab_mutex);
+>         list_for_each_entry(s, &slab_caches, list) {
+>                 __flush_cpu_slab(s, cpu);
+> -               if (s->cpu_sheaves)
+> +               if (cache_has_sheaves(s))
+>                         __pcs_flush_all_cpu(s, cpu);
+>         }
+>         mutex_unlock(&slab_mutex);
+> @@ -4979,6 +4995,12 @@ __pcs_replace_empty_main(struct kmem_cache *s, str=
+uct slub_percpu_sheaves *pcs,
+>
+>         lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>
+> +       /* Bootstrap or debug cache, back off */
+> +       if (unlikely(!cache_has_sheaves(s))) {
+> +               local_unlock(&s->cpu_sheaves->lock);
+> +               return NULL;
+> +       }
+> +
+>         if (pcs->spare && pcs->spare->size > 0) {
+>                 swap(pcs->main, pcs->spare);
+>                 return pcs;
+> @@ -5165,6 +5187,11 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache=
+ *s, size_t size, void **p)
+>                 struct slab_sheaf *full;
+>                 struct node_barn *barn;
+>
+> +               if (unlikely(!cache_has_sheaves(s))) {
+> +                       local_unlock(&s->cpu_sheaves->lock);
+> +                       return allocated;
+> +               }
+> +
+>                 if (pcs->spare && pcs->spare->size > 0) {
+>                         swap(pcs->main, pcs->spare);
+>                         goto do_alloc;
+> @@ -5244,8 +5271,7 @@ static __fastpath_inline void *slab_alloc_node(stru=
+ct kmem_cache *s, struct list
+>         if (unlikely(object))
+>                 goto out;
+>
+> -       if (s->cpu_sheaves)
+> -               object =3D alloc_from_pcs(s, gfpflags, node);
+> +       object =3D alloc_from_pcs(s, gfpflags, node);
+>
+>         if (!object)
+>                 object =3D __slab_alloc_node(s, gfpflags, node, addr, ori=
+g_size);
+> @@ -5355,17 +5381,6 @@ kmem_cache_prefill_sheaf(struct kmem_cache *s, gfp=
+_t gfp, unsigned int size)
+>
+>         if (unlikely(size > s->sheaf_capacity)) {
+>
+> -               /*
+> -                * slab_debug disables cpu sheaves intentionally so all
+> -                * prefilled sheaves become "oversize" and we give up on
+> -                * performance for the debugging. Same with SLUB_TINY.
+> -                * Creating a cache without sheaves and then requesting a
+> -                * prefilled sheaf is however not expected, so warn.
+> -                */
+> -               WARN_ON_ONCE(s->sheaf_capacity =3D=3D 0 &&
+> -                            !IS_ENABLED(CONFIG_SLUB_TINY) &&
+> -                            !(s->flags & SLAB_DEBUG_FLAGS));
+> -
+>                 sheaf =3D kzalloc(struct_size(sheaf, objects, size), gfp)=
+;
+>                 if (!sheaf)
+>                         return NULL;
+> @@ -6082,6 +6097,12 @@ __pcs_replace_full_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs)
+>  restart:
+>         lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
+>
+> +       /* Bootstrap or debug cache, back off */
+> +       if (unlikely(!cache_has_sheaves(s))) {
+> +               local_unlock(&s->cpu_sheaves->lock);
+> +               return NULL;
+> +       }
+> +
+>         barn =3D get_barn(s);
+>         if (!barn) {
+>                 local_unlock(&s->cpu_sheaves->lock);
+> @@ -6280,6 +6301,12 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void =
+*obj)
+>                 struct slab_sheaf *empty;
+>                 struct node_barn *barn;
+>
+> +               /* Bootstrap or debug cache, fall back */
+> +               if (unlikely(!cache_has_sheaves(s))) {
+> +                       local_unlock(&s->cpu_sheaves->lock);
+> +                       goto fail;
+> +               }
+> +
+>                 if (pcs->spare && pcs->spare->size =3D=3D 0) {
+>                         pcs->rcu_free =3D pcs->spare;
+>                         pcs->spare =3D NULL;
+> @@ -6674,9 +6701,8 @@ void slab_free(struct kmem_cache *s, struct slab *s=
+lab, void *object,
+>         if (unlikely(!slab_free_hook(s, object, slab_want_init_on_free(s)=
+, false)))
+>                 return;
+>
+> -       if (s->cpu_sheaves && likely(!IS_ENABLED(CONFIG_NUMA) ||
+> -                                    slab_nid(slab) =3D=3D numa_mem_id())
+> -                          && likely(!slab_test_pfmemalloc(slab))) {
+> +       if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa=
+_mem_id())
+> +           && likely(!slab_test_pfmemalloc(slab))) {
+>                 if (likely(free_to_pcs(s, object)))
+>                         return;
+>         }
+> @@ -7379,7 +7405,7 @@ void kmem_cache_free_bulk(struct kmem_cache *s, siz=
+e_t size, void **p)
+>          * freeing to sheaves is so incompatible with the detached freeli=
+st so
+>          * once we go that way, we have to do everything differently
+>          */
+> -       if (s && s->cpu_sheaves) {
+> +       if (s && cache_has_sheaves(s)) {
+>                 free_to_pcs_bulk(s, size, p);
+>                 return;
+>         }
+> @@ -7490,8 +7516,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache =
+*s, gfp_t flags, size_t size,
+>                 size--;
+>         }
+>
+> -       if (s->cpu_sheaves)
+> -               i =3D alloc_from_pcs_bulk(s, size, p);
+> +       i =3D alloc_from_pcs_bulk(s, size, p);
+
+Doesn't the above change make this fastpath a bit longer? IIUC,
+instead of bailing out right here we call alloc_from_pcs_bulk() and
+bail out from there because pcs->main->size is 0.
+
+>
+>         if (i < size) {
+>                 /*
+> @@ -7702,6 +7727,7 @@ static inline int alloc_kmem_cache_cpus(struct kmem=
+_cache *s)
+>
+>  static int init_percpu_sheaves(struct kmem_cache *s)
+>  {
+> +       static struct slab_sheaf bootstrap_sheaf =3D {};
+>         int cpu;
+>
+>         for_each_possible_cpu(cpu) {
+> @@ -7711,7 +7737,28 @@ static int init_percpu_sheaves(struct kmem_cache *=
+s)
+>
+>                 local_trylock_init(&pcs->lock);
+>
+> -               pcs->main =3D alloc_empty_sheaf(s, GFP_KERNEL);
+> +               /*
+> +                * Bootstrap sheaf has zero size so fast-path allocation =
+fails.
+> +                * It has also size =3D=3D s->sheaf_capacity, so fast-pat=
+h free
+> +                * fails. In the slow paths we recognize the situation by
+> +                * checking s->sheaf_capacity. This allows fast paths to =
+assume
+> +                * s->cpu_sheaves and pcs->main always exists and is vali=
+d.
+
+s/is/are
+
+> +                * It's also safe to share the single static bootstrap_sh=
+eaf
+> +                * with zero-sized objects array as it's never modified.
+> +                *
+> +                * bootstrap_sheaf also has NULL pointer to kmem_cache so=
+ we
+> +                * recognize it and not attempt to free it when destroyin=
+g the
+> +                * cache
+
+missing a period at the end of the above sentence.
+
+> +                *
+> +                * We keep bootstrap_sheaf for kmem_cache and kmem_cache_=
+node,
+> +                * caches with debug enabled, and all caches with SLUB_TI=
+NY.
+> +                * For kmalloc caches it's used temporarily during the in=
+itial
+> +                * bootstrap.
+> +                */
+> +               if (!s->sheaf_capacity)
+> +                       pcs->main =3D &bootstrap_sheaf;
+> +               else
+> +                       pcs->main =3D alloc_empty_sheaf(s, GFP_KERNEL);
+>
+>                 if (!pcs->main)
+>                         return -ENOMEM;
+> @@ -7809,7 +7856,7 @@ static int init_kmem_cache_nodes(struct kmem_cache =
+*s)
+>                         continue;
+>                 }
+>
+> -               if (s->cpu_sheaves) {
+> +               if (cache_has_sheaves(s)) {
+>                         barn =3D kmalloc_node(sizeof(*barn), GFP_KERNEL, =
+node);
+>
+>                         if (!barn)
+> @@ -8127,7 +8174,7 @@ int __kmem_cache_shutdown(struct kmem_cache *s)
+>         flush_all_cpus_locked(s);
+>
+>         /* we might have rcu sheaves in flight */
+> -       if (s->cpu_sheaves)
+> +       if (cache_has_sheaves(s))
+>                 rcu_barrier();
+>
+>         /* Attempt to free all objects */
+> @@ -8439,7 +8486,7 @@ static int slab_mem_going_online_callback(int nid)
+>                 if (get_node(s, nid))
+>                         continue;
+>
+> -               if (s->cpu_sheaves) {
+> +               if (cache_has_sheaves(s)) {
+>                         barn =3D kmalloc_node(sizeof(*barn), GFP_KERNEL, =
+nid);
+>
+>                         if (!barn) {
+> @@ -8647,12 +8694,10 @@ int do_kmem_cache_create(struct kmem_cache *s, co=
+nst char *name,
+>
+>         set_cpu_partial(s);
+>
+> -       if (s->sheaf_capacity) {
+> -               s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheave=
+s);
+> -               if (!s->cpu_sheaves) {
+> -                       err =3D -ENOMEM;
+> -                       goto out;
+> -               }
+> +       s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheaves);
+> +       if (!s->cpu_sheaves) {
+> +               err =3D -ENOMEM;
+> +               goto out;
+>         }
+>
+>  #ifdef CONFIG_NUMA
+> @@ -8671,11 +8716,9 @@ int do_kmem_cache_create(struct kmem_cache *s, con=
+st char *name,
+>         if (!alloc_kmem_cache_cpus(s))
+>                 goto out;
+>
+> -       if (s->cpu_sheaves) {
+> -               err =3D init_percpu_sheaves(s);
+> -               if (err)
+> -                       goto out;
+> -       }
+> +       err =3D init_percpu_sheaves(s);
+> +       if (err)
+> +               goto out;
+>
+>         err =3D 0;
+>
+>
+> --
+> 2.52.0
+>
