@@ -1,213 +1,432 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3803930FC00
-	for <linux-rt-devel@lists.linux.dev>; Sat, 17 Jan 2026 02:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768617014; cv=none; b=Is6/URgXi5GcCrGXAy97c9iw0TvYZdqU68ee0hXoAmQqn4OuRIytyYeHNhuH3Gsz8ltA05RW3/y6npN+EWptLgjYYeEF3K1OR2l7ZjCQ0FLZoXJh66PjxAhuv69mXw7bShHpzt4pzDV0H1dASUMVQazl0u5UQfYL2FpX1a1+5lE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768617014; c=relaxed/simple;
-	bh=0bZnyq+Ml97kOU4TUsgrr0iIUUHrsIknfLGbXt8rddg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IOX/kRQ4WzkP3xzG6ZGwd31OmYcwTA4XkIylWLA+ewTfpQs7YhLHH/L5igQh/RmVFM+5Nz1K7LmdWBi6r5iWnhKLtzL2i/pBwB5gpWlPdPDAt+k1jIdU1E4BxYvEW4KryO+z5QGfg71fE2XJGC7diZg0BIfkzYyVWms5MYCGeLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYCZvyHI; arc=none smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AC026158B
+	for <linux-rt-devel@lists.linux.dev>; Sun, 18 Jan 2026 20:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768769161; cv=pass; b=MCoJAhvDWJbAf1+6LEAITQhCw1o17S0lowvDro6mEEdoTVcOK4XhzhX6u8zncSmBuVrbRm/6a0Wqp7tL8ScAZHpTE+9pldGMTU3537dp87zF6niAN7jvH2bO81tQqC0Mdh/vMClplnqe+UVDIWoMwq8l9QqREBIa6SxqDQ87IT8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768769161; c=relaxed/simple;
+	bh=T5T9IiIX1AkP1xCGwU+8g1cSZbEPTGfdWyqDodv+S2c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fCa92S0CZrFam8RZRquVSLovqlLOrihQVkwC/iRhQ3XhBPU4bLu4eK3jZClHGtQYr+tHin5UyDNNd0eeXosAeU5J4YY/yflE0TmEI0Ikkq9APhPILm8v/NHVmO7fF3Mjh+p9LQdlmM0LtP6wGLXE4vfbuJoWsOxq0G7bXv+rfwM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BCjSEkWD; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYCZvyHI"
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-8908f5ed4aeso26350616d6.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 16 Jan 2026 18:30:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BCjSEkWD"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6505d147ce4so6260a12.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 18 Jan 2026 12:45:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768769157; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TR+7AMlKp+o2a/Buk2bayoPy9DzGud73+IitAWbunNRINxAeTOZTXSVsqtQw/kdnzY
+         YpM0Ob89b5Ta9XeOJGKUaPd/Nmu6Frp48TGOuRbDtFMWRc2LtaCSQWaghleInqK+SeYg
+         foaAVnEw072kf68AiS0D2It3/EuRIKuUsjGr7UFwgds7Na463zikWLiB4EZkl5LTApZT
+         HjB5oBCT6uEVh1xsQMJdR0AfFPqe1L/PBmCKOpqGfTo41B9aR/3WjYepARFeeQfoZKYP
+         o6udVZZzDThZCO9uSOnVnJlvDzHdsSUas/gfm3Qi5QPijVytVDL7G+jCXOJyDoLoVocw
+         HVZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=IJvJDVCfQGiQhTyEeyupPbB3kxPlJFu+RnX8pclHBaI=;
+        fh=Xu6tgnoy5thL3gagJ1FnW9G/UaKBdDm/DOfXSrYHBoA=;
+        b=WAhx1i+Ulxaok36HoJJ2kMmmcEnUmLDrD6L/QD78+9YCfjvYPrsvRMTLGiaUtuIEPx
+         GhXDERUPk61h13nDsNNoKKOey27Oayk0RF4Nk8XhMdfzIhRYmskjwPheL4jPLAu1QSgF
+         hAEWeEuwSnW0J1toY0QXxr8ZJrlWy6nwDIUSVAPw+2EAMQ/8tj+dk9a+bjLp3T7BeLR6
+         Sc+oorMHTwPvHbDwGWxOYQnZZoBMEjcvhUIKTOvOAZMHUrKR9f3L0zOP1iVV0uJLaq7W
+         OgQrnechiZY98Qt7ROKwhfIrczkZpMpMwi43TPHmMNtWFtb8EWP8XKzexcGNko7g4j3V
+         aqLg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1768617010; x=1769221810; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1768769157; x=1769373957; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e7v6jVLBvVKWoS0dmG0nNndXtomcaAtap7nM7qINq/8=;
-        b=DYCZvyHI2PkIo2TUI7DFvG618YcknQaQUBtdbivAE0QTRNgZ49g4KABY89xMh4Rl6L
-         XygBKZdwRpgzhfKprgntptaFrDvfU2aXMG6HWoyrXtvRxLKAUPNjVaNv3FvU2h9sWEpn
-         lNVQg+9iTCHZutA8IkMVe/M69BPHUYujkf9aHY8K0hJf1plz4bhjtlP/SS2xlvBsidmJ
-         mWK4KfD4LhGQKeQ1WMcvIBfTsSIAwr75iKUYF5Gnr73PQO12prfV/dvmgSP5LxsyK1wk
-         xjkDXH1Q8OhfrkFlsVBHH4BgWkddyEfuPtr+Pqv80ChK+wxHk/S0AjykAw8aRpw52rnW
-         9Law==
+        bh=IJvJDVCfQGiQhTyEeyupPbB3kxPlJFu+RnX8pclHBaI=;
+        b=BCjSEkWD6I21WDA+bFedFSaikShBlKicqjI5OTD7h6zSygAznFOHeDENMsNXZxwilw
+         CurS28vsTJ/y41k6Zb6oE0BkCFlOcAYild+xut9Pd5HtCDDjUMNrUA1gceRun9euWhug
+         oCUXU3e1b+WFn0VTSp8wgGyhrnJn+9F5AcIJHWpcTAGlv1BvLJu4h2GtxjT6eXGzfHAD
+         TsdW8A7cCeYsyOGw5QtQy5AqPG30+voXQZ8ShiTdETT4UwAxTByTz3m5IUA/KpIy/9O8
+         nucUNWglXfYctxBIqVKB9IBpDEwD0SD1wu33BbVk47AjaInhkjdwaSTzNodgrhfe75Is
+         noFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768617010; x=1769221810;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1768769157; x=1769373957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=e7v6jVLBvVKWoS0dmG0nNndXtomcaAtap7nM7qINq/8=;
-        b=sxPSm4S8uRCcGq/qehe13jsvByKpJLFYIHFWhShVlNmOz3ndUjQwbQdSsn/7DuHbxf
-         GdD6eBuTY1kNU9t4HvHnoMwDXkkmmzl+Yub38atB9Z+fzD+BohJAUhCTyu6SzSfME62T
-         UACkhb35ohz/mQZ26RBl0DQZV0e5/4FtwjamnKd8GbL+JE1RdUi/9WezXstiCs+JkTA2
-         blLbiNu/bD6kGuwakL6ZrBoBpF/lGoF3/bB89d/n7eLhS6tdKXbe4lJboxEIQYn09dcQ
-         ji+iYC6la7XytqsqYsH7lg54r/lgs49pOz8CPnCTaK7wrmUhevYDuifc1d7Ev3OOoRD9
-         KImQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+blhgTeaws91VsiqhQXFZX6I+v9H7Pesd5m5vGtySJ4nJBzz4QkDybmC9ofCHHkD4YWW3AxqK7KXsO8KOfA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/+77NBRcQOFx9D/lirl5WO36v3OVNezLtObsBhm8jZ0dSXKRw
-	7bZef2B6lj4mOyoVvkI+MSuX4JbwmVVQcOm/Uq49qN4ZKTnaONowqexR
-X-Gm-Gg: AY/fxX5vWXYgogjBRWn+u9vb0gbUPkiHljshedysdkaaX7AD/yhrSrDDO17LjvrLlIK
-	wdGWAbFoQoBiot6Bmbs0wNveFTMdWU0ZsG4mmGqRGBkoT3tTVGTt4JtkH3f2t6ESN+kpQPXB3ak
-	o2WgqYFrL3/vkEkK4q3moUlnYmtAW+UlYjkMVDkede6ODe+n05KQS4VcKMf32hutqnJxMmXbn9n
-	8wjoacfx5+o0KmqfwF5vyAanjT/MsufoM8gKndlymUkedIF04XdpSYJTvGbzmaUEUoLzMF1URQA
-	XN9Ttpvo0oeOE5QaBjSYpJKj+AiuSUgBcT0fT1aYTK5GK1pBnSu8CyPsiLhDQWPUp6kIfl5Lsw0
-	POOAmEjLhgdRg4Gqoo7uOLbV/g+3uteu5DlmFtQCncBKSAFoApBqe5QxBqEVm/tLSH3HVf07Tch
-	nHJ1epibpGhfma1AYR63fBBLjdN0882bqhgBoIR4cPQdabSHOc0b0iAGoFROM/mCNGPMyBnkBaR
-	UNxgGpf7SfDTdlLn9QjWqRXqw==
-X-Received: by 2002:a05:6214:2261:b0:880:5193:10fb with SMTP id 6a1803df08f44-8942e4b8ff5mr68519416d6.54.1768617010378;
-        Fri, 16 Jan 2026 18:30:10 -0800 (PST)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6d87b1sm35532246d6.53.2026.01.16.18.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jan 2026 18:30:09 -0800 (PST)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 156CCF40068;
-	Fri, 16 Jan 2026 21:30:09 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Fri, 16 Jan 2026 21:30:09 -0500
-X-ME-Sender: <xms:MfRqaRL--ju4zV_ISOu5lD9zKuBBxccbOly9O2AkT6D2dCeGlk9QQQ>
-    <xme:MfRqabhDLTJhkDbvlKH3L7AcPMtqfCzOXh9dPHvXbgVVSuhNRITNqr-8h81dso5rJ
-    MUkWoMxPEL5SyMbc08xe6WVYEKeg9a8B5cqy4Mffy6onkcJq9PL>
-X-ME-Received: <xmr:MfRqaVveKIEYp7Ot9BEkqJqaTy8gceQxw3BraIMpzTKdynrvoBoI5YOP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddufedtieduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
-    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
-    gvrhhnpeehudfgudffffetuedtvdehueevledvhfelleeivedtgeeuhfegueevieduffei
-    vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsoh
-    hquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtdeigedq
-    udejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehfihigmh
-    gvrdhnrghmvgdpnhgspghrtghpthhtohepvddupdhmohguvgepshhmthhpohhuthdprhgt
-    phhtthhopehlohhrvghniihordhsthhorghkvghssehorhgrtghlvgdrtghomhdprhgtph
-    htthhopegsihhgvggrshihsehlihhnuhhtrhhonhhigidruggvpdhrtghpthhtohepphgv
-    thgvrhiisehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuh
-    igqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopegurghvihgusehkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvghtthesohhrrggtlhgvrdgtoh
-    hmpdhrtghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgiipdhrtghpthhtoheprhhpphht
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtoh
-    hm
-X-ME-Proxy: <xmx:MfRqaVgFbFySiTaExKnRETsMtBEpjHwVJZum39nKdmXH3mwjMdxINQ>
-    <xmx:MfRqaQd4ta15fGVKMttu2rRyHfxXOQ2EusHp3BkjbeK-VdvOWxkUzQ>
-    <xmx:MfRqaSkZnYLLPvBasqV9b2RbiHU68ypVtKCh4KlMsdVxIGxHtjzCwg>
-    <xmx:MfRqaSqaBACFyXVbEeiBXGBGH8TB6yKzTlb5HdIb8bYn_RZ3aar-nQ>
-    <xmx:MfRqaR8RAU3Sdk6J2divnS1AK2TGSw8HBVJLUVxBMzEr3KFrLlG9dGSa>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 Jan 2026 21:30:08 -0500 (EST)
-Date: Sat, 17 Jan 2026 10:30:06 +0800
-From: Boqun Feng <boqun.feng@gmail.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RESEND 1/3] locking: add rwsem_is_write_locked(), update
- non-lockdep asserts
-Message-ID: <aWr0LtTf1rU7iae8@tardis-2.local>
-References: <cover.1768569863.git.lorenzo.stoakes@oracle.com>
- <8e343ccb9319433364f5949a69519f1bb521fc8a.1768569863.git.lorenzo.stoakes@oracle.com>
- <20260116151215.GH831050@noisy.programming.kicks-ass.net>
- <99818e30-9f88-4751-af82-0bed019156eb@lucifer.local>
- <20260116155743.AuMKcTAO@linutronix.de>
- <5ca7b2a2-1e9d-4d90-8459-1aa35b30b49c@lucifer.local>
+        bh=IJvJDVCfQGiQhTyEeyupPbB3kxPlJFu+RnX8pclHBaI=;
+        b=k1HY9MvvEoZnYvTN97/413YlcGp0pRB3I4MCltOG1vzdu7J4SD460suhARAGuvvI3r
+         tcm7SPd+m9LIDpiQ0o9RkCi6RTb0m1UIz0/RFhvZDVuZi/sDgAiJuOgyYQe2mAmkKAk8
+         57gwklvROFDDzSVac+2fcLPFeYs2ldp+T5ht+yIx/OdNyT1VMVKhPtP6keAKwRsYYpXt
+         /xRqjZHgHNJwVYYTvxQ5ll3FMh+JSPuB9jpXOX/FRg74QQRsYEppkhgn+RA6LgQ5IdOA
+         x6siJ6P7CxRXNn2KSLvCoobercYL9Ocxjk1LriyrmmdW5kMQtVhjS+cpMzuMERqdUS9Y
+         N8iA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3M9QVMxfUSSycb9/PIGwqJCtty0LHxTWBVdBi10QwpmTGbEQB2M4sjVYPn0c4q7tWR9VRCp3ArC/aycY7MQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUUji9REL/tkUjNgbK03L+J3Yrl3n3tJwqCBKZzxtcpZFVLfo5
+	0FA/4IwFyBam8DMBbP7/pxDfuNetele+Go3I/EHlrzMGClcw8XHUosKAFRf03trjzlAuBjeaRRI
+	yHANBxStX85GAdS0F1scw+fgenIpnwujMOVP7/Syo
+X-Gm-Gg: AY/fxX6t3rPRkzG1yBkD5v6ZiCrqHBr428s3smSatrHb/kHkkXdBRSCBeZiO9f4Ikyp
+	VoEg5n5IjJ3iF4spHRxETAFxun6P1K5ucPjeM6Bi+Hq1PKu2A25dWfo9GZQR41IBQoi3Otwc+/X
+	nKeC8yQBECRlbaoei43B7FykDeT7shPhEzNvzrjPqsUgHXaZnNqjRybYoVae7o/NvjAU4YFwK6k
+	T36DcWhv0DLiVzhF1FKw27FzGz2jtQDsoi8WBRJA3pogz2FS0MNnwDYeKAFT4JiGTG+tYcuo6nO
+	/WEUWxG1ildYPQcmF7rwY60=
+X-Received: by 2002:a05:6402:b79:b0:650:5d5c:711c with SMTP id
+ 4fb4d7f45d1cf-6561ee75634mr22230a12.17.1768769156751; Sun, 18 Jan 2026
+ 12:45:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5ca7b2a2-1e9d-4d90-8459-1aa35b30b49c@lucifer.local>
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-7-5595cb000772@suse.cz>
+In-Reply-To: <20260116-sheaves-for-all-v3-7-5595cb000772@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Sun, 18 Jan 2026 20:45:43 +0000
+X-Gm-Features: AZwV_QiwVzd1b1HBHsztjRZ_PLBdReYsBX8Ibd28htOveyCZqKIEsBm2-CrYcsc
+Message-ID: <CAJuCfpELoHBKSq=DyLPPtQwqL=nPaQ1cBD-sthJd64MbW40Bxw@mail.gmail.com>
+Subject: Re: [PATCH v3 07/21] slab: make percpu sheaves compatible with kmalloc_nolock()/kfree_nolock()
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 16, 2026 at 04:21:29PM +0000, Lorenzo Stoakes wrote:
-> On Fri, Jan 16, 2026 at 04:57:43PM +0100, Sebastian Andrzej Siewior wrote:
-> > On 2026-01-16 15:50:24 [+0000], Lorenzo Stoakes wrote:
-> > > No, but we need to be able to assert that one of two locks are held and we
-> > > don't want the failure of one being held to cause an assert when the other
-> > > isn't.
-> >
-> > But why don't you use the lockdep based check? That assert only ensures
-> 
-> Not sure what you mean, the checks I'm adding don't exist yet.
-> 
-> > that it is locked at the time you did the check. This does not mean you
-> > are owner - it could be owned by another task which is unrelated to your
-> > cause.
-> 
-> Yup I'm aware that lockdep tests more than a simple assert.
-> 
-> I wasn't aware this was possible with the lockdep primitives, mea culpa.
-> 
-> Also this came out of a previous discussion where I added a similar
-> predicate vma_is_detached() and Suren suggested similar for the locks.
-> 
-> Anyway, I went and looked and yes I see there's lockdep_is_held() for
-> instance.
-> 
-> However, I'd STILL need to do what I'm doing here to account for
-> CONFIG_DEBUG_VM && !CONFIG_LOCKDEP configurations right?
-> 
+On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> Before we enable percpu sheaves for kmalloc caches, we need to make sure
+> kmalloc_nolock() and kfree_nolock() will continue working properly and
+> not spin when not allowed to.
+>
+> Percpu sheaves themselves use local_trylock() so they are already
+> compatible. We just need to be careful with the barn->lock spin_lock.
+> Pass a new allow_spin parameter where necessary to use
+> spin_trylock_irqsave().
+>
+> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
+> for now it will always fail until we enable sheaves for kmalloc caches
+> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
+>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-There is an idea about a light weight lockdep where we only remain
-tracking the held locks in a per-task stack and skip the whole
-dependency checking, that would provide lock holding
-information without the full cost of LOCKDEP, but that requires some
-work and I'm not sure whether it fulfills what you need for DEBUG_VM
-tests (each task_struct would have some extra space and lock/unlock
-would do extra book-keeping).
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-> So I'll respin later with if (IS_ENABLED(CONFIG_LOCKDEP)) ...
-> And sprinkle with some lockdep_is_held() and see how that works.
-> 
-
-Yeah, for LOCKDEP=y cases, please do use lockdep_is_held() or
-lockdep_is_held_type(), those would provide the accurate information.
-
-> I mean rwsem_is_locked() is already specified, so naming is going to be a
-> thing now but I guess:
-> 
-> static inline bool rwsem_is_locked_nolockdep(const struct rw_semaphore *sem)
-> {
-> 	return rw_base_is_locked(&sem->rwbase);
-> }
-> 
-> static inline bool rwsem_is_locked(const struct rw_semaphore *sem)
-> {
-> 	if (IS_ENABLED(CONFIG_LOCKDEP))
-> 		return lockdep_is_held(sem);
-> 
-> 	return rwsem_is_locked_nolockdep(sem);
-> }
-> 
-> And obviously equivalent for the write case is what's necessary now right?
-> 
-
-Assuming we want CONFIG_LOCKDEP=n cases to work without extra
-book-keeping, I think we could use rwsem_owner() for write cases, and
-name the function as rwsem_is_write_held(), which tells you whether
-the current thread is the owner of the write lock (we are lucky here
-because rwsem is one of those locks remember their owners ;-)). This
-would cover the use case of MM without introducing another is_locked()
-function. Peter & Sebastian, how do you like (or not hate ;-)) that
-idea?
-
-Regards,
-Boqun
-
-> Or am I misunderstanding you?
-> 
-> >
-> > Sebastian
-> 
-> Thanks, Lorenzo
+> ---
+>  mm/slub.c | 79 ++++++++++++++++++++++++++++++++++++++++++++-------------=
+------
+>  1 file changed, 56 insertions(+), 23 deletions(-)
+>
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 706cb6398f05..b385247c219f 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2893,7 +2893,8 @@ static void pcs_destroy(struct kmem_cache *s)
+>         s->cpu_sheaves =3D NULL;
+>  }
+>
+> -static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
+> +static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn,
+> +                                              bool allow_spin)
+>  {
+>         struct slab_sheaf *empty =3D NULL;
+>         unsigned long flags;
+> @@ -2901,7 +2902,10 @@ static struct slab_sheaf *barn_get_empty_sheaf(str=
+uct node_barn *barn)
+>         if (!data_race(barn->nr_empty))
+>                 return NULL;
+>
+> -       spin_lock_irqsave(&barn->lock, flags);
+> +       if (likely(allow_spin))
+> +               spin_lock_irqsave(&barn->lock, flags);
+> +       else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +               return NULL;
+>
+>         if (likely(barn->nr_empty)) {
+>                 empty =3D list_first_entry(&barn->sheaves_empty,
+> @@ -2978,7 +2982,8 @@ static struct slab_sheaf *barn_get_full_or_empty_sh=
+eaf(struct node_barn *barn)
+>   * change.
+>   */
+>  static struct slab_sheaf *
+> -barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empt=
+y)
+> +barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empt=
+y,
+> +                        bool allow_spin)
+>  {
+>         struct slab_sheaf *full =3D NULL;
+>         unsigned long flags;
+> @@ -2986,7 +2991,10 @@ barn_replace_empty_sheaf(struct node_barn *barn, s=
+truct slab_sheaf *empty)
+>         if (!data_race(barn->nr_full))
+>                 return NULL;
+>
+> -       spin_lock_irqsave(&barn->lock, flags);
+> +       if (likely(allow_spin))
+> +               spin_lock_irqsave(&barn->lock, flags);
+> +       else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +               return NULL;
+>
+>         if (likely(barn->nr_full)) {
+>                 full =3D list_first_entry(&barn->sheaves_full, struct sla=
+b_sheaf,
+> @@ -3007,7 +3015,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, st=
+ruct slab_sheaf *empty)
+>   * barn. But if there are too many full sheaves, reject this with -E2BIG=
+.
+>   */
+>  static struct slab_sheaf *
+> -barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
+> +barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
+> +                       bool allow_spin)
+>  {
+>         struct slab_sheaf *empty;
+>         unsigned long flags;
+> @@ -3018,7 +3027,10 @@ barn_replace_full_sheaf(struct node_barn *barn, st=
+ruct slab_sheaf *full)
+>         if (!data_race(barn->nr_empty))
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       spin_lock_irqsave(&barn->lock, flags);
+> +       if (likely(allow_spin))
+> +               spin_lock_irqsave(&barn->lock, flags);
+> +       else if (!spin_trylock_irqsave(&barn->lock, flags))
+> +               return ERR_PTR(-EBUSY);
+>
+>         if (likely(barn->nr_empty)) {
+>                 empty =3D list_first_entry(&barn->sheaves_empty, struct s=
+lab_sheaf,
+> @@ -5012,7 +5024,8 @@ __pcs_replace_empty_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs,
+>                 return NULL;
+>         }
+>
+> -       full =3D barn_replace_empty_sheaf(barn, pcs->main);
+> +       full =3D barn_replace_empty_sheaf(barn, pcs->main,
+> +                                       gfpflags_allow_spinning(gfp));
+>
+>         if (full) {
+>                 stat(s, BARN_GET);
+> @@ -5029,7 +5042,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs,
+>                         empty =3D pcs->spare;
+>                         pcs->spare =3D NULL;
+>                 } else {
+> -                       empty =3D barn_get_empty_sheaf(barn);
+> +                       empty =3D barn_get_empty_sheaf(barn, true);
+>                 }
+>         }
+>
+> @@ -5169,7 +5182,8 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gf=
+p, int node)
+>  }
+>
+>  static __fastpath_inline
+> -unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void=
+ **p)
+> +unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t=
+ size,
+> +                                void **p)
+>  {
+>         struct slub_percpu_sheaves *pcs;
+>         struct slab_sheaf *main;
+> @@ -5203,7 +5217,8 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache =
+*s, size_t size, void **p)
+>                         return allocated;
+>                 }
+>
+> -               full =3D barn_replace_empty_sheaf(barn, pcs->main);
+> +               full =3D barn_replace_empty_sheaf(barn, pcs->main,
+> +                                               gfpflags_allow_spinning(g=
+fp));
+>
+>                 if (full) {
+>                         stat(s, BARN_GET);
+> @@ -5701,7 +5716,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_=
+flags, int node)
+>         gfp_t alloc_gfp =3D __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
+>         struct kmem_cache *s;
+>         bool can_retry =3D true;
+> -       void *ret =3D ERR_PTR(-EBUSY);
+> +       void *ret;
+>
+>         VM_WARN_ON_ONCE(gfp_flags & ~(__GFP_ACCOUNT | __GFP_ZERO |
+>                                       __GFP_NO_OBJ_EXT));
+> @@ -5732,6 +5747,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp=
+_flags, int node)
+>                  */
+>                 return NULL;
+>
+> +       ret =3D alloc_from_pcs(s, alloc_gfp, node);
+> +       if (ret)
+> +               goto success;
+> +
+> +       ret =3D ERR_PTR(-EBUSY);
+> +
+>         /*
+>          * Do not call slab_alloc_node(), since trylock mode isn't
+>          * compatible with slab_pre_alloc_hook/should_failslab and
+> @@ -5768,6 +5789,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_=
+flags, int node)
+>                 ret =3D NULL;
+>         }
+>
+> +success:
+>         maybe_wipe_obj_freeptr(s, ret);
+>         slab_post_alloc_hook(s, NULL, alloc_gfp, 1, &ret,
+>                              slab_want_init_on_alloc(alloc_gfp, s), size)=
+;
+> @@ -6088,7 +6110,8 @@ static void __pcs_install_empty_sheaf(struct kmem_c=
+ache *s,
+>   * unlocked.
+>   */
+>  static struct slub_percpu_sheaves *
+> -__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves=
+ *pcs)
+> +__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves=
+ *pcs,
+> +                       bool allow_spin)
+>  {
+>         struct slab_sheaf *empty;
+>         struct node_barn *barn;
+> @@ -6112,7 +6135,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struc=
+t slub_percpu_sheaves *pcs)
+>         put_fail =3D false;
+>
+>         if (!pcs->spare) {
+> -               empty =3D barn_get_empty_sheaf(barn);
+> +               empty =3D barn_get_empty_sheaf(barn, allow_spin);
+>                 if (empty) {
+>                         pcs->spare =3D pcs->main;
+>                         pcs->main =3D empty;
+> @@ -6126,7 +6149,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struc=
+t slub_percpu_sheaves *pcs)
+>                 return pcs;
+>         }
+>
+> -       empty =3D barn_replace_full_sheaf(barn, pcs->main);
+> +       empty =3D barn_replace_full_sheaf(barn, pcs->main, allow_spin);
+>
+>         if (!IS_ERR(empty)) {
+>                 stat(s, BARN_PUT);
+> @@ -6134,7 +6157,8 @@ __pcs_replace_full_main(struct kmem_cache *s, struc=
+t slub_percpu_sheaves *pcs)
+>                 return pcs;
+>         }
+>
+> -       if (PTR_ERR(empty) =3D=3D -E2BIG) {
+> +       /* sheaf_flush_unused() doesn't support !allow_spin */
+> +       if (PTR_ERR(empty) =3D=3D -E2BIG && allow_spin) {
+>                 /* Since we got here, spare exists and is full */
+>                 struct slab_sheaf *to_flush =3D pcs->spare;
+>
+> @@ -6159,6 +6183,14 @@ __pcs_replace_full_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs)
+>  alloc_empty:
+>         local_unlock(&s->cpu_sheaves->lock);
+>
+> +       /*
+> +        * alloc_empty_sheaf() doesn't support !allow_spin and it's
+> +        * easier to fall back to freeing directly without sheaves
+> +        * than add the support (and to sheaf_flush_unused() above)
+> +        */
+> +       if (!allow_spin)
+> +               return NULL;
+> +
+>         empty =3D alloc_empty_sheaf(s, GFP_NOWAIT);
+>         if (empty)
+>                 goto got_empty;
+> @@ -6201,7 +6233,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struc=
+t slub_percpu_sheaves *pcs)
+>   * The object is expected to have passed slab_free_hook() already.
+>   */
+>  static __fastpath_inline
+> -bool free_to_pcs(struct kmem_cache *s, void *object)
+> +bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
+>  {
+>         struct slub_percpu_sheaves *pcs;
+>
+> @@ -6212,7 +6244,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object=
+)
+>
+>         if (unlikely(pcs->main->size =3D=3D s->sheaf_capacity)) {
+>
+> -               pcs =3D __pcs_replace_full_main(s, pcs);
+> +               pcs =3D __pcs_replace_full_main(s, pcs, allow_spin);
+>                 if (unlikely(!pcs))
+>                         return false;
+>         }
+> @@ -6319,7 +6351,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *=
+obj)
+>                         goto fail;
+>                 }
+>
+> -               empty =3D barn_get_empty_sheaf(barn);
+> +               empty =3D barn_get_empty_sheaf(barn, true);
+>
+>                 if (empty) {
+>                         pcs->rcu_free =3D empty;
+> @@ -6437,7 +6469,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, =
+size_t size, void **p)
+>                 goto no_empty;
+>
+>         if (!pcs->spare) {
+> -               empty =3D barn_get_empty_sheaf(barn);
+> +               empty =3D barn_get_empty_sheaf(barn, true);
+>                 if (!empty)
+>                         goto no_empty;
+>
+> @@ -6451,7 +6483,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, =
+size_t size, void **p)
+>                 goto do_free;
+>         }
+>
+> -       empty =3D barn_replace_full_sheaf(barn, pcs->main);
+> +       empty =3D barn_replace_full_sheaf(barn, pcs->main, true);
+>         if (IS_ERR(empty)) {
+>                 stat(s, BARN_PUT_FAIL);
+>                 goto no_empty;
+> @@ -6703,7 +6735,7 @@ void slab_free(struct kmem_cache *s, struct slab *s=
+lab, void *object,
+>
+>         if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) =3D=3D numa=
+_mem_id())
+>             && likely(!slab_test_pfmemalloc(slab))) {
+> -               if (likely(free_to_pcs(s, object)))
+> +               if (likely(free_to_pcs(s, object, true)))
+>                         return;
+>         }
+>
+> @@ -6964,7 +6996,8 @@ void kfree_nolock(const void *object)
+>          * since kasan quarantine takes locks and not supported from NMI.
+>          */
+>         kasan_slab_free(s, x, false, false, /* skip quarantine */true);
+> -       do_slab_free(s, slab, x, x, 0, _RET_IP_);
+> +       if (!free_to_pcs(s, x, false))
+> +               do_slab_free(s, slab, x, x, 0, _RET_IP_);
+>  }
+>  EXPORT_SYMBOL_GPL(kfree_nolock);
+>
+> @@ -7516,7 +7549,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache =
+*s, gfp_t flags, size_t size,
+>                 size--;
+>         }
+>
+> -       i =3D alloc_from_pcs_bulk(s, size, p);
+> +       i =3D alloc_from_pcs_bulk(s, flags, size, p);
+>
+>         if (i < size) {
+>                 /*
+>
+> --
+> 2.52.0
+>
