@@ -1,29 +1,29 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011018.outbound.protection.outlook.com [40.107.130.18])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013059.outbound.protection.outlook.com [52.101.83.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C322B2773C3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Jan 2026 21:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9123B23370F
+	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Jan 2026 21:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.59
 ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768857968; cv=fail; b=ngY2NSF8Ncg8X8ouT0cn/qU76Flg+j/oS+PviL66YcNBUuEdkVl3gXhrjGPIUP1zdfrwAboI7iGTcbnaft3op7Z35K5+EvcOghz8A00S26yGBINdPArVfP3zI4arpshp+348/fTpj+Gfvaw9l0v25JbHx52MTWdXuGDC7h6YHzE=
+	t=1768858377; cv=fail; b=X3tJ6cUDwAC0+tikkJsYxTZjOgBsd4DTJZGvpF+wYTlSYMKmFizDJgDeTFRlM4T5wW2MwYLeMCRBXj0YKFYtVGCnJe+q2cjsZY4IAFznyvK2svkCpifk0r32WlLbvKRx3wpOEYr6/Q7aZrRy56VvQrosgna3QQITGqaHNn+35wo=
 ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768857968; c=relaxed/simple;
-	bh=z6VvIixwoZCEePhvTt15I/erijMBX/89FIala7K7Tfo=;
+	s=arc-20240116; t=1768858377; c=relaxed/simple;
+	bh=oHaLL4LWnWgu7lwuEclPkiLcy7qsI2JYtwEdenT3Lvk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ZpbalQ5HdIBD/6IujkDQpUvgzL8xpcHBwvE1eWUDPiMGmhneO1U9nhDsdB6ePevI1ooy+UOQie4Jn83SRWQ+MCP6m+x4xKCSktI0RPxMaZ53c6CBFf6MH1pv9ElFh54kAQP9gigdHGVaz5GkskcOskmuZOpD4BxV6lqpsqEuowQ=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=U9ME6360; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=U9ME6360; arc=fail smtp.client-ip=40.107.130.18
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ZQ5l+76uLt0UoYWiTNohxaaGDPS7vS/AUqOi1Iu9iBZ1MylWH6WG0XNZMYwfwozCAOJ8/C8RRHBTk7x5ZPTkoB3d7hrUZMM98goOO+5nqazZLAhKcAxesTv/aY9EI8Yx18dDMpl2eQ/UVL4B+/SQeuHRmIV8vx2pMNk6f6RdsD4=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=F7lVjE4j; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=F7lVjE4j; arc=fail smtp.client-ip=52.101.83.59
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="U9ME6360";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="U9ME6360"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="F7lVjE4j";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="F7lVjE4j"
 ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=tStHRBE5LjLGb2VVGtKJXXe2HsXwGuVEHEYiSrfEL+Ggu94Q5pOZSfLWwkrONd4oFrwiYdl1JotOQvnz8g5Nw7CtKwL5n60nlFhbOGch2JmnXAJmBGfmMlYpusYtNLjo/i0iA5Eq75Ju8Eq8dYsFqc5E7EjB2be4Ohz5Swn/gly3B87B0p/ZRczw65Q8hDUuwI9bPgf0rE88XI53CrWJ1vho2QJFgiXGhW0CUNcopr0Cg65s0zPJChN9LoNTASq+0Ulh26u4DtLgXC6kS88XokIpcCa7xAiucJ/i0SPGhZir4MxCZer/yXwe9cMjBYOQDbiebaJCL4uoM9E5ylExww==
+ b=i4+PCFE0jqv3h8hDMDmZmgJSZR+NQNjVOGs6Opv+NvFshGs1gwatBJOFrRE/T4AO8w0UyzWaHJ8faUJiF/ExNfj7GTsKBuNei9HSjQMSV/v6I6T5Xnfx9ZNIEuYXMcnyXO/woTcUIh1hY37QCDxTgDE7tj2rPy9gMbMjS2JXplzL7nD+EZzk3bHqFGWlTcsSpvSxxnlaocVic4pul4kh6+v8/2ygkje//sOOFJtZFty0eood5jJCO9GVQXxl0PYogpKfE9RRwE7K6x1yYRDfF8iYwV5X3Ieac0HcLIU/zHij3SGTCMVlmQYj8i2NEGi0c9DXz4dZujc4h9u59KFeVw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gAbrXgDCwXQ/iUAbaxB0qlwc6Yc1bntX1eCu/Ao28YQ=;
- b=A265Vk5J1yID04PwN90rlu7t/voSn9N5a476ljD7DEiprMxzjgA4szy/HO+wwN8Sfywo9CUc5nNmlnfpol6/7Dej9DakUJnQfMX3ST5PUzh9Fxolw/wmEoQnGKp79NCHjiHPI9Sh5qNQFaW6A9V6TFt0PnSWS5LCZfr1qJdQAgouIPJi5uqx0Mn05jnHVazAIb9sBc24zSY01wIu+k2qKA87VAxDlUNWWEJoMTjC7spkKTQPsOb2dreUPJlxfppZej2m9CB+r8JY8AzOfAzH+qm2uJ03Xupyz+d7NdNIxjENYneSF8m/SXJ+ePWWATuVaErYtaeGy84XLdDX6GykfQ==
+ bh=uEpbCtXnjv78hJDL7RgRwvQ0/IexqZUI29+jVrjxmsc=;
+ b=CnLuS0/k6vcdU6MW+Vr0FjWFSvr9ojbDzaXE/gmphaMr/MvxzfRVPV5WhDsfIxqTtRxx8YcLazsd8CpdS9+OK2bCjkEf1pPViFB2d2lNtCDXfnti7v0fM27/8Hk/QHgRSGhxKNUCzoAxhKHs3VWLOj2hhOd/l8RvOyHcEF9GtGW/9gm/gBVoMNUy6Jxn2eE2jGzvCFup7jSzbY8J2NlceDPAGj0rsbcZBslDn4+LSJxQGKysZdIKzSZbjbccpcH99XjGV5SlyYoIhckcT1A7ed55xzWHtzaCwXdHh1sfeDt3wNLjiSrzDrr8KnXw9uxiWxhzXefEJ198j7cEDhL3hQ==
 ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  4.158.2.129) smtp.rcpttodomain=kernel.org smtp.mailfrom=arm.com; dmarc=pass
  (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
  dmarc=[1,1,header.from=arm.com])
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gAbrXgDCwXQ/iUAbaxB0qlwc6Yc1bntX1eCu/Ao28YQ=;
- b=U9ME6360yChH/INoJg8/2um7WX7m0Im4lzEE5xhXsHnBDwqRub/Vzsh9K6H0scTmNzmBU5A6Gxo2+U7H+Kk6r7SjV74NHBWOIE5JNp1fyJCE5zmGBYsHzQbh774PkhW9fVW7Ol6qoEXi2eJgGskFdUqh2XOCkqftXMUMh3OlLuw=
-Received: from AS4P190CA0066.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:656::9)
- by GV2PR08MB8123.eurprd08.prod.outlook.com (2603:10a6:150:78::21) with
+ bh=uEpbCtXnjv78hJDL7RgRwvQ0/IexqZUI29+jVrjxmsc=;
+ b=F7lVjE4jhwsDRR+MKGh2GLynOfk8CxGOGvx5I1iLFsq+Zc1iHVorppviCwDGs0iLNBnCmpstamfWV+Zzp7rjzldNhsmtgAwG2mt9ne27qxLLL2IwjfoTdy941aHVd4vv+wilBJPE3u5beou9tzpJzrcAjKJhj/s5K5dwHgBp4Xc=
+Received: from PAZP264CA0049.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1fc::16)
+ by PAWPR08MB10996.eurprd08.prod.outlook.com (2603:10a6:102:471::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
- 2026 21:25:57 +0000
-Received: from AM4PEPF00027A66.eurprd04.prod.outlook.com
- (2603:10a6:20b:656:cafe::93) by AS4P190CA0066.outlook.office365.com
- (2603:10a6:20b:656::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.10; Mon, 19 Jan
+ 2026 21:32:49 +0000
+Received: from AM4PEPF00025F9B.EURPRD83.prod.outlook.com
+ (2603:10a6:102:1fc:cafe::6a) by PAZP264CA0049.outlook.office365.com
+ (2603:10a6:102:1fc::16) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.12 via Frontend Transport; Mon,
- 19 Jan 2026 21:25:57 +0000
+ 19 Jan 2026 21:32:33 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
  smtp.mailfrom=arm.com; dkim=pass (signature was verified)
  header.d=arm.com;dmarc=pass action=none header.from=arm.com;
@@ -51,35 +51,35 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  4.158.2.129 as permitted sender) receiver=protection.outlook.com;
  client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
 Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM4PEPF00027A66.mail.protection.outlook.com (10.167.16.91) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.4
- via Frontend Transport; Mon, 19 Jan 2026 21:25:57 +0000
+ AM4PEPF00025F9B.mail.protection.outlook.com (10.167.16.10) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.0
+ via Frontend Transport; Mon, 19 Jan 2026 21:32:49 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KmAUQTlOsHyIhLlb/a8NUFEliZltRGasUmlEVAPIV8ct33uug35hEdX7hhdx7FR0MpdO4HdIDWKzhmpuL2U5q9Xs9/+O7cRxCmTY/uz9rS/ykSSwuBWOI7P56bKdUJQTiB0yvF2IdWAN8tZ/GBX5gKdflkG2ecK01vSnn5ZDLm5zHwJn814hzGWb4xmNMjExh8MSdhP0GjXlbpZXV/XSMI8T4bl6XKhr+jrLYfgPI0Xr+OqOV19VK2woCg8/s6l6iXyWBF3dZQjmsd4UgUttKWqXpmRx1dgpBgLQhpXHRCjLu9iA94FbJAMv08iBOZ9iPU9vy7Ajik6gyE/HZ+K45A==
+ b=eglPZoJi9fv5zEi89SSUc0Un2wNPzxhJFpDjkUbdCCAve9b4xFOJsE6kECxKqoQfFTud8gQIxoKJA2X3EBYSw8NaFJss4yYVmqywiMd0cuXuu10Gilr/sAYAcMgcBZiUaoXRnFwi0RlYzk2yvCvkKnB/kkSGAFdBOkST56hTkGMqSNHzpURH25+HHt9XZDBb3aE0xRwltM8sob2TZz9HLhUjPtXfG2eGUIYjKIhxC4alvyZl0OOe8t8uN8RdGaLxbI7092XvE193CYmlekqDiB15iarkiJz/nBSGFQcXF4pyihK/auhfHjCzhmGoSTyosb1RakD3OyFWcUhXd0byKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gAbrXgDCwXQ/iUAbaxB0qlwc6Yc1bntX1eCu/Ao28YQ=;
- b=QoDKszeFbiJPkucoicWYvY2o5Fwz+4kq+iVcQY0zmGfZjbaxx/eQy64rAXfLOe6IERJq9NQAnpGRQ2cFRhbaxh/S3SEwg7M2bD6BM/8qAdyfGAjk1wWczNPvcbozmLmisd47oc84UoBkZCRaws1SAbsn8hvANMmmgiVF4WiIroBIJMn/WpyAdii085sZEeqfCqvUU+U0tR0o64gtjHNhlCj6LRdh9mONlOAisO+71avRatWRifZ3f5wmuPQwiMmw98nnf9dJSdUExVfDpLP3Or8xS8k+GlRa8IiFooSWE69UuqxhbRtNAnuECgRGEluG36li2o6wI0Bi7gIM1XLanQ==
+ bh=uEpbCtXnjv78hJDL7RgRwvQ0/IexqZUI29+jVrjxmsc=;
+ b=GlWvFG8vBD5bWWPw58hJSuqtJMLbg3rVn1hGK1zxuhFXJUkhBxtA0tq1ghhAhVBWxHALvK11wB7YZ5d3TQFfvN4zBZnbjYWEZYVE8P2el8Bq5z6jeKNhKJrcobvaQgSI3Tn8liEKdvaLKfmYte8DXrrwRTeIMlztnPCPyo89t7KRFV2pNBHjrhTMh64rxVVHXTYbZ0eaSa23wcdKlxr1rkvopnvjNgGN8On9gTtVHyM41DIcKxO3Jxp0xf5JLM3pi+tQS1UXrjdW12tf/9wEPUxRSsaQnEUBBF6X21ktSuaLYGGMkrX1EpSsT2rI05slVZxei65hpFskbqMylopt7Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gAbrXgDCwXQ/iUAbaxB0qlwc6Yc1bntX1eCu/Ao28YQ=;
- b=U9ME6360yChH/INoJg8/2um7WX7m0Im4lzEE5xhXsHnBDwqRub/Vzsh9K6H0scTmNzmBU5A6Gxo2+U7H+Kk6r7SjV74NHBWOIE5JNp1fyJCE5zmGBYsHzQbh774PkhW9fVW7Ol6qoEXi2eJgGskFdUqh2XOCkqftXMUMh3OlLuw=
+ bh=uEpbCtXnjv78hJDL7RgRwvQ0/IexqZUI29+jVrjxmsc=;
+ b=F7lVjE4jhwsDRR+MKGh2GLynOfk8CxGOGvx5I1iLFsq+Zc1iHVorppviCwDGs0iLNBnCmpstamfWV+Zzp7rjzldNhsmtgAwG2mt9ne27qxLLL2IwjfoTdy941aHVd4vv+wilBJPE3u5beou9tzpJzrcAjKJhj/s5K5dwHgBp4Xc=
 Authentication-Results-Original: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=arm.com;
 Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
- (2603:10a6:150:163::20) by PAVPR08MB9062.eurprd08.prod.outlook.com
- (2603:10a6:102:32d::18) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:150:163::20) by AS8PR08MB6645.eurprd08.prod.outlook.com
+ (2603:10a6:20b:38f::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.12; Mon, 19 Jan
- 2026 21:24:53 +0000
+ 2026 21:30:33 +0000
 Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
  ([fe80::8c9b:58d2:2080:eb98]) by GV1PR08MB10521.eurprd08.prod.outlook.com
  ([fe80::8c9b:58d2:2080:eb98%3]) with mapi id 15.20.9520.011; Mon, 19 Jan 2026
- 21:24:53 +0000
-Date: Mon, 19 Jan 2026 21:24:49 +0000
+ 21:30:33 +0000
+Date: Mon, 19 Jan 2026 21:30:30 +0000
 From: Yeoreum Yun <yeoreum.yun@arm.com>
 To: Will Deacon <will@kernel.org>
 Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -90,17 +90,17 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
 	lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
 	vbabka@suse.cz, mhocko@suse.com
-Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while
- splitting the linear mapping
-Message-ID: <aW6hISBu3hNYS771@e129823.arm.com>
+Subject: Re: [PATCH v5 3/3] arm64: mmu: avoid allocating pages while
+ installing ng-mapping for KPTI
+Message-ID: <aW6idotkGVoD692c@e129823.arm.com>
 References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
- <20260105202328.2418990-3-yeoreum.yun@arm.com>
- <aW5p1ylQBNXTEmmq@willie-the-truck>
+ <20260105202328.2418990-4-yeoreum.yun@arm.com>
+ <aW5qfh_bsGNRd0Vd@willie-the-truck>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aW5p1ylQBNXTEmmq@willie-the-truck>
-X-ClientProxiedBy: LO4P265CA0056.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2af::23) To GV1PR08MB10521.eurprd08.prod.outlook.com
+In-Reply-To: <aW5qfh_bsGNRd0Vd@willie-the-truck>
+X-ClientProxiedBy: LO4P123CA0621.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:294::21) To GV1PR08MB10521.eurprd08.prod.outlook.com
  (2603:10a6:150:163::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -109,162 +109,192 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-TrafficTypeDiagnostic:
-	GV1PR08MB10521:EE_|PAVPR08MB9062:EE_|AM4PEPF00027A66:EE_|GV2PR08MB8123:EE_
-X-MS-Office365-Filtering-Correlation-Id: f082b398-8b17-4a61-3779-08de57a155ca
+	GV1PR08MB10521:EE_|AS8PR08MB6645:EE_|AM4PEPF00025F9B:EE_|PAWPR08MB10996:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c6c1d1e-2b2c-461b-4e2a-08de57a24b65
 x-checkrecipientrouted: true
 NoDisclaimer: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
 X-Microsoft-Antispam-Message-Info-Original:
- =?us-ascii?Q?0KiA1R5sDQC5TB4nRsA3sdbjnLQV5zxKLB3+As/Pu2dvFUBnZMSRFZLZSguU?=
- =?us-ascii?Q?aJ4rSaoHEBHCicX7ado9jsnNFTHNNSJb2dtrujW2bSNHK5tMBH7qIoDNFoYu?=
- =?us-ascii?Q?05dLW2T5PEq1WyRA/W5mZO959ESVrAZhAHHTOb02i81Cp0P/HnBHaQ96b8A3?=
- =?us-ascii?Q?e9g0Z5I10sB6hItf4w4zlWu6PhNuhqeXifg5BTM6ZpRpU3lPXmd+hbWUS0oY?=
- =?us-ascii?Q?z6AyJUK/A0HHIY3fqj7O3cClQGx5TqMYO5Ny6qBbUpDYtGK42A1mlCNTKEK4?=
- =?us-ascii?Q?8p4b+r8ech1bzi2Qi6m/rHAsYm+4EjuN+ztyAzHJ+s7NdecQ1CQWB1ONLc61?=
- =?us-ascii?Q?AHqcQ3W5kODEz7seQaD3AHWn/Uj31AAzW8hipdaaqWC8DTgTP4sMMPOUQxPd?=
- =?us-ascii?Q?7b4CS15LbDz5wbss1UiwcKAFSZceXrWzQvxw8X6FMIwxPOWjAKRa+HczNFnM?=
- =?us-ascii?Q?fy2kqs+BB09EZcU5gVHFZN1TpnmRnQbYaL9mUU2O70yPeElFZHTeJ5jwlQVJ?=
- =?us-ascii?Q?122DPc9LjBovFppOz5zMpNgk38d4T6NXzR+KH/3zaaFijAwjFM+6V/8QEuqj?=
- =?us-ascii?Q?rGoSlO47PCvlVh1J60RZcXREj5hdkG9YydeHCGYFH29xDwqSRZSxVM5xiYGX?=
- =?us-ascii?Q?CAy+JfGd9p85pzPUEVba1GleFRMDSC7kXlhoVWTBN4Y3QdiwKnwQawKMecEi?=
- =?us-ascii?Q?WKz1nT51MihJZvywp/jzY0kIy1XfV9eVUD4ZewnHRu+0eGSni2XHnti18oB1?=
- =?us-ascii?Q?dg96OHFG6cwnwu8cJPNpjxqrlBlxoWro2KEezyBc8gqD92QyTOjouE5UvYhI?=
- =?us-ascii?Q?XUpUS9DdtlWmKqbfsA70JvC2Wqk1Najz/I9X5IUN+wPYV7G8kfmjQgIjjNKo?=
- =?us-ascii?Q?mjKDydVK/nMhDJ09IPuVANg4sbQIYqTLnZoHSlPpLhDkTCou3reGdbfYdVbX?=
- =?us-ascii?Q?q0u0JMeWU0VXRTekx4oQFtgqjycmh2DrNn/EZqyMkHM+gkG6qEwDb02Q2X6U?=
- =?us-ascii?Q?iFENzM3daLmVj00XR4IOPNU4+uJQ9/vmdyYYXohDIiY3iPkgvpdDI3XVGIHN?=
- =?us-ascii?Q?p6Ktk63gvIKwAuyanXt0HhfXM9qPd+E2j5J7yWjDDSApWLekXBJ5nudTy1mw?=
- =?us-ascii?Q?gFSmoNbnwiHvZODKihy/Z2mR5imx9e/ykdlq2t1JYOlZz9+z8dqeTAQ0RQRo?=
- =?us-ascii?Q?r6iAW77c2cP1nVycsiUGFxvEcV67MfPSyrHw81+2kt/kz7S9RVMafRbBkHik?=
- =?us-ascii?Q?9nDHc8o7Q8svSEAYRp+bAKbu4dpx1qMU8w0OwhgxhljOsLyw0xq1tBZtLZBO?=
- =?us-ascii?Q?+7wO1SP2MUbPL77bmodW+QYUyoSAi4U97O8k6Q28JoMK9VxwhuvBJ/XzyQDr?=
- =?us-ascii?Q?11ceXukSZW7LMmS6CJBwCVXpbrVFvDpyQCR60BUSXAiledQfEoMxyMCnnvpv?=
- =?us-ascii?Q?4CcAVA6XjJW6wV0PbcyaJ6R/z5XlIm8Iv3g8rUX7DDUzpWuIeS8IjYmRErxf?=
- =?us-ascii?Q?ap++4qxxPzmbQ8PWY1rJi/begApjCkx6VC+GAKb7BjsGjwQJ9O8df7k/5dij?=
- =?us-ascii?Q?Zj0l3WADZmLjmewAdj0=3D?=
+ =?us-ascii?Q?KgGnnVPcruf4RDYpj7+9dxgG2s694nuxVenhTsp9vVpXWwLF+rqqpaGSs0ZB?=
+ =?us-ascii?Q?+hF+1ZWUJBueTr7Mr3m6cNa3f0gi25FDoOEnGrNlvrMwa+ysa2CgMQ8dqauq?=
+ =?us-ascii?Q?YqIDJKbiQjVspJ41jPAUlUJIphC9TQiBh7NmZQhshfYvRaIdljevk+8p8nlf?=
+ =?us-ascii?Q?aCd/WW0/zzm3v4FI6QWAWRoDNYwQPEV3TKH6FHiZA2XDoDlTezOaULeLug1A?=
+ =?us-ascii?Q?AlqE+OaPwbacMlLXzt5IY5OCutnrPs9G62pviatNzmokshhFUAsDsZsD2nvB?=
+ =?us-ascii?Q?ahkvmfQ6YRqeqZ0ezrTzmW5hTm/jLh5CIHKJExZroyVMewc/aV+XadUaZC/Y?=
+ =?us-ascii?Q?J8dy0izK9lg8URcXpVd4ZsVswX0UtJaNZTQnXSMZTLMjUMObUceyikBDHNpS?=
+ =?us-ascii?Q?K/BE4Ymx+/rI2PE+AP7JicCtgMQSNomBHUPGbOmlWusTmgxi8is5J1DrgkW9?=
+ =?us-ascii?Q?rH3OvHeJK7wiVqh7Qh0I8RvW/rJlxeYsG5+69DVypODnA9tRpBcy2+6Kyfqs?=
+ =?us-ascii?Q?KRyUfOjSNYRzpVMHW6DJLv6E40U3G6I/PD7EzVR8uqjK9fg9F5BQbXZypd3s?=
+ =?us-ascii?Q?U0aiT0Fd+7EFxkFskBW+Jxvr40r4WYejd4siw13PAQNmZ23S+1I46J7eQctd?=
+ =?us-ascii?Q?eNFy4u/02x/hfNIUFu18BdDYN1Ly8MnOczLqwUAjhhrSa7ticSEb1y9m4zX8?=
+ =?us-ascii?Q?9Xv3n3TAHtHaRe6LJ1w9Q0WhQlUqpWqxYR77bM+h6l9BamK4nXqoy4OOWiYE?=
+ =?us-ascii?Q?QyC2ABw+z7LyPa9NNDgFFjzZi7s5c5IjWMtaHGyScVMFowZRWq1H/YwqPw4Z?=
+ =?us-ascii?Q?cq92omtr9DEjF1WjoKpeRXgoKfBpu70vEl8JfW3ZspqSZL5wCdn149PvBgGk?=
+ =?us-ascii?Q?jhwk+Kz91ltM6iOCHsox2YLhTTTVdFh3bT1rPin2X7gyQbHzWg9dPw2Kk7Iv?=
+ =?us-ascii?Q?H5HSxP87Xr/Sun4bj8b1n8M00EOGNxsB0YKw3YWVXCdwDhnHcd9tpuVm5PW8?=
+ =?us-ascii?Q?3fKY6B7RtauPcyXMaELnGXxni0MfxpV0ZHqP2J9dxK7e927Mw1MGyqpMc9mW?=
+ =?us-ascii?Q?yBJFKYcHEgLZLm9/EoriYSqc8ugEOQi3yUDKYYs7mt4cpZbQPCBdjxklSifN?=
+ =?us-ascii?Q?S7O+0X+kvGnOX5JqXTE1tnyNBLNRVWnkVNzy0A+mYxAemWVbIbKTmhBRPOQ5?=
+ =?us-ascii?Q?gwzzgTF4AjPRx5Cqa+QtoYUVIwsX8CgLM3TudFSK0qIJHEallU6qlFch30Hh?=
+ =?us-ascii?Q?xZ7Lm+3VRL2M5ETVmdzmaR7zQMiK2n18RPBAofOf0hoXosB72lpcu5YZSkNy?=
+ =?us-ascii?Q?O19c/9GQVokzPAhJG5VsJQgMj5VTQ0QCukDNvcDb3ZU4MHtd3EiSny7HBwVs?=
+ =?us-ascii?Q?8W1UsTZ9Uw3qK44wjNiw0aMkPOj2KObmzlWth/oLWYSn5v9P3hDfuJEFsMGb?=
+ =?us-ascii?Q?5FljFqu+PCbSxJyKgy7fcbuPUFxmhAZROJYxEYKfKIJffN2P2y3t0po5umfA?=
+ =?us-ascii?Q?CclsgKg5koNWN5ogXLZwZdItURUX/KWOCqnQ2PWGqvq9iBuc7DYTdHNafl8G?=
+ =?us-ascii?Q?1wIYjYqQ8PFYwAEmdRk=3D?=
 X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB9062
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6645
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM4PEPF00027A66.eurprd04.prod.outlook.com
+ AM4PEPF00025F9B.EURPRD83.prod.outlook.com
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	5594da01-a7b4-4522-9fc1-08de57a12f42
+	9c90a9f4-c311-4530-eb94-08de57a1fa18
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|14060799003|36860700013|35042699022|7416014|376014;
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|14060799003|36860700013|7416014|35042699022;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3aCGPgzIuKEUUAdrT4HcdqQWZOL2GHd8zzcD/WE1PeqB4MN+cLK64nmG5WdN?=
- =?us-ascii?Q?W0+2h+HXJUpkqN3XBxlNyJ3NjW/swctiPKYvkoaODL0v5GrYCm6tlewTbOkr?=
- =?us-ascii?Q?XHDx9nTwePFCAI6N3SnurWii2zXQ/gJj2xpPgGqNKBzRiJnq1a7dh7iVd3zf?=
- =?us-ascii?Q?ELZ/BUe2S68SYAjJAZ2tg5Ln4cBqby4pf7z6HQsOOTOexuHfFRD9ajP5lhpK?=
- =?us-ascii?Q?IMLIzCMYoTd1n1EYdZ0uQdFpFD9a8mxozpXW6HTfW4JptQpvUHt5xkWisgai?=
- =?us-ascii?Q?P3MGGjW8CnF59NF/cU/XS6WgtktlXLFfTqimMzcCWOEHqyL533LHZulQs97s?=
- =?us-ascii?Q?sd2AbRe6xLIbVlAGXka8e+rZ6IUh29WBvv3Zyt1Y9wREEuyazgV91Et8/9a9?=
- =?us-ascii?Q?UcrpxSeS83avWXU8cBHruLLJBC3wbIoEpH78WGWSb+LyGwjRIR5+/IvydVqV?=
- =?us-ascii?Q?0i2O7YyPMSGor1bjPgF5Bw2Dk7AjbNVT2g89tvKgC2tYXQTsCx8YMtasQlOa?=
- =?us-ascii?Q?aw4Q8aAfNq0rXuyEG2PMkl+nfT6wsXdTQtqe6+lWMkKKoL0jNsnQBqogAW2R?=
- =?us-ascii?Q?u2bkGyrVVJJWRYwdL3TisqWmxTk+teDWOpp52wTT4l3BrbBdmKxM7hCKdmJC?=
- =?us-ascii?Q?6GH7d+x/HTqCrs9xb63xWnJ4VNeuh5b/jFaIlYbg4sBfug8itbGxBLukWsmM?=
- =?us-ascii?Q?i20k9OwGv9Jf5mCoZD5JvCLM3oa8cKxq70zk+cVJG76z0mHT+GasUrKuhDSs?=
- =?us-ascii?Q?bRXdwWTeTttNmb7kjNg1TbKlaZpFoTotwuOPsIuEp3ZxHTHOnVkn98sVDKk5?=
- =?us-ascii?Q?xAK5KfeDXzg+6wSBX5y9x6IFt9HIY9atfPpRQECn0hdyM9k+dzWrzqmOweSx?=
- =?us-ascii?Q?f9WftC24dwDDJs0QmaK3s7BJZecNlQZAxXAptKVN/ivbgLmeVHXh8RmAaZtE?=
- =?us-ascii?Q?kYB9dz/FdWbYll2UDFh3taG0NF2qzaOLIOBrRtksXZUQGLvFXAYQSbdYqwQA?=
- =?us-ascii?Q?//fgCE40NBW72K8CdiqwtLViqJzLZSmgEd9L/drugxwjrw86QOvn2aOzyLnx?=
- =?us-ascii?Q?dXMTuvxrtqZ1/t3HKOVeS1LtqH5PEvbdvphkxgCnI2Qllahbrh2+rjGG4QyB?=
- =?us-ascii?Q?ZLybPVGsMMoAou4EPWCQS34j2mkDzcdnKWfwGPaM5vjyYhFuPmvOo4+H5kA0?=
- =?us-ascii?Q?cC7TSqmiRg2Ww86eur6ZGNRx7qigqhMwfy7IhmghL6CokhKkRfnPRtgviZDa?=
- =?us-ascii?Q?AIhJJI/stipDnPDSzN5bHzLCzQnfQuc4ASyxdDjQPTjEe78ynvGIEGay3jHo?=
- =?us-ascii?Q?GrUOzdr7/q0JIE0+51JWB13l8NgM1ZgX3FGTr7FCAUJ74RGVr+EG+1JKfTy7?=
- =?us-ascii?Q?d9cgATMVrZJI5niSF4htt8CJDecLKMRAtJQVhy2Oq2meb4VX/nV+YQ3AGVkm?=
- =?us-ascii?Q?2oBbAOMicWNJT3+llOjcogQlyNyNyr7Ct7OXwHD3P2GifWmO6vRP457V76LY?=
- =?us-ascii?Q?uKLgtHDAbTZZEp4PDby+JhhaUsI0LWMhOvG6n34wYIns4/IS8RBC0gFgYG+R?=
- =?us-ascii?Q?m5pCIpJgqD5qGLMOoptjMOtSARhpEs0mPZ3pQWi4jZ7nVLuOrPDoYu76QSPq?=
- =?us-ascii?Q?cacFIoq9W/OOTg7euTOsJ+OWQkXsr8CW2FPsglxNOi0pxqu6pkYgV01b8in7?=
- =?us-ascii?Q?wpssyQ=3D=3D?=
+	=?us-ascii?Q?BL+bzXsUxLMwIh0R4vVWzvFl+d06lHJpyNjaJ6y0jqabPbeehoZbV3Eb1MHd?=
+ =?us-ascii?Q?k6+dwWOvBrAgEuDZBLf20VzQGKSRIU0TxoVXTP4phrk2bFMZ/bdOUVhbfzUO?=
+ =?us-ascii?Q?5ZE89rzomYRmf7issWA8/FkuT2vgCI5yOSF42FfYjAftTIAzqqRzdkONCO9u?=
+ =?us-ascii?Q?WkOPSXsFBOGeFvk55J5oVWHZ4Njb7LaamobwagVL5XKZh/ErAnFSY4lwFOPG?=
+ =?us-ascii?Q?kbZyZzKCn91T0UFJhK5C/T2xY89q7CzpMEJj7DqgFqKzkVSe7vkYE3wkjyGN?=
+ =?us-ascii?Q?qzICc10EPp6oC5hl+jbv50KBBoUzr+qSh+yElhErt2rlOgAUCiRrFpGj0yH6?=
+ =?us-ascii?Q?DMbEEZa6sKfySOagNyOgsf3/k1jzc0rUv4DGLr837FINz8WyD/6tdpQVMYEm?=
+ =?us-ascii?Q?7fiuub3xpB+MCPr3p6x596cpHJK2BdJsrf5Yj0y06ibNed9HuNXqUaOYjr27?=
+ =?us-ascii?Q?QByMvTO4AaYzxF64UCiFjvSRISJEK9iXKpt6xk16tMO9tNLwXrnHDGgE0/oj?=
+ =?us-ascii?Q?m+zZWP6kv08mwsyiNcSbaBQNpyswuK/2V00/Ls2RdRwfWL1/uYQXcEBxPLw3?=
+ =?us-ascii?Q?RJHKV1iWaX/6eIFC8wNYZNpnvgsyhKBHy66DP5WpQfJylQrxxhshxICIS0yW?=
+ =?us-ascii?Q?HsaQj2VhRWxx2tmHwV+OSTIpiFDwbwqr3KMEANjA6TMsDqhgL+Mxt9kDBPV5?=
+ =?us-ascii?Q?O9EFXrV/nweY7/Wz1t0ZF1Apb6OWWjny4pWD/yusWlpoJ4OcT1v8ioBSwKpJ?=
+ =?us-ascii?Q?bXkauHbeiMmIFBP4hCSBop47/jmgl4G2W6aDLHcLjHdg9xZ93gYyHFZTTu0P?=
+ =?us-ascii?Q?MhsHMzKDRCKlllGiLRObWnZuizMMHR+5cYWwc9mP5ZRA0dZWabdnEHLL9J60?=
+ =?us-ascii?Q?r0+2hvJ4Ngg/9MAAAEeotM/k1KJr3rnj4CMAaWqtjOx/ZjWkmj35neDzCYgY?=
+ =?us-ascii?Q?Tsd5HMYRXBuzSaC8bkfx6IiijhTZyOeiYArKAyFEX5cKogOqKKxU0XaD0oc+?=
+ =?us-ascii?Q?B7v/Nc8MtuDQriEYH3hSBjr32BAKC5JqIK+cVFSrRgWOEljxlG9/WB1HcONf?=
+ =?us-ascii?Q?b07ppuNbeeQaVYnWuBXASze32r4xffvBm8ysD1EzeI93D2rayLITB8HGjb2f?=
+ =?us-ascii?Q?McFPWYBsKACjeYJDbKXQK7L4x/o0lLUInnN8r9Dn5o0Cq3XGbbMaE6n7xBEY?=
+ =?us-ascii?Q?bwrXp3GEC/IBfEbC3gtkdBhI9yh+wF8h0i3ayVXTMuaccrPHw2PVC9RxEyzI?=
+ =?us-ascii?Q?tKG7vLj42+3TqAL5i5/WprIto4YAhbI6LMnMmycuNyHb85y40ePTekkINfT8?=
+ =?us-ascii?Q?8OXJJauaXYX4KdegrW8aTnG4qlRWiWhFd97FpRiNcnsYlxpookM9ppyd+nsV?=
+ =?us-ascii?Q?IDhWUD/ExczEq1RL+3bUnjQL+4X81eqjhCjIhJagyjY7Oqu/eN7al8nUNV8q?=
+ =?us-ascii?Q?mXPLIvrFLvzq/EoAxT9HnL4fxX3rQcM9ScNBfHeeEihT3oCZzaPDHKMot357?=
+ =?us-ascii?Q?ixrwLyokgmjHqmr9qSCj2WbUVn7Wyfu4eZ5bgtvxCJ8qc7ILSeaJrME8qBa7?=
+ =?us-ascii?Q?SzrgJuRf90tpNgOSJ38yr/FC0I3nxjTMN8UU5o8qqzvvLjPhFeGcYum97WNd?=
+ =?us-ascii?Q?mEFVwJbxwemTGPahCi0rU/Wsje0fpC/SdozrI2f3+QK8KIjC+AkgPDIfuuhH?=
+ =?us-ascii?Q?5C2PFQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(14060799003)(36860700013)(35042699022)(7416014)(376014);DIR:OUT;SFP:1101;
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(14060799003)(36860700013)(7416014)(35042699022);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 21:25:57.2787
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2026 21:32:49.3620
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f082b398-8b17-4a61-3779-08de57a155ca
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c6c1d1e-2b2c-461b-4e2a-08de57a24b65
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AM4PEPF00027A66.eurprd04.prod.outlook.com
+	AM4PEPF00025F9B.EURPRD83.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8123
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB10996
 
 Hi Will,
 
-> On Mon, Jan 05, 2026 at 08:23:27PM +0000, Yeoreum Yun wrote:
-> > +static int __init linear_map_prealloc_split_pgtables(void)
-> > +{
-> > +	int ret, i;
-> > +	unsigned long lstart = _PAGE_OFFSET(vabits_actual);
-> > +	unsigned long lend = PAGE_END;
-> > +	unsigned long kstart = (unsigned long)lm_alias(_stext);
-> > +	unsigned long kend = (unsigned long)lm_alias(__init_begin);
-> > +
-> > +	const struct mm_walk_ops collect_to_split_ops = {
-> > +		.pud_entry	= collect_to_split_pud_entry,
-> > +		.pmd_entry	= collect_to_split_pmd_entry
-> > +	};
+> On Mon, Jan 05, 2026 at 08:23:28PM +0000, Yeoreum Yun wrote:
+> > The current __kpti_install_ng_mappings() allocates a temporary PGD
+> > while installing the NG mapping for KPTI under stop_machine(),
+> > using GFP_ATOMIC.
+> >
+> > This is fine in the non-PREEMPT_RT case. However, it becomes a problem
+> > under PREEMPT_RT because generic memory allocation/free APIs
+> > (e.g., pgtable_alloc(), __get_free_pages(), etc.) cannot be invoked
+> > in a non-preemptible context, except for the *_nolock() variants.
+> > These generic allocators may sleep due to their use of spin_lock().
+> >
+> > In other words, calling __get_free_pages(), even with GFP_ATOMIC,
+> > is not allowed in __kpti_install_ng_mappings(), which is executed by
+> > the stopper thread where preemption is disabled under PREEMPT_RT.
+> >
+> > To address this, preallocate the page needed for the temporary PGD
+> > before invoking __kpti_install_ng_mappings() via stop_machine().
+> >
+> > Fixes: 47546a1912fc ("arm64: mm: install KPTI nG mappings with MMU enabled")
+> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+> > ---
+> >  arch/arm64/mm/mmu.c | 21 ++++++++++++---------
+> >  1 file changed, 12 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+> > index 120874a2d35b..6ea5b80ab54f 100644
+> > --- a/arch/arm64/mm/mmu.c
+> > +++ b/arch/arm64/mm/mmu.c
+> > @@ -1360,7 +1360,7 @@ static phys_addr_t __init kpti_ng_pgd_alloc(enum pgtable_type type)
+> >  	return kpti_ng_temp_alloc;
+> >  }
+> >
+> > -static int __init __kpti_install_ng_mappings(void *__unused)
+> > +static int __init __kpti_install_ng_mappings(void *data)
+> >  {
+> >  	typedef void (kpti_remap_fn)(int, int, phys_addr_t, unsigned long);
+> >  	extern kpti_remap_fn idmap_kpti_install_ng_mappings;
+> > @@ -1368,10 +1368,9 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+> >
+> >  	int cpu = smp_processor_id();
+> >  	int levels = CONFIG_PGTABLE_LEVELS;
+> > -	int order = order_base_2(levels);
+> >  	u64 kpti_ng_temp_pgd_pa = 0;
+> >  	pgd_t *kpti_ng_temp_pgd;
+> > -	u64 alloc = 0;
+> > +	u64 alloc = *(u64 *)data;
+> >
+> >  	if (levels == 5 && !pgtable_l5_enabled())
+> >  		levels = 4;
+> > @@ -1382,8 +1381,6 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+> >
+> >  	if (!cpu) {
+> >  		int ret;
+> > -
+> > -		alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
+> >  		kpti_ng_temp_pgd = (pgd_t *)(alloc + (levels - 1) * PAGE_SIZE);
+> >  		kpti_ng_temp_alloc = kpti_ng_temp_pgd_pa = __pa(kpti_ng_temp_pgd);
+> >
+> > @@ -1414,16 +1411,16 @@ static int __init __kpti_install_ng_mappings(void *__unused)
+> >  	remap_fn(cpu, num_online_cpus(), kpti_ng_temp_pgd_pa, KPTI_NG_TEMP_VA);
+> >  	cpu_uninstall_idmap();
+> >
+> > -	if (!cpu) {
+> > -		free_pages(alloc, order);
+> > +	if (!cpu)
+> >  		arm64_use_ng_mappings = true;
+> > -	}
+> >
+> >  	return 0;
+> >  }
+> >
+> >  void __init kpti_install_ng_mappings(void)
+> >  {
+> > +	int order = order_base_2(CONFIG_PGTABLE_LEVELS);
+> > +	u64 alloc;
+> >  	/* Check whether KPTI is going to be used */
+> >  	if (!arm64_kernel_unmapped_at_el0())
+> >  		return;
+> > @@ -1436,8 +1433,14 @@ void __init kpti_install_ng_mappings(void)
+> >  	if (arm64_use_ng_mappings)
+> >  		return;
+> >
+> > +	alloc = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
+> > +	if (!alloc)
+> > +		panic("Failed to alloc page tables\n");
 >
-> Why do we need to rewalk the page-table here instead of collating the
-> number of block mappings we put down when creating the linear map in
-> the first place?
+> Why are you adding this panic?
 
-First, linear alias of the [_text, __init_begin) is not a target for
-the split and it also seems strange to me to add code inside alloc_init_XXX()
-that both checks an address range and counts to get the number of block mappings.
-
-Second, for a future feature,
-I hope to add some code to split "specfic" area to be spilt e.x)
-to set a specific pkey for specific area.
-
-In this case, it's useful to rewalk the page-table with the specific
-range to get the number of block mapping.
-
->
-> > +	split_pgtables_idx = 0;
-> > +	split_pgtables_count = 0;
-> > +
-> > +	ret = walk_kernel_page_table_range_lockless(lstart, kstart,
-> > +						    &collect_to_split_ops,
-> > +						    NULL, NULL);
-> > +	if (!ret)
-> > +		ret = walk_kernel_page_table_range_lockless(kend, lend,
-> > +							    &collect_to_split_ops,
-> > +							    NULL, NULL);
-> > +	if (ret || !split_pgtables_count)
-> > +		goto error;
-> > +
-> > +	ret = -ENOMEM;
-> > +
-> > +	split_pgtables = kvmalloc(split_pgtables_count * sizeof(struct ptdesc *),
-> > +				  GFP_KERNEL | __GFP_ZERO);
-> > +	if (!split_pgtables)
-> > +		goto error;
-> > +
-> > +	for (i = 0; i < split_pgtables_count; i++) {
-> > +		/* The page table will be filled during splitting, so zeroing it is unnecessary. */
-> > +		split_pgtables[i] = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
-> > +		if (!split_pgtables[i])
-> > +			goto error;
->
-> This looks potentially expensive on the boot path and only gets worse as
-> the amount of memory grows. Maybe we should predicate this preallocation
-> on preempt-rt?
-
-Agree. then I'll apply pre-allocation with PREEMPT_RT only.
-
-Thanks for your review.
+Because original code call the panic() when it fails to create
+mapping of kpti_ng_temp_pgd and I think allocation is also part
+of creating kpti_ng_temp_pgd too.
+So, I added this panic() when allocation is failed for kpti_ng_temp_pgd.
 
 --
 Sincerely,
