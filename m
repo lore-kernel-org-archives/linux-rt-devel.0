@@ -1,49 +1,47 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D244522FE0E
-	for <linux-rt-devel@lists.linux.dev>; Mon, 19 Jan 2026 12:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86303033FA;
+	Mon, 19 Jan 2026 17:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768824412; cv=none; b=iHa8uQdRaoXi+95MOPKaClize8zVU0lxZuw3xcJsrErmVCLeUE1E6Ixu1G5Eo8aF4kgHkZ0rMfE6c0LsKWM0FpyTI3AbBh86hQr655lMt5Q6m/ThYV6l7AsubG5TNpx7ThuLGT4xw/sAbZ4VVWhK2XcSScIYNmxf+FW3j5YPQr4=
+	t=1768843743; cv=none; b=BPSXUxJMvy4pzKWNhG458WmSKRK5TUU3WRb3jbyzpXffabwJuPXseoSaBt9wg2wYZ46AP3WEq7Q3hxk6FYtfO3DDMmjSWFqWEMR+PZMwoqntS7MQ8zw7Ar90+RFKgdm2QjJbz+h613XGpUZdq12MzpSQ7HCLjNeu++ajCzOLGTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768824412; c=relaxed/simple;
-	bh=pYS6b2o5I8/LsW64YrWNylrncmSozhUOW9F9cMbip/o=;
+	s=arc-20240116; t=1768843743; c=relaxed/simple;
+	bh=VSaRBPhMwDUDvys3EnSvaAtLjqimGoG5C1rbWN41zss=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oi/kvhW4xYNQLPJ80C1aob5FfmA62LCCEe1J9T/d3Gc2clcBRxkAv+oyEL09++6zDEY3s5JZz8vTNQXrqQu9aHPkcyByNY+QZiyhKwmg99Dv6pq2d9TXY3N56AmQX4u/1+fZPcVUuCRMNLMWiBnRwgxg1wlk0NVZV2TFYrk6m9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ujesgdvy; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=fRG9s8jZkSTtZWS5JQA7hOMUq826JDi0C+ZBviL/5qiuryKTUzM0ZFqQ+RMOZRZcvismpgr1MBTQfAW86RRSl332LMuw8gU7ZKh/9dnN+zoihTWQPwmne0wpK/nF5sXlsbghgKQodTEa8u+ZArukEhECn01/59lOZ67ZJ3pji0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nQQViHD3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ujesgdvy"
-Date: Mon, 19 Jan 2026 20:06:35 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768824407;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lpMiDKyrIJgj/yq5I6LOa2WeBqzXUsHVn4Q35ITZoyg=;
-	b=ujesgdvyRBm28X880BAWZx79BMQ8RohqEjA7JqLuDJpP/DmSQXgQ+8bYT7NuR+jJvmzVhR
-	ljG7a5fFdVjNZaMsXyB0IzFcHjxszBq1zB2xjT5RXzCvPaoGf+cnw3Vk3/ji1INMlA3uik
-	Aum7CZXs5jKjjyUuw5WRcMWNV65zXr4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 07/21] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
-Message-ID: <gv3ixsxai47hjv2pzpnptcjeqw7ikt5nnds22hkxlbtk7wgnfd@rzzcijtth6f6>
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-7-5595cb000772@suse.cz>
- <aW2zmf4dXL5C_Iu2@hyeyoo>
- <e4831aab-40e6-48ec-a4b9-1967bd0d6a4c@suse.cz>
- <008029ff-3fd8-49cf-8aa7-71b98dc15be9@suse.cz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nQQViHD3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E04DC116C6;
+	Mon, 19 Jan 2026 17:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768843742;
+	bh=VSaRBPhMwDUDvys3EnSvaAtLjqimGoG5C1rbWN41zss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nQQViHD3Omr6dYepJRuFBaBqjCLsKYGcd4a4bTlRtVMELBDHhMA91ANBQANlFcoFV
+	 hgIWgykCS2f3erLk0fpWpiC4klD/+2p5UFne9yCt4YzKgcBhKSfFeRVuIWg+cJ2rVV
+	 yvgSi2eFzPxyEuoD0A+KBSGbiWJ8qDcBW+xCUDQGJ+UdUuhh3l4UfAkad7ecVecLND
+	 XkNI35ireWIn7D66fFHmF5O9FktztlY4gXeXfMDt7qrC1TKoMg9SwE8TCb+qCF07Eh
+	 92zYn7/qNa3efLLc66ad6PodMRWdOTV0K/rQSw4S9U7Qmk55isDPGLRcMkeMqj+7Cj
+	 s7O2mWA6IA+bA==
+Date: Mon, 19 Jan 2026 17:28:55 +0000
+From: Will Deacon <will@kernel.org>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, catalin.marinas@arm.com,
+	ryan.roberts@arm.com, akpm@linux-oundation.org, david@kernel.org,
+	kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com, dev.jain@arm.com,
+	yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
+	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+	lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+	vbabka@suse.cz, mhocko@suse.com
+Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while
+ splitting the linear mapping
+Message-ID: <aW5p1ylQBNXTEmmq@willie-the-truck>
+References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
+ <20260105202328.2418990-3-yeoreum.yun@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,88 +50,54 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <008029ff-3fd8-49cf-8aa7-71b98dc15be9@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260105202328.2418990-3-yeoreum.yun@arm.com>
 
-On Mon, Jan 19, 2026 at 11:23:04AM +0100, Vlastimil Babka wrote:
-> On 1/19/26 11:09, Vlastimil Babka wrote:
-> > On 1/19/26 05:31, Harry Yoo wrote:
-> >> On Fri, Jan 16, 2026 at 03:40:27PM +0100, Vlastimil Babka wrote:
-> >>> Before we enable percpu sheaves for kmalloc caches, we need to make sure
-> >>> kmalloc_nolock() and kfree_nolock() will continue working properly and
-> >>> not spin when not allowed to.
-> >>> 
-> >>> Percpu sheaves themselves use local_trylock() so they are already
-> >>> compatible. We just need to be careful with the barn->lock spin_lock.
-> >>> Pass a new allow_spin parameter where necessary to use
-> >>> spin_trylock_irqsave().
-> >>> 
-> >>> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
-> >>> for now it will always fail until we enable sheaves for kmalloc caches
-> >>> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
-> >>> 
-> >>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >>> ---
-> >> 
-> >> Looks good to me,
-> >> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-> > 
-> > Thanks.
-> > 
-> >> 
-> >> with a nit below.
-> >> 
-> >>>  mm/slub.c | 79 ++++++++++++++++++++++++++++++++++++++++++++-------------------
-> >>>  1 file changed, 56 insertions(+), 23 deletions(-)
-> >>> 
-> >>> diff --git a/mm/slub.c b/mm/slub.c
-> >>> index 706cb6398f05..b385247c219f 100644
-> >>> --- a/mm/slub.c
-> >>> +++ b/mm/slub.c
-> >>> @@ -6703,7 +6735,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
-> >>>  
-> >>>  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
-> >>>  	    && likely(!slab_test_pfmemalloc(slab))) {
-> >>> -		if (likely(free_to_pcs(s, object)))
-> >>> +		if (likely(free_to_pcs(s, object, true)))
-> >>>  			return;
-> >>>  	}
-> >>>  
-> >>> @@ -6964,7 +6996,8 @@ void kfree_nolock(const void *object)
-> >>>  	 * since kasan quarantine takes locks and not supported from NMI.
-> >>>  	 */
-> >>>  	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
-> >>> -	do_slab_free(s, slab, x, x, 0, _RET_IP_);
-> >>> +	if (!free_to_pcs(s, x, false))
-> >>> +		do_slab_free(s, slab, x, x, 0, _RET_IP_);
-> >>>  }
-> >> 
-> >> nit: Maybe it's not that common but should we bypass sheaves if
-> >> it's from remote NUMA node just like slab_free()?
-> > 
-> > Right, will do.
-> 
-> However that means sheaves will help less with the defer_free() avoidance
-> here. It becomes more obvious after "slab: remove the do_slab_free()
-> fastpath". All remote object frees will be deferred. Guess we can revisit
-> later if we see there are too many and have no better solution...
+On Mon, Jan 05, 2026 at 08:23:27PM +0000, Yeoreum Yun wrote:
+> +static int __init linear_map_prealloc_split_pgtables(void)
+> +{
+> +	int ret, i;
+> +	unsigned long lstart = _PAGE_OFFSET(vabits_actual);
+> +	unsigned long lend = PAGE_END;
+> +	unsigned long kstart = (unsigned long)lm_alias(_stext);
+> +	unsigned long kend = (unsigned long)lm_alias(__init_begin);
+> +
+> +	const struct mm_walk_ops collect_to_split_ops = {
+> +		.pud_entry	= collect_to_split_pud_entry,
+> +		.pmd_entry	= collect_to_split_pmd_entry
+> +	};
 
-This makes sense to me, and the commit looks good as well. Thanks!
+Why do we need to rewalk the page-table here instead of collating the
+number of block mappings we put down when creating the linear map in
+the first place?
 
-Reviewed-by: Hao Li <hao.li@linux.dev>
+> +	split_pgtables_idx = 0;
+> +	split_pgtables_count = 0;
+> +
+> +	ret = walk_kernel_page_table_range_lockless(lstart, kstart,
+> +						    &collect_to_split_ops,
+> +						    NULL, NULL);
+> +	if (!ret)
+> +		ret = walk_kernel_page_table_range_lockless(kend, lend,
+> +							    &collect_to_split_ops,
+> +							    NULL, NULL);
+> +	if (ret || !split_pgtables_count)
+> +		goto error;
+> +
+> +	ret = -ENOMEM;
+> +
+> +	split_pgtables = kvmalloc(split_pgtables_count * sizeof(struct ptdesc *),
+> +				  GFP_KERNEL | __GFP_ZERO);
+> +	if (!split_pgtables)
+> +		goto error;
+> +
+> +	for (i = 0; i < split_pgtables_count; i++) {
+> +		/* The page table will be filled during splitting, so zeroing it is unnecessary. */
+> +		split_pgtables[i] = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
+> +		if (!split_pgtables[i])
+> +			goto error;
 
-> 
-> >>>  EXPORT_SYMBOL_GPL(kfree_nolock);
-> >>>  
-> >>> @@ -7516,7 +7549,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
-> >>>  		size--;
-> >>>  	}
-> >>>  
-> >>> -	i = alloc_from_pcs_bulk(s, size, p);
-> >>> +	i = alloc_from_pcs_bulk(s, flags, size, p);
-> >>>  
-> >>>  	if (i < size) { >  		/*
-> >>> 
-> >> 
-> > 
-> 
+This looks potentially expensive on the boot path and only gets worse as
+the amount of memory grows. Maybe we should predicate this preallocation
+on preempt-rt?
+
+Will
