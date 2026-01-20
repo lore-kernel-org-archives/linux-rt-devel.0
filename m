@@ -1,146 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A99C3BC4E6
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 08:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C903D6495
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 09:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768899385; cv=none; b=FXRtytmx4x/s/ytpVTuE4NX693CgsejpQaIhh7qfKy0/y95n75a/CvH37Xr9ulNv1V6o3+tqaYmGXhF2XZpPmX2LMlpeX6ARRv67+DhysCls3R3XK7mO8wrfITZ5FT7fT7uAhhHvcRYIYWbJyEKDz5pSAWOTzk5TUbkYNQv0S9A=
+	t=1768901304; cv=none; b=A4vb1wrIhCrBBbeMTw8o92cudnsrh1iQPXpC37njPLQlS4UCffvjWpf+OKferZNvbQrp4brLFUupecaAc4IEAESqg9y7gz7oHLxClkVPOblCb63xRunvbV6dI748XOolW3LCPXX+lcOWk8508iuXegQR5BcVz7O7IwRYl0FP8wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768899385; c=relaxed/simple;
-	bh=h6aTgqrs9iaD3xYpFr6nfljLfGH45suE9udXBkZ6mnI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tA5KjqBPQEZ11MGhC6jZ/P0kBbiAT49vGQQlvapgzLuRXP8hfVMjGbnLkhe1daJhQjDu78c+ychjSbWp9LpQBeR8j6vZqgVnRUMh/Lm3Nj16ElpWfwesIghf9yyKIWhgafQikLc432Bf9/zD/cj+T4urSfLGomnS+9KqdZSzMgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFBC91476;
-	Tue, 20 Jan 2026 00:56:10 -0800 (PST)
-Received: from [10.57.93.204] (unknown [10.57.93.204])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2603C3F740;
-	Tue, 20 Jan 2026 00:56:14 -0800 (PST)
-Message-ID: <2619166b-13ef-4daa-82c7-1d44035a8d6c@arm.com>
-Date: Tue, 20 Jan 2026 08:56:12 +0000
+	s=arc-20240116; t=1768901304; c=relaxed/simple;
+	bh=tF+/Q1zpGPKP7S1gEkff+3mK4nJPCY1uhXiIUOb24yM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=vAi1gfQlYTAIbfAam+CGvrgqWH5orJsD3ytOBXnNnHASj8Ws/Rx0m+g6mLhtQiowa2PZo0xPMSPd4g8ZyKJJ2UoemQ+koTFtlany9hgs3UR8Q0YQWXlcAcVII/bhkWov7xocpPzWC7LrGlICRHdJLXQXpk5W9vV7mSk0khQwLDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Bxk19jXH; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Bxk19jXH"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 0A75C4E421A7;
+	Tue, 20 Jan 2026 09:28:21 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D1C49606AB;
+	Tue, 20 Jan 2026 09:28:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6696A10B6B33B;
+	Tue, 20 Jan 2026 10:28:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1768901299; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=kfKKpvlYqdhVG1MSbcOkt2TctRFDQWBk7FAh8gTzIEA=;
+	b=Bxk19jXHSvMkrFaV7gkDBGi2SEyv8Y1BFRjI9oIQubMADjPilvp8FrfWeFhJX8YPgmsLPH
+	5Tm+i/Nu9dfnau1YPgGY87OmKnLv2wk6f9Y4qwGd420JLwPnexBrPKRmMte+b6uhte4iHd
+	J0/tbcHnIuSDwdMEY7mLFzd66w46HA2qvRAapibeHMLOJVFpg0qgQwdQJuNJ2z03C2MFr7
+	qcTbk20m55ILHZoumNubl58BE+0t1XUuU76d1WmNPv2UUdcpJ+r8k1L7k/5krq7DGHY1CH
+	sFhp912BQ7qzh8PpIcYxS2vk57ElasZC/KQG2kibOPoYW3+BRV9DO5MmIutkcw==
+From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+Date: Tue, 20 Jan 2026 10:28:01 +0100
+Subject: [PATCH v5 1/6] i2c: designware: Optimize flag reading in
+ i2c_dw_read()
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while splitting
- the linear mapping
-Content-Language: en-GB
-To: Yeoreum Yun <yeoreum.yun@arm.com>, Will Deacon <will@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, catalin.marinas@arm.com,
- akpm@linux-oundation.org, david@kernel.org, kevin.brodsky@arm.com,
- quic_zhenhuah@quicinc.com, dev.jain@arm.com, yang@os.amperecomputing.com,
- chaitanyas.prakash@arm.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
- rostedt@goodmis.org, lorenzo.stoakes@oracle.com, ardb@kernel.org,
- jackmanb@google.com, vbabka@suse.cz, mhocko@suse.com
-References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
- <20260105202328.2418990-3-yeoreum.yun@arm.com>
- <aW5p1ylQBNXTEmmq@willie-the-truck> <aW6hISBu3hNYS771@e129823.arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <aW6hISBu3hNYS771@e129823.arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260120-i2c-dw-v5-1-0e34d6d9455c@bootlin.com>
+References: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
+In-Reply-To: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
+To: Andi Shyti <andi.shyti@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jan Dabros <jsd@semihalf.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 19/01/2026 21:24, Yeoreum Yun wrote:
-> Hi Will,
-> 
->> On Mon, Jan 05, 2026 at 08:23:27PM +0000, Yeoreum Yun wrote:
->>> +static int __init linear_map_prealloc_split_pgtables(void)
->>> +{
->>> +	int ret, i;
->>> +	unsigned long lstart = _PAGE_OFFSET(vabits_actual);
->>> +	unsigned long lend = PAGE_END;
->>> +	unsigned long kstart = (unsigned long)lm_alias(_stext);
->>> +	unsigned long kend = (unsigned long)lm_alias(__init_begin);
->>> +
->>> +	const struct mm_walk_ops collect_to_split_ops = {
->>> +		.pud_entry	= collect_to_split_pud_entry,
->>> +		.pmd_entry	= collect_to_split_pmd_entry
->>> +	};
->>
->> Why do we need to rewalk the page-table here instead of collating the
->> number of block mappings we put down when creating the linear map in
->> the first place?
+Optimize the i2c_dw_read() function by reading the message flags only
+once per message, rather than for every byte.
 
-That's a good point; perhaps we can reuse the counters that this series introduces?
+The message flags are accessed both in the outer loop and the inner loop,
+so move the declaration of the local flags variable to the outer loop.
 
-https://lore.kernel.org/all/20260107002944.2940963-1-yang@os.amperecomputing.com/
+The message index is only modified by the outer loop, so reading the
+flags in the inner loop was always getting the same value.
 
-> 
-> First, linear alias of the [_text, __init_begin) is not a target for
-> the split and it also seems strange to me to add code inside alloc_init_XXX()
-> that both checks an address range and counts to get the number of block mappings.
-> 
-> Second, for a future feature,
-> I hope to add some code to split "specfic" area to be spilt e.x)
-> to set a specific pkey for specific area.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Benoît Monin <benoit.monin@bootlin.com>
+---
+ drivers/i2c/busses/i2c-designware-master.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Could you give more detail on this? My working assumption is that either the
-system supports BBML2 or it doesn't. If it doesn't, we need to split the whole
-linear map. If it does, we already have logic to split parts of the linear map
-when needed.
+diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
+index 45bfca05bb30..4493568e2fa3 100644
+--- a/drivers/i2c/busses/i2c-designware-master.c
++++ b/drivers/i2c/busses/i2c-designware-master.c
+@@ -593,11 +593,12 @@ i2c_dw_read(struct dw_i2c_dev *dev)
+ 	unsigned int rx_valid;
+ 
+ 	for (; dev->msg_read_idx < dev->msgs_num; dev->msg_read_idx++) {
++		u32 flags = msgs[dev->msg_read_idx].flags;
+ 		unsigned int tmp;
+ 		u32 len;
+ 		u8 *buf;
+ 
+-		if (!(msgs[dev->msg_read_idx].flags & I2C_M_RD))
++		if (!(flags & I2C_M_RD))
+ 			continue;
+ 
+ 		if (!(dev->status & STATUS_READ_IN_PROGRESS)) {
+@@ -611,8 +612,6 @@ i2c_dw_read(struct dw_i2c_dev *dev)
+ 		regmap_read(dev->map, DW_IC_RXFLR, &rx_valid);
+ 
+ 		for (; len > 0 && rx_valid > 0; len--, rx_valid--) {
+-			u32 flags = msgs[dev->msg_read_idx].flags;
+-
+ 			regmap_read(dev->map, DW_IC_DATA_CMD, &tmp);
+ 			tmp &= DW_IC_DATA_CMD_DAT;
+ 			/* Ensure length byte is a valid value */
 
-> 
-> In this case, it's useful to rewalk the page-table with the specific
-> range to get the number of block mapping.
-> 
->>
->>> +	split_pgtables_idx = 0;
->>> +	split_pgtables_count = 0;
->>> +
->>> +	ret = walk_kernel_page_table_range_lockless(lstart, kstart,
->>> +						    &collect_to_split_ops,
->>> +						    NULL, NULL);
->>> +	if (!ret)
->>> +		ret = walk_kernel_page_table_range_lockless(kend, lend,
->>> +							    &collect_to_split_ops,
->>> +							    NULL, NULL);
->>> +	if (ret || !split_pgtables_count)
->>> +		goto error;
->>> +
->>> +	ret = -ENOMEM;
->>> +
->>> +	split_pgtables = kvmalloc(split_pgtables_count * sizeof(struct ptdesc *),
->>> +				  GFP_KERNEL | __GFP_ZERO);
->>> +	if (!split_pgtables)
->>> +		goto error;
->>> +
->>> +	for (i = 0; i < split_pgtables_count; i++) {
->>> +		/* The page table will be filled during splitting, so zeroing it is unnecessary. */
->>> +		split_pgtables[i] = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
->>> +		if (!split_pgtables[i])
->>> +			goto error;
->>
->> This looks potentially expensive on the boot path and only gets worse as
->> the amount of memory grows. Maybe we should predicate this preallocation
->> on preempt-rt?
-> 
-> Agree. then I'll apply pre-allocation with PREEMPT_RT only.
-
-I guess I'm missing something obvious but I don't understand the problem here...
-We are only deferring the allocation of all these pgtables, so the cost is
-neutral surely? Had we correctly guessed that the system doesn't support BBML2
-earlier, we would have had to allocate all these pgtables earlier.
-
-Another way to look at it is that we are still allocating the same number of
-pgtables in the existing fallback path, it's just that we are doing it inside
-the stop_machine().
-
-My vote would be _not_ to have a separate path for PREEMPT_RT, which will end up
-with significantly less testing...
-
-Thanks,
-Ryan
-
-> 
-> Thanks for your review.
-> 
-> --
-> Sincerely,
-> Yeoreum Yun
+-- 
+2.52.0
 
