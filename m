@@ -1,31 +1,31 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38BC426EC2
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 12:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0093E426D1E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 12:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768910824; cv=none; b=PW9m5VBscezzgXan+vHfXf3P+DD4FHeV4PQUEQBDsUs7kKr1jCURZynr3Bd794PWvZnSYJyqUXesNwzCDlkJulITNH9303HDE365y4/GtdX7R20iofRkBc1ix26jvsdakVdAMLw6O3b6B/gaUwDPvns61hl5RHjMqAMtuYlI3+I=
+	t=1768911088; cv=none; b=IhawLhP81KDNgqC0Mi6HEMQAxjvk2foPPwHgcUONa3VR+DhkJwx6FF2A/Wqv7WgzCJk68cMCFdPDn+zYcvsxUFFVW3mSDPwAB2uZhcoxqEirz9nT8ozfNUIUyBcVLLCVpaE4IPXfhkyLca5eet1VdwYgcr9fMgP0jG+SIfWtxKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768910824; c=relaxed/simple;
-	bh=MVmlu/hmEOHWdiv/wcYkq4TPcwJdrG2iSYOfoHRcgQ4=;
+	s=arc-20240116; t=1768911088; c=relaxed/simple;
+	bh=pEnfeULKBhJxNamTxUnPO+8JkY5cm0XWckh3IDcPkGA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MeIW3kTNcM2ewwsoDmODIOjWufFbC6XYq3cUnQICE6Pe37IKJBkkB3/ItzsOXoR4WnWgdc5pBSq3Hhb6hAMhiM5YBTgTyhcfToiQYqVQnnPEnZy4Ugpp79ZSBv7rtkj5cNkeVlI/W4OxndgmCpI0k/lCClWI1IbBmmU6PQ2NysU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=B3tfj/CD; arc=none smtp.client-ip=95.215.58.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=PWLzfekndin3gocoEzFnalFtQVk8KqtCioNo6Kx59pUrv9MFCyNUpb6DRlvN78wyAOADjRyAB5altL48ti5zQGWm8HYeWbV5gGVGvBAlz6gYVHl8t2XKi6NVNxLAPZB3huB132x7xrcjpyrGFDOWJIMHjS9dfwKbnINZJjFHlhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=q4pTiUAf; arc=none smtp.client-ip=91.218.175.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="B3tfj/CD"
-Date: Tue, 20 Jan 2026 20:06:38 +0800
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="q4pTiUAf"
+Date: Tue, 20 Jan 2026 20:10:55 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768910810;
+	t=1768911084;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ESCIkjisjdBoNxNmZSiugnc2ar1AP8Qe4a9WPcWHEQg=;
-	b=B3tfj/CD7ml1wwxDHlSdZGI2fMeAG9dEZeL8ElH3c2JbaLRx9ONJKwKUhiNLU0mpx9IPvr
-	1JbmxoMW4dMfazWRtJdpKfA/nGUJN7HkWBFmdVUVANTaGNaEzHrowcbvenSZXtPDrzmh8t
-	H9PVU7umQJM8dUNl9IkMFI2cLvTkX44=
+	bh=ft4cfnsazH2fqh82dag3UKKoVEEmk8hPCPptOiIZ6Ls=;
+	b=q4pTiUAfOIKpOsCaPxK7ufMZNY66q32D+T6qXJJExTNSxwJ2okdO2ymUJknkUzAKiW8yBq
+	Q/y0CluMbt79RShE0/KvxS79Bl40SYaVHrdvCs22+iNKnaLsmI+uSrZOev9JWGfCrKcY7O
+	h+6Ys3n0CeZTFZDrSjJWfpDJDu7UQRE=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Hao Li <hao.li@linux.dev>
 To: Vlastimil Babka <vbabka@suse.cz>
@@ -36,10 +36,10 @@ Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
 	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
 	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 14/21] slab: simplify kmalloc_nolock()
-Message-ID: <2tvnelafuozzzfyvmxvflqmx2sepgy7ottnw4n2trkh33rrk6b@oewlapq3smvg>
+Subject: Re: [PATCH v3 11/21] slab: remove SLUB_CPU_PARTIAL
+Message-ID: <3vjyq6wpkvaczzgl3r2qhwi7zdluh6zldejjxnki2hft7vxr52@g7gn4lqbdi3c>
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-14-5595cb000772@suse.cz>
+ <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -48,42 +48,20 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260116-sheaves-for-all-v3-14-5595cb000772@suse.cz>
+In-Reply-To: <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
 X-Migadu-Flow: FLOW_OUT
 
-On Fri, Jan 16, 2026 at 03:40:34PM +0100, Vlastimil Babka wrote:
-> The kmalloc_nolock() implementation has several complications and
-> restrictions due to SLUB's cpu slab locking, lockless fastpath and
-> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
-> things:
+On Fri, Jan 16, 2026 at 03:40:31PM +0100, Vlastimil Babka wrote:
+> We have removed the partial slab usage from allocation paths. Now remove
+> the whole config option and associated code.
 > 
-> - relax the PREEMPT_RT context checks as they were before commit
->   a4ae75d1b6a2 ("slab: fix kmalloc_nolock() context check for
->   PREEMPT_RT") and also reference the explanation comment in the page
->   allocator
-> 
-> - the local_lock_cpu_slab() macros became unused, remove them
-> 
-> - we no longer need to set up lockdep classes on PREEMPT_RT
-> 
-> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
->   since there's no lockless cpu freelist manipulation anymore
-> 
-> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
->   unconditionally. It can also no longer return EBUSY. But trylock
->   failures can still happen so retry with the larger bucket if the
->   allocation fails for any reason.
-> 
-> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
-> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
-> slab freelist, and the alternative is slab_lock() which can be
-> interrupted by a nmi. Clarify the comment to mention it specifically.
-> 
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > ---
->  mm/slab.h |   1 -
->  mm/slub.c | 144 +++++++++++++-------------------------------------------------
->  2 files changed, 29 insertions(+), 116 deletions(-)
+>  mm/Kconfig |  11 ---
+>  mm/slab.h  |  29 ------
+>  mm/slub.c  | 321 ++++---------------------------------------------------------
+>  3 files changed, 19 insertions(+), 342 deletions(-)
 > 
 
 Looks good to me.
