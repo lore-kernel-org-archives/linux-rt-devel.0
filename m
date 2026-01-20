@@ -1,565 +1,235 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE49348466
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 17:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768929611; cv=pass; b=ShcLYzaYdR4AiMZLVu2/RfIh1DaX+GRKfcN1/RY0Qbdn8fSWDVnyk0/I7iS6/xW0U7WFXu3ynMtm52lZSk64kuMiC6u/bzhww7dHQWS2JD0VITeP2tRUwSVIJHtEZlKLvRJ7egpKOztEgWCy2exEizdbLf3OvHrH74alHhwVKb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768929611; c=relaxed/simple;
-	bh=vmFE6Gem1lPQyoSciAtrzm28BM8NUKhCcyfRVDAVyfU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jkB1jywDwSExtvlCjDxDAwkzwpn5FVUSldQvtk7LwXMFvVrnDBCDbMdHIriOGyJi+fcAtD218U4xzh1RvY1tZxVR1QL0YJU9aVYi0U3tx7YEXG9MbXlEYQn7871+1xrkJgbqQA8aEC7Jf5P8RZKeZYq9vO+huxiNtntvAl3ipMc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X+MMG4qJ; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X+MMG4qJ"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-50299648ae9so1458411cf.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 09:20:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768929608; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aUp9mJzeay9rRJiCtU+3vtHvwKLgm7ubp+gSHsuHMHpH9gYd91OwHyu/QthFx5vY+4
-         WaA5srMoRPerNez/I2DvespXl0i5jDhjTrXzotWU2UVRAIvBFkePbx57XhFx78f+4o03
-         a5R1udP1n5pATPIYGF8heIPosSuA8nQeuOlkAYFf0jZsGbF2TmFipSYkSnWVwuXbGgl9
-         EW4KkKDCpYBIqLbKq0gt/hRC9uXz0RZniBFI9YDUVV4vLjjnl+cwAjcoToxXB15NSj0C
-         Llj5iKiGB9LYYpVgODBWWvRdMc5apN8IufcwK17Ps5sTiwlqxoqHN6XOzllawpOd6uAm
-         fXXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XjgInJxzHZA1FL2RVNq/kScJMYVHdTMpDmOcyNlB2Pg=;
-        fh=8zDmdnWmgaX49axodhvaj2R8JHQASJNLoC4U6ZGS/4I=;
-        b=IFBwvYYRyi6E5t9d9a7lBo6sWz3bUP4ukfnVNJbQRSX8M9XtriBJ45hWOJ5jD6vNaY
-         bLsZzuz8F74oBHAJwCYxgxK13LU922fs9Qi152yBx3OvqcVpKt1HF1Xp9lqPaD6q778s
-         z/K5y/TIOX/YIyK6C0jM4rM0Wuy2/5uy4vscvL1lYzyMnO7srgBVN/Jue6j1s/WMt1yK
-         S4WqZZ5/PnB2IaefH1hPpvTo7J/Lr+tym5o95hBpMlXcUGBbLi0d6QUBE8SPoZ8UxfTd
-         WoPkSid/3EMzUoeYROgOAoFf6W92qWxNBzQA1n1O1urVTzuOnTcxrbSwLnr7Y9hVF8D9
-         8Lxg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768929608; x=1769534408; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XjgInJxzHZA1FL2RVNq/kScJMYVHdTMpDmOcyNlB2Pg=;
-        b=X+MMG4qJbgQ08s3y36ofGYBzU6JyfI7tZw8RQut4c+fYPPujNu11aWIU9KT8kVLw+C
-         g9AcfF6xHROpwmqvkhbu/pGNmyuMuFuevQ4IsGnJ2yjO52EvovuEYT1UtpJfX1k1H2O6
-         bHQWxn0geR26Tq05bwkxkkRLWo1ovsDj9EwhG5/pBKxUfl2xy5HZZG7j0C9uayB7aGWs
-         RiyVrbwl7cspRCJGGsrJTFMwQRpAB8QqDT5juPhM3TI9kKMOUIAalVGsKU+vtV4BaGZC
-         5zpjFtXHRDAB7CXGF/EvuZG1+Z0YAPfdA/60/I6xJYqCp/TFXlzZY6D9yPFOgfS+OB8r
-         R2wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768929608; x=1769534408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XjgInJxzHZA1FL2RVNq/kScJMYVHdTMpDmOcyNlB2Pg=;
-        b=RXNz7u+8Fxp4W8R1Gy2imB9WPHsFm0fXFaUjiWyyHUWcKj6BgokWBs+qOYMng/iWZp
-         mdcGN4VRa1qES1cONbw20d02mrhOFSJ1XY6Jd9eCVAVi8s3zl5cJJ6/11o8SZOUNtxe/
-         z1dlx1fkGVU4yAZdLxfE+gFDQ7VQSJKGB50cf1enABv8k8hel0CIanlbEOMb6u3fNTHK
-         oBGr3UDmoqYEzGTFs/g7rdmxCzDJV6hsvxhG8bL8I08t4aIVD98NoYdsn3u8pFOf3hJY
-         eD5020SSGM9EXNk7R/04XuJE7iuBZQxZKVSJuIVN31H2Nh4Gd91mBQ+eVOtmGJgqFl5H
-         4AEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUme0xq3Ilgplja+Neudep+TbI1t+JVH8GF0hS14nv2hrL5cQ7wyjWzCExjv3nbljMMphaojFh1OLgr4e5CiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/ot5jrmVG/zNY/eN3AOEV4KwJssYbpFZRh6bS04Sq/kG9JVqR
-	NnEkBN/effW+mVnHGGsQo67kOvOirZTlGxMbFOjmSR3COcaPpm9XBEno/2r5TO3Uk3gCfzVTkw8
-	kO70nNiZKl4Ij23hvu5EHtbvbhwCywJ/IPnOc+A0R
-X-Gm-Gg: AY/fxX6f0iuB9paRwj4wYu0hhEKAZv5bT4STJYuFA4ObDtE2yyYij8BXNY9kw0KG9rK
-	+HFf/1aS8Jm3CecRZqYsCi5YudTuu/WnTrpPuuOaJuaJSYcztIdrJkOhg/bvFqdHKBDjY+DzXr9
-	9YsC4d1Kz1ZQ7Vt9O9aaDpySd9Sbav5Ey0e/EEQKQ21WwlZUXvqAOMuwzCC5S9HnpmQo4c0aOtV
-	qSoUYIKjrgsjVK1MvhVU7qw1JOJIJ1cr233STNsvoFKdBhNzsNRozut1v0jBIHy+shX42mTGOAc
-	W6gl+6YHqtZg2y4wl5pWT0sD9nrC7SaZSA==
-X-Received: by 2002:ac8:7f49:0:b0:4ed:ff77:1a85 with SMTP id
- d75a77b69052e-502b07275d9mr30014031cf.17.1768929607523; Tue, 20 Jan 2026
- 09:20:07 -0800 (PST)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB813E54B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 17:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768930558; cv=none; b=Kfhz55DVtlwtdPeDKFCH1HCwoONW8WtxCWon1ra0LBniJMO73tAWzb4hvAGTdvppe27WNNmVunaiAGYQuQ6GfosMZZHWj0y3vK8krvdomkLFkRgeGutgQbXpcpoM7jLPMkl2pj+TK9uaXdG7L0bdL1lBfag8kyrVgPpvg/N06js=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768930558; c=relaxed/simple;
+	bh=61GaDNC7Kv3UZFnwLjUGxlQ9uwho7CjDZCfygMeE2io=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M8MyeGTcn8jpBQt1OWu+BsEtbD9XisI1Aa4MtQACPAUFXJ5qI358yyDwzJdlURidmRTTrE0lQ06gKcjKxj2ot8xZk4uCcW4gaEt4VPTmxkHN5Jd4uVraBRz3CSHDKv06Ai4quRxLDnSV5LUepJb52PUDRzND576Af18TpDvxcCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 580AC1476;
+	Tue, 20 Jan 2026 09:35:48 -0800 (PST)
+Received: from [10.1.39.200] (XHFQ2J9959.cambridge.arm.com [10.1.39.200])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F7B73F632;
+	Tue, 20 Jan 2026 09:35:51 -0800 (PST)
+Message-ID: <11a01f4e-9ae5-4001-9f9c-74a746f898cd@arm.com>
+Date: Tue, 20 Jan 2026 17:35:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz>
-In-Reply-To: <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 20 Jan 2026 17:19:56 +0000
-X-Gm-Features: AZwV_Qi9JsdZs4u4zpyMKVEbr1yatFKMUCA5FvcV_dcEEUthHo8JPVRpfNJYn0g
-Message-ID: <CAJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/21] slab: add optimized sheaf refill from partial list
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while splitting
+ the linear mapping
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ catalin.marinas@arm.com, akpm@linux-oundation.org, david@kernel.org,
+ kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com, dev.jain@arm.com,
+ yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+ vbabka@suse.cz, mhocko@suse.com
+References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
+ <20260105202328.2418990-3-yeoreum.yun@arm.com>
+ <aW5p1ylQBNXTEmmq@willie-the-truck> <aW6hISBu3hNYS771@e129823.arm.com>
+ <2619166b-13ef-4daa-82c7-1d44035a8d6c@arm.com>
+ <aW9LCX92T9t8iDco@e129823.arm.com>
+ <baa46ea0-737b-4d9e-b4f4-2eee1476da95@arm.com>
+ <aW-k_D1Q8jpYMPoI@willie-the-truck>
+ <a6c1f21f-43e4-41d2-adb6-c5f9985b3abd@arm.com>
+ <aW+t8S1LfwX3LjRi@e129823.arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <aW+t8S1LfwX3LjRi@e129823.arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
->
-> At this point we have sheaves enabled for all caches, but their refill
-> is done via __kmem_cache_alloc_bulk() which relies on cpu (partial)
-> slabs - now a redundant caching layer that we are about to remove.
->
-> The refill will thus be done from slabs on the node partial list.
-> Introduce new functions that can do that in an optimized way as it's
-> easier than modifying the __kmem_cache_alloc_bulk() call chain.
->
-> Extend struct partial_context so it can return a list of slabs from the
-> partial list with the sum of free objects in them within the requested
-> min and max.
->
-> Introduce get_partial_node_bulk() that removes the slabs from freelist
-> and returns them in the list.
->
-> Introduce get_freelist_nofreeze() which grabs the freelist without
-> freezing the slab.
->
-> Introduce alloc_from_new_slab() which can allocate multiple objects from
-> a newly allocated slab where we don't need to synchronize with freeing.
-> In some aspects it's similar to alloc_single_from_new_slab() but assumes
-> the cache is a non-debug one so it can avoid some actions.
->
-> Introduce __refill_objects() that uses the functions above to fill an
-> array of objects. It has to handle the possibility that the slabs will
-> contain more objects that were requested, due to concurrent freeing of
-> objects to those slabs. When no more slabs on partial lists are
-> available, it will allocate new slabs. It is intended to be only used
-> in context where spinning is allowed, so add a WARN_ON_ONCE check there.
->
-> Finally, switch refill_sheaf() to use __refill_objects(). Sheaves are
-> only refilled from contexts that allow spinning, or even blocking.
->
+On 20/01/2026 16:31, Yeoreum Yun wrote:
+> Hi Ryan,
+> 
+>> On 20/01/2026 15:53, Will Deacon wrote:
+>>> On Tue, Jan 20, 2026 at 10:40:30AM +0000, Ryan Roberts wrote:
+>>>> On 20/01/2026 09:29, Yeoreum Yun wrote:
+>>>>> Hi Ryan
+>>>>>> On 19/01/2026 21:24, Yeoreum Yun wrote:
+>>>>>>> Hi Will,
+>>>>>>>
+>>>>>>>> On Mon, Jan 05, 2026 at 08:23:27PM +0000, Yeoreum Yun wrote:
+>>>>>>>>> +static int __init linear_map_prealloc_split_pgtables(void)
+>>>>>>>>> +{
+>>>>>>>>> +	int ret, i;
+>>>>>>>>> +	unsigned long lstart = _PAGE_OFFSET(vabits_actual);
+>>>>>>>>> +	unsigned long lend = PAGE_END;
+>>>>>>>>> +	unsigned long kstart = (unsigned long)lm_alias(_stext);
+>>>>>>>>> +	unsigned long kend = (unsigned long)lm_alias(__init_begin);
+>>>>>>>>> +
+>>>>>>>>> +	const struct mm_walk_ops collect_to_split_ops = {
+>>>>>>>>> +		.pud_entry	= collect_to_split_pud_entry,
+>>>>>>>>> +		.pmd_entry	= collect_to_split_pmd_entry
+>>>>>>>>> +	};
+>>>>>>>>
+>>>>>>>> Why do we need to rewalk the page-table here instead of collating the
+>>>>>>>> number of block mappings we put down when creating the linear map in
+>>>>>>>> the first place?linear_map_maybe_split_to_ptes(
+>>>>>>
+>>>>>> That's a good point; perhaps we can reuse the counters that this series introduces?
+>>>>>>
+>>>>>> https://lore.kernel.org/all/20260107002944.2940963-1-yang@os.amperecomputing.com/
+>>>>>>
+>>>>>>>
+>>>>>>> First, linear alias of the [_text, __init_begin) is not a target for
+>>>>>>> the split and it also seems strange to me to add code inside alloc_init_XXX()
+>>>>>>> that both checks an address range and counts to get the number of block mappings.
+>>>>>>>
+>>>>>>> Second, for a future feature,
+>>>>>>> I hope to add some code to split "specfic" area to be spilt e.x)
+>>>>>>> to set a specific pkey for specific area.
+>>>>>>
+>>>>>> Could you give more detail on this? My working assumption is that either the
+>>>>>> system supports BBML2 or it doesn't. If it doesn't, we need to split the whole
+>>>>>> linear map. If it does, we already have logic to split parts of the linear map
+>>>>>> when needed.
+>>>>>
+>>>>> This is not for a linear mapping case. but for a "kernel text area".
+>>>>> As a draft, I want to mark some of kernel code can executable
+>>>>> both kernel and eBPF program.
+>>>>> (I'm trying to make eBPF program non-executable kernel code directly
+>>>>> with POE feature).
+>>>>> For this "executable area" both of kernel and eBPF program
+>>>>> -- typical example is exception entry, It need to split that specific
+>>>>> range and mark them with special POE index.
+>>>>
+>>>> Ahh yes, I recall you mentioning this a while back (although I confess all the
+>>>> deatils have fallen out of my head). You'd need to make sure you're definitely
+>>>> not splitting an area of text that the secondary CPUs are executing while they
+>>>> are being held in the pen, since at least one of those CPUs doesn't support BBML2.
+>>>>
+>>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> In this case, it's useful to rewalk the page-table with the specific
+>>>>>>> range to get the number of block mapping.
+>>>>>>>
+>>>>>>>>
+>>>>>>>>> +	split_pgtables_idx = 0;
+>>>>>>>>> +	split_pgtables_count = 0;
+>>>>>>>>> +
+>>>>>>>>> +	ret = walk_kernel_page_table_range_lockless(lstart, kstart,
+>>>>>>>>> +						    &collect_to_split_ops,
+>>>>>>>>> +						    NULL, NULL);
+>>>>>>>>> +	if (!ret)
+>>>>>>>>> +		ret = walk_kernel_page_table_range_lockless(kend, lend,
+>>>>>>>>> +							    &collect_to_split_ops,
+>>>>>>>>> +							    NULL, NULL);
+>>>>>>>>> +	if (ret || !split_pgtables_count)
+>>>>>>>>> +		goto error;
+>>>
+>>> Just noticed this, but why do we check '!split_pgtables_count' here?
+>>> if the page-table is already somehow mapped at page granularity, that
+>>> doesn't necessarily sound like a fatal error to me.
+>>>
+>>>>>>>>> +
+>>>>>>>>> +	ret = -ENOMEM;
+>>>>>>>>> +
+>>>>>>>>> +	split_pgtables = kvmalloc(split_pgtables_count * sizeof(struct ptdesc *),
+>>>>>>>>> +				  GFP_KERNEL | __GFP_ZERO);
+>>>>>>>>> +	if (!split_pgtables)
+>>>>>>>>> +		goto error;
+>>>>>>>>> +
+>>>>>>>>> +	for (i = 0; i < split_pgtables_count; i++) {
+>>>>>>>>> +		/* The page table will be filled during splitting, so zeroing it is unnecessary. */
+>>>>>>>>> +		split_pgtables[i] = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
+>>>>>>>>> +		if (!split_pgtables[i])
+>>>>>>>>> +			goto error;
+>>>>>>>>
+>>>>>>>> This looks potentially expensive on the boot path and only gets worse as
+>>>>>>>> the amount of memory grows. Maybe we should predicate this preallocation
+>>>>>>>> on preempt-rt?
+>>>>>>>
+>>>>>>> Agree. then I'll apply pre-allocation with PREEMPT_RT only.
+>>>>>>
+>>>>>> I guess I'm missing something obvious but I don't understand the problem here...
+>>>>>> We are only deferring the allocation of all these pgtables, so the cost is
+>>>>>> neutral surely? Had we correctly guessed that the system doesn't support BBML2
+>>>>>> earlier, we would have had to allocate all these pgtables earlier.
+>>>>>>
+>>>>>> Another way to look at it is that we are still allocating the same number of
+>>>>>> pgtables in the existing fallback path, it's just that we are doing it inside
+>>>>>> the stop_machine().
+>>>>>>
+>>>>>> My vote would be _not_ to have a separate path for PREEMPT_RT, which will end up
+>>>>>> with significantly less testing...
+>>>>>
+>>>>> IIUC, Will's mention is additional memory allocation for
+>>>>> "split_pgtables" where saved "pre-allocate" page tables.
+>>>>> As the memory increase, definitely this size would increase the cost.
+>>>>
+>>>> Err, so you're referring to the extra kvmalloc()? I don't think that's a big
+>>>> deal is it? you get 512 pointers per page. So the amortized cost is 1/512= 0.2%?
+>>>
+>>> Right, it was the page-table pages I was worried about not the array of
+>>> pointers.
+>>>
+>>>> I suspect we have both misunderstood Will's point...
+>>>
+>>> I probably just got confused by linear_map_free_split_pgtables() as it
+>>> has logic to free unused page-table pages between 'split_pgtables_idx'
+>>> and 'split_pgtables_count', implying that we can over-allocate.
+>>>
+>>> If that is only needed for the error path in
+>>> linear_map_prealloc_split_pgtables(), then perhaps that part should be
+>>> inlined to deal with the case where we fail to allocate part way through.
+>>
+>> I was originally concerned [1] that there could be a race where another CPU
+>> caused the normal splitting machinery to kick in after this cpu determined the
+>> number of required page tables, so there could be some left over in that case.
+>>
+>> On reflection, I guess (hope) that's not possible because we've determined that
+>> some CPUs don't support BBML2. I'm guessing the secondaries haven't been
+>> released to do general work yet?
+> 
+> I don't think so, since the linear_map_maybe_split_to_ptes() called
+> in smp_cpus_done() but in here, secondary cpus already on and
+> it seems schedulable.
+> 
+> That's why although, This is unlikely, after collecting the number of
+> splitiing by other cpu have a possibility to *split* which was counted
+> and at that time I agreed for your comments because of this *low
+> possiblity*.
+> 
+>>
+>> In which case, I agree, this could be simplified and we could just assert that
+>> all pre-allocated pages get used up if there is no error?
+>>
+>> [1] https://lore.kernel.org/all/73ced1db-a2e2-49ea-927e-9fc4a30e771e@arm.com/
+> 
+> So with above reason, I still think it need to sustain the free
+> unused pagetable.
+> 
+> Am I missing something?
 
-Some nits, but otherwise LGTM.
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+My concern is that if a secondary CPU can race and cause a split, that is
+unsound because we have determined that although the primary CPU supports BBML2,
+at least one of the secondary CPUs does not. So splitting a live mapping is unsafe.
 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slub.c | 284 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+-----
->  1 file changed, 264 insertions(+), 20 deletions(-)
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 9bea8a65e510..dce80463f92c 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -246,6 +246,9 @@ struct partial_context {
->         gfp_t flags;
->         unsigned int orig_size;
->         void *object;
-> +       unsigned int min_objects;
-> +       unsigned int max_objects;
-> +       struct list_head slabs;
->  };
->
->  static inline bool kmem_cache_debug(struct kmem_cache *s)
-> @@ -2650,9 +2653,9 @@ static void free_empty_sheaf(struct kmem_cache *s, =
-struct slab_sheaf *sheaf)
->         stat(s, SHEAF_FREE);
->  }
->
-> -static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
-> -                                  size_t size, void **p);
-> -
-> +static unsigned int
-> +__refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int=
- min,
-> +                unsigned int max);
->
->  static int refill_sheaf(struct kmem_cache *s, struct slab_sheaf *sheaf,
->                          gfp_t gfp)
-> @@ -2663,8 +2666,8 @@ static int refill_sheaf(struct kmem_cache *s, struc=
-t slab_sheaf *sheaf,
->         if (!to_fill)
->                 return 0;
->
-> -       filled =3D __kmem_cache_alloc_bulk(s, gfp, to_fill,
-> -                                        &sheaf->objects[sheaf->size]);
-> +       filled =3D __refill_objects(s, &sheaf->objects[sheaf->size], gfp,
-> +                       to_fill, to_fill);
->
->         sheaf->size +=3D filled;
->
-> @@ -3522,6 +3525,63 @@ static inline void put_cpu_partial(struct kmem_cac=
-he *s, struct slab *slab,
->  #endif
->  static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags);
->
-> +static bool get_partial_node_bulk(struct kmem_cache *s,
-> +                                 struct kmem_cache_node *n,
-> +                                 struct partial_context *pc)
-> +{
-> +       struct slab *slab, *slab2;
-> +       unsigned int total_free =3D 0;
-> +       unsigned long flags;
-> +
-> +       /* Racy check to avoid taking the lock unnecessarily. */
-> +       if (!n || data_race(!n->nr_partial))
-> +               return false;
-> +
-> +       INIT_LIST_HEAD(&pc->slabs);
-> +
-> +       spin_lock_irqsave(&n->list_lock, flags);
-> +
-> +       list_for_each_entry_safe(slab, slab2, &n->partial, slab_list) {
-> +               struct freelist_counters flc;
-> +               unsigned int slab_free;
-> +
-> +               if (!pfmemalloc_match(slab, pc->flags))
-> +                       continue;
-> +
-> +               /*
-> +                * determine the number of free objects in the slab racil=
-y
-> +                *
-> +                * due to atomic updates done by a racing free we should =
-not
-> +                * read an inconsistent value here, but do a sanity check=
- anyway
-> +                *
-> +                * slab_free is a lower bound due to subsequent concurren=
-t
-> +                * freeing, the caller might get more objects than reques=
-ted and
-> +                * must deal with it
-> +                */
-> +               flc.counters =3D data_race(READ_ONCE(slab->counters));
-> +               slab_free =3D flc.objects - flc.inuse;
-> +
-> +               if (unlikely(slab_free > oo_objects(s->oo)))
-> +                       continue;
-> +
-> +               /* we have already min and this would get us over the max=
- */
-> +               if (total_free >=3D pc->min_objects
-> +                   && total_free + slab_free > pc->max_objects)
-> +                       break;
-> +
-> +               remove_partial(n, slab);
-> +
-> +               list_add(&slab->slab_list, &pc->slabs);
-> +
-> +               total_free +=3D slab_free;
-> +               if (total_free >=3D pc->max_objects)
-> +                       break;
+I just had a brief chat with Rutland, and he agrees that this _could_ be a
+problem. Basically there is a window between onlining the secondary cpus and
+entering the stop_machine() where one of those cpus _could_ end up doing
+something that causes us to split the linear map.
 
-From the above code it seems like you are trying to get at least
-pc->min_objects and as close as possible to the pc->max_objects
-without exceeding it (with a possibility that we will exceed both
-min_objects and max_objects in one step). Is that indeed the intent?
-Because otherwise could could simplify these conditions to stop once
-you crossed pc->min_objects.
+I'm not immediately sure how to solve that.
 
-> +       }
-> +
-> +       spin_unlock_irqrestore(&n->list_lock, flags);
-> +       return total_free > 0;
-> +}
-> +
->  /*
->   * Try to allocate a partial slab from a specific node.
->   */
-> @@ -4448,6 +4508,33 @@ static inline void *get_freelist(struct kmem_cache=
- *s, struct slab *slab)
->         return old.freelist;
->  }
->
-> +/*
-> + * Get the slab's freelist and do not freeze it.
-> + *
-> + * Assumes the slab is isolated from node partial list and not frozen.
-> + *
-> + * Assumes this is performed only for caches without debugging so we
-> + * don't need to worry about adding the slab to the full list
-
-nit: Missing a period sign at the end of the above sentence.
-
-> + */
-> +static inline void *get_freelist_nofreeze(struct kmem_cache *s, struct s=
-lab *slab)
-
-I was going to comment on similarities between
-get_freelist_nofreeze(), get_freelist() and freeze_slab() and
-possibility of consolidating them but then I saw you removing the
-other functions in the next patch. So, I'm mentioning it here merely
-for other reviewers not to trip on this.
-
-> +{
-> +       struct freelist_counters old, new;
-> +
-> +       do {
-> +               old.freelist =3D slab->freelist;
-> +               old.counters =3D slab->counters;
-> +
-> +               new.freelist =3D NULL;
-> +               new.counters =3D old.counters;
-> +               VM_WARN_ON_ONCE(new.frozen);
-> +
-> +               new.inuse =3D old.objects;
-> +
-> +       } while (!slab_update_freelist(s, slab, &old, &new, "get_freelist=
-_nofreeze"));
-> +
-> +       return old.freelist;
-> +}
-> +
->  /*
->   * Freeze the partial slab and return the pointer to the freelist.
->   */
-> @@ -4471,6 +4558,65 @@ static inline void *freeze_slab(struct kmem_cache =
-*s, struct slab *slab)
->         return old.freelist;
->  }
->
-> +/*
-> + * If the object has been wiped upon free, make sure it's fully initiali=
-zed by
-> + * zeroing out freelist pointer.
-> + *
-> + * Note that we also wipe custom freelist pointers.
-> + */
-> +static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
-> +                                                  void *obj)
-> +{
-> +       if (unlikely(slab_want_init_on_free(s)) && obj &&
-> +           !freeptr_outside_object(s))
-> +               memset((void *)((char *)kasan_reset_tag(obj) + s->offset)=
-,
-> +                       0, sizeof(void *));
-> +}
-> +
-> +static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct sla=
-b *slab,
-> +               void **p, unsigned int count, bool allow_spin)
-> +{
-> +       unsigned int allocated =3D 0;
-> +       struct kmem_cache_node *n;
-> +       unsigned long flags;
-> +       void *object;
-> +
-> +       if (!allow_spin && (slab->objects - slab->inuse) > count) {
-> +
-> +               n =3D get_node(s, slab_nid(slab));
-> +
-> +               if (!spin_trylock_irqsave(&n->list_lock, flags)) {
-> +                       /* Unlucky, discard newly allocated slab */
-> +                       defer_deactivate_slab(slab, NULL);
-> +                       return 0;
-> +               }
-> +       }
-> +
-> +       object =3D slab->freelist;
-> +       while (object && allocated < count) {
-> +               p[allocated] =3D object;
-> +               object =3D get_freepointer(s, object);
-> +               maybe_wipe_obj_freeptr(s, p[allocated]);
-> +
-> +               slab->inuse++;
-> +               allocated++;
-> +       }
-> +       slab->freelist =3D object;
-> +
-> +       if (slab->freelist) {
-
-nit: It's a bit subtle that the checks for slab->freelist here and the
-earlier one for ((slab->objects - slab->inuse) > count) are
-effectively equivalent. That's because this is a new slab and objects
-can't be freed into it concurrently. I would feel better if both
-checks were explicitly the same, like having "bool extra_objs =3D
-(slab->objects - slab->inuse) > count;" and use it for both checks.
-But this is minor, so feel free to ignore.
-
-> +
-> +               if (allow_spin) {
-> +                       n =3D get_node(s, slab_nid(slab));
-> +                       spin_lock_irqsave(&n->list_lock, flags);
-> +               }
-> +               add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> +               spin_unlock_irqrestore(&n->list_lock, flags);
-> +       }
-> +
-> +       inc_slabs_node(s, slab_nid(slab), slab->objects);
-> +       return allocated;
-> +}
-> +
->  /*
->   * Slow path. The lockless freelist is empty or we need to perform
->   * debugging duties.
-> @@ -4913,21 +5059,6 @@ static __always_inline void *__slab_alloc_node(str=
-uct kmem_cache *s,
->         return object;
->  }
->
-> -/*
-> - * If the object has been wiped upon free, make sure it's fully initiali=
-zed by
-> - * zeroing out freelist pointer.
-> - *
-> - * Note that we also wipe custom freelist pointers.
-> - */
-> -static __always_inline void maybe_wipe_obj_freeptr(struct kmem_cache *s,
-> -                                                  void *obj)
-> -{
-> -       if (unlikely(slab_want_init_on_free(s)) && obj &&
-> -           !freeptr_outside_object(s))
-> -               memset((void *)((char *)kasan_reset_tag(obj) + s->offset)=
-,
-> -                       0, sizeof(void *));
-> -}
-> -
->  static __fastpath_inline
->  struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s, gfp_t flags=
-)
->  {
-> @@ -5388,6 +5519,9 @@ static int __prefill_sheaf_pfmemalloc(struct kmem_c=
-ache *s,
->         return ret;
->  }
->
-> +static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
-> +                                  size_t size, void **p);
-> +
->  /*
->   * returns a sheaf that has at least the requested size
->   * when prefilling is needed, do so with given gfp flags
-> @@ -7463,6 +7597,116 @@ void kmem_cache_free_bulk(struct kmem_cache *s, s=
-ize_t size, void **p)
->  }
->  EXPORT_SYMBOL(kmem_cache_free_bulk);
->
-> +static unsigned int
-> +__refill_objects(struct kmem_cache *s, void **p, gfp_t gfp, unsigned int=
- min,
-> +                unsigned int max)
-> +{
-> +       struct slab *slab, *slab2;
-> +       struct partial_context pc;
-> +       unsigned int refilled =3D 0;
-> +       unsigned long flags;
-> +       void *object;
-> +       int node;
-> +
-> +       pc.flags =3D gfp;
-> +       pc.min_objects =3D min;
-> +       pc.max_objects =3D max;
-> +
-> +       node =3D numa_mem_id();
-> +
-> +       if (WARN_ON_ONCE(!gfpflags_allow_spinning(gfp)))
-> +               return 0;
-> +
-> +       /* TODO: consider also other nodes? */
-> +       if (!get_partial_node_bulk(s, get_node(s, node), &pc))
-> +               goto new_slab;
-> +
-> +       list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_list) {
-> +
-> +               list_del(&slab->slab_list);
-> +
-> +               object =3D get_freelist_nofreeze(s, slab);
-> +
-> +               while (object && refilled < max) {
-> +                       p[refilled] =3D object;
-> +                       object =3D get_freepointer(s, object);
-> +                       maybe_wipe_obj_freeptr(s, p[refilled]);
-> +
-> +                       refilled++;
-> +               }
-> +
-> +               /*
-> +                * Freelist had more objects than we can accommodate, we =
-need to
-> +                * free them back. We can treat it like a detached freeli=
-st, just
-> +                * need to find the tail object.
-> +                */
-> +               if (unlikely(object)) {
-> +                       void *head =3D object;
-> +                       void *tail;
-> +                       int cnt =3D 0;
-> +
-> +                       do {
-> +                               tail =3D object;
-> +                               cnt++;
-> +                               object =3D get_freepointer(s, object);
-> +                       } while (object);
-> +                       do_slab_free(s, slab, head, tail, cnt, _RET_IP_);
-> +               }
-> +
-> +               if (refilled >=3D max)
-> +                       break;
-> +       }
-> +
-> +       if (unlikely(!list_empty(&pc.slabs))) {
-> +               struct kmem_cache_node *n =3D get_node(s, node);
-> +
-> +               spin_lock_irqsave(&n->list_lock, flags);
-> +
-> +               list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_lis=
-t) {
-> +
-> +                       if (unlikely(!slab->inuse && n->nr_partial >=3D s=
-->min_partial))
-> +                               continue;
-> +
-> +                       list_del(&slab->slab_list);
-> +                       add_partial(n, slab, DEACTIVATE_TO_HEAD);
-> +               }
-> +
-> +               spin_unlock_irqrestore(&n->list_lock, flags);
-> +
-> +               /* any slabs left are completely free and for discard */
-> +               list_for_each_entry_safe(slab, slab2, &pc.slabs, slab_lis=
-t) {
-> +
-> +                       list_del(&slab->slab_list);
-> +                       discard_slab(s, slab);
-> +               }
-> +       }
-> +
-> +
-> +       if (likely(refilled >=3D min))
-> +               goto out;
-> +
-> +new_slab:
-> +
-> +       slab =3D new_slab(s, pc.flags, node);
-> +       if (!slab)
-> +               goto out;
-> +
-> +       stat(s, ALLOC_SLAB);
-> +
-> +       /*
-> +        * TODO: possible optimization - if we know we will consume the w=
-hole
-> +        * slab we might skip creating the freelist?
-> +        */
-> +       refilled +=3D alloc_from_new_slab(s, slab, p + refilled, max - re=
-filled,
-> +                                       /* allow_spin =3D */ true);
-> +
-> +       if (refilled < min)
-> +               goto new_slab;
-
-Ok, allow_spin=3Dtrue saves us from a potential infinite loop here. LGTM.
-
-> +out:
-> +
-> +       return refilled;
-> +}
-> +
->  static inline
->  int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t si=
-ze,
->                             void **p)
->
+> 
 > --
-> 2.52.0
->
+> Sincerely,
+> Yeoreum Yun
+
