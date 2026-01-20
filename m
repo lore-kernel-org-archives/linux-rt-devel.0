@@ -1,49 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD463D331A;
-	Tue, 20 Jan 2026 11:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38BC426EC2
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 12:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768909486; cv=none; b=SobWT9Ak0HfSLCiEmY8RNgg1OZS0InIE2IZeDqmVjg+upvaoKB9D26auBfkzM4Nmj/+CIi+CAKvcLwX4cEvvqeK9BwIDfe5ENmEUv4rTfHsHVCBcDiHCXckDRZp7kdVrxqkC969hUeEznwp8i15qzIxLRzr38uq8Hxn6FksgUj0=
+	t=1768910824; cv=none; b=PW9m5VBscezzgXan+vHfXf3P+DD4FHeV4PQUEQBDsUs7kKr1jCURZynr3Bd794PWvZnSYJyqUXesNwzCDlkJulITNH9303HDE365y4/GtdX7R20iofRkBc1ix26jvsdakVdAMLw6O3b6B/gaUwDPvns61hl5RHjMqAMtuYlI3+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768909486; c=relaxed/simple;
-	bh=ga7aPYBv6vEC6RDrqtoIEfix9L+QcEdkN3Y8HkPOkcc=;
+	s=arc-20240116; t=1768910824; c=relaxed/simple;
+	bh=MVmlu/hmEOHWdiv/wcYkq4TPcwJdrG2iSYOfoHRcgQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qr1b8PAykA/H+NWCGRyUw4S2W0p5Yy8CB9Fn/4LCyvSi5QjuS4vlnn+dCrrdqWE7qPmMYkhb27NiABvLhpMfUn2kCbo3PEdCAZSiYfNiCwSeCXNS1af3yHS6ps0oFPOaMJmDoSDIfm2KCfT7yW/Awy0hNdgUbx1KYAzhl4Jtw48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkWJRgPu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=MeIW3kTNcM2ewwsoDmODIOjWufFbC6XYq3cUnQICE6Pe37IKJBkkB3/ItzsOXoR4WnWgdc5pBSq3Hhb6hAMhiM5YBTgTyhcfToiQYqVQnnPEnZy4Ugpp79ZSBv7rtkj5cNkeVlI/W4OxndgmCpI0k/lCClWI1IbBmmU6PQ2NysU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=B3tfj/CD; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jkWJRgPu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7FCBC16AAE;
-	Tue, 20 Jan 2026 11:44:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768909485;
-	bh=ga7aPYBv6vEC6RDrqtoIEfix9L+QcEdkN3Y8HkPOkcc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jkWJRgPu/hDvAODxQrnmwrwXOrJbzhZZxMuR/yCH3LeFB1QxK6Ha7I2h5gX6AwOs7
-	 MBxEkhNAkA9yhOuXfLa19twaYItLLp95LIl5/AdD5eOmzGEzjEc2gAEChKWwWMDXmo
-	 p+xpPsDOfCkeqcel6c63KpBx/8pIf/7WrPfw/7hqgRPNc4E8u1fTOXvfJGWtKgHHnn
-	 T2vMcCXqILpEXcjonpn8Z/NKjgQ3dUMTIGo8p/TV0qGHVLT6ty3arWv9biC/diIu9o
-	 M2oWujiT3qterri1I6f6RGMIGwVSDBcTFTluQNvK2gurhgJs+77FF/Mgw7pczNCfOV
-	 sOYi48iM8/xAQ==
-Date: Tue, 20 Jan 2026 11:44:38 +0000
-From: Will Deacon <will@kernel.org>
-To: Yeoreum Yun <yeoreum.yun@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, catalin.marinas@arm.com,
-	ryan.roberts@arm.com, akpm@linux-oundation.org, david@kernel.org,
-	kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com, dev.jain@arm.com,
-	yang@os.amperecomputing.com, chaitanyas.prakash@arm.com,
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
-	lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
-	vbabka@suse.cz, mhocko@suse.com
-Subject: Re: [PATCH v5 3/3] arm64: mmu: avoid allocating pages while
- installing ng-mapping for KPTI
-Message-ID: <aW9qpjyAcFXJNGo4@willie-the-truck>
-References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
- <20260105202328.2418990-4-yeoreum.yun@arm.com>
- <aW5qfh_bsGNRd0Vd@willie-the-truck>
- <aW6idotkGVoD692c@e129823.arm.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="B3tfj/CD"
+Date: Tue, 20 Jan 2026 20:06:38 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1768910810;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESCIkjisjdBoNxNmZSiugnc2ar1AP8Qe4a9WPcWHEQg=;
+	b=B3tfj/CD7ml1wwxDHlSdZGI2fMeAG9dEZeL8ElH3c2JbaLRx9ONJKwKUhiNLU0mpx9IPvr
+	1JbmxoMW4dMfazWRtJdpKfA/nGUJN7HkWBFmdVUVANTaGNaEzHrowcbvenSZXtPDrzmh8t
+	H9PVU7umQJM8dUNl9IkMFI2cLvTkX44=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Li <hao.li@linux.dev>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v3 14/21] slab: simplify kmalloc_nolock()
+Message-ID: <2tvnelafuozzzfyvmxvflqmx2sepgy7ottnw4n2trkh33rrk6b@oewlapq3smvg>
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
+ <20260116-sheaves-for-all-v3-14-5595cb000772@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -52,111 +48,47 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aW6idotkGVoD692c@e129823.arm.com>
+In-Reply-To: <20260116-sheaves-for-all-v3-14-5595cb000772@suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Jan 19, 2026 at 09:30:30PM +0000, Yeoreum Yun wrote:
-> Hi Will,
+On Fri, Jan 16, 2026 at 03:40:34PM +0100, Vlastimil Babka wrote:
+> The kmalloc_nolock() implementation has several complications and
+> restrictions due to SLUB's cpu slab locking, lockless fastpath and
+> PREEMPT_RT differences. With cpu slab usage removed, we can simplify
+> things:
 > 
-> > On Mon, Jan 05, 2026 at 08:23:28PM +0000, Yeoreum Yun wrote:
-> > > The current __kpti_install_ng_mappings() allocates a temporary PGD
-> > > while installing the NG mapping for KPTI under stop_machine(),
-> > > using GFP_ATOMIC.
-> > >
-> > > This is fine in the non-PREEMPT_RT case. However, it becomes a problem
-> > > under PREEMPT_RT because generic memory allocation/free APIs
-> > > (e.g., pgtable_alloc(), __get_free_pages(), etc.) cannot be invoked
-> > > in a non-preemptible context, except for the *_nolock() variants.
-> > > These generic allocators may sleep due to their use of spin_lock().
-> > >
-> > > In other words, calling __get_free_pages(), even with GFP_ATOMIC,
-> > > is not allowed in __kpti_install_ng_mappings(), which is executed by
-> > > the stopper thread where preemption is disabled under PREEMPT_RT.
-> > >
-> > > To address this, preallocate the page needed for the temporary PGD
-> > > before invoking __kpti_install_ng_mappings() via stop_machine().
-> > >
-> > > Fixes: 47546a1912fc ("arm64: mm: install KPTI nG mappings with MMU enabled")
-> > > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> > > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
-> > > ---
-> > >  arch/arm64/mm/mmu.c | 21 ++++++++++++---------
-> > >  1 file changed, 12 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> > > index 120874a2d35b..6ea5b80ab54f 100644
-> > > --- a/arch/arm64/mm/mmu.c
-> > > +++ b/arch/arm64/mm/mmu.c
-> > > @@ -1360,7 +1360,7 @@ static phys_addr_t __init kpti_ng_pgd_alloc(enum pgtable_type type)
-> > >  	return kpti_ng_temp_alloc;
-> > >  }
-> > >
-> > > -static int __init __kpti_install_ng_mappings(void *__unused)
-> > > +static int __init __kpti_install_ng_mappings(void *data)
-> > >  {
-> > >  	typedef void (kpti_remap_fn)(int, int, phys_addr_t, unsigned long);
-> > >  	extern kpti_remap_fn idmap_kpti_install_ng_mappings;
-> > > @@ -1368,10 +1368,9 @@ static int __init __kpti_install_ng_mappings(void *__unused)
-> > >
-> > >  	int cpu = smp_processor_id();
-> > >  	int levels = CONFIG_PGTABLE_LEVELS;
-> > > -	int order = order_base_2(levels);
-> > >  	u64 kpti_ng_temp_pgd_pa = 0;
-> > >  	pgd_t *kpti_ng_temp_pgd;
-> > > -	u64 alloc = 0;
-> > > +	u64 alloc = *(u64 *)data;
-> > >
-> > >  	if (levels == 5 && !pgtable_l5_enabled())
-> > >  		levels = 4;
-> > > @@ -1382,8 +1381,6 @@ static int __init __kpti_install_ng_mappings(void *__unused)
-> > >
-> > >  	if (!cpu) {
-> > >  		int ret;
-> > > -
-> > > -		alloc = __get_free_pages(GFP_ATOMIC | __GFP_ZERO, order);
-> > >  		kpti_ng_temp_pgd = (pgd_t *)(alloc + (levels - 1) * PAGE_SIZE);
-> > >  		kpti_ng_temp_alloc = kpti_ng_temp_pgd_pa = __pa(kpti_ng_temp_pgd);
-> > >
-> > > @@ -1414,16 +1411,16 @@ static int __init __kpti_install_ng_mappings(void *__unused)
-> > >  	remap_fn(cpu, num_online_cpus(), kpti_ng_temp_pgd_pa, KPTI_NG_TEMP_VA);
-> > >  	cpu_uninstall_idmap();
-> > >
-> > > -	if (!cpu) {
-> > > -		free_pages(alloc, order);
-> > > +	if (!cpu)
-> > >  		arm64_use_ng_mappings = true;
-> > > -	}
-> > >
-> > >  	return 0;
-> > >  }
-> > >
-> > >  void __init kpti_install_ng_mappings(void)
-> > >  {
-> > > +	int order = order_base_2(CONFIG_PGTABLE_LEVELS);
-> > > +	u64 alloc;
-> > >  	/* Check whether KPTI is going to be used */
-> > >  	if (!arm64_kernel_unmapped_at_el0())
-> > >  		return;
-> > > @@ -1436,8 +1433,14 @@ void __init kpti_install_ng_mappings(void)
-> > >  	if (arm64_use_ng_mappings)
-> > >  		return;
-> > >
-> > > +	alloc = __get_free_pages(GFP_KERNEL | __GFP_ZERO, order);
-> > > +	if (!alloc)
-> > > +		panic("Failed to alloc page tables\n");
-> >
-> > Why are you adding this panic?
+> - relax the PREEMPT_RT context checks as they were before commit
+>   a4ae75d1b6a2 ("slab: fix kmalloc_nolock() context check for
+>   PREEMPT_RT") and also reference the explanation comment in the page
+>   allocator
 > 
-> Because original code call the panic() when it fails to create
-> mapping of kpti_ng_temp_pgd and I think allocation is also part
-> of creating kpti_ng_temp_pgd too.
-> So, I added this panic() when allocation is failed for kpti_ng_temp_pgd.
+> - the local_lock_cpu_slab() macros became unused, remove them
+> 
+> - we no longer need to set up lockdep classes on PREEMPT_RT
+> 
+> - we no longer need to annotate ___slab_alloc as NOKPROBE_SYMBOL
+>   since there's no lockless cpu freelist manipulation anymore
+> 
+> - __slab_alloc_node() can be called from kmalloc_nolock_noprof()
+>   unconditionally. It can also no longer return EBUSY. But trylock
+>   failures can still happen so retry with the larger bucket if the
+>   allocation fails for any reason.
+> 
+> Note that we still need __CMPXCHG_DOUBLE, because while it was removed
+> we don't use cmpxchg16b on cpu freelist anymore, we still use it on
+> slab freelist, and the alternative is slab_lock() which can be
+> interrupted by a nmi. Clarify the comment to mention it specifically.
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slab.h |   1 -
+>  mm/slub.c | 144 +++++++++++++-------------------------------------------------
+>  2 files changed, 29 insertions(+), 116 deletions(-)
+> 
 
-No. The current code seems to assume the allocation will succeed and
-panic()s if the call to __create_pgd_mapping_locked() returns an error.
+Looks good to me.
+Reviewed-by: Hao Li <hao.li@linux.dev>
 
-Just make this:
-
-	if (WARN_ON(!alloc))
-		return;
-
-Will
+-- 
+Thanks,
+Hao
