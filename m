@@ -1,738 +1,378 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010016.outbound.protection.outlook.com [52.101.69.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC3F3E8C7A
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 22:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768947949; cv=pass; b=FkY4TTC4cEcgv2SKNE+73pYImk5zF3bfcstWhC494jrHddy0rPggSew8Ye4LOvGfdDYYnie/32ojYsK8TFDY9nmQr04HbS1lfOr6vyNHGqZXpRA4+48+vE4kP4KPG0G/8ZSeUkERbfwhrnDdheB8G2DJ1q9JpTAGV8nhEu8CkUg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768947949; c=relaxed/simple;
-	bh=mH5UwSYcm1dzdCI34lZASyNxCkUUEC0D2hK/Rqo3xIc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a6m/hFPGiFsQL76uIjOsFTBDk+EpIlqxq3SL1pq/Wv2tmEv3sScoCGJV5OR+YWXnPaDfFxeZBQa6q7CBBhCxu63WQBxzZI3B1QBoMaCAlgkOYNdzLmNIRVEL7hnxi0EdUvBbJ04V2BxVBX2D0LUlfdgzNmSPKqSd9gLAVsn1Egs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QlsUdDT/; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB65D410D00
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 23:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.16
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1768950167; cv=fail; b=lKBEM9YLL6l766joGL529ep5O6bHPeUoC9LnlqhGHGGl1tgsPhEKVsTnYG0GtDX20EooPWAAm5X0Hpy2KzV/Lo6dhpfIC+xq69JUqwV1hdaZjYk/gKAgbAa8zOWBU2FbbXnRY31OTcAXrTu9ctPWrMZMw0TmVSGI8qACnPxId8c=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1768950167; c=relaxed/simple;
+	bh=cq4QRZik71GrLQ2bADuSnJoYdtEHdz5eoK360tQ8VH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=mQNDiFdNcKyVmm3hclHs3YgiJvGbIO48+P6OZPdVkCT2NcVi0aILK3VPLh+1gWeX5xUPxCUzWKLE6p91hU90Ho+Xe9jFcNqhJiyP9TSBCagpWM46bXhCFGzAczm6EZdiY2IMaPYgYo9cLMmgV1t87zfn86F3egVL1OOYuSWxA0g=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KdGcab47; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KdGcab47; arc=fail smtp.client-ip=52.101.69.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QlsUdDT/"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-50299648ae9so63011cf.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 14:25:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1768947939; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cIp72JL7D525gvZngRt9AW3AuptaHVBh8DNwrMzRTQyVeSbZRDcGiz7RdeAy7She1O
-         SppFitzLLiF6gh4EdwETW1MCroNRcaf+N356fbtLVBaRJdmawVpGdWuo7lEkucAlJYFX
-         plnu03aXi6tPXP5lUce0JCZuswXuBkW5g9ZsMfIfb/Rz1+I9wH5pOnBeP2UdZP5hvdam
-         PEBUBJgKfhC2FUQXd9uRvRPJ1GvcuPjapH3qAQbdtPgCvc90igEXBK9F38pdbo/WU3YV
-         35CnFhZd3D7Xvu6VXRstvGLDJUSv39GJ2qkITBcqlnA10y1//8eXUiJd5M2IJtGz2rFB
-         33gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=44dOOwNB1nzUj6Js371cPSz9QaCzmdjxiuuzpRwtXwc=;
-        fh=FTBj7z7Tz2Q2rH1JnRYqOQw+YWOe55YgeEZXLePXJRk=;
-        b=KXdpEOtEGpuwWxe9dN4BNmZiCE9mKxLEkpbzS0DhDvf/6s4mkomEDNeKA4WHE8p6X3
-         +n24Xuk+TB7aJ+lbnnQ31iQoG8xKXDRcgheo492EG1AIzhQ7SrlHlX71CoGpPS1Ff2p4
-         EVccURFSOmvCSlo0VRKIaxgRUrBHWgRAXSk+aSAAzNO3napW43qSolvuB6tCH8KtX6L5
-         VqClFIa166a6rlcxw74QiTEJrnM7cEIxn+XtVysxD1Tv5OE805DrSUt1B20gILRrYUPZ
-         8Sj1RH2XcqhMcGuTkWGjQyng91gvaOjAKrvRnVfZlcTgG9Zcul8rTxVmHN+PCSvyKbtd
-         4aEQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1768947939; x=1769552739; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=44dOOwNB1nzUj6Js371cPSz9QaCzmdjxiuuzpRwtXwc=;
-        b=QlsUdDT/Fg4M2PSpnTGvkCixW9I+ztpKuoXcmAZ6bjPNpcSOiOwBAmzpQDSZpMW4gZ
-         qI5q+i9iVdUIj79qqu2uK3Jz6MwnTiPwmoFeL9Q2qFN20I4lylBYQfB9WT37tKa6Xup9
-         kawcoH4toL0x2vwpbWaEFLIb6hgYwEI7Djjq3SWizbKvQHLWFrhtnOhttDQtK0a+BsgE
-         S1K17BhUWWDrBWQB8dHjpaNWWyQbHLofe0gdvtN3EDk0Yf5wmLBPp7+ue5mnFOmhciXo
-         HP2U7W/XAPjCHSGFYX2zjQ4pSz3drJX7upz68GYa1uxwNvd3nRcygw89i7kXM5Ty9G7d
-         VXug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1768947939; x=1769552739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=44dOOwNB1nzUj6Js371cPSz9QaCzmdjxiuuzpRwtXwc=;
-        b=xH9porv3sYNZlyx8je4Zd02f3qKZf81k5/Cou7UbJekDXOlizSVEEEFmtFJLOP+WF5
-         sLQsqtjdaZ/QodTPRVxiFsEXYfJqmNy3RzctzGhmLhnd0Ch8OkBLxqQVPguXtvlaPUpc
-         zaa96RVwQW5xaeHQkzM1jhYN/kXb5k6fQCdKurGT0ZyVcoZQYik6QDV8fnkme+LsFH5K
-         2igf5viSYYLz+wpGYttzQ4EVdg0Cg7e1EsHov8QTX+xiOhFKdN4kja54aBtxnWy9ma43
-         szEOCm+VHVzQ8lMBqnFQncgFALSjxw1EW/a0oZl78cducIhGHS2diRtdm/GfjguPi5/t
-         4bew==
-X-Forwarded-Encrypted: i=1; AJvYcCWYm1MBNjOICWSFCcjXGHlaMjGmWjZSB8RY/gp2+yVmADyrV8MUAvgfRvaoPOhYK4q2JEdBI+84WBD4dEokQQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJKhyB+b4Qc1qKTyqRsRZXSHr62ILAwc5Wyz1yjZFASm0UhdjA
-	jhu2DPa8PM29Cimit9EwhqlATRUef5jaLgssJ2hJdu1Z2pX5qjSlUO0g9sXzW7nNLDsOYPIghvh
-	tDRMOKcoH3hA7qBEcy+UAS/znorom2Nc2h6evquRe
-X-Gm-Gg: AY/fxX7LL0cOA7RNHZBW0aXeBtaSvlwG6McLJ9fgedRNXE6CR2IxVBBCsz4x4VPQgv+
-	W1RhzOEfXEXu7buQi7GKmGQvqPrSzoa5TyQRVCWaZTomVfQ0+9uW00x2tOLodxxPSIRLwAvQvfP
-	rLcYzLzT22gSvvnBZ3hnjDYKzNrj4GDYBGHsLuFr4S0eXrkbvACa2JdPftf+lelOwt57ZchnYni
-	oaTNF4V6iLfBLGOKxlImPExnLSjT9LFSOe9wkGeu7LO1jrtE/jBn7Kx5/d9Qgz2Nq9OsFZ0c4A9
-	MPwhO5P9u15c1aoh1FkMMYg=
-X-Received: by 2002:a05:622a:1181:b0:4ed:ff77:1a85 with SMTP id
- d75a77b69052e-502e1ab389cmr1281971cf.17.1768947938936; Tue, 20 Jan 2026
- 14:25:38 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KdGcab47";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KdGcab47"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=D+GYw0KW+QiphutrQ2MlNyY10knkNttZEx9s8+Mr5Yj3e+9/v4QoGg/b8JtxXo2EjFvTgF3p8obUk9nZAR533af0dFhGg1Xlm4Fn9jhFhMyk9TUj0LEgC6ifGlkvAk8jxE394kvnIvT9HMPpwLjI9u4Y9WyEilskY4bMmoN6IngPREL9WQeTn9pgRWqQPyvmQBg+cjxKL6uL3IzWSr6WvFwqoSNU+4hGHwpREp6fCTxk3i1dDz4E7FM8b4mBhmoOXczHcMZXig80k2psX/BuicQDF+Jq+VnKgcivvLtFEjT8Y0ux1fLN+Nmv/cDq1hBlz3iuNU6gTwcsDXOhm1PiHw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YMYQlcg6V9RbaXRxnQ1D0dPnrGNdtOHgkJOeVL4bFSA=;
+ b=MmsAD7C3j5IR4aJz13WE+bdgsP1zBQOe62z2p9YT6q9cxqIRuEUPQ5lFu9lGx1iLOXgLr8EmEAwO8UGZ730oRLTH4oe0oBrePsrwlveQ1aX3fHfgNqMES7Snwl5aQsO8ik1DBRqXR1aF81mU2YtBPBqicRGNtGaQ7QPKKRuUSlhLAhVKOi5fE2Cdpj9/dznYn/yNWf7xs1OBDjKhH1DEwhlU401YUAUo1KTpHwoUSThPVioE8zTS/llDNEO4MxNVi7WbOR+Px1JzP/oYk2lP2YvQM+IsJ/YI4bNTvPjQIAeqwDFSopsWfP4/ltLVYRiFA46RkyCed39CMr91QiKFEQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=os.amperecomputing.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YMYQlcg6V9RbaXRxnQ1D0dPnrGNdtOHgkJOeVL4bFSA=;
+ b=KdGcab475FZxQJRcWg3GxnhoMucFFdz44q/5plhiLMpphgMg2Byoma5pY+12gvrKn/QuTa3mUBDgb5Hh8eR3GI6EL4GocbIaiOM5dHCQaCeker9RBv5i/G2Tb2FzwBHXiqkcyXHgARMH3qvcFYE51Xi6AcZeLqxMKb1v4KWnXFg=
+Received: from CWXP123CA0015.GBRP123.PROD.OUTLOOK.COM (2603:10a6:401:73::27)
+ by DBBPR08MB10625.eurprd08.prod.outlook.com (2603:10a6:10:53b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Tue, 20 Jan
+ 2026 23:02:38 +0000
+Received: from AM4PEPF00027A64.eurprd04.prod.outlook.com
+ (2603:10a6:401:73:cafe::6) by CWXP123CA0015.outlook.office365.com
+ (2603:10a6:401:73::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.9 via Frontend Transport; Tue,
+ 20 Jan 2026 23:02:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AM4PEPF00027A64.mail.protection.outlook.com (10.167.16.75) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.4
+ via Frontend Transport; Tue, 20 Jan 2026 23:02:36 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MYWSCbi0KoMIMHcPQjxQgqz0n0mzH+QVypHYzaUMwJ2rzTE+9W/YxjgTUjH01a9W+qKi9ckIvQXuVoZEReTbpuy+gh7rCEUJreAYWoomy1STzMv3hM42mkanIS66QMIMoU2Hvkv1Gcum+F3m65CWFV5c1+OIoLfRXyG6XiYLJMiQONDRrMKJ2WrCLE8p6xZnO0JfiNKgwJ7wvPGUJh5kzPKSrwQZj4hW4cJrRzBy5eo9b2J5doT4eKfNhR4uuHvgdaLWMJruAHLDeucBOQLEFOqAdNsA4FG+Ti0iStE34Y6MtSb/EeHxchN88uKxhnkX8h1N3y1sE6yG/SRdTd/f9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YMYQlcg6V9RbaXRxnQ1D0dPnrGNdtOHgkJOeVL4bFSA=;
+ b=fF1os7CEYsRG3NeRu1wHbI62j2TnSZLZ0pYjRA7NaVspWD/cHj89UTMvDlgl3m93luGI3TjQmNjyD4rq3ACfTwvaltB3Z2LzSrwR5E9uFo4Q0D16EWS7Phw94SQpypSK15QOpLUDd8OzhJG0i5wp5m5KTmNBASSAdqVNJg8bhPZB3HOucSwu4lv9iYNK6CMtI9T2OlZMp+wM88G3++KXDqtmlb9/bGyEb8b1p/e1J2VbIlc/3BX/dQuJVzdDXEDAzJgeVBqKjlAE+lPLmJMqI5iRm3dMMet99jxKuKd5F6PP/MT4MGbpyp7Vqk9xrnPbub2b6HHYM5y0Q80pKmiq+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YMYQlcg6V9RbaXRxnQ1D0dPnrGNdtOHgkJOeVL4bFSA=;
+ b=KdGcab475FZxQJRcWg3GxnhoMucFFdz44q/5plhiLMpphgMg2Byoma5pY+12gvrKn/QuTa3mUBDgb5Hh8eR3GI6EL4GocbIaiOM5dHCQaCeker9RBv5i/G2Tb2FzwBHXiqkcyXHgARMH3qvcFYE51Xi6AcZeLqxMKb1v4KWnXFg=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20) by VI0PR08MB11062.eurprd08.prod.outlook.com
+ (2603:10a6:800:255::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.10; Tue, 20 Jan
+ 2026 23:01:31 +0000
+Received: from GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::8c9b:58d2:2080:eb98]) by GV1PR08MB10521.eurprd08.prod.outlook.com
+ ([fe80::8c9b:58d2:2080:eb98%3]) with mapi id 15.20.9520.011; Tue, 20 Jan 2026
+ 23:01:31 +0000
+Date: Tue, 20 Jan 2026 23:01:27 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Yang Shi <yang@os.amperecomputing.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, catalin.marinas@arm.com,
+	akpm@linux-oundation.org, david@kernel.org, kevin.brodsky@arm.com,
+	quic_zhenhuah@quicinc.com, dev.jain@arm.com,
+	chaitanyas.prakash@arm.com, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, rostedt@goodmis.org,
+	lorenzo.stoakes@oracle.com, ardb@kernel.org, jackmanb@google.com,
+	vbabka@suse.cz, mhocko@suse.com
+Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while
+ splitting the linear mapping
+Message-ID: <aXAJRx5JtTenw1Ou@e129823.arm.com>
+References: <20260105202328.2418990-1-yeoreum.yun@arm.com>
+ <20260105202328.2418990-3-yeoreum.yun@arm.com>
+ <aW5p1ylQBNXTEmmq@willie-the-truck>
+ <aW6hISBu3hNYS771@e129823.arm.com>
+ <2619166b-13ef-4daa-82c7-1d44035a8d6c@arm.com>
+ <aW9LCX92T9t8iDco@e129823.arm.com>
+ <5a5c78a4-0b07-4337-8b31-a2cdce1834ea@os.amperecomputing.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a5c78a4-0b07-4337-8b31-a2cdce1834ea@os.amperecomputing.com>
+X-ClientProxiedBy: LO4P123CA0462.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1aa::17) To GV1PR08MB10521.eurprd08.prod.outlook.com
+ (2603:10a6:150:163::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz> <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
-In-Reply-To: <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 20 Jan 2026 22:25:27 +0000
-X-Gm-Features: AZwV_QgM-BqnduoA5RFORFxa5mM3qHJ9TZZetAs0zM1kLzOUnwUT9c3G3wjCAp8
-Message-ID: <CAJuCfpHaSg2O0vZhfAD+61i7Vq=T3OeQ=NXirXMd-2GCKRAgjg@mail.gmail.com>
-Subject: Re: [PATCH v3 11/21] slab: remove SLUB_CPU_PARTIAL
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-TrafficTypeDiagnostic:
+	GV1PR08MB10521:EE_|VI0PR08MB11062:EE_|AM4PEPF00027A64:EE_|DBBPR08MB10625:EE_
+X-MS-Office365-Filtering-Correlation-Id: 88c876f8-dbaf-4294-d9db-08de587800e3
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info-Original:
+ =?utf-8?B?NXU4VmdHbndUZzBsY3lJREk0THByVmFFdmc0Q1pWRjY4NzdiZHY5bEtMK3d6?=
+ =?utf-8?B?WnJ3bGFuT3RCWmw3UEJEek9XOTFBS3NJU1lzdGFWWG5DQ1l0ZzZOOXA3OXFQ?=
+ =?utf-8?B?bi9pSURDU0hXaWR5S0IyNlFLK3Y2OFRqMGUrZTcwLzRTVHBCSWJseW40UDFG?=
+ =?utf-8?B?TDR1VG1yLzl2ZUsxYkQrVUtWQTlTYktCMjAxaVNIOGxzQm1UT2s0Q3JkMlo5?=
+ =?utf-8?B?RHBUVlo1d09Ka0kycjAzWkwzMzBvdzEzdHhuaUs1ODh5anB0YWJsZUc0SHZ3?=
+ =?utf-8?B?N3VKeVJ4L1FaUmo1cFowc2NZOGJWTFhJNy82QTFlZUhxZ3NtTDhHZWJmVGFN?=
+ =?utf-8?B?NEZjNVl0dkE1VDJEV29hUlVURndGQUFzZ2ZBRk5DLzd3c053SkRFN2RvYmRk?=
+ =?utf-8?B?ZmlFTjNJeEIrOGh0ZFplTmp6UlpOYUM3dnl4c05Ib08zL3h3WExrbWlVZExZ?=
+ =?utf-8?B?SmQ0ZGpnT2ZESjQ5LzBPQi9vbWs1b3lvaFVlV2VLYnlDeDFETHprNUpYbS9R?=
+ =?utf-8?B?dHRnQmgzSmZiSmluVFJZaDBRZE5RMUVza3dSZEMxRlIwamFSaUhuRDVhS2Q2?=
+ =?utf-8?B?QTdqbVVtRENKSnJSTkNVSjlKRUlCZ2R6YWFMWmEwWVQ0dnVrVmRZZ3E4dkJ4?=
+ =?utf-8?B?Zk0rMS9UODlVN0xaYWMyd3ZRY0xJM2I4QVJERzc2UHFXUkJhZDkwaU9sTGRH?=
+ =?utf-8?B?ZDdjbmM4ZWs3eVQ1L21DUkN2TE1tV0RrZmx4MHl2SlpDN3NZNWNWUW1ta0pj?=
+ =?utf-8?B?czZuZkVTWHRrSElDS2xYUE81eG9MTDJhQlUxT2FoSnRGMzRFTGxQQjRrdExG?=
+ =?utf-8?B?MytIT0NqOE9pWHd4NzlrRkJ4c3F4bEtFaS9kaFZRMzV4QzRQMXhoNHhzRk5Y?=
+ =?utf-8?B?SFlIbDZqMEFuY05YZ2I4Q3dpd2QvNWJUSVFBNEZKU1ViQ0hkZnhDSlJ3akdH?=
+ =?utf-8?B?THV6ZU16eEdSZDY4a1RYL0lYZWh2MkMyWGZ0SGp6TWxjVjJBNkZxTWkrODkr?=
+ =?utf-8?B?SndyUFRGaDArbGN2cm0zY2hUL2FYRngxZ1lvL0hEMDBKbTA2WlBtakxKYkll?=
+ =?utf-8?B?QkFqVVNXNmtBWHZOT0t4SzJ4bVhaVkdGcmtFU1hOc0FHZlZ0czVRMDkzVUtm?=
+ =?utf-8?B?ZzFnT2hvR0lpRVhicUtQbkEyK0VLTkRaV1pJU0lTWFRPaTZFNDBjWVlLWnh4?=
+ =?utf-8?B?SnZEZ2p4V2trOXFXb2U1cWtCUDBjdUg4RGwxWWc1MGU2dERpbzdHVHk0WGVV?=
+ =?utf-8?B?K0FuMm5NQ1FJZnJ2OHpVbFdmVU52T3VZTFczVnFFQThodGZwSWlzdUJwS1Jo?=
+ =?utf-8?B?cFRiZm9FK1BtUWcyYlVPOWhlU3JIOVA0S2J5ejZxcFlrb3VIN0dVdHNWSXhV?=
+ =?utf-8?B?QUZ5TTZQL0VCSURHS1FyM1A2WnZjcThpS1hIVE9sbGJrdmM3WGdIQ0puZE5Y?=
+ =?utf-8?B?NklKbHRXUERXa1pWaWxmNnZUTU13OEIrSCtSay9XRkFCQWx5bWRmNDhRUFFu?=
+ =?utf-8?B?MTgyUnBIT2wvK1RCUk9NZ0xYUWxyRHBTSy8zYnl1NlluZWR4bWdocXdnbFAw?=
+ =?utf-8?B?WDI0T1NBWXBoclkvL1FmWjY5M0xYeUptaDQ0K205OWJTWTkxK0xqQXBtSVVB?=
+ =?utf-8?B?K2hHaHpsNjVoenlJZXhYV2wwaFBSMy96NjJTdlVNR2ZrT1RnNnF0T0F0c1Iy?=
+ =?utf-8?B?UmtXZUlKOXJ3TEs1d2RVd1JHUDVkNWl5OXFIZnRvTk9BM0gzWHlxNXVVbWtO?=
+ =?utf-8?B?RUtPaHhMejZXcnNha3h4M2s1SVc4SFZ5OXVZSFM1OEY2dkZ6QTM1aHFqdFcy?=
+ =?utf-8?B?Vk1MOU9ZWVF2cCtJMnRlOCt2UnNZQWlrVEdoRlQ1SzJ1ZGx1R0t5dnozNGx0?=
+ =?utf-8?B?OStLUkZ4b01jRjR4clF4TTVOWFd1S09xak5LaXBTOHovTWNTNHpjbWRBQjVt?=
+ =?utf-8?B?cVg5d0xkdWZXZjBWT2Y1cXgwZFpzaGprbkxjQVlvcVYwYkNHZGV2MVlSdkJa?=
+ =?utf-8?B?ckQzaHp6c2xpQU1KNmJmUFVKNXJIbmd3OGhkVlhTSmsvR2gxQUR1OVR3OTBY?=
+ =?utf-8?B?dlRTQ0Ewbk9UZncwY0s3TDRSQ2xjdDNSbWZjUWZJYi9uZGlqOW1Rdm42elhX?=
+ =?utf-8?Q?izPE=3D?=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR08MB10521.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB11062
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AM4PEPF00027A64.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	a7d25619-af26-4764-f53a-08de5877d993
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|35042699022|7416014|376014|36860700013|82310400026|14060799003|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?M2N0TTBIMjBOZWtlcXBBalg5SjlOMFR0WENXSXV3RGZ3RE0xUVZ1b04xZVZE?=
+ =?utf-8?B?REpKM1Y3ZVNyb2hJbkpNWGhYTzFmWnVKczNOUnpkeEhQdll0RzZ5NVoyV0Rt?=
+ =?utf-8?B?Vllxb01kSHluWC80QlNGVVVDQTh4YTNyQ0NyN0NUeFFYZUpZdTVZWHZzNUhV?=
+ =?utf-8?B?cnBqNkV0SWVLUm1ENUZWVUpzMmNsQWx6TDdUSkFZcjhENVlPeG9Jc001MUxI?=
+ =?utf-8?B?YnZ3QmMrVnlQNmVYMys1M29wdks1cU0wVXdScXI0U2loLzRobTh5V3NSYnk3?=
+ =?utf-8?B?bzRaWHA2T2FVQzVSSXBaQWhkd2F3ZC9qc0RzWkdxaGdGdTdiVTZZb3FTNm1w?=
+ =?utf-8?B?SmdjcDNIbUdnblVTMm10eUZaSDdKRXJmQ2I2ejJsbnQ1RkdHN0kzZzhiTERy?=
+ =?utf-8?B?UmtjV2NrNnlmNDZVc3pjbXh1SzI1VlE5WlRackU0R0V2NlpwMEIvUWVZZ0la?=
+ =?utf-8?B?UHJQSHpzVlhqa3RaakdXMEo2RFdEOS96ODF2UmNCTE16ZlFJY1JSL3puaTE0?=
+ =?utf-8?B?SHhvTGczSUc2czlzaW5jejdLbkRhV1RnSXk2K1QrMmxUb25BWm9ObFFqWEh2?=
+ =?utf-8?B?UENiZUh4SFl0U3hwWXJtOHdXZWRDMCt3RGU4ZExvOGlIQThzbHFtRzB3NEdu?=
+ =?utf-8?B?RjNVemR5WGRjQk9mcmNwTkF2Rm13R1RJRXdRZXM2UXNpWUlGSW51a3RDaEFN?=
+ =?utf-8?B?WGo5Rnh4QzBGSlVpYjJkd1JNRGpkai95Q1R0TXdRdkswTlUvelhUNE41VU5t?=
+ =?utf-8?B?R3lLZE9ON1dQeXdkZytQbms5b1ZiZ2JkT1ZtSG5PSlJYMS9kbG9yZDUxWWRH?=
+ =?utf-8?B?ZUhDenBSbXVxYkNmWXh2ZEhhUDA2WHlzUFVjdEpBOENhQ3R2dFpkbFdRQmxw?=
+ =?utf-8?B?dU9PVFpCQ1Z2Wkhaa2Z2WDRXdHBHNzhDbjRxM1ArWTQyTDdjUDdpaHhoUCtL?=
+ =?utf-8?B?amNadEJhV0V2byt1S1hWVGJOdlY0RWN1UWRiekhmQTh2b2hKUmpPUTVEMG44?=
+ =?utf-8?B?cUdoQ0hZYk9jNUxwRmxRTmpjMEdIenJCY3YxRmNRdjkzd3ZuQ3NjdWpRUm5L?=
+ =?utf-8?B?cTNaemc4ZXZaUUhqK2hZekRZbzkxZGN4VU1OazRLTTJvVTdscDRNdDdCV3pP?=
+ =?utf-8?B?ZjBGNWRqUHhta0pOUVlwSS8xTElUdE5kbW9qa2pjdi9CN08xeUJ2dFJoeHk4?=
+ =?utf-8?B?T2VjNGsxR1dzTDlVTW1iMEVqb3FCbVJpamU5VGJ5Nm00elN1dTM1bFFDcTll?=
+ =?utf-8?B?d3U4TFl6UVJ1bm4vdGdNdkxnb0tSYXh0SkVpSEg1dGd2cjJpV3N1SklxM1B5?=
+ =?utf-8?B?bnFobzkxZGkxZkxrSEJXV1RpcWl1QU1scnFGczVRaDJLWDk0bWNwQnNxWndJ?=
+ =?utf-8?B?eCtHVkZzQmhneWFCc2I2VDBKUDBYYnFFK09ZSnJ3d3M5OWpjdWkycFpEZ0Zy?=
+ =?utf-8?B?aGdLTGFtWFBaZGRDeUtkZFNHN0RxdUxVUWtUZldYTWRHclc5ZnNUQ3hzT1R0?=
+ =?utf-8?B?cExQQkVSWTlXdC9lSFJwbzlIOEtMQ1dzYmF2bSsxQ21aNFBhMkJDMlFEVjcw?=
+ =?utf-8?B?ZEJLTFdBaFVaeldxaWpZK0JFTE9SSmRkcjJkMmtZL2JudXV2UkprM1Q1WFgr?=
+ =?utf-8?B?WDd2ZmJwWDFIQlk0aklDVnRtM3djV05XdnpqUWMzaUxqbUEvT21BMjVadmxl?=
+ =?utf-8?B?elQ4c0FjYVFVeVZsNC9nR1hpQk53dmVpZUYraUlUR3hTdDFPNDdNTm8yRVA5?=
+ =?utf-8?B?UVN6Z091cE9SRzRtUDNDNlVYZ1k5Q21HNlpNa05raVJiOW9HdkVxUlBoWUs3?=
+ =?utf-8?B?YW5iV2RBb01iMU5ZendoTFNFTTlKK0NzanVwa2Q1K0lsdjhyNEdsdjN4czZm?=
+ =?utf-8?B?N29WMnpFZjROUlcvb0o4ZjJyalhCdDhCaytOL21tMk9NTkNIM24zbFBvZmZN?=
+ =?utf-8?B?Z1llOTcreGR6Y0NwQXRIUkJzUkVKUU5sQ0I3dFh4N2FrRUp6ZzNGalNvZGl5?=
+ =?utf-8?B?UjlNWitzbS8ydnZzWmh1L3JkYk5ORThqOEo0MXJKcm9seE5KeXNabkxSUG16?=
+ =?utf-8?B?dVBpdnQ2dHkvUmVMWlZNa0FWWElQekRaMWVXUm95RkFpS0xNYUdBOFRCSjZj?=
+ =?utf-8?B?SG1ZeVhGWjlrWC9IL0Z3UXJGRnNNZEdPcGdIYys5TzhwL2FCdjZ0QmtKM1B2?=
+ =?utf-8?B?UGlqVk9UbVgxOW9CcXRLd1hhdUQ2WEFVOFlwbzVuQ1YyZDd6VzlMWjF1bU1D?=
+ =?utf-8?B?aWNEL1lHdWRtd1l0d2xGZitYRnBRPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(35042699022)(7416014)(376014)(36860700013)(82310400026)(14060799003)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2026 23:02:36.6487
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88c876f8-dbaf-4294-d9db-08de587800e3
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM4PEPF00027A64.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB10625
 
-On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
-ote:
+Hi Yang,
 >
-> We have removed the partial slab usage from allocation paths. Now remove
-> the whole config option and associated code.
 >
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> On 1/20/26 1:29 AM, Yeoreum Yun wrote:
+> > Hi Ryan
+> > > On 19/01/2026 21:24, Yeoreum Yun wrote:
+> > > > Hi Will,
+> > > >
+> > > > > On Mon, Jan 05, 2026 at 08:23:27PM +0000, Yeoreum Yun wrote:
+> > > > > > +static int __init linear_map_prealloc_split_pgtables(void)
+> > > > > > +{
+> > > > > > +	int ret, i;
+> > > > > > +	unsigned long lstart = _PAGE_OFFSET(vabits_actual);
+> > > > > > +	unsigned long lend = PAGE_END;
+> > > > > > +	unsigned long kstart = (unsigned long)lm_alias(_stext);
+> > > > > > +	unsigned long kend = (unsigned long)lm_alias(__init_begin);
+> > > > > > +
+> > > > > > +	const struct mm_walk_ops collect_to_split_ops = {
+> > > > > > +		.pud_entry	= collect_to_split_pud_entry,
+> > > > > > +		.pmd_entry	= collect_to_split_pmd_entry
+> > > > > > +	};
+> > > > > Why do we need to rewalk the page-table here instead of collating the
+> > > > > number of block mappings we put down when creating the linear map in
+> > > > > the first place?
+> > > That's a good point; perhaps we can reuse the counters that this series introduces?
+> > >
+> > > https://lore.kernel.org/all/20260107002944.2940963-1-yang@os.amperecomputing.com/
+>
+> Yeah, good point. It seems feasible to me. The patch can count how many
+> PUD/CONT_PMD/PMD mappings, we can calculate how many page table pages need
+> to be allocated based on those counters.
+>
+> > >
+> > > > First, linear alias of the [_text, __init_begin) is not a target for
+> > > > the split and it also seems strange to me to add code inside alloc_init_XXX()
+> > > > that both checks an address range and counts to get the number of block mappings.
+>
+> IIUC, it should be not that hard to exclude kernel mappings. We know
+> kernel_start and kernel_end, so you should be able to maintain a set of
+> counters for kernel, then minus them when you do the calculation for how
+> many page table pages need to be allocated.
 
-I did? Well, if so, I missed some remaining mentions about cpu partial cach=
-es:
-- slub.c has several hits on "cpu partial" in the comments.
-- there is one hit on "put_cpu_partial" in slub.c in the comments.
+As you said, this is not difficult. However, what I meant was that
+this collection would be done in alloc_init_XXX(), and in that case,
+collecting the number of block mappings for the range
+[kernel_start, kernel_end) and adding conditional logic in
+alloc_init_XXX() seems a bit odd.
+That said, for potential future use cases involving splitting specific ranges,
+I don’t think having this kind of collection is necessarily a bad idea.
 
-Should we also update Documentation/ABI/testing/sysfs-kernel-slab to
-say that from now on cpu_partial control always reads 0?
+>
+> > > >
+> > > > Second, for a future feature,
+> > > > I hope to add some code to split "specfic" area to be spilt e.x)
+> > > > to set a specific pkey for specific area.
+> > > Could you give more detail on this? My working assumption is that either the
+> > > system supports BBML2 or it doesn't. If it doesn't, we need to split the whole
+> > > linear map. If it does, we already have logic to split parts of the linear map
+> > > when needed.
+> > This is not for a linear mapping case. but for a "kernel text area".
+> > As a draft, I want to mark some of kernel code can executable
+> > both kernel and eBPF program.
+> > (I'm trying to make eBPF program non-executable kernel code directly
+> > with POE feature).
+> > For this "executable area" both of kernel and eBPF program
+> > -- typical example is exception entry, It need to split that specific
+> > range and mark them with special POE index.
+>
+> IIUC, you want to change POE attributes for some kernel area (mainly in
+> vmalloc address space). It sounds like you can do something like
+> set_memory_rox(), but just split vmalloc address mapping instead of linear
+> mapping. Or you need preallocate page table pages in this case? Anyway we
+> can have more simple way to count block mappings for splitting linear
+> mapping, it seems not necessary to re-walk page table again IMHO.
 
-Once addressed, please feel free to keep my Reviewed-by.
+As I said, it isn't not only vmalloc address mapping but also
+"kimage" mapping too.
+In this case, it need to be split to set the specific code area
+with specific POE index.
 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/Kconfig |  11 ---
->  mm/slab.h  |  29 ------
->  mm/slub.c  | 321 ++++---------------------------------------------------=
-------
->  3 files changed, 19 insertions(+), 342 deletions(-)
->
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index bd0ea5454af8..08593674cd20 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -247,17 +247,6 @@ config SLUB_STATS
->           out which slabs are relevant to a particular load.
->           Try running: slabinfo -DA
->
-> -config SLUB_CPU_PARTIAL
-> -       default y
-> -       depends on SMP && !SLUB_TINY
-> -       bool "Enable per cpu partial caches"
-> -       help
-> -         Per cpu partial caches accelerate objects allocation and freein=
-g
-> -         that is local to a processor at the price of more indeterminism
-> -         in the latency of the free. On overflow these caches will be cl=
-eared
-> -         which requires the taking of locks that may cause latency spike=
-s.
-> -         Typically one would choose no for a realtime system.
-> -
->  config RANDOM_KMALLOC_CACHES
->         default n
->         depends on !SLUB_TINY
-> diff --git a/mm/slab.h b/mm/slab.h
-> index cb48ce5014ba..e77260720994 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -77,12 +77,6 @@ struct slab {
->                                         struct llist_node llnode;
->                                         void *flush_freelist;
->                                 };
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -                               struct {
-> -                                       struct slab *next;
-> -                                       int slabs;      /* Nr of slabs le=
-ft */
-> -                               };
-> -#endif
->                         };
->                         /* Double-word boundary */
->                         struct freelist_counters;
-> @@ -188,23 +182,6 @@ static inline size_t slab_size(const struct slab *sl=
-ab)
->         return PAGE_SIZE << slab_order(slab);
->  }
->
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -#define slub_percpu_partial(c)                 ((c)->partial)
-> -
-> -#define slub_set_percpu_partial(c, p)          \
-> -({                                             \
-> -       slub_percpu_partial(c) =3D (p)->next;     \
-> -})
-> -
-> -#define slub_percpu_partial_read_once(c)       READ_ONCE(slub_percpu_par=
-tial(c))
-> -#else
-> -#define slub_percpu_partial(c)                 NULL
-> -
-> -#define slub_set_percpu_partial(c, p)
-> -
-> -#define slub_percpu_partial_read_once(c)       NULL
-> -#endif // CONFIG_SLUB_CPU_PARTIAL
-> -
->  /*
->   * Word size structure that can be atomically updated or read and that
->   * contains both the order and the number of objects that a slab of the
-> @@ -228,12 +205,6 @@ struct kmem_cache {
->         unsigned int object_size;       /* Object size without metadata *=
-/
->         struct reciprocal_value reciprocal_size;
->         unsigned int offset;            /* Free pointer offset */
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       /* Number of per cpu partial objects to keep around */
-> -       unsigned int cpu_partial;
-> -       /* Number of per cpu partial slabs to keep around */
-> -       unsigned int cpu_partial_slabs;
-> -#endif
->         unsigned int sheaf_capacity;
->         struct kmem_cache_order_objects oo;
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 698c0d940f06..6b1280f7900a 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -263,15 +263,6 @@ void *fixup_red_left(struct kmem_cache *s, void *p)
->         return p;
->  }
->
-> -static inline bool kmem_cache_has_cpu_partial(struct kmem_cache *s)
-> -{
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       return !kmem_cache_debug(s);
-> -#else
-> -       return false;
-> -#endif
-> -}
-> -
->  /*
->   * Issues still to be resolved:
->   *
-> @@ -426,9 +417,6 @@ struct freelist_tid {
->  struct kmem_cache_cpu {
->         struct freelist_tid;
->         struct slab *slab;      /* The slab from which we are allocating =
-*/
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       struct slab *partial;   /* Partially allocated slabs */
-> -#endif
->         local_trylock_t lock;   /* Protects the fields above */
->  #ifdef CONFIG_SLUB_STATS
->         unsigned int stat[NR_SLUB_STAT_ITEMS];
-> @@ -673,29 +661,6 @@ static inline unsigned int oo_objects(struct kmem_ca=
-che_order_objects x)
->         return x.x & OO_MASK;
->  }
->
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -static void slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_o=
-bjects)
-> -{
-> -       unsigned int nr_slabs;
-> -
-> -       s->cpu_partial =3D nr_objects;
-> -
-> -       /*
-> -        * We take the number of objects but actually limit the number of
-> -        * slabs on the per cpu partial list, in order to limit excessive
-> -        * growth of the list. For simplicity we assume that the slabs wi=
-ll
-> -        * be half-full.
-> -        */
-> -       nr_slabs =3D DIV_ROUND_UP(nr_objects * 2, oo_objects(s->oo));
-> -       s->cpu_partial_slabs =3D nr_slabs;
-> -}
-> -#elif defined(SLAB_SUPPORTS_SYSFS)
-> -static inline void
-> -slub_set_cpu_partial(struct kmem_cache *s, unsigned int nr_objects)
-> -{
-> -}
-> -#endif /* CONFIG_SLUB_CPU_PARTIAL */
-> -
->  /*
->   * If network-based swap is enabled, slub must keep track of whether mem=
-ory
->   * were allocated from pfmemalloc reserves.
-> @@ -3474,12 +3439,6 @@ static void *alloc_single_from_new_slab(struct kme=
-m_cache *s, struct slab *slab,
->         return object;
->  }
->
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -static void put_cpu_partial(struct kmem_cache *s, struct slab *slab, int=
- drain);
-> -#else
-> -static inline void put_cpu_partial(struct kmem_cache *s, struct slab *sl=
-ab,
-> -                                  int drain) { }
-> -#endif
->  static inline bool pfmemalloc_match(struct slab *slab, gfp_t gfpflags);
->
->  static bool get_partial_node_bulk(struct kmem_cache *s,
-> @@ -3898,131 +3857,6 @@ static void deactivate_slab(struct kmem_cache *s,=
- struct slab *slab,
->  #define local_unlock_cpu_slab(s, flags)        \
->         local_unlock_irqrestore(&(s)->cpu_slab->lock, flags)
->
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -static void __put_partials(struct kmem_cache *s, struct slab *partial_sl=
-ab)
-> -{
-> -       struct kmem_cache_node *n =3D NULL, *n2 =3D NULL;
-> -       struct slab *slab, *slab_to_discard =3D NULL;
-> -       unsigned long flags =3D 0;
-> -
-> -       while (partial_slab) {
-> -               slab =3D partial_slab;
-> -               partial_slab =3D slab->next;
-> -
-> -               n2 =3D get_node(s, slab_nid(slab));
-> -               if (n !=3D n2) {
-> -                       if (n)
-> -                               spin_unlock_irqrestore(&n->list_lock, fla=
-gs);
-> -
-> -                       n =3D n2;
-> -                       spin_lock_irqsave(&n->list_lock, flags);
-> -               }
-> -
-> -               if (unlikely(!slab->inuse && n->nr_partial >=3D s->min_pa=
-rtial)) {
-> -                       slab->next =3D slab_to_discard;
-> -                       slab_to_discard =3D slab;
-> -               } else {
-> -                       add_partial(n, slab, DEACTIVATE_TO_TAIL);
-> -                       stat(s, FREE_ADD_PARTIAL);
-> -               }
-> -       }
-> -
-> -       if (n)
-> -               spin_unlock_irqrestore(&n->list_lock, flags);
-> -
-> -       while (slab_to_discard) {
-> -               slab =3D slab_to_discard;
-> -               slab_to_discard =3D slab_to_discard->next;
-> -
-> -               stat(s, DEACTIVATE_EMPTY);
-> -               discard_slab(s, slab);
-> -               stat(s, FREE_SLAB);
-> -       }
-> -}
-> -
-> -/*
-> - * Put all the cpu partial slabs to the node partial list.
-> - */
-> -static void put_partials(struct kmem_cache *s)
-> -{
-> -       struct slab *partial_slab;
-> -       unsigned long flags;
-> -
-> -       local_lock_irqsave(&s->cpu_slab->lock, flags);
-> -       partial_slab =3D this_cpu_read(s->cpu_slab->partial);
-> -       this_cpu_write(s->cpu_slab->partial, NULL);
-> -       local_unlock_irqrestore(&s->cpu_slab->lock, flags);
-> -
-> -       if (partial_slab)
-> -               __put_partials(s, partial_slab);
-> -}
-> -
-> -static void put_partials_cpu(struct kmem_cache *s,
-> -                            struct kmem_cache_cpu *c)
-> -{
-> -       struct slab *partial_slab;
-> -
-> -       partial_slab =3D slub_percpu_partial(c);
-> -       c->partial =3D NULL;
-> -
-> -       if (partial_slab)
-> -               __put_partials(s, partial_slab);
-> -}
-> -
-> -/*
-> - * Put a slab into a partial slab slot if available.
-> - *
-> - * If we did not find a slot then simply move all the partials to the
-> - * per node partial list.
-> - */
-> -static void put_cpu_partial(struct kmem_cache *s, struct slab *slab, int=
- drain)
-> -{
-> -       struct slab *oldslab;
-> -       struct slab *slab_to_put =3D NULL;
-> -       unsigned long flags;
-> -       int slabs =3D 0;
-> -
-> -       local_lock_cpu_slab(s, flags);
-> -
-> -       oldslab =3D this_cpu_read(s->cpu_slab->partial);
-> -
-> -       if (oldslab) {
-> -               if (drain && oldslab->slabs >=3D s->cpu_partial_slabs) {
-> -                       /*
-> -                        * Partial array is full. Move the existing set t=
-o the
-> -                        * per node partial list. Postpone the actual unf=
-reezing
-> -                        * outside of the critical section.
-> -                        */
-> -                       slab_to_put =3D oldslab;
-> -                       oldslab =3D NULL;
-> -               } else {
-> -                       slabs =3D oldslab->slabs;
-> -               }
-> -       }
-> -
-> -       slabs++;
-> -
-> -       slab->slabs =3D slabs;
-> -       slab->next =3D oldslab;
-> -
-> -       this_cpu_write(s->cpu_slab->partial, slab);
-> -
-> -       local_unlock_cpu_slab(s, flags);
-> -
-> -       if (slab_to_put) {
-> -               __put_partials(s, slab_to_put);
-> -               stat(s, CPU_PARTIAL_DRAIN);
-> -       }
-> -}
-> -
-> -#else  /* CONFIG_SLUB_CPU_PARTIAL */
-> -
-> -static inline void put_partials(struct kmem_cache *s) { }
-> -static inline void put_partials_cpu(struct kmem_cache *s,
-> -                                   struct kmem_cache_cpu *c) { }
-> -
-> -#endif /* CONFIG_SLUB_CPU_PARTIAL */
-> -
->  static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cp=
-u *c)
->  {
->         unsigned long flags;
-> @@ -4060,8 +3894,6 @@ static inline void __flush_cpu_slab(struct kmem_cac=
-he *s, int cpu)
->                 deactivate_slab(s, slab, freelist);
->                 stat(s, CPUSLAB_FLUSH);
->         }
-> -
-> -       put_partials_cpu(s, c);
->  }
->
->  static inline void flush_this_cpu_slab(struct kmem_cache *s)
-> @@ -4070,15 +3902,13 @@ static inline void flush_this_cpu_slab(struct kme=
-m_cache *s)
->
->         if (c->slab)
->                 flush_slab(s, c);
-> -
-> -       put_partials(s);
->  }
->
->  static bool has_cpu_slab(int cpu, struct kmem_cache *s)
->  {
->         struct kmem_cache_cpu *c =3D per_cpu_ptr(s->cpu_slab, cpu);
->
-> -       return c->slab || slub_percpu_partial(c);
-> +       return c->slab;
->  }
->
->  static bool has_pcs_used(int cpu, struct kmem_cache *s)
-> @@ -5646,13 +5476,6 @@ static void __slab_free(struct kmem_cache *s, stru=
-ct slab *slab,
->                 return;
->         }
->
-> -       /*
-> -        * It is enough to test IS_ENABLED(CONFIG_SLUB_CPU_PARTIAL) below
-> -        * instead of kmem_cache_has_cpu_partial(s), because kmem_cache_d=
-ebug(s)
-> -        * is the only other reason it can be false, and it is already ha=
-ndled
-> -        * above.
-> -        */
-> -
->         do {
->                 if (unlikely(n)) {
->                         spin_unlock_irqrestore(&n->list_lock, flags);
-> @@ -5677,26 +5500,19 @@ static void __slab_free(struct kmem_cache *s, str=
-uct slab *slab,
->                  * Unless it's frozen.
->                  */
->                 if ((!new.inuse || was_full) && !was_frozen) {
-> +
-> +                       n =3D get_node(s, slab_nid(slab));
->                         /*
-> -                        * If slab becomes non-full and we have cpu parti=
-al
-> -                        * lists, we put it there unconditionally to avoi=
-d
-> -                        * taking the list_lock. Otherwise we need it.
-> +                        * Speculatively acquire the list_lock.
-> +                        * If the cmpxchg does not succeed then we may
-> +                        * drop the list_lock without any processing.
-> +                        *
-> +                        * Otherwise the list_lock will synchronize with
-> +                        * other processors updating the list of slabs.
->                          */
-> -                       if (!(IS_ENABLED(CONFIG_SLUB_CPU_PARTIAL) && was_=
-full)) {
-> -
-> -                               n =3D get_node(s, slab_nid(slab));
-> -                               /*
-> -                                * Speculatively acquire the list_lock.
-> -                                * If the cmpxchg does not succeed then w=
-e may
-> -                                * drop the list_lock without any process=
-ing.
-> -                                *
-> -                                * Otherwise the list_lock will synchroni=
-ze with
-> -                                * other processors updating the list of =
-slabs.
-> -                                */
-> -                               spin_lock_irqsave(&n->list_lock, flags);
-> -
-> -                               on_node_partial =3D slab_test_node_partia=
-l(slab);
-> -                       }
-> +                       spin_lock_irqsave(&n->list_lock, flags);
-> +
-> +                       on_node_partial =3D slab_test_node_partial(slab);
->                 }
->
->         } while (!slab_update_freelist(s, slab, &old, &new, "__slab_free"=
-));
-> @@ -5709,13 +5525,6 @@ static void __slab_free(struct kmem_cache *s, stru=
-ct slab *slab,
->                          * activity can be necessary.
->                          */
->                         stat(s, FREE_FROZEN);
-> -               } else if (IS_ENABLED(CONFIG_SLUB_CPU_PARTIAL) && was_ful=
-l) {
-> -                       /*
-> -                        * If we started with a full slab then put it ont=
-o the
-> -                        * per cpu partial list.
-> -                        */
-> -                       put_cpu_partial(s, slab, 1);
-> -                       stat(s, CPU_PARTIAL_FREE);
->                 }
->
->                 /*
-> @@ -5744,10 +5553,9 @@ static void __slab_free(struct kmem_cache *s, stru=
-ct slab *slab,
->
->         /*
->          * Objects left in the slab. If it was not on the partial list be=
-fore
-> -        * then add it. This can only happen when cache has no per cpu pa=
-rtial
-> -        * list otherwise we would have put it there.
-> +        * then add it.
->          */
-> -       if (!IS_ENABLED(CONFIG_SLUB_CPU_PARTIAL) && unlikely(was_full)) {
-> +       if (unlikely(was_full)) {
+The preallocate page is for spliting via "stop_machine()"
+since page table allocation with GFP_ATOMIC couldn't be in case of
+PREEMPT_RT in stop_machine().
 
-This is not really related to your change but I wonder why we check
-for was_full to detect that the slab was not on partial list instead
-of checking !on_node_partial... They might be equivalent at this point
-but it's still a bit confusing.
+Also, the spliting text-code area to set specific POE index would be
+done via stop_machine() so, the collection is required.
 
->                 add_partial(n, slab, DEACTIVATE_TO_TAIL);
->                 stat(s, FREE_ADD_PARTIAL);
->         }
-> @@ -6396,8 +6204,8 @@ static __always_inline void do_slab_free(struct kme=
-m_cache *s,
->                 if (unlikely(!allow_spin)) {
->                         /*
->                          * __slab_free() can locklessly cmpxchg16 into a =
-slab,
-> -                        * but then it might need to take spin_lock or lo=
-cal_lock
-> -                        * in put_cpu_partial() for further processing.
-> +                        * but then it might need to take spin_lock
-> +                        * for further processing.
->                          * Avoid the complexity and simply add to a defer=
-red list.
->                          */
->                         defer_free(s, head);
-> @@ -7707,39 +7515,6 @@ static int init_kmem_cache_nodes(struct kmem_cache=
- *s)
->         return 1;
->  }
 >
-> -static void set_cpu_partial(struct kmem_cache *s)
-> -{
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       unsigned int nr_objects;
-> -
-> -       /*
-> -        * cpu_partial determined the maximum number of objects kept in t=
-he
-> -        * per cpu partial lists of a processor.
-> -        *
-> -        * Per cpu partial lists mainly contain slabs that just have one
-> -        * object freed. If they are used for allocation then they can be
-> -        * filled up again with minimal effort. The slab will never hit t=
-he
-> -        * per node partial lists and therefore no locking will be requir=
-ed.
-> -        *
-> -        * For backwards compatibility reasons, this is determined as num=
-ber
-> -        * of objects, even though we now limit maximum number of pages, =
-see
-> -        * slub_set_cpu_partial()
-> -        */
-> -       if (!kmem_cache_has_cpu_partial(s))
-> -               nr_objects =3D 0;
-> -       else if (s->size >=3D PAGE_SIZE)
-> -               nr_objects =3D 6;
-> -       else if (s->size >=3D 1024)
-> -               nr_objects =3D 24;
-> -       else if (s->size >=3D 256)
-> -               nr_objects =3D 52;
-> -       else
-> -               nr_objects =3D 120;
-> -
-> -       slub_set_cpu_partial(s, nr_objects);
-> -#endif
-> -}
-> -
->  static unsigned int calculate_sheaf_capacity(struct kmem_cache *s,
->                                              struct kmem_cache_args *args=
-)
+> >
+> > > > In this case, it's useful to rewalk the page-table with the specific
+> > > > range to get the number of block mapping.
+> > > >
+> > > > > > +	split_pgtables_idx = 0;
+> > > > > > +	split_pgtables_count = 0;
+> > > > > > +
+> > > > > > +	ret = walk_kernel_page_table_range_lockless(lstart, kstart,
+> > > > > > +						    &collect_to_split_ops,
+> > > > > > +						    NULL, NULL);
+> > > > > > +	if (!ret)
+> > > > > > +		ret = walk_kernel_page_table_range_lockless(kend, lend,
+> > > > > > +							    &collect_to_split_ops,
+> > > > > > +							    NULL, NULL);
+> > > > > > +	if (ret || !split_pgtables_count)
+> > > > > > +		goto error;
+> > > > > > +
+> > > > > > +	ret = -ENOMEM;
+> > > > > > +
+> > > > > > +	split_pgtables = kvmalloc(split_pgtables_count * sizeof(struct ptdesc *),
+> > > > > > +				  GFP_KERNEL | __GFP_ZERO);
+> > > > > > +	if (!split_pgtables)
+> > > > > > +		goto error;
+> > > > > > +
+> > > > > > +	for (i = 0; i < split_pgtables_count; i++) {
+> > > > > > +		/* The page table will be filled during splitting, so zeroing it is unnecessary. */
+> > > > > > +		split_pgtables[i] = pagetable_alloc(GFP_PGTABLE_KERNEL & ~__GFP_ZERO, 0);
+> > > > > > +		if (!split_pgtables[i])
+> > > > > > +			goto error;
+> > > > > This looks potentially expensive on the boot path and only gets worse as
+> > > > > the amount of memory grows. Maybe we should predicate this preallocation
+> > > > > on preempt-rt?
+> > > > Agree. then I'll apply pre-allocation with PREEMPT_RT only.
+> > > I guess I'm missing something obvious but I don't understand the problem here...
+> > > We are only deferring the allocation of all these pgtables, so the cost is
+> > > neutral surely? Had we correctly guessed that the system doesn't support BBML2
+> > > earlier, we would have had to allocate all these pgtables earlier.
+> > >
+> > > Another way to look at it is that we are still allocating the same number of
+> > > pgtables in the existing fallback path, it's just that we are doing it inside
+> > > the stop_machine().
+> > >
+> > > My vote would be _not_ to have a separate path for PREEMPT_RT, which will end up
+> > > with significantly less testing...
+> > IIUC, Will's mention is additional memory allocation for
+> > "split_pgtables" where saved "pre-allocate" page tables.
+> > As the memory increase, definitely this size would increase the cost.
+> >
+> > And this cost need not to burden for !PREEMPT_RT since
+> > it can use memory allocation in stop_machine() with GFP_ATOMIC.
+> >
+> > But I also agree in the aspect that if that cost not much of huge,
+> > It's also convincing and additionally, as I mentioned in another thread,
+> > It would be good not to give a hallucination GFP_ATOMIC is fine for
+> > everywhere even in the PREEMPT_RT.
+> >
+> > --
+> > Sincerely,
+> > Yeoreum Yun
 >
-> @@ -8595,8 +8370,6 @@ int do_kmem_cache_create(struct kmem_cache *s, cons=
-t char *name,
->         s->min_partial =3D min_t(unsigned long, MAX_PARTIAL, ilog2(s->siz=
-e) / 2);
->         s->min_partial =3D max_t(unsigned long, MIN_PARTIAL, s->min_parti=
-al);
->
-> -       set_cpu_partial(s);
-> -
->         s->cpu_sheaves =3D alloc_percpu(struct slub_percpu_sheaves);
->         if (!s->cpu_sheaves) {
->                 err =3D -ENOMEM;
-> @@ -8960,20 +8733,6 @@ static ssize_t show_slab_objects(struct kmem_cache=
- *s,
->                         total +=3D x;
->                         nodes[node] +=3D x;
->
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -                       slab =3D slub_percpu_partial_read_once(c);
-> -                       if (slab) {
-> -                               node =3D slab_nid(slab);
-> -                               if (flags & SO_TOTAL)
-> -                                       WARN_ON_ONCE(1);
-> -                               else if (flags & SO_OBJECTS)
-> -                                       WARN_ON_ONCE(1);
-> -                               else
-> -                                       x =3D data_race(slab->slabs);
-> -                               total +=3D x;
-> -                               nodes[node] +=3D x;
-> -                       }
-> -#endif
->                 }
->         }
->
-> @@ -9108,12 +8867,7 @@ SLAB_ATTR(min_partial);
->
->  static ssize_t cpu_partial_show(struct kmem_cache *s, char *buf)
->  {
-> -       unsigned int nr_partial =3D 0;
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       nr_partial =3D s->cpu_partial;
-> -#endif
-> -
-> -       return sysfs_emit(buf, "%u\n", nr_partial);
-> +       return sysfs_emit(buf, "0\n");
->  }
->
->  static ssize_t cpu_partial_store(struct kmem_cache *s, const char *buf,
-> @@ -9125,11 +8879,9 @@ static ssize_t cpu_partial_store(struct kmem_cache=
- *s, const char *buf,
->         err =3D kstrtouint(buf, 10, &objects);
->         if (err)
->                 return err;
-> -       if (objects && !kmem_cache_has_cpu_partial(s))
-> +       if (objects)
->                 return -EINVAL;
->
-> -       slub_set_cpu_partial(s, objects);
-> -       flush_all(s);
->         return length;
->  }
->  SLAB_ATTR(cpu_partial);
-> @@ -9168,42 +8920,7 @@ SLAB_ATTR_RO(objects_partial);
->
->  static ssize_t slabs_cpu_partial_show(struct kmem_cache *s, char *buf)
->  {
-> -       int objects =3D 0;
-> -       int slabs =3D 0;
-> -       int cpu __maybe_unused;
-> -       int len =3D 0;
-> -
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       for_each_online_cpu(cpu) {
-> -               struct slab *slab;
-> -
-> -               slab =3D slub_percpu_partial(per_cpu_ptr(s->cpu_slab, cpu=
-));
-> -
-> -               if (slab)
-> -                       slabs +=3D data_race(slab->slabs);
-> -       }
-> -#endif
-> -
-> -       /* Approximate half-full slabs, see slub_set_cpu_partial() */
-> -       objects =3D (slabs * oo_objects(s->oo)) / 2;
-> -       len +=3D sysfs_emit_at(buf, len, "%d(%d)", objects, slabs);
-> -
-> -#ifdef CONFIG_SLUB_CPU_PARTIAL
-> -       for_each_online_cpu(cpu) {
-> -               struct slab *slab;
-> -
-> -               slab =3D slub_percpu_partial(per_cpu_ptr(s->cpu_slab, cpu=
-));
-> -               if (slab) {
-> -                       slabs =3D data_race(slab->slabs);
-> -                       objects =3D (slabs * oo_objects(s->oo)) / 2;
-> -                       len +=3D sysfs_emit_at(buf, len, " C%d=3D%d(%d)",
-> -                                            cpu, objects, slabs);
-> -               }
-> -       }
-> -#endif
-> -       len +=3D sysfs_emit_at(buf, len, "\n");
-> -
-> -       return len;
-> +       return sysfs_emit(buf, "0(0)\n");
->  }
->  SLAB_ATTR_RO(slabs_cpu_partial);
->
->
-> --
-> 2.52.0
->
+
+--
+Sincerely,
+Yeoreum Yun
