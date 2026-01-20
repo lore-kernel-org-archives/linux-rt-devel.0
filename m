@@ -1,80 +1,105 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 480BC3ECBDE
-	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 09:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943A32F9985
+	for <linux-rt-devel@lists.linux.dev>; Tue, 20 Jan 2026 09:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768901758; cv=none; b=QR6ZYUybsmOI9siA8XyC6+L5r767iIv26aZkk6jaMmKWO5FDPFWSkYvB6TJMCQ1ouoxs1Gui+D3YW9snPi3+Fgcg3DEFCMdhYGRKOA+giZugOGTNXGsMsu9LpOaXMy3xnajpSAWQ5tbMZw8e7DjvG0IVi61dX5NCaod2FcXrxqY=
+	t=1768901996; cv=none; b=aVajvA/avla0WTJ5hEgMAaBejYhBQGrFu8kvLc46mQ5RJWRGCsOzgQwGpC5Z4oi82d1k0So1ta0lJJrB4ZzQ9vps6rM/ZbjJzWBPB48nzlxg1AIZUGtqxYKPqx1hDjOUVXQz9qbTnZBdiu1am24MD4TyQJlEkD3UNqBQVkXtkMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768901758; c=relaxed/simple;
-	bh=oJZ/KniDcd5R+xqDvEeMX7uBwVkZMxAfMMppvpnWmco=;
+	s=arc-20240116; t=1768901996; c=relaxed/simple;
+	bh=Q2NDBA8DWAw6H9uJLr1PAYQxtVM80rdP/ovdl3g6t+4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fj3EPnrfegY2ahJcX4wonABqyEtJpPik4k2k7qTSw1JHZigxfA/cVkjxxqb30v+aJ7AA9ulxAhK+ynoqcTfsXNamY9/2uRAdOkX9booUqwsXq+kBupSOe5yTlbYczLR68HLACxitT59DZVtHDGHAf3X+Zs85oejrCyYDvkn4DKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=h9jQrUkG; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=EWqgUwvWO34b1agZr1801SCvouUAWkjJZxqV0LLgUgu5gkaeCNE8WGgeks9cLuDc22+1i2/aYdaAP2J8TDtuzJUnSAma50tu1Q6uQ80Ays6S/qftSqJE74tf4nHFL0/k5jCbDi3g2RUDpKKWs1+/II2j7RpZ1DzOXm+iPMDCEWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XP60UBWF; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="h9jQrUkG"
-Date: Tue, 20 Jan 2026 17:35:21 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1768901753;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w/B47m2KmCAoDa1sKTOG2K86RewOM8wCFrwCd3QEgHw=;
-	b=h9jQrUkGxc6uglTG0TBiZgPbgunulGxvcaH9cRELJTTMt90s3Xg5BRMUdKb0YWsNEP/DmH
-	Qe6wm7j+OskKe0rHD45NWr8HR57ZIwVzdSjoyxPmr2EQsJjFsD7F8Pszkyu4xktyxxp+Lb
-	i/Qhi4Fb9oFjRqzJx9GLArJyI1oYfMM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Li <hao.li@linux.dev>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Suren Baghdasaryan <surenb@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 13/21] slab: remove defer_deactivate_slab()
-Message-ID: <veqtpod2liqsi4mgcxndgaiyqlhupnymmj4pquueqziqyakmnk@fzympoan5pds>
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-13-5595cb000772@suse.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XP60UBWF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1768901995; x=1800437995;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Q2NDBA8DWAw6H9uJLr1PAYQxtVM80rdP/ovdl3g6t+4=;
+  b=XP60UBWFUSK+ReglHsHkY9DrIdG4ROtQfb3+Fhyw25hGQuejp+lvWP3i
+   KB5sC5LX3KazIP8uWziMygo8GzdMML+P9E4T5HmSl7A9hUfcsSRy0iK+7
+   LmuRAcjkj+UXwOZLO6bWi71ZtgV4u86Vgo3Dpu+u4sGlMK/cHnbdhB4qv
+   dNmF8ckJY6oP41K6dI7HndOaPE71iVylU2EvRcu3fZJxuT8n7h4An4llH
+   bfYKCG60H7uZTlzWPEqcz3KLXIL4Y4DFUF91qbxwpRNkecpnMBB4WZt2V
+   +6ijEvfBaMhnhriW25xpP1QNQtkmHZA+Bg+fqDgXGSDzpGDM0yAv5cKSJ
+   g==;
+X-CSE-ConnectionGUID: vjng8zqLRiWU7356Q7qBBA==
+X-CSE-MsgGUID: rLjX5MsORuS1V79JHDYpBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11676"; a="81215235"
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="81215235"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 01:39:54 -0800
+X-CSE-ConnectionGUID: fjxOl55tThOxp64cAJ9PDQ==
+X-CSE-MsgGUID: bSiIKYrbSSWJeXhjfwcJsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,240,1763452800"; 
+   d="scan'208";a="206123219"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.179])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jan 2026 01:39:49 -0800
+Date: Tue, 20 Jan 2026 11:39:46 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Dmitry Guzman <dmitry.guzman@mobileye.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v5 3/6] i2c: designware: Add dedicated algorithm for AMD
+ NAVI
+Message-ID: <aW9NYkADDRju1cgJ@smile.fi.intel.com>
+References: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
+ <20260120-i2c-dw-v5-3-0e34d6d9455c@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260116-sheaves-for-all-v3-13-5595cb000772@suse.cz>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260120-i2c-dw-v5-3-0e34d6d9455c@bootlin.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jan 16, 2026 at 03:40:33PM +0100, Vlastimil Babka wrote:
-> There are no more cpu slabs so we don't need their deferred
-> deactivation. The function is now only used from places where we
-> allocate a new slab but then can't spin on node list_lock to put it on
-> the partial list. Instead of the deferred action we can free it directly
-> via __free_slab(), we just need to tell it to use _nolock() freeing of
-> the underlying pages and take care of the accounting.
+On Tue, Jan 20, 2026 at 10:28:03AM +0100, Benoît Monin wrote:
+> Apart from runtime PM, there is nothing in common between i2c_dw_xfer()
+> and amd_i2c_dw_xfer_quirk(), so give AMD NAVI controller its own algorithm
+> instead of calling the quirk from i2c_dw_xfer().
 > 
-> Since free_frozen_pages_nolock() variant does not yet exist for code
-> outside of the page allocator, create it as a trivial wrapper for
-> __free_frozen_pages(..., FPI_TRYLOCK).
+> Add runtime PM handling to amd_i2c_dw_xfer_quirk() and a dedicated
+> i2c_algorithm for AMD NAVI controllers. The adapter algorithm is set
+> during probe based on the device model.
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/internal.h   |  1 +
->  mm/page_alloc.c |  5 +++++
->  mm/slab.h       |  8 +-------
->  mm/slub.c       | 56 ++++++++++++++++++++------------------------------------
->  4 files changed, 27 insertions(+), 43 deletions(-)
-> 
+> This way we avoid checking for the device model at the start of every
+> transfer.
 
-Looks good to me.
-Reviewed-by: Hao Li <hao.li@linux.dev>
+...
+
+> +	ACQUIRE(pm_runtime_active_auto_try, pm)(dev->dev);
+> +	if (ACQUIRE_ERR(pm_runtime_active_auto_try, &pm))
+> +		return -ENXIO;
+
+There are PM_ACQUIRE_*() macros available now.
 
 -- 
-Thanks,
-Hao
+With Best Regards,
+Andy Shevchenko
+
+
