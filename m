@@ -1,194 +1,229 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF0148A2A6
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 14:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769006613; cv=none; b=JaQOsMRIrhI/VTJH8FT8wkS7CdTdSb6NwYJ0F6vCFuD+HpICgJy7aOD8/3OikmHQj7M4C1e6iFAwwePz0Is9AqXIJW0H+/pI3SSI/vs5UNBXn6aEDlA8O5m+FT93FKvQbwaqWY0FMVYUw9jpgDqtFX59qpjUAXWgMrTvIaXBEME=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769006613; c=relaxed/simple;
-	bh=l0unSkr9lCiTWqORme0aPoasvSN0vRx6ILGL4aCrm0E=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PWlJQ5FCldfsVkFYsgllbzYJoV8IEzFUmufUsvIZSB+Wgt54Zch/u9ekuW+LSU0oV8d29K0MfONWfodk7o7qIcCp7V+JTEqEMk7wf94I2UD0hSGT0crVk57PTRYcS3cC7L+BNNYRGmgWOO0xA+NPRWqu8GlxlkWhjNfsAJXL5Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=0xxDTGYP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UWFlwboY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=KEs+pPW8; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=C6xIN9nM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AB444D008
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769011990; cv=pass; b=lia4l4rHa3wcHVr3EJ568r6e2RbHfITWW0LRtQNm6+qZ0OHjrM5DZZTkLJ0ve0g7y5PMJofQGvViNs8veIb4C6LH+17V7quOPcwMY/jlmCaF0eVfPj9fiNsGZpfeRpxIugqAXgCrq4zg7EvrOo6CGpXBeY0Gg7R3fpvxnXvLHQs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769011990; c=relaxed/simple;
+	bh=09NOKDVJj6trxa1kaSXP8kGXrD3k9fvCUVw5NqQHsJA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ptEPlOzRDBW0qZMAOv1ZsrR+DXLFvY1D+rUhV3ctBpp8S6tQJrWbLmjCjfkQwyeeqru6w8VDnZt3eOGml48biDwt8AEr0LMKdMFjHsMaE0HL9y7W8CIxoZCOl+M87RRwXTshfOXLYiglyF9hN+IMH8ohSGy/2MPFCfwH96PtV3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RhEKQejn; arc=pass smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="0xxDTGYP";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UWFlwboY";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="KEs+pPW8";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="C6xIN9nM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EC3C45BD14;
-	Wed, 21 Jan 2026 14:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769006610; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=EmVjSrgHwt4rC/tyfPn0I3pmKcbRZfmv2nxAbVtf+zo=;
-	b=0xxDTGYPXQKhBMOzVZp2CslVUV5XLo+2lm2ACuNG7skbzPzCIaO7hXXxQg0Tar/8+uWTFE
-	vCnP9PMRc+z3zwdM+4QQ738I74Wlhp4cIup+npvq2fpe1u8sRrtJHoM4ne//1yVkzCpFVY
-	JK+xfI2QgRu5Mw69hY/Mv7AySzevwqc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769006610;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=EmVjSrgHwt4rC/tyfPn0I3pmKcbRZfmv2nxAbVtf+zo=;
-	b=UWFlwboYs0YvRIlh31DQTWFeUA7pM/E0HLgqtZRCB0gJNVW3sG+/JfJxqlRFm0QUNLLNrX
-	fSxwnfZcT1E2rBCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=KEs+pPW8;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=C6xIN9nM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769006609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=EmVjSrgHwt4rC/tyfPn0I3pmKcbRZfmv2nxAbVtf+zo=;
-	b=KEs+pPW8O33d+5UwGK2eOdlBkBRjm1d1izBvsaSjQM9lyhVQXA7RLivL+jZtOyLSsMZ55C
-	d+X+vHq1lWSGW7JajilVke6PbGqESWykCOHFIM2K+2Iuas+3d9JNZIjWqO7iZkwCU4SeMi
-	7Y9/APDvX7/co61WCUPqpV0LTWE6Am4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769006609;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=EmVjSrgHwt4rC/tyfPn0I3pmKcbRZfmv2nxAbVtf+zo=;
-	b=C6xIN9nMGdinc0lkImj4jyQrmR+rXmglJ6v/W0+34dfMbJtt1tq9qUa7gpnppo+ouysww7
-	ACXsi//VCPADekCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C90643EA63;
-	Wed, 21 Jan 2026 14:43:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gXs0LxHmcGlxeQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 14:43:29 +0000
-Message-ID: <afc38741-d647-4b28-8ffc-c752ab5bb5d6@suse.cz>
-Date: Wed, 21 Jan 2026 15:43:29 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RhEKQejn"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5014acad6f2so88771cf.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:13:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769011986; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KglTWq8wqdmwfCbNJnkXoA6G12KIOcMiTDi9dKCsifdQnNHx6Fa7YxtyJ2z7cONlq5
+         GK0pWEFms+iqqrrctgA/q2krx0ZPINkBGuJVJm4eEfFbJGb0IsIoOj1YIINptLpQkq8f
+         tgqgRjuECw8yfEvlDAJcGxziZo/b/zv44s6RX9HlzObRKOqtjfe6Abt3DhfeQbTzcwlA
+         WUumywgLB7/cL54xb4asy1cWgiVEgBvOua+biKble9+7GVxuapZqJe25Eju8EwggIczC
+         YKJTtoHvUP1eSC/sAQrWGhYy7dX1w/QIKTDAr07sOueTF//PzQsMgt3qYBKt8oyTms53
+         PC5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y1GwHpmSY+Ssuo+YrlkBnP/wYaSl4q4+E3mKjKXYR/c=;
+        fh=ea4QqNEWwbSeTK7gIbjbFg4aVAP2BEdqAznnV1GJLDs=;
+        b=H+EzuqCDFTJ9rsjHmQuDRph+J+sBVmcvbNPeSwu8QkTcOJFXqgwwtQ7Vw4hsxMRZ1U
+         rNvQnvfDS7jppPgLvEDShb1TSZ19noHDzNJ3ti6UHlvB31eVcm/tOCQrKhBrvQMk1DHM
+         EMjGU0DaDNyLBdDtz7xOQrc8rrQeuXoEo7AB+xx66NCIDRSSxcpcPNjLJwU4a0hj7wDS
+         ApYoI8QFlOXM1vPLEFU201lW3LETAaYQJMNP9/dhSXj0Xyr3ny4kQKRufFdB+pvqUrZb
+         Rwl48HYffVZ8zJp4bCeh45son5fDFae0gMN+LBM7ITVjP4MHOG17jklD/PmDuHebMwJ4
+         K3rw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769011986; x=1769616786; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y1GwHpmSY+Ssuo+YrlkBnP/wYaSl4q4+E3mKjKXYR/c=;
+        b=RhEKQejnKsYZzMUfU6Z+UaSnif3RmzdXmgQm2yOow6dU8gcWuPdzdySU+T9lzoVhCi
+         ma4QeeLWt1KmYinb9NlgkjJxBAfQ0junxgZD6mUY3pPddc4LRLHzVzZ4VI5I7DZUv4Kq
+         cU9caTt+WN29Y0GnTqxndXlXjgmWaxOWqc7oycBZClcDjpcq7KV+8pfuVHB1v4sj3g4N
+         LV0JYZGeVugOWEbdYg/mBaTtmvoS72NVkZdznuiVN/VpbgPCAkTvKjQeC3oMGuLO07dw
+         zkD60vt1LYRi0C+c1F5B5dE7V7vBEYPa9g6SJt7Vhhct3/Hx+5YDFEDRsyv4Cgtsv+Ls
+         BCDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769011986; x=1769616786;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y1GwHpmSY+Ssuo+YrlkBnP/wYaSl4q4+E3mKjKXYR/c=;
+        b=dpDagfEJGlDxV7Q2rlbpcxNKzsHeHeao/T8yA+BV05QujOY/mg16aJ+bRxOlZvvIQK
+         EBigGWIFvuAmn2+ph54qqKTtBVzwPkYwVCVKPLmwbu+wbkP2ugM3r4ITmduYnPzGb10u
+         DTsmcSycpy19epufo8E0GzYaR7tm+cOXU/3J4QmQ71vKNGqqxg2UhxhHvZaXFAIABwI/
+         dKAnQovZd4xZwzeTiJ+2gSmQ8octjaG/4Ui06KCopl16Tjsw9cbTr7uXjMmkUvXiaE0Q
+         Dzxup9b38Ieorzf9B7DKB2UfYQs226wToGIEY4cae0UPMU4/1nKoclK5pmjhBV/2oHWf
+         hPew==
+X-Forwarded-Encrypted: i=1; AJvYcCUd+QVWoHEZjNfVMonioiMDDAuVsz0lPGdn8xqV6sELlqSi40jDhWg7DmXDkd3xTriEBn9ztWCLYv7OWcQnNg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJ14fBLDhvLDkFSnHeB/pPHNbpwQO3Xl7UTpBN5FRDQkw7BUDF
+	TtMiUWKrIRnBQ7ypKVrhU8LEKj7nHRwa4l1bDvypJB8E8tNBHETcYPJ2YtWwju28kuxsGrlNYRw
+	QJ4XQE7xkiGhNtYYzFalB8BrIrHBoaFXHpE3lzfYl
+X-Gm-Gg: AZuq6aIWYzMboANRE494o5T21p28ya3xgSF02za+Rj+JJZFQRP+MsDMbb4+wzmkSKFP
+	LLcksUm94wBqWfNS7TtUVQLpCFplmTUEC0U5TWpKSmvyxfB8BTrCaFz51Q0i12MdN0tqT79oHND
+	/9StkeZ/g5sm3dOzSBBc1WNJdP4SJrsBh/KNS6LXxV0Niu9x7mp+zi3lokYFZ3pgBKmwNAKojWb
+	3Ep1szXRNSEwipRXa3rKAcVOJJSvwKhy5Qk3NMSeZpypBoyKNRWAZjSH6ykZ8zWcDwA2ffVRD3C
+	HzGCK2H7qaLKvTzEliaz8894a7T0PYXg0g==
+X-Received: by 2002:a05:622a:1888:b0:4fb:e3b0:aae6 with SMTP id
+ d75a77b69052e-502e1a18978mr11594511cf.1.1769011985614; Wed, 21 Jan 2026
+ 08:13:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/21] slab: remove SLUB_CPU_PARTIAL
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
- <CAJuCfpHaSg2O0vZhfAD+61i7Vq=T3OeQ=NXirXMd-2GCKRAgjg@mail.gmail.com>
- <c17d4413-1ffa-4d3e-8d87-0e7c2b022c16@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <c17d4413-1ffa-4d3e-8d87-0e7c2b022c16@suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: EC3C45BD14
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+ <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz> <CAJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA@mail.gmail.com>
+ <fec4ed92-32e1-4618-99d6-0eac77da1ff3@suse.cz>
+In-Reply-To: <fec4ed92-32e1-4618-99d6-0eac77da1ff3@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 21 Jan 2026 16:12:54 +0000
+X-Gm-Features: AZwV_QiSjzEmuwsWdtzV6KlI2OJ4fFRrfgPi7_dAQ80cVBUvpM4Z4I7qS0kyx9I
+Message-ID: <CAJuCfpFzZnbZBX84xTTtTHmKebVxWXUXjFe5AQRTGnu-9AnRLA@mail.gmail.com>
+Subject: Re: [PATCH v3 09/21] slab: add optimized sheaf refill from partial list
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/21/26 15:22, Vlastimil Babka wrote:
-> On 1/20/26 23:25, Suren Baghdasaryan wrote:
->> On Fri, Jan 16, 2026 at 2:40 PM Vlastimil Babka <vbabka@suse.cz> wrote:
->>>
->>> We have removed the partial slab usage from allocation paths. Now remove
->>> the whole config option and associated code.
->>>
->>> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->> 
->> I did?
-> 
-> Hmm looks like you didn't. Wonder if I screwed up, or b4 did. Sorry about that.
+On Wed, Jan 21, 2026 at 1:22=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> On 1/20/26 18:19, Suren Baghdasaryan wrote:
+> > On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz=
+> wrote:
+> >>
+> >> At this point we have sheaves enabled for all caches, but their refill
+> >> is done via __kmem_cache_alloc_bulk() which relies on cpu (partial)
+> >> slabs - now a redundant caching layer that we are about to remove.
+> >>
+> >> The refill will thus be done from slabs on the node partial list.
+> >> Introduce new functions that can do that in an optimized way as it's
+> >> easier than modifying the __kmem_cache_alloc_bulk() call chain.
+> >>
+> >> Extend struct partial_context so it can return a list of slabs from th=
+e
+> >> partial list with the sum of free objects in them within the requested
+> >> min and max.
+> >>
+> >> Introduce get_partial_node_bulk() that removes the slabs from freelist
+> >> and returns them in the list.
+> >>
+> >> Introduce get_freelist_nofreeze() which grabs the freelist without
+> >> freezing the slab.
+> >>
+> >> Introduce alloc_from_new_slab() which can allocate multiple objects fr=
+om
+> >> a newly allocated slab where we don't need to synchronize with freeing=
+.
+> >> In some aspects it's similar to alloc_single_from_new_slab() but assum=
+es
+> >> the cache is a non-debug one so it can avoid some actions.
+> >>
+> >> Introduce __refill_objects() that uses the functions above to fill an
+> >> array of objects. It has to handle the possibility that the slabs will
+> >> contain more objects that were requested, due to concurrent freeing of
+> >> objects to those slabs. When no more slabs on partial lists are
+> >> available, it will allocate new slabs. It is intended to be only used
+> >> in context where spinning is allowed, so add a WARN_ON_ONCE check ther=
+e.
+> >>
+> >> Finally, switch refill_sheaf() to use __refill_objects(). Sheaves are
+> >> only refilled from contexts that allow spinning, or even blocking.
+> >>
+> >
+> > Some nits, but otherwise LGTM.
+> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+>
+> Thanks.
+>
+> >
+> > From the above code it seems like you are trying to get at least
+> > pc->min_objects and as close as possible to the pc->max_objects
+> > without exceeding it (with a possibility that we will exceed both
+> > min_objects and max_objects in one step). Is that indeed the intent?
+> > Because otherwise could could simplify these conditions to stop once
+> > you crossed pc->min_objects.
+>
+> Yeah see my reply to Harry, it's for future tuning.
 
-Seems like it was b4 and did for all patches, damn. Sorry, will fix up to
-match reality.
+Ok.
 
+>
+> >> +       if (slab->freelist) {
+> >
+> > nit: It's a bit subtle that the checks for slab->freelist here and the
+> > earlier one for ((slab->objects - slab->inuse) > count) are
+> > effectively equivalent. That's because this is a new slab and objects
+> > can't be freed into it concurrently. I would feel better if both
+> > checks were explicitly the same, like having "bool extra_objs =3D
+> > (slab->objects - slab->inuse) > count;" and use it for both checks.
+> > But this is minor, so feel free to ignore.
+>
+> OK, doing this for your and Hao Li's comment:
+
+Sounds good. Thanks!
+
+>
+> diff --git a/mm/slub.c b/mm/slub.c
+> index d6fde1d60ae9..015bdef11eb6 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -4505,7 +4505,7 @@ static inline void *get_freelist(struct kmem_cache =
+*s, struct slab *slab)
+>   * Assumes the slab is isolated from node partial list and not frozen.
+>   *
+>   * Assumes this is performed only for caches without debugging so we
+> - * don't need to worry about adding the slab to the full list
+> + * don't need to worry about adding the slab to the full list.
+>   */
+>  static inline void *get_freelist_nofreeze(struct kmem_cache *s, struct s=
+lab *slab)
+>  {
+> @@ -4569,10 +4569,17 @@ static unsigned int alloc_from_new_slab(struct km=
+em_cache *s, struct slab *slab,
+>  {
+>         unsigned int allocated =3D 0;
+>         struct kmem_cache_node *n;
+> +       bool needs_add_partial;
+>         unsigned long flags;
+>         void *object;
+>
+> -       if (!allow_spin && (slab->objects - slab->inuse) > count) {
+> +       /*
+> +        * Are we going to put the slab on the partial list?
+> +        * Note slab->inuse is 0 on a new slab.
+> +        */
+> +       needs_add_partial =3D (slab->objects > count);
+> +
+> +       if (!allow_spin && needs_add_partial) {
+>
+>                 n =3D get_node(s, slab_nid(slab));
+>
+> @@ -4594,7 +4601,7 @@ static unsigned int alloc_from_new_slab(struct kmem=
+_cache *s, struct slab *slab,
+>         }
+>         slab->freelist =3D object;
+>
+> -       if (slab->freelist) {
+> +       if (needs_add_partial) {
+>
+>                 if (allow_spin) {
+>                         n =3D get_node(s, slab_nid(slab));
+>
