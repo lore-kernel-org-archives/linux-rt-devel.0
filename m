@@ -1,81 +1,33 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBC53612D7
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 10:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107ED335097;
+	Wed, 21 Jan 2026 11:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768992865; cv=none; b=bIn/9l5Ze5qoRu0/XihaSwp1sJaA0do95zTghVmwYFx7Vfs5KziCHpnW4sGD6QLGivDNq3v5lU6WIqyvUTzENh2zbNQTkjgRZAvOMXfWZQfpytw6pS5aOn56eFw2o5lzMYKxLxFGlZQ5gJgkbz9lyczi6Gu7eF+6s5NZtvubecE=
+	t=1768993998; cv=none; b=Ub04lfCDNJehrjpD1Z6zhKBQh8CEH2W7n2cTBusx2asSoKrRKagldIcZcIi4SmEp1YRGB6ZjLcc+j6orYF/ZX4kezXWv9QUASCC9C4ZWiEhadqDY1HB57cjZvQhukRqurvLvpOlVQnUhXytTsQi+zH3lSsDQLMV1lBsfY3WFf7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768992865; c=relaxed/simple;
-	bh=wXy37nhiqgs5rHP5nt+cepzJ2r3EaH6XICf0ZN5cJiU=;
+	s=arc-20240116; t=1768993998; c=relaxed/simple;
+	bh=8nIStO62/pj08BGcjmkSCW+2d8pEoCW7q94cFfuT93I=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QrCeJnmWSpc7FE/JvAdHwBXwzJJN3sBCflZhRVDRGJ+vO6Rvh6oPbjinz6JLNAZwQzrfhyUHIB5Na6VxdoP27mI91jmY/iCCtistnXiDnictzYOZf6yHHCdrfxaD2L9l1nWYGA6M3OGqjDER4DeKk2dr+byZx96uhFBj6w+OQ7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oCs9L39d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L9l+ViOu; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oCs9L39d; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=L9l+ViOu; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 In-Reply-To:Content-Type; b=Mw6M4pzBMe61MN44VvYaK7gg1CFyeSIBcmKSAGgdEunW+zY4YLgmiwoR492O9Fbyj2ayQWgFBLgUjmhf5JdSyBWelI2gA2N68Dz33Q8+AbL03Q9RWlbG6hvKO1aS3zlUB+CrAYMPT+0OcTDjOJRUcE5YGp9+MrieW39K2xRY1bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XF5FjrMQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oCs9L39d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L9l+ViOu";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oCs9L39d";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="L9l+ViOu"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0C7EE3368B;
-	Wed, 21 Jan 2026 10:54:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768992861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7lL5k0cEGVYqwhOMRXHItIyxfFAmPKDrcwpZ8VQ9GNw=;
-	b=oCs9L39dsGYnQyyexypRLA0+wqAaV30/WneXrn2mDXxuJ5zhDCigqkGW8ymJjM2pNyhYSW
-	LsAaLsa/f32ttaT4JaBYIWPwi6UDefdTa1I5FkXKCQ6R7s4asazOpXA19to+CWl2y1g1wG
-	nq9tFh7JtCRiYL8AsERmFZsIgMrkcFw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768992861;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7lL5k0cEGVYqwhOMRXHItIyxfFAmPKDrcwpZ8VQ9GNw=;
-	b=L9l+ViOuRsVosZqE0MgwCDb430QK6FYkeRSTcw8UYNTSc73YdY0MCDXr5VW/+W6tmIf4Hr
-	gVpq6qPkWXpfDiAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=oCs9L39d;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=L9l+ViOu
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1768992861; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7lL5k0cEGVYqwhOMRXHItIyxfFAmPKDrcwpZ8VQ9GNw=;
-	b=oCs9L39dsGYnQyyexypRLA0+wqAaV30/WneXrn2mDXxuJ5zhDCigqkGW8ymJjM2pNyhYSW
-	LsAaLsa/f32ttaT4JaBYIWPwi6UDefdTa1I5FkXKCQ6R7s4asazOpXA19to+CWl2y1g1wG
-	nq9tFh7JtCRiYL8AsERmFZsIgMrkcFw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1768992861;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=7lL5k0cEGVYqwhOMRXHItIyxfFAmPKDrcwpZ8VQ9GNw=;
-	b=L9l+ViOuRsVosZqE0MgwCDb430QK6FYkeRSTcw8UYNTSc73YdY0MCDXr5VW/+W6tmIf4Hr
-	gVpq6qPkWXpfDiAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D05143EA63;
-	Wed, 21 Jan 2026 10:54:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id idjLMVywcGn4EwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 10:54:20 +0000
-Message-ID: <83f2ee6e-f767-40da-8cf4-08c6c185b92b@suse.cz>
-Date: Wed, 21 Jan 2026 11:54:20 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XF5FjrMQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8EDA7C116D0;
+	Wed, 21 Jan 2026 11:13:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1768993996;
+	bh=8nIStO62/pj08BGcjmkSCW+2d8pEoCW7q94cFfuT93I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XF5FjrMQ5bszsg63Pif9qx/FPth0mMM/YZ1y7dfq9g6q5Xcnpzm6YyxIgRMr2Gd2C
+	 ti70ZYlixTilTQ72tjO6xoJ58wqMoeY6wuSJGLo/Dw8X9Z9IcDr4+n8zPQ1kWieRqv
+	 jieLMFHluglL3HPMN8i++15ZkDLtsEKl3fU85YGoMJjfjXQYYMT729BjiJfO8Vgs38
+	 X9plq940F7aXh+PS4XBdaQ+5ge4wlgk4JxmfwS1OOGeD5QkVpyTpcRJAiliX1c0UtL
+	 NdLqZ1BoTlbD+S7abMh5J4LaWFiJNvhm7dcwzT76M8oE1pKOcQVQUQ6MClut3PF7zH
+	 WcNc5MjqZmCZg==
+Message-ID: <80325398-80a4-486a-ba4f-f2b8a23d7b17@kernel.org>
+Date: Wed, 21 Jan 2026 12:13:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,133 +35,72 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/21] slab: introduce percpu sheaves bootstrap
-Content-Language: en-US
-To: Hao Li <hao.li@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+Subject: Re: REGRESSION on linux-next (next-20260115)
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+ "Kurmi, Suresh Kumar" <suresh.kumar.kurmi@intel.com>,
+ "Saarinen, Jani" <jani.saarinen@intel.com>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-6-5595cb000772@suse.cz>
- <7rzlxxqawgasthkhlk2fccync42blr3mehtfbylcsihy7kr5m5@m2bzma4qifo7>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <7rzlxxqawgasthkhlk2fccync42blr3mehtfbylcsihy7kr5m5@m2bzma4qifo7>
+ sfr@canb.auug.org.au, ilpo.jarvinen@linux.intel.com,
+ regressions@leemhuis.info
+References: <555f1c56-0f74-41bf-8bd2-6217e0aab0c6@intel.com>
+ <20260121075348.5MyqcHFB@linutronix.de>
+ <89de03a5-e5da-4d2e-8547-8e54ad73b324@intel.com>
+ <20260121090154.Lpaj9hrr@linutronix.de>
+ <1a68f6d5-6541-4b04-8628-397001cb1e55@kernel.org>
+ <20260121103921.q-r7pAzL@linutronix.de>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260121103921.q-r7pAzL@linutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:mid,suse.cz:dkim,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 0C7EE3368B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
 
-On 1/19/26 12:32, Hao Li wrote:
-> On Fri, Jan 16, 2026 at 03:40:26PM +0100, Vlastimil Babka wrote:
->> Until now, kmem_cache->cpu_sheaves was !NULL only for caches with
->> sheaves enabled. Since we want to enable them for almost all caches,
->> it's suboptimal to test the pointer in the fast paths, so instead
->> allocate it for all caches in do_kmem_cache_create(). Instead of testing
->> the cpu_sheaves pointer to recognize caches (yet) without sheaves, test
->> kmem_cache->sheaf_capacity for being 0, where needed, using a new
->> cache_has_sheaves() helper.
->> 
->> However, for the fast paths sake we also assume that the main sheaf
->> always exists (pcs->main is !NULL), and during bootstrap we cannot
->> allocate sheaves yet.
->> 
->> Solve this by introducing a single static bootstrap_sheaf that's
->> assigned as pcs->main during bootstrap. It has a size of 0, so during
->> allocations, the fast path will find it's empty. Since the size of 0
->> matches sheaf_capacity of 0, the freeing fast paths will find it's
->> "full". In the slow path handlers, we use cache_has_sheaves() to
->> recognize that the cache doesn't (yet) have real sheaves, and fall back.
->> Thus sharing the single bootstrap sheaf like this for multiple caches
->> and cpus is safe.
->> 
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->>  mm/slub.c | 119 ++++++++++++++++++++++++++++++++++++++++++--------------------
->>  1 file changed, 81 insertions(+), 38 deletions(-)
->> 
+Hi,
+
+On 21-Jan-26 11:39, Sebastian Andrzej Siewior wrote:
+> On 2026-01-21 11:20:53 [+0100], Hans de Goede wrote:
+>> Hi,
+> Hi,
 > 
-> Nit: would it make sense to also update "if (s->cpu_sheaves)" to
-> cache_has_sheaves() in kvfree_rcu_barrier_on_cache(), for consistency?
+>> Right, so as the commit message of commit 8f812373d195 ("platform/x86: intel:
+>> int0002_vgpio: Pass IRQF_ONESHOT to request_irq()") explains
+>> the int0002_vgpio driver *must* use the same flags to request
+>> the IRQ as the ACPI core does, which is why it passes IRQF_ONESHOT
+>> even though it does not have a threaded handler.
+>>
+>> This worked fine until commit aef30c8d569c ("genirq: Warn about using
+>> IRQF_ONESHOT without a threaded handler") as Chaitanya's bisect
+>> pointed out.
+> 
+> Avoiding forced-threading on the int0002_vgpio handler is actually a
+> problem on PREEMPT_RT. But yeah no complains from the stack.
+> 
+>> Sebastian as I agree that switching to IRQF_COND_ONESHOT on
+>> the int0002_vgpio.c side is a good way to fix this.
+>>
+>> But If I'm reading your proposed changes correct then your suggestion
+>> is to drop IRQF_ONESHOT from int0002_vgpio.c and then instead of
+>> replacing it with IRQF_COND_ONESHOT you want to always pass
+>> IRQF_COND_ONESHOT when using the non-threaded request_irq functions?
+> 
+> Correct.
+> 
+>> I'm not objecting against this, just making sure I understand
+>> correctly.
+>>
+>> Note in that case you should also add this to the non devm_
+>> prefixed version.
+> 
+> You mean request_irq() as it has been done in commit
+>    c37927a203fa2 ("genirq: Set IRQF_COND_ONESHOT in request_irq()")
 
-Ack, will do. Thanks.
+Yes I meant plain request_irq(), I was not aware this was already
+done there.
+
+Regards,
+
+Hans
 
 
