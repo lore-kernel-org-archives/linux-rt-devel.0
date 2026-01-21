@@ -1,80 +1,81 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471033446DE
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 14:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1891F49251D
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 14:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769005332; cv=none; b=e46aaAFlbyz5P/GWiXTefiB4m3z+j7EJVNjurodQXKk26U8MoUFMaHaNdd7P9ddifmDVySp6rUj1sYym+WyGuiv8cNRcP05szHDdy5KStkHPqAm+JLTSt9aLaTUaRx80ML/GVA5ElkTVjE5Z7abzRvyLHAcRY5EdJh5hadUJXBU=
+	t=1769005798; cv=none; b=jcufjlBFfgJEryRJvxhoZzyqqJonvnVSdDVNjebEpZdBOrN4pl+4q4Ej5HKuNbEnqYAGMZCHw1MqY5t/aMAN3ZHXSbktLJfY9ZwpTWCYdorGyrOuMO48gKeWF/mSY2Bn/53ySCfAgUXmnHTzsl4+PNQh6Xg+g6ECXFnTg6mKaIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769005332; c=relaxed/simple;
-	bh=JO4IciRmt6dvatLFgwLl9QwIKoSQxMkGBsTOSZBW08c=;
+	s=arc-20240116; t=1769005798; c=relaxed/simple;
+	bh=27a6d7Gig29fiELvYsdnQuj6//0i/v1py4vJCwFum6w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y8rP0L3ATpbe1aoIHOdUuaf8IHYW3jbkboi41/1+6qSugMIG550S61KEmKDaL5WwBTO93nsIzoJYOcuG5N5keoEAym493OlVi69UzXT1CpnjhSh5cev1ejdwuHm7QswwLuZmud2RIKheSctXsEJYfiif4k8tclJK8dLYR3hrMWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ysbgqLyh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pRX4TWzK; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ysbgqLyh; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pRX4TWzK; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=XrxHd1MTuXihgMV3TusyR7RAnT68BkvWkUcWkMN55K1yiNjDGlmZ4kKIV+EWkA7YGOJLZTgYQamCZyUS7jUa/4nGaHuYtsYeNuJ42r9gERog7smI7Uq02BsFHpL7GJObNNSYDLTWxYs+/PfE9/CjGNKLA2i5///UyobnO2lUEpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xBB7CzWA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=39idVx3n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FE8gmbsl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=N9xRFMEt; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ysbgqLyh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pRX4TWzK";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ysbgqLyh";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pRX4TWzK"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xBB7CzWA";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="39idVx3n";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FE8gmbsl";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="N9xRFMEt"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 624093368F;
-	Wed, 21 Jan 2026 14:22:09 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D2685BD15;
+	Wed, 21 Jan 2026 14:29:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769005329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769005795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Z+yin5yG1LXvKg7jj+26aW4ppEi8musD0t2dIbcTZus=;
-	b=ysbgqLyhDSZoiZyX7wl331QMeBUA6+9OdXN9ovdPcBDSeXlQhQhzVhotZW72DAAalk0TUz
-	Ni0CPYSsObtMfCHQyNSpRzfjw5ouhojem7m5eK521nPh7WVNNK58XaVl6LVEp20Kg3zQeq
-	PfvYnF7gvk4YNYST8KE/yl4dVORLVws=
+	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
+	b=xBB7CzWAouJ0kG95KKwkW546C9uL5czxUsBVovivJalqyIkjof5v8vYNHpDiwle256xtFA
+	TtNyw/QyQ/7d7Zwk94WTbrO1lXZRM3bnqq/NXF//AhHQKLcAveJDHd/+uagzKrL/Aa3toe
+	PE7bplHFEE3uJToIJ7dC5tF0BTMhKac=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769005329;
+	s=susede2_ed25519; t=1769005795;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Z+yin5yG1LXvKg7jj+26aW4ppEi8musD0t2dIbcTZus=;
-	b=pRX4TWzKrBLCIaq/rke8r9QzgvXWDj8SJsuGMhKNfnPn9KZFaFkL2gqjDqbfiSRRwpi9En
-	BYCSE4kHlOjzymAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
+	b=39idVx3n6h5+DXybmopkhyO0nGh/uYxuixQ1s3bdUAxxoo8Jp2cGghBRN2iUuOl/oSkNF/
+	MTwsJaZbnrIUVvCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FE8gmbsl;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=N9xRFMEt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769005329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769005794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Z+yin5yG1LXvKg7jj+26aW4ppEi8musD0t2dIbcTZus=;
-	b=ysbgqLyhDSZoiZyX7wl331QMeBUA6+9OdXN9ovdPcBDSeXlQhQhzVhotZW72DAAalk0TUz
-	Ni0CPYSsObtMfCHQyNSpRzfjw5ouhojem7m5eK521nPh7WVNNK58XaVl6LVEp20Kg3zQeq
-	PfvYnF7gvk4YNYST8KE/yl4dVORLVws=
+	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
+	b=FE8gmbslymHFJlFqwlCRhTDsEMxastWZuOrGMdE2QXKVY4qVv4ObD2wpGvjXrrf5BuWVil
+	t5toaRDd7Hn+16fR4bF804yylPnRb1qcK5bJzS2kW5OX47UPGcs0C7ffq6SaGAoqE1Io3r
+	SW/cUTe/mnlz1YkbScLENDhtH1mCGoA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769005329;
+	s=susede2_ed25519; t=1769005794;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Z+yin5yG1LXvKg7jj+26aW4ppEi8musD0t2dIbcTZus=;
-	b=pRX4TWzKrBLCIaq/rke8r9QzgvXWDj8SJsuGMhKNfnPn9KZFaFkL2gqjDqbfiSRRwpi9En
-	BYCSE4kHlOjzymAg==
+	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
+	b=N9xRFMEtPfyQfMgDc3dnTYtpKgx++e71L/jfDP5y8wulUCncRiaEpEZKY7M4ESp9XTVoEq
+	+0Oee3+VY86EdUBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34D053EA63;
-	Wed, 21 Jan 2026 14:22:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 306623EA63;
+	Wed, 21 Jan 2026 14:29:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 3Z4bCxHhcGmiZAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 14:22:09 +0000
-Message-ID: <c17d4413-1ffa-4d3e-8d87-0e7c2b022c16@suse.cz>
-Date: Wed, 21 Jan 2026 15:22:08 +0100
+	id kut6CuLicGkwbAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 14:29:54 +0000
+Message-ID: <6a814aef-7b81-4b9d-a0a5-39f7dd7daf3d@suse.cz>
+Date: Wed, 21 Jan 2026 15:29:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -82,22 +83,23 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/21] slab: remove SLUB_CPU_PARTIAL
+Subject: Re: [PATCH v3 15/21] slab: remove struct kmem_cache_cpu
 Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>
+To: Hao Li <hao.li@linux.dev>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
  Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
  Andrew Morton <akpm@linux-foundation.org>,
  Uladzislau Rezki <urezki@gmail.com>,
  "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz>
- <CAJuCfpHaSg2O0vZhfAD+61i7Vq=T3OeQ=NXirXMd-2GCKRAgjg@mail.gmail.com>
+ <20260116-sheaves-for-all-v3-15-5595cb000772@suse.cz>
+ <dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7@2zezo6xejama>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -138,59 +140,64 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <CAJuCfpHaSg2O0vZhfAD+61i7Vq=T3OeQ=NXirXMd-2GCKRAgjg@mail.gmail.com>
+In-Reply-To: <dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7@2zezo6xejama>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	MX_GOOD(-0.01)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
 X-Spam-Flag: NO
-X-Spam-Score: -4.30
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 5D2685BD15
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
 
-On 1/20/26 23:25, Suren Baghdasaryan wrote:
-> On Fri, Jan 16, 2026 at 2:40 PM Vlastimil Babka <vbabka@suse.cz> wrote:
->>
->> We have removed the partial slab usage from allocation paths. Now remove
->> the whole config option and associated code.
->>
->> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+On 1/20/26 13:40, Hao Li wrote:
+> On Fri, Jan 16, 2026 at 03:40:35PM +0100, Vlastimil Babka wrote:
+>> @@ -3853,7 +3632,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache *s)
+>>  }
+>>  
+>>  /*
+>> - * Flush cpu slab.
+>> + * Flush percpu sheaves
+>>   *
+>>   * Called from CPU work handler with migration disabled.
+>>   */
+>> @@ -3868,8 +3647,6 @@ static void flush_cpu_slab(struct work_struct *w)
 > 
-> I did?
+> Nit: Would it make sense to rename flush_cpu_slab to flush_cpu_sheaf for better
+> clarity?
 
-Hmm looks like you didn't. Wonder if I screwed up, or b4 did. Sorry about that.
+OK
 
-> Well, if so, I missed some remaining mentions about cpu partial caches:
-> - slub.c has several hits on "cpu partial" in the comments.
-> - there is one hit on "put_cpu_partial" in slub.c in the comments.
-
-Should be addressed later by [PATCH v3 18/21] slab: update overview
-comments. I'll grep the result if anything is missing.
-
-> Should we also update Documentation/ABI/testing/sysfs-kernel-slab to
-> say that from now on cpu_partial control always reads 0?
-
-Uh those weird files. Does anyone care? I'd do that separately as well...
-
-> Once addressed, please feel free to keep my Reviewed-by.
+> Other than that, looks good to me. Thanks.
+> 
+> Reviewed-by: Hao Li <hao.li@linux.dev>
 
 Thanks!
 
