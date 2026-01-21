@@ -1,140 +1,135 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1424A387572
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769014127; cv=none; b=LFXTZ60UMCOPGjjFJouDQYOUK5391iu/0F1UAaFc4GUh9kbQuJDxqU+c/L3L2Pgkkk4wCkB+YJsnBFkLr7pavSbw0bY+VYBdDyggUOgqr4ZUuMUg6qUKIc7UpwxPkbvojHLeqQE/u2z202d5/q7yWBVLNVt2Gy1RaoZdbK/fKss=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769014127; c=relaxed/simple;
-	bh=cLD3HoYvuFQ+SGw//VXGJTuIKP/DCkVorY5/YG3bIGA=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Wvy3p2W9VuQkm/RYlfoitgIxo8HrQX3sRrMtdTbzifcxDMyeoV9N9arpN3tIv0ItejElZtCnaApXYOGCWjzFTcdm6pGzQab6hI9BZeZYrGcRoQB0ZIukQug7FjR5NM+JNMuy93QC5NHUFiG9k+x1+zJgZNWpg236aiLwu8YVHAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cPgf5a0E; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB7A4A341B
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769014651; cv=pass; b=nB1TV/T+OpTlktaw2gIFpa8/GJ69hvciiP+XcEeFS13or7IVHB2IjACvvtnQEIM/SAAM6QFiO6Qel/URHP7YrpEAZAn5C8yhRv9b1x6RbLsqnceef4tDjq+OA9WKvzl7X6nQKtsDI7zGg0Z70YIeeLlnASb5HHDvrBP72B5FTpc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769014651; c=relaxed/simple;
+	bh=u9ePfgEMWAzzAMBpjCw+oyPYM1jqTDkiGANBsXIAnes=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LZrBW6srmQ9DTcdA95aQPFAj/GPMys57BGdLPDrv4/2FFz4ns2TBQQ3H3V/OpaxaO/X/z23PIBR2UlnPZ2ru70vAn6n/p7x9rgpYhSfGA+3Ax5J22jXsC/NWkA3M9Zwu34FQm0RY+b5B1HNfYahIfh1UnfnxhTZVrXCzlybHgHA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gXqgJIY+; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cPgf5a0E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769014125;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CncJ+F7A6Y9Hl4XUc7kG12VL4QgJfQ/zB+kPL7VLBrc=;
-	b=cPgf5a0EM5zs9Oz6FuEymkTZ9lTlJ6FOqHlRi8IsFCFtPJHKo0Rap6N32HfTLlquAB5Yiq
-	ALpxasOjmlsNmN1+/o3Br5JKg15qvw2Y3BpTnnrhUTL97qCJ9IhGdvyJUrWvAwpS/0JOS8
-	QmGhdKcsIk6yVgKe7Qj4mkrU0Yxairo=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-643-8add_8trOfWACpELj_H3gw-1; Wed, 21 Jan 2026 11:48:43 -0500
-X-MC-Unique: 8add_8trOfWACpELj_H3gw-1
-X-Mimecast-MFC-AGG-ID: 8add_8trOfWACpELj_H3gw_1769014123
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-89471079a13so4286136d6.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:48:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gXqgJIY+"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50299648ae9so547911cf.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:57:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769014648; cv=none;
+        d=google.com; s=arc-20240605;
+        b=EImrHtuaaFgVaPXfQF/Ex6clhLzrzuq4SPQZdpPLfSRz93OsW99OoZW36NsqwMrDlh
+         z0r+rkctJZzs6ci7ii7VtX2Ev/fkkMsH0uLkXdeuBvsFQdlL994HlzLIV4kS7P9wBnZi
+         xJNzx9FRv26th9w8B7MoWQEbHFJT1i1InUaa9u1u0v+MTMXy1LJzYXSSOwobSRGnA3fp
+         02KtMUTrRl7h/qONOtiWKavP4jS6pYZG0du/c6+JLLR9WIwd0tolW6d+sFqQlU2mLPr6
+         5N1G3R1BtzYzXwwWWwI11CoJk+l5cVr6lh/zXaavqxlYQOvSFp115paa+QXJDzO622+3
+         ju6Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
+        fh=uZrCq7UfCGwYsYPtpYi4raYCj+gxvMyboHqUr+OPA2A=;
+        b=EcxRjco6MkI+Vhb0gP9O+kqkrPUBG+YyYEp4ShZmPDDH/xkuWPjLJ83M65ZlY3tssq
+         jpK9kc2/r+s2Xt+QDSIDMg9R19uHolxTLwx/gwElaZlsp7AZIsGiH0RwLdObf4f5e5nD
+         2IVGJ/LqqU/zEvwmoj7mnEjBwshbL0rSgPTCO4CFdRyacTjQaEOeyxi6TahU9S/7prct
+         a+Sjej0jqf4jv6F0Lbd/U83T1604u/nZTB9h3mRUpO8aCA1rZE/alsgmW8ZoG1U/XNYX
+         UtKMhgR8D6CFQ09rIv0X2/l0FrunQWhT6zh2+By/H0D6/3RN9RKsR8k2BHYHSv+efaxa
+         hc6A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769014648; x=1769619448; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
+        b=gXqgJIY+JHLoTqq/P0BKL7svjEGSX1RFG1zz/mKJMEXvPHajc47b3+ABgkrMT5o+jI
+         J6IejX4hTAS7Nlv0iuqXkf/b93GIaqC73ANmr4JKNQzXm4AgE2+RiPwL4/QaghE0dEy5
+         REL0TWBFpQfamlfgFKRzEolkS/JY1eTC8y7CmqXLPAMiDKga6mhZ1AWjStYVmuGlkerN
+         0maeoNME81pAA59dTTdcYpMy4fZNhDV1+xW0rCOvMKkJxXK90RD8cfPziyl+yVwwHWy0
+         aBoq1luU7D1jjYzU+QPompMCqNMRYxxH5pmrePy8FSCmA5rNEpgNH1b1hIKpJTs/RAsI
+         hEmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769014123; x=1769618923;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CncJ+F7A6Y9Hl4XUc7kG12VL4QgJfQ/zB+kPL7VLBrc=;
-        b=Vx1UVi7GD8dWHTMMODqO65uh0VLVrumLYSbwe1YONeMHEALC0n1ZLxStG7Sf9l3R8M
-         aQPos8RYAbAwoCBdsqTcIoV1TBFEL/95sg8KZDniJt3/8N8QoRVmN35wp4f/+uVblnto
-         bCeUT0ykoE+4xT3sJeWjNujaBQHr+44QJmOuL+5DIHwOAZiismqrmB0mqEMWPDcmRFHx
-         xw4dS4rqCMRxY+WHLYo5ORnNtII5QjAWOKdNJHT8F8x/CUEw8MGJdaDCMbgIQEtm4psV
-         RK4QUeiPBOG3s7CaFCnwVkcoW27mm+RO4i1UE1oaZPTJfzWitZcjfT/5S3hUK303e6aI
-         s1fQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXp8aQxF5MEO0vLrpNbZ/PA1Q0hHlVzbMjzUt8sg0aPpOuE/0uPZ/fzGMxUHlfp5QkSUv4TdK8EawDi/v5BRQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYOpM80npADPN3HQ8VhyahvtCxeMsoMQU5I2Vmvj9AlUqvMjSS
-	BZYu8a8VYRz3s2SOWfaKbweq9323ctngKbdsi749kWvd4mqQi3Pbc28xf+0DsT3VSHjQpZyYoCn
-	mHfZQl9hLF0cB5ZEiv5QoEQSUL3e9pBl8eral/dmVsQS+eW/RjepR3AL1kerYMNJ6zLyS
-X-Gm-Gg: AZuq6aIOJoRl0H1pOjr3jkh3P5tcxVhwGv5yFPrMFLCxOAKfcsLT+dMfZplDfkp0QAy
-	O8fh9NSChlj3rDioGzot8zbS1ZIRvU6PJjyQYJk9umgKBxx8y7PXtT3MHM1Y9jI1wvhY7lq9Iko
-	Mzs6wxFgFH67cojJfhaH59D6ySfRLSbBuUd89HyBDGw7ZruH+/656Bgx4rSLDsfYOsW0gWC4A1/
-	85rc7AucWT5LSQno4aJI6CsWROtL6I2BH5uO6GpawzciRMl0NJPk2/bLzLmgFdc0r8OGmjBNQgt
-	6wjzPRDLc4cYBTiJGTbGCegR51abxJY0AcFDNPp5yLsey/8nBV1u+fF5NW5e172aoWumwnPZUlk
-	/CchlNzNSQ1xhHjysqRf68wD1kfajEzXIWOLdGnaCZ5n4p+mWSCMrJQy9
-X-Received: by 2002:a05:6214:c8b:b0:87c:2900:1f97 with SMTP id 6a1803df08f44-8942e531c13mr267613256d6.44.1769014123139;
-        Wed, 21 Jan 2026 08:48:43 -0800 (PST)
-X-Received: by 2002:a05:6214:c8b:b0:87c:2900:1f97 with SMTP id 6a1803df08f44-8942e531c13mr267612976d6.44.1769014122782;
-        Wed, 21 Jan 2026 08:48:42 -0800 (PST)
-Received: from ?IPV6:2601:188:c102:b180:1f8b:71d0:77b1:1f6e? ([2601:188:c102:b180:1f8b:71d0:77b1:1f6e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8942e6040casm134934466d6.21.2026.01.21.08.48.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Jan 2026 08:48:42 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-X-Google-Original-From: Waiman Long <longman@redhat.com>
-Message-ID: <0bada1e3-f312-4b72-974c-4b061e577d66@redhat.com>
-Date: Wed, 21 Jan 2026 11:48:41 -0500
+        d=1e100.net; s=20230601; t=1769014648; x=1769619448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
+        b=K0QmprbltAWpXsdpJ7Qv4LTSyhOCZzPQ2p0DSbVyL1mfPYyuyz2/j2s4+cEfbGz/sR
+         JgqqoRDXwkH8clnnlLDD/vrDtAiSyNdTTIuphV3sKiGgTvfErbCff++qnPuRb9B7B4bI
+         2kSfPw0DzmDuhUE7GzGtTxhbP4noEHx1rNqq+l5K3LjV2CYJGMpUPnAmFwlv9vfmawiO
+         W+mvwm2veBQ9TtB4KckpRz/h6g3UANdj26r6E15SXcMv5P3yCwNu4H816YqNooPHpuiV
+         wLp+WjMKGy0ixtOaSP5pYZxddKt3oWWdt0kqeR1iVgmbO9BffX++yocE0wcWivMabi+0
+         II8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWaDOAd59TZWVz1Kgu/45pYlxtTEz589krh3KjFKCKxZFPmImExqptIn8lFV0ZSvPK5aiQ4Dad5EYjLyNTumA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZ3HsuJZ5Xjl7wHOfQWiDGPYZeGe6jpUjFgx5+n06l3OzeoAk8
+	PDAVwWBn28+Zt7Mz2v19aBwf9U/wSjQtUS5F98ueNCtksfEv4kUlPVXF7SSEUXQFmI08K6G8ifC
+	cX/6iw+L0fRYMdaghgkVZ6gnvwQ6Dvp1iDqog6G3A
+X-Gm-Gg: AZuq6aLfXG5wNgfhLEVPkqX67g1tCT+WU26cK5rsb16Ezc+AoPGy9+e60C4bdnMac/0
+	Ss+hVOX969hVdXj+f5G0AcgGjfx5SYXkJt5IgFokbmXS2QLUOX82z3FaMV7e7b+1yRq6mEYcxbl
+	peRSvpWTUD24QAhqFyc1tmmVSoXCXW5UT0HlJmRexYTyUL8YXxFKndZ9qQeKRba4rnNbJXDESm8
+	0y1VeNZ2sLlZgoSaiGKntixtDil43CfzbsTD/jLnfEt+Vj3Q5GTovQcpZ382w75C1NBNq4PDNF6
+	Iv/1XA9DEYds6BMSY9+s3+c=
+X-Received: by 2002:ac8:584d:0:b0:4ff:c109:6a4 with SMTP id
+ d75a77b69052e-502e0c0d426mr15219551cf.4.1769014648007; Wed, 21 Jan 2026
+ 08:57:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in
- allocate_vpe_l1_table()
-To: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-References: <20260107215353.75612-1-longman@redhat.com>
- <864iowmrx6.wl-maz@kernel.org> <87ms2nsqju.ffs@tglx>
- <86wm1qlq7l.wl-maz@kernel.org> <87ecnwij44.ffs@tglx>
- <86v7h8l9ht.wl-maz@kernel.org> <87pl7gglya.ffs@tglx>
- <86tswrkrh4.wl-maz@kernel.org> <861pjjcqdi.wl-maz@kernel.org>
-In-Reply-To: <861pjjcqdi.wl-maz@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: mavTzJAjZm9Pxzf_QFEJND__5dlAqJ22f8Lj8uFKW6E_1769014123
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
+ <20260116-sheaves-for-all-v3-12-5595cb000772@suse.cz> <yejhiw37av3o23z6s4oewlmhip3iqxxkkfcjp2jhlo4qf7nm23@hojkan5ym5cv>
+In-Reply-To: <yejhiw37av3o23z6s4oewlmhip3iqxxkkfcjp2jhlo4qf7nm23@hojkan5ym5cv>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 21 Jan 2026 16:57:17 +0000
+X-Gm-Features: AZwV_QgOY9Ovo2gtiQ4jhpdmFVjl8h8HKayG692yA7UEj4JquBoNIBa9LT-cydc
+Message-ID: <CAJuCfpFaeYyzHirCYUPT0JDeavuq5UGqegW0OMata31XbYGnww@mail.gmail.com>
+Subject: Re: [PATCH v3 12/21] slab: remove the do_slab_free() fastpath
+To: Hao Li <hao.li@linux.dev>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>, 
+	Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/21/26 3:38 AM, Marc Zyngier wrote:
-> On Mon, 12 Jan 2026 11:20:07 +0000,
-> Marc Zyngier <maz@kernel.org> wrote:
->> On Sun, 11 Jan 2026 16:20:45 +0000,
->> Thomas Gleixner <tglx@kernel.org> wrote:
->>> On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
->>>> On Sun, 11 Jan 2026 09:39:07 +0000,
->>>> Thomas Gleixner <tglx@kernel.org> wrote:
->>>>> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
->>>>>> On Thu, 08 Jan 2026 22:11:33 +0000,
->>>>>> Thomas Gleixner <tglx@kernel.org> wrote:
->>>>>>> At the point where a CPU is brought up, the topology should be known
->>>>>>> already, which means this can be allocated on the control CPU _before_
->>>>>>> the new CPU comes up, no?
->>>>>> No. Each CPU finds *itself* in the forest of redistributors, and from
->>>>>> there tries to find whether it has some shared resource with a CPU
->>>>>> that has booted before it. That's because firmware is absolutely awful
->>>>>> and can't present a consistent view of the system.
->>>>> Groan....
->>>>>
->>>>>> Anyway, I expect it could be solved by moving this part of the init to
->>>>>> an ONLINE HP callback.
->>>>> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
->>>>> might be to late because there are callbacks in the STARTING section,
->>>>> i.e. timer, perf, which might rely on interrupts being accessible.
->>>> Nah. This stuff is only for direct injection of vLPIs into guests, so
->>>> as long as this is done before we can schedule a vcpu on this physical
->>>> CPU, we're good. No physical interrupt is concerned with this code.
->>> That's fine then. vCPUs are considered "user-space" tasks and can't be
->>> scheduled before CPUHP_AP_ACTIVE sets the CPU active for the scheduler.
->> Waiman, can you please give the following hack a go on your box? The
->> machines I have are thankfully limited to a single ITS group, so I
->> can't directly reproduce your issue.
-> Have you managed to try this hack? I may be able to spend some time
-> addressing the issue in the next cycle if I have an indication that
-> I'm on the right track.
+On Tue, Jan 20, 2026 at 12:30=E2=80=AFPM Hao Li <hao.li@linux.dev> wrote:
+>
+> On Fri, Jan 16, 2026 at 03:40:32PM +0100, Vlastimil Babka wrote:
+> > We have removed cpu slab usage from allocation paths. Now remove
+> > do_slab_free() which was freeing objects to the cpu slab when
+> > the object belonged to it. Instead call __slab_free() directly,
+> > which was previously the fallback.
+> >
+> > This simplifies kfree_nolock() - when freeing to percpu sheaf
+> > fails, we can call defer_free() directly.
+> >
+> > Also remove functions that became unused.
+> >
+> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> > ---
+> >  mm/slub.c | 149 ++++++------------------------------------------------=
+--------
+> >  1 file changed, 13 insertions(+), 136 deletions(-)
+> >
+>
+> Looks good to me.
+> Reviewed-by: Hao Li <hao.li@linux.dev>
 
-I am sorry that I was busy working on other stuff. Will try out the hack 
-today and report back ASAP.
+There are some hits in the comments on __update_cpu_freelist_fast and
+do_slab_free but you remove them later. Nice cleanup!
 
-Cheers,
-Longman
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
+>
+> --
+> Thanks,
+> Hao
