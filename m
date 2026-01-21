@@ -1,81 +1,81 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F371148C40B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 13:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A3D481AAF
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 13:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769001737; cv=none; b=d9P+BDnGjERygF9Ma4jRiBNARC/WAL/lVCbaEz8ZODzaCTl3ewkzJxEWL44dER3QBvD8HmP/qq/9Kf8xfcJ1qp/fewK4qUSytYltB0V8WrtPZ/ZNoEL47pCfSatuZOgdA5q7XjORqqljwAcXwExXJalrrJcB8rejwvf+G12H2ss=
+	t=1769003806; cv=none; b=tJoIBL/iBVhRhcOnZDp1b7T/VlReqV9E57KZdtrdwqpbCeyJGwDP1XIDMbVU1AeRRLy1fCmB9tea7RUTb1paT05Tc5xcjFkoVDGn73fSPQoU+8rMOIOJ2nNunidjW4L7IJI/QqDgU2Dxkfuv+EVRhB3E83PPAIa9gecdASgbUOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769001737; c=relaxed/simple;
-	bh=CqyKOgPt5AwsmJeo+tNQPG5M/otSFkIG4/HCiwaER3k=;
+	s=arc-20240116; t=1769003806; c=relaxed/simple;
+	bh=ifh1tT3zaOQZ0f3aouO2y5ZENzEzV7r66QJ4FotsmIE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y27iGkdxBqzsdH+fGRT99lQR7rFoZJsB7L1bHJzt2HEDthQkzslxpk3+XNbF7OjNlDo6D5seMMAlEKKYXwr/IdHKZQy+sqqzDAfAGYdy/HAk6PHPeeBCabY5lK3VkarjX0EZkAkoZBnbLHjOL4aBhdjsU3G95amXkchwphldfKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CKZTLDQ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xv57NFaS; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CKZTLDQ1; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Xv57NFaS; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=lwxduyActvmnjZjiWam2W6OiK/+qAkxF4HVJI57x3WPqj/p+Y0oeZ7aGp3C0qZhRT0P6qWABatn/Z7M26cuwgi326VsZC6pFF7Nqan4UcuM682+DRx/vOia5E8/IKXN2yjMd5gy1rK2P0IBxECq4BLjBgRDlv6nhnrR/bCwwk0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=RLeqqG3F; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=/hedZwf9; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tFX5PEb0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Pr1DDvzP; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CKZTLDQ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xv57NFaS";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CKZTLDQ1";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Xv57NFaS"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="RLeqqG3F";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="/hedZwf9";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tFX5PEb0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Pr1DDvzP"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1A28D336A1;
-	Wed, 21 Jan 2026 13:22:13 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id ED0035BD00;
+	Wed, 21 Jan 2026 13:56:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769001733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769003802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=shsGpPkdTpgh2O3TvGdc0KosuzZDmGShHqMUn9wd7Ck=;
-	b=CKZTLDQ1olFsUiLxebYBI7V7mqZzU9LM1uJMj3grHOiSbNV27PM1IIzJ/9uFAsiS8xD+t4
-	TczVrUN7LQwilvQNBIwtNFDevjw0tLA0PZkm5n4BJpyoiLGSexPY3EIZ0x4LuXi4qiaf9n
-	000iLRd9HHqu58Tr3jHnZycO2FO7gwQ=
+	bh=F9wHHlvguHOFteeiwaIUOv2HvVMORPBkdi/Fa31GaTI=;
+	b=RLeqqG3FBu6iZC5J6AXcjT3gpOi4hVC60z2SRmK6G5CxsQcvua/dBW64jgUGq7aonh16qK
+	6ENSDG2mHm4udJlnU1yVlrIts/rY8xKO6OQXhuSt+L49HlFuv+Mt/aOXrnkaHohnlRC5jH
+	u1EZ/kdpx5a59/4v48H5cPOZyhx3X3g=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769001733;
+	s=susede2_ed25519; t=1769003802;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=shsGpPkdTpgh2O3TvGdc0KosuzZDmGShHqMUn9wd7Ck=;
-	b=Xv57NFaSo4zZ4KWnFbrVkQE7lTQSvPtDV5GDVBA5fzIURjLG0ttHHRW6Xd/npyaNDUx/dn
-	mLMsthjhfg8eLvAQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CKZTLDQ1;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Xv57NFaS
+	bh=F9wHHlvguHOFteeiwaIUOv2HvVMORPBkdi/Fa31GaTI=;
+	b=/hedZwf9JmybVlrUnQGLtQkauKdrOaQO/RaqMOwGU6sjq6PbjeeAKOq3v/g9w2MrKkTLdc
+	qSxnI/VV8yLe5yAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=tFX5PEb0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Pr1DDvzP
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769001733; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769003801; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=shsGpPkdTpgh2O3TvGdc0KosuzZDmGShHqMUn9wd7Ck=;
-	b=CKZTLDQ1olFsUiLxebYBI7V7mqZzU9LM1uJMj3grHOiSbNV27PM1IIzJ/9uFAsiS8xD+t4
-	TczVrUN7LQwilvQNBIwtNFDevjw0tLA0PZkm5n4BJpyoiLGSexPY3EIZ0x4LuXi4qiaf9n
-	000iLRd9HHqu58Tr3jHnZycO2FO7gwQ=
+	bh=F9wHHlvguHOFteeiwaIUOv2HvVMORPBkdi/Fa31GaTI=;
+	b=tFX5PEb0xwPq3xl9IpsMuEp1+4qM7jgjeO7GQT4/vqUckuMkWlNSguNxybo/MHdWB1Xq4o
+	h5Wiq9SiI5b6HRD0HPWhMx8arPtKwmOggt/YNlmdBrYwJdqLWSpDdAEF0MbeXPbFTv7ptw
+	pCUH9FulIR9iBLS0Szb9tJiWOGVWWg0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769001733;
+	s=susede2_ed25519; t=1769003801;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=shsGpPkdTpgh2O3TvGdc0KosuzZDmGShHqMUn9wd7Ck=;
-	b=Xv57NFaSo4zZ4KWnFbrVkQE7lTQSvPtDV5GDVBA5fzIURjLG0ttHHRW6Xd/npyaNDUx/dn
-	mLMsthjhfg8eLvAQ==
+	bh=F9wHHlvguHOFteeiwaIUOv2HvVMORPBkdi/Fa31GaTI=;
+	b=Pr1DDvzPVHUpSzqTkWGz/NhLXRVPZzyJ0YJ/GuJKa49oAwc+wlSzv5nYZN1tDGULxL1c1T
+	w8pPNaWz7JtOs1Cw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6A6F83EA63;
-	Wed, 21 Jan 2026 13:22:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BA82A3EA63;
+	Wed, 21 Jan 2026 13:56:41 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OTCoGQTTcGlWKAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 13:22:12 +0000
-Message-ID: <fec4ed92-32e1-4618-99d6-0eac77da1ff3@suse.cz>
-Date: Wed, 21 Jan 2026 14:22:12 +0100
+	id mixHLBnbcGkTSgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 13:56:41 +0000
+Message-ID: <c6ba66a3-0346-40c3-a27e-5528f30fc782@suse.cz>
+Date: Wed, 21 Jan 2026 14:56:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/21] slab: add optimized sheaf refill from partial
- list
+Subject: Re: [PATCH v3 10/21] slab: remove cpu (partial) slabs usage from
+ allocation paths
 Content-Language: en-US
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
@@ -98,8 +98,8 @@ Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
  bpf@vger.kernel.org, kasan-dev@googlegroups.com
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-9-5595cb000772@suse.cz>
- <CAJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA@mail.gmail.com>
+ <20260116-sheaves-for-all-v3-10-5595cb000772@suse.cz>
+ <CAJuCfpEEUs98yCiNA=QOPY6Qk7=QhSBF+gqPn5a+B+bYbQwvsQ@mail.gmail.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -140,7 +140,7 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <CAJuCfpErRjMi2aCCThHiS1F_LvaXjkVQvX9kJjqrpw8YnXoNBA@mail.gmail.com>
+In-Reply-To: <CAJuCfpEEUs98yCiNA=QOPY6Qk7=QhSBF+gqPn5a+B+bYbQwvsQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [-4.51 / 50.00];
@@ -150,136 +150,84 @@ X-Spamd-Result: default: False [-4.51 / 50.00];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[17];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
 X-Spam-Flag: NO
 X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 1A28D336A1
+X-Rspamd-Queue-Id: ED0035BD00
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Spam-Level: 
 
-On 1/20/26 18:19, Suren Baghdasaryan wrote:
+On 1/20/26 19:06, Suren Baghdasaryan wrote:
 > On Fri, Jan 16, 2026 at 2:40 PM Vlastimil Babka <vbabka@suse.cz> wrote:
 >>
->> At this point we have sheaves enabled for all caches, but their refill
->> is done via __kmem_cache_alloc_bulk() which relies on cpu (partial)
->> slabs - now a redundant caching layer that we are about to remove.
+>> We now rely on sheaves as the percpu caching layer and can refill them
+>> directly from partial or newly allocated slabs. Start removing the cpu
+>> (partial) slabs code, first from allocation paths.
 >>
->> The refill will thus be done from slabs on the node partial list.
->> Introduce new functions that can do that in an optimized way as it's
->> easier than modifying the __kmem_cache_alloc_bulk() call chain.
+>> This means that any allocation not satisfied from percpu sheaves will
+>> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
+>> slabs, so it will only perform get_partial() or new_slab(). In the
+>> latter case we reuse alloc_from_new_slab() (when we don't use
+>> the debug/tiny alloc_single_from_new_slab() variant).
 >>
->> Extend struct partial_context so it can return a list of slabs from the
->> partial list with the sum of free objects in them within the requested
->> min and max.
+>> In get_partial_node() we used to return a slab for freezing as the cpu
+>> slab and to refill the partial slab. Now we only want to return a single
+>> object and leave the slab on the list (unless it became full). We can't
+>> simply reuse alloc_single_from_partial() as that assumes freeing uses
+>> free_to_partial_list(). Instead we need to use __slab_update_freelist()
+>> to work properly against a racing __slab_free().
 >>
->> Introduce get_partial_node_bulk() that removes the slabs from freelist
->> and returns them in the list.
+>> The rest of the changes is removing functions that no longer have any
+>> callers.
 >>
->> Introduce get_freelist_nofreeze() which grabs the freelist without
->> freezing the slab.
->>
->> Introduce alloc_from_new_slab() which can allocate multiple objects from
->> a newly allocated slab where we don't need to synchronize with freeing.
->> In some aspects it's similar to alloc_single_from_new_slab() but assumes
->> the cache is a non-debug one so it can avoid some actions.
->>
->> Introduce __refill_objects() that uses the functions above to fill an
->> array of objects. It has to handle the possibility that the slabs will
->> contain more objects that were requested, due to concurrent freeing of
->> objects to those slabs. When no more slabs on partial lists are
->> available, it will allocate new slabs. It is intended to be only used
->> in context where spinning is allowed, so add a WARN_ON_ONCE check there.
->>
->> Finally, switch refill_sheaf() to use __refill_objects(). Sheaves are
->> only refilled from contexts that allow spinning, or even blocking.
->>
+>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > 
-> Some nits, but otherwise LGTM.
+> A couple of nits, but otherwise seems fine to me.
+> 
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-Thanks.
+Thanks!
 
+
+ > -static struct slab *get_partial_node(struct kmem_cache *s,
+>> -                                    struct kmem_cache_node *n,
+>> -                                    struct partial_context *pc)
+>> +static void *get_partial_node(struct kmem_cache *s,
+>> +                             struct kmem_cache_node *n,
+>> +                             struct partial_context *pc)
 > 
-> From the above code it seems like you are trying to get at least
-> pc->min_objects and as close as possible to the pc->max_objects
-> without exceeding it (with a possibility that we will exceed both
-> min_objects and max_objects in one step). Is that indeed the intent?
-> Because otherwise could could simplify these conditions to stop once
-> you crossed pc->min_objects.
+> Naming for get_partial()/get_partial_node()/get_any_partial() made
+> sense when they returned a slab. Now that they return object(s) the
+> naming is a bit confusing. I think renaming to
+> get_from_partial()/get_from_partial_node()/get_from_any_partial()
+> would be more appropriate.
 
-Yeah see my reply to Harry, it's for future tuning.
- 
->> +       if (slab->freelist) {
+OK, will do.
+
+>> -       }
+>> +       freelist = get_partial(s, node, &pc);
 > 
-> nit: It's a bit subtle that the checks for slab->freelist here and the
-> earlier one for ((slab->objects - slab->inuse) > count) are
-> effectively equivalent. That's because this is a new slab and objects
-> can't be freed into it concurrently. I would feel better if both
-> checks were explicitly the same, like having "bool extra_objs =
-> (slab->objects - slab->inuse) > count;" and use it for both checks.
-> But this is minor, so feel free to ignore.
+> I think all this cleanup results in this `freelist` variable being
+> used to always store a single object. Maybe rename it into `object`?
 
-OK, doing this for your and Hao Li's comment:
-
-diff --git a/mm/slub.c b/mm/slub.c
-index d6fde1d60ae9..015bdef11eb6 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4505,7 +4505,7 @@ static inline void *get_freelist(struct kmem_cache *s, struct slab *slab)
-  * Assumes the slab is isolated from node partial list and not frozen.
-  *
-  * Assumes this is performed only for caches without debugging so we
-- * don't need to worry about adding the slab to the full list
-+ * don't need to worry about adding the slab to the full list.
-  */
- static inline void *get_freelist_nofreeze(struct kmem_cache *s, struct slab *slab)
- {
-@@ -4569,10 +4569,17 @@ static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct slab *slab,
- {
-        unsigned int allocated = 0;
-        struct kmem_cache_node *n;
-+       bool needs_add_partial;
-        unsigned long flags;
-        void *object;
- 
--       if (!allow_spin && (slab->objects - slab->inuse) > count) {
-+       /*
-+        * Are we going to put the slab on the partial list?
-+        * Note slab->inuse is 0 on a new slab.
-+        */
-+       needs_add_partial = (slab->objects > count);
-+
-+       if (!allow_spin && needs_add_partial) {
- 
-                n = get_node(s, slab_nid(slab));
- 
-@@ -4594,7 +4601,7 @@ static unsigned int alloc_from_new_slab(struct kmem_cache *s, struct slab *slab,
-        }
-        slab->freelist = object;
- 
--       if (slab->freelist) {
-+       if (needs_add_partial) {
- 
-                if (allow_spin) {
-                        n = get_node(s, slab_nid(slab));
+Ack.
 
