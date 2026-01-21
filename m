@@ -1,124 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C714611E7;
-	Wed, 21 Jan 2026 08:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B850E47AF71
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 09:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768984700; cv=none; b=swywSRwQNrP49GFNuN0csy5uatl7MDAmTTh/L9LeUw2+JFgbWgys8duR3fMA+3auuVjnKDQ7J4UI2+1dzRBSw1TfsWNPNf+gejmeTALW8Tt5vqbR5hDaIRHBnB4PIihgHdeFcUtb482CD49SHWMPg+SGT0uppwDyqKqnzZDS+nI=
+	t=1768986119; cv=none; b=Aqgl1rk8Q3bblsaMh/J00Zq5IROMvUgqqTRpXZqhrUxwUKMXIzlpshCqFtqnziCP7IEbP8ppDvkmP8X7SFKadme5JacxHv5rPvICqR/gli4ueknFxORsuenaaJL+71u3yXmrYHYvHQBv0D+cc5QAzDwgBZHeOJoYnhE65isCnP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768984700; c=relaxed/simple;
-	bh=FHIfrtQp0a1LDUro16fPEm1A1xfk5VxSFyVP/6ghJZY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ccKysp3EM7C23Qhy2GFgxWce5KBjnr3lL00rts0YDFi3lK+aM+Y37Zj70qA7pOaHz83kbn5hPPtCcbzKcO7K1ShzUdxLizX8ITCalaToZaIbO7RdKukK1t2YkqxLOsrtxfKytTa3WgAgPQCJZiEURVqedW68vXFK0yBPM/+FIKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rL3quvkl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1768986119; c=relaxed/simple;
+	bh=d8BqvOwTW64kyXUl0YKZgLM6n3fPLZir42ZYJKBHL58=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TPsEVZBQIRanqy47a7LkPe4hugeZRAbsQdMf5EF+z+GR5PAi9pG7L9cIFOhyhuiqtc5LZpv7EAte5i7PUZSMz9VxFkEaf/A2IlRFHxDMZWqJestOcRXvJ3+czhH3ag/6YygEWhc9+CLasyh8K5JGrXH45ZPRXAL4gStPPM84YHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yPmgongE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3u+yUQlg; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rL3quvkl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234DAC116D0;
-	Wed, 21 Jan 2026 08:38:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768984700;
-	bh=FHIfrtQp0a1LDUro16fPEm1A1xfk5VxSFyVP/6ghJZY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rL3quvklhfag30JMrlUH5pn2+ingfQ7mybc6tPSgCAYfkq83LleY2B9rp0FE1qJKb
-	 WdgzJAP8E8Ic2BXuWUVxBkcy4lbc7a/ruvwX//10Aqdjk201PLSdG9v/RqjP3BFoHQ
-	 vmk7smtLQsXcV0+CHWWSVmGoT5EU1/vFcfyILjS2Tu56IUnBC0V52yr/yLfJOsp6EZ
-	 s9FSXNg7zW92Cnkm5gW2YzAvAqms7QxJYdYwDqgvtTp0jgpGTSTj0J+8xacNAg+/Mj
-	 KHuo54s424Vw3l7CsR5t2M3GCnZ2LGGLTOstBmxv4y1EleFMKBaO+qfE8RrFJcKcte
-	 Puu0JUyyNb8SQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1viTjF-00000004Ewn-2tx9;
-	Wed, 21 Jan 2026 08:38:17 +0000
-Date: Wed, 21 Jan 2026 08:38:17 +0000
-Message-ID: <861pjjcqdi.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Waiman Long <longman@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>
-Cc: Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven
- Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <86tswrkrh4.wl-maz@kernel.org>
-References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-	<86wm1qlq7l.wl-maz@kernel.org>
-	<87ecnwij44.ffs@tglx>
-	<86v7h8l9ht.wl-maz@kernel.org>
-	<87pl7gglya.ffs@tglx>
-	<86tswrkrh4.wl-maz@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yPmgongE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3u+yUQlg"
+Date: Wed, 21 Jan 2026 10:01:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1768986115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZk9739avFDrhfcz7WUKfli/kaNXuUlJFH1muW4n2/c=;
+	b=yPmgongEOfJYQEIvAyCpLfiHV9im/LIW8PlB30aQNIK4vbObW+o8T+5eHwBNRrtpmoUUxV
+	RGgyIEIiAf4XTc+mt2xuQJjtlBXFZdIIz5GT6mNBCNdTxoggR1BUAsZlWXdWSeTY3WtJB7
+	NRWQaY9L5OsbdE1T/x5XY5SPZIjOv8KI+cVt3GyNOpduBn3qF1KInHFJExL3HpngfXAL+Z
+	3xqFohxYDnsgYGfDAgqk6c6YFHVWHFiSh3ZknIgsjqkHT7s2SrRiIyves4J5HMGzJdfnF/
+	JAJpBhuJYbRdg1VdgoEFnR+mBo8H+HooYx/Yjcyy7KScAiHFMZTcAQBa6ArfKQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1768986115;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZk9739avFDrhfcz7WUKfli/kaNXuUlJFH1muW4n2/c=;
+	b=3u+yUQlgc5fTUKKo8P3STY6vg9Se34uHWfVyncRQE0bSYBOz9484nyxXLoNkPdsYbgdKw6
+	Lgst3HNVs+GFJJCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Cc: hansg@kernel.org, "Kurmi, Suresh Kumar" <suresh.kumar.kurmi@intel.com>,
+	"Saarinen, Jani" <jani.saarinen@intel.com>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	sfr@canb.auug.org.au, ilpo.jarvinen@linux.intel.com,
+	regressions@leemhuis.info
+Subject: Re: REGRESSION on linux-next (next-20260115)
+Message-ID: <20260121090154.Lpaj9hrr@linutronix.de>
+References: <555f1c56-0f74-41bf-8bd2-6217e0aab0c6@intel.com>
+ <20260121075348.5MyqcHFB@linutronix.de>
+ <89de03a5-e5da-4d2e-8547-8e54ad73b324@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: longman@redhat.com, tglx@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <89de03a5-e5da-4d2e-8547-8e54ad73b324@intel.com>
 
-On Mon, 12 Jan 2026 11:20:07 +0000,
-Marc Zyngier <maz@kernel.org> wrote:
+On 2026-01-21 13:59:38 [+0530], Borah, Chaitanya Kumar wrote:
 > 
-> On Sun, 11 Jan 2026 16:20:45 +0000,
-> Thomas Gleixner <tglx@kernel.org> wrote:
-> > 
-> > On Sun, Jan 11 2026 at 10:38, Marc Zyngier wrote:
-> > > On Sun, 11 Jan 2026 09:39:07 +0000,
-> > > Thomas Gleixner <tglx@kernel.org> wrote:
-> > >> 
-> > >> On Fri, Jan 09 2026 at 16:13, Marc Zyngier wrote:
-> > >> > On Thu, 08 Jan 2026 22:11:33 +0000,
-> > >> > Thomas Gleixner <tglx@kernel.org> wrote:
-> > >> >> At the point where a CPU is brought up, the topology should be known
-> > >> >> already, which means this can be allocated on the control CPU _before_
-> > >> >> the new CPU comes up, no?
-> > >> >
-> > >> > No. Each CPU finds *itself* in the forest of redistributors, and from
-> > >> > there tries to find whether it has some shared resource with a CPU
-> > >> > that has booted before it. That's because firmware is absolutely awful
-> > >> > and can't present a consistent view of the system.
-> > >> 
-> > >> Groan....
-> > >>
-> > >> > Anyway, I expect it could be solved by moving this part of the init to
-> > >> > an ONLINE HP callback.
-> > >> 
-> > >> Which needs to be before CPUHP_AP_IRQ_AFFINITY_ONLINE, but even that
-> > >> might be to late because there are callbacks in the STARTING section,
-> > >> i.e. timer, perf, which might rely on interrupts being accessible.
-> > >
-> > > Nah. This stuff is only for direct injection of vLPIs into guests, so
-> > > as long as this is done before we can schedule a vcpu on this physical
-> > > CPU, we're good. No physical interrupt is concerned with this code.
-> > 
-> > That's fine then. vCPUs are considered "user-space" tasks and can't be
-> > scheduled before CPUHP_AP_ACTIVE sets the CPU active for the scheduler.
-> 
-> Waiman, can you please give the following hack a go on your box? The
-> machines I have are thankfully limited to a single ITS group, so I
-> can't directly reproduce your issue.
+> Looks like it.
+>   9:          1          0  IO-APIC   9-fasteoi   acpi, INT0002
 
-Have you managed to try this hack? I may be able to spend some time
-addressing the issue in the next cycle if I have an indication that
-I'm on the right track.
+Does the following help?
 
-Thanks,
+diff --git a/drivers/platform/x86/intel/int0002_vgpio.c b/drivers/platform/x86/intel/int0002_vgpio.c
+index 6f5629dc3f8db..562e880256436 100644
+--- a/drivers/platform/x86/intel/int0002_vgpio.c
++++ b/drivers/platform/x86/intel/int0002_vgpio.c
+@@ -206,8 +206,8 @@ static int int0002_probe(struct platform_device *pdev)
+ 	 * FIXME: augment this if we managed to pull handling of shared
+ 	 * IRQs into gpiolib.
+ 	 */
+-	ret = devm_request_irq(dev, irq, int0002_irq,
+-			       IRQF_ONESHOT | IRQF_SHARED, "INT0002", chip);
++	ret = devm_request_irq(dev, irq, int0002_irq, IRQF_SHARED, "INT0002",
++			       chip);
+ 	if (ret) {
+ 		dev_err(dev, "Error requesting IRQ %d: %d\n", irq, ret);
+ 		return ret;
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 266f2b39213a0..b2bb878abd113 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -228,7 +228,7 @@ static inline int __must_check
+ devm_request_irq(struct device *dev, unsigned int irq, irq_handler_t handler,
+ 		 unsigned long irqflags, const char *devname, void *dev_id)
+ {
+-	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags,
++	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags | IRQF_COND_ONESHOT,
+ 					 devname, dev_id);
+ }
+ 
+My guess would be that the int0002_vgpio.c results in a warning without
+requesting the interrupt while the interrupt.h change should fix it and
+the warning should be gone.
 
-	M.
+> ==
+> Chaitanya
 
--- 
-Without deviation from the norm, progress is not possible.
+Sebastian
