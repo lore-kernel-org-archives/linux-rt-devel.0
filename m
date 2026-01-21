@@ -1,203 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1891F49251D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 14:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FDC3644C4;
+	Wed, 21 Jan 2026 14:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.21.191.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769005798; cv=none; b=jcufjlBFfgJEryRJvxhoZzyqqJonvnVSdDVNjebEpZdBOrN4pl+4q4Ej5HKuNbEnqYAGMZCHw1MqY5t/aMAN3ZHXSbktLJfY9ZwpTWCYdorGyrOuMO48gKeWF/mSY2Bn/53ySCfAgUXmnHTzsl4+PNQh6Xg+g6ECXFnTg6mKaIg=
+	t=1769006400; cv=none; b=GD4ZBFaIDprhs46Re9SOcQ3TTQKKd4v/sD823os5cwh+CRu1n7BvRTlWOtzVQepavppl48uKlHUkVn2fReliE5N0zuwgi3A8bEHguFxkaTQBCJs4poCeGjxozINq+xrniZCXNSWlSJpm3FRXuiLY+8KZUhKMi+yjBF+fiHuEjFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769005798; c=relaxed/simple;
-	bh=27a6d7Gig29fiELvYsdnQuj6//0i/v1py4vJCwFum6w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XrxHd1MTuXihgMV3TusyR7RAnT68BkvWkUcWkMN55K1yiNjDGlmZ4kKIV+EWkA7YGOJLZTgYQamCZyUS7jUa/4nGaHuYtsYeNuJ42r9gERog7smI7Uq02BsFHpL7GJObNNSYDLTWxYs+/PfE9/CjGNKLA2i5///UyobnO2lUEpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=xBB7CzWA; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=39idVx3n; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FE8gmbsl; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=N9xRFMEt; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="xBB7CzWA";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="39idVx3n";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FE8gmbsl";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="N9xRFMEt"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5D2685BD15;
-	Wed, 21 Jan 2026 14:29:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769005795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
-	b=xBB7CzWAouJ0kG95KKwkW546C9uL5czxUsBVovivJalqyIkjof5v8vYNHpDiwle256xtFA
-	TtNyw/QyQ/7d7Zwk94WTbrO1lXZRM3bnqq/NXF//AhHQKLcAveJDHd/+uagzKrL/Aa3toe
-	PE7bplHFEE3uJToIJ7dC5tF0BTMhKac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769005795;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
-	b=39idVx3n6h5+DXybmopkhyO0nGh/uYxuixQ1s3bdUAxxoo8Jp2cGghBRN2iUuOl/oSkNF/
-	MTwsJaZbnrIUVvCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FE8gmbsl;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=N9xRFMEt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769005794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
-	b=FE8gmbslymHFJlFqwlCRhTDsEMxastWZuOrGMdE2QXKVY4qVv4ObD2wpGvjXrrf5BuWVil
-	t5toaRDd7Hn+16fR4bF804yylPnRb1qcK5bJzS2kW5OX47UPGcs0C7ffq6SaGAoqE1Io3r
-	SW/cUTe/mnlz1YkbScLENDhtH1mCGoA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769005794;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=AIKrSdOKFX1Ry2BJW14V2EgsIVuZhU3Kvixf452GPhc=;
-	b=N9xRFMEtPfyQfMgDc3dnTYtpKgx++e71L/jfDP5y8wulUCncRiaEpEZKY7M4ESp9XTVoEq
-	+0Oee3+VY86EdUBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 306623EA63;
-	Wed, 21 Jan 2026 14:29:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kut6CuLicGkwbAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 21 Jan 2026 14:29:54 +0000
-Message-ID: <6a814aef-7b81-4b9d-a0a5-39f7dd7daf3d@suse.cz>
-Date: Wed, 21 Jan 2026 15:29:53 +0100
+	s=arc-20240116; t=1769006400; c=relaxed/simple;
+	bh=Vt4vSxHdad38y05njobYmzZryjad+VoGMcXRr3TFnn4=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:MIME-Version; b=g2hEP8+TWWgHGUhoJL+jaU2MaVJlOrTlWOOxpFKuAg0FLhCDzcP/OdwhOm3E0pqRyq0C9pjvdeoeNxVRvidNZodSLLD7O/fR1izi/Qag9wxYUbZusxqIy1pVjkPmWhW7emrIf1Sc7/ovc83lv8Kk1sflagoG+K5XbSO+xr2l7a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk; spf=pass smtp.mailfrom=decadent.org.uk; arc=none smtp.client-ip=65.21.191.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=decadent.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=decadent.org.uk
+Received: from [2a02:578:851f:1502:391e:c5f5:10e2:b9a3] (helo=deadeye)
+	by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1viZNE-001cD0-0N;
+	Wed, 21 Jan 2026 14:39:54 +0000
+Received: from ben by deadeye with local (Exim 4.99.1)
+	(envelope-from <ben@decadent.org.uk>)
+	id 1viZNB-00000001OTl-3Acx;
+	Wed, 21 Jan 2026 15:39:53 +0100
+Message-ID: <fe9a24d2b872878e6bf041f02e6ffe1e3570955a.camel@decadent.org.uk>
+Subject: [5.10] net/sched: act_ife: convert comma to semicolon
+From: Ben Hutchings <ben@decadent.org.uk>
+To: stable <stable@vger.kernel.org>
+Cc: Chen Ni <nichen@iscas.ac.cn>, linux-rt-devel@lists.linux.dev
+Date: Wed, 21 Jan 2026 15:39:49 +0100
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-vCLvawXUllRrsoV5v6e2"
+User-Agent: Evolution 3.56.2-8 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/21] slab: remove struct kmem_cache_cpu
-Content-Language: en-US
-To: Hao Li <hao.li@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-15-5595cb000772@suse.cz>
- <dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7@2zezo6xejama>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <dxrm4m545d4pzxmxjve34qwxwlw4kbmuz3xwdhvjheyeosa6y7@2zezo6xejama>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 5D2685BD15
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+X-SA-Exim-Connect-IP: 2a02:578:851f:1502:391e:c5f5:10e2:b9a3
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
 
-On 1/20/26 13:40, Hao Li wrote:
-> On Fri, Jan 16, 2026 at 03:40:35PM +0100, Vlastimil Babka wrote:
->> @@ -3853,7 +3632,7 @@ static bool has_pcs_used(int cpu, struct kmem_cache *s)
->>  }
->>  
->>  /*
->> - * Flush cpu slab.
->> + * Flush percpu sheaves
->>   *
->>   * Called from CPU work handler with migration disabled.
->>   */
->> @@ -3868,8 +3647,6 @@ static void flush_cpu_slab(struct work_struct *w)
-> 
-> Nit: Would it make sense to rename flush_cpu_slab to flush_cpu_sheaf for better
-> clarity?
 
-OK
+--=-vCLvawXUllRrsoV5v6e2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Other than that, looks good to me. Thanks.
-> 
-> Reviewed-by: Hao Li <hao.li@linux.dev>
+Hello stable maintainers,
 
-Thanks!
+There has been a build regression for the 5.10 stable branch when both
+CONFIG_NET_ACT_IFE and CONFIG_PREEMPT_RT are enabled.  This was
+introduced by the backport of commit ce50039be49e ("net: sched: act_ife:
+initialize struct tc_ife to fix KMSAN kernel-infoleak") in 5.10.247.
 
+After that change, tcf_ife_dump() includes the single statement:
+
+        opt.index =3D ife->tcf_index,
+        opt.refcnt =3D refcount_read(&ife->tcf_refcnt) - ref,
+        opt.bindcnt =3D atomic_read(&ife->tcf_bindcnt) - bind,
+=20
+        spin_lock_bh(&ife->tcf_lock);
+
+But with CONFIG_PREEMPT_RT enabled, spin_lock_bh() is a macro whose
+expansion starts with "do", so this is a syntax error.
+
+For 5.15-rt and newer, spin_lock_bh() is a function, and 5.4 is EOL, so
+only 5.10 is affected.
+
+Please cherry-pick commit 205305c028ad ("net/sched: act_ife: convert
+comma to semicolon") to fix this for 5.10.  It should be harmless to
+apply to later branches as well, of course.
+
+Ben.
+
+--=20
+Ben Hutchings
+I'm always amazed by the number of people who take up solipsism because
+they heard someone else explain it. - E*Borg on alt.fan.pratchett
+
+--=-vCLvawXUllRrsoV5v6e2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmlw5TUACgkQ57/I7JWG
+EQnAlQ//SL47NQysKtUFnSPKuZPuIScVpu/J7X83SP/tgNOAKEGJhVIhp6A1xFFU
+Tx0ql82EILb7i8vguOI4E98yUhcgZMEv25kv86FqHmSPl1RKQI3vhGiEX88U94Ho
+c3Fqna3S0ErnzMwhUbAk+Vqr150fTxHGJmfCkoEYTx4iwY84fUB2OHYW/ZTWSNJg
+VuJUXlD2cq3gFf+0UxXvqdg3fNmvwXi7FP4F9+zVfx/Ofn2u8+lLoepmUUantrEz
+nPcPcN3GuHdHhLYpzAadr2JQjo4zNIXk0VEaFikoAHEbBeLa/E1vpZh1JDqzGUDY
+pVzZFgSxlG6QDiIdDH0yIbddJr1BKfKqgaQwF5EqZ3bt0gTOSVbU0bCmm3I8+iit
+vvEOvnCH8ftkD9tE+PM2bcJkUmOBuzcu4/Jobq9es33XJ7RTITmsg2XJ34Z5xSop
+/zCTAn61kQXG3twb0oDufZYGuw+XQMXXuxXxdlR4EIk3ElvFxxi42PQb5YklQCsO
+1IKMx6iJi9bnFjbq2kIQyxLVFnVVXZZ49i9zsm83TOMkZQmD+wRSzir5hYDABIij
+S1YDUYMByaOoQKiaseX22VLL/+nSsFyhrKtLX0QmWaiOdGI1kPEXHslQ55ZJwm76
+2D1lPLMA0WsirhaidQOIxYhPntDMNIQC0NSIbuVthDjDv3Plz2E=
+=/twP
+-----END PGP SIGNATURE-----
+
+--=-vCLvawXUllRrsoV5v6e2--
