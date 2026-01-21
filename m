@@ -1,80 +1,80 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB7A4A341B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2614279F7
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 17:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769014651; cv=pass; b=nB1TV/T+OpTlktaw2gIFpa8/GJ69hvciiP+XcEeFS13or7IVHB2IjACvvtnQEIM/SAAM6QFiO6Qel/URHP7YrpEAZAn5C8yhRv9b1x6RbLsqnceef4tDjq+OA9WKvzl7X6nQKtsDI7zGg0Z70YIeeLlnASb5HHDvrBP72B5FTpc=
+	t=1769015527; cv=pass; b=oxLSjnpegdl2cgwGqt9ncD2msF28F/4CobERlBk37WcyjCvfbinazzQe7ZJhJU919/xQGf2lDy8aajo3Pgm6rDtelriD9/uLl+EmX0z9ZyKI4OyGreJ0xZRMSDKI3lehslEUqScCkMZb1cIoRe0MVDZimRbpli0EuN7aSdpMHOE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769014651; c=relaxed/simple;
-	bh=u9ePfgEMWAzzAMBpjCw+oyPYM1jqTDkiGANBsXIAnes=;
+	s=arc-20240116; t=1769015527; c=relaxed/simple;
+	bh=G3m/TeF8223oGiWV8LWrSag7Ph7un3ZvTk2MvPdc2eo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LZrBW6srmQ9DTcdA95aQPFAj/GPMys57BGdLPDrv4/2FFz4ns2TBQQ3H3V/OpaxaO/X/z23PIBR2UlnPZ2ru70vAn6n/p7x9rgpYhSfGA+3Ax5J22jXsC/NWkA3M9Zwu34FQm0RY+b5B1HNfYahIfh1UnfnxhTZVrXCzlybHgHA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gXqgJIY+; arc=pass smtp.client-ip=209.85.160.177
+	 To:Cc:Content-Type; b=hRT/PdjdK3uyabpr9JAf/m2kEitSGa3fU3wzq/RY1/08Iiou6x8zBGY5XPsx7wIasBEVpHzhPz5+XhL2QNAuXE4gF4k8YtgRIBvJtD86STm5vYf/G3BIdBTPpYjjbVYb4lfGCThvp+YREvlMVB/eYolOUD19nLB2zkGfK4vS7Kg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fGO6z9gR; arc=pass smtp.client-ip=209.85.160.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gXqgJIY+"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-50299648ae9so547911cf.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:57:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769014648; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fGO6z9gR"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5014acad6f2so128791cf.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 09:12:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769015525; cv=none;
         d=google.com; s=arc-20240605;
-        b=EImrHtuaaFgVaPXfQF/Ex6clhLzrzuq4SPQZdpPLfSRz93OsW99OoZW36NsqwMrDlh
-         z0r+rkctJZzs6ci7ii7VtX2Ev/fkkMsH0uLkXdeuBvsFQdlL994HlzLIV4kS7P9wBnZi
-         xJNzx9FRv26th9w8B7MoWQEbHFJT1i1InUaa9u1u0v+MTMXy1LJzYXSSOwobSRGnA3fp
-         02KtMUTrRl7h/qONOtiWKavP4jS6pYZG0du/c6+JLLR9WIwd0tolW6d+sFqQlU2mLPr6
-         5N1G3R1BtzYzXwwWWwI11CoJk+l5cVr6lh/zXaavqxlYQOvSFp115paa+QXJDzO622+3
-         ju6Q==
+        b=ZLfyYp90Tp4eqAjffWK/tyTIu5zfuze1vwnSykpHNpHGYfmJqItJ1jEkuvO1Y5fvpq
+         89RNJvn3SRKKcKt6VKqja8TYCTR65qpeoWuHTEwgj3hogyBlTIGVqdpD3O509cAMKpOG
+         ilRB1CzaIfV3ICn6GHO62F8PqJgHzWDBpVlTrycNtDXzLxk0bzspHvZ5Tjb5sTCSfj+P
+         f1l+ywwXvpLq+PjmIA+TnGVLOQSj2Hi6+95GllpWJxeeuvmVOsPQeOzeynsjNWNB6kno
+         WCFKnqAi0qE+8zd8MwFUGQnVYfKij9CzmgvEdBnegkijvQuw2F9UrP+wu6bClogmu/jW
+         0D0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
-        fh=uZrCq7UfCGwYsYPtpYi4raYCj+gxvMyboHqUr+OPA2A=;
-        b=EcxRjco6MkI+Vhb0gP9O+kqkrPUBG+YyYEp4ShZmPDDH/xkuWPjLJ83M65ZlY3tssq
-         jpK9kc2/r+s2Xt+QDSIDMg9R19uHolxTLwx/gwElaZlsp7AZIsGiH0RwLdObf4f5e5nD
-         2IVGJ/LqqU/zEvwmoj7mnEjBwshbL0rSgPTCO4CFdRyacTjQaEOeyxi6TahU9S/7prct
-         a+Sjej0jqf4jv6F0Lbd/U83T1604u/nZTB9h3mRUpO8aCA1rZE/alsgmW8ZoG1U/XNYX
-         UtKMhgR8D6CFQ09rIv0X2/l0FrunQWhT6zh2+By/H0D6/3RN9RKsR8k2BHYHSv+efaxa
-         hc6A==;
+        bh=Wxe8ja7BPp0xudXZUtfCAF8pkuXAFux2AU5rIUV3nM4=;
+        fh=LDGTZ3xFupLQO1DSP66VEeMI2fqiYDOxiwop4gKqZL0=;
+        b=QgtVbZ9poTCAZrYe0LqDyfX27XqbSjGDpVpRvpxIVqUPVHiFb7R+19cmShi4RK6Wpz
+         J6rcbe6DsGh/ZpUMaWB1AyzMrb23Ftb42t7DTSV6TIjURhWMv4YwMDxfMXwM9lB+Fz3l
+         OzcZg2zq1Mi2IrqEIciWm2JiQJjXVODi/A0HUJF0/EgA1Y5yT+IiJRhc2yu0mpo460TK
+         H1bVt2KF7XczMbKMYsvR0lP+9ZHu8V32MIL6y4zwIa5wrm4wWFmWm1bp7adg7AucbD/S
+         YPO5+UaJM1Ga6T18csJXrZinAqTh/auhlZZzbSJ4AXp6hRS5+AbkYjvr4Ox2N9f5JfNK
+         ujzQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769014648; x=1769619448; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1769015525; x=1769620325; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
-        b=gXqgJIY+JHLoTqq/P0BKL7svjEGSX1RFG1zz/mKJMEXvPHajc47b3+ABgkrMT5o+jI
-         J6IejX4hTAS7Nlv0iuqXkf/b93GIaqC73ANmr4JKNQzXm4AgE2+RiPwL4/QaghE0dEy5
-         REL0TWBFpQfamlfgFKRzEolkS/JY1eTC8y7CmqXLPAMiDKga6mhZ1AWjStYVmuGlkerN
-         0maeoNME81pAA59dTTdcYpMy4fZNhDV1+xW0rCOvMKkJxXK90RD8cfPziyl+yVwwHWy0
-         aBoq1luU7D1jjYzU+QPompMCqNMRYxxH5pmrePy8FSCmA5rNEpgNH1b1hIKpJTs/RAsI
-         hEmA==
+        bh=Wxe8ja7BPp0xudXZUtfCAF8pkuXAFux2AU5rIUV3nM4=;
+        b=fGO6z9gRJF31HBHMN5jBkC/2JtzZZDoglSJ/gwz/K/hHtslPe/Ie3aspfYjFsU1nWy
+         8c4OhnwvLpXp2k2gjGP4uvbd05XUbPTLKcMkBEJxgq7Bw2Gyw7i2wEgahQiMysEhykWK
+         UXrF0MsIboalgDT4XAprUgPl5ZqMpVPkQXeD5LmKx2QGbGLNq2REuh6pSmQlzkktlYTt
+         W3o2q9LFmxpDnakJ98FV3wHr9NitMQoiK3TRTfGRsMUPZGRzM/o8MxtifFBD3VLbFSuB
+         fyO3yOnHkP78AXYhJkxwH0mmN/0lKFFvuqk3hHlCxMERcJeCpDJiUZcxdkCkS+SGzM3T
+         PUTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769014648; x=1769619448;
+        d=1e100.net; s=20230601; t=1769015525; x=1769620325;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DzJlvh2XyLMGkwtl0QberzuQSLWoZAkg3qQo6w3w0Bo=;
-        b=K0QmprbltAWpXsdpJ7Qv4LTSyhOCZzPQ2p0DSbVyL1mfPYyuyz2/j2s4+cEfbGz/sR
-         JgqqoRDXwkH8clnnlLDD/vrDtAiSyNdTTIuphV3sKiGgTvfErbCff++qnPuRb9B7B4bI
-         2kSfPw0DzmDuhUE7GzGtTxhbP4noEHx1rNqq+l5K3LjV2CYJGMpUPnAmFwlv9vfmawiO
-         W+mvwm2veBQ9TtB4KckpRz/h6g3UANdj26r6E15SXcMv5P3yCwNu4H816YqNooPHpuiV
-         wLp+WjMKGy0ixtOaSP5pYZxddKt3oWWdt0kqeR1iVgmbO9BffX++yocE0wcWivMabi+0
-         II8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWaDOAd59TZWVz1Kgu/45pYlxtTEz589krh3KjFKCKxZFPmImExqptIn8lFV0ZSvPK5aiQ4Dad5EYjLyNTumA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZ3HsuJZ5Xjl7wHOfQWiDGPYZeGe6jpUjFgx5+n06l3OzeoAk8
-	PDAVwWBn28+Zt7Mz2v19aBwf9U/wSjQtUS5F98ueNCtksfEv4kUlPVXF7SSEUXQFmI08K6G8ifC
-	cX/6iw+L0fRYMdaghgkVZ6gnvwQ6Dvp1iDqog6G3A
-X-Gm-Gg: AZuq6aLfXG5wNgfhLEVPkqX67g1tCT+WU26cK5rsb16Ezc+AoPGy9+e60C4bdnMac/0
-	Ss+hVOX969hVdXj+f5G0AcgGjfx5SYXkJt5IgFokbmXS2QLUOX82z3FaMV7e7b+1yRq6mEYcxbl
-	peRSvpWTUD24QAhqFyc1tmmVSoXCXW5UT0HlJmRexYTyUL8YXxFKndZ9qQeKRba4rnNbJXDESm8
-	0y1VeNZ2sLlZgoSaiGKntixtDil43CfzbsTD/jLnfEt+Vj3Q5GTovQcpZ382w75C1NBNq4PDNF6
-	Iv/1XA9DEYds6BMSY9+s3+c=
-X-Received: by 2002:ac8:584d:0:b0:4ff:c109:6a4 with SMTP id
- d75a77b69052e-502e0c0d426mr15219551cf.4.1769014648007; Wed, 21 Jan 2026
- 08:57:28 -0800 (PST)
+        bh=Wxe8ja7BPp0xudXZUtfCAF8pkuXAFux2AU5rIUV3nM4=;
+        b=qmDeedS1b+B6u6mzU8vFgtIIF6VezSfs4WN/I1gQVetBVbU4iM1aiPhROxk4/ueATt
+         sNNV1oYKLFu1F0L8bkUDI4AV2JJ10VCdeIiE1Z8Rj6FYhGeQyYRe2ao3dO/U8BVeOwfQ
+         6wXV66ecgb1nyf+zpl8RyhfpGFqosGUcJ1Y3emRdRB8xuvbx3ujiSHeFVZOGLogznCIs
+         2LeoKaZU+cDX+8WzkQ53SjKGlRYQWWVYhaelLaLT8/6o+s0uQPK9h+p7srpVuGn9V+Nz
+         AG3wEG2IqxP7VkpFS9mi7+qoRikWxPLsNGPJD1sQA/lUUlPliHHFvdgt+7Ur2RNAjaaS
+         scSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtGWIEOCfLLUFiyBb6oPqkzg6QRuvv0xjHkPXwllPtu40cXGefchgdOr3B4F0pOwGcrg29vGQnp1dorb+KFw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeuDpyGfsPGdSv22IuX51UwL8G3rFfoSeHZWDIfyQMAEkHcFy6
+	H2ODyVGCVBLixLoq0GXPDMA4e9NuVwF06MzGAfMKwCSmhRnPL2UB7mRciJVjup2698oPYpfm02y
+	qkT8p8dGVZ3Ji/CujfA1netlonkfwD1td0PSe4e7j
+X-Gm-Gg: AZuq6aLQTY1QG4sEZpQNhAgN1d7IZZh3LJFCpICOXkKruvPmqgyvc5fnrKrSsd5lkaR
+	N/15DRfXcQJM3nKmzyUoiAJav0tS1FHL9cF3J2xtTr8xryB65+bIM7kBCWIq6XCHFLOy7/e/mQ8
+	rvAXm0SqKQIw77mzr1+EUBEIeAEeDntB9eUnS8hXaN7PbwIKGKWfiaBCeGvhEZsecQDFJBQMhj8
+	J+xMvOWtgFDbcfd7hIpCqz/mvhYWYkGTzUTaxIvPbA4ch+Pmp8Z7InpPm5/fLKDUjNGMUm3puqu
+	H6aWzB+XB4+A1QebCp4qM0g=
+X-Received: by 2002:ac8:7e8c:0:b0:4e8:aa24:80ec with SMTP id
+ d75a77b69052e-502e0c62ce0mr14559311cf.14.1769015518740; Wed, 21 Jan 2026
+ 09:11:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -82,13 +82,13 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-12-5595cb000772@suse.cz> <yejhiw37av3o23z6s4oewlmhip3iqxxkkfcjp2jhlo4qf7nm23@hojkan5ym5cv>
-In-Reply-To: <yejhiw37av3o23z6s4oewlmhip3iqxxkkfcjp2jhlo4qf7nm23@hojkan5ym5cv>
+ <20260116-sheaves-for-all-v3-13-5595cb000772@suse.cz> <veqtpod2liqsi4mgcxndgaiyqlhupnymmj4pquueqziqyakmnk@fzympoan5pds>
+In-Reply-To: <veqtpod2liqsi4mgcxndgaiyqlhupnymmj4pquueqziqyakmnk@fzympoan5pds>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 21 Jan 2026 16:57:17 +0000
-X-Gm-Features: AZwV_QgOY9Ovo2gtiQ4jhpdmFVjl8h8HKayG692yA7UEj4JquBoNIBa9LT-cydc
-Message-ID: <CAJuCfpFaeYyzHirCYUPT0JDeavuq5UGqegW0OMata31XbYGnww@mail.gmail.com>
-Subject: Re: [PATCH v3 12/21] slab: remove the do_slab_free() fastpath
+Date: Wed, 21 Jan 2026 17:11:47 +0000
+X-Gm-Features: AZwV_Qi9FJEvRsSrApnNVXPgEwKn9hYifa6IChzrQfzwFnpFd6X3lSwIuICSEss
+Message-ID: <CAJuCfpH3DVwK7FqfKb3WChWyz_ZJvECBf57Ehxr7qCzS=Ym_8g@mail.gmail.com>
+Subject: Re: [PATCH v3 13/21] slab: remove defer_deactivate_slab()
 To: Hao Li <hao.li@linux.dev>
 Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>, 
 	Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
@@ -100,32 +100,33 @@ Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 20, 2026 at 12:30=E2=80=AFPM Hao Li <hao.li@linux.dev> wrote:
+On Tue, Jan 20, 2026 at 9:35=E2=80=AFAM Hao Li <hao.li@linux.dev> wrote:
 >
-> On Fri, Jan 16, 2026 at 03:40:32PM +0100, Vlastimil Babka wrote:
-> > We have removed cpu slab usage from allocation paths. Now remove
-> > do_slab_free() which was freeing objects to the cpu slab when
-> > the object belonged to it. Instead call __slab_free() directly,
-> > which was previously the fallback.
+> On Fri, Jan 16, 2026 at 03:40:33PM +0100, Vlastimil Babka wrote:
+> > There are no more cpu slabs so we don't need their deferred
+> > deactivation. The function is now only used from places where we
+> > allocate a new slab but then can't spin on node list_lock to put it on
+> > the partial list. Instead of the deferred action we can free it directl=
+y
+> > via __free_slab(), we just need to tell it to use _nolock() freeing of
+> > the underlying pages and take care of the accounting.
 > >
-> > This simplifies kfree_nolock() - when freeing to percpu sheaf
-> > fails, we can call defer_free() directly.
+> > Since free_frozen_pages_nolock() variant does not yet exist for code
+> > outside of the page allocator, create it as a trivial wrapper for
+> > __free_frozen_pages(..., FPI_TRYLOCK).
 > >
-> > Also remove functions that became unused.
-> >
-> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 > > ---
-> >  mm/slub.c | 149 ++++++------------------------------------------------=
---------
-> >  1 file changed, 13 insertions(+), 136 deletions(-)
+> >  mm/internal.h   |  1 +
+> >  mm/page_alloc.c |  5 +++++
+> >  mm/slab.h       |  8 +-------
+> >  mm/slub.c       | 56 ++++++++++++++++++++-----------------------------=
+-------
+> >  4 files changed, 27 insertions(+), 43 deletions(-)
 > >
 >
 > Looks good to me.
 > Reviewed-by: Hao Li <hao.li@linux.dev>
-
-There are some hits in the comments on __update_cpu_freelist_fast and
-do_slab_free but you remove them later. Nice cleanup!
 
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
