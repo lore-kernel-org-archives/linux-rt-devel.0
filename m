@@ -1,80 +1,80 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A99432B99D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F77333442
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 16:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769012523; cv=pass; b=R+rz3N0PuzJpdRgxsQXPgBPMxd6V1w6pICBu+DcYle7qvQv9mxpz9mOgSvPs1c9TzOSX6FXj8t2/eVs5MCGEt3IODAW4FO0zBWAF6SvYxhOPi1dikyn8EvNZWXsQl1bWPDHRe4c94HOy+UCSdm4a0SkNUv9tvsl+ZYtBWlrGHTc=
+	t=1769012577; cv=pass; b=u3ioL+ecN4OYddU0CsO64lyQOSBRerc8dXbqFV6jLA4AkTRFn/N8vvonN1V65PRr5oWlXED6VMdnxJm9H5if0+hS6jcJgCG4WeDjsRQeyUO3grT147nQXt3c/oQqoJTkdbJoNvJCx3U7SULd8HG0u96AlipotpaPNKCIqj55cFg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769012523; c=relaxed/simple;
-	bh=N8yg0sA6xeaJapH8x7dXFOQ5ATlqTNmQkFmcpp80GVc=;
+	s=arc-20240116; t=1769012577; c=relaxed/simple;
+	bh=zZKKP+4IZYFDaCDFilC88QfoYGNpM2dFv0WidsWIKI4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rzgRpvLQZMwI+myTxI7WlcxGXQc0TCg+4xId4B13WA2GJhcQ7MPLa3pdLPIPI6tPTDuvpiCWC2KSou93Y5a8wfJ6c/EOn/kXPz7v6zN00pPQskBmgMHjIBaZmusdMvYB+pNR6NlBKA+kfeZdbFiho4nLbZbd8cNuur8vRxCP8NY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BHSJLpA3; arc=pass smtp.client-ip=209.85.160.182
+	 To:Cc:Content-Type; b=n6bYMPfv1wIC/TewESCE/7WgxHDnvJgoFa1x7BJ5kpbJKn+vci063NAC3XSiPfAxRsLi1IYUngnMZoqPa2OdT3L3esRPH3qlydHEZ/TQvsNz7+1Ha540baAY1xL9fLcrzt3h3FK0+iWbZ2vwn+ksORkr+ekDz/OnDZBvs4I0Kso=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lY6nNLbq; arc=pass smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BHSJLpA3"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-501511aa012so115651cf.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:22:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769012520; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lY6nNLbq"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50299648ae9so523651cf.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 08:22:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769012575; cv=none;
         d=google.com; s=arc-20240605;
-        b=WKyDRG4mO+nTPwf/OBtGk6FfnHgUVYRQv5wh8YL/lFuHxZjJyGb6mhKn6xs8ddOLuO
-         bBDamsBlBrFb14ayuK/Z0+E/Jw6o1KfD+X18rW7EigZVQhb2jHjvK0tuPKhnflODZzyQ
-         dOj2fA99a4O2j4MynsxWHdn0SeCKWFfD1qxYTx0Aw15YLwCIfZkKF+BlcDb+cy/dCdlA
-         hf3gQtDzUhbWxvZunnGdIZh+f0BUdvUwl8vPcoiHKA3QraywMkYePkVv75UjD+JUQM8B
-         DvwgggmYSKLrGFjtswQoJhKy5FyTcC4bPesEpANVBEdhU/P8Bt43/1JZ4Rl2YpvR/0nP
-         arSg==
+        b=SIKpni5DRiS2F/kXyb7HCj1DjqHL1g7NBNKVu1KvVMEmUaAlHJJrAEWjenuxan9DYo
+         Az5zsIYt1jSV+3DKiQ85rJhKkwNThdQtnka7QoBeTFhO3ubN0XXl0BuyqQReFWLukdAU
+         iui5UPv/8Rflb1TEYbzjeQe+YXCuqebKyHHS2jZMBfKJRoK8Ig4FDlYSIjm3tOzDqI0C
+         SbWYnSp7RKK4sAvoUimYu06P7pFYVbriTYAIITnD1yaFfoBd+JZ0T4tgcg10cpO++v0M
+         awkbHHwrPGnN5IHzzfIO+dtKHScRQSG1k2KuxrUrrI2hn63oBsQ7s9VN2feCsDygU7ao
+         r0Mw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VdVLEMD28EfX+5P0zrv2LIUEohcfDySK6bn0IJ0lRR4=;
-        fh=ClkIRkUhUY/S7q0mXeFcjgpTOgrxSULdJMvOw5FXQhs=;
-        b=Koz8WDPX2ODMWnL3jiGcfxYfqExOW0nZYOBC1lROIx7AVajNG6qcfVtTzkTs0h44vH
-         fSFQLTgBncMdJlPCMFB4xpkanvj241NbLL3XuhGe1pI8wYTgTkucFHoahYKkVgSJTh3U
-         FKBXI9XuNNkRt9gkz0zsDfejWpwxR6BG1C8yIa/3Fg9Lu04EjzL7u5tqsDXWwkdIPQN8
-         4sQUjYRbLKyx+lXd7Ce/3usFmBNsXStA/lhtR1Y6nMDO+bu/0DC+s6AprWcQgQGqNrdu
-         4RP03oO3HA569xmxGB7Y3tRmZINJZdRvaw/rj/ZoTziGUf/lx5ttlJAb3WBI+mNbjnyN
-         ytCw==;
+        bh=zZKKP+4IZYFDaCDFilC88QfoYGNpM2dFv0WidsWIKI4=;
+        fh=NucS0mOGQ0uhOdWQw4WjxrSQdz7nedoTxfT55PnQbpM=;
+        b=TFek72a0qnKLYG75eavKf0c1TKZvTXVX/fhIiE2EYx5VgT89OcpVYkCb5nfgS4C3GD
+         p5Y+ChiNgc6xEYTXF240whMjEglgHURN+wO4GGBtDDu3A9eToZCD1KzzmK9JCFim6GGP
+         g7JNjcTAF4cg+UwKiwiOkoHrNzBIJ/OB934mNQfqLL5qPVo6R7Bg0VwgZ5kqnGD3sT8X
+         61m0ns/cf6V+HvwEZlQYrE1flG76/CWMivoCsLenNpdiFGCKBPi/ddpJ6MP3v0+5nTTL
+         I1bJGoIAbvvUq731n/dzz2mwYs7zw878N0OHEcppXISPzFNwKpHLaTi7qAbzZS/d2KMi
+         uSDA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769012520; x=1769617320; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1769012575; x=1769617375; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VdVLEMD28EfX+5P0zrv2LIUEohcfDySK6bn0IJ0lRR4=;
-        b=BHSJLpA3zT46ySdrfL1kesTG24PIbm9wHPLbI/sfRQfQx5sDfA/x0H/dIZO6kwM8CL
-         9K/ODtZ3xdQf7ZyVLer5RjvdskWyUQyhHuJw3momWaEUCafNYguhLScu83ecgWfrgB1z
-         JEhak2kjEVR1Zc+EpTpGNslFV9mrrZAwpQxWcOx3pgQDXZb+TNj6afGDN0dYdoakP933
-         o33MNghrKDqbqhMmBDsAYcrNaZIg3MrOpkrFn30C8zuS+ipTgK00esp/ueGLWGIN/UwK
-         rc7dQ457fGiDF9VSwdlRCzWHBC6D85CXoQEiZ7Ly7pq9AWJqizw5haPZA8RI+FXwEE00
-         CyVQ==
+        bh=zZKKP+4IZYFDaCDFilC88QfoYGNpM2dFv0WidsWIKI4=;
+        b=lY6nNLbqwmj6wRQnqiKB+jQ9SVLucOnp14h5rMSmfwNtcRqIYZFObfX7rlPUq4wIbg
+         WcEZQnWgPoeniNWH6xqJ48bFqcMSjz9GZi2LpJP79Gy6RK/xMUIRRMJoKr1x6ohH2Mhb
+         gtO4vHe+QubvqXKxjBzN0MRL2hWyKn9s+SP+cngR6F16eJJu6HubnyzhNuMfYzkCwDg8
+         8vHFPrvZhc51FdBdK+me0/ue/71gORG1mx01ZC89lp8HwMeLbICWmqlEabsWqogxVpQY
+         ngGutLSdj0bMb8JjxlLBISr8snWBOTbjRFwsBkSiqvm3FaLdmgCz103Z6llYnRW9lI7G
+         b2CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769012520; x=1769617320;
+        d=1e100.net; s=20230601; t=1769012575; x=1769617375;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=VdVLEMD28EfX+5P0zrv2LIUEohcfDySK6bn0IJ0lRR4=;
-        b=ULM64Ll1SB5aHk/1CJ/09l+/o527rTMZBxMRFgdBgZNqpVC+UCrEhJcng6dQXu55+B
-         Tk5IIeSzZ9f2wFbXK2WVlUel+gNjfnc8e2kxm8UGYH2fg3nj7wtzUEuwkXoVHAwdBTLO
-         otUd384Okzrjw/0pmGZvV4Qx8qidIFiNly7YGny5IXiacJ+ltwW2Yf15SlrtUYKBaR+N
-         RH/AXKYik0U1AiZQrZCS5i2BRCRpeoZLYwqV9uM56ZoHxwCW8zFmhg1UaLtiBoKo4JdD
-         W74SDA/HORhS71iPcQruWPvs2prEkPfxldzl/iSLn0n5lqhx7Dt5WeL7ir1erVBJUJlk
-         j1Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCWXcsDMjiGrvBCid4fqc2vZ3mX6n4EiFoFX0+AVK2mSzyiBXMYOMzq6Xg46vvSwGUwoiujZHvUUeXex6nvk2g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/R2zORRhCvRgXc87v4oxkQI5CNs6dMefQsOtKxqmB+OXy64a4
-	d8xr6n8g0+XudV7GlbxkyPoPtjYcXNhdGoHlei4xmh5ZaqU+aGIYE5eAO9VTlLl14mwzNexz87I
-	sCf0NeVmACVSYVpOjVBr5f2H2Zw6cMtLSqizQeroN
-X-Gm-Gg: AZuq6aK3EmXA2YzhVVLErTtoDB9nAav5JTfwQGJ/1oWTOzst9cf4coLDtE4/xodZaA6
-	wBg3T9hE20RO630T3/RhlGO/oh4On1dq4PzETqkE11LHtflmdfac3IM81TiA941We76T3KDGfUS
-	9pXRqxsJJSV8LaVzX3WDZBs5XbgymcyTyI5CXWFnYL+1RWWCl1WsQZRdV711eqH+R/4KPNja8+P
-	alrCJLll6N+SokLK81/PVEAkY2tCA/LnbucXPyX89tt6wu0KhvZ0bDX1VSBdInaH3OeCxlRXwlG
-	+hwoHe0nGtz42whidrAEO1Pf0ZOIHOR5Mg==
-X-Received: by 2002:a05:622a:1998:b0:4e5:8707:d31 with SMTP id
- d75a77b69052e-502e1a7f7b3mr11247441cf.7.1769012519794; Wed, 21 Jan 2026
- 08:21:59 -0800 (PST)
+        bh=zZKKP+4IZYFDaCDFilC88QfoYGNpM2dFv0WidsWIKI4=;
+        b=crNL1VgHPpbPzm4jmTIYU89eAFweyEvwdLJlJKLxVvG88+0urs8S1pnGyQBCKw4wEI
+         thidktyvGLyy6UgNfW4vygbCrO9wVaAKzuxVXxLMl918IDpe1UpZr7WTc5hxllrCYNSJ
+         2KcPipji8A0so0nadL1WKDzNFIGYeNr++MLhugCmlwaorPgTUrabxgcJmL4m7auGAbAv
+         RbB7pCOUHtMbXgegAaeAzTav89IKq35cNbTAGXJTkkDYepIq4B1b1footQS75wEJJXZp
+         9Jkauqc6eSHF/Qu+vFJqAnX2IGqGAiHUwQzcf0fQeOHcsE4YdNsDQ20pdgjBNAY5lj9q
+         apwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXs2xSp72WaOtoWDnPSw52k/ZgpAFpBgKUjKCF6l01a5OdYV8U+D9srETcOISqeWrRZTvakESozP4Omcj3izQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYr+qD+Z6Ou6NJ3FyU7L1fC18/VO2GQk4r2FLS8RvirtsNEkjV
+	0L4nAnDKpI1ZP8zm0w5Y+DA1TQ0bYkABnAOa6eqwbD/PDBWWr5fhWi50E5Yf+XMY1q6AQHUl03w
+	jCLNkwkTDGTUSX1ePv2jRTneNFOGPhDKCKqLZYtmC
+X-Gm-Gg: AZuq6aLHrOO8bdWnlJqltBq3hxA8frjOam505ceicqD2Ryc7J9bT2MbyQqvS3yLE6fS
+	YN8DpEXwxkA0HqFOkWtkgUt5WCZ8lGQEZaSIIvV/0aIkARMTYo5vq2Dn752pjLeQtpmUEpflvRL
+	+bWTbwkM3HBke7NWqTfnhjoVqizSchBgOe5cKO7tfFXibsrkWeU+ZgbRDoPtuwTw8+vpJzsqyKo
+	ZFGQpzGTChSTqvvTOZOcRj0S5KkkhsGT5WxplkV7K5Gb9hGtfLelyLizDqS1SPe7rWnj8ce3U6E
+	IsYQf1H52EgNerLQOuQn1ks=
+X-Received: by 2002:ac8:5f49:0:b0:501:197d:32af with SMTP id
+ d75a77b69052e-502e0b52d5dmr15160751cf.0.1769012574328; Wed, 21 Jan 2026
+ 08:22:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,63 +83,62 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
  <20260116-sheaves-for-all-v3-11-5595cb000772@suse.cz> <CAJuCfpHaSg2O0vZhfAD+61i7Vq=T3OeQ=NXirXMd-2GCKRAgjg@mail.gmail.com>
- <aXAkwLsGP9rqamKL@hyeyoo>
-In-Reply-To: <aXAkwLsGP9rqamKL@hyeyoo>
+ <c17d4413-1ffa-4d3e-8d87-0e7c2b022c16@suse.cz>
+In-Reply-To: <c17d4413-1ffa-4d3e-8d87-0e7c2b022c16@suse.cz>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 21 Jan 2026 16:21:47 +0000
-X-Gm-Features: AZwV_QhmIp5S8mEMP1h6Gx-TWCdfCxovy5QQV_d0u6153x3grZV0j2owhClsj2k
-Message-ID: <CAJuCfpFiLnvXF-yOVmLDNqQ9ZoJC1uKz3J7UNawhp5Epev=eNQ@mail.gmail.com>
+Date: Wed, 21 Jan 2026 16:22:43 +0000
+X-Gm-Features: AZwV_Qhsac_Z51cYOHKUSuzgrrT7X6Hd2cSKwh2Th8VEqlGKrAYEFKE43eae864
+Message-ID: <CAJuCfpFUsSKf89tVe6u29SpN7sL1X_721H5iv2yGwt-Wa6E_xg@mail.gmail.com>
 Subject: Re: [PATCH v3 11/21] slab: remove SLUB_CPU_PARTIAL
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
+	kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 21, 2026 at 12:59=E2=80=AFAM Harry Yoo <harry.yoo@oracle.com> w=
-rote:
+On Wed, Jan 21, 2026 at 2:22=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> On Tue, Jan 20, 2026 at 10:25:27PM +0000, Suren Baghdasaryan wrote:
+> On 1/20/26 23:25, Suren Baghdasaryan wrote:
 > > On Fri, Jan 16, 2026 at 2:40=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz=
 > wrote:
-> > > @@ -5744,10 +5553,9 @@ static void __slab_free(struct kmem_cache *s, =
-struct slab *slab,
-> > >
-> > >         /*
-> > >          * Objects left in the slab. If it was not on the partial lis=
-t before
-> > > -        * then add it. This can only happen when cache has no per cp=
-u partial
-> > > -        * list otherwise we would have put it there.
-> > > +        * then add it.
-> > >          */
-> > > -       if (!IS_ENABLED(CONFIG_SLUB_CPU_PARTIAL) && unlikely(was_full=
-)) {
-> > > +       if (unlikely(was_full)) {
+> >>
+> >> We have removed the partial slab usage from allocation paths. Now remo=
+ve
+> >> the whole config option and associated code.
+> >>
+> >> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > >
-> > This is not really related to your change but I wonder why we check
-> > for was_full to detect that the slab was not on partial list instead
-> > of checking !on_node_partial... They might be equivalent at this point
-> > but it's still a bit confusing.
+> > I did?
 >
-> If we only know that a slab is not on the partial list, we cannot
-> manipulate its list because it may be on a linked list that cannot
-> handle list manipulation outside function
-> (e.g., pc.slabs in __refill_objects()).
->
-> If it's not on the partial list, we can safely manipulate the list
-> only when we know it was full. It's safe because full slabs are not
-> supposed to be on any list (except for debug caches, where frees are
-> done via free_to_partial_list()).
+> Hmm looks like you didn't. Wonder if I screwed up, or b4 did. Sorry about=
+ that.
 
-Ack. I guess I'm reading the above comment too literally. Thanks!
+No worries.
 
 >
-> --
-> Cheers,
-> Harry / Hyeonggon
+> > Well, if so, I missed some remaining mentions about cpu partial caches:
+> > - slub.c has several hits on "cpu partial" in the comments.
+> > - there is one hit on "put_cpu_partial" in slub.c in the comments.
+>
+> Should be addressed later by [PATCH v3 18/21] slab: update overview
+> comments. I'll grep the result if anything is missing.
+>
+> > Should we also update Documentation/ABI/testing/sysfs-kernel-slab to
+> > say that from now on cpu_partial control always reads 0?
+>
+> Uh those weird files. Does anyone care? I'd do that separately as well...
+
+I'm fine either way. Thanks!
+
+>
+> > Once addressed, please feel free to keep my Reviewed-by.
+>
+> Thanks!
+>
