@@ -1,33 +1,25 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7FC478861;
-	Wed, 21 Jan 2026 10:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89C7D33D507
+	for <linux-rt-devel@lists.linux.dev>; Wed, 21 Jan 2026 10:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768990858; cv=none; b=eTJU7NR8e1VvH9AD+EP2Lkw64FO9O1nsA6mi9qVjdswKeBHvl0SzJQ9UjbsiAuYbOuG+A9otQzxgEY+e9sBYue00fMk1l3UBuGPXrnbdFac5nNZMdRJ2TjiKK6SFztFjoJx3UH3XlG4wA6xg65RPwgnSAhstiOeFok9dCt5vksg=
+	t=1768990866; cv=none; b=irk4Q7YByToHnwWQLD8nDVdmDNfiLQ/5pC94e9xjbj/+tt2+FMuIn86LJgCMq8ni9CKNj0H5YOGAvbDGOr4z9VtoaXB5u2EH8I0xKeYemLS3Icbhflj8ZYooaASQRbDsuVTatUbbAsn1v//IvHwHK+COA5d/z4Q/PpSvDb6xkTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768990858; c=relaxed/simple;
-	bh=13ZO07wCiJVv+RdE9V2/uwg5zktyFxMIq5IM164EO2A=;
+	s=arc-20240116; t=1768990866; c=relaxed/simple;
+	bh=aWM41FwLJltNg5ijgscZl1PGdVDJmvdRJ/Sg/wjgfvA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hVz1z5DPJZxO/M8cX9NwSfMXpalEzXHmHof6EvOZ6dPOzxYTxabWI2Q9H1GZoPCu0CxtMA9GsJvI2fLsP1eqgOzvbvRdMlYQGhnHRdVCczcVWwYzn6Rv8EPqIF1+jcu1wIlPF3MrJK5ZR92Je56K5pizXOwi62loWm5czuG2MS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i79p2adC; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i79p2adC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAE77C116D0;
-	Wed, 21 Jan 2026 10:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768990857;
-	bh=13ZO07wCiJVv+RdE9V2/uwg5zktyFxMIq5IM164EO2A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=i79p2adClM9Iw4AIa6a4W7gkgWYAZYdsDphk21EZ/5TmHz887yOPZRs9aSg4axksz
-	 5O3mF3TkkszefLlTJKqSLFg09sdopCuw1sQdiw2kfrahCkXhYqiieGseGm4++Xv3E4
-	 RPMpmssDMLKlnRQUgC+1Gj5g9ioblwpmdV0SLc8SaAnqzdpD6zIqsS3klKN3em6/tG
-	 gFidlt9u9wSRq+/QO7Sz7tjIMNzJ+sgveevzC+oAUAsQwhntNv1qabU9TPQrWCA6za
-	 ipDcdR9QeEKVfNpSpXm3uw9fgGVU/WNoIxwSt9mFoFcaNPeyp3YVRRfBQBCLi/1arD
-	 zGTUBTwdCaPag==
-Message-ID: <1a68f6d5-6541-4b04-8628-397001cb1e55@kernel.org>
-Date: Wed, 21 Jan 2026 11:20:53 +0100
+	 In-Reply-To:Content-Type; b=HuwmBxjWA444wfaddkzqhBf53pA1ZO9SZALP06y4Z6zP6U7qMqrhpnhkjy9U+T+2A5KgGR8i6m4yjvojJ/gXFw5tJSMF1Lf+zXjoqfsJC6P6Ucp8DLmsLQSygLlFSbvyDDYVPz4VMV/O4B8bc0aSaeMzl8rngJJuT+t/pT6Ih7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17BC51476;
+	Wed, 21 Jan 2026 02:20:51 -0800 (PST)
+Received: from [10.1.25.175] (XHFQ2J9959.cambridge.arm.com [10.1.25.175])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B4003F740;
+	Wed, 21 Jan 2026 02:20:54 -0800 (PST)
+Message-ID: <ee2bf4ba-0121-44dc-a465-4c186dc18f19@arm.com>
+Date: Wed, 21 Jan 2026 10:20:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,94 +27,123 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: REGRESSION on linux-next (next-20260115)
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-Cc: "Kurmi, Suresh Kumar" <suresh.kumar.kurmi@intel.com>,
- "Saarinen, Jani" <jani.saarinen@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+Subject: Re: [PATCH v5 2/3] arm64: mmu: avoid allocating pages while splitting
+ the linear mapping
+Content-Language: en-GB
+To: Yeoreum Yun <yeoreum.yun@arm.com>, Yang Shi <yang@os.amperecomputing.com>
+Cc: Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- sfr@canb.auug.org.au, ilpo.jarvinen@linux.intel.com,
- regressions@leemhuis.info
-References: <555f1c56-0f74-41bf-8bd2-6217e0aab0c6@intel.com>
- <20260121075348.5MyqcHFB@linutronix.de>
- <89de03a5-e5da-4d2e-8547-8e54ad73b324@intel.com>
- <20260121090154.Lpaj9hrr@linutronix.de>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260121090154.Lpaj9hrr@linutronix.de>
+ catalin.marinas@arm.com, akpm@linux-oundation.org, david@kernel.org,
+ kevin.brodsky@arm.com, quic_zhenhuah@quicinc.com, dev.jain@arm.com,
+ chaitanyas.prakash@arm.com, bigeasy@linutronix.de, clrkwllms@kernel.org,
+ rostedt@goodmis.org, lorenzo.stoakes@oracle.com, ardb@kernel.org,
+ jackmanb@google.com, vbabka@suse.cz, mhocko@suse.com
+References: <aW5p1ylQBNXTEmmq@willie-the-truck>
+ <aW6hISBu3hNYS771@e129823.arm.com>
+ <2619166b-13ef-4daa-82c7-1d44035a8d6c@arm.com>
+ <aW9LCX92T9t8iDco@e129823.arm.com>
+ <baa46ea0-737b-4d9e-b4f4-2eee1476da95@arm.com>
+ <aW-k_D1Q8jpYMPoI@willie-the-truck>
+ <a6c1f21f-43e4-41d2-adb6-c5f9985b3abd@arm.com>
+ <aW+t8S1LfwX3LjRi@e129823.arm.com>
+ <11a01f4e-9ae5-4001-9f9c-74a746f898cd@arm.com>
+ <02bb61cc-f0be-41e5-b8b2-59768afd5254@os.amperecomputing.com>
+ <aXCPHaylUbRJ3CME@e129823.arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <aXCPHaylUbRJ3CME@e129823.arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 21-Jan-26 10:01, Sebastian Andrzej Siewior wrote:
-> On 2026-01-21 13:59:38 [+0530], Borah, Chaitanya Kumar wrote:
+On 21/01/2026 08:32, Yeoreum Yun wrote:
+>>>> My concern is that if a secondary CPU can race and cause a split, that is
+>>>> unsound because we have determined that although the primary CPU supports BBML2,
+>>>> at least one of the secondary CPUs does not. So splitting a live mapping is unsafe.
+>>>>
+>>>> I just had a brief chat with Rutland, and he agrees that this _could_ be a
+>>>> problem. Basically there is a window between onlining the secondary cpus and
+>>>> entering the stop_machine() where one of those cpus _could_ end up doing
+>>>> something that causes us to split the linear map.
 >>
->> Looks like it.
->>   9:          1          0  IO-APIC   9-fasteoi   acpi, INT0002
+>> If I remember correctly, split_kernel_leaf_mapping() does call
+>> system_supports_bbml2_noabort() before doing real split. So we basically
+>> should fall into two categories:
+>>
+>> 1. bbml2_noabort is supported on all cpus. Everything is fine.
+>> 2. bbml2_noabort is not supported on all cpus. split_kernel_leaf_mapping()
+>> just returns 0. Kernel doesn't split page table, so there won't be TLB
+>> conflict issue. But the following page prot update may see unexpected block
+>> mapping, then a   WARN  will be raised and it will return -EINVAL. So the
+>> worst case is the caller will fail (IIRC all the callers of set_memory_*()
+>> handle the failure), and we can know who is trying to change linear mapping
+>> before the linear mapping gets                    finalized. AFAICT I
+>> haven't seen such WARN yet.
+
+Ahh good point! So this isn't quite as terrible as I was thinking.
+
 > 
-> Does the following help?
+> Thanks for the great detail :)
+> I've missed system_supports_bbml2_noabort() in split_kernel_leaf_mapping().
 > 
-> diff --git a/drivers/platform/x86/intel/int0002_vgpio.c b/drivers/platform/x86/intel/int0002_vgpio.c
-> index 6f5629dc3f8db..562e880256436 100644
-> --- a/drivers/platform/x86/intel/int0002_vgpio.c
-> +++ b/drivers/platform/x86/intel/int0002_vgpio.c
-> @@ -206,8 +206,8 @@ static int int0002_probe(struct platform_device *pdev)
->  	 * FIXME: augment this if we managed to pull handling of shared
->  	 * IRQs into gpiolib.
->  	 */
-> -	ret = devm_request_irq(dev, irq, int0002_irq,
-> -			       IRQF_ONESHOT | IRQF_SHARED, "INT0002", chip);
-> +	ret = devm_request_irq(dev, irq, int0002_irq, IRQF_SHARED, "INT0002",
-> +			       chip);
->  	if (ret) {
->  		dev_err(dev, "Error requesting IRQ %d: %d\n", irq, ret);
->  		return ret;
-> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> index 266f2b39213a0..b2bb878abd113 100644
-> --- a/include/linux/interrupt.h
-> +++ b/include/linux/interrupt.h
-> @@ -228,7 +228,7 @@ static inline int __must_check
->  devm_request_irq(struct device *dev, unsigned int irq, irq_handler_t handler,
->  		 unsigned long irqflags, const char *devname, void *dev_id)
->  {
-> -	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags,
-> +	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags | IRQF_COND_ONESHOT,
->  					 devname, dev_id);
->  }
->  
-> My guess would be that the int0002_vgpio.c results in a warning without
-> requesting the interrupt while the interrupt.h change should fix it and
-> the warning should be gone.
+>>
+>>>>
+>>>> I'm not immediately sure how to solve that.
+>>
+>> Do we need some synchronization mechanism? If the linear mapping is not
+>> finalized yet, split_kernel_leaf_mapping() will spin. For example, something
+>> like this off the top of my head,
+>>
+>> DEFINE_STATIC_KEY_FALSE(linear_mapping_finalized);
+>>
+>> Once the linear mapping is finalized, we can call
+>> static_branch_enable(&linear_mapping_finalized);
+>>
+>> In split_kernel_leaf_mapping(), we can just do:
+>>
+>> retry:
+>>     if (!static_branch_likely(&linear_mapping_finalized))
+>>         goto retry;
+>>
 
-Right, so as the commit message of commit 8f812373d195 ("platform/x86: intel:
-int0002_vgpio: Pass IRQF_ONESHOT to request_irq()") explains
-the int0002_vgpio driver *must* use the same flags to request
-the IRQ as the ACPI core does, which is why it passes IRQF_ONESHOT
-even though it does not have a threaded handler.
+Yuck... But I guess it might work as long as the primary thread never does
+anything that would cause an attempt to split; otherwise we have a deadlock.
 
-This worked fine until commit aef30c8d569c ("genirq: Warn about using
-IRQF_ONESHOT without a threaded handler") as Chaitanya's bisect
-pointed out.
+>>
+>> There may be better way to handle it. But this case should be very unlikely
+>> IMHO. It sounds crazy to have such complicated kernel threads run so early.
+>> I'm not sure whether we should pay immediate attention to it or not.
 
-Sebastian as I agree that switching to IRQF_COND_ONESHOT on
-the int0002_vgpio.c side is a good way to fix this.
+I think we need to figure out if this is actually possible. We bring up the
+secondary cpus, set system caps and finalize the linear map in smp_init().
+That's called from kernel_init_freeable() which is called from kernel_init(),
+which is invoked as a thread pinned to the boot cpu.
 
-But If I'm reading your proposed changes correct then your suggestion
-is to drop IRQF_ONESHOT from int0002_vgpio.c and then instead of
-replacing it with IRQF_COND_ONESHOT you want to always pass
-IRQF_COND_ONESHOT when using the non-threaded request_irq functions?
+sched_init_smp() is called after smp_init() (i.e. after the linear map is
+finalized). I'm guessing (based on the name of sched_init_smp()) that nothing
+other than the idle thread will run on any secondaries until after
+sched_init_smp() is called? (I'd be greatful if anyone can confirm that).
 
-I'm not objecting against this, just making sure I understand
-correctly.
+Rutland suggested that it's probably too early for any PM type stuff to be
+running in the idle loop, so based on all of that, perhaps this is not a problem
+after all and there is basically zero chance of a secondary cpu doing anything
+that could cause a linear map split during this window?
 
-Note in that case you should also add this to the non devm_
-prefixed version.
+I'm inclined to leave this as is for now.
 
-Regards,
+Thanks,
+Ryan
 
-Hans
-
+> 
+> Thinking about it again, I’m not sure whether
+> it is acceptable to use a sleepable synchronization mechanism at this stage,
+> like split_kernel_leaf_mapping() does with mutex_lock()
+> (even though it may be technically possible).
+> It also feels odd that this function can be called at this point in time.
+> 
+> If this is indeed considered problematic,
+> I think it would be better to simply return -EINVAL immediately
+> when linear_mapping_finalized has not yet been completed.
+> 
+> --
+> Sincerely,
+> Yeoreum Yun
 
