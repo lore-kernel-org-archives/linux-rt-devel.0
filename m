@@ -1,235 +1,140 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A91F3563D9
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 09:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CF93803F0;
+	Thu, 22 Jan 2026 09:47:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769074249; cv=none; b=WE1kAmL4BjLYxmZVTiycZ8RGzk1x6MlmaT/4o0cckNrlLFYTA2LrNW7l6lNxTY38QtOzOAgQtZ+lvHPaiimHyWOl8M1KbVDvfTWn5Jdbyvg7nLUAFUn7gJm9cKSH0oY5GHxvlb1jQgb1p9pfVqnrMHvgH11oiCPF4TZCDhl6UDc=
+	t=1769075259; cv=none; b=Tfy4Pnrpev0RX+WBXiET10MZ2eqjAuoYLL2XYI66Gckum4+8KsmnDni6q9upv6V/mTD5kSwPxBrdBuuoFS0BFqFcZQYU376O+s6vckgk4nk3HDKuK97hBZJ6zl+dEAXBxmqPs8auVtoCqTZjaWzjp7refuI5hxxS0mqdcvcjohA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769074249; c=relaxed/simple;
-	bh=LkoAp55gKW08nviTvkAaQBBkYvRY2cql9xwqL+bKbC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SQqqxapV81L9z7uRQYV+dA/UtRXTumCiaX8dRzgCAUHwtel8amg2/iUC6FsXkmkFLExdWzo7FTwIk9P9V4e97GASzpJ0Q/2STKv1xWtAiw76UJ8cDLg+mXcmJBr6ikwUyJE9x3eqxBsZWiIsUxMgR4srtlyD9R3xLtO+2Kurq0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NiVWaxlM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qTENG00Q; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=NiVWaxlM; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=qTENG00Q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1769075259; c=relaxed/simple;
+	bh=LrI1u7CBAl4uC3y+gyT24+udVnx13tOxw8kLKpBQ7qA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XGFTwP0QiwGqtsm9hlPQ2dk5OtgzXMhA3STB7O2qg0hLQK2uW6nqrRasO9Yowr9S0yRvBmDM7hyhEr0NRn7bsfnCqsdpxQ53ddpFTySJQmeL9XSmjT7Z17fwLIjuU1MQUSVjWTrd+ScWhSjrJGVQSIJ3hQBzKAZ3yiLpqRngSLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GpbNi5sR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NiVWaxlM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qTENG00Q";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="NiVWaxlM";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="qTENG00Q"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9766A337EC;
-	Thu, 22 Jan 2026 09:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769074245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/rJjXQryTWxycH0kSD2vmf+7/CeUyLleKA6g8e7aaqo=;
-	b=NiVWaxlMr7lM+WTCPDMSAtTbsqoEUTlY2BXEP25+IiRSWIbrSgmCkteB/qIFZSU+llTJDr
-	6FX/OwDsLU7ufeCD7X4GolNHej+L+hwqc0KjlYRU7izs1u9/Wmsmm6ZPjheFULDGpFlH9d
-	jRa7BdcI7vJ3VnUfYxK6GaIjtzFYLvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769074245;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/rJjXQryTWxycH0kSD2vmf+7/CeUyLleKA6g8e7aaqo=;
-	b=qTENG00QfMVs11xPUbNK+e+nON0gxLjpFH8MFc/NLVSTvkpaczlJMsFaoS1COlCzSEqVj/
-	fv/dJP58BcdQVyDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=NiVWaxlM;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=qTENG00Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769074245; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/rJjXQryTWxycH0kSD2vmf+7/CeUyLleKA6g8e7aaqo=;
-	b=NiVWaxlMr7lM+WTCPDMSAtTbsqoEUTlY2BXEP25+IiRSWIbrSgmCkteB/qIFZSU+llTJDr
-	6FX/OwDsLU7ufeCD7X4GolNHej+L+hwqc0KjlYRU7izs1u9/Wmsmm6ZPjheFULDGpFlH9d
-	jRa7BdcI7vJ3VnUfYxK6GaIjtzFYLvA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769074245;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/rJjXQryTWxycH0kSD2vmf+7/CeUyLleKA6g8e7aaqo=;
-	b=qTENG00QfMVs11xPUbNK+e+nON0gxLjpFH8MFc/NLVSTvkpaczlJMsFaoS1COlCzSEqVj/
-	fv/dJP58BcdQVyDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 99D9213955;
-	Thu, 22 Jan 2026 09:30:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ehY/JUTucWkoCwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 22 Jan 2026 09:30:44 +0000
-Message-ID: <792c6837-137b-4667-8c4e-fdc988ae8878@suse.cz>
-Date: Thu, 22 Jan 2026 10:30:44 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GpbNi5sR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B71BC116C6;
+	Thu, 22 Jan 2026 09:47:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769075259;
+	bh=LrI1u7CBAl4uC3y+gyT24+udVnx13tOxw8kLKpBQ7qA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GpbNi5sRXEKWS9gQTfzVJ8nPQSDQBsjTw9s+5TrpTIiQf10jjOgW79ftF4I+pXBUq
+	 c/eYJbZD/jTXgEanhZSsuenErpzwOnqKWrY1kRo/FT+EgLulk6pR+aTGf+Xmt4r+rJ
+	 rjba0YySrfbn1E6vlnHRYh9xxeHpI60CZcNjSd7r3I1BIS2aRdeT3KZDiQk4FnoRHp
+	 Oi2GL3TQdHTUxgYnagHd4ietmPWZVoBAwPFCtYwMKwC6cy7opdYNHtWNcCkiFW5oAJ
+	 FKex9n193pKNiHwQtqLesOKxVWMfGQ4mAPP3vC7YYGzaKT+rsrTYu/T3OkGdY0a+mf
+	 TW1cGoZmfBcbg==
+Date: Thu, 22 Jan 2026 11:47:31 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Waiman Long <llong@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Wei Yang <richard.weiyang@gmail.com>,
+	David Hildenbrand <david@kernel.org>
+Subject: Re: [PATCH] mm/mm_init: Don't call cond_resched() in
+ deferred_init_memmap_chunk() if rcu_preempt_depth() set
+Message-ID: <aXHyM1R18GI7-gSD@kernel.org>
+References: <20260121191036.461389-1-longman@redhat.com>
+ <20260121114330.6cd34b4732c7803f1720f0ba@linux-foundation.org>
+ <0e385146-67a3-4fdd-b119-059caba8c5f0@redhat.com>
+ <13d0b8b5-1ba7-4a3e-a686-13a7b993d471@paulmck-laptop>
+ <20260122075747.uSLrSJez@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 21/21] mm/slub: cleanup and repurpose some stat items
-Content-Language: en-US
-To: Hao Li <hao.li@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-21-5595cb000772@suse.cz>
- <5rmxfyxuhloucetufg2qic5elgi6frd7onjzdsosmhtjdqglij@5htmiqrdhkoj>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <5rmxfyxuhloucetufg2qic5elgi6frd7onjzdsosmhtjdqglij@5htmiqrdhkoj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,linux.dev:email,suse.cz:mid,suse.cz:dkim,suse.cz:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 9766A337EC
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260122075747.uSLrSJez@linutronix.de>
 
-On 1/22/26 06:52, Hao Li wrote:
-> On Fri, Jan 16, 2026 at 03:40:41PM +0100, Vlastimil Babka wrote:
->> A number of stat items related to cpu slabs became unused, remove them.
->> 
->> Two of those were ALLOC_FASTPATH and FREE_FASTPATH. But instead of
->> removing those, use them instead of ALLOC_PCS and FREE_PCS, since
->> sheaves are the new (and only) fastpaths, Remove the recently added
->> _PCS variants instead.
->> 
->> Change where FREE_SLOWPATH is counted so that it only counts freeing of
->> objects by slab users that (for whatever reason) do not go to a percpu
->> sheaf, and not all (including internal) callers of __slab_free(). Thus
->> flushing sheaves (counted by SHEAF_FLUSH) no longer also increments
->> FREE_SLOWPATH. This matches how ALLOC_SLOWPATH doesn't count sheaf
->> refills (counted by SHEAF_REFILL).
->> 
->> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->>  mm/slub.c | 77 +++++++++++++++++----------------------------------------------
->>  1 file changed, 21 insertions(+), 56 deletions(-)
->> 
->> diff --git a/mm/slub.c b/mm/slub.c
->> index c12e90cb2fca..d73ad44fa046 100644
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
->> @@ -330,33 +330,19 @@ enum add_mode {
->>  };
->>  
->>  enum stat_item {
->> -	ALLOC_PCS,		/* Allocation from percpu sheaf */
->> -	ALLOC_FASTPATH,		/* Allocation from cpu slab */
->> -	ALLOC_SLOWPATH,		/* Allocation by getting a new cpu slab */
->> -	FREE_PCS,		/* Free to percpu sheaf */
->> +	ALLOC_FASTPATH,		/* Allocation from percpu sheaves */
->> +	ALLOC_SLOWPATH,		/* Allocation from partial or new slab */
->>  	FREE_RCU_SHEAF,		/* Free to rcu_free sheaf */
->>  	FREE_RCU_SHEAF_FAIL,	/* Failed to free to a rcu_free sheaf */
->> -	FREE_FASTPATH,		/* Free to cpu slab */
->> -	FREE_SLOWPATH,		/* Freeing not to cpu slab */
->> +	FREE_FASTPATH,		/* Free to percpu sheaves */
->> +	FREE_SLOWPATH,		/* Free to a slab */
+On Thu, Jan 22, 2026 at 08:57:47AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-01-21 13:27:32 [-0800], Paul E. McKenney wrote:
+> > 
+> > It is a bit tricky, for example, given a kernel built with both
+> > CONFIG_PREEMPT_NONE=y and CONFIG_PREEMPT_DYNAMIC=y, it will never
+> > invoke touch_nmi_watchdog(), even if it really is in an RCU read-side
+> > critical section.  This is because it was intended for lockdep-like use,
+> > where (for example) you don't want to complain about sleeping in an RCU
+> > read-side critical section unless you are 100% sure that you are in fact
+> > in an RCU read-side critical section.
+> > 
+> > Maybe something like this?
+> > 
+> > 	if (irqs_disabled() || !IS_ENABLED(CONFIG_PREEMPT_RCU) || rcu_preempt_depth())
+> > 		touch_nmi_watchdog();
 > 
-> Nits: Would it make sense to add stat(s, FREE_SLOWPATH) in
-> free_deferred_objects() as well, since it also calls __slab_free()?
-
-Yeah.
-
-> Everything else looks good.
+> I don't understand the PREEMPT_NONE+DYNAMIC reasoning. irqs_disabled()
+> should not be affected by this and rcu_preempt_depth() will be 0 for
+> !CONFIG_PREEMPT_RCU so I don't think this is required. 
 > 
-> This patchset replaces cpu slab with cpu sheaves and really simplifies the code
-> overall - I really like the direction and the end result. It's really been a
-> pleasure reviewing this series. Thanks!
+> > This would *always* invoke touch_nmi_watchdog() for such kernels, which
+> > might or might not be OK.
+> > 
+> > I freely confesss that I am not sure which of these is appropriate in
+> > this setting.
 > 
-> Reviewed-by: Hao Li <hao.li@linux.dev>
+> What about a more straight forward and obvious approach?
+> 
+> diff --git a/mm/mm_init.c b/mm/mm_init.c
+> index fc2a6f1e518f1..0b283fd48b282 100644
+> --- a/mm/mm_init.c
+> +++ b/mm/mm_init.c
+> @@ -2059,7 +2059,7 @@ static unsigned long __init deferred_init_pages(struct zone *zone,
+>   */
+>  static unsigned long __init
+>  deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
+> -			   struct zone *zone)
+> +			   struct zone *zone, bool may_schedule)
+>  {
+>  	int nid = zone_to_nid(zone);
+>  	unsigned long nr_pages = 0;
+> @@ -2085,10 +2085,10 @@ deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
+>  
+>  			spfn = chunk_end;
+>  
+> -			if (irqs_disabled())
+> -				touch_nmi_watchdog();
+> -			else
+> +			if (may_schedule)
+>  				cond_resched();
+> +			else
+> +				touch_nmi_watchdog();
+>  		}
+>  	}
+>  
+> @@ -2101,7 +2101,7 @@ deferred_init_memmap_job(unsigned long start_pfn, unsigned long end_pfn,
+>  {
+>  	struct zone *zone = arg;
+>  
+> -	deferred_init_memmap_chunk(start_pfn, end_pfn, zone);
+> +	deferred_init_memmap_chunk(start_pfn, end_pfn, zone, true);
+>  }
+>  
+>  static unsigned int __init
+> @@ -2216,7 +2216,7 @@ bool __init deferred_grow_zone(struct zone *zone, unsigned int order)
+>  	for (spfn = first_deferred_pfn, epfn = SECTION_ALIGN_UP(spfn + 1);
+>  	     nr_pages < nr_pages_needed && spfn < zone_end_pfn(zone);
+>  	     spfn = epfn, epfn += PAGES_PER_SECTION) {
+> -		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone);
+> +		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone, false);
+>  	}
+>  
+>  	/*
+> 
+> Wouldn't this work?
 
-Thanks a lot for the thorough review!
+Yes, it will. And I think this is less fragile and clearer.
+ 
+> Sebastian
+> 
 
-
+-- 
+Sincerely yours,
+Mike.
