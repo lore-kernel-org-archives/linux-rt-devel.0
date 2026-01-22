@@ -1,230 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0901A3E750A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 16:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02191344DB8
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 16:26:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769099175; cv=none; b=SL+WFFUuEYR0JqP0Cyww2l3oNuSFPkYG1JiGRCGNjPwVAa1gkpDCXFY/1ybB8bRx0X1KiF7ClIxiK+D9Olxi1XGMhWuDQtyndkwvAH2t0dnDxStFilC69p8trNMcGrYMeQLQBZ5Aq00xpH09CoJDVUVhYzSWwLsCE83ZZX+BiVg=
+	t=1769099194; cv=none; b=NaTolDNoYpoSZAehvCVj7/txkAbQkHlcJOxgRBvmiK9aMPRtdtrBKCB28oGRIsnGYzVFX9OB/2ayw9BkGUh4khfwYaVlxcfaR+4QQS8BTy8A32oZLdE505ygCInFjU4Be0AaOAs9ERtuCIcQe+598Q+Lk7iCw+TMMiblY7CyGtQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769099175; c=relaxed/simple;
-	bh=Q7pUzb+BLBPkR6MTyOyPhdlElsSZljZg0UZN5joDqP4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UQF5X4vzOI6AscI5qsY1hYNkuVrZDzk3ZfWZUDhlN7JQiolvXQ63EVfjGS4tEWVzLBk02THD2TFMLHEZt3VHl0269T2jYR5dzo1shb+qR5cwfY+G3SW1JGnhqhYoFkypkeCY98Nt29KFWdIfuQgUVFvMZW5YqmP8qjgxIo3PGdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjAtd5g3; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769099194; c=relaxed/simple;
+	bh=32GYUMR6iZ8rS562fasUjICoDyTDgJUggB6zzZZ0JpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kFo52bEraGSzGIsRkvA1bpwdT2wwEis5MUKTTAEWajU1yt2Cwn28CnJNbVkeaSuKR0BSjmoNvqcNVRglmbmoOALu3RC6qKqb2GQQ606mnZE9htMIcYEVUdOp2rRXv6wMDhtURc/A854Wch489P+BNWTVawlVl0fwM4Za4YWJIzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=jJKKItUR; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dk8Q9Jze; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=kL36N72O; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=13PF3AMW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjAtd5g3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769099168; x=1800635168;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Q7pUzb+BLBPkR6MTyOyPhdlElsSZljZg0UZN5joDqP4=;
-  b=VjAtd5g3tW523jtPtEdX1yjMMZHSQliaqpPbAP+rjzVand5hkIvjQcRQ
-   wXqEwKZF066am2bFlfgVV/GKhR8VI0ahTCEVkF8Lg78v3vVDIn6TFeDtp
-   anp5QVQXxoGl9v93TE/2fggO388HXdMf9B9px9b7x9sgVdJD730Z/4kGh
-   mFkEM2oCdUT62aX0nG+3FKOsDA626tDwj0S8cAAJHwtFQuC4hr0HjhA2V
-   7YKsSYOpUJnkBBWmjCX+sczy9prgkpk2omNBz2SDh67WAhvmxiUGnvwZE
-   KZWif7+9KMsND5HBtH49mmjEStElLTyp/of2mHVOsYKBzjnf9uMmE26Yh
-   A==;
-X-CSE-ConnectionGUID: mX4TyVd8SaC1RGcjYmmzPQ==
-X-CSE-MsgGUID: RkV+cuePTq2PPMVVza9k+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="74199175"
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="74199175"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 08:26:03 -0800
-X-CSE-ConnectionGUID: DD5CC80dT6uPyzKjt1wxkQ==
-X-CSE-MsgGUID: rRQ3r7GqSGSlOqPINgsPtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,246,1763452800"; 
-   d="scan'208";a="206594719"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 22 Jan 2026 08:26:00 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 4721595; Thu, 22 Jan 2026 17:25:58 +0100 (CET)
-Date: Thu, 22 Jan 2026 17:25:58 +0100
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v5 4/6] i2c: designware: Implement I2C_M_STOP support
-Message-ID: <aXJPljHeRxBXH_Jo@black.igk.intel.com>
-References: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
- <20260120-i2c-dw-v5-4-0e34d6d9455c@bootlin.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="jJKKItUR";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dk8Q9Jze";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="kL36N72O";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="13PF3AMW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EBE4E336C9;
+	Thu, 22 Jan 2026 16:26:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769099174; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lhAO6JRvDmgniWiT+4x4JmaEjz5+uH6dH2x0bAyzNW4=;
+	b=jJKKItURmgece1TxMBzVqICRtrRaWH4bi9sSOMofdpKEjOrjkVp8MXMVFr9OzM/QNzpUFM
+	k5u/7PLc9Pk3Pehw4W+9if9HoohZ1lirvQkgNq4DK24WmAj2Tzifkw+3FyLxox9r6cI7z2
+	FfJ+9ZXGTgWv011ow1Obuk5qKt6af0E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769099174;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lhAO6JRvDmgniWiT+4x4JmaEjz5+uH6dH2x0bAyzNW4=;
+	b=Dk8Q9JzeQ0XFx0pcsQB7lolqcDY2bg1bzejIy8RSXnW2uUkGiwKuI61z8TXoV1QOQam/9m
+	H0Rx1FEP/PUrymAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=kL36N72O;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=13PF3AMW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769099173; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lhAO6JRvDmgniWiT+4x4JmaEjz5+uH6dH2x0bAyzNW4=;
+	b=kL36N72Oet36756J/1vuwz8owAMhV2/prKIPiGTIMGjIBvPEfcAbdgipiQa6unAz1i11TP
+	LPabOQS0CUykRzuqlY4q6F3IJigWRPCS1JdqZ+MV6q/7AdpZIjl8/4yEKgnyhj5FbFQT+p
+	WGks+SY5bmLAEuFz5X6phqSl+jMY+lg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769099173;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=lhAO6JRvDmgniWiT+4x4JmaEjz5+uH6dH2x0bAyzNW4=;
+	b=13PF3AMWNDe+efLmUcgmWXxsv/urwyiwIm3npK6io0t1DBmpQl02NiYvPGaUIiMYV2ml+7
+	3c+CaNIrkPP9sKAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF7A913533;
+	Thu, 22 Jan 2026 16:26:13 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id pxqAKaVPcmkoGwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Thu, 22 Jan 2026 16:26:13 +0000
+Message-ID: <6c8b63cc-d357-4e70-89d4-07afd004bc83@suse.cz>
+Date: Thu, 22 Jan 2026 17:26:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260120-i2c-dw-v5-4-0e34d6d9455c@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v3 01/10] mm/vma: rename VMA_LOCK_OFFSET to
+ VM_REFCNT_EXCLUDE_READERS_FLAG
+Content-Language: en-US
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jann Horn <jannh@google.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Waiman Long <longman@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
+ <f637c1a5c9ea237aab598bd8885df48e21497635.1769086312.git.lorenzo.stoakes@oracle.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <f637c1a5c9ea237aab598bd8885df48e21497635.1769086312.git.lorenzo.stoakes@oracle.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -3.01
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oracle.com,google.com,suse.com,linux.dev,kvack.org,vger.kernel.org,lists.linux.dev,infradead.org,redhat.com,gmail.com,linutronix.de,goodmis.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:mid,suse.cz:email,oracle.com:email]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: EBE4E336C9
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-On Tue, Jan 20, 2026 at 10:28:04AM +0100, Benoît Monin wrote:
-> Add the support of the I2C_M_STOP flag in i2c_msg by splitting
-> i2c_dw_xfer() in two: __i2c_dw_xfer_one_part() for the core transfer logic
-> and i2c_dw_xfer() for handling the high-level transaction management.
+On 1/22/26 14:01, Lorenzo Stoakes wrote:
+> The VMA_LOCK_OFFSET value encodes a flag which vma->vm_refcnt is set to in
+> order to indicate that a VMA is in the process of having VMA read-locks
+> excluded in __vma_enter_locked() (that is, first checking if there are any
+> VMA read locks held, and if there are, waiting on them to be released).
 > 
-> In detail __i2c_dw_xfer_one_part() starts a transaction and wait for its
-> completion, either with a STOP on the bus or an error. i2c_dw_xfer()
-> loops over the messages to search for the I2C_M_STOP flag and calls
-> __i2c_dw_xfer_one_part() for each part of the messages up to a STOP or
-> the end of the messages array.
+> This happens when a VMA write lock is being established, or a VMA is being
+> marked detached and discovers that the VMA reference count is elevated due
+> to read-locks temporarily elevating the reference count only to discover a
+> VMA write lock is in place.
 > 
-> i2c_dw_xfer() takes care of runtime PM and holds the hardware lock on
-> the bus while calling __i2c_dw_xfer_one_part(), this allows grouping
-> multiple accesses to device that support a STOP in a transaction when
-> done via i2c_dev I2C_RDWR ioctl.
-
-Does i2c-tools support this. I.o.w. can you put an example of user space call
-to achieve the above?
-
-> Also, now that we have a lookup of the messages in i2c_dw_xfer() prior
-> to each transaction, we use it to make sure the messages are valid for
-> the transaction, via a new function i2c_dw_msg_is_valid(). We check
-> that the target address does not change before starting the transaction
-> instead of aborting the transfer while it is happening, as it was done
-> in i2c_dw_xfer_msg(). The target address can only be changed after an
-> I2C_M_STOP flag, i.e after a STOP on the i2c bus.
+> The naming does not convey any of this, so rename VMA_LOCK_OFFSET to
+> VM_REFCNT_EXCLUDE_READERS_FLAG (with a sensible new prefix to differentiate
+> from the newly introduced VMA_*_BIT flags).
 > 
-> The I2C_FUNC_PROTOCOL_MANGLING flag is added to the list of
-> functionalities supported by the controller, except for the AMD NAVI
-> i2c controller which uses its own xfer() function and is left untouched.
+> Also rename VMA_REF_LIMIT to VM_REFCNT_LIMIT to make this consistent also.
+> 
+> Update comments to reflect this.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-...
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
-While the below is not a kernel-doc, I would still use a couple of things to
-make it a bit aligned with that.
-
->  /*
-> - * Prepare controller for a transaction and call i2c_dw_xfer_msg.
-> + * Prepare controller for a transaction, start the transfer of the msgs
-
-@msgs
-
-> + * and wait for completion, either a STOP or a error.
-> + * Return 0 or a negative error code.
-
-Return:
-
->   */
-
-...
-
-> +/*
-> + * Verify that the message at index @idx can be processed as part
-> + * of a single transaction. The @msgs array contains the messages
-> + * of the transaction. The message is checked against its predecessor
-> + * to ensure that it respects the limitation of the controller.
-
-Ha, you even used @ notation here!
-
-Perhaps also add Return: line?
-
-> + */
-
-...
-
-> +	/*
-> +	 * The first message of a transaction is valid,
-> +	 * no constraint from a previous message.
-
-constraints ?
-
-> +	 */
-
-...
-
-> +static int
-> +i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
-> +{
-> +	struct dw_i2c_dev *dev = i2c_get_adapdata(adap);
-> +	struct i2c_msg *msgs_part;
-> +	size_t cnt;
-> +	int ret;
-
-> +	dev_dbg(dev->dev, "msgs: %d\n", num);
-> +
-> +	pm_runtime_get_sync(dev->dev);
-> +
-> +	ret = i2c_dw_acquire_lock(dev);
-> +	if (ret)
-> +		goto done_nolock;
-
-A side note: Perhaps make sense to factor the body out to another helper.
-
-> +	/*
-> +	 * If the I2C_M_STOP is present in some the messages,
-> +	 * we do one transaction for each part up to the STOP.
-> +	 */
-> +	for (msgs_part = msgs; msgs_part < msgs + num; msgs_part += cnt) {
-> +		/*
-> +		 * Count the messages in a transaction, up to a STOP
-> +		 * or the end of the msgs.
-> +		 */
-> +		for (cnt = 1; ; cnt++) {
-
-Do we have a guarantee that this doesn't become an infinite loop or more
-precisely out-of-boundary access?
-
-I hope to see this be explicitly mentioned in the comment on top of for-loop.
-
-> +			if (!i2c_dw_msg_is_valid(dev, msgs_part, cnt - 1)) {
-> +				ret = -EINVAL;
-> +				goto done;
-> +			}
-> +
-> +			if ((msgs_part[cnt - 1].flags & I2C_M_STOP) ||
-> +			    (msgs_part + cnt == msgs + num))
-> +				break;
-> +		}
-> +
-> +		/* transfer one part up to a STOP */
-> +		ret = __i2c_dw_xfer_one_part(dev, msgs_part, cnt);
-> +		if (ret < 0)
-> +			break;
-> +	}
->  
->  done:
->  	i2c_dw_release_lock(dev);
-
->  done_nolock:
->  	pm_runtime_put_autosuspend(dev->dev);
->  
-> -	return ret;
-> +	if (ret < 0)
-> +		return ret;
-> +	return num;
->  }
-
-...
-
-> +	if ((dev->flags & MODEL_MASK) != MODEL_AMD_NAVI_GPU)
-> +		dev->functionality |= I2C_FUNC_PROTOCOL_MANGLING;
-
-Why do we need this flag? I mean can't we use the fact that the code for that
-platform uses custom xfer implementation?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+git grep tells me VMA_LOCK_OFFSET is still used in
+tools/testing/vma/vma_internal.h but I guess it doesn't break the tests?
 
