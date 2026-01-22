@@ -1,280 +1,235 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9B22C0F6F
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 06:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769063512; cv=none; b=lIftFkGIyHZHrVFaE5j6rrfnl6E2pYvhC15CGs3xTGsSvP0eiomtZ9HWDmhnJJQU5IqrzKSm8+Md2vSu7FKzDogxpLdjS21uZ8MSwP5xsl/gBLLziTIi6vLMq3ZwJ8GxqoZAwu8kdwHtaSsqfM6xL7s77RkNuH4GCrY+eKlEv+8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769063512; c=relaxed/simple;
-	bh=UVebHt/E+DA5iZ0DZTRhL/FoWbADwv9Xit4ZWej4sJ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dn5tXiHe3UwP/9hnVCIlBRaJjwYWkV/PBVpEtFMUXL96Bwz/Uknso+ixrCTvYMBWMnNmeSs7kXrNYWBBK8/fsOAQRqAD8YF4/DQs+7F149jCt8zKOId2cUDcoSwaIMFoqdArWhCYj7RjbgNz3h8nG5C/zJw/cbntxxAKdMB3WqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zHQ1hoLe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nWTW6aKN; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zHQ1hoLe; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=nWTW6aKN; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AFC325711
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 06:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769064107; cv=fail; b=i1QZPJvwuE+iCoDPj6Uej3NTdNBbKxI0YaH8Ln3OZz4F3vW9R5HY5a5d/vBV4wk9IphZTQzzRwctL/N2KkhdmTO91ce5u2J/Nbm00UO4QKMJCOQ1LOaXQeIohAnV5W0ThBX3dYjR2865JlngtPnapNTzsH5IN+kpmyr0W9Y5k1Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769064107; c=relaxed/simple;
+	bh=pfTaljMAMhN1Ezz3mwMwDxYEocHm6yKjl46v3Hmjmug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=rhxPpupcw2dYaWQewsk7sxVJeo5bsy45KDMrxJ9Nbj9ITydAp3iYVg0voxjuXpLrgJk236q96sxILoNG+jiiu8uEX4HXBBVHhRk4WKTxg7UlnAll1HN39pTf/wYyesplgCv9nqoXCXirwRFf9qRdIBFi2Eo6n+vjiQlg4HVt0hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=DA/glrpy; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=k6Zg4h8K; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zHQ1hoLe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nWTW6aKN";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zHQ1hoLe";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="nWTW6aKN"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 69642336E2;
-	Thu, 22 Jan 2026 06:31:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769063508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=snlThi6xEbyLHgpAGreIAptLTtIG/sStzORilk3J78o=;
-	b=zHQ1hoLeC/5cavLYx5OvU/D0QEQ93VhR9okhUNc8zOoL9mFrwy+2E8MuO6W4049oNippOq
-	kNE76fHFsYXFhNJqEefS+X0P4wt2sDQrAeU1HNFOc0i5Ex7WPrE03Eb0eu6HTGhUyLqqHa
-	BW6/aej7Xpacb7wmCnFsaSvz32nz/VM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769063508;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=snlThi6xEbyLHgpAGreIAptLTtIG/sStzORilk3J78o=;
-	b=nWTW6aKNwwJQmhH48v0849Ik2lAcm0Xizdf4ZwIRn3sq1gkN0fQm8HbkbMoJiFHeUQwtbS
-	0oghjhdTxItgZTCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769063508; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=snlThi6xEbyLHgpAGreIAptLTtIG/sStzORilk3J78o=;
-	b=zHQ1hoLeC/5cavLYx5OvU/D0QEQ93VhR9okhUNc8zOoL9mFrwy+2E8MuO6W4049oNippOq
-	kNE76fHFsYXFhNJqEefS+X0P4wt2sDQrAeU1HNFOc0i5Ex7WPrE03Eb0eu6HTGhUyLqqHa
-	BW6/aej7Xpacb7wmCnFsaSvz32nz/VM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769063508;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=snlThi6xEbyLHgpAGreIAptLTtIG/sStzORilk3J78o=;
-	b=nWTW6aKNwwJQmhH48v0849Ik2lAcm0Xizdf4ZwIRn3sq1gkN0fQm8HbkbMoJiFHeUQwtbS
-	0oghjhdTxItgZTCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 46BC63EA63;
-	Thu, 22 Jan 2026 06:31:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vbnsEFTEcWnTdwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 22 Jan 2026 06:31:48 +0000
-Message-ID: <6b48cc0f-f006-4d4c-af76-55f86f4267e3@suse.cz>
-Date: Thu, 22 Jan 2026 07:31:47 +0100
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="DA/glrpy";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="k6Zg4h8K"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60M1IqOt3264903;
+	Thu, 22 Jan 2026 06:41:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=G6YhzHmG4XIOaQKFZg
+	k0Dwtr6Ce9szCA6LpNvKQZsR4=; b=DA/glrpyMVerNk+LwxOEau1hmNCw9qO3c+
+	s2vV315ZS5f0eXV+d1PobpeL/HPZQbUfZmVhYpJeNd2dEx1eTnMXforPMvwwRe0U
+	K5V84HKEc6igMZwxAqAKSr11FKMPrYNhvUasrfHw1g5dKkxG3hmj6jumzW2xBtE1
+	UBphUL7D/fAYJQ1KCESVXZvFS8mewBLoVxNJv+coLyIqn9tJQvN38O1SmDLHwFMG
+	0ZiBrRk1Hhqhlse1eUfvz3t5uNevepLeUAlPkAEart9/vxDV0TOQ0a0MtTV0MRsT
+	etdicKa2Pww300DFGE+no3y3CJ7DPt2CPyl+5KKInuHPIjdLlP/A==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br1b8f8mr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Jan 2026 06:41:11 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60M5HYKi018032;
+	Thu, 22 Jan 2026 06:41:11 GMT
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013039.outbound.protection.outlook.com [40.107.201.39])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4br0vcdug1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 22 Jan 2026 06:41:11 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KQJgjVdORGYIrRFSz8Y49+IL2cZX4eWxuFY4+Ls+Rk2GpMQyn7Al9MbEZxjfTnGgnp/wzX5zbIbDREI1NpV3XO8b5gXm24xpUjlZhW6c3xCd3EIxdJxRnjrxmLOkyq3fBcioV5vp1hnknSB7vZfOY2JVs2cpKpL3kEdHpJjrb6dor5OC/8EpW+V2FZ+UxUzGeTSaUJ/Kbbvhp+S0PImysEy8aZeIs4C2k4gC1Ucg/+TYjcTprWKd5qpp7UKqLcfQ3uMYshSmjeTJKXKbCFak3cwosf9imlhqj1IZzzVpTMxyf31ajf+MYxq+qU91p/CZ+S4alSz8i93r5/nMgUdoTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=G6YhzHmG4XIOaQKFZgk0Dwtr6Ce9szCA6LpNvKQZsR4=;
+ b=qk/1pdtBbEV1xQt8tpnmmIlcGzNdjezxKn9GjrmnDMldiVjJYYIazouxb1Bq1eP2e3Qz91FllhCCedd9euhvMFyj4/To73TM+by/6mjArDgnaeP1b2EDBu22ICm9d+BtCAkfrsf0TDoMUw5rrOna6o1Jrq7UFQGs4kbpyISbcqEh+GTnpOFAx1zQIWOOdY2bUZ9ZP8GX0VCyyQNEBVsu/uS40Ydv/sK8OsUY/HnFQBj1OZXbrWvV/QPXXsD3Cl2izwPahmLbQudZQauoXKcbx4Jm5Z/m1MtRFmX2Y6Ez3oGXdIHja37tkpdZyseIEYM5BVgsaNJpLFI4kb0Espt3rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=G6YhzHmG4XIOaQKFZgk0Dwtr6Ce9szCA6LpNvKQZsR4=;
+ b=k6Zg4h8K4Ko6c3SVn5D+ZtNXMt8+1qYolhbAlr+zZEBSe7Hh5RROuSJUegmv3/ZdsVUq9AdL95cHGbi396PP3N6H9XFMQ7JH9SPErAjT+GeiGlCjCueJ/Ohyse48c40cBAlfKA/fWtR3upyyIn1LTrBP4V/lzhFCLsoTg9iq3gM=
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com (2603:10b6:610:12c::16)
+ by DM3PPF5F5663669.namprd10.prod.outlook.com (2603:10b6:f:fc00::c2b) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.9; Thu, 22 Jan
+ 2026 06:41:08 +0000
+Received: from CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71]) by CH3PR10MB7329.namprd10.prod.outlook.com
+ ([fe80::c2a4:fdda:f0c2:6f71%7]) with mapi id 15.20.9542.009; Thu, 22 Jan 2026
+ 06:41:08 +0000
+Date: Thu, 22 Jan 2026 15:41:00 +0900
+From: Harry Yoo <harry.yoo@oracle.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>,
+        David Rientjes <rientjes@google.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Uladzislau Rezki <urezki@gmail.com>,
+        "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        bpf@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH v3 18/21] slab: update overview comments
+Message-ID: <aXHGfLV6FdlNPc14@hyeyoo>
+References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
+ <20260116-sheaves-for-all-v3-18-5595cb000772@suse.cz>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260116-sheaves-for-all-v3-18-5595cb000772@suse.cz>
+X-ClientProxiedBy: SEWP216CA0080.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2bc::16) To CH3PR10MB7329.namprd10.prod.outlook.com
+ (2603:10b6:610:12c::16)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/21] slab: remove frozen slab checks from
- __slab_free()
-Content-Language: en-US
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com
-References: <20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz>
- <20260116-sheaves-for-all-v3-19-5595cb000772@suse.cz>
- <CAJuCfpHggP+iefwGTOWnSxDma5U=uMROYNs8KS0A=u2w=1rq_w@mail.gmail.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <CAJuCfpHggP+iefwGTOWnSxDma5U=uMROYNs8KS0A=u2w=1rq_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,suse.cz:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR10MB7329:EE_|DM3PPF5F5663669:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5cb20472-b010-4f70-db9f-08de5981390f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?AX31u6ZG5tCpSD//PW3RBG6gwavAAzPYmLDiqg/aoXB4hAc7CgMMz54N2Ttd?=
+ =?us-ascii?Q?nUHF/1tlabc36YlqVDPoYlZbaGqHGPrWMUL20m0jJX3gT7cI3tU2CQJugffx?=
+ =?us-ascii?Q?1noVzjZDpSEYL5dZ/WqX+AHBOhms7FVHeL9q8ETZhMtOErmcEuw5NuiqKCZ+?=
+ =?us-ascii?Q?YkPdkSrReRBoEsMrOqED0IJlWuIh8xO6Itg0jUZ3eXEdD7LbdIFmSQkXwzmJ?=
+ =?us-ascii?Q?9MlEpatOv+P0YqjG5dAQg+wFeOaE/K2P7W6KdF1PjENjbKX3xkQwS4urC0U6?=
+ =?us-ascii?Q?n7GHi0bEMOxNdr1wvpL9sKHoLmX1D/Z7UtV/Gpmefdzb1hzvs8OzlBlGofut?=
+ =?us-ascii?Q?EYLx0YeIgKIzMnWzInC8nUT96S58/Z1RFPvscOnem/bZoknExQa9Ub+bH9lw?=
+ =?us-ascii?Q?suiKPO7X+BiajK4pPiAKRnoVxr46s9hTpoKPlbtMDLG7GXiYuJweYzh4SkF6?=
+ =?us-ascii?Q?yUoNEafQDAvGi1AlCvmh23x6I8uLpj6mrOSkCzEVrMNd7d2JhsUVCiotYJlr?=
+ =?us-ascii?Q?1Jz6YDAjSD5JdqDbtHfTHHGCOZypWg1dRp0/3YyqID87t8z+ELeHtDVkzSzO?=
+ =?us-ascii?Q?EvkukBmM/fGitR6g1cAX7yODPd4ARMq/LZdqxjWoE3AqG4YbbjXJb/oEsfIa?=
+ =?us-ascii?Q?T9cN0iU5jkGIWEGbITLlm5oJ0ykzMUfUTzyMd5X/QcaLhLuoG1w1n2IRCiU2?=
+ =?us-ascii?Q?vLdHnjE7MzRpx+DUMKxKsW6g+LXkwcJc8CeXHS3TTxAlgHHG1FCTgHCY0IQl?=
+ =?us-ascii?Q?dI0zku0q5A1rEevV9M5P14Zi8xqjNp9e4e1hL8JQG7nZwNoN3kqn0meEVFZv?=
+ =?us-ascii?Q?26QLYPR793tDk2e4HFdNnw/xZNzmqpYx23t3G/hfANpVk6oZynigmx1AMoAN?=
+ =?us-ascii?Q?pDUcKCTBAn7GTprfFcTSmCWHfmdsHndwqWuiAUq+5Vs0R8lnPPLcEHSk09Ot?=
+ =?us-ascii?Q?11C5EfaH+tq0aN77SbtQukvKIkGIb0gcBnEya6bnfar787efIM0jpZlsq4RZ?=
+ =?us-ascii?Q?KYyJENqIi0QepDQb9Z4U15zeJP5TImz0Z4TIUYXNoT9inxULng17L2+66Sxu?=
+ =?us-ascii?Q?HVL6vxWugGCempbtRaRH4q6YJ/MUhI/ERFUOvB9zhNJMiBLT5+/KV6SHH9yG?=
+ =?us-ascii?Q?URzjJrx7ywM5Mwvp8vSx86wtApCN8UNOR6g8kvQ8QCevR+CP4AURMja0CddK?=
+ =?us-ascii?Q?v4P+ZSygg0oTEzdkCLDO8y2rtsl3HlDxQ8dBWDmXv/SS+Acif9Kem7JZM9P0?=
+ =?us-ascii?Q?kL+NkjH6S9O/Sb7DfFpVyMZfzf9ve3z6vMx3WlslgShp93483dF2jfi2Cw0F?=
+ =?us-ascii?Q?A8kvcIwicxHvxjftojuGSVqgFE0spXpH1e3zUWHAoIdtxtNoxu0ODPODtU1W?=
+ =?us-ascii?Q?5cF95xWCRLTUXpgwnMlxcI1cC4Z2r2DqUFIjXNewwMho/bSfnJZt3THpztUN?=
+ =?us-ascii?Q?oZVlWXbY5j4aLFNBJQGnzoL+emo8f53bv4RpOG+82Ga/Bq6HOn5H2a96IKdm?=
+ =?us-ascii?Q?yVqfHWUv3+bjYIke0Pa32uYkV80Zbvzv64XWdmkK17OtGx/2mJv3gq/VZI5y?=
+ =?us-ascii?Q?EbbvtinuQZYQ/eyiR0k=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB7329.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3ZY3yuaT4KFHjZ6SQ69oxW53gz5np0HMDbpPXyztbhYgiDGQUETmqsTQkf+j?=
+ =?us-ascii?Q?sWXS3DJ9uxV8O5ZoAiyeWlZ8SeeEif8Ic2Skopbxyee6+oQHYccjklW4sd4A?=
+ =?us-ascii?Q?rdU1Dl1PrRNjKqFg77bmkihTt/Zf1qAbnlj+Rn8HD6mzNstR4rso2vl9Garj?=
+ =?us-ascii?Q?qqoSQPTvG4F7k+cTVTp+K9XIiL4bzeA4U/aPAS5Mb/7V2aPiapqNFF+6zH6t?=
+ =?us-ascii?Q?hmHr+FnMmb7s14dRmFa92t0m1f8nJik3rEmuPg+mFYVqYVvm4HPvHiKuADWf?=
+ =?us-ascii?Q?/AKHk+ktc4H6F9n3YlF486nvOMAxQjbQQZKrAFbjHigRGqJcGm2iixfDPN+0?=
+ =?us-ascii?Q?bM2QgxKD1433OWlG4FoxpNcq/0nxlyOWzKZp1M8XCwf1oQ69dZk7sKUlVK9c?=
+ =?us-ascii?Q?1WYNlMEY8CKXR+sJMZBdJqLlFzk85fgC62Hb33J0brsWoa6WxvQpc8aqxeFf?=
+ =?us-ascii?Q?TzYBxJPpsGVZlJDbkjEybRGiTmSU1GE1HTJZ0zSOaibKpNDwFj+Y+s4WTFkr?=
+ =?us-ascii?Q?T2jZu+9Apt3C8h1hDKZH2iXDS3FJwQjs/RE44AwTHLQWyCWZsF9cvP9kFma5?=
+ =?us-ascii?Q?kfsL+0/h/3i+Gy2oOt4OargsWKcUngU/j5S+cqsheynw5zdmoe1SwwVHJ6g/?=
+ =?us-ascii?Q?/Mc3Mm64OmOlW0ewvIZEBtw2hVTgPdPJBzSPYXvkQlq7F1/QFLryTBAhW4rV?=
+ =?us-ascii?Q?02TfFtlGiJ84UH+cOpOL/V/+tnV13sckn1T/yxLa534KyUto+mv6IQ4Iv48P?=
+ =?us-ascii?Q?HXU1JlPjq1lBd+ZRI6k9+jqqqn5ykon/K4d4aO0sIitVZKuywSHLFfkZkHUf?=
+ =?us-ascii?Q?gBiMd7dNQfdibV17vu4prAaqwoRV5lh/el7/ff6mVuyGBz3nBqwiaC/R8OtV?=
+ =?us-ascii?Q?5E+kj1r2gong9aeIsXb9jrccB42jS09d59CoBHiFiq5g4XqFO0uwyyxO3VZl?=
+ =?us-ascii?Q?ujWqvouJUZcDvu1Rd7as84oAx99h8waFzpqqWrmzslUOt0J2MiiGFRa9aVf/?=
+ =?us-ascii?Q?9660IgVtcCFvECn/OlpIEcVKQ2Gvehe/i0a+e5Byj7gR/hqdCnRhWhJtvL9b?=
+ =?us-ascii?Q?qNgkkve3osqLiUFML80ZDV1dgm/AA4jhYyEo6k0g6c7K/Ne4oEaklF9Rv5vk?=
+ =?us-ascii?Q?Qtq/lVz9sRjErmEtEQ/Xn5vRe9VQeHN1dPiB8dkV3gP6mpYYiZx0BUOA7BUj?=
+ =?us-ascii?Q?caicvtpgpK/rib6RdHe3enB925w1K9xXqLT29dVnkBMDSO3+jDgXRvmncNH1?=
+ =?us-ascii?Q?5oxOBxrpaXdJRctjUKbbdrjX0/GqhkE5ZHHFbdo4OudhVjP+yZ67nup1UMhS?=
+ =?us-ascii?Q?EdekdDdJdEVrB2hjqCWNt82wVpPt8x3J7YsxW7Nd25o/uF6GsKF5BwrZfLbU?=
+ =?us-ascii?Q?7J54ghXNXIrdEu4QqpSBjrCZiEWC1IdV0JTdd+WlICxrvMdOPwh4JYIQlCco?=
+ =?us-ascii?Q?C/zMjpgQeDdfeKCDTREZuQNt2AzjENgiHzTe40kqHVZb/6XLIVhiQYlc25GV?=
+ =?us-ascii?Q?81zfjH0tqV27kedqUYvZIrfhFL423x1PW6W3ffPUMG9w+Q9qZNhOs2ZnalpJ?=
+ =?us-ascii?Q?Ty+isrLPOeggahXbkVUL0aP3rFLrjSroSUeTGqH2//oa6tezVhyomxtF7vb6?=
+ =?us-ascii?Q?cRFziSIB7mEYSSyj80pRZPDbufa38e9Y8IhPE6ybibrNwfwTewzgD2aPYOfd?=
+ =?us-ascii?Q?s+vAx+ejxVSVeFgONRiuNpLIE1DJrK680VYaFyhUct6sU+UVC9hYcV6FEcVL?=
+ =?us-ascii?Q?uU7LBwBbWA=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	AzEJWQSfcU7WuRvzaJGmSib1DVCSWhzJEBEqFg9OoR7K5uvI/jrYS9x2qSzCwUQFgIDmT9gjKKtfo+cfBXdmZiVOAdq9GM9f5hgHqrifYABxviW9jjxwNvZbhOsVqCWhWrZLSRgl+4a4FOjBpkTENh+aRSoP2rL/uKwtO6co+aFZmQ8HGqihUIEP21VDccav4Z4OCEcDQXzG6rXik+TgTack0OrAwQ0X4Upo6vXUKFYQQGWw26HyB+79Y6Ud2hDRTD2rT8XE+W7XpaqqurD7b9k/ndokv5ihlYFKYuOLwAT3x0EuyukpR0EsY5LrAyIQlxLj0mhiHFFJbTIoPbVXFr+4zz6mcBER5W8zdXqSlyfFLpaGf8bOunvte6AGhmPAaSjInt38qDrHMbTtD19hq1Hwmd6uNoCWJJ6NH3c8qZHRZnHlTeVM7BegAJ5nKwg4wWXPhzz/6eiFpDnENQ+zTge3Xq2vF4Lb9SIgSWRayRMXVu8XFJY0dctjZMrCYnfkBbvdvB6FA44ZnUkUUoIclGCNmAluwU442oXi+LGmVUeC7QYkVCUgo0maG8FDTv4KW/S5X4N2vsM1q4jzQb+1+pN6XUohJqGJTxDoeA730wA=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5cb20472-b010-4f70-db9f-08de5981390f
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB7329.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2026 06:41:07.9641
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ad1GbZI1ADeFXWABZfcL5bzlyTYhR7dKC/Iq2UOM3+WpaSQkwpPo+SZgFnuhUSlArsMBBacuuYO91OEL7q2OZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF5F5663669
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-21_04,2026-01-20_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 adultscore=0
+ phishscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
+ definitions=main-2601220041
+X-Authority-Analysis: v=2.4 cv=WbcBqkhX c=1 sm=1 tr=0 ts=6971c688 cx=c_pps
+ a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=1XWaLZrsAAAA:8 a=yPCof4ZbAAAA:8 a=inOo-CydEO0l5Do93jIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIyMDA0MiBTYWx0ZWRfX5rOnEMmpzUcF
+ uFITeOL3f6mceVCSoFBuF0TUD6/jIfaSLxP/ugiq+EfTm+Aj0WckTcnYaVghxH9lT10lQHS6lP6
+ GIz0188bFUTPxkffQyXYcLmxARJxI3+fO5w3YgseAM47bDoiLrAgwi+T/bBxo+MHdZHqCZex0QV
+ 55qbLngB6cQhgdVvdyPw1NSbFvUezFKM1E8fScPRXljbB4Z0MTDSEVjgBggORnxRsG28grwvkhr
+ VavlP0PJ65Z/B2oOp+uYRbKIj5GrcvblhKZfrfbqqd1P2FdRhUn1vtG3sopc8c0Ne16SGAD+j6W
+ /dgaD/t9MRxMAXw+FxuHA5cq0ucIuPLlVIHJm753nHZjmm8n9TrWw1/QXEySDdeOj9l9n6E57sp
+ LxWJZHTeNt7W93Wv/mkft0YGC21K7xE5yUO1NTuhSl7rsOBNhyQLiL+5KXOEPNgJa8A7Jzksw7l
+ eX+ScJSAOOWwnOjaGvw==
+X-Proofpoint-ORIG-GUID: 9pLVWzg9bTltSnoja2dfmhO8iVkdB279
+X-Proofpoint-GUID: 9pLVWzg9bTltSnoja2dfmhO8iVkdB279
 
-On 1/22/26 01:54, Suren Baghdasaryan wrote:
-> On Fri, Jan 16, 2026 at 2:41 PM Vlastimil Babka <vbabka@suse.cz> wrote:
->>
->> Currently slabs are only frozen after consistency checks failed. This
->> can happen only in caches with debugging enabled, and those use
->> free_to_partial_list() for freeing. The non-debug operation of
->> __slab_free() can thus stop considering the frozen field, and we can
->> remove the FREE_FROZEN stat.
->>
->> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+On Fri, Jan 16, 2026 at 03:40:38PM +0100, Vlastimil Babka wrote:
+> The changes related to sheaves made the description of locking and other
+> details outdated. Update it to reflect current state.
 > 
-> Functionally looks fine to me. Do we need to do something about the
-> UAPI breakage that removal of a sysfs node might cause?
-
-Only if someone complains. Just this week it has been reiterated by Linus:
-https://lore.kernel.org/all/CAHk-%3Dwga8Qu0-OSE9VZbviq9GuqwhPhLUXeAt-S7_9%2BfMCLkKg@mail.gmail.com/
-
-Given this is behing a config no distro enables, I think chances are good
-noone will complain:
-
-https://oracle.github.io/kconfigs/?config=UTS_RELEASE&config=SLUB_STATS
-
+> Also add a new copyright line due to major changes.
+> 
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> 
->> ---
->>  mm/slub.c | 22 ++++------------------
->>  1 file changed, 4 insertions(+), 18 deletions(-)
->>
->> diff --git a/mm/slub.c b/mm/slub.c
->> index 476a279f1a94..7ec7049c0ca5 100644
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
->> @@ -333,7 +333,6 @@ enum stat_item {
->>         FREE_RCU_SHEAF_FAIL,    /* Failed to free to a rcu_free sheaf */
->>         FREE_FASTPATH,          /* Free to cpu slab */
->>         FREE_SLOWPATH,          /* Freeing not to cpu slab */
->> -       FREE_FROZEN,            /* Freeing to frozen slab */
->>         FREE_ADD_PARTIAL,       /* Freeing moves slab to partial list */
->>         FREE_REMOVE_PARTIAL,    /* Freeing removes last object */
->>         ALLOC_FROM_PARTIAL,     /* Cpu slab acquired from node partial list */
->> @@ -5103,7 +5102,7 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
->>                         unsigned long addr)
->>
->>  {
->> -       bool was_frozen, was_full;
->> +       bool was_full;
->>         struct freelist_counters old, new;
->>         struct kmem_cache_node *n = NULL;
->>         unsigned long flags;
->> @@ -5126,7 +5125,6 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
->>                 old.counters = slab->counters;
->>
->>                 was_full = (old.freelist == NULL);
->> -               was_frozen = old.frozen;
->>
->>                 set_freepointer(s, tail, old.freelist);
->>
->> @@ -5139,7 +5137,7 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
->>                  * to (due to not being full anymore) the partial list.
->>                  * Unless it's frozen.
->>                  */
->> -               if ((!new.inuse || was_full) && !was_frozen) {
->> +               if (!new.inuse || was_full) {
->>
->>                         n = get_node(s, slab_nid(slab));
->>                         /*
->> @@ -5158,20 +5156,10 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
->>         } while (!slab_update_freelist(s, slab, &old, &new, "__slab_free"));
->>
->>         if (likely(!n)) {
->> -
->> -               if (likely(was_frozen)) {
->> -                       /*
->> -                        * The list lock was not taken therefore no list
->> -                        * activity can be necessary.
->> -                        */
->> -                       stat(s, FREE_FROZEN);
->> -               }
->> -
->>                 /*
->> -                * In other cases we didn't take the list_lock because the slab
->> -                * was already on the partial list and will remain there.
->> +                * We didn't take the list_lock because the slab was already on
->> +                * the partial list and will remain there.
->>                  */
->> -
->>                 return;
->>         }
->>
->> @@ -8721,7 +8709,6 @@ STAT_ATTR(FREE_RCU_SHEAF, free_rcu_sheaf);
->>  STAT_ATTR(FREE_RCU_SHEAF_FAIL, free_rcu_sheaf_fail);
->>  STAT_ATTR(FREE_FASTPATH, free_fastpath);
->>  STAT_ATTR(FREE_SLOWPATH, free_slowpath);
->> -STAT_ATTR(FREE_FROZEN, free_frozen);
->>  STAT_ATTR(FREE_ADD_PARTIAL, free_add_partial);
->>  STAT_ATTR(FREE_REMOVE_PARTIAL, free_remove_partial);
->>  STAT_ATTR(ALLOC_FROM_PARTIAL, alloc_from_partial);
->> @@ -8826,7 +8813,6 @@ static struct attribute *slab_attrs[] = {
->>         &free_rcu_sheaf_fail_attr.attr,
->>         &free_fastpath_attr.attr,
->>         &free_slowpath_attr.attr,
->> -       &free_frozen_attr.attr,
->>         &free_add_partial_attr.attr,
->>         &free_remove_partial_attr.attr,
->>         &alloc_from_partial_attr.attr,
->>
->> --
->> 2.52.0
->>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+> @@ -112,47 +123,46 @@
+> + *   node->barn->lock (spinlock)
+>   *
+> - *   lockless fastpaths
+> + *   Lockless freeing
+> + *
+> + *   Objects may have to be freed to their slabs when they are from a remote
+> + *   node (where we want to avoid filling local sheaves with remote objects)
+> + *   or when there are too many full sheaves. On architectures supporting
+> + *   cmpxchg_double this is done by a lockless update of slab's freelist and
+> + *   counters, otherwise slab_lock is taken. This only needs to take the
+> + *   list_lock if it's a first free to a full slab, or when there are too many
+> + *   fully free slabs and some need to be discarded.
 
+nit: "or when a slab becomes empty after the free"?
+because we don't check nr_partial before acquiring list_lock.
+
+With that addressed,
+Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+
+-- 
+Cheers,
+Harry / Hyeonggon
