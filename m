@@ -1,175 +1,260 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB743859D2
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 18:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769107492; cv=none; b=kPCTDewUtKkQ7OdZtn+8W14Pl7e77EY50bpmxPpguA/8sbnZ7NrxBKhERWbfZ2mMv6FHZ52b2jJ2484LEapwdm7nCv5sDg0/Wo9zdBbnP8uvvMYzOgyUZkT0zuhnRFyhfNTTC8hdCNUjn59ALcPHiv2D6FGcUAXkvAAtaQ7Gb8w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769107492; c=relaxed/simple;
-	bh=HKFPyQQ6hmbAczM0/cvKv4bWPuFTGBzmQ8bqeGgF68Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OBADtL8/KyHeDdQqkhI/Oy06U0jVr5Vl8r/XGJQTkKUTcYEV/2/sVAtvU0+bgZKKLxzzSXPJrk1oE4D7GluBEPqB0jtLv8eY6Ox2k3JA1wqOrwSlDckkfg6tiTLGXaistuim7n3u1wmXWl9MIQ5EvzhsjddG/rqSNUB46gwry5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ALi65AXK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B953921FD
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 19:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769109977; cv=pass; b=Rcno7kj5iz6WLGAmD1Usteje6sCtC3nW47W8tRtq2o+bPDFIETzaD1+w1kh3oO327T/dVUvW+LNU0t2pAgkK2LCIOfhQYh/7A7Y/IEAzmW+snAwKIr7BaFrOfmjLjrgzfnEoRuOtq4H5bX+iHRz0YLmeUoxYmEnV+py/1v2XyJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769109977; c=relaxed/simple;
+	bh=WIBDSV86cKbv/tFL5H8ymz5nfH5UUihdwLcsqwJzbok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=auxFTql6sQvBMnQ6ODBLCd2xZiucWD/rXtoTZIh3ZxPHBiXGtumQVPnYBF/f4tV3xDqr505+rTj6WNrGbkeCegiUI1uBE1vd8P22i6LI0PxDM+xrhs5s9V+Pn8Z+a6YwzUmBR8JNScPkr9+mYWwjsLUukuMiPXKVGDHjqRjRBDc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KgCrer1x; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ALi65AXK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769107471;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2hi9nw0ROEqCJmA86cR5BCja4mz2cFCx+tgdx6SAHhI=;
-	b=ALi65AXKAa/RU/QRwLIz4ouGQow4ds56RnzyF6ksKi2a+XOJIaoJvjrGklSMmXmvKIETtS
-	/KKWTs4njySuRYyaOBEKBBSgR31ounSd2LbzMPnaBOce/8EgCKNIjoei43RSqJAjO85eBa
-	in7+zZHa4L+m4aDV3VpaTZLueOfCtD0=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-450-DrPRUB-MMeeByGpbTwLtaw-1; Thu,
- 22 Jan 2026 13:44:27 -0500
-X-MC-Unique: DrPRUB-MMeeByGpbTwLtaw-1
-X-Mimecast-MFC-AGG-ID: DrPRUB-MMeeByGpbTwLtaw_1769107465
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6209F1955D9F;
-	Thu, 22 Jan 2026 18:44:25 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.90.13])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EBA041800665;
-	Thu, 22 Jan 2026 18:44:22 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Wei Yang <richard.weiyang@gmail.com>,
-	David Hildenbrand <david@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v3] mm/mm_init: Don't cond_resched() in deferred_init_memmap_chunk() if called from deferred_grow_zone()
-Date: Thu, 22 Jan 2026 13:43:43 -0500
-Message-ID: <20260122184343.546627-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KgCrer1x"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014b5d8551so79251cf.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 11:26:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769109964; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dAXO0ZoDM+akdikOPBm2XJsdt/3D8BGRtpRsRY5VXPH0B/buomg2tK2tR0IoB6gbJ8
+         5t6JJJIIS/JYRifxLILvCVnOu3CUiTkMfWZ6qmNsgnrUGe+S22VQ7F+U3Ry6Cvy2CveD
+         PRdvn+6Twuqe+56jg361cqMLnNBxf2XWo15Eb1UKffCeKWn5U7ItwUqVCe28++1hXVn7
+         ubbXzNuS5vQT869P9rxVLWbdmdXIBS6g63oGK4aJEgq7q6QGOVbii5RlaJjcWvs64Hcp
+         Ip62R5dmSwWOglEa6UGWXW6We7H4IyRFlHdKt0bE6GHyogJX1eeSHnuwGRVk4b66IOqx
+         Obsg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dFar74v5L9caJGm55iUvf49HTBsbtdcK0qJVDuGPae8=;
+        fh=4AVeOtKU73m/Kzjbz8d2Owl3T7+rf6CUAX+hu98Iy9g=;
+        b=JQvwZSvPMcB0SEpFer08Y4dOeWPeuqLlqu1xjXufk7fwUx9baQTCIoYtJBBeiu7/Sp
+         8uT5320Zlhul9fD4dzdmE/9sI7ZF9NmlaF8mukoUb/WRAA6HhIK2iRw53fD/2LSGdEfh
+         Uqkkiky5t4YJeFgsW8lXoP6UZxIDCQgm/TBC+Y3IQh+bB6BZq0q+H4nEHJKFqORJ6QGp
+         B78hAb+Zt0dvbm4LC1AqXlaNsV6KG5/UwtstMdrL3yEv+GU7uHbzbZ7Uphij3Xtd4d8G
+         AA8C6HHAw6DM/8/0jJtFu8rbBPBxHJFNVCur3ScsI6VBHVnfl9nw5Vf5fn19A9EcfI4L
+         ULPg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769109964; x=1769714764; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dFar74v5L9caJGm55iUvf49HTBsbtdcK0qJVDuGPae8=;
+        b=KgCrer1xdmvy4DXbkkzTXwMEac4ttLFEcXkQvkdLtMi1lm4vXiWbkDRqwkm2dZtZGn
+         42hICdvHXHTqrq1k8Z19YwEsiNz4NG4p+U//7YxFGHXfE6gItiYD27f3w2WOK6B2QK+x
+         b8FBwFlgQ2rnllyQ1X7kifQRu9/XopCWKZXqhzylFvzrENgsFH7lkEOOFQHbzulTTyZ5
+         Eld9HkvGmDjvxmF78Huie5WO7Lf5jKaMMqu6LagrFZrm/UmsEBaBt0sJjaJMrR3ZO4k6
+         d274BW3h4seI592NtwvRoR09CoTTYlUajfjYXD/+J4xoYHcXEqRLAUxkUMYlBOw5cBoK
+         Gl/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769109964; x=1769714764;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dFar74v5L9caJGm55iUvf49HTBsbtdcK0qJVDuGPae8=;
+        b=UUnoAVGzknpcyeG4/1z+0g37Dt9EWZftx51fR0ITWTM4+0vULTVRDjEfJTX2mON6W4
+         AKQJfRFGPDTVVUiz+RIzv/xKXZteR33AnyC/BILPZ7sHsqdd6v8iay/I1M95jp5GwskV
+         Ce2ITpoffUJhbN1ljmriUDdioXSmCF+j6eRkk1BgWqxRCB+kz1uvtzdY0xn4/k8j5EKI
+         ouhaxQYtRJnX1bPZZVKlD+t+AXiJtGUwrA8AQsigBNw9RvO1R5Mpsntj7vePKaTdWl2d
+         Qntm3BYwd4PmiYPfUpX1K69cylSP79rzzpRbohLFZPlxtfqLG6ad1E1N6bgBemBt+2Jn
+         2dwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWccPoA5DMzl+UPWVzr2xVTf7ZZBJle3Kw4460WHeOEe5T4h1tvrYnugJARrpll5tFxH6guQMpZ16NkPrVmNQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzdwi2FCLTrnfx3ozw8e9wVy/8yObodl2M3E43F8HrpCmJL6O6o
+	Asc9+lu0ANr7eo89YwqGJaCK03vt6p+ivepRrGxw7Arn0ncpT84hT2cMvbrvOMVfLGMgx0Hq/lk
+	rFE4QPga/0Y5dABaPJ4Ol9Ku5zW56A7ocrrT+Itdk
+X-Gm-Gg: AZuq6aLNGnuVBltLg6L3XkBoeqSaBahu7Se+nfS9lhS2H7UY9focz4bfFCFGOQhvVS/
+	e8Es1E96T+1KN1EsbgRKLbpATiwWR6YF/9cYfg3zzg/nQTOB3tSuOHfJdBnOoj6Knr0XK9Zm/rw
+	VVq5JsroGx6MBR3vDLIWmvik8byh0xAQXiBYmqswwMmqQ0eDXd3ooqv2PM3JMyAhnBFYotsoFhn
+	X/W0dUVViGmDX5zZkK9WZ+j64GDIsNqyxhI2FQf+JPAN2+GIpV7Vwg98VKWPuqEYwR6EzsoAj2N
+	6I/uLg2SQrjlKzbhy1qIJs/a
+X-Received: by 2002:ac8:7c44:0:b0:4f3:5474:3cb9 with SMTP id
+ d75a77b69052e-502f808a608mr1477551cf.14.1769109963495; Thu, 22 Jan 2026
+ 11:26:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <cover.1769085814.git.lorenzo.stoakes@oracle.com> <4703b7320796908b9a0827c3d42d74d11b703714.1769085814.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <4703b7320796908b9a0827c3d42d74d11b703714.1769085814.git.lorenzo.stoakes@oracle.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 22 Jan 2026 11:25:52 -0800
+X-Gm-Features: AZwV_QiC4yCOm_6Ck4ofFpS5FHz68e_QvqRz-MHIzMZU7qBT286p_RXmTzVHZJI
+Message-ID: <CAJuCfpFLXtMnO32ffUw91917n22FqFhBRO46BzfOpUe7v_xjPA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] mm/vma: add+use vma lockdep acquire/release defines
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Waiman Long <longman@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk()
-in deferred_grow_zone()") made deferred_grow_zone() call
-deferred_init_memmap_chunk() within a pgdat_resize_lock() critical
-section with irqs disabled. It did check for irqs_disabled() in
-deferred_init_memmap_chunk() to avoid calling cond_resched(). For a
-PREEMPT_RT kernel build, however, spin_lock_irqsave() does not disable
-interrupt but rcu_read_lock() is called. This leads to the following
-bug report.
+On Thu, Jan 22, 2026 at 4:50=E2=80=AFAM Lorenzo Stoakes
+<lorenzo.stoakes@oracle.com> wrote:
+>
+> The code is littered with inscrutable and duplicative lockdep incantation=
+s,
+> replace these with defines which explain what is going on and add
+> commentary to explain what we're doing.
+>
+> If lockdep is disabled these become no-ops. We must use defines so _RET_I=
+P_
+> remains meaningful.
+>
+> These are self-documenting and aid readability of the code.
+>
+> Additionally, instead of using the confusing rwsem_*() form for something
+> that is emphatically not an rwsem, we instead explicitly use
+> lock_[acquired, release]_shared/exclusive() lockdep invocations since we
+> are doing something rather custom here and these make more sense to use.
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-  BUG: sleeping function called from invalid context at mm/mm_init.c:2091
-  in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
-  preempt_count: 0, expected: 0
-  RCU nest depth: 1, expected: 0
-  3 locks held by swapper/0/1:
-   #0: ffff80008471b7a0 (sched_domains_mutex){+.+.}-{4:4}, at: sched_domains_mutex_lock+0x28/0x40
-   #1: ffff003bdfffef48 (&pgdat->node_size_lock){+.+.}-{3:3}, at: deferred_grow_zone+0x140/0x278
-   #2: ffff800084acf600 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1b4/0x408
-  CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           6.19.0-rc6-test #1 PREEMPT_{RT,(full)
-}
-  Tainted: [W]=WARN
-  Call trace:
-   show_stack+0x20/0x38 (C)
-   dump_stack_lvl+0xdc/0xf8
-   dump_stack+0x1c/0x28
-   __might_resched+0x384/0x530
-   deferred_init_memmap_chunk+0x560/0x688
-   deferred_grow_zone+0x190/0x278
-   _deferred_grow_zone+0x18/0x30
-   get_page_from_freelist+0x780/0xf78
-   __alloc_frozen_pages_noprof+0x1dc/0x348
-   alloc_slab_page+0x30/0x110
-   allocate_slab+0x98/0x2a0
-   new_slab+0x4c/0x80
-   ___slab_alloc+0x5a4/0x770
-   __slab_alloc.constprop.0+0x88/0x1e0
-   __kmalloc_node_noprof+0x2c0/0x598
-   __sdt_alloc+0x3b8/0x728
-   build_sched_domains+0xe0/0x1260
-   sched_init_domains+0x14c/0x1c8
-   sched_init_smp+0x9c/0x1d0
-   kernel_init_freeable+0x218/0x358
-   kernel_init+0x28/0x208
-   ret_from_fork+0x10/0x20
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-Fix it adding a new argument to deferred_init_memmap_chunk() to
-explicitly tell it if cond_resched() is allowed or not instead of
-relying on some current state information which may vary depending
-on the exact kernel configuration options that are enabled.
-
-Fixes: 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() in deferred_grow_zone()")
-Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Waiman Long <longman@redhat.com>
----
-
- [v3]: Add a new can_resched argument to deferred_init_memmap_chunk() as
-       suggested by Sebastian.
-
- mm/mm_init.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index fc2a6f1e518f..2a809cd8e7fa 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -2059,7 +2059,7 @@ static unsigned long __init deferred_init_pages(struct zone *zone,
-  */
- static unsigned long __init
- deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
--			   struct zone *zone)
-+			   struct zone *zone, bool can_resched)
- {
- 	int nid = zone_to_nid(zone);
- 	unsigned long nr_pages = 0;
-@@ -2085,10 +2085,10 @@ deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
- 
- 			spfn = chunk_end;
- 
--			if (irqs_disabled())
--				touch_nmi_watchdog();
--			else
-+			if (can_resched)
- 				cond_resched();
-+			else
-+				touch_nmi_watchdog();
- 		}
- 	}
- 
-@@ -2101,7 +2101,7 @@ deferred_init_memmap_job(unsigned long start_pfn, unsigned long end_pfn,
- {
- 	struct zone *zone = arg;
- 
--	deferred_init_memmap_chunk(start_pfn, end_pfn, zone);
-+	deferred_init_memmap_chunk(start_pfn, end_pfn, zone, true);
- }
- 
- static unsigned int __init
-@@ -2216,7 +2216,7 @@ bool __init deferred_grow_zone(struct zone *zone, unsigned int order)
- 	for (spfn = first_deferred_pfn, epfn = SECTION_ALIGN_UP(spfn + 1);
- 	     nr_pages < nr_pages_needed && spfn < zone_end_pfn(zone);
- 	     spfn = epfn, epfn += PAGES_PER_SECTION) {
--		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone);
-+		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone, false);
- 	}
- 
- 	/*
--- 
-2.52.0
-
+> ---
+>  include/linux/mmap_lock.h | 35 ++++++++++++++++++++++++++++++++---
+>  mm/mmap_lock.c            | 10 +++++-----
+>  2 files changed, 37 insertions(+), 8 deletions(-)
+>
+> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
+> index 0b3614aadbb4..da63b1be6ec0 100644
+> --- a/include/linux/mmap_lock.h
+> +++ b/include/linux/mmap_lock.h
+> @@ -78,6 +78,36 @@ static inline void mmap_assert_write_locked(const stru=
+ct mm_struct *mm)
+>
+>  #ifdef CONFIG_PER_VMA_LOCK
+>
+> +/*
+> + * VMA locks do not behave like most ordinary locks found in the kernel,=
+ so we
+> + * cannot quite have full lockdep tracking in the way we would ideally p=
+refer.
+> + *
+> + * Read locks act as shared locks which exclude an exclusive lock being
+> + * taken. We therefore mark these accordingly on read lock acquire/relea=
+se.
+> + *
+> + * Write locks are acquired exclusively per-VMA, but released in a share=
+d
+> + * fashion, that is upon vma_end_write_all(), we update the mmap's seqco=
+unt such
+> + * that write lock is de-acquired.
+> + *
+> + * We therefore cannot track write locks per-VMA, nor do we try. Mitigat=
+ing this
+> + * is the fact that, of course, we do lockdep-track the mmap lock rwsem.
+> + *
+> + * We do, however, want to indicate that during either acquisition of a =
+VMA
+> + * write lock or detachment of a VMA that we require the lock held be ex=
+clusive,
+> + * so we utilise lockdep to do so.
+> + */
+> +#define __vma_lockdep_acquire_read(vma) \
+> +       lock_acquire_shared(&vma->vmlock_dep_map, 0, 1, NULL, _RET_IP_)
+> +#define __vma_lockdep_release_read(vma) \
+> +       lock_release(&vma->vmlock_dep_map, _RET_IP_)
+> +#define __vma_lockdep_acquire_exclusive(vma) \
+> +       lock_acquire_exclusive(&vma->vmlock_dep_map, 0, 0, NULL, _RET_IP_=
+)
+> +#define __vma_lockdep_release_exclusive(vma) \
+> +       lock_release(&vma->vmlock_dep_map, _RET_IP_)
+> +/* Only meaningful if CONFIG_LOCK_STAT is defined. */
+> +#define __vma_lockdep_stat_mark_acquired(vma) \
+> +       lock_acquired(&vma->vmlock_dep_map, _RET_IP_)
+> +
+>  static inline void mm_lock_seqcount_init(struct mm_struct *mm)
+>  {
+>         seqcount_init(&mm->mm_lock_seq);
+> @@ -176,8 +206,7 @@ static inline void vma_refcount_put(struct vm_area_st=
+ruct *vma)
+>         int refcnt;
+>         bool detached;
+>
+> -       rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> -
+> +       __vma_lockdep_release_read(vma);
+>         detached =3D __vma_refcount_put(vma, &refcnt);
+>         /*
+>          * __vma_enter_locked() may be sleeping waiting for readers to dr=
+op
+> @@ -203,7 +232,7 @@ static inline bool vma_start_read_locked_nested(struc=
+t vm_area_struct *vma, int
+>                                                               VM_REFCNT_L=
+IMIT)))
+>                 return false;
+>
+> -       rwsem_acquire_read(&vma->vmlock_dep_map, 0, 1, _RET_IP_);
+> +       __vma_lockdep_acquire_read(vma);
+>         return true;
+>  }
+>
+> diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
+> index ebacb57e5f16..9563bfb051f4 100644
+> --- a/mm/mmap_lock.c
+> +++ b/mm/mmap_lock.c
+> @@ -72,7 +72,7 @@ static inline int __vma_enter_locked(struct vm_area_str=
+uct *vma,
+>         if (!refcount_add_not_zero(VM_REFCNT_EXCLUDE_READERS_FLAG, &vma->=
+vm_refcnt))
+>                 return 0;
+>
+> -       rwsem_acquire(&vma->vmlock_dep_map, 0, 0, _RET_IP_);
+> +       __vma_lockdep_acquire_exclusive(vma);
+>         err =3D rcuwait_wait_event(&vma->vm_mm->vma_writer_wait,
+>                    refcount_read(&vma->vm_refcnt) =3D=3D tgt_refcnt,
+>                    state);
+> @@ -85,10 +85,10 @@ static inline int __vma_enter_locked(struct vm_area_s=
+truct *vma,
+>                         WARN_ON_ONCE(!detaching);
+>                         err =3D 0;
+>                 }
+> -               rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> +               __vma_lockdep_release_exclusive(vma);
+>                 return err;
+>         }
+> -       lock_acquired(&vma->vmlock_dep_map, _RET_IP_);
+> +       __vma_lockdep_stat_mark_acquired(vma);
+>
+>         return 1;
+>  }
+> @@ -97,7 +97,7 @@ static inline void __vma_exit_locked(struct vm_area_str=
+uct *vma, bool *detached)
+>  {
+>         *detached =3D refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLA=
+G,
+>                                           &vma->vm_refcnt);
+> -       rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
+> +       __vma_lockdep_release_exclusive(vma);
+>  }
+>
+>  int __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_s=
+eq,
+> @@ -199,7 +199,7 @@ static inline struct vm_area_struct *vma_start_read(s=
+truct mm_struct *mm,
+>                 goto err;
+>         }
+>
+> -       rwsem_acquire_read(&vma->vmlock_dep_map, 0, 1, _RET_IP_);
+> +       __vma_lockdep_acquire_read(vma);
+>
+>         if (unlikely(vma->vm_mm !=3D mm))
+>                 goto err_unstable;
+> --
+> 2.52.0
+>
