@@ -1,326 +1,175 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212D93563E3
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 18:08:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769105288; cv=pass; b=eBq1bCbFSb2bROHs23knbQCbowrbHWFKV2XpRMnIQdfdjg4Uey5GvzZaQU3KgA25rkDhh379VfJy1Jr5AcKVBarrJSZjxm6mEvSW+aCAaO3hfK1iZ/KZtK4zAwl1Aew07DR+VPVARSHO4N2R2yNVhVbWo/JpnAgMl+Qw1HUOe0g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769105288; c=relaxed/simple;
-	bh=zdLkiSlU9Fd9LEr704oOQxFl5PdDq+moOPjzjLViXzE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tSGpgGOoPdKxFnMjRat3tYPqhvDgmWJF8Hd1BZXr/d78Ufy9pB/cgDhquJogk8fA74p1BcuoxttEsYMJ0UMbGgUdMFC5ioakDKL9xAlHmgPoUPGerQirZnp9INcHqNRBYWLX/FQbcGmDH8Fcmm4MS5a019HyqB7qcdWVJmjVFpY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1jO8sDxV; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB743859D2
+	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 18:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769107492; cv=none; b=kPCTDewUtKkQ7OdZtn+8W14Pl7e77EY50bpmxPpguA/8sbnZ7NrxBKhERWbfZ2mMv6FHZ52b2jJ2484LEapwdm7nCv5sDg0/Wo9zdBbnP8uvvMYzOgyUZkT0zuhnRFyhfNTTC8hdCNUjn59ALcPHiv2D6FGcUAXkvAAtaQ7Gb8w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769107492; c=relaxed/simple;
+	bh=HKFPyQQ6hmbAczM0/cvKv4bWPuFTGBzmQ8bqeGgF68Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OBADtL8/KyHeDdQqkhI/Oy06U0jVr5Vl8r/XGJQTkKUTcYEV/2/sVAtvU0+bgZKKLxzzSXPJrk1oE4D7GluBEPqB0jtLv8eY6Ox2k3JA1wqOrwSlDckkfg6tiTLGXaistuim7n3u1wmXWl9MIQ5EvzhsjddG/rqSNUB46gwry5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ALi65AXK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1jO8sDxV"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5014b5d8551so24121cf.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 10:08:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769105279; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VhgOpl8LOSg7J0BkcOW6wGlj10n7LVZzuD1iK4wNaOvpJfJw/FGVZZv2gpVOg10ZpW
-         o/Vhjf45+0ZOw1TWquh4ZXUyqskQp3CpyaKHZ3M7ILUjw3wzHb5vHi3wzUgccveh7P/A
-         zyu8r5j8CsYBh5obVr9HLfnBuGW/fnWw4yTRRYK7TeFr+FCJ89d95iU+pjA4l0YGpMGf
-         Y+lgZwY+NzGRoPIF5c4yRE0OMvlDdL6ATdxKXbkKKz9i4guxnLacMVVphbCwmESa6ibQ
-         EGSImsMtcbcPherTyIWf+PynTVaz5n1BgOC2vE7Basa9fcD+A7R0aeHygXYQZ/uZ1lfm
-         tgMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OjdUwnpsHtoIlxN53mjKwTtHv8VX23Qu//ARq0k4aO4=;
-        fh=UJyfbh3DxrxdNMDkfPTOKO1oWEYw95mnRELKg6SwSTw=;
-        b=Ok2RvuQPpaA5O2Z07aNyr+m+asl3OibpN7WS4hz66yKWC94pfHZ7s5gVIGzbLHOA3k
-         5uG/t5i+HGPQl1nd2Y7Wn7rx1cD/LCk+uBWaS5JQFXvVVfpJ+Dkb5w3ELGbQzUfDOC+w
-         DcM3+AZXQVg9R/rUaZfqH1e/vRxgZDYCZFGDNXDKG8ZXG2FJ5AEz4VCUR24E5tR2SfWn
-         IoFZhIJThWN58gkiVM28GPU1jUUd/03s46PNzq3zBIJk/xixQdv7R82XO7SFsAfdvqYS
-         mhNf+FfB7s/5akuHbkmIQZCu9ip/0/a1GK9RwxA/O0T546y8ZvkICbBELIJSFCzmxbOE
-         HDEA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769105279; x=1769710079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OjdUwnpsHtoIlxN53mjKwTtHv8VX23Qu//ARq0k4aO4=;
-        b=1jO8sDxVb7fnaCDzlgbprPWdL0o5TNMqLop/NrMI/NdF3zT+G637CTGcOy63T+hIi6
-         K56ksLULuvExOGfBoyiGwKf1Af73N/ODHh3OxWYnPO37iDltXrvo8Qf/X04jr4oind7j
-         hOVwLF1idTMZzwGhF9xmh1SYt+nKeQkyJuP3G6bfoNNgfzgTkl+XAlQQFJ+y7+djiYUo
-         qh4Q1IVV3trlq02vl5o4jXqDkc6gkehHrBsORuyD3oieh+xa4kje4n8AnCvf3wIPR/gu
-         sJcN2nzkZ7Ku3DHD3eJ97kiVsCgHwG3gpL4P/0Kbl3IgZCgUxr9/8qcdZveCpfWzAMST
-         OuXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769105279; x=1769710079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OjdUwnpsHtoIlxN53mjKwTtHv8VX23Qu//ARq0k4aO4=;
-        b=s28K7/ETYVKZzhLcr2pA0tYV1nAOzIQvTMpnQ8mOwXh/QTxxgEaTfh5adB7SKn603M
-         h67kqzSkEpzOHwadR4QMzCRiL4o5l8aLAs0+uwdcqRYLIiT7kF/PSJrGe867b3gfJaBb
-         tiA85Tau/9yaQc0nlK7LT9ab+o1Pmpx53kAvyenT3z5u0qB2jCJx0V+WIy0FrOGbBEUY
-         U/S8tDvhD4dluLXRvaHe0fArb4Y2nhxuzx1PmI3d2GtWyW7iqXTYw+7Mir9NGJK4zOFD
-         sdzVBVZHrla58u8S3J9n0DM7EoOTqV2+/nNA2wROiraVjmQzyCg6XRxTlPO8g3GIytcc
-         s3XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWOnlFt+Ss263nGI+TMfB3ykjzmvby8oaeD9NI8hkjSB0qvlLCEtg8p0QQS2z0Bt+GCOljqmcSi6VTosnLdtw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxyIYJG/1eaNQbkyFtqzw7VDE6lO4EczVyaAqwGjlHTzHKffGX5
-	83yuF9kOwU8vAywML6Gj3mcOPA1iL99KNwZYV5C1JM2BHTnxrL1LuN96YODuxq5pORVjmyFcs/o
-	NYnTue9YYqY3SjK9LGkSOJH6C9mp3t7sFbzg7RyqN
-X-Gm-Gg: AZuq6aJl5nPMEgpcKAqH5NZmYP+Ihvpdg1rcphbgUZlAbCHBc0l42lBOAocWdUSVrd3
-	+DHtUe1r8i890A3He9xcCTTtW+ceaFURi/thobQt4eHECy35mWtKDgK8YPR5maPxPN/QEXdMa1w
-	PYc2wNr8fBgtsh61gYbZmVvPrfjjacm0f+WYELJZaX5hOlJfAjFoCVqh8kHGT8jsV3AulqsBZlc
-	GKmjo49VU8horwqqjY2CElOOQ7wL5Cwj/Kam73i/hfmNYf8+trGrn6V1PyjxltmOHB1ip+GuWMH
-	8tlo6LwPi30vt55/dICbRenl
-X-Received: by 2002:ac8:7f11:0:b0:4ff:cb25:998b with SMTP id
- d75a77b69052e-502f808dfb6mr111741cf.12.1769105278126; Thu, 22 Jan 2026
- 10:07:58 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ALi65AXK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769107471;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2hi9nw0ROEqCJmA86cR5BCja4mz2cFCx+tgdx6SAHhI=;
+	b=ALi65AXKAa/RU/QRwLIz4ouGQow4ds56RnzyF6ksKi2a+XOJIaoJvjrGklSMmXmvKIETtS
+	/KKWTs4njySuRYyaOBEKBBSgR31ounSd2LbzMPnaBOce/8EgCKNIjoei43RSqJAjO85eBa
+	in7+zZHa4L+m4aDV3VpaTZLueOfCtD0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-450-DrPRUB-MMeeByGpbTwLtaw-1; Thu,
+ 22 Jan 2026 13:44:27 -0500
+X-MC-Unique: DrPRUB-MMeeByGpbTwLtaw-1
+X-Mimecast-MFC-AGG-ID: DrPRUB-MMeeByGpbTwLtaw_1769107465
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6209F1955D9F;
+	Thu, 22 Jan 2026 18:44:25 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.90.13])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id EBA041800665;
+	Thu, 22 Jan 2026 18:44:22 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Mike Rapoport <rppt@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Wei Yang <richard.weiyang@gmail.com>,
+	David Hildenbrand <david@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v3] mm/mm_init: Don't cond_resched() in deferred_init_memmap_chunk() if called from deferred_grow_zone()
+Date: Thu, 22 Jan 2026 13:43:43 -0500
+Message-ID: <20260122184343.546627-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1769085814.git.lorenzo.stoakes@oracle.com> <c51d6396d78532d85a542da07ba783bc838b852f.1769085814.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <c51d6396d78532d85a542da07ba783bc838b852f.1769085814.git.lorenzo.stoakes@oracle.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 22 Jan 2026 10:07:47 -0800
-X-Gm-Features: AZwV_QjulxiVd5nvn-p3ujVEBBr76cKQScvmhG9dtzEX3D3VZga5MHrIgn1oKxk
-Message-ID: <CAJuCfpF-tVr==bCf-PXJFKPn99yRjfONeDnDtPvTkGUfyuvtcw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/8] mm/vma: rename is_vma_write_only(), separate out
- shared refcount put
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Waiman Long <longman@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, Jan 22, 2026 at 4:50=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> The is_vma_writer_only() function is misnamed - this isn't determining if
-> there is only a write lock, as it checks for the presence of the
-> VM_REFCNT_EXCLUDE_READERS_FLAG.
->
-> Really, it is checking to see whether readers are excluded, with a
-> possibility of a false positive in the case of a detachment (there we
-> expect the vma->vm_refcnt to eventually be set to
-> VM_REFCNT_EXCLUDE_READERS_FLAG, whereas for an attached VMA we expect it =
-to
-> eventually be set to VM_REFCNT_EXCLUDE_READERS_FLAG + 1).
->
-> Rename the function accordingly.
->
-> Relatedly, we use a finnicky __refcount_dec_and_test() primitive directly
-> in vma_refcount_put(), using the old value to determine what the referenc=
-e
-> count ought to be after the operation is complete (ignoring racing
-> reference count adjustments).
+Commit 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk()
+in deferred_grow_zone()") made deferred_grow_zone() call
+deferred_init_memmap_chunk() within a pgdat_resize_lock() critical
+section with irqs disabled. It did check for irqs_disabled() in
+deferred_init_memmap_chunk() to avoid calling cond_resched(). For a
+PREEMPT_RT kernel build, however, spin_lock_irqsave() does not disable
+interrupt but rcu_read_lock() is called. This leads to the following
+bug report.
 
-IIUC, __refcount_dec_and_test() can decrement the refcount by only 1
-and the old value returned (oldcnt) will be the exact value that it
-was before this decrement. Therefore oldcnt - 1 must reflect the
-refcount value after the decrement. It's possible the refcount gets
-manipulated after this operation but that does not make this operation
-wrong. I don't quite understand why you think that's racy or finnicky.
-
->
-> Wrap this into a __vma_refcount_put() function, which we can then utilise
-> in vma_mark_detached() and thus keep the refcount primitive usage
-> abstracted.
->
-> Also adjust comments, removing duplicative comments covered elsewhere and
-> adding more to aid understanding.
->
-> No functional change intended.
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> ---
->  include/linux/mmap_lock.h | 62 +++++++++++++++++++++++++++++++--------
->  mm/mmap_lock.c            | 18 +++++-------
->  2 files changed, 57 insertions(+), 23 deletions(-)
->
-> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index a764439d0276..0b3614aadbb4 100644
-> --- a/include/linux/mmap_lock.h
-> +++ b/include/linux/mmap_lock.h
-> @@ -122,15 +122,27 @@ static inline void vma_lock_init(struct vm_area_str=
-uct *vma, bool reset_refcnt)
->         vma->vm_lock_seq =3D UINT_MAX;
->  }
->
-> -static inline bool is_vma_writer_only(int refcnt)
-> +/**
-> + * are_readers_excluded() - Determine whether @refcnt describes a VMA wh=
-ich has
-> + * excluded all VMA read locks.
-> + * @refcnt: The VMA reference count obtained from vm_area_struct->vm_ref=
-cnt.
-> + *
-> + * We may be raced by other readers temporarily incrementing the referen=
-ce
-> + * count, though the race window is very small, this might cause spuriou=
-s
-> + * wakeups.
-> + *
-> + * In the case of a detached VMA, we may incorrectly indicate that reade=
-rs are
-> + * excluded when one remains, because in that scenario we target a refco=
-unt of
-> + * VM_REFCNT_EXCLUDE_READERS_FLAG, rather than the attached target of
-> + * VM_REFCNT_EXCLUDE_READERS_FLAG + 1.
-> + *
-> + * However, the race window for that is very small so it is unlikely.
-> + *
-> + * Returns: true if readers are excluded, false otherwise.
-> + */
-> +static inline bool are_readers_excluded(int refcnt)
->  {
->         /*
-> -        * With a writer and no readers, refcnt is VM_REFCNT_EXCLUDE_READ=
-ERS_FLAG
-> -        * if the vma is detached and (VM_REFCNT_EXCLUDE_READERS_FLAG + 1=
-) if it is
-> -        * attached. Waiting on a detached vma happens only in
-> -        * vma_mark_detached() and is a rare case, therefore most of the =
-time
-> -        * there will be no unnecessary wakeup.
-> -        *
->          * See the comment describing the vm_area_struct->vm_refcnt field=
- for
->          * details of possible refcnt values.
->          */
-> @@ -138,18 +150,42 @@ static inline bool is_vma_writer_only(int refcnt)
->                 refcnt <=3D VM_REFCNT_EXCLUDE_READERS_FLAG + 1;
->  }
->
-> +static inline bool __vma_refcount_put(struct vm_area_struct *vma, int *r=
-efcnt)
-> +{
-> +       int oldcnt;
-> +       bool detached;
-> +
-> +       detached =3D __refcount_dec_and_test(&vma->vm_refcnt, &oldcnt);
-> +       if (refcnt)
-> +               *refcnt =3D oldcnt - 1;
-> +       return detached;
-
-IIUC there is always a connection between detached and *refcnt
-resulting value. If detached=3D=3Dtrue then the resulting *refcnt has to
-be 0. If so, __vma_refcount_put() can simply return (oldcnt - 1) as
-new count:
-
-static inline int __vma_refcount_put(struct vm_area_struct *vma)
-{
-       int oldcnt;
-
-       __refcount_dec_and_test(&vma->vm_refcnt, &oldcnt);
-       return oldcnt - 1;
+  BUG: sleeping function called from invalid context at mm/mm_init.c:2091
+  in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
+  preempt_count: 0, expected: 0
+  RCU nest depth: 1, expected: 0
+  3 locks held by swapper/0/1:
+   #0: ffff80008471b7a0 (sched_domains_mutex){+.+.}-{4:4}, at: sched_domains_mutex_lock+0x28/0x40
+   #1: ffff003bdfffef48 (&pgdat->node_size_lock){+.+.}-{3:3}, at: deferred_grow_zone+0x140/0x278
+   #2: ffff800084acf600 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1b4/0x408
+  CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           6.19.0-rc6-test #1 PREEMPT_{RT,(full)
 }
+  Tainted: [W]=WARN
+  Call trace:
+   show_stack+0x20/0x38 (C)
+   dump_stack_lvl+0xdc/0xf8
+   dump_stack+0x1c/0x28
+   __might_resched+0x384/0x530
+   deferred_init_memmap_chunk+0x560/0x688
+   deferred_grow_zone+0x190/0x278
+   _deferred_grow_zone+0x18/0x30
+   get_page_from_freelist+0x780/0xf78
+   __alloc_frozen_pages_noprof+0x1dc/0x348
+   alloc_slab_page+0x30/0x110
+   allocate_slab+0x98/0x2a0
+   new_slab+0x4c/0x80
+   ___slab_alloc+0x5a4/0x770
+   __slab_alloc.constprop.0+0x88/0x1e0
+   __kmalloc_node_noprof+0x2c0/0x598
+   __sdt_alloc+0x3b8/0x728
+   build_sched_domains+0xe0/0x1260
+   sched_init_domains+0x14c/0x1c8
+   sched_init_smp+0x9c/0x1d0
+   kernel_init_freeable+0x218/0x358
+   kernel_init+0x28/0x208
+   ret_from_fork+0x10/0x20
 
-And later:
+Fix it adding a new argument to deferred_init_memmap_chunk() to
+explicitly tell it if cond_resched() is allowed or not instead of
+relying on some current state information which may vary depending
+on the exact kernel configuration options that are enabled.
 
-newcnt =3D __vma_refcount_put(&vma->vm_refcnt);
-detached =3D newcnt =3D=3D 0;
+Fixes: 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() in deferred_grow_zone()")
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
 
-> +}
-> +
-> +/**
-> + * vma_refcount_put() - Drop reference count in VMA vm_refcnt field due =
-to a
-> + * read-lock being dropped.
-> + * @vma: The VMA whose reference count we wish to decrement.
-> + *
-> + * If we were the last reader, wake up threads waiting to obtain an excl=
-usive
-> + * lock.
-> + */
->  static inline void vma_refcount_put(struct vm_area_struct *vma)
->  {
-> -       /* Use a copy of vm_mm in case vma is freed after we drop vm_refc=
-nt */
-> +       /* Use a copy of vm_mm in case vma is freed after we drop vm_refc=
-nt. */
->         struct mm_struct *mm =3D vma->vm_mm;
-> -       int oldcnt;
-> +       int refcnt;
-> +       bool detached;
->
->         rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> -       if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
->
-> -               if (is_vma_writer_only(oldcnt - 1))
-> -                       rcuwait_wake_up(&mm->vma_writer_wait);
-> -       }
-> +       detached =3D __vma_refcount_put(vma, &refcnt);
-> +       /*
-> +        * __vma_enter_locked() may be sleeping waiting for readers to dr=
-op
-> +        * their reference count, so wake it up if we were the last reade=
-r
-> +        * blocking it from being acquired.
-> +        */
-> +       if (!detached && are_readers_excluded(refcnt))
-> +               rcuwait_wake_up(&mm->vma_writer_wait);
->  }
->
->  /*
-> diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
-> index 75dc098aea14..ebacb57e5f16 100644
-> --- a/mm/mmap_lock.c
-> +++ b/mm/mmap_lock.c
-> @@ -130,25 +130,23 @@ EXPORT_SYMBOL_GPL(__vma_start_write);
->
->  void vma_mark_detached(struct vm_area_struct *vma)
->  {
-> +       bool detached;
-> +
->         vma_assert_write_locked(vma);
->         vma_assert_attached(vma);
->
->         /*
-> -        * We are the only writer, so no need to use vma_refcount_put().
-> -        * The condition below is unlikely because the vma has been alrea=
-dy
-> -        * write-locked and readers can increment vm_refcnt only temporar=
-ily
+ [v3]: Add a new can_resched argument to deferred_init_memmap_chunk() as
+       suggested by Sebastian.
 
-I think the above part of the comment is still important and should be
-kept intact.
+ mm/mm_init.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-> -        * before they check vm_lock_seq, realize the vma is locked and d=
-rop
-> -        * back the vm_refcnt. That is a narrow window for observing a ra=
-ised
-> -        * vm_refcnt.
-> -        *
->          * See the comment describing the vm_area_struct->vm_refcnt field=
- for
->          * details of possible refcnt values.
->          */
-> -       if (unlikely(!refcount_dec_and_test(&vma->vm_refcnt))) {
-> +       detached =3D __vma_refcount_put(vma, NULL);
-> +       if (unlikely(!detached)) {
->                 /* Wait until vma is detached with no readers. */
->                 if (__vma_enter_locked(vma, true, TASK_UNINTERRUPTIBLE)) =
-{
-> -                       bool detached;
-> -
-> +                       /*
-> +                        * Once this is complete, no readers can incremen=
-t the
-> +                        * reference count, and the VMA is marked detache=
-d.
-> +                        */
->                         __vma_exit_locked(vma, &detached);
->                         WARN_ON_ONCE(!detached);
->                 }
-> --
-> 2.52.0
->
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index fc2a6f1e518f..2a809cd8e7fa 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -2059,7 +2059,7 @@ static unsigned long __init deferred_init_pages(struct zone *zone,
+  */
+ static unsigned long __init
+ deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
+-			   struct zone *zone)
++			   struct zone *zone, bool can_resched)
+ {
+ 	int nid = zone_to_nid(zone);
+ 	unsigned long nr_pages = 0;
+@@ -2085,10 +2085,10 @@ deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
+ 
+ 			spfn = chunk_end;
+ 
+-			if (irqs_disabled())
+-				touch_nmi_watchdog();
+-			else
++			if (can_resched)
+ 				cond_resched();
++			else
++				touch_nmi_watchdog();
+ 		}
+ 	}
+ 
+@@ -2101,7 +2101,7 @@ deferred_init_memmap_job(unsigned long start_pfn, unsigned long end_pfn,
+ {
+ 	struct zone *zone = arg;
+ 
+-	deferred_init_memmap_chunk(start_pfn, end_pfn, zone);
++	deferred_init_memmap_chunk(start_pfn, end_pfn, zone, true);
+ }
+ 
+ static unsigned int __init
+@@ -2216,7 +2216,7 @@ bool __init deferred_grow_zone(struct zone *zone, unsigned int order)
+ 	for (spfn = first_deferred_pfn, epfn = SECTION_ALIGN_UP(spfn + 1);
+ 	     nr_pages < nr_pages_needed && spfn < zone_end_pfn(zone);
+ 	     spfn = epfn, epfn += PAGES_PER_SECTION) {
+-		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone);
++		nr_pages += deferred_init_memmap_chunk(spfn, epfn, zone, false);
+ 	}
+ 
+ 	/*
+-- 
+2.52.0
+
