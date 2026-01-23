@@ -1,241 +1,123 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D518E30E85C
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 17:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769188234; cv=none; b=cW4CWS6EnGBODijhKR0v6DbMeZppWTSYbcD8GRcsLhVk5nYlLa657YpoFSrJDmwjspnFrRGAY+T0cYpEovXfrwI79QmaHTrBtd5fVY2gWFcZrTUXGr8HfskhPjpE5fBinLPrGfha9fIF1ErVEPYCBH7MhWYSh1bDJ4xZFKcTYiI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769188234; c=relaxed/simple;
-	bh=jKmJHN3xUrW6rYOD2lWcRLhsM+vwp/9kHiORM954hyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EbWNnBJo79AKCPAIYsbSo57iYKFij19cZkZ/z92epFGQe6r1n/3Kbx8zPfcfd9A2coIskF7RfR9vHLs8D6g5Thj9ar2UYlbrg2csfw1dfHIP95t+/UC+AOWASeaT4T3RRvUB2cj9Vr2nglj5umjLMKz+2a0vLdnSJNE290LMgBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WIrHq9eo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wnqTS+Ch; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WIrHq9eo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wnqTS+Ch; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689D41A9FB0
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 17:31:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769189476; cv=pass; b=gKBbfpk6hwaL50HfGHemHP5H3NQ0XWi2VKGJgiVucy5se/gWM7bkynTqy3bA/6fOHPEh8If2ue8CB5GCdb7Q8EJnFN+1zAS/Q4/XqGcXZMFuzanBnhPVYewonWZ0yQE/9ZIaqIeSj6WLoCVI17crvV4l7Gf/0f5T/jjeUQUzU50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769189476; c=relaxed/simple;
+	bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UTaVUDXCZS6XHMprCz3A10wXSWyke5dLBsFfTERGXIIhicUB6QtKpe6bAoKetW+lmaosB3EIPXsLULEgkMA3VYCOlHdp8ulEgpNgbSKJU7yVJ2yN2VlJ3aPUF4JGnIaeV48Iq0TU20frN1jaoKnO909BOTFVOgZsznq0w9fcqvo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmprUBUL; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WIrHq9eo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wnqTS+Ch";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WIrHq9eo";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wnqTS+Ch"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0E2F3383C;
-	Fri, 23 Jan 2026 17:10:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769188229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
-	b=WIrHq9eoSsNBhN3IWvKpy/BymPPmxdc5xDRQg13JZy1JjsT+c+uEr9DnARSt75qTR4fzyF
-	Czzaw14wY0u0stDjQTvCmKcvlO1YQDYt4jmY9n/Mnw/oc4a3QkkUo1Hlpme1ynLhl+NmP+
-	qyPlYOOfBcvrgrSqoemVQBh3cRCaLRM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769188229;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
-	b=wnqTS+ChDelGyOzA0Eyf2RFAwSt/rw+3JjFcYWv4YH1qVr+AoLxeGhGxv5Mauh6bakc1BZ
-	eRwIMEP3Y6Vit2CA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WIrHq9eo;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=wnqTS+Ch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769188229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
-	b=WIrHq9eoSsNBhN3IWvKpy/BymPPmxdc5xDRQg13JZy1JjsT+c+uEr9DnARSt75qTR4fzyF
-	Czzaw14wY0u0stDjQTvCmKcvlO1YQDYt4jmY9n/Mnw/oc4a3QkkUo1Hlpme1ynLhl+NmP+
-	qyPlYOOfBcvrgrSqoemVQBh3cRCaLRM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769188229;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
-	b=wnqTS+ChDelGyOzA0Eyf2RFAwSt/rw+3JjFcYWv4YH1qVr+AoLxeGhGxv5Mauh6bakc1BZ
-	eRwIMEP3Y6Vit2CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90040136AA;
-	Fri, 23 Jan 2026 17:10:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7PvPIoWrc2lJSwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 17:10:29 +0000
-Message-ID: <fefa442e-1ca2-4f56-95d7-db135ec3eb1b@suse.cz>
-Date: Fri, 23 Jan 2026 18:10:29 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmprUBUL"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43590777e22so1504146f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 09:31:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769189474; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SSg+eIyShcgvVu1Si7mFywh5G1IZ9lohYJvhIz9+oh4l8/spHgc+SlGIaj4QlQjLRD
+         jxzU2ycWMBf9gkKFLR8ZWlEp7Uag5deQOA+p3rX8E5C+lvYi+mimpX6+SfwjlKEBBCh5
+         2e3nKvOqWw3OXqTImThQdda3ifrXSgq/6IvPLsrKgPB/8nln8PzFCMqkclOqE4FYqt8w
+         oVgRoUbpwbA1dyL9EIIRjblJCIXj+TjuYoz4RnikaaqG4/TDYjvKndrDQe/Bq6Djf8we
+         6DaJgR5SvgPXlaE6BFP3ykRACJhdnLUxsheUZ8l/gwLU2CWtw1KeNvm29A7XcRFpXUsr
+         ixmg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
+        fh=ufdfdQArDoppnbHBAhBY8bopLhOZtu0JT+aUP+vqS6g=;
+        b=arfdGKDhDm2CagO1agAuU9Nwwk1/OnSBF/s9CQE5bPIUXc1dUuWZqc6Zq/+nrZetvG
+         Uo5Q914qXVhu1cwETu+eIG4scQOl4X2JNp6V/djQ+xhQCKHtoM6nBU/0eXZ3qPiBVEw7
+         XG9P/Z0JTFibptpjTKb2rMd9kzTt1Ypuq6UYCf1Vpq3kW+GOYJgcyWrtiQ+HqTxVUcxs
+         uqFBdN4vKLHY8NvIvlYwyEbRUrq8dRZqFMm8nZqXGxREL0XmvF1MGHxzqdbtwfPqxBUF
+         7/dKf2Y9+w/arkmUmk+uKiHZNKPHxKcKjwTdN9EtZCM4ViwydUJA6tc4hs8cY9GaX1oy
+         O8yQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769189474; x=1769794274; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
+        b=FmprUBULSXXzfxQVl+zeQqzK1ljrqnxgx8sdmde6wTDkU8EMz5DVhBM8EdyMiaOruX
+         HRwBvrICdCd6a9YA81LX1/761PbxMogQCMxjIispHVfoiGeNG1IHjKFSKHpHUr9zqc2N
+         Zbo/h2AVUJNmGw3WLPI6E7I6zM0q4dbSXFq+duWpFoUDGOoYoICjt6l9tBFQOrWT9CXQ
+         X6Et1ft096vHpb2JDZRZGRCUd2+ypbdefXCd9Zt+ih08YSdFcCdYhTboBurkqZ7w+gn+
+         ekiGhOvt7ptcE6+8fV6CW9S5P95BH5etur6Gc/AYWMWJoYmba1mNM3wFJ41fGwhROhfo
+         U9NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769189474; x=1769794274;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
+        b=jE2AKiHj6Lh0KLhW49Z78HgnKDwokX6DWCQ1wd4dOaBUB90FM4mi+sCvoll4kNpdu8
+         TSPGDyxdwIIaz7UQFD8OU887a18hfyvN/IWIwIywL1Z3ZrcB8NEdid4VMLIdgjjVGOzX
+         u2EMneYtuOwzEAF6p0R+aW3eYTLIpNpG3A9x1zfCCmrMgPjU0ACwU+rLcVT6ibUxbLM7
+         r88Nw5isnhgdQi6W2J7Ig8IgrEf8Vn6GkjlD3HJ611psjdbRFIpJHwlSZ2oEUGAY9f0W
+         BOP/sSQ/i/qOwY4l4GWXsViUS5ApMycIlRNNQiZFjDsD2Tq9HgOcOrdSHnHRixT/velN
+         0zXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwBdeVdvPPhBxc9LH94gD8sVPMz0DxvYHBXni4xKebNvYp8mguhngjaEiG8zHzW15A4E4UZa/8vSWMfMFhnQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVy2b6h55TR38YAz8oKOC3X9hVFJlnuw/BOqUe5TYTJuQvNR5o
+	OCkYvP/n8gCgWCnrX9xDb7oUYOkmraV94m7SoHpNRPuct8y1DZeaBmEF1k0EOPNtCYXjghIASlX
+	n2UC5Q01clgQvJL+KZlLrxhRMl42GRvU=
+X-Gm-Gg: AZuq6aI7Vb6JHZTqv779MOoyQQsbisqy6WrxmbfpWwi4d8gZPBmsZUKSqhE7EEbTcEk
+	LPmsmVK8SvppcecdlveMzGdjKpurZX0DMUuXmwvy1BPKaHI/u+Cg0uKx2iAkrT8jnH8Eq3fctc7
+	o9PCksSuwV+zlUTvell2QaIT04yUipXM7iLvM4myaBWczsY+fzAYGuVJrh5vxPlxaBMKvxfLeDZ
+	bmP0FOjrry6foetaLYVTUZht9oRM752hCqul9WTBGNunDVY6LFmxwwYxxQ/uFULg3h30L4Wo9XR
+	6TUAjvn3sUwQZmadpB21BkyYkicFC8xDPqmCS5yRQaTqbKcK2R6+QLRiXE3WPOB8USOp5bH5
+X-Received: by 2002:a05:6000:2dc4:b0:429:b751:7935 with SMTP id
+ ffacd0b85a97d-435b16280damr6748411f8f.56.1769189473665; Fri, 23 Jan 2026
+ 09:31:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 10/10] mm/vma: add and use
- vma_assert_stabilised()
-Content-Language: en-US
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jann Horn <jannh@google.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Waiman Long <longman@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
- <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -3.01
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,oracle.com,google.com,suse.com,linux.dev,kvack.org,vger.kernel.org,lists.linux.dev,infradead.org,redhat.com,gmail.com,linutronix.de,goodmis.org];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: C0E2F3383C
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz> <20260123-sheaves-for-all-v4-14-041323d506f7@suse.cz>
+In-Reply-To: <20260123-sheaves-for-all-v4-14-041323d506f7@suse.cz>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 23 Jan 2026 09:31:01 -0800
+X-Gm-Features: AZwV_QgSD9SUVQI9Y0Yihip1NN5Dune2qBBleSwBNI5G1-MsD4RlJ98R8TtLbTY
+Message-ID: <CAADnVQJi09vC6Y-jb8mCRfj-OrECvSTMQ_XL2OE8W-B4zPwGSw@mail.gmail.com>
+Subject: Re: [PATCH v4 14/22] slab: remove defer_deactivate_slab()
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>, 
+	LKML <linux-kernel@vger.kernel.org>, 
+	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>, bpf <bpf@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/22/26 14:02, Lorenzo Stoakes wrote:
-> Sometimes we wish to assert that a VMA is stable, that is - the VMA cannot
-> be changed underneath us. This will be the case if EITHER the VMA lock or
-> the mmap lock is held.
-> 
-> In order to do so, we introduce a new assert vma_assert_stablised() - this
-> will make a lockdep assert if lockdep is enabled AND the VMA is
-> read-locked.
-> 
-> Currently lockdep tracking for VMA write locks is not implemented, so it
-> suffices to check in this case that we have either an mmap read or write
-> semaphore held.
-> 
-> Note that because the VMA lock uses the non-standard vmlock_dep_map naming
-> convention, we cannot use lockdep_assert_is_write_held() so have to open
-> code this ourselves via lockdep-asserting that
-> lock_is_held_type(&vma->vmlock_dep_map, 0).
-> 
-> We have to be careful here - for instance when merging a VMA, we use the
-> mmap write lock to stabilise the examination of adjacent VMAs which might
-> be simultaneously VMA read-locked whilst being faulted in.
-> 
-> If we were to assert VMA read lock using lockdep we would encounter an
-> incorrect lockdep assert.
-> 
-> Also, we have to be careful about asserting mmap locks are held - if we try
-> to address the above issue by first checking whether mmap lock is held and
-> if so asserting it via lockdep, we may find that we were raced by another
-> thread acquiring an mmap read lock simultaneously that either we don't
-> own (and thus can be released any time - so we are not stable) or was
-> indeed released since we last checked.
-> 
-> So to deal with these complexities we end up with either a precise (if
-> lockdep is enabled) or imprecise (if not) approach - in the first instance
-> we assert the lock is held using lockdep and thus whether we own it.
-> 
-> If we do own it, then the check is complete, otherwise we must check for
-> the VMA read lock being held (VMA write lock implies mmap write lock so the
-> mmap lock suffices for this).
-> 
-> If lockdep is not enabled we simply check if the mmap lock is held and risk
-> a false negative (i.e. not asserting when we should do).
-> 
-> There are a couple places in the kernel where we already do this
-> stabliisation check - the anon_vma_name() helper in mm/madvise.c and
-> vma_flag_set_atomic() in include/linux/mm.h, which we update to use
-> vma_assert_stabilised().
-> 
-> This change abstracts these into vma_assert_stabilised(), uses lockdep if
-> possible, and avoids a duplicate check of whether the mmap lock is held.
-> 
-> This is also self-documenting and lays the foundations for further VMA
-> stability checks in the code.
-> 
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+On Thu, Jan 22, 2026 at 10:53=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
+rote:
+>
+> There are no more cpu slabs so we don't need their deferred
+> deactivation. The function is now only used from places where we
+> allocate a new slab but then can't spin on node list_lock to put it on
+> the partial list. Instead of the deferred action we can free it directly
+> via __free_slab(), we just need to tell it to use _nolock() freeing of
+> the underlying pages and take care of the accounting.
+>
+> Since free_frozen_pages_nolock() variant does not yet exist for code
+> outside of the page allocator, create it as a trivial wrapper for
+> __free_frozen_pages(..., FPI_TRYLOCK).
+>
+> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+> Reviewed-by: Hao Li <hao.li@linux.dev>
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-LGTM, thanks!
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
-
+Acked-by: Alexei Starovoitov <ast@kernel.org>
