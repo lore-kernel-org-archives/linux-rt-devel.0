@@ -1,93 +1,94 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFF71E531
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 18:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4568423182D
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 18:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769192151; cv=pass; b=uwBy2YU8WGpL+0oSz+8nUHvNLNmbrujAgC0VPojvl9YnHcVTHdeP04IBq6yavyaCIzDhXPoMUeK0bnYAyf0HxNl2TOMzjqdw98qye7REdNT5UjYh8lWy2WitTCwp+C2HckTaSuAu4kct3MnqRFp2kirg1GW27CTgyZ1hKMGlWt0=
+	t=1769192272; cv=pass; b=o0pVOGCqd/EPjCKfg9xvpnzzLxoSt7RAjAD41v0ec+E8P5ij2TJIj/vXmg0Zvn708bSPyv+ZsqnBvwznQ91MMd0JA/sdVg65/GQYlSVvzKhQ7+H6o0AyOsobwCOs0a0Cdj44kUpy25UQPT6QGfRSf7bfpkYqNvkDfZv9Zy2XkvM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769192151; c=relaxed/simple;
-	bh=ZpWPNz6SSZ5jF0yhZnfYrdJzJ0WwZC45hMJEFSLxLkc=;
+	s=arc-20240116; t=1769192272; c=relaxed/simple;
+	bh=PcrhRkja2BNidi8ueSHFR+dtDd1JMWrricURFvQqo7Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fi+7tdg1tKVidaAyWnp1HRyUkf0BIubUjPtYnMnX55IwVsT5vZAxWYA+GWIfH2Bs3Oq8v2N8vPkFTZZXquNEBlwed9oREvibUxOlCX582+zbLemRv7jzKUZ7twB8nbCtSyMFq3b2lC/8kcJcohhUtM4ifpJLkMePojYVDxy7rXE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Je0aBRJv; arc=pass smtp.client-ip=209.85.221.48
+	 To:Cc:Content-Type; b=PV1lYC2L0HJtIg9IVW/Bo5Cap17YTYITAC8r84hayfMlg7XiMKhgMDXCbaXdYMIkrxTTBhQAv6gNiBsJ62jwLP1lt7oneX7oP6U5+rzlX5peU8i1tebRc8UCpmAvNdrJaA2QCTgdZEMJBhA1kp9pcUN1PdQp5OJYOlTKW65ei2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8+f8/PQ; arc=pass smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Je0aBRJv"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42fbc305882so1534772f8f.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 10:15:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769192148; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8+f8/PQ"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-432d2c96215so2187563f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 10:17:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769192270; cv=none;
         d=google.com; s=arc-20240605;
-        b=aOQg2pssaggLhLBzK0wpHIawPrWkGs2aD2JmUpHppqfwNaOgqcO0WD2rjM2Bx6/loq
-         nNoIuPedy34pbEcbPsCOcauEkQkXzGbjj0xvI+a3DCuAKbtIQtw1KPKwbmyJoBjPvZAv
-         SbLTOy2BlSEYybcdBnaco+YzYFE03FLZasavQDqv8ptFfaWCJZZGY/mt0acfPiN1ajpO
-         3mt08gUEOdrODDh7eko2Mztqjk9twn4qFkRSwLp2YxzUHg/aLlc/LUl5mJQbPyct1xVt
-         ZAJT8++EiPfZ4wTp+Zhn6YnaN7mCfJ7dvmK4Zn7/1oesWGo4glnvPD4uxa7igt38kEN/
-         TSug==
+        b=a3paIlHD0ptipzVPotR+Yo6LN50EwWHZs1fMJBOzsV/U2AXjCx9xk7XEgKl2ahsmjv
+         D3u4VsGyztsdCjDaGRtXzxhHNiorxlwg2Vh650nc2oXk6JgoDVxOFImEIM5J4rGr0OOU
+         RYUvIJ0o/5Rez5zDqT8Aw3sfXgPnIim+RdcBFmDff4m9SxgF4eVHzxV80a4CnR6559tN
+         5Grvj8YNTLIkwE3SC8hZ9hbmstYgKsp+ooeaihMBDk2UpOqmaU7zvQVcKRyqEmCu1tL1
+         2sBH634VtX7Gs3Rl9gqN2xiTnueQo9jCI3jmAU0CAFiju+yyIojnziRYpwrB6p4titT6
+         hgig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=I2nG00qw2ruBawht6GJzw6X6qOS/2LLsPM2l8lgx1yM=;
-        fh=oba1ZnKtDEYzRKL5hLSp+Fznm7mHZ+zpKg6BvVya9V8=;
-        b=HnHYgP6z8hO+EnOwSHqv7es7qhU5xO5/da3ogL+MB1+slwk7qlOYpWlbDX3eiQDhjI
-         XA6EWqie/x/27vYGSgiBElnSFDtgJ8kB/X6iQC2RvA1rHTiLerlaDQwLTinNXMZAmky5
-         NjMb/BY3IFbJSnhogntXfPEyu44XV68YOh9Ra7MkQdsL/+ZWi8k0vMPdbzsQXRXIux2+
-         1ThpXN0PNVkVLMbYeitjvZvsBdyX1B/325AnK6d5H0YmwL+HZsha2s4e5PJYeJoFucfE
-         pGBldz9jGnQzcbETTndknVX+DQ/8RaaU0xulNe+vwLUAe5Q9r+HLMZRPLehfK6Q2QIgD
-         AL8A==;
+        bh=8Njop685CDtDYAHuiepzZeOimPgVGEih4T1bD9GMBYQ=;
+        fh=D9qE7MxGNcpdU6pTbvSpeYmlvVL0oHFMKaNVOGrw/LI=;
+        b=LsgQt3oXkiwJNFl5eFs+zhofYHDkSlLCY8J+4xgc0OwJuyDh9LYBHf3rcp5agihXP5
+         m/sl3U4RFTh/ygfdcXlXczxxBI8AOk+hx4QWARcfExDuK2LzdsVDWtMkBUer+EWCnQcP
+         0kB4cmus1M8/JIbAtSqopmaR21G3sSHZfgybBnqWVQW4sP6d+uga7wsM30ef8d8A9FsM
+         zXvg+ep85z6EspPThB0o3YvCTq/81kLItPx7Nqgq5PHVrH/GdeECTKyA53l1RARxRmWZ
+         eSm7CGI1sRuE4OGnQQf5L+CZgBDXXzkXq8eFopJQQ6ZpNvDjaIEmK02bkOyAA7DSn/vt
+         Kjhg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769192148; x=1769796948; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1769192270; x=1769797070; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I2nG00qw2ruBawht6GJzw6X6qOS/2LLsPM2l8lgx1yM=;
-        b=Je0aBRJvAQ+lursftA0b09n+TIWqHamtU25FZkDZI4q6oK5TMVS3p4n5iPf2GcZXUr
-         w2US9Au3fvrUqZGWUzP9BOEUwtw2I1KgWVup5NXpMGDfb1UT7Iz/T9sCThfJPgyLwZL9
-         kyNlp7140d829kqqHw9mF8KvTfsDwJgCPQLSOMtWIpdMIt1IEOX5U0aJ/bXjj1vtGk7N
-         DVkaDZj7vfXafKayLPyLQZlQIVFI2YVu5cg8M4wx4L5jyHiTnAQs8k2LZSG3Lw8gVigP
-         E2VXDLScr24NK4aUHd6/Xh0psU2udVWeE6lHJU5ogwtjB1jPaAHaOB1apkNHSnNLQBzD
-         xlgw==
+        bh=8Njop685CDtDYAHuiepzZeOimPgVGEih4T1bD9GMBYQ=;
+        b=N8+f8/PQ/R42jhMInCUHv/g7tcfz11Pq5lEl+wLiIaVQ3yZnPz2Z9tKIosZ7yxmLfQ
+         IwS1wnwK8IVbryKlj787alsk+dIJmpStENjM3WDrwxKRj7bz8lIj0KlTeuSyTTpIx0XQ
+         0LpU6F3QRZ2spJ2gVSqXTWrYKLTXxQKfjtGBgcXMJlVcnxLBJY1e0zZ4XfjUYanVUaUK
+         RD0a9xFcQcnaUsltNU4NgGwjjSiN2cgiFuLKKbGXyyKRWOd7SFpRaeQ4iFIp/rvEu8xI
+         VY7Rwct8CN/S8t4A0ZZY9NQ7eiQmFHMTMi0dteFhkOHIOoJ3SGk/ivZh3Be+25of9Hn0
+         j1qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769192148; x=1769796948;
+        d=1e100.net; s=20230601; t=1769192270; x=1769797070;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=I2nG00qw2ruBawht6GJzw6X6qOS/2LLsPM2l8lgx1yM=;
-        b=hZKIhUJiEJZ8aoP1Ko7UwZJTeKzTbR8EEoBr1+3nxzxykAScuYjYpALHkSwXGbZmYY
-         ttztG9CWDLHG94eg2WsHRyalOZLh/0iebsCGo3Wl00DqYjDY9CSkYmtCFOunnafRTKKA
-         pxzxJ5RUKWhfub+8h5qOdLLvsRPVjz/KyZxCHCtne5XA/0IXeA0OkRnUmRqnOJNeWiSh
-         JfSfOGQZQCl9TRkoeavhsjgH5hMv8KYq9dRr/DimRJVhl1UlmjqrLa3kmw7uTcmV3XWO
-         d2Jrh+FKzAeyVh3DW4uVDpykkkZVL34NKGnTNAHSW30q0Gvvhh0He6jr0RXB8kA7kDIi
-         2j6A==
-X-Forwarded-Encrypted: i=1; AJvYcCWr73bHPozfoMAlWW+b/b3iADJjT1VTCQxo6vPWzguLzHaK7X+LAgexp8n5hTJcdrfm5GvARMetRqXVSk9stA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwNGRd+r/EQEZr0t9OdLAiYHJEnV/Rp2BNZS+hfcXozHLchyyH
-	qlylOE0sjFF83+GzWVdbbT/BGMRZQz62F+dSxamz3xK4BQwRaNQw2K3nSH1gDp7tdPVdtDessT+
-	tYOszOwrNoeBQzMKvuf5NrqqCax0pRJ8=
-X-Gm-Gg: AZuq6aIwfq//U08zOznazmpBpy0GGS0CTJClOk7agBN79JnOB6omiCwkbT9PLg3ZoiP
-	CThJvW4rR9ozYLZ1RJ++HGbGviXeAM+LIMiWT5bnPSF92Zf1mqlmze/+Y+t02sQqiHYJEsCL9sB
-	NAGIl3VoXdnEFhsjRCNlys+n3Pa/DRGlceeVxr2aozw8aAHpWzXYPb1vVAoaAosbAxwHAZgPu1y
-	/b2k8ZZTuPecWK2o2vtPLz28yJAPZIrAEFGAx0uJVMem8GgH+TIunY/mYf8u4+ek1VBffvr699h
-	oGl59l5u4LU7rKpLzeZWkzwIEoHUw436ML17i8jOnJxLbtFjDMXVpgHMtRVVGp6vKJV6rULp
-X-Received: by 2002:a05:6000:607:b0:435:8f88:7226 with SMTP id
- ffacd0b85a97d-435b15fb134mr7443178f8f.40.1769192147696; Fri, 23 Jan 2026
- 10:15:47 -0800 (PST)
+        bh=8Njop685CDtDYAHuiepzZeOimPgVGEih4T1bD9GMBYQ=;
+        b=LpbH3rsrihL2/8oaYm/Cv2KwA0HeA8h6/JWjfy9CI+cUr1JhJnAbQWqwjz5tGG4d2w
+         qPzOlXojSHoZZUVeaxTrNuYUxKTnNwi9J+0Hs+JCFbPrTS/xs/FivzNtsYxae9YM78DF
+         m9FFPN+L7DFI0LAYXq6j0lQ8hW8uZRa6dLjxMRdkZeun9wxXsFp0Hd3uhxznk5ueHhCA
+         rpN6mPFvEkQrpcMeiKvss7hRnkaYp4dY18BBiu6RMT5Wvm3DJYG7vjCFmunb+PHWT0zp
+         RAmRae7SO9yu4nSHF5MMuRNJMZCrfQIX6InR5pb+iH2TWroWBej29JPED8/CMCw/jtth
+         3Jrw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCEKUffWI5zgUBm1TLVkTGUXdJJYoi9o8t53+PIkh9X3AorvD9yK19xFOK7b396OqcGhKlXxmIoE1dDMKGeg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEChnbzDuA2zMyw/BcwRtHwuZyWgxWghr37PZzHco3nMQCRGrd
+	QgU/ms9O0+oqiD4pWNHkt/BxxNpBCzDMfbhgagU4shyJm3SdL3c4AOBJIva9T2IB9aUhDi7G7ux
+	fjFLF0BtMbhynhWSWBNiYehpj/Q3dHBI=
+X-Gm-Gg: AZuq6aIEiUprKpVLlXdjwyEBhidoCCHZoMpgJyd6He6ZR9QXWmstNKLd8ainTcMSnZ7
+	59DD9PiMMSDk6+WbGcJwp3XuI+Qnf++V4GKoKrzc9zn3hBxdnH/ck69vejAqZEUkpAfYJj4F7xt
+	xZrNAwwrIlmmgeDfeO1BUw1bQyNzK3abg6ch78DuGIjZECIYk+NyPJAtVCNHqTKBm6xpNX7eLiC
+	JZpMrtYxLI0DE/Of0IU6HoAZk8CLubTCQR1Ivp+aHKgArjNphWPvUAQoxCctmgmral+TkkZDBqA
+	W4WIZ5DYHgIoxRhR27MKAluZYsFc78D/0sx2+mRnZ91j1WLp3noQuEdbcuIzgiCky8j4G40P
+X-Received: by 2002:a05:6000:2dc8:b0:435:a83e:88e with SMTP id
+ ffacd0b85a97d-435b1587c9bmr6392632f8f.2.1769192269543; Fri, 23 Jan 2026
+ 10:17:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz> <20260123-sheaves-for-all-v4-13-041323d506f7@suse.cz>
-In-Reply-To: <20260123-sheaves-for-all-v4-13-041323d506f7@suse.cz>
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz> <20260123-sheaves-for-all-v4-11-041323d506f7@suse.cz>
+In-Reply-To: <20260123-sheaves-for-all-v4-11-041323d506f7@suse.cz>
 From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 23 Jan 2026 10:15:35 -0800
-X-Gm-Features: AZwV_QjgW82i1crlpndwrb8M8pt69fP2CoWaYroMilL8QIj30Jgt-nfZQ9Vffac
-Message-ID: <CAADnVQLEupQB3O1RzFAPoVvg-frojmjFQhisAUcxTJOmkz02nw@mail.gmail.com>
-Subject: Re: [PATCH v4 13/22] slab: remove the do_slab_free() fastpath
+Date: Fri, 23 Jan 2026 10:17:37 -0800
+X-Gm-Features: AZwV_QhM-NYlnccFIjcj9RRt6cZ2UOQ2HcV0ateutcQQrobA-XAbfYILlKDwm8s
+Message-ID: <CAADnVQKbuLD=gaC1W9gtXrj9VdwQCqt2f_rtYwF1Tc1RcUOjKg@mail.gmail.com>
+Subject: Re: [PATCH v4 11/22] slab: remove cpu (partial) slabs usage from
+ allocation paths
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
 	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
@@ -101,46 +102,41 @@ Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 22, 2026 at 10:53=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
+On Thu, Jan 22, 2026 at 10:54=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
 rote:
 >
-> We have removed cpu slab usage from allocation paths. Now remove
-> do_slab_free() which was freeing objects to the cpu slab when
-> the object belonged to it. Instead call __slab_free() directly,
-> which was previously the fallback.
+> We now rely on sheaves as the percpu caching layer and can refill them
+> directly from partial or newly allocated slabs. Start removing the cpu
+> (partial) slabs code, first from allocation paths.
 >
-> This simplifies kfree_nolock() - when freeing to percpu sheaf
-> fails, we can call defer_free() directly.
+> This means that any allocation not satisfied from percpu sheaves will
+> end up in ___slab_alloc(), where we remove the usage of cpu (partial)
+> slabs, so it will only perform get_partial() or new_slab(). In the
+> latter case we reuse alloc_from_new_slab() (when we don't use
+> the debug/tiny alloc_single_from_new_slab() variant).
 >
-> Also remove functions that became unused.
+> In get_partial_node() we used to return a slab for freezing as the cpu
+> slab and to refill the partial slab. Now we only want to return a single
+> object and leave the slab on the list (unless it became full). We can't
+> simply reuse alloc_single_from_partial() as that assumes freeing uses
+> free_to_partial_list(). Instead we need to use __slab_update_freelist()
+> to work properly against a racing __slab_free().
+>
+> To reflect the new purpose of get_partial() functions, rename them to
+> get_from_partial(), get_from_partial_node(), and get_from_any_partial().
+>
+> The rest of the changes is removing functions that no longer have any
+> callers.
 >
 > Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
 > Reviewed-by: Hao Li <hao.li@linux.dev>
 > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slub.c | 628 +++++++++-----------------------------------------------=
+------
+>  1 file changed, 87 insertions(+), 541 deletions(-)
 
-...
-
-> @@ -6557,7 +6429,12 @@ void kfree_nolock(const void *object)
->                         return;
->         }
->
-> -       do_slab_free(s, slab, x, x, 0, _RET_IP_);
-> +       /*
-> +        * __slab_free() can locklessly cmpxchg16 into a slab, but then i=
-t might
-> +        * need to take spin_lock for further processing.
-> +        * Avoid the complexity and simply add to a deferred list.
-> +        */
-> +       defer_free(s, x);
-
-We'll re-benchmark this when it lands.
-The current defer_free() path due to slab !=3D c->slab is causing
-spikes in some of the workloads.
-I think with sheaves
-slab_nid(slab) =3D=3D numa_mem_id() -> free_to_pcs()
-path should be exercised a lot more often and fall back to defer_free()
-should be rare.
-Just leaving a mental note.
+so much simpler. love the red diff.
 
 Acked-by: Alexei Starovoitov <ast@kernel.org>
