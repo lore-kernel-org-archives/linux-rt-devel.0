@@ -1,157 +1,116 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010011.outbound.protection.outlook.com [52.101.84.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F4832D44E
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 14:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769178520; cv=fail; b=k9O045ui3jmxsSl/xkzJ8AOA5amzLHV+OCigeGp6vhCX6A4L/N3gtwHo9B5XQHjbMXdWzQNUQtgn1OWi4xFwW/M+YloKNWJXLYaNm+jhHKNusf6w+bV29SWhpNobhZK/hFvD0lWmh5ZwCjtIjP+9Kwom/4RbuF0iOJPRrl9zxHE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769178520; c=relaxed/simple;
-	bh=z01uUXL5ID9G6p4j2iJcDdZDUjhbczqqi/06aHBBlfA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=O2BpNL363l6G7JErhOJCWT5JeyXn6u+/uW89gkBnbwRw6wrvzdymlV+Lz8yLIh+6zSedgmhfmsxBnA20DEOsHXk2Q54CI1ETDKUE+X4PjtkoFWZ7VbgWap1yyZAMboLynJCDTfe9RNWbxgw9aT5pSFPxEugc6Ls282ccoB6T+N8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QKtDUQBI; arc=fail smtp.client-ip=52.101.84.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCB4257849
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 14:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769179043; cv=none; b=E669awKGTipzvQYIoJIJ3j6oRrUxFEpCoNGDxEWuwwRbBKH+e2K+Y6XMwKogI4zHtz/mJAkFFQjmoLzOnnMFFviPVf8N7/IShD3t7soenRcoWuAlwL2vLyQ+NMShhWQAO7KtRb743tklXbErr2UrOVPKF6C2jB3G8id7/LCIEM0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769179043; c=relaxed/simple;
+	bh=aDjYSZifG6+j1Xr1fLBwNCAW0H7ApXDhylx+xTZg56o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TDQXAXUm5fuQZ1a80KVnL6PRHHctTKzW2BxtYcY5m+xLpkFT/jBPebPNMKQAmuG4+hyktCWkRGJr/5UfcVTePRmwpqRZxhSzLni6ZJwAayMJ9n1y6F9PRbq0FO568DdUmURRWuP0Kag6dYTArl3ASwlIfjIpSe0pcPmXJqW0st4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OELLw2Ik; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QKtDUQBI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Vtyo1p/tFIlcEqdv2WqYmv0FG+IJZHrF+7DGrjsK+D/LMrN8wjs+9F7kCXKfhq/KUEDx0v+dWcL1EnpedlQiHeN8VtL9ASQLyPGImRrSPR6Vaklp4B5fu4teP8gr2GaCAseFLp8OOxXp1+8VyG4bJ2RqNLFKqZR+0w0nX/CKodv0mv5hcct/j6DBtP46uhZiCr7Dg90Nn96NdR/lzmq6PsAhjHbNcTEr6RGKig0x0hhFqFMsoUPIAmQbgN6zFsmC8p7Bt4OpO8z7aFezC3NaHHf3PCO+lPOqAmSDXTmqRhwtXq5YsQnP4gcvXCcEyHFwT+iWx63oMJAm2kT4ZL5JBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QL0Jeq1SdhVXoHX04Q35k5IDjkEaYzVHGsoe3Rn+E3A=;
- b=rNEWgVUx0pOGRrb/j0yGf0nQIyR70OmFpaU5tqNFjc5KtBKkvcYIUVykJ/GAEP93GqX97D22aOOGi+SaYGo1BzY/FOlXmkMj/nV0xZYAlR3NjZWmJSUkKYGQ5nHtUAu0PFO1Dk1jrwYA1I+o/Po91VBFGgBsL3IpcQfrxKaZE8VFDeTgONBMq/Cb+9LZrYSOtNqHKC3c0Wzm92eCqFkHmRDw1UM54P7YAbmC4398N9eTXUYEPiSKMKxwvN4wDXX/jn3H9ldWLiBkZ5scWBI1CMiVEXr2U/ZHVLClRBaMt4KKtUfngZJKGHzgY6ePDFPLXF2F/wGODKF63ovryxTtew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QL0Jeq1SdhVXoHX04Q35k5IDjkEaYzVHGsoe3Rn+E3A=;
- b=QKtDUQBIqJIHiJVbvmQM2EvcRTsQGgaSAM1iHNR73+JjeHhtinqKF3TVPmNJqzeoSczULIiJb7sDNxdB4okMHoyFE7CzCXyS+cJyleCxw3SG9HQ112H+zd53WZgFVm/A1rYaK35iH0niJ/PZjzUMO2tU3/Hnmn80fCSnxPlXRaFv54Vc00v+Rp5IEYVUiTHXH0gUK/SEBWzGhKeyblug2q9AXmlFZRHugLeVN/UPQ1AUlbSdlQdNGgp3JeXhSkxSssvewUTWyl1Rg1pCKAffIvsKcSQzxewAh1pp0gQ0LKJeAjrzQwEVedGO7BTLqlEjv5t0zTvhAJGUIsd/xeK2vA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com (2603:10a6:102:1bf::7)
- by VE1PR04MB7245.eurprd04.prod.outlook.com (2603:10a6:800:1b1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Fri, 23 Jan
- 2026 14:28:35 +0000
-Received: from PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::b853:e05b:c1e5:41b7]) by PAXPR04MB8253.eurprd04.prod.outlook.com
- ([fe80::b853:e05b:c1e5:41b7%5]) with mapi id 15.20.9542.009; Fri, 23 Jan 2026
- 14:28:35 +0000
-Date: Fri, 23 Jan 2026 16:28:31 +0200
-From: Ioana Ciornei <ioana.ciornei@nxp.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Thomas Gleixner <tglx@kernel.org>, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 05/21] bus: fsl-mc: Use default primary handler
-Message-ID: <df4yoq5llgrr4gn6eqnnls5ess66xnszfozdnep27fvw764mkb@v74cpgfiyyt4>
-References: <20260123113708.416727-1-bigeasy@linutronix.de>
- <20260123113708.416727-6-bigeasy@linutronix.de>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123113708.416727-6-bigeasy@linutronix.de>
-X-ClientProxiedBy: AS4P192CA0006.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:5da::7) To PAXPR04MB8253.eurprd04.prod.outlook.com
- (2603:10a6:102:1bf::7)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OELLw2Ik"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769179042; x=1800715042;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aDjYSZifG6+j1Xr1fLBwNCAW0H7ApXDhylx+xTZg56o=;
+  b=OELLw2Ik4iefFkRItysONjESnvkBcfTIMHBSZejSPkC4hzs+GdPENjhI
+   378hTkIfm+A2W+30CxBCjFfAVOpBBuE8gSRVsUva5YubwOu+c9klzHz1B
+   iQlnXFRc6GBm3ERGsoXaJ+93BmW9kuV0uXnTltJE+zvVGu2oIJjHBTFKu
+   GO0isvmw1wS+0pNCQ8mLOtoIw0CdNUw/z0jV3vfTntcDUHjOwi+ijKDwZ
+   hH7GxtyFHeMaop7TZyddTEQxF2kc5Tb53K1vhXiGQJuUzWuhGUAFqRNp8
+   qx9ya8HfExEelxVb9ToH7iIZaEweHiBKDjuCOGMhCtu+PHfNtUUDZyowM
+   A==;
+X-CSE-ConnectionGUID: b4pe5sFlTyWvKPK6EjSz0A==
+X-CSE-MsgGUID: PhXgSAn7RImUbYET76hP4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="70492044"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="70492044"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 06:37:21 -0800
+X-CSE-ConnectionGUID: Wf2aeaClTcmPpdagfBubRg==
+X-CSE-MsgGUID: /KAjGKLpQWKAtaggnaLe2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="206297644"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.112])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 06:37:18 -0800
+Date: Fri, 23 Jan 2026 16:37:15 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Jan Dabros <jsd@semihalf.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Gregory CLEMENT <gregory.clement@bootlin.com>,
+	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
+	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+	Dmitry Guzman <dmitry.guzman@mobileye.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v5 4/6] i2c: designware: Implement I2C_M_STOP support
+Message-ID: <aXOHm3tasb_yq7hq@smile.fi.intel.com>
+References: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
+ <20260120-i2c-dw-v5-4-0e34d6d9455c@bootlin.com>
+ <aXJPljHeRxBXH_Jo@black.igk.intel.com>
+ <7226044.9J7NaK4W3v@benoit.monin>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8253:EE_|VE1PR04MB7245:EE_
-X-MS-Office365-Filtering-Correlation-Id: a49f531e-3e53-4c03-b193-08de5a8bb10e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?x0yRiWbr+9EFu66vGPPjuMLmvFY6xOGgX4AJluBPoLnNz6MGnqE9WVgDPyCT?=
- =?us-ascii?Q?DsTHlZxNml4c2DlUK98tijas3Iqz+0PleBe7OmxFM9L5vFfXORz75glmsGLi?=
- =?us-ascii?Q?Csxqq9DkTGqRrdRqXLrZqqoYTpuUGB/o7qnXJILvTXrCvmlrMkO5EurdxZgQ?=
- =?us-ascii?Q?DCTfKUVCrOisATDQ1VQGwHNzSOp1oGPdy1P9p2v6lCLUEL5ht/y6S1dCyCjc?=
- =?us-ascii?Q?/+gvT8fkqj4HoWhCBkG/f/LJgMzNNWFPNF/Sq3LYokgATimRCFqwm1yIGKw/?=
- =?us-ascii?Q?YpIZzx/Eq3q8Qcx4itWVkq4+tlndZLF8PEuKBT4xGaZz4JfqPijkdFTY8e8M?=
- =?us-ascii?Q?x4F4sX5lE8iiD+s6xX+dZM5fr0gKh0mbNrSNB1r9O5OKEfO8O28/wWQ05QU/?=
- =?us-ascii?Q?87qZcqT3HgAZacyj3EmnvHzD+8o7doYgEpOVoumVSjJe3D+8vJilcT9WsOly?=
- =?us-ascii?Q?kCSUlQN8qN8O+hFPF1aLgergDwTENdI7+SsS/4syxpp9L7JVk8/d81CcG5ke?=
- =?us-ascii?Q?2u6wrS2et5S+dGzEPdhalkbvGjoneIRvKTEV6pqa3Jv4FXkkfxGselINcIZs?=
- =?us-ascii?Q?pdTwlebj1twgBjzReah2x1EGTfEYGEP4HXkkPFezRUiG2l8QdMJk1qCoiNG9?=
- =?us-ascii?Q?MlxxoJimAhmaYyzGQjv+ck6qMuceXfHUnNbSr7bDbgPUPblYPpgNWl6falAd?=
- =?us-ascii?Q?aaVJXbGM6VngLd3iNeWoOUNBT0qHhpDVFaKf/pwTPJgdAuL7xjH/uYg2xsJt?=
- =?us-ascii?Q?I6N6hd3c81z/ghh+nvDXAg0FTtgxPd1nap+3LZTooZtoPiWiGkx9ltrnF5yx?=
- =?us-ascii?Q?JK6Ai7d3wYJPnFRpR1j6O/2e3odYJqXnQASD8+29lMx1UVYr337eCJSmCYML?=
- =?us-ascii?Q?7TeT0PS8ioocRNg7KcTYVIYdvYgSEGtkq6jH1TbRRahScdUIOQPxf4WvLLrC?=
- =?us-ascii?Q?ud1Z4NuG0Y7tdnuV+RynEc9wetyQ8erF8H7dOO5zwwb6SluPkDh8zV2w72BJ?=
- =?us-ascii?Q?ns1ADpoVwlBRhX6Xkt6GdITXBpoY+PM/ZJ3belXj65IzBuF6BXBNggqzYxpJ?=
- =?us-ascii?Q?gpj3SsYm1S7fldZ01CJSvbShFbq/XI5orPvQEvNjnq1hcqKzvPYcR9yk+BbD?=
- =?us-ascii?Q?HySnV41+ByFcVPJaU0ryzDBlUeRqGt/v9dcLRCPDqhabbYs1UimTzxmZnnM3?=
- =?us-ascii?Q?Js3jq/iw1TLzyY7NWl920r5u6MxfsfHv/y5Ad3pZ6BahJne7pYs1oa/beg6w?=
- =?us-ascii?Q?Sjju88HXV1rR1tM4fA1hPjx7foP9lU2YCqPhLFNzRivlUzppW8DcR1OFQVta?=
- =?us-ascii?Q?FELKZRsnTEhkvxnDGbquQ3jeqiNvXRSNsdyKgA6mZe/T114wYbDdtcbCUJ2j?=
- =?us-ascii?Q?3TIAgsagE8ry7z+0si/dRAzd6b7FEGmayhEyz/X8uYPmGVUghPgJRD+J6dHV?=
- =?us-ascii?Q?2tc2FHFTCoELaWIMumJdnQoaWjSJqOEgc2IxNgq3RKfwwQ+t1QlbC3Pdj0Rx?=
- =?us-ascii?Q?0r00MJtzjXFIm4qsh9qvtHhYeSSSfzUBjg4D8TKvHFGUmzUBq/Fq6rVeHq+g?=
- =?us-ascii?Q?YZsmT6MZ0mHbqKcy8oo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8253.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iYV/cf9pvkAUWBw4hVDfRX3V+TAwptuJeAcpMF/gCKIgCpz6w7n+F4XR56JS?=
- =?us-ascii?Q?I+fbVPKbUYH4FXKWCWtpRcRUjsJKFZcJjumA+WOXAJFJPc9zlZUXnbymG7ni?=
- =?us-ascii?Q?E682r86lWwQsEk0K4Akwiq7GrRTz/b1kUT212lyGUBq3LpF6mN/kqOXjNt2w?=
- =?us-ascii?Q?+8aESigRSZreXA+njcOX9C0aKluTa58n5uM3FO+kf/knsyeIaitQF4sWZna8?=
- =?us-ascii?Q?NYUipVsQX13fUcm2Zzx7PWbuvBjWZiAKSURHSbw48isHb6nAkGSjhAS5vABm?=
- =?us-ascii?Q?GILxSZZ9bngEifm5Hg3fWLJUkvjOT+e96kjSguplmzoPs7B7Oq2XETmOpUSX?=
- =?us-ascii?Q?h+RllSN4Xl5G3ddHsc5gko5LCpHqaib2Pwg4hUSQg3QD+5wTL9MBfRerdjpE?=
- =?us-ascii?Q?10L/BeKl11djK4Ck3MlIJ8Rv+UNxdlLUf5a4/pCecm/o72yDZKaZDWdQhjA6?=
- =?us-ascii?Q?fd2/BZb714gkKWcBa0T1QrH8cfb3knu2cuN1tQN8H+RXUu49255ENArgxidl?=
- =?us-ascii?Q?qYBbckqNjpyJROrTNKR0qFlx81PksDWfElCRXggHHkfPmd/7hFBiWP/10WCi?=
- =?us-ascii?Q?JiaoHc4kC5JTCcnyYDUuf7LYDopxsWMAl3JQigtV4ofjJxJQ8k+jhU4i0KvN?=
- =?us-ascii?Q?Z8qC9H/zRbQi8f8yWVJqojgGm0CZ/WbMahS0UQV5Uvp0bmqSuZnb8/bP8DFG?=
- =?us-ascii?Q?3/k1Q2mvCl9PTaRsjtVOkIcJ73NdtBV3vzOC+R7neGgtTLVOhwLGtv2l6lKe?=
- =?us-ascii?Q?bsnHqKdcc3reoOBFFKqKh0Z9QGOJyCfcnITdPf7TqKgDYo8sbBWYydiEey9/?=
- =?us-ascii?Q?OUkGdGYYCWWNsAugWRSezNzhnZ/8aKXYRx7N/7cKLQnWdPbX69CYEeLESg4a?=
- =?us-ascii?Q?FgAYSGWW0viEr0ffoFnVggn7rX9EAdo2cSB8F9VPbYablfAKZzoA/8Ex/1wC?=
- =?us-ascii?Q?Pu16Cx2UsIDAXDaFJZ5d+PX1i03dRRxzNTrkJ8t0e4PA/iVgK/l/EetDaeyg?=
- =?us-ascii?Q?EHHzPT360G3WZuUBkqOWf5P8MVOgeCo/2672ZfHJ/S3OxFv1mbg5SNgDrXR2?=
- =?us-ascii?Q?dc/SctoDtACbeSL6lfVOvJDUfK7Le00FHtY9cbc+YTB8Fa5N13oQi6B4JR6u?=
- =?us-ascii?Q?a1N8fwfCpH4g3yAEAu67H0FlUGPw23eBrt5cTXux6f0XIRK7kaRLI/J0CPq+?=
- =?us-ascii?Q?by8MdWuDl1HlSYXbd3EVigYbN9yjsNjtJmIt29evLk0wiD9ZiQjLpLc00BUo?=
- =?us-ascii?Q?BJW78njsWDw/Ht8XrCbME9UHzZy9oMzYA1vTp9d82p8jLHjXXk0A+nLR7LB5?=
- =?us-ascii?Q?gkel8WjGmC9flXF+kiqkjP4DP3gbtNKvWzpzTb7b2nwvdZkPg7U70Pm4Ufo6?=
- =?us-ascii?Q?xTDLmCwOfrgD8sMYiCJYzXSX6DxglUpgjuBBEjVaHqKF7kwcjNNyLK4qvzEb?=
- =?us-ascii?Q?4CbnHvYnC/wgZhWyf/mGcicU0bNdNndILxmvZpgPy/GFriXuRACiCo5DFdRW?=
- =?us-ascii?Q?BeZJsz3uc3MI0CwuSbhOPg3kFltOy0Ju0vmA8uuqgbSO4xOpoBxmXMmhXMc3?=
- =?us-ascii?Q?R6ge3tm+kaaOqnWaikeI72FKpQHv4jOnE+4UYGSIXQzNWg+TKGO4tnkUMWYl?=
- =?us-ascii?Q?gNHrjx6aeBi6NC/vXRbAEnJbnJIFMl4vlnMPmRc+fMAx/5kQYdgCahLSfa/J?=
- =?us-ascii?Q?AQLh9s8hWi/X/O7e6MDw9ziTSeKlR3YofIs40pKEvwRLXyxbjq6e7TZ4+X5o?=
- =?us-ascii?Q?/3N6c41MXA=3D=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a49f531e-3e53-4c03-b193-08de5a8bb10e
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8253.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 14:28:35.2448
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z+Vc9RnGZ9NstJct2zlTGsKJYjIba6yIU4YHXYbt9bvavU68MMF+8qPsF92a70P+L7IhlaW322mawyW77nP9kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7245
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7226044.9J7NaK4W3v@benoit.monin>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jan 23, 2026 at 12:36:51PM +0100, Sebastian Andrzej Siewior wrote:
-> There is no added value in dprc_irq0_handler() compared to
-> irq_default_primary_handler().
+On Fri, Jan 23, 2026 at 03:25:24PM +0100, Benoît Monin wrote:
+> On Thursday, 22 January 2026 at 17:25:58 CET, Andy Shevchenko wrote:
+> > On Tue, Jan 20, 2026 at 10:28:04AM +0100, Benoît Monin wrote:
+> > > Add the support of the I2C_M_STOP flag in i2c_msg by splitting
+> > > i2c_dw_xfer() in two: __i2c_dw_xfer_one_part() for the core transfer logic
+> > > and i2c_dw_xfer() for handling the high-level transaction management.
+> > > 
+> > > In detail __i2c_dw_xfer_one_part() starts a transaction and wait for its
+> > > completion, either with a STOP on the bus or an error. i2c_dw_xfer()
+> > > loops over the messages to search for the I2C_M_STOP flag and calls
+> > > __i2c_dw_xfer_one_part() for each part of the messages up to a STOP or
+> > > the end of the messages array.
+> > > 
+> > > i2c_dw_xfer() takes care of runtime PM and holds the hardware lock on
+> > > the bus while calling __i2c_dw_xfer_one_part(), this allows grouping
+> > > multiple accesses to device that support a STOP in a transaction when
+> > > done via i2c_dev I2C_RDWR ioctl.
+> > 
+> > Does i2c-tools support this. I.o.w. can you put an example of user space call
+> > to achieve the above?
+> > 
+> I posted a patch series for i2c-tools, adding support for message modifier
+> flags including I2C_M_STOP to i2ctransfer:
+> https://lore.kernel.org/all/20251223-msg-flags-v2-0-8d934a4366e2@bootlin.com/
 > 
-> Use the default primary interrupt handler by specifying NULL.
-> 
-> Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
-> Cc: linuxppc-dev@lists.ozlabs.org
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> I am working on version 3, following Jean and Wolfram's reviews.
 
-Reviewed-by: Ioana Ciornei <ioana.ciornei@nxp.com>
+Thanks, it would be nice to have this being mentioned in the commit message
+that the user space tools are going to support this in near future.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
