@@ -1,40 +1,40 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3791361DA4
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 06:54:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1030134C830
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 06:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769151264; cv=none; b=Sh0Ke2VTHQhEwfea+iTzIEUQhe856zXWIpZW5c1cppIlBdcOrI+5zwyqSeLwvvkCcwEVNR0n6M0EnAqDoL4fLXlA3nd66FHWdx4cky4aXRuqNDsl4z6APXBH30uzRHoFWkJxFR1dGSb93boJszPKaYT+5GGP4Qi8xwF8GV9qyrU=
+	t=1769151269; cv=none; b=Q2o4ekML8Fg/NcCebgsIvbsVk10FFanpfFzwC8DydePSbSSBSyiE0Zd6ag1VMCTBCNQ7ce4HtOLnNx7Kh2MwfBsWZObDwSVB8r7XZua4qxoxrUhPQG0DtInxccuHfc/CToIz536eMk59HZ85LdY0ZGj0TN3a5O5Ji8s18/IvcpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769151264; c=relaxed/simple;
-	bh=KJWdETciXUlTIVAQ+1Nll8HXWlI5YAT6LD6Qyphiscs=;
+	s=arc-20240116; t=1769151269; c=relaxed/simple;
+	bh=Um3gfSK2PbcPoX7F+IaIrqBdWXlDG7moCu40gurNncA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XyJoIkVBkqFUqf5VaaTuxhmEBqIa6Ld2THvLVGl90PqGYcGRnNh+E+sGHAgMvDCIquGzr8IbL8t18TaGS6s5eZX2lC0I4tJ12AkKnlsvrG8VcxWHiGQyRxDx6cqPLIhjS/2H7yDohFrgoYlRQxjB8FL9Th45Tf/krXESfmZtz70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.131
+	 In-Reply-To:To:Cc; b=lwRGUMvtqo8nLOnCM0qsqDaOvuCu119UFDtDpKUdB5IxUtQpzfOetejNbaogO8W90FqDFe4MPO3SlfscbToMPatOaol9DlVFVuUCpmkoh6AJGTjKtGhTA8zZ1rGw2rIZW6y4/mKuXchsQMqSqQ7hUnpkCUJ+ARvbARxxu/x8i38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 44A415BCD6;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 92DD43377C;
 	Fri, 23 Jan 2026 06:53:11 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F91B139E8;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6BECD139E9;
 	Fri, 23 Jan 2026 06:53:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kNVqB9cac2k4YgAAD6G6ig
+	id EHITGtcac2k4YgAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:11 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Fri, 23 Jan 2026 07:52:57 +0100
-Subject: [PATCH v4 19/22] slab: update overview comments
+Date: Fri, 23 Jan 2026 07:53:00 +0100
+Subject: [PATCH v4 22/22] mm/slub: cleanup and repurpose some stat items
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260123-sheaves-for-all-v4-19-041323d506f7@suse.cz>
+Message-Id: <20260123-sheaves-for-all-v4-22-041323d506f7@suse.cz>
 References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 In-Reply-To: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
@@ -62,235 +62,285 @@ X-Mailer: b4 0.14.3
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLfsjnp7neds983g95ihcnuzgq)]
-X-Spam-Flag: NO
 X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: 44A415BCD6
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 92DD43377C
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLfsjnp7neds983g95ihcnuzgq)]
+X-Spam-Flag: NO
 
-The changes related to sheaves made the description of locking and other
-details outdated. Update it to reflect current state.
+A number of stat items related to cpu slabs became unused, remove them.
 
-Also add a new copyright line due to major changes.
+Two of those were ALLOC_FASTPATH and FREE_FASTPATH. But instead of
+removing those, use them instead of ALLOC_PCS and FREE_PCS, since
+sheaves are the new (and only) fastpaths, Remove the recently added
+_PCS variants instead.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Change where FREE_SLOWPATH is counted so that it only counts freeing of
+objects by slab users that (for whatever reason) do not go to a percpu
+sheaf, and not all (including internal) callers of __slab_free(). Thus
+sheaf flushing (already counted by SHEAF_FLUSH) does not affect
+FREE_SLOWPATH anymore. This matches how ALLOC_SLOWPATH doesn't count
+sheaf refills (counted by SHEAF_REFILL).
+
 Reviewed-by: Hao Li <hao.li@linux.dev>
-Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slub.c | 141 +++++++++++++++++++++++++++++---------------------------------
- 1 file changed, 67 insertions(+), 74 deletions(-)
+ mm/slub.c | 83 ++++++++++++++++++++-------------------------------------------
+ 1 file changed, 26 insertions(+), 57 deletions(-)
 
 diff --git a/mm/slub.c b/mm/slub.c
-index 540e3c641d1e..d9fc56122975 100644
+index 369fb9bbdb75..b07a27a3ca28 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -1,13 +1,15 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * SLUB: A slab allocator that limits cache line use instead of queuing
-- * objects in per cpu and per node lists.
-+ * SLUB: A slab allocator with low overhead percpu array caches and mostly
-+ * lockless freeing of objects to slabs in the slowpath.
-  *
-- * The allocator synchronizes using per slab locks or atomic operations
-- * and only uses a centralized lock to manage a pool of partial slabs.
-+ * The allocator synchronizes using spin_trylock for percpu arrays in the
-+ * fastpath, and cmpxchg_double (or bit spinlock) for slowpath freeing.
-+ * Uses a centralized lock to manage a pool of partial slabs.
-  *
-  * (C) 2007 SGI, Christoph Lameter
-  * (C) 2011 Linux Foundation, Christoph Lameter
-+ * (C) 2025 SUSE, Vlastimil Babka
-  */
+@@ -335,33 +335,19 @@ enum add_mode {
+ };
  
- #include <linux/mm.h>
-@@ -53,11 +55,13 @@
+ enum stat_item {
+-	ALLOC_PCS,		/* Allocation from percpu sheaf */
+-	ALLOC_FASTPATH,		/* Allocation from cpu slab */
+-	ALLOC_SLOWPATH,		/* Allocation by getting a new cpu slab */
+-	FREE_PCS,		/* Free to percpu sheaf */
++	ALLOC_FASTPATH,		/* Allocation from percpu sheaves */
++	ALLOC_SLOWPATH,		/* Allocation from partial or new slab */
+ 	FREE_RCU_SHEAF,		/* Free to rcu_free sheaf */
+ 	FREE_RCU_SHEAF_FAIL,	/* Failed to free to a rcu_free sheaf */
+-	FREE_FASTPATH,		/* Free to cpu slab */
+-	FREE_SLOWPATH,		/* Freeing not to cpu slab */
++	FREE_FASTPATH,		/* Free to percpu sheaves */
++	FREE_SLOWPATH,		/* Free to a slab */
+ 	FREE_ADD_PARTIAL,	/* Freeing moves slab to partial list */
+ 	FREE_REMOVE_PARTIAL,	/* Freeing removes last object */
+-	ALLOC_FROM_PARTIAL,	/* Cpu slab acquired from node partial list */
+-	ALLOC_SLAB,		/* Cpu slab acquired from page allocator */
+-	ALLOC_REFILL,		/* Refill cpu slab from slab freelist */
+-	ALLOC_NODE_MISMATCH,	/* Switching cpu slab */
++	ALLOC_SLAB,		/* New slab acquired from page allocator */
++	ALLOC_NODE_MISMATCH,	/* Requested node different from cpu sheaf */
+ 	FREE_SLAB,		/* Slab freed to the page allocator */
+-	CPUSLAB_FLUSH,		/* Abandoning of the cpu slab */
+-	DEACTIVATE_FULL,	/* Cpu slab was full when deactivated */
+-	DEACTIVATE_EMPTY,	/* Cpu slab was empty when deactivated */
+-	DEACTIVATE_REMOTE_FREES,/* Slab contained remotely freed objects */
+-	DEACTIVATE_BYPASS,	/* Implicit deactivation */
+ 	ORDER_FALLBACK,		/* Number of times fallback was necessary */
+-	CMPXCHG_DOUBLE_CPU_FAIL,/* Failures of this_cpu_cmpxchg_double */
+ 	CMPXCHG_DOUBLE_FAIL,	/* Failures of slab freelist update */
+-	CPU_PARTIAL_ALLOC,	/* Used cpu partial on alloc */
+-	CPU_PARTIAL_FREE,	/* Refill cpu partial on free */
+-	CPU_PARTIAL_NODE,	/* Refill cpu partial from node partial */
+-	CPU_PARTIAL_DRAIN,	/* Drain cpu partial to node partial */
+ 	SHEAF_FLUSH,		/* Objects flushed from a sheaf */
+ 	SHEAF_REFILL,		/* Objects refilled to a sheaf */
+ 	SHEAF_ALLOC,		/* Allocation of an empty sheaf */
+@@ -4350,8 +4336,10 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+ 	 * We assume the percpu sheaves contain only local objects although it's
+ 	 * not completely guaranteed, so we verify later.
+ 	 */
+-	if (unlikely(node_requested && node != numa_mem_id()))
++	if (unlikely(node_requested && node != numa_mem_id())) {
++		stat(s, ALLOC_NODE_MISMATCH);
+ 		return NULL;
++	}
  
- /*
-  * Lock order:
-- *   1. slab_mutex (Global Mutex)
-- *   2. node->list_lock (Spinlock)
-- *   3. kmem_cache->cpu_slab->lock (Local lock)
-- *   4. slab_lock(slab) (Only on some arches)
-- *   5. object_map_lock (Only for debugging)
-+ *   0.  cpu_hotplug_lock
-+ *   1.  slab_mutex (Global Mutex)
-+ *   2a. kmem_cache->cpu_sheaves->lock (Local trylock)
-+ *   2b. node->barn->lock (Spinlock)
-+ *   2c. node->list_lock (Spinlock)
-+ *   3.  slab_lock(slab) (Only on some arches)
-+ *   4.  object_map_lock (Only for debugging)
-  *
-  *   slab_mutex
-  *
-@@ -78,31 +82,38 @@
-  *	C. slab->objects	-> Number of objects in slab
-  *	D. slab->frozen		-> frozen state
-  *
-- *   Frozen slabs
-+ *   SL_partial slabs
-+ *
-+ *   Slabs on node partial list have at least one free object. A limited number
-+ *   of slabs on the list can be fully free (slab->inuse == 0), until we start
-+ *   discarding them. These slabs are marked with SL_partial, and the flag is
-+ *   cleared while removing them, usually to grab their freelist afterwards.
-+ *   This clearing also exempts them from list management. Please see
-+ *   __slab_free() for more details.
-  *
-- *   If a slab is frozen then it is exempt from list management. It is
-- *   the cpu slab which is actively allocated from by the processor that
-- *   froze it and it is not on any list. The processor that froze the
-- *   slab is the one who can perform list operations on the slab. Other
-- *   processors may put objects onto the freelist but the processor that
-- *   froze the slab is the only one that can retrieve the objects from the
-- *   slab's freelist.
-+ *   Full slabs
-  *
-- *   CPU partial slabs
-+ *   For caches without debugging enabled, full slabs (slab->inuse ==
-+ *   slab->objects and slab->freelist == NULL) are not placed on any list.
-+ *   The __slab_free() freeing the first object from such a slab will place
-+ *   it on the partial list. Caches with debugging enabled place such slab
-+ *   on the full list and use different allocation and freeing paths.
-+ *
-+ *   Frozen slabs
-  *
-- *   The partially empty slabs cached on the CPU partial list are used
-- *   for performance reasons, which speeds up the allocation process.
-- *   These slabs are not frozen, but are also exempt from list management,
-- *   by clearing the SL_partial flag when moving out of the node
-- *   partial list. Please see __slab_free() for more details.
-+ *   If a slab is frozen then it is exempt from list management. It is used to
-+ *   indicate a slab that has failed consistency checks and thus cannot be
-+ *   allocated from anymore - it is also marked as full. Any previously
-+ *   allocated objects will be simply leaked upon freeing instead of attempting
-+ *   to modify the potentially corrupted freelist and metadata.
-  *
-  *   To sum up, the current scheme is:
-- *   - node partial slab: SL_partial && !frozen
-- *   - cpu partial slab: !SL_partial && !frozen
-- *   - cpu slab: !SL_partial && frozen
-- *   - full slab: !SL_partial && !frozen
-+ *   - node partial slab:            SL_partial && !full && !frozen
-+ *   - taken off partial list:      !SL_partial && !full && !frozen
-+ *   - full slab, not on any list:  !SL_partial &&  full && !frozen
-+ *   - frozen due to inconsistency: !SL_partial &&  full &&  frozen
-  *
-- *   list_lock
-+ *   node->list_lock (spinlock)
-  *
-  *   The list_lock protects the partial and full list on each node and
-  *   the partial slab counter. If taken then no new slabs may be added or
-@@ -112,47 +123,46 @@
-  *
-  *   The list_lock is a centralized lock and thus we avoid taking it as
-  *   much as possible. As long as SLUB does not have to handle partial
-- *   slabs, operations can continue without any centralized lock. F.e.
-- *   allocating a long series of objects that fill up slabs does not require
-- *   the list lock.
-+ *   slabs, operations can continue without any centralized lock.
-  *
-  *   For debug caches, all allocations are forced to go through a list_lock
-  *   protected region to serialize against concurrent validation.
-  *
-- *   cpu_slab->lock local lock
-+ *   cpu_sheaves->lock (local_trylock)
-  *
-- *   This locks protect slowpath manipulation of all kmem_cache_cpu fields
-- *   except the stat counters. This is a percpu structure manipulated only by
-- *   the local cpu, so the lock protects against being preempted or interrupted
-- *   by an irq. Fast path operations rely on lockless operations instead.
-+ *   This lock protects fastpath operations on the percpu sheaves. On !RT it
-+ *   only disables preemption and does no atomic operations. As long as the main
-+ *   or spare sheaf can handle the allocation or free, there is no other
-+ *   overhead.
-  *
-- *   On PREEMPT_RT, the local lock neither disables interrupts nor preemption
-- *   which means the lockless fastpath cannot be used as it might interfere with
-- *   an in-progress slow path operations. In this case the local lock is always
-- *   taken but it still utilizes the freelist for the common operations.
-+ *   node->barn->lock (spinlock)
-  *
-- *   lockless fastpaths
-+ *   This lock protects the operations on per-NUMA-node barn. It can quickly
-+ *   serve an empty or full sheaf if available, and avoid more expensive refill
-+ *   or flush operation.
-  *
-- *   The fast path allocation (slab_alloc_node()) and freeing (do_slab_free())
-- *   are fully lockless when satisfied from the percpu slab (and when
-- *   cmpxchg_double is possible to use, otherwise slab_lock is taken).
-- *   They also don't disable preemption or migration or irqs. They rely on
-- *   the transaction id (tid) field to detect being preempted or moved to
-- *   another cpu.
-+ *   Lockless freeing
-+ *
-+ *   Objects may have to be freed to their slabs when they are from a remote
-+ *   node (where we want to avoid filling local sheaves with remote objects)
-+ *   or when there are too many full sheaves. On architectures supporting
-+ *   cmpxchg_double this is done by a lockless update of slab's freelist and
-+ *   counters, otherwise slab_lock is taken. This only needs to take the
-+ *   list_lock if it's a first free to a full slab, or when a slab becomes empty
-+ *   after the free.
-  *
-  *   irq, preemption, migration considerations
-  *
-- *   Interrupts are disabled as part of list_lock or local_lock operations, or
-+ *   Interrupts are disabled as part of list_lock or barn lock operations, or
-  *   around the slab_lock operation, in order to make the slab allocator safe
-  *   to use in the context of an irq.
-+ *   Preemption is disabled as part of local_trylock operations.
-+ *   kmalloc_nolock() and kfree_nolock() are safe in NMI context but see
-+ *   their limitations.
-  *
-- *   In addition, preemption (or migration on PREEMPT_RT) is disabled in the
-- *   allocation slowpath, bulk allocation, and put_cpu_partial(), so that the
-- *   local cpu doesn't change in the process and e.g. the kmem_cache_cpu pointer
-- *   doesn't have to be revalidated in each section protected by the local lock.
-- *
-- * SLUB assigns one slab for allocation to each processor.
-- * Allocations only occur from these slabs called cpu slabs.
-+ * SLUB assigns two object arrays called sheaves for caching allocations and
-+ * frees on each cpu, with a NUMA node shared barn for balancing between cpus.
-+ * Allocations and frees are primarily served from these sheaves.
-  *
-  * Slabs with free elements are kept on a partial list and during regular
-  * operations no list for full slabs is used. If an object in a full slab is
-@@ -160,25 +170,8 @@
-  * We track full slabs for debugging purposes though because otherwise we
-  * cannot scan all objects.
-  *
-- * Slabs are freed when they become empty. Teardown and setup is
-- * minimal so we rely on the page allocators per cpu caches for
-- * fast frees and allocs.
-- *
-- * slab->frozen		The slab is frozen and exempt from list processing.
-- * 			This means that the slab is dedicated to a purpose
-- * 			such as satisfying allocations for a specific
-- * 			processor. Objects may be freed in the slab while
-- * 			it is frozen but slab_free will then skip the usual
-- * 			list operations. It is up to the processor holding
-- * 			the slab to integrate the slab into the slab lists
-- * 			when the slab is no longer needed.
-- *
-- * 			One use of this flag is to mark slabs that are
-- * 			used for allocations. Then such a slab becomes a cpu
-- * 			slab. The cpu slab may be equipped with an additional
-- * 			freelist that allows lockless access to
-- * 			free objects in addition to the regular freelist
-- * 			that requires the slab lock.
-+ * Slabs are freed when they become empty. Teardown and setup is minimal so we
-+ * rely on the page allocators per cpu caches for fast frees and allocs.
-  *
-  * SLAB_DEBUG_FLAGS	Slab requires special handling due to debug
-  * 			options set. This moves	slab handling out of
+ 	if (!local_trylock(&s->cpu_sheaves->lock))
+ 		return NULL;
+@@ -4374,6 +4362,7 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+ 		 */
+ 		if (page_to_nid(virt_to_page(object)) != node) {
+ 			local_unlock(&s->cpu_sheaves->lock);
++			stat(s, ALLOC_NODE_MISMATCH);
+ 			return NULL;
+ 		}
+ 	}
+@@ -4382,7 +4371,7 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+ 
+ 	local_unlock(&s->cpu_sheaves->lock);
+ 
+-	stat(s, ALLOC_PCS);
++	stat(s, ALLOC_FASTPATH);
+ 
+ 	return object;
+ }
+@@ -4454,7 +4443,7 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
+ 
+ 	local_unlock(&s->cpu_sheaves->lock);
+ 
+-	stat_add(s, ALLOC_PCS, batch);
++	stat_add(s, ALLOC_FASTPATH, batch);
+ 
+ 	allocated += batch;
+ 
+@@ -5117,8 +5106,6 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
+ 	unsigned long flags;
+ 	bool on_node_partial;
+ 
+-	stat(s, FREE_SLOWPATH);
+-
+ 	if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
+ 		free_to_partial_list(s, slab, head, tail, cnt, addr);
+ 		return;
+@@ -5422,7 +5409,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
+ 
+ 	local_unlock(&s->cpu_sheaves->lock);
+ 
+-	stat(s, FREE_PCS);
++	stat(s, FREE_FASTPATH);
+ 
+ 	return true;
+ }
+@@ -5687,7 +5674,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+ 
+ 	local_unlock(&s->cpu_sheaves->lock);
+ 
+-	stat_add(s, FREE_PCS, batch);
++	stat_add(s, FREE_FASTPATH, batch);
+ 
+ 	if (batch < size) {
+ 		p += batch;
+@@ -5709,10 +5696,12 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
+ 	 */
+ fallback:
+ 	__kmem_cache_free_bulk(s, size, p);
++	stat_add(s, FREE_SLOWPATH, size);
+ 
+ flush_remote:
+ 	if (remote_nr) {
+ 		__kmem_cache_free_bulk(s, remote_nr, &remote_objects[0]);
++		stat_add(s, FREE_SLOWPATH, remote_nr);
+ 		if (i < size) {
+ 			remote_nr = 0;
+ 			goto next_remote_batch;
+@@ -5766,6 +5755,7 @@ static void free_deferred_objects(struct irq_work *work)
+ 		set_freepointer(s, x, NULL);
+ 
+ 		__slab_free(s, slab, x, x, 1, _THIS_IP_);
++		stat(s, FREE_SLOWPATH);
+ 	}
+ }
+ 
+@@ -5807,6 +5797,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+ 	}
+ 
+ 	__slab_free(s, slab, object, object, 1, addr);
++	stat(s, FREE_SLOWPATH);
+ }
+ 
+ #ifdef CONFIG_MEMCG
+@@ -5829,8 +5820,10 @@ void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
+ 	 * With KASAN enabled slab_free_freelist_hook modifies the freelist
+ 	 * to remove objects, whose reuse must be delayed.
+ 	 */
+-	if (likely(slab_free_freelist_hook(s, &head, &tail, &cnt)))
++	if (likely(slab_free_freelist_hook(s, &head, &tail, &cnt))) {
+ 		__slab_free(s, slab, head, tail, cnt, addr);
++		stat_add(s, FREE_SLOWPATH, cnt);
++	}
+ }
+ 
+ #ifdef CONFIG_SLUB_RCU_DEBUG
+@@ -5855,8 +5848,10 @@ static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+ 		return;
+ 
+ 	/* resume freeing */
+-	if (slab_free_hook(s, object, slab_want_init_on_free(s), true))
++	if (slab_free_hook(s, object, slab_want_init_on_free(s), true)) {
+ 		__slab_free(s, slab, object, object, 1, _THIS_IP_);
++		stat(s, FREE_SLOWPATH);
++	}
+ }
+ #endif /* CONFIG_SLUB_RCU_DEBUG */
+ 
+@@ -5864,6 +5859,7 @@ static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+ void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
+ {
+ 	__slab_free(cache, virt_to_slab(x), x, x, 1, addr);
++	stat(cache, FREE_SLOWPATH);
+ }
+ #endif
+ 
+@@ -6733,6 +6729,7 @@ int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 		i = refill_objects(s, p, flags, size, size);
+ 		if (i < size)
+ 			goto error;
++		stat_add(s, ALLOC_SLOWPATH, i);
+ 	}
+ 
+ 	return i;
+@@ -8736,33 +8733,19 @@ static ssize_t text##_store(struct kmem_cache *s,		\
+ }								\
+ SLAB_ATTR(text);						\
+ 
+-STAT_ATTR(ALLOC_PCS, alloc_cpu_sheaf);
+ STAT_ATTR(ALLOC_FASTPATH, alloc_fastpath);
+ STAT_ATTR(ALLOC_SLOWPATH, alloc_slowpath);
+-STAT_ATTR(FREE_PCS, free_cpu_sheaf);
+ STAT_ATTR(FREE_RCU_SHEAF, free_rcu_sheaf);
+ STAT_ATTR(FREE_RCU_SHEAF_FAIL, free_rcu_sheaf_fail);
+ STAT_ATTR(FREE_FASTPATH, free_fastpath);
+ STAT_ATTR(FREE_SLOWPATH, free_slowpath);
+ STAT_ATTR(FREE_ADD_PARTIAL, free_add_partial);
+ STAT_ATTR(FREE_REMOVE_PARTIAL, free_remove_partial);
+-STAT_ATTR(ALLOC_FROM_PARTIAL, alloc_from_partial);
+ STAT_ATTR(ALLOC_SLAB, alloc_slab);
+-STAT_ATTR(ALLOC_REFILL, alloc_refill);
+ STAT_ATTR(ALLOC_NODE_MISMATCH, alloc_node_mismatch);
+ STAT_ATTR(FREE_SLAB, free_slab);
+-STAT_ATTR(CPUSLAB_FLUSH, cpuslab_flush);
+-STAT_ATTR(DEACTIVATE_FULL, deactivate_full);
+-STAT_ATTR(DEACTIVATE_EMPTY, deactivate_empty);
+-STAT_ATTR(DEACTIVATE_REMOTE_FREES, deactivate_remote_frees);
+-STAT_ATTR(DEACTIVATE_BYPASS, deactivate_bypass);
+ STAT_ATTR(ORDER_FALLBACK, order_fallback);
+-STAT_ATTR(CMPXCHG_DOUBLE_CPU_FAIL, cmpxchg_double_cpu_fail);
+ STAT_ATTR(CMPXCHG_DOUBLE_FAIL, cmpxchg_double_fail);
+-STAT_ATTR(CPU_PARTIAL_ALLOC, cpu_partial_alloc);
+-STAT_ATTR(CPU_PARTIAL_FREE, cpu_partial_free);
+-STAT_ATTR(CPU_PARTIAL_NODE, cpu_partial_node);
+-STAT_ATTR(CPU_PARTIAL_DRAIN, cpu_partial_drain);
+ STAT_ATTR(SHEAF_FLUSH, sheaf_flush);
+ STAT_ATTR(SHEAF_REFILL, sheaf_refill);
+ STAT_ATTR(SHEAF_ALLOC, sheaf_alloc);
+@@ -8838,33 +8821,19 @@ static struct attribute *slab_attrs[] = {
+ 	&remote_node_defrag_ratio_attr.attr,
+ #endif
+ #ifdef CONFIG_SLUB_STATS
+-	&alloc_cpu_sheaf_attr.attr,
+ 	&alloc_fastpath_attr.attr,
+ 	&alloc_slowpath_attr.attr,
+-	&free_cpu_sheaf_attr.attr,
+ 	&free_rcu_sheaf_attr.attr,
+ 	&free_rcu_sheaf_fail_attr.attr,
+ 	&free_fastpath_attr.attr,
+ 	&free_slowpath_attr.attr,
+ 	&free_add_partial_attr.attr,
+ 	&free_remove_partial_attr.attr,
+-	&alloc_from_partial_attr.attr,
+ 	&alloc_slab_attr.attr,
+-	&alloc_refill_attr.attr,
+ 	&alloc_node_mismatch_attr.attr,
+ 	&free_slab_attr.attr,
+-	&cpuslab_flush_attr.attr,
+-	&deactivate_full_attr.attr,
+-	&deactivate_empty_attr.attr,
+-	&deactivate_remote_frees_attr.attr,
+-	&deactivate_bypass_attr.attr,
+ 	&order_fallback_attr.attr,
+ 	&cmpxchg_double_fail_attr.attr,
+-	&cmpxchg_double_cpu_fail_attr.attr,
+-	&cpu_partial_alloc_attr.attr,
+-	&cpu_partial_free_attr.attr,
+-	&cpu_partial_node_attr.attr,
+-	&cpu_partial_drain_attr.attr,
+ 	&sheaf_flush_attr.attr,
+ 	&sheaf_refill_attr.attr,
+ 	&sheaf_alloc_attr.attr,
 
 -- 
 2.52.0
