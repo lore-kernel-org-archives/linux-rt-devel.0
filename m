@@ -1,58 +1,59 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591D6318BBC
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 07:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E37E341077
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 08:04:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769153072; cv=none; b=QDBn3ppWKtv4BzsLOGQ8ocQZ9MOMhTs3QNyZeWKWscSO/KXZvAFZmEwz0ruWAconcmBwOX4WiY9xyHB2n+9d2hsHkB1hsM7wqBHP6lp70hHLImHbM2GCZJdR3TfAWOr2N4aA33+8wXHEc0RbYBr4iuIXv6oWFiF2WbAR9Utz1QE=
+	t=1769155465; cv=none; b=T3fonqdfO5JCEkdu6NetERxH9jAh5mklSpKP5tpz7be5gNlUANE98t4WeVCLXe83NAIktq3P97DasNg2k66lgMTcRMNmq3BFjuWqtsNopnMpX0Pk2A4jl3vwgr/0L8NWk6s9rgvfVZQ0SuGwfkp2IFuPyJqmxfMb9BDUj4CtHSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769153072; c=relaxed/simple;
-	bh=BFez9/PfotxF9Yzx9OJQitapYFpuFFHqMcigpTkW57o=;
+	s=arc-20240116; t=1769155465; c=relaxed/simple;
+	bh=3cUidOW1qw3tdfGX7hczekAJlTc7yZok8kLMLVbwegM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TklCwGqO4yMd54gAFdqGzzJ01bXRfD2tcESqPVv+siciBBolBaaSZ659WwdNjFH5X9FzrfcUPqU64PhKnErFtqtG8podMZlgQsbOPWv/28BdRpbKNtsYTxT+lV3VKE5BTHzXiCHwQDGDglRWjrJvdJq05EmhtxyrAq7yYooz8mA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3WbxfbyT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kB2MOVUl; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOV1OjLzrVKjuxHDog+lrFFn67BYqWPQp3mXPfZ+JVSfAquAInPSBTi2NbBL8TDJU/hkFH1M2csVqZumdTKkcwLUxvb6bo7aSpMtB0eyCGTHnn6ENIKqqr/3vVLaEsnU4b+7sFt/I14c1EDTiQjqgZz4GbyEsJGdvu/N5PKyU1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4EKDgjqc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gQutqfq/; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3WbxfbyT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kB2MOVUl"
-Date: Fri, 23 Jan 2026 08:24:22 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4EKDgjqc";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gQutqfq/"
+Date: Fri, 23 Jan 2026 09:04:21 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769153063;
+	s=2020; t=1769155463;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R4MUMTb3XXhX/yciJz7LL83W3UZO7NWvMgDqd4qfBws=;
-	b=3WbxfbyTmiztwcKhnMODVHtZeRqV4gRKWO1umT+5CsMFKSXcxkLDM0+pZkdF9ySjAyUC4O
-	De4LdDswKqE2b0VrqzwX5jQ32v7hPabANwSifZP+sGFE271+6KAYrAgwjEsW8qQrn5C6YW
-	BaBWf2ChoA1botrkU2Wo6RBb9jRIKnlG1KCeHloT88gBhtlpliw8RR67ELCeSSv5pWXYtW
-	f0Ns2t+MJZlUzWLzdCGdfVx6XOe5grh8N+T9wHrBj9DkOTT8RIIEzC8uAxKy2xgpbcBYel
-	ws6kjE9/ha8/ejw3o6FuErFaqo+Tve4hIEmawNmMBbBi6mdOtxZpsM8y7ZHu1Q==
+	bh=3cUidOW1qw3tdfGX7hczekAJlTc7yZok8kLMLVbwegM=;
+	b=4EKDgjqc65ynw3jTbnVMmx2eV0z9h7x53Ys9tgdchx+GecKum8eqNkRrtBjAk/xiBepEPo
+	eb+WQa7ei/VrpvajEHrPKrVPhSMdwC/4CjQicnmHr5za777+OAjQEKnOJzK97yXiIpsKMO
+	7KFcDzsMw90QyBvdOLAGauA7PCI+iazFt9VmTHSdS7QOQonoY0No6lXdhYzMq3yhpJ/E9j
+	qvrcMEL38bdmFH2gZFiEDaPrJkrT5mMDtkD1jZ6TG7MKpz+nLoecjxLkEc23FXv19hPtQN
+	Na8y62WDCwfMAwFbImxsYD55sMXcGWOvB0FBM39V7x//sUEnrF1ZgutGGw8ayA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769153063;
+	s=2020e; t=1769155463;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=R4MUMTb3XXhX/yciJz7LL83W3UZO7NWvMgDqd4qfBws=;
-	b=kB2MOVUldDCaZTJnLL6KOZbU3RWpF2z05UNS7tgoehKTetvmqDyQS3hCo+jiIDi/ZU7D6H
-	iewUTqk5//JDACBg==
+	bh=3cUidOW1qw3tdfGX7hczekAJlTc7yZok8kLMLVbwegM=;
+	b=gQutqfq/MEH15/IzNexdULpLWKNJcdKbDWXVZhF8G8oJ4V9qLDfv2gLSD9K9de7XbvuhUz
+	s9Z3CvsIzfffo4AQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Waiman Long <longman@redhat.com>
-Cc: Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Wei Yang <richard.weiyang@gmail.com>,
-	David Hildenbrand <david@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v3] mm/mm_init: Don't cond_resched() in
- deferred_init_memmap_chunk() if called from deferred_grow_zone()
-Message-ID: <20260123072422.rOwJDb5K@linutronix.de>
-References: <20260122184343.546627-1-longman@redhat.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [PATCH v2 3/3] media: dw100: Fix kernel oops with PREEMPT_RT
+ enabled
+Message-ID: <20260123080421._9VjDlE4@linutronix.de>
+References: <20260122-sklug-v6-16-topic-dw100-v3-1-dev-v2-0-ea1e29f18cf1@ideasonboard.com>
+ <20260122-sklug-v6-16-topic-dw100-v3-1-dev-v2-3-ea1e29f18cf1@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,62 +63,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260122184343.546627-1-longman@redhat.com>
+In-Reply-To: <20260122-sklug-v6-16-topic-dw100-v3-1-dev-v2-3-ea1e29f18cf1@ideasonboard.com>
 
-On 2026-01-22 13:43:43 [-0500], Waiman Long wrote:
+On 2026-01-22 15:44:58 [+0100], Stefan Klug wrote:
 =E2=80=A6
-> bug report.
->=20
->   BUG: sleeping function called from invalid context at mm/mm_init.c:2091
->   in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper=
-/0
->   preempt_count: 0, expected: 0
->   RCU nest depth: 1, expected: 0
->   3 locks held by swapper/0/1:
->    #0: ffff80008471b7a0 (sched_domains_mutex){+.+.}-{4:4}, at: sched_doma=
-ins_mutex_lock+0x28/0x40
->    #1: ffff003bdfffef48 (&pgdat->node_size_lock){+.+.}-{3:3}, at: deferre=
-d_grow_zone+0x140/0x278
->    #2: ffff800084acf600 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1=
-b4/0x408
->   CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           6.19=
-=2E0-rc6-test #1 PREEMPT_{RT,(full)
-> }
->   Tainted: [W]=3DWARN
->   Call trace:
->    show_stack+0x20/0x38 (C)
->    dump_stack_lvl+0xdc/0xf8
->    dump_stack+0x1c/0x28
->    __might_resched+0x384/0x530
->    deferred_init_memmap_chunk+0x560/0x688
->    deferred_grow_zone+0x190/0x278
->    _deferred_grow_zone+0x18/0x30
->    get_page_from_freelist+0x780/0xf78
->    __alloc_frozen_pages_noprof+0x1dc/0x348
->    alloc_slab_page+0x30/0x110
->    allocate_slab+0x98/0x2a0
->    new_slab+0x4c/0x80
->    ___slab_alloc+0x5a4/0x770
->    __slab_alloc.constprop.0+0x88/0x1e0
->    __kmalloc_node_noprof+0x2c0/0x598
->    __sdt_alloc+0x3b8/0x728
->    build_sched_domains+0xe0/0x1260
->    sched_init_domains+0x14c/0x1c8
->    sched_init_smp+0x9c/0x1d0
->    kernel_init_freeable+0x218/0x358
->    kernel_init+0x28/0x208
->    ret_from_fork+0x10/0x20
+> There is one caveat though: During development regular "dw100
+> 32e30000.dwe: Interrupt error: 0x1" errors occurred due to
+> DW100_INTERRUPT_STATUS_INT_ERR_TIME_OUT being set. This only happened on
+> non PREEMPT_RT setups when the interrupt handler was manually forced to
+> be threaded. On PREEMPT_RT systems (where the interrupt handler is now
+> implicitly threaded) this error was never seen.
 
-I would strip this report because the call chain is simple and there
-just one so it is not one of many and hard to find.=20
+This not something I would expect. If it is forced-threaded it is
+forced-threaded on both (RT && !RT) so it should behave the same. It
+might be related who it is handled (order wise) with the other (related)
+interrupts in the system. Anyway. Removing that flag is the right flag
+to do.
 
-=E2=80=A6
->=20
-> Fixes: 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() in def=
-erred_grow_zone()")
-> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Waiman Long <longman@redhat.com>
-
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 Sebastian
