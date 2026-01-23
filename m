@@ -1,53 +1,55 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111333CEB7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0EC340290
 	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168240; cv=none; b=mqofyUalSfZn4QbX4fa8RgSibbZdC7NTumj7IfbpB25gvwdKQnYaYZ8fhhIUwCbKsb3dlWvx0STIrZcDiBGTaMLCLWqomMl9VSLLjGgpixLmJd8YDSOsfwHHqpVNcQv7Pnh6eESWfJcn9TxRj9LztO1vvESSxYsLcBjoZr4SEHY=
+	t=1769168241; cv=none; b=u6cAMa2nqvjyXJmdqN69jkkYlZugghrDzDbCsFgYfERyjpLt935StGUmWtamnO56mjNo++QN8KiEn2sx9T1h+2y3ctAHT9JsAKZp2w5Y55zc/dAxrsutXZenRTpMoltPdQrC7KHtapVDW6ZECAKl0P5MB2Nn6irC3/X6rvEQhlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168240; c=relaxed/simple;
-	bh=xIG6dgGL0m2Ob8S+jn/+Z8aqjE+CAR5xgYoV0lQuUJc=;
+	s=arc-20240116; t=1769168241; c=relaxed/simple;
+	bh=+jI3HD8B+IVS8uvyZCT11kkU7aWeR/2FZYRf+KAA9Zc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OFUAaFJ9WIOUXoBnsVhvbdmqEbAprZpFiPAZaOpPx98WeXxYVkWz31cRGq5d1OM+SCPBRNiNR94m+jZRyQlxYmJz4k6x6bw/F7s0UzmXK1EDEjbB02gHwIIBY4jFLaTI6HXtQ2PcVW4EdKRxRkTzqiPxDO7reY7k6IDkSEF1a24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0OU2dkMo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6o9/+xdX; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=ip+Rc+1Bw6Zp3rq306XP1777WBUVIHAzVj1IiW0K7ve06ZZkzrlvcVG+MpCssNZIs2LApyo7xD5ack85MSRpg8+ptY4FouI8YHa7vcVja1bKQNU6As+aa2aLfTzksbXq+X4sdThqEQUx6ae88wdR70KTRpEQwgw3duWGAL+2ei4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lOdLw2lE; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZFO+Gcll; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0OU2dkMo";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6o9/+xdX"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lOdLw2lE";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZFO+Gcll"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769168234;
+	s=2020; t=1769168236;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWni5HW99nwatLe3bFxSkgJ092tCPIuDbEsFgoqJcfI=;
-	b=0OU2dkMohdOjRwrZK6iO6qfrNE4FxZJc4SpwLNvy/5UjjIZ6HATJafTZi1s3O8yRcQKgRv
-	HqtTaLCjIwZhHMCV5cFkE5NeAoRvrVz18Zw3lT3yghMM6ZgHgHSNpcSH8fF2cRt1oKpzUn
-	kosVEx2qy66OIUCMmx+TaA6wn23hRO9fLG9xTdD2Akqur8X4F7XGhcv35LNXym1F+plyJe
-	eMlcF0c3ChPfACaHa5awZtwncB97PtPH+U5wOs3bhlkGLvUdwpHhOvrOwO52GMotDcefvD
-	fQtlN39AOk5y12doT8FMmIyselSFlrn8ZZmn1vdryBKd9IoUGX0RoGVmAK7ntg==
+	bh=7qOzb846ei57EI5/W356PPwgQiNFvbcKpbMgaeDnSO8=;
+	b=lOdLw2lEUpLDRV4eSPKfxLiGbHgLwXMB3pd3nAC4/wrHilJK0SitiIsB0F1XfFNmiHpYPC
+	3cxXfKo8ottro4FGBYyG9LYkGz5XR+pKojA8Adsnng2rquOLBGYhCP4gqm8flnI4v/3B3y
+	OFk4UZU0hM+X+SM4GggmwL32sNGY9+B0wHS9CQPYNmw/iCeGwg3FyFuJtwXyJWXXzu0Jqx
+	ldU6Gz2Xq3W1/QBTJPuUYXGU/xCLfC5cCHNX4bTvQ4LlDC2PzyPtYdh3HMTTEM7t5Fsp0S
+	TdgvyXP6KjBR+8XChYbWGptCYklNLEodLHaOEdcYFxoZ8J0wOVn6dHs5at0miQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769168234;
+	s=2020e; t=1769168236;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OWni5HW99nwatLe3bFxSkgJ092tCPIuDbEsFgoqJcfI=;
-	b=6o9/+xdXLJRHeZtviycF1Lb87SBxXuNkoulzn6XM+QHkLtf9hE78qmZQfjeLDMv7i/byMu
-	2QXo8NGNkEaXBZDA==
+	bh=7qOzb846ei57EI5/W356PPwgQiNFvbcKpbMgaeDnSO8=;
+	b=ZFO+GclliPGEjyGYyfLTjn7fmzuyiakIx4GP5qebVrUj/hMyc61wfT8tmzK+IjV+srAS3v
+	Ho6dGgO4GqC6vICA==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Ioana Ciornei <ioana.ciornei@nxp.com>,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH 05/21] bus: fsl-mc: Use default primary handler
-Date: Fri, 23 Jan 2026 12:36:51 +0100
-Message-ID: <20260123113708.416727-6-bigeasy@linutronix.de>
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Tony Luck <tony.luck@intel.com>,
+	linux-edac@vger.kernel.org
+Subject: [PATCH 10/21] EDAC/altera: Remove IRQF_ONESHOT
+Date: Fri, 23 Jan 2026 12:36:56 +0100
+Message-ID: <20260123113708.416727-11-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -58,52 +60,73 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-There is no added value in dprc_irq0_handler() compared to
-irq_default_primary_handler().
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
+The flag also disallows force-threading of the primary handler and the
+irq-core will warn about this.
 
-Use the default primary interrupt handler by specifying NULL.
+Remove IRQF_ONESHOT from irqflags.
 
-Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: linuxppc-dev@lists.ozlabs.org
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Tony Luck <tony.luck@intel.com>
+Cc: linux-edac@vger.kernel.org
+Fixes: a29d64a45eed1 ("EDAC, altera: Add IRQ Flags to disable IRQ while han=
+dling")
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/bus/fsl-mc/dprc-driver.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+ drivers/edac/altera_edac.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/bus/fsl-mc/dprc-driver.c b/drivers/bus/fsl-mc/dprc-dri=
-ver.c
-index c63a7e688db6a..db67442addad2 100644
---- a/drivers/bus/fsl-mc/dprc-driver.c
-+++ b/drivers/bus/fsl-mc/dprc-driver.c
-@@ -380,17 +380,6 @@ int dprc_scan_container(struct fsl_mc_device *mc_bus_d=
-ev,
- }
- EXPORT_SYMBOL_GPL(dprc_scan_container);
-=20
--/**
-- * dprc_irq0_handler - Regular ISR for DPRC interrupt 0
-- *
-- * @irq_num: IRQ number of the interrupt being handled
-- * @arg: Pointer to device structure
-- */
--static irqreturn_t dprc_irq0_handler(int irq_num, void *arg)
--{
--	return IRQ_WAKE_THREAD;
--}
--
- /**
-  * dprc_irq0_handler_thread - Handler thread function for DPRC interrupt 0
-  *
-@@ -527,7 +516,7 @@ static int register_dprc_irq_handler(struct fsl_mc_devi=
-ce *mc_dev)
- 	 */
- 	error =3D devm_request_threaded_irq(&mc_dev->dev,
- 					  irq->virq,
--					  dprc_irq0_handler,
-+					  NULL,
- 					  dprc_irq0_handler_thread,
- 					  IRQF_NO_SUSPEND | IRQF_ONESHOT,
- 					  dev_name(&mc_dev->dev),
+diff --git a/drivers/edac/altera_edac.c b/drivers/edac/altera_edac.c
+index 0c5b94e64ea15..4edd2088c2db6 100644
+--- a/drivers/edac/altera_edac.c
++++ b/drivers/edac/altera_edac.c
+@@ -1563,8 +1563,7 @@ static int altr_portb_setup(struct altr_edac_device_d=
+ev *device)
+ 		goto err_release_group_1;
+ 	}
+ 	rc =3D devm_request_irq(&altdev->ddev, altdev->sb_irq,
+-			      prv->ecc_irq_handler,
+-			      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
++			      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
+ 			      ecc_name, altdev);
+ 	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_DEVICE, "PortB SBERR IRQ error\n");
+@@ -1587,8 +1586,7 @@ static int altr_portb_setup(struct altr_edac_device_d=
+ev *device)
+ 		goto err_release_group_1;
+ 	}
+ 	rc =3D devm_request_irq(&altdev->ddev, altdev->db_irq,
+-			      prv->ecc_irq_handler,
+-			      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
++			      prv->ecc_irq_handler, IRQF_TRIGGER_HIGH,
+ 			      ecc_name, altdev);
+ 	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_DEVICE, "PortB DBERR IRQ error\n");
+@@ -1970,8 +1968,7 @@ static int altr_edac_a10_device_add(struct altr_arria=
+10_edac *edac,
+ 		goto err_release_group1;
+ 	}
+ 	rc =3D devm_request_irq(edac->dev, altdev->sb_irq, prv->ecc_irq_handler,
+-			      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+-			      ecc_name, altdev);
++			      IRQF_TRIGGER_HIGH, ecc_name, altdev);
+ 	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_DEVICE, "No SBERR IRQ resource\n");
+ 		goto err_release_group1;
+@@ -1993,7 +1990,7 @@ static int altr_edac_a10_device_add(struct altr_arria=
+10_edac *edac,
+ 		goto err_release_group1;
+ 	}
+ 	rc =3D devm_request_irq(edac->dev, altdev->db_irq, prv->ecc_irq_handler,
+-			      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
++			      IRQF_TRIGGER_HIGH,
+ 			      ecc_name, altdev);
+ 	if (rc) {
+ 		edac_printk(KERN_ERR, EDAC_DEVICE, "No DBERR IRQ resource\n");
 --=20
 2.51.0
 
