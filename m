@@ -1,153 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7234889F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 07:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591D6318BBC
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 07:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769151795; cv=none; b=o5mdpD535IAIongKUMs2Ow5r4juuiAQBzGMgO/2sPPhGnUg628s9og0e9ejwrLZf8BvVyPHl91gI67O/XD3XRfZQW1VK0KAeIlTOmO3asuTzO7e9hdvWFXtLQphDMAzec0WKqH9DMmq3isZrM5+sSg7bb+awcyN1+lxEfjJbSHw=
+	t=1769153072; cv=none; b=QDBn3ppWKtv4BzsLOGQ8ocQZ9MOMhTs3QNyZeWKWscSO/KXZvAFZmEwz0ruWAconcmBwOX4WiY9xyHB2n+9d2hsHkB1hsM7wqBHP6lp70hHLImHbM2GCZJdR3TfAWOr2N4aA33+8wXHEc0RbYBr4iuIXv6oWFiF2WbAR9Utz1QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769151795; c=relaxed/simple;
-	bh=k02OseP2N65ITQBV+pMi3tioz8qOOnJftgHC9O14HGE=;
+	s=arc-20240116; t=1769153072; c=relaxed/simple;
+	bh=BFez9/PfotxF9Yzx9OJQitapYFpuFFHqMcigpTkW57o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kBwxlPjLboMNme1xH7fNIYIt3Q6dJrCg1G7TS7D9jTYsHQxi58UbA7hX6Mu4uTjQIqoBPpU3NSgEIxC/oxmqi6Pq7HGFiVCnmoy7JBJ6AkvAKcjvnmvPS3XF3dmUQK90WjvyAcqx1vTn4hMvXYfZKmdcRowv+ZWKRdDe3BKmpCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIYgycjD; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TklCwGqO4yMd54gAFdqGzzJ01bXRfD2tcESqPVv+siciBBolBaaSZ659WwdNjFH5X9FzrfcUPqU64PhKnErFtqtG8podMZlgQsbOPWv/28BdRpbKNtsYTxT+lV3VKE5BTHzXiCHwQDGDglRWjrJvdJq05EmhtxyrAq7yYooz8mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3WbxfbyT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kB2MOVUl; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIYgycjD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769151791; x=1800687791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=k02OseP2N65ITQBV+pMi3tioz8qOOnJftgHC9O14HGE=;
-  b=nIYgycjDYZrpgZH5r3LgXr4Vj+kuGoJUyOFj9Nmp4fnZPb2ZD1u4vXKg
-   jFCusk/jVFXxoSj6StL3F+5WdZio//6GqtWJdt7kSIr+hCOFlt7Jd3lZ2
-   gKv7zXQXf9oXO66cM+X67hfyW+Ng1T5F+O3rypv66uqXdsIRPSBW3ooMe
-   YPeN9S4S55ycyAjenNywdPeeIbjhbLNFo7ukNJlqTq7mFvXoCkE+Q2aaw
-   5Cq0ZmOFYXb/byjBPi+i3F7BkgDvqxG8ePlBzkchvucGL043fswT9kgvG
-   2U30Pu/Usg8DueBtlNOHo+QpSeGH2JxcoSMwnLTCDPZ7WBV+U3fkWYeOj
-   w==;
-X-CSE-ConnectionGUID: H6Zq+72ZQE+sgYI/hKYLGQ==
-X-CSE-MsgGUID: Sz08wHxzSimQ5Z4RCK+ujw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11679"; a="74034240"
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="74034240"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2026 23:03:08 -0800
-X-CSE-ConnectionGUID: bYWh3vtEQ42s8yRCsy9wfg==
-X-CSE-MsgGUID: Bjh/MTqqTP2sQrdfWxAK4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
-   d="scan'208";a="211954366"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 22 Jan 2026 23:03:05 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id E7C2E95; Fri, 23 Jan 2026 08:03:02 +0100 (CET)
-Date: Fri, 23 Jan 2026 08:03:02 +0100
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3WbxfbyT";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kB2MOVUl"
+Date: Fri, 23 Jan 2026 08:24:22 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1769153063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R4MUMTb3XXhX/yciJz7LL83W3UZO7NWvMgDqd4qfBws=;
+	b=3WbxfbyTmiztwcKhnMODVHtZeRqV4gRKWO1umT+5CsMFKSXcxkLDM0+pZkdF9ySjAyUC4O
+	De4LdDswKqE2b0VrqzwX5jQ32v7hPabANwSifZP+sGFE271+6KAYrAgwjEsW8qQrn5C6YW
+	BaBWf2ChoA1botrkU2Wo6RBb9jRIKnlG1KCeHloT88gBhtlpliw8RR67ELCeSSv5pWXYtW
+	f0Ns2t+MJZlUzWLzdCGdfVx6XOe5grh8N+T9wHrBj9DkOTT8RIIEzC8uAxKy2xgpbcBYel
+	ws6kjE9/ha8/ejw3o6FuErFaqo+Tve4hIEmawNmMBbBi6mdOtxZpsM8y7ZHu1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1769153063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=R4MUMTb3XXhX/yciJz7LL83W3UZO7NWvMgDqd4qfBws=;
+	b=kB2MOVUldDCaZTJnLL6KOZbU3RWpF2z05UNS7tgoehKTetvmqDyQS3hCo+jiIDi/ZU7D6H
+	iewUTqk5//JDACBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Waiman Long <longman@redhat.com>
+Cc: Mike Rapoport <rppt@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v5 6/6] i2c: designware: Support of controller with
- IC_EMPTYFIFO_HOLD_MASTER disabled
-Message-ID: <aXMdJtaQ1eHj3PDJ@black.igk.intel.com>
-References: <20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com>
- <20260120-i2c-dw-v5-6-0e34d6d9455c@bootlin.com>
+	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Wei Yang <richard.weiyang@gmail.com>,
+	David Hildenbrand <david@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v3] mm/mm_init: Don't cond_resched() in
+ deferred_init_memmap_chunk() if called from deferred_grow_zone()
+Message-ID: <20260123072422.rOwJDb5K@linutronix.de>
+References: <20260122184343.546627-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260120-i2c-dw-v5-6-0e34d6d9455c@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260122184343.546627-1-longman@redhat.com>
 
-On Tue, Jan 20, 2026 at 10:28:06AM +0100, Benoît Monin wrote:
-> If IC_EMPTYFIFO_HOLD_MASTER_EN parameter is 0, "Stop" and "Repeated Start"
-> bits in command register does not exist, thus it is impossible to send
+On 2026-01-22 13:43:43 [-0500], Waiman Long wrote:
+=E2=80=A6
+> bug report.
+>=20
+>   BUG: sleeping function called from invalid context at mm/mm_init.c:2091
+>   in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper=
+/0
+>   preempt_count: 0, expected: 0
+>   RCU nest depth: 1, expected: 0
+>   3 locks held by swapper/0/1:
+>    #0: ffff80008471b7a0 (sched_domains_mutex){+.+.}-{4:4}, at: sched_doma=
+ins_mutex_lock+0x28/0x40
+>    #1: ffff003bdfffef48 (&pgdat->node_size_lock){+.+.}-{3:3}, at: deferre=
+d_grow_zone+0x140/0x278
+>    #2: ffff800084acf600 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1=
+b4/0x408
+>   CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           6.19=
+=2E0-rc6-test #1 PREEMPT_{RT,(full)
+> }
+>   Tainted: [W]=3DWARN
+>   Call trace:
+>    show_stack+0x20/0x38 (C)
+>    dump_stack_lvl+0xdc/0xf8
+>    dump_stack+0x1c/0x28
+>    __might_resched+0x384/0x530
+>    deferred_init_memmap_chunk+0x560/0x688
+>    deferred_grow_zone+0x190/0x278
+>    _deferred_grow_zone+0x18/0x30
+>    get_page_from_freelist+0x780/0xf78
+>    __alloc_frozen_pages_noprof+0x1dc/0x348
+>    alloc_slab_page+0x30/0x110
+>    allocate_slab+0x98/0x2a0
+>    new_slab+0x4c/0x80
+>    ___slab_alloc+0x5a4/0x770
+>    __slab_alloc.constprop.0+0x88/0x1e0
+>    __kmalloc_node_noprof+0x2c0/0x598
+>    __sdt_alloc+0x3b8/0x728
+>    build_sched_domains+0xe0/0x1260
+>    sched_init_domains+0x14c/0x1c8
+>    sched_init_smp+0x9c/0x1d0
+>    kernel_init_freeable+0x218/0x358
+>    kernel_init+0x28/0x208
+>    ret_from_fork+0x10/0x20
 
-do not exist
+I would strip this report because the call chain is simple and there
+just one so it is not one of many and hard to find.=20
 
-> several consecutive write messages in a single hardware batch. The
-> existing implementation worked with such configuration incorrectly:
-> all consecutive write messages are joined into a single message without
-> any Start/Stop or Repeated Start conditions. For example, the following
-> command:
-> 
->     i2ctransfer -y 0 w1@0x55 0x00 w1@0x55 0x01
-> 
-> does the same as
-> 
->     i2ctransfer -y 0 w2@0x55 0x00 0x01
-> 
-> In i2c_dw_msg_is_valid(), we ensure that we do not have such sequence
-> of messages requiring a RESTART, aborting the transfer on controller
-> that cannot emit them explicitly.
-> 
-> This behavior is activated by compatible entries because the state of
-> the IC_EMPTYFIFO_HOLD_MASTER_EN parameter cannot be detected at runtime.
-> The new flag emptyfifo_hold_master reflects the state of the parameter,
-> it is set to true for all controllers except those found in Mobileye
-> SoCs. For now, the controllers in Mobileye SoCs are the only ones known
-> to need the workaround. The behavior of the driver is left unmodified
-> for other controllers.
-> 
-> There is another possible problem with this controller configuration:
-> When the CPU is putting commands to the FIFO, this process must not be
-> interrupted because if FIFO buffer gets empty, the controller finishes
-> the I2C transaction and generates STOP condition on the bus.
-> 
-> If we continue writing the remainder of the message to the FIFO, the
-> controller will start emitting a new transaction with those data. This
-> turns a single a single message into multiple I2C transactions. To
+=E2=80=A6
+>=20
+> Fixes: 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() in def=
+erred_grow_zone()")
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-a single a single ?
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-> protect against FIFO underrun, two changes are done:
-> 
-> First we flag the interrupt with IRQF_NO_THREAD, to prevent it from
-> running in a thread on PREEMPT-RT kernel. This ensures that we are not
-> interrupted when filling the FIFO as it is very time-senstive. For
-> example, being preempted after writing a single byte in the FIFO with
-> a 1MHz bus gives us only 18µs before an underrun.
-> 
-> Second in i2c_dw_process_transfer(), we abort if a STOP is detected
-> while a read or a write is in progress. This can occur when processing
-> a message larger than the FIFO. In that case the message is processed in
-> parts, and rely on the TX EMPTY interrupt to refill the FIFO when it gets
-> below a threshold. If servicing this interrupt is delayed for too long,
-> it can trigger a FIFO underrun, thus an unwanted STOP.
-
-Can DMA enablement fix this issue?
-
-...
-
->  static const struct of_device_id dw_i2c_of_match[] = {
->  	{ .compatible = "baikal,bt1-sys-i2c", .data = (void *)MODEL_BAIKAL_BT1 },
-
-You need to rebase on top of the latest tip of i2c-host tree.
-
-> +	{ .compatible = "mobileye,eyeq6lplus-i2c" },
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sebastian
