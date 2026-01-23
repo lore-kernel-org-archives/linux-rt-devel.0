@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE82D3225;
-	Fri, 23 Jan 2026 08:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0900122156F;
+	Fri, 23 Jan 2026 08:48:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769158011; cv=none; b=B2ce4bcA2UEBaALk/xIQrjGG595S+tTLiuZ26deGmTuG/JbNwPC261K4C4jvKlnPVTqoWGOI7+7M4nJCQiw23yYG5P0NSjKZ7ly4CUJrwFgkNMcohm+/UiOO8k/67GRnT9Cl0Fb4I4khNH0rxXqLSS9YNa57fK/7Tk1V7d/LAWc=
+	t=1769158085; cv=none; b=XhhGS6CsE0mvmZsbHl2RNMypukzKT85yhmleb2pWYm6n36AxZE7SxRuXfzOZy1/u/XXUuArhPkkZ9V5WTJp1Abg4021tOp2mzt5fi+Z+tmpsQPgyPeCX+fpwm1/WgR1wxBoA+nJbzUcpyRoofV5mMpFi8ePFXkJQ7lq2WL+zw1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769158011; c=relaxed/simple;
-	bh=zlDYEoOkDwoDamgPxSwYuVDpDkFq4ttprobmkbfSa0U=;
+	s=arc-20240116; t=1769158085; c=relaxed/simple;
+	bh=rVZ2b/M2elvLd9oSAfscYONQkqOhn+v+x4ixSf7WcUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvYKLFmLr172lJbVhwyARVMHZCNGqF4PNLQNCZtYEE5FHh+MFAXAL6QisLudJwKXJdlCbfmcJ6/WBX3NE1wNeYRRuVcbbbvQ7ETClxdaMBWLMHXcoRC/HnbqOFDkrKI1cWiYfGwbucgKmxTtfAzLIm3+1hIzN2FMtrgCj7L5SPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pMYi7O9W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KdZr7/pQUYtKmoHker9z//hhryGyAMgUL7Jxmu00SZPTbxUtfpJJkV8pBVaxNJOhqv141cX2MfWhQdDSnVeB5P+XGFYZe3m3p4sq985bt4oTQN4AFK2RUXv+joDohkrbOiUOrzEK3A57xVrItKfsSEvteDxgEhUlzdnGZBda54s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iZzwfhrI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pMYi7O9W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF8B9C19423;
-	Fri, 23 Jan 2026 08:46:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iZzwfhrI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4844CC4CEF1;
+	Fri, 23 Jan 2026 08:48:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769158011;
-	bh=zlDYEoOkDwoDamgPxSwYuVDpDkFq4ttprobmkbfSa0U=;
+	s=k20201202; t=1769158084;
+	bh=rVZ2b/M2elvLd9oSAfscYONQkqOhn+v+x4ixSf7WcUM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pMYi7O9Wzk4xL+ptKZFskBEAy2sMbDOm21rkjCBTr3+31p+kgjN5ghCT3gKWYyQe5
-	 eVaJBjV5V/Fo2ORr2P0xGrNN2fd8bluNWvUjOslB4mXahJXHK0aZ9WFz5EqxE0fI+m
-	 RctiRAW9zH8dGPXigIaHsb5MwbrbqD2Jt27aYPxd+LiJlrrd5gBQ9Gk/MmjYNqJ/Bq
-	 RU0zkQGrxBD7PcRxiucWCLvsDrBfeY/NdFZpUItPCUyvz8m5ksZLYTBz0ci6NHedY+
-	 E3+W+e00I8qWZvMeCt91IM0DEwfMxoUmnHe2vCUWCYhpUXmGi+EMly11xgKB24ngut
-	 n1yI2xhLvSrvg==
-Date: Fri, 23 Jan 2026 10:46:44 +0200
+	b=iZzwfhrI7qdWTFJkOeg6GtD3NUpF7uCWTGgbKZHOntekUsH4J8JTvqW098ocRzCy0
+	 mkyk34UKQ6jFs/HDYw8akI+8dVLf/sfLOnkMsQeOIYAb4cHB6gE6TFo+FONSuXd73N
+	 Vu0cIVG8TuunkM+qmIumzCLiv6A1OgNaNJU1No5O+eygLfxX/seRfMLgp/l8T+w2q7
+	 ciGhYonIXO7EiE3bolXMNWxS+RP3HDORF3q+vul0iG/GLFV50NkZpyJ6sDlYd5ZZEP
+	 hqajgJBbFBqFs2rsVOfURvyIB2OoEsKKhF5uTnpjlk08FLcuYCl1FUnHl4EroNDEDC
+	 o2a3FepxtRh/w==
+Date: Fri, 23 Jan 2026 10:47:57 +0200
 From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Waiman Long <longman@redhat.com>,
+To: Waiman Long <longman@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>, linux-mm@kvack.org,
@@ -39,9 +39,8 @@ Cc: Waiman Long <longman@redhat.com>,
 	"Paul E . McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH v3] mm/mm_init: Don't cond_resched() in
  deferred_init_memmap_chunk() if called from deferred_grow_zone()
-Message-ID: <aXM1dF6o3wwJltiV@kernel.org>
+Message-ID: <aXM1vUeSjwEG683R@kernel.org>
 References: <20260122184343.546627-1-longman@redhat.com>
- <20260122112920.2b435873a0cc5f396df5d1a7@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -50,62 +49,63 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260122112920.2b435873a0cc5f396df5d1a7@linux-foundation.org>
+In-Reply-To: <20260122184343.546627-1-longman@redhat.com>
 
-On Thu, Jan 22, 2026 at 11:29:20AM -0800, Andrew Morton wrote:
-> On Thu, 22 Jan 2026 13:43:43 -0500 Waiman Long <longman@redhat.com> wrote:
+On Thu, Jan 22, 2026 at 01:43:43PM -0500, Waiman Long wrote:
+> Commit 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk()
+> in deferred_grow_zone()") made deferred_grow_zone() call
+> deferred_init_memmap_chunk() within a pgdat_resize_lock() critical
+> section with irqs disabled. It did check for irqs_disabled() in
+> deferred_init_memmap_chunk() to avoid calling cond_resched(). For a
+> PREEMPT_RT kernel build, however, spin_lock_irqsave() does not disable
+> interrupt but rcu_read_lock() is called. This leads to the following
+> bug report.
 > 
-> > Commit 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk()
-> > in deferred_grow_zone()") made deferred_grow_zone() call
-> > deferred_init_memmap_chunk() within a pgdat_resize_lock() critical
-> > section with irqs disabled.
-> >
-> > It did check for irqs_disabled() in
-> > deferred_init_memmap_chunk() to avoid calling cond_resched(). For a
-> > PREEMPT_RT kernel build, however, spin_lock_irqsave() does not disable
-> > interrupt but rcu_read_lock() is called. This leads to the following
-> > bug report.
-> > 
-> >   BUG: sleeping function called from invalid context at mm/mm_init.c:2091
-> >   in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
-> >   preempt_count: 0, expected: 0
-> >
-> > @@ -2085,10 +2085,10 @@ deferred_init_memmap_chunk(unsigned long start_pfn, unsigned long end_pfn,
-> >  
-> >  			spfn = chunk_end;
-> >  
-> > -			if (irqs_disabled())
-> > -				touch_nmi_watchdog();
-> > -			else
-> > +			if (can_resched)
-> >  				cond_resched();
-> > +			else
-> > +				touch_nmi_watchdog();
-> >  		}
-> >  	}
+>   BUG: sleeping function called from invalid context at mm/mm_init.c:2091
+>   in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 1, name: swapper/0
+>   preempt_count: 0, expected: 0
+>   RCU nest depth: 1, expected: 0
+>   3 locks held by swapper/0/1:
+>    #0: ffff80008471b7a0 (sched_domains_mutex){+.+.}-{4:4}, at: sched_domains_mutex_lock+0x28/0x40
+>    #1: ffff003bdfffef48 (&pgdat->node_size_lock){+.+.}-{3:3}, at: deferred_grow_zone+0x140/0x278
+>    #2: ffff800084acf600 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1b4/0x408
+>   CPU: 0 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           6.19.0-rc6-test #1 PREEMPT_{RT,(full)
+> }
+>   Tainted: [W]=WARN
+>   Call trace:
+>    show_stack+0x20/0x38 (C)
+>    dump_stack_lvl+0xdc/0xf8
+>    dump_stack+0x1c/0x28
+>    __might_resched+0x384/0x530
+>    deferred_init_memmap_chunk+0x560/0x688
+>    deferred_grow_zone+0x190/0x278
+>    _deferred_grow_zone+0x18/0x30
+>    get_page_from_freelist+0x780/0xf78
+>    __alloc_frozen_pages_noprof+0x1dc/0x348
+>    alloc_slab_page+0x30/0x110
+>    allocate_slab+0x98/0x2a0
+>    new_slab+0x4c/0x80
+>    ___slab_alloc+0x5a4/0x770
+>    __slab_alloc.constprop.0+0x88/0x1e0
+>    __kmalloc_node_noprof+0x2c0/0x598
+>    __sdt_alloc+0x3b8/0x728
+>    build_sched_domains+0xe0/0x1260
+>    sched_init_domains+0x14c/0x1c8
+>    sched_init_smp+0x9c/0x1d0
+>    kernel_init_freeable+0x218/0x358
+>    kernel_init+0x28/0x208
+>    ret_from_fork+0x10/0x20
 > 
-> Disables the cond_resched() in some situations.  Can this reintroduce
-> the watchdog warnings which that cond_resched() was intended to
-> prevent?
+> Fix it adding a new argument to deferred_init_memmap_chunk() to
+> explicitly tell it if cond_resched() is allowed or not instead of
+> relying on some current state information which may vary depending
+> on the exact kernel configuration options that are enabled.
 > 
-> The cond_resched() was added by <dig, dig> da97f2d56bbd ("mm: call
-> cond_resched() from deferred_init_memmap()").
-> 
-> Pasha's 2020 patch replaced touch_nmi_watchdog() with cond_resched() to
-> prevent RCU stall warnings.  So I think the answer to my question is
-> yes, going back to touch_nmi_watchdog() could reintroduce those RCU
-> warnings.
+> Fixes: 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() in deferred_grow_zone()")
+> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Waiman Long <longman@redhat.com>
 
-Before 3acb913c9d5b ("mm/mm_init: use deferred_init_memmap_chunk() we had
-touch_nmi_watchdog() in deferred_grow_zone() and cond_resched() in the
-deferred_init_memmap()->deferred_init_memmap_chunk() that ran in a thread context.
-
-I thought irqs_disabled() would be enough to differentiate these cases
-because deferred_grow_zone() takes a spinlock, but I missed that with RT
-spinlock also sleeps.
-
-Using a boolean essentially restores the behaviour we had before the
-refactoring.
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
 -- 
 Sincerely yours,
