@@ -1,51 +1,55 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424613EBF16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629C222F388
 	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168236; cv=none; b=lJhjoemGpksbQpLmYo8YJ3SM0V/o33KBnASCJfe0AK2Kd3Vimp4F8I3COHRwma9F5ufQOdKgQffKrC7ak8ofkfpHgdjTEzv6P1+nDQi+FvP6Q6s6sJZULPEV//WWdNeUbPf22oZJfncH86niCdWwhvpiMi/onSWVp25sWgkBAkc=
+	t=1769168236; cv=none; b=X9S8iA/eJ3s66/eCKDtFfD8uK1nV4S+U7GZgycEqI5eZ9+MFITvFX12wot5l5x5P414Q8/JJyWcUSz/JxORoEj/+g6m8JxKimLqC0afUIkL5gLP4QmSBcbRtTMJEmIk1LFg862bj3hxydJbQRVj/PKjHXHTb3dtZ2cai/XXby4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769168236; c=relaxed/simple;
-	bh=0T9YK4QomM3Dxh1mFq3uLRSslv3jN/qUBwVPAGAXrcQ=;
+	bh=pxDvzW/pVOUQU8n6u562P10x1iLuIU8MLG6cyRa1vv0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DDmTafu5Pfnv8SiEh4y64NK4eCO8UDZCXLsjcRC9wPTAeoc2HQ7M++lBT6bIp0hKuyv+py+NYOaOmFApgjPILjlWaiEGM8tkkiAsPL7g4XcGH+f60LtAZlymde97lnT0wU+VMJV071we2TUy0S5DkX5q7Kga1hecXKr8GAHe6iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1M+IPCsk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XDHz7ig4; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=N6hA0TuDIOvnjroiml1czyKNZMzBYt8+dUR5oJxaH8o2YFjyjDfosvs/JJddQ4QgDxHtcHhP0O9nQpU6qLU79p6zN7JqqprRdqHuKL+bD3nFQ4YiWYkOucE7RzUCaGN+ok8gdkuB6xY4e7VodAIdZzlwNai8jujdroTO5XodG3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MWCm8TTM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=F68G21bC; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1M+IPCsk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XDHz7ig4"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MWCm8TTM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="F68G21bC"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769168233;
+	s=2020; t=1769168234;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5CblLaGRlYRdZTje1I1cOH83wRmRSkpl00w4rAJW+2c=;
-	b=1M+IPCsk0rvY3ycS4N5OON8pEZcs6609qd6tOB6l7AZEIbcJh41hz/hkhh+M2eWp5mKead
-	TFgHR62vYjwLdrrZ/dAMAIMJzpdfft2kQ9oWWhOAmf7qaO4XLBhg9sOaPJsFQv7zgc41Y8
-	k2BPQweryHJrYbwmXxPzbt0STkJ0YEt0sB8PUp62bgz3SiPo6w0EaripSxZFVSYzpShXcy
-	Cdzhgykt//h+nb3o8GxwoPyIOsk25oX+YV+mmc3QvHTHzQkLIcY1tPwv4QMs9mSLZmRisL
-	59RQvV5dSShbClsVoS7EwmN/1GbRi3T61WDDH6hzR9LOxOlZu2NIfISXZZ2y9g==
+	bh=/gWhv7uil+ZrA4BjnDi6wJaG4CAtZeW3jyH4OtetMsg=;
+	b=MWCm8TTMbsroYAhQTsn2dwRHg+OD932OEYI+9b/gUKmKPsrWboxv7f2f/QRIKGDGd1lrCx
+	fWzVAQFr5JtuxcEHT2N/ER6Iu2VE9UqdztoOjGvG2ASf2gp9ulpA/eH7hs4VO4E0HDUqub
+	CcQWllRdweDk2e/pRsT7KnNTnkwIbBobsCyVqZAUOqjR8XImNRdfvvW3OpZVAh4L/Sst1k
+	Nvmeht+dNZDx2BFs16fOmiefEv8oBuyxMWjM/BanxMDdrwJLd8YdW8ZolpOLhg+IPL3KI6
+	R4THLKAM4EaQJRTJl9BRWSF1x4DLtUrR48Xp9llD3xjaYDPY1vO4uwpMYykbsQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769168233;
+	s=2020e; t=1769168234;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5CblLaGRlYRdZTje1I1cOH83wRmRSkpl00w4rAJW+2c=;
-	b=XDHz7ig4Zj8t8Hz+ancMYbiJ3l4OODiVf4FA8CqHVvmI9sGgva+RYcHV/4GzG4NBXo5VIN
-	FTXz9B6na+bBd+DQ==
+	bh=/gWhv7uil+ZrA4BjnDi6wJaG4CAtZeW3jyH4OtetMsg=;
+	b=F68G21bClIKSFGH97x+i0sHYy9xJAMr/Z3glibNKXWvZOiAEtkcWwsJ6DQ0Pj+GrQhVdZm
+	vO9ddwAdTaTl6kCw==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 01/21] genirq: Set IRQF_COND_ONESHOT in devm_request_irq().
-Date: Fri, 23 Jan 2026 12:36:47 +0100
-Message-ID: <20260123113708.416727-2-bigeasy@linutronix.de>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org,
+	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Subject: [PATCH 02/21] platform/x86: int0002: Remove IRQF_ONESHOT from request_irq()
+Date: Fri, 23 Jan 2026 12:36:48 +0100
+Message-ID: <20260123113708.416727-3-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -54,37 +58,51 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-The flag IRQF_COND_ONESHOT was already force-added to request_irq()
-because the ACPI SCI interrupt handler is using the ONESHOT and it
-breaks all shared handler.
-devm_request_irq() needs the same change since some users, such as
-int0002_vgpio, are using this function instead.
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
+The flag also disallows force-threading of the primary handler and the
+irq-core will warn about this.
 
-Add IRQF_COND_ONESHOT to flags passed to devm_request_irq().
+The flag was added to match the flag on the shared handler which uses a
+threaded handler and therefore IRQF_ONESHOT. This is no longer needed
+because devm_request_irq() now passes IRQF_COND_ONESHOT for this case.
 
-Fixes: c37927a203fa2 ("genirq: Set IRQF_COND_ONESHOT in request_irq()")
+Revert adding IRQF_ONESHOT to irqflags.
+
+Cc: Hans de Goede <hansg@kernel.org>
+Cc: "Ilpo J=C3=A4rvinen" <ilpo.jarvinen@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org
+Reported-by: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Closes: https://lore.kernel.org/all/555f1c56-0f74-41bf-8bd2-6217e0aab0c6@in=
+tel.com
+Fixes: 8f812373d1958 ("platform/x86: intel: int0002_vgpio: Pass IRQF_ONESHO=
+T to request_irq()")
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/interrupt.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/platform/x86/intel/int0002_vgpio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 266f2b39213a0..b2bb878abd113 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -228,7 +228,7 @@ static inline int __must_check
- devm_request_irq(struct device *dev, unsigned int irq, irq_handler_t handl=
-er,
- 		 unsigned long irqflags, const char *devname, void *dev_id)
- {
--	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags,
-+	return devm_request_threaded_irq(dev, irq, handler, NULL, irqflags | IRQF=
-_COND_ONESHOT,
- 					 devname, dev_id);
- }
-=20
+diff --git a/drivers/platform/x86/intel/int0002_vgpio.c b/drivers/platform/=
+x86/intel/int0002_vgpio.c
+index 6f5629dc3f8db..562e880256436 100644
+--- a/drivers/platform/x86/intel/int0002_vgpio.c
++++ b/drivers/platform/x86/intel/int0002_vgpio.c
+@@ -206,8 +206,8 @@ static int int0002_probe(struct platform_device *pdev)
+ 	 * FIXME: augment this if we managed to pull handling of shared
+ 	 * IRQs into gpiolib.
+ 	 */
+-	ret =3D devm_request_irq(dev, irq, int0002_irq,
+-			       IRQF_ONESHOT | IRQF_SHARED, "INT0002", chip);
++	ret =3D devm_request_irq(dev, irq, int0002_irq, IRQF_SHARED, "INT0002",
++			       chip);
+ 	if (ret) {
+ 		dev_err(dev, "Error requesting IRQ %d: %d\n", irq, ret);
+ 		return ret;
 --=20
 2.51.0
 
