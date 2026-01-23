@@ -1,97 +1,94 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8A92E0418
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 12:03:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F084B296BD4
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 12:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769169786; cv=none; b=sOigdpNa27+zzFR8tR2f+XNE18Mdnb3zfgj4KauCLHSuXYRHeR74VVAJfVnWh025Vp2q/D77uUG4YBNOS6cyT9RXDOQ1P9qmLaBg43wcBUAIzKgxxRScX7yDtMvyC+tDd3L47x52eTNhRp6SyPu2RIyUolsCYek4ev1HNbO4teg=
+	t=1769169924; cv=none; b=oeZ3N0cf8nEHdlI+g7zNWqfoe0lG2FJGgfTiBBSQ/7mE+cBhFRozuSohpgDyIZCqchU+14QbnM8kxJjnEt3wRWW4IuByw3vb+fJS0DNXQ0JFm8qEzkr+nQUkf/4yB8vANYdWSuwzDyIofMJsBAU2dfyFXmMHzxZfKNvLh91mgMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769169786; c=relaxed/simple;
-	bh=bXS+Zs9pCIXBb5gqkVSOwk2VgarD8vq70BgHZ7jR1bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ooxGUv72VsF+InnqErn32+8Oht2ffUkN4t3c9YTwiwTPphRvGVODuKEHh3cDYvCkNKHNfujQfA2CXd9Uj+ZCpkDfCI0nMiLqJWTpnwgrEYTU4vBup7inhu8mfHepVovw04JiPDiD0EWB+tmxfV2WnAcX1cYPWuCLvkIz5Cwn0DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a2TXmIgH; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LWu1kPfD; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a2TXmIgH";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LWu1kPfD"
-Date: Fri, 23 Jan 2026 13:03:02 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769169784;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d/X5EsI0mvP/S5uf20Pvy9T65z0CIjEe5oCCyfrYy4k=;
-	b=a2TXmIgHE5csJ7d3yjab3MQF2OzNvARYue91SHvMZtiYkscH5h3i/iPwuYxBhtq5ss2Z7g
-	OWiOuvRRMR3HWqKIFLIzwayeWIjRhquhTvAi53s0CE87H1xyrUV6uC9uDq/16Etmet9U9o
-	rGZo4gUwgYgMlA1aChYnYhgf0eCSUoFrrfupJ0YZkzT3spI4FpNrT26Td90MtrM67h5Bbc
-	zUl8yquLCrwWKdaNjoJ6hUbUzI0UslyY7+BZ1W+fuZAIt6qoqR1oQ3PQfy6FuFLb2QrBF2
-	qKeWbCQm0kYj1EKwDeLsRLMhGYnCzHZrWlkMhkiQu/OAoVye0CNA/kzGPA0Q8A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769169784;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d/X5EsI0mvP/S5uf20Pvy9T65z0CIjEe5oCCyfrYy4k=;
-	b=LWu1kPfDeQQ9VCICNNdwrVE1s6nQxcJqf2a0hPTg4+/K5d776xHUVR0Kpka3InbF5u6jp9
-	KmKxHfVUWlAqrqBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hao Li <hao.li@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v4 02/22] mm/slab: fix false lockdep warning in
- __kfree_rcu_sheaf()
-Message-ID: <20260123120302.TsiVMAQb@linutronix.de>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <20260123-sheaves-for-all-v4-2-041323d506f7@suse.cz>
+	s=arc-20240116; t=1769169924; c=relaxed/simple;
+	bh=E2pNtyuE74iPSd0Y58IC2wqLbM2xBKGdvDOp7nlICEc=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FwPsUTgUR8A8oVHhpN6qp2rNm6QxyYjbeO7bXOeF3pWjtAtDfereInzVPFZV3zz6icqgYx9ow3/iB+HZkMK0f66nuUtMaIzUY4bkjvgrvEqCfp6keHvGr32NTDt/HBXe7Q9UUT30ZegTy37NQXzjonGHDFE1VM1+IPp1oWt4PMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4dyGnt0143zJ46gg;
+	Fri, 23 Jan 2026 20:04:50 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 513AB40570;
+	Fri, 23 Jan 2026 20:05:19 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 23 Jan
+ 2026 12:05:18 +0000
+Date: Fri, 23 Jan 2026 12:05:17 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>, "Thomas
+ Gleixner" <tglx@kernel.org>, Will Deacon <will@kernel.org>, Mark Rutland
+	<mark.rutland@arm.com>, <linux-cxl@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH 16/21] perf/cxlpmu: Replace IRQF_ONESHOT with
+ IRQF_NO_THREAD
+Message-ID: <20260123120517.00000d58@huawei.com>
+In-Reply-To: <20260123113708.416727-17-bigeasy@linutronix.de>
+References: <20260123113708.416727-1-bigeasy@linutronix.de>
+	<20260123113708.416727-17-bigeasy@linutronix.de>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260123-sheaves-for-all-v4-2-041323d506f7@suse.cz>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100011.china.huawei.com (7.191.174.247) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On 2026-01-23 07:52:40 [+0100], Vlastimil Babka wrote:
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -6268,11 +6268,26 @@ static void rcu_free_sheaf(struct rcu_head *head)
-=E2=80=A6
-> +static DEFINE_WAIT_OVERRIDE_MAP(kfree_rcu_sheaf_map, LD_WAIT_CONFIG);
-> +
->  bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
->  {
->  	struct slub_percpu_sheaves *pcs;
->  	struct slab_sheaf *rcu_sheaf;
+On Fri, 23 Jan 2026 12:37:02 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-Would it work to have here something like
-	BUG_ON(IS_ENABLED(CONFIG_PREEMPT_RT));
+> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+> the secondary (threaded) handler is done. If only a primary handler is
+> used then the flag makes no sense because the interrupt can not fire
+> (again) while its handler is running.
+> The flag also disallows force-threading of the primary handler and the
+> irq-core will warn about this.
+> 
+> The intention here was probably not allowing forced-threading.
+> 
+> Replace IRQF_ONESHOT with IRQF_NO_THREAD.
+> 
+I don't think we are that likely to see force-threading on CXL
+systems (I could be wrong!), but still good to correct this.
 
-or WARN_ON+return? The way the code is now it relies on the check in
-kvfree_call_rcu() and tells lockdep to be quiet. And since it gets
-optimized away=E2=80=A6
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-> +	lock_map_acquire_try(&kfree_rcu_sheaf_map);
-> +
+> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: linux-cxl@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
+>  drivers/perf/cxl_pmu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
+> index d094030220bf2..68a54d97d2a8a 100644
+> --- a/drivers/perf/cxl_pmu.c
+> +++ b/drivers/perf/cxl_pmu.c
+> @@ -877,7 +877,7 @@ static int cxl_pmu_probe(struct device *dev)
+>  	if (!irq_name)
+>  		return -ENOMEM;
+>  
+> -	rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED | IRQF_ONESHOT,
+> +	rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED | IRQF_NO_THREAD,
+>  			      irq_name, info);
+>  	if (rc)
+>  		return rc;
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Sebastian
