@@ -1,450 +1,197 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DEB21C16E
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 14:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769179332; cv=fail; b=SriisyXs9+UZO5TpaGWAj5G+gBxRZoINr2hPcBHFHZdf7jBxLWknN2ejmpljxuKhBx6s68MpGrm9sGibAl4ltvYMc3tb5vH4qqqT7pYuhDwv1ED6Ndo/hJSIp+Lcm6IVJ0PjanIZxfGxcNbLvIDfS9bXKYVP30CnozzTrhaCjBM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769179332; c=relaxed/simple;
-	bh=1QRmFwTqa9qJH/Q63N8etSTg1h/2wNfZmqhp5ng8y84=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Ajx9/aSvKt6GDD3qZgb5EQ59K+LdJ6JuHD/15MQePpyy9SoTQzs2VVuOsZomSIVK7hZAsJbhDANYFY1P5dRk6vcTFkzMqrSGnbmkvKIEAFOsM5ksHkUkS+VEgOBe9WhoOnTPtLvILcp86c9zUkRmxdESS2hDkwOyWHQtvimYZUg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kBVy1fO3; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=f7bNaXTr; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32F72EA48F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 14:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769179745; cv=none; b=jbiHTEpScQQIDzYJu9bSgXOAmg1F70yOj3oKCPBYjXMymKOrxgYaTNUdA4FlMEwAflFO97Vz8dnhXzkjsmCzRkVJBNcCOqKDKvrGNYW5+wy00+ZdkxzOVaj1KIYjoF0h5FWCEXcojif0x//a/EoWQ1PzPyKMPrzKrkangQ7VH7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769179745; c=relaxed/simple;
+	bh=8s68nxykpQZwaLDXgQ7HCKrI+rWybcyYPE4d28q06ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aM1XtLU9F5jWKRvXolbNVqy+kVhzpT7H0I6+oK+XN04P5Wv2M2hmvgQuXoY2lT6xQns3VsGZCvAck/CqPu0oKRarbjViQMhzNPEa+u9ybbJH6nuIVV2t7dUHghuVmr4uhURQ5FP4MdFHd/duPY7CvNjFy99m80pY5k76tVwgEes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dEuj2pZL; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kBVy1fO3";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="f7bNaXTr"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60N3EIF11631823;
-	Fri, 23 Jan 2026 14:41:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=22N6jsQFuzkhZCYIDn3lp21BNWtq4nlj/kB4wc1kSFU=; b=
-	kBVy1fO3uGMaSk0ReTF/nLkg766sHITleBzaqA46KKBtQslKobA1qRodSzGb+99G
-	6OlzWpqoyWpEYrZjaY3orGZscwa/6hjtQMKs3WURb2u0WTwkFJYGeEDvcSPFwLRc
-	xAUH+5SoSsnrlfIjCCvwwIBLmFRu7MWnf58BnpOicxps4G7e0Bt5cb0xUs2+qqTw
-	foRSSDRnFa/U6wqOxY/8mSlIhEtNweotNRRva+uJr8iqDzeY+/oWb9svcz2dCw48
-	gqNnHKHxo72o3zFjyl9A6rR80GLx37E/ENojc1/Hvlb3mLz7UBuMspIS86bUaT4+
-	+qH5CBXw8IMqL6Smvx5b/Q==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4br2yq2csg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Jan 2026 14:41:43 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60NEDijq024911;
-	Fri, 23 Jan 2026 14:41:42 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011053.outbound.protection.outlook.com [40.93.194.53])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bujd1gwvd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 23 Jan 2026 14:41:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q/mFe+REeS6RtwXH1XdEMUUSlu7O9hrDZwrbt//avqA1hed3e5M7IWXMeUIPw3u1amoFqaLeLIQC1dOcWVvjnCRpmi9V5WNVNc35okGpdP6BHVWzLHC5v4kvI1uVADGGSsTmSXTobWcG+dVxeCOrG8jw3ey7txsEfE35rs/+ALyvuWPm93PvXATjSi217WClWCG03jNxYeyk87c6s63hVzpa4MqjkH7vBbbNdvWGlQOr79yUfs0WW3t1x6p/lEOkVU8KjM9gPVXnmruoPTtB2MNA4ge7/5s5xXfVxkcQn8o0YHRB/pgoNI6tByMBfpbyPBSWXOVIG0vAtvGLO30Vtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=22N6jsQFuzkhZCYIDn3lp21BNWtq4nlj/kB4wc1kSFU=;
- b=frT+hDVeeWbZe1FMyPPbC2R8DwswdAEAcWPeAxpikbfBYuZZv/scbv1mfbfr5aYbdE/xOurFwTdR1gsUhiNKBpZhdDv0qt02tfOTcsrI0ISpIAp7Imi0w60TT8olTJxn6Klm24g127uyIuAw0tHZNBxDyPQB8B9vc8QOlUp7gCUFEbnpTJGOw7hhOkhuRnlq2MnEfge2NiJ/Se8ksLdw3jATKl9Qp+v+UIcIEoQp29b2Irq+mnr/4sLB3aGL3AO4ySIG6wii1BOXhh0Izy3xn6CVoHMvwPpf2IdR3rojmyuqBCeIR5LollZfcrernSTxqwRUSfX/CT6/5EMp58BVAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=22N6jsQFuzkhZCYIDn3lp21BNWtq4nlj/kB4wc1kSFU=;
- b=f7bNaXTrNL/ecTVu/U3oM0odYXal9M0vxH8HFhY0IomMIFd3SvHZBOzHbAdT1RPXFKRummO6UkhUlvdPc0sp5vPNHxmWrq2gKagFjtDeNpAUFJRMU2q1f+M3gbhOL1e4uLMW3cSp1FfmdRbh27Qlh1GwPf1KO94PJzuGnEq+h84=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by IA0PR10MB7184.namprd10.prod.outlook.com (2603:10b6:208:409::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Fri, 23 Jan
- 2026 14:41:38 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Fri, 23 Jan 2026
- 14:41:38 +0000
-Date: Fri, 23 Jan 2026 14:41:42 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Hildenbrand <david@kernel.org>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
-        Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH RESEND v3 03/10] mm/vma: rename is_vma_write_only(),
- separate out shared refcount put
-Message-ID: <108e3f4e-cd4f-452e-9bd2-1a5b892f6d60@lucifer.local>
-References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
- <c51d6396d78532d85a542da07ba783bc838b852f.1769086312.git.lorenzo.stoakes@oracle.com>
- <6f45d01a-7586-4d8a-8339-fdfbda4c971e@suse.cz>
- <CAJuCfpHhVOC5kzapSPtvUHGy3jMr8DyjPba7tkSv5zOWotvcQw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpHhVOC5kzapSPtvUHGy3jMr8DyjPba7tkSv5zOWotvcQw@mail.gmail.com>
-X-ClientProxiedBy: LO4P265CA0182.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:311::12) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dEuj2pZL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769179742; x=1800715742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8s68nxykpQZwaLDXgQ7HCKrI+rWybcyYPE4d28q06ns=;
+  b=dEuj2pZLCwjswjjMpz2FHqXrosSFOQiNyZVC0pMzL0HZH9PjnfM7N5a0
+   fv7hik868w9IlWUHiNP606v3p4iQQgjI+DzXhfBYzHtXHVedI6+0ZA7IP
+   mB/dDzZKRYT2JZwm/+phVq/RpkMX2bJH6fNMHBmc97EQPbqbQxQModcZ7
+   nfO5JvpAtvdDKS7VZY9nsYaWfAyDuaVprRevIbdulk9UEwTovgSrxEQBf
+   mQKhcguj/1QCiadhXZySkPjJJViEthvV4BQic5OSnuGFLdXXqpW1VPOjp
+   fCi6uEML/rjnPRlpueo8a64s/TYYGwfO1LXFTpS9K6fgTGUaQtjcVd+Fd
+   A==;
+X-CSE-ConnectionGUID: HPErcLjhQiafbRkDcFLyQg==
+X-CSE-MsgGUID: +wQw/NIfQimu5roy/u8ogA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11680"; a="87850962"
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="87850962"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 06:49:02 -0800
+X-CSE-ConnectionGUID: MPPVZafcS5eEYG/7JSHgoQ==
+X-CSE-MsgGUID: L7usaN1gQDC6fNFgqjSHkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,248,1763452800"; 
+   d="scan'208";a="211544589"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.112])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jan 2026 06:48:58 -0800
+Date: Fri, 23 Jan 2026 16:48:54 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Thomas Gleixner <tglx@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Gustavo Silva <gustavograzs@gmail.com>,
+	Nishant Malpani <nish.malpani25@gmail.com>,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
+Message-ID: <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
+References: <20260123113708.416727-1-bigeasy@linutronix.de>
+ <20260123113708.416727-19-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|IA0PR10MB7184:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bb24512-d50f-4161-af7d-08de5a8d8418
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cVBiQzJ6clJkdWFUdEFtdlAxVkpkRm5SaUZMeXplUk4zd2xSTFVPT250TW43?=
- =?utf-8?B?bzd3ODB3anBxUEtIMS9LM3JVUnVER284MGRGdUhHVWlDZUlGZStra1VkRlFF?=
- =?utf-8?B?eDFLNElhYktWclBXSm5jenNwcHBlWVpscWRaWE5nQ01TditTd3lFSGtTYmtE?=
- =?utf-8?B?VlJQZlU1MHFZMnRkMHNEcU51aDlQTzEwRWJmbjlhSHBGa2FXd1JhOHE5R0l6?=
- =?utf-8?B?M2YvOXRoS0Nva2t3MmdlTDFRUkZpYmNsZmpadFYrbko4Q0xjY3VXRGd6a1Bw?=
- =?utf-8?B?UUJyYW1xMHF0R0YybnFkeTFiNHdaQVR6M1pXOTJXdEtmaXV2UlpEOElNT2dj?=
- =?utf-8?B?aXNmL3hBUHVXVXdEMXk4ajUwc3U2R1ZnL2p6a3dOSTlacHYyeFhtbTlycDlI?=
- =?utf-8?B?M003UmJ1Q2hZZWZBczBJeC9aSGh2OUlOcUdYRFNrV1NLZ2tubzBucU00NjA4?=
- =?utf-8?B?OU1qbFZHQW01ZFBDQmNnV1VVUEo5QkFNV1o2NExEeHV6N3BWN3g5SUxTeitZ?=
- =?utf-8?B?RU55eGpVUDFzZTNkV1YzeG40N05OVWJCaWhKR1l0NnB6aXZVM09XWU9BRDBs?=
- =?utf-8?B?SVNNUWs0QWtyM2dLZjM3RGZUaXNoeVRQQ1BmdS9ESTdwWThidXBqajB4bExX?=
- =?utf-8?B?dFFyaDh1ZzhIb2dFamJjZ1AxTllKbWdTZTVEMUxTWXROZmpNWWxKL0RFbnpG?=
- =?utf-8?B?L1NZbUN5cUZXUG5INm5oVThvTXZaWEs0b3ZtTDc5OGVnYjQzVHZscnd3bm1U?=
- =?utf-8?B?d2dGT0pkT1Y4ZEEyRG94a2NrWHdEVnlhM3ZPNUFBZFVFcmF0UnBJTVQxVzU1?=
- =?utf-8?B?a1JQUVMwOFIzTkhWNGFzUERZOVg4aW81K0lJQ2o4bzdpcE8zVjFURDYveG1S?=
- =?utf-8?B?QW5GSjlXUUlqbUt3a0NJakQ4emp2U1MrcGJ4K1Vob1d3NjFOazhMV0kvQXNM?=
- =?utf-8?B?RytRSnhYYUVmYkpQV3ZLWENGKzRpcVIrQmtsUTVpbk9JUndrdGs3d1FER1Ni?=
- =?utf-8?B?S3RNQS8zaUg3U3RVN0lZU2swSHIrb25SdUM5Z2g4OXVQN0w4cEl2bzgxWDU1?=
- =?utf-8?B?MEl2OWNOL3VrTDREaFBNUHVBL20wSVI1ZGJkK2J0Qi9DVFF0alRMUFE4TVV5?=
- =?utf-8?B?TVNZSVphN3JEUWNLVVN4ZDV3c0J1Nys0RTFaV3MyK0VzU294WmNUbHNQcUE2?=
- =?utf-8?B?cGQ4SHloUXQ5TU9QL3AwMXcvanlpUDQvL3JtdVU3T1ZPSlN6eVB0TUVITS9D?=
- =?utf-8?B?WUxOUnJVNmhSK2hOc2pYUmZTZWVCbzdCMiszNjJHSmNBL2xIWEdFaGxYVEVC?=
- =?utf-8?B?czA3V3Q5WG1Odm1jdW5KT3RmVUJTTzBEWDA0TFhjNms5QTNMU09tNGxJOXFO?=
- =?utf-8?B?SElOQkpKTXdDNFoxSWFUUFJaYjNFM1BNZ01iNTU2cFdhVGhaNk1hanJkdWVN?=
- =?utf-8?B?c3Q5RUZXeG02cnlmcDhXaDU4dmowdkxCb2d2TzZ0NnRZNjVPQ00vZklJSWRN?=
- =?utf-8?B?bFdMNFBMSHRqRWV1eXZQTWdYTm1SanVvaTAzOWx0bk0zVGJTeTZrNjJNZlZW?=
- =?utf-8?B?ZFpLdzE0YzlKOURNbm5ZZ0E3c0tRNEJ2V0NZQ2JaYm0wZzdJUnR5VUwvZlgr?=
- =?utf-8?B?SDY1WGhtbDJqNXZ6S2crQ0JYRjFCZWZjSFVKb09JT3JuU1NINnhqa1NGb2s0?=
- =?utf-8?B?bnM0enZ4RHBYYlRxczV2WllYTTRVVHVuZFZCRTN6R2UvaUhwcDJlUXNISW05?=
- =?utf-8?B?RkF0T1hNcG93NXRuZGtRQ3JsUlZlVkxuYkFsTFpOUi93RTk2QU41aFQ4eHRk?=
- =?utf-8?B?eGF3cTUvNDdwYW5LSGFGRUQ4eDJRVlppTmRDcGsxNkFMOVhlT1d2V3B6ZEty?=
- =?utf-8?B?MFVpcTg3UExyV3A1NkxXRVorVTdtM2xkc2JGcjQyb0NBOXdHWVJzUTF2Q0Y3?=
- =?utf-8?B?TFF3VmxRRjAvbUNkTXVMTkI4QVRCLzJsWDE1Z0RmaDlsK2xMMjJRZ2ZFNGpN?=
- =?utf-8?B?eWlTeURjUG5aeEpoYkxTcnY5UEFrS04xSVFpeWR0R20rbFN1UldyRkNOQ0Vk?=
- =?utf-8?B?QkFYKzg5MGFtcXpCRHlCUzNZMkIvZDlHN1oreloxQnhpME02enM1L2pEelRs?=
- =?utf-8?Q?GN/E=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OXZ5dHp1WEN2ODlLL0krUjdFTENLQkZFcDFJT0Y0NXJIcCtBZGZ2S2FFSnds?=
- =?utf-8?B?KzdRSmE2TWVNYlBkV2NqMVRjRnhQenI1bjVrcm5JTFhiYTF2aUJKVjNaREQz?=
- =?utf-8?B?MG5LRlVMaS9kTGVXTENpeEMvckl5dEZ1bGJRNXZiK1pVVWoxN1o2R1R1ZCs4?=
- =?utf-8?B?clFxNU83TkpGb2VmQ2NnRG5XS2oxdGVuSHh3L1lQSDhQZEZIcExUalQyYXVa?=
- =?utf-8?B?OUY1aVdYWHR1eWdjUThJN2QvZXkrQ0hrSEFWTzNhMDE1bXZHNnBTN041Q0FX?=
- =?utf-8?B?bmlOakZZVXREUmgwYlVWTEtKRzc1c1ZqcExyYnVEdHBNWi9GWEN3aGhWRHJh?=
- =?utf-8?B?aUJOUFZVT1Z3MHJtc3lQNi8zaDB6L2czbHJNaUc4cHZlRlgwcklGY3Z4MHBH?=
- =?utf-8?B?MXNxZW5iQzJic293bTlDTWxBSzBzengvS0NXSytkYXpJR0JTaFErT0tHb3M4?=
- =?utf-8?B?aXZ6N09FTmRvTzVIc04yQVpOdWRuTm8xZ1laZmVxcWtoaEdWUlJ5K3dRc2Uw?=
- =?utf-8?B?TjBENU1PV2ZqSUxoU3REZ3dVTUIzZjhDMjZTUXVhTHlUZ04rVlBybm0zam1E?=
- =?utf-8?B?YmhVSFFIZ3RoOXB3WVdhdWFiYUU1RVBqRnM3MVZyVnlYTDRCY2d2WGpJZ3M2?=
- =?utf-8?B?alBwWXNydDZHRWpWYTlFSkx4WVIzNHNFOUpFZ2lFbFpLazlROVZXYlZvQ0hJ?=
- =?utf-8?B?ZDdoMHV3UlljcEdsTkhkcG1TYmN1UlRyVEJvMFAxSG52MmEzSWtWRHZKRE9B?=
- =?utf-8?B?OS8va2VnUFRQVmFFRjR1Uit2M1FTN0lZb3JXS3pwQm5JKy9xaWE1c3NTUFpK?=
- =?utf-8?B?RXh6ZlJYcFZ1T2xGWXAvSEduM043aS9sdkplVU14czFVdC9NUkhnSnc3WHhY?=
- =?utf-8?B?cm94SzhtdVpGNHZLTFhqdmtlS1JtalFLUTlZVXpETUw4aEdaZkFCSm4vUkpR?=
- =?utf-8?B?RE9GV0Nmb2VBQ1cyK1F1RkVVZjBaaVRCTURSR09WT0tRYlg5MzYyTkd6dDVU?=
- =?utf-8?B?SXRwN0NlUnByd2dZQlZNVXgvcWN0VGd4T0RZdHZOcXVrclRPbXRiZTZ5d3I1?=
- =?utf-8?B?Vm1QVXNRZkRiZ05TM1VCd2ZYbmVkUy8zcFo2KzA2ZVB4SDRFTjJLcGpvc1Mz?=
- =?utf-8?B?cTJKd3pZOFRyQ2lOSVhyTzE2cHJ4ZGUwdncrVkZwVlp3ZGY2YVpDVHBWUnVT?=
- =?utf-8?B?bERtZThEZjNScU02WktpUzlWUW9BcGl4VW5VQXZxZVdVbUhWNUNPRng3ek90?=
- =?utf-8?B?WitGMkViUVdRbm9kclJZREFKbzV1TTFCcm4vVHNyQ1hkODYxNUs0WUttcVlB?=
- =?utf-8?B?MEczWTRSN0IrbXNQNnJXVnh5dXJDMG95bjdmMk41MkhNUE1zOTRBQXdpZ2gy?=
- =?utf-8?B?c251em0wZWdvYnR6czdKZTNVeGI4QUZHd3hXejY0aFoveU5xU2xKQUI0dW1n?=
- =?utf-8?B?UHRpVlB6RURsbHFqUnptT0hrNUFEOWl2OGs5L1doaU94eWxZV2doOUJmOEhk?=
- =?utf-8?B?V25GSGRaRHh4eGVoY2dSVzlEcUl3RURjaTFCckZrUzNvNmZGRVE5emxsY2l0?=
- =?utf-8?B?OGh5TmpBT0VlNjlPSU9LR04rbk02NndHY0xoRjhjMldWbk81eG1TTVdWL25o?=
- =?utf-8?B?TkJDV1RCd1RUSXNNZVVGcEk5NitmcVV0NWpPRnNLS2tsUVNNWTJQMlZGRDg3?=
- =?utf-8?B?MXhQTXpqMDNoQURYTCtvYkxodlhVR0RhQzhGOXR0RFo0YzNzZGEzOTdkMlhI?=
- =?utf-8?B?bzRCN1VDbGJsZTFFUXlGSG01bjBxNHpHY05VTG5nanpoWFdQalk4cXJzSGhH?=
- =?utf-8?B?bHRlU04yOS9GUDRrK0c4TnkrMmxVemh2enJrNk5TMEp3S0hIQkxWbFhPTUMx?=
- =?utf-8?B?ZkNNK1RJM0xLRS9hUlNOTVh6T2FMMUgrbWV1bWhlREdKOW5zUGlXZ3hRZTl2?=
- =?utf-8?B?VUxwdFpSeFlUQzhqeERwTTNKb291VC9WWFhnekl2c29YZXczZ2tHZTM5OTZW?=
- =?utf-8?B?ck4wT3RHVlRLRFZXV1BNeHpJYVVWQUxyYzV3ZVZKZnZYOWpoVDJWVm13THpE?=
- =?utf-8?B?ZHhoamdlcUZyRDRJRDl0K2FIUVhGV2xPSWY0cWFRaUs1N2ZIQ1U3QzZmUDh2?=
- =?utf-8?B?U1EvOXZLQnI0SnYvaFJZV1duTWlUNWtneXZQbzJBU1JqbVo5T1J2QitkWWFu?=
- =?utf-8?B?eE1uYlVTZEtUUzJrNDBIaXVLTTNZMCtDcVpJUGtFNkd1NkVQTWhxdU5LSlFE?=
- =?utf-8?B?V1JZUEZvSzNSZE5Ob250NU52cEg3OUpGeHRaR1ZPUjVnQW8vYnd3U1lQL0No?=
- =?utf-8?B?WVF0WjFkalY2UFdzdlRVMEJ1bWtta01TR0d2Y0J0MGFRcVJBR2ZScThFUlND?=
- =?utf-8?Q?zw92tlVBrol3+s8U=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	8zZkO3QDbavPHycD6shsBaTRkJ6aoz9o2wJZTi4XFJ8MlzaJCzxKaMQ+wXYeKxg4m/z/k5p79TxPyvSOcXukFAZZZuhz6l+EQXUbArP6VmfTn/VW30X3+tt/yY2Srt8+rkluYPH6SqypddVtySFxsiqYCxK5fOwOqyXUT5zUYHxC5LVvoAGn26ajIgGwUh6LGSYPoMT5bfNx4aicV9czK/Kemkpqvx8Jal8nK61SAerHWV9rh7pI9lrtCgM+ylWR0ZG8HQbx+0wx2S0Po+NkCcCKHogt2g/Ciom33F4UsK9x4MjpeayLlNiWxTJckQRvYHdFNkMvOS8xUV77x33WLCxTIoxp8grZVZhkAZK6g9iZ4ZJuAq0pdsY9jHGOekxextpfHu/gJNxEwkiYTmlFa19EQdxY/Uy/V4l/nZfGeo6C+uNcgtEg2X0HiVmIQQIDjK1l3fVKCoj/bGMJ8sxIl+pCOku87+pekChh3+RKRYP2mt/xiPKEJtz+PbSPX2fMCo4XOe3QfiKh3pcPuEsgx0C9fh7hyMm7foWPHmCoI0N8LjPFvl3pjcp5BGhnGpnrAzI61UjMeK7gn7w22u9Qz7DmpfRHGb15mnE/oif4u40=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bb24512-d50f-4161-af7d-08de5a8d8418
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2026 14:41:38.7514
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cJmN27mMnvmrfy+osDkV1z6dERBUcDE7bI5JlyiF0U5qp4pqFD40fucRXR7PdwBwFAv9GzPm7RWATErwb8uyN7TqLxXEbQG4gsuQrx4UaU0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR10MB7184
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-23_02,2026-01-22_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601230116
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTIzMDExNyBTYWx0ZWRfX9Cff11yjNpmD
- 1MyVLGIRi4HAGuddOT9eNyCePfrs3ulfc6yHO0ixy0LOiiOg7/im3QJH8okJtoUhxHNmLqo1EvL
- /58Y7zqa2bjC78Eb2oUtpooHdtTY6IuJQdP/HQPW7v07vdSj4BJtkhvyaR+BDbUxVmojArVpiIS
- Hb6F9E8T48nvOD0UGvS/XZzejZztWLJMs81SA9x6VCqTp4uw93g3I/ZT2Va9yNeCi049QzV4At3
- zOOuoJgclv7pEuAZt3RPOu4uFSCa56WKYeRwLDoT8MF764kpTJBQzngZNMwQWZyXEc1WKZTpt7G
- 9ku86GSpi775wfx1iHX5aDmeWAIm3KMD5ozxpeZdZaXFeNtIN3/cY9V/e/Fgvn2F/QyXyX10ylE
- uUq3WPnA+uQ2+sXkt4ViqTKUGADdMaaHAQdTzmImW02NsVinVIDvco1ERaSiJktDKOQ+9kUWnuF
- RPW+5h+04KMB3LS0V5bSJpJnmOcZYyHYRZj3apMw=
-X-Authority-Analysis: v=2.4 cv=de6NHHXe c=1 sm=1 tr=0 ts=697388a7 b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=5buR66NMk2U5ZcO104kA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 cc=ntf awl=host:12104
-X-Proofpoint-ORIG-GUID: LRZpxtdfJXmHMDFOjcjBMGFus0rFNx_x
-X-Proofpoint-GUID: LRZpxtdfJXmHMDFOjcjBMGFus0rFNx_x
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260123113708.416727-19-bigeasy@linutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Jan 22, 2026 at 11:31:05AM -0800, Suren Baghdasaryan wrote:
-> On Thu, Jan 22, 2026 at 9:36â€¯AM Vlastimil Babka <vbabka@suse.cz> wrote:
-> >
-> > On 1/22/26 14:01, Lorenzo Stoakes wrote:
-> > > The is_vma_writer_only() function is misnamed - this isn't determining if
-> > > there is only a write lock, as it checks for the presence of the
-> > > VM_REFCNT_EXCLUDE_READERS_FLAG.
-> > >
-> > > Really, it is checking to see whether readers are excluded, with a
-> > > possibility of a false positive in the case of a detachment (there we
-> > > expect the vma->vm_refcnt to eventually be set to
-> > > VM_REFCNT_EXCLUDE_READERS_FLAG, whereas for an attached VMA we expect it to
-> > > eventually be set to VM_REFCNT_EXCLUDE_READERS_FLAG + 1).
-> > >
-> > > Rename the function accordingly.
-> > >
-> > > Relatedly, we use a finnicky __refcount_dec_and_test() primitive directly
-> > > in vma_refcount_put(), using the old value to determine what the reference
-> > > count ought to be after the operation is complete (ignoring racing
-> > > reference count adjustments).
->
-> Sorry, by mistake I replied to an earlier version here:
-> https://lore.kernel.org/all/CAJuCfpF-tVr==bCf-PXJFKPn99yRjfONeDnDtPvTkGUfyuvtcw@mail.gmail.com/
-> Copying my comments here.
->
-> IIUC, __refcount_dec_and_test() can decrement the refcount by only 1
-> and the old value returned (oldcnt) will be the exact value that it
-> was before this decrement. Therefore oldcnt - 1 must reflect the
+On Fri, Jan 23, 2026 at 12:37:04PM +0100, Sebastian Andrzej Siewior wrote:
+> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+> the secondary (threaded) handler is done. If only a primary handler is
+> used then the flag makes no sense because the interrupt can not fire
+> (again) while its handler is running.
+> The flag also disallows force-threading of the primary handler and the
+> irq-core will warn about this.
+> 
+> The intention here was probably not allowing forced-threading for
+> handlers such as iio_trigger_generic_data_rdy_poll() will intends to
+> invoke hard-interrupt handlers.
+> 
+> Replace IRQF_ONESHOT with IRQF_NO_THREAD.
 
-Yes.
+Code wise LGTM,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-> refcount value after the decrement. It's possible the refcount gets
+There is a few nit-picks regarding style below.
 
-Well no...
+...
 
-> manipulated after this operation but that does not make this operation
-> wrong. I don't quite understand why you think that's racy or finnicky.
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+> Cc: Puranjay Mohan <puranjay@kernel.org>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: David Lechner <dlechner@baylibre.com>
+> Cc: "Nuno Sá" <nuno.sa@analog.com>
+> Cc: Andy Shevchenko <andy@kernel.org>
+> Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
+> Cc: Kent Gustavsson <kent@minoris.se>
+> Cc: Gustavo Silva <gustavograzs@gmail.com>
+> Cc: Nishant Malpani <nish.malpani25@gmail.com>
+> Cc: linux-iio@vger.kernel.org
 
-...because of this.
+Move these...
 
-I only mentioned in passing that you might get raced, which you agree with
-so I think that's fine.
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> ---
 
-_I_ feel this function is _very_ finnicky given the various caveats
-required to understand exactly what's happening here. But clearly that's
-distracting, so I'll rephrase it.
+...to be here. This will drastically reduce the unneeded noise in the commit
+message. The email will have (if using git format-patch and git send-email)
+them.
 
-Have updated commit msg to say:
+...
 
-"
-Relatedly, we use a __refcount_dec_and_test() primitive directly in
-vma_refcount_put(), using the old value to determine what the reference
-count ought to be after the operation is complete (ignoring racing
-reference count adjustments).
+> --- a/drivers/iio/accel/adxl355_core.c
+> +++ b/drivers/iio/accel/adxl355_core.c
+> @@ -770,7 +770,8 @@ static int adxl355_probe_trigger(struct iio_dev *indio_dev, int irq)
+>  
+>  	ret = devm_request_irq(data->dev, irq,
+>  			       &iio_trigger_generic_data_rdy_poll,
+> -			       IRQF_ONESHOT, "adxl355_irq", data->dready_trig);
+> +			       IRQF_NO_THREAD,
+> +			       "adxl355_irq", data->dready_trig);
 
-Wrap this into a __vma_refcount_put() function, which we can then utilise
-in vma_mark_detached() and thus keep the refcount primitive usage
-abstracted.
+Leave it on a single line. It's only 81 characters and it's fine to be like
+this.
 
-This reduces duplication in the two invocations of this function.
-"
+>  	if (ret)
+>  		return dev_err_probe(data->dev, ret, "request irq %d failed\n",
+>  				     irq);
 
-(Adding the point about duplication since it wasn't clear before).
+...
 
-> > > +{
-> > > +     int oldcnt;
-> > > +     bool detached;
-> > > +
-> > > +     detached = __refcount_dec_and_test(&vma->vm_refcnt, &oldcnt);
-> > > +     if (refcnt)
-> > > +             *refcnt = oldcnt - 1;
-> > > +     return detached;
->
-> IIUC there is always a connection between detached and *refcnt
-> resulting value. If detached==true then the resulting *refcnt has to
-> be 0. If so, __vma_refcount_put() can simply return (oldcnt - 1) as
-> new count:
->
-> static inline int __vma_refcount_put(struct vm_area_struct *vma)
-> {
->        int oldcnt;
->
->        __refcount_dec_and_test(&vma->vm_refcnt, &oldcnt);
+> +++ b/drivers/iio/accel/adxl372.c
 
-You can't do this as it's __must_check... :)
+> +		ret = devm_request_irq(dev, st->irq,
+> +				       iio_trigger_generic_data_rdy_poll,
+> +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
+> +				       indio_dev->name, st->dready_trig);
+>  		if (ret < 0)
+>  			return ret;
 
-So have to replace with __refcount_dec(), which is a void function.
+Interestingly that this driver ignores the flags from firmware... Seems to me
+like a bug (not in your patch, obviously). Ditto for other drivers doing similar
+things.
 
->        return oldcnt - 1;
-> }
->
-> And later:
->
-> newcnt = __vma_refcount_put(&vma->vm_refcnt);
-> detached = newcnt == 0;
+...
 
-This is kind of horrible though.
+> --- a/drivers/iio/pressure/dlhl60d.c
+> +++ b/drivers/iio/pressure/dlhl60d.c
+> @@ -306,9 +306,9 @@ static int dlh_probe(struct i2c_client *client)
+>  	indio_dev->num_channels = ARRAY_SIZE(dlh_channels);
+>  
+>  	if (client->irq > 0) {
+> -		ret = devm_request_threaded_irq(&client->dev, client->irq,
+> -			dlh_interrupt, NULL,
+> -			IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+> +		ret = devm_request_irq(&client->dev, client->irq,
+> +				       dlh_interrupt,
 
-Maybe better to just do:
+Joined to the previous line it gives exactly 80 characters, which is allowed.
 
-	newcnt = __vma_refcount_put(vma);
-	...
-	if (newcnt && __vma_are_readers_excluded(newcnt))
-		...
+> +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
+>  			st->info->name, indio_dev);
 
-And:
+Forgot to indent.
 
-	if (unlikely(__vma_refcount_put(vma))) {
-		...
-	}
+...
 
-And now we have vma->vm_refcnt documented clearly we can safely assume
-developers understand what this means.
+> +		ret = devm_request_irq(&client->dev, client->irq,
+> +				       iio_trigger_generic_data_rdy_poll,
+> +				       IRQF_NO_THREAD, "tmp006_irq",
+> +				       data->drdy_trig);
+>  		if (ret < 0)
+>  			return ret;
 
->
-> > > +}
-> > > +
-> > > +/**
-> > > + * vma_refcount_put() - Drop reference count in VMA vm_refcnt field due to a
-> > > + * read-lock being dropped.
-> > > + * @vma: The VMA whose reference count we wish to decrement.
-> > > + *
-> > > + * If we were the last reader, wake up threads waiting to obtain an exclusive
-> > > + * lock.
-> > > + */
-> > >  static inline void vma_refcount_put(struct vm_area_struct *vma)
-> > >  {
-> > > -     /* Use a copy of vm_mm in case vma is freed after we drop vm_refcnt */
-> > > +     /* Use a copy of vm_mm in case vma is freed after we drop vm_refcnt. */
-> > >       struct mm_struct *mm = vma->vm_mm;
-> > > -     int oldcnt;
-> > > +     int refcnt;
-> > > +     bool detached;
-> > >
-> > >       rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> > > -     if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
-> > >
-> > > -             if (is_vma_writer_only(oldcnt - 1))
-> > > -                     rcuwait_wake_up(&mm->vma_writer_wait);
-> > > -     }
-> > > +     detached = __vma_refcount_put(vma, &refcnt);
-> > > +     /*
-> > > +      * __vma_enter_locked() may be sleeping waiting for readers to drop
-> > > +      * their reference count, so wake it up if we were the last reader
-> > > +      * blocking it from being acquired.
-> > > +      */
-> > > +     if (!detached && are_readers_excluded(refcnt))
-> > > +             rcuwait_wake_up(&mm->vma_writer_wait);
-> > >  }
-> > >
-> > >  /*
-> > > diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
-> > > index 75dc098aea14..ebacb57e5f16 100644
-> > > --- a/mm/mmap_lock.c
-> > > +++ b/mm/mmap_lock.c
-> > > @@ -130,25 +130,23 @@ EXPORT_SYMBOL_GPL(__vma_start_write);
-> > >
-> > >  void vma_mark_detached(struct vm_area_struct *vma)
-> > >  {
-> > > +     bool detached;
-> > > +
-> > >       vma_assert_write_locked(vma);
-> > >       vma_assert_attached(vma);
-> > >
-> > >       /*
-> > > -      * We are the only writer, so no need to use vma_refcount_put().
-> > > -      * The condition below is unlikely because the vma has been already
-> > > -      * write-locked and readers can increment vm_refcnt only temporarily
->
-> I think the above part of the comment is still important and should be
-> kept intact.
+Jonathan et al., this seems to me like a duplication from one to another
+driver. Can't we do like a helper for it, so we don't change it each time
+the IRQ core or other things got changed?
 
-I think it's confusing, because 'we are the only writer' is not clear as to
-why it obviates the need to call vma_refcount_put().
+-- 
+With Best Regards,
+Andy Shevchenko
 
-In fact vma_refcount_put() explicitly invokes a lockdep read lock drop
-which would be incorrect to invoke here. Also I guess the other point here
-is we don't do wake ups because nobody else will be waiting.
 
-I think updating this to actually explain the context would be hugely
-distracting and not all that useful, but leaving it as-is is confusing.
-
-So I think the best thing to do is to add back the thing about the
-condition, which I've done but but placed it above unlikely(!detached) as:
-
-	/*
-	 * This condition - that the VMA is still attached (refcnt > 0) - is
-	 * unlikely, because the vma has been already write-locked and readers
-	 * can increment vm_refcnt only temporarily before they check
-	 * vm_lock_seq, realize the vma is locked and drop back the
-	 * vm_refcnt. That is a narrow window for observing a raised vm_refcnt.
-	 *
-	 * See the comment describing the vm_area_struct->vm_refcnt field for
-	 * details of possible refcnt values.
-	 */
-
->
-> > > -      * before they check vm_lock_seq, realize the vma is locked and drop
-> > > -      * back the vm_refcnt. That is a narrow window for observing a raised
-> > > -      * vm_refcnt.
-> > > -      *
-> > >        * See the comment describing the vm_area_struct->vm_refcnt field for
-> > >        * details of possible refcnt values.
-> > >        */
-> > > -     if (unlikely(!refcount_dec_and_test(&vma->vm_refcnt))) {
-> > > +     detached = __vma_refcount_put(vma, NULL);
-> > > +     if (unlikely(!detached)) {
-> > >               /* Wait until vma is detached with no readers. */
-> > >               if (__vma_enter_locked(vma, true, TASK_UNINTERRUPTIBLE)) {
-> > > -                     bool detached;
-> > > -
-> > > +                     /*
-> > > +                      * Once this is complete, no readers can increment the
-> > > +                      * reference count, and the VMA is marked detached.
-> > > +                      */
-> > >                       __vma_exit_locked(vma, &detached);
-> > >                       WARN_ON_ONCE(!detached);
-> > >               }
-> > > --
-> > > 2.52.0
-> >
