@@ -1,54 +1,58 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA08B3542E9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0CE354ACA
 	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168246; cv=none; b=NUCjUqwV2yNUcB+NJtyJ0EvKnaCTBaKYMfRvuY8jAmslYO5iNC0fNZiP8/i3LaXECNLJb7NYl99iOUOkgTws56jCCil8iXlOwk7h/VclTKd/zqofRN2xXg3pb3aiT+ObkUXO1eXDTBnAkRv8SGOVYC4A9xR+Nw3ipOCSHUNQeJU=
+	t=1769168247; cv=none; b=Qnw3C3Z+sa8sBm/p1Bjt1q4PqlYXFhmia/ZvirRB1GC/5M+EP1Skl9D4FIFYHtLygGznIZoIkvaoZ/kckN21c8bqKCA5Mz9hFLQ5HFqvMvOvTHToOxOBS+xNZVj+NftXZ83QTsXHV8R92xRiWakqiliyTa5bBUY6YvgCRbAegVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168246; c=relaxed/simple;
-	bh=yvzDIWWhEANEW4PbM7NkDFVfHEP4kbyT4pI78b1eorY=;
+	s=arc-20240116; t=1769168247; c=relaxed/simple;
+	bh=aiGlVd1BN8puUjJE6R0x7uIAwGUTd87MrPMBKwUJFWU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fQiOz0+LH/jw6CHyB9ZnLsvUBIQqHKpeKoO5FK+YISlcn2ejOPS4CZ7j5pBC3IyvAEUiSt6QnHmq9Tg8zfaq0OiudpvIJ14UZBkplt/fGwwqSnwslSWK4KGgTjttThBC8Vq35GWRa/ljdIX/MUPsrhoLyV02r7YEFlRZhsTM/00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uNZGBqF2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dkAtlJcA; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=Y9ksQAENuxRKGSizy4uTjJkYngCgfD5paXuSZ2fZKGwLC2Sc5XVRQdW3Nslk1vraYP2r6KragVczshxPmGIhd9g3AbuZ1yPRHDg/du7B/rZZqRgX8OOH0une66aoiWBHlJfhFn/qdDOC2tXPDNn38H2qIot2d4heGmODPfuqkc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MZJ8YFCK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ns2N6DET; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uNZGBqF2";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dkAtlJcA"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MZJ8YFCK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ns2N6DET"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769168241;
+	s=2020; t=1769168240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j0rNXMOI7j3rGJB/+4/ynkZTe41c0CB08LUfoR/1ch8=;
-	b=uNZGBqF2HBQ4IjF5XXI4RozcvOK0eDbvgtmfG3q71PLU6NCUkKEFNjV8fZeR8a2qh48Yqm
-	Ie1qPqfVpsX4Bzrc5tSyeendqZ+wX/WNbfLfSYYNBBRqGyHlc6ZF4X3NUwz67joHp9fWnw
-	W/1YqLxQfVzOx/VINgiFFmJqa/vJEi296otWYOVvFYI3DxlBnO/S+bOWlAXDvkBMKiuAb9
-	vuTdLx9BNZPVwtaU9PG6DhDeRAJ6UgcGHPdtf2iZOKBMkw0xtMVUAZoNheQdMTiY1fQIOe
-	sUAZc9vBp5+kUeeP79j9jUeGLP0IySpLzlhzdala4dONB5ckgT/SLQgOxx2wkA==
+	bh=vpXBre8hOpdCJLr/q1ncOEZ+dMlHMQh3hprNMSGTivM=;
+	b=MZJ8YFCKYKRuYMBkOMwk1ji4zbhy2xZw/yO7gMCTZ1m9rUvc9BFw/VxHOAGZ+hvKerSPnZ
+	WnO9L6brsbRsFvNyKLL0SDcheWanKqbrC50sheXdTTtvXqzpvF1BAlABsY4qSlXL5ZPuH3
+	fibX3fr4tt66KhL5TN09ryv/bQ8WcCfYqHLbLA/CP2NqL36W9bE3NuOYJWN6xGZO5VzdNe
+	tlYABjRBhbyqaKvRwOftidCThKZKDLVFM++WGiEdVCsydInGE2yWIo/YVsCAqX+Xr5AOG3
+	IvWJklgo4LgF8o98m9J1p97yHg0y3fINrBf9iF/P7HYMAV1XYAi3ZShITPMaKg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769168241;
+	s=2020e; t=1769168240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=j0rNXMOI7j3rGJB/+4/ynkZTe41c0CB08LUfoR/1ch8=;
-	b=dkAtlJcA7fdbuGNJCEXB5q7Mg1SR+dw/uCacVMHfsWwoydSrUM9TZgaDLaMNF3c4rMzVbJ
-	FMLVSwbz7y0a9zDg==
+	bh=vpXBre8hOpdCJLr/q1ncOEZ+dMlHMQh3hprNMSGTivM=;
+	b=Ns2N6DET06fM6N7BGIt/OWS3nTl68HOB4wqPKt/rAyDHSVBy4GvoHUuLBBAizGSeSyXGe8
+	TaII2TOz775HpkAA==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Martin Tuma <martin.tuma@digiteqautomotive.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 21/21] media: pci: mg4b: Use IRQF_NO_THREAD
-Date: Fri, 23 Jan 2026 12:37:07 +0100
-Message-ID: <20260123113708.416727-22-bigeasy@linutronix.de>
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-iio@vger.kernel.org
+Subject: [PATCH 19/21] iio: Use IRQF_NO_THREAD
+Date: Fri, 23 Jan 2026 12:37:05 +0100
+Message-ID: <20260123113708.416727-20-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -57,6 +61,7 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 The interrupt handler iio_trigger_generic_data_rdy_poll() will invoke
@@ -65,32 +70,94 @@ hardirq.
 
 Use IRQF_NO_THREAD to forbid forced-threading.
 
-Cc: Martin Tuma <martin.tuma@digiteqautomotive.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Fixes: 0ab13674a9bd1 ("media: pci: mgb4: Added Digiteq Automotive MGB4 driv=
-er")
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>
+Cc: "Nuno S=C3=A1" <nuno.sa@analog.com>
+Cc: Andy Shevchenko <andy@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+Cc: linux-iio@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/media/pci/mgb4/mgb4_trigger.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/iio/accel/bma180.c        |  5 +++--
+ drivers/iio/adc/ad7766.c          | 10 ++--------
+ drivers/iio/gyro/itg3200_buffer.c |  2 +-
+ drivers/iio/light/si1145.c        |  2 +-
+ 4 files changed, 7 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/pci/mgb4/mgb4_trigger.c b/drivers/media/pci/mgb4=
-/mgb4_trigger.c
-index 4f9a35904b418..70cad324df608 100644
---- a/drivers/media/pci/mgb4/mgb4_trigger.c
-+++ b/drivers/media/pci/mgb4/mgb4_trigger.c
-@@ -115,7 +115,7 @@ static int probe_trigger(struct iio_dev *indio_dev, int=
- irq)
- 	if (!st->trig)
- 		return -ENOMEM;
+diff --git a/drivers/iio/accel/bma180.c b/drivers/iio/accel/bma180.c
+index 8925f5279e627..7bc6761f51354 100644
+--- a/drivers/iio/accel/bma180.c
++++ b/drivers/iio/accel/bma180.c
+@@ -986,8 +986,9 @@ static int bma180_probe(struct i2c_client *client)
+ 		}
 =20
--	ret =3D request_irq(irq, &iio_trigger_generic_data_rdy_poll, 0,
-+	ret =3D request_irq(irq, &iio_trigger_generic_data_rdy_poll, IRQF_NO_THRE=
-AD,
- 			  "mgb4-trigger", st->trig);
+ 		ret =3D devm_request_irq(dev, client->irq,
+-			iio_trigger_generic_data_rdy_poll, IRQF_TRIGGER_RISING,
+-			"bma180_event", data->trig);
++				       iio_trigger_generic_data_rdy_poll,
++				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
++				       "bma180_event", data->trig);
+ 		if (ret) {
+ 			dev_err(dev, "unable to request IRQ\n");
+ 			goto err_trigger_free;
+diff --git a/drivers/iio/adc/ad7766.c b/drivers/iio/adc/ad7766.c
+index 4d570383ef025..9e4a66477d2d0 100644
+--- a/drivers/iio/adc/ad7766.c
++++ b/drivers/iio/adc/ad7766.c
+@@ -184,12 +184,6 @@ static const struct iio_info ad7766_info =3D {
+ 	.read_raw =3D &ad7766_read_raw,
+ };
+=20
+-static irqreturn_t ad7766_irq(int irq, void *private)
+-{
+-	iio_trigger_poll(private);
+-	return IRQ_HANDLED;
+-}
+-
+ static int ad7766_set_trigger_state(struct iio_trigger *trig, bool enable)
+ {
+ 	struct ad7766 *ad7766 =3D iio_trigger_get_drvdata(trig);
+@@ -260,8 +254,8 @@ static int ad7766_probe(struct spi_device *spi)
+ 		 * Some platforms might not allow the option to power it down so
+ 		 * don't enable the interrupt to avoid extra load on the system
+ 		 */
+-		ret =3D devm_request_irq(&spi->dev, spi->irq, ad7766_irq,
+-				       IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN,
++		ret =3D devm_request_irq(&spi->dev, spi->irq, iio_trigger_generic_data_r=
+dy_poll,
++				       IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN | IRQF_NO_THREAD,
+ 				       dev_name(&spi->dev),
+ 				       ad7766->trig);
+ 		if (ret < 0)
+diff --git a/drivers/iio/gyro/itg3200_buffer.c b/drivers/iio/gyro/itg3200_b=
+uffer.c
+index a624400a239cb..767b87b7feea7 100644
+--- a/drivers/iio/gyro/itg3200_buffer.c
++++ b/drivers/iio/gyro/itg3200_buffer.c
+@@ -120,7 +120,7 @@ int itg3200_probe_trigger(struct iio_dev *indio_dev)
+=20
+ 	ret =3D request_irq(st->i2c->irq,
+ 			  &iio_trigger_generic_data_rdy_poll,
+-			  IRQF_TRIGGER_RISING,
++			  IRQF_NO_THREAD | IRQF_TRIGGER_RISING,
+ 			  "itg3200_data_rdy",
+ 			  st->trig);
  	if (ret)
- 		goto error_free_trig;
+diff --git a/drivers/iio/light/si1145.c b/drivers/iio/light/si1145.c
+index f8eb251eca8dc..ef0abc4499b74 100644
+--- a/drivers/iio/light/si1145.c
++++ b/drivers/iio/light/si1145.c
+@@ -1248,7 +1248,7 @@ static int si1145_probe_trigger(struct iio_dev *indio=
+_dev)
+=20
+ 	ret =3D devm_request_irq(&client->dev, client->irq,
+ 			  iio_trigger_generic_data_rdy_poll,
+-			  IRQF_TRIGGER_FALLING,
++			  IRQF_TRIGGER_FALLING | IRQF_NO_THREAD,
+ 			  "si1145_irq",
+ 			  trig);
+ 	if (ret < 0) {
 --=20
 2.51.0
 
