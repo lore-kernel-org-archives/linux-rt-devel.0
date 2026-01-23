@@ -1,54 +1,55 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35DE34B1AD
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717ED3EBF16
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168245; cv=none; b=WThJNCiGhrGwgSTJ3DqkQ7VOTMe/QeJQAByS+xWpF9eOKPNUHbqpABGDiRiXLyFzbhI2Nss9VmIQGzwgO2WUgBAGuqY6cO7SpXTFXG61r07rYNk/BjFjLuYDoxB7/A1AXHmrQHHoQF/HmDFwgaOlmtxD4bkXxvQOlSt8sXYQg04=
+	t=1769168246; cv=none; b=TrUnacJ4gqOE73tg0orrZ1y2+KX+RqLR8w2j3RgWzMSn7g38Z5lWgEewXbxF2kgluqJ9SuAW/qaNtbgc4gN5sdVvOsdW+T9VnXrS1IBjZAgtR896plSGVbVBM/zRwSNJpIfmO23GUCIzM+zNqcfNuUMr16zYWP7trs8Xfeaz6WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168245; c=relaxed/simple;
-	bh=Ho2psf7/qNUddFKw3dQI1I0+XwQk++kQx5ZMVlv6P9w=;
+	s=arc-20240116; t=1769168246; c=relaxed/simple;
+	bh=7S6roLtR2ILWMTt6k1VjruCZla33TpE5dDkqi47ng2E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=adum6ITdtATni54B/Ebx8fv9aMdffI4U26UvMm0oN1Ubt8JAaS15XHuUUBxryuu/MUJi6B4yNoqkTPwO399Bprkt8Fbq0mbD4duWZCiYSMltcgENi9jPgr+OGxp2xkFvWBj5TnNFHXMxhCljNxTAqg5q9vzCbEHJoD1kzhQ76Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o1R1Qecx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XHlcExbr; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=i2bi9soF2TeLB/eEXHK2Hv7kxWZd1QjPnFXJGxpd0q5LJG0TdKabmlKv0RH5T226C3K9qcjiJkZDLNikq66+XZXuSOfyI1wHT969PnVNQX3JqjgGLXoEY7iblLoZ4KOVmwfIxVpeqyhqDSpiWavPFn7SrDDzatSSStjDCuFQK8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FoM/+mTv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/FqJyzLi; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o1R1Qecx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XHlcExbr"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FoM/+mTv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/FqJyzLi"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769168238;
+	s=2020; t=1769168239;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PKAdw30kiS16YSJS+M2uj7rvfnRZHv16JtZKgorXgz4=;
-	b=o1R1Qecxpa8p513yby3Xjp1M+Xvu7NpGugDC/ZDFV8uvv1NjymABPzIu0+C7SzY4pWb4XA
-	cnM7+apZcLN+5unC26/rwzVIHYspLyPP/1jC4IcjZsaS5a0kZ508CUPIcJ8t0CGe/ruH54
-	pI9SU1Q/gEjoJpRxo66lPEC4MB5HnIGp57lhZZGTRFruNcZxxIFpo67PGRLhk9hLq2XRyb
-	/fCEi3UJiPrJylW+2Hl2W0xaoI+8SpYU7/Tkk/EdPA5zktHkZJjAnUnH1mocIgTlu8axUj
-	goeBg1u8+eX1oMcRcilu+CpvhPYL/ZzyD31KT5Kt59dNDP28oN8cBF9e1Ab14Q==
+	bh=UuGZdWBY87PO10lLpZUmYDO4z+8I9ptGVyLBptz6r3Q=;
+	b=FoM/+mTvXQh+IlIjj5sQr2L+31X8A7ne6u27SqaGMbvmf0C2n+LUMwcJMiY5kUWsTMQOJr
+	EX3df1nkEdWwWUKLREBzXRLAi3YoUcLDF7Tky7F+GCXhTlXCv+cL1XPgcRKuFFSEr3MF8U
+	H/VHJZRF4AhhQwSTBgjsywbOIS5aU6aDlyRAwiRJVrdqhTH5aFKO7vL19SF3WzU0vzUCSL
+	TjF7Snin0kI1SLHapcQy13ydgeqRR5GGQzNSncGLP7Y96WRnXV5SGzv+Yqvzal7e0WpQnP
+	4D2Ru5/8b7/vfMtNke/MowoF0tAebuBlOwKyuYQSehS4hAfanQABhMO7NoXo/g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769168238;
+	s=2020e; t=1769168239;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PKAdw30kiS16YSJS+M2uj7rvfnRZHv16JtZKgorXgz4=;
-	b=XHlcExbr1ZUWWUELsI9V+SIxudW4CmnAoNVyOn3XP3wiQl6HBAFF75KSFkdOuouykpGHBS
-	U0WNmdeulZe6lqCA==
+	bh=UuGZdWBY87PO10lLpZUmYDO4z+8I9ptGVyLBptz6r3Q=;
+	b=/FqJyzLipZ2EWyZRKLaLuPjj7SWd4p2VwnGnaXolZfN6wtB99EmsXIlLdjo4XinbVgMvSR
+	lbjeGqTOAXUxagAQ==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 13/21] usb: typec: fusb302: Remove IRQF_ONESHOT
-Date: Fri, 23 Jan 2026 12:36:59 +0100
-Message-ID: <20260123113708.416727-14-bigeasy@linutronix.de>
+	Lee Jones <lee@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	patches@opensource.cirrus.com,
+	Mark Brown <broonie@kernel.org>
+Subject: [PATCH 17/21] mfd: wm8350-core: Use IRQF_ONESHOT
+Date: Fri, 23 Jan 2026 12:37:03 +0100
+Message-ID: <20260123113708.416727-18-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -59,40 +60,44 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-the secondary (threaded) handler is done. If only a primary handler is
-used then the flag makes no sense because the interrupt can not fire
-(again) while its handler is running.
-The flag also disallows force-threading of the primary handler and the
-irq-core will warn about this.
+Using a threaded interrupt without a dedicated primary handler mandates
+the IRQF_ONESHOT flag to mask the interrupt source while the threaded
+handler is active. Otherwise the interrupt can fire again before the
+threaded handler had a chance to run.
 
-Remove IRQF_ONESHOT from irqflags.
+Mark explained that this should not happen with this hardware since it a
+slow irqchip which is behind an I2C/ SPI bus but the IRQ-core will
+refuse to accept such a handler.
 
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Fixes: 309b6341d5570 ("usb: typec: fusb302: Revert incorrect threaded irq f=
-ix")
+Set IRQF_ONESHOT so the interrupt source is masked until the secondary
+handler is done.
+
+Cc: Lee Jones <lee@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: patches@opensource.cirrus.com
+Cc: Mark Brown <broonie@kernel.org>
+Fixes: 1c6c69525b40e ("genirq: Reject bogus threaded irq requests")
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/usb/typec/tcpm/fusb302.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/mfd/wm8350/core.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb=
-302.c
-index 870a71f953f6c..19ff8217818e7 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -1756,8 +1756,7 @@ static int fusb302_probe(struct i2c_client *client)
- 	}
+diff --git a/include/linux/mfd/wm8350/core.h b/include/linux/mfd/wm8350/cor=
+e.h
+index 5f70d3b5d1b1a..097ef4dfcdac8 100644
+--- a/include/linux/mfd/wm8350/core.h
++++ b/include/linux/mfd/wm8350/core.h
+@@ -667,7 +667,7 @@ static inline int wm8350_register_irq(struct wm8350 *wm=
+8350, int irq,
+ 		return -ENODEV;
 =20
- 	ret =3D request_irq(chip->gpio_int_n_irq, fusb302_irq_intn,
--			  IRQF_ONESHOT | IRQF_TRIGGER_LOW,
--			  "fsc_interrupt_int_n", chip);
-+			  IRQF_TRIGGER_LOW, "fsc_interrupt_int_n", chip);
- 	if (ret < 0) {
- 		dev_err(dev, "cannot request IRQ for GPIO Int_N, ret=3D%d", ret);
- 		goto tcpm_unregister_port;
+ 	return request_threaded_irq(irq + wm8350->irq_base, NULL,
+-				    handler, flags, name, data);
++				    handler, flags | IRQF_ONESHOT, name, data);
+ }
+=20
+ static inline void wm8350_free_irq(struct wm8350 *wm8350, int irq, void *d=
+ata)
 --=20
 2.51.0
 
