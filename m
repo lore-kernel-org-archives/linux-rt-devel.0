@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ECA322749
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D6733D50E
 	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168241; cv=none; b=Af2xN0i2Kh2h7c5ntmGvBfbBdS/6SqBknXIpTRF1Kf0wRCJrIQX93EwFCONhQm6vlkQAhjggcM8vAy1lyw/3TehtjRIfKb8EU6ocIV+Ug6sSQL80lF2syH3EpTH82L7Rjc48sPCQFK/+CeVGpMZuyzquDwB/WX8PL45qTRxmjlU=
+	t=1769168242; cv=none; b=dIjUHe3wY699tQ1NemYWIe5Su4/+/B8X6ySjnFOAX/qQV6rmm3xYIWE4CAP2Ex6PYuxitIkp7ONFTi6hFRFvmyBRaV7Cj6EfbHIodlCV75g57ALGTQYc4C2eoHO90rbdVTfBlMSza3zpx13FWo9L/0zhgPCxzZKKjrA8QPi4mKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168241; c=relaxed/simple;
-	bh=YIhD96ncLAqKhFcbwSqeqDW2wIh2UJYFEu5TkwwbpNw=;
+	s=arc-20240116; t=1769168242; c=relaxed/simple;
+	bh=1Ei3iEDq+3ul52dgYpK+hoL434wuj42t2jzcLvrSW80=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mkrEWKTaqTQSUma4i9ur7Gio+GtBSF/Q52WrE3rHWf/bCxz7Fxd97DyeO6dCUrjs/Cum+urJI/Qf+AF1xZKdQc+e6BHdAbiX2O9bbuip8jGRFQZTn3BKhbWAnC5L1zbydIwXFodtsU5jhte6Adspc4ZQkqA7th7mRQlDw5w2MsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cEGwOmPi; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vWOEIsaI; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=nBzDXiRCuHTD1pIcKuCh0AqosYaD2HdyHbIaBdp0LxrbphGd29g/mVKRzvDCyDGOeRlJnAP31evAg9GJ7hqm+qZvMUEE7pgUEhnccFEqZs7d+WnLCiFCgI8TD/K5fMRrzCtVCeh4c0fd6eUmxopp4+8ZuzPZFzzzfx03Bf4jZ+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zffOZK+M; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KOYwv177; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cEGwOmPi";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vWOEIsaI"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zffOZK+M";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KOYwv177"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1769168235;
@@ -24,31 +24,33 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O/ZYBRVF2SmSOTJgqZxlAZTKkgmnbGKkRQ21DEWSGPI=;
-	b=cEGwOmPi5La98B4JXmUIoevawntGMHSmZXgXJkY0A3BPnF4a4VgiygzYn3H/+oFlwVsuFa
-	6L+IQ2xMBPslec7T0utzw+CI4xmQJ2VJpU1DDyumhN3znqN00wN8/TuNeiXCIUOdbn3JXI
-	9rSt6LnNXIYSMxnHOR0yQ2GcIeJVYEEI0CBcsPta+YJAO6ZyufU5dRkok4/D3UGZhneM4a
-	N73xuylTLZ5wwa0sEaIxoife+7HxavQ8q4sb5G67suYHllwsf3lwe+LU3YTWoC3VQar/oc
-	cS26bgRWJZtC3CQaol8lr1kRgi7HivBMcq9x9f0aYHKbj6iVJ8982ryrr/HIGQ==
+	bh=rW+PAWZxGnF9Ct2ExEsv2LYHIZ9WUP+SeTviE1CEkbQ=;
+	b=zffOZK+MJrBMe4/16DzgMn02IFh1NGTwWSuZc3A6y3frjvDTWjkLG7VWunfUWnsDzia7as
+	quCXNFgX3r3ZCD56XLbAgt0+UlDrojzHcbDdtg07HxtmeaKW+W/7sQnkbxdZoJPMSOkG4w
+	Ap/boKIuWmq8x6qgjC13NgUIzCMx4FUroW4L7EVCoA8DmwDqehU+XNh9jUg5W3ioYKR+dl
+	4rCtOnMEYh6SX8jk9Qhk3CaQWplcYCLzQWRAOdvuj0IBSXuU8iv7TI0REYHctVrHkFXQOb
+	5fOhkjdvbLtkekvluCfiXgRogSQxnxOscQEf2ZXmZBYKge+TpZOsNGbRbCoCKw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1769168235;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=O/ZYBRVF2SmSOTJgqZxlAZTKkgmnbGKkRQ21DEWSGPI=;
-	b=vWOEIsaIiCIm/vIBSrS9XtufRCaT6M31Kj4x8qo2YxaiBhCnF/kLnXq2GvCmA9K4PC6qj1
-	jRqJxWaokcwUVoAw==
+	bh=rW+PAWZxGnF9Ct2ExEsv2LYHIZ9WUP+SeTviE1CEkbQ=;
+	b=KOYwv177IAVesLbfPWb2vMFuU+K1PnUs5QaCQ2xKmM+aoDfRPHS/+8jtMQwteTN2CPJiT0
+	cM5NBEY7NonIRYAg==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org
-Subject: [PATCH 06/21] Bluetooth: btintel_pcie: Use IRQF_ONESHOT and default primary handler
-Date: Fri, 23 Jan 2026 12:36:52 +0100
-Message-ID: <20260123113708.416727-7-bigeasy@linutronix.de>
+	Linus Walleij <linusw@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 08/21] ARM: versatile: Remove IRQF_ONESHOT
+Date: Fri, 23 Jan 2026 12:36:54 +0100
+Message-ID: <20260123113708.416727-9-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -59,60 +61,39 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-There is no added value in btintel_pcie_msix_isr() compared to
-irq_default_primary_handler().
-Using a threaded interrupt without a dedicated primary handler mandates
-the IRQF_ONESHOT flag to mask the interrupt source while the threaded
-handler is active. Otherwise the interrupt can fire again before the
-threaded handler had a chance to run.
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
 
-Use the default primary interrupt handler by specifying NULL and set
-IRQF_ONESHOT so the interrupt source is masked until the secondary
-handler is done.
+Revert adding IRQF_ONESHOT to irqflags.
 
-Cc: Marcel Holtmann <marcel@holtmann.org>
-Cc: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Cc: linux-bluetooth@vger.kernel.org
-Fixes: c2b636b3f788d ("Bluetooth: btintel_pcie: Add support for PCIe transp=
-ort")
+Cc: Linus Walleij <linusw@kernel.org>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/bluetooth/btintel_pcie.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ arch/arm/mach-versatile/spc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/bluetooth/btintel_pcie.c b/drivers/bluetooth/btintel_p=
-cie.c
-index 2936b535479f2..704767b334b98 100644
---- a/drivers/bluetooth/btintel_pcie.c
-+++ b/drivers/bluetooth/btintel_pcie.c
-@@ -1431,11 +1431,6 @@ static void btintel_pcie_msix_rx_handle(struct btint=
-el_pcie_data *data)
- 	}
- }
+diff --git a/arch/arm/mach-versatile/spc.c b/arch/arm/mach-versatile/spc.c
+index 812db32448fcd..2d27777a00d33 100644
+--- a/arch/arm/mach-versatile/spc.c
++++ b/arch/arm/mach-versatile/spc.c
+@@ -459,8 +459,8 @@ int __init ve_spc_init(void __iomem *baseaddr, u32 a15_=
+clusid, int irq)
 =20
--static irqreturn_t btintel_pcie_msix_isr(int irq, void *data)
--{
--	return IRQ_WAKE_THREAD;
--}
--
- static inline bool btintel_pcie_is_rxq_empty(struct btintel_pcie_data *dat=
-a)
- {
- 	return data->ia.cr_hia[BTINTEL_PCIE_RXQ_NUM] =3D=3D data->ia.cr_tia[BTINT=
-EL_PCIE_RXQ_NUM];
-@@ -1537,9 +1532,9 @@ static int btintel_pcie_setup_irq(struct btintel_pcie=
-_data *data)
+ 	readl_relaxed(info->baseaddr + PWC_STATUS);
 =20
- 		err =3D devm_request_threaded_irq(&data->pdev->dev,
- 						msix_entry->vector,
--						btintel_pcie_msix_isr,
-+						NULL,
- 						btintel_pcie_irq_msix_handler,
--						IRQF_SHARED,
-+						IRQF_ONESHOT | IRQF_SHARED,
- 						KBUILD_MODNAME,
- 						msix_entry);
- 		if (err) {
+-	ret =3D request_irq(irq, ve_spc_irq_handler, IRQF_TRIGGER_HIGH
+-				| IRQF_ONESHOT, "vexpress-spc", info);
++	ret =3D request_irq(irq, ve_spc_irq_handler, IRQF_TRIGGER_HIGH,
++			  "vexpress-spc", info);
+ 	if (ret) {
+ 		pr_err(SPCLOG "IRQ %d request failed\n", irq);
+ 		kfree(info);
 --=20
 2.51.0
 
