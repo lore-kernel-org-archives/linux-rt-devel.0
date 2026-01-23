@@ -1,123 +1,191 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689D41A9FB0
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 17:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC6A239E9A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 17:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769189476; cv=pass; b=gKBbfpk6hwaL50HfGHemHP5H3NQ0XWi2VKGJgiVucy5se/gWM7bkynTqy3bA/6fOHPEh8If2ue8CB5GCdb7Q8EJnFN+1zAS/Q4/XqGcXZMFuzanBnhPVYewonWZ0yQE/9ZIaqIeSj6WLoCVI17crvV4l7Gf/0f5T/jjeUQUzU50=
+	t=1769190177; cv=pass; b=oZtlj4CY6EYuZY8QVSnK5sTmu+JySdxTMw2/dcQmagLUvN7NqEAY1YH8X8JJWPlwXZ+vMdiIqEO4mDa17O0X1GQa1HbZmJS4JTXEMiJ+FwkUNlHy7vodLP1/vBIE3B2qFy69bElOrliizUDshXrepjVs/FlYVAu/RqRhXY9Cqo0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769189476; c=relaxed/simple;
-	bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
+	s=arc-20240116; t=1769190177; c=relaxed/simple;
+	bh=e+tsB72F3JGE1Sv1wNW1iQ2Epj5tsNldF6c4BC1mHJc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UTaVUDXCZS6XHMprCz3A10wXSWyke5dLBsFfTERGXIIhicUB6QtKpe6bAoKetW+lmaosB3EIPXsLULEgkMA3VYCOlHdp8ulEgpNgbSKJU7yVJ2yN2VlJ3aPUF4JGnIaeV48Iq0TU20frN1jaoKnO909BOTFVOgZsznq0w9fcqvo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmprUBUL; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=QC6KtA0KLAG6B2GJmkCTWveFHwuROodT9eAzrc7YH610J/0q3UEqU+d9Dozut3uIYtysUG/UNpdyZUaW316VFZrCMwILH19wIbm4980iJAEBIO5BeWpMYTLyusxhc4xvvZqHELLaEYhDTZjVtoOKnZVnVKSzXT0IbqAMfXE2VU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3SZLJ/TE; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmprUBUL"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43590777e22so1504146f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 09:31:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769189474; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3SZLJ/TE"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5014acad6f2so941cf.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 09:42:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769190175; cv=none;
         d=google.com; s=arc-20240605;
-        b=SSg+eIyShcgvVu1Si7mFywh5G1IZ9lohYJvhIz9+oh4l8/spHgc+SlGIaj4QlQjLRD
-         jxzU2ycWMBf9gkKFLR8ZWlEp7Uag5deQOA+p3rX8E5C+lvYi+mimpX6+SfwjlKEBBCh5
-         2e3nKvOqWw3OXqTImThQdda3ifrXSgq/6IvPLsrKgPB/8nln8PzFCMqkclOqE4FYqt8w
-         oVgRoUbpwbA1dyL9EIIRjblJCIXj+TjuYoz4RnikaaqG4/TDYjvKndrDQe/Bq6Djf8we
-         6DaJgR5SvgPXlaE6BFP3ykRACJhdnLUxsheUZ8l/gwLU2CWtw1KeNvm29A7XcRFpXUsr
-         ixmg==
+        b=kzspg4NcQx3sH/BqKw1T9P/oqIVgZosHaByk8zDAUv1nxbe2yqG9POWDIlOQI8J7PC
+         w6gRfBHthiRXAGTS7nlehcS2YJHzoF+qCZS35N/sh00PnBgWEYVd+Qx6EaTievxSbzwr
+         GcCIv/Uzwjl3GvOX5wVgFmvpeaE8JzwW9DvasmIv058oNmuM6DwjJGv7Y3Z10QSrvzu6
+         FCQZEz2IwLs+w2pOVQbAiKZzmDU03ktrcDBqOtKeyVfG+O5Lx8n8DLf3apojcayeIBzm
+         FFHZlk0soEto39KD40e8zjV5nNLgo9bC8LTK7/wtaFeFXt5q4wyH3OczsFKBiLkPhw0m
+         jZBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
-        fh=ufdfdQArDoppnbHBAhBY8bopLhOZtu0JT+aUP+vqS6g=;
-        b=arfdGKDhDm2CagO1agAuU9Nwwk1/OnSBF/s9CQE5bPIUXc1dUuWZqc6Zq/+nrZetvG
-         Uo5Q914qXVhu1cwETu+eIG4scQOl4X2JNp6V/djQ+xhQCKHtoM6nBU/0eXZ3qPiBVEw7
-         XG9P/Z0JTFibptpjTKb2rMd9kzTt1Ypuq6UYCf1Vpq3kW+GOYJgcyWrtiQ+HqTxVUcxs
-         uqFBdN4vKLHY8NvIvlYwyEbRUrq8dRZqFMm8nZqXGxREL0XmvF1MGHxzqdbtwfPqxBUF
-         7/dKf2Y9+w/arkmUmk+uKiHZNKPHxKcKjwTdN9EtZCM4ViwydUJA6tc4hs8cY9GaX1oy
-         O8yQ==;
+        bh=ecysJ6oY4A4ZF/nobL6khlSXSX0Rv2e+xk4Zdl2vm+k=;
+        fh=q+FVUt9UdfkObJeNm5tfYohP1yeHpj2ilFwS+zx/Yac=;
+        b=EHVG0+thCCsJ8P9Mzd6rWdrZZIQzkeY2XeLTU0Fl+SoAp8EvO4Ti9MuQi6RlwOCwAr
+         2ExD/4R2d8lo+tKDo+xD10WJhzprcEx8+g+emEl6K/rWKoYYZ7rvn9In4DFCAfaXeSXg
+         ve7Gpx8ZZWjXv3ws9tFjBLNPn3+an5wvUwavKJ1H7WexW90IvXFhyf733kKAleeq0XeV
+         RkXDKJuLvl+FtPVTqOho/Eg43hLxRr7/JJZIEqsBO4kAUv33O6HLWoKnNZBc0rRacJAo
+         GE7q9NGTVkSuqgs2P8a6EGQChZ6aik86sFWx8kjlhtt6+XZ/HD3mUUkQP5kUek/roICv
+         hH/A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769189474; x=1769794274; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1769190175; x=1769794975; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
-        b=FmprUBULSXXzfxQVl+zeQqzK1ljrqnxgx8sdmde6wTDkU8EMz5DVhBM8EdyMiaOruX
-         HRwBvrICdCd6a9YA81LX1/761PbxMogQCMxjIispHVfoiGeNG1IHjKFSKHpHUr9zqc2N
-         Zbo/h2AVUJNmGw3WLPI6E7I6zM0q4dbSXFq+duWpFoUDGOoYoICjt6l9tBFQOrWT9CXQ
-         X6Et1ft096vHpb2JDZRZGRCUd2+ypbdefXCd9Zt+ih08YSdFcCdYhTboBurkqZ7w+gn+
-         ekiGhOvt7ptcE6+8fV6CW9S5P95BH5etur6Gc/AYWMWJoYmba1mNM3wFJ41fGwhROhfo
-         U9NA==
+        bh=ecysJ6oY4A4ZF/nobL6khlSXSX0Rv2e+xk4Zdl2vm+k=;
+        b=3SZLJ/TE1d1nYbLjlw7Zgd2P9h/PSao7DQOIfICRbcDyGZ86LUzA9doQ22SGCMIaYL
+         pvl25xBIQaH3QXSuNJCjNCoAg9NtCK1Rd+t5zHrGUtUTeGztkuysAYdjgVwXw+I7LhK+
+         5htDiZSb6CDXNcKg83DsVuS4OYEEVOQHK+Cek9FtWWdL27288LDkszK0gwFAmsJeI6wB
+         Djp9HgdKVc1vFToOuwljJeT6syUtHMlSkFxnNltDff7zd5jP+XFVcSKAtpR1GhIsPi0Z
+         jPpP4oa6HIDdF2ZzjKigc0c3xXOcORcap2MXH9D06Q0LP726cYWNCzcqJ2vBBt10ZN7M
+         RIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769189474; x=1769794274;
+        d=1e100.net; s=20230601; t=1769190175; x=1769794975;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=//l0nEjTNRiO6ok8x5R3UO9HJXdIVnzS4jZFSqDgDdg=;
-        b=jE2AKiHj6Lh0KLhW49Z78HgnKDwokX6DWCQ1wd4dOaBUB90FM4mi+sCvoll4kNpdu8
-         TSPGDyxdwIIaz7UQFD8OU887a18hfyvN/IWIwIywL1Z3ZrcB8NEdid4VMLIdgjjVGOzX
-         u2EMneYtuOwzEAF6p0R+aW3eYTLIpNpG3A9x1zfCCmrMgPjU0ACwU+rLcVT6ibUxbLM7
-         r88Nw5isnhgdQi6W2J7Ig8IgrEf8Vn6GkjlD3HJ611psjdbRFIpJHwlSZ2oEUGAY9f0W
-         BOP/sSQ/i/qOwY4l4GWXsViUS5ApMycIlRNNQiZFjDsD2Tq9HgOcOrdSHnHRixT/velN
-         0zXg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwBdeVdvPPhBxc9LH94gD8sVPMz0DxvYHBXni4xKebNvYp8mguhngjaEiG8zHzW15A4E4UZa/8vSWMfMFhnQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVy2b6h55TR38YAz8oKOC3X9hVFJlnuw/BOqUe5TYTJuQvNR5o
-	OCkYvP/n8gCgWCnrX9xDb7oUYOkmraV94m7SoHpNRPuct8y1DZeaBmEF1k0EOPNtCYXjghIASlX
-	n2UC5Q01clgQvJL+KZlLrxhRMl42GRvU=
-X-Gm-Gg: AZuq6aI7Vb6JHZTqv779MOoyQQsbisqy6WrxmbfpWwi4d8gZPBmsZUKSqhE7EEbTcEk
-	LPmsmVK8SvppcecdlveMzGdjKpurZX0DMUuXmwvy1BPKaHI/u+Cg0uKx2iAkrT8jnH8Eq3fctc7
-	o9PCksSuwV+zlUTvell2QaIT04yUipXM7iLvM4myaBWczsY+fzAYGuVJrh5vxPlxaBMKvxfLeDZ
-	bmP0FOjrry6foetaLYVTUZht9oRM752hCqul9WTBGNunDVY6LFmxwwYxxQ/uFULg3h30L4Wo9XR
-	6TUAjvn3sUwQZmadpB21BkyYkicFC8xDPqmCS5yRQaTqbKcK2R6+QLRiXE3WPOB8USOp5bH5
-X-Received: by 2002:a05:6000:2dc4:b0:429:b751:7935 with SMTP id
- ffacd0b85a97d-435b16280damr6748411f8f.56.1769189473665; Fri, 23 Jan 2026
- 09:31:13 -0800 (PST)
+        bh=ecysJ6oY4A4ZF/nobL6khlSXSX0Rv2e+xk4Zdl2vm+k=;
+        b=L2IiYhW8pAJKlvObL87j4Aawb6LLJW15XYbqal1mTH95U7Jq5j8phcoE+fBk4P9w3q
+         TSazvik1NRvcNqQWJ9z0wUPEJNgLvxy/iWuIpbvt7wcxle+kQS+cdzPZo/TSjygP4qLP
+         ZiKvbmsWajav99PzcMxeAdDadEqid47Hk6NR+aEU97ef53kaZk0DqqAPcnIrKCw8HxZQ
+         hy/TJXEDvGRtDO5mP2h6nTo+CMpzJ4YZczAMbBDJ+mtIzCrb34swgFvlo5f414yBDo3w
+         qw3TT0dwgBezBdA/a5nFXz76TWGUZW338j+JTjPqmjMS92Vl2yjhaVentwKVp17a7OsY
+         aCuw==
+X-Forwarded-Encrypted: i=1; AJvYcCXAHLNVTV+cMUI99Fn5tKvqDEj6hfr6tF4QqYq8CojrOkpX/SkFLv8WELcRBNmKRRWNiDC6U7Tc5m79b3dwNQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXj7q+gktjPpNnbsFa8A2Fn2mVYpbWYJ6L7hxq3QUuLt38e73R
+	4wsGFRDGQFecTKEJCC7a9UHZ5/QItfpJnPyCSZ6b8ctUFgY1AndMEoOpRTxYmq/RelUHXmouaJ9
+	7m4DE856EkXbvTCwI7V25RrAWvgL2n3xMWEmHygtX
+X-Gm-Gg: AZuq6aJ1+kJRHswlAmzM5bwxAwOAkdlmG3bFkILDSOEUXygSZsDUkhzl8WdsmsZYiO/
+	6EKhp6jrTwnYa19a9ec012VQQE7QD6yhcrrKkE3jZ9J5BJmqI0USd1ySmGLQ3RUsQbyOwuvxr9x
+	Tk7lDdapflSfxb1u5T4RbYN0zNsoCoJF6GWUZurtDMIw/BZAsMTf4YYv/ozPD+/j4j73niYqj/K
+	2E7yu5nTAdATSlLKlEwibC7CeQfIpG5euV08WFB3AhtQLEiSnqN4YDt2splo4aV9EYZWA==
+X-Received: by 2002:a05:622a:15c6:b0:502:f1e0:dd3b with SMTP id
+ d75a77b69052e-502f8dba323mr11741431cf.7.1769190174705; Fri, 23 Jan 2026
+ 09:42:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz> <20260123-sheaves-for-all-v4-14-041323d506f7@suse.cz>
-In-Reply-To: <20260123-sheaves-for-all-v4-14-041323d506f7@suse.cz>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 23 Jan 2026 09:31:01 -0800
-X-Gm-Features: AZwV_QgSD9SUVQI9Y0Yihip1NN5Dune2qBBleSwBNI5G1-MsD4RlJ98R8TtLbTY
-Message-ID: <CAADnVQJi09vC6Y-jb8mCRfj-OrECvSTMQ_XL2OE8W-B4zPwGSw@mail.gmail.com>
-Subject: Re: [PATCH v4 14/22] slab: remove defer_deactivate_slab()
+References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
+ <70dcf80f79ecd00a750ea17101061b0949119429.1769086312.git.lorenzo.stoakes@oracle.com>
+ <CAJuCfpF1LthyP2FR4T8iDd+zOi1WAjqma2KBkHcCJsOjm+s32A@mail.gmail.com> <b267b699-f312-4387-8dc0-a14efe72561a@suse.cz>
+In-Reply-To: <b267b699-f312-4387-8dc0-a14efe72561a@suse.cz>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 23 Jan 2026 09:42:43 -0800
+X-Gm-Features: AZwV_Qg0XqJp6LB6ClHaUtMVJzUsaWRJQOHROvVx-k5EXeTYGcGYUgT45CfCEsU
+Message-ID: <CAJuCfpEo9XFFzGL3c-Udy+0GDM12xOtDeFxu2J4L7F-kQ7xohg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 08/10] mm/vma: improve and document __is_vma_write_locked()
 To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm <linux-mm@kvack.org>, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	"open list:Real-time Linux (PREEMPT_RT):Keyword:PREEMPT_RT" <linux-rt-devel@lists.linux.dev>, bpf <bpf@vger.kernel.org>, 
-	kasan-dev <kasan-dev@googlegroups.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
+	Waiman Long <longman@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 22, 2026 at 10:53=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> w=
-rote:
+On Fri, Jan 23, 2026 at 8:21=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> There are no more cpu slabs so we don't need their deferred
-> deactivation. The function is now only used from places where we
-> allocate a new slab but then can't spin on node list_lock to put it on
-> the partial list. Instead of the deferred action we can free it directly
-> via __free_slab(), we just need to tell it to use _nolock() freeing of
-> the underlying pages and take care of the accounting.
+> On 1/22/26 22:55, Suren Baghdasaryan wrote:
+> > On Thu, Jan 22, 2026 at 5:02=E2=80=AFAM Lorenzo Stoakes
+> > <lorenzo.stoakes@oracle.com> wrote:
+> >>
+> >> The function is a little confusing, clean it up a little then add a
+> >> descriptive comment.
+> >
+> > I appreciate the descriptive comment but what exactly was confusing in
+> > this function?
+> >
+> >>
+> >> No functional change intended.
+> >>
+> >> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> >> ---
+> >>  include/linux/mmap_lock.h | 23 ++++++++++++++++++-----
+> >>  1 file changed, 18 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
+> >> index 873bc5f3c97c..b00d34b5ad10 100644
+> >> --- a/include/linux/mmap_lock.h
+> >> +++ b/include/linux/mmap_lock.h
+> >> @@ -252,17 +252,30 @@ static inline void vma_end_read(struct vm_area_s=
+truct *vma)
+> >>         vma_refcount_put(vma);
+> >>  }
+> >>
+> >> -/* WARNING! Can only be used if mmap_lock is expected to be write-loc=
+ked */
+> >> -static inline bool __is_vma_write_locked(struct vm_area_struct *vma, =
+unsigned int *mm_lock_seq)
+> >> +/*
+> >> + * Determine whether a VMA is write-locked. Must be invoked ONLY if t=
+he mmap
+> >> + * write lock is held.
+> >> + *
+> >> + * Returns true if write-locked, otherwise false.
+> >> + *
+> >> + * Note that mm_lock_seq is updated only if the VMA is NOT write-lock=
+ed.
 >
-> Since free_frozen_pages_nolock() variant does not yet exist for code
-> outside of the page allocator, create it as a trivial wrapper for
-> __free_frozen_pages(..., FPI_TRYLOCK).
+> Could it also say to what it's updated to? Or is it too obvious?
 >
-> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-> Reviewed-by: Hao Li <hao.li@linux.dev>
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> >
+> > True, this does not result in a functional change because we do not
+> > use mm_lock_seq if __is_vma_write_locked() succeeds. However this
+> > seems to add additional gotcha that you need to remember. Any reason
+> > why?
+>
+> Actually I wonder if it's really worth returning the mm_lock_seq and pass=
+ing
+> it to __vma_start_write(), which could just determine it on its own. It
+> would simplify things.
 
-Acked-by: Alexei Starovoitov <ast@kernel.org>
+That looks fine to me and indeed would simplify things... Yes, please!
+
+>
+> >> + */
+> >> +static inline bool __is_vma_write_locked(struct vm_area_struct *vma,
+> >> +                                        unsigned int *mm_lock_seq)
+> >>  {
+> >> -       mmap_assert_write_locked(vma->vm_mm);
+> >> +       struct mm_struct *mm =3D vma->vm_mm;
+> >> +       const unsigned int seq =3D mm->mm_lock_seq.sequence;
+> >> +
+> >> +       mmap_assert_write_locked(mm);
+> >>
+> >>         /*
+> >>          * current task is holding mmap_write_lock, both vma->vm_lock_=
+seq and
+> >>          * mm->mm_lock_seq can't be concurrently modified.
+> >>          */
+> >> -       *mm_lock_seq =3D vma->vm_mm->mm_lock_seq.sequence;
+> >> -       return (vma->vm_lock_seq =3D=3D *mm_lock_seq);
+> >> +       if (vma->vm_lock_seq =3D=3D seq)
+> >> +               return true;
+> >> +       *mm_lock_seq =3D seq;
+> >> +       return false;
+> >>  }
+> >>
+> >>  int __vma_start_write(struct vm_area_struct *vma, unsigned int mm_loc=
+k_seq,
+> >> --
+> >> 2.52.0
+>
