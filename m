@@ -1,22 +1,22 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0ED02F0C62;
-	Fri, 23 Jan 2026 11:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111333CEB7
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168238; cv=none; b=tTsGOXjN3uNqPoxIR0GJWfdcmcLurGUUvmR7mF2bZgAc4eitFw9j/4iOg6ocDfsqikmNgU2t8mP8oJlJIK8hsTpfeV/GEJzImffdYZI3MU5AifXV+aVfk6VkhbjURLY6JujVF6h2CL45xieSgHSf2cynX03VTJJSnFjwnDtwylw=
+	t=1769168240; cv=none; b=mqofyUalSfZn4QbX4fa8RgSibbZdC7NTumj7IfbpB25gvwdKQnYaYZ8fhhIUwCbKsb3dlWvx0STIrZcDiBGTaMLCLWqomMl9VSLLjGgpixLmJd8YDSOsfwHHqpVNcQv7Pnh6eESWfJcn9TxRj9LztO1vvESSxYsLcBjoZr4SEHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769168238; c=relaxed/simple;
-	bh=O/QiE8ztQa1L0+JEIcZKm3FM+4fU4Nk50Mx8Z2fDz8E=;
+	s=arc-20240116; t=1769168240; c=relaxed/simple;
+	bh=xIG6dgGL0m2Ob8S+jn/+Z8aqjE+CAR5xgYoV0lQuUJc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sq4NY05lG/ESe9ip+GDJ9uYPd1FzZa79YCQmRv+f0K7tknItHFn5GYI4QWdq1RJlwNNcfp7wLUZiCn3NBqf5rmCgMKeVVQw+qmx6YZvpJaL9DOg+pPsClVuP9RJxrwHv+CeUx3IWyep53fBQ8S4GFHZWjJxHbTWtPLkEg/aJjEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=poxXH8Ju; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2VtaYW8l; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version; b=OFUAaFJ9WIOUXoBnsVhvbdmqEbAprZpFiPAZaOpPx98WeXxYVkWz31cRGq5d1OM+SCPBRNiNR94m+jZRyQlxYmJz4k6x6bw/F7s0UzmXK1EDEjbB02gHwIIBY4jFLaTI6HXtQ2PcVW4EdKRxRkTzqiPxDO7reY7k6IDkSEF1a24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0OU2dkMo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6o9/+xdX; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="poxXH8Ju";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2VtaYW8l"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0OU2dkMo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6o9/+xdX"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020; t=1769168234;
@@ -24,31 +24,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CjdVJdQ/IABvMOcQXDTDdk9VdzgWv38Ziq5uuwivQ4U=;
-	b=poxXH8Juzhh/LvvgoJlDLDfmFjwjoAZ0xoL4FdtQial3IXo/SHBzV1KdhIzmjvPeGR+apP
-	tfu9X26fxBnESmq42mHE4wIrhJJdURooCkqyWKQZFmmpsEt2LNYOt8xYjzgNdpd8LXtLWU
-	G4Di1veFIy9qCWlo8JfJ9y9woZ0KUcS0td9ZsPZHEhZydm+rpcEybfn4Knyjzqft70A4tD
-	2/6+v70+AxcTsLrOyFGqykJDSY5LpdELDXxU84GQBffumkdOp0KF+6FVqPCdZ2UpvLe30o
-	y5UdhrLxArEQWu+5f54/ZohWWBX9+V/AjsSOhCmQ2T3Ux3jGwExutbIq6QLPSQ==
+	bh=OWni5HW99nwatLe3bFxSkgJ092tCPIuDbEsFgoqJcfI=;
+	b=0OU2dkMohdOjRwrZK6iO6qfrNE4FxZJc4SpwLNvy/5UjjIZ6HATJafTZi1s3O8yRcQKgRv
+	HqtTaLCjIwZhHMCV5cFkE5NeAoRvrVz18Zw3lT3yghMM6ZgHgHSNpcSH8fF2cRt1oKpzUn
+	kosVEx2qy66OIUCMmx+TaA6wn23hRO9fLG9xTdD2Akqur8X4F7XGhcv35LNXym1F+plyJe
+	eMlcF0c3ChPfACaHa5awZtwncB97PtPH+U5wOs3bhlkGLvUdwpHhOvrOwO52GMotDcefvD
+	fQtlN39AOk5y12doT8FMmIyselSFlrn8ZZmn1vdryBKd9IoUGX0RoGVmAK7ntg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
 	s=2020e; t=1769168234;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CjdVJdQ/IABvMOcQXDTDdk9VdzgWv38Ziq5uuwivQ4U=;
-	b=2VtaYW8loa030Jn7qETkR6GEqiyE8Qu40VWtGV5rY8OSbOWkMEC5nmchKdwFLlTWFEn44D
-	gpI2ROjv9Hlt2iCA==
+	bh=OWni5HW99nwatLe3bFxSkgJ092tCPIuDbEsFgoqJcfI=;
+	b=6o9/+xdXLJRHeZtviycF1Lb87SBxXuNkoulzn6XM+QHkLtf9hE78qmZQfjeLDMv7i/byMu
+	2QXo8NGNkEaXBZDA==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	iommu@lists.linux.dev
-Subject: [PATCH 03/21] iommu/amd: Use core's primary handler and set IRQF_ONESHOT
-Date: Fri, 23 Jan 2026 12:36:49 +0100
-Message-ID: <20260123113708.416727-4-bigeasy@linutronix.de>
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH 05/21] bus: fsl-mc: Use default primary handler
+Date: Fri, 23 Jan 2026 12:36:51 +0100
+Message-ID: <20260123113708.416727-6-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -59,90 +58,52 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-request_threaded_irq() is invoked with a primary and a secondary handler
-and no flags are passed. The primary handler is the same as
-irq_default_primary_handler() so there is no need to have an identical
-copy.
-The lack of the IRQF_ONESHOT can be dangerous because the interrupt
-source is not masked while the threaded handler is active. This means,
-especially on LEVEL typed interrupt lines, the interrupt can fire again
-before the threaded handler had a chance to run.
+There is no added value in dprc_irq0_handler() compared to
+irq_default_primary_handler().
 
-Use the default primary interrupt handler by specifying NULL and set
-IRQF_ONESHOT so the interrupt source is masked until the secondary
-handler is done.
+Use the default primary interrupt handler by specifying NULL.
 
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Cc: iommu@lists.linux.dev
-Fixes: 72fe00f01f9a3 ("x86/amd-iommu: Use threaded interupt handler")
+Cc: Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc: linuxppc-dev@lists.ozlabs.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/iommu/amd/amd_iommu.h |  1 -
- drivers/iommu/amd/init.c      | 12 ++++--------
- drivers/iommu/amd/iommu.c     |  5 -----
- 3 files changed, 4 insertions(+), 14 deletions(-)
+ drivers/bus/fsl-mc/dprc-driver.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/iommu/amd/amd_iommu.h b/drivers/iommu/amd/amd_iommu.h
-index b742ef1adb352..df1c238dc8885 100644
---- a/drivers/iommu/amd/amd_iommu.h
-+++ b/drivers/iommu/amd/amd_iommu.h
-@@ -15,7 +15,6 @@ irqreturn_t amd_iommu_int_thread(int irq, void *data);
- irqreturn_t amd_iommu_int_thread_evtlog(int irq, void *data);
- irqreturn_t amd_iommu_int_thread_pprlog(int irq, void *data);
- irqreturn_t amd_iommu_int_thread_galog(int irq, void *data);
--irqreturn_t amd_iommu_int_handler(int irq, void *data);
- void amd_iommu_restart_log(struct amd_iommu *iommu, const char *evt_type,
- 			   u8 cntrl_intr, u8 cntrl_log,
- 			   u32 status_run_mask, u32 status_overflow_mask);
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 384c90b4f90a0..62a7a718acf8f 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -2356,12 +2356,8 @@ static int iommu_setup_msi(struct amd_iommu *iommu)
- 	if (r)
- 		return r;
-=20
--	r =3D request_threaded_irq(iommu->dev->irq,
--				 amd_iommu_int_handler,
--				 amd_iommu_int_thread,
--				 0, "AMD-Vi",
--				 iommu);
--
-+	r =3D request_threaded_irq(iommu->dev->irq, NULL, amd_iommu_int_thread,
-+				 IRQF_ONESHOT, "AMD-Vi", iommu);
- 	if (r) {
- 		pci_disable_msi(iommu->dev);
- 		return r;
-@@ -2535,8 +2531,8 @@ static int __iommu_setup_intcapxt(struct amd_iommu *i=
-ommu, const char *devname,
- 		return irq;
- 	}
-=20
--	ret =3D request_threaded_irq(irq, amd_iommu_int_handler,
--				   thread_fn, 0, devname, iommu);
-+	ret =3D request_threaded_irq(irq, NULL, thread_fn, IRQF_ONESHOT, devname,
-+				   iommu);
- 	if (ret) {
- 		irq_domain_free_irqs(irq, 1);
- 		irq_domain_remove(domain);
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 5d45795c367a6..bd577852618b7 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -1151,11 +1151,6 @@ irqreturn_t amd_iommu_int_thread(int irq, void *data)
- 	return IRQ_HANDLED;
+diff --git a/drivers/bus/fsl-mc/dprc-driver.c b/drivers/bus/fsl-mc/dprc-dri=
+ver.c
+index c63a7e688db6a..db67442addad2 100644
+--- a/drivers/bus/fsl-mc/dprc-driver.c
++++ b/drivers/bus/fsl-mc/dprc-driver.c
+@@ -380,17 +380,6 @@ int dprc_scan_container(struct fsl_mc_device *mc_bus_d=
+ev,
  }
+ EXPORT_SYMBOL_GPL(dprc_scan_container);
 =20
--irqreturn_t amd_iommu_int_handler(int irq, void *data)
+-/**
+- * dprc_irq0_handler - Regular ISR for DPRC interrupt 0
+- *
+- * @irq_num: IRQ number of the interrupt being handled
+- * @arg: Pointer to device structure
+- */
+-static irqreturn_t dprc_irq0_handler(int irq_num, void *arg)
 -{
 -	return IRQ_WAKE_THREAD;
 -}
 -
- /*************************************************************************=
-***
+ /**
+  * dprc_irq0_handler_thread - Handler thread function for DPRC interrupt 0
   *
-  * IOMMU command queuing functions
+@@ -527,7 +516,7 @@ static int register_dprc_irq_handler(struct fsl_mc_devi=
+ce *mc_dev)
+ 	 */
+ 	error =3D devm_request_threaded_irq(&mc_dev->dev,
+ 					  irq->virq,
+-					  dprc_irq0_handler,
++					  NULL,
+ 					  dprc_irq0_handler_thread,
+ 					  IRQF_NO_SUSPEND | IRQF_ONESHOT,
+ 					  dev_name(&mc_dev->dev),
 --=20
 2.51.0
 
