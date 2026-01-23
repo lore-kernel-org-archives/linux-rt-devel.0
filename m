@@ -1,300 +1,278 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D0D03BFE4D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 22:12:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769119966; cv=pass; b=gpLatWciBjxy7/O9VsnGIFXpMx9c5xoNC1A2UzqTiZQ8pbtFNwH8XJe2Idij/czfeWSjBvz+KwPyn4PNum3YQPOVVofsmL9kSe3OWfl0CtBIUBtwQ0+BCsymRyjnLkkNhHSnBnDI+lO0QNByn369orDkT8G9CbZIRPiZdiuyCrk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769119966; c=relaxed/simple;
-	bh=R5s+nMSDXxBelfMom2Ansta3bLeMKfxUh8lXMvRRj6I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QVCZ+3u5JegjlUfwVyJk/K2YMUU5aoqtePT8j6yrkIOymmmllbgiy7Os+Y9R5EkLO/iGHxl050ZmKTU3Ok1qJbbmAmdQV9D7P7HPV4YHkV8tk8DyUE7V0NmCgQZQE8q2PB1U1fU7ijJa2OUu5ff4WHloogxnBLldKhT9b18HuEA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aIZRSg2A; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A79320A09
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 06:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769151194; cv=none; b=FyJnG5J0uiDiteQDhMY+fw4BN5r29TW7CUvJE0OihxeYMp+znPTV72kFCJ7mub4yTu2jHQjsvH9yZhUjj4Wg3VwUpU99RC/ujZtBv7CE3pliABhwELmB9UoOuHlfQmr+/qPcv2hdTL6OmaWYbi1bQaVSPv2JjwKw7zEREgvcAko=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769151194; c=relaxed/simple;
+	bh=E26E8yiAzndBAW9zw2+25zeYDnfroJjbXi/8QjcbhyQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lEeGlPhuRg4LdcRf3d8ctJGfX/C/ok+QxS21DqGXtdQ4IJxmfmMzZ4sDsY74eZLzkWd1yo8bMOeWxdRCN1AhK9dflG4xYRNK6eGgdXSJ49SCys4+dJcZx2PX3yrvw34eS/2FXBmXJuWR/fmilG+vB90yL1RL+ypgNqg3Xz6F+bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=zgvEHHPy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=gHQhmfuW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=ToZZ/BfT; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=K6pbeq4M; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aIZRSg2A"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5014acad6f2so72701cf.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 22 Jan 2026 14:12:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769119958; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RfZR6mPXPvsN5TIivOtuE85FAIgJlbBS/F1jf/mZhaoDxtfZf5y4KGqhh/5jwPTF/1
-         TfSVMlL8ATq2FZJNo9iBjvj8Rc3PKBIG4r7vv1bvMAqVhyFaxyphOtIEb+MiGsnnCs5v
-         ZGPgTeNlnonxxQ3+4XMq8igsAhgz1vVA/qjV0ocil6P+pau0zrf4fk49wX6aQvRtDig2
-         hQoj9TvbdiiXwRCaR9uDcISEFQikTgoEHdlmXiAffk72wXnlF7e3mFSj5RsunyDt6IfB
-         8Xy8IpeZQUG4FAW5hKHYHHRyrKHAs9ErX0+LjajyOgBctxbuvJMd12CbW9BlkfqqVv4j
-         u/iQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=S0Z4UtmHMtrm22Dzvewt+n+aqxxbFiEfZAYYSqL4AsM=;
-        fh=DXJOBX9AFcUZvEQMSvdFWc7YVHQQM7Death2fOw4NHI=;
-        b=KidPzpLRI+4Yco9jjqEyHddaY+L+BtOc70Miln9NvW6qzVrXmqsXJJ1KPjn+lAI8/V
-         ebs5+th5A6VQPqxovqGqXnmHikvKNpteN6MWvEYp+p+vthQ2EoTn1Utg5HkjjdKXAv75
-         2V9Gh32C2XqCqG5WlVSzUYfkk3hbWkrgfDcHNX1EediKJJRBqpian51TaB9tj4ABhvMT
-         ckfT7LJHkY2uLlTNWl5vYq5z5n1YVK/qXNLXQGYsRmKxtsvDyXg4JISvoxtBgDslz7kS
-         IwYDgU5mkqSFOD1iAFJ1eyOSyvGcHVu77vRpDAHJQTtnC5A/+WgHHXXY6MAmg47PTwts
-         ouBg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769119957; x=1769724757; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S0Z4UtmHMtrm22Dzvewt+n+aqxxbFiEfZAYYSqL4AsM=;
-        b=aIZRSg2AonMg605I5EG0OhwlzBskgYb9wnkW3r1bW1KANF66Gi4OxjMAtyE0HvgceL
-         PqVdyf/qRHM0Wt/LHI5Pyu5/VyVV1XA841u4cA6cvkGSD+D5SBS7mcfl5vGrwGZqY2Zr
-         IWQFUPLp8/jE6hoqiH4rQpdoJKAWytGEhmoBki1Q9FQM/dj/61twL7369aoB02mWvrhN
-         45F5d01+ghCJOTzjc2Mqb02+Q5xtYtFopwqb5OvCHCiSbSIp7bRgRkN5pzAQdolcJEhn
-         MrZTvtdacNa6pD31ACMjvtKw5YpJRcELTogbPHXfWQQ3aQ72jymqiW9SbOUoJ2HMWrc+
-         oUhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769119958; x=1769724758;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S0Z4UtmHMtrm22Dzvewt+n+aqxxbFiEfZAYYSqL4AsM=;
-        b=wokaIWYWsTvsml8InTZls+O+rQquPfx70sqI8TdLe3g5WLHBHfRIQtc0EkmeqSeS3G
-         gPqxXUDY6glpq/XeAjqbURDJ81kNp3Myjt2eTlMbMszNSq1Pkw6DO1iy+PCW0NKTJpUW
-         XCnjzh0oVSNxYjvnTK3+6N6ukLKaSYd6KdmhN7TToxUzZgpzxuLC87vfabcLrQix66Yj
-         t1XubEoydIMtwstYsvjYcDV/TCRKTX0vgjbX1jeaF8rtFYCeVuBs2k+SnNk/GOD7fJ9o
-         tlCxl/NuAMi3AN+LynEyKYOL2OwBDJltbM2vKVeoQXwl+12JN7r99o/14jD91IY/A1+3
-         tQPw==
-X-Forwarded-Encrypted: i=1; AJvYcCU90Q3mNnOLFd4Znyimw0n2Y3xllIY4lblho/NhDhGfSgQpAVEa3VC39WYk14VMAnN6y9nJdYy2a6stJ6Yx2Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1AP4DqsA24S9bOE3/FMsgBHhzaIuZXD8Q2Qx6vPJ5SeMhl44E
-	I0nGz9wmSNv0RFv+NxbO8eXquwrx7w12EQIaX28BofCoKfV1XYpBGlR5v23tco4AVTlnF3mg3yQ
-	ylMMJw43UyMPQzdMvKjkH+0kzRBQaG65RS88Lmjws
-X-Gm-Gg: AZuq6aLXKuObQfzi1aGOVNZatulTcbNIltOErbShjbZkXqHTb0U4HPEzrgkQZGfsizC
-	GA01NFDu4cSn8ehaz+RXIQjffLR8n4victPzgzzGj+DbSw/+QZENZTMaqwJ+07AtelyHBYm6Y7z
-	CvuN4bisyAUN4ofzsbfHORJc8r8HgWLXeW+kELXCq5P1r7ryoycA6vNodjCgmALaw7ELWxTK+Gp
-	6HkOTGJELRQb2Av1PCB1Lwegi27DWekorf/aGcLY+Vouj4ermGb2KQT0rMeRKrTVW3yLikFd1DT
-	8Mep8xTTXurV5x/DViuScPvGOwZdhabWKEs=
-X-Received: by 2002:a05:622a:189e:b0:501:4eae:dbfc with SMTP id
- d75a77b69052e-502f8db53bbmr1163411cf.5.1769119956786; Thu, 22 Jan 2026
- 14:12:36 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="zgvEHHPy";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="gHQhmfuW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="ToZZ/BfT";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="K6pbeq4M"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3953C33768;
+	Fri, 23 Jan 2026 06:53:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769151190; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xHBC7+XIDKcDoXobVjIIeaJAGTBPlExl+xM4MpgZv40=;
+	b=zgvEHHPy66Pe3rtCqtFAlD/T0SFtfIkyxHp/2jGbNuWivkgsODJS+GB3rTyJNdBQHar97c
+	sVm/AXjAPZ5uQPERzlxQuVNOH7cVpTMu5hBAdgpBzT2vGeTkd+bMle170/98KuVYb/J+cW
+	oDALmTnPKb+gF1t00DYBWfwm/XjlF6A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769151190;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xHBC7+XIDKcDoXobVjIIeaJAGTBPlExl+xM4MpgZv40=;
+	b=gHQhmfuWotNYLJuejhYX3dxwwfRYJvYYMhnYv7Laye0/yDAzbmLXYqCYnjP4I1LEQZHmCG
+	A1ZPbR8VaFf+GeCg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769151189; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xHBC7+XIDKcDoXobVjIIeaJAGTBPlExl+xM4MpgZv40=;
+	b=ToZZ/BfTv62as/fot31mnxaZmixLhnkGocIYQRRAdYgnwsl7CsXu4WojwsA5SXTDgZ+Dz4
+	m2EtAaA982iGbCPhmEdr+UvakVto6xCGIYXWgknW7KUguIi/6AOE+7QqOMrCbu7j36Tiqn
+	1vNp+dBhgA5BoJk1Q/nawV2GLF4BLsk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769151189;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xHBC7+XIDKcDoXobVjIIeaJAGTBPlExl+xM4MpgZv40=;
+	b=K6pbeq4MyJ0jv8OvZFU821QP3Qr9O0rFmSjHF2nLtGR8Lgx/18gnDuZZGw8wx0o2fvg3t4
+	jn59EWj4p1ZIHjBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 06A8B1395E;
+	Fri, 23 Jan 2026 06:53:09 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +aDbANUac2k4YgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 06:53:09 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v4 00/22] slab: replace cpu (partial) slabs with sheaves
+Date: Fri, 23 Jan 2026 07:52:38 +0100
+Message-Id: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1769086312.git.lorenzo.stoakes@oracle.com> <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 22 Jan 2026 14:12:25 -0800
-X-Gm-Features: AZwV_QgEDRlflQAy1nDh25c_dk6-859XJWS6UBtVlFMJyyoqvQVG2qiSotUSCKs
-Message-ID: <CAJuCfpEJ0NRB3vgZ2uajGcTRovKYTnrV6woSbFGWZ_LSFerkTA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3 10/10] mm/vma: add and use vma_assert_stabilised()
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jann Horn <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Waiman Long <longman@redhat.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALYac2kC/2XOTQ7CIBCG4as0rMUMQ+mPK+9hXNApWJLGGlCiN
+ r27tNGo6fIjed5hZMF4ZwLbZSPzJrrghnMa+SZj1OnzyXDXps0QUAkA5KEzOprA7eC57nteFZq
+ EbCkvtWJJXbyx7r4UD8e0Oxeug38sB6KYX98tlKtWFBx4Ya1GqutcEOzDLZgtPdlcivjRBQix/
+ knEpOsKUZFtFJD91/JXF2stk1aqVtQAQFniV0/T9AKIqE+lKAEAAA==
+X-Change-ID: 20251002-sheaves-for-all-86ac13dc47a5
+To: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Suren Baghdasaryan <surenb@google.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com, 
+ Vlastimil Babka <vbabka@suse.cz>, kernel test robot <oliver.sang@intel.com>, 
+ stable@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+X-Mailer: b4 0.14.3
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,linux-foundation.org,gmail.com,oracle.com,google.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,suse.cz,intel.com];
+	R_RATELIMIT(0.00)[to_ip_from(RLwn5r54y1cp81no5tmbbew5oc)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,suse.cz:email]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Thu, Jan 22, 2026 at 5:02=E2=80=AFAM Lorenzo Stoakes
-<lorenzo.stoakes@oracle.com> wrote:
->
-> Sometimes we wish to assert that a VMA is stable, that is - the VMA canno=
-t
-> be changed underneath us. This will be the case if EITHER the VMA lock or
-> the mmap lock is held.
->
-> In order to do so, we introduce a new assert vma_assert_stablised() - thi=
-s
+Percpu sheaves caching was introduced as opt-in but the goal was to
+eventually move all caches to them. This is the next step, enabling
+sheaves for all caches (except the two bootstrap ones) and then removing
+the per cpu (partial) slabs and lots of associated code.
 
-s/vma_assert_stablised/vma_assert_stabilised
+Besides (hopefully) improved performance, this removes the rather
+complicated code related to the lockless fastpaths (using
+this_cpu_try_cmpxchg128/64) and its complications with PREEMPT_RT or
+kmalloc_nolock().
 
-> will make a lockdep assert if lockdep is enabled AND the VMA is
-> read-locked.
->
-> Currently lockdep tracking for VMA write locks is not implemented, so it
-> suffices to check in this case that we have either an mmap read or write
-> semaphore held.
->
-> Note that because the VMA lock uses the non-standard vmlock_dep_map namin=
-g
-> convention, we cannot use lockdep_assert_is_write_held() so have to open
-> code this ourselves via lockdep-asserting that
-> lock_is_held_type(&vma->vmlock_dep_map, 0).
->
-> We have to be careful here - for instance when merging a VMA, we use the
-> mmap write lock to stabilise the examination of adjacent VMAs which might
-> be simultaneously VMA read-locked whilst being faulted in.
->
-> If we were to assert VMA read lock using lockdep we would encounter an
-> incorrect lockdep assert.
->
-> Also, we have to be careful about asserting mmap locks are held - if we t=
-ry
-> to address the above issue by first checking whether mmap lock is held an=
-d
-> if so asserting it via lockdep, we may find that we were raced by another
-> thread acquiring an mmap read lock simultaneously that either we don't
-> own (and thus can be released any time - so we are not stable) or was
-> indeed released since we last checked.
->
-> So to deal with these complexities we end up with either a precise (if
-> lockdep is enabled) or imprecise (if not) approach - in the first instanc=
-e
-> we assert the lock is held using lockdep and thus whether we own it.
->
-> If we do own it, then the check is complete, otherwise we must check for
-> the VMA read lock being held (VMA write lock implies mmap write lock so t=
-he
-> mmap lock suffices for this).
->
-> If lockdep is not enabled we simply check if the mmap lock is held and ri=
-sk
-> a false negative (i.e. not asserting when we should do).
->
-> There are a couple places in the kernel where we already do this
-> stabliisation check - the anon_vma_name() helper in mm/madvise.c and
-> vma_flag_set_atomic() in include/linux/mm.h, which we update to use
-> vma_assert_stabilised().
->
-> This change abstracts these into vma_assert_stabilised(), uses lockdep if
-> possible, and avoids a duplicate check of whether the mmap lock is held.
->
-> This is also self-documenting and lays the foundations for further VMA
-> stability checks in the code.
+The lockless slab freelist+counters update operation using
+try_cmpxchg128/64 remains and is crucial for freeing remote NUMA objects
+without repeating the "alien" array flushing of SLUB, and to allow
+flushing objects from sheaves to slabs mostly without the node
+list_lock.
 
-So, is the lockdep addition the only functional change here?
+Sending this v4 because various changes accumulated in the branch due to
+review and -next exposure (see the list below). Thanks for all the
+reviews!
 
->
-> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Git branch for the v4
+  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=sheaves-for-all-v4
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+Which is a snapshot of:
+  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git/log/?h=b4/sheaves-for-all
 
-> ---
->  include/linux/mm.h        |  5 +---
->  include/linux/mmap_lock.h | 52 +++++++++++++++++++++++++++++++++++++++
->  mm/madvise.c              |  4 +--
->  3 files changed, 54 insertions(+), 7 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 6029a71a6908..d7ca837dd8a5 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1008,10 +1008,7 @@ static inline void vma_flag_set_atomic(struct vm_a=
-rea_struct *vma,
->  {
->         unsigned long *bitmap =3D ACCESS_PRIVATE(&vma->flags, __vma_flags=
-);
->
-> -       /* mmap read lock/VMA read lock must be held. */
-> -       if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> -               vma_assert_locked(vma);
-> -
-> +       vma_assert_stabilised(vma);
->         if (__vma_flag_atomic_valid(vma, bit))
->                 set_bit((__force int)bit, bitmap);
->  }
-> diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index 92ea07f0da4e..e01161560608 100644
-> --- a/include/linux/mmap_lock.h
-> +++ b/include/linux/mmap_lock.h
-> @@ -374,6 +374,52 @@ static inline void vma_assert_locked(struct vm_area_=
-struct *vma)
->         vma_assert_write_locked(vma);
->  }
->
-> +/**
-> + * vma_assert_stabilised() - assert that this VMA cannot be changed from
-> + * underneath us either by having a VMA or mmap lock held.
-> + * @vma: The VMA whose stability we wish to assess.
-> + *
-> + * If lockdep is enabled we can precisely ensure stability via either an=
- mmap
-> + * lock owned by us or a specific VMA lock.
-> + *
-> + * With lockdep disabled we may sometimes race with other threads acquir=
-ing the
-> + * mmap read lock simultaneous with our VMA read lock.
-> + */
-> +static inline void vma_assert_stabilised(struct vm_area_struct *vma)
-> +{
-> +       /*
-> +        * If another thread owns an mmap lock, it may go away at any tim=
-e, and
-> +        * thus is no guarantee of stability.
-> +        *
-> +        * If lockdep is enabled we can accurately determine if an mmap l=
-ock is
-> +        * held and owned by us. Otherwise we must approximate.
-> +        *
-> +        * It doesn't necessarily mean we are not stabilised however, as =
-we may
-> +        * hold a VMA read lock (not a write lock as this would require a=
-n owned
-> +        * mmap lock).
-> +        *
-> +        * If (assuming lockdep is not enabled) we were to assert a VMA r=
-ead
-> +        * lock first we may also run into issues, as other threads can h=
-old VMA
-> +        * read locks simlutaneous to us.
-> +        *
-> +        * Therefore if lockdep is not enabled we risk a false negative (=
-i.e. no
-> +        * assert fired). If accurate checking is required, enable lockde=
-p.
-> +        */
-> +       if (IS_ENABLED(CONFIG_LOCKDEP)) {
-> +               if (lockdep_is_held(&vma->vm_mm->mmap_lock))
-> +                       return;
-> +       } else {
-> +               if (rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> +                       return;
-> +       }
-> +
-> +       /*
-> +        * We're not stabilised by the mmap lock, so assert that we're
-> +        * stabilised by a VMA lock.
-> +        */
-> +       vma_assert_locked(vma);
-> +}
-> +
->  static inline bool vma_is_attached(struct vm_area_struct *vma)
->  {
->         return refcount_read(&vma->vm_refcnt);
-> @@ -455,6 +501,12 @@ static inline void vma_assert_locked(struct vm_area_=
-struct *vma)
->         mmap_assert_locked(vma->vm_mm);
->  }
->
-> +static inline void vma_assert_stabilised(struct vm_area_struct *vma)
-> +{
-> +       /* If no VMA locks, then either mmap lock suffices to stabilise. =
-*/
-> +       mmap_assert_locked(vma->vm_mm);
-> +}
-> +
->  #endif /* CONFIG_PER_VMA_LOCK */
->
->  static inline void mmap_write_lock(struct mm_struct *mm)
-> diff --git a/mm/madvise.c b/mm/madvise.c
-> index 4bf4c8c38fd3..1f3040688f04 100644
-> --- a/mm/madvise.c
-> +++ b/mm/madvise.c
-> @@ -109,9 +109,7 @@ void anon_vma_name_free(struct kref *kref)
->
->  struct anon_vma_name *anon_vma_name(struct vm_area_struct *vma)
->  {
-> -       if (!rwsem_is_locked(&vma->vm_mm->mmap_lock))
-> -               vma_assert_locked(vma);
-> -
-> +       vma_assert_stabilised(vma);
->         return vma->anon_name;
->  }
->
-> --
-> 2.52.0
+Based on:
+  https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/slab.git/log/?h=slab/for-7.0/sheaves-base
+  - includes a sheaves optimization that seemed minor but there was lkp
+    test robot result with significant improvements:
+    https://lore.kernel.org/all/202512291555.56ce2e53-lkp@intel.com/
+    (could be an uncommon corner case workload though)
+  - includes the kmalloc_nolock() fix commit a4ae75d1b6a2 that is undone
+    as part of this series
+
+Significant (but not critical) remaining TODOs:
+- Integration of rcu sheaves handling with kfree_rcu batching.
+  - Currently the kfree_rcu batching is almost completely bypassed. I'm
+    thinking it could be adjusted to handle rcu sheaves in addition to
+    individual objects, to get the best of both.
+- Performance evaluation. Petr Tesarik has been doing that on the RFC
+  with some promising results (thanks!) and also found a memory leak.
+
+Note that as many things, this caching scheme change is a tradeoff, as
+summarized by Christoph:
+
+  https://lore.kernel.org/all/f7c33974-e520-387e-9e2f-1e523bfe1545@gentwo.org/
+
+- Objects allocated from sheaves should have better temporal locality
+  (likely recently freed, thus cache hot) but worse spatial locality
+  (likely from many different slabs, increasing memory usage and
+  possibly TLB pressure on kernel's direct map).
+
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+Changes in v4:
+- Fix up both missing and spurious r-b tags from v3, and add new ones
+  (big thanks to Hao Li, Harry, and Suren!)
+- Fix infinite recursion with kmemleak (Breno Leitao)
+- Use cache_has_sheaves() in pcs_destroy() (Suren)
+- Use cache_has_sheaves() in kvfree_rcu_barrier_on_cache() (Hao Li)
+- Bypass sheaf for remote object free also in kfree_nolock() (Harry)
+- WRITE_ONCE slab->counters in __update_freelist_slow() so
+  get_partial_node_bulk() can stop being paranoid (Harry)
+- Tweak conditions in alloc_from_new_slab() (Hao Li, Suren)
+- Rename get_partial*() functions to get_from_partial*() (Suren)
+- Rename variable freelist to object in ___slab_alloc() (Suren)
+- Separate struct partial_bulk_context instead of extending.
+- Rename flush_cpu_slab() to flush_cpu_sheaves() (Hao Li)
+- Add "mm/slab: fix false lockdep warning in __kfree_rcu_sheaf()" from
+  Harry.
+- Add counting of FREE_SLOWPATH stat to some missing places (Suren, Hao
+  Li)
+- Link to v3: https://patch.msgid.link/20260116-sheaves-for-all-v3-0-5595cb000772@suse.cz
+
+Changes in v3:
+- Rebase to current slab/for-7.0/sheaves which itself is rebased to
+  slab/for-next-fixes to include commit a4ae75d1b6a2 ("slab: fix
+  kmalloc_nolock() context check for PREEMPT_RT")
+- Revert a4ae75d1b6a2 as part of "slab: simplify kmalloc_nolock()" as
+  it's no longer necessary.
+- Add cache_has_sheaves() helper to test for s->sheaf_capacity, use it
+  in more places instead of s->cpu_sheaves tests that were missed
+  (Hao Li)
+- Fix a bug where kmalloc_nolock() could end up trying to allocate empty
+  sheaf (not compatible with !allow_spin) in __pcs_replace_full_main()
+  (Hao Li)
+- Fix missing inc_slabs_node() in ___slab_alloc() ->
+  alloc_from_new_slab() path. (Hao Li)
+  - Also a bug where refill_objects() -> alloc_from_new_slab ->
+    free_new_slab_nolock() (previously defer_deactivate_slab()) would
+    do inc_slabs_node() without matching dec_slabs_node()
+- Make __free_slab call free_frozen_pages_nolock() when !allow_spin.
+  This was correct in the first RFC. (Hao Li)
+- Add patch to make SLAB_CONSISTENCY_CHECKS prevent merging.
+- Add tags from sveral people (thanks!)
+- Fix checkpatch warnings.
+- Link to v2: https://patch.msgid.link/20260112-sheaves-for-all-v2-0-98225cfb50cf@suse.cz
+
+Changes in v2:
+- Rebased to v6.19-rc1+slab.git slab/for-7.0/sheaves
+  - Some of the preliminary patches from the RFC went in there.
+- Incorporate feedback/reports from many people (thanks!), including:
+  - Make caches with sheaves mergeable.
+  - Fix a major memory leak.
+- Cleanup of stat items.
+- Link to v1: https://patch.msgid.link/20251023-sheaves-for-all-v1-0-6ffa2c9941c0@suse.cz
+
+---
+Harry Yoo (1):
+      mm/slab: fix false lockdep warning in __kfree_rcu_sheaf()
+
+Vlastimil Babka (21):
+      mm/slab: add rcu_barrier() to kvfree_rcu_barrier_on_cache()
+      slab: add SLAB_CONSISTENCY_CHECKS to SLAB_NEVER_MERGE
+      mm/slab: move and refactor __kmem_cache_alias()
+      mm/slab: make caches with sheaves mergeable
+      slab: add sheaves to most caches
+      slab: introduce percpu sheaves bootstrap
+      slab: make percpu sheaves compatible with kmalloc_nolock()/kfree_nolock()
+      slab: handle kmalloc sheaves bootstrap
+      slab: add optimized sheaf refill from partial list
+      slab: remove cpu (partial) slabs usage from allocation paths
+      slab: remove SLUB_CPU_PARTIAL
+      slab: remove the do_slab_free() fastpath
+      slab: remove defer_deactivate_slab()
+      slab: simplify kmalloc_nolock()
+      slab: remove struct kmem_cache_cpu
+      slab: remove unused PREEMPT_RT specific macros
+      slab: refill sheaves from all nodes
+      slab: update overview comments
+      slab: remove frozen slab checks from __slab_free()
+      mm/slub: remove DEACTIVATE_TO_* stat items
+      mm/slub: cleanup and repurpose some stat items
+
+ include/linux/slab.h |    6 -
+ mm/Kconfig           |   11 -
+ mm/internal.h        |    1 +
+ mm/page_alloc.c      |    5 +
+ mm/slab.h            |   65 +-
+ mm/slab_common.c     |   61 +-
+ mm/slub.c            | 2689 ++++++++++++++++++--------------------------------
+ 7 files changed, 1031 insertions(+), 1807 deletions(-)
+---
+base-commit: a66f9c0f1ba2dd05fa994c800ebc63f265155f91
+change-id: 20251002-sheaves-for-all-86ac13dc47a5
+
+Best regards,
+-- 
+Vlastimil Babka <vbabka@suse.cz>
+
