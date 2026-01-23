@@ -1,55 +1,56 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717ED3EBF16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4386352FBF
 	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 11:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769168246; cv=none; b=TrUnacJ4gqOE73tg0orrZ1y2+KX+RqLR8w2j3RgWzMSn7g38Z5lWgEewXbxF2kgluqJ9SuAW/qaNtbgc4gN5sdVvOsdW+T9VnXrS1IBjZAgtR896plSGVbVBM/zRwSNJpIfmO23GUCIzM+zNqcfNuUMr16zYWP7trs8Xfeaz6WI=
+	t=1769168246; cv=none; b=goa6A1dUhgy7XNMB8ABHGjUXg1AwsXWHuwMmR1ce5zWAuzHJNsqyVHHRramia+JQ8U68NzxOcvcFjrbqYSizshQvHAwLKHLwSOTyviVThbd3UmkFpYPBqiIu2mVSRbHo3ZE1NcbDgNv0dGN7kEIANeS/a+x6mQ5iXokksQ0JkSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769168246; c=relaxed/simple;
-	bh=7S6roLtR2ILWMTt6k1VjruCZla33TpE5dDkqi47ng2E=;
+	bh=vIczClc3L+ZkHkVsSpNfq/q11uqYd3Qnw0GzCL2KdpQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i2bi9soF2TeLB/eEXHK2Hv7kxWZd1QjPnFXJGxpd0q5LJG0TdKabmlKv0RH5T226C3K9qcjiJkZDLNikq66+XZXuSOfyI1wHT969PnVNQX3JqjgGLXoEY7iblLoZ4KOVmwfIxVpeqyhqDSpiWavPFn7SrDDzatSSStjDCuFQK8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FoM/+mTv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/FqJyzLi; arc=none smtp.client-ip=193.142.43.55
+	 MIME-Version:Content-Type; b=CZtxNlYBPIlxlqNOz8ISWP8WJds7JLz27/uLrgWyW/GMi0MD77FIlnrKgCxRjceV+Ycf/c/9Q51gb1oR2Q4tzQ5yt6L8COIz14dI7mpWpqsOfxaMh+wrGJejJdKj08YrrfMBPett4/QohvXniE7JR7LYcL5ea900c1XifVNDuBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=d7gTBJwq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SjDsxl1b; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FoM/+mTv";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/FqJyzLi"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="d7gTBJwq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SjDsxl1b"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769168239;
+	s=2020; t=1769168240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UuGZdWBY87PO10lLpZUmYDO4z+8I9ptGVyLBptz6r3Q=;
-	b=FoM/+mTvXQh+IlIjj5sQr2L+31X8A7ne6u27SqaGMbvmf0C2n+LUMwcJMiY5kUWsTMQOJr
-	EX3df1nkEdWwWUKLREBzXRLAi3YoUcLDF7Tky7F+GCXhTlXCv+cL1XPgcRKuFFSEr3MF8U
-	H/VHJZRF4AhhQwSTBgjsywbOIS5aU6aDlyRAwiRJVrdqhTH5aFKO7vL19SF3WzU0vzUCSL
-	TjF7Snin0kI1SLHapcQy13ydgeqRR5GGQzNSncGLP7Y96WRnXV5SGzv+Yqvzal7e0WpQnP
-	4D2Ru5/8b7/vfMtNke/MowoF0tAebuBlOwKyuYQSehS4hAfanQABhMO7NoXo/g==
+	bh=Sl9nxX2SYIE0FPFj1PICaucmWXvC8UFH0lqaW4a3QRk=;
+	b=d7gTBJwqWu1/i93HjGI4i8O3WWlntyfw2Y+GUawJpVNqI4BewHYFOiYO2hEuMRnmrTE7GK
+	TLleyiAyiYGpthbO3JesNquobYKS8+Vki/yTQv3DqlFFET0YXbyW8rzTthCDPF6etanq6K
+	Q3ypQmR4ltQ6mzeHYDAzAkkMWOYZsOnksPHN1mWACsO5vFZozQZkeiWyFBKfygNmPkLpMY
+	gdPr25HBx+rjLRk3cANI2gg3nnPvtaFM9xyZFPk0nFhAR5DpHGwAllEumKvLKhOi4115kW
+	vgtjSVlOxm6y2isNHyMXXZag+pZU31iwR3q5TdIDHIZgnwHFeSaRsxfAdvyQCg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769168239;
+	s=2020e; t=1769168240;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UuGZdWBY87PO10lLpZUmYDO4z+8I9ptGVyLBptz6r3Q=;
-	b=/FqJyzLipZ2EWyZRKLaLuPjj7SWd4p2VwnGnaXolZfN6wtB99EmsXIlLdjo4XinbVgMvSR
-	lbjeGqTOAXUxagAQ==
+	bh=Sl9nxX2SYIE0FPFj1PICaucmWXvC8UFH0lqaW4a3QRk=;
+	b=SjDsxl1b7xpJkADeaZGljWS5VK0SRl3ffFVRm/HFBzkVPplbGuxfnSjMnb4WXchTkJ4PyF
+	lj3CAMBl82idT5AA==
 To: linux-kernel@vger.kernel.org
 Cc: linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lee Jones <lee@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	patches@opensource.cirrus.com,
-	Mark Brown <broonie@kernel.org>
-Subject: [PATCH 17/21] mfd: wm8350-core: Use IRQF_ONESHOT
-Date: Fri, 23 Jan 2026 12:37:03 +0100
-Message-ID: <20260123113708.416727-18-bigeasy@linutronix.de>
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org
+Subject: [PATCH 20/21] iio: magnetometer: Remove IRQF_ONESHOT
+Date: Fri, 23 Jan 2026 12:37:06 +0100
+Message-ID: <20260123113708.416727-21-bigeasy@linutronix.de>
 In-Reply-To: <20260123113708.416727-1-bigeasy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
 Precedence: bulk
@@ -58,46 +59,44 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Using a threaded interrupt without a dedicated primary handler mandates
-the IRQF_ONESHOT flag to mask the interrupt source while the threaded
-handler is active. Otherwise the interrupt can fire again before the
-threaded handler had a chance to run.
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
+The flag also disallows force-threading of the primary handler and the
+irq-core will warn about this.
+The force-threading functionality is required on PREEMPT_RT because the
+handler is using locks with can sleep on PREEMPT_RT.
 
-Mark explained that this should not happen with this hardware since it a
-slow irqchip which is behind an I2C/ SPI bus but the IRQ-core will
-refuse to accept such a handler.
+Remove IRQF_ONESHOT from irqflags.
 
-Set IRQF_ONESHOT so the interrupt source is masked until the secondary
-handler is done.
-
-Cc: Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: patches@opensource.cirrus.com
-Cc: Mark Brown <broonie@kernel.org>
-Fixes: 1c6c69525b40e ("genirq: Reject bogus threaded irq requests")
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>
+Cc: "Nuno S=C3=A1" <nuno.sa@analog.com>
+Cc: Andy Shevchenko <andy@kernel.org>
+Cc: linux-iio@vger.kernel.org
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/mfd/wm8350/core.h | 2 +-
+ drivers/iio/magnetometer/ak8975.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/mfd/wm8350/core.h b/include/linux/mfd/wm8350/cor=
-e.h
-index 5f70d3b5d1b1a..097ef4dfcdac8 100644
---- a/include/linux/mfd/wm8350/core.h
-+++ b/include/linux/mfd/wm8350/core.h
-@@ -667,7 +667,7 @@ static inline int wm8350_register_irq(struct wm8350 *wm=
-8350, int irq,
- 		return -ENODEV;
+diff --git a/drivers/iio/magnetometer/ak8975.c b/drivers/iio/magnetometer/a=
+k8975.c
+index 3fd0171e5d69b..d30315ad85ded 100644
+--- a/drivers/iio/magnetometer/ak8975.c
++++ b/drivers/iio/magnetometer/ak8975.c
+@@ -581,7 +581,7 @@ static int ak8975_setup_irq(struct ak8975_data *data)
+ 		irq =3D gpiod_to_irq(data->eoc_gpiod);
 =20
- 	return request_threaded_irq(irq + wm8350->irq_base, NULL,
--				    handler, flags, name, data);
-+				    handler, flags | IRQF_ONESHOT, name, data);
- }
-=20
- static inline void wm8350_free_irq(struct wm8350 *wm8350, int irq, void *d=
-ata)
+ 	rc =3D devm_request_irq(&client->dev, irq, ak8975_irq_handler,
+-			      IRQF_TRIGGER_RISING | IRQF_ONESHOT,
++			      IRQF_TRIGGER_RISING,
+ 			      dev_name(&client->dev), data);
+ 	if (rc < 0) {
+ 		dev_err(&client->dev, "irq %d request failed: %d\n", irq, rc);
 --=20
 2.51.0
 
