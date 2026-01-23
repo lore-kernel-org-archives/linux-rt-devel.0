@@ -1,81 +1,81 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB80227B83
-	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 16:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D518E30E85C
+	for <linux-rt-devel@lists.linux.dev>; Fri, 23 Jan 2026 17:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769187364; cv=none; b=ROgbbiv4VIiiJmvWr5YtCQyxSo68la81ytF+Ql3jblY8sbZorGieuoihYkqIX1wVGk3ckW5lL9QeXxz7ULJj1NfXOFfIQmQBhhUjsyfG9P4A69daaWn2n8HgfWsJjSJCPK9aX+K7bo9WnNEN2ahHdpHyrJpiYmeg0atUIR1dwvE=
+	t=1769188234; cv=none; b=cW4CWS6EnGBODijhKR0v6DbMeZppWTSYbcD8GRcsLhVk5nYlLa657YpoFSrJDmwjspnFrRGAY+T0cYpEovXfrwI79QmaHTrBtd5fVY2gWFcZrTUXGr8HfskhPjpE5fBinLPrGfha9fIF1ErVEPYCBH7MhWYSh1bDJ4xZFKcTYiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769187364; c=relaxed/simple;
-	bh=z/d1vknSOGGXyJ8YHCAnfaDfOpPx+zbjWOnaoPggZ98=;
+	s=arc-20240116; t=1769188234; c=relaxed/simple;
+	bh=jKmJHN3xUrW6rYOD2lWcRLhsM+vwp/9kHiORM954hyg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nXhoOy3M+UWhWbvdjdGW9S56jSzzE43BbxUsmvi1n80fNoKr264qAp7feARiriOfCj/wnqv5tndjV1ZH5zjbHYUVJ6YAX6PUHQAMfVCcx12R8XEFIjNOzdRDnjcBD918sgsdTiO3krcs1L9zRuY6QGJ4hcaCDw++PKPCPF3eA0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=X7CAej10; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ybBh15QO; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=X7CAej10; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ybBh15QO; arc=none smtp.client-ip=195.135.223.130
+	 In-Reply-To:Content-Type; b=EbWNnBJo79AKCPAIYsbSo57iYKFij19cZkZ/z92epFGQe6r1n/3Kbx8zPfcfd9A2coIskF7RfR9vHLs8D6g5Thj9ar2UYlbrg2csfw1dfHIP95t+/UC+AOWASeaT4T3RRvUB2cj9Vr2nglj5umjLMKz+2a0vLdnSJNE290LMgBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WIrHq9eo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wnqTS+Ch; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=WIrHq9eo; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wnqTS+Ch; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="X7CAej10";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ybBh15QO";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="X7CAej10";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ybBh15QO"
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WIrHq9eo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wnqTS+Ch";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="WIrHq9eo";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wnqTS+Ch"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6037A33838;
-	Fri, 23 Jan 2026 16:56:00 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C0E2F3383C;
+	Fri, 23 Jan 2026 17:10:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769187360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769188229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=JSHcmTaOgyJ3QuCyEZtrSdPqnVt4EqkAgAHM6oep9TY=;
-	b=X7CAej10e5EJ0Xbqj96GilGrmesN6uIkdTRE+NIIIZCM/oiuz5ED2QXS0LpsSeiXlX2Yvi
-	6ifzxVvB53xSoOBZnZRWC3s2+jRvqs+n/TEuWI6iaizpcPSm56rg43WsmuVqcdGzcVZeaC
-	VgJgy8ABVQXJ5+ZAo3ZElztGZQLqpTw=
+	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
+	b=WIrHq9eoSsNBhN3IWvKpy/BymPPmxdc5xDRQg13JZy1JjsT+c+uEr9DnARSt75qTR4fzyF
+	Czzaw14wY0u0stDjQTvCmKcvlO1YQDYt4jmY9n/Mnw/oc4a3QkkUo1Hlpme1ynLhl+NmP+
+	qyPlYOOfBcvrgrSqoemVQBh3cRCaLRM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769187360;
+	s=susede2_ed25519; t=1769188229;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=JSHcmTaOgyJ3QuCyEZtrSdPqnVt4EqkAgAHM6oep9TY=;
-	b=ybBh15QOSfeNuSWn6ChA6Dk51J4zXNx2M2YGicUZwzygmLN1P8XmJszJ71tCiuM/dfP2E3
-	CKw46kHVoQu6+lBw==
+	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
+	b=wnqTS+ChDelGyOzA0Eyf2RFAwSt/rw+3JjFcYWv4YH1qVr+AoLxeGhGxv5Mauh6bakc1BZ
+	eRwIMEP3Y6Vit2CA==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=X7CAej10;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ybBh15QO
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=WIrHq9eo;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=wnqTS+Ch
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1769187360; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1769188229; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=JSHcmTaOgyJ3QuCyEZtrSdPqnVt4EqkAgAHM6oep9TY=;
-	b=X7CAej10e5EJ0Xbqj96GilGrmesN6uIkdTRE+NIIIZCM/oiuz5ED2QXS0LpsSeiXlX2Yvi
-	6ifzxVvB53xSoOBZnZRWC3s2+jRvqs+n/TEuWI6iaizpcPSm56rg43WsmuVqcdGzcVZeaC
-	VgJgy8ABVQXJ5+ZAo3ZElztGZQLqpTw=
+	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
+	b=WIrHq9eoSsNBhN3IWvKpy/BymPPmxdc5xDRQg13JZy1JjsT+c+uEr9DnARSt75qTR4fzyF
+	Czzaw14wY0u0stDjQTvCmKcvlO1YQDYt4jmY9n/Mnw/oc4a3QkkUo1Hlpme1ynLhl+NmP+
+	qyPlYOOfBcvrgrSqoemVQBh3cRCaLRM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1769187360;
+	s=susede2_ed25519; t=1769188229;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=JSHcmTaOgyJ3QuCyEZtrSdPqnVt4EqkAgAHM6oep9TY=;
-	b=ybBh15QOSfeNuSWn6ChA6Dk51J4zXNx2M2YGicUZwzygmLN1P8XmJszJ71tCiuM/dfP2E3
-	CKw46kHVoQu6+lBw==
+	bh=COefnxKrthohmEAmzNOBJXQqeahkGFDrqejxR9Xv1ac=;
+	b=wnqTS+ChDelGyOzA0Eyf2RFAwSt/rw+3JjFcYWv4YH1qVr+AoLxeGhGxv5Mauh6bakc1BZ
+	eRwIMEP3Y6Vit2CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 318BF136AA;
-	Fri, 23 Jan 2026 16:56:00 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 90040136AA;
+	Fri, 23 Jan 2026 17:10:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QTPACyCoc2m5PQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 16:56:00 +0000
-Message-ID: <1d360d08-aceb-4d0e-81ce-4544215603f6@suse.cz>
-Date: Fri, 23 Jan 2026 17:55:58 +0100
+	id 7PvPIoWrc2lJSwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 23 Jan 2026 17:10:29 +0000
+Message-ID: <fefa442e-1ca2-4f56-95d7-db135ec3eb1b@suse.cz>
+Date: Fri, 23 Jan 2026 18:10:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 09/10] mm/vma: update vma_assert_locked() to use
- lockdep
+Subject: Re: [PATCH RESEND v3 10/10] mm/vma: add and use
+ vma_assert_stabilised()
 Content-Language: en-US
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  Andrew Morton <akpm@linux-foundation.org>
@@ -100,7 +100,7 @@ Cc: David Hildenbrand <david@kernel.org>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
 References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
- <fbaa0ab025c1f345e559df2b1045b223663806ef.1769086312.git.lorenzo.stoakes@oracle.com>
+ <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
 From: Vlastimil Babka <vbabka@suse.cz>
 Autocrypt: addr=vbabka@suse.cz; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -141,7 +141,7 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
  dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
  m6M14QORSWTLRg==
-In-Reply-To: <fbaa0ab025c1f345e559df2b1045b223663806ef.1769086312.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <43c90424ba0874a71bb7ab9d6423b3a2bf616f8e.1769086312.git.lorenzo.stoakes@oracle.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Score: -3.01
@@ -154,86 +154,88 @@ X-Spamd-Result: default: False [-3.01 / 50.00];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
 	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,oracle.com,google.com,suse.com,linux.dev,kvack.org,vger.kernel.org,lists.linux.dev,infradead.org,redhat.com,gmail.com,linutronix.de,goodmis.org];
 	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,oracle.com,google.com,suse.com,linux.dev,kvack.org,vger.kernel.org,lists.linux.dev,infradead.org,redhat.com,gmail.com,linutronix.de,goodmis.org];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[]
 X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6037A33838
+X-Rspamd-Queue-Id: C0E2F3383C
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 
 On 1/22/26 14:02, Lorenzo Stoakes wrote:
-> +/**
-> + * vma_assert_locked() - assert that @vma holds either a VMA read or a VMA write
-> + * lock and is not detached.
-> + * @vma: The VMA to assert.
-> + */
->  static inline void vma_assert_locked(struct vm_area_struct *vma)
->  {
-> -	unsigned int mm_lock_seq;
-> +	unsigned int refs;
+> Sometimes we wish to assert that a VMA is stable, that is - the VMA cannot
+> be changed underneath us. This will be the case if EITHER the VMA lock or
+> the mmap lock is held.
 > 
->  	/*
->  	 * See the comment describing the vm_area_struct->vm_refcnt field for
->  	 * details of possible refcnt values.
->  	 */
-> -	VM_BUG_ON_VMA(refcount_read(&vma->vm_refcnt) <= 1 &&
-> -		      !__is_vma_write_locked(vma, &mm_lock_seq), vma);
-> +
-> +	/*
-> +	 * If read-locked or currently excluding readers, then the VMA is
-> +	 * locked.
-> +	 */
-> +#ifdef CONFIG_LOCKDEP
-> +	if (lock_is_held(&vma->vmlock_dep_map))
-> +		return;
-> +#endif
-> +
-> +	refs = refcount_read(&vma->vm_refcnt);
-> +
-> +	/*
-> +	 * In this case we're either read-locked, write-locked with temporary
-> +	 * readers, or in the midst of excluding readers, all of which means
-> +	 * we're locked.
-> +	 */
-> +	if (refs > 1)
-> +		return;
-> +
-> +	/* It is a bug for the VMA to be detached here. */
-> +	VM_BUG_ON_VMA(!refs, vma);
-> +
-
-Yeah previously this function was all VM_BUG_ON() but since that's now
-frowned upon, can we not do it anymore?
-Seem we do have VM_WARN_ON_ONCE_VMA().
-
-> +	/*
-> +	 * OK, the VMA has a reference count of 1 which means it is either
-> +	 * unlocked and attached or write-locked, so assert that it is
-> +	 * write-locked.
-> +	 */
-> +	vma_assert_write_locked(vma);
->  }
+> In order to do so, we introduce a new assert vma_assert_stablised() - this
+> will make a lockdep assert if lockdep is enabled AND the VMA is
+> read-locked.
 > 
->  static inline bool vma_is_attached(struct vm_area_struct *vma)
-> --
-> 2.52.0
+> Currently lockdep tracking for VMA write locks is not implemented, so it
+> suffices to check in this case that we have either an mmap read or write
+> semaphore held.
+> 
+> Note that because the VMA lock uses the non-standard vmlock_dep_map naming
+> convention, we cannot use lockdep_assert_is_write_held() so have to open
+> code this ourselves via lockdep-asserting that
+> lock_is_held_type(&vma->vmlock_dep_map, 0).
+> 
+> We have to be careful here - for instance when merging a VMA, we use the
+> mmap write lock to stabilise the examination of adjacent VMAs which might
+> be simultaneously VMA read-locked whilst being faulted in.
+> 
+> If we were to assert VMA read lock using lockdep we would encounter an
+> incorrect lockdep assert.
+> 
+> Also, we have to be careful about asserting mmap locks are held - if we try
+> to address the above issue by first checking whether mmap lock is held and
+> if so asserting it via lockdep, we may find that we were raced by another
+> thread acquiring an mmap read lock simultaneously that either we don't
+> own (and thus can be released any time - so we are not stable) or was
+> indeed released since we last checked.
+> 
+> So to deal with these complexities we end up with either a precise (if
+> lockdep is enabled) or imprecise (if not) approach - in the first instance
+> we assert the lock is held using lockdep and thus whether we own it.
+> 
+> If we do own it, then the check is complete, otherwise we must check for
+> the VMA read lock being held (VMA write lock implies mmap write lock so the
+> mmap lock suffices for this).
+> 
+> If lockdep is not enabled we simply check if the mmap lock is held and risk
+> a false negative (i.e. not asserting when we should do).
+> 
+> There are a couple places in the kernel where we already do this
+> stabliisation check - the anon_vma_name() helper in mm/madvise.c and
+> vma_flag_set_atomic() in include/linux/mm.h, which we update to use
+> vma_assert_stabilised().
+> 
+> This change abstracts these into vma_assert_stabilised(), uses lockdep if
+> possible, and avoids a duplicate check of whether the mmap lock is held.
+> 
+> This is also self-documenting and lays the foundations for further VMA
+> stability checks in the code.
+> 
+> Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+
+LGTM, thanks!
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 
