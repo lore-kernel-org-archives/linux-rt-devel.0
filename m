@@ -1,556 +1,247 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2C32777EA;
-	Fri, 23 Jan 2026 22:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769208533; cv=none; b=FYKPBgiCPrYiJ3SLOqCF7sMrBih27cyr8v0d9OeJP2WhmcPdbIJe4yEsnbmWlQvDNlrlf3ORjYY5/NacOL2+EDB+yc9sm7XzVWsav6KZf0AfimASzVeojD9DP5E20k51L6ygsv+Uaag4uOEM43WUdbD6EiOsYMXtY0bs6L2a7Y4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769208533; c=relaxed/simple;
-	bh=wxD197rE+/TtE4bXLv/ENQIJmjflr7nik+q61gsCPG0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=XG3Hjtb+npoJg2wdP3oD92XtUGtXQ4eclUr2pust8e9rv3PTyyRwx33kiCX2jH/fYNljirNFhPhrcpbzbsT/fZo33trsnZKbhkxGEoIpUYuYA1c7ba+gpZe08d+Zq9aGAPMv/dgsrqZN/rB571fPW+Cqyp5o+h5yla1hNnUh/IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=IH9n5yfh; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1F93EBF3F
+	for <linux-rt-devel@lists.linux.dev>; Sat, 24 Jan 2026 08:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769244901; cv=fail; b=UWZ0VpYEVO1n3fWd9YeLg190xT+0D4YIPaMxt/VkKQFz8OoYDtzNAOguekFfA56/ulsiiCe30GKvw2hPbJnYhjOSvndCkNVuZKXApK5/Fq4+Dj+jdWYR0FhmHDZr3WXuVTqPNSWdvoIHUfd8bpi0JUv+pI/lUCdqUHjFZRofdHU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769244901; c=relaxed/simple;
+	bh=nc7jkEd3fVbmtGcucjvsqe2RLK3FR0P6eYrQbitu12U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=HCuDAqbPLZKTt34YocpJhC5K6AtfyMz+z722HkH6nqUVGR3LC9wZoZTPlJHQ+zldPayhxJKs1+VzQo40UqKQ60VW60kkIu9MPAv3fn/96iBB0kB53S+9h7ezlHKdsEndm5maw2V8qdo6miFM8I1Rhz/Ro7AH7o6fhOP/zjBNmPM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=kgSrgz1a; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=K+TIIK43; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="IH9n5yfh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF2ABC4CEF1;
-	Fri, 23 Jan 2026 22:48:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1769208532;
-	bh=wxD197rE+/TtE4bXLv/ENQIJmjflr7nik+q61gsCPG0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IH9n5yfh1fh9c9KcsyWH/K4sWn/rfIoMa/QRgWK/5yCA84jcQhQCW0rvOsQnWO5OM
-	 7uuiemeF9bavSPx/6jEmax2D8LN72iocnE9vcbXOH2UclURVW/osuxLldFHLvkUCxr
-	 7wQQtHIuTkO8KwSHV5p3eNH/tscmFB+TFxGNfOeQ=
-Date: Fri, 23 Jan 2026 14:48:51 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: David Hildenbrand <david@kernel.org>, "Liam R . Howlett"
- <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn
- <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v4 00/10] mm: add and use vma_assert_stabilised() helper
-Message-Id: <20260123144851.f752d80db3c8f700df31aa84@linux-foundation.org>
-In-Reply-To: <cover.1769198904.git.lorenzo.stoakes@oracle.com>
-References: <cover.1769198904.git.lorenzo.stoakes@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="kgSrgz1a";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="K+TIIK43"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60O7svIm794009;
+	Sat, 24 Jan 2026 08:54:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=nc7jkEd3fVbmtGcucj
+	vsqe2RLK3FR0P6eYrQbitu12U=; b=kgSrgz1awQYg2CQgJDDjfKGXwfnr7A/Q55
+	v7896YDcHAmiK/Jp71IMetCFhEGR7PFTjTtw1CEbLffKKxO7c7gwBii5PKe4lYGY
+	ckixNVl8iDv5RzTI5ByeTaZ8BVMcL4qnTARg4UGFKAfg1cSp0O5gfOw05/SDxAhQ
+	L/AEOLrRcEANbIPHRyzROiYjZmdN2FlZO+8sGXMF0csKuMWJ05V7Nt16WsZnnhjv
+	WxkRFxND5FJZ9L+29JKUdq7V74d5yZYMqQmq+M4bv+VSOt6GMBoQcMQ3lkPqLjVL
+	vO8ku/nMWJCDh3h+ivsC59NigAmz2x+px52yx8GUIReBym8SnA5w==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bvmv2r521-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 24 Jan 2026 08:54:39 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60O8MXEQ033462;
+	Sat, 24 Jan 2026 08:54:38 GMT
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11011040.outbound.protection.outlook.com [52.101.52.40])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4bvmh69mnv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Sat, 24 Jan 2026 08:54:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YA0WzD50JOhX6N17TNE8gDhQq1R2aabntGSAWL7MAUdM3JA2KtHXrmvp0F0/Q/b7iK1+BVZQ+Qp9uIcyMntS68+37MJqQuqTSv6vGh6pzMYcaQ+GBUoZc+/Tyd60WgIQ7DlDu8L23nMZXDoK3oaruun1sQys/Mkh9Bt0xUTXqbkwqhpTiZHCGEn+G+LDoj7q+8UgkO4Iagtw8Epx64TUsf2IoFxNBgveSMMWpN7BaMkmIzMM+XFlFSfykfJIlZ7jJAXlLfASXQ2p6+xODyht2OKRKR1FWZCCUXl6mAR1Icq6HQmBMefl3pFU+Ni6QOIV4rzazNjjiD43+rXflhjdXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nc7jkEd3fVbmtGcucjvsqe2RLK3FR0P6eYrQbitu12U=;
+ b=hd4zPnMD78cLCx4F8Y4337Dl7ykQxG3WFMEOaoPrswXRQETX5P612ya5QdvznR1ejWT1obXHMLZe0eQM8ZxMieyqdeu/9rDCtqYSXK6gIE1/cSBuJkY1claLv5W83Au3tmArt2ubLCBWt3ArCWQa921smHiQgkHeYxA0V356mi9bzwzucKDHCZ60Hlv19MX/fzK4F/GFQMJiyGgd3xwg8Xwf+ROKiU5kWhzKS/jmtO2GkZw9jevQWY2Dc+vNrdKtOkrxAcmoDh8+kRHdC8lnEDQot81La1ANrQx1U4+iloUUQxld5finne1eRMQ2nqEWceBp2gFnWXkKhZVoKXA2SA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nc7jkEd3fVbmtGcucjvsqe2RLK3FR0P6eYrQbitu12U=;
+ b=K+TIIK43Pbxz5vyplGYgNwLjXyR4qXmAnq74wnKY+iwTRurTYgluISPm7VHAjPR673etCXqyxj5CxCIj8gMMJBeDgR8hAs8Xxh4C7xby82SXbr3ehDmIX7V7Jbzj+RJfLjecfx3i6yIEA0LoZaE7U/v/Fip3KdaB/2m0pRqmHZA=
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
+ by DS4PPF376CF97B3.namprd10.prod.outlook.com (2603:10b6:f:fc00::d13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.12; Sat, 24 Jan
+ 2026 08:54:35 +0000
+Received: from BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
+ ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Sat, 24 Jan 2026
+ 08:54:35 +0000
+Date: Sat, 24 Jan 2026 08:54:35 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@kernel.org>,
+        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+        Michal Hocko <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+        Jann Horn <jannh@google.com>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Will Deacon <will@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+        Waiman Long <longman@redhat.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Clark Williams <clrkwllms@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH RESEND v3 07/10] mm/vma: introduce helper struct + thread
+ through exclusive lock fns
+Message-ID: <023e56e5-1c2e-4482-91f6-32765cca4bda@lucifer.local>
+References: <cover.1769086312.git.lorenzo.stoakes@oracle.com>
+ <4f95671feac6b6d4cea3c53426c875f3fd8a8855.1769086312.git.lorenzo.stoakes@oracle.com>
+ <CAJuCfpEULwMTxAzxUdzfpHe2=+umXL6HFMvydkqW=tP8mB2ewg@mail.gmail.com>
+ <c7c8158d-e360-4a29-9e48-f2b45b9ca147@lucifer.local>
+ <CAJuCfpFbsAHr76ZfUEaRLzdxQMDjPEP+bsLNC35X9t53G_uqAg@mail.gmail.com>
+ <c4d64bde-831d-4f3e-9b92-68c1beb70599@lucifer.local>
+ <CAJuCfpE3D8XyR5wy+Zzq7TX5am=q3SrevarJaf6Z7-k-9CkmkA@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpE3D8XyR5wy+Zzq7TX5am=q3SrevarJaf6Z7-k-9CkmkA@mail.gmail.com>
+X-ClientProxiedBy: LO4P123CA0318.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::17) To BL4PR10MB8229.namprd10.prod.outlook.com
+ (2603:10b6:208:4e6::14)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|DS4PPF376CF97B3:EE_
+X-MS-Office365-Filtering-Correlation-Id: 256809fa-f21b-48b5-e235-08de5b2632a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?cIcDTn5HlQ8AooUgiQI3JfLLXuK+mVG1D4TUCIsamdevdu0FvGe0nCI9ulq5?=
+ =?us-ascii?Q?Zu0mIjShKM4T212gu+nOJooHAkcphZNHsO3zV+avZdPKWsi0oGnLi+pGsR7H?=
+ =?us-ascii?Q?NcDGtvwUZ64YnbdlyWet5X50QSRTSc50jXmQrzCMDCVqmKx8+t1mrbA6fxi+?=
+ =?us-ascii?Q?f4b+KAwXEJFPWsgiM+xkmsLOnXd/x6SHJfED5E2vijWA+MD6eNjD87ikInDN?=
+ =?us-ascii?Q?5maub1JBRX6OOereQO+DuaFwPFLei2fWeDr8KWfmgOjIVroTHj912kxM3OGd?=
+ =?us-ascii?Q?82Gb/KlYbUi2kALu3eDEhaScvfu4QcNd3PTP18FbYBJYh1xgLN1hPF6KBDe8?=
+ =?us-ascii?Q?sIpPkSAl9jk3Q23WMZcLy48TJtiUZv6wVZnk2GTgjk8jRQC4A4eJshRFxE9b?=
+ =?us-ascii?Q?+7r05OZCAONQL/CFaRmT9zQOGWovS2BRckxJOW0K6Ro12JBxAiXC5MQ4kjbB?=
+ =?us-ascii?Q?MhQmnngWqmpxYlsTssR/14/zJokyn4Xr74SeyRmiupfvHEAqgIOyrVov2/iM?=
+ =?us-ascii?Q?1eficz3nIskhD+DBAhQbs2bla1ZuHOBxRHnFzRYK/Yoilb8cBRQgr+3AfvVU?=
+ =?us-ascii?Q?fG8FtDaGNX7ET+0PW8rl2A85W9XqouOpUVJM7bV2L1eDbdHx+7dEF4FY/sRY?=
+ =?us-ascii?Q?fjqGPvneHc3bN9itjE7fsV8SevcuLzLzS3ibf/dRRF/e2mqSYa22kxODj1Cv?=
+ =?us-ascii?Q?nWRm3ScLvQQasqGshGtXKNoQposvv9anyo9CDXhZabxcFT/GcXaNKjRGr+/m?=
+ =?us-ascii?Q?rb9Ecz+rTHW+t9n8JdpYvJRzyj1om0ONnDO0ETHxeP03A88nftj6fnNdB7KO?=
+ =?us-ascii?Q?Tq+HbAT8OTUiM8b8eXUYjGHBX/z6JBvAV5jUXJyuEpyoODph4YG/ZKKYDe4c?=
+ =?us-ascii?Q?3YohTj+8xyWDxJ0uoEmOCi0LlW8JXxzI+TC0yQLAm/Y7zpUs3DPkYfT+T/cm?=
+ =?us-ascii?Q?n6d4YsYUaxoEK2VOwuR+nZvD/8sj1lIhcy8E4340ssxbr7MqgXqqB2vQf+pa?=
+ =?us-ascii?Q?OxCRVztKAnHFkUHxbAZ0U7d8A+8YvE9EkrFtgyWmRmBbKZztBHrbhR1BDuyl?=
+ =?us-ascii?Q?gs6sBWE8vqwx6zZN4buR2kKP7zw5jkFydsJq5nEfUFYMkORDLFbPTeuimHaQ?=
+ =?us-ascii?Q?K9A4pWewL3eMFnM/DnJMUMfsVRREYG7/MpduoVyq5hJw6mtlkJYECx7tVoKa?=
+ =?us-ascii?Q?HPG9rZdGmlP871VbNuzgtbcO7Q73YjaNrflY34rZ3WHDfDQ1BxdbYMgoqMdb?=
+ =?us-ascii?Q?WGYVj4O73IzZNCDVYEMfO2bJBSlnnuFfSnVWUzeIMzvpzElmMXigxVAPmV6W?=
+ =?us-ascii?Q?Syawxvj2UhWa0jzi9vAsX3XavD4GO/5SU/l7NOONv13a23/FQDNuymTrIsHP?=
+ =?us-ascii?Q?cvcmxyyOVvxYDggbWema5vaf19v0EztkxJ+6JTdnrQvGBYFRCgassSiXe9yz?=
+ =?us-ascii?Q?q7KCjwTmBSXXJ12L7aaACMQqWgmZVkwsLRpKOhNUlq/xyFIu2EnwXzUVuCbi?=
+ =?us-ascii?Q?zEXgnvjvMFDqo2rt56qmE5dz9vN5UOHY5Zxze1Gsm99IpLw3Ehp1FS44qS3B?=
+ =?us-ascii?Q?6FwMuWX5kJXAp81ugKM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dQJF/2ZIovB0OWR+kKoxDK4ro8irejPDsTZKp03d4XzuEy+e+SSE+huUae61?=
+ =?us-ascii?Q?u5h0dWrpKUO9+dXxU/1wwNorSQzYDCJzP9976w7S2CFsL4CqFMsa3f4zIvAu?=
+ =?us-ascii?Q?cHeyVIIwR9UWi1nb91EOPPC/dGiA50NeMDGeTcVXM4XrqkFABwG0ovagVz3I?=
+ =?us-ascii?Q?/3XvGqoUl5NJz9D3f5IfL6ofjljUHfunA6B9CQ5W0EW9brbK9ga7FYCdPEZP?=
+ =?us-ascii?Q?khqwWU6/xEOTcr+E/SQDF0QzxoouSVhKcG/MxKP1nVkFP63D+C2kAZ/2evj4?=
+ =?us-ascii?Q?3KRqik6xb8lJ80U5pdyV+f7lzIZXDTenZhuVbX33uWUEqneoEb2GP5pQCGJH?=
+ =?us-ascii?Q?AOCLBXkOmVi5FiHr7OXYeC/KUjSACCGIBi45UxPYUNYqQAcV0TMR3ysHfBuG?=
+ =?us-ascii?Q?p8/pmhA+Jz8t9/jcQfKjtCCODkSzhthqyhqMUxIB3GZpA8DrGvZQ7k7g4Kd4?=
+ =?us-ascii?Q?pVenljbpup8QTFEGZl6uiHMPt30w0sbLib2jcKtl0T6AA9fWatO5mZ5NwtdT?=
+ =?us-ascii?Q?pvjwkDvyduPpNs5MDlvsVLaEjZUxoAhiWaG2IGWyXEC8B82sAabUOWw7fREu?=
+ =?us-ascii?Q?0w/+tsII72V7+94HdJzRGNA24TiYSKKC4sgkxRFan2o/h7u7LDHonVPeweQT?=
+ =?us-ascii?Q?OFBu5eUH9MfModJ/oMZ5vi2KvAtmN72Ekji69XboKuIUmdpDDOTs0FYzzXov?=
+ =?us-ascii?Q?S44xdjmg4qtnKv8BlhYFK37+jW3LUtX0Hm0ThWxGsGUpnP+KTW5TWJiQmDzu?=
+ =?us-ascii?Q?0fcM+Thoc+POiTGU9WJqqfu902mWz+0g3v5pjFWafKi6LzbB0o1iw4BH4pBn?=
+ =?us-ascii?Q?VprmkuS4/et+IzgHQY1a1vxdWfSMO9GVJDJK95orxEQQuBE8Jh1dRJbdkrrV?=
+ =?us-ascii?Q?4NeF//EP8Bl0684Q1JA2pI7KiqRYtGtDTG/wtfwJYt7LzO2CIkUAw5voJOXT?=
+ =?us-ascii?Q?4caVc9tkKQzZGqKBmUEdimokoulwf77chZU0sBbkk8i3G1hk7NdokdVZaMkM?=
+ =?us-ascii?Q?DGC17O8sEAwA99GMvAIXQJI2jDejHQ0+1/ZiUrxBN1b7+hBAO2awcw5siXHJ?=
+ =?us-ascii?Q?DcUAWHw8k9QZQ84ILkn09HSfMJ/J8n8X+dcglbt58GYrRGl5fpGpYHwSnicH?=
+ =?us-ascii?Q?IKTIUXa+KtGxi579k0jgfXxfCJsvILoRrRc3EsWRcDB2e+jy6HfhmvIuWFo+?=
+ =?us-ascii?Q?07/FjMqQAdlsA1eWt6lQt9bwOZY6Mje7YzHiVviKLXuZ2o/b8leLHhnkogMa?=
+ =?us-ascii?Q?yA//I/Rv2l1pC2xajq2vwK0h0bNSjrWJbeakC33z5EkT3GVuN3Z6E/3X2Jmr?=
+ =?us-ascii?Q?cVvDmZG8D7hA5CIfDxzw395tI+aBL+BuN9rvA8yc2zJaSq2VbSt+vo2UKMPv?=
+ =?us-ascii?Q?pTHhwtzM+oEfODkNoqyKKKPybDKMg7wH4CyG2wS6xK6OpiGz7H/CU+TleACg?=
+ =?us-ascii?Q?zSKBgY9mm9jwQ7TA9qAd0fCNSjEBaYLlYPNK7SYYMCyoM+vEF0klsAGXO+NK?=
+ =?us-ascii?Q?UHdfv8WxS6ofKpll6KHLw9DC5Q3nhQWo5ZEEthZfGWENWqj/EMmLLsShIeiK?=
+ =?us-ascii?Q?4sf8KnkBC0xf686Twbr/WLbdFlik2APXRKlUNxk8aPiKXZnwSa1ZX4ZO9fCm?=
+ =?us-ascii?Q?ZYJem/aRHk+NtBPDqDgqzUnidO0Vg78Mtwb1V3Vr4oOaR3uyzD30CzIH/q0A?=
+ =?us-ascii?Q?0HMNwc9359zqDJ0rOVQfwOUUlsG2v3B4Lk2hREJz/FJ652uIrAYaUxN7a+7D?=
+ =?us-ascii?Q?bz1F3JgbPNJWMIhfAbUFgBIKPoaZnVw=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	xUmBhN+5FjQSUYQbgpCBKYyJrGVU0MHmFv8Q8uV3sDLKwVwWNQfpoGlvfVjEUCDnaqSfZSToJv1gRv+0ZZ91CZGayKlXOu9zCCi+/9GZ/G4ULS5wvIOo3P0mqboK9RFeO6aCRLlUTwTXTdlkZQ1LaN4oCcBT6+wBj44Ks3ePmrgTdxK2wFMMNNJXHh1T0v2kP1OIU5ePaq7ZiK2JLvkjFdxb3XUasuApAWQcRjvEA4dgQxuwGXuksSUQ9txorvPdmmk+hO3O0PQLRo1FORZjQ7LOwYSuueSkOaleD0V4ZGY3PYyUZ43Azc6DsM48XCO1JCQtikgDfkvMgWMHThfEO3V9DsiePD1PqLGC/UzrDhnh/NoZicXTpFAk7V4wCqvFMMwA43Figg+brfZUBpFWJSeZbz64Ww2//U9BOwSF5glAXEOZaUUU38cu1M4fUFUZGmjFVhlikNOCfkpcnufsFrGt+O4xG/StDuF0Rqd85IZVL5Uq9BDg18ERrHEA04cYwBrZKp2QlypxJYSpvABlWcAxATys7ClXUooNt/Ur0XHwHE8Qz/+OgaaQsdBhVFnyGTgqRJ2CsuGZxh//KC4YtI7DOr8wk4jyYFpV0K9xonI=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 256809fa-f21b-48b5-e235-08de5b2632a7
+X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2026 08:54:35.1085
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uPTfRDi0Hk1DU0DVX34fCYgPi6K9HE8hnDW7v1cQapU+4ew9yB4ejefVaNzWE+LwGSh+GDpc0BBByjWkYsbdmS5QB0PoZ2CTfvAleRUylCI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF376CF97B3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
+ definitions=2026-01-24_02,2026-01-22_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 mlxlogscore=933
+ adultscore=0 malwarescore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
+ definitions=main-2601240069
+X-Proofpoint-ORIG-GUID: fQdmhMwYTNOST2WD7Wrco1mc5b_Prbf5
+X-Proofpoint-GUID: fQdmhMwYTNOST2WD7Wrco1mc5b_Prbf5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI0MDA2OSBTYWx0ZWRfX2meFlXLrBQBB
+ KG61r3YU9SB+1xp2YFEWCf70ZI1AUu43e/dx31rMES+cySxotIMds2bfGlwKAxuj4rPAzWKQUqq
+ x8YIK+8BZmWiG44yg0HEb3Kj0Qlw8NiRDbie83lJlYREpDbwgJeee1R4+9bVb+s9of0+qjnwoZ0
+ H9TOwXvlM168I1cG5Bv+ptoZBu/o7Ej3HjM1jSxRUoLX/ESAv+1HTXU6rzRHXSIsGyDinZXvqaG
+ uBDPmQRFp0VySWeXfzIFknp2UNANHvtivf5o0V6IikArimZcTHrRqD1JZCPIiS+1QAZb8zM/IdJ
+ PM7zx1HDbtIOmEJqQWPRk6kEfBoYN/vNssYtdfU8jjSJiIbhZW0jnnluPi/dF97Xmpl8+T9NoeB
+ fJjS9fDLDvhXwNkLxK2SSDF9dpH/bLjy+qValGm68Je7qLaAkgynaQQul+nUCR5V46lPSsVohP4
+ C9BDtuoPMALlUgX1IOw==
+X-Authority-Analysis: v=2.4 cv=cPLtc1eN c=1 sm=1 tr=0 ts=697488cf b=1 cx=c_pps
+ a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=msNpOLBh4ROe_A87RKcA:9 a=CjuIK1q_8ugA:10
 
-On Fri, 23 Jan 2026 20:12:10 +0000 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+On Fri, Jan 23, 2026 at 02:07:43PM -0800, Suren Baghdasaryan wrote:
+>
+> Sorry, I didn't realize I was causing that much trouble and I
+> understand your frustration.
+> From your reply, it sounds like you made enough changes to the patch
+> that my concern might already be obsolete. I'll review the new
+> submission on Sunday and will provide my feedback.
+> Thanks,
+> Suren.
 
-> This series first introduces a series of refactorings, intended to
-> significantly improve readability and abstraction of the code.
+Apologies for being grumpy, long day :) to be clear I value your and
+Vlastimil's feedback very much, and thanks to you both for having taken the
+time to review the rework.
 
-I updated the mm-unstable branch with this, thanks.
+Hopefully that's reflected in just how much I've updated the series in
+response to both your absolutely valid pointing out of mistakes as well as
+suggestions for improvements, I think the series is way better with your
+input! (As always with code review - it is just a net positive).
 
-> v4:
-> * Propagated tags (thanks Vlastimil, Suren!)
-> * Updated reference count documentation in 2/10 as per Vlastimil, Suren.
-> * Updated 7/10 to update the references in the reference count comment from
->   __vma_exit_locked() to __vma_end_exclude_readers().
-> * Renamed are_readers_excluded() to __vma_are_readers_excluded() as per
->   Vlastimil.
-> * Several more comment updates as per Vlastimil, Suren in 3/10.
-> * Updated 3/10 commit message as per Suren.
-> * Updated __vma_refcount_put() to just return the newcnt as per Suren.
-> * Renamed __vma_refcount_put() to __vma_refcount_put_return() as per Vlastimil.
-> * Made __vma_refcount_put_return() __must_check too.
-> * Comment fixups on 4/10 as per Vlastimil.
-> * Renamed __vma_enter_exclusive_locked() and __vma_exit_exclusive_locked()
->   to __vma_start_exclude_readers() and __vma_end_exclude_readers() as per
->   Vlastimil in 6/10.
-> * Reworked comment as per Suren in 6/10.
-> * Avoided WARN_ON_ONCE() function invocation as per Suren in 6/10.
-> * s/ves->locked/ves->exclusive/ as per Suren in 7/10.
-> * Removed confusing asserts in 7/10 as per Suren.
-> * Changed from !ves.detached to ves.exclusive in 7/10 as per Suren.
-> * Updated comments in 7/10 as per Suren.
-> * Removed broken assert in __vma_end_exclude_readers() in 7/10 as per
->   Vlastimil.
-> * Separated out vma_mark_detached() into static inline portion and unlikely
->   exclude readers in 7/10 as per Vlastimil.
-> * Removed mm seq num output parameter from __is_vma_write_locked() as per
->   Vlastimil in 8/10.
-> * Converted VM_BUG_ON_VMA() to VM_WARN_ON_ONCE() in 8/10 as per Vlastimil
->   (though he said it in reply to a future commit :).
-> * Added helper function __vma_raw_mm_seqnum() to aid the conversion of
->   __is_vma_write_locked() and updated the commit message accordingly.
-> * Moved mmap_assert_write_locked() to __vma_raw_mm_seqnum() is it is
->   required for this access to be valid.
-> * Replaced VM_BUG_ON_VMA() with VM_WARN_ON_ONCE_VMA() on 9/10 as per
->   Vlastiml.
-> * Renamed refs to refcnt in vma_assert_locked() to be consistent.
-> * Moved comment about reference count possible values above refcnt
->   assignment so it's not just weirdly at the top of the function.
+Please do review the new revision with scrutiny and comment on anything you
+find that you feel I should update, including this issue, perhaps I simply
+misunderstood you, but hopefully you can also see my point of view as to
+why I felt it was useful to factor that out.
 
-Below is how v4 altered mm.git:
+In general I'm hoping to move away from cleanups and towards meatier series
+but as co-maintainer of the VMA locks I felt it really important to make
+the VMA locks logic a lot clearer - to not just complain but do something
+:)
 
+In general the issue has been around abstraction at the 'intermediate'
+level as Vlasta describes it, the public API is fine, so just rearranging
+things such that developers coming to the code can build a good mental
+model of what's going on.
 
---- a/include/linux/mmap_lock.h~b
-+++ a/include/linux/mmap_lock.h
-@@ -87,10 +87,11 @@ static inline void mmap_assert_write_loc
-  *
-  * Write locks are acquired exclusively per-VMA, but released in a shared
-  * fashion, that is upon vma_end_write_all(), we update the mmap's seqcount such
-- * that write lock is de-acquired.
-+ * that write lock is released.
-  *
-  * We therefore cannot track write locks per-VMA, nor do we try. Mitigating this
-- * is the fact that, of course, we do lockdep-track the mmap lock rwsem.
-+ * is the fact that, of course, we do lockdep-track the mmap lock rwsem which
-+ * must be held when taking a VMA write lock.
-  *
-  * We do, however, want to indicate that during either acquisition of a VMA
-  * write lock or detachment of a VMA that we require the lock held be exclusive,
-@@ -152,14 +153,9 @@ static inline void vma_lock_init(struct
- 	vma->vm_lock_seq = UINT_MAX;
- }
- 
--/**
-- * are_readers_excluded() - Determine whether @refcnt describes a VMA which has
-- * excluded all VMA read locks.
-- * @refcnt: The VMA reference count obtained from vm_area_struct->vm_refcnt.
-- *
-- * We may be raced by other readers temporarily incrementing the reference
-- * count, though the race window is very small, this might cause spurious
-- * wakeups.
-+/*
-+ * This function determines whether the input VMA reference count describes a
-+ * VMA which has excluded all VMA read locks.
-  *
-  * In the case of a detached VMA, we may incorrectly indicate that readers are
-  * excluded when one remains, because in that scenario we target a refcount of
-@@ -170,7 +166,7 @@ static inline void vma_lock_init(struct
-  *
-  * Returns: true if readers are excluded, false otherwise.
-  */
--static inline bool are_readers_excluded(int refcnt)
-+static inline bool __vma_are_readers_excluded(int refcnt)
- {
- 	/*
- 	 * See the comment describing the vm_area_struct->vm_refcnt field for
-@@ -180,15 +176,21 @@ static inline bool are_readers_excluded(
- 		refcnt <= VM_REFCNT_EXCLUDE_READERS_FLAG + 1;
- }
- 
--static inline bool __vma_refcount_put(struct vm_area_struct *vma, int *refcnt)
-+/*
-+ * Actually decrement the VMA reference count.
-+ *
-+ * The function returns the reference count as it was immediately after the
-+ * decrement took place. If it returns zero, the VMA is now detached.
-+ */
-+static inline __must_check unsigned int
-+__vma_refcount_put_return(struct vm_area_struct *vma)
- {
- 	int oldcnt;
--	bool detached;
- 
--	detached = __refcount_dec_and_test(&vma->vm_refcnt, &oldcnt);
--	if (refcnt)
--		*refcnt = oldcnt - 1;
--	return detached;
-+	if (__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt))
-+		return 0;
-+
-+	return oldcnt - 1;
- }
- 
- /**
-@@ -203,17 +205,21 @@ static inline void vma_refcount_put(stru
- {
- 	/* Use a copy of vm_mm in case vma is freed after we drop vm_refcnt. */
- 	struct mm_struct *mm = vma->vm_mm;
--	int refcnt;
--	bool detached;
-+	int newcnt;
- 
- 	__vma_lockdep_release_read(vma);
--	detached = __vma_refcount_put(vma, &refcnt);
-+	newcnt = __vma_refcount_put_return(vma);
-+
- 	/*
--	 * __vma_enter_exclusive_locked() may be sleeping waiting for readers to
-+	 * __vma_start_exclude_readers() may be sleeping waiting for readers to
- 	 * drop their reference count, so wake it up if we were the last reader
- 	 * blocking it from being acquired.
-+	 *
-+	 * We may be raced by other readers temporarily incrementing the
-+	 * reference count, though the race window is very small, this might
-+	 * cause spurious wakeups.
- 	 */
--	if (!detached && are_readers_excluded(refcnt))
-+	if (newcnt && __vma_are_readers_excluded(newcnt))
- 		rcuwait_wake_up(&mm->vma_writer_wait);
- }
- 
-@@ -252,6 +258,15 @@ static inline void vma_end_read(struct v
- 	vma_refcount_put(vma);
- }
- 
-+static inline unsigned int __vma_raw_mm_seqnum(struct vm_area_struct *vma)
-+{
-+	const struct mm_struct *mm = vma->vm_mm;
-+
-+	/* We must hold an exclusive write lock for this access to be valid. */
-+	mmap_assert_write_locked(vma->vm_mm);
-+	return mm->mm_lock_seq.sequence;
-+}
-+
- /*
-  * Determine whether a VMA is write-locked. Must be invoked ONLY if the mmap
-  * write lock is held.
-@@ -260,22 +275,13 @@ static inline void vma_end_read(struct v
-  *
-  * Note that mm_lock_seq is updated only if the VMA is NOT write-locked.
-  */
--static inline bool __is_vma_write_locked(struct vm_area_struct *vma,
--					 unsigned int *mm_lock_seq)
-+static inline bool __is_vma_write_locked(struct vm_area_struct *vma)
- {
--	struct mm_struct *mm = vma->vm_mm;
--	const unsigned int seq = mm->mm_lock_seq.sequence;
--
--	mmap_assert_write_locked(mm);
--
- 	/*
- 	 * current task is holding mmap_write_lock, both vma->vm_lock_seq and
- 	 * mm->mm_lock_seq can't be concurrently modified.
- 	 */
--	if (vma->vm_lock_seq == seq)
--		return true;
--	*mm_lock_seq = seq;
--	return false;
-+	return vma->vm_lock_seq == __vma_raw_mm_seqnum(vma);
- }
- 
- int __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq,
-@@ -288,12 +294,10 @@ int __vma_start_write(struct vm_area_str
-  */
- static inline void vma_start_write(struct vm_area_struct *vma)
- {
--	unsigned int mm_lock_seq;
--
--	if (__is_vma_write_locked(vma, &mm_lock_seq))
-+	if (__is_vma_write_locked(vma))
- 		return;
- 
--	__vma_start_write(vma, mm_lock_seq, TASK_UNINTERRUPTIBLE);
-+	__vma_start_write(vma, __vma_raw_mm_seqnum(vma), TASK_UNINTERRUPTIBLE);
- }
- 
- /**
-@@ -312,11 +316,10 @@ static inline void vma_start_write(struc
- static inline __must_check
- int vma_start_write_killable(struct vm_area_struct *vma)
- {
--	unsigned int mm_lock_seq;
--
--	if (__is_vma_write_locked(vma, &mm_lock_seq))
-+	if (__is_vma_write_locked(vma))
- 		return 0;
--	return __vma_start_write(vma, mm_lock_seq, TASK_KILLABLE);
-+
-+	return __vma_start_write(vma, __vma_raw_mm_seqnum(vma), TASK_KILLABLE);
- }
- 
- /**
-@@ -325,9 +328,7 @@ int vma_start_write_killable(struct vm_a
-  */
- static inline void vma_assert_write_locked(struct vm_area_struct *vma)
- {
--	unsigned int mm_lock_seq;
--
--	VM_BUG_ON_VMA(!__is_vma_write_locked(vma, &mm_lock_seq), vma);
-+	VM_WARN_ON_ONCE_VMA(!__is_vma_write_locked(vma), vma);
- }
- 
- /**
-@@ -337,12 +338,7 @@ static inline void vma_assert_write_lock
-  */
- static inline void vma_assert_locked(struct vm_area_struct *vma)
- {
--	unsigned int refs;
--
--	/*
--	 * See the comment describing the vm_area_struct->vm_refcnt field for
--	 * details of possible refcnt values.
--	 */
-+	unsigned int refcnt;
- 
- 	/*
- 	 * If read-locked or currently excluding readers, then the VMA is
-@@ -353,18 +349,22 @@ static inline void vma_assert_locked(str
- 		return;
- #endif
- 
--	refs = refcount_read(&vma->vm_refcnt);
-+	/*
-+	 * See the comment describing the vm_area_struct->vm_refcnt field for
-+	 * details of possible refcnt values.
-+	 */
-+	refcnt = refcount_read(&vma->vm_refcnt);
- 
- 	/*
- 	 * In this case we're either read-locked, write-locked with temporary
- 	 * readers, or in the midst of excluding readers, all of which means
- 	 * we're locked.
- 	 */
--	if (refs > 1)
-+	if (refcnt > 1)
- 		return;
- 
- 	/* It is a bug for the VMA to be detached here. */
--	VM_BUG_ON_VMA(!refs, vma);
-+	VM_WARN_ON_ONCE_VMA(!refcnt, vma);
- 
- 	/*
- 	 * OK, the VMA has a reference count of 1 which means it is either
-@@ -447,7 +447,28 @@ static inline void vma_mark_attached(str
- 	refcount_set_release(&vma->vm_refcnt, 1);
- }
- 
--void vma_mark_detached(struct vm_area_struct *vma);
-+void __vma_exclude_readers_for_detach(struct vm_area_struct *vma);
-+
-+static inline void vma_mark_detached(struct vm_area_struct *vma)
-+{
-+	vma_assert_write_locked(vma);
-+	vma_assert_attached(vma);
-+
-+	/*
-+	 * The VMA still being attached (refcnt > 0) - is unlikely, because the
-+	 * vma has been already write-locked and readers can increment vm_refcnt
-+	 * only temporarily before they check vm_lock_seq, realize the vma is
-+	 * locked and drop back the vm_refcnt. That is a narrow window for
-+	 * observing a raised vm_refcnt.
-+	 *
-+	 * See the comment describing the vm_area_struct->vm_refcnt field for
-+	 * details of possible refcnt values.
-+	 */
-+	if (likely(!__vma_refcount_put_return(vma)))
-+		return;
-+
-+	__vma_exclude_readers_for_detach(vma);
-+}
- 
- struct vm_area_struct *lock_vma_under_rcu(struct mm_struct *mm,
- 					  unsigned long address);
---- a/include/linux/mm_types.h~b
-+++ a/include/linux/mm_types.h
-@@ -753,7 +753,7 @@ static inline struct anon_vma_name *anon
- #endif
- 
- /*
-- * WHile __vma_enter_locked() is working to ensure are no read-locks held on a
-+ * While __vma_enter_locked() is working to ensure are no read-locks held on a
-  * VMA (either while acquiring a VMA write lock or marking a VMA detached) we
-  * set the VM_REFCNT_EXCLUDE_READERS_FLAG in vma->vm_refcnt to indiciate to
-  * vma_start_read() that the reference count should be left alone.
-@@ -991,16 +991,19 @@ struct vm_area_struct {
- #endif
- #ifdef CONFIG_PER_VMA_LOCK
- 	/*
--	 * Used to keep track of the number of references taken by VMA read or
--	 * write locks. May have the VM_REFCNT_EXCLUDE_READERS_FLAG set
--	 * indicating that a thread has entered __vma_enter_locked() and is
--	 * waiting on any outstanding read locks to exit.
-+	 * Used to keep track of firstly, whether the VMA is attached, secondly,
-+	 * if attached, how many read locks are taken, and thirdly, if the
-+	 * VM_REFCNT_EXCLUDE_READERS_FLAG is set, whether any read locks held
-+	 * are currently in the process of being excluded.
- 	 *
- 	 * This value can be equal to:
- 	 *
--	 * 0 - Detached.
-+	 * 0 - Detached. IMPORTANT: when the refcnt is zero, readers cannot
-+	 * increment it.
- 	 *
--	 * 1 - Unlocked or write-locked.
-+	 * 1 - Attached and either unlocked or write-locked. Write locks are
-+	 * identified via __is_vma_write_locked() which checks for equality of
-+	 * vma->vm_lock_seq and mm->mm_lock_seq.
- 	 *
- 	 * >1, < VM_REFCNT_EXCLUDE_READERS_FLAG - Read-locked or (unlikely)
- 	 * write-locked with other threads having temporarily incremented the
-@@ -1008,19 +1011,19 @@ struct vm_area_struct {
- 	 * decrementing it again.
- 	 *
- 	 * VM_REFCNT_EXCLUDE_READERS_FLAG - Detached, pending
--	 * __vma_exit_locked() completion which will decrement the reference
--	 * count to zero. IMPORTANT - at this stage no further readers can
--	 * increment the reference count. It can only be reduced.
--	 *
--	 * VM_REFCNT_EXCLUDE_READERS_FLAG + 1 - Either an attached VMA pending
--	 * __vma_exit_locked() completion which will decrement the reference
--	 * count to one, OR a detached VMA waiting on a single spurious reader
--	 * to decrement reference count. IMPORTANT - as above, no further
--	 * readers can increment the reference count.
--	 *
--	 * > VM_REFCNT_EXCLUDE_READERS_FLAG + 1 - VMA is waiting on readers,
--	 * whether it is attempting to acquire a write lock or attempting to
--	 * detach. IMPORTANT - as above, no ruther readers can increment the
-+	 * __vma_exit_exclusive_locked() completion which will decrement the
-+	 * reference count to zero. IMPORTANT - at this stage no further readers
-+	 * can increment the reference count. It can only be reduced.
-+	 *
-+	 * VM_REFCNT_EXCLUDE_READERS_FLAG + 1 - A thread is either write-locking
-+	 * an attached VMA and has yet to invoke __vma_exit_exclusive_locked(),
-+	 * OR a thread is detaching a VMA and is waiting on a single spurious
-+	 * reader in order to decrement the reference count. IMPORTANT - as
-+	 * above, no further readers can increment the reference count.
-+	 *
-+	 * > VM_REFCNT_EXCLUDE_READERS_FLAG + 1 - A thread is either
-+	 * write-locking or detaching a VMA is waiting on readers to
-+	 * exit. IMPORTANT - as above, no ruther readers can increment the
- 	 * reference count.
- 	 *
- 	 * NOTE: Unstable RCU readers are allowed to read this.
---- a/mm/mmap_lock.c~b
-+++ a/mm/mmap_lock.c
-@@ -53,6 +53,7 @@ struct vma_exclude_readers_state {
- 	int state; /* TASK_KILLABLE or TASK_UNINTERRUPTIBLE. */
- 	bool detaching;
- 
-+	/* Output parameters. */
- 	bool detached;
- 	bool exclusive; /* Are we exclusively locked? */
- };
-@@ -60,15 +61,12 @@ struct vma_exclude_readers_state {
- /*
-  * Now that all readers have been evicted, mark the VMA as being out of the
-  * 'exclude readers' state.
-- *
-- * Returns true if the VMA is now detached, otherwise false.
-  */
--static void __vma_exit_exclusive_locked(struct vma_exclude_readers_state *ves)
-+static void __vma_end_exclude_readers(struct vma_exclude_readers_state *ves)
- {
- 	struct vm_area_struct *vma = ves->vma;
- 
- 	VM_WARN_ON_ONCE(ves->detached);
--	VM_WARN_ON_ONCE(!ves->exclusive);
- 
- 	ves->detached = refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLAG,
- 					      &vma->vm_refcnt);
-@@ -93,27 +91,24 @@ static unsigned int get_target_refcnt(st
-  * where we wish the thread to sleep uninterruptibly or TASK_KILLABLE if a fatal
-  * signal is permitted to kill it.
-  *
-- * The function sets the ves->locked parameter to true if an exclusive lock was
-- * acquired, or false if the VMA was detached or an error arose on wait.
-+ * The function sets the ves->exclusive parameter to true if readers were
-+ * excluded, or false if the VMA was detached or an error arose on wait.
-  *
-  * If the function indicates an exclusive lock was acquired via ves->exclusive
-- * (or equivalently, returning 0 with !ves->detached), the caller is required to
-- * invoke __vma_exit_exclusive_locked() once the exclusive state is no longer
-- * required.
-+ * the caller is required to invoke __vma_end_exclude_readers() once the
-+ * exclusive state is no longer required.
-  *
-  * If ves->state is set to something other than TASK_UNINTERRUPTIBLE, the
-  * function may also return -EINTR to indicate a fatal signal was received while
-  * waiting.
-  */
--static int __vma_enter_exclusive_locked(struct vma_exclude_readers_state *ves)
-+static int __vma_start_exclude_readers(struct vma_exclude_readers_state *ves)
- {
- 	struct vm_area_struct *vma = ves->vma;
- 	unsigned int tgt_refcnt = get_target_refcnt(ves);
- 	int err = 0;
- 
- 	mmap_assert_write_locked(vma->vm_mm);
--	VM_WARN_ON_ONCE(ves->detached);
--	VM_WARN_ON_ONCE(ves->exclusive);
- 
- 	/*
- 	 * If vma is detached then only vma_mark_attached() can raise the
-@@ -132,7 +127,7 @@ static int __vma_enter_exclusive_locked(
- 		   refcount_read(&vma->vm_refcnt) == tgt_refcnt,
- 		   ves->state);
- 	if (err) {
--		__vma_exit_exclusive_locked(ves);
-+		__vma_end_exclude_readers(ves);
- 		return err;
- 	}
- 
-@@ -150,7 +145,7 @@ int __vma_start_write(struct vm_area_str
- 		.state = state,
- 	};
- 
--	err = __vma_enter_exclusive_locked(&ves);
-+	err = __vma_start_exclude_readers(&ves);
- 	if (err) {
- 		WARN_ON_ONCE(ves.detached);
- 		return err;
-@@ -164,8 +159,8 @@ int __vma_start_write(struct vm_area_str
- 	 */
- 	WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
- 
--	if (!ves.detached) {
--		__vma_exit_exclusive_locked(&ves);
-+	if (ves.exclusive) {
-+		__vma_end_exclude_readers(&ves);
- 		/* VMA should remain attached. */
- 		WARN_ON_ONCE(ves.detached);
- 	}
-@@ -174,7 +169,7 @@ int __vma_start_write(struct vm_area_str
- }
- EXPORT_SYMBOL_GPL(__vma_start_write);
- 
--void vma_mark_detached(struct vm_area_struct *vma)
-+void __vma_exclude_readers_for_detach(struct vm_area_struct *vma)
- {
- 	struct vma_exclude_readers_state ves = {
- 		.vma = vma,
-@@ -183,16 +178,6 @@ void vma_mark_detached(struct vm_area_st
- 	};
- 	int err;
- 
--	vma_assert_write_locked(vma);
--	vma_assert_attached(vma);
--
--	/*
--	 * See the comment describing the vm_area_struct->vm_refcnt field for
--	 * details of possible refcnt values.
--	 */
--	if (likely(__vma_refcount_put(vma, NULL)))
--		return;
--
- 	/*
- 	 * Wait until the VMA is detached with no readers. Since we hold the VMA
- 	 * write lock, the only read locks that might be present are those from
-@@ -200,13 +185,13 @@ void vma_mark_detached(struct vm_area_st
- 	 * reference count before realising the write lock is held and
- 	 * decrementing it.
- 	 */
--	err = __vma_enter_exclusive_locked(&ves);
--	if (!err && !ves.detached) {
-+	err = __vma_start_exclude_readers(&ves);
-+	if (!err && ves.exclusive) {
- 		/*
- 		 * Once this is complete, no readers can increment the
- 		 * reference count, and the VMA is marked detached.
- 		 */
--		__vma_exit_exclusive_locked(&ves);
-+		__vma_end_exclude_readers(&ves);
- 	}
- 	/* If an error arose but we were detached anyway, we don't care. */
- 	WARN_ON_ONCE(!ves.detached);
-_
+So hopefully this series helps get us a least a decent way along that road!
 
+Cheers, Lorenzo
