@@ -1,306 +1,225 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FC7F168BD
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 17:37:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769449068; cv=fail; b=mjlj8LSrEVSDzYzsBq+id2pyg3fCd9nN/X2M3qnHdv+Vx9f0Fmmm7F9Cwjqwj98tqEhsuwM6op4OWXw+YkJowNRsfjcE1IEs5GzFLmlJdDy6pZDT/j0hSETQdDT9GGa78wAjbrl+V0Nu/GXpkzksdmMnUw3r3Ip/SAkLWKVV4yc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769449068; c=relaxed/simple;
-	bh=TNJW6lSVJJDidmGosxnGOAYhNZcku7YpkHpK8g4tZ9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=IdRQ8gF+mWlzILkeEwfOMz3ZuTpQ15XGBfLMfLds8mq9RqxQFYWUfWLrFYYwulTkkRYsbw521NHsv0m156NjK5evpw5cw/tsS+89jNyIMAJgOjC4yhFCiXVnk0tvnb9ai2JVPNIEFSTPc1Ql/24zN7wy6e0CT2TFuKryXud6plc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=i4DdWi1D; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=LOAE9EBV; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB341DF75D
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 18:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769450921; cv=none; b=EO+13vAYtUVPKFeUbbN0mTdhEJ4GmO3PVaKZQncZRvVZqAUIkuQO8bew3MzRw8OXVuzgP3PxmoJrTbHKkjJR9wHAPmF2MWQusTVYb7n6IOY9NJ73AWeadOjZYNw7hldhL06No9wa95yEojYnKPQ8K0tDu0Yoj74rfa8OTCZZqA0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769450921; c=relaxed/simple;
+	bh=A6IciAb2xnYWGVMWPriEZm7A4sDXFXGVxz6UL8XwdxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KorjVooovJiRiCMseeBKlrbN/3tg9T+YrKomPgYm3iSOJSQ2yah6k7Y1EtxmYVPg35Ok+oxORvfsoAxHfmZXaKYcEFBejwB64PT3z/dRHxbCB7ozBYw0wiHzRImIoXPBi/MD6LL7BfOyMGjbhS/vaS0GTBKBHS5It8h9anHG1pU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zA71ZuEe; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ixutS52Y; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="i4DdWi1D";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="LOAE9EBV"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60QHSsPK522655;
-	Mon, 26 Jan 2026 17:37:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=dc0WeDPRM87LNXvHSd
-	EgBezXKYiA00X0/T3zEZgb67Q=; b=i4DdWi1D8BCchJcDz1E6HYQ0Dx/6eLYXPw
-	uPv1vZlZrrQBKPx2DuUhJOo8dUf0+ajxaNJS55jtlecZprPSDN6jqriqYJQvg8xC
-	UYKsb5jsUbvO+Hya94fOTjnLYLL0u6st+8jESK9Ku0tC5RiD+RageN0MTsjgsGkL
-	mGhB6KzVr2PaP+Na93inuP8WFnfst5Q8bWZBbKnq/jFU3FqGdo/LViTrNq5kQR85
-	nRucS6sjBXrmhS9Dus629MZ3tHDMFnppL94vze9YzhZLnqtE5Q2rLDB8/V+BNO0q
-	qf113/4LpZCnhIp63Np3iTg7Ps2nMpdhzxBPXpkgQolLpSQlQplw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bvn09jfqq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Jan 2026 17:37:18 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60QGHbV8036070;
-	Mon, 26 Jan 2026 17:37:17 GMT
-Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11010022.outbound.protection.outlook.com [52.101.201.22])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bvmhmgqja-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 26 Jan 2026 17:37:17 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VpiuF36XtHBu7JXQNXSnanZTEf5seMKcpAluRVFLKZYlVk6xkXMT1qRaxD/rNMx9JyFO5LJSZ8bmpcAaV4/2PTWOptQEkWwhNeTvE/f2ib4RztMQRvYudtw0Dhi6iwnuZHOrX09ZvuUxewej0Xc+vYlCi7bEy5BlB9R+nwlvRTeN8Jyn2S2ZfEYYMR/RXvtgRqHVlMPsSIHZDXeyuPAG8zWPHg/kgWZ4aC9edL9Nc9ROUuk3Yru1qTeYwgDOJ7Mbb+Kp0ZHH+zAkkj2GaNZVhXlkrjSeQ41jnPN5/kC/0GYV3qpg3vFN/zQOjb4HN29nOoM12v/qACwraLv1stGUnA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dc0WeDPRM87LNXvHSdEgBezXKYiA00X0/T3zEZgb67Q=;
- b=PxQdPsTRGtOQzwgpW9mA4n73JZuVUsatDYLln0CpSGBAgbgqNjlRr23LWwVoZZheXzfpPT3Wy72lmu26FkKXE5qLLVeSnLg5E+OvfzZsBhg/u+JSISuWv3on7vBS2vnMXmr/PPRVBG9stlACe7C/GB2AV5aB+Cb11ARXESRXW3Cv21YWX6E3fnBJShvDJ4XoZS+Xpw3S7yqIt3UhRQgr7F/swcDxPfFjRTrxJxoo7HlKF0YJhnKCuUxUC9thTMQwwkTbqfeGki2AMIa9hNw28M0e5JjSmavRwZVkahxXqqWE8nKH/rucVnJC/xr/JqD/jpLV8JjfL7NQAD+Qi9Z6TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dc0WeDPRM87LNXvHSdEgBezXKYiA00X0/T3zEZgb67Q=;
- b=LOAE9EBVWUliepaEzYGVp3M7MfyDwF5pju8eTmzeOsf0uEwGhpHS10w2enVdQlq0BCaksIMVvmiNrxBZhmfIN4mRLk/NHxI5xIvnrMpyr4q8pCiszfoSOOADtafRCKwlYtpl6iRLX2oZGmI6DOxgHWNhcAqxcCc6xHVw9ly/EUU=
-Received: from CH3PR10MB8215.namprd10.prod.outlook.com (2603:10b6:610:1f5::7)
- by SA1PR10MB7710.namprd10.prod.outlook.com (2603:10b6:806:3a7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Mon, 26 Jan
- 2026 17:37:02 +0000
-Received: from CH3PR10MB8215.namprd10.prod.outlook.com
- ([fe80::4ef1:fa49:5a08:c1d9]) by CH3PR10MB8215.namprd10.prod.outlook.com
- ([fe80::4ef1:fa49:5a08:c1d9%6]) with mapi id 15.20.9499.005; Mon, 26 Jan 2026
- 17:37:09 +0000
-Date: Mon, 26 Jan 2026 17:37:08 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@kernel.org>,
-        "Liam R . Howlett" <Liam.Howlett@oracle.com>,
-        Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
-        Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn <jannh@google.com>,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v4 09/10] mm/vma: update vma_assert_locked() to use
- lockdep
-Message-ID: <7c4b722e-604b-4b20-8e33-03d2f8d55407@lucifer.local>
-References: <cover.1769198904.git.lorenzo.stoakes@oracle.com>
- <538762f079cc4fa76ff8bf30a8a9525a09961451.1769198904.git.lorenzo.stoakes@oracle.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <538762f079cc4fa76ff8bf30a8a9525a09961451.1769198904.git.lorenzo.stoakes@oracle.com>
-X-ClientProxiedBy: LO2P265CA0397.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::25) To CH3PR10MB8215.namprd10.prod.outlook.com
- (2603:10b6:610:1f5::7)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zA71ZuEe";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ixutS52Y"
+Date: Mon, 26 Jan 2026 19:08:36 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1769450918;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=n25mEkYQU/glokJCvaiTwx52pP8eauU0AvEm85TLH8I=;
+	b=zA71ZuEewFBi4MT7lBql2Gddc58rxd16xkRREuW8LoYi9IKPBrocQiXvXzP1tu67DM96+2
+	uwycgmoTK7l0P/C99zd8qDMFtgCUaT9iqkMWoskgqt8aryA/L/O0+bmWUTjX/WLPVp/K6y
+	U4dGaW4wW5Fi/zTUu/QxXkuHs4ZEjMLXQVFo2PISmS2ypzjgLA9wjb+IjRgMfy30jFHLd+
+	NVHaBfbVD+09jDgxBYSk0Z7Rt9YL9Xjj7mi3dKfvgTPRcECkuld4JH4p6iUmluU2qWeE0M
+	3UG1QQ3ngGUQD4k+jMXGIB5BUrRpj08LfIqH+ntOgfgRsWJhw87Cx+jVVPEeJw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1769450918;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=n25mEkYQU/glokJCvaiTwx52pP8eauU0AvEm85TLH8I=;
+	b=ixutS52YHuUN8cAazK53op9LSVXKYj+L7tTcuTfX0ZgExwcqBlUynQDi28APWYREAjSiEV
+	cUFDysE+f9Wo9ECA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>
+Subject: [PATCH] printk, vt, fbcon: Remove console_conditional_schedule()
+Message-ID: <20260126180836.SNCdMW2f@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR10MB8215:EE_|SA1PR10MB7710:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2bd88c4f-4dd6-45d0-6608-08de5d018856
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FphIElyFL48ZgWMJtrzlVN3bQnmLTCtWSzkJPkcQArKDQaNQDMO4yrw0ZNND?=
- =?us-ascii?Q?MSeIFBIwM9ZPuGfQNyHc/S+9OKaJmT+P5XLxGbo8Xvb7wl5wz8a8BQ5dTBZQ?=
- =?us-ascii?Q?FWqrOcCX2bVYmpr8//kQ/szYU1vAF/cCWcb5/94xH5a7BFaig30M6j7FzMVl?=
- =?us-ascii?Q?4s5T3PUaBdM0Hu+2qYAAKJ1gZ3hXx6iptGaAP+8zDkENY7v34e8vFdvOZb8E?=
- =?us-ascii?Q?3w3ABKZ+Z92f/IDQ+cMyIwkRViMGlafSURdEA5iT2t5foTFRmqUnRI0GAJ3p?=
- =?us-ascii?Q?SzEsYQQUhqZMbmE4MFJgPOtyV8m2HvoH+by88Ftd4ohfJwXhe3OCMO9Ofs8o?=
- =?us-ascii?Q?kNcQGdU1aVHBjx5ZHK48wIVWgh434szzt2n2t1WH6uUS7h6EaLWif6yI9C+l?=
- =?us-ascii?Q?u0sURbn62GY6gCx3p1yW/6QFMjBw3x1ZqvCb3SPo1Y7ZetlHh0iiqpgfwv/k?=
- =?us-ascii?Q?PNrPyTQwe9pCyd7/MZ+WDrypuDp1sRIGyQKyYBUrxx2wPX9TeJNxSq2v+gl+?=
- =?us-ascii?Q?Qua/HElmP4rd6IfzHpjTNSFieg5AWdNc7cVZrUpK3VzMWNEhv+w6nVXmfNLg?=
- =?us-ascii?Q?03SaDhkapMJK8hi/9zTPfyIqg9aPVsbvuU5Px6A8o5wKdSvKHRktxMWaOeBD?=
- =?us-ascii?Q?nFeHDgoE+yh2xrWGAHY9OxeeVeZC8OX7AmMzAmhuFKINiB9nPp90xjlWqmds?=
- =?us-ascii?Q?YzBnoMzLxUme5LXzLTItu5fhV0hwFPIgkpKjcbYl7MGeNQAelseTC070nK63?=
- =?us-ascii?Q?LhnZYtwgCRJJ5UXMCOQRPFkuSKHS+CghHoeOAD+WOle6FsToKslpdb3DPqqU?=
- =?us-ascii?Q?2NhWpLVrRyS2FdEzvFhBKSCwXIr7tBG4+jnS+biK5xh/5BYJDyGJp/a5I8So?=
- =?us-ascii?Q?sy+J5EN1hSiIIpngiY1cIXFQMY10bY1Xw+s9h7fCdWJ8V3pQzBQPqizQX+h2?=
- =?us-ascii?Q?4KXrjhkmcXDCdgZ3zQzdJ7FmQhlDaxACIu7nQ5JUwXYeeZGXrQAzuR7+iCCW?=
- =?us-ascii?Q?0vrazvMHpCG3I1S4uRdgE2RlziXs6yaB49hJkruZBRJuBM6qM6AvngGT7xSI?=
- =?us-ascii?Q?yTkieHVqGnr4tJIdVxpfqOIkbZOasJzED31N5cSmwukYECdMGl7ouMedoChb?=
- =?us-ascii?Q?udi1tMHf0zAcR0g2+TD5mYrvHEwZy8l6Js8s0AoC9mr96Lti7D6CcQ6U+++L?=
- =?us-ascii?Q?bPGHXru2UNvhgCDuroiMMxxxjVZvl/fudQczvBBJ4P2UpcOtkES/ix8i3BKt?=
- =?us-ascii?Q?Esa/4dNjLubRXu5mbkrbKOaiQxTbhFRpF4cEn+Psm4aEKmuYdx46PjmVBSFW?=
- =?us-ascii?Q?doBKw4KkbEkLztvzANgMwsMWVTtNOzxwKu6gTj0INw6C+fmIgG/GzS2PkoCC?=
- =?us-ascii?Q?76HdCrOKLQClMhnB0o21GoQc/yWonmIWty7/x7ELn1dDQaUMtpOKN/81AyzL?=
- =?us-ascii?Q?HT/xUA38JPaYPbxebklZ9iEVOI30Sm5OvCDbRfjrkJM1q1hwG2TiJ2RUoRq7?=
- =?us-ascii?Q?4MbR6+1UUerZBqipRMVaA56bfhGoONDm+rzF+J+kJGE9lMTD9M1k3jgq8KiS?=
- =?us-ascii?Q?AxIyz/eUqpGXouGjl24=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR10MB8215.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Li3deHsuaSEKVh3ABU//cH1POdV0sX6cTvSAQJPwgrk9HiUr1me3Ve+lSNS8?=
- =?us-ascii?Q?seSEJMRupRabvLA0NGrCujmvHtHe4PeqWGk+zOyaqVqdVCDAU1xOGwb8Wb4A?=
- =?us-ascii?Q?Q36b3ZCHql1zeCTciAlFPjI/JKVaB7LH9GJKXfNxwLekc+F/BonwAKaAGGH2?=
- =?us-ascii?Q?svRu6UJFKiW02QBWv9cxQJBGrerrDKVb4d7sLU+2Pn948fy7P/7MmfLKBBqU?=
- =?us-ascii?Q?SVB7BcYe0WQ9qLa9/wj6l4v/XUTvRU3eqJgejcNdzzl2s4spGwCNkmNTRNJ6?=
- =?us-ascii?Q?iArdIrV0qBvC5Kb4TD0jCINExv3t283ljhHA8L1T+Ibe6dWYXr9hxfCZ7Nd0?=
- =?us-ascii?Q?OY9CU4kfulz4ZRohfVd3zU2YDyzxb4uftRu5B+Lhtjag74vvU/djPHC1CPJB?=
- =?us-ascii?Q?dH7dpEbNGWhiWksLitFoBI01xPONGeWak6yu31rCsunkhjzIgwnn19gZDQfq?=
- =?us-ascii?Q?+gwOe9n29mFXv3Q6LIg6mUDAEpOfms19Xv+nawzYbAUpepGaqAIxqYMXYozQ?=
- =?us-ascii?Q?sMC3gjWJCcUW0fIxIEMw3o23RBmKSgZA2HfE0D9qWECcf25XJHJ9LOZTpNMF?=
- =?us-ascii?Q?K2Rjlxz4P6PUZD9lTLF4s6B/jT4TFcj9NK8W4/NogqJnnxHQQ9rLYBLILmKu?=
- =?us-ascii?Q?FqotfPFDkB0FQ+lFdfVhJRltBmoXdbsNd05MTB5mVw6wjA/JmbAHbuE++r8h?=
- =?us-ascii?Q?IsC2ajTfv2YNmPrwgkkQDNo8Jr+KG4EdbsbOcVZJ4jRy2UV/8uIMvm1+xZ4R?=
- =?us-ascii?Q?IFNfX9kPvLpFC539dh0581Aqx9KIDujLPxAVQ7waJBARzCOy8exLWTplODmQ?=
- =?us-ascii?Q?Lm++IFoYjeEaF+s5OUE3PHnu3zrsu9IBfIygA7yiPIECoBvN0Ds7kzKd/Djj?=
- =?us-ascii?Q?45PKHV2rc5R6TFLA1HD919I0EJoE5P5ZGz8RQGc1gB65D8sru5LqLHqaRuNS?=
- =?us-ascii?Q?V1j5kCIjxkkJ7nes8xa/JzdVV2EouDTrKnooTGQWaJvw/2vk9REjz0BLRpBI?=
- =?us-ascii?Q?Klbh74SbPViX/ITUAo6c/QtUzf40ycleyajjKGvY3iXoWUFtiFXqm6Soy1hq?=
- =?us-ascii?Q?t1LgYIlfzMbDb7lTST0FV49Y5XcuJ+kTvgqZP7h1XG2AheZvSg6vWQRc1E/H?=
- =?us-ascii?Q?17+pBtolFDDJvGBWRkKkAdwKNWjF5f4+JPw0MYXL9bstaufGGj8CAJI+1exC?=
- =?us-ascii?Q?glTSU396Pd8b/JH/VYOPCqIb9lW6wy7TnWLWI/XkYZYK7z31wY+7t0UGJb9d?=
- =?us-ascii?Q?okFW8isRaPg0sdVnB8VHB/6EyFpnV/Xii7NclTxa8VjK766cyrGGrjjpOOC2?=
- =?us-ascii?Q?WWk6J4mVh8k1sKGmmtTB18C7O1bfFWPGzb1H4ivFld8s2aBMEnFyzeYFowmQ?=
- =?us-ascii?Q?KtonWLLpOMiMMRSvaUhcxqqWxCqDygoKcT5Hu+4M8+cLo4Kz6S6rGmEG8xj/?=
- =?us-ascii?Q?UGPYCzCKqzFYIZyVbXR9kSd8e8iWzLbq0yLlKhAfjkew1YkKJMX1RBGO78GY?=
- =?us-ascii?Q?pW0oycvXSMNwoAzU0GvJ0orENUWsfB0EGEm3soz6N0HFshsOERMhPFDm7KNq?=
- =?us-ascii?Q?rZU9jDASYkBtkbeZfDA+iecnJ87OGBLhFhXXtK1P4dPxrDWi2ir5dr2chm+x?=
- =?us-ascii?Q?qM6vb3unaHtk/QYqf+7NUolACqGfnt7XAeh7PDy6TLAJ+HWIyXmoqkbKLGwH?=
- =?us-ascii?Q?2AdityExUxYCa3DkNbEnAgawcxLcLd864RlrpaxQvAFYMIhRYDjjtOC1uXD8?=
- =?us-ascii?Q?BLXcsIKOv5m7JYz0fVvlC95t/REgLZg=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	rkhwK6C9PAX2p4Aru982/672p0So9ZlyHPsLecpmbxNTLTTN8gP7FiTlLy5vin+phCBQ7C7VMRH9n4YL0JEEKpkySvWbUZ0aiiPr+Wi4TxN303TbBbrgBdnx1ZaAT2rNVNJK2D0nHI4YdjGNoK9J+9at+2Wvy/5klWGvJbnPQGyURx6fdoPcBs79DdNuD5ct4lXL0GpIv4Nx2GyXsKUPvHUrGnKK+v/8lfvgPO1S2lbZV1e+S++FnCe4IBbMs3VJ/o+qFsawXBEX6TMOVpM/XYfitnClzSZ5VVZ+RKWvcp/69v4AGArWpPUThlN++/FrqUaohAhJ0uJn0+Sik/Nx8Auo7zO+8LHwpL4eWXQNrc+s/CgVxUc6TvXGHOkxihk8ApV9NhoR1Dj3kZHMvqGNyjdA7RtOY1i9vlaeUZX9JfnbjrvARUQP8IZ/cebPosuCvR/kMBB1wTMfKtcSHjHau4MOz2q+hkQSzcqcC87gMq/8YhlwaXqTT0CB9ojokQBy1LfJHnxq6fZFTosPVcBerCP+aIZx3T1PJUQJVRUQb+bJdwUKXlN0Ncm45W1RxM8S8SBMr3Ojlil9ViQDmW0sg/l5VHy+alV3LbVMOJMTbdY=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2bd88c4f-4dd6-45d0-6608-08de5d018856
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR10MB8215.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2026 17:37:09.9019
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lp5XmYwQPalSa35E/pMX+/1KRy0GVLQtrLepzTaJjJ7Yh9iEXjlox0LqWCiRlM1VitbsmkpWzwinPNx0XuN9zFzHAWcCDUOyo/uzigWTGzU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR10MB7710
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.20,FMLib:17.12.100.49
- definitions=2026-01-26_04,2026-01-26_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
- mlxscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2601150000
- definitions=main-2601260150
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI2MDE1MCBTYWx0ZWRfXzl8Rs4SVNVxX
- pixX7shPlZ0M3VeNvcmw9t/upxJJTmRS0DJBPrBFAuUtTzxkntrWg2JS7d6txibQ/Af+l9n/dOp
- mbAjDM+gHfIEm3ARIccqb8PFrJc7bxuKitoiwAAQCT1jUYdb0YeDpmCPli56pX+7KN/wgfBuwkR
- ndf+dzVdrfKJ5iewrOCo47sJ49CH1z4vJdUEoIPL+LEBeMjgi/FL0cHAYGIzFA/BDWITwv5Or7s
- YJB2vIaZPtbCETTeYa13CULCkt9UWLPjso0DSxKuEjKk92shEDg7VV4X4UVEkoZRNHqoAryh7gT
- zNGPveDmza9trbU+H/jMG3tEENyR5lWJ3LpgK6rn30y53wyg/4UD8HddDVRllx3lJsMVLYhDTBa
- KG0bN6ulbLx+c5zBztSu97euuFcnASsz0kI0ylMsz/05j59ERIDfALNR/atWQmbQLwfMkq8RiR9
- WvegFPi8u6odxccD2EAStmQD7Ndwe9+9Crq2tzSI=
-X-Proofpoint-ORIG-GUID: UPV8SwrEYpDLFdUhd7JLjAhVzXXe5dEe
-X-Authority-Analysis: v=2.4 cv=Rp7I7SmK c=1 sm=1 tr=0 ts=6977a64e b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=yPCof4ZbAAAA:8 a=IiReWDGCM6YsTN0pUd4A:9 a=CjuIK1q_8ugA:10 cc=ntf
- awl=host:12104
-X-Proofpoint-GUID: UPV8SwrEYpDLFdUhd7JLjAhVzXXe5dEe
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi Andrew,
+do_con_write(), fbcon_redraw.*() invoke console_conditional_schedule()
+which is a conditional scheduling point based on printk's internal
+variables console_may_schedule. It may only be used if the console lock
+is acquired for instance via console_lock() or console_trylock().
 
-Could you apply the attached fix-patch to apply Vlasta's suggestion, and to
-avoid unnecessary ifdeffery.
+Prinkt sets the internal variable to 1 (and allows to schedule)
+if the console lock has been acquired via console_lock(). The trylock
+does not allow it.
 
-Could you also adjust the original commit message to append the below?
-Thanks!
+The console_conditional_schedule() invocation in do_con_write() is
+invoked shortly before console_unlock().
+The console_conditional_schedule() invocation in fbcon_redraw.*()
+original from fbcon_scroll() / vt's con_scroll() which originate from a
+line feed.
 
--->
-Additionally, abstract references to vma->vmlock_dep_map by introducing a
-macro helper __vma_lockdep_map() which accesses this field if lockdep is
-enabled.
+In console_unlock() the variable is set to 0 (forbids to schedule) and
+it tries to schedule while making progress printing. This is brand new
+compared to when console_conditional_schedule() was added in v2.4.9.11.
 
-Since lock_is_held() is specified as an extern function if lockdep is
-disabled, we can simply have __vma_lockdep_map() defined as NULL in this
-case, and then use IS_ENABLED(CONFIG_LOCKDEP) to avoid ugly ifdeffery.
-<--
+In v2.6.38-rc3, console_unlock() (started its existence) iterated over
+all consoles and flushed them with disabled interrupts. A scheduling
+attempt here was not possible, it relied that a long print scheduled
+before console_unlock().
 
-Cheers, Lorenzo
+Since commit 8d91f8b15361d ("printk: do cond_resched() between lines
+while outputting to consoles"), which appeared in v4.5-rc1,
+console_unlock() attempts to schedule if it was allowed to schedule
+while during console_lock(). Each record is idealy one line so after
+every line feed.
 
+This console_conditional_schedule() is also only relevant on
+PREEMPT_NONE and PREEMPT_VOLUNTARY builds. In other configurations
+cond_resched() becomes a nop and has no impact.
 
-----8<----
-From 9fb6dbe821c87759b269ddc926343d1f9c26db2a Mon Sep 17 00:00:00 2001
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Date: Mon, 26 Jan 2026 16:40:34 +0000
-Subject: [PATCH] fix
+I'm bringing this all up just proof that it is not required anymore. It
+becomes a problem on a PREEMPT_RT build with debug code enabled because
+that might_sleep() in cond_resched() remains and triggers a warnings.
+This is due to
 
-Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+ legacy_kthread_func-> console_flush_one_record ->  vt_console_print-> lf
+   -> con_scroll -> fbcon_scroll
+
+and vt_console_print() acquires a spinlock_t which does not allow a
+voluntary schedule. There is no need to fb_scroll() to schedule since
+console_flush_one_record() attempts to schedule after each line.
+!PREEMPT_RT is not affected because the legacy printing thread is only
+enabled on PREEMPT_RT builds.
+
+Therefore I suggest to remove console_conditional_schedule().
+
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Fixes: 5f53ca3ff83b4 ("printk: Implement legacy printer kthread for PREEMPT_RT")
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- include/linux/mmap_lock.h | 29 ++++++++++++++++-------------
- 1 file changed, 16 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-index 4a0aafc66c5d..160c572c1798 100644
---- a/include/linux/mmap_lock.h
-+++ b/include/linux/mmap_lock.h
-@@ -78,6 +78,12 @@ static inline void mmap_assert_write_locked(const struct mm_struct *mm)
+A follow-up to
+	https://lore.kernel.org/all/20260114145955.d924Z-zu@linutronix.de/
 
- #ifdef CONFIG_PER_VMA_LOCK
+ drivers/tty/vt/vt.c              |  1 -
+ drivers/video/fbdev/core/fbcon.c |  6 ------
+ include/linux/console.h          |  1 -
+ kernel/printk/printk.c           | 16 ----------------
+ 4 files changed, 24 deletions(-)
 
-+#ifdef CONFIG_LOCKDEP
-+#define __vma_lockdep_map(vma) (&vma->vmlock_dep_map)
-+#else
-+#define __vma_lockdep_map(vma) NULL
-+#endif
-+
- /*
-  * VMA locks do not behave like most ordinary locks found in the kernel, so we
-  * cannot quite have full lockdep tracking in the way we would ideally prefer.
-@@ -98,16 +104,16 @@ static inline void mmap_assert_write_locked(const struct mm_struct *mm)
-  * so we utilise lockdep to do so.
-  */
- #define __vma_lockdep_acquire_read(vma) \
--	lock_acquire_shared(&vma->vmlock_dep_map, 0, 1, NULL, _RET_IP_)
-+	lock_acquire_shared(__vma_lockdep_map(vma), 0, 1, NULL, _RET_IP_)
- #define __vma_lockdep_release_read(vma) \
--	lock_release(&vma->vmlock_dep_map, _RET_IP_)
-+	lock_release(__vma_lockdep_map(vma), _RET_IP_)
- #define __vma_lockdep_acquire_exclusive(vma) \
--	lock_acquire_exclusive(&vma->vmlock_dep_map, 0, 0, NULL, _RET_IP_)
-+	lock_acquire_exclusive(__vma_lockdep_map(vma), 0, 0, NULL, _RET_IP_)
- #define __vma_lockdep_release_exclusive(vma) \
--	lock_release(&vma->vmlock_dep_map, _RET_IP_)
-+	lock_release(__vma_lockdep_map(vma), _RET_IP_)
- /* Only meaningful if CONFIG_LOCK_STAT is defined. */
- #define __vma_lockdep_stat_mark_acquired(vma) \
--	lock_acquired(&vma->vmlock_dep_map, _RET_IP_)
-+	lock_acquired(__vma_lockdep_map(vma), _RET_IP_)
-
- static inline void mm_lock_seqcount_init(struct mm_struct *mm)
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index 59b4b5e126ba1..53daf7614b1af 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -3236,7 +3236,6 @@ static int do_con_write(struct tty_struct *tty, const u8 *buf, int count)
+ 			goto rescan_last_byte;
+ 	}
+ 	con_flush(vc, &draw);
+-	console_conditional_schedule();
+ 	notify_update(vc);
+ 
+ 	return n;
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 7be9e865325d9..36dd9d4a46ae0 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -1607,12 +1607,10 @@ static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
+ 					start = s;
+ 				}
+ 			}
+-			console_conditional_schedule();
+ 			s++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			fbcon_putcs(vc, start, s - start, dy, x);
+-		console_conditional_schedule();
+ 		dy++;
+ 	}
+ }
+@@ -1648,14 +1646,12 @@ static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
+ 			}
+ 
+ 			scr_writew(c, d);
+-			console_conditional_schedule();
+ 			s++;
+ 			d++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			par->bitops->bmove(vc, info, line + ycount, x, line, x, 1,
+ 					     s - start);
+-		console_conditional_schedule();
+ 		if (ycount > 0)
+ 			line++;
+ 		else {
+@@ -1703,13 +1699,11 @@ static void fbcon_redraw(struct vc_data *vc, int line, int count, int offset)
+ 				}
+ 			}
+ 			scr_writew(c, d);
+-			console_conditional_schedule();
+ 			s++;
+ 			d++;
+ 		} while (s < le);
+ 		if (s > start)
+ 			fbcon_putcs(vc, start, s - start, line, x);
+-		console_conditional_schedule();
+ 		if (offset > 0)
+ 			line++;
+ 		else {
+diff --git a/include/linux/console.h b/include/linux/console.h
+index fc9f5c5c1b04c..ec506d3501965 100644
+--- a/include/linux/console.h
++++ b/include/linux/console.h
+@@ -697,7 +697,6 @@ extern int unregister_console(struct console *);
+ extern void console_lock(void);
+ extern int console_trylock(void);
+ extern void console_unlock(void);
+-extern void console_conditional_schedule(void);
+ extern void console_unblank(void);
+ extern void console_flush_on_panic(enum con_flush_mode mode);
+ extern struct tty_driver *console_device(int *);
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 1d765ad242b82..9296bf41aa49d 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -3362,22 +3362,6 @@ void console_unlock(void)
+ }
+ EXPORT_SYMBOL(console_unlock);
+ 
+-/**
+- * console_conditional_schedule - yield the CPU if required
+- *
+- * If the console code is currently allowed to sleep, and
+- * if this CPU should yield the CPU to another task, do
+- * so here.
+- *
+- * Must be called within console_lock();.
+- */
+-void __sched console_conditional_schedule(void)
+-{
+-	if (console_may_schedule)
+-		cond_resched();
+-}
+-EXPORT_SYMBOL(console_conditional_schedule);
+-
+ void console_unblank(void)
  {
-@@ -146,7 +152,7 @@ static inline void vma_lock_init(struct vm_area_struct *vma, bool reset_refcnt)
- #ifdef CONFIG_DEBUG_LOCK_ALLOC
- 	static struct lock_class_key lockdep_key;
+ 	bool found_unblank = false;
+-- 
+2.51.0
 
--	lockdep_init_map(&vma->vmlock_dep_map, "vm_lock", &lockdep_key, 0);
-+	lockdep_init_map(__vma_lockdep_map(vma), "vm_lock", &lockdep_key, 0);
- #endif
- 	if (reset_refcnt)
- 		refcount_set(&vma->vm_refcnt, 0);
-@@ -340,14 +346,11 @@ static inline void vma_assert_locked(struct vm_area_struct *vma)
- {
- 	unsigned int refcnt;
-
--	/*
--	* If read-locked or currently excluding readers, then the VMA is
--	* locked.
--	*/
--#ifdef CONFIG_LOCKDEP
--	if (lock_is_held(&vma->vmlock_dep_map))
-+	if (IS_ENABLED(CONFIG_LOCKDEP)) {
-+		if (!lock_is_held(__vma_lockdep_map(vma)))
-+			vma_assert_write_locked(vma);
- 		return;
--#endif
-+	}
-
- 	/*
- 	* See the comment describing the vm_area_struct->vm_refcnt field for
---
-2.52.0
