@@ -1,52 +1,57 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057602F6935
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 08:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD1A2F7462
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 08:09:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769414492; cv=none; b=hNtLV73uz8KtfYdY6b6hABXAdrl709/su27k+PE7t0FrbD5qSdUj4o1ssaDxXfQkce6l0RzBE8oxFW59w1pqSY2yPqopg/Krk+bkIeDdrMLk3BexuUBr5FDIadQTaRZMLdXnu6zomgj73jAiJvxUOML8Eu9EhNMHO1RqqbvDDIo=
+	t=1769414947; cv=none; b=k8Oj5vJgod/YTWP22/UpX08KPOLJmL6qm1rsMP0KIDRmpmCqyRbS7bgVkClNWVP9VpnVPMQhmqu3Jkqx6uaQxfOdcU+cHL9Ab3o9fozmj68o4DRsojBO/6GMbG9CR0dj51zK5/y4O0X0O/r/T5RG1tji8W4KeFo8vhqNNy+xUQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769414492; c=relaxed/simple;
-	bh=f59A5o1vN4CEQvytvjCpiycHWQSjuFK8Xl9F5GvJqTc=;
+	s=arc-20240116; t=1769414947; c=relaxed/simple;
+	bh=YLmq/4V33IVPXpBPesKfkrKT3R1gHM5x5Zp+EbOJ+RA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UacWRQUe1cqgCdiPILl0/b1ew7wWckdPXh2ddVqkFi+Yn1ER9b7PAigYqdGVs9oIjZLsQg6LfesEXSFSyPjyXBZE1+OWLAQyy4hkYEEbydJJ+yeOWmw+H/AL1iALLZmUpEbfIBYvPSD3fKC1vM1rtT1cXZvKve4B3PKZy0DaePo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oNVZtrop; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uB/+/pPz; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=YnlXGmV/2qOC2IhtwQ6k4/Zbln3a1xLAVdaoFWFHJMltFMruSL9mkpuGL2ZVrfLcdF9KftA3NyyFk34h+C2CxH29El/xBxr5hOIzyHF47GzqGeS8ipqBPiBpGc0Sbqb7KXEr55SQNJ8yh8eYPfDnjAX87RPDcHRydk9UxjrEfUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=uYu7FYbM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=urhmF9ET; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oNVZtrop";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uB/+/pPz"
-Date: Mon, 26 Jan 2026 09:01:19 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="uYu7FYbM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="urhmF9ET"
+Date: Mon, 26 Jan 2026 09:09:03 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769414480;
+	s=2020; t=1769414944;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ixmO5ckIsijXR3o9Y9Ub8ZmZFsHwqWkNhY66q18gfQM=;
-	b=oNVZtropLx8xIn30Hhd50l7kIZMTJgkL7lJ7lNcJtzFDrQZWx8+NPsq6Y2CVDFKt3MQ2xf
-	nDwnUhz58hWV5Whdg7ZRFyg9+WTrDB75iiv5c4AkOnB6TER0G6NXBq+IZy2s0+tKWIY5+Y
-	SSv+zwoWvf4AL0vqI1JAyMizaseJKfi7rz08wJ0WcsnpojBQy9twnvM74CcTP19xjSc+1c
-	+y4JvqDoLlFkXbTLE4rmBAgVT9VIev+f7BL8smYG+HktXIxAyj9TeQb4/mRs3s/CaAgV53
-	YA7jNSigBVJ80oiV8LETccy+47MNH3l36RcYGAQdfnpFyV3s6KL8laZvrBX9RA==
+	bh=XFBQZM8xOueSz/hl7zwsg7bUlgr/D2ef1BAUvS4o2fA=;
+	b=uYu7FYbM/waAYRcokhv0vQT0ahX2XLek4LulRo0/jfMq0B0nRHX3vAw1iut3/FMmcXCJEa
+	GeEl64jpZHsVIAnVFc1XHusYRcPpiy3+JKOXlYfZvAIUDol8b5jazQo8PQYIf+gHDMA+Ut
+	5v70TzM5XLJdgRS/gCyq8knjlcT9iXwZULRe4MM81giwT3o7ds2gtNR0lEx9bt+YCDy2Ye
+	KEn+nldrjpp+MJSlAb1QXjPYq/GXIcMk02U81V2JJkZMFLSP2vA9qzXAGlEudag1yzvry0
+	3UR2/aLGSYAIrxHLiX9RLg74Vq7R1JI3G1JdTznaUzALgnp7nf5oOOnFQeEIFg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769414480;
+	s=2020e; t=1769414944;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ixmO5ckIsijXR3o9Y9Ub8ZmZFsHwqWkNhY66q18gfQM=;
-	b=uB/+/pPzce51d7yNhjgs5Q7QKRaM6W2S/x18fHcy8FeG25xB6qA109aKCZw0T6k4QJOYqE
-	PLHDAznD8FKu3/Cw==
+	bh=XFBQZM8xOueSz/hl7zwsg7bUlgr/D2ef1BAUvS4o2fA=;
+	b=urhmF9ET7CA5XBqaRjHDT8LUz8u3lqQ8KO9FKg0UKiwjkUvqfVyjHvtaKnDaWRLFfLtVvH
+	Lprc5Cm0nVHl8QAQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: David Lechner <dlechner@baylibre.com>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Thomas Gleixner <tglx@kernel.org>, Lee Jones <lee@kernel.org>,
-	patches@opensource.cirrus.com, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 17/21] mfd: wm8350-core: Use IRQF_ONESHOT
-Message-ID: <20260126080119.AEjgGgaw@linutronix.de>
+	Thomas Gleixner <tglx@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH 19/21] iio: Use IRQF_NO_THREAD
+Message-ID: <20260126080903.B0_vWRKy@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
- <20260123113708.416727-18-bigeasy@linutronix.de>
- <aXOLS_ZP7o0xaHII@smile.fi.intel.com>
+ <20260123113708.416727-20-bigeasy@linutronix.de>
+ <ac45bbeb-7a76-42f0-88d8-35dbf9742a0c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -55,36 +60,40 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aXOLS_ZP7o0xaHII@smile.fi.intel.com>
+In-Reply-To: <ac45bbeb-7a76-42f0-88d8-35dbf9742a0c@baylibre.com>
 
-On 2026-01-23 16:52:59 [+0200], Andy Shevchenko wrote:
-> On Fri, Jan 23, 2026 at 12:37:03PM +0100, Sebastian Andrzej Siewior wrote:
-> > Using a threaded interrupt without a dedicated primary handler mandates
-> > the IRQF_ONESHOT flag to mask the interrupt source while the threaded
-> > handler is active. Otherwise the interrupt can fire again before the
-> > threaded handler had a chance to run.
-> > 
-> > Mark explained that this should not happen with this hardware since it a
+On 2026-01-23 14:56:32 [-0600], David Lechner wrote:
+> > -static irqreturn_t ad7766_irq(int irq, void *private)
+> > -{
+> > -	iio_trigger_poll(private);
+> > -	return IRQ_HANDLED;
+> > -}
+> > -
 > 
-> "it is a" ?
+> Replacing this with iio_trigger_generic_data_rdy_poll() seems like a
+> separate improvement that should be in a separate patch.
+> 
+> At a minimum, the commit message should explain this change. But I expect
+> the reason will make it obvious it should be a separate patch.
 
-yes.
+The other use iio_trigger_generic_data_rdy_poll() as the handler except
+this one. Which uses a wrapper around it. It looked to easier to add
+this hunk.
+What do you want (split or keep)?
 
-> > slow irqchip which is behind an I2C/ SPI bus but the IRQ-core will
-> > refuse to accept such a handler.
-> > 
-> > Set IRQF_ONESHOT so the interrupt source is masked until the secondary
-> > handler is done.
-> 
-> ...
-> 
-> > Cc: Lee Jones <lee@kernel.org>
-> > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Cc: patches@opensource.cirrus.com
-> > Cc: Mark Brown <broonie@kernel.org>
-> 
-> Cc list can be moved out from the commit message.
-
-If I move it out, the list won't be CCed.
+> >  static int ad7766_set_trigger_state(struct iio_trigger *trig, bool enable)
+> >  {
+> >  	struct ad7766 *ad7766 = iio_trigger_get_drvdata(trig);
+> > @@ -260,8 +254,8 @@ static int ad7766_probe(struct spi_device *spi)
+> >  		 * Some platforms might not allow the option to power it down so
+> >  		 * don't enable the interrupt to avoid extra load on the system
+> >  		 */
+> > -		ret = devm_request_irq(&spi->dev, spi->irq, ad7766_irq,
+> > -				       IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN,
+> > +		ret = devm_request_irq(&spi->dev, spi->irq, iio_trigger_generic_data_rdy_poll,
+> > +				       IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN | IRQF_NO_THREAD,
+> >  				       dev_name(&spi->dev),
+> >  				       ad7766->trig);
+> >  		if (ret < 0)
 
 Sebastian
