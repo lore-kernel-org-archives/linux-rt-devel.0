@@ -1,84 +1,99 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A8833B6DC;
-	Mon, 26 Jan 2026 13:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBD533BBC0
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 14:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769435999; cv=none; b=U3fbe4bH7bcRMigM5mGOESgQ9MY0ofUBuprfp+Hy3dJCG//FPE4Mm1LdRY7DmrwZjS8gG1HSuuUdBpyXtscEb7nD0SMJFOLKeFxYpOUDfUKiwyCb6xa2J2ubnJ8n+Kn7/sW4ewd0ZMLfo477Y8BugQOelUgG1g09hl4KLYwdPd4=
+	t=1769436308; cv=none; b=IjsLhzOCYTYJHI9djAfX3Xop0etC8x0empPUdPoihnjYTWuAj684BICLP/LB9xPPVK9h6YLNOxB6jgKvBZkIAaG981kIjzShVrql5dam2oXN2N3OofWeL6qYEVAoaMUjGausQlmd5Oj7i3jLsTO8YeiBamAi2XffdFC1x0FajYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769435999; c=relaxed/simple;
-	bh=Jk058962S/z+UfR591wadY2ouZ+hkgMaDC0o0U/B/+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mvy/Q2D0PsIvFL6LO21vXmRhksiUJmdeZRoT3sktUl478YiS75DvGY42384HggsgBA3VjhTaZzcCxYClwxY8LP3bIAOuG8KBJgzSz1pR9ppXNPXh5F7S6JVZBK5CPlgsoOQbBoveyYg0iqrPFpa+MZzx4p8sUpZ/iRJnokhvcC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Q7sbxvHC; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1769436308; c=relaxed/simple;
+	bh=YVu+sGvMlNkS4k9kfkfXYGH/hZcCKd9f1er1letfTog=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=coUgb8QMZHrJSLWcdgze8FEB2189XQ+LMIBL/VVI8Ep6+Gw8oH3UaYBDvg/k1xE1XfhzVty0FFSst+EzHCGmYjYdrWmQLxAsQ0qXw9U96r0mZ4eis+IA67uN1IB1A7q7ocxtshEmhxIqFprUN3Z8fZ/c1KqQVKiSsUz3vgSwtOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QShoMJGH; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Q7sbxvHC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=CA7ZM6arGeM7G5r4XYd+i+HkxrAcrO5ouJ48DYGWkxk=; b=Q7sbxvHCpdJlOA8+0uz3927nIV
-	KNaaEpbu0uDEYOC7QS+Zsyy5x2BGTRKzrowzUL3FKnt5t/IUy9oI/eDR5hKyY71LyrAPNfoCM6Pi8
-	4N+4PiyYyDXCiRBrYAZnlsG2H2PofaRBU1DaJiOdtIumZ6/XHerpclx/I9lBDhVhrcavjvUTglMGM
-	Aa2ychCEXyVFuE1KrRmDjZgSzJC1T8VHtw8tHRGvVdgGHHCnPG3AWncsMuyJ+Dzz139qym9F7UrdT
-	tX77nPTY9Tl6MFne75lIndVhuZjUdk03NffssHw7WyF2nJZbOyytPo1c2eJeozzpZKtOlfBbITWJv
-	BYbM6vVA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1vkN7t-00GDx9-Lb; Mon, 26 Jan 2026 13:59:33 +0000
-Date: Mon, 26 Jan 2026 05:59:28 -0800
-From: Breno Leitao <leitao@debian.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 06/22] slab: add sheaves to most caches
-Message-ID: <aXdzLk010qbTNbUh@gmail.com>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QShoMJGH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769436307; x=1800972307;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=YVu+sGvMlNkS4k9kfkfXYGH/hZcCKd9f1er1letfTog=;
+  b=QShoMJGHIkE/31tJfceTK6Tj0dpixK704Jsk0au5k53J376o5coFidOC
+   s6MddH97Ypc+xI0/i3OvEy4RmhuJgz0UfoKWeVEJ2ZHCMU4MCFJtuCHDg
+   l+oUR95Z4VnG3cejdByzq6yYjfJ2vbZm36XPqYcyTjb2kubZMfO8MflGH
+   MXJsd1Q9FTShfCup/7H0rhgNmc86zzrvPzAQUqMOBLep22x+NniKEkZAS
+   4HntdhLNxWCCQku6a7iJCqPfHznDpjJ/3T8t+R2z7iFvxaEXo6kgnYK0C
+   cLR3GuCj3wGnBZyqr2KelLKQm3Ir87C8zDVyq2nQcQCkzYkfLoy9z4/nl
+   g==;
+X-CSE-ConnectionGUID: 8d/Plhi/T2i8A/8PpPiD3w==
+X-CSE-MsgGUID: 6/siVmfnQu6RgeeRFxZmFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="58186596"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="58186596"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:05:07 -0800
+X-CSE-ConnectionGUID: b2meS9u/QSm0939855I7aA==
+X-CSE-MsgGUID: 9su8TMrqTmyB6+Hf2A9nrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="212228975"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.150])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:05:03 -0800
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 26 Jan 2026 16:05:00 +0200 (EET)
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
+    Thomas Gleixner <tglx@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+    platform-driver-x86@vger.kernel.org, 
+    "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Subject: Re: [PATCH 02/21] platform/x86: int0002: Remove IRQF_ONESHOT from
+ request_irq()
+In-Reply-To: <20260123114909.BPVv_oBm@linutronix.de>
+Message-ID: <b70e4160-62b7-569b-0dd2-fc54d771611a@linux.intel.com>
+References: <20260123113708.416727-1-bigeasy@linutronix.de> <20260123113708.416727-3-bigeasy@linutronix.de> <20260123114909.BPVv_oBm@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
-X-Debian-User: leitao
+Content-Type: multipart/mixed; boundary="8323328-1593122775-1769436300=:1055"
 
-On Fri, Jan 23, 2026 at 07:52:44AM +0100, Vlastimil Babka wrote:
-> In the first step to replace cpu (partial) slabs with sheaves, enable
-> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
-> and calculate sheaf capacity with a formula that roughly follows the
-> formula for number of objects in cpu partial slabs in set_cpu_partial().
-> 
-> This should achieve roughly similar contention on the barn spin lock as
-> there's currently for node list_lock without sheaves, to make
-> benchmarking results comparable. It can be further tuned later.
-> 
-> Don't enable sheaves for bootstrap caches as that wouldn't work. In
-> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
-> even for !CONFIG_SLAB_OBJ_EXT.
-> 
-> This limitation will be lifted for kmalloc caches after the necessary
-> bootstrapping changes.
-> 
-> Also do not enable sheaves for SLAB_NOLEAKTRACE caches to avoid
-> recursion with kmemleak tracking (thanks to Breno Leitao).
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Tested-by: Breno Leitao <leitao@debian.org>
+--8323328-1593122775-1769436300=:1055
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Fri, 23 Jan 2026, Sebastian Andrzej Siewior wrote:
+
+> On 2026-01-23 12:36:48 [+0100], To linux-kernel@vger.kernel.org wrote:
+> > Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+> > the secondary (threaded) handler is done. If only a primary handler is
+> > used then the flag makes no sense because the interrupt can not fire
+> > (again) while its handler is running.
+> > The flag also disallows force-threading of the primary handler and the
+> > irq-core will warn about this.
+> >=20
+> > The flag was added to match the flag on the shared handler which uses a
+> > threaded handler and therefore IRQF_ONESHOT. This is no longer needed
+> > because devm_request_irq() now passes IRQF_COND_ONESHOT for this case.
+> >=20
+> > Revert adding IRQF_ONESHOT to irqflags.
+>=20
+> This one should probably go hand in hand with the previous one. It might
+> be easier to route both via tip/irq.
+
+For that,
+
+Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+
+--=20
+ i.
+
+--8323328-1593122775-1769436300=:1055--
