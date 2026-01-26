@@ -1,207 +1,216 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228CC286897
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 08:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C441A3166
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 08:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769415315; cv=none; b=QGYTH/jXwFbJZ2KYCxseA6+iIuLJAxFAoBC8FBrtswBCGhixOWtLzXH6LpWKc0reC+WvlwJ2qqoxboMOGyF7Z0ti3B8N9Ba1jbBriWn/ljwt+pDxcnOjvzYQeWPkuJD4xVI1LOFNORlyDlTej2JpS+4Ce+j15FnbBCpFsoPnczo=
+	t=1769416766; cv=none; b=iIREbZxjY7240UuDFNAQATJ6HJmTRgh68QqQGKYVC3zyfUzJG3LO3YtnOsQYPBT1NnDVVZOTuGABi+O3/bfjBWxW7p6YRtAbW1vlX089NQ+W9Sh9OL1BkWDsz1dp6tr1GTLv4/yvQOUhOB2Kh4H+eIKb+K6gm+EUIWpkyxMzpNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769415315; c=relaxed/simple;
-	bh=HA2fFlAlKbnFma8q86UovV9FaibUExzsXq69HLJlEUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GKpemPoBSpHqb7AKcFI53Rdl2urvH7UwLUuENAx9k/shJtVZuUE0fqJSqws5HFYfIqjp6Lerr7vPjzduMfDqNQM0GEGmSbKXnE5+URe+tFbkQFVp0dhGKahN7lCD62if7AZ+jLuFOf9uAvqzp+6Or+WS3i8Msxd3K//+mmpZ66E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gtYRof4d; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=18ZFeHwl; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1769416766; c=relaxed/simple;
+	bh=fIzUQRtLJ5Hd4K1FTZnjO5H+usaXomy6JD2G69SWG3A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VJiK5+hdTD43GcQ4fciC9mrrc2l9fGB3E7gMvpr58CSmEQuEi+awE1ctFA+V79XZ+0xeADcZrzzbXHpT0s9LTi3bF1H1ylCbp4DPRfXi6h4ClnquC3YigzzVkJjnL17mWvKi+VqULZKa34kxQ8ht710GJFHqzJwFbWFwbELMgD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=t/waB+j2; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=KAJM9FFC; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=CSkTefY0; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Ay+WlyzK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gtYRof4d";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="18ZFeHwl"
-Date: Mon, 26 Jan 2026 09:15:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1769415311;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="t/waB+j2";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="KAJM9FFC";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="CSkTefY0";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Ay+WlyzK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9CCB9336CE;
+	Mon, 26 Jan 2026 08:39:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769416762; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A9edcdENk7/kHZIxVaei4JwKF1kXzQc+nA76MRtw+U=;
-	b=gtYRof4dw4LVq5m+SLCmCyJXmr3ltYBHd6RI/gceR787AVYp53JhAUyxx/UsLTrBzzYT0d
-	TAJGXpo6zwICcZO4w2UFksofcVDMPA0Acx8W4dylb40/hrKGjBNqV0Qmif3TGVuxGOD0Fg
-	xMyCWVIImsobSs4Z+AHhRIh9Q5WQgkKjwOSKyqLroDI3IdxvDJuYbbNIvxq2z1eBga7vp/
-	ivmF/l+CmtprOv5OKtYh38Lz0E9/qxbvItWl+FfkZySVSHr2L+YahIAOulU0Mx02uZJHyX
-	tAwii7nntb4jwHBmixO+Mki3gH1k4CoNkpZ4T6SsdlQmsUeHlmmkSef7DV/FHw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1769415311;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=C8apTRjaXyVloWrbPyJGXpF6txJlbz3ZAwUoAcFkvk4=;
+	b=t/waB+j2ugV/tWl5MMCbqMEiDGV2/8OWeqP1lMsNsoyr7XYYrabD1q63Qrt+YzS/xntYLp
+	uqmzDOPOpm4CcZpVQTNKq5eY6EpB5060+fNL85HPvmq6O/jedg8OixvM0LNGk3qv8sHqNT
+	oiAExgQgiqLT7+XZ92wosPyJHoqtieg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769416762;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4A9edcdENk7/kHZIxVaei4JwKF1kXzQc+nA76MRtw+U=;
-	b=18ZFeHwl8GfP/Ddxvo2oKYjsKNhXxDD8rnRIQTBqWaRDAGH841zLLmSfgG+xOo9rmOaPU6
-	vCdMT3G5mkweGKDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Thomas Gleixner <tglx@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	Marcus Folkesson <marcus.folkesson@gmail.com>,
-	Kent Gustavsson <kent@minoris.se>,
-	Gustavo Silva <gustavograzs@gmail.com>,
-	Nishant Malpani <nish.malpani25@gmail.com>,
-	linux-iio@vger.kernel.org
-Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
-Message-ID: <20260126081510.jr8Rp6R7@linutronix.de>
-References: <20260123113708.416727-1-bigeasy@linutronix.de>
- <20260123113708.416727-19-bigeasy@linutronix.de>
- <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=C8apTRjaXyVloWrbPyJGXpF6txJlbz3ZAwUoAcFkvk4=;
+	b=KAJM9FFCbjI3pCIjlEWM4MdjpYMCIfm/y9cM/AqSHhRHzFZ7xEt7yu59sjIHqNuundCHvW
+	qGYN2b6wDG+kQ6Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=CSkTefY0;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Ay+WlyzK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1769416761; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=C8apTRjaXyVloWrbPyJGXpF6txJlbz3ZAwUoAcFkvk4=;
+	b=CSkTefY0MtsKYl/YIoaFrr3CrzzcmiqngjVEdMT0IfdKG8vyVRZP11B/IWxSeS/9wUGSK/
+	fwoQkmi9GlscBcA2n9l8MidPVBEZxmGVCAJVm2lDx2tQMapyA2El+/50h2DC0AL32XEuTM
+	Oin6fzOlpiijum3Q7CzT/Smxqy2Ydjw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1769416761;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=C8apTRjaXyVloWrbPyJGXpF6txJlbz3ZAwUoAcFkvk4=;
+	b=Ay+WlyzKYc6OzkOkBiej4kLCmNO4otuwfsO4hlMvmj2poBFHgU950+6yktW12kS1VkJH/U
+	BY/VJOSO/yGv8KAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 729C6139F0;
+	Mon, 26 Jan 2026 08:39:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XSH7Gjkod2kQJwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 26 Jan 2026 08:39:21 +0000
+Message-ID: <ff10180f-0b9e-43c0-93ff-b421ff1454c6@suse.cz>
+Date: Mon, 26 Jan 2026 09:39:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 06/22] slab: add sheaves to most caches
+Content-Language: en-US
+To: Hao Li <hao.li@linux.dev>
+Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+ <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
+ <7tds765fsicczreeqckiuwpny2tolotfrnbz6jhpjrch6x5pg3@5irfwnohvsli>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <7tds765fsicczreeqckiuwpny2tolotfrnbz6jhpjrch6x5pg3@5irfwnohvsli>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.cz:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 9CCB9336CE
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On 2026-01-23 16:48:54 [+0200], Andy Shevchenko wrote:
-> On Fri, Jan 23, 2026 at 12:37:04PM +0100, Sebastian Andrzej Siewior wrote:
-> > Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-> > the secondary (threaded) handler is done. If only a primary handler is
-> > used then the flag makes no sense because the interrupt can not fire
-> > (again) while its handler is running.
-> > The flag also disallows force-threading of the primary handler and the
-> > irq-core will warn about this.
-> >=20
-> > The intention here was probably not allowing forced-threading for
-> > handlers such as iio_trigger_generic_data_rdy_poll() will intends to
-> > invoke hard-interrupt handlers.
-> >=20
-> > Replace IRQF_ONESHOT with IRQF_NO_THREAD.
->=20
-> Code wise LGTM,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
->=20
-> There is a few nit-picks regarding style below.
->=20
-> ...
->=20
-> > Cc: Lars-Peter Clausen <lars@metafoo.de>
-> > Cc: Michael Hennerich <Michael.Hennerich@analog.com>
-> > Cc: Puranjay Mohan <puranjay@kernel.org>
-> > Cc: Jonathan Cameron <jic23@kernel.org>
-> > Cc: David Lechner <dlechner@baylibre.com>
-> > Cc: "Nuno S=C3=A1" <nuno.sa@analog.com>
-> > Cc: Andy Shevchenko <andy@kernel.org>
-> > Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> > Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > Cc: Kent Gustavsson <kent@minoris.se>
-> > Cc: Gustavo Silva <gustavograzs@gmail.com>
-> > Cc: Nishant Malpani <nish.malpani25@gmail.com>
-> > Cc: linux-iio@vger.kernel.org
->=20
-> Move these...
->=20
-> > Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > ---
->=20
-> ...to be here. This will drastically reduce the unneeded noise in the com=
-mit
-> message. The email will have (if using git format-patch and git send-emai=
-l)
-> them.
+On 1/26/26 07:36, Hao Li wrote:
+> On Fri, Jan 23, 2026 at 07:52:44AM +0100, Vlastimil Babka wrote:
+>> In the first step to replace cpu (partial) slabs with sheaves, enable
+>> sheaves for almost all caches. Treat args->sheaf_capacity as a minimum,
+>> and calculate sheaf capacity with a formula that roughly follows the
+>> formula for number of objects in cpu partial slabs in set_cpu_partial().
+>> 
+>> This should achieve roughly similar contention on the barn spin lock as
+>> there's currently for node list_lock without sheaves, to make
+>> benchmarking results comparable. It can be further tuned later.
+>> 
+>> Don't enable sheaves for bootstrap caches as that wouldn't work. In
+>> order to recognize them by SLAB_NO_OBJ_EXT, make sure the flag exists
+>> even for !CONFIG_SLAB_OBJ_EXT.
+>> 
+>> This limitation will be lifted for kmalloc caches after the necessary
+>> bootstrapping changes.
+>> 
+>> Also do not enable sheaves for SLAB_NOLEAKTRACE caches to avoid
+>> recursion with kmemleak tracking (thanks to Breno Leitao).
+>> 
+>> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+>> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> 
+> Also, looks good to me.
+> 
+> As a side node, while looking into the test results reported by Zhao Liu [1], I
+> ran a quick test of the current patchset with the will-it-scale mmap2 workload.
+> In my runs, tuning capacity up or down did indeed have a noticeable impact on
+> performance. Hopefully we can make this tuning even smarter in follow-up work.
 
-Yeah but if I have to send v2 then they are gone, aren't they? So I have
-to move them for each submission. Or is there something I am not aware
-of?
+Right, thanks for checking that.
 
-> ...
->=20
-> > --- a/drivers/iio/accel/adxl355_core.c
-> > +++ b/drivers/iio/accel/adxl355_core.c
-> > @@ -770,7 +770,8 @@ static int adxl355_probe_trigger(struct iio_dev *in=
-dio_dev, int irq)
-> > =20
-> >  	ret =3D devm_request_irq(data->dev, irq,
-> >  			       &iio_trigger_generic_data_rdy_poll,
-> > -			       IRQF_ONESHOT, "adxl355_irq", data->dready_trig);
-> > +			       IRQF_NO_THREAD,
-> > +			       "adxl355_irq", data->dready_trig);
->=20
-> Leave it on a single line. It's only 81 characters and it's fine to be li=
-ke
-> this.
->=20
-> >  	if (ret)
-> >  		return dev_err_probe(data->dev, ret, "request irq %d failed\n",
-> >  				     irq);
->=20
-> ...
->=20
-> > +++ b/drivers/iio/accel/adxl372.c
->=20
-> > +		ret =3D devm_request_irq(dev, st->irq,
-> > +				       iio_trigger_generic_data_rdy_poll,
-> > +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
-> > +				       indio_dev->name, st->dready_trig);
-> >  		if (ret < 0)
-> >  			return ret;
->=20
-> Interestingly that this driver ignores the flags from firmware... Seems t=
-o me
-> like a bug (not in your patch, obviously). Ditto for other drivers doing =
-similar
-> things.
+> [1] https://lore.kernel.org/linux-mm/aWi9nAbIkTfYFoMM@intel.com/
+> 
+> Reviewed-by: Hao Li <hao.li@linux.dev>
 
-If the irq-chip is level or unknown mode on boot up/ default and the
-device can only operate as an edge-rising then I don't see why this
-should be a bug.
+Thanks!
 
-> ...
->=20
-> > --- a/drivers/iio/pressure/dlhl60d.c
-> > +++ b/drivers/iio/pressure/dlhl60d.c
-> > @@ -306,9 +306,9 @@ static int dlh_probe(struct i2c_client *client)
-> >  	indio_dev->num_channels =3D ARRAY_SIZE(dlh_channels);
-> > =20
-> >  	if (client->irq > 0) {
-> > -		ret =3D devm_request_threaded_irq(&client->dev, client->irq,
-> > -			dlh_interrupt, NULL,
-> > -			IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-> > +		ret =3D devm_request_irq(&client->dev, client->irq,
-> > +				       dlh_interrupt,
->=20
-> Joined to the previous line it gives exactly 80 characters, which is allo=
-wed.
->=20
-> > +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
-> >  			st->info->name, indio_dev);
->=20
-> Forgot to indent.
-
-Okay, let me fix this up.
-
->=20
-> ...
->=20
-> > +		ret =3D devm_request_irq(&client->dev, client->irq,
-> > +				       iio_trigger_generic_data_rdy_poll,
-> > +				       IRQF_NO_THREAD, "tmp006_irq",
-> > +				       data->drdy_trig);
-> >  		if (ret < 0)
-> >  			return ret;
->=20
-> Jonathan et al., this seems to me like a duplication from one to another
-> driver. Can't we do like a helper for it, so we don't change it each time
-> the IRQ core or other things got changed?
->=20
-
-Sebastian
