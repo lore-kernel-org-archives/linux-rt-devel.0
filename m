@@ -1,112 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2285330149F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 10:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC2527FB34
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 10:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769421919; cv=none; b=HHk0NBhUsKEVDGSMohvBttNP6PfFNChMLxxSOuivuBNXd1+kaNjpyavl7com5HpWbv9nBjWgeqAKIxKAHnz3Vfx/eYuv3y7rsTQ/J/vmrigRMzfjI63iMHRUnOvTN6EWraoQ8UEPAe9+sb9L50OB/Pe99EmMdwLL3KY3at/if5Y=
+	t=1769422239; cv=none; b=I5z/XoKThni7lhlxYrqr3yMs2KQjwRrWCgzvIR16ZeyW4KjvZnbLhWlwC2QFU+YusGYTCIHIeWPOkdX4p9/yzZD5ZzvftHOK/CsNPl0MlMvtPK409IPYaWlYf/PFECLiXUOHbKfL00uUYRLeE79quuVQiUtKizcFv4matRENfGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769421919; c=relaxed/simple;
-	bh=fzSpNKLiEnZjcZwGXSIEgYDGzVjEl3rIioOjxZpOs6c=;
+	s=arc-20240116; t=1769422239; c=relaxed/simple;
+	bh=xRVCDR5hiiDmGZtULdlXQZLT/t68n7I3mBxKRnxkDjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVLIiUVneyw7sQenoDcyT1xC8cJLSGfCOCC8xFAdStEzVQWtqpV+DWUda7AKxLqcxhWXv1rD0Ycd5/5AVkmUVmKJYu46/Y6J/CKZkHifcLpfXljSo5rbkSXGrcAGYf1lDDGEliz18ndQywK2aQVA858472bwCER+EUKGt3AGHOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lKqboTaA; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RaOgurZWafdE3F8+YtBtKVslzfGB8cNRQzyQuPOjMksMSOTWZY2r0XPFbwKoH+Jp+JEBparRuBWsnfx4xRtCk7OrcjU3ULtnjeVlWb0jVhH0dDvi+rZ+X/X4ETZXgBRRPbYNRTMNf+XXwQUPnmrnhwUM813ZuYScKKyZUM5Qjz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0+KrxCKt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zyyUu95S; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lKqboTaA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769421918; x=1800957918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fzSpNKLiEnZjcZwGXSIEgYDGzVjEl3rIioOjxZpOs6c=;
-  b=lKqboTaAF5/QTGcVe2lci4VqP1HH1P2NdA/Tvw+um4q0J/+uneVizDMe
-   oiIZLK7vQmr/kDBROANLq1I5SQ6mT9krMotN636rXJwCeavTe6RAb7Hq6
-   xcQM1ZhdC8J5WNbgAO+VqMVN/Cz9A3mEc53a/g4XvPjOQQ4XT1qYYMxaS
-   6JE48YVG4lt3nI/75i5EtT/it2rZHkWf1zE0Ee52VeSCvj3wdB+76nbkG
-   f9zzB+BNmyqkvPacCXRQ2EU4I6Wa5JELbQUw/zRCHOn7bOXcJhaa+Tf+R
-   6KASgMRY/xJligUy+InQNZs0cHFc30I9uF8KlmBLCJYp3XUxt6fwCIpNc
-   w==;
-X-CSE-ConnectionGUID: DYwzHnC7S1mv6+0Z7iXIKg==
-X-CSE-MsgGUID: V8vOHmtFRbe6BWUTnuYzjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="70755816"
-X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="70755816"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:05:17 -0800
-X-CSE-ConnectionGUID: PFfx4EqESi+IuLaPgko1Uw==
-X-CSE-MsgGUID: vb3qZLAmQvew2xd1DZ2K8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,254,1763452800"; 
-   d="scan'208";a="207528936"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 02:05:16 -0800
-Date: Mon, 26 Jan 2026 12:05:13 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0+KrxCKt";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zyyUu95S"
+Date: Mon, 26 Jan 2026 11:10:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1769422235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDCvmrrHYwe06OKQ96thqOovpL6Xr/sVW3H5W1NA7lc=;
+	b=0+KrxCKt9+O9O6oLKiRjtd74lhdWUD6wkk3QQo0XIHELJbf/WG/nQYEh4BDog55CA5SeAq
+	Xj2uUuYMth89IMHNIAVWxDYBQncsGJBl49880bLY1j+1KH/ND+4eKmWhasWsJMTK12g2Ze
+	ZAmneodcYIIQONypCNiDSthuYxCN73oQ4n6H5Wedf74sxj/Abr2xbJZWd9vCN+Xq6mkw8R
+	VOUarBH6JLmecPFn3e9VsZDPJwjZH/lS5cFdqD7MMC9i/AKGo5doLisqex+gYL1uINU9dn
+	KQtFA7EhNO83ypx3IzgUeh2+Ra0mU39+JGvxW3+s9jM9USUH5M9tdjc1Ey4n/A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1769422235;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDCvmrrHYwe06OKQ96thqOovpL6Xr/sVW3H5W1NA7lc=;
+	b=zyyUu95SpRMrlHpcdEh8rOdGnyBdxwJe64Hmu6ruEYJQuDwXPLqZ/rcoTszLpvByHgiYU+
+	ig9KhvUYpxq+R1DA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Thomas Gleixner <tglx@kernel.org>, Lee Jones <lee@kernel.org>,
-	patches@opensource.cirrus.com, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 17/21] mfd: wm8350-core: Use IRQF_ONESHOT
-Message-ID: <aXc8WYH0p9Hr-yz9@smile.fi.intel.com>
+	Thomas Gleixner <tglx@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Gustavo Silva <gustavograzs@gmail.com>,
+	Nishant Malpani <nish.malpani25@gmail.com>,
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
+Message-ID: <20260126101034.lnGGQmUD@linutronix.de>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
- <20260123113708.416727-18-bigeasy@linutronix.de>
- <aXOLS_ZP7o0xaHII@smile.fi.intel.com>
- <20260126080119.AEjgGgaw@linutronix.de>
- <aXc346Nr_C4sybE5@smile.fi.intel.com>
- <20260126095613.vgkhGpdh@linutronix.de>
+ <20260123113708.416727-19-bigeasy@linutronix.de>
+ <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
+ <20260126081510.jr8Rp6R7@linutronix.de>
+ <aXc5Efu-PlLNCxkk@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260126095613.vgkhGpdh@linutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aXc5Efu-PlLNCxkk@smile.fi.intel.com>
 
-On Mon, Jan 26, 2026 at 10:56:13AM +0100, Sebastian Andrzej Siewior wrote:
-> On 2026-01-26 11:46:11 [+0200], Andy Shevchenko wrote:
-> > On Mon, Jan 26, 2026 at 09:01:19AM +0100, Sebastian Andrzej Siewior wrote:
-> > > On 2026-01-23 16:52:59 [+0200], Andy Shevchenko wrote:
-> > > > On Fri, Jan 23, 2026 at 12:37:03PM +0100, Sebastian Andrzej Siewior wrote:
+On 2026-01-26 11:51:13 [+0200], Andy Shevchenko wrote:
+> > > > Cc: Lars-Peter Clausen <lars@metafoo.de>
+> > > > Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+> > > > Cc: Puranjay Mohan <puranjay@kernel.org>
+> > > > Cc: Jonathan Cameron <jic23@kernel.org>
+> > > > Cc: David Lechner <dlechner@baylibre.com>
+> > > > Cc: "Nuno S=C3=A1" <nuno.sa@analog.com>
+> > > > Cc: Andy Shevchenko <andy@kernel.org>
+> > > > Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > > Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > > > Cc: Kent Gustavsson <kent@minoris.se>
+> > > > Cc: Gustavo Silva <gustavograzs@gmail.com>
+> > > > Cc: Nishant Malpani <nish.malpani25@gmail.com>
+> > > > Cc: linux-iio@vger.kernel.org
+> > >=20
+=E2=80=A6
+> I didn't follow. How? What tools do you use?
 
-...
+b4/ git.
 
-> > > > > Cc: Lee Jones <lee@kernel.org>
-> > > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > > > > Cc: patches@opensource.cirrus.com
-> > > > > Cc: Mark Brown <broonie@kernel.org>
-> > > > 
-> > > > Cc list can be moved out from the commit message.
-> > > 
-> > > If I move it out, the list won't be CCed.
-> > 
-> > Please. elaborate. It works for me. I use `git send-email ...`
-> 
-> Yes that works. But I have to move it every single patch and I have 20
-> and the number of Cc:es varies. Once I move it there, it won't be there
-> on the next git-format-patch
+> > So I have to move them for each submission. Or is there something I am =
+not
+> > aware of?
+>=20
+> Make them in the tail of commit messages locally with a delimiter, they w=
+ill
+> always be present as long as they are in your tree.
+>=20
+> I dunno if `b4` manages the Cc lists separately. At least I see no-one us=
+ing
+> `b4` *and* putting the Cc noise into the commit messages, so I assume it
+> behaves nicely.
 
-`git format-patch` uses the commit message verbatim.
+I point is if I move them for one submission, I lose it on the next if I
+update patches in tree and re-export them.=20
 
-> or will be imported via git-am.
+> > > > +		ret =3D devm_request_irq(dev, st->irq,
+> > > > +				       iio_trigger_generic_data_rdy_poll,
+> > > > +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
+> > > > +				       indio_dev->name, st->dready_trig);
+> > > >  		if (ret < 0)
+> > > >  			return ret;
+> > >=20
+> > > Interestingly that this driver ignores the flags from firmware... See=
+ms to me
+> > > like a bug (not in your patch, obviously). Ditto for other drivers do=
+ing similar
+> > > things.
+> >=20
+> > If the irq-chip is level or unknown mode on boot up/ default and the
+> > device can only operate as an edge-rising then I don't see why this
+> > should be a bug.
+>=20
+> But if FW says use "level", wouldn't this setting override it?
 
-Yes, that's the idea. `git am` will strip them out. But why would you need to
-apply via `git am` locally? You can pull from the tree.
+Yes, it will. It was common to use it pre-device-tree time where this
+information was not configured automatically before ->probe. Now it
+might be missing/wrong in the dt for some of the old devices.
+It might be a left-over which continued to grow and spread.
 
-> If you continue to nitpick here, I could do it for the next iio
-> submission assuming it will be picked-up by iio maintainers. But doing
-> it just for the single mfd patch looks like too much work.
-
-I'm thinking of all the patches.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Sebastian
