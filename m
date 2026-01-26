@@ -1,65 +1,51 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3150833290E
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 10:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCC43321A2
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 11:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769424796; cv=none; b=ifftOW6p4PNOJWUDh0Xqhuv8bD8n/xGn2Akr9O+iawJ7lv9Z434n9wvadgC/DjLC1nuLTB0tCbjv3R5b3O+9i+ounG1pw2Tifo8sfg4P4VvorssxKIYWMgtk2qDFxRMylVejl9CZjIRAZRU3kRXZIxb5ca7B6H5B1jilm/dFIQk=
+	t=1769425272; cv=none; b=B6Odyi2TY71KUO81cpgSZAr0pIf6fqkxTKizhppogEbIyw1rlCJq4e2MYkRNho6tFdI/ynDQK4DIzWaFvj+nAAud4faGLbRHVUoiy+XmNRC4z+hYnGXNeiUHhJZOJWr1TBmUNzbq4h5deknyjMu9TIovTFZf4TyMnETsTT3izo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769424796; c=relaxed/simple;
-	bh=kxPtlEXFZ9lzbdFRuzXSQejeJO9JqTeeLPP+hygrZgE=;
+	s=arc-20240116; t=1769425272; c=relaxed/simple;
+	bh=iQHm0G3MvLIv+Sa8rtsaBwOV4TDuTrxVd0iemlyNd0Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPWp1RpK/w5glVgH87yyiNjlbIYL9sH0plNhfy1OlhvK+oRcydPUZjvP/Y5zCTB7ZpDN1X3rpuFLYUALwvF4PJqKu9SNcXfSsefczhEL0Sj8Bj4K3m9TlRJfPX7TR6yx5rQqQE1+r6YsST6/EClgmdpGN/PM2YPHG+Kp1Ao7Lbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWPjXzTN; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=BqzRNBpNEHtyq/6AyXblK1eNfAAf0r8U5sEc3//CorI95CElm2RNnz9ijwnn60uZ2BNr37lPJPR9eU5TF7USMgxYFEcDlbzAH6DRvyk2VV7Zi22FKn6DfhT5EuM5kMbJpIApEky4kif7vHJZs45/4hnaB6HcRE64emVMTsgltjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbXGARy/; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWPjXzTN"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-383122fbc9bso32139231fa.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 02:53:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769424791; x=1770029591; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4K6ETBKLvIoiuBK+sPeSvqfE+sePiRFMG7yACoX51I=;
-        b=bWPjXzTNV8/js/sa//ODX8Ofi0/IbbQwRsXjCseR0nUVCH92zp6fQ5v8Fg1G1ZeqOi
-         +nWEQpMa+I3nu0PF0wBB0A0RALJHQZ6lh9pZYd9bPbQlg4s9bS2/k7SQKrLQb8dBih8/
-         4Q7Efqfhf+knV25Mc/AMtTWhC6UbpqL3yXvzoX+raL1JMrQx2V6ZJ/FPCZcEcRkiJm3W
-         fsz8ErF5Qpp5DugVaKjO6Kfo00byyzkh2BFBIG4RcJ7nI3Wc+mAKutLUnLkoP0p95E0h
-         mKLVeS23FJO/Ude6ILN574gzh/IBA6LOTiFWcJU8t7wDJp9OrWl6zn6FKIS9Mzhf6TdC
-         TtKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769424791; x=1770029591;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m4K6ETBKLvIoiuBK+sPeSvqfE+sePiRFMG7yACoX51I=;
-        b=nze2+ARWGIrQGcteP9G1u0ORQzIJQBlq9MiQ9XpTJUm+B/uURT0k0wkHWrrBpvcwPw
-         eAKI08jXK1hBAhX6eqtAojB2lhTSEVOQ0WVPhBixSAqq+Ljqbp11JYVv1GBz1mjPNuNc
-         PhN0ztCrYQ4J3td3PwMddT/Hmy26u+Ogi0veSCYdqIqF9zoi6DFC4HpD4Vhdwtuc4L2J
-         JzdqaAveGpLMxWxiJfpHQ1BjI8t+cItrTbBTTkljiYZIEzwmM1vkSsoNop3D1ntlneL/
-         BhISrnR0sTikd/ETF/nb5ld0Z2kQzGvfkjXItRrFsLKZxMhWR+hTj8VmE5SckFz6rfeY
-         ZaKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBIVp4ldrkHWa8LJjK60ZasaLrtgjHWgLhX+qhv76wSXBYtjTh1pZWxW6WpBrPK0RUjnUht4vjj6Xm4rN2HQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwX1hJPorPdfjPF95ItDmBURcRwE3xqAgVervmCP7c++0sP7Gap
-	i2u/cNvksd2TsDvNA+Hgql0CoanUbPgeBcDCvlVhRkdHgVuJ2h1ZZSJa
-X-Gm-Gg: AZuq6aIyH8z2UUrJObmxfHhc2YVLGt0kjOHE+1fAq8K6mw5ZEnPz5JjwVJfOgpC4wv7
-	e//yrVFb0yKp1OcdU94YRJOMj7E24RpiGbfOMfY0JqK0eBfeOIpCUDi9G0N1c23tY+hQ3GjcISm
-	mgifm+Fsy8+2v0AQ7wZHsTtr9n4d8CTRJmB5b6vZbw8EBvxkBPIZ4MmCRNlOTVM1oVGJrntYHAN
-	UoUpM10z66dJg2UsCFS+2Nhba/S+RQPsVDF/P8hKHDS0fuNmHhE+UFp0iJz4urTIevOlKw9/dXh
-	gIPMxM8+TQs80j8VuVeaCCDqLo7z90RoU/2f7kbJ/Dm3WEdCH4jVnFg92r12xnWpY1cHHdfzX28
-	y52VIGDKpaekqo2aDCwxaWZAoQMTkOBW7/AtzlhN32y5PMZ4gWWG9m8eS5+GphCJrql3iYoop0r
-	Pljl1pTiZT4Pti+4I5t8VtQ6qeLzTiKim5BUWgEPnVWSWRW9d7
-X-Received: by 2002:a2e:be08:0:b0:385:d0b6:6c44 with SMTP id 38308e7fff4ca-385fa0f5429mr12559791fa.18.1769424790834;
-        Mon, 26 Jan 2026 02:53:10 -0800 (PST)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-385da170f70sm23745981fa.27.2026.01.26.02.53.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 02:53:09 -0800 (PST)
-Date: Mon, 26 Jan 2026 11:53:07 +0100
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbXGARy/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769425270; x=1800961270;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=iQHm0G3MvLIv+Sa8rtsaBwOV4TDuTrxVd0iemlyNd0Y=;
+  b=PbXGARy/goRfjlgwIxlbHn1NX8jUpCEcLQ2kkGIwhuNjJ+qHuBl8yiBO
+   UKOhjhtnuIDo6BbU1rEU9DhykeNg5ApoLVpNsDGLuYTgRUZNX7AcTBj+X
+   90qXbjgAbGWtuIQ/km68js/wQhFMNLtDkdyNzvgItVqixSpViIp/mPe5b
+   gsMgNO1P6swOj/KyZP3BVsgXLKeW2ysv2PSOTdyV/jMgQ08spAIa4WhN9
+   BLFnxt3d9shIO0Wp+sPNR9VCWEhqWJXE31rL7ymOf5rQ7j/EpuZz2Nqrk
+   3wq24Jy87t3Ctv3SOFlr0EoGAtN+McPH4NcW1kKxVABepPM0yqOKqegLw
+   Q==;
+X-CSE-ConnectionGUID: KSSbiVLiT0u2DWdN354m0w==
+X-CSE-MsgGUID: 542GEnKMQUWq6ofo4MJMMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11682"; a="82032452"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="82032452"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 03:01:09 -0800
+X-CSE-ConnectionGUID: Wpyf4aTAS0mQ4M78pvcVXg==
+X-CSE-MsgGUID: CzDgbaF6Rs6W95ROV7/AIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="245260966"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 03:01:04 -0800
+Date: Mon, 26 Jan 2026 13:01:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, tools@kernel.org
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Thomas Gleixner <tglx@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
@@ -70,88 +56,123 @@ Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
 	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
 	Kent Gustavsson <kent@minoris.se>,
 	Gustavo Silva <gustavograzs@gmail.com>,
 	Nishant Malpani <nish.malpani25@gmail.com>,
 	linux-iio@vger.kernel.org
 Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
-Message-ID: <aXdHk6qvotpHkILx@gmail.com>
+Message-ID: <aXdJbidb3DPyRaxB@smile.fi.intel.com>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
  <20260123113708.416727-19-bigeasy@linutronix.de>
+ <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
+ <20260126081510.jr8Rp6R7@linutronix.de>
+ <aXc5Efu-PlLNCxkk@smile.fi.intel.com>
+ <20260126101034.lnGGQmUD@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="S2Ed6By+aLORiQHU"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260123113708.416727-19-bigeasy@linutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260126101034.lnGGQmUD@linutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Mon, Jan 26, 2026 at 11:10:34AM +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-01-26 11:51:13 [+0200], Andy Shevchenko wrote:
+> > > > > Cc: Lars-Peter Clausen <lars@metafoo.de>
+> > > > > Cc: Michael Hennerich <Michael.Hennerich@analog.com>
+> > > > > Cc: Puranjay Mohan <puranjay@kernel.org>
+> > > > > Cc: Jonathan Cameron <jic23@kernel.org>
+> > > > > Cc: David Lechner <dlechner@baylibre.com>
+> > > > > Cc: "Nuno Sá" <nuno.sa@analog.com>
+> > > > > Cc: Andy Shevchenko <andy@kernel.org>
+> > > > > Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > > > > Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
+> > > > > Cc: Kent Gustavsson <kent@minoris.se>
+> > > > > Cc: Gustavo Silva <gustavograzs@gmail.com>
+> > > > > Cc: Nishant Malpani <nish.malpani25@gmail.com>
+> > > > > Cc: linux-iio@vger.kernel.org
+> > > > 
+> …
+> > I didn't follow. How? What tools do you use?
+> 
+> b4/ git.
+
+> > > So I have to move them for each submission. Or is there something I am not
+> > > aware of?
+> > 
+> > Make them in the tail of commit messages locally with a delimiter, they will
+> > always be present as long as they are in your tree.
+> > 
+> > I dunno if `b4` manages the Cc lists separately. At least I see no-one using
+> > `b4` *and* putting the Cc noise into the commit messages, so I assume it
+> > behaves nicely.
+> 
+> I point is if I move them for one submission,
+
+It will be in your Git tree as a part of the commit message.
+
+What I mean is that your commit message will be like
+
+  $PREFIX: $SUMMARY
+  ...blank line...
+  $COMMIT_MESSAGE
+  ...blank line...
+  $TAG
+  Signed-off-by: ...
+  ---
+  Cc: person 1
+  Cc: person 2
+
+Just don't reimport them via `git am`.
+
+> I lose it on the next if I update patches in tree and re-export them. 
+
+I don't understand this, sorry. Can you provide a step-by-step example?
+Do you mean that you are taking previous version from the list and reapplying
+it via `git am`? But shouldn't `b4` take care of that as long as it knows the
+Change-ID and it matches?
+
+...
+
+Hmm... The https://b4.docs.kernel.org/en/latest/contributor/prep.html
+doesn't clearly tell me if there is a carry-on procedure for the Cc
+list between versions.
+
+...
+
+> > > > > +		ret = devm_request_irq(dev, st->irq,
+> > > > > +				       iio_trigger_generic_data_rdy_poll,
+> > > > > +				       IRQF_TRIGGER_RISING | IRQF_NO_THREAD,
+> > > > > +				       indio_dev->name, st->dready_trig);
+> > > > >  		if (ret < 0)
+> > > > >  			return ret;
+> > > > 
+> > > > Interestingly that this driver ignores the flags from firmware... Seems to me
+> > > > like a bug (not in your patch, obviously). Ditto for other drivers doing similar
+> > > > things.
+> > > 
+> > > If the irq-chip is level or unknown mode on boot up/ default and the
+> > > device can only operate as an edge-rising then I don't see why this
+> > > should be a bug.
+> > 
+> > But if FW says use "level", wouldn't this setting override it?
+> 
+> Yes, it will. It was common to use it pre-device-tree time where this
+> information was not configured automatically before ->probe. Now it
+> might be missing/wrong in the dt for some of the old devices.
+> It might be a left-over which continued to grow and spread.
+
+It may be considered as a bug, especially in the cases when the driver works
+only on DT/ACPI platforms.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---S2Ed6By+aLORiQHU
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jan 23, 2026 at 12:37:04PM +0100, Sebastian Andrzej Siewior wrote:
-> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-> the secondary (threaded) handler is done. If only a primary handler is
-> used then the flag makes no sense because the interrupt can not fire
-> (again) while its handler is running.
-> The flag also disallows force-threading of the primary handler and the
-> irq-core will warn about this.
->=20
-> The intention here was probably not allowing forced-threading for
-> handlers such as iio_trigger_generic_data_rdy_poll() will intends to
-> invoke hard-interrupt handlers.
->=20
-> Replace IRQF_ONESHOT with IRQF_NO_THREAD.
->=20
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Michael Hennerich <Michael.Hennerich@analog.com>
-> Cc: Puranjay Mohan <puranjay@kernel.org>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: David Lechner <dlechner@baylibre.com>
-> Cc: "Nuno S=E1" <nuno.sa@analog.com>
-> Cc: Andy Shevchenko <andy@kernel.org>
-> Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> Cc: Marcus Folkesson <marcus.folkesson@gmail.com>
-> Cc: Kent Gustavsson <kent@minoris.se>
-> Cc: Gustavo Silva <gustavograzs@gmail.com>
-> Cc: Nishant Malpani <nish.malpani25@gmail.com>
-> Cc: linux-iio@vger.kernel.org
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
-
-[...]
-
->  drivers/iio/adc/mcp3911.c              |  2 +-
-Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-
-Best regards,
-Marcus Folkesson
-
-
---S2Ed6By+aLORiQHU
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAml3R4wACgkQiIBOb1ld
-UjImrg//VoTe74He2xr9a7a4xXooL9varAfZBITrKKUbEhWNiXZYsrKwKYIFgayM
-oiz76OxUT5o9+SL4XCXq+yTXfr+7bwd67uPCrUoZAiSAeNtrfbw3fvftierrKuqI
-DZm7pXQ4pnsaUKqX+X+KpQ2YJsFM4CfaO3ueAG5wA+vSbiRHnp3gF45JTbo+Ic2K
-A4nqV39QMG6tzUXy0Pe2SYoXkRU7nS7u7OUjrQj/YCICXL9jaTdPpbeYtBVZic45
-8lu68gFEYN0f5SOPGgNXc0As+qfbbpghpwMSlJyv8zATlKYtj5qgrDHskKxuk3R1
-kqTF5iZEUOir50yR/KCLMnO+fXjhMdiDrWnUMAmPhYuWVAOB8n5xSO0s/khVzpBH
-rf8/ekFo5afL5bqwSQo3xK+ROk5SpgdLo/a0NIfLCMSdFna2PjIUsE5LOEZzleLG
-zlezgO9dVZOCHYzZJ6nNw/ELI3s5h9Wr/WAcMFnGPkOttC+oKcL1RIlHITYRr/U9
-3oFgssVbPffoyvQ3fKZ0xD7ur38AUJRGE1SctWW63MXd4rYxkt2PBpqRj9dOo/zx
-LEiotKRG/skz9Dx+m83SLuJUugRCz9IU80x1WIgKLv5HMRzWOCNRmpxbZEwFpkWL
-SRnZvXdjh1XMvuogBQ/DBIexesCxYIgD1wT1eOK84xzuFw0zyww=
-=/+VT
------END PGP SIGNATURE-----
-
---S2Ed6By+aLORiQHU--
