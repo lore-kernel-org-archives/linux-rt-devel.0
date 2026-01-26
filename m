@@ -1,94 +1,93 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC377237713
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 05:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F85429CE9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 05:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769405795; cv=pass; b=DlLFRXFbp3S3v5V3xhQp6LIvons1ne3sLdh7RfHTXTbRPc3NvrwaNtYsTy53XOa1I5uclBSw+jm8olKfuc2Me5n5oYM6kSmbHVj7ubz9XnobC8jPxPRVr0WDlCfxHCjaBTVh/29jAUZ/PP+kwNI0CRqYqQvkV1bIU4oRWi0/3/g=
+	t=1769406473; cv=pass; b=tIIftPCD/PSahUQDd4ItWPX/FSrwzrbLDBxbqdQBHsuk503Ut+ow6VXKS5BtsDyCUg4P0z2Ub7a9fHLKTmafx+I9lMauf2TIAexYNvUE1//VZp9TiVEtoCso6m2ST2ooJJg+rMJgUDNjMeXTMEuYcDW9ZUXKl04ErK2KKLzZXgI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769405795; c=relaxed/simple;
-	bh=atmgn5WeGIstfYtfIxu89gacAJZAeZCOoUQfXtXjrbs=;
+	s=arc-20240116; t=1769406473; c=relaxed/simple;
+	bh=KZmBQCivZigW+FXU0a2KVhAffYvS5wlBbbcHEDyWJQU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y+jmvFGnLSlni9OcDyhKWvJZ56clBKufcps5t7iTX2YPeNTZ+nvYOvTypgw+arVv7WPHgea6a4rrl5J6nOJPZdQ4t1nijZzisavvs1WDcLg8hHNeVilBMXZ644jdVdwJ3hsJUO2TP8MfTR3Yt78xPbY0cYNXnmMN+ct+2OuhdqM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4tNezZho; arc=pass smtp.client-ip=209.85.160.179
+	 To:Cc:Content-Type; b=oDZNXrB0I2T0RDWPL30mOpQIMRhwo4QYpio75dyW/HnXEXY3JgfmQnIEk3wju7SurUWlPkDYGthh1+AIQ2QV5tmLsW9TyswUENgNPAeb3+BKykeLAuMz2YBtIZOQkVyaWcZZsy4mc0tf0NFIYDi0sSHWFb106KcjKkpDJgLnJ7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zig4AIru; arc=pass smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4tNezZho"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5014b5d8551so791731cf.0
-        for <linux-rt-devel@lists.linux.dev>; Sun, 25 Jan 2026 21:36:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769405790; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zig4AIru"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5014acad6f2so686421cf.1
+        for <linux-rt-devel@lists.linux.dev>; Sun, 25 Jan 2026 21:47:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769406470; cv=none;
         d=google.com; s=arc-20240605;
-        b=hewy5iy8jKRd4FvzvvbHrohHW47GzAMRKnRoyOUwzunGg+st2vbpnPpJ/5M9DhBd/S
-         5dZv8kls1g+GIFO67Ops7v2TxvHdNMXbM8LtZFaybSjXUEjAs1OCmx0UsrXCVulS9VeO
-         lb5pYqN+Up4Nq923djplRYiuaWyHx3RXIztppsuKedLz5PsAsRgpdnI60XFa9l0EUxd3
-         ROtVmzR2ugP9XQEu81E7E5PTt2urL6VNiCGVJ+nByZxHibjVGJkryk8U2hFKiUcRLaLI
-         Z0xqpISp1CnCf3nuGSwDbvNKFxzb88sl2N3uyTznVZSH9WX1z6skPb9eE4vJsnuxKFap
-         aILg==
+        b=E+BNlYQs6WyhxtqCfi5495XmGqy8X03kPEDatSXIbhNMeHOUzDuKFHZLD5fz8Ubvke
+         BE59wk06kJLFiGj/td5TUAFxt/p18wdN2OTJmcPLxa64Fx2VT7ElQPCiT1c70/TtM57m
+         GgHuNQKqugYZMpHlpL3QPcy9gknlEFXMZfosbpd33h06aNPHKMhS2TO5Q7ShyBhQQ5gF
+         0Wiea4VabTWJRFahLBw77oYocHdzv9kncuKss5y3ebxbMKYV0NPX/a9mBXx8JyGkiJua
+         DjZHyWQNB18057nQq9RVjTuAbjyNm9nePd3J/nyRsG29lF3bW9PZleTGf2dlLdDrLgJd
+         Xr2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=I6xZq7LrfvfhhMsxNvjZUWzjYExAB/8BW1cOYBT9G50=;
-        fh=RQ2eA6uRO5qqpWsgPZAudRdTGhWEA+0yRtN9JYA1ayo=;
-        b=D+L+XvJnDCFXp+zxtbwGq7wjtdON9F9J/sSCgCHTnDJjPewSKMdVVKPoVgimGDfIQB
-         DmFFRA85L5KnLXInpzTVG+sa9/4I7ZezYtMaet7a31R2B/2d3M7Y/vVMGfkbF+APs4za
-         elRkMA0o8RjcdV9PoJJ/CsbJhc7mSQzItpjdyplnRaFq9h/XfUFiHAF/E5JX24bNHlpQ
-         eAmpXLg7UrLASXMXGZUDgA2+V0xOnHI1ceUpGVP5NyKCCibMxSknxObYv0DWM1SkJQR0
-         vt7kij5DFWRZGWhpshlDuoD9UGXb6wGt89ClKxyRAsSr4f4nbuL38avM1Rt5Yjen8aFM
-         O8Ow==;
+        bh=Ono5wEe1osDw2iE22hQcZURKz2YR0r2QKp0J45Nys8Y=;
+        fh=U2OcHj4c5XEWakPA1fm5J5eJpGgG3HDs0+kn6fqjjEs=;
+        b=bPgP8QTqov5WmZ1PdvGzvy9z8lECRAY6Vt1YY+r0i1hZnCcIs1rJWT8b4sTO7tmda1
+         7eV2ARVn/sBRTsB4J0tlAbBvHhEcUbMzTJCn+LkoeJVIneFJgIlKrbT4y+1gRzQMl7tI
+         7Mt/DZxw1rPQtja1X07UlB4BWInxgBAY1InqD2pxXvHb30PATvtoqcnGGeHz3gB8cYKH
+         /lcIhGUqEL0tZt4pTFyTAV6jLbkzHir5FcK7RSI9pddcRZSnCq6vCRkGrBBMlcvHaR8J
+         TV0jT611pXNx/D2893dyOZXmXe5UP+DBT4GFK0vL3oc9yd6ksRAIbFNhv1z8vK7z3Jjt
+         NuKQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769405790; x=1770010590; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1769406470; x=1770011270; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I6xZq7LrfvfhhMsxNvjZUWzjYExAB/8BW1cOYBT9G50=;
-        b=4tNezZhoWjyUf3wkAQUaPT9y7mAz+/Q5MNptoMJaUgyn48DG2JQGBT8fXQKGS09gRC
-         aWecdjA5q6iFvw7VUjAugLGHZ8lmA/03UlXfWYK268RyZcPu/ZTisikcF3/KvVCfon+i
-         IOzDCfIP8DXDnuOb0Wx4kaZw+y93X2XSqlIWe0uUV6oovJT615HdNjegY03yIFKWmE1e
-         Y2U2uKFSUmQyeFDig8Qc7VBjOWjx77VyGuRk7DUTGYJs5UXdQhtC2Hay5XrA4YAxyuEu
-         yUnBMgE6Yme4Zz2lizSZi/tOjAwDGOuAjfMiyjcbsyTmdVJyQLPYtpJQ+q5y/OIKrLuK
-         qrMA==
+        bh=Ono5wEe1osDw2iE22hQcZURKz2YR0r2QKp0J45Nys8Y=;
+        b=Zig4AIruydMEXdDbhtw8pX587JhmHn7S1ez58S/OK6vLBlbb2IUldHjzL59WttaFcH
+         kmu/cQtq9nzD2Bb1+wxBrdsKQw6bEWJRx/GuciyBZGOCdRnsNILYKFK30HMbs2bztkdZ
+         8U2pwSVum2R+ckpg5hRwelEjgBFTsz7TqRYZvcfCPoFHE7bIn/5I9TmmDRGVOQNk6tF1
+         OubNLOqWIHR9m2yAf7n/x8z2TzDD1lOxrwfADqStsY/oQFFb0lkP+pNQGlg35+Wpi0JM
+         26Dv+3p+dF+/c/cfoTYmcDStEkbDyKNst/p+SJL6vSNjPyO9+o5UYMkHUQP48036PEIM
+         Hv3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769405790; x=1770010590;
+        d=1e100.net; s=20230601; t=1769406470; x=1770011270;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=I6xZq7LrfvfhhMsxNvjZUWzjYExAB/8BW1cOYBT9G50=;
-        b=iA/XwFDU9HAcFc0mGQhtjJawTqzjqbiKJPS5NUzKO5jgWQqVeE8nX1+1rqGF2aTU8M
-         nge/p/kQhG4T21ddKZ5L8HEGmX6Vq1gk2evkgBVxFsTUxwz3E4rEG6uz9iK79BecwIEF
-         PRZpahUs2tDNsBKWo7mQ2DgDgjEs0qU7qONtUa70usphrMuHXmBqNZ3vWGAnX9BGypor
-         llgo8KXZuoMEJ0GJ8CAxjGPvFnfyIuAuddeMc7RkuECowjRyhcr/MaHMw5VW+icEj9u6
-         zf6stB+k/8jqqER+PcVFHw/xSgqLAojy7rUARAgk7aQ73/1xyjYNDmmGeS1rwfumQq6J
-         InmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVt+rremNFltfdv05K1h9AvcamU0GTnvxsrb6e3b5G0Xp8GdvKwrRfY4j2cSWxxEwE0o9oHd8tbF0qkQhPapg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxN8ILBeuvSGD1lasr8/h4EXxghYTGDZCuXl9fGC4I0O+5ffL3W
-	OCg6JitJAHF7M7grVYSuhNMDU0y5tgdq/ZGqgy49KEiuU4ZPaGKZP6+L9cQCca6Q/VVTkLis81M
-	MEDl2bAHUxnzfR4QwdejD6OnNGOD+0d5e732JjmCZ
-X-Gm-Gg: AZuq6aKI5sncDvOHcBuwYDcCSSvsQGrXJ/KecYR0uiuZHA0OHKdUmptj4u15j7tGJP6
-	qLBhSXqXg1PFC53Bp8wKaSKQ1xH0Wgw8wkPZZ9N9rDXtW8aGseHUC4rv2jwjMtduXpGmrwfR8pJ
-	a3nI/milKfgOKLNhill6y6LwLvejIOZxXyQK+3YaTpAzIq57It7I49FZ9M4KWYIPppXWV9SscVj
-	C7oQBCMf8lgjOTfgzbAswhXnCTTKhMKEBEnpohlHiIF5IhHl2tMKn+XDZL2l9To6j4X7ReXAdBi
-	pVW0
-X-Received: by 2002:ac8:5f93:0:b0:4b7:9a9e:833f with SMTP id
- d75a77b69052e-5031428fc37mr7858901cf.7.1769405790260; Sun, 25 Jan 2026
- 21:36:30 -0800 (PST)
+        bh=Ono5wEe1osDw2iE22hQcZURKz2YR0r2QKp0J45Nys8Y=;
+        b=VaXarrUyMuJSEpdmgNYQcrZV0wJbuqoEoc52PZ3HZox8iq/fWSzBJ6QjKRa/mOJKPe
+         H6BW88Pu9PcY21zDG0RkKlpMonFowePZRZCvxjz/ceQRSDqGhpJDU/IjA6NorqffSY7t
+         ZngeaEZ+K276yhiFYCVJ179fXr7V85qeIDgfpsDwj4MH27nHbtDxdSbxuhW4T4hNLXEG
+         gGh3o1nMhSTOZdMVgQWSo3Bk9pU80B1qq/M/1R/OdjuzW8shoIxtPRe5HpFM8pyLNx4y
+         2CK9TemY9XDjLt7sFaGa+QkffbdqeeFbcveVzBS5J6GEWBi0TOMnxLse4D7hMiPhXM/O
+         kUuA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2MwplJb4/fjQTsRwCqSrLPOXHMo6sHfHPb/ZHakzY8I72bgqT5ecSTXfF3j9Z5qp1mtjWNzwY2yHqo9a5SQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmBK0GxY+iYHzvjO4RB0l3ZSFaSId6ocu2t8CwIaSTzWfjRrg5
+	M+EPeCnjn9Lwf+RvTwrPbhKcsQOMucClO1MSX5P1FA4d5A7/Gg+czrR1eYfDQV068TTQ7vFgLwf
+	LuP1cOI9ich8equHh0ErQ+nNO0ZQUG475ZtKhNSTq
+X-Gm-Gg: AZuq6aJMWtseZb/BWLLSYgEOBIaNPnmYUeq7y0kyYt1SU2SVJfuIsPHxGVboIQf146z
+	OaVVFx5K6qxeBafE5TOowLyCv3pT0a2+Zuf/rWwE06sTxzCvO8gJ6SU+hb3S8pVwHsrrJpUNmW0
+	VzvSeiIz098G/KPjHrq7Bwug5sJ47AL1NyXcz/NP8JRmUXRyStCK+WTvYEvh2OY4cI+pG5dgghB
+	HMIJtIu9u965mXgr6GdnPlNi0qnxFbn57PSrUInUo6Bo+OPhUiUnsLLr/a1c5GGMt+wdAEoR9e+
+	d3aa
+X-Received: by 2002:ac8:57cd:0:b0:4f3:5475:6b10 with SMTP id
+ d75a77b69052e-5031430a8b7mr7932911cf.8.1769406469898; Sun, 25 Jan 2026
+ 21:47:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1769198904.git.lorenzo.stoakes@oracle.com> <32053580bff460eb1092ef780b526cefeb748bad.1769198904.git.lorenzo.stoakes@oracle.com>
-In-Reply-To: <32053580bff460eb1092ef780b526cefeb748bad.1769198904.git.lorenzo.stoakes@oracle.com>
+References: <cover.1769198904.git.lorenzo.stoakes@oracle.com> <33273be9389712347d69987c408ca7436f0c1b22.1769198904.git.lorenzo.stoakes@oracle.com>
+In-Reply-To: <33273be9389712347d69987c408ca7436f0c1b22.1769198904.git.lorenzo.stoakes@oracle.com>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 25 Jan 2026 21:36:19 -0800
-X-Gm-Features: AZwV_QiN0QWWeFWiJptYH_T4KdRYx16ZLo4mjaKA-kzllU5XbwC19rarlh3QeBo
-Message-ID: <CAJuCfpH1u6N7FXi=2Gn+WWDW5M5reupQVkKebGqRcbr84oj3HA@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] mm/vma: rename is_vma_write_only(), separate out
- shared refcount put
+Date: Sun, 25 Jan 2026 21:47:38 -0800
+X-Gm-Features: AZwV_QgbHT43t7haH8iPqdCJ4GlQ7FA-MKST17eTIePy2kXbjFdUganqOrfH_IE
+Message-ID: <CAJuCfpGK63E-EtX4V7+Mgf9-KdBfvb27kzyZH6pYoYuzUQPnxQ@mail.gmail.com>
+Subject: Re: [PATCH v4 06/10] mm/vma: clean up __vma_enter/exit_locked()
 To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
@@ -104,35 +103,25 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Jan 23, 2026 at 12:12=E2=80=AFPM Lorenzo Stoakes
 <lorenzo.stoakes@oracle.com> wrote:
 >
-> The is_vma_writer_only() function is misnamed - this isn't determining if
-> there is only a write lock, as it checks for the presence of the
-> VM_REFCNT_EXCLUDE_READERS_FLAG.
+> These functions are very confusing indeed. 'Entering' a lock could be
+> interpreted as acquiring it, but this is not what these functions are
+> interacting with.
 >
-> Really, it is checking to see whether readers are excluded, with a
-> possibility of a false positive in the case of a detachment (there we
-> expect the vma->vm_refcnt to eventually be set to
-> VM_REFCNT_EXCLUDE_READERS_FLAG, whereas for an attached VMA we expect it =
-to
-> eventually be set to VM_REFCNT_EXCLUDE_READERS_FLAG + 1).
+> Equally they don't indicate at all what kind of lock we are 'entering' or
+> 'exiting'. Finally they are misleading as we invoke these functions when =
+we
+> already hold a write lock to detach a VMA.
 >
-> Rename the function accordingly.
+> These functions are explicitly simply 'entering' and 'exiting' a state in
+> which we hold the EXCLUSIVE lock in order that we can either mark the VMA
+> as being write-locked, or mark the VMA detached.
 >
-> Relatedly, we use a __refcount_dec_and_test() primitive directly in
-> vma_refcount_put(), using the old value to determine what the reference
-> count ought to be after the operation is complete (ignoring racing
-> reference count adjustments).
+> Rename the functions accordingly, and also update
+> __vma_end_exclude_readers() to return detached state with a __must_check
+> directive, as it is simply clumsy to pass an output pointer here to
+> detached state and inconsistent vs. __vma_start_exclude_readers().
 >
-> Wrap this into a __vma_refcount_put_return() function, which we can then
-> utilise in vma_mark_detached() and thus keep the refcount primitive usage
-> abstracted.
->
-> This function, as the name implies, returns the value after the reference
-> count has been updated.
->
-> This reduces duplication in the two invocations of this function.
->
-> Also adjust comments, removing duplicative comments covered elsewhere and
-> adding more to aid understanding.
+> Finally, remove the unnecessary 'inline' directives.
 >
 > No functional change intended.
 >
@@ -141,165 +130,164 @@ to
 Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
 > ---
->  include/linux/mmap_lock.h | 66 +++++++++++++++++++++++++++++++--------
->  mm/mmap_lock.c            | 17 +++++-----
->  2 files changed, 63 insertions(+), 20 deletions(-)
+>  include/linux/mmap_lock.h |  4 +--
+>  mm/mmap_lock.c            | 58 +++++++++++++++++++++++++++------------
+>  2 files changed, 42 insertions(+), 20 deletions(-)
 >
 > diff --git a/include/linux/mmap_lock.h b/include/linux/mmap_lock.h
-> index a764439d0276..294fb282052d 100644
+> index 1887ca55ead7..d6df6aad3e24 100644
 > --- a/include/linux/mmap_lock.h
 > +++ b/include/linux/mmap_lock.h
-> @@ -122,15 +122,22 @@ static inline void vma_lock_init(struct vm_area_str=
-uct *vma, bool reset_refcnt)
->         vma->vm_lock_seq =3D UINT_MAX;
->  }
+> @@ -211,8 +211,8 @@ static inline void vma_refcount_put(struct vm_area_st=
+ruct *vma)
+>         newcnt =3D __vma_refcount_put_return(vma);
 >
-> -static inline bool is_vma_writer_only(int refcnt)
-> +/*
-> + * This function determines whether the input VMA reference count descri=
-bes a
-> + * VMA which has excluded all VMA read locks.
-> + *
-> + * In the case of a detached VMA, we may incorrectly indicate that reade=
-rs are
-> + * excluded when one remains, because in that scenario we target a refco=
-unt of
-> + * VM_REFCNT_EXCLUDE_READERS_FLAG, rather than the attached target of
-> + * VM_REFCNT_EXCLUDE_READERS_FLAG + 1.
-> + *
-> + * However, the race window for that is very small so it is unlikely.
-> + *
-> + * Returns: true if readers are excluded, false otherwise.
-> + */
-> +static inline bool __vma_are_readers_excluded(int refcnt)
->  {
 >         /*
-> -        * With a writer and no readers, refcnt is VM_REFCNT_EXCLUDE_READ=
-ERS_FLAG
-> -        * if the vma is detached and (VM_REFCNT_EXCLUDE_READERS_FLAG + 1=
-) if it is
-> -        * attached. Waiting on a detached vma happens only in
-> -        * vma_mark_detached() and is a rare case, therefore most of the =
-time
-> -        * there will be no unnecessary wakeup.
-> -        *
->          * See the comment describing the vm_area_struct->vm_refcnt field=
- for
->          * details of possible refcnt values.
->          */
-> @@ -138,18 +145,51 @@ static inline bool is_vma_writer_only(int refcnt)
->                 refcnt <=3D VM_REFCNT_EXCLUDE_READERS_FLAG + 1;
->  }
->
-> +/*
-> + * Actually decrement the VMA reference count.
-> + *
-> + * The function returns the reference count as it was immediately after =
-the
-> + * decrement took place. If it returns zero, the VMA is now detached.
-> + */
-> +static inline __must_check unsigned int
-> +__vma_refcount_put_return(struct vm_area_struct *vma)
-> +{
-> +       int oldcnt;
-> +
-> +       if (__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt))
-> +               return 0;
-> +
-> +       return oldcnt - 1;
-> +}
-> +
-> +/**
-> + * vma_refcount_put() - Drop reference count in VMA vm_refcnt field due =
-to a
-> + * read-lock being dropped.
-> + * @vma: The VMA whose reference count we wish to decrement.
-> + *
-> + * If we were the last reader, wake up threads waiting to obtain an excl=
-usive
-> + * lock.
-> + */
->  static inline void vma_refcount_put(struct vm_area_struct *vma)
->  {
-> -       /* Use a copy of vm_mm in case vma is freed after we drop vm_refc=
-nt */
-> +       /* Use a copy of vm_mm in case vma is freed after we drop vm_refc=
-nt. */
->         struct mm_struct *mm =3D vma->vm_mm;
-> -       int oldcnt;
-> +       int newcnt;
->
->         rwsem_release(&vma->vmlock_dep_map, _RET_IP_);
-> -       if (!__refcount_dec_and_test(&vma->vm_refcnt, &oldcnt)) {
->
-> -               if (is_vma_writer_only(oldcnt - 1))
-> -                       rcuwait_wake_up(&mm->vma_writer_wait);
-> -       }
-> +       newcnt =3D __vma_refcount_put_return(vma);
-> +       /*
-> +        * __vma_enter_locked() may be sleeping waiting for readers to dr=
+> -        * __vma_enter_locked() may be sleeping waiting for readers to dr=
 op
-> +        * their reference count, so wake it up if we were the last reade=
+> -        * their reference count, so wake it up if we were the last reade=
 r
-> +        * blocking it from being acquired.
-> +        *
-> +        * We may be raced by other readers temporarily incrementing the
-> +        * reference count, though the race window is very small, this mi=
-ght
-> +        * cause spurious wakeups.
-> +        */
-> +       if (newcnt && __vma_are_readers_excluded(newcnt))
-> +               rcuwait_wake_up(&mm->vma_writer_wait);
+> +        * __vma_start_exclude_readers() may be sleeping waiting for read=
+ers to
+> +        * drop their reference count, so wake it up if we were the last =
+reader
+>          * blocking it from being acquired.
+>          *
+>          * We may be raced by other readers temporarily incrementing the
+> diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
+> index 1fabda07c922..72f15f606093 100644
+> --- a/mm/mmap_lock.c
+> +++ b/mm/mmap_lock.c
+> @@ -46,19 +46,44 @@ EXPORT_SYMBOL(__mmap_lock_do_trace_released);
+>  #ifdef CONFIG_MMU
+>  #ifdef CONFIG_PER_VMA_LOCK
+>
+> -static inline void __vma_exit_locked(struct vm_area_struct *vma, bool *d=
+etached)
+> +/*
+> + * Now that all readers have been evicted, mark the VMA as being out of =
+the
+> + * 'exclude readers' state.
+> + *
+> + * Returns true if the VMA is now detached, otherwise false.
+> + */
+> +static bool __must_check __vma_end_exclude_readers(struct vm_area_struct=
+ *vma)
+>  {
+> -       *detached =3D refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLA=
+G,
+> -                                         &vma->vm_refcnt);
+> +       bool detached;
+> +
+> +       detached =3D refcount_sub_and_test(VM_REFCNT_EXCLUDE_READERS_FLAG=
+,
+> +                                        &vma->vm_refcnt);
+>         __vma_lockdep_release_exclusive(vma);
+> +       return detached;
 >  }
 >
 >  /*
-> diff --git a/mm/mmap_lock.c b/mm/mmap_lock.c
-> index 75dc098aea14..6be1bbcde09e 100644
-> --- a/mm/mmap_lock.c
-> +++ b/mm/mmap_lock.c
-> @@ -134,21 +134,24 @@ void vma_mark_detached(struct vm_area_struct *vma)
->         vma_assert_attached(vma);
+> - * __vma_enter_locked() returns 0 immediately if the vma is not
+> - * attached, otherwise it waits for any current readers to finish and
+> - * returns 1.  Returns -EINTR if a signal is received while waiting.
+> + * Mark the VMA as being in a state of excluding readers, check to see i=
+f any
+> + * VMA read locks are indeed held, and if so wait for them to be release=
+d.
+> + *
+> + * Note that this function pairs with vma_refcount_put() which will wake=
+ up this
+> + * thread when it detects that the last reader has released its lock.
+> + *
+> + * The state parameter ought to be set to TASK_UNINTERRUPTIBLE in cases =
+where we
+> + * wish the thread to sleep uninterruptibly or TASK_KILLABLE if a fatal =
+signal
+> + * is permitted to kill it.
+> + *
+> + * The function will return 0 immediately if the VMA is detached, or wai=
+t for
+> + * readers and return 1 once they have all exited, leaving the VMA exclu=
+sively
+> + * locked.
+> + *
+> + * If the function returns 1, the caller is required to invoke
+> + * __vma_end_exclude_readers() once the exclusive state is no longer req=
+uired.
+> + *
+> + * If state is set to something other than TASK_UNINTERRUPTIBLE, the fun=
+ction
+> + * may also return -EINTR to indicate a fatal signal was received while =
+waiting.
+>   */
+> -static inline int __vma_enter_locked(struct vm_area_struct *vma,
+> +static int __vma_start_exclude_readers(struct vm_area_struct *vma,
+>                 bool detaching, int state)
+>  {
+>         int err;
+> @@ -85,13 +110,10 @@ static inline int __vma_enter_locked(struct vm_area_=
+struct *vma,
+>                    refcount_read(&vma->vm_refcnt) =3D=3D tgt_refcnt,
+>                    state);
+>         if (err) {
+> -               bool detached;
+> -
+> -               __vma_exit_locked(vma, &detached);
+> -               if (detached) {
+> +               if (__vma_end_exclude_readers(vma)) {
+>                         /*
+>                          * The wait failed, but the last reader went away
+> -                        * as well.  Tell the caller the VMA is detached.
+> +                        * as well. Tell the caller the VMA is detached.
+>                          */
+>                         WARN_ON_ONCE(!detaching);
+>                         err =3D 0;
+> @@ -108,7 +130,7 @@ int __vma_start_write(struct vm_area_struct *vma, uns=
+igned int mm_lock_seq,
+>  {
+>         int locked;
 >
->         /*
-> -        * We are the only writer, so no need to use vma_refcount_put().
-> -        * The condition below is unlikely because the vma has been alrea=
-dy
-> -        * write-locked and readers can increment vm_refcnt only temporar=
-ily
-> -        * before they check vm_lock_seq, realize the vma is locked and d=
-rop
-> -        * back the vm_refcnt. That is a narrow window for observing a ra=
-ised
-> -        * vm_refcnt.
-> +        * This condition - that the VMA is still attached (refcnt > 0) -=
- is
-> +        * unlikely, because the vma has been already write-locked and re=
-aders
-> +        * can increment vm_refcnt only temporarily before they check
-> +        * vm_lock_seq, realize the vma is locked and drop back the
-> +        * vm_refcnt. That is a narrow window for observing a raised vm_r=
-efcnt.
->          *
->          * See the comment describing the vm_area_struct->vm_refcnt field=
- for
->          * details of possible refcnt values.
+> -       locked =3D __vma_enter_locked(vma, false, state);
+> +       locked =3D __vma_start_exclude_readers(vma, false, state);
+>         if (locked < 0)
+>                 return locked;
+>
+> @@ -121,10 +143,10 @@ int __vma_start_write(struct vm_area_struct *vma, u=
+nsigned int mm_lock_seq,
+>         WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
+>
+>         if (locked) {
+> -               bool detached;
+> +               bool detached =3D __vma_end_exclude_readers(vma);
+>
+> -               __vma_exit_locked(vma, &detached);
+> -               WARN_ON_ONCE(detached); /* vma should remain attached */
+> +               /* The VMA should remain attached. */
+> +               WARN_ON_ONCE(detached);
+>         }
+>
+>         return 0;
+> @@ -148,14 +170,14 @@ void vma_mark_detached(struct vm_area_struct *vma)
 >          */
-> -       if (unlikely(!refcount_dec_and_test(&vma->vm_refcnt))) {
-> +       if (unlikely(__vma_refcount_put_return(vma))) {
+>         if (unlikely(__vma_refcount_put_return(vma))) {
 >                 /* Wait until vma is detached with no readers. */
->                 if (__vma_enter_locked(vma, true, TASK_UNINTERRUPTIBLE)) =
+> -               if (__vma_enter_locked(vma, true, TASK_UNINTERRUPTIBLE)) =
 {
+> +               if (__vma_start_exclude_readers(vma, true, TASK_UNINTERRU=
+PTIBLE)) {
 >                         bool detached;
 >
-> +                       /*
-> +                        * Once this is complete, no readers can incremen=
+>                         /*
+>                          * Once this is complete, no readers can incremen=
 t the
-> +                        * reference count, and the VMA is marked detache=
+>                          * reference count, and the VMA is marked detache=
 d.
-> +                        */
->                         __vma_exit_locked(vma, &detached);
+>                          */
+> -                       __vma_exit_locked(vma, &detached);
+> +                       detached =3D __vma_end_exclude_readers(vma);
 >                         WARN_ON_ONCE(!detached);
 >                 }
+>         }
 > --
 > 2.52.0
 >
