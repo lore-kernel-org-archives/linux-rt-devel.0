@@ -1,161 +1,87 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B54313543
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 09:52:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3315F32D45C
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 09:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769421166; cv=none; b=PP3oQ3CyH/EFYE03/lRpmiOBJfoYs3596I0ApqlxBuWrMulEX+1Lcn/TW4hI4AokXluOgU4L3KE/wEqXTx8MzMDoy+wdV7nKwFtmPQ8O7xnNwVs/3UICb2d9UoeToAk6jHjYbmD5a557epdd9wbNF3HA+O9C5hoINOR703K1w20=
+	t=1769421379; cv=none; b=GJS+pDJo5yB1H7yMjRD/ts7oFSQMFpuBELFXzmnri2MerqhgfbVAQzYePdvgs1vYugM84QXJbkoHDQgDhBvEgPMdH8Wgj2duYCtjpxkDue+3KG+qvVQHv7Pk22l/+jg9y0b1HBIW9tP3F7asXvUWFyr4KuAxooC2HAW4MsLRXPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769421166; c=relaxed/simple;
-	bh=a0Kzh2YIyDS2ZILwdccxSUSrHYD8Cch9PaTNytgpF6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eOhMABfkVsk4UGJVloMh5UZ5iDd0g9/81nKDuaeivFUa3ONuBiMEQIjGF7LNi6XR4RhRjS08ixTqWtzUiekC0+dZ5y0E9NhsKKoreEn1zv7mtj7jaW+9pFYniJ0EbfUYPiwmgLMtP703mtrkE2Loqi/JIUTeohH42Lmx8/83h78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=MTDPrub2; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1769421379; c=relaxed/simple;
+	bh=VbeBWdppKfqCbY/sjS2/7nXliFIRTsgNIaPxooXf+ew=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4KVBDtuRh/WKVpFmD0iF7apBvQs3+UpHUQYX97DDc8SYrMZOx/SeyEcgK8aJyej53TAd6pbJeJmFnIP2K8J6lcEauOfBU3eopLITQS+6Jl47NhWE/COlnjk/f9sX0EezHW1nBbt3M/8zRSzMEdvXSx5mlJCFekTAHimh2l5nCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=b8HWZ65n; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BT1aXoau; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="MTDPrub2"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769421157; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=tZw98oYEIsqMY83f3/j0AD23/HAji059kNXT+C2Y2uU=;
-	b=MTDPrub2qX54K42f/JOKLONz3EhIOy20p/o0KMsVi+Mi92IR7FpX5gLTEv2w+TYa2HSZcIL3GiW/PL7chy2qQVAELiZohi94c7bxwqZ7IH420j47hymuNPTiuD4MBHkZBsfiaUb0vWCPfGEshtyZa60U/DPMd2U8r7p75TnMShA=
-Received: from 30.74.144.138(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WxsgQI5_1769421155 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 26 Jan 2026 17:52:35 +0800
-Message-ID: <f9ab9762-97e1-4ff0-8284-5c22d54d1f2e@linux.alibaba.com>
-Date: Mon, 26 Jan 2026 17:52:34 +0800
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="b8HWZ65n";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BT1aXoau"
+Date: Mon, 26 Jan 2026 10:56:13 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1769421374;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NTafVHHqA3gFQvf8/15cpyxZaZQjKjR0HodDp6qra40=;
+	b=b8HWZ65n1EupzUdN98jFug9ZmT+Rz+gHE80++ARQIXOt2ZURr9Szm+keE37zcfMcYNsmCV
+	pDVgzfJwFkMlgIkAFOcXj/NyC5iZRVoG+lknQt8XHx5DRwr4n5rAWV4SuZlidxJFciqlVP
+	IqhbV/bHCspgupdI5GhciaQoF1tNoRUQoBB7ZwvacNgH0oqfQKa2IxUgOZFJBgghMrTmaB
+	pBmRO7+TGQdTBZRqUBtfH3f2wGW5gTk0MwSDNBuepfAxUgQrGlmPr+t4OwHjVMogWZIGuF
+	jTmUrkxvXiBXp3J54UsgdRGUfV1WGmkexvg7GWYPgVMjy+Tc4NZpfD8xG3/+Eg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1769421374;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NTafVHHqA3gFQvf8/15cpyxZaZQjKjR0HodDp6qra40=;
+	b=BT1aXoau3mo89utTwl9IjBNA0hHAGvqUpuhwPuGRSrMs+OWLL3pSwOZAkb8fk2RFuGxMoP
+	OoRU6M64grVFYEBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Thomas Gleixner <tglx@kernel.org>, Lee Jones <lee@kernel.org>,
+	patches@opensource.cirrus.com, Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH 17/21] mfd: wm8350-core: Use IRQF_ONESHOT
+Message-ID: <20260126095613.vgkhGpdh@linutronix.de>
+References: <20260123113708.416727-1-bigeasy@linutronix.de>
+ <20260123113708.416727-18-bigeasy@linutronix.de>
+ <aXOLS_ZP7o0xaHII@smile.fi.intel.com>
+ <20260126080119.AEjgGgaw@linutronix.de>
+ <aXc346Nr_C4sybE5@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] gpio: sprd: Change sprd_gpio lock to raw_spin_lock
-To: Xuewen Yan <xuewen.yan@unisoc.com>, linusw@kernel.org, brgl@kernel.org,
- orsonzhai@gmail.com, zhang.lyra@gmail.com
-Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, ke.wang@unisoc.com, wenhua.lin@unisoc.com,
- xuewen.yan94@gmail.com
-References: <20260126094209.9855-1-xuewen.yan@unisoc.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20260126094209.9855-1-xuewen.yan@unisoc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aXc346Nr_C4sybE5@smile.fi.intel.com>
 
-
-
-On 1/26/26 5:42 PM, Xuewen Yan wrote:
-> There was a lockdep warning in sprd_gpio:
+On 2026-01-26 11:46:11 [+0200], Andy Shevchenko wrote:
+> On Mon, Jan 26, 2026 at 09:01:19AM +0100, Sebastian Andrzej Siewior wrote:
+> > On 2026-01-23 16:52:59 [+0200], Andy Shevchenko wrote:
+> > > On Fri, Jan 23, 2026 at 12:37:03PM +0100, Sebastian Andrzej Siewior wrote:
 > 
-> [    6.258269][T329@C6] [ BUG: Invalid wait context ]
-> [    6.258270][T329@C6] 6.18.0-android17-0-g30527ad7aaae-ab00009-4k #1 Tainted: G        W  OE
-> [    6.258272][T329@C6] -----------------------------
-> [    6.258273][T329@C6] modprobe/329 is trying to lock:
-> [    6.258275][T329@C6] ffffff8081c91690 (&sprd_gpio->lock){....}-{3:3}, at: sprd_gpio_irq_unmask+0x4c/0xa4 [gpio_sprd]
-> [    6.258282][T329@C6] other info that might help us debug this:
-> [    6.258283][T329@C6] context-{5:5}
-> [    6.258285][T329@C6] 3 locks held by modprobe/329:
-> [    6.258286][T329@C6]  #0: ffffff808baca108 (&dev->mutex){....}-{4:4}, at: __driver_attach+0xc4/0x204
-> [    6.258295][T329@C6]  #1: ffffff80965e7240 (request_class#4){+.+.}-{4:4}, at: __setup_irq+0x1cc/0x82c
-> [    6.258304][T329@C6]  #2: ffffff80965e70c8 (lock_class#4){....}-{2:2}, at: __setup_irq+0x21c/0x82c
-> [    6.258313][T329@C6] stack backtrace:
-> [    6.258314][T329@C6] CPU: 6 UID: 0 PID: 329 Comm: modprobe Tainted: G        W  OE       6.18.0-android17-0-g30527ad7aaae-ab00009-4k #1 PREEMPT  3ad5b0f45741a16e5838da790706e16ceb6717df
-> [    6.258316][T329@C6] Tainted: [W]=WARN, [O]=OOT_MODULE, [E]=UNSIGNED_MODULE
-> [    6.258317][T329@C6] Hardware name: Unisoc UMS9632-base Board (DT)
-> [    6.258318][T329@C6] Call trace:
-> [    6.258318][T329@C6]  show_stack+0x20/0x30 (C)
-> [    6.258321][T329@C6]  __dump_stack+0x28/0x3c
-> [    6.258324][T329@C6]  dump_stack_lvl+0xac/0xf0
-> [    6.258326][T329@C6]  dump_stack+0x18/0x3c
-> [    6.258329][T329@C6]  __lock_acquire+0x824/0x2c28
-> [    6.258331][T329@C6]  lock_acquire+0x148/0x2cc
-> [    6.258333][T329@C6]  _raw_spin_lock_irqsave+0x6c/0xb4
-> [    6.258334][T329@C6]  sprd_gpio_irq_unmask+0x4c/0xa4 [gpio_sprd 814535e93c6d8e0853c45c02eab0fa88a9da6487]
-> [    6.258337][T329@C6]  irq_startup+0x238/0x350
-> [    6.258340][T329@C6]  __setup_irq+0x504/0x82c
-> [    6.258342][T329@C6]  request_threaded_irq+0x118/0x184
-> [    6.258344][T329@C6]  devm_request_threaded_irq+0x94/0x120
-> [    6.258347][T329@C6]  sc8546_init_irq+0x114/0x170 [sc8546_charger 223586ccafc27439f7db4f95b0c8e6e882349a99]
-> [    6.258352][T329@C6]  sc8546_charger_probe+0x53c/0x5a0 [sc8546_charger 223586ccafc27439f7db4f95b0c8e6e882349a99]
-> [    6.258358][T329@C6]  i2c_device_probe+0x2c8/0x350
-> [    6.258361][T329@C6]  really_probe+0x1a8/0x46c
-> [    6.258363][T329@C6]  __driver_probe_device+0xa4/0x10c
-> [    6.258366][T329@C6]  driver_probe_device+0x44/0x1b4
-> [    6.258369][T329@C6]  __driver_attach+0xd0/0x204
-> [    6.258371][T329@C6]  bus_for_each_dev+0x10c/0x168
-> [    6.258373][T329@C6]  driver_attach+0x2c/0x3c
-> [    6.258376][T329@C6]  bus_add_driver+0x154/0x29c
-> [    6.258378][T329@C6]  driver_register+0x70/0x10c
-> [    6.258381][T329@C6]  i2c_register_driver+0x48/0xc8
-> [    6.258384][T329@C6]  init_module+0x28/0xfd8 [sc8546_charger 223586ccafc27439f7db4f95b0c8e6e882349a99]
-> [    6.258389][T329@C6]  do_one_initcall+0x128/0x42c
-> [    6.258392][T329@C6]  do_init_module+0x60/0x254
-> [    6.258395][T329@C6]  load_module+0x1054/0x1220
-> [    6.258397][T329@C6]  __arm64_sys_finit_module+0x240/0x35c
-> [    6.258400][T329@C6]  invoke_syscall+0x60/0xec
-> [    6.258402][T329@C6]  el0_svc_common+0xb0/0xe4
-> [    6.258405][T329@C6]  do_el0_svc+0x24/0x30
-> [    6.258407][T329@C6]  el0_svc+0x54/0x1c4
-> [    6.258409][T329@C6]  el0t_64_sync_handler+0x68/0xdc
-> [    6.258411][T329@C6]  el0t_64_sync+0x1c4/0x1c8
+> ...
 > 
-> This is because the spin_lock would change to rt_mutex in PREEMPT_RT,
-> however the sprd_gpio->lock would use in hard-irq, this is unsafe.
+> > > > Cc: Lee Jones <lee@kernel.org>
+> > > > Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > Cc: patches@opensource.cirrus.com
+> > > > Cc: Mark Brown <broonie@kernel.org>
+> > > 
+> > > Cc list can be moved out from the commit message.
+> > 
+> > If I move it out, the list won't be CCed.
 > 
-> So change the spin_lock to raw_spin_lock to use the spinlock
-> in hard-irq.
-> 
-> Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+> Please. elaborate. It works for me. I use `git send-email ...`
 
-LGTM. Thanks.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Yes that works. But I have to move it every single patch and I have 20
+and the number of Cc:es varies. Once I move it there, it won't be there
+on the next git-format-patch or will be imported via git-am.
+If you continue to nitpick here, I could do it for the next iio
+submission assuming it will be picked-up by iio maintainers. But doing
+it just for the single mfd patch looks like too much work.
 
-> ---
->   drivers/gpio/gpio-sprd.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpio-sprd.c b/drivers/gpio/gpio-sprd.c
-> index 413bcd0a4240..2cc8abe705cd 100644
-> --- a/drivers/gpio/gpio-sprd.c
-> +++ b/drivers/gpio/gpio-sprd.c
-> @@ -35,7 +35,7 @@
->   struct sprd_gpio {
->   	struct gpio_chip chip;
->   	void __iomem *base;
-> -	spinlock_t lock;
-> +	raw_spinlock_t lock;
->   	int irq;
->   };
->   
-> @@ -54,7 +54,7 @@ static void sprd_gpio_update(struct gpio_chip *chip, unsigned int offset,
->   	unsigned long flags;
->   	u32 tmp;
->   
-> -	spin_lock_irqsave(&sprd_gpio->lock, flags);
-> +	raw_spin_lock_irqsave(&sprd_gpio->lock, flags);
->   	tmp = readl_relaxed(base + reg);
->   
->   	if (val)
-> @@ -63,7 +63,7 @@ static void sprd_gpio_update(struct gpio_chip *chip, unsigned int offset,
->   		tmp &= ~BIT(SPRD_GPIO_BIT(offset));
->   
->   	writel_relaxed(tmp, base + reg);
-> -	spin_unlock_irqrestore(&sprd_gpio->lock, flags);
-> +	raw_spin_unlock_irqrestore(&sprd_gpio->lock, flags);
->   }
->   
->   static int sprd_gpio_read(struct gpio_chip *chip, unsigned int offset, u16 reg)
-> @@ -236,7 +236,7 @@ static int sprd_gpio_probe(struct platform_device *pdev)
->   	if (IS_ERR(sprd_gpio->base))
->   		return PTR_ERR(sprd_gpio->base);
->   
-> -	spin_lock_init(&sprd_gpio->lock);
-> +	raw_spin_lock_init(&sprd_gpio->lock);
->   
->   	sprd_gpio->chip.label = dev_name(&pdev->dev);
->   	sprd_gpio->chip.ngpio = SPRD_GPIO_NR;
-
+Sebastian
