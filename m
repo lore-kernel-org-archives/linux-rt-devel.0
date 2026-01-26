@@ -1,99 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBD533BBC0
-	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 14:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB1133D51C
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 14:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769436308; cv=none; b=IjsLhzOCYTYJHI9djAfX3Xop0etC8x0empPUdPoihnjYTWuAj684BICLP/LB9xPPVK9h6YLNOxB6jgKvBZkIAaG981kIjzShVrql5dam2oXN2N3OofWeL6qYEVAoaMUjGausQlmd5Oj7i3jLsTO8YeiBamAi2XffdFC1x0FajYo=
+	t=1769437337; cv=none; b=qn9GbpJfmbqcEQChz4fKOSh8/TH/7dGsToci30Sy4hZCdmMCTHheQdaH09qjshx7liiwDhpQU3/2kGSEq5m3rjzEg1DYUk5gCtVt0T5rz8FXCR1v9wtnf0lwxaumxBwmIrKHyoKASa22yybwYXJfTjfeBPeSJpTWbjSqIvpKoUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769436308; c=relaxed/simple;
-	bh=YVu+sGvMlNkS4k9kfkfXYGH/hZcCKd9f1er1letfTog=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=coUgb8QMZHrJSLWcdgze8FEB2189XQ+LMIBL/VVI8Ep6+Gw8oH3UaYBDvg/k1xE1XfhzVty0FFSst+EzHCGmYjYdrWmQLxAsQ0qXw9U96r0mZ4eis+IA67uN1IB1A7q7ocxtshEmhxIqFprUN3Z8fZ/c1KqQVKiSsUz3vgSwtOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QShoMJGH; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1769437337; c=relaxed/simple;
+	bh=YyOwNrDhHyhIeuNrfjmrB/sotm26q39JXO8vlFcE7l4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C6eXlyqlAN2SBfbGW07arFfG360HeE6xvzANAoiZhrVzc/i7sQCs6QLholk9itszVkM70+iEXCEN3u4Oo0/eXaWCJIY0BbNwxaHusmlDiQ6JkAvGl95g+yPN8E/ZDBcSGJv1UAIRfKYqD7ZImyD9mCbK5g/bs7rSel8/GNiTG74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IDJgC/Ix; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QShoMJGH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IDJgC/Ix"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769436307; x=1800972307;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=YVu+sGvMlNkS4k9kfkfXYGH/hZcCKd9f1er1letfTog=;
-  b=QShoMJGHIkE/31tJfceTK6Tj0dpixK704Jsk0au5k53J376o5coFidOC
-   s6MddH97Ypc+xI0/i3OvEy4RmhuJgz0UfoKWeVEJ2ZHCMU4MCFJtuCHDg
-   l+oUR95Z4VnG3cejdByzq6yYjfJ2vbZm36XPqYcyTjb2kubZMfO8MflGH
-   MXJsd1Q9FTShfCup/7H0rhgNmc86zzrvPzAQUqMOBLep22x+NniKEkZAS
-   4HntdhLNxWCCQku6a7iJCqPfHznDpjJ/3T8t+R2z7iFvxaEXo6kgnYK0C
-   cLR3GuCj3wGnBZyqr2KelLKQm3Ir87C8zDVyq2nQcQCkzYkfLoy9z4/nl
+  t=1769437336; x=1800973336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YyOwNrDhHyhIeuNrfjmrB/sotm26q39JXO8vlFcE7l4=;
+  b=IDJgC/Ixpag6M2Oi974b45yvpUrgGtFaSTFJszoQPBkaljGx4PHAb8Xg
+   BZVyUecnxocbAczLJwra1RbXikYOIMiq7SKjxVxrFGEDzDPiQRNaCQO1V
+   ckeh3miiGxZdvLDlpluhcF4nQ+akvxsmgee2KPK9kMUMES1+l9qL1I7db
+   okZUijrw44LjZyZAqOWGqF03K4pe9ODkeUEKydOlCcYOsPjxbgjGccFCa
+   eSCG4SkJc/gg6LFiG8tVbvfM1SsQV74F1GfoL6j4KuzKvBVPzMblXEKDq
+   Umbe6PjI0E9K0HBqcZYGQjE89ED1L56dIAU5FlCzjFW0pwj0FsN0XZlMS
    g==;
-X-CSE-ConnectionGUID: 8d/Plhi/T2i8A/8PpPiD3w==
-X-CSE-MsgGUID: 6/siVmfnQu6RgeeRFxZmFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="58186596"
+X-CSE-ConnectionGUID: mylCBWIwQUWvq+7RRRsfUQ==
+X-CSE-MsgGUID: DrIJRqg5TeeEBIQSnAzVCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="70517202"
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="58186596"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:05:07 -0800
-X-CSE-ConnectionGUID: b2meS9u/QSm0939855I7aA==
-X-CSE-MsgGUID: 9su8TMrqTmyB6+Hf2A9nrA==
+   d="scan'208";a="70517202"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:22:16 -0800
+X-CSE-ConnectionGUID: DDNU3I6gSR6VUUhjWFKMDQ==
+X-CSE-MsgGUID: XB9p31RxTF6rqe0+orXf1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
-   d="scan'208";a="212228975"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.150])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:05:03 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Mon, 26 Jan 2026 16:05:00 +0200 (EET)
+   d="scan'208";a="208116586"
+Received: from aschofie-mobl2.amr.corp.intel.com (HELO kuha) ([10.124.223.78])
+  by fmviesa009.fm.intel.com with SMTP; 26 Jan 2026 06:22:13 -0800
+Received: by kuha (sSMTP sendmail emulation); Mon, 26 Jan 2026 16:21:46 +0200
+Date: Mon, 26 Jan 2026 16:21:46 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-cc: LKML <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
-    Thomas Gleixner <tglx@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-    platform-driver-x86@vger.kernel.org, 
-    "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-Subject: Re: [PATCH 02/21] platform/x86: int0002: Remove IRQF_ONESHOT from
- request_irq()
-In-Reply-To: <20260123114909.BPVv_oBm@linutronix.de>
-Message-ID: <b70e4160-62b7-569b-0dd2-fc54d771611a@linux.intel.com>
-References: <20260123113708.416727-1-bigeasy@linutronix.de> <20260123113708.416727-3-bigeasy@linutronix.de> <20260123114909.BPVv_oBm@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Thomas Gleixner <tglx@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 13/21] usb: typec: fusb302: Remove IRQF_ONESHOT
+Message-ID: <aXd4ei347Bv6GwCU@kuha>
+References: <20260123113708.416727-1-bigeasy@linutronix.de>
+ <20260123113708.416727-14-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1593122775-1769436300=:1055"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123113708.416727-14-bigeasy@linutronix.de>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Fri, Jan 23, 2026 at 12:36:59PM +0100, Sebastian Andrzej Siewior kirjoitti:
+> Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+> the secondary (threaded) handler is done. If only a primary handler is
+> used then the flag makes no sense because the interrupt can not fire
+> (again) while its handler is running.
+> The flag also disallows force-threading of the primary handler and the
+> irq-core will warn about this.
+> 
+> Remove IRQF_ONESHOT from irqflags.
+> 
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Fixes: 309b6341d5570 ("usb: typec: fusb302: Revert incorrect threaded irq fix")
+> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
---8323328-1593122775-1769436300=:1055
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-On Fri, 23 Jan 2026, Sebastian Andrzej Siewior wrote:
+> ---
+>  drivers/usb/typec/tcpm/fusb302.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 870a71f953f6c..19ff8217818e7 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -1756,8 +1756,7 @@ static int fusb302_probe(struct i2c_client *client)
+>  	}
+>  
+>  	ret = request_irq(chip->gpio_int_n_irq, fusb302_irq_intn,
+> -			  IRQF_ONESHOT | IRQF_TRIGGER_LOW,
+> -			  "fsc_interrupt_int_n", chip);
+> +			  IRQF_TRIGGER_LOW, "fsc_interrupt_int_n", chip);
+>  	if (ret < 0) {
+>  		dev_err(dev, "cannot request IRQ for GPIO Int_N, ret=%d", ret);
+>  		goto tcpm_unregister_port;
+> -- 
+> 2.51.0
 
-> On 2026-01-23 12:36:48 [+0100], To linux-kernel@vger.kernel.org wrote:
-> > Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-> > the secondary (threaded) handler is done. If only a primary handler is
-> > used then the flag makes no sense because the interrupt can not fire
-> > (again) while its handler is running.
-> > The flag also disallows force-threading of the primary handler and the
-> > irq-core will warn about this.
-> >=20
-> > The flag was added to match the flag on the shared handler which uses a
-> > threaded handler and therefore IRQF_ONESHOT. This is no longer needed
-> > because devm_request_irq() now passes IRQF_COND_ONESHOT for this case.
-> >=20
-> > Revert adding IRQF_ONESHOT to irqflags.
->=20
-> This one should probably go hand in hand with the previous one. It might
-> be easier to route both via tip/irq.
-
-For that,
-
-Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-
---=20
- i.
-
---8323328-1593122775-1769436300=:1055--
+-- 
+heikki
