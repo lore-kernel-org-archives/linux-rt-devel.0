@@ -1,45 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BBA33E352;
-	Mon, 26 Jan 2026 14:29:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8193F33BBAF
+	for <linux-rt-devel@lists.linux.dev>; Mon, 26 Jan 2026 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769437787; cv=none; b=RyUZAnlPYFp2voSUMG/ryr8a+Ko0Oqw4l4r7uHCAuAB1e8uQJ6eomf+nexLuCcN/FZ0hoz+T4/pwrp7fSO+pHAnwOvz5SiXsaD8VFmCbOJz5XDxOG8q7VxLSYY48UrjbdenWeW4XaG85bjC68JzFDW7PitZrKA0quW2LVf5G1M8=
+	t=1769439452; cv=none; b=E15BpvOAq70RHYyt/2MPTCkvJnAdUIOcsiEvq5k9Yr1+TxJ1mcN8hJtquaYJe1C5qGUHvS9wCVxLFUnG27E2ajYfwk2PMD28qyV28YGlMQRxnEza1Ua8QobveCaDhXF70NDVSyKerCw7jDA82GAAeoGJzL7XQwxLRvJFJfw3pW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769437787; c=relaxed/simple;
-	bh=JuNUE3cqSEeHRIZOLqDcHGRkN7MeU/unX5fXwmPNeR0=;
+	s=arc-20240116; t=1769439452; c=relaxed/simple;
+	bh=teeEXxbpXFTZGAEZ/KMuzRZF5Hg7sdOSd1BSpr/BPSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=if+mX/9Rg02fZmcjplub6r9zQ9EE0FlkrNBDncESpcGlgM1osRQD5wV8CG5S5nL0U21elbxvFGCHzW0rkMQr8+QqT5cXUIR+v+DESVP+AXFG9YpOGq+Pd/fYO0ejIgQ/UJllHimbipE8svS9Q6U+g0vhZrc4uc+tNs6/5UhB6PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sb3KBXBJ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NOBmvuBwWaSaVH78a3JLZhLkjOwGoDudLUbrLBuVXsFMYbVMvgZ1o2q0goRauskr83BnN+fz/f1SnoiYmpSdhf0dgcxglBqU3gcL6Q2sEsPh5fxgroTvAcvkHE7F8hRsrClS3aEpMcc0/PLIzCjN2KKZ01VB59ySJNiY+eCInVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ct10EN1i; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sb3KBXBJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7CA6C16AAE;
-	Mon, 26 Jan 2026 14:29:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769437786;
-	bh=JuNUE3cqSEeHRIZOLqDcHGRkN7MeU/unX5fXwmPNeR0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sb3KBXBJ7Lg6WuCndOI4fK9hFv1sWSR8Kj11cI8/m9BMlgcAz77dehImPW8L1tGr9
-	 OXkzdJrKBktkuNcEfwyv+Xs9NVCAokvnmF+hpZEscqxgLFLerVS0UFDXsA66Gw6gYm
-	 OVPdE1rVpNo7PxdnYJBKJZB3Q+SUy7dcgY8Wu00/I3dYmM9XzDLHHSuS2qj6EMkV1L
-	 dKc1nW5/O6wsud85Y83Wfp1g2xJnZyuu5Lq/e1TwRJqrCalobS9J9Mm82H8Q7Cm8SZ
-	 6LNNOIBJXW1w5zwvGxfid+Fgwhwp72MS2pZDv0iJ8ARtRCVrjjBXPI8vrNxU5CBot0
-	 0V+zvIsZ0E4Hw==
-Date: Mon, 26 Jan 2026 09:29:45 -0500
-From: Konstantin Ryabitsev <mricon@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, tools@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Thomas Gleixner <tglx@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Puranjay Mohan <puranjay@kernel.org>, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, 
-	Marcelo Schmitt <marcelo.schmitt@analog.com>, Marcus Folkesson <marcus.folkesson@gmail.com>, 
-	Kent Gustavsson <kent@minoris.se>, Gustavo Silva <gustavograzs@gmail.com>, 
-	Nishant Malpani <nish.malpani25@gmail.com>, linux-iio@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ct10EN1i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769439451; x=1800975451;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=teeEXxbpXFTZGAEZ/KMuzRZF5Hg7sdOSd1BSpr/BPSI=;
+  b=Ct10EN1i6Vs/UDzGdtKuchabmCStcDfCU5aA4RRjNHcRwR2PSya/yveq
+   JVC2SWdfoT/WSV2prOYGTywqQ4/HtRM5RcvD+dN8/0l918iOobZKNX53r
+   vsoPjWS5Dc6U1TdiV0Ay9THeozbfSG6as4FMpyX+Kou5Ua3vZC3P1eHDX
+   LqN1QmyTLSfQqtZktlyai0ZFsNnwValYU/+FcDVekWuJGPLCjFcpjO9Jv
+   wXlMsyo08cz/RxIRBDPPutzhO4iZcS7i/FmcjxJJ+F+0ZNiYLz+LcAkcl
+   wal+DOBYQuLiAY1BNhbbq8C6k3KNCBYCYo5rqUpoTw1hMF5U5QUklzaVz
+   g==;
+X-CSE-ConnectionGUID: WZsdZA3IR4mH7/1NtyVGUw==
+X-CSE-MsgGUID: EmlbLvGJRW6JVqIH+Lb8+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="80916147"
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="80916147"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:57:31 -0800
+X-CSE-ConnectionGUID: AyVPtL/uTZ6Xa4OnhpERUw==
+X-CSE-MsgGUID: J+FC1cvCS0q+GuIINWc33g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,255,1763452800"; 
+   d="scan'208";a="238373155"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.122])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2026 06:57:27 -0800
+Date: Mon, 26 Jan 2026 16:57:24 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Konstantin Ryabitsev <mricon@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, tools@kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Thomas Gleixner <tglx@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Gustavo Silva <gustavograzs@gmail.com>,
+	Nishant Malpani <nish.malpani25@gmail.com>,
+	linux-iio@vger.kernel.org
 Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
-Message-ID: <20260126-cocky-sawfish-of-variation-c0cedd@lemur>
+Message-ID: <aXeA1AIcOx7yUNaz@smile.fi.intel.com>
 References: <20260123113708.416727-1-bigeasy@linutronix.de>
  <20260123113708.416727-19-bigeasy@linutronix.de>
  <aXOKVqxyhQ10l9V4@smile.fi.intel.com>
@@ -47,6 +71,7 @@ References: <20260123113708.416727-1-bigeasy@linutronix.de>
  <aXc5Efu-PlLNCxkk@smile.fi.intel.com>
  <20260126101034.lnGGQmUD@linutronix.de>
  <aXdJbidb3DPyRaxB@smile.fi.intel.com>
+ <20260126-cocky-sawfish-of-variation-c0cedd@lemur>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,24 +81,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aXdJbidb3DPyRaxB@smile.fi.intel.com>
+In-Reply-To: <20260126-cocky-sawfish-of-variation-c0cedd@lemur>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jan 26, 2026 at 01:01:02PM +0200, Andy Shevchenko wrote:
-> > I lose it on the next if I update patches in tree and re-export them. 
+On Mon, Jan 26, 2026 at 09:29:45AM -0500, Konstantin Ryabitsev wrote:
+> On Mon, Jan 26, 2026 at 01:01:02PM +0200, Andy Shevchenko wrote:
+> > > I lose it on the next if I update patches in tree and re-export them. 
+> > 
+> > I don't understand this, sorry. Can you provide a step-by-step example?
+> > Do you mean that you are taking previous version from the list and reapplying
+> > it via `git am`? But shouldn't `b4` take care of that as long as it knows the
+> > Change-ID and it matches?
 > 
-> I don't understand this, sorry. Can you provide a step-by-step example?
-> Do you mean that you are taking previous version from the list and reapplying
-> it via `git am`? But shouldn't `b4` take care of that as long as it knows the
-> Change-ID and it matches?
+> That's not the intended workflow -- the series is kept as a branch in your
+> local tree and any updates happen to that branch, so any entries in a commit
+> falling under "---" will persist across revisions.
 
-That's not the intended workflow -- the series is kept as a branch in your
-local tree and any updates happen to that branch, so any entries in a commit
-falling under "---" will persist across revisions.
+Right. I found `b4 trailers` do a really good job to inject collected trailers
+into the Git repo without need of any `git reset; b4 am; git am` dances.
 
-> Hmm... The https://b4.docs.kernel.org/en/latest/contributor/prep.html
-> doesn't clearly tell me if there is a carry-on procedure for the Cc
-> list between versions.
+> > Hmm... The https://b4.docs.kernel.org/en/latest/contributor/prep.html
+> > doesn't clearly tell me if there is a carry-on procedure for the Cc
+> > list between versions.
+> 
+> There isn't any special procedure. ¯\_(ツ)_/¯
 
-There isn't any special procedure. ¯\_(ツ)_/¯
+What I have i mind is rather the scenario when I see already sent (by somebody
+else) patch in the mailing list and I want develop a followup with the same
+To/Cc list. So I want `b4 ... --use/restore-to-cc-from-the-mailing-list / lore`
+type of functionality.
 
--K
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
