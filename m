@@ -1,175 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4522701B8;
-	Mon, 26 Jan 2026 19:38:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2206033A032
+	for <linux-rt-devel@lists.linux.dev>; Tue, 27 Jan 2026 09:07:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769456287; cv=none; b=QKaS8XAhH0WS0d/EGcor8KQMT36nOfkq4kryccN8EJHxshleUAYGvg6Bu2aA4XVWz15huB0i8VxA+0zHd9ZTUeruRamPih+dpeDD6U0gHK5i9JVkkrRLe6cQXbwU6Ur6IWzZjy7AEIk8gK2kkYmG905neCwI1flkT0o89cU4FDM=
+	t=1769504837; cv=none; b=uFIG8sbHzo3c5d4CQezE/UcceAs4+upPE6StnaumSV8AX2vfdZxF6RxLHP9BzbAQiG5Ukhix8H2sAnqLs2K/CpczPzI3ZEr8KSwR8EnKo9ofHYOLZ2PKckeevgM5JxYjNa2XQCFHEJQ5OIYscLFyGvG7ykhoM1X/ENsNm/2huRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769456287; c=relaxed/simple;
-	bh=R9PbN9ntS2LDukuVYwI34djTXDghM47LTWOybDJ3vlQ=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=aF+jNGzIfeOnEAxVdCuCj/XcMSDqxHiyzGtuJ9n8D/4cjpZKnhhZ2hlwAWXHi5aoNELvlnyNPEB2XQYfFRQYPg621+nZYuxhkgB/wcqYcVn7q1VFClg3irME6WF36pxJSeVlilcNBXVi8VYrbkGq/9+YCSSGmX/83qyiygiFBfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YkOaj0qE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769504837; c=relaxed/simple;
+	bh=ALEpDQwJonQujxs0CxjuR/MO51rmhAfTE3KVimPZQ1w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ntwyxLLh8lbvMwJp5yGYZ98peSiKVblaKEapm7wK2idUPsol0Btc6JObyqnSBzQgVI/Lj/PiB6jmt7iNnK8e6Ge8YYhzdtAtSO5SsE2yx/jSa8GsWPGrdU6W89RS0xgFryBxA42o2jNLpPOZCwyEPEpcb7ksoyKQXFQuStQnvHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rs+MAtnm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YkOaj0qE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E5B9C116C6;
-	Mon, 26 Jan 2026 19:38:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1769456287;
-	bh=R9PbN9ntS2LDukuVYwI34djTXDghM47LTWOybDJ3vlQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YkOaj0qEK+Bj67GnpQv4Jl03pawuX3A8+7L9FQ86c8qsWyl/hI7VAjvGfW9K61tLj
-	 QzzneJTYBFhga2+e0+BUXvjQsxlT2WILRSNokESaiSJsDlcNWNcxm5XabjH5Yf+Al/
-	 /HaCH5yeko51GgcUsOKs9LpWNrcQ0q1UKf725TYo=
-Date: Mon, 26 Jan 2026 11:38:06 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Shakeel Butt <shakeel.butt@linux.dev>, Jann Horn
- <jannh@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, Ingo
- Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v4 07/10] mm/vma: introduce helper struct + thread
- through exclusive lock fns
-Message-Id: <20260126113806.5b0942a6fd0a3554ae5e21fd@linux-foundation.org>
-In-Reply-To: <c09f2c10-516c-43b9-81a6-cc77e5f78ba8@lucifer.local>
-References: <cover.1769198904.git.lorenzo.stoakes@oracle.com>
-	<7d3084d596c84da10dd374130a5055deba6439c0.1769198904.git.lorenzo.stoakes@oracle.com>
-	<ba27d41a-2109-4c89-83ce-00ba8b78d249@suse.cz>
-	<c09f2c10-516c-43b9-81a6-cc77e5f78ba8@lucifer.local>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rs+MAtnm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B04C2BC9E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 27 Jan 2026 09:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769504836;
+	bh=ALEpDQwJonQujxs0CxjuR/MO51rmhAfTE3KVimPZQ1w=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rs+MAtnm46woVfapXKl88JtCs0bsdPNHbml3TqnULZt0VkhAyoVQXhrTGf6pC5f3o
+	 OUaAprIe9QOt9bT85nGtP25rVaXq0pO38jzqHov6AhcruAdA3+wlCiqdrmYXozxoJw
+	 aKAALnBuf+qEk8ZfpHVFsuddvDqcw9v2n8JqJUKhLqIi1SJIsqUl7Kr7Tmr2xPaDZZ
+	 8ORq3iFI7V1ZVy+Fur6s9dvxTqUA+UB4xcUbW3ZSw9cJiaeCnhdRui/EpT9yWrPxDQ
+	 1lU7tXdByeWj878UonRZ9yhELcZS4xYSKKD0rF43qOmgXNxgqZJmG3EO6jjbCqUdiy
+	 VigRs+HqqAhDw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59dcdf60427so6416575e87.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 27 Jan 2026 01:07:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX9h9QjEsimiEh2tBhE7OQNd+RXetOQ2yx/AGr27YMncOFnQu3rF4yG6crmG3EFuvlMbJQSwtS/Ae+BZfkmxQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw580Io9Dd2w2rTUXnwKuNEAg3nQTQz5c5Wkps74RoqyRmUNq3+
+	SbasBMjXKpBKS/V5BZlJG7xkT5hNkqwfCKL5NBot6n7YiAU5D3pziphiXMcrY52ry/yTvWJH4tc
+	ndfwREbWvBn87PmSNlQW2EeyHEVxcv8EOI4uR2/yScQ==
+X-Received: by 2002:ac2:4f07:0:b0:59d:e350:3c45 with SMTP id
+ 2adb3069b0e04-59e0412c85dmr443715e87.52.1769504834932; Tue, 27 Jan 2026
+ 01:07:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20260126094209.9855-1-xuewen.yan@unisoc.com> <20260126095024.ZEEwNmlk@linutronix.de>
+In-Reply-To: <20260126095024.ZEEwNmlk@linutronix.de>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 27 Jan 2026 10:07:01 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Md+ptvRvknV7C4g2W_vpkfQmLkanKUqXzM8eYSe5ns1dQ@mail.gmail.com>
+X-Gm-Features: AZwV_Qgf0JUu4eQObYOkmY-gEPiUDrM8kzv9a2P_5yClOMjll0DjSTreo0CNK7E
+Message-ID: <CAMRc=Md+ptvRvknV7C4g2W_vpkfQmLkanKUqXzM8eYSe5ns1dQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: sprd: Change sprd_gpio lock to raw_spin_lock
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Xuewen Yan <xuewen.yan@unisoc.com>, linusw@kernel.org, orsonzhai@gmail.com, 
+	baolin.wang@linux.alibaba.com, zhang.lyra@gmail.com, clrkwllms@kernel.org, 
+	rostedt@goodmis.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, ke.wang@unisoc.com, wenhua.lin@unisoc.com, 
+	xuewen.yan94@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 26 Jan 2026 16:09:24 +0000 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
-
-> Andrew - could we change the commit message to:
-> 
-> -->
-> 
-> It is confusing to have __vma_start_exclude_readers() return 0, 1 or an
-> error (but only when waiting for readers in TASK_KILLABLE state), and
-> having the return value be stored in a stack variable called 'locked' is
-> further confusion.
-> 
-> More generally, we are doing a lot of rather finnicky things during the
-> acquisition of a state in which readers are excluded and moving out of this
-> state, including tracking whether we are detached or not or whether an
-> error occurred.
-> 
-> We are implementing logic in __vma_start_exclude_readers() that effectively
-> acts as if 'if one caller calls us do X, if another then do Y', which is
-> very confusing from a control flow perspective.
-> 
-> Introducing the shared helper object state helps us avoid this, as we can
-> now handle the 'an error arose but we're detached' condition correctly in
-> both callers - a warning if not detaching, and treating the situation as if
-> no error arose in the case of a VMA detaching.
-> 
-> This also acts to help document what's going on and allows us to add some
-> more logical debug asserts.
-> 
-> Also update vma_mark_detached() to add a guard clause for the likely
-> 'already detached' state (given we hold the mmap write lock), and add a
-> comment about ephemeral VMA read lock reference count increments to clarify
-> why we are entering/exiting an exclusive locked state here.
-> 
-> Finally, separate vma_mark_detached() into its fast-path component and make
-> it inline, then place the slow path for excluding readers in mmap_lock.c.
-> 
-> No functional change intended.
-
-Pasted in.
-
-> <--
-> 
-> Please as per Vlasta's comments below? Thanks!
-> 
-> Also could you sed the patch with:
-> 
-> s/__vma_exit_exclusive_locked/__vma_end_exclude_readers/
-> s/__vma_[enter, exit]_exclusive_locked/__vma_[start, end]_exclude_readers/
-> 
-> As per Vlasta's comments below?
+On Mon, Jan 26, 2026 at 10:50=E2=80=AFAM Sebastian Andrzej Siewior
+<bigeasy@linutronix.de> wrote:
 >
-> As I have clearly forgotten to do this bit myself... doh!
-> 
-> Also at the bottom there is one small correction to a comment there too.
+> On 2026-01-26 17:42:09 [+0800], Xuewen Yan wrote:
+> > There was a lockdep warning in sprd_gpio:
+> >
+> > [    6.258269][T329@C6] [ BUG: Invalid wait context ]
+> > [    6.258270][T329@C6] 6.18.0-android17-0-g30527ad7aaae-ab00009-4k #1 =
+Tainted: G        W  OE
+> > [    6.258272][T329@C6] -----------------------------
+> > [    6.258273][T329@C6] modprobe/329 is trying to lock:
+> > [    6.258275][T329@C6] ffffff8081c91690 (&sprd_gpio->lock){....}-{3:3}=
+, at: sprd_gpio_irq_unmask+0x4c/0xa4 [gpio_sprd]
+> > [    6.258282][T329@C6] other info that might help us debug this:
+> > [    6.258283][T329@C6] context-{5:5}
+> > [    6.258285][T329@C6] 3 locks held by modprobe/329:
+> > [    6.258286][T329@C6]  #0: ffffff808baca108 (&dev->mutex){....}-{4:4}=
+, at: __driver_attach+0xc4/0x204
+> > [    6.258295][T329@C6]  #1: ffffff80965e7240 (request_class#4){+.+.}-{=
+4:4}, at: __setup_irq+0x1cc/0x82c
+> > [    6.258304][T329@C6]  #2: ffffff80965e70c8 (lock_class#4){....}-{2:2=
+}, at: __setup_irq+0x21c/0x82c
+> > [    6.258313][T329@C6] stack backtrace:
+> > [    6.258314][T329@C6] CPU: 6 UID: 0 PID: 329 Comm: modprobe Tainted: =
+G        W  OE       6.18.0-android17-0-g30527ad7aaae-ab00009-4k #1 PREEMPT=
+  3ad5b0f45741a16e5838da790706e16ceb6717df
+> > [    6.258316][T329@C6] Tainted: [W]=3DWARN, [O]=3DOOT_MODULE, [E]=3DUN=
+SIGNED_MODULE
+> > [    6.258317][T329@C6] Hardware name: Unisoc UMS9632-base Board (DT)
+> > [    6.258318][T329@C6] Call trace:
+> > [    6.258318][T329@C6]  show_stack+0x20/0x30 (C)
+> > [    6.258321][T329@C6]  __dump_stack+0x28/0x3c
+> > [    6.258324][T329@C6]  dump_stack_lvl+0xac/0xf0
+> > [    6.258326][T329@C6]  dump_stack+0x18/0x3c
+> > [    6.258329][T329@C6]  __lock_acquire+0x824/0x2c28
+> > [    6.258331][T329@C6]  lock_acquire+0x148/0x2cc
+> > [    6.258333][T329@C6]  _raw_spin_lock_irqsave+0x6c/0xb4
+> > [    6.258334][T329@C6]  sprd_gpio_irq_unmask+0x4c/0xa4 [gpio_sprd 8145=
+35e93c6d8e0853c45c02eab0fa88a9da6487]
+> > [    6.258337][T329@C6]  irq_startup+0x238/0x350
+> > [    6.258340][T329@C6]  __setup_irq+0x504/0x82c
+> > [    6.258342][T329@C6]  request_threaded_irq+0x118/0x184
+> > [    6.258344][T329@C6]  devm_request_threaded_irq+0x94/0x120
+> > [    6.258347][T329@C6]  sc8546_init_irq+0x114/0x170 [sc8546_charger 22=
+3586ccafc27439f7db4f95b0c8e6e882349a99]
+> > [    6.258352][T329@C6]  sc8546_charger_probe+0x53c/0x5a0 [sc8546_charg=
+er 223586ccafc27439f7db4f95b0c8e6e882349a99]
+> > [    6.258358][T329@C6]  i2c_device_probe+0x2c8/0x350
+> > [    6.258361][T329@C6]  really_probe+0x1a8/0x46c
+> > [    6.258363][T329@C6]  __driver_probe_device+0xa4/0x10c
+> > [    6.258366][T329@C6]  driver_probe_device+0x44/0x1b4
+> > [    6.258369][T329@C6]  __driver_attach+0xd0/0x204
+> > [    6.258371][T329@C6]  bus_for_each_dev+0x10c/0x168
+> > [    6.258373][T329@C6]  driver_attach+0x2c/0x3c
+> > [    6.258376][T329@C6]  bus_add_driver+0x154/0x29c
+> > [    6.258378][T329@C6]  driver_register+0x70/0x10c
+> > [    6.258381][T329@C6]  i2c_register_driver+0x48/0xc8
+> > [    6.258384][T329@C6]  init_module+0x28/0xfd8 [sc8546_charger 223586c=
+cafc27439f7db4f95b0c8e6e882349a99]
+> > [    6.258389][T329@C6]  do_one_initcall+0x128/0x42c
+> > [    6.258392][T329@C6]  do_init_module+0x60/0x254
+> > [    6.258395][T329@C6]  load_module+0x1054/0x1220
+> > [    6.258397][T329@C6]  __arm64_sys_finit_module+0x240/0x35c
+> > [    6.258400][T329@C6]  invoke_syscall+0x60/0xec
+> > [    6.258402][T329@C6]  el0_svc_common+0xb0/0xe4
+> > [    6.258405][T329@C6]  do_el0_svc+0x24/0x30
+> > [    6.258407][T329@C6]  el0_svc+0x54/0x1c4
+> > [    6.258409][T329@C6]  el0t_64_sync_handler+0x68/0xdc
+> > [    6.258411][T329@C6]  el0t_64_sync+0x1c4/0x1c8
+>
+> This could be reduced to "BUG: Invalid wait context". The other bits
+> provide to added value.
+>
+> > This is because the spin_lock would change to rt_mutex in PREEMPT_RT,
+> > however the sprd_gpio->lock would use in hard-irq, this is unsafe.
+> >
+> > So change the spin_lock to raw_spin_lock to use the spinlock
+>
+> spinlock_t to raw_spinlock_t
+>
 
-I added this -fix:
+I fixed this in git.
 
+Bart
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: mm-vma-introduce-helper-struct-thread-through-exclusive-lock-fns-fix
-Date: Fri, 23 Jan 2026 20:12:17 +0000
-
-fix function naming in comments, add comment per Vlastimil per Lorenzo
-
-Link: https://lkml.kernel.org/r/7d3084d596c84da10dd374130a5055deba6439c0.1769198904.git.lorenzo.stoakes@oracle.com
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: Liam Howlett <liam.howlett@oracle.com>
-Cc: Michal Hocko <mhocko@suse.com>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Waiman Long <longman@redhat.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- include/linux/mm_types.h |    4 ++--
- mm/mmap_lock.c           |    4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
---- a/include/linux/mm_types.h~mm-vma-introduce-helper-struct-thread-through-exclusive-lock-fns-fix
-+++ a/include/linux/mm_types.h
-@@ -1011,12 +1011,12 @@ struct vm_area_struct {
- 	 * decrementing it again.
- 	 *
- 	 * VM_REFCNT_EXCLUDE_READERS_FLAG - Detached, pending
--	 * __vma_exit_exclusive_locked() completion which will decrement the
-+	 * __vma_end_exclude_readers() completion which will decrement the
- 	 * reference count to zero. IMPORTANT - at this stage no further readers
- 	 * can increment the reference count. It can only be reduced.
- 	 *
- 	 * VM_REFCNT_EXCLUDE_READERS_FLAG + 1 - A thread is either write-locking
--	 * an attached VMA and has yet to invoke __vma_exit_exclusive_locked(),
-+	 * an attached VMA and has yet to invoke __vma_end_exclude_readers(),
- 	 * OR a thread is detaching a VMA and is waiting on a single spurious
- 	 * reader in order to decrement the reference count. IMPORTANT - as
- 	 * above, no further readers can increment the reference count.
---- a/mm/mmap_lock.c~mm-vma-introduce-helper-struct-thread-through-exclusive-lock-fns-fix
-+++ a/mm/mmap_lock.c
-@@ -46,7 +46,7 @@ EXPORT_SYMBOL(__mmap_lock_do_trace_relea
- #ifdef CONFIG_MMU
- #ifdef CONFIG_PER_VMA_LOCK
- 
--/* State shared across __vma_[enter, exit]_exclusive_locked(). */
-+/* State shared across __vma_[start, end]_exclude_readers. */
- struct vma_exclude_readers_state {
- 	/* Input parameters. */
- 	struct vm_area_struct *vma;
-@@ -100,7 +100,7 @@ static unsigned int get_target_refcnt(st
-  *
-  * If ves->state is set to something other than TASK_UNINTERRUPTIBLE, the
-  * function may also return -EINTR to indicate a fatal signal was received while
-- * waiting.
-+ * waiting.  Otherwise, the function returns 0.
-  */
- static int __vma_start_exclude_readers(struct vma_exclude_readers_state *ves)
- {
-_
-
+> > in hard-irq.
+> >
+> > Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+>
+> Other than that
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>
+> Sebastian
