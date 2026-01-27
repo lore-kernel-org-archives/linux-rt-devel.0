@@ -1,522 +1,267 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173B630BB95
-	for <linux-rt-devel@lists.linux.dev>; Tue, 27 Jan 2026 17:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769535426; cv=fail; b=rF4OrMwXMmHejCobU9P/MzrM/w9YKv4x9hTMu3Y2tqMvSoJrdG3k3n3o3OIlDrVw1u6IzAB6g+Y3P+1pvz1I5y23VhJ1Cyhwtm07W3QKK2h+AU53uXgHAKTcUu9/q4Lw40ZobeiUSiB17gxkLUAzCB5JBX80A27LYgttlGvEm3o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769535426; c=relaxed/simple;
-	bh=SGcExw+dIWK5j4RfiVruIF3REoQTulg61z3Bzm3PTSk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LJPoV2pZszOEMCJ8+iv6+vV3rVe6pWuBwCYLnDax22MOy49VDf2wppaaRaJWj+ZnJxSZVJNKufGqmQAXRpB0YQmGfReYwgalrAoLaoychH36tY/6vh3pwprKvUX0liWnZpN7dxVwiKOWHuavmQ+0QyNY62WbEQ9E7TFdV5ps5YE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=gLcb6f7Y; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=fn+HKgow; arc=fail smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F6B91A9F9B
+	for <linux-rt-devel@lists.linux.dev>; Tue, 27 Jan 2026 18:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769537175; cv=none; b=vDVAIfaaUppgkRREV6KOLiy/N3dKMxBrcKkqvALOMiVh9F/3PYum/e9e246KiI9ywjaupmZJux16frI3GGcNAERI7VcqpkUx627lWBu6dpTvhAntbzYiQ9zfyiBp72J2Aiw/Mb9ukyg8Od5kKvZrULma0kB8Re8DC1eOCyMY8Io=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769537175; c=relaxed/simple;
+	bh=5nEPDNBzLxTAv7D8HTUDv5cV8QqmkZFAQj7ajQyI5jk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fes+nA03zms2QcGX25T1FCOnjPzUV0jZsqYqAaTVfKiTzDiBdWlShlcqe0fs7K6/EpmUSU/1/v261Sw92YViaeOZj9jtN7tN6HiaDvnPGd3r5mc4kmw7Kwoblbo8rh8o2I5YvyF8IXMN4+OMnXCEqWSo3rvVru15F29XHiOjfMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=LCk/JzdK; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="gLcb6f7Y";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="fn+HKgow"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60RBEI2N3713709;
-	Tue, 27 Jan 2026 17:36:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=QXir7zTRJqvrWYhRE8
-	iA37qejfvxY08rtLYP5bXEggg=; b=gLcb6f7YU6hX+mkvgzlmPu2dY9MB7+wFLG
-	n0zjFHYNp8bMDAXiFdejignSwmahUA530Au4xYxOtOUfWybxk+Ct1PBiUSVeCsCh
-	paG4BZaIhSRs1GVNsUA6iNSDEsFUJoVpNzcNkTJzzcXYFWhWQeEo4IjSSwja3nxN
-	6stK8JMOB4SD3TwcOKRHTIQ9Nhv8kdpUd4pCGDYe6KcmV31OrG9SkvH0cSITGUis
-	npyHFCVeAPgmz0YuQYz0+V6dMwgtAUnD33enhMgwmNd+aCJVzT7+rYpF4z32l1qn
-	BfVjJM+NMwII1jjMOFTrPIBz6yxW4TYyN+WEaEoZNOeqUvtqUKVw==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4bvny6vep5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 27 Jan 2026 17:36:38 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 60RGgSfL001851;
-	Tue, 27 Jan 2026 17:36:37 GMT
-Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11011039.outbound.protection.outlook.com [52.101.62.39])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4bvmhe9gk5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 27 Jan 2026 17:36:37 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S77agDwp+DRoGC8l9wT7sX0fx8PmF4W/MHgURvfiQIyIep+Uq16/4AZlNAxfIg7Ihfol9lJ7GZZBSY/RFeHJFgZunwK5PqMI6WYkr/hMW3zuyTg83B/dlrxbWoji3Ss1of2Lsr3gKOmMWErNavcNTzWqYDaxMGt6WRZn3ftKmwHJumwz32kz6PBQYvwlw0g3ii7WsWZioHnzJWJ8hJ3nDRxIP7u7WcW6x60/g6tHfU0mtLo5vwYliQBTx6/mDjmbe9VzyOA7FEXi8ZPsNqZFP7HduentnM1PxzorpZS/p9Gr2fwaeafP9KBJJD8cmKBnvqkUiKjQiiqdFWdYN6l/Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QXir7zTRJqvrWYhRE8iA37qejfvxY08rtLYP5bXEggg=;
- b=NS07vV3pp/4nfYj6//sNzx5kr/V/uk/8P7TrpuSpdkRuy+oRvo2VCPEt9w5Hn7y7uM5Ykej+9D/q5P9arspN2LGRTYwlBJdkp8Cs4/J/VJW5rpVj1tKvZ+aDSgSLUv2wusTy4SiWqKafetwwe2FlbdwLNzHUaINH3vXNI1xP1O1sa8P381q/G3tSSRWCkK8i2j1RS+LMPb9XNWk3i9pt9rsq+LDvlIgwoQR1KaPmipmc4f1WXfJknNkGEtZRSgxHKbVx8DJ0DyKFbDyyQQV8d06bN3hccK19HRzXB2ciVZPNKEZc7R2pDikPncKKO8Q0QdLXdDsVwfYzyozmS0mUzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QXir7zTRJqvrWYhRE8iA37qejfvxY08rtLYP5bXEggg=;
- b=fn+HKgowU9fx5tx6Gvbn+xf08Z/sMqNjwrYQ18WgIRqPs7xwR5xBHvl1cN1gMalo5slutCDZ2oXmaMToo66pyXFpd4oI1pNG/JRWLQVww31cp0zA52+PPfjmr+wvGkOjU8iTlOodwJdFSoff1tYXcralx6+iuqOdSGskfjp1004=
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
- by DM6PR10MB4219.namprd10.prod.outlook.com (2603:10b6:5:216::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Tue, 27 Jan
- 2026 17:36:34 +0000
-Received: from PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce]) by PH0PR10MB5777.namprd10.prod.outlook.com
- ([fe80::4b84:e58d:c708:c8ce%4]) with mapi id 15.20.9542.015; Tue, 27 Jan 2026
- 17:36:34 +0000
-Date: Tue, 27 Jan 2026 12:36:21 -0500
-From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
-        Christoph Lameter <cl@gentwo.org>,
-        David Rientjes <rientjes@google.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Uladzislau Rezki <urezki@gmail.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 08/22] slab: make percpu sheaves compatible with
- kmalloc_nolock()/kfree_nolock()
-Message-ID: <7dk5q3mbusqlklpk3ja57upbhkhhg3bpueh4nemuthesmwpgnk@zkk4fqug3cwx>
-Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>, 
-	Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hao Li <hao.li@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Suren Baghdasaryan <surenb@google.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, bpf@vger.kernel.org, 
-	kasan-dev@googlegroups.com
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <20260123-sheaves-for-all-v4-8-041323d506f7@suse.cz>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260123-sheaves-for-all-v4-8-041323d506f7@suse.cz>
-User-Agent: NeoMutt/20250905
-X-ClientProxiedBy: YT4P288CA0090.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d0::23) To PH0PR10MB5777.namprd10.prod.outlook.com
- (2603:10b6:510:128::16)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="LCk/JzdK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1769537149; x=1770141949; i=deller@gmx.de;
+	bh=c9+TE6dcyyx4nqnkMujsaoiGI5cjwNNmz6zLgFoXjfg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=LCk/JzdKGdfhncq/d/LJdRM+5wWKUdWqgOgSUDeoHcktqV3B815bSV9gTG4TpkZS
+	 u4o8PQ2bR8hFLCRediqCEg9q53jkS00Iey484JtLJuYWHVQGZMTLVsR1DezWx1iar
+	 lpEoJrDbNKnhOCPQKfUWMVAimKt3xh1UxFCoyxD37xZJBu50OBQBEr9lhAtryouh3
+	 uujtqNIg1PzI1NuGAkiny7bDr4YzKWRLI8HJS8AriGhRrfv0na7Rg21AoG6raEVzh
+	 GuaU99VBF8PpZADkwMbmBAbkzdqhwUfLP7DS9xQvBpl0FiVLI0DcSvDCyhVUTHMTZ
+	 pWghxAnxZRYc26jrrw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.55] ([109.250.50.214]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MrQIv-1w8WfS2LIN-00pa5V; Tue, 27
+ Jan 2026 19:05:49 +0100
+Message-ID: <e95d2966-6136-489b-a48f-ea22f3cd2128@gmx.de>
+Date: Tue, 27 Jan 2026 19:05:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|DM6PR10MB4219:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd2acba0-0ea2-47de-7ae6-08de5dca9d71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SQOADRwydAMTzY5/SBq0dpXRIXHvE1Rx1erGe8RqDWFttNZtiazSXHzc1lHU?=
- =?us-ascii?Q?AZYJmJY/c+oiMei4ErZ6Se0eGZk0Xwi64AbMEREkQEm8QoQkG7Zu8ONvABRK?=
- =?us-ascii?Q?LTHbIhn4+zSVI17erEpOolnJW8he2oOQrKIK7jfTNMOqIu4s16De64/e+BMV?=
- =?us-ascii?Q?xrWHdCB1mRkF+ZbWIrRiSZZ4XfaCV0J/KyqYamlacQZB8TIdF9BFaz8/V+R7?=
- =?us-ascii?Q?HM3LNMqMK5voQnQtus9I/7INEawJUy3TZf8qyYdJgibrCyXvY9f188FxiHH1?=
- =?us-ascii?Q?wLzAeucPbELUnpOxhcbI4iMSUjJveSYBGwlQ6mQYCdFCt0LgPgUmIYtjCwBd?=
- =?us-ascii?Q?H2z8tBblZeHHvHVoSlUXoY/sGRCvIXOYnTJ82FSszMKaipWeXPaKjRFj2Ecv?=
- =?us-ascii?Q?TfWtfg0N6tz1T02SAkzc76QNrhtRnGGrW6nDiuG5CvuCMYEsx/NS6+Bcf6C9?=
- =?us-ascii?Q?6OwlDEQ3nQ3ftZJzdXKYvfyjKWLG7fLCxCm+75dBittkSb0jb0QrRbs1J203?=
- =?us-ascii?Q?3mcMFnQjFMIjxZNbncmMEL9XAOzTLPDNUNuCHvIkuhz6OkHWiTdbI+ovf/W7?=
- =?us-ascii?Q?VLabtyaEURt6knvRrTtxbi2BZJWuuNR13u5+V7EvgkCAGmgCkvceV3mHv6pn?=
- =?us-ascii?Q?6MuUZLKT92y9BpvC726No6yTQ5Y367N9VehgIMyT7Y+X1CvliZKqoB0S9Bk5?=
- =?us-ascii?Q?skhVf+EAoRXDBp41z4C5LipdgfVkxfTj6ytEYvZ/M5064yVvyeLRZSt+/46o?=
- =?us-ascii?Q?mdDWmRfkgSdYwluXeClmOcKCGp8OIGMPzZH/Hy6JH9Bm0zsMwK8p0zX7SNF2?=
- =?us-ascii?Q?1tUTAHFZ3fV96NbbDnO0aL++MFBHtUSsd5rtQz135ZTMXX6NaJVl/PpJ7p67?=
- =?us-ascii?Q?GXpYf+S2eKxeQRgERaConfRJL3kgKpu0Q1GT0SUh6AB8gz1RIgkKzeNk4GpL?=
- =?us-ascii?Q?Z9pE/xtjhe4zttRqGlPAuJ4L2Bo5FWNgKAkDN77I+dpeFAqPPB89AIumuoZr?=
- =?us-ascii?Q?UMGAtTpAT6Ojb4aQb3qsEgOHOCdpHY3zOmH5cuMIz9GCPCfGH2BD6mW2O6bb?=
- =?us-ascii?Q?KtCZmvXwLhpb7xcLhnnvtTiCjUciApB/jSZtFM3vEZ5CycTVcpmfRtgEL3OQ?=
- =?us-ascii?Q?oz34Km+suozWC5VEiwSC6nnWNktSe/1shOUzJ1C5D6+9GuyMXPvzZiHdy1iF?=
- =?us-ascii?Q?eyLxNPX7/mbIUz9pgamjN6WvQ8Q1jwpVnYZx80OszfwSD5Avayo2Fcp3pveS?=
- =?us-ascii?Q?TealU+otEL0TBcz/AywTRnXVBzLzSc+EiznfvgnhAKbIs/tQwocZe/UWo8Nm?=
- =?us-ascii?Q?z9OTed+jt5cAjdjPwSwe9nk6uIFAdZ+XpCfr1MXgrO5jI10LYbpWlQp9G5ug?=
- =?us-ascii?Q?qqYFbGSVz3rNCGBK0ncvEvljUFRRoVPZZgUMIYGM4wC56Falk36zMjdV6QyH?=
- =?us-ascii?Q?qjspvuKWrYk1P7xnOpZfxe3VUq4zVJ48henPE1I/GrnVeSOrOGmngMOfQ1yM?=
- =?us-ascii?Q?HTzK/LSuqWmhbN4rr+Si7Qt2Lrj26EgzKRWfj1GkGGszw6tUJ9OWdL6uVhhr?=
- =?us-ascii?Q?UftW4hXTCGZEY/AnuyE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?WKmBRSFZCBRpEDWIwSB0maBfjpOctulNN5X4/5xPfKsiZkBl2c4Upl3h+sn4?=
- =?us-ascii?Q?rhj0d5hwF5MVzQEybUgKEX30YdVaZLAGh53n7UjuDfA1QXanMjwtO7NbWWTd?=
- =?us-ascii?Q?tavXcxtde+LmowUnYvgIx2llKLi7TTWfwbipJS7zeqgE8Mc1awe9+kmjH+7i?=
- =?us-ascii?Q?oXXqWrYAOGtQcMmqt0/6g2QcqER9p3UREZW0qN7ZcpFNJ9fM05u1qKSdrwiM?=
- =?us-ascii?Q?lK2/3NlOo6AEdNNZz6CyCp8kE/Nxw3JIbacaVwGoXNXeqXW/eHBORf8IH6My?=
- =?us-ascii?Q?V+8m0UtnoKzM2jDDwV92xOhztnVvaVa2j9VfAqEhJwR/DUxjs/A0IWYqYoLF?=
- =?us-ascii?Q?37CH/qly4pgoUobW6pcPptuKmUkxLyA2/tVAwXSZWxXw4xBW/g/NpYLGomMi?=
- =?us-ascii?Q?+qs839gmICYf5s+jnjXpRKHT9Pqky5lBL3HoexiKvu9qb60v3igw3dPLyKMq?=
- =?us-ascii?Q?jWvoPWsPAlCS/sXqSAzQn/Nmjd56ag44LvokQcL1Sl4Vzo++kMK+c2+V9BY9?=
- =?us-ascii?Q?p5Q/TEitWJRYYcADFEkGW3l39lzP5VopGYqmjdl9EMmg7g7gpcK3okShGR1u?=
- =?us-ascii?Q?0u+VL57CAFtwRPynN9so9VSNh8LQ/B3CbnSCml1PMrGeQA84Qf4Rk3doQY/k?=
- =?us-ascii?Q?xCICqhfclzoHWgn+1qxwVXBGZL3SAkgZ/kaq4EvuHlzTVZCGOpuLrKQ3pFty?=
- =?us-ascii?Q?NQ7brSJCInk01/nlkdquZx68Ki6No5feFZDVNjG+DEmqA1uJcF0zv34Ykw1T?=
- =?us-ascii?Q?JZ5sNeIuv4jAZpdwBhDo7H96OR9g4DWuRCQ5YWucrdnHLy58QgHerRYRVIB9?=
- =?us-ascii?Q?tvAmtHWT93IObY5h2DuVpWzXt+SSAL5Dzt8oyOwXEsTSIp2I1klP6EOKoGJA?=
- =?us-ascii?Q?KZKtH6nKgeqJy2gJFGKjrwCkkb7iPxRgXB/HtlUdSmkyH1xhprNRGRcFe1u7?=
- =?us-ascii?Q?JX6O4jYPD9qsEXYCfvIavtxB48ntm+F0apoZbvjXamJidlAC+a0Eqz+b30RP?=
- =?us-ascii?Q?nv0EArh6nwtp1mxmBt1F5V9Mmie9MYYsckE/qxE8x/03VNjbHJZeX6rRq73h?=
- =?us-ascii?Q?f9M69hYGKJDHh1EgCuOHmHiEbH2H20+5MJ5eVtaRmsfOE7rXWtsmICKFEyM1?=
- =?us-ascii?Q?Z4wOCnCX7sYTjOtVtptCWB9ftsex08UZCXHhM/2ALpuP5i91mJCpTo7zp4yu?=
- =?us-ascii?Q?+TpsKdx7zZSRJxvn4S7SzQVhoNfVVe61xGY1TvHQ6yVE2xuAiXf8DsDSrJEg?=
- =?us-ascii?Q?PRtgK+lEZM1TB+ZefAVU2wSsjV2dW4WZK80VtM62fDYHxJVigwzpG6KUixVV?=
- =?us-ascii?Q?2GXYgQLNNuEFJnIoaXWS49vlkHhX6M4FgcI2Rc0I1bgLZ/FH9+r3pr/CTl6s?=
- =?us-ascii?Q?LtwBBieLOr9BYfhkIJ8UZivkCDDsPACj4lIBHFetB+0D3faqA1dhcg2RZjb2?=
- =?us-ascii?Q?df99LJcWGk7duD3Zau7P/B6jEARkw6q6/GqgU67jKq2nXAuB/xxentC3SCc2?=
- =?us-ascii?Q?+lECnHAGu0L6OcWfVhF2Vnr4t1T1Pl4NyXzCbbawXZq86dFn6g5tBflc1D8R?=
- =?us-ascii?Q?5ikWHkNX0Jv8DlWwS58rXoiVKKBS5KQvHtSWMiwP5ztu8TcetmsKHlgj/gMU?=
- =?us-ascii?Q?eQVC4NtiGQ405zdYDUoDBIwBNDEPD8JfMARJsig/Rfbupovvi7aql3posSnh?=
- =?us-ascii?Q?bXvMvrTN173ab9Z5Rwxk6gNnTWanQ8qdb5tI1thGcslTcJb/h8KDddjElmBU?=
- =?us-ascii?Q?iEkatb+9VA=3D=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	rnp0+af3Uf/9XywPsbEajsAHGjInA+jyGdd3Ib3i7eje+NMoKS2Nb/vODxwCg68tATI9w3TCjlKAF3mvWFY4od+cVqAsTaRdWpjdWeEPa/5B/hl0s3DNo/i9e5g+jx83UqiylLJ1xQQn0zfzyT9R4Bz2LRILkOVG0ZeQhcIOVY0Ca4q0jsoRvQhJErYAmRmtPyFEnuCDuztP3cc6WcihVDrZVNMEn/gnxcn1+ekX8JTAD6Z0+pQXt2hRUAC2lg/Mkop+5jP2C84cRy7LRWBYNnqn1GaFXdzOm42z7Iffym7N/SWqybh69E4b/eC6EGB/hvmXcfAzvEzdAmuDDOFL7B1TcSfUzhpm4XPGOpmlE+1V6KxU6lokxR/giaE5xEBvZSA/20VgNxktpTpo75khwfDJPz0FXvHBBbu7nngWQb/S4DzclDQeWznCMT7LKD2pSKf0Se+PvyYzokQCp6quT24sPZpQa+j0Itg5pQuhKT+l8xX/AiEPcEZfJ9gYZ9dCYju0NCw2vHbGN7p33zSbPu8cU3HuW8uT0n6QfbHXiXwWz5qdjCv9Tbm95dh7HyJWNX9d7WqIPFg4f5HkDv7CgiuBnwEvZCcxemP1QMZA22o=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd2acba0-0ea2-47de-7ae6-08de5dca9d71
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 17:36:34.0945
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GUbf038Y07g+PmbZctmamU9wbRIcENkO4CdEoXIQGF9vJx5c5HlFCgznkcqIPfplOlHzc09EhDaJSWErnnUMVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4219
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-01-27_04,2026-01-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0
- suspectscore=0 mlxscore=0 spamscore=0 bulkscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2601270143
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTI3MDE0MyBTYWx0ZWRfX+JSTySiuqFwn
- loLnLTLmnDy+QPF5xOXTajxN07v6idgGAMbKRSOXwu5um9FO7Ysr3/A97i7ILSiwLH1jccWpvE1
- 9GSSMfTXaH0jpbtQ2WbPGxXvmSBgDWBVitG7z/DXW+/x5ZcK7d1iRTaVnjU2mLo52qiHq/LzqnB
- Bjq6Q70iuEC65AHnMowBxpckPA8UC1KT92XSbqevLd11qh5mE70vD7u75CM1ZfI9iHiCRAAK0oE
- XUI8a/seNpZoH735HdKTYdHIJRXqUNEUuLJ0DKJxfIjyr6+glbTrWRxtJCu1Eixv4ASo6VPuajB
- bJLLv8JvtaxbedHP6KoQt00FazIw2LbxXeFKUoxoG6dAaKVjKPDaK3Uv5G+faL5BBQkX/jrEBTZ
- n1IkoXoKBqwdPAXyqUOcGc7eqd3l8+H4RiUoQpn2i+J8km8UhrC7tSJYj9DGKozPSfrPq+u/xiK
- KhZ878AYqnn9QY+L73AwT5p5zzP5Nv60EZYANl6U=
-X-Authority-Analysis: v=2.4 cv=C+XkCAP+ c=1 sm=1 tr=0 ts=6978f7a6 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=vUbySO9Y5rIA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=1XWaLZrsAAAA:8 a=yPCof4ZbAAAA:8 a=0_aX6oQtOsjAA9Aozg0A:9 a=CjuIK1q_8ugA:10
- cc=ntf awl=host:13644
-X-Proofpoint-GUID: xowf7Bek0qxwotQE6-UfXlfvdobAY6JV
-X-Proofpoint-ORIG-GUID: xowf7Bek0qxwotQE6-UfXlfvdobAY6JV
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] printk, vt, fbcon: Remove console_conditional_schedule()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-rt-devel@lists.linux.dev, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, John Ogness
+ <john.ogness@linutronix.de>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Simona Vetter <simona@ffwll.ch>
+References: <20260126180836.SNCdMW2f@linutronix.de>
+ <2026012757-voting-griminess-ca35@gregkh>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <2026012757-voting-griminess-ca35@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:4wkG4956p91V+HwMdCRCw5jzDauN8WA2Ip3mD8Dah5de+Gu96b4
+ b+Mr8zrfhWwx+mqHrwsrCP7lgdjpfHHh0sy88SXhGpD81vv8fiKkjfvv9O04w7PdObG9fts
+ XPZnvRzBhzfawYWFdA2UqcE0azgC38xcmDozEP/E40mZQ+7s0XX8DjNXb6bibhxYJz4Puzh
+ eWb9o+L2eDECVoXl94kSw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:77nJz+km1Oo=;AOKjUOmox6V+2+lgg0O+2PH5W28
+ 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
 
-* Vlastimil Babka <vbabka@suse.cz> [260123 01:54]:
-> Before we enable percpu sheaves for kmalloc caches, we need to make sure
-> kmalloc_nolock() and kfree_nolock() will continue working properly and
-> not spin when not allowed to.
-> 
-> Percpu sheaves themselves use local_trylock() so they are already
-> compatible. We just need to be careful with the barn->lock spin_lock.
-> Pass a new allow_spin parameter where necessary to use
-> spin_trylock_irqsave().
-> 
-> In kmalloc_nolock_noprof() we can now attempt alloc_from_pcs() safely,
-> for now it will always fail until we enable sheaves for kmalloc caches
-> next. Similarly in kfree_nolock() we can attempt free_to_pcs().
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-> Reviewed-by: Hao Li <hao.li@linux.dev>
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+On 1/27/26 15:24, Greg Kroah-Hartman wrote:
+> On Mon, Jan 26, 2026 at 07:08:36PM +0100, Sebastian Andrzej Siewior wrot=
+e:
+>> do_con_write(), fbcon_redraw.*() invoke console_conditional_schedule()
+>> which is a conditional scheduling point based on printk's internal
+>> variables console_may_schedule. It may only be used if the console lock
+>> is acquired for instance via console_lock() or console_trylock().
+>>
+>> Prinkt sets the internal variable to 1 (and allows to schedule)
+>> if the console lock has been acquired via console_lock(). The trylock
+>> does not allow it.
+>>
+>> The console_conditional_schedule() invocation in do_con_write() is
+>> invoked shortly before console_unlock().
+>> The console_conditional_schedule() invocation in fbcon_redraw.*()
+>> original from fbcon_scroll() / vt's con_scroll() which originate from a
+>> line feed.
+>>
+>> In console_unlock() the variable is set to 0 (forbids to schedule) and
+>> it tries to schedule while making progress printing. This is brand new
+>> compared to when console_conditional_schedule() was added in v2.4.9.11.
+>>
+>> In v2.6.38-rc3, console_unlock() (started its existence) iterated over
+>> all consoles and flushed them with disabled interrupts. A scheduling
+>> attempt here was not possible, it relied that a long print scheduled
+>> before console_unlock().
+>>
+>> Since commit 8d91f8b15361d ("printk: do cond_resched() between lines
+>> while outputting to consoles"), which appeared in v4.5-rc1,
+>> console_unlock() attempts to schedule if it was allowed to schedule
+>> while during console_lock(). Each record is idealy one line so after
+>> every line feed.
+>>
+>> This console_conditional_schedule() is also only relevant on
+>> PREEMPT_NONE and PREEMPT_VOLUNTARY builds. In other configurations
+>> cond_resched() becomes a nop and has no impact.
+>>
+>> I'm bringing this all up just proof that it is not required anymore. It
+>> becomes a problem on a PREEMPT_RT build with debug code enabled because
+>> that might_sleep() in cond_resched() remains and triggers a warnings.
+>> This is due to
+>>
+>>   legacy_kthread_func-> console_flush_one_record ->  vt_console_print->=
+ lf
+>>     -> con_scroll -> fbcon_scroll
+>>
+>> and vt_console_print() acquires a spinlock_t which does not allow a
+>> voluntary schedule. There is no need to fb_scroll() to schedule since
+>> console_flush_one_record() attempts to schedule after each line.
+>> !PREEMPT_RT is not affected because the legacy printing thread is only
+>> enabled on PREEMPT_RT builds.
+>>
+>> Therefore I suggest to remove console_conditional_schedule().
+>>
+>> Cc: Simona Vetter <simona@ffwll.ch>
+>> Cc: Helge Deller <deller@gmx.de>
+>> Cc: linux-fbdev@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Fixes: 5f53ca3ff83b4 ("printk: Implement legacy printer kthread for PRE=
+EMPT_RT")
+>> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> ---
+>>
+>> A follow-up to
+>> 	https://lore.kernel.org/all/20260114145955.d924Z-zu@linutronix.de/
+>>
+>>   drivers/tty/vt/vt.c              |  1 -
+>>   drivers/video/fbdev/core/fbcon.c |  6 ------
+>>   include/linux/console.h          |  1 -
+>>   kernel/printk/printk.c           | 16 ----------------
+>>   4 files changed, 24 deletions(-)
+>>
+>> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+>> [....]
+>=20
+> No objection from me about removing this if it's not needed anymore!
+>=20
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-I'd rather have a helper that _mayspin() or something.  That way, when
-we know we need to or don't want to, we avoid extra instructions.  We
-can also avoid passing true/false and complicating the interface when
-it's not necessary.
+I've added it to the fbdev git tree to get some testing....
 
-The way it is written works as well, though.
-
-Reviewed-by: Liam R. Howlett <Liam.Howlett@oracle.com>
-
-
-
-> ---
->  mm/slub.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 60 insertions(+), 22 deletions(-)
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 41e1bf35707c..4ca6bd944854 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2889,7 +2889,8 @@ static void pcs_destroy(struct kmem_cache *s)
->  	s->cpu_sheaves = NULL;
->  }
->  
-> -static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
-> +static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn,
-> +					       bool allow_spin)
->  {
->  	struct slab_sheaf *empty = NULL;
->  	unsigned long flags;
-> @@ -2897,7 +2898,10 @@ static struct slab_sheaf *barn_get_empty_sheaf(struct node_barn *barn)
->  	if (!data_race(barn->nr_empty))
->  		return NULL;
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return NULL;
->  
->  	if (likely(barn->nr_empty)) {
->  		empty = list_first_entry(&barn->sheaves_empty,
-> @@ -2974,7 +2978,8 @@ static struct slab_sheaf *barn_get_full_or_empty_sheaf(struct node_barn *barn)
->   * change.
->   */
->  static struct slab_sheaf *
-> -barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
-> +barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty,
-> +			 bool allow_spin)
->  {
->  	struct slab_sheaf *full = NULL;
->  	unsigned long flags;
-> @@ -2982,7 +2987,10 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
->  	if (!data_race(barn->nr_full))
->  		return NULL;
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return NULL;
->  
->  	if (likely(barn->nr_full)) {
->  		full = list_first_entry(&barn->sheaves_full, struct slab_sheaf,
-> @@ -3003,7 +3011,8 @@ barn_replace_empty_sheaf(struct node_barn *barn, struct slab_sheaf *empty)
->   * barn. But if there are too many full sheaves, reject this with -E2BIG.
->   */
->  static struct slab_sheaf *
-> -barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
-> +barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full,
-> +			bool allow_spin)
->  {
->  	struct slab_sheaf *empty;
->  	unsigned long flags;
-> @@ -3014,7 +3023,10 @@ barn_replace_full_sheaf(struct node_barn *barn, struct slab_sheaf *full)
->  	if (!data_race(barn->nr_empty))
->  		return ERR_PTR(-ENOMEM);
->  
-> -	spin_lock_irqsave(&barn->lock, flags);
-> +	if (likely(allow_spin))
-> +		spin_lock_irqsave(&barn->lock, flags);
-> +	else if (!spin_trylock_irqsave(&barn->lock, flags))
-> +		return ERR_PTR(-EBUSY);
->  
->  	if (likely(barn->nr_empty)) {
->  		empty = list_first_entry(&barn->sheaves_empty, struct slab_sheaf,
-> @@ -5008,7 +5020,8 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->  		return NULL;
->  	}
->  
-> -	full = barn_replace_empty_sheaf(barn, pcs->main);
-> +	full = barn_replace_empty_sheaf(barn, pcs->main,
-> +					gfpflags_allow_spinning(gfp));
->  
->  	if (full) {
->  		stat(s, BARN_GET);
-> @@ -5025,7 +5038,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
->  			empty = pcs->spare;
->  			pcs->spare = NULL;
->  		} else {
-> -			empty = barn_get_empty_sheaf(barn);
-> +			empty = barn_get_empty_sheaf(barn, true);
->  		}
->  	}
->  
-> @@ -5165,7 +5178,8 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
->  }
->  
->  static __fastpath_inline
-> -unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
-> +unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
-> +				 void **p)
->  {
->  	struct slub_percpu_sheaves *pcs;
->  	struct slab_sheaf *main;
-> @@ -5199,7 +5213,8 @@ unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  			return allocated;
->  		}
->  
-> -		full = barn_replace_empty_sheaf(barn, pcs->main);
-> +		full = barn_replace_empty_sheaf(barn, pcs->main,
-> +						gfpflags_allow_spinning(gfp));
->  
->  		if (full) {
->  			stat(s, BARN_GET);
-> @@ -5700,7 +5715,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
->  	struct kmem_cache *s;
->  	bool can_retry = true;
-> -	void *ret = ERR_PTR(-EBUSY);
-> +	void *ret;
->  
->  	VM_WARN_ON_ONCE(gfp_flags & ~(__GFP_ACCOUNT | __GFP_ZERO |
->  				      __GFP_NO_OBJ_EXT));
-> @@ -5731,6 +5746,12 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  		 */
->  		return NULL;
->  
-> +	ret = alloc_from_pcs(s, alloc_gfp, node);
-> +	if (ret)
-> +		goto success;
-> +
-> +	ret = ERR_PTR(-EBUSY);
-> +
->  	/*
->  	 * Do not call slab_alloc_node(), since trylock mode isn't
->  	 * compatible with slab_pre_alloc_hook/should_failslab and
-> @@ -5767,6 +5788,7 @@ void *kmalloc_nolock_noprof(size_t size, gfp_t gfp_flags, int node)
->  		ret = NULL;
->  	}
->  
-> +success:
->  	maybe_wipe_obj_freeptr(s, ret);
->  	slab_post_alloc_hook(s, NULL, alloc_gfp, 1, &ret,
->  			     slab_want_init_on_alloc(alloc_gfp, s), size);
-> @@ -6087,7 +6109,8 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
->   * unlocked.
->   */
->  static struct slub_percpu_sheaves *
-> -__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
-> +__pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
-> +			bool allow_spin)
->  {
->  	struct slab_sheaf *empty;
->  	struct node_barn *barn;
-> @@ -6111,7 +6134,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  	put_fail = false;
->  
->  	if (!pcs->spare) {
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, allow_spin);
->  		if (empty) {
->  			pcs->spare = pcs->main;
->  			pcs->main = empty;
-> @@ -6125,7 +6148,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  		return pcs;
->  	}
->  
-> -	empty = barn_replace_full_sheaf(barn, pcs->main);
-> +	empty = barn_replace_full_sheaf(barn, pcs->main, allow_spin);
->  
->  	if (!IS_ERR(empty)) {
->  		stat(s, BARN_PUT);
-> @@ -6133,7 +6156,8 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  		return pcs;
->  	}
->  
-> -	if (PTR_ERR(empty) == -E2BIG) {
-> +	/* sheaf_flush_unused() doesn't support !allow_spin */
-> +	if (PTR_ERR(empty) == -E2BIG && allow_spin) {
->  		/* Since we got here, spare exists and is full */
->  		struct slab_sheaf *to_flush = pcs->spare;
->  
-> @@ -6158,6 +6182,14 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->  alloc_empty:
->  	local_unlock(&s->cpu_sheaves->lock);
->  
-> +	/*
-> +	 * alloc_empty_sheaf() doesn't support !allow_spin and it's
-> +	 * easier to fall back to freeing directly without sheaves
-> +	 * than add the support (and to sheaf_flush_unused() above)
-> +	 */
-> +	if (!allow_spin)
-> +		return NULL;
-> +
->  	empty = alloc_empty_sheaf(s, GFP_NOWAIT);
->  	if (empty)
->  		goto got_empty;
-> @@ -6200,7 +6232,7 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs)
->   * The object is expected to have passed slab_free_hook() already.
->   */
->  static __fastpath_inline
-> -bool free_to_pcs(struct kmem_cache *s, void *object)
-> +bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
->  {
->  	struct slub_percpu_sheaves *pcs;
->  
-> @@ -6211,7 +6243,7 @@ bool free_to_pcs(struct kmem_cache *s, void *object)
->  
->  	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
->  
-> -		pcs = __pcs_replace_full_main(s, pcs);
-> +		pcs = __pcs_replace_full_main(s, pcs, allow_spin);
->  		if (unlikely(!pcs))
->  			return false;
->  	}
-> @@ -6333,7 +6365,7 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
->  			goto fail;
->  		}
->  
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, true);
->  
->  		if (empty) {
->  			pcs->rcu_free = empty;
-> @@ -6453,7 +6485,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  		goto no_empty;
->  
->  	if (!pcs->spare) {
-> -		empty = barn_get_empty_sheaf(barn);
-> +		empty = barn_get_empty_sheaf(barn, true);
->  		if (!empty)
->  			goto no_empty;
->  
-> @@ -6467,7 +6499,7 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  		goto do_free;
->  	}
->  
-> -	empty = barn_replace_full_sheaf(barn, pcs->main);
-> +	empty = barn_replace_full_sheaf(barn, pcs->main, true);
->  	if (IS_ERR(empty)) {
->  		stat(s, BARN_PUT_FAIL);
->  		goto no_empty;
-> @@ -6719,7 +6751,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
->  
->  	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())
->  	    && likely(!slab_test_pfmemalloc(slab))) {
-> -		if (likely(free_to_pcs(s, object)))
-> +		if (likely(free_to_pcs(s, object, true)))
->  			return;
->  	}
->  
-> @@ -6980,6 +7012,12 @@ void kfree_nolock(const void *object)
->  	 * since kasan quarantine takes locks and not supported from NMI.
->  	 */
->  	kasan_slab_free(s, x, false, false, /* skip quarantine */true);
-> +
-> +	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id())) {
-> +		if (likely(free_to_pcs(s, x, false)))
-> +			return;
-> +	}
-> +
->  	do_slab_free(s, slab, x, x, 0, _RET_IP_);
->  }
->  EXPORT_SYMBOL_GPL(kfree_nolock);
-> @@ -7532,7 +7570,7 @@ int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
->  		size--;
->  	}
->  
-> -	i = alloc_from_pcs_bulk(s, size, p);
-> +	i = alloc_from_pcs_bulk(s, flags, size, p);
->  
->  	if (i < size) {
->  		/*
-> 
-> -- 
-> 2.52.0
-> 
-> 
+Thanks!
+Helge
