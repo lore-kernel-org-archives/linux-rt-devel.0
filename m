@@ -1,119 +1,131 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E12A35A93D;
-	Wed, 28 Jan 2026 13:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68A9270ED7;
+	Wed, 28 Jan 2026 16:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769608460; cv=none; b=JHSe8SVTERaUOhly/YWA1uvH7BkXUw60NeCPS8zVMWRwnkArdBO57zM8Cq3ho6D93OpJ2gJzJRVsaJYOZjv3zaWj8/mpwNSqBn1nL9GAfL8phSzHQQvyOpdseQ67CDtcd6Kduo2tVT2EGYmXi+ITKiXJ2eVfz0l/1OloJfuSXic=
+	t=1769616802; cv=none; b=FT3mvRxKzlyeD9p8V9TXzHpmc5uJAPreITgMyY2XFWu7IZbtDunpbGchVVazLmDTQnsuZw15YM2kZIMXqVedG581r43nWy6Ll/JISYivIOa+zfpC/1a0E+5TVtEXTdfb0nF9ws6WPK1dfysEytYkwA01aO2v0bOyMNQmxong+F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769608460; c=relaxed/simple;
-	bh=2QcDNGyNgBkYWykeDTplf++Ayzs/pq2q0ljJ9L3KqGE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=aLLmg7OSreqaTfAnIDLlfFeMHnNgBueMLo6RFK6B1RYr6RhG3J6RPl1OvIZ87k9NZCW+m0oE15jFDVV5R/Ra3L7NBPhmG7kiEIJ22ngeMpg17GIRZ6Y+eA59Lt2NAqYC0lKk0nd/8seQjByr8QHmzoYmUyU54GN85gQA7nqaTWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I7JWRdK5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769616802; c=relaxed/simple;
+	bh=eKsOfls89oC7TYzxBqHKWCc9CS/ykrs7Pu5eJTYZazw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tbML/knQbTtPhxRQX0hJlCBoWoSZLhgLQAxW7a7mSw1953Z5IlTL8G9YIVvUUXnlyc/bVzlbBsYtMyYRF1whC2Z5pMqJSRNf5PkRGzye50dMO4UO3N8lPBrLxyPSRKQ+GRaPO1XDJPVMZLF0fz2hodl7NUmjE8U4lUwhGKzeT1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s4AIDmjw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I7JWRdK5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71D29C4CEF1;
-	Wed, 28 Jan 2026 13:54:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s4AIDmjw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ADBFC4CEF1;
+	Wed, 28 Jan 2026 16:13:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769608460;
-	bh=2QcDNGyNgBkYWykeDTplf++Ayzs/pq2q0ljJ9L3KqGE=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=I7JWRdK5ZBXgNUdcCMLUdyjVYf2GJtxanzlxs2pr1j2CMszWXT1Fnl6+zmPqj2Vjx
-	 TRxPCZtLyajWyL6SF6LijJiN5XOFU4a1MxJoNzZkhpyMg4JhtWm1hCdkxE6t0Fp6x1
-	 vFQV0WP4M5lzu+RcFMnBy16dwKidmNuf+6KFWS6QvXgE4R2/ait+2LpNubQrBqxqh4
-	 Dnnvt677lZfbKNJ0N0PHu5DEk64BG4gqoV30imCS6I91W+Vv7bMc4lIHksrcD7tbpr
-	 +6I8jv+kEto49AzVAkKHmKR7qJcodynMZCW+z4rb9MVSn7XDUOCyGPNF4nlg3dCurj
-	 Zg+4Qb+U38TnQ==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 98F5CF40069;
-	Wed, 28 Jan 2026 08:54:18 -0500 (EST)
-Received: from phl-imap-18 ([10.202.2.89])
-  by phl-compute-01.internal (MEProxy); Wed, 28 Jan 2026 08:54:18 -0500
-X-ME-Sender: <xms:ChV6aeDOtGQ6J7EITg0m42Fe4EJxXCvebl0aCqzayqgNK64hLVWcNw>
-    <xme:ChV6aTUp6CSYCIENRLJR3gXaWUrWw-hskJlVNE4OGDISB-GS7Pnm5BfEK5JIvNaZ8
-    sEx_slsTzW-3xb1jijcb3t6XVp7SDu9ilUvSM5JrIjcig7W3zheiEVH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduieefheegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedfmfhonhhs
-    thgrnhhtihhnucfthigrsghithhsvghvfdcuoehmrhhitghonheskhgvrhhnvghlrdhorh
-    hgqeenucggtffrrghtthgvrhhnpeevfffgvdfgtdeufeekuefgudffgeeihffhvefhgfej
-    keetgfekgfefgedvkedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehmrhhitghonhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihht
-    hidqudeigedttdduvdeifedqvddutdegjedtleeiqdhmrhhitghonheppehkvghrnhgvlh
-    drohhrgheskhgvrhhnvghlmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedvtddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtohepmhhitghhrggvlhdrhhgvnhhnvghrihgthh
-    esrghnrghlohhgrdgtohhmpdhrtghpthhtohepmhgrrhgtvghlohdrshgthhhmihhtthes
-    rghnrghlohhgrdgtohhmpdhrtghpthhtohepnhhunhhordhsrgesrghnrghlohhgrdgtoh
-    hmpdhrtghpthhtohepughlvggthhhnvghrsegsrgihlhhisghrvgdrtghomhdprhgtphht
-    thhopehguhhsthgrvhhoghhrrgiishesghhmrghilhdrtghomhdprhgtphhtthhopehmrg
-    hrtghushdrfhholhhkvghsshhonhesghhmrghilhdrtghomhdprhgtphhtthhopehnihhs
-    hhdrmhgrlhhprghnihdvheesghhmrghilhdrtghomhdprhgtphhtthhopehnohhnrghmvg
-    drnhhunhhosehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghnughrihihrdhshhgvvhgt
-    hhgvnhhkohesihhnthgvlhdrtghomh
-X-ME-Proxy: <xmx:ChV6aX7V1_8HCqYRZn8gEQOGmUuxonsUTfhQTxiY33Az317g6QzkxA>
-    <xmx:ChV6aakB8fV7cTVtUyI-yeX5mIWN3nwtoQCm5uaPxzs2bW8kwpdcBQ>
-    <xmx:ChV6aQN1Wqi1_LjF5y6KLn78NdQgZDXY4pzdR1MKo8MK1XLiKP5QCg>
-    <xmx:ChV6aUo91Od22UhRy4_16F4XHetm_vaT8VA2WBVlCr-QjfRVjr9gcA>
-    <xmx:ChV6aRsrAtHZfF9hAu9YcTNrWl6RlThiP8k4qnxHOionOuUnesXKAHyu>
-Feedback-ID: i40364868:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7135315C008F; Wed, 28 Jan 2026 08:54:18 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1769616802;
+	bh=eKsOfls89oC7TYzxBqHKWCc9CS/ykrs7Pu5eJTYZazw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=s4AIDmjwBTInkFgOGmb7TFbYCMnvIOg9CDVHEc7YkXfmN1HrQjIpVn0cjubGkhwgs
+	 JcuKj8vf5UufyeTPLejJFyOinlAC23rvcCyalhqnecsPywweHhxxvJXSP9YUqtyWbZ
+	 apW6Gr3jiUsEQPROPWJP46k5nStEVPdNIDWlgWb4PAAX2r2+NTKXUuuE32CLSq/eNh
+	 NwhXI/SvZI7+pPtQbACg6Almu9+6QJ+VP8AGM0Q/TCeaUXkR+peVRT6OqJKJDlveYT
+	 /zuw53qjIweZwsSbKrwrzY6t3/Wrg4nzIevgwKQpBzWXspp6wpu4Y1W/BRAB5vrvXE
+	 01SIUIyCWfXrQ==
+From: Will Deacon <will@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: catalin.marinas@arm.com,
+	kernel-team@android.com,
+	Will Deacon <will@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	linux-rt-devel@lists.linux.dev,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Amit Kucheria <amitk@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Borislav Petkov <bp@alien8.de>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gustavo Silva <gustavograzs@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Kent Gustavsson <kent@minoris.se>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Lee Jones <lee@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Marcelo Schmitt <marcelo.schmitt@analog.com>,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Nishant Malpani <nish.malpani25@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Oder Chiou <oder_chiou@realtek.com>,
+	Peter Huewe <peterhuewe@gmx.de>,
+	Puranjay Mohan <puranjay@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Ram Vegesna <ram.vegesna@broadcom.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Xianwei Zhao <xianwei.zhao@amlogic.com>,
+	Yiting Deng <yiting.deng@amlogic.com>,
+	Yixun Lan <dlan@gentoo.org>,
+	Zhang Rui <rui.zhang@intel.com>
+Subject: Re: [PATCH v2 00/20] IRQF_ONESHOT clean up
+Date: Wed, 28 Jan 2026 16:12:58 +0000
+Message-ID: <176960556542.3584449.13472244828360969713.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260128095540.863589-1-bigeasy@linutronix.de>
+References: <20260128095540.863589-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: ARb0NMl4zKKw
-Date: Wed, 28 Jan 2026 08:53:58 -0500
-From: "Konstantin Ryabitsev" <mricon@kernel.org>
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- "Andy Shevchenko" <andriy.shevchenko@intel.com>
-Cc: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, tools@kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- "Thomas Gleixner" <tglx@kernel.org>, "Lars-Peter Clausen" <lars@metafoo.de>,
- "Michael Hennerich" <Michael.Hennerich@analog.com>,
- "Puranjay Mohan" <puranjay@kernel.org>,
- "Jonathan Cameron" <jic23@kernel.org>,
- "David Lechner" <dlechner@baylibre.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- "Andy Shevchenko" <andy@kernel.org>,
- "Marcelo Schmitt" <marcelo.schmitt@analog.com>,
- "Marcus Folkesson" <marcus.folkesson@gmail.com>,
- "Kent Gustavsson" <kent@minoris.se>,
- "Gustavo Silva" <gustavograzs@gmail.com>,
- "Nishant Malpani" <nish.malpani25@gmail.com>, linux-iio@vger.kernel.org
-Message-Id: <c064a31a-a2c7-4e35-b8d6-063684f48869@app.fastmail.com>
-In-Reply-To: <be27fa4404511cdf65a9a0f212653a7f1fcd86b6.camel@gmail.com>
-References: <20260123113708.416727-1-bigeasy@linutronix.de>
- <20260123113708.416727-19-bigeasy@linutronix.de>
- <aXOKVqxyhQ10l9V4@smile.fi.intel.com> <20260126081510.jr8Rp6R7@linutronix.de>
- <aXc5Efu-PlLNCxkk@smile.fi.intel.com> <20260126101034.lnGGQmUD@linutronix.de>
- <aXdJbidb3DPyRaxB@smile.fi.intel.com>
- <20260126-cocky-sawfish-of-variation-c0cedd@lemur>
- <be27fa4404511cdf65a9a0f212653a7f1fcd86b6.camel@gmail.com>
-Subject: Re: [PATCH 18/21] iio: Replace IRQF_ONESHOT with IRQF_NO_THREAD
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 28, 2026, at 05:45, Nuno S=C3=A1 wrote:
-> Since I have you here, I might ask about something that I'm not sure
-> how to handle. Might be dumb but here it goes. One problem is when I
-> send v1 based on a branch and when I'm starting to work on v2 that
-> branch was force-updated and I want to base my v2 on it. Is there any
-> good way to handle this?
+On Wed, 28 Jan 2026 10:55:20 +0100, Sebastian Andrzej Siewior wrote:
+> There was a bug report about setting IRQF_ONESHOT where it should have
+> not been set. I looked around for other mistakes in that area. There are
+> the following categories:
+> 
+> - Using custom primary irq handler doing exactly what
+>   irq_default_primary_handler() does
+> 
+> [...]
 
-You should be able to just rebase the b4 branch.
+Applied the CXL PMU patch to will (for-next/perf), thanks!
 
-git switch b4/your-branch
-git rebase tracking-branch
+[14/20] perf/cxlpmu: Replace IRQF_ONESHOT with IRQF_NO_THREAD
+        https://git.kernel.org/will/c/ab26d9c85554
 
-You can do this at any point, not necessarily between revisions. Since w=
-e have the tracking empty commit, we'll always know the base-commit auto=
-matically.
+Cheers,
+-- 
+Will
 
--K
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
