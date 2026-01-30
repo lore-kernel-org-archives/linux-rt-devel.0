@@ -1,109 +1,182 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86701271457
-	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Jan 2026 06:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CD43446A5
+	for <linux-rt-devel@lists.linux.dev>; Fri, 30 Jan 2026 15:52:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769755818; cv=none; b=rxikwJIvo865/FYBGG0wvhilEFb8E7kFLzMmS9IZ1L/n1qduE2UoeImpChMRaOCQgVvVL9Y1gXYOBDYD6pKckwqF8R0OHWTDWQZlTGq9KJi5zqPXCGOhgVItQvgMkfpTecDxTbwpqWpH0aWQCERCOGL0KGcmesZUZzyFxrFfFrc=
+	t=1769788364; cv=none; b=tWjmosVrHoCFCjYXJJj2qPd+5zwo5xynOorvfs16YUkryRcBPqVbA6vi/pomVXZoY35QjnGj9oVDJkWB01cI4/RWYEINffMcGraX0iu6KaN4QfyiObMCZ1vpLi2eYwyjv9hMOqFRPIlK9AzkBYaxeoGH6nCJk6e1xZqVX5SD0KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769755818; c=relaxed/simple;
-	bh=YXKpjh0EJpqLSUJ/jki6Dyz4NykXUAKico+Ez/AF1IE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bsj1nEZlkhwiAlP8FisxwSWmxCXEtuR7YzTH3aums+dFIAHKof+/wod4xYL/6e+8TI61vvoQQw7n0mSZ4Lyg2QthZABr16jLMUc0hO/T046xnFvrKci/ATOoqqkS8pgYt+tlP3eCL7aRZNpTB9LEqcfThfv8QX/kn0900RKyxrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MdrH8qq7; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769788364; c=relaxed/simple;
+	bh=KwNWowZX71q9zD/3NDCuLVTQ0pyHgr7T6t8lFk7Fb4U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lh/SADn//2gkJ8jOhNPZld7O2XXFT1W4kdDcvQSlYymV3rbqJhjiS2H6onCgFQJ/fa8jvplDlMmd+WtOwuxCMT316zCOx+s4OZieDdD9DgFJcNztPHr/ldje+KQeDU9uADS1LKhyURlMrDz5g46j0qQilYWJhYXXg/g00ztLBkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=vCoaaIHD; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MdrH8qq7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769755816; x=1801291816;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=YXKpjh0EJpqLSUJ/jki6Dyz4NykXUAKico+Ez/AF1IE=;
-  b=MdrH8qq7ruGsb+hhzBk0tR3hTBwMUHFf53P3gWzQJdbKwo72oTpxuvp7
-   gLgAZDnntRdhrcKCg0KoNvvftZMyO44dtaSLlObelDQWeJt9HiLcPJ7Oh
-   ihgO03psKlUsqAeWg8Jtz4zoPBzoj7tBcVZgLSGFOuVQJdBRXJvs2ZK8n
-   dWlQxK8PIJ0xJsyP90nOWwvAId1XriGyqyPKDyqvonqrPERqoRVFjgVO2
-   KCte0cmpn0GU4h/tIA4+9TQg5OZXM4FjyTRF/Z+Kq/hQcU5BeWsGDZL0n
-   ovbAHSXtqm39PVhvD45ecL+qJJyaS1yDX8Pdf20BDowvGuB0Pk1nTqvEz
-   A==;
-X-CSE-ConnectionGUID: CcNdjfsHQBi677rOaPVWHQ==
-X-CSE-MsgGUID: Wq/pv3G1QBSPvRBkrDV/ZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="81320122"
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="81320122"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 22:50:11 -0800
-X-CSE-ConnectionGUID: mYaf0TBPRa2ykUmhlHu8pg==
-X-CSE-MsgGUID: LrWGv+Y3RriQke2ImZiRkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
-   d="scan'208";a="208696559"
-Received: from liuzhao-optiplex-7080.sh.intel.com (HELO localhost) ([10.239.160.39])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Jan 2026 22:50:06 -0800
-Date: Fri, 30 Jan 2026 15:15:59 +0800
-From: Zhao Liu <zhao1.liu@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hao Li <hao.li@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v4 06/22] slab: add sheaves to most caches
-Message-ID: <aXxaryFUrIFo7/hL@intel.com>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <20260123-sheaves-for-all-v4-6-041323d506f7@suse.cz>
- <aXsLKxukv60p3QWF@intel.com>
- <2cd89ed5-0c8e-43f8-896d-1b7dee047fef@suse.cz>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="vCoaaIHD"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 426D71A2B35;
+	Fri, 30 Jan 2026 15:52:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0D58D6075A;
+	Fri, 30 Jan 2026 15:52:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 25F0C119A885C;
+	Fri, 30 Jan 2026 16:52:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1769788359; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=kwJQO2x048sND1CuqmEehCo/evSBl9i8ehkPITSgcpg=;
+	b=vCoaaIHDovck1QgJ9hkbfAR6jfgnuPXZIAUvFREoZEj3QEZoBvHsbeO7bJZIJnjYer6X9+
+	Id+BVQD6WjPI6JENNtUy9fOiFX/tH/B+iMvNeBByYk1WGk1Sczer8mmHNzkweln3aQ8FxM
+	wVRp7no5OOmfWYKsYi4pZ0tIj2Jz3BIvCMvMfLAVvTgNMZ2W7qOBVml8pupN5fOjMbNI1s
+	PAPeREiF3h5E1XVaKG5+XjiaYr8zkaF18TJfI0fGFWXGrPDtcrKBM+shIvRSApvxQk2IHD
+	sFaaMpOlFrJbQ1Z3oukS3dF8hLWjpGy0MaUXiyJxq70n4Qu2TqZUoCVvNuA5ZA==
+From: =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+Subject: [PATCH v6 0/3] i2c: designware: Improve support of multi-messages
+ transfer
+Date: Fri, 30 Jan 2026 16:52:28 +0100
+Message-Id: <20260130-i2c-dw-v6-0-08ca1e9ece07@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=gb2312
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2cd89ed5-0c8e-43f8-896d-1b7dee047fef@suse.cz>
+X-B4-Tracking: v=1; b=H4sIALzTfGkC/2XNwU7EIBDG8VfZcBbDDAxQT76H8QADdUm0mHZTN
+ Zu+u3ST1o09fhN+f65iymPJk3g6XcWY5zKVOrRhH06Cz2F4y7KktgUqJFBgZEGW6UumoIF6Rx4
+ 7K9rjzzH35fsWenlt+1ymSx1/bt0Z1uuWcFtiBqmki56iA3bBu+dY6+W9DI9cP8QamfEOatghN
+ tgpA9Y70zOrI9R/EKDboW4wsomMATkGPkJzB9Hu0KxQWTLU+eyYjpA2aBWg2iE1qLI2yabOEP3
+ 7cVmWX2mezwCCAQAA
+X-Change-ID: 20251014-i2c-dw-da315f758296
+To: Andi Shyti <andi.shyti@kernel.org>, 
+ Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Jan Dabros <jsd@semihalf.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Tawfik Bayouk <tawfik.bayouk@mobileye.com>, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Vlastimil,
+Add support for the I2C_M_STOP flag to the .xfer() function of
+the designware driver. This allows grouping multiple accesses in a
+single call and changing the target address after a STOP flag. This is
+achieved by splitting i2c_dw_xfer_common() in two functions. The core
+logic handling the transaction is now in __i2c_dw_xfer_one_part(),
+while i2c_dw_xfer_common() loops over the messages to search for the
+I2C_M_STOP flag and calls __i2c_dw_xfer_one_part().
 
-> > vm_area_cachep's capacity seems to be adjusted to 60 and
-> > maple_node_cache keeps 32 as the args setting.
-> 
-> Good to know. It is a bit larger.
-> Hm I could have probably applied the args capacity before doing the roundup
-> to make sheaf fill whole kmalloc size. Would add a few object for maple node
-> I guess.
+Handle controllers that lack the ability to emit a RESTART when two
+consecutive messages have the same address and direction by aborting
+transfers that contain such a sequence of messages. For those controllers,
+we also check that we do not get any unwanted STOP caused by a Tx FIFO
+underrun, as they lack the ability to hold the clock during a transaction.
+And we set the irq as non-threaded to prevent underrun on PREEMPT-RT
+kernel when filling the FIFO.
 
-Re-considerring this formula:
+The I2C controllers found in the EyeQ6Lplus and EyeQ7H SoCs from Mobileye
+lack such capability, so a compatible string is added because this cannot
+be detected at runtime. The corresponding DT bindings has already been
+merged and is available in v6.19-rc2:
 
-the nr_objects in set_cpu_partial() in fact represents the half-full
-case since it was used to calculate nr_slabs in slub_set_cpu_partial().
+    d9b85d296f3a ("dt-bindings: i2c: dw: Add Mobileye I2C controllers")
 
-Therefore, the maximum capacity of this partial approach should be
-nr_objects * 2 (and should actually be even larger, since it doesn't
-account for the object on CPU's freelist).
+This patch series also simplifies runtime PM handling in
+i2c_dw_xfer_common() and amd_i2c_dw_xfer_quirk() with PM_RUNTIME_* macros.
 
-But here, for sheaf, the implicit assumption is that it is completely
-full, so that for the maximum capacity of objects per CPU, the sheaf
-approach is "half" that of the partial approach.
+To test I2C_M_STOP and other message modifier flags, I posted a patch
+series for i2c-tools[1]. With it, i2cdetect shows the support of the
+protocol mangling and repeated start skipping functionalities, and
+i2ctransfer can set the modifier flags to the I2C messages.
 
-Is this expected? I'm considering whether we should remove the
-°∞divide by two°± and instead calculate the sheaf capacity based on
-half-full assumption (e.h., full main & empty spare).
+The series is now based on i2c-host tree and only contains the last three
+patches that have not been merged yet. The first and last patches are
+functionally identical to the one posted in the previous revision. Only
+the second patch contains modified code to use PM_RUNTIME_* macros
+instead of ACQUIRE()/ACQUIRE_ERR(). Thus I let Mika's Acked-by on the
+first and third patch, and dropped it from the second patch. I hope it
+was the correct thing to do.
 
-Thanks,
-Zhao
+[1]: https://lore.kernel.org/all/20260127-msg-flags-v3-0-e7539945db2b@bootlin.com/
 
+Signed-off-by: Beno√Æt Monin <benoit.monin@bootlin.com>
+---
+Changes in v6:
+- Rebased on i2c-host tree.
+- Drop the first three cleanup patches of the series: already merged in
+  i2c-host tree.
+- Add/improve comments suggested by the last reviews.
+- Use PM_RUNTIME_* macros instead of ACQUIRE()/ACQUIRE_ERR().
+- Link to v5: https://lore.kernel.org/r/20260120-i2c-dw-v5-0-0e34d6d9455c@bootlin.com
+
+Changes in v5:
+- Rebased on v6.19-rc6 and fully retested on EyeQ6Lplus.
+- Drop dt-binding patch: already merged upstream in v6.19-rc2.
+- From Andi Shyti's review:
+  - __i2c_dw_xfer_one_part() now returns 0 on success instead
+    of the number of messages transferred.
+  - Drop inline keyword from i2c_dw_msg_is_valid() declaration.
+- Link to v4: https://lore.kernel.org/r/20251126-i2c-dw-v4-0-b0654598e7c5@bootlin.com
+
+Changes in v4:
+- Use a boolean property instead of a flag for handling controllers
+  IC_EMPTYFIFO_HOLD_MASTER_EN.
+- Reorder the patches so goto and runtime PM auto-cleanup are not mixed
+  in i2c_dw_xfer().
+- Drop goto in __i2c_dw_xfer_one_part() and use return.
+- Tidy up comments for i2c_dw_msg_is_valid() and irq_flags.
+- Link to v3: https://lore.kernel.org/r/20251119-i2c-dw-v3-0-bc4bc2a2cbac@bootlin.com
+
+Changes in v3:
+- Add a compatible entry for Mobileye EyeQ7H i2c controllers.
+- Use runtime PM macro for auto-cleanup in i2c_dw_xfer().
+- Add a dedicated i2c_algorithm for AMD NAVI controllers.
+- Rename __i2c_dw_xfer_unlocked() as it is not about locking at all.
+- Rework the validity check of i2c_msg.
+- Flag the irq as non-threaded for controllers that cannot hold the
+  clock to avoid underrun.
+- Link to v2: https://lore.kernel.org/r/20251031-i2c-dw-v2-0-90416874fcc0@bootlin.com
+
+Changes in v2:
+- Add a single compatible for mobileye i2c controllers based in
+  DesignWare IP.
+- Handle the I2C_M_STOP flag instead of emitting a STOP on target address
+  change.
+- Abort transfer when it requires a RESTART on controller that cannot
+  emit them.
+- Detect FIFO underrun instead of disabling threaded interrupt on
+  PREEMPT_RT kernel.
+- Sort the compatible entries in a separate patch.
+- Add a cleanup patch on flag reading in i2c_dw_read().
+- Link to v1: https://lore.kernel.org/r/20251017-i2c-dw-v1-0-7b85b71c7a87@bootlin.com
+
+---
+Beno√Æt Monin (3):
+      i2c: designware: Implement I2C_M_STOP support
+      i2c: designware: Use runtime PM macro for auto-cleanup
+      i2c: designware: Support of controller with IC_EMPTYFIFO_HOLD_MASTER disabled
+
+ drivers/i2c/busses/i2c-designware-common.c  |  20 ++++
+ drivers/i2c/busses/i2c-designware-core.h    |   3 +
+ drivers/i2c/busses/i2c-designware-master.c  | 162 ++++++++++++++++++++--------
+ drivers/i2c/busses/i2c-designware-platdrv.c |   1 +
+ 4 files changed, 141 insertions(+), 45 deletions(-)
+---
+base-commit: 51e8ce3630878fa6083e1eec84f58f49ec85089b
+change-id: 20251014-i2c-dw-da315f758296
+
+Best regards,
+-- 
+Beno√Æt Monin, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
