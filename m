@@ -1,90 +1,76 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE39C25C818
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Feb 2026 17:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE41538947C
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Feb 2026 17:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770051919; cv=none; b=QcOyDNeu8OpWpOAMo+3jMLV0ZBcC+Db/OnDWOYbiST7iKg+5fHeB27HFc3SjCR/m0nPN2DTCtoNwWN8jZJjSL2A2lI8FVYP0dPQMMxSYXxUB1m22NSgwibC12+wNGfl7OE1gHRXEfTzDsg91rEVX04U4445rpJg1A28+AOATZu4=
+	t=1770055125; cv=none; b=WwsujtVGyg4/j3pI9ptd5KmiZGFoWslfi6evAuWwmQQiAmbAi2gGf11MdGHyX5wfTI3ecUePxiyDWaCNqhjTgzy0v0j3gbhIIMpyBlFeR4Amu3Zz2VuyuHKHGBMysjjVQqWwTjNGZogAlqzv/ElaZn+cf+7VYDW3SlDYlqpZc3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770051919; c=relaxed/simple;
-	bh=qFrhiLrEqstvhIiH9EeQC0quRqARawDbhew/Y2/UYLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WYHBLN31wVBp+ts7l+jWI55RR2+A9n/eo7IMPdCYOBoTPEFIVr/gpGPVtrf0DR+bhtGUaC9GcdFOj2vikXNbMqCUdCHy+B0JbMPO3ENYX+4WO5G4eK+8I4qXTaea4kwikuBxMj6yLheY35IcdKzZqP+3Lp3s69adl+hw3vQbNys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de; spf=pass smtp.mailfrom=wiredspace.de; dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b=34z5GOaQ; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiredspace.de
+	s=arc-20240116; t=1770055125; c=relaxed/simple;
+	bh=3UXD7SdUJt1+95TtwMu+fX0hyPcDvUY/7kapVNFDUm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rq6FDp8Uaz1VHWYAv6acEgtSzVV2P1lINes4trWQ8t0dosZzQbdZy6b3kYClWbQZ12w61ICsmact2ieD/fyFCH8Q7KUo0p4ZrOEzlS8wCaJGr5rf83UbA6LTmzHj9co3PlZz/RZpIRWl5TZxUe/zB/H2JOF902LWfRj79du/ciM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cUswOzmq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HPMDDr/J; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b="34z5GOaQ"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiredspace.de;
-	s=key1; t=1770051915;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cUswOzmq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HPMDDr/J"
+Date: Mon, 2 Feb 2026 18:58:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770055121;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=5aK7VYn5DbqDUI192vSKeBgPLokX65bsPtUKpTgYaGs=;
-	b=34z5GOaQEB6a4lwClJIT6nllOz1m5Cn3QGxXYmzRRH1XDU+Ia61ulnXYPTGb/Mu681Ub2G
-	pfXAhh0uf/FSWBmIqxX7XcTt1LRd12Oj/kv8zVvW1fsUyAlVwwnZ24naskHOz9NEmWefgw
-	NnqpLgG4aOS1F5OXxoXm3ce82IL+40c=
-From: =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
-Date: Mon, 02 Feb 2026 18:04:43 +0100
-Subject: [PATCH] rtmutex: Introduce __cleanup() based infrastructure
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3UXD7SdUJt1+95TtwMu+fX0hyPcDvUY/7kapVNFDUm4=;
+	b=cUswOzmq9SicIKrq1DuKaZenA2WxryHQtyXlS/EuwkHXUbAbFXps6JdNH3yt1D2NwVQv8a
+	IfteZgVZY5dnRvJOvLLywMZ5K9sm7F6qHD6oj4YcO4VCwRztYT27h4YblUk5z0hbhXtHkY
+	5xY6ZSTJrxAg6sgYSzyTdF/BKeP7tmsu0GEcg/0mLxg0vBlXGLdQRThj4VbaMkH+0XbJTH
+	QR7N1WDGK/9vVCJdUc7HCd9XH+whAB2V0jGFr8TQuAqyI4SbKFtj6kpQdh5gDl2WT90BY0
+	ktN2B079dCcYLLfSFZDUoX16bNnHEYW/5343FIjjqyJHn7dQKni0FtZZ0hCa4A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770055121;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3UXD7SdUJt1+95TtwMu+fX0hyPcDvUY/7kapVNFDUm4=;
+	b=HPMDDr/J3pNjlFM/VG6kKLbZA4FWLxFFoqB6SZHnJc/eKAz/5J89ZZTQFJwJwvMb8IXLxk
+	ugHyR7pnj79sK0CQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas =?utf-8?Q?B=C3=B6hler?= <witcher@wiredspace.de>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] rtmutex: Introduce __cleanup() based infrastructure
+Message-ID: <20260202175840.-IHSZ_Fn@linutronix.de>
+References: <20260202-rt_mutex-guard-v1-1-1c078dbeee57@wiredspace.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260202-rt_mutex-guard-v1-1-1c078dbeee57@wiredspace.de>
-X-B4-Tracking: v=1; b=H4sIACrZgGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDIKFbVBKfW1qSWqGbXppYlKKblJZoaGpokWSSZmisBNRUUJSallkBNjA
- 6trYWAJfEN35gAAAA
-X-Change-ID: 20260202-rt_mutex-guard-bfa1518b4f13
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260202-rt_mutex-guard-v1-1-1c078dbeee57@wiredspace.de>
 
-Commit 54da6a092431 ("locking: Introduce __cleanup() based
-infrastructure") introduced lock guards for mutexes in
-include/linux/mutex.h, but, presumably as PREEMPT_RT wasn't merged at
-the time, the guard for rt_mutex was never created. Do this now so this
-infrastructure exists for rt_mutex as well.
+On 2026-02-02 18:04:43 [+0100], Thomas B=C3=B6hler wrote:
+> Commit 54da6a092431 ("locking: Introduce __cleanup() based
+> infrastructure") introduced lock guards for mutexes in
+> include/linux/mutex.h, but, presumably as PREEMPT_RT wasn't merged at
+> the time, the guard for rt_mutex was never created. Do this now so this
+> infrastructure exists for rt_mutex as well.
 
-Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
----
- include/linux/rtmutex.h | 5 +++++
- 1 file changed, 5 insertions(+)
+Wait, what? rt_mutex can be used independently of PREEMPT_RT.
+I suggest you focus on what this patch does in its description and
+repost it with the locking maintainer in Cc.
 
-diff --git a/include/linux/rtmutex.h b/include/linux/rtmutex.h
-index ede4c6bf6f22..3c766eba2c7d 100644
---- a/include/linux/rtmutex.h
-+++ b/include/linux/rtmutex.h
-@@ -17,6 +17,7 @@
- #include <linux/linkage.h>
- #include <linux/rbtree_types.h>
- #include <linux/spinlock_types_raw.h>
-+#include <linux/cleanup.h>
- 
- extern int max_lock_depth;
- 
-@@ -129,4 +130,8 @@ extern int rt_mutex_trylock(struct rt_mutex *lock);
- 
- extern void rt_mutex_unlock(struct rt_mutex *lock);
- 
-+DEFINE_GUARD(rt_mutex, struct rt_mutex *, rt_mutex_lock(_T), rt_mutex_unlock(_T))
-+DEFINE_GUARD_COND(rt_mutex, _try, rt_mutex_trylock(_T))
-+DEFINE_GUARD_COND(rt_mutex, _intr, rt_mutex_lock_interruptible(_T), _RET == 0)
-+
- #endif
+Do you plan to have any users of this?
 
----
-base-commit: 18f7fcd5e69a04df57b563360b88be72471d6b62
-change-id: 20260202-rt_mutex-guard-bfa1518b4f13
+> Signed-off-by: Thomas B=C3=B6hler <witcher@wiredspace.de>
 
-Best regards,
--- 
-Thomas Böhler <witcher@wiredspace.de>
-
+Sebastian
