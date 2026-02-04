@@ -1,227 +1,191 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250444219FA
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Feb 2026 18:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04881429814
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Feb 2026 18:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770228149; cv=none; b=aXaVKZ79qN2F1g+3pWx7k+SlK1wfr5yO8iiVHCy68qk/y03bZwg+zQIB/qPdkZpJcPUtf/42RdqnWoqOv9CsZHvh5B0udEO4PTCyD/AudOKP5dGfVhxb/sjCdfQCKNyMov2cA7ez0gqEyxyu4K92dnuJC+8xkzTeOrEKyUE8ZmE=
+	t=1770228344; cv=none; b=ui+q3xPC23rCi4Cap6zn4oYm5wRD72IFOFSATNIrsieHhiMr20fLDMjLhbtAH+8EI9T3V1arv3aeMMh4jSTLzwS8eKFkl8o/YH/S/SdfG08Fp3m7w+GS8LeOhbr8dEfcL3Q2YoJt6Chrp9n+JYu0YHz44Su2no00VVzfv1ae1mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770228149; c=relaxed/simple;
-	bh=hjHgrtJgjzJmD5C8Ro0E+WTBqbaWaiZ1+PFX1QDHiqA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oMPpIZO/KIulrKgkin6gW5NwTnsFSf3cS+lTADSCk3lbjHH5yK1oLRsB6xCdJQUZJvk+zPCVOPJueIO2k11cJmm7HXg8+ru6Ww1axdK3DAR6YqdXaSB4A4bj9NFlhxHS9zA3MBqt/A+o+RQwQqe4UG7QIsNS7hNIlL69QJThpaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1TOJkMnQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pdmdVX0a; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1TOJkMnQ; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pdmdVX0a; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1TOJkMnQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pdmdVX0a";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1TOJkMnQ";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pdmdVX0a"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5B8075BCED;
-	Wed,  4 Feb 2026 18:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770228147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ZZ3f5XE99Y5O1R9K1/1yZEnq3LWfNqveoQu7G+G/Vj4=;
-	b=1TOJkMnQdm+gR/OTMy99ZGY4dWUEusuGPRPUYalCIcjFN/YViOWXyAt+FDPtQJCtaXs08J
-	eDEEIf9kORimJnMIGPn2l1L+MhwNBFnuDdqSXUuvtaDTJdOnLOP4bYY1oEM2I0nFoZtTc9
-	D0mzUXddqvqHZOGhlNnATuIAayiVRzM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770228147;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ZZ3f5XE99Y5O1R9K1/1yZEnq3LWfNqveoQu7G+G/Vj4=;
-	b=pdmdVX0a+D79NVmFuAFty9E40CPwl6Bt8vW9Fon7sE3O4PgvM+91LW4TNkU3ja8x9MdqJ1
-	rw0+R20hWqk421DA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770228147; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ZZ3f5XE99Y5O1R9K1/1yZEnq3LWfNqveoQu7G+G/Vj4=;
-	b=1TOJkMnQdm+gR/OTMy99ZGY4dWUEusuGPRPUYalCIcjFN/YViOWXyAt+FDPtQJCtaXs08J
-	eDEEIf9kORimJnMIGPn2l1L+MhwNBFnuDdqSXUuvtaDTJdOnLOP4bYY1oEM2I0nFoZtTc9
-	D0mzUXddqvqHZOGhlNnATuIAayiVRzM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770228147;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ZZ3f5XE99Y5O1R9K1/1yZEnq3LWfNqveoQu7G+G/Vj4=;
-	b=pdmdVX0a+D79NVmFuAFty9E40CPwl6Bt8vW9Fon7sE3O4PgvM+91LW4TNkU3ja8x9MdqJ1
-	rw0+R20hWqk421DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 29B803EA63;
-	Wed,  4 Feb 2026 18:02:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id RZfcCbOJg2nwKQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 04 Feb 2026 18:02:27 +0000
-Message-ID: <665ff739-73d8-4996-95e0-f09c3e5b6552@suse.cz>
-Date: Wed, 4 Feb 2026 19:02:26 +0100
+	s=arc-20240116; t=1770228344; c=relaxed/simple;
+	bh=pT4o1mgPI2G+9EijsmDovnmvI/n8xcF1ylZgs4OGlN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A/5yssB8BhIPBdpqWW2ZL2t1tKaPh9JSN2lsti76V6/Q3oBQ3ZG16emTV7cRLVjwq5Md53K3xxlZdaRCpjSEdsrdEKvdfXm9qMiU14KyLj+XWVOUlS99LfXt6m+LDCxrZrPcTbDZ9P2xLmbbk8psKRmNEDHVKHWF78Ne9ZXbA6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+X-CSE-ConnectionGUID: nzZd/Y/gSUWKBVCrCRjDPA==
+X-CSE-MsgGUID: xsULi3QPRE2EWdI/VxqcYg==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Feb 2026 03:05:42 +0900
+Received: from demon-pc.localdomain (unknown [10.226.92.27])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 235EB405560F;
+	Thu,  5 Feb 2026 03:05:38 +0900 (JST)
+From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Linus Walleij <linusw@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH] pinctrl: renesas: rzt2h: fix invalid wait context
+Date: Wed,  4 Feb 2026 20:04:48 +0200
+Message-ID: <20260204180448.529313-1-cosmin-gabriel.tanislav.xa@renesas.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/22] slab: replace cpu (partial) slabs with sheaves
-Content-Language: en-US
-To: Hao Li <hao.li@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>, Petr Tesarik <ptesarik@suse.com>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Suren Baghdasaryan <surenb@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- bpf@vger.kernel.org, kasan-dev@googlegroups.com,
- kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org,
- "Paul E. McKenney" <paulmck@kernel.org>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <imzzlzuzjmlkhxc7hszxh5ba7jksvqcieg5rzyryijkkdhai5q@l2t4ye5quozb>
- <390d6318-08f3-403b-bf96-4675a0d1fe98@suse.cz>
- <pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7@la3hyiqigpir>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7@la3hyiqigpir>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[oracle.com,suse.com,gentwo.org,google.com,linux.dev,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,intel.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
 
-On 1/30/26 05:50, Hao Li wrote:
-> On Thu, Jan 29, 2026 at 04:28:01PM +0100, Vlastimil Babka wrote:
->> 
->> So previously those would become kind of double
->> cached by both sheaves and cpu (partial) slabs (and thus hopefully benefited
->> more than they should) since sheaves introduction in 6.18, and now they are
->> not double cached anymore?
->> 
-> 
-> I've conducted new tests, and here are the details of three scenarios:
-> 
->   1. Checked out commit 9d4e6ab865c4, which represents the state before the
->      introduction of the sheaves mechanism.
->   2. Tested with 6.19-rc5, which includes sheaves but does not yet apply the
->      "sheaves for all" patchset.
->   3. Applied the "sheaves for all" patchset and also included the "avoid
->      list_lock contention" patch.
-> 
-> 
-> Results:
-> 
-> For scenario 2 (with sheaves but without "sheaves for all"), there is a
-> noticeable performance improvement compared to scenario 1:
-> 
-> will-it-scale.128.processes +34.3%
-> will-it-scale.192.processes +35.4%
-> will-it-scale.64.processes +31.5%
-> will-it-scale.per_process_ops +33.7%
-> 
-> For scenario 3 (after applying "sheaves for all"), performance slightly
-> regressed compared to scenario 1:
-> 
-> will-it-scale.128.processes -1.3%
-> will-it-scale.192.processes -4.2%
-> will-it-scale.64.processes -1.2%
-> will-it-scale.per_process_ops -2.1%
-> 
-> Analysis:
-> 
-> So when the sheaf size for maple nodes is set to 32 by default, the performance
-> of fully adopting the sheaves mechanism roughly matches the performance of the
-> previous approach that relied solely on the percpu slab partial list.
-> 
-> The performance regression observed with the "sheaves for all" patchset can
-> actually be explained as follows: moving from scenario 1 to scenario 2
-> introduces an additional cache layer, which boosts performance temporarily.
-> When moving from scenario 2 to scenario 3, this additional cache layer is
-> removed, then performance reverted to its original level.
-> 
-> So I think the performance of the percpu partial list and the sheaves mechanism
-> is roughly the same, which is consistent with our expectations.
+The following invalid wait context BUG is observed when running with
+CONFIG_PROVE_LOCKING enabled.
 
-Thanks!
+This seems to stem from the fact that __setup_irq() takes a
+raw_spinlock_t, while we take a spinlock_t inside gpiod_get_direction().
 
+raw_spinlock_t is a strictly spinning lock, while spinlock_t can sleep
+if PREEMPT_RT is enabled.
+
+Switch to raw_spinlock_t to fix this.
+
+[   20.641809] =============================
+[   20.646336] [ BUG: Invalid wait context ]
+[   20.650964] 6.19.0-rc8-next-20260202+ #417 Not tainted
+[   20.656892] -----------------------------
+[   20.661517] (udev-worker)/235 is trying to lock:
+[   20.666842] ffff000182d4ab58 (&pctrl->lock){....}-{3:3}, at: rzt2h_gpio_get_direction+0x3c/0x150
+[   20.676928] other info that might help us debug this:
+[   20.682560] context-{5:5}
+[   20.685572] 4 locks held by (udev-worker)/235:
+[   20.690701]  #0: ffff000180b398f8 (&dev->mutex){....}-{4:4}, at: __driver_attach+0x10c/0x210
+[   20.700480]  #1: ffff000186f41a60 (request_class){+.+.}-{4:4}, at: __setup_irq+0x10c/0x740
+[   20.709952]  #2: ffff000186f418c8 (lock_class){....}-{2:2}, at: __setup_irq+0x12c/0x740
+[   20.719057]  #3: ffff000182d4a690 (&gdev->srcu){.+.+}-{0:0}, at: gpiod_get_direction+0x40/0x24c
+[   20.729135] stack backtrace:
+[   20.732450] CPU: 2 UID: 0 PID: 235 Comm: (udev-worker) Not tainted 6.19.0-rc8-next-20260202+ #417 PREEMPT
+[   20.732459] Hardware name: Renesas RZ/T2H EVK Board based on r9a09g077m44 (DT)
+[   20.732464] Call trace:
+[   20.732467]  show_stack+0x18/0x30 (C)
+[   20.732479]  dump_stack_lvl+0x70/0x98
+[   20.732489]  dump_stack+0x18/0x24
+[   20.732497]  __lock_acquire+0x910/0x1594
+[   20.732508]  lock_acquire+0x2f0/0x42c
+[   20.732517]  _raw_spin_lock_irqsave+0x5c/0x94
+[   20.732529]  rzt2h_gpio_get_direction+0x3c/0x150
+[   20.732538]  gpiochip_get_direction+0x34/0x90
+[   20.732547]  gpiod_get_direction+0xd8/0x24c
+[   20.732556]  gpiochip_lock_as_irq+0x68/0x144
+[   20.732565]  gpiochip_irq_domain_activate+0x18/0x30
+[   20.732574]  __irq_domain_activate_irq+0x60/0xb0
+[   20.732583]  irq_domain_activate_irq+0x34/0x5c
+[   20.732593]  irq_activate+0x2c/0x38
+[   20.732600]  __setup_irq+0x2d8/0x740
+[   20.732610]  request_threaded_irq+0xb0/0x180
+[   20.732620]  request_any_context_irq+0x58/0xac
+[   20.732629]  devm_request_any_context_irq+0x78/0x160
+[   20.732637]  gpio_keys_probe+0x344/0xb40 [gpio_keys]
+[   20.732657]  platform_probe+0x5c/0xa4
+[   20.732666]  really_probe+0xbc/0x2ac
+[   20.732675]  __driver_probe_device+0x78/0x118
+[   20.732684]  driver_probe_device+0x3c/0x170
+[   20.732693]  __driver_attach+0x118/0x210
+[   20.732701]  bus_for_each_dev+0x7c/0xdc
+[   20.732710]  driver_attach+0x24/0x3c
+[   20.732718]  bus_add_driver+0xe4/0x204
+[   20.732727]  driver_register+0x68/0x124
+[   20.732736]  __platform_driver_register+0x20/0x2c
+[   20.732746]  gpio_keys_init+0x20/0x1000 [gpio_keys]
+[   20.732758]  do_one_initcall+0x7c/0x530
+[   20.732770]  do_init_module+0x54/0x23c
+[   20.732780]  load_module+0x181c/0x1ed0
+[   20.732789]  init_module_from_file+0xd8/0xfc
+[   20.732797]  idempotent_init_module+0x1e0/0x2d0
+[   20.732806]  __arm64_sys_finit_module+0x60/0xa4
+[   20.732814]  invoke_syscall.constprop.0+0x40/0xf0
+[   20.732824]  el0_svc_common.constprop.0+0xb8/0xd8
+[   20.732832]  do_el0_svc+0x1c/0x28
+[   20.732839]  el0_svc+0x4c/0x2dc
+[   20.732850]  el0t_64_sync_handler+0xa0/0xe4
+[   20.732860]  el0t_64_sync+0x198/0x19c
+
+Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handle interrupts")
+Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
+---
+ drivers/pinctrl/renesas/pinctrl-rzt2h.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+index 9949108a35bb..d810dc0dae95 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
+@@ -85,7 +85,7 @@ struct rzt2h_pinctrl {
+ 	struct gpio_chip		gpio_chip;
+ 	struct pinctrl_gpio_range	gpio_range;
+ 	DECLARE_BITMAP(used_irqs, RZT2H_INTERRUPTS_NUM);
+-	spinlock_t			lock; /* lock read/write registers */
++	raw_spinlock_t			lock; /* lock read/write registers */
+ 	struct mutex			mutex; /* serialize adding groups and functions */
+ 	bool				safety_port_enabled;
+ 	atomic_t			wakeup_path;
+@@ -145,7 +145,7 @@ static void rzt2h_pinctrl_set_pfc_mode(struct rzt2h_pinctrl *pctrl,
+ 	u64 reg64;
+ 	u16 reg16;
+ 
+-	guard(spinlock_irqsave)(&pctrl->lock);
++	guard(raw_spinlock_irqsave)(&pctrl->lock);
+ 
+ 	/* Set pin to 'Non-use (Hi-Z input protection)'  */
+ 	reg16 = rzt2h_pinctrl_readw(pctrl, port, PM(port));
+@@ -474,7 +474,7 @@ static int rzt2h_gpio_request(struct gpio_chip *chip, unsigned int offset)
+ 	if (ret)
+ 		return ret;
+ 
+-	guard(spinlock_irqsave)(&pctrl->lock);
++	guard(raw_spinlock_irqsave)(&pctrl->lock);
+ 
+ 	/* Select GPIO mode in PMC Register */
+ 	rzt2h_pinctrl_set_gpio_en(pctrl, port, bit, true);
+@@ -487,7 +487,7 @@ static void rzt2h_gpio_set_direction(struct rzt2h_pinctrl *pctrl, u32 port,
+ {
+ 	u16 reg;
+ 
+-	guard(spinlock_irqsave)(&pctrl->lock);
++	guard(raw_spinlock_irqsave)(&pctrl->lock);
+ 
+ 	reg = rzt2h_pinctrl_readw(pctrl, port, PM(port));
+ 	reg &= ~PM_PIN_MASK(bit);
+@@ -509,7 +509,7 @@ static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
+ 	if (ret)
+ 		return ret;
+ 
+-	guard(spinlock_irqsave)(&pctrl->lock);
++	guard(raw_spinlock_irqsave)(&pctrl->lock);
+ 
+ 	if (rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit)) {
+ 		/*
+@@ -547,7 +547,7 @@ static int rzt2h_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 	u8 bit = RZT2H_PIN_ID_TO_PIN(offset);
+ 	u8 reg;
+ 
+-	guard(spinlock_irqsave)(&pctrl->lock);
++	guard(raw_spinlock_irqsave)(&pctrl->lock);
+ 
+ 	reg = rzt2h_pinctrl_readb(pctrl, port, P(port));
+ 	if (value)
+@@ -964,7 +964,7 @@ static int rzt2h_pinctrl_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	spin_lock_init(&pctrl->lock);
++	raw_spin_lock_init(&pctrl->lock);
+ 	mutex_init(&pctrl->mutex);
+ 	platform_set_drvdata(pdev, pctrl);
+ 
+-- 
+2.52.0
 
