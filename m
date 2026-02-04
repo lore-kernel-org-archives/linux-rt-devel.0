@@ -1,68 +1,45 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E28132F764
-	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Feb 2026 12:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587BF81724;
+	Wed,  4 Feb 2026 01:24:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770120126; cv=none; b=PsIO3F69pq05LPSDYrs2CBvsNhlpV1QM4F2XHOyjKznvhGclsPjcOGzclnhUgZlu5vCQmVa+FykGoyK3Xlr/oozhMzImMY6G78yRHcPOGhG4utczIi2MOaH9q6Aua1oujMlCmMrZIW+0yCVBTRsnAad/SJZaWrbZAMUY+gRs3Hk=
+	t=1770168291; cv=none; b=qEyFp259AaDiX99buE6u28+Qk0VZWkd3iehVCVeVv7KzDiI5WIj5F13mZBEdljMFt7pIGT4UBEhvkrmj3ibANekLs/RlgVPzqgvy121UxTOEq2h0K9iqOopIprboQwI6r2HxZBCbcl9SZjDuzTqgkplN6jYmEKaobJSf+5ZYYy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770120126; c=relaxed/simple;
-	bh=uVUiJvsJ0ILKeh1NnP5l4+XmplibFdMh5gHlZAvJO90=;
+	s=arc-20240116; t=1770168291; c=relaxed/simple;
+	bh=9NQ4pYJZzXZxB0prHhOgxU25gF7J+7dtfLyhZiTdkx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nruE6rjgV6pPZ/kpQeTamvoitxHTBjm1p7FjA5c4FO6apO4Eq6rXjjDNqiuDOrTkVb41mh8WK5946mB5cHYZo1rZAJvekPFLyzDLVriRGkpcXHlfXnSSE+VmgeqJI2dQIoSr/EDEhlPC6jzy6p8eIl+xrNF2dWOmO+wJ68vvIH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rh8XQrOa; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=V24qYCKZCW8l8nvuvvqJUllmvcMBd5JbTQsoVzB/bZphUFPPa5+pe0pEIkY4n7L53swnHFJkRnBVDR9cq5+0y8bUy3uWHBYjK30pp3wHzEUdJ3pGkIIbBnPiHPhLNW7lubQE+fJ5jBvIsX2kugkZ2imxEGI0jRM0SUm8CN5bTn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PufZMXuM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rh8XQrOa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770120123; x=1801656123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=uVUiJvsJ0ILKeh1NnP5l4+XmplibFdMh5gHlZAvJO90=;
-  b=Rh8XQrOaQVnZnPzo0Ox9xVTdNJmc/5ij3S3wpqAQnJnUkyKtHmc2aWJV
-   gANQ00krT5NCDeaBAwPKMxkAPmu87GrIARyekVM+/fn5obqbJODmpuu2q
-   eEle0wlEuClQAsllHHBOGNztW0BBLNL3I1hNw96ZFTAYireFFkE7ZfXWk
-   eSDJN7zpHWyQRcfpd47jPNWIQZ4G+q1udDXaUTH+R9nTtf1NTFRjBROZo
-   osL3caWUNpT80tWWoPo6XkKil50EOp0ySLZVf6JFazUApswvEG/CnXTXu
-   2ntc+fGc3xb93jvJ1K2JB5W25ItNAdVLpAi18TyVtpReTCqJjWtmNcbur
-   g==;
-X-CSE-ConnectionGUID: Fu2AdsPhRLiqki4qnBR1pA==
-X-CSE-MsgGUID: RvKd+KugRzu9a4Nvpe9FaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="70306605"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="70306605"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 04:02:03 -0800
-X-CSE-ConnectionGUID: GpAut//gRyCl+IhlaiXl2g==
-X-CSE-MsgGUID: 8VnlLzk2Q+CTYQ7M1lg+kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="208934757"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 04:01:58 -0800
-Date: Tue, 3 Feb 2026 14:01:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: Andi Shyti <andi.shyti@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Jan Dabros <jsd@semihalf.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Gregory CLEMENT <gregory.clement@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Tawfik Bayouk <tawfik.bayouk@mobileye.com>,
-	Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Dmitry Guzman <dmitry.guzman@mobileye.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PufZMXuM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D971C116D0;
+	Wed,  4 Feb 2026 01:24:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770168290;
+	bh=9NQ4pYJZzXZxB0prHhOgxU25gF7J+7dtfLyhZiTdkx0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PufZMXuMRWm+sNOdFD6+ejHcKo2dRYQY2RN4H1hMoB3ViMYRxNonX2kFQQpH6c5Oz
+	 Fj1DOR8EjesAIZZ2uFtLqMGglLYZwHxOzcFYJImLIJlFMlS7hW5r10qnKefzwD05rG
+	 9VTfD7qg9r/rHXTv9x43AZryZaOgw6OYnZ56Jo7XUPErYMPc46P3yHh5jNMrZscVnh
+	 Ke0YNCVaqXHaqSvYk7LXSWf5LgGJXwNfCQtOhuhtKUa0JLwePgWP4UMektVv6cDz1D
+	 hgxJ+yB3oovL1HaT78F3PoXoed7k8qt7/uHYsF719BdbH8YrKavmYfeuIfIFKcQyRr
+	 Nxc6/eooEmWAw==
+Date: Wed, 4 Feb 2026 02:24:47 +0100
+From: Andi Shyti <andi.shyti@kernel.org>
+To: =?utf-8?Q?Beno=C3=AEt?= Monin <benoit.monin@bootlin.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Jan Dabros <jsd@semihalf.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Gregory CLEMENT <gregory.clement@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
+	Tawfik Bayouk <tawfik.bayouk@mobileye.com>, Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+	Dmitry Guzman <dmitry.guzman@mobileye.com>, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH v6 0/3] i2c: designware: Improve support of
  multi-messages transfer
-Message-ID: <aYHjtLckF01dOX48@smile.fi.intel.com>
+Message-ID: <aYKfnaQIgZT_odux@zenone.zhora.eu>
 References: <20260130-i2c-dw-v6-0-08ca1e9ece07@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -70,58 +47,19 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=iso-8859-15
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 In-Reply-To: <20260130-i2c-dw-v6-0-08ca1e9ece07@bootlin.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jan 30, 2026 at 04:52:28PM +0100, Benoît Monin wrote:
-> Add support for the I2C_M_STOP flag to the .xfer() function of
-> the designware driver. This allows grouping multiple accesses in a
-> single call and changing the target address after a STOP flag. This is
-> achieved by splitting i2c_dw_xfer_common() in two functions. The core
-> logic handling the transaction is now in __i2c_dw_xfer_one_part(),
-> while i2c_dw_xfer_common() loops over the messages to search for the
-> I2C_M_STOP flag and calls __i2c_dw_xfer_one_part().
-> 
-> Handle controllers that lack the ability to emit a RESTART when two
-> consecutive messages have the same address and direction by aborting
-> transfers that contain such a sequence of messages. For those controllers,
-> we also check that we do not get any unwanted STOP caused by a Tx FIFO
-> underrun, as they lack the ability to hold the clock during a transaction.
-> And we set the irq as non-threaded to prevent underrun on PREEMPT-RT
-> kernel when filling the FIFO.
-> 
-> The I2C controllers found in the EyeQ6Lplus and EyeQ7H SoCs from Mobileye
-> lack such capability, so a compatible string is added because this cannot
-> be detected at runtime. The corresponding DT bindings has already been
-> merged and is available in v6.19-rc2:
-> 
->     d9b85d296f3a ("dt-bindings: i2c: dw: Add Mobileye I2C controllers")
-> 
-> This patch series also simplifies runtime PM handling in
-> i2c_dw_xfer_common() and amd_i2c_dw_xfer_quirk() with PM_RUNTIME_* macros.
-> 
-> To test I2C_M_STOP and other message modifier flags, I posted a patch
-> series for i2c-tools[1]. With it, i2cdetect shows the support of the
-> protocol mangling and repeated start skipping functionalities, and
-> i2ctransfer can set the modifier flags to the I2C messages.
-> 
-> The series is now based on i2c-host tree and only contains the last three
-> patches that have not been merged yet. The first and last patches are
-> functionally identical to the one posted in the previous revision. Only
-> the second patch contains modified code to use PM_RUNTIME_* macros
-> instead of ACQUIRE()/ACQUIRE_ERR(). Thus I let Mika's Acked-by on the
-> first and third patch, and dropped it from the second patch. I hope it
-> was the correct thing to do.
+Hi Benoit,
 
-Looks good enough to me, and if anything, it may be fixed later on.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Benoît Monin (3):
+>       i2c: designware: Implement I2C_M_STOP support
+>       i2c: designware: Use runtime PM macro for auto-cleanup
+>       i2c: designware: Support of controller with IC_EMPTYFIFO_HOLD_MASTER disabled
 
--- 
-With Best Regards,
-Andy Shevchenko
+merged to i2c/i2c-host-2 for the second part of the merge window
+pull request.
 
-
+Andi
