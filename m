@@ -1,141 +1,114 @@
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3B07298CAB
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Feb 2026 10:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915633B8D45
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Feb 2026 11:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770288026; cv=none; b=ltU9vADHqf/2vKt5CPrX6neaPWCEggPiRRpJGrzHBu9pq66BN9/k1kObG5tuSuvboik4p3Jt/oLV1wtv9KAVmmkFc0xhGQBGwpVxqBf1oe1ls1FJl8umJrLNmo3+6KIv/tkkRbCi5Eqywgk5Satiy6X/Q1ffI/fZnXaoRiFrDYk=
+	t=1770292566; cv=none; b=Gtdthi6Ft28U3YbHxmYtsbtpoAdlIcMHIENPuGt+scW2s1Q5GvGUleBpql22igBXW+NjzcCM7Oq9YWERvzqNePXATtB/krkoQ71P0c0J4Co0obdOuS4GnzWE05ZSSvwOqWZdJ0s81SjxRSm5NMJ9gDlGhuj+EoxmS+c/QImZpZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770288026; c=relaxed/simple;
-	bh=ztGGnsFEXbSSV2swdzsYqHHgzyUpoVTZnVJiA4hTBGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oVLtKraJZdaYBKsgstJiEpZPAWTwm46wdl369tZ/YlsQy1fIsyTVikZ5cl5JjicX753/5psZGE6aaM53jpaH1/VXXp9hq3jA6AmLzEs7XqElm7eH/nPbqGGtgBBucs896yVMaS1Kvw8cDwwPlOh6mZHBs3lWui0hw4f40x7Wy/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-X-CSE-ConnectionGUID: mubSnlebRiKu1GMtLeJVOg==
-X-CSE-MsgGUID: OX9Pwc8iQaCDOwy8u2rZxQ==
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Feb 2026 19:40:24 +0900
-Received: from demon-pc.localdomain (unknown [10.226.92.13])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 32EC641791A1;
-	Thu,  5 Feb 2026 19:40:20 +0900 (JST)
-From: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linusw@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
+	s=arc-20240116; t=1770292566; c=relaxed/simple;
+	bh=K0oVPdjrPdDC/9Chn/246w0sWZEcnVmQbprdnwnacSA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YGgpro7DMYwR7rj6/cw2osoFRCeJIrc7WSPXsglWSyiO75/AU3n2DGuYdw1VExsTsbZfeCl5kzbgAae1ff4nG5ZjZ75Ls06yZtwoZG4kFxkrk1UQFxC5dJNoeLuQxX7ZvaZwDGXW/yXICVaBhnSyRz/QIJ2iObLjMNt6EAzQ8kU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rqME0oF6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CAeEvCXW; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rqME0oF6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CAeEvCXW"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770292564;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pPRlUQacgUBd6LN1voSLSgxAAG2Fmd7r1Ys9j/nuzMI=;
+	b=rqME0oF6tZ4lWSegXkL4MgCRHBHO+0VkCTfsBOM4/lN+KxAaB+EejQ/F32P1yalFQ4rhu8
+	TZOW1EDt2HIhwk5ljj7YjX2KpOxhv1Z0ja3uS0N4DiNRm7GGGmSAV11imjM8vbFJqPcbHE
+	gw8ZaTXSKessJNfE1QRkhAs9Spb8I1JJlJBxsgrLd628gmq9/U74YrgwPexdh6bup8OYG4
+	iw1Kyao5UGEvokGcUoycgsDSS+eeqVDMZ9pd6H9ssrxrwaZfMptdt9bSvQ0byBO4AsUI5k
+	PDky+F4jMbq5sLKqkn97G5CHAPAt8BIaVGm5LLUL4gV65tfaRrGfZVffG3csFA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770292564;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=pPRlUQacgUBd6LN1voSLSgxAAG2Fmd7r1Ys9j/nuzMI=;
+	b=CAeEvCXWCa2Ccm6YGo6W+808GsgvCstOodosYGWnKUAIPjGB3T0yLVaaeyQEP3VwUGRGA1
+	WssXhhgG56foTACg==
+To: linux-efi@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: [PATCH v2] pinctrl: renesas: rzt2h: fix invalid wait context
-Date: Thu,  5 Feb 2026 12:39:30 +0200
-Message-ID: <20260205103930.666051-1-cosmin-gabriel.tanislav.xa@renesas.com>
-X-Mailer: git-send-email 2.52.0
+Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Tejun Heo <tj@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
+Date: Thu,  5 Feb 2026 12:55:57 +0100
+Message-ID: <20260205115559.1625236-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-The rzt2h_gpio_get_direction() function is called from
-gpiod_get_direction(), which ends up being used within the __setup_irq()
-call stack when requesting an interrupt.
+EFI runtime services are disabled on PREEMPT_RT by default which can be
+overwritten on the boot command line. For native EFI, an invocation
+requires to disable preemption while a call is made into EFI. The time
+spent in EFI is not deterministic and depends on SW and HW of the
+system.
+While accessing the efi-rtc device can be avoided by using a native
+driver, accessing the "variables" is important and there is no second
+path.
 
-__setup_irq() holds a raw_spinlock_t with IRQs disabled, which creates
-an atomic context. spinlock_t cannot be used within atomic context
-when PREEMPT_RT is enabled, since it may become a sleeping lock.
+The "runtime-wrappers" is wrapping access to the EFI callback via a
+workqueue. On a SMP system one CPU could be declared as housekeeping/
+not-realtime-capable and force all EFI invocation to be performed on
+this CPU. This could be achieved by setting workqueue.unbound_cpus or
+	/sys/devices/virtual/workqueue/cpumask
 
-An "[ BUG: Invalid wait context ]" splat is observed when running with
-CONFIG_PROVE_LOCKING enabled, describing exactly the aforementioned call
-stack.
+at runtime. This however will affect all workqueues and might not be
+desired. With an explicit setting such as
+	/sys/devices/virtual/workqueue/efi_runtime/cpumask
 
-__setup_irq() needs to hold a raw_spinlock_t with IRQs disabled to
-serialize access against a concurrent hard interrupt.
+it looks like an official way to limit the CPUs involved here.
 
-Switch to raw_spinlock_t to fix this.
+With this in place I was wondering if EFI_DISABLE_RUNTIME could be
+lifted at runtime on SMP systems. But given the unbound_cpus option
+and the auto-config based on NOHZ-full it might not be wise to add yet
+another smart option here. Also it needs to be a subset of root cpumask
+or it won't be effective.
 
-Fixes: 829dde3369a9 ("pinctrl: renesas: rzt2h: Add GPIO IRQ chip to handle interrupts")
-Signed-off-by: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
----
+There are two EFI invocations which are not covered by this
+- mixed EFI
+  Used on x86 with 64bit kernel but 32bit EFI. Would it work to use here
+  the same workqueue mechanism?
 
-V2:
- * reword commit message to better describe why
-   rzt2h_gpio_get_direction() needs to use raw_spinlock_t
+- TEE / ARM secure monitor
+  If I understand this right then TEE invokes the secure monitor which
+  is preemptible. So an interrupt will interrupt and enter "normal"
+  world immediately and could wake a user task. The following context
+  switch will not happen because the return from interrupt path goes
+  back to the secure monitor/ TEE.
+  If so, or if TEE may disable interrupts from normal world, would it
+  make sense to use a wrapper here, too?
 
- drivers/pinctrl/renesas/pinctrl-rzt2h.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Any comments or things I have missed?
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzt2h.c b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-index 9949108a35bb..d810dc0dae95 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzt2h.c
-@@ -85,7 +85,7 @@ struct rzt2h_pinctrl {
- 	struct gpio_chip		gpio_chip;
- 	struct pinctrl_gpio_range	gpio_range;
- 	DECLARE_BITMAP(used_irqs, RZT2H_INTERRUPTS_NUM);
--	spinlock_t			lock; /* lock read/write registers */
-+	raw_spinlock_t			lock; /* lock read/write registers */
- 	struct mutex			mutex; /* serialize adding groups and functions */
- 	bool				safety_port_enabled;
- 	atomic_t			wakeup_path;
-@@ -145,7 +145,7 @@ static void rzt2h_pinctrl_set_pfc_mode(struct rzt2h_pinctrl *pctrl,
- 	u64 reg64;
- 	u16 reg16;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	/* Set pin to 'Non-use (Hi-Z input protection)'  */
- 	reg16 = rzt2h_pinctrl_readw(pctrl, port, PM(port));
-@@ -474,7 +474,7 @@ static int rzt2h_gpio_request(struct gpio_chip *chip, unsigned int offset)
- 	if (ret)
- 		return ret;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	/* Select GPIO mode in PMC Register */
- 	rzt2h_pinctrl_set_gpio_en(pctrl, port, bit, true);
-@@ -487,7 +487,7 @@ static void rzt2h_gpio_set_direction(struct rzt2h_pinctrl *pctrl, u32 port,
- {
- 	u16 reg;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	reg = rzt2h_pinctrl_readw(pctrl, port, PM(port));
- 	reg &= ~PM_PIN_MASK(bit);
-@@ -509,7 +509,7 @@ static int rzt2h_gpio_get_direction(struct gpio_chip *chip, unsigned int offset)
- 	if (ret)
- 		return ret;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	if (rzt2h_pinctrl_readb(pctrl, port, PMC(port)) & BIT(bit)) {
- 		/*
-@@ -547,7 +547,7 @@ static int rzt2h_gpio_set(struct gpio_chip *chip, unsigned int offset,
- 	u8 bit = RZT2H_PIN_ID_TO_PIN(offset);
- 	u8 reg;
- 
--	guard(spinlock_irqsave)(&pctrl->lock);
-+	guard(raw_spinlock_irqsave)(&pctrl->lock);
- 
- 	reg = rzt2h_pinctrl_readb(pctrl, port, P(port));
- 	if (value)
-@@ -964,7 +964,7 @@ static int rzt2h_pinctrl_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	spin_lock_init(&pctrl->lock);
-+	raw_spin_lock_init(&pctrl->lock);
- 	mutex_init(&pctrl->mutex);
- 	platform_set_drvdata(pdev, pctrl);
- 
--- 
-2.52.0
+Sebastian
+
+Sebastian Andrzej Siewior (2):
+  workqueue: Allow to expose ordered workqueues via sysfs
+  efi: Allow to expose the workqueue via sysfs
+
+ drivers/firmware/efi/efi.c |  2 +-
+ kernel/workqueue.c         | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+--=20
+2.51.0
+
