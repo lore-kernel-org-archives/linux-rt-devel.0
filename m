@@ -1,297 +1,204 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013029.outbound.protection.outlook.com [52.101.72.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58CE2D46A1
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Feb 2026 08:05:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770365114; cv=fail; b=lstIdw12Oj7UV4DSvdLurY/3EyjbcXOtJVj5Q4YBMrV7cjMU+tkhynAEqfQlmclseaCwl5UzS9rPDRphM5xi1BUQFnXKkII/MkchJY9xudxXqPIgVsuFy2kx3S+nFNqOVp4VyJ1LQQzMpnhnOcYRcWTVq6/HdBiDLtILdv/TYNs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770365114; c=relaxed/simple;
-	bh=0Dp6BurYGc2Zm7/VUMegtbGFrVhNHVSlKd8oe4GBKGo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Vyo0M1SCZpgqKcbzzo5zvduBDzqGnViDZBINhg3FhNwhQElBjJPwBKin2MMXzdeAXeYPI7TX/Q3CA7zb+pKADlY9T4IB94x21Zt6IAcJdnDfMG0qcsU3rzVy2KiuQmD/DKpuAktUGfR4r1rmibZfT1WZ3Fd/jzcsFehbEfwJjsA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=cutulavh; arc=fail smtp.client-ip=52.101.72.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F7F32F770
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Feb 2026 16:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770396289; cv=none; b=O6jQ+2/81tGPB9DRPAA9BUVJNvHRrGqle9KH1RxO8mITTY7aMLRRvp1JkOWdwmIJ7KoGtDalXCA1fh3y+n17yAIRdounoN2kNwr5hALKjXqm+jAZsOGcFo4C31oV+cyxLp5KNataaW4STMPJ2jih8I4mTSpEiM6Kgo66J5PeDRQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770396289; c=relaxed/simple;
+	bh=uNgHXHJUcgfbVVb2OvIB06Ci2sCd5N5awAt20f0nE3o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Hdh5loUROIieFu2TmHekFAh58nySZLdhrZ9Le6ZlHTYQfUy4+JeUJJaPonm74Kb/fZjlCl0Qm75g2PrRDpH7/9EmFMHpSX0UY7FoWfijlJD0pq12Hqo0YykDgh4Xi0+QEDZ8JCE3BkqAM3LRsrFcndfh4V2TsJpZt42oE8MR0fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JH/1Buh9; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=rGI5wcLT; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Oftyxcvz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=S3fPNZXs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="cutulavh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DHf8uphGzVhSiRof24/bzT7bWfb0S601ekdPLxX2nJ2mF5ViJJ2/sr3eqp6dXPlwQeqKKRQGU/ManVR2j2LbMWu/P4tFnr6maJDmtx/cFdWvmV/LOOSyK4xXafWt9R3yv6b5fzbhhsVHgXox8KysJ3iCrazE1mkByMPMGW8zmv/t3rAcU44COP1veheQnDBkkMSa55h0P+Om7Dc6rF928EMOmgWEr/QlpTRWYbjbwWX36MCFpapVz1B1WLqexJ9d/aiFOBNdIhTJ6PFMCyKFLmEQHQmvi5sgAvbfdCscuFhsb2kKkvJNXxNxPwyn1MZJ8NQjyzjipAjQMF05OZniWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=92+YvHeqYLgq6vSVayaKQ7y2crcWeACw9nys+ffRoBE=;
- b=Zbu2zWhjOka4DVMeUTAGshDBp7ZzZpxaDRx1TfnDJxaRRUiuPPgrLoSA9C411bNM0FSI2qif13+Y9eEYDDnGIyYHk0YFzkVSFYL/8FRm17x409BbijMhQ1bPK06CvE5SeUP5RJohjiVEzKAWovIZPj//PrLMWXmKomDuS2NT/LBxIg2GjduEU9IicpJSekN+b8ItB3WG84CvqE/EQ7C+uaQoVBrjMyzo0LlamGCZGtuIKKhr8uKv7MYDA6T5lPJnip/5of/qcAskRB+fBBRBgp5CM+yK2EtiQI0NaCJl11X68Mk0ISLmBoLdd4HL4qSc2LyYo8uFKRb3cMVD584kjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=92+YvHeqYLgq6vSVayaKQ7y2crcWeACw9nys+ffRoBE=;
- b=cutulavhMHlMG9zxWEkifurUuQ5mkDiJ/l8kDVqkQB9WCWUb+a+QoFa0c+1bX8sL0pHVXNzt3G0n+yxtS4xftJoHd3fzDubY/SY7totQeaVyttdwP61GWFOGj2Db6558TL0tG07z+yF1e81Y8GuGuB1uaR8g3YNAsqPZr6jlCtdnp2a8v5PJSN+UwDONaOKJNmF9WNLBtrVIdvETJhfhD2NKBnNMJk2aY1TkBK87d6WXGwpc/c7sOuYiVM6kwG9JXRux06heH83J/vkyj9U3m5gkz19e7Utw05umnMDWaWAygUYspuKKNJPyBhHXFgSb/Z9STmXIMMB6mw0uYOc0jQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from MRWPR04MB12148.eurprd04.prod.outlook.com (2603:10a6:501:97::5)
- by DB9PR04MB9891.eurprd04.prod.outlook.com (2603:10a6:10:4c3::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
- 2026 08:05:10 +0000
-Received: from MRWPR04MB12148.eurprd04.prod.outlook.com
- ([fe80::84d6:aa06:32e:fb63]) by MRWPR04MB12148.eurprd04.prod.outlook.com
- ([fe80::84d6:aa06:32e:fb63%2]) with mapi id 15.20.9587.013; Fri, 6 Feb 2026
- 08:05:10 +0000
-Message-ID: <a093c2c7-1c71-44c9-9b81-59914d71660f@oss.nxp.com>
-Date: Fri, 6 Feb 2026 09:04:24 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] media: dw100: Merge dw100_device_run and
- dw100_start
-To: Stefan Klug <stefan.klug@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-0-2eb5685eaf09@ideasonboard.com>
- <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-4-2eb5685eaf09@ideasonboard.com>
-Content-Language: en-US
-From: "Xavier Roumegue (OSS)" <xavier.roumegue@oss.nxp.com>
-In-Reply-To: <20260129-sklug-v6-16-topic-dw100-v3-1-dev-v3-4-2eb5685eaf09@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM0PR02CA0111.eurprd02.prod.outlook.com
- (2603:10a6:20b:28c::8) To MRWPR04MB12148.eurprd04.prod.outlook.com
- (2603:10a6:501:97::5)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JH/1Buh9";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="rGI5wcLT";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Oftyxcvz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="S3fPNZXs"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A88F23E6D4;
+	Fri,  6 Feb 2026 16:44:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1770396286; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Iae96BpziYNnFm2n487MAGMR4usXUTx6hjnk1gdR25Q=;
+	b=JH/1Buh9Cc1f3JOr906oTrqrh/dYiBddpuwqF9BYPcziDhvEKyAB9ysER9Qh4JzDykkLmx
+	JdwhkYm9kM3dcxnFOqDz9JN37VDvRXMp3cCgNgaaJQ0xN744jKAnzoLqyuyS9dgJU5ev+5
+	QN3RcBKGh8KUfsajAZCWi9kFM9+ZnzY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1770396286;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Iae96BpziYNnFm2n487MAGMR4usXUTx6hjnk1gdR25Q=;
+	b=rGI5wcLTyIMQqAfVk7fg6R3WgI0Rm2sJ0QrtuqbQqMWsR7gaZy/GUcAYLXkveJnYqvfCka
+	Wp+EfmvwphOd3hDA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1770396285; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Iae96BpziYNnFm2n487MAGMR4usXUTx6hjnk1gdR25Q=;
+	b=OftyxcvzQDpcEev3KVbkvXMk68RKF4C79Faq/fbEeUh7XJTj9kZcSGe5I4YN4Wcye5I8JY
+	gSGt4x511DHCMongASo2ueKQ5L+7c3dct3vtc6z+K8ZSMUksLRWxaBSu12Rs/Z8w1sEt1f
+	3bMblOQE0WPO/KnswYS/1mI+++Qr2Fc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1770396285;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Iae96BpziYNnFm2n487MAGMR4usXUTx6hjnk1gdR25Q=;
+	b=S3fPNZXsuHLZeEjHHyezS7aJ4YF/x1hAajDxPS78uskpkGrX8zCGqKoFnnFSf4LLoJHeHv
+	ZPVhM9fx+WnE3rAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 739CD3EA63;
+	Fri,  6 Feb 2026 16:44:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Itz5Gn0ahmnxVgAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Fri, 06 Feb 2026 16:44:45 +0000
+Message-ID: <699982e5-6660-4e48-be57-3ee7326a20d5@suse.cz>
+Date: Fri, 6 Feb 2026 17:44:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRWPR04MB12148:EE_|DB9PR04MB9891:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3673261e-90b1-4000-93cf-08de655672a8
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|19092799006|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?utf-8?B?QWhWRk9WcGY1MFlVNDFSWEt6Z3N4WmoyaGh5WHA0amJNbkNMNEZwZi81VmV3?=
- =?utf-8?B?MjVudEd2K3BaREZjaTRyRVBLc1YrNXZjYlFWblJ5dENXdkQ0cUQrV3M4Z3Rv?=
- =?utf-8?B?S0hWRDJ0Y0d6RjNRaGdoVGRxRkttL0VKcFZCTS83UHE4eGpUOXhTcUlBYnl3?=
- =?utf-8?B?bE1RY24wR0g5OXMwOEk5UG04cG1WTUx5RDRMZVlYczN3VWpzYVF2c3JXMmJH?=
- =?utf-8?B?REY5RTBjSVBab2NxRjI4RjY1d0hpOUZQK21kcXlMdXc1a01tRFVmS2gxZGJt?=
- =?utf-8?B?cUxxVTJrS1gwWXN2enJDWjYrTEJyWHBMUGEybWJoRXJwMDlxREltTk41ZzJp?=
- =?utf-8?B?Zk9yT3ZmWkFONmp1YzUrVUhSQ09KRGRUdmFsVGwxckx2Qm14cHVxcnVCQ0xT?=
- =?utf-8?B?TkxqWm5QUlNTNWN6cmZPK1REell4TkpvSGpXTU9oMk1Ia0diTEpqTnVEUkRE?=
- =?utf-8?B?MW4wSitLMFQ4cG8wNUxSNnhaeTl4TnBGZWV2dWhpTnhkWXBocHNTTzhhSXNF?=
- =?utf-8?B?NlA5WWp3bGVtTXh0YUVXclZWNngxdFJaS2lJYjdLdmtRSkZ3bnRSTzdWci9L?=
- =?utf-8?B?TDBxWmhQOHdVL1crR0FXNG81ZEN1dWlsdDJCVnRjZ0NyMlNhSUgxekM4Nnhr?=
- =?utf-8?B?TEhCZFloYVdNZk9BVnkxSGc1S0VqSzNSTWFxbXExbHArUnV6VlRjdjNXRVBL?=
- =?utf-8?B?bTJ2QnZ0TElvMVQxSmMrUmRIb3dhN0dvOFJBeUxvQzRwQ1BPVUZML2JVWXBO?=
- =?utf-8?B?cW16aTZ2elcxbzErYzBxWFhuYkRYSUpQU3M0VEhMakFCbUZpVzNQNWF0K05J?=
- =?utf-8?B?SmlhYlhzcUpMdW5WRytQczBxM2pvYS8yNENEZGxyb2FzT3RDQXRMdHFGdEdp?=
- =?utf-8?B?c2NFU0gyS1Nwc2ZPQ1poQTJJUEMrcGtDTmJYWDQvNGRaSllOQmc3VkJhMlpP?=
- =?utf-8?B?RUhsZDY2UHhhcHBsQk1EMDhaaHo0T2syTDY4MS9YY2hZVWNRTjVxN3lEY0VD?=
- =?utf-8?B?QnpmN0haRTVqcFcrTVlHaUtsbnNQZm1rbXBCUVc4aGhOYUREWXh1cnlnNmpX?=
- =?utf-8?B?VHI3YitlRzdqRUpkMHplSjE2T3Q1L2dqMitlMU1BSmFoKzUxM2tjL29yaDBx?=
- =?utf-8?B?anlYS3hINGZUak1xYW5vdFhEcTNlL1BLQjc3ZWg0WTV0dWdaeWFOQVlPY1ov?=
- =?utf-8?B?MWFLdUVLVWlaSklibjlTa1NIY0NHand5Vk9JU1Y4NFVkWkJ2RXpqemtPeVI1?=
- =?utf-8?B?b292RTJWdHlUUE1NWU9UTFdMb0twckhUUFN2SVBYem5XbU1LU2FzOWpwTC9Y?=
- =?utf-8?B?SUp1REpvU3VEY2dyTk9uTFFOQUtuL09EbktIcDZybGZQV1BiaWdaMEpJUlRM?=
- =?utf-8?B?VEhlY0l1QU1JRkhCdC9PeUJ1SXQvVUppWCtKRDNCUW5ZYmdLelc1Si9JRVJp?=
- =?utf-8?B?cUQ0Uk1OYTBTazljMWt0SVNkcDVuM1BtaGwvTWdFQlpvRllad2ttS2ZSNG8x?=
- =?utf-8?B?azFUWjRFOFNSaUlYNDdvU25mdVJad3lob2hhS0pMQ3hqVEpVWVBtTzRTbGdZ?=
- =?utf-8?B?ZkF4WDE5Y1Z3c2VsV0pYcS8rTmpOWFdka2tCUjFTOTFaWngxcktYWjhnQmJO?=
- =?utf-8?B?Q2VXa0ZWUlFSL0JFRFRhQXYxeVZSMTF1N1YwWm1WMzZuNU40VDZmamNMdHBo?=
- =?utf-8?B?dmJTakFHK2FmaEdjR0NjK1RPVFcxa2dFTUJOVFovT1FUWG9YTXhWVVZvV05m?=
- =?utf-8?B?WjdmUStBSk1EaWZjbyt1RDhndVhINUpmTkpiWFYvcjZ6dHVqUk1maUovQ3JS?=
- =?utf-8?B?YTRyeDJGZHl5cjZEbHZrQWZVcGdJeFRqNjJtUEJCdFYvdVpmcjViMURBejBM?=
- =?utf-8?B?MWpHenBlYW03R2h6UkJCdm1hTlUyMlNWWVY4aDlacTdwS1h4U25ha0FuVTU1?=
- =?utf-8?B?WGVtVFNzU0tFRnNDeFNubldrV2R4dmhhT0FoOTkxWEl6enlqZHdGV1pBNUFH?=
- =?utf-8?B?QTA0YWgralJac3Z3WWtvVmJJTWtIVFM3bnIvaWNPa082UmF6Mjh5QkRhSFli?=
- =?utf-8?B?bVRoOGpNcG1rQVlYKzR5ZDNSS1RJbndyOWJzQWR2cXNoSERLK0k2ZS9XTkd3?=
- =?utf-8?Q?ac8o=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWPR04MB12148.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(19092799006)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?NTd6Ly8ra2ViTjkwUStuVjZGcWxWZTlQc0ZXWithSWZ1ZGVvRlBwU1VpQ3Yr?=
- =?utf-8?B?RnFSSHE4M245eFdOajRpK0FUN0RybDJLY3d1ejVQdUUvRCtZNWhQTnJhUDVH?=
- =?utf-8?B?S0NsOGhBeHVuZGJhZXNvMERrd1JTNWtVSWhJNE5UQ0J2TGkyK0tXM2NydFk5?=
- =?utf-8?B?cS8yNTB5OEFKd2c2N1RhanhRY2JBVVU0OVlHay9SVmVyOWlaUWlUbDNoNFZn?=
- =?utf-8?B?RmtWV2N6ZXluWDBwNkEzYTl0Z3lScGlxQnloZDJnMlFpemxGNS96ZXNBODAy?=
- =?utf-8?B?YW8rRkxocU9vUkQ3Z3dZTE4rSDNwZmJQNHl5UUJOR3o0RG9GejBkSUpZS1FX?=
- =?utf-8?B?QnIvMVRjelVtM08ya0dtS0UzWVc5QjZDd0M5NFM5N2NORXNVVXZuRnBZamth?=
- =?utf-8?B?Z1JHVWRNd0ZYNjlSNFlNS0ladmRwQUVBRTR0cUhacmc1WVQ3U1QzNFowbGM0?=
- =?utf-8?B?YnNxZllSUENWcHJXaENOY21HYndiakI0L3pMaC9SUzZCYUJ6SWp3NFVrRndV?=
- =?utf-8?B?a2ZjZmN3end3ZGgweVdacGZaVVRtUTFLaEx3bEFBaVYyeWxIaHNjUldSajlZ?=
- =?utf-8?B?UTdGcTZBaitCNjRJdXBJOVFPSlBKZW9JMTFxQzlrUE1rY2dTT1NERDhIdHRQ?=
- =?utf-8?B?WVRZWkVkSGVLdFFqbnpQVWlJQzVnODJ1dnhZMnNJQ1lKT3pGWXZadXhqSXc1?=
- =?utf-8?B?LzYyUUx2YnNnV0tEZHA2enJBWjI2NmtVR3JSM0lsVER4eDhDZkJXQ3FsYUQ5?=
- =?utf-8?B?R2NJai9uSWR0WXJMSmR2dDNTbjk3bVNsUTFPdGxhZjI0VSswVVhkWVJ1MDMz?=
- =?utf-8?B?WTdqUGN2UktGUXk1enBnUitscHIyd25RbmQ5dVlNTkdUWUtsMFB2bENlZTEy?=
- =?utf-8?B?K1JHLzcxNWFESjhyYWFzN0ZmbnIrZjI4QjBrSjlnckJKRnlvRkpPZHd3eUY2?=
- =?utf-8?B?NStKTmpuM21XL2lVNGpFN0RvdjFRSnFzWmtpTlo5WEZXa1BSQUpLbW5mTlIr?=
- =?utf-8?B?MjBTMnpPYnZEeUd3T2ZjbWdlbXFGc200ZGVpSHlhZWpSNWxOMFNBWlFWTDVx?=
- =?utf-8?B?Y3QzWlU4MXEzdEI5eGt6S09OKytmT2NiV0JjdmRjMHZWWkJKcnZ1UlduNXlV?=
- =?utf-8?B?VTZPZEF1UGo3M1JaQVlKc2RqbVVtMytOQjc0YW9PWGpTa1JQeTYxa0MzM2dC?=
- =?utf-8?B?cFBrSkc2M2QxYWVKNGlhL01yMGRyV1FPS3NyaVpXRGJkby9oZ29hYmllWmRR?=
- =?utf-8?B?R0drWDk4TzBvc2Q1WUtJL1dVcnpuejhxbEtnN00vdktudXoyRmJiKzlkWURH?=
- =?utf-8?B?RjFVaS8xdzdzSHhkNldWVWZUU2xrdlcwL2RaU3pGWDUxYUlEaVlPb05Nb2d0?=
- =?utf-8?B?bk43dm9iRGNjRjFNclZRSnc1SGlldVpEcE96ak1GdVNLdGp2djlOWFlqcDBa?=
- =?utf-8?B?ZVlPOURNNklTbXJValRsTEtKSDNKQ0QyVXJJdnMxQnpOaW5BVWphd2J4aFZY?=
- =?utf-8?B?SXJvTVpDSUoxYXpGSThuWlVpUnpGdjlJSTI1RS9RSmZEVzVFUTRKTUhvcGd1?=
- =?utf-8?B?MEtydGE2ZlhVaXlHL3laTlk2R2QvMnppSGNMNFlJRWtXYjBqK21ZUWx6MzVJ?=
- =?utf-8?B?QlM4YW5rVVRGS0s0c0svZUd6akVaS3VMei9oSnRxOEEvQU0ySVRRVlBCM2dH?=
- =?utf-8?B?enJNcUxSWkJ6dUFSanpsblZEUTBmNlBkTzk0bzZGTnZMM3FRZUlLUFBXTDlG?=
- =?utf-8?B?Y1VKNVEzdnJJVkRwUHpsc2dYNXBtRm5Fcmpqd25DL2t0TlBNTEUzU3hpL2xK?=
- =?utf-8?B?OUhkcUNmUkVjVFBVeE9IVTdLbGVZOXphK215YXl5QVdMU002ekRZd2ptQi9x?=
- =?utf-8?B?bDdOYUp6ZlBJYTdrQnhTNit4WG1VTHlEOWdLcWxaYnBKTUlnQXEwd1ZJWE1N?=
- =?utf-8?B?VXllMldNTXhJazdvdWhzN1RtWHBLVEs2dXQ5enQxcmlRRWl6TWxQalhsVWhT?=
- =?utf-8?B?YWt1amtZU1lpSDc5Yno0MUM2eWxMcmUxYnNlaWlHajdzTXFZbWFUYTJIRE9O?=
- =?utf-8?B?RWNZZ2puN1hmSFFCZU1pY3ZTc0dTTjJ2WnhUUmdhSlBHdGFMVUF6NVVQakhB?=
- =?utf-8?B?eGpSVmYvQ1g4alNXVjJBTGYvV0VjaFM1bFhTSVRLa243akZxbUJIZXV3Szdq?=
- =?utf-8?B?MG1PV09zQ1p6ekF2MmFabmNUZTBKaDQ5QVFHUmpDd3JmS1pOTGJMREh4MUNo?=
- =?utf-8?B?NDRXWFdReU52QzRHcUIwMlJrOXNIdCs3OTZYcWE2WEFRRy9IYTY2YmVhMFhV?=
- =?utf-8?B?b2htUTJaQjZROVpqMjU0Q0VYZU01UUdXRUZPSW13NHBBUXhuZUNCM3BOT0tx?=
- =?utf-8?Q?WiJXYYwS2ioXVqSA=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3673261e-90b1-4000-93cf-08de655672a8
-X-MS-Exchange-CrossTenant-AuthSource: MRWPR04MB12148.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 08:05:09.9881
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XeqeoObKh09UEpnw/AX9rK7p9HRwpYfoB2XfXx6oxqrdNbVilVjB00CY5B95t8aDAe76jcjgQRC8dPA2L1SdKA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9891
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/22] slab: replace cpu (partial) slabs with sheaves
+Content-Language: en-US
+To: "Christoph Lameter (Ampere)" <cl@gentwo.org>
+Cc: Hao Li <hao.li@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
+ Petr Tesarik <ptesarik@suse.com>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com,
+ kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org,
+ "Paul E. McKenney" <paulmck@kernel.org>
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+ <imzzlzuzjmlkhxc7hszxh5ba7jksvqcieg5rzyryijkkdhai5q@l2t4ye5quozb>
+ <390d6318-08f3-403b-bf96-4675a0d1fe98@suse.cz>
+ <pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7@la3hyiqigpir>
+ <665ff739-73d8-4996-95e0-f09c3e5b6552@suse.cz>
+ <2abde505-1e35-8d74-2806-7a3cd430e306@gentwo.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ m6M14QORSWTLRg==
+In-Reply-To: <2abde505-1e35-8d74-2806-7a3cd430e306@gentwo.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,oracle.com,suse.com,google.com,linux-foundation.org,gmail.com,linutronix.de,kernel.org,kvack.org,vger.kernel.org,lists.linux.dev,googlegroups.com,intel.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid]
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On 1/29/26 12:43 PM, Stefan Klug wrote:
-> The dw100_start() function is only called from dw100_device_run(). As
-> both functions are not too big, move the code directly into
-> dw100_device_run() and drop dw100_start() to improve readability.
->
-> This patch contains no functional changes.
->
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+On 2/4/26 19:24, Christoph Lameter (Ampere) wrote:
+> On Wed, 4 Feb 2026, Vlastimil Babka wrote:
+> 
+>> > So I think the performance of the percpu partial list and the sheaves mechanism
+>> > is roughly the same, which is consistent with our expectations.
+>>
+>> Thanks!
+> 
+> There are other considerations that usually do not show up well in
+> benchmark tests.
+> 
+> The sheaves cannot do the spatial optimizations that cpu partial lists
+> provide. Fragmentation in slab caches (and therefore the nubmer of
+> partial slab pages) will increase since
+> 
+> 1. The objects are not immediately returned to their slab pages but end up
+> in some queuing structure.
+> 
+> 2. Available objects from a single slab page are not allocated in sequence
+> to empty partial pages and remove the page from the partial lists.
+> 
+> Objects are put into some queue on free and are processed on a FIFO basis.
+> Objects allocated may come from lots of different slab pages potentially
+> increasing TLB pressure.
 
-Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+IIUC this is what you said before [1] and the cover letter has a link and a
+summary of it.
 
-
->
-> ---
->
-> Changes in v3:
-> - Added this patch as proposed in the review of v1
-> ---
->   drivers/media/platform/nxp/dw100/dw100.c | 61 ++++++++++++++------------------
->   1 file changed, 27 insertions(+), 34 deletions(-)
->
-> diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-> index 46e3a7b74fb777aa479110a52229f36b8632db44..c7c4249f5769467fb2b1f3c87f5685c4463a0a9d 100644
-> --- a/drivers/media/platform/nxp/dw100/dw100.c
-> +++ b/drivers/media/platform/nxp/dw100/dw100.c
-> @@ -1442,25 +1442,42 @@ static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
->   	return IRQ_HANDLED;
->   }
->   
-> -static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
-> -			struct vb2_v4l2_buffer *out_vb)
-> +static void dw100_device_run(void *priv)
->   {
-> +	struct dw100_ctx *ctx = priv;
->   	struct dw100_device *dw_dev = ctx->dw_dev;
-> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
->   
-> -	out_vb->sequence =
-> -		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
-> -	in_vb->sequence =
-> +	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +
-> +	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> +				&ctx->hdl);
-> +
-> +	if (src_buf->vb2_buf.req_obj.req)
-> +		dw100_update_mapping(ctx);
-> +	else if (ctx->user_map_is_dirty)
-> +		dev_warn_once(&dw_dev->pdev->dev,
-> +			      "V4L2 requests are required to update the vertex map dynamically"
-> +		);
-> +
-> +	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> +				   &ctx->hdl);
-> +
-> +	src_buf->sequence =
->   		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
-> +	dst_buf->sequence =
-> +		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
->   
-> -	dev_dbg(&ctx->dw_dev->pdev->dev,
-> +	dev_dbg(&dw_dev->pdev->dev,
->   		"Starting queues %p->%p, sequence %u->%u\n",
->   		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->   				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
->   		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->   				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
-> -		in_vb->sequence, out_vb->sequence);
-> +		src_buf->sequence, dst_buf->sequence);
->   
-> -	v4l2_m2m_buf_copy_metadata(in_vb, out_vb);
-> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf);
->   
->   	/* Now, let's deal with hardware ... */
->   	dw100_hw_master_bus_disable(dw_dev);
-> @@ -1469,10 +1486,10 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
->   	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
->   			      &ctx->q_data[DW100_QUEUE_DST]);
->   	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
-> -			    &in_vb->vb2_buf);
-> +			    &src_buf->vb2_buf);
->   	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
->   				 ctx->q_data[DW100_QUEUE_SRC].fmt,
-> -				 &out_vb->vb2_buf);
-> +				 &dst_buf->vb2_buf);
->   	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
->   			     ctx->map_width, ctx->map_height);
->   	dw100_hw_enable_irq(dw_dev);
-> @@ -1482,30 +1499,6 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
->   	dw100_hw_master_bus_enable(dw_dev);
->   }
->   
-> -static void dw100_device_run(void *priv)
-> -{
-> -	struct dw100_ctx *ctx = priv;
-> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> -
-> -	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> -	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> -
-> -	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-> -				&ctx->hdl);
-> -
-> -	if (src_buf->vb2_buf.req_obj.req)
-> -		dw100_update_mapping(ctx);
-> -	else if (ctx->user_map_is_dirty)
-> -		dev_warn_once(&ctx->dw_dev->pdev->dev,
-> -			      "V4L2 requests are required to update the vertex map dynamically"
-> -		);
-> -
-> -	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-> -				   &ctx->hdl);
-> -
-> -	dw100_start(ctx, src_buf, dst_buf);
-> -}
-> -
->   static const struct v4l2_m2m_ops dw100_m2m_ops = {
->   	.device_run	= dw100_device_run,
->   };
->
+[1] https://lore.kernel.org/all/f7c33974-e520-387e-9e2f-1e523bfe1545@gentwo.org/
 
