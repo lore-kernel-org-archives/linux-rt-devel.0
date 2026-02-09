@@ -1,161 +1,153 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8D536C0BB
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Feb 2026 11:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770635054; cv=pass; b=f1t9U2Bxt4W5SOCGiJz0TI+Wb6BHtInWYj29+z0+3H7Y9P4un+PTg6f95IT9tNzjmbDA/54f0OzIFD5KIr4U1uuVZWWc/kKS9eilyznV7NCTgLXEBIkdbHU91Q9RP31akmXF4tqQCzTrHnARPzsVEiOI29qdsOqwaIp3XXZq3k4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770635054; c=relaxed/simple;
-	bh=JAiWmBCCEPyc0JQWScBFRX3hfPSMgstOHCCBiGGXHY4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=REuV8qM9quCrGq1Uvc3FMxWOOyEi3iAXkBJ/D42u8C5VKRPrhlPywO0RIcI9mRHOR+Du6JmgpCA7tBO3djqQmZ9iT5SJnGCJWs7K8j3OKbfbjGJxHSSc5DIa5zP06vrNW1/wuL3k1p6V9y0w/jVujtm1QTphq8DHVZzBHA5YZxg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ey1E4qfg; arc=pass smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4A73793D5
+	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Feb 2026 15:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770650279; cv=none; b=dqBNSbXJX8cSq3OghnmYCfCtQ4gJVmha70LTgjAx/Yf/SAx7CDf2FDWiBLCL3zKd33pBg13RnvtcWOyqVgaFWAnjh99jK7YVVRM+NZesyIPKrBtRBtz03HwUbv1SUngF9Xy7DcudhOS9JKfqPQhW3wKlLyujOidzyvuSKOJgeHg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770650279; c=relaxed/simple;
+	bh=KUrB2ixHhbk8tXReGVRYZjGMeVc1cY5bqQ/6Yef0SdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=TN/LuO5ahkKYCWP8Y4QmZhng/BvUizDPWIW6rkTzZ9J9MquOlP9majpY4zhBoFMYJhSKnEWqPJMpUD5eU45cYwkj45a6HQ6b7sa8dPXUEiewASAX65RntGQfMrTVeoRZGRjkl76O2jJBedNTWapOvkmS+wqvxjACt+zWhYeOCuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ThN62Pon; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ey1E4qfg"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1233bb90317so3724387c88.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Feb 2026 03:04:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770635053; cv=none;
-        d=google.com; s=arc-20240605;
-        b=R9w4otClcGOUjn0bBL5Mx5HepQgAYTF9XN7jP4sn7GDchoQElbbGRd1ShuoMqDkNmr
-         u42Exj7UwnIiAH+ATdOEMWubIbmJMrNcYA/lvTYyKug3wtMv+/aM2+w/lplpzyDIXSTw
-         00gkYoeZ4NBRsgt6+2d5vMPuWDOJ0b/qTUCVwbY/4HAo94qVZ1yowNcIWmJObR6wTPIW
-         6bj2ML0BX7iim4SbQRUe4krxG+eJ0hehM7vWefZIMJOgRnC8NwZLKKsR1lx6zBiiPeET
-         jki14QoUFVTHpag0mgcpEncHNgEReBuS9zyMIL5slvjHxHPdnZo5CzZtsWo+wYfdlBpC
-         Uv4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fC+F2yjOaiS5pvKP3Q3XskOiXCFukEIUcEt+pbP8TjY=;
-        fh=i3+s0LrpRh+d2WowAJ31n8sVDuJQzwCNHKH7MZIRD+E=;
-        b=a0puGbFYUzWIjXlxJ0OjjtvjIF7oUVaZaFGqLFvZUhMXsXx3OeqJ6XbAwula2v90ZN
-         GDYQH5pKa5UgjqA7jEZkfQPuc+yaLA2jqBvdCtJ5QHLxfm+9auWXVrQuoH0P93m7Cwgx
-         /Ujn5b4095lLexHX//tQQpSeZRbsklexbCcic3kuLUpJXKf+qtlOUI/0Bzdpt8CgtDZa
-         xsPR33504fBi79w0XzGcags8ntlNs+OGo0TQMSegcpiCfUJU0Dk0vToru9aKTX/WmBEE
-         04csa9rDhWNSFBwGaEV0IxOHCQ0++6wSf/Mv0thnglw9ijymY1pOVDQraDw467kSigCq
-         4I8g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770635053; x=1771239853; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fC+F2yjOaiS5pvKP3Q3XskOiXCFukEIUcEt+pbP8TjY=;
-        b=ey1E4qfgcjqvNXLdN2F/QCtmYFXNJzgh7AZ7hRH5g0r1ILPGIi6oMX+tb3J4NAs55W
-         9gB6xPWlm0ol+853Lb5vo1QT13c4iI9Xie2CQMuNea9EiubHnwP1v1YwgBnbPDU0jJii
-         4bu79sDK7JxtgEygk9H5crc+6ZlUvknyxoX62OA93UtHmNko0eWPTBS2W5XylS7pzIwj
-         eK25MCKErOUvoob/fvgIFAuCvazGUDOwc6uRgNfnghT810OUVAH1eqkZ+75VO01AXnjv
-         j7KoLQsAbXN2feDGs2lUFnFT1Pk5lBUFjcfJJRzQgSUgtshfcc8aIrn1YG1Q6LK2QWjO
-         m/fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770635053; x=1771239853;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fC+F2yjOaiS5pvKP3Q3XskOiXCFukEIUcEt+pbP8TjY=;
-        b=Pzs6WcGIyNaTb74XJD105GQPq4qc27Xg9SpU3ZMSk57d93GufThg8eCWNfTrofR3Z4
-         XShWzY2aCZ/ykvwYvrytz9I0BF5solpkcZd3Tp8Uj1W1N7bMOEFAholzOxD51fGOMpJH
-         pCQX1EAidSqxUvUoLQppkTg2cVRekGfp63e54D5QHWzSqitz6g/OtA+WX0NM2ZlH6xOi
-         VD+mYcLBpL1SP960vDIG3rTazbzAUdqHuhDpQHK04tuxMh/c0HhbVQLZBGfalgpKEZZg
-         PePsMSP7OTbHoMM/hQQSv1djLFMGQBo8eIPcq34NibSOx3pdKTwORzJgqCryWq/SPTRR
-         SHRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGy3n9bFxMc0XvfLGpZsYeVEYb4gkv0uAzoAstWYP2FIgqPWmRt2qfLg0H537DyavmaBmxu0ddTydQ8Q46/g==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJhux16relXKVeH/RMQnW6SomFJ/2BpwJA+TwcLf/2Q2MvHwC3
-	qu/6R+IR4NcnCJTdD9DPUyZl6HpCGB/d2VpyK6yCwbu9qWe92Pe5pEl2Dnxs1/mG20H3z/Nu4bM
-	lr4E1FCvnVM+Y9mzRRVGKlmOFUypIdGg=
-X-Gm-Gg: AZuq6aIQyv+3uUxhiBbmXZNk/RLRZY6PvmVwhEJ1KFFC2nbMLuhDLaGC1noJf7fPXYh
-	gA2IZqsZA93RIySpAM1ZjLQ3P0lCzFmFvp/a1G7vByS3HYGX3EXpJJ99eD/QhJxI96BqUZF/3C2
-	OuD7bVUvYLLIo4xLk+wG4MA1fwZAfD+raDJ2VMyjhTCpWSXIs/mrn+Nl2E2G1lAOA+vmgZmDTe2
-	AlIGcpYcBDHadmCrov1MWgKM4+R55O3m+4OQYFNDXhsunoo5AqcskqtZyEw+Qcxx4W/rgo=
-X-Received: by 2002:a05:7022:698c:b0:11e:3e9:3e92 with SMTP id
- a92af1059eb24-126fc1e223fmr5913050c88.23.1770635052461; Mon, 09 Feb 2026
- 03:04:12 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ThN62Pon"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770650278;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Fngc8mPVj+G9GNxVuTpiu+ARVdY7pvX/WkbOn6P4HDw=;
+	b=ThN62PonQPPHGKyioKdWRd1mzJ8ioC7q65w5rr7pNpBuqO28RX6DUS5vcBxgEXdmbYnmQc
+	czM4CXVjHljw7oPdloQ0minbWrSyhlMXG77eqWaPkfkZSbiQypP+DzFVN1CGgmAxWru/zc
+	nzG/gDQdTJROrp0kMzhOkRAwYOJjI0o=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-618-I9cyAgBGPM6bVqWai9FRAw-1; Mon,
+ 09 Feb 2026 10:17:51 -0500
+X-MC-Unique: I9cyAgBGPM6bVqWai9FRAw-1
+X-Mimecast-MFC-AGG-ID: I9cyAgBGPM6bVqWai9FRAw_1770650269
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 37C351954105;
+	Mon,  9 Feb 2026 15:17:37 +0000 (UTC)
+Received: from localhost (unknown [10.22.64.105])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5328D18004BB;
+	Mon,  9 Feb 2026 15:17:36 +0000 (UTC)
+Date: Mon, 9 Feb 2026 12:17:35 -0300
+From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Lai Jiangshan <jiangshanlai@gmail.com>, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
+Message-ID: <aYn6j_JLBENcY96V@redhat.com>
+References: <20260205115559.1625236-1-bigeasy@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260208164033.457748-2-ionut.nechita@windriver.com>
-In-Reply-To: <20260208164033.457748-2-ionut.nechita@windriver.com>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Mon, 9 Feb 2026 12:03:59 +0100
-X-Gm-Features: AZwV_QiAcQaOSunqwtuX5L0vA3ln57D5IMRDmzftHTXJqxKWMgoOcoFu5ti24uA
-Message-ID: <CAOi1vP9fvjfu-WsfL4RUw8mAK01rcbU94VvVxfacnskW6JRMNA@mail.gmail.com>
-Subject: Re: [PATCH] libceph: handle EADDRNOTAVAIL more gracefully
-To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
-Cc: Alex Markuze <amarkuze@redhat.com>, Viacheslav Dubeyko <slava@dubeyko.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, ceph-devel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Ionut Nechita <ionut_n2001@yahoo.com>, Xiubo Li <xiubli@redhat.com>, 
-	Jeff Layton <jlayton@kernel.org>, Sage Weil <sage@newdream.net>, superm1@kernel.org, 
-	jkosina@suse.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260205115559.1625236-1-bigeasy@linutronix.de>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: rnP21xqbJoOoWtb2akaBxA3g8creAQ_t2DjE1KmoDgQ_1770650269
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Feb 8, 2026 at 5:42=E2=80=AFPM Ionut Nechita (Wind River)
-<ionut.nechita@windriver.com> wrote:
->
-> From: Ionut Nechita <ionut.nechita@windriver.com>
->
-> When connecting to Ceph monitors/OSDs, kernel_connect() may return
-> -EADDRNOTAVAIL if the source address is temporarily unavailable.
-> This commonly occurs during:
-> - IPv6 Duplicate Address Detection (DAD), which takes 1-2 seconds
-> - IPv4/IPv6 interface state changes (link up/down events)
-> - Address removal or reconfiguration on the interface
-> - Network namespace transitions in containerized environments
-> - CNI reconfigurations in Kubernetes
->
-> Currently, libceph treats EADDRNOTAVAIL like any other connection error
-> and enters exponential backoff
-> (250ms, 500ms, 1s, 2s, 4s, ...), causing delays of 15+ seconds
-> before successful reconnection even after the address becomes
-> available.
->
-> This is particularly problematic in Kubernetes environments running Ceph
-> on real-time kernels, where:
-> - Storage pods undergo frequent rolling updates
-> - Network policies and CNI configurations change dynamically
-> - Low I/O latency is critical for RT workloads
-> - sync() calls can block for 120+ seconds waiting for reconnection
->
-> This patch improves the situation by:
-> 1. Detecting EADDRNOTAVAIL on both IPv4 and IPv6 connections
-> 2. Using a shorter retry interval (100ms) instead of exponential backoff
-> 3. Logging a more informative rate-limited warning message
-> 4. Supporting both msgr1 and msgr2 protocol versions
-> 5. Clearing the flag on successful connection and when reopening
->
-> The fast retry approach is appropriate because:
-> - EADDRNOTAVAIL is typically transient (address becomes valid in 1-2s)
+On Thu, Feb 05, 2026 at 12:55:57PM +0100, Sebastian Andrzej Siewior wrote:
+> EFI runtime services are disabled on PREEMPT_RT by default which can be
+> overwritten on the boot command line. For native EFI, an invocation
+> requires to disable preemption while a call is made into EFI. The time
+> spent in EFI is not deterministic and depends on SW and HW of the
+> system.
+> While accessing the efi-rtc device can be avoided by using a native
+> driver, accessing the "variables" is important and there is no second
+> path.
+> 
+> The "runtime-wrappers" is wrapping access to the EFI callback via a
+> workqueue. On a SMP system one CPU could be declared as housekeeping/
+> not-realtime-capable and force all EFI invocation to be performed on
+> this CPU. This could be achieved by setting workqueue.unbound_cpus or
+> 	/sys/devices/virtual/workqueue/cpumask
+> 
+> at runtime. This however will affect all workqueues and might not be
+> desired. With an explicit setting such as
+> 	/sys/devices/virtual/workqueue/efi_runtime/cpumask
+> 
+> it looks like an official way to limit the CPUs involved here.
+> 
+> With this in place I was wondering if EFI_DISABLE_RUNTIME could be
+> lifted at runtime on SMP systems. But given the unbound_cpus option
+> and the auto-config based on NOHZ-full it might not be wise to add yet
+> another smart option here. Also it needs to be a subset of root cpumask
+> or it won't be effective.
 
-Hi Ionut,
+I ran tests on two aarch64 boxes and two x86_64 boxes. I ran timerlat on a
+set of isolated CPUs (10-30) and serviced the EFI Runtime requests on CPU4.
+During the tests I ran operations such as df, efibootmgr, read individual
+EFIvars and performed read/write ops to the boxes using efi-rtc. All that,
+at regular intervals during the test duration.
 
-I'm missing how an error that is typically transient and goes away in
-1-2s can cause a delay of 15+ seconds against a 250ms, 500ms, 1s, 2s,
-4s, 8s, 15s backoff loop.  If the address becomes valid in 1-2s, I'd
-expect the third or the forth attempt to succeed, with a total wait of
-1.75s or 3.75s.  Can you please elaborate?
+I had previously checked the interference/latency generated by these
+operations on each box, so I knew what to look for in terms of expected
+latency spikes.
 
-> - Each retry attempt is inexpensive (kernel_connect fails immediately)
-> - Quick recovery is critical for maintaining storage availability
-> - The connection succeeds as soon as the address becomes valid
->
-> Real-world impact: In production logs showing 'task sync blocked for
-> more than 122 seconds' with error -99 (EADDRNOTAVAIL), this patch
-> reduces reconnection time from 120+ seconds to 2-3 seconds.
+On the aarch64 boxes the impact of the EFI-related requests was confined to
+CPU4, as expected, and no apparent noise was recorded on the isolated CPUs.
 
-How many attempts do you see per session (i.e. to a particular monitor
-OSD or MDS) and in total for the event (e.g. rolling upgrade) before and
-after this patch?  Perhaps the effect gets multiplied in an unexpected
-way or the backoff mechanism isn't working as expected in general.
+In one of the x86_64 boxes the noise also seemed to be contained to CPU4.
+The other box gave me the impression that SMIs were being triggered by the
+EFI runtime requests and that was affecting all the CPUs. I will explore
+a bit more both x86_64 cases, but I am more than satisfied with the results
+of the proposed patches.
 
-Thanks,
+Sebastian, as for the TEE feature you mentioned, is there specific test I
+should run? Or is there any test you would like me to run in the context of
+this change?
 
-                Ilya
+In any case,
+
+Tested-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+
+ 
+> There are two EFI invocations which are not covered by this
+> - mixed EFI
+>   Used on x86 with 64bit kernel but 32bit EFI. Would it work to use here
+>   the same workqueue mechanism?
+> 
+> - TEE / ARM secure monitor
+>   If I understand this right then TEE invokes the secure monitor which
+>   is preemptible. So an interrupt will interrupt and enter "normal"
+>   world immediately and could wake a user task. The following context
+>   switch will not happen because the return from interrupt path goes
+>   back to the secure monitor/ TEE.
+>   If so, or if TEE may disable interrupts from normal world, would it
+>   make sense to use a wrapper here, too?
+> 
+> Any comments or things I have missed?
+> 
+> Sebastian
+> 
+> Sebastian Andrzej Siewior (2):
+>   workqueue: Allow to expose ordered workqueues via sysfs
+>   efi: Allow to expose the workqueue via sysfs
+> 
+>  drivers/firmware/efi/efi.c |  2 +-
+>  kernel/workqueue.c         | 14 +++++++-------
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> -- 
+> 2.51.0
+> 
+---end quoted text---
+
