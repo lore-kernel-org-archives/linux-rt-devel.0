@@ -1,293 +1,279 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9B194AD7;
-	Wed, 11 Feb 2026 12:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3C7126F0A
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Feb 2026 15:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770813137; cv=none; b=aWI97xQlX8FWkPuo5VMEwcPTh9dNYm/p2hNppM0CfFo88royFZ43nry8Xq5eX8bcRFMHg+0DV5DI7BW8A5t3DdVruWEUoWRnQOuGstgyZmgpGL8V6BQ33sZteY/6KelV9WIbi758ZUcheNd475DlE8PlaTw1/81X/wGeLBpKKy8=
+	t=1770824065; cv=none; b=Bnh38iVM5JGATV6bAlovU/XmFFu1hClNY01f1SMjloI73E1tAK9+9duPj7W/fg4IgkZ/iBBTRrsQI7MlVTRAavicXtBcLIvt3j81j0jkG5s5FZwgWGwZjyHpbyLVmoPtsmzuktKvzrtEDUTiYKSdE2V+X1eH1K/FODH/pOmXebw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770813137; c=relaxed/simple;
-	bh=MqWL7t5U8J2aPpBZafPdls2RGoEtAeN85Xsz9fAz/Ng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QvoRSgU3JvewRfCCSbSFjlZwaC3gm89qi7CCTV4KUP/we2qOUbTK7UXNFuAMJznhnIuV/ujkYN2927NW5//L8V+XMyaJzbRYzmGGYh5L0L+5lp9K6g0XyAqONx8py4lzlwPgaqeX1M2rb7sbpGVC3/muRjzbQ5MlRuOCBfc2OFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8eXsKd7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770824065; c=relaxed/simple;
+	bh=Y4BBXD4TqbsbTCp/hhnEWPoBXyVZSj4HcFNm9BuH0io=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=aXG9JoHHMAaAd9x6ZoKXvwGZg9h6yypJMYH4tVMPbvAK3ifARnLiDG+KzMMP07N1xK/DJQNMIzMLAKvekS89Nf9EC5Iv3GUQ0mXQcfby8GPk7RFmxxk2Xlxhp1ogeSYfSKVAv6kvCGr9rkRhwaCbmtkvKr/bbK013yR3/35v/nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YTtWVwO+; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8eXsKd7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ECDEC4CEF7;
-	Wed, 11 Feb 2026 12:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770813137;
-	bh=MqWL7t5U8J2aPpBZafPdls2RGoEtAeN85Xsz9fAz/Ng=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=A8eXsKd7BMZwVepQZb5bzYlVKc3wQPpws7vOlIDFfJYoUdEE7B08QhHeWZTB5L/Vx
-	 D4w3e15ioabQX19z4ureovNypkHsHHAwTWjOOqyglj7yn8ARsKXZ8ZlaSkyzhcT6pf
-	 8ImNgL8KMrdkkXIsnlquMLmi5feJG5ip5M8OM4MjfL6EuSlXew980l7gqutTOAZu/y
-	 xDWvW/znIAmevnGIHqGbkjZav2Nx6vDrNLeLj0FaINXxCV8RE0Tq4az5bNmg4Po5c/
-	 k3jwP55VCMGDQMpbCa9hHef0nbJb5IXjG5vr5see16M3OYj8tTBKGD8kL+GNe946kY
-	 Q6Xg9AiPooJ4Q==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Will Deacon <will@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	mark.rutland@arm.com,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-cxl@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.19-6.6] perf/cxlpmu: Replace IRQF_ONESHOT with IRQF_NO_THREAD
-Date: Wed, 11 Feb 2026 07:30:41 -0500
-Message-ID: <20260211123112.1330287-31-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260211123112.1330287-1-sashal@kernel.org>
-References: <20260211123112.1330287-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YTtWVwO+"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c6e18ade2c2so626379a12.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Feb 2026 07:34:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770824063; x=1771428863; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4KEeCZROYJyn1dyhO5+lkxTzIro646ilaaeEHlML6XE=;
+        b=YTtWVwO+Nx4XMCTxJ85U0tBKHcV454JPwZYdqpR89FBofJ5xQUwV7NJ4HGraFArZ6H
+         f7oO5Y6GfcquAoDm8zl0cc6j44CLHD5thkE16O5Y3EJx3wo6Q8Rfpu2dNLiaRn0Lo1rp
+         BBVxMqBEpx3lzjl9WOZ91h45PgjE6+Zl7htxyDqUcMHDiXNWkqWqtwi4PefB/c0w9cmG
+         4GneV97V+S2yOGl1UwRuDXd1e2pTMoJfLP+07Or9xyIKKi5xzH2eT0nN7O23wuVKxi0Z
+         0GmjojC1DlzkpVXZZegkGrom6mpLdpzZ13ciVxYexO/swAtWpPXZI3LIgbeutIf6heWk
+         yODQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770824063; x=1771428863;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4KEeCZROYJyn1dyhO5+lkxTzIro646ilaaeEHlML6XE=;
+        b=VAVEOxaIkgAYz/HVVicsuT7eJ9vgyjv3CNqMJeCP4CDzQSdElYONn23mrdIkgFKun1
+         zvm5nVb5SjMCFUupbL/tKEo+nmFmbGS/cEfSrfPtTmZcijn9uu2+pJ/UeebPMcP73/vA
+         8oV5+HtjCv80mb5wtVWZ4XFbolz4lJ0UcN9CHYz0fxtS3u3bpmn7q/BqdrIftypfWJpp
+         TUwTcx2ceXENT3RQpBZ4hUH9ykZnm8rdNRrF6+yhg9sptazd2FI1hEsR/4pwKbRnJ0Fq
+         OEv4s4KvT1WAJHOn8SBGeLjQcYKFKAnPrauJ2PkfIx+jchqoctUfnP+JKaVQP9QIQHbG
+         Ioqw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTcBS1doYN8SphfjxLwLVJ9BVU8f8bFDL6StYsT2JM7+3uGpQYJxFLOab0zVUu6KT6bdDI3pDrLK4MZv0Isw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxEyK9jTU0DoZgx5mQ7T3zKcM9Nu2HYEI/mxDaFj36382F3yBT1
+	wtvbJg3dH/Fm/vng+cDGbMAKNK7siGSqf0ke8yNcTnJ66SGZnK/WFtyuYREbJb3eEIriHe8SzHz
+	PwXCPzA==
+X-Received: from pjyd14.prod.google.com ([2002:a17:90a:dfce:b0:34c:e69b:d74f])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:d12f:b0:393:74ed:7de9
+ with SMTP id adf61e73a8af0-393acf885dbmr16306207637.3.1770824063511; Wed, 11
+ Feb 2026 07:34:23 -0800 (PST)
+Date: Wed, 11 Feb 2026 07:34:22 -0800
+In-Reply-To: <20260211120944.-eZhmdo7@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260209161527.31978-1-shaikhkamal2012@gmail.com> <20260211120944.-eZhmdo7@linutronix.de>
+Message-ID: <aYyhfvC_2s000P7H@google.com>
+Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
+ for non-blocking invalidations
+From: Sean Christopherson <seanjc@google.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "shaikh.kamal" <shaikhkamal2012@gmail.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On Wed, Feb 11, 2026, Sebastian Andrzej Siewior wrote:
+> On 2026-02-09 21:45:27 [+0530], shaikh.kamal wrote:
+> > mmu_notifier_invalidate_range_start() may be invoked via
+> > mmu_notifier_invalidate_range_start_nonblock(), e.g. from oom_reaper(),
+> > where sleeping is explicitly forbidden.
+> > 
+> > KVM's mmu_notifier invalidate_range_start currently takes
+> > mn_invalidate_lock using spin_lock(). On PREEMPT_RT, spin_lock() maps
+> > to rt_mutex and may sleep, triggering:
+> > 
+> >   BUG: sleeping function called from invalid context
+> > 
+> > This violates the MMU notifier contract regardless of PREEMPT_RT;
 
-[ Upstream commit ab26d9c85554c4ff1d95ca8341522880ed9219d6 ]
+I highly doubt that.  kvm.mmu_lock is also a spinlock, and KVM has been taking
+that in invalidate_range_start() since
 
-Passing IRQF_ONESHOT ensures that the interrupt source is masked until
-the secondary (threaded) handler is done. If only a primary handler is
-used then the flag makes no sense because the interrupt can not fire
-(again) while its handler is running.
-The flag also disallows force-threading of the primary handler and the
-irq-core will warn about this.
+  e930bffe95e1 ("KVM: Synchronize guest physical memory map to host virtual memory map")
 
-The intention here was probably not allowing forced-threading.
+which was a full decade before mmu_notifiers even added the blockable concept in
 
-Replace IRQF_ONESHOT with IRQF_NO_THREAD.
+  93065ac753e4 ("mm, oom: distinguish blockable mode for mmu notifiers")
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Will Deacon <will@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+and even predate the current concept of a "raw" spinlock introduced by
 
-LLM Generated explanations, may be completely bogus:
+  c2f21ce2e312 ("locking: Implement new raw_spinlock")
 
-Now I have gathered all the information I need for a thorough analysis.
-Let me compile my findings.
+> > RT kernels merely make the issue deterministic.
 
----
+No, RT kernels change the rules, because suddenly a non-sleeping locking becomes
+sleepable.
 
-## Complete Analysis: `perf/cxlpmu: Replace IRQF_ONESHOT with
-IRQF_NO_THREAD`
+> > Fix by converting mn_invalidate_lock to a raw spinlock so that
+> > invalidate_range_start() remains non-sleeping while preserving the
+> > existing serialization between invalidate_range_start() and
+> > invalidate_range_end().
 
-### 1. COMMIT MESSAGE ANALYSIS
+This is insufficient.  To actually "fix" this in KVM mmu_lock would need to be
+turned into a raw lock on all KVM architectures.  I suspect the only reason there
+haven't been bug reports is because no one trips an OOM kill on VM while running
+with CONFIG_DEBUG_ATOMIC_SLEEP=y.
 
-The commit, authored by Sebastian Andrzej Siewior
-(bigeasy@linutronix.de) — one of the PREEMPT_RT core maintainers —
-replaces `IRQF_ONESHOT` with `IRQF_NO_THREAD` in the CXL PMU driver's
-interrupt registration. The commit message explains:
+That combination is required because since commit
 
-- `IRQF_ONESHOT` ensures the interrupt source is masked until the
-  threaded (secondary) handler finishes
-- This driver only has a **primary** handler (`cxl_pmu_irq`) and no
-  threaded handler
-- Therefore `IRQF_ONESHOT` makes no sense here — the interrupt can't
-  fire while its hardirq handler is running anyway
-- The flag also **disables force-threading** of the primary handler
-- The "irq-core will warn about this" (via lockdep assertions)
-- The **intended** semantics were to prevent forced-threading, so
-  `IRQF_NO_THREAD` is the correct replacement
+  8931a454aea0 ("KVM: Take mmu_lock when handling MMU notifier iff the hva hits a memslot")
 
-### 2. CODE CHANGE ANALYSIS
+KVM only acquires mmu_lock if the to-be-invalidated range overlaps a memslot,
+i.e. affects memory that may be mapped into the guest.
 
-The change is a **single flag swap** on one line:
+E.g. this hack to simulate a non-blockable invalidation
 
-```880:881:drivers/perf/cxl_pmu.c
-        rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED |
-IRQF_ONESHOT,
-                              irq_name, info);
-```
-
-becomes:
-
-```880:881:drivers/perf/cxl_pmu.c
-        rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED |
-IRQF_NO_THREAD,
-                              irq_name, info);
-```
-
-#### What `IRQF_ONESHOT` does here (incorrectly):
-Looking at `irq_setup_forced_threading()` in `kernel/irq/manage.c`:
-
-```1291:1296:kernel/irq/manage.c
-static int irq_setup_forced_threading(struct irqaction *new)
-{
-        if (!force_irqthreads())
-                return 0;
-        if (new->flags & (IRQF_NO_THREAD | IRQF_PERCPU | IRQF_ONESHOT))
-                return 0;
-```
-
-Both `IRQF_NO_THREAD` and `IRQF_ONESHOT` cause
-`irq_setup_forced_threading()` to bail out early, preventing the
-interrupt from being force-threaded. However, `IRQF_ONESHOT` has an
-**additional side effect**: it tells the IRQ core to mask the interrupt
-line until a threaded handler completes. Since there is no threaded
-handler here, this masking behavior is semantically wrong.
-
-#### Why `IRQF_NO_THREAD` is the correct flag:
-The `cxl_pmu_irq` handler is a PMU overflow interrupt handler that:
-1. Reads the overflow register via `readq()`
-2. Processes each overflowed counter via `__cxl_pmu_read()`
-3. Clears the overflow status via `writeq()`
-
-This handler interacts with perf core internals. As the arm-ccn PMU fix
-(commit `0811ef7e2f54`) established, **PMU interrupt handlers must not
-be force-threaded** because the perf core relies on strict CPU affinity
-and interrupt disabling for mutual exclusion. Force-threading a PMU
-interrupt handler would break these synchronization guarantees.
-
-#### The actual bugs:
-
-**Bug 1 — PREEMPT_RT / `threadirqs` warning:** When the kernel is booted
-with `threadirqs` command-line parameter or PREEMPT_RT is enabled, the
-IRQ core's lockdep infrastructure marks handlers as `hardirq_threaded`
-if they can be force-threaded. In `kernel/irq/handle.c`:
-
-```199:201:kernel/irq/handle.c
-                if (irq_settings_can_thread(desc) &&
-                    !(action->flags & (IRQF_NO_THREAD | IRQF_PERCPU |
-IRQF_ONESHOT)))
-                        lockdep_hardirq_threaded();
-```
-
-Because `IRQF_ONESHOT` is already set, this particular path won't
-trigger the threaded annotation, but the **masking semantics** of
-ONESHOT are incorrect for a primary-only handler. In the `IRQF_ONESHOT`
-path, the IRQ core does:
-
-```1726:1727:kernel/irq/manage.c
-                if (new->flags & IRQF_ONESHOT)
-                        desc->istate |= IRQS_ONESHOT;
-```
-
-This causes the interrupt line to be masked during the handler and
-unmask logic depends on `desc->threads_oneshot` — but there's no thread
-to clear this mask, so it depends on the
-`cond_unmask_irq`/`cond_unmask_eoi_irq` fallback path.
-
-**Bug 2 — IRQF_SHARED conflict potential:** The interrupt uses
-`IRQF_SHARED`. When sharing interrupts, all handlers on the same line
-must agree on `IRQF_ONESHOT`. If another driver on the shared line
-doesn't use `IRQF_ONESHOT`, `request_threaded_irq()` will fail with
-`-EINVAL` at the mismatch check:
-
-```1606:1607:kernel/irq/manage.c
-                else if ((old->flags ^ new->flags) & IRQF_ONESHOT)
-                        goto mismatch;
-```
-
-This is a real failure mode for shared interrupts — CXL PMU's incorrect
-use of `IRQF_ONESHOT` could prevent other handlers from sharing the same
-IRQ line.
-
-### 3. CLASSIFICATION
-
-This is a **bug fix** — it corrects incorrect IRQ flag usage that:
-1. Applies semantically wrong masking behavior (ONESHOT without a
-   thread)
-2. Can trigger warnings/assertions under PREEMPT_RT or `threadirqs`
-3. Could cause shared IRQ registration failures
-4. Prevents force-threading in the wrong way (the intention is correct,
-   but the mechanism is wrong)
-
-### 4. SCOPE AND RISK ASSESSMENT
-
-- **Lines changed:** 1 line (single flag change)
-- **Files touched:** 1 (`drivers/perf/cxl_pmu.c`)
-- **Complexity:** Minimal — straightforward flag replacement
-- **Risk:** Extremely low. `IRQF_NO_THREAD` is the semantically correct
-  flag for the intended purpose. The interrupt handler is a hardirq-only
-  handler that performs only register I/O and atomic operations — it
-  should never be threaded.
-- **Subsystem:** CXL PMU performance monitoring driver (PCI-based)
-
-### 5. USER IMPACT
-
-- **PREEMPT_RT users:** On PREEMPT_RT kernels, `IRQF_ONESHOT` without a
-  thread handler causes the interrupt line to be masked with incorrect
-  oneshot semantics. This could lead to lockdep warnings or subtle
-  interrupt masking issues.
-- **Shared IRQ users:** CXL devices sharing PCI MSI/MSI-X vectors with
-  other devices could experience IRQ registration failures due to
-  ONESHOT flag mismatch.
-- **General users:** The CXL PMU driver is used for performance
-  monitoring on CXL 3.0 memory devices — an increasingly important
-  hardware platform for servers and data centers.
-
-### 6. STABILITY INDICATORS
-
-- **Author:** Sebastian Andrzej Siewior — PREEMPT_RT core maintainer,
-  expert on IRQ threading
-- **Reviewer:** Jonathan Cameron — CXL maintainer
-- **Signed-off-by:** Will Deacon — ARM architecture and perf subsystem
-  maintainer
-- **Pattern:** This is the same fix Sebastian has applied to multiple
-  drivers (i2c-exynos5, i2c-hix5hd2) with proven track record
-- **Precedent:** The arm-ccn PMU used exactly this fix
-  (`IRQF_NO_THREAD`) for the same class of issue
-
-### 7. DEPENDENCY CHECK
-
-- No dependencies on other commits
-- The driver exists in stable kernels 6.6.y and later (introduced in
-  v6.5-rc1)
-- The change is self-contained — just a flag change in
-  `devm_request_irq()`
-
-### 8. CONCLUSION
-
-This is a small, surgical, well-understood bug fix that corrects
-incorrect IRQ flag usage in the CXL PMU driver. The `IRQF_ONESHOT` flag
-was semantically wrong for a primary-only interrupt handler and could
-cause:
-- Incorrect interrupt line masking behavior
-- Shared IRQ registration failures
-- Issues on PREEMPT_RT kernels
-
-The replacement with `IRQF_NO_THREAD` correctly expresses the intended
-behavior (prevent force-threading of this PMU interrupt handler) without
-the incorrect side effects. The fix is trivial, low-risk, authored by a
-world-class IRQ threading expert, and reviewed by CXL and ARM
-maintainers.
-
-**YES**
-
- drivers/perf/cxl_pmu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/perf/cxl_pmu.c b/drivers/perf/cxl_pmu.c
-index d094030220bf2..68a54d97d2a8a 100644
---- a/drivers/perf/cxl_pmu.c
-+++ b/drivers/perf/cxl_pmu.c
-@@ -877,7 +877,7 @@ static int cxl_pmu_probe(struct device *dev)
- 	if (!irq_name)
- 		return -ENOMEM;
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 7015edce5bd8..7a35a83420ec 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -739,7 +739,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+                .handler        = kvm_mmu_unmap_gfn_range,
+                .on_lock        = kvm_mmu_invalidate_begin,
+                .flush_on_ret   = true,
+-               .may_block      = mmu_notifier_range_blockable(range),
++               .may_block      = false,//mmu_notifier_range_blockable(range),
+        };
  
--	rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED | IRQF_ONESHOT,
-+	rc = devm_request_irq(dev, irq, cxl_pmu_irq, IRQF_SHARED | IRQF_NO_THREAD,
- 			      irq_name, info);
- 	if (rc)
- 		return rc;
--- 
-2.51.0
+        trace_kvm_unmap_hva_range(range->start, range->end);
+@@ -768,6 +768,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+         */
+        gfn_to_pfn_cache_invalidate_start(kvm, range->start, range->end);
+ 
++       non_block_start();
+        /*
+         * If one or more memslots were found and thus zapped, notify arch code
+         * that guest memory has been reclaimed.  This needs to be done *after*
+@@ -775,6 +776,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+         */
+        if (kvm_handle_hva_range(kvm, &hva_range).found_memslot)
+                kvm_arch_guest_memory_reclaimed(kvm);
++       non_block_end();
+ 
+        return 0;
+ }
 
+immediately triggers
+
+  BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:241
+  in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 4992, name: qemu
+  preempt_count: 0, expected: 0
+  RCU nest depth: 0, expected: 0
+  CPU: 6 UID: 1000 PID: 4992 Comm: qemu Not tainted 6.19.0-rc6-4d0917ffc392-x86_enter_mmio_stack_uaf_no_null-rt #1 PREEMPT_RT 
+  Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+  Call Trace:
+   <TASK>
+   dump_stack_lvl+0x51/0x60
+   __might_resched+0x10e/0x160
+   rt_write_lock+0x49/0x310
+   kvm_mmu_notifier_invalidate_range_start+0x10b/0x390 [kvm]
+   __mmu_notifier_invalidate_range_start+0x9b/0x230
+   do_wp_page+0xce1/0xf30
+   __handle_mm_fault+0x380/0x3a0
+   handle_mm_fault+0xde/0x290
+   __get_user_pages+0x20d/0xbe0
+   get_user_pages_unlocked+0xf6/0x340
+   hva_to_pfn+0x295/0x420 [kvm]
+   __kvm_faultin_pfn+0x5d/0x90 [kvm]
+   kvm_mmu_faultin_pfn+0x31b/0x6e0 [kvm]
+   kvm_tdp_page_fault+0xb6/0x160 [kvm]
+   kvm_mmu_do_page_fault+0xee/0x1f0 [kvm]
+   kvm_mmu_page_fault+0x8d/0x600 [kvm]
+   vmx_handle_exit+0x18c/0x5a0 [kvm_intel]
+   kvm_arch_vcpu_ioctl_run+0xc70/0x1c90 [kvm]
+   kvm_vcpu_ioctl+0x2d7/0x9a0 [kvm]
+   __x64_sys_ioctl+0x8a/0xd0
+   do_syscall_64+0x5e/0x11b0
+   entry_SYSCALL_64_after_hwframe+0x4b/0x53
+   </TASK>
+  kvm: emulating exchange as write
+
+
+It's not at all clear to me that switching mmu_lock to a raw lock would be a net
+positive for PREEMPT_RT.  OOM-killing a KVM guest in a PREEMPT_RT seems like a
+comically rare scenario.  Whereas contending mmu_lock in normal operation is
+relatively common (assuming there are even use cases for running VMs with a
+PREEMPT_RT host kernel).
+
+In fact, the only reason the splat happens is because mmu_notifiers somewhat
+artificially forces an atomic context via non_block_start() since commit
+
+  ba170f76b69d ("mm, notifier: Catch sleeping/blocking for !blockable")
+
+Given the massive amount of churn in KVM that would be required to fully eliminate
+the splat, and that it's not at all obvious that it would be a good change overall,
+at least for now:
+
+NAK
+
+I'm not fundamentally opposed to such a change, but there needs to be a _lot_
+more analysis and justification beyond "fix CONFIG_DEBUG_ATOMIC_SLEEP=y".
+
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index 5fcd401a5897..7a9c33f01a37 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -747,9 +747,9 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+> >  	 *
+> >  	 * Pairs with the decrement in range_end().
+> >  	 */
+> > -	spin_lock(&kvm->mn_invalidate_lock);
+> > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> >  	kvm->mn_active_invalidate_count++;
+> > -	spin_unlock(&kvm->mn_invalidate_lock);
+> > +	raw_spin_unlock(&kvm->mn_invalidate_lock);
+> 
+> 	atomic_inc(mn_active_invalidate_count)
+> >  
+> >  	/*
+> >  	 * Invalidate pfn caches _before_ invalidating the secondary MMUs, i.e.
+> > @@ -817,11 +817,11 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
+> >  	kvm_handle_hva_range(kvm, &hva_range);
+> >  
+> >  	/* Pairs with the increment in range_start(). */
+> > -	spin_lock(&kvm->mn_invalidate_lock);
+> > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> >  	if (!WARN_ON_ONCE(!kvm->mn_active_invalidate_count))
+> >  		--kvm->mn_active_invalidate_count;
+> >  	wake = !kvm->mn_active_invalidate_count;
+> 
+> 	wake = atomic_dec_return_safe(mn_active_invalidate_count);
+> 	WARN_ON_ONCE(wake < 0);
+> 	wake = !wake;
+> 
+> > -	spin_unlock(&kvm->mn_invalidate_lock);
+> > +	raw_spin_unlock(&kvm->mn_invalidate_lock);
+> >  
+> >  	/*
+> >  	 * There can only be one waiter, since the wait happens under
+> > @@ -1129,7 +1129,7 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+> > @@ -1635,17 +1635,17 @@ static void kvm_swap_active_memslots(struct kvm *kvm, int as_id)
+> >  	 * progress, otherwise the locking in invalidate_range_start and
+> >  	 * invalidate_range_end will be unbalanced.
+> >  	 */
+> > -	spin_lock(&kvm->mn_invalidate_lock);
+> > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> >  	prepare_to_rcuwait(&kvm->mn_memslots_update_rcuwait);
+> >  	while (kvm->mn_active_invalidate_count) {
+> >  		set_current_state(TASK_UNINTERRUPTIBLE);
+> > -		spin_unlock(&kvm->mn_invalidate_lock);
+> > +		raw_spin_unlock(&kvm->mn_invalidate_lock);
+> >  		schedule();
+> 
+> And this I don't understand. The lock protects the rcuwait assignment
+> which would be needed if multiple waiters are possible. But this goes
+> away after the unlock and schedule() here. So these things could be
+> moved outside of the locked section which limits it only to the
+> mn_active_invalidate_count value.
+
+The implementation is essentially a deliberately unfair rwswem.  The "write" side
+in kvm_swap_active_memslots() subtly protect this code:
+
+  rcu_assign_pointer(kvm->memslots[as_id], slots);
+
+and the "read" side protects the kvm->memslot lookups in kvm_handle_hva_range().
+
+KVM optimizes its mmu_notifier invalidation path to only take action if the
+to-be-invalidated range overlaps one or more memslots, i.e. affects memory that
+be can be mapped into the guest.  The wrinkle with those optimizations is that
+KVM needs to prevent changes to the memslots between invalidation start() and end(),
+otherwise the accounting can become imbalanced, e.g. mmu_invalidate_in_progress
+will underflow or be left elevated and essentially hang the VM (among other bad
+things).
+
+So simply making mn_active_invalidate_count an atomic won't suffice, because KVM
+needs to block start() to ensure start()+end() see the exact same set of memslots.
