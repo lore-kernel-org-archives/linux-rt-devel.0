@@ -1,69 +1,53 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F232629D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 14:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950CE3EBF3C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 15:18:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770906830; cv=none; b=aCUfy0lglMCK9hmZaIUCsFRUkXW34JxmthFU2RrQYgfARf8zY17N6AuU3VJnoA9cOQzarU533wZeMMxY62tgeX089KEczsi08ZUa2zFoJclgg597kddVQl2V8yRhvmMI36BlZzb77Lx5dbw3GQm7eZbtSvnsKDnfHlKlN94RYwE=
+	t=1770909521; cv=none; b=SoVeLthOZibSTVQso057PXFGX+AeyqGNXyRPzOwSpZeDq+ahCqJG+CAnKR0gCty5DVHA0pKUPDAqNx/8MWp2UxvkvSmTNAXnAPdL0G9LQ59BRCTVgKwRB1UkFxmtHzqSTqgGtkNU1N1YSv93vsJH+C8vKtgwM13u34k8Ls/h0v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770906830; c=relaxed/simple;
-	bh=BOd9tptsSrILqPWba+ZA9LlIF7z1U2Dbv3Pg0BdbkUk=;
+	s=arc-20240116; t=1770909521; c=relaxed/simple;
+	bh=ai5+4phpGGg9Zf2/MzswoaaLkZJhMjczH6MtkTFYiDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GBwWcGs1WiGCwX9XFjdnoB/s6QqXY8XdxqvedBO4wiT7EP/9+8WhTnNq3/LJr8R/QLoPiSmoiBwnF7u+OwdJ2NFvu5rmF0RYMBvtlWKu2x9qSTwjEjL3VCF6L22Gh4PeeFMKowIWb2fbgC5bwuViiQY9B+XqkR0S0u1pRBRC/l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XmAk7+iV; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/t8vhQs0; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=b0v/RbhfVb8UfWvz7kJpDxV7S+2X7/rztNCwEWoV3s5wD1CdXgGnnieKVVeUiIzqm1Gi53FUyziwskM+eFgSwqQTo4wydzPjMnfLrGl00Cf803n1gMY0hE6fdWhQqkwTXKJdQC2dwspIgfGtVQWnxfLvqp3H41fHsRGuqiSENpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NXAXFZMz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=6iTTKLuH; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XmAk7+iV";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/t8vhQs0"
-Date: Thu, 12 Feb 2026 15:33:44 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NXAXFZMz";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="6iTTKLuH"
+Date: Thu, 12 Feb 2026 16:18:35 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1770906825;
+	s=2020; t=1770909516;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VT/QAGKpA0eGfq3n4vYtlNCzR1t+pjOs1HP6qzTDpF8=;
-	b=XmAk7+iVVCpV0AAXIB42e3QUvOS8B6oT8yayjODByhCyXUpCydJ5f5tLjC2rcYnurRhGmc
-	gYxWChnhNOLKQMGB6Pp48745iyNOt87RAOBPZboD5PTCLXBtAIrIgovj6FxXODgGWrCP77
-	7kr8PoDWeWxsFWfZ8Uqlj0HiYOUt5cb8c03cMG4UnDVEs7AmYn4jdSUMcq617YjMcHt0N7
-	74tE4qsGg+LkvLaRjIyy5v0aUcyAGPtAIigdUaHvcpkV4gPcenCRKdZFIjFGHyuuZD52c0
-	6myCnJ6UAIbKAgcoyD/H0H+w3iZ33YwPFbcuTGeioF1ro37ROgmgjzXZL4MK4Q==
+	bh=SGzf6YJRP8H9TbMz2kFAMAC0ww4swNjoJ2X6kO51pI4=;
+	b=NXAXFZMzFKsu3TQWxkx/BzaMjJ5wh1BhqgUFgpk5LnoCEDxGwPYreHmOifj6nINpSZPnXf
+	XbTXy3A2tPNcS0/OqjTijJTyyThlGcRljq9AGipKIJciI03nJ65Ha3iUzEGLctrRGkhgvA
+	PcsvuyIUgv1FAOcT3CuzzxvB20IMDDNPfsXKvPlOr/5W4PovrWWcqzKhuLu/ackf4moOdA
+	uJCG6TH0rNhiYZQRKn13WnC9Pfiogvd9kxktkL9a7lNuC1Z5sWb2bI+MbmI2jL/vf+XUI1
+	opowre9I1KhWyUzUzZGYDq1COdGSIrOY8mbKBoU1UFxZzPt+nbK8Gw1mqohjwg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1770906825;
+	s=2020e; t=1770909516;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VT/QAGKpA0eGfq3n4vYtlNCzR1t+pjOs1HP6qzTDpF8=;
-	b=/t8vhQs0Y8FSE+hEPcEz24ihUcORz/ocwJ7Pd19fZNCKoSk1opq+nxxdo5NqFYP4cK+2OP
-	VieJN509dKCCrvDw==
+	bh=SGzf6YJRP8H9TbMz2kFAMAC0ww4swNjoJ2X6kO51pI4=;
+	b=6iTTKLuHeo8tsKSEw2Tb3IhQl9uQNa4hmagPRfUl9Bj0V11NbFx4BiHkNOf5G0F3mJpVJc
+	qVqGeEDXXcQBZpAQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: xxx@vger.kernel.org, Jiayuan Chen <jiayuan.chen@shopee.com>,
-	syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>, netdev@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH bpf v2] bpf: cpumap: fix race in bq_flush_to_queue on
- PREEMPT_RT
-Message-ID: <20260212143344.j3_GaCuV@linutronix.de>
-References: <20260212023634.366343-1-jiayuan.chen@linux.dev>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	"Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
+	John Ogness <john.ogness@linutronix.de>,
+	Lai Jiangshan <jiangshanlai@gmail.com>, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
+Message-ID: <20260212151835.8On7hOkI@linutronix.de>
+References: <20260205115559.1625236-1-bigeasy@linutronix.de>
+ <4c6a5533-6fcd-4237-bb35-0ca74029c7db@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -72,91 +56,47 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260212023634.366343-1-jiayuan.chen@linux.dev>
+In-Reply-To: <4c6a5533-6fcd-4237-bb35-0ca74029c7db@app.fastmail.com>
 
-On 2026-02-12 10:36:33 [+0800], Jiayuan Chen wrote:
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
->=20
-=E2=80=A6
-> local_bh_disable() only calls migrate_disable() and does not disable
-> preemption. spin_lock() also becomes a sleeping rt_mutex. Together,
-There is no spin_lock() otherwise there would be no problem.
+On 2026-02-09 18:10:52 [+0100], Ard Biesheuvel wrote:
+> Hello Sebastian,
+> 
+> On Thu, 5 Feb 2026, at 12:55, Sebastian Andrzej Siewior wrote:
+> > EFI runtime services are disabled on PREEMPT_RT by default which can be
+> > overwritten on the boot command line. For native EFI, an invocation
+> > requires to disable preemption while a call is made into EFI.
+> 
+> This is no longer true on arm64 since
+> 
+> commit a5baf582f4c026c25a206ac121bceade926aec74
+> Author: Ard Biesheuvel <ardb@kernel.org>
+> Date:   Wed Oct 15 22:56:42 2025 +0200
+> 
+>     arm64/efi: Call EFI runtime services without disabling preemption
+> 
+> except for some corner cases (reboot, pstore crash dump).
 
-=E2=80=A6
-> Fix this by adding a local_lock_t to xdp_bulk_queue and acquiring it
-> in bq_enqueue() and __cpu_map_flush(). On non-RT kernels, local_lock
-> maps to preempt_disable/enable with zero additional overhead. On
-> PREEMPT_RT, it provides a per-CPU sleeping lock that serializes
-> access to the bq. Use local_lock_nested_bh() since these paths already
-> run under local_bh_disable().
+Hmm. While this sounds familiar (and I think you told me that FPU usage
+no longer disables preemption here, too) there is x86 for instance. Here
+arch_efi_call_virt_setup() disables preemption twice (efi_fpu_begin() +
+(firmware_restrict_branch_speculation_start()) followed by
+efi_call_virt_save_flags() where interrupts are off. 
 
-So you use local_lock_nested_bh() and not local_lock() but you mention
-local_lock. The difference is that the former does not add any
-preempt_disable() on !RT. At this point I am curious how much of this
-was written by you and how much is auto generated.=20
+Also I don't know if the EFI implementation itself is allowed to disable
+interrupts.
 
-> An alternative approach of snapshotting bq->count and bq->q[] before
-> releasing the producer_lock was considered, but it requires copying
-> the entire bq->q[] array on every flush, adding unnecessary overhead.
+> > There are two EFI invocations which are not covered by this
+> > - mixed EFI
+> >   Used on x86 with 64bit kernel but 32bit EFI. Would it work to use here
+> >   the same workqueue mechanism?
+> >
+> 
+> That stuff is beyond obsolete, so I don't think it is relevant for RT.
 
-But you still have list_head which is not protected.
+agreed.
 
-> To reproduce, insert an mdelay(100) between spin_unlock() and
-> __list_del_clearprev() in bq_flush_to_queue(), then run reproducer
-> provided by syzkaller.
->=20
-> Panic:
-> =3D=3D=3D
->  BUG: kernel NULL pointer dereference, address: 0000000000000000
->  #PF: supervisor write access in kernel mode
->  #PF: error_code(0x0002) - not-present page
->  PGD 0 P4D 0
->  Oops: Oops: 0002 [#1] SMP PTI
->  CPU: 0 UID: 0 PID: 377 Comm: a.out Not tainted 6.19.0+ #21 PREEMPT_RT
->  RIP: 0010:bq_flush_to_queue+0x145/0x200
->  Call Trace:
->   <TASK>
->   __cpu_map_flush+0x2c/0x70
->   xdp_do_flush+0x64/0x1b0
->   xdp_test_run_batch.constprop.0+0x4d4/0x6d0
->   bpf_test_run_xdp_live+0x24b/0x3e0
->   bpf_prog_test_run_xdp+0x4a1/0x6e0
->   __sys_bpf+0x44a/0x2760
->   __x64_sys_bpf+0x1a/0x30
->   x64_sys_call+0x146c/0x26e0
->   do_syscall_64+0xd5/0x5a0
->   entry_SYSCALL_64_after_hwframe+0x76/0x7e
->   </TASK>
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
 
-This could be omitted. It is obvious once you see it. I somehow missed
-this alloc_percpu instance while looking for this kind of bugs.
-Another one is hiding in devmap.c. Mind to take a look? I think I
-skip this entire folder=E2=80=A6
-
-> Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREE=
-MPT_RT")
-> Reported-by: syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/69369331.a70a0220.38f243.009d.GAE@goo=
-gle.com/T/
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-> ---
-> v1 -> v2: https://lore.kernel.org/bpf/20260211064417.196401-1-jiayuan.che=
-n@linux.dev/
-> - Use local_lock_nested_bh()/local_unlock_nested_bh() instead of
->   local_lock()/local_unlock(), since these paths already run under
->   local_bh_disable(). (Sebastian Andrzej Siewior)
-> - Replace "Caller must hold bq->bq_lock" comment with
->   lockdep_assert_held() in bq_flush_to_queue(). (Sebastian Andrzej Siewio=
-r)
-> - Fix Fixes tag to 3253cb49cbad ("softirq: Allow to drop the
->   softirq-BKL lock on PREEMPT_RT") which is the actual commit that
->   makes the race possible. (Sebastian Andrzej Siewior)
-> ---
->  kernel/bpf/cpumap.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
-
-The changes below look good.
+Oh. Thank you.
 
 Sebastian
