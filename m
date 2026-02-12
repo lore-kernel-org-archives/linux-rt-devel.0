@@ -1,145 +1,162 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F234E1632DD
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 07:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.174
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770880229; cv=pass; b=hC84G/31LAFkSA/MDikAwjiQTONmpYA+a6CdRruyGungqx4R2eladZXaETNI+8caNfSIf44fJyqt5CIawShFnXh2Hgzkl49ZsNji5MRTm/4dIwxQzYdIrXzy9AijWq+6N+1Vy0UP+3PD5o1UDrnLlWqRaViFOh3DNlUgC/QNgIg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770880229; c=relaxed/simple;
-	bh=3KG6yTYpjbvXJt3wBY2xUXuSYRR+NsyO1kX+qanLZH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SclYLxLqO+QH5+c5Ewj84LpxVb4ccevrvd1PqtfPPhxnzTeb6dWar8yD2C2QIuX28B13xPUA6uLMqjK1/GuJpbBiVqYG4de/EFAnuaA6dnpd0R6gOHYdsL3RT8N6WMxwVt0CUuN8OQ0GgNe0wkFV6Qq+Q5QuimFjOYNP5X5nQpw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hg6Y6IG8; arc=pass smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F232629D
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 14:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770906830; cv=none; b=aCUfy0lglMCK9hmZaIUCsFRUkXW34JxmthFU2RrQYgfARf8zY17N6AuU3VJnoA9cOQzarU533wZeMMxY62tgeX089KEczsi08ZUa2zFoJclgg597kddVQl2V8yRhvmMI36BlZzb77Lx5dbw3GQm7eZbtSvnsKDnfHlKlN94RYwE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770906830; c=relaxed/simple;
+	bh=BOd9tptsSrILqPWba+ZA9LlIF7z1U2Dbv3Pg0BdbkUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBwWcGs1WiGCwX9XFjdnoB/s6QqXY8XdxqvedBO4wiT7EP/9+8WhTnNq3/LJr8R/QLoPiSmoiBwnF7u+OwdJ2NFvu5rmF0RYMBvtlWKu2x9qSTwjEjL3VCF6L22Gh4PeeFMKowIWb2fbgC5bwuViiQY9B+XqkR0S0u1pRBRC/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XmAk7+iV; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/t8vhQs0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hg6Y6IG8"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7927261a3acso64136287b3.0
-        for <linux-rt-devel@lists.linux.dev>; Wed, 11 Feb 2026 23:10:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770880227; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LSBU580vZeOFez+FvpgVI292CtJqodilkp2ry2y+2p6KHOfD/2Ez2uTWBQQbZkW7lo
-         cKEmK8Syowq5joR8oKuS2DT+6iK2pFYYIPHU7O72E1iK+VLEy12fBnWkGIWu1epXldge
-         KsBjTLxWeu5JO5UWanvKdC2id3x21/SKn56JWrJU/K1FpNTlUY2A0uqOa2OwphP1w61s
-         M1ZyiUBfOaC/xVcw8A971B+fPGDg0k+jMcQsOo58rUeRoKfsHq7IMxy42Cxu6liQE0DW
-         OdGBDa5duR18Jus9LLWkqvD4x0PWxPwP4B/L7KVs8wToOdtiZYvN1EiXFoKTE9CVMFEM
-         IrBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=3KG6yTYpjbvXJt3wBY2xUXuSYRR+NsyO1kX+qanLZH0=;
-        fh=bZGPpQxdrMho4RtBZ/V53SjJCp1nz81QI7Pbn0zg7e4=;
-        b=lFxwUBOk+LAHHno0tRRNdCOfJwRQuruk+erJwzKyEfBek1dG9DrWR5tgkXcUnRVU0j
-         gBGFoOJogy3gP/eSGdvK7LANRLJv3OSHASdmqNnW6tnZjVffA59iy31TFtMhZrbziXwE
-         8BM3Tp5s23j5FPQYEPXgtT6C4HD1jOwC0a5pu96yrgwnYlYp918YeQ8ksjvVXvSzBEH/
-         oB6DkCMwNCzvFjshee/UMJbeE0U/hdZmWNnw3SNI6XtieiDDyhC3D9nR4yJ1jZDzOKRV
-         43UfrjRZt5LuSzcJBLDUcrOdedqFsBFiG0C3FkVr3oOUK2O7hXIXcPXK0+asfdrxe8FZ
-         a4/w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770880227; x=1771485027; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3KG6yTYpjbvXJt3wBY2xUXuSYRR+NsyO1kX+qanLZH0=;
-        b=Hg6Y6IG8BJUv7PQdiFvkJlYMxmLeuz2BHy31z75OOXXRpcimFcRSs8TxNu59DENdJr
-         +JQk8g1IMp8q12bZHEwTG4wDLaQK1IFv6G/yfD6cFlXWETcmpVxU5fcUC1Y70f9GoMD6
-         YJUvmfq4eTzu4LO52jOhHx+ygWCnS654kVNobQKrnfO4KpnE3xdomgpb+qYJE7V4aLFU
-         H/RY7Jxi0sd1iBJPzec/vr8UqvDcBYC280sJTIPaemuJmqtGJ9XV3wHiv+2dkcKvy66P
-         HkD6z/HuFbOlqqZTK5fFpFQ/wvHn4Rw9MGTZR38hPGBLIz06RhHpCIqGrRO39CP14oIR
-         nPdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770880227; x=1771485027;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3KG6yTYpjbvXJt3wBY2xUXuSYRR+NsyO1kX+qanLZH0=;
-        b=XjjMq0pyCEOjHV5ozGILPqw6XywK4gQsMOCZ8TY37YSARA6onsd+ceFmvfNXhZgDy5
-         tzmP7hCmD+3Xp3ORg+mzyB95kAXkHilFlIzyBPDJx5l3KgRuhHS5yPdtb7Pra2tZ2AdH
-         DhERdIydk0CW7723VtShwJZ7n6RvVZbe74tXdjw6F1TSkZmG2724EVt/+wGwHgnQD8O4
-         nB7c9g7cHDc5XVGQ6Dcw8PcbPhV/gZ9N3ZkruubohvTmnxifPeB1sYJX5C13PcexkhW/
-         YkQCCenUGm1Xfyo8g8G3yG6o2YYUKafxEP88ntPCcmg9U2JDBIcdvBqBTKTsyK6qULQx
-         LF5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVsLTuma/Tpz5rGykIVlb/R8ay9m9ESp5DOeFOOvn9boMgoZ3uw0tPLgPsALLKM4aAeCjIHJExrvKSaPd8UcQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxL+UYmPibgt8EhsRkKJUhAO6YAP47d4ghR35T/pbMKZTVeS5ot
-	tjpu5WfxnYev8CykQzts5rn/S9t8RJQshuJlSK5AoyANrC004m5BbUTNY9dyQ/WDA0nntIsJxNY
-	6EZtRnHQUgI7qEXRg0nIMADzfeE3CN+fNUheBNePRRg==
-X-Gm-Gg: AZuq6aJlAK7H77rgI1BLSeNQa2bJGpHHjgDM0nds3BUD0vWLGZDX7oM6rqQ7IqHVVA0
-	KNqnTNMVY49XPqlCLYpLrIdVlJnjIpFPDiVqEmgCLdDYqXUfUm4HRLym+LA9C3kAlOIBVgCQhVW
-	zba5yBjxttSHDh7Tm6QNVkeLTqTrQ6PpAs32aWw7TMJUdZLHAXH9Nxt5G2OjExqRi3MspFbY2ma
-	qKgNV/KC/AZ2RtOeztr/F+P0l1u7KJ5u00X5iQIRRmZnZ69aLJgJ3LyiK8HOokWuBRnueOliD1J
-	O8U/MHTJDRmV1HkbCXziD5JM4b7uz8T8rpuPRd5bKNJmCQcS4P7Hq5jWiabqf9cLWMzQ986WJgO
-	72x19DM/03Wz+ONkT20wPEymQWdxB4Ww8nq3AEMEnANNIF9MhTHU4BcIZEo1YhbxM4f0QG8WefH
-	p/R25Zv/jt7ODwITkhZUEpDR2jGGWINmmW2W0WGiltLtq3aM4np50TX1X74siugJZmP/74bDpvY
-	SKPolXWr0KOJPLbILi9jIyE4kVixlSSimcj9Na3JTQFqrM8f8OeVkeokByn3s6ZkgTdEdPifgxK
-	U3ZQERFFnZi6JNrFHrbCyqxMdtEBDiNw0QNQndjAeHsf
-X-Received: by 2002:a05:690c:d92:b0:795:294c:fd5c with SMTP id
- 00721157ae682-797377c6342mr21105127b3.54.1770880226856; Wed, 11 Feb 2026
- 23:10:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XmAk7+iV";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/t8vhQs0"
+Date: Thu, 12 Feb 2026 15:33:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1770906825;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VT/QAGKpA0eGfq3n4vYtlNCzR1t+pjOs1HP6qzTDpF8=;
+	b=XmAk7+iVVCpV0AAXIB42e3QUvOS8B6oT8yayjODByhCyXUpCydJ5f5tLjC2rcYnurRhGmc
+	gYxWChnhNOLKQMGB6Pp48745iyNOt87RAOBPZboD5PTCLXBtAIrIgovj6FxXODgGWrCP77
+	7kr8PoDWeWxsFWfZ8Uqlj0HiYOUt5cb8c03cMG4UnDVEs7AmYn4jdSUMcq617YjMcHt0N7
+	74tE4qsGg+LkvLaRjIyy5v0aUcyAGPtAIigdUaHvcpkV4gPcenCRKdZFIjFGHyuuZD52c0
+	6myCnJ6UAIbKAgcoyD/H0H+w3iZ33YwPFbcuTGeioF1ro37ROgmgjzXZL4MK4Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1770906825;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VT/QAGKpA0eGfq3n4vYtlNCzR1t+pjOs1HP6qzTDpF8=;
+	b=/t8vhQs0Y8FSE+hEPcEz24ihUcORz/ocwJ7Pd19fZNCKoSk1opq+nxxdo5NqFYP4cK+2OP
+	VieJN509dKCCrvDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: xxx@vger.kernel.org, Jiayuan Chen <jiayuan.chen@shopee.com>,
+	syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>, netdev@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH bpf v2] bpf: cpumap: fix race in bq_flush_to_queue on
+ PREEMPT_RT
+Message-ID: <20260212143344.j3_GaCuV@linutronix.de>
+References: <20260212023634.366343-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260205115559.1625236-1-bigeasy@linutronix.de>
- <aYn6j_JLBENcY96V@redhat.com> <20260209155528.k7RMRPVD@linutronix.de>
-In-Reply-To: <20260209155528.k7RMRPVD@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Thu, 12 Feb 2026 09:09:51 +0200
-X-Gm-Features: AZwV_QgV0EeSzgexrImustAVkDXwmMOeACoWIeW_o8NOkYjmco0xL_-FUB4iv7A
-Message-ID: <CAC_iWjLt-CzTkmnVMHidnMFWkE9NPzVLo6g8FUgMu0gAUJ0KtQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, linux-efi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Ard Biesheuvel <ardb@kernel.org>, John Ogness <john.ogness@linutronix.de>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260212023634.366343-1-jiayuan.chen@linux.dev>
 
-Hi Sebastian,
+On 2026-02-12 10:36:33 [+0800], Jiayuan Chen wrote:
+> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+>=20
+=E2=80=A6
+> local_bh_disable() only calls migrate_disable() and does not disable
+> preemption. spin_lock() also becomes a sleeping rt_mutex. Together,
+There is no spin_lock() otherwise there would be no problem.
 
-Late to the party but ...
+=E2=80=A6
+> Fix this by adding a local_lock_t to xdp_bulk_queue and acquiring it
+> in bq_enqueue() and __cpu_map_flush(). On non-RT kernels, local_lock
+> maps to preempt_disable/enable with zero additional overhead. On
+> PREEMPT_RT, it provides a per-CPU sleeping lock that serializes
+> access to the bq. Use local_lock_nested_bh() since these paths already
+> run under local_bh_disable().
 
-On Mon, 9 Feb 2026 at 17:55, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-02-09 12:17:35 [-0300], Luis Claudio R. Goncalves wrote:
-> > Sebastian, as for the TEE feature you mentioned, is there specific test I
-> > should run? Or is there any test you would like me to run in the context of
-> > this change?
->
-> Puh.
-> If you have a TEE environment, then the EFI interface should be
-> "supplied" the TEE instead the runtime-wrappers. My guess is that
-> tee_get_variable() would be used instead and here the workqueue won't be
-> used (I think). So that is the easy part.
->
-> What I don't know is if this is a problem, i.e. is it possible to
-> interrupt the secure monitor and continue in Linux before heading back
-> to the secure environment or not.
+So you use local_lock_nested_bh() and not local_lock() but you mention
+local_lock. The difference is that the former does not add any
+preempt_disable() on !RT. At this point I am curious how much of this
+was written by you and how much is auto generated.=20
 
-In theory yes. In practice, at least for arm & OP-TEE, the
-communication between the TEE and the secure-world app doing the
-variable chekcs & authentication is via the MM protocol [0].
-IIRC that requires to run to completion. So what happens is that you
-enter OP-TEE and right before the StMM is invoked (the app that
-handles EFI variables) all exceptions are masked and it must run to
-completion.
-The period of masking does not include writing the variables to
-storage. That's handled differently and is interruptible.
+> An alternative approach of snapshotting bq->count and bq->q[] before
+> releasing the producer_lock was considered, but it requires copying
+> the entire bq->q[] array on every flush, adding unnecessary overhead.
 
-> If you could check how long you end up in the next variable and RTC call
-> and if the time is noticeable, do you see it in cyclictest or not.
-> So if the EFI-TEE-RTC-callback takes always >1ms and you don't see this
-> in cyclictest as a spike then it should be good.
->
-> Sebastian
->
+But you still have list_head which is not protected.
 
-[0] https://documentation-service.arm.com/static/5ed11e40ca06a95ce53f905c
+> To reproduce, insert an mdelay(100) between spin_unlock() and
+> __list_del_clearprev() in bq_flush_to_queue(), then run reproducer
+> provided by syzkaller.
+>=20
+> Panic:
+> =3D=3D=3D
+>  BUG: kernel NULL pointer dereference, address: 0000000000000000
+>  #PF: supervisor write access in kernel mode
+>  #PF: error_code(0x0002) - not-present page
+>  PGD 0 P4D 0
+>  Oops: Oops: 0002 [#1] SMP PTI
+>  CPU: 0 UID: 0 PID: 377 Comm: a.out Not tainted 6.19.0+ #21 PREEMPT_RT
+>  RIP: 0010:bq_flush_to_queue+0x145/0x200
+>  Call Trace:
+>   <TASK>
+>   __cpu_map_flush+0x2c/0x70
+>   xdp_do_flush+0x64/0x1b0
+>   xdp_test_run_batch.constprop.0+0x4d4/0x6d0
+>   bpf_test_run_xdp_live+0x24b/0x3e0
+>   bpf_prog_test_run_xdp+0x4a1/0x6e0
+>   __sys_bpf+0x44a/0x2760
+>   __x64_sys_bpf+0x1a/0x30
+>   x64_sys_call+0x146c/0x26e0
+>   do_syscall_64+0xd5/0x5a0
+>   entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>   </TASK>
 
-Cheers
-/Ilias
+This could be omitted. It is obvious once you see it. I somehow missed
+this alloc_percpu instance while looking for this kind of bugs.
+Another one is hiding in devmap.c. Mind to take a look? I think I
+skip this entire folder=E2=80=A6
+
+> Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock on PREE=
+MPT_RT")
+> Reported-by: syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/69369331.a70a0220.38f243.009d.GAE@goo=
+gle.com/T/
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+> v1 -> v2: https://lore.kernel.org/bpf/20260211064417.196401-1-jiayuan.che=
+n@linux.dev/
+> - Use local_lock_nested_bh()/local_unlock_nested_bh() instead of
+>   local_lock()/local_unlock(), since these paths already run under
+>   local_bh_disable(). (Sebastian Andrzej Siewior)
+> - Replace "Caller must hold bq->bq_lock" comment with
+>   lockdep_assert_held() in bq_flush_to_queue(). (Sebastian Andrzej Siewio=
+r)
+> - Fix Fixes tag to 3253cb49cbad ("softirq: Allow to drop the
+>   softirq-BKL lock on PREEMPT_RT") which is the actual commit that
+>   makes the race possible. (Sebastian Andrzej Siewior)
+> ---
+>  kernel/bpf/cpumap.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+
+The changes below look good.
+
+Sebastian
