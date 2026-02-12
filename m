@@ -1,338 +1,257 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D576FC5;
-	Thu, 12 Feb 2026 01:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B923D1E7C23;
+	Thu, 12 Feb 2026 01:10:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770858598; cv=none; b=JOMeH5ytlkHEZDSSdErEbu/1Y/Hl49708ZCLs7ltQlTmbu4Glwas8JhDE1vGAJbN+eCBo2o5oeDmRwxNtAo87vw95BGZVXsOmC7wrmKCFlx6+QgToit6adSdNd358Kz2ysgU9uPFpAy8CjlH2DnnFHuuh2/vZDVwLiRTU2xE05Q=
+	t=1770858609; cv=none; b=I2guvpBVl+7sIuXZOKWQoPwC0OWT++9JmNqGIiRRMR3vwiYJqBwutTPMXyuEokeVo00hxkjwfSZRWRl07JvGBH7R7/lybENIhVwcn1zqXw9t1I88TrborP57SFWORKWbNJ4+IMHLEcdHWuMR3w1m3yxhOJycAp6Nwcdry0lQGXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770858598; c=relaxed/simple;
-	bh=eDMN7TeT8gO7bJmdnntSroD7vC4jze3nfAXOLb2c+8k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EjZXcqiO59TaFmp2xLE+hFrp/sUNBB8gw6xmbkYjwBMQorD7jcws7SWmPZn61eqrPujbKVDO5lxMKs9UVkADIOzQWFr1RM6I1l8h7IJ/Jx534Liat7FCp432wLpSXrDwr4L12Y235FptZ9zBNPx14Cjc13Nuu0zK4025TbTu1Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctbAlRNs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770858609; c=relaxed/simple;
+	bh=2BUTkqvGtxM61N9vkMccq26T/Mth1/H/gYa0x+OTFfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fgo3hUzYoh3CanhWlxQpYN+1aVooyKCaUDo686uLucDFdxHnWd1KJ7vUre3m+UL803kqVwFiqChaqQwFiA2w0U/lqvRbEjcBYLNZiE3jh66ky7LVALSoVFs26rxAECJ7v0W4WqzQajz8aN2qang3QvftYLyKp7tuWRUwp5jXPJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r9qokTK/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctbAlRNs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6C3C4CEF7;
-	Thu, 12 Feb 2026 01:09:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r9qokTK/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF6C0C16AAE;
+	Thu, 12 Feb 2026 01:10:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770858598;
-	bh=eDMN7TeT8gO7bJmdnntSroD7vC4jze3nfAXOLb2c+8k=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ctbAlRNsU6tC4uNeKUn0eCOwujyZAXv98srbpMcgoCISTvxmWYP78aqdOT22vpY8k
-	 EkJoKrcNxkkFzjrXMXeyBYUHx/J2PZCiX1l2kyMlVhbIiC8jnVRAu3X9bMaB+GMndx
-	 bu2y8TGDZgw7UFtVA19M9SsSjz4vGtB7o7tMD+/R1dixaWeY56622i2jGKdL1YiZ/U
-	 PbzNxxd9un1ZlYtKhAmdJplGWU7oK6gZFeRH03B/0kBOYnSaLSFtAHCPdgk3158hSQ
-	 Xz3FHbzhuA+5u055ZcF21kY84MiuKoiWJbh2iixWrTykfhLX5ejEuDKCuxABbIhwMe
-	 MX4iAtH1oPvwQ==
+	s=k20201202; t=1770858609;
+	bh=2BUTkqvGtxM61N9vkMccq26T/Mth1/H/gYa0x+OTFfc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=r9qokTK/jitWKBPIpcQUjPZGTCuyN477yxFKyjqUe+Lr+IiBOp2PXNkSz0sVJtGoY
+	 JAXDsVAWw6OHCZl+ZDl0VjP/zZjdY2P/zFlMQ98IehwnQkZBEAcsF4h1O9pIfHMYvR
+	 IveOR7HyUvr+6HDsPu4k9yQi52L/H5OUoB8AH/WpILCQPvpx4ZaqTyo6mRm/nd9QjG
+	 8kQXNogQwp9xOCMDrn1DgqvoD07BLbkuSmag7o4x/Cju+MI9VtZk8wC8hk3GHpFD08
+	 UU8/7+Y4QeQXkEsUA0vwqRVxsKB0Je2hdR1b9xX0rAeswN8i81eDvqc66GGxrNphiC
+	 ZlVkQVc1zGz7Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	tglx@kernel.org,
-	bigeasy@linutronix.de,
+	peterhuewe@gmx.de,
 	clrkwllms@kernel.org,
 	rostedt@goodmis.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.19-5.10] clocksource/drivers/sh_tmu: Always leave device running after probe
-Date: Wed, 11 Feb 2026 20:09:24 -0500
-Message-ID: <20260212010955.3480391-1-sashal@kernel.org>
+	dlan@kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.19-5.15] char: tpm: cr50: Remove IRQF_ONESHOT
+Date: Wed, 11 Feb 2026 20:09:30 -0500
+Message-ID: <20260212010955.3480391-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260212010955.3480391-1-sashal@kernel.org>
+References: <20260212010955.3480391-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.19
 Content-Transfer-Encoding: 8bit
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-[ Upstream commit b1278972b08e480990e2789bdc6a7c918bc349be ]
+[ Upstream commit 1affd29ffbd50125a5492c6be1dbb1f04be18d4f ]
 
-The TMU device can be used as both a clocksource and a clockevent
-provider. The driver tries to be smart and power itself on and off, as
-well as enabling and disabling its clock when it's not in operation.
-This behavior is slightly altered if the TMU is used as an early
-platform device in which case the device is left powered on after probe,
-but the clock is still enabled and disabled at runtime.
+Passing IRQF_ONESHOT ensures that the interrupt source is masked until
+the secondary (threaded) handler is done. If only a primary handler is
+used then the flag makes no sense because the interrupt can not fire
+(again) while its handler is running.
 
-This has worked for a long time, but recent improvements in PREEMPT_RT
-and PROVE_LOCKING have highlighted an issue. As the TMU registers itself
-as a clockevent provider, clockevents_register_device(), it needs to use
-raw spinlocks internally as this is the context of which the clockevent
-framework interacts with the TMU driver. However in the context of
-holding a raw spinlock the TMU driver can't really manage its power
-state or clock with calls to pm_runtime_*() and clk_*() as these calls
-end up in other platform drivers using regular spinlocks to control
-power and clocks.
+The flag also prevents force-threading of the primary handler and the
+irq-core will warn about this.
 
-This mix of spinlock contexts trips a lockdep warning.
+Remove IRQF_ONESHOT from irqflags.
 
-    =============================
-    [ BUG: Invalid wait context ]
-    6.18.0-arm64-renesas-09926-gee959e7c5e34 #1 Not tainted
-    -----------------------------
-    swapper/0/0 is trying to lock:
-    ffff000008c9e180 (&dev->power.lock){-...}-{3:3}, at: __pm_runtime_resume+0x38/0x88
-    other info that might help us debug this:
-    context-{5:5}
-    1 lock held by swapper/0/0:
-    ccree e6601000.crypto: ARM CryptoCell 630P Driver: HW version 0xAF400001/0xDCC63000, Driver version 5.0
-     #0: ffff8000817ec298
-    ccree e6601000.crypto: ARM ccree device initialized
-     (tick_broadcast_lock){-...}-{2:2}, at: __tick_broadcast_oneshot_control+0xa4/0x3a8
-    stack backtrace:
-    CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.18.0-arm64-renesas-09926-gee959e7c5e34 #1 PREEMPT
-    Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-    Call trace:
-     show_stack+0x14/0x1c (C)
-     dump_stack_lvl+0x6c/0x90
-     dump_stack+0x14/0x1c
-     __lock_acquire+0x904/0x1584
-     lock_acquire+0x220/0x34c
-     _raw_spin_lock_irqsave+0x58/0x80
-     __pm_runtime_resume+0x38/0x88
-     sh_tmu_clock_event_set_oneshot+0x84/0xd4
-     clockevents_switch_state+0xfc/0x13c
-     tick_broadcast_set_event+0x30/0xa4
-     __tick_broadcast_oneshot_control+0x1e0/0x3a8
-     tick_broadcast_oneshot_control+0x30/0x40
-     cpuidle_enter_state+0x40c/0x680
-     cpuidle_enter+0x30/0x40
-     do_idle+0x1f4/0x280
-     cpu_startup_entry+0x34/0x40
-     kernel_init+0x0/0x130
-     do_one_initcall+0x0/0x230
-     __primary_switched+0x88/0x90
-
-For non-PREEMPT_RT builds this is not really an issue, but for
-PREEMPT_RT builds where normal spinlocks can sleep this might be an
-issue. Be cautious and always leave the power and clock running after
-probe.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://patch.msgid.link/20251202221341.1856773-1-niklas.soderlund+renesas@ragnatech.se
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Thomas Gleixner <tglx@kernel.org>
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+Link: https://patch.msgid.link/20260128095540.863589-10-bigeasy@linutronix.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have a complete picture. Let me compile my thorough analysis.
+Now I have a complete understanding. Let me write up the comprehensive
+analysis.
 
 ---
 
-## Detailed Analysis
+## Comprehensive Analysis
 
-### 1. COMMIT MESSAGE ANALYSIS
+### 1. Commit Message Analysis
 
-The commit message is thorough and well-written. It clearly describes:
-- **The problem**: An invalid wait context lockdep warning (`[ BUG:
-  Invalid wait context ]`) on PREEMPT_RT kernels
-- **The root cause**: The TMU driver tries to manage PM runtime
-  (`pm_runtime_get_sync`/`pm_runtime_put`) and clock state
-  (`clk_enable`/`clk_disable`) at runtime, but these calls happen within
-  a raw spinlock context from the clockevent framework
-- **The fix strategy**: Leave the device and clock always running after
-  probe
-- **Full stack trace**: Reproduced on real hardware (Renesas Salvator-X
-  board with r8a77965 SoC)
-- **Tested-by**: Geert Uytterhoeven, a very well-known Renesas platform
-  maintainer
-- **Signed off by**: Daniel Lezcano, the clocksource subsystem
-  maintainer
+The commit subject is "char: tpm: cr50: Remove IRQF_ONESHOT" and the
+message explains three points:
+1. `IRQF_ONESHOT` is for masking the interrupt source until the
+   **threaded** (secondary) handler completes
+2. These drivers only have primary handlers, so the flag is meaningless
+3. The flag **prevents force-threading** of the primary handler, and the
+   irq-core will warn about this
 
-### 2. CODE CHANGE ANALYSIS - THE BUG MECHANISM
+The commit is authored by **Sebastian Andrzej Siewior** (bigeasy), the
+PREEMPT_RT maintainer, and signed off by **Thomas Gleixner**, the IRQ
+subsystem maintainer and co-maintainer of the Linux kernel. It was
+reviewed by **Jarkko Sakkinen**, the TPM subsystem maintainer.
 
-The bug is a **lock ordering / invalid wait context** issue. The precise
-call chain is:
+### 2. Code Change Analysis
 
-1. `cpuidle_enter_state` → `__tick_broadcast_oneshot_control` acquires
-   `tick_broadcast_lock` (a **raw spinlock**, lock class `{-...}-{2:2}`)
-2. Inside the raw spinlock, `clockevents_switch_state` →
-   `sh_tmu_clock_event_set_oneshot` → `sh_tmu_clock_event_set_state` →
-   `sh_tmu_enable`
-3. `sh_tmu_enable` calls `pm_runtime_get_sync(&ch->tmu->pdev->dev)`
-   which tries to acquire `dev->power.lock` (a **regular spinlock**,
-   lock class `{-...}-{3:3}`)
+The change is minimal and surgical:
+- **`tpm_tis_i2c_cr50.c`**: Removes `IRQF_ONESHOT` from the flags in
+  `devm_request_irq()`, keeping `IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN`
+- **`tpm_tis_spi_cr50.c`**: Removes `IRQF_ONESHOT` from the flags in
+  `devm_request_irq()`, keeping `IRQF_TRIGGER_RISING`
 
-I verified this call chain through the code:
-- `___tick_broadcast_oneshot_control` (line 796 of `tick-broadcast.c`)
-  does `raw_spin_lock(&tick_broadcast_lock)` at the top, then at line
-  889 calls `clockevents_switch_state(dev, CLOCK_EVT_STATE_ONESHOT)`
-- Similarly, `broadcast_shutdown_local` calls
-  `clockevents_switch_state(dev, CLOCK_EVT_STATE_SHUTDOWN)` while
-  tick_broadcast_lock is held
-- `tick_broadcast_set_event` also calls `clockevents_switch_state`
-  within the lock
+Both interrupt handlers (`tpm_cr50_i2c_int_handler` at line 74 and
+`cr50_spi_irq_handler` at line 65) are trivially simple - they just call
+`complete()` and return `IRQ_HANDLED`. There is no thread_fn.
+`devm_request_irq()` is a wrapper that calls
+`devm_request_threaded_irq()` with `thread_fn = NULL`.
 
-On **PREEMPT_RT**, regular spinlocks are sleeping locks (they can
-schedule). Acquiring a sleeping lock while holding a raw spinlock is
-**illegal** - it can cause sleeping in atomic context or deadlock. The
-lockdep annotation `{-...}-{2:2}` vs `{-...}-{3:3}` in the stack trace
-confirms the context mismatch.
+### 3. The Real Bug
 
-### 3. THE FIX
+The companion commit **`aef30c8d569c`** ("genirq: Warn about using
+IRQF_ONESHOT without a threaded handler") was merged on 2026-01-12 and
+adds a `WARN_ON_ONCE()` in `__setup_irq()`:
 
-The patch is a **pure deletion** (18 lines removed, 0 added):
+```c
+WARN_ON_ONCE(new->flags & IRQF_ONESHOT && !new->thread_fn);
+```
 
-1. **`__sh_tmu_enable()`**: Removes `clk_enable()` call (clock stays
-   enabled from probe)
-2. **`sh_tmu_enable()`**: Removes `pm_runtime_get_sync()` call (PM
-   runtime stays active from probe)
-3. **`__sh_tmu_disable()`**: Removes `clk_disable()` call (clock never
-   disabled)
-4. **`sh_tmu_disable()`**: Removes `pm_runtime_put()` call (PM runtime
-   never released)
-5. **`sh_tmu_setup()`**: Removes `clk_disable()` after rate measurement
-   (clock stays enabled)
-6. **`sh_tmu_probe()`**: Removes `pm_runtime_idle()` else branch (PM
-   runtime stays active)
+This means that **without this cr50 fix**, every time the cr50 TPM
+driver probes on a system with the updated IRQ core, it will emit a
+`WARN_ON_ONCE` kernel warning at boot. This is a real runtime issue that
+would affect all Chromebook and other systems using cr50/ti50 TPM chips.
 
-The trade-off is slightly higher power consumption (the TMU hardware
-stays powered/clocked when not actively timing), but this is acceptable
-given the alternative is a hard bug.
+More importantly, the core technical issue is that `IRQF_ONESHOT`
+prevents force-threading of the primary handler. From
+`irq_setup_forced_threading()` in `kernel/irq/manage.c`:
 
-### 4. SUSPEND/RESUME SAFETY
+```c
+if (new->flags & (IRQF_NO_THREAD | IRQF_PERCPU | IRQF_ONESHOT))
+    return 0;  // Skip force-threading!
+```
 
-I verified the suspend/resume paths still work correctly:
-- `sh_tmu_clocksource_suspend` calls `__sh_tmu_disable` (still stops the
-  channel) + `dev_pm_genpd_suspend` (handles power domain)
-- `sh_tmu_clocksource_resume` calls `dev_pm_genpd_resume` +
-  `__sh_tmu_enable` (still restores registers)
-- Since `clk_enable` count stays at 1 (never disabled), the clock
-  framework correctly restores hardware state after genpd resume
+On **PREEMPT_RT kernels** (where `force_irqthreads()` returns `true`),
+this means the cr50 interrupt handler runs in hardirq context instead of
+being force-threaded. While the handler itself (`complete()`) is safe in
+hardirq context, this defeats the PREEMPT_RT design goal of having all
+interrupt handlers run in thread context. On non-RT systems with
+`threadirqs` boot parameter, the same issue occurs.
 
-### 5. SCOPE AND RISK
+### 4. Classification
 
-- **Files affected**: 1 file (`drivers/clocksource/sh_tmu.c`)
-- **Lines changed**: 18 deletions, 0 additions
-- **Risk**: Very low - only removes code that dynamically toggles
-  power/clock; the conservative approach (always-on) is simpler and
-  safer
-- **Regression potential**: The only downside is marginally higher power
-  consumption on Renesas platforms using TMU, which is negligible
-- **Self-contained**: No dependencies on other patches; the companion
-  sh_cmt fix (`62524f285c11`) is for a different driver
+This is a **bug fix** that addresses:
+1. **A spurious kernel warning** triggered by the new `WARN_ON_ONCE`
+   check added in `aef30c8d569c`
+2. **Incorrect IRQ flags** - `IRQF_ONESHOT` has never been semantically
+   correct for these drivers since they only use primary handlers
+3. **PREEMPT_RT compatibility** - the flag prevents force-threading,
+   which can be problematic
 
-### 6. APPLICABILITY TO STABLE TREES
+The fix is not a feature addition - it removes an incorrect flag that
+was always wrong.
 
-I verified the file is **identical** in stable trees 5.15, 6.1, 6.6,
-6.12, and the current HEAD (6.19). The patch will apply cleanly to all
-active stable trees without any modification.
+### 5. Scope and Risk Assessment
 
-### 7. USER IMPACT
+- **Lines changed**: 2 files, 2 lines total (removing `IRQF_ONESHOT`
+  from two flag constants)
+- **Risk**: Extremely low. `IRQF_ONESHOT` had no functional effect on
+  these drivers since they use only primary handlers. The interrupt
+  cannot fire while its primary handler is already running (hardware
+  guarantee), so removing the flag changes nothing about interrupt
+  masking behavior.
+- **Subsystem**: TPM drivers, well-understood, mature code
+- **Testing**: Reviewed by TPM maintainer (Jarkko Sakkinen), authored by
+  PREEMPT_RT maintainer, signed off by IRQ core maintainer
 
-- **Who is affected**: Users running PREEMPT_RT kernels on Renesas ARM64
-  platforms with TMU timers
-- **Severity without fix**: Invalid wait context → potential sleeping in
-  atomic context → system instability/hang on PREEMPT_RT
-- **PREEMPT_RT relevance**: PREEMPT_RT has been merged into mainline and
-  is supported in stable trees (verified PREEMPT_RT fixes exist in
-  6.12.y stable). This is increasingly used in embedded/industrial
-  systems.
+### 6. User Impact
 
-### 8. CLASSIFICATION
+- **Who is affected**: All users with cr50/ti50 TPM chips (primarily
+  Chromebooks and Google-based embedded devices)
+- **Severity without fix**: Kernel `WARN_ON_ONCE` at boot if the
+  `aef30c8d569c` warning commit is also backported; PREEMPT_RT
+  degradation
+- **Severity of regression risk**: Essentially zero - the flag had no
+  functional purpose
 
-This is a **locking/synchronization bug fix**:
-- Fixes invalid wait context (raw spinlock → regular spinlock
-  acquisition)
-- Prevents potential sleeping in atomic context on PREEMPT_RT
-- Reproducible with lockdep enabled (PROVE_LOCKING)
-- Real-world impact on PREEMPT_RT builds (not theoretical)
-- Small, surgical, single-driver fix
-- Tested on real hardware
-- Reviewed and signed off by subsystem maintainer
+### 7. Dependencies
 
-**YES** signals:
-- Fixes a real lockdep BUG warning (potential deadlock/sleep-in-atomic)
-- Small, contained fix (18 line deletions in one file)
-- Tested-by experienced maintainer
-- Applies cleanly to all stable trees
-- No dependencies
-- Conservative approach (remove complexity, not add it)
+This commit is **self-contained**. It does not require any other patches
+to apply cleanly. However, the motivating warning comes from
+`aef30c8d569c` - if that commit is backported to stable, this fix
+becomes essential to avoid warnings. Even without the warning commit,
+this fix is correct and beneficial (enables proper force-threading on RT
+systems).
 
-**NO** signals: None identified.
+The i2c-spacemit driver already got a similar fix (`e351836a54e3`) with
+`Cc: stable@vger.kernel.org` tag, establishing precedent that these
+IRQF_ONESHOT removal patches are considered stable material.
+
+### 8. Stability Indicators
+
+- Author: Sebastian Andrzej Siewior (PREEMPT_RT maintainer) - domain
+  expert
+- Signed-off-by: Thomas Gleixner (IRQ subsystem maintainer) - domain
+  expert
+- Reviewed-by: Jarkko Sakkinen (TPM maintainer) - domain expert
+- Part of a systematic cleanup pattern with prior art (i2c-exynos5,
+  i2c-hix5hd2, i2c-spacemit, drm/msm)
+
+### Conclusion
+
+This is a small, surgical, obviously correct bug fix. The `IRQF_ONESHOT`
+flag was always semantically wrong for these primary-only handlers. The
+fix removes a flag that had no functional benefit but actively prevented
+force-threading on PREEMPT_RT systems and will trigger a `WARN_ON_ONCE`
+with the companion IRQ core warning check. The risk is near-zero, the
+change is trivial (2 lines across 2 files), it was reviewed by all three
+relevant subsystem maintainers, and there is clear precedent for
+identical fixes being marked as stable material (the i2c-spacemit fix
+had `Cc: stable@vger.kernel.org`).
 
 **YES**
 
- drivers/clocksource/sh_tmu.c | 18 ------------------
- 1 file changed, 18 deletions(-)
+ drivers/char/tpm/tpm_tis_i2c_cr50.c | 3 +--
+ drivers/char/tpm/tpm_tis_spi_cr50.c | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/clocksource/sh_tmu.c b/drivers/clocksource/sh_tmu.c
-index beffff81c00f3..3fc6ed9b56300 100644
---- a/drivers/clocksource/sh_tmu.c
-+++ b/drivers/clocksource/sh_tmu.c
-@@ -143,16 +143,6 @@ static void sh_tmu_start_stop_ch(struct sh_tmu_channel *ch, int start)
+diff --git a/drivers/char/tpm/tpm_tis_i2c_cr50.c b/drivers/char/tpm/tpm_tis_i2c_cr50.c
+index fc6891a0b6936..b48cacacc0664 100644
+--- a/drivers/char/tpm/tpm_tis_i2c_cr50.c
++++ b/drivers/char/tpm/tpm_tis_i2c_cr50.c
+@@ -749,8 +749,7 @@ static int tpm_cr50_i2c_probe(struct i2c_client *client)
  
- static int __sh_tmu_enable(struct sh_tmu_channel *ch)
- {
--	int ret;
--
--	/* enable clock */
--	ret = clk_enable(ch->tmu->clk);
--	if (ret) {
--		dev_err(&ch->tmu->pdev->dev, "ch%u: cannot enable clock\n",
--			ch->index);
--		return ret;
--	}
--
- 	/* make sure channel is disabled */
- 	sh_tmu_start_stop_ch(ch, 0);
- 
-@@ -174,7 +164,6 @@ static int sh_tmu_enable(struct sh_tmu_channel *ch)
- 	if (ch->enable_count++ > 0)
- 		return 0;
- 
--	pm_runtime_get_sync(&ch->tmu->pdev->dev);
- 	dev_pm_syscore_device(&ch->tmu->pdev->dev, true);
- 
- 	return __sh_tmu_enable(ch);
-@@ -187,9 +176,6 @@ static void __sh_tmu_disable(struct sh_tmu_channel *ch)
- 
- 	/* disable interrupts in TMU block */
- 	sh_tmu_write(ch, TCR, TCR_TPSC_CLK4);
--
--	/* stop clock */
--	clk_disable(ch->tmu->clk);
- }
- 
- static void sh_tmu_disable(struct sh_tmu_channel *ch)
-@@ -203,7 +189,6 @@ static void sh_tmu_disable(struct sh_tmu_channel *ch)
- 	__sh_tmu_disable(ch);
- 
- 	dev_pm_syscore_device(&ch->tmu->pdev->dev, false);
--	pm_runtime_put(&ch->tmu->pdev->dev);
- }
- 
- static void sh_tmu_set_next(struct sh_tmu_channel *ch, unsigned long delta,
-@@ -552,7 +537,6 @@ static int sh_tmu_setup(struct sh_tmu_device *tmu, struct platform_device *pdev)
- 		goto err_clk_unprepare;
- 
- 	tmu->rate = clk_get_rate(tmu->clk) / 4;
--	clk_disable(tmu->clk);
- 
- 	/* Map the memory resource. */
- 	ret = sh_tmu_map_memory(tmu);
-@@ -626,8 +610,6 @@ static int sh_tmu_probe(struct platform_device *pdev)
-  out:
- 	if (tmu->has_clockevent || tmu->has_clocksource)
- 		pm_runtime_irq_safe(&pdev->dev);
--	else
--		pm_runtime_idle(&pdev->dev);
- 
- 	return 0;
- }
+ 	if (client->irq > 0) {
+ 		rc = devm_request_irq(dev, client->irq, tpm_cr50_i2c_int_handler,
+-				      IRQF_TRIGGER_FALLING | IRQF_ONESHOT |
+-				      IRQF_NO_AUTOEN,
++				      IRQF_TRIGGER_FALLING | IRQF_NO_AUTOEN,
+ 				      dev->driver->name, chip);
+ 		if (rc < 0) {
+ 			dev_err(dev, "Failed to probe IRQ %d\n", client->irq);
+diff --git a/drivers/char/tpm/tpm_tis_spi_cr50.c b/drivers/char/tpm/tpm_tis_spi_cr50.c
+index f4937280e9406..32920b4cecfb4 100644
+--- a/drivers/char/tpm/tpm_tis_spi_cr50.c
++++ b/drivers/char/tpm/tpm_tis_spi_cr50.c
+@@ -287,7 +287,7 @@ int cr50_spi_probe(struct spi_device *spi)
+ 	if (spi->irq > 0) {
+ 		ret = devm_request_irq(&spi->dev, spi->irq,
+ 				       cr50_spi_irq_handler,
+-				       IRQF_TRIGGER_RISING | IRQF_ONESHOT,
++				       IRQF_TRIGGER_RISING,
+ 				       "cr50_spi", cr50_phy);
+ 		if (ret < 0) {
+ 			if (ret == -EPROBE_DEFER)
 -- 
 2.51.0
 
