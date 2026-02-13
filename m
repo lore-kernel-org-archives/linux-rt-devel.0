@@ -1,105 +1,186 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 236C92F3608
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 16:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9DCC8E6
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Feb 2026 01:37:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770913248; cv=none; b=GRii5ScsvjptjVxOq5n8rUpbMq/Wz6471+gvxouH6McrsVT9saDGr771cS0vObXnKu542rc5vxyn8ZPVJrw5PQfucDEArXEDPsqD0y1/G4PDZzWDdhlB4HjAjgm4xU9gKfNnnQ/NtoOKmprUSscJ/MWFIYQIFg9RNi4i+rgaxPI=
+	t=1770946664; cv=none; b=g/KZRScMtJuCMc82ha+Z/qSwTMb85xcZVFCPrNwI5kYYqDIZk9HpNuoG/7BDOYs/gA+vfEeXESDUb7BSGmHc3ywVUSeZcrd6YTbrJKZxlNzuh7Uu8PMGoiSUtHzB3vGNl2q/I8R6UE5w6o0/tfDtMd9mDQmGSiMy1PHwPz8MVhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770913248; c=relaxed/simple;
-	bh=9BB6hZX1iF6BsiAGlgfEBLQ+iWWBQ3NItsKk/BF1zGg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sqoBxw+u/FP/4ECweZ5MV2DqPjM5b38+vlgTWFeZrFKJI2Cguq96iBq4roRU8kj0MW0aVR2Yk6fohRBvTHAHMkLqoHscuO4IGKG17qLuZF8sCFM1+M6IqCjhcFa5arBD2gu9DnXQiWHQem3kpFo7fWq/FOSrrTBOIWdPPJTw9FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UHzqdh5q; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=F3vvNLvx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1770946664; c=relaxed/simple;
+	bh=i76kBt/xx7gYTzlZGlhKxfL9BhtGwRuhGAoQCiOIzUk=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=mbbkI8xju/b2QQIsCg1bCbT7A7CvhPQ/z/IdqQ2PIvS0JX9J8G3TH2SzWijOk51D/d8rk9d0xx3Z5HwFgC+KtwV7QxDkYOqi2Cgi07JlylQyfbdjkOKO8NnXM6mfBDXXmeiOp2nRsHJ3okILHsCY+EZRhcWg0NG7kAiCwaQWsSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pcdn5Nsi; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UHzqdh5q";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="F3vvNLvx"
-Date: Thu, 12 Feb 2026 17:20:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1770913243;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5XlrfEe6vkfD+RQCnpxpWQZ9mV4ZqVYBC7f4C/wFYg=;
-	b=UHzqdh5qhHC2FBxvExFSecdAkTjAfd/9PfGLCINtnBtLqIjGHXeCqA9rYF5npW4AZwhQyI
-	jOfnwZc4Vg5GrdfJQ21YLB6XSZy6f1dOJTwQEe0AWx7tsiFnDUZ6yTIZS1wGRuPkwicF+n
-	7bFwoKvWXX1tAjOmg2aGM2S4fbVWQtKWkdlEcKK5Zre2bdEOpQKpMibD1RNGL4xhvW1btM
-	e5r2xUQzJdqXsFzWKYDd/Y9C7BcbOJ6Tq8Fcv8nwpYMc4CD1C4hb10qlmC0nX+uyR8kQZs
-	qLSsza+lmOsrS10dcYgMe+jdn87S5z8RA7TMF0jH5DPwAXRiaRD7Nozmquj3hA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1770913243;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5XlrfEe6vkfD+RQCnpxpWQZ9mV4ZqVYBC7f4C/wFYg=;
-	b=F3vvNLvxd8frH24xPYi9Pl8wkLfd4zhz+mdl4DqrXg3vT2M8PxQuJOyqovIvZimsRVv/WD
-	fHHRuE37+dngQ4DQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Lai Jiangshan <jiangshanlai@gmail.com>, Tejun Heo <tj@kernel.org>
-Subject: Re: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
-Message-ID: <20260212162041.acU_rljT@linutronix.de>
-References: <20260205115559.1625236-1-bigeasy@linutronix.de>
- <aYn6j_JLBENcY96V@redhat.com>
- <20260209155528.k7RMRPVD@linutronix.de>
- <CAC_iWjLt-CzTkmnVMHidnMFWkE9NPzVLo6g8FUgMu0gAUJ0KtQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pcdn5Nsi"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAC_iWjLt-CzTkmnVMHidnMFWkE9NPzVLo6g8FUgMu0gAUJ0KtQ@mail.gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770946658;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qz7VWiykJZdAqjJypSWZD+BaPWeczMbaqBbLq8/OY50=;
+	b=pcdn5NsiF0Yj4Iz0WXeKpzO+FsFyE0kCuw5YX/H1npI37twO+xtYJTuQCK6wgavV/pl10o
+	G9pt7IqjkM0kLRw62FsgCoQFjWbXcLRxgCgzDqVxvdSyDCN1B8dnE+Q00v5OLhNJ6/jYCk
+	otsW6uN1wJq3gEtFxk1lPzqfzVMMuuY=
+Date: Fri, 13 Feb 2026 01:37:35 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
+Message-ID: <4efdec422a00d95a2bd7d227b8bcab61ebc231ce@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH bpf v2] bpf: cpumap: fix race in bq_flush_to_queue on
+ PREEMPT_RT
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: xxx@vger.kernel.org, "Jiayuan Chen" <jiayuan.chen@shopee.com>,
+ syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com, "Alexei
+ Starovoitov" <ast@kernel.org>, "Daniel Borkmann" <daniel@iogearbox.net>,
+ "David S. Miller" <davem@davemloft.net>, "Jakub Kicinski"
+ <kuba@kernel.org>, "Jesper Dangaard Brouer" <hawk@kernel.org>, "John
+ Fastabend" <john.fastabend@gmail.com>, "Stanislav Fomichev"
+ <sdf@fomichev.me>, "Andrii Nakryiko" <andrii@kernel.org>, "Martin KaFai
+ Lau" <martin.lau@linux.dev>, "Eduard Zingerman" <eddyz87@gmail.com>,
+ "Song Liu" <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>,
+ "KP Singh" <kpsingh@kernel.org>, "Hao Luo" <haoluo@google.com>, "Jiri
+ Olsa" <jolsa@kernel.org>, "Clark Williams" <clrkwllms@kernel.org>,
+ "Steven Rostedt" <rostedt@goodmis.org>, "Thomas Gleixner"
+ <tglx@kernel.org>, netdev@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260212143344.j3_GaCuV@linutronix.de>
+References: <20260212023634.366343-1-jiayuan.chen@linux.dev>
+ <20260212143344.j3_GaCuV@linutronix.de>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-02-12 09:09:51 [+0200], Ilias Apalodimas wrote:
-> Hi Sebastian,
-Hi Ilias,
+2026/2/12 22:33, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de mailt=
+o:bigeasy@linutronix.de?to=3D%22Sebastian%20Andrzej%20Siewior%22%20%3Cbig=
+easy%40linutronix.de%3E > wrote:
 
-> Late to the party but ...
 
-glad to have you.
 
-> On Mon, 9 Feb 2026 at 17:55, Sebastian Andrzej Siewior
-> > What I don't know is if this is a problem, i.e. is it possible to
-> > interrupt the secure monitor and continue in Linux before heading back
-> > to the secure environment or not.
-> 
-> In theory yes. In practice, at least for arm & OP-TEE, the
-> communication between the TEE and the secure-world app doing the
-> variable chekcs & authentication is via the MM protocol [0].
-> IIRC that requires to run to completion. So what happens is that you
-> enter OP-TEE and right before the StMM is invoked (the app that
-> handles EFI variables) all exceptions are masked and it must run to
-> completion.
-> The period of masking does not include writing the variables to
-> storage. That's handled differently and is interruptible.
 
-There it RTC and variables which is the most common thing. If you can
-somehow outsource variable read/ write then fine but I guess you need to
-wait somehow to ensure the data is written. Anyway.
+Thanks for the review, Sebastian.
 
-That referenced document describes the protocol but not the
-implementation of how communication works. What I found is that most
-interfaces in the TEE world end up either in "SMCCC_1_2 hvc" or
-"SMCCC_1_2 smc". The smc command in terms of arguments is described in
-	https://documentation-service.arm.com/static/5f8ea482f86e16515cdbe3c6
 
-but it does not say if the interrupts are masked. I would assume that it
-transfers the execution control to the secure monitor which is then
-entered with disabled interrupts similar to an exception on the linux
-side. In that case it would mandate a workqueue kind of solution so it
-can be pinned to a CPU.
+> There is no spin_lock() otherwise there would be no problem.
 
-The only exception here seems to be the amdtee driver
-(psp_tee_process_cmd()) which sends a command and waits for an answer.
 
-Sebastian
+Right, will fix the description. The per-CPU bq has no lock at all,
+which is the root cause...
+> =E2=80=A6
+>=20
+>=20>=20
+>=20> Fix this by adding a local_lock_t to xdp_bulk_queue and acquiring i=
+t
+> >  in bq_enqueue() and __cpu_map_flush(). On non-RT kernels, local_lock
+> >  maps to preempt_disable/enable with zero additional overhead. On
+> >  PREEMPT_RT, it provides a per-CPU sleeping lock that serializes
+> >  access to the bq. Use local_lock_nested_bh() since these paths alrea=
+dy
+> >  run under local_bh_disable().
+> >=20
+>=20So you use local_lock_nested_bh() and not local_lock() but you mentio=
+n
+> local_lock. The difference is that the former does not add any
+> preempt_disable() on !RT. At this point I am curious how much of this
+> was written by you and how much is auto generated.=20
+
+
+Sorry=20about the inconsistencies. The commit message became messy after
+several rounds of editing across versions, and I failed to update all
+the descriptions to match the final code.
+
+
+> >=20
+>=20> An alternative approach of snapshotting bq->count and bq->q[] befor=
+e
+> >  releasing the producer_lock was considered, but it requires copying
+> >  the entire bq->q[] array on every flush, adding unnecessary overhead=
+.
+> >=20
+>=20But you still have list_head which is not protected.
+
+The snapshot alternative is incomplete as described. Will drop that parag=
+raph.
+
+> >=20
+>=20> To reproduce, insert an mdelay(100) between spin_unlock() and
+> >  __list_del_clearprev() in bq_flush_to_queue(), then run reproducer
+> >  provided by syzkaller.
+> >=20=20
+>=20>  Panic:
+> >  =3D=3D=3D
+> >  BUG: kernel NULL pointer dereference, address: 0000000000000000
+> >  #PF: supervisor write access in kernel mode
+> >  #PF: error_code(0x0002) - not-present page
+> >  PGD 0 P4D 0
+> >  Oops: Oops: 0002 [#1] SMP PTI
+> >  CPU: 0 UID: 0 PID: 377 Comm: a.out Not tainted 6.19.0+ #21 PREEMPT_R=
+T
+> >  RIP: 0010:bq_flush_to_queue+0x145/0x200
+> >  Call Trace:
+> >  <TASK>
+> >  __cpu_map_flush+0x2c/0x70
+> >  xdp_do_flush+0x64/0x1b0
+> >  xdp_test_run_batch.constprop.0+0x4d4/0x6d0
+> >  bpf_test_run_xdp_live+0x24b/0x3e0
+> >  bpf_prog_test_run_xdp+0x4a1/0x6e0
+> >  __sys_bpf+0x44a/0x2760
+> >  __x64_sys_bpf+0x1a/0x30
+> >  x64_sys_call+0x146c/0x26e0
+> >  do_syscall_64+0xd5/0x5a0
+> >  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+> >  </TASK>
+> >=20
+>=20This could be omitted. It is obvious once you see it. I somehow misse=
+d
+
+Will remove the panic trace.
+
+> this alloc_percpu instance while looking for this kind of bugs.
+> Another one is hiding in devmap.c. Mind to take a look? I think I
+> skip this entire folder=E2=80=A6
+
+
+I see the same pattern there - xdp_dev_bulk_queue is per-CPU with no pree=
+mption
+protection in bq_enqueue() and __dev_flush().
+
+> >=20
+>=20> Fixes: 3253cb49cbad ("softirq: Allow to drop the softirq-BKL lock o=
+n PREEMPT_RT")
+> >  Reported-by: syzbot+2b3391f44313b3983e91@syzkaller.appspotmail.com
+> >  Closes: https://lore.kernel.org/all/69369331.a70a0220.38f243.009d.GA=
+E@google.com/T/
+> >  Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+> >  Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> >  ---
+> >  v1 -> v2: https://lore.kernel.org/bpf/20260211064417.196401-1-jiayua=
+n.chen@linux.dev/
+> >  - Use local_lock_nested_bh()/local_unlock_nested_bh() instead of
+> >  local_lock()/local_unlock(), since these paths already run under
+> >  local_bh_disable(). (Sebastian Andrzej Siewior)
+> >  - Replace "Caller must hold bq->bq_lock" comment with
+> >  lockdep_assert_held() in bq_flush_to_queue(). (Sebastian Andrzej Sie=
+wior)
+> >  - Fix Fixes tag to 3253cb49cbad ("softirq: Allow to drop the
+> >  softirq-BKL lock on PREEMPT_RT") which is the actual commit that
+> >  makes the race possible. (Sebastian Andrzej Siewior)
+> >  ---
+> >  kernel/bpf/cpumap.c | 17 +++++++++++++++--
+> >  1 file changed, 15 insertions(+), 2 deletions(-)
+> >=20
+>=20The changes below look good.
+
+Thanks!
+
+> Sebastian
