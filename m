@@ -1,174 +1,235 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964B061FCE
-	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Feb 2026 06:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38452C027E
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Feb 2026 07:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770964150; cv=pass; b=dciRTOZ0rKm7IA59jQI9qc8tm6ie7LMXw9irPSy/VZEelsrKoROx0/3Hq+X82Wt9eg/MjFVzSm/+9tl+LLlZgbU8gHvGPrt/K4OqgXiFdmFha27DOFVhim1Qx9/yAITHynDiyigj2ieIbQXoZPJGx3PS0AegvDElc4yGidCipVw=
+	t=1770967527; cv=fail; b=VC4WDp+otRh8nOPMxvqFhy0T2N7hL2LXy+XgU63L4dVcFFfhE785Bn5N0RTxssKRdnPsxERbklg7dqItP3TdXjY6suHwb4P0Eg5ARu9aS/ZYfp7KFbDNa2/VL8xbPmdK4aDavVwgQ/cj+3rmwtn02WCOGinlgfpIotuMG6nRS8o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770964150; c=relaxed/simple;
-	bh=XWIo7Hql1rN4HTTpvN2E3D+/ne/cOcRvwlJjqBedbgI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZqtCcsPYeHjzyaFuX22aKlLCynMroro4mEYxGloyYUZU0UMI5QKhgS17ATQYDKbljoEaw2/139fgUK82w4wpVwO+5t+78m7g86bG7ay1bOjNISM4sVu4Sg4ODlSvNV53b2Hej+Bd12NVo1yDGFeT5vLL1FmqTadqeF6RhTAIm8Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WSoV3TSW; arc=pass smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770967527; c=relaxed/simple;
+	bh=nA495hI3JLbGTBPmdCWhg0pSgmza9JC2Bx2Tm4G/+GI=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Ep6yhFTZ/4YmYurW8JIu7kvcxAjgR3hvq6luIQ5MWXO0iDT3Sx4l9EO0MXbFdIvZb5Mreeai0IzJ7i6+CL3TjI+u7Uacg+Chdkn6jZo4/EIwOoOo3b1IT0CFAwJfGLeQJlXhSzwnF8Sj/E3PLxKvxHS331MOdDX4SUHECJlTSh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=QWyyGnYa; arc=fail smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WSoV3TSW"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-64ae5f0777dso610682d50.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Feb 2026 22:29:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770964147; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ObTVIMn/RiTJNo81qSKZm1t0CX05nS6K1JhYLecYuKy5/O2F33hpiPsmtLXQL/2G5r
-         GiCfvWAbwHqIRQJvaGnHSWRIiU0HLH+BJQtZZS8MaEhrPWTxoVg6FK5x8wrHjKYJMFWb
-         0v81azwSQq4eQgwbDDK6wG/wOoukXIZlAcsy1SrkoHGWQncP6gKBGQirfI12swuJPXwf
-         KJANvAJvHiyrlB+e9ar/AmLV96HmCp2mf6IOun6BwaS9UdEUWuDvUkx4KcTP3R4f36Lp
-         FpZDRJE9EfyxfgKgH0XsbdKaSAqE8P74VbAFjuJtV91jdC6N2Ghhorh4WLjp9ljY2eRe
-         GIIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=tQVFLn5cPaqooiNQTL+EbKOr/AUzqPPLp1PwWo0P8HE=;
-        fh=rs8iolUthd7MWSlzzvYdc2Udc2ao9kDTsPirBXQXf1g=;
-        b=WN/ZxMXRQRQCQgr2bGcUVxn7UIJzgbnTsA/D+THbVqEdhClNj7p4SruE/hwhAWS1sj
-         oe3uJ+bNVuEpBA8zQwNePzJUnqiX9RT6J98hQiowHMFFZVfXqIhZ0DFTN+eyMnuqTrgV
-         t1EYkQsJDYQV0GWNc2zx6R6m2oqS3q+JO/e7R7wOFcXsgU/9tGkU4Rf0jezp2yHSBwfX
-         byAN7Ox1pLMMu3uVJ06BVGT2iS1XRSpNJgKikJ2ilF+35LadW2Umd8vboJv/m04KjjKx
-         YSKAB4klft7GIFrEPxe6tEEzN7IHKRfsG2tekKZVY/kV6MQFE9QIFVs2haNTYqZ6fiwG
-         lyrQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770964147; x=1771568947; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQVFLn5cPaqooiNQTL+EbKOr/AUzqPPLp1PwWo0P8HE=;
-        b=WSoV3TSWwcCNa4QH0d/EyQviAOwsMHGImcr3wIMu9urqe9wrdtGktWbRBMBJVxt0Iz
-         p9a6qpe0OjTxvWJztkgsVxSH1qciaMUUH5MtyFtZfa8NKkkmnFQGHhads5bOGfCW7HRO
-         WtKe20/Kv9WJ5/xC9+Ps3eNYi818d7FhpLCteQqgSXjfDIvF7w3QV+o/lQMRG6TRDkhR
-         F0UaqwxbMh8YhEYSGvlnz9rKVBuuSkz5aPR1PigDzcg84GDttJ5Giw+KlFnedpjOw1UJ
-         +wgfLmpiQAdYkpookt/Xme7FQnYC3Qg8cw8CbHtP+3lJwK2DBgdZyqtJU+CDd0F8xf9s
-         PBOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770964147; x=1771568947;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tQVFLn5cPaqooiNQTL+EbKOr/AUzqPPLp1PwWo0P8HE=;
-        b=HEg9XHlQp4yaUw5nPqVcG/gOv6+y3cUdDFr1XjQUH84DjseBCdD6YNiqQfCK/XqHfO
-         BRcMf0RLWAvP1PqcI87Q6JfcK5zT/0SDzdEaCtF3kuXrn7LF6Xev30UgW9qiq8Lbvxmd
-         r1ZjtuwEkoFnvYbWYZKkOBxWiSlcG83Tvg2tYKDfjCZcrg4NWQ3fArs7vBZzhrcyyMpb
-         JLfd6b3/flM7ZYyqp73blISm3BZSMOlFhS3b9S2a/X8tZV//Izv1gMQ57aJmBN6rsOlQ
-         wpQckQy84ggH70XpeEj07ytQLRY7I8BuBcVvTarB5baVy4iCfezdulKR3UTEmcOTqqcE
-         r7IA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZvh1OoF3tGXECTPxbCJUzADMHBvP9wck0AQ7KWU4ckCTWtHd0WBYjhrvi4fonI5vsVBg2RAQQ9T2e9KbQNw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWn9FvWX8exSx9T44Qs0R8qzfFq1kX6SjDAdNWKCRC8CvOvQcD
-	JYObEcZad3BVFtbgUaav/C0AOIsi1BeEpzUKUBijthAUtpBfSuSB3QUU+qvcp5WQ759Lm+0p7+f
-	8cS7VzjQvvppwoGeAjsKEl6njEY0uwdW6Y4j0F82BfQ==
-X-Gm-Gg: AZuq6aKkTl6TuDbH83m+QFUidknTO1asXfyvDwMx+qdrFgN1Cgm2Jibv5mz1Tg+iYpn
-	vzGc3tjCDYk4Ll1VOYk4UVzCYJ9opcCXAsncTm3YYxdyXIQ6uBwTRgt3yJV0gm5vgOQWwWHdiST
-	gUJOGbrkpwPj9qVUCzYjnXNuLb44SlXU0LYeuFGVXNmbhBjf6FraHmHgvNK837cmKZTZ/Ssi2lR
-	KqBCSRvhcwSyQsDxqP7SCXENQ7xZouyUNQEV5H4GQF26F9NtZk4MqnxBI9HP5rcwCVMgyKqFHgj
-	3V4mE3EeI4jv0xO0n9/pFXtlMfxZRr63m6ev1nzmv0Hog9XnSwNl82JKzP/oOCXGwSIi2hMobCx
-	fx5SeQCwWCEDoOFXzc+YwO4UpC+G8ljmG85Nx4kB9P47hhzWLp0Djp7z2pRBafMAbyFpoNj+zbl
-	evXPu6JfvgZMepJcUi/zP6yMbeL/XB0rz6OEBvLaHg+zL/nfIFXR0B9eRWnV72KO8LppDFwUn7N
-	8u+PJ01QwHOye+hhO2OBVm3mixYmrwLV7BvQgKXPcqpALp/x+QYaUHvenaSaN1/HmbcMF9DltCF
-	DtUEsdXlnXFzPrQHlW5L3zPGqKrAgF3F0G4A9DYUMIPp
-X-Received: by 2002:a05:690c:4d89:b0:794:ef94:1222 with SMTP id
- 00721157ae682-797a0cd07e3mr12753437b3.55.1770964147537; Thu, 12 Feb 2026
- 22:29:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="QWyyGnYa"
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61D6QQPu1457212;
+	Thu, 12 Feb 2026 23:24:47 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=6n44ZWXVc
+	1FHm0XitB62rbRSjRQuQzVcuT2YayibXQ8=; b=QWyyGnYaxg459pHdBvRzxHzxA
+	H1FUttFrHh5Mb+bumYFy9EAxHoIAsEifGCtK3Vn7rpBPiPYvYOpYsN6tE/rFM8UT
+	P9ZnFbxDWpxPYnIl1+sARxFG7zmqe2NPLWM901YHtBj1Wq9gax7t9QZ+F+mCDTIc
+	JmeZoiqeT86ivZ+ZNOWcToor6YmCeJp0DOwzK4Rlb25I8FaW4tutp5poaystkKLT
+	HOjkKckVU9bScCjRHuTkZrzeZvCKObDUosq0BdyoFJYs1uyv5XcHK4Y7BxU1TrCY
+	XO9klU3R9J7xbkXAehKL3l3XLoTjC3n20/0hSShv11LDIffqiL4UHPQ+5wyLw==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11012003.outbound.protection.outlook.com [52.101.48.3])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4c65sj6uyq-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 12 Feb 2026 23:24:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rhsJ/cQWdv/FGhrl3DDs1kkmnWpirhlic/rnEdfSW4myskPWiMJLlwksJ/nQ1G4molCvD3Hw6XZDlXS1od4ajv0iewz9BXc/xr88fvx6Gq0CcVrT3a+BaBMthnPK53SBTTWeKYRt/hhWNhUdmVR7Xoc8tCLV2CxK85Iuz7aaDg/830lXhmlxZF3DXkyVG64OmSlc3y+r4hKkDSi4nvu0M5jqBjPPl2wr8cEorutp7PbPv3pJ8Qz6fx4DKq2wuVE3cVWpb7J4U9lutuoO1EVKBwSrumVTZ9BGPhofGTX26OCYf3XgeU4GGYJfTbIF//Ibjkp2o8r5bb9ztaw/bSiTnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6n44ZWXVc1FHm0XitB62rbRSjRQuQzVcuT2YayibXQ8=;
+ b=h5bBE2syta0+7Hz5GSvWstmk5KJEtfC7k0cujC/7iT+ve9w3yDiczv4jWwe0C3DayvfHefAyS5xQ3yLzwWM6+XbUiRIpS1aOUMIclHrv1wjOXWWTdvYBVY9CWKZzScgR9YWpyFQ5iZA/dNjBkfAGDeeh4YkHxBl7JF+4o6iopKkV2St88HCcIhybQwODNHu5dPmdOKTf0tLIihwwsDl6MKboqPDFkzz0z3CrsA6jlzFhY2ccqbib/g+San5dVfXhqqd/0jKxR+M3Oq/f0XQmsEPIPwiCdOUr9KxnK6jN741M2KkqPxZF5WxiwluoCW+C+W4omVQzfcO5FTkE/1c4kQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MN2PR11MB3885.namprd11.prod.outlook.com (2603:10b6:208:151::27)
+ by SJ2PR11MB8347.namprd11.prod.outlook.com (2603:10b6:a03:544::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.14; Fri, 13 Feb
+ 2026 07:24:44 +0000
+Received: from MN2PR11MB3885.namprd11.prod.outlook.com
+ ([fe80::a8bb:9703:986e:845]) by MN2PR11MB3885.namprd11.prod.outlook.com
+ ([fe80::a8bb:9703:986e:845%4]) with mapi id 15.20.9611.008; Fri, 13 Feb 2026
+ 07:24:44 +0000
+From: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
+To: axboe@kernel.dk
+Cc: bigeasy@linutronix.de, chris.friesen@windriver.com, clrkwllms@kernel.org,
+        ionut_n2001@yahoo.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        linux-rt-users@vger.kernel.org, ming.lei@redhat.com,
+        mkhalfella@purestorage.com, muchun.song@linux.dev, rostedt@goodmis.org,
+        stable@vger.kernel.org, sunlightlinux@gmail.com,
+        "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
+Subject: [PATCH v4 0/1] block/blk-mq: use atomic_t for quiesce_depth to avoid lock contention on RT
+Date: Fri, 13 Feb 2026 09:24:12 +0200
+Message-ID: <20260213072412.28863-2-ionut.nechita@windriver.com>
+X-Mailer: git-send-email 2.53.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: VI1PR07CA0302.eurprd07.prod.outlook.com
+ (2603:10a6:800:130::30) To MN2PR11MB3885.namprd11.prod.outlook.com
+ (2603:10b6:208:151::27)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260205115559.1625236-1-bigeasy@linutronix.de>
- <aYn6j_JLBENcY96V@redhat.com> <20260209155528.k7RMRPVD@linutronix.de>
- <CAC_iWjLt-CzTkmnVMHidnMFWkE9NPzVLo6g8FUgMu0gAUJ0KtQ@mail.gmail.com> <20260212162041.acU_rljT@linutronix.de>
-In-Reply-To: <20260212162041.acU_rljT@linutronix.de>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Fri, 13 Feb 2026 08:28:31 +0200
-X-Gm-Features: AZwV_QhwAzoy29uRON-C54jYvitJkKlgh7E9kmWTIvcPHuioNdqkhk0IAgKbCXA
-Message-ID: <CAC_iWjJL3Ng=+QH2pBCLskE1aiSJJJM1Db8JU+UGNdKsrLYhZQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] efi: Expose the runtime-services workqueue via sysfs
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>, linux-efi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	Ard Biesheuvel <ardb@kernel.org>, John Ogness <john.ogness@linutronix.de>, 
-	Lai Jiangshan <jiangshanlai@gmail.com>, Tejun Heo <tj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB3885:EE_|SJ2PR11MB8347:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3946b45f-def4-4de1-98ec-08de6ad0f5d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|52116014|7142099003;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wJQQSmqieyIlzpaRL3P6RJ5uQoNjNFn0disvEL2qcaWMu2un6X6fe5kdp/W6?=
+ =?us-ascii?Q?b6uuYyBjLPNHlbCaxBUjPGMpotXFKxbXXRF2glYDtRuM0N6uFtj5WQw7M17O?=
+ =?us-ascii?Q?zGfUlDOJs/e0wTH3wwmiWpo5LWL6q04K+kBu7xY3WyH+obGH1qm5M30wOxve?=
+ =?us-ascii?Q?WVJ6d3bK+sSHxliBOdA7dri4m7V4+UzV0JvpJS4ftlmBUHos9/eaiFk7wHR1?=
+ =?us-ascii?Q?Iadxsd2Sgekj/eOT3Mc+KsW6WwzrWdZPstHl2ZdACK5xIJSlRWe0YrM/PRbh?=
+ =?us-ascii?Q?vYNPxcjQpsd9Xpm3+Mhb5aGVWKkxTsx/oAjKjKpqi9UBl8Vo5wc2vUn+VQof?=
+ =?us-ascii?Q?54PnT843XOjozXoxnvqpvduCGt9AQHjIJt15jWo9EcsC/19mzRLTkCR7/OVP?=
+ =?us-ascii?Q?JdHZ2bAOaqjewh2adTK+3vO/jT4ZHS9tGAheFrTYLqDlXs3YJTevhkY+mKOK?=
+ =?us-ascii?Q?rpohEB+11oUEan633MIzpjRcSCAQbodeH362SQ71SEmSP3jNGZVm/7ScWHkn?=
+ =?us-ascii?Q?sR6eR5lK4BgkHDvbiBfKzAajKwrZS3TPBX3uPuQcfGL2+MqlU0XHEtsgMqD3?=
+ =?us-ascii?Q?zVg2LA+NmaiZdL9XsaypbvsHO2/XARawymKkD+KVGk/qLbidIs2zda6jFqqF?=
+ =?us-ascii?Q?wrbAocfgl/IKdSf6dlXEMtpVJZbtXxWA4EjkfLfWmfXIjHNcXJmXqFXoqjSt?=
+ =?us-ascii?Q?l6aj2geqNvsaniXqnm1tmKJ0RRJ5Ki1r3iOpazCYqUsiBtgnojEg1bcuQGnu?=
+ =?us-ascii?Q?lFk30wvGfkmMCvDHuLn8peB36z/ulTK/sFchMCPl2Xib+cKpDFByNtzVKE5w?=
+ =?us-ascii?Q?ObQSdY7DrygVK0DT5ZhBBRmSAyZc1peDjBBe+C5KKRZ99j2OG8opasnrel6M?=
+ =?us-ascii?Q?cwfYN7Z5x+wRTEPDJryxDiWag4ZOLYyAt+AjYSd6WvSu1ZtfA+wxrvpGXkYZ?=
+ =?us-ascii?Q?nKwk26BgZ1s2IJSKg1Jowl2I0SoKgTmleH9LgFnnZBOll9eb+BAJ5OMe6W2B?=
+ =?us-ascii?Q?dvLBBbh0QRAqgXWu+1dDphQgQW6A+zNZLV8V5mR2QwsYQSzpojku1fgTzCzW?=
+ =?us-ascii?Q?HoxwMQAa5EpiZXZFXOAOPFlK3bEqTfGSTKhoKiaOsIlQLTb8O0qH5j++5Xv9?=
+ =?us-ascii?Q?ukYtIyAeJA2fL5ax4VBhPczyD9Dl2ofpJmccsS5cnofEM9pOxl2UUnvJ6Lg2?=
+ =?us-ascii?Q?VEEljZpMjIh+cvxW6IrZD8zNT5WCCkP8b910l6cjVEPPDBXGLUgHwsTl3UfJ?=
+ =?us-ascii?Q?IUqtyH0zNsftCjO9siAvCbposFW5fc3mp0RH1w5DxsTUgDFvl769KFQdlU7j?=
+ =?us-ascii?Q?03r09MjqImm3a30yfIusLvu3VflHpW6z0NKRhv3mu9hhA6Te/CsgfEP8THz0?=
+ =?us-ascii?Q?8NU3zQVxmFlZ3FeRLVs8oiPvWFejwBK/SIX5BRZrsn6g/4ID5mF7NoY9QKex?=
+ =?us-ascii?Q?VyEjdsBsFstkgVmCgzfvsx31pqgarV2xt/rOUtYbm6LtAANWFSlSCXOktOyf?=
+ =?us-ascii?Q?1PdcnmVHJ+Fcqk6ZqUXPBRO9qWowjoftVhmc4X1R03z4RIOFwfiHC3Mhrkz5?=
+ =?us-ascii?Q?AutcSP/NAopsVkO3+5o=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3885.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(52116014)(7142099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?UTXzrPrN2DW4dbiwI2dywSY3zELWfB/BGOTj48ntAKp6u9GuEfgDPnTbbcth?=
+ =?us-ascii?Q?cfjOTFLFxPccpJu1xmXQ9HRTyGwi/H57oDzvAdjif5ALKhry+bqjq098mOGM?=
+ =?us-ascii?Q?2Pzm/Kg/+cH5hzyvbtdIoIXSIh/pACwqtTwFOlcpJLDNwjrwEfnKga01rBOU?=
+ =?us-ascii?Q?NzANLc4mPHAEj9OtpDNa0sI0wLqKEMs+b+uv6nzvwKEwfBrirJEPHh3g51qV?=
+ =?us-ascii?Q?EY+cMQrELVMgQwJPdAA06ue5WT3g+e3FvkvZQKDb/wGnJShF6ihM+mRMTaV4?=
+ =?us-ascii?Q?AAKApS/QqNEcy9YSOYIcJ6ti8fWvpr30NJgI5zTloW0guxXSuGTBcm58hG2B?=
+ =?us-ascii?Q?S+Pw04KVmMij7nq7393tgLUuOJA/9kQMMMdvX/gUf0hN/9wTz7xL+sOUhn6k?=
+ =?us-ascii?Q?L9kiqkf2GzaGvlP0qcbr+yOjMWRdCfMS2dw/mWAdh/THDPmQQy1jklZ84pLa?=
+ =?us-ascii?Q?h0glvny0U5GjfMwpJkc5v0F5brI2gUxac/FAgnYXgN69igc7Es3sH0k6QXaT?=
+ =?us-ascii?Q?bHOZK3KouZ1FbHXhvV3v5KU05Qd7S3SC3J+MHZotMFlfEL1DrDF06KRAM4oM?=
+ =?us-ascii?Q?mEq+pTg+8To30SfM9lJKjvFWsBQhRSU1VHgUQk5Jn6EzMzMiEyvK7a2Zk5+0?=
+ =?us-ascii?Q?tgeNpXrfWxkCVB+h8J6+5kfMKpRjYN3rR90aVQcOfP+/IKbV3lAGptmsSNjX?=
+ =?us-ascii?Q?enNZNW80FHb27jIrNTjP7B2bjWgE/dG2JxZERFbr8oIFeg8TtUtMMoIS8tRO?=
+ =?us-ascii?Q?AjO1FtiIehtZfMOzoYu+WP+LEqBbwWZw81RimR+lJieOaizyi1hBgkQgpcjl?=
+ =?us-ascii?Q?+SLE8OsrerUhRPn2yQGXtbbsgG6TinYv1OZawlKwiZFS7D94hRuAvV9RHUw2?=
+ =?us-ascii?Q?Jj020O+4fkaZijxkd8hE2oJi3KFv6aWRGMfkfPFkacneqSKe03XH8K+dLvZy?=
+ =?us-ascii?Q?pvLf9tHS554Fs0kKnejaKkJ5fz6Hv9TDgLmrRw0fz6kHCKya1Ud8Wl7fdm11?=
+ =?us-ascii?Q?qzgIhqL3mY5Jf2TZ2fK4Rk9Zmh/9mdCqagfJFqmsCWzF5p+PenARL7CtHwP4?=
+ =?us-ascii?Q?DFwsO9NtWYwTucQLFcykCKIFPj/DD9+TfhehNxTanLa8zyKMqlCWaqiP5x3k?=
+ =?us-ascii?Q?R6Hi0lbSAiiXN1Zf0jUz+1aKAsoFktKyvRkey0FHUNJcy27cAnW9fsuVKzzr?=
+ =?us-ascii?Q?k9hZiix8FD0x9iPgVj/5pgiSbwK4CGnVOajSi/UhD/c1vvNCJ521u7bVWiYb?=
+ =?us-ascii?Q?/yN5+Go2MlnUOLOBK+PxeUMP3YU57D2XlugQJrFdRt+YYGMbp0MO/Kgk5fdE?=
+ =?us-ascii?Q?nvlrIbtXHqHbXVM6rLISqXww7v5NLjL/T3ms+LIIc99A8RjCVZlH7v8p3JXi?=
+ =?us-ascii?Q?q/QA5Z+KIQ5UqMSNXXo8wHBHG2cjEWvMysHhLA/W2ycK/0OugDgt9A+UpcW5?=
+ =?us-ascii?Q?1TMByD9DQP8+6fol33hNKRDRPL3Wd8uburTfz4oZtdwijHAYA/Edel5LCBvO?=
+ =?us-ascii?Q?7eW6N1xc8wweZWpBPxv6iCs4GJoqG8YN88IQ3AjPc2Hpqm4edGY1qK6VIo0t?=
+ =?us-ascii?Q?x+51CxbEtUlpfrPYtYKPmv8+XdlmUwZOZ7rsmkB76dvkN2O1vKdatmyosffK?=
+ =?us-ascii?Q?WYJWounKdVflGvXTMKuGjCdjsDbIS+wbQym24WzHoZUSSJarw5TLgAzoMyB8?=
+ =?us-ascii?Q?pNR60jdawMdEcoV8x+zVCzc8vJiEQF46yflKn1uvO0pTJ0HTic/BbWhXHO5h?=
+ =?us-ascii?Q?Mb/+5WSLY9oaQRpmSuVZJPFneIA5XvTxtAB5lKOKSLiEDDQRiSDwYqvVI/nS?=
+X-MS-Exchange-AntiSpam-MessageData-1: /9t1iWXc4iDWrjzqBDhmI+ofJdvUOp04zhM=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3946b45f-def4-4de1-98ec-08de6ad0f5d4
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3885.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 07:24:44.5078
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8s5xl+hilMZJqG/5kKFqby90r8ZG9ykKG6sfYxmI2uaWdW+4ay8IuSV+wuhAl2ojAXPW0ys00C4/hKf3aLg5B7U/boI0rhfHcglhPGKOXTc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8347
+X-Proofpoint-ORIG-GUID: t39__j9Yukxovcd0ChQayp59oM7JpC2z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEzMDA1NSBTYWx0ZWRfX9Z1SAFV+viqz
+ 9+2lanuDa38eJeQZF8vQZdc5I36fUZUDoesJ66nZ7JVBemdGkzsypYT5MIvqtK6BIf5cLdZEwSU
+ 7kmVHMn7HGucdoVAhQOVri8EFlsFO8ycQJZDGyrFFbTcxEmPkxQlUhm5C244IibX7eF4uVDJYsZ
+ Jh5cTS5ZObP2KDRMRjPg0H/hLJI1RhMw1r36/0GjZRwrOBxV5F9uaXcYc8ZmJlXL9w0TanpyxKR
+ Ph+Tpziq5SuovNobjZt2IzdOHBiLLB5kHcTJNrhatLdSViaVorVP0FPoUAzrAfJK482GaeUUhNR
+ VkEBLbwCOEd9uDQHNDjjFfAvHbF0nPZnhAT2hXyRKKWp62GBNeijlDD3wVFXtXEmOTFh4Ajtq4k
+ awSOyofLkD+/aVCHPrUmHWWhg6wfIz2fx3EH1AhfzwaHXx7j2DvFr5UiQVYXXWk+IhnvKxu4C84
+ Hjv5PVG8ggomT3v/bhg==
+X-Proofpoint-GUID: t39__j9Yukxovcd0ChQayp59oM7JpC2z
+X-Authority-Analysis: v=2.4 cv=Cpyys34D c=1 sm=1 tr=0 ts=698ed1be cx=c_pps
+ a=O5ql0vl6PVxeYGQXc+vjrA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=9nd0r87i4cbtBJwJiegA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-13_01,2026-02-12_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602130055
 
-Hi Sebastian,
+Hi Jens,
 
-On Thu, 12 Feb 2026 at 18:20, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
->
-> On 2026-02-12 09:09:51 [+0200], Ilias Apalodimas wrote:
-> > Hi Sebastian,
-> Hi Ilias,
->
-> > Late to the party but ...
->
-> glad to have you.
->
-> > On Mon, 9 Feb 2026 at 17:55, Sebastian Andrzej Siewior
-> > > What I don't know is if this is a problem, i.e. is it possible to
-> > > interrupt the secure monitor and continue in Linux before heading back
-> > > to the secure environment or not.
-> >
-> > In theory yes. In practice, at least for arm & OP-TEE, the
-> > communication between the TEE and the secure-world app doing the
-> > variable chekcs & authentication is via the MM protocol [0].
-> > IIRC that requires to run to completion. So what happens is that you
-> > enter OP-TEE and right before the StMM is invoked (the app that
-> > handles EFI variables) all exceptions are masked and it must run to
-> > completion.
-> > The period of masking does not include writing the variables to
-> > storage. That's handled differently and is interruptible.
->
-> There it RTC and variables which is the most common thing. If you can
-> somehow outsource variable read/ write then fine but I guess you need to
-> wait somehow to ensure the data is written. Anyway.
->
+This is v4 of the fix for the RT kernel performance regression caused by
+commit 6bda857bcbb86 ("block: fix ordering between checking
+QUEUE_FLAG_QUIESCED request adding").
 
-Yes the variables are processed with exceptions disabled, but the
-actual writing to the RPMB runs as OP-TEE RPCs(remote procedure calls)
-which can be interrupted.
+Changes since v3 (Feb 11):
+- Rebased on top of axboe/for-7.0/block
+- Fixed Fixes tag commit hash to match upstream (6bda857bcbb86)
+- Added Reviewed-by from Sebastian Andrzej Siewior
+- No code changes
 
-> That referenced document describes the protocol but not the
-> implementation of how communication works. What I found is that most
-> interfaces in the TEE world end up either in "SMCCC_1_2 hvc" or
-> "SMCCC_1_2 smc". The smc command in terms of arguments is described in
->         https://documentation-service.arm.com/static/5f8ea482f86e16515cdbe3c6
->
-> but it does not say if the interrupts are masked.
+Changes since v2 (Feb 10):
+- Replaced raw_spinlock_t quiesce_sync_lock with atomic_t for
+  quiesce_depth, as suggested by Sebastian Andrzej Siewior
+- Eliminated QUEUE_FLAG_QUIESCED entirely; blk_queue_quiesced() now
+  checks atomic_read(&q->quiesce_depth) > 0
+- Use atomic_dec_if_positive() in blk_mq_unquiesce_queue() to avoid
+  race between WARN check and decrement
+- Removed the unrelated blk_mq_run_hw_queues() async=true change
+- Removed blk-mq-debugfs.c QUIESCED flag entry
+- Uses smp_mb__after_atomic() / smp_rmb() for memory ordering instead
+  of any spinlock in the hot path
 
-It's a bit cryptic indeed. It doesn't specifically mandate it, but the
-chapter 2 introduction says
-"A description of how MM services can be invoked asynchronously is
-beyond the scope of this specification". So we tend to keep them
-disabled. But as i said I am pretty sure keeping them enabled, if
-needed, won't break anything.
+Changes since v1 (RESEND, Jan 9):
+- Rebased on top of axboe/for-7.0/block
+- No code changes
 
-> I would assume that it
-> transfers the execution control to the secure monitor which is then
-> entered with disabled interrupts similar to an exception on the linux
-> side. In that case it would mandate a workqueue kind of solution so it
-> can be pinned to a CPU.
+The problem: on PREEMPT_RT kernels, the spinlock_t queue_lock added in
+blk_mq_run_hw_queue() converts to a sleeping rt_mutex, causing all IRQ
+threads (one per MSI-X vector) to serialize. On megaraid_sas with 128
+MSI-X vectors and 120 hw queues, throughput drops from 640 MB/s to
+153 MB/s.
 
-We enter OP-TEE with exceptions is enabled. It's only when we enter
-the S-EL0 application that processes the variables we mask exceptions
-[0].
+The fix converts quiesce_depth to atomic_t, which serves as both the
+depth tracker and the quiesce indicator (depth > 0 means quiesced).
+This eliminates QUEUE_FLAG_QUIESCED and removes the need for any lock
+in the hot path. Memory ordering is ensured by smp_mb__after_atomic()
+after modifying quiesce_depth and smp_rmb() before re-checking quiesce
+state in blk_mq_run_hw_queue().
 
->
-> The only exception here seems to be the amdtee driver
-> (psp_tee_process_cmd()) which sends a command and waits for an answer.
->
-> Sebastian
+Ionut Nechita (1):
+  block/blk-mq: use atomic_t for quiesce_depth to avoid lock contention
+    on RT
 
-[0] https://github.com/OP-TEE/optee_os/blob/master/core/arch/arm/kernel/stmm_sp.c#L124
+ block/blk-core.c       |  1 +
+ block/blk-mq-debugfs.c |  1 -
+ block/blk-mq.c         | 45 ++++++++++++++++--------------------------
+ include/linux/blkdev.h |  9 ++++++---
+ 4 files changed, 24 insertions(+), 32 deletions(-)
 
-Regards
-/Ilias
+--
+2.53.0
+
