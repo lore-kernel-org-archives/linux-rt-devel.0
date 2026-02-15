@@ -1,418 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B85020E334;
-	Sat, 14 Feb 2026 00:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D03738FA3
+	for <linux-rt-devel@lists.linux.dev>; Sun, 15 Feb 2026 06:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771030714; cv=none; b=ETUqDJ/+OBT0ibwGxugqJizamwFt8ol1neKw0Uyee2fLbn5sQuoqiQYGHtxzJciSQ98+dvf7zSNQ9/qDhJeu+q/Y5VolvEQW6/b4TrXBYcP1NbLkfD7kzPSikI2uAl2TdMjrUG/dY0peU/YiAjHexdQvVBHhToVw2y2L7rMr7xA=
+	t=1771137955; cv=none; b=t5ASxWh3p/WpntoLGecs7kvv70QPESowdyLKIWEFt3Dd1EU/ILOwL7N8O3Pcg2q+Q9FzAI6sZ/iYTBIenijiczPGZfwpd3ZwgwyX0PbFxkSksKWHlJop9qaWKsFFR7ehkdx78DwnGWGwwlremHvzbo4bfVfK4rcdNZDGvn6PXh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771030714; c=relaxed/simple;
-	bh=Fbguudayvr5/a8atI4mdtxwAWSlFxYIraPPOXe1sJ88=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gmuNyDykg3WYlcim5ZPEAJUDOXIiNumCmaazWWtTxVT+B4P8udACMdNt677WU3fUKa8Nd9hHFttcFu7891L+m/zAxoyY5ND4h0r4UdyOQlhWHITnUVmlbYW0zFx/jFuaW/hMSe7fHpw+glX/VqnnKDmdm3P2ondMI36/VK0W2cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfAYDfaD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771137955; c=relaxed/simple;
+	bh=7cFx0wxiBt2oOL6vallIz5WVa9qyZze8EQtIXIrvi3I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eOU1c+A9WlpewE4hnpf1PPyyluWqvgOHQGYFXbVFo/TJqxTgMlIgoWNijYMLYSMTdRnI0s6c3hz9eR49ye3z+1Qbk9Clcq71kihsAf567nNxh6RwLlsYDHXfZ8wvEuvcY2+9oUSXs492J5d0DMwuJIdejs9VP+ZvgB5zi+dY+HY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=dirk.behme@gmx.de header.b=kxYs6qEq; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfAYDfaD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F52C19424;
-	Sat, 14 Feb 2026 00:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771030713;
-	bh=Fbguudayvr5/a8atI4mdtxwAWSlFxYIraPPOXe1sJ88=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FfAYDfaDrtDjmPTkhoEwGQc4K4nBSYKHRRf2EFllZ6YB7EJusBzPu9Cciz9h2oow9
-	 c0k5OXIJWc3wo83R4csKqdQP1v2YEeY5Tk/oG42nRTWK/a3vBFQTXvxHAfqEZwdDjF
-	 Z1rHenOIBJYoQhNXRblwA0xr8vEhvNrXN7OHlIL2tz2zhNYIw8a9u7vMZGnKT554Tv
-	 LObS6laFcKSsDehiRDGIHAzQPYLqlYOBtXc/vxdgaCxk8t6IebjMafzUyAbMaYf3Oc
-	 mLbGnF36oYStG2hHeBoRwIth0mf0IDP00bbbmILFZph4ucOlOpvnYkxvG5Nd8GBo0l
-	 WYPVjBEa3sJ+A==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Prathamesh Shete <pshete@nvidia.com>,
-	Petlozu Pravareshwar <petlozup@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Sasha Levin <sashal@kernel.org>,
-	thierry.reding@gmail.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	ulf.hansson@linaro.org,
-	chleroy@kernel.org,
-	jirislaby@kernel.org,
-	yelangyan@huaqin.corp-partner.google.com,
-	linux-tegra@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.19] soc/tegra: pmc: Fix unsafe generic_handle_irq() call
-Date: Fri, 13 Feb 2026 19:58:09 -0500
-Message-ID: <20260214005825.3665084-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260214005825.3665084-1-sashal@kernel.org>
-References: <20260214005825.3665084-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=dirk.behme@gmx.de header.b="kxYs6qEq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1771137759; x=1771742559; i=dirk.behme@gmx.de;
+	bh=AdcHYF4G/k6Zrjgfn4uMhaEygzOQ4eiFPqSXvL8Shyw=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=kxYs6qEqggL4ULenD08/H++rJS0Qa/he2vbgbQgsRcdvarSVx5NCEuvol5nZwqF1
+	 gMmKWgicGg4pKMqidqBV9UV9zpqaX4hWeJ/okoQKhAXHSFzRaNopdmIEt/7T5nsPf
+	 P6Zn6sCQjN5LXQ6Ki/BZY2JqtYZIIH4rDUFAQzWdw00Po45heUOMN1R7uaTRpt4KD
+	 LFsXG6c25x4RjQb8bDxc9Wj/uJv5oDgu42hMlr0sqZuP1sf1bjpK1eLbG5GsRhiLq
+	 rwbDKh3cMZ2k1p/mz3PK56xYvZyaEtSslfwY3WbwIdo0k1DijkkubS+3volbhR5Tk
+	 L6HHLjNGIwoifE21sw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.178.42] ([84.129.20.229]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmjq-1wKXx63E5K-00OJ5P; Sun, 15
+ Feb 2026 07:42:39 +0100
+Message-ID: <ab0b9f9c-3a05-42f3-b4a7-ddb6ab0d37a4@gmx.de>
+Date: Sun, 15 Feb 2026 07:42:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.19
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 31/42] dept: assign unique dept_key to each distinct
+ wait_for_completion() caller
+To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
+Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+ damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
+ adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
+ peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
+ rostedt@goodmis.org, joel@joelfernandes.org, sashal@kernel.org,
+ daniel.vetter@ffwll.ch, duyuyang@gmail.com, johannes.berg@intel.com,
+ tj@kernel.org, tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+ amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+ linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+ minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+ sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+ penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
+ linux-block@vger.kernel.org, josef@toxicpanda.com,
+ linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
+ dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
+ dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
+ melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+ chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+ max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
+ yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
+ netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
+ corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
+ arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
+ da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
+ frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
+ josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
+ jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
+ neil@brown.name, okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
+ trondmy@kernel.org, anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+ clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, wangkefeng.wang@huawei.com, broonie@kernel.org,
+ kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
+ ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
+ baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
+ joel.granados@kernel.org, richard.weiyang@gmail.com,
+ geert+renesas@glider.be, tim.c.chen@linux.intel.com, linux@treblig.org,
+ alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+ chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
+ link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
+ brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
+ mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-modules@vger.kernel.org, rcu@vger.kernel.org,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ 2407018371@qq.com, dakr@kernel.org, miguel.ojeda.sandonis@gmail.com,
+ neilb@ownmail.net, bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
+ dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
+ alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org
+References: <20251205071855.72743-1-byungchul@sk.com>
+ <20251205071855.72743-32-byungchul@sk.com>
+Content-Language: de-AT-frami, en-US
+From: Dirk Behme <dirk.behme@gmx.de>
+In-Reply-To: <20251205071855.72743-32-byungchul@sk.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:aWhWMgelEECPmC8s4cDGobXX6S7QtiNME6Biy1AWp+3e//5sbQ5
+ y9wEC0GO6LExJy0TTxPgi7hn9knznFwU+a3hirtKlPOCAxJAmR+f4VZcqBi5p6St8Nc30fU
+ oiV/7SpKGjIQCoOsBc01ZMd0fVmfFXBllNez+QIS6oLVPBXw4NlthHwsLkGV+AXk0sSs7K4
+ GRT5XuyhIHBhQJdzZpoIw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OmiIocz3wZw=;W0wkBau9AOTYHToDyhFSvTXvQnG
+ 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
 
-From: Prathamesh Shete <pshete@nvidia.com>
+On 05.12.25 08:18, Byungchul Park wrote:
+> wait_for_completion() can be used at various points in the code and it's
+> very hard to distinguish wait_for_completion()s between different usages=
+.
+> Using a single dept_key for all the wait_for_completion()s could trigger
+> false positive reports.
+>=20
+> Assign unique dept_key to each distinct wait_for_completion() caller to
+> avoid false positive reports.
+>=20
+> While at it, add a rust helper for wait_for_completion() to avoid build
+> errors.
+>=20
+> Signed-off-by: Byungchul Park <byungchul@sk.com>
+> ---
+>  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
+>  kernel/sched/completion.c  |  60 +++++++++++-----------
+>  rust/helpers/completion.c  |   5 ++
+>  3 files changed, 120 insertions(+), 45 deletions(-)
+>=20
+...
+> diff --git a/rust/helpers/completion.c b/rust/helpers/completion.c
+> index b2443262a2ae..5bae5e749def 100644
+> --- a/rust/helpers/completion.c
+> +++ b/rust/helpers/completion.c
+> @@ -6,3 +6,8 @@ void rust_helper_init_completion(struct completion *x)
+>  {
+>  	init_completion(x);
+>  }
+> +
+> +void rust_helper_wait_for_completion(struct completion *x)
 
-[ Upstream commit e6d96073af681780820c94079b978474a8a44413 ]
+Please add `__rust_helper`:
 
-Currently, when resuming from system suspend on Tegra platforms,
-the following warning is observed:
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit=
+/rust/helpers/completion.c?h=3Dnext-20260213&id=3D1c7a6f48f7eeb3014584d2fc=
+55fc67f0cbaeef69
 
-WARNING: CPU: 0 PID: 14459 at kernel/irq/irqdesc.c:666
-Call trace:
- handle_irq_desc+0x20/0x58 (P)
- tegra186_pmc_wake_syscore_resume+0xe4/0x15c
- syscore_resume+0x3c/0xb8
- suspend_devices_and_enter+0x510/0x540
- pm_suspend+0x16c/0x1d8
+Best regards
 
-The warning occurs because generic_handle_irq() is being called from
-a non-interrupt context which is considered as unsafe.
-
-Fix this warning by deferring generic_handle_irq() call to an IRQ work
-which gets executed in hard IRQ context where generic_handle_irq()
-can be called safely.
-
-When PREEMPT_RT kernels are used, regular IRQ work (initialized with
-init_irq_work) is deferred to run in per-CPU kthreads in preemptible
-context rather than hard IRQ context. Hence, use the IRQ_WORK_INIT_HARD
-variant so that with PREEMPT_RT kernels, the IRQ work is processed in
-hardirq context instead of being deferred to a thread which is required
-for calling generic_handle_irq().
-
-On non-PREEMPT_RT kernels, both init_irq_work() and IRQ_WORK_INIT_HARD()
-execute in IRQ context, so this change has no functional impact for
-standard kernel configurations.
-
-Signed-off-by: Petlozu Pravareshwar <petlozup@nvidia.com>
-Signed-off-by: Prathamesh Shete <pshete@nvidia.com>
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
-Tested-by: Jon Hunter <jonathanh@nvidia.com>
-[treding@nvidia.com: miscellaneous cleanups]
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-## Complete Analysis
-
-### 1. COMMIT MESSAGE ANALYSIS
-
-**Subject**: "soc/tegra: pmc: Fix unsafe generic_handle_irq() call"
-
-The commit message is unambiguous - it's fixing a **real, observable
-WARNING** during system resume on Tegra platforms. The warning backtrace
-is included:
-
-```
-WARNING: CPU: 0 PID: 14459 at kernel/irq/irqdesc.c:666
-Call trace:
- handle_irq_desc+0x20/0x58 (P)
- tegra186_pmc_wake_syscore_resume+0xe4/0x15c
- syscore_resume+0x3c/0xb8
- suspend_devices_and_enter+0x510/0x540
- pm_suspend+0x16c/0x1d8
-```
-
-The fix has been **Reviewed-by** and **Tested-by** Jon Hunter (NVIDIA
-kernel engineer), and authored by NVIDIA engineers who are experts on
-Tegra PMC.
-
-### 2. CODE CHANGE ANALYSIS - The Bug
-
-**Root cause**: `tegra186_pmc_wake_syscore_resume()` is called by
-`syscore_resume()` during system resume. Looking at `syscore_resume()`
-in `drivers/base/syscore.c:93-110`:
-
-```c
-void syscore_resume(void)
-{
-    WARN_ONCE(!irqs_disabled(), ...);
-    list_for_each_entry(syscore, &syscore_list, node)
-        if (syscore->ops->resume)
-            syscore->ops->resume(syscore->data);
-}
-```
-
-This runs with **interrupts disabled** but **NOT in hard IRQ context**
-(i.e., `in_hardirq()` returns false). However, when
-`generic_handle_irq()` is called, it goes through `handle_irq_desc()`
-(in `kernel/irq/irqdesc.c:658-671`):
-
-```c
-int handle_irq_desc(struct irq_desc *desc)
-{
-    data = irq_desc_get_irq_data(desc);
-    if (WARN_ON_ONCE(!in_hardirq() &&
-irqd_is_handle_enforce_irqctx(data)))
-        return -EPERM;
-    generic_handle_irq_desc(desc);
-    return 0;
-}
-```
-
-The ARM GIC v2 and GIC v3 interrupt controllers **set
-`IRQD_HANDLE_ENFORCE_IRQCTX` on ALL interrupts** they map (confirmed in
-`drivers/irqchip/irq-gic.c:1077` and `drivers/irqchip/irq-
-gic-v3.c:1585`). Since Tegra SoCs use ARM GIC, any IRQ going through the
-Tegra wake domain will have this flag set. Thus, calling
-`generic_handle_irq()` from the syscore resume context (not hard IRQ)
-triggers the `WARN_ON_ONCE`.
-
-**Why it matters**: Beyond the WARN, the function returns `-EPERM`
-without actually handling the interrupt. This means **edge-triggered
-wake IRQs are silently dropped**, potentially causing missed wakeup
-events and device misbehavior after resume.
-
-### 3. THE FIX
-
-The fix:
-1. Adds `struct irq_work wake_work` and `u32 *wake_status` fields to
-   `struct tegra_pmc`
-2. Creates a new `tegra186_pmc_wake_handler()` function (the IRQ work
-   handler) that contains the logic previously in
-   `tegra186_pmc_process_wake_events()`
-3. `tegra186_pmc_wake_syscore_resume()` now saves wake status to
-   `pmc->wake_status[]` and queues the IRQ work via `irq_work_queue()`
-4. The IRQ work handler runs in **hard IRQ context** where
-   `generic_handle_irq()` is safe
-5. Uses `IRQ_WORK_INIT_HARD()` to ensure hard IRQ context even on
-   `PREEMPT_RT` kernels
-6. Adds a check in `tegra186_pmc_wake_syscore_suspend()` for unhandled
-   wake IRQs
-
-This is the **correct** fix pattern - using `irq_work` to defer IRQ
-handling to hard IRQ context is a well-established kernel pattern.
-Multiple other drivers have been fixed similarly (see commits
-`94ec234a16cf3`, `118c3ba24d04f`, `c6a91405ac5cd`, `f285de79569f9`,
-`f460c70125bcb` which all converted to `generic_handle_irq_safe()`).
-
-### 4. DEPENDENCY ANALYSIS
-
-**Critical dependency**: This commit was written against the v6.19 tree
-which has the new `struct syscore` API from commit `a97fbc3ee3e2a`
-(v6.19-rc1 only). In stable trees (v6.6, v6.12), the functions use the
-old `struct syscore_ops` interface:
-- `tegra186_pmc_wake_syscore_resume(void)` (no `void *data` parameter)
-- `tegra186_pmc_wake_syscore_suspend(void)` (no `void *data` parameter)
-- `struct syscore_ops syscore` (not `struct syscore`)
-
-**However**, the core fix logic (adding `irq_work`, deferring
-`generic_handle_irq()`) does NOT depend on the syscore API change. The
-fix can be backported with minor adaptation:
-- The function signatures need to match the old `syscore_ops` callbacks
-  (no `void *data`)
-- `IRQ_WORK_INIT_HARD` and `irq_work_queue` are available in v6.6+
-- The `irq_work` and `wake_status` additions to `struct tegra_pmc` are
-  self-contained
-
-**Affected stable trees**: v6.6.y, v6.12.y (and any other active stable
-tree based on v6.2+, since commit `0474cc8489bda` introduced the buggy
-code in v6.2).
-
-### 5. SCOPE AND RISK
-
-- **Files changed**: 1 file (`drivers/soc/tegra/pmc.c`)
-- **Lines**: ~+60, ~-30 (net ~30 lines added)
-- **Subsystem**: Tegra SoC PMC - a self-contained platform driver
-- **Risk**: LOW - The change only affects Tegra platforms with wake
-  events. The `irq_work` mechanism is well-tested kernel infrastructure.
-  The fix has been reviewed and tested by NVIDIA engineers.
-- **Regression risk**: Very low - non-Tegra systems are unaffected. The
-  new code path is functionally equivalent but executes in the correct
-  context.
-
-### 6. USER IMPACT
-
-- **Who**: All users of NVIDIA Tegra186+ SoCs (Tegra186, Tegra194,
-  Tegra234) using suspend/resume
-- **Severity**: Every system resume triggers a kernel WARNING. Beyond
-  the warning itself, edge-triggered wake IRQs may be silently dropped
-  because `handle_irq_desc()` returns `-EPERM` without processing the
-  interrupt
-- **Real-world**: Tegra platforms are used in NVIDIA Jetson embedded
-  systems, automotive platforms, and gaming devices (Nintendo Switch)
-
-### 7. CONCLUSION
-
-This is a clear bug fix for a real, reproducible issue that fires on
-every resume on affected hardware. The fix uses a well-established
-kernel pattern (irq_work) and is self-contained within a single platform
-driver file. It has been reviewed and tested by the subsystem
-maintainers. The fix will need minor adaptation for stable trees
-(different `syscore_ops` API), but the core logic is fully applicable.
-The bug exists in all stable trees from v6.2 onward.
-
-**YES**
-
- drivers/soc/tegra/pmc.c | 104 ++++++++++++++++++++++++++++------------
- 1 file changed, 74 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index f3760a3b3026d..407fa840814c3 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -28,6 +28,7 @@
- #include <linux/iopoll.h>
- #include <linux/irqdomain.h>
- #include <linux/irq.h>
-+#include <linux/irq_work.h>
- #include <linux/kernel.h>
- #include <linux/of_address.h>
- #include <linux/of_clk.h>
-@@ -468,6 +469,10 @@ struct tegra_pmc {
- 	unsigned long *wake_sw_status_map;
- 	unsigned long *wake_cntrl_level_map;
- 	struct syscore syscore;
-+
-+	/* Pending wake IRQ processing */
-+	struct irq_work wake_work;
-+	u32 *wake_status;
- };
- 
- static struct tegra_pmc *pmc = &(struct tegra_pmc) {
-@@ -1905,6 +1910,50 @@ static int tegra_pmc_parse_dt(struct tegra_pmc *pmc, struct device_node *np)
- 	return 0;
- }
- 
-+/* translate sc7 wake sources back into IRQs to catch edge triggered wakeups */
-+static void tegra186_pmc_wake_handler(struct irq_work *work)
-+{
-+	struct tegra_pmc *pmc = container_of(work, struct tegra_pmc, wake_work);
-+	unsigned int i, wake;
-+
-+	for (i = 0; i < pmc->soc->max_wake_vectors; i++) {
-+		unsigned long status = pmc->wake_status[i];
-+
-+		for_each_set_bit(wake, &status, 32) {
-+			irq_hw_number_t hwirq = wake + (i * 32);
-+			struct irq_desc *desc;
-+			unsigned int irq;
-+
-+			irq = irq_find_mapping(pmc->domain, hwirq);
-+			if (!irq) {
-+				dev_warn(pmc->dev,
-+					 "No IRQ found for WAKE#%lu!\n",
-+					 hwirq);
-+				continue;
-+			}
-+
-+			dev_dbg(pmc->dev,
-+				"Resume caused by WAKE#%lu mapped to IRQ#%u\n",
-+				hwirq, irq);
-+
-+			desc = irq_to_desc(irq);
-+			if (!desc) {
-+				dev_warn(pmc->dev,
-+					 "No descriptor found for IRQ#%u\n",
-+					 irq);
-+				continue;
-+			}
-+
-+			if (!desc->action || !desc->action->name)
-+				continue;
-+
-+			generic_handle_irq(irq);
-+		}
-+
-+		pmc->wake_status[i] = 0;
-+	}
-+}
-+
- static int tegra_pmc_init(struct tegra_pmc *pmc)
- {
- 	if (pmc->soc->max_wake_events > 0) {
-@@ -1923,6 +1972,18 @@ static int tegra_pmc_init(struct tegra_pmc *pmc)
- 		pmc->wake_cntrl_level_map = bitmap_zalloc(pmc->soc->max_wake_events, GFP_KERNEL);
- 		if (!pmc->wake_cntrl_level_map)
- 			return -ENOMEM;
-+
-+		pmc->wake_status = kcalloc(pmc->soc->max_wake_vectors, sizeof(u32), GFP_KERNEL);
-+		if (!pmc->wake_status)
-+			return -ENOMEM;
-+
-+		/*
-+		 * Initialize IRQ work for processing wake IRQs. Must use
-+		 * HARD_IRQ variant to run in hard IRQ context on PREEMPT_RT
-+		 * because we call generic_handle_irq() which requires hard
-+		 * IRQ context.
-+		 */
-+		pmc->wake_work = IRQ_WORK_INIT_HARD(tegra186_pmc_wake_handler);
- 	}
- 
- 	if (pmc->soc->init)
-@@ -3129,47 +3190,30 @@ static void wke_clear_wake_status(struct tegra_pmc *pmc)
- 	}
- }
- 
--/* translate sc7 wake sources back into IRQs to catch edge triggered wakeups */
--static void tegra186_pmc_process_wake_events(struct tegra_pmc *pmc, unsigned int index,
--					     unsigned long status)
--{
--	unsigned int wake;
--
--	dev_dbg(pmc->dev, "Wake[%d:%d]  status=%#lx\n", (index * 32) + 31, index * 32, status);
--
--	for_each_set_bit(wake, &status, 32) {
--		irq_hw_number_t hwirq = wake + 32 * index;
--		struct irq_desc *desc;
--		unsigned int irq;
--
--		irq = irq_find_mapping(pmc->domain, hwirq);
--
--		desc = irq_to_desc(irq);
--		if (!desc || !desc->action || !desc->action->name) {
--			dev_dbg(pmc->dev, "Resume caused by WAKE%ld, IRQ %d\n", hwirq, irq);
--			continue;
--		}
--
--		dev_dbg(pmc->dev, "Resume caused by WAKE%ld, %s\n", hwirq, desc->action->name);
--		generic_handle_irq(irq);
--	}
--}
--
- static void tegra186_pmc_wake_syscore_resume(void *data)
- {
--	u32 status, mask;
- 	unsigned int i;
-+	u32 mask;
- 
- 	for (i = 0; i < pmc->soc->max_wake_vectors; i++) {
- 		mask = readl(pmc->wake + WAKE_AOWAKE_TIER2_ROUTING(i));
--		status = readl(pmc->wake + WAKE_AOWAKE_STATUS_R(i)) & mask;
--
--		tegra186_pmc_process_wake_events(pmc, i, status);
-+		pmc->wake_status[i] = readl(pmc->wake + WAKE_AOWAKE_STATUS_R(i)) & mask;
- 	}
-+
-+	/* Schedule IRQ work to process wake IRQs (if any) */
-+	irq_work_queue(&pmc->wake_work);
- }
- 
- static int tegra186_pmc_wake_syscore_suspend(void *data)
- {
-+	unsigned int i;
-+
-+	/* Check if there are unhandled wake IRQs */
-+	for (i = 0; i < pmc->soc->max_wake_vectors; i++)
-+		if (pmc->wake_status[i])
-+			dev_warn(pmc->dev,
-+				 "Unhandled wake IRQs pending vector[%u]: 0x%x\n",
-+				 i, pmc->wake_status[i]);
- 	wke_read_sw_wake_status(pmc);
- 
- 	/* flip the wakeup trigger for dual-edge triggered pads
--- 
-2.51.0
+Dirk
 
