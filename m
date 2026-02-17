@@ -1,53 +1,69 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6582238178
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 07:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95D917993
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 07:42:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771312795; cv=none; b=pmxzWiMo2TKjfGB5y5q7pkmIj/edFHebfWtukL1AuRzsujMO02RPNjo1PZ6oJJEB+a8tPhS+CTvOnG1yLurnmh8c8iNN07MyS7Oq/rxtYD27Zbu9/rUutxW/Lgyj5BOz6/WN+WeEEwgMhtZZTPRvIGk4kfei14EBCnzMJoyGrvo=
+	t=1771314137; cv=none; b=ebZOSDuRqvt3lEol3JGzgX0+N0TlPJZYHNVcdwxX065+8hl4Y6QGuqGYtXVCcEc9w/6grxFmmlRkXGjMPh9xEGp1F2YIvjUG8+uSh0Rf3Da2K6d6kW16R09YVkBd76UZJ9j2eBPHOrSIGFkB+P8hhA0nT440dt09nG1z4bLnSzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771312795; c=relaxed/simple;
-	bh=eQg6QLcVDKqCgHiLxCzWj4OYcujtxb6HPqfPmoO6P7Q=;
+	s=arc-20240116; t=1771314137; c=relaxed/simple;
+	bh=qE+yPLi1ykHRmeRwIOIeQFhMzLFO6SYvRavMwSbG0w4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RI3ZevJpXxvlcoFGOLbe33anprxOsqBlbOMDjOdN5Od7uctIwDfY16VirIr/Tz08dsdrUuVYqzUgQu1dJwqk9kh/9AJgL2DRA8B6rio0Sg3eLcDd7XkWLFeD7hsl4IiuBQB/5Oc/JLbvFfdrfDSp/B9g2rivd/JlwWeuphhYMec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=rcPGJqkk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SJikSH17; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=BSqyn41qbbCZ5TuUuskxACVBIp7kXwRJ3iRgoBrwMDMwXhAYBGb9LpzMiI+Lr0beXFe/c50xSDZFwVow3C9W9AMjjqSMW7QZ9Ov1qKhWfLPiI87k1/UnqI2FPu6U2W+aTeaRogfEcfEmrcUHU5wVsug2TG7zm8HBBsLkWSH+jBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=T4vCRWzp; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MZJR/ak/; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="rcPGJqkk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SJikSH17"
-Date: Tue, 17 Feb 2026 08:19:52 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="T4vCRWzp";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MZJR/ak/"
+Date: Tue, 17 Feb 2026 08:42:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1771312793;
+	s=2020; t=1771314134;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H+nEmqG34AHLoCUk7+SmL8r7gVNhaExyqHx2t8wbuKI=;
-	b=rcPGJqkkl3gdlIJopII+1ey0vTwe2DjcP17Sz1I91QINVIAwkZueMminWVHyY8wUQ85AbG
-	91/GFqjgQ/flL0QKs8SpQFExdIfj3LaIA4Rw0dL6aWnyDQnGtgTuVKho9azuWzuTL8fQGR
-	l9Ymo4odj/n8R2t6Dg+X5AFBWZbKeAesa77hU1USxor2h1nc6zszEsZBRaCeGp/+F5LZkQ
-	0VYmlIQBZK/iNDta7wx65g7phxh2OlqkKq0w5Ie0n12pVcW1TV9kt2RQ58Ud40hrDwQCBK
-	+asNVjmwJ87TGs+SeRhYX+0vvi+D+5/zqIcPvUTltYt+M1M2WOoRRPUdtqSKvg==
+	bh=lv3UGO8zu50i+N0PRvq/5skPPM6bB0wzdtk2hzdWxGw=;
+	b=T4vCRWzpDkVcYoVW4KYZnOHXdfnzD9xIAT5Qph4gtHB+H9YazGRbBuHjiSmBNNlPq787iD
+	AAujql3SQIaEdfbKeruZYI46KdjF1GWF0enebTsCkGUe6ISGFiC3qGotPHYKulacvJG1me
+	ok34Vv23E7sYrCFH2p1X28O7wldD6ducnCW8fVOTIM8R1DxdNodKr414bP2wQNtqvkBczF
+	k7qzApJstXs1na1GFDZttqNI0nZIG/M3ApDkJImhAimhIQSKps3bq4xUJihkH2inReRZpj
+	dR38SD9uJph9I8W4Vevf/7/A54p8NArchddQuBUxqjaw+audUgSfb+3OqNScQQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1771312793;
+	s=2020e; t=1771314134;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H+nEmqG34AHLoCUk7+SmL8r7gVNhaExyqHx2t8wbuKI=;
-	b=SJikSH17WRUPqZAZsUv1mCC/DrwTL3IoanVxhn4T1EsMMwmD7dlZ5deZvGAR09v8REOGxJ
-	tpCfIeJp9/8AsRAQ==
+	bh=lv3UGO8zu50i+N0PRvq/5skPPM6bB0wzdtk2hzdWxGw=;
+	b=MZJR/ak/FNQkBzxbm8t5YrYs2t/S6mdM0vJTCtxkqUN6d4Wa19fb517/k8Z0UtBqIRBCPA
+	JLbA/1NpYqOG8+CQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: xxx@vger.kernel.org, jiayuan.chen@shopee.com,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>, netdev@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: "Dead loop on virtual device" error without softirq-BKL on
+Subject: Re: [PATCH bpf v3 2/2] bpf: devmap: fix race in bq_xmit_all on
  PREEMPT_RT
-Message-ID: <20260217071952.WCXLGs5-@linutronix.de>
-References: <20260216134333.412332-1-spasswolf@web.de>
- <6274de932f4a62c51b424b65fc875ef3cb5ffd60.camel@web.de>
- <20260216153745.CA3__zRc@linutronix.de>
- <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
+Message-ID: <20260217074212.95wNTgR7@linutronix.de>
+References: <20260213034018.284146-1-jiayuan.chen@linux.dev>
+ <20260213034018.284146-3-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,17 +72,40 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260213034018.284146-3-jiayuan.chen@linux.dev>
 
-On 2026-02-17 00:48:25 [+0100], Bert Karwatzki wrote:
-> The problem seems to be that different preemtible threads try to send skbs. 
+On 2026-02-13 11:40:15 [+0800], Jiayuan Chen wrote:
+=E2=80=A6
+> timeslicing during the mdelay window causes interleaving. Without the
+> fix, KASAN reports null-ptr-deref due to operating on freed frames:
+>=20
+>   BUG: KASAN: null-ptr-deref in __build_skb_around+0x22d/0x340
+>   Write of size 32 at addr 0000000000000d50 by task devmap_race_rep/449
+>=20
+>   CPU: 0 UID: 0 PID: 449 Comm: devmap_race_rep Not tainted 6.19.0+ #31 PR=
+EEMPT_RT
+>   Call Trace:
+>    <TASK>
+>    __build_skb_around+0x22d/0x340
+>    build_skb_around+0x25/0x260
+>    __xdp_build_skb_from_frame+0x103/0x860
+>    veth_xdp_rcv_bulk_skb.isra.0+0x162/0x320
+>    veth_xdp_rcv.constprop.0+0x61e/0xbb0
+>    veth_poll+0x280/0xb50
+>    __napi_poll.constprop.0+0xa5/0x590
+>    net_rx_action+0x4b0/0xea0
+>    handle_softirqs.isra.0+0x1b3/0x780
+>    __local_bh_enable_ip+0x12a/0x240
+>    xdp_test_run_batch.constprop.0+0xedd/0x1f60
+>    bpf_test_run_xdp_live+0x304/0x640
+>    bpf_prog_test_run_xdp+0xd24/0x1b70
+>    __sys_bpf+0x61c/0x3e00
+>    </TASK>
+>=20
+>   Kernel panic - not syncing: Fatal exception in interrupt
 
-This does not matter because the counter is per-thread not per-CPU. 
-
-> 2026-02-17T00:29:24.212231+01:00 [ T1513] Dead loop on virtual device wlp4s0, fix it urgently!
-
-Could you please do a backtrace here, for instance via WARN_ON_ONCE()
-
-> Bert Karwatzki
+I would move this next to the diffstat (same as with the previous
+patch) since it is obvious once you described it.
 
 Sebastian
