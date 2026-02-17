@@ -1,54 +1,57 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35255326D5D
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 10:43:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B504C330D47
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 11:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771324992; cv=none; b=WXjHIli1lsIucqcC/k4jgMPEEHEDdIeeIUg5PsSKzstcqCA46Qra3wg37n0oV4rnelJ85g+08+YnLAUCA2T/RxSSgbOIsNN3gDL4EGpzfSXPwSJrwySg76yxx0A4AJ05yOob/GJ8wE+D6Tt2M4a3DRVq9Qa2oa/hqkF3Hicg0/M=
+	t=1771327462; cv=none; b=NSo178Y0Sjpjrw1fztqCh4wRyKYL3IIogsIuaA29Dig2ZcNjG6pqL6K8yxgPOuXladvJh2SpFkgHpMQpG4En0xvN/CGbPnJy6nQ5bvojH8nVpo9la9oVObU5ej49vvZsE7NTakMsN/v78ZtZNIfP2SF6fvz6nIMRBtTS64Xr4Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771324992; c=relaxed/simple;
-	bh=OmLKkft9WNiqTnM8Vqp/xdS5RHExqj6MMcor5aRgVaI=;
+	s=arc-20240116; t=1771327462; c=relaxed/simple;
+	bh=9Aj9K6Fz8HL8eIyvWE+B9uGyQg/dhv96WbL33oN6wjw=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=X2wHqJ6OzTUQQMrn07EQFocYXxHhErfUlzMueAP5JmcW0tI9tTNI7LsXVhdA1chnhztBiiIb1tNCW3PJYk5PmrJ8lP5e/K5DJTd2oYgydkx3Kpwz3q+LtxXMueYCE/au68r4WWym7JAjuwXtfz76Jhzm9vgRnFm4bORDOAE0Tuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=gUCBGY4M; arc=none smtp.client-ip=212.227.17.11
+	 Content-Type:MIME-Version; b=sh0F8kLLc30p/YYadYWA79zftrQXshWCPEYIPhocK8Wo3Lqz0lS2a4HhL+X9d8Xu+GfEc2z5eLQqMJL00bk9vjDuzQJG4Zxz85lfhvfDnb0FHkBw8G0Er7IdMYUPflZA0b75rKxwDF7GB/EXEIHzA4Bj3WX2DgQ9rui7AotERFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=R7wDfMN/; arc=none smtp.client-ip=212.227.15.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="gUCBGY4M"
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="R7wDfMN/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1771324979; x=1771929779; i=spasswolf@web.de;
-	bh=pXpTyFQ18o5ZKXWLKJppGlbe/uhU7Ng58xQAqEZYvQs=;
+	s=s29768273; t=1771327453; x=1771932253; i=spasswolf@web.de;
+	bh=MCHnrmyJ6VsfcikPgUIwC+4jz1C/xu6RELAawCyd2SA=;
 	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=gUCBGY4MuwkhSsdno6dtCWUh7vrgDFHa9L8ie7Uv6If1dI20mMSEMQU+S/msDAuv
-	 Kh/vUzoURo133RGSHjLtzcwlHTQRgKCTLSQAXabACS5Cefr3p7XiKXHtn6kRYC+0q
-	 i9ZlEmLwu95NMLUKRlzTGgwZdWdSvTE5Qkjf2ihxN9dvtLwRtUBXKntzlFHWDXYqk
-	 tlgmTdG0js84l+bpEDGRdaZ0nTzrnrG4PaD6+22iRMAafxhFm1U8RKYP8+lA5dQjP
-	 gCz5qBKN96LrINhFUGeVO0Ea/NH8+nQC0p80GA237PWJBfYkRMnmCa9kud0SRYtXs
-	 QcK/PdCeyE7QVSZECw==
+	b=R7wDfMN/zm5OqGQAzsEcqcWVe7BIZUmwCGGuQ9TADkzGFWYZ44mDxpRqrIl4hJxd
+	 31EW5Mw4jNp7HkCUtfGXKP/GfEg7RVCspy7o1zk+4g48+grXKYZ/3RWM6Hfae37ob
+	 uMaRNseO3q95Wnow+cbaGBTCZp2ZdZLGxL7zvxx/41/df4Rbk55u0VPiR4Ma0Iw13
+	 Hp34SntN0hbMtxtZq6BoG98mvmtyJFX6d4+q8wos53pIXPG6Z+/SE1cZ90woJTYyZ
+	 YkxdNXjBtkDbcV95Y7466Ps6vc1W7odic0kPAX+sR01Bw89FSKoY/5XV6KA7DyKO4
+	 cF3P1qKjqStKUW8YJA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M91Lg-1vnMKD0rY6-00Aj4x; Tue, 17
- Feb 2026 11:42:59 +0100
-Message-ID: <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
+Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MElVH-1vzlyR43x5-001JOw; Tue, 17
+ Feb 2026 12:24:13 +0100
+Message-ID: <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de>
 Subject: Re: "Dead loop on virtual device" error without softirq-BKL on
  PREEMPT_RT
 From: Bert Karwatzki <spasswolf@web.de>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Date: Tue, 17 Feb 2026 11:42:58 +0100
-In-Reply-To: <20260217095700.SjYjM8RO@linutronix.de>
+	linux-rt-devel@lists.linux.dev, spasswolf@web.de, Jakub Kicinski
+ <kuba@kernel.org>,  Eric Dumazet <edumazet@google.com>,
+ netdev@vger.kernel.org
+Date: Tue, 17 Feb 2026 12:24:12 +0100
+In-Reply-To: <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
 References: <20260216134333.412332-1-spasswolf@web.de>
-	 <6274de932f4a62c51b424b65fc875ef3cb5ffd60.camel@web.de>
-	 <20260216153745.CA3__zRc@linutronix.de>
-	 <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
-	 <20260217071952.WCXLGs5-@linutronix.de>
-	 <80114792206dc00d0099f00999a209e717debb12.camel@web.de>
-	 <20260217095700.SjYjM8RO@linutronix.de>
+			 <6274de932f4a62c51b424b65fc875ef3cb5ffd60.camel@web.de>
+			 <20260216153745.CA3__zRc@linutronix.de>
+			 <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
+			 <20260217071952.WCXLGs5-@linutronix.de>
+			 <80114792206dc00d0099f00999a209e717debb12.camel@web.de>
+			 <20260217095700.SjYjM8RO@linutronix.de>
+		 <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
@@ -58,133 +61,163 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:A0ndxEIOhrc2U6g9ZJcw+oqhMVO+ufQTTbiX+uBfH0r3g7oDw6K
- xC7ZvA2k1S3K69JGRwNI9lOwZfbzXJJtjgeKjMIFu6YM7RhkzZUAr0o3QQZfYSlHx9aER58
- /J5FePeLGK3E4HzMss5OV4S3m98ABx3bq0kNzdiqTjDXvETGXJefvNeDqHhHrh6opuDfTX4
- 1cQPzg99hafTSsrfVUKhQ==
+X-Provags-ID: V03:K1:ZTBF9XoXJtVlCRW7QxUcAvusgGZrvAhXutr0ZCZhcazNQ2w1cAw
+ vzPMBqy7fR8F2OeeHKKLtZBzbn6dcZghicLn4DTeeLg3ZdHrOnyJzcz6TCEccFpJmhhgw4V
+ a0CQIVEGoBduNWNxFQDnCV3FcZz+YlTW1cf46rSz3BNAYjcFbuUUhrg+SE9713fRUqOOL6K
+ z1NS+WPN33JirO4b3GHjw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1fMAT0DwJrw=;VfywNawdsEB61LEo05YJkf0/lT6
- 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
- Iz42dy8ebPHPi7u5y1dGlg6wfnYhhjXI8n/rUj
+UI-OutboundReport: notjunk:1;M01:P0:pmeGBI7aAwg=;qwdTv8xhtN7UUSoN0xOzduP5Vb3
+ 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
 
-Am Dienstag, dem 17.02.2026 um 10:57 +0100 schrieb Sebastian Andrzej Siewi=
-or:
-> On 2026-02-17 09:56:48 [+0100], Bert Karwatzki wrote:
-> > Am Dienstag, dem 17.02.2026 um 08:19 +0100 schrieb Sebastian Andrzej S=
-iewior:
-> > > On 2026-02-17 00:48:25 [+0100], Bert Karwatzki wrote:
-> > > > The problem seems to be that different preemtible threads try to s=
-end skbs.=20
-> > >=20
-> > > This does not matter because the counter is per-thread not per-CPU.=
-=20
-> >=20
-> > The "Dead loop on virtual device" messages is not printed because dev_=
-xmit_recursion()
-> > returns true, but because READ_ONCE(txq->xmit_lock_owner) =3D=3D cpu.
+Am Dienstag, dem 17.02.2026 um 11:42 +0100 schrieb Bert Karwatzki:
 >=20
-> Ach, so it is not the recursion, it is the assigned CPU.
-> This is assigned via __netif_tx_lock(). Here we somehow lack the
-> expected synchronisation. So the queue should be locked but not by the
-> caller.
+> I just wondered if we can completely skip the
+>=20
+> 	if (READ_ONCE(txq->xmit_lock_owner) !=3D cpu) {
+> 		[...]
+> 	} else=C2=A0
+> 	{
+> 		/* "Recursion" alert */
+> 	}
+> =20
+> check, as the synchronization will we provided by HARD_TX_{LOCK,UNLOCK}.
+>=20
 
-Yes, the queue gets locked by the first thread (via HARD_TX_LOCK), then th=
-e thread gets
-preempted before the processing of the skb is complete, then the next thre=
-ad on the same
-CPU calls __dev_queue_xmit() and find that the lockowner has the same CPU =
-id.
+I thought about that again, and it seems like a bad idea as (in the non-pr=
+eempt) case
+other threads trying to access the queue would wait for the spinlock to be=
+ freed, perhaps
+one can just change the code like this:
 
-I just wondered if we can completely skip the
+commit 05026868843a4eea51d45811d87706f36896e828
+Author: Bert Karwatzki <spasswolf@web.de>
+Date:   Tue Feb 17 12:08:35 2026 +0100
 
-	if (READ_ONCE(txq->xmit_lock_owner) !=3D cpu) {
-		[...]
-	} else=C2=A0
-	{
-		/* "Recursion" alert */
-	}
+    net: core: dev: don't warn about recursion when on same CPU
+   =20
+    This prints a message if we're on the same CPU and the lock is
+    already taken, in a production use we would of course skip this
+    message.
+   =20
+    Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 5b536860138d..cac5588640b3 100644
+=2D-- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4784,15 +4784,18 @@ int __dev_queue_xmit(struct sk_buff *skb, struct n=
+et_device *sb_dev)
+ 			net_crit_ratelimited("Virtual device %s asks to queue packet!\n",
+ 					     dev->name);
+ 		} else {
+-			/* Recursion is detected! It is possible,
+-			 * unfortunately
+-			 */
+-recursion_alert:
+-			net_crit_ratelimited("Dead loop on virtual device %s, fix it urgently!=
+\n",
+-					     dev->name);
++			net_crit_ratelimited("Lock taken already on %s!\n", dev->name);
++			goto lock_taken;
+ 		}
+ 	}
 =20
-check, as the synchronization will we provided by HARD_TX_{LOCK,UNLOCK}.
++	/* Recursion is detected! It is possible,
++	 * unfortunately
++	 */
++recursion_alert:
++	net_crit_ratelimited("Dead loop on virtual device %s, fix it urgently!\n=
+",
++					     dev->name);
++lock_taken:
+ 	rc =3D -ENETDOWN;
+ 	rcu_read_unlock_bh();
+=20
 
-The comment
+With this I get these messages (be skipped in production code)
+instead of the "Dead loop on virtual device":
 
-		/* Other cpus might concurrently change txq->xmit_lock_owner
-		 * to -1 or to their cpu id, but not to our id.
-		 */
-suggests that the case that a thread is preempted while holding the lock w=
-as
-not taken into account here. And in non-RT cases this would be correct as =
-spin_lock()
-disables preemption in that case.
+[   51.994435] [   T1525] Lock taken already on wlp4s0!
+[   51.994546] [   T1525] Lock taken already on wlp4s0!
+[   51.994650] [   T1525] Lock taken already on wlp4s0!
+[   51.994746] [   T1525] Lock taken already on wlp4s0!
+[   51.994845] [   T1525] Lock taken already on wlp4s0!
+[   51.994948] [   T1525] Lock taken already on wlp4s0!
+[   51.995037] [   T1525] Lock taken already on wlp4s0!
+[   51.995128] [   T1525] Lock taken already on wlp4s0!
+[   51.995220] [   T1525] Lock taken already on wlp4s0!
+
 
 Bert Karwatzki
