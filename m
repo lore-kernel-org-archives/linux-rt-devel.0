@@ -1,57 +1,57 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
+Received: from mout.web.de (mout.web.de [212.227.17.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B504C330D47
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 11:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A605A21D5B0
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Feb 2026 16:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771327462; cv=none; b=NSo178Y0Sjpjrw1fztqCh4wRyKYL3IIogsIuaA29Dig2ZcNjG6pqL6K8yxgPOuXladvJh2SpFkgHpMQpG4En0xvN/CGbPnJy6nQ5bvojH8nVpo9la9oVObU5ej49vvZsE7NTakMsN/v78ZtZNIfP2SF6fvz6nIMRBtTS64Xr4Mg=
+	t=1771347201; cv=none; b=bCFdxXcPxRIDhDmrlfEk+WomHkwlcynsBv/eW8H+hSPBT4eciSCydaiYQXTg4f20BNNjDFs1NbYRdCJ4Nn5vijuhw84gyZY88SQVPTg1VeaFhDSoqK3PZKx5OrEDYZGCTAQs1F6AVkSGrMnBl9WdmaVLycqrtuycP2gYoKlf0H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771327462; c=relaxed/simple;
-	bh=9Aj9K6Fz8HL8eIyvWE+B9uGyQg/dhv96WbL33oN6wjw=;
+	s=arc-20240116; t=1771347201; c=relaxed/simple;
+	bh=DTUjvtxX3VM9Ywdq+F5DETu+4ooD7bS3SOw1o22oDpE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sh0F8kLLc30p/YYadYWA79zftrQXshWCPEYIPhocK8Wo3Lqz0lS2a4HhL+X9d8Xu+GfEc2z5eLQqMJL00bk9vjDuzQJG4Zxz85lfhvfDnb0FHkBw8G0Er7IdMYUPflZA0b75rKxwDF7GB/EXEIHzA4Bj3WX2DgQ9rui7AotERFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=R7wDfMN/; arc=none smtp.client-ip=212.227.15.14
+	 Content-Type:MIME-Version; b=bCK7BeJJRRqnzJEkgEF/7s38Q0IIl7Y52iGOZYQPQ7fmB0Nns/L5XBtE1Y0vV2/DxL0Y4OtCb0QMeQqeFUjOpTTS+nYJJV9+jkexfHAa3oRytUwqQT9LdY6zdJG+LpTikDg8VZWgBLx4K6FZ8wgbVHKmc7/haoUhpa5TNTDLQFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=JBBaHXfT; arc=none smtp.client-ip=212.227.17.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="R7wDfMN/"
+	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="JBBaHXfT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1771327453; x=1771932253; i=spasswolf@web.de;
-	bh=MCHnrmyJ6VsfcikPgUIwC+4jz1C/xu6RELAawCyd2SA=;
+	s=s29768273; t=1771347169; x=1771951969; i=spasswolf@web.de;
+	bh=6B6bjmA2LWx4EtNJZvRrdS+2jf9wBb4Vg2X94UdrU2s=;
 	h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
 	 References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=R7wDfMN/zm5OqGQAzsEcqcWVe7BIZUmwCGGuQ9TADkzGFWYZ44mDxpRqrIl4hJxd
-	 31EW5Mw4jNp7HkCUtfGXKP/GfEg7RVCspy7o1zk+4g48+grXKYZ/3RWM6Hfae37ob
-	 uMaRNseO3q95Wnow+cbaGBTCZp2ZdZLGxL7zvxx/41/df4Rbk55u0VPiR4Ma0Iw13
-	 Hp34SntN0hbMtxtZq6BoG98mvmtyJFX6d4+q8wos53pIXPG6Z+/SE1cZ90woJTYyZ
-	 YkxdNXjBtkDbcV95Y7466Ps6vc1W7odic0kPAX+sR01Bw89FSKoY/5XV6KA7DyKO4
-	 cF3P1qKjqStKUW8YJA==
+	b=JBBaHXfTZ6MckhcYpD3jqGdJO1kYS111olGXHf0+C1KMAZZ0rO8z1u94Ybb7rfNg
+	 xi7Ii+Jd6jWvrBDSS5otPvdG4LmAlZ72MM2bo4TGbIOcpRQxr33UNlHNovxNi7gdi
+	 76/FHwmaROyLeVm2fsfFEF4+f+RFgvjthodrUQZmq3HkqDD4ezSvvq0LaZ0yOQ8as
+	 90gogjeAq3cBJKKOFwKON1o6eZ+gcA6eWZVjvMej6xkPXKnJQQEreG20z1kBe/Z6T
+	 qA2+DLVRCzHLuDG71kERflH0Qm3zsmtRU/WCcSSaAwq+xI1+MuLUQfpURdoHpHSK3
+	 dyuNmBJT3T9KNkd04Q==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MElVH-1vzlyR43x5-001JOw; Tue, 17
- Feb 2026 12:24:13 +0100
-Message-ID: <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de>
+Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N7xeb-1vfy421Eqh-00ranO; Tue, 17
+ Feb 2026 17:52:49 +0100
+Message-ID: <2369ba83d204290dcfe157aed3f943206213b979.camel@web.de>
 Subject: Re: "Dead loop on virtual device" error without softirq-BKL on
  PREEMPT_RT
 From: Bert Karwatzki <spasswolf@web.de>
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, spasswolf@web.de, Jakub Kicinski
- <kuba@kernel.org>,  Eric Dumazet <edumazet@google.com>,
- netdev@vger.kernel.org
-Date: Tue, 17 Feb 2026 12:24:12 +0100
-In-Reply-To: <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
+	linux-rt-devel@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>, Eric
+ Dumazet	 <edumazet@google.com>, netdev@vger.kernel.org, spasswolf@web.de
+Date: Tue, 17 Feb 2026 17:52:48 +0100
+In-Reply-To: <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de>
 References: <20260216134333.412332-1-spasswolf@web.de>
-			 <6274de932f4a62c51b424b65fc875ef3cb5ffd60.camel@web.de>
-			 <20260216153745.CA3__zRc@linutronix.de>
-			 <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
-			 <20260217071952.WCXLGs5-@linutronix.de>
-			 <80114792206dc00d0099f00999a209e717debb12.camel@web.de>
-			 <20260217095700.SjYjM8RO@linutronix.de>
-		 <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
+				 <6274de932f4a62c51b424b65fc875ef3cb5ffd60.camel@web.de>
+				 <20260216153745.CA3__zRc@linutronix.de>
+				 <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
+				 <20260217071952.WCXLGs5-@linutronix.de>
+				 <80114792206dc00d0099f00999a209e717debb12.camel@web.de>
+				 <20260217095700.SjYjM8RO@linutronix.de>
+			 <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
+	 <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
@@ -61,163 +61,125 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ZTBF9XoXJtVlCRW7QxUcAvusgGZrvAhXutr0ZCZhcazNQ2w1cAw
- vzPMBqy7fR8F2OeeHKKLtZBzbn6dcZghicLn4DTeeLg3ZdHrOnyJzcz6TCEccFpJmhhgw4V
- a0CQIVEGoBduNWNxFQDnCV3FcZz+YlTW1cf46rSz3BNAYjcFbuUUhrg+SE9713fRUqOOL6K
- z1NS+WPN33JirO4b3GHjw==
+X-Provags-ID: V03:K1:VNueBJLi7+C4SvJhPiiu5lUUE2TRosSISCXzE3rYIZgoqaPG1wc
+ sICl2R2xMU4d65YMBc6LCEJuHMH5LMeDDZvFHaFicbzHvwn8bqool13SibsfRXxq+kFxYr5
+ d2/7f+7lrATZH8sqS3wkEQqmIXFWrPyfO2y3hzoMatwu1ukR5g6FU0pgw74feBqpk1ikA47
+ 5R6lGanGiK6j6cM7JIp3w==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:pmeGBI7aAwg=;qwdTv8xhtN7UUSoN0xOzduP5Vb3
- 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
+UI-OutboundReport: notjunk:1;M01:P0:JACKPkEq/9Y=;lWgyLJHsHZZ4or8MFYsfBp+aoAA
+ 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
 
-Am Dienstag, dem 17.02.2026 um 11:42 +0100 schrieb Bert Karwatzki:
+Am Dienstag, dem 17.02.2026 um 12:24 +0100 schrieb Bert Karwatzki:
+> Am Dienstag, dem 17.02.2026 um 11:42 +0100 schrieb Bert Karwatzki:
+> >=20
+> > I just wondered if we can completely skip the
+> >=20
+> > 	if (READ_ONCE(txq->xmit_lock_owner) !=3D cpu) {
+> > 		[...]
+> > 	} else=C2=A0
+> > 	{
+> > 		/* "Recursion" alert */
+> > 	}
+> > =20
+> > check, as the synchronization will we provided by HARD_TX_{LOCK,UNLOCK=
+}.
+> >=20
 >=20
-> I just wondered if we can completely skip the
->=20
-> 	if (READ_ONCE(txq->xmit_lock_owner) !=3D cpu) {
-> 		[...]
-> 	} else=C2=A0
-> 	{
-> 		/* "Recursion" alert */
-> 	}
-> =20
-> check, as the synchronization will we provided by HARD_TX_{LOCK,UNLOCK}.
->=20
+> I thought about that again, and it seems like a bad idea as (in the non-=
+preempt) case
+> other threads trying to access the queue would wait for the spinlock to =
+be freed, perhaps
+> one can just change the code like this:
 
-I thought about that again, and it seems like a bad idea as (in the non-pr=
-eempt) case
-other threads trying to access the queue would wait for the spinlock to be=
- freed, perhaps
-one can just change the code like this:
+My argument above seems wrong: In the non-preempt case we cannot have anot=
+her thread accessing the txq
+from the same CPU if the lock is taken (it is not preemptible) and for oth=
+er threads
+accessing the txq from different CPUs the check (txq->xmit_lock_owner !=3D=
+ cpu) would succeed
+and they would try the spinlock anyway, So this would not speak against ki=
+lling the lock owner
+check. As for the recursion detection, perhaps dev_xmit_recursion() is eno=
+ugh?
 
-commit 05026868843a4eea51d45811d87706f36896e828
-Author: Bert Karwatzki <spasswolf@web.de>
-Date:   Tue Feb 17 12:08:35 2026 +0100
 
-    net: core: dev: don't warn about recursion when on same CPU
-   =20
-    This prints a message if we're on the same CPU and the lock is
-    already taken, in a production use we would of course skip this
-    message.
-   =20
-    Signed-off-by: Bert Karwatzki <spasswolf@web.de>
+Another Idea (more vague ...):
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 5b536860138d..cac5588640b3 100644
-=2D-- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -4784,15 +4784,18 @@ int __dev_queue_xmit(struct sk_buff *skb, struct n=
-et_device *sb_dev)
- 			net_crit_ratelimited("Virtual device %s asks to queue packet!\n",
- 					     dev->name);
- 		} else {
--			/* Recursion is detected! It is possible,
--			 * unfortunately
--			 */
--recursion_alert:
--			net_crit_ratelimited("Dead loop on virtual device %s, fix it urgently!=
-\n",
--					     dev->name);
-+			net_crit_ratelimited("Lock taken already on %s!\n", dev->name);
-+			goto lock_taken;
- 		}
- 	}
-=20
-+	/* Recursion is detected! It is possible,
-+	 * unfortunately
-+	 */
-+recursion_alert:
-+	net_crit_ratelimited("Dead loop on virtual device %s, fix it urgently!\n=
-",
-+					     dev->name);
-+lock_taken:
- 	rc =3D -ENETDOWN;
- 	rcu_read_unlock_bh();
-=20
-
-With this I get these messages (be skipped in production code)
-instead of the "Dead loop on virtual device":
-
-[   51.994435] [   T1525] Lock taken already on wlp4s0!
-[   51.994546] [   T1525] Lock taken already on wlp4s0!
-[   51.994650] [   T1525] Lock taken already on wlp4s0!
-[   51.994746] [   T1525] Lock taken already on wlp4s0!
-[   51.994845] [   T1525] Lock taken already on wlp4s0!
-[   51.994948] [   T1525] Lock taken already on wlp4s0!
-[   51.995037] [   T1525] Lock taken already on wlp4s0!
-[   51.995128] [   T1525] Lock taken already on wlp4s0!
-[   51.995220] [   T1525] Lock taken already on wlp4s0!
-
+Using the CPU Id as the lock_owner seems to make sense for locks that are =
+not
+preemptible (raw_spinlock in the RT case). For preemptible locks a thread =
+ID (which one exactly I'm not sure ...)
+would perhaps make a better lock owner ...
 
 Bert Karwatzki
