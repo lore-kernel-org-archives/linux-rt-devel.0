@@ -1,61 +1,62 @@
-Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFD62C0272
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 02:30:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3017F1EA7F4
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 02:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771554608; cv=none; b=NLAlUZL3wfrGj1JB3uEdfsH9hdKy4L9eVi2F+w/gRCKUTDH6QmGQPXketUlr0B4s8mfyFL9eeoLpCGsd6rWwg+8vuNxs3pu54e+jt1UxWpA1+acU+u7+dN2i9OkG3fqNgwtijECYF/3mQcuCJp8XavLTQbABz6mvN9esx/2W3IU=
+	t=1771554609; cv=none; b=evLpXeNeiuv6n2esw1Mojo9JyTKC+aVSPj8zZNnp5m2UMrwOhTVO/xJ9TcAf9FcsorwDFFI+y9E4x9xOQ1+SpxEvbwvWV4xKyBbPqZbPxv/C7j63T2IrU4r8nmj7qyUgZLI3qfnEKuZlBpgF9xBTpzdK+XBTz1i2Gfq4h30uByM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771554608; c=relaxed/simple;
-	bh=WwFi8HQeIytlLwps/gKA3sG0QWpe3RQiJvqaAQl4bxE=;
-	h=Content-Type:MIME-Version:Subject:From:To:Cc:Date:Message-ID; b=akkvvZri8E6kZUjtAajKyTrUBktTl4yAHr8Rid6qViMgMYLNUTlCqoVM6pAj+4IrRLaLb83TQ++n61Mfflm+zX2YBLSMDomMisNEED4FQ2f0YsNtyp7OGaxKabtp7KsAvk4aPFwZXnS4TBEnwiAAH30l9CGjLAUg0pKeJhjVVW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=mb2qoYR3; arc=none smtp.client-ip=74.125.82.195
+	s=arc-20240116; t=1771554609; c=relaxed/simple;
+	bh=+4QnuOhWW90i1DN8MpGHopEVGmTTKTn/UixJEo90U+o=;
+	h=Content-Type:MIME-Version:Subject:From:To:Cc:Date:Message-ID; b=nc/uaWhC0/kRur7ukcg1I5YFX8DQhlFoYfu2k9KR6/YVHMz7sRlHpItuTtZZpTnz1mQC6FT2uFS7x0cGcK0j2fSPKIOF6w4pnU3Ae81YgmxrNRX/7BqV0XYe6YkfV1Oe1BU9rvIbDwHuuk1cUzgspE6hU5DS0GFZEtI6szNDhW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org; spf=none smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b=GZ/Zaz4j; arc=none smtp.client-ip=74.125.82.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=kernelci.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="mb2qoYR3"
-Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-2ba9d13f10eso2529959eec.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 19 Feb 2026 18:30:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernelci-org.20230601.gappssmtp.com header.i=@kernelci-org.20230601.gappssmtp.com header.b="GZ/Zaz4j"
+Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-1270ac5d3efso1530936c88.1
+        for <linux-rt-devel@lists.linux.dev>; Thu, 19 Feb 2026 18:30:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1771554606; x=1772159406; darn=lists.linux.dev;
+        d=kernelci-org.20230601.gappssmtp.com; s=20230601; t=1771554607; x=1772159407; darn=lists.linux.dev;
         h=message-id:date:reply-to:cc:to:from:subject
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4wTVPhgyr8PV+PNvAGl8BGgwrB4HvIMy/ms2uo0tzO8=;
-        b=mb2qoYR3M8yzMNBH3jqR8q/zu+3QqLsR5fbM0r5tSHZU9R3TiONKKoUOHFkiFxyBUI
-         V93i7l7YXt7sreJplDId9Ssvnfn/fqtZAg9bake/QDJelvWtBO/UgHuwaaTTlymhN0ax
-         gWNMVDw2b1tORgJyQSVi4sMTsL6PbCSYclHYWjQ+BFYaNRj+90hIp2O0I8QtHypybLcS
-         dJydTn94k46GhWGcVzR8x18Gf15o/ogICrew4Ocn8rrBjeauLqW/G11oLlp5nOE5iln3
-         EURfRE0+SzMrJ80gCo2qis8lutQB/VfCtbo5/ad02ZG3JME9zIpBlkeo5LSd0JWYmHOW
-         3mcA==
+        bh=dDN6vvLwEa9QPG1zsasa3KXviQ+qpOYvq8cMieCgLPs=;
+        b=GZ/Zaz4jb0C1pIqo4fAhQhIyWra0eOMzJ05BH5293suCUAoM7XKAM80+6UY8kKFaJZ
+         5wi/wOOe83AWfObRJreGWqbHTBw18mEcaQmsxemSuec443WdTpnQDscBCGOjUxSBcgZM
+         JgTaGW+RVsKdaoMSqz9EmapTFObwj7Ehib62rlXSyA9d0zm/aO3FL5a2bLGALCAU97iD
+         jnjwujIhT/h3Y/5zZDIvGWH0x4A7+ATNRnrv6VRfWIjyYgyxiMKNez2SqlSwSQXFQn9u
+         5G1vg5AxCngMFN8cUPEquEXdgc/QyH7otz+20xIJpek+bJpVwNuH9vI0ZU9T/b4THaaq
+         04pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771554606; x=1772159406;
+        d=1e100.net; s=20230601; t=1771554607; x=1772159407;
         h=message-id:date:reply-to:cc:to:from:subject
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=4wTVPhgyr8PV+PNvAGl8BGgwrB4HvIMy/ms2uo0tzO8=;
-        b=I1t64UnXLvT7ZOSMPhqH9MuGk7YvYHWZc+q/93KbhCBGEgeXw5QQI7vmMAgoiTfIkx
-         ZAu6e5GDZPDQzycl4LjgiBtQdhM/uBYiNVxCqzUXWkd6nVBM+o6SgmJ614FWp58iz6F9
-         InQge279iRJJCbAZRaFvF/2GM2VpaxlTBbTFwqoVHjH+ni7mMZeEWs5ye2ncf4oxMie7
-         wRBnjbgOtShtv78hCHlnM4dL9nMmQcEWssGW+cj5CVJZPyxnIf29NXk4XdYPjwjFNMR5
-         ulFgcn56SoJIZhw/mkKuNdtrD56ZySQnbQyqsiwSR4uzddN7n4hvFBipwRylzXVPObAL
-         VsKQ==
-X-Gm-Message-State: AOJu0YwX9cRdjqKZ/3Ug80VncYysmOcn1dnFNLCqrPgSgVPfHEpyl6Sc
-	5W1Cj+kyLS3Rq+WJ3ekIWtoiY+In0F2/hGTr5rWovMffrtgqnm6ku+IGxtw+0i9tuwE=
-X-Gm-Gg: AZuq6aJZbCnjj7vf0VStgmfnUkQx2fsgXCJbOrNIHh7batrHBVgjnQr8W7bZ6shF/fr
-	xXkEurtI1ufiJ6tGmhKwult/CXyHsHNd0+u8u8t4iInrSMcsnBGhc7YQZGOLg8LiAsTymFy5HMq
-	I4ai7qiCAQEF4huwdGdTcy7YIPQLTWhTvXPGrDA7rlZ/TPcxWLrTaebG4VTgtkDnsaLiogCV2zB
-	bMf9iVSqt8TStwbYwuBQLxTKs0P8dVOl6b+D8s0sl3k6uJSeeeARPxC/dSoatFOtw+XWKYGkfj6
-	pynv2WRvn2pPBDHj1Y/AHxFrc/Jx5zxYkQhIJyxFaiTu1+88rlzMeYzIZF04YQoksskVnaN+8h5
-	HH2cMDxoT7F44y2P0/N3SutBOf6lij1sT0LD8ODK5Rbp/fCzNv5AMDGI1AeTXL2+sjtq4nzi3eK
-	dGOoUULQOsPVfGBLyG
-X-Received: by 2002:a05:7300:aca6:b0:2ae:5ffa:8da4 with SMTP id 5a478bee46e88-2bd5b273039mr2175139eec.1.1771554605711;
-        Thu, 19 Feb 2026 18:30:05 -0800 (PST)
+        bh=dDN6vvLwEa9QPG1zsasa3KXviQ+qpOYvq8cMieCgLPs=;
+        b=bxVC4egmY7MU+NtFLmgMLCBaDiX7gUAK9cK02dQL1pmPhI5gxeGhY7zG8Oi3l2krZK
+         bQAaZHeZDHcK+J5LSYxpJDUuywgGHgLmFpTmOUA/P1pkLHmhW2aiAu0G4NVafaHAV6iA
+         XC65F53Vb50BFJjLfBlg4JPlETAIBzi3rfuJYccZ4N/fb74WsDq7cnPESHseRU/1e/8Y
+         FCXrJsGB5Wg7KL/5hTj+dEfqXea7tesBqkZ707kHDrvygP85IYTbqJ+A2BJAczLvPdQZ
+         MxadkiPr9ITzrDqGi/XH9oSEeL5Pm8I3hWp8ZfAqZf4pkNSIp+MA5Wqj5kMs/SDqAKaK
+         BphQ==
+X-Gm-Message-State: AOJu0YzADNfjaPx+5dgcUFTMQLrFku2M0ZxI1GOeeIQnl8nUN8pK7S0x
+	zCxpffROMQ4MWCz8NTZPfZBKKAEHN4sflwhAX/42SdOiZK0s9y7dtu54yZ+9xTVCn99kG2xO/u5
+	rFzxOW5o=
+X-Gm-Gg: AZuq6aJjKfoEEYqlxfBJvKCcieEaw6cYC60oVW7rtGe0w4Omuc2ega0/VcDn4kNeYS1
+	HXXO+QpkpNd18tZosz+7InjhtqUycUuytLwTb33s4obMrFpGslVbXQIpbDOgKebj2uWnHuHHMBb
+	BluxMlsZAIKYrWMJU8xSLoNmAh1NJdhTGJxK2mPlM+O4GpKClgN6llpLp4z7IxUDOo1M2uCFstg
+	Sk+AJWJXm0hsQ2qbjHDcncc3aR4VCAfiTFXb/Pv9/hFIq4tLx05Bm8XKmQdelTP1ah34IBdDi6H
+	4KmCOrxItu8H6zrN6JVfOkptJk+9vemnjqdbAW1/JjYKjX9hmGAOVxyz7mutYD0K4EgFpG1pTYW
+	TiWZY5r7VaqZuNXoxM4h7KPX1Odl8WYiDCUstOPdAFI+VMh1yBhzRA7eiBd9P/thPCA3c7NRQ0p
+	E9wb/nutFJOkq4FQ3H
+X-Received: by 2002:a05:7022:4389:b0:127:3214:c869 with SMTP id a92af1059eb24-12741bd5001mr6552379c88.44.1771554607154;
+        Thu, 19 Feb 2026 18:30:07 -0800 (PST)
 Received: from d14e337afe00 ([20.38.40.137])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bacb543e1dsm22369550eec.4.2026.02.19.18.30.04
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bacb658fb9sm22255546eec.20.2026.02.19.18.30.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 18:30:04 -0800 (PST)
+        Thu, 19 Feb 2026 18:30:06 -0800 (PST)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -64,14 +65,14 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: [STATUS] stable-rt/v5.10-rt-next -
- 191bca0b024d219b5488328baa8829d0bcc9093a
+Subject: [STATUS] stable-rt/v5.10-rt -
+ 291e6d8d18589f662e9e02185277222f4d7bed4b
 From: KernelCI bot <bot@kernelci.org>
 To: kernelci-results@groups.io
 Cc: linux-rt-devel@lists.linux.dev
 Reply-To: kernelci@lists.linux.dev
-Date: Fri, 20 Feb 2026 02:30:04 -0000
-Message-ID: <177155460425.304.7123823892305008724@d14e337afe00>
+Date: Fri, 20 Feb 2026 02:30:06 -0000
+Message-ID: <177155460591.304.13551877130171425580@d14e337afe00>
 
 
 
@@ -79,20 +80,20 @@ Message-ID: <177155460425.304.7123823892305008724@d14e337afe00>
 
 Hello,
 
-Status summary for stable-rt/v5.10-rt-next
+Status summary for stable-rt/v5.10-rt
 
 Dashboard:
-https://d.kernelci.org/c/stable-rt/v5.10-rt-next/191bca0b024d219b5488328baa8829d0bcc9093a/
+https://d.kernelci.org/c/stable-rt/v5.10-rt/291e6d8d18589f662e9e02185277222f4d7bed4b/
 
 giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
-branch: v5.10-rt-next
-commit hash: 191bca0b024d219b5488328baa8829d0bcc9093a
+branch: v5.10-rt
+commit hash: 291e6d8d18589f662e9e02185277222f4d7bed4b
 origin: maestro
-test start time: 2026-02-19 16:29:12.132000+00:00
+test start time: 2026-02-19 15:26:16.425000+00:00
 
 Builds:	   21 ✅    1 ❌    0 ⚠️
-Boots: 	   30 ✅    0 ❌    0 ⚠️
-Tests: 	  626 ✅    2 ❌   90 ⚠️
+Boots: 	   34 ✅    0 ❌    0 ⚠️
+Tests: 	  290 ✅   78 ❌  416 ⚠️
 
 ### POSSIBLE REGRESSIONS
 
@@ -106,12 +107,40 @@ Tests: 	  626 ✅    2 ❌   90 ⚠️
 
 ### UNSTABLE TESTS
     
-Hardware: qemu-arm64
+Hardware: qemu
   > Config: defconfig+preempt_rt
-    - Architecture/compiler: arm64/gcc-14
+    - Architecture/compiler: x86_64/gcc-14
+      - rt-tests.cyclicdeadline
+      last run: https://d.kernelci.org/test/maestro:69972dab7b34c33055395075
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.cyclictest
+      last run: https://d.kernelci.org/test/maestro:69972dad7b34c3305539507e
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.pi-params
+      last run: https://d.kernelci.org/test/maestro:69972db07b34c33055395084
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.pmqtest
+      last run: https://d.kernelci.org/test/maestro:69972db27b34c3305539508d
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.ptsematest
+      last run: https://d.kernelci.org/test/maestro:69972db57b34c33055395097
+      history:  > ✅  > ⚠️  > ✅  
+            
       - rt-tests.signaltest
-      last run: https://d.kernelci.org/test/maestro:69977f6d7b34c330553ad533
-      history:  > ✅  > ✅  > ⚠️  
+      last run: https://d.kernelci.org/test/maestro:69972dbf7b34c330553950b6
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.sigwaittest
+      last run: https://d.kernelci.org/test/maestro:69972dc27b34c330553950bf
+      history:  > ✅  > ⚠️  > ✅  
+            
+      - rt-tests.svsematest
+      last run: https://d.kernelci.org/test/maestro:69972dc47b34c330553950c5
+      history:  > ✅  > ⚠️  > ✅  
             
 
 
