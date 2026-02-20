@@ -1,40 +1,40 @@
 Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5890026FA6F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 08:37:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7241BCA1C
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 08:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771576643; cv=none; b=uGATJWcsg/tH++8Dj2eQmYtF+qzdU4lwOd9HyVUeMPo0LElxACqeUADrYTJXBIYiFJ3wCJiIdiYM5+hjEZXVJg6XhEqm9qTRCklQvbkfb+EMu/88rKBMHs7LIvlTG0egLjFCkLCHEXb2IjWViJK6PqOwUxN4QR3Lms/LBGL4uK8=
+	t=1771576646; cv=none; b=K3ApN3cb3RYlws7tj1dEAwZ9aEshK+RWslTAwkiZ3FOhdaj48TwuDrFjISeQ5tvjWeDS42ynzWsHvAndzbFWlA6IHnxQHsvqBaX/6hb39uPX9kisYykbTjmf1KXD++kGox+Tre5/E8z1UdZnscfZOhS/X+4c7K3IWX+7PjaSoG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771576643; c=relaxed/simple;
-	bh=/T86rcA01cGgM35z2+asiVe5bkFH96NTyprH2lsWm8E=;
+	s=arc-20240116; t=1771576646; c=relaxed/simple;
+	bh=cN4CC8A++RQw4KZny+y/qBgunBqNML6aHqx9moCYECM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nGPziEakFMyIOaqEHIKeTN/ssgsrKGAlIaxJ+2K6alfr29XGeIcy4IoDpb+uJfhnwCH0L6W314OUC4oztbX0pNgPpiCEvSWsJqHxbRmG9LUAnDrDcItgHeC02d65P+MNdFQnn4dC4B1AywGXUQS717DTiMdHsqpaHpm4GH2UJsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=g2A7FA26; arc=none smtp.client-ip=141.105.120.124
+	 MIME-Version; b=gITQhbVfOtMCQS3tnZqHMTRTDNfb9dkCRMJgnuz93uVUWDZ/nUamN+G2DrUUEmY5GBBzGUHj9VweSNfRLoVFkpxMX+6b/jSCuACKI3ddkO7r7jIccE04JiGcg7Yp5D1zNRPit31XCAPfFCjYJU0NPxCbrqpGRYsUaIZlXrF7tk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=TdmdEveE; arc=none smtp.client-ip=141.105.120.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="g2A7FA26"
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="TdmdEveE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1771576641;
-	bh=/T86rcA01cGgM35z2+asiVe5bkFH96NTyprH2lsWm8E=;
+	s=default; t=1771576643;
+	bh=cN4CC8A++RQw4KZny+y/qBgunBqNML6aHqx9moCYECM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=g2A7FA26ZnykXFsTxCQcbYCPUReus9yzXK0Zsq9aHQMst1ihllQ3/OdfIgQAGq6+r
-	 TSp4fET14KsM0yqLaIDUSbfki/PuhMCurFWpgVyb9yus8B8fcRhnQJywGbwh7m4keB
-	 r6/b8SzGrg0a2LwA3As6GzbAinoT/ASwxK5S0R8NVZfIjBqhhqprvFF/gWZ8pBRjAD
-	 7QmXK/Hj/7qc0/HoQbKvROYiC2kUzN3Kr7RFAKkqsztTtbg8KWha0HZDYzBUT5PW80
-	 poPp38k3NGWMywOnGdM5xBDY0kU4Um4BDaAH/mzbBY01XwxwCFckKCm+mob4kLBlLa
-	 YNu3TvZYxKB1w==
+	b=TdmdEveEf3p6iHIB4/TVideG7VVudg+MDSVRVQ95XbuLpn3zF+ulZE3BRbIzdednp
+	 FTjXxEEde2Yo0NtQOYb84vmIPmqcYK5bcYANJM7DxNIwPJJxvjG7mDduVMfboV246Z
+	 IjSQ3NqxRKEo9waVbdmcWQMIaAhJHFJ7sQcoBBw3IAIgobEY1R804LwVO0Fn8WHowP
+	 1panPkvyOutTv4ja9g5OokjlyoTEzDgzlotwyb685mQxfE0LaFGliA5q4qjRhdVyTA
+	 qHWIkiO5xB350dpRfBiNKbEtiTb4pCURpz4L3p+XQaifvzHSTMemj9tYzfaotJ819k
+	 hjoqEUaIISl7w==
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: linux-rt-devel@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Maarten Lankhorst <dev@lankhorst.se>
-Subject: [i915-rt v6 09/24] drm/i915/display: Make get_vblank_counter use intel_de_read_fw()
-Date: Fri, 20 Feb 2026 09:37:07 +0100
-Message-ID: <20260220083657.28815-35-dev@lankhorst.se>
+Subject: [i915-rt v6 10/24] drm/i915/display: Do not take uncore lock in i915_get_vblank_counter
+Date: Fri, 20 Feb 2026 09:37:08 +0100
+Message-ID: <20260220083657.28815-36-dev@lankhorst.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260220083657.28815-26-dev@lankhorst.se>
 References: <20260220083657.28815-26-dev@lankhorst.se>
@@ -46,44 +46,124 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes the following lockdep splat on PREEMPT_RT:
-<3> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-<3> in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1373, name: xe_module_load
-<3> preempt_count: 1, expected: 0
-<3> RCU nest depth: 0, expected: 0
-<4> 11 locks held by xe_module_load/1373:
-<4>  #0: ffff888107b691a0 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x104/0x220
-<4>  #1: ffff88813cd30280 (&dev->clientlist_mutex){+.+.}-{3:3}, at: drm_client_register+0x32/0xe0
-<4>  #2: ffffffff837f88f8 (registration_lock){+.+.}-{3:3}, at: register_framebuffer+0x1b/0x50
-<4>  #3: ffffffff835985e0 (console_lock){+.+.}-{0:0}, at: fbcon_fb_registered+0x6f/0x90
-<4>  #4: ffff88812589e6a0 (&helper->lock){+.+.}-{3:3}, at: __drm_fb_helper_restore_fbdev_mode_unlocked+0x7b/0x110
-<4>  #5: ffff88813cd30158 (&dev->master_mutex){+.+.}-{3:3}, at: drm_master_internal_acquire+0x20/0x50
-<4>  #6: ffff88812589e488 (&client->modeset_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_locked+0x2a/0x1b0
-<4>  #7: ffffc9000031eef0 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_client_modeset_commit_atomic+0x4c/0x2b0
-<4>  #8: ffffc9000031ef18 (crtc_ww_class_mutex){+.+.}-{3:3}, at: drm_client_modeset_commit_atomic+0x4c/0x2b0
-<4>  #9: ffff888114f7b8b8 (&intel_dp->psr.lock){+.+.}-{3:3}, at: intel_psr_lock+0xc5/0xf0 [xe]
-<4>  #10: ffff88812a0cbbc0 (&wl->lock){+.+.}-{2:2}, at: intel_dmc_wl_get+0x3c/0x140 [xe]
-
-This splat will happen otherwise on all tracepoints too, for similar reasons.
+This fixes a lockdep splat that occurs in the code that should be run
+with interrupts disabled. The uncore lock should not be taken and
+released repeatedly in a timing sensitive path.
 
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/gpu/drm/i915/display/intel_vblank.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/i915/display/intel_de.h       |  8 ++++++
+ drivers/gpu/drm/i915/display/intel_vblank.c   |  4 +--
+ drivers/gpu/drm/i915/intel_uncore.h           | 26 +++++++++++++------
+ .../drm/xe/compat-i915-headers/intel_uncore.h |  7 +++++
+ 4 files changed, 35 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_vblank.c b/drivers/gpu/drm/i915/display/intel_vblank.c
-index 8263cefaa0fb6..e204c260b9aef 100644
---- a/drivers/gpu/drm/i915/display/intel_vblank.c
-+++ b/drivers/gpu/drm/i915/display/intel_vblank.c
-@@ -132,7 +132,7 @@ u32 g4x_get_vblank_counter(struct drm_crtc *crtc)
- 	if (!vblank->max_vblank_count)
- 		return 0;
- 
--	return intel_de_read(display, PIPE_FRMCOUNT_G4X(display, pipe));
-+	return intel_de_read_fw(display, PIPE_FRMCOUNT_G4X(display, pipe));
+diff --git a/drivers/gpu/drm/i915/display/intel_de.h b/drivers/gpu/drm/i915/display/intel_de.h
+index f30f3f8ebee1d..8990c2c778efe 100644
+--- a/drivers/gpu/drm/i915/display/intel_de.h
++++ b/drivers/gpu/drm/i915/display/intel_de.h
+@@ -68,6 +68,14 @@ intel_de_read64_2x32(struct intel_display *display,
+ 	return val;
  }
  
- static u32 intel_crtc_scanlines_since_frame_timestamp(struct intel_crtc *crtc)
++static inline u64
++intel_de_read64_2x32_fw(struct intel_display *display,
++			i915_reg_t lower_reg, i915_reg_t upper_reg)
++{
++	return intel_uncore_read64_2x32_fw(__to_uncore(display),
++					   lower_reg, upper_reg);
++}
++
+ static inline void
+ intel_de_posting_read(struct intel_display *display, i915_reg_t reg)
+ {
+diff --git a/drivers/gpu/drm/i915/display/intel_vblank.c b/drivers/gpu/drm/i915/display/intel_vblank.c
+index e204c260b9aef..749127ae7794c 100644
+--- a/drivers/gpu/drm/i915/display/intel_vblank.c
++++ b/drivers/gpu/drm/i915/display/intel_vblank.c
+@@ -109,8 +109,8 @@ u32 i915_get_vblank_counter(struct drm_crtc *crtc)
+ 	 * we get a low value that's stable across two reads of the high
+ 	 * register.
+ 	 */
+-	frame = intel_de_read64_2x32(display, PIPEFRAMEPIXEL(display, pipe),
+-				     PIPEFRAME(display, pipe));
++	frame = intel_de_read64_2x32_fw(display, PIPEFRAMEPIXEL(display, pipe),
++				        PIPEFRAME(display, pipe));
+ 
+ 	pixel = frame & PIPE_PIXEL_MASK;
+ 	frame = (frame >> PIPE_FRAME_LOW_SHIFT) & 0xffffff;
+diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
+index fafc2ca9a2376..507398a562649 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.h
++++ b/drivers/gpu/drm/i915/intel_uncore.h
+@@ -449,13 +449,28 @@ static inline void intel_uncore_rmw_fw(struct intel_uncore *uncore,
+ 		intel_uncore_write_fw(uncore, reg, val);
+ }
+ 
++static inline u64
++intel_uncore_read64_2x32_fw(struct intel_uncore *uncore,
++			    i915_reg_t lower_reg, i915_reg_t upper_reg)
++{
++	u32 upper, lower, old_upper, loop = 0;
++	upper = intel_uncore_read_fw(uncore, upper_reg);
++	do {
++		old_upper = upper;
++		lower = intel_uncore_read_fw(uncore, lower_reg);
++		upper = intel_uncore_read_fw(uncore, upper_reg);
++	} while (upper != old_upper && loop++ < 2);
++
++	return (u64)upper << 32 | lower;
++}
++
+ static inline u64
+ intel_uncore_read64_2x32(struct intel_uncore *uncore,
+ 			 i915_reg_t lower_reg, i915_reg_t upper_reg)
+ {
+-	u32 upper, lower, old_upper, loop = 0;
+ 	enum forcewake_domains fw_domains;
+ 	unsigned long flags;
++	u64 ret;
+ 
+ 	fw_domains = intel_uncore_forcewake_for_reg(uncore, lower_reg,
+ 						    FW_REG_READ);
+@@ -466,17 +481,12 @@ intel_uncore_read64_2x32(struct intel_uncore *uncore,
+ 	spin_lock_irqsave(&uncore->lock, flags);
+ 	intel_uncore_forcewake_get__locked(uncore, fw_domains);
+ 
+-	upper = intel_uncore_read_fw(uncore, upper_reg);
+-	do {
+-		old_upper = upper;
+-		lower = intel_uncore_read_fw(uncore, lower_reg);
+-		upper = intel_uncore_read_fw(uncore, upper_reg);
+-	} while (upper != old_upper && loop++ < 2);
++	ret = intel_uncore_read64_2x32_fw(uncore, lower_reg, upper_reg);
+ 
+ 	intel_uncore_forcewake_put__locked(uncore, fw_domains);
+ 	spin_unlock_irqrestore(&uncore->lock, flags);
+ 
+-	return (u64)upper << 32 | lower;
++	return ret;
+ }
+ 
+ static inline int intel_uncore_write_and_verify(struct intel_uncore *uncore,
+diff --git a/drivers/gpu/drm/xe/compat-i915-headers/intel_uncore.h b/drivers/gpu/drm/xe/compat-i915-headers/intel_uncore.h
+index c5e198ace7bce..620d69c097dfb 100644
+--- a/drivers/gpu/drm/xe/compat-i915-headers/intel_uncore.h
++++ b/drivers/gpu/drm/xe/compat-i915-headers/intel_uncore.h
+@@ -73,6 +73,13 @@ intel_uncore_read64_2x32(struct intel_uncore *uncore,
+ 	return (u64)upper << 32 | lower;
+ }
+ 
++static inline u64
++intel_uncore_read64_2x32_fw(struct intel_uncore *uncore,
++			    i915_reg_t i915_lower_reg, i915_reg_t i915_upper_reg)
++{
++	return intel_uncore_read64_2x32(uncore, i915_lower_reg, i915_upper_reg);
++}
++
+ static inline void intel_uncore_posting_read(struct intel_uncore *uncore,
+ 					     i915_reg_t i915_reg)
+ {
 -- 
 2.51.0
 
