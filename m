@@ -1,40 +1,40 @@
 Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E343168E6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EAE318EC6
 	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 08:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771576987; cv=none; b=e+ntJCHaYJL3KeQN5ajkq9R5D6SGtZN/7dbmXPgFH3zQRkHRAFdfzkRUNOD39phjs9hl83is3IQQsonUBk/XIhT+cz6/mMApo4WIhGBXvp4eNQnioYhjhPZwRXqvcrbFqmMmn6dHc1exTWmDk3u5fyfktNb7gchl9NXZfQl+l1U=
+	t=1771576987; cv=none; b=WCm78NbuZk/s66VjMo3It45wwXI6mssNRzd6V7yfq9Wp+FyH44pXPYzNsdjl8N+C+91E2WmUkBueco12/2JTZkPXNwQB9WDgNsJHv8GfhrZFNf0pONNxOLarbXeJYEerwpjYGGoGLQtrnbFMKXtO+a2RRkAg1b2wM8k+KfJKCgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771576987; c=relaxed/simple;
-	bh=3DZgJsq9cXtJcxxoTli6qqSG9rAnN2F4n5NlIb7zR3g=;
+	bh=+0TTsFCqXwNcD9FpX0y560T4S4yey1kF0/TOh8QGn6E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y56PU/OqEz5GL5KUwLh3Vuu3AwvXYE9m1sZ+yQgoMKqMJ6drtiHwuOwkTt60xje7nZtkOY0qgtY7MVSh39+xj25/jZd9czwaHCdy4wNs+vP9oCB88VAwDvGP1bZPU8mLv4A54hCtv/w6txyCSe4wKfHG5tNQhiANwR26jpThzSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=Ev9nFH96; arc=none smtp.client-ip=141.105.120.124
+	 MIME-Version; b=V4XaB91dZFTnDeF2aZ9jhk9q4rHutOR4w7lklA5/MkSyfQJNYRDl0VE5VW8Txr5HFIYB9MKIKlKgDaXIo5mQn/mzv+wEbnU+6ggY4sDZy6dGPsEpldUhPK/cbKETKMdoBUoGpkoXue/r9EY57TLvB9xKA58oMlRjpJUkM8ITg48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=i7cHkKna; arc=none smtp.client-ip=141.105.120.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="Ev9nFH96"
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="i7cHkKna"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1771576629;
-	bh=3DZgJsq9cXtJcxxoTli6qqSG9rAnN2F4n5NlIb7zR3g=;
+	s=default; t=1771576628;
+	bh=+0TTsFCqXwNcD9FpX0y560T4S4yey1kF0/TOh8QGn6E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ev9nFH96B0fcrZCQaMktJQZ93UahbVulRs+oZwk0wGheiSa40qhf9WA8eT6oLEa0A
-	 T2oGwvKadV/9H8NjLGqpMf2nqGiIQXe94x/1/qK+nrsY1iCNkytRJ96knjIOy6uiMF
-	 tS9j00EUx51o+ySYcLjgjAtHA2x3RZIplySH+XGq4zXYOtYGUNCokiIVG75cM/0PFf
-	 fKhrTNTfcMMCNfRkVW6JdOkRQMXUZxhvfNmQFjwlnO3nljZt7wvMWbvXhpbcO6VeTO
-	 bcW0/UwGCqcTUE9xha6yYjWCNIJuVM6/EIY9+j+cmBRFUKb4W0Pkrkt+Xq6Ovhc3vz
-	 bYce+XaKjvGdg==
+	b=i7cHkKnaDgAxlyJ+xAAZT5mlUBi3d8a800+0USMeZYSzFTh6BHJYYQQlLz+zoixWl
+	 ulywtapOzBCfEqp4Mtj/hon9Yudpwjfx9pzaBbNXSJkuYVhseKTh4YHpfS+IzmKEUP
+	 7wx/0UqR/y3ZyS849zGcM1J2SOj5b7bWcx8BmLhEF+jBduMd3fSn6LHFo2gJ+wXrVn
+	 HRdcjglZpnnqBLPuW6ZgRLHQIH+ejz/pcmUwwpwF0j2HpHUxrZeMCFFv5KN1DjjY2E
+	 nbP0IX2e84LRZgQfvgd+i/2gLF4MiKxtl5z+dGxQFxxMw2cR7yAysbnGsWzXUvO2Yt
+	 e+ph8NCSkrsjg==
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: linux-rt-devel@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
 	Maarten Lankhorst <dev@lankhorst.se>
-Subject: [i915-rt v6 02/24] drm/vblank: Add a 2-stage version of drm_crtc_arm_vblank_event
-Date: Fri, 20 Feb 2026 09:37:00 +0100
-Message-ID: <20260220083657.28815-28-dev@lankhorst.se>
+Subject: [i915-rt v6 01/24] drm/vblank_work: Add methods to schedule vblank_work in 2 stages
+Date: Fri, 20 Feb 2026 09:36:59 +0100
+Message-ID: <20260220083657.28815-27-dev@lankhorst.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260220083657.28815-26-dev@lankhorst.se>
 References: <20260220083657.28815-26-dev@lankhorst.se>
@@ -46,144 +46,198 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When trying to fix the hardware programming in intel/display, I had
-to take all the vblank locks with local_irqs_disabled(). This
-required converting the entire vblank code to raw spinlocks.
+In case of vblank evasion in intel/display, it's necessary to
+perform some work in advance, so the critical section will always run in
+constant time on PREEMPT_RT.
 
-In the alternative approach, do all preparations in advance, and only
-enable the vblank_event with interrupts disabled, this requires only
-a simple write and prevents a complete re-architecture of the code.
+By preparing all the work in advance, the part that needs to finish in
+constant time only has to write a single variable instead. This allows
+PREEMPT_RT to keep the interrupts disabled at the most critical part,
+without completely reworking all locks to be raw spinlocks.
 
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/gpu/drm/drm_vblank.c | 61 +++++++++++++++++++++++++++++++++++-
- include/drm/drm_vblank.h     | 14 ++++++++-
- 2 files changed, 73 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_vblank_work.c | 106 ++++++++++++++++++++++--------
+ include/drm/drm_vblank_work.h     |  12 ++++
+ 2 files changed, 92 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index 42fe11cc139b9..1a84a69e99810 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -1118,12 +1118,68 @@ void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
+index 70f0199251ea0..308093a0bbbf0 100644
+--- a/drivers/gpu/drm/drm_vblank_work.c
++++ b/drivers/gpu/drm/drm_vblank_work.c
+@@ -54,7 +54,8 @@ void drm_handle_vblank_works(struct drm_vblank_crtc *vblank)
+ 	assert_spin_locked(&vblank->dev->event_lock);
  
- 	assert_spin_locked(&dev->event_lock);
+ 	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
+-		if (!drm_vblank_passed(count, work->count))
++		/* READ_ONCE pairs with WRITE_ONCE in drm_vblank_work_enable() */
++		if (!READ_ONCE(work->armed) || !drm_vblank_passed(count, work->count))
+ 			continue;
  
-+	WARN_ON(e->postponed);
- 	e->pipe = pipe;
- 	e->sequence = drm_crtc_accurate_vblank_count(crtc) + 1;
- 	list_add_tail(&e->base.link, &dev->vblank_event_list);
+ 		list_del_init(&work->node);
+@@ -86,30 +87,8 @@ void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank)
+ 	wake_up_all(&vblank->work_wait_queue);
  }
- EXPORT_SYMBOL(drm_crtc_arm_vblank_event);
  
+-/**
+- * drm_vblank_work_schedule - schedule a vblank work
+- * @work: vblank work to schedule
+- * @count: target vblank count
+- * @nextonmiss: defer until the next vblank if target vblank was missed
+- *
+- * Schedule @work for execution once the crtc vblank count reaches @count.
+- *
+- * If the crtc vblank count has already reached @count and @nextonmiss is
+- * %false the work starts to execute immediately.
+- *
+- * If the crtc vblank count has already reached @count and @nextonmiss is
+- * %true the work is deferred until the next vblank (as if @count has been
+- * specified as crtc vblank count + 1).
+- *
+- * If @work is already scheduled, this function will reschedule said work
+- * using the new @count. This can be used for self-rearming work items.
+- *
+- * Returns:
+- * %1 if @work was successfully (re)scheduled, %0 if it was either already
+- * scheduled or cancelled, or a negative error code on failure.
+- */
+-int drm_vblank_work_schedule(struct drm_vblank_work *work,
+-			     u64 count, bool nextonmiss)
++static int __drm_vblank_work_schedule(struct drm_vblank_work *work,
++				      u64 count, bool nextonmiss, bool armed)
+ {
+ 	struct drm_vblank_crtc *vblank = work->vblank;
+ 	struct drm_device *dev = vblank->dev;
+@@ -139,6 +118,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 		rescheduling = true;
+ 	}
+ 
++	work->armed = armed;
+ 	work->count = count;
+ 	cur_vbl = drm_vblank_count(dev, vblank->pipe);
+ 	passed = drm_vblank_passed(cur_vbl, count);
+@@ -147,7 +127,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 			     "crtc %d vblank %llu already passed (current %llu)\n",
+ 			     vblank->pipe, count, cur_vbl);
+ 
+-	if (!nextonmiss && passed) {
++	if (!nextonmiss && passed && armed) {
+ 		drm_vblank_put(dev, vblank->pipe);
+ 		ret = kthread_queue_work(vblank->worker, &work->base);
+ 
+@@ -167,8 +147,82 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 		wake_up_all(&vblank->work_wait_queue);
+ 	return ret;
+ }
++
 +/**
-+ * drm_crtc_prepare_arm_vblank_event - arm vblank event *before* pageflip.
-+ * @crtc: the source CRTC of the vblank event
-+ * @e: the event to send
++ * drm_vblank_work_schedule - schedule a vblank work
++ * @work: vblank work to schedule
++ * @count: target vblank count
++ * @nextonmiss: defer until the next vblank if target vblank was missed
 + *
-+ * See drm_crtc_arm_vblank_event(). This function is a 2-stage version of
-+ * that call. This function is called *BEFORE* programming the hardware.
++ * Schedule @work for execution once the crtc vblank count reaches @count.
 + *
-+ * After programming, call drm_crtc_arm_prepared_vblank_event() and the
-+ * event will be scheduled on the next vblank.
++ * If the crtc vblank count has already reached @count and @nextonmiss is
++ * %false the work starts to execute immediately.
 + *
-+ * This is mainly useful for code that has to run on PREEMPT_RT kernels,
-+ * with interrupts disabled, since all vblank spinlocks are converted to
-+ * rtmutexes, and code running with irqs disabled cannot take any vblank lock.
++ * If the crtc vblank count has already reached @count and @nextonmiss is
++ * %true the work is deferred until the next vblank (as if @count has been
++ * specified as crtc vblank count + 1).
 + *
-+ * It also increases determinism for any hardware
-+ * programming, since no vblank related locks are taking when arming.
++ * If @work is already scheduled, this function will reschedule said work
++ * using the new @count. This can be used for self-rearming work items.
++ *
++ * Returns:
++ * %1 if @work was successfully (re)scheduled, %0 if it was either already
++ * scheduled or cancelled, or a negative error code on failure.
 + */
-+void drm_crtc_prepare_arm_vblank_event(struct drm_crtc *crtc,
-+				       struct drm_pending_vblank_event *e)
++int drm_vblank_work_schedule(struct drm_vblank_work *work,
++			     u64 count, bool nextonmiss)
 +{
-+	drm_crtc_arm_vblank_event(crtc, e);
-+
-+	/* Set the flag, so that the event is not fired yet */
-+	e->postponed = true;
++	return __drm_vblank_work_schedule(work, count, nextonmiss, true);
 +}
-+EXPORT_SYMBOL(drm_crtc_prepare_arm_vblank_event);
+ EXPORT_SYMBOL(drm_vblank_work_schedule);
+ 
 +
 +/**
-+ * drm_crtc_arm_prepared_vblank_event - arm prepared vblank event *after* pageflip.
-+ * @crtc: the source CRTC of the vblank event
-+ * @e: the event to send
++ * drm_vblank_work_schedule_disabled - schedule a vblank work, withoug enabling
++ * @work: vblank work to schedule
++ * @count: target vblank count
 + *
-+ * See drm_crtc_prepare_arm_vblank_event(). This function is a 2-stage version of
-+ * that call. This function is called directly *AFTER* programming the hardware.
++ * Schedule @work for execution once the crtc vblank count reaches @count.
 + *
-+ * Before this function is called, drm_crtc_prepare_arm_vblank_event() should be
-+ * called instead.
++ * The vblank work will not be scheduled until drm_vblank_work_enable() is called.
++ * If the crtc vblank count has already reached @count, the work will still
++ * not be scheduled until the first following vblank.
 + *
-+ * This is mainly useful for code that has to run on PREEMPT_RT kernels,
-+ * with interrupts disabled, since all vblank spinlocks are converted to
-+ * rtmutexes, and code running with irqs disabled cannot take any vblank lock.
++ * If @work is already scheduled, this function will reschedule said work
++ * using the new @count. This can be used for self-rearming work items.
 + *
-+ * It also increases determinism for any hardware
-+ * programming, since no vblank related locks are taking when arming.
++ * Returns:
++ * %1 if @work was successfully (re)scheduled, %0 if it was either already
++ * scheduled or cancelled, or a negative error code on failure.
 + */
-+void drm_crtc_arm_prepared_vblank_event(struct drm_pending_vblank_event *e)
++int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count)
 +{
-+	WARN_ON(!e->postponed);
-+
-+	/* remove the flag to be processed as a normal event */
-+	WRITE_ONCE(e->postponed, false);
++	return __drm_vblank_work_schedule(work, count, true, true);
 +}
-+EXPORT_SYMBOL(drm_crtc_arm_prepared_vblank_event);
++EXPORT_SYMBOL(drm_vblank_work_schedule_disabled);
++
++/**
++ * drm_vblank_work_enable - enable vblank work
++ * @work: vblank work to enable
++ *
++ * This function is specifically only for when drm_vblank_work_schedule_disabled() is
++ * called. It allows for the work to be armed in any context, without any locks.
++ *
++ * The work will be signalled earliest at the @count argument, if it has been passed,
++ * it will signalled at the next vblank.
++ *
++ * This is particularly useful for PREEMPT_RT, where the spin_lock is converted
++ * into a sleeping rtmutex, and vblank evasion requires some work to be
++ * scheduled on completion with interrupts disabled.
++ */
++void drm_vblank_work_enable(struct drm_vblank_work *work)
++{
++	WARN_ON(work->armed);
++	WRITE_ONCE(work->armed, true);
++}
++EXPORT_SYMBOL(drm_vblank_work_enable);
 +
  /**
-  * drm_crtc_send_vblank_event - helper to send vblank event after pageflip
-  * @crtc: the source CRTC of the vblank event
-@@ -1381,6 +1437,8 @@ void drm_crtc_vblank_off(struct drm_crtc *crtc)
- 	list_for_each_entry_safe(e, t, &dev->vblank_event_list, base.link) {
- 		if (e->pipe != pipe)
- 			continue;
-+
-+		WARN_ON(e->postponed);
- 		drm_dbg_core(dev, "Sending premature vblank event on disable: "
- 			     "wanted %llu, current %llu\n",
- 			     e->sequence, seq);
-@@ -1886,7 +1944,8 @@ static void drm_handle_vblank_events(struct drm_device *dev, unsigned int pipe)
- 	seq = drm_vblank_count_and_time(dev, pipe, &now);
- 
- 	list_for_each_entry_safe(e, t, &dev->vblank_event_list, base.link) {
--		if (e->pipe != pipe)
-+		/* Matches WRITE_ONCE in drm_crtc_arm_prepared_vblank_event() */
-+		if (e->pipe != pipe || READ_ONCE(e->postponed))
- 			continue;
- 		if (!drm_vblank_passed(seq, e->sequence))
- 			continue;
-diff --git a/include/drm/drm_vblank.h b/include/drm/drm_vblank.h
-index 2fcef9c0f5b1b..956d5621eb7f9 100644
---- a/include/drm/drm_vblank.h
-+++ b/include/drm/drm_vblank.h
-@@ -53,6 +53,13 @@ struct drm_pending_vblank_event {
- 	 * @sequence: frame event should be triggered at
+  * drm_vblank_work_cancel_sync - cancel a vblank work and wait for it to
+  * finish executing
+diff --git a/include/drm/drm_vblank_work.h b/include/drm/drm_vblank_work.h
+index e04d436b72973..e19351200da24 100644
+--- a/include/drm/drm_vblank_work.h
++++ b/include/drm/drm_vblank_work.h
+@@ -47,6 +47,14 @@ struct drm_vblank_work {
  	 */
- 	u64 sequence;
-+
+ 	int cancelling;
+ 
 +	/**
-+	 * @postponed: whether drm_crtc_prepare_arm_vblank_event() is called,
-+	 * and drm_crtc_arm_prepared_vblank_event has yet to be called to arm.
++	 * @armed: If false, the work item has been added to the
++	 * drm_vblank_crtc.pending_work list, but will not yet be signalled.
++	 *
++	 * Call drm_vblank_work_enable() to fire on next vblank.
 +	 */
-+	bool postponed;
++	bool armed;
 +
  	/**
- 	 * @event: Actual event which will be sent to userspace.
- 	 */
-@@ -294,7 +301,12 @@ int drm_crtc_next_vblank_start(struct drm_crtc *crtc, ktime_t *vblanktime);
- void drm_crtc_send_vblank_event(struct drm_crtc *crtc,
- 			       struct drm_pending_vblank_event *e);
- void drm_crtc_arm_vblank_event(struct drm_crtc *crtc,
--			      struct drm_pending_vblank_event *e);
-+			       struct drm_pending_vblank_event *e);
+ 	 * @node: The position of this work item in
+ 	 * &drm_vblank_crtc.pending_work.
+@@ -64,6 +72,10 @@ struct drm_vblank_work {
+ 
+ int drm_vblank_work_schedule(struct drm_vblank_work *work,
+ 			     u64 count, bool nextonmiss);
 +
-+void drm_crtc_prepare_arm_vblank_event(struct drm_crtc *crtc,
-+				       struct drm_pending_vblank_event *e);
-+void drm_crtc_arm_prepared_vblank_event(struct drm_pending_vblank_event *e);
++int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count);
++void drm_vblank_work_enable(struct drm_vblank_work *work);
 +
- void drm_vblank_set_event(struct drm_pending_vblank_event *e,
- 			  u64 *seq,
- 			  ktime_t *now);
+ void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
+ 			  void (*func)(struct kthread_work *work));
+ bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work);
 -- 
 2.51.0
 
