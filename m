@@ -1,42 +1,40 @@
 Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AAF26FA6F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 08:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387162857CD
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 08:37:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771576666; cv=none; b=rZZAsWZmaZjej1dItu0BPEFZsZ4Sg36+ZrIbJrJcv0RfHiSwX4I2uRyjkSGsvdJmCxajYFi9IUVUgsF3TYpKu/UB3zGqg/yseY7z/dlamqWE9MtI2DPOBaWewoAOSI+Z/HO0EFJkHk5uxCkvJybftjgu2hCGllba7aV+pzG7aMw=
+	t=1771576669; cv=none; b=CEA/wktDlYdxV1deriOBBA+dSKi6IS1pW/2XYLLhVuMzGocu1hLnqhWtQNNJT3Cwym8ASn+FxJBy2VcdUh0mB+wAfaFiig+fMvkgARZ5C5s5Sn+Vz+QQlKI8exqkvy7XFMfCPLnpZRwnQTkTyWlnNmPPMgLuATHYt8uwm3X+mCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771576666; c=relaxed/simple;
-	bh=Qyjkrg23NvqAtrZ6SXaT7ACN9JWfiY1iU+ZEiaE5bX4=;
+	s=arc-20240116; t=1771576669; c=relaxed/simple;
+	bh=VBco7zVB9VTaGgt3tIx7GWoTZdb6hMaqwzco395EbzY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qLbloQZtRy/Cum3YTIwi1jEd5AMgxt6+2Czsnli3OZpYZHzFyLoSG2j2AP198Hyq8y2STTREUqsIiOXcONP/yWTj/y13tH+8nrSERm9Zw/L16A00v+5avlxXEZpJS+cTOatlnn2LAC3wp8UNDlNPOPh1qR4zHVRUOX44mU8z1aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=dTbDBlkA; arc=none smtp.client-ip=141.105.120.124
+	 MIME-Version; b=UBB3Y8QzFmm7qEi5RWWJPzXRKROwzVcn6J6Vgd4J4n+6jx4epQ8f9iKnwGAfIx4AHDNDVkt+Tc+1ZZvbPp/LsPf6NF2uxIK/iv9Jg0irZcv54q/OmRhCfUE9x7Pc6PxtzY1DIbTKjhCK40Vcc+uoENomu+7mki+hgEfteyROQus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=UowcRtqo; arc=none smtp.client-ip=141.105.120.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="dTbDBlkA"
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="UowcRtqo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1771576664;
-	bh=Qyjkrg23NvqAtrZ6SXaT7ACN9JWfiY1iU+ZEiaE5bX4=;
+	s=default; t=1771576666;
+	bh=VBco7zVB9VTaGgt3tIx7GWoTZdb6hMaqwzco395EbzY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dTbDBlkAOP9Y0rUXJm+jhDhi4QywsUXy8ZAKZU4ZFWSsh40c9d1cVsdhUXCB2hWTD
-	 uRkkenPEXyNbLZW8M96f6NF5ZPkoI1yP3Nnwzs4JkUHz4vExNC7io4dmatomg/rUEY
-	 0pmZ9cz8Ubk+EzCV+wCJce2mm9lkRAGHE+r3EQ5qres5Y3C9eCpnLhP45fW5pOrJxJ
-	 jlK4kEta6ULj/j4JpJXPVbsDyDmm+GPOiRsh58sVgONUk7tDsz9QghkvtFqtGDHE1e
-	 lAITtTy2/yepcOORQfiV08n0wmr9/OAOWnwukgvJw17RZaUWNH6sjwcR7YvfosPzxt
-	 0nL0cBNYWsnRA==
+	b=UowcRtqovuImaK2Jkc1EvmNPZ+17LmsPylMzA+5fL6T5z1sw38RYQ9fif8TF3b3h4
+	 mIFP9/G+0Nlhw7m2Gbl1dRBcZHvWuD+lxYHsap3cNDE8vSZ8LtnQNDBiEt4pCXSeP0
+	 O/hEbQlZq7kBrYJjRqNz/bhOO4pa2fDHCF90DdwV4cllOzcaEQL4ccnUyap563hoxw
+	 KJMwqNG84d9+DH9zjD7xkvitx0G2NskG0IMJ776kwW3Wm+jq/wzPRD/Sb5yFeVNBli
+	 2JtVH4Ch3JnNWTk8bRNaNaVJoCxnCrl7gW7G9SPvOEpLgofq+bZ/RB8XZXwgLF0ow/
+	 wuEjRVLi1+S6g==
 From: Maarten Lankhorst <dev@lankhorst.se>
 To: intel-gfx@lists.freedesktop.org,
 	intel-xe@lists.freedesktop.org
 Cc: linux-rt-devel@lists.linux.dev,
 	dri-devel@lists.freedesktop.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
 	Maarten Lankhorst <dev@lankhorst.se>
-Subject: [i915-rt v6 22/24] Revert "drm/i915: Depend on !PREEMPT_RT."
-Date: Fri, 20 Feb 2026 09:37:20 +0100
-Message-ID: <20260220083657.28815-48-dev@lankhorst.se>
+Subject: [i915-rt v6 23/24] PREEMPT_RT injection
+Date: Fri, 20 Feb 2026 09:37:21 +0100
+Message-ID: <20260220083657.28815-49-dev@lankhorst.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260220083657.28815-26-dev@lankhorst.se>
 References: <20260220083657.28815-26-dev@lankhorst.se>
@@ -48,30 +46,71 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-
-Once the known issues are addressed, it should be safe to enable the
-driver.
-
-Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 ---
- drivers/gpu/drm/i915/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/gpu/drm/i915/Kconfig.debug | 15 ---------------
+ drivers/gpu/drm/xe/Kconfig.debug   |  5 +++++
+ kernel/Kconfig.preempt             |  4 ++--
+ 3 files changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Kconfig b/drivers/gpu/drm/i915/Kconfig
-index 5e939004b6463..40a9234e6e5dc 100644
---- a/drivers/gpu/drm/i915/Kconfig
-+++ b/drivers/gpu/drm/i915/Kconfig
-@@ -3,7 +3,6 @@ config DRM_I915
- 	tristate "Intel 8xx/9xx/G3x/G4x/HD Graphics"
- 	depends on DRM
- 	depends on X86 && PCI
--	depends on !PREEMPT_RT
- 	select INTEL_GTT if X86
- 	select INTERVAL_TREE
- 	# we need shmfs for the swappable backing store, and in particular
+diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+index 3562a02ef7adc..0ab10ff41e38d 100644
+--- a/drivers/gpu/drm/i915/Kconfig.debug
++++ b/drivers/gpu/drm/i915/Kconfig.debug
+@@ -233,21 +233,6 @@ config DRM_I915_LOW_LEVEL_TRACEPOINTS
+ 
+ 	  If in doubt, say "N".
+ 
+-config DRM_I915_DEBUG_VBLANK_EVADE
+-	bool "Enable extra debug warnings for vblank evasion"
+-	depends on DRM_I915
+-	default n
+-	help
+-	  Choose this option to turn on extra debug warnings for the
+-	  vblank evade mechanism. This gives a warning every time the
+-	  the deadline allotted for the vblank evade critical section
+-	  is exceeded, even if there isn't an actual risk of missing
+-	  the vblank.
+-
+-	  Recommended for driver developers only.
+-
+-	  If in doubt, say "N".
+-
+ config DRM_I915_DEBUG_RUNTIME_PM
+ 	bool "Enable extra state checking for runtime PM"
+ 	depends on DRM_I915
+diff --git a/drivers/gpu/drm/xe/Kconfig.debug b/drivers/gpu/drm/xe/Kconfig.debug
+index 01227c77f6d70..1d5f11c6e88f3 100644
+--- a/drivers/gpu/drm/xe/Kconfig.debug
++++ b/drivers/gpu/drm/xe/Kconfig.debug
+@@ -30,6 +30,11 @@ config DRM_XE_DEBUG
+ 
+ 	  If in doubt, say "N".
+ 
++config DRM_I915_DEBUG_VBLANK_EVADE
++        def_bool y
++        depends on DRM_XE
++
++
+ config DRM_XE_DEBUG_VM
+ 	bool "Enable extra VM debugging info"
+ 	default n
+diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
+index da326800c1c9b..68a6d42c55abe 100644
+--- a/kernel/Kconfig.preempt
++++ b/kernel/Kconfig.preempt
+@@ -87,9 +87,9 @@ config PREEMPT_LAZY
+ endchoice
+ 
+ config PREEMPT_RT
+-	bool "Fully Preemptible Kernel (Real-Time)"
+-	depends on EXPERT && ARCH_SUPPORTS_RT && !COMPILE_TEST
++	def_bool y
+ 	select PREEMPTION
++	depends on ARCH_SUPPORTS_RT
+ 	help
+ 	  This option turns the kernel into a real-time kernel by replacing
+ 	  various locking primitives (spinlocks, rwlocks, etc.) with
 -- 
 2.51.0
 
