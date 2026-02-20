@@ -1,246 +1,90 @@
-Received: from lankhorst.se (unknown [141.105.120.124])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2A113B7AE
-	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 12:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061B632E72F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 20 Feb 2026 15:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771590276; cv=none; b=KK/DUMdbLvGUHiRlx3Grs3u4ve57nsscjMAGD2TNeU0kHLlCRvbxlcaPHWV6ufAv2cXDojKDDTKlEqMVpLhioREV4k1TWkHePKGUKqYz9bFTML+oHdGLlTGlmCYM5l/bkLWdeZNzVtfUz75nsBpj3sC6us4YMjus5ahwY6rQJ+U=
+	t=1771602257; cv=none; b=TQXh6BwKABkweTX1yIMndh2j/qHBSvQmSGrP4n/PPmar3n8T7h8ZZ2aoYrUi1Wlp6bkxZcxnPZejXXAJjYIw2JhWp+4eWdLbH4gc83vwJ0Nv7kT/o4Kyx21+TuruJ7yv4kdf1hR4NRhk6k4A5u7yLSNFCNgWhDxHbpvxAAqudv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771590276; c=relaxed/simple;
-	bh=h8gesliv2aJhuiBkLG/BT/6Z3Rk89daisOe021JD1A0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=C0HOOS08MgV/EoTTqXiyiAZPY0OV2VyeddETFARatns4c1R5QuyRk/hw8T5iJFm+ApaIm/CWvxhDOuBQ2kF+qnICx8m4jyLrdv/n2WQDR4aTANtzCdeN0+EIa8aFfLb+BObKruLvMiLK6kX4jltXj2QS45qQUPzfFm8cFqr6sR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=aCAOLCUb; arc=none smtp.client-ip=141.105.120.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="aCAOLCUb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1771590272;
-	bh=h8gesliv2aJhuiBkLG/BT/6Z3Rk89daisOe021JD1A0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aCAOLCUb5QadOcugreIqGg29CYem9i6wqgO3WTp3qTrXawR/Fnrd+7NvUtzLjcvWd
-	 7v45qAEC1BUC6YeD87K3b3eJ0eeEf1EqeTMZ9CFNeEfb87lC5TniPZGqykEbSUlpPI
-	 SrOberbcPT4CvOoKJS/aXR4+uxH9gzP9YfChg+qSafeJgrkubFIUPakF6cKjaePyrC
-	 m9CAxxczh4UdaKKjBjZ/SWD1W5IV1y/jtuK4L3/qG/AbkVhuM4WhUyxX7cfVo1dWdx
-	 kqd33/io+VOfogWFlDnncf8yCNtVU7YLBTS7/CDfP6fHPeDzDipZpC323/WXRN93A/
-	 k53yz87vuxARA==
-From: Maarten Lankhorst <dev@lankhorst.se>
-To: intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org
-Cc: linux-rt-devel@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <dev@lankhorst.se>
-Subject: [i915-rt v6.1 1/1] drm/vblank_work: Add methods to schedule vblank_work in 2 stages
-Date: Fri, 20 Feb 2026 13:24:25 +0100
-Message-ID: <20260220122425.97902-2-dev@lankhorst.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260220083657.28815-27-dev@lankhorst.se>
-References: <20260220083657.28815-27-dev@lankhorst.se>
+	s=arc-20240116; t=1771602257; c=relaxed/simple;
+	bh=fDZJFktL+aZlF4wlg3ZHXqvmIWUnd8oFFQaJdaPFCT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KKt+S1ScUTnrXEdWBbvuUbXe1q2yx4+M+K1rIWPsW4dcZkkuJWk+VOayQE39XGCB7rEP6/XR8bULD9KpVjm05z81O8p9HJYQ745HoITtCp+N5R7/ZRVKxDZfJYWq4hHUVnVE2QSzGG0cqj5FbnquMZ+jC52iMjZ6rg6L4YNgwvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id EB00F140201;
+	Fri, 20 Feb 2026 15:44:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id C68E420010;
+	Fri, 20 Feb 2026 15:44:11 +0000 (UTC)
+Date: Fri, 20 Feb 2026 10:44:20 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: Calvin Owens <calvin@wbinvd.org>, Tejun Heo <tj@kernel.org>, Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>, Thomas Gleixner
+ <tglx@linutronix.de>, dschatzberg@meta.com, peterz@infradead.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: ~90s shutdown delay with v6.19 and PREEMPT_RT
+Message-ID: <20260220104420.54610b04@gandalf.local.home>
+In-Reply-To: <1d56c93ee93334b9d320c93d255d7548f4497836.camel@web.de>
+References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
+	<20260219164648.3014-1-spasswolf@web.de>
+	<aZd4YCNTAHZNpTfh@mozart.vkv.me>
+	<594b9094ab76acf9e73cad8fca9c9efd6f75a980.camel@web.de>
+	<20260219195851.7a7bd1b2@fedora>
+	<1d56c93ee93334b9d320c93d255d7548f4497836.camel@web.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: injbsey6k9z4sq79k6u7zad58mktkokq
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: C68E420010
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18k6Fx9aX9zpUOhhkDJBqPj3khvJkruyOk=
+X-HE-Tag: 1771602251-398417
+X-HE-Meta: U2FsdGVkX19gNafcIhT7kMlpHQj0pa40bGsA0s3CEReVolfQNNxR0Q73Okp5Q8/8Y/pM67zH/LGqTVPI6/SbJmcmz8WMckxiixn2/TVyYS22LgUFMqMkY+C6XOrPe1ZKlOTndAF8KTVRFqkZwVaU8U4xQ9JRjFir7q4jc/R1fSKvAWvKG443+o8XwKjKUOc1QpAqj/VGCjXkDVK6u9F9nKjcn//G2ttoPtt6RjrkTsNit4V/rzqAJlS/JVQESUsztykGuG8EEw7+0Mm8cYNMK0EdBMy7o2gB9rypTvVNZQ/RXjDfbOq30/am1O5bxdB/te0ZURnMZ9MObd57ooCZh00em7Am7kutviqWRpCspp4QQGiIiIpwTA==
 
-In case of vblank evasion in intel/display, it's necessary to
-perform some work in advance, so the critical section will always run in
-constant time on PREEMPT_RT.
+On Fri, 20 Feb 2026 10:15:43 +0100
+Bert Karwatzki <spasswolf@web.de> wrote:
 
-By preparing all the work in advance, the part that needs to finish in
-constant time only has to write a single variable instead. This allows
-PREEMPT_RT to keep the interrupts disabled at the most critical part,
-without completely reworking all locks to be raw spinlocks.
+> > It will enable sched_switch event and the traceoff_after_boot will
+> > disable tracing right before running init. That way you can see what is
+> > running during boot that is taking the 90 seconds.
+> > 
+> > -- Steve  
+> 
+> I think there's a misunderstanding here, the 90s delay happens on shutdown, i.e.
+> when using either reboot or shutdown. I've changed the subject accordingly.
 
-Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
----
-I had a small bug where I set armed = true for drm_vblank_work_schedule_disabled(),
-fortunately found by CI. Fix it to ensure work is delayed correctly.
+In that case you should be using the persistent ring buffer ;-)
 
- drivers/gpu/drm/drm_vblank_work.c | 106 ++++++++++++++++++++++--------
- include/drm/drm_vblank_work.h     |  12 ++++
- 2 files changed, 92 insertions(+), 26 deletions(-)
+  https://docs.kernel.org/trace/debugging.html
 
-diff --git a/drivers/gpu/drm/drm_vblank_work.c b/drivers/gpu/drm/drm_vblank_work.c
-index 70f0199251ea0..6acb240b9c112 100644
---- a/drivers/gpu/drm/drm_vblank_work.c
-+++ b/drivers/gpu/drm/drm_vblank_work.c
-@@ -54,7 +54,8 @@ void drm_handle_vblank_works(struct drm_vblank_crtc *vblank)
- 	assert_spin_locked(&vblank->dev->event_lock);
- 
- 	list_for_each_entry_safe(work, next, &vblank->pending_work, node) {
--		if (!drm_vblank_passed(count, work->count))
-+		/* READ_ONCE pairs with WRITE_ONCE in drm_vblank_work_enable() */
-+		if (!READ_ONCE(work->armed) || !drm_vblank_passed(count, work->count))
- 			continue;
- 
- 		list_del_init(&work->node);
-@@ -86,30 +87,8 @@ void drm_vblank_cancel_pending_works(struct drm_vblank_crtc *vblank)
- 	wake_up_all(&vblank->work_wait_queue);
- }
- 
--/**
-- * drm_vblank_work_schedule - schedule a vblank work
-- * @work: vblank work to schedule
-- * @count: target vblank count
-- * @nextonmiss: defer until the next vblank if target vblank was missed
-- *
-- * Schedule @work for execution once the crtc vblank count reaches @count.
-- *
-- * If the crtc vblank count has already reached @count and @nextonmiss is
-- * %false the work starts to execute immediately.
-- *
-- * If the crtc vblank count has already reached @count and @nextonmiss is
-- * %true the work is deferred until the next vblank (as if @count has been
-- * specified as crtc vblank count + 1).
-- *
-- * If @work is already scheduled, this function will reschedule said work
-- * using the new @count. This can be used for self-rearming work items.
-- *
-- * Returns:
-- * %1 if @work was successfully (re)scheduled, %0 if it was either already
-- * scheduled or cancelled, or a negative error code on failure.
-- */
--int drm_vblank_work_schedule(struct drm_vblank_work *work,
--			     u64 count, bool nextonmiss)
-+static int __drm_vblank_work_schedule(struct drm_vblank_work *work,
-+				      u64 count, bool nextonmiss, bool armed)
- {
- 	struct drm_vblank_crtc *vblank = work->vblank;
- 	struct drm_device *dev = vblank->dev;
-@@ -139,6 +118,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
- 		rescheduling = true;
- 	}
- 
-+	work->armed = armed;
- 	work->count = count;
- 	cur_vbl = drm_vblank_count(dev, vblank->pipe);
- 	passed = drm_vblank_passed(cur_vbl, count);
-@@ -147,7 +127,7 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
- 			     "crtc %d vblank %llu already passed (current %llu)\n",
- 			     vblank->pipe, count, cur_vbl);
- 
--	if (!nextonmiss && passed) {
-+	if (!nextonmiss && passed && armed) {
- 		drm_vblank_put(dev, vblank->pipe);
- 		ret = kthread_queue_work(vblank->worker, &work->base);
- 
-@@ -167,8 +147,82 @@ int drm_vblank_work_schedule(struct drm_vblank_work *work,
- 		wake_up_all(&vblank->work_wait_queue);
- 	return ret;
- }
-+
-+/**
-+ * drm_vblank_work_schedule - schedule a vblank work
-+ * @work: vblank work to schedule
-+ * @count: target vblank count
-+ * @nextonmiss: defer until the next vblank if target vblank was missed
-+ *
-+ * Schedule @work for execution once the crtc vblank count reaches @count.
-+ *
-+ * If the crtc vblank count has already reached @count and @nextonmiss is
-+ * %false the work starts to execute immediately.
-+ *
-+ * If the crtc vblank count has already reached @count and @nextonmiss is
-+ * %true the work is deferred until the next vblank (as if @count has been
-+ * specified as crtc vblank count + 1).
-+ *
-+ * If @work is already scheduled, this function will reschedule said work
-+ * using the new @count. This can be used for self-rearming work items.
-+ *
-+ * Returns:
-+ * %1 if @work was successfully (re)scheduled, %0 if it was either already
-+ * scheduled or cancelled, or a negative error code on failure.
-+ */
-+int drm_vblank_work_schedule(struct drm_vblank_work *work,
-+			     u64 count, bool nextonmiss)
-+{
-+	return __drm_vblank_work_schedule(work, count, nextonmiss, true);
-+}
- EXPORT_SYMBOL(drm_vblank_work_schedule);
- 
-+
-+/**
-+ * drm_vblank_work_schedule_disabled - schedule a vblank work, withoug enabling
-+ * @work: vblank work to schedule
-+ * @count: target vblank count
-+ *
-+ * Schedule @work for execution once the crtc vblank count reaches @count.
-+ *
-+ * The vblank work will not be scheduled until drm_vblank_work_enable() is called.
-+ * If the crtc vblank count has already reached @count, the work will still
-+ * not be scheduled until the first following vblank.
-+ *
-+ * If @work is already scheduled, this function will reschedule said work
-+ * using the new @count. This can be used for self-rearming work items.
-+ *
-+ * Returns:
-+ * %1 if @work was successfully (re)scheduled, %0 if it was either already
-+ * scheduled or cancelled, or a negative error code on failure.
-+ */
-+int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count)
-+{
-+	return __drm_vblank_work_schedule(work, count, true, false);
-+}
-+EXPORT_SYMBOL(drm_vblank_work_schedule_disabled);
-+
-+/**
-+ * drm_vblank_work_enable - enable vblank work
-+ * @work: vblank work to enable
-+ *
-+ * This function is specifically only for when drm_vblank_work_schedule_disabled() is
-+ * called. It allows for the work to be armed in any context, without any locks.
-+ *
-+ * The work will be signalled earliest at the @count argument, if it has been passed,
-+ * it will signalled at the next vblank.
-+ *
-+ * This is particularly useful for PREEMPT_RT, where the spin_lock is converted
-+ * into a sleeping rtmutex, and vblank evasion requires some work to be
-+ * scheduled on completion with interrupts disabled.
-+ */
-+void drm_vblank_work_enable(struct drm_vblank_work *work)
-+{
-+	WARN_ON(work->armed);
-+	WRITE_ONCE(work->armed, true);
-+}
-+EXPORT_SYMBOL(drm_vblank_work_enable);
-+
- /**
-  * drm_vblank_work_cancel_sync - cancel a vblank work and wait for it to
-  * finish executing
-diff --git a/include/drm/drm_vblank_work.h b/include/drm/drm_vblank_work.h
-index e04d436b72973..e19351200da24 100644
---- a/include/drm/drm_vblank_work.h
-+++ b/include/drm/drm_vblank_work.h
-@@ -47,6 +47,14 @@ struct drm_vblank_work {
- 	 */
- 	int cancelling;
- 
-+	/**
-+	 * @armed: If false, the work item has been added to the
-+	 * drm_vblank_crtc.pending_work list, but will not yet be signalled.
-+	 *
-+	 * Call drm_vblank_work_enable() to fire on next vblank.
-+	 */
-+	bool armed;
-+
- 	/**
- 	 * @node: The position of this work item in
- 	 * &drm_vblank_crtc.pending_work.
-@@ -64,6 +72,10 @@ struct drm_vblank_work {
- 
- int drm_vblank_work_schedule(struct drm_vblank_work *work,
- 			     u64 count, bool nextonmiss);
-+
-+int drm_vblank_work_schedule_disabled(struct drm_vblank_work *work, u64 count);
-+void drm_vblank_work_enable(struct drm_vblank_work *work);
-+
- void drm_vblank_work_init(struct drm_vblank_work *work, struct drm_crtc *crtc,
- 			  void (*func)(struct kthread_work *work));
- bool drm_vblank_work_cancel_sync(struct drm_vblank_work *work);
--- 
-2.51.0
+Add to the kernel command line:
 
+  reserve_mem=20M:2M:trace trace_instance=boot_map@trace
+
+And then before rebooting:
+
+  echo 1 > /sys/kernel/tracing/instances/boot_map/events/sched/sched_switch/enable
+  echo 1 > /sys/kernel/tracing/instances/boot_map/tracing_on
+
+Then look at the trace after the reboot:
+
+  cat /sys/kernel/tracing/instances/boot_map/trace
+
+If your laptop doesn't clear memory during a reboot, you should have the trace.
+
+If that's not enough to debug the situation, you can enable other events,
+or enable function or function graph tracing. That should all work with the
+persistent buffer.
+
+-- Steve
