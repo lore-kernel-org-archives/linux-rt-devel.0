@@ -1,53 +1,58 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AE43A9605
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 16:59:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464A93A9D8D
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 17:11:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771952347; cv=none; b=Y7hmFOJeN9vljvaeoHh5mqwdBJGEszHGlJbXPMEtcAfwDoTWqdzk8Avy6GYpkOobQpRYgsQWm5mgQeSK14gHr6XrgoNxSoYFYBZX2G77h2nX9fxhymEImDQSNqpkcrS+6h3++p/fuFLzAonVugaWgUGzVr+0wSV/qPn6N9NTjMM=
+	t=1771953077; cv=none; b=eC1UGqftNBmnf1DTOVtWYEUrmY/Uob5FmzzHoN5n3M/DspTcwukk0lgOIg3JawCxixYhbixxAE/lVuDIHRkEE72Vd/hGX28b2CWWIfO+zsAUvsM86PineOwgCJc9dYw1vet0n4pZUnjX8y42fIi15CXQflHhagoVhWvKNb++RDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771952347; c=relaxed/simple;
-	bh=0Z99GnHe6LrRHKQd8l8R7HO3oNbSqtuX5zjRCjmjtiY=;
+	s=arc-20240116; t=1771953077; c=relaxed/simple;
+	bh=gO+Lx9HjqZpnNiiKW+Hlyj6WX3c6VdFNoQXXUdBGa+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PIyMmY2b0UlTliTv4klKky2ERbB3+Y+F4Lnj0af2gesYsQ23E4lIyaTLS9C36u5Ns8EamEvqewgin+k7DAs0yeCIIggcXKI67KTR4yxF9U3yO4FWc4pFzshNRRkftcCQ8aF4T6o3wmYXx6DQaE8GngvlDupP7ccJCSkWV/GJhzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lnzJEWV5; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J7lyvhNv; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=TC3Ytlwt3oKuVmT5Z1xGKA/oIZkLsZql72u1tC4+I6Ag3BMiGhr9VfMc133Bk+/vWaw3WMnexy5pFMQvt+RrtKFxVAxTMQ4cy2J2qbT5gYDu2u8WEK73x3IdGB0ExZgtSUotinm4ukrAOnjMp1eRm/X7J4jAK2Plvg5TsQuOuCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pJ75VcEh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=/hPZlkFn; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lnzJEWV5";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J7lyvhNv"
-Date: Tue, 24 Feb 2026 17:59:03 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pJ75VcEh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="/hPZlkFn"
+Date: Tue, 24 Feb 2026 18:11:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1771952344;
+	s=2020; t=1771953073;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6Iy7ZEO55Jhhl31ZvbYVjantUPH52WNb/3cgiUFVx5I=;
-	b=lnzJEWV5mu7cDRXITe5q4AvyphtfzSvJwT/0379YgIYtVOvqpoqd7Drhqi3PJJKkeK9r9p
-	FtGyKAlqeE7Dpv6Xo2LvTPY0BwjWYaao4ydd78DQiJsEafcbG+4pi5pxVcFwjrDUmA4T4B
-	EVIYGp5Vt68qmKUbXupmVdss2frhTQwu52Becc+agtFWApgYqjhlX0EVJTZ3VzLn+a8MES
-	dgJCQMGyWiILwHz9xdxfJnJsW0jTGSqKtKP8WVHM/VqwQXlmJE1I+wNV7CxTw+GcNF7XK1
-	xnRIr+HKgxjdmPkmwpWRN/wnEF2QiW8TWNs3ty5UlhhLY+c6bKeqA3qk0a9Smg==
+	bh=oaBeNCGnAwK/uOBpj9eGnAkm9oRNHfuJ+7yyGWbKZTY=;
+	b=pJ75VcEhi/SA0R9VgIJ38buRuPbxKLppk954+Sd8/427asaot4s8dNLyqRm5M+X37uXEXW
+	SqXuWmqhMuS6EPFzDGLft7h5gjuar4iV79qlWa4Nri4tKzQfLEmNyZGofGfOnhb2cHyanT
+	82gnM+B3Qtd2Vw7LjC0C8uYZluaDsF1mr2IQE8oHirwzsmcc+ZDckNfkIKigWzGvP9N4gv
+	qWueZzQ6Rh6hdZWeaMhHJtU6lAbfsFUyOa/rUddJcsJSej61tSOVX8EiFSdNitdYZ7Ov7e
+	XJgyeQ+Enh4gpx3eh7a+hrIFu0/GKV+Zc554iWEdjyIvUrwZRYMPWLYilJjEPw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1771952344;
+	s=2020e; t=1771953073;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6Iy7ZEO55Jhhl31ZvbYVjantUPH52WNb/3cgiUFVx5I=;
-	b=J7lyvhNvXOl1NGoA1Ee/0QYdZ0Coz4zSeS0uPmrfAKFwb+apDoDo8nxc/z1RpKhqRODlf2
-	+qM+3vQ7i/Dp9+Dg==
+	bh=oaBeNCGnAwK/uOBpj9eGnAkm9oRNHfuJ+7yyGWbKZTY=;
+	b=/hPZlkFnpk8AAS66EcfyImSdrFNCPLEarHj1dzEVMuEiPb530/cn137+lM1P2q43D4sSlm
+	Lh+XtxfioUbyZYBg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
- PREEMPT_RT work on i915 + xe.
-Message-ID: <20260224165903.2mn24oQy@linutronix.de>
-References: <20260220083657.28815-26-dev@lankhorst.se>
- <20260224162703.Q_taYjEC@linutronix.de>
+To: Ciunas Bennett <ciunas@linux.ibm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, clrkwllms@kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+Message-ID: <20260224171111.pMPZGcan@linutronix.de>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -57,67 +62,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260224162703.Q_taYjEC@linutronix.de>
+In-Reply-To: <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
 
-On 2026-02-24 17:27:03 [+0100], To Maarten Lankhorst wrote:
+On 2026-02-24 15:45:39 [+0000], Ciunas Bennett wrote:
+> Monitoring the guest CPU run time shows that it drops from 16% with
+> PREEMPT_FULL to 9% with PREEMPT_LAZY.
 >=20
-> There is nothing else, that popped up. So far no objections from my side
-> ;) Thank you.
+> The workload is dominated by voluntary preemption (schedule()), and
+> PREEMPT_LAZY is, as far as I understand, mainly concerned with forced
+> preemption.
+> It is therefore not obvious why PREEMPT_LAZY has an impact here.
 
-different HW.
+PREEMPT_FULL schedules immediately if there is a preemption request
+either due to a wake up of a task, or because the time slice is used up
+(while in kernel).
+PREEMPT_LAZY delays the preemption request, caused by the scheduling
+event, either until the task returns to userland or the next HZ tick.
 
-|  i915 0000:00:02.0: [drm] *ERROR* [CRTC:170:pipe A] flip_done timed out
-|  rcu: INFO: rcu_preempt self-detected stall on CPU
-|  rcu: 	7-....: (1 GPs behind) idle=3Dbc04/1/0x4000000000000000 softirq=3D=
-0/0 fqs=3D3084 rcuc=3D6502 jiffies(starved)
-|  rcu: 	(t=3D6500 jiffies g=3D46813 q=3D13322 ncpus=3D8)
-|  CPU: 7 UID: 0 PID: 12616 Comm: irq/182-i915 Tainted: G     U      E     =
-  7.0.0-rc1-lockdep+ #2 PREEMPT_{RT,(lazy)}
-|  Tainted: [U]=3DUSER, [E]=3DUNSIGNED_MODULE
-|  Hardware name: LENOVO 20TD00GLGE/20TD00GLGE, BIOS R1EET64W(1.64 ) 03/18/=
-2025
-|  RIP: 0010:intel_context_remove_breadcrumbs+0x14a/0x1a0 [i915]
-|  Code: 00 00 48 8b 50 70 b8 ff ff ff ff f0 41 0f c1 06 83 f8 01 74 58 85 =
-c0 7f 11 be 03 00 00 00 4c 89 f7 e8 fa 65 db e7 eb 02 f3 90 <41> 8b 84 24 a=
-0 00 00 00 85 c0 75 f2 48 83 c4 08 5b 5d 41 5c 41 5d
-|  RSP: 0018:ffffd2aa007d7c48 EFLAGS: 00000202
-|  RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
-|  RDX: ffffffffc282ab20 RSI: ffffffffab33e33f RDI: 00000000ffffffff
-|  RBP: ffff8f1247401680 R08: 0000000000000001 R09: 0000000000000000
-|  R10: 0000000000000000 R11: 0000000000000000 R12: ffff8f104f3b6200
-|  R13: ffff8f12474017e0 R14: ffff8f1247401798 R15: ffff8f119e89e3a8
-|  FS:  0000000000000000(0000) GS:ffff8f140318b000(0000) knlGS:000000000000=
-0000
-|  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-|  CR2: 00007f5409dc6000 CR3: 000000029ea56006 CR4: 0000000000f72ef0
-|  PKRU: 55555554
-|  Call Trace:
-|   <TASK>
-|   __execlists_schedule_out+0x1a6/0x340 [i915]
-|   execlists_submission_tasklet+0x178/0x1bb0 [i915]
-|   tasklet_action_common+0x1e9/0x410
-|   handle_softirqs.isra.0+0xbd/0x3f0
-|   __local_bh_enable_ip+0xe0/0x170
-|   irq_forced_thread_fn+0x41/0x50
-|   irq_thread+0x20d/0x360
-|   kthread+0x103/0x140
-|   ret_from_fork+0x34d/0x480
-|   ret_from_fork_asm+0x1a/0x30
-|   </TASK>
+The voluntary schedule() invocation shouldn't be effected by FULL-> LAZY
+but I guess FULL scheduled more often after a wake up which is in
+favour.
 
-It seems to be always stuck in intel_context_remove_breadcrumbs.
+> Changing guest configuration to disable mergeable RX buffers:
+>       <host mrg_rxbuf=3D"off"/>
+>       had a clear effect on throughput:
+>       PREEMPT_LAZY: throughput improved from 40=E2=80=AFGb/s =E2=86=92 60=
+=E2=80=AFGb/s
+>=20
 
-and top shows
-|     42 root      20   0       0      0      0 R 100,0   0,0   3:21.62 kso=
-ftirqd/2
-|  12616 root     -51   0       0      0      0 R 100,0   0,0   3:34.61 irq=
-/182-i915
-
-seems busy. The NMI backtrace reports always
-intel_context_remove_breadcrumbs() on CPU, don't see the irq handler.
-
-This one I can reproduce while opening a browser and surfing a bit. Let
-me try step by step without lockdep, without RT and maybe just play
-v7.0-rc1 to figure out where this is from=E2=80=A6
+Brings this the workload/ test to PREEMPT_FULL level?
 
 Sebastian
