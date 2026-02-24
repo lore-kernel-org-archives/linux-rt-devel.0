@@ -1,79 +1,167 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77803A63E6
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 15:45:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51EC395DAB
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 15:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771947911; cv=none; b=PGaxD3JQmN4SOgTAeyWv9E+QaT23RauszLWSsDYpuM01dvWWjOuUAXiBdNCEaRtAFFRLX8Yf9WNwYrr5/u8X7msUaj0yPR2gBD8Yd0rcJQs1rYvY9b29g/wtcIWTB+xynBYZlhzbVPTOHZW9ASjmVlW0t1JBr7kC+NFX/nz3zaQ=
+	t=1771947975; cv=none; b=bhmGoymIYXFLFlecl96uBKRndHrFl5ngveL0VPIEK0udlyh6syGhWxONhd688j6iK1noK7zkBwv6dLj6VkN3wyCWv7Edn7hkz9MW9i4JQ7CAkCko1LJxQiWoJGtEJSMjLu/Ld5MolMJwMEtKDN0eLMWvbDdL223FJSOztspixf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771947911; c=relaxed/simple;
-	bh=AJrbIOoq1vjPbapzMr+JTKVtA8qQq/8p6N1SDz2HFtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QoOce6LugxXzTkN1JPOtvPzER4gBiHgnaKVSr4gpPIpMPI0JXstGjQn4G0Irytz3KJI4yM/glMJTE5g/1SRinsBPVJjQZb1JtkqQ1bv2ypEO7jMABswsM9fBxq+dfXNQb+D4U2bnGEIawEIeU2DX3IL4y8fmLL5WmBazZy+983s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lSmatnTm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lb8EpwQ/; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1771947975; c=relaxed/simple;
+	bh=EYqYtHBIlT4F1uNPI1HNw0h0f1IqZDhQ4kWNEd1qhQk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DwWUhVan0geCAv0Q/eH7TkDWhj7GNPRmoyPOo2P5MK0RBhxs6bF/ozei07TsW3J16hNrD9SqecJt+4+Dy9y/Au4gXrPQERF88AMHfbNreIVyj+p1qe4JJGN+jLCvtcmoB9YTcEv52fhFaaFrLVICtD58yLG0PW8dCajJcJNBXpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GZwrqLJV; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lSmatnTm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lb8EpwQ/"
-Date: Tue, 24 Feb 2026 16:45:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1771947909;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HE+Sz0997DVAF2XaMqoc2Pl/Cw0rojI6cG/+zzIDem8=;
-	b=lSmatnTmuqMFA+PVqIMP8zuDiuTcFjN6iOazWrdvpN0HqwQK6uCdS0f819r8bcwlCx9NoP
-	IQfFNLskIn+oww+FCvTBp/z2xLCJbr2PN+f1Qbugk4v05cDAJBcVhRwT3K+EAHhVUIrVRi
-	JbIGffhwLigUkJyzCAPc8KaLV72z6nQQExiG7P+zVXcxygLTdQblBSGG2D5SdmTYFP7fpe
-	fqV4MWWNX7R1draVLc9BKlGl3L4aKFCKKugF8ottmutEuE6aOPGcMwH5K8z1FPHVhxT0hf
-	lWtFODG5MhoAkM70uoWGCl7oQGLsW6xVSuzcCjGFUMFizWpwCKrBTb9xGX5SJQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1771947909;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HE+Sz0997DVAF2XaMqoc2Pl/Cw0rojI6cG/+zzIDem8=;
-	b=lb8EpwQ/mlKTm/tLgD8uzAl/D9ILTYhn5JnNh0LHdkAxeGNoGlQT4LED8hSrug8bBupN5r
-	MgDzqk92F0NehfCQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Calvin Owens <calvin@wbinvd.org>, Tejun Heo <tj@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>, dschatzberg@meta.com,
-	peterz@infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: ~90s reboot delay with v6.19 and PREEMPT_RT
-Message-ID: <20260224154507.4iZ85Uas@linutronix.de>
-References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
- <20260219164648.3014-1-spasswolf@web.de>
- <aZd4YCNTAHZNpTfh@mozart.vkv.me>
- <594b9094ab76acf9e73cad8fca9c9efd6f75a980.camel@web.de>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GZwrqLJV"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O8rAnr2848171;
+	Tue, 24 Feb 2026 15:45:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=bYwEEV
+	Tcqxglj2VmeVm53Fkw5bxCwK7s+qzLeLs201M=; b=GZwrqLJVAnCSYeZfQljjMF
+	0MnmFbHlz0goMngEz54BLl8PHolXwUxur4MvECrcAvBCpIgPf5xfSS7OuiWeVJtd
+	WsBpNz7efMljYOgYgjy9CUJWjFU8ZpfxQ1VQ5wxf3yGGA0BEKYZlKQcz2G33t/lw
+	9VQqOfzctZ5MsmiL1+2iUGiPHXXTg4NT2hWUadqGod1B5HvDXQWz3xS2xdxaGL++
+	5g1hVNDTdGsockPzMV+yxhvRyV5YbR/YMzx3Hnkvn8jt05rvxXpP8Q5KahiK9SZQ
+	gdmseeD5Js59YQfy4Bp6lkloGAam5Tg894XFxEiI/ZCc9zFlAYjjdbKXky62l0vA
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf34c3pk0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Feb 2026 15:45:44 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61OEaqZs027789;
+	Tue, 24 Feb 2026 15:45:43 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfsr1s5ve-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Feb 2026 15:45:43 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61OFjfRa46858574
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Feb 2026 15:45:41 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 967C32004B;
+	Tue, 24 Feb 2026 15:45:41 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 47EEB20043;
+	Tue, 24 Feb 2026 15:45:40 +0000 (GMT)
+Received: from [9.111.4.35] (unknown [9.111.4.35])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Feb 2026 15:45:40 +0000 (GMT)
+Message-ID: <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
+Date: Tue, 24 Feb 2026 15:45:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <594b9094ab76acf9e73cad8fca9c9efd6f75a980.camel@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-s390@vger.kernel.org
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+Content-Language: en-GB
+From: Ciunas Bennett <ciunas@linux.ibm.com>
+In-Reply-To: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDEyOSBTYWx0ZWRfXxgj9PPH8fE3h
+ +zNbES+KEnCQ6LAGyvRKhNrLZwDH94/q6PCYgokkvXz0F6+IonQUxN8grHgF97ixLl8r5Hw7OpT
+ OC83a3xl6te9moS1hDzP9E3V0qX7nTDDQKHlZX/nNG0BWTe2pvZ93DRuQMBnBRmcAZU2iVqvEKD
+ kkBlQYjkwdDJ6DSwvRJe5yiphX5HvCh9gbdrgQETy08USXGpMR8JZ9sb5t/R74xb0GDVH5Vrwgw
+ IRMv5PQqXYgomBfpAYT5c/6O206sqAsXGcCQS36x0DsjHE75+j2IYf8OZR9UV1r4Zh0Ksg6t9mi
+ cRe36rTn6dh6LPwSWr6yWpevlDtSpoHmWSLjmSYkRQz97vcZFAegYcf7li4zTTE9HMVJKbHbJu7
+ aOjuXE98+ZMWK2ngTsteTyCOcSEWmPGpY43SYRiznorrlcasOuLABlFLdUheEXc5fbROQ1LjrMp
+ OoIp2EnBNTAJDIBvOHQ==
+X-Proofpoint-ORIG-GUID: iJVdRvOQovOl0PDONTeESHxu91Nibjtt
+X-Authority-Analysis: v=2.4 cv=F9lat6hN c=1 sm=1 tr=0 ts=699dc7a8 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=utPUNdWZvXILXUMAFl8A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: rtgaorHrJPavtSwcprvcseicfw1ZZtei
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_02,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 bulkscore=0 adultscore=0 spamscore=0
+ clxscore=1011 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602240129
 
-On 2026-02-20 00:10:41 [+0100], Bert Karwatzki wrote:
->  BUG: sleeping function called from invalid context at kernel/printk/prin=
-tk.c:3377
->  in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 16, name: pr/lega=
-cy
-=E2=80=A6
->   <TASK>
->   dump_stack_lvl+0x4b/0x70
->   __might_resched.cold+0xaf/0xbd
->   console_conditional_schedule+0x26/0x30
-=E2=80=A6
-This is addressed by commit 8e9bf8b9e8c0a ("printk, vt, fbcon: Remove
-console_conditional_schedule()")
 
-Sebastian
+
+On 19/12/2025 10:15, Peter Zijlstra wrote:
+
+
+Hi Peter,
+We are observing a performance regression on s390 since enabling PREEMPT_LAZY.
+Test Environment
+Architecture: s390
+Setup:
+
+Single KVM host running two identical guests
+Guests are connected virtually via Open vSwitch
+Workload: uperf streaming read test with 50 parallel connections
+One guest acts as the uperf client, the other as the server
+
+Open vSwitch configuration:
+
+OVS bridge with two ports
+Guests attached via virtio‑net
+Each guest configured with 4 vhost‑queues
+
+Problem Description
+When comparing PREEMPT_LAZY against full PREEMPT, we see a substantial drop in throughput—on some systems up to 50%.
+
+Observed Behaviour
+By tracing packets inside Open vSwitch (ovs_do_execute_action), we see:
+Packet drops
+Retransmissions
+Reductions in packet size (from 64K down to 32K)
+
+Capturing traffic inside the VM and inspecting it in Wireshark shows the following TCP‑level differences between PREEMPT_FULL and PREEMPT_LAZY:
+|--------------------------------------+--------------+--------------+------------------|
+| Wireshark Warning / Note             | PREEMPT_FULL | PREEMPT_LAZY | (lazy vs full)   |
+|--------------------------------------+--------------+--------------+------------------|
+| D-SACK Sequence                      |          309 |         2603 | ×8.4             |
+| Partial Acknowledgement of a segment |           54 |          279 | ×5.2             |
+| Ambiguous ACK (Karn)                 |           32 |          747 | ×23              |
+| (Suspected) spurious retransmission  |          205 |          857 | ×4.2             |
+| (Suspected) fast retransmission      |           54 |         1622 | ×30              |
+| Duplicate ACK                        |          504 |         3446 | ×6.8             |
+| Packet length exceeds MSS (TSO/GRO)  |        13172 |        34790 | ×2.6             |
+| Previous segment(s) not captured     |         9205 |         6730 | -27%             |
+| ACKed segment that wasn't captured   |         7022 |         8272 | +18%             |
+| (Suspected) out-of-order segment     |          436 |          303 | -31%             |
+|--------------------------------------+--------------+--------------+------------------|
+This pattern indicates reordering, loss, or scheduling‑related delays, but it is still unclear why PREEMPT_LAZY is causing this behaviour in this workload.
+
+Additional observations:
+
+Monitoring the guest CPU run time shows that it drops from 16% with PREEMPT_FULL to 9% with PREEMPT_LAZY.
+
+The workload is dominated by voluntary preemption (schedule()), and PREEMPT_LAZY is, as far as I understand, mainly concerned with forced preemption.
+It is therefore not obvious why PREEMPT_LAZY has an impact here.
+
+Changing guest configuration to disable mergeable RX buffers:
+       <host mrg_rxbuf="off"/>
+       had a clear effect on throughput:
+       PREEMPT_LAZY: throughput improved from 40 Gb/s → 60 Gb/s
+
