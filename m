@@ -1,167 +1,173 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51EC395DAB
-	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 15:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79F51799F
+	for <linux-rt-devel@lists.linux.dev>; Tue, 24 Feb 2026 16:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771947975; cv=none; b=bhmGoymIYXFLFlecl96uBKRndHrFl5ngveL0VPIEK0udlyh6syGhWxONhd688j6iK1noK7zkBwv6dLj6VkN3wyCWv7Edn7hkz9MW9i4JQ7CAkCko1LJxQiWoJGtEJSMjLu/Ld5MolMJwMEtKDN0eLMWvbDdL223FJSOztspixf0=
+	t=1771950427; cv=none; b=al4K3+qWzN2JuFpohxzkwXr7GFGR0OepLOuMrU5ApgZuqir4X3BGqBwYHqSagQJXeA5dlcFoCnlqBF8OExMXKzoUYhkDOYHAWBz+VuuiFmewhwedlEntVLtRU7fTfw9RfDMgAqhQTiBAqlXVC6SQsG+nMBRXs2Ne39z19aQ3nm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771947975; c=relaxed/simple;
-	bh=EYqYtHBIlT4F1uNPI1HNw0h0f1IqZDhQ4kWNEd1qhQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DwWUhVan0geCAv0Q/eH7TkDWhj7GNPRmoyPOo2P5MK0RBhxs6bF/ozei07TsW3J16hNrD9SqecJt+4+Dy9y/Au4gXrPQERF88AMHfbNreIVyj+p1qe4JJGN+jLCvtcmoB9YTcEv52fhFaaFrLVICtD58yLG0PW8dCajJcJNBXpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GZwrqLJV; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1771950427; c=relaxed/simple;
+	bh=uCj49cID3Uc8gmeV44f4pe9l3M4OudsHfhPus5MABR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cLGQSTfcyjz2cEPUUWqvsbG6gezYfhGryamV5wTWVZXXJt6TjXsx5qOEfCVhjoVt8XYxcq10HNDAOJ83T/xuEjwCMrLjXL6sCyQrZqE/+FOKkUB5KefgMCDSHO8o46tpKBrez0QLeOPmhdIws+3UzuoK2AxPTlq2Rjmu7FYmrLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cfiQt0He; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=66Bbl3q0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GZwrqLJV"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O8rAnr2848171;
-	Tue, 24 Feb 2026 15:45:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=bYwEEV
-	Tcqxglj2VmeVm53Fkw5bxCwK7s+qzLeLs201M=; b=GZwrqLJVAnCSYeZfQljjMF
-	0MnmFbHlz0goMngEz54BLl8PHolXwUxur4MvECrcAvBCpIgPf5xfSS7OuiWeVJtd
-	WsBpNz7efMljYOgYgjy9CUJWjFU8ZpfxQ1VQ5wxf3yGGA0BEKYZlKQcz2G33t/lw
-	9VQqOfzctZ5MsmiL1+2iUGiPHXXTg4NT2hWUadqGod1B5HvDXQWz3xS2xdxaGL++
-	5g1hVNDTdGsockPzMV+yxhvRyV5YbR/YMzx3Hnkvn8jt05rvxXpP8Q5KahiK9SZQ
-	gdmseeD5Js59YQfy4Bp6lkloGAam5Tg894XFxEiI/ZCc9zFlAYjjdbKXky62l0vA
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf34c3pk0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Feb 2026 15:45:44 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61OEaqZs027789;
-	Tue, 24 Feb 2026 15:45:43 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfsr1s5ve-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 24 Feb 2026 15:45:43 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61OFjfRa46858574
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 24 Feb 2026 15:45:41 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 967C32004B;
-	Tue, 24 Feb 2026 15:45:41 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 47EEB20043;
-	Tue, 24 Feb 2026 15:45:40 +0000 (GMT)
-Received: from [9.111.4.35] (unknown [9.111.4.35])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 24 Feb 2026 15:45:40 +0000 (GMT)
-Message-ID: <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
-Date: Tue, 24 Feb 2026 15:45:39 +0000
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cfiQt0He";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="66Bbl3q0"
+Date: Tue, 24 Feb 2026 17:27:03 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1771950424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=An2SQY23Mr6grh1u+6lgyPcn0Zz3R+IhJ6v+DJueH1Q=;
+	b=cfiQt0He8yYtaUTvGLsnMwDTKjcxz2M15npsQrismFviaM2Zr2aGwgYfS2x3dugsgtvNzw
+	85zy0TZTbM5wsuy6+mwyPn8EIxpHRQkJtifJR4lqdu6htkTOpuFkmE6gmO8PqiC4jiXAdl
+	K1vt8D+0Dri9FetxquT+xkOLXYqqvh+Gnqh4Ptt5kWONxCLoFbSHDRYJbvFZdoI83F9Ea3
+	lvrqJmKHOdqttkEQk0rgLVgU0K3GazpxePyLYVKzJ6sDv7OVRgBIJsJjYs3H25ORmI6mz8
+	hL+U1pU0dXpzaX0aHhajkSFTdCiPwNHTIZzVsWaPq2cXpZ0+TYDYPbJMYRwAWQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1771950424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=An2SQY23Mr6grh1u+6lgyPcn0Zz3R+IhJ6v+DJueH1Q=;
+	b=66Bbl3q008upA/iOrHg032B+K6rOfOyFXHc0FRThzHwlVEik9P3aWvxJCzirbZ67pCTLox
+	w3hzNXhtyJ/t/+Aw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
+ PREEMPT_RT work on i915 + xe.
+Message-ID: <20260224162703.Q_taYjEC@linutronix.de>
+References: <20260220083657.28815-26-dev@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-To: Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-s390@vger.kernel.org
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
-Content-Language: en-GB
-From: Ciunas Bennett <ciunas@linux.ibm.com>
-In-Reply-To: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDEyOSBTYWx0ZWRfXxgj9PPH8fE3h
- +zNbES+KEnCQ6LAGyvRKhNrLZwDH94/q6PCYgokkvXz0F6+IonQUxN8grHgF97ixLl8r5Hw7OpT
- OC83a3xl6te9moS1hDzP9E3V0qX7nTDDQKHlZX/nNG0BWTe2pvZ93DRuQMBnBRmcAZU2iVqvEKD
- kkBlQYjkwdDJ6DSwvRJe5yiphX5HvCh9gbdrgQETy08USXGpMR8JZ9sb5t/R74xb0GDVH5Vrwgw
- IRMv5PQqXYgomBfpAYT5c/6O206sqAsXGcCQS36x0DsjHE75+j2IYf8OZR9UV1r4Zh0Ksg6t9mi
- cRe36rTn6dh6LPwSWr6yWpevlDtSpoHmWSLjmSYkRQz97vcZFAegYcf7li4zTTE9HMVJKbHbJu7
- aOjuXE98+ZMWK2ngTsteTyCOcSEWmPGpY43SYRiznorrlcasOuLABlFLdUheEXc5fbROQ1LjrMp
- OoIp2EnBNTAJDIBvOHQ==
-X-Proofpoint-ORIG-GUID: iJVdRvOQovOl0PDONTeESHxu91Nibjtt
-X-Authority-Analysis: v=2.4 cv=F9lat6hN c=1 sm=1 tr=0 ts=699dc7a8 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=utPUNdWZvXILXUMAFl8A:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: rtgaorHrJPavtSwcprvcseicfw1ZZtei
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-24_02,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 bulkscore=0 adultscore=0 spamscore=0
- clxscore=1011 suspectscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602240129
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260220083657.28815-26-dev@lankhorst.se>
 
+On 2026-02-20 09:36:58 [+0100], Maarten Lankhorst wrote:
+> New version, new approach!
+>=20
+> A lot of the problems with PREEMPT_RT happen because of the current vblank
+> handling. The real solution is making it more deterministic.
+>=20
+=E2=80=A6
 
+I applied this on top of drm-tip because nothing else I had around
+applied cleanly. I had to tell the selftests to use
+dma_fence_lock_irqsave() instead of spin_lock_irq() but I guess you are
+aware of it.
+I've been using it a bit and haven't noticed any big spikes while doing
+this and that. The help message for CONFIG_DRM_I915_SELFTEST refers to
+i915.selftest but this seems to have been replaced by
+{mock|live|perf}_selftests. Using mock_selftest I get
 
-On 19/12/2025 10:15, Peter Zijlstra wrote:
+| i915: Running i915_sw_fence_mock_selftests/test_timer
+| BUG: sleeping function called from invalid context at kernel/locking/spin=
+lock_rt.c:48
+| in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 4667, name: modpro=
+be
+| preempt_count: 1, expected: 0
+| RCU nest depth: 0, expected: 0
+| 1 lock held by modprobe/4667:
+|  #0: ffffd06703d0ba58 (&tf->fence/1){+.+.}-{2:2}, at: __i915_sw_fence_wak=
+e_up_all+0x122/0x1d0 [i915]
+| Preemption disabled at:
+| [<ffffffffc1a1990e>] test_timer+0x2e/0x230 [i915]
+^
+| CPU: 2 UID: 0 PID: 4667 Comm: modprobe Tainted: G     U              7.0.=
+0-rc1+ #1 PREEMPT_{RT,(lazy)}
+| Tainted: [U]=3DUSER
+| Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./Z68 Pro3-M, =
+BIOS P2.30 06/29/2012
+| Call Trace:
+|  <TASK>
+|  dump_stack_lvl+0x68/0x90
+|  __might_resched.cold+0xf0/0x12b
+|  rt_spin_lock_nested+0x5d/0x200
+|  __i915_sw_fence_wake_up_all+0x122/0x1d0 [i915]
+|  i915_sw_fence_complete+0x3e/0x60 [i915]
+|  test_timer+0x42/0x230 [i915]
+^ has a preempt_disable()
 
+|  __i915_subtests.cold+0x22/0x71 [i915]
+|  __run_selftests.cold+0x89/0xb8 [i915]
+|  i915_mock_selftests+0x30/0x70 [i915]
+|  i915_init+0x22/0x80 [i915]
+|
+| i915: Running i915_sw_fence_mock_selftests/test_dma_fence
+| Asynchronous wait on fence mock:mock:0 timed out (hint:fence_notify [i915=
+])
+| BUG: sleeping function called from invalid context at kernel/locking/spin=
+lock_rt.c:48
+| in_atomic(): 0, irqs_disabled(): 1, non_block: 0, pid: 86, name: ktimers/7
+| preempt_count: 0, expected: 0
+| RCU nest depth: 2, expected: 2
+| 6 locks held by ktimers/7/86:
+|  #0: ffffffff8f881700 (local_bh){.+.+}-{1:2}, at: __local_bh_disable_ip+0=
+x23/0x230
+|  #1: ffffffff8f909440 (rcu_read_lock){....}-{1:2}, at: __local_bh_disable=
+_ip+0x124/0x230
+|  #2: ffff8acf9751fce0 (&base->expiry_lock){+...}-{2:2}, at: timer_expire_=
+remote+0x37/0x60
+|  #3: ffffffff8f909440 (rcu_read_lock){....}-{1:2}, at: rt_spin_lock+0xf6/=
+0x200
+|  #4: ffffd0670031fc58 ((&timer->timer)){....}-{0:0}, at: call_timer_fn+0x=
+7e/0x280
+|  #5: ffff8acf857eb7d8 (fence/1){+.+.}-{2:2}, at: __i915_sw_fence_wake_up_=
+all+0x122/0x1d0 [i915]
+| irq event stamp: 729273
+| hardirqs last  enabled at (729272): [<ffffffff8f0df4dc>] _raw_spin_unlock=
+_irqrestore+0x4c/0x70
+| hardirqs last disabled at (729273): [<ffffffff8f0df162>] _raw_spin_lock_i=
+rq+0x52/0x60
 
-Hi Peter,
-We are observing a performance regression on s390 since enabling PREEMPT_LAZY.
-Test Environment
-Architecture: s390
-Setup:
+I guess this could be improved=E2=80=A6
 
-Single KVM host running two identical guests
-Guests are connected virtually via Open vSwitch
-Workload: uperf streaming read test with 50 parallel connections
-One guest acts as the uperf client, the other as the server
+| softirqs last  enabled at (729252): [<ffffffff8e50da42>] run_ktimerd+0x72=
+/0xb0
+| softirqs last disabled at (729256): [<ffffffff8e50d9db>] run_ktimerd+0xb/=
+0xb0
+| CPU: 7 UID: 0 PID: 86 Comm: ktimers/7 Tainted: G     U  W           7.0.0=
+-rc1+ #1 PREEMPT_{RT,(lazy)}
+| Tainted: [U]=3DUSER, [W]=3DWARN
+| Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./Z68 Pro3-M, =
+BIOS P2.30 06/29/2012
+| Call Trace:
+|  <TASK>
+|  dump_stack_lvl+0x68/0x90
+|  __might_resched.cold+0xf0/0x12b
+|  rt_spin_lock_nested+0x5d/0x200
+|  __i915_sw_fence_wake_up_all+0x122/0x1d0 [i915]
+|  i915_sw_fence_complete+0x3e/0x60 [i915]
+|  call_timer_fn+0xaa/0x280
+|  __run_timers+0x1e8/0x340
+|  timer_expire_remote+0x47/0x60
+|  tmigr_handle_remote+0x381/0x500
+|  handle_softirqs.isra.0+0xc0/0x3f0
+|  run_ktimerd+0x50/0xb0
+|  smpboot_thread_fn+0x12d/0x2e0
+| i915: Running scatterlist
+| i915: Running scatterlist_mock_selftests/igt_sg_alloc
+| sg_alloc_table timed out
+| i915: Running scatterlist_mock_selftests/igt_sg_trim
+| i915_sg_trim timed out
+=E2=80=A6
 
-Open vSwitch configuration:
+There is nothing else, that popped up. So far no objections from my side
+;) Thank you.
 
-OVS bridge with two ports
-Guests attached via virtio‑net
-Each guest configured with 4 vhost‑queues
-
-Problem Description
-When comparing PREEMPT_LAZY against full PREEMPT, we see a substantial drop in throughput—on some systems up to 50%.
-
-Observed Behaviour
-By tracing packets inside Open vSwitch (ovs_do_execute_action), we see:
-Packet drops
-Retransmissions
-Reductions in packet size (from 64K down to 32K)
-
-Capturing traffic inside the VM and inspecting it in Wireshark shows the following TCP‑level differences between PREEMPT_FULL and PREEMPT_LAZY:
-|--------------------------------------+--------------+--------------+------------------|
-| Wireshark Warning / Note             | PREEMPT_FULL | PREEMPT_LAZY | (lazy vs full)   |
-|--------------------------------------+--------------+--------------+------------------|
-| D-SACK Sequence                      |          309 |         2603 | ×8.4             |
-| Partial Acknowledgement of a segment |           54 |          279 | ×5.2             |
-| Ambiguous ACK (Karn)                 |           32 |          747 | ×23              |
-| (Suspected) spurious retransmission  |          205 |          857 | ×4.2             |
-| (Suspected) fast retransmission      |           54 |         1622 | ×30              |
-| Duplicate ACK                        |          504 |         3446 | ×6.8             |
-| Packet length exceeds MSS (TSO/GRO)  |        13172 |        34790 | ×2.6             |
-| Previous segment(s) not captured     |         9205 |         6730 | -27%             |
-| ACKed segment that wasn't captured   |         7022 |         8272 | +18%             |
-| (Suspected) out-of-order segment     |          436 |          303 | -31%             |
-|--------------------------------------+--------------+--------------+------------------|
-This pattern indicates reordering, loss, or scheduling‑related delays, but it is still unclear why PREEMPT_LAZY is causing this behaviour in this workload.
-
-Additional observations:
-
-Monitoring the guest CPU run time shows that it drops from 16% with PREEMPT_FULL to 9% with PREEMPT_LAZY.
-
-The workload is dominated by voluntary preemption (schedule()), and PREEMPT_LAZY is, as far as I understand, mainly concerned with forced preemption.
-It is therefore not obvious why PREEMPT_LAZY has an impact here.
-
-Changing guest configuration to disable mergeable RX buffers:
-       <host mrg_rxbuf="off"/>
-       had a clear effect on throughput:
-       PREEMPT_LAZY: throughput improved from 40 Gb/s → 60 Gb/s
-
+Sebastian
