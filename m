@@ -1,101 +1,146 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D663D7D83
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 16:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E10F2E62D1
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 18:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772038798; cv=none; b=PCzX6OcZ3p87mTi2D6WGg1GFrogIQ8VV6AA6FxhO/qeSszUspXegC2lWSBZs3Hku0C3ZP3R4NNJGuxnu5xnV2E3K1NkmZlYRMqNgQJPIN4m5DOrol7s/HyWRMzPrjZvfK5U046PSgbBDe3Pi9Jmfli709kYOZIjvE48gVruuvrE=
+	t=1772044238; cv=none; b=XCaFwiAx2t1JtmuLe/YUDzbkNqjlOadp2T2H+ud8HFaYBA6W+6vZ3qwtKnEoXk9U7r9wef54UgErz1Fck3ec2moqtTM44kEp00JMvOSSZtpYW7KrF3rMgszvT/YKmCAdOJyq3dxbiXOKbXq/7dDfis2TU0xRWIrhXlINq7F9bhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772038798; c=relaxed/simple;
-	bh=E+PFY3KJ41sWn2EAoDPd8bwCo4o7mOgES37Xa7Rl0JE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eHMgBAC9KsiObdGEP77HZaH+/50qHHVz4GwZpBPiRymMedZWUNOPNVmR3s9nEp0WrLI/UenkFibvd9LH0+fb7HBGokbhpV/itnikgLW8D7mryNHQ1LZxRyHS8D8/j0dDgMo79Ledpu8OFbsrEpleGx4uSxMu9qdEXmtUB/3t7p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KKmjekFl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ep0cYBTj; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772044238; c=relaxed/simple;
+	bh=GutYVpSx9aABE+IgnhvSdNkcvXNfkecqqjnqmX1E4Dc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nDV7ZZdGUiOzvuEYoFDGcrwdlQYdYJDBazehkGUr/SROajdo58l6oHXA1vyePouTvfCbwXAqCkIsne4fY0J5vPRkXu7NU9PrIOpAEFDaQA0zNgstrY5eLkqXjFfYtbZrAKNqSpt6UUEr9idW3L5a9s7HuECHnQalEHn/HBJcLA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=njb8Kprc; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KKmjekFl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ep0cYBTj"
-Date: Wed, 25 Feb 2026 17:59:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772038795;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KxkawXcqlJEdwsRv02qGmm0KC1QlDfGnzfXeShzLCiM=;
-	b=KKmjekFlURlIb0tLBLm/mV4m2cXvqSukb0DRhea0RCqoCPiY9d8/YTTi10/oCjaMU3YstJ
-	MwOubMIFliFtUhiyBqj1F4ZMprKEXYwQhMSkavJoQHPCjF+WSx7OJQPKJU3nuIU1Mo7j0X
-	ipUswu+ShFN2023HC6KgIZeM4Y1nlLlgY8CoJTA4mQDLVFjEsao0/muP3xaNzZJacScwTj
-	IUF6F69sYhl6naQ56jvl/+3JNmmCz7dnbzBstlLu2cmkksVYyScurfj6DVysA0LRn1umuj
-	ZsSKUutLY2OJ+vGxOAmv/5SVvCHwUgdKDvdja9LcIleEVJNb0CizL9DQu+lqMg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772038795;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KxkawXcqlJEdwsRv02qGmm0KC1QlDfGnzfXeShzLCiM=;
-	b=Ep0cYBTjLIy2X+dYnYcP7OSME0abOwsobgQ3OH6o2//37bo44g6NXDAL47nVvX/8sy15wE
-	sP5YT8B2R25J7QDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Tejun Heo <tj@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	calvin@wbinvd.org, dschatzberg@meta.com, peterz@infradead.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: ~90s reboot delay with v6.19 and PREEMPT_RT
-Message-ID: <20260225165954.180aRkaV@linutronix.de>
-References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
- <20260219164648.3014-1-spasswolf@web.de>
- <20260225154341.32AjXoVi@linutronix.de>
- <6abee0b4bca811680a7f7fb6ab70bf27c6805cf5.camel@web.de>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="njb8Kprc"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PEij3B3015564;
+	Wed, 25 Feb 2026 18:30:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ZvD/f7
+	IRLTLmldnkTjsJwBCbwWd/dUwI6kc6EhPH8/k=; b=njb8Kprcrstdg42bXr3/gD
+	hM4zrv6nOTrEsOJdZARtOe7dAck9LOlGkJltDY9VLDLNzKZIpkbDuGdi05AVpDQn
+	V/itMfwAyo5eu7mi69pIaErJ/xLe0D5tMWymcvSDJeAsATf0vgCXXNSn4Oxhatms
+	FcztnV2B40QFm+JNSfYw4rUHAGPCoOTLI3YZsdaa468qaDbadNCurlgAlwlWXV9T
+	kfvjtSFyU/4oTBYLQFuzeTISedIF9gZF658NpKI/y1A6saI8tIcgabrX3iw/0Ue+
+	Sb1iTHJSNnSEbZ/9wR/lBjkoq73PnKW+DIk0+aNbxhWdVhNwbgzO5ADYQ2VWiUGQ
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4bs10sp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 18:30:18 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61PHdFWL003382;
+	Wed, 25 Feb 2026 18:30:17 GMT
+Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfs8jxgf2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 18:30:17 +0000
+Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
+	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61PIUFgU40829632
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Feb 2026 18:30:15 GMT
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ACB525805E;
+	Wed, 25 Feb 2026 18:30:15 +0000 (GMT)
+Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A85B75806B;
+	Wed, 25 Feb 2026 18:30:13 +0000 (GMT)
+Received: from [9.61.247.27] (unknown [9.61.247.27])
+	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 25 Feb 2026 18:30:13 +0000 (GMT)
+Message-ID: <08307223-88ad-4550-963e-5d1ee315023c@linux.ibm.com>
+Date: Wed, 25 Feb 2026 13:30:13 -0500
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <6abee0b4bca811680a7f7fb6ab70bf27c6805cf5.camel@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>,
+        Ciunas Bennett <ciunas@linux.ibm.com>,
+        Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Hendrik Brueckner <brueckner@linux.ibm.com>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
+ <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
+ <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
+Content-Language: en-US
+From: Douglas Freimuth <freimuth@linux.ibm.com>
+In-Reply-To: <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: _0UMUoKIZlKOKqau5XTtb0XTWq94cAbn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE3NCBTYWx0ZWRfX5hzxm1BQVqPQ
+ FGBk6ZpsteTOtLR+qOOvnM7R1Pnx3O1g2NTK0XK/e+EVxWjmAPdRrjmfWb2ISMfhn/2sYt4nr3B
+ OI+Xh7TjlzW02J38u/lQoMB3U8wBrxZcXzVIpkUubfXFNYIgVd2I9uTQ8GVLdsDfux1LnjtTJua
+ o1jG+m7XT4X1qF6G5HUt7i0Q/uaYE8GMnkz/210nVH2x9i1xn2b9d0P2A3VP04KjvQWaql2WIgV
+ d3TRrZrkkH+Hl05em2OUxd6Fmiv3RY4/tQCOlLxVWUJKuXA81e3Td9o65CG6YBD5UPAEvDAOO5E
+ 2Yg0ACUPu6qvQgS4TBvlJNCkYGy5EU2Hl13u0CPOPGUH7ZmollwyqqxIFNomN72w7wlm0hPFuBo
+ 6fJMs2vLCQwywDeBPYuymJXMwUr/FJLcRvQWDNFTpAEGO+bO0FGJpNeJXfImIMpfSRoaFPPQGWe
+ MSvDdxHHfLTGY1rMb8A==
+X-Authority-Analysis: v=2.4 cv=eNceTXp1 c=1 sm=1 tr=0 ts=699f3fba cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=0MXMk1mwkTAisRVsYMEA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: LnQXTQu1zciqhCL8NCZSCXgSM0NrDEL0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602250174
 
-On 2026-02-25 17:37:56 [+0100], Bert Karwatzki wrote:
-> I've done two testruns with this debug patch (The persistant log buffer w=
-orks now, thanks
-> again to Steven Rostedt):
 
-=E2=80=A6
-> This if from PREEMPT_RT log, there*s a long pause in which cgroup_task_de=
-ad() is not called
 
-Yeah, I don't know why. The irq-work is invoked slightly delayed so that
-part is working.
+On 2/25/26 11:33 AM, Christian Borntraeger wrote:
+> Am 24.02.26 um 21:30 schrieb Ilya Leoshkevich:
+>> Finally, what is the worker doing? I looked at __queue_work() kstacks, 
+>> and they all come from irqfd_wakeup().
+>>
+>> irqfd_wakeup() calls arch-specific kvm_arch_set_irq_inatomic(), which 
+>> is implemented on x86 and not implemented on s390.
+>>
+>>
+>> This may explain why we on s390 are the first to see this.
+>>
+>>
+>> Christian, do you think if it would make sense to 
+>> implement kvm_arch_set_irq_inatomic() on s390?
+> 
+> So in fact Doug is working on that at the moment. There are some corner
+> cases where we had concerns as we have to pin the guest pages holding
+> the interrupt bits. This was secure execution, I need to followup if
+> we have already solved those cases. But we can try if the current patch
+> will help this particular problem.
+> 
+> If yes, then we can try to speed up the work on this.
+> 
+> Christian
 
-| irq_work-24        0..... 1501734us : cgrp_dead_tasks_iwork_fn: Kill ffff=
-888101588000 (sd-close)-1964
-| systemd--1         1..... 1502194us : sched_process_wait: comm=3Dsystemd =
-pid=3D1963 prio=3D120
-| systemd--1         1..... 1502547us : sched_process_wait: comm=3Dsystemd =
-pid=3D0 prio=3D120
-| systemd--1         1..... 1502771us : sched_process_wait: comm=3Dsystemd =
-pid=3D1964 prio=3D120
-| systemd--1         1..... 1502819us : sched_process_wait: comm=3Dsystemd =
-pid=3D0 prio=3D120
-| systemd--1         1..... 1502835us : sched_process_wait: comm=3Dsystemd =
-pid=3D0 prio=3D120
-|   rcuc/1-31        1b...1 1524116us : sched_process_free: comm=3D(sd-clos=
-e) pid=3D1964 prio=3D120
-the gap
+Christian, the patch is very close to ready. The last step, I rebased on 
+Master today to pickup the latest changes to interrupt.c. I am building 
+that now and will test for non-SE and SE environments. I have been 
+testing my solution for SE environments for a few weeks and it seems to 
+cover the use cases I have tested.
 
-| systemd--1         3..... 90610397us : sched_process_wait: comm=3Dsystemd=
- pid=3D0 prio=3D120
-| systemd--1         3..... 90611469us : sched_process_wait: comm=3Dsystemd=
- pid=3D1829 prio=3D120
-
-So for some reason systemd stops killing tasks. It complains about still
-running gpg-agent and ssh-agent but both are long gone.
-
-Sebastian
