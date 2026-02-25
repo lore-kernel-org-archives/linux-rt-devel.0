@@ -1,174 +1,77 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D2A1FE45A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 12:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D0733A6E4
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 15:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772024195; cv=none; b=AcB6zjXrn8A2mGLsqVCZVHJtWOTnD6Yhq6EvpvbiIf+cJaaZkRXqijmnFc/FjbJtu+6qjg72H8MRp/cPkmlanU0IEh4vGTvY6tCTNtCFwmGPI5annoq9tFCwrTak1pihkMowwqBtktbfjlKLIv2sjbOo69JiWTbk404+Cabia7Y=
+	t=1772034225; cv=none; b=H0sSm0ojabo+kNF6qI2HqRNKjeEyGhpE0nvL1I7dk4wWwo8yfB47qQGTN2aSpkvYk/JW3NybDTviiQtw2/qvcvQHnq4VdX/o1j9Dq92l69NTWJ+vCP2E+2CnoRmKTVpCpUmMo/LHhUF6vMDmmhb3OGsPo9TqBr+orvX4HDYIGU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772024195; c=relaxed/simple;
-	bh=tNwEReZ6mN8B4oMs+vo8hpuGvKaTQQgj75NRqbza4RA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ULgoUZxKrKQE6KzuB+WMDB7YOXKeT7/+3/t9lgEqzYobhTEetiAMCuC9t8SMKcrNMcUhMPN/k4RqIxJZBRPyPZw62LVuJHwuGaOZYxT8BOVc8fXXetugSOH9zepEJi4Mg/vEf2ZQcX5Jay7iPJU5TRiOOBZkFIyR4h2KZEXqNHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=TFmGC4/9; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1772034225; c=relaxed/simple;
+	bh=PL8zrNZDhOKUGTHnWVjAa512dk6h2/HHGn3yofU1M8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T3UofOcrgK8Mg9fF2XDJ956lAv3GzUaP8V59lm2XWThtWHeYtFHmwiUAlwf//OjmPtOqsF6qm1q768QSVbhp17C7487QKdqSz7i3l+Dgy4tHuZ+bfbaOQXN11RI8ErDy2J3fSfO1r38YKQzhORFqlzYt+1Im4ZkepEUIZNOpN6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PLy2aD5j; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7eyfU95l; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="TFmGC4/9"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61ONaY4o2774175;
-	Wed, 25 Feb 2026 12:56:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=6gzcXl
-	fBinHEyYhYTXjeuQu9UqQoXTj5SbtP9KOv7bo=; b=TFmGC4/9NQYIU37SmyYOCn
-	BAAFQTFYmajEC6zSF4z/VhQV9hWuyB6GKjk6XMw5nQfpRpdN90NbxiCShW/AsGgA
-	Yc8ZUq1wrY5H3vj1REDP7KatvauYLl32I/hMnpjqX3gIYswBaA6UH1URomF+Y5XE
-	lHrHj3i9lRG5QWEcK7FzP/Ojv/nuK/szU098V6efEsd4VdMGoVv/UrxlOXkzHul1
-	jLM8QHV5I47iquEtfe7e5Id4FspkREl0f7xXGXGWeWDqUQ82m0KCMj5h3SqfIl6R
-	q2yaSMStZyEjB7K5eiDarx8fJiGocsyijfhqC+NpXP/kTJXhJ3hzKR5KqAqu3JJw
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf34c7hgy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 12:56:14 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61PBfSrs015959;
-	Wed, 25 Feb 2026 12:56:13 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfq1sneqg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 12:56:13 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61PCuBOG45089098
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Feb 2026 12:56:11 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7222A2004F;
-	Wed, 25 Feb 2026 12:56:11 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B0CD020040;
-	Wed, 25 Feb 2026 12:56:08 +0000 (GMT)
-Received: from [9.124.208.53] (unknown [9.124.208.53])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 25 Feb 2026 12:56:08 +0000 (GMT)
-Message-ID: <7e43731b-e3d0-4dfe-9517-61891a288e9a@linux.ibm.com>
-Date: Wed, 25 Feb 2026 18:26:07 +0530
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PLy2aD5j";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7eyfU95l"
+Date: Wed, 25 Feb 2026 16:43:41 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772034222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PL8zrNZDhOKUGTHnWVjAa512dk6h2/HHGn3yofU1M8o=;
+	b=PLy2aD5jhLo6lauef+FyRjuaQVBvrk5W30L8utWQOIOORNfUNxT+FZ3FBPxVEQ8FQ34m14
+	eQQnwkd5qtv1D3XPUhGjAn2jUkr7vtEBSVRwUacYld8dz0nbsQlS9ESxnyB9K7kNZ681Q5
+	m5rvU9vTa6Va2Qq6gvX5V+HMquPuhVX1T53tcZ9Y5CjW8RtkHOatBtzy8llLw8XaFTGoNS
+	Sk3Uq1/UCThgMaPMLvLrznvVwA/H1JaBNqGVGFvUuUZsx7tg75l4h5D6NjvOWPjRDXDfLJ
+	ttDl3z2+EsLJqPtbhkC9gFY9GBBY9eMxRzfZQk+w4vD3OQ6doAxVk1I3ENmSzg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772034222;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PL8zrNZDhOKUGTHnWVjAa512dk6h2/HHGn3yofU1M8o=;
+	b=7eyfU95l4CyDleijHGPOu4W3D3qADaGL3NNqCimUUEHry8KZCkwWntzcniGG6p059dorUE
+	dpHv0xKNjLvuKLDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: Tejun Heo <tj@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	calvin@wbinvd.org, dschatzberg@meta.com, peterz@infradead.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: ~90s reboot delay with v6.19 and PREEMPT_RT
+Message-ID: <20260225154341.32AjXoVi@linutronix.de>
+References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
+ <20260219164648.3014-1-spasswolf@web.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
- <a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
- <20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-In-Reply-To: <20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDEyMyBTYWx0ZWRfX7wM5UyW+tODm
- A6awB1CorMD/bPSvtkpSvoYNUvxcXwpOMyM9sr5jpa/KKS2Dp8TRtU8r/fdZtilvY3iZjEojS0D
- 47j23cfD++IDELc2JLnwJ8QAG2bI58hzuYMXUK31X+cONUOfQJM5l4W7EcrroSUO/05odqsJD/F
- GOFms0J3+WN8vQK5CDaBdkdVoN+rZVHHlT9/jSCT2m4FhGt86O2NI77IGPvQFKzjOZe1M0Lo9yq
- 9ZOeZCG528FV9LfRRM+JiBqg5QcHnjVf3A/D3HO2WPInXEW4IcVUoOBLl47lvw8IdnsrbGt8Sjg
- a2te8oV3cQAl8MeYQSapn4dNjln10Qiq+3SlpPS+2zpwQZgBiBjzypwOe4ewWkHTSawhq9D/kpH
- /UvcGkxUm29t1U0tP5toQaUwYJxP02hP67EZliPRlDKiZkaxI8P8ndrJOEw4Z5fUrrki51bVUPO
- fdkzuoExX75mJcGy2gQ==
-X-Proofpoint-ORIG-GUID: KAs_nmSiEQKqmfx3VrcjsfAY_pyV7EWk
-X-Authority-Analysis: v=2.4 cv=F9lat6hN c=1 sm=1 tr=0 ts=699ef16e cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=zY3gc2i7GotqDtDIALgA:9
- a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: tvmFtQ-LBZPCCBvLyW4S3mO2rNFBtw_1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-24_03,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 bulkscore=0 adultscore=0 spamscore=0
- clxscore=1015 suspectscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602250123
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260219164648.3014-1-spasswolf@web.de>
 
+On 2026-02-19 17:46:47 [+0100], Bert Karwatzki wrote:
+> Since linux v6.19 I noticed that rebooting my MSI Alpha 15 Laptop
+> would hang for about ~90s before rebooting. I bisected this (from
+> v6.18 to v6.19) and got this as the first bad commit:
+> 9311e6c29b34 ("cgroup: Fix sleeping from invalid context warning on PREEM=
+PT_RT")
+=E2=80=A6
 
+I'm on it. I looks like we free the task after sched_process_wait() but
+before it is entirely gone there is a wait() on its pid. Some of them do
+come back but one seems to be stuck and I need to figure out which one.
+If we get rid of the LAZY then it happens "quick" enough so it works.
 
-On 2/25/26 4:23 PM, Peter Zijlstra wrote:
-> On Fri, Jan 09, 2026 at 04:53:04PM +0530, Shrikanth Hegde wrote:
-> 
->>> --- a/kernel/sched/debug.c
->>> +++ b/kernel/sched/debug.c
->>> @@ -243,7 +243,7 @@ static ssize_t sched_dynamic_write(struc
->>>    static int sched_dynamic_show(struct seq_file *m, void *v)
->>>    {
->>> -	int i = IS_ENABLED(CONFIG_PREEMPT_RT) * 2;
->>> +	int i = (IS_ENABLED(CONFIG_PREEMPT_RT) || IS_ENABLED(CONFIG_ARCH_HAS_PREEMPT_LAZY)) * 2;
->>>    	int j;
->>>    	/* Count entries in NULL terminated preempt_modes */
->>
->> Maybe only change the default to LAZY, but keep other options possible via
->> dynamic update?
->>
->> - When the kernel changes to lazy being the default, the scheduling pattern
->> can change and it may affect the workloads. having ability to dynamically
->> change to none/voluntary could help one to figure out where
->> it is regressing. we could document cases where regression is expected.
-> 
-> I suppose we could do this. I just worry people will end up with 'echo
-> volatile > /debug/sched/preempt' in their startup script, rather than
-> trying to actually debug their issues.
+> Bert Karwatzki
 
-Ack.
-
-> 
-> Anybody with enough knowledge to be useful, can edit this line on their
-> own, rebuild the kernel and go forth.
-> 
-> Also, I've already heard people are interested in compile-time removing
-> of cond_resched() infrastructure for ARCH_HAS_PREEMPT_LAZY, so this
-> would be short lived indeed.
-> 
->> - with preempt=full/lazy we will likely never see softlockups. How are we
->> going to find out longer kernel paths(some maybe design, some may be bugs)
->> apart from observing workload regression?
-> 
-> Given the utter cargo cult placement of cond_resched(); I don't think
-> we've actually lost much here. You wouldn't have seen the softlockup
-> thing anyway, because of cond_resched().
-> 
-> Anyway, you can always build on top of function graph tracing, create a
-> flame graph of stuff and see just where all your runtime went. I'm sure
-> there's tools that do this already. Perhaps if you're handy with the BPF
-> stuff you can even create a 'watchdog' of sorts that will scream if any
-> function takes longer than X us to run or whatever.
-> 
-> Oh, that reminds me, Steve, would it make sense to have
-> task_struct::se.sum_exec_runtime as a trace-clock?
-> 
->> Also, is softlockup code is of any use in preempt=full/lazy?
-> 
-> Softlockup has always seemed of dubious value to me -- then again, I've
-> been running preempt=y kernels from about the day that became an option
-> :-)
-> 
-> I think it still trips if you loose a wakeup or something.
-> 
-
-That's probably hungtask report right?
-IIUC that would be independent of preemption model.
-
+Sebastian
