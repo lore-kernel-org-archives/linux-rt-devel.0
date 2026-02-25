@@ -1,281 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6538E13D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 09:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB97E311954
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 09:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772011513; cv=none; b=mWq+naFRMrmZp28RLQkBEZMhuZ/ofVzcAXKDnvW+pv1Gvs05rlDOQf0f3wLSbYBMsi4WWWInNjnXmBBHhvZlKWtUOKTEcAq27cFX1IK5+AMN4HbL53Z6DStjNSYdRjFQPHkpj827koevrDewsOY/gAoxjiR4eMXObukxLHpau+U=
+	t=1772013409; cv=none; b=epV3gwtkXLU6LTN/kFbnrezJWE/fi28uBsuJKmXZs/KofTfHGUKs+pracV+1thmwdnTMl8TjoFg+lw5pA2Rx8DATyEMkmtZtHeyE5KOWkeq9RaSmdsHW2wMFQ8exNgKlIJJPVMgiw2bJz/PM1cfooK8F5Wmeuo7KBctNL31mPIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772011513; c=relaxed/simple;
-	bh=rMgjVD4GMsRX9ziLSps8kmQoitGnqhBrUnNKkSzdO5Y=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=FbBrzWnemapPuXwFj20mE4p/9RmR0ePPVXKA9QWaYGgjXs5Vw5vI4URdxyE8W4CeO4Gqvu9GRWqmOniFa77dJYVCG9YQiuntZnBDEKWRLvJo0tXCA8rDRDxELrVKa9VYZo4iUnL6yPi5Lqd0+Pxgd4fTEJKKsqUvYCPAETUQ4vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fpS3cDXX; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772013409; c=relaxed/simple;
+	bh=MfjPxYsnbrkxjssASivGHP3yjeEkQ580YwkZdUjoVcY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CPuQkgDrRj0sOWu6wOJ0J+nzmPwPJeysACETpaPUXTSLndTAVtwigGqRCsURxjWctDGMEHoXHSncNahXuVnKGbtoNtv5xf+XrF76A2eHCw+wIpp49H7lipcQHwi/IkRKWQZCuzNntekLylAGZvxsH9mdnUTjgWeU81RrrX7hbso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Q+BaN0SV; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fpS3cDXX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772011512; x=1803547512;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=rMgjVD4GMsRX9ziLSps8kmQoitGnqhBrUnNKkSzdO5Y=;
-  b=fpS3cDXXFD+O6hHI9BtfDtnurO+yLy9ziEDA0jiK3o1TPejyBcRVTrBq
-   H5QCox8nSiAy2ybbUiAe5X5hzNT4qnOtCr2OtdzYe5rKsay/r7yDOZ7HE
-   G0VDx8+Nm7CBJFLj4KsNocc72CuG7peaBKSZTUPFEn8up4/oyQ1b0zDSh
-   S7zktUUqvjmMyvOqNesOMxaergzof/zGuBMmse3r/RUsKNPhYPcRuP832
-   +5g2a999WQbZG4tVPluZ9inVEUBaiPvWqt2Fvd6jpu3RcF5Y7qn3HyR9D
-   JFEEFIskCGUaBxWV35U2dignCrKkF7ivPzR4B3kJe1aU0hkhGJpKV3DuR
-   w==;
-X-CSE-ConnectionGUID: JalTlMNRQBadyt1Ags27vg==
-X-CSE-MsgGUID: Wd4/4Ih5QHOX8iS0SqHXdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="73115291"
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="73115291"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 01:25:11 -0800
-X-CSE-ConnectionGUID: N3KGhzIGS3afP7PTcMA/dg==
-X-CSE-MsgGUID: 3UKWWixzQl6pWcpgZ6o6VA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,310,1763452800"; 
-   d="scan'208";a="221178397"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.68])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2026 01:25:08 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maarten Lankhorst <dev@lankhorst.se>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Cc: linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org, Maarten
- Lankhorst <dev@lankhorst.se>
-Subject: Re: [i915-rt v6 13/24] drm/i915/display: Use intel_de_write_fw in
- intel_pipe_fastset
-In-Reply-To: <20260220083657.28815-39-dev@lankhorst.se>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260220083657.28815-26-dev@lankhorst.se>
- <20260220083657.28815-39-dev@lankhorst.se>
-Date: Wed, 25 Feb 2026 11:25:05 +0200
-Message-ID: <4537cb8e981e2f49e1ba212237134dc5e812756e@intel.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Q+BaN0SV"
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61P9dKH61745446;
+	Wed, 25 Feb 2026 09:56:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=y8Lyc1
+	nD/yoDJtt6s3WDTVa54KOOxljFKULDXaKQ+jw=; b=Q+BaN0SVuSUNVjqNR/dCSr
+	Nq+PH8AJPRLrtFyqQWqhGsNnjHODaJ7OX8kEgkAsJ8yoQb8j2+Qj63O+Xm6d/t0Z
+	MxqJ0KLZZ5LGZTO7TPG9kI6ow3NYWsrW8URtFkZ5WF/aYPrFPp/vIBMyFMqNj7Ta
+	uLZDjdVaK/AX6AStyvInKUs/P8NxcuL3gosnjKVts3CcxYTEB7P3DPcAyh4I1MUg
+	OEAKhnF8S5jd4RDQwaTjPZ09pL/cGeIKzj0r7s0/48RoMy+6/tsAASOvjQOGA6ek
+	8GxI2HFZ7w8V1AF8YAFKP5nLWdNTu7XwUq82o2WD3D03GkDM3YHfgHzplcnj/Kuw
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4cqykjh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 09:56:33 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61P783MY015758;
+	Wed, 25 Feb 2026 09:56:33 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfq1smvw6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 09:56:32 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61P9uV2Q57016604
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Feb 2026 09:56:31 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 41BE920043;
+	Wed, 25 Feb 2026 09:56:31 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5139220040;
+	Wed, 25 Feb 2026 09:56:30 +0000 (GMT)
+Received: from [9.111.20.176] (unknown [9.111.20.176])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 25 Feb 2026 09:56:30 +0000 (GMT)
+Message-ID: <577cbf87-277a-4c6c-802f-00096c788036@linux.ibm.com>
+Date: Wed, 25 Feb 2026 09:56:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-s390@vger.kernel.org
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
+ <20260224171111.pMPZGcan@linutronix.de>
+Content-Language: en-GB
+From: Ciunas Bennett <ciunas@linux.ibm.com>
+In-Reply-To: <20260224171111.pMPZGcan@linutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: ggHshAP3UyibOZyxBiXtLS-kZivmJKZu
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDA5NCBTYWx0ZWRfX0MbjVq7t+wi3
+ 6zdy+FZeEgMGKB1KxjX0sPy8FNQ9/VpU2wLzRKEFKJw93j4/VawIGTWIsmUsa7PY7XKqR/cQYVR
+ E8zXF3NjoJGsp5nlUuTwE1DALmRweDnTugiMftniuxl82V6KY+inyjQbCc+dxl8w8WgWs9r4m/d
+ PPWUum0gUrOqWgzT0uPDCsmKTf1hQEGyx7XqRZyMjcJgzPhbnSCKbqhiW/A4gnZG6p5/4PAnd9u
+ kAiIksHMxdMb5inu3saoAhfTew180tB+9dG5dtAiIVSvmhAHfjNwGZR8nWeCtEKsypJBnkNbZyd
+ rlbuPYW/SzwHPUAk/jXyLzIxkb86Z8PlGW2zqJv2+rlIB6TdI8btTCdD6l4BNETn+3MJ9Xiu21G
+ eqozPPm7PiejJSMbdLze34zuRbEF1MtEyj267DgHFOOXP8njhKIfrvrgfLrfWxMJ4Wi66poMKmN
+ TECSe/ft1FdvoWByUHg==
+X-Proofpoint-GUID: ywS_kq-zX7Bgtpvgm1LejcIjFR0T7asY
+X-Authority-Analysis: v=2.4 cv=bbBmkePB c=1 sm=1 tr=0 ts=699ec752 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=315T5f-plpDpaHdBaGwA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-24_03,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 adultscore=0 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602250094
 
-On Fri, 20 Feb 2026, Maarten Lankhorst <dev@lankhorst.se> wrote:
-> intel_set_pipe_src_size(), hsw_set_linetime_wm(),
-> intel_cpu_transcoder_set_m1_n1() and intel_set_transcoder_timings_lrr()
-> are called from an atomic context on PREEMPT_RT, and should be using the
-> _fw functions.
-
-Problem is, ~nobody knows when they should be using _fw anymore when
-they're all over the place. It'll get cargo culted.
-
-BR,
-Jani.
 
 
+On 24/02/2026 17:11, Sebastian Andrzej Siewior wrote:
+> On 2026-02-24 15:45:39 [+0000], Ciunas Bennett wrote:
+
+>> Changing guest configuration to disable mergeable RX buffers:
+>>        <host mrg_rxbuf="off"/>
+>>        had a clear effect on throughput:
+>>        PREEMPT_LAZY: throughput improved from 40 Gb/s → 60 Gb/s
+>>
+> 
+> Brings this the workload/ test to PREEMPT_FULL level?
 >
-> This likely prevents a deadlock on i915.
->
-> Again noticed when trying to disable preemption in vblank evasion:
-> <3> BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-> <3> in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 1505, name: kms_cursor_lega
-> <3> preempt_count: 1, expected: 0
-> <3> RCU nest depth: 0, expected: 0
-> <4> 4 locks held by kms_cursor_lega/1505:
-> <4>  #0: ffffc90003c6f988 (crtc_ww_class_acquire){+.+.}-{0:0}, at: drm_mode_atomic_ioctl+0x13b/0xe90
-> <4>  #1: ffffc90003c6f9b0 (crtc_ww_class_mutex){+.+.}-{3:3}, at: drm_mode_atomic_ioctl+0x13b/0xe90
-> <4>  #2: ffff888135b838b8 (&intel_dp->psr.lock){+.+.}-{3:3}, at: intel_psr_lock+0xc5/0xf0 [xe]
-> <4>  #3: ffff88812607bbc0 (&wl->lock){+.+.}-{2:2}, at: intel_dmc_wl_get+0x3c/0x140 [xe]
-> <4> CPU: 6 UID: 0 PID: 1505 Comm: kms_cursor_lega Tainted: G     U              6.18.0-rc3-lgci-xe-xe-pw-156729v1+ #1 PREEMPT_{RT,(lazy)}
-> <4> Tainted: [U]=USER
-> <4> Hardware name: Intel Corporation Panther Lake Client Platform/PTL-UH LP5 T3 RVP1, BIOS PTLPFWI1.R00.3383.D02.2509240621 09/24/2025
-> <4> Call Trace:
-> <4>  <TASK>
-> <4>  dump_stack_lvl+0xc1/0xf0
-> <4>  dump_stack+0x10/0x20
-> <4>  __might_resched+0x174/0x260
-> <4>  rt_spin_lock+0x63/0x200
-> <4>  ? intel_dmc_wl_get+0x3c/0x140 [xe]
-> <4>  intel_dmc_wl_get+0x3c/0x140 [xe]
-> <4>  intel_set_pipe_src_size+0x89/0xe0 [xe]
-> <4>  intel_update_crtc+0x3c1/0x950 [xe]
-> <4>  ? intel_pre_update_crtc+0x258/0x400 [xe]
-> <4>  skl_commit_modeset_enables+0x217/0x720 [xe]
-> <4>  intel_atomic_commit_tail+0xd4e/0x1af0 [xe]
-> <4>  ? lock_release+0xce/0x2a0
-> <4>  intel_atomic_commit+0x2e5/0x330 [xe]
-> <4>  ? intel_atomic_commit+0x2e5/0x330 [xe]
-> <4>  drm_atomic_commit+0xaf/0xf0
-> <4>  ? __pfx___drm_printfn_info+0x10/0x10
-> <4>  drm_mode_atomic_ioctl+0xbd5/0xe90
-> <4>  ? lock_acquire+0xc4/0x2e0
-> <4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-> <4>  drm_ioctl_kernel+0xb6/0x120
-> <4>  drm_ioctl+0x2d7/0x5a0
-> <4>  ? __pfx_drm_mode_atomic_ioctl+0x10/0x10
-> <4>  ? rt_spin_unlock+0xa0/0x140
-> <4>  ? __pm_runtime_resume+0x53/0x90
-> <4>  xe_drm_ioctl+0x56/0x90 [xe]
-> <4>  __x64_sys_ioctl+0xa8/0x110
-> <4>  ? lock_acquire+0xc4/0x2e0
-> <4>  x64_sys_call+0x1144/0x26a0
-> <4>  do_syscall_64+0x93/0xae0
-> <4>  ? lock_release+0xce/0x2a0
-> <4>  ? __task_pid_nr_ns+0xd9/0x270
-> <4>  ? do_syscall_64+0x1b7/0xae0
-> <4>  ? find_held_lock+0x31/0x90
-> <4>  ? __task_pid_nr_ns+0xcf/0x270
-> <4>  ? __lock_acquire+0x43e/0x2860
-> <4>  ? __task_pid_nr_ns+0xd9/0x270
-> <4>  ? lock_acquire+0xc4/0x2e0
-> <4>  ? find_held_lock+0x31/0x90
-> <4>  ? __task_pid_nr_ns+0xcf/0x270
-> <4>  ? lock_release+0xce/0x2a0
-> <4>  ? __task_pid_nr_ns+0xd9/0x270
-> <4>  ? do_syscall_64+0x1b7/0xae0
-> <4>  ? do_syscall_64+0x1b7/0xae0
-> <4>  entry_SYSCALL_64_after_hwframe+0x76/0x7e
->
-> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
-> ---
->  drivers/gpu/drm/i915/display/intel_display.c | 36 ++++++++++----------
->  drivers/gpu/drm/i915/display/intel_vrr.c     | 18 +++++-----
->  2 files changed, 27 insertions(+), 27 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> index f224c9d7e0dfa..8fba2a8b6a6b5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -1607,9 +1607,9 @@ static void hsw_set_linetime_wm(const struct intel_crtc_state *crtc_state)
->  	struct intel_display *display = to_intel_display(crtc_state);
->  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
->  
-> -	intel_de_write(display, WM_LINETIME(crtc->pipe),
-> -		       HSW_LINETIME(crtc_state->linetime) |
-> -		       HSW_IPS_LINETIME(crtc_state->ips_linetime));
-> +	intel_de_write_fw(display, WM_LINETIME(crtc->pipe),
-> +			  HSW_LINETIME(crtc_state->linetime) |
-> +			  HSW_IPS_LINETIME(crtc_state->ips_linetime));
->  }
->  
->  static void hsw_set_frame_start_delay(const struct intel_crtc_state *crtc_state)
-> @@ -2606,14 +2606,14 @@ void intel_set_m_n(struct intel_display *display,
->  		   i915_reg_t data_m_reg, i915_reg_t data_n_reg,
->  		   i915_reg_t link_m_reg, i915_reg_t link_n_reg)
->  {
-> -	intel_de_write(display, data_m_reg, TU_SIZE(m_n->tu) | m_n->data_m);
-> -	intel_de_write(display, data_n_reg, m_n->data_n);
-> -	intel_de_write(display, link_m_reg, m_n->link_m);
-> +	intel_de_write_fw(display, data_m_reg, TU_SIZE(m_n->tu) | m_n->data_m);
-> +	intel_de_write_fw(display, data_n_reg, m_n->data_n);
-> +	intel_de_write_fw(display, link_m_reg, m_n->link_m);
->  	/*
->  	 * On BDW+ writing LINK_N arms the double buffered update
->  	 * of all the M/N registers, so it must be written last.
->  	 */
-> -	intel_de_write(display, link_n_reg, m_n->link_n);
-> +	intel_de_write_fw(display, link_n_reg, m_n->link_n);
->  }
->  
->  bool intel_cpu_transcoder_has_m2_n2(struct intel_display *display,
-> @@ -2800,9 +2800,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
->  	}
->  
->  	if (DISPLAY_VER(display) >= 13) {
-> -		intel_de_write(display,
-> -			       TRANS_SET_CONTEXT_LATENCY(display, cpu_transcoder),
-> -			       crtc_state->set_context_latency);
-> +		intel_de_write_fw(display,
-> +				  TRANS_SET_CONTEXT_LATENCY(display, cpu_transcoder),
-> +				  crtc_state->set_context_latency);
->  
->  		/*
->  		 * VBLANK_START not used by hw, just clear it
-> @@ -2818,9 +2818,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
->  	 * The hardware actually ignores TRANS_VBLANK.VBLANK_END in DP mode.
->  	 * But let's write it anyway to keep the state checker happy.
->  	 */
-> -	intel_de_write(display, TRANS_VBLANK(display, cpu_transcoder),
-> -		       VBLANK_START(crtc_vblank_start - 1) |
-> -		       VBLANK_END(crtc_vblank_end - 1));
-> +	intel_de_write_fw(display, TRANS_VBLANK(display, cpu_transcoder),
-> +			  VBLANK_START(crtc_vblank_start - 1) |
-> +			  VBLANK_END(crtc_vblank_end - 1));
->  	/*
->  	 * For platforms that always use VRR Timing Generator, the VTOTAL.Vtotal
->  	 * bits are not required. Since the support for these bits is going to
-> @@ -2834,9 +2834,9 @@ static void intel_set_transcoder_timings_lrr(const struct intel_crtc_state *crtc
->  	 * The double buffer latch point for TRANS_VTOTAL
->  	 * is the transcoder's undelayed vblank.
->  	 */
-> -	intel_de_write(display, TRANS_VTOTAL(display, cpu_transcoder),
-> -		       VACTIVE(crtc_vdisplay - 1) |
-> -		       VTOTAL(crtc_vtotal - 1));
-> +	intel_de_write_fw(display, TRANS_VTOTAL(display, cpu_transcoder),
-> +			  VACTIVE(crtc_vdisplay - 1) |
-> +			  VTOTAL(crtc_vtotal - 1));
->  
->  	intel_vrr_set_fixed_rr_timings(crtc_state);
->  	intel_vrr_transcoder_enable(crtc_state);
-> @@ -2853,8 +2853,8 @@ static void intel_set_pipe_src_size(const struct intel_crtc_state *crtc_state)
->  	/* pipesrc controls the size that is scaled from, which should
->  	 * always be the user's requested size.
->  	 */
-> -	intel_de_write(display, PIPESRC(display, pipe),
-> -		       PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height - 1));
-> +	intel_de_write_fw(display, PIPESRC(display, pipe),
-> +			  PIPESRC_WIDTH(width - 1) | PIPESRC_HEIGHT(height - 1));
->  }
->  
->  static bool intel_pipe_is_interlaced(const struct intel_crtc_state *crtc_state)
-> diff --git a/drivers/gpu/drm/i915/display/intel_vrr.c b/drivers/gpu/drm/i915/display/intel_vrr.c
-> index 00ca76dbdd6ce..128e19afc6c86 100644
-> --- a/drivers/gpu/drm/i915/display/intel_vrr.c
-> +++ b/drivers/gpu/drm/i915/display/intel_vrr.c
-> @@ -318,12 +318,12 @@ void intel_vrr_set_fixed_rr_timings(const struct intel_crtc_state *crtc_state)
->  	if (!intel_vrr_possible(crtc_state))
->  		return;
->  
-> -	intel_de_write(display, TRANS_VRR_VMIN(display, cpu_transcoder),
-> -		       intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
-> -	intel_de_write(display, TRANS_VRR_VMAX(display, cpu_transcoder),
-> -		       intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
-> -	intel_de_write(display, TRANS_VRR_FLIPLINE(display, cpu_transcoder),
-> -		       intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
-> +	intel_de_write_fw(display, TRANS_VRR_VMIN(display, cpu_transcoder),
-> +			  intel_vrr_fixed_rr_hw_vmin(crtc_state) - 1);
-> +	intel_de_write_fw(display, TRANS_VRR_VMAX(display, cpu_transcoder),
-> +			  intel_vrr_fixed_rr_hw_vmax(crtc_state) - 1);
-> +	intel_de_write_fw(display, TRANS_VRR_FLIPLINE(display, cpu_transcoder),
-> +			  intel_vrr_fixed_rr_hw_flipline(crtc_state) - 1);
->  }
->  
->  static
-> @@ -896,8 +896,8 @@ static void intel_vrr_tg_enable(const struct intel_crtc_state *crtc_state,
->  	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
->  	u32 vrr_ctl;
->  
-> -	intel_de_write(display, TRANS_PUSH(display, cpu_transcoder),
-> -		       trans_vrr_push(crtc_state, false));
-> +	intel_de_write_fw(display, TRANS_PUSH(display, cpu_transcoder),
-> +			  trans_vrr_push(crtc_state, false));
->  
->  	vrr_ctl = VRR_CTL_VRR_ENABLE | trans_vrr_ctl(crtc_state);
->  
-> @@ -909,7 +909,7 @@ static void intel_vrr_tg_enable(const struct intel_crtc_state *crtc_state,
->  	if (cmrr_enable)
->  		vrr_ctl |= VRR_CTL_CMRR_ENABLE;
->  
-> -	intel_de_write(display, TRANS_VRR_CTL(display, cpu_transcoder), vrr_ctl);
-> +	intel_de_write_fw(display, TRANS_VRR_CTL(display, cpu_transcoder), vrr_ctl);
->  }
->  
->  static void intel_vrr_tg_disable(const struct intel_crtc_state *old_crtc_state)
 
--- 
-Jani Nikula, Intel
+Sorry was not clear here, so when I enable this there is also an improvement in PREEMPT_FULL
+from 55Gb/s -> 60Gb/s
+
+So I see an improvement in both test cases.
+PREEMPT_LAZY: throughput improved from 40 Gb/s → 60 Gb/s
+PREEMPT_FULL: throughput improved from 55 Gb/s → 60 Gb/s
