@@ -1,60 +1,33 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E10F2E62D1
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 18:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E454D2F5313
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 20:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772044238; cv=none; b=XCaFwiAx2t1JtmuLe/YUDzbkNqjlOadp2T2H+ud8HFaYBA6W+6vZ3qwtKnEoXk9U7r9wef54UgErz1Fck3ec2moqtTM44kEp00JMvOSSZtpYW7KrF3rMgszvT/YKmCAdOJyq3dxbiXOKbXq/7dDfis2TU0xRWIrhXlINq7F9bhI=
+	t=1772049969; cv=none; b=GEPP9ucBjTpEM9veyRY+ZO6LeUGsVcKUPYqABfI3XGqkiEcQQZlodzXQ5T7yjqZnl+TtpNs03hmKMqBAHQI4kMX6pWwdu6kDwfwP5XRd/Y9jNDHpWZi10iz3CG/6fM5xeRe7i2zEtd7fjcGoGkLnfj6jizJqqwCsWoBoE+Z8RXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772044238; c=relaxed/simple;
-	bh=GutYVpSx9aABE+IgnhvSdNkcvXNfkecqqjnqmX1E4Dc=;
+	s=arc-20240116; t=1772049969; c=relaxed/simple;
+	bh=m0jI+91ZfLMP+Bf2OhJVOZYQ73gUlZTgUnjRJsTmi04=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nDV7ZZdGUiOzvuEYoFDGcrwdlQYdYJDBazehkGUr/SROajdo58l6oHXA1vyePouTvfCbwXAqCkIsne4fY0J5vPRkXu7NU9PrIOpAEFDaQA0zNgstrY5eLkqXjFfYtbZrAKNqSpt6UUEr9idW3L5a9s7HuECHnQalEHn/HBJcLA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=njb8Kprc; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=QsZLBrMHuh7hMU3H6DoZHHr6L/76OvA2g2TlpF57LDRIx1WAa/aza+dcsl9uNnlGGiVPlrYWvXU/8NvRAn0ptubklRTxeU+aR+Z6X1YtdQOY2/0H5aMSEDnz9xJ5bCmqgiuplGh4i37xCg8IP3wA4jGDfW0gdrX38Mfg2HWBKu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=KLcHkTGB; arc=none smtp.client-ip=141.105.120.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="njb8Kprc"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PEij3B3015564;
-	Wed, 25 Feb 2026 18:30:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=ZvD/f7
-	IRLTLmldnkTjsJwBCbwWd/dUwI6kc6EhPH8/k=; b=njb8Kprcrstdg42bXr3/gD
-	hM4zrv6nOTrEsOJdZARtOe7dAck9LOlGkJltDY9VLDLNzKZIpkbDuGdi05AVpDQn
-	V/itMfwAyo5eu7mi69pIaErJ/xLe0D5tMWymcvSDJeAsATf0vgCXXNSn4Oxhatms
-	FcztnV2B40QFm+JNSfYw4rUHAGPCoOTLI3YZsdaa468qaDbadNCurlgAlwlWXV9T
-	kfvjtSFyU/4oTBYLQFuzeTISedIF9gZF658NpKI/y1A6saI8tIcgabrX3iw/0Ue+
-	Sb1iTHJSNnSEbZ/9wR/lBjkoq73PnKW+DIk0+aNbxhWdVhNwbgzO5ADYQ2VWiUGQ
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf4bs10sp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 18:30:18 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61PHdFWL003382;
-	Wed, 25 Feb 2026 18:30:17 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfs8jxgf2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 25 Feb 2026 18:30:17 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61PIUFgU40829632
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 25 Feb 2026 18:30:15 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id ACB525805E;
-	Wed, 25 Feb 2026 18:30:15 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A85B75806B;
-	Wed, 25 Feb 2026 18:30:13 +0000 (GMT)
-Received: from [9.61.247.27] (unknown [9.61.247.27])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 25 Feb 2026 18:30:13 +0000 (GMT)
-Message-ID: <08307223-88ad-4550-963e-5d1ee315023c@linux.ibm.com>
-Date: Wed, 25 Feb 2026 13:30:13 -0500
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="KLcHkTGB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
+	s=default; t=1772049966;
+	bh=m0jI+91ZfLMP+Bf2OhJVOZYQ73gUlZTgUnjRJsTmi04=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KLcHkTGBMUGND86ai4aFWFeAjsLPti++nW7JDWlKH+BQNsiodRppa8+u0WdJZ0+l8
+	 bGko4om0ckOPqghTw7mAYTihVNP4aNHyfdLD5nEPI5+F3cqVZfSvTkAs8xcGlw5J7a
+	 plExoI4dFGc1uKlUL1d8r3LcXGPoNydB06w+QV9vMp/R+ui/tLvVvWrh8x4m4ksfYO
+	 de9JHs66rjkPRcFygnfusWlMwpkBQx1Xx9uRcF5/xS8BkcjVl0yhwEHfNXvEiR2VkL
+	 moKlYzmi4WY2zDPO3z0yRKaFtCcw3JgAnylFUERYYh8y9VGjPWbx5zMAADJ1wAELpI
+	 HW5uMgTVwflfg==
+Message-ID: <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
+Date: Wed, 25 Feb 2026 21:06:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,85 +35,57 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-To: Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Ilya Leoshkevich <iii@linux.ibm.com>,
-        Ciunas Bennett <ciunas@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>, mingo@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Hendrik Brueckner <brueckner@linux.ibm.com>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
- <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
- <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
- <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
+Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
+ PREEMPT_RT work on i915 + xe.
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
+References: <20260220083657.28815-26-dev@lankhorst.se>
+ <20260224162703.Q_taYjEC@linutronix.de>
+ <20260224165903.2mn24oQy@linutronix.de>
+ <20260225075806.XNtXjZ5E@linutronix.de>
 Content-Language: en-US
-From: Douglas Freimuth <freimuth@linux.ibm.com>
-In-Reply-To: <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Maarten Lankhorst <dev@lankhorst.se>
+In-Reply-To: <20260225075806.XNtXjZ5E@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: _0UMUoKIZlKOKqau5XTtb0XTWq94cAbn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE3NCBTYWx0ZWRfX5hzxm1BQVqPQ
- FGBk6ZpsteTOtLR+qOOvnM7R1Pnx3O1g2NTK0XK/e+EVxWjmAPdRrjmfWb2ISMfhn/2sYt4nr3B
- OI+Xh7TjlzW02J38u/lQoMB3U8wBrxZcXzVIpkUubfXFNYIgVd2I9uTQ8GVLdsDfux1LnjtTJua
- o1jG+m7XT4X1qF6G5HUt7i0Q/uaYE8GMnkz/210nVH2x9i1xn2b9d0P2A3VP04KjvQWaql2WIgV
- d3TRrZrkkH+Hl05em2OUxd6Fmiv3RY4/tQCOlLxVWUJKuXA81e3Td9o65CG6YBD5UPAEvDAOO5E
- 2Yg0ACUPu6qvQgS4TBvlJNCkYGy5EU2Hl13u0CPOPGUH7ZmollwyqqxIFNomN72w7wlm0hPFuBo
- 6fJMs2vLCQwywDeBPYuymJXMwUr/FJLcRvQWDNFTpAEGO+bO0FGJpNeJXfImIMpfSRoaFPPQGWe
- MSvDdxHHfLTGY1rMb8A==
-X-Authority-Analysis: v=2.4 cv=eNceTXp1 c=1 sm=1 tr=0 ts=699f3fba cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=0MXMk1mwkTAisRVsYMEA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: LnQXTQu1zciqhCL8NCZSCXgSM0NrDEL0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 priorityscore=1501 phishscore=0 suspectscore=0 adultscore=0
- bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602250174
 
+Hey,
 
-
-On 2/25/26 11:33 AM, Christian Borntraeger wrote:
-> Am 24.02.26 um 21:30 schrieb Ilya Leoshkevich:
->> Finally, what is the worker doing? I looked at __queue_work() kstacks, 
->> and they all come from irqfd_wakeup().
->>
->> irqfd_wakeup() calls arch-specific kvm_arch_set_irq_inatomic(), which 
->> is implemented on x86 and not implemented on s390.
->>
->>
->> This may explain why we on s390 are the first to see this.
->>
->>
->> Christian, do you think if it would make sense to 
->> implement kvm_arch_set_irq_inatomic() on s390?
+Den 2026-02-25 kl. 08:58, skrev Sebastian Andrzej Siewior:
+> On 2026-02-24 17:59:04 [+0100], To Maarten Lankhorst wrote:
+> …
+>> This one I can reproduce while opening a browser and surfing a bit. Let
+>> me try step by step without lockdep, without RT and maybe just play
+>> v7.0-rc1 to figure out where this is from…
 > 
-> So in fact Doug is working on that at the moment. There are some corner
-> cases where we had concerns as we have to pin the guest pages holding
-> the interrupt bits. This was secure execution, I need to followup if
-> we have already solved those cases. But we can try if the current patch
-> will help this particular problem.
-> 
-> If yes, then we can try to speed up the work on this.
-> 
-> Christian
+> It triggers without lockdep but takes longer. It does not trigger
+> without RT so far. I will try to narrow it down later unless it is
+> obvious where this is coming from.
+>  
+> Sebastian
 
-Christian, the patch is very close to ready. The last step, I rebased on 
-Master today to pickup the latest changes to interrupt.c. I am building 
-that now and will test for non-SE and SE environments. I have been 
-testing my solution for SE environments for a few weeks and it seems to 
-cover the use cases I have tested.
+After realizing the uncore lock only needed to be converted to a raw spinlock
+because the testcase was broken, I tested the alternative fix of using
+sleeping context only in the selftests:
+https://patchwork.freedesktop.org/patch/707063/?series=162145&rev=1
 
+With that the reset selftest works as expected.
+
+But I do see some weird lockdep splats and aborts after that fixed the uncore lock testcases:
+https://patchwork.freedesktop.org/series/162145/
+
+I believe it could be a different instance of:
+https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_162145v1/bat-dg2-9/igt@gem_lmem_swapping@parallel-random-engines.html#dmesg-warnings904
+
+Which is tracked under:
+
+https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15759
+
+Perhaps those are related to what you are seeing?
+
+Also don't use that series for anything but CI results, I rather want to submit
+a new version of this series.
+
+Kind regards,
+~Maarten Lankhorst
