@@ -1,183 +1,133 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3941E3DA7F0
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 15:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFBB3D9052
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Feb 2026 16:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772034664; cv=none; b=DebtWuHwjqCgZX86ZSDoKYIdLoKNjIqP9vKiKAiyzCySdyP9cts2WhxzM0HVKmy6S+44phNBs11uQVNP6RMmS9WNwcpmbrhtKAnrwApNjZyUXNDTjgwUszv/Jp79WDfFIwduIJ05sVXCzwq1d1OKqPhqpNPGfiriYQUGXUPPemM=
+	t=1772037251; cv=none; b=KLGhi8e5e5rYt3k0IsxQ0/nV1Fudp3WiEJX8IMsaJ3rh60I/6I9ylmOno7CyH6KFEEsgVB+2bci3vi/IzT33tLWVPD+ouWebpc292DnCj+zjMfh7ZUXqeGNi9YLbNQ7DRdaUf23NL1aReeUINy4J8tyryBOueq+W/p0U7Gw7WAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772034664; c=relaxed/simple;
-	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q1tEE/etmunzR+2J9mnoobyWFzV/sey1Kz2uhEnjvXi83yzXb4AYNX3iYCAWoiBWmjk5zmVVHYZn0tJGalY6t0BFyLUNGZIPLMCM8ilf2kBv0En9eJzLYSOGB17RDz+nxZHlEZxsDIyrGSiogE1StyEz4Yzra6mWxGJtSzYBAeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kQzTaUXU; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1772037251; c=relaxed/simple;
+	bh=BuPpzU2Nm3plTuenq90o+rwVvZqFkD2fENtwM+9OBJg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rzzw4LxBJi+HyPfP9KxfNot0UfrrZIFeJQEGX6cRaQ7/hcv/bRmgXl7gZWKipPDojTrfi/wTfTKy+ulbbFKGVsldeJEY6iGjUWDAh7F02TWoUEzrbTrTYfkMqWE/J3OhWqihXX/RktCuJG/JgGN0+85b4ydRaSsDpzH0afkmKvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=n/mvk8v/; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kQzTaUXU"
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:cd05:b041:1dc3:f62c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A7237E79;
-	Wed, 25 Feb 2026 16:50:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772034604;
-	bh=IPoW0hAdPmyxLojSbJoofjfzT0HDKdluoXNZXbT9mVI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=kQzTaUXU6ctUbmvQCO0JZkMQJfYnddMqmYpmoMUPfov3rWN40OheEmUPEEuk/Jj9/
-	 itvvMoY0rkO0EVJ2d5OXL/AKqW6zzOtn/1GirM+GJ5JoaTzd0QjgQdFgWRjuym+bR7
-	 4y/S2w9RlGEdnzoLAkgMvfn8I18nMlWFWgOr9ujQ=
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Date: Wed, 25 Feb 2026 16:50:50 +0100
-Subject: [PATCH v4 4/4] media: dw100: Merge dw100_device_run and
- dw100_start
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="n/mvk8v/"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PFWdDD3390406;
+	Wed, 25 Feb 2026 16:33:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ghQx12
+	tzZR240553HTc14VsOQxWrW7/HCl8J94RRd6g=; b=n/mvk8v/LvGM2KzeULhDHe
+	JnPcUIeCxDsUrVce8Ac9HhQRAF2c4vrgcJimRk7me061OaWqUow3m0qCcjrzh34X
+	PTDUEFDdhkpmqKTW0HEaIbprkOmttO/8gO19anmItDZh0hdj6IzKnOCWZUAsMd4R
+	lkJD8QhyiEuocsf6THbT5FymDBaQJPSHiPbmugY9rVshg/QDulmjycKeN2g4xKLt
+	EkJOlmO4+H9nhXn/IJ0FTCkmGhWfc5is1BLbi6RXk5fVvtGzCuyoCW2DyFQtb/6D
+	wXzpVdEG4Y9YMNS0259xxtsRIRVhoXwHivsX2tSvdecFtUsBUXNOyHMjL/NOljMw
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf47218ka-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 16:33:39 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61PE2JOm027887;
+	Wed, 25 Feb 2026 16:33:38 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfsr1wuxu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 16:33:38 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61PGXYeM29688218
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 25 Feb 2026 16:33:34 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BF8142004B;
+	Wed, 25 Feb 2026 16:33:34 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8244D20040;
+	Wed, 25 Feb 2026 16:33:32 +0000 (GMT)
+Received: from [9.57.233.77] (unknown [9.57.233.77])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 25 Feb 2026 16:33:32 +0000 (GMT)
+Message-ID: <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
+Date: Wed, 25 Feb 2026 11:33:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-4-53536d08de91@ideasonboard.com>
-References: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
-In-Reply-To: <20260225-sklug-v6-16-topic-dw100-v3-1-dev-v4-0-53536d08de91@ideasonboard.com>
-To: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, Nicolas Dufresne <nicolas@ndufresne.ca>, 
- Stefan Klug <stefan.klug@ideasonboard.com>
-X-Mailer: b4 0.14.2
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+        Ciunas Bennett <ciunas@linux.ibm.com>,
+        Peter Zijlstra
+ <peterz@infradead.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-s390@vger.kernel.org, Douglas Freimuth <freimuth@linux.ibm.com>,
+        Matthew Rosato <mjrosato@linux.ibm.com>,
+        Hendrik Brueckner <brueckner@linux.ibm.com>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
+ <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
+Content-Language: en-US
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: Jfh7EpHEygh8w8jW0O2VLecuoOEBQ4M4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE1NSBTYWx0ZWRfXwcrDQp8Tsqdj
+ cfc9eaQxVRiR1uHKNVFQEAmfHTBMEAb1TdQe8IndsLk1JpYXkbmD4JXByPQn6PVQFg6HgcQip8G
+ VpUOjdgRh9hTTnKtQ6aH0nujHc5NsZUpiJLVSgWr8NOvStxR3OazgxIBEP0ldxRiGr3dsUC/oO3
+ tFHMjp43xFO16ccs/BULesRvVIJoF9CepehNhQtHLrhrOawKWFW2yqCMPG7A0I9W27mKb/yXKPp
+ zRw6ULmiL+hjyoFD7AYmTRUkhpFre2N0AcnPSmWPV0ptBInD91vziySDQ5S6hDjGflVgIrkzx4l
+ IMKSzy3mIEiG1HuHHIoRWzGMBHAcgEjbIoKKJNEqiNUNaCaRl0vhR14DYIxEOKRDf5kmMlKuLzq
+ f4Rwvk/XkBRuLxzJD2Zc67UltzFscScdQMLF6SzrDnJAEDN8XZt1gBWWWH12DlM8o6Hwfwuzi5w
+ TeEXH/B4uf+fD1UZcbg==
+X-Authority-Analysis: v=2.4 cv=R7wO2NRX c=1 sm=1 tr=0 ts=699f2464 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=bkn2mIghrU8GsfLpAlsA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: HqLlew1xnvvr9pOSEmkxZGAeHmrI8HDg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1011 impostorscore=0 phishscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602250155
 
-The dw100_start() function is only called from dw100_device_run(). As
-both functions are not too big, move the code directly into
-dw100_device_run() and drop dw100_start() to improve readability.
+Am 24.02.26 um 21:30 schrieb Ilya Leoshkevich:
+> Finally, what is the worker doing? I looked at __queue_work() kstacks, and they all come from irqfd_wakeup().
+> 
+> irqfd_wakeup() calls arch-specific kvm_arch_set_irq_inatomic(), which is implemented on x86 and not implemented on s390.
+> 
+> 
+> This may explain why we on s390 are the first to see this.
+> 
+> 
+> Christian, do you think if it would make sense to implement kvm_arch_set_irq_inatomic() on s390?
 
-This patch contains no functional changes.
+So in fact Doug is working on that at the moment. There are some corner
+cases where we had concerns as we have to pin the guest pages holding
+the interrupt bits. This was secure execution, I need to followup if
+we have already solved those cases. But we can try if the current patch
+will help this particular problem.
 
-Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Reviewed-by: Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+If yes, then we can try to speed up the work on this.
 
----
-
-Changes in v4:
-- Collected tags
-
-Changes in v3:
-- Added this patch as proposed in the review of v1
----
- drivers/media/platform/nxp/dw100/dw100.c | 77 +++++++++++++++-----------------
- 1 file changed, 35 insertions(+), 42 deletions(-)
-
-diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-index a80139427f19942cdc61838afdccb8ef45bcda34..e59361aeeec73ee0df0b86159c3b3c19f2eb8b5f 100644
---- a/drivers/media/platform/nxp/dw100/dw100.c
-+++ b/drivers/media/platform/nxp/dw100/dw100.c
-@@ -1442,49 +1442,10 @@ static irqreturn_t dw100_irq_thread_fn(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
--			struct vb2_v4l2_buffer *out_vb)
--{
--	struct dw100_device *dw_dev = ctx->dw_dev;
--
--	out_vb->sequence =
--		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
--	in_vb->sequence =
--		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
--
--	dev_dbg(&ctx->dw_dev->pdev->dev,
--		"Starting queues %p->%p, sequence %u->%u\n",
--		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
--		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
--				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
--		in_vb->sequence, out_vb->sequence);
--
--	v4l2_m2m_buf_copy_metadata(in_vb, out_vb);
--
--	/* Now, let's deal with hardware ... */
--	dw100_hw_master_bus_disable(dw_dev);
--	dw100_hw_init_ctrl(dw_dev);
--	dw100_hw_set_pixel_boundary(dw_dev);
--	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
--			      &ctx->q_data[DW100_QUEUE_DST]);
--	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
--			    &in_vb->vb2_buf);
--	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
--				 ctx->q_data[DW100_QUEUE_SRC].fmt,
--				 &out_vb->vb2_buf);
--	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
--			     ctx->map_width, ctx->map_height);
--	dw100_hw_enable_irq(dw_dev);
--	dw100_hw_dewarp_start(dw_dev);
--
--	/* Enable Bus */
--	dw100_hw_master_bus_enable(dw_dev);
--}
--
- static void dw100_device_run(void *priv)
- {
- 	struct dw100_ctx *ctx = priv;
-+	struct dw100_device *dw_dev = ctx->dw_dev;
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
- 
- 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-@@ -1496,7 +1457,7 @@ static void dw100_device_run(void *priv)
- 	if (src_buf->vb2_buf.req_obj.req)
- 		dw100_update_mapping(ctx);
- 	else if (ctx->user_map_is_dirty)
--		dev_warn_once(&ctx->dw_dev->pdev->dev,
-+		dev_warn_once(&dw_dev->pdev->dev,
- 			      "V4L2 requests are required to update the vertex map dynamically\n");
- 
- 	/*
-@@ -1506,7 +1467,39 @@ static void dw100_device_run(void *priv)
- 	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
- 				   &ctx->hdl);
- 
--	dw100_start(ctx, src_buf, dst_buf);
-+	src_buf->sequence =
-+		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)->sequence++;
-+	dst_buf->sequence =
-+		dw100_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)->sequence++;
-+
-+	dev_dbg(&dw_dev->pdev->dev,
-+		"Starting queues %p->%p, sequence %u->%u\n",
-+		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+				V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE),
-+		v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-+				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
-+		src_buf->sequence, dst_buf->sequence);
-+
-+	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf);
-+
-+	/* Now, let's deal with hardware ... */
-+	dw100_hw_master_bus_disable(dw_dev);
-+	dw100_hw_init_ctrl(dw_dev);
-+	dw100_hw_set_pixel_boundary(dw_dev);
-+	dw100_hw_set_src_crop(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
-+			      &ctx->q_data[DW100_QUEUE_DST]);
-+	dw100_hw_set_source(dw_dev, &ctx->q_data[DW100_QUEUE_SRC],
-+			    &src_buf->vb2_buf);
-+	dw100_hw_set_destination(dw_dev, &ctx->q_data[DW100_QUEUE_DST],
-+				 ctx->q_data[DW100_QUEUE_SRC].fmt,
-+				 &dst_buf->vb2_buf);
-+	dw100_hw_set_mapping(dw_dev, ctx->map_dma,
-+			     ctx->map_width, ctx->map_height);
-+	dw100_hw_enable_irq(dw_dev);
-+	dw100_hw_dewarp_start(dw_dev);
-+
-+	/* Enable Bus */
-+	dw100_hw_master_bus_enable(dw_dev);
- }
- 
- static const struct v4l2_m2m_ops dw100_m2m_ops = {
-
--- 
-2.51.0
-
+Christian
