@@ -1,114 +1,81 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16CB2DA75B
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Feb 2026 12:57:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C55F318BBF
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Feb 2026 13:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772110671; cv=none; b=P/fgRqxO8hgvIYMweVJAkZr+h0TUu0M7nqJTrs53Tqb9Snw7MveJzcA7YyZ8MVRaY8x/pUQUs3Q8DQuAiQvIzuKZ1tfaWclNkUWBf7kDYpaYJLn0d2sAXo4vUrzkJmIejSwss4+MUzn1ZSdifBeVVrKCMGLKH6PaiCdV4eOkpAA=
+	t=1772111705; cv=none; b=fHau+ynNyQ2/UmSy9f87QTClnLzyswgJZFpNhTQRXe64t5lr+mT9OBab+iMMEg/uNxDjZETq/6tIBgkkNj85pEv/YkI3KMYeUul/Za9BFXHiNRemRwlEL9tvM++b8uhgjhPTJAu7ScSLB1rPja58vkb2IvwJX5nQHUNW1a5mIFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772110671; c=relaxed/simple;
-	bh=irALN3T00J/ivDQLCP39g36pjWOy4DCRCyKbVN7mMrg=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=EMrZJv8bd7A6twnCCRbO3qKiHejov8f5xzLpMba/4fQ7o5S2cYx4mI+u2vK9PM33d1NZ6QJoeJKQE/G3r0Oy6gmr3glsKGIxOh7pPPrf1Xz9c4Ic1njuFNHe6qKJ8SqgYopLBnVIxwXti46KVFbWPGW+k4LCPZtZpkQdTbv9g3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=g/+ySRV1; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772111705; c=relaxed/simple;
+	bh=epy5poEiRjng6LMc5QKFugg0z2A62Tl1e+nBwxRks+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bpPzhrr2+prYU4rLqd5rK3a/B29RNdFt4Z8EN//1yXDfzf5gFJcnTy23voYQZdPCBnYKNQv9+PwwYSD/Dzxey421laNB8t0SvE/Kw1DL6KSAUO+dKHI5858L5Tt/IYGqAL//3SNqD2yg/1pRvLu3QVPnw9A6gwBYjMjTaDIMn64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BehE2YRg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wS2L/5Xy; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="g/+ySRV1"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BehE2YRg";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wS2L/5Xy"
+Date: Thu, 26 Feb 2026 14:14:59 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772111701;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B9CDr3NUu/sKpVBd5lt9QN1bpaxogyWeWa+do82w1+U=;
+	b=BehE2YRgVuzgSCllJG9NEK5zdFCWHrjjINxBTYIbIi3Yk0Wv/FjE94mf+aPxMAZDkG4qgW
+	DNkgNK6itRAL8Ow5R0KrDaaTiR4fbd0qmhHDJkv5+D5zHogKkZmZOBnxGXizyIPgmynvVW
+	pEZO+3C24POW9N0ysrh2y3crYExckvdgkPYmw1Jftl0T8EPvFXf22gHOoBjr7POofwrshW
+	xrH4XHQ3fYS2dqsJgHitMqp/lQ7HAuPju+Zne4/yW1jFDRiC5O2CeoD7dgtC0TlCH1A2ik
+	dIYH0VYy+gDbBYNX6TcHvSl21/FQWJj580MkDW09++/qPZFfd/pLf4lm1uHgcQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772111701;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B9CDr3NUu/sKpVBd5lt9QN1bpaxogyWeWa+do82w1+U=;
+	b=wS2L/5XybNnrmwSrjn7LPdhisOo0huBHxtY9rebHvX+O2b0nV3KwluS5GeZGsRhHnk0MZ+
+	UrYKPxfEnMuVN3Bg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: linux-arm-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"Yadi.hu" <yadi.hu@windriver.com>
+Subject: Re: [PATCH v5 1/2] ARM: mm: fault: Enable interrupts before invoking
+ __do_user_fault()
+Message-ID: <20260226131459.8lBz2Cbs@linutronix.de>
+References: <20260226111742.3598421-1-bigeasy@linutronix.de>
+ <20260226111742.3598421-2-bigeasy@linutronix.de>
+ <aaA8uR3_o55uuevl@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772110667;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FgOOpgkX5YNsXP5gZs5nXmJh9pEodVW2WxIYRj4mQco=;
-	b=g/+ySRV1eAXyikJbUGR3VHGIeTxIkRP1iHT+bzH+IOxWL1hOEM/HkUzKfba7j03cAKrbrh
-	xlNCyva3xY50y7hGUpQ0VQhnNmNMOe8EpUq+VtuU3BFfK8Zg0TG3/5HRInEvGL4k6IQwJS
-	OaKMPhtfNezz5++P5hn7+V4iAGFVJBU=
-Date: Thu, 26 Feb 2026 12:57:40 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <77167c3125d7db5daa958c30e24e87dae308d7b6@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH bpf v1 1/2] net/bpf: fix null-ptr-deref in
- xdp_master_redirect() for bonding
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: bpf@vger.kernel.org, jiayuan.chen@shopee.com,
- syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Martin KaFai Lau"
- <martin.lau@linux.dev>, "Daniel Borkmann" <daniel@iogearbox.net>, "John
- Fastabend" <john.fastabend@gmail.com>, "Stanislav Fomichev"
- <sdf@fomichev.me>, "Alexei Starovoitov" <ast@kernel.org>, "Andrii
- Nakryiko" <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>,
- "Song Liu" <song@kernel.org>, "Yonghong Song" <yonghong.song@linux.dev>,
- "KP Singh" <kpsingh@kernel.org>, "Hao Luo" <haoluo@google.com>, "Jiri
- Olsa" <jolsa@kernel.org>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
- "Jesper Dangaard Brouer" <hawk@kernel.org>, "Shuah Khan"
- <shuah@kernel.org>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Jussi Maki" <joamaki@gmail.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260226095859.hLxDgGdn@linutronix.de>
-References: <20260224112545.37888-1-jiayuan.chen@linux.dev>
- <20260224112545.37888-2-jiayuan.chen@linux.dev>
- <20260226095859.hLxDgGdn@linutronix.de>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aaA8uR3_o55uuevl@shell.armlinux.org.uk>
 
-2026/2/26 17:58, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de mailt=
-o:bigeasy@linutronix.de?to=3D%22Sebastian%20Andrzej%20Siewior%22%20%3Cbig=
-easy%40linutronix.de%3E > wrote:
+On 2026-02-26 12:29:45 [+0000], Russell King (Oracle) wrote:
+> Sorry, I've been swamped with stmmac for ages, which has become a
+> millstone.
+> 
+> I need to push out these patches:
+> 
+> ARM: provide individual is_translation_fault() and is_permission_fault()
+> ARM: move FSR fault status definitions before fsr_fs()
+> ARM: use BIT() and GENMASK() for fault status register fields
+> ARM: move is_permission_fault() and is_translation_fault() to fault.h
+> ARM: move vmalloc() lazy-page table population
+> ARM: ensure interrupts are enabled in __do_user_fault()
+> 
+> which will address some of your issues, and clean up the fault handling
+> code. These patches all date from 5th December. :/
 
+Okay. Thank you. Please let me know once you pushed them where I can
+reach them. Then maybe we can reduce this to just 2/2 ;)
 
->=20
->=20On 2026-02-24 19:25:41 [+0800], Jiayuan Chen wrote:
->=20
->=20>=20
->=20> --- a/net/core/filter.c
-> >  +++ b/net/core/filter.c
-> >  @@ -4387,6 +4387,9 @@ u32 xdp_master_redirect(struct xdp_buff *xdp)
-> >  struct net_device *master, *slave;
-> >=20=20
->=20>  master =3D netdev_master_upper_dev_get_rcu(xdp->rxq->dev);
-> >  + if (unlikely(!master || !netif_running(master)))
-> >  + return XDP_TX;
-> >  +
-> >=20
->=20I'm not sure this check belongs here as this is not bond specific, is
-> it? Also nothing stops the admin to put the device right after the
-> netif_running() check so it fails later but the race window is not as
-> wide as it is now.
->=20
->=20The per-CPU memory could be allocated while the bond device is create=
-d.
-> I don't think delaying it until "device up" brings any advantages.
-> One creates the device with the intention to use it so the "up" is
-> inevitable.
-> The bond_xmit_get_slave() callback has the same logic. Couldn't this
-> scenario also occur to the ->ndo_get_xmit_slave() user?
->=20
->=20>=20
->=20> slave =3D master->netdev_ops->ndo_xdp_get_xmit_slave(master, xdp);
-> >  if (slave && slave !=3D xdp->rxq->dev) {
-> >  /* The target device is different from the receiving device, so
-> >=20
->=20Sebastian
->
-
-I agree with your points, especially allocating
-rr_tx_counter unconditionally at device creation time in bond_setup().
-
-This eliminates the NULL possibility from the root, fixes both the
-ndo_xdp_get_xmit_slave and ndo_get_xmit_slave paths, and keeps the
-change within the bonding subsystem.
-
-I'll wait a bit to collect more feedback before sending a v2.
+Sebastian
