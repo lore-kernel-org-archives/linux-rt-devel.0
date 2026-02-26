@@ -1,115 +1,156 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E56364028
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Feb 2026 11:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFAF33806BD
+	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Feb 2026 12:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772104677; cv=none; b=PGCuj7VNY4JM8BCW8un7EiEeGGt2ix4YKO8u3BozjRVfOvY/PtGK/fhPczxHs8RLz/pdDoXRXxSWfkIktcg2HCY4SrAvfpGWNr6VYOpF1NbNeMDkefElxGlmc2de0uy40+L7rbr34vapczmlcU852z73HtoLF5RgAGQjmQsuasw=
+	t=1772107641; cv=none; b=MHoiNDw/Ai2pXNIjC76/sIjserrk8/G5/NgcVj/axq4vhKl7FBvsVyxuKbJkAy0K4aQkE+nBr5h2gJ4XHa22nA1n1CVVM31s3ptzJhH+reNakWfRJzdCtnf7hMwiX3vxrQ58Z6COcskoq9CxmjBHi45RSOCbOuNkXSiOdXVVIxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772104677; c=relaxed/simple;
-	bh=qedbynoY9oXOKjEIjhcibXGySNdM/+ZsNVxC/7csBVY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H6weO9eyy4S9nXnFCHUCagLi9d/1EYAej7AKCtJjLfIpz0Zl8UU0UxroJS3xtaJO5ZjH8s6ZspoREfXOhacq7pLwJIR/N6pFUUfv9fOw9X8qLPT8jQC9MGUqA2EOYf7gUVHD47qS0dzQOiW8hmO+1VkTZdAc+mm6QmiVeNEVPgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bCjSuYcn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IaaLHdq8; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1772107641; c=relaxed/simple;
+	bh=co1k61DpCc6mbCVbfrRrosnxvez7jW3ozne4GZ2uZJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EsCGY9gzzK5ffnwj+NR5KeRNh2gAPixZ3w9r0OY30jqxUOg491/F4xlZOrThXwfjgBQFAj7eIErhMj4AekIm5LXDQSCRIs4A7wfiD8Cl6RsMEti77vNCM/ObujKzSr2z0FgEbQz+QyyQoQstf9U8j4+NGOaxHLNxXFL3oHld8qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yfG9173G; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QQwOsbfB; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bCjSuYcn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IaaLHdq8"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yfG9173G";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QQwOsbfB"
+Date: Thu, 26 Feb 2026 13:07:15 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772104672;
+	s=2020; t=1772107637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xbh1MpTYM6hT6+hxx5B3RT1R6a3HmEw4rZDwEZ7mk8M=;
-	b=bCjSuYcn/+ZM1ceCTKV3Ga+muYNyIOwmEu9ixE9zpPGMUEP/WdYs84JikiNZYLiUV2xAeq
-	2j+4RE1ANruUZdmFlWtuwmcfiM34D3iDZkYMYTWSuqDA6bUJ8wM4HIi6YzZWH+kOouvziL
-	l0EOavi/LX+Q3peEu9++CpZxarC2PiNhy1Z/D8eWsLHslkxUYFivmz2np9EMMNRFxJU+n7
-	19I29qKlEmXzEyNX/sg09nYWEpAQfyuYaxTfBcOVyqmbXuKipCzRSvIVRwrFZiqZ83XIq6
-	AB4H1hoYPMDIdpaxbJpBPHN4ZVbUYAba132vqKWS+vUBdqIEsjpqQO9XXCz41g==
+	bh=A7DHd4YrW2ZSEM1imCWenSnVLlRamUHUYJ6oBJozRB4=;
+	b=yfG9173GGEUfw94vLam1jS2uNf6x4mqxZyIJzFMno2axFDcEafHVSqFuCFEoE67p12eyCm
+	G5FWYQjIvfZccyDGdE7Newbz2pYtJRkfdc+C/ph/SKATotfLznryX/0zdU8ARVuEkT1QZW
+	Ln0CVC0V0GSsDJcqIBhqPL0UZ8I0sgcqUU2V86Ry8/9o3tF4sBVje6vUUZSUz+V32z0YZc
+	6lQXYionZXLD8oxwmzZc0T4TDYZz4iLMYoynyoniYKZcxXRuGEhOQiXnkF/AmWkz8Gq+o+
+	9bpgndQarbeo4xHCftYHcUMPsalfHspokrOVY3ISWDfSHxGKw2yuea3eYm77Vg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772104672;
+	s=2020e; t=1772107637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xbh1MpTYM6hT6+hxx5B3RT1R6a3HmEw4rZDwEZ7mk8M=;
-	b=IaaLHdq8eaNC3lOvcLRaB9n0FA9t7MTAJqHT24znFXGfuhuv/vJsfIYoVqjET/stusudro
-	LGInj8gai3OUITBw==
-To: linux-arm-kernel@lists.infradead.org,
-	linux-rt-devel@lists.linux.dev
-Cc: Russell King <linux@armlinux.org.uk>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"Yadi.hu" <yadi.hu@windriver.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH v5 1/2] ARM: mm: fault: Enable interrupts before invoking __do_user_fault()
-Date: Thu, 26 Feb 2026 12:17:41 +0100
-Message-ID: <20260226111742.3598421-2-bigeasy@linutronix.de>
-In-Reply-To: <20260226111742.3598421-1-bigeasy@linutronix.de>
-References: <20260226111742.3598421-1-bigeasy@linutronix.de>
+	bh=A7DHd4YrW2ZSEM1imCWenSnVLlRamUHUYJ6oBJozRB4=;
+	b=QQwOsbfBnSmS2mAUhg8PIH6BLHs3Uk0NofpFunSU6vCKYBIHMCECExzbTQd5TyajMbNi26
+	dcSomuW3q/TfAkAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
+ PREEMPT_RT work on i915 + xe.
+Message-ID: <20260226120715.6Ug1Qkse@linutronix.de>
+References: <20260220083657.28815-26-dev@lankhorst.se>
+ <20260224162703.Q_taYjEC@linutronix.de>
+ <20260224165903.2mn24oQy@linutronix.de>
+ <20260225075806.XNtXjZ5E@linutronix.de>
+ <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
 
-From: "Yadi.hu" <yadi.hu@windriver.com>
+On 2026-02-25 21:06:05 [+0100], Maarten Lankhorst wrote:
+> Hey,
+Hi,
 
-A page fault from userland for a kernel address originates from from
-do_sect_fault() (!LPAE) or do_page_fault() and ends in __do_user_fault()
-by sending a signal.
+> After realizing the uncore lock only needed to be converted to a raw spinlock
+> because the testcase was broken, I tested the alternative fix of using
+> sleeping context only in the selftests:
+> https://patchwork.freedesktop.org/patch/707063/?series=162145&rev=1
 
-Sending a signal requires to acquire sighand_struct::siglock which is a
-spinlock_t. On PREEMPT_RT spinlock_t becomes a sleeping spin lock which
-requires interrupts to be enabled. Since the calling context is user
-land, interrupts must have been enabled so it is fine to enable them in
-this case.
+I have some memory that makeing uncore raw "solved" the tracing problem
+but the latencies jumped at the same.
 
-Enable interrupts in do_kernel_address_page_fault() unconditional in the
-user_mode case().
-Enable interrupts in do_sect_fault() if they were previously enabled.
+Since you did test XE only, xe does not show the lockup. I spills this
+however:
 
-[bigeasy: Initial patch/ report by Yadi. Maintained the patch and redid
-          the patch description since]
+|[    T632] ============================================
+|[    T632] WARNING: possible recursive locking detected
+|[    T632] 7.0.0-rc1-plain+ #5 Tainted: G     U      E
+|[    T632] --------------------------------------------
+|[    T632] kworker/u32:13/632 is trying to acquire lock:
+|[    T632] ffff8efb858e7c58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
+|[    T632]
+|           but task is already holding lock:
+|[    T632] ffff8efb524a1b58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
+|[    T632]
+|           other info that might help us debug this:
+|[    T632]  Possible unsafe locking scenario:
+|[    T632]        CPU0
+|[    T632]        ----
+|[    T632]   lock(&fence->inline_lock);
+|[    T632]   lock(&fence->inline_lock);
+|[    T632]
+|            *** DEADLOCK ***
+|[    T632]  May be due to missing lock nesting notation
+|[    T632] 5 locks held by kworker/u32:13/632:
+|[    T632]  #0: ffffffffc0ba3540 (drm_sched_lockdep_map){+.+.}-{0:0}, at: process_one_work+0x57a/0x600
+|[    T632]  #1: ffffcf7f020f7e48 ((work_completion)(&sched->work_run_job)){+.+.}-{0:0}, at: process_one_work+0x1dc/0x600
+|[    T632]  #2: ffff8efb524a1b58 (&fence->inline_lock){+.+.}-{2:2}, at: dma_fence_add_callback+0x4b/0x100
+|[    T632]  #3: ffffffffb60fecc0 (rcu_read_lock){....}-{1:2}, at: rt_spin_lock+0xe6/0x1d0
+|[    T632]  #4: ffffffffb60fecc0 (rcu_read_lock){....}-{1:2}, at: __dma_fence_enable_signaling+0x59/0x320
+|[    T632]
+|           stack backtrace:
+|[    T632] CPU: 6 UID: 0 PID: 632 Comm: kworker/u32:13 Tainted: G     U      E       7.0.0-rc1-plain+ #5 PREEMPT_{RT,(lazy)}
+|[    T632] Tainted: [U]=USER, [E]=UNSIGNED_MODULE
+|[    T632] Hardware name: LENOVO 20TD00GLGE/20TD00GLGE, BIOS R1EET64W(1.64 ) 03/18/2025
+|[    T632] Workqueue:  drm_sched_run_job_work [gpu_sched]
+|[    T632] Call Trace:
+|[    T632]  <TASK>
+|[    T632]  dump_stack_lvl+0x6e/0xa0
+|[    T632]  print_deadlock_bug.cold+0xc0/0xcd
+|[    T632]  __lock_acquire+0x1232/0x2180
+|[    T632]  lock_acquire+0xca/0x2f0
+|[    T632]  rt_spin_lock+0x3f/0x1d0
+|[    T632]  dma_fence_add_callback+0x4b/0x100
+|[    T632]  dma_fence_chain_enable_signaling+0x11e/0x280
+|[    T632]  __dma_fence_enable_signaling+0xc8/0x320
+|[    T632]  dma_fence_add_callback+0x53/0x100
+|[    T632]  drm_sched_entity_pop_job+0xf5/0x550 [gpu_sched]
+|[    T632]  drm_sched_run_job_work+0x136/0x470 [gpu_sched]
+|[    T632]  process_one_work+0x21d/0x600
+|[    T632]  worker_thread+0x1d9/0x3b0
+|[    T632]  kthread+0xf4/0x130
+|[    T632]  ret_from_fork+0x3a5/0x430
+|[    T632]  ret_from_fork_asm+0x1a/0x30
+|[    T632]  </TASK>
 
-Signed-off-by: Yadi.hu <yadi.hu@windriver.com>
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/arm/mm/fault.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Nothing else so far.
 
-diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
-index ed4330cc3f4e6..3f1c73269c126 100644
---- a/arch/arm/mm/fault.c
-+++ b/arch/arm/mm/fault.c
-@@ -270,6 +270,7 @@ do_kernel_address_page_fault(struct mm_struct *mm, unsi=
-gned long addr,
- 		 * while interrupts are still disabled, then send a SIGSEGV.
- 		 */
- 		harden_branch_predictor();
-+		local_irq_enable();
- 		__do_user_fault(addr, fsr, SIGSEGV, SEGV_MAPERR, regs);
- 	} else {
- 		/*
-@@ -592,6 +593,9 @@ do_sect_fault(unsigned long addr, unsigned int fsr, str=
-uct pt_regs *regs)
- 	if (addr >=3D TASK_SIZE && user_mode(regs))
- 		harden_branch_predictor();
-=20
-+	if (interrupts_enabled(regs))
-+		local_irq_enable();
-+
- 	do_bad_area(addr, fsr, regs);
-=20
- 	return 0;
---=20
-2.51.0
+> With that the reset selftest works as expected.
+> 
+> But I do see some weird lockdep splats and aborts after that fixed the uncore lock testcases:
+> https://patchwork.freedesktop.org/series/162145/
+> 
+> I believe it could be a different instance of:
+> https://intel-gfx-ci.01.org/tree/drm-tip/Patchwork_162145v1/bat-dg2-9/igt@gem_lmem_swapping@parallel-random-engines.html#dmesg-warnings904
+> 
+> Which is tracked under:
+> 
+> https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/15759
+> 
+> Perhaps those are related to what you are seeing?
 
+Not sure if it was the uncore in both cases. If you have an update
+series somewhere I could pull and check. In meantime I would look what
+causes the lockup on i915.
+
+> Also don't use that series for anything but CI results, I rather want to submit
+> a new version of this series.
+
+So I am brave for using it on my actual HW then ;)
+
+> Kind regards,
+> ~Maarten Lankhorst
+
+Sebastian
