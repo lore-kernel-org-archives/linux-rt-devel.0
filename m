@@ -1,96 +1,79 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB14A28D8DB
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 14:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D613A42B72F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 14:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772201617; cv=none; b=b1gGzHuQAunG4T02/HyPiDMXdlvF2Aynw3BJpQXnWCm+pmoNhC1CTcbCA30WaWSX22rc/hy8wVVQJPPuNMOR6/t36rpmRmgGVlgRCx2PZIeJEKUElGRrHZDUkD4gRJXjljXKincI8lYRNO/V38DAEPulSSLvY+sjlMdOe4MuG/Q=
+	t=1772204003; cv=none; b=RElw2xZwNlwPjTvI1z81XvU4/Q10zIDw9IB5adwnWSkvYZ/RmrIl/xkUn7d/4Hct6R3hgTRPPSlP6H0IbdPQf6mhvmt+n5BsNdA9ENPr4xlagEhHCmEzsYaUZg4/UnUJObwosyLQ30zdTllgaNtmQjOPWpCUYIUMA5ej8TikByU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772201617; c=relaxed/simple;
-	bh=brs38N0RgE8yI96R3MEjOCyZ8mT5cAieKdXZAwbRBuo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eo6snYQaSuF/x7fPSaV5Tk/Hv5wknIwYv6bp+M/IFnVk46qPxd66Oke87KG3f7Z595vOXyUYXaQSAsE06shUAT05kXhFR7+PSV/ZBToA/pybRY9uv1MTtPK/+6dbsnOdYZVeUrnk1rzE/osxw4NbR6l5+sqUQoT5okloCng00NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JhoRRYKP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NrsQ/Yia; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JhoRRYKP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NrsQ/Yia"
-Date: Fri, 27 Feb 2026 15:13:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772201613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FONUp5fIzUcqR36V5PNAb4lEPYY4bQDyvlXWYoDtvQY=;
-	b=JhoRRYKPc7xIz8eqkzUMTqAXKoVAn0tGx5xVX127JukSFiknCvdki2aZp/rBXOXN9oAOMS
-	QXZAMfTxfwRZU0gHPN9szvd9G33PGivSl9DpDyCxI4Yyd9tnOg6L3mmaXuwhjM80jvDnst
-	oMgoBIpoZBgqwGNegVjsiNLTX17baepMq94TpDXqLKrcnE09CkBRAgzn0bQ1pqzWqdMtiz
-	rKt5H3QYgio5MrMBgrb5hA9k+PifvkW151IyVE39EBl1LrS5kFuiWA6Pec8PRPcBsiEFBI
-	wBmOmLlyKOrFiOKDuyR3csBJBsrPSSCNuSj0fJtR1eCRenT7sAfsZuyCy6sKRA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772201613;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FONUp5fIzUcqR36V5PNAb4lEPYY4bQDyvlXWYoDtvQY=;
-	b=NrsQ/YiaYX7fv0iu5O9/N2HYbr2JMP/UTLgKggdGaBi0K+nS1ACXsu9+CeQ94bSR/pVW95
-	SyFQLvHixmbm6LBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Tejun Heo <tj@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
-	calvin@wbinvd.org, dschatzberg@meta.com, peterz@infradead.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: ~90s reboot delay with v6.19 and PREEMPT_RT
-Message-ID: <20260227141332.74RtR9HK@linutronix.de>
-References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
- <20260219164648.3014-1-spasswolf@web.de>
- <20260225154341.32AjXoVi@linutronix.de>
- <6abee0b4bca811680a7f7fb6ab70bf27c6805cf5.camel@web.de>
- <20260225165954.180aRkaV@linutronix.de>
- <20260225223135.vjfaFo0c@linutronix.de>
+	s=arc-20240116; t=1772204003; c=relaxed/simple;
+	bh=RLZiFHzht4vT3BQiUN7tP05j7C+BhyPxvTzrkiY7+Gs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kXKzuAQZuTI0wY6zs8fioRlZEEv+n5U7oA8bYhaNRKtZatR0oKldevaLrQBIHb0xeedvDW3Vj3bj8Fna5AvmaKDo+KC30kpvVOv8v/fChSZtpNW63dxYVWIt8hLgsRj7tgNMc0Vw1o2tstijbq4Sw8kKHSsy+EMjhV0Ur+rpdUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id 453A3C0E8B;
+	Fri, 27 Feb 2026 14:53:18 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id C157120030;
+	Fri, 27 Feb 2026 14:53:14 +0000 (UTC)
+Date: Fri, 27 Feb 2026 09:53:34 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, juri.lelli@redhat.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Linus
+ Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org, Thomas Gleixner
+ <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
+ <npiggin@gmail.com>
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+Message-ID: <20260227095334.40768d0b@gandalf.local.home>
+In-Reply-To: <97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+	<a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
+	<20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
+	<20260225194809.1f5e44a6@fedora>
+	<127c4772-7352-41a8-b30d-8b869751e907@linux.ibm.com>
+	<20260226122252.184254cd@gandalf.local.home>
+	<97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260225223135.vjfaFo0c@linutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 4yp7u5e55n59q3atzm5hrbf5er9fz1wn
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: C157120030
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/d/UB7p8/PGzgFbactOkJDV9DFbL20fqM=
+X-HE-Tag: 1772203994-516703
+X-HE-Meta: U2FsdGVkX19hxhwE+MLoq1Hsn9Wh8XHUkq+cFbFuYh8LIqV5ee2BuMJNw2ojZyehN8TfGsbf8BdCDnFUkLBXAOSoeHVlB4y4xWylGJLXUwry5ANR4bQgO8oQ2tzP/8nQ1oe3Ygoqo6XZ6PeDdedpdsr6YXRpRNSLtu5W7PsCW5edzqe+zeZeG4apa4IeRCaSsK8ACFc58pOtXL2+Y8RdCSVnd6Jx4Ywt5AI/X/aQ8g1+DlMAubuIYp08QROtaXNpdt9ljjx+l9izIMgVq3jZBAAJkqtDXxK7HHgKyEIUvc5EHKjYLyzFUtgn9dlRzpIXDrxaSreyBmnqnIo7pElQt4bpXo1HyzUi
 
-On 2026-02-25 23:31:36 [+0100], To Bert Karwatzki wrote:
-=E2=80=A6
-> Until the sched_switch, everything is the same. But then systemd-1828
-> (the one with the cgroup_notify_populated event) seems to get impatient
-> and sends a SIGTERM+SIGCONT. It gets the exit code, the
-> cgroup_notify_populated event is there later and just once. The
-> app.slice notify is missing. And the rmdir gets in much later.
-=E2=80=A6
+On Fri, 27 Feb 2026 14:39:42 +0530
+Shrikanth Hegde <sshegde@linux.ibm.com> wrote:
 
-I so proud of myself. Bert, can you confirm that this works?
+> I am afraid we will have trace all functions to begin with (which is expensive), but filter
+> out those which took minimal time (like less than a 1s or so). that would eventually leave only a
+> few functions that actually took more than 1s(that should have limited overhead).
 
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -5283,6 +5283,11 @@ static void *cgroup_procs_start(struct seq_file *s, =
-loff_t *pos)
-=20
- static int cgroup_procs_show(struct seq_file *s, void *v)
- {
-+	struct task_struct *tsk =3D v;
-+
-+	if (READ_ONCE(tsk->__state) & TASK_DEAD)
-+		return 0;
-+
- 	seq_printf(s, "%d\n", task_pid_vnr(v));
- 	return 0;
- }
---=20
-2.51.0
+Well, I think the detection can be done with timings between schedules.
+What's the longest running task without any voluntary schedule. Then you
+can add function graph tracing to it where it can possibly trigger in the
+location that detected the issue.
 
-Sebastian
+On a detection of a long schedule, a stack trace can be recorded. Using
+that stack trace, you could use the function graph tracer to see what is
+happening.
+
+Anyway, something to think about, and this could be a topic at this years
+Linux Plumbers Tracing MC ;-)
+
+-- Steve
