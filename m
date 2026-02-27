@@ -1,116 +1,186 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB512D8793
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Feb 2026 17:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2478F36CE03
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 09:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772126972; cv=none; b=KLUONTLoxJwPw2kqm7vrI80V/rJ0JA6U8rUqZABurSvcWkUir47VgZFxiM6Ot7halRlg90DVtPgwqbihPZ9b47+3Ld/pUtUQsCnPwY4yaGLlHIU/zO547jxoq50puy2u3Ie7h0Pr3L1XADlD72R3n+fCEO+ABKd6QMbThTF5KP4=
+	t=1772183422; cv=none; b=KT4XfnC/ICnxCwYoallQ3zsz9HbdDXVZICn1ySFv1ZRel52y1JDCx2Hi4sz0W1tEu/DxMKUtOVztL0ah55ZEIavS5/OeZSOYk+IRebyfCcImFI9SPLRBzG9RW/uFqmp5DWMf5ieNW9iPQi/wqbI5gN9l2PUkixqBQaM7Bq0sjnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772126972; c=relaxed/simple;
-	bh=HkxuC+nx5cv8FxXXEPLtI1CKkJ3zA90jA9K1ZWlwOeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oXDswBa82LakhgDSYNoX8Q103rb6MGmLOfCvt/o530u2ANpaTc5GbtTl7qximLJj9uYLT1DjAF0GaSR/SXQYNdHRMjQn7Lx3QqRtt6X1Mj6cOm01rOaB3Pv2ttruzewWeuN3ganPVAVqI/n6eLmOFHJRfxpFFylKnErfcJ2zXlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fK89xSBs; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WA/aXwMW; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772183422; c=relaxed/simple;
+	bh=XOxkwXTAcP805Ikm0PXfQ2fivcadHjMNdowdstLj6uo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J01LhcEatxNq16qdhflKNiUG+WrhV4l8dmvaicVC1ceUvV5MA2p+iW3ZsEYjxUO0ezCo5b0THtZ1FRhByn0aic8SqbVatlHw8OIwKUIsqEokkxb083FCNRy43kE6qnsGINeifbq5KAc9+qGz/+e5Pn+eAH2xbPWesXYNW8M9C3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=GG+AMi7r; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fK89xSBs";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WA/aXwMW"
-Date: Thu, 26 Feb 2026 18:29:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772126968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DZTmXT8OEklMRMPnRi3PdFdSswJgDgsHV6ZxsOoaP1E=;
-	b=fK89xSBsTi60oKmtmmfNaHfMjleb9Gh6tOJs86QmGDM3Zvhdx8dc1q1KsY9zAdkUxkuRr5
-	OSHPrbUK7GBT17DocolsVYZnNKJbKf2JuqSl7qDMv5NmCkzK8P5ErlmwkUqJj6yFUcgiQw
-	elufs0ke1ANFGROQKV/nDVM/XJijuhsRovxQRKz3f6HTBj0w2g+SNUxNrTQWYJtHIOg87W
-	7mpuMKQX2uBQAg3/nmsqhYdBW7MOigo68oO/liKy0tsD+EFwf/2nzu4QSPdTVi63xfqXFr
-	LB6P+DocJAm1CXY9eucKFtR+nVwxsi2+DzufBar8tJzQx6+EVRZIpBxTMSuoaA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772126968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DZTmXT8OEklMRMPnRi3PdFdSswJgDgsHV6ZxsOoaP1E=;
-	b=WA/aXwMW3Yua3PWz0tPGHqZ0MYmeQczx8RsPdjIEXnwNex9hxEKvnLSPrzWmcUghNydmmG
-	2BH3V6FnzKOk2+AA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org
-Subject: Re: "Dead loop on virtual device" error without softirq-BKL on
- PREEMPT_RT
-Message-ID: <20260226172927.2Ck9wZMw@linutronix.de>
-References: <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de>
- <20260217071952.WCXLGs5-@linutronix.de>
- <80114792206dc00d0099f00999a209e717debb12.camel@web.de>
- <20260217095700.SjYjM8RO@linutronix.de>
- <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
- <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de>
- <2369ba83d204290dcfe157aed3f943206213b979.camel@web.de>
- <aa02f39ec4640c9d98963f42121b76e59b58371d.camel@web.de>
- <20260218073036.AlkNRoAP@linutronix.de>
- <ae213d2b908e46d34856be9daec891d7210f46f7.camel@web.de>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="GG+AMi7r"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61R3wN762757298;
+	Fri, 27 Feb 2026 09:09:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=Q6GcSJ
+	BpmsbjTyv+uCcJY72o0UYIG4L2UaTPv2HIYmk=; b=GG+AMi7rhOa6uDnvl1mZ2A
+	oUkTIO15GLEg2ht/NzRiPSQRhG01yxSaBBKB5k9ez68+fD1vNjS4M10tbL6QZ1Wc
+	FqLeAmn+yZsXo+/ZRb9ohPzYCh4cyd7QcYLIyeZ2CDdCToFjxogDpDUdRMC30aiI
+	qqyuvIvPFgJtZQNrCuv2d6tBLP5nLoLeN4T0CQcLvsxRcUPEXcyQkWt5Zb3wyf16
+	/tsEjf789Dr96I1PaKTHitM/LO+7emd7cdrZfZpMeghnH2iboMEr4vtDsRVprpTY
+	hhSMYETZ5P7oiPsgAN/Nqx49GOVXSCQAWpSxWgmx9Dlvj6+tmpbuDB3E8c2VgFnw
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf24gu2qe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 09:09:48 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61R8XCrm003821;
+	Fri, 27 Feb 2026 09:09:47 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cfs8k928c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 09:09:47 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61R99jOx55443802
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Feb 2026 09:09:45 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D0A6920043;
+	Fri, 27 Feb 2026 09:09:45 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0430B20040;
+	Fri, 27 Feb 2026 09:09:43 +0000 (GMT)
+Received: from [9.39.16.93] (unknown [9.39.16.93])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Feb 2026 09:09:42 +0000 (GMT)
+Message-ID: <97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
+Date: Fri, 27 Feb 2026 14:39:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ae213d2b908e46d34856be9daec891d7210f46f7.camel@web.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+        clrkwllms@kernel.org, linux-kernel@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Nicholas Piggin <npiggin@gmail.com>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
+ <20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
+ <20260225194809.1f5e44a6@fedora>
+ <127c4772-7352-41a8-b30d-8b869751e907@linux.ibm.com>
+ <20260226122252.184254cd@gandalf.local.home>
+Content-Language: en-US
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+In-Reply-To: <20260226122252.184254cd@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=TNRIilla c=1 sm=1 tr=0 ts=69a15f5c cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VnNF1IyMAAAA:8
+ a=JfrnYn6hAAAA:8 a=hzceDJMGHZs13yksoFUA:9 a=QEXdDO2ut3YA:10
+ a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-GUID: TLfxzvOZW23J3ZBIvrJ57ObM_VYdbYB5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDA3OCBTYWx0ZWRfX3AxVO1HdmLES
+ oMxSb2rA/5JCLUoc864yGVBeivhp3ggb1niOSivPP4PiYSi0xdgfK/1STInEL/VKSEbiqT6PgLj
+ QUyUjdBP5wo/rNdks0kLgevLIfJyxagsebvmsXN75Y6ItaY3i5Gr5nZ+Ezm3W0+H57kHVCLw3MS
+ cwrAW9hYdToi4APy/s5+3x0dzq7aXpNG69ALF+tpEFPQYxbW4bfkex2noHdPA8mny2BOJxdmzNY
+ IdxQ4diIibHsFIvZ+Hug/YaYcT/b4YWYFhJMAUk8VfVue35vANhD3NAIZKHnPD6hOrlGy//PvdD
+ q7bdwbr4COL+QhGGI2rLyGgy8ulN50FgcHfkxay4C+7KkDYlA5FyXVPJTQWPK1tDb+qVAZ0Kxra
+ 5B3I0B2wxRPhm6ac093fvWX885WjEca7dCO8Lto37NA+meDSy3hfmn4MB6xTIXrTCJh9z88jOAG
+ TMhohKa3tuOydrxxn5A==
+X-Proofpoint-ORIG-GUID: 7sGLj4W4zqcDtqS8r3PS-BTw8yWelfmg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_01,2026-02-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602270078
 
-On 2026-02-18 13:50:14 [+0100], Bert Karwatzki wrote:
-> Am Mittwoch, dem 18.02.2026 um 08:30 +0100 schrieb Sebastian Andrzej Siewior:
-> > On 2026-02-17 20:10:09 [+0100], Bert Karwatzki wrote:
-> > > 
-> > > I tried to research the original commit which introduced the xmit_lock_owner check, but
-> > > it is present since linux 2.3.6 (released 19990610) (when __dev_queue_xmit() was still called dev_queue_xmit()),
-> > > so I can't tell the original idea behind that check (perhaps recuesion detection ...), so I'm
-> > > not completely sure if it can be omitted (and just let dev_xmit_recursion() do the recursion checking).
-> > 
-> > Okay. Thank you. I add it to my list.
-> > 
-> I've thought about it again and I now think the xmit_lock_owner check IS necessary to
-> avoid deadlocks on recursion in the non-RT case.
+Hi Steven.
+
+On 2/26/26 10:52 PM, Steven Rostedt wrote:
+> On Thu, 26 Feb 2026 11:00:14 +0530
+> Shrikanth Hegde <sshegde@linux.ibm.com> wrote:
 > 
-> My idea to use get_current()->tgid as lock owner also does not work as interrupts are still enabled
-> and __dev_queue_xmit() can be called from interrupt context. So in a situation where an interrupt occurs
-> after the lock has been taken and the interrupt handler calls __dev_queue_xmit() on the same CPU a deadlock
-> would occur.
+>> On 2/26/26 6:18 AM, Steven Rostedt wrote:
+>>> On Wed, 25 Feb 2026 11:53:45 +0100
+>>> Peter Zijlstra <peterz@infradead.org> wrote:
+>>>    
+>>>> Oh, that reminds me, Steve, would it make sense to have
+>>>> task_struct::se.sum_exec_runtime as a trace-clock?
+>>>
+>>> That's unique per task right? As tracing is global it requires the
+>>> clock to be monotonic, and I'm guessing a single sched_switch will
+>>> break that.
+>>>
+>>> Now if one wants to trace how long kernel paths are, I'm sure we could
+>>> trivially make a new tracer to do so.
+>>>
+>>>     echo max_kernel_time > current_tracer
+>>
+>> That is good idea.
+> 
+> Yeah, I think something like this should be added now that LAZY will
+> prevent us from knowing where in the kernel is really going on for a long
+> time.
+> 
 
-The warning happens because taskA on cpuX goes through
-HARD_TX_LOCK(), gets preempted and then taskB on cpuX wants also to send
-send a packet. The second one throws the warning.
+That would be the goal.
 
-We could ignore this check because a deadlock will throw a warning and
-"halt" the task that runs into the deadlock.
-But then we could be smart about this in the same way !RT is and
-pro-active check for the simple deadlock. The lock owner of
-netdev_queue::_xmit_lock is recorded can be checked vs current.
+>>
+>>>
+>>> or something like that, that could act like a latency tracer that
+>>> monitors how long any kernel thread runs without being preempted.
+>>>
+>>> -- Steve
+>>
+>> With preempt=full/lazy a long running kernel task can get
+>> preempted if it is running in preemptible section. that's okay.
+>>
+>> My intent was to have a tracer that can say, look this kernel task took this much time
+>> before it completed. For some task such as long page walk, we know it is okay since
+> 
+> Tracers can be set to only watch a single task. The function and function
+> graph tracers use set_ftrace_pid. I could extend that to other tracers.
+> Hmm, that may even be useful for the preemptirq tracer!
+> 
+>> it is expected to take time, but for some task such as reading watchdog shouldn't take
+>> time. But on large system's doing these global variable update itself may take a long time.
+>> Updating less often was a fix which had fixed that lockup IIRC. So how can we identify such
 
-The snippet below should work. I need to see if tomorrow this is still a
-good idea.
+That was a hardlockup. wrong example.
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 6ff4256700e60..de342ceb17201 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -4821,7 +4821,7 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
- 		/* Other cpus might concurrently change txq->xmit_lock_owner
- 		 * to -1 or to their cpu id, but not to our id.
- 		 */
--		if (READ_ONCE(txq->xmit_lock_owner) != cpu) {
-+		if (rt_mutex_owner(&txq->_xmit_lock.lock) != current) {
- 			if (dev_xmit_recursion())
- 				goto recursion_alert;
- 
+>> opportunities. Hopefully I am making sense.
+> 
+> Not really. Can you explain in more detail, or specific examples of what
+> constitutes a path you want to trace and one that you do not?
 
-> Bert Karwatzki
+All I was saying, there have been fixes which solved softlockup issues
+without using cond_resched. But seeing softlockup was important to know
+that issue existed.
 
-Sebastian
+Some reference commit I think that did this;
+a8c861f401b4 xfs: avoid busy loops in GCD
+e1b849cfa6b6 writeback: Avoid contention on wb->list_lock when switching inodes
+0ddfb62f5d01 fix the softlockups in attach_recursive_mnt()
+
+
+I am afraid we will have trace all functions to begin with (which is expensive), but filter
+out those which took minimal time (like less than a 1s or so). that would eventually leave only a
+few functions that actually took more than 1s(that should have limited overhead).
