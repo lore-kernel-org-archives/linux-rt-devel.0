@@ -1,115 +1,96 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A928E28150F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 10:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB14A28D8DB
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 14:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772188685; cv=none; b=fUFf+ibN6BblBLqWKu16QMYAOROQQcrTpL3jv9AWvHF1Rj9PyKpSe45XKu4u8AvM+dGq2dEiuAsOKf6/Y1RzT2M1K65r3CpFWdNUdLlEClDgpAPndCF5Lq6I4BgKUOSKl9zUoB8lDhnWD+wlmxKsSGU0+lgqAuLSnP8R3HVQ1v4=
+	t=1772201617; cv=none; b=b1gGzHuQAunG4T02/HyPiDMXdlvF2Aynw3BJpQXnWCm+pmoNhC1CTcbCA30WaWSX22rc/hy8wVVQJPPuNMOR6/t36rpmRmgGVlgRCx2PZIeJEKUElGRrHZDUkD4gRJXjljXKincI8lYRNO/V38DAEPulSSLvY+sjlMdOe4MuG/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772188685; c=relaxed/simple;
-	bh=D3CdrNY4TsQ8Ul99vMmmtRJORamGT+H7QEgjAxUZKzo=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=SP8zz4XCx8nmLa8Tu8D9J8aFbviUImvCs5+qC299pd6x8RqKf5v/AKl71/7Kipdkoz3HOO+zihh7dB10Q0vbEYOvyXULrbZ/dRYoz7q7ZC782lKIBkPqycmtUrx4W/2TmS6zdInST/WexB6cdLRmsGSTR5S73A6xqcnT0V5JnKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KFPxY4wr; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772201617; c=relaxed/simple;
+	bh=brs38N0RgE8yI96R3MEjOCyZ8mT5cAieKdXZAwbRBuo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eo6snYQaSuF/x7fPSaV5Tk/Hv5wknIwYv6bp+M/IFnVk46qPxd66Oke87KG3f7Z595vOXyUYXaQSAsE06shUAT05kXhFR7+PSV/ZBToA/pybRY9uv1MTtPK/+6dbsnOdYZVeUrnk1rzE/osxw4NbR6l5+sqUQoT5okloCng00NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JhoRRYKP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NrsQ/Yia; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KFPxY4wr"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JhoRRYKP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NrsQ/Yia"
+Date: Fri, 27 Feb 2026 15:13:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772201613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FONUp5fIzUcqR36V5PNAb4lEPYY4bQDyvlXWYoDtvQY=;
+	b=JhoRRYKPc7xIz8eqkzUMTqAXKoVAn0tGx5xVX127JukSFiknCvdki2aZp/rBXOXN9oAOMS
+	QXZAMfTxfwRZU0gHPN9szvd9G33PGivSl9DpDyCxI4Yyd9tnOg6L3mmaXuwhjM80jvDnst
+	oMgoBIpoZBgqwGNegVjsiNLTX17baepMq94TpDXqLKrcnE09CkBRAgzn0bQ1pqzWqdMtiz
+	rKt5H3QYgio5MrMBgrb5hA9k+PifvkW151IyVE39EBl1LrS5kFuiWA6Pec8PRPcBsiEFBI
+	wBmOmLlyKOrFiOKDuyR3csBJBsrPSSCNuSj0fJtR1eCRenT7sAfsZuyCy6sKRA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772201613;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FONUp5fIzUcqR36V5PNAb4lEPYY4bQDyvlXWYoDtvQY=;
+	b=NrsQ/YiaYX7fv0iu5O9/N2HYbr2JMP/UTLgKggdGaBi0K+nS1ACXsu9+CeQ94bSR/pVW95
+	SyFQLvHixmbm6LBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: Tejun Heo <tj@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+	calvin@wbinvd.org, dschatzberg@meta.com, peterz@infradead.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: ~90s reboot delay with v6.19 and PREEMPT_RT
+Message-ID: <20260227141332.74RtR9HK@linutronix.de>
+References: <aQufmyZ7X7NdfiCL@slm.duckdns.org>
+ <20260219164648.3014-1-spasswolf@web.de>
+ <20260225154341.32AjXoVi@linutronix.de>
+ <6abee0b4bca811680a7f7fb6ab70bf27c6805cf5.camel@web.de>
+ <20260225165954.180aRkaV@linutronix.de>
+ <20260225223135.vjfaFo0c@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772188680;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nrLRonMsnCVotmFrNK03+GHGpA++SDG71WGkPi8yPUk=;
-	b=KFPxY4wrVLe1pzTCXQJdmsq7Vw6WG25wRwoCHbbfDRCtwF+6uNzM+L/2zsuudMhw1TQP2P
-	2bJCYw3puk/13mBr/5RjofiPUOlnZSPMPaVu5/6K8cnglINchOpsgLcWTaYpH2ejgMprLl
-	cm0puH6mRPydK84hPGNbyd4NLt6k20k=
-Date: Fri, 27 Feb 2026 10:37:53 +0000
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <faed6bde8e7a96021bc9d55176b764c592f6ce08@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH net v2 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
-Cc: netdev@vger.kernel.org, jiayuna.chen@linux.dev, jiayuna.chen@shopee.com,
- "Jiayuan Chen" <jiayuan.chen@shopee.com>,
- syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Jay Vosburgh"
- <jv@jvosburgh.net>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Simon Horman" <horms@kernel.org>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Jesper Dangaard Brouer"
- <hawk@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>,
- "Stanislav Fomichev" <sdf@fomichev.me>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "KP Singh"
- <kpsingh@kernel.org>, "Hao Luo" <haoluo@google.com>, "Jiri Olsa"
- <jolsa@kernel.org>, "Shuah Khan" <shuah@kernel.org>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Jussi
- Maki" <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260227102149.10ZgLF-t@linutronix.de>
-References: <20260227092254.272603-1-jiayuan.chen@linux.dev>
- <20260227092254.272603-2-jiayuan.chen@linux.dev>
- <20260227094558._Fna2iSe@linutronix.de>
- <4cc373b555ec3d6ff57037c569d12966a8b701db@linux.dev>
- <20260227102149.10ZgLF-t@linutronix.de>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <20260225223135.vjfaFo0c@linutronix.de>
 
-February 27, 2026 at 18:21, "Sebastian Andrzej Siewior" <bigeasy@linutron=
-ix.de mailto:bigeasy@linutronix.de?to=3D%22Sebastian%20Andrzej%20Siewior%=
-22%20%3Cbigeasy%40linutronix.de%3E > wrote:
+On 2026-02-25 23:31:36 [+0100], To Bert Karwatzki wrote:
+=E2=80=A6
+> Until the sched_switch, everything is the same. But then systemd-1828
+> (the one with the cgroup_notify_populated event) seems to get impatient
+> and sends a SIGTERM+SIGCONT. It gets the exit code, the
+> cgroup_notify_populated event is there later and just once. The
+> app.slice notify is missing. And the rmdir gets in much later.
+=E2=80=A6
 
+I so proud of myself. Bert, can you confirm that this works?
 
->=20
->=20On 2026-02-27 10:17:29 [+0000], Jiayuan Chen wrote:
->=20
->=20>=20
->=20> bond_mode can be changed after device creation via sysfs or netlink=
-, a bond created
-> >  in active-backup mode can later be switched to round-robin, which me=
-ans the allocation
-> >  must not be conditional on the mode at creation time.
-> >=20
->=20Must the device be in down state or can this be also changed while th=
-e
-> device is up?
->=20
->=20Sebastian
->
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -5283,6 +5283,11 @@ static void *cgroup_procs_start(struct seq_file *s, =
+loff_t *pos)
+=20
+ static int cgroup_procs_show(struct seq_file *s, void *v)
+ {
++	struct task_struct *tsk =3D v;
++
++	if (READ_ONCE(tsk->__state) & TASK_DEAD)
++		return 0;
++
+ 	seq_printf(s, "%d\n", task_pid_vnr(v));
+ 	return 0;
+ }
+--=20
+2.51.0
 
-The mode change requires the device to be DOWN. BOND_OPT_MODE is defined =
-with BOND_OPTFLAG_IFDOWN,
-and bond_opt_check_flags() enforces this:
-
-if ((opt->flags & BOND_OPTFLAG_IFDOWN) && (bond->dev->flags & IFF_UP))
-  return -EBUSY;
-
-The same restriction applies to the netlink path as well. Both sysfs and =
-netlink go
-through __bond_opt_set() =E2=86=92 bond_opt_check_deps(), which enforces =
-BOND_OPTFLAG_IFDOWN
-for mode change. Attempting to change the mode while the device is UP ret=
-urns -EBUSY
-regardless of how the change is requested.
-
-So unconditional allocation in bond_init() covers all cases: whether the =
-device is created in
-round-robin mode, or switched to round-robin later
-(which requires being DOWN, meaning bond_open() hasn't been called with t=
-he new mode yet).
-
-Thanks,
+Sebastian
