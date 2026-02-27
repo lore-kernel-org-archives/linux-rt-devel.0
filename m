@@ -1,43 +1,43 @@
 Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5632F42DFE8
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 15:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4119220F2D
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 15:19:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772205557; cv=none; b=L3Ofc9gF8CxG6RskM0MzRT15ugS9Ircx8R+9/YHjYf6D1FI6vWdFmk3zDldbbSiI1wFDJ64JwR3bd+dWZh0xGp3ljU/+ypmveRpGLpqPIZYLIGQEYfZJnvsMyfZd18PYpzQXTuPI1MltdGwGajWC6ztSyF4i3s7BLz8C5lZuaXE=
+	t=1772205563; cv=none; b=S4fVdu+b5/sfPkgQFOsyNVs6t3g/Lcsf5Rj1ig+Q3qH4nQMLZx7Cfta92jRBaUcWwe76c6BbDd1EMhuPnGV681cyy7q17AzLxHbtDB4lG1KFwMWQHpiueGbHrXUJnd0ZgxMWdaBaCfX9WH1JHvApgFa+rUVMBesrcHL7ldo348I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772205557; c=relaxed/simple;
-	bh=II4/WzEQO5kAvZGKHRz5WsXr/3x9dUuHIqw+QPQtvZI=;
+	s=arc-20240116; t=1772205563; c=relaxed/simple;
+	bh=bYfLX/wrXpFLCMKUwFnxezaYju+2eGJS6xctg7DNc+o=;
 	h=In-Reply-To:References:From:To:Cc:Subject:MIME-Version:
-	 Content-Disposition:Content-Type:Message-Id:Date; b=uNPEfaWIOSB2YPEkT6JOxNhweAlBIj18AOoL02ZsF2UOSU6l0rYz9Jy2BrYTjiJW10HZC9hJfKgLVaJ4MbevcBOwLjV17AdZDBkr03yp3C+8BfgECQ1HMU65dTSuxx+Axn4TIByp7Muj9kmEDcyHgqeZ2O5calTSiQaLN/PS0Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=WYz7XY4O; arc=none smtp.client-ip=78.32.30.218
+	 Content-Disposition:Content-Type:Message-Id:Date; b=t1jxDMSAn2j5D6dSwuu6TwipnTGsiOcqGjSFBhW4Upj2DDMz3lUrYKjR6P1K0yTszMqMA4orQBzb4kSgkAEmEDcP1T90d54hgvvJxdszEvpYzUA/DuL03jSICGHLL9T0ThvIBf+HyAH5AKW5VskBOQTOg2tbHjFb5Wrmm16SETM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=R8LXlWlP; arc=none smtp.client-ip=78.32.30.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="WYz7XY4O"
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="R8LXlWlP"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=armlinux.org.uk; s=pandora-2019; h=Date:Sender:Message-Id:Content-Type:
 	Content-Transfer-Encoding:MIME-Version:Subject:Cc:To:From:References:
 	In-Reply-To:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
 	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
 	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=3bJxrnrMqHmmchyZ6y1WNMAH5JcYPSY8j6qyvPcwJeY=; b=WYz7XY4OQuZ1w7L/j/uPM+YwvC
-	6/EGvMVidGxFm4O92DWtQkTa3pDgkNWHKdJbAi5hiLDk/qSTTiQfJAASQzBbWJgFUEp2Z0o34M9cK
-	Lg5WwOFqJUITnr5oK+RbxxmXVIRF2CJSkPB+rgdqjC3axiTcGgowN0GhVbJOaP33DDJfQpndB6oiw
-	K+nuVIEkqh9u+3N46IXLNe2uxOJyNM3Mz2JBfWdIj2WEskIN+8vQTSyg5kpqTuSxwfdyr4AuEcGX9
-	6HyL+opkoFbqZWSQF5L4wi3SI1KzWqroCWGw88Jk/ZtiNNaeY25wUAWZCGi3mUpqbwwq6g3gpnTRM
-	gRGCuPWA==;
-Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:52958 helo=rmk-PC.armlinux.org.uk)
+	bh=NEDF1h4DToBH7xC2ataksBPzKU9iqPLKYlA4C0KD+CM=; b=R8LXlWlPnb/TAijZszftYnBn9h
+	UcPa99aAXrQzjfR+ekgs0kgW5pOSZEFGM8ZO3GPd17X5GqB0hJMdcwM58whrbsA+l2g5wMUGu3E4H
+	jZQq0Fli5bGZK1m0EgDO7PIfyHBaczVcFSujcUwV0FXLmgyrDjHYrJEsMFGVkoWeho4llEO+RgAkt
+	yqANjntpRbQ9LK6UKA5WfjGk5zDlCi/HP3n9ZRRCNcWy759iMxLjb2gACWug9t6zx3m7SlwpIifST
+	urahw+rylEHe5uB/fjt9tvM/D6yRXfwskbo7VBv8ujJgr0x49ylNkL/3il5rXw3rkOT0MmCBvdPB5
+	IwMqC88g==;
+Received: from e0022681537dd.dyn.armlinux.org.uk ([fd8f:7570:feb6:1:222:68ff:fe15:37dd]:59014 helo=rmk-PC.armlinux.org.uk)
 	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.98.2)
 	(envelope-from <rmk@armlinux.org.uk>)
-	id 1vvzcY-000000000y7-1Dgs;
-	Fri, 27 Feb 2026 15:19:14 +0000
+	id 1vvzcd-000000000yI-23Jg;
+	Fri, 27 Feb 2026 15:19:19 +0000
 Received: from rmk by rmk-PC.armlinux.org.uk with local (Exim 4.98.2)
 	(envelope-from <rmk@rmk-PC.armlinux.org.uk>)
-	id 1vvzcX-0000000Awo0-2KBN;
-	Fri, 27 Feb 2026 15:19:13 +0000
+	id 1vvzcc-0000000Awo6-2oph;
+	Fri, 27 Feb 2026 15:19:18 +0000
 In-Reply-To: <aaG1wrNUaq_L0I5g@shell.armlinux.org.uk>
 References: <aaG1wrNUaq_L0I5g@shell.armlinux.org.uk>
 From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
@@ -46,7 +46,8 @@ Cc: Clark Williams <clrkwllms@kernel.org>,
 	linux-rt-devel@lists.linux.dev,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 2/6] ARM: move vmalloc() lazy-page table population
+Subject: [PATCH 3/6] ARM: move is_permission_fault() and
+ is_translation_fault() to fault.h
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,174 +57,95 @@ MIME-Version: 1.0
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <E1vvzcX-0000000Awo0-2KBN@rmk-PC.armlinux.org.uk>
+Message-Id: <E1vvzcc-0000000Awo6-2oph@rmk-PC.armlinux.org.uk>
 Sender: Russell King <rmk@armlinux.org.uk>
-Date: Fri, 27 Feb 2026 15:19:13 +0000
+Date: Fri, 27 Feb 2026 15:19:18 +0000
 
-Split the vmalloc() lazy-page table population from
-do_translation_fault() into a new vmalloc_fault() function.
+is_permission_fault() and is_translation_fault() are both conditional
+on the FSR encodings, which are dependent on LPAE. We define the
+constants in fault.h. Move these inline functions to fault.h to be
+near the FSR definitions.
 
 Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 ---
- arch/arm/mm/fault.c | 126 ++++++++++++++++++++++++--------------------
- 1 file changed, 68 insertions(+), 58 deletions(-)
+ arch/arm/mm/fault.c | 26 --------------------------
+ arch/arm/mm/fault.h | 26 ++++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/arch/arm/mm/fault.c b/arch/arm/mm/fault.c
-index 6c27ebd49093..0f3b6cc516c1 100644
+index 0f3b6cc516c1..e62cc4be5adf 100644
 --- a/arch/arm/mm/fault.c
 +++ b/arch/arm/mm/fault.c
-@@ -261,6 +261,70 @@ static inline bool ttbr0_usermode_access_allowed(struct pt_regs *regs)
+@@ -115,32 +115,6 @@ static inline bool is_write_fault(unsigned int fsr)
+ 	return (fsr & FSR_WRITE) && !(fsr & FSR_CM);
+ }
+ 
+-static inline bool is_translation_fault(unsigned int fsr)
+-{
+-	int fs = fsr_fs(fsr);
+-#ifdef CONFIG_ARM_LPAE
+-	if ((fs & FS_MMU_NOLL_MASK) == FS_TRANS_NOLL)
+-		return true;
+-#else
+-	if (fs == FS_L1_TRANS || fs == FS_L2_TRANS)
+-		return true;
+-#endif
+-	return false;
+-}
+-
+-static inline bool is_permission_fault(unsigned int fsr)
+-{
+-	int fs = fsr_fs(fsr);
+-#ifdef CONFIG_ARM_LPAE
+-	if ((fs & FS_MMU_NOLL_MASK) == FS_PERM_NOLL)
+-		return true;
+-#else
+-	if (fs == FS_L1_PERM || fs == FS_L2_PERM)
+-		return true;
+-#endif
+-	return false;
+-}
+-
+ static void die_kernel_fault(const char *msg, struct mm_struct *mm,
+ 			     unsigned long addr, unsigned int fsr,
+ 			     struct pt_regs *regs)
+diff --git a/arch/arm/mm/fault.h b/arch/arm/mm/fault.h
+index e8f8c1902544..e95f44757dc9 100644
+--- a/arch/arm/mm/fault.h
++++ b/arch/arm/mm/fault.h
+@@ -35,6 +35,32 @@ static inline int fsr_fs(unsigned int fsr)
  }
  #endif
  
-+/*
-+ * Handle a vmalloc fault, copying the non-leaf page table entries from
-+ * init_mm.pgd. Any kernel context can trigger this, so we must not sleep
-+ * or enable interrupts. Having two CPUs execute this for the same page is
-+ * no problem, we'll just copy the same data twice.
-+ *
-+ * Returns false on failure.
-+ */
-+static bool __kprobes __maybe_unused vmalloc_fault(unsigned long addr)
++static inline bool is_translation_fault(unsigned int fsr)
 +{
-+	unsigned int index;
-+	pgd_t *pgd, *pgd_k;
-+	p4d_t *p4d, *p4d_k;
-+	pud_t *pud, *pud_k;
-+	pmd_t *pmd, *pmd_k;
-+
-+	index = pgd_index(addr);
-+
-+	pgd = cpu_get_pgd() + index;
-+	pgd_k = init_mm.pgd + index;
-+
-+	p4d = p4d_offset(pgd, addr);
-+	p4d_k = p4d_offset(pgd_k, addr);
-+
-+	if (p4d_none(*p4d_k))
-+		return false;
-+	if (!p4d_present(*p4d))
-+		set_p4d(p4d, *p4d_k);
-+
-+	pud = pud_offset(p4d, addr);
-+	pud_k = pud_offset(p4d_k, addr);
-+
-+	if (pud_none(*pud_k))
-+		return false;
-+	if (!pud_present(*pud))
-+		set_pud(pud, *pud_k);
-+
-+	pmd = pmd_offset(pud, addr);
-+	pmd_k = pmd_offset(pud_k, addr);
-+
++	int fs = fsr_fs(fsr);
 +#ifdef CONFIG_ARM_LPAE
-+	/*
-+	 * Only one hardware entry per PMD with LPAE.
-+	 */
-+	index = 0;
++	if ((fs & FS_MMU_NOLL_MASK) == FS_TRANS_NOLL)
++		return true;
 +#else
-+	/*
-+	 * On ARM one Linux PGD entry contains two hardware entries (see page
-+	 * tables layout in pgtable.h). We normally guarantee that we always
-+	 * fill both L1 entries. But create_mapping() doesn't follow the rule.
-+	 * It can create inidividual L1 entries, so here we have to call
-+	 * pmd_none() check for the entry really corresponded to address, not
-+	 * for the first of pair.
-+	 */
-+	index = (addr >> SECTION_SHIFT) & 1;
++	if (fs == FS_L1_TRANS || fs == FS_L2_TRANS)
++		return true;
 +#endif
-+	if (pmd_none(pmd_k[index]))
-+		return false;
-+
-+	copy_pmd(pmd, pmd_k);
-+
-+	return true;
++	return false;
 +}
 +
- static int __kprobes
- do_kernel_address_page_fault(struct mm_struct *mm, unsigned long addr,
- 			     unsigned int fsr, struct pt_regs *regs)
-@@ -496,10 +560,9 @@ do_page_fault(unsigned long addr, unsigned int fsr, struct pt_regs *regs)
-  * directly to do_kernel_address_page_fault() to handle.
-  *
-  * Otherwise, we're probably faulting in the vmalloc() area, so try to fix
-- * that up. Note that we must not take any locks or enable interrupts in
-- * this case.
-+ * that up via vmalloc_fault().
-  *
-- * If vmalloc() fixup fails, that means the non-leaf page tables did not
-+ * If vmalloc_fault() fails, that means the non-leaf page tables did not
-  * contain an entry for this address, so handle this via
-  * do_kernel_address_page_fault().
-  */
-@@ -508,65 +571,12 @@ static int __kprobes
- do_translation_fault(unsigned long addr, unsigned int fsr,
- 		     struct pt_regs *regs)
- {
--	unsigned int index;
--	pgd_t *pgd, *pgd_k;
--	p4d_t *p4d, *p4d_k;
--	pud_t *pud, *pud_k;
--	pmd_t *pmd, *pmd_k;
--
- 	if (addr < TASK_SIZE)
- 		return do_page_fault(addr, fsr, regs);
- 
--	if (user_mode(regs))
--		goto bad_area;
--
--	index = pgd_index(addr);
--
--	pgd = cpu_get_pgd() + index;
--	pgd_k = init_mm.pgd + index;
--
--	p4d = p4d_offset(pgd, addr);
--	p4d_k = p4d_offset(pgd_k, addr);
--
--	if (p4d_none(*p4d_k))
--		goto bad_area;
--	if (!p4d_present(*p4d))
--		set_p4d(p4d, *p4d_k);
--
--	pud = pud_offset(p4d, addr);
--	pud_k = pud_offset(p4d_k, addr);
--
--	if (pud_none(*pud_k))
--		goto bad_area;
--	if (!pud_present(*pud))
--		set_pud(pud, *pud_k);
--
--	pmd = pmd_offset(pud, addr);
--	pmd_k = pmd_offset(pud_k, addr);
--
--#ifdef CONFIG_ARM_LPAE
--	/*
--	 * Only one hardware entry per PMD with LPAE.
--	 */
--	index = 0;
--#else
--	/*
--	 * On ARM one Linux PGD entry contains two hardware entries (see page
--	 * tables layout in pgtable.h). We normally guarantee that we always
--	 * fill both L1 entries. But create_mapping() doesn't follow the rule.
--	 * It can create inidividual L1 entries, so here we have to call
--	 * pmd_none() check for the entry really corresponded to address, not
--	 * for the first of pair.
--	 */
--	index = (addr >> SECTION_SHIFT) & 1;
--#endif
--	if (pmd_none(pmd_k[index]))
--		goto bad_area;
--
--	copy_pmd(pmd, pmd_k);
--	return 0;
-+	if (!user_mode(regs) && vmalloc_fault(addr))
-+		return 0;
- 
--bad_area:
- 	do_kernel_address_page_fault(current->mm, addr, fsr, regs);
- 
- 	return 0;
++static inline bool is_permission_fault(unsigned int fsr)
++{
++	int fs = fsr_fs(fsr);
++#ifdef CONFIG_ARM_LPAE
++	if ((fs & FS_MMU_NOLL_MASK) == FS_PERM_NOLL)
++		return true;
++#else
++	if (fs == FS_L1_PERM || fs == FS_L2_PERM)
++		return true;
++#endif
++	return false;
++}
++
+ void do_bad_area(unsigned long addr, unsigned int fsr, struct pt_regs *regs);
+ void early_abt_enable(void);
+ asmlinkage void do_DataAbort(unsigned long addr, unsigned int fsr,
 -- 
 2.47.3
 
