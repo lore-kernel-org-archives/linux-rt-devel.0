@@ -1,79 +1,77 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D613A42B72F
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 14:53:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E353443E49A
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 15:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772204003; cv=none; b=RElw2xZwNlwPjTvI1z81XvU4/Q10zIDw9IB5adwnWSkvYZ/RmrIl/xkUn7d/4Hct6R3hgTRPPSlP6H0IbdPQf6mhvmt+n5BsNdA9ENPr4xlagEhHCmEzsYaUZg4/UnUJObwosyLQ30zdTllgaNtmQjOPWpCUYIUMA5ej8TikByU=
+	t=1772205521; cv=none; b=cD+a6608yw+LBDTO6SazVpzB0UqTfl0MguRKIlJvxtX4qqoKqgl8Fb3r9bzjYiWD5TtXmVIJTOd/g+O/XoG852mhNCjzOQ49i+WbriT2gQjUY7cBlIh/ghAFtGs7Re6lawmQ3G/LgqFwdxYlTml65aViBgyFr/gvSxhKhnmzyOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772204003; c=relaxed/simple;
-	bh=RLZiFHzht4vT3BQiUN7tP05j7C+BhyPxvTzrkiY7+Gs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kXKzuAQZuTI0wY6zs8fioRlZEEv+n5U7oA8bYhaNRKtZatR0oKldevaLrQBIHb0xeedvDW3Vj3bj8Fna5AvmaKDo+KC30kpvVOv8v/fChSZtpNW63dxYVWIt8hLgsRj7tgNMc0Vw1o2tstijbq4Sw8kKHSsy+EMjhV0Ur+rpdUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf07.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 453A3C0E8B;
-	Fri, 27 Feb 2026 14:53:18 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id C157120030;
-	Fri, 27 Feb 2026 14:53:14 +0000 (UTC)
-Date: Fri, 27 Feb 2026 09:53:34 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, Linus
- Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org, Thomas Gleixner
- <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Nicholas Piggin
- <npiggin@gmail.com>
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-Message-ID: <20260227095334.40768d0b@gandalf.local.home>
-In-Reply-To: <97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
-	<a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
-	<20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
-	<20260225194809.1f5e44a6@fedora>
-	<127c4772-7352-41a8-b30d-8b869751e907@linux.ibm.com>
-	<20260226122252.184254cd@gandalf.local.home>
-	<97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1772205521; c=relaxed/simple;
+	bh=UBkZpRH2/PRrgsQH+oZrQQicn9h7cymmIyro/uVLHn4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DBVJz3Bgc5Sggg9hgaCi9ZtZaopV38Yg8jUyQGk1YuiBh9dQAVQLPJnZ3RBolthLbTRTHtcigDl4Svqd+xaME4RjlZLlXVb/5OrGBJl4O7sgcoC4qFnlpmIIfpSZDQqZZKn1jcwPlsx95lq3CJqdqGZaP19p4BG2ZRAg8mKhGVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=c19yThi8; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="c19yThi8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=t1Hf6lOuL/RzLUoGC5aThpJ+W9Ml69mlfHZtXwUlafo=; b=c19yThi8C41VK49OhNEt4zZh2t
+	gxjN48N5E77P5B0WUpt/kXA/oU2L9FgMFGF+vARxd88aQW0SpWbOmDY1m0dYLcrj59RohjCHTZtsV
+	TDplukBgAlv2a5RFBjwxOaqpfva+CQPCDYKzSCgp86CUEr5Y2IwbqJHFG8CrObN6S7TuGwZOKHkhe
+	2M/JBUhMesJR+dptfKUoO9E8a+9MElu8OPrhUiD9NKZ8Wk80TqZNTfwHZKOGwqU8XkyEBxEH8J+RL
+	kjCO/uud8t29J8n38FRXKTHrDm+N0KQkJmt/SaIde/ipFC/KFd7VE5T/+PJHuLlagylNO5YGS/Yys
+	H0GhWMRg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:42646)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vvzbo-000000000xd-2JuX;
+	Fri, 27 Feb 2026 15:18:28 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vvzbm-000000003Av-0msw;
+	Fri, 27 Feb 2026 15:18:26 +0000
+Date: Fri, 27 Feb 2026 15:18:26 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Clark Williams <clrkwllms@kernel.org>, linux-rt-devel@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH 0/6] ARM: cleanup fault handling
+Message-ID: <aaG1wrNUaq_L0I5g@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 4yp7u5e55n59q3atzm5hrbf5er9fz1wn
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: C157120030
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/d/UB7p8/PGzgFbactOkJDV9DFbL20fqM=
-X-HE-Tag: 1772203994-516703
-X-HE-Meta: U2FsdGVkX19hxhwE+MLoq1Hsn9Wh8XHUkq+cFbFuYh8LIqV5ee2BuMJNw2ojZyehN8TfGsbf8BdCDnFUkLBXAOSoeHVlB4y4xWylGJLXUwry5ANR4bQgO8oQ2tzP/8nQ1oe3Ygoqo6XZ6PeDdedpdsr6YXRpRNSLtu5W7PsCW5edzqe+zeZeG4apa4IeRCaSsK8ACFc58pOtXL2+Y8RdCSVnd6Jx4Ywt5AI/X/aQ8g1+DlMAubuIYp08QROtaXNpdt9ljjx+l9izIMgVq3jZBAAJkqtDXxK7HHgKyEIUvc5EHKjYLyzFUtgn9dlRzpIXDrxaSreyBmnqnIo7pElQt4bpXo1HyzUi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Fri, 27 Feb 2026 14:39:42 +0530
-Shrikanth Hegde <sshegde@linux.ibm.com> wrote:
+Hi,
 
-> I am afraid we will have trace all functions to begin with (which is expensive), but filter
-> out those which took minimal time (like less than a 1s or so). that would eventually leave only a
-> few functions that actually took more than 1s(that should have limited overhead).
+This series cleans up the 32-bit ARM fault handling:
 
-Well, I think the detection can be done with timings between schedules.
-What's the longest running task without any voluntary schedule. Then you
-can add function graph tracing to it where it can possibly trigger in the
-location that detected the issue.
+1. ensure a consistent IRQ state in the user fault processing path.
+2. split vmalloc fault processing in a similar way to x86
+3. move is_..._fault() to the local fault.h header file
+4. update the FSR deifnitions using BIT() and GENMASK()
+5. move LPAE/non-LPAE specific FSR bits/masks along side users
+6. get rid of #ifdefs within is_..._fault() by providing a LPAE
+   and non-LPAE versions.
 
-On a detection of a long schedule, a stack trace can be recorded. Using
-that stack trace, you could use the function graph tracer to see what is
-happening.
+ arch/arm/mm/fault.c | 158 ++++++++++++++++++++++++----------------------------
+ arch/arm/mm/fault.h |  42 ++++++++++++--
+ 2 files changed, 109 insertions(+), 91 deletions(-)
 
-Anyway, something to think about, and this could be a topic at this years
-Linux Plumbers Tracing MC ;-)
-
--- Steve
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
