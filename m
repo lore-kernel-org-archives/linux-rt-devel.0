@@ -1,92 +1,115 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6564393DD4
-	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 10:21:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A928E28150F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 27 Feb 2026 10:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772187714; cv=none; b=IRVclwGRyphaQCy2cFJfrd8gU7K07otE9AEpNaSZlYxrlnlxnGG0VMJr6Spd42ooj5LPUu6eX5J7lXcm97isBm9DZjnHsmNwqgMR/ndrF9Om8tjGorv85kA1caBhsWTlGVsCjTjTZJXW965VoX3pQEGdhnKkVForM56J4YG//lc=
+	t=1772188685; cv=none; b=fUFf+ibN6BblBLqWKu16QMYAOROQQcrTpL3jv9AWvHF1Rj9PyKpSe45XKu4u8AvM+dGq2dEiuAsOKf6/Y1RzT2M1K65r3CpFWdNUdLlEClDgpAPndCF5Lq6I4BgKUOSKl9zUoB8lDhnWD+wlmxKsSGU0+lgqAuLSnP8R3HVQ1v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772187714; c=relaxed/simple;
-	bh=UsgWvp1GgBfZzBi1bQ6C6S5njIGPpnPU/XFTEKEJPaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7a11BGBTcEBVNHIrOD4rDxHBpZda24iZovtJD9JMgOlCrokvgNIGR8S3wG8wpU0E+aYqUUgGVBzDeiPa7fSl2X4qVoBKsrUeQHLfg8B5jJcqRLx0ZAhzGRosdrWASgTeLTGc1cuUFx0s3P9kzKTIAUHsGHYA/LGyTon6r2k1PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YyE8+P6T; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WtXquy3y; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772188685; c=relaxed/simple;
+	bh=D3CdrNY4TsQ8Ul99vMmmtRJORamGT+H7QEgjAxUZKzo=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=SP8zz4XCx8nmLa8Tu8D9J8aFbviUImvCs5+qC299pd6x8RqKf5v/AKl71/7Kipdkoz3HOO+zihh7dB10Q0vbEYOvyXULrbZ/dRYoz7q7ZC782lKIBkPqycmtUrx4W/2TmS6zdInST/WexB6cdLRmsGSTR5S73A6xqcnT0V5JnKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KFPxY4wr; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YyE8+P6T";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WtXquy3y"
-Date: Fri, 27 Feb 2026 11:21:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772187711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UsgWvp1GgBfZzBi1bQ6C6S5njIGPpnPU/XFTEKEJPaY=;
-	b=YyE8+P6Tjo+S+BcZoSBuMWXn2hz+l+vNFOLWtJMvSjiNergSVEkkxT6tsvTRF1jxmsuaxa
-	MdCs/2CkJLEtHHTeNKA+MsvS4v/OriaN1U7gH3UK4xijBauQLq5l9JAyD74VU7J/cdgsCJ
-	6/JXhWBrb4CxHTVhyOUEjPs5ERHb+QOHaWDQI2g8Eq/59fuISBz8VMU5ohS6TliUs+ka3H
-	V1OAslSzz4IydKu6CCHi5EMS+O6OauuOIc5pqPqEHPWXdb+KxgeCEeawrWxJ0M7mFs5i9e
-	4/W6pin84La3pzPtBnpyV23qlLCBLHLjVaivMHbrA2aFo5dJWtsQsb7wCpdC7A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772187711;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UsgWvp1GgBfZzBi1bQ6C6S5njIGPpnPU/XFTEKEJPaY=;
-	b=WtXquy3yQNm+aAp6lM6ngwO+HwtWiMVlBJp+FBIgmEV74EhwIXAvXszUa8eVsFR+/5UOiF
-	hCTY13bsVdtV8KAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, jiayuna.chen@linux.dev, jiayuna.chen@shopee.com,
-	Jiayuan Chen <jiayuan.chen@shopee.com>,
-	syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
-	Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jussi Maki <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net v2 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-Message-ID: <20260227102149.10ZgLF-t@linutronix.de>
-References: <20260227092254.272603-1-jiayuan.chen@linux.dev>
- <20260227092254.272603-2-jiayuan.chen@linux.dev>
- <20260227094558._Fna2iSe@linutronix.de>
- <4cc373b555ec3d6ff57037c569d12966a8b701db@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KFPxY4wr"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <4cc373b555ec3d6ff57037c569d12966a8b701db@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772188680;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nrLRonMsnCVotmFrNK03+GHGpA++SDG71WGkPi8yPUk=;
+	b=KFPxY4wrVLe1pzTCXQJdmsq7Vw6WG25wRwoCHbbfDRCtwF+6uNzM+L/2zsuudMhw1TQP2P
+	2bJCYw3puk/13mBr/5RjofiPUOlnZSPMPaVu5/6K8cnglINchOpsgLcWTaYpH2ejgMprLl
+	cm0puH6mRPydK84hPGNbyd4NLt6k20k=
+Date: Fri, 27 Feb 2026 10:37:53 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
+Message-ID: <faed6bde8e7a96021bc9d55176b764c592f6ce08@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH net v2 1/2] bonding: fix null-ptr-deref in
+ bond_rr_gen_slave_id()
+To: "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, jiayuna.chen@linux.dev, jiayuna.chen@shopee.com,
+ "Jiayuan Chen" <jiayuan.chen@shopee.com>,
+ syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Jay Vosburgh"
+ <jv@jvosburgh.net>, "Andrew Lunn" <andrew+netdev@lunn.ch>, "David S.
+ Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
+ "Simon Horman" <horms@kernel.org>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Jesper Dangaard Brouer"
+ <hawk@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>,
+ "Stanislav Fomichev" <sdf@fomichev.me>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Martin
+ KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>,
+ "Yonghong Song" <yonghong.song@linux.dev>, "KP Singh"
+ <kpsingh@kernel.org>, "Hao Luo" <haoluo@google.com>, "Jiri Olsa"
+ <jolsa@kernel.org>, "Shuah Khan" <shuah@kernel.org>, "Clark Williams"
+ <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Jussi
+ Maki" <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260227102149.10ZgLF-t@linutronix.de>
+References: <20260227092254.272603-1-jiayuan.chen@linux.dev>
+ <20260227092254.272603-2-jiayuan.chen@linux.dev>
+ <20260227094558._Fna2iSe@linutronix.de>
+ <4cc373b555ec3d6ff57037c569d12966a8b701db@linux.dev>
+ <20260227102149.10ZgLF-t@linutronix.de>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-02-27 10:17:29 [+0000], Jiayuan Chen wrote:
-> bond_mode can be changed after device creation via sysfs or netlink, a bond created
-> in active-backup mode can later be switched to round-robin, which means the allocation
-> must not be conditional on the mode at creation time.
+February 27, 2026 at 18:21, "Sebastian Andrzej Siewior" <bigeasy@linutron=
+ix.de mailto:bigeasy@linutronix.de?to=3D%22Sebastian%20Andrzej%20Siewior%=
+22%20%3Cbigeasy%40linutronix.de%3E > wrote:
 
-Must the device be in down state or can this be also changed while the
-device is up?
 
-Sebastian
+>=20
+>=20On 2026-02-27 10:17:29 [+0000], Jiayuan Chen wrote:
+>=20
+>=20>=20
+>=20> bond_mode can be changed after device creation via sysfs or netlink=
+, a bond created
+> >  in active-backup mode can later be switched to round-robin, which me=
+ans the allocation
+> >  must not be conditional on the mode at creation time.
+> >=20
+>=20Must the device be in down state or can this be also changed while th=
+e
+> device is up?
+>=20
+>=20Sebastian
+>
+
+The mode change requires the device to be DOWN. BOND_OPT_MODE is defined =
+with BOND_OPTFLAG_IFDOWN,
+and bond_opt_check_flags() enforces this:
+
+if ((opt->flags & BOND_OPTFLAG_IFDOWN) && (bond->dev->flags & IFF_UP))
+  return -EBUSY;
+
+The same restriction applies to the netlink path as well. Both sysfs and =
+netlink go
+through __bond_opt_set() =E2=86=92 bond_opt_check_deps(), which enforces =
+BOND_OPTFLAG_IFDOWN
+for mode change. Attempting to change the mode while the device is UP ret=
+urns -EBUSY
+regardless of how the change is requested.
+
+So unconditional allocation in bond_init() covers all cases: whether the =
+device is created in
+round-robin mode, or switched to round-robin later
+(which requires being DOWN, meaning bond_open() hasn't been called with t=
+he new mode yet).
+
+Thanks,
