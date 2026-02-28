@@ -1,214 +1,99 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33682221FCF
-	for <linux-rt-devel@lists.linux.dev>; Sat, 28 Feb 2026 03:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F373ED136
+	for <linux-rt-devel@lists.linux.dev>; Sat, 28 Feb 2026 09:07:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772249792; cv=none; b=M3uIIf8QEQ4iS6tGrmfSXdSsqjLTyIE+L1Et7ExC89BWoimT1Kx/gXIRyIrNkHVmUkIzs5s28sD6zOstLrIzGPeq9f1FgZlgnN/PHBNSZts9c9xT53Jm/OoiZ62ILS9DacW2xIXAiDkb4ru0CFqYbIIIGTqoTG3GwEb08OKLpfA=
+	t=1772269629; cv=none; b=SHdJZUzbaU2foBHbkg66Vag2UE+KOEotXnktNpksx3YqV0iBLSddvwjKXR+5pckLpNF5F4t8uDOIYEDljgyts3q+iUZsW5Wvy2FBYe+RoajTgYehvVBx50WcUOoobXllFEVf8qwvVS/LYcm1V1byR8aze4xuwMlHZ8Rp3zYQE7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772249792; c=relaxed/simple;
-	bh=qGi3TBC4+ZZlUUd73EZcWgH044aOoOU3ydVwpDiZ2MQ=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=QazlZnIzm6YIJedbOn1+PfgmocBU0BJLXA1vxgZZXREC31nfu7qSUtrpZgEz/JguR67sgs15eUQVc/V3gCccJpx3Xs5VOOdo2m8zq9SWxiPCuFm3iFvnKDaP6BOL2fRa+E/QEsDT3nbjzuR+TNTMbpiwxdlbXjHv20gPHIdF4zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qgSyo5Ec; arc=none smtp.client-ip=91.218.175.189
+	s=arc-20240116; t=1772269629; c=relaxed/simple;
+	bh=FYDCrvmbavmVMM0l/9ogzr+nuZLVBuDVcwYj3BWg0iU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fwrJt7vi6Ewj37taGpFoOYXku9gpLW9UdW19Px9ayf+CKt9ykHuFvFa5lq8ieHTaLf/MPTzctJsTaj2vYNp0+2hzFvp/NJuVXB9FQWwLYnGmFurmWKaSlxgl2oV3zQOcLlTqyKOzsoAnTUN3m0epAWQZV0/T5py0R/n0CSL+xt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vMQjd5+8; arc=none smtp.client-ip=91.218.175.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qgSyo5Ec"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vMQjd5+8"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772269625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=C5U/yNy/KMt3+3/ZSU8Fyr9O8lEuu9x3SLzaQ0k6sD0=;
+	b=vMQjd5+8irnCjtAKozlW/91o6SA1mUUrx2tIUl/MxfzcCjdoqS0WDEzXJkAHEHKHG0QlPU
+	PgdANnYo5EuAtPvTGs3iCay1cdBZONUJXGmgjZzrj/oa9d5IBIcjQ9A2nHH4a5kxy05Qp5
+	oXUNFCT0KD3Jq5A9UWj4wsxqFIxKazA=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: netdev@vger.kernel.org
+Cc: jiayuan.chen@linux.dev,
+	Jiayuan Chen <jiayuan.chen@shopee.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jason Xing <kerneljasonxing@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH net-next v1] net: fix sock compilation error under CONFIG_PREEMPT_RT
+Date: Sat, 28 Feb 2026 17:06:43 +0800
+Message-ID: <20260228090644.362807-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772249787;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uhExI+NlEqBzfbQcIfU9xl+aEEsBqnMjFmXS+IGjlNM=;
-	b=qgSyo5EcU3CTPjtNkkigPA69NE6f75rl5NuL+8ulHP3t4Hk2gdOA7dqo2JBJJPemmpJbHD
-	cQ7wkQK7EFVc5hMpGpf+l1dQsVuOGWKfEa6lw9MzCJtmdREnObQke26wz1StmKBtFIXxaN
-	Yb6qYrS+cBhwiuSBnI69gTGUbr6qRb0=
-Date: Sat, 28 Feb 2026 03:36:24 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <08041bd78c06981b18b3de90a95e0c951bf1623c@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH net v3 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-To: "Jay Vosburgh" <jv@jvosburgh.net>
-Cc: netdev@vger.kernel.org, jiayuna.chen@linux.dev, jiayuna.chen@shopee.com,
- "Jiayuan Chen" <jiayuan.chen@shopee.com>,
- syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Jesper Dangaard Brouer"
- <hawk@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>,
- "Stanislav Fomichev" <sdf@fomichev.me>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Martin
- KaFai Lau" <martin.lau@linux.dev>, "Song Liu" <song@kernel.org>,
- "Yonghong Song" <yonghong.song@linux.dev>, "KP Singh"
- <kpsingh@kernel.org>, "Hao Luo" <haoluo@google.com>, "Jiri Olsa"
- <jolsa@kernel.org>, "Shuah Khan" <shuah@kernel.org>, "Sebastian Andrzej
- Siewior" <bigeasy@linutronix.de>, "Clark Williams"
- <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Jussi
- Maki" <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-In-Reply-To: <999129.1772247707@famine>
-References: <20260228021918.141002-1-jiayuan.chen@linux.dev>
- <20260228021918.141002-2-jiayuan.chen@linux.dev>
- <999129.1772247707@famine>
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-February 28, 2026 at 11:01, "Jay Vosburgh" <jv@jvosburgh.net mailto:jv@jv=
-osburgh.net?to=3D%22Jay%20Vosburgh%22%20%3Cjv%40jvosburgh.net%3E > wrote:
+From: Jiayuan Chen <jiayuan.chen@shopee.com>
 
+When CONFIG_PREEMPT_RT is enabled, __SPIN_LOCK_UNLOCKED() expands to a
+brace-enclosed initializer rather than a compound literal, which cannot
+be used in assignment expressions. This causes a build failure:
 
->=20
->=20Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
->=20
->=20>=20
->=20> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >=20
->=20> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a N=
-ULL
-> > check. rr_tx_counter is a per-CPU counter only allocated in bond_open=
-()
-> > when the bond mode is round-robin. If the bond device was never broug=
-ht
-> > up, rr_tx_counter remains NULL, causing a null-ptr-deref.
-> >=20
->=20> The XDP redirect path can reach this code even when the bond is not=
- up:
-> > bpf_master_redirect_enabled_key is a global static key, so when any b=
-ond
-> > device has native XDP attached, the XDP_TX -> xdp_master_redirect()
-> > interception is enabled for all bond slaves system-wide. This allows =
-the
-> > path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
-> > bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() to be
-> > reached on a bond that was never opened.
-> >=20
->=20> The normal TX path (bond_xmit_roundrobin) is not affected because T=
-X
-> > requires the bond to be UP, which guarantees rr_tx_counter is allocat=
-ed.
-> > However, bond_xmit_get_slave() (ndo_get_xmit_slave) has the same code
-> > pattern via bond_xmit_roundrobin_slave_get() and could theoretically
-> > hit the same issue.
-> >=20
->=20 As a practical matter, though, I don't think the
-> ndo_get_xmit_slave path can actually hit the issue, as that looks to
-> only be called from Infiniband, which is only supported in bonding for
-> active-backup mode.
->=20
->=20>=20
->=20> Fix this by allocating rr_tx_counter unconditionally in bond_init()
-> > (ndo_init), which is called by register_netdevice() and covers both
-> > device creation paths (bond_create() and bond_newlink()). This also
-> > handles the case where bond mode is changed to round-robin after devi=
-ce
-> > creation. The conditional allocation in bond_open() is removed. Since
-> > bond_destructor() already unconditionally calls
-> > free_percpu(bond->rr_tx_counter), the lifecycle is clean: allocate at
-> > ndo_init, free at destructor.
-> >=20
->=20> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirection to=
- slave device")
-> > Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com
-> > Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00cc.GAE=
-@google.com/T/
-> > Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >=20
->=20 My only concern is that this will waste a percpu u32 per bond
-> device for the majority of bonding use cases (which use modes other tha=
-n
-> balance-rr), which could be a few hundred bytes on a large machine.
->=20
->=20 Does everything work reliably if the rr_tx_counter allocation
-> happens conditionally on mode =3D=3D BOND_MODE_ROUNDROBIN in bond_setup=
-, as
-> well as in bond_option_mode_set?
->=20
+  net/core/sock.c:3787:29: error: expected expression before '{' token
+   3787 |                 tmp.slock = __SPIN_LOCK_UNLOCKED(tmp.slock);
 
+Use declaration-with-initializer instead of assignment, consistent with
+how __SPIN_LOCK_UNLOCKED() is used elsewhere in the kernel (e.g.
+DEFINE_SPINLOCK).
 
+Fixes: 5151ec54f586 ("net: use try_cmpxchg() in lock_sock_nested()")
+Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+---
+ net/core/sock.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Hi=20Jay,
+diff --git a/net/core/sock.c b/net/core/sock.c
+index 9d841975a7a1..2461aba7b18a 100644
+--- a/net/core/sock.c
++++ b/net/core/sock.c
+@@ -3782,12 +3782,10 @@ void noinline lock_sock_nested(struct sock *sk, int subclass)
+ 	might_sleep();
+ #ifdef CONFIG_64BIT
+ 	if (sizeof(struct slock_owned) == sizeof(long)) {
+-		socket_lock_t tmp, old;
+-
+-		tmp.slock = __SPIN_LOCK_UNLOCKED(tmp.slock);
+-		tmp.owned = 1;
+-		old.slock = __SPIN_LOCK_UNLOCKED(old.slock);
+-		old.owned = 0;
++		socket_lock_t tmp = { .slock = __SPIN_LOCK_UNLOCKED(tmp.slock),
++				      .owned = 1 };
++		socket_lock_t old = { .slock = __SPIN_LOCK_UNLOCKED(old.slock),
++				      .owned = 0 };
+ 		if (likely(try_cmpxchg(&sk->sk_lock.combined,
+ 				       &old.combined, tmp.combined)))
+ 			return;
+-- 
+2.43.0
 
-Thanks for the review.
-
-bond_setup() is not suitable here as it is a void callback with no error =
-return path,
-so an alloc_percpu() failure cannot be propagated.
-
-An alternative would be to allocate conditionally in bond_init() (since t=
-he default mode is round-robin)
-and manage allocation/deallocation in bond_option_mode_set() when the mod=
-e changes.
-
-This is a trade-off between the added complexity of conditional alloc/fre=
-e across multiple code
-paths and saving a per-CPU u32 for non-round-robin bonds.
-
-For the per-CPU u32 overhead, it's only 4 extra bytes per CPU per bond de=
-vice =E2=80=94 and machines with
-that many CPUs tend to have plenty of memory to match.
-
-I don't have a strong preference either way.
-
-Thanks
-
->  -J
->=20
->=20>=20
->=20> ---
-> >  drivers/net/bonding/bond_main.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >=20
->=20> diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/=
-bond_main.c
-> > index 78cff904cdc3..9f63f67d8418 100644
-> > --- a/drivers/net/bonding/bond_main.c
-> > +++ b/drivers/net/bonding/bond_main.c
-> > @@ -4279,12 +4279,6 @@ static int bond_open(struct net_device *bond_d=
-ev)
-> >  struct list_head *iter;
-> >  struct slave *slave;
-> >=20=20
->=20> - if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN && !bond->rr_tx_c=
-ounter) {
-> > - bond->rr_tx_counter =3D alloc_percpu(u32);
-> > - if (!bond->rr_tx_counter)
-> > - return -ENOMEM;
-> > - }
-> > -
-> >  /* reset slave->backup and slave->inactive */
-> >  if (bond_has_slaves(bond)) {
-> >  bond_for_each_slave(bond, slave, iter) {
-> > @@ -6411,6 +6405,12 @@ static int bond_init(struct net_device *bond_d=
-ev)
-> >  if (!bond->wq)
-> >  return -ENOMEM;
-> >=20=20
->=20> + bond->rr_tx_counter =3D alloc_percpu(u32);
-> > + if (!bond->rr_tx_counter) {
-> > + destroy_workqueue(bond->wq);
-> > + return -ENOMEM;
-> > + }
-> > +
-> >  bond->notifier_ctx =3D false;
-> >=20=20
->=20>  spin_lock_init(&bond->stats_lock);
-> > --=20
->=20> 2.43.0
-> >=20
->=20---
->  -Jay Vosburgh, jv@jvosburgh.net
->
