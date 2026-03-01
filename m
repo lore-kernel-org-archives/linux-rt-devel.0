@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2AB23EABA;
-	Sun,  1 Mar 2026 01:17:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821582857F0;
+	Sun,  1 Mar 2026 01:27:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772327854; cv=none; b=Vl3xIpu30UrQKorBdOOpX5ojfeWUbllE4tw1nIdB4eMkqWFH5WzMkWIbovpTqRZjwi1Vr1mByHJVQdBjyg93TI1A04tG5jhVADQNrzWDxvaNB7tUqN4GLo3SRaz2fk7Q5LJpQmHfwLiXCLhBGblS20SJYc1b+R9GouVJBnmNBrg=
+	t=1772328459; cv=none; b=ELRdF5aSr6DQwJbwFycwqFD94pjiN8BkzIraH0WQy7aANVDjb4lzaJ99K7VY6KAI2XvUot1JdVDSmd6E0BLR0w+9Ano6gVHSNK29oRLz4VasdLd2fvj0urNOuUK770SIQw1Vt+NNav6OtKVFKa2YcKABYhezsFVfFHgxF7vi5u0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772327854; c=relaxed/simple;
-	bh=Oo7HI7gZ/7OGgdEacUFLxqe0nxPxWp1WsRPts8VqBTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KsaeWMAQ1CfVBShDIEUhSYIk4nZl5WBdu05SNlVMvSoep08bzIPxOIsGcueyYUTKqQuSbmA16ds1uzTWZlgf2+AE+cbH1vNIe51qADGK0HQQhhdgEJwz1RkBG6sx3sYzMEyW5gMd/x5WyydhV24NBevIhFVEWiSEHP0ETTC8XII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eS3WovQk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328459; c=relaxed/simple;
+	bh=2zY98AChLAI8Uc3dOCp4nl3S20yxpr9dCAzYx3eASqw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UpFtQZcpV9kHjnHlmUAd6I98YbMBlSWpoQp+xw2AhrXEwNailmfidaRHpidH1G+CGYlRjb0+E0aEjVlU/2SXQFT/bjZ3G+2agxx+7rjvav8qVNEv7GmxQOK5F4zf1paNK8e/9WjobbB4Z4x3aufReSwXGyH1RaJlGDLHFKP9Ecs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vG0qqdXk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eS3WovQk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9958C19421;
-	Sun,  1 Mar 2026 01:17:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vG0qqdXk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D06C8C19421;
+	Sun,  1 Mar 2026 01:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772327854;
-	bh=Oo7HI7gZ/7OGgdEacUFLxqe0nxPxWp1WsRPts8VqBTk=;
+	s=k20201202; t=1772328459;
+	bh=2zY98AChLAI8Uc3dOCp4nl3S20yxpr9dCAzYx3eASqw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=eS3WovQkr4HMVxSZ2H7XONfIJ6W4TBWczk/P7WeBT2Ch2bxcc2mHelnvHZJH4nlAc
-	 K9hzGF3lYINz89chAFRsSuxNYXCnXVPdAf2IUGD74Z2/2rHKnAlq3T6z9pjxv9T5Wc
-	 MmK3UucQy/eQn34eUKMSH/xXRlVuLWXnvc6DY8HnXoG7RCUi9kuf8FB/7z97mh8vSQ
-	 1xV5Ihob8ZpJ0nB3pCunj18ce+yu7oFX0TRWWPOlXhiGK9U+6FHPbjP9u6v/lv374B
-	 sxgKAa0VDWfreF52ZpygedV8jOr7drw5Iv5AaYABP8RMhVOHxV+dwYIbA4CqS9UeiM
-	 FCKom7TwaOwUg==
+	b=vG0qqdXk26K5Lay8L9M34YGkW987qdHtgPti1il1avvWdXN99Bug3dnFXl+3ZiVu0
+	 q4nS5XMNB/DQCRVBhY4I+QOGFIFJ4g1pnFY2eSkMiECn3O/a60VJSZ4zrZGidI7luE
+	 nxskNZCacUs3b6MpQoLEm6523aHS3HtmRXRldQ8P9hKnlv6ubVTnlfqV8gRasaJho9
+	 cEwB4DCHPYMsiCsD+q5DUs/mar5GHuZyzG4Sq0J/xVdbj83kh/Wl9WW213zfkGr251
+	 j3edb5GSZVacLLmJUBey/af99XAQK2dLh+KDbIN/OV6pFcTZ87AGqDnfnk+f0ikMML
+	 JiKLq7JJEQp+w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	yangtiezhu@loongson.cn
 Cc: Huacai Chen <chenhuacai@loongson.cn>,
 	loongarch@lists.linux.dev,
 	linux-rt-devel@lists.linux.dev
-Subject: FAILED: Patch "LoongArch: Handle percpu handler address for ORC unwinder" failed to apply to 6.18-stable tree
-Date: Sat, 28 Feb 2026 20:17:32 -0500
-Message-ID: <20260301011732.1671502-1-sashal@kernel.org>
+Subject: FAILED: Patch "LoongArch: Handle percpu handler address for ORC unwinder" failed to apply to 6.12-stable tree
+Date: Sat, 28 Feb 2026 20:27:37 -0500
+Message-ID: <20260301012737.1685164-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -45,7 +45,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.18-stable tree.
+The patch below does not apply to the 6.12-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
