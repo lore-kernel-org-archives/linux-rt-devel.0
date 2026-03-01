@@ -1,82 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59FDE1DF25F;
-	Sat, 28 Feb 2026 15:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2AB23EABA;
+	Sun,  1 Mar 2026 01:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772293803; cv=none; b=PQvjGK1Ed3EatYrz40QnrM2EFRWKzv0+iz9HY7pDgwKeJc++fO/VxSCD7FHzptJHPFgjKjR/luk4uAHMkWoqpOPpQWJaMP95lMmY8SeUCvJCTT5awlz280E/pY784czJzfRili6TAAoKGZ59NAhLrLMQQRKB7Z3rPXgAQUlqTcM=
+	t=1772327854; cv=none; b=Vl3xIpu30UrQKorBdOOpX5ojfeWUbllE4tw1nIdB4eMkqWFH5WzMkWIbovpTqRZjwi1Vr1mByHJVQdBjyg93TI1A04tG5jhVADQNrzWDxvaNB7tUqN4GLo3SRaz2fk7Q5LJpQmHfwLiXCLhBGblS20SJYc1b+R9GouVJBnmNBrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772293803; c=relaxed/simple;
-	bh=U7iU0O708MosLKMperst8qs1501dpeYaYOoeaCGJkNI=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=T0gb24KRoH76ZxHb8SvwY2WDi/rKMtO9w8/pC6hkQcFisYn6Wa8u6HldK3/NRDzKVqwaVkPr/IZyun52est0Z6oOUZQvuaaGycGLheFdCyn10/k8OUlxv/XQpVzfOkWDI2BXVOki9ou9Zaeg7lNISmJaYXo6JuGw/ue8pBpuWKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aE2yZFOC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772327854; c=relaxed/simple;
+	bh=Oo7HI7gZ/7OGgdEacUFLxqe0nxPxWp1WsRPts8VqBTk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KsaeWMAQ1CfVBShDIEUhSYIk4nZl5WBdu05SNlVMvSoep08bzIPxOIsGcueyYUTKqQuSbmA16ds1uzTWZlgf2+AE+cbH1vNIe51qADGK0HQQhhdgEJwz1RkBG6sx3sYzMEyW5gMd/x5WyydhV24NBevIhFVEWiSEHP0ETTC8XII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eS3WovQk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aE2yZFOC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD869C116D0;
-	Sat, 28 Feb 2026 15:50:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eS3WovQk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9958C19421;
+	Sun,  1 Mar 2026 01:17:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772293802;
-	bh=U7iU0O708MosLKMperst8qs1501dpeYaYOoeaCGJkNI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=aE2yZFOC0fnwzQOlWC1Yx5ESs6IvmPreJFiJyQAU+7CGhnDeVAeMlsobnmJXykLov
-	 PhFyylnY6FNb4ywBlKkMxMeUVFlFY0kW6gukd5AvmjIsGZcyOjyQ008eQUyqX3GqR7
-	 ycOaErmRgFtTzR6dFFK8x7hohpg3gMOfqvBmEjwZqUwG/F9558dF/Ec6IsxJilMgIB
-	 u3w4RqCCJKVNKhG6ecNJHKKsqd9dZ79/QXUmNKY6WGux7CCx/WXp14Kd6A3OUGy4TM
-	 sKiaEUxH7pH3rCVz8QD5gry5Q/jj01i0qWnH6M/CiUMrfa23lBvp5AGsV7kFNFAXBC
-	 nQGJrILo+Y9ow==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FD9D39F2021;
-	Sat, 28 Feb 2026 15:50:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1772327854;
+	bh=Oo7HI7gZ/7OGgdEacUFLxqe0nxPxWp1WsRPts8VqBTk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eS3WovQkr4HMVxSZ2H7XONfIJ6W4TBWczk/P7WeBT2Ch2bxcc2mHelnvHZJH4nlAc
+	 K9hzGF3lYINz89chAFRsSuxNYXCnXVPdAf2IUGD74Z2/2rHKnAlq3T6z9pjxv9T5Wc
+	 MmK3UucQy/eQn34eUKMSH/xXRlVuLWXnvc6DY8HnXoG7RCUi9kuf8FB/7z97mh8vSQ
+	 1xV5Ihob8ZpJ0nB3pCunj18ce+yu7oFX0TRWWPOlXhiGK9U+6FHPbjP9u6v/lv374B
+	 sxgKAa0VDWfreF52ZpygedV8jOr7drw5Iv5AaYABP8RMhVOHxV+dwYIbA4CqS9UeiM
+	 FCKom7TwaOwUg==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org,
+	yangtiezhu@loongson.cn
+Cc: Huacai Chen <chenhuacai@loongson.cn>,
+	loongarch@lists.linux.dev,
+	linux-rt-devel@lists.linux.dev
+Subject: FAILED: Patch "LoongArch: Handle percpu handler address for ORC unwinder" failed to apply to 6.18-stable tree
+Date: Sat, 28 Feb 2026 20:17:32 -0500
+Message-ID: <20260301011732.1671502-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Patchwork-Hint: ignore
+X-stable: review
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] net: fix sock compilation error under
- CONFIG_PREEMPT_RT
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177229380605.3002732.13851051513590754007.git-patchwork-notify@kernel.org>
-Date: Sat, 28 Feb 2026 15:50:06 +0000
-References: <20260228111319.79506-1-jiayuan.chen@linux.dev>
-In-Reply-To: <20260228111319.79506-1-jiayuan.chen@linux.dev>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, edumazet@google.com, jiayuan.chen@shopee.com,
- kuniyu@google.com, pabeni@redhat.com, willemb@google.com,
- davem@davemloft.net, kuba@kernel.org, horms@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
- kerneljasonxing@gmail.com, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
 
-Hello:
+The patch below does not apply to the 6.18-stable tree.
+If someone wants it applied there, or to any other stable or longterm
+tree, then please email the backport, including the original git commit
+id to <stable@vger.kernel.org>.
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Thanks,
+Sasha
 
-On Sat, 28 Feb 2026 19:13:18 +0800 you wrote:
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> 
-> When CONFIG_PREEMPT_RT is enabled, __SPIN_LOCK_UNLOCKED() expands to a
-> brace-enclosed initializer rather than a compound literal, which cannot
-> be used in assignment expressions. This causes a build failure:
-> 
->   net/core/sock.c:3787:29: error: expected expression before '{' token
->    3787 |                 tmp.slock = __SPIN_LOCK_UNLOCKED(tmp.slock);
-> 
-> [...]
+------------------ original commit in Linus's tree ------------------
 
-Here is the summary with links:
-  - [net-next,v2] net: fix sock compilation error under CONFIG_PREEMPT_RT
-    https://git.kernel.org/netdev/net-next/c/58e443b773ef
+From 055c7e75190e0be43037bd663a3f6aced194416e Mon Sep 17 00:00:00 2001
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Date: Tue, 10 Feb 2026 19:31:13 +0800
+Subject: [PATCH] LoongArch: Handle percpu handler address for ORC unwinder
 
-You are awesome, thank you!
+After commit 4cd641a79e69 ("LoongArch: Remove unnecessary checks for ORC
+unwinder"), the system can not boot normally under some configs (such as
+enable KASAN), there are many error messages "cannot find unwind pc".
+
+The kernel boots normally with the defconfig, so no problem found out at
+the first time. Here is one way to reproduce:
+
+  cd linux
+  make mrproper defconfig -j"$(nproc)"
+  scripts/config -e KASAN
+  make olddefconfig all -j"$(nproc)"
+  sudo make modules_install
+  sudo make install
+  sudo reboot
+
+The address that can not unwind is not a valid kernel address which is
+between "pcpu_handlers[cpu]" and "pcpu_handlers[cpu] + vec_sz" due to
+the code of eentry was copied to the new area of pcpu_handlers[cpu] in
+setup_tlb_handler(), handle this special case to get the valid address
+to unwind normally.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ arch/loongarch/include/asm/setup.h |  3 +++
+ arch/loongarch/kernel/unwind_orc.c | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
+
+diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
+index 3c2fb16b11b64..f81375e5e89c0 100644
+--- a/arch/loongarch/include/asm/setup.h
++++ b/arch/loongarch/include/asm/setup.h
+@@ -7,6 +7,7 @@
+ #define _LOONGARCH_SETUP_H
+ 
+ #include <linux/types.h>
++#include <linux/threads.h>
+ #include <asm/sections.h>
+ #include <uapi/asm/setup.h>
+ 
+@@ -14,6 +15,8 @@
+ 
+ extern unsigned long eentry;
+ extern unsigned long tlbrentry;
++extern unsigned long pcpu_handlers[NR_CPUS];
++extern long exception_handlers[VECSIZE * 128 / sizeof(long)];
+ extern char init_command_line[COMMAND_LINE_SIZE];
+ extern void tlb_init(int cpu);
+ extern void cpu_cache_init(void);
+diff --git a/arch/loongarch/kernel/unwind_orc.c b/arch/loongarch/kernel/unwind_orc.c
+index d6b3688a1ce97..11ba3e4ac9eee 100644
+--- a/arch/loongarch/kernel/unwind_orc.c
++++ b/arch/loongarch/kernel/unwind_orc.c
+@@ -352,6 +352,22 @@ static inline unsigned long bt_address(unsigned long ra)
+ {
+ 	extern unsigned long eentry;
+ 
++#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
++	int cpu;
++	int vec_sz = sizeof(exception_handlers);
++
++	for_each_possible_cpu(cpu) {
++		if (!pcpu_handlers[cpu])
++			continue;
++
++		if (ra >= pcpu_handlers[cpu] &&
++		    ra < pcpu_handlers[cpu] + vec_sz) {
++			ra = ra + eentry - pcpu_handlers[cpu];
++			break;
++		}
++	}
++#endif
++
+ 	if (ra >= eentry && ra < eentry +  EXCCODE_INT_END * VECSIZE) {
+ 		unsigned long func;
+ 		unsigned long type = (ra - eentry) / VECSIZE;
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+2.51.0
+
+
 
 
