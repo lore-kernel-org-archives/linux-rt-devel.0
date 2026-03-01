@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07451190664;
-	Sun,  1 Mar 2026 02:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4DF190664;
+	Sun,  1 Mar 2026 02:04:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772330683; cv=none; b=niOECS5lzIzm4o4mA4w/4Y8orO5cIjPfCC2nSsP9apuSQ11fESotRxkucmbxql7D1KA9sb6GHMMNtdELxf/zBKkDtJJXPyJZ6inVvC6VnOoY7MhxctwoCHCTJkrdhZIuenBgGYTw8d1iu/y5Mv82J9vqyC6YJ0sFTMncnV0OBLk=
+	t=1772330689; cv=none; b=ap5z6WNlLso0alaceE3ImhoTp/zS5UBupw8cblHeG1oxFhVYjI6Ha8vfolvm5Q3RFMRXCK0TRt50jYgJUL+TwmWd0TuZu+x7kiyx5eCYzSYbi0b97dejM7p7RWnKFx95Dn+8LLb2mV/cZThnQzjapED+8y8z7Npf/4VPtX1F0wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772330683; c=relaxed/simple;
-	bh=KY8zbWFaUbTfy1IbZIYr0rBhVQnVZ6/4ab7tkam5GRU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jj+wt8wR1BqJmuZ9KUNy+1MbxAjBeQLmlsRrrBJfxSkaRaE3hrbUKK8fmRPA2Z6/dQU3jFoEnZaakmRpIKLj3tCg5Ie9bkKcXC2bUB7MQvmCRocbURozhLNbuuxH+ag0npSfhKe59B00z1Y6U54Uw9aZPT27iX6U2k/VXjcy8Nk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MnS9gHex; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772330689; c=relaxed/simple;
+	bh=aPqVASWYPjTFxvphLPhm3C+MRr5aUxO/V2l2UEtf0Sw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F8h7BepuHp/fPgO1FbLRdmbOpuRMGKswU+WdMZgcdXZTC+HTcvd4qePG1pDgLJMobitXqWolhLpJsRwK59Z+uKtrMVgwqJJyWShmhZhD5DG8y3um6q8wr8b/EVFM+0smd9Mph8jgMuHJAVPt8DsDzxHYiu4CIQ8xVKOgFr9FWAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=piz7ZBc6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MnS9gHex"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E035C19421;
-	Sun,  1 Mar 2026 02:04:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="piz7ZBc6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC1FC19421;
+	Sun,  1 Mar 2026 02:04:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772330682;
-	bh=KY8zbWFaUbTfy1IbZIYr0rBhVQnVZ6/4ab7tkam5GRU=;
+	s=k20201202; t=1772330689;
+	bh=aPqVASWYPjTFxvphLPhm3C+MRr5aUxO/V2l2UEtf0Sw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=MnS9gHex/XVk1hRqsYd5tiw6wJVFcYX+sWvTSSu2hkgYjZUYa03Fk3h5fmD929uH1
-	 dEsaxAJcTeY4yNpg9mPdBYjw6g/NMU0c/vAdmYJHmrV8iQzPVNAdZ5RByhwD2A8Hsu
-	 1IqVAQdFfokivcR7/gIorDyQWCpnlVQmFKxhj9HVxwx8ljCzT4oRQgCJH1dCCJ6tAZ
-	 CfjmcyXhhrRahbL5J0fKgWT8Gc4uRnCYO5et6+wHag+RmoAGwVuP+7NTcOCpoL4cgI
-	 YJPcf0dOCw/zN7NLcSaJ3nv4UZ7vP8thAVuCAjnQYrGASkNAlhyFZ5FuDJaeLbz3uf
-	 X3yLP3x8GmRVg==
+	b=piz7ZBc6UB8Ng6di6qjM5zJqAwxt9di2Q6IzyF4vQkXF5P7Z9/UHU8zau0o2xUB0+
+	 uJsREcjIh8iW4Ps8hX8q0z2u86Pa/PZdGO7V8jrUmxGUJiDJ1lPI6jFEuV6uPyFPnv
+	 mz+ZSBn5Uf1OWeul6fSZxfZcyB+gUgg5NxwHWCQGtm7KlPJxcr9GVTtilh+G+p1rt5
+	 4cmaUMj4q6IUMqGh8PAb30dEhXHg03FZDw2yM+b0M4tHZqGMZbmXaxPTM9A65nmMiV
+	 mS9cADtsBGtZW76PaDlzK5fXw5yM7DO0eEv7rlBg3lNo6v2k9d64Q3QhlvFalttf12
+	 Jfp9JV8lcksdA==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	yangtiezhu@loongson.cn
 Cc: Huacai Chen <chenhuacai@loongson.cn>,
 	loongarch@lists.linux.dev,
 	linux-rt-devel@lists.linux.dev
-Subject: FAILED: Patch "LoongArch: Handle percpu handler address for ORC unwinder" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:04:40 -0500
-Message-ID: <20260301020441.1733170-1-sashal@kernel.org>
+Subject: FAILED: Patch "LoongArch: Guard percpu handler under !CONFIG_PREEMPT_RT" failed to apply to 5.10-stable tree
+Date: Sat, 28 Feb 2026 21:04:47 -0500
+Message-ID: <20260301020447.1733307-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -55,88 +55,35 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 055c7e75190e0be43037bd663a3f6aced194416e Mon Sep 17 00:00:00 2001
+From 70b0faae3590c628a98a627a10e5d211310169d4 Mon Sep 17 00:00:00 2001
 From: Tiezhu Yang <yangtiezhu@loongson.cn>
 Date: Tue, 10 Feb 2026 19:31:13 +0800
-Subject: [PATCH] LoongArch: Handle percpu handler address for ORC unwinder
+Subject: [PATCH] LoongArch: Guard percpu handler under !CONFIG_PREEMPT_RT
 
-After commit 4cd641a79e69 ("LoongArch: Remove unnecessary checks for ORC
-unwinder"), the system can not boot normally under some configs (such as
-enable KASAN), there are many error messages "cannot find unwind pc".
-
-The kernel boots normally with the defconfig, so no problem found out at
-the first time. Here is one way to reproduce:
-
-  cd linux
-  make mrproper defconfig -j"$(nproc)"
-  scripts/config -e KASAN
-  make olddefconfig all -j"$(nproc)"
-  sudo make modules_install
-  sudo make install
-  sudo reboot
-
-The address that can not unwind is not a valid kernel address which is
-between "pcpu_handlers[cpu]" and "pcpu_handlers[cpu] + vec_sz" due to
-the code of eentry was copied to the new area of pcpu_handlers[cpu] in
-setup_tlb_handler(), handle this special case to get the valid address
-to unwind normally.
+After commit 88fd2b70120d ("LoongArch: Fix sleeping in atomic context for
+PREEMPT_RT"), it should guard percpu handler under !CONFIG_PREEMPT_RT to
+avoid redundant operations.
 
 Cc: stable@vger.kernel.org
 Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- arch/loongarch/include/asm/setup.h |  3 +++
- arch/loongarch/kernel/unwind_orc.c | 16 ++++++++++++++++
- 2 files changed, 19 insertions(+)
+ arch/loongarch/kernel/unwind_prologue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
-index 3c2fb16b11b64..f81375e5e89c0 100644
---- a/arch/loongarch/include/asm/setup.h
-+++ b/arch/loongarch/include/asm/setup.h
-@@ -7,6 +7,7 @@
- #define _LOONGARCH_SETUP_H
+diff --git a/arch/loongarch/kernel/unwind_prologue.c b/arch/loongarch/kernel/unwind_prologue.c
+index 729e775bd40dd..ee1c29686ab05 100644
+--- a/arch/loongarch/kernel/unwind_prologue.c
++++ b/arch/loongarch/kernel/unwind_prologue.c
+@@ -65,7 +65,7 @@ static inline bool scan_handlers(unsigned long entry_offset)
  
- #include <linux/types.h>
-+#include <linux/threads.h>
- #include <asm/sections.h>
- #include <uapi/asm/setup.h>
- 
-@@ -14,6 +15,8 @@
- 
- extern unsigned long eentry;
- extern unsigned long tlbrentry;
-+extern unsigned long pcpu_handlers[NR_CPUS];
-+extern long exception_handlers[VECSIZE * 128 / sizeof(long)];
- extern char init_command_line[COMMAND_LINE_SIZE];
- extern void tlb_init(int cpu);
- extern void cpu_cache_init(void);
-diff --git a/arch/loongarch/kernel/unwind_orc.c b/arch/loongarch/kernel/unwind_orc.c
-index d6b3688a1ce97..11ba3e4ac9eee 100644
---- a/arch/loongarch/kernel/unwind_orc.c
-+++ b/arch/loongarch/kernel/unwind_orc.c
-@@ -352,6 +352,22 @@ static inline unsigned long bt_address(unsigned long ra)
+ static inline bool fix_exception(unsigned long pc)
  {
- 	extern unsigned long eentry;
- 
+-#ifdef CONFIG_NUMA
 +#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
-+	int cpu;
-+	int vec_sz = sizeof(exception_handlers);
-+
-+	for_each_possible_cpu(cpu) {
-+		if (!pcpu_handlers[cpu])
-+			continue;
-+
-+		if (ra >= pcpu_handlers[cpu] &&
-+		    ra < pcpu_handlers[cpu] + vec_sz) {
-+			ra = ra + eentry - pcpu_handlers[cpu];
-+			break;
-+		}
-+	}
-+#endif
-+
- 	if (ra >= eentry && ra < eentry +  EXCCODE_INT_END * VECSIZE) {
- 		unsigned long func;
- 		unsigned long type = (ra - eentry) / VECSIZE;
+ 	int cpu;
+ 
+ 	for_each_possible_cpu(cpu) {
 -- 
 2.51.0
 
