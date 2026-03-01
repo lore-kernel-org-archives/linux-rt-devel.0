@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747271F1932;
-	Sun,  1 Mar 2026 01:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7892182899;
+	Sun,  1 Mar 2026 01:37:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328464; cv=none; b=X0865qN7f+eFBWCYql8b0spp16HiCwz9tdqxImIfhK+mXXRomPReJpzLF1UVk0P/hd822gCz3v5ur3cmgtleZ3lTfq/5sgBpHZ0P1vxSTJsmI1ObsEUsIfm44IMYFqdeD16JSshONJN5tMieo+rpVvGRcpUtr/cDyL9Su2uvm9c=
+	t=1772329074; cv=none; b=JBpNVbFywXTUDL185EUgyYhfaX2+RRL4I8YE1bdj6r75z6qhlGxhVaheVN5yy5Ae3BRKPTkL+rzQxjMoh5ZknmzfZkQk01ui5VqB3PaPcvUf7ULnXd+W20KJzfdOMm6V8zs6hX0IO5zykDpG3XlAJSt2jAnYeLa/VInmEEBJjhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328464; c=relaxed/simple;
-	bh=mRh3b3pZjH+YVpNFWsrbOgxIKSfnNg8TZg6RG8HEdlE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jaC4cEboPuGssxWs6QwRTOglm4eT3oXF101XhP64uOPN09AW/8DCZFPN6rrGf23z7myXGVmlaYKjjIBUs8zUgWZ8Hw/9vgAF+J3I6fN3YhfHJgXN7IXhzGNQvvqvTr5jDHdTkFavdMoMHLDC/HzbVq6+M0MDuPh9gbXSyAhMrNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SevvrnkT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772329074; c=relaxed/simple;
+	bh=4R4BGyKKPwJ2unF3DVW/G3JhpVVNedvuU6aK9H8iWJA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WZum7o1v7Hr+7Klg2Di/7Z2wBThI49kTnmi20QIKwrXfP+RWuY2WjKPylY/Iyj4VbEHTK7pdVAKlfnjdzLM6crNyr5RUULktl0IUQgaCiLk+GMvhDEiuw2IKnQILf4Yqg8ZcUKtUV0EiUPqpXvBTJgS1Ikgy5gj5P8X9oDBroNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LsQUjSBp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SevvrnkT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCB83C19421;
-	Sun,  1 Mar 2026 01:27:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LsQUjSBp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB81FC19421;
+	Sun,  1 Mar 2026 01:37:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328464;
-	bh=mRh3b3pZjH+YVpNFWsrbOgxIKSfnNg8TZg6RG8HEdlE=;
+	s=k20201202; t=1772329074;
+	bh=4R4BGyKKPwJ2unF3DVW/G3JhpVVNedvuU6aK9H8iWJA=;
 	h=From:To:Cc:Subject:Date:From;
-	b=SevvrnkTaLPqGBfLKPe7RStUth86/eRUPCS5fhR8VyelJdoYjzMEiWyXkx24+LJnR
-	 gcMFLu3zJu8QErOFZVgwnHyZhsGfBspWS/gLYuc+OobUsKGuSe6LiX2aMuT+enHQ6w
-	 Y1yT/x7mBD9/1H5Kl9/wWRZ57SV7j12nqP65b2MJz+sWZLoJYW4VydkSBgLjGJQvVf
-	 aUti8PbC2M1RHtTIHfpssUON/RoKapmCBpJChiInMPqRW6FxvoUnO43ZVp/myLh9VE
-	 PnKCf7xuATyQipZe0npHpJv39+un4g8wmI2jVpWJ4g3k4LzznX9LGwfJfV5PRIVxrp
-	 6G74m5yTg3/Gg==
+	b=LsQUjSBpfTn9FXcDP988bApLBw9Ru36N0ifboqB4YghfN3kMNy3RAZcX1UngDo2TD
+	 dq7OrNDZ+ldYn+F111T4U4MJCVuPAw/OILeYvQeBls4et1pwYlPoTPgy1mWqMTZD31
+	 +dmmaIqyn6lVUbFTmfnuTHYj6/hLPm1Gmikng487CHqzG3E8MCggvhIcVTgf8xP6YW
+	 Zj+/yXi3C+/UlMXrAoAA4ZCl2PptaY/u8MmUDRpcIfbRPfu6YoBXmXlTpNe+vP4Slu
+	 YbvEkHLwBmrhq0cgB7xwkEJggz3T0+kqmIcZvQ3Y4PFO3fDExfV63Paqu0FZhNhitU
+	 6mFE7Ox0dqG/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	yangtiezhu@loongson.cn
 Cc: Huacai Chen <chenhuacai@loongson.cn>,
 	loongarch@lists.linux.dev,
 	linux-rt-devel@lists.linux.dev
-Subject: FAILED: Patch "LoongArch: Guard percpu handler under !CONFIG_PREEMPT_RT" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:27:42 -0500
-Message-ID: <20260301012742.1685273-1-sashal@kernel.org>
+Subject: FAILED: Patch "LoongArch: Handle percpu handler address for ORC unwinder" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:37:52 -0500
+Message-ID: <20260301013752.1698147-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -45,7 +45,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.12-stable tree.
+The patch below does not apply to the 6.6-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
@@ -55,35 +55,88 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 70b0faae3590c628a98a627a10e5d211310169d4 Mon Sep 17 00:00:00 2001
+From 055c7e75190e0be43037bd663a3f6aced194416e Mon Sep 17 00:00:00 2001
 From: Tiezhu Yang <yangtiezhu@loongson.cn>
 Date: Tue, 10 Feb 2026 19:31:13 +0800
-Subject: [PATCH] LoongArch: Guard percpu handler under !CONFIG_PREEMPT_RT
+Subject: [PATCH] LoongArch: Handle percpu handler address for ORC unwinder
 
-After commit 88fd2b70120d ("LoongArch: Fix sleeping in atomic context for
-PREEMPT_RT"), it should guard percpu handler under !CONFIG_PREEMPT_RT to
-avoid redundant operations.
+After commit 4cd641a79e69 ("LoongArch: Remove unnecessary checks for ORC
+unwinder"), the system can not boot normally under some configs (such as
+enable KASAN), there are many error messages "cannot find unwind pc".
+
+The kernel boots normally with the defconfig, so no problem found out at
+the first time. Here is one way to reproduce:
+
+  cd linux
+  make mrproper defconfig -j"$(nproc)"
+  scripts/config -e KASAN
+  make olddefconfig all -j"$(nproc)"
+  sudo make modules_install
+  sudo make install
+  sudo reboot
+
+The address that can not unwind is not a valid kernel address which is
+between "pcpu_handlers[cpu]" and "pcpu_handlers[cpu] + vec_sz" due to
+the code of eentry was copied to the new area of pcpu_handlers[cpu] in
+setup_tlb_handler(), handle this special case to get the valid address
+to unwind normally.
 
 Cc: stable@vger.kernel.org
 Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- arch/loongarch/kernel/unwind_prologue.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/loongarch/include/asm/setup.h |  3 +++
+ arch/loongarch/kernel/unwind_orc.c | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/arch/loongarch/kernel/unwind_prologue.c b/arch/loongarch/kernel/unwind_prologue.c
-index 729e775bd40dd..ee1c29686ab05 100644
---- a/arch/loongarch/kernel/unwind_prologue.c
-+++ b/arch/loongarch/kernel/unwind_prologue.c
-@@ -65,7 +65,7 @@ static inline bool scan_handlers(unsigned long entry_offset)
+diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
+index 3c2fb16b11b64..f81375e5e89c0 100644
+--- a/arch/loongarch/include/asm/setup.h
++++ b/arch/loongarch/include/asm/setup.h
+@@ -7,6 +7,7 @@
+ #define _LOONGARCH_SETUP_H
  
- static inline bool fix_exception(unsigned long pc)
+ #include <linux/types.h>
++#include <linux/threads.h>
+ #include <asm/sections.h>
+ #include <uapi/asm/setup.h>
+ 
+@@ -14,6 +15,8 @@
+ 
+ extern unsigned long eentry;
+ extern unsigned long tlbrentry;
++extern unsigned long pcpu_handlers[NR_CPUS];
++extern long exception_handlers[VECSIZE * 128 / sizeof(long)];
+ extern char init_command_line[COMMAND_LINE_SIZE];
+ extern void tlb_init(int cpu);
+ extern void cpu_cache_init(void);
+diff --git a/arch/loongarch/kernel/unwind_orc.c b/arch/loongarch/kernel/unwind_orc.c
+index d6b3688a1ce97..11ba3e4ac9eee 100644
+--- a/arch/loongarch/kernel/unwind_orc.c
++++ b/arch/loongarch/kernel/unwind_orc.c
+@@ -352,6 +352,22 @@ static inline unsigned long bt_address(unsigned long ra)
  {
--#ifdef CONFIG_NUMA
-+#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
- 	int cpu;
+ 	extern unsigned long eentry;
  
- 	for_each_possible_cpu(cpu) {
++#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
++	int cpu;
++	int vec_sz = sizeof(exception_handlers);
++
++	for_each_possible_cpu(cpu) {
++		if (!pcpu_handlers[cpu])
++			continue;
++
++		if (ra >= pcpu_handlers[cpu] &&
++		    ra < pcpu_handlers[cpu] + vec_sz) {
++			ra = ra + eentry - pcpu_handlers[cpu];
++			break;
++		}
++	}
++#endif
++
+ 	if (ra >= eentry && ra < eentry +  EXCCODE_INT_END * VECSIZE) {
+ 		unsigned long func;
+ 		unsigned long type = (ra - eentry) / VECSIZE;
 -- 
 2.51.0
 
