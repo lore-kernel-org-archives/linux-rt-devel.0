@@ -1,53 +1,53 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFEA3590A4
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Mar 2026 10:51:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E559535AC34
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Mar 2026 10:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772448694; cv=none; b=Vwz7mHWW84i4gxsgrjwvB3WwwSUE6JQnuSPWokip4urFShbaVebIod4aKQdML9F4UhdXrygt/bvt2n7kCLvLQKEdswm0XovhbMMDPMEqbvFFH2aJna74yCMU0vUz7/6ZcB0+AqPryfmJ1KNzQ2j7i3OxkW3zlXln9szAymPKOzE=
+	t=1772448849; cv=none; b=hWRyTpZXX+hr+l7UluEm8w4DbvNdGVPPKz/JVAc2hBsm+PcjMncUIMpkfqnsijqNRi8bQIEsRkJB1/3PI/Of0iVpnxQJmxwj42C/Y4AdNd6Vv7wlynWvmISe0fU6yojbPX2rVy24lKhXKwB68GnFOVY5UtxXcP22bmdlQnKLUC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772448694; c=relaxed/simple;
-	bh=gungxojt1JLveY2mcJNznXl62fn97xjVqtkUoY1ICuo=;
+	s=arc-20240116; t=1772448849; c=relaxed/simple;
+	bh=nqr7P2AXcIfPv2TTpdlGMHrXcRLz51EfYCSVtq5Pqkk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwn/Z5DlOTNbzXAb98MxfbzJZMdSkP3ENe1pqMYQnDQWswedOGTpxfLAeN+usTAoQeXD7nH3V98uHaavL7LZQvQ7vTaRxPHFJS00/4109wi0v33giiFaDVeVJMNahYG+h89yZnm4Frm2RQlSp+PToJkHqfJlBP9lAcYexj6IP3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Wc8u8Prl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Vx4CdNhr; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=YDEjXT6d7a7n2qwmoJtuN/dvLXLhF6X3E8f8Y+YjGR4CdEUOGMgu0h3OVU+6/3v2e0xqwA289E+keBTM+BpoCuKRC70mm/zHbP3Z8P++RQALXvTFfARDjLQlDXN7jS63SSUzFWPoSGy7g05wfw5vkcjG4cWMtF4qcFR7+b1yppE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jD3oAQej; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TexzpHjF; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Wc8u8Prl";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Vx4CdNhr"
-Date: Mon, 2 Mar 2026 11:51:30 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jD3oAQej";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TexzpHjF"
+Date: Mon, 2 Mar 2026 11:54:05 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772448691;
+	s=2020; t=1772448846;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L0KCOyoLsIgluS1BqRcipX43WxCPDJ9M5ANAEO2kJJQ=;
-	b=Wc8u8Prl3V1HRW1Zg3I5vIkZuDQBxfUEbq1gx/0/4I+XZnctpr3wF79l36Gg3VnsHNdWM+
-	nxFEa7MjHVYkIvs60GtH06Gsjw0HtMvzm5eJGTe8JZy/j2B6ccTqO8kj2puYZKx7RMP4sM
-	DzLc+11eZWb/PAfjawTcJTXa5gS0kiAGobNAPKoRAQTXDy1KUwfREdXlRcib0/K70IBabW
-	CUgZgmgsXGctxjsnWISXVIazy7LzLRNhB1gr3GipWenfIddFyHsNCYOyS+Wh4VE9BmmAwk
-	Xz8l6iCAKXerxFVMRPCCC620s/v702sEm3We/Yd/0G1fBvBDBzy9Tq3vz5Tpcg==
+	bh=uDPdb9l408UW2dK8RDYDN3+fzmDd+VUlaz23BOiaXGU=;
+	b=jD3oAQejbS+X4o7pXnOD9SU0N080OPn7NoiIA9oVFHBYkL4elZGd5JIb5yRSblXDwckUow
+	1S+rNs/cRLzHUueRZu5TWe3J8FSoOFtO7C7BPSad0UMoSI9DVuH9LTQoT3vbwRDLUUelNK
+	xbwLeDlbcPNOeQKmlkGlvHzpcIyhCkvSAyEb6hTc1DJlrXiFIJ+7RMgNxdhs4JfCkq+KKa
+	HIH9k4vidPvk51PjussL3GkBZEKi9HhmWiW4rrlR6viyGVywKIQmo7W8CU+z3C5aAQyM2H
+	q/JwNoN+783EXenoci3P7MD14nbdF0DS0uKp5RZxG7FUEBejbeBCw9L8TYHkLg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772448691;
+	s=2020e; t=1772448846;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=L0KCOyoLsIgluS1BqRcipX43WxCPDJ9M5ANAEO2kJJQ=;
-	b=Vx4CdNhrM/2/EmSrNiFcTRzywLsJxOtg2qh/Zl7BlpSVXbrZR6mPP+hUCbwMEdCr7tdTRA
-	W2XRoy9gJLB4G+Bw==
+	bh=uDPdb9l408UW2dK8RDYDN3+fzmDd+VUlaz23BOiaXGU=;
+	b=TexzpHjFRCZAya2R5oiE1nlJRjCVIQFKzu0QNDERBwrBW6jl/8qwmLwPC4nAG2KW1Fn9fj
+	oOvKy83hJh14X4BQ==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 Cc: linux-arm-kernel@lists.infradead.org,
 	Clark Williams <clrkwllms@kernel.org>,
 	linux-rt-devel@lists.linux.dev,
 	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 5/6] ARM: move FSR fault status definitions before
- fsr_fs()
-Message-ID: <20260302105130.HTs-UDqx@linutronix.de>
+Subject: Re: [PATCH 6/6] ARM: provide individual is_translation_fault() and
+ is_permission_fault()
+Message-ID: <20260302105405.zTTpLiRj@linutronix.de>
 References: <aaG1wrNUaq_L0I5g@shell.armlinux.org.uk>
- <E1vvzcm-0000000AwoI-3o9W@rmk-PC.armlinux.org.uk>
+ <E1vvzcs-0000000AwoO-03iq@rmk-PC.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -56,13 +56,12 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <E1vvzcm-0000000AwoI-3o9W@rmk-PC.armlinux.org.uk>
+In-Reply-To: <E1vvzcs-0000000AwoO-03iq@rmk-PC.armlinux.org.uk>
 
-On 2026-02-27 15:19:28 [+0000], Russell King (Oracle) wrote:
-> The FSR's fault status bits depend on whether LPAE is enabled. Rather
-> than always exposing both LPAE and non-LPAE to all code, move them
-> inside the ifdef blocks dependent on LPAE to restrict their visibility.
-> No code other than fsr_fs() makes use of these.
+On 2026-02-27 15:19:34 [+0000], Russell King (Oracle) wrote:
+> Provide individual LPAE and non-LPAE definitions for both these
+> functions, rather than having ifdefs inside the function body. This
+> places the functions closer to their associated definitions.
 > 
 > Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
