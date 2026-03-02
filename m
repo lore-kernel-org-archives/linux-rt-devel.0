@@ -1,174 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976483148B4
-	for <linux-rt-devel@lists.linux.dev>; Sun,  1 Mar 2026 06:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00769387358
+	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Mar 2026 08:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772347453; cv=none; b=XXM4B6n3X9pDShA5BIJ/t4+BqbLBVMkT4mjV8fhSaBrmhKuFZsAGn4Rew38Hp2wb8HZhpMP8TmSe+XmNwMP7TudJIuc2RVHO7Foo1LAoiNatINI7AfL6a7MgwbLsx+4C9pzUmlp9RxncxGljm8C7wfGhdIMb9dK6iMN2B1eM2oM=
+	t=1772439028; cv=none; b=t7rIfM8IR+kM7/ox1UBSNxQjFAaXzlzNXlbYtPIgDb1WcDjQova1GdcZmEOEC3Q8uxE7U8ld3a2fb93Wouyyo48LR/thUB84yg2AeXMhs0O+qF4Dg+wr54INWBgFqbk8vqhzu+0a+WZXstaubA8Xk4cTigCenIuyufmNGd9IfNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772347453; c=relaxed/simple;
-	bh=XFGpLYN03reP+5l6hA30SCAITxDf85HOumCDhZqztm0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dyvMw1iz1uUPPMo+8L6/gVsEJsWryhlrdkfQ6JM7v+VZNjWWXEx31Ng/fbjfkzRfECvRTDHuGerUeje+LNUwkDAZ1p8uNcWqQ1YB7HlWgp9VBU3DvZoJflCY3TcGdk8cLFOOgLiUt5FZ89DgQlRFKL2z9uJpd2okhiHtUJXxtvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Slte34qq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772439028; c=relaxed/simple;
+	bh=ixwb2BfKeXCQX9PRIL0yEWU0kFZM8JpQv09X0+Nrxf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KFMtTJv7zrxvucN35Hn5TuVOtPjQHWJzGuhIGNyzHUs/qv1FVsMb9r1xkG9HL5YUdjv4+oXbBfNqb8duoCFnNrh7EYTO2Dm82Ohj6SSFKK4zGlXMN4muTo/qJIljF0DTNPylFmW70LLxGT8bJlBYOlB2Rdg774we3j6FW8HKy24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=i0z5fL+d; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Frz5mpdt; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Slte34qq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66FA5C2BC87
-	for <linux-rt-devel@lists.linux.dev>; Sun,  1 Mar 2026 06:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772347453;
-	bh=XFGpLYN03reP+5l6hA30SCAITxDf85HOumCDhZqztm0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Slte34qq1nC/CA0hwhslB4E2Z/dKxIeD5MGIzYiCkZmEvl6BhhRttE0wgCNeXkMdZ
-	 D0iLznXbi1udMbJ6CiwydbuEBoV2+y5DuUStJWZU+DEy+AkkEyk/oc7I5fgLiNBH3O
-	 23hpLw4VZ6N6FGqC6vHJtfC3jCRDlrmQtGR68zSRoyEp63zSAvnKeJX0uAV2bZcK+W
-	 t277XvnVkWE8o8zZ6Bt++pPkAUcOjR2RLcw4VEx6ux6eV+WZObNZOiAjGGQDs6S1Ee
-	 ZO4d35CjL4ArzgMAtHOMKWWcr3esJw65bvu+9FbZzcZkJg/yJiO1uHNaVHBRVQuPR/
-	 1tSV0ylNhaUcw==
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-65b9d8d6b7dso5574858a12.2
-        for <linux-rt-devel@lists.linux.dev>; Sat, 28 Feb 2026 22:44:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWAY6GdiDL5gax3XYwg4ifj2Hdcdz825xYzeJQKGuDte18wk2qOsOpbelmW0FXMfgNIgxpFJ8T78A1hnxI+cw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrMhMOtrt+zdfCwiQbPIyxeRZWgXix3BFyewQR2jTgvKNR+czb
-	KSvctEkpgM+w4gmTauR3MXPpV4BW0HEkZ39qPEdC59fR8vaDMVCRephc/b2fhYy4wT7J+1XHm/a
-	wHmrEfkvXO1PSMY0ysxhke2iwb538XhY=
-X-Received: by 2002:a05:6402:4508:b0:65c:420:d30 with SMTP id
- 4fb4d7f45d1cf-65fdd6c0beamr3560059a12.12.1772347451941; Sat, 28 Feb 2026
- 22:44:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="i0z5fL+d";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Frz5mpdt"
+Date: Mon, 2 Mar 2026 09:10:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772439023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fP9PDZ0ex7zg1+9lEL3J8b+iUpbzj2YqlC1Ik3cqycM=;
+	b=i0z5fL+dPf4DSFLPFFGUMcS1Qpj4WciBpkpp0vjWjT557q69OmoTm++NPAZWE/ihdilmNm
+	O9VEs64vxnXGZelMsMZ/5iLDzM3jdyLMhPgjCKDTIAgJ3gcSB965tGbP78LEEsO3vIeqgv
+	SS09fSdQjwnFCrfOg3+dCKGh0Sw4l+TXCUPPOaxJAjTiOjXNAt+t7S80+6usOAw7NTVg9X
+	vCk0c+Iin5cHZm5TXaYiobySBxJ6IDIQshAFyixoyZKH/+8sYcKKvaHYn2i2WQFraWmQDB
+	dt55ls/rmSueX1es8uRgyfWGEeptvTB4BPRU3pZ3s+r7Vf22FiObLCzcc3sA1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772439023;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fP9PDZ0ex7zg1+9lEL3J8b+iUpbzj2YqlC1Ik3cqycM=;
+	b=Frz5mpdtnq0z0zW+g9iPn0htrzPFk03OgVA3INCawCilnQ/pPwwNwd47M8j0CcCwzfhhnT
+	O75Y2MIz3PiZRsDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: Jay Vosburgh <jv@jvosburgh.net>, netdev@vger.kernel.org,
+	jiayuna.chen@linux.dev, jiayuna.chen@shopee.com,
+	Jiayuan Chen <jiayuan.chen@shopee.com>,
+	syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jussi Maki <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net v3 1/2] bonding: fix null-ptr-deref in
+ bond_rr_gen_slave_id()
+Message-ID: <20260302081021.MiQQ_LQr@linutronix.de>
+References: <20260228021918.141002-1-jiayuan.chen@linux.dev>
+ <20260228021918.141002-2-jiayuan.chen@linux.dev>
+ <999129.1772247707@famine>
+ <08041bd78c06981b18b3de90a95e0c951bf1623c@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260301013752.1698147-1-sashal@kernel.org>
-In-Reply-To: <20260301013752.1698147-1-sashal@kernel.org>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sun, 1 Mar 2026 14:44:00 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6Bv_n1OW70sjtSXvLia53BbMuHB1VPpDN5kDMYC=knng@mail.gmail.com>
-X-Gm-Features: AaiRm53v3UndjOIglK-lx4rUOL8gYuM2ftLZut-EYx4catgZY2WxXuIWOW2uVZU
-Message-ID: <CAAhV-H6Bv_n1OW70sjtSXvLia53BbMuHB1VPpDN5kDMYC=knng@mail.gmail.com>
-Subject: Re: FAILED: Patch "LoongArch: Handle percpu handler address for ORC
- unwinder" failed to apply to 6.6-stable tree
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, yangtiezhu@loongson.cn, 
-	Huacai Chen <chenhuacai@loongson.cn>, loongarch@lists.linux.dev, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <08041bd78c06981b18b3de90a95e0c951bf1623c@linux.dev>
 
-Hi, Sasha,
+On 2026-02-28 03:36:24 [+0000], Jiayuan Chen wrote:
+> >  My only concern is that this will waste a percpu u32 per bond
+> > device for the majority of bonding use cases (which use modes other than
+> > balance-rr), which could be a few hundred bytes on a large machine.
+> >=20
+> >  Does everything work reliably if the rr_tx_counter allocation
+> > happens conditionally on mode =3D=3D BOND_MODE_ROUNDROBIN in bond_setup=
+, as
+> > well as in bond_option_mode_set?
+=E2=80=A6
+> An alternative would be to allocate conditionally in bond_init() (since t=
+he default mode is round-robin)
+> and manage allocation/deallocation in bond_option_mode_set() when the mod=
+e changes.
 
-On Sun, Mar 1, 2026 at 9:37=E2=80=AFAM Sasha Levin <sashal@kernel.org> wrot=
-e:
->
-> The patch below does not apply to the 6.6-stable tree.
-> If someone wants it applied there, or to any other stable or longterm
-> tree, then please email the backport, including the original git commit
-> id to <stable@vger.kernel.org>.
+This sounds reasonable.
 
-Please do the same thing here:
-https://lore.kernel.org/loongarch/CAAhV-H46pdrJgJ0tg493nK8S8X6NQrXu+jHO-yDp=
-BBdyDpRQKw@mail.gmail.com/T/#t
+> This is a trade-off between the added complexity of conditional alloc/fre=
+e across multiple code
+> paths and saving a per-CPU u32 for non-round-robin bonds.
+>=20
+> For the per-CPU u32 overhead, it's only 4 extra bytes per CPU per bond de=
+vice =E2=80=94 and machines with
+> that many CPUs tend to have plenty of memory to match.
 
-Huacai
+4 bytes is the minimum allocation for per-CPU memory. The memory is
+already "there" it is just not assigned. So for the 4 byte allocation it
+is needed to find a single area (the smallest allocation size).
+In case there no free block, a new block will be allocated and mapped
+for each CPU which the part that costs memory.
+That said, we should not waste memory but it is not _that_ expensive
+either for a bond device. Things change if here are hundreds of devices.
 
->
-> Thanks,
-> Sasha
->
-> ------------------ original commit in Linus's tree ------------------
->
-> From 055c7e75190e0be43037bd663a3f6aced194416e Mon Sep 17 00:00:00 2001
-> From: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Date: Tue, 10 Feb 2026 19:31:13 +0800
-> Subject: [PATCH] LoongArch: Handle percpu handler address for ORC unwinde=
-r
->
-> After commit 4cd641a79e69 ("LoongArch: Remove unnecessary checks for ORC
-> unwinder"), the system can not boot normally under some configs (such as
-> enable KASAN), there are many error messages "cannot find unwind pc".
->
-> The kernel boots normally with the defconfig, so no problem found out at
-> the first time. Here is one way to reproduce:
->
->   cd linux
->   make mrproper defconfig -j"$(nproc)"
->   scripts/config -e KASAN
->   make olddefconfig all -j"$(nproc)"
->   sudo make modules_install
->   sudo make install
->   sudo reboot
->
-> The address that can not unwind is not a valid kernel address which is
-> between "pcpu_handlers[cpu]" and "pcpu_handlers[cpu] + vec_sz" due to
-> the code of eentry was copied to the new area of pcpu_handlers[cpu] in
-> setup_tlb_handler(), handle this special case to get the valid address
-> to unwind normally.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> ---
->  arch/loongarch/include/asm/setup.h |  3 +++
->  arch/loongarch/kernel/unwind_orc.c | 16 ++++++++++++++++
->  2 files changed, 19 insertions(+)
->
-> diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/=
-asm/setup.h
-> index 3c2fb16b11b64..f81375e5e89c0 100644
-> --- a/arch/loongarch/include/asm/setup.h
-> +++ b/arch/loongarch/include/asm/setup.h
-> @@ -7,6 +7,7 @@
->  #define _LOONGARCH_SETUP_H
->
->  #include <linux/types.h>
-> +#include <linux/threads.h>
->  #include <asm/sections.h>
->  #include <uapi/asm/setup.h>
->
-> @@ -14,6 +15,8 @@
->
->  extern unsigned long eentry;
->  extern unsigned long tlbrentry;
-> +extern unsigned long pcpu_handlers[NR_CPUS];
-> +extern long exception_handlers[VECSIZE * 128 / sizeof(long)];
->  extern char init_command_line[COMMAND_LINE_SIZE];
->  extern void tlb_init(int cpu);
->  extern void cpu_cache_init(void);
-> diff --git a/arch/loongarch/kernel/unwind_orc.c b/arch/loongarch/kernel/u=
-nwind_orc.c
-> index d6b3688a1ce97..11ba3e4ac9eee 100644
-> --- a/arch/loongarch/kernel/unwind_orc.c
-> +++ b/arch/loongarch/kernel/unwind_orc.c
-> @@ -352,6 +352,22 @@ static inline unsigned long bt_address(unsigned long=
- ra)
->  {
->         extern unsigned long eentry;
->
-> +#if defined(CONFIG_NUMA) && !defined(CONFIG_PREEMPT_RT)
-> +       int cpu;
-> +       int vec_sz =3D sizeof(exception_handlers);
-> +
-> +       for_each_possible_cpu(cpu) {
-> +               if (!pcpu_handlers[cpu])
-> +                       continue;
-> +
-> +               if (ra >=3D pcpu_handlers[cpu] &&
-> +                   ra < pcpu_handlers[cpu] + vec_sz) {
-> +                       ra =3D ra + eentry - pcpu_handlers[cpu];
-> +                       break;
-> +               }
-> +       }
-> +#endif
-> +
->         if (ra >=3D eentry && ra < eentry +  EXCCODE_INT_END * VECSIZE) {
->                 unsigned long func;
->                 unsigned long type =3D (ra - eentry) / VECSIZE;
-> --
-> 2.51.0
->
->
->
->
->
+> Thanks
+>=20
+> >  -J
+
+Sebastian
