@@ -1,280 +1,350 @@
-Received: from USG02-CY1-obe.outbound.protection.office365.us (mail-cy1usg02on0085.outbound.protection.office365.us [23.103.209.85])
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABD432E73E
-	for <linux-rt-devel@lists.linux.dev>; Mon,  2 Mar 2026 23:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=23.103.209.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03D309EFC
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Mar 2026 07:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.238
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772493979; cv=fail; b=fUGRc/AUlER2tTBJ+Xbl/mXboG3jX2tu9OgAw2wT4ReDJxqOULpkT75o8g8yXg4nMk/f1vCqoxJyZH2/16rW7is3YIoFmqhEhI7z25QtHuK/92u+2Fl+PGdyBkNYSCD6+BNwwRdY76K0Sk+qWSdorUVNll8cLs4ivcXp6S3qZns=
+	t=1772523524; cv=fail; b=kok9y4mjqJsuQ1E0jT2li6KcgtM1LE+Z4oEwdEy7zdE2ZZkKZ8Zpv6iCgReSktcW/9aBiDOvARPB2JWdMoeyM8GwF3IRGL3NS5452g7k7plUE4TxtawEe7w61aqYbLuYCiO8Oc0PODZ8/SWyP20Uywc+EIHtd3aSHrGA2orABRY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772493979; c=relaxed/simple;
-	bh=oCr6GegVwXYMGPRlhWZumZhHm+bslriZWlRqyj0z3IQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dcyZiqcJSeVQ7ZaNQKnl4m7rvKgopiZZAYDBB6cRs+SgBM30Tse5L97jNUe0ZSnUDCqeTOr5mG5DRZW9BMfFpFwSO7NGnkmYY1FnxbBsvvnrQHQJnyth8GUwulUxn5dpSlCSya2/adzRt3O+dvcmkxnujvgSApFHva2medsU9zk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ga.com; spf=pass smtp.mailfrom=ga.com; dkim=pass (2048-bit key) header.d=ga.com header.i=@ga.com header.b=aBWjD6UH; arc=fail smtp.client-ip=23.103.209.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ga.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ga.com
+	s=arc-20240116; t=1772523524; c=relaxed/simple;
+	bh=/IdmbcRHIMWTrqzBkQKkgBFFT9LKO43gWKHa8OO8MAA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h4fkkHWJ5DV5wNF7tv2knpxlu3cm+FecbngEWrI31kcc3HSt3thQjUWnDkvHuxDWo5RLmZwaDQM/IKmYB1q4l9AYQT2YuAOMyEGkKXuKt86NvofMG//btW6na9AeJrprmVg2s4mg2C0cUnuyTf8jZXegpjLOWqcsZhM4Xiiw4bo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=q1hszg1c; arc=fail smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ga.com header.i=@ga.com header.b="aBWjD6UH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector5401; d=microsoft.com; cv=none;
- b=r2PHl9Fxi2ZTLj7oxfg2krX1GNFI0U1OIqzlwaxoma+TyJ9KABAhew5fAa/8Qdv9BInM5ybF3PcQlWlwdlgqpHoI+PnvjEtPIs4whie/xX1bHrWyUh87BcwasvDeuRaNT56M2knD6SYZC/ora0epu2U/7Hkldfj/uyl9Lyen+ifA+zC1VsMl8vADawQOtlf7dNOxeGY4poNZdl9q/0DhsrL/m0UD/k7FpU6puNYhsVuoGQbsTL9Qp4jPDl+ZRlcRfWy2tluqM2NWx35Qhkrsld6EuISYAUCV8lMeaJxL3mwUPukDi720Y39UzTB/reeMiIvbsUgLleA2TvGtgxxAhw==
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="q1hszg1c"
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6235WSGO3928414;
+	Mon, 2 Mar 2026 23:38:03 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=dAPi2Ev3h9FsE/PCMMITvLlm6CY8Xjp1D5Xa1tGOkEU=; b=
+	q1hszg1cCjIIvTIOGELchSz79BaUxBlmdsq5IlCDpOEqpAv9MJ2Xo+hi34bgMn2B
+	1vPeeW6zDpa/CeGiYqYXgDGe20u+whHajRixJv9sRV+PwYaf9vqHYH74iW/4CwMh
+	ZGqIBX8z7hQNwFXjapFHdz6m40saE3tIIQUffHo3WEt+NyXdJ0eetgLW1JMDkqEx
+	ZEZf/lW720G/7JAk0K1LerBCyrLdELhHGBX4bV+rUago6AkWgiZq/mpd8aQD8wV+
+	/Tnisz74n5l1+UZmxC+184H5C3r+Qm6DDDAHpP7qK3y8uPTk0fbhZc8txBYLYsnD
+	0ztj0t/pZL9LIMELJxNy9w==
+Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010068.outbound.protection.outlook.com [40.93.198.68])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ckvh43220-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 02 Mar 2026 23:38:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y74xLOouCk7ZEcKFTuEOMNMru5WLrTTiSBdMBalaMSZpNLHpu7Nwwt5TNZ5rNv7Oqwr3/tPrDp8UGWgK+CpSFXYGXbNZBe+zC7fG7A6sEW/3Xo6Wpt4ONQ+6f3bXVgeryCDWfm6L4ep9pKyXkRhZteaFnjZ4uJVvgGVbXf9jwSvFmNkiAeZDo9LskgkzOQIGgOFTTNwo3VCwDZAfobMxny5n5v6A+wXSug2J9qFinITw+qiOgmLEi7WTBU+OhdC320GzPSRuuhX5Zzv2y4gMB5OHsktA/gXCN8m7Ya8JWoH6AavvYK3WPXoAc+O7RIsCGQvsJ+nSdDcfWDjeBNNy1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector5401;
+ s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=smEF7XYMGoNbfdU2BLYdn/Yf9G2VQZDzU5JOx9Uv4SE=;
- b=ts3CtUPFIw/OfKYZtoveTkkWkC6RwvVswmQCsna3F76HVGARjWZYXrgVGqH8sN5y0W9m7UpBaODZRNAurmxnpmx60N7wvsNEmsUcSHtfqHOtHaRqdTyUJx0EXR6a3rBL3uTTOYV82RTh/FDZdOAnDzb2Ux4xyahW+x5ZxVLdOnm/URt++uGQIPMNG/KFdCAO7AWFo4wTCArGy6sNXgTsfZ5qez2R+c/WeG3KtfgAl+qxQc4Co7Pj67GuIlOOy69jD16G6mVaAoGrZ4vWqqNsyGcTVnjIN1wOV+ktFzs3vx3yND5iu0FTS1ZImsSwHmQICcOcOzegTsMsjZc0Sqbspw==
+ bh=dAPi2Ev3h9FsE/PCMMITvLlm6CY8Xjp1D5Xa1tGOkEU=;
+ b=Yk63MsQyrYdGPFeFcBGS4imrTA4cdEBPyY3Pe6CIP5ZcUf9ftnSsZRQg9yPBzRk5B9bpSeTylxIvutuPtv4/2BRbM++2D804gQLBEZqXJBVZblDEweEU5U9pRlv0tz/2kA4sTzZi+1lgZA8hvbVhLaJglQ+4+xFpQ1ebcIJc8Sjc/gqy562wMbktrj+X8BsSzAGr4h+vP9evSk9dgWIRB5awTAdoEYftq5SUhYTWtZOfHd2CZNFgTagWdsFPqKGR0Cjj09upLlxHKx5vQCO8t7GBQMHxw6UBRqJbjFYQrsFBQwWFFGiKZniogtAvmCIbtns+2amXRCrZPKHU4vwtYQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ga.com; dmarc=pass action=none header.from=ga.com; dkim=pass
- header.d=ga.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ga.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=smEF7XYMGoNbfdU2BLYdn/Yf9G2VQZDzU5JOx9Uv4SE=;
- b=aBWjD6UH0LD5Pqn29MSVuEJ/SWXl96Q34VQDaytOTr3rcNbeo/KiOwmHHnw7BhteHDwKZNoG41ke9/qXVLUGN7Hvrt5f1ZZtxeGEGzCjPeNj3z2ty6yAWeZgbLl/YXVGrIIDAjq9XWLnHAEXjY7erdmXp5/qCy1s03ttgz/WgFguQMvhvDTONLbRTxpsyU07RzwvwsIfHChexFblI9Mjj28rffKBW+NylWluRfdWgTXBBUeuxxQDf1EYBK7D2UOYqkd6n2GXhn2h+6Mk8JurB71US1v/+eapT0f/B63vxCVFiQj2B6DowajGZ5i+O9AoEvpzeUpjzahe/zNXQGfX6w==
-Received: from SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:429::17)
- by SA1P110MB2008.NAMP110.PROD.OUTLOOK.COM (2001:489a:200:1ab::12) with
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from MN2PR11MB3885.namprd11.prod.outlook.com (2603:10b6:208:151::27)
+ by SJ5PPFF330187AB.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::860) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 16:49:20 +0000
-Received: from SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
- ([fe80::6e97:4555:2019:b375]) by SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
- ([fe80::6e97:4555:2019:b375%3]) with mapi id 15.20.9632.025; Mon, 2 Mar 2026
- 16:49:19 +0000
-From: "Soderlund, David" <David.Soderlund@ga.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>
-CC: "David S. Miller" <davem@davemloft.net>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Bert Karwatzki <spasswolf@web.de>, Clark Williams
-	<clrkwllms@kernel.org>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Subject: RE: -EXT-[PATCH net] net: Provide a PREEMPT_RT specific check for
- netdev_queue::_xmit_lock
-Thread-Topic: -EXT-[PATCH net] net: Provide a PREEMPT_RT specific check for
- netdev_queue::_xmit_lock
-Thread-Index: AQHcqmOxryFcHgEwzk66wXf5AsWaCLWbdBsw
-Date: Mon, 2 Mar 2026 16:49:19 +0000
-Message-ID:
- <SN5P110MB0848D42085BBED56246C59789F7EA@SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM>
-References: <20260302162631.uGUyIqDT@linutronix.de>
-In-Reply-To: <20260302162631.uGUyIqDT@linutronix.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ga.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN5P110MB0848:EE_|SA1P110MB2008:EE_
-x-ms-office365-filtering-correlation-id: 252fae21-a6cd-4ed1-50a0-08de787ba64a
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|366016|1800799024|38070700021;
-x-microsoft-antispam-message-info:
- Lh+1mRDiceM2ylGyC7yjQ5sbprMQaYaPJjkWIZFb6iKV4JzEGclnE1dC0gAB+IwkM03mF6pll2MiLEmEH0PN+mwMMcSw5/ve4IqQZX62Ydnw/9VAt3+CmshIFKnNd2j8yQ9BJObTdxaXcU6Uwy6Kv9uW1b9VprufHeBsuHkMQ2KTOYoQ8U2DossV/fdBg5q1julkX8bVtw7FnrIazMLsOJKcF06RgazCaNLPF70ifQm2pXaqbaT7pAYXoUl+nH0YGV8R3WdIkKzOecowwUwAJxH459gN1x0zLf/ex/WWnHFb8ABxZIiQ37Vefr1HKvcMRBw0+FSQXFFSsTcxVSvfu3IIwhHiF9Hrq/kv1YiSX2eDqNE0gHiTj3ZA+8b+5j+YUJSOnx+jW3nCQ6gYI929/NUicFk3sd6PWH1ensuy3ngUovLBoFsMs1FKodaBxz9rT5mDP+mByKwpHESYTfem9NxvxrEGDf/e1Cu822gB52u3hyvBLJFRNcfW8kwM6L7FIm/GZgh/Y2icAnZ8iBiwRaeUsEqMp/9ildbbQcxqZTNBh8fGq7OaeDcuPonbe2kcmsNBeFvSzmkOoX7LmzGP1Zmzrmctle4SnYMLiPiij5t5HXmWkCvB4wJBWiYBiKl/VtHmajrZSWyZuPYvFluIapHKhh6oRwtcVOU3ZfzRm/BAhgpUuDER22bNSj9FPGug+WIp36RTSk2qrzGTEl13uCw8e/N7XmgSaFcRIYrWhW9/3REPKgBat6BDG9HS+pUMIDIEFEjQbKORNSKcPe3/RuPU817sxtpZrPLY+eMNzzM=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?Ms944swEJxU9asWtgYocFO6d0tIB90yrzQ1nKI/qR8+dS7ULYfqElCgLNSjt?=
- =?us-ascii?Q?CqSRvgxw1sZUvwTwb+Eh574wzAri/HpJ9DzL8TTIfzVdEiovK7FSzEkrnpq2?=
- =?us-ascii?Q?AvOiH29/eEBqlXtVuulx7vYi+9agwWGkEOQvA8Sht2I2ofsuBoeLk/Znd+5M?=
- =?us-ascii?Q?B97K1fdsH7QLFEZuszMlAw1uz7CvdEk0mcQ9D8Zp4majHvnRo4565QroaGDi?=
- =?us-ascii?Q?c7dqis5AO/UVCl8N2naGDJsSjHOijsLGIYs4yr0lMKslPJsXqsfNvL9Cohbt?=
- =?us-ascii?Q?vyVLqypapsF8LXrImicv3swi2czHJiECMIDSH/qpqIcBmjNU6z0YSD2dCXB7?=
- =?us-ascii?Q?gymfp7kF5iRCPTX/Qypv8dGKgGXtBB30Y44LQKXFHSFNb49/QmMMp5vqS0al?=
- =?us-ascii?Q?efw0DE6DX0M94HEsgTWlpn1TFKmmYBdbQPq0ZT5tOfN50/2yAkHYzbUJOnnQ?=
- =?us-ascii?Q?kHNccgngh4wRVCd0f0iLSWkviXD1c8V1vqS8j3mn/6XqSph6NuA6oialvN2Y?=
- =?us-ascii?Q?neNI9YCQUr774pJ9h86cDsH1rvItuOVqpJdey/9SdfZMumphFRIXCKYy3KgA?=
- =?us-ascii?Q?P7GED1DFs20MhcsxOaolvi8MwVBZe8yD6xmQo615rllsl2qEuLa1xje/maLc?=
- =?us-ascii?Q?tfEP0r68OtiEBSwIjgiD5hZJNr4KHQPqpEfrLZgwRPKdvN96JVBTNpNVUU6R?=
- =?us-ascii?Q?85MDOPRnTDRu2ONJ1LrzL2H1WtBIhEqUs8Lh0uU5sCYnwv645FOEMNjGOjp/?=
- =?us-ascii?Q?0IsNgwwQeYB15KWm5rvgIq4uN3Tea4sgZ2wBlCWKPIS2dHL44gedAQxVJoxk?=
- =?us-ascii?Q?U22tbyYpKkhE34RlQKwmB9BwCJGwUPc192PK0RkKBrK+qOPceJrwm44qKhEE?=
- =?us-ascii?Q?VDKe78yH5XHsJrpOBWjl7Uhlp8TITYjbyG7gJSAlgXBLrPsgzZskNM5/EqAG?=
- =?us-ascii?Q?sF1rcE8H65BtKoWkyiMHQ8YmZ++K3cHree0AwRaQDMb0bZQfdnssA7N6/Qdc?=
- =?us-ascii?Q?q0oPW0s8jA0BcYHZaXUK5BRFJwNXpocxDJgw9Fhs3o2F3LRMnLcvd3pNOtQv?=
- =?us-ascii?Q?KZBBU+3+h8GrKu3H1LB6VIcy0fPvNGBgBKVSAVMZ5cjilPW3r5AhtHMnCGxt?=
- =?us-ascii?Q?13CZ+g3o1MfVqaXdmWlO1LMtUDu1WlqR7aBAYdWN1bN/egN3aeYveiOpHdh7?=
- =?us-ascii?Q?mEac4xxZ82AMQHjt/TMNQlgWvQ+akEZuEiAPvVGaBMeidddA/KYMxV6locjh?=
- =?us-ascii?Q?P+91B2CDDfAwPtOd3+4ip9mOQgDRn7pSHfoSZ1Ct4l3fVR2x+4s8kBsSRAYJ?=
- =?us-ascii?Q?MKfsBHCNkT8KpdgtGBWBY4FI6XUYoqNQ6Nr2ZocR8TX7mNkeLWuo3k413QHl?=
- =?us-ascii?Q?lgOGIbu75eoEysRJO5sziCCS1kwJIpQu88w4mYMREMXdG5ucGkrk2GYDeEXZ?=
- =?us-ascii?Q?tyb/o1qoFbmppOnTUtqt2wQny7GlW92lBBY/ueK2vnN4G5SqaSEQ65HUDJJe?=
- =?us-ascii?Q?NLBWjFKaEn9G824=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 07:38:01 +0000
+Received: from MN2PR11MB3885.namprd11.prod.outlook.com
+ ([fe80::a8bb:9703:986e:845]) by MN2PR11MB3885.namprd11.prod.outlook.com
+ ([fe80::a8bb:9703:986e:845%4]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 07:38:01 +0000
+From: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
+To: linux-block@vger.kernel.org, axboe@kernel.dk
+Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+        ming.lei@redhat.com, muchun.song@linux.dev, mkhalfella@purestorage.com,
+        chris.friesen@windriver.com, linux-kernel@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev, linux-rt-users@vger.kernel.org,
+        stable@vger.kernel.org, ionut_n2001@yahoo.com, sunlightlinux@gmail.com,
+        "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>
+Subject: [PATCH v5 1/1] block/blk-mq: use atomic_t for quiesce_depth to avoid lock contention on RT
+Date: Tue,  3 Mar 2026 09:37:44 +0200
+Message-ID: <20260303073744.20585-2-ionut.nechita@windriver.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260303073744.20585-1-ionut.nechita@windriver.com>
+References: <20260303073744.20585-1-ionut.nechita@windriver.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BE1P281CA0240.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:8c::9) To MN2PR11MB3885.namprd11.prod.outlook.com
+ (2603:10b6:208:151::27)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: ga.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR11MB3885:EE_|SJ5PPFF330187AB:EE_
+X-MS-Office365-Filtering-Correlation-Id: f40b067b-df00-4639-fc4b-08de78f7cc62
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|52116014|10070799003|366016;
+X-Microsoft-Antispam-Message-Info:
+	KQao57MmIgic1HZklBWgujFZWr0EWpuJgvQLRIyqGIN0Z+ukdW8U/jQNAFiwLhpa6k2nVvvuBcFj0H6p2xTWPR32C6fwxDoRigBc00pPDnFGwnq2wF+XVnldKpMtpoxU9kGvJJXP31GBQcoFpFKQBvYzxaPlXxCT7v2OtAnHTF59+QRlbJ2AjgC/y++2Ef/nIU7mcb1lf9epbrjdH99odCds1uvJ0bmeDNhiHN8Q0DmU/lpG37/3sG32V7XVyvlUkMccEhYkg00cqcxOANz8+j1OWueJIQRUpCS7GpkZr+sy3287ZJ0hRiUPljj61pVmBeW0J3Hl++6fd1A86RhviBktpWbqvy04KW+pW4GpciTOyYVq4MoWayf9tfnA6KSebrg7KioMY/ZsIzWPCmgyS7KbVngnWNo1s+rAydzAcsRLqyEWujh0jrjzvtbwq8S8CqhO49nc5fGgo4c/K5dASrUcEHMqAb0o4NGTYSqtMeZpmKuuZNz6xNb503rC/zSwzjwCXb1JjrTrT8SjGxuHBUlXgW1T2lFl60Q+3hZF1ArgAo4PCDx//ju2RvqaApv0lI7HE6jq50k5MZwYS8EmYpWKMuJ+ayD+FEuwE8HDyrrkCKSU2RXcwcUVrnU94JIWVzNIvmhhpmuZgoOh5P7MixtZDJNSsfT+tt2T2QjVrbt8a/RdzInByBdhvNm3zaKMMShdniUwZjwYQhrSEeuqs4V+4s05xFYy9TNe//15O4c=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR11MB3885.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(52116014)(10070799003)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?80/n5IkRchxkTRu62MeH9Y0t9kHCFUWoIvW+ZOPd3C4XbUzZWtZitMtrvE5G?=
+ =?us-ascii?Q?V5I0F3JIqNROAR55pvETeL8ReuIkYME0cPb99USLK5XR3THaRzMslfSRftRF?=
+ =?us-ascii?Q?xIDoBCn17d/eFrDBlWtoJ/79dxeoy5rdGw+mnXtYDpeQ0ZvIN66GKjZGIFvI?=
+ =?us-ascii?Q?luA3MTEvPCLezr4Jjfbhn6j+BBZMAbY5do7CBxSI9qaIFYx8NRcluD5334cT?=
+ =?us-ascii?Q?v/ZpMkyFzM5eQq9D2CuMK1/MyjGJB3p/HYh1n0CTgBAmu6wgTZxxZ21iMNsD?=
+ =?us-ascii?Q?YMpuTWe8AoJMsec7XxNHPeHPB6G+dmTz90JWkUO94RITgCGgjSCLQkKCIuVA?=
+ =?us-ascii?Q?2vunNCGHfK++rLJ2SSSNpSh8KCfHN91KRKtBzlm2rXwe4+HfWRuIHhKVOQXH?=
+ =?us-ascii?Q?7H1ss0COiMO6FoXJQM4JnipoYh2PfbFr4wOaMUi74tFEdKXjpQYL6a7W+8Y6?=
+ =?us-ascii?Q?GR5LcjxHoqlLQ1BF6UgBHRM79EAeWX+u9qmGVApFvDk5hjtOgEsLyvIHkTW3?=
+ =?us-ascii?Q?mzbz9p/SaoMg9excXzyXNq8guPCEuX32uyXQ26PB+6fUy9kbHSQaBOPY1gTB?=
+ =?us-ascii?Q?YT/ciiSYf7wPpQn6H34vI5Dk4p9olaOlR3t9TYezlHVmNycJ3JMZiKJRbBQA?=
+ =?us-ascii?Q?+V7qo5cZdbvRNBiM8HakmdR2bYwzE0u8hJV2zv1q9EriYsGhbZF9/3WWh3fQ?=
+ =?us-ascii?Q?GLZSvg0kHCVhkeXZimNpJefajwuu6XWiQr3g8HXyk3L/Gde8ET1eibbyv8/6?=
+ =?us-ascii?Q?d1ArYR+BDwTVu92dnWyBTuiQrb1qrSnTp33L1uzm5B0Mg7A7khJeq19Fb1si?=
+ =?us-ascii?Q?VlyjJywjym278kGjDJVsdPvoNaKy/a709AVllWIjy9bJipHsS2Ezs8yqydfw?=
+ =?us-ascii?Q?0I1Hfco03JZahjC9vE3uZNSoIE0hZVgaU30hVhs6pYu11qW9KmRaQVHpyQmn?=
+ =?us-ascii?Q?1NfO6IRq+/u38ewpr9XYVC/ZcKB2DT6xlvCieOL39NbpaDrspVlh/BFoUAxX?=
+ =?us-ascii?Q?M3wGJBKa/96fjC5rwVlO5jXwdxvnClSO93f92L3PHXTPrQULU+45XTgUx4Sh?=
+ =?us-ascii?Q?+k84QdX9hDbBJkZDSYIIhpTMUQNREfK3dSptVBdj2KQ1kA9Iys2lS+hHxBVz?=
+ =?us-ascii?Q?SGop6MrQVp1O+1oaujzETNAIqQ2XZM/WpvjIUqnGHdSU+6vf2qks5u+YUuSD?=
+ =?us-ascii?Q?/i7A0daIj5imzQvoEJljO/NNOz5CuOZ48nHoijjtA8+0DMpfisdRT5n6k42A?=
+ =?us-ascii?Q?ubYe5u/estJJPl6bAxVMHXAOjURbsyK209+5v4mD37QdsuFvf8M5R9idC+OC?=
+ =?us-ascii?Q?h1481X9r48aNVqbzlw+0dek60N4drrvmUVEulDtmmi/OWp3q39QWYszYyBkc?=
+ =?us-ascii?Q?vPV8nIojuDz/lHMqNCcscdeYgsO9t5Lc8hI5Rd2667EEljoY1ntbREfVidlx?=
+ =?us-ascii?Q?tI3FIVHiIPrzwb0CtBJ9sfBFZRAhvHLJf2A1bVD1ZrQOOo17SaB8BEGeQiM+?=
+ =?us-ascii?Q?qDHSuRJKPLZgPEAouuCIyi0C546QC5MqzihIxA0mBYEUgfO6imlVzpyvNZUK?=
+ =?us-ascii?Q?twzpjD90I4MpR1r2Y8rqOUK046sv4D1+QVVdMvZEeHtTfM0nPxD4agUxHYX4?=
+ =?us-ascii?Q?hOs74w7b9BJGtXEuxEcuRPaatbQD5B3Lwkg/SSvEDEhgTjw1f+i8SKnRFzQY?=
+ =?us-ascii?Q?5TvNR1nOKBMgpTaMDHEmsKDh4aTIRTPcTi0AUZmz8d7yT3pRLK0Ur2LL7bgu?=
+ =?us-ascii?Q?Evm7Dkz4xMqAnwl8yUP+y2EGCTHpZCS4RahCGYssPO99gR+tCs9YpT4F7B0r?=
+X-MS-Exchange-AntiSpam-MessageData-1: +DbtrK2W74PjPztcmtTgTanJYRl3vwkSrWA=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f40b067b-df00-4639-fc4b-08de78f7cc62
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR11MB3885.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN5P110MB0848.NAMP110.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 252fae21-a6cd-4ed1-50a0-08de787ba64a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Mar 2026 16:49:19.9029
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 07:38:01.5787
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 05e53887-e4b3-4595-87f7-3ae79f0e723e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1P110MB2008
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /1jeHx4zqQdDyaTFWJ/5E32xSFgl7EdnIUo3rGPf2tV8JS9gMTi8m0XbVIQFIu9Blo7taTGBFHOuQ/XpM8VU/NtBoOHMFzGkMXI4gPO1E40=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFF330187AB
+X-Proofpoint-ORIG-GUID: pfaK2a47gux6mOQ65BoARqL5gGbCmXNK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAzMDA1MyBTYWx0ZWRfXxkZZP5t6HzKv
+ qUVWeWgGvvDoOpguV4yChmwdcjwyUK0oq8C2BCeJT8RfzbuQM/MSgvFQ+vrC3Pq6XzDCSd7qd+S
+ 86e+ua6T/+W2vnnVWL5jMhGbQlF3dSa23ap6sRdlOcQfaSaprBLxa+9QvUuAgwH04KCLWjssCtB
+ s1Iic1jF3ShH59r/9HP2DsPHaB6BlI5G9LinA5rRwSUW8A90dLRNqXKmPsuIhI5WCrjlVHsK3tC
+ Io0adRD7jQqihTLZhDzXgWbDq6/h18Q5pgesS2VbTtHDMG4UG1W1oTn2ltjPC18eI8HtpqRcdek
+ r8gTHwnb6a5KuEXqAGzkH+iQKU0mbwNsHI1bta025iE/pVHELQaJVTeDZU6rKTFw6XEsp5XlLMc
+ +4fyE9k8+JkOKOPkGUOVy9EYDFA1dhBXZa1ZDU9gu4r2c9pfjcSRYM/fk4vC3hHfMgNPRi5vxVc
+ 9IDe/+Z5WZtUx6xikpg==
+X-Proofpoint-GUID: pfaK2a47gux6mOQ65BoARqL5gGbCmXNK
+X-Authority-Analysis: v=2.4 cv=Z/3h3XRA c=1 sm=1 tr=0 ts=69a68fdb cx=c_pps
+ a=48c6PaPq82/B1OY+thwv9A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=VwQbUJbxAAAA:8
+ a=t7CeM3EgAAAA:8 a=8F8sayd3OLXzmNd1YCMA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-02_05,2026-03-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603030053
 
-Please remove from list
-  Thanks,
-     David
+In RT kernel (PREEMPT_RT), commit 6bda857bcbb86 ("block: fix ordering
+between checking QUEUE_FLAG_QUIESCED request adding") causes severe
+performance regression on systems with multiple MSI-X interrupt
+vectors.
 
+The above change introduced spinlock_t queue_lock usage in
+blk_mq_run_hw_queue() to synchronize QUEUE_FLAG_QUIESCED checks
+with blk_mq_unquiesce_queue(). While this works correctly in
+standard kernel, it causes catastrophic serialization in RT kernel
+where spinlock_t converts to sleeping rt_mutex.
 
------Original Message-----
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Sent: Monday, March 2, 2026 9:27 AM
-To: netdev@vger.kernel.org; linux-rt-devel@lists.linux.dev
-Cc: David S. Miller <davem@davemloft.net>; Andrew Lunn <andrew+netdev@lunn.=
-ch>; Bert Karwatzki <spasswolf@web.de>; Clark Williams <clrkwllms@kernel.or=
-g>; Eric Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; P=
-aolo Abeni <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Steven Ros=
-tedt <rostedt@goodmis.org>
-Subject: -EXT-[PATCH net] net: Provide a PREEMPT_RT specific check for netd=
-ev_queue::_xmit_lock
+Problem in RT kernel:
+- blk_mq_run_hw_queue() is called from IRQ thread context
+- With multiple MSI-X vectors, all IRQ threads contend on
+  the same queue_lock
+- queue_lock becomes rt_mutex (sleeping) in RT kernel
+- IRQ threads serialize and enter D-state waiting for lock
+- Throughput drops from 640 MB/s to 153 MB/s
 
-WARNING:  This message is from an external source.  Evaluate the message ca=
-refully BEFORE clicking on links or opening attachments.
+Solution:
+Convert quiesce_depth to atomic_t and use it directly for quiesce
+state checking, eliminating QUEUE_FLAG_QUIESCED entirely. This
+removes the need for any locking in the hot path.
 
-After acquiring netdev_queue::_xmit_lock the number of the CPU owning the l=
-ock is recorded in netdev_queue::xmit_lock_owner. This works as long as the=
- BH context is not preemptible.
+The atomic counter serves as both the depth tracker and the quiesce
+indicator (depth > 0 means quiesced). This eliminates the race
+window that existed between updating the depth and the flag.
 
-On PREEMPT_RT the softirq context is preemptible and without the softirq-lo=
-ck it is possible to have multiple user in __dev_queue_xmit() submitting a =
-skb on the same CPU. This is fine in general but this means also that the c=
-urrent CPU is recorded as netdev_queue::xmit_lock_owner.
-This in turn leads to the recursion alert and the skb is dropped.
+Memory ordering is ensured by:
+- smp_mb__after_atomic() after modifying quiesce_depth
+- smp_rmb() before re-checking quiesce state in
+  blk_mq_run_hw_queue()
 
-Instead checking the for CPU number, that owns the lock, PREEMPT_RT can che=
-ck if the lockowner matches the current task.
+Performance impact:
+- RT kernel: eliminates lock contention, restores full throughput
+- Non-RT kernel: atomic ops are similar cost to the previous
+  spinlock acquire/release, no regression expected
 
-Add netif_tx_owned() which returns true if the current context owns the loc=
-k by comparing the provided CPU number with the recorded number. This resem=
-bles the current check by negating the condition (the current check returns=
- true if the lock is not owned).
-On PREEMPT_RT use rt_mutex_owner() to return the lock owner and compare the=
- current task against it.
-Use the new helper in __dev_queue_xmit() and netif_local_xmit_active() whic=
-h provides a similar check.
-Update comments regarding pairing READ_ONCE().
+Test results on RT kernel:
+Hardware: Broadcom/LSI MegaRAID 12GSAS/PCIe Secure SAS39xx
+  (megaraid_sas driver, 128 MSI-X vectors, 120 hw queues)
+- Before: 153 MB/s, IRQ threads in D-state
+- After:  640 MB/s, no IRQ threads blocked
 
-Reported-by: Bert Karwatzki <spasswolf@web.de>
-Closes: https://lore.kernel.org/all/20260216134333.412332-1-spasswolf@web.d=
-e
-Fixes: 3253cb49cbad4 ("softirq: Allow to drop the softirq-BKL lock on PREEM=
-PT_RT")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Fixes: 6bda857bcbb86 ("block: fix ordering between checking QUEUE_FLAG_QUIESCED request adding")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ionut Nechita <ionut.nechita@windriver.com>
 ---
- include/linux/netdevice.h | 27 ++++++++++++++++++++++-----
- net/core/dev.c            |  5 +----
- net/core/netpoll.c        |  2 +-
- 3 files changed, 24 insertions(+), 10 deletions(-)
+ block/blk-core.c       |  1 +
+ block/blk-mq-debugfs.c |  1 -
+ block/blk-mq.c         | 45 ++++++++++++++++--------------------------
+ include/linux/blkdev.h |  9 ++++++---
+ 4 files changed, 24 insertions(+), 32 deletions(-)
 
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h index d4=
-e6e00bb90a7..67e25f6d15a47 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -4711,7 +4711,7 @@ static inline u32 netif_msg_init(int debug_value, int=
- default_msg_enable_bits)  static inline void __netif_tx_lock(struct netdev=
-_queue *txq, int cpu)  {
-        spin_lock(&txq->_xmit_lock);
--       /* Pairs with READ_ONCE() in __dev_queue_xmit() */
-+       /* Pairs with READ_ONCE() in netif_tx_owned() */
-        WRITE_ONCE(txq->xmit_lock_owner, cpu);  }
-
-@@ -4729,7 +4729,7 @@ static inline void __netif_tx_release(struct netdev_q=
-ueue *txq)  static inline void __netif_tx_lock_bh(struct netdev_queue *txq)=
-  {
-        spin_lock_bh(&txq->_xmit_lock);
--       /* Pairs with READ_ONCE() in __dev_queue_xmit() */
-+       /* Pairs with READ_ONCE() in netif_tx_owned() */
-        WRITE_ONCE(txq->xmit_lock_owner, smp_processor_id());  }
-
-@@ -4738,7 +4738,7 @@ static inline bool __netif_tx_trylock(struct netdev_q=
-ueue *txq)
-        bool ok =3D spin_trylock(&txq->_xmit_lock);
-
-        if (likely(ok)) {
--               /* Pairs with READ_ONCE() in __dev_queue_xmit() */
-+               /* Pairs with READ_ONCE() in netif_tx_owned() */
-                WRITE_ONCE(txq->xmit_lock_owner, smp_processor_id());
-        }
-        return ok;
-@@ -4746,14 +4746,14 @@ static inline bool __netif_tx_trylock(struct netdev=
-_queue *txq)
-
- static inline void __netif_tx_unlock(struct netdev_queue *txq)  {
--       /* Pairs with READ_ONCE() in __dev_queue_xmit() */
-+       /* Pairs with READ_ONCE() in netif_tx_owned() */
-        WRITE_ONCE(txq->xmit_lock_owner, -1);
-        spin_unlock(&txq->_xmit_lock);
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 474700ffaa1c..b6104c672547 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -434,6 +434,7 @@ struct request_queue *blk_alloc_queue(struct queue_limits *lim, int node_id)
+ 	mutex_init(&q->limits_lock);
+ 	mutex_init(&q->rq_qos_mutex);
+ 	spin_lock_init(&q->queue_lock);
++	atomic_set(&q->quiesce_depth, 0);
+ 
+ 	init_waitqueue_head(&q->mq_freeze_wq);
+ 	mutex_init(&q->mq_freeze_lock);
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index 047ec887456b..1b0aec3036e6 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -89,7 +89,6 @@ static const char *const blk_queue_flag_name[] = {
+ 	QUEUE_FLAG_NAME(INIT_DONE),
+ 	QUEUE_FLAG_NAME(STATS),
+ 	QUEUE_FLAG_NAME(REGISTERED),
+-	QUEUE_FLAG_NAME(QUIESCED),
+ 	QUEUE_FLAG_NAME(RQ_ALLOC_TIME),
+ 	QUEUE_FLAG_NAME(HCTX_ACTIVE),
+ 	QUEUE_FLAG_NAME(SQ_SCHED),
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9af8c3dec3f6..8bfad5272d6b 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -260,12 +260,12 @@ EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue_non_owner);
+  */
+ void blk_mq_quiesce_queue_nowait(struct request_queue *q)
+ {
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&q->queue_lock, flags);
+-	if (!q->quiesce_depth++)
+-		blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
+-	spin_unlock_irqrestore(&q->queue_lock, flags);
++	atomic_inc(&q->quiesce_depth);
++	/*
++	 * Ensure the store to quiesce_depth is visible before any
++	 * subsequent loads in blk_mq_run_hw_queue().
++	 */
++	smp_mb__after_atomic();
  }
-
- static inline void __netif_tx_unlock_bh(struct netdev_queue *txq)  {
--       /* Pairs with READ_ONCE() in __dev_queue_xmit() */
-+       /* Pairs with READ_ONCE() in netif_tx_owned() */
-        WRITE_ONCE(txq->xmit_lock_owner, -1);
-        spin_unlock_bh(&txq->_xmit_lock);  } @@ -4846,6 +4846,23 @@ static =
-inline void netif_tx_disable(struct net_device *dev)
-        local_bh_enable();
+ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue_nowait);
+ 
+@@ -314,21 +314,18 @@ EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
+  */
+ void blk_mq_unquiesce_queue(struct request_queue *q)
+ {
+-	unsigned long flags;
+-	bool run_queue = false;
++	int depth;
+ 
+-	spin_lock_irqsave(&q->queue_lock, flags);
+-	if (WARN_ON_ONCE(q->quiesce_depth <= 0)) {
+-		;
+-	} else if (!--q->quiesce_depth) {
+-		blk_queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
+-		run_queue = true;
+-	}
+-	spin_unlock_irqrestore(&q->queue_lock, flags);
++	depth = atomic_dec_if_positive(&q->quiesce_depth);
++	if (WARN_ON_ONCE(depth < 0))
++		return;
+ 
+-	/* dispatch requests which are inserted during quiescing */
+-	if (run_queue)
++	if (depth == 0) {
++		/* Ensure the decrement is visible before running queues */
++		smp_mb__after_atomic();
++		/* dispatch requests which are inserted during quiescing */
+ 		blk_mq_run_hw_queues(q, true);
++	}
  }
-
-+#ifndef CONFIG_PREEMPT_RT
-+static inline bool netif_tx_owned(struct netdev_queue *txq, unsigned
-+int cpu) {
-+       /* Other cpus might concurrently change txq->xmit_lock_owner
-+        * to -1 or to their cpu id, but not to our id.
-+        */
-+       return READ_ONCE(txq->xmit_lock_owner) =3D=3D cpu; }
-+
-+#else
-+static inline bool netif_tx_owned(struct netdev_queue *txq, unsigned
-+int cpu) {
-+       return rt_mutex_owner(&txq->_xmit_lock.lock) =3D=3D current; }
-+
-+#endif
-+
- static inline void netif_addr_lock(struct net_device *dev)  {
-        unsigned char nest_level =3D 0;
-diff --git a/net/core/dev.c b/net/core/dev.c index c1a9f7fdcffa9..e9ca0b1fd=
-7900 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -4818,10 +4818,7 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net=
-_device *sb_dev)
-        if (dev->flags & IFF_UP) {
-                int cpu =3D smp_processor_id(); /* ok because BHs are off *=
-/
-
--               /* Other cpus might concurrently change txq->xmit_lock_owne=
-r
--                * to -1 or to their cpu id, but not to our id.
--                */
--               if (READ_ONCE(txq->xmit_lock_owner) !=3D cpu) {
-+               if (!netif_tx_owned(txq, cpu)) {
-                        bool is_list =3D false;
-
-                        if (dev_xmit_recursion()) diff --git a/net/core/net=
-poll.c b/net/core/netpoll.c index a8558a52884f9..cd74beffd209c 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -132,7 +132,7 @@ static int netif_local_xmit_active(struct net_device *d=
-ev)
-        for (i =3D 0; i < dev->num_tx_queues; i++) {
-                struct netdev_queue *txq =3D netdev_get_tx_queue(dev, i);
-
--               if (READ_ONCE(txq->xmit_lock_owner) =3D=3D smp_processor_id=
-())
-+               if (netif_tx_owned(txq, smp_processor_id()))
-                        return 1;
-        }
-
---
+ EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
+ 
+@@ -2362,17 +2359,9 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
+ 
+ 	need_run = blk_mq_hw_queue_need_run(hctx);
+ 	if (!need_run) {
+-		unsigned long flags;
+-
+-		/*
+-		 * Synchronize with blk_mq_unquiesce_queue(), because we check
+-		 * if hw queue is quiesced locklessly above, we need the use
+-		 * ->queue_lock to make sure we see the up-to-date status to
+-		 * not miss rerunning the hw queue.
+-		 */
+-		spin_lock_irqsave(&hctx->queue->queue_lock, flags);
++		/* Pairs with smp_mb__after_atomic() in blk_mq_unquiesce_queue() */
++		smp_rmb();
+ 		need_run = blk_mq_hw_queue_need_run(hctx);
+-		spin_unlock_irqrestore(&hctx->queue->queue_lock, flags);
+ 
+ 		if (!need_run)
+ 			return;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index ef6457487d23..e27a437f2a77 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -520,7 +520,8 @@ struct request_queue {
+ 
+ 	spinlock_t		queue_lock;
+ 
+-	int			quiesce_depth;
++	/* Atomic quiesce depth - also serves as quiesced indicator (depth > 0) */
++	atomic_t		quiesce_depth;
+ 
+ 	struct gendisk		*disk;
+ 
+@@ -665,7 +666,6 @@ enum {
+ 	QUEUE_FLAG_INIT_DONE,		/* queue is initialized */
+ 	QUEUE_FLAG_STATS,		/* track IO start and completion times */
+ 	QUEUE_FLAG_REGISTERED,		/* queue has been registered to a disk */
+-	QUEUE_FLAG_QUIESCED,		/* queue has been quiesced */
+ 	QUEUE_FLAG_RQ_ALLOC_TIME,	/* record rq->alloc_time_ns */
+ 	QUEUE_FLAG_HCTX_ACTIVE,		/* at least one blk-mq hctx is active */
+ 	QUEUE_FLAG_SQ_SCHED,		/* single queue style io dispatch */
+@@ -703,7 +703,10 @@ void blk_queue_flag_clear(unsigned int flag, struct request_queue *q);
+ #define blk_noretry_request(rq) \
+ 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+ 			     REQ_FAILFAST_DRIVER))
+-#define blk_queue_quiesced(q)	test_bit(QUEUE_FLAG_QUIESCED, &(q)->queue_flags)
++static inline bool blk_queue_quiesced(struct request_queue *q)
++{
++	return atomic_read(&q->quiesce_depth) > 0;
++}
+ #define blk_queue_pm_only(q)	atomic_read(&(q)->pm_only)
+ #define blk_queue_registered(q)	test_bit(QUEUE_FLAG_REGISTERED, &(q)->queue_flags)
+ #define blk_queue_sq_sched(q)	test_bit(QUEUE_FLAG_SQ_SCHED, &(q)->queue_flags)
+-- 
 2.53.0
-
 
