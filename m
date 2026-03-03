@@ -1,74 +1,315 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48B7366577;
-	Tue,  3 Mar 2026 17:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B6137EFF4
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Mar 2026 18:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772560742; cv=none; b=kA8Vrptj+3ZDf8AHy/XSZxNK0DrUHdpJKDzKfrdXd+BeO412SXRb3la+vbYmb//I+lGSEAHuDTsyj66J1g6+s3P31M+MKoSfEBTBnJgdM7PRtOSQMqnco/BJTDtTxsGteqHd0kW85bndny6tnCj88iJAMyRNNSW8mNdefxuQCmA=
+	t=1772563774; cv=none; b=I4/zRQTNYMX5lCS9CwVRCIoPiPqCQUuYbR5ZtiGPKTlghkLLV3sj7X+a8sQOYpqRtOv9crHuUqKGDR8ZLJcbWQjj5y8pFN+6+ZX3DFYR1RrnyeibxJv22SiKWurHLe751RzWntnTY5iPHdfed2E3fzRGrU8ipkXAd3PP5zUAI4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772560742; c=relaxed/simple;
-	bh=bPr1d4FsEvE8qaKE4jC8j8uofFzZp53mFL2kXJfOrvw=;
+	s=arc-20240116; t=1772563774; c=relaxed/simple;
+	bh=PXqaH0XsPYwKgnbesGlSRGwmPB2SW89gjwUrlS6E3Qw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=am85IhWYsomXmDTxzNlgeU27TXwDKn8SDVRgT6d9iG+ZkU8WrPLSs2hiWUxoYbMy3p/1+CM+drxmm2XN+PdNoXzdD3lTJUmvH2oGOpkksauYZhxY5UHfON7n6FU6gXUbxXJM1jVZP48/SlsGLCthIoygEzBYf3ONeWxqitemdXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HejWsx0k; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZbAZl30fYY5hzxyLZeWm2p4UCV+G/AOxSYmKXuFteZ6ieGn/IoI7u84DpKxnPYgqFFgGjNJ0lf5Pt7cZGsBJFrz+8SYIR861QXwNKRzXp6ERSH/D82VOmlshFDWdLjq8xHYAWiFJY5aY0emsweVFt2EDDIVbCGuLmsOKfzUCwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=netaIGKw; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HejWsx0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28383C116C6;
-	Tue,  3 Mar 2026 17:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772560742;
-	bh=bPr1d4FsEvE8qaKE4jC8j8uofFzZp53mFL2kXJfOrvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HejWsx0keLtia0uk0VFk+qjpnZJoxLP+LGfAiDcxrThwkOqPbNVBcsi9AJO5UEvuN
-	 s9gM2Zs+Cww1tTH8LVutuZwC7FEOXZiLqhhLegk8By73U/jCivGYKCz+/F7ZXZYqef
-	 q5a96EBXVurR2ZS7CzM5af4DglGYUf2eAdPR9wKzs/71J1G4YlUOcA37l/x1BGsg1N
-	 5Y59lNjUrBy3mzsnwACo9ISPqEvnl6q4btKvor1+C0cYiKJGR5iMrcsBwl7w4djkNI
-	 P/Ye1FLsS2jtwZXTiJKWkzYV957G6+cADKhdecwZoHwDcgrMQ+r9Q5usbuqMAugCra
-	 21MtddHddkOjQ==
-Date: Tue, 3 Mar 2026 07:59:01 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bert Karwatzki <spasswolf@web.de>
-Subject: Re: [PATCH] cgroup: Don't expose dead tasks in cgroup
-Message-ID: <aachZbIFl6HCFSxD@slm.duckdns.org>
-References: <20260302120738.6KkDipsR@linutronix.de>
- <aaYHmCV2CW-tOT-Z@slm.duckdns.org>
- <20260303131301.ieSSCM4n@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="netaIGKw"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82748257f5fso3134895b3a.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 03 Mar 2026 10:49:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772563772; x=1773168572; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lfFy0+sICiIpuWtJU7Loxi/Rf1izKQ3p65y5jr4rNp4=;
+        b=netaIGKwvjIPXEIbpb1cz6HRdiw7PrOWREX9vnt02DeLRhddkAH9Rtt9rP7NgG4imR
+         2Ve0tRwSUBaVlht2Lww/IvmsA9WTlzdy8bZhN/vfzxGqA+EpiZj/D4wa1ARwVyxynv0j
+         zBeW4nLqjNOzylQUe8UC6os0n4coGJU28WWpQlRS5OARdpJcrrAYrGcb1cWJytrm62dV
+         +r2DnLrlw1+44TvCTWsD2KulZOd0ziqocnu8hEHfhxml9usJPXM94HZl8P2CTjw+V62j
+         GCsEMsBlKWmVgAtNpaa3HfeTFXXyaQfrMmzgoT3WcVzz/mo4uQcTw+tzQDI862s9124g
+         OnSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772563772; x=1773168572;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lfFy0+sICiIpuWtJU7Loxi/Rf1izKQ3p65y5jr4rNp4=;
+        b=u66osBz8wW3ooDsy0qrIi70B42jaSMRTFS6VWmBf/6HRdeRPHahnGda8RtGo8tZhzZ
+         0LTBdzucXAiYtj1aIFrFblyewLkGd74gSIY5Z/Rbdom6/Jathd/WG6TSa/bQne3O6I77
+         P7w5BieUfrVpfe7WBkXyt2T+v5CQKn/1Qtd5jd1/hlAYd2Kwd1SY7bpIjjQqpNw8Uo26
+         PyOX6uigKN2F6zlwbO5CzmzOE3qItm5Y3sj1Xd8yRefQ2PBPZf8weC7WL7HqpvfHEMT2
+         QludkstnxbAXB6RArqbjLGlDn8kCkzb6xqnK3RgxZvTZQnW5jP8/EfZHxDgcz5qTBKWx
+         nleA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjOGonGDc3VX2yoAb0UgYl9YV8dDmXMAPnjhD3vRVgCMB5jbQeP/Lrn0J7jJg9Jpf3OVA2VY24XHl7ed4w+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTfVe1+Fhw/2GMihFI/Jg+ugUZjF+hkXkTtOzUE1eI7wisrMD2
+	ksPhgbdqTgBOfx3R3/uLeLtVSaMvHSNvFHnJDTCrXtoRhx906k5fRJfb
+X-Gm-Gg: ATEYQzyjuuhmOyfkm4mOXhkAaXi0PN9KsOjpXXzAVbfOXP78Mq6gsZaDzkEARMoGGv8
+	hmy/eO81DG/s9iKBcr66ECKzhnArX4YYbifvmSQy5FOdF3nHJCM3XOZmwrvRHSa/OhANCWQLwQA
+	iQ989/iGlqYnWX40ECh6a4VqkbVzmIteTUqlShmWhOwZmexmDGdMxXnYvlOLp9v1IEqoVv3mwOo
+	kKJdTBPzu3j8Itvi70yTFo6gfXTIq53GhcOrdwhSkYN88RjER3bNRfbDgQcFHTeK7FtSM6vyPNU
+	1F3YVCTKEXs7hAPOsj1F8iTQshZmIzbfQ7KgM9hcO/0DDPpt0wSK8exm1ubu9L8U70Gs5mrWzGj
+	2bkerx9VojtzqUyHj269ue8SGqNaMf1skHoqvgtYic9Wc6LJdeBHgmp3JhqOQ0/AvOgD7Y5sSY7
+	EyAuEVhzxIxN4KgR5NC/KtiYk=
+X-Received: by 2002:a17:90b:5286:b0:359:83a3:584d with SMTP id 98e67ed59e1d1-3599ce32dabmr2717858a91.6.1772563772118;
+        Tue, 03 Mar 2026 10:49:32 -0800 (PST)
+Received: from localhost ([27.7.180.69])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3599c49eb5bsm2803924a91.11.2026.03.03.10.49.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 10:49:31 -0800 (PST)
+Date: Wed, 4 Mar 2026 00:19:28 +0530
+From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
+ for non-blocking invalidations
+Message-ID: <aactOOfirdVRYfNS@acer-nitro-anv15-41>
+References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
+ <20260211120944.-eZhmdo7@linutronix.de>
+ <aYyhfvC_2s000P7H@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260303131301.ieSSCM4n@linutronix.de>
+In-Reply-To: <aYyhfvC_2s000P7H@google.com>
 
-Hello,
+On Wed, Feb 11, 2026 at 07:34:22AM -0800, Sean Christopherson wrote:
+> On Wed, Feb 11, 2026, Sebastian Andrzej Siewior wrote:
+> > On 2026-02-09 21:45:27 [+0530], shaikh.kamal wrote:
+> > > mmu_notifier_invalidate_range_start() may be invoked via
+> > > mmu_notifier_invalidate_range_start_nonblock(), e.g. from oom_reaper(),
+> > > where sleeping is explicitly forbidden.
+> > > 
+> > > KVM's mmu_notifier invalidate_range_start currently takes
+> > > mn_invalidate_lock using spin_lock(). On PREEMPT_RT, spin_lock() maps
+> > > to rt_mutex and may sleep, triggering:
+> > > 
+> > >   BUG: sleeping function called from invalid context
+> > > 
+> > > This violates the MMU notifier contract regardless of PREEMPT_RT;
+> 
+> I highly doubt that.  kvm.mmu_lock is also a spinlock, and KVM has been taking
+> that in invalidate_range_start() since
+> 
+>   e930bffe95e1 ("KVM: Synchronize guest physical memory map to host virtual memory map")
+> 
+> which was a full decade before mmu_notifiers even added the blockable concept in
+> 
+>   93065ac753e4 ("mm, oom: distinguish blockable mode for mmu notifiers")
+> 
+> and even predate the current concept of a "raw" spinlock introduced by
+> 
+>   c2f21ce2e312 ("locking: Implement new raw_spinlock")
+> 
+> > > RT kernels merely make the issue deterministic.
+> 
+> No, RT kernels change the rules, because suddenly a non-sleeping locking becomes
+> sleepable.
+> 
+> > > Fix by converting mn_invalidate_lock to a raw spinlock so that
+> > > invalidate_range_start() remains non-sleeping while preserving the
+> > > existing serialization between invalidate_range_start() and
+> > > invalidate_range_end().
+> 
+> This is insufficient.  To actually "fix" this in KVM mmu_lock would need to be
+> turned into a raw lock on all KVM architectures.  I suspect the only reason there
+> haven't been bug reports is because no one trips an OOM kill on VM while running
+> with CONFIG_DEBUG_ATOMIC_SLEEP=y.
+> 
+> That combination is required because since commit
+> 
+>   8931a454aea0 ("KVM: Take mmu_lock when handling MMU notifier iff the hva hits a memslot")
+> 
+> KVM only acquires mmu_lock if the to-be-invalidated range overlaps a memslot,
+> i.e. affects memory that may be mapped into the guest.
+> 
+> E.g. this hack to simulate a non-blockable invalidation
+> 
+> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> index 7015edce5bd8..7a35a83420ec 100644
+> --- a/virt/kvm/kvm_main.c
+> +++ b/virt/kvm/kvm_main.c
+> @@ -739,7 +739,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>                 .handler        = kvm_mmu_unmap_gfn_range,
+>                 .on_lock        = kvm_mmu_invalidate_begin,
+>                 .flush_on_ret   = true,
+> -               .may_block      = mmu_notifier_range_blockable(range),
+> +               .may_block      = false,//mmu_notifier_range_blockable(range),
+>         };
+>  
+>         trace_kvm_unmap_hva_range(range->start, range->end);
+> @@ -768,6 +768,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>          */
+>         gfn_to_pfn_cache_invalidate_start(kvm, range->start, range->end);
+>  
+> +       non_block_start();
+>         /*
+>          * If one or more memslots were found and thus zapped, notify arch code
+>          * that guest memory has been reclaimed.  This needs to be done *after*
+> @@ -775,6 +776,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+>          */
+>         if (kvm_handle_hva_range(kvm, &hva_range).found_memslot)
+>                 kvm_arch_guest_memory_reclaimed(kvm);
+> +       non_block_end();
+>  
+>         return 0;
+>  }
+> 
+> immediately triggers
+> 
+>   BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:241
+>   in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 4992, name: qemu
+>   preempt_count: 0, expected: 0
+>   RCU nest depth: 0, expected: 0
+>   CPU: 6 UID: 1000 PID: 4992 Comm: qemu Not tainted 6.19.0-rc6-4d0917ffc392-x86_enter_mmio_stack_uaf_no_null-rt #1 PREEMPT_RT 
+>   Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+>   Call Trace:
+>    <TASK>
+>    dump_stack_lvl+0x51/0x60
+>    __might_resched+0x10e/0x160
+>    rt_write_lock+0x49/0x310
+>    kvm_mmu_notifier_invalidate_range_start+0x10b/0x390 [kvm]
+>    __mmu_notifier_invalidate_range_start+0x9b/0x230
+>    do_wp_page+0xce1/0xf30
+>    __handle_mm_fault+0x380/0x3a0
+>    handle_mm_fault+0xde/0x290
+>    __get_user_pages+0x20d/0xbe0
+>    get_user_pages_unlocked+0xf6/0x340
+>    hva_to_pfn+0x295/0x420 [kvm]
+>    __kvm_faultin_pfn+0x5d/0x90 [kvm]
+>    kvm_mmu_faultin_pfn+0x31b/0x6e0 [kvm]
+>    kvm_tdp_page_fault+0xb6/0x160 [kvm]
+>    kvm_mmu_do_page_fault+0xee/0x1f0 [kvm]
+>    kvm_mmu_page_fault+0x8d/0x600 [kvm]
+>    vmx_handle_exit+0x18c/0x5a0 [kvm_intel]
+>    kvm_arch_vcpu_ioctl_run+0xc70/0x1c90 [kvm]
+>    kvm_vcpu_ioctl+0x2d7/0x9a0 [kvm]
+>    __x64_sys_ioctl+0x8a/0xd0
+>    do_syscall_64+0x5e/0x11b0
+>    entry_SYSCALL_64_after_hwframe+0x4b/0x53
+>    </TASK>
+>   kvm: emulating exchange as write
+> 
+> 
+> It's not at all clear to me that switching mmu_lock to a raw lock would be a net
+> positive for PREEMPT_RT.  OOM-killing a KVM guest in a PREEMPT_RT seems like a
+> comically rare scenario.  Whereas contending mmu_lock in normal operation is
+> relatively common (assuming there are even use cases for running VMs with a
+> PREEMPT_RT host kernel).
+> 
+> In fact, the only reason the splat happens is because mmu_notifiers somewhat
+> artificially forces an atomic context via non_block_start() since commit
+> 
+>   ba170f76b69d ("mm, notifier: Catch sleeping/blocking for !blockable")
+> 
+> Given the massive amount of churn in KVM that would be required to fully eliminate
+> the splat, and that it's not at all obvious that it would be a good change overall,
+> at least for now:
+> 
+> NAK
+> 
+> I'm not fundamentally opposed to such a change, but there needs to be a _lot_
+> more analysis and justification beyond "fix CONFIG_DEBUG_ATOMIC_SLEEP=y".
+>
+Hi Sean,
+Thanks for the detailed explanation and for spelling out the border
+issue.
+Understood on both points:
+	1. The changelog wording was too strong; PREEMPT_RT changes
+	spin_lock() semantics, and the splat is fundamentally due to
+	spinlocks becoming sleepable there.
+	2. Converting only mm_invalidate_lock to raw is insufficient
+	since KVM can still take the mmu_lock (and other sleeping locks
+	RT) in invalidate_range_start() when the invalidation hits a
+	memslot.
+Given the above, it shounds like "convert locks to raw" is not the right
+direction without sinificat rework and justification.
+Would an acceptable direction be to handle the !blockable notifier case
+by deferring the heavyweight invalidation work(anything that take
+mmu_lock/may sleep on RT) to a context that may block(e.g. queued work),
+while keeping start()/end() accounting consisting with memslot changes ?
+if so, I can protoptype a patch along those lines and share for
+feedback.
 
-On Tue, Mar 03, 2026 at 02:13:01PM +0100, Sebastian Andrzej Siewior wrote:
-...
-> I get the same timeout behaviour on !PREEMPT_RT. So it seems like I did
-> reduce the race window.
-
-I see.
-
-> So what about doing the removal before sending the signal about the
-> upcoming death? Something like:
-
-d245698d727a ("cgroup: Defer task cgroup unlink until after the task is done
-switching out") is what created the big wide window causing the regression
-and we need that because otherwise the cgroup controllers get confused. I
-think we need to figure out where we need to start hiding tasks from listing
-to remove the race window and do that explicitly.
-
-Thanks.
-
--- 
-tejun
+Alternatively, if you think this needs to be addressed in
+mmu_notifiers(eg. how non_block_start() is applied), I'm happy to
+redirect my efforts there-Please advise.
+> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > > index 5fcd401a5897..7a9c33f01a37 100644
+> > > --- a/virt/kvm/kvm_main.c
+> > > +++ b/virt/kvm/kvm_main.c
+> > > @@ -747,9 +747,9 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+> > >  	 *
+> > >  	 * Pairs with the decrement in range_end().
+> > >  	 */
+> > > -	spin_lock(&kvm->mn_invalidate_lock);
+> > > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> > >  	kvm->mn_active_invalidate_count++;
+> > > -	spin_unlock(&kvm->mn_invalidate_lock);
+> > > +	raw_spin_unlock(&kvm->mn_invalidate_lock);
+> > 
+> > 	atomic_inc(mn_active_invalidate_count)
+> > >  
+> > >  	/*
+> > >  	 * Invalidate pfn caches _before_ invalidating the secondary MMUs, i.e.
+> > > @@ -817,11 +817,11 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
+> > >  	kvm_handle_hva_range(kvm, &hva_range);
+> > >  
+> > >  	/* Pairs with the increment in range_start(). */
+> > > -	spin_lock(&kvm->mn_invalidate_lock);
+> > > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> > >  	if (!WARN_ON_ONCE(!kvm->mn_active_invalidate_count))
+> > >  		--kvm->mn_active_invalidate_count;
+> > >  	wake = !kvm->mn_active_invalidate_count;
+> > 
+> > 	wake = atomic_dec_return_safe(mn_active_invalidate_count);
+> > 	WARN_ON_ONCE(wake < 0);
+> > 	wake = !wake;
+> > 
+> > > -	spin_unlock(&kvm->mn_invalidate_lock);
+> > > +	raw_spin_unlock(&kvm->mn_invalidate_lock);
+> > >  
+> > >  	/*
+> > >  	 * There can only be one waiter, since the wait happens under
+> > > @@ -1129,7 +1129,7 @@ static struct kvm *kvm_create_vm(unsigned long type, const char *fdname)
+> > > @@ -1635,17 +1635,17 @@ static void kvm_swap_active_memslots(struct kvm *kvm, int as_id)
+> > >  	 * progress, otherwise the locking in invalidate_range_start and
+> > >  	 * invalidate_range_end will be unbalanced.
+> > >  	 */
+> > > -	spin_lock(&kvm->mn_invalidate_lock);
+> > > +	raw_spin_lock(&kvm->mn_invalidate_lock);
+> > >  	prepare_to_rcuwait(&kvm->mn_memslots_update_rcuwait);
+> > >  	while (kvm->mn_active_invalidate_count) {
+> > >  		set_current_state(TASK_UNINTERRUPTIBLE);
+> > > -		spin_unlock(&kvm->mn_invalidate_lock);
+> > > +		raw_spin_unlock(&kvm->mn_invalidate_lock);
+> > >  		schedule();
+> > 
+> > And this I don't understand. The lock protects the rcuwait assignment
+> > which would be needed if multiple waiters are possible. But this goes
+> > away after the unlock and schedule() here. So these things could be
+> > moved outside of the locked section which limits it only to the
+> > mn_active_invalidate_count value.
+> 
+> The implementation is essentially a deliberately unfair rwswem.  The "write" side
+> in kvm_swap_active_memslots() subtly protect this code:
+> 
+>   rcu_assign_pointer(kvm->memslots[as_id], slots);
+> 
+> and the "read" side protects the kvm->memslot lookups in kvm_handle_hva_range().
+> 
+> KVM optimizes its mmu_notifier invalidation path to only take action if the
+> to-be-invalidated range overlaps one or more memslots, i.e. affects memory that
+> be can be mapped into the guest.  The wrinkle with those optimizations is that
+> KVM needs to prevent changes to the memslots between invalidation start() and end(),
+> otherwise the accounting can become imbalanced, e.g. mmu_invalidate_in_progress
+> will underflow or be left elevated and essentially hang the VM (among other bad
+> things).
+> 
+> So simply making mn_active_invalidate_count an atomic won't suffice, because KVM
+> needs to block start() to ensure start()+end() see the exact same set of memslots.
