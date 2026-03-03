@@ -1,60 +1,54 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2152C33D6C0;
-	Tue,  3 Mar 2026 11:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929D7421F1F
+	for <linux-rt-devel@lists.linux.dev>; Tue,  3 Mar 2026 13:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772538772; cv=none; b=sWLghIP6wCqIM6jNZGQbxJ2J1PkcRiWkFgVzeMdWOwvA679AnQRWax4KkPIZz/8OEsmD3p+JOUOpkhAP88dpA85vgkg5HWQnwFEoFl8xguQxHaYud2gZd9nVuyC1dIMTzdoghA/Sipy7YrkLiSNIcQKfUMyeyP+9PuUoOk8zgs8=
+	t=1772543588; cv=none; b=sKVK3kJkC+3lYaetdCW/eL+b/MSzPcp2TEKBiyAWZvAHj1G2c0Xp++vQvPhaLkFZBUGDeBRILxTeFd4OXBoSdCPxR2oFAS4OoMsmIkYvRL0EWfUFCxX/bOfu1RYwGmFaUD4GEGQv2642laqA53iCG1V9cFg/mz6cNUFDW1Hw27w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772538772; c=relaxed/simple;
-	bh=lcgTS2m2iU2ZAvrZnBqU67dddTQdTulDja31I7aenTo=;
+	s=arc-20240116; t=1772543588; c=relaxed/simple;
+	bh=N59rhKekYSzO90t0Z7GXfxgOY++spj7v6aQcINF0/l8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t0kvouKmbBvUIncyd9+gCjlt057pLHK0EaG8XvYAJGDdkT5fk1gS8GOfM2bPzD3kChqHyf0WzFY+6mVI17mSYfp2OUBjr0IYwovVM8yYtcVOF8zl0YH+Vy8s6/5Jjv4VICNzE3gUgHDwAfyc1EyPYT4RFu6rDTp0lI2+bTMIYlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b366hglw; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=cItwQ8xaBFgp1o0TsCD30IcZxCzre88YxtTlubiZX3soX2YMIlWpb0oWREXMqx8pUldpfDg4DchhJwpDq+zclf16yOCdneNMKFosRqtH3HCe+t7YvJMsMMTSMTGoujUIkD1IZylZn1iunssSflv0r6UDmhDEAMfBYw7NJRiv7vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lIb1i6qL; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o29c4EBL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b366hglw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=zlTdin2Y9sQiBK/gva0P7x3HPfeE/8T5PcT2B2s7izs=; b=b366hglwD8p9ia18dBn5KRUvGF
-	O6/C0m8amE/bY1rzRU5+kpmbMMluQHE+YHXfqwSIAHu1U+WV7iyFwMHVHy3PCBDa1XjbrGdnXKABb
-	xTNMGkwvn+hfkTihV7F8SrqbDgPvYOrM+PCVtwpCLDp0jpNgzVhas456yHTABU9xk49+jGHHY5oK8
-	iAza+C8UpvbV9ySnWG7VbDr7xGrGLIabVCpaJodEqEb9rpvdtmQHFdcWClJx1KQsxeoDmXMCsPRRj
-	c3DafdmsbFmwRaDofFWjLgkrfxri/l14gokDYQ8SMGogw76DCuX0LL3/v/GB2vF49I0QBotYmnSYJ
-	c1DVK2/Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vxOIr-00000002Ixn-3V3Q;
-	Tue, 03 Mar 2026 11:52:42 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id C8AA9300FB6; Tue, 03 Mar 2026 12:52:35 +0100 (CET)
-Date: Tue, 3 Mar 2026 12:52:35 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Ciunas Bennett <ciunas@linux.ibm.com>
-Cc: Douglas Freimuth <freimuth@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>, mingo@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
-	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
-Message-ID: <20260303115235.GQ1282955@noisy.programming.kicks-ass.net>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
- <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
- <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
- <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
- <08307223-88ad-4550-963e-5d1ee315023c@linux.ibm.com>
- <a3bbf315-536f-429e-afb2-adcbf508a66f@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lIb1i6qL";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o29c4EBL"
+Date: Tue, 3 Mar 2026 14:13:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772543583;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sAffNeouQczhPYqzPOrjv2nqytQtFK/BWssDR6V5N1s=;
+	b=lIb1i6qL8h9MiRz42pmMwbLciNyDm5IQ6eABURTTARl7DsaIUiasoYaVSxaVP4jwRtIRia
+	GjRl31HlqzJ37onhVJie3y5ct3884XS6frlcXGpgCn7OtufgB/qTwVM5+Cj+vVhWHUrgYT
+	wr7GiMRUQfSOtVYWyhvsjOkwNLKH+KKJtEQNx8ASUw+QcC/XtYNEOXFlZb8JZ5/BnqDH1G
+	PLM77SIOfFOlpBUIe/rDdfWXZk8O5Jq0hdClHf4oAGOhxkr5WF120bXylGhSTvzH9amx3/
+	yCTJn9S+A7FX+7kntjyLkSr72YnKW76EaQMshLAekWjx0gxCA0HXlgY4a7YN7g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772543583;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sAffNeouQczhPYqzPOrjv2nqytQtFK/BWssDR6V5N1s=;
+	b=o29c4EBLvJKzIMvSBUfZqFdIYT6eJwH/q6/QO6+gsueadrZwXrIjWoptJSI87JG/zCTr1K
+	onyzCHoNtItEeqAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Tejun Heo <tj@kernel.org>
+Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bert Karwatzki <spasswolf@web.de>
+Subject: Re: [PATCH] cgroup: Don't expose dead tasks in cgroup
+Message-ID: <20260303131301.ieSSCM4n@linutronix.de>
+References: <20260302120738.6KkDipsR@linutronix.de>
+ <aaYHmCV2CW-tOT-Z@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -63,49 +57,118 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a3bbf315-536f-429e-afb2-adcbf508a66f@linux.ibm.com>
+In-Reply-To: <aaYHmCV2CW-tOT-Z@slm.duckdns.org>
 
-On Tue, Mar 03, 2026 at 09:15:55AM +0000, Ciunas Bennett wrote:
-> A quick update on the issue.
-> Introducing kvm_arch_set_irq_inatomic() appears to make the problem go away on my setup.
-> That said, this still begs the question: why does irqfd_wakeup behave differently (or poorly) in this scenario compared to the in-atomic IRQ injection path?
-> Is there a known interaction with workqueues, contexts, or locking that would explain the divergence here?
+On 2026-03-02 11:56:40 [-1000], Tejun Heo wrote:
+> Hello, Seb.
+Hi Tejun,
+
+> On Mon, Mar 02, 2026 at 01:07:38PM +0100, Sebastian Andrzej Siewior wrote:
+> > Tejun, with this change, would it be okay to
+> > - replace the irq-work with kworker? With this change it should address
+> >   your concern regarding "run in definite time" as mentioned in [0]. So
+> >   it might be significantly delayed but it shouldn't be visible.
+> >   This would lift the restriction that a irq-work needs to run on this
+> >   CPU and the kworker could run on any CPU. 
 > 
-> Observations:
-> irqfd_wakeup: triggers the problematic behaviour.
-> Forcing in-atomic IRQ injection (kvm_arch_set_irq_inatomic): issue not observed.
+> Yeah, that's fine.
+
+Okay.
+
+> > - would it be okay to treat RT and !RT equally here (and do this delayed
+> >   cgroup_task_dead() in both cases)
 > 
-> @Peter Zijlstra — Peter, do you have thoughts on how the workqueue scheduling context here could differ enough to cause this regression?
-> Any pointers on what to trace specifically in irqfd_wakeup and the work item path would be appreciated.
+> I don't see why we'd bounce on !RT. Are there any benefits?
 
-So the thing that LAZY does different from FULL is that it delays
-preemption a bit.
+You would have the same bugs if any and not two separate types if at
+all. It would get rid of the ifdef. No other benefit.
 
-This has two ramifications:
+> > @@ -5283,6 +5283,11 @@ static void *cgroup_procs_start(struct seq_file *s, loff_t *pos)
+> >  
+> >  static int cgroup_procs_show(struct seq_file *s, void *v)
+> >  {
+> > +	struct task_struct *tsk = v;
+> > +
+> > +	if (READ_ONCE(tsk->__state) & TASK_DEAD)
+> > +		return 0;
+> 
+> Does this actually close the window for systemd through operation ordering
+> or does it just reduce the race window?
 
-1) some ping-pong workloads will turn into block+wakeup, adding
-overhead.
+I see the task in questing exiting via sched_process_exit() and after
+its schedule() it is removed from the cgroup list as per current logic.
 
- FULL: running your task A, an interrupt would come in, wake task B and
- set Need Resched and the interrupt return path calls schedule() and
- you're task B. B does its thing, 'wakes' A and blocks.
+The parent systemd task doing all its cleanup gets probably active
+because its child died/ SIGCHLD. So we have sched_process_exit(), wake
+parent, final schedule() leaving as zombie removing itself from the
+cgroup list.
+Judging from do_exit(), a preemption after exit_notify() before
+do_task_dead() should lead to the same problem. By adding a delay
 
- LAZY: running your task A, an interrupt would come in, wake task B (no
- NR set), you continue running A, A blocks for it needs something of B,
- now you schedule() [*] B runs, does its thing, does an actual wakeup of
- A and blocks.
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -893,6 +893,7 @@ static void synchronize_group_exit(struct task_struct *tsk, long code)
+ 		coredump_task_exit(tsk, core_state);
+ }
+ 
++#include <linux/delay.h>
+ void __noreturn do_exit(long code)
+ {
+ 	struct task_struct *tsk = current;
+@@ -1004,6 +1005,7 @@ void __noreturn do_exit(long code)
+ 	exit_task_stack_account(tsk);
+ 
+ 	check_stack_usage();
++	ssleep(1);
+ 	preempt_disable();
+ 	if (tsk->nr_dirtied)
+ 		__this_cpu_add(dirty_throttle_leaks, tsk->nr_dirtied);
 
-The distinct difference here is that LAZY does a block of A and
-consequently B has to do a full wakeup of A, whereas FULL doesn't do a
-block of A, and hence the wakeup of A is NOP as well.
+I get the same timeout behaviour on !PREEMPT_RT. So it seems like I did
+reduce the race window.
 
+So what about doing the removal before sending the signal about the
+upcoming death? Something like:
 
-2) Since the schedule() is delayed, it might happen that by the time it
-does get around to it, your task B is no longer the most eligible
-option.
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -6975,6 +6975,7 @@ void cgroup_post_fork(struct task_struct *child,
+  * Description: Detach cgroup from @tsk.
+  *
+  */
++static void do_cgroup_task_dead(struct task_struct *tsk);
+ void cgroup_task_exit(struct task_struct *tsk)
+ {
+ 	struct cgroup_subsys *ss;
+@@ -6984,6 +6985,7 @@ void cgroup_task_exit(struct task_struct *tsk)
+ 	do_each_subsys_mask(ss, i, have_exit_callback) {
+ 		ss->exit(tsk);
+ 	} while_each_subsys_mask();
++	do_cgroup_task_dead(tsk);
+ }
+ 
+ static void do_cgroup_task_dead(struct task_struct *tsk)
+@@ -7050,16 +7052,12 @@ static void __init cgroup_rt_init(void)
+ 
+ void cgroup_task_dead(struct task_struct *task)
+ {
+-	get_task_struct(task);
+-	llist_add(&task->cg_dead_lnode, this_cpu_ptr(&cgrp_dead_tasks));
+-	irq_work_queue(this_cpu_ptr(&cgrp_dead_tasks_iwork));
+ }
+ #else	/* CONFIG_PREEMPT_RT */
+ static void __init cgroup_rt_init(void) {}
+ 
+ void cgroup_task_dead(struct task_struct *task)
+ {
+-	do_cgroup_task_dead(task);
+ }
+ #endif	/* CONFIG_PREEMPT_RT */
+ 
 
-Same as above, except now, C is also woken, and the schedule marked with
-[*] picks C, this then results in a detour, delaying things further.
+cgroup_task_exit() is invoked a few functions before exit_notify(). Not
+sure what else I might have broken but the race window should be closed.
 
+> Thanks.
 
+Sebastian
