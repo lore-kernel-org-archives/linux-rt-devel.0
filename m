@@ -1,34 +1,34 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F724355F54
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Mar 2026 15:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4E535B659
+	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Mar 2026 15:50:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772639439; cv=none; b=CIvzqdUhavkdw4Jx/FEWANrJySbVw48eNH7jmTB8ih2Y4TUejiAQkLbvCrL5tr6fYv+fNPHGMPQXqZEeguC+t/yhs1q7ucci815/CytR4vfoiKyokyBvIfWDYS2JHmu/NmDPu7LsPghU9yWrU93t82VE9ZUUNo5tG4YKosWV25Y=
+	t=1772639440; cv=none; b=D+rIEKZrhz6eW4XhOGXLsRyg9SX3O2mOG4NLqPGBXfBcHLG/flvjrc1p4AhMUNKa/lRmw9JX4MUmQSun9e+UXUlTCpbhQZo0rXR+i0f+UC9q4+bYnbSjeNNuoljNkfK2wOmG3M6WioHzw/j0tCA39s+gNgXwLUnjdwrKM7ZzNuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772639439; c=relaxed/simple;
-	bh=CzRhEfOyUudbHke9KgdFAtAYtmG9TMIu7xK+0uvey80=;
+	s=arc-20240116; t=1772639440; c=relaxed/simple;
+	bh=8jOMhp1Rdfr4f4VsHXn5BTMwdklTWcTSp3nBz/NtR7w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WIg0p7X5yZ9Gwn5YKXW3c/b/0XG0ilx43iRek/FoJxhoSdhdB1zt9wp3TGVWVCTfdiaTgeQjf9xeJ31TL66L92YukoMU4EV7nnChBpyWEoeC2sMxC+jUlxj7c+G/7VCYLH8VuS4fhWuA9djMfZUKfuo+sQ3hndFrty089cQcfFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=icf6QAYA; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=aWGwHWz34c4+gxjxdF/jN35E7QZGYiZralGQsrT8yvgsBtDPWAJW0fHimitBVesMdxcT+cXqq/5rD+f3fbA2yd4ivUOZ4CeDklw1/cRlW+w6iI1h2F+btZP/4b8WVHfNTxqd7l/+x7W0/x5cnDOXFclOWvgbp3iaBL7FWyIs9Os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=r2dT4Zv0; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="icf6QAYA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r2dT4Zv0"
 Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:404d:d4e8:ffdc:3995])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 487EDC78;
-	Wed,  4 Mar 2026 16:49:27 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DF822DA4;
+	Wed,  4 Mar 2026 16:49:29 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1772639367;
-	bh=CzRhEfOyUudbHke9KgdFAtAYtmG9TMIu7xK+0uvey80=;
+	s=mail; t=1772639370;
+	bh=8jOMhp1Rdfr4f4VsHXn5BTMwdklTWcTSp3nBz/NtR7w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=icf6QAYA0shcrbD3JcIB77WYABr0jwOcwd1YtZaMS2CElYyaC+TB0SnTvA96rxVmk
-	 BnZSLs2RyjqoIzvK2i8LAS1T+OUHuCJUXbBfciQn+F66yOPuvfvss/IAB8NvIrWSGs
-	 C7QrYcJAXAGrucQvusjg7aWQXAuOSDFygXtdfNKk=
+	b=r2dT4Zv0mtsLOliUTzUdFIpe6TDUjXcveOk5Bz9FV/gaxN4Jk8r92pL/oxzrQu7d1
+	 dqp9RMzSgUYy4LwKq2YjPJK8L1+6OU2e1EIJlNcAmm5YlE8G1H8BiuK3GzMXCIhU1n
+	 AIb/pm/Xv2UVcgbttcvVauaCFX0rl2iSYoDAdutE=
 From: Stefan Klug <stefan.klug@ideasonboard.com>
-Date: Wed, 04 Mar 2026 16:50:22 +0100
-Subject: [PATCH v5 1/4] media: dw100: Implement V4L2 requests support
+Date: Wed, 04 Mar 2026 16:50:23 +0100
+Subject: [PATCH v5 2/4] media: dw100: Implement dynamic vertex map update
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -37,7 +37,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260304-sklug-v6-16-topic-dw100-v3-1-dev-v5-1-1a7e1f721b50@ideasonboard.com>
+Message-Id: <20260304-sklug-v6-16-topic-dw100-v3-1-dev-v5-2-1a7e1f721b50@ideasonboard.com>
 References: <20260304-sklug-v6-16-topic-dw100-v3-1-dev-v5-0-1a7e1f721b50@ideasonboard.com>
 In-Reply-To: <20260304-sklug-v6-16-topic-dw100-v3-1-dev-v5-0-1a7e1f721b50@ideasonboard.com>
 To: Xavier Roumegue <xavier.roumegue@oss.nxp.com>, 
@@ -50,172 +50,114 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Stefan Klug <stefan.klug@ideasonboard.com>
 X-Mailer: b4 0.14.2
 
-The dw100 dewarper hardware present on the NXP i.MX8MP allows very
-flexible dewarping using a freely configurable vertex map. Aside from
-lens dewarping the vertex map can be used to implement things like
-arbitrary zoom, pan and rotation. The current driver supports setting
-that vertex map before calling VIDIOC_STREAMON.
+Implement dynamic vertex map updates by handling the
+V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP control during streaming. This
+allows to implement features like dynamic zoom, pan, rotate and dewarp.
 
-To control above mentioned features during streaming it is necessary to
-update the vertex map dynamically. To do that in a race free manner V4L2
-requests support is required. Add V4L2 requests support to prepare for
-dynamic vertex map updates.
+To stay compatible with the old version, updates of
+V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP are ignored during streaming
+when requests are not used. Print a corresponding warning once.
 
 Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 ---
 
-Changes in v5:
-- Dropped the call to v4l2_m2m_job_finish() that was missed in v2 and
-  lead to a race condition where jobs would be finished immediately
-after being queued.
-
 Changes in v4:
-- Improved commit message
-- Added comment above v4l2_ctrl_request_complete()
+- Added missing newline at end of warning message
+- Fixed position of closing parenthesis
 - Collected tag
 
 Changes in v2:
-- Use v4l2_m2m_buf_done_and_job_finish() to mark the buffers as done in
-  the correct order.
-
-Changes in v1:
-- Moved v4l2_ctrl_request_complete into dw100_device_run
+- Replaced the manual warn once by dev_warn_once(). This changes the
+  frequency from once per context to once per boot which was agreed to
+  be enough.
+- Renamed user_map_needs_update to user_map_is_dirty as it is more
+  expressive and fits to user_map_is_set
+- Fixed indentation issue found by Media CI
 ---
- drivers/media/platform/nxp/dw100/dw100.c | 55 ++++++++++++++++++++++++--------
- 1 file changed, 42 insertions(+), 13 deletions(-)
+ drivers/media/platform/nxp/dw100/dw100.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
-index 4aaf9c3fff5397f0441944ee926f2c8ba6fc864a..17c8aa87a162e5b199b8e9a2c00d6cb346c5bf89 100644
+index 17c8aa87a162e5b199b8e9a2c00d6cb346c5bf89..69d469944536f62af22d6fc532afdcf669afe4be 100644
 --- a/drivers/media/platform/nxp/dw100/dw100.c
 +++ b/drivers/media/platform/nxp/dw100/dw100.c
-@@ -459,6 +459,15 @@ static int dw100_queue_setup(struct vb2_queue *vq,
- 	return 0;
+@@ -98,6 +98,7 @@ struct dw100_ctx {
+ 	unsigned int			map_width;
+ 	unsigned int			map_height;
+ 	bool				user_map_is_set;
++	bool				user_map_is_dirty;
+ 
+ 	/* Source and destination queue data */
+ 	struct dw100_q_data		q_data[2];
+@@ -293,11 +294,15 @@ static u32 dw100_map_format_coordinates(u16 xq, u16 yq)
+ 	return (u32)((yq << 16) | xq);
  }
  
-+static int dw100_buf_out_validate(struct vb2_buffer *vb)
-+{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+
-+	vbuf->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
- static int dw100_buf_prepare(struct vb2_buffer *vb)
+-static u32 *dw100_get_user_map(struct dw100_ctx *ctx)
++static void dw100_update_mapping(struct dw100_ctx *ctx)
  {
- 	unsigned int i;
-@@ -500,6 +509,13 @@ static void dw100_buf_queue(struct vb2_buffer *vb)
- 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+ 	struct v4l2_ctrl *ctrl = ctx->ctrls[DW100_CTRL_DEWARPING_MAP];
+ 
+-	return ctrl->p_cur.p_u32;
++	if (!ctx->user_map_is_dirty)
++		return;
++
++	memcpy(ctx->map, ctrl->p_cur.p_u32, ctx->map_size);
++	ctx->user_map_is_dirty = false;
  }
  
-+static void dw100_buf_request_complete(struct vb2_buffer *vb)
-+{
-+	struct dw100_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
-+
-+	v4l2_ctrl_request_complete(vb->req_obj.req, &ctx->hdl);
-+}
-+
- static void dw100_return_all_buffers(struct vb2_queue *q,
- 				     enum vb2_buffer_state state)
+ /*
+@@ -306,8 +311,6 @@ static u32 *dw100_get_user_map(struct dw100_ctx *ctx)
+  */
+ static int dw100_create_mapping(struct dw100_ctx *ctx)
  {
-@@ -553,11 +569,13 @@ static void dw100_stop_streaming(struct vb2_queue *q)
- }
+-	u32 *user_map;
+-
+ 	if (ctx->map)
+ 		dma_free_coherent(&ctx->dw_dev->pdev->dev, ctx->map_size,
+ 				  ctx->map, ctx->map_dma);
+@@ -318,8 +321,8 @@ static int dw100_create_mapping(struct dw100_ctx *ctx)
+ 	if (!ctx->map)
+ 		return -ENOMEM;
  
- static const struct vb2_ops dw100_qops = {
--	.queue_setup	 = dw100_queue_setup,
--	.buf_prepare	 = dw100_buf_prepare,
--	.buf_queue	 = dw100_buf_queue,
--	.start_streaming = dw100_start_streaming,
--	.stop_streaming  = dw100_stop_streaming,
-+	.queue_setup	      = dw100_queue_setup,
-+	.buf_out_validate     = dw100_buf_out_validate,
-+	.buf_prepare	      = dw100_buf_prepare,
-+	.buf_queue	      = dw100_buf_queue,
-+	.start_streaming      = dw100_start_streaming,
-+	.stop_streaming       = dw100_stop_streaming,
-+	.buf_request_complete = dw100_buf_request_complete,
- };
+-	user_map = dw100_get_user_map(ctx);
+-	memcpy(ctx->map, user_map, ctx->map_size);
++	ctx->user_map_is_dirty = true;
++	dw100_update_mapping(ctx);
  
- static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
-@@ -575,6 +593,7 @@ static int dw100_m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	src_vq->lock = &ctx->vq_mutex;
- 	src_vq->dev = ctx->dw_dev->v4l2_dev.dev;
-+	src_vq->supports_requests = true;
- 
- 	ret = vb2_queue_init(src_vq);
- 	if (ret)
-@@ -1058,7 +1077,6 @@ static const struct v4l2_ioctl_ops dw100_ioctl_ops = {
- static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
- {
- 	struct dw100_ctx *curr_ctx;
--	struct vb2_v4l2_buffer *src_vb, *dst_vb;
- 	enum vb2_buffer_state buf_state;
- 
- 	curr_ctx = v4l2_m2m_get_curr_priv(dw_dev->m2m_dev);
-@@ -1069,21 +1087,16 @@ static void dw100_job_finish(struct dw100_device *dw_dev, bool with_error)
- 		return;
+ 	dev_dbg(&ctx->dw_dev->pdev->dev,
+ 		"%ux%u %s mapping created (d:%pad-c:%p) for stream %ux%u->%ux%u\n",
+@@ -351,6 +354,7 @@ static int dw100_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	switch (ctrl->id) {
+ 	case V4L2_CID_DW100_DEWARPING_16x16_VERTEX_MAP:
+ 		ctx->user_map_is_set = true;
++		ctx->user_map_is_dirty = true;
+ 		break;
  	}
  
--	src_vb = v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
--	dst_vb = v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
--
- 	if (likely(!with_error))
- 		buf_state = VB2_BUF_STATE_DONE;
- 	else
- 		buf_state = VB2_BUF_STATE_ERROR;
+@@ -405,6 +409,7 @@ static void dw100_ctrl_dewarping_map_init(const struct v4l2_ctrl *ctrl,
+ 	}
  
--	v4l2_m2m_buf_done(src_vb, buf_state);
--	v4l2_m2m_buf_done(dst_vb, buf_state);
--
- 	dev_dbg(&dw_dev->pdev->dev, "Finishing transaction with%s error(s)\n",
- 		with_error ? "" : "out");
- 
--	v4l2_m2m_job_finish(dw_dev->m2m_dev, curr_ctx->fh.m2m_ctx);
-+	v4l2_m2m_buf_done_and_job_finish(dw_dev->m2m_dev, curr_ctx->fh.m2m_ctx,
-+					 buf_state);
+ 	ctx->user_map_is_set = false;
++	ctx->user_map_is_dirty = true;
  }
  
- static void dw100_hw_reset(struct dw100_device *dw_dev)
-@@ -1460,6 +1473,16 @@ static void dw100_device_run(void *priv)
- 	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
- 	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+ static const struct v4l2_ctrl_type_ops dw100_ctrl_type_ops = {
+@@ -1476,6 +1481,12 @@ static void dw100_device_run(void *priv)
+ 	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+ 				&ctx->hdl);
  
-+	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
-+				&ctx->hdl);
++	if (src_buf->vb2_buf.req_obj.req)
++		dw100_update_mapping(ctx);
++	else if (ctx->user_map_is_dirty)
++		dev_warn_once(&ctx->dw_dev->pdev->dev,
++			      "V4L2 requests are required to update the vertex map dynamically\n");
 +
-+	/*
-+	 * As the hardware does not update any volatile controls, we can
-+	 * complete control handling before starting the dewarper.
-+	 */
-+	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
-+				   &ctx->hdl);
-+
- 	dw100_start(ctx, src_buf, dst_buf);
- }
- 
-@@ -1467,6 +1490,11 @@ static const struct v4l2_m2m_ops dw100_m2m_ops = {
- 	.device_run	= dw100_device_run,
- };
- 
-+static const struct media_device_ops dw100_m2m_media_ops = {
-+	.req_validate = vb2_request_validate,
-+	.req_queue = v4l2_m2m_request_queue,
-+};
-+
- static struct video_device *dw100_init_video_device(struct dw100_device *dw_dev)
- {
- 	struct video_device *vfd = &dw_dev->vfd;
-@@ -1578,6 +1606,7 @@ static int dw100_probe(struct platform_device *pdev)
- 	dw_dev->mdev.dev = &pdev->dev;
- 	strscpy(dw_dev->mdev.model, "dw100", sizeof(dw_dev->mdev.model));
- 	media_device_init(&dw_dev->mdev);
-+	dw_dev->mdev.ops = &dw100_m2m_media_ops;
- 	dw_dev->v4l2_dev.mdev = &dw_dev->mdev;
- 
- 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+ 	/*
+ 	 * As the hardware does not update any volatile controls, we can
+ 	 * complete control handling before starting the dewarper.
 
 -- 
 2.51.0
