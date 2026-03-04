@@ -1,1590 +1,1236 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713163AE1BC
-	for <linux-rt-devel@lists.linux.dev>; Wed,  4 Mar 2026 13:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E9F3B8940;
+	Wed,  4 Mar 2026 14:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772632480; cv=none; b=CXLHxyAcBbtTCnkzT5NSXJqJBu1Fgux6VgCFeA7Lz80X1gU7HTvpr14s97loj3Ndvz9NKzP0JXfBb82uy8Q7sPd2vQI0d6POElo/wrPV/nDbYE0aiDHObDFWfgWpBMP2yPkbozsme8mWG+gC3VeACt3aw/It7HLC5w3uBkAo2OY=
+	t=1772633723; cv=none; b=VxmsIpIsSsdBv47s0x08lduW74sFOz9LjlednNpxPcGS3FsSD36j9s9FcuL20YsHFd+aF2kqMCWoQr18mubsHLvHj+TYOrvSkssj0neXpHSMO4kosnC1cYH92CdZFJSTijYG02wnpwWSfuvAVI29DsvubwmJkI1+lvMeb7osGMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772632480; c=relaxed/simple;
-	bh=tFNCUhp/jnsre+X2LLO7YtvP+TZne9IPKKOyEPq3hyI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N1887j14tZ9phGrCbl7Op1sZMwp/eLgC+Yj/3Ed0llLGr9WN9hz0auW7MpvWWs9RM/FrC29xhOu6klDvkwqvBTc2Gsv+wmdWf8CYQ27oZmxgLPsLwRIMuF63bg2nJOBX9i0XCJyKVPZT5nQxnhDPW18zl4X9XwNhZXNzRj8QhBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b=U/2up/sa; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1772633723; c=relaxed/simple;
+	bh=9GllV3fzwgh0DTl2eR7TQrJeBMEGEXf9vFLPT5fcKKU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KO4wWjpa8wIUhZLQ1AA2Tb05HNfwl/Z9bspIqCDVRzFdIBWj32OMafEWkdQbOq1v9L6Fh2MBnXa37dVxX+Wv6kY5czFB3OVEtpGeqlBfPJY0vEvDH6pP6qcGeaZjqwn01AoIcu3s57xlD5UsiFdCAU9t1anVIW5Q5feyKcjH1oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ivc1ZLpR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=spasswolf@web.de header.b="U/2up/sa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1772632464; x=1773237264; i=spasswolf@web.de;
-	bh=QHSahOhec/gGjGF+nB8hfIQZQQElJINWnaP5bQGjplI=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=U/2up/saznQ/dNhFfhzYf3HcJo7xkpNxaDCj5bPCpJiRnyIOjBXz3Lp390+8VV7R
-	 ubZi0Xb1nCVRQQY/umgzwn0XSvSkvqMiQBjMo07iDzHb87EcFGx15A0CG3FMlAgyc
-	 rDYYj8BbFqPNFfEGkPtbJNfWKmqohHvX8qEPgpc1NCEFfk3Rb9z7988iMvrXGXtLy
-	 o6leMoYdTt9FvEWckbh4lpkzuglBwqxZ+/Tf8Ub3I+pwMtuTe7PTR8MH2YeYRFbs1
-	 PUCcgceyl+ezdTN8lVbZXlDVpRV4VjhEdBLtusdhoeQrehRy6KYbEkzQGrbZgmAYK
-	 fmzZiPE8SMQk4KMTcg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MV2Oi-1w8H5l2OL0-00WxsJ; Wed, 04
- Mar 2026 14:54:23 +0100
-From: Bert Karwatzki <spasswolf@web.de>
-To: linux-kernel@vger.kernel.org
-Cc: Bert Karwatzki <spasswolf@web.de>,
-	linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: rtmutex deadlock and memory corruption when running gcc testsuite in next-20260303
-Date: Wed,  4 Mar 2026 14:54:18 +0100
-Message-ID: <20260304135419.3182-1-spasswolf@web.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260303180434.6ecac68b@gandalf.local.home>
-References: 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ivc1ZLpR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3F61C4CEF7;
+	Wed,  4 Mar 2026 14:15:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772633723;
+	bh=9GllV3fzwgh0DTl2eR7TQrJeBMEGEXf9vFLPT5fcKKU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ivc1ZLpRt2CHid2v1mGsRyAezoE3lTyIXBRIz0al0vsFe3BleOvS06fulzY0m/l2f
+	 9rhm1QnwMMHC7J1bBYlb9kdRVKLmzixLwfsG95Fum3X5NamuEUUN3YidW70x3xWuRQ
+	 StMgnm3fFB4660AxvfmasWNi+egmFI0BvFiuAEXsWJ6GuUXfySVWvqBmVEPv4fa2e7
+	 skYQZHfLyJdOl4UemZBggKpFEvUxXRAa1DixEPpqYot1jPq15Lm+VrVowGz2/om8uo
+	 lQ61/Jmo8drA9WP03C4RBXqMA6VNCjZ3LVPcnom6HcVTUZ1AXJt+BdTftwjxRlg0Mp
+	 Lg62jfiIVnyxQ==
+Message-ID: <f4591e7b-d07a-402a-a051-8ff12b0ccc09@kernel.org>
+Date: Wed, 4 Mar 2026 15:15:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: rtmutex deadlock and memory corruption when running gcc testsuite
+ in next-20260303
+To: Bert Karwatzki <spasswolf@web.de>, linux-kernel@vger.kernel.org
+Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ David Hildenbrand <david@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-rt-devel@lists.linux.dev, Harry Yoo <harry.yoo@oracle.com>,
+ Hao Li <hao.li@linux.dev>
+References: <20260303222127.2992-1-spasswolf@web.de>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20260303222127.2992-1-spasswolf@web.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1apTthLwA6e8KGmdNksPxns51es4WxfJOtCiIwckyvkOrFgnKpj
- ajHy2jU9PedCYtSLxamEaZFicTi7CKLMef2z55drBOWSkCMlAngyOS+587tuXtRWHi5CXgQ
- feBss7xRChmVkBDqjS9NatNCe/qVqYkeHwIjh9Wdperushi++atEHz7vA18h8ZJrupPjusO
- 7WiUtm6nQO+mj7X4OHZiQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:2H5lzuiJosE=;Rja5EipI93zJYKmxmsKSmHETiyg
- O+9/xc+UAx6FMVVOtlHxMgwksUl9B6xp3EccpRR36IZhLsz5x0eVU62qCzjkEXkbB3/6CerSs
- u3G7p4KFPGsIdqY4drSs42N+u5OL4zAHi03WfvoO9rDEUvs71qzQJbOIXGZgR5CFCyq0c9VtU
- fFVTqiYto+7jdWJuEQAQ7f8blKxJfSr2eoOWEHaChZho+BsMPG9fa0w3vhAKZbJ3X8pQ9iiL9
- DJ1p6WMe1KnzzjhIV7k0eXBjm3bVL3QplOdo7KPySuwOssKdNT5y4VwGX45re7sPGDYAIH2/r
- mInfeaJdzYyj/GmXiJAAbhxZgbb+Ocq1UujT8ZTg4rMaXUjOzAQJtCtd/RMN27TSuk8CrIxzo
- lNHJUBM+LDhNxxcwTLcAsf0Y0A0qxKZYET1LRgSzmqGuORyStWO7KVEO4bhJZAOhQRhzqp5eY
- VciR/tvKcMFAR9DDE7l9NX7p7gzjBZMgIVQbIf0wjwj8CMQw4eI8YuRYmP+siIL+0KAp06CEV
- 95vfq9O5wvDXpcJkE8vRKRmCQRpMdb0nEYf++F/r54nwzE0RZvU+0ANJrB19wsXsan2iRWu0a
- 0Cg/OKvqH8CzaVlVS0qB7QYVjuGDxz2GDs9zpz6BecB279t+7oMe7rinQ9ppN46Na5Ji1Yybn
- YQxIkI34fYOf24Ve0eIQHC4BCMUU8Rw+34JOuANqFcsCGMG0HZa9MHP9NfxDbxiQD0BUXiwzb
- UW0MCkewrL0ydAtx+ipPflWsWKD9q19yMWge3REG7c2l+8ZTqnI998Nam3BxrSUf/cZWl12gE
- dM+ke8rUP5z1xxp2mt+ywUKjN/ReUbJ89UU3c1AODLKcrm82pcYjRjXDA+auM8j2UXKMJqYQQ
- zVgWh/INBkCuuRYpxwd1dhC6VTRxRiXM9sU2aTFqbNLXJVKNkORAMTtS57kyb193jyyCCyLVJ
- esp1KsfWewatvod2PUIZGFAoD6/Y04AsDBSYfQI+sRkEtgnRw76IaK7vAWrDkCGt1EB/uUhtk
- En0NNTFurjHR6a/DUm2b3rluM/9gUuZAe+z4Y2pt/kH9sFL3HxnjckaL9+rN2ksu/Ah0FGwSx
- 412EreluIKosUBkWi9116/HnYU0faG2KEEqchSO624Z/50ZG1krIiO8zXATN8rJAtBKXy5CzY
- cy5aovpqa6sjKg998ryAUGuQO92fBWH03A100ZPBKBzQfwWr4Yv91JF27j/to2mhnsuWvueTD
- ByU/a/eCU8SalWDHFUxWyoXcGQq5mzmnoUw26sC9TpzCXJGq7ae73URa9dJyv9Vixpn2D8cZP
- KIr2jXl/79BWKm/LPg8tGoEssob47SEoe8RXhFVXp6fHjtReeovmUvTjz6Gfqk5xJAtFgF7Hl
- W7az9dOMfbKyDoeL32XdIRkhPEQTw5amnQlUDQuhOzxsR5gW+j080tzi5aNFYm0lLa6UTfM+X
- DKOTw5sAu02PvLiGPujbuQu3PPg08NBlWJzTC25h6k5K6i0Tfr8d2BZxf+Ns3VXv1jcSII5or
- a8owdi1kEfc5ILmbl+DdPOHGig22bdwka2uepbdgDiEil41M4qJK3MwX3xpYetf9tsSNFdMLO
- Mp5Eon7udrxwdCgiCwWXVkW3jtsNE0x1op0DQGdLweQNG3VZJrDDOgZkCDrjNUAaqMzaWa0/9
- ViIKpOgiVKnZ7D2LKcn4G5aa8ds04Ysv8zYBehDVzQMzar5F4FXYF4zRvn9G5I+Jpp0F2NTg7
- swwRj9Kf6CWLupSEAPsPb2BUMVlX+LtXvubXxQJ3YOURJjCya3mUZxDTIXbBlCmPnpbLM2XxT
- k0qCGT3G21XbRVSn+qjEE4m4KfpYkr6zTmzEXC86lpHKWfVZyC+weg9IOmDLbrp2te0VhEdkR
- p2NtWONyIUWsIVy4w3C/pE+rJyU8mJFgfc6F1UXhnNkfCpU8zB6+Qp5a8zSG+vjn+ezKNkiR0
- x08TunL7J9oQrxk6u6V6+VvTMlAytu9HP6bLMNNxGdRMiMX+2IyqERzilwr93dGPFqXPGNTNb
- esjmKpLEXuB9sbLYTKiOuorNYKdVqBZIjgVzoC7Mo0hUoqZ21fY7yF1Pxu+Y0wI50TcZ+9bxh
- /Z2ijfU2AylWEib7pLXVdpUKGQgNF9ElozxZYNCQCB4ztYS1Z7hzCSSEq9f5Pr9yZmypLKjYO
- jNa012Pe2XyzY4TZxpnr7nTokfB5zQxh+hXdUE+m/b18/9MmrHuI7qd/MwUChY758Ucql6EdB
- nS5dLwTowAeUIpepi2kCLj20F5AxGjnrWE5/fIZM2AEMYweV79H2TdDH/SnHJz/nz7XihYQcz
- UXRWQMiyHcifr6FEDBsFxcWG8tnDM72LPYv+DrkXe/ggx8L09doBbnxlb3VUf5zrHF8bzR2g9
- faw1iKxAjEagj35Wj9VUTwYf5Uz3hMjMFELfp8zEcqbnAE24S4mRAKnlmQxFBuKQPju2NZOVQ
- 9rDRhTaSp5z52CHHm9UcaY97VyVM18/+sQLQItozYrF00sFyKmIePp+V43abYVELAcR8DOR7N
- im4LXMW0YFDAlTukpM/Qhq8soIID414U3QP0QAAWER/TDYwPWeh09lU3ZpZ8dCa2YGB5uEltK
- Vz3r8IBvEz86ncVvFLS14HU4zUVASl2Ob/xAfrSfphewU9ncheQ7dhPZxpaQxW5xZsKLw1zzg
- 98suaNvgaLY4kC5o/2g5KrpaodnTN6opaBBZeeGqZ20gg8byNuTMFNojPvxo+8HcsMG2sptjV
- AiAaACdenUMJilsbG4vOHG1tMKKKDIJg8CBiXTABCSZEb+MpPsHNMAgy/d9gZF/JeJy3+SOG8
- 09cEzlrY5QW/5BjgiuGg6e8HrildMakxPWzvMPLlnYfOABlPjQCwkuUZbaaojRzHrbiqYTy8r
- aKOMQcGmimism8hLijw5l9xSsE7ipAPpooEoEgSjnJyJaBkdeYE+ohjU/E7LyrEVH7W5tUpg2
- Vs5URsicsupm1OL/YBlr3YNuJF8aFXjOghOpcncqJhYxsNI5IIVYaT/d6E/7qYyqKAKeBW1AZ
- QagMmX5YIJgQC9ps51pkV2uz2EUlpft/yyY7zW+QSM0f74ol3KuKnqgVsCbxlUKZd+2C+qQaw
- ECAHHTmJqIqIFAgrENdUSDX0lVFyzpcj9SxO4bCY7ogHuJnXQcoXzf6gARoGfHtL4HPzOT8Vo
- d9TbPVifCzUou/wzQsg5XKf2lNQ3FR7aSCEGuOpRitidSPv2nTX1dF4PL7rKgRK4PeoVzEVsD
- ONdcjEfbArSpwRVDVrcJeua2m/t7Sh7cg8baSdqZK1k5xVtFWIqJ0hyZfA65OSwUX36yVlKv7
- 8N1Lkn+mPH0VL0/xgz7v782j83vTqZrbEUxNhhjppWlEbE5L8gN2/9xIugiBJ5yB1szNPcqfy
- b9mXQQqmoBLC531g1SLDulgZpks/w7XaNZHCMmIOpX4yix9k6WVTNYQGQRhugTNL5ifHFnEw2
- v1XQGQkUuowFt0Qrru4/zdbaEkuS+948cy5EuSe+hMs90vZk1LyGS3SoBSiOljUnxDi5LeacH
- Olo7JQe8cQBCKVXtz+Tj28BoyxsynCNsZ4HVpfDKj3/2bmmTBUrTbWU4BKIrPVXnNIpR/HJLz
- UAlHKGpo86xxb+cMIcyfjnw/1/uZ6z2r5VEkHxXZoTV92GOg9EAuY1kk7Aw3YHyo6NmQIBang
- U0cfsnIOoaQs/+/FUlOitReQ0ubYZGyrk/biMUjUFcNGRQk9Zts8dSrCdQkSFUpNpRSSP77or
- yJKr4Ail6BhuEXizk74jQTdB1rC4vj0vju+237Jst6tybkSTslhTuzi9vmq2H+/Ua1DHmDrW3
- ssYn9YhW8sVZHoGZCxdCZ+ZiNWGkeXMzjw1Bl9vCFAQBLFsg40DGBfPDezecOGVvmS7DnSz4t
- zhWfKuhTHD540QWZAzWO/BPENdGGnExwlFZcMf9XN7fQbmMT1nuE4Q3bRtpcdcSvl48v6ghs/
- j/7CZSimj2sjF2f3axbTIxm+TQ4+3FWZH4eCdDuDKg6SCuUgCbFmw5fY1QL3lmBGIcrTfFflD
- F/oTtpZMrt3PTgTxUsDiucdT4phw5osN5L45fLQPu2oi6AvlCYlwvYXR2388iyahLjLV717id
- +PXq2TClMTGa8AICHEnMyhjMmu8ADVE2ocDUzqKGNjf3m3+pp0BMXvrXyLacgKevzMLIxRpUD
- MpJjij2a2hHXJD1iOeqWFM/cL6fsQdQc5N9oj80As0+2sXmGuw2DDOqw+utHguqV70X2p3w1G
- dYDGaO60uPTgerJCG8toOrKSTXHn53HAqVCvBPaukGgbcWj9wAhgQGLF5wqn6bE+Z9HeU2/qj
- /o/CFyv43XBHx3hGtwEOnaqPr91PguG9xC+JjBQoX1f13N7zDZHT3u71yk25Ix7PQMUfEpWMq
- EI7o5tJpTn1+GDCwnmEk7ukQnNA9RKvW5sZ4p/utbsknmFmY3OhyrsLYDwQjv/0OtwckqymjH
- m+TRkEEqfo+miBTdnpXfpsQsaSjAYG1yF1u19drlgQFb1IYHgtQpmlVdSQSABY0PtqCYllDzv
- S3ESE0uiK/oIzwPy5VJv5gR7H96ydGW5cvdJtXlgySRuscYQaSfkXzaqKsl/g3J0B6VfOGCMx
- e8urYze3JHWc9PNsGFvuYJ60liPEDYY6H95c7V755+uWDH+ct6h9n/k+PCVBM1J2tkSItJz4f
- HSQ4/QXkx+DHQKpftNK7OXpriGOYe7/VfOvhuWL/rxOe4wkkZraAAPsnjefla/CSsZxTEhfuq
- OTiXiVpL4BfWJlb/EJnKaqmMI5rkNOz9Alh5XBig693a4IAIc0AAM4juakCAxNdSF7/Jq5IbN
- U0CX5+2b1IE0v4RDNUtdO3cu/zm8czKjQ/rPitLWsoxqvoGi0Q0D/jNfv/FyJdqgKtuYKhC2V
- BNp9xEVJMr54yXenqThrDa1ell2AgeQ8krzXcxZVSL0or+SQXpMrvdxS+d59cKhmuZ7OptOPM
- xfV+b0qLUX4WuDd5IcdymvPxVWF6UDLa/iBKxLcr1e+H3VrBmLOe0VQB7PscuXKfks7XbzHUe
- qMzZ0wnGUp8DHFyR0eAkH3k6WGQaKhQ65GQiiLVQ8dqrYtuovvLAmWAmAbH8tRY4dCQEKPLU/
- QY/d5ckVok3b+su7l5AzW1EO7jljY64QV85uLRK6GiDMWAEnzXFwCuPzaZj9Y0W3wwD7nDU3Q
- tP/EvCiwRrL7qf/PU3QpD0uTjxT5CkJF1xAWbM3sjhmKrnScqJ4NkADOSGu7yCsdjF6JNj6SD
- 4SuSzvUt3VIfyiamjo/MmsFMi/ujS9Il/e5wTyrZ0xwavyZIRyihZQyYOcZnsoo=
 
-I've got no results on the bisection, yet, and this bug is not 100% reprodu=
-cible:
+On 3/3/26 11:21 PM, Bert Karwatzki wrote:
+> I tried building gcc-14 from the debian repositories (fetched via apt-g=
+et=20
+> source gcc-14) on my new and shiny zen5 machine (Cpu: "AMD Ryzen 9 9950=
+X=20
+> 16-Core Processor) running debian stable/trixie and linux-next-20260303=
+=20
+> (PREEMPT_RT=3Dy) with the following command:
 
-I did 3 test runs with the gcc-14 source code from debian and:
-$ time dpkg-buildpackage --no-sign -b
+It's probably my fault, sorry about that.
+Specifically commit 666a739089c from slab/for-next-fixes.
+Does the following fix it? The fixed commit was meanwhile
+queued so hopefully will be in next-20260304
 
-On the first run I got no error.
-On the second run this smaller error happended, but the rest of the system
-was not impacted:
-2026-03-04T12:23:26.176512+01:00 homer kernel: [T2845420] BUG: unable to ha=
-ndle page fault for address: ffff90db1d84fa18
-2026-03-04T12:23:26.176527+01:00 homer kernel: [T2845420] #PF: supervisor r=
-ead access in kernel mode
-2026-03-04T12:23:26.176529+01:00 homer kernel: [T2845420] #PF: error_code(0=
-x0000) - not-present page
-2026-03-04T12:23:26.176529+01:00 homer kernel: [T2845420] PGD b82001067 P4D=
- b82001067 PUD 0=20
-2026-03-04T12:23:26.176530+01:00 homer kernel: [T2845420] Oops: Oops: 0000 =
-[#1] SMP NOPTI
-2026-03-04T12:23:26.176530+01:00 homer kernel: [T2845420] CPU: 26 UID: 1000=
- PID: 2845420 Comm: xgcc Not tainted 7.0.0-rc2-next-20260303-master #367 PR=
-EEMPT_RT=20
-2026-03-04T12:23:26.176530+01:00 homer kernel: [T2845420] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T12:23:26.176531+01:00 homer kernel: [T2845420] RIP: 0010:kmem_ca=
-che_alloc_noprof+0xc4/0x330
-2026-03-04T12:23:26.176531+01:00 homer kernel: [T2845420] Code: 6b 00 85 c0=
- 0f 84 57 01 00 00 65 48 8b 3d 0c a1 26 01 48 8b 33 48 01 fe 48 8b 56 20 8b=
- 42 18 85 c0 0f 84 91 01 00 00 8d 48 ff <4c> 8b 6c ca 20 89 4a 18 48 03 3b =
-e8 dc 82 6b 00 41 0f b7 84 24 70
-2026-03-04T12:23:26.176531+01:00 homer kernel: [T2845420] RSP: 0018:ffffb9f=
-c29c6fa28 EFLAGS: 00010282
-2026-03-04T12:23:26.176532+01:00 homer kernel: [T2845420] RAX: 000000000000=
-0000 RBX: ffff90c640079a00 RCX: 00000000ffffffff
-2026-03-04T12:23:26.176635+01:00 homer kernel: [T2845420] RDX: ffff90d31d84=
-fa00 RSI: ffff90c6400b3080 RDI: ffff90d5cc361000
-2026-03-04T12:23:26.176637+01:00 homer kernel: [T2845420] RBP: 000000000000=
-0cc0 R08: fffff667849db200 R09: ffff90c7acfc8000
-2026-03-04T12:23:26.176638+01:00 homer kernel: [T2845420] R10: ffff90c64316=
-e900 R11: 0000000800200018 R12: ffff90c7acfc8000
-2026-03-04T12:23:26.176638+01:00 homer kernel: [T2845420] R13: 000000000000=
-2000 R14: 0000000000000100 R15: 00007fe32f880000
-2026-03-04T12:23:26.176638+01:00 homer kernel: [T2845420] FS:  000000000000=
-0000(0000) GS:ffff90d5cc361000(0000) knlGS:0000000000000000
-2026-03-04T12:23:26.176639+01:00 homer kernel: [T2845420] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T12:23:26.176639+01:00 homer kernel: [T2845420] CR2: ffff90db1d84=
-fa18 CR3: 00000002f2782000 CR4: 0000000000f50ef0
-2026-03-04T12:23:26.176639+01:00 homer kernel: [T2845420] PKRU: 55555554
-2026-03-04T12:23:26.176640+01:00 homer kernel: [T2845420] Call Trace:
-2026-03-04T12:23:26.176640+01:00 homer kernel: [T2845420]  <TASK>
-2026-03-04T12:23:26.176640+01:00 homer kernel: [T2845420]  mas_preallocate+=
-0x406/0x450
-2026-03-04T12:23:26.176641+01:00 homer kernel: [T2845420]  vma_link+0x5d/0x=
-180
-2026-03-04T12:23:26.176641+01:00 homer kernel: [T2845420]  insert_vm_struct=
-+0x41/0xa0
-2026-03-04T12:23:26.176641+01:00 homer kernel: [T2845420]  _install_special=
-_mapping+0x7d/0x140
-2026-03-04T12:23:26.176642+01:00 homer kernel: [T2845420]  map_vdso+0x93/0x=
-190
-2026-03-04T12:23:26.176642+01:00 homer kernel: [T2845420]  load_elf_binary+=
-0xdb4/0x1880
-2026-03-04T12:23:26.176642+01:00 homer kernel: [T2845420]  ? __kernel_read+=
-0x1a1/0x2a0
-2026-03-04T12:23:26.176642+01:00 homer kernel: [T2845420]  ? rt_read_lock+0=
-x40/0x130
-2026-03-04T12:23:26.176643+01:00 homer kernel: [T2845420]  bprm_execve+0x27=
-c/0x4a0
-2026-03-04T12:23:26.176643+01:00 homer kernel: [T2845420]  do_execveat_comm=
-on.isra.0+0x157/0x170
-2026-03-04T12:23:26.176643+01:00 homer kernel: [T2845420]  __x64_sys_execve=
-+0x38/0x50
-2026-03-04T12:23:26.176643+01:00 homer kernel: [T2845420]  do_syscall_64+0x=
-11b/0x8c0
-2026-03-04T12:23:26.176644+01:00 homer kernel: [T2845420]  ? do_fault+0x37e=
-/0x640
-2026-03-04T12:23:26.176644+01:00 homer kernel: [T2845420]  ? __handle_mm_fa=
-ult+0x2c6/0x3a0
-2026-03-04T12:23:26.176644+01:00 homer kernel: [T2845420]  ? count_memcg_ev=
-ents+0x5e/0xf0
-2026-03-04T12:23:26.176644+01:00 homer kernel: [T2845420]  ? handle_mm_faul=
-t+0x1b9/0x2c0
-2026-03-04T12:23:26.176644+01:00 homer kernel: [T2845420]  ? do_user_addr_f=
-ault+0x203/0x640
-2026-03-04T12:23:26.176645+01:00 homer kernel: [T2845420]  entry_SYSCALL_64=
-_after_hwframe+0x55/0x5d
-2026-03-04T12:23:26.176645+01:00 homer kernel: [T2845420] RIP: 0033:0x7f9fb=
-7339dd7
-2026-03-04T12:23:26.176645+01:00 homer kernel: [T2845420] Code: Unable to a=
-ccess opcode bytes at 0x7f9fb7339dad.
-2026-03-04T12:23:26.176646+01:00 homer kernel: [T2845420] RSP: 002b:00007f9=
-fb7476dd8 EFLAGS: 00000206 ORIG_RAX: 000000000000003b
-2026-03-04T12:23:26.176646+01:00 homer kernel: [T2845420] RAX: ffffffffffff=
-ffda RBX: 00007ffdfef7fb22 RCX: 00007f9fb7339dd7
-2026-03-04T12:23:26.176646+01:00 homer kernel: [T2845420] RDX: 00007ffdfef7=
-7e60 RSI: 00007ffdfef777f0 RDI: 00007ffdfef7fb22
-2026-03-04T12:23:26.176646+01:00 homer kernel: [T2845420] RBP: 00007f9fb747=
-6e50 R08: 00007ffdfef77310 R09: 0000000000000000
-2026-03-04T12:23:26.176647+01:00 homer kernel: [T2845420] R10: 000000000000=
-0008 R11: 0000000000000206 R12: 00007ffdfef777f0
-2026-03-04T12:23:26.176647+01:00 homer kernel: [T2845420] R13: 00007ffdfef7=
-7e60 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T12:23:26.176647+01:00 homer kernel: [T2845420]  </TASK>
-2026-03-04T12:23:26.176648+01:00 homer kernel: [T2845420] Modules linked in=
-: nct6775 nct6775_core hwmon_vid rfcomm bnep ccm snd_seq_dummy snd_hrtimer =
-snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel btbcm btmtk blueto=
-oth mt7925e mt7925_common mt792x_lib ecdh_generic mt76_connac_lib ecc mt76 =
-snd_hda_codec_atihdmi snd_usb_audio intel_rapl_msr joydev snd_hda_codec_hdm=
-i snd_usbmidi_lib mac80211 snd_ump snd_rawmidi snd_seq_device intel_rapl_co=
-mmon snd_hda_intel wmi_bmof rapl snd_hda_codec pcspkr libarc4 snd_hda_core =
-spd5118 regmap_i2c snd_intel_dspcfg snd_hwdep snd_pcm cfg80211 snd_timer sn=
-d soundcore k10temp rfkill ccp evdev configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd dr=
-m_kms_helper ahci libahci drm libata usbcore nvme scsi_mod nvme_core igc ce=
-c i2c_piix4 scsi_common usb_common nvme_keyring i2c_smbus crc16 nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T12:23:26.176648+01:00 homer kernel: [T2845420]  gpio_generic
-2026-03-04T12:23:26.176648+01:00 homer kernel: [T2845420] CR2: ffff90db1d84=
-fa18
-2026-03-04T12:23:26.176649+01:00 homer kernel: [T2845420] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T12:23:26.176649+01:00 homer kernel: [T2845420] RIP: 0010:kmem_ca=
-che_alloc_noprof+0xc4/0x330
-2026-03-04T12:23:26.176649+01:00 homer kernel: [T2845420] Code: 6b 00 85 c0=
- 0f 84 57 01 00 00 65 48 8b 3d 0c a1 26 01 48 8b 33 48 01 fe 48 8b 56 20 8b=
- 42 18 85 c0 0f 84 91 01 00 00 8d 48 ff <4c> 8b 6c ca 20 89 4a 18 48 03 3b =
-e8 dc 82 6b 00 41 0f b7 84 24 70
-2026-03-04T12:23:26.176650+01:00 homer kernel: [T2845420] RSP: 0018:ffffb9f=
-c29c6fa28 EFLAGS: 00010282
-2026-03-04T12:23:26.176650+01:00 homer kernel: [T2845420] RAX: 000000000000=
-0000 RBX: ffff90c640079a00 RCX: 00000000ffffffff
-2026-03-04T12:23:26.176650+01:00 homer kernel: [T2845420] RDX: ffff90d31d84=
-fa00 RSI: ffff90c6400b3080 RDI: ffff90d5cc361000
-2026-03-04T12:23:26.176650+01:00 homer kernel: [T2845420] RBP: 000000000000=
-0cc0 R08: fffff667849db200 R09: ffff90c7acfc8000
-2026-03-04T12:23:26.176650+01:00 homer kernel: [T2845420] R10: ffff90c64316=
-e900 R11: 0000000800200018 R12: ffff90c7acfc8000
-2026-03-04T12:23:26.176651+01:00 homer kernel: [T2845420] R13: 000000000000=
-2000 R14: 0000000000000100 R15: 00007fe32f880000
-2026-03-04T12:23:26.176651+01:00 homer kernel: [T2845420] FS:  000000000000=
-0000(0000) GS:ffff90d5cc361000(0000) knlGS:0000000000000000
-2026-03-04T12:23:26.176651+01:00 homer kernel: [T2845420] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T12:23:26.176651+01:00 homer kernel: [T2845420] CR2: 00007f9fb733=
-9dad CR3: 00000002f2782000 CR4: 0000000000f50ef0
-2026-03-04T12:23:26.176651+01:00 homer kernel: [T2845420] PKRU: 55555554
-2026-03-04T12:23:26.176652+01:00 homer kernel: [T2845420] note: xgcc[284542=
-0] exited with irqs disabled
-2026-03-04T12:23:26.176659+01:00 homer kernel: [T2845420] ------------[ cut=
- here ]------------
-2026-03-04T12:23:26.176659+01:00 homer kernel: [T2845420] rtmutex deadlock =
-detected
-2026-03-04T12:23:26.176659+01:00 homer kernel: [T2845420] WARNING: kernel/l=
-ocking/rtmutex.c:1674 at __rt_mutex_slowlock_locked.constprop.0+0x835/0x9b0=
-, CPU#9: xgcc/2845420
-2026-03-04T12:23:26.176659+01:00 homer kernel: [T2845420] Modules linked in=
-: nct6775 nct6775_core hwmon_vid rfcomm bnep ccm snd_seq_dummy snd_hrtimer =
-snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel btbcm btmtk blueto=
-oth mt7925e mt7925_common mt792x_lib ecdh_generic mt76_connac_lib ecc mt76 =
-snd_hda_codec_atihdmi snd_usb_audio intel_rapl_msr joydev snd_hda_codec_hdm=
-i snd_usbmidi_lib mac80211 snd_ump snd_rawmidi snd_seq_device intel_rapl_co=
-mmon snd_hda_intel wmi_bmof rapl snd_hda_codec pcspkr libarc4 snd_hda_core =
-spd5118 regmap_i2c snd_intel_dspcfg snd_hwdep snd_pcm cfg80211 snd_timer sn=
-d soundcore k10temp rfkill ccp evdev configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd dr=
-m_kms_helper ahci libahci drm libata usbcore nvme scsi_mod nvme_core igc ce=
-c i2c_piix4 scsi_common usb_common nvme_keyring i2c_smbus crc16 nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T12:23:26.176660+01:00 homer kernel: [T2845420]  gpio_generic
-2026-03-04T12:23:26.176660+01:00 homer kernel: [T2845420] CPU: 9 UID: 1000 =
-PID: 2845420 Comm: xgcc Tainted: G      D             7.0.0-rc2-next-202603=
-03-master #367 PREEMPT_RT=20
-2026-03-04T12:23:26.176660+01:00 homer kernel: [T2845420] Tainted: [D]=3DDIE
-2026-03-04T12:23:26.176661+01:00 homer kernel: [T2845420] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T12:23:26.176661+01:00 homer kernel: [T2845420] RIP: 0010:__rt_mu=
-tex_slowlock_locked.constprop.0+0x835/0x9b0
-2026-03-04T12:23:26.176662+01:00 homer kernel: [T2845420] Code: 00 48 89 ef=
- e8 fc 67 87 00 c7 44 24 14 fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89=
- ef e8 b2 66 87 00 48 8d 3d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 =
-e8 87 43 18 e8 e7 6a fd ff eb f4
-2026-03-04T12:23:26.176662+01:00 homer kernel: [T2845420] RSP: 0018:ffffb9f=
-c29c6fd18 EFLAGS: 00010286
-2026-03-04T12:23:26.176665+01:00 homer kernel: [T2845420] RAX: 000000000000=
-0000 RBX: ffff90c7acfc8000 RCX: ffff90c7acfc8001
-2026-03-04T12:23:26.176665+01:00 homer kernel: [T2845420] RDX: 000000000000=
-0001 RSI: ffff90c7acfc8000 RDI: ffffffffb1236620
-2026-03-04T12:23:26.176665+01:00 homer kernel: [T2845420] RBP: ffff90c80b18=
-3938 R08: 0000000000000000 R09: ffff90d5bdcf6f90
-2026-03-04T12:23:26.176665+01:00 homer kernel: [T2845420] R10: ffff90d5bdd2=
-6fe8 R11: 0000000000000003 R12: ffffb9fc29c6fd40
-2026-03-04T12:23:26.176666+01:00 homer kernel: [T2845420] R13: ffff90c7acfc=
-8001 R14: ffff90c7acfc8c40 R15: 00000000ffffffdd
-2026-03-04T12:23:26.176666+01:00 homer kernel: [T2845420] FS:  000000000000=
-0000(0000) GS:ffff90d5cbf21000(0000) knlGS:0000000000000000
-2026-03-04T12:23:26.176666+01:00 homer kernel: [T2845420] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T12:23:26.176666+01:00 homer kernel: [T2845420] CR2: 00007fa197ff=
-9af8 CR3: 00000002f2782000 CR4: 0000000000f50ef0
-2026-03-04T12:23:26.176666+01:00 homer kernel: [T2845420] PKRU: 55555554
-2026-03-04T12:23:26.176667+01:00 homer kernel: [T2845420] Call Trace:
-2026-03-04T12:23:26.176668+01:00 homer kernel: [T2845420]  <TASK>
-2026-03-04T12:23:26.177327+01:00 homer kernel: [T2845420]  ? psi_task_switc=
-h+0x105/0x280
-2026-03-04T12:23:26.177332+01:00 homer kernel: [T2845420]  ? finish_task_sw=
-itch.isra.0+0xc3/0x370
-2026-03-04T12:23:26.177333+01:00 homer kernel: [T2845420]  __rwbase_read_lo=
-ck+0x4a/0xd0
-2026-03-04T12:23:26.177333+01:00 homer kernel: [T2845420]  acct_collect+0x1=
-57/0x1c0
-2026-03-04T12:23:26.177333+01:00 homer kernel: [T2845420]  do_exit+0x1c2/0x=
-a30
-2026-03-04T12:23:26.177334+01:00 homer kernel: [T2845420]  make_task_dead+0=
-x94/0xa0
-2026-03-04T12:23:26.177334+01:00 homer kernel: [T2845420]  rewind_stack_and=
-_make_dead+0x16/0x20
-2026-03-04T12:23:26.177334+01:00 homer kernel: [T2845420] RIP: 0033:0x7f9fb=
-7339dd7
-2026-03-04T12:23:26.177335+01:00 homer kernel: [T2845420] Code: Unable to a=
-ccess opcode bytes at 0x7f9fb7339dad.
-2026-03-04T12:23:26.177335+01:00 homer kernel: [T2845420] RSP: 002b:00007f9=
-fb7476dd8 EFLAGS: 00000206 ORIG_RAX: 000000000000003b
-2026-03-04T12:23:26.177335+01:00 homer kernel: [T2845420] RAX: ffffffffffff=
-ffda RBX: 00007ffdfef7fb22 RCX: 00007f9fb7339dd7
-2026-03-04T12:23:26.177335+01:00 homer kernel: [T2845420] RDX: 00007ffdfef7=
-7e60 RSI: 00007ffdfef777f0 RDI: 00007ffdfef7fb22
-2026-03-04T12:23:26.177336+01:00 homer kernel: [T2845420] RBP: 00007f9fb747=
-6e50 R08: 00007ffdfef77310 R09: 0000000000000000
-2026-03-04T12:23:26.177336+01:00 homer kernel: [T2845420] R10: 000000000000=
-0008 R11: 0000000000000206 R12: 00007ffdfef777f0
-2026-03-04T12:23:26.177336+01:00 homer kernel: [T2845420] R13: 00007ffdfef7=
-7e60 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T12:23:26.177336+01:00 homer kernel: [T2845420]  </TASK>
-2026-03-04T12:23:26.177337+01:00 homer kernel: [T2845420] ---[ end trace 00=
-00000000000000 ]---
+diff --git a/mm/slub.c b/mm/slub.c
+index 740edbad0475..1871c5ef354a 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -4610,6 +4610,7 @@ __pcs_replace_empty_main(struct kmem_cache *s, stru=
+ct slub_percpu_sheaves *pcs,
+ 	}
+=20
+ 	local_unlock(&s->cpu_sheaves->lock);
++	pcs =3D NULL;
+=20
+ 	if (!allow_spin)
+ 		return NULL;
 
-On the third run however I encountered an error which broke everything, i.e=
-. the already
-running firefox ceased to work, running ps or top in a terminal emulator ga=
-ve nothing,
-new xfce windows could not be opened and shortly after that the GUI froze. =
-(@Lorenzo: This
-behaviour strongly reminds me of the maple tree spanning store bug)
 
-2026-03-04T14:30:58.025743+01:00 homer kernel: [T2817909] BUG: unable to ha=
-ndle page fault for address: 0000001005a14780
-2026-03-04T14:30:58.025762+01:00 homer kernel: [T2817909] #PF: supervisor w=
-rite access in kernel mode
-2026-03-04T14:30:58.025763+01:00 homer kernel: [T2817909] #PF: error_code(0=
-x0002) - not-present page
-2026-03-04T14:30:58.025764+01:00 homer kernel: [T2817909] PGD 0 P4D 0=20
-2026-03-04T14:30:58.025765+01:00 homer kernel: [T2817909] Oops: Oops: 0002 =
-[#1] SMP NOPTI
-2026-03-04T14:30:58.025766+01:00 homer kernel: [T2817909] CPU: 24 UID: 1000=
- PID: 2817909 Comm: collect-ld Not tainted 7.0.0-rc2-next-20260303-master #=
-367 PREEMPT_RT=20
-2026-03-04T14:30:58.025766+01:00 homer kernel: [T2817909] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.025767+01:00 homer kernel: [T2817909] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.025767+01:00 homer kernel: [T2817909] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.025768+01:00 homer kernel: [T2817909] RSP: 0018:ffff9cb=
-cec4bb600 EFLAGS: 00010246
-2026-03-04T14:30:58.025769+01:00 homer kernel: [T2817909] RAX: 00007feba034=
-0f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:30:58.025769+01:00 homer kernel: [T2817909] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:30:58.025770+01:00 homer kernel: [T2817909] RBP: 00007feba034=
-0fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:30:58.025770+01:00 homer kernel: [T2817909] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:30:58.025770+01:00 homer kernel: [T2817909] R13: 000000000000=
-0002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:30:58.025771+01:00 homer kernel: [T2817909] FS:  000000000000=
-0000(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.025771+01:00 homer kernel: [T2817909] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.025771+01:00 homer kernel: [T2817909] CR2: 0000001005a1=
-4780 CR3: 00000002744fa000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.025772+01:00 homer kernel: [T2817909] PKRU: 55555554
-2026-03-04T14:30:58.025772+01:00 homer kernel: [T2817909] Call Trace:
-2026-03-04T14:30:58.025773+01:00 homer kernel: [T2817909]  <TASK>
-2026-03-04T14:30:58.025773+01:00 homer kernel: [T2817909]  mas_wr_node_stor=
-e+0x9a/0x3f0
-2026-03-04T14:30:58.025773+01:00 homer kernel: [T2817909]  ? node_copy.isra=
-.0+0x13e/0x400
-2026-03-04T14:30:58.025774+01:00 homer kernel: [T2817909]  ? mod_memcg_lruv=
-ec_state+0xc4/0x160
-2026-03-04T14:30:58.025774+01:00 homer kernel: [T2817909]  ? __account_obj_=
-stock+0x18c/0x1f0
-2026-03-04T14:30:58.025774+01:00 homer kernel: [T2817909]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.025774+01:00 homer kernel: [T2817909]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.025775+01:00 homer kernel: [T2817909]  ? kmem_cache_all=
-oc_noprof+0xd4/0x330
-2026-03-04T14:30:58.025775+01:00 homer kernel: [T2817909]  mas_store_preall=
-oc+0x19d/0x3d0
-2026-03-04T14:30:58.025775+01:00 homer kernel: [T2817909]  __mmap_region+0x=
-928/0xf80
-2026-03-04T14:30:58.025775+01:00 homer kernel: [T2817909]  do_mmap+0x478/0x=
-660
-2026-03-04T14:30:58.025775+01:00 homer kernel: [T2817909]  vm_mmap_pgoff+0x=
-104/0x190
-2026-03-04T14:30:58.025776+01:00 homer kernel: [T2817909]  do_syscall_64+0x=
-11b/0x8c0
-2026-03-04T14:30:58.025776+01:00 homer kernel: [T2817909]  ? lruvec_stat_mo=
-d_folio+0x6f/0xb0
-2026-03-04T14:30:58.025776+01:00 homer kernel: [T2817909]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.025776+01:00 homer kernel: [T2817909]  ? try_charge_mem=
-cg+0x139/0x6d0
-2026-03-04T14:30:58.025777+01:00 homer kernel: [T2817909]  ? flush_tlb_func=
-+0x18d/0x1e0
-2026-03-04T14:30:58.025777+01:00 homer kernel: [T2817909]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.025777+01:00 homer kernel: [T2817909]  ? set_pte_range+=
-0xb5/0x300
-2026-03-04T14:30:58.025777+01:00 homer kernel: [T2817909]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.025778+01:00 homer kernel: [T2817909]  ? finish_fault+0=
-x256/0x3e0
-2026-03-04T14:30:58.025778+01:00 homer kernel: [T2817909]  ? do_fault+0x3db=
-/0x640
-2026-03-04T14:30:58.025778+01:00 homer kernel: [T2817909]  ? __handle_mm_fa=
-ult+0x2c6/0x3a0
-2026-03-04T14:30:58.025778+01:00 homer kernel: [T2817909]  ? count_memcg_ev=
-ents+0x5e/0xf0
-2026-03-04T14:30:58.025778+01:00 homer kernel: [T2817909]  ? handle_mm_faul=
-t+0x1b9/0x2c0
-2026-03-04T14:30:58.025779+01:00 homer kernel: [T2817909]  ? do_user_addr_f=
-ault+0x16e/0x640
-2026-03-04T14:30:58.025779+01:00 homer kernel: [T2817909]  entry_SYSCALL_64=
-_after_hwframe+0x55/0x5d
-2026-03-04T14:30:58.025779+01:00 homer kernel: [T2817909] RIP: 0033:0x7feba=
-036bfd2
-2026-03-04T14:30:58.025780+01:00 homer kernel: [T2817909] Code: 08 00 04 00=
- 00 eb e2 90 41 f7 c1 ff 0f 00 00 75 27 55 89 cd 53 48 89 fb 48 85 ff 74 33=
- 41 89 ea 48 89 df b8 09 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 5e 5b 5d c3 =
-0f 1f 00 c7 05 d6 42 01 00 16 00
-2026-03-04T14:30:58.025780+01:00 homer kernel: [T2817909] RSP: 002b:00007ff=
-c14e91388 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-2026-03-04T14:30:58.025780+01:00 homer kernel: [T2817909] RAX: ffffffffffff=
-ffda RBX: 0000000000000000 RCX: 00007feba036bfd2
-2026-03-04T14:30:58.025781+01:00 homer kernel: [T2817909] RDX: 000000000000=
-0003 RSI: 0000000000002000 RDI: 0000000000000000
-2026-03-04T14:30:58.025781+01:00 homer kernel: [T2817909] RBP: 000000000000=
-0022 R08: 00000000ffffffff R09: 0000000000000000
-2026-03-04T14:30:58.025781+01:00 homer kernel: [T2817909] R10: 000000000000=
-0022 R11: 0000000000000246 R12: 0000000000002000
-2026-03-04T14:30:58.025781+01:00 homer kernel: [T2817909] R13: 00007feba038=
-0310 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T14:30:58.025782+01:00 homer kernel: [T2817909]  </TASK>
-2026-03-04T14:30:58.025782+01:00 homer kernel: [T2817909] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.025784+01:00 homer kernel: [T2817909]  gpio_generic
-2026-03-04T14:30:58.025784+01:00 homer kernel: [T2817909] CR2: 0000001005a1=
-4780
-2026-03-04T14:30:58.025785+01:00 homer kernel: [T2817909] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.025785+01:00 homer kernel: [T2817909] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.025785+01:00 homer kernel: [T2817909] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.025785+01:00 homer kernel: [T2817909] RSP: 0018:ffff9cb=
-cec4bb600 EFLAGS: 00010246
-2026-03-04T14:30:58.025786+01:00 homer kernel: [T2817909] RAX: 00007feba034=
-0f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:30:58.025786+01:00 homer kernel: [T2817909] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:30:58.025786+01:00 homer kernel: [T2817909] RBP: 00007feba034=
-0fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:30:58.025786+01:00 homer kernel: [T2817909] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:30:58.025787+01:00 homer kernel: [T2817909] R13: 000000000000=
-0002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:30:58.025787+01:00 homer kernel: [T2817909] FS:  000000000000=
-0000(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.025787+01:00 homer kernel: [T2817909] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.025787+01:00 homer kernel: [T2817909] CR2: 0000001005a1=
-4780 CR3: 00000002744fa000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.025788+01:00 homer kernel: [T2817909] PKRU: 55555554
-2026-03-04T14:30:58.025788+01:00 homer kernel: [T2817909] note: collect-ld[=
-2817909] exited with irqs disabled
-2026-03-04T14:30:58.026409+01:00 homer kernel: [T2817909] ------------[ cut=
- here ]------------
-2026-03-04T14:30:58.026418+01:00 homer kernel: [T2817909] rtmutex deadlock =
-detected
-2026-03-04T14:30:58.026419+01:00 homer kernel: [T2817909] WARNING: kernel/l=
-ocking/rtmutex.c:1674 at __rt_mutex_slowlock_locked.constprop.0+0x835/0x9b0=
-, CPU#24: collect-ld/2817909
-2026-03-04T14:30:58.026420+01:00 homer kernel: [T2817909] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.026420+01:00 homer kernel: [T2817909]  gpio_generic
-2026-03-04T14:30:58.026421+01:00 homer kernel: [T2817909] CPU: 24 UID: 1000=
- PID: 2817909 Comm: collect-ld Tainted: G      D             7.0.0-rc2-next=
--20260303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.026421+01:00 homer kernel: [T2817909] Tainted: [D]=3DDIE
-2026-03-04T14:30:58.026422+01:00 homer kernel: [T2817909] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.026422+01:00 homer kernel: [T2817909] RIP: 0010:__rt_mu=
-tex_slowlock_locked.constprop.0+0x835/0x9b0
-2026-03-04T14:30:58.026423+01:00 homer kernel: [T2817909] Code: 00 48 89 ef=
- e8 fc 67 87 00 c7 44 24 14 fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89=
- ef e8 b2 66 87 00 48 8d 3d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 =
-e8 87 43 18 e8 e7 6a fd ff eb f4
-2026-03-04T14:30:58.026423+01:00 homer kernel: [T2817909] RSP: 0018:ffff9cb=
-cec4bbd18 EFLAGS: 00010286
-2026-03-04T14:30:58.026423+01:00 homer kernel: [T2817909] RAX: 000000000000=
-0000 RBX: ffff9162d3789e80 RCX: ffff9162d3789e81
-2026-03-04T14:30:58.026423+01:00 homer kernel: [T2817909] RDX: 000000000000=
-0001 RSI: ffff9162d3789e80 RDI: ffffffff85036620
-2026-03-04T14:30:58.026424+01:00 homer kernel: [T2817909] RBP: ffff916305d5=
-5e38 R08: 0000000000000000 R09: 0000000000000000
-2026-03-04T14:30:58.026424+01:00 homer kernel: [T2817909] R10: 000000000000=
-0000 R11: 0000000000000003 R12: ffff9cbcec4bbd40
-2026-03-04T14:30:58.026425+01:00 homer kernel: [T2817909] R13: ffff9162d378=
-9e81 R14: ffff9162d378aac0 R15: 00000000ffffffdd
-2026-03-04T14:30:58.026425+01:00 homer kernel: [T2817909] FS:  000000000000=
-0000(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.026425+01:00 homer kernel: [T2817909] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.026426+01:00 homer kernel: [T2817909] CR2: 0000001005a1=
-4780 CR3: 00000002744fa000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.026426+01:00 homer kernel: [T2817909] PKRU: 55555554
-2026-03-04T14:30:58.026426+01:00 homer kernel: [T2817909] Call Trace:
-2026-03-04T14:30:58.026427+01:00 homer kernel: [T2817909]  <TASK>
-2026-03-04T14:30:58.026427+01:00 homer kernel: [T2817909]  ? psi_task_switc=
-h+0x105/0x280
-2026-03-04T14:30:58.026427+01:00 homer kernel: [T2817909]  ? finish_task_sw=
-itch.isra.0+0xc3/0x370
-2026-03-04T14:30:58.026427+01:00 homer kernel: [T2817909]  __rwbase_read_lo=
-ck+0x4a/0xd0
-2026-03-04T14:30:58.026428+01:00 homer kernel: [T2817909]  acct_collect+0x1=
-57/0x1c0
-2026-03-04T14:30:58.026428+01:00 homer kernel: [T2817909]  do_exit+0x1c2/0x=
-a30
-2026-03-04T14:30:58.026428+01:00 homer kernel: [T2817909]  make_task_dead+0=
-x94/0xa0
-2026-03-04T14:30:58.026428+01:00 homer kernel: [T2817909]  rewind_stack_and=
-_make_dead+0x16/0x20
-2026-03-04T14:30:58.026429+01:00 homer kernel: [T2817909] RIP: 0033:0x7feba=
-036bfd2
-2026-03-04T14:30:58.026429+01:00 homer kernel: [T2817909] Code: 08 00 04 00=
- 00 eb e2 90 41 f7 c1 ff 0f 00 00 75 27 55 89 cd 53 48 89 fb 48 85 ff 74 33=
- 41 89 ea 48 89 df b8 09 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 5e 5b 5d c3 =
-0f 1f 00 c7 05 d6 42 01 00 16 00
-2026-03-04T14:30:58.026429+01:00 homer kernel: [T2817909] RSP: 002b:00007ff=
-c14e91388 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-2026-03-04T14:30:58.026429+01:00 homer kernel: [T2817909] RAX: ffffffffffff=
-ffda RBX: 0000000000000000 RCX: 00007feba036bfd2
-2026-03-04T14:30:58.026430+01:00 homer kernel: [T2817909] RDX: 000000000000=
-0003 RSI: 0000000000002000 RDI: 0000000000000000
-2026-03-04T14:30:58.026430+01:00 homer kernel: [T2817909] RBP: 000000000000=
-0022 R08: 00000000ffffffff R09: 0000000000000000
-2026-03-04T14:30:58.026430+01:00 homer kernel: [T2817909] R10: 000000000000=
-0022 R11: 0000000000000246 R12: 0000000000002000
-2026-03-04T14:30:58.026430+01:00 homer kernel: [T2817909] R13: 00007feba038=
-0310 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T14:30:58.026430+01:00 homer kernel: [T2817909]  </TASK>
-2026-03-04T14:30:58.026431+01:00 homer kernel: [T2817909] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.097449+01:00 homer kernel: [T2817929] BUG: unable to ha=
-ndle page fault for address: 0000001006bf7f70
-2026-03-04T14:30:58.097464+01:00 homer kernel: [T2817929] #PF: supervisor w=
-rite access in kernel mode
-2026-03-04T14:30:58.097465+01:00 homer kernel: [T2817929] #PF: error_code(0=
-x0002) - not-present page
-2026-03-04T14:30:58.097467+01:00 homer kernel: [T2817929] PGD 1015fbc067 P4=
-D 1015fbc067 PUD 0=20
-2026-03-04T14:30:58.097467+01:00 homer kernel: [T2817929] Oops: Oops: 0002 =
-[#2] SMP NOPTI
-2026-03-04T14:30:58.097467+01:00 homer kernel: [T2817929] CPU: 24 UID: 1000=
- PID: 2817929 Comm: gnat1 Tainted: G      D W           7.0.0-rc2-next-2026=
-0303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.097468+01:00 homer kernel: [T2817929] Tainted: [D]=3DDI=
-E, [W]=3DWARN
-2026-03-04T14:30:58.097468+01:00 homer kernel: [T2817929] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.097469+01:00 homer kernel: [T2817929] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.097469+01:00 homer kernel: [T2817929] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.097470+01:00 homer kernel: [T2817929] RSP: 0018:ffff9cb=
-cea7ff868 EFLAGS: 00010246
-2026-03-04T14:30:58.097470+01:00 homer kernel: [T2817929] RAX: 00007fed9cbf=
-4f00 RBX: ffff9cbcea7ffcb0 RCX: 0000000000000100
-2026-03-04T14:30:58.097470+01:00 homer kernel: [T2817929] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001006bf7f70
-2026-03-04T14:30:58.097471+01:00 homer kernel: [T2817929] RBP: 00007fed9cbf=
-4fff R08: 0000000000000001 R09: 0000001006bf7f70
-2026-03-04T14:30:58.097471+01:00 homer kernel: [T2817929] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000009
-2026-03-04T14:30:58.097471+01:00 homer kernel: [T2817929] R13: 000000000000=
-0002 R14: 0000001006bf7f70 R15: ffff9cbcea7ff9c8
-2026-03-04T14:30:58.097472+01:00 homer kernel: [T2817929] FS:  00007fed9cbf=
-0b00(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.097472+01:00 homer kernel: [T2817929] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.097472+01:00 homer kernel: [T2817929] CR2: 0000001006bf=
-7f70 CR3: 00000005cab99000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.097472+01:00 homer kernel: [T2817929] PKRU: 55555554
-2026-03-04T14:30:58.097473+01:00 homer kernel: [T2817929] Call Trace:
-2026-03-04T14:30:58.097473+01:00 homer kernel: [T2817929]  <TASK>
-2026-03-04T14:30:58.097473+01:00 homer kernel: [T2817929]  mas_wr_node_stor=
-e+0x9a/0x3f0
-2026-03-04T14:30:58.097474+01:00 homer kernel: [T2817929]  ? atime_needs_up=
-date+0x95/0x110
-2026-03-04T14:30:58.097474+01:00 homer kernel: [T2817929]  ? touch_atime+0x=
-22/0x190
-2026-03-04T14:30:58.097474+01:00 homer kernel: [T2817929]  ? filemap_read+0=
-x361/0x390
-2026-03-04T14:30:58.097474+01:00 homer kernel: [T2817929]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.097475+01:00 homer kernel: [T2817929]  ? obj_cgroup_cha=
-rge_account+0xf2/0x290
-2026-03-04T14:30:58.097475+01:00 homer kernel: [T2817929]  mas_store_preall=
-oc+0x19d/0x3d0
-2026-03-04T14:30:58.097475+01:00 homer kernel: [T2817929]  vma_complete+0x2=
-17/0x2c0
-2026-03-04T14:30:58.097475+01:00 homer kernel: [T2817929]  __split_vma+0x1d=
-0/0x2b0
-2026-03-04T14:30:58.097476+01:00 homer kernel: [T2817929]  vms_gather_munma=
-p_vmas+0x43/0x340
-2026-03-04T14:30:58.097476+01:00 homer kernel: [T2817929]  do_vmi_align_mun=
-map+0x152/0x240
-2026-03-04T14:30:58.097476+01:00 homer kernel: [T2817929]  ? __x64_sys_clos=
-e+0x38/0x80
-2026-03-04T14:30:58.097477+01:00 homer kernel: [T2817929]  do_vmi_munmap+0x=
-cb/0x160
-2026-03-04T14:30:58.097477+01:00 homer kernel: [T2817929]  shrink_vma+0x6b/=
-0xd0
-2026-03-04T14:30:58.097477+01:00 homer kernel: [T2817929]  __do_sys_mremap+=
-0x6c9/0x870
-2026-03-04T14:30:58.097477+01:00 homer kernel: [T2817929]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.097477+01:00 homer kernel: [T2817929]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.097478+01:00 homer kernel: [T2817929]  ? do_anonymous_p=
-age+0x1a5/0x570
-2026-03-04T14:30:58.097478+01:00 homer kernel: [T2817929]  do_syscall_64+0x=
-11b/0x8c0
-2026-03-04T14:30:58.097478+01:00 homer kernel: [T2817929]  ? handle_mm_faul=
-t+0x1b9/0x2c0
-2026-03-04T14:30:58.097478+01:00 homer kernel: [T2817929]  ? do_user_addr_f=
-ault+0x203/0x640
-2026-03-04T14:30:58.097479+01:00 homer kernel: [T2817929]  entry_SYSCALL_64=
-_after_hwframe+0x55/0x5d
-2026-03-04T14:30:58.097479+01:00 homer kernel: [T2817929] RIP: 0033:0x7fed9=
-cd05d20
-2026-03-04T14:30:58.097479+01:00 homer kernel: [T2817929] Code: 44 24 40 64=
- 48 8b 04 25 28 00 00 00 48 89 44 24 18 31 c0 83 f9 07 77 5a 41 89 ca 45 31=
- c0 f6 c1 06 75 27 b8 19 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 58 48 8b 54 =
-24 18 64 48 2b 14 25 28 00 00 00
-2026-03-04T14:30:58.097480+01:00 homer kernel: [T2817929] RSP: 002b:00007ff=
-c65acd410 EFLAGS: 00000246 ORIG_RAX: 0000000000000019
-2026-03-04T14:30:58.097480+01:00 homer kernel: [T2817929] RAX: ffffffffffff=
-ffda RBX: 00007fed9b64f010 RCX: 00007fed9cd05d20
-2026-03-04T14:30:58.097480+01:00 homer kernel: [T2817929] RDX: 000000000000=
-9000 RSI: 00000000001e9000 RDI: 00007fed9b64f000
-2026-03-04T14:30:58.097480+01:00 homer kernel: [T2817929] RBP: 000000000000=
-8f70 R08: 0000000000000000 R09: 0000000000009000
-2026-03-04T14:30:58.097481+01:00 homer kernel: [T2817929] R10: 000000000000=
-0001 R11: 0000000000000246 R12: 00000000001e9000
-2026-03-04T14:30:58.097481+01:00 homer kernel: [T2817929] R13: 00000000001e=
-9000 R14: 00007fed9b64f000 R15: 0000000000008f80
-2026-03-04T14:30:58.097481+01:00 homer kernel: [T2817929]  </TASK>
-2026-03-04T14:30:58.097482+01:00 homer kernel: [T2817929] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.097482+01:00 homer kernel: [T2817929]  gpio_generic
-2026-03-04T14:30:58.097483+01:00 homer kernel: [T2817929] CR2: 0000001006bf=
-7f70
-2026-03-04T14:30:58.097483+01:00 homer kernel: [T2817929] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.097483+01:00 homer kernel: [T2817929] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.097483+01:00 homer kernel: [T2817929] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.097484+01:00 homer kernel: [T2817929] RSP: 0018:ffff9cb=
-cec4bb600 EFLAGS: 00010246
-2026-03-04T14:30:58.097484+01:00 homer kernel: [T2817929] RAX: 00007feba034=
-0f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:30:58.097484+01:00 homer kernel: [T2817929] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:30:58.097484+01:00 homer kernel: [T2817929] RBP: 00007feba034=
-0fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:30:58.097485+01:00 homer kernel: [T2817929] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:30:58.097485+01:00 homer kernel: [T2817929] R13: 000000000000=
-0002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:30:58.097485+01:00 homer kernel: [T2817929] FS:  00007fed9cbf=
-0b00(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.097486+01:00 homer kernel: [T2817929] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.097486+01:00 homer kernel: [T2817929] CR2: 0000001006bf=
-7f70 CR3: 00000005cab99000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.097486+01:00 homer kernel: [T2817929] PKRU: 55555554
-2026-03-04T14:30:58.097487+01:00 homer kernel: [T2817929] note: gnat1[28179=
-29] exited with irqs disabled
-2026-03-04T14:30:58.097487+01:00 homer kernel: [T2817929] ------------[ cut=
- here ]------------
-2026-03-04T14:30:58.097487+01:00 homer kernel: [T2817929] rtmutex deadlock =
-detected
-2026-03-04T14:30:58.097487+01:00 homer kernel: [T2817929] WARNING: kernel/l=
-ocking/rtmutex.c:1674 at __rt_mutex_slowlock_locked.constprop.0+0x835/0x9b0=
-, CPU#24: gnat1/2817929
-2026-03-04T14:30:58.097496+01:00 homer kernel: [T2817929] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.097496+01:00 homer kernel: [T2817929]  gpio_generic
-2026-03-04T14:30:58.097497+01:00 homer kernel: [T2817929] CPU: 24 UID: 1000=
- PID: 2817929 Comm: gnat1 Tainted: G      D W           7.0.0-rc2-next-2026=
-0303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.097497+01:00 homer kernel: [T2817929] Tainted: [D]=3DDI=
-E, [W]=3DWARN
-2026-03-04T14:30:58.097497+01:00 homer kernel: [T2817929] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.097498+01:00 homer kernel: [T2817929] RIP: 0010:__rt_mu=
-tex_slowlock_locked.constprop.0+0x835/0x9b0
-2026-03-04T14:30:58.097498+01:00 homer kernel: [T2817929] Code: 00 48 89 ef=
- e8 fc 67 87 00 c7 44 24 14 fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89=
- ef e8 b2 66 87 00 48 8d 3d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 =
-e8 87 43 18 e8 e7 6a fd ff eb f4
-2026-03-04T14:30:58.097498+01:00 homer kernel: [T2817929] RSP: 0018:ffff9cb=
-cea7ffd18 EFLAGS: 00010286
-2026-03-04T14:30:58.097499+01:00 homer kernel: [T2817929] RAX: 000000000000=
-0000 RBX: ffff9162c30f5b80 RCX: ffff9162c30f5b81
-2026-03-04T14:30:58.097499+01:00 homer kernel: [T2817929] RDX: 000000000000=
-0001 RSI: ffff9162c30f5b80 RDI: ffffffff85036620
-2026-03-04T14:30:58.097499+01:00 homer kernel: [T2817929] RBP: ffff916dd253=
-5e38 R08: 0000000000000000 R09: 0000000000000000
-2026-03-04T14:30:58.097499+01:00 homer kernel: [T2817929] R10: 000000000000=
-0000 R11: 0000000000000003 R12: ffff9cbcea7ffd40
-2026-03-04T14:30:58.097500+01:00 homer kernel: [T2817929] R13: ffff9162c30f=
-5b81 R14: ffff9162c30f67c0 R15: 00000000ffffffdd
-2026-03-04T14:30:58.097500+01:00 homer kernel: [T2817929] FS:  00007fed9cbf=
-0b00(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.097500+01:00 homer kernel: [T2817929] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.097500+01:00 homer kernel: [T2817929] CR2: 0000001006bf=
-7f70 CR3: 00000005cab99000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.097501+01:00 homer kernel: [T2817929] PKRU: 55555554
-2026-03-04T14:30:58.097501+01:00 homer kernel: [T2817929] Call Trace:
-2026-03-04T14:30:58.097501+01:00 homer kernel: [T2817929]  <TASK>
-2026-03-04T14:30:58.097501+01:00 homer kernel: [T2817929]  ? psi_task_switc=
-h+0x105/0x280
-2026-03-04T14:30:58.097502+01:00 homer kernel: [T2817929]  ? finish_task_sw=
-itch.isra.0+0xc3/0x370
-2026-03-04T14:30:58.097503+01:00 homer kernel: [T2817929]  __rwbase_read_lo=
-ck+0x4a/0xd0
-2026-03-04T14:30:58.097503+01:00 homer kernel: [T2817929]  acct_collect+0x1=
-57/0x1c0
-2026-03-04T14:30:58.097504+01:00 homer kernel: [T2817929]  do_exit+0x1c2/0x=
-a30
-2026-03-04T14:30:58.167404+01:00 homer kernel: [T2817929]  make_task_dead+0=
-x94/0xa0
-2026-03-04T14:30:58.167422+01:00 homer kernel: [T2817929]  rewind_stack_and=
-_make_dead+0x16/0x20
-2026-03-04T14:30:58.167424+01:00 homer kernel: [T2817929] RIP: 0033:0x7fed9=
-cd05d20
-2026-03-04T14:30:58.167425+01:00 homer kernel: [T2817929] Code: 44 24 40 64=
- 48 8b 04 25 28 00 00 00 48 89 44 24 18 31 c0 83 f9 07 77 5a 41 89 ca 45 31=
- c0 f6 c1 06 75 27 b8 19 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 58 48 8b 54 =
-24 18 64 48 2b 14 25 28 00 00 00
-2026-03-04T14:30:58.167425+01:00 homer kernel: [T2817929] RSP: 002b:00007ff=
-c65acd410 EFLAGS: 00000246 ORIG_RAX: 0000000000000019
-2026-03-04T14:30:58.167426+01:00 homer kernel: [T2817929] RAX: ffffffffffff=
-ffda RBX: 00007fed9b64f010 RCX: 00007fed9cd05d20
-2026-03-04T14:30:58.167426+01:00 homer kernel: [T2817929] RDX: 000000000000=
-9000 RSI: 00000000001e9000 RDI: 00007fed9b64f000
-2026-03-04T14:30:58.167427+01:00 homer kernel: [T2817929] RBP: 000000000000=
-8f70 R08: 0000000000000000 R09: 0000000000009000
-2026-03-04T14:30:58.167427+01:00 homer kernel: [T2817929] R10: 000000000000=
-0001 R11: 0000000000000246 R12: 00000000001e9000
-2026-03-04T14:30:58.167427+01:00 homer kernel: [T2817929] R13: 00000000001e=
-9000 R14: 00007fed9b64f000 R15: 0000000000008f80
-2026-03-04T14:30:58.167428+01:00 homer kernel: [T2817929]  </TASK>
-2026-03-04T14:30:58.167428+01:00 homer kernel: [T2817929] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.167428+01:00 homer kernel: [T2817974] BUG: unable to ha=
-ndle page fault for address: 0000001008dae578
-2026-03-04T14:30:58.167428+01:00 homer kernel: [T2817974] #PF: supervisor w=
-rite access in kernel mode
-2026-03-04T14:30:58.167429+01:00 homer kernel: [T2817974] #PF: error_code(0=
-x0002) - not-present page
-2026-03-04T14:30:58.167429+01:00 homer kernel: [T2817974] PGD 0 P4D 0=20
-2026-03-04T14:30:58.167429+01:00 homer kernel: [T2817974] Oops: Oops: 0002 =
-[#3] SMP NOPTI
-2026-03-04T14:30:58.167430+01:00 homer kernel: [T2817974] CPU: 24 UID: 1000=
- PID: 2817974 Comm: expect Tainted: G      D W           7.0.0-rc2-next-202=
-60303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.167430+01:00 homer kernel: [T2817974] Tainted: [D]=3DDI=
-E, [W]=3DWARN
-2026-03-04T14:30:58.167430+01:00 homer kernel: [T2817974] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.167430+01:00 homer kernel: [T2817974] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.167431+01:00 homer kernel: [T2817974] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.167431+01:00 homer kernel: [T2817974] RSP: 0018:ffff9cb=
-ce7ce7ad8 EFLAGS: 00010246
-2026-03-04T14:30:58.167432+01:00 homer kernel: [T2817974] RAX: 00007fffffff=
-ef00 RBX: ffff9cbce7ce7cc8 RCX: 0000000000000100
-2026-03-04T14:30:58.167432+01:00 homer kernel: [T2817974] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001008dae578
-2026-03-04T14:30:58.167432+01:00 homer kernel: [T2817974] RBP: 00007fffffff=
-dfff R08: 0000000000000002 R09: 0000001008dae578
-2026-03-04T14:30:58.167432+01:00 homer kernel: [T2817974] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000001
-2026-03-04T14:30:58.167433+01:00 homer kernel: [T2817974] R13: 000000000000=
-0002 R14: 0000001008dae578 R15: ffff9cbce7ce7c38
-2026-03-04T14:30:58.167433+01:00 homer kernel: [T2817974] FS:  00007f186e39=
-b780(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.167433+01:00 homer kernel: [T2817974] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.167433+01:00 homer kernel: [T2817974] CR2: 0000001008da=
-e578 CR3: 0000000dd8ceb000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.167433+01:00 homer kernel: [T2817974] PKRU: 55555554
-2026-03-04T14:30:58.167434+01:00 homer kernel: [T2817974] Call Trace:
-2026-03-04T14:30:58.167434+01:00 homer kernel: [T2817974]  <TASK>
-2026-03-04T14:30:58.167434+01:00 homer kernel: [T2817974]  mas_wr_node_stor=
-e+0x9a/0x3f0
-2026-03-04T14:30:58.167434+01:00 homer kernel: [T2817974]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.167435+01:00 homer kernel: [T2817974]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.167435+01:00 homer kernel: [T2817974]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.167435+01:00 homer kernel: [T2817974]  ? __folio_batch_=
-add_and_move+0x1ad/0x220
-2026-03-04T14:30:58.167435+01:00 homer kernel: [T2817974]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.167436+01:00 homer kernel: [T2817974]  ? do_anonymous_p=
-age+0x1a5/0x570
-2026-03-04T14:30:58.167436+01:00 homer kernel: [T2817974]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.167437+01:00 homer kernel: [T2817974]  ? mt_find+0x92/0=
-x3d0
-2026-03-04T14:30:58.167437+01:00 homer kernel: [T2817974]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.167437+01:00 homer kernel: [T2817974]  ? kmem_cache_all=
-oc_noprof+0xd4/0x330
-2026-03-04T14:30:58.167437+01:00 homer kernel: [T2817974]  mas_store_preall=
-oc+0x19d/0x3d0
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  expand_downwards=
-+0x31c/0x3c0
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  mmap_read_lock_m=
-aybe_expand+0x4f/0xb0
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  get_arg_page+0x3=
-8/0xf0
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  copy_strings.isr=
-a.0+0x114/0x3b0
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  do_execveat_comm=
-on.isra.0+0x108/0x170
-2026-03-04T14:30:58.167438+01:00 homer kernel: [T2817974]  __x64_sys_execve=
-+0x38/0x50
-2026-03-04T14:30:58.167439+01:00 homer kernel: [T2817974]  do_syscall_64+0x=
-11b/0x8c0
-2026-03-04T14:30:58.167439+01:00 homer kernel: [T2817974]  ? do_user_addr_f=
-ault+0x203/0x640
-2026-03-04T14:30:58.167439+01:00 homer kernel: [T2817974]  entry_SYSCALL_64=
-_after_hwframe+0x55/0x5d
-2026-03-04T14:30:58.167439+01:00 homer kernel: [T2817974] RIP: 0033:0x7f186=
-e58ddd7
-2026-03-04T14:30:58.167440+01:00 homer kernel: [T2817974] Code: af e8 ed ed=
- 03 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10=
- e9 01 00 00 00 90 b8 3b 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b =
-0d 09 80 10 00 f7 d8 64 89 01 48
-2026-03-04T14:30:58.167440+01:00 homer kernel: [T2817974] RSP: 002b:00007ff=
-ec3517828 EFLAGS: 00000206 ORIG_RAX: 000000000000003b
-2026-03-04T14:30:58.167440+01:00 homer kernel: [T2817974] RAX: ffffffffffff=
-ffda RBX: 00007ffec3517960 RCX: 00007f186e58ddd7
-2026-03-04T14:30:58.167441+01:00 homer kernel: [T2817974] RDX: 000055ef83b1=
-ce80 RSI: 000055ef843585e0 RDI: 00007ffec3517960
-2026-03-04T14:30:58.167441+01:00 homer kernel: [T2817974] RBP: 00007ffec351=
-78a0 R08: 0000000000000000 R09: 0000000000000000
-2026-03-04T14:30:58.167441+01:00 homer kernel: [T2817974] R10: 000000000000=
-0007 R11: 0000000000000206 R12: 000055ef843585e0
-2026-03-04T14:30:58.167441+01:00 homer kernel: [T2817974] R13: 000055ef83b1=
-ce80 R14: 0000000000000001 R15: 0000000000000001
-2026-03-04T14:30:58.167442+01:00 homer kernel: [T2817974]  </TASK>
-2026-03-04T14:30:58.167442+01:00 homer kernel: [T2817974] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.167443+01:00 homer kernel: [T2817974]  gpio_generic
-2026-03-04T14:30:58.167443+01:00 homer kernel: [T2817974] CR2: 0000001008da=
-e578
-2026-03-04T14:30:58.167444+01:00 homer kernel: [T2817974] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.167444+01:00 homer kernel: [T2817974] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.167444+01:00 homer kernel: [T2817974] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.167444+01:00 homer kernel: [T2817974] RSP: 0018:ffff9cb=
-cec4bb600 EFLAGS: 00010246
-2026-03-04T14:30:58.167445+01:00 homer kernel: [T2817974] RAX: 00007feba034=
-0f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:30:58.167445+01:00 homer kernel: [T2817974] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:30:58.167445+01:00 homer kernel: [T2817974] RBP: 00007feba034=
-0fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:30:58.167446+01:00 homer kernel: [T2817974] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:30:58.167446+01:00 homer kernel: [T2817974] R13: 000000000000=
-0002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:30:58.167446+01:00 homer kernel: [T2817974] FS:  00007f186e39=
-b780(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.167446+01:00 homer kernel: [T2817974] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.167447+01:00 homer kernel: [T2817974] CR2: 0000001008da=
-e578 CR3: 0000000dd8ceb000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.167447+01:00 homer kernel: [T2817974] PKRU: 55555554
-2026-03-04T14:30:58.167447+01:00 homer kernel: [T2817974] note: expect[2817=
-974] exited with irqs disabled
-2026-03-04T14:30:58.246062+01:00 homer kernel: [T1865813] BUG: kernel NULL =
-pointer dereference, address: 0000000000000000
-2026-03-04T14:30:58.246079+01:00 homer kernel: [T1865813] #PF: supervisor w=
-rite access in kernel mode
-2026-03-04T14:30:58.246081+01:00 homer kernel: [T1865813] #PF: error_code(0=
-x0002) - not-present page
-2026-03-04T14:30:58.246082+01:00 homer kernel: [T1865813] PGD 0 P4D 0=20
-2026-03-04T14:30:58.246082+01:00 homer kernel: [T1865813] Oops: Oops: 0002 =
-[#4] SMP NOPTI
-2026-03-04T14:30:58.246083+01:00 homer kernel: [T1865813] CPU: 24 UID: 1000=
- PID: 1865813 Comm: expect Tainted: G      D W           7.0.0-rc2-next-202=
-60303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.246083+01:00 homer kernel: [T1865813] Tainted: [D]=3DDI=
-E, [W]=3DWARN
-2026-03-04T14:30:58.246084+01:00 homer kernel: [T1865813] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.246084+01:00 homer kernel: [T1865813] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.246085+01:00 homer kernel: [T1865813] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.246085+01:00 homer kernel: [T1865813] RSP: 0018:ffff9cb=
-ccd6c7818 EFLAGS: 00010246
-2026-03-04T14:30:58.246086+01:00 homer kernel: [T1865813] RAX: 000000000000=
-0000 RBX: ffff916493ce4650 RCX: 0000000000000100
-2026-03-04T14:30:58.246086+01:00 homer kernel: [T1865813] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000000000000000
-2026-03-04T14:30:58.246086+01:00 homer kernel: [T1865813] RBP: ffff9cbccd6c=
-7880 R08: ffff916493ce4600 R09: 0000000000000000
-2026-03-04T14:30:58.246087+01:00 homer kernel: [T1865813] R10: 000000000000=
-0005 R11: ffffffff84a728dc R12: ffff9162d364cb50
-2026-03-04T14:30:58.246087+01:00 homer kernel: [T1865813] R13: ffff916493ce=
-4678 R14: 000000000000000c R15: 1ffff22c9279c8c3
-2026-03-04T14:30:58.246087+01:00 homer kernel: [T1865813] FS:  00007f186e39=
-b780(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.246088+01:00 homer kernel: [T1865813] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.246088+01:00 homer kernel: [T1865813] CR2: 000000000000=
-0000 CR3: 0000000ffa751000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.246088+01:00 homer kernel: [T1865813] PKRU: 55555554
-2026-03-04T14:30:58.246089+01:00 homer kernel: [T1865813] Call Trace:
-2026-03-04T14:30:58.246089+01:00 homer kernel: [T1865813]  <TASK>
-2026-03-04T14:30:58.246089+01:00 homer kernel: [T1865813]  mas_dup_alloc.is=
-ra.0+0x14a/0x390
-2026-03-04T14:30:58.246090+01:00 homer kernel: [T1865813]  ? kmem_cache_all=
-oc_noprof+0xd4/0x330
-2026-03-04T14:30:58.246090+01:00 homer kernel: [T1865813]  __mt_dup+0x21c/0=
-x5d0
-2026-03-04T14:30:58.246094+01:00 homer kernel: [T1865813]  ? try_charge_mem=
-cg+0x139/0x6d0
-2026-03-04T14:30:58.246095+01:00 homer kernel: [T1865813]  dup_mmap+0xfc/0x=
-7e0
-2026-03-04T14:30:58.246095+01:00 homer kernel: [T1865813]  copy_process+0x1=
-017/0x1a90
-2026-03-04T14:30:58.246096+01:00 homer kernel: [T1865813]  kernel_clone+0x9=
-3/0x400
-2026-03-04T14:30:58.246096+01:00 homer kernel: [T1865813]  __do_sys_clone+0=
-x65/0x90
-2026-03-04T14:30:58.246097+01:00 homer kernel: [T1865813]  do_syscall_64+0x=
-11b/0x8c0
-2026-03-04T14:30:58.246097+01:00 homer kernel: [T1865813]  ? security_file_=
-alloc+0x46/0xa0
-2026-03-04T14:30:58.246097+01:00 homer kernel: [T1865813]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.246097+01:00 homer kernel: [T1865813]  ? init_file+0x45=
-/0x110
-2026-03-04T14:30:58.246098+01:00 homer kernel: [T1865813]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.246098+01:00 homer kernel: [T1865813]  ? alloc_fd+0x118=
-/0x180
-2026-03-04T14:30:58.246098+01:00 homer kernel: [T1865813]  ? __do_pipe_flag=
-s.part.0+0x22/0xa0
-2026-03-04T14:30:58.246099+01:00 homer kernel: [T1865813]  ? do_pipe2+0xd1/=
-0x110
-2026-03-04T14:30:58.246099+01:00 homer kernel: [T1865813]  ? __x64_sys_pipe=
-2+0x13/0x20
-2026-03-04T14:30:58.246099+01:00 homer kernel: [T1865813]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.246099+01:00 homer kernel: [T1865813]  ? do_wp_page+0x7=
-9c/0xe90
-2026-03-04T14:30:58.246100+01:00 homer kernel: [T1865813]  ? proc_pid_readl=
-ink+0x12b/0x1a0
-2026-03-04T14:30:58.246100+01:00 homer kernel: [T1865813]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.246100+01:00 homer kernel: [T1865813]  ? rt_spin_lock+0=
-x38/0x110
-2026-03-04T14:30:58.246100+01:00 homer kernel: [T1865813]  ? rt_spin_unlock=
-+0x5a/0xa0
-2026-03-04T14:30:58.246101+01:00 homer kernel: [T1865813]  ? __x64_sys_rt_s=
-igprocmask+0xde/0x140
-2026-03-04T14:30:58.246101+01:00 homer kernel: [T1865813]  ? do_syscall_64+=
-0x11b/0x8c0
-2026-03-04T14:30:58.246101+01:00 homer kernel: [T1865813]  ? count_memcg_ev=
-ents+0x5e/0xf0
-2026-03-04T14:30:58.246101+01:00 homer kernel: [T1865813]  ? handle_mm_faul=
-t+0x1b9/0x2c0
-2026-03-04T14:30:58.246102+01:00 homer kernel: [T1865813]  ? do_user_addr_f=
-ault+0x203/0x640
-2026-03-04T14:30:58.246102+01:00 homer kernel: [T1865813]  entry_SYSCALL_64=
-_after_hwframe+0x55/0x5d
-2026-03-04T14:30:58.246103+01:00 homer kernel: [T1865813] RIP: 0033:0x7f186=
-e58d202
-2026-03-04T14:30:58.246103+01:00 homer kernel: [T1865813] Code: 89 e7 e8 91=
- 3b f6 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c=
- 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 5e 89 c5 85 =
-c0 75 31 64 48 8b 04 25 10 00 00
-2026-03-04T14:30:58.246104+01:00 homer kernel: [T1865813] RSP: 002b:00007ff=
-ec3517780 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-2026-03-04T14:30:58.246104+01:00 homer kernel: [T1865813] RAX: ffffffffffff=
-ffda RBX: 00007ffec3517780 RCX: 00007f186e58d202
-2026-03-04T14:30:58.246104+01:00 homer kernel: [T1865813] RDX: 000000000000=
-0000 RSI: 0000000000000000 RDI: 0000000001200011
-2026-03-04T14:30:58.246105+01:00 homer kernel: [T1865813] RBP: 00007f186e78=
-77e0 R08: 0000000000000000 R09: 0000000000000002
-2026-03-04T14:30:58.246105+01:00 homer kernel: [T1865813] R10: 00007f186e39=
-ba50 R11: 0000000000000246 R12: 00007ffec35177b0
-2026-03-04T14:30:58.246105+01:00 homer kernel: [T1865813] R13: 000000000000=
-0001 R14: 0000000000000001 R15: 0000000000000006
-2026-03-04T14:30:58.246106+01:00 homer kernel: [T1865813]  </TASK>
-2026-03-04T14:30:58.246106+01:00 homer kernel: [T1865813] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.246107+01:00 homer kernel: [T1865813]  gpio_generic
-2026-03-04T14:30:58.246107+01:00 homer kernel: [T1865813] CR2: 000000000000=
-0000
-2026-03-04T14:30:58.246108+01:00 homer kernel: [T1865813] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.246108+01:00 homer kernel: [T1865813] RIP: 0010:memset+=
-0xf/0x20
-2026-03-04T14:30:58.246108+01:00 homer kernel: [T1865813] Code: 44 89 54 17=
- fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f=
- 1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f =
-1f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:30:58.246109+01:00 homer kernel: [T1865813] RSP: 0018:ffff9cb=
-cec4bb600 EFLAGS: 00010246
-2026-03-04T14:30:58.246109+01:00 homer kernel: [T1865813] RAX: 00007feba034=
-0f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:30:58.246109+01:00 homer kernel: [T1865813] RDX: 000000000000=
-0100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:30:58.246109+01:00 homer kernel: [T1865813] RBP: 00007feba034=
-0fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:30:58.246110+01:00 homer kernel: [T1865813] R10: 000000000000=
-0008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:30:58.246110+01:00 homer kernel: [T1865813] R13: 000000000000=
-0002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:30:58.246111+01:00 homer kernel: [T1865813] FS:  00007f186e39=
-b780(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.246111+01:00 homer kernel: [T1865813] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.246111+01:00 homer kernel: [T1865813] CR2: 000000000000=
-0000 CR3: 0000000ffa751000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.246112+01:00 homer kernel: [T1865813] PKRU: 55555554
-2026-03-04T14:30:58.246112+01:00 homer kernel: [T1865813] note: expect[1865=
-813] exited with irqs disabled
-2026-03-04T14:30:58.246421+01:00 homer kernel: [T1865813] ------------[ cut=
- here ]------------
-2026-03-04T14:30:58.246431+01:00 homer kernel: [T1865813] rtmutex deadlock =
-detected
-2026-03-04T14:30:58.246432+01:00 homer kernel: [T1865813] WARNING: kernel/l=
-ocking/rtmutex.c:1674 at __rt_mutex_slowlock_locked.constprop.0+0x835/0x9b0=
-, CPU#24: expect/1865813
-2026-03-04T14:30:58.246433+01:00 homer kernel: [T1865813] Modules linked in=
-: ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfa=
-t fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt=
-7925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl=
-_msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_=
-ump snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmo=
-f snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap=
-_i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp =
-evdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 e=
-xt4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit =
-drm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_pane=
-l_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pc=
-i libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core sc=
-si_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth h=
-kdf video wmi gpio_amdpt
-2026-03-04T14:30:58.246434+01:00 homer kernel: [T1865813]  gpio_generic
-2026-03-04T14:30:58.246434+01:00 homer kernel: [T1865813] CPU: 24 UID: 1000=
- PID: 1865813 Comm: expect Tainted: G      D W           7.0.0-rc2-next-202=
-60303-master #367 PREEMPT_RT=20
-2026-03-04T14:30:58.246435+01:00 homer kernel: [T1865813] Tainted: [D]=3DDI=
-E, [W]=3DWARN
-2026-03-04T14:30:58.246435+01:00 homer kernel: [T1865813] Hardware name: AS=
-US System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:30:58.246435+01:00 homer kernel: [T1865813] RIP: 0010:__rt_mu=
-tex_slowlock_locked.constprop.0+0x835/0x9b0
-2026-03-04T14:30:58.246436+01:00 homer kernel: [T1865813] Code: 00 48 89 ef=
- e8 fc 67 87 00 c7 44 24 14 fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89=
- ef e8 b2 66 87 00 48 8d 3d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 =
-e8 87 43 18 e8 e7 6a fd ff eb f4
-2026-03-04T14:30:58.246436+01:00 homer kernel: [T1865813] RSP: 0018:ffff9cb=
-ccd6c7db8 EFLAGS: 00010286
-2026-03-04T14:30:58.246437+01:00 homer kernel: [T1865813] RAX: 000000000000=
-0000 RBX: ffff91715d118000 RCX: ffff91715d118001
-2026-03-04T14:30:58.246437+01:00 homer kernel: [T1865813] RDX: 000000000000=
-0001 RSI: ffff91715d118000 RDI: ffffffff85036620
-2026-03-04T14:30:58.246438+01:00 homer kernel: [T1865813] RBP: ffff91632b77=
-cbb8 R08: 0000000000007f18 R09: 0000000effbd0067
-2026-03-04T14:30:58.246438+01:00 homer kernel: [T1865813] R10: 000000006e39=
-b000 R11: 0000000000000a52 R12: ffff9cbccd6c7de0
-2026-03-04T14:30:58.246438+01:00 homer kernel: [T1865813] R13: ffff91715d11=
-8001 R14: ffff91715d118c40 R15: 00000000ffffffdd
-2026-03-04T14:30:58.246439+01:00 homer kernel: [T1865813] FS:  000000000000=
-0000(0000) GS:ffff9172784e1000(0000) knlGS:0000000000000000
-2026-03-04T14:30:58.246439+01:00 homer kernel: [T1865813] CS:  0010 DS: 000=
-0 ES: 0000 CR0: 0000000080050033
-2026-03-04T14:30:58.246439+01:00 homer kernel: [T1865813] CR2: 00007fa449d7=
-d370 CR3: 0000000ffa751000 CR4: 0000000000f50ef0
-2026-03-04T14:30:58.246439+01:00 homer kernel: [T1865813] PKRU: 55555554
-2026-03-04T14:30:58.246440+01:00 homer kernel: [T1865813] Call Trace:
-2026-03-04T14:30:58.246440+01:00 homer kernel: [T1865813]  <TASK>
-2026-03-04T14:30:58.246441+01:00 homer kernel: [T1865813]  ? futex_hash+0x8=
-1/0x90
-2026-03-04T14:30:58.246441+01:00 homer kernel: [T1865813]  ? futex_wake+0xa=
-c/0x1c0
-2026-03-04T14:30:58.246441+01:00 homer kernel: [T1865813]  __rwbase_read_lo=
-ck+0x4a/0xd0
-2026-03-04T14:30:58.246441+01:00 homer kernel: [T1865813]  do_exit+0x220/0x=
-a30
-2026-03-04T14:30:58.246442+01:00 homer kernel: [T1865813]  make_task_dead+0=
-x94/0xa0
-2026-03-04T14:30:58.246442+01:00 homer kernel: [T1865813]  rewind_stack_and=
-_make_dead+0x16/0x20
-2026-03-04T14:30:58.246442+01:00 homer kernel: [T1865813] RIP: 0033:0x7f186=
-e58d202
-2026-03-04T14:30:58.246443+01:00 homer kernel: [T1865813] Code: 89 e7 e8 91=
- 3b f6 ff 45 31 c0 31 d2 31 f6 64 48 8b 04 25 10 00 00 00 bf 11 00 20 01 4c=
- 8d 90 d0 02 00 00 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 5e 89 c5 85 =
-c0 75 31 64 48 8b 04 25 10 00 00
-2026-03-04T14:30:58.246443+01:00 homer kernel: [T1865813] RSP: 002b:00007ff=
-ec3517780 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-2026-03-04T14:30:58.246443+01:00 homer kernel: [T1865813] RAX: ffffffffffff=
-ffda RBX: 00007ffec3517780 RCX: 00007f186e58d202
-2026-03-04T14:30:58.246444+01:00 homer kernel: [T1865813] RDX: 000000000000=
-0000 RSI: 0000000000000000 RDI: 0000000001200011
-2026-03-04T14:30:58.246444+01:00 homer kernel: [T1865813] RBP: 00007f186e78=
-77e0 R08: 0000000000000000 R09: 0000000000000002
-2026-03-04T14:30:58.246444+01:00 homer kernel: [T1865813] R10: 00007f186e39=
-ba50 R11: 0000000000000246 R12: 00007ffec35177b0
-2026-03-04T14:30:58.246445+01:00 homer kernel: [T1865813] R13: 000000000000=
-0001 R14: 0000000000000001 R15: 0000000000000006
-2026-03-04T14:30:58.246445+01:00 homer kernel: [T1865813]  </TASK>
-2026-03-04T14:30:58.246446+01:00 homer kernel: [T1865813] ---[ end trace 00=
-00000000000000 ]---
-2026-03-04T14:30:58.253423+01:00 homer kernel: [  T240] BUG: Bad rss-counte=
-r state mm:000000008aaa6644 type:MM_ANONPAGES val:1 Comm:rcuc/24 Pid:240
-2026-03-04T14:31:39.683836+01:00 homer kernel: [T487677] BUG: kernel NULL p=
-ointer dereference, address: 0000000000000402
-2026-03-04T14:31:39.683847+01:00 homer kernel: [T487677] #PF: supervisor re=
-ad access in kernel mode
-2026-03-04T14:31:39.683849+01:00 homer kernel: [T487677] #PF: error_code(0x=
-0000) - not-present page
-2026-03-04T14:31:39.683849+01:00 homer kernel: [T487677] PGD 0 P4D 0=20
-2026-03-04T14:31:39.683850+01:00 homer kernel: [T487677] Oops: Oops: 0000 [=
-#5] SMP NOPTI
-2026-03-04T14:31:39.683850+01:00 homer kernel: [T487677] CPU: 13 UID: 0 PID=
-: 487677 Comm: kworker/u130:4 Tainted: G      D W           7.0.0-rc2-next-=
-20260303-master #367 PREEMPT_RT=20
-2026-03-04T14:31:39.683851+01:00 homer kernel: [T487677] Tainted: [D]=3DDIE=
-, [W]=3DWARN
-2026-03-04T14:31:39.683856+01:00 homer kernel: [T487677] Hardware name: ASU=
-S System Product Name/ROG STRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
-2026-03-04T14:31:39.683856+01:00 homer kernel: [T487677] Workqueue: events_=
-unbound flush_to_ldisc
-2026-03-04T14:31:39.683857+01:00 homer kernel: [T487677] RIP: 0010:__send_s=
-ignal_locked+0x14c/0x320
-2026-03-04T14:31:39.683857+01:00 homer kernel: [T487677] Code: 10 83 fb 01 =
-76 5c 49 8b 84 24 70 0b 00 00 48 8b 40 70 48 85 c0 74 4b 48 83 e8 08 74 45 =
-be 00 00 3c 00 c4 e2 93 f7 f6 83 e6 01 <48> 8b 10 83 fd 12 0f 84 d5 00 00 0=
-0 41 83 fd 1e 77 11 48 89 d7 48
-2026-03-04T14:31:39.683857+01:00 homer kernel: [T487677] RSP: 0018:ffff9cbc=
-e3bdbc10 EFLAGS: 00010202
-2026-03-04T14:31:39.683858+01:00 homer kernel: [T487677] RAX: 0000000000000=
-402 RBX: 0000000000000002 RCX: 0000000000000002
-2026-03-04T14:31:39.683858+01:00 homer kernel: [T487677] RDX: 0000000000000=
-402 RSI: 0000000000000000 RDI: 0000000000000400
-2026-03-04T14:31:39.683858+01:00 homer kernel: [T487677] RBP: 0000000000000=
-002 R08: ffff9cbce3bdbbd0 R09: 0000000000000001
-2026-03-04T14:31:39.683859+01:00 homer kernel: [T487677] R10: 0000000000000=
-001 R11: 000000000000001e R12: ffff91715d118000
-2026-03-04T14:31:39.683859+01:00 homer kernel: [T487677] R13: 0000000000000=
-001 R14: 0000000000000001 R15: ffff916305b36958
-2026-03-04T14:31:39.683859+01:00 homer kernel: [T487677] FS:  0000000000000=
-000(0000) GS:ffff917278221000(0000) knlGS:0000000000000000
-2026-03-04T14:31:39.683859+01:00 homer kernel: [T487677] CS:  0010 DS: 0000=
- ES: 0000 CR0: 0000000080050033
-2026-03-04T14:31:39.683859+01:00 homer kernel: [T487677] CR2: 0000000000000=
-402 CR3: 0000000146df4000 CR4: 0000000000f50ef0
-2026-03-04T14:31:39.683860+01:00 homer kernel: [T487677] PKRU: 55555554
-2026-03-04T14:31:39.683860+01:00 homer kernel: [T487677] Call Trace:
-2026-03-04T14:31:39.683860+01:00 homer kernel: [T487677]  <TASK>
-2026-03-04T14:31:39.683860+01:00 homer kernel: [T487677]  do_send_sig_info+=
-0x53/0xa0
-2026-03-04T14:31:39.683860+01:00 homer kernel: [T487677]  __kill_pgrp_info+=
-0x71/0xb0
-2026-03-04T14:31:39.683861+01:00 homer kernel: [T487677]  kill_pgrp+0x2f/0x=
-50
-2026-03-04T14:31:39.683861+01:00 homer kernel: [T487677]  isig+0x89/0x190
-2026-03-04T14:31:39.683861+01:00 homer kernel: [T487677]  n_tty_receive_sig=
-nal_char+0x11/0x60
-2026-03-04T14:31:39.683861+01:00 homer kernel: [T487677]  n_tty_receive_buf=
-_standard+0x3e7/0xac0
-2026-03-04T14:31:39.683862+01:00 homer kernel: [T487677]  n_tty_receive_buf=
-_common+0x10e/0x730
-2026-03-04T14:31:39.683862+01:00 homer kernel: [T487677]  tty_port_default_=
-receive_buf+0x3d/0x70
-2026-03-04T14:31:39.683862+01:00 homer kernel: [T487677]  flush_to_ldisc+0x=
-97/0x1a0
-2026-03-04T14:31:39.683863+01:00 homer kernel: [T487677]  process_one_work+=
-0x18e/0x280
-2026-03-04T14:31:39.683863+01:00 homer kernel: [T487677]  worker_thread+0x1=
-94/0x2f0
-2026-03-04T14:31:39.683863+01:00 homer kernel: [T487677]  ? rescuer_thread+=
-0x590/0x590
-2026-03-04T14:31:39.683863+01:00 homer kernel: [T487677]  kthread+0xd0/0x100
-2026-03-04T14:31:39.683864+01:00 homer kernel: [T487677]  ? kthreads_online=
-_cpu+0x10/0x10
-2026-03-04T14:31:39.683864+01:00 homer kernel: [T487677]  ret_from_fork+0x2=
-b1/0x340
-2026-03-04T14:31:39.683864+01:00 homer kernel: [T487677]  ? kthreads_online=
-_cpu+0x10/0x10
-2026-03-04T14:31:39.683864+01:00 homer kernel: [T487677]  ret_from_fork_asm=
-+0x11/0x20
-2026-03-04T14:31:39.683864+01:00 homer kernel: [T487677]  </TASK>
-2026-03-04T14:31:39.683865+01:00 homer kernel: [T487677] Modules linked in:=
- ccm rfcomm bnep snd_seq_dummy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat=
- fat btusb btrtl btintel btbcm btmtk bluetooth ecdh_generic ecc mt7925e mt7=
-925_common joydev snd_usb_audio mt792x_lib mt76_connac_lib mt76 intel_rapl_=
-msr snd_hda_codec_atihdmi snd_hda_codec_hdmi snd_usbmidi_lib mac80211 snd_u=
-mp snd_rawmidi intel_rapl_common snd_seq_device snd_hda_intel rapl wmi_bmof=
- snd_hda_codec pcspkr snd_hda_core libarc4 spd5118 snd_intel_dspcfg regmap_=
-i2c snd_hwdep snd_pcm cfg80211 snd_timer snd soundcore rfkill k10temp ccp e=
-vdev nct6775 nct6775_core hwmon_vid configfs efi_pstore efivarfs autofs4 ex=
-t4 mbcache jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit d=
-rm_buddy drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel=
-_backlight_quirks gpu_sched amdxcp drm_display_helper ahci libahci xhci_pci=
- libata xhci_hcd drm_kms_helper drm usbcore scsi_mod nvme igc nvme_core scs=
-i_common cec i2c_piix4 i2c_smbus usb_common crc16 nvme_keyring nvme_auth hk=
-df video wmi gpio_amdpt
-2026-03-04T14:31:39.683866+01:00 homer kernel: [T487677]  gpio_generic
-2026-03-04T14:31:39.683866+01:00 homer kernel: [T487677] CR2: 0000000000000=
-402
-2026-03-04T14:31:39.683866+01:00 homer kernel: [T487677] ---[ end trace 000=
-0000000000000 ]---
-2026-03-04T14:31:39.683866+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: ERROR unknown event type 37
-2026-03-04T14:31:39.688420+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688431+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688432+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688432+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688432+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688439+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688439+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688440+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688440+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688440+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688441+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688441+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688442+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688442+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688443+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688443+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688444+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688444+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688444+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688445+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688445+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688446+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688446+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688447+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688447+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688448+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688448+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688449+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.688449+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.688453+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.691335+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.691339+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.691340+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.691340+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.691341+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 8 on endpoint
-2026-03-04T14:31:39.691342+01:00 homer kernel: [  T584] xhci_hcd 0000:0b:00=
-.0: WARN: buffer overrun event for slot 1 ep 6 on endpoint
-2026-03-04T14:31:39.718573+01:00 homer kernel: [T487677] pstore: backend (e=
-fi_pstore) writing error (-28)
-2026-03-04T14:31:39.718582+01:00 homer kernel: [T487677] RIP: 0010:memset+0=
-xf/0x20
-2026-03-04T14:31:39.718583+01:00 homer kernel: [T487677] Code: 44 89 54 17 =
-fe eb 0c 48 83 fa 01 72 06 44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f =
-1e fa 66 90 49 89 f9 40 88 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1=
-f 80 00 00 00 00 49 89 fa 40 0f
-2026-03-04T14:31:39.718584+01:00 homer kernel: [T487677] RSP: 0018:ffff9cbc=
-ec4bb600 EFLAGS: 00010246
-2026-03-04T14:31:39.718595+01:00 homer kernel: [T487677] RAX: 00007feba0340=
-f00 RBX: ffff9cbcec4bb7f0 RCX: 0000000000000100
-2026-03-04T14:31:39.718596+01:00 homer kernel: [T487677] RDX: 0000000000000=
-100 RSI: 0000000000000000 RDI: 0000001005a14780
-2026-03-04T14:31:39.718597+01:00 homer kernel: [T487677] RBP: 00007feba0340=
-fff R08: 0000000000000007 R09: 0000001005a14780
-2026-03-04T14:31:39.718597+01:00 homer kernel: [T487677] R10: 0000000000000=
-008 R11: 0000000000000000 R12: 0000000000000007
-2026-03-04T14:31:39.718597+01:00 homer kernel: [T487677] R13: 0000000000000=
-002 R14: 0000001005a14780 R15: ffff9cbcec4bb760
-2026-03-04T14:31:39.718598+01:00 homer kernel: [T487677] FS:  0000000000000=
-000(0000) GS:ffff917278221000(0000) knlGS:0000000000000000
-2026-03-04T14:31:39.718598+01:00 homer kernel: [T487677] CS:  0010 DS: 0000=
- ES: 0000 CR0: 0000000080050033
-2026-03-04T14:31:39.718599+01:00 homer kernel: [T487677] CR2: 0000000000000=
-402 CR3: 0000000e9b622000 CR4: 0000000000f50ef0
-2026-03-04T14:31:39.718599+01:00 homer kernel: [T487677] PKRU: 55555554
-2026-03-04T14:31:39.718600+01:00 homer kernel: [T487677] note: kworker/u130=
-:4[487677] exited with irqs disabled
-2026-03-04T14:31:59.527451+01:00 homer kernel: [   C31] rcu: INFO: rcu_pree=
-mpt detected stalls on CPUs/tasks:
-2026-03-04T14:31:59.527461+01:00 homer kernel: [   C31] rcu: 	Tasks blocked=
- on level-1 rcu_node (CPUs 0-15): P487677/2:b..l
-2026-03-04T14:31:59.527462+01:00 homer kernel: [   C31] rcu: 	(detected by =
-31, t=3D21002 jiffies, g=3D1779997, q=3D1889 ncpus=3D32)
-2026-03-04T14:31:59.527462+01:00 homer kernel: [   C31] task:kworker/u130:4=
-  state:D stack:0     pid:487677 tgid:487677 ppid:2      task_flags:0x42080=
-6c flags:0x00080000
-2026-03-04T14:31:59.527463+01:00 homer kernel: [   C31] Workqueue: events_u=
-nbound flush_to_ldisc
-2026-03-04T14:31:59.527463+01:00 homer kernel: [   C31] Call Trace:
-2026-03-04T14:31:59.527463+01:00 homer kernel: [   C31]  <TASK>
-2026-03-04T14:31:59.527464+01:00 homer kernel: [   C31]  __schedule+0x47f/0=
-xed0
-2026-03-04T14:31:59.527464+01:00 homer kernel: [   C31]  schedule_rtlock+0x=
-1e/0x40
-2026-03-04T14:31:59.527464+01:00 homer kernel: [   C31]  rtlock_slowlock_lo=
-cked+0x307/0xe70
-2026-03-04T14:31:59.527465+01:00 homer kernel: [   C31]  ? sched_clock+0x10=
-/0x30
-2026-03-04T14:31:59.527465+01:00 homer kernel: [   C31]  rt_write_lock+0x18=
-4/0x1e0
-2026-03-04T14:31:59.527465+01:00 homer kernel: [   C31]  do_exit+0x30c/0xa30
-2026-03-04T14:31:59.527465+01:00 homer kernel: [   C31]  make_task_dead+0x9=
-4/0xa0
-2026-03-04T14:31:59.527466+01:00 homer kernel: [   C31]  rewind_stack_and_m=
-ake_dead+0x16/0x20
-2026-03-04T14:31:59.527466+01:00 homer kernel: [   C31] RIP: 0000:0x0
-2026-03-04T14:31:59.527466+01:00 homer kernel: [   C31] Code: Unable to acc=
-ess opcode bytes at 0xffffffffffffffd6.
-2026-03-04T14:31:59.527466+01:00 homer kernel: [   C31] RSP: 0000:000000000=
-0000000 EFLAGS: 00000000 ORIG_RAX: 0000000000000000
-2026-03-04T14:31:59.527466+01:00 homer kernel: [   C31] RAX: 00000000000000=
-00 RBX: 0000000000000000 RCX: 0000000000000000
-2026-03-04T14:31:59.527467+01:00 homer kernel: [   C31] RDX: 00000000000000=
-00 RSI: 0000000000000000 RDI: 0000000000000000
-2026-03-04T14:31:59.527467+01:00 homer kernel: [   C31] RBP: 00000000000000=
-00 R08: 0000000000000000 R09: 0000000000000000
-2026-03-04T14:31:59.527467+01:00 homer kernel: [   C31] R10: 00000000000000=
-00 R11: 0000000000000000 R12: 0000000000000000
-2026-03-04T14:31:59.527467+01:00 homer kernel: [   C31] R13: 00000000000000=
-00 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T14:31:59.527468+01:00 homer kernel: [   C31]  </TASK>
-2026-03-04T14:33:02.532443+01:00 homer kernel: [    C2] rcu: INFO: rcu_pree=
-mpt detected stalls on CPUs/tasks:
-2026-03-04T14:33:02.532451+01:00 homer kernel: [    C2] rcu: 	Tasks blocked=
- on level-1 rcu_node (CPUs 0-15): P487677/2:b..l
-2026-03-04T14:33:02.532452+01:00 homer kernel: [    C2] rcu: 	(detected by =
-2, t=3D84007 jiffies, g=3D1779997, q=3D3508 ncpus=3D32)
-2026-03-04T14:33:02.532452+01:00 homer kernel: [    C2] task:kworker/u130:4=
-  state:D stack:0     pid:487677 tgid:487677 ppid:2      task_flags:0x42080=
-6c flags:0x00080000
-2026-03-04T14:33:02.532452+01:00 homer kernel: [    C2] Workqueue: events_u=
-nbound flush_to_ldisc
-2026-03-04T14:33:02.532453+01:00 homer kernel: [    C2] Call Trace:
-2026-03-04T14:33:02.532458+01:00 homer kernel: [    C2]  <TASK>
-2026-03-04T14:33:02.532458+01:00 homer kernel: [    C2]  __schedule+0x47f/0=
-xed0
-2026-03-04T14:33:02.532458+01:00 homer kernel: [    C2]  schedule_rtlock+0x=
-1e/0x40
-2026-03-04T14:33:02.532459+01:00 homer kernel: [    C2]  rtlock_slowlock_lo=
-cked+0x307/0xe70
-2026-03-04T14:33:02.532459+01:00 homer kernel: [    C2]  ? sched_clock+0x10=
-/0x30
-2026-03-04T14:33:02.532459+01:00 homer kernel: [    C2]  rt_write_lock+0x18=
-4/0x1e0
-2026-03-04T14:33:02.532459+01:00 homer kernel: [    C2]  do_exit+0x30c/0xa30
-2026-03-04T14:33:02.532460+01:00 homer kernel: [    C2]  make_task_dead+0x9=
-4/0xa0
-2026-03-04T14:33:02.532460+01:00 homer kernel: [    C2]  rewind_stack_and_m=
-ake_dead+0x16/0x20
-2026-03-04T14:33:02.532460+01:00 homer kernel: [    C2] RIP: 0000:0x0
-2026-03-04T14:33:02.532461+01:00 homer kernel: [    C2] Code: Unable to acc=
-ess opcode bytes at 0xffffffffffffffd6.
-2026-03-04T14:33:02.532461+01:00 homer kernel: [    C2] RSP: 0000:000000000=
-0000000 EFLAGS: 00000000 ORIG_RAX: 0000000000000000
-2026-03-04T14:33:02.532461+01:00 homer kernel: [    C2] RAX: 00000000000000=
-00 RBX: 0000000000000000 RCX: 0000000000000000
-2026-03-04T14:33:02.532461+01:00 homer kernel: [    C2] RDX: 00000000000000=
-00 RSI: 0000000000000000 RDI: 0000000000000000
-2026-03-04T14:33:02.532461+01:00 homer kernel: [    C2] RBP: 00000000000000=
-00 R08: 0000000000000000 R09: 0000000000000000
-2026-03-04T14:33:02.532462+01:00 homer kernel: [    C2] R10: 00000000000000=
-00 R11: 0000000000000000 R12: 0000000000000000
-2026-03-04T14:33:02.532462+01:00 homer kernel: [    C2] R13: 00000000000000=
-00 R14: 0000000000000000 R15: 0000000000000000
-2026-03-04T14:33:02.532462+01:00 homer kernel: [    C2]  </TASK>
+=20
+> $ time dpkg-buildpackage --no-sign -B -nc
+>=20
+> after about ~1.45h, during the testsuite, the following error happens:
+>=20
+> [ 6506.666031] [T3176177] Oops: general protection fault, maybe for add=
+ress 0x7ffe00b6ff00: 0000 [#1] SMP NOPTI
+> [ 6506.666036] [T3176177] CPU: 29 UID: 1000 PID: 3176177 Comm: sh Not t=
+ainted 7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=20
+> [ 6506.666039] [T3176177] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6506.666040] [T3176177] RIP: 0010:memset+0xf/0x20
+> [ 6506.666046] [T3176177] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6506.666048] [T3176177] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6506.666050] [T3176177] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6506.666050] [T3176177] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6506.666051] [T3176177] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6506.666052] [T3176177] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6506.666052] [T3176177] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6506.666053] [T3176177] FS:  0000000000000000(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6506.666054] [T3176177] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6506.666055] [T3176177] CR2: 00007ff936904dd0 CR3: 00000001bee4f000 C=
+R4: 0000000000f50ef0
+> [ 6506.666055] [T3176177] PKRU: 55555554
+> [ 6506.666056] [T3176177] Call Trace:
+> [ 6506.666058] [T3176177]  <TASK>
+> [ 6506.666059] [T3176177]  mas_wr_node_store+0x9a/0x3f0
+> [ 6506.666063] [T3176177]  ? rt_spin_lock+0x38/0x110
+> [ 6506.666065] [T3176177]  ? rt_mutex_slowunlock+0x74/0x290
+> [ 6506.666066] [T3176177]  ? __pcs_replace_empty_main+0x2cf/0x410
+> [ 6506.666070] [T3176177]  ? kmem_cache_alloc_noprof+0xd4/0x330
+> [ 6506.666072] [T3176177]  mas_store_prealloc+0x19d/0x3d0
+> [ 6506.666074] [T3176177]  __mmap_region+0x928/0xf80
+> [ 6506.666082] [T3176177]  do_mmap+0x478/0x660
+> [ 6506.666084] [T3176177]  vm_mmap_pgoff+0x104/0x190
+> [ 6506.666087] [T3176177]  elf_load+0xa3/0x230
+> [ 6506.666089] [T3176177]  load_elf_binary+0xb80/0x1880
+> [ 6506.666091] [T3176177]  ? __kernel_read+0x1a1/0x2a0
+> [ 6506.666093] [T3176177]  ? rt_read_lock+0x40/0x130
+> [ 6506.666094] [T3176177]  bprm_execve+0x27c/0x4a0
+> [ 6506.666096] [T3176177]  do_execveat_common.isra.0+0x157/0x170
+> [ 6506.666098] [T3176177]  __x64_sys_execve+0x38/0x50
+> [ 6506.666099] [T3176177]  do_syscall_64+0x11b/0x8c0
+> [ 6506.666101] [T3176177]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6506.666103] [T3176177] RIP: 0033:0x7fc90e432dd7
+> [ 6506.666106] [T3176177] Code: Unable to access opcode bytes at 0x7fc9=
+0e432dad.
+> [ 6506.666107] [T3176177] RSP: 002b:00007fc90e772e68 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6506.666108] [T3176177] RAX: ffffffffffffffda RBX: 00007ffec5e8ad00 R=
+CX: 00007fc90e432dd7
+> [ 6506.666109] [T3176177] RDX: 000055966c9f03c0 RSI: 00007ffec5e8ab30 R=
+DI: 00007fc90e4fbea4
+> [ 6506.666109] [T3176177] RBP: 00007fc90e772ff0 R08: 0000000000000000 R=
+09: 0000000000000000
+> [ 6506.666110] [T3176177] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 00007ffec5e8a8b0
+> [ 6506.666111] [T3176177] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007fc90e772f20
+> [ 6506.666112] [T3176177]  </TASK>
+> [ 6506.666112] [T3176177] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6506.666150] [T3176177]  gpio_generic
+> [ 6506.666153] [T3176177] ---[ end trace 0000000000000000 ]---
+> [ 6506.745203] [T3176178] Oops: general protection fault, maybe for add=
+ress 0xffff9264a17f9200: 0000 [#2] SMP NOPTI
+> [ 6506.745208] [T3176178] CPU: 29 UID: 1000 PID: 3176178 Comm: xg++ Tai=
+nted: G      D             7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=
+=20
+> [ 6506.745210] [T3176178] Tainted: [D]=3DDIE
+> [ 6506.745211] [T3176178] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6506.745212] [T3176178] RIP: 0010:memset+0xf/0x20
+> [ 6506.745218] [T3176178] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6506.745219] [T3176178] RSP: 0018:ffffb18ba6ff3998 EFLAGS: 00010246
+> [ 6506.745221] [T3176178] RAX: ffff9264a17f9200 RBX: ffffb18ba6ff3a38 R=
+CX: 0000000000000100
+> [ 6506.745222] [T3176178] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 692f7273752f2068
+> [ 6506.745223] [T3176178] RBP: ffff9268062a6a80 R08: 0000000000000001 R=
+09: 692f7273752f2068
+> [ 6506.745223] [T3176178] R10: 0000000000000002 R11: 0000000000000006 R=
+12: 0000000000000000
+> [ 6506.745224] [T3176178] R13: ffffb18ba6ff3a38 R14: 0000000000118173 R=
+15: ffff9264a17f9430
+> [ 6506.745225] [T3176178] FS:  00007ff936825bc0(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6506.745225] [T3176178] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6506.745226] [T3176178] CR2: 00007fc90e432dad CR3: 0000000148959000 C=
+R4: 0000000000f50ef0
+> [ 6506.745227] [T3176178] PKRU: 55555554
+> [ 6506.745228] [T3176178] Call Trace:
+> [ 6506.745230] [T3176178]  <TASK>
+> [ 6506.745230] [T3176178]  mas_root_expand+0x35/0x160
+> [ 6506.745235] [T3176178]  mas_store_prealloc+0x19d/0x3d0
+> [ 6506.745237] [T3176178]  vma_link+0x11a/0x180
+> [ 6506.745241] [T3176178]  insert_vm_struct+0x41/0xa0
+> [ 6506.745243] [T3176178]  create_init_stack_vma+0xbb/0x1c0
+> [ 6506.745245] [T3176178]  alloc_bprm+0x134/0x200
+> [ 6506.745247] [T3176178]  do_execveat_common.isra.0+0x79/0x170
+> [ 6506.745249] [T3176178]  __x64_sys_execve+0x38/0x50
+> [ 6506.745250] [T3176178]  do_syscall_64+0x11b/0x8c0
+> [ 6506.745252] [T3176178]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6506.745253] [T3176178]  ? __x64_sys_rt_sigprocmask+0xc9/0x140
+> [ 6506.745256] [T3176178]  ? do_syscall_64+0x11b/0x8c0
+> [ 6506.745257] [T3176178]  ? rt_spin_lock+0x38/0x110
+> [ 6506.745258] [T3176178]  ? set_pte_range+0xb5/0x300
+> [ 6506.745261] [T3176178]  ? next_uptodate_folio+0x82/0x290
+> [ 6506.745263] [T3176178]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6506.745264] [T3176178]  ? filemap_map_pages+0x597/0x660
+> [ 6506.745266] [T3176178]  ? do_fault+0x37e/0x640
+> [ 6506.745268] [T3176178]  ? __handle_mm_fault+0x2c6/0x3a0
+> [ 6506.745269] [T3176178]  ? count_memcg_events+0x5e/0xf0
+> [ 6506.745272] [T3176178]  ? handle_mm_fault+0x1b9/0x2c0
+> [ 6506.745273] [T3176178]  ? do_user_addr_fault+0x203/0x640
+> [ 6506.745275] [T3176178]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6506.745278] [T3176178] RIP: 0033:0x7ff936904dd7
+> [ 6506.745280] [T3176178] Code: af e8 ed ed 03 00 66 2e 0f 1f 84 00 00 =
+00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10 e9 01 00 00 00 90 b8 3b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 80 10 00 f7 d8 64 =
+89 01 48
+> [ 6506.745280] [T3176178] RSP: 002b:00007ff936a43e68 EFLAGS: 00000246 O=
+RIG_RAX: 000000000000003b
+> [ 6506.745282] [T3176178] RAX: ffffffffffffffda RBX: 00007ffd9b54cc70 R=
+CX: 00007ff936904dd7
+> [ 6506.745282] [T3176178] RDX: 0000000017701150 RSI: 0000000017703fe8 R=
+DI: 00000000176fd290
+> [ 6506.745283] [T3176178] RBP: 00007ff936a43ff0 R08: 00007ffd9b54c9d0 R=
+09: 0000000000000000
+> [ 6506.745283] [T3176178] R10: 0000000000000008 R11: 0000000000000246 R=
+12: 00007ffd9b54c9d0
+> [ 6506.745284] [T3176178] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007ff936a43f20
+> [ 6506.745285] [T3176178]  </TASK>
+> [ 6506.745285] [T3176178] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6506.745321] [T3176178]  gpio_generic
+> [ 6506.745324] [T3176178] ---[ end trace 0000000000000000 ]---
+> [ 6506.745857] [T3176177] RIP: 0010:memset+0xf/0x20
+> [ 6506.745862] [T3176177] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6506.745863] [T3176177] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6506.745865] [T3176177] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6506.745866] [T3176177] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6506.745866] [T3176177] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6506.745867] [T3176177] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6506.745867] [T3176177] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6506.745868] [T3176177] FS:  0000000000000000(0000) GS:ffff9273933e10=
+00(0000) knlGS:0000000000000000
+> [ 6506.745869] [T3176177] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6506.745870] [T3176177] CR2: 00007fc75f94f0f0 CR3: 00000001bee4f000 C=
+R4: 0000000000f50ef0
+> [ 6506.745870] [T3176177] PKRU: 55555554
+> [ 6506.745873] [T3176177] ------------[ cut here ]------------
+> [ 6506.745874] [T3176177] rtmutex deadlock detected
+> [ 6506.745874] [T3176177] WARNING: kernel/locking/rtmutex.c:1674 at __r=
+t_mutex_slowlock_locked.constprop.0+0x835/0x9b0, CPU#12: sh/3176177
+> [ 6506.745878] [T3176177] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6506.745900] [T3176177]  gpio_generic
+> [ 6506.745902] [T3176177] CPU: 12 UID: 1000 PID: 3176177 Comm: sh Taint=
+ed: G      D             7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=20
+> [ 6506.745904] [T3176177] Tainted: [D]=3DDIE
+> [ 6506.745905] [T3176177] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6506.745906] [T3176177] RIP: 0010:__rt_mutex_slowlock_locked.constpro=
+p.0+0x835/0x9b0
+> [ 6506.745907] [T3176177] Code: 00 48 89 ef e8 fc 67 87 00 c7 44 24 14 =
+fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89 ef e8 b2 66 87 00 48 8d 3=
+d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 e8 87 43 18 e8 e7 6a fd =
+ff eb f4
+> [ 6506.745908] [T3176177] RSP: 0018:ffffb18ba9963d18 EFLAGS: 00010286
+> [ 6506.745910] [T3176177] RAX: 0000000000000000 RBX: ffff926654c10000 R=
+CX: ffff926654c10001
+> [ 6506.745910] [T3176177] RDX: 0000000000000001 RSI: ffff926654c10000 R=
+DI: ffffffffa9e36620
+> [ 6506.745911] [T3176177] RBP: ffff9267bad04bb8 R08: 0000000000000000 R=
+09: ffff92737dcf6f90
+> [ 6506.745911] [T3176177] R10: ffff92737dd26fe8 R11: 0000000000000003 R=
+12: ffffb18ba9963d40
+> [ 6506.745912] [T3176177] R13: ffff926654c10001 R14: ffff926654c10c40 R=
+15: 00000000ffffffdd
+> [ 6506.745913] [T3176177] FS:  0000000000000000(0000) GS:ffff9273933e10=
+00(0000) knlGS:0000000000000000
+> [ 6506.745913] [T3176177] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6506.745914] [T3176177] CR2: 00007fc75f94f0f0 CR3: 00000001bee4f000 C=
+R4: 0000000000f50ef0
+> [ 6506.745915] [T3176177] PKRU: 55555554
+> [ 6506.745915] [T3176177] Call Trace:
+> [ 6506.745917] [T3176177]  <TASK>
+> [ 6506.745919] [T3176177]  ? load_elf_binary+0xb80/0x1880
+> [ 6506.745922] [T3176177]  ? __kernel_read+0x1a1/0x2a0
+> [ 6506.745924] [T3176177]  __rwbase_read_lock+0x4a/0xd0
+> [ 6506.745927] [T3176177]  acct_collect+0x157/0x1c0
+> [ 6506.745931] [T3176177]  do_exit+0x1c2/0xa30
+> [ 6506.745933] [T3176177]  make_task_dead+0x94/0xa0
+> [ 6506.745934] [T3176177]  rewind_stack_and_make_dead+0x16/0x20
+> [ 6506.745937] [T3176177] RIP: 0033:0x7fc90e432dd7
+> [ 6506.745941] [T3176177] Code: Unable to access opcode bytes at 0x7fc9=
+0e432dad.
+> [ 6506.745942] [T3176177] RSP: 002b:00007fc90e772e68 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6506.745943] [T3176177] RAX: ffffffffffffffda RBX: 00007ffec5e8ad00 R=
+CX: 00007fc90e432dd7
+> [ 6506.745944] [T3176177] RDX: 000055966c9f03c0 RSI: 00007ffec5e8ab30 R=
+DI: 00007fc90e4fbea4
+> [ 6506.745944] [T3176177] RBP: 00007fc90e772ff0 R08: 0000000000000000 R=
+09: 0000000000000000
+> [ 6506.745945] [T3176177] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 00007ffec5e8a8b0
+> [ 6506.745945] [T3176177] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007fc90e772f20
+> [ 6506.745947] [T3176177]  </TASK>
+> [ 6506.745948] [T3176177] ---[ end trace 0000000000000000 ]---
+> [ 6507.131426] [T3176178] RIP: 0010:memset+0xf/0x20
+> [ 6507.131432] [T3176178] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.131434] [T3176178] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.131435] [T3176178] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.131436] [T3176178] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.131437] [T3176178] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.131438] [T3176178] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.131438] [T3176178] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.131439] [T3176178] FS:  00007ff936825bc0(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.131440] [T3176178] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.131440] [T3176178] CR2: 00007fc90e432dad CR3: 0000000148959000 C=
+R4: 0000000000f50ef0
+> [ 6507.131441] [T3176178] PKRU: 55555554
+> [ 6507.245062] [T3176633] Oops: general protection fault, maybe for add=
+ress 0xffff9264a17fca00: 0000 [#3] SMP NOPTI
+> [ 6507.245068] [T3176633] CPU: 29 UID: 1000 PID: 3176633 Comm: expect T=
+ainted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_=
+RT=20
+> [ 6507.245071] [T3176633] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.245072] [T3176633] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.245072] [T3176633] RIP: 0010:memset+0xf/0x20
+> [ 6507.245079] [T3176633] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.245080] [T3176633] RSP: 0018:ffffb18ba3babc78 EFLAGS: 00010246
+> [ 6507.245082] [T3176633] RAX: ffff9264a17fca00 RBX: ffffb18ba3babd18 R=
+CX: 0000000000000100
+> [ 6507.245083] [T3176633] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 2e7367616c667469
+> [ 6507.245083] [T3176633] RBP: ffff92643593a180 R08: 0000000000000000 R=
+09: 2e7367616c667469
+> [ 6507.245084] [T3176633] R10: 0000000000000002 R11: ffffffffa98728dc R=
+12: 0000000000000000
+> [ 6507.245084] [T3176633] R13: ffffb18ba3babd18 R14: 0000000000118173 R=
+15: ffff9264a17fcbb0
+> [ 6507.245085] [T3176633] FS:  00007fa2b4453780(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.245086] [T3176633] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.245087] [T3176633] CR2: 00007faa5bfb7000 CR3: 00000002bbfbd000 C=
+R4: 0000000000f50ef0
+> [ 6507.245088] [T3176633] PKRU: 55555554
+> [ 6507.245088] [T3176633] Call Trace:
+> [ 6507.245091] [T3176633]  <TASK>
+> [ 6507.245091] [T3176633]  mas_root_expand+0x35/0x160
+> [ 6507.245096] [T3176633]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.245098] [T3176633]  vma_link+0x11a/0x180
+> [ 6507.245103] [T3176633]  insert_vm_struct+0x41/0xa0
+> [ 6507.245104] [T3176633]  create_init_stack_vma+0xbb/0x1c0
+> [ 6507.245106] [T3176633]  alloc_bprm+0x134/0x200
+> [ 6507.245109] [T3176633]  do_execveat_common.isra.0+0x79/0x170
+> [ 6507.245110] [T3176633]  __x64_sys_execve+0x38/0x50
+> [ 6507.245112] [T3176633]  do_syscall_64+0x11b/0x8c0
+> [ 6507.245113] [T3176633]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.245114] [T3176633]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.245116] [T3176633]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.245118] [T3176633] RIP: 0033:0x7fa2b4645dd7
+> [ 6507.245120] [T3176633] Code: af e8 ed ed 03 00 66 2e 0f 1f 84 00 00 =
+00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10 e9 01 00 00 00 90 b8 3b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 80 10 00 f7 d8 64 =
+89 01 48
+> [ 6507.245121] [T3176633] RSP: 002b:00007ffdcd40ee68 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6507.245123] [T3176633] RAX: ffffffffffffffda RBX: 000055c674bb61f0 R=
+CX: 00007fa2b4645dd7
+> [ 6507.245123] [T3176633] RDX: 000055c6751f5840 RSI: 000055c674bb62c0 R=
+DI: 00007ffdcd40ee70
+> [ 6507.245124] [T3176633] RBP: 00007ffdcd40ef70 R08: 00007ffdcd413dac R=
+09: 0000000000000000
+> [ 6507.245124] [T3176633] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 000055c674bb62c0
+> [ 6507.245125] [T3176633] R13: 000055c6751f5840 R14: 0000000000000001 R=
+15: 00007ffdcd413da4
+> [ 6507.245126] [T3176633]  </TASK>
+> [ 6507.245127] [T3176633] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.245167] [T3176633]  gpio_generic
+> [ 6507.245170] [T3176633] ---[ end trace 0000000000000000 ]---
+> [ 6507.320427] [T3176633] RIP: 0010:memset+0xf/0x20
+> [ 6507.320436] [T3176633] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.320437] [T3176633] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.320439] [T3176633] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.320440] [T3176633] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.320441] [T3176633] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.320442] [T3176633] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.320443] [T3176633] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.320443] [T3176633] FS:  00007fa2b4453780(0000) GS:ffff9273937a10=
+00(0000) knlGS:0000000000000000
+> [ 6507.320445] [T3176633] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.320445] [T3176633] CR2: 00005598e5df92c8 CR3: 00000002bbfbd000 C=
+R4: 0000000000f50ef0
+> [ 6507.320446] [T3176633] PKRU: 55555554
+> [ 6507.322085] [T3176693] Oops: general protection fault, maybe for add=
+ress 0xffff926418e28000: 0000 [#4] SMP NOPTI
+> [ 6507.322090] [T3176693] CPU: 29 UID: 1000 PID: 3176693 Comm: xgcc Tai=
+nted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=
+=20
+> [ 6507.322093] [T3176693] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.322094] [T3176693] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.322095] [T3176693] RIP: 0010:memset+0xf/0x20
+> [ 6507.322100] [T3176693] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.322101] [T3176693] RSP: 0018:ffffb18bb46f7928 EFLAGS: 00010246
+> [ 6507.322103] [T3176693] RAX: ffff926418e28000 RBX: ffffb18bb46f79c8 R=
+CX: 0000000000000100
+> [ 6507.322103] [T3176693] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 61772f737469622f
+> [ 6507.322104] [T3176693] RBP: ffff926913d315c0 R08: 0000000000000000 R=
+09: 61772f737469622f
+> [ 6507.322105] [T3176693] R10: 0000000000000002 R11: ffffffffa98728dc R=
+12: 0000000000000000
+> [ 6507.322105] [T3176693] R13: ffffb18bb46f79c8 R14: 0000000000118173 R=
+15: ffff926418e281b0
+> [ 6507.322106] [T3176693] FS:  00007fcc03058780(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.322107] [T3176693] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.322107] [T3176693] CR2: 00007fcc03275ff8 CR3: 0000000173f28000 C=
+R4: 0000000000f50ef0
+> [ 6507.322108] [T3176693] PKRU: 55555554
+> [ 6507.322108] [T3176693] Call Trace:
+> [ 6507.322110] [T3176693]  <TASK>
+> [ 6507.322111] [T3176693]  mas_root_expand+0x35/0x160
+> [ 6507.322116] [T3176693]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.322118] [T3176693]  vma_link+0x11a/0x180
+> [ 6507.322123] [T3176693]  insert_vm_struct+0x41/0xa0
+> [ 6507.322124] [T3176693]  create_init_stack_vma+0xbb/0x1c0
+> [ 6507.322126] [T3176693]  alloc_bprm+0x134/0x200
+> [ 6507.322128] [T3176693]  do_execveat_common.isra.0+0x79/0x170
+> [ 6507.322130] [T3176693]  __x64_sys_execve+0x38/0x50
+> [ 6507.322131] [T3176693]  do_syscall_64+0x11b/0x8c0
+> [ 6507.322133] [T3176693]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.322135] [T3176693]  ? get_page_from_freelist+0x13cc/0x1560
+> [ 6507.322137] [T3176693]  ? __x64_sys_rt_sigprocmask+0xde/0x140
+> [ 6507.322139] [T3176693]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.322140] [T3176693]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.322141] [T3176693]  ? try_charge_memcg+0x139/0x6d0
+> [ 6507.322143] [T3176693]  ? rt_spin_lock+0x38/0x110
+> [ 6507.322144] [T3176693]  ? rt_spin_lock+0x38/0x110
+> [ 6507.322144] [T3176693]  ? rt_spin_lock+0x38/0x110
+> [ 6507.322145] [T3176693]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.322146] [T3176693]  ? __x64_sys_rt_sigprocmask+0xc9/0x140
+> [ 6507.322147] [T3176693]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.322147] [T3176693]  ? __handle_mm_fault+0x357/0x3a0
+> [ 6507.322150] [T3176693]  ? count_memcg_events+0x5e/0xf0
+> [ 6507.322152] [T3176693]  ? handle_mm_fault+0x1b9/0x2c0
+> [ 6507.322154] [T3176693]  ? do_user_addr_fault+0x203/0x640
+> [ 6507.322156] [T3176693]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.322158] [T3176693] RIP: 0033:0x7fcc03138dd7
+> [ 6507.322160] [T3176693] Code: af e8 ed ed 03 00 66 2e 0f 1f 84 00 00 =
+00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10 e9 01 00 00 00 90 b8 3b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 80 10 00 f7 d8 64 =
+89 01 48
+> [ 6507.322161] [T3176693] RSP: 002b:00007fcc03275e68 EFLAGS: 00000246 O=
+RIG_RAX: 000000000000003b
+> [ 6507.322162] [T3176693] RAX: ffffffffffffffda RBX: 00007ffec83675f0 R=
+CX: 00007fcc03138dd7
+> [ 6507.322163] [T3176693] RDX: 00007ffec8367b80 RSI: 0000000001850f58 R=
+DI: 000000000184d0d0
+> [ 6507.322163] [T3176693] RBP: 00007fcc03275ff0 R08: 00007ffec8367350 R=
+09: 0000000000000000
+> [ 6507.322164] [T3176693] R10: 0000000000000008 R11: 0000000000000246 R=
+12: 00007ffec8367350
+> [ 6507.322164] [T3176693] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007fcc03275f20
+> [ 6507.322165] [T3176693]  </TASK>
+> [ 6507.322166] [T3176693] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.322203] [T3176693]  gpio_generic
+> [ 6507.322206] [T3176693] ---[ end trace 0000000000000000 ]---
+> [ 6507.396864] [T3176693] RIP: 0010:memset+0xf/0x20
+> [ 6507.396871] [T3176693] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.396872] [T3176693] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.396874] [T3176693] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.396875] [T3176693] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.396876] [T3176693] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.396876] [T3176693] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.396877] [T3176693] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.396877] [T3176693] FS:  00007fcc03058780(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.396878] [T3176693] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.396879] [T3176693] CR2: 00007f5e14032318 CR3: 0000000173f28000 C=
+R4: 0000000000f50ef0
+> [ 6507.396879] [T3176693] PKRU: 55555554
+> [ 6507.397201] [T3176752] Oops: general protection fault, maybe for add=
+ress 0xffff926654e0b700: 0000 [#5] SMP NOPTI
+> [ 6507.397205] [T3176752] CPU: 29 UID: 1000 PID: 3176752 Comm: expect T=
+ainted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_=
+RT=20
+> [ 6507.397208] [T3176752] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.397209] [T3176752] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.397210] [T3176752] RIP: 0010:memset+0xf/0x20
+> [ 6507.397213] [T3176752] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.397214] [T3176752] RSP: 0018:ffffb18ba76ffc98 EFLAGS: 00010246
+> [ 6507.397216] [T3176752] RAX: ffff926654e0b700 RBX: ffffb18ba76ffd38 R=
+CX: 0000000000000100
+> [ 6507.397217] [T3176752] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 6564756c636e692f
+> [ 6507.397217] [T3176752] RBP: ffff926784582f00 R08: 0000000000000000 R=
+09: 6564756c636e692f
+> [ 6507.397218] [T3176752] R10: 0000000000000002 R11: ffffffffa98728dc R=
+12: 0000000000000000
+> [ 6507.397219] [T3176752] R13: ffffb18ba76ffd38 R14: 0000000000118173 R=
+15: ffff926654e0b930
+> [ 6507.397219] [T3176752] FS:  00007fa2b4453780(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.397220] [T3176752] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.397221] [T3176752] CR2: 00007fa2b4985ff8 CR3: 0000000316fa7000 C=
+R4: 0000000000f50ef0
+> [ 6507.397221] [T3176752] PKRU: 55555554
+> [ 6507.397222] [T3176752] Call Trace:
+> [ 6507.397224] [T3176752]  <TASK>
+> [ 6507.397224] [T3176752]  mas_root_expand+0x35/0x160
+> [ 6507.397229] [T3176752]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.397232] [T3176752]  vma_link+0x11a/0x180
+> [ 6507.397236] [T3176752]  insert_vm_struct+0x41/0xa0
+> [ 6507.397238] [T3176752]  create_init_stack_vma+0xbb/0x1c0
+> [ 6507.397239] [T3176752]  alloc_bprm+0x134/0x200
+> [ 6507.397242] [T3176752]  do_execveat_common.isra.0+0x79/0x170
+> [ 6507.397244] [T3176752]  __x64_sys_execve+0x38/0x50
+> [ 6507.397245] [T3176752]  do_syscall_64+0x11b/0x8c0
+> [ 6507.397247] [T3176752]  ? do_user_addr_fault+0x203/0x640
+> [ 6507.397250] [T3176752]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.397252] [T3176752] RIP: 0033:0x7fa2b4645dd7
+> [ 6507.397254] [T3176752] Code: af e8 ed ed 03 00 66 2e 0f 1f 84 00 00 =
+00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10 e9 01 00 00 00 90 b8 3b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 80 10 00 f7 d8 64 =
+89 01 48
+> [ 6507.397255] [T3176752] RSP: 002b:00007fa2b4985e68 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6507.397257] [T3176752] RAX: ffffffffffffffda RBX: 00007ffdcd40c720 R=
+CX: 00007fa2b4645dd7
+> [ 6507.397257] [T3176752] RDX: 000055c6751f5840 RSI: 00007ffdcd40c550 R=
+DI: 00007fa2b470eea4
+> [ 6507.397258] [T3176752] RBP: 00007fa2b4985ff0 R08: 0000000000000000 R=
+09: 0000000000000000
+> [ 6507.397259] [T3176752] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 00007ffdcd40c2d0
+> [ 6507.397259] [T3176752] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007fa2b4985f20
+> [ 6507.397261] [T3176752]  </TASK>
+> [ 6507.397261] [T3176752] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.397304] [T3176752]  gpio_generic
+> [ 6507.397307] [T3176752] ---[ end trace 0000000000000000 ]---
+> [ 6507.457878] [T3176752] pstore: backend (efi_pstore) writing error (-=
+28)
+> [ 6507.457881] [T3176752] RIP: 0010:memset+0xf/0x20
+> [ 6507.457887] [T3176752] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.457888] [T3176752] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.457890] [T3176752] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.457890] [T3176752] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.457891] [T3176752] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.457892] [T3176752] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.457892] [T3176752] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.457893] [T3176752] FS:  00007fa2b4453780(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.457893] [T3176752] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.457894] [T3176752] CR2: 00007fd06dbb26e0 CR3: 0000000316fa7000 C=
+R4: 0000000000f50ef0
+> [ 6507.457895] [T3176752] PKRU: 55555554
+> [ 6507.458130] [T3176799] Oops: general protection fault, maybe for add=
+ress 0xffff926500be9200: 0000 [#6] SMP NOPTI
+> [ 6507.458134] [T3176799] CPU: 29 UID: 1000 PID: 3176799 Comm: xg++ Tai=
+nted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=
+=20
+> [ 6507.458136] [T3176799] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.458137] [T3176799] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.458138] [T3176799] RIP: 0010:memset+0xf/0x20
+> [ 6507.458140] [T3176799] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.458141] [T3176799] RSP: 0018:ffffb18bb7fbbc18 EFLAGS: 00010246
+> [ 6507.458142] [T3176799] RAX: ffff926500be9200 RBX: ffffb18bb7fbbcb8 R=
+CX: 0000000000000100
+> [ 6507.458143] [T3176799] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 7273752f200a5c20
+> [ 6507.458143] [T3176799] RBP: ffff92640fe5bb00 R08: 0000000000000000 R=
+09: 7273752f200a5c20
+> [ 6507.458144] [T3176799] R10: 0000000000000002 R11: ffffffffa98728dc R=
+12: 0000000000000000
+> [ 6507.458144] [T3176799] R13: ffffb18bb7fbbcb8 R14: 0000000000118173 R=
+15: ffff926500be9430
+> [ 6507.458144] [T3176799] FS:  00007f518bce7c80(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.458145] [T3176799] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.458146] [T3176799] CR2: 00007fd0702d7db8 CR3: 000000016ac67000 C=
+R4: 0000000000f50ef0
+> [ 6507.458146] [T3176799] PKRU: 55555554
+> [ 6507.458146] [T3176799] Call Trace:
+> [ 6507.458148] [T3176799]  <TASK>
+> [ 6507.458149] [T3176799]  mas_root_expand+0x35/0x160
+> [ 6507.458153] [T3176799]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.458155] [T3176799]  vma_link+0x11a/0x180
+> [ 6507.458158] [T3176799]  insert_vm_struct+0x41/0xa0
+> [ 6507.458160] [T3176799]  create_init_stack_vma+0xbb/0x1c0
+> [ 6507.458161] [T3176799]  alloc_bprm+0x134/0x200
+> [ 6507.458163] [T3176799]  do_execveat_common.isra.0+0x79/0x170
+> [ 6507.458165] [T3176799]  __x64_sys_execve+0x38/0x50
+> [ 6507.458166] [T3176799]  do_syscall_64+0x11b/0x8c0
+> [ 6507.458167] [T3176799]  ? count_memcg_events+0x5e/0xf0
+> [ 6507.458169] [T3176799]  ? handle_mm_fault+0x1b9/0x2c0
+> [ 6507.458172] [T3176799]  ? do_user_addr_fault+0x203/0x640
+> [ 6507.458174] [T3176799]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.458177] [T3176799] RIP: 0033:0x7f518bdc6dd7
+> [ 6507.458178] [T3176799] Code: af e8 ed ed 03 00 66 2e 0f 1f 84 00 00 =
+00 00 00 0f 1f 00 48 8b 05 f1 81 10 00 48 8b 10 e9 01 00 00 00 90 b8 3b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 80 10 00 f7 d8 64 =
+89 01 48
+> [ 6507.458179] [T3176799] RSP: 002b:00007f518bf03e68 EFLAGS: 00000246 O=
+RIG_RAX: 000000000000003b
+> [ 6507.458180] [T3176799] RAX: ffffffffffffffda RBX: 00007ffe39827340 R=
+CX: 00007f518bdc6dd7
+> [ 6507.458180] [T3176799] RDX: 000000003adf5fb0 RSI: 000000003ae01fa8 R=
+DI: 000000003ae0ee10
+> [ 6507.458181] [T3176799] RBP: 00007f518bf03ff0 R08: 00007ffe398270a0 R=
+09: 0000000000000000
+> [ 6507.458181] [T3176799] R10: 0000000000000008 R11: 0000000000000246 R=
+12: 00007ffe398270a0
+> [ 6507.458182] [T3176799] R13: 0000000000000040 R14: 0000000000000001 R=
+15: 00007f518bf03f20
+> [ 6507.458183] [T3176799]  </TASK>
+> [ 6507.458183] [T3176799] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.458216] [T3176799]  gpio_generic
+> [ 6507.458218] [T3176799] ---[ end trace 0000000000000000 ]---
+> [ 6507.478622] [T3176799] RIP: 0010:memset+0xf/0x20
+> [ 6507.478628] [T3176799] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.478630] [T3176799] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.478632] [T3176799] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.478633] [T3176799] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.478633] [T3176799] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.478634] [T3176799] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.478635] [T3176799] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.478635] [T3176799] FS:  00007f518bce7c80(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.478636] [T3176799] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.478637] [T3176799] CR2: 00007fd0702bd160 CR3: 000000016ac67000 C=
+R4: 0000000000f50ef0
+> [ 6507.478638] [T3176799] PKRU: 55555554
+> [ 6507.478662] [T3174912] Oops: general protection fault, maybe for add=
+ress 0x7f518bf04f00: 0000 [#7] SMP NOPTI
+> [ 6507.478665] [T3174912] CPU: 29 UID: 1000 PID: 3174912 Comm: xg++ Tai=
+nted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=
+=20
+> [ 6507.478668] [T3174912] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.478669] [T3174912] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.478670] [T3174912] RIP: 0010:memset+0xf/0x20
+> [ 6507.478671] [T3174912] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.478672] [T3174912] RSP: 0018:ffffb18bb246b640 EFLAGS: 00010246
+> [ 6507.478673] [T3174912] RAX: 00007f518bf04f00 RBX: ffffb18bb246baa0 R=
+CX: 0000000000000100
+> [ 6507.478674] [T3174912] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 682e62696c647473
+> [ 6507.478674] [T3174912] RBP: 00007f518bf04fff R08: 0000000000000003 R=
+09: 682e62696c647473
+> [ 6507.478675] [T3174912] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 0000000000000008
+> [ 6507.478675] [T3174912] R13: 0000000000000002 R14: 682e62696c647473 R=
+15: ffffb18bb246b7a0
+> [ 6507.478676] [T3174912] FS:  00007f518bce7c80(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.478676] [T3174912] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.478677] [T3174912] CR2: 00007fd0702bd160 CR3: 000000016ac67000 C=
+R4: 0000000000f50ef0
+> [ 6507.478677] [T3174912] PKRU: 55555554
+> [ 6507.478678] [T3174912] Call Trace:
+> [ 6507.478680] [T3174912]  <TASK>
+> [ 6507.478680] [T3174912]  mas_wr_node_store+0x9a/0x3f0
+> [ 6507.478685] [T3174912]  ? update_cfs_rq_load_avg+0x29/0x220
+> [ 6507.478687] [T3174912]  ? psi_group_change+0x11c/0x2f0
+> [ 6507.478689] [T3174912]  ? update_curr+0x2a/0x160
+> [ 6507.478691] [T3174912]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.478692] [T3174912]  ? obj_cgroup_charge_account+0xf2/0x290
+> [ 6507.478694] [T3174912]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.478697] [T3174912]  vma_complete+0x217/0x2c0
+> [ 6507.478698] [T3174912]  __split_vma+0x248/0x2b0
+> [ 6507.478700] [T3174912]  vms_gather_munmap_vmas+0x128/0x340
+> [ 6507.478701] [T3174912]  do_vmi_align_munmap+0x152/0x240
+> [ 6507.478702] [T3174912]  ? __schedule+0x487/0xed0
+> [ 6507.478705] [T3174912]  do_vmi_munmap+0xcb/0x160
+> [ 6507.478706] [T3174912]  __vm_munmap+0xa5/0x110
+> [ 6507.478708] [T3174912]  __x64_sys_munmap+0x16/0x20
+> [ 6507.478710] [T3174912]  do_syscall_64+0x11b/0x8c0
+> [ 6507.478711] [T3174912]  ? switch_fpu_return+0x42/0x70
+> [ 6507.478713] [T3174912]  ? do_syscall_64+0x2b4/0x8c0
+> [ 6507.478714] [T3174912]  ? do_faccessat+0x20d/0x2f0
+> [ 6507.478716] [T3174912]  ? __x64_sys_access+0x17/0x20
+> [ 6507.478718] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478719] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478720] [T3174912]  ? vfs_statx+0x67/0x140
+> [ 6507.478722] [T3174912]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.478722] [T3174912]  ? kmem_cache_free+0x1d2/0x350
+> [ 6507.478725] [T3174912]  ? vfs_fstatat+0x4f/0x80
+> [ 6507.478725] [T3174912]  ? __do_sys_newfstatat+0x24/0x60
+> [ 6507.478726] [T3174912]  ? kmem_cache_free+0x1d2/0x350
+> [ 6507.478728] [T3174912]  ? do_faccessat+0x20d/0x2f0
+> [ 6507.478729] [T3174912]  ? __x64_sys_access+0x17/0x20
+> [ 6507.478731] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478731] [T3174912]  ? __x64_sys_access+0x17/0x20
+> [ 6507.478733] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478733] [T3174912]  ? rt_spin_lock+0x38/0x110
+> [ 6507.478734] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478735] [T3174912]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.478736] [T3174912]  ? __x64_sys_rt_sigprocmask+0xde/0x140
+> [ 6507.478738] [T3174912]  ? do_syscall_64+0x11b/0x8c0
+> [ 6507.478738] [T3174912]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.478740] [T3174912] RIP: 0033:0x7f518bdf66d7
+> [ 6507.478742] [T3174912] Code: 73 01 c3 48 8b 0d 39 87 0d 00 f7 d8 64 =
+89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 0b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 87 0d 00 f7 d8 64 =
+89 01 48
+> [ 6507.478742] [T3174912] RSP: 002b:00007ffe39826ff8 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000000b
+> [ 6507.478743] [T3174912] RAX: ffffffffffffffda RBX: 0000000000009000 R=
+CX: 00007f518bdf66d7
+> [ 6507.478744] [T3174912] RDX: 00007f518bde2950 RSI: 0000000000009000 R=
+DI: 00007f518befb000
+> [ 6507.478745] [T3174912] RBP: 00007f518befb000 R08: 000000000030795f R=
+09: 0000000000000000
+> [ 6507.478745] [T3174912] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 00007ffe398270a0
+> [ 6507.478745] [T3174912] R13: 0000000000000000 R14: 0000000000007001 R=
+15: 0000000000000000
+> [ 6507.478747] [T3174912]  </TASK>
+> [ 6507.478747] [T3174912] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.478779] [T3174912]  gpio_generic
+> [ 6507.478781] [T3174912] ---[ end trace 0000000000000000 ]---
+> [ 6507.499766] [T3174912] RIP: 0010:memset+0xf/0x20
+> [ 6507.499772] [T3174912] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.499774] [T3174912] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.499775] [T3174912] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.499776] [T3174912] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.499777] [T3174912] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.499778] [T3174912] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.499779] [T3174912] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.499780] [T3174912] FS:  00007f518bce7c80(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.499781] [T3174912] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.499782] [T3174912] CR2: 00007fd0702bd160 CR3: 000000016ac67000 C=
+R4: 0000000000f50ef0
+> [ 6507.499783] [T3174912] PKRU: 55555554
+> [ 6507.499786] [T3174912] ------------[ cut here ]------------
+> [ 6507.499787] [T3174912] rtmutex deadlock detected
+> [ 6507.499787] [T3174912] WARNING: kernel/locking/rtmutex.c:1674 at __r=
+t_mutex_slowlock_locked.constprop.0+0x835/0x9b0, CPU#29: xg++/3174912
+> [ 6507.499793] [T3174912] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.499824] [T3174912]  gpio_generic
+> [ 6507.499826] [T3174912] CPU: 29 UID: 1000 PID: 3174912 Comm: xg++ Tai=
+nted: G      D W           7.0.0-rc2-next-20260303-master #367 PREEMPT_RT=
+=20
+> [ 6507.499830] [T3174912] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.499830] [T3174912] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.499832] [T3174912] RIP: 0010:__rt_mutex_slowlock_locked.constpro=
+p.0+0x835/0x9b0
+> [ 6507.499833] [T3174912] Code: 00 48 89 ef e8 fc 67 87 00 c7 44 24 14 =
+fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89 ef e8 b2 66 87 00 48 8d 3=
+d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 e8 87 43 18 e8 e7 6a fd =
+ff eb f4
+> [ 6507.499834] [T3174912] RSP: 0018:ffffb18bb246bd18 EFLAGS: 00010286
+> [ 6507.499835] [T3174912] RAX: 0000000000000000 RBX: ffff926430cbdb80 R=
+CX: ffff926430cbdb81
+> [ 6507.499835] [T3174912] RDX: 0000000000000001 RSI: ffff926430cbdb80 R=
+DI: ffffffffa9e36620
+> [ 6507.499836] [T3174912] RBP: ffff92640699a6b8 R08: 0000000000000000 R=
+09: 0000000000000000
+> [ 6507.499837] [T3174912] R10: 0000000000000000 R11: 0000000000000003 R=
+12: ffffb18bb246bd40
+> [ 6507.499837] [T3174912] R13: ffff926430cbdb81 R14: ffff926430cbe7c0 R=
+15: 00000000ffffffdd
+> [ 6507.499838] [T3174912] FS:  00007f518bce7c80(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.499839] [T3174912] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.499839] [T3174912] CR2: 00007fd0702bd160 CR3: 000000016ac67000 C=
+R4: 0000000000f50ef0
+> [ 6507.499840] [T3174912] PKRU: 55555554
+> [ 6507.499840] [T3174912] Call Trace:
+> [ 6507.499843] [T3174912]  <TASK>
+> [ 6507.499845] [T3174912]  ? vfs_statx+0x67/0x140
+> [ 6507.499849] [T3174912]  ? kmem_cache_free+0x1d2/0x350
+> [ 6507.499852] [T3174912]  __rwbase_read_lock+0x4a/0xd0
+> [ 6507.499855] [T3174912]  acct_collect+0x157/0x1c0
+> [ 6507.499858] [T3174912]  do_exit+0x1c2/0xa30
+> [ 6507.499861] [T3174912]  make_task_dead+0x94/0xa0
+> [ 6507.499862] [T3174912]  rewind_stack_and_make_dead+0x16/0x20
+> [ 6507.499865] [T3174912] RIP: 0033:0x7f518bdf66d7
+> [ 6507.499868] [T3174912] Code: 73 01 c3 48 8b 0d 39 87 0d 00 f7 d8 64 =
+89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 b8 0b 0=
+0 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 09 87 0d 00 f7 d8 64 =
+89 01 48
+> [ 6507.499869] [T3174912] RSP: 002b:00007ffe39826ff8 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000000b
+> [ 6507.499870] [T3174912] RAX: ffffffffffffffda RBX: 0000000000009000 R=
+CX: 00007f518bdf66d7
+> [ 6507.499871] [T3174912] RDX: 00007f518bde2950 RSI: 0000000000009000 R=
+DI: 00007f518befb000
+> [ 6507.499872] [T3174912] RBP: 00007f518befb000 R08: 000000000030795f R=
+09: 0000000000000000
+> [ 6507.499872] [T3174912] R10: 0000000000000008 R11: 0000000000000202 R=
+12: 00007ffe398270a0
+> [ 6507.499873] [T3174912] R13: 0000000000000000 R14: 0000000000007001 R=
+15: 0000000000000000
+> [ 6507.499875] [T3174912]  </TASK>
+> [ 6507.499876] [T3174912] ---[ end trace 0000000000000000 ]---
+> [ 6507.500728] [T3176923] Oops: general protection fault, probably for =
+non-canonical address 0x2f6564756c636e00: 0000 [#8] SMP NOPTI
+> [ 6507.500732] [T3176923] CPU: 29 UID: 1000 PID: 3176923 Comm: x86_64-l=
+inux-gn Tainted: G      D W           7.0.0-rc2-next-20260303-master #367=
+ PREEMPT_RT=20
+> [ 6507.500735] [T3176923] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.500735] [T3176923] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.500736] [T3176923] RIP: 0010:memset+0xf/0x20
+> [ 6507.500739] [T3176923] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.500740] [T3176923] RSP: 0018:ffffb18baf3fb758 EFLAGS: 00010246
+> [ 6507.500742] [T3176923] RAX: 2f6564756c636e00 RBX: ffffb18baf3fb878 R=
+CX: 0000000000000100
+> [ 6507.500742] [T3176923] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 2f6564756c636e69
+> [ 6507.500743] [T3176923] RBP: ffffb18baf3fba30 R08: ffffffffffffffff R=
+09: 2f6564756c636e69
+> [ 6507.500743] [T3176923] R10: 0000000000000001 R11: 0000000000000010 R=
+12: 0000000000000001
+> [ 6507.500744] [T3176923] R13: ffffb18baf3fb878 R14: 0000000000000000 R=
+15: 00007fd51250f000
+> [ 6507.500745] [T3176923] FS:  0000000000000000(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.500746] [T3176923] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.500746] [T3176923] CR2: 00007fd512549b4c CR3: 0000000269a79000 C=
+R4: 0000000000f50ef0
+> [ 6507.500747] [T3176923] PKRU: 55555554
+> [ 6507.500747] [T3176923] Call Trace:
+> [ 6507.500749] [T3176923]  <TASK>
+> [ 6507.500749] [T3176923]  dst_setup+0x9d/0x250
+> [ 6507.500753] [T3176923]  mas_wr_split+0x192/0x1080
+> [ 6507.500755] [T3176923]  ? rt_spin_lock+0x38/0x110
+> [ 6507.500757] [T3176923]  ? mas_wr_node_store+0x231/0x3f0
+> [ 6507.500758] [T3176923]  ? mas_store_gfp+0x1fc/0x480
+> [ 6507.500760] [T3176923]  mas_store_prealloc+0x19d/0x3d0
+> [ 6507.500763] [T3176923]  vma_link+0x11a/0x180
+> [ 6507.500765] [T3176923]  insert_vm_struct+0x41/0xa0
+> [ 6507.500766] [T3176923]  _install_special_mapping+0x7d/0x140
+> [ 6507.500769] [T3176923]  map_vdso+0xaa/0x190
+> [ 6507.500770] [T3176923]  load_elf_binary+0xdb4/0x1880
+> [ 6507.500773] [T3176923]  ? __kernel_read+0x1a1/0x2a0
+> [ 6507.500775] [T3176923]  ? rt_read_lock+0x40/0x130
+> [ 6507.500777] [T3176923]  bprm_execve+0x27c/0x4a0
+> [ 6507.500778] [T3176923]  do_execveat_common.isra.0+0x157/0x170
+> [ 6507.500780] [T3176923]  __x64_sys_execve+0x38/0x50
+> [ 6507.500781] [T3176923]  do_syscall_64+0x11b/0x8c0
+> [ 6507.500783] [T3176923]  ? rt_spin_lock+0x38/0x110
+> [ 6507.500783] [T3176923]  ? rt_spin_lock+0x38/0x110
+> [ 6507.500784] [T3176923]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.500785] [T3176923]  ? __folio_batch_add_and_move+0x1ad/0x220
+> [ 6507.500787] [T3176923]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.500788] [T3176923]  ? do_anonymous_page+0x1a5/0x570
+> [ 6507.500790] [T3176923]  ? __handle_mm_fault+0x357/0x3a0
+> [ 6507.500792] [T3176923]  ? count_memcg_events+0x5e/0xf0
+> [ 6507.500794] [T3176923]  ? handle_mm_fault+0x1b9/0x2c0
+> [ 6507.500795] [T3176923]  ? do_user_addr_fault+0x203/0x640
+> [ 6507.500797] [T3176923]  entry_SYSCALL_64_after_hwframe+0x55/0x5d
+> [ 6507.500798] [T3176923] RIP: 0033:0x7fe983bdddd7
+> [ 6507.500800] [T3176923] Code: Unable to access opcode bytes at 0x7fe9=
+83bdddad.
+> [ 6507.500801] [T3176923] RSP: 002b:00007ffe39e37e78 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6507.500801] [T3176923] RAX: ffffffffffffffda RBX: 000056160290bab0 R=
+CX: 00007fe983bdddd7
+> [ 6507.500802] [T3176923] RDX: 000056160290c308 RSI: 000056160290c148 R=
+DI: 000056160290bab0
+> [ 6507.500802] [T3176923] RBP: 000056160290c148 R08: 00000000000007e0 R=
+09: 00007fe983ce6ac0
+> [ 6507.500802] [T3176923] R10: 0000000000000001 R11: 0000000000000202 R=
+12: 000056160228a102
+> [ 6507.500803] [T3176923] R13: 0000000000000000 R14: 0000000000000001 R=
+15: 000056160290c308
+> [ 6507.500803] [T3176923]  </TASK>
+> [ 6507.500804] [T3176923] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.500819] [T3176923]  gpio_generic
+> [ 6507.500821] [T3176923] ---[ end trace 0000000000000000 ]---
+> [ 6507.519123] [T3176923] RIP: 0010:memset+0xf/0x20
+> [ 6507.519130] [T3176923] Code: 44 89 54 17 fe eb 0c 48 83 fa 01 72 06 =
+44 8a 1e 44 88 1f c3 cc cc cc cc 0f 1f 00 f3 0f 1e fa 66 90 49 89 f9 40 8=
+8 f0 48 89 d1 <f3> aa 4c 89 c8 c3 cc cc cc cc 0f 1f 80 00 00 00 00 49 89 =
+fa 40 0f
+> [ 6507.519131] [T3176923] RSP: 0018:ffffb18ba99636f0 EFLAGS: 00010246
+> [ 6507.519133] [T3176923] RAX: 00007ffe00b6ff00 RBX: ffffb18ba99638e0 R=
+CX: 0000000000000100
+> [ 6507.519134] [T3176923] RDX: 0000000000000100 RSI: 0000000000000000 R=
+DI: 622f6564756c636e
+> [ 6507.519135] [T3176923] RBP: 00007ffe00b6ffff R08: 0000000000000008 R=
+09: 622f6564756c636e
+> [ 6507.519136] [T3176923] R10: 0000000000000008 R11: 0000000000000000 R=
+12: 000000000000000b
+> [ 6507.519136] [T3176923] R13: 0000000000000002 R14: 622f6564756c636e R=
+15: ffffb18ba9963850
+> [ 6507.519137] [T3176923] FS:  0000000000000000(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.519138] [T3176923] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.519139] [T3176923] CR2: 00007fe983bdddad CR3: 0000000269a79000 C=
+R4: 0000000000f50ef0
+> [ 6507.519140] [T3176923] PKRU: 55555554
+> [ 6507.519143] [T3176923] ------------[ cut here ]------------
+> [ 6507.519144] [T3176923] rtmutex deadlock detected
+> [ 6507.519144] [T3176923] WARNING: kernel/locking/rtmutex.c:1674 at __r=
+t_mutex_slowlock_locked.constprop.0+0x835/0x9b0, CPU#29: x86_64-linux-gn/=
+3176923
+> [ 6507.519150] [T3176923] Modules linked in: ccm rfcomm bnep snd_seq_du=
+mmy snd_hrtimer snd_seq nls_ascii nls_cp437 vfat fat btusb btrtl btintel =
+btbcm btmtk bluetooth snd_usb_audio ecdh_generic ecc mt7925e mt7925_commo=
+n snd_usbmidi_lib mt792x_lib snd_ump mt76_connac_lib snd_rawmidi snd_hda_=
+codec_atihdmi joydev intel_rapl_msr snd_hda_codec_hdmi snd_seq_device mt7=
+6 mac80211 snd_hda_intel snd_hda_codec intel_rapl_common rapl wmi_bmof pc=
+spkr snd_hda_core snd_intel_dspcfg snd_hwdep snd_pcm libarc4 snd_timer sn=
+d soundcore cfg80211 spd5118 regmap_i2c ccp rfkill k10temp evdev nct6775 =
+nct6775_core hwmon_vid efi_pstore configfs efivarfs autofs4 ext4 mbcache =
+jbd2 hid_generic usbhid hid amdgpu drm_client_lib i2c_algo_bit drm_buddy =
+drm_ttm_helper ttm drm_exec drm_suballoc_helper mfd_core drm_panel_backli=
+ght_quirks gpu_sched amdxcp drm_display_helper xhci_pci xhci_hcd drm_kms_=
+helper ahci libahci drm libata nvme usbcore nvme_core scsi_mod igc i2c_pi=
+ix4 nvme_keyring cec i2c_smbus nvme_auth usb_common scsi_common video crc=
+16 hkdf wmi gpio_amdpt
+> [ 6507.519187] [T3176923]  gpio_generic
+> [ 6507.519190] [T3176923] CPU: 29 UID: 1000 PID: 3176923 Comm: x86_64-l=
+inux-gn Tainted: G      D W           7.0.0-rc2-next-20260303-master #367=
+ PREEMPT_RT=20
+> [ 6507.519192] [T3176923] Tainted: [D]=3DDIE, [W]=3DWARN
+> [ 6507.519193] [T3176923] Hardware name: ASUS System Product Name/ROG S=
+TRIX B850-F GAMING WIFI, BIOS 1627 02/05/2026
+> [ 6507.519194] [T3176923] RIP: 0010:__rt_mutex_slowlock_locked.constpro=
+p.0+0x835/0x9b0
+> [ 6507.519196] [T3176923] Code: 00 48 89 ef e8 fc 67 87 00 c7 44 24 14 =
+fc ff ff ff 41 83 ff dd 0f 85 87 fd ff ff 48 89 ef e8 b2 66 87 00 48 8d 3=
+d 2b 58 f2 00 <67> 48 0f b9 3a bd 01 00 00 00 89 e8 87 43 18 e8 e7 6a fd =
+ff eb f4
+> [ 6507.519197] [T3176923] RSP: 0018:ffffb18baf3fbd18 EFLAGS: 00010286
+> [ 6507.519198] [T3176923] RAX: 0000000000000000 RBX: ffff9264014cbd00 R=
+CX: ffff9264014cbd01
+> [ 6507.519198] [T3176923] RDX: 0000000000000001 RSI: ffff9264014cbd00 R=
+DI: ffffffffa9e36620
+> [ 6507.519199] [T3176923] RBP: ffff92677de99438 R08: 0000000000000000 R=
+09: ffff92737dcf6f90
+> [ 6507.519199] [T3176923] R10: ffff92737dd26fe8 R11: 0000000000000003 R=
+12: ffffb18baf3fbd40
+> [ 6507.519200] [T3176923] R13: ffff9264014cbd01 R14: ffff9264014cc940 R=
+15: 00000000ffffffdd
+> [ 6507.519200] [T3176923] FS:  0000000000000000(0000) GS:ffff9273938210=
+00(0000) knlGS:0000000000000000
+> [ 6507.519201] [T3176923] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005=
+0033
+> [ 6507.519201] [T3176923] CR2: 00007fe983bdddad CR3: 0000000269a79000 C=
+R4: 0000000000f50ef0
+> [ 6507.519202] [T3176923] PKRU: 55555554
+> [ 6507.519203] [T3176923] Call Trace:
+> [ 6507.519205] [T3176923]  <TASK>
+> [ 6507.519208] [T3176923]  ? __folio_batch_add_and_move+0x1ad/0x220
+> [ 6507.519212] [T3176923]  ? rt_spin_unlock+0x5a/0xa0
+> [ 6507.519214] [T3176923]  __rwbase_read_lock+0x4a/0xd0
+> [ 6507.519217] [T3176923]  acct_collect+0x157/0x1c0
+> [ 6507.519221] [T3176923]  do_exit+0x1c2/0xa30
+> [ 6507.519224] [T3176923]  ? do_user_addr_fault+0x203/0x640
+> [ 6507.519226] [T3176923]  make_task_dead+0x94/0xa0
+> [ 6507.519228] [T3176923]  rewind_stack_and_make_dead+0x16/0x20
+> [ 6507.519231] [T3176923] RIP: 0033:0x7fe983bdddd7
+> [ 6507.519235] [T3176923] Code: Unable to access opcode bytes at 0x7fe9=
+83bdddad.
+> [ 6507.519235] [T3176923] RSP: 002b:00007ffe39e37e78 EFLAGS: 00000202 O=
+RIG_RAX: 000000000000003b
+> [ 6507.519237] [T3176923] RAX: ffffffffffffffda RBX: 000056160290bab0 R=
+CX: 00007fe983bdddd7
+> [ 6507.519237] [T3176923] RDX: 000056160290c308 RSI: 000056160290c148 R=
+DI: 000056160290bab0
+> [ 6507.519238] [T3176923] RBP: 000056160290c148 R08: 00000000000007e0 R=
+09: 00007fe983ce6ac0
+> [ 6507.519238] [T3176923] R10: 0000000000000001 R11: 0000000000000202 R=
+12: 000056160228a102
+> [ 6507.519239] [T3176923] R13: 0000000000000000 R14: 0000000000000001 R=
+15: 000056160290c308
+> [ 6507.519241] [T3176923]  </TASK>
+> [ 6507.519241] [T3176923] ---[ end trace 0000000000000000 ]---
+>=20
+>=20
+> After this error the system does not work properly anymore (htop and ps=
 
-Bert Karwatzki
+> don't work anymore, xfce still works, evolution refuses to start and sh=
+utting down also hangs)=20
+>=20
+> I recently successfully compiled gcc-14 from debian on linux-6.18.13, s=
+o I'm going to bisect this.
+> Depending on wether I can single out the offending test this could take=
+ a while so I'm
+> reporting this before the bisection is finished.
+>=20
+> Bert Karwatztki
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+
