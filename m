@@ -1,399 +1,284 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from flow-b6-smtp.messagingengine.com (flow-b6-smtp.messagingengine.com [202.12.124.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEA634846D
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 20:50:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A37D34B693
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 21:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772743845; cv=none; b=EYS5l1+4OrUGT5kXSS9QGTKfBeFDgEnwxF9ZprL9nsjF5T49NEqKT4ELldYIViLKGEpJVhZFP2/CgZ3QX/+dv1torTjVnmXbViwD3Hf2xZTFuJy5BQBngfXDm3YDs+92FTXv2URV9MTHz0uo0arRK16EtIz4mgVN27DMi4Kix+8=
+	t=1772744647; cv=none; b=KtNFphxnWh/r+GF1/w5eKZ74LLkZf9hZzve99wMc8ivmIUL3P832yo9mwp1FNB9cUnhdYiFvRiUKLbPh6TPSOjiO6Hq7FWcUqyxTxWvztS1qFsmOoA0GFV/z2QEjT8I77R5oahgolPF7ZR9hbk7gondNXt7e+0CMzZ4uFDOMHl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772743845; c=relaxed/simple;
-	bh=H7teGK5i0C9BleNZg9rR07/A3rs3o2meTWN9F2uaAvs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=myU72UeZJwpN/Ihx623WsLP5d+lOoy+ax0RESGeq8wrOfIZJxbcln1c0zhbCyiXl2DCgECY8Xfo4rNlWCr8uRCYIgg6ITgbXCmMVK7jyV2v6vrtZFc6bku8pLRplPL9I4A5fDeg5EvwEWTztmpcWMDP4xGSI7m49nlJiq3u45vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s3WUZkH7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=goHfXIn6; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772744647; c=relaxed/simple;
+	bh=ajba8rpFeSFjqa5KG8RXrm1I4HwjDwK0ae4x18tOu10=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=aA2lCnwDNDFf87KO2HY83WxLzuvdN9+PiK4Jn5LmvzIcL7VJMdYTtRElqW7e7pB0WWCncaqUiCPCrDzXV/Hs6gB/NfyAydT7ZcvtG+dY1k8PHWb+N3xTSvkudRdMItSQ/oI4cmgPyUbkhtPpxSC5OGc4GH7Cw8yWwbcPxXlCGmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=GRZjokw8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tko4c20R; arc=none smtp.client-ip=202.12.124.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s3WUZkH7";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="goHfXIn6"
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772743842;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYhYm+TYF6PXKud+WuTZngFIAukYCpXVXOMxU2gToa4=;
-	b=s3WUZkH7fjxouAhxONPuHEwbz3fb58yWezXu/IxNacG2bcBR6+H8U4KA6smmgSmvXBvdx+
-	oxjEdFH7Jx1KBoHFhUwe6GdR4hxfr84wiO4sgejrSowv6kbX4+Erqv7Mic+MxRZoQZfKw5
-	22bhqIyHV6kM7oj1SRf0F6zQjX595bqOX0ylbuyjsgyYvd72uYvF88RFvv7tc2OdLR2Etd
-	0Wg5gyW+BA5myMxkBhSCkthJJa3t7mudi8ZAgeGmdW4nk17Ut6KzQLpTQKNHNp3Ehb8Vn0
-	tyBIF5CRLiwxlh8ninO+h9nwP0ZCJE2GjFVmopsjUHB/VuOU+h3+RqXF8ebGew==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772743842;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lYhYm+TYF6PXKud+WuTZngFIAukYCpXVXOMxU2gToa4=;
-	b=goHfXIn68LSdl8HZ6qUlYzaXlD/Z3q0WLWPWa6iic5ZT61U+DmYcKsqbGmi3vWiO8NfZr5
-	DC80UGSkEgo2e0AA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v1 1/1] Documentation: real-time: Add kernel configuration guide
-Date: Thu,  5 Mar 2026 21:50:12 +0100
-Message-ID: <20260305205023.361530-2-darwi@linutronix.de>
-In-Reply-To: <20260305205023.361530-1-darwi@linutronix.de>
-References: <20260305205023.361530-1-darwi@linutronix.de>
+	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="GRZjokw8";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tko4c20R"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.stl.internal (Postfix) with ESMTP id 252C91300CC5;
+	Thu,  5 Mar 2026 16:03:54 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 05 Mar 2026 16:03:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
+	 h=cc:cc:content-id:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm2; t=1772744633; x=1772751833; bh=4acJxYys885P1kZExhCla
+	G7wmjnaUlLNMpGvlOc6Dh4=; b=GRZjokw84k3XuIZ33jvcwb3AaqZ0BvmceJU4W
+	VvMm+wCNPqjtIUqX3XPxtMGHQB0SPfZuztaw5IXDKlspPCj783goEmDjkJG+yWe3
+	laX9cFYZG3/vYJVQKD19wNROnI8eFUcSOZmEkcbw6VdNbhBU/cCm1cTjtQGCP/jU
+	Qg5i+suqIBfVPKTvJfhMlPdj68TtJqoeWBWCyXqXdzhCO/f5DuUx5uxRtJ5I1YPr
+	OJYg6V5ZuipREcyekfdPvMrlCKp/XuJCdODbCLzu3WYr+TaD3PY7vLE8txnnPBCH
+	VxY3KiQ9bVbvKn6myU6je9Dz7qYJ+ja9ssDStl0XUrwPoyU5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-id
+	:content-transfer-encoding:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1772744633; x=1772751833; bh=4acJxYys885P1kZExhClaG7wmjnaUlLNMpG
+	vlOc6Dh4=; b=tko4c20R9D/tnhWb5kg+OcfhEJBH4zEgRHJJM0DTmdQ5q065Wrt
+	l3b7BQfqWpKhusRh9rqmkcqKZiTefB0B5ed8fgE83kt0iVGTaAWK0t5S+2/GENmw
+	JzPO6ZJkqjbUaehtSzApZtssQeOl+fjmCyWoaoV4YpEK1kRotwNYnXXFBreHPMZ0
+	R6dBlZyuOGNxO7oO7PCBBZiMRTkcitSwNv9BuBUZ7IdFYshz6B9CtMYHIbUerDnJ
+	ax+6HBGE2E1Ydy4/Q5/eszqp3Mzfci12x2O1FMYXcUC4XlCdfvRFaBHSNlxSfDGI
+	uQ2GY4Iha6KJF5auvDMjSpjPBUNTeByQrBg==
+X-ME-Sender: <xms:uO-pafKTTkLJfcNuaQfy8ByO5VQWHhLuMuzjNnHl8VzF2Uk5C-IBhg>
+    <xme:uO-paVcOcrB8KeeUr0uzwsjeqUXktgJ0gTXq0IeHj1UPccYR56gti92LvCjSHsLxd
+    YUG-fg_4fq-n-vMeHZqlr5HneL2Yw0iszS3Edknd4_-WLKn2ac1_e0>
+X-ME-Received: <xmr:uO-paWaieWA2ZRkvj2UV-JmSro39q73GJBSaGho2p3AiBR8zUHkC3xn4TxSR9zLpqRq-fg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvieejgedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefujghfofggtgfgfffksehtqhertdertddvnecuhfhrohhmpeflrgihucgg
+    ohhssghurhhghhcuoehjvhesjhhvohhssghurhhghhdrnhgvtheqnecuggftrfgrthhtvg
+    hrnhepueffvedvvdefudejfeeuudfgtdfgudettdevfeeileffhffghfdtjeekhfeitdek
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehjvhesjhhvohhssghurhhghhdrnhgvthdpnhgs
+    pghrtghpthhtohepfedvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrrgiioh
+    hrsegslhgrtghkfigrlhhlrdhorhhgpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhl
+    ohhfthdrnhgvthdprhgtphhtthhopehsughfsehfohhmihgthhgvvhdrmhgvpdhrtghpth
+    htohepvgguugihiiekjeesghhmrghilhdrtghomhdprhgtphhtthhopehjohgrmhgrkhhi
+    sehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhohhhnrdhfrghsthgrsggvnhgusehgmh
+    grihhlrdgtohhmpdhrtghpthhtoheprhhoshhtvgguthesghhoohgumhhishdrohhrghdp
+    rhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohephh
+    grohhluhhosehgohhoghhlvgdrtghomh
+X-ME-Proxy: <xmx:uO-paVXf5v6uE9WfSbjKDRt83GOqG6svuZeRN-hHIfqPv9Qmkn18Jw>
+    <xmx:uO-paUCS4CoEL15ki9YSBwTMTCBC7KZ01wg6taxlNR5P1CP8-DG_iQ>
+    <xmx:uO-paUB104dISLASCy54teg5wRUvgXHZatWVq8h41ZHgvQqJHy444g>
+    <xmx:uO-paTqC1XEEWGelf3A7DfC1PsbJ6RFi8VBj-BR6-VZKODlqnvBXyQ>
+    <xmx:ue-paVLe7-bpVBQJWIq6C0IqHFq-HPTy1OYFo3i1X4euHX9w38FK6a9k>
+Feedback-ID: i53714940:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Mar 2026 16:03:52 -0500 (EST)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 4B3549FCB4; Thu,  5 Mar 2026 13:03:51 -0800 (PST)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 47C419FC39;
+	Thu,  5 Mar 2026 13:03:51 -0800 (PST)
+From: Jay Vosburgh <jv@jvosburgh.net>
+To: Nikolay Aleksandrov <razor@blackwall.org>
+cc: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
+    jiayuan.chen@shopee.com,
+    syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
+    Andrew Lunn <andrew+netdev@lunn.ch>,
+    "David S. Miller" <davem@davemloft.net>,
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+    Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
+    Daniel Borkmann <daniel@iogearbox.net>,
+    Jesper Dangaard Brouer <hawk@kernel.org>,
+    John Fastabend <john.fastabend@gmail.com>,
+    Stanislav Fomichev <sdf@fomichev.me>,
+    Andrii Nakryiko <andrii@kernel.org>,
+    Martin KaFai Lau <martin.lau@linux.dev>,
+    Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+    Yonghong Song <yonghong.song@linux.dev>,
+    KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+    Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
+    Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+    Clark Williams <clrkwllms@kernel.org>,
+    Steven Rostedt <rostedt@goodmis.org>, Jussi Maki <joamaki@gmail.com>,
+    linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+    linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net v4 1/2] bonding: fix null-ptr-deref in
+ bond_rr_gen_slave_id()
+In-reply-to: <aahsuPt7cY8LxETN@penguin>
+References: <20260304074301.35482-1-jiayuan.chen@linux.dev>
+ <20260304074301.35482-2-jiayuan.chen@linux.dev> <aahWymAi_CtRG0gJ@penguin>
+ <1293120.1772645248@famine> <aahsuPt7cY8LxETN@penguin>
+Comments: In-reply-to Nikolay Aleksandrov <razor@blackwall.org>
+   message dated "Wed, 04 Mar 2026 19:32:40 +0200."
+X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1356527.1772744631.1@famine>
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Mar 2026 13:03:51 -0800
+Message-ID: <1356528.1772744631@famine>
 
-Add a configuration guide for real-time kernels.
+Nikolay Aleksandrov <razor@blackwall.org> wrote:
 
-List all Kconfig options that are recommended to be either enabled or
-disabled.  Explicitly add a table of contents at the top of the document,
-so that all the options can be seen in a glance.
+>On Wed, Mar 04, 2026 at 09:27:28AM -0800, Jay Vosburgh wrote:
+>> Nikolay Aleksandrov <razor@blackwall.org> wrote:
+>> =
 
-Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
-power management, and no_hz.
+>> >On Wed, Mar 04, 2026 at 03:42:57PM +0800, Jiayuan Chen wrote:
+>> >> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+>> >> =
 
-Add a summary at the end of the document warning users that there is a no
-"one size fits all solution" for configuring a real-time system.
+>> >> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a NU=
+LL
+>> >> check. rr_tx_counter is a per-CPU counter only allocated in bond_ope=
+n()
+>> >> when the bond mode is round-robin. If the bond device was never brou=
+ght
+>> >> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
+>> >> =
 
-Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+>> >> The XDP redirect path can reach this code even when the bond is not =
+up:
+>> >> bpf_master_redirect_enabled_key is a global static key, so when any =
+bond
+>> >> device has native XDP attached, the XDP_TX -> xdp_master_redirect()
+>> >> interception is enabled for all bond slaves system-wide. This allows=
+ the
+>> >> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
+>> >> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() to be
+>> >> reached on a bond that was never opened.
+>> >> =
+
+>> >> Fix this by allocating rr_tx_counter unconditionally in bond_init()
+>> >> (ndo_init), which is called by register_netdevice() and covers both
+>> >> device creation paths (bond_create() and bond_newlink()). This also
+>> >> handles the case where bond mode is changed to round-robin after dev=
+ice
+>> >> creation. The conditional allocation in bond_open() is removed. Sinc=
+e
+>> >> bond_destructor() already unconditionally calls
+>> >> free_percpu(bond->rr_tx_counter), the lifecycle is clean: allocate a=
+t
+>> >> ndo_init, free at destructor.
+>> >> =
+
+>> >> Note: rr_tx_counter is only used by round-robin mode, so this
+>> >> deliberately allocates a per-cpu u32 that goes unused for other mode=
+s.
+>> >> Conditional allocation (e.g., in bond_option_mode_set) was considere=
+d
+>> >> but rejected: the XDP path can race with mode changes on a downed bo=
+nd,
+>> >> and adding memory barriers to the XDP hot path is not justified for
+>> >> saving 4 bytes per CPU.
+>> >> =
+
+>> >> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirection to =
+slave device")
+>> >> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com
+>> >> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00cc.GA=
+E@google.com/T/
+>> >> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+>> >> ---
+>> >>  drivers/net/bonding/bond_main.c | 19 +++++++++++++------
+>> >>  1 file changed, 13 insertions(+), 6 deletions(-)
+>> >> =
+
+>> >
+>> >IMO it's not worth it to waste memory in all modes, for an unpopular m=
+ode.
+>> >I think it'd be better to add a null check in bond_rr_gen_slave_id(),
+>> >READ/WRITE_ONCE() should be enough since it is allocated only once, an=
+d
+>> >freed when the xmit code cannot be reachable anymore (otherwise we'd h=
+ave
+>> >more bugs now). The branch will be successfully predicted practically =
+always,
+>> >and you can also mark the ptr being null as unlikely. That way only RR=
+ takes
+>> >a very minimal hit, if any.
+>> =
+
+>> 	Is what you're suggesting different from Jiayuan's proposal[0],
+>> in the sense of needing barriers in the XDP hot path to insure ordering=
+?
+>> =
+
+>> 	If I understand correctly, your suggestion is something like
+>> (totally untested):
+>> =
+
+>
+>Basically yes, that is what I'm proposing + an unlikely() around that
+>null check since it is really unlikely and will be always predicted
+>correctly, this way it's only for RR mode.
+
+	Jiayuan,
+
+	Do you agree that the patch below (including Nikolay's
+suggestion to add "unlikely") resolves the original issue without memory
+waste, and without introducing performance issues (barriers) into the
+XDP path?
+
+	-J
+
+
+>> diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond=
+_main.c
+>> index eb27cacc26d7..ac2a4fc0aad0 100644
+>> --- a/drivers/net/bonding/bond_main.c
+>> +++ b/drivers/net/bonding/bond_main.c
+>> @@ -4273,13 +4273,17 @@ void bond_work_cancel_all(struct bonding *bond)
+>>  static int bond_open(struct net_device *bond_dev)
+>>  {
+>>  	struct bonding *bond =3D netdev_priv(bond_dev);
+>> +	u32 __percpu *rr_tx_tmp;
+>>  	struct list_head *iter;
+>>  	struct slave *slave;
+>>  =
+
+>> -	if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN && !bond->rr_tx_count=
+er) {
+>> -		bond->rr_tx_counter =3D alloc_percpu(u32);
+>> -		if (!bond->rr_tx_counter)
+>> +	if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN &&
+>> +	    !READ_ONCE(bond->rr_tx_counter)) {
+>> +		rr_tx_tmp =3D alloc_percpu(u32);
+>> +		if (!rr_tx_tmp)
+>>  			return -ENOMEM;
+>> +		WRITE_ONCE(bond->rr_tx_counter, rr_tx_tmp);
+>> +
+>>  	}
+>>  =
+
+>>  	/* reset slave->backup and slave->inactive */
+>> @@ -4866,6 +4870,9 @@ static u32 bond_rr_gen_slave_id(struct bonding *b=
+ond)
+>>  	struct reciprocal_value reciprocal_packets_per_slave;
+>>  	int packets_per_slave =3D bond->params.packets_per_slave;
+>>  =
+
+>> +	if (!READ_ONCE(bond->rr_tx_counter))
+>> +		packets_per_slave =3D 0;
+>> +
+>>  	switch (packets_per_slave) {
+>>  	case 0:
+>>  		slave_id =3D get_random_u32();
+>> =
+
+>> 	-J
+>> =
+
+>> =
+
+>> [0] https://lore.kernel.org/netdev/e4a2a652784ec206728eb3a929a9892238c6=
+1f06@linux.dev/
+
 ---
- Documentation/core-api/real-time/index.rst    |   1 +
- .../real-time/kernel-configuration.rst        | 297 ++++++++++++++++++
- 2 files changed, 298 insertions(+)
- create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
-
-diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
-index 7e14c4ea3d59..2376c7754d8e 100644
---- a/Documentation/core-api/real-time/index.rst
-+++ b/Documentation/core-api/real-time/index.rst
-@@ -14,3 +14,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
-    theory
-    differences
-    architecture-porting
-+   kernel-configuration
-diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
-new file mode 100644
-index 000000000000..8f47f2e2aaf7
---- /dev/null
-+++ b/Documentation/core-api/real-time/kernel-configuration.rst
-@@ -0,0 +1,297 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Real-Time Kernel configuration
-+==============================
-+
-+.. Add a ToC so that all options can be seen in a glance
-+.. contents:: Table of Contents
-+   :depth: 3
-+   :local:
-+
-+Introduction
-+============
-+
-+This document lists the kernel configuration options that might affect a
-+real-time kernel's worst-case latency.  It is intended for system integrators.
-+
-+Configuration options
-+=====================
-+
-+``CONFIG_CPU_FREQ``
-+-------------------
-+
-+:Expectation: enabled
-+:Severity: *high*
-+
-+The CPU frequency scaling subsystem ensures that the processor can operate
-+at its maximum supported frequency.  While, in general, bootloaders are
-+tasked with setting the CPU clock to the highest speed on boot, some do
-+not.  It is thus desirable to keep this option enabled.
-+
-+.. caution::
-+
-+  A real-time kernel is not about being "as fast as possible", however
-+  real-time requirements may demand that the CPU is clocked at a
-+  particular speed.
-+
-+``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
-+-------------------------------------------
-+
-+:Expectation: enabled
-+:Severity: *high*
-+
-+Real-Time workloads expect a fixed CPU frequency during execution.  Using
-+the performance governor is an easy way to achieve that purely from kernel
-+configuration.
-+
-+This is not a blanket rule.  Some setups might prefer to clock the CPU to
-+lower speeds due to thermal packaging or other requirements.  The key is
-+that the CPU frequency remains constant once set.
-+
-+``CONFIG_CPU_IDLE``
-+-------------------
-+
-+:Expectation: enabled
-+:Severity: *info*
-+
-+CPU idle states (C-states) allow the processor to enter low-power modes
-+during periods of inactivity.  Very-low CPU idle states may require
-+flushing the CPU caches and lowering or disabling the clocking.  This can
-+lower power consumption, but it also increases the entry and exit latency
-+from such states.
-+
-+While disabling this option eliminates cpuidle-related latencies, doing so
-+can significantly impact hardware longevity, warranty, and thermal
-+behavior.  Users should cap the maximum C-state to C1 instead.  For ACPI
-+platforms, this can be achieved by using the boot parameter [1]_::
-+
-+  processor.max_cstate=1
-+
-+Higher C-states can be acceptable depending on the user workload's latency
-+requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
-+command to inspect the available idle states.
-+
-+For more information, please see:
-+
-+- ``linux/tools/power/cpupower``
-+- :doc:`/admin-guide/pm/cpuidle`
-+- :doc:`/admin-guide/pm/index`
-+
-+``CONFIG_DRM``
-+--------------
-+
-+:Expectation: disabled
-+:Severity: *info*
-+
-+GPU-accelerated workloads can share system resources with the CPU,
-+including last-level cache (LLC) and memory bandwidth.  Modern integrated
-+GPUs optimize graphics performance at the expense of CPU determinism.
-+
-+Examples of affected platforms:
-+
-+- Intel processors with integrated graphics (Gen9 and later)
-+- AMD APUs with Radeon Graphics
-+- Xilinx Zynq UltraScale+ MPSoC EG/EV series
-+
-+If graphics workloads must run alongside real-time tasks, users must
-+conduct thorough stress testing using tools like ``glmark2`` while
-+measuring the overall system latency.
-+
-+For more information, please check:
-+
-+- :doc:`Regarding hardware (System memory and cache) </core-api/real-time/hardware>`
-+- :doc:`/filesystems/resctrl`
-+- `Real-Time and Graphics: A Contradiction?`_
-+
-+``CONFIG_EFI_DISABLE_RUNTIME``
-+------------------------------
-+
-+:Expectation: enabled
-+:Severity: *medium*
-+
-+EFI is the standard boot and firmware interface for multiple
-+architectures.  EFI runtime services provide callback functions to be
-+called from the kernel; e.g., as utilized by (``CONFIG_EFI_VARS*``) or
-+(``CONFIG_RTC_DRV_EFI``).  For the former, the kernel calls into EFI to
-+update the EFI variables.
-+
-+Calling into EFI means invoking firmware callbacks.  During such
-+invocations, the system might not be able to react to interrupts and will
-+thus not be able to perform a context switch.  This can cause significant
-+latency spikes for the real-time system.
-+
-+``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
-+disabled during the kernel build, pass the following boot parameter [1]_::
-+
-+  efi=noruntime
-+
-+There is ongoing `development work`_ to allow EFI variables access for a
-+real-time Linux system.
-+
-+``CONFIG_NO_HZ`` / ``CONFIG_NO_HZ_FULL``
-+----------------------------------------
-+
-+:Expectation: disabled
-+:Severity: *medium*
-+
-+Tickless operation can increase kernel-to-userspace transition latency due
-+to the extra accounting and state book-keeping.
-+
-+*Guidance by real-time workload type:*
-+
-+- For periodic workloads; e.g., control loops executing every 100 µs, avoid
-+  ``NO_HZ`` modes.  Consistent kernel ticks are preferable.
-+
-+- For computation-intensive workloads; e.g. extended userspace execution,
-+  ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload
-+  the kernel housekeeping to dedicated CPUs and isolate compute cores.
-+
-+See also :doc:`/timers/no_hz`.
-+
-+``CONFIG_PREEMPT_RT``
-+---------------------
-+
-+:Expectation: enabled
-+:Severity: **fatal**
-+
-+This option must be enabled, or the resulting kernel will not be fully
-+preemptible and real-time capable.
-+
-+``CONFIG_TRACING`` (and tracing options)
-+----------------------------------------
-+
-+:Expectation: enabled
-+:Severity: *info*
-+
-+Shipping kernels with tracing support enabled (but not actively running)
-+is highly recommended.  This will allow the users to extract more
-+information if latency problems arise.
-+
-+.. caution::
-+
-+  Users should *not* make use of tracers or trace events during production
-+  real-time kernel operation as they can add considerable overhead and
-+  degrade the system's latency.
-+
-+Non-performance CPU frequency governors
-+---------------------------------------
-+
-+:Expectation: disabled
-+:Severity: *medium*
-+
-+To ensure reproducible system latency measurements, disable the
-+non-``PERFORMANCE`` CPU frequency governors when possible.  This avoids the
-+risk of unknown userspace tasks implicitly or explicitly setting a
-+different CPU frequency governor, and thus achieving different latency
-+results across the system's runtime.
-+
-+If disabling other frequency governors is not an option, then
-+``CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case, users
-+should set a *stable* CPU frequency setting during the system runtime, as
-+changing the CPU frequency will increase the system latency and affect
-+latency measurements reproducibility.  If a lower CPU frequency is desired,
-+then ``CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
-+
-+The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
-+real-time system since in dramatically affects determinism depending on the
-+workload.
-+
-+For more information, please check :doc:`/admin-guide/pm/cpufreq`.
-+
-+Kernel Debug Options
-+====================
-+
-+Most kernel debug options add runtime overhead that increases the
-+worst-case latency.
-+
-+.. caution::
-+
-+  During development and early testing, users are encouraged to run their
-+  real-time workloads and peripherals with lockdep and other kernel debug
-+  options enabled, for a considerable amount of time.  Such workloads
-+  might trigger kernel code paths that were not triggered during the
-+  internal Linux real-time kernel development, thus helping to uncover any
-+  real-time latency issues in the kernel.
-+
-+Problematic debug options
-+-------------------------
-+
-+``CONFIG_LOCKUP_DETECTOR``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+The lockup detector creates kernel timer callbacks that execute every few
-+seconds, in hard-IRQ context, even on real-time kernels.  These periodic
-+interrupts can cause latency spikes.
-+
-+Users should use hardware watchdogs instead, which will provide a similar
-+functionality without the software-induced latency.
-+
-+``CONFIG_PROVE_LOCKING``
-+^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+Proving the correctness of all kernel locking adds substantial overhead
-+and significantly increases worst-case latency.
-+
-+Allowed kernel debug options
-+----------------------------
-+
-+Kernel debug options which are not included in this list should be enabled
-+with caution, after extensive auditing of their impact on system latency.
-+
-+``CONFIG_DEBUG_ATOMIC_SLEEP``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This sanity check catches common kernel programming errors with
-+a tolerable latency cost.
-+
-+``CONFIG_DEBUG_BUGVERBOSE``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This improves the debugging capabilities without affecting normal
-+operation latency.
-+
-+``CONFIG_DEBUG_FS``
-+^^^^^^^^^^^^^^^^^^^
-+
-+This is safe to include in real-time kernels, *provided that debugfs is
-+not accessed during production runtime*.
-+
-+``CONFIG_DEBUG_INFO``
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+This increases the kernel image size but has no latency impact.  It is
-+also essential for meaningful crash dumps and profiling.
-+
-+``CONFIG_DEBUG_KERNEL``
-+^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Meta-option which allows debug features to be enabled.  This configuration
-+option has no runtime impact, but be aware of any debug features that it
-+may have allowed to be enabled.
-+
-+Summary
-+=======
-+
-+There is no "one size fits all" solution for configuring a real-time Linux
-+system.  Beginning with the system real-time requirements, integrators
-+must consider the features and functions of the system's hardware, kernel,
-+and userspace.  All such components must be properly configured in order
-+to establish and constrain the system's maximum latency.
-+
-+With that in mind, any false real-time kernel configuration could cause a
-+new maximum latency that shows up at the wrong time and is catastrophic
-+for the real-time system's latency.
-+
-+References
-+==========
-+
-+.. [1] See :doc:`/admin-guide/kernel-parameters`
-+
-+.. _development work: https://lore.kernel.org/r/20260205115559.1625236-1-bigeasy@linutronix.de
-+
-+.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
--- 
-2.53.0
-
+	-Jay Vosburgh, jv@jvosburgh.net
