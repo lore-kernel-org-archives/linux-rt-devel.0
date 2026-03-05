@@ -1,33 +1,33 @@
 Received: from lankhorst.se (unknown [141.105.120.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EA6330D4C
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 10:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A65721CA13
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 10:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.105.120.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772706572; cv=none; b=ViIXdBInNYbwnuIvBzFShpVPMN24VAloomr+IahqEFFjpNq+MGn9Fje8PtfzVgaBmb01pIGfcPjvgLETZRmwmLM7P+Y4Fo9NZ5MNt061R63GkQdC0BhzQBKDaFPmblmkgrcwxq+9qQuXsC7giLuejUntE+Ruz5Hrnq6SpGs67VI=
+	t=1772707344; cv=none; b=WKFTbEjJ57Jutu4gX3cC88UtO+8DdnPh217s+KHsXHZOjgdFMzgaycYn3q79L83Oafbs+IiIeTOCYcK3qASihu0gD66bNxxd8oXvXYPQqBqM63XYm++6YkD23SGzQ9bpx2llfyZ+3eVPQpkRFQe9gieYLn2hCDVNA1Xdp4qXekI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772706572; c=relaxed/simple;
-	bh=pO8bh3aI9LNbJmw/ZXCQzNQH2nwTzx/BXqsFJBiQUFs=;
+	s=arc-20240116; t=1772707344; c=relaxed/simple;
+	bh=PMyN55nlHGUFjJgx8Vh4sLgZmW5ECk9JFSDWHXdmyzo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i2Qwm2xzLCICDsm5ju/NkLaSuMPCBNpD5Na4cz3y4qDYmpaVyXtEbYlIT+In0/CpXwbKv3v251IgQLvNMXreSRD0FKFxjl6CpIWEAEMQ1o85LD6lnU2pPzhGHhaX+lnlVGoQ3pLcmPkLhaDnXAc7e1CD1CXOgjn58oD5ui5Mmsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=ezRpV7hl; arc=none smtp.client-ip=141.105.120.124
+	 In-Reply-To:Content-Type; b=hNsNp3fT6QAhvT56AhIFQ67+vi7sKc257s7w9Km6efqXrfUUcuFv4dq7x+pmEMOTKqf+sqCR28pw6DrvxjeMtIusor0Yh2/X+XsnwaZPbUKmnTchvYrMg+yWrk5+c6+0vglhidGwfBVcKL+LcEj8w+EZeqE0pz+UEIsXOOxRH1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se; spf=pass smtp.mailfrom=lankhorst.se; dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b=TVltokj+; arc=none smtp.client-ip=141.105.120.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lankhorst.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="ezRpV7hl"
+	dkim=pass (2048-bit key) header.d=lankhorst.se header.i=@lankhorst.se header.b="TVltokj+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lankhorst.se;
-	s=default; t=1772705962;
-	bh=pO8bh3aI9LNbJmw/ZXCQzNQH2nwTzx/BXqsFJBiQUFs=;
+	s=default; t=1772707340;
+	bh=PMyN55nlHGUFjJgx8Vh4sLgZmW5ECk9JFSDWHXdmyzo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ezRpV7hlpttb8h0VEeYs8FOQRg2HIO/0xR19GBJuwjyNnwCZpFNxvi2AzDOo/3Q3H
-	 Sr5rra6zJoUFdvY8DRuCzDKHUCwdeE7L8Gcgdn0KVfjKaAfO8KDC3kPfrC7FrCVbXk
-	 1z5cycooxQnSFtLQXnMSleDPMHeOKK8Pdgn4KNqt95AgaeXhrEeOsdeOIidLenIUih
-	 6q0YLrjnb/KhhUUow9/APtd/iZ3l4/0Q358IlMy0GNjuFBry6uY/kqcniqVJfJrles
-	 JMmyBmNH4HTNvc7Mgxye8QT8ytVIgFoDB5SkS3h4lSv6h9OC3Stf/8Gv+n89+Pqgjv
-	 2M1sEUMOZQAWw==
-Message-ID: <d280719b-163f-4cce-a978-24f1e028505f@lankhorst.se>
-Date: Thu, 5 Mar 2026 11:19:21 +0100
+	b=TVltokj+SkJQ12pGB/gQG+dHnDdXiTKsvVdKIbnR7zO0t6WcAkvIvzEoZ+t0Yw0Aq
+	 ChHPWeJ/zkgBTtAx9chYBSvckAldHGRD/TA07AfBMByAuZtgT4yKiT8EyET+qKO+C7
+	 dtpx1p76m/KXkG4jpIFvYGmX1eFLpCAP9PVgIrZibNN7rpAs/dsL6gskD0IRkfgVt0
+	 Hvmwfi1ZYMN2tycSDPBP79SvjV1ysleulIoXdR2UrQv4VcFP8LCMtI3u2bw3aOivPJ
+	 rkR2U7kndvbPmvo6IS1J6qun3YY0FvLxa0RWJrE8euIjARcd7jb9xnFRm8NgA10u6K
+	 4NqS32z1O0jng==
+Message-ID: <98af7aba-f86f-4ff0-a53b-60e0e9784e37@lankhorst.se>
+Date: Thu, 5 Mar 2026 11:42:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -124,12 +124,10 @@ Den 2026-02-26 kl. 15:38, skrev Sebastian Andrzej Siewior:
 >  	spinlock_t irq_lock; /* protects the interrupt from hardirq context */
 >  	struct irq_work irq_work; /* for use from inside irq_lock */
 > 
-> Sebastian
-Seems like signaler_active is used as a hand-rolled completion barrier here,
-your patch would be even better if we could use the correct primitive here instead?
 
-or if that doesn't exist, remove signaler_active, and replace the read side with
-a 'if spin_is_locked() { lock/unlock }' pair and comments it waits for completion?
+Thinking some more, replacing signaler_active with signaler_active_sync might be the best fix.
+I'm not sure there's much use for parallel completion of the same breadcrumb, and using completion
+might be too heavy handed.
 
 Kind regards,
 ~Maarten Lankhorst
