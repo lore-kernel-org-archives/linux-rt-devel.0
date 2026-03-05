@@ -1,77 +1,81 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F14366045
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 11:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CB8384226;
+	Thu,  5 Mar 2026 11:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772709553; cv=none; b=kondFkK1nwh4PW3W0XVdYS3oRYtF9J+kifeEQGYNDk2edkZTqalCchoP1pNYTlDh+GRXdIEWnhGsyki9Cle1jbF2gcWfGO0ba5G81IbMYuBqoafP233/jkTzkKAUoOd3yCQXlKd7hIxGh8mc384x3IQYbGSoJgTX6g6cJGaH40g=
+	t=1772709606; cv=none; b=BggD7Th2vx6fp0REeOptBMOXQvi9XftarQXhcp9JaC+LMujiJplKWDDAUBD8G80gxqX28DChd8I9tU4TYzJ9A3bMzx5AMcRLD8zLVeQxMa3YT2BVEnSenYIxYKhVpeLwcB5Hlz4FLkwMNNsbiuop2mgPa9p9wsDScmwRoXHzAag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772709553; c=relaxed/simple;
-	bh=OLOVNLzkgKZr6pl7bNGGllfA0IdilTf9V2IBstJHMXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GupMnyPAg/wd2OR6BskkssGH5O3c41xMNaCt2VY8MZghcxKzVfl+GuebRPDzRONdW+kPsm7uiep2sQPaPXf/+qKubSMPX75W2i+Cql5he/1WtAwtHRmYF8uqWCRykTO/dJ0In4eqjjN+NTQKHq/YTAhsBEzOSyJIij1a1APf5SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=T8jnhV/g; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s2wGBiOL; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772709606; c=relaxed/simple;
+	bh=elaEEUTv4MbbTzOnb1aluZ6NJgO+oaUQdHPfgS+bsrI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=CPgBzR2JOVD8V9eGqSn+9iyd96fSJigH9/PwG3arP5ZvmvYIeo0dzdavDj2iB7B6YLQeadya/wWnczw/nDJvdaU5pExfEivuFPnE4gYwYGzNjca2AktjjhzoQPrHMVGZW4ZisBdgFH2ZH4zkJCK9nnzsWbaHBi9K0ztRxr4mMio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4armBV4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="T8jnhV/g";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s2wGBiOL"
-Date: Thu, 5 Mar 2026 12:19:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772709550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLOVNLzkgKZr6pl7bNGGllfA0IdilTf9V2IBstJHMXA=;
-	b=T8jnhV/g40XG8LivknAXA2L9jKfffKrA4x+FA/twWq3hm9NOP2mPYZNCKwe+76ZnRjWQDs
-	2JJWvHfur49km2Zsq4DM7hYMwN0E9oec1e4VQqeS6qV42jcASvV/7B3uOCQ43F8INn48nT
-	E968kk7X6w1kXwwjDQSx4d914ekRCtJfRbiXb2bfXC66EKGeQPXCZA5i5ZvHu7An9vkaco
-	etYZLqjjw5I3jH183WPA9g6BCOpPA2zhW457pwvkAWjIC3SX/xUidibrO7WYty9aOrLaNp
-	8SI9QTw3vdRIF+nYPEWjUQZ77LqH/bGjWgXcAy/C/AdAJPxzHtn3lpOtV47GEA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772709550;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLOVNLzkgKZr6pl7bNGGllfA0IdilTf9V2IBstJHMXA=;
-	b=s2wGBiOLk/C92P1XkAEBUXaztaon2ye+0MCGwIgr+AsIN1xYpdp/iRrjw5MeFCMlrDIO4z
-	jhesiWiOHTia9wDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-rt-devel@lists.linux.dev, dri-devel@lists.freedesktop.org
-Subject: Re: [i915-rt v6 00/24] drm/i915/display: All patches to make
- PREEMPT_RT work on i915 + xe.
-Message-ID: <20260305111908.eiL2_aF1@linutronix.de>
-References: <20260224162703.Q_taYjEC@linutronix.de>
- <20260224165903.2mn24oQy@linutronix.de>
- <20260225075806.XNtXjZ5E@linutronix.de>
- <7ee8b784-a714-4329-aab2-a571f25c3baa@lankhorst.se>
- <20260226120715.6Ug1Qkse@linutronix.de>
- <20260226141942.Z6vUrEQ3@linutronix.de>
- <20260226143857.4ZJAFzf6@linutronix.de>
- <98af7aba-f86f-4ff0-a53b-60e0e9784e37@lankhorst.se>
- <20260305105022.cc1qAMoO@linutronix.de>
- <08ff34aa-acb2-4110-9dec-db6dde6edd5c@lankhorst.se>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4armBV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0444AC116C6;
+	Thu,  5 Mar 2026 11:20:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772709606;
+	bh=elaEEUTv4MbbTzOnb1aluZ6NJgO+oaUQdHPfgS+bsrI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=J4armBV42aMPkC4rjz7LiHT08N90u6/E6ZW/wTSXq2bYgC3YXROya4EoHIXrD3LQ8
+	 LrqLNgFSjeoOCTqOnVfuOwHNsRohTC/cteg7PUjg/4uLhf697D61JzL7zLvR8moB4M
+	 /GEmLUxPmOKwl9xl81dHyuQ0qtdr891ARv8KSDO8eZpPxkxt7HPvKFA927VCN0iNBa
+	 ZHuCs+7Ig2kCaie3Z6eFMzxgTl6+pSzOEQfwUYytaPcwLTGKKadbWU8YL6IK5riFlj
+	 3xKlIO9fUl9W3rAUmP2PMT9qB0hlw8XfnooeJQxuO1intqzGtEFtRaZTCxZj2gKM3N
+	 gg2zFpVvTm42w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FE693808200;
+	Thu,  5 Mar 2026 11:20:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <08ff34aa-acb2-4110-9dec-db6dde6edd5c@lankhorst.se>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: Provide a PREEMPT_RT specific check for
+ netdev_queue::_xmit_lock
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177270960605.2657587.18286685206790931125.git-patchwork-notify@kernel.org>
+Date: Thu, 05 Mar 2026 11:20:06 +0000
+References: <20260302162631.uGUyIqDT@linutronix.de>
+In-Reply-To: <20260302162631.uGUyIqDT@linutronix.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ davem@davemloft.net, andrew+netdev@lunn.ch, spasswolf@web.de,
+ clrkwllms@kernel.org, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, rostedt@goodmis.org
 
-On 2026-03-05 12:11:50 [+0100], Maarten Lankhorst wrote:
-> Hey,
-Hi,
+Hello:
 
-> I think it should be possible then to remove signaler_active, and change
-> the reader side to if (spin_is_locked()) { spin_lock(); spin_unlock(); } ?
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-If signaler_active is only going 0 <-> 1 then it should be doable. Let
-me get to this then.
+On Mon, 2 Mar 2026 17:26:31 +0100 you wrote:
+> After acquiring netdev_queue::_xmit_lock the number of the CPU owning
+> the lock is recorded in netdev_queue::xmit_lock_owner. This works as
+> long as the BH context is not preemptible.
+> 
+> On PREEMPT_RT the softirq context is preemptible and without the
+> softirq-lock it is possible to have multiple user in __dev_queue_xmit()
+> submitting a skb on the same CPU. This is fine in general but this means
+> also that the current CPU is recorded as netdev_queue::xmit_lock_owner.
+> This in turn leads to the recursion alert and the skb is dropped.
+> 
+> [...]
 
-Sebastian
+Here is the summary with links:
+  - [net] net: Provide a PREEMPT_RT specific check for netdev_queue::_xmit_lock
+    https://git.kernel.org/netdev/net/c/b824c3e16c19
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
