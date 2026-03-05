@@ -1,41 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47DD3431E7
-	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 20:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEA634846D
+	for <linux-rt-devel@lists.linux.dev>; Thu,  5 Mar 2026 20:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772743843; cv=none; b=mEeB0FAQhmGXLx2nd0JM0eNVUGmvcWMWhgV81xk3wy6Gp8IwtKnG2UeOnFtKxXkdfTRkakyADvBxE4cwQmSZFBzh+6TQi/pf4GyfE+4+Nw/sBzuk70F6XJJTeLN1hJr1jl2nWGOVykbvn8pVjT9k5xdPHJ6BKJUVFNY3ztbWyF0=
+	t=1772743845; cv=none; b=EYS5l1+4OrUGT5kXSS9QGTKfBeFDgEnwxF9ZprL9nsjF5T49NEqKT4ELldYIViLKGEpJVhZFP2/CgZ3QX/+dv1torTjVnmXbViwD3Hf2xZTFuJy5BQBngfXDm3YDs+92FTXv2URV9MTHz0uo0arRK16EtIz4mgVN27DMi4Kix+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772743843; c=relaxed/simple;
-	bh=zinYTU2KOr5IVvEf3xD6BkbwMYVVEzdPlYhNvT0zc7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pLEdinyWCYqwf3Y0Z3bXU+7mXIaWXsbgUjn3OYE1SrN45Gu4Sf5xiz3Wy8MrljnIVlE0gJfoPFTKUPo3qWt9eMQUs8tFgI68IpdHNAunEA5KxGnUOORFluEBi7PztMU/GBAGS0XmROD/nESrSUz72zDWgwsvC4eiJGTDANDsLZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=N6bAW3Mq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=cZGaI4j4; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1772743845; c=relaxed/simple;
+	bh=H7teGK5i0C9BleNZg9rR07/A3rs3o2meTWN9F2uaAvs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=myU72UeZJwpN/Ihx623WsLP5d+lOoy+ax0RESGeq8wrOfIZJxbcln1c0zhbCyiXl2DCgECY8Xfo4rNlWCr8uRCYIgg6ITgbXCmMVK7jyV2v6vrtZFc6bku8pLRplPL9I4A5fDeg5EvwEWTztmpcWMDP4xGSI7m49nlJiq3u45vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=s3WUZkH7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=goHfXIn6; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="N6bAW3Mq";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="cZGaI4j4"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="s3WUZkH7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="goHfXIn6"
 From: "Ahmed S. Darwish" <darwi@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772743839;
+	s=2020; t=1772743842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bd7LQiFFvde3tVJe4H43EnNJYZV/0gXw0u20mEtmaD8=;
-	b=N6bAW3MqbFyh+VSvsY44aI4RDu9PKF/vRNMvBRKX27sBJ3q10VVcRAE+SA4BZ/VnOH14oS
-	8Cb/bIJG9zAuvywPFfc0NJlP6bs2SalwrjtmH8czWum+TXSJxCphEIvI46f0ApVoetKxZV
-	5Me0mgoTYie++TywJZxLQ89/dDlBOHiuLtfzOEihhb1TTC+tA4Xr0X+yIEAlqho5j4Ccfy
-	TwJLS2EqHDqGnagux8eCDIQOLwWpWTAC0qPIigYa0HW4vH7q8gfGyzq+bfUoNdolIzNQhn
-	/c5qxEYsaIln3tpbsCier+oJE9NKG+3Gsz+PCO54mNn+H3GyOz0dcN118Y27og==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lYhYm+TYF6PXKud+WuTZngFIAukYCpXVXOMxU2gToa4=;
+	b=s3WUZkH7fjxouAhxONPuHEwbz3fb58yWezXu/IxNacG2bcBR6+H8U4KA6smmgSmvXBvdx+
+	oxjEdFH7Jx1KBoHFhUwe6GdR4hxfr84wiO4sgejrSowv6kbX4+Erqv7Mic+MxRZoQZfKw5
+	22bhqIyHV6kM7oj1SRf0F6zQjX595bqOX0ylbuyjsgyYvd72uYvF88RFvv7tc2OdLR2Etd
+	0Wg5gyW+BA5myMxkBhSCkthJJa3t7mudi8ZAgeGmdW4nk17Ut6KzQLpTQKNHNp3Ehb8Vn0
+	tyBIF5CRLiwxlh8ninO+h9nwP0ZCJE2GjFVmopsjUHB/VuOU+h3+RqXF8ebGew==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772743839;
+	s=2020e; t=1772743842;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bd7LQiFFvde3tVJe4H43EnNJYZV/0gXw0u20mEtmaD8=;
-	b=cZGaI4j4HPlgpOjcUlz67VnO/XqTaxBWR1jQDsrM4ZEYmkXUas4B6R98cbbmZRE3VEEGQi
-	QDZRGODS/+Xh82DA==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lYhYm+TYF6PXKud+WuTZngFIAukYCpXVXOMxU2gToa4=;
+	b=goHfXIn68LSdl8HZ6qUlYzaXlD/Z3q0WLWPWa6iic5ZT61U+DmYcKsqbGmi3vWiO8NfZr5
+	DC80UGSkEgo2e0AA==
 To: Jonathan Corbet <corbet@lwn.net>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
@@ -46,36 +49,351 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v1 0/1] Documentation: Add real-time kernel configuration guide
-Date: Thu,  5 Mar 2026 21:50:11 +0100
-Message-ID: <20260305205023.361530-1-darwi@linutronix.de>
+Subject: [PATCH v1 1/1] Documentation: real-time: Add kernel configuration guide
+Date: Thu,  5 Mar 2026 21:50:12 +0100
+Message-ID: <20260305205023.361530-2-darwi@linutronix.de>
+In-Reply-To: <20260305205023.361530-1-darwi@linutronix.de>
+References: <20260305205023.361530-1-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Add a configuration guide for real-time kernels.
 
-There is a no "one size fits all" solution for configuring a PREEMPT_RT
-kernel.  Intorduce a PREEMPT_RT kernel configuration guide to better help
-system developers and integrators.
+List all Kconfig options that are recommended to be either enabled or
+disabled.  Explicitly add a table of contents at the top of the document,
+so that all the options can be seen in a glance.
 
-Thanks,
+Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
+power management, and no_hz.
 
-8<-----
+Add a summary at the end of the document warning users that there is a no
+"one size fits all solution" for configuring a real-time system.
 
-Ahmed S. Darwish (1):
-  Documentation: real-time: Add kernel configuration guide
-
+Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+---
  Documentation/core-api/real-time/index.rst    |   1 +
  .../real-time/kernel-configuration.rst        | 297 ++++++++++++++++++
  2 files changed, 298 insertions(+)
  create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
 
-base-commit: 87fde737174a006166a9a3a197e124917eee0c55
+diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
+index 7e14c4ea3d59..2376c7754d8e 100644
+--- a/Documentation/core-api/real-time/index.rst
++++ b/Documentation/core-api/real-time/index.rst
+@@ -14,3 +14,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
+    theory
+    differences
+    architecture-porting
++   kernel-configuration
+diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
+new file mode 100644
+index 000000000000..8f47f2e2aaf7
+--- /dev/null
++++ b/Documentation/core-api/real-time/kernel-configuration.rst
+@@ -0,0 +1,297 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++Real-Time Kernel configuration
++==============================
++
++.. Add a ToC so that all options can be seen in a glance
++.. contents:: Table of Contents
++   :depth: 3
++   :local:
++
++Introduction
++============
++
++This document lists the kernel configuration options that might affect a
++real-time kernel's worst-case latency.  It is intended for system integrators.
++
++Configuration options
++=====================
++
++``CONFIG_CPU_FREQ``
++-------------------
++
++:Expectation: enabled
++:Severity: *high*
++
++The CPU frequency scaling subsystem ensures that the processor can operate
++at its maximum supported frequency.  While, in general, bootloaders are
++tasked with setting the CPU clock to the highest speed on boot, some do
++not.  It is thus desirable to keep this option enabled.
++
++.. caution::
++
++  A real-time kernel is not about being "as fast as possible", however
++  real-time requirements may demand that the CPU is clocked at a
++  particular speed.
++
++``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
++-------------------------------------------
++
++:Expectation: enabled
++:Severity: *high*
++
++Real-Time workloads expect a fixed CPU frequency during execution.  Using
++the performance governor is an easy way to achieve that purely from kernel
++configuration.
++
++This is not a blanket rule.  Some setups might prefer to clock the CPU to
++lower speeds due to thermal packaging or other requirements.  The key is
++that the CPU frequency remains constant once set.
++
++``CONFIG_CPU_IDLE``
++-------------------
++
++:Expectation: enabled
++:Severity: *info*
++
++CPU idle states (C-states) allow the processor to enter low-power modes
++during periods of inactivity.  Very-low CPU idle states may require
++flushing the CPU caches and lowering or disabling the clocking.  This can
++lower power consumption, but it also increases the entry and exit latency
++from such states.
++
++While disabling this option eliminates cpuidle-related latencies, doing so
++can significantly impact hardware longevity, warranty, and thermal
++behavior.  Users should cap the maximum C-state to C1 instead.  For ACPI
++platforms, this can be achieved by using the boot parameter [1]_::
++
++  processor.max_cstate=1
++
++Higher C-states can be acceptable depending on the user workload's latency
++requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
++command to inspect the available idle states.
++
++For more information, please see:
++
++- ``linux/tools/power/cpupower``
++- :doc:`/admin-guide/pm/cpuidle`
++- :doc:`/admin-guide/pm/index`
++
++``CONFIG_DRM``
++--------------
++
++:Expectation: disabled
++:Severity: *info*
++
++GPU-accelerated workloads can share system resources with the CPU,
++including last-level cache (LLC) and memory bandwidth.  Modern integrated
++GPUs optimize graphics performance at the expense of CPU determinism.
++
++Examples of affected platforms:
++
++- Intel processors with integrated graphics (Gen9 and later)
++- AMD APUs with Radeon Graphics
++- Xilinx Zynq UltraScale+ MPSoC EG/EV series
++
++If graphics workloads must run alongside real-time tasks, users must
++conduct thorough stress testing using tools like ``glmark2`` while
++measuring the overall system latency.
++
++For more information, please check:
++
++- :doc:`Regarding hardware (System memory and cache) </core-api/real-time/hardware>`
++- :doc:`/filesystems/resctrl`
++- `Real-Time and Graphics: A Contradiction?`_
++
++``CONFIG_EFI_DISABLE_RUNTIME``
++------------------------------
++
++:Expectation: enabled
++:Severity: *medium*
++
++EFI is the standard boot and firmware interface for multiple
++architectures.  EFI runtime services provide callback functions to be
++called from the kernel; e.g., as utilized by (``CONFIG_EFI_VARS*``) or
++(``CONFIG_RTC_DRV_EFI``).  For the former, the kernel calls into EFI to
++update the EFI variables.
++
++Calling into EFI means invoking firmware callbacks.  During such
++invocations, the system might not be able to react to interrupts and will
++thus not be able to perform a context switch.  This can cause significant
++latency spikes for the real-time system.
++
++``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
++disabled during the kernel build, pass the following boot parameter [1]_::
++
++  efi=noruntime
++
++There is ongoing `development work`_ to allow EFI variables access for a
++real-time Linux system.
++
++``CONFIG_NO_HZ`` / ``CONFIG_NO_HZ_FULL``
++----------------------------------------
++
++:Expectation: disabled
++:Severity: *medium*
++
++Tickless operation can increase kernel-to-userspace transition latency due
++to the extra accounting and state book-keeping.
++
++*Guidance by real-time workload type:*
++
++- For periodic workloads; e.g., control loops executing every 100 µs, avoid
++  ``NO_HZ`` modes.  Consistent kernel ticks are preferable.
++
++- For computation-intensive workloads; e.g. extended userspace execution,
++  ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload
++  the kernel housekeeping to dedicated CPUs and isolate compute cores.
++
++See also :doc:`/timers/no_hz`.
++
++``CONFIG_PREEMPT_RT``
++---------------------
++
++:Expectation: enabled
++:Severity: **fatal**
++
++This option must be enabled, or the resulting kernel will not be fully
++preemptible and real-time capable.
++
++``CONFIG_TRACING`` (and tracing options)
++----------------------------------------
++
++:Expectation: enabled
++:Severity: *info*
++
++Shipping kernels with tracing support enabled (but not actively running)
++is highly recommended.  This will allow the users to extract more
++information if latency problems arise.
++
++.. caution::
++
++  Users should *not* make use of tracers or trace events during production
++  real-time kernel operation as they can add considerable overhead and
++  degrade the system's latency.
++
++Non-performance CPU frequency governors
++---------------------------------------
++
++:Expectation: disabled
++:Severity: *medium*
++
++To ensure reproducible system latency measurements, disable the
++non-``PERFORMANCE`` CPU frequency governors when possible.  This avoids the
++risk of unknown userspace tasks implicitly or explicitly setting a
++different CPU frequency governor, and thus achieving different latency
++results across the system's runtime.
++
++If disabling other frequency governors is not an option, then
++``CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case, users
++should set a *stable* CPU frequency setting during the system runtime, as
++changing the CPU frequency will increase the system latency and affect
++latency measurements reproducibility.  If a lower CPU frequency is desired,
++then ``CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
++
++The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
++real-time system since in dramatically affects determinism depending on the
++workload.
++
++For more information, please check :doc:`/admin-guide/pm/cpufreq`.
++
++Kernel Debug Options
++====================
++
++Most kernel debug options add runtime overhead that increases the
++worst-case latency.
++
++.. caution::
++
++  During development and early testing, users are encouraged to run their
++  real-time workloads and peripherals with lockdep and other kernel debug
++  options enabled, for a considerable amount of time.  Such workloads
++  might trigger kernel code paths that were not triggered during the
++  internal Linux real-time kernel development, thus helping to uncover any
++  real-time latency issues in the kernel.
++
++Problematic debug options
++-------------------------
++
++``CONFIG_LOCKUP_DETECTOR``
++^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++The lockup detector creates kernel timer callbacks that execute every few
++seconds, in hard-IRQ context, even on real-time kernels.  These periodic
++interrupts can cause latency spikes.
++
++Users should use hardware watchdogs instead, which will provide a similar
++functionality without the software-induced latency.
++
++``CONFIG_PROVE_LOCKING``
++^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++Proving the correctness of all kernel locking adds substantial overhead
++and significantly increases worst-case latency.
++
++Allowed kernel debug options
++----------------------------
++
++Kernel debug options which are not included in this list should be enabled
++with caution, after extensive auditing of their impact on system latency.
++
++``CONFIG_DEBUG_ATOMIC_SLEEP``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++This sanity check catches common kernel programming errors with
++a tolerable latency cost.
++
++``CONFIG_DEBUG_BUGVERBOSE``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++This improves the debugging capabilities without affecting normal
++operation latency.
++
++``CONFIG_DEBUG_FS``
++^^^^^^^^^^^^^^^^^^^
++
++This is safe to include in real-time kernels, *provided that debugfs is
++not accessed during production runtime*.
++
++``CONFIG_DEBUG_INFO``
++^^^^^^^^^^^^^^^^^^^^^
++
++This increases the kernel image size but has no latency impact.  It is
++also essential for meaningful crash dumps and profiling.
++
++``CONFIG_DEBUG_KERNEL``
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Meta-option which allows debug features to be enabled.  This configuration
++option has no runtime impact, but be aware of any debug features that it
++may have allowed to be enabled.
++
++Summary
++=======
++
++There is no "one size fits all" solution for configuring a real-time Linux
++system.  Beginning with the system real-time requirements, integrators
++must consider the features and functions of the system's hardware, kernel,
++and userspace.  All such components must be properly configured in order
++to establish and constrain the system's maximum latency.
++
++With that in mind, any false real-time kernel configuration could cause a
++new maximum latency that shows up at the wrong time and is catastrophic
++for the real-time system's latency.
++
++References
++==========
++
++.. [1] See :doc:`/admin-guide/kernel-parameters`
++
++.. _development work: https://lore.kernel.org/r/20260205115559.1625236-1-bigeasy@linutronix.de
++
++.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
 -- 
 2.53.0
 
