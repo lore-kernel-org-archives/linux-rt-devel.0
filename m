@@ -1,278 +1,116 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44D5221F24
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Mar 2026 12:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194023AEF37
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Mar 2026 16:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772800755; cv=none; b=LuwosdPmTzoxPtEsDNlQFFQHlkzBhvgoBZIEneGL7BQOLFojYUTCerG13jLQs1I76j14FotRBsGnAkebeGVsRg6FDiPLGE2ZqRcoiIIOUoEEovTmQGLgZjq8jJXcmJ12Lz6wx7pop5Z+0ePJNqyLj82iddmwzlSSV7KErZNYJ8A=
+	t=1772815326; cv=none; b=NDXQF88TWfP2wuwLbNvoRAQVxxJhaiRQWJHMjVkwjawe4G4BIZrMh/ogrGxGflmNKymbt73zarhZ5jiFitec75rKim40m6Qj19uDh27MNT0fOHxWRVTAMFaWlsYy0ZpVCqKdkAa6NN+O0aFVGbFmEKbRQCVK3f8b5pi2JN4kgXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772800755; c=relaxed/simple;
-	bh=oPurXisUTqLAk3GU9lZ8DdyLzvmVpIks2kPl7dTV2Kc=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=RSBHrFC6KLURDmh6AhmXGJUWxUuMi0wbMKMpCT61kL7oZ2w2L4jbxB0NJ9lrYbb1zJc+fukLxT3qjzG/xRTrNSeFFwAsEVzYW7ITsln3zWI//Nnr56GoHm6DFqch9QBx82UHY5UftxRW9TSBV5uECZ5ufe0Q2JiZbLjyjDziPUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QE+kvV7W; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772815326; c=relaxed/simple;
+	bh=TADcOpWEvJLAOeAtgeTIyGynHje+264iN18XJs1JvqQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sPcqHP0Udx5aDZwLxUtoFMosHIHeaZqAt7PHRVAPb48BDCPwQK3he/vpUSMcTBI43rGlj2COLdIF2ZsTDwI0X3BtwOe0FpmjjeNxSIDkQFmYRqvuTyYvNtrWcEPMvHkOEV8HwBpD3ojqe87CbeFdlE6rbgjldF4PDS3Qhbuej+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pOYhnDAI; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QE+kvV7W"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pOYhnDAI"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2ae4b96c259so64121235ad.1
+        for <linux-rt-devel@lists.linux.dev>; Fri, 06 Mar 2026 08:42:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772815322; x=1773420122; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rk41VVSwMD1I02bvg41LBcCUW/2xACIjrkOSKPXzHO4=;
+        b=pOYhnDAInRPzqaIza1/PFSd7hzWHjkt0gK0fkd/jL8zIRAeVVnFpivmZY3IKFzf91a
+         fdXpXivgJZxjteQJVYsri+afnPmH3KeeTlvt58T7jrSuJCMQtMmTLp37euytmQ4C2ZRz
+         mNHgGFT6GWs8z1HXAdtmqBBPsuM1Jqf4NHmME8iT482bUmrC2Kx1gszlE93yAg2pKsoH
+         57tCQDT2g4ecONu+yQpYyXSSgnfvauJYM8VpwbY3coMQpdL3wE3zgXqUF+g9W9r5+xlo
+         IL1X90aV5o+Zad92j2cJpVkMSxEDcwspqEzoGu5lXankz05OvN4ftv0XLH/ljYFKzKYM
+         pncQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772815322; x=1773420122;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rk41VVSwMD1I02bvg41LBcCUW/2xACIjrkOSKPXzHO4=;
+        b=fiRz+ip1VuhIa+94eaAJaxS+gkvUU/0xoD+NyPTYlECKQJgiqv+MhlqPmSnmwWTNHH
+         eMJGOcL4RK2/vnN1sqd5Fat8xHc1892MFogNC+84LR2/0+8PhYTGaZVQd+PQ0WAYt4px
+         38Yhmd1lSMTEx8E8s6Ks7o0Bf+Ztg0m0maIb66B0CLntLv04QUZu+CB2iGPJYPzZfD39
+         u6AoZcBsmdOCfza6lEA5o14jWI0t87nMiaCwReP6fDNV15u5Ky1TNf1LiEKE7dS60wNn
+         JQHMfsHVGrxUCq/NtR0EwCTCN9rBDzR2CN1KBYjGKJlseuJxHoVe6hb00b7N4K3Jpb6/
+         1Tbw==
+X-Forwarded-Encrypted: i=1; AJvYcCU2XpyKBLCS8l7HNb61/IoU2L4Zc1nXsEwVfZ8RQavFuU9GlQssVAhjyEqtCQon3aRAtXo2ietIos5X5VTJQw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YztBoAAGefoouw21D5PExUMvyctUru7MgPZU9NfIjnoJ0P+9wH8
+	PT8TuGO6LviqDG6K8CxxIKZz8+9uD3Ujt3w17Y7nFcR9v846zTstEhPdA0/XDa+uLGf9zCgRaO/
+	RYJ1O8w==
+X-Received: from plch14.prod.google.com ([2002:a17:902:f2ce:b0:2ae:3b56:7c6a])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:4b2d:b0:2ae:525a:f971
+ with SMTP id d9443c01a7336-2ae82a0a890mr26503905ad.23.1772815321672; Fri, 06
+ Mar 2026 08:42:01 -0800 (PST)
+Date: Fri, 6 Mar 2026 08:42:00 -0800
+In-Reply-To: <aactOOfirdVRYfNS@acer-nitro-anv15-41>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772800751;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=27XSKDOLXvEq4qzCWSksKAZGxaT1RZzGT8G1FYmDuRc=;
-	b=QE+kvV7WBLdBL0VW1S/v8XWCoHiWa1Ob18s3mIUTxubrsnz6m5G1xEQWzjPmRKCoXQOjph
-	UKfIIZTisE8wh6PI9rTLUcicN408VYkXd1RVsYCtrUEKcpeOr6sWQines80xPixaf4O642
-	AhhDeXcoSb1hHFsdenyPBMVV2EbmYHs=
-Date: Fri, 06 Mar 2026 12:38:57 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <6ca5294f793f4d9dbb3efd62de50daa1d2d6950d@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH net v4 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-To: "Nikolay Aleksandrov" <razor@blackwall.org>
-Cc: "Jay Vosburgh" <jv@jvosburgh.net>, netdev@vger.kernel.org,
- jiayuan.chen@shopee.com,
- syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Jesper Dangaard Brouer"
- <hawk@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>,
- "Stanislav Fomichev" <sdf@fomichev.me>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Eduard
- Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>, "Yonghong
- Song" <yonghong.song@linux.dev>, "KP Singh" <kpsingh@kernel.org>, "Hao
- Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>, "Shuah Khan"
- <shuah@kernel.org>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>, "Steven Rostedt"
- <rostedt@goodmis.org>, "Jussi Maki" <joamaki@gmail.com>,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <aarG-99qsXKgPMws@penguin>
-References: <20260304074301.35482-1-jiayuan.chen@linux.dev>
- <20260304074301.35482-2-jiayuan.chen@linux.dev>
- <aahWymAi_CtRG0gJ@penguin> <1293120.1772645248@famine>
- <aahsuPt7cY8LxETN@penguin> <1356528.1772744631@famine>
- <e08dcb78a13fc69be07d28d032cebe3734797a3a@linux.dev>
- <aarG-99qsXKgPMws@penguin>
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
+ <20260211120944.-eZhmdo7@linutronix.de> <aYyhfvC_2s000P7H@google.com> <aactOOfirdVRYfNS@acer-nitro-anv15-41>
+Message-ID: <aasD2OHkQN3kdRba@google.com>
+Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
+ for non-blocking invalidations
+From: Sean Christopherson <seanjc@google.com>
+To: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-March 6, 2026 at 20:22, "Nikolay Aleksandrov" <razor@blackwall.org mailto=
-:razor@blackwall.org?to=3D%22Nikolay%20Aleksandrov%22%20%3Crazor%40blackw=
-all.org%3E > wrote:
-
-
->=20
->=20On Fri, Mar 06, 2026 at 02:42:05AM +0000, Jiayuan Chen wrote:
->=20
->=20>=20
->=20> 2026/3/6 05:03, "Jay Vosburgh" <jv@jvosburgh.net mailto:jv@jvosburg=
-h.net?to=3D%22Jay%20Vosburgh%22%20%3Cjv%40jvosburgh.net%3E > wrote:
-> >=20=20
->=20>=20=20
->=20>=20=20
->=20>  Nikolay Aleksandrov <razor@blackwall.org> wrote:
-> >=20=20
->=20>  >=20
->=20>  > On Wed, Mar 04, 2026 at 09:27:28AM -0800, Jay Vosburgh wrote:
-> >  >=20
->=20>  > >=20
->=20>  > > Nikolay Aleksandrov <razor@blackwall.org> wrote:
-> >  > >=20
->=20>  > > >On Wed, Mar 04, 2026 at 03:42:57PM +0800, Jiayuan Chen wrote:
-> >  > > >> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >  > > >>=20
->=20>  > > >> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter wit=
-hout a NULL
-> >  > > >> check. rr_tx_counter is a per-CPU counter only allocated in b=
-ond_open()
-> >  > > >> when the bond mode is round-robin. If the bond device was nev=
-er brought
-> >  > > >> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
-> >  > > >>=20
->=20>  > > >> The XDP redirect path can reach this code even when the bon=
-d is not up:
-> >  > > >> bpf_master_redirect_enabled_key is a global static key, so wh=
-en any bond
-> >  > > >> device has native XDP attached, the XDP_TX -> xdp_master_redi=
-rect()
-> >  > > >> interception is enabled for all bond slaves system-wide. This=
- allows the
-> >  > > >> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
-> >  > > >> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id(=
-) to be
-> >  > > >> reached on a bond that was never opened.
-> >  > > >>=20
->=20>  > > >> Fix this by allocating rr_tx_counter unconditionally in bon=
-d_init()
-> >  > > >> (ndo_init), which is called by register_netdevice() and cover=
-s both
-> >  > > >> device creation paths (bond_create() and bond_newlink()). Thi=
-s also
-> >  > > >> handles the case where bond mode is changed to round-robin af=
-ter device
-> >  > > >> creation. The conditional allocation in bond_open() is remove=
-d. Since
-> >  > > >> bond_destructor() already unconditionally calls
-> >  > > >> free_percpu(bond->rr_tx_counter), the lifecycle is clean: all=
-ocate at
-> >  > > >> ndo_init, free at destructor.
-> >  > > >>=20
->=20>  > > >> Note: rr_tx_counter is only used by round-robin mode, so th=
-is
-> >  > > >> deliberately allocates a per-cpu u32 that goes unused for oth=
-er modes.
-> >  > > >> Conditional allocation (e.g., in bond_option_mode_set) was co=
-nsidered
-> >  > > >> but rejected: the XDP path can race with mode changes on a do=
-wned bond,
-> >  > > >> and adding memory barriers to the XDP hot path is not justifi=
-ed for
-> >  > > >> saving 4 bytes per CPU.
-> >  > > >>=20
->=20>  > > >> Fixes: 879af96ffd72 ("net, core: Add support for XDP redire=
-ction to slave device")
-> >  > > >> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmai=
-l.com
-> >  > > >> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.=
-00cc.GAE@google.com/T/
-> >  > > >> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >  > > >> ---
-> >  > > >> drivers/net/bonding/bond_main.c | 19 +++++++++++++------
-> >  > > >> 1 file changed, 13 insertions(+), 6 deletions(-)
-> >  > > >>=20
->=20>  > > >
-> >  > > >IMO it's not worth it to waste memory in all modes, for an unpo=
-pular mode.
-> >  > > >I think it'd be better to add a null check in bond_rr_gen_slave=
-_id(),
-> >  > > >READ/WRITE_ONCE() should be enough since it is allocated only o=
-nce, and
-> >  > > >freed when the xmit code cannot be reachable anymore (otherwise=
- we'd have
-> >  > > >more bugs now). The branch will be successfully predicted pract=
-ically always,
-> >  > > >and you can also mark the ptr being null as unlikely. That way =
-only RR takes
-> >  > > >a very minimal hit, if any.
-> >  > >=20
->=20>  > > Is what you're suggesting different from Jiayuan's proposal[0]=
-,
-> >  > > in the sense of needing barriers in the XDP hot path to insure o=
-rdering?
-> >  > >=20
->=20>  > > If I understand correctly, your suggestion is something like
-> >  > > (totally untested):
-> >  > >=20
->=20>  > Basically yes, that is what I'm proposing + an unlikely() around=
- that
-> >  > null check since it is really unlikely and will be always predicte=
-d
-> >  > correctly, this way it's only for RR mode.
-> >  >=20
->=20>  Jiayuan,
-> >=20=20
->=20>  Do you agree that the patch below (including Nikolay's
-> >  suggestion to add "unlikely") resolves the original issue without me=
-mory
-> >  waste, and without introducing performance issues (barriers) into th=
-e
-> >  XDP path?
-> >=20=20
->=20>=20=20
->=20>  Sure, it's basically similar to what my v1 did, but the patch belo=
-w can be more generic.
-> >=20=20
->=20>  https://lore.kernel.org/netdev/20260224112545.37888-1-jiayuan.chen=
-@linux.dev/T/#m08e3e53a8aa8d837ddc9242f4b14f2651a2b00aa
-> >=20
->=20IMO that is worse, you'll add 2 new tests and potentially 1 more cach=
-e line
-> for everyone in a hot path that is used a lot and must be kept as fast =
-as possible.
-
-Hi Nikolay,
-
-Apologies for the confusion. When I said "the patch below," I was not ref=
-erring to the v1 link,
-but to the diff snippet appended at the bottom of my email.
-
-That specific snippet (using a local temp pointer) is the optimal approac=
-h. It ensures the NULL
-check for bond->rr_tx_counter is handled efficiently without introducing =
-the performance
-overhead or memory waste you were concerned about.
-
-Best regards,
-Jiayuan
-
-
-
-> >=20
->=20> -J
-> >=20=20
->=20>  >=20
->=20>  > >=20
->=20>  > > diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bon=
-ding/bond_main.c
-> >  > > index eb27cacc26d7..ac2a4fc0aad0 100644
-> >  > > --- a/drivers/net/bonding/bond_main.c
-> >  > > +++ b/drivers/net/bonding/bond_main.c
-> >  > > @@ -4273,13 +4273,17 @@ void bond_work_cancel_all(struct bonding=
- *bond)
-> >  > > static int bond_open(struct net_device *bond_dev)
-> >  > > {
-> >  > > struct bonding *bond =3D netdev_priv(bond_dev);
-> >  > > + u32 __percpu *rr_tx_tmp;
-> >  > > struct list_head *iter;
-> >  > > struct slave *slave;
-> >  > >=20
->=20>  > > - if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN && !bond->rr=
-_tx_counter) {
-> >  > > - bond->rr_tx_counter =3D alloc_percpu(u32);
-> >  > > - if (!bond->rr_tx_counter)
-> >  > > + if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN &&
-> >  > > + !READ_ONCE(bond->rr_tx_counter)) {
-> >  > > + rr_tx_tmp =3D alloc_percpu(u32);
-> >  > > + if (!rr_tx_tmp)
-> >  > > return -ENOMEM;
-> >  > > + WRITE_ONCE(bond->rr_tx_counter, rr_tx_tmp);
-> >  > > +
-> >  > > }
-> >  > >=20
->=20>  > > /* reset slave->backup and slave->inactive */
-> >  > > @@ -4866,6 +4870,9 @@ static u32 bond_rr_gen_slave_id(struct bon=
-ding *bond)
-> >  > > struct reciprocal_value reciprocal_packets_per_slave;
-> >  > > int packets_per_slave =3D bond->params.packets_per_slave;
-> >  > >=20
->=20>  > > + if (!READ_ONCE(bond->rr_tx_counter))
-> >  > > + packets_per_slave =3D 0;
-> >  > > +
-> >  > > switch (packets_per_slave) {
-> >  > > case 0:
-> >  > > slave_id =3D get_random_u32();
-> >  > >=20
->=20>  > > -J
-> >  > >=20
->=20>  > >=20
->=20>  > > [0] https://lore.kernel.org/netdev/e4a2a652784ec206728eb3a929a=
-9892238c61f06@linux.dev/
-> >  > >
-> >  >=20
->=20>  ---
-> >  -Jay Vosburgh, jv@jvosburgh.net
+On Wed, Mar 04, 2026, shaikh kamaluddin wrote:
+> On Wed, Feb 11, 2026 at 07:34:22AM -0800, Sean Christopherson wrote:
+> > On Wed, Feb 11, 2026, Sebastian Andrzej Siewior wrote:
+> > It's not at all clear to me that switching mmu_lock to a raw lock would be a net
+> > positive for PREEMPT_RT.  OOM-killing a KVM guest in a PREEMPT_RT seems like a
+> > comically rare scenario.  Whereas contending mmu_lock in normal operation is
+> > relatively common (assuming there are even use cases for running VMs with a
+> > PREEMPT_RT host kernel).
+> > 
+> > In fact, the only reason the splat happens is because mmu_notifiers somewhat
+> > artificially forces an atomic context via non_block_start() since commit
+> > 
+> >   ba170f76b69d ("mm, notifier: Catch sleeping/blocking for !blockable")
+> > 
+> > Given the massive amount of churn in KVM that would be required to fully eliminate
+> > the splat, and that it's not at all obvious that it would be a good change overall,
+> > at least for now:
+> > 
+> > NAK
+> > 
+> > I'm not fundamentally opposed to such a change, but there needs to be a _lot_
+> > more analysis and justification beyond "fix CONFIG_DEBUG_ATOMIC_SLEEP=y".
 > >
->
+> Hi Sean,
+> Thanks for the detailed explanation and for spelling out the border
+> issue.
+> Understood on both points:
+> 	1. The changelog wording was too strong; PREEMPT_RT changes
+> 	spin_lock() semantics, and the splat is fundamentally due to
+> 	spinlocks becoming sleepable there.
+> 	2. Converting only mm_invalidate_lock to raw is insufficient
+> 	since KVM can still take the mmu_lock (and other sleeping locks
+> 	RT) in invalidate_range_start() when the invalidation hits a
+> 	memslot.
+> Given the above, it shounds like "convert locks to raw" is not the right
+> direction without sinificat rework and justification.
+> Would an acceptable direction be to handle the !blockable notifier case
+> by deferring the heavyweight invalidation work(anything that take
+> mmu_lock/may sleep on RT) to a context that may block(e.g. queued work),
+> while keeping start()/end() accounting consisting with memslot changes ?
+
+No, because the _only_ case where the invalidation is non-blockable is when the
+kernel is OOM-killing.  Deferring the invalidations when we're OOM is likely to
+make the problem *worse*.
+
+That's the crux of my NAK.  We'd be making KVM and kernel behavior worse to "fix"
+a largely hypothetical issue (OOM-killing a KVM guest in a RT kernel).
