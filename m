@@ -1,111 +1,59 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCAA36EA80
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Mar 2026 19:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C383502BA;
+	Fri,  6 Mar 2026 22:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772824961; cv=none; b=PfIP6p5iL87YD5tIzvP1s3G4a6OnkSy4c61wBPjKK1XdxG9XaXVzR1vGkCOy9er1mzMp135j4ecWC3BRwfxNdF14p8H85DU8118Qt0OpGylDcjQm4FuBx8WbtvpGEGVaeXeZ8olBjq3Y7xRU4bPYu6VH+le/WxPEwZyGUOfE418=
+	t=1772837300; cv=none; b=HYymTBXhNklSbbYL43y7c28smTOOXuLgURZ+WSWwihKka+9yYo0EXjqUApTVoMk0Nk3qXB8sIT0VOXqiKNbVm0uljOdHwWL+YSz3qkomeMuWyD2AD14bcXpmcA5Yj9W2mECvoIlFM92YPwfS1SSNLjtS7FrXSJjq5wxV+vTtZlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772824961; c=relaxed/simple;
-	bh=TEIn2leqPGGY/1DzdNb84U/JWY83T3pQBcY3iEc8ns8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q/iX0gF6zbeA5W1jMVaXoq1VWbpCqSiymaOqAtS5iUjUZ3TefEa/B5w9W1oE2rB1E0y4uBNwCaKEmBjqfy9XI+YDZ4z20LVibKzF4G3wBaPDm77kdd8Xa3kpanpqu2uef++Fsyu6uvK96QWLwAQK1g9M5OkdEMw4/fRF1an6rHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CyyfKJ7Y; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fnrjYVl/; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772837300; c=relaxed/simple;
+	bh=izRaMOOe9JYV+HyxNgh8xIBq9SoerJw5ZWQCKg89Q9M=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=Oj8QDHFymPOSR5RHHEBwCiM5Mok2rmIZ4XTITHN/oJreBYp/E4pYg15fUn/9o9NG3HnyM+Smu/tIW28WeZWwyUyyEwodbmGWXsGI/Me0B21p9N8VsP609j3GXsLjUR8y/J+73Kp7a29b8QGRX3mZ6iS/O63fVNFvyR8/GbGjkUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NyZ3aRE/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CyyfKJ7Y";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fnrjYVl/"
-Date: Fri, 6 Mar 2026 20:22:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772824957;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bg/3VweDR91D2OkPYV0QQ/7hasio9/b4QIBc3FqEk+k=;
-	b=CyyfKJ7YmFw6jMkQ1ILSrZYDSRYa0Jz5HIGXD+7nMk5VfgBeBa8bJRPBLze11MHl4Exd+n
-	WR2RdRjdtH5efHm2pHts6P3KUwfSicLtSCu6emZSZtSTDnip2dSwgcqkp7pnsI9Xlgvooj
-	bxxw75uYoXqc8+XZ3X2ExGs6PxqUAYqgZofy+vuP3unaOx754J2RfpHvJpzdHpw1dbbkgS
-	crTzaK934lCn8gajn7P3w4SbCZi9YSI2yDa9wwip4P99l1licBVgJ3mHNzPaRFzXmKzXzo
-	6jHzJYKC+aWf33emKnlUNy/HrW/OURRuGyznIIKxzWSaKn+2c9CKes2DTDeASg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772824957;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=bg/3VweDR91D2OkPYV0QQ/7hasio9/b4QIBc3FqEk+k=;
-	b=fnrjYVl/MPzFqV9Wm2LIcjACSL6VHCYcHntshRdltdCXiwVFdHx12/eZAg2qJePh23BbtW
-	KMIcoG72blgn0fCw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Tejun Heo <tj@kernel.org>
-Cc: linux-rt-devel@lists.linux.dev, cgroups@vger.kernel.org,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Michal Koutny <mkoutny@suse.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Bert Karwatzki <spasswolf@web.de>
-Subject: [PATCH v2] cgroup: Don't expose dead tasks in cgroup
-Message-ID: <20260306192235.DY60tMnM@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NyZ3aRE/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CAABC4CEF7;
+	Fri,  6 Mar 2026 22:48:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772837299;
+	bh=izRaMOOe9JYV+HyxNgh8xIBq9SoerJw5ZWQCKg89Q9M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NyZ3aRE/NNQexOPSXkS9MxNa1zN0Wed11ah7s2GgLXCM161K3+kfRnTkjv/0gzP5C
+	 0IMbWyzODDyuCqxc+W6OAA+t735BAv4ObCiIyMYjf/xRH88bXTKmGZXPcQZHO9o+Ez
+	 NcDfXP3DJEdMjZUmqPpuLM78vltZAe/deAtjgmOCHtEywPuzOspoqI/Xn4rnDvLqkb
+	 3LrkDnRUim5GxnSEUQNnpP6mNmiRH9P6UzO+lMTnbkpfpwJsjCKfR3tzXQSnIHplse
+	 2ILDdFW47nimoXmzN3YmkYEZI/5wAOOJMWbrGzsHfbpAmd13DSUNqjzpWcjyvTVSco
+	 060/JSaszLS9Q==
+Date: Fri, 06 Mar 2026 12:48:18 -1000
+Message-ID: <3b3a143326fcff2d21a7e7d801bc3aa8@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-rt-devel@lists.linux.dev,
+ cgroups@vger.kernel.org
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Koutny <mkoutny@suse.com>,
+ Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Bert Karwatzki <spasswolf@web.de>
+Subject: Re: [PATCH v2] cgroup: Don't expose dead tasks in cgroup
+In-Reply-To: <20260306192235.DY60tMnM@linutronix.de>
+References: <20260306192235.DY60tMnM@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Once a task exits it has its state set to TASK_DEAD and then it is
-removed the cgroup it belonged to. The last step happens on the task
-gets out of its last schedule() invocation and is delayed on PREEMPT_RT
-due to locking constrains.
+Applied to cgroup/for-7.0-fixes with the following fixes.
 
-As a result it is possible to receive a pid via waitpid() of a task
-which is still listed in cgroup.procs for the cgroup it belonged
-to. This is something that systemd does not expect and as a result it
-waits for its exit until a time out occurs.
-This can also be reproduced on !PREEMPT_RT kernel with a significant
-delay in do_exit() after exit_notify().
+- s/removed the cgroup/removed from the cgroup/
+- s/constrains/constraints/
+- Fixes tag SHA trimmed to 12 chars
+- s/exitting/exiting/ and s/task which are/tasks that are/ in comment
+- Added Cc: stable
 
-Hide the task from the output which have PF_EXITING set which is done
-before the parent is notified. Keeping zombies with live threads
-shouldn't break anything (suggested by Tejun).
+Thanks.
 
-Reported-by: Bert Karwatzki <spasswolf@web.de>
-Closes: https://lore.kernel.org/all/20260219164648.3014-1-spasswolf@web.de/
-Tested-by: Bert Karwatzki <spasswolf@web.de>
-Fixes: 9311e6c29b348 ("cgroup: Fix sleeping from invalid context warning on=
- PREEMPT_RT")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- v1=E2=80=A6v2: https://lore.kernel.org/all/20260302120738.6KkDipsR@linutro=
-nix.de/
-   - Close the race window filtering out PF_EXITING tasks instead.
-   - Document the possible race window after it has been verified.
-
- kernel/cgroup/cgroup.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index c22cda7766d84..eef01b80ec933 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -5108,6 +5108,12 @@ static void css_task_iter_advance(struct css_task_it=
-er *it)
- 		return;
-=20
- 	task =3D list_entry(it->task_pos, struct task_struct, cg_list);
-+	/*
-+	 * Hide task which are exitting but not yet removed. Keep zombie
-+	 * leaders with live threads visible.
-+	 */
-+	if ((task->flags & PF_EXITING) && !atomic_read(&task->signal->live))
-+		goto repeat;
-=20
- 	if (it->flags & CSS_TASK_ITER_PROCS) {
- 		/* if PROCS, skip over tasks which aren't group leaders */
---=20
-2.53.0
-
+--
+tejun
