@@ -1,239 +1,166 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC60353EEB
-	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Mar 2026 02:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE8834DB79
+	for <linux-rt-devel@lists.linux.dev>; Fri,  6 Mar 2026 11:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772764934; cv=none; b=rGWDXShHG8Wg6Q8EsoARjXYhIvhXdwbVEsIasCqw6SKtZ3xFXx22sb+7m0vShe4rpF3UVtjdA61oK5shtczQfV3pAa1ryydQV7MFCGJeBK1UmXlJoJQ3aHaSkMHSV1MACwX1wOIpbXjJTRw/64KEOOPoc6vBlmRInqmtzP/0Gzs=
+	t=1772795821; cv=none; b=DumukOqA0JhMQ/EU/KaRHmP+egaHmB+37n+NR3p2/8WWgwtAn56DPkO4+M7ZAGe8iLVbIU3Kpbl/aEu3pFqysJ8UPJIyvGczXhBfqMIJx6YD40yMncMEi3DbsCvN3TLpJVztwDnB1OrkhuUINf7kH4SZvDurKFTVMiaeMNBk1Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772764934; c=relaxed/simple;
-	bh=v4cflm4NiRNKit0+IyjvwCr+f6yIyaerrT9iAHpzkIU=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=QkEKhfbjfogTBvvP53Veqqf+bmmoK3UkFOr4weMY/BjdvpqSdW/FSgiwfcmY7fPX2fhK6lrnYQWYZI7KarKYnNr29/GhptjtZ8rItZYNMxBevzwi5HUYPMlIIKUAp3+YIA1xgbWkVH7FX/uBIol2OWxzuYkpUbkJ+2bGFUP6hN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fnjQCxqX; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772795821; c=relaxed/simple;
+	bh=0ct0kpKeDc+z2OOgJb8NVSmKtUsozpuK8513SX1J5pA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kQNboLL/1zrK5xSDNXOd+bXaQ5Vai64erLBdeBLPPUFpQK9B5AhyhO7z6GAOEEkpvyCol9fLqoo+Kudzrv8/gMDpHcAjiYcDIa/uJzHSM6uRE/1gOxOBuKoVXk8X+0CO6jHInxNTNb8+DAXSPqWJ15dqtVrUDLoePNtZgO6sLLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mai2BBne; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OEBLTa5P; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fnjQCxqX"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mai2BBne";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OEBLTa5P"
+Date: Fri, 6 Mar 2026 12:16:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1772795818;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=edgyxK5qi6Ep8DqwcjmWXemGWVZZ1w6pXK2DL1BBElk=;
+	b=mai2BBne1Lvz/o4lG4LVp1PHvaevfcxrH2Pa+kzYR2eFhnNCPfgJzUk3oAEIMjINmunPan
+	52Pq2znicPpmIqcLfo52ws1HBIp5jLUyOoOoDoAha+JQBMhzB9UhEBBb4rwczD1+WfGUSL
+	eddh5Vv0szLz0gqKB5VJk39gIEd6TjomNAgwhg5a+XcA/X2DotqeSKJEde/W82HcIQx/hi
+	IfFT/ZJUPwneQ5szp77UlOaZZHs7HDfty7pqG/4kMrf9iuCHcPiplcc5yWwSCgCVVsIGJT
+	tZxajdpvxJGFvAdf7ogxRNMy1d9RgvvuwzoQ4JMrFyBOhRBLcO1eLOWVICkQCw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1772795818;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=edgyxK5qi6Ep8DqwcjmWXemGWVZZ1w6pXK2DL1BBElk=;
+	b=OEBLTa5PmPF5m1WV/SXWK4ehaTH7Al34TIPSQaG77cUS64gJMn/2EJBhlC9cPzyyXnGbgF
+	ARy5lta9E5rY59Aw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+	linux-rt-devel@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <aaq3qN_mdpvJ0ixY@lx-t490>
+References: <20260305205023.361530-1-darwi@linutronix.de>
+ <20260305205023.361530-2-darwi@linutronix.de>
+ <20260305180741.7bd114f4@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772764929;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B/7M8Q3sVB0HPgbs9UCg3aqgHeu4f7DPzAlrQa5392Y=;
-	b=fnjQCxqXAMRp37ZcPFn9LlnceurWpFBB9B2+YtuSlaxPqcpkS+UHJi0+LkQoG8VLp90//y
-	g4wAh6ZSpng0H91NYyOONQGjyId1JhnzdUEh/00XwLhdZMZgwvZ5Vjb0lFdFX1oeGVMjEM
-	89ppIQryir/ENCv097hDuCwxq9ZZbDc=
-Date: Fri, 06 Mar 2026 02:42:05 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <e08dcb78a13fc69be07d28d032cebe3734797a3a@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH net v4 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-To: "Jay Vosburgh" <jv@jvosburgh.net>, "Nikolay Aleksandrov"
- <razor@blackwall.org>
-Cc: netdev@vger.kernel.org, jiayuan.chen@shopee.com,
- syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com, "Andrew Lunn"
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>,
- "Paolo Abeni" <pabeni@redhat.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Jesper Dangaard Brouer"
- <hawk@kernel.org>, "John Fastabend" <john.fastabend@gmail.com>,
- "Stanislav Fomichev" <sdf@fomichev.me>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>, "Eduard
- Zingerman" <eddyz87@gmail.com>, "Song Liu" <song@kernel.org>, "Yonghong
- Song" <yonghong.song@linux.dev>, "KP Singh" <kpsingh@kernel.org>, "Hao
- Luo" <haoluo@google.com>, "Jiri Olsa" <jolsa@kernel.org>, "Shuah Khan"
- <shuah@kernel.org>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>, "Steven Rostedt"
- <rostedt@goodmis.org>, "Jussi Maki" <joamaki@gmail.com>,
- linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <1356528.1772744631@famine>
-References: <20260304074301.35482-1-jiayuan.chen@linux.dev>
- <20260304074301.35482-2-jiayuan.chen@linux.dev>
- <aahWymAi_CtRG0gJ@penguin> <1293120.1772645248@famine>
- <aahsuPt7cY8LxETN@penguin> <1356528.1772744631@famine>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260305180741.7bd114f4@gandalf.local.home>
 
-2026/3/6 05:03, "Jay Vosburgh" <jv@jvosburgh.net mailto:jv@jvosburgh.net?=
-to=3D%22Jay%20Vosburgh%22%20%3Cjv%40jvosburgh.net%3E > wrote:
-
-
->=20
->=20Nikolay Aleksandrov <razor@blackwall.org> wrote:
->=20
->=20>=20
->=20> On Wed, Mar 04, 2026 at 09:27:28AM -0800, Jay Vosburgh wrote:
-> >=20
->=20> >=20
->=20> > Nikolay Aleksandrov <razor@blackwall.org> wrote:
-> > >=20=20
->=20> >  >On Wed, Mar 04, 2026 at 03:42:57PM +0800, Jiayuan Chen wrote:
-> > >  >> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> > >  >>=20
->=20> >  >> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter witho=
-ut a NULL
-> > >  >> check. rr_tx_counter is a per-CPU counter only allocated in bon=
-d_open()
-> > >  >> when the bond mode is round-robin. If the bond device was never=
- brought
-> > >  >> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
-> > >  >>=20
->=20> >  >> The XDP redirect path can reach this code even when the bond =
-is not up:
-> > >  >> bpf_master_redirect_enabled_key is a global static key, so when=
- any bond
-> > >  >> device has native XDP attached, the XDP_TX -> xdp_master_redire=
-ct()
-> > >  >> interception is enabled for all bond slaves system-wide. This a=
-llows the
-> > >  >> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
-> > >  >> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() =
-to be
-> > >  >> reached on a bond that was never opened.
-> > >  >>=20
->=20> >  >> Fix this by allocating rr_tx_counter unconditionally in bond_=
-init()
-> > >  >> (ndo_init), which is called by register_netdevice() and covers =
-both
-> > >  >> device creation paths (bond_create() and bond_newlink()). This =
-also
-> > >  >> handles the case where bond mode is changed to round-robin afte=
-r device
-> > >  >> creation. The conditional allocation in bond_open() is removed.=
- Since
-> > >  >> bond_destructor() already unconditionally calls
-> > >  >> free_percpu(bond->rr_tx_counter), the lifecycle is clean: alloc=
-ate at
-> > >  >> ndo_init, free at destructor.
-> > >  >>=20
->=20> >  >> Note: rr_tx_counter is only used by round-robin mode, so this
-> > >  >> deliberately allocates a per-cpu u32 that goes unused for other=
- modes.
-> > >  >> Conditional allocation (e.g., in bond_option_mode_set) was cons=
-idered
-> > >  >> but rejected: the XDP path can race with mode changes on a down=
-ed bond,
-> > >  >> and adding memory barriers to the XDP hot path is not justified=
- for
-> > >  >> saving 4 bytes per CPU.
-> > >  >>=20
->=20> >  >> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirect=
-ion to slave device")
-> > >  >> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.=
-com
-> > >  >> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00=
-cc.GAE@google.com/T/
-> > >  >> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> > >  >> ---
-> > >  >> drivers/net/bonding/bond_main.c | 19 +++++++++++++------
-> > >  >> 1 file changed, 13 insertions(+), 6 deletions(-)
-> > >  >>=20
->=20> >  >
-> > >  >IMO it's not worth it to waste memory in all modes, for an unpopu=
-lar mode.
-> > >  >I think it'd be better to add a null check in bond_rr_gen_slave_i=
-d(),
-> > >  >READ/WRITE_ONCE() should be enough since it is allocated only onc=
-e, and
-> > >  >freed when the xmit code cannot be reachable anymore (otherwise w=
-e'd have
-> > >  >more bugs now). The branch will be successfully predicted practic=
-ally always,
-> > >  >and you can also mark the ptr being null as unlikely. That way on=
-ly RR takes
-> > >  >a very minimal hit, if any.
-> > >=20=20
->=20> >  Is what you're suggesting different from Jiayuan's proposal[0],
-> > >  in the sense of needing barriers in the XDP hot path to insure ord=
-ering?
-> > >=20=20
->=20> >  If I understand correctly, your suggestion is something like
-> > >  (totally untested):
-> > >=20
->=20> Basically yes, that is what I'm proposing + an unlikely() around th=
-at
-> > null check since it is really unlikely and will be always predicted
-> > correctly, this way it's only for RR mode.
-> >=20
->=20 Jiayuan,
->=20
->=20 Do you agree that the patch below (including Nikolay's
-> suggestion to add "unlikely") resolves the original issue without memor=
-y
-> waste, and without introducing performance issues (barriers) into the
-> XDP path?
-
-
-Sure, it's basically similar to what my v1 did, but the patch below can b=
-e more generic.
-
-https://lore.kernel.org/netdev/20260224112545.37888-1-jiayuan.chen@linux.=
-dev/T/#m08e3e53a8aa8d837ddc9242f4b14f2651a2b00aa
-
->  -J
->=20
->=20>=20
->=20> >=20
->=20> > diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bondin=
-g/bond_main.c
-> > >  index eb27cacc26d7..ac2a4fc0aad0 100644
-> > >  --- a/drivers/net/bonding/bond_main.c
-> > >  +++ b/drivers/net/bonding/bond_main.c
-> > >  @@ -4273,13 +4273,17 @@ void bond_work_cancel_all(struct bonding *=
-bond)
-> > >  static int bond_open(struct net_device *bond_dev)
-> > >  {
-> > >  struct bonding *bond =3D netdev_priv(bond_dev);
-> > >  + u32 __percpu *rr_tx_tmp;
-> > >  struct list_head *iter;
-> > >  struct slave *slave;
-> > >=20=20
->=20> >  - if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN && !bond->rr_t=
-x_counter) {
-> > >  - bond->rr_tx_counter =3D alloc_percpu(u32);
-> > >  - if (!bond->rr_tx_counter)
-> > >  + if (BOND_MODE(bond) =3D=3D BOND_MODE_ROUNDROBIN &&
-> > >  + !READ_ONCE(bond->rr_tx_counter)) {
-> > >  + rr_tx_tmp =3D alloc_percpu(u32);
-> > >  + if (!rr_tx_tmp)
-> > >  return -ENOMEM;
-> > >  + WRITE_ONCE(bond->rr_tx_counter, rr_tx_tmp);
-> > >  +
-> > >  }
-> > >=20=20
->=20> >  /* reset slave->backup and slave->inactive */
-> > >  @@ -4866,6 +4870,9 @@ static u32 bond_rr_gen_slave_id(struct bondi=
-ng *bond)
-> > >  struct reciprocal_value reciprocal_packets_per_slave;
-> > >  int packets_per_slave =3D bond->params.packets_per_slave;
-> > >=20=20
->=20> >  + if (!READ_ONCE(bond->rr_tx_counter))
-> > >  + packets_per_slave =3D 0;
-> > >  +
-> > >  switch (packets_per_slave) {
-> > >  case 0:
-> > >  slave_id =3D get_random_u32();
-> > >=20=20
->=20> >  -J
-> > >=20=20
->=20> >=20=20
->=20> >  [0] https://lore.kernel.org/netdev/e4a2a652784ec206728eb3a929a98=
-92238c61f06@linux.dev/
-> > >
-> >=20
->=20---
->  -Jay Vosburgh, jv@jvosburgh.net
+On Thu, 05 Mar 2026, Steven Rostedt wrote:
 >
+> Very nice document!
+>
+
+Oh, thanks :)
+
+>
+> > +
+> > +``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
+> > +disabled during the kernel build, pass the following boot parameter [1]_::
+> > +
+> > +  efi=noruntime
+>
+> The above reads a bit funny. Maybe reword it to:
+>
+>   ``CONFIG_PREEMPT_RT`` enables this option by default. If this option is
+>   manually disabled at build time, the following boot parameter [1]_ may
+>   be used to disable EFI runtime at boot up::
+>
+> Or something like that.
+>
+
+Yes, much better; will do.
+
+> > +
+> > +There is ongoing `development work`_ to allow EFI variables access for a
+> > +real-time Linux system.
+>
+>   .. to allow access to EFI variables for a real-time Linux system
+>
+>  ?
+>
+
+Yup.
+
+> > +``CONFIG_TRACING`` (and tracing options)
+> > +----------------------------------------
+> > +
+> > +:Expectation: enabled
+> > +:Severity: *info*
+> > +
+> > +Shipping kernels with tracing support enabled (but not actively running)
+> > +is highly recommended.  This will allow the users to extract more
+> > +information if latency problems arise.
+> > +
+> > +.. caution::
+> > +
+> > +  Users should *not* make use of tracers or trace events during production
+> > +  real-time kernel operation as they can add considerable overhead and
+> > +  degrade the system's latency.
+>
+> I wonder if a special note should be called out for:
+>
+>   CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER should be avoided as they
+>   do incur measurable overhead even when tracing is not currently active.
+>
+> Maybe the above should be added in the "Problematic debug options"?
+>
+
+Oh, didn't know about that; I'll add them for sure.
+
+>
+> > +Kernel Debug Options
+> > +====================
+> > +
+> > +Most kernel debug options add runtime overhead that increases the
+> > +worst-case latency.
+> > +
+> > +.. caution::
+> > +
+> > +  During development and early testing, users are encouraged to run their
+> > +  real-time workloads and peripherals with lockdep and other kernel debug
+> > +  options enabled, for a considerable amount of time.  Such workloads
+> > +  might trigger kernel code paths that were not triggered during the
+> > +  internal Linux real-time kernel development, thus helping to uncover any
+> > +  real-time latency issues in the kernel.
+>
+> Hmm, perhaps there should be some note that connects the use of "lockdep"
+> with CONFIG_PROVE_LOCKING below (as that is what enables lockdep). The last
+> sentence above makes it sound like lockdep can uncover latency issues, but
+> it will most likely cause latency issues. Perhaps a bit more explanation
+> should be used here.
+>
+
+will do.
+
+> > +
+> > +With that in mind, any false real-time kernel configuration could cause a
+>
+>   s/false/incorrect/ ?
+>
+
+Yup.
+
+>
+> Nice job!
+>
+
+Thanks!  I'll send a v2 on Monday.
+
+All the best,
+Ahmed
