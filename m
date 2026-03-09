@@ -1,219 +1,175 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4347536A02E
-	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Mar 2026 07:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773042398; cv=pass; b=bMrHCerx9B72PZ2deCfGBFwHnqU4PT+nPwsaHY3S/qvtZJ+bFAF1y9x022UXrRRaEHXgC5sg6TzOz2A0MeekPjI4c4VomVIH18zXExNyA4d9Evh4i9V81Cgouu4+PhQLD6OmKLdg4txb19xReuRq0RGZnJLRmQIFKXn8u2Jt7gw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773042398; c=relaxed/simple;
-	bh=eacRXzXf/aiA5OgRGa3k7SPsaozGRTTdOpU1VEE4zBU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o3lbbkKuhqXwdXKVxEujedPo/+XtHSzqucopTaD2MuzFVSVat8RDmGfo2Uswc4Oe3rYXDOL4b0gZUc52HE9cU76V6hc50WFlCAtd4aVTzsLdn9L5+ehc1UXFyh4oh89z/E5uz/GBO/ViR2e2Oia48oE2xrALbOzz27eujm6JIKg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zSIRh4v0; arc=pass smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C78E26B755
+	for <linux-rt-devel@lists.linux.dev>; Mon,  9 Mar 2026 09:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773047626; cv=none; b=NwIx1SVfGl06BQzRJtrX6h2N/++phMHGEEEZav3L4K1apxLhE5vHOY0DApja2eXncQW3yPHHhvnXFmg7bB23OwlmNDK4nLcyVHOCPsPfo3UbxvUEZj+xqQAgD9T0UwI6CEnzH8+TmGx0Ea3aDIHV9qP4/NY+ka4o/OzpoO9ljF0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773047626; c=relaxed/simple;
+	bh=WMVFDyaFGYEMu+2W51N0zovUrt1bEJzeQcL/YmG5SEw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=jstfsihMMNLO0d3kJORlnC82ycj9xXuVBfEOCpoqKFM67HNMQ235pUvuWwEB4RGOcjXiGef/nvNEnc2NHfcoIL5yT1uJr1uC00zIBMh61rInxumO7Qfz3OGuwAdrH3UgaDydvIrmWiv4kelTMDqU/C1LVdWE5hsEZ2v2gmByxog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LYJrWmMF; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zSIRh4v0"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-89a1d7cc7f0so42167396d6.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 09 Mar 2026 00:46:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773042396; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ECx02THbYcfNjLP0SqeFKNjrgfbpyReSTNTWGN10UBC+gBAaXKCxIXcvwP251PaX+W
-         Xpsmwi9eh88Utt+IwuJ5AiFPogGpnzBufJilxMMECAZxTraHKWXs0/YBMsl/5T6oJILf
-         NtsUzaLXiFNvaS4hK02x6KCQt1aspmT9Jf3LQByZqP7Rhw0Qrfq9cdbU1brDjx+u6JL/
-         c/r6qksCLfbFYGmTxryBKxSNZANy+7wtVnUFF1DlUVTGUYZU/io4cuaCDlHHdQK0vCld
-         7fGv/wy6GJsZWSxyAgfzOAKu9o4K0fmwKiBXlSqFqwD5hZODPvtEmPtlsj8qzRvWY154
-         dYhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dy2wEMRvx8pDR1Qm7aqueQadBuYC5mw6ZCVKfgZ4OGs=;
-        fh=4jcNprZG5VONBOq0dhlCsS9LajgePs2ppUOta65T4wo=;
-        b=LcOYzTHSMlSa6sb0kba9+jWoBCQdZluRLDS7vAdQmAW4MCEpjbfFwvc4ds+4JJAFOH
-         D6gk9VqmEJBbqdlgfg5Zxx8gnFVxOypeVleEZjAq3hEyh20Vv20E5WvwafYJupT344Wj
-         pGbIY7VXvOfglGWW9pNVYLPhh9Vh0e8LTMeTiPW5L4lTK8SkHPVflhA9+D2/D1WK8QJ0
-         gZniQEEPtmU3mYWwl7zw8V/A7UhiNL29ACa9mL7AJJXekaryEqhLYj9vGt+WaFi7AjZ2
-         nb6mF2HBvSfy0TBEW/jiKLkxo/+LvXAsYyo8IKt4ryze0kf8w0rLLxtYLgD2NVqu9P4/
-         GCZA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773042396; x=1773647196; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dy2wEMRvx8pDR1Qm7aqueQadBuYC5mw6ZCVKfgZ4OGs=;
-        b=zSIRh4v0zaOJZ97yHLdxCVhIEgPbWZqCWtoOgDq6uYQKzxyXHjEPCPncXel1LXnVpf
-         hRAvdsGjMYgK8fZW+Pt9VHSl1bTMr7DNUBQFd85p5xJCKhyiMf48U89N2LgzN4h1kIQx
-         Oj7GgBgs10smlypQ2Bhszf2JDeESPDkC54rrxSWO9H1dy/K5Q4zE3/WGTHet8icEhSxL
-         03xD/Vxx8ry8+bXIDDs44oTQfzQ3/DZ50HwbKPqojier8snoHfnvIiSOn/0hzeAwunrA
-         Z4CHP4YhP8KInYl0LHjvlHtSp/+28rtIapfNO6yghOQpzB8FNbeAH8e0dvFg2fgKDfdr
-         cmcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773042396; x=1773647196;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dy2wEMRvx8pDR1Qm7aqueQadBuYC5mw6ZCVKfgZ4OGs=;
-        b=rrp9AVKewA4AvA/ez8ILRWTIypY6zYJ9lKsAlpB1Oyy3ZImeRABYaBmaYbQlDjagAP
-         UR87l/UnxYAtOa7jbuIzKHmg64xHfiTKWTnHKx9jowGiknYz+g6s6dlhLLhGyWrNRN0R
-         GPJhSrJli0bZJX/XmxeoStyOrJt/5z8bC4dcbLz8W9jFIbGNWO5G+HVZoZIn01pS00nV
-         uw/m1sfGApxzLxspgagmGss1ioyMxgG8Fr8tusO6E24uTcGCLaGgmxNQsnHzNsm/It10
-         IR519HcZoNSOM6ccTES7feet46+SvUWjXCtSeK/K0+u2xAqWUzoz4ciJZFTtr7Wy9xzp
-         MJoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7id5JUhaMA8yB82jyvjO2PihTIPBdVjKxcVnQRY5HpzoojZEyo8fp/GXKOHIW/VnpAH67GaDNEfT3T+BRRA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywv/kKfPd/fyaQGE6UGuplPx7t+vtaDB99Mon10C/935l2KnIVI
-	bM9g3CS2AN9BiAI7zckNZcETWcrBgqFceLwjSTeZ/G3MjpWcsa5SsMYZU62ybE0/LweFg9+7ZGq
-	G7tmuq24REV6EyUWmO2aF2wYVeT/Cfd4oQSrOsfc/
-X-Gm-Gg: ATEYQzzVXEk/CIC0UnZEiES2VMSZvgl2BDIixsvDKrv8AQ8DKld+8RfrQkWQkIhU+yL
-	fZtexjWueyldScyS/cCTJxdsXcap8y5EkrJ8wfNq4bwJxu1AOfifOQa6F0tTGz18HtWDvgBOY9/
-	nYWkqmLOTZUIrSM52wZsfEaRqjKkoBHBsAepLJwg9ZrD5BQIu5N4eza9Ep7ZcPB1jzDqsla23KB
-	d45YLF7mqFi6/UtFGrGPFL/HGX8/ZPuuZZ/UsJ3vQoiJRdxscHC17GCJsJlWPz6kGEGY6GuqC5B
-	ADFeIJ4=
-X-Received: by 2002:a05:6214:f0e:b0:899:f691:fd3a with SMTP id
- 6a1803df08f44-89a30a5ac53mr155765816d6.27.1773042395649; Mon, 09 Mar 2026
- 00:46:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LYJrWmMF"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 628MlBLF1538857;
+	Mon, 9 Mar 2026 09:13:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ZqO+TP
+	xuaejMxp3+IXSzDneEAs+DFQQjBDiL+SQuFuY=; b=LYJrWmMF3ko89xdSx38qar
+	EK3KHh/jp0E3bx4edTPmWISCAltQ4RupaxzAX+h+854f5KGadR781RbO7UusznZT
+	skPD5SS9QcQSxli3BBQP06FV7XAOi8yc5tI7S6eo9vhZMnNYnC1Xh8U7qwyCXjWI
+	JvGthaJsQl4qZv3WNf5uwwNeuNWR6xRySEYQ5J+jxoiviiZhVh7LvaUPoiWcC1ha
+	gIQoLyG1UhxliQWf/pnRmOOG/wPKsjgC3kjGYWTc7jE/gJ98ISxUOCFBDLqP+PLf
+	iXO9no5RUn2AhXn8ti4ObnGnBPc8Tb3ACIdo1sxWCC0Wl5dP2/OQ5EeQWQrF7ppQ
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4crcyw5ub4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 09:13:09 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6295B7vq025041;
+	Mon, 9 Mar 2026 09:13:09 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4cs0jjv5ar-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Mar 2026 09:13:08 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6299D5Po30671428
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 9 Mar 2026 09:13:05 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 33DDA20040;
+	Mon,  9 Mar 2026 09:13:05 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 08FF52004B;
+	Mon,  9 Mar 2026 09:13:02 +0000 (GMT)
+Received: from [9.109.215.252] (unknown [9.109.215.252])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Mon,  9 Mar 2026 09:13:01 +0000 (GMT)
+Message-ID: <05990951-e8f5-4834-9ec0-d54af995ae01@linux.ibm.com>
+Date: Mon, 9 Mar 2026 14:43:01 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260309030702.128520-1-jiayuan.chen@linux.dev>
-In-Reply-To: <20260309030702.128520-1-jiayuan.chen@linux.dev>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 9 Mar 2026 08:46:24 +0100
-X-Gm-Features: AaiRm51LwOtGnsLFGw5-TXI1ygOjcbArZhKBv2Arly_DVU4Sw2FiUsW3cGuVy-o
-Message-ID: <CANn89i+SCJmUuQo2pSVv_4YhjvXGvnGDH_HNo2XY6KxDX1Kcgg@mail.gmail.com>
-Subject: Re: [PATCH net v5 0/2] net,bpf: fix null-ptr-deref in
- xdp_master_redirect() for bonding and add selftest
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: netdev@vger.kernel.org, razor@blackwall.org, jiayuan.chen@shopee.com, 
-	Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>, 
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Jussi Maki <joamaki@gmail.com>, linux-kernel@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+From: Shrikanth Hegde <sshegde@linux.ibm.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc: juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+        vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        Nicholas Piggin <npiggin@gmail.com>, sathvika@linux.ibm.com
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <a86b6bbd-c0ed-40dc-899f-ba162332c80a@linux.ibm.com>
+ <20260225105345.GZ1282955@noisy.programming.kicks-ass.net>
+ <20260225194809.1f5e44a6@fedora>
+ <127c4772-7352-41a8-b30d-8b869751e907@linux.ibm.com>
+ <20260226122252.184254cd@gandalf.local.home>
+ <97dd1a4f-e524-4337-bcbb-9cbe4bfdda30@linux.ibm.com>
+ <20260227095334.40768d0b@gandalf.local.home>
+ <b0e30f81-b06c-451b-abdc-ede71fa4a96b@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <b0e30f81-b06c-451b-abdc-ede71fa4a96b@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDA4MyBTYWx0ZWRfX0QPDrcn1oT29
+ ifcKENHNAuo9OxCC4erSe480ZidKJKAAG983TMnrm1RBRkJR1MXMld0+teDyrnYU/OOggOYlvpD
+ Z5Lx2CBAZa8n+82v4qfggeih2Zx0NAiv8KEITZoHt+1PAgTSG0W0B+hKTXHDaWEsteBurhm2Ocz
+ RCYVgnZ6Rt5VwydsedwMwqz2v1ubBR5wJ3KNd90tWP1POsUl6TEYUIPFrnsZOcw9SSFDfLRyBw9
+ Tn4rYcOjZ5my5fHpA81ypmtj+rpDO1WiNSqono17XrPkiSpdbTdKaUtg8SJJbmHwqCvNX5vWubZ
+ 8sALQXO3qtRLOUPGG5WlwMIQ+/pVrK90fC4TUoSuhSSVCiDnUYFZK7WsYUrRGXbGBE+igjo4F/f
+ Pmj0nm4bJdga+aKEEzBYE01O97Wc0jzae/s9VfvOjWiFTo/HPYl/O1NwddCso+3ZIQJoSJQe6dC
+ BnHuoyVIpJB13nscfJw==
+X-Authority-Analysis: v=2.4 cv=QaVrf8bv c=1 sm=1 tr=0 ts=69ae8f26 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VnNF1IyMAAAA:8
+ a=oa-y4RgJKXd66vF3O2IA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: twl0acA2UnqWat4vdP6N1yLGUvgK2Oeb
+X-Proofpoint-ORIG-GUID: IrTWjuhC_u7yWUmbLRjxG4rFkQ4T9BFj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_03,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 impostorscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 lowpriorityscore=0 priorityscore=1501 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090083
 
-On Mon, Mar 9, 2026 at 4:07=E2=80=AFAM Jiayuan Chen <jiayuan.chen@linux.dev=
-> wrote:
->
-> syzkaller reported a kernel panic [1] with the following crash stack:
->
-> Call Trace:
-> BUG: unable to handle page fault for address: ffff8ebd08580000
-> PF: supervisor write access in kernel mode
-> PF: error_code(0x0002) - not-present page
-> PGD 11f201067 P4D 11f201067 PUD 0
-> Oops: Oops: 0002 [#1] SMP PTI
-> CPU: 2 UID: 0 PID: 451 Comm: test_progs Not tainted 6.19.0+ #161 PREEMPT_=
-RT
-> RIP: 0010:bond_rr_gen_slave_id+0x90/0xd0
-> RSP: 0018:ffffd3f4815f3448 EFLAGS: 00010246
-> RAX: 0000000000000001 RBX: 0000000000000001 RCX: ffff8ebc8728b17e
-> RDX: 0000000000000000 RSI: ffffd3f4815f3538 RDI: ffff8ebc8abcce40
-> RBP: ffffd3f4815f3460 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000000 R12: ffffd3f4815f3538
-> R13: ffff8ebc8abcce40 R14: ffff8ebc8728b17f R15: ffff8ebc8728b170
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: ffff8ebd08580000 CR3: 000000010a808006 CR4: 0000000000770ef0
-> PKRU: 55555554
-> Call Trace:
->  <TASK>
->  bond_xdp_get_xmit_slave+0xc0/0x240
->  xdp_master_redirect+0x74/0xc0
->  bpf_prog_run_generic_xdp+0x2f2/0x3f0
->  do_xdp_generic+0x1fd/0x3d0
->  __netif_receive_skb_core.constprop.0+0x30d/0x1220
->  __netif_receive_skb_list_core+0xfc/0x250
->  netif_receive_skb_list_internal+0x20c/0x3d0
->  ? eth_type_trans+0x137/0x160
->  netif_receive_skb_list+0x25/0x140
->  xdp_test_run_batch.constprop.0+0x65b/0x6e0
->  bpf_test_run_xdp_live+0x1ec/0x3b0
->  bpf_prog_test_run_xdp+0x49d/0x6e0
->  __sys_bpf+0x446/0x27b0
->  __x64_sys_bpf+0x1a/0x30
->  x64_sys_call+0x146c/0x26e0
->  do_syscall_64+0xd3/0x1510
->  entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-Please, can you always provide symbols in such traces ?
-You can use scripts/decode_stacktrace.sh to make the trace really
-nice, instead of ugly.
 
+On 2/27/26 8:58 PM, Shrikanth Hegde wrote:
+> Hi Steve.
+> 
+> On 2/27/26 8:23 PM, Steven Rostedt wrote:
+>> On Fri, 27 Feb 2026 14:39:42 +0530
+>> Shrikanth Hegde <sshegde@linux.ibm.com> wrote:
+>>
+>>> I am afraid we will have trace all functions to begin with (which is 
+>>> expensive), but filter
+>>> out those which took minimal time (like less than a 1s or so). that 
+>>> would eventually leave only a
+>>> few functions that actually took more than 1s(that should have 
+>>> limited overhead).
+>>
+
+It is possible to remove tracing for some function after they were enabled
+in kernel? or this could only be done from user by looking at trace buffer?
+
+Even if it doable, This would allow us to trace functions that took a lot of time.
+But we should be aiming to calculate the kernel paths that took a lot of time?
+
+>> Well, I think the detection can be done with timings between schedules.
+>> What's the longest running task without any voluntary schedule. Then you
+>> can add function graph tracing to it where it can possibly trigger in the
+>> location that detected the issue.
+>>
+
+This would not work either. We will have sched in/sched out even when
+running in userspace.
+
+Lets say, user makes a syscall, the process will continue to in R state,
+we only need to track the long running time in kernel, but not in userspace.
+
+>> On a detection of a long schedule, a stack trace can be recorded. Using
+>> that stack trace, you could use the function graph tracer to see what is
+>> happening.
+>>
+>> Anyway, something to think about, and this could be a topic at this years
+>> Linux Plumbers Tracing MC ;-)
+>>
 >
-> Problem Description
->
-> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a NULL
-> check. rr_tx_counter is a per-CPU counter only allocated in bond_open()
-> when the bond mode is round-robin. If the bond device was never brought
-> up, rr_tx_counter remains NULL.
->
-> The XDP redirect path can reach this code even when the bond is not up:
-> bpf_master_redirect_enabled_key is a global static key, so when any bond
-> device has native XDP attached, the XDP_TX -> xdp_master_redirect()
-> interception is enabled for all bond slaves system-wide.
->
-> Solution
->
-> Patch 1: Add a NULL check with unlikely() in bond_rr_gen_slave_id() befor=
-e
-> dereferencing rr_tx_counter. When rr_tx_counter is NULL (bond was never
-> opened), fall back to get_random_u32() for slave selection. The existing
-> allocation in bond_open() is kept, with WRITE_ONCE() added to pair with
-> the READ_ONCE() in the NULL check.
-> Patch 2: Add a selftest that reproduces the above scenario.
->
-> Changes since v4:
-> https://lore.kernel.org/netdev/20260304074301.35482-1-jiayuan.chen@linux.=
-dev/
-> - Reverted unconditional alloc in bond_init(); instead add a NULL check
->   with unlikely()/READ_ONCE() in bond_rr_gen_slave_id() and WRITE_ONCE()
->   in bond_open(), avoiding memory waste for non-RR modes
->   (Suggested by Nikolay Aleksandrov, patch by Jay Vosburgh)
->
-> Changes since v3:
-> https://lore.kernel.org/netdev/20260228021918.141002-1-jiayuan.chen@linux=
-.dev/T/#t
-> - Added code comment and commit log explaining why rr_tx_counter is
->   allocated unconditionally for all modes (Suggested by Jay Vosburgh)
->
-> Changes since v2:
-> https://lore.kernel.org/netdev/20260227092254.272603-1-jiayuan.chen@linux=
-.dev/T/#t
-> - Moved allocation from bond_create_init() helper into bond_init()
->   (ndo_init), which is the natural single point covering both creation
->   paths and also handles post-creation mode changes to round-robin
->
-> Changes since v1:
-> https://lore.kernel.org/netdev/20260224112545.37888-1-jiayuan.chen@linux.=
-dev/T/#t
-> - Moved the guard for NULL rr_tx_counter from xdp_master_redirect()
->   into the bonding subsystem itself
->   (Suggested by Sebastian Andrzej Siewior <bigeasy@linutronix.de>)
->
-> [1] https://syzkaller.appspot.com/bug?extid=3D80e046b8da2820b6ba73
->
-> Jiayuan Chen (2):
->   bonding: fix null-ptr-deref in bond_rr_gen_slave_id()
->   selftests/bpf: add test for xdp_master_redirect with bond not up
->
->  drivers/net/bonding/bond_main.c               |   9 +-
->  .../selftests/bpf/prog_tests/xdp_bonding.c    | 101 +++++++++++++++++-
->  2 files changed, 106 insertions(+), 4 deletions(-)
->
-> --
-> 2.43.0
->
+
+We could track the kernel paths, i.e different entry/exit points into kernel.
+
+1. syscall entry/exit.
+2. irq entry/exit.
+3. kworker threads.
+
+For 1 and 2 we have tracepoints already. For 3, we can use sched in/sched out tracepoints
+to see if and when it takes a long time.
+
+All of them could be combined in one bpf program. Any thoughts?
+
+Getting stacktrace of 3 is doable i guess, i.e when sched_out happen while in R state and time
+check has failed. But for 1,2 getting a stack is going to be difficult.
+
+Please add if i have missed more kernel paths where we want detection to happen.
