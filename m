@@ -1,113 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716C0291C33;
-	Tue, 10 Mar 2026 08:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B64938A712
+	for <linux-rt-devel@lists.linux.dev>; Tue, 10 Mar 2026 11:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773130328; cv=none; b=YDmHJujxxLDkSn2Scg4TqavZjrxK27VJiH+c/b44B9XaHql/G33HLS79SDVu5WO2vtJiKZXOMt+z4Peq5QCHznSs97hhkZFOTaDUm4bcg94+PXQnDIJ4IrIAEMqR13gkchBGocLOnz5vdk/9W/fa4ByIlWrdLbNwG9BWqiVieq4=
+	t=1773143375; cv=none; b=Jhe1l+Os92xggyDIJ+IrxeAj9H5ZjW6uewk66hPa/8r5Ol52tQJyPgrVVwUOzcNnfRLtuWjChSGa14mJBq480xXkXnPtYBtKPOowJB2/cXnE89bLadVMbT8CJrA4yI3sy3/yf+UZ4uVz4tt8Wl7PAGr5/Czi5L4gvG11nzoHsww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773130328; c=relaxed/simple;
-	bh=oUEop/YL6ktm+iMT9kaKCGei27OPHLY3n8K3k7wba54=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hAvgoL6HiY2QA2V/cW6Woo9b7LYFzqRxzEZrTmjGL9phHVWdSNkwv1i4rY0UbRahjZhverJleLz1oqJ61o6sEQ0YLN5BzDe4A3w7jlUCrmxf2PvthYdbgzfyzVPqq3BiUr7Q8cozv8RN+DDL40ZxzDoIul8kTsRzW7Rmz5CgoQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7wE/GzZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773143375; c=relaxed/simple;
+	bh=Zr3qcMn4OLx1slxxG1q/v6XHjn/W58Jij9qVOShgcro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IYgjwCNk8earXw4O15LLOKtCk8L9D88H/AoG6QVzmBCFXmOHvTQpHpt9inbtK0qlMRywzlFpkB0xvoVdAB73CHdFr6xKhT0e0AEVlYtWtDs4+EY4HmTg+DAQ0W/P20KBeBKyLZi7AAkjIAajNxcdV4piQFpXzUfjiMpQe4UVBNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=BESZYtkV; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N7wE/GzZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 068BBC19423;
-	Tue, 10 Mar 2026 08:12:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773130328;
-	bh=oUEop/YL6ktm+iMT9kaKCGei27OPHLY3n8K3k7wba54=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N7wE/GzZCAPdVdJRBH/o6VZPuXFFmhFImAWZ0DvimaZvG23jLhkH35uGibH+C900m
-	 BRD5QJMw/awxUsR5G8qWbyOcOv4icMdlzoqNLd26InNtu5xNiwuaqk4tBWpum17C+N
-	 JYyP48FEye/NMpiHPl2h3Q6tojSl6MCmqTDTRq+t2a+ddLp1bhnW6gsdaYJMa36+Do
-	 T2MO3pJYnTt/I8d2cZCVeMVOwwxpODKgNhRxK+o03B0JSdj971OUV8DFIcDmMLAbAk
-	 AW4neIzVACen7qpCSktImVAO3QBaz8nGkThxMZVx/YkDNlnAJjIsmzuDwFhOhU8zZI
-	 q6rYc9pG3tfWQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vzsCD-00000000Kwx-2y5M;
-	Tue, 10 Mar 2026 08:12:05 +0000
-Date: Tue, 10 Mar 2026 08:12:05 +0000
-Message-ID: <86fr686r3e.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Thomas Gleixner <tglx@kernel.org>,
+	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="BESZYtkV"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-466f00535cfso1998103b6e.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 10 Mar 2026 04:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall.org; s=google; t=1773143372; x=1773748172; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eRz2iGuRS5c9gUYKqTban2ycHL3n1P/vxXJWakDhtNM=;
+        b=BESZYtkV5nLSBe5sxY1V8jwAMfwnYqrOf2mrI6UiMZ89WvCDX0DQbp1gUyEF25QiZs
+         wWyekjz9N9igglQEkybfnRfg6er6f/LL+J/NuJswJokdFnxBQ90iVjKhBp8sv8/tSuux
+         ROymxYZvlxvZkpJ7NNJRnF3aVh+2Tq5S24pnBT6gbWznaJdKCIvblKEj/ThJ9J4ogJly
+         txGEktk9tM1rT5Gff2aiXcDbYmHKFpIWZ1sCdihfBNXVB3MAPU92PfNGwbULCR3WWdiE
+         eHhjvUvE/ioPx3d+CRUlgx3miW8K1xg8SJIJT81Guc80StOIQ171Pm7ByRMsWXTM8f/M
+         27oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773143372; x=1773748172;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eRz2iGuRS5c9gUYKqTban2ycHL3n1P/vxXJWakDhtNM=;
+        b=F1DiO8BVIAGEG6bfKUluiKVcgq7zQhx3npjX+ctbiXtEijBqoEP9XMHePiO3M2z+9L
+         SoGYLKecYgUU545EJW4PRWTR0GrB3EOO9YLyd8hsyMljZtNFu7QFU5jTU75Qzrz1h9ek
+         w/S9JN8TDRzSq99zYmJisbQW41eeASuxH94T1Ru3RlasbIStQZWRWyr+crJ4+t7B/j9l
+         CV4cYoRdGBMNC98lZNNuSG/D3wwZ8rBml2SVm6dBHlM5lWwkg+6J+rfMo8O/lx/8JPCr
+         /QokfZaoICl99RtxHSGxyIXrqoHYB19b2ZcB1sfXoxdnYwXsJwitmpkaQlyG5Y5JtbFK
+         hkpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVgLkIAaxNIUsUvMPUdFT2mX+7/PEvqL9CoQk42U5v2+x4HIlw/x+4mReqG+at/NfC2ZQej9AWhQ74Nc5AXMw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMvyE+CR0R2z2vzdALilSKD3FqxJ9wo+ZItKuV9Eer1Oc+dSBu
+	tgWj4ykYxjB7Kg3duwcbGMEYnzSVwjZFLcru2PQ16twGpbnkJqG6jRs8HgNs7GZnjAo=
+X-Gm-Gg: ATEYQzzf0dfYaNG0zTxH+xNO1Nk2PpwtrApA4CxIZpjcs3NA0ab00Ijgu8c2T9U8bMf
+	aEaZBd92Od4WDJwm2p0UlZ2301CM/dGYYShI+VzlOc0zY2TYfIghEo35pGaH9SgcTXWDs4kUOQw
+	UlOEcwwHehF54lDBKcfvR/ESNeUdkS5xZobK1/gUja1DJC5zhokNSv6XVNyYw5xozJEAqYJkOqg
+	Z2oIk2O9xvc/uQi3WMJNrlEvqzkxX6uruqiSYZaakYLyUoOuBY0c11Pkkzx2u39cj+oqgdGBFLE
+	arRGYaCG+AFygJRL+CvRyaWT8ZtCZCyj57GJbUkIi/xn+DP0cRV7/2WBrrlxaXWkS+uOazKYGCo
+	tki3nb+F2fqzdxTQaGMivEo+jRFxFoI7E7HiV6MZT/KFXm1o7eKbaKvDExuW7Kkvl94MRkDjLlo
+	MbaubmvY43QTeTJFl9AZMJ
+X-Received: by 2002:a05:6808:171a:b0:45c:a040:e53c with SMTP id 5614622812f47-466dcb1c40cmr7605844b6e.32.1773143372180;
+        Tue, 10 Mar 2026 04:49:32 -0700 (PDT)
+Received: from localhost ([216.228.127.131])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-466dfac3472sm7496849b6e.15.2026.03.10.04.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 04:49:30 -0700 (PDT)
+Date: Tue, 10 Mar 2026 13:49:25 +0200
+From: Nikolay Aleksandrov <razor@blackwall.org>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: netdev@vger.kernel.org, jiayuan.chen@shopee.com,
+	syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
+	Jay Vosburgh <jv@jvosburgh.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	Jussi Maki <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] irqchip/gic-v3-its: Don't acquire rt_spin_lock in allocate_vpe_l1_table()
-In-Reply-To: <0a332e19-c99e-4dc5-a2d0-b36a2aef80a1@redhat.com>
-References: <20260107215353.75612-1-longman@redhat.com>
-	<864iowmrx6.wl-maz@kernel.org>
-	<87ms2nsqju.ffs@tglx>
-	<86wm1qlq7l.wl-maz@kernel.org>
-	<87ecnwij44.ffs@tglx>
-	<86v7h8l9ht.wl-maz@kernel.org>
-	<87pl7gglya.ffs@tglx>
-	<86tswrkrh4.wl-maz@kernel.org>
-	<861pjjcqdi.wl-maz@kernel.org>
-	<4dc6ab03-b2ad-4411-a49b-4513c5d592ea@redhat.com>
-	<70dbf293-dd5b-4d77-b653-8f8c09129723@redhat.com>
-	<0a332e19-c99e-4dc5-a2d0-b36a2aef80a1@redhat.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+Subject: Re: [PATCH net v5 1/2] bonding: fix null-ptr-deref in
+ bond_rr_gen_slave_id()
+Message-ID: <abAFRbJNinhN3O5v@penguin>
+References: <20260309030702.128520-1-jiayuan.chen@linux.dev>
+ <20260309030702.128520-2-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: longman@redhat.com, tglx@kernel.org, bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260309030702.128520-2-jiayuan.chen@linux.dev>
 
-On Mon, 09 Mar 2026 19:06:04 +0000,
-Waiman Long <longman@redhat.com> wrote:
+On Mon, Mar 09, 2026 at 11:06:58AM +0800, Jiayuan Chen wrote:
+> From: Jiayuan Chen <jiayuan.chen@shopee.com>
 > 
-> On 1/21/26 10:49 PM, Waiman Long wrote:
-> > 
-> > On 1/21/26 3:41 PM, Waiman Long wrote:
-> >> 
-> >>>> Waiman, can you please give the following hack a go on your box? The
-> >>>> machines I have are thankfully limited to a single ITS group, so I
-> >>>> can't directly reproduce your issue.
-> >>> Have you managed to try this hack? I may be able to spend some time
-> >>> addressing the issue in the next cycle if I have an indication that
-> >>> I'm on the right track.
-> >> 
-> >> Yes, I have tried out your hack patch and the 2-socket Grace test
-> >> system booted up without producing any bug report for a RT debug
-> >> kernel. I will try out your official patch once it come out. So
-> >> moving the memory allocation to a later part of the hotplug bringup
-> >> pipeline where sleeping is allowed should work. 
-> > 
-> > Attaching the dmesg log for your further investigation. 
+> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a NULL
+> check. rr_tx_counter is a per-CPU counter only allocated in bond_open()
+> when the bond mode is round-robin. If the bond device was never brought
+> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
 > 
-> Ping,
+> The XDP redirect path can reach this code even when the bond is not up:
+> bpf_master_redirect_enabled_key is a global static key, so when any bond
+> device has native XDP attached, the XDP_TX -> xdp_master_redirect()
+> interception is enabled for all bond slaves system-wide. This allows the
+> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
+> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() to be
+> reached on a bond that was never opened.
 > 
-> Are you planning to send out an official patch soon?
+> Fix this by adding a NULL check with unlikely() in bond_rr_gen_slave_id()
+> before dereferencing rr_tx_counter. When rr_tx_counter is NULL (bond was
+> never opened), fall back to get_random_u32() for slave selection. The
+> allocation in bond_open() is kept, with WRITE_ONCE() added to safely
+> publish the pointer to the XDP read side. A plain read suffices for the
+> !bond->rr_tx_counter guard in bond_open() itself, as bond_open() runs
+> under RTNL lock and is the only writer of rr_tx_counter.
+> 
+> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirection to slave device")
+> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com
+> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00cc.GAE@google.com/T/
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+> ---
+>  drivers/net/bonding/bond_main.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
 
-Soon? On a geological scale, certainly. On a more practical scale,
-when I get time, which hasn't happened so far in this cycle ($WORK
-gets, unsurprisingly, in the way of solving problems I don't have).
+This is Jay's patch + the unlikely change, looks good to me.
+Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
 
-If that's not soon enough, feel free to expand the hack I posted to
-include all boot-time tables.
+Cheers,
+ Nik
 
-Thanks,
-
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+> diff --git a/drivers/net/bonding/bond_main.c b/drivers/net/bonding/bond_main.c
+> index 444519078da3..b8ec87625ce3 100644
+> --- a/drivers/net/bonding/bond_main.c
+> +++ b/drivers/net/bonding/bond_main.c
+> @@ -4290,9 +4290,11 @@ static int bond_open(struct net_device *bond_dev)
+>  	struct slave *slave;
+>  
+>  	if (BOND_MODE(bond) == BOND_MODE_ROUNDROBIN && !bond->rr_tx_counter) {
+> -		bond->rr_tx_counter = alloc_percpu(u32);
+> -		if (!bond->rr_tx_counter)
+> +		u32 __percpu *rr_tx_tmp = alloc_percpu(u32);
+> +
+> +		if (!rr_tx_tmp)
+>  			return -ENOMEM;
+> +		WRITE_ONCE(bond->rr_tx_counter, rr_tx_tmp);
+>  	}
+>  
+>  	/* reset slave->backup and slave->inactive */
+> @@ -4883,6 +4885,9 @@ static u32 bond_rr_gen_slave_id(struct bonding *bond)
+>  	struct reciprocal_value reciprocal_packets_per_slave;
+>  	int packets_per_slave = bond->params.packets_per_slave;
+>  
+> +	if (unlikely(!READ_ONCE(bond->rr_tx_counter)))
+> +		return get_random_u32();
+> +
+>  	switch (packets_per_slave) {
+>  	case 0:
+>  		slave_id = get_random_u32();
+> -- 
+> 2.43.0
+> 
