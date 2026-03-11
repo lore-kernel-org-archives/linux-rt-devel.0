@@ -1,55 +1,53 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2089F3C6A45
-	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Mar 2026 12:08:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4193DCDBB
+	for <linux-rt-devel@lists.linux.dev>; Wed, 11 Mar 2026 14:51:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773230914; cv=none; b=qlEv+btSsBnjEiy+A2ydxfY2Til9zo/tzHDAi1UUXWuvaLcHKy9r7FFCG9fKO2ptQdhkhQXcLQgpjo6fXdtdfQ8gngymyDNrvgUTo/P20tiKc5Ujf29PTT5mBRXv8Auy1gbf2sXEoHBLustL87w9gkRXWewJ5lv++1E4GyvCf1Q=
+	t=1773240716; cv=none; b=a01WxaOrhQgxJa6i77XntS0uWwnRc5ZPUJ+jy5pc8zujCc1QOcSz7wRFO4K4ZYh1aH00atW7bih5bmPs5k07QsOAKXPUZJgnDhCtTkNR1yqQ7dEO9gVWOwpi7e71hjhc9YwN09ywZ6Pi3G72WJTHpRCqDU1EKdzizG8XT9xfvY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773230914; c=relaxed/simple;
-	bh=efjC71zvjkjWfUprLrQvMvusj/zTTr5jRO24IkM4HL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hYooLNP3r1r+L6hsSy1NEGd/uybkKfvJacNEaZER1E/FTfVJo56eWXqseIg2R5KRuXQw8xxETxtYV/nSFPWjRT/Liw2C4cPQ6Xp5Vr0AZL5gwmZsjxgJkyWJOjfK6GJxNxa5YSZXwYbvrcwcaTHCUmclXf06OHuxMf5XeBa9VF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UBr1dlLZ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3b/o61/S; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1773240716; c=relaxed/simple;
+	bh=RfERqnE1t1NFQpTouIpOU6fwUCNFyayNq2kH4Jc/5B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qc4Sl7eQJibUP5fEn78v6mvpC1Yg7eW46gIuh5BVmJgC8SFJYyh1w3sVEtuVjK1mKsSUmdLMEZoQP4CvFxP6cF3Uf0Fw7GGLjPuSPAQiUWAb64/YpyZTDDe81x26JpbR7B1wdsd2GvcQzNQqZrW0/7eb+KoycHppB2D3aZAIyHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JOixGUW7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vhWe785E; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UBr1dlLZ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3b/o61/S"
-Date: Wed, 11 Mar 2026 13:08:29 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JOixGUW7";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vhWe785E"
+Date: Wed, 11 Mar 2026 15:51:49 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773230911;
+	s=2020; t=1773240710;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=bHpQtlcPZsjY2AgzGLmBLR+0aWL6BXrmVVrSWNkto/Q=;
-	b=UBr1dlLZisqWKCTHwYahPDzSWJShAEMFkYLAtfD5UArjcSlHyqqzfLGc/185wdlLyUfrLD
-	bmA3H2Q81QKTtAPVcUYC3PgSONWKZluEhV2GJlxdllJ4ir4MQqv23GO+cU6iILie5Wj+Re
-	fhvDqsLOlsSpsL4HIDl3rJoBCl2hJsQn6D1IObVeZbrq9C56HItcSvk51Dbp5ocLZXkUE1
-	5Hx9NzidsXNaethaTVr7GJqxRgTbzB8aR4PKkeLfsAM62prbASG/uA/LzXSRAsjpYwnels
-	7KNEkphhRmpuRshAz/YPXPL/xhvmWPRE98Ci70LhNAMWYxpJs/Gnm9OQMAUMTg==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8JODN19PltpAtAEfHpH9VX/DcbB2gTeXbVOlpdQzGGM=;
+	b=JOixGUW7DsDcasGCmDD25pAzIla018mjbe2focWT9SQBSOJpi43HgSWfo4YUnmFHmAtwxo
+	BgVAAD0+9iSwwsYq5lrflnjTWyo/HTM2JHmUbh9aZ9GA+ghXc2EU/KetMHKUENrdm1KDso
+	bdzt6XrMNJaLEAfd7an4d2vp9DGb+RkGjCRvnnyDqvW2CgPgQEqlJ49yVjP3Nf/fRb8i+Y
+	FArUjY80Ge+6OndsQ1nM7CVRSWqKLnAxu+4CM5FpRyyd4WtoBYDSOk3rGd0bOJ1aKmIpdb
+	x79BQZWb6jo1KPnE3H6sVljtYrw/zq7VkYYq64kaugXNRWplDXfLHhaLRIhtIQ==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773230911;
+	s=2020e; t=1773240710;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=bHpQtlcPZsjY2AgzGLmBLR+0aWL6BXrmVVrSWNkto/Q=;
-	b=3b/o61/S3cEmYNmHbJo0oNPmaPVlHWb/RlvXBT7KZLgKPZy0jpPeQuJ1Aq5L8Z9+uk5we3
-	lfRY16O4nTps7XBw==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8JODN19PltpAtAEfHpH9VX/DcbB2gTeXbVOlpdQzGGM=;
+	b=vhWe785E5GO+pn9G7uqiAIhgAedY4axTcnDTeBk7yu4uIpmwWjOUDF1F63l1HvF09cZlp6
+	hiPbwwSl8AMDzrAw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
-	Ben Segall <bsegall@google.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: [PATCH] cgroup: Move cgroup_task_dead() to task_struct clean up
-Message-ID: <20260311120829.rEHY-xh9@linutronix.de>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: boqun@kernel.org, clrkwllms@kernel.org, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	longman@redhat.com, mingo@redhat.com, peterz@infradead.org,
+	rostedt@goodmis.org, will@kernel.org
+Subject: Re: [PATCH] softirq: WARN_ON !preemptible() not check softirq cnt in
+ bh disable on RT
+Message-ID: <20260311145149.dU2xpGoO@linutronix.de>
+References: <20260311093303.4_1N-y3-@linutronix.de>
+ <20260311104007.66966-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -58,181 +56,89 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <20260311104007.66966-1-jackzxcui1989@163.com>
 
-The cgroup clean up (via cgroup_task_dead()) has been moved to
-finish_task_switch() so that sched_ext can observe the task attached to
-its cgroups one last time before the task is gone.
+On 2026-03-11 18:40:07 [+0800], Xin Zhao wrote:
+> hi, Sebastian
+Hi Xin,
 
-This clean up has been added to irq_work on PREEMPT_RT because
-finish_task_switch() is invoked with disabled preemption and
-cgroup_task_dead() needs to acquire sleeping locks.
+> > > Although the original check of this_cpu_read(softirq_ctrl.cnt) can also
+> > > prevent the WARN_ON print during the boot process, it may hide some issues
+> > > that should be exposed immediately. Because softirq_ctrl.cnt maybe 0 when
+> > > __local_bh_disabled_ip() is called in !preemptible() context.
+> > 
+> > That is actually the point. If it is known that the call chain does not
+> > origin from bh-disabled context the it is fine. Well, not fine if you
+> > stick to the details but good enough if you don't to constantly complain
+> > to everyone about the little things which don't make a difference.
+> 
+> I just think that using (system_state != SYSTEM_BOOTING) for conditional checks
+> is more reasonable than using (softirq_ctrl.cnt).
 
-Invoking cgroup_task_dead() in finish_task_switch() is too late and
-creates a small window in which the task is observed in the cgroup list
-after it died and this confuses systemd. To close the window, tasks
-which are exiting are no longer exposed to the user. Now there is no
-reason to invoke cgroup_task_dead() in finish_task_switch() and it can
-be delayed further so simplify the code.
+We had users which which did
+	local_irq_disable();
+	local_bh_disable();
 
-Move cgroup_task_dead() to cgroup_task_free() which is invoked during
-RCU clean up of the task_struct.
+and we decided not to bother if there is no reason to.
 
-Fixes: 9311e6c29b34 ("cgroup: Fix sleeping from invalid context warning on PREEMPT_RT")
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- include/linux/cgroup.h |  2 --
- include/linux/sched.h  |  3 ---
- kernel/cgroup/cgroup.c | 56 ++----------------------------------------
- kernel/sched/core.c    |  6 -----
- 4 files changed, 2 insertions(+), 65 deletions(-)
+> > > In RT-Linux, __local_bh_disable_ip() will be used by numerous _bh variants
+> > > locks and local_bh_disable(). Since locks call __might_resched() check, we
+> > > analyze the scenario of using local_bh_disable() in !preemptible() context.
+> > > 
+> > > If CONFIG_PREEMPT_RT_NEEDS_BH_LOCK is not enabled, __local_bh_disable_ip()
+> > > does not enter the local_lock lock and thus using local_bh_disable() in
+> > > !preemptible() context does not lead to might sleep problem, but using
+> > > local_bh_disable() in !preemptible() state is not meaningful in RT-Linux.
+> > 
+> > but it does not cause a locking or scheduling problem either.
+> > 
+> > > In non RT-Linux, we use local_irq_save() followed by local_bh_disable() to
+> > > keep soft interrupts disabled after restoring interrupts. However, in
+> > > RT-Linux, when CONFIG_PREEMPT_RT_NEEDS_BH_LOCK is not enabled,
+> > > local_bh_disable() merely increments the softirq_ctrl.cnt counter without
+> > > actually disabling the soft interrupt behavior, because other tasks on the
+> > > CPU can preempt the task that wants to disable soft interrupts and execute
+> > > soft interrupt-related logic.
+> > > Consider the sequence diagram below:
+> > > Task A                        Task B
+> > >                               __local_bh_enable_ip()
+> > >                                 __do_softirq()
+> > >                                   handle_softirqs()
+> > >                                     ...
+> > >                                     local_irq_enable();
+> > >                                     ...
+> > > local_irq_save()
+> > > local_bh_disable()
+> > > local_irq_restore()
+> > >                                     h->action(); -- it is serving softirq
+> > > local_bh_enable()
+> > 
+> > Okay. How is this a problem? You can enter this scenario event even
+> > without disabling interrupts within Task A.
+> 
+> I should use the situation where CONFIG_PREEMPT_RT_NEEDS_BH_LOCK is enabled to
+> illustrate the example above. People would expect that soft interrupts on this
+> CPU would not execute after calling local_bh_disable(), but as shown in the
+> example, this cannot actually be guaranteed.
 
-diff --git a/include/linux/cgroup.h b/include/linux/cgroup.h
-index bc892e3b37eea..4068035176c41 100644
---- a/include/linux/cgroup.h
-+++ b/include/linux/cgroup.h
-@@ -138,7 +138,6 @@ extern void cgroup_cancel_fork(struct task_struct *p,
- extern void cgroup_post_fork(struct task_struct *p,
- 			     struct kernel_clone_args *kargs);
- void cgroup_task_exit(struct task_struct *p);
--void cgroup_task_dead(struct task_struct *p);
- void cgroup_task_release(struct task_struct *p);
- void cgroup_task_free(struct task_struct *p);
- 
-@@ -682,7 +681,6 @@ static inline void cgroup_cancel_fork(struct task_struct *p,
- static inline void cgroup_post_fork(struct task_struct *p,
- 				    struct kernel_clone_args *kargs) {}
- static inline void cgroup_task_exit(struct task_struct *p) {}
--static inline void cgroup_task_dead(struct task_struct *p) {}
- static inline void cgroup_task_release(struct task_struct *p) {}
- static inline void cgroup_task_free(struct task_struct *p) {}
- 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index a7b4a980eb2f0..375d0c958081d 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1321,9 +1321,6 @@ struct task_struct {
- 	struct css_set __rcu		*cgroups;
- 	/* cg_list protected by css_set_lock and tsk->alloc_lock: */
- 	struct list_head		cg_list;
--#ifdef CONFIG_PREEMPT_RT
--	struct llist_node		cg_dead_lnode;
--#endif	/* CONFIG_PREEMPT_RT */
- #endif	/* CONFIG_CGROUPS */
- #ifdef CONFIG_X86_CPU_RESCTRL
- 	u32				closid;
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 7921633ea1058..684b773cd5cb4 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -285,7 +285,6 @@ static void kill_css(struct cgroup_subsys_state *css);
- static int cgroup_addrm_files(struct cgroup_subsys_state *css,
- 			      struct cgroup *cgrp, struct cftype cfts[],
- 			      bool is_add);
--static void cgroup_rt_init(void);
- 
- #ifdef CONFIG_DEBUG_CGROUP_REF
- #define CGROUP_REF_FN_ATTRS	noinline
-@@ -6362,7 +6361,6 @@ int __init cgroup_init(void)
- 	BUG_ON(ss_rstat_init(NULL));
- 
- 	get_user_ns(init_cgroup_ns.user_ns);
--	cgroup_rt_init();
- 
- 	cgroup_lock();
- 
-@@ -6993,7 +6991,7 @@ void cgroup_task_exit(struct task_struct *tsk)
- 	} while_each_subsys_mask();
- }
- 
--static void do_cgroup_task_dead(struct task_struct *tsk)
-+static void cgroup_task_dead(struct task_struct *tsk)
- {
- 	struct css_set *cset;
- 	unsigned long flags;
-@@ -7019,57 +7017,6 @@ static void do_cgroup_task_dead(struct task_struct *tsk)
- 	spin_unlock_irqrestore(&css_set_lock, flags);
- }
- 
--#ifdef CONFIG_PREEMPT_RT
--/*
-- * cgroup_task_dead() is called from finish_task_switch() which doesn't allow
-- * scheduling even in RT. As the task_dead path requires grabbing css_set_lock,
-- * this lead to sleeping in the invalid context warning bug. css_set_lock is too
-- * big to become a raw_spinlock. The task_dead path doesn't need to run
-- * synchronously but can't be delayed indefinitely either as the dead task pins
-- * the cgroup and task_struct can be pinned indefinitely. Bounce through lazy
-- * irq_work to allow batching while ensuring timely completion.
-- */
--static DEFINE_PER_CPU(struct llist_head, cgrp_dead_tasks);
--static DEFINE_PER_CPU(struct irq_work, cgrp_dead_tasks_iwork);
--
--static void cgrp_dead_tasks_iwork_fn(struct irq_work *iwork)
--{
--	struct llist_node *lnode;
--	struct task_struct *task, *next;
--
--	lnode = llist_del_all(this_cpu_ptr(&cgrp_dead_tasks));
--	llist_for_each_entry_safe(task, next, lnode, cg_dead_lnode) {
--		do_cgroup_task_dead(task);
--		put_task_struct(task);
--	}
--}
--
--static void __init cgroup_rt_init(void)
--{
--	int cpu;
--
--	for_each_possible_cpu(cpu) {
--		init_llist_head(per_cpu_ptr(&cgrp_dead_tasks, cpu));
--		per_cpu(cgrp_dead_tasks_iwork, cpu) =
--			IRQ_WORK_INIT_LAZY(cgrp_dead_tasks_iwork_fn);
--	}
--}
--
--void cgroup_task_dead(struct task_struct *task)
--{
--	get_task_struct(task);
--	llist_add(&task->cg_dead_lnode, this_cpu_ptr(&cgrp_dead_tasks));
--	irq_work_queue(this_cpu_ptr(&cgrp_dead_tasks_iwork));
--}
--#else	/* CONFIG_PREEMPT_RT */
--static void __init cgroup_rt_init(void) {}
--
--void cgroup_task_dead(struct task_struct *task)
--{
--	do_cgroup_task_dead(task);
--}
--#endif	/* CONFIG_PREEMPT_RT */
--
- void cgroup_task_release(struct task_struct *task)
- {
- 	struct cgroup_subsys *ss;
-@@ -7084,6 +7031,7 @@ void cgroup_task_free(struct task_struct *task)
- {
- 	struct css_set *cset = task_css_set(task);
- 
-+	cgroup_task_dead(task);
- 	if (!list_empty(&task->cg_list)) {
- 		spin_lock_irq(&css_set_lock);
- 		css_set_skip_task_iters(task_css_set(task), task);
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index b7f77c165a6e0..0e67f6db3204a 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -5181,13 +5181,7 @@ static struct rq *finish_task_switch(struct task_struct *prev)
- 		if (prev->sched_class->task_dead)
- 			prev->sched_class->task_dead(prev);
- 
--		/*
--		 * sched_ext_dead() must come before cgroup_task_dead() to
--		 * prevent cgroups from being removed while its member tasks are
--		 * visible to SCX schedulers.
--		 */
- 		sched_ext_dead(prev);
--		cgroup_task_dead(prev);
- 
- 		/* Task is done with its stack. */
- 		put_task_stack(prev);
--- 
-2.53.0
+If CONFIG_PREEMPT_RT_NEEDS_BH_LOCK is enabled then the scenario is
+possible but the DEBUG_LOCKS_WARN_ON will trigger a warning.
 
+> Using (softirq_ctrl.cnt) as a condition for WARN_ON will only report issues in
+> scenarios similar to the one shown in the example. In many other cases, during
+> the execution of Task A, if there is no soft interrupt-related logic running on
+> the CPU, this WARN_ON may not get printed, thus hiding potential issues in the
+> code.
+> 
+> If Task A truly expects that soft interrupts remain disabled after calling
+> local_bh_disable(), and this expectation may not be met, we should detect this
+> risk early and prompt the user, just like the might_sleep() checks, providing
+> warnings proactively rather than indicating an issue after it has occurred.
+
+Hmm. Is there actually anything wrong in tree?
+Longterm I would intend to make !CONFIG_PREEMPT_RT_NEEDS_BH_LOCK
+default.
+
+> Xin Zhao
+
+Sebastian
