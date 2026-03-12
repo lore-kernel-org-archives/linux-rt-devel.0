@@ -1,219 +1,161 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D154A39B973
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 11:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A51F30EF6B
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 12:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773313585; cv=none; b=BLYHUYw3P76oYZ5Qp/WMjJT8vN/kphgCcw+ElAjQ/d229qRWfsTlKwViGuub0PQE2tN70zb8UFPFAWOoVELyX3DCSoQbkbvaelM5N/XwtAte4ADEtMoigcBQVhpjelKAx3lXNHozSghYfXN655NAwKMkw2zIIxC9by2LKTwifrM=
+	t=1773319759; cv=none; b=ZUrFR6n8oaZayqLJImBEBBZqR1L6kHsvTk79mPzxxJou6+lPiTo7Hd5E+32hO6RsAL3ru1tjh+M3x6+y16pOLeiKneR4NinfDmieWUl+4DxavPXAwHxc8h/rdYCU/mQdZv+M4qgGWwX/u8+voJpPCc95X9ELg1PHcsgKJB7BKAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773313585; c=relaxed/simple;
-	bh=/9J3tVGfkbfc2ZVBxryfqsIyn/sMRAL1gB1bZI9O198=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=otUfTzMOsH4wvVw5bDkc3bUVQK8fOlujzgpAQm8eSRFwSd3qKUkbtOChOMbGJSitlnd4M1Uv/KK3rX4DI8/Kj+5SsyfPZlwtDq0VHPlDXcrID7Yv3fnApHuAt+aYD3G8OipUEVTLldkT4g4dxd5Y8BcuUI9YpmQ9lqDVkEzOuPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=h7yxbqAv; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
+	s=arc-20240116; t=1773319759; c=relaxed/simple;
+	bh=e9aEAwBwRN6zPfDEWNAhGeyOf0MTxtXscMXftiyG3Ig=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RtJtD1jGaC8mGTm61VLDhWubEpjkFdaQy1Ql4qu1NBqc5SjMo7bdbT6dQI8sesmka9Vp+CQvq3GwHOGMof380aBsKT2pa9FZPYuXTmuqxi/eFUuRzTl3vCszWqtxzMm9Y6tFz8ArHuL/gdb31Smq+3xp8h5XjLVxn0KPxpfdxy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GzfduCly; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="h7yxbqAv"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48540d21f7dso10379905e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 04:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall.org; s=google; t=1773313582; x=1773918382; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Xi90ehS/6At/d9Hc+H9BmnTyiPTBQruO8CzKtDXyqkU=;
-        b=h7yxbqAvQ9POhUtTyVUHdsT/Gc0WZ2Q6xoFXLA+wcqhBeI4T3sAdyi0un/vr7kjs2X
-         n0i3piClt1M4LS/DWfKy2+PFW1R19DAQ7qMlq57vkBV1FfjNVMahx5uyZZlxfTNmgJUF
-         4TYmrTKqaZzJLcdpeZBVbG0wlh64nsAbMFg3KE6LiixdMz8s57/7Cl5DJjamToIae6ko
-         ukpFkZX3edJxLb+2s+obJiAZjBTtUjSvi9kboqV5F699I4UOJcM4jPVXkuWhPl7hm+PE
-         CYYnFuyKxN2oXp+XRXWpfqf55XufIJOTj58e8ogBP570sBUAv7pB0UHcEiAWlrpG6fxh
-         RZ6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773313582; x=1773918382;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xi90ehS/6At/d9Hc+H9BmnTyiPTBQruO8CzKtDXyqkU=;
-        b=MtLQi5xgAxtfNmAhgkUZLbuqGRgmBdn9eyAYBcP2dIN62jn05JE5sSFQfs5LBLygeZ
-         dzJgQUGSChREBW6SH5FAtRzyCnyCYreC7WCYXrzh2JpP9awNDHHSBHJinWebzAWDpkxM
-         BlxP7Q64SPpV0envAZ1VVblFDrQY92jxogDIidzfJZANLQwwG1Vuxi3LJABdXtzBBYaJ
-         XRcCc1N5MXe4oepg9gD9mPi7euai42C9tFtFMbeRJKzmy0l6K3zqlrKmHb/K9UIBZ+Vk
-         OceP+tYVW1GYTzmV/Y31z+tHld0cV4tcx8qpE3NKtSsW4Hsx7R0BqM7lkDcvUqnummjz
-         yFlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFfEt0sK25DuFw3q2LEY7TM7pSG6ZUy03FzFK/WjMVsTZ8tpo4p30IB10Fn2XFRcO+vgJKW5DhzbfehGYHJQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6wNSOEo+WBQDtqxPpWeRJKUjAoKq7He1ElmtvV81BsQRyYAOv
-	kW7N4A2kpD9OcMPFHErF7HYru01kCboTpQXGLjweUhClAEigFX/O5XUMtjffqri5jBE=
-X-Gm-Gg: ATEYQzzfQnNCBYYazHNjwiuIlH8NFitpAOiQb5cs+UVaImvrkhlHRXhAaAo+D7tq300
-	zT6Ix32rA85vCwM/lcXEpTq6GoFSXHDYOzBWooOm/4AIUYR2Bc5OZvhbQKRFVwO9EwKsvxjE6fv
-	XKAocRBZbhf0OArtwTBDPFU2o8abgnv4ceKIm3fg6tmE94BtwtTul1BmI/PKUoBH+Bl1p74utwU
-	D6+thu4L2zg7vJnncfvfvA/OAFCRBV7AZznAyy5Q+MCSFWJ8GnsevkoSxkUbdyMsbrSZfUmStLF
-	zfaHiSpV9XIcN3nuXjPR1hW4PZgs0AchsFh2r4E2Z6mTjpsC8bU5sWkP/a1F+eP2v8S2e0+CR4b
-	9j+rhAgr2ytdd+SZcj5P9M2PnKwKF2Yldy8UDKb7yHz0oX3CCRqapAxAX3V/GXfz3XQq9bsYckN
-	LiDlXVKfrpHxxXxUnEh2KMcWAUeyZWLChG+Kq3Bklsy8CoIe/nW7ficxf3/WqpTb/AiW/4
-X-Received: by 2002:a05:600c:4752:b0:485:3692:e906 with SMTP id 5b1f17b1804b1-4854b0c77f4mr96011415e9.13.1773313581497;
-        Thu, 12 Mar 2026 04:06:21 -0700 (PDT)
-Received: from localhost (176.111.184.239.kyiv.nat.volia.net. [176.111.184.239])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854a18ddedsm108978795e9.0.2026.03.12.04.06.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 04:06:20 -0700 (PDT)
-Date: Thu, 12 Mar 2026 13:06:19 +0200
-From: Nikolay Aleksandrov <razor@blackwall.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Eric Dumazet <edumazet@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
-	jiayuan.chen@shopee.com,
-	syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
-	Jay Vosburgh <jv@jvosburgh.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jussi Maki <joamaki@gmail.com>, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH net v5 1/2] bonding: fix null-ptr-deref in
- bond_rr_gen_slave_id()
-Message-ID: <abKeK-w7K7xLuWAH@penguin>
-References: <20260309030702.128520-1-jiayuan.chen@linux.dev>
- <20260309030702.128520-2-jiayuan.chen@linux.dev>
- <abAFRbJNinhN3O5v@penguin>
- <CANn89i+5yOzdiBTWm4ekc0UvMxQp=mhXbz0rU5WnfxEu3NrAhg@mail.gmail.com>
- <CANn89iLOyWzWW7w262Vsy2MOMVDXA0+UZGpEbsdLwe6e75mhKQ@mail.gmail.com>
- <abARG4sHFdUNqcRV@penguin>
- <8d746046-eed9-4d82-a064-c20b6a131bdc@redhat.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GzfduCly"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version:
+	Content-Type; bh=h/49DH7tMmyQvegc/mN27ZJ+hkDAdl6TzzuhQDYNw4c=;
+	b=GzfduClysN2gn12Dgl82Pqqm9BqFm7tYXLJDSByK42VWzsgdyVsnhhDWig5kzS
+	nTdHcrnmai+xlCFMxtittxNRMNMU3wI+IXDB4ab++/ItsZPSEgC+CGvGAZoX/FyI
+	SWRYk4FaniMkf6RMuoLTaK5aekyG5ZD103zSShILmaLTs=
+Received: from zhaoxin-MS-7E12.. (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgC3t6v5tbJpTwtkVQ--.19150S2;
+	Thu, 12 Mar 2026 20:47:54 +0800 (CST)
+From: Xin Zhao <jackzxcui1989@163.com>
+To: bigeasy@linutronix.de
+Cc: boqun@kernel.org,
+	clrkwllms@kernel.org,
+	jackzxcui1989@163.com,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	longman@redhat.com,
+	mingo@redhat.com,
+	peterz@infradead.org,
+	rostedt@goodmis.org,
+	will@kernel.org
+Subject: Re: [PATCH] softirq: WARN_ON !preemptible() not check softirq cnt in bh disable on RT
+Date: Thu, 12 Mar 2026 20:47:53 +0800
+Message-Id: <20260312124753.962974-1-jackzxcui1989@163.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260312100546.jjvRquDg@linutronix.de>
+References: <20260312100546.jjvRquDg@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8d746046-eed9-4d82-a064-c20b6a131bdc@redhat.com>
+X-CM-TRANSID:PSgvCgC3t6v5tbJpTwtkVQ--.19150S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxKr1fKFWktFyDurWxWw1rJFb_yoW7WFW5pF
+	Z3Kayqkr4DJF1Ivw17Aws7Xryxuws8Xay7Crn7Gry0yws8Grn5ur4xKa1YvFsrGrn3Za42
+	vr1Yv3s7u3s0vrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pR6uWJUUUUU=
+X-CM-SenderInfo: pmdfy650fxxiqzyzqiywtou0bp/xtbCwByzvWmytfw7wgAA35
 
-On Thu, Mar 12, 2026 at 11:36:20AM +0100, Paolo Abeni wrote:
-> On 3/10/26 1:39 PM, Nikolay Aleksandrov wrote:
-> > On Tue, Mar 10, 2026 at 01:07:15PM +0100, Eric Dumazet wrote:
-> >> On Tue, Mar 10, 2026 at 1:00 PM Eric Dumazet <edumazet@google.com> wrote:
-> >>>
-> >>> On Tue, Mar 10, 2026 at 12:49 PM Nikolay Aleksandrov
-> >>> <razor@blackwall.org> wrote:
-> >>>>
-> >>>> On Mon, Mar 09, 2026 at 11:06:58AM +0800, Jiayuan Chen wrote:
-> >>>>> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >>>>>
-> >>>>> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a NULL
-> >>>>> check. rr_tx_counter is a per-CPU counter only allocated in bond_open()
-> >>>>> when the bond mode is round-robin. If the bond device was never brought
-> >>>>> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
-> >>>>>
-> >>>>> The XDP redirect path can reach this code even when the bond is not up:
-> >>>>> bpf_master_redirect_enabled_key is a global static key, so when any bond
-> >>>>> device has native XDP attached, the XDP_TX -> xdp_master_redirect()
-> >>>>> interception is enabled for all bond slaves system-wide. This allows the
-> >>>>> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
-> >>>>> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() to be
-> >>>>> reached on a bond that was never opened.
-> >>>>>
-> >>>>> Fix this by adding a NULL check with unlikely() in bond_rr_gen_slave_id()
-> >>>>> before dereferencing rr_tx_counter. When rr_tx_counter is NULL (bond was
-> >>>>> never opened), fall back to get_random_u32() for slave selection. The
-> >>>>> allocation in bond_open() is kept, with WRITE_ONCE() added to safely
-> >>>>> publish the pointer to the XDP read side. A plain read suffices for the
-> >>>>> !bond->rr_tx_counter guard in bond_open() itself, as bond_open() runs
-> >>>>> under RTNL lock and is the only writer of rr_tx_counter.
-> >>>>>
-> >>>>> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirection to slave device")
-> >>>>> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com
-> >>>>> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00cc.GAE@google.com/T/
-> >>>>> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> >>>>> ---
-> >>>>>  drivers/net/bonding/bond_main.c | 9 +++++++--
-> >>>>>  1 file changed, 7 insertions(+), 2 deletions(-)
-> >>>>>
-> >>>>
-> >>>> This is Jay's patch + the unlikely change, looks good to me.
-> >>>> Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
-> >>>
-> >>> Orthogonal to this patch  :
-> >>>
-> >>>  get_random_u32() typical cost is around 10 to 20 ns, I really wonder
-> >>> if this makes sense
-> >>> for the packets_per_slave == 0 or 1 case to haves this kind of
-> >>> randomness in the first place.
-> >>>
-> >>> Perhaps we could use a
-> >>>
-> >>> static DEFINE_PER_CPU(u32, rr_tx_counter)
-> >>>
-> >>> And :
-> >>>  slave_id = this_cpu_inc_return(rr_tx_counter);
-> >>
-> >> I also have mixed feelings about this patch.
-> >>
-> >> We probably should detect that the device is not ready before hitting
-> >> something deeper in the stack.
-> >>
-> >> Sure, a NULL deref is avoided, bu what happens next ?
-> >>
-> >> We send a packet while the device is not UP, I am pretty sure this
-> >> violates at least some RCU rules in device dismantling.
-> > 
-> > IIRC when the redirect continues, the packet should get dropped if the device is
-> > not up (checks at a few places), but that's outside of bond's jurisdiction and
-> > after the slave id is needed in xdp master redirect's path unfortunately.
-> > I'm not sure it can reach much further, it just has the master dev's slave id
-> > generation in its path.
-> > 
-> > In any case we shouldn't crash in the slave id generation in the bonding,
-> > that ndo's only job is to return a slave id.
-> 
-> I'm sorry for the back and forth, but I share Eric's concern. I think
-> the approach suggested by Daniel:
-> 
-> https://lore.kernel.org/netdev/4d15be93-b497-4499-996d-9f3a67a2abc6@iogearbox.net/
-> 
+hi, Sebastian
 
-That will work, I like Daniel's patch as well. It will add a test for all redirects
-for master devices, but I guess that is ok. For bonding it will work because the bond
-has the problem only while it was never opened (before first up).
+On 2026-03-12 10:05 UTC, Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-IMO this patch still has value, because currently the code implicitly relies on
-a specific sequence of events, who knows tomorrow someone may find another way
-and again call that ndo while the bond is down.
-
-> or the initial patch form:
+> > As you said, the current implementation is good enough. :)
+> > If you think it’s appropriate to change it to (system_state != SYSTEM_BOOTING), you can make
+> > that change later when you git rid of CONFIG_PREEMPT_RT_NEEDS_BH_LOCK. :)
 > 
-> https://lore.kernel.org/netdev/20260224112545.37888-1-jiayuan.chen@linux.dev/T/#m7c67bb12f85bc88d583788fb6e41113c46208ae7
-> 
-> would be better. To respond to old concerns raised there: the check is
-> IMHO bond-specific, as control moves from the lower interface to the
-> upper bonding device, and the code is under an RCU critical section, the
-> device can't go away before the xmit is completed.
+> If I get rid of CONFIG_PREEMPT_RT_NEEDS_BH_LOCK then
+> !CONFIG_PREEMPT_RT_NEEDS_BH_LOCK becomes the only code and the code in
+> question will vanish.
 
-This one I don't like, it is not about going away, it is more about adding 2 new
-tests for everyone and potentially 1 more cache line.
+Yes, you are right!
 
+> > I'm actually curious why the users of _local_bh_enable, specifically those using the s390
+> > driver, haven't raised the issue that this interface cannot be used in RT-linux. Could it be
+> > that s390 users have never run on RT-linux?
 > 
-> /P
-> 
+> This driver is very old and s390 does not support PREEMPT_RT. You can
+> grep for ARCH_SUPPORTS_RT to see who supports it.
 
-Cheers,
- Nik
+I see. Thanks.
+
+> > I did overlook that local_bh_disable() is also considered an RCU critical section and is
+> > used in conjunction with rcu_read_lock_bh(). Although I saw comments in the code like
+> > "/* Required to meet the RCU bottomhalf requirements. */", I don't fully understand why
+> > local_bh_disable must be treated as an RCU read critical section. Is it simply because the
+> > implementation of rcu_read_lock_bh does not directly call __rcu_read_lock and instead relies
+> > on local_bh_disable to proxy this call? I haven't figured this out, and it seems a bit
+> > strange to me.
+> 
+> local_bh_disable() becomes an implicit RCU read lock section on
+> !PREEMPT_RT and be must preserve the semantic. 
+
+My current understanding of the statement "local_bh_disable() becomes an implicit RCU read lock
+section on !PREEMPT_RT" is as follows:
+In a regular Linux system, during the period of local_bh_disable, both preemption and soft
+interrupts are disabled, so RCU callbacks cannot be executed. This effectively means that the
+progress of the RCU grace period is stalled during the bh disable period. In a PREEMPT_RT system,
+RCU callbacks are executed in an RCU context and are not protected by bh disable, so it is
+necessary to explicitly mark the RCU read lock state.
+I don't know if my understanding is correct.
+
+> > Are you suggesting that the future implementation of soft interrupts might be optimized to
+> > use a per-task approach for queuing and processing soft interrupts? I think this is a very
+> > good attempt, as the current handling of soft interrupts is a bit chaotic. High-priority
+> > tasks often end up passively dealing with many low-priority soft interrupt tasks during
+> > local_bh_disable(), effectively acting as 'ksoftirqd'. This seems unreasonable to me, as
+> > it elevates the priority of low-priority tasks for processing.
+> 
+> Yes. Getting rid of that BH lock removed much of the pain. This would one additional piece.
+
+I am looking forward to the per-task softirq optimization. :)
+
+> > If soft interrupt handling could be implemented in a per-task manner, it could even lead to
+> > priority inheritance in the future, and possibly work in conjunction with BH workqueues to
+> > thoroughly resolve the long-standing issues of soft interrupts in RT-linux. In my project,
+> > performance problems are often related to __local_bh_disable_ip and various sporadic
+> > latency spikes caused by migrate_disable(). This is quite frustrating.
+> 
+> Ideally if task X queues soft interrupts, it handles them and a later
+> task does not observe them. Only a task with higher priority can add
+> additional softirq work.
+> If task X queues BLOCK and gets preempted, task Y with higher priority
+> adds NET_RX, then task Y will handle NET_RX and BLOCK. This can be
+> avoided by handling the softirqs per-task.
+
+It does sound like it can optimize quite a lot. By the way, does per-task
+manner calls softirq callbacks just before voluntary switch out or trigger
+task_work before return to user-space? 
+
+> However if both raise NET_RX then task Y will still handle both. This is
+> because both use the same data structure to queue work, in this case the
+> list of pending napi devices. In this case threaded napi would work
+> because it avoids the common data structure.
+
+I see. 
+
+> I am not a big fan of the BH workqueues because you queue work items in
+> context in which it originates and then it "vanishes". So all the
+> priorities and so on are gone. Also the work from lower priority tasks
+> gets mixed with high priority tasks. Not something you desire in
+> general.
+> In general you are better off remaining in the threaded interrupt,
+> completing the work.
+
+Indeed, if we queue the soft interrupts triggered by different priority
+tasks into a single workqueue, it wouldn't be very appropriate. If we
+want to queue them into a bottom-half (bh) workqueue, we would also need
+to create a corresponding workqueue for each priority and queue based on
+that priority. I previously developed a patch for a real-time workqueue,
+which has been used in our project. If certain soft interrupt tasks are
+very important and do not require CPU affinity, then queuing them on
+other CPUs to execute according to the actual priority needed might
+optimize performance to some extent from a real-time perspective.
+
+https://lore.kernel.org/lkml/20251205125445.4154667-1-jackzxcui1989@163.com/
+
+Xin Zhao
 
