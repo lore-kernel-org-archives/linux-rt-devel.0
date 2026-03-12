@@ -1,170 +1,204 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B3083BE64D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 10:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282623B38AC
+	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 10:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773309952; cv=none; b=dVoCEaOZG7aD7X/7bxbgX2fgZyqkGv7UQyzAnO3gdiDT4TXQZ9yRVdNJMQaKgFOob0MySVvcIs/5+JajlSu4JKrYexRrcPR/uxqWdfH8ztGEiqNiVBMmCPNETvB1YjuvDraO6DcRSb9l+6AQ0grUKXcPtoUirP9IOOuFFBKji/4=
+	t=1773311788; cv=none; b=C49Vu0xSxjmQXLU1J8O7isQ4GJo1FlfI48cQn/e0URu1J667KqaqqisO+vjbhn+Ea8gKK27VZaOP6DLXgW7ErYU0M3yvjq53hCYrQnqmriASk0M291PLVkwTz3IlF474oJz4x7Ne2MDzH5AFRIx+azGCuvcRKmpxIGCmUfGvbT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773309952; c=relaxed/simple;
-	bh=JdjiNfm9ZmMpXtcxWwORwAQzwPs4sCI7XBFp338zITo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CKBSDaWcUDu7Eps/0WPXdF7bVNefXdQ8EcMgp8UvUnxmx82VSWbfDlcs52KdklE1+ZOai5P3jbPpTtsKtqJxGbAOuOQj5x15W0ToJVKiXrRojyx37imvJ72DtLHYNDRikAbPwl31GPti8XUjxekUiQpipZWdcd3UlDbvVVnSInA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aLYYFavz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OJ1zSOnC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1773311788; c=relaxed/simple;
+	bh=U4scEkwLlZ0VuAmkLypf9F9edX/OF61hxlh8178UWxY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C2DQDNdzeCLgW6coCzIw4zGP/hI8y3NwTMvBJnyJvoFlbgTYZ0DdQ2HgoqkpB3fKUmHpw/uA8PWvuswrS5InZgHvuTdJLIhWyWnLfe183+GACD307R1kukFal9jjCDoDYlUcMOfGQaquB0vRR3Et/BWkX88FzKgPEkU2LVn3VwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xp0hcXsa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aLYYFavz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OJ1zSOnC"
-Date: Thu, 12 Mar 2026 11:05:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773309948;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xp0hcXsa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773311786;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JdjiNfm9ZmMpXtcxWwORwAQzwPs4sCI7XBFp338zITo=;
-	b=aLYYFavzpzA7/dyYPzr6N1yPLlGfVPym5vlEDoyXOe7htpUrQhqKp+wQkVndeODl8Ge958
-	7r8bIKI6ZymnLeFnlf86CtVYdawe3/3cOcYhdIcGjHdmGO7h18LpwgdAL95LriWgrkqRgK
-	7OGyfaw4SxLPQUVm3770jXLsqtxAwOI2wPE7/D8hTzHkzAzAErozck1ulgSo2IW2LQ+lDC
-	abaZy6IYQLGmJ9EawEWNdR3x7HQnJBNRTu8luqRoFew4KxvA51854wqSotViQDATvG0HLj
-	NZFAd1EGrtkEBfxUCgcC8k3ZkpphjOzCK6O7PhxBGpLDh+/3PCI+EWmtVLryPQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773309948;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JdjiNfm9ZmMpXtcxWwORwAQzwPs4sCI7XBFp338zITo=;
-	b=OJ1zSOnCn+DcAbAdIFKDr/IzmWYkIL4H+iZOLGCuef5YVtqn0H1hji6miz1zbX84N2dT2i
-	JrkSBzSzVOevkgDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Xin Zhao <jackzxcui1989@163.com>
-Cc: boqun@kernel.org, clrkwllms@kernel.org, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	longman@redhat.com, mingo@redhat.com, peterz@infradead.org,
-	rostedt@goodmis.org, will@kernel.org
-Subject: Re: [PATCH] softirq: WARN_ON !preemptible() not check softirq cnt in
- bh disable on RT
-Message-ID: <20260312100546.jjvRquDg@linutronix.de>
-References: <20260311160910.yoU_8pQ7@linutronix.de>
- <20260311170115.279041-1-jackzxcui1989@163.com>
+	bh=pr+iZcW0Vr1rZJU+b396wxsEji96fYKMPY7NwZ0isYc=;
+	b=Xp0hcXsaen/FaUNGVnwczL4Z7gg2isaP7WLifGG3FOJCI18vkH+BlO8yRpoY5uEyC7aIFH
+	1oWAnf/upkKtwDF+Mf4FdweehBBqucQHirXcqev4NFTsJ8tYfvEvWdH08yWOKfzSXKoYF+
+	yviCDCDdoH+bVYA5cAAiSNPzQ0hoxMA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-465-me4LFURfNr-D3mdeYC0_ZA-1; Thu, 12 Mar 2026 06:36:24 -0400
+X-MC-Unique: me4LFURfNr-D3mdeYC0_ZA-1
+X-Mimecast-MFC-AGG-ID: me4LFURfNr-D3mdeYC0_ZA_1773311784
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-439b8858b0cso827494f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 03:36:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773311784; x=1773916584;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pr+iZcW0Vr1rZJU+b396wxsEji96fYKMPY7NwZ0isYc=;
+        b=igo9L5ZKK1VvxYUOjgFTstbD/DEmyXj203y7ABeXlrBpcEHK/r/wvZz9erTNS/6Ykb
+         tcg1p10S+viOLbwe6vPV95YgEh1EbZCDZddHy0awQWaCIDRGLsOcmZouTzsmcds5fvu0
+         /6mw1Vvpto+Wf5aMaq9veunFI3eKu72pnKiwg8Z0fNIxRgrzqPWBn19YrJIn5rhyk74A
+         rIL+DRjZVoFVyI9eYmt4WGYiUZDqWB+Iwwev/GkHtLGR3gQf50wDV5S6XydzPMeEPM+o
+         8VUarGgxVSCLFS7ddM7ZhcB9yi20CX9UTNoJ6bKVqa5dTPoapYmgl/4TIzDUre/JsjrK
+         QTfA==
+X-Forwarded-Encrypted: i=1; AJvYcCXX+yCsLzRmNDZYNHM8sr8BEyLNeWbDtg5Sryd5jMWexqUX5pqqiNZdwDaNsi165WSJ+3Q4aLxUeLZ38Nw0ug==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw7YD95R7hMawTw8yoGoBg9wuHJDlWY8l15fS5lFKpghKikjiD3
+	mQEeyQ6fpLQEoMCv+fn9xXSz/Rx3/bkIRNV0LPx8fIcE7hmltI2CKxyBjy+AGV3ntcSgDlPCpiB
+	/YahWmgqZ/PO1DFJHbXQ1umJycLGTiBt2ljQf9XEyA1CtZSq7lTxzdyfT3zj4isFH3jtG
+X-Gm-Gg: ATEYQzw1dgOv3N9T0W+zebVGBGjulYLWzWLejqTi5r9J3e8MG3GuPSEmkMYj382edgf
+	e4lVVNglZT6HqURKhbcewyupeGDxPbY6xzYxxnCuq2Ke9MAkQDEawAtQV5CQ8hEOn08sXY+FdOG
+	XcTL4MCV2+Cb4qGunJtjg3wuQKVDMJrrANaOxHeO6rSOtOwdSmA0eCmV7I6oXHvQhI3pID9clrx
+	a0RXbKIOFWHa/a6irDPX9xgIwAs9mpr6uAi+wFwRaCG4FLa9aWo3oYyfpsZkEuBUWT1BWcBqXwm
+	nTXe/XprQoQHmMlykggZseNkBizSXTmYP1WZsAQF4UzV7itL3m/hB6jbbK9MW1+XyqKktn7Eh0d
+	ffODQMtDecc3L7aMEVyp9xZxzqzkx6Vu+NM8uvXxJ/7qA3JWjKFwHcEc=
+X-Received: by 2002:a05:6000:25c2:b0:439:df60:f87a with SMTP id ffacd0b85a97d-439f8434264mr10631504f8f.46.1773311783595;
+        Thu, 12 Mar 2026 03:36:23 -0700 (PDT)
+X-Received: by 2002:a05:6000:25c2:b0:439:df60:f87a with SMTP id ffacd0b85a97d-439f8434264mr10631438f8f.46.1773311783136;
+        Thu, 12 Mar 2026 03:36:23 -0700 (PDT)
+Received: from [192.168.88.32] ([216.128.11.95])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe20c0b4sm8118630f8f.25.2026.03.12.03.36.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2026 03:36:22 -0700 (PDT)
+Message-ID: <8d746046-eed9-4d82-a064-c20b6a131bdc@redhat.com>
+Date: Thu, 12 Mar 2026 11:36:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260311170115.279041-1-jackzxcui1989@163.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v5 1/2] bonding: fix null-ptr-deref in
+ bond_rr_gen_slave_id()
+To: Nikolay Aleksandrov <razor@blackwall.org>,
+ Eric Dumazet <edumazet@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
+ jiayuan.chen@shopee.com,
+ syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com,
+ Jay Vosburgh <jv@jvosburgh.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, KP Singh <kpsingh@kernel.org>,
+ Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+ Shuah Khan <shuah@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Jussi Maki <joamaki@gmail.com>,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20260309030702.128520-1-jiayuan.chen@linux.dev>
+ <20260309030702.128520-2-jiayuan.chen@linux.dev> <abAFRbJNinhN3O5v@penguin>
+ <CANn89i+5yOzdiBTWm4ekc0UvMxQp=mhXbz0rU5WnfxEu3NrAhg@mail.gmail.com>
+ <CANn89iLOyWzWW7w262Vsy2MOMVDXA0+UZGpEbsdLwe6e75mhKQ@mail.gmail.com>
+ <abARG4sHFdUNqcRV@penguin>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <abARG4sHFdUNqcRV@penguin>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: JYpMTZYAsWWOUKEW4wpWiUPWllpjWxMyw_F3gWsxupk_1773311784
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-03-12 01:01:15 [+0800], Xin Zhao wrote:
-> hi, Sebastian
-Hi,
+On 3/10/26 1:39 PM, Nikolay Aleksandrov wrote:
+> On Tue, Mar 10, 2026 at 01:07:15PM +0100, Eric Dumazet wrote:
+>> On Tue, Mar 10, 2026 at 1:00 PM Eric Dumazet <edumazet@google.com> wrote:
+>>>
+>>> On Tue, Mar 10, 2026 at 12:49 PM Nikolay Aleksandrov
+>>> <razor@blackwall.org> wrote:
+>>>>
+>>>> On Mon, Mar 09, 2026 at 11:06:58AM +0800, Jiayuan Chen wrote:
+>>>>> From: Jiayuan Chen <jiayuan.chen@shopee.com>
+>>>>>
+>>>>> bond_rr_gen_slave_id() dereferences bond->rr_tx_counter without a NULL
+>>>>> check. rr_tx_counter is a per-CPU counter only allocated in bond_open()
+>>>>> when the bond mode is round-robin. If the bond device was never brought
+>>>>> up, rr_tx_counter remains NULL, causing a null-ptr-deref.
+>>>>>
+>>>>> The XDP redirect path can reach this code even when the bond is not up:
+>>>>> bpf_master_redirect_enabled_key is a global static key, so when any bond
+>>>>> device has native XDP attached, the XDP_TX -> xdp_master_redirect()
+>>>>> interception is enabled for all bond slaves system-wide. This allows the
+>>>>> path xdp_master_redirect() -> bond_xdp_get_xmit_slave() ->
+>>>>> bond_xdp_xmit_roundrobin_slave_get() -> bond_rr_gen_slave_id() to be
+>>>>> reached on a bond that was never opened.
+>>>>>
+>>>>> Fix this by adding a NULL check with unlikely() in bond_rr_gen_slave_id()
+>>>>> before dereferencing rr_tx_counter. When rr_tx_counter is NULL (bond was
+>>>>> never opened), fall back to get_random_u32() for slave selection. The
+>>>>> allocation in bond_open() is kept, with WRITE_ONCE() added to safely
+>>>>> publish the pointer to the XDP read side. A plain read suffices for the
+>>>>> !bond->rr_tx_counter guard in bond_open() itself, as bond_open() runs
+>>>>> under RTNL lock and is the only writer of rr_tx_counter.
+>>>>>
+>>>>> Fixes: 879af96ffd72 ("net, core: Add support for XDP redirection to slave device")
+>>>>> Reported-by: syzbot+80e046b8da2820b6ba73@syzkaller.appspotmail.com
+>>>>> Closes: https://lore.kernel.org/all/698f84c6.a70a0220.2c38d7.00cc.GAE@google.com/T/
+>>>>> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+>>>>> ---
+>>>>>  drivers/net/bonding/bond_main.c | 9 +++++++--
+>>>>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>>>>
+>>>>
+>>>> This is Jay's patch + the unlikely change, looks good to me.
+>>>> Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
+>>>
+>>> Orthogonal to this patch  :
+>>>
+>>>  get_random_u32() typical cost is around 10 to 20 ns, I really wonder
+>>> if this makes sense
+>>> for the packets_per_slave == 0 or 1 case to haves this kind of
+>>> randomness in the first place.
+>>>
+>>> Perhaps we could use a
+>>>
+>>> static DEFINE_PER_CPU(u32, rr_tx_counter)
+>>>
+>>> And :
+>>>  slave_id = this_cpu_inc_return(rr_tx_counter);
+>>
+>> I also have mixed feelings about this patch.
+>>
+>> We probably should detect that the device is not ready before hitting
+>> something deeper in the stack.
+>>
+>> Sure, a NULL deref is avoided, bu what happens next ?
+>>
+>> We send a packet while the device is not UP, I am pretty sure this
+>> violates at least some RCU rules in device dismantling.
+> 
+> IIRC when the redirect continues, the packet should get dropped if the device is
+> not up (checks at a few places), but that's outside of bond's jurisdiction and
+> after the slave id is needed in xdp master redirect's path unfortunately.
+> I'm not sure it can reach much further, it just has the master dev's slave id
+> generation in its path.
+> 
+> In any case we shouldn't crash in the slave id generation in the bonding,
+> that ndo's only job is to return a slave id.
 
-> As you said, the current implementation is good enough. :)
-> If you think it=E2=80=99s appropriate to change it to (system_state !=3D =
-SYSTEM_BOOTING), you can make
-> that change later when you git rid of CONFIG_PREEMPT_RT_NEEDS_BH_LOCK. :)
+I'm sorry for the back and forth, but I share Eric's concern. I think
+the approach suggested by Daniel:
 
-If I get rid of CONFIG_PREEMPT_RT_NEEDS_BH_LOCK then
-!CONFIG_PREEMPT_RT_NEEDS_BH_LOCK becomes the only code and the code in
-question will vanish.
+https://lore.kernel.org/netdev/4d15be93-b497-4499-996d-9f3a67a2abc6@iogearbox.net/
 
-> > Funny story: I did a grep for the pattern you described and this s390
-> > driver was the only thing that popped up.
->=20
-> I'm actually curious why the users of _local_bh_enable, specifically thos=
-e using the s390
-> driver, haven't raised the issue that this interface cannot be used in RT=
--linux. Could it be
-> that s390 users have never run on RT-linux?
+or the initial patch form:
 
-This driver is very old and s390 does not support PREEMPT_RT. You can
-grep for ARCH_SUPPORTS_RT to see who supports it.
+https://lore.kernel.org/netdev/20260224112545.37888-1-jiayuan.chen@linux.dev/T/#m7c67bb12f85bc88d583788fb6e41113c46208ae7
 
-> > > Since you also mentioned that later CONFIG_PREEMPT_RT_NEEDS_BH_LOCK w=
-ill no longer be
-> > > enabled, at that point, local_bh_disable almost loses its significanc=
-e. I think it
-> > > should either be removed or implemented as a no-op, as it no longer a=
-chieves our
-> > > expected effect, and it would be better to save some instruction exec=
-ution time.
-> >=20
-> > We can't nop it entirely. local_bh_disable() needs remain a RCU read
-> > section and it needs to ensure that the context does not wonder off to
-> > another CPU. Also we need to count the disable/enable because once we go
-> > back to zero, we need to run callbacks which may have queued up.
->=20
-> I did overlook that local_bh_disable() is also considered an RCU critical=
- section and is
-> used in conjunction with rcu_read_lock_bh(). Although I saw comments in t=
-he code like
-> "/* Required to meet the RCU bottomhalf requirements. */", I don't fully =
-understand why
-> local_bh_disable must be treated as an RCU read critical section. Is it s=
-imply because the
-> implementation of rcu_read_lock_bh does not directly call __rcu_read_lock=
- and instead relies
-> on local_bh_disable to proxy this call? I haven't figured this out, and i=
-t seems a bit
-> strange to me.
+would be better. To respond to old concerns raised there: the check is
+IMHO bond-specific, as control moves from the lower interface to the
+upper bonding device, and the code is under an RCU critical section, the
+device can't go away before the xmit is completed.
 
-local_bh_disable() becomes an implicit RCU read lock section on
-!PREEMPT_RT and be must preserve the semantic.=20
+/P
 
-> > And if we queue the softirq on per-task basis rather then per-CPU then
-> > we don't have the problem that one task completes softirqs queued by
-> > another one.
->=20
-> Are you suggesting that the future implementation of soft interrupts migh=
-t be optimized to
-> use a per-task approach for queuing and processing soft interrupts? I thi=
-nk this is a very
-> good attempt, as the current handling of soft interrupts is a bit chaotic=
-=2E High-priority
-> tasks often end up passively dealing with many low-priority soft interrup=
-t tasks during
-> local_bh_disable(), effectively acting as 'ksoftirqd'. This seems unreaso=
-nable to me, as
-> it elevates the priority of low-priority tasks for processing.
-
-Yes. Getting rid of that BH lock removed much of the pain. This would one a=
-dditional piece.
-
-> If soft interrupt handling could be implemented in a per-task manner, it =
-could even lead to
-> priority inheritance in the future, and possibly work in conjunction with=
- BH workqueues to
-> thoroughly resolve the long-standing issues of soft interrupts in RT-linu=
-x. In my project,
-> performance problems are often related to __local_bh_disable_ip and vario=
-us sporadic
-> latency spikes caused by migrate_disable(). This is quite frustrating.
-
-Ideally if task X queues soft interrupts, it handles them and a later
-task does not observe them. Only a task with higher priority can add
-additional softirq work.
-If task X queues BLOCK and gets preempted, task Y with higher priority
-adds NET_RX, then task Y will handle NET_RX and BLOCK. This can be
-avoided by handling the softirqs per-task.
-However if both raise NET_RX then task Y will still handle both. This is
-because both use the same data structure to queue work, in this case the
-list of pending napi devices. In this case threaded napi would work
-because it avoids the common data structure.
-
-I am not a big fan of the BH workqueues because you queue work items in
-context in which it originates and then it "vanishes". So all the
-priorities and so on are gone. Also the work from lower priority tasks
-gets mixed with high priority tasks. Not something you desire in
-general.
-In general you are better off remaining in the threaded interrupt,
-completing the work.
-
-> Xin Zhao
-
-Sebastian
