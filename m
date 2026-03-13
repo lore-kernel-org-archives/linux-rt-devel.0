@@ -1,77 +1,53 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E2438838D
-	for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 19:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF01D37268B
+	for <linux-rt-devel@lists.linux.dev>; Fri, 13 Mar 2026 08:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773343475; cv=none; b=T8e7dnt8zpDI9SEwOqjs//QU1NOEjdEBhd9S0i+4le8SvtKlNBoHEbNlYymWmIh8irvpS/NwsfiK059oo45h3BaGuVSD8i1k/w6x2C5w3Ex3KQjD6S2LTNgKCU289JXr75H5sDp9Rrm8tQLgcnt59kB/3bgRbAY31WmgV010lwI=
+	t=1773389653; cv=none; b=R/VqZlPS+R2DhyffFqNQaZNT8pC0SUa3rNwQ6Qn6WRHI0YHBrwCEFNnzEQ1PB9GsDZBP9PZL5NuBMZf2RAlMXCKm7lypMwhzv8JLf4LprqtqCgDmM5WjPpqLyyZIIXVMV1LMsj1kva3BC8biGPjSzP0E4plicdPcYP0sXHKT6ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773343475; c=relaxed/simple;
-	bh=xUOE+P8FDO9EGfqDlA45VndK29UzQdfQjftwfdnIkgs=;
+	s=arc-20240116; t=1773389653; c=relaxed/simple;
+	bh=NOwVTCj2Bf+bcv15qJJAw8ducjhuGqjXum3l1zrPerg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uUd+HozmZa/11xkvpq4plhgY3AN5TRJDRuU0+1EiIU/AADBSQtHHEwQjLBQjfYWt0Te9oOYwrSczCWk9L/TX8qsT+Q/zr2fhjhRP58sJkDH6Y536ZXeVxx3ycceWzsU6mDNgi2ZaAFKTkIeWdBGOWPLFfcP08Xt32boVp92IIVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sdo/Z3Mp; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDkDZnKJnGRV7vgCPvZWPWzKLBlpZep04lYnFejEcdmX7ZiJ/4RHJBNPkpcJo/LWlB50J1wrNRpPuSSpIyLtHmNfWWsXz/iQsGdXT8mumVrBEagnCDonkXWhy+uLDIuYxbViq02W4iDhEGETKU/uwOr/q8vGEjvpdfx9u/NDq3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=0tAerDzk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hBPobF8+; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sdo/Z3Mp"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3591cc98871so713683a91.3
-        for <linux-rt-devel@lists.linux.dev>; Thu, 12 Mar 2026 12:24:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773343474; x=1773948274; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WGesEaqRXeTFjySbmfsSG99nSKH/WuuUlsI/nlH1fCo=;
-        b=Sdo/Z3Mp1To8buqGSdN3FJ5G518ImLPjhIep1eIwH9gqBV/AcyEyU9wq7aMU7rUb/x
-         HXoX9dT/wVMq4CmcnG4RRGYqfN9+z2ZjlFafYERRcLtnGS/raA2MoffR3QEKDzsb4w5l
-         OGkdizyg6khhgu5jlqBcp30hWTC6WKrp85Odf2sCXxR8kg7lRNk29lLL4jijS/ONCCii
-         Cz/UiON8rs/uaftJZl84L2Jyn1inj/i3Vd5MlV3ymX2JDP3B7UrytozoCGT5qs/dXp/i
-         Z+u5fRdKjZNS18074bjTaVsR65kJga0XHL85uXKGSCgGyPJ4rRXKxDsvyg2/4U+Ia5SN
-         jVIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773343474; x=1773948274;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WGesEaqRXeTFjySbmfsSG99nSKH/WuuUlsI/nlH1fCo=;
-        b=E+wv7PfRj/rofeVWUKSfe8nX+TGHH6qpXpEH9wjsdK+X/gnobsms5OhA9UAW++rieE
-         VltC5I4FiQk683tY1J++2CVkrokg7HjNJpYPVpE00VQduqMAydz2TbaPVoBQJbod7ICA
-         uWJ1F5SUIbWmaoxhqXWz5GHGmBXbG0kHOKhpOFND+1/qk+SEd6/5T251CRpWk77fdSH2
-         g5xDPLBSRsNXRMzaQq7p44Jt25BsBCBJQpt29gnw5PC/ZOmigjc3VSep/YCNb+K9AM/S
-         Y7eu00+nazY8JeuV7Rou93U5deSTv7+dmUThDN7ujrv7Gp7NtFpVfEPjanP4JBLRalIn
-         N/mA==
-X-Forwarded-Encrypted: i=1; AJvYcCVWy/lhyVW7gor+yeK8a4gMhZu5OeiVxmN26vJhxvxJWN75Ogld93ksiD04n9zNYpP5+XJAfWi+t5cnJ8M3FQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWZb+fM4bTloWKLqlskuHm/u9DxI9T+j6QWZePAq6oq2k2pbUY
-	ZLv0KoXqfHMmP/XVkiCpwiwFT9WgaIoaw1RtdqKXa1M/uE3uzkRUm8xK
-X-Gm-Gg: ATEYQzxxydEoCd8QvyEW5rZ9GteNeZ2TOhBE6jHH6y6jwQdAACjWOzK2T5Ss1jRpxb+
-	Q9SiXQCSW87r+y7warTOt1NcI1JiTQgKN/OX2fKpf8OjCocJEy+rLSIoturGhSmKXMLgmoykNq6
-	JmnH9AR+v2FEfZcvCgYn3vCYlY0R61XqK220iJeKwmrRDc1u4+uzaK5dxPmdAyPZ+QKKRFK0waK
-	6XsErmIxBFy82XFbpEbLRcgwtdQHcMdKbyno08/SprdjsGbSsz8iPyP0CTQ1RBTjiNgqGoe0XxU
-	Z/dKIKGo0T3tPhNWVp6QPuxT2qt1KXbqT3s3jFCZz+Slv+9emXr/hzmclCgy7f3wI55zlaOxHss
-	mn84G/0koVX7oqq+oPFyfKZIFzHFd/7hL7vWlnPKLX0jNRif8Y4txL0NLHP3ly9ea2p2xSKy9PO
-	5a07twm176Pb21EiRbwMi0KfZNJk+fXfgUilGa
-X-Received: by 2002:a17:90b:1e45:b0:359:f0e1:f8c9 with SMTP id 98e67ed59e1d1-35a21efae49mr641423a91.6.1773343473458;
-        Thu, 12 Mar 2026 12:24:33 -0700 (PDT)
-Received: from localhost ([115.96.18.169])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35a22cc1c91sm96857a91.1.2026.03.12.12.24.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 12:24:32 -0700 (PDT)
-Date: Fri, 13 Mar 2026 00:54:28 +0530
-From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
- for non-blocking invalidations
-Message-ID: <abMS7MALNrmluvh5@acer-nitro-anv15-41>
-References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
- <20260211120944.-eZhmdo7@linutronix.de>
- <aYyhfvC_2s000P7H@google.com>
- <aactOOfirdVRYfNS@acer-nitro-anv15-41>
- <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="0tAerDzk";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hBPobF8+"
+Date: Fri, 13 Mar 2026 09:14:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773389644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ct7qebckGUx5GcC9JTNJqNdxTAlAfz9amV76IXfV000=;
+	b=0tAerDzkvtxOLlAClGBSD14CX1AfkP/Rdc8FVd1MlVigKM/Kcl3/9CsmdzUuQQuQqMpZIN
+	sjXMcNi5kOb2gpUIUbU7o4lx6uw4AUEtjDae4tujJVBlxTZ3LGAdGcGjmo94rvJd9ZDPES
+	WEiDk/k4K2RtxDynKxTN17sblh7MV29cPus6mT/pwrjrhqfWrCFYMs7un+o7Zo+TdOQi0Y
+	hFsJeEC+tWYsxEuDyQ3VwmsfU7U/hoTMYRX5EmcCwvMBnEUuF6slpksVxKn7nq2SXAFMak
+	xlVjpc9tws0QItmI/rFOLzduM6kJdCGDeeHSyiZtilQq2/qGQtABBUIGcvs5oA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773389644;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ct7qebckGUx5GcC9JTNJqNdxTAlAfz9amV76IXfV000=;
+	b=hBPobF8+jn9s1MIsEq9OzoPpHCrNQIAPcsSc3QwPXN+D6ZSj9HC4S+8r1jhD+acgGp2bPk
+	CBO4U2LGHDq9LOCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Xin Zhao <jackzxcui1989@163.com>
+Cc: boqun@kernel.org, clrkwllms@kernel.org, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	longman@redhat.com, mingo@redhat.com, peterz@infradead.org,
+	rostedt@goodmis.org, will@kernel.org
+Subject: Re: [PATCH] softirq: WARN_ON !preemptible() not check softirq cnt in
+ bh disable on RT
+Message-ID: <20260313081402.D1ZLwsTF@linutronix.de>
+References: <20260312100546.jjvRquDg@linutronix.de>
+ <20260312124753.962974-1-jackzxcui1989@163.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -80,195 +56,96 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
+In-Reply-To: <20260312124753.962974-1-jackzxcui1989@163.com>
 
-On Fri, Mar 06, 2026 at 07:14:40PM +0100, Paolo Bonzini wrote:
-> On 3/3/26 19:49, shaikh kamaluddin wrote:
-> > On Wed, Feb 11, 2026 at 07:34:22AM -0800, Sean Christopherson wrote:
-> > > On Wed, Feb 11, 2026, Sebastian Andrzej Siewior wrote:
-> > > > On 2026-02-09 21:45:27 [+0530], shaikh.kamal wrote:
-> > > > > mmu_notifier_invalidate_range_start() may be invoked via
-> > > > > mmu_notifier_invalidate_range_start_nonblock(), e.g. from oom_reaper(),
-> > > > > where sleeping is explicitly forbidden.
-> > > > > 
-> > > > > KVM's mmu_notifier invalidate_range_start currently takes
-> > > > > mn_invalidate_lock using spin_lock(). On PREEMPT_RT, spin_lock() maps
-> > > > > to rt_mutex and may sleep, triggering:
-> > > > > 
-> > > > >    BUG: sleeping function called from invalid context
-> > > > > 
-> > > > > This violates the MMU notifier contract regardless of PREEMPT_RT;
-> > > 
-> > > I highly doubt that.  kvm.mmu_lock is also a spinlock, and KVM has been taking
-> > > that in invalidate_range_start() since
-> > > 
-> > >    e930bffe95e1 ("KVM: Synchronize guest physical memory map to host virtual memory map")
-> > > 
-> > > which was a full decade before mmu_notifiers even added the blockable concept in
-> > > 
-> > >    93065ac753e4 ("mm, oom: distinguish blockable mode for mmu notifiers")
-> > > 
-> > > and even predate the current concept of a "raw" spinlock introduced by
-> > > 
-> > >    c2f21ce2e312 ("locking: Implement new raw_spinlock")
-> > > 
-> > > > > RT kernels merely make the issue deterministic.
-> > > 
-> > > No, RT kernels change the rules, because suddenly a non-sleeping locking becomes
-> > > sleepable.
-> > > 
-> > > > > Fix by converting mn_invalidate_lock to a raw spinlock so that
-> > > > > invalidate_range_start() remains non-sleeping while preserving the
-> > > > > existing serialization between invalidate_range_start() and
-> > > > > invalidate_range_end().
-> > > 
-> > > This is insufficient.  To actually "fix" this in KVM mmu_lock would need to be
-> > > turned into a raw lock on all KVM architectures.  I suspect the only reason there
-> > > haven't been bug reports is because no one trips an OOM kill on VM while running
-> > > with CONFIG_DEBUG_ATOMIC_SLEEP=y.
-> > > 
-> > > That combination is required because since commit
-> > > 
-> > >    8931a454aea0 ("KVM: Take mmu_lock when handling MMU notifier iff the hva hits a memslot")
-> > > 
-> > > KVM only acquires mmu_lock if the to-be-invalidated range overlaps a memslot,
-> > > i.e. affects memory that may be mapped into the guest.
-> > > 
-> > > E.g. this hack to simulate a non-blockable invalidation
-> > > 
-> > > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > > index 7015edce5bd8..7a35a83420ec 100644
-> > > --- a/virt/kvm/kvm_main.c
-> > > +++ b/virt/kvm/kvm_main.c
-> > > @@ -739,7 +739,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >                  .handler        = kvm_mmu_unmap_gfn_range,
-> > >                  .on_lock        = kvm_mmu_invalidate_begin,
-> > >                  .flush_on_ret   = true,
-> > > -               .may_block      = mmu_notifier_range_blockable(range),
-> > > +               .may_block      = false,//mmu_notifier_range_blockable(range),
-> > >          };
-> > >          trace_kvm_unmap_hva_range(range->start, range->end);
-> > > @@ -768,6 +768,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >           */
-> > >          gfn_to_pfn_cache_invalidate_start(kvm, range->start, range->end);
-> > > +       non_block_start();
-> > >          /*
-> > >           * If one or more memslots were found and thus zapped, notify arch code
-> > >           * that guest memory has been reclaimed.  This needs to be done *after*
-> > > @@ -775,6 +776,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-> > >           */
-> > >          if (kvm_handle_hva_range(kvm, &hva_range).found_memslot)
-> > >                  kvm_arch_guest_memory_reclaimed(kvm);
-> > > +       non_block_end();
-> > >          return 0;
-> > >   }
-> > > 
-> > > immediately triggers
-> > > 
-> > >    BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:241
-> > >    in_atomic(): 0, irqs_disabled(): 0, non_block: 1, pid: 4992, name: qemu
-> > >    preempt_count: 0, expected: 0
-> > >    RCU nest depth: 0, expected: 0
-> > >    CPU: 6 UID: 1000 PID: 4992 Comm: qemu Not tainted 6.19.0-rc6-4d0917ffc392-x86_enter_mmio_stack_uaf_no_null-rt #1 PREEMPT_RT
-> > >    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
-> > >    Call Trace:
-> > >     <TASK>
-> > >     dump_stack_lvl+0x51/0x60
-> > >     __might_resched+0x10e/0x160
-> > >     rt_write_lock+0x49/0x310
-> > >     kvm_mmu_notifier_invalidate_range_start+0x10b/0x390 [kvm]
-> > >     __mmu_notifier_invalidate_range_start+0x9b/0x230
-> > >     do_wp_page+0xce1/0xf30
-> > >     __handle_mm_fault+0x380/0x3a0
-> > >     handle_mm_fault+0xde/0x290
-> > >     __get_user_pages+0x20d/0xbe0
-> > >     get_user_pages_unlocked+0xf6/0x340
-> > >     hva_to_pfn+0x295/0x420 [kvm]
-> > >     __kvm_faultin_pfn+0x5d/0x90 [kvm]
-> > >     kvm_mmu_faultin_pfn+0x31b/0x6e0 [kvm]
-> > >     kvm_tdp_page_fault+0xb6/0x160 [kvm]
-> > >     kvm_mmu_do_page_fault+0xee/0x1f0 [kvm]
-> > >     kvm_mmu_page_fault+0x8d/0x600 [kvm]
-> > >     vmx_handle_exit+0x18c/0x5a0 [kvm_intel]
-> > >     kvm_arch_vcpu_ioctl_run+0xc70/0x1c90 [kvm]
-> > >     kvm_vcpu_ioctl+0x2d7/0x9a0 [kvm]
-> > >     __x64_sys_ioctl+0x8a/0xd0
-> > >     do_syscall_64+0x5e/0x11b0
-> > >     entry_SYSCALL_64_after_hwframe+0x4b/0x53
-> > >     </TASK>
-> > >    kvm: emulating exchange as write
-> > > 
-> > > 
-> > > It's not at all clear to me that switching mmu_lock to a raw lock would be a net
-> > > positive for PREEMPT_RT.  OOM-killing a KVM guest in a PREEMPT_RT seems like a
-> > > comically rare scenario.  Whereas contending mmu_lock in normal operation is
-> > > relatively common (assuming there are even use cases for running VMs with a
-> > > PREEMPT_RT host kernel).
-> > > 
-> > > In fact, the only reason the splat happens is because mmu_notifiers somewhat
-> > > artificially forces an atomic context via non_block_start() since commit
-> > > 
-> > >    ba170f76b69d ("mm, notifier: Catch sleeping/blocking for !blockable")
-> > > 
-> > > Given the massive amount of churn in KVM that would be required to fully eliminate
-> > > the splat, and that it's not at all obvious that it would be a good change overall,
-> > > at least for now:
-> > > 
-> > > NAK
-> > > 
-> > > I'm not fundamentally opposed to such a change, but there needs to be a _lot_
-> > > more analysis and justification beyond "fix CONFIG_DEBUG_ATOMIC_SLEEP=y".
-> > > 
-> > Hi Sean,
-> > Thanks for the detailed explanation and for spelling out the border
-> > issue.
-> > Understood on both points:
-> > 	1. The changelog wording was too strong; PREEMPT_RT changes
-> > 	spin_lock() semantics, and the splat is fundamentally due to
-> > 	spinlocks becoming sleepable there.
-> > 	2. Converting only mm_invalidate_lock to raw is insufficient
-> > 	since KVM can still take the mmu_lock (and other sleeping locks
-> > 	RT) in invalidate_range_start() when the invalidation hits a
-> > 	memslot.
-> > Given the above, it shounds like "convert locks to raw" is not the right
-> > direction without sinificat rework and justification.
-> > Would an acceptable direction be to handle the !blockable notifier case
-> > by deferring the heavyweight invalidation work(anything that take
-> > mmu_lock/may sleep on RT) to a context that may block(e.g. queued work),
-> > while keeping start()/end() accounting consisting with memslot changes ?
-> > if so, I can protoptype a patch along those lines and share for
-> > feedback.
+On 2026-03-12 20:47:53 [+0800], Xin Zhao wrote:
+> hi, Sebastian
+Hi Xin,
+
 > > 
-> > Alternatively, if you think this needs to be addressed in
-> > mmu_notifiers(eg. how non_block_start() is applied), I'm happy to
-> > redirect my efforts there-Please advise.
+> > local_bh_disable() becomes an implicit RCU read lock section on
+> > !PREEMPT_RT and be must preserve the semantic. 
 > 
-> Have you considered a "OOM entered" callback for MMU notifiers?  KVM's MMU
-> notifier can just remove itself for example, in fact there is code in
-> kvm_destroy_vm() to do that even if invalidations are unbalanced.
+> My current understanding of the statement "local_bh_disable() becomes an implicit RCU read lock
+> section on !PREEMPT_RT" is as follows:
+> In a regular Linux system, during the period of local_bh_disable, both preemption and soft
+> interrupts are disabled, so RCU callbacks cannot be executed. This effectively means that the
+> progress of the RCU grace period is stalled during the bh disable period. In a PREEMPT_RT system,
+
+No, that is not it. A preempt-disabled section can be interrupted by a
+softirq. You can also offload the RCU-callbacks from CPU1 to CPU0 at
+which point you can run RCU callbacks while CPU1 has interrupts off.
+This has not always been like that but this is what we have now.
+
+> RCU callbacks are executed in an RCU context and are not protected by bh disable, so it is
+> necessary to explicitly mark the RCU read lock state.
+> I don't know if my understanding is correct.
+
+You do call_rcu() at which point the pointer/ callback lands on a list
+for clean up. At this point if you can observe the pointer you need to
+be in a RCU section to delay processing of the list, delaying the grace
+period. If the grace period starts, all new callbacks land on a new
+list. In order to process "the previous" list, the rcu_read_lock()
+counter needs to get to zero and every CPU needs to schedule once. This
+ensures that you are not in a preempt_disable() section (or
+bh_disable(), or spin_lock(), or irq off). I think this is correct but
+very compressed.
+
+The requirement that preempt_disable() needs to be considered is very
+old and comes from "classic RCU" where rcu_read_lock() was
+preempt_disable() and some people just did preempt_disable() because
+this was the thing before rcu_read_lock() was introduced. And then
+spin_lock() did the same, some people rely on it so it needs to be
+preserved.
+
+> > Ideally if task X queues soft interrupts, it handles them and a later
+> > task does not observe them. Only a task with higher priority can add
+> > additional softirq work.
+> > If task X queues BLOCK and gets preempted, task Y with higher priority
+> > adds NET_RX, then task Y will handle NET_RX and BLOCK. This can be
+> > avoided by handling the softirqs per-task.
 > 
-> Paolo
->
-Thanks for the suggestion! That's a much cleaner approach than what I was considering.
+> It does sound like it can optimize quite a lot. By the way, does per-task
+> manner calls softirq callbacks just before voluntary switch out or trigger
+> task_work before return to user-space? 
 
-If I understand correctly, the idea would be:
-1. Add a new MMU notifier callback (e.g., .oom_entered or .release_on_oom)
-2. Have KVM implement it to unregister the notifier when OOM reaper starts
-3. Leverage the existing kvm_destroy_vm() logic that already handles unbalanced invalidations
+It wouldn't change much. It would run on the exit from most outer BH
+section, on local_bh_enable() like it is now. The difference would be
+only that callbacks raised in this callbacks would be executed. So say,
+TaskX raises NET_RX and BLOCK, gets preempted, TaskY gets in, raises
+NET_RX and TASKLET. TaskY runs now callbacks and will do only NET_RX and
+TASKLET. Then we schedule back to taskX which does NET_RX (empty) and
+BLOCK.
 
-This avoids the whole "convert locks to raw" problem and the complexity of deferring work.
+Currently, TaskY would also do BLOCK.
 
-I have questions on Testing part:
-------------------------------------
-I tried to reproduce the bug scenario using the virtme-ng then running
-the stress-ng putting memory pressure on VM, but not able to reproduce
-the scenario.
-I tried this way ..
-vng -v -r ./arch/x86/boot/bzImage
-VM is up, then running the stress-ng as below 
-stress-ng --vm 2 --vm-bytes 95% --timeout 20s & sleep 5 & dmesg | tail -30 | grep "sleeping function"
-OOM Killer is triggered, but exact bug not able to reproduce, Please
-suggest how to reproduce this bug, even we need to verify after code
-changes which you have suggested.
+> > I am not a big fan of the BH workqueues because you queue work items in
+> > context in which it originates and then it "vanishes". So all the
+> > priorities and so on are gone. Also the work from lower priority tasks
+> > gets mixed with high priority tasks. Not something you desire in
+> > general.
+> > In general you are better off remaining in the threaded interrupt,
+> > completing the work.
+> 
+> Indeed, if we queue the soft interrupts triggered by different priority
+> tasks into a single workqueue, it wouldn't be very appropriate. If we
+> want to queue them into a bottom-half (bh) workqueue, we would also need
+> to create a corresponding workqueue for each priority and queue based on
+> that priority. I previously developed a patch for a real-time workqueue,
+> which has been used in our project. If certain soft interrupt tasks are
+> very important and do not require CPU affinity, then queuing them on
+> other CPUs to execute according to the actual priority needed might
+> optimize performance to some extent from a real-time perspective.
+> 
+> https://lore.kernel.org/lkml/20251205125445.4154667-1-jackzxcui1989@163.com/
 
-Shaikh Kamal
+This encodes too much application logic. Having a kthread for a "thing"
+is usually better. You can run that kthread either per-CPU or "unbound"
+and let userland deal with it by either pinning it to a CPU and/ or
+adjusting its priority based on his setup. So it can be more important
+than network or less important (depending if your critical real time
+work is network related or not). 
+
+> Xin Zhao
+
+Sebastian
