@@ -1,105 +1,192 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F317335966
-	for <linux-rt-devel@lists.linux.dev>; Sat, 14 Mar 2026 09:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E6625BEF8;
+	Sat, 14 Mar 2026 10:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773479885; cv=none; b=YUf8TI3qAx4Kn+6Rw+tzvV2mZ0W09pAXE3g4JdlwPIf8/iI6hrzNY6ojer9GumuWrbNvQ+ERFQnyONTWOYgol52yPMjYtQcEk99o/hK9xhG+tcDbaz7XakGdE7mOsbON1wCxHPCWU7gIaNG34COxoYoJFqW0eAJISk6e2UjD/Kw=
+	t=1773484592; cv=none; b=RHf+GmRUOXar68tgc+w3fGUTEV5DgMHDVRmY04KTB1umEtpSS+06LaDpdRzKZodE1KLB/9zEkVgrqQfxfL3DtCYM00BVq6VNdsTaIko9vjTNyJBBx6CQtRhs3XAUYdgp3tdmCI71Eg8vFOTlBLaarwGmcbMVzuOqQD9Eil5pnJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773479885; c=relaxed/simple;
-	bh=QWYHgF2U0wYDzLjZRZsKk1Sb2dueEXut//IM2sWmukY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1UIem7Sgt1hiKsZG0F2dN0dn+pRyu+1VAc9aI1hYSJvFkI/llPEMFeNTGP1+Md5ZDgX6FrGW7N2WRorVFm+QVKX/9zlgXQsuS9eOtzw7yjyGpXvWa77VEth/BybavftIMvb1vIetFYX/un4arwoe7g1TULYK4JJkANUeLyD79s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4PzGEU9M; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7BzrdUhT; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1773484592; c=relaxed/simple;
+	bh=8ETulfXTKfn6xXZVUkPqEIhROGr0XO3o3r6Ttt19XQk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WRPgH0Kfy5mSJhvkm6KWxpZxDyb/+vsjzeyKYZnsLRK114cEpg+c6mwemhzyQLIVCpwpOPfleXwbCCssTJyxO4VYva3OdTMA62YHMt+fc37vfDymUl23osZwOOev9f5L8KCU51cHbKpYisR0ELdfYgC2cAESySN7B94lpskGRlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vHk8E9JB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4PzGEU9M";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7BzrdUhT"
-Date: Sat, 14 Mar 2026 10:17:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773479874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pqH/l6bYhrPe7oidKxX4BdHLqO0dpH8/I+brV0dWCsI=;
-	b=4PzGEU9MM0/fidlqUf8nUl9uwjZm8fSi0anfV9F4vTxDDCaJzNymi8gIp88Tj3SrHoOUiB
-	7aqA3boagCFM1KWRihOJtGU59uCoOCmcyHVOACmyZox3gqj4iKqtT2ixWJgfjIQ3n+mqjt
-	VLTJZJhCBikRwui5Vn8eACotZjNfNxmdXpaPuYAvHpkz2woth1FoKRVxy3hFVxZpO6+3ot
-	LyAkpfmwCpHPs7W73sSZ2nT+zmJrxuszX5U2fri4dXVGb8x1iZbDT+jRsQFo4w+tum5+Wn
-	rtQe0aVXB3iYEmp1lnQvrOTxWfuKIRyfIn/ckDKVAL+qDzfDIVcRQgQoZpu6sQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773479874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pqH/l6bYhrPe7oidKxX4BdHLqO0dpH8/I+brV0dWCsI=;
-	b=7BzrdUhTrZxwwRmuiezFIcVk34DmmrfhOMpRDXMgUoAENJW3uD/t/2+6d9tz9aty50qPjR
-	RWGdIXYiSlVoqoBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-Cc: cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Ben Segall <bsegall@google.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>
-Subject: Re: [PATCH] cgroup: Move cgroup_task_dead() to task_struct clean up
-Message-ID: <20260314091752.B7CXvQxn@linutronix.de>
-References: <20260311120829.rEHY-xh9@linutronix.de>
- <ydymxaffr2s7npif37msq5q467m2ql26ib6wifwoztuhqmg4ao@id5c532lhorb>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vHk8E9JB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BCE80C116C6;
+	Sat, 14 Mar 2026 10:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773484591;
+	bh=8ETulfXTKfn6xXZVUkPqEIhROGr0XO3o3r6Ttt19XQk=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=vHk8E9JBoOnLB/4CsXojWjwa/EhIcCulnxGLn+x1tEK3hdjU7WX3oA6prrCCKaIbo
+	 AAJwQLXTLPj+YToYB2jeNlmiTjKQ4xL6oQ58jEpIrGOsjB7wwVPXRQEOQxkNYbQCsq
+	 sNWmE2XbysaEY5YhblpLyptnB7lhZbcd2P2gS4FvcJSOJ2rAmW2pMGIDc49Zr2MNkt
+	 BooD1btWz1CoH/1mjANOtSlhrjd7hhLxZKYAN156b975cAFcS/0OSOkyEu8FEiNYsH
+	 Sf0Q6KwxQQmAt7n20H/5kK/2klKweOuIH/C0spgfn54iV18MXy0dqH8d1Kz1Oop7uz
+	 NVwr4Qcpct7QQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B12E010706CE;
+	Sat, 14 Mar 2026 10:36:31 +0000 (UTC)
+From: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>
+Date: Sat, 14 Mar 2026 18:36:19 +0800
+Subject: [PATCH bpf] bpf: do not use kmalloc_nolock when
+ !HAVE_CMPXCHG_DOUBLE
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ydymxaffr2s7npif37msq5q467m2ql26ib6wifwoztuhqmg4ao@id5c532lhorb>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f@outlook.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MUQqAIBAFrxL73YJWSHSV6MNyq8XSUIhAuntLP
+ wMD816BTIkpw1AVSHRz5hhEdF3BstuwEbITh0Y1RrW6w/la0Z/2OOKCIQo9GuVsr8jo1hHI8Eq
+ 08vOfjiA9TO/7AU1VTm9pAAAA
+X-Change-ID: 20260314-bpf-kmalloc-nolock-60da80e613de
+To: Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: Amery Hung <ameryhung@gmail.com>, linux-riscv@lists.infradead.org, 
+ stable@vger.kernel.org, bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, Levi Zim <rsworktech@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4230;
+ i=rsworktech@outlook.com; s=ryzen; h=from:subject:message-id;
+ bh=QOQQvNeL8PrIqPi0m3JHglV7ieN/9+UfvisySvT/v4A=;
+ b=owEBbQKS/ZANAwAKAW87mNQvxsnYAcsmYgBptTooRbmkLsBvfVY7zCs8SZI8nDOpAcm9uBuzB
+ nCMVjhWUTiJAjMEAAEKAB0WIQQolnD5HDY18KF0JEVvO5jUL8bJ2AUCabU6KAAKCRBvO5jUL8bJ
+ 2OeCEADR8P2Uxds/iCtElbGKkbcKkohS0ENKy1l3pKUinigemojfX5EVTSbjU/jcGoQ6t7TeHNi
+ yqDF0iWuanovTdO0u+0RgRQWeubUh2DcU9zoZFIRLAEa74AfnUWizOF9x5jakwt7DN1/tXGJx/D
+ z5s74yT1frkH4nzW+ScRdTeNz2i5HM//MIFmQ0uZCOqSweN5MjpWO6kvN9gdqP6u6+2iiZWkIk0
+ 801KLi8G7GlxX0yTldIj+LUzknAdTvpT/bsPOrD+lGtvLAwcU0Zz6RitWxCpKHP1FAi1qd3OWhA
+ WioCxp4COL7nt4X0TZuRWpinmpn1noa226U5cfrFMUNGKPDwySfWYyvJn8zOZRKVg+xnrtD29pA
+ QuFmje0O3MobS6IMKwRLTlBDkcGWpV8R26y5FiaPpZcGqmZWa2NF1BMXtiXiEjl17fdAEMqW2dT
+ pXcrNjXiaIi/lPOOZk+TmwasML6EyNX0F7XbgcKuq0zUX0omVVwpurhpoKh/BKTMETJOFkEuJkK
+ 6R+fyFjRkgezi8zeO4P0Nw4+9ck5p7P37UdhoRsQiF+oUZ6jWo4p/v0YUmfLPXmnM49Hm2aBUMH
+ La4koSyh3joxkpiGyhEw3sD41kditehoALriZ/Z8qW84QCSMF5W+vX0Dd+PowVO4Jgr06iiA0xF
+ DhNLuSZrftM31Fg==
+X-Developer-Key: i=rsworktech@outlook.com; a=openpgp;
+ fpr=17AADD6726DDC58B8EE5881757670CCFA42CCF0A
+X-Endpoint-Received: by B4 Relay for rsworktech@outlook.com/ryzen with
+ auth_id=536
+X-Original-From: Levi Zim <rsworktech@outlook.com>
+Reply-To: rsworktech@outlook.com
 
-On 2026-03-13 18:33:14 [+0100], Michal Koutn=C3=BD wrote:
-> Hello.
->=20
-> On Wed, Mar 11, 2026 at 01:08:29PM +0100, Sebastian Andrzej Siewior <bige=
-asy@linutronix.de> wrote:
-> > @@ -7084,6 +7031,7 @@ void cgroup_task_free(struct task_struct *task)
-> >  {
-> >  	struct css_set *cset =3D task_css_set(task);
-> > =20
-> > +	cgroup_task_dead(task);
-> >  	if (!list_empty(&task->cg_list)) {
-> >  		spin_lock_irq(&css_set_lock);
-> >  		css_set_skip_task_iters(task_css_set(task), task);
->=20
-> Erm, isn't this way too late?
+From: Levi Zim <rsworktech@outlook.com>
 
-My understanding is that the point is that the cgroup must not be
-exposed to userland once the task is about to die. This has been moved
-after the fine schedule() which is too late because the parent is
-signaled before that and the removal happens after that.
-So now we hide the tasks in the iterator once the task is PF_EXITING.
+kmalloc_nolock always fails for architectures that lack cmpxchg16b.
+For example, this causes bpf_task_storage_get with flag
+BPF_LOCAL_STORAGE_GET_F_CREATE to fails on riscv64 6.19 kernel.
 
-> I see that cset->dying_tasks is appended in do_cgroup_task_dead() (which
-> I was used to find in cgroup_exit()).
+Fix it by enabling use_kmalloc_nolock only when HAVE_CMPXCHG_DOUBLE
 
-So this could be probably removed later on if this is the only purpose.
+Fixes: f484f4a3e058 ("bpf: Replace bpf memory allocator with kmalloc_nolock() in local storage")
+Cc: stable@vger.kernel.org
+Signed-off-by: Levi Zim <rsworktech@outlook.com>
+---
+I find that bpf_task_storage_get with flag BPF_LOCAL_STORAGE_GET_F_CREATE
+always fails for me on 6.19 kernel on riscv64 and bisected it.
 
-> (Also, whole cgroup_task_dead() becomes single use thing so it could be
-> open-coded in the place where it belongs.)
+In f484f4a3e058 ("bpf: Replace bpf memory allocator with kmalloc_nolock()
+in local storage"), bpf memory allocator is replaced with kmalloc_nolock.
+This approach is problematic for architectures that lack CMPXCHG_DOUBLE
+because kmalloc_nolock always fails in this case:
 
-If this what we want, I could inline it there.
+In function kmalloc_nolock (kmalloc_nolock_noprof): 
 
-> Thanks,
-> Michal
+	if (!(s->flags & __CMPXCHG_DOUBLE) && !kmem_cache_debug(s))
+		/*
+		 * kmalloc_nolock() is not supported on architectures that
+		 * don't implement cmpxchg16b, but debug caches don't use
+		 * per-cpu slab and per-cpu partial slabs. They rely on
+		 * kmem_cache_node->list_lock, so kmalloc_nolock() can
+		 * attempt to allocate from debug caches by
+		 * spin_trylock_irqsave(&n->list_lock, ...)
+		 */
+		return NULL;
 
-Sebastian
+Fix it by enabling use_kmalloc_nolock only when HAVE_CMPXCHG_DOUBLE.
+
+Note for stable: this only needs to be picked into v6.19 if the patch
+makes it into 7.0.
+---
+ include/linux/bpf_local_storage.h | 2 ++
+ kernel/bpf/bpf_cgrp_storage.c     | 2 +-
+ kernel/bpf/bpf_local_storage.c    | 3 ++-
+ kernel/bpf/bpf_task_storage.c     | 2 +-
+ 4 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/bpf_local_storage.h b/include/linux/bpf_local_storage.h
+index 8157e8da61d40..a7ae5dde15bcb 100644
+--- a/include/linux/bpf_local_storage.h
++++ b/include/linux/bpf_local_storage.h
+@@ -19,6 +19,8 @@
+ 
+ #define BPF_LOCAL_STORAGE_CACHE_SIZE	16
+ 
++static const bool KMALLOC_NOLOCK_SUPPORTED = IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBLE);
++
+ struct bpf_local_storage_map_bucket {
+ 	struct hlist_head list;
+ 	rqspinlock_t lock;
+diff --git a/kernel/bpf/bpf_cgrp_storage.c b/kernel/bpf/bpf_cgrp_storage.c
+index c2a2ead1f466d..09c557e426968 100644
+--- a/kernel/bpf/bpf_cgrp_storage.c
++++ b/kernel/bpf/bpf_cgrp_storage.c
+@@ -114,7 +114,7 @@ static int notsupp_get_next_key(struct bpf_map *map, void *key, void *next_key)
+ 
+ static struct bpf_map *cgroup_storage_map_alloc(union bpf_attr *attr)
+ {
+-	return bpf_local_storage_map_alloc(attr, &cgroup_cache, true);
++	return bpf_local_storage_map_alloc(attr, &cgroup_cache, KMALLOC_NOLOCK_SUPPORTED);
+ }
+ 
+ static void cgroup_storage_map_free(struct bpf_map *map)
+diff --git a/kernel/bpf/bpf_local_storage.c b/kernel/bpf/bpf_local_storage.c
+index 9c96a4477f81a..8e4b0fe6d12af 100644
+--- a/kernel/bpf/bpf_local_storage.c
++++ b/kernel/bpf/bpf_local_storage.c
+@@ -894,7 +894,8 @@ bpf_local_storage_map_alloc(union bpf_attr *attr,
+ 	 * preemptible context. Thus, enforce all storages to use
+ 	 * kmalloc_nolock() when CONFIG_PREEMPT_RT is enabled.
+ 	 */
+-	smap->use_kmalloc_nolock = IS_ENABLED(CONFIG_PREEMPT_RT) ? true : use_kmalloc_nolock;
++	smap->use_kmalloc_nolock = IS_ENABLED(CONFIG_PREEMPT_RT) &&
++		KMALLOC_NOLOCK_SUPPORTED ? true : use_kmalloc_nolock;
+ 
+ 	smap->cache_idx = bpf_local_storage_cache_idx_get(cache);
+ 	return &smap->map;
+diff --git a/kernel/bpf/bpf_task_storage.c b/kernel/bpf/bpf_task_storage.c
+index 605506792b5b4..9f74fd1ef7f46 100644
+--- a/kernel/bpf/bpf_task_storage.c
++++ b/kernel/bpf/bpf_task_storage.c
+@@ -212,7 +212,7 @@ static int notsupp_get_next_key(struct bpf_map *map, void *key, void *next_key)
+ 
+ static struct bpf_map *task_storage_map_alloc(union bpf_attr *attr)
+ {
+-	return bpf_local_storage_map_alloc(attr, &task_cache, true);
++	return bpf_local_storage_map_alloc(attr, &task_cache, KMALLOC_NOLOCK_SUPPORTED);
+ }
+ 
+ static void task_storage_map_free(struct bpf_map *map)
+
+---
+base-commit: e06e6b8001233241eb5b2e2791162f0585f50f4b
+change-id: 20260314-bpf-kmalloc-nolock-60da80e613de
+
+Best regards,
+-- 
+Levi Zim <rsworktech@outlook.com>
+
+
