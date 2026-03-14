@@ -1,151 +1,105 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A18D23B61E
-	for <linux-rt-devel@lists.linux.dev>; Sat, 14 Mar 2026 07:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F317335966
+	for <linux-rt-devel@lists.linux.dev>; Sat, 14 Mar 2026 09:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773474472; cv=none; b=q5BMiUZ+P/utJj3jBUE8AW5c0Eapd9fkjhuMjtS/bTQkL/DaE3bV/tWOC92OldumRhhGI3Atv9shobcp+ARUWuX4FZooKBflgwdpNMq7ynoPylLwRgfUa5k09fy9y1FywDgDAM+nZ5T7lsnBjTATmsguj6jt88RLq8HC3SERYKI=
+	t=1773479885; cv=none; b=YUf8TI3qAx4Kn+6Rw+tzvV2mZ0W09pAXE3g4JdlwPIf8/iI6hrzNY6ojer9GumuWrbNvQ+ERFQnyONTWOYgol52yPMjYtQcEk99o/hK9xhG+tcDbaz7XakGdE7mOsbON1wCxHPCWU7gIaNG34COxoYoJFqW0eAJISk6e2UjD/Kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773474472; c=relaxed/simple;
-	bh=+LnyvEsOAMOuMraggW5GkBp3fbotg8e4CmYtqeF4Zk0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A0OegmL2dX1z+pnrBDF5qWoRJ2Yk+yMzZSTui/DUtHSNBcDVGa7chUIURcUTOMRGkYUJFqfxcdQBKYg5FFziRqc6TX4lPSc/kFfgwlr1PDWxZySIKVoFpERuSiLqxpqKPLjP2QxEpHWj3OA6JCer/tGJrEgrpkzVWzUXGQnj684=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rlg7JR1j; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773479885; c=relaxed/simple;
+	bh=QWYHgF2U0wYDzLjZRZsKk1Sb2dueEXut//IM2sWmukY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1UIem7Sgt1hiKsZG0F2dN0dn+pRyu+1VAc9aI1hYSJvFkI/llPEMFeNTGP1+Md5ZDgX6FrGW7N2WRorVFm+QVKX/9zlgXQsuS9eOtzw7yjyGpXvWa77VEth/BybavftIMvb1vIetFYX/un4arwoe7g1TULYK4JJkANUeLyD79s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4PzGEU9M; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7BzrdUhT; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rlg7JR1j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773474470;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4PzGEU9M";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7BzrdUhT"
+Date: Sat, 14 Mar 2026 10:17:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773479874;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Nz3JZsYNT541pyf3vZdDq7MN88VWJEE5+FZGLQiaqlk=;
-	b=Rlg7JR1jTc57nzZ7F+xUSUtIPBTDXWtsEI56kZw/bIE1008GeGC8gW+v8qhnoUDeonO3Ar
-	ohKvNRMEFyOy0WxFkRg8qMbEWQ817rYRrczHa1B2ptPGzPhBgiLY9tHtw/qtMG9xXy3Wif
-	QQzIazRoszthu704ZWv0AnbknJaZxuE=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-62-3YpBqvLHNB-VL5nad1kClg-1; Sat,
- 14 Mar 2026 03:47:45 -0400
-X-MC-Unique: 3YpBqvLHNB-VL5nad1kClg-1
-X-Mimecast-MFC-AGG-ID: 3YpBqvLHNB-VL5nad1kClg_1773474464
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3968319560B5;
-	Sat, 14 Mar 2026 07:47:44 +0000 (UTC)
-Received: from [10.44.32.10] (unknown [10.44.32.10])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45FAF19560B7;
-	Sat, 14 Mar 2026 07:47:42 +0000 (UTC)
-Message-ID: <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
-Date: Sat, 14 Mar 2026 08:47:40 +0100
+	 in-reply-to:in-reply-to:references:references;
+	bh=pqH/l6bYhrPe7oidKxX4BdHLqO0dpH8/I+brV0dWCsI=;
+	b=4PzGEU9MM0/fidlqUf8nUl9uwjZm8fSi0anfV9F4vTxDDCaJzNymi8gIp88Tj3SrHoOUiB
+	7aqA3boagCFM1KWRihOJtGU59uCoOCmcyHVOACmyZox3gqj4iKqtT2ixWJgfjIQ3n+mqjt
+	VLTJZJhCBikRwui5Vn8eACotZjNfNxmdXpaPuYAvHpkz2woth1FoKRVxy3hFVxZpO6+3ot
+	LyAkpfmwCpHPs7W73sSZ2nT+zmJrxuszX5U2fri4dXVGb8x1iZbDT+jRsQFo4w+tum5+Wn
+	rtQe0aVXB3iYEmp1lnQvrOTxWfuKIRyfIn/ckDKVAL+qDzfDIVcRQgQoZpu6sQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773479874;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pqH/l6bYhrPe7oidKxX4BdHLqO0dpH8/I+brV0dWCsI=;
+	b=7BzrdUhTrZxwwRmuiezFIcVk34DmmrfhOMpRDXMgUoAENJW3uD/t/2+6d9tz9aty50qPjR
+	RWGdIXYiSlVoqoBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Ben Segall <bsegall@google.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Subject: Re: [PATCH] cgroup: Move cgroup_task_dead() to task_struct clean up
+Message-ID: <20260314091752.B7CXvQxn@linutronix.de>
+References: <20260311120829.rEHY-xh9@linutronix.de>
+ <ydymxaffr2s7npif37msq5q467m2ql26ib6wifwoztuhqmg4ao@id5c532lhorb>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
- for non-blocking invalidations
-To: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-Cc: Sean Christopherson <seanjc@google.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
- <20260211120944.-eZhmdo7@linutronix.de> <aYyhfvC_2s000P7H@google.com>
- <aactOOfirdVRYfNS@acer-nitro-anv15-41>
- <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
- <abMS7MALNrmluvh5@acer-nitro-anv15-41>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Autocrypt: addr=pbonzini@redhat.com; keydata=
- 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
-In-Reply-To: <abMS7MALNrmluvh5@acer-nitro-anv15-41>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: D9jh0Ezrji9XvBJfw53oIPZjgwDf6f68CZ-bBGsyLeo_1773474464
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ydymxaffr2s7npif37msq5q467m2ql26ib6wifwoztuhqmg4ao@id5c532lhorb>
 
-On 3/12/26 20:24, shaikh kamaluddin wrote:
->>> Alternatively, if you think this needs to be addressed in
->>> mmu_notifiers(eg. how non_block_start() is applied), I'm happy to
->>> redirect my efforts there-Please advise.
->>
->> Have you considered a "OOM entered" callback for MMU notifiers?  KVM's MMU
->> notifier can just remove itself for example, in fact there is code in
->> kvm_destroy_vm() to do that even if invalidations are unbalanced.
->>
->> Paolo
->>
-> Thanks for the suggestion! That's a much cleaner approach than what I was considering.
-> 
-> If I understand correctly, the idea would be:
-> 1. Add a new MMU notifier callback (e.g., .oom_entered or .release_on_oom)
-> 2. Have KVM implement it to unregister the notifier when OOM reaper starts
-> 3. Leverage the existing kvm_destroy_vm() logic that already handles unbalanced invalidations
+On 2026-03-13 18:33:14 [+0100], Michal Koutn=C3=BD wrote:
+> Hello.
+>=20
+> On Wed, Mar 11, 2026 at 01:08:29PM +0100, Sebastian Andrzej Siewior <bige=
+asy@linutronix.de> wrote:
+> > @@ -7084,6 +7031,7 @@ void cgroup_task_free(struct task_struct *task)
+> >  {
+> >  	struct css_set *cset =3D task_css_set(task);
+> > =20
+> > +	cgroup_task_dead(task);
+> >  	if (!list_empty(&task->cg_list)) {
+> >  		spin_lock_irq(&css_set_lock);
+> >  		css_set_skip_task_iters(task_css_set(task), task);
+>=20
+> Erm, isn't this way too late?
 
-Yes pretty much.  Essentially, move the existing logic to the new 
-callback and invoke it from kvm_destroy_vm().
+My understanding is that the point is that the cgroup must not be
+exposed to userland once the task is about to die. This has been moved
+after the fine schedule() which is too late because the parent is
+signaled before that and the removal happens after that.
+So now we hide the tasks in the iterator once the task is PF_EXITING.
 
-> This avoids the whole "convert locks to raw" problem and the complexity of deferring work.
-> 
-> I have questions on Testing part:
-> ------------------------------------
-> I tried to reproduce the bug scenario using the virtme-ng then running
-> the stress-ng putting memory pressure on VM, but not able to reproduce
-> the scenario.
-> I tried this way ..
-> vng -v -r ./arch/x86/boot/bzImage
-> VM is up, then running the stress-ng as below
-> stress-ng --vm 2 --vm-bytes 95% --timeout 20s & sleep 5 & dmesg | tail -30 | grep "sleeping function"
-> OOM Killer is triggered, but exact bug not able to reproduce, Please
-> suggest how to reproduce this bug, even we need to verify after code
-> changes which you have suggested.
+> I see that cset->dying_tasks is appended in do_cgroup_task_dead() (which
+> I was used to find in cgroup_exit()).
 
-I don't know, sorry.  But with this new approach there will always be a 
-call to the new callback from the OOM killer, so it's easier to test.
+So this could be probably removed later on if this is the only purpose.
 
-Thanks,
+> (Also, whole cgroup_task_dead() becomes single use thing so it could be
+> open-coded in the place where it belongs.)
 
-Paolo
+If this what we want, I could inline it there.
 
+> Thanks,
+> Michal
+
+Sebastian
