@@ -1,121 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD4031716A;
-	Sat, 14 Mar 2026 17:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B131A1DF254
+	for <linux-rt-devel@lists.linux.dev>; Sun, 15 Mar 2026 05:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773507991; cv=none; b=mahpp5N2a4+Xt34liteuWCeRP5yQhlxYPOGaFdiApKyMhzZtM/YeIzxw8kw3DbaGqotvH9Ste+0XNO06/06PeFW4LKCtSrJO6hzIMoy3Dg/GzZEb9m7QWyWzRXq5XpSv+EXD+M/CG+2kLWIP6xzemb/o6tJa8i0dxsA9yzQFygs=
+	t=1773553167; cv=none; b=rxO8/wsYlB6R0XAEB6Lco2Auvu/2hmyvHTGbEi4ejr53q36BAkKgb8Qm6fchm6rcniIR2K9Te3YqQ/UTwbMyH1w4pQyymOrW2CQlBJ0YjiY93Mb6yx6LpMuVWrbIZvX+aRYi3onQ6WLWXNltqJ4cj9yIRjGKrYH2Grza3nwZ/1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773507991; c=relaxed/simple;
-	bh=BP6PDAwL7ZQIFhbNuWPztuxpeFKM2OWgbd3nAKkdShI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oR5c283+iHXyZ/vdSUd9y7bIKoaNyxYPAjq4YsZ7qcWmiY4/IioHrh+lPh15qqm6s9ikPsjd0kr28e6NykcbcAPtdn8cM21z6zyLZDRiV24h76CisFQ6vv/YPnKjuI4CdTVOlIjZrbs6s4wyfdKdUS5Him89ctHWmmJOZm9zO1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uwt4ZS7G; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773553167; c=relaxed/simple;
+	bh=VPlFiaE6XohqKIiaIyGVQLPlSJG+kkUHYnL0F1sL2D4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=llxSsTE0Zvk3h2+GwPMLO+kIFaD7FA7Jac3/QJL3UX6x2wMBPthTCI+x3XkBvxdEYdumvh4+unZUTESV0+M8LzgAVk/LWkjPqH+ztu7A8eBqfOOQsMeqixHV6pnHS6RBhgFkIbMVF6uW8Te5x7kHjqgRBbZosb/8vB5gVx396J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ioD2u0Wr; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uwt4ZS7G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773507990; x=1805043990;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BP6PDAwL7ZQIFhbNuWPztuxpeFKM2OWgbd3nAKkdShI=;
-  b=Uwt4ZS7GhduaC5gYc1F+SynASRWlHe7ZPq1GEdSkbjtNMpTd5Y4k5PTO
-   TlYT2+gZLTrCa2QqAbGPUwoEBCd62kX3y1+ynnihsBwvPtE4wOHlqwk1c
-   ObD6D4Bqxp/V9p5bRRaLM/40eTJWBrvz56qMbLPEjzSVM+Nmq2Nj9hka9
-   aHsf+fUHbhcmO1rtIOWzguHmiiLBd8sXM3E+bWiEvLUTod06tPseXSSWs
-   buZs16cMufUjRejOzkOf9MrU/wW5pki0BkDTwI2NFplyJaN4S/bgimIR1
-   fePhJAXG34M2bIBp7wQAAErelOgGjlmVOaMMD482Laa/J+ygvLjnVQdKz
-   Q==;
-X-CSE-ConnectionGUID: AdKSknp4SpeNyxdnkIgy0Q==
-X-CSE-MsgGUID: 5Gir98V3TSK5VpuoH1B7/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="74291605"
-X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="74291605"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 10:06:29 -0700
-X-CSE-ConnectionGUID: S7Qzg7o5QjeaYBCY2orMyA==
-X-CSE-MsgGUID: 1B0hQ5hhSyOavx3FZxVKcw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="221543533"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa008.jf.intel.com with ESMTP; 14 Mar 2026 10:06:23 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w1SRQ-000000003pJ-4Brw;
-	Sat, 14 Mar 2026 17:06:21 +0000
-Date: Sat, 14 Mar 2026 18:05:40 +0100
-From: kernel test robot <lkp@intel.com>
-To: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Amery Hung <ameryhung@gmail.com>,
-	linux-riscv@lists.infradead.org, stable@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Levi Zim <rsworktech@outlook.com>
-Subject: Re: [PATCH bpf] bpf: do not use kmalloc_nolock when
- !HAVE_CMPXCHG_DOUBLE
-Message-ID: <202603141857.sLJ0vJoa-lkp@intel.com>
-References: <20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f@outlook.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ioD2u0Wr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=IV
+	mmy5TH3h/U0oiqfUAE95kayhL+mCkP8idJWyCNUIs=; b=ioD2u0WrHjs5gcLG3/
+	dpdxhqpH4u43vSKPk6hNkQfMV5GfPqTd8cQfafzIxXKi5m3TKbETwNBvM5SC6m/e
+	wKzPco+GFr4cBxtrqissFpLqogme5Z2OB9JqmwcrrWmA/g27cepc4YW9hV2OLUk0
+	RrAUEQR6yeAbQQwXXTXuou0y8=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wAHL_7eRbZp1c9fBA--.6138S2;
+	Sun, 15 Mar 2026 13:38:39 +0800 (CST)
+From: guoqi0226 <guoqi0226@163.com>
+To: anna-maria@linutronix.de,
+	frederic@kernel.org,
+	tglx@kernel.org
+Cc: bigeasy@linutronix.de,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	guoqi0226@163.com
+Subject: [PATCH] hrtimer: Fix is_hard/is_soft both false with missing HARD/SOFT flag
+Date: Sun, 15 Mar 2026 13:38:36 +0800
+Message-Id: <20260315053836.122937-1-guoqi0226@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f@outlook.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAHL_7eRbZp1c9fBA--.6138S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7trW3Kr45ury5XFWUGr4xtFb_yoW8CF47pF
+	WxJrW3K3y7XF4jyFW8AFnrWrZrtan3J3WxuFyrJ392yrn7t340qa1vg3Z8XFWaqrZ8urWx
+	A34Iqr15CFWkZwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pihvtAUUUUU=
+X-CM-SenderInfo: 5jxr1xaqsslqqrwthudrp/xtbC4h+Q+Gm2Rd+CsgAA3g
 
-Hi Levi,
+When hrtimer mode is only ABS/REL (e.g. HRTIMER_MODE_ABS) with no explicit
+SOFT/HARD flag, and CONFIG_PREEMPT_RT is disabled, both timer->is_hard and
+is_soft become false, violating the hard/soft exclusive design rule.
 
-kernel test robot noticed the following build warnings:
+Enforce correct hard/soft timer via effective_mode:
+- Enable softtimer when CONFIG_PREEMPT_RT is enabled and no HARD flag
+- Add HRTIMER_MODE_HARD to effective_mode when
+  CONFIG_PREEMPT_RT is disabled (e.g. HRTIMER_MODE_ABS)
+- Compute timer->is_hard as !!(effective_mode & HRTIMER_MODE_HARD)
 
-[auto build test WARNING on e06e6b8001233241eb5b2e2791162f0585f50f4b]
+This ensures exactly one of is_hard/is_soft is true.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Levi-Zim-via-B4-Relay/bpf-do-not-use-kmalloc_nolock-when-HAVE_CMPXCHG_DOUBLE/20260314-195705
-base:   e06e6b8001233241eb5b2e2791162f0585f50f4b
-patch link:    https://lore.kernel.org/r/20260314-bpf-kmalloc-nolock-v1-1-24abf3f75a9f%40outlook.com
-patch subject: [PATCH bpf] bpf: do not use kmalloc_nolock when !HAVE_CMPXCHG_DOUBLE
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260314/202603141857.sLJ0vJoa-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260314/202603141857.sLJ0vJoa-lkp@intel.com/reproduce)
+Signed-off-by: guoqi0226 <guoqi0226@163.com>
+---
+ kernel/time/hrtimer.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603141857.sLJ0vJoa-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/net/bpf_sk_storage.h:15,
-                    from net/core/sock.c:141:
->> include/linux/bpf_local_storage.h:22:19: warning: 'KMALLOC_NOLOCK_SUPPORTED' defined but not used [-Wunused-const-variable=]
-      22 | static const bool KMALLOC_NOLOCK_SUPPORTED = IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBLE);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/KMALLOC_NOLOCK_SUPPORTED +22 include/linux/bpf_local_storage.h
-
-    21	
-  > 22	static const bool KMALLOC_NOLOCK_SUPPORTED = IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBLE);
-    23	
-
+diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
+index 860af7a58428..9584a3af13e6 100644
+--- a/kernel/time/hrtimer.c
++++ b/kernel/time/hrtimer.c
+@@ -1618,6 +1618,7 @@ static void __hrtimer_setup(struct hrtimer *timer,
+ {
+ 	bool softtimer = !!(mode & HRTIMER_MODE_SOFT);
+ 	struct hrtimer_cpu_base *cpu_base;
++	hrtimer_mode effective_mode = mode;
+ 	int base;
+ 
+ 	/*
+@@ -1628,6 +1629,8 @@ static void __hrtimer_setup(struct hrtimer *timer,
+ 	 */
+ 	if (IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
+ 		softtimer = true;
++	else if (!IS_ENABLED(CONFIG_PREEMPT_RT) && !(mode & HRTIMER_MODE_HARD))
++		effective_mode |= HRTIMER_MODE_HARD;
+ 
+ 	memset(timer, 0, sizeof(struct hrtimer));
+ 
+@@ -1644,7 +1647,7 @@ static void __hrtimer_setup(struct hrtimer *timer,
+ 	base = softtimer ? HRTIMER_MAX_CLOCK_BASES / 2 : 0;
+ 	base += hrtimer_clockid_to_base(clock_id);
+ 	timer->is_soft = softtimer;
+-	timer->is_hard = !!(mode & HRTIMER_MODE_HARD);
++	timer->is_hard = !!(effective_mode & HRTIMER_MODE_HARD);
+ 	timer->base = &cpu_base->clock_base[base];
+ 	timerqueue_init(&timer->node);
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
