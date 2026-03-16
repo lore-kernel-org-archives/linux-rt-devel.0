@@ -1,51 +1,62 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82123351C33
-	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Mar 2026 07:33:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD1A3537E6
+	for <linux-rt-devel@lists.linux.dev>; Mon, 16 Mar 2026 08:06:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773646399; cv=none; b=pVJ7xUddzniapHM8frVetSI1LXuvzYNjMfbn5YE+Ppoa99ALOgenUrf9Sw1Gy2lwUyKPp8PQWrK59sq+Ur6dxGD0Zlz/Tj2Ujo26uME0CRskn3fWcCthUS6ePBeheAn1WNG7q7pbF2nmHjb3uCTbDaRZaElPxIG0qFSFmo2hVOY=
+	t=1773648375; cv=none; b=gEm3GCFZxn0fqbL19E70ER6T5iYHgAZM7PeLuW7qt6Cs+/W+dzgGJMISRe1PhjzRNeOyCbl2jP/1RS8iJg3bYOAtCv3nKwtKVyEq3DxS5gCgqGGNUineXVusTorejX/17/+G4Rh4fK5zMW1jsMz5ULer9pT6PdJCdOYlulI6L0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773646399; c=relaxed/simple;
-	bh=wSMbag88hHvbEyQCmnzjMxLIQKCHr4ePjhfjIJgxud8=;
+	s=arc-20240116; t=1773648375; c=relaxed/simple;
+	bh=GPDIjnFjrFITQjFRHxEVmc+rlL/Jh+3l4rzt4hE5ZWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h2PfqPtAzLaXripUWevtYpuW5tpTr40Dzxm3b1NG+r/4y54hZq05Kyal8u19jkx4RjXyF187gybXrYTpFgOplRcpHGmHE7zaX576goZXz9XT+C0QZdjhl5Lj/zthQWxiGB8wpVj8dR4s0ZzacLck/V+a+grJ8HB89jVueo9tD6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sllPn9LR; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=x3W+iTbR; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=uadLIlrCf+6tWn5G3w14YYinqkMvuI2f6FNvwe4wnzER0jehsoa3X8oHDNt5n/0PZEiiiEy2V306wn8t02Xq8eu0f8TvfjXdSu3c+edq46BW2HtBgNt27oSke6ZAKX/BciqMBTtVHc5QrS9hRt90Lp0YZK/pGHmU0V3Le3f3KoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=297OAddl; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yqB75Mvh; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sllPn9LR";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="x3W+iTbR"
-Date: Mon, 16 Mar 2026 08:33:13 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="297OAddl";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yqB75Mvh"
+Date: Mon, 16 Mar 2026 09:06:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773646394;
+	s=2020; t=1773648373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qE1qA34IPDZkBXscOis8z4uJrvtB59W6NldRXjUV34M=;
-	b=sllPn9LRPewGRkD0ikxIvqaoKyVOq40+9gWX1griKIIEar/Ej2th1GSLnsY+vp5OqNx4eM
-	ADQ0E9iP2rIQ4SwlQYZN4GqCKma7u71MzzZbBndgOlQVDZ35nDc12xEUVs4M9IUMu1Oknc
-	elxhH3OrHosMcyaYgMpx1tTHs3dVRm1yuxGPfZO8JjWhIaKLfEIThoi13YNNzt39AAJ2pA
-	dQfGl0VrBiU+2ZHMvKUdi4R2+mX+RmEHyXPD8SVLYggnJQqNTnrGnP4nqPZ/v/8e7Y/i0d
-	6Qa5rnzWQRESQB/t04NXDXOGCkfV8JPK6QhSgz+Geh6IaIYeW6ZtiGeMLZ7LMw==
+	bh=2T5XEiat4AcyzU2cNJEUVlnoFi/dWcIq2LJ23mESUlQ=;
+	b=297OAddlSqXv+JWNuPL/agpbOXlSRSEdJ4X0A46FZ3Vfh5J/3+G+HmI7LrE+O08+8XCpcH
+	+xXvNLLdXivv6ZktD/KcdTajNnh8pROsU0OaixM9BIEDYmHL4S9cxXqYJ8CiBV4zfQoaai
+	IAjAYDaWtWIRrOOxYJvNtMKhA+l+BsAR3IJjupN9G566vrHmOZFzriPj4jEg8QNK6fYVY0
+	QCzvlZvaLWXOVGZ4wVlEVpixRhQ3yND5sMB9S0qQXBxyFsWGxO7DiOZKPEJpesv4xB43vL
+	fjY6RDqSprBQuPv1nAkiUcVpI9R0pEju7ba7qh70oitikIsNho0QKQYWsb/mhg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773646394;
+	s=2020e; t=1773648373;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qE1qA34IPDZkBXscOis8z4uJrvtB59W6NldRXjUV34M=;
-	b=x3W+iTbRq72f+85XvDVuEm8JJXoDW0XfVnjw/Wil9QWNKnHKzv4BdQagiU8ZvBo4sfaPIC
-	oitwJA6GF/jSevBg==
+	bh=2T5XEiat4AcyzU2cNJEUVlnoFi/dWcIq2LJ23mESUlQ=;
+	b=yqB75MvhOX5CY6ecyoO4t/jgjahEVW9oU7TCaA2rmG0yXrrNvZ43z8SbZO3kbFfxsBKqKx
+	BRdNh/ntIqYBfbBw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: guoqi0226 <guoqi0226@163.com>
-Cc: anna-maria@linutronix.de, frederic@kernel.org, tglx@kernel.org,
-	clrkwllms@kernel.org, rostedt@goodmis.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] hrtimer: Fix is_hard/is_soft both false with missing
- HARD/SOFT flag
-Message-ID: <20260316073313.Z8CsTXwi@linutronix.de>
-References: <20260315063009.146668-1-guoqi0226@163.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	cgroups@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Ben Segall <bsegall@google.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Juri Lelli <juri.lelli@redhat.com>, Mel Gorman <mgorman@suse.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>
+Subject: Re: [PATCH] cgroup: Move cgroup_task_dead() to task_struct clean up
+Message-ID: <20260316080611.5G06G5O8@linutronix.de>
+References: <20260311120829.rEHY-xh9@linutronix.de>
+ <ydymxaffr2s7npif37msq5q467m2ql26ib6wifwoztuhqmg4ao@id5c532lhorb>
+ <20260314091752.B7CXvQxn@linutronix.de>
+ <abcTbSznpQ1qxJdj@slm.duckdns.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,23 +65,75 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260315063009.146668-1-guoqi0226@163.com>
+In-Reply-To: <abcTbSznpQ1qxJdj@slm.duckdns.org>
 
-On 2026-03-15 14:30:09 [+0800], guoqi0226 wrote:
-> When hrtimer mode is only ABS/REL (e.g. HRTIMER_MODE_ABS) with no explicit
-> SOFT/HARD flag, and CONFIG_PREEMPT_RT is disabled, both timer->is_hard and
-> is_soft become false, violating the hard/soft exclusive design rule.
-> 
-> Enforce correct hard/soft timer via effective_mode:
-> - Enable softtimer when CONFIG_PREEMPT_RT is enabled and no HARD flag
-> - Add HRTIMER_MODE_HARD to effective_mode when
->   CONFIG_PREEMPT_RT is disabled (e.g. HRTIMER_MODE_ABS)
-> - Compute timer->is_hard as !!(effective_mode & HRTIMER_MODE_HARD)
-> 
-> This ensures exactly one of is_hard/is_soft is true.
+On 2026-03-15 10:15:41 [-1000], Tejun Heo wrote:
+> Hello,
+Hi,
 
-How and where is this a problem?
+> Yeah, I think it's too late. That's where we tell the cgroup is becoming
+> empty among other things. cgroup_task_free() waits for all task refcnts to
+> drop which can take any amount of time. You can also imagine situations
+> where e.g. userspace pins a specific task through pidfd unitl the cgroup it
+> belongs becomes empty, which would have worked before but now would
+> deadlock.
 
-> Signed-off-by: guoqi0226 <guoqi0226@163.com>
+I see. What about moving it to delayed_put_task_struct() such as the
+change on top below? It also RCU and only acquired by bpf_task_acquire().
+Is this also a concern or would that work?
+
+--- a/include/linux/cgroup.h
++++ b/include/linux/cgroup.h
+@@ -138,6 +138,7 @@ extern void cgroup_cancel_fork(struct task_struct *p,
+ extern void cgroup_post_fork(struct task_struct *p,
+ 			     struct kernel_clone_args *kargs);
+ void cgroup_task_exit(struct task_struct *p);
++void cgroup_task_dead(struct task_struct *p);
+ void cgroup_task_release(struct task_struct *p);
+ void cgroup_task_free(struct task_struct *p);
+ 
+@@ -681,6 +682,7 @@ static inline void cgroup_cancel_fork(struct task_struct *p,
+ static inline void cgroup_post_fork(struct task_struct *p,
+ 				    struct kernel_clone_args *kargs) {}
+ static inline void cgroup_task_exit(struct task_struct *p) {}
++static inline void cgroup_task_dead(struct task_struct *p) {}
+ static inline void cgroup_task_release(struct task_struct *p) {}
+ static inline void cgroup_task_free(struct task_struct *p) {}
+ 
+diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
+index 684b773cd5cb4..28cdb8d3210e7 100644
+--- a/kernel/cgroup/cgroup.c
++++ b/kernel/cgroup/cgroup.c
+@@ -6991,7 +6991,7 @@ void cgroup_task_exit(struct task_struct *tsk)
+ 	} while_each_subsys_mask();
+ }
+ 
+-static void cgroup_task_dead(struct task_struct *tsk)
++void cgroup_task_dead(struct task_struct *tsk)
+ {
+ 	struct css_set *cset;
+ 	unsigned long flags;
+@@ -7031,7 +7031,6 @@ void cgroup_task_free(struct task_struct *task)
+ {
+ 	struct css_set *cset = task_css_set(task);
+ 
+-	cgroup_task_dead(task);
+ 	if (!list_empty(&task->cg_list)) {
+ 		spin_lock_irq(&css_set_lock);
+ 		css_set_skip_task_iters(task_css_set(task), task);
+diff --git a/kernel/exit.c b/kernel/exit.c
+index ede3117fa7d41..7a94425122238 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -228,6 +228,7 @@ static void delayed_put_task_struct(struct rcu_head *rhp)
+ 	rethook_flush_task(tsk);
+ 	perf_event_delayed_put(tsk);
+ 	trace_sched_process_free(tsk);
++	cgroup_task_dead(tsk);
+ 	put_task_struct(tsk);
+ }
+ 
+
+> Thanks.
 
 Sebastian
