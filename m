@@ -1,110 +1,74 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6BC5328260
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 04:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773722774; cv=pass; b=iDGiuczW+mYVktPSUJzQnF3wv1+n1eInB0GucKBNatQAKvAZ62TLR9BtKHVdMJSJ2/O3mpUTGxqk19zIDLZiDnCRxPABC+HxqRQfjA41PMocoXPCPwS4WBwlD6mdWZ8VYoqxzusYNhBcftLcKBVV1Qm2ustFiUWB2GWv4wC6NX8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773722774; c=relaxed/simple;
-	bh=kVg/3qBxeC7RIRHRbkFU60OP6mqSFzjx+ICsDZMOv08=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62402222C5
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 09:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773738058; cv=none; b=W4UWu+GFTsLw5Sijua537zn9rTEBgVQ1wbZnhvvXkquu+ae5rH+hmWm/8G+tiLg/n9LgXEQUjCYZdGRFCQLiJ9t8boUEQ2mGlDxUDM0J0iWx3nL4e9/X894QmS1+l29ACbo0jczBFVx3py3/eRkNFKal1D2pnmuDSd9F4OboLzo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773738058; c=relaxed/simple;
+	bh=ahQZAi5UZ/EMROopvwD9BjhlLPRYdS0kr3F4/01wIuM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fTAy7206P9pTNNSdyd0iaqiAwkadAXeGm4lJaWKl5FB98mcX/uaLiS0F2WtHC957PDthZTbkPoVnkmiVmXRy9Kdu19mpJk1CdrS+C5Z1GZmHVfyXDrqWU4Wy7OO1WEe9Y4cU1245MQJxnniVV3pz6JUy12cGuK4d98OW7lQYD2w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc; spf=pass smtp.mailfrom=ziyao.cc; dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b=PyqfIhz2; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ziyao.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziyao.cc
+	 Content-Type:Content-Disposition:In-Reply-To; b=PnXG9PnER8aVYo8CNVMmOXgpxQKm4mCSYCm1m8VYB5tkpdqTuZtvM3mwzN02pMdIJ0pnW0NEXKFtLGlRPTsMtkc/P0dOsp3IRArCxnhWEi4FgvSBkW/bh1r6zqhXHA1fLiMr7TmhXx5Qw6UySI4xhtIyw/u6RzgX9HRp63xMTPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SLQ3uN6Y; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=UbrxvkWh; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ziyao.cc header.i=me@ziyao.cc header.b="PyqfIhz2"
-ARC-Seal: i=1; a=rsa-sha256; t=1773722720; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=RvD/C0178NU1LwJEkSg2UFnPK19fryVEEEn4KH1SuSSNoKbCxy9CLexhK+PWYoMvqFtvy9AEretvZR5Q+W53mvYc1Q3uTjxfrcau3ZYo7nLcsF7qcFYdlx2zfl9e/bPy65olb/oW4z0lC/mFwSLlWj3M9F3HWdvPoCYgocBQfK4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1773722720; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=MZtGcjgstCOwi90UqZfYqyQ9iZiBcfojTGxX5RIebuY=; 
-	b=JlP1Q9OoOBvGuVB4qdDtUbzeSCIQFGCsWGwfLhDcmeCWkQt8eIWr4mFE0T3kny7nqYzxJv6vYc77IN1iBxJyPrY8zwfoWS+c89X/KVhr6I4CoSthUJ32n4nhs+Ye0of2hteJ23YzAydUsXIatKAKhznE9CxUEtMWECvlvsnLuV4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ziyao.cc;
-	spf=pass  smtp.mailfrom=me@ziyao.cc;
-	dmarc=pass header.from=<me@ziyao.cc>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1773722720;
-	s=zmail; d=ziyao.cc; i=me@ziyao.cc;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=MZtGcjgstCOwi90UqZfYqyQ9iZiBcfojTGxX5RIebuY=;
-	b=PyqfIhz2A+D4PU3lO2lI8y/tSQIinoROefawYKrjEtzapgOROW0tQOakEFk2ZAcc
-	xAPFyKTDxclE6kiWf3fINMPhdWHqGErfmylRD+Bu8j27sSIwbTFEPaimumoXYZmbeXc
-	1EAZc0aPk0qLhwZU9sf4Jc4gTc3zECp4f/UPY6zw=
-Received: by mx.zohomail.com with SMTPS id 1773722718208506.92900941934556;
-	Mon, 16 Mar 2026 21:45:18 -0700 (PDT)
-Date: Tue, 17 Mar 2026 04:45:05 +0000
-From: Yao Zi <me@ziyao.cc>
-To: Paul Chaignon <paul.chaignon@gmail.com>, rsworktech@outlook.com
-Cc: Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Amery Hung <ameryhung@gmail.com>, linux-riscv@lists.infradead.org,
-	stable@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH bpf v3] bpf: do not use kmalloc_nolock when
- !HAVE_CMPXCHG_DOUBLE
-Message-ID: <abjcUSXWiShiuMvH@pie>
-References: <20260315-bpf-kmalloc-nolock-v3-1-91c72bf91902@outlook.com>
- <abgcKvuSQc2ZYKw4@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SLQ3uN6Y";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="UbrxvkWh"
+Date: Tue, 17 Mar 2026 10:00:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773738056;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ojgsEh5obRGiSq1T5vrGWdb+Psz+QfVFhSaFy+wU9pg=;
+	b=SLQ3uN6YVuQEg9kQON08A+uY+LzsYogYGBF7WzKqp6aoAg3T5JlIvHYGN8zvU3k3CdOnpZ
+	2Jg2yvFNQTvabKDfBp7RhgeZjkGDUGRMQOn7ahIkopEC4k4woJfiAlRuusg77RPsfBXSf8
+	cSkQUm6rAv6bJZurgBFWhvRDvfjkQgYJZWIble8dNDWYf/7CWXoQRniv26Z/HfU223GRTk
+	AANgoYNmPEjUM+TnUB/5FmDTHaMTF54iirhdrsPimpfjHHNFnrsgpCNpgaE4IO1z/7Af6t
+	RVkImuD7anFB2pqhswu8OXdF+RTUILeT4WknwXNjZ1r2X5GPdRAm+KIxVIPE+g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773738056;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ojgsEh5obRGiSq1T5vrGWdb+Psz+QfVFhSaFy+wU9pg=;
+	b=UbrxvkWhkDSOs+slId8jQ4SyV8kdAoHk7Q+mesTO1eEAkG3Da51ejvSL2WnUEuXdS8Fqll
+	HSEHKiRrtHStMHAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Emil Tantilov <emil.s.tantilov@intel.com>
+Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
+	anthony.l.nguyen@intel.com, aleksandr.loktionov@intel.com,
+	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, clrkwllms@kernel.org, rostedt@goodmis.org,
+	linux-rt-devel@lists.linux.dev, sgzhang@google.com,
+	boolli@google.com
+Subject: Re: [PATCH iwl-net 0/3] idpf: virtchnl locking and async fixes
+Message-ID: <20260317090054.DuPZ6O0O@linutronix.de>
+References: <20260316232819.6872-1-emil.s.tantilov@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <abgcKvuSQc2ZYKw4@mail.gmail.com>
-X-ZohoMailClient: External
+In-Reply-To: <20260316232819.6872-1-emil.s.tantilov@intel.com>
 
-On Mon, Mar 16, 2026 at 04:05:14PM +0100, Paul Chaignon wrote:
-> On Sun, Mar 15, 2026 at 12:02:48AM +0800, Levi Zim via B4 Relay wrote:
-> > From: Levi Zim <rsworktech@outlook.com>
-> > 
-> > kmalloc_nolock always fails for architectures that lack cmpxchg16b.
-> > For example, this causes bpf_task_storage_get with flag
-> > BPF_LOCAL_STORAGE_GET_F_CREATE to fails on riscv64 6.19 kernel.
-> > 
-> > Fix it by enabling use_kmalloc_nolock only when HAVE_CMPXCHG_DOUBLE.
-> > But leave the PREEMPT_RT case as is because it requires kmalloc_nolock
-> > for correctness. Add a comment about this limitation that architecture's
-> > lack of CMPXCHG_DOUBLE combined with PREEMPT_RT could make
-> > bpf_local_storage_alloc always fail.
-> > 
-> > Fixes: f484f4a3e058 ("bpf: Replace bpf memory allocator with kmalloc_nolock() in local storage")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Levi Zim <rsworktech@outlook.com>
-> > ---
+On 2026-03-16 16:28:16 [-0700], Emil Tantilov wrote:
+> The first patch in this series improves the locking around the setting
+> and clearing of the free_xn_bm bitmap. Previously the lock was only
+> taken during init shutdown and pop, but not the push function.
 > 
-> Note there may be something broken with your setup as lore is reporting
-> that you sent this v3 email three times. Not sure if it could be an
-> issue.
+> Patches 2 and 3 are fixes for the async handler. Patch 2 ensures the
+> payload size is set before the async handler is called, and patch 3 fixes
+> an sleeping bug due to nesting of raw/bh spinlocks.
 
-Once is because linux-riscv@lists.infradead.org adds a trailer when
-forwarding messages but keeps the Message-ID unchanged, so lore indexed
-one extra message with the same ID but different content, it was not
-Levi doing something wrong.
+Why is there a raw_spinlock_t? From a quick look a spinlock_t would do
+just fine with not runtime change for !PREEMPT_RT.
 
-The other message has the same content but a different From line, not
-sure what happened to it. Differences of the messages could be viewed
-here[1].
-
-Regards,
-Yao Zi
-
-[1]: https://lore.kernel.org/all/20260315-bpf-kmalloc-nolock-v3-1-91c72bf91902@outlook.com/d/
+Sebastian
