@@ -1,82 +1,135 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D363E8660
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 14:38:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE052DCC1C
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 15:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773758335; cv=none; b=nt5k5RWlXRgpB+h+nqh4vpIJoLR86Uz0BVGNhuW2Yv+ECNqUyWjo9DFBxmV8QSSzeXKXoYi38JgJzVInF/aaR3xdAQvZAkAO14p9kYH4lVyLsG6ohrU+GWmVnc+h/GF/agd9AuYT9G27f/kZgvPJDA1kImtuqsOrkV7JtnflAZs=
+	t=1773761058; cv=none; b=FDqLUNS5+C9ceCaJ9Kj+KZuG1LMWlmF03XJ6QiXNXgwo2b++iQWtKIWngRCu4bvpiQtp9PL/bfFSL9Vso+LoE1fxvhRFswmXQBDNKj2KfZUplu7xvtQ5Ug0p77OPOhIWx6wZjsajvVHHZleBP3IlzIchE/imknAVkebA6d9nvc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773758335; c=relaxed/simple;
-	bh=mmphkqcG93FqderNmd/L1cinawqh36y76fm1wNIAD9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T9216W8msOafae79XNnKDGNKhNQeSl2up1Mqdck5pU+i9LvxMfbEbKZdj8sNmvtl0GkJBfTX+BaqaAZDlsA/eprU2UvgfDFylAbkveR/llkbIo/ChZhgjNGU2K68a5vXisvJNCglM5OVnmD8RJ9rZ89xXr06r4O9mHpaWNqi+HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=CAqrgaus; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=84bu404I; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1773761058; c=relaxed/simple;
+	bh=rawTxtgvvbkzzbH2UV4s1WHUqEhvtXowvJ2A1NK5Dfo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=FomyTtMDGn6SFgxzRPcsnCUl5fUEcEmUgruGkKWyazUuyyEeZKH4mfRfHzQMtEdbfqpLFzkSw9lHzqlNQeiS4wp0Uq8mjvh8rEh3+qVJty8xSNB85kwP+FQxFR9BbdMBMcJgXVimES67JJYnxBv7A2JhSM7PD2rk0sFznB8sa1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AoIs2DBU; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="CAqrgaus";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="84bu404I"
-Date: Tue, 17 Mar 2026 15:38:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773758332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dwiQtjV0URScOIyDH89kknET1vSDADAowJTLNm5SWs=;
-	b=CAqrgaus2MC0i0ZA73W1BgaQkEPeGXkI36AQ10M7pSsfgysl9ZTEuCxyefNd2bwX+cTtgH
-	reyD8HZoqjeRHtw2HeEZtk+C1T222jYnG1iwH+1olsve8OJUn4wuvgNhGL6G5v5YqCZbtZ
-	f4j4w4+gKi3I9mps/rnIEBk2XJbNRLQQ8ZGRq4uxY6z7yF6Kpeo9jYkYo7G8poM71IPhPM
-	fVhA0+hc9TUxZaIR64ZodGqKF7xWI6MTvwUvhfZgk/QBEAocv1SkZPYi5Fp+IVnCqizB+h
-	oH2IgzEfULR3Pu05W8kBCo6NP+fS/LVwuS32HHSJI5/+I4SslxYugAvcfEciuQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773758332;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dwiQtjV0URScOIyDH89kknET1vSDADAowJTLNm5SWs=;
-	b=84bu404IaCUK9e3YVljsj9RC5Ra9wg3tAMbQJPB3/MA7gyjRQM14VVZtJQH6QS/AJSLPzV
-	WddHZhtlwmYG9SBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, aleksandr.loktionov@intel.com,
-	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, clrkwllms@kernel.org, rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev, sgzhang@google.com,
-	boolli@google.com
-Subject: Re: [PATCH iwl-net 0/3] idpf: virtchnl locking and async fixes
-Message-ID: <20260317143850.BLrnAox8@linutronix.de>
-References: <20260316232819.6872-1-emil.s.tantilov@intel.com>
- <20260317090054.DuPZ6O0O@linutronix.de>
- <7247024b-fc8d-4a75-ba15-a10399db03bc@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AoIs2DBU"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 9E47D4E42655;
+	Tue, 17 Mar 2026 15:24:15 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6C52B60050;
+	Tue, 17 Mar 2026 15:24:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4159410450618;
+	Tue, 17 Mar 2026 16:23:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773761051; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=rawTxtgvvbkzzbH2UV4s1WHUqEhvtXowvJ2A1NK5Dfo=;
+	b=AoIs2DBUSiP3+bDh8ceDZ5pucIsCr73r049SuZ/HJKLAXGmyad7NTpfKNSaNVk51NUvTIH
+	BgPqPlr1rDNIoyNmYsJc8ISuC3ycIUVQBissA6PEINJzL6N8BH0o8JqMgWYQdBCgi49zvl
+	Rl36ZnNiln6rG+QQTga+S6KU/OOWAfvfLuGWL19TZHwCliPsRxvb67701TK9QVVKGnTpoa
+	j3Xvy3JqNEig/PiitIwS73AwutDLx9LIw9v/asnkWmeV/tuNISa5PJ8YUSBzapnrkc2NV+
+	NRS8gndZVMreSkSC8PDnKgeiyjCRU66WdvwKgyQf+/ugl+MnQb1DhlIwJ0DqHw==
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <7247024b-fc8d-4a75-ba15-a10399db03bc@intel.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Mar 2026 16:23:45 +0100
+Message-Id: <DH55T20W6ZID.1O0R8EFW6R5G3@bootlin.com>
+Cc: "Alexandre Gonzalo" <alexandre.gonzalo@arm.com>,
+ <linux-kbuild@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-alpha@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-omap@vger.kernel.org>, <loongarch@lists.linux.dev>,
+ <linux-mips@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <linux-sh@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
+ <linux-samsung-soc@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-parisc@vger.kernel.org>,
+ <openbmc@lists.ozlabs.org>
+To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Mikko Rapeli"
+ <mikko.rapeli@linaro.org>, "Richard Henderson"
+ <richard.henderson@linaro.org>, "Matt Turner" <mattst88@gmail.com>, "Magnus
+ Lindholm" <linmag7@gmail.com>, "Russell King" <linux@armlinux.org.uk>,
+ "Aaro Koskinen" <aaro.koskinen@iki.fi>, "Andreas Kemnade"
+ <andreas@kemnade.info>, "Kevin Hilman" <khilman@baylibre.com>, "Roger
+ Quadros" <rogerq@kernel.org>, "Tony Lindgren" <tony@atomide.com>, "Huacai
+ Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>, "Thomas
+ Bogendoerfer" <tsbogend@alpha.franken.de>, "Madhavan Srinivasan"
+ <maddy@linux.ibm.com>, "Michael Ellerman" <mpe@ellerman.id.au>, "Nicholas
+ Piggin" <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)"
+ <chleroy@kernel.org>, "Paul Walmsley" <pjw@kernel.org>, "Palmer Dabbelt"
+ <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>, "Alexandre
+ Ghiti" <alex@ghiti.fr>, "Heiko Carstens" <hca@linux.ibm.com>, "Vasily
+ Gorbik" <gor@linux.ibm.com>, "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Sven Schnelle"
+ <svens@linux.ibm.com>, "Yoshinori Sato" <ysato@users.sourceforge.jp>, "Rich
+ Felker" <dalias@libc.org>, "John Paul Adrian Glaubitz"
+ <glaubitz@physik.fu-berlin.de>, "Thomas Gleixner" <tglx@kernel.org>, "Ingo
+ Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>, "Steven Rostedt"
+ <rostedt@goodmis.org>, "Pablo Neira Ayuso" <pablo@netfilter.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
+ <alim.akhtar@samsung.com>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Vladimir
+ Zapolskiy" <vz@mleia.com>, "Piotr Wojtaszczyk"
+ <piotr.wojtaszczyk@timesys.com>, "Liviu Dudau" <liviu.dudau@arm.com>,
+ "Sudeep Holla" <sudeep.holla@kernel.org>, "Lorenzo Pieralisi"
+ <lpieralisi@kernel.org>, "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ "Magnus Damm" <magnus.damm@gmail.com>, "Vladimir Kondratiev"
+ <vladimir.kondratiev@mobileye.com>, "Gregory CLEMENT"
+ <gregory.clement@bootlin.com>, =?utf-8?q?Th=C3=A9o_Lebrun?=
+ <theo.lebrun@bootlin.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Helge Deller" <deller@gmx.de>,
+ "Janusz Krzysztofik" <jmkrzyszt@gmail.com>,
+ =?utf-8?q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>, "Chris
+ Zankel" <chris@zankel.net>, "Max Filippov" <jcmvbkbc@gmail.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "Arnd Bergmann" <arnd@arndb.de>, "Heiko
+ Stuebner" <heiko@sntech.de>, "Kuninori Morimoto"
+ <kuninori.morimoto.gx@renesas.com>, "Mark Brown" <broonie@kernel.org>,
+ "Eric Biggers" <ebiggers@kernel.org>, "Ard Biesheuvel" <ardb@kernel.org>,
+ "Sricharan Ramabadhran" <quic_srichara@quicinc.com>, "Bjorn Andersson"
+ <andersson@kernel.org>, "Michael Walle" <mwalle@kernel.org>, "Guenter
+ Roeck" <linux@roeck-us.net>, "Srinivas Kandagatla"
+ <srinivas.kandagatla@oss.qualcomm.com>, "Rob Herring (Arm)"
+ <robh@kernel.org>, "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Anna Schumaker"
+ <anna.schumaker@oracle.com>
+From: =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>
+Subject: Re: [PATCH 3/9] configs: remove obsolete assignments to
+ CONFIG_NFS_V4_1
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
+ <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+In-Reply-To: <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 2026-03-17 07:20:18 [-0700], Tantilov, Emil S wrote:
-> > Why is there a raw_spinlock_t? From a quick look a spinlock_t would do
-> > just fine with not runtime change for !PREEMPT_RT.
-> 
-> The handling of the virtchannel messages is done via the completion API
-> and the transactions are using the raw spinlock from struct
-> swait_queue_head:
-> 
-> https://elixir.bootlin.com/linux/v6.19.8/source/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c#L298
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git/tree/include/linux/swait.h?h=dev-queue#n44
+Hello Vincent,
 
-I am aware that completions use a raw_spinlock_t. I don't see the link.
-What would break if you make that lock a spinlock_t?
+On Tue Mar 17, 2026 at 10:13 AM CET, Vincent Mailhol (Arm) wrote:
+> CONFIG_NFS_V4_1 was revomed in commit 7537db24806f ("NFS: Merge
+> CONFIG_NFS_V4_1 with CONFIG_NFS_V4"). However, some defconfigs are
+> still referring the old configuration.
 
-> Thanks,
-> Emil
+typo: revomed -> removed
+otherwise, thanks:
 
-Sebastian
+Reviewed-by: Th=C3=A9o Lebrun <theo.lebrun@bootlin.com>
+
+Thanks,
+
+--
+Th=C3=A9o Lebrun, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
