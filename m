@@ -1,326 +1,198 @@
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F6C255F2C
-	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 17:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15236FC5
+	for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 19:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767805; cv=pass; b=VLoBo8MR8lhcPmfp6NMaYYTWxTduO1PrjuZA9LTOKmA58BGr0y4LgdRWNgmz8sb/0LnmQ+A1TWN+mld8N5m7XtAF84rQfGvV2ou4yhqp6wyy6Vaat8ueXDUKRS1qKM8DSfgrBLCBTGK6FmJ6L6dpEzJe96VeYblA1WQNiIO5G2I=
+	t=1773775851; cv=fail; b=owH2QZK3Vub4mMn+b7MG5ssiQl8ZnzaubpBz4w4g9CcskNcywv2nuOKfMtnj2ffGmNwjmnskmh3Ryg6eE6G53BADJ1wiGc7q301yYZJmaW5cCHv7+TDbax08HC28pV39hlSUXvVsrTH1vLmPuBHzP2fMUXQt8IIOPMq4Q09AdsE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767805; c=relaxed/simple;
-	bh=sNoN/Xh8CUgNjwW3bTkJAIWBkTvsjLmibZC6m+YJO2c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PEA6k0SdQvUMsQgZLDYNZzikpysy+DS82Jyw2Nuq+DK+67/SiCL+vNcBpGPQqmq6hfN7IlI7K9v04i8gBf9CmNoQLZWJtEqa1OiliKc8s5fCQpfOH8/NYtR1rG0GYUUnu19yg0RvoVQ01D3Xg8qmgUeu7EcHV7UnHqDK/6tZ4YA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BABD2u4H; arc=pass smtp.client-ip=74.125.224.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773775851; c=relaxed/simple;
+	bh=W44SxiM12rwYuYS2n7pZgOTDkJfQqZn3l2eBNgY91iI=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=af1pbT52mcUiGbssw4Q+VcG1dLxQxQM0ZSdVYZuWj2IgV8hOmlMohrQqfcGpvf1jwNZNA+C99+QIBvr/TovPGgju8jXhtJSXaf7bSlgC5WAZhOczwl/+COmL4OCBph67aODZuJU8LgQe946nrTQX4aj+G31DfB3wRG9v6kNn7oo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xjqp82aY; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BABD2u4H"
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-64ad9fabd08so6733468d50.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 17 Mar 2026 10:16:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773767802; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ia9GIuOj/j0qMCtnbFOdkKTLiauc6O380RiAmGl+zmrhs4Y+8KwpNJ6Ajkce226pdH
-         kI0n/Ju0EZM/905TnCpCOk4tPNVhk1fZTEZSeR7u32YY/N3F3UaOGfgEudzcnwHp3wPa
-         cmvZZyM2h4dH0MMU123r/G6rcEYM39n4x7Z5CLdYdMMDDJkO+YfoZqZeaaPU0ob6QZUk
-         zPCzQSIFqNJMXgTwQBaNeYl9v6v2wk+i3AJj8z8gnh1o/8g/i37s7apC6wuO4IP04Bkx
-         yN5rpUjZ+PIGBOfDvtUrVf3FYQ5HJZLwZEG4ojYRRUo04NH/1OfN7Tg2PpU6FAvYC3Th
-         Euag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Q2zAeBs9zo2lv0T0WIuTbdsujf/BJxEymoy13o+3BzM=;
-        fh=NLzhvpV+xs+4Lo3bK+8PI/Js48cWjL3zeywHf1781tI=;
-        b=XU1ebypVE5ehyRYJWncUQONQGwETxc0h+hXSTZ6MluWfp/Ee8f4wg4h0D/BhzNvSYQ
-         mNs2pTSyuQ5XBkZPxBh0RYUadaKaY9qPdIvToLrC0EltEmfopR9EvYKwpErauqbgV05O
-         RxnsFscc20Dwaq/8p6388EzpVMUamLxobw6pHj2Pkl4AzwdMTVL4H9Tq2mZ9zoyzfNHX
-         Ox4vDYFNW2DIJfl2oizdKraFfQ0WF6GvjtLkptodP7XBln3var8XhS2rFrZyhSre2yD7
-         76+pOqxmH/jaYaQSJCBVMCMH9iy8bi27GbOkmOtQ1WnXDmreZ5TKj6sERw5nyqX540ob
-         ZIPQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773767802; x=1774372602; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q2zAeBs9zo2lv0T0WIuTbdsujf/BJxEymoy13o+3BzM=;
-        b=BABD2u4HPcngQH4Lif2keUfT4JMTaBfI92HWKvjRrRhzb09w1mkUEjsAN1gEBopqXK
-         gCaBZO4UlwyFlKKSaKDzLn2q6TWAbRHIMg1ZWvKvAqIzI9BsN5ShrMhcSfh3uq7sWXyc
-         0l8MxsR6cBZmIJviPjACrpEUOsLWci3pb0sWa91YRUMi1Ukr74U9mpcGxWyUHyezQH24
-         biLyJa8OT116Y/9iI8p++6ZbiIV1tHhzm8vqQ3TjgU11hFfmDABrkyCofjI3h3tkCLrT
-         uVe4k/jEgnz2AmtfVgTAAZU7iVENkYnnmMa6aiV13dk5ydfrOGxaro0zSLzkVPL3Z2la
-         RVWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773767802; x=1774372602;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Q2zAeBs9zo2lv0T0WIuTbdsujf/BJxEymoy13o+3BzM=;
-        b=iE8xld+sfSy8sHPS2HYl5rEciRLGF2HWSX1lXMSpD0dZAf42WwmzMoOyWwPTcocOgX
-         wFHEIy97wPDSeyJ9pDoAj08eSNd4RRxRaVoYvpoFce6rBUWbu72sp10hXy6MiJQALfQZ
-         TbVG6ylkz9TDy5iVPU1CvcP01/cxG+/cmUvyeg9v5MrcADmBgQmjTjvlh04qIdGtr6JN
-         kpcalrHok7llrd3WPzerMjbVM9YWzn3KNgO/ps8AhC1LLVj9XlQVeXERufTuqcGjF9by
-         cN8DEuumdldNJehPdph/d1F+RDLd3CiuWtwYYVSj4Ohu6InaJQa0DLYHzy22hIstPZX1
-         dQFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnf1P+0cuMsLgux2u7vJCyHsqRzt/ChA+f4Zoi3AKER+wtjV0tfbUY2X96DSoa5pLuKlQib9fPIG4/0lorxQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YywxmSWrkx8KedMP0Wmx0KMChLmTvcAFjdnYGr3Zp/xybUhyuBt
-	W1XRH7fxevb6r7vZpHv8PfI1EgdNMo8/6lwmY10vY+EFg1VXuwr55iVDizXbfnjR/uFYh22f5K9
-	JIWBFEfAVzFoSykiWQqp8DCgdmMsjuzY=
-X-Gm-Gg: ATEYQzz8RgaDRMTmxZfF/6ZlU8rUa5gmyGe1OIcrY3gVIyw+PQowbY/aTSWHMac7dE6
-	5b3tiiXWhm33Q65JFf2Bhtwq2XxpkQHGDcqeMKN3wdP5l52IegTBP9Uu5f1exjNy8UKlFnQw/mh
-	DpLq7PW03F8yFTja1wxqtmNPMuQLgRnQpHix994c/BhVFHMmZFB6vlMH2F4z853LFnu3yX7XvGN
-	+BXkaQc3fp/budOJ31ROSBGXVE8EfsmNVNam4zFv+2w6oZvwRMTkrOnY72RrRFS4hyJ8kx4cjAt
-	VGfVNO2xnSCQUj6oY0tU
-X-Received: by 2002:a53:be4b:0:b0:649:b31e:8f4e with SMTP id
- 956f58d0204a3-64e91619389mr343424d50.70.1773767801490; Tue, 17 Mar 2026
- 10:16:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xjqp82aY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773775848; x=1805311848;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=W44SxiM12rwYuYS2n7pZgOTDkJfQqZn3l2eBNgY91iI=;
+  b=Xjqp82aYjXnch5+LmULHGqNFbrG16ewVtoB00AtZXMfnCcO0XxrU9rZD
+   Cg3kyRGqLvwqLR5/AkwkeS+Jw2POepLl8aINZ61VjCRxgBIMchK/y6fD5
+   ZBZ4Z26qpKkR/G11eto8pebA33Myu3e7k+BF8HcsYKVMbwVQQgwDDblY3
+   XvqnEUtK7Il7D7cbn1S0IDcdOd5GNPZXV8olrCsLkTTWw46bkP2j//12y
+   wFM0KaG3IOOX2Or21Dff+oiPr0hEI7t+28vI+ophoVZEEuaO2+GJpe5c1
+   AT1S1VNGGPGQ3hFljxJtFjyvhKLtMMtxtNjpqc0Xw3mpQiFGWh18+fXtf
+   w==;
+X-CSE-ConnectionGUID: 5bBTehJjRfKa4lWCH1nJtA==
+X-CSE-MsgGUID: Hfmk46blTi2dQLwEKYNAew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74737979"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="74737979"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:30:48 -0700
+X-CSE-ConnectionGUID: NVGvoFYTTPexVhDcpruH1A==
+X-CSE-MsgGUID: qF/lRvgEQ9aTgInFLqQfjw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="224512004"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 12:30:48 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 17 Mar 2026 12:30:47 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 17 Mar 2026 12:30:47 -0700
+Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.43) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 17 Mar 2026 12:30:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kQY9G0uQN1PdjLzQOHHGqfIDCSTHiQSlaswYhQ/kAlOIILL/qiwUAvFqfHw1qiiqkcMC+RozFsnzpOLXpeTigxJKzStVTfXH/zWBnUEQ4Mw2YCg9r/QIUhpPc/QmjwyoU26ELYaoabRapx5p2jgf5k0YV8h17RmLhEqTmHMnZEYYZh5nfrIh+LX1O0YXE3tv76HAqannH8Sk2HAr0lFZMt0I9xZ1KguYYTaUcZXV4Q5Q2i8TRyDcI4ZHVa6wKi2mst0ORrU62cjMKRVroS0uzFSbqkydU6lCaXmv+NXXSW7+tpAaaUYYp7s9SRNZwjK9TC9JWms+qivMYx1DSaEnJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m7wQf00CXyQjGVzrxM2BeEQF7n6Yeq03bdrDPk0QOjY=;
+ b=jPd9LkAeUeInGNlYS6AZQh2IPIO5H63DJGEOgAzw5urKYBGS8E8Zh281iM3g/9xjpmL/jAnPr6QdHyrU204QMuxRhxR4YcgNtrl7B1xIEszwAiUw3qI01IX0Y6cpl7Ycmq3sgvFUrS6T7GdfqS9HFXV33icuWuDPsQTzH/QGEJyrUx6SnwyytDCTPzpux0jV9LgE29KFE1Clk9COM+SRjOy/2p5BHVvp/ICuhrtjRL3X4iFqwQ9kNrdIHnm+bUDU1MzEzdYjndaOlX8Tn1veVwXRkr40i3jmiwX5pb1IseRa5aiO6rzgQvUS+bNkvdEmmUn2EcKE54XQo238WJPx4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN6PR11MB8172.namprd11.prod.outlook.com (2603:10b6:208:478::9)
+ by MW3PR11MB4649.namprd11.prod.outlook.com (2603:10b6:303:5b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Tue, 17 Mar
+ 2026 19:30:44 +0000
+Received: from MN6PR11MB8172.namprd11.prod.outlook.com
+ ([fe80::a60e:30b5:37bb:ecfb]) by MN6PR11MB8172.namprd11.prod.outlook.com
+ ([fe80::a60e:30b5:37bb:ecfb%4]) with mapi id 15.20.9723.014; Tue, 17 Mar 2026
+ 19:30:44 +0000
+Message-ID: <f77ad6b1-1fff-4f3c-a411-5115bb66e31d@intel.com>
+Date: Tue, 17 Mar 2026 12:30:39 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH iwl-net 0/3] idpf: virtchnl locking and async fixes
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: <intel-wired-lan@lists.osuosl.org>, <netdev@vger.kernel.org>,
+	<anthony.l.nguyen@intel.com>, <aleksandr.loktionov@intel.com>,
+	<przemyslaw.kitszel@intel.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <clrkwllms@kernel.org>, <rostedt@goodmis.org>,
+	<linux-rt-devel@lists.linux.dev>, <sgzhang@google.com>, <boolli@google.com>
+References: <20260316232819.6872-1-emil.s.tantilov@intel.com>
+ <20260317090054.DuPZ6O0O@linutronix.de>
+ <7247024b-fc8d-4a75-ba15-a10399db03bc@intel.com>
+ <20260317143850.BLrnAox8@linutronix.de>
+Content-Language: en-US
+From: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
+In-Reply-To: <20260317143850.BLrnAox8@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0154.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::9) To MN6PR11MB8172.namprd11.prod.outlook.com
+ (2603:10b6:208:478::9)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260315-bpf-kmalloc-nolock-v3-1-91c72bf91902@outlook.com>
- <CAMB2axN9xYPzAJVQVywx3sxYa5ViRxt2oktt1LFXsSD_XsuJrA@mail.gmail.com> <SY0P300MB07691E08E5283FE074C81BE2C641A@SY0P300MB0769.AUSP300.PROD.OUTLOOK.COM>
-In-Reply-To: <SY0P300MB07691E08E5283FE074C81BE2C641A@SY0P300MB0769.AUSP300.PROD.OUTLOOK.COM>
-From: Amery Hung <ameryhung@gmail.com>
-Date: Tue, 17 Mar 2026 10:16:29 -0700
-X-Gm-Features: AaiRm51gOU8njsC2VoBSF2OL4VzOChb4st-LR63ZRP8xg4-IJKtd30ho-twlx18
-Message-ID: <CAMB2axOw_qZQ2ksTPSVb7LqAGv1sxjA9u+EyfE8ygd4Rxa9BGw@mail.gmail.com>
-Subject: Re: [PATCH bpf v3] bpf: do not use kmalloc_nolock when !HAVE_CMPXCHG_DOUBLE
-To: Levi Zim <rsworktech@outlook.com>
-Cc: Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, stable@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Mar 16, 2026 at 5:40=E2=80=AFPM Levi Zim <rsworktech@outlook.com> w=
-rote:
->
->
->
-> On 3/17/26 3:53 AM, Amery Hung wrote:
-> > On Sat, Mar 14, 2026 at 9:02=E2=80=AFAM Levi Zim via B4 Relay
-> > <devnull+rsworktech.outlook.com@kernel.org> wrote:
-> >>
-> >> From: Levi Zim <rsworktech@outlook.com>
-> >>
-> >> kmalloc_nolock always fails for architectures that lack cmpxchg16b.
-> >> For example, this causes bpf_task_storage_get with flag
-> >> BPF_LOCAL_STORAGE_GET_F_CREATE to fails on riscv64 6.19 kernel.
-> >>
-> >> Fix it by enabling use_kmalloc_nolock only when HAVE_CMPXCHG_DOUBLE.
-> >> But leave the PREEMPT_RT case as is because it requires kmalloc_nolock
-> >> for correctness. Add a comment about this limitation that architecture=
-'s
-> >> lack of CMPXCHG_DOUBLE combined with PREEMPT_RT could make
-> >> bpf_local_storage_alloc always fail.
-> >
-> > Let's not do this.
-> >
-> > This re-introduces deadlock to local storage. In addition, local
-> > storage will switch to using kmalloc_nolock() entirely.
->
-> I noticed the PREEMPT_RT case needs kmalloc_nolock for correctness and di=
-dn't
-> disable kmalloc_nolock in that code path when !HAVE_CMPXCHG_DOUBLE.
->
-
-It is also not correct to use kmalloc() on !PREEMPT_RT. A BPF program
-in NMI or tracing kmalloc internal that tries to allocate memory for
-local storage can deadlock.
-
-> But in the original series [1], It appears that switching to kmalloc_nolo=
-ck
-> is purely for performance benefits and not for fixing deadlocks in local =
-storage.
-> And I didn't see any "Fixes" tag in [1].
->
-
-There is no deadlock issue with BPF memory allocator and
-kmalloc_nolock(). For context, the patch you are referencing is part
-of a series of refactoring to
-- Move from BPF memory allocator to kmalloc_nolock() [1]
-- Remove percpu busy lock [2]
-
-Please refer to the cover letter for the motivation and changes made
-
-[1] https://lore.kernel.org/bpf/20251112175939.2365295-1-ameryhung@gmail.co=
-m/
-[2] https://lore.kernel.org/bpf/20260205222916.1788211-1-ameryhung@gmail.co=
-m/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN6PR11MB8172:EE_|MW3PR11MB4649:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0b47638-b3c0-4c1d-4514-08de845bae6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: MDd3vrmgZvhFZE85OWqht9juvrHnIuRVh8slZopICr6jtN07dleipruSuYRDh8258Jn2s+SkMECHIGGDiePDA0F4/d09dvG+A1qy2AmkFv+l4qgmGbLz2A6ePEOoCOf7cFkeACu+G4vg15QqGMWZ2EdvcrPwGh7Lvru9JXIKS+pSHSIjXKk3zSmRKiSieYahdOBfC7ouSZsN4IxlYgJOPCsSqlQwaK1qhxa1bPbDfVLYYMzgsPRrFS4ZGnPxexneGOK+jqYlgzV+TBzTWVCp0eX/baxnBax+xxm2Uu/3jM8o7KPRcQ0cJZPFVh1HW7+f52uLqOqrV1hXDOUpTg+cKBfoDA237NkXCZhGcrkr9JT5gCTQaj+MFcPDy+gD3VE1WwTxbB/qOcjIkt/8QaZz8cXAtNx2WVjNxaeYUndcKDBh5/3CHL2rI5iScKw9B77/d+ogz7hI0v7+WMiTBAZacUtFuK0FfNjxnRQdOC4k5rH7P7biBYjrsBJHaGhm2KqA5zb9izEYx4pxpK/9pks7AqczHWSVF3amt3DOQzGPSjA9Rga2GWyTlmoVW64lLShCZFUg+HHTJVqWZzM/qaqC6wAOnP6yUp8XSEXcj/TrVakf1GcTbggy+B6IyAoJ1mXrBFfbl748XTq83h70sDLgQ6HLn1603LEfwtlg/17L1mqcsqrQsGgrigTZ3opW1xQr
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR11MB8172.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VVZOSXNUbjRCVlBaUWtBRVhiTTk5ZldMSXZqRGJXWEpvdTlZd0pXbUZVU1Zm?=
+ =?utf-8?B?SGtNZnczNWp2L1ZSc0djVWRBMDAvcWNuOTJsUnBoSFplS0tCWjBaMVNaelE3?=
+ =?utf-8?B?LzdmZ0ZGZXlpR1MzSit6ZDdMRFU3THk1eFFBNVpucDlzbWlwakoySGFvdzV4?=
+ =?utf-8?B?aHZEVkZMaWZwMHRNWGVubGZjMmYvRFFuUHk3Q2ZSWlgzdkJwR1E5YWk0dy9V?=
+ =?utf-8?B?MlQvSDBDN0ZpNzJ4cEp0U2lHbEc2WDlNZVRQL2lwbTI4bFVGdXUwZVhvU1Fx?=
+ =?utf-8?B?cVBJWHBLZGZoQ0FCT2tPWUVES25EYkFiTlAvSFM1Rjk2VlJFOEVpRXA0T0cz?=
+ =?utf-8?B?S3Q2SThKMXBuUXMrMERsa2RjdmhqNWhiWjk5NGtLc1A1N3hPWVRteUtoNVJl?=
+ =?utf-8?B?RExnN3lER1hnVmtxNjU2UEpuZUhDSGV6ZGQyUHBmVVppWWp0SWdpclhTblI4?=
+ =?utf-8?B?eng3Qkc3RndlRVpjV2NtdUZiWVp6YjBmNWJKSTRZMU9Ib21Ka3BFOUZxVnFN?=
+ =?utf-8?B?dGJ2L0NSemoyTndTUGFabGRHMFA3bmxuWHNEVXptVWZUQUJvTy9qcWJqVTRD?=
+ =?utf-8?B?QUtFTXlEcXQzNWtoUEFEQjNkNDFlbGo3VkpwOHJFYmp5L2hXRlRBSWl6dlQw?=
+ =?utf-8?B?dGNxbGkvY1V0OTZ0YUp6M09SRVVqQ24vL0lmRkNYczJWck9RZHZwOUJUaWY2?=
+ =?utf-8?B?dENseHZRTVpQWkwzRlFQNENRTE0wU05Sa09wSHZzWGo0dmxWOUJacVlrZVY4?=
+ =?utf-8?B?bWRVaXNXL0JQVm1qd3Q1ak5uQWptK2RoVDNyZTVTaEszNEZrc0I1VHdVY3JE?=
+ =?utf-8?B?ZkJtMzl5ZXZoSnkwNkNEUDhGYTNYUVVZTnBBOHR6NFEvUG8wOFo2YlpseTdC?=
+ =?utf-8?B?SzBneEV3anp5V1BxdFFwODdBNklVRDdkRlJ1UVFzZUwwVzc0RXhPYUg2N1NZ?=
+ =?utf-8?B?M2I0MDJtYlpucWxoS0VYRjVqTkFHalQ3Zzlsd3pSWmFjMjF6RTBWSUdHb3Fz?=
+ =?utf-8?B?a2o2bXZHQ1ViVVJiTldBa0drUVBhT0x4RUlybjhqQ0YyYmRjSlNRV1hhRTVN?=
+ =?utf-8?B?K2JqRTRoZ2dDS2hDUXQxYTJuOFpQNFlDa0h0Qlk1clJYYmgzclNmcVViVEZH?=
+ =?utf-8?B?Q0VWcHhHNGJGaE85bmZXRDNJUlpyeTN0NzEzb0xmV1FhUWpVellVVFgyVkE3?=
+ =?utf-8?B?eE5XM0FJKzEyS2c4S1NPRE5sQzVmRUl4K1puMnJRZVZwYkhHV0hSN25UQSt2?=
+ =?utf-8?B?ekVCY2xPZlJHQ1NzTzkwZUpxTDhtaTlOZjRud09zVEZGRUVMUndNNzdCQUhw?=
+ =?utf-8?B?aHBEd1hMaWZ3YStydjYvNjBBaks5UDFYb01YNG82Y1M0ekNiZ3gzd1ZlUytS?=
+ =?utf-8?B?NUczUjhkc0JpT0w5OGQ3NU1XMkNTdnNKVHpLOHdGMUlsNmtwOWErd21UVy9U?=
+ =?utf-8?B?YzdSZ3lJUktlYmNYLzB2YktMdllaZ0ZLd3hYNTVHK0UyQ0syeC9FdmNaMWht?=
+ =?utf-8?B?aXRvZTVMM2UyUXdrVURySXlFVkdWRnAreXZtZkNEVXY5YjV1dlFsdmhqWlRq?=
+ =?utf-8?B?c0I1WVY0SzNhVCtaWlJGamJRclMzay9PYWNHQTJ0NE0vVVZ4ckdKOFBrUnpv?=
+ =?utf-8?B?RWYxREUvQis0NGZsNkhEbE9NT0V2dndaYnNON2JaNzVVaTgwUTRsMW9NSXJ4?=
+ =?utf-8?B?MTlpTHJERkVaVHZadUhYTGRzNUpEYkliWkZOK3VkMy8xYVJ5WVVidERLaE44?=
+ =?utf-8?B?WWlRTjF2a1l4NTdJZEdiR2wzZ1RSYzNxSWFtdHVKd0ZWWDhHam4xT2VhYXQr?=
+ =?utf-8?B?dC9SbUxtZkJvQjd3RC9iTzBOQVhYMGJCQnVscjhaZ2JxUVlkaDZzRmgydXVX?=
+ =?utf-8?B?bWdQUS9LelZ1RjFRdW5aalZzNjd1dUxkMmNwdGxlbTgzQjI0T2lwRWJMMHhR?=
+ =?utf-8?B?SGRZelAvc005TkJqSytsVjdiREhkWXM1ZS9tVDd5TlhYZ0Q1WmVTTFJOa21P?=
+ =?utf-8?B?WXJqVWZxdmNNdG9qL2lOTW45ZldEZjkwd0FUbjVXUi9jWWxSNGtXSUQ4N2ox?=
+ =?utf-8?B?WmpwcHBYeVBPMW0zcjE0cW80WUlSVVhiUzEvaDZoR1hMaWlxZE1lbkFaMXcx?=
+ =?utf-8?B?RlJ0ZEV3ZVp4NG84UEdUa0hoUnl0dVYxcG91TWlUME1qc0hvQ3VncXlRd2gz?=
+ =?utf-8?B?WnFwSW54ODVCam5wYjBTMG1jYS92NXlQT3F1ejVodHRiRzVVd1M2RE9SWXRr?=
+ =?utf-8?B?ZDdQZVA4c2pqVnlBYm5LTUJITmhvWGN2RndVdWZ2WGczUHl2M3JDL2ZtRDQ3?=
+ =?utf-8?B?TWM4dDl0MmFvTG5KdmdsYVAvYkdaOHVXTnRpZUlrTW1RN21abHF3cDRqOStx?=
+ =?utf-8?Q?OZXMiX5pF8e81uDI=3D?=
+X-Exchange-RoutingPolicyChecked: AVxRXzC5JWrBfs/YhYLQVIiEed6IxJkezCQVHoREAVllct0ZHAP73bZN0ame8bDn+M2yPjP32rr+r0P3VZvQrTeVy0/2PfDw18xoZoNAeObiHbYCSmhA18dxnB6hCImoloCy7YSflFOmS55MqdbfPOHoNKbE8+B8645BLsbIbAXurjvUsC6vMpov6IjtHjt5EZeMGja3HmujYMpm18lAee5x8B3SNgiCLTE6bVfSbJfTF6hxqPwcgdDAh4jSA/k1Cf1l1ueDHVs09BX1DXp83+fBPA+SQi6E7Hegp5PfCzOF+hfFUSoEGzABF10thzrG6XnAIEqBDOpuRt00ytafgg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0b47638-b3c0-4c1d-4514-08de845bae6c
+X-MS-Exchange-CrossTenant-AuthSource: MN6PR11MB8172.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 19:30:43.8812
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SrrSUAQv+MHeIZcAE+XNL50llzcG0RH/4Rtavjmf8KLbsFK7qSFjIna6wuSm5a4WTRr45Y5NNbwQokdrFN7hdMOQxIRbY+QfqeXu2GsE4Ck=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR11MB4649
+X-OriginatorOrg: intel.com
 
 
-> Could you provide a more detailed explanation? Thanks!
->
-> [1]: https://lore.kernel.org/all/20251114201329.3275875-1-ameryhung@gmail=
-.com/
->
-> > For riscv hardware without zacas extension, I think a workaround with
-> > some performance overhead is to enable CONFIG_SLUB_DEBUG and
-> > slub_debug options.
->
-> There is a patch [2] that enables HAVE_CMPXCHG_DOUBLE for riscv so I thin=
-k
-> it will not be a problem for riscv in the future, even for hardware witho=
-ut zacas
-> extension because the kernel has fallback implementation for zacas.
->
-> However, this would still be an issue for other architectures. Currently =
-only
-> x86, arm64, s390 and loongarch have HAVE_CMPXCHG_DOUBLE in 7.0-rc4.
-> I don't think letting users enable slub_debug would be a reasonable worka=
-round.
->
-> [2]: https://patchew.org/linux/20260220074449.8526-1-mssola@mssola.com/
->
-> Best regards,
-> Levi
->
-> >>
-> >> Fixes: f484f4a3e058 ("bpf: Replace bpf memory allocator with kmalloc_n=
-olock() in local storage")
-> >> Cc: stable@vger.kernel.org
-> >> Signed-off-by: Levi Zim <rsworktech@outlook.com>
-> >> ---
-> >> I find that bpf_task_storage_get with flag BPF_LOCAL_STORAGE_GET_F_CRE=
-ATE
-> >> always fails for me on 6.19 kernel on riscv64 and bisected it.
-> >>
-> >> In f484f4a3e058 ("bpf: Replace bpf memory allocator with kmalloc_noloc=
-k()
-> >> in local storage"), bpf memory allocator is replaced with kmalloc_nolo=
-ck.
-> >> This approach is problematic for architectures that lack CMPXCHG_DOUBL=
-E
-> >> because kmalloc_nolock always fails in this case:
-> >>
-> >> In function kmalloc_nolock (kmalloc_nolock_noprof):
-> >>
-> >>         if (!(s->flags & __CMPXCHG_DOUBLE) && !kmem_cache_debug(s))
-> >>                 /*
-> >>                  * kmalloc_nolock() is not supported on architectures =
-that
-> >>                  * don't implement cmpxchg16b, but debug caches don't =
-use
-> >>                  * per-cpu slab and per-cpu partial slabs. They rely o=
-n
-> >>                  * kmem_cache_node->list_lock, so kmalloc_nolock() can
-> >>                  * attempt to allocate from debug caches by
-> >>                  * spin_trylock_irqsave(&n->list_lock, ...)
-> >>                  */
-> >>                 return NULL;
-> >>
-> >> Fix it by enabling use_kmalloc_nolock only when HAVE_CMPXCHG_DOUBLE.
-> >> (But not for a PREEMPT_RT case as explained in the comment and commitm=
-sg)
-> >>
-> >> Note for stable: this only needs to be picked into v6.19 if the patch
-> >> makes it into 7.0.
-> >> ---
-> >> Changes in v3:
-> >> - Use macro instead of const static variable to avoid triggering
-> >>   warnings.
-> >> - Wrap lines at 80 columns
-> >> - Link to v2: https://lore.kernel.org/r/20260314-bpf-kmalloc-nolock-v2=
--1-576e33e4fa67@outlook.com
-> >>
-> >> Changes in v2:
-> >> - Drop the modification to the PREEMPT_RT case as it requires
-> >>   kmalloc_nolock for correctness.
-> >> - Add a comment to the PREEMPT_RT case about the limitation when
-> >>   not HAVE_CMPXCHG_DOUBLE but enables PREEMPT_RT.
-> >> - Link to v1: https://lore.kernel.org/r/20260314-bpf-kmalloc-nolock-v1=
--1-24abf3f75a9f@outlook.com
-> >> ---
-> >>  include/linux/bpf_local_storage.h | 1 +
-> >>  kernel/bpf/bpf_cgrp_storage.c     | 3 ++-
-> >>  kernel/bpf/bpf_local_storage.c    | 4 ++++
-> >>  kernel/bpf/bpf_task_storage.c     | 3 ++-
-> >>  4 files changed, 9 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/include/linux/bpf_local_storage.h b/include/linux/bpf_loc=
-al_storage.h
-> >> index 8157e8da61d40..d8f2c5d63a80e 100644
-> >> --- a/include/linux/bpf_local_storage.h
-> >> +++ b/include/linux/bpf_local_storage.h
-> >> @@ -18,6 +18,7 @@
-> >>  #include <asm/rqspinlock.h>
-> >>
-> >>  #define BPF_LOCAL_STORAGE_CACHE_SIZE   16
-> >> +#define KMALLOC_NOLOCK_SUPPORTED IS_ENABLED(CONFIG_HAVE_CMPXCHG_DOUBL=
-E)
-> >>
-> >>  struct bpf_local_storage_map_bucket {
-> >>         struct hlist_head list;
-> >> diff --git a/kernel/bpf/bpf_cgrp_storage.c b/kernel/bpf/bpf_cgrp_stora=
-ge.c
-> >> index c2a2ead1f466d..cd18193c44058 100644
-> >> --- a/kernel/bpf/bpf_cgrp_storage.c
-> >> +++ b/kernel/bpf/bpf_cgrp_storage.c
-> >> @@ -114,7 +114,8 @@ static int notsupp_get_next_key(struct bpf_map *ma=
-p, void *key, void *next_key)
-> >>
-> >>  static struct bpf_map *cgroup_storage_map_alloc(union bpf_attr *attr)
-> >>  {
-> >> -       return bpf_local_storage_map_alloc(attr, &cgroup_cache, true);
-> >> +       return bpf_local_storage_map_alloc(attr, &cgroup_cache,
-> >> +                                          KMALLOC_NOLOCK_SUPPORTED);
-> >>  }
-> >>
-> >>  static void cgroup_storage_map_free(struct bpf_map *map)
-> >> diff --git a/kernel/bpf/bpf_local_storage.c b/kernel/bpf/bpf_local_sto=
-rage.c
-> >> index 9c96a4477f81a..a6c240da87668 100644
-> >> --- a/kernel/bpf/bpf_local_storage.c
-> >> +++ b/kernel/bpf/bpf_local_storage.c
-> >> @@ -893,6 +893,10 @@ bpf_local_storage_map_alloc(union bpf_attr *attr,
-> >>         /* In PREEMPT_RT, kmalloc(GFP_ATOMIC) is still not safe in non
-> >>          * preemptible context. Thus, enforce all storages to use
-> >>          * kmalloc_nolock() when CONFIG_PREEMPT_RT is enabled.
-> >> +        *
-> >> +        * However, kmalloc_nolock would fail on architectures that do=
- not
-> >> +        * have CMPXCHG_DOUBLE. On such architectures with PREEMPT_RT,
-> >> +        * bpf_local_storage_alloc would always fail.
-> >>          */
-> >>         smap->use_kmalloc_nolock =3D IS_ENABLED(CONFIG_PREEMPT_RT) ? t=
-rue : use_kmalloc_nolock;
-> >>
-> >> diff --git a/kernel/bpf/bpf_task_storage.c b/kernel/bpf/bpf_task_stora=
-ge.c
-> >> index 605506792b5b4..6e8597edea314 100644
-> >> --- a/kernel/bpf/bpf_task_storage.c
-> >> +++ b/kernel/bpf/bpf_task_storage.c
-> >> @@ -212,7 +212,8 @@ static int notsupp_get_next_key(struct bpf_map *ma=
-p, void *key, void *next_key)
-> >>
-> >>  static struct bpf_map *task_storage_map_alloc(union bpf_attr *attr)
-> >>  {
-> >> -       return bpf_local_storage_map_alloc(attr, &task_cache, true);
-> >> +       return bpf_local_storage_map_alloc(attr, &task_cache,
-> >> +                                          KMALLOC_NOLOCK_SUPPORTED);
-> >>  }
-> >>
-> >>  static void task_storage_map_free(struct bpf_map *map)
-> >>
-> >> ---
-> >> base-commit: e06e6b8001233241eb5b2e2791162f0585f50f4b
-> >> change-id: 20260314-bpf-kmalloc-nolock-60da80e613de
-> >>
-> >> Best regards,
-> >> --
-> >> Levi Zim <rsworktech@outlook.com>
-> >>
-> >>
->
+
+On 3/17/2026 7:38 AM, Sebastian Andrzej Siewior wrote:
+> On 2026-03-17 07:20:18 [-0700], Tantilov, Emil S wrote:
+>>> Why is there a raw_spinlock_t? From a quick look a spinlock_t would do
+>>> just fine with not runtime change for !PREEMPT_RT.
+>>
+>> The handling of the virtchannel messages is done via the completion API
+>> and the transactions are using the raw spinlock from struct
+>> swait_queue_head:
+>>
+>> https://elixir.bootlin.com/linux/v6.19.8/source/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c#L298
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/net-queue.git/tree/include/linux/swait.h?h=dev-queue#n44
+> 
+> I am aware that completions use a raw_spinlock_t. I don't see the link.
+> What would break if you make that lock a spinlock_t?
+
+Right. Scope and risk - these fixes are specifically for the async
+handler and I did not want to touch the global locking that will
+impact the entire VC handling. We do have series in flight for -next
+that refactor that code, while moving it to libie:
+https://lore.kernel.org/netdev/20251117134912.18566-10-larysa.zaremba@intel.com/
+
+... that also remove the raw spinlock. With that being said, I can look
+into converting the lock to spinlock_t if that is the preferred approach.
+
+Thanks,
+Emil
