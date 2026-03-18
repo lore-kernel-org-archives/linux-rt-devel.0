@@ -1,92 +1,243 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817ED33D51A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 07:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA91363092
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 10:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773818681; cv=none; b=TdAGCqFnVEKvWZDh3tii6EbL3N7sX+qJ8vojEqiYckalnlthOh0NUlySFE5m5Z0BI/9LNudWCmIveUSR5SrvPuqmkUmwa5hIDjDJwgy52fo8zYR8W3NxOqf8eaL5GlkbjWAIJs6qDaeknwCZR3Y/qubUN9wNPJMrlFZzTDz1W1w=
+	t=1773829815; cv=none; b=ViVJAdSBElbSbWPcIb/dKLlRuLalsMcLTBlQNtMgjNytMcG9YM+RsRezLIXtjw5NPsZYWzrnjh7QzRrJP18DZiAKvGNllQ1VTy7lDxKEUKPgmUc6gmb8yq5e/Q2VGIqLHas0gng8UeqL3hLBaSiidNeSLq9SiV4+GZnU+nVg3LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773818681; c=relaxed/simple;
-	bh=I4awxfqk4O7MQlZuO3DMH2SeFRu0qfiWRR1f/Rdcsjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhmZ1xyapN3ZynXl/amoOeaQ2x0gAbM79376vrmuPgrZF0FGOvKR/wL1m/OhVU9avYazjivCOvFCsKSlmIpdHZztOuY/82MjYjWOtNtyiJ+A+VsZPERew2iCDxsj4Bl7ryBOCIvZBo5k4vTXwsfSTsVrUqYO6lRIv/V87tFcqAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=S7lNnBev; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sYJiqZbW; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1773829815; c=relaxed/simple;
+	bh=HlYOtkRM6S0RDzB3U/RuoTywJmdIR0g5p0+0sm6ZfZc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WN5TY0uaWyS1b3PZiCMu26kKXvPHLALI6wTQWo2sEzk3+16Xz6Wt59Xn6j7izTVeAS9VvOP3H35z6SdYE8kO+Ir5zmqVwRYNL7N3dk1OtRGONWt7Q9IanlOUi9K9/0tVNjz4Tve1COsdj1dP6FZrXhu2dnRHWODQZgrYJOXVImU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=JzCuH92V; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=JzCuH92V; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="S7lNnBev";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sYJiqZbW"
-Date: Wed, 18 Mar 2026 08:24:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773818678;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="JzCuH92V";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="JzCuH92V"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 512464D3EC;
+	Wed, 18 Mar 2026 10:30:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1773829812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GMXojMRx2DusSv/c5foBS++mXTfilxtffy+hvVganPA=;
-	b=S7lNnBevReHY99KsphuvNO/RK9P26Ns+4nArqabBAs1aBiuHflX+bv+F5qvBlR4+2ljCsv
-	4ghLWAw7eXvoyKM4agFSwLDTsQirl6Cb3lYs15mATHR4H9Suz0KRc7xYxnPuwdz/K6v7xt
-	OjyBiWzESZ7awsJbWfKleMx6+RkAYeR3iQK0sATcjWYzoLKnpgtiOdn/MSeJcdEuQmv2j2
-	rzQAbKFWbZDajTEQZPXi3OVDJ7cuhgvblcvgWupHh+1hf99uXLAhv3JkQP+m3pZMcabAdC
-	j3BjhQUMOeqD5xSj5xJt8twr4bWoUUnSx15waNrj2TS6URBSezG/HxHhTSvkPw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773818678;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	bh=I4EyO3CTNtpqaOEyW4jXhojMcvOo8/C40lCsFukCfIY=;
+	b=JzCuH92Vfh9mFSRw7A3/r7qmxxb4kjpzWL4gAcB5tJX2aQQ+vjzY5aJt1056J+1Ci+o0xm
+	Hqjn9rBUmbkTKVN+fTdnu2lmutmqh/wc0EeUlliiQwKVzqTTj/Ee2bSlrX1RGM4dzkWy1n
+	M57gf9KEJXNTtzmQcsRy+gAkH1SuEIY=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1773829812; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GMXojMRx2DusSv/c5foBS++mXTfilxtffy+hvVganPA=;
-	b=sYJiqZbWtA9QAURWngFUcR85rU8xJ40MigLKGcHADExuVS2kSkbUQ+itgzSefupLqBrc/8
-	N4d7P2Q42WVCnhDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, aleksandr.loktionov@intel.com,
-	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, clrkwllms@kernel.org, rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev, sgzhang@google.com,
-	boolli@google.com
-Subject: Re: [PATCH iwl-net 0/3] idpf: virtchnl locking and async fixes
-Message-ID: <20260318072436.4JmVdDfK@linutronix.de>
-References: <20260316232819.6872-1-emil.s.tantilov@intel.com>
- <20260317090054.DuPZ6O0O@linutronix.de>
- <7247024b-fc8d-4a75-ba15-a10399db03bc@intel.com>
- <20260317143850.BLrnAox8@linutronix.de>
- <f77ad6b1-1fff-4f3c-a411-5115bb66e31d@intel.com>
+	bh=I4EyO3CTNtpqaOEyW4jXhojMcvOo8/C40lCsFukCfIY=;
+	b=JzCuH92Vfh9mFSRw7A3/r7qmxxb4kjpzWL4gAcB5tJX2aQQ+vjzY5aJt1056J+1Ci+o0xm
+	Hqjn9rBUmbkTKVN+fTdnu2lmutmqh/wc0EeUlliiQwKVzqTTj/Ee2bSlrX1RGM4dzkWy1n
+	M57gf9KEJXNTtzmQcsRy+gAkH1SuEIY=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 323CD4273B;
+	Wed, 18 Mar 2026 10:30:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ID+vC7R+umkaawAAD6G6ig
+	(envelope-from <neelx@suse.com>); Wed, 18 Mar 2026 10:30:12 +0000
+From: Daniel Vacek <neelx@suse.com>
+To: bigeasy@linutronix.de
+Cc: edumazet@google.com,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	netdev@vger.kernel.org,
+	spasswolf@web.de,
+	tglx@linutronix.de,
+	Daniel Vacek <neelx@suse.com>
+Subject: Re: "Dead loop on virtual device" error without softirq-BKL on PREEMPT_RT
+Date: Wed, 18 Mar 2026 11:30:09 +0100
+Message-ID: <20260318103009.2120920-1-neelx@suse.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260226172927.2Ck9wZMw@linutronix.de>
+References: <37d6e27f96afb57c5716798530cb3560d25202e5.camel@web.de> <20260217071952.WCXLGs5-@linutronix.de> <80114792206dc00d0099f00999a209e717debb12.camel@web.de> <20260217095700.SjYjM8RO@linutronix.de> <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de> <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de> <2369ba83d204290dcfe157aed3f943206213b979.camel@web.de> <aa02f39ec4640c9d98963f42121b76e59b58371d.camel@web.de> <20260218073036.AlkNRoAP@linutronix.de> <ae213d2b908e46d34856be9daec891d7210f46f7.camel@web.de> <20260226172927.2Ck9wZMw@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f77ad6b1-1fff-4f3c-a411-5115bb66e31d@intel.com>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[google.com,kernel.org,vger.kernel.org,lists.linux.dev,web.de,linutronix.de,suse.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid];
+	FREEMAIL_ENVRCPT(0.00)[web.de]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-On 2026-03-17 12:30:39 [-0700], Tantilov, Emil S wrote:
-> > What would break if you make that lock a spinlock_t?
+On Thu, 26 Feb 2026 18:29:27 +0100, Sebastian Andrzej Siewior wrote:
+> On 2026-02-18 13:50:14 [+0100], Bert Karwatzki wrote:
+> > Am Mittwoch, dem 18.02.2026 um 08:30 +0100 schrieb Sebastian Andrzej Siewior:
+> > > On 2026-02-17 20:10:09 [+0100], Bert Karwatzki wrote:
+> > > > 
+> > > > I tried to research the original commit which introduced the xmit_lock_owner check, but
+> > > > it is present since linux 2.3.6 (released 19990610) (when __dev_queue_xmit() was still called dev_queue_xmit()),
+> > > > so I can't tell the original idea behind that check (perhaps recuesion detection ...), so I'm
+> > > > not completely sure if it can be omitted (and just let dev_xmit_recursion() do the recursion checking).
+> > > 
+> > > Okay. Thank you. I add it to my list.
+> > > 
+> > I've thought about it again and I now think the xmit_lock_owner check IS necessary to
+> > avoid deadlocks on recursion in the non-RT case.
+> > 
+> > My idea to use get_current()->tgid as lock owner also does not work as interrupts are still enabled
+> > and __dev_queue_xmit() can be called from interrupt context. So in a situation where an interrupt occurs
+> > after the lock has been taken and the interrupt handler calls __dev_queue_xmit() on the same CPU a deadlock
+> > would occur.
 > 
-> Right. Scope and risk - these fixes are specifically for the async
-> handler and I did not want to touch the global locking that will
-> impact the entire VC handling. We do have series in flight for -next
-> that refactor that code, while moving it to libie:
-> https://lore.kernel.org/netdev/20251117134912.18566-10-larysa.zaremba@intel.com/
+> The warning happens because taskA on cpuX goes through
+> HARD_TX_LOCK(), gets preempted and then taskB on cpuX wants also to send
+> send a packet. The second one throws the warning.
+> 
+> We could ignore this check because a deadlock will throw a warning and
+> "halt" the task that runs into the deadlock.
+> But then we could be smart about this in the same way !RT is and
+> pro-active check for the simple deadlock. The lock owner of
+> netdev_queue::_xmit_lock is recorded can be checked vs current.
+> 
+> The snippet below should work. I need to see if tomorrow this is still a
+> good idea.
+> 
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index 6ff4256700e60..de342ceb17201 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -4821,7 +4821,7 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
+>  		/* Other cpus might concurrently change txq->xmit_lock_owner
+>  		 * to -1 or to their cpu id, but not to our id.
+>  		 */
+> -		if (READ_ONCE(txq->xmit_lock_owner) != cpu) {
+> +		if (rt_mutex_owner(&txq->_xmit_lock.lock) != current) {
 
-Now I understood. You fiddle with the completion's lock. That is
-something that should not have been done.
+Ain't this changing the behavior for !RT case? Previously, if it was the same thread
+which has already locked the queue (and hence the same CPU) evaluating this condition,
+the condition was skipped, which is no longer the case with this change.
 
-> ... that also remove the raw spinlock. With that being said, I can look
-> into converting the lock to spinlock_t if that is the preferred approach.
+How about something like this instead?:
 
-The preferred approach is that, if you pick raw_spinlock_t for locking,
-you are aware of all the consequences and you have a solid reason for
-it. The comment in the file says
-| For now, this API is only used from within a workqueue context;
-| - * raw_spin_lock() is enough.
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index d99b0fbc1942..27d090b03493 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -705,7 +705,7 @@ struct netdev_queue {
+ 	struct dql		dql;
+ #endif
+ 	spinlock_t		_xmit_lock ____cacheline_aligned_in_smp;
+-	int			xmit_lock_owner;
++	struct task_struct	*xmit_lock_owner;
+ 	/*
+ 	 * Time (in jiffies) of last Tx
+ 	 */
+@@ -4709,7 +4709,7 @@ static inline void __netif_tx_lock(struct netdev_queue *txq, int cpu)
+ {
+ 	spin_lock(&txq->_xmit_lock);
+ 	/* Pairs with READ_ONCE() in __dev_queue_xmit() */
+-	WRITE_ONCE(txq->xmit_lock_owner, cpu);
++	WRITE_ONCE(txq->xmit_lock_owner, current);
+ }
+ 
+ static inline bool __netif_tx_acquire(struct netdev_queue *txq)
+@@ -4727,7 +4727,7 @@ static inline void __netif_tx_lock_bh(struct netdev_queue *txq)
+ {
+ 	spin_lock_bh(&txq->_xmit_lock);
+ 	/* Pairs with READ_ONCE() in __dev_queue_xmit() */
+-	WRITE_ONCE(txq->xmit_lock_owner, smp_processor_id());
++	WRITE_ONCE(txq->xmit_lock_owner, current);
+ }
+ 
+ static inline bool __netif_tx_trylock(struct netdev_queue *txq)
+@@ -4736,7 +4736,7 @@ static inline bool __netif_tx_trylock(struct netdev_queue *txq)
+ 
+ 	if (likely(ok)) {
+ 		/* Pairs with READ_ONCE() in __dev_queue_xmit() */
+-		WRITE_ONCE(txq->xmit_lock_owner, smp_processor_id());
++		WRITE_ONCE(txq->xmit_lock_owner, current);
+ 	}
+ 	return ok;
+ }
+@@ -4744,14 +4744,14 @@ static inline bool __netif_tx_trylock(struct netdev_queue *txq)
+ static inline void __netif_tx_unlock(struct netdev_queue *txq)
+ {
+ 	/* Pairs with READ_ONCE() in __dev_queue_xmit() */
+-	WRITE_ONCE(txq->xmit_lock_owner, -1);
++	WRITE_ONCE(txq->xmit_lock_owner, NULL);
+ 	spin_unlock(&txq->_xmit_lock);
+ }
+ 
+ static inline void __netif_tx_unlock_bh(struct netdev_queue *txq)
+ {
+ 	/* Pairs with READ_ONCE() in __dev_queue_xmit() */
+-	WRITE_ONCE(txq->xmit_lock_owner, -1);
++	WRITE_ONCE(txq->xmit_lock_owner, NULL);
+ 	spin_unlock_bh(&txq->_xmit_lock);
+ }
+ 
+diff --git a/net/core/dev.c b/net/core/dev.c
+index ccef685023c2..f62bffb8edf6 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -4817,7 +4817,7 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
+ 		/* Other cpus might concurrently change txq->xmit_lock_owner
+ 		 * to -1 or to their cpu id, but not to our id.
+ 		 */
+-		if (READ_ONCE(txq->xmit_lock_owner) != cpu) {
++		if (READ_ONCE(txq->xmit_lock_owner) != current) {
+ 			if (dev_xmit_recursion())
+ 				goto recursion_alert;
+ 
+@@ -11178,7 +11178,7 @@ static void netdev_init_one_queue(struct net_device *dev,
+ 	/* Initialize queue lock */
+ 	spin_lock_init(&queue->_xmit_lock);
+ 	netdev_set_xmit_lockdep_class(&queue->_xmit_lock, dev->type);
+-	queue->xmit_lock_owner = -1;
++	queue->xmit_lock_owner = NULL;
+ 	netdev_queue_numa_node_write(queue, NUMA_NO_NODE);
+ 	queue->dev = dev;
+ #ifdef CONFIG_BQL
 
-that is not it.
+Daniel
 
-> Thanks,
-> Emil
-
-Sebastian
+>  			if (dev_xmit_recursion())
+>  				goto recursion_alert;
+>  
+> 
+> > Bert Karwatzki
+> 
+> Sebastian
