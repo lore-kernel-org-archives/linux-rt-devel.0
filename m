@@ -1,145 +1,212 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AAE3DBD49
-	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 14:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845907; cv=pass; b=Rj2ahZETziI0HzFIfBSmeAPxPqYffjPp5pdj64NHv2pcBtOGnodOo0u3duksRKg4NAM85kMzvNh9Br0oC3Dh0dcl0F4jbMfvqV/maEWmAbuuhaPbHc8TRxRb02b0ZQSO50VUBT7vnEBUaKsVjrJFCGP8+AlU4TJJ9oeSnsj4osg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845907; c=relaxed/simple;
-	bh=N1NXpkaQAjN2dHwsSJVS4d7YXJxzt2UyIFGHIrbpYCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QqFplrrfESOeq+bKZG2C2xCyC7u49jGWHnaibkoHnl9mxj28W9keMiGVgUG3tGa1dn4uDOvyLbx1fPT+bgW7KYfDChYo6axsBFgD5A3EHPL0vgkd2PF9yqEM7MLKz0Gordg4HkK6EOO5kwj0RgrNhUzyLnLVqVWWb8XkKGYcgvs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=C2RZd8aO; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B553D3322
+	for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 15:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773849506; cv=none; b=l7oM6zXMQ2cqxgqq4AY0h/Yu0by86K1XxREhspnIIWlb4sYYJDtuJgxYuuWU/t9dtpR89TYNwX0+OcCQetgoh4bA4KURSKyxEREZoMkbXcX4u1+1c4M79EpHnxBXPUNkSwfIwja5IUTl99NGZkgbeLxOn3a/9wcOfmQ89ABytp0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773849506; c=relaxed/simple;
+	bh=M6sqFlUOY20hvUySeVxukwiG5GGP2gqCZbZV5+uYIu4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gXviIV8Vr7ddys7hlcXS1tIYC+lJ0sJXMe7TmJzWKTlrlfa3WnYbA1EEUmEjsowdxhOtJIP9VsUxhp/eNnYsM3hf3GHbuBfmhrpCXIDtgaIFJ3ZzUFMZg/K32TslDD+IRrCDBpVj/hNanKTP2KzYeRsf423D0yaV7R7xHzm8mFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LoeOfq3O; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="C2RZd8aO"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b3f91a7abso2393366f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 07:58:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773845904; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cnWuJQriMTpY+D8mReh45dI60cic+lLJJXLAK88AHJuz7HhscFF/bpFOqmqJph8UdX
-         t8OBXg/cKZ/gPaBCmCNm2jqMay2Y/wGWrLwYlSh21Nc3FSDn/HqmoJxW0EVivsx0F8F0
-         bpkBpHgt0f7qi800rjowXVc1qtwjX/rcVI3uMOywjzWLqh8IaoQlqRFGrwMxv3X/mdBG
-         OyzNkl1fzJSEDRMTFGxNq2gYuIuKJhEOyOWlNGqe/iYeVnogoQqf49NoCUYVVExQmcHl
-         +a2/kZHjrafsVjVKI3qogwWjgqLwZD9F6Wo7yzmr24nPs3Pppxtsd/rDdC/tz1EVecDp
-         lTmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=67Lxa4BGXjz9Zo1vWHQleC/2O1UPzPcZCuH/+UGL6f4=;
-        fh=uF2RgLRfRslwAX97cTOVm9r0rR0BbqDb8+xcxDBA3kA=;
-        b=YCga0FxaGqSCRLE1QgQsabge6qCOdRa/bEbRWtuRb7OqpOaz3KsDDjNaQEZyiD1MY8
-         68okdu8pQQq/Zfo5u+WN4DQrLHNd36FSiZLrJW+GooI5HUd5VDF4VAos4cP2RLMjgx4l
-         rf897nT7CIGJyiS97yUThPzTbzvTJ3SQafD9x8aHw95E/KqQYBpDlspgkQk4AGUQa5zh
-         8Xwo1Sr3hFhHVvbfvQiQWoY9WhQxVDP6djJu6wUitvpT3RwpNXhMJAPfo2P9osfLPDs8
-         VToc3q75iNTqdgMLBd8VWDjmog8b9G//LYN6tUx3aU+rF4j7Abug52RMbyfsYQvNV/xW
-         6Ssg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1773845904; x=1774450704; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=67Lxa4BGXjz9Zo1vWHQleC/2O1UPzPcZCuH/+UGL6f4=;
-        b=C2RZd8aONblUo3eUd1B69D1QtPQV97Np48VwPDMiE+rae0cQ/IgePZrawKOeW/QpP2
-         lyPz68MQMls4r1l8nB3ouKzOCL0j5EvEhVGk43Rm7u6Mt4lNhIDC9EofIY0AbkytO+Gl
-         C9zRJCVYAooPdFZARJ6ML4Mjnw220qLDF51ypf96wkKpyk01QToqcTMl5boqnQj8M+E4
-         cKFes3zbHsK63W21sZ5hA289Hrsc3j0F2XnA28ONLmvs7vf52wqPBRPXw2qWL3JHYtmi
-         1TuRaCKanS1fUcsMSUf++d7N24JSL0NZAByBai+NwQOGKkDkBb8HaKlZvORYdKt37w09
-         ti7g==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LoeOfq3O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773849498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5aJP2sYwPoJ8gxJ8rE0z1ERasHV1dH20ZyzElyHL9Uw=;
+	b=LoeOfq3ORrav7+cB4K85dpguFsN/y1LCKhkO1yQe0Du9IAclcwn90tGBim68YcKWxV0Jj3
+	Vef5S0ROcyjtRYP0u5NRqY3T3BDMalqP3kzUscSxsnZpP6GBO9UYjTqkH6WIErC/GUS1t9
+	OazFrRbqGMVg/A5MGctVokPP9qyxp8g=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-483-iYOSuGV8M9m_r-D9Fa2Dow-1; Wed, 18 Mar 2026 11:58:16 -0400
+X-MC-Unique: iYOSuGV8M9m_r-D9Fa2Dow-1
+X-Mimecast-MFC-AGG-ID: iYOSuGV8M9m_r-D9Fa2Dow_1773849494
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-439bcec86dfso6237975f8f.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 18 Mar 2026 08:58:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773845904; x=1774450704;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1773849494; x=1774454294;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=67Lxa4BGXjz9Zo1vWHQleC/2O1UPzPcZCuH/+UGL6f4=;
-        b=YIlOS3R8qoqKGsdnR1fnppyHqthtsT5Fo+IgweeWUl3OU4FFY6OUrNw9ANwR4cgrNz
-         CGTQMEe4xnLxeXnQI064YTJNEaOxWQzXntWgDg8CyTUlQ3LdbLLTXTYArRVhSY1No3S3
-         9SQM4VDaMYmPPbpGv6qsCfnmdhfqEChrAgxIueXgIMGJWj31f75+Um6g47+F78tMX/pL
-         KxnbvlSBRuYfFc5ud4OMclaqyRIckmtDS6BGuMHlrGlwq1gpU/J5SatREau9nOhiBxXg
-         +R87DogiOjuRtlNKoPhVd5ze+Fa8LFSCLI1ojx4zvKzrmxKDQjEpesVXW+nh0ME/JpRE
-         ZODw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtWeqRV2C4usIC8CknGcbG07BB2onfi6NJU4M8tK+jL4kV21wiW/+xYoLtxx695xYkC6os/34bz2sKxXLmKA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwA6uiA4+c18psRmiJKXK9juTbmbTqQbgyaLVuvxHbpQEnqXsRC
-	QO3LVTQ8fQZHa2RG/KpbI1uWfgxlgD9NN6eiKgLt648qaRVwJoqh6/v0a6No5gLDXHU9fZ2+S55
-	preDK976+9Z7r+Km5ZIAV40iydY2sBVgYoo9JWxNccH4QmA3iYZJ9
-X-Gm-Gg: ATEYQzwy5qomD5dYQaQxl8iDyJd+OYzsRdJgOTMapBEVvVS3OB+aySAoX9l9ZJIr4uI
-	LhJz2sVR4odV9nuvSf9U156pt9kLG7hkltj6lPCQLee4jryV+FhzQO2+vlEL5Hd1xQKRNcjjgp9
-	47jOXsJgfSBLTVAVVIHyUjhppVMaZ/P0WmTXK/MH8F4d0lL6iEObqPhMJd27NJmSbGZF9t5wFPC
-	K5v/r+nxN4RIIKYWbd8fhV1lBNWut8ERzgz6KZcx5LCZGL9rFxkcIXqx99EGdAoOfqH/qf5b4L9
-	ga66IDeHORTJ6TD5bLhqJlqWsp0E3AfijWXnbOyaXJuVSniQZuFihNWw3T/Gzj4eojb4cp3bKt2
-	lfTw9
-X-Received: by 2002:a05:6000:2207:b0:43b:4212:2ee8 with SMTP id
- ffacd0b85a97d-43b527ad12cmr6672969f8f.24.1773845903651; Wed, 18 Mar 2026
- 07:58:23 -0700 (PDT)
+        bh=5aJP2sYwPoJ8gxJ8rE0z1ERasHV1dH20ZyzElyHL9Uw=;
+        b=pVXRPr/QeJA0cbTIK+mo34VyHpni0QFMC+2Ri8my2Odss1ubM77UmqhXv5e1kQD6Me
+         4ploh2QI+c+e5W7bJsKX9fHwiwaJNnzeabE9Sps03Q7MLnBnLDaRWV/NCOjqF/NvKSjR
+         zCoyHZJmaXJLvCcIuhbaVG6kaavaRZAwG1ZKYe1WRbK6RgzX9mInVR/Spmg6VQmJA0IS
+         +YuAWIxl0RhHqZ+WuPEw+w32oQvI1fvwQ5wO4eTLYaFnQTOAb2J/x6itrSSYo0B5gr7n
+         gkq7iv9hZOutX0POJFpZxbHFOfAJDkELTxlCHDHBI/PN00QHot6JjLa5oWwFo/U9OhfC
+         eONg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkwtJ71Eehju6HRSJHn6E7Ch+Qqogg6Jrd0SN00q6VcphFZsyK8wb3YcGaCgz4hlcpoKE35szYICLDWMLLhg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy71+bs+vWBdCBjcjGEsb28TcUQF9LW9sh9WejWCeBgwmzjVWSs
+	D/RBJmNuAaTTCXJ+suUsgWK+jDshgPSOVdge9mElAIsrEDKsE3TgaHZz16+TXTdLfZR7Ro//wTM
+	4mWoCVgbOY6HbGOUtn7/ByVMBRKNGjMXlFaM480xh3yeMPBKZ7aLxJQb9jBDPKIYrhvbO
+X-Gm-Gg: ATEYQzzeMsvbiwxouLM5oy7c4fg2UPrTbfXtHOj2ecn64PtPkaObuzhK9vZlj+ufxnx
+	zpLAcb5aGS5GAHxy+lanDTCvVBaJPAbYhX83Jp9a+o+tXzRoFg05gH+i1UTt8StjUVy0haAtBeo
+	nQ9t2ZmIU+YieNJ4FIOMr8JWy662//oyzHENfI8LUJLhk5y12bR6aIXY/dl+5kVeCnL+t6JdoZr
+	J6uQG/Bvq4BY1LHYr1La2Von+kIeJXdQtBzaJ/ok8FaHxIck2y2hp1FWpRwde89gB1q4hZXnsn8
+	7uYIX9/9KlC6WMflQ8mfEbg1rD2BO2HNJ6dtPJtvFLLEHHeGigym15kzk1/8hTLpvlq84YipVAS
+	yI/49184obU+PxGuEs/oubEENfM6gNff76dvVtta8y4E2qnxG
+X-Received: by 2002:a05:600c:a4b:b0:483:8062:b43 with SMTP id 5b1f17b1804b1-486f446af0bmr60719375e9.19.1773849494020;
+        Wed, 18 Mar 2026 08:58:14 -0700 (PDT)
+X-Received: by 2002:a05:600c:a4b:b0:483:8062:b43 with SMTP id 5b1f17b1804b1-486f446af0bmr60718735e9.19.1773849493380;
+        Wed, 18 Mar 2026 08:58:13 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk (alrua-x1.borgediget.toke.dk. [2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c40ccbsm234105e9.9.2026.03.18.08.58.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 08:58:12 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id CA2195A31F8; Wed, 18 Mar 2026 16:58:11 +0100 (CET)
+From: =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Aaron Conole <aconole@redhat.com>,
+	Eelco Chaudron <echaudro@redhat.com>,
+	Ilya Maximets <i.maximets@ovn.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	=?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+Cc: Minxi Hou <mhou@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	netdev@vger.kernel.org,
+	dev@openvswitch.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH net] net: openvswitch: Avoid releasing netdev before teardown completes
+Date: Wed, 18 Mar 2026 16:55:51 +0100
+Message-ID: <20260318155554.1133405-1-toke@redhat.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <4fba57892e5bd6a1afc4a36a80b40e3ecc28cac5.camel@web.de>
- <fd609cfe186ee48e0e9a08e35764175a2516dd14.camel@web.de> <2369ba83d204290dcfe157aed3f943206213b979.camel@web.de>
- <aa02f39ec4640c9d98963f42121b76e59b58371d.camel@web.de> <20260218073036.AlkNRoAP@linutronix.de>
- <ae213d2b908e46d34856be9daec891d7210f46f7.camel@web.de> <20260226172927.2Ck9wZMw@linutronix.de>
- <20260318103009.2120920-1-neelx@suse.com> <20260318111849._MMol8Hr@linutronix.de>
- <CAPjX3FcRYNkYK2gerbRL4C9wXZPxWSs6=oTjzv5+msm4PQrfqA@mail.gmail.com> <20260318145101._iaDDpbE@linutronix.de>
-In-Reply-To: <20260318145101._iaDDpbE@linutronix.de>
-From: Daniel Vacek <neelx@suse.com>
-Date: Wed, 18 Mar 2026 15:58:12 +0100
-X-Gm-Features: AaiRm53t-9KWev7fdqpI90WAqJrBtJ0EukL_N5dFdMvYQ9imwz4FysyBvwXfPUM
-Message-ID: <CAPjX3Fe3J1_JgON6iJBN1KXWUr2cPkEQbdTBp5vQt2zMMsf0MQ@mail.gmail.com>
-Subject: Re: "Dead loop on virtual device" error without softirq-BKL on PREEMPT_RT
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: edumazet@google.com, kuba@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, netdev@vger.kernel.org, spasswolf@web.de, 
-	tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: iwgEUoxSGgZsYVpkolDJKKwcC24ZK7dvSkcUyCwJ_2s_1773849494
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 18 Mar 2026 at 15:51, Sebastian Andrzej Siewior
-<bigeasy@linutronix.de> wrote:
-> On 2026-03-18 15:43:52 [+0100], Daniel Vacek wrote:
-> > On Wed, 18 Mar 2026 at 12:18, Sebastian Andrzej Siewior
-> > <bigeasy@linutronix.de> wrote:
-> > >
-> > > On 2026-03-18 11:30:09 [+0100], Daniel Vacek wrote:
-> > > > > --- a/net/core/dev.c
-> > > > > +++ b/net/core/dev.c
-> > > > > @@ -4821,7 +4821,7 @@ int __dev_queue_xmit(struct sk_buff *skb, struct net_device *sb_dev)
-> > > > >             /* Other cpus might concurrently change txq->xmit_lock_owner
-> > > > >              * to -1 or to their cpu id, but not to our id.
-> > > > >              */
-> > > > > -           if (READ_ONCE(txq->xmit_lock_owner) != cpu) {
-> > > > > +           if (rt_mutex_owner(&txq->_xmit_lock.lock) != current) {
-> > > >
-> > > > Ain't this changing the behavior for !RT case? Previously, if it was the same thread
-> > > > which has already locked the queue (and hence the same CPU) evaluating this condition,
-> > > > the condition was skipped, which is no longer the case with this change.
-> > >
-> > > The above was me thinking and does not even compile for !RT. Commit
-> > > b824c3e16c190 ("net: Provide a PREEMPT_RT specific check for
-> > > netdev_queue::_xmit_lock") is what was merged in the end.
-> >
-> > Hmm, that means txq->xmit_lock_owner is not used at all for PREEMT_RT.
-> > It's pointless to even store it. Shall we care?
->
-> For PREEMPT_RT the xmit_lock_owner member is only stored and not used
-> otherwise. It could be removed as in ifdef-ed away but I do not care
-> enough to sprinkle it and the gain is little (proof me wrong). So I am
-> happy as-is.
+The patch cited in the Fixes tag below changed the teardown code for
+OVS ports to no longer unconditionally take the RTNL. After this change,
+the netdev_destroy() callback can proceed immediately to the call_rcu()
+invocation if the IFF_OVS_DATAPATH flag is already cleared on the
+netdev.
 
-Right. Sorry for bothering then. I missed the merged commit.
+The ovs_netdev_detach_dev() function clears the flag before completing
+the unregistration, and if it gets preempted after clearing the flag (as
+can happen on an -rt kernel), netdev_destroy() can complete and the
+device can be freed before the unregistration completes. This leads to a
+splat like:
 
---nX
+[  998.393867] Oops: general protection fault, probably for non-canonical address 0xff00000001000239: 0000 [#1] SMP PTI
+[  998.393877] CPU: 42 UID: 0 PID: 55177 Comm: ip Kdump: loaded Not tainted 6.12.0-211.1.1.el10_2.x86_64+rt #1 PREEMPT_RT
+[  998.393886] Hardware name: Dell Inc. PowerEdge R740/0JMK61, BIOS 2.24.0 03/27/2025
+[  998.393889] RIP: 0010:dev_set_promiscuity+0x8d/0xa0
+[  998.393901] Code: 00 00 75 d8 48 8b 53 08 48 83 ba b0 02 00 00 00 75 ca 48 83 c4 08 5b c3 cc cc cc cc 48 83 bf 48 09 00 00 00 75 91 48 8b 47 08 <48> 83 b8 b0 02 00 00 00 74 97 eb 81 0f 1f 80 00 00 00 00 90 90 90
+[  998.393906] RSP: 0018:ffffce5864a5f6a0 EFLAGS: 00010246
+[  998.393912] RAX: ff00000000ffff89 RBX: ffff894d0adf5a05 RCX: 0000000000000000
+[  998.393917] RDX: 0000000000000000 RSI: 00000000ffffffff RDI: ffff894d0adf5a05
+[  998.393921] RBP: ffff894d19252000 R08: ffff894d19252000 R09: 0000000000000000
+[  998.393924] R10: ffff894d19252000 R11: ffff894d192521b8 R12: 0000000000000006
+[  998.393927] R13: ffffce5864a5f738 R14: 00000000ffffffe2 R15: 0000000000000000
+[  998.393931] FS:  00007fad61971800(0000) GS:ffff894cc0140000(0000) knlGS:0000000000000000
+[  998.393936] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  998.393940] CR2: 000055df0a2a6e40 CR3: 000000011c7fe003 CR4: 00000000007726f0
+[  998.393944] PKRU: 55555554
+[  998.393946] Call Trace:
+[  998.393949]  <TASK>
+[  998.393952]  ? show_trace_log_lvl+0x1b0/0x2f0
+[  998.393961]  ? show_trace_log_lvl+0x1b0/0x2f0
+[  998.393975]  ? dp_device_event+0x41/0x80 [openvswitch]
+[  998.394009]  ? __die_body.cold+0x8/0x12
+[  998.394016]  ? die_addr+0x3c/0x60
+[  998.394027]  ? exc_general_protection+0x16d/0x390
+[  998.394042]  ? asm_exc_general_protection+0x26/0x30
+[  998.394058]  ? dev_set_promiscuity+0x8d/0xa0
+[  998.394066]  ? ovs_netdev_detach_dev+0x3a/0x80 [openvswitch]
+[  998.394092]  dp_device_event+0x41/0x80 [openvswitch]
+[  998.394102]  notifier_call_chain+0x5a/0xd0
+[  998.394106]  unregister_netdevice_many_notify+0x51b/0xa60
+[  998.394110]  rtnl_dellink+0x169/0x3e0
+[  998.394121]  ? rt_mutex_slowlock.constprop.0+0x95/0xd0
+[  998.394125]  rtnetlink_rcv_msg+0x142/0x3f0
+[  998.394128]  ? avc_has_perm_noaudit+0x69/0xf0
+[  998.394130]  ? __pfx_rtnetlink_rcv_msg+0x10/0x10
+[  998.394132]  netlink_rcv_skb+0x50/0x100
+[  998.394138]  netlink_unicast+0x292/0x3f0
+[  998.394141]  netlink_sendmsg+0x21b/0x470
+[  998.394145]  ____sys_sendmsg+0x39d/0x3d0
+[  998.394149]  ___sys_sendmsg+0x9a/0xe0
+[  998.394156]  __sys_sendmsg+0x7a/0xd0
+[  998.394160]  do_syscall_64+0x7f/0x170
+[  998.394162]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[  998.394165] RIP: 0033:0x7fad61bf4724
+[  998.394188] Code: 89 02 b8 ff ff ff ff eb bb 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 f3 0f 1e fa 80 3d c5 e9 0c 00 00 74 13 b8 2e 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 54 c3 0f 1f 00 48 83 ec 28 89 54 24 1c 48 89
+[  998.394189] RSP: 002b:00007ffd7e2f7cb8 EFLAGS: 00000202 ORIG_RAX: 000000000000002e
+[  998.394191] RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007fad61bf4724
+[  998.394193] RDX: 0000000000000000 RSI: 00007ffd7e2f7d20 RDI: 0000000000000003
+[  998.394194] RBP: 00007ffd7e2f7d90 R08: 0000000000000010 R09: 000000000000003f
+[  998.394195] R10: 000055df11558010 R11: 0000000000000202 R12: 00007ffd7e2f8380
+[  998.394196] R13: 0000000069b233d7 R14: 000055df0a256040 R15: 0000000000000000
+[  998.394200]  </TASK>
 
-> As for the check itself as we have now, we detect the deadlock before it
-> happens and this is nice to have. The alternative (in case of a
-> deadlock) would be the deadlock detection in rtmutex code which would
-> freeze the thread.
->
-> > --nX
-> >
-> Sebastian
+To fix this, reorder the operations in ovs_netdev_detach_dev() to only
+clear the flag after completing the other operations, and introduce an
+smp_wmb() to make the ordering requirement explicit. The smp_wmb() is
+paired with a full smp_mb() in netdev_destroy() to make sure the
+call_rcu() invocation does not happen before the unregister operations
+are visible.
+
+Reported-by: Minxi Hou <mhou@redhat.com>
+Tested-by: Minxi Hou <mhou@redhat.com>
+Fixes: 549822767630 ("net: openvswitch: Avoid needlessly taking the RTNL on vport destroy")
+Signed-off-by: Toke Høiland-Jørgensen <toke@redhat.com>
+---
+ net/openvswitch/vport-netdev.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/net/openvswitch/vport-netdev.c b/net/openvswitch/vport-netdev.c
+index 6574f9bcdc02..c688dee96503 100644
+--- a/net/openvswitch/vport-netdev.c
++++ b/net/openvswitch/vport-netdev.c
+@@ -151,11 +151,15 @@ static void vport_netdev_free(struct rcu_head *rcu)
+ void ovs_netdev_detach_dev(struct vport *vport)
+ {
+ 	ASSERT_RTNL();
+-	vport->dev->priv_flags &= ~IFF_OVS_DATAPATH;
+ 	netdev_rx_handler_unregister(vport->dev);
+ 	netdev_upper_dev_unlink(vport->dev,
+ 				netdev_master_upper_dev_get(vport->dev));
+ 	dev_set_promiscuity(vport->dev, -1);
++
++	/* paired with smp_mb() in netdev_destroy() */
++	smp_wmb();
++
++	vport->dev->priv_flags &= ~IFF_OVS_DATAPATH;
+ }
+ 
+ static void netdev_destroy(struct vport *vport)
+@@ -174,6 +178,9 @@ static void netdev_destroy(struct vport *vport)
+ 		rtnl_unlock();
+ 	}
+ 
++	/* paired with smp_wmb() in ovs_netdev_detach_dev() */
++	smp_mb();
++
+ 	call_rcu(&vport->rcu, vport_netdev_free);
+ }
+ 
+-- 
+2.53.0
+
