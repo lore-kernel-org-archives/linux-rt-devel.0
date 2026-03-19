@@ -1,126 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B8D3E92BF;
-	Thu, 19 Mar 2026 16:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773937122; cv=none; b=jk3OVnBhwgAXeQ2/QbQy+G7XvomTD7+mNLl3XVxurBkeydAoUDpEa1vU977ZrUF4LS/Ps/2d030e/t50fRRgJ1RKySzkN+Meb005qF6b1Wtk2+xYP43i88sveIo05uMPkD1Cu5ifJ212TDHQSBXiSiRRdcteZ53UKxIzzFY0EnU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773937122; c=relaxed/simple;
-	bh=+rJxXvh9jbY/cYu63rGxCHb0s8bdU5IuTtrr+qf/8ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L//53MzZwIws7mJFByd1GiZ2KQthHwntPOgW9OJD4adBtUN4ntwMKwtYDxRyPbH5aqBPw3UzzXNiiwxRmT3uTag/LRkg0sS75KnLEOkKBEej4IJ3ISvixM6uhgObtxPoKYEU1GldVChrRhbjB/ff+e8vASdkrpgYGm+MJh5T+cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SAhj5GuC; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE6C2D7DDC
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Mar 2026 16:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773937314; cv=fail; b=HVJ54mZnyuZpGRqB3i8P+SDpieIcDfpQ28MGBND/Y0GcrZyx67AxinRP+koDjhBF1/S9oyma4vq6KoEgEEgmCd830M52vdO2fkW0tNv/7xDbqhjgEihRxaB+gF+JrIcPVKUIEzy+pgD9wPTU5YC6qN+8A1Au7MUMHce8J6RW2i8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773937314; c=relaxed/simple;
+	bh=HffcZ0tVn0af8+hkqb+ieTt/2xoKHKX0/b2U9SfS5AU=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=XTFefh1N6C0HY4LMjsx3Ra++cXeSeHihqEcXElov3Sz6PV2xwDVALc6V3SoNpJsVTEn/8EXBZYnxd0ncLGAUmiXAI7EixSCG+mK8DkxC3yduQHkS7gfUqmHzX6rd9v3vGksvG+IXSYyHJm/9DPGkYk7IvlNZndRnXzwHNifbxhk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cszJX5Ot; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SAhj5GuC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F5EDC19424;
-	Thu, 19 Mar 2026 16:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773937121;
-	bh=+rJxXvh9jbY/cYu63rGxCHb0s8bdU5IuTtrr+qf/8ms=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SAhj5GuC0PfaoylzOpmZEg5wivkofnQ+GtRsdaeJOUJ4uAmHeX9yWUjJtJAn3it/L
-	 DtIYhs/uZLj/VchTSC0AmON6+W7EzTrZwPGqVuCyAhjCjaHPnhkABYQUeqprmOj1i/
-	 R/FWq7IVvWU1IGMy9FTlbHxdCNuIq9kR2X6GzLnLDJQbozNo/mkx2YeXRGXNiMY0o7
-	 vQpts1+55w++E8C9ighzin4xwksBwu0yd2u4NfBf4vlh8psPZ69uaMIHcyWDj4a0OE
-	 UwiaTPNnXiiVy+7V9ISLDkx2gH43hmidRMy6gz3GsbPkAVEku6PbjeRjw4rot/k9lf
-	 Rn92JSY6yNwyg==
-Date: Thu, 19 Mar 2026 18:18:22 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 1/2] mm: remove CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE
-Message-ID: <abwhzkhM9Bk9xPIf@kernel.org>
-References: <20260319-config_migration-v1-0-42270124966f@kernel.org>
- <20260319-config_migration-v1-1-42270124966f@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cszJX5Ot"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773937312; x=1805473312;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=HffcZ0tVn0af8+hkqb+ieTt/2xoKHKX0/b2U9SfS5AU=;
+  b=cszJX5OtEvwee8rJWgKX7jr+97bBvNPJ1UeyxvqTRF5y0ZK6PMswFEHi
+   4AG/u9G9NrVqcHLyBk8Yl4ww7RmAdBqcnlt9T+44gTWDx9j+kDvFDtOOk
+   JhkKsRtTX39MUoB0n+JyS58A7FdxEcEq3MhrSedu/mEdFCS2DWwt9g1L1
+   Pjejqf0PqMNXJMCUrjybBVpJNhCkGrhez2XfYI3Lu/RNm0WAKbuzCbm6I
+   RGzRND47Ydcvm2TR533YpSej2uIZasxfo2OucCPgoohxAIVIS7wTCv33V
+   YG8ikXWX4TgtOsW+J33C0zsLFj/m85GyWo5vdHFyFg0bTEg8afoHmQ33V
+   g==;
+X-CSE-ConnectionGUID: TiI3Wr4DQEG/U2ktcNUegQ==
+X-CSE-MsgGUID: a1WlvcyrS0i162+VCb8tdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="62581913"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="62581913"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 09:21:51 -0700
+X-CSE-ConnectionGUID: JVkE0Xu+QYuASNKvijBgDw==
+X-CSE-MsgGUID: ihePM6KHSlm8e+fasqaARQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="227127949"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 09:21:44 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 09:21:42 -0700
+Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 19 Mar 2026 09:21:42 -0700
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.55) by
+ edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 09:21:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QYXzsX/Kjw47IQKBlaUiO8fCiYUtFdykwAOdh9jULUiTzEZj5HCCxgrbNkxZZpzmMbtdxKcOxhN9Oj+uTSiuFXdYvXe/RTLEHZ+yL72ZQzegepgweYO/qhfvwVCABM8U+56ZUShLR/PFYu0Lo+n8hFa5wyOMYzaNRPvWdRbfEJpcG9kAF2wvcbhVEvhU8tX73NzBeE+P8VgRmVR7n+EvW8iVt2qlmFSIRIvfMnob+gEksXeTjF5rIC/8bPUBVcqntuFCwF/Ay4PzrsWBKvvmkpLv8tlgVn9GaFID7hKcj2/GvbXXjddTl53QzzSXfbt6whfC3r8AvM7J7exqYw12aw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8uFbHRUMP+gHkhUyFZO29P4AJ3hOrAkCNLX2hFfUnZM=;
+ b=FQpmj+3KqanDlD3/OWXypB8FtssT6shQQykuB+nDt/6v7EzXl+z2kkpuE0T5vzD47iKtvn/+XObOAXQebAzhBgNU6mCHkrap4aRYHCTeuhY8EELZ+z7Oz9b+Tr6LclvEIGKSjQffxSqSDOnc7rvpO6f4P1j4597sFHdQcIKe0Yp2/XB8dQh75VGel2ojOShGsZ+IdE0DTcU6hqGWmJeA4EtilU9bl75MCBOvBVmOvEyK4q7oQlDEChGxZMdePQDihLHlzumrcBzt4Okn2cExnl7W0NbuQIpX9qBgDS0c4UC2Pr6FbXGRttzm8TpnTd/yxo1yqTncPvCnFlHFeGnzcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH0PR11MB8168.namprd11.prod.outlook.com (2603:10b6:610:186::20)
+ by PH0PR11MB9521.namprd11.prod.outlook.com (2603:10b6:510:3b1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
+ 2026 16:21:40 +0000
+Received: from CH0PR11MB8168.namprd11.prod.outlook.com
+ ([fe80::9549:c8e9:6748:12ee]) by CH0PR11MB8168.namprd11.prod.outlook.com
+ ([fe80::9549:c8e9:6748:12ee%5]) with mapi id 15.20.9745.007; Thu, 19 Mar 2026
+ 16:21:40 +0000
+Message-ID: <96c9344a-9102-40b8-94bf-ad6353e985b7@intel.com>
+Date: Thu, 19 Mar 2026 09:21:36 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH iwl-net 2/3] idpf: set the payload size before calling the
+ async handler
+To: Li Li <boolli@google.com>
+CC: <intel-wired-lan@lists.osuosl.org>, <netdev@vger.kernel.org>,
+	<anthony.l.nguyen@intel.com>, <aleksandr.loktionov@intel.com>,
+	<przemyslaw.kitszel@intel.com>, <andrew+netdev@lunn.ch>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
+	<rostedt@goodmis.org>, <linux-rt-devel@lists.linux.dev>, <sgzhang@google.com>
+References: <20260316232819.6872-1-emil.s.tantilov@intel.com>
+ <20260316232819.6872-3-emil.s.tantilov@intel.com>
+ <CAODvEq7Ty-D6MPeS0r3077jXWMX0i9yp3UB7d+mnGTaQGegH-g@mail.gmail.com>
+Content-Language: en-US
+From: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
+In-Reply-To: <CAODvEq7Ty-D6MPeS0r3077jXWMX0i9yp3UB7d+mnGTaQGegH-g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW4PR04CA0040.namprd04.prod.outlook.com
+ (2603:10b6:303:6a::15) To CH0PR11MB8168.namprd11.prod.outlook.com
+ (2603:10b6:610:186::20)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319-config_migration-v1-1-42270124966f@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR11MB8168:EE_|PH0PR11MB9521:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a01f33c-b35d-445b-c372-08de85d399f6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003|7053199007;
+X-Microsoft-Antispam-Message-Info: 0aWTHMCmUAiTvj644oBZhXa/dgwoBZtamhK9hS/Y90LKnHtP3OnTY2Xx1NXXOk2HfV4y/n5KmHwqUn9TF+jT7zFaFiqYiOIIVKbV9bxtnZTFXIQ0b5DhQB5hevjOEKONmbQNy+eDz6DsbdoTa5FFjm9UqyMXHnsy9Ux5UcgY11CbRh+ODtOu0k4gTKVMlYVwB+L2i0qmpsVgMS4ENwbV+7xEEmQbogIftShwbdDc07+zLLZXH36a5InrP4wtBUus7k6Kf6NxNCUBCm6/WT/l43Chvoe+VbInrNsf9Z/K/qakEQ3MuJpXHr8xLeAiAnuewT1KML8ax/3khBcbAkMPi0O6N2haBQ+/nQfESmzbR4dnlNEtlvBQ6YmY/bG+eVj5U7JfKpQNhci59McbwyvZKh/c3sf10P+EB6I/x59W5RQfi4dU58P/f3FH4Ay4JD41vaP7H2/WfJ1EdluCNEicPYzNCU8JhElcB2E2Ti5eapzwTvrUVrrFqmT/vLxDOgyxMB+8xuschjjIsmOQBxvVjYCBnwx4ixZ2wYb5+d7rSAMltHV7WyLbCUT6mU/5m/eZ4LE7UiXR+8I0vD1eVx9HwonSHB4dVjOJzHSN1V9o3L9KwIm1TOeNKDeVg/CWU1W1XvmTDklBYWdXvKRKP+dCsUuCIt7QGiPvVJTW1Mv7G0RSa7ji7q+rPMJkgq63k0PIybcbje7ked0/mEe0BNtfHw4hjS8/ar+5B5RHshl4i40=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8168.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFJOZHdHdTJncFlQcGVhaHlwU0ZST0RScGZaOWhjWFdOc1dsRndXbU9mRjA5?=
+ =?utf-8?B?SUZnV2RubnFpaENYT0JYSDlsVFk2QnJNV0ppQnhHTEExSXFMR29tSFVoU1p5?=
+ =?utf-8?B?NUFmR0FRVWN4M1M3dGI1dmQ0U0g1ZkZjUnBjZERZQzF3YlpQLy9OaFRqUEQ3?=
+ =?utf-8?B?OUhKdXlWaE1XUVU0cUdYSjkzUWhZTjA4b3JSWXplSlQ3SWRuVjBiQ1VXMjRp?=
+ =?utf-8?B?Y3JBM2FyWXQwRzhTZy9XMEJWcUdHcmJ0OHczMEJJSktqbENXUXB1MWc4anBP?=
+ =?utf-8?B?TFFWVUxwUmVKVytEaEpIZjQxNzdjK2hSSjk0VFY2Ly8xVStaWjVkd3FMb0t3?=
+ =?utf-8?B?bmMyL1krRndxajV1TGcxcTBON2wwNDZuaTdkRUlCcDc3WHNKNjBzbUV6QWxI?=
+ =?utf-8?B?ZWFVb3liNUdESDl3cUgxbFdueVZ5TVpZeFNyMmEzamxWOVpDMlMwbHZCOVI0?=
+ =?utf-8?B?SlNNVTg2TGI1aFpDbytoOFM3VTB3U0I5WEo0L2FDV3VmQjBpb2V1ZkNqbkRR?=
+ =?utf-8?B?UStnVm9maHh3SlRFL3lEZ0FNMElUUWMrc2lrTUQzMzlIbWhhcmRDY0ZoNVYv?=
+ =?utf-8?B?NWhVSzBtYzZ6SjVIVFRoT0ErbGl4SzlLamY4OGRXVEx5RGNIMVFlcmNqZ1pm?=
+ =?utf-8?B?T09XeEN5ZjdnaE5XV3kranE1M3FPR2Jld1B1bnEzbU9pS0ZNM2hHRFdTUUJI?=
+ =?utf-8?B?MThsdmdjdGtmS2pNREt2cHh2bEFKbzJUUnZJUUtPUE8wYmdubTFiQVZqd1dl?=
+ =?utf-8?B?dHQvYmNIemVEbkZsM21YTDZibWl2MXh6U3k5ZExuYVMzZGc4V213OE9VaWto?=
+ =?utf-8?B?dVQyMDczNFZLNlJNckYzWnMrMERlWUlNRnB5L3RoemlNNDAvQjM5bG5rclJM?=
+ =?utf-8?B?ZVNpSVlUN0UrZTEvTUNQWVpGQnQxazJVbXFRcjlSTlpkNGV4eHg1VS9BQVFv?=
+ =?utf-8?B?MmJIcmJvU1MycUpIcnJaMWdOVVpLL0VFSW1mdWNiZ1VlYzQ0N3RlaGw5dUJZ?=
+ =?utf-8?B?VmdETllMVEdUYzRpeGRMMEhSVG91bGdWZFZCUlZ0RDdqK01qMjVzQ3BjTnI4?=
+ =?utf-8?B?ZjkvMCtCbHFYQXhSYlduZTR2aG9BRWxHQkdMUzQzU2g3MG9TZTdhYkI4Sk9o?=
+ =?utf-8?B?UlY2VlY3VGFYZ2VzN1FGM3B0MUpwd3JVZ2ZTYWY5Tm9RY0lpbm1aZENkanUx?=
+ =?utf-8?B?Y0hsWnhZSS9ud0pWb0tRSGtoQ0VPNHYvdGl3dTcxc1BlMlh1OUZDK1ZnM0cx?=
+ =?utf-8?B?MTZTb2krMnRzMlFYczU0MEF0UTB3QnUyWHllQk9WY0hmbTlrVzIwR0pHNng2?=
+ =?utf-8?B?ZFk3ZXlkdlBSS2w3ZXJzSVZ1Z1c3aUIrSlZ3eGNvQ0tFQUUwSlhOVnE2elZn?=
+ =?utf-8?B?L1hPdXRwT0d6ZmtDblhGcnJrU1dXNVJzelp0bmM1TE1jc0E5L0dUVDVGUkVM?=
+ =?utf-8?B?UkNrWmtsdCtaZklvUXRhQUZLRFBHZlB6ditHQ2NMU3REWE5tZVBwSEZUa3VE?=
+ =?utf-8?B?ZzdWOHFRL083NWwwaWVyK1A1RW13dHBwS0dOWjk3TEpxaHNBTFdRYjlSMzdX?=
+ =?utf-8?B?TjZJZlVNcjNwRndKWmllNnhndzJaK1l6TTBISVRTQXJ3SE5ZNlhLV3JtbTA1?=
+ =?utf-8?B?MjhQaGpxMitlMFhBa29LR1JNblFYRWx2bUVkRENUbUc3QXRib3hTWXYzbkli?=
+ =?utf-8?B?UVI4M3hteTZjZ0Z2cUkvMHhzbno5dWErQUE2eVFtQUovd0g1S0RPZGU5TnFr?=
+ =?utf-8?B?TFBBRlo5RjhxWEVsYTBaMlZmblV0Lzl3UXhlT3VRY2VtdXNnRXhGdTVlcmJv?=
+ =?utf-8?B?UTJjVGcwN1NlNVZMOHZPc3IzaTJoQWVNeEVtdWlLajZaM1JneVgzMW5VMTI2?=
+ =?utf-8?B?SFlaRnEzRGFSMmVaeS82cnlHZkpFUTFVQ3lnajZISERSUnI4dGVUeU5KT3hl?=
+ =?utf-8?B?ZEtYVHVoVEJQdHhBM29QZnZHbUcyemJBaHFSb3BWNUtqRnU4NDRjd0ZxY2Rt?=
+ =?utf-8?B?ZU5qSVdkK1I0dmNWVWdZaktnaXJ4cHY0bEhMM0RYc1l0NkQrMHY1dldNeVFy?=
+ =?utf-8?B?cVZpL245TGtKQnViQzBLdmRPbGNSTVhLQkdubG1uSVFieVZPTEo3YzZaNmRu?=
+ =?utf-8?B?WVpwT0J3UWVnT2VzOUNET3RubG9NT0trc1Y1dGtCZE5RMXlMRU9EZzVrT2FR?=
+ =?utf-8?B?UERDRGRoNFJ1b3h6TitsQ1N6dWk5L1FUaExmcXlRRm96bHlsMkVsd2JOQmFy?=
+ =?utf-8?B?ak9kR0tyUWNyUTJUUzB6cU91UmhvZ2h1bTdBRGNVcTg1eTFkRU5aNGJ2Qk40?=
+ =?utf-8?B?Rnp5OU9ZK3B6TkZGMDJ0bWozalZvZlkzNmFLZVVlK3RaTHJYQlpJeUNxK2Vo?=
+ =?utf-8?Q?z16netG2rbs0kLWw=3D?=
+X-Exchange-RoutingPolicyChecked: AMZ+f792SutnwSph08AvWFRZYYtDuI11jguBupzGWLOW9W6xWxay7sNeOOhAR13CADzMqIZtmbcYAAIW+EyPQH/Kg+qcRm9XTJ58/Fqp9/XRJ4/MoVRvy+mf/DwEQbDM0Fg/fj5uVF8btw2FPFF5jnF1SgHAMsoWOftE53IhaiyaUA6B+4U4wfDpw+0zXz6657yZB4SLPOcoALPK4zWrrFc36RRXVIK52W0IUM7XqDotLw5KhKhcTWgnyLGwUIVe9cmMtL888y+pcM/pBW/7bfG03CCEDsgHrj8zuAx14Q8HB7615bWHSkLMItiRv5gluRYorSPXy9AuFtQHahtDrA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a01f33c-b35d-445b-c372-08de85d399f6
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8168.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 16:21:40.3165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vEs3mox7l2ZhpsLIBfP8zPDomoq0TNEBQOcy7P5PD4s2Npdc/BZVaqB149fCR9V7yKd5ZO8yzXsTmQ+pq8+zkvZMwcsQNyHQNlXTu5grpCE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB9521
+X-OriginatorOrg: intel.com
 
-On Thu, Mar 19, 2026 at 09:19:40AM +0100, David Hildenbrand (Arm) wrote:
-> All architectures that select CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE also
-> select CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG. So we can just remove
-> CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE.
+
+
+On 3/17/2026 5:11 PM, Li Li wrote:
+> On Mon, Mar 16, 2026 at 4:28 PM Emil Tantilov <emil.s.tantilov@intel.com> wrote:
+>>
+>> Set the payload size before forwarding the reply to the async handler.
+>> Without this, xn->reply_sz will be 0 and idpf_mac_filter_async_handler()
+>> will never get past the size check.
+>>
+>> Fixes: 34c21fa894a1 ("idpf: implement virtchnl transaction manager")
+>> Signed-off-by: Emil Tantilov <emil.s.tantilov@intel.com>
+>> Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+>> ---
+>>   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+>> index 21a6c9d22085..6b9692b30040 100644
+>> --- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+>> +++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+>> @@ -627,6 +627,10 @@ idpf_vc_xn_forward_reply(struct idpf_adapter *adapter,
+>>                  err = -ENXIO;
+>>                  goto out_unlock;
+>>          case IDPF_VC_XN_ASYNC:
 > 
-> For CONFIG_MIGRATION, make it depend on CONFIG_MEMORY_HOTREMOVE instead,
-> and make CONFIG_MEMORY_HOTREMOVE select CONFIG_MIGRATION (just like
-> CONFIG_CMA and CONFIG_COMPACTION already do).
+> Optional comment: could we only set the size if ctlq_msg->data_len >
+> 0, in case the hw returns some invalid values?
+
+0 is a valid size, but event if it wasn't the async handler already has
+a check for it, which is how this issue was caught (see description).
+
+Thanks,
+Emil
+
 > 
-> We'll clean up CONFIG_MIGRATION next.
+>> +               /* Set reply_sz from the actual payload so that async_handler
+>> +                * can evaluate the response.
+>> +                */
+>> +               xn->reply_sz = ctlq_msg->data_len;
+>>                  err = idpf_vc_xn_forward_async(adapter, xn, ctlq_msg);
+>>                  idpf_vc_xn_unlock(xn);
+>>                  idpf_vc_xn_push_free(adapter->vcxn_mngr, xn);
+>> --
+>> 2.37.3
+>>
 > 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> Reviewed-by: Li Li <boolli@google.com>
 
-Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-
-> ---
->  arch/arm64/Kconfig     | 1 -
->  arch/loongarch/Kconfig | 1 -
->  arch/powerpc/Kconfig   | 1 -
->  arch/riscv/Kconfig     | 1 -
->  arch/s390/Kconfig      | 1 -
->  arch/x86/Kconfig       | 1 -
->  mm/Kconfig             | 9 +++------
->  7 files changed, 3 insertions(+), 12 deletions(-)
-> 
-> diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-> index edc927d9e85a..d01800962d84 100644
-> --- a/arch/s390/Kconfig
-> +++ b/arch/s390/Kconfig
-> @@ -85,7 +85,6 @@ config S390
->  	select ARCH_32BIT_USTAT_F_TINODE
->  	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
->  	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
-
-Not really related, but s390 does not have anything but SPARSEMEM_VMEMMAP.
-
-> -	select ARCH_ENABLE_MEMORY_HOTREMOVE
->  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
->  	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
->  	select ARCH_HAS_CC_CAN_LINK
-
--- 
-Sincerely yours,
-Mike.
