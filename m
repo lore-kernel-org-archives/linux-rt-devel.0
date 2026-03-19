@@ -1,85 +1,126 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ED772622
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Mar 2026 15:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B8D3E92BF;
+	Thu, 19 Mar 2026 16:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773934649; cv=none; b=c6qupL3D0++4aqcaNforhtIin7IQfndB5Y6G1mvkWcosLPFIcwMhn7a1uSlWms+oCQaYnXv0DSrzW3bMAWewwvWwteqSVmEOe0oV2dxPqI3CnIgvakcBh0HCHJyc2nc7v4WOUdCBueeMaVKarSBOiBWAkqvKRerKVJ9ED0M27cU=
+	t=1773937122; cv=none; b=jk3OVnBhwgAXeQ2/QbQy+G7XvomTD7+mNLl3XVxurBkeydAoUDpEa1vU977ZrUF4LS/Ps/2d030e/t50fRRgJ1RKySzkN+Meb005qF6b1Wtk2+xYP43i88sveIo05uMPkD1Cu5ifJ212TDHQSBXiSiRRdcteZ53UKxIzzFY0EnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773934649; c=relaxed/simple;
-	bh=m47wt8te8pdLLJuE0AD+0WXTXlvbO8k1tPNVU7WiuZY=;
+	s=arc-20240116; t=1773937122; c=relaxed/simple;
+	bh=+rJxXvh9jbY/cYu63rGxCHb0s8bdU5IuTtrr+qf/8ms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBWANvPjZ239SYJ/FBqDwP8wLUpwYhFSOg9hP73LiBzt+CuuwU3PnPkXL2LYYSQqCkJU7w4d9U9HxRWM6jVfu5mQizDwMIiU8btgD7YzB+3qhzo26XiRI1pacONf/VDo2sPNtyXLUgH98UrWr8tDSZTJsby1WasjT1g9iMTPjOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=kOZk19s1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=knSRbQsH; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=L//53MzZwIws7mJFByd1GiZ2KQthHwntPOgW9OJD4adBtUN4ntwMKwtYDxRyPbH5aqBPw3UzzXNiiwxRmT3uTag/LRkg0sS75KnLEOkKBEej4IJ3ISvixM6uhgObtxPoKYEU1GldVChrRhbjB/ff+e8vASdkrpgYGm+MJh5T+cE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SAhj5GuC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="kOZk19s1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="knSRbQsH"
-Date: Thu, 19 Mar 2026 16:37:24 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773934645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pX8AWi3+fAkBpCvrvefx9HGhVqqVpnvrhHpID+luKag=;
-	b=kOZk19s1v2DEUr0b3Z8YeKeFLvJkX5pi1vT3c4JceWhd3Qz2EdAmR/IPTTQ4IhvCjH5VyV
-	x6AZleKCWh76JCiuzTZvHsDMuF4b7u770GTvKLcVh594mbwV8wbEEi+u8RERk5Tz/uuCzb
-	w7zaYlvW5R4zMh7BBkyQuOqOMIl93UqWtSmERjQtazJSazewftrCt82xsnSyd6NoBFc/o3
-	8ubiXMA3tmZrghON2x/1s1wml0TfSd7GpRxfEgeB1PfB0AK3W+tYPzTlZuvunswn7YUWCd
-	qG9s71m5sUTn2vT7/R4okc8EFf0WC5hy63jEWeFpqEbYO81lMaBO6aqdx1Cy8w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773934645;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pX8AWi3+fAkBpCvrvefx9HGhVqqVpnvrhHpID+luKag=;
-	b=knSRbQsHw49orwgVo+tZK3OebtUmiMv8RvvGqbQ9DPLYxHh7gYiD/ePbV0mqauiiIMdt9D
-	OxuwvxflbyArFRDA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SAhj5GuC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F5EDC19424;
+	Thu, 19 Mar 2026 16:18:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773937121;
+	bh=+rJxXvh9jbY/cYu63rGxCHb0s8bdU5IuTtrr+qf/8ms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SAhj5GuC0PfaoylzOpmZEg5wivkofnQ+GtRsdaeJOUJ4uAmHeX9yWUjJtJAn3it/L
+	 DtIYhs/uZLj/VchTSC0AmON6+W7EzTrZwPGqVuCyAhjCjaHPnhkABYQUeqprmOj1i/
+	 R/FWq7IVvWU1IGMy9FTlbHxdCNuIq9kR2X6GzLnLDJQbozNo/mkx2YeXRGXNiMY0o7
+	 vQpts1+55w++E8C9ighzin4xwksBwu0yd2u4NfBf4vlh8psPZ69uaMIHcyWDj4a0OE
+	 UwiaTPNnXiiVy+7V9ISLDkx2gH43hmidRMy6gz3GsbPkAVEku6PbjeRjw4rot/k9lf
+	 Rn92JSY6yNwyg==
+Date: Thu, 19 Mar 2026 18:18:22 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Zi Yan <ziy@nvidia.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 0/6] ARM: cleanup fault handling
-Message-ID: <20260319153724.Aqs8brxQ@linutronix.de>
-References: <aaG1wrNUaq_L0I5g@shell.armlinux.org.uk>
- <20260302105735.Roqcqp6h@linutronix.de>
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-mm@kvack.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH 1/2] mm: remove CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE
+Message-ID: <abwhzkhM9Bk9xPIf@kernel.org>
+References: <20260319-config_migration-v1-0-42270124966f@kernel.org>
+ <20260319-config_migration-v1-1-42270124966f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260302105735.Roqcqp6h@linutronix.de>
+In-Reply-To: <20260319-config_migration-v1-1-42270124966f@kernel.org>
 
-On 2026-03-02 11:57:37 [+0100], To Russell King (Oracle) wrote:
-> On 2026-02-27 15:18:26 [+0000], Russell King (Oracle) wrote:
-> > Hi,
-> Hi,
-Hi Russell,
-
-> > This series cleans up the 32-bit ARM fault handling:
-> > 
-> > 1. ensure a consistent IRQ state in the user fault processing path.
-> > 2. split vmalloc fault processing in a similar way to x86
-> > 3. move is_..._fault() to the local fault.h header file
-> > 4. update the FSR deifnitions using BIT() and GENMASK()
-> > 5. move LPAE/non-LPAE specific FSR bits/masks along side users
-> > 6. get rid of #ifdefs within is_..._fault() by providing a LPAE
-> >    and non-LPAE versions.
+On Thu, Mar 19, 2026 at 09:19:40AM +0100, David Hildenbrand (Arm) wrote:
+> All architectures that select CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE also
+> select CONFIG_ARCH_ENABLE_MEMORY_HOTPLUG. So we can just remove
+> CONFIG_ARCH_ENABLE_MEMORY_HOTREMOVE.
 > 
-> Thank you Russell. With this series (notably #1) the PREEMPT_RT support
-> can be enabled. Would you mind adding "ARM: Allow to enable RT" from
-> 	https://lore.kernel.org/all/20260226111742.3598421-3-bigeasy@linutronix.de/
+> For CONFIG_MIGRATION, make it depend on CONFIG_MEMORY_HOTREMOVE instead,
+> and make CONFIG_MEMORY_HOTREMOVE select CONFIG_MIGRATION (just like
+> CONFIG_CMA and CONFIG_COMPACTION already do).
 > 
-> to the series/ merge it with it? Or should I just send it to your patch
-> system?
+> We'll clean up CONFIG_MIGRATION next.
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Russell, any suggestion how to move on here?
+Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-Sebastian
+> ---
+>  arch/arm64/Kconfig     | 1 -
+>  arch/loongarch/Kconfig | 1 -
+>  arch/powerpc/Kconfig   | 1 -
+>  arch/riscv/Kconfig     | 1 -
+>  arch/s390/Kconfig      | 1 -
+>  arch/x86/Kconfig       | 1 -
+>  mm/Kconfig             | 9 +++------
+>  7 files changed, 3 insertions(+), 12 deletions(-)
+> 
+> diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+> index edc927d9e85a..d01800962d84 100644
+> --- a/arch/s390/Kconfig
+> +++ b/arch/s390/Kconfig
+> @@ -85,7 +85,6 @@ config S390
+>  	select ARCH_32BIT_USTAT_F_TINODE
+>  	select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
+>  	select ARCH_ENABLE_MEMORY_HOTPLUG if SPARSEMEM
+
+Not really related, but s390 does not have anything but SPARSEMEM_VMEMMAP.
+
+> -	select ARCH_ENABLE_MEMORY_HOTREMOVE
+>  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+>  	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
+>  	select ARCH_HAS_CC_CAN_LINK
+
+-- 
+Sincerely yours,
+Mike.
