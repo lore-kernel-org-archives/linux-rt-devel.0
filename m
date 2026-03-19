@@ -1,47 +1,47 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4765402433
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Mar 2026 21:14:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE1A40243C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Mar 2026 21:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773954850; cv=none; b=mWnj64FLYvDJjI94E20gaOqyQh1V3w7O+Fa81K4fWZXiqtoyyVhJCt6OL8oHeYmnNmKsB4pi55NIdb+EE04OweJvqnWX0baiHiBDy7HoVcr9MA9HSdj5uM4JOuAdyv+PHJjzu60THe5msGuV9YEGKI2HtAa4/CvJQuXggI61XH8=
+	t=1773954854; cv=none; b=AIL6Au6juZ7CgNFttj0bjiYoe3ATGJvWPGnLxR+/BevUvXVYFrDs5OFCp2tmNn3vhcmxr6APlVya8hvofjzKsrUt4GPPYjW+tkplEMnFrmwXbf1PnxcgRBGZfgE3hvKjybSUAq1R/FnJW7P6cmloRW8PHZKlC/1RRFPS5lbbw18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773954850; c=relaxed/simple;
-	bh=oRpzbw8xGxDnBQtkUrD1pw82znTvjifsBtJ+zx1wwAI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=B4PVpMVtaVZ+tOSusoyF+eUOsMPVLJ+xSaWLtrN1nes36QdHPV6U7noIQavgNLVDxxWyxRxjNtSZq3UvoS0bK3NzSQSrMeLcTkRz3H2PCrraPJD+8G/wTQqnDTGj06+mxxTmVaJ/iUANtPe+IwitaOfaORfkWybN2ovMYLaQy18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O//n8t3L; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1773954854; c=relaxed/simple;
+	bh=yOUQh/Qr8P8XqIix5oGN+qhabvQxrLR5JATDwg1qSaw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=VOVhm2tw/qSzWyWGNiNaIHcJuAVJzU+PVDevNyX19ic2pZkQoSYRLpeaGj0k/zswtHreXRZ140P3lEZSuWOs+WarBnYVe/7BUdS0SN4P8WNqUt326vdpiExLmDyyalt3pFnIfHxpIW9pngqV7UYrRGSANHAh82xjy6/WTOKUgX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSt48YOB; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O//n8t3L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSt48YOB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773954846; x=1805490846;
+  t=1773954850; x=1805490850;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=oRpzbw8xGxDnBQtkUrD1pw82znTvjifsBtJ+zx1wwAI=;
-  b=O//n8t3L8qCw9ekOaxxx99GGTyngwUtcKf4a/39UN1fGhUW4d0hvEC6h
-   P2Bwq0GCdzmad0Xkf+UOEyiD/4s4hM8iOWfkFh3LsxWgvyLPh11WxO8Ds
-   wePwQtke4XPNt2+yfvHPnSqAGQ+MG6CBg2bLtzSvywMLSAqboPofUt8mk
-   CcuurIKsU2xEePxQAOmScz25wdCqQSHlEVKDI/H2R+QGzAE2G7YXvZaMa
-   iOatXqZHWbP4Ps3Lrr1kF8HkVVTeWgvgfWWzCDrNLV0AlXmflm8grTskG
-   QDgn2YH1ckTQZb8TWcr7UDDxmUZTpdmMqO0mdQzhnr8hufLJZDC0r4mth
-   A==;
-X-CSE-ConnectionGUID: U//0w35hST2O03hGk5g/5A==
-X-CSE-MsgGUID: Tqmz2iRjSMGYZkQctUwYXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86116377"
+  bh=yOUQh/Qr8P8XqIix5oGN+qhabvQxrLR5JATDwg1qSaw=;
+  b=HSt48YOBxK4shti4845+4jscDna/teQg4FAnTnyHCsHbvYcHt6cpzWe9
+   Wihn3K0+QNO6GCTDxT8gZm2wOGziwXZ2025emTIjZrvbgh9KCxz8dlt7C
+   KnIK+dv3G36jlqx3KN3MIdCb/kwBDQq1N4fDBFXbK83URr1EXjy8wkN8Y
+   vMu+IdJxM8bOUpemYeJjDFbQmiEi6yuC2o9oHVd0a5L0b/1o576/Qtuhb
+   qqwywlf+16suyF3KjaD7m69Ah1jNN4iczPGAVlvXfyNEyp4NcuRshXG/b
+   KgaVkd0nGCr2aXUZ4OWdGQShGq7A6e4eRBIzfL4MaLNiTeHOl2YE9cB4C
+   w==;
+X-CSE-ConnectionGUID: x0sy35UCQry5erhJM+irZw==
+X-CSE-MsgGUID: LLVyNXqEQS61HaVTfGCnFQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86116389"
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86116377"
+   d="scan'208";a="86116389"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 14:14:03 -0700
-X-CSE-ConnectionGUID: REe93wI8QfGVVyM1f/5zkA==
-X-CSE-MsgGUID: JCzPACKwTgKixmtbe025Jw==
+X-CSE-ConnectionGUID: 2EqDeqCLSlSYjS+eULEVQA==
+X-CSE-MsgGUID: 3BQchCY/SRWvkrVajC8CCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227221175"
+   d="scan'208";a="227221178"
 Received: from estantil-desk.jf.intel.com ([10.166.241.24])
-  by orviesa003.jf.intel.com with ESMTP; 19 Mar 2026 14:14:02 -0700
+  by orviesa003.jf.intel.com with ESMTP; 19 Mar 2026 14:14:03 -0700
 From: Emil Tantilov <emil.s.tantilov@intel.com>
 To: intel-wired-lan@lists.osuosl.org
 Cc: netdev@vger.kernel.org,
@@ -61,9 +61,9 @@ Cc: netdev@vger.kernel.org,
 	boolli@google.com,
 	Emil Tantilov <emil.s.tantilov@intel.com>,
 	stable@vger.kernel.org
-Subject: [PATCH iwl-net v2 2/3] idpf: improve locking around idpf_vc_xn_push_free()
-Date: Thu, 19 Mar 2026 14:13:34 -0700
-Message-Id: <20260319211335.23236-3-emil.s.tantilov@intel.com>
+Subject: [PATCH iwl-net v2 3/3] idpf: set the payload size before calling the async handler
+Date: Thu, 19 Mar 2026 14:13:35 -0700
+Message-Id: <20260319211335.23236-4-emil.s.tantilov@intel.com>
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20260319211335.23236-1-emil.s.tantilov@intel.com>
 References: <20260319211335.23236-1-emil.s.tantilov@intel.com>
@@ -73,32 +73,34 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Protect the set_bit() operation for the free_xn bitmask in
-idpf_vc_xn_push_free(), to make the locking consistent with rest of the
-code and avoid potential races in that logic.
+Set the payload size before forwarding the reply to the async handler.
+Without this, xn->reply_sz will be 0 and idpf_mac_filter_async_handler()
+will never get past the size check.
 
 Fixes: 34c21fa894a1 ("idpf: implement virtchnl transaction manager")
 Cc: stable@vger.kernel.org
-Reported-by: Ray Zhang <sgzhang@google.com>
 Signed-off-by: Emil Tantilov <emil.s.tantilov@intel.com>
+Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Reviewed-by: Li Li <boolli@google.com>
 ---
- drivers/net/ethernet/intel/idpf/idpf_virtchnl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/net/ethernet/intel/idpf/idpf_virtchnl.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-index 582e0c8e9dc0..fbd5a15b015c 100644
+index fbd5a15b015c..be66f9b2e101 100644
 --- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
 +++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-@@ -402,7 +402,9 @@ static void idpf_vc_xn_push_free(struct idpf_vc_xn_manager *vcxn_mngr,
- 				 struct idpf_vc_xn *xn)
- {
- 	idpf_vc_xn_release_bufs(xn);
-+	spin_lock_bh(&vcxn_mngr->xn_bm_lock);
- 	set_bit(xn->idx, vcxn_mngr->free_xn_bm);
-+	spin_unlock_bh(&vcxn_mngr->xn_bm_lock);
- }
- 
- /**
+@@ -615,6 +615,10 @@ idpf_vc_xn_forward_reply(struct idpf_adapter *adapter,
+ 		err = -ENXIO;
+ 		goto out_unlock;
+ 	case IDPF_VC_XN_ASYNC:
++		/* Set reply_sz from the actual payload so that async_handler
++		 * can evaluate the response.
++		 */
++		xn->reply_sz = ctlq_msg->data_len;
+ 		err = idpf_vc_xn_forward_async(adapter, xn, ctlq_msg);
+ 		idpf_vc_xn_unlock(xn);
+ 		return err;
 -- 
 2.37.3
 
