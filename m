@@ -1,106 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE1A40243C
-	for <linux-rt-devel@lists.linux.dev>; Thu, 19 Mar 2026 21:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F50B1C5F1B;
+	Fri, 20 Mar 2026 00:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773954854; cv=none; b=AIL6Au6juZ7CgNFttj0bjiYoe3ATGJvWPGnLxR+/BevUvXVYFrDs5OFCp2tmNn3vhcmxr6APlVya8hvofjzKsrUt4GPPYjW+tkplEMnFrmwXbf1PnxcgRBGZfgE3hvKjybSUAq1R/FnJW7P6cmloRW8PHZKlC/1RRFPS5lbbw18=
+	t=1773966614; cv=none; b=KnB1Z140E7O4n+bXCfiXc7z9NckLz3PiSeV9nLJwih+00yOzLcxXZ8JFBxbeBQN6kxCmaCsJEyCQNju+s/QlYwrh/6DzaWunxmQLgEbkgZVa1DZwsKY+i0H2s17DBZnIE3yISsSlnM4Da86T2SXljfxhpemlbRBGJaTOS8Kg9SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773954854; c=relaxed/simple;
-	bh=yOUQh/Qr8P8XqIix5oGN+qhabvQxrLR5JATDwg1qSaw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=VOVhm2tw/qSzWyWGNiNaIHcJuAVJzU+PVDevNyX19ic2pZkQoSYRLpeaGj0k/zswtHreXRZ140P3lEZSuWOs+WarBnYVe/7BUdS0SN4P8WNqUt326vdpiExLmDyyalt3pFnIfHxpIW9pngqV7UYrRGSANHAh82xjy6/WTOKUgX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HSt48YOB; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773966614; c=relaxed/simple;
+	bh=kpfpj64bfM+xSIQedze0EmZ0FtannRKTbiQm8gIuVSo=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Y0wKdF+1ZFzO3EBP8QJIarrtndV8u2/n/Eor3Dbm6zgZqp8vRfT2pycZjAO5l03WfDl/P0kAmLRc2e5jenAFwndanpEmdUKh/F1os13V4MkktgvP7e25xn9lsnOnx9ASPGe1MVsHgeJvsf/2XmZ4UvLKF3OiHdclVtM2lS9qtVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s0Ptrf5W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HSt48YOB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773954850; x=1805490850;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=yOUQh/Qr8P8XqIix5oGN+qhabvQxrLR5JATDwg1qSaw=;
-  b=HSt48YOBxK4shti4845+4jscDna/teQg4FAnTnyHCsHbvYcHt6cpzWe9
-   Wihn3K0+QNO6GCTDxT8gZm2wOGziwXZ2025emTIjZrvbgh9KCxz8dlt7C
-   KnIK+dv3G36jlqx3KN3MIdCb/kwBDQq1N4fDBFXbK83URr1EXjy8wkN8Y
-   vMu+IdJxM8bOUpemYeJjDFbQmiEi6yuC2o9oHVd0a5L0b/1o576/Qtuhb
-   qqwywlf+16suyF3KjaD7m69Ah1jNN4iczPGAVlvXfyNEyp4NcuRshXG/b
-   KgaVkd0nGCr2aXUZ4OWdGQShGq7A6e4eRBIzfL4MaLNiTeHOl2YE9cB4C
-   w==;
-X-CSE-ConnectionGUID: x0sy35UCQry5erhJM+irZw==
-X-CSE-MsgGUID: LLVyNXqEQS61HaVTfGCnFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="86116389"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="86116389"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 14:14:03 -0700
-X-CSE-ConnectionGUID: 2EqDeqCLSlSYjS+eULEVQA==
-X-CSE-MsgGUID: 3BQchCY/SRWvkrVajC8CCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227221178"
-Received: from estantil-desk.jf.intel.com ([10.166.241.24])
-  by orviesa003.jf.intel.com with ESMTP; 19 Mar 2026 14:14:03 -0700
-From: Emil Tantilov <emil.s.tantilov@intel.com>
-To: intel-wired-lan@lists.osuosl.org
-Cc: netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com,
-	aleksandr.loktionov@intel.com,
-	przemyslaw.kitszel@intel.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	linux-rt-devel@lists.linux.dev,
-	sgzhang@google.com,
-	boolli@google.com,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	stable@vger.kernel.org
-Subject: [PATCH iwl-net v2 3/3] idpf: set the payload size before calling the async handler
-Date: Thu, 19 Mar 2026 14:13:35 -0700
-Message-Id: <20260319211335.23236-4-emil.s.tantilov@intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20260319211335.23236-1-emil.s.tantilov@intel.com>
-References: <20260319211335.23236-1-emil.s.tantilov@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s0Ptrf5W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18EEAC19424;
+	Fri, 20 Mar 2026 00:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773966614;
+	bh=kpfpj64bfM+xSIQedze0EmZ0FtannRKTbiQm8gIuVSo=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=s0Ptrf5WkeD/wMzqs13tYnSFClyFqgs/spOQH6LkOvnkFMGEYQAE5BP9kbBXz4vih
+	 Rb6jDmZPgbSseAKXZGICGElwpykscK5+ATGn/HFzEiYmhR7nCdqWeMR0s/GfBzN/xk
+	 bMZjh/itZDr9b7vhZ1NPr1olEjFRdC9QUyrCt1hwCeJQ9xNpFwmMXyLy0N8dn4z/f2
+	 DxN/BmJ7aEaqf+qn4pmZJ0eL8Nxul+VrcWHaQK64yX+QDU+O+c9xJTUdIuedwglqWq
+	 +U8OmHsIbiJLz8z6QEXUiOaBuknY9RQxra6ZZTuXXO4DxWgdy75E4PYoV7Jq9BpTLo
+	 Hpcw0UWOq1jOQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02D0339302F6;
+	Fri, 20 Mar 2026 00:30:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: openvswitch: Avoid releasing netdev before
+ teardown
+ completes
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177396660480.1861152.8680277135332409815.git-patchwork-notify@kernel.org>
+Date: Fri, 20 Mar 2026 00:30:04 +0000
+References: <20260318155554.1133405-1-toke@redhat.com>
+In-Reply-To: <20260318155554.1133405-1-toke@redhat.com>
+To: =?utf-8?b?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2VuIDx0b2tlQHJlZGhhdC5jb20+?=@aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org
+Cc: aconole@redhat.com, echaudro@redhat.com, i.maximets@ovn.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ pabeni@redhat.com, mhou@redhat.com, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, horms@kernel.org, netdev@vger.kernel.org,
+ dev@openvswitch.org, linux-rt-devel@lists.linux.dev
 
-Set the payload size before forwarding the reply to the async handler.
-Without this, xn->reply_sz will be 0 and idpf_mac_filter_async_handler()
-will never get past the size check.
+Hello:
 
-Fixes: 34c21fa894a1 ("idpf: implement virtchnl transaction manager")
-Cc: stable@vger.kernel.org
-Signed-off-by: Emil Tantilov <emil.s.tantilov@intel.com>
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-Reviewed-by: Li Li <boolli@google.com>
----
- drivers/net/ethernet/intel/idpf/idpf_virtchnl.c | 4 ++++
- 1 file changed, 4 insertions(+)
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-index fbd5a15b015c..be66f9b2e101 100644
---- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-+++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
-@@ -615,6 +615,10 @@ idpf_vc_xn_forward_reply(struct idpf_adapter *adapter,
- 		err = -ENXIO;
- 		goto out_unlock;
- 	case IDPF_VC_XN_ASYNC:
-+		/* Set reply_sz from the actual payload so that async_handler
-+		 * can evaluate the response.
-+		 */
-+		xn->reply_sz = ctlq_msg->data_len;
- 		err = idpf_vc_xn_forward_async(adapter, xn, ctlq_msg);
- 		idpf_vc_xn_unlock(xn);
- 		return err;
+On Wed, 18 Mar 2026 16:55:51 +0100 you wrote:
+> The patch cited in the Fixes tag below changed the teardown code for
+> OVS ports to no longer unconditionally take the RTNL. After this change,
+> the netdev_destroy() callback can proceed immediately to the call_rcu()
+> invocation if the IFF_OVS_DATAPATH flag is already cleared on the
+> netdev.
+> 
+> The ovs_netdev_detach_dev() function clears the flag before completing
+> the unregistration, and if it gets preempted after clearing the flag (as
+> can happen on an -rt kernel), netdev_destroy() can complete and the
+> device can be freed before the unregistration completes. This leads to a
+> splat like:
+> 
+> [...]
+
+Here is the summary with links:
+  - [net] net: openvswitch: Avoid releasing netdev before teardown completes
+    https://git.kernel.org/netdev/net/c/7c770dadfda5
+
+You are awesome, thank you!
 -- 
-2.37.3
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
