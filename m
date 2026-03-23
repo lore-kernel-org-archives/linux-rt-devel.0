@@ -1,208 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860C53B0ACC
-	for <linux-rt-devel@lists.linux.dev>; Mon, 23 Mar 2026 16:20:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774282831; cv=fail; b=sDUYaAdJVvViAQeqtaHWCt5go4L64Uml22X5cAKRH2AqNipzwOt0iDC8PPaezgSl65UJ5+6DClPob+fjDimAmRh//UQn/D0kMWCRV3Ved+MVmtfG3/emGlp2CDDTIrhnEClHOSt3TKWqp0sUKdxNYOqb9XbjLPZtG/L8iTqJn8w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774282831; c=relaxed/simple;
-	bh=rnrxJxXbTWVvsM5vJF8qezmcDw9yTPyFQX2/Rj53B44=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Zpgbi7YeBjx5WnwqXfGwQfvy29eMYLRZh6kRVqG4ukYoSsf2H9j4bqWNtCcMHd7mPbXZsBET/37J4MiMAmayGYfjF9DKnTUEy5A6shLTtX0wTKgUH51CHHJCA3Hy+PR3E7gBmchiP0wB3ZQK/92poLNrdG3qfrv0WDmbeIWjIOg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dCcCpght; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dCcCpght"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774282831; x=1805818831;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=rnrxJxXbTWVvsM5vJF8qezmcDw9yTPyFQX2/Rj53B44=;
-  b=dCcCpghtR33QH3/UaAJjPINobMS/4REzHRqiWjdE9EK+XFpv6WHRTyWf
-   zx2KwDf76cyIJ1ZjLUhElZNMqNSG1lDJgZ/S79Rj8jeBPoVrRaNbg8J92
-   +uhg+bc8H5r49rpmUvppMMfVAWxuAB+M5KM561f5syItaPkgAc3MQkzh6
-   FLUgfy4R0otjT0PeHxbIweV3AAWGmcb8VI5FuOQeEuEslX71w16x2C9PW
-   NlvF8i/4kqVge+SG5eV/kzOHeiUNfhqu3v3jZNGjQhIHCh0WN/fN74TIj
-   3Z+Qh2K3uxh5aAHxGKIs9Z0S46s5jSBCBAf9hjBOnBgMnNzkleMqjppPL
-   w==;
-X-CSE-ConnectionGUID: uXfpUQflQdeH8RSNQIJaHQ==
-X-CSE-MsgGUID: JPH8spVzSqWrExBeQeD6bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="100738023"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="100738023"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 09:20:30 -0700
-X-CSE-ConnectionGUID: Ws7wX1igR0So2NF2VHL7DA==
-X-CSE-MsgGUID: lGJVUn/1Sv2lu6+RUSFgqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="247814201"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 09:20:30 -0700
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 23 Mar 2026 09:20:26 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 23 Mar 2026 09:20:26 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.64) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 23 Mar 2026 09:20:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I9u0VKe6uu/6Cyg1UJMVqvmUUH/NK7o1WTICBOkJo87TZJtDCdEtSbMlYGHls2zNrzNb4dBxGqE6w30IRfx2xw2z64yEtUnJRocZg6xw0Lb53J6D+PEI0+QNXmPiEiNF6tnoW29U3Ehje2p24Ui75gGuJgmg2Hn/6BFTH3ZHdGxYuEsbzEdlly7aTeMIWVtaQ77z705T/253CISc4gTJr81foFWvBc5cBzzZhr/Ctv56RqJtUDkp0fCtTWWlTztlHMrVRsmDH/cXeqUMbAwOu35l+oe05J2WqObwoDrAUyXjTWRghX19vnBfPrKESLQIVDEpAfSZKtK1QklYnMQXDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SpkdRX1ObY7evf0xpqvsQGg/tR40AvJBBlTtT9QGL70=;
- b=UfrsBB2jPwR6EO/aLMicLeupq2eNhETeTdY7vuW2JnXyE8c9HyGDORJRijC96iG2QkIE5lGxMWw+e2PFoVDGfmnS9L754FYfoqgE5e6rifdjUIsHd8SCozK3HZ2xapK2J1dde070hnZ2xX6sR+8G/U2x54NhkyCGE2TX6i6CRxGA5X/4sr8O74e8zn0fgZ5fmvUc3uqnZHYzSfkoNbaYDfn57Haa9uJNH5kVNEpNyQP7tc0a1q6ScPJTX9oGDXtcuV+nQBebN4DkB35Yh6CO/e/bPzwjRdIh/londZEglIHoDkUi5iOXH+mV6AUdNpGLGvlNaxwSA/NsyF4qJDVk/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH0PR11MB8168.namprd11.prod.outlook.com (2603:10b6:610:186::20)
- by MW5PR11MB5860.namprd11.prod.outlook.com (2603:10b6:303:19f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Mon, 23 Mar
- 2026 16:20:24 +0000
-Received: from CH0PR11MB8168.namprd11.prod.outlook.com
- ([fe80::9549:c8e9:6748:12ee]) by CH0PR11MB8168.namprd11.prod.outlook.com
- ([fe80::9549:c8e9:6748:12ee%5]) with mapi id 15.20.9745.019; Mon, 23 Mar 2026
- 16:20:23 +0000
-Message-ID: <6c1cc71d-0b3e-4edf-84b5-a4bac52de4dd@intel.com>
-Date: Mon, 23 Mar 2026 09:20:21 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH iwl-net v2 2/3] idpf: improve locking around
- idpf_vc_xn_push_free()
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: <intel-wired-lan@lists.osuosl.org>, <netdev@vger.kernel.org>,
-	<anthony.l.nguyen@intel.com>, <aleksandr.loktionov@intel.com>,
-	<przemyslaw.kitszel@intel.com>, <andrew+netdev@lunn.ch>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <clrkwllms@kernel.org>, <rostedt@goodmis.org>,
-	<linux-rt-devel@lists.linux.dev>, <sgzhang@google.com>, <boolli@google.com>,
-	<stable@vger.kernel.org>
-References: <20260319211335.23236-1-emil.s.tantilov@intel.com>
- <20260319211335.23236-3-emil.s.tantilov@intel.com>
- <20260320074245.f8dPuv4j@linutronix.de>
-Content-Language: en-US
-From: "Tantilov, Emil S" <emil.s.tantilov@intel.com>
-In-Reply-To: <20260320074245.f8dPuv4j@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0162.namprd04.prod.outlook.com
- (2603:10b6:303:85::17) To CH0PR11MB8168.namprd11.prod.outlook.com
- (2603:10b6:610:186::20)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37099348452;
+	Mon, 23 Mar 2026 20:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774297568; cv=none; b=FAzaZTrzrM4LPNjbJQQclUw7y2Tb+UXO5y2kNfIMrm5sJX3ZF+yxQr94YZvSXo5CblYAzyrKHhfAaZ6twAgPLtoV7aNzchZg6204dgGP4IUh9czFEqqQxqthaiSb0H1AJkRtkYBt7oim6U0v1oXyL0zsXHID6JP+vDHAfvaTTIU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774297568; c=relaxed/simple;
+	bh=5Sp63JReJLZTZJuTwtijwpBpoSJpQfr3461ngWL4Ye4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzFakXjvkwhuwTDCig5Mg1luS0RvijB204hJ3td9R4bEImRxnWSxZcgz/RxrEnv0+IAJvzjyHwNYQU7eloCs8rgz0YH1srYcFnUw+iXXyc9yIJg5lJutP4UF8paSspiKM/BZSN/oVHw4LkK0Njak74SE3Q8YvjX6p9B1Ul6MI0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADBA0C4CEF7;
+	Mon, 23 Mar 2026 20:26:07 +0000 (UTC)
+Date: Mon, 23 Mar 2026 15:26:06 -0500
+From: Clark Williams <clark.williams@gmail.com>
+To: "Moritz KLAMMLER (FERCHAU)" <Moritz.Klammler@ferchau.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: AW: Possible PREEMPT_RT live-lock / priority-inversion between
+ FUTEX_CMP_REQUEUE_PI and FUTEX_WAIT_REQUEUE_PI
+Message-ID: <acGh3pAAS5Ju6l0Y@demetrius>
+References: <VE1PR06MB6894BE61C173D802365BE19DFF4CA@VE1PR06MB6894.eurprd06.prod.outlook.com>
+ <20260323133034.vk87xPj9@linutronix.de>
+ <PR3PR06MB68891F0E8CF17A4260D46EE8FF4BA@PR3PR06MB6889.eurprd06.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH0PR11MB8168:EE_|MW5PR11MB5860:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4431cca3-ae57-4109-44a7-08de88f81586
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: RRZIcCI6aPI+MNBP51hk++Ul5BGceGS2DfDhd0bZJfQyGwzCTpR9PhJ366ZpqhcVyYy80sG0fa7bv6CFftNq0l4+5UNu3C7MRpWEhQtoX3vAxxRKQFBtLnn/VOehpT/fHIFhDEUySsj1+mj1omy0A1Kd68l2RO8tIQsbT0wL86XW+b3/pyL0KY3rLcPs7Ci2HGK8xTnXKFh6XZZ+HZK9FboX6kxuqvTA+IyGNZhI2N6F/cQmVr0R0NkAuu+xOXUkZkDdHwFsNY9RWrLkHtts/lenSMDiCDbFx4430RgoREyPCJYJW7Yx0d3QVjNtfmHWBwAX4MMhCpRALFTaxuUMNWocLtazFzQs05enDME4QWaK8w16sS6ftjL1Cyub2lTEo15X1OlWQRn4w+ttx5jM4ytPlCZW+7Ax81w7RANCRI7DDEuaMW+qzpqy5qgLFS4gG55/qyS6RF+Gb48bDrPjxsg5ApxpUEbsllt7AILGapeZvoOYSkyLKyB1DgK19NTDfdsx2bxbzfikK7ejpgHkjDHWCZwO1Aw8xzT+tfwqRkfl/s8wGjdR2Ioa25rHsdgopTSNlzcxnptuXjYBexDoDGMcuWuGgE4/VrdRXEZDCCEWchM7TxJSOFkABSuMoYE2uBWeVy/0X2quz7q5UfllEp/qC+aMwqGUHUN10FWas0laEUsHZ/UDGfqHUffGX8d73+LLhyEy4hKkR5w8vGteFOrAIVFm8QCdXaIb7SBtOpw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR11MB8168.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z0QvckJhYVFhdFdJd0YreDdhVjhPMWJUMGIyNy9jdFRjT24vcm1Qb0hXUi96?=
- =?utf-8?B?MVJhcmZHZ1d5RHNmTjV5YzFGNWI2bDhEWjJwL09peGhIMGM0Z0Q4NWNwckt4?=
- =?utf-8?B?YWdZOFdqK29xb2I3YVEvb0N0MnF0UU1WSFhValdZK0Y3TFM3eXlwRG11elN1?=
- =?utf-8?B?aFJBSkJGdEIrcVlZY1dXczhYWElCUjdGYUsyYlowdHkwaHljVVQrZ001d2Zk?=
- =?utf-8?B?TWVnQmFYTi9HV1JsV0U5UzgycFg0dE56dFhweFdpZXkrZ0ZSNyt1MEwyYVdU?=
- =?utf-8?B?Zk0rVFNsc0g5V2RXVTUwb2FhSTZHaEFYdXRMMm5QMjladjR6ZEJzazNVbDhj?=
- =?utf-8?B?VWVqakFRdXJjeStOckRNV2lWeGhJVlk2Y0l5Qi9KdzByelcyU2VzUjh4dkVo?=
- =?utf-8?B?WnlFeExqVWxsSXdaZTV2Y3RQcjgvMmNXVnk3Ty9WLytscEFXNmdKd2ZKejRi?=
- =?utf-8?B?YkNKVGMvNEJuQTdCL3dNVStGL2N0QzNJd3RvQlFnbGZrOUtsWG1PcHZUMHlG?=
- =?utf-8?B?VzdQVHp1ZW45bkc5QkJrdG9ZSWJhajh5amxWVjlUZkhlZzNLNmdDQm1zZmhG?=
- =?utf-8?B?QnhocE5Mc0pkb0JaM0RBbkpkRE13b3R6U0hGSGJITUtic2EvWm1RWUs0UDVN?=
- =?utf-8?B?d1VHMGk5NVdBOFc2Um1EdzViVXZOcmFDQ3VRaVNPV3dhWmtMenhWTVJNY1ZZ?=
- =?utf-8?B?S3p5aWs2SzJqdmpiSWZCSkJ3dldCbmJzQTBDNStQUUZ4Yk5qVzd5VXArNDk1?=
- =?utf-8?B?bmZlYzlRdTEzOVhCZUZyRzdDQ0FSVTFld3czRXQ4Uy9tbkNHdUFIRmFzRkhn?=
- =?utf-8?B?S0NzUW82RWZVUktNMlVmZjZkNUlNZ1lNWVNmcm5CclNTbmxsMHduTXVlc0tJ?=
- =?utf-8?B?WHZYbHlKUU8vT3Jkd2RzZUZwWTlaM0tnMEl3TXdrM3NHNVRuZVZRSlluem11?=
- =?utf-8?B?a0ZmZHF5MjBYMXpJM1krQzdudkxBWFdHSm5HOGdjM1RUMFhMQzdBUGp6elEx?=
- =?utf-8?B?RGdJOENBcVg1dndPQUF2OTM0bURDR1d1bDhGNElrU09NYUhQNllnV0RTK2NJ?=
- =?utf-8?B?NE4wNFVOZ0JodTgzWHc2Q0VYY3VObk1OckZEVklkdEVwU0UwdzUrUldhVW1a?=
- =?utf-8?B?dWJ4Z0tXZ0J0a3ZDeStNdHI3cEMwTHNqR0xjZnlwTG9oTXNGZXBUNmRwZ3B4?=
- =?utf-8?B?UFJoTk8ydThqdzBXc25PRHFmbkh6cE92b2pYbm1TVWJ1ZXRVWU5qKzhaZTQv?=
- =?utf-8?B?aWhzWlBpZHh6UlRrdHVKZGgyaHdPdzBERkhLOHBTRUFQT2tnV2tVT29obk9I?=
- =?utf-8?B?RHJmZXc4K3ozNUdIVVZkQ1RQV3pPL1JPTWtEVzdXYi81WExKVnE3cnRlQXhZ?=
- =?utf-8?B?alZiZS9nQlpWTjRmS2l2SXJKL0R4ZXNjR29tSGlaYjIxRUR2enRpNW5RVlFV?=
- =?utf-8?B?YVQwVU83aHU0Qml4Zy9oeHU2VHBJY2ZvSnhselI2UlA5Y3dxcm5RZ3pFZHVK?=
- =?utf-8?B?QXVlNnErdmQ3TmFzTFdBRmszTDRjL3VhZEZSSVdTM0Y2dGNvcnRpa2toK3U3?=
- =?utf-8?B?SjFHYTVSVSs1V3hsV0J1ZVFLVUl1M1lTRzlHV29tZ0xmcFhXOGtmVUNkTjZZ?=
- =?utf-8?B?cXAwQjMvdE5Ba0VydncrVDJWRWJZa0xQQXNkSnlCdFo5RGdnVTR0eklaTzRZ?=
- =?utf-8?B?UlJzQ1BLL3hDM0c5TWFyOHFCdGdVaXhFNUdiaXJSOWtzbzdrR1dKaW9WQzZU?=
- =?utf-8?B?WU8xdTdxbGowTDJuUlhZZTNlVnBDb3lUeGsySEZSSHBiM1QxVHJQT2YySC9Z?=
- =?utf-8?B?MkFSZVI0MWYxK0ppd1RDYkdLTW50RlJ2UXlIWFpvcDRkRVU2eUVPeDgzQlRv?=
- =?utf-8?B?VWF4MXRwS2ZwYkd0U3B6UndWckJQMTRreGhLZTc3Ti9HWStsY0lrSTVzRUdh?=
- =?utf-8?B?dFUxekpiTjR0bjAxOTF3RGlPekh4U0lFU3JxK2paVVBlZHBFWm1PVUt1OXMv?=
- =?utf-8?B?dVA2UDNYaktqVzJLOVI4dTVjRnNkcjFOQWNNMXpqdlcxbnZpQ2xvSEMvdit0?=
- =?utf-8?B?WU1tQ1JEL0JvNlRITzV4NVVwS251QTNVRjR2dGNCK21ONEs4T3BZa25YTm5H?=
- =?utf-8?B?TUpyek44T1NINXZRZkk0MmQ2UVBSYWVSd1BGNFpobnhEYXVpQXBoWFlWWFlJ?=
- =?utf-8?B?b2tuVXljTXJFUGMxNW1sY1h4RDB3UlRwOFE1Mlc3eVBlRGczNjhmcnJQV1Mz?=
- =?utf-8?B?NElvaWh2QVB0Q0JnYmtOV3JKcFU2L1VGWWR5ZUhIcmRzZno4alVycHdQUTEw?=
- =?utf-8?B?bkMrR0FMV2dLa1JwWlQxaE9McXZzbmJobTB2alRJckhxU3p3MWFLQnJibHZh?=
- =?utf-8?Q?a88GD/ObRBpJ2ghY=3D?=
-X-Exchange-RoutingPolicyChecked: eYkg1HRVzuxQ4GQZqnNv03Z53CqUiFvjycajp1WA+f3htp9PAiZxb3nY414EL7a8StYHQ72RMc24eFy2Q75sVBMWp8/9Ux0IRAK7FwGEoNgwEnYTe+fAUqI20qLthI9BpDwlWhzZYhF1rpbX0DthwC9g6AGgx7EVC4AYhKwg4277TpZdGv9HKLwHUhot2ciJqVDk45zCYDRN5eq9jS8yycJJBiM+cXtRZ6ioIR8RLDZD5xUdzDSe/FyTOcKKCSBUFU2q9FA26jQBweD5Vc36vxqmYE1RlYAhsEYK9ENYqtvfBo39BJWej52i7gdy7eziQhHC4UgaFlqCnZV8QWySjQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4431cca3-ae57-4109-44a7-08de88f81586
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR11MB8168.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 16:20:23.2295
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TRLFEiCapSKBYUa4PmaFBR+u5Xcneu4o4JDpwhOUgG6VowfTMKsopkqZpvbb2UjugjidFLTnGhqrGYE1ZAvU6gG5zte6Y/Pdhgu+ywQtrg4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5860
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PR3PR06MB68891F0E8CF17A4260D46EE8FF4BA@PR3PR06MB6889.eurprd06.prod.outlook.com>
 
-
-
-On 3/20/2026 12:42 AM, Sebastian Andrzej Siewior wrote:
-> On 2026-03-19 14:13:34 [-0700], Emil Tantilov wrote:
->>   drivers/net/ethernet/intel/idpf/idpf_virtchnl.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
->> index 582e0c8e9dc0..fbd5a15b015c 100644
->> --- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
->> +++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
->> @@ -402,7 +402,9 @@ static void idpf_vc_xn_push_free(struct idpf_vc_xn_manager *vcxn_mngr,
->>   				 struct idpf_vc_xn *xn)
->>   {
->>   	idpf_vc_xn_release_bufs(xn);
->> +	spin_lock_bh(&vcxn_mngr->xn_bm_lock);
->>   	set_bit(xn->idx, vcxn_mngr->free_xn_bm);
+On Mon, Mar 23, 2026 at 04:12:24PM +0000, Moritz KLAMMLER (FERCHAU) wrote:
 > 
-> If all of your bit manipulations happen under the same lock you could
-> replace atomic set_bit()/ clear_bit() with their non-atomic counter
-> parts __set_bit()/ __clear_bit().
+> >> we're running Linux 6.6 with PREEMPT_RT on a single-core armv7l machine
+> > v6.6.109+?
+> 
+> Yes, 6.6.122 to be precise.
+> 
 
-We have taken similar approach in the refactor/move to libie:
-https://lore.kernel.org/netdev/20251117134912.18566-7-larysa.zaremba@intel.com/
+Moritz,
+
+Just to satisfy my curiosity, are you running my stable v6.6-rt kernels
+or rolling your own? (Not that it would affect this bug at all, since my
+tree has the same issue). 
 
 Thanks,
-Emil
+Clark
 
-> 
-> The lockless alternative would be find_first_bit() +
-> test_and_set_bit() loop. Probably another atomic op for salt. Using the
-> __ is free with this change.
-> 
->> +	spin_unlock_bh(&vcxn_mngr->xn_bm_lock);
->>   }
-> 
-> Sebastian
-
+-- 
+The United States Coast Guard
+Ruining Natural Selection since 1790
