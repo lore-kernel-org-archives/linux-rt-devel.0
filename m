@@ -1,238 +1,143 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF971F4615
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 05:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76BC3B893B;
+	Wed, 25 Mar 2026 10:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774415975; cv=none; b=NdP3w3jQuHzeCgK9ZFa4qQa0V+xW0p9IJUeos7xm9Ws1iLJWbbNhy4NMVYQLPmb1vqBQoFEhJp3BZesB7yfLejk+y8gOueuuOJEz2vDvGeX5EeSPNOnM2DhsoPEI1dhcJ0EeUVnF3aYWGfwGB2jln/fzXPtMrhnuA9cZlhIiYTU=
+	t=1774434826; cv=none; b=sC4+V3eUgRALXWRsT/Mg7W3pJr9LRE4jQU9enfr0dhSRP9QaOoPvoXhCRA3iMvNQdpiDi4R4ONFmAAJT5Ax+EDoNOD0OhtNwehUcnEQLxeulFcLbqKl9hZNebk6X7x+/O4uqV6tyBsM2CS4IS5aYqz6bWepuyL1gEXzJFLSAYpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774415975; c=relaxed/simple;
-	bh=bEt1AYgfM9UBslLunNjznIM4Ki6cn7g2O1ogCW1PRoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BGHx78F7SgvVM+aVWMrxqwfCUZKhhgUtn9YOWFnl7bSoKLbsBTXaAi5ec3smo0vv6vcMLC/wolG3kqPwhxgZWuMEdbLosoQ/cjsUNYwYuGBN2+OOa1AdgTNu3/aL44q5Jrgea8IpC62PBmvmlgYKIAUqBNEn3SGoA2pnw7rxLVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OEPdpn9x; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774434826; c=relaxed/simple;
+	bh=aJiJufwALZTrMErym90lg9xadYFrtwTh9zLM612wdfU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=izvZ5uGt/141mDroqVgEWmmo3ckrTrrhH9zQMgYWQwNPkp5xP+r1Yu6Tbv/AKVQ/UKLalP0N2K3bY3vNQY04Uo/S/x0J7isRmTdtEpkfm3nQ2MgVW0aHH+bK04y1AZBSG5YdPfbL+KcUpProsDO0jcTL/qoq/lWVfAu5h9/zRMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IQ7wamBu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OEPdpn9x"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b0603ee486so14325185ad.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Mar 2026 22:19:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774415973; x=1775020773; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iqy+w6sTastVCRcE15RxXg8vVmEuKZ1PwWM3V+SQr/k=;
-        b=OEPdpn9xFh7YZ9/HvCoZRkMQ4wwVwuzVq+MIk33RV+zuu3FA1RokytZED3+uk/kcv+
-         mvfXgAMr0TuMNqkTusMXUQYowvMc1HcCpP9H58wiKVwR7P658eEevL1z162htPsmgzuJ
-         mbfYdg5SEEjq+LjJ14AIUg7fNQw2/5BTSIfyEjKzGvU6SXG4HuZQXV53Ud351Q0s2UHz
-         VohST3O+PyOOjVutaPY/IpbW9RaTHmoBDSMkqvJHZnxLkO5z84mp11cUIoCilx6sjTzN
-         zZbvYLwsKY2IiSh59xecLzhIgZkHedoU4/0MUTVCsIx0FdxSJOXWVilcnXzECRCjQ4BM
-         1uQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774415973; x=1775020773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iqy+w6sTastVCRcE15RxXg8vVmEuKZ1PwWM3V+SQr/k=;
-        b=BSfOmPmvkW8oenEFeUS5WMqVUwcUC0DFO0WsEsb96VX5tvJsyV863f/iNhfzIkBffx
-         N6vInelue55BxlimGZgTcYbeaITL9ukVh5fzMaA2XzZc3S4v0M2kXHQhZbNpOjSfhOGN
-         5vDtPvaGltSD30GatXl3W7aZEozvBl3gh/e5G0DrMFK9mJLuvC3Duxn7tjlg3mySwN3M
-         B8xCgEOnj45MIf1j8a7RKV06j5U+ObKJ/Mey4QBU18oWgy7COnar/CHdyVBie+C8ownO
-         ep+eW+hbOeceGQqtyHKxTslSmgTYEcw3G8zjOhhJrnyLxfI8xlnGO9HTrM2qB7lm2yrz
-         61NA==
-X-Forwarded-Encrypted: i=1; AJvYcCXU5NkjkoQ/bVNvDIInLxrsLY9WO76Bzd2vcX11sOZwMQtd9MGw5uyMNBknBqJv9BYIugm3GfKoBssjRvvNPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGGUploos5WADLLhNpquI0JNbYjlx5/UnYQ3XSvt9rv6uUuOul
-	f+fssV9FdGnNoiAB2z0zyEgFTMNw2GJQ0qNiVCMznm42IYYciZFdOVM6
-X-Gm-Gg: ATEYQzzzcXt2HG9AS8euoFV/hGbzmvxuraBk3YB35nOhGJxrZmey8W2fh8qGfj2t4sm
-	kHHoWqzRpvTlJjTiM4RLxpbXpCr9s7W35w3YpTaEH6eX3NqlQfQUFaJKaCiH7llbpEDLgvObonS
-	HXP/yU5sx7ZWbQEj1HqHMjroxgcPHSMbmJJfHXo0KjCiHfVyTRuNGl/jhRtW0IBnDB9uRxU0xwn
-	4zLa0cUeE08qegV5evYSd09iBtuGjWxR4w4Q3HQl9FRlKyjdCmdJFxAKS42zJf3/+0LZve7YW9a
-	tXZSL0am/bwaijqVBeghDHvdjYZ+qtRNTq/tZ351xe7NlyOQgrVuhHReSyVILQZaaVuNtBaWLhw
-	/LE7fzShfX16Q8yQK+INvKh5jYGCSkj16rP5cddTfuO+fNPv02RW7zhw/JVERT1AB2GAST5RPoB
-	Md276AElMfTGNx4rNLHd5r9JKv
-X-Received: by 2002:a17:903:8c6:b0:2b0:af2f:b25d with SMTP id d9443c01a7336-2b0b0a47a18mr26044955ad.22.1774415973199;
-        Tue, 24 Mar 2026 22:19:33 -0700 (PDT)
-Received: from localhost ([115.96.19.77])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08351675esm213975185ad.14.2026.03.24.22.19.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 22:19:32 -0700 (PDT)
-Date: Wed, 25 Mar 2026 10:49:30 +0530
-From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, skhan@linuxfoundation.org,
-	me@brighamcampbell.com
-Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
- for non-blocking invalidations
-Message-ID: <acNwYsm4GfViqiJS@acer-nitro-anv15-41>
-References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
- <20260211120944.-eZhmdo7@linutronix.de>
- <aYyhfvC_2s000P7H@google.com>
- <aactOOfirdVRYfNS@acer-nitro-anv15-41>
- <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
- <abMS7MALNrmluvh5@acer-nitro-anv15-41>
- <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IQ7wamBu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45D04C4CEF7;
+	Wed, 25 Mar 2026 10:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774434826;
+	bh=aJiJufwALZTrMErym90lg9xadYFrtwTh9zLM612wdfU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IQ7wamBuBswIV06YMQ512/86FaeSJDO1hVJmHF15aa7lwqSBhYRoh2/xQs7mCuMVn
+	 jIZx2QfPrLjG8x4HGTqwuohoFEss2YApWTN6VCPS6cZhs/Cz8meOXIe/nuz3nW3OfQ
+	 sW0aKsRm2pkCRj3Tz0xlGVf6Gag2qK2q2BHc6gd5m/lWaXyDpvlRC/a6o2Y0gsRKbw
+	 RfK3wED0pdnN0Lx0xk8dNqAWio6aPnfaaxOQ/5BjXGXYBkYeT67KblOmgVEwNZOcNA
+	 F7WJV99ADDvaoAhrnEG8aPpXAxBYDzixJeHIYfU0n1hRsq0hJGFAKTXaXIvu5adZgH
+	 fldf6DCQY3dFg==
+Message-ID: <965fe446-8f91-48bf-9453-878fef4eb1d0@kernel.org>
+Date: Wed, 25 Mar 2026 11:33:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] scripts: kconfig: merge_config.sh: use POSIX '=' in
+ test
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
+ Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>,
+ Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
+ Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
+ Lorenzo Pieralisi <lpieralisi@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
+ Gregory CLEMENT <gregory.clement@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+ Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>,
+ Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ "Rob Herring (Arm)" <robh@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Anna Schumaker <anna.schumaker@oracle.com>,
+ Alexandre Gonzalo <alexandre.gonzalo@arm.com>, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+ imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+ linux-parisc@vger.kernel.org, openbmc@lists.ozlabs.org
+References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
+ <20260317-arm_defconf_cleanup-v1-1-8eecb7fdd24d@kernel.org>
+ <abkfJsyQSbW-VjxD@nuoska>
+From: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
+Content-Language: en-US
+In-Reply-To: <abkfJsyQSbW-VjxD@nuoska>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 14, 2026 at 08:47:40AM +0100, Paolo Bonzini wrote:
-> On 3/12/26 20:24, shaikh kamaluddin wrote:
-> > > > Alternatively, if you think this needs to be addressed in
-> > > > mmu_notifiers(eg. how non_block_start() is applied), I'm happy to
-> > > > redirect my efforts there-Please advise.
-> > > 
-> > > Have you considered a "OOM entered" callback for MMU notifiers?  KVM's MMU
-> > > notifier can just remove itself for example, in fact there is code in
-> > > kvm_destroy_vm() to do that even if invalidations are unbalanced.
-> > > 
-> > > Paolo
-> > > 
-> > Thanks for the suggestion! That's a much cleaner approach than what I was considering.
-> > 
-> > If I understand correctly, the idea would be:
-> > 1. Add a new MMU notifier callback (e.g., .oom_entered or .release_on_oom)
-> > 2. Have KVM implement it to unregister the notifier when OOM reaper starts
-> > 3. Leverage the existing kvm_destroy_vm() logic that already handles unbalanced invalidations
+On 3/17/26 10:30, Mikko Rapeli wrote:
+> Hi,
 > 
-> Yes pretty much.  Essentially, move the existing logic to the new callback
-> and invoke it from kvm_destroy_vm().
->
-
-Hi Paolo,
-Thank you for the suggestion to use an oom_enter callback approach. I've implemented v2 based on your guidance and have successfully validated it.
-
-Implementation Summary:
--------------------------------------
-Following your recommendation, I've added a new oom_enter callback to the mmu_notifier_ops structure. The implementation:
-
-1. Added oom_enter callback to struct mmu_notifier_ops in include/linux/mmu_notifier.h
-2. Implemented __mmu_notifier_oom_enter() in mm/mmu_notifier.c to invoke registered callbacks
-3. Called mmu_notifier_oom_enter(mm) from __oom_kill_process in mm/oom_kill.c before any invalidations
-4. As per your suggestion, move existing kvm_destroy_vm() logic that already handles unbalanced invalidation to the new helper function kvm_mmu_notifier_detach() and invoke it from the kvm_destroy_vm()
-
-Key Design Decision:
-------------------------------
-Implementation point no 4, while testing, Issue I was encountering is a recursive locking problem with the srcu lock, which is being acquired twice in the same context. This happens during the __mmu_notifier_oom_enter() and __synchronize_srcu() calls, leading to a potential deadlock.
-Please find below log snippet while launching the Guest VM
-------------------------------------------------------------------------------------------------
-OOM_REAPER: START reaping:func:__mmu_notifier_oom_enter
-[  399.841599][T10882] OOM_REAPER: START reaping:func:__mmu_notifier_oom_enter
-[  399.841608][T10882] KVM: oom_enter callback invoked for VM:kvm_mmu_notifier_oom_enter
-[  399.841608][T10882] KVM: oom_enter callback invoked for VM:kvm_mmu_notifier_oom_enter
-[  399.841961][T10882]
-[  399.841961][T10882]
-[  399.841962][T10882] ============================================
-[  399.841962][T10882] ============================================
-[  399.841964][T10882] WARNING: possible recursive locking detected
-[  399.841964][T10882] WARNING: possible recursive locking detected
-[  399.841966][T10882] 7.0.0-rc2-00467-g4ae12d8bd9a8-dirty #12 Not tainted
-[  399.841966][T10882] 7.0.0-rc2-00467-g4ae12d8bd9a8-dirty #12 Not tainted
-[  399.841969][T10882] --------------------------------------------
-[  399.841969][T10882] --------------------------------------------
-[  399.841971][T10882] qemu-system-x86/10882 is trying to acquire lock:
-[  399.841971][T10882] qemu-system-x86/10882 is trying to acquire lock:
-[  399.841974][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x83/0x380
-[  399.841974][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x83/0x380
-[  399.841991][T10882]
-[  399.841991][T10882] but task is already holding lock:
-[  399.841991][T10882]
-[  399.841991][T10882] but task is already holding lock:
-[  399.841992][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __mmu_notifier_oom_enter+0x93/0x1f0
-[  399.841992][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __mmu_notifier_oom_enter+0x93/0x1f0
-[  399.842005][T10882]
-[  399.842005][T10882] other info that might help us debug this:
-[  399.842005][T10882]
-[  399.842005][T10882] other info that might help us debug this:
-[  399.842006][T10882]  Possible unsafe locking scenario:
-[  399.842006][T10882]
-[  399.842006][T10882]  Possible unsafe locking scenario:
-[  399.842006][T10882]
-[  399.842008][T10882]        CPU0
-[  399.842008][T10882]        CPU0
-[  399.842009][T10882]        ----
-[  399.842009][T10882]        ----
-[  399.842010][T10882]   lock(srcu);
-[  399.842010][T10882]   lock(srcu);
-[  399.842014][T10882]   lock(srcu);
-[  399.842014][T10882]   lock(srcu);
-[  399.842017][T10882]
-[  399.842017][T10882]  *** DEADLOCK ***
-[  399.842017][T10882]
-[  399.842017][T10882]
-[  399.842017][T10882]  *** DEADLOCK ***
-[  399.842017][T10882]
-[  399.842018][T10882]  May be due to missing lock nesting notation
-[  399.842018][T10882]
-[  399.842018][T10882]  May be due to missing lock nesting notation
-
--------------------------------------------------------------------------------------------------------------------
-Then defered the kvm_mmu_notifier_detach() using workqueue, then above issue got fixed.
-
-
-Testing:
--------------
-I've validated the v2 approach with:
-
-Kernel: v7.0-rc2 with PREEMPT_RT and DEBUG_ATOMIC_SLEEP enabled
-Test: Triggered OOM conditions that killed a QEMU process with active KVM VM
-Use these commands for generating scenario:
-1. vng -v -r ./arch/x86/boot/bzImage --qemu-opts='-m 2G -cpu EPYC,+svm,+npt,+tsc,+invtsc -s '
-After successfully booting the virtme-ng(QEMU) ------> Act Host VM
-2. chmod 666 /dev/kvm
-3. dmesg -c > /dev/null
-4. launching Guest VM using this command $qemu-system-x86_64 -enable-kvm -m 1000M -mem-prealloc \
-        -monitor none -serial none -display none -nographic & sleep 10
-
-Results:
--------------------
-1. oom_enter callback was successfully invoked
-2 No SRCU deadlock warnings
-3 No "sleeping function called from invalid context" warnings
-4.OOM reaper completed successfully
-5. Process was reaped without errors
-
-
-
-Question:
-Before I send the v2 patch series, I want to confirm this approach aligns with your expectations. Specifically:
-Defered this coommon helper kvm_mmu_notifier_detach() for mmu_nottifier_unregister() and unbalanced invalidation using workque is good design?
-Are there any specific test cases or scenarios you'd like me to validate?
-
-I can send the complete v2 patch series once you confirm this approach is on the right track.
-
-Thanks again for the guidance!
-
-Shaikh Kamal
-
-> > This avoids the whole "convert locks to raw" problem and the complexity of deferring work.
-> > 
-> > I have questions on Testing part:
-> > ------------------------------------
-> > I tried to reproduce the bug scenario using the virtme-ng then running
-> > the stress-ng putting memory pressure on VM, but not able to reproduce
-> > the scenario.
-> > I tried this way ..
-> > vng -v -r ./arch/x86/boot/bzImage
-> > VM is up, then running the stress-ng as below
-> > stress-ng --vm 2 --vm-bytes 95% --timeout 20s & sleep 5 & dmesg | tail -30 | grep "sleeping function"
-> > OOM Killer is triggered, but exact bug not able to reproduce, Please
-> > suggest how to reproduce this bug, even we need to verify after code
-> > changes which you have suggested.
+> On Tue, Mar 17, 2026 at 10:13:37AM +0100, Vincent Mailhol (Arm) wrote:
+>> merge_config.sh yields this warning:
+>>
+>>   ./scripts/kconfig/merge_config.sh: 384: [: false: unexpected operator
+>>
+>> This happens because the script runs under /bin/sh but compares
+>> strings using the '==' operator, which is a bash extension. The POSIX
+>> test command only specifies '=' for string equality.
+>>
+>> Replace '==' with the POSIX-compatible '=' so the script works when
+>> run with /bin/sh as intended.
+>>
+>> Fixes: dfc97e1c5da5 ("scripts: kconfig: merge_config.sh: use awk in checks too")
+>> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
 > 
-> I don't know, sorry.  But with this new approach there will always be a call
-> to the new callback from the OOM killer, so it's easier to test.
+> This fix is already merged in kbuild trees:
 > 
-> Thanks,
-> 
-> Paolo
-> 
+> https://lore.kernel.org/linux-kbuild/20260309121505.40454-1-o451686892@gmail.com/
+> https://git.kernel.org/pub/scm/linux/kernel/git/kbuild/linux.git/log/?h=kbuild-fixes-for-next
+
+Noted! I actually started to write this before the other solution was
+posted, but, anyway, this will be removed in v2.
+
+
+Yours sincerely,
+Vincent Mailhol
+
