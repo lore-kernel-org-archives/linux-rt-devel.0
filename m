@@ -1,70 +1,85 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCF0220F3E
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 15:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08C02874FA
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 15:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774453961; cv=none; b=Web/0ktvYirPHvQjcZTAuwBjuoRjV2rEL+TRqkTMEJH2fBlL/rLOx/PrFV0JNZa6yvRn/OWTeP29tGTrTL5wPM/fSXgQsIyWxuloY1T3PpzRoN76CewBCXvtBe0bFi8rHRAhrmuZeafkC3BGEBhSvTBfYgQjANDGyUcquQk6C80=
+	t=1774454107; cv=none; b=dqUht0bDcWk16VTe/kdiWrYzlLxLGD7ZY3wq6h36b0rg7aVAcuhM4ACvPEZxKbnIgoSKnM37q1ZwXRFm1Uw1BuMbDnINEAY8SxsXQQ0Uuvsl7LuGsEMxiu6xcMx10S2owe+JfZ3TuJH5R+gssXrxPXU8g5aHfeU2EpJMXi4+huQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774453961; c=relaxed/simple;
-	bh=2QtpNYRay1BPQEN0Xg848dl+xD4/yzIdZoAXIs3j7QU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lT95AS0d9UHnzD/yIzfOD02YB91UAWTx9jNW4O02d3WZ01UdKUvdEq0vYGLUF9yZAI/3JSSw4Nukb1vBy3ZSTGHp3CNMXDsxYHzDcug1FIvCgkaY7W9fzgUAVnwkBJaUnYD7xoSMUd4IKTixnrO+3NGLD2seheiqdExS0/wRHKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 1CDFE13BB75;
-	Wed, 25 Mar 2026 15:52:33 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id 5062B2002A;
-	Wed, 25 Mar 2026 15:52:31 +0000 (UTC)
-Date: Wed, 25 Mar 2026 11:53:15 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	s=arc-20240116; t=1774454107; c=relaxed/simple;
+	bh=moHfxT/f085nSkpmvMrpSmZfPUCfV7Q5fG2skk9knrI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JIy2lWR0ROQnHYqNS8c1KBse3Hdgn1NtQCI/kQY+EMH87PqP5qb7m5B3+zaBUa1EyvNTAKrbc94vl93oMbtWfEIQncr6n/l2/wn8VA9I4oinmO+rUQjbuVy8uz8Czxz3KrwA10ugEUaqbPnOZ9EGUJ9KHkJYaDicuTOISQC3vAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Y7D/4Xbr; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dLMoI46W; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Y7D/4Xbr";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dLMoI46W"
+Date: Wed, 25 Mar 2026 16:55:04 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1774454105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PsanpHlZQpby0OwpcN88OFhDZMJLlWKRSlX5pitFPgQ=;
+	b=Y7D/4XbrHJLi/aspNlEBUHOkwdbHF0nZAzeCLatNoxvl5QKqBshPqh0argum+5OcmodiZt
+	iXCFrOfLzrG6Z9Bjv3GrxpB+40eI4jCbODt01fKaKZtEx/2ICk6llwqsqf1WVHqjgSPjp7
+	Ll3mX0Nj1pJlKmxlMcCeotvPXEoJ1qklMCqRetqwBebJtrC13AlXSWW9t+Y/v4vwRlJim0
+	DBPNyQKAIpuSuU3NTQh8fx453HRTYS5VqfvYMY1yBqZ399+XikyHpu2QHv9AO+t/gvvVYL
+	zQX306ldCtJ5olokOmSE+Z+8FCqyrKT1UUACSN/MaYvFhCCNNLobHG+LcUz8Sg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1774454105;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PsanpHlZQpby0OwpcN88OFhDZMJLlWKRSlX5pitFPgQ=;
+	b=dLMoI46W7bxr+iNJsVFDy/VrL31qyVfgJzl/wK1iVf4iZ1DyER4d13tK54Vf5yxlhQ9KUf
+	/4Q0Oe2XkUzKKpDg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev,
- Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org, "Paul
- E. McKenney" <paulmck@kernel.org>
+	Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on
  PREEMPT_RT
-Message-ID: <20260325115315.052e34ac@gandalf.local.home>
-In-Reply-To: <20260325153826.EbSqlX_n@linutronix.de>
+Message-ID: <20260325155504.tm4zHWMI@linutronix.de>
 References: <20260325030508.321405-1-jiayuan.chen@linux.dev>
-	<20260325111351.1d38a0bc@gandalf.local.home>
-	<20260325153826.EbSqlX_n@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20260325111351.1d38a0bc@gandalf.local.home>
+ <20260325153826.EbSqlX_n@linutronix.de>
+ <20260325115315.052e34ac@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 5062B2002A
-X-Stat-Signature: s971ewtf1ruyohesayz51yj7bhbo934u
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+bMK/bjfJmQKGzL2S5Oc57xZTBTTlMT38=
-X-HE-Tag: 1774453951-217828
-X-HE-Meta: U2FsdGVkX1/PecGsXuhih8cr3+Zo3T/ozg+cHogz9PzRNYI+Guoxmd2nueso0cxgSA3/1nlnx3ZKpLA1z0c2buPcqnyvL+BUX4Xn0Gmq1tqXlCG9kafrDrCGlH0vIcK2V8F7bpv6tIrNYP/21FXnIEJRQf53ONMtnXB3tmZj4xCWM9MqxdtdljGqJ39GsjgmMDYMV2cxtUGbiZZTZsJBfqSPBrqK/TWF6LdcuL+uQQ2l8Ml7X206zlECkPDZ9X0eH8M1Rs6NhBxI9edU+3/u1y070LP8FnLQpw5t52JGGbBMDPiGYpvBmZkAMGOskIju
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260325115315.052e34ac@gandalf.local.home>
 
-On Wed, 25 Mar 2026 16:38:26 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+On 2026-03-25 11:53:15 [-0400], Steven Rostedt wrote:
+> On Wed, 25 Mar 2026 16:38:26 +0100
+> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+> 
+> > Most irq-work aren't free()ed since they are static and remain around.
+> > There is no task assigned if there is no active waiter.
+> > Wouldn't it be easier to kfree_rcu() the struct using the irq-work?
+> 
+> I guess we should add some kind of helper then. Like tracepoints have.
+> 
+>    tracepoint_synchronize_unregister()
+> 
+> Perhaps have a:
+> 
+>    irq_work_synchronize_free();
+> 
+> Or something like that to let developers know that they just can't safely free a
+> structure that contains an irq_work?
 
-> Most irq-work aren't free()ed since they are static and remain around.
-> There is no task assigned if there is no active waiter.
-> Wouldn't it be easier to kfree_rcu() the struct using the irq-work?
+That sounds great.
 
-I guess we should add some kind of helper then. Like tracepoints have.
+> -- Steve
 
-   tracepoint_synchronize_unregister()
-
-Perhaps have a:
-
-   irq_work_synchronize_free();
-
-Or something like that to let developers know that they just can't safely free a
-structure that contains an irq_work?
-
--- Steve
+Sebastian
