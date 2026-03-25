@@ -1,174 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5D73D47A7;
-	Wed, 25 Mar 2026 12:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06EC26159E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 15:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442664; cv=none; b=mG/il6SUwn7XjVbyDmsg/ELDD7Dn/h67IVUFYLpEnW5BDSQwKsAPfCeBnw6k4mN5xSKMahrAQNtbdcmHUbO0qZojeA3WUghCCDkwEmJdWWRyxmwa46UG6AMhOfT14VZgWGSn9g3sOBVvBFqaOcZw++uk+S2FiZ2HXHel5I3sckk=
+	t=1774451591; cv=none; b=NB6uQdrslS0DnK488TWOybvCH2ZqPTsXZxc7nGObdPIuhxWS5esje86wdw11dKHdyQc6telC2fMjng1GTqOpOndy4nIt+VyAH50G3LEPPwcT9ZaU7kjtN+v5OFe/J5MRE0ZMfVnNLqqWPPbfPe8PSDooYXnwTmPHUPYXFRjbHAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442664; c=relaxed/simple;
-	bh=38j766JVLWUVIfHDcaPtLgkhnG/XuRx89Jd0+IxYN6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U58RYBrkT95Ntljb+SlLYTblx8QICR6nfgF5BAhguGlzzCwiGFJRvkP95J7+BeU1fV/7J7PwLbXYtUeNK7wPmaulVFcLdUwirKfNGv20s3ZxbqiYezLZvlV7nwiVAQL4HEOLEl4mgqwcRRqqjx13JHhVly4/yctP5LBFGO5CWQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWUiB70l; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWUiB70l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DED05C2BCB0;
-	Wed, 25 Mar 2026 12:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774442664;
-	bh=38j766JVLWUVIfHDcaPtLgkhnG/XuRx89Jd0+IxYN6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RWUiB70lJFQ/lpRX5ksJCMQaC56Th+eO7hm7aEUDuy8Ob3y3O7RE3g6phJID+Lfs6
-	 jJoNnBN0IEh0AGkpcqImx42ObH5KMT847+f9FuhtO2tu7w6ZBVEnYvtsx8zYc0tSnz
-	 rCpd3E2bWxETBccTKvwfETKakB/9HkkiB3MOerBfdXxIdKLMxPsINHg0m0uAZzuToA
-	 pL904zdxnfHpI7n0laL8d4SLqpVJNkflxG6B5rx+JMm/Dr2U5xLknl4TT1rvYIe+tX
-	 NYS6ubeQS63LL1C8hS6xb+4klYgl6SgyxzxX2QiYY2Mln941/2SsK8/iuNHMI7qpT2
-	 7mY4W/DCGAH+w==
-Message-ID: <98a7e267-4162-42a1-9f4e-557897700e1b@kernel.org>
-Date: Wed, 25 Mar 2026 13:44:03 +0100
+	s=arc-20240116; t=1774451591; c=relaxed/simple;
+	bh=6ocj4qEjyVftNEMWwIW93Y/J+R6GHmEzX0oMwJQ6Qf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=vAkAMz4iCPTpxOgJPl7YU69c+LXMjHSqj3UF3DGFQH8BNO56EFU0NqEJqTlE5TsHWOzdV4kIZT1VXTREf0rFTG2eoPTNeX0iiG9pcm9gpba59w8Ttt6o7pl1WNgrnD/F/UBzofX7jz9w2LPguXWWQLRc36TothFIvDEJ0jMH+lE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id BB79414099B;
+	Wed, 25 Mar 2026 15:13:08 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id DE04360010;
+	Wed, 25 Mar 2026 15:13:06 +0000 (UTC)
+Date: Wed, 25 Mar 2026 11:13:51 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: linux-rt-devel@lists.linux.dev, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on
+ PREEMPT_RT
+Message-ID: <20260325111351.1d38a0bc@gandalf.local.home>
+In-Reply-To: <20260325030508.321405-1-jiayuan.chen@linux.dev>
+References: <20260325030508.321405-1-jiayuan.chen@linux.dev>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] arm64: defconfig: remove obsolete assignment to
- SLIM_QCOM_CTRL
-To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
-Cc: Alexandre Gonzalo <alexandre.gonzalo@arm.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-omap@vger.kernel.org, loongarch@lists.linux.dev,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org,
- openbmc@lists.ozlabs.org, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Mikko Rapeli <mikko.rapeli@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>,
- Andreas Kemnade <andreas@kemnade.info>, Kevin Hilman <khilman@baylibre.com>,
- Roger Quadros <rogerq@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Pablo Neira Ayuso <pablo@netfilter.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>,
- Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
- Gregory CLEMENT <gregory.clement@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>,
- =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
- Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>,
- Heiko Stuebner <heiko@sntech.de>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>,
- Sricharan Ramabadhran <quic_srichara@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- "Rob Herring (Arm)" <robh@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Anna Schumaker <anna.schumaker@oracle.com>
-References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org>
- <20260317-arm_defconf_cleanup-v1-9-8eecb7fdd24d@kernel.org>
- <9545b66c-f223-48a3-96fe-c906d2307654@kernel.org>
- <d7ba53bd-e484-4ea1-b90b-e44321eef4c3@kernel.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <d7ba53bd-e484-4ea1-b90b-e44321eef4c3@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Stat-Signature: wm9a3d4puf4cauzfo3ktwzccdbq6wxxi
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: DE04360010
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18ruENu1kZbjFjRh1/ZsxutJxp3lqEkmjw=
+X-HE-Tag: 1774451586-184770
+X-HE-Meta: U2FsdGVkX1/OqLxdTskqU0lmT8YhY7u8RwSi+q8YFg6102mIx2ygcqdwcUIUnOtAMAu0oNRgl0S9KWy3EqbBwq/6D2bUCbLqcxpCz57LmDzFtp0eDY+JqHbSTfmtsUTQDTfwkrBm7RitvYEHh0j+ZQym1hTwYMPaiqyT1yk8i7rGfLgb99UejtTciuSJMhXx+HFKOBfvNfsGoN6Alnvd5kTXtdU40XYHEIcPGgVLAGrsEclHSrf+pr2mq6awcej4ZxGYcKSG0Om24px8YffKWEmytWpwqSBEXu4VzZsIJDsz7tOl5husTkVIMfv6ZcQB
 
-On 25/03/2026 12:31, Vincent Mailhol (Arm) wrote:
->>
->> Exactly that case also encouraged me to document this, since we do not
->> know how to fix get_maintainers. See commit
->> 6efe5322f060099c8bc51aaee83b857394e42dd5
-> I read the thread in which you posted that patch. Thanks for updating
-> the documentation, but as people anticipated, as long as the tool
-> doesn't do the right thing, there will be people like me who will mess
-> up the recipient list.
+On Wed, 25 Mar 2026 11:05:04 +0800
+Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+
+Hi Jiayuan,
+
+Adding "v1" to your first patch doesn't show much confidence in the code.
+As it implies there will definitely be a v2. It's kind of like introducing
+your spouse as, "Hi, this is my first wife". ;-)
+
+> On PREEMPT_RT, non-HARD irq_work runs in a per-CPU kthread, so
+> irq_work_sync() uses rcuwait (sleeping) to wait for BUSY==0.
 > 
-> Anyway, sorry for that.
+> After irq_work_single() clears BUSY via atomic_cmpxchg(), an
+> irq_work_sync() caller on another CPU that enters *after* BUSY is
+> cleared can observe BUSY==0 immediately (without sleeping), return,
+> and free the work. Meanwhile irq_work_single() still dereferences
+> @work for irq_work_is_hard() and rcuwait_wake_up(), causing a
+> use-after-free.
+> 
+> Note: if a sync waiter is actually sleeping, @work is still alive
+> (it can't be freed until the waiter returns), so there is no UAF in
+> that case. The UAF only occurs when sync checks BUSY==0 without
+> going through schedule().
+> 
+> Fix this by extracting and pinning the irq_work_sync waiter's
+> task_struct (if any) while BUSY is still set and @work is guaranteed
+> alive. After clearing BUSY, wake the pinned task directly without
+> touching @work.
+> 
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+>  kernel/irq_work.c | 29 ++++++++++++++++++++++++++---
+>  1 file changed, 26 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/irq_work.c b/kernel/irq_work.c
+> index 73f7e1fd4ab4..b10b75d1cc09 100644
+> --- a/kernel/irq_work.c
+> +++ b/kernel/irq_work.c
+> @@ -200,6 +200,7 @@ bool irq_work_needs_cpu(void)
+>  
+>  void irq_work_single(void *arg)
+>  {
+> +	struct task_struct *waiter = NULL;
+>  	struct irq_work *work = arg;
+>  	int flags;
+>  
+> @@ -221,15 +222,37 @@ void irq_work_single(void *arg)
+>  	work->func(work);
+>  	lockdep_irq_work_exit(flags);
+>  
+> +	/*
+> +	 * Extract and pin the irq_work_sync() waiter before clearing
+> +	 * BUSY. Once BUSY is cleared, @work may be freed immediately
+> +	 * by a sync caller that observes BUSY==0 without sleeping, so
+> +	 * @work must not be dereferenced after the cmpxchg below.
+> +	 */
+> +	if ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(work)) ||
+> +	    !arch_irq_work_has_interrupt()) {
 
-No worries. I wished the tool was improved because I believe in the
-toolset, not remembering thousand rules of different subsystems...
+Unrelated to this patch, but the above if conditional should be defined as
+a macro as it is used in more than one place, and they do need to match.
 
-Best regards,
-Krzysztof
+Maybe something like:
+
+#define is_irq_work_threaded(work)  ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(work)) || \
+				     !arch_irq_work_has_interrupt())
+
+But again, that isn't related to this patch.
+
+> +		rcu_read_lock();
+> +		waiter = rcu_dereference(work->irqwait.task);
+
+Hmm, is it proper to access the internals of an rcuwait type?
+
+Paul, is there a more proper way to do this?
+
+> +		if (waiter)
+> +			get_task_struct(waiter);
+> +		rcu_read_unlock();
+> +	}
+> +
+>  	/*
+>  	 * Clear the BUSY bit, if set, and return to the free state if no-one
+>  	 * else claimed it meanwhile.
+>  	 */
+>  	(void)atomic_cmpxchg(&work->node.a_flags, flags, flags & ~IRQ_WORK_BUSY);
+>  
+> -	if ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(work)) ||
+> -	    !arch_irq_work_has_interrupt())
+> -		rcuwait_wake_up(&work->irqwait);
+> +	/*
+> +	 * @work must not be dereferenced past this point. Wake the
+> +	 * pinned waiter if one was sleeping; if none was sleeping,
+> +	 * either irq_work_sync() has not been called or it will
+> +	 * observe BUSY==0 on its own.
+> +	 */
+> +	if (waiter) {
+> +		wake_up_process(waiter);
+
+Yeah, this is open coding the rcuwait_wake_up().
+
+I'm not sure we want to do this.
+
+Perhaps RCU could provide a way to save the rcuwait?
+
+	struct rcuwait = __RCUWAIT_INITIALIZER(rcuwait);
+
+	[..]
+
+		rcuwait_copy(&rcuwait, &work->irqwait);
+
+	[..]
+
+		rcuwait_wake_up(&rcuwait);
+
+?
+
+> +		put_task_struct(waiter);
+> +	}
+
+-- Steve
+
+>  }
+>  
+>  static void irq_work_run_list(struct llist_head *list)
+
