@@ -1,96 +1,76 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FFC3E92A8
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 17:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C6F3EB7E3
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 17:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774461114; cv=none; b=B4+6W/I1hDL6XJGWnLUJBG1OtR4guFZPSHXloC7sxzl95Z9FhklpPsiG57XWY12BYts4HunvV4bWz4GaLWylm1p0Jm6CJxsLte2r/sbvNIqLHdCU0kaNKgs4wD/SbPbyRIhzcjiAjwtq8UHqUt7RhKyWCuymjlHb3L8F+KEeNd8=
+	t=1774461300; cv=none; b=lIF7e1UVSup/mDZAD00zghNkYRATBGf2BDlipHNBgSfU7LS5DDgEdpjNd3aFIOXgSjLvsA8LiaDUQhJ61ILgYfnNxLSnDhYVlll4kO69PQN5MSRehW5fFBAEJbd3XkZDXzykFPlbreHSGxeoZV+CrdzuE4eMqsm4t7s7onTYPzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774461114; c=relaxed/simple;
-	bh=L/8zDjgtSFZmVSmjSqHJHCta+U8SwGgkTlm5rzE08pg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i19KMHUdOKlm+LEyYJXXnC5YtdOIfW1qmm9RTFjuslsbvboDfuPfge/HiOm/p3BBobU5FBtikM2Nw/dPdSZZlDplI497p0cqf6sk42IUsO8dqZ9c+kWsetYJEHNlK8fhfP9NMNr+hZvFHE+Nm2jredd9zt7lNB5a2dfIEq/WCK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=J38q7Xv1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IQp60mWq; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="J38q7Xv1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IQp60mWq"
-Date: Wed, 25 Mar 2026 18:51:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1774461112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yLq4Jaj2bWJywT+RQOdtAWoXk+H0RLsWlg/o+qTEiw=;
-	b=J38q7Xv1iLdrYQcUJVTaIlzEnpNJ6ugyd/9DXukshlq8DdYWo6rFaqqqt7KUF/vXB3O7YM
-	Gj7gx4BMQuMfaLfDplA0xHU05tPz6Y8q21pCGKQRXbsfqXKM9ptnEwKMQdZX4UDeWRCkil
-	6FNU5XohBT1m/88GaUQT7yzfl8/CkqeczbTTg4vj/pc57KXf76sPX7fiKV13XMBo7wiR2p
-	udFNrrzvRtCDynmiDPWFmllpzVOunS7z0nCxEDMkq5EE5kDr/BGGmJSbOoBqWAqvvsy1Zj
-	WaMCjY/rzZPu0j0qqOg2AzRxe0p3xX9Pqol2Rcth9HA+GTY0nE1snUk3+NGxyg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1774461112;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3yLq4Jaj2bWJywT+RQOdtAWoXk+H0RLsWlg/o+qTEiw=;
-	b=IQp60mWq9ZFOWTO5Vds1uhyTPyvEJzhPD221JdzJSzxOCRFqcYuZah/DsAFY8I9umPLTid
-	CyKu4DibnnOY9wAw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Steven Rostedt <rostedt@goodmis.org>
+	s=arc-20240116; t=1774461300; c=relaxed/simple;
+	bh=f5pFZ2a2Xnwx1EdPsyp036XPOu4bBWmc3uSYKf0zl18=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n776yOHu/L5quElV2LZBryubQAD95tHV6M1bAUOgE6JoVLhUz/XNYgH7SFr88Akh1dzF5nNR8DsfgKjDp2oWGDvNSYxRhsVxacf8odeVm6OnN/gfEk8vKZbgtQwkWyuBEYajzAgr99XLXQhkwCgqJVcM3asAxN5WKuUPmCide8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id A2E245B94E;
+	Wed, 25 Mar 2026 17:54:57 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id A0A2D20012;
+	Wed, 25 Mar 2026 17:54:55 +0000 (UTC)
+Date: Wed, 25 Mar 2026 13:55:40 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev,
-	Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>
+ Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org, "Paul
+ E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on
  PREEMPT_RT
-Message-ID: <20260325175150._IrYQldq@linutronix.de>
+Message-ID: <20260325135540.4d127635@gandalf.local.home>
+In-Reply-To: <20260325175150._IrYQldq@linutronix.de>
 References: <20260325030508.321405-1-jiayuan.chen@linux.dev>
- <20260325111351.1d38a0bc@gandalf.local.home>
- <20260325153826.EbSqlX_n@linutronix.de>
- <20260325115315.052e34ac@gandalf.local.home>
- <20260325155504.tm4zHWMI@linutronix.de>
- <5b6f6480-aa2d-4966-b3c7-6c719e915285@linux.dev>
- <20260325170539.MHkr49jU@linutronix.de>
- <20260325134433.7d46507d@gandalf.local.home>
+	<20260325111351.1d38a0bc@gandalf.local.home>
+	<20260325153826.EbSqlX_n@linutronix.de>
+	<20260325115315.052e34ac@gandalf.local.home>
+	<20260325155504.tm4zHWMI@linutronix.de>
+	<5b6f6480-aa2d-4966-b3c7-6c719e915285@linux.dev>
+	<20260325170539.MHkr49jU@linutronix.de>
+	<20260325134433.7d46507d@gandalf.local.home>
+	<20260325175150._IrYQldq@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260325134433.7d46507d@gandalf.local.home>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A0A2D20012
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: 3xqribss3nc4e65mitudhqwscbynupao
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18IaNsPSiZdPSiw/bPwbqbxMdboncrkBp4=
+X-HE-Tag: 1774461295-227127
+X-HE-Meta: U2FsdGVkX18JQhYjCe7nRQ4Iyn+1MXfd97Ct/Qs9jVOvPsFOQw0KCokxi0R192MiosBSCPV0xZJns0Omhcy8YuoXTj1datK/70FvLAXQFiyHlIK20JxYP4uPeb1v5VvTN28OaFzorS1+yoFee9USCfSWUQWg1QKskQatTO9lXZP291mNc4VPav9YlhvtEA1IBznPxK/q++GVa0Ud/UuE5xQ3chr5PcOz/eOzkMGbi5m93y4oCPHGvZbPsL6S31IvbD7fGZ3vdKR6c4mRlXRz7fdayJ8IeCn3OTaQN5Xv/75wLJy2x59NKFfMYOwPNjeJ
 
-On 2026-03-25 13:44:33 [-0400], Steven Rostedt wrote:
-> On Wed, 25 Mar 2026 18:05:39 +0100
-> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+On Wed, 25 Mar 2026 18:51:50 +0100
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+
+> > Perhaps Jiayuan's idea is better as it will not require modifying current
+> > callers and does fix the issue.  
 > 
-> > Why not just having the synchronize_rcu()?
-> > 
-> > > Callers that free the containing structure would switch to
-> > > irq_work_synchronize_free(), or use kfree_rcu() if appropriate  
-> > 
-> > If we provide the irq_work_synchronize_free() then using kfree_rcu()
-> > would sort of open code irq_work_synchronize_free() since we couldn't
-> > simply replace synchronize_rcu() with something else and update the
-> > irq_work core side (we would also have to update all users). I guess
-> > that was Steven's idea in providing a helper for synchronisation.
-> > 
+> Don't you need to replace irq_work_sync() with this new one?
 > 
-> Yeah, the helper was just document that free work needs synchronization.
+> > But it would still need helper functions from RCU as I really do not think
+> > it's a good idea to open code the rcuwait logic.  
 > 
-> Perhaps Jiayuan's idea is better as it will not require modifying current
-> callers and does fix the issue.
+> Why is rcuwait a concern?
 
-Don't you need to replace irq_work_sync() with this new one?
+Oh, I was talking about how the patch open coded rcuwait (which we shouldn't do).
 
-> But it would still need helper functions from RCU as I really do not think
-> it's a good idea to open code the rcuwait logic.
+Are you saying that if we stick a synchronize_rcu() in irq_work_sync() that
+could work too?
 
-Why is rcuwait a concern?
-
-> -- Steve
-
-Sebastian
+-- Steve
