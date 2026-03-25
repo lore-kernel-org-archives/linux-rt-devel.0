@@ -1,76 +1,95 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C6F3EB7E3
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 17:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64385410D07
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 17:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774461300; cv=none; b=lIF7e1UVSup/mDZAD00zghNkYRATBGf2BDlipHNBgSfU7LS5DDgEdpjNd3aFIOXgSjLvsA8LiaDUQhJ61ILgYfnNxLSnDhYVlll4kO69PQN5MSRehW5fFBAEJbd3XkZDXzykFPlbreHSGxeoZV+CrdzuE4eMqsm4t7s7onTYPzk=
+	t=1774461562; cv=none; b=kM3+hfoJMOkgBp+XCc5v6AqGCwHlRSRsZxvCw67hofyCp0LLeAtuHhHz4BzB50iqQ1maPYH58/pf1RANEIEFHPNhUX1wZM86eVIwkJPQF900LhXlP2bkLcTuAzQr0Xksi4vserRdXplxjThbX377bE7pPOnXg1dM9ZX94gmXDQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774461300; c=relaxed/simple;
-	bh=f5pFZ2a2Xnwx1EdPsyp036XPOu4bBWmc3uSYKf0zl18=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n776yOHu/L5quElV2LZBryubQAD95tHV6M1bAUOgE6JoVLhUz/XNYgH7SFr88Akh1dzF5nNR8DsfgKjDp2oWGDvNSYxRhsVxacf8odeVm6OnN/gfEk8vKZbgtQwkWyuBEYajzAgr99XLXQhkwCgqJVcM3asAxN5WKuUPmCide8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id A2E245B94E;
-	Wed, 25 Mar 2026 17:54:57 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id A0A2D20012;
-	Wed, 25 Mar 2026 17:54:55 +0000 (UTC)
-Date: Wed, 25 Mar 2026 13:55:40 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+	s=arc-20240116; t=1774461562; c=relaxed/simple;
+	bh=WFyb9EuOz64PfY5LVUuyB/xLZjW6/SplawQsoSfq23Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/tV5BpZn7mWwzm7382q78qZjg17aIBThJkiu4nHzhGOaiMbGx+qZ7uMtT3t6xEtJZhbrZ6pvHtdubvwqWJp7xd9MqAT8a1nV+VKI7BCfVIMKae4xG/bcy+zPH1Bp2iUsI6ctSLAuMe62JQ8SzTPAyE+5sx/1P8VxNfZO97MQOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ZepXLvYj; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7CqVs7YY; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ZepXLvYj";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7CqVs7YY"
+Date: Wed, 25 Mar 2026 18:59:15 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1774461557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jjRj5tFUhn4wQAK1rOJzXPmHO3K4s5RYcXJL3hKctZM=;
+	b=ZepXLvYjzbOYa7m5HzXuMZBj8+0PKE/9/1O0QRexVJe0QmHfMR7mAZP1RGwTZLrtEQYJTG
+	7Ady5LgWz5FJVarXZe2pB59+tJp6Upm1uyIRpDrFJdJdJr1CkQRQHzuNw6E1peFP/Uhe0i
+	ovG6T4ayeIQYns0HTvb5GjwbOXuElHhzB7xJeEb6QpAL7f7tqi6DhpwwfXeRToi/Ddt8Sz
+	wISP3P7eA1trqME/U6TbPFaGM14blLO+sdZpMp8AuDvBEdzja72T66n2VKepM9WDpt1Ehb
+	4xrhllPKS6dioceglQ1akA6w2R+xCa/23JJ9SugAv0s06g3xq6JijBb69THUhw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1774461557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jjRj5tFUhn4wQAK1rOJzXPmHO3K4s5RYcXJL3hKctZM=;
+	b=7CqVs7YYZInBwYQf7q2ZAHhpTOf445YKwzc1NlcBdZVYhuza1dsxyJTUpZ3Mugb4pXRbIx
+	zBcLoztSCHrXvYBw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev,
- Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org, "Paul
- E. McKenney" <paulmck@kernel.org>
+	Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
 Subject: Re: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on
  PREEMPT_RT
-Message-ID: <20260325135540.4d127635@gandalf.local.home>
-In-Reply-To: <20260325175150._IrYQldq@linutronix.de>
+Message-ID: <20260325175915.YufD1Y8T@linutronix.de>
 References: <20260325030508.321405-1-jiayuan.chen@linux.dev>
-	<20260325111351.1d38a0bc@gandalf.local.home>
-	<20260325153826.EbSqlX_n@linutronix.de>
-	<20260325115315.052e34ac@gandalf.local.home>
-	<20260325155504.tm4zHWMI@linutronix.de>
-	<5b6f6480-aa2d-4966-b3c7-6c719e915285@linux.dev>
-	<20260325170539.MHkr49jU@linutronix.de>
-	<20260325134433.7d46507d@gandalf.local.home>
-	<20260325175150._IrYQldq@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <20260325111351.1d38a0bc@gandalf.local.home>
+ <20260325153826.EbSqlX_n@linutronix.de>
+ <20260325115315.052e34ac@gandalf.local.home>
+ <20260325155504.tm4zHWMI@linutronix.de>
+ <5b6f6480-aa2d-4966-b3c7-6c719e915285@linux.dev>
+ <20260325170539.MHkr49jU@linutronix.de>
+ <20260325134433.7d46507d@gandalf.local.home>
+ <20260325175150._IrYQldq@linutronix.de>
+ <20260325135540.4d127635@gandalf.local.home>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A0A2D20012
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: 3xqribss3nc4e65mitudhqwscbynupao
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18IaNsPSiZdPSiw/bPwbqbxMdboncrkBp4=
-X-HE-Tag: 1774461295-227127
-X-HE-Meta: U2FsdGVkX18JQhYjCe7nRQ4Iyn+1MXfd97Ct/Qs9jVOvPsFOQw0KCokxi0R192MiosBSCPV0xZJns0Omhcy8YuoXTj1datK/70FvLAXQFiyHlIK20JxYP4uPeb1v5VvTN28OaFzorS1+yoFee9USCfSWUQWg1QKskQatTO9lXZP291mNc4VPav9YlhvtEA1IBznPxK/q++GVa0Ud/UuE5xQ3chr5PcOz/eOzkMGbi5m93y4oCPHGvZbPsL6S31IvbD7fGZ3vdKR6c4mRlXRz7fdayJ8IeCn3OTaQN5Xv/75wLJy2x59NKFfMYOwPNjeJ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260325135540.4d127635@gandalf.local.home>
 
-On Wed, 25 Mar 2026 18:51:50 +0100
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-
-> > Perhaps Jiayuan's idea is better as it will not require modifying current
-> > callers and does fix the issue.  
+On 2026-03-25 13:55:40 [-0400], Steven Rostedt wrote:
+> On Wed, 25 Mar 2026 18:51:50 +0100
+> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 > 
-> Don't you need to replace irq_work_sync() with this new one?
+> > > Perhaps Jiayuan's idea is better as it will not require modifying current
+> > > callers and does fix the issue.  
+> > 
+> > Don't you need to replace irq_work_sync() with this new one?
+> > 
+> > > But it would still need helper functions from RCU as I really do not think
+> > > it's a good idea to open code the rcuwait logic.  
+> > 
+> > Why is rcuwait a concern?
 > 
-> > But it would still need helper functions from RCU as I really do not think
-> > it's a good idea to open code the rcuwait logic.  
+> Oh, I was talking about how the patch open coded rcuwait (which we shouldn't do).
 > 
-> Why is rcuwait a concern?
+> Are you saying that if we stick a synchronize_rcu() in irq_work_sync() that
+> could work too?
 
-Oh, I was talking about how the patch open coded rcuwait (which we shouldn't do).
+I was thinking about your helper doing synchronize_rcu().
+I haven't looked at irq_work_sync() but it would need solve the problem,
+too. There shouldn't be any user of irq_work_sync() which does not
+intend to free the object, why else should they wait, right? So it might
+be even simpler.
 
-Are you saying that if we stick a synchronize_rcu() in irq_work_sync() that
-could work too?
+> -- Steve
 
--- Steve
+Sebastian
