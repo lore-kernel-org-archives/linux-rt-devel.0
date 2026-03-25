@@ -1,127 +1,238 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A94127A907
-	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 03:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF971F4615
+	for <linux-rt-devel@lists.linux.dev>; Wed, 25 Mar 2026 05:19:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774407936; cv=none; b=CpFiIyFaNeq7Nb/VCN0TjNKqRH9DQqMi4SM9dMt3pQdF/+uUsbwwBZx/GazJ+g6kprR2O4OncjuZtxlLvFyf+kecV0sLDLFMBGQ3e+B8lKlm/QlA87s/V7ZT1QQcSG64Glyxv9cbWqWbOGANsPUk76bOR2ZOt3031KtzCrJsmjQ=
+	t=1774415975; cv=none; b=NdP3w3jQuHzeCgK9ZFa4qQa0V+xW0p9IJUeos7xm9Ws1iLJWbbNhy4NMVYQLPmb1vqBQoFEhJp3BZesB7yfLejk+y8gOueuuOJEz2vDvGeX5EeSPNOnM2DhsoPEI1dhcJ0EeUVnF3aYWGfwGB2jln/fzXPtMrhnuA9cZlhIiYTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774407936; c=relaxed/simple;
-	bh=JXHqg5hWd8bPxBjBym+A4W/OFM5UnnMAfI0nq4CgEfk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jor+BMEjnOr8nH6v/+I6ntXdUWLo+M8zbuqtsbDZ8VYOaOvO3ZYqJBUmNcWe0pmrl2N6W15PKF27s5lWQG4Ch9HbK04vHR9VWVv5ZTSimD9Zu0AK8q7jt2GLlx9HGXrDDF2aemL+m/95IJAu90Cx0v6Lg4FMB3t8KYtnvOnDntg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=KMf/E2VI; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774415975; c=relaxed/simple;
+	bh=bEt1AYgfM9UBslLunNjznIM4Ki6cn7g2O1ogCW1PRoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BGHx78F7SgvVM+aVWMrxqwfCUZKhhgUtn9YOWFnl7bSoKLbsBTXaAi5ec3smo0vv6vcMLC/wolG3kqPwhxgZWuMEdbLosoQ/cjsUNYwYuGBN2+OOa1AdgTNu3/aL44q5Jrgea8IpC62PBmvmlgYKIAUqBNEn3SGoA2pnw7rxLVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OEPdpn9x; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="KMf/E2VI"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774407932;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=KJ5Osz+94CcgUJbNmrLhEgNmoTHmbTb5mo8a4nYQ2+A=;
-	b=KMf/E2VISyfo2STbJxUuhTRqXpWN+hKStIxX7hxoA+vvZDjJin4JnX6YwROwIXx9RbWQZg
-	Etw8YpA/3xWo8dytdw0GcHyjTQlcS94RpC3gYoYCxkUzk36dfgcYO/zBNp/OTFQot0v3Zm
-	tH7YuxZEdCNK3q+j/lY1gFDikKpuNBo=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: linux-rt-devel@lists.linux.dev
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OEPdpn9x"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2b0603ee486so14325185ad.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 24 Mar 2026 22:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774415973; x=1775020773; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iqy+w6sTastVCRcE15RxXg8vVmEuKZ1PwWM3V+SQr/k=;
+        b=OEPdpn9xFh7YZ9/HvCoZRkMQ4wwVwuzVq+MIk33RV+zuu3FA1RokytZED3+uk/kcv+
+         mvfXgAMr0TuMNqkTusMXUQYowvMc1HcCpP9H58wiKVwR7P658eEevL1z162htPsmgzuJ
+         mbfYdg5SEEjq+LjJ14AIUg7fNQw2/5BTSIfyEjKzGvU6SXG4HuZQXV53Ud351Q0s2UHz
+         VohST3O+PyOOjVutaPY/IpbW9RaTHmoBDSMkqvJHZnxLkO5z84mp11cUIoCilx6sjTzN
+         zZbvYLwsKY2IiSh59xecLzhIgZkHedoU4/0MUTVCsIx0FdxSJOXWVilcnXzECRCjQ4BM
+         1uQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774415973; x=1775020773;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iqy+w6sTastVCRcE15RxXg8vVmEuKZ1PwWM3V+SQr/k=;
+        b=BSfOmPmvkW8oenEFeUS5WMqVUwcUC0DFO0WsEsb96VX5tvJsyV863f/iNhfzIkBffx
+         N6vInelue55BxlimGZgTcYbeaITL9ukVh5fzMaA2XzZc3S4v0M2kXHQhZbNpOjSfhOGN
+         5vDtPvaGltSD30GatXl3W7aZEozvBl3gh/e5G0DrMFK9mJLuvC3Duxn7tjlg3mySwN3M
+         B8xCgEOnj45MIf1j8a7RKV06j5U+ObKJ/Mey4QBU18oWgy7COnar/CHdyVBie+C8ownO
+         ep+eW+hbOeceGQqtyHKxTslSmgTYEcw3G8zjOhhJrnyLxfI8xlnGO9HTrM2qB7lm2yrz
+         61NA==
+X-Forwarded-Encrypted: i=1; AJvYcCXU5NkjkoQ/bVNvDIInLxrsLY9WO76Bzd2vcX11sOZwMQtd9MGw5uyMNBknBqJv9BYIugm3GfKoBssjRvvNPw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGGUploos5WADLLhNpquI0JNbYjlx5/UnYQ3XSvt9rv6uUuOul
+	f+fssV9FdGnNoiAB2z0zyEgFTMNw2GJQ0qNiVCMznm42IYYciZFdOVM6
+X-Gm-Gg: ATEYQzzzcXt2HG9AS8euoFV/hGbzmvxuraBk3YB35nOhGJxrZmey8W2fh8qGfj2t4sm
+	kHHoWqzRpvTlJjTiM4RLxpbXpCr9s7W35w3YpTaEH6eX3NqlQfQUFaJKaCiH7llbpEDLgvObonS
+	HXP/yU5sx7ZWbQEj1HqHMjroxgcPHSMbmJJfHXo0KjCiHfVyTRuNGl/jhRtW0IBnDB9uRxU0xwn
+	4zLa0cUeE08qegV5evYSd09iBtuGjWxR4w4Q3HQl9FRlKyjdCmdJFxAKS42zJf3/+0LZve7YW9a
+	tXZSL0am/bwaijqVBeghDHvdjYZ+qtRNTq/tZ351xe7NlyOQgrVuhHReSyVILQZaaVuNtBaWLhw
+	/LE7fzShfX16Q8yQK+INvKh5jYGCSkj16rP5cddTfuO+fNPv02RW7zhw/JVERT1AB2GAST5RPoB
+	Md276AElMfTGNx4rNLHd5r9JKv
+X-Received: by 2002:a17:903:8c6:b0:2b0:af2f:b25d with SMTP id d9443c01a7336-2b0b0a47a18mr26044955ad.22.1774415973199;
+        Tue, 24 Mar 2026 22:19:33 -0700 (PDT)
+Received: from localhost ([115.96.19.77])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08351675esm213975185ad.14.2026.03.24.22.19.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 22:19:32 -0700 (PDT)
+Date: Wed, 25 Mar 2026 10:49:30 +0530
+From: shaikh kamaluddin <shaikhkamal2012@gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Sean Christopherson <seanjc@google.com>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on PREEMPT_RT
-Date: Wed, 25 Mar 2026 11:05:04 +0800
-Message-ID: <20260325030508.321405-1-jiayuan.chen@linux.dev>
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, skhan@linuxfoundation.org,
+	me@brighamcampbell.com
+Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
+ for non-blocking invalidations
+Message-ID: <acNwYsm4GfViqiJS@acer-nitro-anv15-41>
+References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
+ <20260211120944.-eZhmdo7@linutronix.de>
+ <aYyhfvC_2s000P7H@google.com>
+ <aactOOfirdVRYfNS@acer-nitro-anv15-41>
+ <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
+ <abMS7MALNrmluvh5@acer-nitro-anv15-41>
+ <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
 
-On PREEMPT_RT, non-HARD irq_work runs in a per-CPU kthread, so
-irq_work_sync() uses rcuwait (sleeping) to wait for BUSY==0.
+On Sat, Mar 14, 2026 at 08:47:40AM +0100, Paolo Bonzini wrote:
+> On 3/12/26 20:24, shaikh kamaluddin wrote:
+> > > > Alternatively, if you think this needs to be addressed in
+> > > > mmu_notifiers(eg. how non_block_start() is applied), I'm happy to
+> > > > redirect my efforts there-Please advise.
+> > > 
+> > > Have you considered a "OOM entered" callback for MMU notifiers?  KVM's MMU
+> > > notifier can just remove itself for example, in fact there is code in
+> > > kvm_destroy_vm() to do that even if invalidations are unbalanced.
+> > > 
+> > > Paolo
+> > > 
+> > Thanks for the suggestion! That's a much cleaner approach than what I was considering.
+> > 
+> > If I understand correctly, the idea would be:
+> > 1. Add a new MMU notifier callback (e.g., .oom_entered or .release_on_oom)
+> > 2. Have KVM implement it to unregister the notifier when OOM reaper starts
+> > 3. Leverage the existing kvm_destroy_vm() logic that already handles unbalanced invalidations
+> 
+> Yes pretty much.  Essentially, move the existing logic to the new callback
+> and invoke it from kvm_destroy_vm().
+>
 
-After irq_work_single() clears BUSY via atomic_cmpxchg(), an
-irq_work_sync() caller on another CPU that enters *after* BUSY is
-cleared can observe BUSY==0 immediately (without sleeping), return,
-and free the work. Meanwhile irq_work_single() still dereferences
-@work for irq_work_is_hard() and rcuwait_wake_up(), causing a
-use-after-free.
+Hi Paolo,
+Thank you for the suggestion to use an oom_enter callback approach. I've implemented v2 based on your guidance and have successfully validated it.
 
-Note: if a sync waiter is actually sleeping, @work is still alive
-(it can't be freed until the waiter returns), so there is no UAF in
-that case. The UAF only occurs when sync checks BUSY==0 without
-going through schedule().
+Implementation Summary:
+-------------------------------------
+Following your recommendation, I've added a new oom_enter callback to the mmu_notifier_ops structure. The implementation:
 
-Fix this by extracting and pinning the irq_work_sync waiter's
-task_struct (if any) while BUSY is still set and @work is guaranteed
-alive. After clearing BUSY, wake the pinned task directly without
-touching @work.
+1. Added oom_enter callback to struct mmu_notifier_ops in include/linux/mmu_notifier.h
+2. Implemented __mmu_notifier_oom_enter() in mm/mmu_notifier.c to invoke registered callbacks
+3. Called mmu_notifier_oom_enter(mm) from __oom_kill_process in mm/oom_kill.c before any invalidations
+4. As per your suggestion, move existing kvm_destroy_vm() logic that already handles unbalanced invalidation to the new helper function kvm_mmu_notifier_detach() and invoke it from the kvm_destroy_vm()
 
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- kernel/irq_work.c | 29 ++++++++++++++++++++++++++---
- 1 file changed, 26 insertions(+), 3 deletions(-)
+Key Design Decision:
+------------------------------
+Implementation point no 4, while testing, Issue I was encountering is a recursive locking problem with the srcu lock, which is being acquired twice in the same context. This happens during the __mmu_notifier_oom_enter() and __synchronize_srcu() calls, leading to a potential deadlock.
+Please find below log snippet while launching the Guest VM
+------------------------------------------------------------------------------------------------
+OOM_REAPER: START reaping:func:__mmu_notifier_oom_enter
+[  399.841599][T10882] OOM_REAPER: START reaping:func:__mmu_notifier_oom_enter
+[  399.841608][T10882] KVM: oom_enter callback invoked for VM:kvm_mmu_notifier_oom_enter
+[  399.841608][T10882] KVM: oom_enter callback invoked for VM:kvm_mmu_notifier_oom_enter
+[  399.841961][T10882]
+[  399.841961][T10882]
+[  399.841962][T10882] ============================================
+[  399.841962][T10882] ============================================
+[  399.841964][T10882] WARNING: possible recursive locking detected
+[  399.841964][T10882] WARNING: possible recursive locking detected
+[  399.841966][T10882] 7.0.0-rc2-00467-g4ae12d8bd9a8-dirty #12 Not tainted
+[  399.841966][T10882] 7.0.0-rc2-00467-g4ae12d8bd9a8-dirty #12 Not tainted
+[  399.841969][T10882] --------------------------------------------
+[  399.841969][T10882] --------------------------------------------
+[  399.841971][T10882] qemu-system-x86/10882 is trying to acquire lock:
+[  399.841971][T10882] qemu-system-x86/10882 is trying to acquire lock:
+[  399.841974][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x83/0x380
+[  399.841974][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __synchronize_srcu+0x83/0x380
+[  399.841991][T10882]
+[  399.841991][T10882] but task is already holding lock:
+[  399.841991][T10882]
+[  399.841991][T10882] but task is already holding lock:
+[  399.841992][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __mmu_notifier_oom_enter+0x93/0x1f0
+[  399.841992][T10882] ffffffff8db05598 (srcu){.+.+}-{0:0}, at: __mmu_notifier_oom_enter+0x93/0x1f0
+[  399.842005][T10882]
+[  399.842005][T10882] other info that might help us debug this:
+[  399.842005][T10882]
+[  399.842005][T10882] other info that might help us debug this:
+[  399.842006][T10882]  Possible unsafe locking scenario:
+[  399.842006][T10882]
+[  399.842006][T10882]  Possible unsafe locking scenario:
+[  399.842006][T10882]
+[  399.842008][T10882]        CPU0
+[  399.842008][T10882]        CPU0
+[  399.842009][T10882]        ----
+[  399.842009][T10882]        ----
+[  399.842010][T10882]   lock(srcu);
+[  399.842010][T10882]   lock(srcu);
+[  399.842014][T10882]   lock(srcu);
+[  399.842014][T10882]   lock(srcu);
+[  399.842017][T10882]
+[  399.842017][T10882]  *** DEADLOCK ***
+[  399.842017][T10882]
+[  399.842017][T10882]
+[  399.842017][T10882]  *** DEADLOCK ***
+[  399.842017][T10882]
+[  399.842018][T10882]  May be due to missing lock nesting notation
+[  399.842018][T10882]
+[  399.842018][T10882]  May be due to missing lock nesting notation
 
-diff --git a/kernel/irq_work.c b/kernel/irq_work.c
-index 73f7e1fd4ab4..b10b75d1cc09 100644
---- a/kernel/irq_work.c
-+++ b/kernel/irq_work.c
-@@ -200,6 +200,7 @@ bool irq_work_needs_cpu(void)
- 
- void irq_work_single(void *arg)
- {
-+	struct task_struct *waiter = NULL;
- 	struct irq_work *work = arg;
- 	int flags;
- 
-@@ -221,15 +222,37 @@ void irq_work_single(void *arg)
- 	work->func(work);
- 	lockdep_irq_work_exit(flags);
- 
-+	/*
-+	 * Extract and pin the irq_work_sync() waiter before clearing
-+	 * BUSY. Once BUSY is cleared, @work may be freed immediately
-+	 * by a sync caller that observes BUSY==0 without sleeping, so
-+	 * @work must not be dereferenced after the cmpxchg below.
-+	 */
-+	if ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(work)) ||
-+	    !arch_irq_work_has_interrupt()) {
-+		rcu_read_lock();
-+		waiter = rcu_dereference(work->irqwait.task);
-+		if (waiter)
-+			get_task_struct(waiter);
-+		rcu_read_unlock();
-+	}
-+
- 	/*
- 	 * Clear the BUSY bit, if set, and return to the free state if no-one
- 	 * else claimed it meanwhile.
- 	 */
- 	(void)atomic_cmpxchg(&work->node.a_flags, flags, flags & ~IRQ_WORK_BUSY);
- 
--	if ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(work)) ||
--	    !arch_irq_work_has_interrupt())
--		rcuwait_wake_up(&work->irqwait);
-+	/*
-+	 * @work must not be dereferenced past this point. Wake the
-+	 * pinned waiter if one was sleeping; if none was sleeping,
-+	 * either irq_work_sync() has not been called or it will
-+	 * observe BUSY==0 on its own.
-+	 */
-+	if (waiter) {
-+		wake_up_process(waiter);
-+		put_task_struct(waiter);
-+	}
- }
- 
- static void irq_work_run_list(struct llist_head *list)
--- 
-2.43.0
+-------------------------------------------------------------------------------------------------------------------
+Then defered the kvm_mmu_notifier_detach() using workqueue, then above issue got fixed.
 
+
+Testing:
+-------------
+I've validated the v2 approach with:
+
+Kernel: v7.0-rc2 with PREEMPT_RT and DEBUG_ATOMIC_SLEEP enabled
+Test: Triggered OOM conditions that killed a QEMU process with active KVM VM
+Use these commands for generating scenario:
+1. vng -v -r ./arch/x86/boot/bzImage --qemu-opts='-m 2G -cpu EPYC,+svm,+npt,+tsc,+invtsc -s '
+After successfully booting the virtme-ng(QEMU) ------> Act Host VM
+2. chmod 666 /dev/kvm
+3. dmesg -c > /dev/null
+4. launching Guest VM using this command $qemu-system-x86_64 -enable-kvm -m 1000M -mem-prealloc \
+        -monitor none -serial none -display none -nographic & sleep 10
+
+Results:
+-------------------
+1. oom_enter callback was successfully invoked
+2 No SRCU deadlock warnings
+3 No "sleeping function called from invalid context" warnings
+4.OOM reaper completed successfully
+5. Process was reaped without errors
+
+
+
+Question:
+Before I send the v2 patch series, I want to confirm this approach aligns with your expectations. Specifically:
+Defered this coommon helper kvm_mmu_notifier_detach() for mmu_nottifier_unregister() and unbalanced invalidation using workque is good design?
+Are there any specific test cases or scenarios you'd like me to validate?
+
+I can send the complete v2 patch series once you confirm this approach is on the right track.
+
+Thanks again for the guidance!
+
+Shaikh Kamal
+
+> > This avoids the whole "convert locks to raw" problem and the complexity of deferring work.
+> > 
+> > I have questions on Testing part:
+> > ------------------------------------
+> > I tried to reproduce the bug scenario using the virtme-ng then running
+> > the stress-ng putting memory pressure on VM, but not able to reproduce
+> > the scenario.
+> > I tried this way ..
+> > vng -v -r ./arch/x86/boot/bzImage
+> > VM is up, then running the stress-ng as below
+> > stress-ng --vm 2 --vm-bytes 95% --timeout 20s & sleep 5 & dmesg | tail -30 | grep "sleeping function"
+> > OOM Killer is triggered, but exact bug not able to reproduce, Please
+> > suggest how to reproduce this bug, even we need to verify after code
+> > changes which you have suggested.
+> 
+> I don't know, sorry.  But with this new approach there will always be a call
+> to the new callback from the OOM killer, so it's easier to test.
+> 
+> Thanks,
+> 
+> Paolo
+> 
