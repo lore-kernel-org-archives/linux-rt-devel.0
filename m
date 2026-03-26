@@ -1,125 +1,249 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DBD3CB2EF
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Mar 2026 18:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F62261B8A;
+	Thu, 26 Mar 2026 18:24:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774549457; cv=none; b=eWZGZFtIhn7olxRuBA45DtUzS0CKcAXmwQOY/meXLFIlnwayblvy6WsZEKRj/GF3YVOJ1J5cJ5FcupuGCiZYpQzBZZUhmzy78mByUin+YkTs7MfxI9EtFB4yrOWQZS5vMZzRACW/b+dEZrL4hmXsGRYgaZBHHQ4201P/QmO/EWc=
+	t=1774549484; cv=none; b=lNsmvc8TyK9Ue/Zj9t3Uxgs3BHBeY9uHEl/2G6hni73+rVpng+UAsrMTdb5Wlqtbzl2Cga0w3IDDQTIMrkXKgLUU8u7xu6NpFVSXkSbX7jjPGzb8FlAKwKtD52pun69CIq/RTxzySbbMmSuP9T9OBP1MJJu/I7iEeB4TP2gUAeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774549457; c=relaxed/simple;
-	bh=OQMGWO3Jb9ZRlKPSLzy+ZfSrt4QpEsmLSFST3EKzYAk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LeM6jtX2S6bub+wv01hw/50pvLMT17nF/4G8QZNj0NtYN90z104L6uT4taBn8mxZq1nfClhe3+zXO3vFPy6rTOTs85w5ojMWPu0wuzMc/oXRLSxbb4Rs6LSQcpLvechDHhgRqn+QhZ+kxD1mOirPDtisVwgrzrksiO6GbY/ZxxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ct3GrHWg; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774549484; c=relaxed/simple;
+	bh=IHNSo2lQb/4glv2cQ687MuEaTyDzFMobiyxhmzeckqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZB37GmJd0sCsc4Osoz0cQcgnVj853t75pL8ehxPo3DjOtUDtqX3XWyd3/d+gADBP06jnYFIpBRbZWuEHBfsUtlre0e1dhpWKJD0aZSLRYT290/j0EVkXI34oKmgVs8rTxAIS+cThvv5mTybbtRU9qXhmpdgts/OAnS2TYfk7B4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpoOSRow; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ct3GrHWg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774549453;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OQMGWO3Jb9ZRlKPSLzy+ZfSrt4QpEsmLSFST3EKzYAk=;
-	b=ct3GrHWgTbREyH5bP45z0lIkfyo41MCcJ/GNlRacLRtFptbNyD9XTSCQJbpYB521NlaKLG
-	Rx1qtrX+swWHOZ6zccMZduwdkG6Lszu5b76llOjHvlD9WRteKxHmqJ34WR7re63Lh6kxPm
-	2xCkUncnkOu+cRM87LEaos3iPPiNMkA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-249-SK6U9-HmONy6PXoN8FhWVg-1; Thu, 26 Mar 2026 14:24:12 -0400
-X-MC-Unique: SK6U9-HmONy6PXoN8FhWVg-1
-X-Mimecast-MFC-AGG-ID: SK6U9-HmONy6PXoN8FhWVg_1774549451
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-43b86de58d9so1045762f8f.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 26 Mar 2026 11:24:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774549451; x=1775154251;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OQMGWO3Jb9ZRlKPSLzy+ZfSrt4QpEsmLSFST3EKzYAk=;
-        b=qKdZCoyI5NJS4J00yGCYgHZ/+T8MfIPXypBzlx+2V2et1//flZKotg+DWe5a0ccEZ0
-         cjRKZ3WYIsCFhreGbQM70tEq6nQDXTuycwMzifzRsIQPL3up9JIvRuOYLL08LVv/IsU4
-         g41Fxl0sBhICsuXXdZF8HrEq7oPrMr4yBBMqpi0X5+vPUZJMp0pX/yad8YIPbn4h2VnO
-         y2AweevMHb0LgpAl8sqpQNMxV4WXqRZJQZkcJFCkWW5GBOkqFnX2f7vcYSOW05iN3K2/
-         pAI6OP6FL03ZckI1yJEG9UpW/pF67kRgpExDXxMRj/Ts/nG4i5eGbtg6s6+B5ceXM3IY
-         S7Hw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAwyzGuQEYSfnQ4jlDdcAMhQcVSRF4bIlWLYYIBeomDXaG8tHdZxJtvD2/uyRaiPGrUWClpub1sO+klW5x5A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzk5ZXL07tVsLX68DXaBMmdbtM0iylXjVdiRGF6eIZSIqBLp6qi
-	2jEKRanXXkpjRB9WWhuCGnWT9Tj078xdCGG1I05BrzC6rt+6IHTUq/fpWCQSftx8JGWxm9ZBV5A
-	8eGWjLCbS7ATZYJfLkKuaFB/0O/Ia5WSmaWj1aq+pGTgkaxy+j5Iwsv2UXRRLxqLdSAiToQ2Pvt
-	H2exRJME5d2C7oLI8iujooesa+/b2AG4AjYr6n9YVneZ8=
-X-Gm-Gg: ATEYQzwYxkDMKn5tttKRHtWGNPIXFdlXgs5DtmXtq0DhfUOW+qAWJpr3ziSAz1Qy8hq
-	BwAsz58E7NcNK/LScEOIFEyptAiOqfZR1eDzKKkSeGbDMGk1SPfP7VExA3BVMM3A5Ow0is2WFmy
-	pKZNNdrQo36EooYsErxt8wsYwcfHrWeBzuYQH8/7yOb6QAqN8dXarC3Aqnl+Atd4r1WAs3B1myy
-	z1ktHuCi5xfzYUkBqCGnuZHNQ5iWum9U6p/zHZJhhQ3P/oHXkI4I4r4LaY0EcecMFKIXoLPRNtn
-	11L5
-X-Received: by 2002:a05:6000:4285:b0:43b:45a0:9df8 with SMTP id ffacd0b85a97d-43b88a0fc0bmr14534066f8f.35.1774549451015;
-        Thu, 26 Mar 2026 11:24:11 -0700 (PDT)
-X-Received: by 2002:a05:6000:4285:b0:43b:45a0:9df8 with SMTP id
- ffacd0b85a97d-43b88a0fc0bmr14534017f8f.35.1774549450552; Thu, 26 Mar 2026
- 11:24:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpoOSRow"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D563C116C6;
+	Thu, 26 Mar 2026 18:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774549484;
+	bh=IHNSo2lQb/4glv2cQ687MuEaTyDzFMobiyxhmzeckqw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=CpoOSRowTPncy6NDxqny1BWJGN0YgqPfZFckHNyG1FTQIeQB9nru3J/2Ew20j2dUS
+	 qNiKv7suYE/4lfi1mrW5IHRM1RbNGQwlW8Htxb8NHLcvw+K5MUoLhpn+qScGg0HOCr
+	 JfTeGkGHAtB0xHykwg0KWHPHtod6q6ZHCnb5lEpPLHdy96Ep8GPPBAtBIgN/xjyltl
+	 p36TT4XQmuB6DLPB7tpnE+6f5cnzHbwZJ/pROEGJcFD7+m7J3rCvVOUoWRfuUB4tOl
+	 QcL1Q7f6dEo/z4Zv19VU1oKefEdfM8DKu5a2VGzHGQlzmp6QsO/hjEy0Wf7mvlLQ5c
+	 FFFPWh19LVkyg==
+Message-ID: <ea1cb2a1-b674-4d69-bbf6-00051a0e11df@kernel.org>
+Date: Thu, 26 Mar 2026 19:24:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260209161527.31978-1-shaikhkamal2012@gmail.com>
- <20260211120944.-eZhmdo7@linutronix.de> <aYyhfvC_2s000P7H@google.com>
- <aactOOfirdVRYfNS@acer-nitro-anv15-41> <ae2143b3-ce28-4c87-afcf-1505694246d8@redhat.com>
- <abMS7MALNrmluvh5@acer-nitro-anv15-41> <b51de5cb-8198-4664-afcc-7386ecda81a8@redhat.com>
- <acNwYsm4GfViqiJS@acer-nitro-anv15-41>
-In-Reply-To: <acNwYsm4GfViqiJS@acer-nitro-anv15-41>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Thu, 26 Mar 2026 19:23:58 +0100
-X-Gm-Features: AQROBzAmyn1P9pR-79R4cWceEXwBMD15hAO83tLul9jg4y2-Qgpzo_wGmuGmSBM
-Message-ID: <CABgObfb8POHRUmhu2yoH7B=m5eg_VQpmDcPoj=PttaRkN=dQTg@mail.gmail.com>
-Subject: Re: [PATCH] KVM: mmu_notifier: make mn_invalidate_lock non-sleeping
- for non-blocking invalidations
-To: shaikh kamaluddin <shaikhkamal2012@gmail.com>
-Cc: Sean Christopherson <seanjc@google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, kvm <kvm@vger.kernel.org>, 
-	"Kernel Mailing List, Linux" <linux-kernel@vger.kernel.org>, linux-rt-devel@lists.linux.dev, 
-	Shuah Khan <skhan@linuxfoundation.org>, me@brighamcampbell.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MUKWigcW2ZWawRBl_PbjhGW-fhGR6C1ZZlRTHiwmBiw_1774549451
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] slab: replace cpu (partial) slabs with sheaves
+Content-Language: en-US
+To: Uladzislau Rezki <urezki@gmail.com>,
+ Aishwarya Rambhadran <aishwarya.rambhadran@arm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
+ Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com,
+ kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org,
+ "Paul E. McKenney" <paulmck@kernel.org>, ryan.roberts@arm.com
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+ <afe9ba0a-1924-42a8-a9c5-34eec709f883@arm.com>
+ <ed58493b-0369-4729-bcf7-bc89f72a7913@kernel.org> <acV36oPNFMgL4puz@milan>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <acV36oPNFMgL4puz@milan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Il mer 25 mar 2026, 06:19 shaikh kamaluddin
-<shaikhkamal2012@gmail.com> ha scritto:
->
-> 1. Added oom_enter callback to struct mmu_notifier_ops in include/linux/m=
-mu_notifier.h
-> 2. Implemented __mmu_notifier_oom_enter() in mm/mmu_notifier.c to invoke =
-registered callbacks
-> 3. Called mmu_notifier_oom_enter(mm) from __oom_kill_process in mm/oom_ki=
-ll.c before any invalidations
-> 4. As per your suggestion, move existing kvm_destroy_vm() logic that alre=
-ady handles unbalanced invalidation to the new helper function kvm_mmu_noti=
-fier_detach() and invoke it from the kvm_destroy_vm()
+On 3/26/26 19:16, Uladzislau Rezki wrote:
+> On Thu, Mar 26, 2026 at 03:42:02PM +0100, Vlastimil Babka (SUSE) wrote:
+>> On 3/26/26 13:43, Aishwarya Rambhadran wrote:
+>> > Hi Vlastimil, Harry,
+>> 
+>> Hi!
+>> 
+>> > We have observed few kernel performance benchmark regressions,
+>> > mainly in perf & vmalloc workloads, when comparing v6.19 mainline
+>> > kernel results against later releases in the v7.0 cycle.
+>> > Independent bisections on different machines consistently point
+>> > to commits within the slab percpu sheaves series. However, towards
+>> > the end of the bisection, the signal becomes less clear, so it's
+>> > not yet certain which specific commit within the series is the
+>> > root cause.
+>> > 
+>> > The workloads were triggered on AWS Graviton3 (arm64) & AWS Intel
+>> > Sapphire Rapids (x86_64) systems in which the regressions are
+>> > reproducible across different kernel release candidates.
+>> > (R)/(I) mean statistically significant regression/improvement,
+>> > where "statistically significant" means the 95% confidence
+>> > intervals do not overlap”.
+>> > 
+>> > Below given are the performance benchmark results generated by
+>> > Fastpath Tool, for different kernel -rc versions relative to the
+>> > base version v6.19, executed on the mentioned SUTs. The perf/
+>> > syscall benchmarks (execve/fork) regress consistently by ~6–11% on
+>> > both arm64 and x86_64 across v7.0-rc1 to rc5, while vmalloc
+>> > workloads show smaller but stable regressions (~2–10%), particularly
+>> > in kvfree_rcu paths.
+>> > 
+>> > Regressions on AWS Intel Sapphire Rapids (x86_64) :
+>> 
+>> The table formatting is broken for me, can you resend it please? Maybe a
+>> .txt attachment would work better.
+>> 
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > | Benchmark       | Result Class            |   6-19-0 (base) |  
+>> >   7-0-0-rc1 |   7-0-0-rc2 |  7-0-0-rc2-gaf4e9ef3d784 |   7-0-0-rc3 |  
+>> >   7-0-0-rc4 |   7-0-0-rc5 |
+>> > +=================+==========================================================+=================+=============+=============+===========================+=============+=============+=============+
+>> > | micromm/vmalloc | kvfree_rcu_1_arg_vmalloc_test: p:1, h:0, l:500000 
+>> > (usec) |       262605.17 |      -4.94% |      -7.48% |             (R) 
+>> > -8.11% |      -4.51% |      -6.23% |      -3.47% |
+>> > |                 | kvfree_rcu_2_arg_vmalloc_test: p:1, h:0, l:500000 
+>> > (usec) |       253198.67 |      -7.56% | (R) -10.57% |            (R) 
+>> > -10.13% |  (R) -7.07% |      -6.37% |      -6.55% |
+>> > |                 | pcpu_alloc_test: p:1, h:0, l:500000 (usec)           
+>> >   |       197904.67 |      -2.07% |      -3.38% |             -2.07% |  
+>> >      -2.97% |  (R) -4.30% |      -3.39% |
+>> > |                 | random_size_align_alloc_test: p:1, h:0, l:500000 
+>> > (usec)  |      1707089.83 |      -2.63% |  (R) -3.69% |               
+>> > (R) -3.25% |  (R) -2.87% |      -2.22% |  (R) -3.63% |
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > | perf/syscall    | execve (ops/sec)            |         1202.92 |  (R) 
+>> > -7.15% |  (R) -7.05% |         (R) -7.03% |  (R) -7.93% |  (R) -6.51% |  
+>> > (R) -7.36% |
+>> > |                 | fork (ops/sec)            |          996.00 |  (R) 
+>> > -9.00% | (R) -10.27% |         (R) -9.92% | (R) -11.19% | (R) -10.69% | 
+>> > (R) -10.28% |
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > 
+>> > Regressions on AWS Graviton3 (arm64) :
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > | Benchmark       | Result Class            |   6-19-0 (base) |  
+>> >   7-0-0-rc1 |   7-0-0-rc2 |  7-0-0-rc2-gaf4e9ef3d784 |   7-0-0-rc3 |  
+>> >   7-0-0-rc4 |   7-0-0-rc5 |
+>> > +=================+==========================================================+=================+=============+=============+===========================+=============+=============+=============+
+>> > | micromm/vmalloc | fix_size_alloc_test: p:1, h:0, l:500000 (usec)      
+>> >       |       320101.50 |  (R) -4.72% |  (R) -3.81% |               (R) 
+>> > -5.05% |      -3.06% |      -3.16% |  (R) -3.91% |
+>> > |                 | fix_size_alloc_test: p:4, h:0, l:500000 (usec)      
+>> >       |       522072.83 |  (R) -2.15% |      -1.25% |               (R) 
+>> > -2.16% |  (R) -2.13% |      -2.10% |      -1.82% |
+>> > |                 | fix_size_alloc_test: p:16, h:0, l:500000 (usec)      
+>> >      |      1041640.33 |      -0.50% |  (R) -2.04% |                 
+>> > -1.43% |      -0.69% |      -1.78% |  (R) -2.03% |
+>> > |                 | fix_size_alloc_test: p:256, h:1, l:100000 (usec)    
+>> >       |      2255794.00 |      -1.51% |  (R) -2.24% |             (R) 
+>> > -2.33% |      -1.14% |      -0.94% |      -1.60% |
+>> > |                 | kvfree_rcu_1_arg_vmalloc_test: p:1, h:0, l:500000 
+>> > (usec) |       343543.83 |  (R) -4.50% |  (R) -3.54% |             (R) 
+>> > -5.00% |  (R) -4.88% |  (R) -4.01% |  (R) -5.54% |
+>> > |                 | kvfree_rcu_2_arg_vmalloc_test: p:1, h:0, l:500000 
+>> > (usec) |       342290.33 |  (R) -5.15% |  (R) -3.24% |             (R) 
+>> > -3.76% |  (R) -5.37% |  (R) -3.74% |  (R) -5.51% |
+>> > |                 | random_size_align_alloc_test: p:1, h:0, l:500000 
+>> > (usec)  |      1209666.83 |      -2.43% |      -2.09% |                 
+>> >    -1.19% |  (R) -4.39% |      -1.81% |      -3.15% |
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > | perf/syscall    | execve (ops/sec)            |         1219.58 |      
+>> >         |  (R) -8.12% |         (R) -7.37% |  (R) -7.60% |  (R) -7.86% 
+>> > |  (R) -7.71% |
+>> > |                 | fork (ops/sec)            |          863.67 |        
+>> >       |  (R) -7.24% |         (R) -7.07% |  (R) -6.42% |  (R) -6.93% |  
+>> > (R) -6.55% |
+>> > +-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
+>> > 
+>> > 
+>> > The details of latest bisections that were carried out for the above
+>> > listed regressions, are given below :
+>> > -Graviton3 (arm64)
+>> >   good: v6.19 (05f7e89ab973)
+>> >   bad:  v7.0-rc2 (11439c4635ed)
+>> >   workload: perf/syscall (execve)
+>> >   bisected to: f1427a1d6415 (“slab: make percpu sheaves compatible with
+>> >   kmalloc_nolock()/kfree_nolock()”)
+>> > 
+>> > -Sapphire Rapids (x86_64)
+>> >   good: v6.19 (05f7e89ab973)
+>> >   bad:  v7.0-rc3 (1f318b96cc84)
+>> >   workload: perf/syscall (fork)
+>> >   bisected to: f1427a1d6415 (“slab: make percpu sheaves compatible with
+>> >   kmalloc_nolock()/kfree_nolock()”)
+>> > 
+>> > -Graviton3 (arm64)
+>> >   good: v6.19 (05f7e89ab973)
+>> >   bad:  v7.0-rc3 (1f318b96cc84)
+>> >   workload: perf/syscall (execve)
+>> >   bisected to: f3421f8d154c (“slab: introduce percpu sheaves bootstrap”)
+>> 
+>> Yeah none of these are likely to introduce the regression.
+>> We've seen other reports from e.g. lkp pointing to later commits that remove
+>> the cpu (partial) slabs. The theory is that on benchmarks that stress vma
+>> and maple node caches (fork and execve are likely those), the introduction
+>> of sheaves in 6.18 (for those caches only) resulted in ~doubled percpu
+>> caching capacity (and likely associated performance increase) - by sheaves
+>> backed by cpu (partial) slabs,. Removing the latter then looks like a
+>> regression in isolation in the 7.0 series.
+>> 
+>> A regression of vmalloc related to kvfree_rcu might be new. Although if it's
+>> kvfree_rcu() of vmalloc'd objects, it would be weird. More likely they are
+>> kvmalloc'd but small enough to be actually kmalloc'd? What are the details
+>> of that test?
+>> 
+> static int
+> kvfree_rcu_2_arg_vmalloc_test(void)
 
-This is not fully clear to me... It could be caused by a recursive
-locking, or also a false positive. It's hard to say without seeing the
-full backtrace, but seeing "lock(srcu)" is suspicious.
+Oh so that's what the test is measuring? Thanks for clarifying.
 
-I wouldn't have expected deferral to be necessary; and it seems to me
-that, if you defer removal to some time after the OOM reaper starts,
-you'd have the same problem as before with sleeping spinlocks.
+> {
+> 	struct test_kvfree_rcu *p;
+> 	int i;
+> 
+> 	for (i = 0; i < test_loop_count; i++) {
+> 		p = vmalloc(1 * PAGE_SIZE);
+> 		if (!p)
+> 			return -1;
+> 
+> 		p->array[0] = 'a';
+> 		kvfree_rcu(p, rcu);
+> 	}
+> 
+> 	return 0;
+> }
+> 
+> static bool kfree_rcu_sheaf(void *obj)
+> {
+> 	struct kmem_cache *s;
+> 	struct slab *slab;
+> 
+> 	if (is_vmalloc_addr(obj))
+> 		return false;
+> 
+> 	slab = virt_to_slab(obj);
+> 	if (unlikely(!slab))
+> 		return false;
+> 
+> 	s = slab->slab_cache;
+> 	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id()))
+> 		return __kfree_rcu_sheaf(s, obj);
+> 
+> 	return false;
+> }
+> 
+> it does not go via sheaf since it is a vmalloc address.
 
-Can you post the original patch without deferral?
+Right so there should be just the overhead of the extra is_vmalloc_addr()
+test. Possibly also the call of kfree_rcu_sheaf() if it's not inlined.
+I'd say it's something we can just accept? It seems this is a unit test
+being used as a microbenchmark, so it can be very sensitive even to such
+details, but it should be negligible in practice.
 
-Paolo
-
->
-> Key Design Decision:
-> ------------------------------
-> Implementation point no 4, while testing, Issue I was encountering is a r=
-ecursive locking problem with the srcu lock, which is being acquired twice =
-in the same context. This happens during the __mmu_notifier_oom_enter() and=
- __synchronize_srcu() calls, leading to a potential deadlock.
-> Please find below log snippet while launching the Guest VM
+> 
+> --
+> Uladzislau Rezki
 
