@@ -1,109 +1,317 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A7F128C874
-	for <linux-rt-devel@lists.linux.dev>; Thu, 26 Mar 2026 08:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4D1374E42;
+	Thu, 26 Mar 2026 08:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774512704; cv=none; b=LBzJqNNXMZ3BlSyDL4T/uyzrmcmiWNZr9YIqZfXBwrXF0yG6uVUcOzMUS9yzcqbAQldqsXSJYZ2wBATGHqkUUH1uus6Kr4v+8yHN1q25bWdtA9+6vqkKlGooZvbJFDZ9qSiIBWf94xmJ0FZEsZiJ7Z9PJrIRh4Il2YQ0BKftQqc=
+	t=1774514733; cv=none; b=i1pxcNKtxD5OcIV37KhUAD7ejCskJWbWWJphnNjG4yKkFS53cUPdS1cfz06z9mXU1hrfMzThprYuv1g4KqX3t5dVkswfklreoZ4MqwIntmjH4P3TRpvjhBUX0vmTCOPMFvwBgH4ZA7Vfwme+vHkeltJ3aV4PxkCpGnnbDttXmxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774512704; c=relaxed/simple;
-	bh=m3B4bDXmrf68EFdv1Pap6pDGLuKNs+0tU6ZaCD83/Qg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dIPKPKLsbF+c1zXF/1WAI70RRKANng5oifXLeOf4PKQmRksXiN021zvg4BkJV1Tc3IOfeovvqgCs0tXtdpK14u+LeJhoGuVIJiOP9kEhhcTp+MufccxW6lI+L210UTNqx7ae2wygXLSLCUQP34Z0O2Q1qxxPx5pv9i0YGPBVGGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KBfjaDmI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hgZ+opNq; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1774514733; c=relaxed/simple;
+	bh=MZXqAQ4zdN0f57LW1dQvAf0WZXspZu5jCd0wgZsCdgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AGb91SP2LG6Fxl6ioUPE13R3w+rqapPzl28Wy4gpZRJIWHtxYKlon3jVS7LsYln0nq5Un7rSOaM0T6wr2oMeK1SVBJuHowdashAU6gAW/MGO0/t/fbGwD07C5TuBN9Z57pMDHwULuebRG3/3Q9kdtbh+w15JGo3tLy4fl+r1OZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hipuixM6; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KBfjaDmI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hgZ+opNq"
-Date: Thu, 26 Mar 2026 09:11:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1774512702;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX1xs2o3huzMzG3Fi3z/VL3SfbbVmEHskTvZ8RdiKoE=;
-	b=KBfjaDmIGywuDHnnsXFmM0Ylyb9RLUzLrXjznvvABeDBZ+ttYXYU5sFZG+5RYk2/KoMYsI
-	P3mMnjca2B6ZhWMeqj1DTfgN7L+GxL5OxaDEDpbJfJS6vPMC5rqlFgZ85XTUG5w64HjThO
-	1vu9PdoPC+Y4Y9X+R3ri1x2wwVW8yTP0AHsrzNZVxWRQEYdAeKSKK4LRJKhSeyrFyRY+8x
-	cttDpMKwHdaH6tzQS9GqKK1iZQluUpp9XRmgWajlS54VTUAJVlI6sxcawVXYI4XLBm71if
-	TdfhRd52M0rXgqtdHeTsY2jqVFRdDIbsc5rYcNZjuMhQRz6oEnpijhmEHzPfAg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1774512702;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GX1xs2o3huzMzG3Fi3z/VL3SfbbVmEHskTvZ8RdiKoE=;
-	b=hgZ+opNq5ksNale7WyLiD8jmMyQX6SZM69HNWgLaFqL6kE9hfuCRN54nxYSVxDdOpDLc2b
-	s1+3FNDXSn72ARCg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: Steven Rostedt <rostedt@goodmis.org>, linux-rt-devel@lists.linux.dev,
-	Clark Williams <clrkwllms@kernel.org>, linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: Re: [PATCH v1] irq_work: Fix use-after-free in irq_work_single on
- PREEMPT_RT
-Message-ID: <20260326081140.qzEgA7jy@linutronix.de>
-References: <20260325153826.EbSqlX_n@linutronix.de>
- <20260325115315.052e34ac@gandalf.local.home>
- <20260325155504.tm4zHWMI@linutronix.de>
- <5b6f6480-aa2d-4966-b3c7-6c719e915285@linux.dev>
- <20260325170539.MHkr49jU@linutronix.de>
- <20260325134433.7d46507d@gandalf.local.home>
- <20260325175150._IrYQldq@linutronix.de>
- <20260325135540.4d127635@gandalf.local.home>
- <20260325175915.YufD1Y8T@linutronix.de>
- <b4a90c71-f559-4a47-beea-1f915fe97321@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hipuixM6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774514731; x=1806050731;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MZXqAQ4zdN0f57LW1dQvAf0WZXspZu5jCd0wgZsCdgo=;
+  b=hipuixM6t2zfe6spUkJda7wIKGi4x/1AqjcWermh1QM7jXBKkBpcD6T6
+   GjND684nclJ0QcX7Ttv3oE5SJtVmX5RHDmm90MlVO30eXvoJxHsUGfbYu
+   jKBy3VmQJkKuTUUwD4EitqMIQY7kDsZoBnF6LiAoj+HOZltPV46UWWKyy
+   zXJJ81Ay1oNfJ5umwH90frCcgIc68SXBR3vZpRYT8z0RRkys9+/5Fzwd/
+   OsfVtvHWIzDz1fx+okS/r4H6JciHxTQ20v0fQp2RemxAOf/u4fApHO85d
+   DRLSFQAZaenjqxBns4aKXUHV6bEhLlBxDjIs7g70UA+VDWXQNQiF0pnyT
+   A==;
+X-CSE-ConnectionGUID: l9I0JKbUShOw03vqo2TXgQ==
+X-CSE-MsgGUID: MOT8T0UvSrmjCTfxo6twUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86644591"
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="86644591"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 01:45:19 -0700
+X-CSE-ConnectionGUID: KrjmwmSpR3ClGl/AM/ULPw==
+X-CSE-MsgGUID: 175/2mEpQ8iqKRCH2ivF6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
+   d="scan'208";a="224967090"
+Received: from 984fee019967.jf.intel.com ([10.23.153.244])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 01:45:14 -0700
+From: Chao Gao <chao.gao@intel.com>
+To: kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	x86@kernel.org
+Cc: binbin.wu@linux.intel.com,
+	dan.j.williams@intel.com,
+	dave.hansen@linux.intel.com,
+	ira.weiny@intel.com,
+	kai.huang@intel.com,
+	kas@kernel.org,
+	nik.borisov@suse.com,
+	paulmck@kernel.org,
+	pbonzini@redhat.com,
+	reinette.chatre@intel.com,
+	rick.p.edgecombe@intel.com,
+	sagis@google.com,
+	seanjc@google.com,
+	tony.lindgren@linux.intel.com,
+	vannapurve@google.com,
+	vishal.l.verma@intel.com,
+	yilun.xu@linux.intel.com,
+	xiaoyao.li@intel.com,
+	yan.y.zhao@intel.com,
+	Chao Gao <chao.gao@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: [PATCH v6 00/22] Runtime TDX module update support
+Date: Thu, 26 Mar 2026 01:43:51 -0700
+Message-ID: <20260326084448.29947-1-chao.gao@intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <b4a90c71-f559-4a47-beea-1f915fe97321@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-03-26 10:27:10 [+0800], Jiayuan Chen wrote:
-> Combining your and Steven's suggestions, I think the simplest fix would b=
-e:
->=20
-> static void run_irq_workd(unsigned int cpu)
-> {
-> +=C2=A0 =C2=A0guard(rcu)();
-> =C2=A0 =C2=A0 irq_work_run_list(this_cpu_ptr(&lazy_list));
-> }
->=20
-> void irq_work_sync(struct irq_work *work)
-> {
-> =C2=A0 =C2=A0 lockdep_assert_irqs_enabled();
-> =C2=A0 =C2=A0 might_sleep();
->=20
-> =C2=A0 =C2=A0 if ((IS_ENABLED(CONFIG_PREEMPT_RT) && !irq_work_is_hard(wor=
-k)) ||
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 !arch_irq_work_has_interrupt()) {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rcuwait_wait_event(&work->irqwa=
-it, !irq_work_is_busy(work),
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0TASK_UNINTERRUPTIBLE);
-> =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*
-> =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * Ensure run_irq=
-_workd() / irq_work_single() is done
-> =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * accessing @wor=
-k before the caller can free it.
+Hi Reviewers,
 
-  Ensure irq_work_single() does not access @work after removing
-  IRQ_WORK_BUSY. It is always accessed within a RCU-read section.
+Please review patches 6 and 17; others already have 2+ RB tags.
 
-But, yes, this looks like a simple fix.
+Patch 6 was reworked to use is_visible() for attribute visibility (which is
+the standard practice), so previous RB tags were dropped. Patch 17 has
+fewer reviews so far and needs another look.
 
-> =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */
-> =C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0synchronize_rcu();
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;
-> =C2=A0 =C2=A0 }
+I believe this series is quite mature and also self-contained (no impact to
+the rest of kernel unless an update is triggered through the dedicated
+sysfs ABIs). I'm hoping it can be merged for 7.1.
 
-Sebastian
+Changelog:
+v5->v6:
+ - use TDX_VERSION_FMT macro [Dave/Kiryl]
+ - use is_visible() to control seamldr attribute visibility [Yilun]
+ - drop revision/chapter numbers when referring to a spec [Kiryl/Xiaoyao]
+ - change update failure indicator from int to boolean [Kiryl]
+ - reset tdx_lp_initialized for offlined CPUs [Kai]
+ - add a wrapper for seamldr_call(P_SEAMLDR_INSTALL..) [Kiryl]
+ - clarify the "do nothing" choice when collision detection isn't
+   supported [Kai/Kiryl]
+ - other minor code changes, changelog improvements and typo fixes [Kiryl/Kai/Xiaoyao]
+ - collect review tags from Kiryl/Kai
+ - v5: https://lore.kernel.org/kvm/20260315135920.354657-1-chao.gao@intel.com/
+
+(For transparency, note that I used AI tools to help proofread this
+cover-letter and commit messages)
+
+This series adds support for runtime TDX module updates that preserve
+running TDX guests. It is also available at:
+
+  https://github.com/gaochaointel/linux-dev/commits/tdx-module-updates-v6/
+
+== Background ==
+
+Intel TDX isolates Trusted Domains (TDs), or confidential guests, from the
+host. A key component of Intel TDX is the TDX module, which enforces
+security policies to protect the memory and CPU states of TDs from the
+host. However, the TDX module is software that requires updates.
+
+== Problems ==
+
+Currently, the TDX module is loaded by the BIOS at boot time, and the only
+way to update it is through a reboot, which results in significant system
+downtime. Users expect the TDX module to be updatable at runtime without
+disrupting TDX guests.
+
+== Solution ==
+
+On TDX platforms, P-SEAMLDR[1] is a component within the protected SEAM
+range. It is loaded by the BIOS and provides the host with functions to
+install a TDX module at runtime.
+
+Implement a TDX module update facility via the fw_upload mechanism. Given
+that there is variability in which module update to load based on features,
+fix levels, and potentially reloading the same version for error recovery
+scenarios, the explicit userspace chosen payload flexibility of fw_upload
+is attractive.
+
+This design allows the kernel to accept a bitstream instead of loading a
+named file from the filesystem, as the module selection and policy
+enforcement for TDX modules are quite complex (see patch "coco/tdx-host:
+Implement firmware upload sysfs ABI for TDX module updates"). By doing
+so, much of this complexity is shifted out of the kernel. The kernel
+needs to expose information, such as the TDX module version, to
+userspace.  Userspace must understand the TDX module versioning scheme
+and update policy to select the appropriate TDX module (see "TDX module
+Versioning" below).
+
+In the unlikely event the update fails, for example userspace picks an
+incompatible update image, or the image is otherwise corrupted, all TDs
+will experience SEAMCALL failures and be killed. The recovery of TD
+operation from that event requires a reboot.
+
+Given there is no mechanism to quiesce SEAMCALLs, the TDs themselves must
+pause execution over an update. The most straightforward way to meet the
+'pause TDs while update executes' constraint is to run the update in
+stop_machine() context. All other evaluated solutions export more
+complexity to KVM, or exports more fragility to userspace.
+
+== How to test this series ==
+
+First, load kvm-intel.ko and tdx-host.ko if they haven't been loaded:
+
+ # modprobe -r kvm_intel
+ # modprobe kvm_intel tdx=1
+ # modprobe tdx-host
+
+Then, use the userspace tool below to select the appropriate TDX module and
+install it via the interfaces exposed by this series:
+
+ # git clone https://github.com/intel/tdx-module-binaries
+ # cd tdx-module-binaries
+ # python version_select_and_load.py --update
+
+this version changes the firmware directory name from seamldr_upload to
+tdx_module, so, below change should be applied to version_select_and_load.py:
+
+diff --git a/version_select_and_load.py b/version_select_and_load.py
+index 2193bd8..6a3b604 100644
+--- a/version_select_and_load.py
++++ b/version_select_and_load.py
+@@ -38,7 +38,7 @@ except ImportError:
+     print("Error: cpuid module is not installed. Please install it using 'pip install cpuid'")
+     sys.exit(1)
+
+-FIRMWARE_PATH = "/sys/class/firmware/seamldr_upload"
++FIRMWARE_PATH = "/sys/class/firmware/tdx_module"
+ MODULE_PATH = "/sys/devices/faux/tdx_host"
+ SEAMLDR_PATH = "/sys/devices/faux/tdx_host/seamldr"
+ allow_debug = False
+
+
+== Other information relevant to Runtime TDX module updates ==
+
+=== TDX module versioning ===
+
+Each TDX module is assigned a version number x.y.z, where x represents the
+"major" version, y the "minor" version, and z the "update" version.
+
+Runtime TDX module updates are restricted to Z-stream releases.
+
+Note that Z-stream releases do not necessarily guarantee compatibility. A
+new release may not be compatible with all previous versions. To address this,
+Intel provides a separate file containing compatibility information, which
+specifies the minimum module version required for a particular update. This
+information is referenced by the tool to determine if two modules are
+compatible.
+
+=== TCB Stability ===
+
+Updates change the TCB as viewed by attestation reports. In TDX there is
+a distinction between launch-time version and current version where
+runtime TDX module updates cause that latter version number to change,
+subject to Z-stream constraints.
+
+The concern that a malicious host may attack confidential VMs by loading
+insecure updates was addressed by Alex in [3]. Similarly, the scenario
+where some "theoretical paranoid tenant" in the cloud wants to audit
+updates and stop trusting the host after updates until audit completion
+was also addressed in [4]. Users not in the cloud control the host machine
+and can manage updates themselves, so they don't have these concerns.
+
+See more about the implications of current TCB version changes in
+attestation as summarized by Dave in [5].
+
+=== TDX module Distribution Model ===
+
+At a high level, Intel publishes all TDX modules on the github [2], along
+with a mapping_file.json which documents the compatibility information
+about each TDX module and a userspace tool to install the TDX module. OS
+vendors can package these modules and distribute them. Administrators
+install the package and use the tool to select the appropriate TDX module
+and install it via the interfaces exposed by this series.
+
+[1]: https://cdrdv2.intel.com/v1/dl/getContent/733584
+[2]: https://github.com/intel/tdx-module-binaries
+[3]: https://lore.kernel.org/all/665c5ae0-4b7c-4852-8995-255adf7b3a2f@amazon.com/
+[4]: https://lore.kernel.org/all/5d1da767-491b-4077-b472-2cc3d73246d6@amazon.com/
+[5]: https://lore.kernel.org/all/94d6047e-3b7c-4bc1-819c-85c16ff85abf@intel.com/
+
+
+
+Chao Gao (21):
+  coco/tdx-host: Introduce a "tdx_host" device
+  coco/tdx-host: Expose TDX module version
+  x86/virt/seamldr: Introduce a wrapper for P-SEAMLDR SEAMCALLs
+  x86/virt/seamldr: Add a helper to retrieve P-SEAMLDR information
+  coco/tdx-host: Expose P-SEAMLDR information via sysfs
+  coco/tdx-host: Implement firmware upload sysfs ABI for TDX module
+    updates
+  x86/virt/seamldr: Allocate and populate a module update request
+  x86/virt/seamldr: Introduce skeleton for TDX module updates
+  x86/virt/seamldr: Abort updates if errors occurred midway
+  x86/virt/seamldr: Shut down the current TDX module
+  x86/virt/tdx: Reset software states during TDX module shutdown
+  x86/virt/seamldr: Install a new TDX module
+  x86/virt/seamldr: Do TDX per-CPU initialization after updates
+  x86/virt/tdx: Restore TDX module state
+  x86/virt/tdx: Update tdx_sysinfo and check features post-update
+  x86/virt/tdx: Avoid updates during update-sensitive operations
+  coco/tdx-host: Don't expose P-SEAMLDR features on CPUs with erratum
+  x86/virt/tdx: Enable TDX module runtime updates
+  coco/tdx-host: Document TDX module update compatibility criteria
+  x86/virt/tdx: Document TDX module update
+  x86/virt/seamldr: Log TDX module update failures
+
+Kai Huang (1):
+  x86/virt/tdx: Move low level SEAMCALL helpers out of <asm/tdx.h>
+
+ .../ABI/testing/sysfs-devices-faux-tdx-host   |  75 ++++
+ Documentation/arch/x86/tdx.rst                |  36 ++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/seamldr.h                |  37 ++
+ arch/x86/include/asm/tdx.h                    |  64 +---
+ arch/x86/include/asm/tdx_global_metadata.h    |   5 +
+ arch/x86/include/asm/vmx.h                    |   1 +
+ arch/x86/kvm/vmx/tdx_errno.h                  |   2 -
+ arch/x86/virt/vmx/tdx/Makefile                |   2 +-
+ arch/x86/virt/vmx/tdx/seamcall_internal.h     | 109 ++++++
+ arch/x86/virt/vmx/tdx/seamldr.c               | 335 ++++++++++++++++++
+ arch/x86/virt/vmx/tdx/tdx.c                   | 166 ++++++---
+ arch/x86/virt/vmx/tdx/tdx.h                   |  11 +-
+ arch/x86/virt/vmx/tdx/tdx_global_metadata.c   |  20 ++
+ drivers/virt/coco/Kconfig                     |   2 +
+ drivers/virt/coco/Makefile                    |   1 +
+ drivers/virt/coco/tdx-host/Kconfig            |  12 +
+ drivers/virt/coco/tdx-host/Makefile           |   1 +
+ drivers/virt/coco/tdx-host/tdx-host.c         | 250 +++++++++++++
+ 19 files changed, 1027 insertions(+), 103 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-faux-tdx-host
+ create mode 100644 arch/x86/include/asm/seamldr.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamcall_internal.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamldr.c
+ create mode 100644 drivers/virt/coco/tdx-host/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-host/Makefile
+ create mode 100644 drivers/virt/coco/tdx-host/tdx-host.c
+
+
+base-commit: 0f409eaea53e49932cf92a761de66345c9a4b4be
+-- 
+2.47.3
+
