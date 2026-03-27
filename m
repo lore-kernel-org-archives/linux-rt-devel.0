@@ -1,186 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4145B299A81;
-	Fri, 27 Mar 2026 03:20:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A526429BDB1;
+	Fri, 27 Mar 2026 07:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774581614; cv=none; b=F7VOgLYkQL3IgbesauHfORoGeBcs28U3KtA+/AAs9CEyTtjfpzMOy+uQrk6VD/FC1pNswhZVesBX1B0ZROYE2vwR/k1cJNguMzV7KPXHe2hz/tioonZFIT1HJb2muepdF6qx0RG+QyTmxywEMHBaGixT8jbvcUp73xTsYsyleK0=
+	t=1774598058; cv=none; b=fmJNBq5VZZx03xcs0MFHwmmu76Nxc1Wsq5QcvBe5p+ErP/pHZp08YzzCQAx6N5ZGMYiY7WAVlFNdgap8fzQaDWegTbWL3FBwb0Yotbt9VY4C2O8hNEJFgPqn86Ajqqeey1k/aISdNlSIgDX/gb2zZnqo5IwFL8bcDFjzsWxFkaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774581614; c=relaxed/simple;
-	bh=3rohkKHMZQSs2BVw73LamMIlHPpx5pWmvpls8oac/OA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=StwV8roI2qNJvatUFFH3F6NiPw1+qnfCmo7dqPihJCjLOKbo6AtnXuC634YJFjz6YtAipC0Svio6DSf6VUBkO4gIH/kE1GobzeBj+Z9iKE/HbFl/9st1+fBTTzRKe6jTcnoyigr7wKYqQs+hw7P7Y0k6Xz+t6bQEui5xAppXkiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0XL+JbA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774598058; c=relaxed/simple;
+	bh=fVfnbrCFPbx56fN5k/LPGrEtqO3hIsGVAx/y6wA1wg4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OSd2APQlEW6XqfhmzBhswwB6tYmvknXQqGPIW4bGlguSbu0ihA3CxXZMop9ay1N4R7J+FtVXFr7lvAoOVfFzEzER2AIXtI3EvdcCo8RfUY0m8MSn7la5BeW+VVzPRmQPfod+ulNyFXUCfnugNk8yxEYt3guO72UZI1z0Zofp0PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZVPrWOIS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0XL+JbA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60289C116C6;
-	Fri, 27 Mar 2026 03:20:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZVPrWOIS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01DA0C19423;
+	Fri, 27 Mar 2026 07:54:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774581613;
-	bh=3rohkKHMZQSs2BVw73LamMIlHPpx5pWmvpls8oac/OA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z0XL+JbAwseDsRa2gIRo+mhPVfWP36nkJqE9DU2VW9+LjgoUeic597AbmvhNA6gAF
-	 HbiLKzocmNLQvYO68jqA5sLxqkVn6sIOLGp4lSw9cLWRj9sbHJdwSS6eGf6GwvdYoS
-	 9sTACWuIhhiYse1jfPgrtkX7weuRp2pY7y9uZZtCKIc3AngL8U9iFjW75nRjtN4XqI
-	 i7SXgX39UBWVHal+BXyxk0AtmR7y9T73E/Q/G8vi9/tqmL7mgrTtrAkQ9bZnsQyHgj
-	 ann5mgDwKks8CFCOZe/A0IUP/OPBcE8EV8fQiJ87xnuiJYDqiCWO/OLmUEuxn0TnkJ
-	 jVLcZyqZb1AUg==
-Date: Fri, 27 Mar 2026 12:20:11 +0900
-From: "Harry Yoo (Oracle)" <harry@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Aishwarya Rambhadran <aishwarya.rambhadran@arm.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Petr Tesarik <ptesarik@suse.com>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hao Li <hao.li@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	bpf@vger.kernel.org, kasan-dev@googlegroups.com,
-	kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>, ryan.roberts@arm.com
-Subject: Re: [REGRESSION] slab: replace cpu (partial) slabs with sheaves
-Message-ID: <acX3a5w4JGwU_TEt@hyeyoo>
-References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
- <afe9ba0a-1924-42a8-a9c5-34eec709f883@arm.com>
- <ed58493b-0369-4729-bcf7-bc89f72a7913@kernel.org>
+	s=k20201202; t=1774598058;
+	bh=fVfnbrCFPbx56fN5k/LPGrEtqO3hIsGVAx/y6wA1wg4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZVPrWOISjGykaGNzIuPtynp7+S7nBx1sHQrIkRq0Ii27psJLu9c27zdY01msai7yk
+	 CasYCrJaSnnQZhJLWTdEdFoBZ+kqCk+5JoisOZcZ9nr+duf+gdbONshdbiiQ/JCZU4
+	 iWHJcsIJdAfJY30N67YOibmQus+oUA1jknUZLH4QJdfFhxV/N/axs8bRQtFIgY0wEv
+	 kenlEZo/d2owb7l+oNs+vmGM3lzJ56F3gh6o3m/s1jH3HVBEFwxvJs7mXCqittnYNX
+	 6ks1u+duSS5PGp9aBywxJONjmeVwtvV33w53j0JWZJ55a361bo0Y/ZL6l4jYySTUqh
+	 vtGSTFjdYnZsg==
+Message-ID: <0f441d8f-d84c-470a-a4cb-0249b15220a2@kernel.org>
+Date: Fri, 27 Mar 2026 08:54:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ed58493b-0369-4729-bcf7-bc89f72a7913@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] slab: replace cpu (partial) slabs with sheaves
+To: Ryan Roberts <ryan.roberts@arm.com>, Uladzislau Rezki <urezki@gmail.com>,
+ Aishwarya Rambhadran <aishwarya.rambhadran@arm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Harry Yoo <harry.yoo@oracle.com>,
+ Petr Tesarik <ptesarik@suse.com>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Suren Baghdasaryan <surenb@google.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Alexei Starovoitov <ast@kernel.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ bpf@vger.kernel.org, kasan-dev@googlegroups.com,
+ kernel test robot <oliver.sang@intel.com>, stable@vger.kernel.org,
+ "Paul E. McKenney" <paulmck@kernel.org>
+References: <20260123-sheaves-for-all-v4-0-041323d506f7@suse.cz>
+ <afe9ba0a-1924-42a8-a9c5-34eec709f883@arm.com>
+ <ed58493b-0369-4729-bcf7-bc89f72a7913@kernel.org> <acV36oPNFMgL4puz@milan>
+ <ea1cb2a1-b674-4d69-bbf6-00051a0e11df@kernel.org>
+ <eafefe7a-a33b-4102-93cf-fecc33ddf49e@arm.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+In-Reply-To: <eafefe7a-a33b-4102-93cf-fecc33ddf49e@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 26, 2026 at 03:42:02PM +0100, Vlastimil Babka (SUSE) wrote:
-> On 3/26/26 13:43, Aishwarya Rambhadran wrote:
-> > Hi Vlastimil, Harry,
+On 3/26/26 19:50, Ryan Roberts wrote:
+> On 26/03/2026 18:24, Vlastimil Babka (SUSE) wrote:
+>> On 3/26/26 19:16, Uladzislau Rezki wrote:
+>>> On Thu, Mar 26, 2026 at 03:42:02PM +0100, Vlastimil Babka (SUSE) wrote:
+>>>> On 3/26/26 13:43, Aishwarya Rambhadran wrote:
+>>>>> Hi Vlastimil, Harry,
+>>>>
+>>>
+>>> static bool kfree_rcu_sheaf(void *obj)
+>>> {
+>>> 	struct kmem_cache *s;
+>>> 	struct slab *slab;
+>>>
+>>> 	if (is_vmalloc_addr(obj))
+>>> 		return false;
+>>>
+>>> 	slab = virt_to_slab(obj);
+>>> 	if (unlikely(!slab))
+>>> 		return false;
+>>>
+>>> 	s = slab->slab_cache;
+>>> 	if (likely(!IS_ENABLED(CONFIG_NUMA) || slab_nid(slab) == numa_mem_id()))
+>>> 		return __kfree_rcu_sheaf(s, obj);
+>>>
+>>> 	return false;
+>>> }
+>>>
+>>> it does not go via sheaf since it is a vmalloc address.
 > 
-> Hi!
+> Isn't vmalloc doing slab allocations for vmap_area, vm_struct, etc, which will
+> occasionally go via sheaves though? I had assumed that was the reason of the
+> observed regression.
 
-Hi!
+You're right. And in the table Harry fixed up (thanks!) I can see the
+regressions are also in tests that don't do kvfree_rcu() but a plain vfree()
+so that rules out the overhead of kfree_rcu_sheaf() returning false.
 
-> > We have observed few kernel performance benchmark regressions,
-> > mainly in perf & vmalloc workloads, when comparing v6.19 mainline
-> > kernel results against later releases in the v7.0 cycle.
-> > Independent bisections on different machines consistently point
-> > to commits within the slab percpu sheaves series. However, towards
-> > the end of the bisection, the signal becomes less clear, so it's
-> > not yet certain which specific commit within the series is the
-> > root cause.
-> > 
-> > The workloads were triggered on AWS Graviton3 (arm64) & AWS Intel
-> > Sapphire Rapids (x86_64) systems in which the regressions are
-> > reproducible across different kernel release candidates.
-> > (R)/(I) mean statistically significant regression/improvement,
-> > where "statistically significant" means the 95% confidence
-> > intervals do not overlap”.
-> >
-> > Below given are the performance benchmark results generated by
-> > Fastpath Tool, for different kernel -rc versions relative to the
-> > base version v6.19, executed on the mentioned SUTs. The perf/
-> > syscall benchmarks (execve/fork) regress consistently by ~6–11% on
-> > both arm64 and x86_64 across v7.0-rc1 to rc5, while vmalloc
-> > workloads show smaller but stable regressions (~2–10%), particularly
-> > in kvfree_rcu paths.
-> > 
-> > Regressions on AWS Intel Sapphire Rapids (x86_64) :
+It might be due to sheaf_capacity not matching the capacity of cpu (partial)
+slabs. We are working to improve that.
+
+>> 
+>> Right so there should be just the overhead of the extra is_vmalloc_addr()
+>> test. Possibly also the call of kfree_rcu_sheaf() if it's not inlined.
+>> I'd say it's something we can just accept? It seems this is a unit test
+>> being used as a microbenchmark, so it can be very sensitive even to such
+>> details, but it should be negligible in practice.
 > 
-> The table formatting is broken for me, can you resend it please? Maybe a
-> .txt attachment would work better.
+> The perf/syscall cases might be a bit more concerning though? (those tests are
+> from "perf bench syscall fork|execve"). Yes they are microbenchmarks, but a 7%
+> increased cost for fork seems like something we'd want to avoid if we can.
 
-A quick manual re-formatting with a hope that your monitor is wide enough
-to cover it :)
+Sure, I tried to explain those in my first reply. Harry then linked to how
+that explanation can be verified. Hopefully it's really the same reason.
 
-Regressions on AWS Intel Sapphire Rapids (x86_64) :
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+---------------------------+-------------+-------------+-------------+
-| Benchmark       | Result Class                                             |   6-19-0 (base) |   7-0-0-rc1 |   7-0-0-rc2 |  7-0-0-rc2-gaf4e9ef3d784 |   7-0-0-rc3 |   7-0-0-rc4 |   7-0-0-rc5 |
-+=================+==========================================================+=================+=============+=============+==========================+=============+=============+=============+
-| micromm/vmalloc | kvfree_rcu_1_arg_vmalloc_test: p:1, h:0, l:500000 (usec) |       262605.17 |      -4.94% |      -7.48% |             (R) -8.11%   |      -4.51% |      -6.23% |      -3.47% |
-|                 | kvfree_rcu_2_arg_vmalloc_test: p:1, h:0, l:500000 (usec) |       253198.67 |      -7.56% | (R) -10.57% |            (R) -10.13%   |  (R) -7.07% |      -6.37% |      -6.55% |
-|                 | pcpu_alloc_test: p:1, h:0, l:500000 (usec)               |       197904.67 |      -2.07% |      -3.38% |                 -2.07%   |      -2.97% |  (R) -4.30% |      -3.39% |
-|                 | random_size_align_alloc_test: p:1, h:0, l:500000 (usec)  |      1707089.83 |      -2.63% |  (R) -3.69% |             (R) -3.25%   |  (R) -2.87% |      -2.22% |  (R) -3.63% |
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+--------------------------+-------------+-------------+-------------+
-| perf/syscall    | execve (ops/sec)                                         |         1202.92 |  (R) -7.15% |  (R) -7.05% |             (R) -7.03%   |  (R) -7.93% |  (R) -6.51% |  (R) -7.36% |
-|                 | fork (ops/sec)                                           |          996.00 |  (R) -9.00% | (R) -10.27% |             (R) -9.92%   | (R) -11.19% | (R) -10.69% | (R) -10.28% |
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+--------------------------+-------------+-------------+-------------+
+Thanks!
+Vlastimil
 
-Regressions on AWS Graviton3 (arm64) :
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+--------------------------+-------------+-------------+-------------+
-| Benchmark       | Result Class                                             |   6-19-0 (base) |   7-0-0-rc1 |   7-0-0-rc2 |  7-0-0-rc2-gaf4e9ef3d784 |   7-0-0-rc3 |   7-0-0-rc4 |   7-0-0-rc5 |
-+=================+==========================================================+=================+=============+=============+==========================+=============+=============+=============+
-| micromm/vmalloc | fix_size_alloc_test: p:1, h:0, l:500000 (usec)           |       320101.50 |  (R) -4.72% |  (R) -3.81% |               (R) -5.05% |      -3.06% |      -3.16% |  (R) -3.91% |
-|                 | fix_size_alloc_test: p:4, h:0, l:500000 (usec)           |       522072.83 |  (R) -2.15% |      -1.25% |               (R) -2.16% |  (R) -2.13% |      -2.10% |      -1.82% |
-|                 | fix_size_alloc_test: p:16, h:0, l:500000 (usec)          |      1041640.33 |      -0.50% |  (R) -2.04% |                   -1.43% |      -0.69% |      -1.78% |  (R) -2.03% |
-|                 | fix_size_alloc_test: p:256, h:1, l:100000 (usec)         |      2255794.00 |      -1.51% |  (R) -2.24% |               (R) -2.33% |      -1.14% |      -0.94% |      -1.60% |
-|                 | kvfree_rcu_1_arg_vmalloc_test: p:1, h:0, l:500000 (usec) |       343543.83 |  (R) -4.50% |  (R) -3.54% |               (R) -5.00% |  (R) -4.88% |  (R) -4.01% |  (R) -5.54% |
-|                 | kvfree_rcu_2_arg_vmalloc_test: p:1, h:0, l:500000 (usec) |       342290.33 |  (R) -5.15% |  (R) -3.24% |               (R) -3.76% |  (R) -5.37% |  (R) -3.74% |  (R) -5.51% |
-|                 | random_size_align_alloc_test: p:1, h:0, l:500000 (usec)  |      1209666.83 |      -2.43% |      -2.09% |                   -1.19% |  (R) -4.39% |      -1.81% |      -3.15% |
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+--------------------------+-------------+-------------+-------------+
-| perf/syscall    | execve (ops/sec)                                         |         1219.58 |             |  (R) -8.12% |               (R) -7.37% |  (R) -7.60% |  (R) -7.86% |  (R) -7.71% |
-|                 | fork (ops/sec)                                           |          863.67 |             |  (R) -7.24% |               (R) -7.07% |  (R) -6.42% |  (R) -6.93% |  (R) -6.55% |
-+-----------------+----------------------------------------------------------+-----------------+-------------+-------------+--------------------------+-------------+-------------+-------------+ 
-
-> > The details of latest bisections that were carried out for the above
-> > listed regressions, are given below :
-> > -Graviton3 (arm64)
-> >   good: v6.19 (05f7e89ab973)
-> >   bad:  v7.0-rc2 (11439c4635ed)
-> >   workload: perf/syscall (execve)
-> >   bisected to: f1427a1d6415 (“slab: make percpu sheaves compatible with
-> >   kmalloc_nolock()/kfree_nolock()”)
-> > 
-> > -Sapphire Rapids (x86_64)
-> >   good: v6.19 (05f7e89ab973)
-> >   bad:  v7.0-rc3 (1f318b96cc84)
-> >   workload: perf/syscall (fork)
-> >   bisected to: f1427a1d6415 (“slab: make percpu sheaves compatible with
-> >   kmalloc_nolock()/kfree_nolock()”)
-> > 
-> > -Graviton3 (arm64)
-> >   good: v6.19 (05f7e89ab973)
-> >   bad:  v7.0-rc3 (1f318b96cc84)
-> >   workload: perf/syscall (execve)
-> >   bisected to: f3421f8d154c (“slab: introduce percpu sheaves bootstrap”)
+> Thanks,
+> Ryan
 > 
-> Yeah none of these are likely to introduce the regression.
-
-Agreed.
-
-> We've seen other reports from e.g. lkp pointing to later commits that remove
-> the cpu (partial) slabs. The theory is that on benchmarks that stress vma
-> and maple node caches (fork and execve are likely those), the introduction
-> of sheaves in 6.18 (for those caches only) resulted in ~doubled percpu
-> caching capacity (and likely associated performance increase) - by sheaves
-> backed by cpu (partial) slabs,. Removing the latter then looks like a
-> regression in isolation in the 7.0 series.
-
-Yeah, going through a comparison similar to what Hao Li did [1] a while ago
-might confirm the theory.
-
-[1] https://lore.kernel.org/linux-mm/pdmjsvpkl5nsntiwfwguplajq27ak3xpboq3ab77zrbu763pq7@la3hyiqigpir
-
-> > I'm aware that some fixes for the sheaves series have already been
-> > merged around v7.0-rc3; however, these do not appear to resolve the
-> > regressions described above completely. Are there additional fixes or
-> > follow-ups in progress that I should evaluate? I can investigate
-> > further and provide additional data, if that would be useful.
 > 
-> We have some followups planned for 7.1 that would make a difference for
-> systems with memoryless nodes. That would mean "numactl -H" shows nodes that
-> have cpus but no memory, or that memory is all ZONE_MOVABLE and not ZONE_NORMAL.
+>> 
+>>>
+>>> --
+>>> Uladzislau Rezki
+>> 
+> 
 
-In any case having numactl -H for those machines would be helpful!
-
--- 
-Cheers,
-Harry / Hyeonggon
