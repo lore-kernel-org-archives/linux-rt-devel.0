@@ -1,136 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A39438237A;
-	Thu,  2 Apr 2026 21:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F0D283FE5
+	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Apr 2026 22:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775166741; cv=none; b=jrV8Wi4AL68755IDZGL/yvQkqblhMeOnBa95fmp0I8w7p0a+uBoxSxj3J6eaoz4aFvMAKWADFJG7LiMFA8FQ10bL+nM+fnIZX/UBI/oHyJ4QKORoBCcrmrMw0TbDiEI/BOg37+sLVarolpZZYBD6zW5L5nS0hv6LyxQrIj04efY=
+	t=1775168597; cv=none; b=nkf/iXZon8cJFWjaMdUkgCOP8pKigM5dtie8yceyRFOiRWgWbKiEUZbDW0IpIW2TVcriX/piRvkQmciZ0BjXRoIzEeQ1qOyK9o20M7HXMYv+NMLZMaakJNX1RFS+wvAq/n3VfslUJjJQrXj4W1yFV/JQnVAbhK1GHxQ+uVKEnEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775166741; c=relaxed/simple;
-	bh=v9zJEeNVmz7NcsMkpOPkdYk7q2EoPoCfcmjxBRbg/Gw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kST9lBUpPAwcUljsn4/TDzTuqhzA0G7DHv178sWvx+ViQBDLJO58/07ikIzQQjU7egA4SB5DqziBWqmHlR58m6mdSsrdMsMpnaSly7Ru75MvO01yTwSt7kca/3vGaN7p+nO3bbmHMeP/JdwSXwwPtl9wEgzczEUOXKquKdJzfnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PTB78iuK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775168597; c=relaxed/simple;
+	bh=NTwFdoG2LXLVbEjzrgUHpb7V/55TIG6J1/dw1GMmvCw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=EVSb2N2Lo9FRsk5E2akd0L2RXrcAbaIFpXyTif9MTKYaYYMWP9dNKB2KIcKvjcOsW+jkFEeCbcZWg3zMI3xl9zchgVnujmv9vHTG50dH22yBQjqMDbEM77uNzYdSPoceVG9kAWh7V5NKt7b0Saqr+i8UFn5zM6e+ryTDIESBAxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=izX1/YZI; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PTB78iuK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A9D9C116C6;
-	Thu,  2 Apr 2026 21:52:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775166740;
-	bh=v9zJEeNVmz7NcsMkpOPkdYk7q2EoPoCfcmjxBRbg/Gw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=PTB78iuKGtB1jnCLkrdAAEbFdUBu6bIVdFt5Wka6j9T73o4DOPCGZwiNrnq4PiEr6
-	 mBFN0TFFR6noe6wbi63LOXrgXpdD106UW3pCqKSxrNzj8GxdtV8MQyp2Vy1SAsdp3d
-	 M6xKXlZbCh0YABGR2JZ5uus7RZzPqgGZDTd9cRTDxhbH89DrUCD35i7ucql2BdpP2E
-	 7ULjB46nbQkz0boFssqZvNz1786uWfD+aGTkjAGmooYiXv+ruQ7/oxb1SnuN7wMHKS
-	 dZy72w3QSkA4WUNCLllLtT+k1bSnFq6cedLa+/KrtjYL9V2SlHZOhBUsWcX1NjRLrv
-	 DcESm7m/FmPPA==
-Date: Thu, 2 Apr 2026 15:52:15 -0600 (MDT)
-From: Paul Walmsley <pjw@kernel.org>
-To: "Vincent Mailhol (Arm)" <mailhol@kernel.org>
-cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-    Mikko Rapeli <mikko.rapeli@linaro.org>, 
-    Richard Henderson <richard.henderson@linaro.org>, 
-    Matt Turner <mattst88@gmail.com>, Magnus Lindholm <linmag7@gmail.com>, 
-    Russell King <linux@armlinux.org.uk>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-    Andreas Kemnade <andreas@kemnade.info>, 
-    Kevin Hilman <khilman@baylibre.com>, Roger Quadros <rogerq@kernel.org>, 
-    Tony Lindgren <tony@atomide.com>, Huacai Chen <chenhuacai@kernel.org>, 
-    WANG Xuerui <kernel@xen0n.name>, 
-    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-    Madhavan Srinivasan <maddy@linux.ibm.com>, 
-    Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-    "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-    Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-    Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-    Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-    Alexander Gordeev <agordeev@linux.ibm.com>, 
-    Christian Borntraeger <borntraeger@linux.ibm.com>, 
-    Sven Schnelle <svens@linux.ibm.com>, 
-    Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-    John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-    Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-    Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-    x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-    Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-    Clark Williams <clrkwllms@kernel.org>, 
-    Steven Rostedt <rostedt@goodmis.org>, 
-    Pablo Neira Ayuso <pablo@netfilter.org>, 
-    Krzysztof Kozlowski <krzk@kernel.org>, 
-    Alim Akhtar <alim.akhtar@samsung.com>, Frank Li <Frank.Li@nxp.com>, 
-    Sascha Hauer <s.hauer@pengutronix.de>, 
-    Pengutronix Kernel Team <kernel@pengutronix.de>, 
-    Fabio Estevam <festevam@gmail.com>, Vladimir Zapolskiy <vz@mleia.com>, 
-    Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-    Liviu Dudau <liviu.dudau@arm.com>, Sudeep Holla <sudeep.holla@kernel.org>, 
-    Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-    Geert Uytterhoeven <geert+renesas@glider.be>, 
-    Magnus Damm <magnus.damm@gmail.com>, 
-    Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
-    Gregory CLEMENT <gregory.clement@bootlin.com>, 
-    =?ISO-8859-15?Q?Th=E9o_Lebrun?= <theo.lebrun@bootlin.com>, 
-    "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
-    Helge Deller <deller@gmx.de>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, 
-    =?ISO-8859-15?Q?Jonathan_Neusch=E4fer?= <j.neuschaefer@gmx.net>, 
-    Chris Zankel <chris@zankel.net>, Max Filippov <jcmvbkbc@gmail.com>, 
-    Thomas Zimmermann <tzimmermann@suse.de>, Arnd Bergmann <arnd@arndb.de>, 
-    Heiko Stuebner <heiko@sntech.de>, 
-    Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-    Mark Brown <broonie@kernel.org>, Eric Biggers <ebiggers@kernel.org>, 
-    Ard Biesheuvel <ardb@kernel.org>, 
-    Sricharan Ramabadhran <quic_srichara@quicinc.com>, 
-    Bjorn Andersson <andersson@kernel.org>, Michael Walle <mwalle@kernel.org>, 
-    Guenter Roeck <linux@roeck-us.net>, 
-    Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-    "Rob Herring (Arm)" <robh@kernel.org>, 
-    Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Anna Schumaker <anna.schumaker@oracle.com>, 
-    Alexandre Gonzalo <alexandre.gonzalo@arm.com>, 
-    linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-    linux-omap@vger.kernel.org, loongarch@lists.linux.dev, 
-    linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-    linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, 
-    linux-sh@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-    linux-samsung-soc@vger.kernel.org, imx@lists.linux.dev, 
-    linux-renesas-soc@vger.kernel.org, linux-parisc@vger.kernel.org, 
-    openbmc@lists.ozlabs.org
-Subject: Re: [PATCH 3/9] configs: remove obsolete assignments to
- CONFIG_NFS_V4_1
-In-Reply-To: <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
-Message-ID: <2a5bb9cf-3f0c-6069-6412-cd4c5c4e8b78@kernel.org>
-References: <20260317-arm_defconf_cleanup-v1-0-8eecb7fdd24d@kernel.org> <20260317-arm_defconf_cleanup-v1-3-8eecb7fdd24d@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="izX1/YZI"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82cdf02bce5so972962b3a.2
+        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Apr 2026 15:23:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775168595; x=1775773395; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c1tFd2YWULWQ0nKOAfJH4m9pKG3Qe9WX5xKtp0LwQ5Y=;
+        b=izX1/YZIcmUFYDN0RD9PqsINpz2ZvqjSId5W2vm9fy/41YmFea03kSq3fHqYD3YEng
+         hjrC3jg5mpe2ljHbdPdWeDflrsGjVrX3twFpLWFTWPI2oytJPlNz+tbZAiAYeNUgo0aA
+         fjtguSp6C66Gct2AMEwMPif+bxKdHQE584SdMnlcRonQxuqLst9w4/LqKQACKt28XxoA
+         QdwrzByKBidpYPU4ezHwZk+4jA870GrGLszjhDmRZmB85W91+6dJQqY7nDKX9hixf+yV
+         4Df3PrcBTo52TlM9kt7rRjN+4at4vK2e5hc6dpUy+0NfaEGmhVX5Wh3tzaJ27nxrQxAt
+         cfFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775168595; x=1775773395;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c1tFd2YWULWQ0nKOAfJH4m9pKG3Qe9WX5xKtp0LwQ5Y=;
+        b=kld+SC5KX7Co1AMAUPoEdFxDGMq4KrPD0kWA/h5+oAWeUK5IfeGEPghQ4/xlloAtqX
+         5yZAjv8BzXylNbuw2sNJaP3hqnP+PZSS8o1CIhT+5NhnfI8GHZ+0bBe1yv3AptYcvY6i
+         d4Gc2Pe/u7S7n+QDIS4wPOS8JiWuVgp6p9JqGsa45TClxTpQ+fu23zCs3VuXqHRe3PPg
+         vXbO/c+JZnghzdnZNmcV8uoAWx83sTmoCyaP0jwdcn5cQaui2k9nX8BV5W6fVg0Z5uGx
+         PwGBG824awLNrMK0vDLLH/QiFq5i3RWZzNCBFKAl8wzCXwr8NngJf4c5zad49xT/qVEQ
+         +uMA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVvVwS8LG949QdoTlOckvPjwGQ5kF20zkquEzH050PB0jCwLiO6K7Xfrjr1pa7am9LK+iZwPllpzxy4CcpXw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YygLRyBk8dqAWeDsxCuVdVNiNXnhFh1mH2/lq6ovIU7G+315IT9
+	FDv3pz5R4y2qFQNHXnoCV3iwv7MoUpj9oaDGqhKKbOSiU9tbC4HLMLnobQ+SJgyCoqNCLcV266b
+	xgF50Kg==
+X-Received: from pfbea27.prod.google.com ([2002:a05:6a00:4c1b:b0:82c:ec3c:f2d0])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:f88:b0:829:803e:6798
+ with SMTP id d2e1a72fcca58-82d0dbea543mr625141b3a.56.1775168595062; Thu, 02
+ Apr 2026 15:23:15 -0700 (PDT)
+Date: Thu, 2 Apr 2026 15:23:13 -0700
+In-Reply-To: <20260402064209.8ba7wrBI@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Mime-Version: 1.0
+References: <20260329131543.91733-1-shaikhkamal2012@gmail.com>
+ <20260330101814.7fa1e31e@gandalf.local.home> <bb7b66ad99097c5326196b61d644cff255e30394.camel@amazon.co.uk>
+ <ac08V4TaM2yh9SY1@google.com> <20260402064209.8ba7wrBI@linutronix.de>
+Message-ID: <ac7sUQZ0AQIMFDnL@google.com>
+Subject: Re: [PATCH] KVM: x86/xen: Fix sleeping lock in hard IRQ context on PREEMPT_RT
+From: Sean Christopherson <seanjc@google.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: David Woodhouse <dwmw@amazon.co.uk>, "rostedt@goodmis.org" <rostedt@goodmis.org>, 
+	"shaikhkamal2012@gmail.com" <shaikhkamal2012@gmail.com>, 
+	"syzbot+919877893c9d28162dc2@syzkaller.appspotmail.com" <syzbot+919877893c9d28162dc2@syzkaller.appspotmail.com>, 
+	"me@brighamcampbell.com" <me@brighamcampbell.com>, 
+	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "paul@xen.org" <paul@xen.org>, 
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 17 Mar 2026, Vincent Mailhol (Arm) wrote:
+On Thu, Apr 02, 2026, Sebastian Andrzej Siewior wrote:
+> On 2026-04-01 08:40:07 [-0700], Sean Christopherson wrote:
+> > Re-reading through the thread where you proposed using trylock, and through
+> > commit bbe17c625d68 ("KVM: x86/xen: Fix potential deadlock in kvm_xen_update_runstate_guest()"),
+> > I think I agree with using trylock for "fast" paths.
+> 
+> Has bbe17c625d68 been applied for PREEMPT_RT reasons?
 
-> CONFIG_NFS_V4_1 was revomed in commit 7537db24806f ("NFS: Merge
-> CONFIG_NFS_V4_1 with CONFIG_NFS_V4"). However, some defconfigs are
-> still referring the old configuration.
-> 
-> Clean-up all the leftover references to CONFIG_NFS_V4_1.
-> 
-> FYI, the suppressions were done using:
-> 
->   git grep -z -l '^CONFIG_NFS_V4=' -- 'arch/*/configs/*defconfig' |\
->     xargs -0 sed -i -E '/^CONFIG_NFS_V4_1=/d'
-> 
-> CONFIG_NFS_V4_1_IMPLEMENTATION_ID_DOMAIN and CONFIG_NFS_V4_1_MIGRATION
-> were not in scope of the renaming and still use V4_1 in their name, so
-> keep those two untouched.
-> 
-> Fixes: 7537db24806f ("NFS: Merge CONFIG_NFS_V4_1 with CONFIG_NFS_V4")
-> Signed-off-by: Vincent Mailhol (Arm) <mailhol@kernel.org>
+Ya, I think it was to suppress a PREEMPT_RT-only splat:
 
-Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
-
-
-- Paul
+https://lore.kernel.org/all/20240227115648.3104-8-dwmw2@infradead.org
