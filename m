@@ -1,139 +1,138 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010059.outbound.protection.outlook.com [52.101.46.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE1B3B38A0
-	for <linux-rt-devel@lists.linux.dev>; Thu,  2 Apr 2026 22:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775169625; cv=none; b=mWuqG0JWL1GL5pPeJLKSheeZ44Ii3jhQYyhR/ay4/NhSSnZ4xMd/Ec+y025p2eDR1fZKsY8S1qe+m0t33qWEK5PQLM1pHlKbZ4DgsqObmzthi37Hg3/4k3UfE5hRfMjeMItFofWavaI5p3A6rW7JalUBm9U/PWbS19Ne/lYq67k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775169625; c=relaxed/simple;
-	bh=TTBbmH7yycyXtwPPctRslD8JytpIW3az1YdN78SS3BQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=YOBuetZppbwOECZre0YkRjTqboMVm/klYopY7jRrN1zE/q9vS0Xwz3pOCZWn6eJCdyn9PN6fYdfPzelG2zzndwTdoGm7CvH2dVtDKGgS60JxdzcL0xen+wbn/c26y/h61a/rXDbzZlm0rT/MfcuuBpTtJTmRj6KR8AIN2LLxf5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E5gtL5/X; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F58282F0F
+	for <linux-rt-devel@lists.linux.dev>; Fri,  3 Apr 2026 04:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.59
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775189214; cv=fail; b=Shg76Q+tunurmeL4hYGsTMRI7erH/2YGwM0uTSz2XmM5Bdo4QvFlHe4fYKasWzyZcqdYiO1JuQ7S0JIhNfcnm02gucei5FM0GNjpfOWEGl+fwL6PC30DbQ9li+WfUJ0KfHJw93p/I32K/olRbUbpKbgYb4lL+2lQQK4NszxeR5E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775189214; c=relaxed/simple;
+	bh=lFSv7eU9fytQZFfjeZNpxlobwvF4xRTrQcba848GqJU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=gtKpDpkCvLy7tLUVMCv9lmgHox276/aMyhB1aklH6gW8kmfDMtYq7GCzzRIUHaewbBV+h5xuxwGTPFsbqLG0UVI79LpPQkELQZ1DliX/0qsm4rSJK1zcb1N2McGiIKh5S+QiAwO3nrsgQETtSZUu1DQX00FqDsm+h7APWh+EU/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1INBAVSE; arc=fail smtp.client-ip=52.101.46.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E5gtL5/X"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82cf084fe58so664117b3a.1
-        for <linux-rt-devel@lists.linux.dev>; Thu, 02 Apr 2026 15:40:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775169623; x=1775774423; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=p37pwm05j5PB4x1P57X48s+5JksUh7tjxnZdo1TS4sU=;
-        b=E5gtL5/Xb5DK/N2OVRGkoy5XBU8Ohc/lTsjDlzCmxsFfsI+s95bIGLvhg0T6B5Tfgk
-         TAwdUUaaBTEcN7U/jDxmATz67/DoawuZE/KwqluRGKIEXsJgKUk5aub4TJrLCBhQweLg
-         Ne74o3xR3llzqzaNJJXbn3WF6rXWlKng3Q4Rx92CeKLjUPL5Kzx2z7Wur1ryGZL+Fq7k
-         nAeRwehAUBmaZhkvdDKAwgw06jrVfFW7Z7cH+fVmmpUb0Om+tG9zMQy+s29NxvAmeEkI
-         kmQHdREdK6PzAM1yEG7AOBZXQsTqMfpsA+ubECfi6CU4soS/edTqCG/CmRx77Fa7AGaY
-         /JuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775169623; x=1775774423;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=p37pwm05j5PB4x1P57X48s+5JksUh7tjxnZdo1TS4sU=;
-        b=rDj4MoJqYUC3BYe4os4MhG8wo+vgdaGe+ZlgM4Ox/jchwTi8CQ3AzhX8x5Af2zF//e
-         7ROgNwIBiUEWOGvtAA1U5iShOBZ6NRGWBwwYJ5b2wMp5Usaot0FJgNQnmT36MhrKonOr
-         e/ZLEEN6x3xgHbRBMKWq5TGk39AVPRuy9sOOxDzNeXbqO/oYEcLMatTuCIpLMlli75yG
-         5qLLqI6mSepaYDbUq8OgqnlVtVnpH+ps+IKPibISko2Y5wYN+ejm2oWtyPEwERRrIDS9
-         R8oZDr/8+o9wX+IYc7e3SH1hI9MQ8Vd9GqMsdjjUuN1KE9FrQPLrmW+xq6KirtAT/yss
-         2ieQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVf1qYGYI78ivCxzFKjVqc1IZkSGO7r5BAfUlSB/+L7MzQrQKMQ344tqg/2cRMKdfF1NCOaSqL1zWv2eymSow==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxY77yWjAYK+KekI3AMpsACPvQrmfT/OW02WEuQSfbTN4Dmer4C
-	TZFo5fjOp65592GRuG1eCJZ4eCk8wqVWWeRZKeb41VRu9+AYMSbYCN3b+1wOu2tGLhgbXdan5X/
-	4vXlgEA==
-X-Received: from pfbk3.prod.google.com ([2002:a05:6a00:b003:b0:829:72ec:561c])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4fc6:b0:82c:dde3:f2ef
- with SMTP id d2e1a72fcca58-82d0dbc1be2mr697107b3a.50.1775169622945; Thu, 02
- Apr 2026 15:40:22 -0700 (PDT)
-Date: Thu, 2 Apr 2026 15:40:21 -0700
-In-Reply-To: <20260402063612.VVXEy0qn@linutronix.de>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1INBAVSE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YmOk2VYru8HXufWMb2LRR3pUe646xksOtXapMQDUE2xlTnBVlaa6NgMgeWUvU+e0669dUZzgjly1oBVTsioWiCNig/g/rjb541yFACOIQ1ICeCwNnrGIZb99Wruw926/iRwxFHyp3wF3AoxvHoSEAYHGeSSE8cfxHZWhCugp8wAhY5GbB1jQx6AvAV7sUELmLOdxT1QDrSJ87J/+oHkTfVivWqlhSZ55F8WKVNtHzIj4P+Eb5m4uC/oSyO9ScCAXuRfzOUR8kw/3B4mbL1n81psKdk68pMtArLEBvGj0RsHZGRAs0yTrkuiCQQqryDzkzitw5kQ1DDgPdD7vd6TAXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qeXFO56QbdM80DVxu+LWJM5ECN/s36RDTfFNMv+WcGw=;
+ b=BlvFTsI+NIMy5ZVOIuqESmnPIpRDF0hSZUQW8CvkHeHoBOARShi2Lemra3GvzOp3uso/h+YH74xs8eG4z3pJw8pw/VSV7n/pFbfuFUhkYU4eCZEbzhjl+ozPYBgcTY6emR+XMvXd2EM1SnwFVnoucmjQseD5q3ueRNmEvcQ35Mec7d16Lt1J+60Fkht/cTaSmlCrJWxBhhUwK9Y+gm2EL+6ukTV1knrt3pH4slFSNyC3YtKCQnSARtovciBCDdQQkEdqtpDx7atwsKdtXBrIk+A0NfJ9ziFhnZG+2TwfFXjMmSS0klJ/Tfz8m7tNsISGHkyXuqUMZqsamBOvHH8vDA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linaro.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qeXFO56QbdM80DVxu+LWJM5ECN/s36RDTfFNMv+WcGw=;
+ b=1INBAVSEJyM4ukEIgz3zslx0RFVQqJ7NnriSnEdys3lMW9Ic9dfnVSbePvJYJLv0Z+7iPi9B9FyHHnPS8ak43uyrlWNGIZwqedsReJhZtm//YV/S0s0Nu6MSz2JWY0X23H0bgjFBDQlWLxyc7tZ2rJTj9NgGtnVV818VNshcC1k=
+Received: from BL0PR0102CA0057.prod.exchangelabs.com (2603:10b6:208:25::34) by
+ CY3PR12MB9629.namprd12.prod.outlook.com (2603:10b6:930:101::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17; Fri, 3 Apr 2026 04:06:47 +0000
+Received: from BL02EPF00021F68.namprd02.prod.outlook.com
+ (2603:10b6:208:25:cafe::64) by BL0PR0102CA0057.outlook.office365.com
+ (2603:10b6:208:25::34) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9769.20 via Frontend Transport; Fri,
+ 3 Apr 2026 04:06:47 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BL02EPF00021F68.mail.protection.outlook.com (10.167.249.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Fri, 3 Apr 2026 04:06:46 +0000
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 2 Apr
+ 2026 23:06:45 -0500
+Received: from [10.136.42.52] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
+ Transport; Thu, 2 Apr 2026 23:06:41 -0500
+Message-ID: <ece06f79-60a7-4f90-840c-c2b05faa9dc3@amd.com>
+Date: Fri, 3 Apr 2026 09:36:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <ac08V4TaM2yh9SY1@google.com> <20260402013102.21951-1-shaikhkamal2012@gmail.com>
- <20260402063612.VVXEy0qn@linutronix.de>
-Message-ID: <ac7wVQDWiXvurkZo@google.com>
-Subject: Re: [PATCH v2 1/1] KVM: x86/xen: Use trylock for fast path event
- channel delivery
-From: Sean Christopherson <seanjc@google.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "shaikh.kamal" <shaikhkamal2012@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Paul Durrant <paul@xen.org>, David Woodhouse <dwmw@amazon.co.uk>, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	pbonzini@redhat.com, skhan@linuxfoundation.org, me@brighamcampbell.com, 
-	syzbot+919877893c9d28162dc2@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] cpufreq/amd-pstate: Pass the policy to
+ amd_pstate_update()
+To: Mario Limonciello <mario.limonciello@amd.com>, Viresh Kumar
+	<viresh.kumar@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>, Huang Rui <ray.huang@amd.com>,
+	"Gautham R. Shenoy" <gautham.shenoy@amd.com>, Sebastian Andrzej Siewior
+	<bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, Perry Yuan <perry.yuan@amd.com>,
+	<linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<rust-for-linux@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>, "Mario
+ Limonciello" <superm1@kernel.org>, Zhongqiu Han
+	<zhongqiu.han@oss.qualcomm.com>
+References: <20260316081849.19368-1-kprateek.nayak@amd.com>
+ <20260316081849.19368-2-kprateek.nayak@amd.com>
+ <hin33mzxwjjycw7oonq4klqmgmgavqpoe7r2ml6qalytxfpntk@me7d6q6yiec7>
+ <4bwfgnjiywkm4dyslhzmk6lvar3a6rhvtcyyruc7okybckuwuf@mkdc5dlconx4>
+ <178f3a55-6faf-4070-9e38-85c547b27a03@amd.com>
+Content-Language: en-US
+From: K Prateek Nayak <kprateek.nayak@amd.com>
+In-Reply-To: <178f3a55-6faf-4070-9e38-85c547b27a03@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F68:EE_|CY3PR12MB9629:EE_
+X-MS-Office365-Filtering-Correlation-Id: 04da6de2-37cc-46c4-3280-08de91366c97
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700016|1800799024|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DXpFqnSJdGn4BMX6oQUH1dnHyJSv2dfVl1tsLX1Ufr5aR6i10/o+YUs7pvQY0jyX2PnOTF3MdbsAy+5/LBv3R9OlLlFc9EMhVoQEW2J0H6o93CiOSdvzrLaBagx46QtqOTdPf7AGND4fk5PwUh1I3DQVS4FRGrfZ1kgY7AaErMfTgSAEU3NEAIqAZVAh6/KOkEHL6w4vZYLCPoKLbBk1zOb0TCBjIY4yO0dDG/4JKN4zly+aZJzY4eG4/GYdAAXkKJaJCpQgRQkEaa+kjtsqjhXFfmOJeKuUB0NHQE07kBCfcehDn+JOsdfQeCgclvqrLGITAnAfZ4VwCdWOqcnmpBkhoNvf9vIy9lmOdv3OnxyAjrRwh6b/F3C10QDlf77c6iAHGczW7deojAcqlg9sTcHx+MlmBfs/5K3Z5E6xwil99YwVJ6iJvA1D0qqHG/1ok3eaiB+IEtJU/T4WQUQxXKW/rCrgicpFCuzjIjh4aDhTFmoFIX63SSPpsk883Vuc9W+nDstdh7aeOvzbVVboo05CRLmcrkt2wpA8d8wlCcTCKR/F9U0RI3KkgGvOWAsoBFryN9CsLRxnQw2YZD1Rl17fAm1R15F8Q6foX1YedaOFo8Y7TCYz9J4+DJW6IsgPTBPViNhQFlKZildnKgKcqU3LWIDobSiJpZThutGi3/Tga2Xt+XN82NnUMfXalX89FyVNKFcCVOIdrEeo3QoK1wry3zMlsSdEwt5U04G62wEEZzS12tRnVZw2EUc8ie5npt+dDEngJ3wxw6JlylukzA==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700016)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	BrByf7mH6fdur8CqIH9wSiCIXhD7JtPFxvhuf2ssE1psthpxmn9O6RJdZcMpRB9Bd4shE9y9s8Tf6xwt9CECzj7EcdwD7TU2nxyAb9KQwGsHa8h3flUYuGFLLfNxBWgZeDzq020viu0qE/aD6Wh6hUb8CcaQHvTafJIDf+Wbxx1/9iO+OwCvypQZeV15CxMeCI4VCzANQwBpi6B/1RO9EhgrEXMAZxg/Wmnzwt+LYE5cOCGpU8777NAK9Yh7j3KDwgV1MG/H+27uZ0T8BAq24AwWnJcBdcfGFCBvobCJF62vKSmSyP0AjPj3AVwWEQFh8ldTXG6mDxC/jNuzYVkA/VSDhFRHfUCS/KBEakguPH0/bGCJqV4EPYKdhQj/nOY90+dPYRqt8JjOF8WNuf9HA63VnY7BbkPs7jEeLNqxG8InG5TpUK/Kys5poGHi4BWQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2026 04:06:46.8855
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04da6de2-37cc-46c4-3280-08de91366c97
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF00021F68.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9629
 
-On Thu, Apr 02, 2026, Sebastian Andrzej Siewior wrote:
-> On 2026-04-02 07:01:02 [+0530], shaikh.kamal wrote:
-> =E2=80=A6
-> > The function uses read_lock_irqsave() to access two gpc structures:
-> > shinfo_cache and vcpu_info_cache. On PREEMPT_RT, these rwlocks are
-> > rt_mutex-based and cannot be acquired from hard IRQ context.
-> >=20
-> > Use read_trylock() instead for both gpc lock acquisitions. If either
-> > lock is contended, return -EWOULDBLOCK to trigger the existing slow
-> > path: xen_timer_callback() sets vcpu->arch.xen.timer_pending, kicks
-> > the vCPU with KVM_REQ_UNBLOCK, and the event gets injected from
-> > process context via kvm_xen_inject_timer_irqs().
-> >=20
-> > This approach works on all kernels (RT and non-RT) and preserves the
-> > "fast path" semantics: acquire the lock only if immediately available,
-> > otherwise bail out rather than blocking.
->=20
-> No. This split into local_irq_save() + trylock is something you must not
-> do. The fact that it does not lead to any warnings does not mean it is
-> good.
-> One problem is that your trylock will record the current task on the CPU
-> as the owner of this lock which can lead to odd lock chains if observed
-> by other tasks while trying to PI.
+Hello Mario,
 
-Is that a problem with local_irq_save() specifically, or is it a broader pr=
-oblem
-with doing read_trylock() inside a raw spinlock?  (Or using read_trylock() =
-in
-the sched_out path in particular?)
+On 4/2/2026 7:22 PM, Mario Limonciello wrote:
+> On 4/2/26 01:39, Viresh Kumar wrote:
+>> It is ready for Rafael to pick now.
+>>
+> 
+> I'm sending an amd-pstate PR later today after some more testing.
+> 
+> I'll pick this up in my PR that goes to Rafael.
 
-I ask because I _think_ David's suggestion was to drop the irq_save stuff
-entirely, because if KVM only ever does trylock, there's no risk of deadloc=
-king
-due to waiting on the lock in atomic context.
+Thanks a ton! Much appreciated.
 
-> So no.
->=20
-> If this is just to shut up syskaller I would suggest to let xen depend
-> on !PREEMPT_RT until someone figures out what to do.
+I'll send a separate follow up cleanup to remove the "!policy" check in
+amd_pstate_adjust_perf() based on Zhongqiu suggestion after some testing
+if all goes well :-)
 
-Heh, I was considering proposing exactly that, but it doesn't actually chan=
-ge
-anything in practice, because no one actually use KVM XEN support with PREE=
-MPT_RT.
-Making the two mutually exclusive would completely prevent the badness, but=
- it
-wouldn't fix the more annoying (for me at least) problem, which is that
-check_wait_context() fires with CONFIG_PROVE_LOCKING=3Dy irrespective of PR=
-EEMPT_RT.
-I.e. making CONFIG_KVM_XEN depend on !PREEMPT_RT won't eliminate what are a=
-lready
-false positives.
+-- 
+Thanks and Regards,
+Prateek
 
-More importantly, there's a desire to use the same KVM construct in other c=
-ode
-that runs inside the shced_out() path and thus attempts to take a non-raw r=
-wlock
-inside a raw spinlock[*].  And that code isn't mutually exclusive with PREE=
-MPT_RT.
-So while I'd be happy to punt on XEN, the underlying problem needs to be so=
-lved :-/.
-
-https://lore.kernel.org/all/1d6712ed413ea66ef376d1410811997c3b416e99.camel@=
-infradead.org
