@@ -1,127 +1,134 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8397913FEE
-	for <linux-rt-devel@lists.linux.dev>; Tue,  7 Apr 2026 00:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D564034A788
+	for <linux-rt-devel@lists.linux.dev>; Thu,  9 Apr 2026 03:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775522773; cv=none; b=YQnpndhUps6dh6+PPnmuEGC5QM0lZn7X6alCAGPqs9VVjzBJhUD5jG9zVvSI26A7MeP2mV7XDyraNZnRnzQSTR8Z6hegUCk1yZORbMy/Gm4QlyQ5ULIhB4yCuTtDhdluKzV+qu28M16jsomWRaifOmvzkj+Nfh4melrSeS3vS2M=
+	t=1775706858; cv=none; b=N/MoCcmOOggASvyVF827NbMjpPQ+1I2QZAOIee2/bhmyTnYmC1V0p93JqKwEtYhYDAbNymKsq+oBl9O1qIlqZfBtTC5cRDVfE2KLMLLPhi3Olva3tb1G+nKMaTKowsGbBWlmKIg4SSpw5LKDXfxjLfE9ciMK7oxeaD+BHxx8bqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775522773; c=relaxed/simple;
-	bh=WyhwNuIyCdlCDOdumhmrb3Ca9yjccs/vId8OlVdNMMY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=r+5xo3RIiDvT3nni/Vsu3tUQz3HO+o5+q+fL3NsMS0hhxxTN62s5QW5hu2k+hhhWpj1hxVb51Yi17NyXHDWvBDIsGU4+0VMtA4eTZ7KdmivwimB1ESMzHc8Bdiycvtfa6OiABoL1O3SZtgs3z452r5MhmkrjWUoGk30zYC0jeNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b1cqDG9y; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775706858; c=relaxed/simple;
+	bh=Jbs4PD9pBuyZ/k04H6gAL9IMQftAAPsydvMFDezt3Mo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z4F0JR3uUuldB4t74b1tzp2rsi4wD71P9mPmJ5baQer3MDQ0JDzVTfYksY/a/AcXnh4zdfwKe3tx4lLZ6lGb4vOketiqJZ8F70QZbNAlbUCuc8hJF+VfJkIzngzSWxBoTZM1p4Jiuf/UNUHBqFNGvw0FvUPAmUtg1KtoMzvPvSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mhyKhlJG; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b1cqDG9y"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-89f68634786so57410436d6.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 06 Apr 2026 17:46:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775522771; x=1776127571; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVClSKROVTZHGAQRCCvPATSi+gjnZ5F0+pvtkkRbZBY=;
-        b=b1cqDG9ynYTDgb3VPQ6/P5uDmVpna1h45QNg90y0I/W61KR9TzQku4/GvMr/Sjh0dF
-         mwk6j3VLcEynNyEpSZj6ASGu7r4D+aR2zGnuNxsomfOn1xeWtYRmY/WQlzplNxbsleQd
-         djMlsk3Flp+M2NLsONNnxM81B5H3AL3hJCGsE7Be0EiNsVbxILm0+r/Nub+fa2eeWTxl
-         eRiQ0p4tWffh4TL5vD57snOf2VYezYS4aTYtfNlVOlwjxJPtAULG62BXllo7d1QoPJll
-         TVyWvr5jYjqGWDJXKdz+sq9LHD9fjXQEXp6qfSPdloRbeJwu5iGmLo68b8KI9pqf65CP
-         5rkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775522771; x=1776127571;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tVClSKROVTZHGAQRCCvPATSi+gjnZ5F0+pvtkkRbZBY=;
-        b=QO44DpO8y6sfPl2pTSJz/cYQixw0nAwnhptkp0NiLTUQOvwZjsAT+WaU/RNIZcVdmx
-         7Wwx8vlIEpYAPQHuRwPQzk2ekApx1yF76OymlpGchlOZp+dOEUYbf1/uhNZfeWmpOmI8
-         4xD/85omz/kEjyv3NpxM9fBqyDAcraIPgLGnX9XpzJnqggVFLjkQ0p1aUf9gQ5BHPqED
-         1gt7Hru+awrpMirk/rEsJ28nJ+UXWa1vMYt+qkVyJS7YS9Ve1YFuKAijQkZ0zBJkuK8x
-         r1jTO4nyvYn0AmLKbNMvqqa2puJ75ml2CtB0pEhQjFAM+VkFNahGVHwwke6nyBY1tcQj
-         Zhfg==
-X-Forwarded-Encrypted: i=1; AJvYcCXIPefe2crgAZkD8RXEAZMeKI84yUBvYH/x2WPwTRc6GqIQQ404Qe8TU00CaFomoGminI3QSKxcCZpsVuqeIg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXDKU4ar6ONDdAAQp7z6xQAiGhvn+tb/UH7dAgVFBQJ4oZtAF8
-	4onL/RZurFJGn3+D/NS9iI/uTGA8B4PZBnMpPs4x/NLvcf2PIeFe3b85
-X-Gm-Gg: AeBDievBLF/qGnxriG5x+bRq62adSdgj/tnfMMUnJH7LXUob6Grvi6PWVfpthSYAGe1
-	E4JZ9EjbYEZKhXfsDOO+qHsEMGHfW9rRxskzK6k26G8dmCFWD9i6BuvgaFyP/Xy1j0M184RVm4K
-	BibQ5IYGzUSLUADEk6C5ixeBYoqVqV93wjtCJ413W9hgh42tUqpDKHoJ5hQMdIbsx2kqtLPHcgE
-	P98MP6ed3aeZWUyoAIL2aVgt+KJmZK2lTubL6TtCpQQmpvlm3CepjXSEThF+Gz+ZDCxqShmK1oP
-	61VEnv8gGOOwtwq15gYTquIoSnRdeoi6o5KZW/lm3l7chLDEhOyqG6z5SRkGh6ebglaz/jtojb6
-	UNYDbVhtegia1LPybWSLqnh7Ri0NrsYnQC1H/ohmI7wIJndEzLaWj/JmQcnpfHppUpSrdUY9RXe
-	wzTfON5EEPL5HVNORVxrQfDFScrgJ4W3s7
-X-Received: by 2002:a05:6214:4992:b0:8a6:25ee:fc53 with SMTP id 6a1803df08f44-8a7020bd406mr260799546d6.5.1775522771182;
-        Mon, 06 Apr 2026 17:46:11 -0700 (PDT)
-Received: from localhost.localdomain ([128.224.253.2])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8a5974e8e8esm134853786d6.43.2026.04.06.17.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 17:46:10 -0700 (PDT)
-From: Kevin Hao <haokexin@gmail.com>
-Date: Tue, 07 Apr 2026 08:45:39 +0800
-Subject: [PATCH net-next] net: macb: Use napi_schedule_irqoff() in IRQ
- handler
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mhyKhlJG"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775706853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=f+uIdvNv559zfYY9XiHAQzaBvGDZyQXDoiCkabS6QEI=;
+	b=mhyKhlJGsH9UhWxddZPQmF7Gsmp5xr+CIoGiOoUc2pdtC49dQpDURAFzOgHL6WNSmJGy3b
+	0M1wv8HFk5HN5gr54Qnn4dOcWuJFbxmYDD3eN4Itc7NCUA/V7LOkhsIgxoXUfiHLYK7GH3
+	Ue6N+PSgdFZLram9xRv21ltlZqvDHTg=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: netdev@vger.kernel.org
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Weiming Shi <bestswngs@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH net] net: fix __this_cpu_add() in preemptible code in dev_xmit_recursion_inc/dec
+Date: Thu,  9 Apr 2026 11:53:43 +0800
+Message-ID: <20260409035344.214279-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260407-macb-napi-irqoff-v1-1-61bec60047d7@gmail.com>
-X-B4-Tracking: v=1; b=H4sIALJT1GkC/yWMQQqDMBAAvyJ77kJMgyX9SukhiRu7gqtN0iKIf
- 2+sx2GY2SBTYspwbzZI9OXMs1RoLw2El5OBkPvKoJXulFEGJxc8ilsYOb3nGLHV/hpNb2/Weqj
- Zkijy+l8+QKig0FrgeZr88SOFchxh33/pNnkgfgAAAA==
-X-Change-ID: 20260404-macb-napi-irqoff-12b3f4d9799b
-To: Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- Kevin Hao <haokexin@gmail.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-For non-PREEMPT_RT kernels, the IRQ handler runs with interrupts
-disabled, allowing the use of napi_schedule_irqoff() to save a pair of
-local_irq_{save,restore} operations. For PREEMPT_RT kernels,
-napi_schedule_irqoff() behaves identically to napi_schedule().
+dev_xmit_recursion_inc/dec() use __this_cpu_inc/dec() which requires
+migration to be disabled. However, some callers like SCTP's UDP
+encapsulation path invoke iptunnel_xmit() from process context without
+disabling BH or preemption:
 
-Signed-off-by: Kevin Hao <haokexin@gmail.com>
+  sctp_inet_connect -> __sctp_connect -> sctp_do_sm ->
+  sctp_outq_flush -> sctp_packet_transmit -> sctp_v4_xmit ->
+  udp_tunnel_xmit_skb -> iptunnel_xmit -> dev_xmit_recursion_inc
+
+This triggers the following warning on PREEMPT(full) kernels:
+
+  BUG: using __this_cpu_add() in preemptible [00000000]
+  caller is dev_xmit_recursion_inc include/linux/netdevice.h:3595 [inline]
+  caller is iptunnel_xmit+0x1cd/0xb80 net/ipv4/ip_tunnel_core.c:72
+  Tainted: [L]=SOFTLOCKUP
+  Call Trace:
+   <TASK>
+   __dump_stack lib/dump_stack.c:94 [inline]
+   dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+   check_preemption_disabled+0xd8/0xe0 lib/smp_processor_id.c:47
+   dev_xmit_recursion_inc include/linux/netdevice.h:3595 [inline]
+   iptunnel_xmit+0x1cd/0xb80 net/ipv4/ip_tunnel_core.c:72
+   sctp_v4_xmit+0x75f/0x1060 net/sctp/protocol.c:1073
+   sctp_packet_transmit+0x22ec/0x3060 net/sctp/output.c:653
+   sctp_packet_singleton+0x19e/0x370 net/sctp/outqueue.c:783
+   sctp_outq_flush_ctrl net/sctp/outqueue.c:914 [inline]
+   sctp_outq_flush+0x315/0x3350 net/sctp/outqueue.c:1212
+   sctp_cmd_interpreter net/sctp/sm_sideeffect.c:1824 [inline]
+   sctp_side_effects net/sctp/sm_sideeffect.c:1204 [inline]
+   sctp_do_sm+0xce1/0x5be0 net/sctp/sm_sideeffect.c:1175
+   sctp_primitive_ASSOCIATE+0x9c/0xd0 net/sctp/primitive.c:73
+   __sctp_connect+0x9fc/0xc70 net/sctp/socket.c:1235
+   sctp_connect net/sctp/socket.c:4818 [inline]
+   sctp_inet_connect+0x15f/0x220 net/sctp/socket.c:4833
+   __sys_connect_file+0x141/0x1a0 net/socket.c:2089
+   __sys_connect+0x141/0x170 net/socket.c:2108
+   __do_sys_connect net/socket.c:2114 [inline]
+   __se_sys_connect net/socket.c:2111 [inline]
+   __x64_sys_connect+0x72/0xb0 net/socket.c:2111
+   do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+   do_syscall_64+0x106/0xf80 arch/x86/entry/syscall_64.c:94
+   entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Fix this by adding migrate_disable/enable() around the __this_cpu
+operations in dev_xmit_recursion_inc/dec() to ensure the per-cpu
+variable is accessed on the same CPU throughout the inc/dec pair.
+
+Fixes: 6f1a9140ecda ("net: add xmit recursion limit to tunnel xmit functions")
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 ---
- drivers/net/ethernet/cadence/macb_main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/linux/netdevice.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/net/ethernet/cadence/macb_main.c b/drivers/net/ethernet/cadence/macb_main.c
-index 6ec7b110dc7219ca337de4c6f0cbe38bb11558b5..322545b3be23f8d2c4ca2e3da61e057496458eab 100644
---- a/drivers/net/ethernet/cadence/macb_main.c
-+++ b/drivers/net/ethernet/cadence/macb_main.c
-@@ -2149,7 +2149,7 @@ static irqreturn_t macb_interrupt(int irq, void *dev_id)
- 			 */
- 			queue_writel(queue, IDR, bp->rx_intr_mask);
- 			macb_queue_isr_clear(bp, queue, MACB_BIT(RCOMP));
--			napi_schedule(&queue->napi_rx);
-+			napi_schedule_irqoff(&queue->napi_rx);
- 		}
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 7ca01eb3f7d2..6b1cd5380d70 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -3591,14 +3591,19 @@ static inline bool dev_xmit_recursion(void)
+ 			XMIT_RECURSION_LIMIT);
+ }
  
- 		if (status & (MACB_BIT(TCOMP) |
-@@ -2162,7 +2162,7 @@ static irqreturn_t macb_interrupt(int irq, void *dev_id)
- 				wmb(); // ensure softirq can see update
- 			}
++/* Non PREEMPT_RT version: inc and dec must run on the same CPU,
++ * migrate_disable is sufficient.
++ */
+ static inline void dev_xmit_recursion_inc(void)
+ {
++	migrate_disable();
+ 	__this_cpu_inc(softnet_data.xmit.recursion);
+ }
  
--			napi_schedule(&queue->napi_tx);
-+			napi_schedule_irqoff(&queue->napi_tx);
- 		}
- 
- 		if (unlikely(status & MACB_INT_MISC_FLAGS))
-
----
-base-commit: 816f193dd0d95246f208590924dd962b192def78
-change-id: 20260404-macb-napi-irqoff-12b3f4d9799b
-
-Best regards,
+ static inline void dev_xmit_recursion_dec(void)
+ {
+ 	__this_cpu_dec(softnet_data.xmit.recursion);
++	migrate_enable();
+ }
+ #else
+ static inline int dev_recursion_level(void)
 -- 
-Kevin Hao <haokexin@gmail.com>
+2.43.0
 
