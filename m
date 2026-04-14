@@ -1,79 +1,269 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538A672618
-	for <linux-rt-devel@lists.linux.dev>; Sun, 12 Apr 2026 19:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C593E63B6
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 12:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776021126; cv=none; b=JStzMBlAMpq8OXJ12CsN77EzMMxkhv+grfL83UmmHxRVA3mYL/AhVvEww/TVCpxIoNKMbcGYZxEf0MXhHU5knGvc0nITsSAt6RzcND3WDYktYpTc/ySc38KcNarzLAzsCUwZGKeymDNrFNZSTrFfZpPj6LdzioI0fkEd2to82bc=
+	t=1776171583; cv=none; b=kKNy6FJHqbQz3u1KlCksQMi7MvTFAP09jkPqWGYalGJLcGb+ME8+GlZwkcbsryv/HN/5TnNkeoFGabt3FmK8EcQhAjUw2Hk7pjCoitMytzMTITYk9pQagwubHQo+sTDr+KbjErRLQejROoELckk2SQxaWwwBh8iQpECi4n78jqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776021126; c=relaxed/simple;
-	bh=Rjy0bYx/aiKu7BrMVP+P24OWfYKEbSst93ot4M9v5u8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UH9IzH0OLSYijnJkyL3CY//WtZZE3l50BZg0WbiDHRI7aESI/0evZDjcS2s7VIpnQlimXE6Z7K2SAnPtlFYD70xIQ3ef9Yk/isIX9hWvg3R0e4ZmPFH2FTQcHFZ2jSYlVhRxBtpHzuAERNtF2PUaFciPuOUcVwgtf0b7NuAoZFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FioJIBUW; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776171583; c=relaxed/simple;
+	bh=WQHdgxfWlX0aPB6RR7aILl83Gc2XgUcket5ljTMUvjA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iW/0J2qKnHuFI8SrEWHp6ed+hAk6U5YAtV5WE+WXJj9+9jUHMIYBmtBKTrYwGtu3RHR7QiETYjsAl8T2N8uhX2Ms9fY6YbikU7eoiLXeFyLfnceFXqdBp9z93YgztpksL0cixWN7LrTWgsZPEVh+wuoKpnTcEoh0E1zDoKwk2NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKdtkZhT; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FioJIBUW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B8CDA42A44
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776021124; bh=CXG8SaYjHg40te0VXu4OrzULroPQFyJmZbW36fv7HJw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FioJIBUWd/94cB9f2fxbp23onHdKhG1SIJ+JVvkm0y+hTbyuupxgSC5PkSEVq+xWq
-	 MrpWp+EO2ArUM9t39S/4ZypX654m2GK0V/ReTwkFZtzJcbKwM9phOhja9B137Nio8V
-	 jWrZk9aDy1MFcK4NjQDnm+nX0S9MR4QUpKf/pVuMwjnz5qkcBLlxQrpNw2573oQCoP
-	 Gvc4st9JkmRpJGcfhhgz1koe/WDePb/Npzt3FrLUkL2W1HHRitAzleB3a/trxngns+
-	 nui8BnApnl3/Dv2fynyIX14c7KAGVVHOLASm8EsnvfnGcrvlwZfvIqZ8nHazUBJB4p
-	 lZB8LrL3DQ6mw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B8CDA42A44;
-	Sun, 12 Apr 2026 19:12:04 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sukrut Heroorkar <hsukrut3@gmail.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Cc: Sukrut Heroorkar <hsukrut3@gmail.com>
-Subject: Re: [PATCH] Documentation: core-api: real-time: correct spelling
-In-Reply-To: <20260411155120.233357-1-hsukrut3@gmail.com>
-References: <20260411155120.233357-1-hsukrut3@gmail.com>
-Date: Sun, 12 Apr 2026 13:12:03 -0600
-Message-ID: <87jyucyovw.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKdtkZhT"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b9c3e2cf3c0so868969366b.1
+        for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 05:59:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776171579; x=1776776379; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cdLGnEYh10cO+yUbeSf7mdF0hSaGC/uTtDvKw2e8EtU=;
+        b=YKdtkZhTZTWcjhoYyF0LNPq4gTVMHcnEpnL6Lj+TchoIZ9s9G090xfLQzfvvqTwMzb
+         8HyOzmt428aeMkt/QAt2SuMZLs01bxUAgC/Q0YdJfRIb28SSkyf6eVHFZxODwerkx2Ij
+         w0urtZlYb5fi7ncAWKWEx3oTPi+AqfOHidE3bMqiN7uf1V4j2irtl/QJ8Ieer493XPV8
+         dWPtqPKYjtimqb+Vz6T67zV+E56MkdLDtTn9UO9FdFCJ8z9N91ataLa4bjHYqVmRpE5U
+         qqQl9pgEXX+FZScdDalRTTRKm9aLSULa51OHQrg3dzzX6/G/Gy6EO0GLrEbTaZ6lSx4D
+         SYjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776171579; x=1776776379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cdLGnEYh10cO+yUbeSf7mdF0hSaGC/uTtDvKw2e8EtU=;
+        b=HGGVra1/ilohwCwgYcv3aQWZGIkZ6d9DshKJgAJuL1/QRmtKWNxFns4H+zGGINeikJ
+         td0ZWDqEn7V7o6F3GrDGJyGbpGO4U76ZNf9RnejVJch6gTdciov/GPA0TOfuH7RyIRV0
+         KNelck0c5XwN4Gb/OmzdjPOmDtK5bvJd5SHMcQt5B9quGkqXlRf/1luzZEpgT4XlTeD6
+         UNbxekZiil7jRQZnKYebe4npD01d/5zCTyYgbVlKucfEF8z94VPSgwbvxjNWEbHa44Ze
+         THz6Y8cNSrLOpOqUYjjFbhx375QWjCEaIes+NNPMAnVZW9BjOfMdGsaGIiK4gKKuu96j
+         4cig==
+X-Forwarded-Encrypted: i=1; AFNElJ9WzmavXJSiEkhpDJwYG/FiJyYu1f91iRcQcHKfiTKw0+cUrLGdIPQk4ULqIyiiXJ51u2pIH/iNwTtjmISOgg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVEHzrgNsq+cL4/Lcr/knhg1kBM+q0vZwNSb+T33KuzGamsKBb
+	NxsPEYBsKpD5Hfub6u+89RuDzWpXsBZh8Vc5iDhqR54liyo2Kb2tPGYw
+X-Gm-Gg: AeBDietB1ZTq5wDQvBj6nmHtLk3LH9/oG4axlt8cuaaKFy8llhCSVL3QiOezCVvYm+G
+	VFkhKG6A0GFQIFLNKchbmto6+sqb4Pcr5MHlbpUs6ZJkdp8OcgoV79gk2LWu+GsQlMmnGK6PHRo
+	tiJcFoHQMerTWRMinwPakHSGqDu4g4elX8Li04aWNt6dh39eImukAdgDgkoMzgBKvyY9gDPScNH
+	mgqPWC9VjcjSbjQzIk+wWElNRGpNwl4e8T/tlIKkxTGKShu8xtet4w6iZmFMMia6jw+cCGUQxH2
+	1sI27Wk2ct1v/BIFG1N0ZcAyPsvijBJHSMn+HwCSFKxxH6tLAtivrAwz1Mmp/IZt7UTGbyUFIFq
+	BsrEyHtU7FtYVptgeNn0g619WsO8KdSw5pVXYV+BOgu/yhPBZZwBPxN21dIr7XFqDB/aPYi03gc
+	4aE+cm/nncrucu7+2U5EL4YyzeL8hcck762aiv4yZIJ23XFrgNOzE0cZUjRZAi2rYRVuKkTDg=
+X-Received: by 2002:a17:907:78c:b0:b96:ef71:49f9 with SMTP id a640c23a62f3a-b9d724f02f4mr994414966b.9.1776171578288;
+        Tue, 14 Apr 2026 05:59:38 -0700 (PDT)
+Received: from alala.sintef.no ([78.91.103.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9d6dfd89a9sm402687666b.25.2026.04.14.05.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 05:59:37 -0700 (PDT)
+From: Fredrik Boettger Bratberg <fredrik.b.bratberg@gmail.com>
+To: fredrik.b.bratberg@gmail.com
+Cc: Henrik Austad <henrik@austad.us>,
+	Peter Ziljstra <peterz@infradead.org>,
+	Tejun Heo <tj@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	linux-rt-devel@lists.linux.dev,
+	sched-ext@lists.linux.dev
+Subject: [RFC PATCH] sched: add CONFIG_SCHED_EXT_RT_EXPERIMENTAL to move SCHED_EXT above SCHED_RR/SCHED_FIFO
+Date: Tue, 14 Apr 2026 14:59:33 +0200
+Message-Id: <20260414125933.3520885-1-fredrik.b.bratberg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sukrut Heroorkar <hsukrut3@gmail.com> writes:
+From: fredrikBB <fredrik.b.bratberg@gmail.com>
 
-> Fix typo "excpetion" with "exception".
->
-> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
-> ---
->  Documentation/core-api/real-time/architecture-porting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/core-api/real-time/architecture-porting.rst b/Documentation/core-api/real-time/architecture-porting.rst
-> index c90a426d8062..c9a39d708866 100644
-> --- a/Documentation/core-api/real-time/architecture-porting.rst
-> +++ b/Documentation/core-api/real-time/architecture-porting.rst
-> @@ -74,7 +74,7 @@ Exception handlers
->    Enabling interrupts is especially important on PREEMPT_RT, where certain
->    locks, such as spinlock_t, become sleepable. For example, handling an
->    invalid opcode may result in sending a SIGILL signal to the user task. A
-> -  debug excpetion will send a SIGTRAP signal.
-> +  debug exception will send a SIGTRAP signal.
->    In both cases, if the exception occurred in user space, it is safe to enable
+sched_ext is a great tool to quickly develop and test custom scheduling
+policies. However, a current limitation of sched_ext is that it is fixed
+between the idle and fair classes in the scheduling class hierarchy. This
+makes it problematic to implement new real-time policies with sched_ext.
+For research and experimental purposes, it is useful to have the option to
+increase sched_ext priority relative to the other classes.
 
-Applied, thanks.
+One particular use case is the implementation of mixed-criticality
+schedulers such as EDF-VD, where real-time capabilities are required. In
+such cases, a priority equal to or higher than that of SCHED_RR and
+SCHED_FIFO is desired in order to limit interference by other tasks.
+Framed differently, this option enables experimentation with custom
+real-time scheduling policies in sched_ext.
 
-jon
+A recent paper published in the 2025 Real-Time Systems Symposium (RTSS)
+"Enabling Flexible Scheduling in ROS 2", would presumably also benefint
+from this feature. The paper aims to address and improve the real-time
+capabilities of Robot Operating System 2 (ROS2). As part of their paper
+they implement an EDF using sched_ext. They do not explicitly address the
+issue of their EDF SCHED_EXT tasks effectively having a lower priority than
+SCHED_NORMAL, but it is a known limitation of the current sched_ext class
+placement
+
+This change conditionally reorders sched_class selection such that, when
+enabled:
+
+  STOP > DL > EXT > RT > FAIR > IDLE
+
+Normally, it is possible to schedule all fair-class policies under
+sched_ext. CONFIG_SCHED_EXT_RT_EXPERIMENTAL removes this possibility in
+order to prevent fair-class policies from effectively increasing their
+precedence in the scheduling class hierarchy. This is done by forcing
+scx_switched_all() and scx_switching_all to false.
+
+This patch has been tested on a BeagleV-Fire development board with
+PREEMPT_RT enabled on the 6.18.6 kernel, and it made SCHED_EXT tasks be
+preempted by SCHED_RR / SCHED_FIFO tasks to a much lesser extent as
+desired. However, it still occasionally happen that SCHED_EXT tasks gets
+preempted by other tasks which do not run in an hard IRQ context. Comments
+regarding why this can be the case are also greatly appreciated.
+
+Reviewed-by: Henrik Austad <henrik@austad.us>
+Signed-off-by: Fredrik Boettger Bratberg <fredrik.b.bratberg@gmail.com>
+Cc: Peter Ziljstra <peterz@infradead.org> 
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Thomas Gleixner <tglx@kernel.org>
+Cc: Henrik Austad <henrik@austad.us>
+Cc: linux-rt-devel@lists.linux.dev
+Cc: sched-ext@lists.linux.dev
+---
+ include/asm-generic/vmlinux.lds.h | 13 +++++++++++++
+ kernel/Kconfig.preempt            | 16 ++++++++++++++++
+ kernel/sched/core.c               |  6 ++++++
+ kernel/sched/ext.c                | 11 +++++++++++
+ kernel/sched/sched.h              |  8 ++++++++
+ 5 files changed, 54 insertions(+)
+
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index e04d56a53..3fe9504c4 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -133,6 +133,18 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+  * used to determine the order of the priority of each sched class in
+  * relation to each other.
+  */
++#ifdef CONFIG_SCHED_EXT_RT_EXPERIMENTAL
++#define SCHED_DATA				\
++	STRUCT_ALIGN();				\
++	__sched_class_highest = .;		\
++	*(__stop_sched_class)			\
++	*(__dl_sched_class)			\
++	*(__ext_sched_class)			\
++	*(__rt_sched_class)			\
++	*(__fair_sched_class)			\
++	*(__idle_sched_class)			\
++	__sched_class_lowest = .;
++#else
+ #define SCHED_DATA				\
+ 	STRUCT_ALIGN();				\
+ 	__sched_class_highest = .;		\
+@@ -143,6 +155,7 @@ defined(CONFIG_AUTOFDO_CLANG) || defined(CONFIG_PROPELLER_CLANG)
+ 	*(__ext_sched_class)			\
+ 	*(__idle_sched_class)			\
+ 	__sched_class_lowest = .;
++#endif
+ 
+ /* The actual configuration determine if the init/exit sections
+  * are handled as text/data or they can be discarded (which
+diff --git a/kernel/Kconfig.preempt b/kernel/Kconfig.preempt
+index da326800c..553d22605 100644
+--- a/kernel/Kconfig.preempt
++++ b/kernel/Kconfig.preempt
+@@ -189,3 +189,19 @@ config SCHED_CLASS_EXT
+ 	  For more information:
+ 	    Documentation/scheduler/sched-ext.rst
+ 	    https://github.com/sched-ext/scx
++
++config SCHED_EXT_RT_EXPERIMENTAL
++	bool "[EXPERIMENTAL] Increase sched_ext priority above SCHED_CLASS_RT"
++	depends on SCHED_CLASS_EXT
++	help
++	  This option increases sched_ext's class precedence above SCHED_RR and
++	  SCHED_FIFO which improves the real-time capabilities of sched_ext.
++	  Normally the sched_ext scheduler is placed in between the fair
++	  and idle scheduling class, which can cause exessive preemption of
++	  SCHED_EXT tasks by both real-time and fair class tasks.
++
++	  Note that this option will force SCX_OPS_SWITCH_PARTIAL, meaning only tasks
++	  with the SCHED_EXT policy can be scheduled by sched_ext. This
++	  is in contrast to the default behaviour where all SCHED_NORMAL,
++	  SCHED_BATCH, SCHED_IDLE, and SCHED_EXT tasks are scheduled by
++	  sched_ext when the BPF scheduler is loaded and running.
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index eb47d294e..93d16f665 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -8654,8 +8654,14 @@ void __init sched_init(void)
+ 	BUG_ON(!sched_class_above(&rt_sched_class, &fair_sched_class));
+ 	BUG_ON(!sched_class_above(&fair_sched_class, &idle_sched_class));
+ #ifdef CONFIG_SCHED_CLASS_EXT
++	/* Reorder BUG_ON if sched_ext is moved in the hierarchy */
++	#ifdef CONFIG_SCHED_EXT_RT_EXPERIMENTAL
++	BUG_ON(!sched_class_above(&dl_sched_class, &ext_sched_class));
++	BUG_ON(!sched_class_above(&ext_sched_class, &rt_sched_class));
++	#else
+ 	BUG_ON(!sched_class_above(&fair_sched_class, &ext_sched_class));
+ 	BUG_ON(!sched_class_above(&ext_sched_class, &idle_sched_class));
++	#endif
+ #endif
+ 
+ 	wait_bit_init();
+diff --git a/kernel/sched/ext.c b/kernel/sched/ext.c
+index 31eda2a56..dea807971 100644
+--- a/kernel/sched/ext.c
++++ b/kernel/sched/ext.c
+@@ -4776,7 +4776,15 @@ static int scx_enable(struct sched_ext_ops *ops, struct bpf_link *link)
+ 	 * All tasks are READY. It's safe to turn on scx_enabled() and switch
+ 	 * all eligible tasks.
+ 	 */
++/*
++ * If sched_ext is elevated in the scheduling hierarchy, we cannot allow
++ * sched_ext to schedule tasks part of the fair classes.
++ */
++#ifdef CONFIG_SCHED_EXT_RT_EXPERIMENTAL
++	WRITE_ONCE(scx_switching_all, false);
++#else
+ 	WRITE_ONCE(scx_switching_all, !(ops->flags & SCX_OPS_SWITCH_PARTIAL));
++#endif
+ 	static_branch_enable(&__scx_enabled);
+ 
+ 	/*
+@@ -4819,8 +4827,11 @@ static int scx_enable(struct sched_ext_ops *ops, struct bpf_link *link)
+ 		goto err_disable;
+ 	}
+ 
++/* When running with SCHED_EXT_RT, only allow switch_partial */
++#ifndef CONFIG_SCHED_EXT_RT_EXPERIMENTAL
+ 	if (!(ops->flags & SCX_OPS_SWITCH_PARTIAL))
+ 		static_branch_enable(&__scx_switched_all);
++#endif
+ 
+ 	pr_info("sched_ext: BPF scheduler \"%s\" enabled%s\n",
+ 		sch->ops.name, scx_switched_all() ? "" : " (partial)");
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 2f8b06b12..6e9c1cae7 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -1762,7 +1762,15 @@ DECLARE_STATIC_KEY_FALSE(__scx_enabled);	/* SCX BPF scheduler loaded */
+ DECLARE_STATIC_KEY_FALSE(__scx_switched_all);	/* all fair class tasks on SCX */
+ 
+ #define scx_enabled()		static_branch_unlikely(&__scx_enabled)
++/*
++ * If sched_ext is elevated in the scheduling hierarchy, we cannot allow
++ * sched_ext to schedule tasks part of the fair classes.
++ */
++#ifdef CONFIG_SCHED_EXT_RT_EXPERIMENTAL
++#define scx_switched_all()	false
++#else
+ #define scx_switched_all()	static_branch_unlikely(&__scx_switched_all)
++#endif
+ 
+ static inline void scx_rq_clock_update(struct rq *rq, u64 clock)
+ {
+-- 
+2.34.1
+
