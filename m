@@ -1,68 +1,68 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEA73F0A88
-	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 17:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE74313535
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 17:54:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776188534; cv=none; b=tR3ZJHGXkLEeRud75gYmNIY/+ErdrFdikwt3ItjzjvNZlvEASI7bk5p+6Rr15dh/trLlx5tdUnR0tuP47++/fPxsFHluJHcyNaYSIwY0tiQSVCnK5lmXjb3DS6E4pBxIUV8kYLW57cXLICKRnf54iJkUe5TH0vKA0F0dStsHloo=
+	t=1776189282; cv=none; b=OlvSKp0orGlSMGtp9fXNN0+bWSMCaOXLRDUEZs+KXHoCRIkTF6kHyHqZhzF0vRN+lzyivI9wEoG25dFmAGWSCYVIItIzxXxnQDwMbvB67AeCfShj9xMcUA+YOIrwqi01KpnqZWaLdNDi/uroLjdF9z0uI7wJjR+b1txRZr4uF9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776188534; c=relaxed/simple;
-	bh=4QUn9As1pxh7eXWjbeKq4y+Nchtl9F2pYLvneGGLUCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OV+U5nXATJQkIB7q+2foX0U5Ive7XlQJByhLtpNCcHtDKQG/MTVTvvrhOVbnHVow57tjptxwdkPdC+b1VEgswvFJFmBIZqjp7Kw92amsXQxF3spUooDqQnFP5rZrZJI6AVR+RWBOsV2NpzlmCUjpLCDZITQu88ADx87d3NiAhOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qyQlhGx+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1E2oj9nV; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1776189282; c=relaxed/simple;
+	bh=1PZquthFlD4NhUncEynrn/5l/381yUGvaip+EZHQ7ac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b3n1YBheDmOzXRpVRm9l6q6OCgQsrVJvik3jeVsxjrGmvQejSaT5cCxbZ8HNCArNjSaJRHySB73nGzSjH2ZHhSmg7NHRz0jxHgx05+Jws0JilnyGbHBu21Pj/vGgBZB7ELlLtBRGXQORU7d6BE8m/o2l3r30Yy/mgIi/yM7QoQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TyKJpiwt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=60OmTS7X; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qyQlhGx+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1E2oj9nV"
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TyKJpiwt";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="60OmTS7X"
+Date: Tue, 14 Apr 2026 19:54:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1776188530;
+	s=2020; t=1776189278;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0rCvgA9EBrMkNQG633utOv8P+bebeia6n+Ud10ua45o=;
-	b=qyQlhGx+lsolq3JVLukFJJX/lD2o8OpJBgJvAUmWfSnVGL3gJyEPRz+t+aMCoPe7ucBxeV
-	PteBpX3xlLOQOF4W1bbF/nQEvyskEZxsYWG7MuJOPSpN5Dz8J4CMW7TdZs3HM+/tMh/9Dw
-	gYW1JfOOSAJ5Uwi83iYCXoT5cEwVTUrTtDxKHTvC4MMoN2Lj+xe4IVI/NC17qG8zLTDHxS
-	F3IN5pvmpZUVNs1JAwP8upsSWguISExBkSk6K3IZqbm+51ph6AbNPyFA4geGNg12wN6Fyy
-	H02cMSwSDGl1buHsucRnQUQkXa4v1BG1VbehA9rBalttVvEPWuG4oEVQR1sR7Q==
+	bh=2uRgf8HbYCi0CdeRFmPwYr+lTkRGbzbXNVVw9fK437o=;
+	b=TyKJpiwtCCBXN2c2BH+fy+wPvkh5fght+E1nzutlZxvr2pcmGmnV/2JuQfYY5p/UrFpCBm
+	gRS6uV5pNgAb++F2sb9ncj/1lkTkL6GHkcnZdFGnsE4UEjwL1MPcDpvjRqwjECoim14Axv
+	s4VHZM/j0UbRdkntIFBn4rW8/bP2KW5kOrLDTWdwv0mWYlxdZHJeSPFUQzcppYV0h+uaR2
+	unE0uGrgXIKviAXbJyM1YVnFJQL7pyObTxwfHZ+x87oSFPKhZiepflqN+MX7lMTCo5Dl0G
+	BMrj89q6qDO1EokPD7Cs/YHnMdXTj1gS8Ur1vwB6Pom47I+zQyF4cnfq9dEE2A==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1776188530;
+	s=2020e; t=1776189278;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0rCvgA9EBrMkNQG633utOv8P+bebeia6n+Ud10ua45o=;
-	b=1E2oj9nVPjuQlc3TimVQaKGhIC5B/IRsbfGUvouBnva6u5ElEGIlE+9OUuKMs6czdRUMcY
-	5FceT6fRfMK4hLCA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
+	bh=2uRgf8HbYCi0CdeRFmPwYr+lTkRGbzbXNVVw9fK437o=;
+	b=60OmTS7XZF+xahlEAJfSSDLieHLHoCFM8qVzmFZG2+eJV7ERY1txvrGhzfl858ylTFKeqA
+	ZHgXm/QbZERnXDDw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	linux-rt-devel@lists.linux.dev
 Cc: Matthew Wilcox <willy@infradead.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v2 1/1] Documentation: real-time: Add kernel configuration guide
-Date: Tue, 14 Apr 2026 19:41:56 +0200
-Message-ID: <20260414174159.1271171-2-darwi@linutronix.de>
-In-Reply-To: <20260414174159.1271171-1-darwi@linutronix.de>
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/1] Documentation: real-time: Add kernel configuration
+ guide
+Message-ID: <ad5_XCnVDlC9Hvup@lx-t490>
 References: <20260414174159.1271171-1-darwi@linutronix.de>
+ <20260414174159.1271171-2-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260414174159.1271171-2-darwi@linutronix.de>
 
 Add a configuration guide for real-time kernels.
 
@@ -78,6 +78,13 @@ Add a summary at the end of the document warning users that there is a no
 
 Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 ---
+
+* Changelog-v3
+
+Order the "Problematic debug options" section alphabetically, thus matching
+rest of the document.  Link to v2 of bigeasy EFI runtime services work,
+instead of v1.
+
  Documentation/core-api/real-time/index.rst    |   1 +
  .../real-time/kernel-configuration.rst        | 313 ++++++++++++++++++
  2 files changed, 314 insertions(+)
@@ -94,7 +101,7 @@ index f08d2395a22c..a17a3dec535c 100644
 +   kernel-configuration
 diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
 new file mode 100644
-index 000000000000..4310ca85f014
+index 000000000000..ab06ec2c6ef8
 --- /dev/null
 +++ b/Documentation/core-api/real-time/kernel-configuration.rst
 @@ -0,0 +1,313 @@
@@ -240,7 +247,7 @@ index 000000000000..4310ca85f014
 +
 +*Guidance by real-time workload type:*
 +
-+- For periodic workloads; e.g., control loops executing every 100 Âµs, avoid
++- For periodic workloads; e.g., control loops executing every 100 µs, avoid
 +  ``NO_HZ`` modes.  Consistent kernel ticks are preferable.
 +
 +- For computation-intensive workloads; e.g. extended userspace execution,
@@ -321,6 +328,16 @@ index 000000000000..4310ca85f014
 +Problematic debug options
 +-------------------------
 +
++.. _tracers:
++
++``CONFIG_IRQSOFF_TRACER`` and ``CONFIG_PREEMPT_TRACER``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++These tracers do incur measurable latency overhead even when tracing is not
++currently active.
++
 +``CONFIG_LOCKUP_DETECTOR``
 +^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
@@ -342,16 +359,6 @@ index 000000000000..4310ca85f014
 +
 +Proving the correctness of all kernel locking adds substantial overhead
 +and significantly increases worst-case latency.
-+
-+.. _tracers:
-+
-+``CONFIG_IRQSOFF_TRACER`` and ``CONFIG_PREEMPT_TRACER``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+These tracers do incur measurable latency overhead even when tracing is not
-+currently active.
 +
 +Allowed kernel debug options
 +----------------------------
@@ -408,9 +415,8 @@ index 000000000000..4310ca85f014
 +
 +.. [1] See :doc:`/admin-guide/kernel-parameters`
 +
-+.. _development work: https://lore.kernel.org/r/20260205115559.1625236-1-bigeasy@linutronix.de
++.. _development work: https://lore.kernel.org/r/20260227170103.4042157-1-bigeasy@linutronix.de
 +
 +.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
--- 
+--
 2.53.0
-
