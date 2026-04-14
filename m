@@ -1,78 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7BE1D5CC6;
-	Tue, 14 Apr 2026 17:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6E83F0779
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 17:42:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776187384; cv=none; b=cXhQgMQImWfU2aK+OfYtcblbUGWeFrLzxmp9sJyRKQztSkx71DTGlFOetPTFdQ24XX6qM5mDWh/1yjzPy584i/puF5zFbL8COB7bW1bgHi7PhE8ixAOA9qxMe4gy8k+bY8eAxIG8EICWnYPq7LrS2NgsHafoU8LAspMXGbR0B/I=
+	t=1776188530; cv=none; b=oB8kxBrRRr7b2sqZExLTD1Vfs+USxudaefmYAZ7wzCXqa3XYpWSLUIPIDWORrdx/ayaFFB2vcdwI7t+1TizbFW90GKIhZhsh0tFjP76X14iJs9BnlEojaiXXbkvrXKCgyn6+G5AWBfKis+dBN9JbB54F+LQMLgwdYi79OFxT6I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776187384; c=relaxed/simple;
-	bh=EtIXgDtZije819G8S+TgKYxLQZojM3MCshppot01HrQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCb774q9EPEpJX5HHjcy/MzkfVuDWu3ap+Gj0cPBrto2IOiqOLlY0YUJ36+7ZvTKpszuzp+eJT9xU7xCBek9Puw0ui4pYXeLplH56myTIbIg6KkvHqgw9NAgP/VhvJk6DldEvQxUQ5QhWyBvuw8+mYIhdYmJcSY2uH2Cj4v3Naw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMNdnmbO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776188530; c=relaxed/simple;
+	bh=+njpjNYDXr1TLhGgv8LrXVrVWerFCUYHRVHmJY/2l6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HImtLzOPPibHAlcRJrNN5jnYrjDtayhCNCnz4fzYKd9ylJoQf5gRQmCmyKAOsaAZhdoZ4PeuWX/GKtIRARUgIlspb7Bj+aJSAHWAgigbnZymAXmxYZTVXK3AbC4aQXDlMRhqjB6lAEq4oH0bHq517c7NpVPURMKvdxtHPlevlxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=seaHhH6K; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=VjaOllej; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMNdnmbO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F21C19425;
-	Tue, 14 Apr 2026 17:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776187383;
-	bh=EtIXgDtZije819G8S+TgKYxLQZojM3MCshppot01HrQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nMNdnmbO6/hgGRunEyZcTnrDbh8WCz/W1Ut1UBpBOyVHU70OUaY5w/cqpm9cvsyfD
-	 hUXRzCUjfjjtyBCx5ty2NvVTgtH+DfE920TbsUQsd7sV07wnLyNnPt2Xbbh1Bzvd8T
-	 CJvjqkY1JBoLQFAmp+fcP5/Vy2X2JJqMhSE1A7a9tkRIQRdPxN2hevo/1q1/CWT4CL
-	 MqsZs7O+7QyWavbjOHMOv+m/ISbxxPE1YM97MYjwG4A5xbNI9n8JuAdtsMeXzypSU8
-	 5NZVsIqqW4Z+UwAFTsGNNTeDbE1KigXV8NlMt3mVgbG6mdC3WT0nFQ0lkCp2L3LI+f
-	 yiS7g5jMHCiuA==
-Date: Tue, 14 Apr 2026 07:23:02 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Fredrik Boettger Bratberg <fredrik.b.bratberg@gmail.com>
-Cc: Henrik Austad <henrik@austad.us>, Peter Ziljstra <peterz@infradead.org>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="seaHhH6K";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="VjaOllej"
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1776188527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QbUDy2EirPvh89rAfsM6+Zun8ri046OGEA8AG7SMP/I=;
+	b=seaHhH6KwwlMBsNCauJiJL41+IL68OJw/81x9rlZF+3EzlEbaC27jJBqbnhd41s8pnpMzB
+	JpuRTCcMMFvvqqHvovKhKU5MGktBUZOIW4BdcEqnzAMI72HWGTjfpKpA/A3E3f+I6QSRP9
+	Vcz1YtQXHzgpQ3uiZNzvcoCu/cRGt3VJjN9QMHwNajBf07R1OxAe69KCjmW8KvA58Zd84t
+	r6dy+8MfRuAI1mZhmNl4VrPp449QuOd2kEXK1mvQkpsWyUFgZrFYiu2mqAhHwPi13HcmSO
+	RA1W91JpvBnIVMdYgrIirsN82QZJHh+Z/7r0e/XXuapQNpFMxNBi1P8rj4Zg4Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1776188527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QbUDy2EirPvh89rAfsM6+Zun8ri046OGEA8AG7SMP/I=;
+	b=VjaOllejE5qYpSmtsyvVpdxkCJQJgWu8wQq/trM+zTMi6GYGqZvIXG0yTIm333yy9WVNoX
+	3SBp3Pwxcn4UdFAA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>, linux-rt-devel@lists.linux.dev,
-	sched-ext@lists.linux.dev
-Subject: Re: [RFC PATCH] sched: add CONFIG_SCHED_EXT_RT_EXPERIMENTAL to move
- SCHED_EXT above SCHED_RR/SCHED_FIFO
-Message-ID: <ad539mUd8A0lDWAw@slm.duckdns.org>
-References: <20260414125933.3520885-1-fredrik.b.bratberg@gmail.com>
+	linux-rt-devel@lists.linux.dev
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: [PATCH v2 0/1] Documentation: Add real-time kernel configuration guide
+Date: Tue, 14 Apr 2026 19:41:55 +0200
+Message-ID: <20260414174159.1271171-1-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414125933.3520885-1-fredrik.b.bratberg@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi,
 
-On Tue, Apr 14, 2026 at 02:59:33PM +0200, Fredrik Boettger Bratberg wrote:
-> A recent paper published in the 2025 Real-Time Systems Symposium (RTSS)
-> "Enabling Flexible Scheduling in ROS 2", would presumably also benefint
-> from this feature. The paper aims to address and improve the real-time
-> capabilities of Robot Operating System 2 (ROS2). As part of their paper
-> they implement an EDF using sched_ext. They do not explicitly address the
-> issue of their EDF SCHED_EXT tasks effectively having a lower priority than
-> SCHED_NORMAL, but it is a known limitation of the current sched_ext class
-> placement
+There is a no "one size fits all" solution for configuring a PREEMPT_RT
+kernel.  Intorduce a PREEMPT_RT kernel configuration guide to better help
+system developers and integrators.
 
-Isn't that mostly solvable by just not putting tasks in DL/RT and enabling
-switching_all?
+Changelog v2
+------------
 
-> This change conditionally reorders sched_class selection such that, when
-> enabled:
-> 
->   STOP > DL > EXT > RT > FAIR > IDLE
+Handle Rostedt remarks:
 
-The problem is that RT being above EXT is required for safety as EXT depends
-on RT superceding it for enable/disable path forward progress guarantee. If
-you put EXT on top of RT, it's relatively easy to stall out the whole system
-without any way to recover it.
+- Better reword certain paragraphs and statements
+- Warn about enabling CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER
 
-Thanks.
+Handle Wilcox remarks:
 
+- Remove ToC comment + minor rewording
+
+Changelog v1
+------------
+
+https://lore.kernel.org/lkml/20260305205023.361530-1-darwi@linutronix.de
+
+Thanks,
+
+8<-----
+
+ Documentation/core-api/real-time/index.rst    |   1 +
+ .../real-time/kernel-configuration.rst        | 313 ++++++++++++++++++
+ 2 files changed, 314 insertions(+)
+ create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
+
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
 -- 
-tejun
+2.53.0
+
