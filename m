@@ -1,44 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE74313535
-	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 17:54:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29ACE2D877D
+	for <linux-rt-devel@lists.linux.dev>; Tue, 14 Apr 2026 18:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776189282; cv=none; b=OlvSKp0orGlSMGtp9fXNN0+bWSMCaOXLRDUEZs+KXHoCRIkTF6kHyHqZhzF0vRN+lzyivI9wEoG25dFmAGWSCYVIItIzxXxnQDwMbvB67AeCfShj9xMcUA+YOIrwqi01KpnqZWaLdNDi/uroLjdF9z0uI7wJjR+b1txRZr4uF9o=
+	t=1776190327; cv=none; b=b8FCDTCVdFRitMj91z8lJAYXEPCoKVOS8glXpzHoksf8znlMxnWuQUwhDJTeFvsqtIO3ZVtl4vxiUyIltx3Ill+NKRXdYVUzaqRovgMVAA5Is1jgPEOkW3L81x4I9uyoEf1VjxDYS6n3nhQEkb42jzHY2+7pdhE9v+66+H1rnLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776189282; c=relaxed/simple;
-	bh=1PZquthFlD4NhUncEynrn/5l/381yUGvaip+EZHQ7ac=;
+	s=arc-20240116; t=1776190327; c=relaxed/simple;
+	bh=Vvs1mhMo55PahCwoPvb2tiFwYXyodQ1YBlUJY1X6pok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3n1YBheDmOzXRpVRm9l6q6OCgQsrVJvik3jeVsxjrGmvQejSaT5cCxbZ8HNCArNjSaJRHySB73nGzSjH2ZHhSmg7NHRz0jxHgx05+Jws0JilnyGbHBu21Pj/vGgBZB7ELlLtBRGXQORU7d6BE8m/o2l3r30Yy/mgIi/yM7QoQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TyKJpiwt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=60OmTS7X; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEFIQEXdHuNl92dqWInY5zW6Gu+zr5KcNkmbfe50d11TT/HISEMLL43Q4tYtGAPf4bB1W1HpsxrbJUzY8818f5l0KZQlsZoPIAxo7yZG6dudEJmUNfBN4FM9PDfhKDvmCktA0SkQdnDjFhKD/UtPiYzeA5kfTbTW8L2ilIbaDwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tttnoJUb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lso6wdpp; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TyKJpiwt";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="60OmTS7X"
-Date: Tue, 14 Apr 2026 19:54:36 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tttnoJUb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lso6wdpp"
+Date: Tue, 14 Apr 2026 20:12:02 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1776189278;
+	s=2020; t=1776190324;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2uRgf8HbYCi0CdeRFmPwYr+lTkRGbzbXNVVw9fK437o=;
-	b=TyKJpiwtCCBXN2c2BH+fy+wPvkh5fght+E1nzutlZxvr2pcmGmnV/2JuQfYY5p/UrFpCBm
-	gRS6uV5pNgAb++F2sb9ncj/1lkTkL6GHkcnZdFGnsE4UEjwL1MPcDpvjRqwjECoim14Axv
-	s4VHZM/j0UbRdkntIFBn4rW8/bP2KW5kOrLDTWdwv0mWYlxdZHJeSPFUQzcppYV0h+uaR2
-	unE0uGrgXIKviAXbJyM1YVnFJQL7pyObTxwfHZ+x87oSFPKhZiepflqN+MX7lMTCo5Dl0G
-	BMrj89q6qDO1EokPD7Cs/YHnMdXTj1gS8Ur1vwB6Pom47I+zQyF4cnfq9dEE2A==
+	bh=yaxROwQDs+5OJYyvMSBO+PjmZn4BG5+DcIzyEfclWUM=;
+	b=tttnoJUb0P6AmvctFpiM5ajGrwLQXfMCPm9uwdrgoxuQG/Zsx33ckjxLs5LsvtMPHal7GO
+	qpA3A1VUdme8SZhAuqh1ncHyA7VYuAi+A0rPIwcL3ddNavE9+ewAXuKlYRQd9vEaj3yQik
+	udQ4UWRS4LaCMe7vjlgCR+Kh1j9rpKX30vRNvnuL3HNSr2vL9U/cZGUBWSuJzA/wpJPLDp
+	dZr4LMN9OGSLHrobUtANMJPaOgUjf2s1D+Q8vJ6rsgawsYw/OOTKJcCoOaaDcQOAjvdq6I
+	KAGQwz/tTo7Iip7amuj3idZs2yFszLGr0DhrtF0QamwrQNOtPXRS4Oo2b1/M0w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1776189278;
+	s=2020e; t=1776190324;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2uRgf8HbYCi0CdeRFmPwYr+lTkRGbzbXNVVw9fK437o=;
-	b=60OmTS7XZF+xahlEAJfSSDLieHLHoCFM8qVzmFZG2+eJV7ERY1txvrGhzfl858ylTFKeqA
-	ZHgXm/QbZERnXDDw==
+	bh=yaxROwQDs+5OJYyvMSBO+PjmZn4BG5+DcIzyEfclWUM=;
+	b=lso6wdppR3HOdENlHDTNl26+p8pkRCCOO+KUVjCLm+oPPFzWGjgoW0VlT5byodJYJ3KfrQ
+	jd3MY9YA1PjgA9CA==
 From: "Ahmed S. Darwish" <darwi@linutronix.de>
 To: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
@@ -48,11 +48,12 @@ Cc: Matthew Wilcox <willy@infradead.org>,
 	John Ogness <john.ogness@linutronix.de>,
 	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/1] Documentation: real-time: Add kernel configuration
+Subject: [PATCH v4 1/1] Documentation: real-time: Add kernel configuration
  guide
-Message-ID: <ad5_XCnVDlC9Hvup@lx-t490>
+Message-ID: <ad6DcliisiRxw5RN@lx-t490>
 References: <20260414174159.1271171-1-darwi@linutronix.de>
  <20260414174159.1271171-2-darwi@linutronix.de>
+ <ad5_XCnVDlC9Hvup@lx-t490>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,7 +63,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260414174159.1271171-2-darwi@linutronix.de>
+In-Reply-To: <ad5_XCnVDlC9Hvup@lx-t490>
 
 Add a configuration guide for real-time kernels.
 
@@ -79,15 +80,14 @@ Add a summary at the end of the document warning users that there is a no
 Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 ---
 
-* Changelog-v3
+* Changelog v4
 
-Order the "Problematic debug options" section alphabetically, thus matching
-rest of the document.  Link to v2 of bigeasy EFI runtime services work,
-instead of v1.
+ Handle Sashiko's review remarks at
+ https://sashiko.dev/#/patchset/ad5_XCnVDlC9Hvup%40lx-t490
 
  Documentation/core-api/real-time/index.rst    |   1 +
- .../real-time/kernel-configuration.rst        | 313 ++++++++++++++++++
- 2 files changed, 314 insertions(+)
+ .../real-time/kernel-configuration.rst        | 310 ++++++++++++++++++
+ 2 files changed, 311 insertions(+)
  create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
 
 diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
@@ -101,10 +101,10 @@ index f08d2395a22c..a17a3dec535c 100644
 +   kernel-configuration
 diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
 new file mode 100644
-index 000000000000..ab06ec2c6ef8
+index 000000000000..73f7730d468e
 --- /dev/null
 +++ b/Documentation/core-api/real-time/kernel-configuration.rst
-@@ -0,0 +1,313 @@
+@@ -0,0 +1,310 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +==============================
@@ -295,14 +295,14 @@ index 000000000000..ab06ec2c6ef8
 +results across the system's runtime.
 +
 +If disabling other frequency governors is not an option, then
-+``CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case, users
-+should set a *stable* CPU frequency setting during the system runtime, as
-+changing the CPU frequency will increase the system latency and affect
-+latency measurements reproducibility.  If a lower CPU frequency is desired,
-+then ``CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
++``CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case,
++users should set a *stable* CPU frequency setting during the system
++runtime, as changing the CPU frequency will increase the system latency and
++affect latency measurements reproducibility.  If a lower CPU frequency is
++desired, then ``CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
 +
 +The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
-+real-time system since in dramatically affects determinism depending on the
++real-time system since it dramatically affects determinism depending on the
 +workload.
 +
 +For more information, please check :doc:`/admin-guide/pm/cpufreq`.
@@ -313,9 +313,6 @@ index 000000000000..ab06ec2c6ef8
 +Most kernel debug options add runtime overhead that increases the
 +worst-case latency.
 +
-+.. TODO: Connect lockdep with PROVE_LOCKING.  Make it clear that it does
-+.. not uncover latency issues.
-+
 +.. caution::
 +
 +  During development and early testing, users are encouraged to run their
@@ -323,7 +320,7 @@ index 000000000000..ab06ec2c6ef8
 +  other kernel debug options enabled, for a considerable amount of time.
 +  Such workloads might trigger kernel code paths that were not triggered
 +  during the internal Linux real-time kernel development, thus helping to
-+  uncover locking bugs and any real-time latency issues in the kernel.
++  uncover locking and other types of kernel bugs.
 +
 +Problematic debug options
 +-------------------------
