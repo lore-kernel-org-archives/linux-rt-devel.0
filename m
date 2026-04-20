@@ -1,215 +1,147 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B8181C5D7D
-	for <linux-rt-devel@lists.linux.dev>; Mon, 20 Apr 2026 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3E0344021
+	for <linux-rt-devel@lists.linux.dev>; Mon, 20 Apr 2026 16:10:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776688573; cv=none; b=lONLCI45kKGsP78rINP1yF4Jxa0QxTPiUbML9QbBUapvcfLv8uqQFPAt8xqVo4xS5T21zZDxjXLB/G9NnhNw2KwhWD9HU16BMggx6uVvfjIEuvrFH5WOYWJTKopMP40x7x8jpZu4IWITpi6q92POIETRfrrU2YoyhHaCqAvPuZE=
+	t=1776701460; cv=none; b=nNDBshUS5XV6DWy5zm6TWhIoBUkx3pI6oxqTM4N4Sp/TEDld66KqXi8U06HaVmxVwV06UyUp4/KL53kjekUJy0hvCElhYwSLPLmTbR6yHJCWuxoRzygajQHrVFlJz4AC0qF4dO5yWpkkEulAljt3x6tRP7adS8mKV9p4nVrnpZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776688573; c=relaxed/simple;
-	bh=qdOdMpqPdV68/NCdKCYjugQnD2JYid7Y38q+dR+KC+U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NOc9oSb73k5Qbyl6dqFEoeFyUQiJ5OSWn7X/+3C0RNwkzamQXPE/v0jO+JfgqzK5ZYY0QTlPYg975MN7hoMpQIlnUz4HvDsvg05peynVHQ/TFWSTdw48q9aUgzimiUUt9k8HZFKClAzkCl28LLadOA/pgC4a0s4AXWIdWAHq0wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fZ+jpZAS; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776701460; c=relaxed/simple;
+	bh=MOJKKXRCJBvIZ1NSF5DMTj9lzqj4jacPCsNx3GboOOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BbXvJ/FecIXyTtj+eJPgpywjMJtJJB2NdEafVzzFLJiuJ0Iq+5v7+j4oXUv+T4l+lJ9T09V0lEDQPM30bCc0QlMdL6AukYSldtei/j1furgPdACT6sUoviZDOUgq/cNg1uVsB+H9T2675pciup2NALhhJRlLyY6WL2KMCc0Lgnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pQL5oNFx; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fZ+jpZAS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776688571;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fx56vBuYKQtfBv6HqCiZTLNRB425mz1mOridRKnvUBg=;
-	b=fZ+jpZAS8OOk8wLM53OQBnAVfxTHRsHCXcVurnRgPDC7+sWY3U0mrIqU7x0k+4IKZ2TNA2
-	IKz8jwsbNzI2Ry0ljAFN1PWYuAiGU3G+PLml2HkLikjaQT4nCh6XOycEzFjqO2Qf8Ktcjd
-	LJerZEhX69DJDn2rXAqlA8Vfc7FofMg=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-_hq73GNnOseC__L9JjW_gw-1; Mon, 20 Apr 2026 08:36:10 -0400
-X-MC-Unique: _hq73GNnOseC__L9JjW_gw-1
-X-Mimecast-MFC-AGG-ID: _hq73GNnOseC__L9JjW_gw_1776688569
-Received: by mail-yw1-f200.google.com with SMTP id 00721157ae682-79878791ec6so60766017b3.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 20 Apr 2026 05:36:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pQL5oNFx"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c70fb6aa323so1073385a12.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 20 Apr 2026 09:10:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776701459; x=1777306259; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sxo5kEtdYHH/dmttcUyKVQWx6oJy7kEINBaa4a+z/+s=;
+        b=pQL5oNFxLqeAUn+CQKYSk0DJHg3Sh1YYo/wumywT2XeAh44VQEApJUP7bd+i8q/xmL
+         1c0GkdfTmUhnwv/kV+XuNUdYVpJUXpgh9/6adye6uexb7addvQI78eJP9MfeoCiYbxhM
+         ZjLwx5k/lCo7diLsHeNpTJM4yVI2e7LE3g7S1nk5By5JYz3iJJdFiWVSDCuYZXpxt1U4
+         FufnB0+E4yOEbUs3TZPAkYD9n7c4Ztlo+/MXBq3BH8IS2I1lBFVZzkFOmYvSqxNzyJxV
+         0DyWAUAwexZzYe5PYJdVi4GOXqSaUy1vUjH/mpgnTzHj1XUujjE3zoLdHSU5i/1uYNCX
+         PnKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776688569; x=1777293369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fx56vBuYKQtfBv6HqCiZTLNRB425mz1mOridRKnvUBg=;
-        b=Ol5RsTgc1bw4RpEQt5ZHzDvddraN9wIZu+PSeW8ibocuJwS1hfvo/sPrIdT2C8sTzE
-         IDzpzlKLe3CC9TOx5UxuHnG5MwMlk3KAuFLUtjfhcN4aUPBg1ATGyWtAx2n2uijrAt9Y
-         0h7Te6SXAOrRy1+J5agttkbpfBDu3z0iAxVUWs4QW2F1m3cBD+K8vf1L6ooLg2WH4yjD
-         bpDZ5HklVE5L+kuePvfs6WdFrpEaze/LbrR//X+Kx0Y+Jq9A3Z63d4L0gKDmn2z6Vgkz
-         r4ktHk+1rcK6boAWSg1XY6ieYMIi090QZO9p9wBirCwNB+4pX8D9YWfT5ad4lN0drz7v
-         Ew9g==
-X-Forwarded-Encrypted: i=1; AFNElJ/UoHD3bdOEbdifgpympXCPdUqIJrGh5v2ffiIYRWHofNRIgnBngqBZEJCSimg0cNUh1tDg62mX8+ky5TBnVA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwRSSQ1OHZQ8YJq9HRt4d6+rsRifugXXrXbShKDIO+gsNLjkUis
-	RcpUmhJg3kuOAJMEkmNBSva/H5wub2Nti4KKHsCGEcVVXk51yf9fWrbXjL6O0kC9ViLY90nV3pT
-	ez+ic3YoD9boZW4Khb0Ldns93Y3+3vx+DTlsxhPfuZ7KoQeLRef7xghUCNo1bj2ey22dPyPUDPS
-	sct05rjvYh4VVGZYCkmTJedQErq7VmXfx8+b3p4jRNnzo=
-X-Gm-Gg: AeBDietLzIFxNp5C+SSIBIATPaX73/sGqQ3zuxvfWUz0YuzDarS3tZkj7qqRWw69ZoW
-	j2RxTapl9YWZlGFy9M1N5NrQ9q8xd0gPrqNAj8cf/7Te+cZi866D5xhGf9oEs1B7KhSLrr4gy1G
-	AFCsvYApDTPFHhERB1qrVbJR7slB3jaP9TXVWtIAtFfVAGha3cNC8WdmnQH/P5u5B39RuK+pX/R
-	4m9Wg9tdosKdG0WDQ8HSledzQmDEVUq/4fxq9Uq4U6NvOj+y89v3zsUCy8b0K5SuFpIwpEH+TyP
-X-Received: by 2002:a05:690c:8d14:b0:7b8:1c95:89f0 with SMTP id 00721157ae682-7bad58a2ec4mr85796127b3.47.1776688569318;
-        Mon, 20 Apr 2026 05:36:09 -0700 (PDT)
-X-Received: by 2002:a05:690c:8d14:b0:7b8:1c95:89f0 with SMTP id
- 00721157ae682-7bad58a2ec4mr85795917b3.47.1776688568853; Mon, 20 Apr 2026
- 05:36:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776701459; x=1777306259;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sxo5kEtdYHH/dmttcUyKVQWx6oJy7kEINBaa4a+z/+s=;
+        b=iEu8DQZvtYJWkorm+/HqX9w14TSBGZhSm2aG8+9/PsRPZhE5vxl1aaFYdtAWFtoHRH
+         rbCJ+Q+wJdvWlYOxJ/7mSsOCofo7zGrCzGBzOUbO7mcNLGSHkmED1fzbqqeIfOsLluTB
+         lMEdv/OWkguIpjEFO+F1f38n3UP6eP2aYMk5rhE6rGOBJA+QZ6OKiGdnHrQckOombG8X
+         OhnQld/j1N7/X41fgZzqNDYzkrytVecq+74KWRTWvtLVJG1fYgmzunc8sLC8ULPNmvq/
+         j3Yj2st7TethnDzWGe8an43vC02iwWLl8mwulax1KXYSeIQLsOrCoWjhHcxNKzSkfo13
+         T6uQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9kk+hdiFILPNTW6iiaVj9g55L1JRE0Fk+m+v2kVM1lmGE5zNJCoB/1nyFwojepJX6nzpgxqQyd7YEj/35bUA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyk0BZwV3rCkDt3C/h4KOkBOoYU2PslGkRU3KoPMLAallN70ke3
+	yu5L4HkGEKdbVc9R1w6eWOXqmDasSMU99oMZPF7zUVPS4jDxp1xlRoR4
+X-Gm-Gg: AeBDiesK5d0OcUqKaF3SO+DrFbi7ukZLvM5nof1xTN4+Ua+IIhO8RCq1v/gUg2zBJid
+	mD74RVeOdvDN5NtX90ZbjaRno7oGRrsexc9fp+pZX7CQmUhTKMnawwfFeKVF1ZL5fcHglutvZ/5
+	XIwXzvJyWN+y3tG9bTsIak6XSCEtdrkXTZ/RRz8Bcx8iwV/fcQc4pQ84Ikq/YrrrGoxwe2Pb9ym
+	kwkZrqZ+wZiFc0PaZ1lTVVxQU5DdSVvcts9ButHlIvNEGm3te7evyvGkTNMBXHjiqP4ObF+6DwH
+	Q8Qzfa9NPv5qqPHiCwlbZ8AlRgMZgVIJhNDaFjjdwUNO8IgPxl082hhgnBBib7MZhgnYB/ljigq
+	/cOQ48J6gTpuKlW0BKmsuRWXK+WfG7kftmDNdgEKTk/2yMXJp7RKKIiOscnEO94KDILLcOKqBQ0
+	Gug62xlxCvdNqTpVRF0fVQfpDauqhWyHjV7JJR6FchyaoCvJ4G6qol38i3EQ==
+X-Received: by 2002:a05:6a20:7285:b0:39f:27ab:2454 with SMTP id adf61e73a8af0-3a08d90d557mr15520783637.49.1776701458590;
+        Mon, 20 Apr 2026 09:10:58 -0700 (PDT)
+Received: from lenovo.localdomain ([123.110.133.16])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797701b1a3sm8243470a12.19.2026.04.20.09.10.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 09:10:58 -0700 (PDT)
+From: Yu-Hsiang Tseng <asas1asas200@gmail.com>
+To: Jeff Johnson <jjohnson@kernel.org>,
+	ath12k@lists.infradead.org
+Cc: Sriram R <quic_srirrama@quicinc.com>,
+	Rameshkumar Sundaram <quic_ramess@quicinc.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: [PATCH] wifi: ath12k: fix false positive RCU warning on PREEMPT_RT
+Date: Tue, 21 Apr 2026 00:10:49 +0800
+Message-ID: <20260420161049.695518-1-asas1asas200@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260420110622.9742-1-jie.wang@intel.com>
-In-Reply-To: <20260420110622.9742-1-jie.wang@intel.com>
-From: Andreas Gruenbacher <agruenba@redhat.com>
-Date: Mon, 20 Apr 2026 14:35:57 +0200
-X-Gm-Features: AQROBzDx7BJAHPFMNIEV1hF_F_MlBKhY-y9yO_-lVunwUHHXDv5S8M6R0JBm0mU
-Message-ID: <CAHc6FU5vQWtHNotdA5cjxF6iE4kFRj1E9K55+BBss256KaaKyw@mail.gmail.com>
-Subject: Re: [PATCH] gfs2: fix quota init duplicate scan
-To: Jie Wang <jie.wang@intel.com>
-Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, 
-	gfs2@lists.linux.dev, linux-rt-devel@lists.linux.dev, 
-	syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: jBEhj8UtJhGgaZ0kWPiGHSzRBMWT1T_KYuSZ_TEW4U0_1776688569
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello,
+ath12k_mac_get_arvif() asserts that the caller holds an RCU read lock:
 
-thank you for the patch.
+    WARN_ON(!rcu_read_lock_any_held());
 
-On Mon, Apr 20, 2026 at 5:20=E2=80=AFAM Jie Wang <jie.wang@intel.com> wrote=
-:
-> gfs2_quota_init() checks for duplicate quota_change IDs while holding
-> qd_lock and the quota hash bucket bitlock. That path used
-> gfs2_qd_search_bucket(), which takes a lockref reference
-> via lockref_get_not_dead().
->
-> On PREEMPT_RT this may sleep, which is not allowed under the bucket
-> bitlock, triggering "sleeping function called from invalid context".
->
-> Use a no-ref bucket lookup in this path, then continue duplicate handling
-> without taking a lockref there.
+On PREEMPT_RT kernels built with CONFIG_PROVE_RCU=n, this produces a
+false positive splat whenever firmware stats events are processed,
+even though the caller does hold the RCU read lock.
 
-That should work ... but with that, can you at least implement
-gfs2_qd_search_bucket() on top of gfs2_qd_search_bucket_noref()? Or
-better yet, convert qd_hash_table into an rhashtable, like
-gl_hash_table already is? That should allow a normal ref taking lookup
-even on PREEMPT_RT.
+Root cause:
 
-> Also save the current qc pointer before iterator advance, and clear that
-> saved slot on duplicate so the correct on-disk entry is zeroed.
+  - On !PROVE_RCU, rcu_read_lock_any_held() is a static inline that
+    returns !preemptible() as a proxy for "in an RCU read section".
 
-This needs to go into a separate patch. Also, why not put the 'qc++'
-into the third expression of the surrounding for loop?
+  - On PREEMPT_RT, rcu_read_lock() does not disable preemption. A
+    task can therefore be preemptible while legitimately holding an
+    RCU read lock.
 
-> This patch fixes a bug reported by syzbot.
->
-> Reported-by: syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D642d0561f78362d67d3f
-> Tested-by: syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
-> Signed-off-by: Jie Wang <jie.wang@intel.com>
-> ---
->  fs/gfs2/quota.c | 28 ++++++++++++++++++++++++----
->  1 file changed, 24 insertions(+), 4 deletions(-)
->
-> diff --git a/fs/gfs2/quota.c b/fs/gfs2/quota.c
-> index 5290865f27f1..0191ba211670 100644
-> --- a/fs/gfs2/quota.c
-> +++ b/fs/gfs2/quota.c
-> @@ -275,6 +275,25 @@ static struct gfs2_quota_data *gfs2_qd_search_bucket=
-(unsigned int hash,
->         return NULL;
->  }
->
-> +/*
-> + * Lookup variant for callers which already hold qd_lock + bucket lock.
-> + */
-> +static struct gfs2_quota_data *
-> +gfs2_qd_search_bucket_noref(unsigned int hash, const struct gfs2_sbd *sd=
-p, struct kqid qid)
-> +{
-> +       struct gfs2_quota_data *qd;
-> +       struct hlist_bl_node *h;
-> +
-> +       hlist_bl_for_each_entry_rcu(qd, h, &qd_hash_table[hash], qd_hlist=
-) {
-> +               if (!qid_eq(qd->qd_id, qid))
-> +                       continue;
-> +               if (qd->qd_sbd =3D=3D sdp)
-> +                       return qd;
-> +       }
-> +
-> +       return NULL;
-> +}
-> +
->
->  static int qd_get(struct gfs2_sbd *sdp, struct kqid qid,
->                   struct gfs2_quota_data **qdp)
-> @@ -1435,6 +1454,7 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
->                 for (y =3D 0; y < sdp->sd_qc_per_block && slot < sdp->sd_=
-quota_slots;
->                      y++, slot++) {
->                         struct gfs2_quota_data *old_qd, *qd;
-> +                       struct gfs2_quota_change *dup_qc =3D qc;
->                         s64 qc_change =3D be64_to_cpu(qc->qc_change);
->                         u32 qc_flags =3D be32_to_cpu(qc->qc_flags);
->                         enum quota_type qtype =3D (qc_flags & GFS2_QCF_US=
-ER) ?
-> @@ -1458,23 +1478,22 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
->
->                         spin_lock(&qd_lock);
->                         spin_lock_bucket(hash);
-> -                       old_qd =3D gfs2_qd_search_bucket(hash, sdp, qc_id=
-);
-> +                       old_qd =3D gfs2_qd_search_bucket_noref(hash, sdp,=
- qc_id);
-> +                       spin_unlock_bucket(hash);
->                         if (old_qd) {
->                                 fs_err(sdp, "Corruption found in quota_ch=
-ange%u"
->                                             "file: duplicate identifier i=
-n "
->                                             "slot %u\n",
->                                             sdp->sd_jdesc->jd_jid, slot);
->
-> -                               spin_unlock_bucket(hash);
->                                 spin_unlock(&qd_lock);
-> -                               qd_put(old_qd);
->
->                                 gfs2_glock_put(qd->qd_gl);
->                                 kmem_cache_free(gfs2_quotad_cachep, qd);
->
->                                 /* zero out the duplicate slot */
->                                 lock_buffer(bh);
-> -                               memset(qc, 0, sizeof(*qc));
-> +                               memset(dup_qc, 0, sizeof(*dup_qc));
->                                 mark_buffer_dirty(bh);
->                                 unlock_buffer(bh);
->
-> @@ -1483,6 +1502,7 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
->                         BUG_ON(test_and_set_bit(slot, sdp->sd_quota_bitma=
-p));
->                         list_add(&qd->qd_list, &sdp->sd_quota_list);
->                         atomic_inc(&sdp->sd_quota_count);
-> +                       spin_lock_bucket(hash);
->                         hlist_bl_add_head_rcu(&qd->qd_hlist, &qd_hash_tab=
-le[hash]);
->                         spin_unlock_bucket(hash);
->                         spin_unlock(&qd_lock);
-> --
-> 2.34.1
->
+  - ath12k_wmi_tlv_rssi_chain_parse() holds the RCU read lock via
+    guard(rcu)() before calling ath12k_mac_get_arvif(), so the
+    warning is incorrect.
 
-Thanks,
-Andreas
+Typical splat seen on a WCN7850 station with periodic fw stats
+processing:
+
+  WARNING: drivers/net/wireless/ath/ath12k/mac.c:791 at
+    ath12k_mac_get_arvif+0x9e/0xd0 [ath12k]
+  Tainted: G W O 6.19.13-rt #1 PREEMPT_RT
+  Call Trace:
+   ath12k_wmi_tlv_rssi_chain_parse+0x69/0x170 [ath12k]
+   ath12k_wmi_tlv_iter+0x7f/0x120 [ath12k]
+   ath12k_wmi_tlv_fw_stats_parse+0x342/0x6b0 [ath12k]
+   ath12k_wmi_op_rx+0xe9e/0x3150 [ath12k]
+   ath12k_htc_rx_completion_handler+0x3df/0x5b0 [ath12k]
+   ath12k_ce_per_engine_service+0x325/0x3e0 [ath12k]
+   ath12k_pci_ce_workqueue+0x20/0x40 [ath12k]
+
+Replace the WARN_ON() with RCU_LOCKDEP_WARN(), which is gated on
+debug_lockdep_rcu_enabled() and therefore compiles out entirely
+when PROVE_RCU is disabled. PROVE_RCU kernels continue to get the
+full lockdep-based check.
+
+Fixes: 3dd2c68f206e ("wifi: ath12k: prepare vif data structure for MLO handling")
+Tested-on: WCN7850 hw2.0 PCI WLAN.HMT.1.1.c5-00302-QCAHMTSWPL_V1.0_V2.0_SILICONZ-1.115823.3
+Signed-off-by: Yu-Hsiang Tseng <asas1asas200@gmail.com>
+---
+ drivers/net/wireless/ath/ath12k/mac.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/wireless/ath/ath12k/mac.c b/drivers/net/wireless/ath/ath12k/mac.c
+index fbdfe6424fd7..a772a5b6adc9 100644
+--- a/drivers/net/wireless/ath/ath12k/mac.c
++++ b/drivers/net/wireless/ath/ath12k/mac.c
+@@ -788,7 +788,8 @@ struct ath12k_link_vif *ath12k_mac_get_arvif(struct ath12k *ar, u32 vdev_id)
+ 
+ 	/* To use the arvif returned, caller must have held rcu read lock.
+ 	 */
+-	WARN_ON(!rcu_read_lock_any_held());
++	RCU_LOCKDEP_WARN(!rcu_read_lock_any_held(),
++			 "RCU read lock not held");
+ 	arvif_iter.vdev_id = vdev_id;
+ 	arvif_iter.ar = ar;
+ 
+-- 
+2.53.0
 
