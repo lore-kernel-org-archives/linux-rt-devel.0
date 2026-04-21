@@ -1,64 +1,33 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.uniroma2.it (smtp.uniroma2.it [160.80.4.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE520175A6B;
-	Tue, 21 Apr 2026 08:44:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739F43B6379
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 09:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.80.4.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776761094; cv=none; b=Eli7JW4HV2P5fClHI3YgfzXYLtWxMG9xIURr+prdwKV73Sqi4TaVGxdLEre4HsL0UJn0DYVHbZGesq839cimeo/pzxMeFgMGKeaX5zRVePzQ8NdvPO1UizcDD37tY674chOt0kWY8IgPUpdvArrfWAv3UlMErxjz0kBRUivLHLE=
+	t=1776765089; cv=none; b=PZn/YUq0tYI9f825qyfLtnR734AuvfYxE04eUCA616lW7HDVJkb1fiPDe4usOw9BUgBIzfKfCqV05YzvxDtMgYkb9IJ/AxpsH6nodLrK6dCOG4pLVGTMgfO0Yq58rkcSUUo2HTX3I1izejANE3q0XL2+Ji1FAUBZZwBu/WdHXWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776761094; c=relaxed/simple;
-	bh=0vsjGmDeMCKUgFTIprjFPbmC5sX/HWjVHit8MEoa2d8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tdTEu7zog6I0kF7kNeG98sRIVZdjCa1PkFDl89uGrYv4GdaHTYXR42wEP6AWnhOL/RiO8Lm7o2Q5Tn4BkWicvO9pFYl56nXQZZRItIIqR+JfbgfVvPEQ2XBO0Zk8wWw5oSKOIfXyJxaGVr/zPv3MRPVflzA0yeXxvVIcN2cYgP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1yB7Hb9; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1yB7Hb9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776761093; x=1808297093;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0vsjGmDeMCKUgFTIprjFPbmC5sX/HWjVHit8MEoa2d8=;
-  b=i1yB7Hb9+a5sHpmrkwt23lb8QzUBA6A/7M/aNM45tqlk8FYbiuV8I0C4
-   BqGxyz+fyeOlhoCeeUcT6OJb35mYJy0jKhFxZjWHgW2Oy6w2yGXq0ocpb
-   H5uBA4PmBjK1NY9FvCVol6Gs5mesTMZW2j9W2IkmV3hPySrLL/KWexxY9
-   zoSBEDtfzJtT7H3qSNXGmWPkGDMLY28V0kVRibWTQ0hLA30melRi9Z6BS
-   1sHBnqy6ntKumSzP/R2qQyv9qF6pRiB+kONkv1pZ02hNHnWSjrSf9GmIA
-   xMC3cFvPcBAC+Y+E9A0ro4C5hN7h1nH9Wdo8MJ7mKXlp5Xw9wC8FVO3sj
-   w==;
-X-CSE-ConnectionGUID: E1J0cuhPQtGuoe2wNR0W8Q==
-X-CSE-MsgGUID: CGw/dgs7R+KuTvkhFguNrA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77759843"
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="77759843"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 01:44:53 -0700
-X-CSE-ConnectionGUID: AJMJhEKKQm+M8QgnFm+CAA==
-X-CSE-MsgGUID: FYlqJqGKSIiTIAzSaVeloA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
-   d="scan'208";a="255249160"
-Received: from qat-server-366.sh.intel.com ([10.67.116.195])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Apr 2026 01:44:50 -0700
-From: Jie Wang <jie.wang@intel.com>
-To: agruenba@redhat.com
-Cc: bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	gfs2@lists.linux.dev,
-	linux-rt-devel@lists.linux.dev,
-	rostedt@goodmis.org,
-	syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com,
-	Jie Wang <jie.wang@intel.com>
-Subject: [PATCH v2 2/2] gfs2: move quota_init qc iterator increment
-Date: Tue, 21 Apr 2026 16:32:07 +0000
-Message-Id: <20260421163207.48565-3-jie.wang@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260421163207.48565-1-jie.wang@intel.com>
-References: <CAHc6FU5vQWtHNotdA5cjxF6iE4kFRj1E9K55+BBss256KaaKyw@mail.gmail.com>
- <20260421163207.48565-1-jie.wang@intel.com>
+	s=arc-20240116; t=1776765089; c=relaxed/simple;
+	bh=kWyz7/ZElDxT2upU419ymJDNbLDDMvSaazGSmARl39M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lgv7i5itSiU2iy7q/lqT2fEnxmLijwQ2saWBhYqSlpiuYH5WAdEwVtFtq9Bqs6dvfDuJk1nklWluLfUxuh4EVAen2AYMUz3unv9Z7E1zYd5iSALHF0aBbaa6aJXwjcOPW8OfSQWlSoWH7dRJqPCtupeZi4UcLwp9nOHXMjRk1Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it; spf=pass smtp.mailfrom=uniroma2.it; arc=none smtp.client-ip=160.80.4.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniroma2.it
+Received: from localhost.localdomain ([160.80.103.126])
+	by smtp-2015.uniroma2.it (8.14.4/8.14.4/Debian-8) with ESMTP id 63L9m9Um016338;
+	Tue, 21 Apr 2026 11:48:15 +0200
+From: Andrea Mayer <andrea.mayer@uniroma2.it>
+To: davem@davemloft.net, dsahern@kernel.org, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, horms@kernel.org
+Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+        david.lebrun@uclouvain.be, alex.aring@gmail.com,
+        stefano.salsano@uniroma2.it, andrea.mayer@uniroma2.it,
+        netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH net] net: ipv6: fix NOREF dst use in seg6 and rpl lwtunnels
+Date: Tue, 21 Apr 2026 11:47:35 +0200
+Message-Id: <20260421094735.20997-1-andrea.mayer@uniroma2.it>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,39 +35,121 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.100.0 at smtp-2015
+X-Virus-Status: Clean
 
-Move qc++ from the loop body into the for-loop increment
-expression in gfs2_quota_init().
+seg6_input_core() and rpl_input() call ip6_route_input() which sets a
+NOREF dst on the skb, then pass it to dst_cache_set_ip6() invoking
+dst_hold() unconditionally.
+On PREEMPT_RT, ksoftirqd is preemptible and a higher-priority task can
+release the underlying pcpu_rt between the lookup and the caching
+through a concurrent FIB lookup on a shared nexthop.
+Simplified race sequence:
 
-This keeps iterator progression explicit and avoids mixing pointer
-advance with duplicate-slot handling in the loop body.
+  ksoftirqd/X                       higher-prio task (same CPU X)
+  -----------                       --------------------------------
+  seg6_input_core(,skb)/rpl_input(skb)
+    dst_cache_get()
+      -> miss
+    ip6_route_input(skb)
+      -> ip6_pol_route(,skb,flags)
+         [RT6_LOOKUP_F_DST_NOREF in flags]
+        -> FIB lookup resolves fib6_nh
+           [nhid=N route]
+        -> rt6_make_pcpu_route()
+           [creates pcpu_rt, refcount=1]
+             pcpu_rt->sernum = fib6_sernum
+             [fib6_sernum=W]
+           -> cmpxchg(fib6_nh.rt6i_pcpu,
+                      NULL, pcpu_rt)
+              [slot was empty, store succeeds]
+      -> skb_dst_set_noref(skb, dst)
+         [dst is pcpu_rt, refcount still 1]
 
-Signed-off-by: Jie Wang <jie.wang@intel.com>
+                                    rt_genid_bump_ipv6()
+                                      -> bumps fib6_sernum
+                                         [fib6_sernum from W to Z]
+                                    ip6_route_output()
+                                      -> ip6_pol_route()
+                                        -> FIB lookup resolves fib6_nh
+                                           [nhid=N]
+                                        -> rt6_get_pcpu_route()
+                                             pcpu_rt->sernum != fib6_sernum
+                                             [W <> Z, stale]
+                                          -> prev = xchg(rt6i_pcpu, NULL)
+                                          -> dst_release(prev)
+                                             [prev is pcpu_rt,
+                                              refcount 1->0, dead]
+
+    dst = skb_dst(skb)
+    [dst is the dead pcpu_rt]
+    dst_cache_set_ip6(dst)
+      -> dst_hold() on dead dst
+      -> WARN / use-after-free
+
+For the race to occur, ksoftirqd must be preemptible (PREEMPT_RT without
+PREEMPT_RT_NEEDS_BH_LOCK) and a concurrent task must be able to release
+the pcpu_rt. Shared nexthop objects provide such a path, as two routes
+pointing to the same nhid share the same fib6_nh and its rt6i_pcpu
+entry.
+
+Fix seg6_input_core() and rpl_input() by calling skb_dst_force() after
+ip6_route_input() to force the NOREF dst into a refcounted one before
+caching.
+The output path is not affected as ip6_route_output() already returns a
+refcounted dst.
+
+Fixes: af4a2209b134 ("ipv6: sr: use dst_cache in seg6_input")
+Fixes: a7a29f9c361f ("net: ipv6: add rpl sr tunnel")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrea Mayer <andrea.mayer@uniroma2.it>
 ---
- fs/gfs2/quota.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ net/ipv6/rpl_iptunnel.c  | 9 +++++++++
+ net/ipv6/seg6_iptunnel.c | 9 +++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/fs/gfs2/quota.c b/fs/gfs2/quota.c
-index df1cb99c3344..b9e13fe286be 100644
---- a/fs/gfs2/quota.c
-+++ b/fs/gfs2/quota.c
-@@ -1447,7 +1447,7 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
+diff --git a/net/ipv6/rpl_iptunnel.c b/net/ipv6/rpl_iptunnel.c
+index c7942cf65567..4e10adcd70e8 100644
+--- a/net/ipv6/rpl_iptunnel.c
++++ b/net/ipv6/rpl_iptunnel.c
+@@ -287,7 +287,16 @@ static int rpl_input(struct sk_buff *skb)
  
- 		qc = (struct gfs2_quota_change *)(bh->b_data + sizeof(struct gfs2_meta_header));
- 		for (y = 0; y < sdp->sd_qc_per_block && slot < sdp->sd_quota_slots;
--		     y++, slot++) {
-+		     y++, slot++, qc++) {
- 			struct gfs2_quota_data *old_qd, *qd;
- 			s64 qc_change = be64_to_cpu(qc->qc_change);
- 			u32 qc_flags = be32_to_cpu(qc->qc_flags);
-@@ -1455,7 +1455,6 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
- 						USRQUOTA : GRPQUOTA;
- 			struct kqid qc_id = make_kqid(&init_user_ns, qtype,
- 						      be32_to_cpu(qc->qc_id));
--			qc++;
- 			if (!qc_change)
- 				continue;
+ 	if (!dst) {
+ 		ip6_route_input(skb);
++
++		/* ip6_route_input() sets a NOREF dst; force a refcount on it
++		 * before caching or further use.
++		 */
++		skb_dst_force(skb);
+ 		dst = skb_dst(skb);
++		if (unlikely(!dst)) {
++			err = -ENETUNREACH;
++			goto drop;
++		}
  
+ 		/* cache only if we don't create a dst reference loop */
+ 		if (!dst->error && lwtst != dst->lwtstate) {
+diff --git a/net/ipv6/seg6_iptunnel.c b/net/ipv6/seg6_iptunnel.c
+index 97b50d9b1365..94284b483be0 100644
+--- a/net/ipv6/seg6_iptunnel.c
++++ b/net/ipv6/seg6_iptunnel.c
+@@ -515,7 +515,16 @@ static int seg6_input_core(struct net *net, struct sock *sk,
+ 
+ 	if (!dst) {
+ 		ip6_route_input(skb);
++
++		/* ip6_route_input() sets a NOREF dst; force a refcount on it
++		 * before caching or further use.
++		 */
++		skb_dst_force(skb);
+ 		dst = skb_dst(skb);
++		if (unlikely(!dst)) {
++			err = -ENETUNREACH;
++			goto drop;
++		}
+ 
+ 		/* cache only if we don't create a dst reference loop */
+ 		if (!dst->error && lwtst != dst->lwtstate) {
 -- 
-2.34.1
+2.20.1
 
