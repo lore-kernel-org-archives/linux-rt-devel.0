@@ -1,87 +1,67 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233D82236E3
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 17:32:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B18E21D3D2
+	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 17:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776792774; cv=none; b=Tz7JkGiWklY3vdU4yuPqxZaa6fGvyKb+pYjXSmu3B+O9fCvZLtJnukUjXEhP20/zFXxbypG0S38+STsElPOl6tVCZV8cY6Aq54NrpOwkIHUM/O2I/zJ9KjYpAt7gz8h/lCwX65YqKFG/x45fy5n6IQoEELIPm49sZ/UDrh413Qg=
+	t=1776792818; cv=none; b=O0du5qybpqMorGjeRDRdDRWCl43JP8pUFZEMy6N1AUa9KCqZgK2EBLIWQh2ZWtoD2gk8P4lJNYhpF9F3mjBGV44WY6kstf1SongW/xirNx6p9/iC397KX8iJ1Yvk8WA5LmMS/JJ43radzLGQ1yy4iWJ7Tf0msFWC+RlrAZ4iOkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776792774; c=relaxed/simple;
-	bh=/Ba3EWb30hnk7KFV4mh/GjZJGnrFEQ1WOb7ya6fOX7U=;
+	s=arc-20240116; t=1776792818; c=relaxed/simple;
+	bh=/scXEeQaRN4B/NeF1PUsl2czhaClwcX6Cf0nOChKG7Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W0FaJ1KGkmkAZKhDHl1f/3UaXcsHywf+B2ibSgBAwuy5P7Py2z3oWL+j+KiaYVT+M6iOcESBNJw1AHNMoueBwsGgnr51Dxa4bZs6357Rs0eVfBbL5RPqgL34gBe6rFHoe4lUqAYkzKPrYLus5N/FrUAAEGQUxHYGFaLPFljZXGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QS1e8+mp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=axfp16Jt; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=rsQ7m2EExC41gbGf+vyBg10tMnG3nq4VBNEe0ldsXgPAMoK3BHA8QFPRENqoLLIGMieLf05BAt5qRztOAKBdF53O6tn3prN6MrzkND8H2XfpCszQUTMLyFkYKEoawaw56VZBlRCh+xyqE1znfuBK8ihp8d88pcWviSJY2zC1Nsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSy28Cjp; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QS1e8+mp";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="axfp16Jt"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63LGYb8W4167765
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 17:32:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	URbrxLq/NhhyYFTtqjb5hgyP/ewhb68e/QnrFe61sLQ=; b=QS1e8+mpvTYDjLbI
-	xBjSEijM1o+jWC55zG9SWLVLY83eP+tP725VAEMlhVXgrcn+abz3kKFGYxGcZS2Z
-	nGSkalD/gFqNdhkCNZrhy4it6WuRCW+iPpJYayUglXGT6Cbxn/kixJ5iDld5vNIs
-	lIWhGLifnNHQdWbQyKJtrjSG/+3qr/XCsbfx85cOg+ZzNdkQymT0hD9CTabVefrF
-	5IHeVJYJi3GJdUEAaWnZYUIY1+zZtddg0aZOAbWaFeNXNSENAl9EsH3PgMiLIN6t
-	n2f8vZWfZAihWck1OOoTbAfdnCIdKr24JQpmTr+Qs524pDnDLz+D9EUnnsVRSKk2
-	EJ2t2Q==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dp1au340a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 17:32:51 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c76bfd7b9cdso1662460a12.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 10:32:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSy28Cjp"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ba922426c5cso286041766b.3
+        for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 10:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776792771; x=1777397571; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776792815; x=1777397615; darn=lists.linux.dev;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=URbrxLq/NhhyYFTtqjb5hgyP/ewhb68e/QnrFe61sLQ=;
-        b=axfp16JtLvNHuiA22L5O9y5CfqI5yCHfKw32bxUS9IRaf1X2FAw5xD/eScYUOTsC9d
-         rHovy04MMaWkiH8JLdBsqH0fYS68rpMiWXdVa02vdvWiKCiawLClzqPuacty0D+OvHsp
-         92MdFjRbZtECF9HTMSyOQ5KjVtBJrUVHxsDbGMx6xNOGWXZh3KBKTD/u5EzBSC2mysBS
-         NS5xQI0rZVcdpLayyCcV9tYOI3qIjhw1na/+FUs8mEOw3/M4APMvlEUPmqPWDIHVwKv2
-         wM7ip1EZ5gTStF19qMKwd0/rGGC6MroCKBs0sKTDJlK7nEtvCqxTL+oyuJP732QwIEKv
-         2XPQ==
+        bh=DoCWrohdiik85XEdHlXUw0nj/jBXY1QzvkY+M7xyZZ4=;
+        b=fSy28CjpHzlxoCo1p7XrNdNXZyytqp4dU6FEpX2twSYJME2/Ev8IHllpQqT7xDJmeG
+         amC1IAZ+IGj/vuGIDfApWNTRacEMx3hDiobM+ErZxibI8mFNnpBXVTcQu24HtshDltOE
+         wmSV2o5YcVBsJRQ4N+pcK+EohRifwenkN/gUTRYSi6NeQOwJ3I9RYrTRad5yL6Qike+Y
+         XrgWTC7uByqs8f2k0f0xqNrqakBaFOnyC1SBJV853+gYR3CQogK3fW3IBjuZl2+Pxq9h
+         T4JFJfZ7yKQb89WR2yqAhh/+Ou5ZRQZbAr/eX8j94W9eq9qhekR89Ik3LtlRXg4DMfD8
+         gUJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776792771; x=1777397571;
+        d=1e100.net; s=20251104; t=1776792815; x=1777397615;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=URbrxLq/NhhyYFTtqjb5hgyP/ewhb68e/QnrFe61sLQ=;
-        b=dP8zeWFgPYBoqF3iWlfN4+Q8r0pzj7vHx6t1+r7Yhrxvo3DdfyTcxVw0JnQjiRLOF6
-         Z7B8efwX36diLK1JTBwPN0hpieL5y4RgLwk0N1suBTzcngKS8i2n0IckmGhSY90dpQEQ
-         QfgTUkmUYyUVQVvjZqFdl7gYSdb7QpAiyRyFrjqlOnzURI768Z4KZVO550tIUQZz0t7J
-         ztTE672i1EhIMIFijY8fNxt5UUVwkv0M1wHsjHI5PnxITST1f75lwsIpzITwphMnTeWJ
-         RA0m2hyE5bXNWmG0ukSKwqu2MFqFkn049VJykoJuNou1ME8vzAhTyMK7eC/WwPWJUE6/
-         S2Qw==
-X-Forwarded-Encrypted: i=1; AFNElJ+GndSQ5tMqh0vyZg8+XO8cBEZCQYrCKyJZPEagZOL0idJelRpCiWMl6LmvL94TaRBEqnKYOazLY36FoVJ/PQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2TJN08/Y3smcmo+9UC0GP1575E7BLQKRh4n/qR5mScbPV7+73
-	ZwYDCvUcPUgxRyVJGhlzi+ZffaoOXxc5p0ehqwI40f9slagh0tBec1jLuqnEAi6YeymxAz6Q33f
-	I5zwbA1YX9OqchPh6c0Sf0LD6sVlwVdTPZmnZwriz+V0d7VymMPlSm5/xpJvfytPLaueYmg==
-X-Gm-Gg: AeBDievPQtC6jzSUchUSWudZffdXRwqL/KLkY0ON9EQOMCDvyOTxXZ+c3wIfSw1sp2e
-	ZYbq9nzTSSwdYhPwLMA7+5laiQxrqRuxek/tDAuaY4yyTJ3Fe3Su4uAK+nbqiSA5uPPIJ7XoGXu
-	kSGygXJXLh/65VO7msv49iCcGyyAgLqFTCBCa9EVWnLe381J4S2mTgy4/yeBkceea+92b7yYpvS
-	qenD5QrHzqXM6VRgzaUHM5YticsVhMls4ZXnQyDL2LIiAUzY/TgdXssW2xDN/TzP3fmrWb7nsyv
-	i4T/bm5or453yM1+L5V8pjIYxPXrfU4YkzhykndVKk/8K3Mg2i5tsMoiid/QbuAcNHr7Q8XHWTx
-	R7CCcSFCmhUFqGz0o/G+b2264SEXIBMKgnAMAGFpQvvcb1n9eAA1Kncfqp3YR92DYCHwTwihQZn
-	Bj
-X-Received: by 2002:a05:6a20:4326:b0:39c:cf9:b8e4 with SMTP id adf61e73a8af0-3a08d8f5a50mr22898220637.42.1776792770674;
-        Tue, 21 Apr 2026 10:32:50 -0700 (PDT)
-X-Received: by 2002:a05:6a20:4326:b0:39c:cf9:b8e4 with SMTP id adf61e73a8af0-3a08d8f5a50mr22898185637.42.1776792770063;
-        Tue, 21 Apr 2026 10:32:50 -0700 (PDT)
-Received: from [192.168.11.106] ([124.123.81.173])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7976f8f3e5sm11200099a12.5.2026.04.21.10.32.45
+        bh=DoCWrohdiik85XEdHlXUw0nj/jBXY1QzvkY+M7xyZZ4=;
+        b=NgIdhY/l6dYYH38DjMdds2wQjS3RXqUlrxVNzLeyJTJTgAcQLOcUZgya2A45CTNJg+
+         EAm0dk77dd/wuFzh4gZ/0yq1Tf5pkeXIzFvKKR0G3/qFEQSG8tHEtG0bZOdSvVrdPsXR
+         xtWFkFVRdZEggyFcWBTebMjiUSAUCe0lJvlfMpnpeJsxFddGDs43i9a8wdsb2qpzpYz8
+         fUxEL8YoVxVZaYrPkTLisAjNp2/27y18sXZdP0Hg2m7SWlb9IFUpOHozhrfm1/u0Zxjg
+         ZZmiLmagI4uWLunqguURwW3vTCmfhvM9xexxlrQvoYWxzaMCUkdu+fY0K9pfz9ybLO0F
+         rJ8A==
+X-Forwarded-Encrypted: i=1; AFNElJ8bZbFEWlRSQX+3/BKV+CjDDDT8acjqU2E+aSZZG6hHh4ZhS+8P1neqYxrAGb+XgnxHhYhBHYOuxyoX/ucwLw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJXbQorsyXRtUt678IU1hdHYIpdrWrPHL3hpXp/SKV1HiSRbPy
+	yOcUkp6KgUO1j8b8K3LDruj5nXm7+HQVpXKI7vggpRJJMc706J7z3dxf
+X-Gm-Gg: AeBDiev1tF6ldxFqO6FmmkAvaHZGJQg0W8UIZgxiq7jVKa5Q1rw+ssJokABqFPKt3OG
+	3zQG+p9NduPhdcVKoXCNy+5mi5heiyReHBWnFQcN96TuIFzKHbK+ZcrxlL75bI5cnV+B7SqTHOb
+	QK62jngZA/qwIBuv6GGQ02C38vTsuPRkcfOvRCnnvr65FoWupwVy7Fx8e9nxCfo5Hk0c6o0U/34
+	4/oYcFX25V5Bd+bAGC1LbHJ/nPibhCulhZzFp9u6EkU/Ir2/y+hlwWfyP0lkjciUv/MoeZbfwpo
+	EYjbL9HL/ssOvIm7+hU6TI5jFMiq+gdsNGW1/pH+53UkVbQBiFrVoeq+mZx/GoJUCKfCIKv0ITl
+	Xey9RbSdUZWMhKuwe+xNL+y7NaBnuVAsjx2VTsxl27G7ivAfLBO//SDnY2touReAHpLdmf+YVVy
+	F4NndQhlkYeQPI5fLaPrDXgf5lgRLj/uzneK526P3gNswQ4EPSAXyNV7GKO07ucwWYFwQJ9S45P
+	3LE9fzHqgZ52rGrc5OkoDpPIyw=
+X-Received: by 2002:a17:907:ea6:b0:b96:f6f1:e7af with SMTP id a640c23a62f3a-ba41916eb4dmr907537666b.9.1776792814542;
+        Tue, 21 Apr 2026 10:33:34 -0700 (PDT)
+Received: from ?IPV6:2a02:a03f:a75e:9a00:7546:18b7:2c8c:e879? ([2a02:a03f:a75e:9a00:7546:18b7:2c8c:e879])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba4519ee4adsm469401966b.19.2026.04.21.10.33.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2026 10:32:49 -0700 (PDT)
-Message-ID: <1016fbd7-be27-44b1-9eb8-6201c9495f1a@oss.qualcomm.com>
-Date: Tue, 21 Apr 2026 23:02:42 +0530
+        Tue, 21 Apr 2026 10:33:34 -0700 (PDT)
+Message-ID: <8ce64ee4-dce1-4052-9558-61c97121cc37@gmail.com>
+Date: Tue, 21 Apr 2026 19:33:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -89,97 +69,137 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] wifi: ath12k: fix false positive RCU warnings on
- PREEMPT_RT
-To: Yu-Hsiang Tseng <asas1asas200@gmail.com>,
-        Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org
-Cc: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
-        Rameshkumar Sundaram <quic_ramess@quicinc.com>,
-        Kalle Valo
- <kvalo@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <4cdf2e61-fe69-4168-9df7-55bb71585dfe@oss.qualcomm.com>
- <20260421172500.1050754-1-asas1asas200@gmail.com>
+Subject: Re: [PATCH net] net: ipv6: fix NOREF dst use in seg6 and rpl
+ lwtunnels
+To: Andrea Mayer <andrea.mayer@uniroma2.it>, davem@davemloft.net,
+ dsahern@kernel.org, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org
+Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ david.lebrun@uclouvain.be, alex.aring@gmail.com,
+ stefano.salsano@uniroma2.it, netdev@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20260421094735.20997-1-andrea.mayer@uniroma2.it>
 Content-Language: en-US
-From: Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>
-In-Reply-To: <20260421172500.1050754-1-asas1asas200@gmail.com>
+From: Justin Iurman <justin.iurman@gmail.com>
+In-Reply-To: <20260421094735.20997-1-andrea.mayer@uniroma2.it>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIxMDE3NCBTYWx0ZWRfXyUOOVJjpP6gd
- Ft5D8fQ9Dq63TQ/IlZholgEo91vMksDkL0a7hBwnhPc7OaZkWibMiLGzh6qNHyHXc8Kfjf8IkLJ
- 9qalXfwMnE2v79Os04HgazgPeH43EEWnpFHC0k3W0vRTlZ4nMrnCvzfVu0b3ya0pPFb6JpRKrrh
- pZbc4vXY9E7XPp8bN9bEy8lNmvHCn7H1v6se4NhLKfJ/2Mtm1b4aSk8s78WNlbX1Zb7vHX1KGjc
- ebfZC5HcwHpK7RNwbVvtkIDi0eAKm2PLJ3bv2479HwhSFmB37v1FaDXTO3a2xj6Op5P1x0U5Cad
- /Z58/fPxO8eAEpuq+t93aTP3aueLuRNPdqk29WakLxgBqNAA+MxSZSJEAcvVvbVH2Ng31+zceO4
- 2/JIYp2FNSAZK+3oyHl1n+CR0dv+n/PWYV+MOEwcPJdh3mDdVyMqn0guO20vw02I/TJNDeB7rA1
- YO+YsAx74/AnrhBDzQA==
-X-Authority-Analysis: v=2.4 cv=F9JnsKhN c=1 sm=1 tr=0 ts=69e7b4c3 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=R7zuFBDiW8lgADV909h7jA==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=akWcTCgZTv-KWhlo_GAA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-GUID: zsUb0SUHCiVLSayzbpjDpX8ycRHIeV8N
-X-Proofpoint-ORIG-GUID: zsUb0SUHCiVLSayzbpjDpX8ycRHIeV8N
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-21_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 clxscore=1011 suspectscore=0
- lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0 malwarescore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604210174
 
-On 4/21/2026 10:55 PM, Yu-Hsiang Tseng wrote:
-> Two functions in ath12k assert that the caller holds an RCU read lock:
-> ath12k_mac_get_arvif() and ath12k_p2p_noa_update_vdev_iter(). Both use:
+On 4/21/26 11:47, Andrea Mayer wrote:
+> seg6_input_core() and rpl_input() call ip6_route_input() which sets a
+> NOREF dst on the skb, then pass it to dst_cache_set_ip6() invoking
+> dst_hold() unconditionally.
+> On PREEMPT_RT, ksoftirqd is preemptible and a higher-priority task can
+> release the underlying pcpu_rt between the lookup and the caching
+> through a concurrent FIB lookup on a shared nexthop.
+> Simplified race sequence:
 > 
->      WARN_ON(!rcu_read_lock_any_held());
+>    ksoftirqd/X                       higher-prio task (same CPU X)
+>    -----------                       --------------------------------
+>    seg6_input_core(,skb)/rpl_input(skb)
+>      dst_cache_get()
+>        -> miss
+>      ip6_route_input(skb)
+>        -> ip6_pol_route(,skb,flags)
+>           [RT6_LOOKUP_F_DST_NOREF in flags]
+>          -> FIB lookup resolves fib6_nh
+>             [nhid=N route]
+>          -> rt6_make_pcpu_route()
+>             [creates pcpu_rt, refcount=1]
+>               pcpu_rt->sernum = fib6_sernum
+>               [fib6_sernum=W]
+>             -> cmpxchg(fib6_nh.rt6i_pcpu,
+>                        NULL, pcpu_rt)
+>                [slot was empty, store succeeds]
+>        -> skb_dst_set_noref(skb, dst)
+>           [dst is pcpu_rt, refcount still 1]
 > 
-> On PREEMPT_RT kernels built with CONFIG_PROVE_RCU=n, this produces a
-> false positive splat whenever these functions are invoked from paths
-> that do hold the RCU read lock (e.g. firmware stats processing or
-> mac80211 interface iteration).
+>                                      rt_genid_bump_ipv6()
+>                                        -> bumps fib6_sernum
+>                                           [fib6_sernum from W to Z]
+>                                      ip6_route_output()
+>                                        -> ip6_pol_route()
+>                                          -> FIB lookup resolves fib6_nh
+>                                             [nhid=N]
+>                                          -> rt6_get_pcpu_route()
+>                                               pcpu_rt->sernum != fib6_sernum
+>                                               [W <> Z, stale]
+>                                            -> prev = xchg(rt6i_pcpu, NULL)
+>                                            -> dst_release(prev)
+>                                               [prev is pcpu_rt,
+>                                                refcount 1->0, dead]
 > 
-> Root cause:
+>      dst = skb_dst(skb)
+>      [dst is the dead pcpu_rt]
+>      dst_cache_set_ip6(dst)
+>        -> dst_hold() on dead dst
+>        -> WARN / use-after-free
 > 
->    - On !PROVE_RCU, rcu_read_lock_any_held() is a static inline that
->      returns !preemptible() as a proxy for "in an RCU read section".
+> For the race to occur, ksoftirqd must be preemptible (PREEMPT_RT without
+> PREEMPT_RT_NEEDS_BH_LOCK) and a concurrent task must be able to release
+> the pcpu_rt. Shared nexthop objects provide such a path, as two routes
+> pointing to the same nhid share the same fib6_nh and its rt6i_pcpu
+> entry.
 > 
->    - On PREEMPT_RT, rcu_read_lock() does not disable preemption. A
->      task can therefore be preemptible while legitimately holding an
->      RCU read lock.
+> Fix seg6_input_core() and rpl_input() by calling skb_dst_force() after
+> ip6_route_input() to force the NOREF dst into a refcounted one before
+> caching.
+> The output path is not affected as ip6_route_output() already returns a
+> refcounted dst.
 > 
->    - Callers such as ath12k_wmi_tlv_rssi_chain_parse() (via guard(rcu)())
->      and ieee80211_iterate_active_interfaces_atomic() do hold the RCU
->      read lock, so these warnings are incorrect.
+> Fixes: af4a2209b134 ("ipv6: sr: use dst_cache in seg6_input")
+> Fixes: a7a29f9c361f ("net: ipv6: add rpl sr tunnel")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Andrea Mayer <andrea.mayer@uniroma2.it>
+> ---
+>   net/ipv6/rpl_iptunnel.c  | 9 +++++++++
+>   net/ipv6/seg6_iptunnel.c | 9 +++++++++
+>   2 files changed, 18 insertions(+)
 > 
-> Typical splat seen on a WCN7850 station with periodic fw stats
-> processing:
-> 
->    WARNING: drivers/net/wireless/ath/ath12k/mac.c:791 at
->      ath12k_mac_get_arvif+0x9e/0xd0 [ath12k]
->    Tainted: G W O 6.19.13-rt #1 PREEMPT_RT
->    Call Trace:
->     ath12k_wmi_tlv_rssi_chain_parse+0x69/0x170 [ath12k]
->     ath12k_wmi_tlv_iter+0x7f/0x120 [ath12k]
->     ath12k_wmi_tlv_fw_stats_parse+0x342/0x6b0 [ath12k]
->     ath12k_wmi_op_rx+0xe9e/0x3150 [ath12k]
->     ath12k_htc_rx_completion_handler+0x3df/0x5b0 [ath12k]
->     ath12k_ce_per_engine_service+0x325/0x3e0 [ath12k]
->     ath12k_pci_ce_workqueue+0x20/0x40 [ath12k]
-> 
-> Replace the WARN_ON() with RCU_LOCKDEP_WARN(), which is gated on
-> debug_lockdep_rcu_enabled() and therefore compiles out entirely
-> when PROVE_RCU is disabled. PROVE_RCU kernels continue to get the
-> full lockdep-based check.
-> 
-> Fixes: 3dd2c68f206e ("wifi: ath12k: prepare vif data structure for MLO handling")
-> Tested-on: WCN7850 hw2.0 PCI WLAN.HMT.1.1.c5-00302-QCAHMTSWPL_V1.0_V2.0_SILICONZ-1.115823.3
-> Suggested-by: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-> Signed-off-by: Yu-Hsiang Tseng <asas1asas200@gmail.com>
-Reviewed-by: Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>
+> diff --git a/net/ipv6/rpl_iptunnel.c b/net/ipv6/rpl_iptunnel.c
+> index c7942cf65567..4e10adcd70e8 100644
+> --- a/net/ipv6/rpl_iptunnel.c
+> +++ b/net/ipv6/rpl_iptunnel.c
+> @@ -287,7 +287,16 @@ static int rpl_input(struct sk_buff *skb)
+>   
+>   	if (!dst) {
+>   		ip6_route_input(skb);
+> +
+> +		/* ip6_route_input() sets a NOREF dst; force a refcount on it
+> +		 * before caching or further use.
+> +		 */
+> +		skb_dst_force(skb);
+>   		dst = skb_dst(skb);
+> +		if (unlikely(!dst)) {
+> +			err = -ENETUNREACH;
+> +			goto drop;
+> +		}
+>   
+>   		/* cache only if we don't create a dst reference loop */
+>   		if (!dst->error && lwtst != dst->lwtstate) {
+> diff --git a/net/ipv6/seg6_iptunnel.c b/net/ipv6/seg6_iptunnel.c
+> index 97b50d9b1365..94284b483be0 100644
+> --- a/net/ipv6/seg6_iptunnel.c
+> +++ b/net/ipv6/seg6_iptunnel.c
+> @@ -515,7 +515,16 @@ static int seg6_input_core(struct net *net, struct sock *sk,
+>   
+>   	if (!dst) {
+>   		ip6_route_input(skb);
+> +
+> +		/* ip6_route_input() sets a NOREF dst; force a refcount on it
+> +		 * before caching or further use.
+> +		 */
+> +		skb_dst_force(skb);
+>   		dst = skb_dst(skb);
+> +		if (unlikely(!dst)) {
+> +			err = -ENETUNREACH;
+> +			goto drop;
+> +		}
+>   
+>   		/* cache only if we don't create a dst reference loop */
+>   		if (!dst->error && lwtst != dst->lwtstate) {
+
+Thanks for taking care of this, Andrea! LGTM.
+
+Reviewed-by: Justin Iurman <justin.iurman@gmail.com>
