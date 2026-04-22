@@ -1,121 +1,188 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B6AD30F92D
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 14:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F593C2798
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 18:08:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776867809; cv=none; b=Ze7XD1IN9MUKNEu/7gaiywPbYg1ZfTZc75VkgIJD5oVqaeuKsPVOck7CpO7Y7zqV2KN5IO6JSK5n5fKfq67tGAdLOq9D4N66YKbQifmTqvILebNrqP4twHLVaY/GgfWNNnlmO5uPjk7WfEN+J/WPiVExi21cgTA4xy6CqMRXA5w=
+	t=1776881310; cv=none; b=PQs1+aL3ZrHIHq4ngHCyDTycX9zRJ5/YXnjoHevgi2KYBjlnuK4xMpxF7genVNLN6YEuasoT2FfsYiNcRL6XWeawzPGP6DlJjJ2GN3flpRK4087PQssWkVhMAjPym2SNrW/xGIDzq1925Nsb+Nl3LRugUUsoX0tnYPvxu6VVe7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776867809; c=relaxed/simple;
-	bh=4xmE6LBI0sScIwfaVkGq0SafBNzd2O9CCu8v+/GUzNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AwM0qmQ34reDewhFDZhGGw7XPJlHmr5YEV6lTewogcPjF7AbBuffRGuoh9PvfSi4aEhNPF5p/GKmR+2J9C1DHVj5HZ3Xzn+LV8fyqpYBAtYRpls+TAvyIXCXi38IsmUXWBDtbJld8L1FSrYdZaNNVfrOzYCPAhnO95V0lf7C/xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lU0NPNP6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=czcPPcto; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1776881310; c=relaxed/simple;
+	bh=xR4VS+ANUEtgHiWt6wIQMm1UNiZmGqAkBG+YFkQwadw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=soCCNC93qxyvdr29NjdWzk74DXO9B1a16kK/9chq14T2te4at5FwvTdmuCF8oVBVJcfR/OxR0yyDu4m6vibG5D0qF/r4ZAkbfyMD7IR5O73dGavNjWJGNopZ0IdEKqSkFTBkdNNOeRa1crXVpgi6kj2Rmv4lgMOQ46Y+U2Li7rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jh8BPjxr; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lU0NPNP6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="czcPPcto"
-Date: Wed, 22 Apr 2026 16:23:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1776867806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MTItmSKJevrRTerdc3R+aPw8HIJ4fgrUwrhkwX2FGZY=;
-	b=lU0NPNP6aEESM9TR50ruLBAEZtUW3RHIPtLcXUJ655A7Ejg7+fRht/IoERer53JDSpTgn/
-	8ghN1wXmZ+rqg12RpwJD3g97Rw/tzUFjFjXj+yvopgMNh7Mhjqm5zdrzNDD0IsdaZEr46y
-	Z8rGC1FS6pOIylUGg0r6xHJa5+MwKMQzNAssfzhFAdEDMopL9QS8JvndBE5SCs9jWBBTYm
-	tNBG2rGnhhkZIvw/wj8dr6Qw5o8BusPhEN4NjXQTVSJmRFkA7LnN0Q0Tw3kJmT5QQv4kpz
-	ps0SH4jyQy7/ZTNdWa2NgUE7FkRp8mAnAEDG9gaPWa3aJ+pqqjk/Edf5Vaevhw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1776867806;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MTItmSKJevrRTerdc3R+aPw8HIJ4fgrUwrhkwX2FGZY=;
-	b=czcPPctozdzNm3TMqVBPnWsUXaVlHnvFeJMr6JzTxw7xbAFL/Wmj5jBhWQ5DueUndR6bw4
-	kT0JU1OkDMItRnAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Yu-Hsiang Tseng <asas1asas200@gmail.com>
-Cc: Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org,
-	Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
-	Rameshkumar Sundaram <quic_ramess@quicinc.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jh8BPjxr"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35691a231a7so4000680a91.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 11:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776881308; x=1777486108; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dXm+cvPf8Xjp+Os3ArHn258/YE9KQwcLs3zxc5vFNZA=;
+        b=Jh8BPjxr/dwlSlPL+vT9gG3oOGFaLEZbwBfFOMSXkBSHC9tII4IvVwvYgtJFE/+91K
+         3DjgHS5fMRhVH27zoq+NdYgdubsSL6IKv4xdD5Bxn2P+3oKu9Y389tme5AQ2DkDn59WP
+         iqdnwJXh8TVLe9+v//So4hsznnV7jvIADrIpLXPNMUUNwQfHEs5Kx3fCSWdxRbdwQvWf
+         SQ2nP7MlqeLgs4evk04pxdc0yJZhqeqnzY4w9AczcCzRZkBLfnmBX7EjynTR89267odd
+         7QJnxsfideB7zbWeRkCaTCc8yLuIDYvHrF56fgN9U85r8iu5h6Jm91Z8e0mb5VxdkJMI
+         gFXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776881308; x=1777486108;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dXm+cvPf8Xjp+Os3ArHn258/YE9KQwcLs3zxc5vFNZA=;
+        b=rwki9OVycWjc6rspjA3npSIcUh87Mec3KKUlCC6zRcIa8cezCqdOow5UPi/b0Abki9
+         666Az+1zJd7NoSVS2Usabk3vViBfSYKbHQ1NPBqM8DXooRmFuFwlJESvoaSBnHD+pR6a
+         JRFGljlxGvs3FFHvADA6qPECUtZbAfFRUPNkCp1JbRMBPiUwqyJq75qQvnYCR5ga35nC
+         CenRVQARXIpRlLt0bE9n8qEBHuKje4jQj6G5o+xZTZFxEQgjxHV8K1TOvyrYHnwJ81wn
+         AKTptSFpGJlpwnapb+cygYgQyJINMZgY54MyFtvviPeYidzN5NOnHFsxOrYgp1i9PJ2+
+         X2+A==
+X-Forwarded-Encrypted: i=1; AFNElJ8IvmeXHtNsg9VxiTQosDMVIjw2Tb0kEiuWUuPKhmEl/A2hGZnW+jRuPEm056psOpSYpACPwFuQROmNpl+JQQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6X73tylo6MMyjBtjXoQkiXsRcTnclq266ZPf4EtH49NqSngA6
+	nY1ziSygj+kuELe1E5u7yD0i0OH+2pwfvtigAztPAoOEz4cctDtLsybGNuvbYZ8J
+X-Gm-Gg: AeBDietgbxPWzHi1UJLAQqzoEpbbwTMjTLnmTmir8yzdCZjJwaq7P/ajaBfAebv+HUb
+	5A3syawC6CcntiIWZQh2jpzConrtpG4orSHlpCgcFf/oEqZKGJ456bXLubrGil6ZFOqTN4/P5tF
+	jOZTfuN+BgqBgLVgtwIR33pM1B93sR0wqY9Y2iGQedMPSCIzOMx2ErKqfu6S7QLk+CN9OwE8sha
+	qiAQ8GVg3GjYJYwJYk96DGPL5UfbeJVGAj7EDZICdRhxDDm3Ae1/qpn3YQcpWm4kSi9p72mnobA
+	dF5+ENawsr/ugLwgUaEvN6XdUNMRy8rwmNl3NUqYbLgRo1x5Axfs1faKMRdhh8C7HN/jIBqUjPv
+	FfkZyenP0clQByfLnSw61QRL5/o8qRuSb40+N74qKSX8tp32du/9KB7KWy3TVWqO6OjCQsBQOCZ
+	dRYeZKY3GrwwrJJISVMe5pw2LOL8oaBH0eXsEZ03/fPIr35LUzwjPUAwL0jVw5edZNJC47fJwnG
+	F0rlw==
+X-Received: by 2002:a17:90a:e704:b0:35f:b1ad:fdfc with SMTP id 98e67ed59e1d1-361404b0aaemr22056621a91.27.1776881308057;
+        Wed, 22 Apr 2026 11:08:28 -0700 (PDT)
+Received: from lenovo.localdomain (211-23-53-87.hinet-ip.hinet.net. [211.23.53.87])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab3a929sm166137985ad.72.2026.04.22.11.08.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 11:08:27 -0700 (PDT)
+From: Yu-Hsiang Tseng <asas1asas200@gmail.com>
+To: Jeff Johnson <jjohnson@kernel.org>,
+	ath12k@lists.infradead.org
+Cc: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
+	Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>,
 	Kalle Valo <kvalo@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v2] wifi: ath12k: fix false positive RCU warnings on
- PREEMPT_RT
-Message-ID: <20260422142325.Glnd_2Zc@linutronix.de>
-References: <4cdf2e61-fe69-4168-9df7-55bb71585dfe@oss.qualcomm.com>
- <20260421172500.1050754-1-asas1asas200@gmail.com>
+Subject: [PATCH v3] wifi: ath12k: use lockdep_assert_in_rcu_read_lock() for RCU assertions
+Date: Thu, 23 Apr 2026 02:08:14 +0800
+Message-ID: <20260422180814.1938317-1-asas1asas200@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260421172500.1050754-1-asas1asas200@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On 2026-04-22 01:25:00 [+0800], Yu-Hsiang Tseng wrote:
-> Two functions in ath12k assert that the caller holds an RCU read lock:
-> ath12k_mac_get_arvif() and ath12k_p2p_noa_update_vdev_iter(). Both use:
-> 
->     WARN_ON(!rcu_read_lock_any_held());
-> 
-> On PREEMPT_RT kernels built with CONFIG_PROVE_RCU=n, this produces a
-> false positive splat whenever these functions are invoked from paths
-> that do hold the RCU read lock (e.g. firmware stats processing or
-> mac80211 interface iteration).
+Two functions in ath12k assert that the caller holds an RCU read lock:
+ath12k_mac_get_arvif() and ath12k_p2p_noa_update_vdev_iter(). Both use:
 
-It depends what RCU section is expected/ tested for. SMP+preempt can use
-preemptible RCU which does not disable preemption either. So this is not
-PREEMPT_RT specific. It would be PREEMPT_RT specific if the RCU section
-is implied by NAPI processing to so.
+    WARN_ON(!rcu_read_lock_any_held());
 
-> Root cause:
-> 
->   - On !PROVE_RCU, rcu_read_lock_any_held() is a static inline that
->     returns !preemptible() as a proxy for "in an RCU read section".
-> 
->   - On PREEMPT_RT, rcu_read_lock() does not disable preemption. A
->     task can therefore be preemptible while legitimately holding an
->     RCU read lock.
+On kernels using preemptible RCU (CONFIG_PREEMPT=y or CONFIG_PREEMPT_RT=y)
+without CONFIG_DEBUG_LOCK_ALLOC, this produces a false positive splat
+whenever these functions are invoked from paths that do hold the RCU
+read lock (e.g. firmware stats processing or mac80211 interface
+iteration).
 
-As elaborated above, this is not PREEMPT_RT specific but preemptible
-TREE RCU.
+Root cause:
 
->   - Callers such as ath12k_wmi_tlv_rssi_chain_parse() (via guard(rcu)())
->     and ieee80211_iterate_active_interfaces_atomic() do hold the RCU
->     read lock, so these warnings are incorrect.
+  - Without CONFIG_DEBUG_LOCK_ALLOC, rcu_read_lock_any_held() is a
+    static inline that returns !preemptible() as a proxy for "in an
+    RCU read section".
 
-If both this then use this then I guess something like
-	lockdep_assert_in_rcu_read_lock()
+  - With preemptible RCU, rcu_read_lock() does not disable preemption.
+    A task can therefore be preemptible while legitimately holding an
+    RCU read lock, making the proxy unreliable.
 
-is what you look for.
+  - Callers such as ath12k_wmi_tlv_rssi_chain_parse() (via guard(rcu)())
+    and ieee80211_iterate_active_interfaces_atomic() do hold the RCU
+    read lock, so these warnings are incorrect.
 
-> Typical splat seen on a WCN7850 station with periodic fw stats
-> processing:
-> 
->   WARNING: drivers/net/wireless/ath/ath12k/mac.c:791 at
->     ath12k_mac_get_arvif+0x9e/0xd0 [ath12k]
->   Tainted: G W O 6.19.13-rt #1 PREEMPT_RT
->   Call Trace:
->    ath12k_wmi_tlv_rssi_chain_parse+0x69/0x170 [ath12k]
->    ath12k_wmi_tlv_iter+0x7f/0x120 [ath12k]
->    ath12k_wmi_tlv_fw_stats_parse+0x342/0x6b0 [ath12k]
->    ath12k_wmi_op_rx+0xe9e/0x3150 [ath12k]
->    ath12k_htc_rx_completion_handler+0x3df/0x5b0 [ath12k]
->    ath12k_ce_per_engine_service+0x325/0x3e0 [ath12k]
->    ath12k_pci_ce_workqueue+0x20/0x40 [ath12k]
+Typical splat seen on a WCN7850 station with periodic fw stats
+processing:
 
-If that is the call chain and there are no spinlocks involved then
-PREEMPT+SMP+lockdep should trigger with this patch, too. The suggestion
-above restricts this to lockdep only but your patch does so to.
+  WARNING: drivers/net/wireless/ath/ath12k/mac.c:791 at
+    ath12k_mac_get_arvif+0x9e/0xd0 [ath12k]
+  Tainted: G W O 6.19.13-rt #1 PREEMPT_RT
+  Call Trace:
+   ath12k_wmi_tlv_rssi_chain_parse+0x69/0x170 [ath12k]
+   ath12k_wmi_tlv_iter+0x7f/0x120 [ath12k]
+   ath12k_wmi_tlv_fw_stats_parse+0x342/0x6b0 [ath12k]
+   ath12k_wmi_op_rx+0xe9e/0x3150 [ath12k]
+   ath12k_htc_rx_completion_handler+0x3df/0x5b0 [ath12k]
+   ath12k_ce_per_engine_service+0x325/0x3e0 [ath12k]
+   ath12k_pci_ce_workqueue+0x20/0x40 [ath12k]
 
-Sebastian
+Replace WARN_ON(!rcu_read_lock_any_held()) with
+lockdep_assert_in_rcu_read_lock(), which is gated on CONFIG_PROVE_RCU
+and therefore compiles out entirely when PROVE_RCU is disabled.
+PROVE_RCU kernels continue to get the full lockdep-based check, and
+the new helper precisely checks for rcu_read_lock() rather than any
+RCU variant, which better matches the callers' expectations.
+
+Tested-on: WCN7850 hw2.0 PCI WLAN.HMT.1.1.c5-00302-QCAHMTSWPL_V1.0_V2.0_SILICONZ-1.115823.3
+
+Fixes: 3dd2c68f206e ("wifi: ath12k: prepare vif data structure for MLO handling")
+Suggested-by: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
+Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reviewed-by: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
+Reviewed-by: Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>
+Signed-off-by: Yu-Hsiang Tseng <asas1asas200@gmail.com>
+---
+Changes in v3:
+  - Use lockdep_assert_in_rcu_read_lock() instead of RCU_LOCKDEP_WARN()
+    for clearer intent and more precise semantics (suggested by
+    Sebastian Andrzej Siewior)
+  - Reword commit message: this affects preemptible RCU in general,
+    not only PREEMPT_RT
+  - Move Tested-on before the official tags per ath convention
+
+Changes in v2:
+  - Also fix the same WARN_ON() in ath12k_p2p_noa_update_vdev_iter()
+    (suggested by Baochen Qiang)
+  - Update commit message to cover both call sites
+
+Link to v1: https://lore.kernel.org/ath12k/20260420161049.695518-1-asas1asas200@gmail.com/
+Link to v2: https://lore.kernel.org/ath12k/20260421172500.1050754-1-asas1asas200@gmail.com/
+
+ drivers/net/wireless/ath/ath12k/mac.c | 2 +-
+ drivers/net/wireless/ath/ath12k/p2p.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/ath/ath12k/mac.c b/drivers/net/wireless/ath/ath12k/mac.c
+index fbdfe6424fd7..df2334f3bad6 100644
+--- a/drivers/net/wireless/ath/ath12k/mac.c
++++ b/drivers/net/wireless/ath/ath12k/mac.c
+@@ -788,7 +788,7 @@ struct ath12k_link_vif *ath12k_mac_get_arvif(struct ath12k *ar, u32 vdev_id)
+ 
+ 	/* To use the arvif returned, caller must have held rcu read lock.
+ 	 */
+-	WARN_ON(!rcu_read_lock_any_held());
++	lockdep_assert_in_rcu_read_lock();
+ 	arvif_iter.vdev_id = vdev_id;
+ 	arvif_iter.ar = ar;
+ 
+diff --git a/drivers/net/wireless/ath/ath12k/p2p.c b/drivers/net/wireless/ath/ath12k/p2p.c
+index 59589748f1a8..19ebcd1d8eb2 100644
+--- a/drivers/net/wireless/ath/ath12k/p2p.c
++++ b/drivers/net/wireless/ath/ath12k/p2p.c
+@@ -123,7 +123,7 @@ static void ath12k_p2p_noa_update_vdev_iter(void *data, u8 *mac,
+ 	struct ath12k_p2p_noa_arg *arg = data;
+ 	struct ath12k_link_vif *arvif;
+ 
+-	WARN_ON(!rcu_read_lock_any_held());
++	lockdep_assert_in_rcu_read_lock();
+ 	arvif = &ahvif->deflink;
+ 	if (!arvif->is_created || arvif->ar != arg->ar || arvif->vdev_id != arg->vdev_id)
+ 		return;
+-- 
+2.53.0
+
