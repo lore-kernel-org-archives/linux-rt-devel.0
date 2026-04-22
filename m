@@ -1,186 +1,214 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A082D8DB0
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 02:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D113CE4BB
+	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 12:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776823593; cv=none; b=WqHCbsufwVqCrwgpvcu45HnG97vnh2Zpijtf2Jq5T/Q4AqaJYGONY8vsdbHqeK9IQUM0EnxddauOHcH1Lr/WIwQZacgA1/vWn0RartUbSp8wODT9O1ng0ZEgcH/2mCuzw/mhF8hKqeKfvPMS3u5QsfHwW6bVX9qAcB+w7CPOxLs=
+	t=1776859840; cv=none; b=Q+S0f5zbnuVrYWDYm55u0j2NoB6CpRFUVJ/tl7eerlYY3Sdq4+Fs0qioiK9vLCz5XGSHu29gu5QOs6emfdC67rjf00pWqY7dxla2SyiYapxgG8IXdYKVREgGhTO33e72Ta5l1frVcoXujzmnZA8Zai42JkZuynAY47DgT64ilR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776823593; c=relaxed/simple;
-	bh=R/Iz2RAwQgHvZET6dqX5gNfKpOa1HfQw6wS8D/2b9rs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cDUFN8gYIFuJoH88xRe9qhrjlIhayGFqwxIMxofHuXev7j0iqRrv8AjiifpkonOuHHrkC470xZIAYwLRklTyzrcDDD/JRF3HKYO+ACeI7Vm5JTFfZtF5EwCkbuThc3ojdAz8cZaLHilceU2VcjpAAkQY2A07bEIyWPLzAzcv9/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ls5H+sim; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iCRXPECy; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1776859840; c=relaxed/simple;
+	bh=KADdOErpPNuveLmLOPmTskuJjHNbSanIKSk3/rpNIwc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GBKmV0iiKJzZ537cLswUbiK1EydJRpYnoYiiG57HgW63r4Tkrau+V1G2bWkLTLq+3BMcD3VuYDM9V/X8YM3NJC0+qTsLb/WL+G/9dm7x7n+Yb3i2YtM1/Bh1CGL+6nShUPeKvjLOJL+tC7o8ZeC4p6oA4Q+zLytiDCn41Z4SRTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DRwiu9ux; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ls5H+sim";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iCRXPECy"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63LIZnRW3377506
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 02:06:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CV7U3mQMJfVMAl6qflQ64fFOB5iGrhYZdBNtJgFLV5w=; b=ls5H+simo0txwsBu
-	u3grL+mcbKlb9GCHvQwcJy/lXWGK7vb/JJtNAKMvkU2IrcIPPsBt/lQn8XBuuxK7
-	2WbCVl3GYRKbImfHfhqKXf06Jxc2Ee6AZ66XxgCNfTyfvAABYCJQ/T9+EdtKjZ84
-	QMtBBM54VAU9G+TmUBo1UmWvVqN32GKsmLxRDhp55M6c/qNuU4cmeEhA5tUZo9bb
-	/hxIonzt6KFXtGmyi3Hs1yF0QnTE7m5kJd2CcNvAZGcIxtX50bXFeUiU6hY/hX7w
-	+vvxN/zhB1cKwcuN+bnMCi2Kavo37ZMHd4GWrC+In8z3azBMEvh9lo+hIExHCZw1
-	eieGOA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dpeng186d-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 02:06:31 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-35da86144daso4913954a91.3
-        for <linux-rt-devel@lists.linux.dev>; Tue, 21 Apr 2026 19:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776823591; x=1777428391; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CV7U3mQMJfVMAl6qflQ64fFOB5iGrhYZdBNtJgFLV5w=;
-        b=iCRXPECyi+AxxuvKajG3LtqcXL9ymNhJey2hBizPy4FwVFAR6Hna90OZk0HFIu5RCR
-         yiVTgUDeBv1y17s4Cgjbh4kwQraFVq7C+Fe2xF/AtKddkkiXrG8fmXKnXwqvJmaAjwOJ
-         Nq1g0A5sxrUaWJQcnhwMQAi+Pggjg4dRoabbwZ5obrVfM8z2eZCk9WhteJDE4sutMUK4
-         KFQ6oPwadZYVrVa44Jd02KPsf7JBq0hKbt7FFFYZ37VzkGYf4rAa8UFhTnYbOua27Nf9
-         FstDcZNd/eGhT7+YfoarnNxB0Xppx/fCTdoeBFH6H6cqgNGERgwacnapOEAIrknX4jXD
-         u9kA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DRwiu9ux"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776859838;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0r01gzGSMZ1OLeEQHZP3Kp4fLk35M3tRbC7hGVAlZKo=;
+	b=DRwiu9uxMi8tKZc7GCuiBU9pSB8RrUf/kBmMIrCe+CpvdupbKGvct8DwiiDAPKdP0ELUZj
+	LcaP+UL8yml1wp1WjDOs20OYZ0Ka4k7BkWjQdtPbHHBlUb9GMbBOCamj2CVcaZGiRlHHdk
+	5E1ZymWb/+Ni1vO3yNWg5klcL4r/QBs=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-492-nRHmy1TkOiS-CWGv689QHg-1; Wed, 22 Apr 2026 08:10:36 -0400
+X-MC-Unique: nRHmy1TkOiS-CWGv689QHg-1
+X-Mimecast-MFC-AGG-ID: nRHmy1TkOiS-CWGv689QHg_1776859835
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2b242b9359aso52314255ad.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 22 Apr 2026 05:10:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776823591; x=1777428391;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CV7U3mQMJfVMAl6qflQ64fFOB5iGrhYZdBNtJgFLV5w=;
-        b=jiUUeSVRws+U27bzPLupNIKLKhkAGPPnPEjfFGwEmWdcx4sBzvO9HDi+yokv6neMow
-         H4T+E4J1VZBDx/cD56Al+HRYkk5t/Rchefi/0pAsG//jbHPp3ePsfEOc5D7MSMVdqxUi
-         4mUlbZBQYgm7HHpcV9uwlf+Ilp4dHaMsux7NIIefs15oK9oHT5mDDsh3iESxTLglVN1o
-         nedfZmwiLDLe22X9dvavZlMwLNkcbJ4Zf2EkbdJypBhXznWdVCAq7JGsnyj6IXaOoj+q
-         i9855aJKnvKPMtL5lv5owb7YXzWRkXzLuzlHds3Mx2HCkYaGjjirNpb0wVUmS7WVw9Y9
-         p4bw==
-X-Forwarded-Encrypted: i=1; AFNElJ+uKHiEPJKlfYnbDcs9OjdDr0QcUDt6xJ1CqHbNAO6bAqyqOlo3kIhq/GgTi/ZOBOGfqoZlq0uOr/m2EP0tIQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2vBwFb1XJveK/khFAjA8Wcl4MlXCbmBojL7+72ywlv+QhDzWb
-	gZFOQ/hthKn2Js4joszXZBOJDqrTxIvPjW9AGvPZDURMwd86FyikdNPdcj+aTBiR2fm0mKUhIeK
-	lt0slrj+Tw7vK6xG7tGRnuMVLK2a4rHafvzzAtGHj+3E7F+y1fnr+HYlUStACSwEhMSg0kw==
-X-Gm-Gg: AeBDiev7vKt/yOCZYApkPVYBExRvgrH6hs//lHaTr/69MU6xTIfIchWzNIp//gvOePO
-	agEE/G45kUQxWPQq70SfPm4930vEmOqsex2Cy6FVUrVqwIyKJ7NgbcQmv8/kkNW1Rf7ZomPBMk5
-	6I9nr/3Zh7XXoFjUCSJ0KJs6e03yFgN38otGnyTH0Uhfxs9KtMIaLxTinRd8fnsp0D8QitNWbK7
-	rngZka0IR0RHNfT3uNndy9rG86yO0wxrekdoHQuD4blleWLfPQiWbA+h0n/ZHlf1FLzz6VkADio
-	Y/NTo5O8qw9O+EFg81qsz3kAkTUayQcfx6J78H2GjbC5LwQQ9Fg63fH2EbTzodyBE45d6TWNLZy
-	eE6XFNm5I/X354RKpAODiGqyTukdAfVxhu3ireyY0jkLXU0G/laSNBv86JKkxNUuTC3Bz2q4zNC
-	YpV1zOg4/Qu0mG9xC6TIr19IVLl0s3Vw==
-X-Received: by 2002:a17:90b:4ccf:b0:35f:b647:d973 with SMTP id 98e67ed59e1d1-36140229b13mr20344547a91.0.1776823590607;
-        Tue, 21 Apr 2026 19:06:30 -0700 (PDT)
-X-Received: by 2002:a17:90b:4ccf:b0:35f:b647:d973 with SMTP id 98e67ed59e1d1-36140229b13mr20344504a91.0.1776823590133;
-        Tue, 21 Apr 2026 19:06:30 -0700 (PDT)
-Received: from [10.133.33.231] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3614371a7c8sm14933809a91.5.2026.04.21.19.06.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2026 19:06:29 -0700 (PDT)
-Message-ID: <dd79f106-9b68-4600-9094-d962e598199d@oss.qualcomm.com>
-Date: Wed, 22 Apr 2026 10:06:25 +0800
+        d=1e100.net; s=20251104; t=1776859835; x=1777464635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0r01gzGSMZ1OLeEQHZP3Kp4fLk35M3tRbC7hGVAlZKo=;
+        b=RiPgAUc4MUjCmWzoNES+2lE9v3bkOk6lV1yWg1SHrbCHsHOalOR6V1csZJjqSXRzIA
+         bJ8QtoHaF1XyVKtjNlhXNWFhYIy/8XxwNhSMlG/KlI3sNEGcbk9TP4IKXiZlhghK8W53
+         adQ8Ixz2Tp7mDTJzw2GP6gF3ZrMGN02uhNSWtP0EJCU7zxkkn4JnP2lb7cJURZOQ2Lgq
+         zG2iK6I/U2LvHo1Tqc/pS9YALfvjPlpKugoH5Jsj3vGBvcxLW7mUfRcTpJPp9lp6M2s6
+         e4C4yTYukL/61rUC2nbuzmh0C9hh1NPQ9HgD7lI0g6/s4IBiAk1Xi6iwtEybHpinmH0G
+         Fp7w==
+X-Forwarded-Encrypted: i=1; AFNElJ/xF4TFWcjp+tuaKpwkGSZD+0hDg9VNfZHKhpxj7xpPrMqyv5SWirlzsDxzMnM+xbNwF3tuSXWOWHPar9jI5g==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrteGByTPhoY+H1M9+q58pEpjijj/H1SiTiOOSWmKVIKfh8yFn
+	sHHGScx1SLCLuLFAEhtbRqNg4tb5f797NIDaudFWIBkoi2NHITzkQ4cg+xP6JZMmt3widaGofjD
+	pa6Rn0hXQTj31rAEFS0KrUjvJOuIdFFv4l7PbI9Hwx2m68En5pvIN23F3ssjnEpJ9F1IVLkUN1Z
+	cdClNVTKkxgc7LovSNmGVuuKILh54k0hr0cVMrE4DhVQvik9g1QXfOnA==
+X-Gm-Gg: AeBDiesgyFkJGZ1xo/KKhYg5hfq9z8RfAJrxH6WKxnFdgVERNvm8bl54wwI8J/r8KDe
+	OZpMyCOYSyUnQ92BuUcNwu4rNNfyF5bUB0GXZkE1pXGR4WFff7I6TTI093UBZsMeOYAjz8vA/af
+	vepkAwKWGjhhvOmSyW2HG2BLtnw5hOQdKWqKkXHfBt00PxV7nbcOnJM3Q/7lefANfYnZzFixYCO
+	zmef5d09ddUS4nFuuKQJYM+VITqzlMuCt+uo2FkLhCIWpvd+9TZRa8EBCRKLB/DEZY7uCVZJ0JG
+X-Received: by 2002:a17:902:8d98:b0:2b4:5fae:cbd8 with SMTP id d9443c01a7336-2b5f9f83117mr164229545ad.37.1776859834810;
+        Wed, 22 Apr 2026 05:10:34 -0700 (PDT)
+X-Received: by 2002:a17:902:8d98:b0:2b4:5fae:cbd8 with SMTP id
+ d9443c01a7336-2b5f9f83117mr164229125ad.37.1776859834071; Wed, 22 Apr 2026
+ 05:10:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] wifi: ath12k: fix false positive RCU warnings on
- PREEMPT_RT
-To: Yu-Hsiang Tseng <asas1asas200@gmail.com>,
-        Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org
-Cc: Rameshkumar Sundaram <quic_ramess@quicinc.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <4cdf2e61-fe69-4168-9df7-55bb71585dfe@oss.qualcomm.com>
- <20260421172500.1050754-1-asas1asas200@gmail.com>
-From: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <20260421172500.1050754-1-asas1asas200@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=CNUamxrD c=1 sm=1 tr=0 ts=69e82d27 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=CW9kBp-o2NpbEht7vlgA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-GUID: MT6iGtedD3z-s5RGJDqfLfInAatLGAi-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIyMDAxOSBTYWx0ZWRfXzraEovvCRt24
- Ch8BLwaM7Rx+FLMWRrlnQPT0lal5zmWPGGj7yYkBWNNccArNpJK0abLCugJzDApRVdluuRGcBG0
- gdTz5rtSkGvofJFp6+BVXGSmNmJzx4XRdjzKeq6D/1G2kQfmCq8j2ep2zUR2y7zxNVeRmA4ymn7
- LP22i5kUglvslH3WtKx6Xd96nlLPeyWqQdRZTw4XIwNLFxJdO+GGeTjLSKrb2D/edha9T3s2WSD
- pjd0hfDLOE0GgpCl3kHocFSr8jly5o1CqHBBRtRScSV5SCtktoliEv0wICmukv3UvN4qnLnyHyJ
- rnh0kZryUtP3NF3yoV9ZUUGYWKYekZdrY8AijrMSRpgem37w0yX6gOH9PCKhz8uztyHIYmGjCA5
- 57usjaeY6HmzLy3UXh7cMFMgHDvT0NGXUANulEhM92AqCAlKfokBA1HJ+V3AniqgukhVOL5ByXI
- DIWwJTmsbLf+SAN0bTg==
-X-Proofpoint-ORIG-GUID: MT6iGtedD3z-s5RGJDqfLfInAatLGAi-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-21_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 phishscore=0 bulkscore=0
- suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604220019
+References: <CAHc6FU5vQWtHNotdA5cjxF6iE4kFRj1E9K55+BBss256KaaKyw@mail.gmail.com>
+ <20260421163207.48565-1-jie.wang@intel.com> <20260421163207.48565-2-jie.wang@intel.com>
+In-Reply-To: <20260421163207.48565-2-jie.wang@intel.com>
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Wed, 22 Apr 2026 14:10:22 +0200
+X-Gm-Features: AQROBzANUIDb16bJGw2lu_xPFN6pVbfoAM1FiM3YNu5k6u_48FuHomgFAE9Ikbk
+Message-ID: <CAHc6FU5Zx4jQ9_c7wtJeeSF=V895hwCa47OvK0Qm_oFGK1YbPg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] gfs2: fix quota init duplicate scan
+To: Jie Wang <jie.wang@intel.com>
+Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, gfs2@lists.linux.dev, 
+	linux-rt-devel@lists.linux.dev, rostedt@goodmis.org, 
+	syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: BpdkG5VTm0gKcgjpA0T_gxxsOJdyO_RoOWz7KqG955Y_1776859835
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hello,
 
+this is looking good except for one minor detail (see below).
 
-On 4/22/2026 1:25 AM, Yu-Hsiang Tseng wrote:
-> Two functions in ath12k assert that the caller holds an RCU read lock:
-> ath12k_mac_get_arvif() and ath12k_p2p_noa_update_vdev_iter(). Both use:
-> 
->     WARN_ON(!rcu_read_lock_any_held());
-> 
-> On PREEMPT_RT kernels built with CONFIG_PROVE_RCU=n, this produces a
-> false positive splat whenever these functions are invoked from paths
-> that do hold the RCU read lock (e.g. firmware stats processing or
-> mac80211 interface iteration).
-> 
-> Root cause:
-> 
->   - On !PROVE_RCU, rcu_read_lock_any_held() is a static inline that
->     returns !preemptible() as a proxy for "in an RCU read section".
-> 
->   - On PREEMPT_RT, rcu_read_lock() does not disable preemption. A
->     task can therefore be preemptible while legitimately holding an
->     RCU read lock.
-> 
->   - Callers such as ath12k_wmi_tlv_rssi_chain_parse() (via guard(rcu)())
->     and ieee80211_iterate_active_interfaces_atomic() do hold the RCU
->     read lock, so these warnings are incorrect.
-> 
-> Typical splat seen on a WCN7850 station with periodic fw stats
-> processing:
-> 
->   WARNING: drivers/net/wireless/ath/ath12k/mac.c:791 at
->     ath12k_mac_get_arvif+0x9e/0xd0 [ath12k]
->   Tainted: G W O 6.19.13-rt #1 PREEMPT_RT
->   Call Trace:
->    ath12k_wmi_tlv_rssi_chain_parse+0x69/0x170 [ath12k]
->    ath12k_wmi_tlv_iter+0x7f/0x120 [ath12k]
->    ath12k_wmi_tlv_fw_stats_parse+0x342/0x6b0 [ath12k]
->    ath12k_wmi_op_rx+0xe9e/0x3150 [ath12k]
->    ath12k_htc_rx_completion_handler+0x3df/0x5b0 [ath12k]
->    ath12k_ce_per_engine_service+0x325/0x3e0 [ath12k]
->    ath12k_pci_ce_workqueue+0x20/0x40 [ath12k]
-> 
-> Replace the WARN_ON() with RCU_LOCKDEP_WARN(), which is gated on
-> debug_lockdep_rcu_enabled() and therefore compiles out entirely
-> when PROVE_RCU is disabled. PROVE_RCU kernels continue to get the
-> full lockdep-based check.
-> 
-> Fixes: 3dd2c68f206e ("wifi: ath12k: prepare vif data structure for MLO handling")
-> Tested-on: WCN7850 hw2.0 PCI WLAN.HMT.1.1.c5-00302-QCAHMTSWPL_V1.0_V2.0_SILICONZ-1.115823.3
-> Suggested-by: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
-> Signed-off-by: Yu-Hsiang Tseng <asas1asas200@gmail.com>
+On Tue, Apr 21, 2026 at 10:44=E2=80=AFAM Jie Wang <jie.wang@intel.com> wrot=
+e:
+> gfs2_quota_init() checks for duplicate quota_change IDs while holding
+> qd_lock and the quota hash bucket bitlock. That path used
+> gfs2_qd_search_bucket(), which takes a lockref reference via
+> lockref_get_not_dead().
+>
+> On PREEMPT_RT this may sleep, which is not allowed under the bucket
+> bitlock, triggering "sleeping function called from invalid context".
+>
+> Use a no-ref bucket lookup in this path, then continue duplicate
+> handling without taking a lockref there.
+>
+> Refactor gfs2_qd_search_bucket() to build on top of the no-ref helper
+> so lookup traversal stays in one place.
+>
+> This patch fixes a bug reported by syzbot.
+>
+> Reported-by: syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D642d0561f78362d67d3f
+> Tested-by: syzbot+642d0561f78362d67d3f@syzkaller.appspotmail.com
+> Signed-off-by: Jie Wang <jie.wang@intel.com>
+> ---
+>  fs/gfs2/quota.c | 36 +++++++++++++++++++++++++-----------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
+>
+> diff --git a/fs/gfs2/quota.c b/fs/gfs2/quota.c
+> index 5290865f27f1..df1cb99c3344 100644
+> --- a/fs/gfs2/quota.c
+> +++ b/fs/gfs2/quota.c
+> @@ -254,9 +254,13 @@ static struct gfs2_quota_data *qd_alloc(unsigned has=
+h, struct gfs2_sbd *sdp, str
+>         return NULL;
+>  }
+>
+> -static struct gfs2_quota_data *gfs2_qd_search_bucket(unsigned int hash,
+> -                                                    const struct gfs2_sb=
+d *sdp,
+> -                                                    struct kqid qid)
+> +/*
+> + * Lookup variant for callers which already hold qd_lock + bucket lock.
+> + */
+> +static struct gfs2_quota_data *
+> +gfs2_qd_search_bucket_noref(unsigned int hash,
+> +                           const struct gfs2_sbd *sdp,
+> +                           struct kqid qid)
+>  {
+>         struct gfs2_quota_data *qd;
+>         struct hlist_bl_node *h;
+> @@ -264,12 +268,22 @@ static struct gfs2_quota_data *gfs2_qd_search_bucke=
+t(unsigned int hash,
+>         hlist_bl_for_each_entry_rcu(qd, h, &qd_hash_table[hash], qd_hlist=
+) {
+>                 if (!qid_eq(qd->qd_id, qid))
+>                         continue;
+> -               if (qd->qd_sbd !=3D sdp)
+> -                       continue;
+> -               if (lockref_get_not_dead(&qd->qd_lockref)) {
+> -                       list_lru_del_obj(&gfs2_qd_lru, &qd->qd_lru);
+> +               if (qd->qd_sbd =3D=3D sdp)
+>                         return qd;
+> -               }
+> +       }
+> +
+> +       return NULL;
+> +}
+> +
+> +static struct gfs2_quota_data *
+> +gfs2_qd_search_bucket(unsigned int hash, const struct gfs2_sbd *sdp, str=
+uct kqid qid)
+> +{
+> +       struct gfs2_quota_data *qd;
+> +
+> +       qd =3D gfs2_qd_search_bucket_noref(hash, sdp, qid);
+> +       if (qd && lockref_get_not_dead(&qd->qd_lockref)) {
+> +               list_lru_del_obj(&gfs2_qd_lru, &qd->qd_lru);
+> +               return qd;
+>         }
+>
+>         return NULL;
+> @@ -1458,16 +1472,15 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
+>
+>                         spin_lock(&qd_lock);
+>                         spin_lock_bucket(hash);
+> -                       old_qd =3D gfs2_qd_search_bucket(hash, sdp, qc_id=
+);
+> +                       old_qd =3D gfs2_qd_search_bucket_noref(hash, sdp,=
+ qc_id);
+> +                       spin_unlock_bucket(hash);
+>                         if (old_qd) {
+>                                 fs_err(sdp, "Corruption found in quota_ch=
+ange%u"
+>                                             "file: duplicate identifier i=
+n "
+>                                             "slot %u\n",
+>                                             sdp->sd_jdesc->jd_jid, slot);
+>
+> -                               spin_unlock_bucket(hash);
 
-Reviewed-by: Baochen Qiang <baochen.qiang@oss.qualcomm.com>
+Why didn't you just leave this spin_unlock_bucket() call inside the if
+statement?
+
+>                                 spin_unlock(&qd_lock);
+> -                               qd_put(old_qd);
+>
+>                                 gfs2_glock_put(qd->qd_gl);
+>                                 kmem_cache_free(gfs2_quotad_cachep, qd);
+> @@ -1483,6 +1496,7 @@ int gfs2_quota_init(struct gfs2_sbd *sdp)
+>                         BUG_ON(test_and_set_bit(slot, sdp->sd_quota_bitma=
+p));
+>                         list_add(&qd->qd_list, &sdp->sd_quota_list);
+>                         atomic_inc(&sdp->sd_quota_count);
+> +                       spin_lock_bucket(hash);
+>                         hlist_bl_add_head_rcu(&qd->qd_hlist, &qd_hash_tab=
+le[hash]);
+>                         spin_unlock_bucket(hash);
+>                         spin_unlock(&qd_lock);
+> --
+> 2.34.1
+>
+
+Thanks,
+Andreas
 
