@@ -1,155 +1,156 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.uniroma2.it (smtp.uniroma2.it [160.80.4.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384D73603D9
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2BF390CA9
+	for <linux-rt-devel@lists.linux.dev>; Sat, 25 Apr 2026 14:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.80.4.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776967265; cv=none; b=TSCUVUr4/6jqEtjae/Jv9HJWMHW7Nd1TvkXpfa8vR0/3G0b+QfkFMaI+J2B5I+Q5puoJ730MwYjMuRIMrRNRnUj/hxQyGuqrXJNTv3QmaGyDn9Zu523Ji1OIqUvTjjvXoKlQnrOW5hG0PeiOpaGBLzplt9k3hVfTr8AvHnjuI3c=
+	t=1777126635; cv=none; b=PzBjYRAE/ESpE7Lztj/PrZvpGKI2OjCmcaAckxG/I+OK9Zat18XUDKRqx/hWladsaONp0AYlW6pr/69dI8JBMhfuy9Y5pAVlf8k9Eo0fI7FBmj1UKBC632j0CcE85CYX8gXFJ0V0ry9Wr5OvmT8JNbbWxdQD7sVNnod/NMpaIgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776967265; c=relaxed/simple;
-	bh=+JOes+x7cvfxfvpqnGSmuY6FZ+UQx4Y5GOdipyD8aWI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dzMsiFjiLHenwUqjfDNOUVeJyBPA+DTj3s5oG1avxM1461qC+WgAmX+qfWaxrrBdlCri35q70rWYjxlCxZhMq2Cf/FOjWQuNYMEZliBwqL+qXquFXrQpmCDn4jz+1+wpqCaYhElesYtirxALdkHbFqdtSqxldwbHyBhIGnd0mN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZI1iTMIF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hNIN4oGb; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1777126635; c=relaxed/simple;
+	bh=TxZqoT85JDPmKXuh8zVB/fRPqdIvtSCFStOtQuDrWpA=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=DjpwZ6LwKqLpDzh87l4EKNDL7NvQzMnRywopPnZgESIRvTW8vkdyi84cpz1fBlcELLnXdp3L9MAzy8YegsgQFeA7VXlV+N0U1ZhHD/xy779bnFSANbo5blI5EP+Zq5keLfCj5gIVd7AgR1ih0Bq9DiZe1cg+WiRl0eT23SwcciU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it; spf=pass smtp.mailfrom=uniroma2.it; dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=e7Fmzb+e; dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b=lsJKGQfK; arc=none smtp.client-ip=160.80.4.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniroma2.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniroma2.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZI1iTMIF";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hNIN4oGb"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63NFFdwZ179321
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:01:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	H97jdc53rsSV9J1bHg93erHFl20K7pFWAZodpNuOJ0k=; b=ZI1iTMIFBVS7Mulr
-	Zghrm51CWEAI8iqXz2kVEIz/mpxBfXbLdNPVHx05MOyM508eF0s7BjF3IMUn6Hea
-	FpquPQ8eOV2Y7rP4C9uH1OBbDjcBLlHUAl22LeJXgmtt2QbXs/3YOdVkao9U9+Ee
-	K2BCLWzwMVBFIK5EXTVgzp49Cg9/ad6TJRtCTs0EtX2J+SlZY7xHEeQ0pP8K2Dn6
-	7iGEHE7lc7lu5GffeB7kcR+a8ADWbuLsQEATWogxhtT/mOLqJtt0GZgAQlgH9ae9
-	JdlXZeghyQ//3kXDeu8LNo55T09cqL0nfod/93UBAu23E+J5Rql2vD7nymGdBcLp
-	IWK7Tw==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dqe62jv9u-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-rt-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:01:03 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2c0ba59a830so10926544eec.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 23 Apr 2026 11:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776967263; x=1777572063; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H97jdc53rsSV9J1bHg93erHFl20K7pFWAZodpNuOJ0k=;
-        b=hNIN4oGbzQV+nKY9jnMkV57nNBrQ9STABhpdADrJ8w82Nv5zuyGCXTbA4UGPOeofcx
-         k9meXziqYRgpiggeD87jzkkn1Ol2qxsUmA95VaqfkdopK7g0o1mvFfZ3bTMHM4T2K8Qk
-         nJtZOSXty71ucjg2dLHwSCnazdRIcEn5zeGVl/dr+XGDS02nU2RVmi8OYgzC1U0Lh91z
-         IDxtCoJScoktEJpTz+/Nbim0BbOlW+INJBlU0aeBC/A29wg2m+NBFUlaeA+zwJb9Z12p
-         E9rpSMsLbhsbOt31boJjRCOMN/4Qnm1TYc/MLLQrMMB2mrtdFxuoBL2Zn53DB92q4cx4
-         VQLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776967263; x=1777572063;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=H97jdc53rsSV9J1bHg93erHFl20K7pFWAZodpNuOJ0k=;
-        b=VnjG5ayNPEg2jZ5t+pC+m4SGSOvtcJiDM4Q5NLc5ZrIVxHDlzdXK3L0MYUA9uL7yB+
-         JXp0A+KKLlm2VJCUd7Itfmzf17grem5oAO2mUOzlsUzrp4u4GI0RK9KQ42aDscVS70RR
-         RpMlZIPkb3YJNYG56XOjEKTsYeONTRfSAxBqv56SBZtaQ9Qi67CiBVRKXR2kBdAIDQh6
-         eXPFXl7R1u0tYImthxjAWCPgOkPAa3qewyRhg3e1KMH4bsmAXQUiVgvWpqaL6c6AaAEN
-         Jq0OkosHh4uQV08gSxFcK096SaeqtyCEMJndi3gld9bZogC8ygJy/ASJYXvxmFy97pEi
-         O6dQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/7ABsER6J5hzqBc9vgNxEDvwOd29P0OHvD5PvGAVuzJiTZ0MatM8+TUPeeNc9uNzmRnXVggW0bJo+kn5RwnA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyrg6GozeFRNTqXMi0Rm1CK3MXWN6sS6BfF9wxS37gTcNNzwB3T
-	HS4HASts1OwAXhZ5AWu/LWrko0DN8kJh1BwpXy1kk2MqJUBhGa27GvtrugSYG97xMzSgj01TcUu
-	FME3EwOGytCJt+xSWwP5+R5lcO+FtXJ4J9H3lvOtOy3gTTRpfckpuhlGZVMmFBzN2F9wyVg==
-X-Gm-Gg: AeBDiesJoAmphQ0CV15MlKT8H5I+IKc5jshJ17PZydvYjVzmMSGEDq6Lydo48JsFBmZ
-	yBlIJYi1YWmeaWaIbnwOdpYsqjOluOtjWFoGAeriJ91hnBvyWBBp+nskhD1dvTHB1tFj02294JX
-	sqY8bhnTJ42mZp+3NWaeseZonQHfB0gKFBC0k38RYd84s6etK9tnKcc/J/q1UdJpZA3Lsj87CiJ
-	dqhdMPdgQK3MqZCo+EBwnbJ6qAgk73NvS2thh54jXaaDcs+Z1VgLumfdduFUCOasy+8YEM/g4+y
-	ORG9wFMs2fIuDcfdkyzJ/oWdvr7K/GKo7fWJrI0Ap8CX8gVh9T4/c5PDVBnwzcSDUE3OQqGRV2V
-	lvdSfXyQxMu0am4BNQnOpfDM06gH1cSkIoNp0kPHqsSfFGgUJs1N6NSMJZLQp42f99AnZ6z7ZNQ
-	Z1JRsONdmd9VY=
-X-Received: by 2002:a05:7300:7491:b0:2d6:4297:5fc7 with SMTP id 5a478bee46e88-2e4872fb657mr14968508eec.25.1776967262628;
-        Thu, 23 Apr 2026 11:01:02 -0700 (PDT)
-X-Received: by 2002:a05:7300:7491:b0:2d6:4297:5fc7 with SMTP id 5a478bee46e88-2e4872fb657mr14968475eec.25.1776967261658;
-        Thu, 23 Apr 2026 11:01:01 -0700 (PDT)
-Received: from hu-jjohnson-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e539fa244csm27867887eec.2.2026.04.23.11.01.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 11:01:00 -0700 (PDT)
-From: Jeff Johnson <jeff.johnson@oss.qualcomm.com>
-To: Jeff Johnson <jjohnson@kernel.org>, ath12k@lists.infradead.org,
-        Yu-Hsiang Tseng <asas1asas200@gmail.com>
-Cc: Baochen Qiang <baochen.qiang@oss.qualcomm.com>,
-        Rameshkumar Sundaram <rameshkumar.sundaram@oss.qualcomm.com>,
-        Kalle Valo <kvalo@kernel.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Clark Williams <clrkwllms@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>, linux-wireless@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260422180814.1938317-1-asas1asas200@gmail.com>
-References: <20260422180814.1938317-1-asas1asas200@gmail.com>
-Subject: Re: [PATCH v3] wifi: ath12k: use lockdep_assert_in_rcu_read_lock()
- for RCU assertions
-Message-Id: <177696726047.2493545.5792745669762197871.b4-ty@oss.qualcomm.com>
-Date: Thu, 23 Apr 2026 11:01:00 -0700
+	dkim=permerror (0-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="e7Fmzb+e";
+	dkim=pass (2048-bit key) header.d=uniroma2.it header.i=@uniroma2.it header.b="lsJKGQfK"
+Received: from smtpauth-2019-1.uniroma2.it (smtpauth.uniroma2.it [160.80.5.46])
+	by smtp-2015.uniroma2.it (8.14.4/8.14.4/Debian-8) with ESMTP id 63PE90XG018980;
+	Sat, 25 Apr 2026 16:09:06 +0200
+Received: from lubuntu-18.04 (unknown [160.80.103.126])
+	by smtpauth-2019-1.uniroma2.it (Postfix) with ESMTPSA id C774D1205C5;
+	Sat, 25 Apr 2026 16:08:56 +0200 (CEST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=uniroma2.it;
+	s=ed201904; t=1777126137; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pn62JA25Xh6EOuhuTsZJQ+z2T/z3lNqhbeg7hLlkCVI=;
+	b=e7Fmzb+e43pjxv2Sey8A56NQNkuC4W1wnwPAOtTNO1X7VsYGxCfgS6z0QD4DtmahPlFJXu
+	/Z0ooW/1qzUEbwDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniroma2.it; s=rsa201904;
+	t=1777126137; h=from:from:sender:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pn62JA25Xh6EOuhuTsZJQ+z2T/z3lNqhbeg7hLlkCVI=;
+	b=lsJKGQfKww4g1QnhleU6LAAhfenpv3bPCVvOPc0z/Iy1XYA1Gb2h0e1xvA3Yvl/ZtEao1D
+	Tjjca7WMJozVMxl+Z62eWBV7AvevWagAFBA+JHRQcvjwl8AXZcU3tep1MzqQPWsXZL+att
+	jqQCK/13D6gDwn14/Lg21Zb9OIUFQs6sAq9H3k9BQ0IK2eqmK3voZjmhrZnVj8jzh8ZTkv
+	p6hJTkLQucQoHcBCLcgT/pAd83aEt2nhHpxmej0h5ScNu+DT/D8eO0iHsbo9A7qlc7ItPG
+	sIoammonGbp9o4VOGntFv/ohCqnjAbWeCjfrU+Y8/PHMy7FPzhaD5VuOhkX5IA==
+Date: Sat, 25 Apr 2026 16:08:56 +0200
+From: Andrea Mayer <andrea.mayer@uniroma2.it>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: davem@davemloft.net, dsahern@kernel.org, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+        clrkwllms@kernel.org, rostedt@goodmis.org, david.lebrun@uclouvain.be,
+        alex.aring@gmail.com, Justin Iurman <justin.iurman@gmail.com>,
+        stefano.salsano@uniroma2.it, netdev@vger.kernel.org,
+        linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, Andrea Mayer
+ <andrea.mayer@uniroma2.it>
+Subject: Re: [PATCH net] net: ipv6: fix NOREF dst use in seg6 and rpl
+ lwtunnels
+Message-Id: <20260425160856.8cebade5eae1dcaec7af8bfe@uniroma2.it>
+In-Reply-To: <20260423080056.KgHlh9Oa@linutronix.de>
+References: <20260421094735.20997-1-andrea.mayer@uniroma2.it>
+	<20260423080056.KgHlh9Oa@linutronix.de>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
-X-Proofpoint-GUID: vwJ_LreA-KOwhpjParFiQzvGyqr7yUO-
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIzMDE3NSBTYWx0ZWRfX6dfbDJ3aByIw
- UluEN1VIBL8Q9HK0AnSNDyICcB5A06K2QCFNvQB6qO4G0Woc8brUy68Xxa9IM5g2rZRL7Dk1Eq0
- WId5uhTQ07AlGMr6r1ujzk/oA1cS1QXrPqTrpfMfdHM7jpwRaPENt1mdMiN6WD29R17eJdy9Mt4
- 2YDOeaegZatreerWTs1z0k0ag5rNtjypUlStWxk0jv87cm3lfhf6Lk8ejCnJIeTEsXYyQ+xMn3u
- qd3Y5DZ8aj+Di3AY5lz2fiy5abIQSrcSBo0VoMPHxGeiRT95Qb+ZA57wp+wxTeITh351xenX/nw
- tkUaxE+ex6gxF23sXcb4xutAId7B2VEeQYXg5loktUy0pQUVhwUi7ywhAUCcO338rriEv3EIrZM
- /UI6YrXCVOm6EWAqF0t3XCgOqELywUv0BGgyRMJXMn8qq/dOyBncO+wahzRjqEW+4WC7x3PWLsR
- 0nIcIcWihhjRFRGLKNw==
-X-Proofpoint-ORIG-GUID: vwJ_LreA-KOwhpjParFiQzvGyqr7yUO-
-X-Authority-Analysis: v=2.4 cv=Nv7htcdJ c=1 sm=1 tr=0 ts=69ea5e5f cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=XjcZkKkVyDdEEfN8XZIA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-23_03,2026-04-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0 malwarescore=0
- clxscore=1015 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604230175
+X-Virus-Scanned: clamav-milter 0.100.0 at smtp-2015
+X-Virus-Status: Clean
+
+On Thu, 23 Apr 2026 10:00:56 +0200
+Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
+
+Hi Sebastian,
+
+thanks for the review, and to Simon and Justin as well.
 
 
-On Thu, 23 Apr 2026 02:08:14 +0800, Yu-Hsiang Tseng wrote:
-> Two functions in ath12k assert that the caller holds an RCU read lock:
-> ath12k_mac_get_arvif() and ath12k_p2p_noa_update_vdev_iter(). Both use:
+> On 2026-04-21 11:47:35 [+0200], Andrea Mayer wrote:
+> >
+> > [snip]
 > 
->     WARN_ON(!rcu_read_lock_any_held());
+> So the dst passed to skb_dst_set_noref() has no reference count. The fix
+> is to use skb_dst_force() to increment the refcount on it. But this
+> requires that we are in the same RCU section. And I guess we are since
+> none of the warnings are visible.
+ 
+Yes. lwtunnel_input() holds rcu_read_lock() around ops->input(), which is
+where seg6_input_core()/rpl_input() execute. The skb_dst_force() is called
+within that RCU section.
+ 
+
+> Doesn't this make ip6_route_input() on RT fragile in general due to the
+> RT6_LOOKUP_F_DST_NOREF usage or here something special about the two
+> files that are patched?
+> Based on your explanation it all makes sense, I am just not sure if this
+> race is limited to those two are if there is more to it.
+
+seg6_input_core() and rpl_input() cache the dst via dst_cache_set_ip6(), which
+invokes dst_hold(). The dst_hold() calls rcuref_get(), failing on a zero
+refcount and triggering a WARN, but the pointer is still stored in the cache.
+After the RCU grace period completes the dst is freed, and a subsequent
+dst_cache_get() returns a dangling pointer.
+ 
+The other callers of ip6_route_input() (e.g., ipv6_srh_rcv, ipv6_rpl_srh_rcv,
+ip6_rcv_finish_core) consume the NOREF dst without caching it. Even if the
+pcpu_rt's refcount is concurrently dropped to zero, the dst memory remains
+valid because dst_release() defers the actual free via call_rcu_hurry() and the
+caller is still inside the RCU read-side critical section.
+
+
+> > [snip]
+> >
+> > Fixes: af4a2209b134 ("ipv6: sr: use dst_cache in seg6_input")
+> > Fixes: a7a29f9c361f ("net: ipv6: add rpl sr tunnel")
 > 
-> On kernels using preemptible RCU (CONFIG_PREEMPT=y or CONFIG_PREEMPT_RT=y)
-> without CONFIG_DEBUG_LOCK_ALLOC, this produces a false positive splat
-> whenever these functions are invoked from paths that do hold the RCU
-> read lock (e.g. firmware stats processing or mac80211 interface
-> iteration).
+> If having PREEMPT_RT_NEEDS_BH_LOCK unset is the requirement then the
+> right fixes: would be
+> Fixes: 3253cb49cbad4 ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
 > 
-> [...]
+> as prior this commit the race is not possible, right?
 
-Applied, thanks!
+I built and tested kernels at 3253cb49cbad and its parent fd4e876f59b7 (both
+CONFIG_PREEMPT_RT=y, without the fix): no issues at fd4e876f59b7.
+At 3253cb49cbad, a pcpu_rt cmpxchg contention in rt6_make_pcpu_route() shows
+up, which was addressed in 1adaea51c61b. I also tested at 1adaea51c61b, and at
+that point the dst_hold() race described in this patch appears.
+ 
+The seg6/rpl code obtains a NOREF dst from ip6_route_input(), does not promote
+it via skb_dst_force(), and passes it to dst_cache_set_ip6() which calls
+dst_hold(). This pattern has been present since af4a2209b134 and a7a29f9c361f,
+and the current Fixes: tags point to the commits where it was introduced.
+Does that seem reasonable?
 
-[1/1] wifi: ath12k: use lockdep_assert_in_rcu_read_lock() for RCU assertions
-      commit: 4498664e2d5888efabb96428196a926acdaa25ed
 
-Best regards,
--- 
-Jeff Johnson <jeff.johnson@oss.qualcomm.com>
+> Does this mean that rpl_input() does a local_bh_disable() while
+> obtaining the dst but it never runs outside of bh-disabled section?
+> Because if it can run in preemptible context then it would not be to
+> PREEMPT_RT at which point the Fixes: tags from above would make sense
+> again.
+> 
 
+rpl_input() and seg6_input_core() run in softirq context via lwtunnel_input().
+They do local_bh_disable() around dst_cache_get() and dst_cache_set_ip6(), but
+not around ip6_route_input(). The race window is between ip6_route_input()
+returning and dst_cache_set_ip6().
+ 
+> Sebastian
+
+Ciao,
+Andrea
