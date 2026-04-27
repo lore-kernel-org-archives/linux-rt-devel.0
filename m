@@ -1,86 +1,313 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03573B47F5
-	for <linux-rt-devel@lists.linux.dev>; Mon, 27 Apr 2026 10:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5133125F98B;
+	Mon, 27 Apr 2026 15:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777284865; cv=none; b=ftb3Ds9xE3W9L8Zx8Dh0xxUSK6UH4sQNfKcK/uJVuo+0I1s2VoR9TX+wlJjiME4EmLWRw0fUnR2y2HBSqCv4jfDzmQYgxo8YSpj0/f0tXG3gYLUKZDXfzRu0bXrobIh+zfq4U5WtlyeXp1o0h8V5Gr42dJlpxWS5w2p+inyTmYI=
+	t=1777303794; cv=none; b=IfD4mIZMoqsPzJjILxWxIbHsyOu6A1oNtbRCkDFvBKjJRmIFkIp27dw6h1Ym4qwzlbUM1Yb80WYRShqHOLjJFWBBUAQ7LtHZZB9zIy/KjPj6OS3OpWMQoKfUj04H3CNgoL/WObSaCFtNT9SF4V/hVIJ9Yklcf6Aur/UvRAoUDVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777284865; c=relaxed/simple;
-	bh=NwvNzA77cTupsEIv6dal9H7A7nSRcWczX8S6oci8yxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gom8mxZ/0w4kbCC5xeutU4PlkG7U0wYFjn0YeaJ4eYxjbM3MoV0CWixo93it7P5yx3/oEkbZVTy0MPTGpg3xRrZtxrzeLmeMnD6ass8R5I0wcnCODcmJGFHvTYxgwnd7JJGffzG6jwC+OjVy2+S6SM84ESsqVO6WmjKKFMFh22k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=iYyaOGDh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fo3QIksx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777303794; c=relaxed/simple;
+	bh=2qHTZAAEVoFT0sqVhae3VU4n2S3snDozBk1Ul02dRms=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gnf2YBEeBG4L1ef+lluUTALfrr+REbNYS+T0oszcUW1T73QJ47VGkDjPLf4ph8XX6boQXT9CyFhoAXNj0jttD8rkmy8KSAPil5NcLbiuY+D4meG0fo6ZeF/QXpR/yp7Aimq0khY1Hn1HnKk+NmWlTXM6iBMBQ9wLmCBHYzTNk+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtgCGQTE; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="iYyaOGDh";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fo3QIksx"
-Date: Mon, 27 Apr 2026 12:14:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777284862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NwvNzA77cTupsEIv6dal9H7A7nSRcWczX8S6oci8yxk=;
-	b=iYyaOGDhytUqJvSrIxSK+nkq/ZSyMs2/DpwRlCS0wldcYHIn7O2NrESm62Qe2jamiaGE/w
-	H0KS+3L0Bdf0tTBWc53JFEHN2yZVjLLhn2GAzlZ5m8Y/BvZxG8NBs7AIYmrxtz2SHop5VU
-	VHN/wEzsUGeD4gIzz5vcTfE6q94OWGTC3nnoK6QkStrKJ3tRmftEM+piRSMypzAmOU7/Jc
-	+TMHy0x8TQdjGLz+RCKZ2l/TKBnWb7sSarQTLuYMxNwmAn9VfpWG/+gO57wYRFgxAWY6Xx
-	oia3mHBV3TIHiJ3rfQqbrLEC9d3Cm925+zLjDp4yekxxNvhIYl+9c9GatjrVoA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777284862;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NwvNzA77cTupsEIv6dal9H7A7nSRcWczX8S6oci8yxk=;
-	b=fo3QIksxWzVdamRewmKjdxtyjLbotkLf90WEvnAeL5AaBHDvw2IBCUHnAy5M2zOQgtw4aL
-	NuKtOe7cqy2nJNAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Ostrowski, Rafal" <Rafal.Ostrowski@amd.com>
-Cc: Bert Karwatzki <spasswolf@web.de>,
-	"Varone, Dillon" <Dillon.Varone@amd.com>,
-	"Hung, Alex" <Alex.Hung@amd.com>,
-	"Deucher, Alexander" <Alexander.Deucher@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-next@vger.kernel.org" <linux-next@vger.kernel.org>,
-	"linux-rt-devel@lists.linux.dev" <linux-rt-devel@lists.linux.dev>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>
-Subject: Re: kernel panic when resuming from hibernate in next-20260406 with
- PREEMPT_RT
-Message-ID: <20260427101421.7N9_OOk5@linutronix.de>
-References: <20260409131411.10598-1-spasswolf@web.de>
- <IA1PR12MB6307858BAECC7CC3AE8AA958F8582@IA1PR12MB6307.namprd12.prod.outlook.com>
- <a67b9159f69e8788a598fb459d8e6d99d1776f2f.camel@web.de>
- <IA1PR12MB6307AC51F4C6E4A77BCB5EDDF8582@IA1PR12MB6307.namprd12.prod.outlook.com>
- <IA1PR12MB630789B32C2104D1FAC2B761F8592@IA1PR12MB6307.namprd12.prod.outlook.com>
- <a1c86a3b83e26d86f95068e8005ce4b2efdca23a.camel@web.de>
- <IA1PR12MB630726FFADF30847A8496012F8362@IA1PR12MB6307.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtgCGQTE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777303793; x=1808839793;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2qHTZAAEVoFT0sqVhae3VU4n2S3snDozBk1Ul02dRms=;
+  b=ZtgCGQTEfEqCqo8y25UZy0Re5G5zmEQ+fbn41575ZDT1L/1ntGJZFBKH
+   j6cYN5EuM/TkTJ5MER20/kzg1Y/FV7xSSjroRAMAsRMuKO0ITgbW9Pj14
+   5HIPFgA66xYXs+14j+C75o9KCuVOMbBJbsIwUHE7uc6NtB0+QSdQJfKlV
+   JpkF2eavhnLYbIpQdo5aGGB2A3SQyAxoZNXwXKcn7Jh7SXJdEQsGULwrg
+   /iy1IswWbMnMlXgSu4MDEXYdBiIaBPVE2p1fglg4J4/CF7aL5zVNo7TDy
+   rpgK/JmUbBMrX1o0po9mnCIXwS4ZRp78LEICQbmuG3a06LHIY4z6wRqbD
+   Q==;
+X-CSE-ConnectionGUID: LMupk4deSo+OEAvCdWyiyQ==
+X-CSE-MsgGUID: CuLNyJqjQ/6cZMbsVsBEwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77900621"
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="77900621"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 08:29:53 -0700
+X-CSE-ConnectionGUID: jmP0XnWES9KMqyIpf34WYw==
+X-CSE-MsgGUID: /nzgOp57Sc6cWCZffaP3jg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,202,1770624000"; 
+   d="scan'208";a="232673186"
+Received: from 984fee019967.jf.intel.com ([10.23.153.244])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 08:29:53 -0700
+From: Chao Gao <chao.gao@intel.com>
+To: kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	x86@kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Cc: binbin.wu@linux.intel.com,
+	dave.hansen@linux.intel.com,
+	djbw@kernel.org,
+	ira.weiny@intel.com,
+	kai.huang@intel.com,
+	kas@kernel.org,
+	nik.borisov@suse.com,
+	paulmck@kernel.org,
+	pbonzini@redhat.com,
+	reinette.chatre@intel.com,
+	rick.p.edgecombe@intel.com,
+	sagis@google.com,
+	seanjc@google.com,
+	tony.lindgren@linux.intel.com,
+	vannapurve@google.com,
+	vishal.l.verma@intel.com,
+	yilun.xu@linux.intel.com,
+	xiaoyao.li@intel.com,
+	yan.y.zhao@intel.com,
+	Chao Gao <chao.gao@intel.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v8 00/21] Runtime TDX module update support
+Date: Mon, 27 Apr 2026 08:27:54 -0700
+Message-ID: <20260427152854.101171-1-chao.gao@intel.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <IA1PR12MB630726FFADF30847A8496012F8362@IA1PR12MB6307.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026-04-27 09:23:32 [+0000], Ostrowski, Rafal wrote:
-> Hi Bert,
+Hi Reviewers,
 
-Hi Rafal,
+This v8 mainly addresses issues raised by Rick and collects his Reviewed-by
+tags.
 
-> I am glad to hear that mentioned patch fixed your issue.
-> Small clarification - amdgpu is not designed to support
-> PREEMPT_RT flag, but it was still worth to fix as obvious regression.
+The most notable changes are removing pieces that are not strictly needed
+for the basic runtime update support and tightening several commit messages
+to make them more direct and to the point. In particular, patches 08 and 15
+were substantially rewritten, and commit messages for patches 16 and 17 were
+reworked, so those would benefit from another review. The rest of the
+series has only minor changes. I'm hoping this series can be merged for 7.2.
 
-What does this mean? It is not a flag but a preemption model. It is part
-of the official kernel.
+Changelog:
+v7->v8:
+- rebase onto v7.1-rc1 to resolve conflicts with the merged VMXON series
+- flatten the P-SEAMLDR sysfs ABI by exposing seamldr_version and
+  num_remaining_updates directly under /sys/devices/faux/tdx_host/,
+  and clarify when they are visible
+- don't preemptively handle "PAGE_SIZE != 4KB" case
+- tighten the fw_upload ABI: return FW_UPLOAD_ERR_BUSY for TD-build
+  contention and collapse other update failures to firmware-invalid
+- consolidate tdx_blob validation in a separate function and clarify
+  what is validated by the kernel vs. P-SEAMLDR
+- rework the changelog of aborting updates on any failure; always use
+  READ_ONCE()/WRITE_ONCE() for the shared "failed" flag access
+- rewrite the changelog of handling the race between updates and TD
+  builds; always pass the compat flag to TDH.SYS.SHUTDOWN
+- refresh only the TDX module update_version after a successful update;
+  drop the broader post-update metadata/feature checks
+- explain the kernel's role and responsibilities in TDX module updates
+  in the cover letter
+- collect new review/ack tags
+- minor typo and wording fixes
+- v7: https://lore.kernel.org/kvm/20260331124214.117808-1-chao.gao@intel.com/
 
-> Kind Regards,
-> Rafal Ostrowski
+(For transparency, note that I used AI tools to help proofread this
+cover-letter and commit messages)
 
-Sebastian
+This series adds support for runtime TDX module updates that preserve
+running TDX guests. It is also available at:
+
+  https://github.com/gaochaointel/linux-dev/commits/tdx-module-updates-v8/
+
+== Background ==
+
+Intel TDX isolates Trusted Domains (TDs), or confidential guests, from the
+host. A key component of Intel TDX is the TDX module, which enforces
+security policies to protect the memory and CPU states of TDs from the
+host. However, the TDX module is software that requires updates.
+
+== Problems ==
+
+Currently, the TDX module is loaded by the BIOS at boot time, and the only
+way to update it is through a reboot, which results in significant system
+downtime. Users expect the TDX module to be updatable at runtime without
+disrupting TDX guests.
+
+== Solution ==
+
+On TDX platforms, P-SEAMLDR[1] is a component within the protected SEAM
+range. It is loaded by the BIOS and provides the host with functions to
+install a TDX module at runtime.
+
+This series implements runtime TDX module updates through the fw_upload
+mechanism. That interface is a good fit because TDX module selection is not
+a simple "load a known file from disk" problem. The update image to load
+depends on module versioning, compatibility rules. fw_upload lets userspace
+choose the module explicitly while the kernel provides the update
+mechanism.
+
+This design intentionally keeps most update validation/policy in userspace.
+The kernel exposes the information userspace needs, such as TDX module
+version and P-SEAMLDR information, but userspace is responsible for
+understanding TDX module's versioning and compatibility rules and for
+choosing an appropriate update image (see "TDX module versioning" below).
+
+The kernel still enforces the pieces that must be handled in-kernel:
+
+1. Validate the tdx_blob header fields that are not passed through tothe
+TDX module. Just the standard overflow and reserved bits defensive ABI stuff.
+
+2. Make sure no non-update SEAMCALLs are called during the update.
+
+3. Make sure SEAMCALLs are on the right CPU, for any the user has made
+available to the kernel.
+
+4. Handle the race between updates and concurrent TD builds by
+returning -EBUSY to userspace.
+
+Everything else remains a userspace responsibility.
+
+In the unlikely event the update fails, for example userspace picks an
+incompatible update image, or the image is otherwise corrupted, all TDs
+will experience SEAMCALL failures and be killed. The recovery of TD
+operation from that event requires a reboot.
+
+Given there is no mechanism to quiesce SEAMCALLs, the TDs themselves must
+pause execution over an update. The most straightforward way to meet the
+'pause TDs while update executes' constraint is to run the update in
+stop_machine() context. All other evaluated solutions export more
+complexity to KVM, or exports more fragility to userspace.
+
+== How to test this series ==
+
+Use the userspace tool below to select the appropriate TDX module and
+install it via the interfaces exposed by this series:
+
+ # git clone https://github.com/intel/tdx-module-binaries
+ # cd tdx-module-binaries
+ # python version_select_and_load.py --update
+
+== Other information relevant to Runtime TDX module updates ==
+
+=== TDX module versioning ===
+
+Each TDX module is assigned a version number x.y.z, where x represents the
+"major" version, y the "minor" version, and z the "update" version.
+
+Runtime TDX module updates are restricted to Z-stream releases.
+
+Note that Z-stream releases do not necessarily guarantee compatibility. A
+new release may not be compatible with all previous versions. To address this,
+Intel provides a separate file containing compatibility information, which
+specifies the minimum module version required for a particular update. This
+information is referenced by the tool to determine if two modules are
+compatible.
+
+=== TCB Stability ===
+
+Updates change the TCB as viewed by attestation reports. In TDX there is
+a distinction between launch-time version and current version where
+runtime TDX module updates cause that latter version number to change,
+subject to Z-stream constraints.
+
+The concern that a malicious host may attack confidential VMs by loading
+insecure updates was addressed by Alex in [3]. Similarly, the scenario
+where some "theoretical paranoid tenant" in the cloud wants to audit
+updates and stop trusting the host after updates until audit completion
+was also addressed in [4]. Users not in the cloud control the host machine
+and can manage updates themselves, so they don't have these concerns.
+
+See more about the implications of current TCB version changes in
+attestation as summarized by Dave in [5].
+
+=== TDX module Distribution Model ===
+
+At a high level, Intel publishes all TDX modules on the github [2], along
+with a mapping_file.json which documents the compatibility information
+about each TDX module and a userspace tool to install the TDX module. OS
+vendors can package these modules and distribute them. Administrators
+install the package and use the tool to select the appropriate TDX module
+and install it via the interfaces exposed by this series.
+
+[1]: https://cdrdv2.intel.com/v1/dl/getContent/733584
+[2]: https://github.com/intel/tdx-module-binaries
+[3]: https://lore.kernel.org/all/665c5ae0-4b7c-4852-8995-255adf7b3a2f@amazon.com/
+[4]: https://lore.kernel.org/all/5d1da767-491b-4077-b472-2cc3d73246d6@amazon.com/
+[5]: https://lore.kernel.org/all/94d6047e-3b7c-4bc1-819c-85c16ff85abf@intel.com/
+
+
+Chao Gao (20):
+  coco/tdx-host: Introduce a "tdx_host" device
+  coco/tdx-host: Expose TDX module version
+  x86/virt/seamldr: Introduce a wrapper for P-SEAMLDR SEAMCALLs
+  x86/virt/seamldr: Add a helper to retrieve P-SEAMLDR information
+  coco/tdx-host: Expose P-SEAMLDR information via sysfs
+  coco/tdx-host: Implement firmware upload sysfs ABI for TDX module
+    updates
+  x86/virt/seamldr: Allocate and populate a module update request
+  x86/virt/seamldr: Introduce skeleton for TDX module updates
+  x86/virt/seamldr: Shut down the current TDX module
+  x86/virt/tdx: Reset software states during TDX module shutdown
+  x86/virt/seamldr: Install a new TDX module
+  x86/virt/seamldr: Do TDX per-CPU initialization after module
+    installation
+  x86/virt/tdx: Restore TDX module state
+  x86/virt/tdx: Refresh TDX module version after update
+  x86/virt/tdx: Reject updates during concurrent TD build
+  x86/virt/seamldr: Abort updates on failure
+  coco/tdx-host: Don't expose P-SEAMLDR features on CPUs with erratum
+  x86/virt/tdx: Enable TDX module runtime updates
+  coco/tdx-host: Document TDX module update compatibility criteria
+  x86/virt/tdx: Document TDX module update
+
+Kai Huang (1):
+  x86/virt/tdx: Move low level SEAMCALL helpers out of <asm/tdx.h>
+
+ .../ABI/testing/sysfs-devices-faux-tdx-host   |  67 ++++
+ Documentation/arch/x86/tdx.rst                |  36 ++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/seamldr.h                |  37 ++
+ arch/x86/include/asm/tdx.h                    |  69 ++--
+ arch/x86/include/asm/tdx_global_metadata.h    |   4 +
+ arch/x86/include/asm/vmx.h                    |   1 +
+ arch/x86/kvm/vmx/tdx_errno.h                  |   2 -
+ arch/x86/virt/vmx/tdx/Makefile                |   2 +-
+ arch/x86/virt/vmx/tdx/seamcall_internal.h     | 109 ++++++
+ arch/x86/virt/vmx/tdx/seamldr.c               | 330 ++++++++++++++++++
+ arch/x86/virt/vmx/tdx/tdx.c                   | 157 ++++++---
+ arch/x86/virt/vmx/tdx/tdx.h                   |   9 +-
+ arch/x86/virt/vmx/tdx/tdx_global_metadata.c   |  17 +-
+ drivers/virt/coco/Kconfig                     |   2 +
+ drivers/virt/coco/Makefile                    |   1 +
+ drivers/virt/coco/tdx-host/Kconfig            |  12 +
+ drivers/virt/coco/tdx-host/Makefile           |   1 +
+ drivers/virt/coco/tdx-host/tdx-host.c         | 221 ++++++++++++
+ 19 files changed, 970 insertions(+), 108 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-faux-tdx-host
+ create mode 100644 arch/x86/include/asm/seamldr.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamcall_internal.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamldr.c
+ create mode 100644 drivers/virt/coco/tdx-host/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-host/Makefile
+ create mode 100644 drivers/virt/coco/tdx-host/tdx-host.c
+
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.47.1
+
