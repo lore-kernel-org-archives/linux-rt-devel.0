@@ -1,145 +1,192 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E15237EFE6
-	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 11:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4A43A9D92
+	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 20:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777460631; cv=none; b=Jr1qmR64pqKRrZblTGBGJXUDH11MSQJpzMPXD+W8pQaHa6VUrSOIsss1duk9rQ9wSUCQBGeoD2w3yc4r8gNegpaseNdrFRSzWCANkOpYLd/VdCaMsqGcoYnJeijH27olgEzXoXizBdcA04Ux0x62pJ8qaobvBbM77S8FPvR1xow=
+	t=1777496305; cv=none; b=vE1M9RTPbxd+xvnL75W6weYJUNDNqtJAVZglZ6RvgdU+D6ZFXm/JPYUxglUQ5KlXy9ui4Dp1zW/Sn9vgToPCoFOluVyDUhohi1iiLmWNMRJ6jdNkE/ounPu1HWddXzTuh3V5ska4UIOcXLXDt0ZBN3G8C+sUoo5NzUSLzLMCPc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777460631; c=relaxed/simple;
-	bh=cZm9nR+23JyzHvmYbF8V/WFjTR5KWk6Lw1WGUxgsGiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bz/8GIvjyvQYLVzjM4KY2YRG8AIDTz1DCyJl0JT/ac+b5Muye3NUUjvy7Jedhs1U89sJ7jTaWidvOB78xIABXxSaf+7FLoeA7LgG5gFFVtKLTE7fgqOWcrff6A/aWrxO9xUMCuTCH2LI2Ff7vSlKPKPFH0wk+CxQdRot0uKlQ2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fovEaSBg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=szoRSUeP; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777496305; c=relaxed/simple;
+	bh=H4PfGyMnPiSQn1my4AwccDfLneDKKhcFDfiOgWxT+qg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=afKSNhLjeDCwVF8Wbcz8x8EfcskoPCRFD+f69qBVjfpGZ5DpcqbtbJV9hA0feKnX79sGg5NzwMvVtHfft8/iJVB7HHCY4bqrIQc4KZy1QTqeeeTvZwuXc8EAfdnlO++agekMz3dtGwqe7TFpGocIqu676Xm3VnRV98APg5q6ZB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VwELQeCl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fovEaSBg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="szoRSUeP"
-Date: Wed, 29 Apr 2026 13:03:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777460623;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VwELQeCl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777496303;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/UriPQL6XaAfr9C928OrjNsarnff/ygNYveY3BfmJUU=;
-	b=fovEaSBgw8CLKbrAl+inoruy1DmI0GtoxZZT07CGZS8c6l+X3UuNBxBofjtAEDabweP2/y
-	KjQjdR89BDFFPytegFrnuzVtF8Lxq8SPgiMVikEGlDpqE0g79C2/aW58pVx8vzh7wMr10/
-	8kcsJNOGbnTyujniIES4YF+YyxPCHHib/01nYXrSPaD4HEWuR5kCAPvuYFI/dsi4PWuMTr
-	mUup+Y+N1YrK/biA199fVQy61WYVwQAjzjvZMGnz5zYH0tZ1VYl2/uoB32IpXsPiciPeh4
-	fVt+P/Xx76wUH7EPvMu9nXUSbiziF3yKLISFb+b8PhukfTiw7ghvuNrUsJF59w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777460623;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/UriPQL6XaAfr9C928OrjNsarnff/ygNYveY3BfmJUU=;
-	b=szoRSUeP3wad7j4LOuG6BB4KMNAoF9FUlCkFLnljETLfmh8pQbGxYTXkWzSXvmiUNdqLQW
-	uEm+jE0JqhPLOtCQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andrea Mayer <andrea.mayer@uniroma2.it>
-Cc: davem@davemloft.net, dsahern@kernel.org, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	clrkwllms@kernel.org, rostedt@goodmis.org,
-	david.lebrun@uclouvain.be, alex.aring@gmail.com,
-	Justin Iurman <justin.iurman@gmail.com>,
-	stefano.salsano@uniroma2.it, netdev@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH net] net: ipv6: fix NOREF dst use in seg6 and rpl
- lwtunnels
-Message-ID: <20260429110341.ipXGaamM@linutronix.de>
-References: <20260421094735.20997-1-andrea.mayer@uniroma2.it>
- <20260423080056.KgHlh9Oa@linutronix.de>
- <20260425160856.8cebade5eae1dcaec7af8bfe@uniroma2.it>
+	bh=y1NyF1QURy3vdICAxiB0jl9JGp6DuWbQaRj+rdabH/M=;
+	b=VwELQeClfzSWB9Q623xKqWRnflhnnh1xzWO3Htg8xwEz4zbg60GMFSc3bRp+B2dvhUGDNR
+	SkU0ClDHYRq6HiuYXpeKPLnqitBK5lcfh3fEPfYM+89Y7iO5fG0G8ZDI6ZML7PCtSh9/zF
+	PXNNEn+L8oAFLCpQ8QOxZwH7X9IVYDU=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-686-rBBwcJqwPxeaG3FBplukoA-1; Wed,
+ 29 Apr 2026 16:58:18 -0400
+X-MC-Unique: rBBwcJqwPxeaG3FBplukoA-1
+X-Mimecast-MFC-AGG-ID: rBBwcJqwPxeaG3FBplukoA_1777496295
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D94C118002C0;
+	Wed, 29 Apr 2026 20:58:13 +0000 (UTC)
+Received: from [10.22.65.94] (unknown [10.22.65.94])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B3F75300019F;
+	Wed, 29 Apr 2026 20:58:10 +0000 (UTC)
+Message-ID: <68ba05da-7052-406a-9ddd-b324a349ca80@redhat.com>
+Date: Wed, 29 Apr 2026 16:58:09 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260425160856.8cebade5eae1dcaec7af8bfe@uniroma2.it>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/memcontrol: Avoid stuck FLUSHING_CACHED_CHARGE on
+ isolated CPU
+To: Hui Zhu <hui.zhu@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Frederic Weisbecker <frederic@kernel.org>, cgroups@vger.kernel.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: Hui Zhu <zhuhui@kylinos.cn>
+References: <20260429022723.133833-1-hui.zhu@linux.dev>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260429022723.133833-1-hui.zhu@linux.dev>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Mimecast-MFC-PROC-ID: ouRojLS1bBFLuLbfvqM1irCrMwxXF7zr7l-y7bXgukk_1777496295
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2026-04-25 16:08:56 [+0200], Andrea Mayer wrote:
-> On Thu, 23 Apr 2026 10:00:56 +0200
-> Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
-> 
-> Hi Sebastian,
+On 4/28/26 10:27 PM, Hui Zhu wrote:
+> From: Hui Zhu <zhuhui@kylinos.cn>
+>
+> drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
+> schedule_drain_work() to queue per-CPU drain work.  When the target
+> CPU is isolated (cpu_is_isolated() == true), the work is silently
+> not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
+> drain_all_stock() then sees the bit and skips this stock entirely,
+> so the entry is effectively pinned until something else on that CPU
+> runs drain_local_*_stock() and clears the bit -- which on a long-
+> isolated CPU may never happen.
+>
+> The original idea was to actually perform the drain from the calling
+> CPU on behalf of the isolated one, by adding a lock around the
+> per-CPU stock so that a remote drainer could safely touch it.  In
+> practice this turned out to be intrusive: the stock data structures
+> and their fast paths (consume_stock(), refill_stock(), the obj_stock
+> helpers) are deliberately designed around current-CPU-only access,
+> and retrofitting cross-CPU serialisation onto them adds non-trivial
+> locking and PREEMPT_RT concerns for very little gain.
+>
+> Looking at the actual amount of charge that can accumulate in a
+> single per-CPU stock, it is bounded and small, so leaving an
+> isolated CPU's stock undrained for a while is not a real problem.
+> The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
+> prevents future drain_all_stock() callers from re-attempting once
+> the CPU is no longer isolated.
+>
+> Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
+> could not be queued because the target CPU is isolated.  The cached
+> charge itself is left in place; it will be released the next time
+> the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
+> or if the isolated CPU itself calls drain_all_stock() -- in that
+> case cpu == curcpu causes drain_local_memcg_stock() to be invoked
+> directly), and the next drain_all_stock() call is free to retry
+> instead of skipping the stock forever.
+>
+> Fixes: 2d05068610a3 ("memcg: Prepare to protect against concurrent isolated cpuset change")
 
-Hi Andrea,
+I don't think this is the right commit to blame as it didn't really 
+change the logic other than adding RCU locking. I think commit 
+6a792697a53a ("memcg: do not drain charge pcp caches on remote isolated 
+cpus") is the right one as this is the commit that adds the 
+cpu_is_isolated() check first.
 
-> > Doesn't this make ip6_route_input() on RT fragile in general due to the
-> > RT6_LOOKUP_F_DST_NOREF usage or here something special about the two
-> > files that are patched?
-> > Based on your explanation it all makes sense, I am just not sure if this
-> > race is limited to those two are if there is more to it.
-> 
-> seg6_input_core() and rpl_input() cache the dst via dst_cache_set_ip6(), which
-> invokes dst_hold(). The dst_hold() calls rcuref_get(), failing on a zero
-> refcount and triggering a WARN, but the pointer is still stored in the cache.
-> After the RCU grace period completes the dst is freed, and a subsequent
-> dst_cache_get() returns a dangling pointer.
->  
-> The other callers of ip6_route_input() (e.g., ipv6_srh_rcv, ipv6_rpl_srh_rcv,
-> ip6_rcv_finish_core) consume the NOREF dst without caching it. Even if the
-> pcpu_rt's refcount is concurrently dropped to zero, the dst memory remains
-> valid because dst_release() defers the actual free via call_rcu_hurry() and the
-> caller is still inside the RCU read-side critical section.
+Other than that, the patch looks good to me as the list of isolated CPUs 
+is runtime changeable.
 
-Ah, okay. Thank you for clearing that up.
+Cheers,
+Longman
 
-> > > [snip]
-> > >
-> > > Fixes: af4a2209b134 ("ipv6: sr: use dst_cache in seg6_input")
-> > > Fixes: a7a29f9c361f ("net: ipv6: add rpl sr tunnel")
-> > 
-> > If having PREEMPT_RT_NEEDS_BH_LOCK unset is the requirement then the
-> > right fixes: would be
-> > Fixes: 3253cb49cbad4 ("softirq: Allow to drop the softirq-BKL lock on PREEMPT_RT")
-> > 
-> > as prior this commit the race is not possible, right?
-> 
-> I built and tested kernels at 3253cb49cbad and its parent fd4e876f59b7 (both
-> CONFIG_PREEMPT_RT=y, without the fix): no issues at fd4e876f59b7.
-> At 3253cb49cbad, a pcpu_rt cmpxchg contention in rt6_make_pcpu_route() shows
-> up, which was addressed in 1adaea51c61b. I also tested at 1adaea51c61b, and at
-> that point the dst_hold() race described in this patch appears.
->  
-> The seg6/rpl code obtains a NOREF dst from ip6_route_input(), does not promote
-> it via skb_dst_force(), and passes it to dst_cache_set_ip6() which calls
-> dst_hold(). This pattern has been present since af4a2209b134 and a7a29f9c361f,
-> and the current Fixes: tags point to the commits where it was introduced.
-> Does that seem reasonable?
+> Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
+> ---
+>   mm/memcontrol.c | 28 ++++++++++++++++++++++------
+>   1 file changed, 22 insertions(+), 6 deletions(-)
+>
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index c3d98ab41f1f..cee77b0a95f5 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -2219,7 +2219,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
+>   	return flush;
+>   }
+>   
+> -static void schedule_drain_work(int cpu, struct work_struct *work)
+> +static void
+> +schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
+>   {
+>   	/*
+>   	 * Protect housekeeping cpumask read and work enqueue together
+> @@ -2227,9 +2228,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
+>   	 * partition update only need to wait for an RCU GP and flush the
+>   	 * pending work on newly isolated CPUs.
+>   	 */
+> -	guard(rcu)();
+> -	if (!cpu_is_isolated(cpu))
+> -		queue_work_on(cpu, memcg_wq, work);
+> +	scoped_guard(rcu) {
+> +		if (!cpu_is_isolated(cpu)) {
+> +			queue_work_on(cpu, memcg_wq, work);
+> +			return;
+> +		}
+> +	}
+> +
+> +	/*
+> +	 * The target CPU is isolated: the drain work was not queued.
+> +	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
+> +	 * callers can re-attempt instead of skipping this stock forever.
+> +	 * The cached charge is left in place; it will be released the
+> +	 * next time the CPU itself runs drain_local_*_stock() (e.g.
+> +	 * after leaving isolation), or by a follow-up mechanism.
+> +	 */
+> +	clear_bit(FLUSHING_CACHED_CHARGE, flags);
+>   }
+>   
+>   /*
+> @@ -2262,7 +2276,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+>   			if (cpu == curcpu)
+>   				drain_local_memcg_stock(&memcg_st->work);
+>   			else
+> -				schedule_drain_work(cpu, &memcg_st->work);
+> +				schedule_drain_work(cpu, &memcg_st->work,
+> +						    &memcg_st->flags);
+>   		}
+>   
+>   		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
+> @@ -2272,7 +2287,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+>   			if (cpu == curcpu)
+>   				drain_local_obj_stock(&obj_st->work);
+>   			else
+> -				schedule_drain_work(cpu, &obj_st->work);
+> +				schedule_drain_work(cpu, &obj_st->work,
+> +						    &obj_st->flags);
+>   		}
+>   	}
+>   	migrate_enable();
 
-Yes. So based on that the regression was introduced in 3253cb49cbad.
-Before that, the lock guarded everything. That means also that
-rpl_input() and seg6_input_core() is invoked a BH disabled section which
-is what makes it for !RT work.
-
-> > Does this mean that rpl_input() does a local_bh_disable() while
-> > obtaining the dst but it never runs outside of bh-disabled section?
-> > Because if it can run in preemptible context then it would not be to
-> > PREEMPT_RT at which point the Fixes: tags from above would make sense
-> > again.
-> > 
-> 
-> rpl_input() and seg6_input_core() run in softirq context via lwtunnel_input().
-> They do local_bh_disable() around dst_cache_get() and dst_cache_set_ip6(), but
-> not around ip6_route_input(). The race window is between ip6_route_input()
-> returning and dst_cache_set_ip6().
-
-My point was that the Fixes: tag could be updated to 3253cb49cbad
-instead. Since everything runs in softirq context, the
-local_bh_disable() within that functions is not needed. Otherwise, if
-this would not be invoked softirq then preemption would also be possible
-on !RT.
-Anyway, now it has been merged.
-
-> 
-> Ciao,
-> Andrea
-
-Sebastian
