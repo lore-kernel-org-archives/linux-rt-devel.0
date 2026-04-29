@@ -1,321 +1,160 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011065.outbound.protection.outlook.com [40.107.130.65])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F97E324B1E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 28 Apr 2026 16:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393630; cv=fail; b=eG0LTemhIpI6ngPVcKifmh0mT6OpgQS0qMCSuCZqmlFPkAgLcTyAt4YndWbLGDJxecN8PgopecZKtpHPGCMkCKklAhhDcY8wB21gsYoQ5I+JRI9nkFXzQ7aN4uESZx2yqfJXV/Bedzq8FsL+SNfIEepoJHbCcyvuRcwFC83h1IE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777393630; c=relaxed/simple;
-	bh=czkuRTCbXbBTjUssA7PNwnP3nQDZCmLwMQETFvf6abQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WEEbAAFl8cQ2O9wpNHkpw1nun6oFceG6LHXmRlaLSlcbAGkteiFZl91PMTuk0l0/BM5juOmYsTfeab5uCCv8y6OjrqdXj2OW2ilQ1neLx8BOfmc02gN0Duk6fvpsSqaM99qoSCbvtXinJznMA0xl22BroYV6pLo3q4yQ5HrO5T0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech; spf=pass smtp.mailfrom=est.tech; dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b=HC5SaI20; arc=fail smtp.client-ip=40.107.130.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=est.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=est.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B74388E45
+	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 02:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777429701; cv=none; b=LaSR+eKbOk6gVYckoe9tAdL0GsyfnJAMspacYCcxC4h7Bji0oL0+88u+JyTsnOU+wcpG8pLW9RgtL0aJN31TYQwUN6kto14VZcUESggknj7HJ3a8JO7OPrM+/IGNh4/ZXI6RvTyXoj/kKmL1fDhoxOxeHICUJV3+WuxeBAfaD1E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777429701; c=relaxed/simple;
+	bh=2os00x0eajezWPWD+cCpUn2HJesWTlY9uwP/L+NmrU8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GLYx7J2V+16Yg8+T4gmMhjEAZbKEui4SE4/CyynfNuPnOF7PxQchSHXcId/ehfoGYcwIXMAMoaj6aSFDjUmZAjnr5CZ/5S9UniAPQCo7tZKhZOL0EL5xxEzRnkdeP/DTA8pjIrtsVo3BdyIqfHAy0sI42KUo/4TlWdS9WrVMajg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DZONtexw; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=est.tech header.i=@est.tech header.b="HC5SaI20"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UxYMXwWTW4zb1QsFuyoQrTHJnsUhHxVP7BD4tjOnv4tB64w9Kg2A5EdQhQ2D91tbAYfR1GdsTTUGIUg8eoeEx5/SzNygCwJEAA3hyiYIcTQtz93YuBHYj5BBjD4LrI69o9vNnSqkM0TWzLYVsUSFGMOauvRxzc/fS4IzhIEx7gW7c+kfVV2PMQuHc6H/Dtl1fknoERVGjhB5YN0U+ms39XAUGejZtWlcr+QbR1ZhptX5TtKGc3h8Uw1W33bQs/X92mfaJIpWv7crTRVk71EhVxsLx3WwHsghob8UviMKnwJgGRVYDwufdNpivS/o2Fh/OmE/OWZvhvHIoNxTx5H2Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+Ww3rMVFVCESbkNYlfhduIl3KcVpeXojhIB9Dy7bdGg=;
- b=eN0mvJGkfT+d4yp3ze5S10aVDX1QhKF83hT7YsWcNmte3XuImRH0XEkCJ1Gb4cPxHG8k2AiREVXBWC3KeXR1Cbwhs8NI9wOdVXgVT4+/Xkh/nJKoerUvsMnvBshJxmJL/c7d4LPKYm8hzmLHIKEnKjJwc/6Y6TqbvOddzq27hi+9zoh+T6mfMctSvKgK44rXQE8MHrdoWRrBmKH13CosxiIfCaEHSSeusQsBiVdrZoc50j0ZwPbeEBXsoFDcJrzi26lKSESoF8kVDJt8tGmfqk/mY4EQSILZqButGkN+ar2SsK7+3qodOJaQnf9cigBQ3l6xs4OSUo/G4RrLzfDtCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+Ww3rMVFVCESbkNYlfhduIl3KcVpeXojhIB9Dy7bdGg=;
- b=HC5SaI201ITeqNkG6K00qF3Q2S52XtVIN4kKsLWLu1mnMGNf/O+Xhi8AHsNBuJyCEgf6yj6PPCq5uuAgZ+7b2YX75S6BuTbesQDcWx4rALEybQeBjFIDu+GpW6JVtTe+HHCCRI5L1XjJarihsRcbW69BwTmZuPPG0mqKmgxqVpg43eEGWkOdGzzdEacvcVQlToRi3WQlMdAfpK2LO9Du7DWicmvwVjMoGnN9FqDrB2odBy9gS8M1dPrbXDFApXMATesWjKHfrbmXE1bYiaDD6/F9wnMfomuMWCwRxQGXgHMzuF43LIIe2SaQcQlA6xcCJ1S7zBwnymjMSSZF94TuhA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:39b::19)
- by DU7PPF6FE197BF0.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 16:27:03 +0000
-Received: from AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4]) by AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- ([fe80::69fc:c4d4:200b:e4b4%7]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 16:27:03 +0000
-From: Yunseong Kim <yunseong.kim@est.tech>
-To: bagasdotme@gmail.com
-Cc: 2407018371@qq.com,
-	Dai.Ngo@oracle.com,
-	Liam.Howlett@oracle.com,
-	a.hindborg@kernel.org,
-	ada.coupriediaz@arm.com,
-	adilger.kernel@dilger.ca,
-	akpm@linux-foundation.org,
-	alex.gaynor@gmail.com,
-	alexander.shishkin@linux.intel.com,
-	aliceryhl@google.com,
-	amir73il@gmail.com,
-	andi.shyti@kernel.org,
-	andrii@kernel.org,
-	anna@kernel.org,
-	arnd@arndb.de,
-	ast@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	bigeasy@linutronix.de,
-	bjorn3_gh@protonmail.com,
-	boqun.feng@gmail.com,
-	bp@alien8.de,
-	brauner@kernel.org,
-	broonie@kernel.org,
-	bsegall@google.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	chenhuacai@kernel.org,
-	chris.p.wilson@intel.com,
-	christian.koenig@amd.com,
-	chuck.lever@oracle.com,
-	cl@linux.com,
-	clrkwllms@kernel.org,
-	corbet@lwn.net,
-	da.gomez@kernel.org,
-	dakr@kernel.org,
-	damien.lemoal@opensource.wdc.com,
-	dan.j.williams@intel.com,
-	daniel.vetter@ffwll.ch,
-	dave.hansen@intel.com,
-	david@fromorbit.com,
-	dennis@kernel.org,
-	dietmar.eggemann@arm.com,
-	djwong@kernel.org,
-	dri-devel@lists.freedesktop.org,
-	duyuyang@gmail.com,
-	dwmw@amazon.co.uk,
-	francesco@valla.it,
-	frederic@kernel.org,
-	gary@garyguo.net,
-	geert+renesas@glider.be,
-	geert@linux-m68k.org,
-	gregkh@linuxfoundation.org,
-	guoweikang.kernel@gmail.com,
-	gustavo@padovan.org,
-	gwan-gyeong.mun@intel.com,
-	hamohammed.sa@gmail.com,
-	hannes@cmpxchg.org,
-	harry.yoo@oracle.com,
-	hch@infradead.org,
-	her0gyugyu@gmail.com,
-	hpa@zytor.com,
-	jack@suse.cz,
-	jglisse@redhat.com,
-	jiangshanlai@gmail.com,
-	jlayton@kernel.org,
-	joel.granados@kernel.org,
-	joel@joelfernandes.org,
-	joelagnelf@nvidia.com,
-	johannes.berg@intel.com,
-	josef@toxicpanda.com,
-	josh@joshtriplett.org,
-	jpoimboe@kernel.org,
-	juri.lelli@redhat.com,
-	kees@kernel.org,
-	kernel-team@lge.com,
-	kernel_team@skhynix.com,
-	kevin.brodsky@arm.com,
-	kristina.martsenko@arm.com,
-	lillian@star-ark.net,
-	linaro-mm-sig@lists.linaro.org,
-	link@vivo.com,
-	linux-arch@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DZONtexw"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777429697;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=si4pob8Nbwk0h2k/iX2PC+8vOE1XCT4dxsoLSEJ3Y8M=;
+	b=DZONtexwMlI2LaWNMKw6eoGZkZFSghxVyjxai8XC9nPgC8Zb9wKsho0YvNiZM7nISvEL/l
+	hQCJ0tstYaNkPFZcCD+aiycEKmt4GlfMswZCFfPAfVDZ923b/sVZixTss6FbzgAjyzpwIG
+	NDzg4Cy8jOtvKQR08EOaCF9/45jRn6A=
+From: Hui Zhu <hui.zhu@linux.dev>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	cgroups@vger.kernel.org,
 	linux-mm@kvack.org,
-	linux-modules@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux@treblig.org,
-	longman@redhat.com,
-	lorenzo.stoakes@oracle.com,
-	lossin@kernel.org,
-	luto@kernel.org,
-	mark.rutland@arm.com,
-	masahiroy@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	max.byungchul.park@gmail.com,
-	mcgrof@kernel.org,
-	melissa.srw@gmail.com,
-	mgorman@suse.de,
-	mhocko@kernel.org,
-	miguel.ojeda.sandonis@gmail.com,
-	minchan@kernel.org,
-	mingo@redhat.com,
-	mjguzik@gmail.com,
-	neeraj.upadhyay@kernel.org,
-	neil@brown.name,
-	neilb@ownmail.net,
-	netdev@vger.kernel.org,
-	ngupta@vflare.org,
-	ojeda@kernel.org,
-	okorniev@redhat.com,
-	oleg@redhat.com,
-	paulmck@kernel.org,
-	penberg@kernel.org,
-	peterz@infradead.org,
-	petr.pavlu@suse.com,
-	qiang.zhang@linux.dev,
-	rcu@vger.kernel.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rodrigosiqueiramelo@gmail.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	samitolvanen@google.com,
-	sashal@kernel.org,
-	shakeel.butt@linux.dev,
-	sj@kernel.org,
-	sumit.semwal@linaro.org,
-	surenb@google.com,
-	tglx@linutronix.de,
-	thomas.weissschuh@linutronix.de,
-	tim.c.chen@linux.intel.com,
-	tj@kernel.org,
-	tmgross@umich.edu,
-	tom@talpey.com,
-	torvalds@linux-foundation.org,
-	trondmy@kernel.org,
-	tytso@mit.edu,
-	urezki@gmail.com,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vdavydov.dev@gmail.com,
-	vincent.guittot@linaro.org,
-	vschneid@redhat.com,
-	wangfushuai@baidu.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	wsa+renesas@sang-engineering.com,
-	x86@kernel.org,
-	yeoreum.yun@arm.com,
-	ysk@kzalloc.com,
-	yunseong.kim@ericsson.com,
-	yuzhao@google.com,
-	ziy@nvidia.com,
-	Yunseong Kim <yunseong.kim@est.tech>
-Subject: [PATCH] dept: update documentation function names to match implementation
-Date: Tue, 28 Apr 2026 18:26:15 +0200
-Message-ID: <20260428162614.786365-2-yunseong.kim@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aTN38kJjBftxnjm9@archie.me>
-References: <aTN38kJjBftxnjm9@archie.me>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0057.eurprd04.prod.outlook.com
- (2603:10a6:10:234::32) To AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:39b::19)
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Hui Zhu <zhuhui@kylinos.cn>
+Subject: [PATCH] mm/memcontrol: Avoid stuck FLUSHING_CACHED_CHARGE on isolated CPU
+Date: Wed, 29 Apr 2026 10:27:22 +0800
+Message-ID: <20260429022723.133833-1-hui.zhu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1752:EE_|DU7PPF6FE197BF0:EE_
-X-MS-Office365-Filtering-Correlation-Id: 24ef4166-f10b-4680-89f8-08dea542fb08
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	ZrBrcEqsBxWaUtIkXBuaZbiJkK9T5hpQaWEJenFKgDIBh6LrXwWxkyLRJH1vf4sr5zaPWTzey3hnne3VTwhRcxxajiKakAhXivYPo2g4XlUdNm7fGZXcF78ZP34FvcYEqv9CYMVn6pIhJ+gXPPL69jFIxnu8Tld32UK8Gxd71d8EcxG1rBvCLk/45b55qUy4OJygtEZ/t477YXSPOTsvzdQ8z/ANM8X01HY9GGWvjzYMWHLdKv+a34GtB6DE67wWNazWVD2pv0OLmgXR60cqQId/p7xGpeNMcWhL3BYwrLVrgJ+V+f/35BwSUeN6Q6z7NZgIWuBFU79mhlK13giRF2ot65ymf4NtY6IRHobog38B6tXLRPtuJoY520bmhHuPbwV84dxn5Hts0Ho3xepGc650awz9Oe+vK//oKqYgcKSsrbSb8okgfww9Qk4Jo3V2cgq2OiaG8pbFTvkWqzJTsYO71pq3FQqLRmFKH8/0ShJqW1UZJYVw0pqslhPHCuKwUx+UmU0Mk7tCrKh6h7wIvV1GjMiTlt1d/3SE6p97PaxuaEgI9apsXW8h85aaCGcyXi6E1tHAiAZaRZt44JB9QmNJBB4WEaZcf5p0ig0+7iz+o/o2soO4COJM9yAQTk+F2rGoqMlyt2G4iFSaGNGAfkPDcWqrZFyh8V/ld2hO9WAZd0T2C0etisEzEiiSFYtx368RxXq08NgemHMnrEpRZcTZ3zWe0GjGaDHUkt8wo8Q=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1752.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?91lmgw6PEF3mTxhj5DqxcL15nmLUTHzQFIuHDYIUWoBFqaq+zm8el+evrjdn?=
- =?us-ascii?Q?28UDQtpT9yMQl/4XvNpKrehMmjAJv9Sv06+FzCWMe3UH/3RLjmX72RZB0vhT?=
- =?us-ascii?Q?uk4lmif8aByQ3rDvrf9NInOdoEqEHnYtAyhwkYwyI1Nx+1TJrPqhDnxuVRpk?=
- =?us-ascii?Q?ZSeu1m2jm0XUDXHoSe+YitRU9kLjswco1ZtUcQwKLR3RCq5AXJy6IL90BVkK?=
- =?us-ascii?Q?bvRrGITo8It7tx06lZpCQanDaFJ15Px/eQ/7MS7lh98Vs1F5fif17yAr/6eO?=
- =?us-ascii?Q?mxKZjPZVl2Hy6xLJCNxxKJ914rtvTUARnDXbnOBcUyfXwdT4lWw9pNuQlH2B?=
- =?us-ascii?Q?Co6c5czkVD2bG6l1OVDFTHjzroTXMRCoOPDjTvSIJkTpL6QKgC8JEB96BQwG?=
- =?us-ascii?Q?a4FfmfSsicuXtzk11YYEKedZnuxf8vRNhXBUPY2tttFDv8/07HGLxXI4RQMk?=
- =?us-ascii?Q?7DwXCtza1Rx07hRCucCpJrN5UPwnNoCRUrrM51ilSH/h5QNQ40nXo5R98Ndj?=
- =?us-ascii?Q?0C2p8wQr0crqrXiZ1O4ycyAJ5d2ztkOseAHyB2+UMUr/mhL2GEem1Jh79U7v?=
- =?us-ascii?Q?4wxUz+3HBJspZBgccLAg2b+hkv54Q6hiXrfGcfr/PgdxHxKsKLY9dUULN2mN?=
- =?us-ascii?Q?9Wrx7oSuyqrA17QZ8JlJ9qZC6BnK+mJZDv+uvE4+Z/Fy/w3NFfvA6mUIDRmb?=
- =?us-ascii?Q?xreACR6m0rirPMF03dVrreoM+EWueapkk7x2GNLywR5mqikiRaCA7v+xNPmW?=
- =?us-ascii?Q?lEeDpHNh3IQaP3en7zooZnBg0JRQfvSo7WteU32/b9v7fDqiID2Dk2Qbvmcb?=
- =?us-ascii?Q?qgpwU8QBW0lsiyDdB5RQjETR0tfOxSSKBHQhaikCScpcTfmT7AassI9mo8df?=
- =?us-ascii?Q?6r7z4Cy00m3cD3KfzL54WaRsD/jLUr5IwRgE5bPCfBXWQ+DSWSLwFb1If6Q4?=
- =?us-ascii?Q?+XW8twg73C4YKlaE59jX6i60Kc0ECEknZwJefqO8n1xryCKMF+jguOgm3a/p?=
- =?us-ascii?Q?HCzF7Has/7RJW2j06k4oiZhcknZ51J9YGm44jBtvV58AXifV27DtookFdCSw?=
- =?us-ascii?Q?b7AI7xBNgosz47FWC8tHwMPw2zUdTJchuIG6I8XC3WQswZh73akCdp1RY9CL?=
- =?us-ascii?Q?EyxfXpSSWBMTwwkRI1OjYVsxzK14cZ69mWQ7tDZCsu/UTF2dDWyXjwqMqIRY?=
- =?us-ascii?Q?AZAY4BSPVq+Jf/DqjUU6V2u4AYVkwo6HteAXHdgIL+OdXvmCCW/sqlHV93nC?=
- =?us-ascii?Q?Lft+jRNp8ER49Q1ol0SuwJZBrndRZ0mDcqvJYzkhIe/BIVMk+XevvBmuKXbM?=
- =?us-ascii?Q?rjh7SjXVQ4LzcyjloG7PWe9ChgjpZKWY7E2SrQ3iLAhQJE26f3EV/RRJpwD1?=
- =?us-ascii?Q?zje3l86FJW4KOKGNQ7lRjeQX/W9BV6da016hiAyvi/wBTQR7JORi8MeiMxIX?=
- =?us-ascii?Q?KgF+v11h/9wcFra4DuO0IUGJlO9BbTTAcHM+I5Rngoc6pSiljdD1CZc3Fy3j?=
- =?us-ascii?Q?K+2dJGvfIannhR/K1qnUOVwuqSX7oi8Gzt1KJFBjSQqGzt5c0mdcv0C7jLqX?=
- =?us-ascii?Q?xtm5znIZ13MienE9ICAHRhO87N1G2tvs22yrzi8rEXjgo8EEBu8Hl3HS4hbh?=
- =?us-ascii?Q?SVhWyWfgQfd8jaHowzNwmhBhzAZB2c0CfbxxY+qYh/fDLryznsybdO7P3fSy?=
- =?us-ascii?Q?m6hyBEaNJXry1TVAjUZmvRaBunN96OEkbL9EJelsHAOHz0ZuLGc+lH89G5y+?=
- =?us-ascii?Q?+okl/obTCA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24ef4166-f10b-4680-89f8-08dea542fb08
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1752.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 16:27:03.2904
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kt3ldRAB6jTICdoR8HAa2yj+Tdv/0cT0k0yKTjliKpO5aSo52R1DNrgIjXb36qyHw7G7gL8UZwLChVuUFUNobw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU7PPF6FE197BF0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Synchronize function names in the documentation with the actual
-implementation to fix naming inconsistencies.
+From: Hui Zhu <zhuhui@kylinos.cn>
 
-Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
+drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
+schedule_drain_work() to queue per-CPU drain work.  When the target
+CPU is isolated (cpu_is_isolated() == true), the work is silently
+not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
+drain_all_stock() then sees the bit and skips this stock entirely,
+so the entry is effectively pinned until something else on that CPU
+runs drain_local_*_stock() and clears the bit -- which on a long-
+isolated CPU may never happen.
+
+The original idea was to actually perform the drain from the calling
+CPU on behalf of the isolated one, by adding a lock around the
+per-CPU stock so that a remote drainer could safely touch it.  In
+practice this turned out to be intrusive: the stock data structures
+and their fast paths (consume_stock(), refill_stock(), the obj_stock
+helpers) are deliberately designed around current-CPU-only access,
+and retrofitting cross-CPU serialisation onto them adds non-trivial
+locking and PREEMPT_RT concerns for very little gain.
+
+Looking at the actual amount of charge that can accumulate in a
+single per-CPU stock, it is bounded and small, so leaving an
+isolated CPU's stock undrained for a while is not a real problem.
+The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
+prevents future drain_all_stock() callers from re-attempting once
+the CPU is no longer isolated.
+
+Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
+could not be queued because the target CPU is isolated.  The cached
+charge itself is left in place; it will be released the next time
+the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
+or if the isolated CPU itself calls drain_all_stock() -- in that
+case cpu == curcpu causes drain_local_memcg_stock() to be invoked
+directly), and the next drain_all_stock() call is free to retry
+instead of skipping the stock forever.
+
+Fixes: 2d05068610a3 ("memcg: Prepare to protect against concurrent isolated cpuset change")
+Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
 ---
- Documentation/dev-tools/dept.rst     | 2 +-
- Documentation/dev-tools/dept_api.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ mm/memcontrol.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/dev-tools/dept.rst b/Documentation/dev-tools/dept.rst
-index 333166464543..31b2fe629fab 100644
---- a/Documentation/dev-tools/dept.rst
-+++ b/Documentation/dev-tools/dept.rst
-@@ -97,7 +97,7 @@ No.  What about the following?
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c3d98ab41f1f..cee77b0a95f5 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -2219,7 +2219,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
+ 	return flush;
+ }
  
- 			   mutex_lock A
-    mutex_lock A <- DEADLOCK
--			   wait_for_complete B <- DEADLOCK
-+			   wait_for_completion B <- DEADLOCK
-    complete B
- 			   mutex_unlock A
-    mutex_unlock A
-diff --git a/Documentation/dev-tools/dept_api.rst b/Documentation/dev-tools/dept_api.rst
-index 409116a62849..74e7b1424ad5 100644
---- a/Documentation/dev-tools/dept_api.rst
-+++ b/Documentation/dev-tools/dept_api.rst
-@@ -113,7 +113,7 @@ Do not use these APIs directly.  The raw APIs of dept are:
-    dept_stage_wait(map, key, ip, wait_func, time);
-    dept_request_event_wait_commit();
-    dept_clean_stage();
--   dept_stage_event(task, ip);
-+   dept_ttwu_stage_wait(task, ip);
-    dept_ecxt_enter(map, evt_flags, ip, ecxt_func, evt_func, sub_local);
-    dept_ecxt_holding(map, evt_flags);
-    dept_request_event(map, ext_wgen);
+-static void schedule_drain_work(int cpu, struct work_struct *work)
++static void
++schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
+ {
+ 	/*
+ 	 * Protect housekeeping cpumask read and work enqueue together
+@@ -2227,9 +2228,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
+ 	 * partition update only need to wait for an RCU GP and flush the
+ 	 * pending work on newly isolated CPUs.
+ 	 */
+-	guard(rcu)();
+-	if (!cpu_is_isolated(cpu))
+-		queue_work_on(cpu, memcg_wq, work);
++	scoped_guard(rcu) {
++		if (!cpu_is_isolated(cpu)) {
++			queue_work_on(cpu, memcg_wq, work);
++			return;
++		}
++	}
++
++	/*
++	 * The target CPU is isolated: the drain work was not queued.
++	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
++	 * callers can re-attempt instead of skipping this stock forever.
++	 * The cached charge is left in place; it will be released the
++	 * next time the CPU itself runs drain_local_*_stock() (e.g.
++	 * after leaving isolation), or by a follow-up mechanism.
++	 */
++	clear_bit(FLUSHING_CACHED_CHARGE, flags);
+ }
+ 
+ /*
+@@ -2262,7 +2276,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+ 			if (cpu == curcpu)
+ 				drain_local_memcg_stock(&memcg_st->work);
+ 			else
+-				schedule_drain_work(cpu, &memcg_st->work);
++				schedule_drain_work(cpu, &memcg_st->work,
++						    &memcg_st->flags);
+ 		}
+ 
+ 		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
+@@ -2272,7 +2287,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+ 			if (cpu == curcpu)
+ 				drain_local_obj_stock(&obj_st->work);
+ 			else
+-				schedule_drain_work(cpu, &obj_st->work);
++				schedule_drain_work(cpu, &obj_st->work,
++						    &obj_st->flags);
+ 		}
+ 	}
+ 	migrate_enable();
 -- 
-2.53.0
+2.43.0
 
