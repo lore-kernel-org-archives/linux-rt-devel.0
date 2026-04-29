@@ -1,192 +1,386 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C4A43A9D92
-	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 20:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2712D35AC3F
+	for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 22:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777496305; cv=none; b=vE1M9RTPbxd+xvnL75W6weYJUNDNqtJAVZglZ6RvgdU+D6ZFXm/JPYUxglUQ5KlXy9ui4Dp1zW/Sn9vgToPCoFOluVyDUhohi1iiLmWNMRJ6jdNkE/ounPu1HWddXzTuh3V5ska4UIOcXLXDt0ZBN3G8C+sUoo5NzUSLzLMCPc4=
+	t=1777501580; cv=none; b=UvpAqAZNAxUBKSaaTR/DICYzxEFJPN+BDEu14o+SlkYYXFQjokHbrR88GYMSu0BXLI8Z4r4zjuNglsQS7j6BJ9819utYHwQMPKoL5GSfQK6+OmE4jMGpShQqGktOZzHQIw6ZU8Q/A/ouHoZqJfH5zrMyXmNZQxZLzuIUAQjTUVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777496305; c=relaxed/simple;
-	bh=H4PfGyMnPiSQn1my4AwccDfLneDKKhcFDfiOgWxT+qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=afKSNhLjeDCwVF8Wbcz8x8EfcskoPCRFD+f69qBVjfpGZ5DpcqbtbJV9hA0feKnX79sGg5NzwMvVtHfft8/iJVB7HHCY4bqrIQc4KZy1QTqeeeTvZwuXc8EAfdnlO++agekMz3dtGwqe7TFpGocIqu676Xm3VnRV98APg5q6ZB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VwELQeCl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777501580; c=relaxed/simple;
+	bh=ap3Tz4ybv2MDZswqwqwbN/beE13fYJb9L/7GcoYsorY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=YzB5/tr9ZMutfPx73lVkCGq3+G7SV2oJgOAMhZjwDdLAviXqY0br28YLZoNJHA50FRw4927nzTS9pxUrs/94VJIhwOvgWDcOr7338s4z3p5OYNSZ/OjQSroHXYqd6nFW49/2l2mBGiiQ2HfGI4yobJTApF8K0LdwP4bBFQlS0MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QcqtKVyZ; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VwELQeCl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777496303;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y1NyF1QURy3vdICAxiB0jl9JGp6DuWbQaRj+rdabH/M=;
-	b=VwELQeClfzSWB9Q623xKqWRnflhnnh1xzWO3Htg8xwEz4zbg60GMFSc3bRp+B2dvhUGDNR
-	SkU0ClDHYRq6HiuYXpeKPLnqitBK5lcfh3fEPfYM+89Y7iO5fG0G8ZDI6ZML7PCtSh9/zF
-	PXNNEn+L8oAFLCpQ8QOxZwH7X9IVYDU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-686-rBBwcJqwPxeaG3FBplukoA-1; Wed,
- 29 Apr 2026 16:58:18 -0400
-X-MC-Unique: rBBwcJqwPxeaG3FBplukoA-1
-X-Mimecast-MFC-AGG-ID: rBBwcJqwPxeaG3FBplukoA_1777496295
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D94C118002C0;
-	Wed, 29 Apr 2026 20:58:13 +0000 (UTC)
-Received: from [10.22.65.94] (unknown [10.22.65.94])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B3F75300019F;
-	Wed, 29 Apr 2026 20:58:10 +0000 (UTC)
-Message-ID: <68ba05da-7052-406a-9ddd-b324a349ca80@redhat.com>
-Date: Wed, 29 Apr 2026 16:58:09 -0400
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QcqtKVyZ"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so1572015ad.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 15:26:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777501576; x=1778106376; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HnGB2EwUnXNoeP6sM/wyCp0a9lWSmlC/c3BKgkuVX08=;
+        b=QcqtKVyZhXfUpNqPeCggb87eZMHILjg8oInvWHzfnoELxtwOHgvVU/Qg6vIj0HUqgv
+         QVNbKoWYu3u872t7S2qzD6LbE4fjGFl9RUw2VNAAZ0QP/QkZrw887TNYtTKhaUsKNzM7
+         JGgM96twJQBBdt2nE00+T7uIZ56zCJ3422fLNw0kBS/IoKXTp4QN9a9W0+nB6ExzKUoV
+         lCXEOWsnKvtSZAzs7PH76apEHJ2lPukYz3IxcJangFWGNGxpkW7mRE4qXcUrcNZ1KApO
+         nvzOKjnF5t7XMxOlXpYs+1/9gmGVpP0nQ4Re7eRXV6nqblCQvy1mz3n4PNzpotS64Wm+
+         jE6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777501576; x=1778106376;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HnGB2EwUnXNoeP6sM/wyCp0a9lWSmlC/c3BKgkuVX08=;
+        b=jVZiuLa38K5WWdMl65AcKdeQT78t2C0SstEsxlLpk6Muzhx8cChMgRXy+XaichzOML
+         E/9lII03hlDEd4XtI1U5jsb+u58YKtNA/K66WpHGHz+/Nr+Y1OcpYlYONyOE+jwXfOjX
+         XI5xGypsnua9rDOyFeAmhKGK22ysWP51BTQKW546WlSgvuBaGg7ZVKFankHIkJ100EYr
+         lbYy77rPXZcEjalRGRg3CiycMrgQAH3ITSTDnFY4CSnjQmGd7adeEEAF8DC/UYyLYsWg
+         cqJCyL9UJJ5QefWllXecsk2LEfagk3v+pWQxL5lJ7PbFbLeGVxSKmfeTyYtrEKIygtvY
+         71Jg==
+X-Forwarded-Encrypted: i=1; AFNElJ8rxYN0fai0E0UZCH76IeTM4wBHg16VKvWVIKOOJ4b6vH+f0tQUQHysTi84AouZXrLJIk1kVFfTrW+I+UoqmA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpzaBlD95QsZ0kxHk22ucJLKpHIxmuWe8EUpL35VcY/6DMWnW5
+	+tDXAfas1Pq8vcFShdzjdFoZ0gZovUyXocAcqMvLvKdA9VMuslS8eJlj
+X-Gm-Gg: AeBDiesDAO89XOzzt8+h9AM5QAA9gcJ4+qC2//7n3w+pnTxNfYpH27pufZvSsj+N741
+	kmw9lp0J0XDYLCucdgixGQ2rYsi6KSTcyBffP48Le12756/T6bPXwLEveB6xZ/+NWkyruu4Qtzw
+	W5sGfMc3qYi9jG9OIITSAaGC89F8uYHxVMweeYbsRwsytsCpjJIrs1ScgGLxx26s/vqiWWXRaJ+
+	u/YJ13RqcLKfo7X/aFTgz3g2dISN2bELGcBuoNcGwWq+3dv0inPbzYIZjWVhy8ez/mIQyWgQifV
+	u7zqji7XEUKeK00MYB5qM+5qhwWGa08NSvNpXU96BsyYYgEk45d8yhyZReat51kye4WB3XUll83
+	F/wK/yMKLXIRYfMFJTZH/HLeV9wm4efQwFDoPo5KokC/M8Lp5HS83xbtBm0jGXp9zSu0F3R6heJ
+	cGsyMA3R1/463l9hXQpR7LAWNoX/LzkNJ8uAfyAeeK1ZZFP72mvf+DdpkqIGqx8iM=
+X-Received: by 2002:a17:903:1a2c:b0:2b0:c90f:449d with SMTP id d9443c01a7336-2b9a24be0c0mr2628045ad.19.1777501575708;
+        Wed, 29 Apr 2026 15:26:15 -0700 (PDT)
+Received: from acer-nitro-anv15-41.. ([116.73.138.1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b988798368sm32399365ad.26.2026.04.29.15.26.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 15:26:15 -0700 (PDT)
+From: "shaikh.kamal" <shaikhkamal2012@gmail.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: pbonzini@redhat.com,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com,
+	"shaikh.kamal" <shaikhkamal2012@gmail.com>
+Subject: [PATCH v2 1/1] mm/mmu_notifier: Add async OOM cleanup via call_srcu()
+Date: Thu, 30 Apr 2026 03:55:48 +0530
+Message-ID: <20260429222548.25475-1-shaikhkamal2012@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ac08V4TaM2yh9SY1@google.com>
+References: <ac08V4TaM2yh9SY1@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/memcontrol: Avoid stuck FLUSHING_CACHED_CHARGE on
- isolated CPU
-To: Hui Zhu <hui.zhu@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Frederic Weisbecker <frederic@kernel.org>, cgroups@vger.kernel.org,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Cc: Hui Zhu <zhuhui@kylinos.cn>
-References: <20260429022723.133833-1-hui.zhu@linux.dev>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260429022723.133833-1-hui.zhu@linux.dev>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
-X-Mimecast-MFC-PROC-ID: ouRojLS1bBFLuLbfvqM1irCrMwxXF7zr7l-y7bXgukk_1777496295
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/28/26 10:27 PM, Hui Zhu wrote:
-> From: Hui Zhu <zhuhui@kylinos.cn>
->
-> drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
-> schedule_drain_work() to queue per-CPU drain work.  When the target
-> CPU is isolated (cpu_is_isolated() == true), the work is silently
-> not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
-> drain_all_stock() then sees the bit and skips this stock entirely,
-> so the entry is effectively pinned until something else on that CPU
-> runs drain_local_*_stock() and clears the bit -- which on a long-
-> isolated CPU may never happen.
->
-> The original idea was to actually perform the drain from the calling
-> CPU on behalf of the isolated one, by adding a lock around the
-> per-CPU stock so that a remote drainer could safely touch it.  In
-> practice this turned out to be intrusive: the stock data structures
-> and their fast paths (consume_stock(), refill_stock(), the obj_stock
-> helpers) are deliberately designed around current-CPU-only access,
-> and retrofitting cross-CPU serialisation onto them adds non-trivial
-> locking and PREEMPT_RT concerns for very little gain.
->
-> Looking at the actual amount of charge that can accumulate in a
-> single per-CPU stock, it is bounded and small, so leaving an
-> isolated CPU's stock undrained for a while is not a real problem.
-> The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
-> prevents future drain_all_stock() callers from re-attempting once
-> the CPU is no longer isolated.
->
-> Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
-> could not be queued because the target CPU is isolated.  The cached
-> charge itself is left in place; it will be released the next time
-> the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
-> or if the isolated CPU itself calls drain_all_stock() -- in that
-> case cpu == curcpu causes drain_local_memcg_stock() to be invoked
-> directly), and the next drain_all_stock() call is free to retry
-> instead of skipping the stock forever.
->
-> Fixes: 2d05068610a3 ("memcg: Prepare to protect against concurrent isolated cpuset change")
+When an mm undergoes OOM kill, the OOM reaper unmaps memory while
+holding the mmap_lock. MMU notifier subscribers (notably KVM) need
+to be informed so they can tear down their secondary mappings. The
+current synchronous unregister path can deadlock on PREEMPT_RT
+because synchronize_srcu() is called from contexts that cannot
+safely sleep.
 
-I don't think this is the right commit to blame as it didn't really 
-change the logic other than adding RCU locking. I think commit 
-6a792697a53a ("memcg: do not drain charge pcp caches on remote isolated 
-cpus") is the right one as this is the commit that adds the 
-cpu_is_isolated() check first.
+This patch implements the asynchronous cleanup design proposed by
+Paolo Bonzini in v1 review: a new optional after_oom_unregister
+callback in struct mmu_notifier_ops, invoked after the SRCU grace
+period via call_srcu() so that no readers can still reference the
+subscription when cleanup runs.
 
-Other than that, the patch looks good to me as the list of isolated CPUs 
-is runtime changeable.
+The flow is:
 
-Cheers,
-Longman
+  1. The OOM reaper calls mmu_notifier_oom_enter() from
+     __oom_reap_task_mm().
+  2. mmu_notifier_oom_enter() walks the subscription list and, for
+     each subscriber that provides after_oom_unregister, detaches
+     the subscription from the active list and schedules a
+     call_srcu() callback.
+  3. The deferred callback invokes after_oom_unregister once the
+     grace period has elapsed and all in-flight readers have
+     finished.
+  4. Subsystems waiting to free structures referenced by the
+     callback can call the new mmu_notifier_barrier() helper, which
+     wraps srcu_barrier() to wait for all outstanding callbacks
+     scheduled this way.
 
-> Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
-> ---
->   mm/memcontrol.c | 28 ++++++++++++++++++++++------
->   1 file changed, 22 insertions(+), 6 deletions(-)
->
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index c3d98ab41f1f..cee77b0a95f5 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -2219,7 +2219,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
->   	return flush;
->   }
->   
-> -static void schedule_drain_work(int cpu, struct work_struct *work)
-> +static void
-> +schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
->   {
->   	/*
->   	 * Protect housekeeping cpumask read and work enqueue together
-> @@ -2227,9 +2228,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
->   	 * partition update only need to wait for an RCU GP and flush the
->   	 * pending work on newly isolated CPUs.
->   	 */
-> -	guard(rcu)();
-> -	if (!cpu_is_isolated(cpu))
-> -		queue_work_on(cpu, memcg_wq, work);
-> +	scoped_guard(rcu) {
-> +		if (!cpu_is_isolated(cpu)) {
-> +			queue_work_on(cpu, memcg_wq, work);
-> +			return;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * The target CPU is isolated: the drain work was not queued.
-> +	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
-> +	 * callers can re-attempt instead of skipping this stock forever.
-> +	 * The cached charge is left in place; it will be released the
-> +	 * next time the CPU itself runs drain_local_*_stock() (e.g.
-> +	 * after leaving isolation), or by a follow-up mechanism.
-> +	 */
-> +	clear_bit(FLUSHING_CACHED_CHARGE, flags);
->   }
->   
->   /*
-> @@ -2262,7 +2276,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
->   			if (cpu == curcpu)
->   				drain_local_memcg_stock(&memcg_st->work);
->   			else
-> -				schedule_drain_work(cpu, &memcg_st->work);
-> +				schedule_drain_work(cpu, &memcg_st->work,
-> +						    &memcg_st->flags);
->   		}
->   
->   		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
-> @@ -2272,7 +2287,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
->   			if (cpu == curcpu)
->   				drain_local_obj_stock(&obj_st->work);
->   			else
-> -				schedule_drain_work(cpu, &obj_st->work);
-> +				schedule_drain_work(cpu, &obj_st->work,
-> +						    &obj_st->flags);
->   		}
->   	}
->   	migrate_enable();
+after_oom_unregister is mutually exclusive with alloc_notifier
+because allocated notifiers can have additional outstanding
+references that the OOM path cannot safely drop.
+
+KVM is updated to provide after_oom_unregister, which clears
+mn_active_invalidate_count, and to detect via hlist_unhashed() in
+kvm_destroy_vm() when its subscription was already detached by the
+OOM path; in that case it calls mmu_notifier_barrier() and drops
+the mm reference rather than calling mmu_notifier_unregister().
+
+Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Link: https://lore.kernel.org/all/20260209161527.31978-1-shaikhkamal2012@gmail.com/
+
+Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
+---
+ include/linux/mmu_notifier.h |  10 +++
+ mm/mmu_notifier.c            | 123 +++++++++++++++++++++++++++++++++++
+ mm/oom_kill.c                |   3 +
+ virt/kvm/kvm_main.c          |  27 +++++++-
+ 4 files changed, 162 insertions(+), 1 deletion(-)
+
+diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+index 07a2bbaf86e9..0ccd590f55d3 100644
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -88,6 +88,14 @@ struct mmu_notifier_ops {
+ 	void (*release)(struct mmu_notifier *subscription,
+ 			struct mm_struct *mm);
+
++	/*
++	 * Any mmu notifier that defines this is automatically unregistered
++	 * when its mm is the subject of an OOM kill.  after_oom_unregister()
++	 * is invoked after all other outstanding callbacks have terminated.
++	 */
++	void (*after_oom_unregister)(struct mmu_notifier *subscription,
++				     struct mm_struct *mm);
++
+ 	/*
+ 	 * clear_flush_young is called after the VM is
+ 	 * test-and-clearing the young/accessed bitflag in the
+@@ -375,6 +383,8 @@ mmu_interval_check_retry(struct mmu_interval_notifier *interval_sub,
+
+ extern void __mmu_notifier_subscriptions_destroy(struct mm_struct *mm);
+ extern void __mmu_notifier_release(struct mm_struct *mm);
++void mmu_notifier_oom_enter(struct mm_struct *mm);
++extern void mmu_notifier_barrier(void);
+ extern int __mmu_notifier_clear_flush_young(struct mm_struct *mm,
+ 					  unsigned long start,
+ 					  unsigned long end);
+diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+index a6cdf3674bdc..b8fa58fe6b7d 100644
+--- a/mm/mmu_notifier.c
++++ b/mm/mmu_notifier.c
+@@ -49,6 +49,37 @@ struct mmu_notifier_subscriptions {
+ 	struct hlist_head deferred_list;
+ };
+
++/*
++ * Callback structure for asynchronous OOM cleanup.
++ * Used with call_srcu() to defer after_oom_unregister callbacks
++ * until after SRCU grace period completes.
++ */
++struct mmu_notifier_oom_callback {
++	struct rcu_head rcu;
++	struct mmu_notifier *subscription;
++	struct mm_struct *mm;
++};
++
++/*
++ * Callback function invoked after SRCU grace period.
++ * Safely calls after_oom_unregister once all readers have finished.
++ */
++static void mmu_notifier_oom_callback_fn(struct rcu_head *rcu)
++{
++	struct mmu_notifier_oom_callback *cb =
++		container_of(rcu, struct mmu_notifier_oom_callback, rcu);
++
++	/* Safe - all SRCU readers have finished */
++	cb->subscription->ops->after_oom_unregister(cb->subscription, cb->mm);
++
++	/* Release mm reference taken when callback was scheduled */
++	WARN_ON_ONCE(atomic_read(&cb->mm->mm_count) <= 0);
++	mmdrop(cb->mm);
++
++	/* Free callback structure */
++	kfree(cb);
++}
++
+ /*
+  * This is a collision-retry read-side/write-side 'lock', a lot like a
+  * seqcount, however this allows multiple write-sides to hold it at
+@@ -359,6 +390,85 @@ void __mmu_notifier_release(struct mm_struct *mm)
+ 		mn_hlist_release(subscriptions, mm);
+ }
+
++void mmu_notifier_oom_enter(struct mm_struct *mm)
++{
++	struct mmu_notifier_subscriptions *subscriptions =
++						mm->notifier_subscriptions;
++	struct mmu_notifier *subscription;
++	struct hlist_node *tmp;
++	HLIST_HEAD(oom_list);
++	int id;
++
++	if (!subscriptions)
++		return;
++
++	id = srcu_read_lock(&srcu);
++
++	/*
++	 * Prevent further calls to the MMU notifier, except for
++	 * release and after_oom_unregister.
++	 */
++	spin_lock(&subscriptions->lock);
++	hlist_for_each_entry_safe(subscription, tmp,
++				  &subscriptions->list, hlist) {
++		if (!subscription->ops->after_oom_unregister)
++			continue;
++
++		/*
++		 * after_oom_unregister and alloc_notifier are incompatible,
++		 * because there could be other references to allocated
++		 * notifiers.
++		 */
++		if (WARN_ON(subscription->ops->alloc_notifier))
++			continue;
++
++		hlist_del_init_rcu(&subscription->hlist);
++		hlist_add_head(&subscription->hlist, &oom_list);
++	}
++	spin_unlock(&subscriptions->lock);
++	hlist_for_each_entry(subscription, &oom_list, hlist)
++		if (subscription->ops->release)
++			subscription->ops->release(subscription, mm);
++
++	srcu_read_unlock(&srcu, id);
++
++	if (hlist_empty(&oom_list))
++		return;
++
++	hlist_for_each_entry_safe(subscription, tmp,
++				  &oom_list, hlist) {
++		struct mmu_notifier_oom_callback *cb;
++		/*
++		 * Remove from stack-based oom_list and reset hlist to unhashed state.
++		 * This sets subscription->hlist.pprev = NULL, so future callers of
++		 * mmu_notifier_unregister() (e.g. kvm_destroy_vm) will see
++		 * hlist_unhashed() == true and take the safe path, avoiding
++		 * use-after-free on the stack-allocated oom_list head.
++		 */
++		hlist_del_init(&subscription->hlist);
++
++		/*
++		 * GFP_ATOMIC failure is exceedingly rare. We cannot sleep
++		 * here (would reintroduce the deadlock this patch fixes)
++		 * and cannot call after_oom_unregister synchronously
++		 * without first waiting for SRCU readers. The subscriber
++		 * will not receive after_oom_unregister but cleanup will
++		 * eventually happen via the unregister path.
++		 */
++		cb = kmalloc(sizeof(*cb), GFP_ATOMIC);
++		if (!cb)
++			continue;
++
++		cb->subscription = subscription;
++		cb->mm = mm;
++		mmgrab(mm);
++
++		/* Schedule callback - returns immediately */
++		call_srcu(&srcu, &cb->rcu, mmu_notifier_oom_callback_fn);
++	}
++
++}
++
+ /*
+  * If no young bitflag is supported by the hardware, ->clear_flush_young can
+  * unmap the address and return 1 or 0 depending if the mapping previously
+@@ -1096,3 +1206,16 @@ void mmu_notifier_synchronize(void)
+ 	synchronize_srcu(&srcu);
+ }
+ EXPORT_SYMBOL_GPL(mmu_notifier_synchronize);
++
++/**
++ * mmu_notifier_barrier - Wait for all pending MMU notifier callbacks
++ *
++ * Waits for all call_srcu() callbacks scheduled by mmu_notifier_oom_enter()
++ * to complete. Used by subsystems during cleanup to prevent use-after-free
++ * when destroying structures accessed by the callbacks.
++ */
++void mmu_notifier_barrier(void)
++{
++	srcu_barrier(&srcu);
++}
++EXPORT_SYMBOL_GPL(mmu_notifier_barrier);
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 5c6c95c169ee..029e041afc57 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -519,6 +519,9 @@ static bool __oom_reap_task_mm(struct mm_struct *mm)
+ 	bool ret = true;
+ 	MA_STATE(mas, &mm->mm_mt, ULONG_MAX, ULONG_MAX);
+
++	/* Notify MMU notifiers about the OOM event */
++	mmu_notifier_oom_enter(mm);
++
+ 	/*
+ 	 * Tell all users of get_user/copy_from_user etc... that the content
+ 	 * is no longer stable. No barriers really needed because unmapping
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 1bc1da66b4b0..a2df83d3b413 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -885,6 +885,24 @@ static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
+ 	srcu_read_unlock(&kvm->srcu, idx);
+ }
+
++static void kvm_mmu_notifier_after_oom_unregister(struct mmu_notifier *mn,
++					struct mm_struct *mm)
++{
++	struct kvm *kvm;
++
++	kvm = mmu_notifier_to_kvm(mn);
++
++	/*
++	 * At this point the unregister has completed and all other callbacks
++	 * have terminated. Clean up any unbalanced invalidation counts.
++	 */
++	WARN_ON(rcuwait_active(&kvm->mn_memslots_update_rcuwait));
++	if (kvm->mn_active_invalidate_count)
++		kvm->mn_active_invalidate_count = 0;
++	else
++		WARN_ON(kvm->mmu_invalidate_in_progress);
++}
++
+ static const struct mmu_notifier_ops kvm_mmu_notifier_ops = {
+ 	.invalidate_range_start	= kvm_mmu_notifier_invalidate_range_start,
+ 	.invalidate_range_end	= kvm_mmu_notifier_invalidate_range_end,
+@@ -892,6 +910,7 @@ static const struct mmu_notifier_ops kvm_mmu_notifier_ops = {
+ 	.clear_young		= kvm_mmu_notifier_clear_young,
+ 	.test_young		= kvm_mmu_notifier_test_young,
+ 	.release		= kvm_mmu_notifier_release,
++	.after_oom_unregister	= kvm_mmu_notifier_after_oom_unregister,
+ };
+
+ static int kvm_init_mmu_notifier(struct kvm *kvm)
+@@ -1280,7 +1299,13 @@ static void kvm_destroy_vm(struct kvm *kvm)
+ 		kvm->buses[i] = NULL;
+ 	}
+ 	kvm_coalesced_mmio_free(kvm);
+-	mmu_notifier_unregister(&kvm->mmu_notifier, kvm->mm);
++	if (hlist_unhashed(&kvm->mmu_notifier.hlist)) {
++		/* Subscription removed by OOM. Wait for async callback. */
++		mmu_notifier_barrier();
++		mmdrop(kvm->mm);
++	} else {
++		mmu_notifier_unregister(&kvm->mmu_notifier, kvm->mm);
++	}
+ 	/*
+ 	 * At this point, pending calls to invalidate_range_start()
+ 	 * have completed but no more MMU notifiers will run, so
+--
+2.43.0
 
