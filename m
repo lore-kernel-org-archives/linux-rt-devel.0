@@ -1,74 +1,82 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51579363C55
-	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Apr 2026 04:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0304530E85C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 30 Apr 2026 04:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777524196; cv=none; b=Co4PV67VWnz+9mtOOZnTX8BA48wDvQEyIf5StM20MyZnd5rdvSWSU1C4vi85yljAgXPKVf1Z5CuF8qWNDi6TrguIehx8a+SFb/9ZSXJzMdBPPDnhuhbRQry/HCDqRC6UvZCGoCnPLfS0AkSs9I+OpDmyK0LfsVfGXvEC/+J/Q/0=
+	t=1777524555; cv=none; b=jO8wSCKqWbOJUXULAAXNeyN2UCn2vXiGUyNta2wdltGrCzhVyVyygcxcpbgtT2CZmw6grsy/qWU1E8/3uuzsi/o5WY1AROEOTUPoK67GSZ0Zt4PnxWcYdGfxLchH5epEBi397185SORtep7RjC/jeg+IZdWcRcPI9ojQFFeuq1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777524196; c=relaxed/simple;
-	bh=VwTWPTxcmD8Q+mU2ivc4k8RfaZQ5s7GGiDf5PcxClEM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hcWnZ2kmzDhemCRgYCuFiJUcSqyehLdnUsN/d/+/wrFI6ozu0lqDIHzpxT3sZgewSvJx9iUhpML49P+CDIpju3K+Sed5wa7mKTbml5y/0UKDXaNd7D6ZHXHvAwYAp3/01uhiKKztKHTv65MuT/ZHAv0VIMx4XJQie8UE1iokVfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ijDcrhUb; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1777524555; c=relaxed/simple;
+	bh=ap3Tz4ybv2MDZswqwqwbN/beE13fYJb9L/7GcoYsorY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HmD4jbbl+5pmGjySwNJlWPlgA1H3OOSTEyshkivGMOFhWeJdzv5SZkeFDIIN1ddfRwZfBSaEG53XBKutC0Y8UEB2MQNAZ8H1dWxRifW6QGlkgAuBbYFxeu/6LEcZgMahsiBK0IbErOPbgqrC0FDn7bV6zGqkZOVyJ+TMTA+BmJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OyLiWwBr; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ijDcrhUb"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c6e2355739dso161021a12.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 21:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OyLiWwBr"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c798fc1a28cso160814a12.3
+        for <linux-rt-devel@lists.linux.dev>; Wed, 29 Apr 2026 21:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777524194; x=1778128994; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777524553; x=1778129353; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=R56QgG1D9bXIBDN7pmrJ8rb2E5GLXsJR+QR5OWKoEXY=;
-        b=ijDcrhUb8XiYgfxxoj+ROxxGqIlcCvGK68OZzSW5WADCDxHw77S0rFG3OYoDIWOp4l
-         VHv7L5Wu0CAkewiRpDbQchI/9uRtd1I+e/7BI/4bVaKeFU2bFSox7Ka6bx557MnMbxbi
-         5sqlnAWFxdAfkx9Hi0lEI7wJQpx2eVM7dhDdvGkEPA6ZJl9vSAM3pfFN0QohpfrleZOr
-         ekqT1fzeh9OHLN3ib7xP7VBlpVt7/YVnO/nmDobQRvw5LRwZsADAXughxpHSAEjYfJR4
-         t7C0tZz02HkMiI5dktO2bRN0W3LTiJzYMsTTb6QWtdBxnvgp5UKKtzpixuhv4OiNjh6l
-         2vuA==
+        bh=HnGB2EwUnXNoeP6sM/wyCp0a9lWSmlC/c3BKgkuVX08=;
+        b=OyLiWwBrkPQDllsAOdBAl7mhb/UGPWeBhSf7NleP7e/R1hKtp5AO5DGoDzYLtyvMwp
+         wY6nK8h6xF8sQ6ryDGCXHXvXYkEgDe4mXrqRVEPwbAS/JHTUBIh+4tflakESQEW5PcZ1
+         PNfhI24snl1G8oQui900sJD/mKa6nzbJoVZd9w/y+/LmR1gn8rVKR5GZqbXHqi5XXYtN
+         Dne8ECA2o3WLz7xledIV88O9H1nVg64/cICAFHccDzT0oO7uOBXcvEHG+KlXrwCuDAyD
+         MHwer6iog8pfhmEmLGy7nSFDq/8psR+DGD6ngGPtTaixv77kps4DytuOTFQCXh9Hkl/u
+         tYNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777524194; x=1778128994;
+        d=1e100.net; s=20251104; t=1777524553; x=1778129353;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R56QgG1D9bXIBDN7pmrJ8rb2E5GLXsJR+QR5OWKoEXY=;
-        b=LlSMsopPk4rIsltTpsF2ZNycYGAcghSS1Zn6DCe11UhhsR+fSK9k0y62maYlVd25ug
-         BCFXGQr7zm/mN8kBgIfsWMAK5/l9B1gKdJxvGteTmigbKTNt/mgdPuU9Hd+gkCq+QcBQ
-         ePTGZo8MoFS6CRVIvyEUD5P7DLO7iOl1BYB5jH7JTl17MtINAurXCCE2VXZpV8bED0GT
-         2OfzEvziVrhQXXc/jcau+xkAS2xAj+5XaoRJI0wgD4dzbESruoqv/w9inH+0al1m0zrX
-         ZTx/3wsH8/3S4BlVAlWG7eLdR3IzCI9DbXNjtbi1l/9mK/B2N1M4sUja9uaCa6NBu0a5
-         DjJw==
-X-Forwarded-Encrypted: i=1; AFNElJ+g0a9fvrhJNyffiZE/UFjl5x7cjcJvOpoduPJR6H91tfmY63LRowG9NNyeChZxPuON1Bgd8nCfA2sdAezzYQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzdj85NFaydr/qbx1RyeAAqxQ98wZnsHIBa59C7Q+avIU5yrBL3
-	l/Ds+KN8XigYQUmoiujDTdtmEN/E7Z8vnDSNPS1nIZr2BzUj1ZCHWXDk
-X-Gm-Gg: AeBDievh5QMVUhH9b/NMD1vy/LQ3riUUno0ycBUOOAQwqHLDBs9yU1ucd1qh+ryuPKb
-	qIxiz14nhCZwVYKaLnsnoKUtP58F2oPYS5HsfMjVGkSrW33u9klPTrr1mYxAa42Fe30Ed/h3Rga
-	aiVYR2tqMIurPseybfB4Wbeqiqm9yAqmSO7O2FJwIDCxTO/NRR3/em6s7b5CWL6fZ0Bx7puq1ID
-	r2mLh4cWOKSxRKwyhpjVkNRilrhCxZqA0iCYdvlj/bbG2/SBm1BTvdMW1SpduakRQSUqB6xdHZ5
-	9UuBLtb2O3bvzj2lNdjKXwdp3RGcSCWEWdZa0c6IukE8J1PmrlHYZHvm5CtFwn5cmkjjSbPuCpj
-	wM4sHfO8GQcqE0yiYXwjw2qPd9rYeOC/cCyLmn2A3dNIJZtKKREkN5t7L5GXHPTWaaHRMUL0nVi
-	ECj4B6OlZJibT9VZGE23iboFv0v8f00CqQsgOTOyDmI7nc4RPXQ+I=
-X-Received: by 2002:a05:6a21:6d88:b0:39b:da83:91aa with SMTP id adf61e73a8af0-3a3cf8cbdc5mr1452663637.51.1777524194416;
-        Wed, 29 Apr 2026 21:43:14 -0700 (PDT)
+        bh=HnGB2EwUnXNoeP6sM/wyCp0a9lWSmlC/c3BKgkuVX08=;
+        b=hnMoqExmW9g3FyR7KrSwZ+jNw/8uEyCk2CH3Mopv4MI3//98EgY1wlK+NqXdbMdB+v
+         Re5024Ymv0D6E3qgV9px9Nn/KGuUc+ZQS+CmaNqYDJGY1M65fAP9/0BYbBrJKdJvMbh3
+         jGWBueCubqQ07BovhIbMPZQs9NuwI1r1lUqpU5oShb6oELNOGJOkOj7Wn/BzSKTFdfKO
+         Ugb+r4+Zjm8uHcbg3S0wT+cGnqEU7u3m6OvYnngMgDvPl2n1bPpFqC9UgGgu2jygtpUQ
+         eDpglUNBzgFebo6tg6yP1bH+kcWsO15XuoWldvifke1Wgswy2L8eXnIvu/EX5tn7Wsb0
+         08Gg==
+X-Forwarded-Encrypted: i=1; AFNElJ+VkhiG7uWNKaLXt3oxtt6T0zjdDhjmvEzxTSl9t0qAQB9xOQovotzHumqntRkkGQs1zJWc+6Lr/Naj00bptQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YySDXLn2OzAU7dUBtAnMa+7x8EvFHkX9rDrkWWYMBWSqLqJe+xt
+	hTLFeNihlpp32jBoWCCWxCkCU7swb3T40vLhzDOdkNPixnlBJG+DQ5YV
+X-Gm-Gg: AeBDievgUijUgitWHPUtB3LxOCG4HMDbuom00zfyVyxJRNSSd0b+VWMBmQaJln3zGhG
+	2MTFcw9J29SNN5J7jcIWesWYS2BDoY5bK0e5HpVWmykowj/GiMpKL8cejK8kxeruch9GMcM8dwx
+	qwHaJTjIF0ccZgUlf53vGRY3xdZ0zXUErKX2AAffaWtUeI69om4tjtzXVPCLvxdtjtDAhEewk7u
+	G7jX8EG9Vah+fErQnTVREj5hGoTEnzlEp3kTn7457QJpuu/IJ1BCR3BVhgdgPVsYahvD3Q0IF/C
+	JVVu2ubuB99JU/FkeY4RB3KW9ZeLKXc0i9OTPvBdehwI00nRJWq0bvSxqwAxWP/EgVm7Lf7Xnbx
+	p/0ALMI55uGgzCT7nb6o/w1xO6CYTmwu/uVa+MfMqsA+/q55fl5UJTDYx6F5/5Dn3hVeL+7ALZ/
+	9sPCmq6Lvy+g3WNOWyBt+/AsASSr06bs02jaAeMqu/Jz1bGX0lxzw=
+X-Received: by 2002:a17:903:24e:b0:2ae:5eee:7a5 with SMTP id d9443c01a7336-2b9a231de9dmr12418275ad.12.1777524553154;
+        Wed, 29 Apr 2026 21:49:13 -0700 (PDT)
 Received: from acer-nitro-anv15-41.. ([27.4.92.188])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fd5e6e830sm3752482a12.6.2026.04.29.21.43.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9887a4ba0sm37547795ad.32.2026.04.29.21.49.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 21:43:13 -0700 (PDT)
+        Wed, 29 Apr 2026 21:49:12 -0700 (PDT)
 From: "shaikh.kamal" <shaikhkamal2012@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: kvm@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	pbonzini@redhat.com,
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	David Rientjes <rientjes@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: pbonzini@redhat.com,
 	skhan@linuxfoundation.org,
 	me@brighamcampbell.com,
 	"shaikh.kamal" <shaikhkamal2012@gmail.com>,
 	syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
-Subject: [PATCH v2 0/1] mm/mmu_notifier: Add async OOM cleanup via call_srcu()
-Date: Thu, 30 Apr 2026 10:12:29 +0530
-Message-ID: <20260430044229.10736-1-shaikhkamal2012@gmail.com>
+Subject: [PATCH v2 1/1] mm/mmu_notifier: Add async OOM cleanup via call_srcu()
+Date: Thu, 30 Apr 2026 10:18:54 +0530
+Message-ID: <20260430044854.11132-1-shaikhkamal2012@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -78,101 +86,297 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series implements the after_oom_unregister callback design
-proposed by Paolo in v1 review [1].
+When an mm undergoes OOM kill, the OOM reaper unmaps memory while
+holding the mmap_lock. MMU notifier subscribers (notably KVM) need
+to be informed so they can tear down their secondary mappings. The
+current synchronous unregister path can deadlock on PREEMPT_RT
+because synchronize_srcu() is called from contexts that cannot
+safely sleep.
 
-The current OOM notifier path calls synchronize_srcu() inline from
-mmu_notifier_oom_enter(), which can deadlock on PREEMPT_RT when
-locks such as siglock are held. This series moves the cleanup to an
-asynchronous context using call_srcu(), allowing the OOM path to
-proceed without waiting for an SRCU grace period.
+This patch implements the asynchronous cleanup design proposed by
+Paolo Bonzini in v1 review: a new optional after_oom_unregister
+callback in struct mmu_notifier_ops, invoked after the SRCU grace
+period via call_srcu() so that no readers can still reference the
+subscription when cleanup runs.
 
-Subscribers opt in via a new after_oom_unregister callback in
-struct mmu_notifier_ops.
+The flow is:
 
-KVM is the first (and currently only) user.
+  1. The OOM reaper calls mmu_notifier_oom_enter() from
+     __oom_reap_task_mm().
+  2. mmu_notifier_oom_enter() walks the subscription list and, for
+     each subscriber that provides after_oom_unregister, detaches
+     the subscription from the active list and schedules a
+     call_srcu() callback.
+  3. The deferred callback invokes after_oom_unregister once the
+     grace period has elapsed and all in-flight readers have
+     finished.
+  4. Subsystems waiting to free structures referenced by the
+     callback can call the new mmu_notifier_barrier() helper, which
+     wraps srcu_barrier() to wait for all outstanding callbacks
+     scheduled this way.
 
-Changes since v1 [1]:
-- Implement after_oom_unregister callback in struct
-  mmu_notifier_ops as proposed by Paolo
-- Add mmu_notifier_oom_enter() to detach subscriptions and
-  schedule cleanup via call_srcu()
-- Add mmu_notifier_barrier() (srcu_barrier wrapper) so consumers
-  can wait for pending callbacks during teardown
-- Move call site from __oom_kill_process() to __oom_reap_task_mm()
-  to fix KASAN vmalloc-out-of-bounds observed in v1
-- Use hlist_del_init() to keep hlist_unhashed() correct for the
-  kvm_destroy_vm() detection path, avoiding use-after-free on the
-  stack-allocated oom_list head
-- Add KVM after_oom_unregister implementation to clear
-  mn_active_invalidate_count
-- Update kvm_destroy_vm() to detect detached subscriptions via
-  hlist_unhashed() and use mmu_notifier_barrier() + mmdrop()
-  instead of mmu_notifier_unregister()
-- Remove pr_err() on GFP_ATOMIC failure per checkpatch; the
-  trade-off is documented inline
+after_oom_unregister is mutually exclusive with alloc_notifier
+because allocated notifiers can have additional outstanding
+references that the OOM path cannot safely drop.
 
-Testing
--------
-
-Developed and tested under virtme-ng with PREEMPT_RT, KASAN, and
-lockdep enabled.
-
-Test setup:
-- simple_kvm.c: minimal userspace program that opens /dev/kvm,
-  creates a VM, registers memory, creates a vCPU, and sleeps
-- CONFIG_DEBUG_VM-only debugfs interface (not part of this
-  submission) at /sys/kernel/debug/oom_reap_task to invoke
-  __oom_reap_task_mm() on a target task
-
-Test sequence:
-  $ ./simple_kvm &
-  $ echo $! | sudo tee /sys/kernel/debug/oom_reap_task
-
-Observed with patch applied:
-- __oom_reap_task_mm() completes in ~3 ms
-- mmu_notifier_oom_enter() detaches the KVM subscription
-- call_srcu() callback runs after ~57 ms (SRCU grace period)
-- KVM after_oom_unregister clears mn_active_invalidate_count
-- mmu_notifier_barrier() returns cleanly
-- No KASAN reports, no kernel BUGs, lockdep clean
-
-Stress runs (20 iterations) showed consistent results.
-
-Reproducing the syzbot-reported issue
--------------------------------------
-The issue reported by syzbot is reproducible on an unpatched
-PREEMPT_RT kernel, triggering a "sleeping function called from
-invalid context" warning in kvm_mmu_notifier_invalidate_range_start().
-With this patch applied, the warning is no longer observed..
-
-
-Known limitations
------------------
-
-Failure of GFP_ATOMIC allocation in mmu_notifier_oom_enter()
-causes the corresponding after_oom_unregister callback to be
-skipped. The OOM path cannot sleep without reintroducing the
-deadlock this series fixes, and synchronous execution would
-require waiting for SRCU readers. Cleanup still occurs later via
-the normal unregister path. A mempool-backed allocator could
-address this in the future.
-
-[1] https://lore.kernel.org/all/CABgObfZQM0Eq1=vzm812D+CAcjOaE1f1QAUqGo5rTzXgLnR9cQ@mail.gmail.com
+KVM is updated to provide after_oom_unregister, which clears
+mn_active_invalidate_count, and to detect via hlist_unhashed() in
+kvm_destroy_vm() when its subscription was already detached by the
+OOM path; in that case it calls mmu_notifier_barrier() and drops
+the mm reference rather than calling mmu_notifier_unregister().
 
 Reported-by: syzbot+c3178b6b512446632bac@syzkaller.appspotmail.com
 Closes: https://syzkaller.appspot.com/bug?extid=c3178b6b512446632bac
-Tested-by: Shaikh Kamaluddin <shaikhkamal2012@gmail.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Link: https://lore.kernel.org/all/20260209161527.31978-1-shaikhkamal2012@gmail.com/
 
-shaikh.kamal (1):
-  mm/mmu_notifier: Add async OOM cleanup via call_srcu()
-
+Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
+---
  include/linux/mmu_notifier.h |  10 +++
  mm/mmu_notifier.c            | 123 +++++++++++++++++++++++++++++++++++
  mm/oom_kill.c                |   3 +
  virt/kvm/kvm_main.c          |  27 +++++++-
  4 files changed, 162 insertions(+), 1 deletion(-)
 
+diff --git a/include/linux/mmu_notifier.h b/include/linux/mmu_notifier.h
+index 07a2bbaf86e9..0ccd590f55d3 100644
+--- a/include/linux/mmu_notifier.h
++++ b/include/linux/mmu_notifier.h
+@@ -88,6 +88,14 @@ struct mmu_notifier_ops {
+ 	void (*release)(struct mmu_notifier *subscription,
+ 			struct mm_struct *mm);
+
++	/*
++	 * Any mmu notifier that defines this is automatically unregistered
++	 * when its mm is the subject of an OOM kill.  after_oom_unregister()
++	 * is invoked after all other outstanding callbacks have terminated.
++	 */
++	void (*after_oom_unregister)(struct mmu_notifier *subscription,
++				     struct mm_struct *mm);
++
+ 	/*
+ 	 * clear_flush_young is called after the VM is
+ 	 * test-and-clearing the young/accessed bitflag in the
+@@ -375,6 +383,8 @@ mmu_interval_check_retry(struct mmu_interval_notifier *interval_sub,
+
+ extern void __mmu_notifier_subscriptions_destroy(struct mm_struct *mm);
+ extern void __mmu_notifier_release(struct mm_struct *mm);
++void mmu_notifier_oom_enter(struct mm_struct *mm);
++extern void mmu_notifier_barrier(void);
+ extern int __mmu_notifier_clear_flush_young(struct mm_struct *mm,
+ 					  unsigned long start,
+ 					  unsigned long end);
+diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+index a6cdf3674bdc..b8fa58fe6b7d 100644
+--- a/mm/mmu_notifier.c
++++ b/mm/mmu_notifier.c
+@@ -49,6 +49,37 @@ struct mmu_notifier_subscriptions {
+ 	struct hlist_head deferred_list;
+ };
+
++/*
++ * Callback structure for asynchronous OOM cleanup.
++ * Used with call_srcu() to defer after_oom_unregister callbacks
++ * until after SRCU grace period completes.
++ */
++struct mmu_notifier_oom_callback {
++	struct rcu_head rcu;
++	struct mmu_notifier *subscription;
++	struct mm_struct *mm;
++};
++
++/*
++ * Callback function invoked after SRCU grace period.
++ * Safely calls after_oom_unregister once all readers have finished.
++ */
++static void mmu_notifier_oom_callback_fn(struct rcu_head *rcu)
++{
++	struct mmu_notifier_oom_callback *cb =
++		container_of(rcu, struct mmu_notifier_oom_callback, rcu);
++
++	/* Safe - all SRCU readers have finished */
++	cb->subscription->ops->after_oom_unregister(cb->subscription, cb->mm);
++
++	/* Release mm reference taken when callback was scheduled */
++	WARN_ON_ONCE(atomic_read(&cb->mm->mm_count) <= 0);
++	mmdrop(cb->mm);
++
++	/* Free callback structure */
++	kfree(cb);
++}
++
+ /*
+  * This is a collision-retry read-side/write-side 'lock', a lot like a
+  * seqcount, however this allows multiple write-sides to hold it at
+@@ -359,6 +390,85 @@ void __mmu_notifier_release(struct mm_struct *mm)
+ 		mn_hlist_release(subscriptions, mm);
+ }
+
++void mmu_notifier_oom_enter(struct mm_struct *mm)
++{
++	struct mmu_notifier_subscriptions *subscriptions =
++						mm->notifier_subscriptions;
++	struct mmu_notifier *subscription;
++	struct hlist_node *tmp;
++	HLIST_HEAD(oom_list);
++	int id;
++
++	if (!subscriptions)
++		return;
++
++	id = srcu_read_lock(&srcu);
++
++	/*
++	 * Prevent further calls to the MMU notifier, except for
++	 * release and after_oom_unregister.
++	 */
++	spin_lock(&subscriptions->lock);
++	hlist_for_each_entry_safe(subscription, tmp,
++				  &subscriptions->list, hlist) {
++		if (!subscription->ops->after_oom_unregister)
++			continue;
++
++		/*
++		 * after_oom_unregister and alloc_notifier are incompatible,
++		 * because there could be other references to allocated
++		 * notifiers.
++		 */
++		if (WARN_ON(subscription->ops->alloc_notifier))
++			continue;
++
++		hlist_del_init_rcu(&subscription->hlist);
++		hlist_add_head(&subscription->hlist, &oom_list);
++	}
++	spin_unlock(&subscriptions->lock);
++	hlist_for_each_entry(subscription, &oom_list, hlist)
++		if (subscription->ops->release)
++			subscription->ops->release(subscription, mm);
++
++	srcu_read_unlock(&srcu, id);
++
++	if (hlist_empty(&oom_list))
++		return;
++
++	hlist_for_each_entry_safe(subscription, tmp,
++				  &oom_list, hlist) {
++		struct mmu_notifier_oom_callback *cb;
++		/*
++		 * Remove from stack-based oom_list and reset hlist to unhashed state.
++		 * This sets subscription->hlist.pprev = NULL, so future callers of
++		 * mmu_notifier_unregister() (e.g. kvm_destroy_vm) will see
++		 * hlist_unhashed() == true and take the safe path, avoiding
++		 * use-after-free on the stack-allocated oom_list head.
++		 */
++		hlist_del_init(&subscription->hlist);
++
++		/*
++		 * GFP_ATOMIC failure is exceedingly rare. We cannot sleep
++		 * here (would reintroduce the deadlock this patch fixes)
++		 * and cannot call after_oom_unregister synchronously
++		 * without first waiting for SRCU readers. The subscriber
++		 * will not receive after_oom_unregister but cleanup will
++		 * eventually happen via the unregister path.
++		 */
++		cb = kmalloc(sizeof(*cb), GFP_ATOMIC);
++		if (!cb)
++			continue;
++
++		cb->subscription = subscription;
++		cb->mm = mm;
++		mmgrab(mm);
++
++		/* Schedule callback - returns immediately */
++		call_srcu(&srcu, &cb->rcu, mmu_notifier_oom_callback_fn);
++	}
++
++}
++
+ /*
+  * If no young bitflag is supported by the hardware, ->clear_flush_young can
+  * unmap the address and return 1 or 0 depending if the mapping previously
+@@ -1096,3 +1206,16 @@ void mmu_notifier_synchronize(void)
+ 	synchronize_srcu(&srcu);
+ }
+ EXPORT_SYMBOL_GPL(mmu_notifier_synchronize);
++
++/**
++ * mmu_notifier_barrier - Wait for all pending MMU notifier callbacks
++ *
++ * Waits for all call_srcu() callbacks scheduled by mmu_notifier_oom_enter()
++ * to complete. Used by subsystems during cleanup to prevent use-after-free
++ * when destroying structures accessed by the callbacks.
++ */
++void mmu_notifier_barrier(void)
++{
++	srcu_barrier(&srcu);
++}
++EXPORT_SYMBOL_GPL(mmu_notifier_barrier);
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 5c6c95c169ee..029e041afc57 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -519,6 +519,9 @@ static bool __oom_reap_task_mm(struct mm_struct *mm)
+ 	bool ret = true;
+ 	MA_STATE(mas, &mm->mm_mt, ULONG_MAX, ULONG_MAX);
+
++	/* Notify MMU notifiers about the OOM event */
++	mmu_notifier_oom_enter(mm);
++
+ 	/*
+ 	 * Tell all users of get_user/copy_from_user etc... that the content
+ 	 * is no longer stable. No barriers really needed because unmapping
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 1bc1da66b4b0..a2df83d3b413 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -885,6 +885,24 @@ static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
+ 	srcu_read_unlock(&kvm->srcu, idx);
+ }
+
++static void kvm_mmu_notifier_after_oom_unregister(struct mmu_notifier *mn,
++					struct mm_struct *mm)
++{
++	struct kvm *kvm;
++
++	kvm = mmu_notifier_to_kvm(mn);
++
++	/*
++	 * At this point the unregister has completed and all other callbacks
++	 * have terminated. Clean up any unbalanced invalidation counts.
++	 */
++	WARN_ON(rcuwait_active(&kvm->mn_memslots_update_rcuwait));
++	if (kvm->mn_active_invalidate_count)
++		kvm->mn_active_invalidate_count = 0;
++	else
++		WARN_ON(kvm->mmu_invalidate_in_progress);
++}
++
+ static const struct mmu_notifier_ops kvm_mmu_notifier_ops = {
+ 	.invalidate_range_start	= kvm_mmu_notifier_invalidate_range_start,
+ 	.invalidate_range_end	= kvm_mmu_notifier_invalidate_range_end,
+@@ -892,6 +910,7 @@ static const struct mmu_notifier_ops kvm_mmu_notifier_ops = {
+ 	.clear_young		= kvm_mmu_notifier_clear_young,
+ 	.test_young		= kvm_mmu_notifier_test_young,
+ 	.release		= kvm_mmu_notifier_release,
++	.after_oom_unregister	= kvm_mmu_notifier_after_oom_unregister,
+ };
+
+ static int kvm_init_mmu_notifier(struct kvm *kvm)
+@@ -1280,7 +1299,13 @@ static void kvm_destroy_vm(struct kvm *kvm)
+ 		kvm->buses[i] = NULL;
+ 	}
+ 	kvm_coalesced_mmio_free(kvm);
+-	mmu_notifier_unregister(&kvm->mmu_notifier, kvm->mm);
++	if (hlist_unhashed(&kvm->mmu_notifier.hlist)) {
++		/* Subscription removed by OOM. Wait for async callback. */
++		mmu_notifier_barrier();
++		mmdrop(kvm->mm);
++	} else {
++		mmu_notifier_unregister(&kvm->mmu_notifier, kvm->mm);
++	}
+ 	/*
+ 	 * At this point, pending calls to invalidate_range_start()
+ 	 * have completed but no more MMU notifiers will run, so
 --
 2.43.0
 
