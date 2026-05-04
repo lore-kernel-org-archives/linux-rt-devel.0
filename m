@@ -1,109 +1,92 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EA93E0C51
-	for <linux-rt-devel@lists.linux.dev>; Mon,  4 May 2026 14:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F6D2B9A4
+	for <linux-rt-devel@lists.linux.dev>; Mon,  4 May 2026 16:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777905854; cv=none; b=kF4XmALb6HwPlLs04uZc1PhHeDvnE2BLAGVpwJM9zvZuMfVZskP4VSyt/pwDK08WtdrVRKPI7L4JDdFJf/frZw68VtskjJ1DZS00pYkB/jfednP/wBleNdI7EshR4w0BmBAcWqXlBCShixO3oIvfkgHk8U7USS7DcayQIVounxI=
+	t=1777910817; cv=none; b=Pz2TxUlgDgJQWl0HQ4N6YXmOxu46+/xEacK8oZvnqMAtgiFwk0hawxhuL9R6pgYDIPwjNNRqrkroL3JSje65FNVa9h8K0DHcaw6AfubT5CX64pD8Mc5RCIkMscX2TU4TMxGaWYQEI6ASER/xin7w84/vXJqYqjEpIgOz02wd3Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777905854; c=relaxed/simple;
-	bh=MEHpsXH9lNIJOnJl8LRK8fvASgeNl0B9kl50QUAwWqE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=nniAgIHEDsJrxyCuQ8I7cNXyqBZ7hguzbf5v3d9PFsxcBjJ3MxNFV5rbbMu9SeLYVnbOgslJhim5Dy+RCAvhFFM3OTBJpunp8wpuHmlGgfpS0eClcgB09MfYTPROV9r8dI8Z27Ivu0a/Gwi5GvVrrV/jq6F+OUeRJwZlsZKwKK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=vAh2cZmq; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1777910817; c=relaxed/simple;
+	bh=L6r8oXJ9ZzBnwPL7FbXICpdtx3O3f8IZvpOHXbrL0Dw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cIft3yw8Z/bJFSsC2/bIXQfdH/Zakx8iSaCDnMCeYvyTubVafHWJSv63N2qQ2/ODVc7M4sNcUlHrAWM7ER2KMnJp8Mc86z+3hr5zHRmZVnA/p+khFxGBYGUKjfHGP4gNTMku1tSNSBKFVLHlLIoPq4X7h4+G/SXt8ynufataa3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=p1aS4hxX; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=nIlKXDsz; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="vAh2cZmq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1777905852; x=1809441852;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=MEHpsXH9lNIJOnJl8LRK8fvASgeNl0B9kl50QUAwWqE=;
-  b=vAh2cZmqAEP/fbQjkcvGDiVtwi8Oz8dFL3eSwrjtxeHsFAXQ/00CJhWg
-   8xozWbCAd6hg3Se4Z7ALSwPT+rFhl42NkMlIYs90EMdLxlW7HWQw0eva1
-   TDg5wVdiehkXrDlcsfXAQTEZSZjWfQ+sFVFN5qExYH/WoDXbYFPisfsHP
-   zdonlT/BGaY1FzV9vXoFQCpoZc628NE3k9+EJAS1bZC/ihTLOEbg+iiDD
-   1r5SfvoUkSLTD1fefIQ1GT1PY+TieTaR8JPtqeoJ6tNBhODqywkOYl+Bb
-   JtER2glL2j0fMBSpuSyJM+72QwRLNXikgZicEpJqKDfjRmZk9iQGD700a
-   w==;
-X-CSE-ConnectionGUID: f6FNNhZuRiuYZMD8mQLEXA==
-X-CSE-MsgGUID: AB2JYIKvQpaCASb5LbruRA==
-X-IronPort-AV: E=Sophos;i="6.23,215,1770620400"; 
-   d="scan'208";a="57409533"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 May 2026 07:44:12 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Mon, 4 May 2026 07:44:11 -0700
-Received: from DEN-DL-M70577.microsemi.net (10.10.85.11) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Mon, 4 May 2026 07:44:08 -0700
-From: Daniel Machon <daniel.machon@microchip.com>
-Date: Mon, 4 May 2026 16:43:45 +0200
-Subject: [PATCH net 4/4] net: sparx5: configure serdes for 1000BASE-X in
- sparx5_port_init()
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="p1aS4hxX";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="nIlKXDsz"
+Date: Mon, 4 May 2026 18:06:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1777910814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TXHH5R0BhkfDr9Rlhn4zkhBVScUk87tQK0t869TJNfs=;
+	b=p1aS4hxXQdoYxJl01ex/zyh1gIBKENy6HFUjEuaXCgIlTmj/aGmQbRoWJ/6h8KGkWC0CUb
+	A1IZO/9QpQSq5kxq3F/aYYJxCKDc40QKoZ+NfqarPnqO+CVjm38O5RZhJgwLDWP5Ykipi/
+	ljCwV4z26CgUvCS7QgkwRz8uddzgqx5ZxiGUr9pOWD1lkEaCKRK5SsAxSVPvyPTsSCCz0X
+	s2ZYRMylCw11Vgt/x4iQGuONyDal8xkZ05O6OH4RPenA8faTdBxJc6qcOHlkTSC0X/JoY3
+	q2OJyknhxOft/Q2vucjl7oiRrrAohHITaAE58ObsfV20Fbo9cLsiz+VlKkGavw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1777910814;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TXHH5R0BhkfDr9Rlhn4zkhBVScUk87tQK0t869TJNfs=;
+	b=nIlKXDszLqqxfyZ58gmZFU0fcWEreTuYJ7Q+6yLWHuRvHqEXi2+06DZwnD6Ya+Rqgx+XEB
+	K/FtxzX6m4jMq9CQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Daniel Machon <daniel.machon@microchip.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	UNGLinuxDriver@microchip.com, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Bjarni Jonasson <bjarni.jonasson@microchip.com>,
+	Lars Povlsen <lars.povlsen@microchip.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH net 2/4] net: sparx5: fix sleep in atomic context in MAC
+ table access
+Message-ID: <20260504160653.4acdravI@linutronix.de>
+References: <20260504-misc-fixes-sparx5-lan969x-v1-0-6604306b5743@microchip.com>
+ <20260504-misc-fixes-sparx5-lan969x-v1-2-6604306b5743@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260504-misc-fixes-sparx5-lan969x-v1-4-6604306b5743@microchip.com>
-References: <20260504-misc-fixes-sparx5-lan969x-v1-0-6604306b5743@microchip.com>
-In-Reply-To: <20260504-misc-fixes-sparx5-lan969x-v1-0-6604306b5743@microchip.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Steen Hegelund
-	<Steen.Hegelund@microchip.com>, <UNGLinuxDriver@microchip.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Bjarni Jonasson
-	<bjarni.jonasson@microchip.com>, Lars Povlsen <lars.povlsen@microchip.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, Steen Hegelund
-	<steen.hegelund@microchip.com>, <linux-rt-devel@lists.linux.dev>, Andrew Lunn
-	<andrew@lunn.ch>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260504-misc-fixes-sparx5-lan969x-v1-2-6604306b5743@microchip.com>
 
-sparx5_port_init() only invokes sparx5_serdes_set() and the associated
-shadow-device enable and low-speed device switch for SGMII and QSGMII.
-On any port with a high-speed primary device (DEV5G/DEV10G/DEV25G)
-configured for 1000BASE-X the serdes is therefore left uninitialized,
-the DEV2G5 shadow is never enabled, and the port stays pointed at its
-high-speed device rather than the DEV2G5. The PCS1G block looks
-healthy in isolation, but no frames reach the link partner.
+On 2026-05-04 16:43:43 [+0200], Daniel Machon wrote:
+> index 2bf9c5f64151..0797cfa32916 100644
+> --- a/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c
+> +++ b/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c
+> @@ -50,7 +50,7 @@ static int sparx5_mact_wait_for_completion(struct sparx5 *sparx5)
+>  {
+>  	u32 val;
+>  
+> -	return readx_poll_timeout(sparx5_mact_get_status,
+> +	return readx_poll_timeout_atomic(sparx5_mact_get_status,
 
-Add 1000BASE-X to the check so the same three steps run.
+If you do _atomic, it becomes atomic. That means it does not sleep as in
+TABLE_UPDATE_SLEEP_US for 10 us but spins via udelay(). The
+TABLE_UPDATE_TIMEOUT_US is set to 100ms which _might_ be high. 
+This is probably just nitpicking (given that there are other drivers
+doing the same with a greater timeout (READL_TIMEOUT_US)) so feel free
+to ignore it.
 
-Reported-by: Andrew Lunn <andrew@lunn.ch>
-Fixes: 946e7fd5053a ("net: sparx5: add port module support")
-Signed-off-by: Daniel Machon <daniel.machon@microchip.com>
----
- drivers/net/ethernet/microchip/sparx5/sparx5_port.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+>  		sparx5, val,
+>  		LRN_COMMON_ACCESS_CTRL_MAC_TABLE_ACCESS_SHOT_GET(val) == 0,
+>  		TABLE_UPDATE_SLEEP_US, TABLE_UPDATE_TIMEOUT_US);
 
-diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_port.c b/drivers/net/ethernet/microchip/sparx5/sparx5_port.c
-index 04bc8fffaf96..62c49893de3c 100644
---- a/drivers/net/ethernet/microchip/sparx5/sparx5_port.c
-+++ b/drivers/net/ethernet/microchip/sparx5/sparx5_port.c
-@@ -1128,7 +1128,8 @@ int sparx5_port_init(struct sparx5 *sparx5,
- 		DEV2G5_PCS1G_SD_CFG(port->portno));
- 
- 	if (conf->portmode == PHY_INTERFACE_MODE_QSGMII ||
--	    conf->portmode == PHY_INTERFACE_MODE_SGMII) {
-+	    conf->portmode == PHY_INTERFACE_MODE_SGMII ||
-+	    conf->portmode == PHY_INTERFACE_MODE_1000BASEX) {
- 		err = sparx5_serdes_set(sparx5, port, conf);
- 		if (err)
- 			return err;
-
--- 
-2.34.1
-
+Sebastian
