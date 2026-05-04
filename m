@@ -1,52 +1,52 @@
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B4B3DEFE1
-	for <linux-rt-devel@lists.linux.dev>; Mon,  4 May 2026 14:44:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ABB3DFC90
+	for <linux-rt-devel@lists.linux.dev>; Mon,  4 May 2026 14:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777905845; cv=none; b=tkmiYiQiXfbcHPi22cHAyxbebkV6+DlfLIhGPRHaMrxZlX6y8Hc7kVCvUdn7lkFGO6LA96ryfYmD5MkOULkwAzQzb7Iu2KLmhJynn99/SHx8l/LKwbvfOSMj0j96uai+Mtevmrt44SJ1ek6AMuqHFMJh41kpWPNIMfgqIhPNC48=
+	t=1777905848; cv=none; b=jBLVNIMqo2DbCwL55z82cdDw1sFSynj7HzxnjM4V45dJcIHBESNyo0PH+8/hfDEESCTzKvP34RQiEY0q1PSQukX62VdeVWWgfiX8pXyUVCzhQ6IW293VgnHa2JNJ4NO9NCtmaAcqwM857b4yxWvvKRKjA3CZkKuBjHtxQyopdF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777905845; c=relaxed/simple;
-	bh=7kododvTQ68yKTSDo3YpbRkIFBnTYQ7gfRla+bTGEck=;
+	s=arc-20240116; t=1777905848; c=relaxed/simple;
+	bh=4tBqnJLm+altkayC6UROJ0S349UF2t5XvnfxAIrYjPA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=F4/4/pEDama3CKkJiOfs4NHk6owdFeNGxYIB7g9aHtBQC27IHH5XnsnaLEwPSw/naj6QnEkUF7OYuOHFoJoENfyqW7YanuQ8JCiqJOfEH3RNJIxszOzTDK2KbaqJg0pW1nwSGnXbK0PVRJM4qbmEY/CuxrQk6l/A1jiorBAMh+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=nmBBjaWh; arc=none smtp.client-ip=68.232.154.123
+	 In-Reply-To:To:CC; b=BuhZsUc1dozxk9IyI+hddQytQhyHzwVV+YydIqfdpTa0hyK71QmSFOmqBSf8IkUi1HbsCxBrYYwS5tgbdC6glL0AEvPTe8nZuvnKnL3wYsPhHYOQZedWGNJgeZHh9B1bLNQS/mqU1zeoL709dohMt/JbuZAEVHKUhOAszfmfPYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=KVACXtBQ; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="nmBBjaWh"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="KVACXtBQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1777905841; x=1809441841;
+  t=1777905846; x=1809441846;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=7kododvTQ68yKTSDo3YpbRkIFBnTYQ7gfRla+bTGEck=;
-  b=nmBBjaWhQtycOgVSSjpVX+Ayz6hTcEULBUUfU33xIOxVqvqM7FQ/v5Hp
-   +5Gb6eLDL6b4E1OLijkeilgdTPF+HY/yjZQfJKGrzQZwVMkChs1ECSMNJ
-   6ZRnJoxnTxm7H8RybjsoYcNvhhDkO2RZ80NkyWtxfERGn/XogE/Bt6Pex
-   c1RSkdPliUepKunqfllGMCPoJWVK2KrV7O7a/aC4Gsp8+E8oENK2aHqmA
-   4TMHhg91X4HetlOpKxLZOzO4sJKb/qrsH+JJeAfJusIpgoW8adhjDe4hL
-   0fgvm50d/7a8F8LWGjVXO/7YxuJcvL1Yd209WoHnR4rEh3sxXhaHXqtQc
+  bh=4tBqnJLm+altkayC6UROJ0S349UF2t5XvnfxAIrYjPA=;
+  b=KVACXtBQs0hrtVKJPcU80HOubGtPuar9sfJ3b4uZH747p58+LvIPnJ4L
+   MfNNUsa45K70mUlYlpfK3cizSRpEzRiki9fkRbk3zcxorFlupOSLG6kuu
+   A8EqGoq5pj7Um+ePdxccSrdQ6gbA5uHW0+uUZ9ActQo+JI8AxDs/DlkrC
+   /pjm7D+CmESxBnl2xc0uO59DR3ic50nJLQlpuHpuqiWV204KjkydApwxV
+   6B5+fiGsV7Xy93lociry1SlVyJj3I6En16Wd9+S8s956Ay6MyxIosHA3v
+   ZdZVoiAdjUsfTAvxnV4OFLlAs2K+7JLhbJCKW+z3FCP7RVUP4Q81ZXUku
    A==;
-X-CSE-ConnectionGUID: 7uQDdU03S3GOFdMVRa3EAA==
-X-CSE-MsgGUID: vi0Vgd5cTEiICpPW0xbVMg==
+X-CSE-ConnectionGUID: WV/KM/BVRTu9/vFRH3AT8g==
+X-CSE-MsgGUID: o846igGHQhy0nyaNR1v0nw==
 X-IronPort-AV: E=Sophos;i="6.23,215,1770620400"; 
-   d="scan'208";a="56221892"
+   d="scan'208";a="224242092"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 07:44:01 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
- chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 May 2026 07:44:05 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.37; Mon, 4 May 2026 07:44:01 -0700
+ 15.1.2507.58; Mon, 4 May 2026 07:44:04 -0700
 Received: from DEN-DL-M70577.microsemi.net (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Mon, 4 May 2026 07:43:57 -0700
+ 15.1.2507.58 via Frontend Transport; Mon, 4 May 2026 07:44:01 -0700
 From: Daniel Machon <daniel.machon@microchip.com>
-Date: Mon, 4 May 2026 16:43:42 +0200
-Subject: [PATCH net 1/4] net: sparx5: defer VCAP debugfs creation until
- after netdev registration
+Date: Mon, 4 May 2026 16:43:43 +0200
+Subject: [PATCH net 2/4] net: sparx5: fix sleep in atomic context in MAC
+ table access
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260504-misc-fixes-sparx5-lan969x-v1-1-6604306b5743@microchip.com>
+Message-ID: <20260504-misc-fixes-sparx5-lan969x-v1-2-6604306b5743@microchip.com>
 References: <20260504-misc-fixes-sparx5-lan969x-v1-0-6604306b5743@microchip.com>
 In-Reply-To: <20260504-misc-fixes-sparx5-lan969x-v1-0-6604306b5743@microchip.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
@@ -71,145 +71,164 @@ CC: <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
 	<steen.hegelund@microchip.com>, <linux-rt-devel@lists.linux.dev>
 X-Mailer: b4 0.14.3
 
-Commit 3a95973e7c79 ("net: sparx5: move VCAP initialization to probe")
-moved sparx5_vcap_init() ahead of sparx5_register_netdevs() in probe.
-The VCAP init path ends by calling vcap_port_debugfs() for every port,
-which uses netdev_name(ndev) as the debugfs file name. At that point
-the netdevs have only been allocated, not registered, so dev->name
-still holds the "eth%d" template and netdev_name() returns
-"(unnamed net_device)". Every port tries to create the same file under
-vcaps/, producing a flood of warnings at boot:
+sparx5_mact_learn() is called from .ndo_set_rx_mode with
+netif_addr_lock_bh held, but takes sparx5->lock which is a mutex.
+A mutex may block, which is not allowed from atomic context.
 
-  debugfs: '(unnamed net_device)' already exists in 'vcaps'
-  debugfs: '(unnamed net_device)' already exists in 'vcaps'
-  ...
+Convert sparx5->lock to a spinlock, switch the hardware completion poll
+to readx_poll_timeout_atomic(), and use spin_lock_bh() since no caller
+runs in hardirq context.
 
-Move the debugfs setup into a new sparx5_debugfs() helper in
-sparx5_debugfs.c, invoked after sparx5_register_notifier_blocks()
-succeeds so the netdev names are finalized. sparx5_vcap_init() now
-only deals with VCAP state. The sparx5/ debugfs root is created in
-the new helper as well.
+Observed with CONFIG_PROVE_LOCKING, CONFIG_DEBUG_SPINLOCK,
+CONFIG_DEBUG_MUTEXES and CONFIG_DEBUG_ATOMIC_SLEEP enabled:
 
-Fixes: 3a95973e7c79 ("net: sparx5: move VCAP initialization to probe")
+  BUG: sleeping function called from invalid context at kernel/locking/mutex.c:591
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 217, name: ip
+  preempt_count: 201, expected: 0
+  Call trace:
+   __might_resched+0x144/0x248
+   __might_sleep+0x48/0x7c
+   __mutex_lock+0x74/0x850
+   mutex_lock_nested+0x24/0x30
+   sparx5_mact_learn+0x78/0x100
+   sparx5_mc_sync+0x40/0x54
+   __hw_addr_sync_dev+0xc4/0x170
+   sparx5_set_rx_mode+0x4c/0x58
+   __dev_set_rx_mode+0x64/0xa4
+   __dev_open+0x1ec/0x26c
+
+Fixes: b37a1bae742f ("net: sparx5: add mactable support")
 Signed-off-by: Daniel Machon <daniel.machon@microchip.com>
 ---
- drivers/net/ethernet/microchip/sparx5/Makefile     |  3 ++-
- .../net/ethernet/microchip/sparx5/sparx5_debugfs.c | 26 ++++++++++++++++++++++
- .../net/ethernet/microchip/sparx5/sparx5_main.c    |  4 ++--
- .../net/ethernet/microchip/sparx5/sparx5_main.h    |  7 ++++++
- .../ethernet/microchip/sparx5/sparx5_vcap_impl.c   |  6 -----
- 5 files changed, 37 insertions(+), 9 deletions(-)
+ .../ethernet/microchip/sparx5/sparx5_mactable.c    | 24 +++++++++++-----------
+ .../net/ethernet/microchip/sparx5/sparx5_main.h    |  2 +-
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/net/ethernet/microchip/sparx5/Makefile b/drivers/net/ethernet/microchip/sparx5/Makefile
-index d447f9e84d92..eb5c81527f41 100644
---- a/drivers/net/ethernet/microchip/sparx5/Makefile
-+++ b/drivers/net/ethernet/microchip/sparx5/Makefile
-@@ -14,7 +14,8 @@ sparx5-switch-y  := sparx5_main.o sparx5_packet.o \
-  sparx5_psfp.o sparx5_mirror.o sparx5_regs.o
+diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c b/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c
+index 2bf9c5f64151..0797cfa32916 100644
+--- a/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c
++++ b/drivers/net/ethernet/microchip/sparx5/sparx5_mactable.c
+@@ -50,7 +50,7 @@ static int sparx5_mact_wait_for_completion(struct sparx5 *sparx5)
+ {
+ 	u32 val;
  
- sparx5-switch-$(CONFIG_SPARX5_DCB) += sparx5_dcb.o
--sparx5-switch-$(CONFIG_DEBUG_FS) += sparx5_vcap_debugfs.o
-+sparx5-switch-$(CONFIG_DEBUG_FS) += sparx5_vcap_debugfs.o \
-+				    sparx5_debugfs.o
- 
- sparx5-switch-$(CONFIG_LAN969X_SWITCH) += lan969x/lan969x_regs.o \
- 					  lan969x/lan969x.o \
-diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_debugfs.c b/drivers/net/ethernet/microchip/sparx5/sparx5_debugfs.c
-new file mode 100644
-index 000000000000..f6cb1eeaab80
---- /dev/null
-+++ b/drivers/net/ethernet/microchip/sparx5/sparx5_debugfs.c
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Microchip Sparx5 Switch driver debug filesystem support
-+ *
-+ * Copyright (c) 2026 Microchip Technology Inc. and its subsidiaries.
-+ */
-+
-+#include <linux/debugfs.h>
-+
-+#include "sparx5_main.h"
-+#include "vcap_api_debugfs.h"
-+
-+void sparx5_debugfs(struct sparx5 *sparx5)
-+{
-+	const struct sparx5_consts *consts = sparx5->data->consts;
-+	struct vcap_control *ctrl = sparx5->vcap_ctrl;
-+	struct dentry *dir;
-+	int idx;
-+
-+	sparx5->debugfs_root = debugfs_create_dir("sparx5", NULL);
-+
-+	dir = vcap_debugfs(sparx5->dev, sparx5->debugfs_root, ctrl);
-+	for (idx = 0; idx < consts->n_ports; ++idx)
-+		if (sparx5->ports[idx])
-+			vcap_port_debugfs(sparx5->dev, dir, ctrl,
-+					  sparx5->ports[idx]->ndev);
-+}
-diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_main.c b/drivers/net/ethernet/microchip/sparx5/sparx5_main.c
-index dad713e9ddd5..bec07560e6fe 100644
---- a/drivers/net/ethernet/microchip/sparx5/sparx5_main.c
-+++ b/drivers/net/ethernet/microchip/sparx5/sparx5_main.c
-@@ -820,8 +820,6 @@ static int mchp_sparx5_probe(struct platform_device *pdev)
- 	/* Default values, some from DT */
- 	sparx5->coreclock = SPX5_CORE_CLOCK_DEFAULT;
- 
--	sparx5->debugfs_root = debugfs_create_dir("sparx5", NULL);
--
- 	ports = of_get_child_by_name(np, "ethernet-ports");
- 	if (!ports) {
- 		dev_err(sparx5->dev, "no ethernet-ports child node found\n");
-@@ -1000,6 +998,8 @@ static int mchp_sparx5_probe(struct platform_device *pdev)
- 		goto cleanup_netdevs;
+-	return readx_poll_timeout(sparx5_mact_get_status,
++	return readx_poll_timeout_atomic(sparx5_mact_get_status,
+ 		sparx5, val,
+ 		LRN_COMMON_ACCESS_CTRL_MAC_TABLE_ACCESS_SHOT_GET(val) == 0,
+ 		TABLE_UPDATE_SLEEP_US, TABLE_UPDATE_TIMEOUT_US);
+@@ -92,7 +92,7 @@ int sparx5_mact_learn(struct sparx5 *sparx5, int pgid,
+ 		addr = pgid - consts->n_ports;
  	}
  
-+	sparx5_debugfs(sparx5);
-+
- 	goto cleanup_config;
+-	mutex_lock(&sparx5->lock);
++	spin_lock_bh(&sparx5->lock);
  
- cleanup_netdevs:
+ 	sparx5_mact_select(sparx5, mac, vid);
+ 
+@@ -111,7 +111,7 @@ int sparx5_mact_learn(struct sparx5 *sparx5, int pgid,
+ 
+ 	ret = sparx5_mact_wait_for_completion(sparx5);
+ 
+-	mutex_unlock(&sparx5->lock);
++	spin_unlock_bh(&sparx5->lock);
+ 
+ 	return ret;
+ }
+@@ -164,7 +164,7 @@ bool sparx5_mact_getnext(struct sparx5 *sparx5,
+ 	u32 cfg2;
+ 	int ret;
+ 
+-	mutex_lock(&sparx5->lock);
++	spin_lock_bh(&sparx5->lock);
+ 
+ 	sparx5_mact_select(sparx5, mac, *vid);
+ 
+@@ -183,7 +183,7 @@ bool sparx5_mact_getnext(struct sparx5 *sparx5,
+ 			*pcfg2 = cfg2;
+ 	}
+ 
+-	mutex_unlock(&sparx5->lock);
++	spin_unlock_bh(&sparx5->lock);
+ 
+ 	return ret == 0;
+ }
+@@ -194,7 +194,7 @@ int sparx5_mact_find(struct sparx5 *sparx5,
+ 	int ret;
+ 	u32 cfg2;
+ 
+-	mutex_lock(&sparx5->lock);
++	spin_lock_bh(&sparx5->lock);
+ 
+ 	sparx5_mact_select(sparx5, mac, vid);
+ 
+@@ -212,7 +212,7 @@ int sparx5_mact_find(struct sparx5 *sparx5,
+ 			ret = -ENOENT;
+ 	}
+ 
+-	mutex_unlock(&sparx5->lock);
++	spin_unlock_bh(&sparx5->lock);
+ 
+ 	return ret;
+ }
+@@ -222,7 +222,7 @@ int sparx5_mact_forget(struct sparx5 *sparx5,
+ {
+ 	int ret;
+ 
+-	mutex_lock(&sparx5->lock);
++	spin_lock_bh(&sparx5->lock);
+ 
+ 	sparx5_mact_select(sparx5, mac, vid);
+ 
+@@ -233,7 +233,7 @@ int sparx5_mact_forget(struct sparx5 *sparx5,
+ 
+ 	ret = sparx5_mact_wait_for_completion(sparx5);
+ 
+-	mutex_unlock(&sparx5->lock);
++	spin_unlock_bh(&sparx5->lock);
+ 
+ 	return ret;
+ }
+@@ -440,7 +440,7 @@ static void sparx5_mact_pull_work(struct work_struct *work)
+ 	vid = 0;
+ 	memset(mac, 0, sizeof(mac));
+ 	do {
+-		mutex_lock(&sparx5->lock);
++		spin_lock_bh(&sparx5->lock);
+ 		sparx5_mact_select(sparx5, mac, vid);
+ 		spx5_wr(LRN_SCAN_NEXT_CFG_SCAN_NEXT_UNTIL_FOUND_ENA_SET(1),
+ 			sparx5, LRN_SCAN_NEXT_CFG);
+@@ -451,7 +451,7 @@ static void sparx5_mact_pull_work(struct work_struct *work)
+ 		ret = sparx5_mact_wait_for_completion(sparx5);
+ 		if (ret == 0)
+ 			ret = sparx5_mact_get(sparx5, mac, &vid, &cfg2);
+-		mutex_unlock(&sparx5->lock);
++		spin_unlock_bh(&sparx5->lock);
+ 		if (ret == 0)
+ 			sparx5_mact_handle_entry(sparx5, mac, vid, cfg2);
+ 	} while (ret == 0);
+@@ -493,7 +493,7 @@ int sparx5_mact_init(struct sparx5 *sparx5)
+ {
+ 	char queue_name[32];
+ 
+-	mutex_init(&sparx5->lock);
++	spin_lock_init(&sparx5->lock);
+ 
+ 	/*  Flush MAC table */
+ 	spx5_wr(LRN_COMMON_ACCESS_CTRL_CPU_ACCESS_CMD_SET(MAC_CMD_CLEAR_ALL) |
 diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_main.h b/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
-index 6a745bb71b5c..d5e6644ff124 100644
+index d5e6644ff124..8ef4050ceecc 100644
 --- a/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
 +++ b/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
-@@ -565,6 +565,13 @@ void sparx5_get_hwtimestamp(struct sparx5 *sparx5,
- int sparx5_vcap_init(struct sparx5 *sparx5);
- void sparx5_vcap_deinit(struct sparx5 *sparx5);
- 
-+/* sparx5_debugfs.c */
-+#if defined(CONFIG_DEBUG_FS)
-+void sparx5_debugfs(struct sparx5 *sparx5);
-+#else
-+static inline void sparx5_debugfs(struct sparx5 *sparx5) {}
-+#endif
-+
- /* sparx5_pgid.c */
- enum sparx5_pgid_type {
- 	SPX5_PGID_FREE,
-diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c b/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-index 95b93e46a41d..dd446b3a9f20 100644
---- a/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-+++ b/drivers/net/ethernet/microchip/sparx5/sparx5_vcap_impl.c
-@@ -2035,7 +2035,6 @@ int sparx5_vcap_init(struct sparx5 *sparx5)
- 	const struct sparx5_vcap_inst *cfg;
- 	struct vcap_control *ctrl;
- 	struct vcap_admin *admin;
--	struct dentry *dir;
- 	int err = 0, idx;
- 
- 	/* Create a VCAP control instance that owns the platform specific VCAP
-@@ -2074,11 +2073,6 @@ int sparx5_vcap_init(struct sparx5 *sparx5)
- 			sparx5_vcap_port_key_selection(sparx5, admin);
- 		list_add_tail(&admin->list, &ctrl->list);
- 	}
--	dir = vcap_debugfs(sparx5->dev, sparx5->debugfs_root, ctrl);
--	for (idx = 0; idx < consts->n_ports; ++idx)
--		if (sparx5->ports[idx])
--			vcap_port_debugfs(sparx5->dev, dir, ctrl,
--					  sparx5->ports[idx]->ndev);
- 
- 	return err;
- }
+@@ -373,7 +373,7 @@ struct sparx5 {
+ 	u32 features;
+ 	void __iomem *regs[NUM_TARGETS];
+ 	int port_count;
+-	struct mutex lock; /* MAC reg lock */
++	spinlock_t lock; /* MAC reg lock */
+ 	/* port structures are in net device */
+ 	struct sparx5_port *ports[SPX5_PORTS];
+ 	enum sparx5_core_clockfreq coreclock;
 
 -- 
 2.34.1
