@@ -1,121 +1,121 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524CC37AA7F
-	for <linux-rt-devel@lists.linux.dev>; Wed,  6 May 2026 07:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9411C238C2A
+	for <linux-rt-devel@lists.linux.dev>; Wed,  6 May 2026 07:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778052386; cv=none; b=KkFLTQk6wAary0FkoNNCsn+y85Eg1VBbnzLCp8NCkvWHQAp5c5wSXte1NEKAiYgZiguuglSFIH+EgoDEbo46lQB3/UD/b9JwwwStpB34zwZ8e29/4qtSvxhz496I9UmsN1NBWn8cthKcslTCRw2nHtkJgOyF487g3bMs5hhc9ng=
+	t=1778053684; cv=none; b=PusZTktsgk11GO7ZkNVEdCOaMV9TuZDzfAZa3oqEAhVbft25iTzyv5wycjFtjXlrr5XwUB4FCbCLEzGifoUcnEjN1Y13YjOY5fiA+hUaLGniJfgUpY4wF8pqVCVTUUmNYOBgyxL39IC0dXuihV0xe9pPk3Vrk123LStga5vmqSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778052386; c=relaxed/simple;
-	bh=JITsFlRhNPddbBiE7x9vC95CAEMQC2QeFvYuXGtu3Jk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=JFpJ4Yn5sdYFspUsQAvbKkTRvBsrSe7sxkZ4/58qM8OAypHr04j7DSg255uiyyYFsgzoG/mwvdKnIHtMAh+skav8KNdN95xqPa2ry9H70S+O/iEoRSeXEiqj8IOm/Hq2kfHEcGEiuljhyLBvz9xchVddcxdrXR0Ca0rS0/gZZ2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=ZtSwfuUu; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1778053684; c=relaxed/simple;
+	bh=6d2k4p+SGUdlq5rmtOl/4L5HtwcZD/Jwy6bdOgroPVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tO6ks2lqhRWLDAtOYurfSnesM9ku3kvJ+uVH/Ha1yLD3tK45VCJHTb2xBWH81cFIXa5TNmx3zmc0d78JgoY6KSLwcgBENP6gpxcroBZDdzWNBs1VXJYa1UahjN8vzTFjQAynRAGn6btA7bODGjpAi6QnrF/o7NPO1YRCip9WtfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DsMAZnSb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GAMDAi1X; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ZtSwfuUu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1778052386; x=1809588386;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=JITsFlRhNPddbBiE7x9vC95CAEMQC2QeFvYuXGtu3Jk=;
-  b=ZtSwfuUuhuF7LzJIBWjQHpnrr29z+Br18ZZEirGMpbFF6iNmWWzs0k5L
-   JVxq0CsaKfGD4OINU1o87DVv0xkee8wpHygWYaBtdAziUCfl54BAnMVtj
-   T4sb3r1p+l7LyDW1lvoOxwsysUNlYSZCFefYUMsmTexLsCYIx/9MdNeyK
-   XsiAjqzn99wFMlnktOn7JdPWt7iAG2zj5wTA8pFeS4Hm8kzXXcCphfi8Y
-   4bHtnirTILNmRhvE8GiJBVgAUtpqQXWfDIV0O5QJPwmXJreYLJwHUpjz9
-   GJE6TKnCDJximymMywKio5l/TJhTW2xfjx2q2l2vMJZFztcvmop1cs2pm
-   g==;
-X-CSE-ConnectionGUID: 55FQtZaxTi6fR0HFIcyGwg==
-X-CSE-MsgGUID: eFJSXsBaReiFcz9TRMe1zw==
-X-IronPort-AV: E=Sophos;i="6.23,219,1770620400"; 
-   d="scan'208";a="65355704"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 May 2026 00:26:20 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 6 May 2026 00:26:18 -0700
-Received: from DEN-DL-M70577.microsemi.net (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 6 May 2026 00:26:15 -0700
-From: Daniel Machon <daniel.machon@microchip.com>
-Date: Wed, 6 May 2026 09:25:38 +0200
-Subject: [PATCH net v2 3/4] net: sparx5: fix wrong chip ids for TSN SKUs
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DsMAZnSb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GAMDAi1X"
+Date: Wed, 6 May 2026 09:47:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1778053680;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBJlc62CljBch3EtHz0CTqrU2a50TB/3SkRgjHbAKSU=;
+	b=DsMAZnSbltaoqe/62EqBYHHLcQAmZZJtn21XxBF/0UsMDqm1TynQktNpR+YBUpJnrpc13U
+	7Tnc++d6mNNuSwJ3nIKrrtdElccAFeXu55dalcJus6GcphG1gbxM4LhekWYgQ7eg9r8mZx
+	DmSzZxzMq5fxQUK6XtMy9ODGYKMNGJ3mh8dJWZpTn3OhEbNrR90gH1IYaNq9i+M9ukM/IG
+	f9qPIOlQ3kpOWDu+3FU4l6HYknebbppbZQ2wPJMBEZke/A0RvFs3Ex9GAU3VroYWwiNL0b
+	4dFbgvU8bKCFvgwkDzXykdg4RQ63UdMEoeffkCw+7i5vCxRKFPcanerP+XHZ6Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1778053680;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cBJlc62CljBch3EtHz0CTqrU2a50TB/3SkRgjHbAKSU=;
+	b=GAMDAi1XKJx0QwQmNjR2tJ6WHpk2HCHddopkHlOdccPqqrpYFI/QM4MlKNgErWKEvEzkdG
+	1IeKr44U0vlwvABg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>,
+	axboe@kernel.dk, linux-block@vger.kernel.org, clrkwllms@kernel.org,
+	rostedt@goodmis.org, ming.lei@redhat.com, muchun.song@linux.dev,
+	mkhalfella@purestorage.com, chris.friesen@windriver.com,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-rt-users@vger.kernel.org, stable@vger.kernel.org,
+	ionut_n2001@yahoo.com, sunlightlinux@gmail.com
+Subject: Re: [PATCH v6 1/1] block/blk-mq: use atomic_t for quiesce_depth to
+ avoid lock contention on RT
+Message-ID: <20260506074758.8zEg1ZBh@linutronix.de>
+References: <cover.1778048987.git.ionut.nechita@windriver.com>
+ <406f424c0a718bf492d40c206983e355e600945a.1778048987.git.ionut.nechita@windriver.com>
+ <50187fa5-03a9-4ca3-bcaf-a36ed75bda2c@acm.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260506-misc-fixes-sparx5-lan969x-v2-3-fb236aa96908@microchip.com>
-References: <20260506-misc-fixes-sparx5-lan969x-v2-0-fb236aa96908@microchip.com>
-In-Reply-To: <20260506-misc-fixes-sparx5-lan969x-v2-0-fb236aa96908@microchip.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Steen Hegelund
-	<Steen.Hegelund@microchip.com>, <UNGLinuxDriver@microchip.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, Clark Williams
-	<clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Bjarni Jonasson
-	<bjarni.jonasson@microchip.com>, Lars Povlsen <lars.povlsen@microchip.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, <kees@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, Steen Hegelund
-	<steen.hegelund@microchip.com>, <linux-rt-devel@lists.linux.dev>, Andrew Lunn
-	<andrew@lunn.ch>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <50187fa5-03a9-4ca3-bcaf-a36ed75bda2c@acm.org>
 
-The TSN SKUs in enum spx5_target_chiptype have incorrect IDs:
+On 2026-05-06 09:14:33 [+0200], Bart Van Assche wrote:
+> On 5/6/26 8:56 AM, Ionut Nechita (Wind River) wrote:
+> >   void blk_mq_quiesce_queue_nowait(struct request_queue *q)
+> >   {
+> > -	unsigned long flags;
+> > -
+> > -	spin_lock_irqsave(&q->queue_lock, flags);
+> > -	if (!q->quiesce_depth++)
+> > -		blk_queue_flag_set(QUEUE_FLAG_QUIESCED, q);
+> > -	spin_unlock_irqrestore(&q->queue_lock, flags);
+> > +	atomic_inc(&q->quiesce_depth);
+> > +	/*
+> > +	 * Pairs with smp_rmb() in blk_mq_run_hw_queue(): make the
+> > +	 * incremented quiesce_depth observable to readers re-checking
+> > +	 * the quiesce state, so they don't dispatch on a quiesced queue.
+> > +	 */
+> > +	smp_mb__after_atomic();
+> >   }
+> 
+> No, this is not sufficient to guarantee that blk_mq_run_hw_queue() sees
+> the latest value of q->quiesce_depth. If you want to achieve that I
+> think the only option is to protect the atomic_inc() above with
+> hctx->queue->queue_lock.
+> 
+> > @@ -2362,17 +2365,15 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
+> >   	need_run = blk_mq_hw_queue_need_run(hctx);
+> >   	if (!need_run) {
+> > -		unsigned long flags;
+> > -
+> >   		/*
+> > -		 * Synchronize with blk_mq_unquiesce_queue(), because we check
+> > -		 * if hw queue is quiesced locklessly above, we need the use
+> > -		 * ->queue_lock to make sure we see the up-to-date status to
+> > -		 * not miss rerunning the hw queue.
+> > +		 * Re-check the quiesce state after a read barrier. Pairs with
+> > +		 * smp_mb__after_atomic() in blk_mq_quiesce_queue_nowait() and
+> > +		 * blk_mq_unquiesce_queue() so we don't miss rerunning the hw
+> > +		 * queue when a concurrent unquiesce has just dropped the
+> > +		 * quiesce_depth to zero.
+> >   		 */
+> > -		spin_lock_irqsave(&hctx->queue->queue_lock, flags);
+> > +		smp_rmb();
+> >   		need_run = blk_mq_hw_queue_need_run(hctx);
+> > -		spin_unlock_irqrestore(&hctx->queue->queue_lock, flags);
+> 
+> If the atomic_inc() in blk_mq_quiesce_queue_nowait() is protected by
+> hctx->queue->queue_lock then the above code doesn't have to be modified.
 
-  SPX5_TARGET_CT_7546TSN    = 0x47546,
-  SPX5_TARGET_CT_7549TSN    = 0x47549,
-  SPX5_TARGET_CT_7552TSN    = 0x47552,
-  SPX5_TARGET_CT_7556TSN    = 0x47556,
-  SPX5_TARGET_CT_7558TSN    = 0x47558,
+But wouldn't the atomic_inc + barrier avoid the need to have the lock?
+Isn't this a normal pattern? If the lock is kept, we could use
+non-atomic ops here then. But this avoids having the lock.
 
-The value read back from the chip is GCB_CHIP_ID_PART_ID, which is a
-GENMASK(27, 12) field, i.e. at most 16 bits wide. It can never match
-these IDs, so probing a TSN part fails with a "Target not supported"
-error.
+> Thanks,
+> 
+> Bart.
 
-Fix the enum to use the actual 16-bit part IDs returned by the
-hardware: 0x0546, 0x0549, 0x0552, 0x0556 and 0x0558.
-
-Reported-by: Andrew Lunn <andrew@lunn.ch>
-Fixes: 3cfa11bac9bb ("net: sparx5: add the basic sparx5 driver")
-Signed-off-by: Daniel Machon <daniel.machon@microchip.com>
----
- drivers/net/ethernet/microchip/sparx5/sparx5_main.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/net/ethernet/microchip/sparx5/sparx5_main.h b/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
-index d5e6644ff124..078e02627394 100644
---- a/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
-+++ b/drivers/net/ethernet/microchip/sparx5/sparx5_main.h
-@@ -31,11 +31,11 @@ enum spx5_target_chiptype {
- 	SPX5_TARGET_CT_7552       = 0x7552,  /* SparX-5-128 Enterprise */
- 	SPX5_TARGET_CT_7556       = 0x7556,  /* SparX-5-160 Enterprise */
- 	SPX5_TARGET_CT_7558       = 0x7558,  /* SparX-5-200 Enterprise */
--	SPX5_TARGET_CT_7546TSN    = 0x47546, /* SparX-5-64i Industrial */
--	SPX5_TARGET_CT_7549TSN    = 0x47549, /* SparX-5-90i Industrial */
--	SPX5_TARGET_CT_7552TSN    = 0x47552, /* SparX-5-128i Industrial */
--	SPX5_TARGET_CT_7556TSN    = 0x47556, /* SparX-5-160i Industrial */
--	SPX5_TARGET_CT_7558TSN    = 0x47558, /* SparX-5-200i Industrial */
-+	SPX5_TARGET_CT_7546TSN    = 0x0546,  /* SparX-5-64i Industrial */
-+	SPX5_TARGET_CT_7549TSN    = 0x0549,  /* SparX-5-90i Industrial */
-+	SPX5_TARGET_CT_7552TSN    = 0x0552,  /* SparX-5-128i Industrial */
-+	SPX5_TARGET_CT_7556TSN    = 0x0556,  /* SparX-5-160i Industrial */
-+	SPX5_TARGET_CT_7558TSN    = 0x0558,  /* SparX-5-200i Industrial */
- 	SPX5_TARGET_CT_LAN9694    = 0x9694,  /* lan969x-40 */
- 	SPX5_TARGET_CT_LAN9691VAO = 0x9691,  /* lan969x-40-VAO */
- 	SPX5_TARGET_CT_LAN9694TSN = 0x9695,  /* lan969x-40-TSN */
-
--- 
-2.34.1
-
+Sebastian
