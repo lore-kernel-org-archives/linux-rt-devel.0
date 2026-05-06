@@ -1,112 +1,94 @@
-Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAB6301719
-	for <linux-rt-devel@lists.linux.dev>; Tue,  5 May 2026 23:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.218.115.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3889F30FF21
+	for <linux-rt-devel@lists.linux.dev>; Wed,  6 May 2026 06:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778023374; cv=none; b=tUsQTNI60CDevm/UydxoK2xANb1Mwut57cbNK9OxrrMf4ePbWWK/MdxytmDyQtZjX1F/PqS9i+tUEB2aQIzyO4yOotK1M53k9wVWup2Ql34elKXCEkFfhsLZsPabbyA3ULB8QiAVEXnBPsCHE+OBEgtC2WBGUHhAHVR0kkNzujI=
+	t=1778049669; cv=none; b=UHnjbPpxDDm+f+ybif5O2qtkI1SvXfxXEAU+nusfZ5541YC8zKwzFyzx3BBJpGR79YHIPa7YySZeWQ9MCk0cupKYNP01I3/qv2eFWb2/LYuHE2YERUsUv9EB4f3dBdWJtufPsfRZQKHAjMnN8oi2HU48jiePpld7R8f/joj58XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778023374; c=relaxed/simple;
-	bh=5X5sjo1veBsW3+QvOZX+cy82jWair4HbH+EHOjwLgpg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sxQv0HZ+5Y8orqBHzXAqfjLKPzyiROWptqtrHS73NXSKUzbV682EGLTV1k86M5esU0d79XSRnHauK+FpVFE8b+0zF3PoXAkQWvtu+GB9DzBH1JuOITzZd4eqODuIdACoKCVZo8kLzmRxWJQwqGSnIRiwP4Ufl7SLLbX+XgNaGmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=AwGEBn6a; arc=none smtp.client-ip=34.218.115.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1778049669; c=relaxed/simple;
+	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YqTp+sr/XdyY2HhhgZssKKieedtpLDDb/Z2m5cIjcggEBh8gicx8QCKsA5Vlpa9PtxkBA5EWI6HaqoGauzCHk2E+st1h6+DuL5f7V1bVRG1Z5AMbGgCLZM732B1K1SIsOybw55YYDpWxVY99Hhi2AWdugzD8OzpdtCyqFHNvPY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4I4AwYbQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pyeCEy4W; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="AwGEBn6a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1778023373; x=1809559373;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+1MgVX1JjYABbB43s3+tzS/iUlKkc5HUBWfNIY+DQUw=;
-  b=AwGEBn6aQTZcYwK/arVUKr6zlEBoVFVDhKsbueHE9hlFA8dDUnjuf2Ht
-   i6/agDfV7JtFBynVZYvzJz8tNZRMuSviQ7oXyhNAKyQF5AQI7piH3iVfZ
-   w4W66MKg7jymzUOHB9YS7rXh1QPU08xzs8dpM8fRJdq/VST6VPaNIFhXB
-   dAjcDu+7zAiojLwRLxSKyt90JHQKaW9urISdWgtOopdvjhWc0dwusKwXJ
-   k760Thu4lKmvgkLTJlaRPiaKwlSTiUkQQuxuOLCpuBMXsXcFuDsAY4EMW
-   +7PfDkLUSpfETJpWYY8imQEWURzrPk0gRC7S8gZAZ+yD3H9bbEEdmZcoE
-   Q==;
-X-CSE-ConnectionGUID: EGp1A7mdSQGrl09l2Kq06g==
-X-CSE-MsgGUID: nNgcz8fIS66Anrd892H/9Q==
-X-IronPort-AV: E=Sophos;i="6.23,218,1770595200"; 
-   d="scan'208";a="18744505"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 23:22:52 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:24477]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.41.10:2525] with esmtp (Farcaster)
- id fa2f24f3-6bbd-4925-8e4b-0394d60aab0b; Tue, 5 May 2026 23:22:52 +0000 (UTC)
-X-Farcaster-Flow-ID: fa2f24f3-6bbd-4925-8e4b-0394d60aab0b
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 5 May 2026 23:22:50 +0000
-Received: from 842f574e803f.amazon.com (10.187.171.33) by
- EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 5 May 2026 23:22:50 +0000
-From: David LaPorte <dalaport@amazon.com>
-To: <benoit.monin@bootlin.com>
-CC: <andi.shyti@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-	<bala.senthil@intel.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
-	<dmitry.guzman@mobileye.com>, <gregory.clement@bootlin.com>,
-	<jarkko.nikula@linux.intel.com>, <jsd@semihalf.com>,
-	<linux-i2c@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>, <mika.westerberg@linux.intel.com>,
-	<rostedt@goodmis.org>, <tamal.saha@intel.com>, <tawfik.bayouk@mobileye.com>,
-	<theo.lebrun@bootlin.com>, <thomas.petazzoni@bootlin.com>,
-	<vladimir.kondratiev@mobileye.com>, <wsa@kernel.org>, <dgj@amazon.com>,
-	<gunnarku@amazon.com>
-Subject: Re: [PATCH v6 3/3] i2c: designware: Support of controller with IC_EMPTYFIFO_HOLD_MASTER disabled
-Date: Tue, 5 May 2026 16:22:42 -0700
-Message-ID: <20260505232244.71807-1-dalaport@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260130-i2c-dw-v6-3-08ca1e9ece07@bootlin.com>
-References: <20260130-i2c-dw-v6-3-08ca1e9ece07@bootlin.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4I4AwYbQ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pyeCEy4W"
+Date: Wed, 6 May 2026 08:41:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1778049666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
+	b=4I4AwYbQAZ9tzhfcl9HGOznA+HWoAiAqrUiz1qHflGOZg5bJ1GJkPgn7T5x5EL9GGPC9dC
+	BkEIwk7ZU3+3BzjUkJ+3WpxTkfVsPHWz8NwZ0G/jP3AnZQsVPzRiqdCx4ugvCg1WGVJNwL
+	stFBGi8JJZVtx50LMYid4kQg6COs6Uej6rJLeBUMLL8Ojmy8MULBtwQewXkT9olyc7oUqv
+	RNEfC9fBBAElb0kkTFpXMfj13U8iT+O3A0OIpG9A+fiCm5uRMQ6UjbHDUUXniO48AZKVH4
+	MtwzTCQ7Wpn7DS7u5lu76UTRGcFZzYK/Pvqb4c0XQjhYGE/JzwTjYGg6HZbrCA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1778049666;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x7UCgp8b7qknECnRSkXyT1Vd7jQFx6dofShcudHrvzk=;
+	b=pyeCEy4WrMGax2ZI0Do75MWLWWVBnca+/u7SrEgYSoFHRJQdOs6pDECIhQj4ZuoK8rBFFk
+	jbIYCPNQVOLTsxAw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Waiman Long <longman@redhat.com>
+Cc: Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	jberring@redhat.com
+Subject: Re: [PATCH] firmware: tegra: bpmp: Make atomic_tx_lock a raw_spinlock
+Message-ID: <20260506064105.7R4Q7XJP@linutronix.de>
+References: <20260504163448.1063474-1-longman@redhat.com>
+ <20260505062714.jayZOl2t@linutronix.de>
+ <afdb5fc1-f478-4547-aa39-04d477854d64@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <afdb5fc1-f478-4547-aa39-04d477854d64@redhat.com>
 
-Hi all,
+On 2026-05-05 15:47:23 [-0400], Waiman Long wrote:
+> =C2=A0__might_resched+0x254/0x330
+> =C2=A0rt_spin_lock+0x70/0x140
+> =C2=A0tegra_bpmp_transfer_atomic+0x118/0x3c0
+> =C2=A0tegra_bpmp_probe+0x564/0x6f0
 
-I don't have Keem Bay hardware, but reviewing this against the existing driver I think this hunk may regress the multi-master support added by commit f4e0ba52a89f ("i2c: designware: Do not complete i2c read without RX_FULL interrupt"):
+So this is tegra_bpmp_ping().
 
-/* Abort if we detect a STOP in the middle of a read or a write */
-if ((stat & DW_IC_INTR_STOP_DET) &&
-    (dev->status & (STATUS_READ_IN_PROGRESS | STATUS_WRITE_IN_PROGRESS))) {
-    dev_err(dev->dev, "spurious STOP detected\n");
-    dev->rx_outstanding = 0;
-    dev->msg_err = -EIO;
-}
+> I know that interrupt is disabled becasue of the following code.
+>=20
+> 346 int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp, 347 struct
+> tegra_bpmp_message *msg) 348 { 349 struct tegra_bpmp_channel *channel; 350
+> int err; 351 352 if (WARN_ON(!irqs_disabled())) 353 return -EPERM;
 
-That commit handles the case where STOP_DET is observed before the final RX_FULL. The new check aborts on that intermediate state.
+Well, yes. It disables interrupts just probably to document the time it
+took for the transfer so it can write it then via dev_dbg().
+It is hard to tell what the worst-case delay here is but it is probably
+not important if this is just boot time/ driver probe. Maybe.
+What I am bit more concerned if the actual path of this
+tegra_bpmp_transfer_atomic() invocation via i2c driver is actually
+invoked with disabled interrupts on PREEMPT_RT. Because that might not
+be the case. I've been looking at the i2c call chain and it is not
+obvious what the actual call chain is. There is just
+i2c_in_atomic_xfer_mode() check. So it may or may not be used in the
+end.
 
-The sibling TX-side underrun check in i2c_dw_xfer_msg() is gated on !emptyfifo_hold_master; this one isn't. I couldn't find discussion of the interaction in the v1–v6 review history so flagging in case it was an oversight.
+> Cheers, Longman
 
-A minimal fix matching the TX-side gating:
-
-- /* Abort if we detect a STOP in the middle of a read or a write */
-- if ((stat & DW_IC_INTR_STOP_DET) &&
-+ /*
-+  * Abort if we detect a STOP in the middle of a read or a write on
-+  * controllers that do not hold SCL on FIFO underrun.
-+  */
-+ if (!dev->emptyfifo_hold_master &&
-+     (stat & DW_IC_INTR_STOP_DET) &&
-      (dev->status & (STATUS_READ_IN_PROGRESS | STATUS_WRITE_IN_PROGRESS))) {
-    dev_err(dev->dev, "spurious STOP detected\n");
-    dev->rx_outstanding = 0;
-
-Happy to send as a proper patch if that's the right direction, or to be corrected.
-
-Thanks,
-David
+Sebastian
