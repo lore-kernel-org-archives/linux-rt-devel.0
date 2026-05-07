@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEAE3EF64A;
-	Thu,  7 May 2026 16:05:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B42283FCE;
+	Thu,  7 May 2026 16:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778169920; cv=none; b=Ctg1Hijd5UbYl3WGxZEvL2rnZCfuosnWHRJ9E3S5OPYUJ5yqziGlj86qmuqfH5/O8zJeU9SzaPNrH1W9mzMv/YgYiqOhNTvtANxSiXlHdGtoQVAxT5a+/IHi2RguzJJ3DWl9YMSfyHF/DN0GdrW8NLgtZg7nzAvDc0cC/FQlgho=
+	t=1778170092; cv=none; b=g1S5zNINkDESHSfJi/iPaAZIJ7plKtPHhZ/sc5mpTM1cr2isuSDLFY5H+oCR9dvi4PRabK8r6erD2bGLi5bmcmgk2OovugapIULk10Ib6vflWi5cQ3Xy6kz8QP9QDp9a8jlgLX9JLCUQxu3AHJMkwsKP+NApbgIHjgXhExVmKHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778169920; c=relaxed/simple;
-	bh=PjiuOCfQhhHUvzf8Uf9+2t04GxEw19A/aaBiN0wxIgU=;
+	s=arc-20240116; t=1778170092; c=relaxed/simple;
+	bh=rdy5PtRz/HkDIo5L6Ua+6U739iTp3/ZnRsbhHuHjN8M=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tlbP5cWa/Vy8xpt/8Jtb7eeLN/V/4lcaEXSK5OAZT7SgVB1YPgNgdEwNlu0zEt5OMigCGVswGvfvV2iVnui5ol0p2Rty2n9gSs460zbFWQAXjHkzION5cLqw57n8xfpFUsqGdMTzClZArRFQKD4pt9QwuJkIigqJkDRz4rYzpYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m/Qb/ZrF; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BlUaBzsvsuOTHNvnpXQ9dJ5XW5zT5RJrYmnkf0PVJliclVw8iPII0iz5gpA6bOASwizC3ECkwzA1kJMw5frh1Bxx/lCoFdPjSwKFaKrh9+NdiMPRdyVfcUrLnOsKyoiHgpr1mJ8zj4VmnLUUtW8gxnm3Xf3I2IjlX45kN9J++uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZXrsRXuK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m/Qb/ZrF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66663C2BCC4;
-	Thu,  7 May 2026 16:05:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZXrsRXuK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 032ABC2BCB2;
+	Thu,  7 May 2026 16:08:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778169920;
-	bh=PjiuOCfQhhHUvzf8Uf9+2t04GxEw19A/aaBiN0wxIgU=;
+	s=k20201202; t=1778170091;
+	bh=rdy5PtRz/HkDIo5L6Ua+6U739iTp3/ZnRsbhHuHjN8M=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=m/Qb/ZrFZeOIrKmB5azSqQPPJ0IYaVU1yfajUHAsL7P9NvA52ohkKg6aXahZh3lwv
-	 TbYqYMTX4hlG+1YpqQPH8JdhJj7sClc010xKHdBSHGBiVA5l93lQlDF9xCaa5Lh2x8
-	 TaGe/rmDkhCG9ojuhbNGG1XwAYi0QGQiBM88s8eDMcGwwpyVOeFZD0QkVRkl6h5jP1
-	 Qo0wpAuMjriqA3HqC3mbjl0NrmuSL+rSjuNSwFWdHKmfEHy1DWmQtcv+b2gs6jEdRT
-	 /JePvg2TnCiR/zU9hdftYvCiswy/e3z78w7YxYWDYCL7nyp86HlBG12qf1If6910Y+
-	 tYAYnJzJU64ow==
-Date: Thu, 7 May 2026 09:05:18 -0700
+	b=ZXrsRXuKTrmWAAJUa/ZIgyYSyMYUwzsrAWEGTT9WgtinnjihNNt5J1INMOcC5Tlem
+	 8gOuJNJ7PQHkv0Srns0u6bacUCy6qOnXpPznj6aJvQ2HiBEM7xB82cIFNkKOlVKLG0
+	 QXSaW964r2JHVTGrZROhhEviR+vhEMrhsQbC2CxSj43S8k9zj6APVJK2K2qAoG3nsI
+	 kROWk7pxQXJ/t8LyEWDRCsK5mKEmVRfytDKhjmLKOH1PBe9LkiM1Wo8dsiRhKEmxHS
+	 Qx3cK4tJQHi8yFgf/j2nr7C9nJoQVpdoA4BpMuSpkYH77ZeG+Q44AijNGPS1kacAt1
+	 rR2rJz7j26lWw==
+Date: Thu, 7 May 2026 09:08:10 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Daniel Machon <daniel.machon@microchip.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
@@ -39,12 +39,12 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
  Philipp Zabel <p.zabel@pengutronix.de>, <kees@kernel.org>,
  <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
  <linux-arm-kernel@lists.infradead.org>, <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH net v2 2/4] net: sparx5: fix sleep in atomic context in
- MAC table access
-Message-ID: <20260507090518.47b64fef@kernel.org>
-In-Reply-To: <20260506-misc-fixes-sparx5-lan969x-v2-2-fb236aa96908@microchip.com>
+Subject: Re: [PATCH net v2 1/4] net: sparx5: defer VCAP debugfs creation
+ until after netdev registration
+Message-ID: <20260507090810.53e66ef6@kernel.org>
+In-Reply-To: <20260506-misc-fixes-sparx5-lan969x-v2-1-fb236aa96908@microchip.com>
 References: <20260506-misc-fixes-sparx5-lan969x-v2-0-fb236aa96908@microchip.com>
-	<20260506-misc-fixes-sparx5-lan969x-v2-2-fb236aa96908@microchip.com>
+	<20260506-misc-fixes-sparx5-lan969x-v2-1-fb236aa96908@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -54,18 +54,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 6 May 2026 09:25:37 +0200 Daniel Machon wrote:
-> sparx5_set_rx_mode() runs with netif_addr_lock_bh held and iterates
-> dev->mc via __dev_mc_sync(), which per address calls sparx5_mc_sync() /
-> sparx5_mc_unsync() -> sparx5_mact_learn() / sparx5_mact_forget().  These
-> take sparx5->lock, a mutex, and then poll the MAC access command
-> register with readx_poll_timeout(). A mutex may block, which is not
-> allowed from atomic context.
-> 
-> Convert the driver to the new .ndo_set_rx_mode_async callback introduced
-> in commit 3554b4345d85 ("net: introduce ndo_set_rx_mode_async and
-> netdev_rx_mode_work"). The async callback is invoked from process
-> context, so the mutex and sleeping completion poll can remain.
+On Wed, 6 May 2026 09:25:36 +0200 Daniel Machon wrote:
+> Move the debugfs setup into a new sparx5_debugfs() helper in
+> sparx5_debugfs.c, invoked after sparx5_register_notifier_blocks()
+> succeeds so the netdev names are finalized. sparx5_vcap_init() now
+> only deals with VCAP state. The sparx5/ debugfs root is created in
+> the new helper as well.
 
-Sashiko points out that the switchdev handlers are currently racy,
-but I think that's orthogonal.
+netdev names are never final :( User can change them at any time.
+The best practice is to name the debugfs file by some stable hw-related
+property, bus, port number etc.
