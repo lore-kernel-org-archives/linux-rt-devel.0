@@ -1,221 +1,163 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF813644D1
-	for <linux-rt-devel@lists.linux.dev>; Wed,  6 May 2026 22:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778107036; cv=pass; b=r4yfVgUZ3KoCtcxH5M/DruEU6GFug4scfPUVcSvZ4zKQn0O8cCJScAm3vPwKF7mObb6AsvOg2PEP2R01JVQ4O1PtUmiKEU2eFoPTNRM7rQMAM+44HQqDJp5TEI0kmHHY9YL0t3EudN3/7MaBoNxGw3wEDfW8FsvXJyXPYAIkk1g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778107036; c=relaxed/simple;
-	bh=H2wod2e50JqMFLrm5v7kdKyN3x98IfEqxeoiWm4eVfc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LW+0eGY2pXO2ynV9oIWUkk1g6aQoXVHUryIgL50s5w3epKVb7KL1aP1b9zMkIppXPvveEWrUmrZWnTdT6nvmx9RVt6Yece58Iz+ovBSIsbszZX2W0ZGiOs8NBifkElJtVjlfOxC5Y82YbpfX7RmlULG1sv0uRQFhmxaeNW6v/Bk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=erHdjvjS; arc=pass smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1EA5224234;
+	Thu,  7 May 2026 02:37:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778121450; cv=none; b=AFqGPulTf0W2uRKu/6ANhzLEnWNjM+SaQ7QKYhQNHdgnCTolpCofpHxFXbvqLd4Jkv4QbTOp6BFtjik7DHlKtXoubm3P42MQ5XUbZ9robnZbDkGc2qgNSx2dnAldgBwEoLlXGMT+oIqqJyLz7wzZNMBNDQ7bGdiNDO/3YdpYtJU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778121450; c=relaxed/simple;
+	bh=x4OZxVVa7XuFeQ5NIz/1eEAUFe9OyoXfnPlSCrrsrgo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=e6WH8ftLcDUaWF3WlZM7xDD661eWmY2hjWx6eJ32ssGaFnNmAWbgn5PApFL47MSyP39MuETogk3r8zd0Ov8N41s0GvEzGhKlvP8LkxHjfvK57hY0zh50E4ady6EbK3E+D4veoE5tmSdY+Z8dEf24jOseF7oPVnRIuW7vAG6N1yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=kSwqf2eJ; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="erHdjvjS"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6948fb494a0so109846eaf.2
-        for <linux-rt-devel@lists.linux.dev>; Wed, 06 May 2026 15:37:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778107034; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RdQA2ABlUKsTN6x5IEed7R86exHw9po2EHR93XSnH7bWR54v3HsLZcn6g1g4SadrfH
-         k8t/IWnRanDs2YIjs2JxnruusfDotdzwOPnHrDbHVJtmWfPimIAZUpNMouzzau2X4C/I
-         xExElroBcXIHQhBlHuiGwH3u5FcDnN81G6axT4WTbz/51ivk2jyl5xYF2giJSVdukHya
-         dQtxvCKmRRky49nu9V5d98w+8T7tM6OYMNKjWamW7/LWXbrHsUL3b6x/lQ234KuJAMVE
-         DkI3ijjOvxHPHaIAGRlaXY6scIyY9404Ic0feD6c4afvG7xnP/VLs5GBgCSCLXfRutUK
-         Re0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=O2M9x4aX4d7Rz8hjq9oGfdKv/HBHH7LxpobCw3rVI4o=;
-        fh=iwfhbY3yslkL8AkIR/Z+qB9EVJIYAk6id3GviGO0k4s=;
-        b=iNNKi2ZsQHbVCiHmSG0/aKo3EtfrGrssMtVbg4aul9hqprd3pEjhWrk8Qi6VGSnazY
-         nBq3TV+J0L/AvUw/+quW8uqq1hdDfOetApS93vZU/7b+Dr5F4ODIrxRIfrHhPwF7bt2T
-         uLeRf2uuJf3SRbgTNSk8awnEIE1tRDf9YuKVNWjnoEbgbEJolttkC20DMfvO45pLNamK
-         humCqQ5YuoBpi0c5CUOEI0OyRmE4iA38UV6oEIar5ygxkcRAYrNtSXYQjGXaZ63YGxrA
-         whp+YSJqFXGMepLa9VWTdAQJYFz1IHYbgdNbUSxLfkUBqLn8gPLrJ5mOXu04zetaUTtg
-         JfdA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1778107034; x=1778711834; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O2M9x4aX4d7Rz8hjq9oGfdKv/HBHH7LxpobCw3rVI4o=;
-        b=erHdjvjSncRmJvkvtbNaHalm9JXUqvoUqGBbgRpVyLKWt7QNt5S0Jv/cZihAyStG+1
-         aG/dmrk5PMEsi47tIMSADcoMx490cKurNDylsKKIm+m4uIfpPmswU7rTMBvnGfIXB4+a
-         QuWru5SsxF238SPvimNRSlKXQgV1uT0oDFjL7PS6hkP04p1aYNHmBkcTP3NkzP3hVieH
-         wrJiRAuOOxicMtxaUJwetQEhaXOkRXaLHrwSEOjf6Z7s+AZC5hZvSZVrPZP0e/0tH3dF
-         BUb5ZTZy1xEeCaCuwbaUdUXIQ6CX01PegcZjM9qrcAuP/tpXSfpSM4Y7ayEE4+rU+clc
-         vx0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778107034; x=1778711834;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O2M9x4aX4d7Rz8hjq9oGfdKv/HBHH7LxpobCw3rVI4o=;
-        b=CX4Ql7q4Qn0XGZq8fygfGaLnNXfTfavYt/tja89R5yDDWfWwMvr0sWC1NyHD9+E3kb
-         mxC+11Cywjp3hv0p2MdnsQ5Mpomyb5xY2yOeQnOUoIXCF8aZcVndnFERRox3adJsC4Pz
-         j6tntfB1z4JC/2tjM5YodO/Ts+55fkgHejvvPASNqavsx39Ru0kEBBPDRpNYES1ljRWI
-         4zb9+00jeBmnZ7TBt1WPyUOSiWqmQ/IbE8OPlDVNTm82vNZvKVIQ9BoTSRE2XZP4djCf
-         6UX3ylU/NxWdpUWxS9FG0yOJhq1p9BFZa2P5xPvtlnSpTn6tQHZf+kPrEiBAdCfPZvvD
-         izsw==
-X-Forwarded-Encrypted: i=1; AFNElJ+7ttmR+vQNS+Zt4pWcOTMyt4EouelD51nXKbkhbSI3Ebg4Q/A+wHxhTWq9HfKVuIzGtAFXwe48DFZCUvUXZA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwqVyK/RIZ1Wwhg/DXbOUMQTYxMx+M0wT2EsvKCpnr++IvbKjtE
-	rkgkIvgtzIDpXgBXyanMn1Wid27oUSfFlrQp5BWqC8pdX03PHRAqNj8716bCctK+4wX1kuRpLI/
-	W7JriVguDDg+0Z+WiYBpBd/Nj5Y0uZEJb9PpkonSh8w==
-X-Gm-Gg: AeBDievB0P4MSH4OEDSI7mnjO2rjwB5mZR6XpGzhtnXQrWnK6Wlvtqd28eJKZgbvO0Z
-	MKaHCIgK0V8kXbEzUwqzQMcb558EVA5RFBv+KFizHt4F6hNHunKoeqd966v6f5sV3X0PjTV6UG3
-	gV+Zvn9JJ7Gf6AKArpS1z/yGCDHqZXPBJvMpMIsObEnuse6SjBspw5t6kYwQAwk4xpwNQKyh4zd
-	DcZf8GIy94l7HBtIGOneIYeWyrCTM0/o9Up6YwYP9ID4R+x5kneKI+5gG13255Hr4ztTEQhvFwW
-	Y6zKnRg49Z8DTw0/gX1BcIh/yxc5JwSN+btamV9eyMJ/uiXx++RRHO9GlM4/+eAtGF9AL2W/G+x
-	mVljSxi3GAf2IBqjPkbWhyUMg6UEJ6ihu0QlvXEdLl6doupD29A==
-X-Received: by 2002:a05:6820:4c08:b0:68a:e01a:9b99 with SMTP id
- 006d021491bc7-69998d4fdfdmr2825460eaf.50.1778107033777; Wed, 06 May 2026
- 15:37:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="kSwqf2eJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+	:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=9S1WGdndtZGFNHWYXQ4+xkbiY7A2wvAjhcJYFVSrbYU=; b=kSwqf2eJbwf16dBZopSNAF+AGi
+	8oHhPzgX9wfNxNjIdylz47I+Kc3CO4gTcvdH0y3OJ6t1BZ1/1/+ep24voT6Vz6mDWDcdP3nKrmQ9m
+	fHAekLGoAwq2YKvwZiE0cUC+IiDkpgT4Rj8thdZRWfPIpTNEij613gBYb0pGrVIEu716aMzU/+PIq
+	VNPr5qGCqHH+WPX3Le6cAZt9Nj44fO+c/CW3IXTkLG46gEXmpCBq5I2j9vLvQ8HLL/aPC0oromucA
+	UzeQdiI08SAHzWeIAzcjQhMwBDSN+wEMeULte4eNMkdsHxcZbLufPQDt4/G7Qno/gbP9lHpX8xOBS
+	pkhUB33A==;
+Received: from 186-249-147-124.shared.desktop.com.br ([186.249.147.124] helo=[192.168.1.66])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wKobn-007Avi-0E; Thu, 07 May 2026 04:37:02 +0200
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+Date: Wed, 06 May 2026 23:36:45 -0300
+Subject: [PATCH] KVM: x86/xen: bail in IRQ context on PREEMPT_RT in
+ kvm_xen_set_evtchn_fast()
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk> <afn-H1EQJxnDs0BZ@pathway.suse.cz>
-In-Reply-To: <afn-H1EQJxnDs0BZ@pathway.suse.cz>
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Wed, 6 May 2026 23:37:01 +0100
-X-Gm-Features: AVHnY4Ja58VfipZT-8soAZYnzo0HXiglj_UpI9Yp8PzxiCF3zB-23LSxITGGZYE
-Message-ID: <CALqELGxhXO=kzh9bpztd9=Ug9ykPL2NALo9Apq3=Oj6aeiEcKg@mail.gmail.com>
-Subject: Re: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
-To: Petr Mladek <pmladek@suse.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Russell King <linux@armlinux.org.uk>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Randy Dunlap <rdunlap@infradead.org>, 
-	Clark Williams <clrkwllms@kernel.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-rt-devel@lists.linux.dev, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260506-xen-rt-sleep-v1-1-53b6b60a671d@igalia.com>
+X-B4-Tracking: v=1; b=H4sIALz6+2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDUwMz3YrUPN2iEt3inNTUAt1Uc8MkSyMDS/M0Q0sloJaCotS0zAqwcdG
+ xtbUAflQHKl4AAAA=
+X-Change-ID: 20260506-xen-rt-sleep-e71b92097f19
+To: David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, 
+ Sean Christopherson <seanjc@google.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel-dev@igalia.com, kvm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+ syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com, 
+ Mauricio Faria de Oliveira <mfo@igalia.com>
+X-Mailer: b4 0.14.2
 
-On Tue, 5 May 2026 at 15:26, Petr Mladek <pmladek@suse.com> wrote:
->
-> On Tue 2026-05-05 14:45:00, Andrew Murray wrote:
-> > The CONFIG_BOOT_PRINTK_DELAY option enables support for the boot_delay
-> > kernel parameter, this allows for a configurable delay to be added before
-> > each and every printk is emitted. This is DEBUG_KERNEL option that is
-> > helpful for debugging as kernel output can be slowed down during boot
-> > allowing messages to be seen before scrolling off the screen, or to
-> > correlate timing between some physical event and console output.
-> >
-> > However, since the introduction of nbcon and the legacy printer thread for
-> > PREEMPT_RT kernels, printk records are now emited to the console
-> > asynchronously to the caller of printk and its boot_delay. The delay added
-> > by boot_delay continues to slow down the calling process, but may not have
-> > any impact to the rate in which records are emited to the console. For
-> > example, if delay_use is set to 100ms, and the printer thread has a
-> > backlog of more than 100ms, perhaps due to a slow serial console, then the
-> > records will appear to be printed without any delay between them.
-> >
-> > It would be unhelpful to add a delay to the printer thread, and it would
-> > not be possible to disallow selection of CONFIG_BOOT_PRINTK_DELAY at build
-> > time as it's not possible to detect which consoles are nbcon enabled at
-> > build time. Therefore, let's remove this feature.
->
-> Heh, Randy proposed to remove "boot_delay" few days ago.
-> This RFC goes even further and remove both "boot_delay" and
-> "printk_delay".
+kvm_xen_set_evtchn_fast() calls read_lock_irqsave(), which might block
+on PREEMPT_RT, but that is invalid in IRQ context, as when it's called
+by xen_timer_callback() (even on PREEMPT_RT per HRTIMER_MODE_ABS_HARD).
 
-Apologies, I didn't see this. I'll co-ordinate with Randy.
+Check for that case, and bail out early.
 
+Note: there is previous work and discussion on this [1] (~2 years ago),
+which involved continuing to execute the function with changes, but it
+was not merged. That was a different, more complex approach.
 
->
-> Honestly, I do not feel comfortable by this. The delay seems to
-> be handy when there is only graphical console. I would suggest
-> to do:
->
->    1. Obsolete "boot_delay" with "printk_delay" as
->       proposed in Randy's thread, see
->       https://lore.kernel.org/all/afn2sYKKsqG4QBVX@pathway.suse.cz/
+[1] https://lore.kernel.org/lkml/ZdPQVP7eejq3eFjc@google.com/
 
-Your suggestion was:
+This is quickly hit while booting a Xen guest in a KVM Xen host.
+With this patch, it boots quietly and runs timer stress without issues
+(e.g., stress-ng --quiet --timer 1 --timer-freq 19000 --timer-slack 0).
+Tested with/without CONFIG_PREEMPT_RT.
 
-" 1. Add "printk_delay" early_param() which would allow
-     to set "printk_delay_msec" via command line."
+Test case:
+=========
 
-And I assume the intent is to replicate the functionality of
-boot_delay, by allowing printk_delay to be used to introduce delays
-from early_param time? Thus deprecating delay_use.
+Configure a host kernel (CONFIG_KVM_XEN) like,
 
+    $ make x86_64_defconfig
+    $ ./scripts/config \
+      -e EXPERT -e PREEMPT_RT -e DEBUG_ATOMIC_SLEEP \
+      -e KVM -e KVM_INTEL -e KVM_AMD -e KVM_XEN
+    $ make olddefconfig
 
-"  2. Modify boot_delay_setup() to set "printk_delay_msec" as well.
-     In addition, it might print a message that it has been
-     obsoleted by "printk_delay" and will be removed."
+and boot a Xen guest kernel (CONFIG_XEN) with:
 
-Given the intent may be to deprecate boot_delay, I'm not sure that
-setting printk_delay_msec as well would be beneficial, as this would
-extend its functionality to add delays beyond SYSTEM_RUNNING which is
-where boot_delay stops. Unless you mean to use boot_delay as an alias
-to an early_param hook for printk_delay?
+    # qemu-system-x86_64 \
+       -accel kvm,xen-version=0x40011,kernel-irqchip=split \
+       -cpu host,+xen-vapic -smp 1 -m 1024 \
+       -nodefaults -nographic -serial stdio \
+       -kernel arch/x86/boot/bzImage -append 'console=ttyS0'
 
-It seems that there are also differences in behavior between
-printk_delay and boot_use, with printk_delay unconditionally adding
-delays to all printks, and delay_use which considers the loglevel.
+See dmesg in the host:
 
-With this approach, existing delay_use users will have the
-inconvenience of having printk delays post SYSTEM_RUNNING. However, as
-this is a DEBUG_KERNEL feature, maybe we don't need to preserve
-behavior. Additionally, with the proposed changes for moving the
-delays from printk time to console_flush_one_record time, the impact
-for an uninformed user isn't as drastic.
+    [   27.643129] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:231
+    [   27.643134] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 284, name: qemu-system-x86
+    [   27.643137] preempt_count: 10000, expected: 0
+    [   27.643138] RCU nest depth: 0, expected: 0
+    [   27.643146] CPU: 1 UID: 0 PID: 284 Comm: qemu-system-x86 Not tainted 7.1.0-rc2 #5 PREEMPT_{RT,(lazy)}
+    [   27.643150] Hardware name: QEMU Ubuntu 25.10 PC v2 (i440FX + PIIX, + 10.1 machine, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    [   27.643152] Call Trace:
+    [   27.643155]  <TASK>
+    [   27.643157]  dump_stack_lvl+0x64/0x80
+    [   27.643165]  __might_resched+0x131/0x180
+    [   27.643171]  rt_read_lock+0x47/0x210
+    [   27.643176]  kvm_xen_set_evtchn_fast+0xa5/0x3f0
+    [   27.643184]  xen_timer_callback+0x88/0xc0
+    [   27.643188]  __hrtimer_run_queues+0x10b/0x280
+    [   27.643193]  hrtimer_interrupt+0xf6/0x1b0
+    [   27.643196]  __sysvec_apic_timer_interrupt+0x55/0x130
+    [   27.643200]  sysvec_apic_timer_interrupt+0x39/0x80
+    [   27.643204]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
+    [   27.643208] RIP: 0033:0x7f069721a8db
+    ...
+    [   27.643226]  </TASK>
 
+Reported-by: syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
+Closes: https://syzbot.org/bug?extid=208f7f3e5f59c11aeb90
+Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
+---
+ arch/x86/kvm/xen.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
->
->    2. Move printk_delay() from vprintk_emit() to
->       console_emit_next_record() and nbcon_emit_next_record().
->
->       For nbcon console, even better would be to use a sleeping
->       wait in nbcon_kthread_func(). But it would need some
->       changes to call it only when a record was really emitted.
->       Also we would need to use the busy wait in
->       __nbcon_atomic_flush_pending_con().
+diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+index 91fd3673c09a2ef3dc154050e01df608182e59e5..76782191043b56c581f89c3861979236662cdbd7 100644
+--- a/arch/x86/kvm/xen.c
++++ b/arch/x86/kvm/xen.c
+@@ -1814,6 +1814,10 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 
+ 	rc = -EWOULDBLOCK;
+ 
++	/* Bail in IRQ context on PREEMPT_RT; read_lock_irqsave() might block */
++	if (IS_ENABLED(CONFIG_PREEMPT_RT) && in_hardirq())
++		goto out;
++
+ 	idx = srcu_read_lock(&kvm->srcu);
+ 
+ 	read_lock_irqsave(&gpc->lock, flags);
+@@ -1892,6 +1896,7 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 		kvm_vcpu_kick(vcpu);
+ 	}
+ 
++ out:
+ 	return rc;
+ }
+ 
 
-This makes sense.
+---
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260506-xen-rt-sleep-e71b92097f19
 
-If the use case (in a post kthread printk thread world), is only
-relevant for graphical consoles, then I do wonder if printk_delay and
-boot_delay can be replaced with a more specific solution? Now that we
-have printk threads, the time in which a printk is presented to the
-user may not relate to when it was created, and I fear people may
-continue to debug issues that rely on that assumption.
+Best regards,
+-- 
+Mauricio Faria de Oliveira <mfo@igalia.com>
 
-I think the most pragmatic solution for now is:
-- Move the printk delay to the point where the printk is actually
-printed (e.g. console_flush_one_record and descendants)
-- Add an early_param to allow for printk_delay_msec to be set
-- Deprecate boot_delay, by using it as an alias for setting
-printk_delay_msec, and include a user mesage that it is being
-deprecated and that it now extends to beyond boot (which could impact
-performance on non PREEMPT_RT and non nbcon systems)
-- Update printk_delay function to use the appropiate mechanism to
-delay based on stage of boot and using printk_delay_msec instead of
-boot_delay.
-
-If that makes sense I can fashion a patchset.
-
->
-> IMHO, the only drawback might be that the delay might be multiplied
-> when more consoles are registered. But I would ignore it. People
-> would use this option only when the graphical console is the only
-> one. It does not make sense for serial or network consoles.
->
-> Best Regards,
-> Petr
-
-Thanks,
-
-Andrew Murray
