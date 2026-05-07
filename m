@@ -1,109 +1,131 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD963BBA0B
-	for <linux-rt-devel@lists.linux.dev>; Thu,  7 May 2026 14:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184CE335BBB;
+	Thu,  7 May 2026 14:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778165668; cv=none; b=cmNNQbKmHo+4V/tYUJb0skK/2CcFcjcufgos/qbttS374exEwqnbqqFLAxHbbg+pEWU6oCK9Pi67lkT3HYvRFLuNwu7WG0bmig7S2byN4bEa1k3K7TQYgFZRAmJw+YVRjA029NEW9ldXeezNwpuJpAl0qOEFznGulyiOz1zlkTA=
+	t=1778165858; cv=none; b=IqqmGRiyiBQ6pMgoi+BiSX51ej5Xdg2DmuoARJtFsxdlRoPY5ZzosWHtyE11O7azezZBt89aybZ5f6DaTTuZ9dsJc/8npWx2a/hvSjzlmU9WcvxGtLr+O5s2Hj0txbdxVrm69Ez3x+4DXetoQU1h6RXbjMHCNVqevovPqC1sBdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778165668; c=relaxed/simple;
-	bh=5XfS55EN4bj5QPY46V6t4BYAo27rzcuYqURs6dSESCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ze4AEKJM2T824enxYui/zmBgFpm6/28bKDXLDUnSiwA413nrOrv3w9nTHqs9KmTunppvNAfGyQfODG3l1Bu5RnTOfsuT79yodOx9oD54flBpZPscbYr4AoQ4rLjpjb6ITw4UQmxzLZ8T2X7WPYFA3WtQUcAR3NUmbLGIrOxWjYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1nB2eI3+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YvM0Voub; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1778165858; c=relaxed/simple;
+	bh=UYl1Ob6n/jKEn5r7KoQs8MgsoZ1gcmZPU/hVb45pgKo=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=bDvgu3E6Z2LjFIsEFZVGiBpW2Ge9oIQsshSPFHiEd6nUkQ7kHsW7jFByRrPnp8LUceF5Th69hrRobVtlNIDfuLuE5l9PoNeA75T8dcxsToS+Kq6SFr3CuVq1X9U2wJNC8kfYPYreXnDxNTCkn+504RegeKMiw7b9CORk2x4hLfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=V2ayP/Ie; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1nB2eI3+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YvM0Voub"
-Date: Thu, 7 May 2026 16:54:16 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1778165658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8VqblXCRKNyHMLImrYpvFEMT1rA3y4jTKAga3t+zUXo=;
-	b=1nB2eI3+qiu8j9YmpTCDVRTbPlZ51QhAvP3f5+t3HkbYLisL0ElREzuEyjh0IS9X//d2q8
-	IrICM2NhTxJoPfpVIlYnFTJX8fX/LXtke8Yv/+Eko+Qf6OHc9shfG50db+riN9Ir3bca+a
-	97XCh0dpKvG5WzaR2+ecGC4bGBWBExWPSvAFf1WdAlptV/RjfcnVFB2ZqNFuAlO9bjs20o
-	IL7qdACrARROx0cAYLpzo+nndwcIn9e8TEZ0RCQUtKDloJYBjd+Wh94+r+Ug8gUK+ZGhbI
-	b/VrarlPbMTPJDeM+BCYh6a2H4LznFwd35W8CdtrIGtAH+GwkLM0WpEG38Gs7g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1778165658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8VqblXCRKNyHMLImrYpvFEMT1rA3y4jTKAga3t+zUXo=;
-	b=YvM0VoubD8doF3g4uqGlJStfDKllP4Ks9G2jZRmF9svFmHiBK6qSBsGal4puY+/sJtyTys
-	SHXYWlmREO43PMDw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: Mauricio Faria de Oliveira <mfo@igalia.com>,
-	Paul Durrant <paul@xen.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, kernel-dev@igalia.com,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
-Subject: Re: [PATCH] KVM: x86/xen: bail in IRQ context on PREEMPT_RT in
- kvm_xen_set_evtchn_fast()
-Message-ID: <20260507145416.55hJZOWT@linutronix.de>
-References: <20260506-xen-rt-sleep-v1-1-53b6b60a671d@igalia.com>
- <8e7bc66a7994ca06f164a5d5f7ceb3f07d3a1357.camel@infradead.org>
- <20260507071235.rdb4aGeE@linutronix.de>
- <f0f447dea6c8f2deb7f153f745add15d3ecadd19.camel@infradead.org>
- <20260507132115.w1nOBvlS@linutronix.de>
- <e082f19aecf2d2acd30782ea9220aedac3d3f990.camel@infradead.org>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="V2ayP/Ie"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+	In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=czk/1r5wAU+devrUPgH7l9mK+JM2nxAq3Kx5j/xE4y4=; b=V2ayP/IeVGBHYX9RYgKmy1zTEa
+	lNDVfxy7H/VjRLgaTV8TCk7lFtOmVQi60bVN+nXCNyjaXgOD0MjGRZzhtbVC17bALksOb/QkK1mDl
+	XjfaX0s/s2SjhbOtTJW+6UDJ/zghF6re5pC9aXCcazBRWNJsNKjSFsdeGUO3IwvZEDsKq06d7K/JC
+	JUO/zAwGDSR/9w5MzYN7E/9d7ND3Pt13G6PRwdenYh691v6HEtBCEvYWA4arQH0JeRKn4qMRmWv11
+	yIk+O7hWQuEKkzK9dhLplgrfQgDi1vdXyeFX1aZ14cbQLa9otUDD3U3DHR4F7WiZpLPBXZiuRLIp5
+	x0C0mxAA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine2.igalia.com with esmtps 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wL09v-007S0I-J2; Thu, 07 May 2026 16:57:02 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+	by mail.igalia.com with esmtp (Exim)
+	id 1wL09s-000ImX-DE; Thu, 07 May 2026 16:57:02 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
+	(envelope-from <mfo@igalia.com>)
+	id 1wL09r-00000004MGy-388N;
+	Thu, 07 May 2026 16:57:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <e082f19aecf2d2acd30782ea9220aedac3d3f990.camel@infradead.org>
+Date: Thu, 07 May 2026 11:56:59 -0300
+From: Mauricio Faria de Oliveira <mfo@igalia.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: Paul Durrant <paul@xen.org>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo
+ Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark
+ Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ kernel-dev@igalia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev,
+ syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
+Subject: Re: [PATCH] KVM: x86/xen: bail in IRQ context on PREEMPT_RT in
+ kvm_xen_set_evtchn_fast()
+In-Reply-To: <8e7bc66a7994ca06f164a5d5f7ceb3f07d3a1357.camel@infradead.org>
+References: <20260506-xen-rt-sleep-v1-1-53b6b60a671d@igalia.com>
+ <8e7bc66a7994ca06f164a5d5f7ceb3f07d3a1357.camel@infradead.org>
+Message-ID: <e23df9d183c2c421946ea73b8053e4c4@igalia.com>
+X-Sender: mfo@igalia.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Report: NO, Score=-2.2, Tests=ALL_TRUSTED=-3,BAYES_50=0.8
+X-Spam-Score: -21
+X-Spam-Bar: --
 
-On 2026-05-07 14:43:20 [+0100], David Woodhouse wrote:
-> Thanks. Something like this?
-
-Yes. If you could stuff the below into the patch so it does not look
-like fixing symptoms.
-
-> From 7199173d543d25333418537bcf07d6b2fce18ff1 Mon Sep 17 00:00:00 2001
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> Date: Thu, 7 May 2026 14:39:22 +0100
-> Subject: [PATCH] locking/rt: Use raw_spin_lock_irqsave() in
->  __rwbase_read_unlock()
+On 2026-05-07 03:58, David Woodhouse wrote:
+> On Wed, 2026-05-06 at 23:36 -0300, Mauricio Faria de Oliveira wrote:
+>> kvm_xen_set_evtchn_fast() calls read_lock_irqsave(), which might block
+>> on PREEMPT_RT, but that is invalid in IRQ context, as when it's called
+>> by xen_timer_callback() (even on PREEMPT_RT per HRTIMER_MODE_ABS_HARD).
+>> 
+>> Check for that case, and bail out early.
+>> 
+>> Note: there is previous work and discussion on this [1] (~2 years ago),
+>> which involved continuing to execute the function with changes, but it
+>> was not merged. That was a different, more complex approach.
+>> 
+>> [1] https://lore.kernel.org/lkml/ZdPQVP7eejq3eFjc@google.com/
 > 
-> __rwbase_read_unlock() uses raw_spin_lock_irq()/raw_spin_unlock_irq()
-> which unconditionally disables and re-enables interrupts. When
-> read_unlock() is called from hardirq context (e.g. after a successful
-> read_trylock() in a timer callback), the raw_spin_unlock_irq()
-> incorrectly re-enables interrupts within the hardirq handler.
+> ...
 > 
-> This causes lockdep warnings ('hardirqs_on_prepare' from hardirq
-> context) and can lead to IRQ state corruption.
-
-Using read_trylock() in hardirq context on PREEMPT_RT is safe because it
-does not record the lock owner. The read_unlock() acquires the wait_lock
-which is hardirq safe. This change additionally allows rwlock_t during
-early boot.
-
+>> +	/* Bail in IRQ context on PREEMPT_RT; read_lock_irqsave() might block */
+>> +	if (IS_ENABLED(CONFIG_PREEMPT_RT) && in_hardirq())
+>> +		goto out;
 > 
-> Switch to raw_spin_lock_irqsave()/raw_spin_unlock_irqrestore() to
-> preserve the caller's IRQ state, matching the pattern already used
-> for rt_spin_lock/unlock.
 > 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> The approach in Paul's earlier patch was better; we absolutely *want*
+> to deliver the interrupt to the guest immediately whenever we can, and
+> only fall back to the workqueue in the rare case that the shared info
+> page has been invalidated.
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Certainly, that was better. This was a simple workaround, but with this
+clarification, it indeed doesn't fit.
 
-Sebastian
+> We should switch to plain read_trylock(), *without* the
+> local_irq_save(). And since this was the *only* case where the GPC lock
+> was ever taken under IRQ¹, all the GPC locking can drop the _irq part.
+
+Ok, I can take a look. Or do you plan to work on it yourself (as you
+hit the issue with read_unlock later in this thread)?
+
+> Sean's concern was:
+> 
+>>> I am not comfortable applying this patch.  As shown by the need for the next patch
+>>> to optimize unrelated invalidations, switching to read_trylock() is more subtle
+>>> than it seems at first glance.  Specifically, there are no fairness guarantees.
+> 
+> I'm OK with that in this case. Because kvm_xen_set_evtchn_fast(), as
+> with *everything* called from kvm_arch_set_irq_inatomic(), is
+> explicitly designed to be a 'best effort' and allowed to return
+> -EWOULDBLOCK when it's too hard.
+> 
+> And the write lock being held here should a *rare* case, as the GPC for
+> the shared_info and vcpu_info pages should basically *never* get
+> invalidated while the guest is running.
+> 
+> I've taken the same read_trylock() approach in
+> https://lore.kernel.org/all/1d6712ed413ea66ef376d1410811997c3b416e99.camel@infradead.org/
+
+Thanks for the pointers.
+
+-- 
+Mauricio
