@@ -1,79 +1,222 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A513451B5
-	for <linux-rt-devel@lists.linux.dev>; Fri,  8 May 2026 10:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D05A3DCD80;
+	Fri,  8 May 2026 13:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778236959; cv=none; b=eKZjGytK2eQd8FgbB5XoTi/XJHGt0yhXl4P+G/EvZ+HRYIPcHg3qtlWDDMGWUsTG8cRT2nWessg/NHtB6gna0sTmrpLO0N5RYipnW5jmEbC2jvLICw7sL2ps12c23554RSWWcz0uAdqEforkoIZGfP+1YCSmd0aDgIywA+ISks0=
+	t=1778246991; cv=none; b=GA0Wb4FiUNArsmWUX6iYntL70E/CVA9Crr+zoCSfhdb/h+3Gyt6hJtpHM0VfNBSlCRuyPfzv0sbFpiNlnAtrsRoZcVlZfAxL3o+TpKaPOudc532zxHN+qe/GNne/ZoOKFPsyV3gyaWVALWTHHakfeUu/iS/nrSKXPkDeKZBE47Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778236959; c=relaxed/simple;
-	bh=95n1WgHj8rNW6Tm63CNf5gUqAJPcMZkKY5Po3vFMy6A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMeu8sRx0OMJfpEU2P4PWAy1DV/SWz1ioSkANcPxMGJv1MtJ1/OT8ghaQySK2TQcdqqEbW1MAX1olszM7FtfqOyfsoEa36H4YHK+ck84lavRJgAWpgG5QWPHjXaaszOguMTmFiWLFIbCphPF5FF1E+xfMxmD6YOEDnUDaIsTbgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vafjCaTx; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7sNYr8Dr; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1778246991; c=relaxed/simple;
+	bh=g51YoIxKxK7pAG4HD08tG6mrbm89uoSU90lVR64Mqdc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=El5MyPLJJR9UKqWfWMr0XSunfZeImhnE7ocKJeouvSVBq8KPm7Ba1eCnZZs442Bgj4/oGBffYsZuhZOxUqbTa8uq7OX6tUOQ6fnBq91SZlobG+7uboEKaZlL9MsQseX57UbaWETqpt63kGKdyNIgWyPZMjE4o9mHD9FdQGVuljc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=rm8gwQoo; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vafjCaTx";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7sNYr8Dr"
-Date: Fri, 8 May 2026 12:42:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1778236956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=95n1WgHj8rNW6Tm63CNf5gUqAJPcMZkKY5Po3vFMy6A=;
-	b=vafjCaTxkuB75cXZya7Xlk2T2NRuWc0htlt4Cfoey+jUXDuOioSF20Cc3EJTk4C3dvTHic
-	3cA/EO4mMUDr1f9WlpteT1k3oprDwdXVMTKe6/LQS3p2OaR9NsJUSzm9DMdBpYaUkFYDa2
-	QHcsI8KNVJckfHYI8zo2WFc2dGUgRzrY3Fm6VKKFgBqq497E3z/gzmLDhqYpD6bpfRd1Aj
-	cFR+/48g5b4XkTOVmgjZftX6+6V4JH5fGrTni951XBaMZ2/0uFbMCKDQsZVKpYvE04GTVr
-	1l+USjZOUm7ZINq8Svw1bK33VHUN2o16osph0d7xnVMQHwG4W199iDB9T7AbDw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1778236956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=95n1WgHj8rNW6Tm63CNf5gUqAJPcMZkKY5Po3vFMy6A=;
-	b=7sNYr8Dr72RFPaPOWEgDxumiEA5BWIIzHfs59Xi6qa5W/zPiso8+iAYNL3aw82wsAWMDHU
-	u7vkv2i4xAvYY1BA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: linux-i2c@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	Waiman Long <longman@redhat.com>, linux-rt-devel@lists.linux.dev,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>
-Subject: Re: [BUG] exynos5_i2c_xfer_atomic() can sleep.
-Message-ID: <20260508104235.n9gGOYqU@linutronix.de>
-References: <CGME20260506065541eucas1p2f986355d0a06ac1f72aa00e8d3148ad0@eucas1p2.samsung.com>
- <20260506065110.sY3jKS7G@linutronix.de>
- <03c06142-12eb-45b7-8d22-ce12fab6e132@samsung.com>
- <20260508100910.nxRkt3mA@linutronix.de>
- <dbacd56b-2914-40ce-9139-78b819a81c13@samsung.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="rm8gwQoo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
+	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
+	From:Reply-To:Content-ID:Content-Description;
+	bh=kCBhypCSxo5qvVndamNwauiU6sS5fgJGsBY2nx0+uIo=; b=rm8gwQooZ1XkDo2DyDI/TxM9BI
+	QS0JQWP58PJoQpoL95rhDEyMI0o4egvbIuQeR2LEpR//BVzEQtI5HaI9jBZJJVSDZBb8fPGq2LMZt
+	s8JQrKD6IwvaJdTN6GdfkI8fcFjCYykzhu7Nj4v5tu++cM+AJ2CvSff10Q7QSzLCgxpOD7B/n6ygd
+	vJC6KLzhmQiej2OuHm8/zzDFsLwddIYFjnp6tOaZVxRgq7PLbWXnKFKmvF6HC6UXH5/QDDgem0m2q
+	mVcQICGVuN9uZcizAap4IQ0/iCdxrhWm+Xwupr2y6pJlfjq8rogg2Xxi6HVv9nZKLhJ/ItDBNrEdr
+	9x5XxayA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wLLGw-005Ayr-1T;
+	Fri, 08 May 2026 13:29:42 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Fri, 08 May 2026 06:29:16 -0700
+Subject: [PATCH net-next 2/8] netconsole: move netpoll_send_udp() from
+ netpoll
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <dbacd56b-2914-40ce-9139-78b819a81c13@samsung.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260508-netconsole_split-v1-2-0f660e62841f@debian.org>
+References: <20260508-netconsole_split-v1-0-0f660e62841f@debian.org>
+In-Reply-To: <20260508-netconsole_split-v1-0-0f660e62841f@debian.org>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, Breno Leitao <leitao@debian.org>, 
+ kernel-team@meta.com
+X-Mailer: b4 0.16-dev-453a6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4492; i=leitao@debian.org;
+ h=from:subject:message-id; bh=g51YoIxKxK7pAG4HD08tG6mrbm89uoSU90lVR64Mqdc=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBp/eU4cIwx4IvWvPORIAEptPk1PDaGlPsd9KIew
+ FOWaBfTbXiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaf3lOAAKCRA1o5Of/Hh3
+ bYlbEACEGwumathcAKqiKTcPm1ALRN8OfvAbSs7+Bhg5ywgm3AuPsm3k13mKCSOfcG9IHQoyU7s
+ S0FLE8aNgtep40LZO1uKGYVHE3ZwrmrE/86mbsMn3RVGZ+bYi/+mq1HK0gYzPebrZtPLV6sIhkp
+ uc6vzLH7LA4bxZWa6WyAOeMRvanQNIt7lU0TbgN94QGaq5ZZ28CvjajgNX5RoDyCk21pHhmjz6F
+ zXOsOTXggbt7Ecj+lhL4sGAXJpLZzloiBioCqy26y65uMA4eiuOTzX5COEUaM4oTD0Wk+aE2EGI
+ U11jQs0hYx0qCya7wpyhEYN8weE/jEGjhjD1DZmoY6EqClxm6mzqGZngLESIj1cKpQol/nWZ55g
+ SKV4mGZqJQObqi444HJ5KJzFXocpArQy/MaiKgN+EDpe+Ycf/jlM9m3JUJvibgJ3v6e/tYheHaF
+ yIxpFrSfxDbKYX5E5xuUzrt3ak34URRuwSfRLV67GPiZZaRnqLSDXKba8GSPxG20KFkSxMqeFtQ
+ gi7vtVtn1DOrRwl1/GurdUkqfoOjXB+QMt2TQp5FnylPO8qc/wEvb6EkToN02QvBAf1nMI198ro
+ qEAkKfL8wx1CdVQNG/FE23VNTl2RKyEswhMWAz6A13IoiY9h7ZXN34slF20uOFx6YaKBasBN3SH
+ 7YtXfTr8tHBClpQ==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On 2026-05-08 12:35:51 [+0200], Marek Szyprowski wrote:
-> Ah, it looks that I've checked irq_disable() code, so that's why I
-> didn't find might_sleep() call. In the case of exynos5_i2c driver,
-> probably switching to disable_irq_nosync() will be enough. I assume
-> that all previous transfers have to be finished to start this atomic
-> one, so waiting for interrupts to finish is not needed.
+Move netpoll_send_udp() from net/core/netpoll.c into
+drivers/net/netconsole.c as a static helper, drop EXPORT_SYMBOL(),
+and remove the prototype from include/linux/netpoll.h.
 
-This looks kind of odd. Are the "other" transfers really done at this
-point? Do you have a backtrace for me from the atomic path?
-Is this needed because you need to send the "power off" command via i2c?
+netconsole was the only in-tree caller of this entry point. Every
+other netpoll consumer (bonding, team, vlan, bridge, macvlan, dsa)
+already builds its own sk_buff and hands it to netpoll_send_skb(),
+so the netpoll send-side interface is now skb-only.
 
-Could you try to test with PREEMPT_RT? I'm sure how this works there.
+The helpers it depends on (find_skb(), push_ipv6(), push_ipv4(),
+push_udp(), push_eth(), netpoll_udp_checksum()) were exposed in
+the previous patches and stay in net/core/netpoll.c for now.
+Subsequent patches move each of them into netconsole one at a time
+and drop the corresponding EXPORT_SYMBOL_GPL.
 
-> Best regards
+Pull <linux/ip.h>, <linux/ipv6.h> and <linux/udp.h> into netconsole.c
+so the moved code can name the header structures.
 
-Sebastian
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ drivers/net/netconsole.c | 38 ++++++++++++++++++++++++++++++++++++++
+ include/linux/netpoll.h  |  1 -
+ net/core/netpoll.c       | 37 -------------------------------------
+ 3 files changed, 38 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
+index 57dd6821a8aa9..56f310041ebda 100644
+--- a/drivers/net/netconsole.c
++++ b/drivers/net/netconsole.c
+@@ -32,6 +32,9 @@
+ #include <linux/moduleparam.h>
+ #include <linux/kernel.h>
+ #include <linux/string.h>
++#include <linux/ip.h>
++#include <linux/ipv6.h>
++#include <linux/udp.h>
+ #include <linux/netpoll.h>
+ #include <linux/inet.h>
+ #include <linux/configfs.h>
+@@ -1648,6 +1651,41 @@ static struct notifier_block netconsole_netdev_notifier = {
+ 	.notifier_call  = netconsole_netdev_event,
+ };
+ 
++static int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
++{
++	int total_len, ip_len, udp_len;
++	struct sk_buff *skb;
++
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		WARN_ON_ONCE(!irqs_disabled());
++
++	udp_len = len + sizeof(struct udphdr);
++	if (np->ipv6)
++		ip_len = udp_len + sizeof(struct ipv6hdr);
++	else
++		ip_len = udp_len + sizeof(struct iphdr);
++
++	total_len = ip_len + LL_RESERVED_SPACE(np->dev);
++
++	skb = find_skb(np, total_len + np->dev->needed_tailroom,
++		       total_len - len);
++	if (!skb)
++		return -ENOMEM;
++
++	skb_copy_to_linear_data(skb, msg, len);
++	skb_put(skb, len);
++
++	push_udp(np, skb, len);
++	if (np->ipv6)
++		push_ipv6(np, skb, len);
++	else
++		push_ipv4(np, skb, len);
++	push_eth(np, skb);
++	skb->dev = np->dev;
++
++	return (int)netpoll_send_skb(np, skb);
++}
++
+ /**
+  * send_udp - Wrapper for netpoll_send_udp that counts errors
+  * @nt: target to send message to
+diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
+index e68c80b329411..57be72bb82dc9 100644
+--- a/include/linux/netpoll.h
++++ b/include/linux/netpoll.h
+@@ -67,7 +67,6 @@ static inline void netpoll_poll_disable(struct net_device *dev) { return; }
+ static inline void netpoll_poll_enable(struct net_device *dev) { return; }
+ #endif
+ 
+-int netpoll_send_udp(struct netpoll *np, const char *msg, int len);
+ int __netpoll_setup(struct netpoll *np, struct net_device *ndev);
+ int netpoll_setup(struct netpoll *np);
+ void __netpoll_free(struct netpoll *np);
+diff --git a/net/core/netpoll.c b/net/core/netpoll.c
+index 41305056c56ff..39209308efad0 100644
+--- a/net/core/netpoll.c
++++ b/net/core/netpoll.c
+@@ -499,43 +499,6 @@ void push_eth(struct netpoll *np, struct sk_buff *skb)
+ }
+ EXPORT_SYMBOL_GPL(push_eth);
+ 
+-int netpoll_send_udp(struct netpoll *np, const char *msg, int len)
+-{
+-	int total_len, ip_len, udp_len;
+-	struct sk_buff *skb;
+-
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
+-		WARN_ON_ONCE(!irqs_disabled());
+-
+-	udp_len = len + sizeof(struct udphdr);
+-	if (np->ipv6)
+-		ip_len = udp_len + sizeof(struct ipv6hdr);
+-	else
+-		ip_len = udp_len + sizeof(struct iphdr);
+-
+-	total_len = ip_len + LL_RESERVED_SPACE(np->dev);
+-
+-	skb = find_skb(np, total_len + np->dev->needed_tailroom,
+-		       total_len - len);
+-	if (!skb)
+-		return -ENOMEM;
+-
+-	skb_copy_to_linear_data(skb, msg, len);
+-	skb_put(skb, len);
+-
+-	push_udp(np, skb, len);
+-	if (np->ipv6)
+-		push_ipv6(np, skb, len);
+-	else
+-		push_ipv4(np, skb, len);
+-	push_eth(np, skb);
+-	skb->dev = np->dev;
+-
+-	return (int)netpoll_send_skb(np, skb);
+-}
+-EXPORT_SYMBOL(netpoll_send_udp);
+-
+-
+ static void skb_pool_flush(struct netpoll *np)
+ {
+ 	struct sk_buff_head *skb_pool;
+
+-- 
+2.53.0-Meta
+
