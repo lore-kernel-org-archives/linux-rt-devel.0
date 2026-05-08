@@ -1,222 +1,204 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D911F3EF0C8;
-	Fri,  8 May 2026 13:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1DA390CB8
+	for <linux-rt-devel@lists.linux.dev>; Fri,  8 May 2026 14:02:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778247020; cv=none; b=iFOJW+64LTMvie4FuIyoqZxtkhe1XaF0NY8+++jZ3j7fbOkPV6w31RcXOMwF7wRexQf67jkIt0sI0CJHpegFh6d3nlvpVcwx37vgCTPekthVQ6Giaozwsu+qNVd6HjE9+rY1cjjHw2Zd0aTQ+/P8I8YBZs39GNUXrBM25LKyNy8=
+	t=1778248978; cv=none; b=SK5tWR2RFCpqxnC0MVTuTER4VM2q77BWQAzm+GqiqUO+a+zBszTuozgtFDPwTJUdlVRNMXg172d3u+61/TqWQDY+dBVZv4j0/FAZXt7lFEOdt+QYwXXnLODSh9PrF0HczghtayBXSjqofBjUoT1dpVVMarV2XJYojDw5RpkCwc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778247020; c=relaxed/simple;
-	bh=GCut3ieEWzJwDvrV9EKvxW+yE6TgayFDTE7Hcw9Em7s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bMVIaTl8qHHYecFvbBZKLc0OJXRKOkBJWax2rER7GcTwG+cZ++XG3lA9AgTPQSVqJBneUjWa2YgT0CKI/pGS+zwnA6gAZow0f6VoK4+QOTYKHQCQMm0Gh0v81c5ycJcwmHlSjzkTJGuGtWV+xWckYG+hjWvrYwavSfqMghFQQI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=u6/bCcTL; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778248978; c=relaxed/simple;
+	bh=wFDH1o3olfLg5Ia+rpt7qq+s9E6GpSnwIOlVVU8i2Tw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cUGm0jzKhC8YjSDqJfBIGEaHkGzOrNl7Y/kRMBrl13Vo6Qfszewk3wR+8Syc86vnEx5zgduvOf5V26zQ3sXOd6VH7Me56hmKmn3PNjoUn5N40NmAnBRVPlRjU+QjR6I0hrTl9+bd3OFEzUDTzkveqHm9TBrjW+BpN4u2WS9QW8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Iz1U3vkZ; arc=none smtp.client-ip=209.85.221.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="u6/bCcTL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=sIUzyPzrM5JMnMUNbhqwM36aBxK6ebWQrwSmdyV+TzI=; b=u6/bCcTLKRMMJAMweqg8CnN6lL
-	EMORAEv1MxE4b7cH+3A8pyX8qW9/Ij33GRarRrnqkyO2wvmnQNokBhGkeA9E/hGrPLsKipJCRIE29
-	/93MiohewMK/5ocTsmkb+W6Vj5WkBBPnoWDwYbM1CX5jJ+nz3KXjkAYgIc4gpuaaiNQrk1LIU9AKR
-	5UXS3WHJ2+DWi7RPsBv9mBEqiJI7eAt+rGIHJa/QA1gaCZOG5+V9QHvlfhLxIy0/QaoI09v8ULvIj
-	ckIGSbpLyofQXJOLilHMnSI+NoIu94S/H1wQnpgQ6+DWOgLLAwOPeXWjRPSGOZv2GwjnYn7gGyBaC
-	3fLIs7sA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wLLHN-005B0V-2D;
-	Fri, 08 May 2026 13:30:09 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Fri, 08 May 2026 06:29:22 -0700
-Subject: [PATCH net-next 8/8] netconsole: move find_skb() from netpoll
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Iz1U3vkZ"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-44b186b715aso1351051f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 08 May 2026 07:02:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778248975; x=1778853775; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VXcmRThuEWO63YTSaN19aEGemVtVdbv7aDPqYYnwWkg=;
+        b=Iz1U3vkZoBFc507f4/e0++NewL/L039P1x/kRRfGmYDou9fcvv6IQ88V6Pi3a21ULh
+         3tiyFVhgOXeBy60LD5ftbrXfAwaQsTn46FuG9EWwI2/dqX2bQQFEGJSP8Fy3q7hyGmyq
+         x6NhugSD3oCoHK5C9OQjZ/oA9LGr/5cP2fv8cqmc7JiahAcBtgfKhvZ+3v9noaPwhIJ4
+         OAbyf6KoFFVZECYIbjC4cSHu37IMrHnHiQIEUbImoNMTjlLkDCdgdih9UF7CSkQncJhG
+         bxKcuRWCj1PRxhvd1n3cefjArXh25kWHr5hM2I8KNbFaNwvZoC58YOMLMegJ/aZdYva6
+         1MwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778248975; x=1778853775;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VXcmRThuEWO63YTSaN19aEGemVtVdbv7aDPqYYnwWkg=;
+        b=SRiBGRhvCllkuIY5GHZmfvy0noJLXEwElOkkL8s0OzwJTr/vkTQey57/6h57IgGgtV
+         LLF99gN1BMO/SH+jk4wGGWmLdmPoa6tfRJU/vcgFvJ5O0ctRqbQp8BeB7WvoHaNQrAvj
+         7sPlrMU/2F3giskXNFbbLO3/ehH6QhP18dcYf1yAWBpXOPHVZyShakRHP55zYkWRnXVv
+         NDdYXQ4olmJYHLB3CkjuKdi010HdVh3mIbJ0B81w6zpRlcpTJO5HIKIW6ooOJzSA7GZ/
+         IH0/oFGrCJl2PkirlQPjdXLGGnmGBPB9BXMpEOGJ7u2YgyTpUoWkquB+LcsRAkcyqY4Q
+         tjnw==
+X-Forwarded-Encrypted: i=1; AFNElJ8yLEDExlLEqFhEozWqwi0FMPQFGaqCExV0Go2UwE9g12PYfu/+IEDBSn9Ys77fUJEWjhAu3mQC1icvxUC8UQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsTnRWVmtFDR3V3XVf0uWuBpgYz3r98aIYQx3Nyp5feu18t9BJ
+	ZdhlsfQakSIQPvLgUQLXuxp4TcguFNd9G/14GFjRMrsme3HTtIjX4VbfcnKyVNRfsRce7Wfyk4o
+	lxtkL7f+ctRkKsqcB4g==
+X-Received: from wmlf10.prod.google.com ([2002:a7b:c8ca:0:b0:48d:146d:6669])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:1797:b0:48d:366:b962 with SMTP id 5b1f17b1804b1-48e51e0a8a8mr106370715e9.6.1778248974199;
+ Fri, 08 May 2026 07:02:54 -0700 (PDT)
+Date: Fri, 08 May 2026 14:02:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAAXt/WkC/x3MQQ5AMBBA0avIrE1SjSKuIhbFYCJKOiVE3F1j+
+ Rb/PyDkmQTq5AFPJwtvLiJLE+hn6yZCHqJBK10ooyrcj4DByoIS/NEHXK270XSm02NuKStziOn uaeTr3zbt+34VHkJuZgAAAA==
+X-Change-Id: 20260508-put-task-struct-many-5b5b2f4ae174
+X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5092; i=aliceryhl@google.com;
+ h=from:subject:message-id; bh=wFDH1o3olfLg5Ia+rpt7qq+s9E6GpSnwIOlVVU8i2Tw=;
+ b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBp/e0La+wERa4SgFHFwZzu6XdSGRui6vLxCtQ1s
+ 2d/uBZx5ViJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaf3tCwAKCRAEWL7uWMY5
+ RuFiEAC5xbqkM6wsZulENtzyW35yQTipHX4FGSiCnlBNG0C/ALdZUnlYbHusE/PbThUZAzDPICP
+ 6NZoIe83p3LB102k3/H0nmM7h//WpfKQ+beNIitFlu5nJRvEn9yoWUnmxQRdfhhEdVFC+fwGS4G
+ WXqGDf/g+jN0avXueIXVT6U+sU9vuHkM2HeDzEL54K19PBK7YTUiltoW8M+5TsNyivxsFUtGwD0
+ DtoGh6Fc8fQztcEMzvtmND0SEHYnPYTUwl2Gd51Zse/f48HnAyqxC224v7NUBC18JGmXVHocAlK
+ AYDGUQBbjBK6wvlR/pkxWRIWQGgrPlWjkcvat7XvfuYpBq44CYtoOhrU1quGlTSGN0U3z7ed+41
+ 25V6gvY1uF7yL9n4NgfoPXlUNsZJKU9Fe3y983KzVvCqOiz5HbWhHgmZlxgQSt+P4aNLMqX56wB
+ SWbLJ6GZwVvpZz6udveJg+SuwxQ8/yAnYuy1griDWwfQE3/pN2o7qtg1jCfLh3qTKPRUNN3cYrb
+ IvrR4dBTpFOBXSCOpzFf6Vf2GNiTpsBfCTmTQBCpEHfukjHLCJ7SnOUA5s0G57YQ0y3mzF0oXuW
+ xZZJUR19vdEiUc6Od57NHsULjnuePCAUcJal5yb56ov32Z8sfFhdZq5cWZAX4nnqOdKS0zG9ez4 5VKjj2h5MtF98Aw==
+X-Mailer: b4 0.14.3
+Message-ID: <20260508-put-task-struct-many-v1-1-8341c18141a6@google.com>
+Subject: [PATCH] sched/task: always defer 'struct task_struct' destruction via RCU
+From: Alice Ryhl <aliceryhl@google.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>, Andrea Righi <arighi@nvidia.com>, Boqun Feng <boqun@kernel.org>, 
+	Changwoo Min <changwoo@igalia.com>, Clark Williams <clrkwllms@kernel.org>, 
+	David Vernet <void@manifault.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Jens Axboe <axboe@kernel.dk>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>
+Cc: io-uring@vger.kernel.org, rcu@vger.kernel.org, sched-ext@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Alice Ryhl <aliceryhl@google.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-netconsole_split-v1-8-0f660e62841f@debian.org>
-References: <20260508-netconsole_split-v1-0-0f660e62841f@debian.org>
-In-Reply-To: <20260508-netconsole_split-v1-0-0f660e62841f@debian.org>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-453a6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4422; i=leitao@debian.org;
- h=from:subject:message-id; bh=GCut3ieEWzJwDvrV9EKvxW+yE6TgayFDTE7Hcw9Em7s=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBp/eU4CF6GDfOj3Hwg9IqzIQPZdehz5g17nY+mi
- lHiG2qhNWWJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaf3lOAAKCRA1o5Of/Hh3
- bfoUEACwvDEX7QebhylYdbMGVx88BOvOHHgx6Gg64V8x8JDwzG2YcajvtN8Cx3DXz2hkN9Uch1Q
- LflOZTt0wUFUQhN52eFbYy22T0Wzyrx+qa2Cw7EC7roiUP9pUz5W51dgZwigM3zgMzmveJsTYhW
- OqrUX6p+FK8imKHXZb/p8vg+I7TTwvmTfm1aY0fZacpmtXLJgg6X4RMJjWpUJGb6LICTPMIKmlZ
- QRGceYiOaBVZEX8+8CyriTnEdyhrinwSulttkwsMuEiEwN6K4CGQXVyXUnRn0geJ5RZb2IWmxBc
- 7znuF+FaJHJshfGbKOs96/V0iqQAnfF1U8IOQmj51EIasMbWvm6jG0ANuDO379tH2kVhkIOdV46
- 79+6o4knnmOTq2epZQHj3aghV9C1hi6m7JHqUVgS+92aQE9OYJrQDAX2ebIjM3DKspQNBtX5Hd1
- 69TgkjqGk9GeWONg6c1FsfAGaRHsvPrA1txnmeTI88+iaAFh1KpDMmqNO4cqXs4XpExoVwpNoTp
- MHEDoVaQP1p48Xcjqg8ZnmCmKUqxHQ7DzrbPtIAwRARoFP7CXsHtfxBmsmYDw9cvjUWte9HZU2/
- 3PSkuSTsB8ltDYK1DPoHrwxzkBi+aNqEDp9omF7YWNo5Q8W2xS84O7+fOG7KGT8H2xkP/L6ayu5
- fylYkCc6f68ZyBg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
 
-find_skb() is the netconsole-specific entry into the netpoll skb
-pool: every other netpoll consumer (bonding, team, vlan, bridge,
-macvlan, dsa) builds its own sk_buff and never touches the pool.
-With netpoll_send_udp() (its only caller) now living in netconsole,
-find_skb() can join it.
+The sched/task.h header file currently exposes a tryget_task_struct()
+function, but it is very risky to use it: If the last refcount of the
+task is dropped using put_task_struct_many(), then the task is freed
+right away without an RCU grace period.
 
-Move find_skb() into drivers/net/netconsole.c as a file-static
-helper, drop EXPORT_SYMBOL_GPL(find_skb) and remove its prototype
-from include/linux/netpoll.h.
+This means that if the kernel contains a code path anywhere such that
+the last refcount of a task may be dropped with put_task_struct_many(),
+and it also contains a code path anywhere that tries to stash a task
+pointer under rcu and use tryget_task_struct() on it, then if they ever
+execute on the same 'struct task_struct', it results in a
+use-after-free.
 
-find_skb() calls zap_completion_queue() to drain TX completions
-before allocating. zap_completion_queue() also has a second caller
-inside netpoll itself (netpoll_poll_dev() runs it after each poll
-to free completed skbs), so it stays in net/core/netpoll.c.
-Promote it from file-static to EXPORT_SYMBOL_GPL with a forward
-declaration in include/linux/netpoll.h, and drop its old
-file-static forward declaration.
+The above applies even if the RCU user drops its own task reference with
+put_task_struct(), because if that is not the last reference, then it's
+possible for another thread to invoke put_task_struct_many() and free
+the task less than a grace period after the RCU user called
+put_task_struct().
 
-The skb pool's lifecycle (np->skb_pool, np->refill_wq, refill_skbs(),
-refill_skbs_work_handler(), skb_pool_flush()) stays in netpoll: it
-is initialised in __netpoll_setup() and torn down in
-__netpoll_cleanup(), both of which remain netpoll's responsibility.
-The refill work queued via schedule_work(&np->refill_wq) from the
-moved find_skb() runs refill_skbs_work_handler() in netpoll without
-any further plumbing.
+There does not appear to be an actual problem in the kernel tree right
+now because there are no in-tree users of put_task_struct_many() where
+refcount_sub_and_test() might return 'true'. Io-uring invokes the
+function from task work while the task is still running, so it will not
+decrement it all the way to zero. (Note that if I'm wrong about this,
+then it's probably possible to trigger UAF by combining this codepath in
+io-uring with the tryget_task_struct() call in sched-ext.)
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
+However, the current situation is fragile and error-prone.
+- If you look at put_task_struct_many() in isolation, it looks like it
+  would be okay to call it in a situation where refcount_sub_and_test()
+  might return 'true'.
+- Similarly, if you look at tryget_task_struct(), you would assume that
+  you are allowed to call this method for a grace period after 'users'
+  hitting zero. (If not, why does it exist?)
+But if two different kernel developers anywhere in the kernel make these
+conflicting assumptions at any point in the future, then the combination
+of their code may lead to a use-after-free if there is any way for them
+to interact via the same 'struct task_struct'.
+
+Thus, as a defensive measure, we should either make
+put_task_struct_many() use call_rcu(), or we should delete
+tryget_task_struct(). This patch suggests the former because it does not
+change anything for any callers that exist today. (As argued previously,
+the body of the 'if' statement is dead code in the kernel today.)
+
+The comment in put_task_struct() is also updated so that nobody changes
+its implementation to only use call_rcu() under PREEMPT_RT in the
+future. The current comment suggests that would be a legal change, but
+it is similarly incompatible with anyone using tryget_task_struct().
+
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- drivers/net/netconsole.c | 27 +++++++++++++++++++++++++++
- include/linux/netpoll.h  |  2 +-
- net/core/netpoll.c       | 33 ++-------------------------------
- 3 files changed, 30 insertions(+), 32 deletions(-)
+Including sched-ext and io-uring in the cc list as they are the only
+users of tryget_task_struct() and put_task_struct_many() respectively.
+---
+ include/linux/sched/task.h | 24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 48d2670bbdef5..817561d8b06bb 100644
---- a/drivers/net/netconsole.c
-+++ b/drivers/net/netconsole.c
-@@ -1653,6 +1653,33 @@ static struct notifier_block netconsole_netdev_notifier = {
- 	.notifier_call  = netconsole_netdev_event,
- };
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 41ed884cffc9..da2fbd17b676 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -131,19 +131,25 @@ static inline void put_task_struct(struct task_struct *t)
+ 		return;
  
-+static struct sk_buff *find_skb(struct netpoll *np, int len, int reserve)
-+{
-+	int count = 0;
-+	struct sk_buff *skb;
-+
-+	zap_completion_queue();
-+repeat:
-+
-+	skb = alloc_skb(len, GFP_ATOMIC);
-+	if (!skb) {
-+		skb = skb_dequeue(&np->skb_pool);
-+		schedule_work(&np->refill_wq);
-+	}
-+
-+	if (!skb) {
-+		if (++count < 10) {
-+			netpoll_poll_dev(np->dev);
-+			goto repeat;
-+		}
-+		return NULL;
-+	}
-+
-+	refcount_set(&skb->users, 1);
-+	skb_reserve(skb, reserve);
-+	return skb;
-+}
-+
- static void netpoll_udp_checksum(struct netpoll *np, struct sk_buff *skb,
- 				 int len)
+ 	/*
+-	 * Under PREEMPT_RT, we can't call __put_task_struct
+-	 * in atomic context because it will indirectly
+-	 * acquire sleeping locks. The same is true if the
+-	 * current process has a mutex enqueued (blocked on
+-	 * a PI chain).
++	 * Delay __put_task_struct() for one grace period so
++	 * that tryget_task_struct() may be used for one
++	 * grace period after any call to put_task_struct().
+ 	 *
+-	 * In !RT, it is always safe to call __put_task_struct().
+-	 * Though, in order to simplify the code, resort to the
+-	 * deferred call too.
++	 * This also has the benefit of making it legal to
++	 * call put_task_struct() in atomic context. We
++	 * can't do that under PREEMPT_RT because it will
++	 * indirectly acquire sleeping locks. The same is
++	 * true if the current process has a mutex enqueued
++	 * (blocked on a PI chain).
+ 	 *
+ 	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+ 	 * to be called in process context.
+ 	 *
++	 * In !RT, it is safe to call __put_task_struct()
++	 * from atomic context, but we still need to delay
++	 * cleanup for a grace period to accommodate
++	 * tryget_task_struct() callers.
++	 *
+ 	 * __put_task_struct() is called when
+ 	 * refcount_dec_and_test(&t->usage) succeeds.
+ 	 *
+@@ -164,7 +170,7 @@ DEFINE_FREE(put_task, struct task_struct *, if (_T) put_task_struct(_T))
+ static inline void put_task_struct_many(struct task_struct *t, int nr)
  {
-diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index 1877d42ccbccf..c9a03d88263ef 100644
---- a/include/linux/netpoll.h
-+++ b/include/linux/netpoll.h
-@@ -73,7 +73,7 @@ void __netpoll_free(struct netpoll *np);
- void netpoll_cleanup(struct netpoll *np);
- void do_netpoll_cleanup(struct netpoll *np);
- netdev_tx_t netpoll_send_skb(struct netpoll *np, struct sk_buff *skb);
--struct sk_buff *find_skb(struct netpoll *np, int len, int reserve);
-+void zap_completion_queue(void);
- 
- #ifdef CONFIG_NETPOLL
- static inline void *netpoll_poll_lock(struct napi_struct *napi)
-diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index c148b3b68cec9..956528904050e 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -51,8 +51,6 @@
- 	 sizeof(struct udphdr) +					\
- 	 MAX_UDP_CHUNK)
- 
--static void zap_completion_queue(void);
--
- static unsigned int carrier_timeout = 4;
- module_param(carrier_timeout, uint, 0644);
- 
-@@ -238,7 +236,7 @@ static void refill_skbs(struct netpoll *np)
- 	}
+ 	if (refcount_sub_and_test(nr, &t->usage))
+-		__put_task_struct(t);
++		call_rcu(&t->rcu, __put_task_struct_rcu_cb);
  }
  
--static void zap_completion_queue(void)
-+void zap_completion_queue(void)
- {
- 	unsigned long flags;
- 	struct softnet_data *sd = &get_cpu_var(softnet_data);
-@@ -265,34 +263,7 @@ static void zap_completion_queue(void)
- 
- 	put_cpu_var(softnet_data);
- }
--
--struct sk_buff *find_skb(struct netpoll *np, int len, int reserve)
--{
--	int count = 0;
--	struct sk_buff *skb;
--
--	zap_completion_queue();
--repeat:
--
--	skb = alloc_skb(len, GFP_ATOMIC);
--	if (!skb) {
--		skb = skb_dequeue(&np->skb_pool);
--		schedule_work(&np->refill_wq);
--	}
--
--	if (!skb) {
--		if (++count < 10) {
--			netpoll_poll_dev(np->dev);
--			goto repeat;
--		}
--		return NULL;
--	}
--
--	refcount_set(&skb->users, 1);
--	skb_reserve(skb, reserve);
--	return skb;
--}
--EXPORT_SYMBOL_GPL(find_skb);
-+EXPORT_SYMBOL_GPL(zap_completion_queue);
- 
- static int netpoll_owner_active(struct net_device *dev)
- {
+ void put_task_struct_rcu_user(struct task_struct *task);
 
+---
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260508-put-task-struct-many-5b5b2f4ae174
+
+Best regards,
 -- 
-2.53.0-Meta
+Alice Ryhl <aliceryhl@google.com>
 
