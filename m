@@ -1,37 +1,38 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1907C3D7D6A;
-	Fri,  8 May 2026 18:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF2B3D8122;
+	Fri,  8 May 2026 18:17:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264263; cv=none; b=JSufxhE59c5mOr43HqIj8hPkXXVPADUXSYSM8PVlyz+4IogCUZVrFlJaq/c5bq5/lnxlcLPsdjSxQEn3IIK5aMC+U2Ii82d9qKoeBhH0RXcmgIPXc1b5vsY9LmoO1+AYLsTEfPgbNOymzUHJ6HziMV7dVnvq5Xcjw144qZhDcs8=
+	t=1778264263; cv=none; b=E6Aj+QUJ+KDqGBkHbbUgUFTQ6VzpD5vpB7T/4SUOfPKTpZLcWOock8LHq0DMVCQDVFA44/t443Zuh+1FKX8HKyGEIV10PJj63ox8qE1awooAbNkgY3DT9BhgepiKwzQEydBXqSWoUGVXCK0tl6qzLeuCHNdYRm976Y8xLvH4t0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778264263; c=relaxed/simple;
-	bh=p3h2EjWBxKP1AzsDWLwp425klQVJ9wOsNFBa1Y3JIOo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=ZhTSLub9evkHXwP2PSJSiwoTSONAD3jADI/X2Q9LgiVOMAK7/W5fdTVVupS0qMOynvhBxBzQgYFUAWEzTmC9xZosoE+I1RFzwiAaTudC3B6tw7XbalFWenKX1d9kugvf/VK3QuKUH74c4knaOQvOwwyM3i845FBnxuSx0Upy9IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MEhBFgEj; arc=none smtp.client-ip=90.155.50.34
+	bh=2ACizhkl4W/Aai3iUn5Na6hUxUGCawJ8JBkYrlgzOAQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uIS7P1GPtMv37gkdZvIXz+7d+PGq7mAsGJ9j6xPbFNYRdOWqbyxvRX+wK83rAh1U14pOc/tvrkTVSMFQ/eMGDCK9STkj55e+of4gE6PRZk+XUgiDkaQ71POCqamO6ZLlaXqUTHuVsmZCXi4V5//iXn75PKcTFlzitt4sZPvTbBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=a03sg80Y; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MEhBFgEj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a03sg80Y"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:To:From:Reply-To:Cc:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=Xt1G6/DUBLSxV3ymDoVdipFChPuL1oRbwYhqTZj9zdw=; b=MEhBFgEjb7iHYyCb1kh43uJG27
-	HxeEhcfFiPY62KcnTu0o9K0PeFTHdAOrJF/Q3Ug/ZmhNvz7N2yDmODT1D2c5firiusR6PTpd2t+Kz
-	QwKoYb+CWXDwOHje9zWdz3ZCAH5lJ3jzcY4kDKtrCqO5yXdFqMD1ZeYGM1l+uNY1k9F+w41evuQMd
-	PRtU7pfE/bRlBXUx/DrDVdopwSOmAZc3aqy9l0gQV7AhMjyNiY3iUk3LTPWpMSNCkt2V2qO2lGmf1
-	evwSz9FJN2qMbUkMtPBoPIrLBcCnu0goIeE7NjOKumc0H0rQkue8VGEjnmlLNYPtUeS8us/1Phu5o
-	1gRRa5yg==;
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
+	Cc:Content-Type:Content-ID:Content-Description;
+	bh=FQOlSxV2N2SZxsJanRrE5lx7UIrWEeyRThnKAatYFck=; b=a03sg80YA+skTAfvvdbx/mOu6c
+	jVfRWw2U0oJJ05+3OFSD/1AjPot4c0pwpTJUN1OgsnPEcSU95vWFaeKVsd7DDBEphoTJK0mzKC9s0
+	/UF+OQl9WyXxmATyBqsIESmPdfwtXG33lziwIH9emTVs2dc+hFZCSxl8QJV0QEe0/zbzPKZ9QBelg
+	s+TQzPlmhcaYDfDEU2HHk1Tv4hcDu9aX8HNVHBit7wk2myTXMRSkG3754eNXd2qj+7YJ9LZxntF8g
+	tKNztP9zzXfZb7rz5U2Ob/qTHWE3Wb/hXlFyI7o4tVbLvdqDT6zIu3uACmwSK5FqbQkgpY5pEQeVR
+	8qLu4eNg==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLPlH-00000004XFF-1N2f;
+	id 1wLPlH-00000004XFE-1L2g;
 	Fri, 08 May 2026 18:17:20 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wLPlG-0000000DYYa-42lw;
-	Fri, 08 May 2026 19:17:18 +0100
+	id 1wLPlH-0000000DYYd-03S5;
+	Fri, 08 May 2026 19:17:19 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Dave Hansen <dave.hansen@linux.intel.com>,
 	x86@kernel.org,
@@ -50,10 +51,12 @@ To: Dave Hansen <dave.hansen@linux.intel.com>,
 	Mauricio Faria de Oliveira <mfo@igalia.com>,
 	kernel-dev@igalia.com,
 	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
-Subject: [PATCH 0/7] KVM: x86/xen: Fix Xen / GPC / PREEMPT_RT issues with rwlock_t
-Date: Fri,  8 May 2026 19:10:02 +0100
-Message-ID: <20260508181717.3230988-1-dwmw2@infradead.org>
+Subject: [PATCH 1/7] locking/rt: Use raw_spin_lock_irqsave() in __rwbase_read_unlock()
+Date: Fri,  8 May 2026 19:10:03 +0100
+Message-ID: <20260508181717.3230988-2-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260508181717.3230988-1-dwmw2@infradead.org>
+References: <20260508181717.3230988-1-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -64,54 +67,55 @@ Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-This series fixes sleeping-in-hardirq bugs in KVM's Xen emulation on
-PREEMPT_RT, and then cleans up the now-unnecessary IRQ disabling in GPC
-lock usage throughout KVM.
-  
-The core issue is that kvm_xen_set_evtchn_fast() and the Xen timer
-callback are called from hardirq/atomic context, but on PREEMPT_RT the
-GPC rwlock_t is a sleeping lock.
-  
-Patch 1 fixes a related RT locking bug in the rwlock core where
-__rwbase_read_unlock() unconditionally re-enables IRQs regardless of
-the caller's saved state.
-  
-Patch 2 converts record_steal_time() to use gfn_to_pfn_cache, replacing
-the kvm_map_gfn()/kvm_unmap_gfn() interface.
-  
-Patch 3 is the main fix: it switches the hardirq/atomic GPC users to
-read_trylock() with -EWOULDBLOCK fallback. There is always a slow path
-for the case where the GPC is invalid and needs to be refreshed.
-  
-Patches 4-6 remove the now-unnecessary irqsave/irqrestore from all
-remaining GPC lock users, since no hardirq path holds the lock any more.
-This simplifies the locking throughout xen.c, x86.c, and pfncache.c.
-  
-Patch 7 subsumes Xen timer injection into kvm_xen_inject_pending_events()
-and calls it from vcpu_enter_guest(), reducing deferred timer delivery
-latency from ~10ms (scheduler tick dependent) to sub-microsecond.
-  
-Tested on bare metal (c7i.metal-48xl) with both non-RT and PREEMPT_RT
-kernels, including the xen_shinfo_test selftest and QEMU with Xen
-emulation (xen-version=0x40010,kernel-irqchip=split).
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Carsten Stollmaier (1):
-      KVM: x86: Use gfn_to_pfn_cache for record_steal_time
+__rwbase_read_unlock() uses raw_spin_lock_irq()/raw_spin_unlock_irq()
+which unconditionally disables and re-enables interrupts. When
+read_unlock() is called from hardirq context (e.g. after a successful
+read_trylock() in a timer callback), the raw_spin_unlock_irq()
+incorrectly re-enables interrupts within the hardirq handler.
 
-David Woodhouse (6):
-      locking/rt: Use raw_spin_lock_irqsave() in __rwbase_read_unlock()
-      KVM: x86/xen: Use read_trylock() for GPC locks in hardirq/atomic paths
-      KVM: x86/xen: Remove unnecessary irqsave from GPC lock usage in xen.c
-      KVM: x86: Remove unnecessary irqsave from kvm_setup_guest_pvclock()
-      KVM: Remove unnecessary IRQ disabling from GPC lock in pfncache.c
-      KVM: x86/xen: Handle pending Xen timer events in vcpu_enter_guest()
+This causes lockdep warnings ('hardirqs_on_prepare' from hardirq
+context) and can lead to IRQ state corruption.
 
- arch/x86/include/asm/kvm_host.h |   2 +-
- arch/x86/kvm/irq.c              |   4 --
- arch/x86/kvm/x86.c              | 138 +++++++++++++++++++++-------------------
- arch/x86/kvm/xen.c              | 117 +++++++++++++++++-----------------
- arch/x86/kvm/xen.h              |  21 +-----
- kernel/locking/rwbase_rt.c      |   5 +-
- virt/kvm/pfncache.c             |  28 ++++----
- 7 files changed, 152 insertions(+), 163 deletions(-)
+Using read_trylock() in hardirq context on PREEMPT_RT is safe because
+it does not record the lock owner. The read_unlock() acquires the
+wait_lock which is hardirq safe. This change additionally allows
+rwlock_t during early boot.
+
+Switch to raw_spin_lock_irqsave()/raw_spin_unlock_irqrestore() to
+preserve the caller's IRQ state.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/locking/rwbase_rt.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/kernel/locking/rwbase_rt.c b/kernel/locking/rwbase_rt.c
+index 82e078c0665a..25744862d627 100644
+--- a/kernel/locking/rwbase_rt.c
++++ b/kernel/locking/rwbase_rt.c
+@@ -153,8 +153,9 @@ static void __sched __rwbase_read_unlock(struct rwbase_rt *rwb,
+ 	struct rt_mutex_base *rtm = &rwb->rtmutex;
+ 	struct task_struct *owner;
+ 	DEFINE_RT_WAKE_Q(wqh);
++	unsigned long flags;
+ 
+-	raw_spin_lock_irq(&rtm->wait_lock);
++	raw_spin_lock_irqsave(&rtm->wait_lock, flags);
+ 	/*
+ 	 * Wake the writer, i.e. the rtmutex owner. It might release the
+ 	 * rtmutex concurrently in the fast path (due to a signal), but to
+@@ -167,7 +168,7 @@ static void __sched __rwbase_read_unlock(struct rwbase_rt *rwb,
+ 
+ 	/* Pairs with the preempt_enable in rt_mutex_wake_up_q() */
+ 	preempt_disable();
+-	raw_spin_unlock_irq(&rtm->wait_lock);
++	raw_spin_unlock_irqrestore(&rtm->wait_lock, flags);
+ 	rt_mutex_wake_up_q(&wqh);
+ }
+ 
+-- 
+2.51.0
 
