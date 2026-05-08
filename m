@@ -1,37 +1,37 @@
 Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646C13890E7;
-	Fri,  8 May 2026 18:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4AD3D8115;
+	Fri,  8 May 2026 18:17:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778264261; cv=none; b=g0OcH6OOGREk9hV8fB82Dvop/aY3rzXSVjf2jrwZSSGNnxUG0wHwtgwhbkPkqEyrjOyIYO0jQ3omtR6j7aeu+m48cCrM1zsbH5wlOBkWfM8YxzeW+zoFp51/u0vC6Ro17zUl0R1NmMGzc0jRi2Jf4SKieyLOQnSnl9/nqn5HLik=
+	t=1778264262; cv=none; b=rGfke7eNY9ixNeJy/lbVIUUJR/b/C0JZbuI/fIgfnZo4f2BL2aL9g4OyMvKkYC9lLw1vOuZ6AR9lC4tGzC+Yc/MxdoUECTn5btAhPWAG2rPVTU6R7KnYldoEbUlghvS+IBaTIeHgNChV4ADYoEAnCMmd549s7hCVpmbcR6HyUp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778264261; c=relaxed/simple;
-	bh=+Q8fYgfGx0JQyWahkuakw0voj2ae6I7/Wap02lr1D/U=;
+	s=arc-20240116; t=1778264262; c=relaxed/simple;
+	bh=jOOtfpLCvgDeAQsuv4PgwZQvgAa1sFeO7VQI/DZihBM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FAlStTztwbzZi2LazhtmlU7NT8YiGlEjN7V5gnk6ibsxR1/XvVCdbljAVyCmHduoUF7fC6u4L5PbpOnDwyG4HxlCLRyOCvEqEYiqgygl794cIxHkv7ZJhhpN4fGkmS5x0jnYV/0jsUEXcghN1X0i8G0H34nUhoxJaKjcpA24AwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VO0DdZJd; arc=none smtp.client-ip=90.155.50.34
+	 MIME-Version:Content-Type; b=u1a1ZKgRJrowK5fkGUJHi2JKlaHUrmbCozHXhW2oA9z+gDMFiglLZlv/+UWb8ckwofgb7ikk0SF8jOpyeRWBXSyymCFANXGnzdyCkt6aZzWGtTBrM0zbzUiGKGdDMjXsjm0c2JkB/Ce77ftEPZkywjel1XeYK5Y8eoC3JX4fobE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T/WY2eeP; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VO0DdZJd"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T/WY2eeP"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Reply-To:
-	Cc:Content-Type:Content-ID:Content-Description;
-	bh=kT9LrUUPvgw7yF7JUGVt2eIItVMRgHFKo8Fq70KxKGs=; b=VO0DdZJd2SLjQdm0Rr2aX2nCF6
-	aaUqJRYAUfbnYVGyvCMoMa/Vo472SGHURL4S40xOFRmg00YjlKY3RL9zZNpkmEm7gxozODJBtHLAM
-	foJYRqOzkggps/J62IKSTHOOOQfmMh6WvfZW7JulKUjXSw8zRNY1KbTIzNRAJ13ZQvxzascS4pTvA
-	B6qvusgYe+6cu+YYrGH0w9CwP1HeJ9AHTJH0cv3orw7AaDWCyZSVnORH1zzUq7f11vyAw//mzWdVS
-	dQsgeg4Oq8QtBcpQ+EEYlAHKJNDaETjsVHp/oy6gTyumUg2YDlwkj7Qy4f6huXn9i91+Tu4dAddqx
-	dH5qyRHg==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:
+	From:Reply-To:Cc:Content-ID:Content-Description;
+	bh=bso8q6C61d4RyZ3spyPByq0wAnze56h7HTvtVJmS3nY=; b=T/WY2eePMtWzt07DhmnCW4ly4K
+	hYbZwX2O49DsY62J14dwD2AN49c+ODMzXkFVb6V8+bF1ojafPa8BnfPsGdhZsvXapfSm+vOwDfQm/
+	JQn5TAOiXErOfBUZGrKAALITFKr3WaFs/koHvDMRmMt2mLEXTypUYxL3WrK8es0WGHec944EM5O8x
+	wc9UTOyemcBFiJN50zEye4ksMzSmPTPJeAL2gs7UzlwSJEoesXd4BEjmmx6uDqW1ZOvM6Uc+bbmuu
+	91LC/8BQuaoCqDI4CNJGQtwKZINlDfLZ0sPTyV7gMqY45VaKmDpCjh4QRGqrbC1g3zwQ5Smofi+Nk
+	jm9RWrRw==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
 	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLPlH-00000004XFL-2CuA;
+	id 1wLPlH-00000004XFJ-1d5N;
 	Fri, 08 May 2026 18:17:20 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wLPlH-0000000DYYt-1BgU;
+	id 1wLPlH-0000000DYYj-0Yci;
 	Fri, 08 May 2026 19:17:19 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: Dave Hansen <dave.hansen@linux.intel.com>,
@@ -51,9 +51,9 @@ To: Dave Hansen <dave.hansen@linux.intel.com>,
 	Mauricio Faria de Oliveira <mfo@igalia.com>,
 	kernel-dev@igalia.com,
 	syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
-Subject: [PATCH 5/7] KVM: x86: Remove unnecessary irqsave from kvm_setup_guest_pvclock()
-Date: Fri,  8 May 2026 19:10:07 +0100
-Message-ID: <20260508181717.3230988-6-dwmw2@infradead.org>
+Subject: [PATCH 3/7] KVM: x86/xen: Use read_trylock() for GPC locks in hardirq/atomic paths
+Date: Fri,  8 May 2026 19:10:05 +0100
+Message-ID: <20260508181717.3230988-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20260508181717.3230988-1-dwmw2@infradead.org>
 References: <20260508181717.3230988-1-dwmw2@infradead.org>
@@ -63,59 +63,125 @@ List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-kvm_setup_guest_pvclock() is only called from kvm_guest_time_update()
-which runs in process context (vcpu_enter_guest or ioctl). There is no
-hardirq path that takes the GPC read lock for pvclock, so irqsave is
-unnecessary.
+kvm_xen_set_evtchn_fast() is called from hardirq context (timer
+callback, kvm_arch_set_irq_inatomic()). On PREEMPT_RT, rwlock_t is a
+sleeping lock, so read_lock_irqsave() cannot be used in this context.
 
-Convert to plain read_lock()/read_unlock().
+Switch to read_trylock() and return -EWOULDBLOCK on contention, which is
+the designed fallback — there is always a slow path for the case where
+the GPC is invalid and needs to be refreshed.
 
+Reported-by: syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=208f7f3e5f59c11aeb90
+Fixes: 14243b387137 ("KVM: x86/xen: Add KVM_IRQ_ROUTING_XEN_EVTCHN and event channel delivery")
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- arch/x86/kvm/x86.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ arch/x86/kvm/xen.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index ae71f28cc1c5..e62f4a9ad334 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3270,18 +3270,17 @@ static void kvm_setup_guest_pvclock(struct pvclock_vcpu_time_info *ref_hv_clock,
+diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+index 91fd3673c09a..9bdb8e3cad58 100644
+--- a/arch/x86/kvm/xen.c
++++ b/arch/x86/kvm/xen.c
+@@ -697,6 +697,7 @@ void kvm_xen_inject_pending_events(struct kvm_vcpu *v)
+ int __kvm_xen_has_interrupt(struct kvm_vcpu *v)
  {
- 	struct pvclock_vcpu_time_info *guest_hv_clock;
- 	struct pvclock_vcpu_time_info hv_clock;
--	unsigned long flags;
+ 	struct gfn_to_pfn_cache *gpc = &v->arch.xen.vcpu_info_cache;
++	bool atomic = in_atomic() || !task_is_running(current);
+ 	unsigned long flags;
+ 	u8 rc = 0;
  
- 	memcpy(&hv_clock, ref_hv_clock, sizeof(hv_clock));
+@@ -713,7 +714,15 @@ int __kvm_xen_has_interrupt(struct kvm_vcpu *v)
+ 	BUILD_BUG_ON(sizeof(rc) !=
+ 		     sizeof_field(struct compat_vcpu_info, evtchn_upcall_pending));
  
 -	read_lock_irqsave(&gpc->lock, flags);
-+	read_lock(&gpc->lock);
- 	while (!kvm_gpc_check(gpc, offset + sizeof(*guest_hv_clock))) {
++	if (atomic) {
++		local_irq_save(flags);
++		if (!read_trylock(&gpc->lock)) {
++			local_irq_restore(flags);
++			return 1;
++		}
++	} else {
++		read_lock_irqsave(&gpc->lock, flags);
++	}
+ 	while (!kvm_gpc_check(gpc, sizeof(struct vcpu_info))) {
+ 		read_unlock_irqrestore(&gpc->lock, flags);
+ 
+@@ -725,7 +734,7 @@ int __kvm_xen_has_interrupt(struct kvm_vcpu *v)
+ 		 * and we'll end up getting called again from a context where we *can*
+ 		 * fault in the page and wait for it.
+ 		 */
+-		if (in_atomic() || !task_is_running(current))
++		if (atomic)
+ 			return 1;
+ 
+ 		if (kvm_gpc_refresh(gpc, sizeof(struct vcpu_info))) {
+@@ -1794,7 +1803,6 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 	struct gfn_to_pfn_cache *gpc = &kvm->arch.xen.shinfo_cache;
+ 	struct kvm_vcpu *vcpu;
+ 	unsigned long *pending_bits, *mask_bits;
+-	unsigned long flags;
+ 	int port_word_bit;
+ 	bool kick_vcpu = false;
+ 	int vcpu_idx, idx, rc;
+@@ -1816,9 +1824,10 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 
+ 	idx = srcu_read_lock(&kvm->srcu);
+ 
+-	read_lock_irqsave(&gpc->lock, flags);
+-	if (!kvm_gpc_check(gpc, PAGE_SIZE))
++	if (!read_trylock(&gpc->lock))
+ 		goto out_rcu;
++	if (!kvm_gpc_check(gpc, PAGE_SIZE))
++		goto out_unlock;
+ 
+ 	if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
+ 		struct shared_info *shinfo = gpc->khva;
+@@ -1847,11 +1856,10 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 	} else {
+ 		rc = 1; /* Delivered to the bitmap in shared_info. */
+ 		/* Now switch to the vCPU's vcpu_info to set the index and pending_sel */
 -		read_unlock_irqrestore(&gpc->lock, flags);
 +		read_unlock(&gpc->lock);
- 
- 		if (kvm_gpc_refresh(gpc, offset + sizeof(*guest_hv_clock)))
- 			return;
+ 		gpc = &vcpu->arch.xen.vcpu_info_cache;
  
 -		read_lock_irqsave(&gpc->lock, flags);
-+		read_lock(&gpc->lock);
+-		if (!kvm_gpc_check(gpc, sizeof(struct vcpu_info))) {
++		if (!read_trylock(&gpc->lock)) {
+ 			/*
+ 			 * Could not access the vcpu_info. Set the bit in-kernel
+ 			 * and prod the vCPU to deliver it for itself.
+@@ -1860,6 +1868,11 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 				kick_vcpu = true;
+ 			goto out_rcu;
+ 		}
++		if (!kvm_gpc_check(gpc, sizeof(struct vcpu_info))) {
++			if (!test_and_set_bit(port_word_bit, &vcpu->arch.xen.evtchn_pending_sel))
++				kick_vcpu = true;
++			goto out_unlock;
++		}
+ 
+ 		if (IS_ENABLED(CONFIG_64BIT) && kvm->arch.xen.long_mode) {
+ 			struct vcpu_info *vcpu_info = gpc->khva;
+@@ -1883,8 +1896,9 @@ int kvm_xen_set_evtchn_fast(struct kvm_xen_evtchn *xe, struct kvm *kvm)
+ 		}
  	}
  
- 	guest_hv_clock = (void *)(gpc->khva + offset);
-@@ -3306,7 +3305,7 @@ static void kvm_setup_guest_pvclock(struct pvclock_vcpu_time_info *ref_hv_clock,
- 	guest_hv_clock->version = ++hv_clock.version;
- 
- 	kvm_gpc_mark_dirty_in_slot(gpc);
--	read_unlock_irqrestore(&gpc->lock, flags);
++ out_unlock:
 +	read_unlock(&gpc->lock);
+  out_rcu:
+-	read_unlock_irqrestore(&gpc->lock, flags);
+ 	srcu_read_unlock(&kvm->srcu, idx);
  
- 	trace_kvm_pvclock_update(vcpu->vcpu_id, &hv_clock);
- }
+ 	if (kick_vcpu) {
 -- 
 2.51.0
 
