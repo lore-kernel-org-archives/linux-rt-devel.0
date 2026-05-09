@@ -1,123 +1,190 @@
-Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D02382382
-	for <linux-rt-devel@lists.linux.dev>; Sat,  9 May 2026 07:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92962ED860;
+	Sat,  9 May 2026 07:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778311120; cv=none; b=ZQHHptoZDr4S8Nq5zzcDsGyte0/Wn5GDMWxb6vIwOonAauHI0Lrc/SwlAq8hVIo0Fy2eORoW1azxfIcYL6ohpI/ZvV6xLmm9zTANr3HivOrt+OTU3sMA+WXpax3FKkkVPG3g/z37gzBultl/AhVGTjTvJ4Xb7Tvey54Y2isGHWo=
+	t=1778311766; cv=none; b=gpxBZrsXk4GjGtEmQoVyI8z3UPpO2151QQ1Y+vx6XIJQ5+SwmG3kSjiDzgypAaE62JLYvw7SyAbKhdET+gVoe7ejecX8oqAzWrZ6+iD2V5xz6MpBFXXJn90E1NSWmce/1J52K64PEie7pJAsa2WcJ2FRMpvRUWEX9igx9kXANJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778311120; c=relaxed/simple;
-	bh=o7CPCGXOj2haokXsQESfPJhyteLvwzZMKjC6vcdU+L8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=gK31qQqhgkdbDSFGvpJTEovKFmDWnPKgrcT+SCqBQYDsU8Ijhk4gETBk0A8YGOsH/OGbWNuu7mGzqoVNR5k3I4K5aklBOrX1Z7BgP/crAqXLR+SeHENmBS1Y7ydJ7zWYicqlBp1aFb6JQg6QxAuYfo8VNcyIRLZOS+Up/BgAMl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DXURPV2O; arc=none smtp.client-ip=209.85.218.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1778311766; c=relaxed/simple;
+	bh=AaKdWVEvrt7itxWbBIOgZSIm+5+lHnTZjtYOLg33Eqo=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XlCGDM8JdvCrbpbYP2u2USAwQB+sdRKMTtD9sOoYHVpbAEabYbl1vGPU55r1Az49WjMhSd9fk+VBCsXUqpg7pUgyCXuzjo8ZMpDF5EcL7WJBct5zJ4RN5SOc1ZtV+BXDpmigjZDPdd0SPyV6e7g+TWFZil+Smt8R79uan3c0CZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ULfTYj5R; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DXURPV2O"
-Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bcc2320b2deso23855366b.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 09 May 2026 00:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778311116; x=1778915916; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWPmLPcUZniG40mmE6xEF7MYszlEp9VqvWN3AMo3/Bg=;
-        b=DXURPV2OtbqVFBE4VHc8aeCBBsNYTuXqxPRvZmT4pP9hwjTtcDq/ZVcp95hdKvncx3
-         52faBFFT7G/7BJ+8cycyL+Us2qAFiZSWmw/QmvxpBF/4MXBzagOuMLiAQJDCzvk6YpJ0
-         cqVc8Xd4op0bqZVJjs+pLaF6bN4jMdO0gBWS3AKROSQXwyF4jsJGeA3m/4TpvNTKq3bn
-         jqXnP7wZMbOq+D4/A3vFvQnSA4qJ0WUWcDVG51RXdXSr8vDQmugWbyS6d0e3FeJA+U4J
-         9ImdC7ojnYHdtDcCO/chwsTEo5/ewVTYyxEVzW7/gwjFZGsfbxNb/WqOvy0AVlSHHSap
-         yrAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778311116; x=1778915916;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nWPmLPcUZniG40mmE6xEF7MYszlEp9VqvWN3AMo3/Bg=;
-        b=NPSRDT7fSiiD1Ad4P+DwKKCZT7OEdnZvMStt064M/dUS/mATIbFJ9M336hAu7BKTSs
-         Se5L4YLLzR9+vMbyskGilbIet0b120xfTs79TpobmcgR0TJJQaNyNj6YbAeHyMkJQlEA
-         /fNNn91gi1qywxiQ67J05Hg0yxbv4WU8nbtImmrnjgcJrswXli6D9q1m3j0b69H7TS3l
-         rZAdi3FK+GWf5v58HFhN+sxhnjp5NvO78VXtR04UAbkpE+hMTQbhxvG0HVRA0nTuIzXz
-         kT42ylTjWP1S4XH19a55Lr5ouzpbui0P6Tlo8AcOCYJ5AErkHvZ96dJD9XLHKNBNSsPz
-         IeHw==
-X-Forwarded-Encrypted: i=1; AFNElJ+EUlp6EAs7AXtk5OkyVy0dIIuuqWzCspj0t/9toVbt0+Ne3dfJzxQxtNnwVLI3qKu+IT1UUlJozamomGibCQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8ZtWRD9J/eEDFGlL0rWfCU/rl5TSNH9F7jZhnVnS76zNGrQD3
-	772ojP3T/BbHiFh+zty2rwuFhKuaqQrABfgpY14lxSAb3Dwhg6pz+0kD5K9WD3wYZ+AxLNX2lEW
-	fsrTigt2VskDyksckZQ==
-X-Received: from ejcbu12.prod.google.com ([2002:a17:907:930c:b0:bca:912a:8b1])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:3e93:b0:ba3:a8ef:3597 with SMTP id a640c23a62f3a-bc56c72d655mr930748266b.25.1778311115972;
- Sat, 09 May 2026 00:18:35 -0700 (PDT)
-Date: Sat, 9 May 2026 07:18:34 +0000
-In-Reply-To: <20260508200157.kWPZI3p3@linutronix.de>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ULfTYj5R"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=AaKdWVEvrt7itxWbBIOgZSIm+5+lHnTZjtYOLg33Eqo=; b=ULfTYj5RZrsAcQ2W69yA6hoj+t
+	hrDP4VJZr3pDVHKAO9vKF0g+gpfMC+cXAYtK83MSIa+0liMA8ZwoP6R6VF8U/SEa+tPH5OQpfmUsE
+	ad03owRdRErkmtQ6sTqKHV2hgeYGYShx14VCZ14OQgSxSnihenQe8uFH2Oc24DQd9WSiiQZKo/Ihe
+	h0y+xu7U3mdVgTA4JERNdltY7j5QRC1SXmp2snbaBKz5gjZEvxE3yWpq87vhTsAMvyxlPSJH/INAO
+	uhby3H7bFh62GLsJbHjqXBF9TljVAP5+Unoo6neUe3c9B35TNXyjO9V2Y/F7yWTzWAEVcb1MGLewe
+	Gxaz2PqA==;
+Received: from [172.31.31.148] (helo=u09cd745991455d.ant.amazon.com)
+	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wLc62-000000085Kw-1IwD;
+	Sat, 09 May 2026 07:28:32 +0000
+Message-ID: <0687336c6d4a19c59b56347629dd0b04dde386e7.camel@infradead.org>
+Subject: Re: [PATCH 7/7] KVM: x86/xen: Handle pending Xen timer events in
+ vcpu_enter_guest()
+From: David Woodhouse <dwmw2@infradead.org>
+To: Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter
+ Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra
+ <peterz@infradead.org>, Will Deacon <will@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-rt-devel@lists.linux.dev, Mauricio
+ Faria de Oliveira <mfo@igalia.com>,  kernel-dev@igalia.com,
+ syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
+Date: Sat, 09 May 2026 08:27:32 +0100
+In-Reply-To: <20260508181717.3230988-8-dwmw2@infradead.org>
+References: <20260508181717.3230988-1-dwmw2@infradead.org>
+	 <20260508181717.3230988-8-dwmw2@infradead.org>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-Lpg+3wJyWfvHWFeFuCWH"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260508-put-task-struct-many-v1-1-8341c18141a6@google.com> <20260508200157.kWPZI3p3@linutronix.de>
-Message-ID: <af7fym1VhjYMw_h4@google.com>
-Subject: Re: [PATCH] sched/task: always defer 'struct task_struct' destruction
- via RCU
-From: Alice Ryhl <aliceryhl@google.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrea Righi <arighi@nvidia.com>, Boqun Feng <boqun@kernel.org>, 
-	Changwoo Min <changwoo@igalia.com>, Clark Williams <clrkwllms@kernel.org>, 
-	David Vernet <void@manifault.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Jens Axboe <axboe@kernel.dk>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Josh Triplett <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Zqiang <qiang.zhang@linux.dev>, io-uring@vger.kernel.org, rcu@vger.kernel.org, 
-	sched-ext@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, May 08, 2026 at 10:01:57PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-05-08 14:02:45 [+0000], Alice Ryhl wrote:
-> > The sched/task.h header file currently exposes a tryget_task_struct()
-> > function, but it is very risky to use it: If the last refcount of the
-> > task is dropped using put_task_struct_many(), then the task is freed
-> > right away without an RCU grace period.
-> > 
-> > This means that if the kernel contains a code path anywhere such that
-> > the last refcount of a task may be dropped with put_task_struct_many(),
-> > and it also contains a code path anywhere that tries to stash a task
-> > pointer under rcu and use tryget_task_struct() on it, then if they ever
-> > execute on the same 'struct task_struct', it results in a
-> > use-after-free.
-> 
-> If the counter dropped to 0 then tryget_task_struct() won't increment
-> it.
 
-Yes. If the 'struct task_struct' hasn't been freed yet. What is the
-scenario where it might be zero, but you are certain it is not yet
-freed? If not rcu, then I guess this applies only to those cases where
-__put_task_struct() itself removes the task from the relevant collection
-when 'users' hits zero.
+--=-Lpg+3wJyWfvHWFeFuCWH
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If tryget_task_struct() can only safely be used in that scenario, then I
-think that's worth at least a comment in the header file, because at
-first glance it's a surprising limitation.
+On Fri, 2026-05-08 at 19:10 +0100, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+>=20
+> If xen_timer_callback() can't deliver an event directly to the guest
+> (e.g. due to memslot changes causing the GPC to need refreshing), it
+> sets the timer_pending flag and kicks the vCPU.
+>=20
+> However, the pending timer was only injected from the outer vcpu_run()
+> loop via kvm_inject_pending_timer_irqs(), not from the inner loop in
+> vcpu_enter_guest(). This means that the timer could be delayed until
+> something else causes vcpu_enter_guest() to return to the outer loop.
 
-> There is also task_struct::rcu_users which holds one `usage' on it
-> and this RCU grace period we care about.
+This one is nonsense; I just got utterly confused when chasing the fact
+that hrtimers weren't being delivered at all due to commit 15dd3a94885.
 
-Sure, but I guess my question is: why does tryget_task_struct() exist?
-The 'rcu_users' field is not the reason because 'usage' can't be zero
-when using that field.
+It's actually fine: the deferred timer will set KVM_REQ_UNBLOCK and
+kvm_cpu_exit_request() will return true, causing vcpu_enter_guest() to
+flip back to OUTSIDE_GUEST_MODE and bail early, as $DEITY intended.
 
-Alice
+After a two-day debugging session on the first thing, I came back to
+the problem I *thought* I'd seen, and contrived a test which
+demonstrated it... by introducing a race that didn't actually exist (my
+test didn't set KVM_REQ_UNBLOCK when actually setting the timer flag in
+vcpu_enter_guest() to show the race).
 
-> The only reason why there is a RCU free here is because of RT and it was
-> limited to RT only. Then a PI case came up (on RT again) I asked
-> repeatedly to have it unconditional on RT and !RT. Which then did
-> happen.
-> 
-> I don't think I would mind to align the two code paths but not as a
-> "this might be UAF if" but to do the same "thing". The important RCU
-> grace period happens via put_task_struct_rcu_user().
-> 
-> Sebastian
+So we can drop this patch [7/7], but I might still do the cleanup and
+consolidation of the events/timer part in a separate patch later.
+
+--=-Lpg+3wJyWfvHWFeFuCWH
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUwOTA3Mjcz
+MlowLwYJKoZIhvcNAQkEMSIEIBEfft98rMIh+q+IMi3iI5F7HJPR7mvaHFYctPSTdxeLMGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAZXA75+K0EeNA
+df4TUxbEZvjpUmxc+2qUFv1bCv620zqGagbAwUvjPIeCZDQjul0jiRZ9SZ4AGYXKs6s39+eddL3r
+aF/901eBEsC6pmhvn+xA8/aG4cC3aftj6aJkArhhakCkylMtRhpFrP/G/txmbkdAxndhqb5cTUtu
+o0jE24FZHRdudbcblVi8OGnHYIgTOgSbST48GqkVBcx+Ea3qeHb5vCD8GHjUmpVGiOSjeRfqr9VJ
+7oHgT+RFEKK809CBfOA0gznLTm4QMc+UKR+g0/P6nhyQopa1/WNBj5kNLdsrkIx+fPMr0h27KuJk
+YLvrnjIBmqexOyhOKluM9giTsanNOUHvuPBspJm+pc1r68ZVe99wGkObJPd+BVUMI660Mj7veXqc
+YYuMv8yQbiOq75NrUxeQ24DeKaPUlYuwMOAxiqrS2EiWDCjQ5SuWMiBUZKU2bv1zUgD0sq8/jxx5
+FWgK1Sw6Z5iCOCKQQIWOYSyLJW/+ZfH0aDlbE3sff/FwKbslH/zXeBwnn5vm+FzouUD9Poj4LGde
+8SebL7LwVwjD+jveUSx/718Bq35+wfSsUqAWdGbUq+EPlIy0UCMilJPFLO8jgncIV+CrSjK4rOJI
+ewwB7sGZFnHFp8kWMQ35++skZZXlbzBfOT+Ahvk9+T3YyPHbc0+56qvekGXSRnUAAAAAAAA=
+
+
+--=-Lpg+3wJyWfvHWFeFuCWH--
