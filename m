@@ -1,143 +1,123 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BEE2F8E9C
-	for <linux-rt-devel@lists.linux.dev>; Sat,  9 May 2026 02:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D02382382
+	for <linux-rt-devel@lists.linux.dev>; Sat,  9 May 2026 07:18:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778293837; cv=none; b=cV/gR710SwAaG9j0e3wCIYTyPp9MOYNhygtRBb+YX+hqt6ue1HfJ6qithUWOLAI8gkek3bwXUtVBnLMotgvn9GaMhZLBmSzi2aSPNM/yGIP2xpVwKp2K959sWL8ec+UlV9V8hk9rsCjmuqNNxpXazJtbmmm2RWNv36+kQtG2K6o=
+	t=1778311120; cv=none; b=ZQHHptoZDr4S8Nq5zzcDsGyte0/Wn5GDMWxb6vIwOonAauHI0Lrc/SwlAq8hVIo0Fy2eORoW1azxfIcYL6ohpI/ZvV6xLmm9zTANr3HivOrt+OTU3sMA+WXpax3FKkkVPG3g/z37gzBultl/AhVGTjTvJ4Xb7Tvey54Y2isGHWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778293837; c=relaxed/simple;
-	bh=ui+euKLkV4IMY5sh0Y/BcVnZNfHsXw/8DxoDwyCe0iM=;
-	h=Content-Type:MIME-Version:Subject:From:To:Cc:Date:Message-ID; b=gt7YrFvUW41asc3KxzjjarW0UNp9WJkDUaH1+jpcVrnf/fKtMMSGRSeAy2IqI4SYJhLlnN/go2Kuej2M3XaELk9dCYjflMQ+PMz45ju9/lqwXHT4jTVMfsT6exvJ49qwdKGo6a3iurSjxiHKDR3w8V1WiVIMwwyZeFMt04fORt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernelci.org; spf=pass smtp.mailfrom=kernelci.org; dkim=pass (2048-bit key) header.d=kernelci.org header.i=@kernelci.org header.b=Wuxdmpn6; arc=none smtp.client-ip=74.125.82.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kernelci.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernelci.org
+	s=arc-20240116; t=1778311120; c=relaxed/simple;
+	bh=o7CPCGXOj2haokXsQESfPJhyteLvwzZMKjC6vcdU+L8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gK31qQqhgkdbDSFGvpJTEovKFmDWnPKgrcT+SCqBQYDsU8Ijhk4gETBk0A8YGOsH/OGbWNuu7mGzqoVNR5k3I4K5aklBOrX1Z7BgP/crAqXLR+SeHENmBS1Y7ydJ7zWYicqlBp1aFb6JQg6QxAuYfo8VNcyIRLZOS+Up/BgAMl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DXURPV2O; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernelci.org header.i=@kernelci.org header.b="Wuxdmpn6"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2b4520f6b32so4868099eec.0
-        for <linux-rt-devel@lists.linux.dev>; Fri, 08 May 2026 19:30:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DXURPV2O"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bcc2320b2deso23855366b.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 09 May 2026 00:18:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernelci.org; s=google; t=1778293836; x=1778898636; darn=lists.linux.dev;
-        h=message-id:date:reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q0uoY2+QbvEJa9ctVf0dWVpanID8eWIpJANVjaFSULE=;
-        b=Wuxdmpn6kpmzpgQLNzguZvXz1xPelTW/BIGAznDgmS3CX+oLUuP6Jbd30HLHC18/nF
-         B9Nihk5U+Kz5ScPfa3icMLOCdrfsc24zmLzfFG0vmVL/TCgsx91bIW72QT8tQMi87KJs
-         N5dWbPnS5ToQL74DLAqK3tFtZ8r9fVPpHHikljRsTd8iCh6KXPFZ53c/KEG1+aDSCiN8
-         uWNQIpbWFVoRIzuEBKY5QmYAWINzm4Q4/Q6HwoS3V+yNu0AQwEWO4FYJnkxIhEGZ6piQ
-         uEtdIsamqfYB+K9tU5br87ktMTMXF6BfLL9jlh7mZ31seE0gua+Vw98DB0sZybKCTrqJ
-         9gJA==
+        d=google.com; s=20251104; t=1778311116; x=1778915916; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWPmLPcUZniG40mmE6xEF7MYszlEp9VqvWN3AMo3/Bg=;
+        b=DXURPV2OtbqVFBE4VHc8aeCBBsNYTuXqxPRvZmT4pP9hwjTtcDq/ZVcp95hdKvncx3
+         52faBFFT7G/7BJ+8cycyL+Us2qAFiZSWmw/QmvxpBF/4MXBzagOuMLiAQJDCzvk6YpJ0
+         cqVc8Xd4op0bqZVJjs+pLaF6bN4jMdO0gBWS3AKROSQXwyF4jsJGeA3m/4TpvNTKq3bn
+         jqXnP7wZMbOq+D4/A3vFvQnSA4qJ0WUWcDVG51RXdXSr8vDQmugWbyS6d0e3FeJA+U4J
+         9ImdC7ojnYHdtDcCO/chwsTEo5/ewVTYyxEVzW7/gwjFZGsfbxNb/WqOvy0AVlSHHSap
+         yrAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778293836; x=1778898636;
-        h=message-id:date:reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=q0uoY2+QbvEJa9ctVf0dWVpanID8eWIpJANVjaFSULE=;
-        b=kG4nfcbZyIF12NmGHvCKdE8x8U0TBSfHYIbJ7Ng1BE3dg8PWvJ7EfWES2PMfxER5am
-         UJnKBlWolYJEUrVqraHTG3LrAd14hh8IeLMPthhELjGNrAX3GMs6QTE3R0+7adb5xSnH
-         TJ9nTHMAWgVthN15V/L+RMTkIRp7qJJNfRCsw6Q2Q40MVomV9fTRUv5U7tX03CWJq4xD
-         ugQkBDY6VT55Xlco0ozcPYFc1qGq1Ng8myoz/632vkhLt82Cf9JDrjB3ybXffeMU79RZ
-         AyECpue1MuEpvuq4igHRFI34bK2ZsMRvUCw1i5mccXU2Zis5FYVo8KTbws2U1twFu46G
-         bQWg==
-X-Gm-Message-State: AOJu0YwSF1I7706XF9cBEtjenbVES7jHCxkVJX185R2GHBkMQSRllbKD
-	/dDRUNKk6VHKSPF6Zsus0Ms7R+cuaWjbQ9dCJRbEkkFaz8k6nY1HT+ZZBc0FUaCVJaCdIiBj5me
-	vQ2ym
-X-Gm-Gg: AeBDievgieMKK8lAZxMgKfykdIzDf8j+hsIcjVyYaEHqNkfqsjZO/Cbh0h+dfBnB9Pv
-	pTamn+thBtBH8PCMibON7xPxQVoVkGf2yy/96PseUzWodCFqThL9pqJAECHbMiYQIqpwEMCTV8k
-	0em3qDhKFx3gX2cODFkS8kDC+CSO0hnHVL61qBkvARbGHTcXu+6MOe4cUOsJbhmsKOrurQaUwKX
-	zDhRVXR/XRd1zyAiRZh96qFOTJk9KJWjrNq+qyXGM8unMaEre7xuHvWx++Jx85NLab+r6VRqeHv
-	9n46sCNWRmk+xKZb9bAkfvbzLrtyTpRsI0Iq6SJ69EUosmbZxxWL8uHWx6lna9V3yGFhdXJ9cL5
-	kRU1Tw148EgamG/8Sqji/luxkAItBo8+2Wx7LF+1duTGX7i7cctUJlRatXMVkDUl28G8EYAckN4
-	O8Ymkny5uB7HC1V8Ic
-X-Received: by 2002:a05:7022:251f:b0:127:5cd6:fa45 with SMTP id a92af1059eb24-1319cc19f1dmr8531094c88.14.1778293835318;
-        Fri, 08 May 2026 19:30:35 -0700 (PDT)
-Received: from 997d03828cfd ([20.38.40.137])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-132787673ffsm5947915c88.15.2026.05.08.19.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 19:30:34 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        d=1e100.net; s=20251104; t=1778311116; x=1778915916;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nWPmLPcUZniG40mmE6xEF7MYszlEp9VqvWN3AMo3/Bg=;
+        b=NPSRDT7fSiiD1Ad4P+DwKKCZT7OEdnZvMStt064M/dUS/mATIbFJ9M336hAu7BKTSs
+         Se5L4YLLzR9+vMbyskGilbIet0b120xfTs79TpobmcgR0TJJQaNyNj6YbAeHyMkJQlEA
+         /fNNn91gi1qywxiQ67J05Hg0yxbv4WU8nbtImmrnjgcJrswXli6D9q1m3j0b69H7TS3l
+         rZAdi3FK+GWf5v58HFhN+sxhnjp5NvO78VXtR04UAbkpE+hMTQbhxvG0HVRA0nTuIzXz
+         kT42ylTjWP1S4XH19a55Lr5ouzpbui0P6Tlo8AcOCYJ5AErkHvZ96dJD9XLHKNBNSsPz
+         IeHw==
+X-Forwarded-Encrypted: i=1; AFNElJ+EUlp6EAs7AXtk5OkyVy0dIIuuqWzCspj0t/9toVbt0+Ne3dfJzxQxtNnwVLI3qKu+IT1UUlJozamomGibCQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8ZtWRD9J/eEDFGlL0rWfCU/rl5TSNH9F7jZhnVnS76zNGrQD3
+	772ojP3T/BbHiFh+zty2rwuFhKuaqQrABfgpY14lxSAb3Dwhg6pz+0kD5K9WD3wYZ+AxLNX2lEW
+	fsrTigt2VskDyksckZQ==
+X-Received: from ejcbu12.prod.google.com ([2002:a17:907:930c:b0:bca:912a:8b1])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:3e93:b0:ba3:a8ef:3597 with SMTP id a640c23a62f3a-bc56c72d655mr930748266b.25.1778311115972;
+ Sat, 09 May 2026 00:18:35 -0700 (PDT)
+Date: Sat, 9 May 2026 07:18:34 +0000
+In-Reply-To: <20260508200157.kWPZI3p3@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: [STATUS] stable-rt/v5.10-rt -
- f890d3d2d43123238f1102e6c8ea96d75103cac9
-From: KernelCI bot <bot@kernelci.org>
-To: kernelci-results@groups.io
-Cc: linux-rt-devel@lists.linux.dev
-Reply-To: kernelci@lists.linux.dev
-Date: Sat, 09 May 2026 02:30:34 -0000
-Message-ID: <177829383450.4454.1598216598838978743@997d03828cfd>
+Mime-Version: 1.0
+References: <20260508-put-task-struct-many-v1-1-8341c18141a6@google.com> <20260508200157.kWPZI3p3@linutronix.de>
+Message-ID: <af7fym1VhjYMw_h4@google.com>
+Subject: Re: [PATCH] sched/task: always defer 'struct task_struct' destruction
+ via RCU
+From: Alice Ryhl <aliceryhl@google.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Andrea Righi <arighi@nvidia.com>, Boqun Feng <boqun@kernel.org>, 
+	Changwoo Min <changwoo@igalia.com>, Clark Williams <clrkwllms@kernel.org>, 
+	David Vernet <void@manifault.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Jens Axboe <axboe@kernel.dk>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	Zqiang <qiang.zhang@linux.dev>, io-uring@vger.kernel.org, rcu@vger.kernel.org, 
+	sched-ext@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
+On Fri, May 08, 2026 at 10:01:57PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-05-08 14:02:45 [+0000], Alice Ryhl wrote:
+> > The sched/task.h header file currently exposes a tryget_task_struct()
+> > function, but it is very risky to use it: If the last refcount of the
+> > task is dropped using put_task_struct_many(), then the task is freed
+> > right away without an RCU grace period.
+> > 
+> > This means that if the kernel contains a code path anywhere such that
+> > the last refcount of a task may be dropped with put_task_struct_many(),
+> > and it also contains a code path anywhere that tries to stash a task
+> > pointer under rcu and use tryget_task_struct() on it, then if they ever
+> > execute on the same 'struct task_struct', it results in a
+> > use-after-free.
+> 
+> If the counter dropped to 0 then tryget_task_struct() won't increment
+> it.
 
+Yes. If the 'struct task_struct' hasn't been freed yet. What is the
+scenario where it might be zero, but you are certain it is not yet
+freed? If not rcu, then I guess this applies only to those cases where
+__put_task_struct() itself removes the task from the relevant collection
+when 'users' hits zero.
 
+If tryget_task_struct() can only safely be used in that scenario, then I
+think that's worth at least a comment in the header file, because at
+first glance it's a surprising limitation.
 
+> There is also task_struct::rcu_users which holds one `usage' on it
+> and this RCU grace period we care about.
 
-Hello,
+Sure, but I guess my question is: why does tryget_task_struct() exist?
+The 'rcu_users' field is not the reason because 'usage' can't be zero
+when using that field.
 
-Status summary for stable-rt/v5.10-rt
+Alice
 
-Dashboard:
-https://d.kernelci.org/c/stable-rt/v5.10-rt/f890d3d2d43123238f1102e6c8ea96d75103cac9/
-
-giturl: https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git
-branch: v5.10-rt
-commit hash: f890d3d2d43123238f1102e6c8ea96d75103cac9
-origin: maestro
-test start time: 2026-05-08 19:58:20.303000+00:00
-
-Builds:	   18 ✅    1 ❌    0 ⚠️
-Boots: 	   24 ✅    0 ❌    0 ⚠️
-Tests: 	  275 ✅    4 ❌   25 ⚠️
-
-### POSSIBLE REGRESSIONS
-    
-Hardware: meson-g12b-a311d-khadas-vim3
-  > Config: defconfig+preempt_rt
-    - Architecture/compiler: arm64/gcc-14
-      - rt-tests.rt-migrate-test
-      last run: https://d.kernelci.org/test/maestro:69fe45a40e4ee292cbf329e4
-      history:  > ✅  > ❌  
-            
-      - rt-tests.rt-migrate-test.rt-migrate-test
-      last run: https://d.kernelci.org/test/maestro:69fe46060e4ee292cbf32c4a
-      history:  > ✅  > ❌  
-            
-
-
-### FIXED REGRESSIONS
-    
-Hardware: rk3399-rock-pi-4b
-  > Config: defconfig+preempt_rt
-    - Architecture/compiler: arm64/gcc-14
-      - rt-tests.rt-migrate-test
-      last run: https://d.kernelci.org/test/maestro:69fe45a90e4ee292cbf329fa
-      history:  > ❌  > ✅  
-            
-      - rt-tests.rt-migrate-test.rt-migrate-test
-      last run: https://d.kernelci.org/test/maestro:69fe48650e4ee292cbf33085
-      history:  > ❌  > ✅  
-            
-
-
-### UNSTABLE TESTS
-
-  No unstable tests observed.
-
-
-
-This branch has 1 pre-existing build issues. See details in the dashboard.
-
-Sent every day if there were changes in the past 24 hours.
-Legend: ✅ PASS   ❌ FAIL  ⚠️ INCONCLUSIVE
-
---
-This is an experimental report format. Please send feedback in!
-Talk to us at kernelci@lists.linux.dev
-
-Made with love by the KernelCI team - https://kernelci.org
+> The only reason why there is a RCU free here is because of RT and it was
+> limited to RT only. Then a PI case came up (on RT again) I asked
+> repeatedly to have it unconditional on RT and !RT. Which then did
+> happen.
+> 
+> I don't think I would mind to align the two code paths but not as a
+> "this might be UAF if" but to do the same "thing". The important RCU
+> grace period happens via put_task_struct_rcu_user().
+> 
+> Sebastian
