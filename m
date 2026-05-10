@@ -1,190 +1,241 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92962ED860;
-	Sat,  9 May 2026 07:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC953890E5
+	for <linux-rt-devel@lists.linux.dev>; Sun, 10 May 2026 13:41:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778311766; cv=none; b=gpxBZrsXk4GjGtEmQoVyI8z3UPpO2151QQ1Y+vx6XIJQ5+SwmG3kSjiDzgypAaE62JLYvw7SyAbKhdET+gVoe7ejecX8oqAzWrZ6+iD2V5xz6MpBFXXJn90E1NSWmce/1J52K64PEie7pJAsa2WcJ2FRMpvRUWEX9igx9kXANJY=
+	t=1778420492; cv=none; b=K8antdW0bZi6dBAQQmn6wLkM3RugdkRo6eAlYgC/8xx67RC6VMiZvaqYxQcsVFwNnJaF8YpIV60m85hfQzuOw4C1JToMvHWRqEqQ/Q6Iun2cEE5UX28eWy66ylToF8PA5Qalt8DcVtARUqWL+osg5isLxvFdd6+ZrrSbmKDgBSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778311766; c=relaxed/simple;
-	bh=AaKdWVEvrt7itxWbBIOgZSIm+5+lHnTZjtYOLg33Eqo=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=XlCGDM8JdvCrbpbYP2u2USAwQB+sdRKMTtD9sOoYHVpbAEabYbl1vGPU55r1Az49WjMhSd9fk+VBCsXUqpg7pUgyCXuzjo8ZMpDF5EcL7WJBct5zJ4RN5SOc1ZtV+BXDpmigjZDPdd0SPyV6e7g+TWFZil+Smt8R79uan3c0CZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ULfTYj5R; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1778420492; c=relaxed/simple;
+	bh=AZr8rIQ1ubNmwJuBVike4Leb5tE6j84Hc44G5ztyCvs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=oNYLryr2Xuw/ht5iLEJgJteMO1z7qsYuo/i8MAi/0fYHmWWKKWrFWZCg/v/3tI3PypjAMXMCKOIe0SO1bKD6b0B93v/RNFFWCTFDHoI9Rl48x8ndfQVp9W3eh69L1UraaU1pHoXMzj2WsHq2c5r5DmZU5GPtHVV7lG4uPHu5RxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ArxYqy1l; arc=none smtp.client-ip=209.85.221.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ULfTYj5R"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:To:From:Subject:Message-ID:Sender:Reply-To:Cc:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=AaKdWVEvrt7itxWbBIOgZSIm+5+lHnTZjtYOLg33Eqo=; b=ULfTYj5RZrsAcQ2W69yA6hoj+t
-	hrDP4VJZr3pDVHKAO9vKF0g+gpfMC+cXAYtK83MSIa+0liMA8ZwoP6R6VF8U/SEa+tPH5OQpfmUsE
-	ad03owRdRErkmtQ6sTqKHV2hgeYGYShx14VCZ14OQgSxSnihenQe8uFH2Oc24DQd9WSiiQZKo/Ihe
-	h0y+xu7U3mdVgTA4JERNdltY7j5QRC1SXmp2snbaBKz5gjZEvxE3yWpq87vhTsAMvyxlPSJH/INAO
-	uhby3H7bFh62GLsJbHjqXBF9TljVAP5+Unoo6neUe3c9B35TNXyjO9V2Y/F7yWTzWAEVcb1MGLewe
-	Gxaz2PqA==;
-Received: from [172.31.31.148] (helo=u09cd745991455d.ant.amazon.com)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wLc62-000000085Kw-1IwD;
-	Sat, 09 May 2026 07:28:32 +0000
-Message-ID: <0687336c6d4a19c59b56347629dd0b04dde386e7.camel@infradead.org>
-Subject: Re: [PATCH 7/7] KVM: x86/xen: Handle pending Xen timer events in
- vcpu_enter_guest()
-From: David Woodhouse <dwmw2@infradead.org>
-To: Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter
- Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Peter Zijlstra
- <peterz@infradead.org>, Will Deacon <will@kernel.org>, Boqun Feng
- <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Sebastian Andrzej
- Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-rt-devel@lists.linux.dev, Mauricio
- Faria de Oliveira <mfo@igalia.com>,  kernel-dev@igalia.com,
- syzbot+208f7f3e5f59c11aeb90@syzkaller.appspotmail.com
-Date: Sat, 09 May 2026 08:27:32 +0100
-In-Reply-To: <20260508181717.3230988-8-dwmw2@infradead.org>
-References: <20260508181717.3230988-1-dwmw2@infradead.org>
-	 <20260508181717.3230988-8-dwmw2@infradead.org>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-Lpg+3wJyWfvHWFeFuCWH"
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ArxYqy1l"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-441243ba35fso2898331f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 10 May 2026 06:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778420488; x=1779025288; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmhcPqIDcr/VmaJfBaD4MTK3AqhVyijG/EOTeXKKd6g=;
+        b=ArxYqy1lOAUKAArlvWY/qOFkhUCT80YJAn/jbL/9gzniLmnPO4n9GNYgaljzB7YXvo
+         rzEZOBCqrzfGdFk0xxwNMybBd0xjQYcWHyoYcTQOe49i2IixedFTZ/YwPkYn7ZIqlVdh
+         aBsGJ4GotcwAIaV5qG8MYUq8GSALbx411Bg/fdM4WDl37w4tBYKKctECIrhBAzEfk2tr
+         HHGtzMtLU+hWlwByqDqTt+SLCU+1wOeL82+VxDuqykg/XewVnxbUSmNVqULAUJcoL2mm
+         I94G5iGLPe/Ckm6EROcwYCPFaCNrurObyXrT/o8e2saErr+uwy56FsbKILB8xwbtk0hG
+         NWmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778420488; x=1779025288;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cmhcPqIDcr/VmaJfBaD4MTK3AqhVyijG/EOTeXKKd6g=;
+        b=hYpOVolv4YwCW+70MCW8VINHmdKNYqUOIfotg0U2ddDvJyrFKbzrE7/08bF8Dii9NE
+         yANfaREhcapjt1wJ1mElsxFajv7jqBsmBWji7pN9xYDJYmtvaXQL7x7JEt0TEajtId1b
+         lZrcNJzpa03v7EEbytHr8R5b7Y1YoxUYlsk2wR/btsjRcck6MTYt6ETAKDLzXuhtxwwp
+         g5VXunh/oFyDwvZ69I6aWVTHgVqx1Ik/icuCsiXyEhQPpPSSFaDI8Xc54DrQ6uC/InWj
+         iaArgJDCN3HqW6LdyRowLEGkQOdDlhzjGwFCBtqiRVHIQb60LgC1AaBoycN9bVIRT021
+         ZG+A==
+X-Forwarded-Encrypted: i=1; AFNElJ/CD3dOFdONoUmPBpwD7z4EjwnM66TmsaGhjaE3G/h8Z2weH/90Z9lD93qM8ox9lHSVpv/LITVv3p0oAZsiOQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwPbApfLa1bz/8nxEi8BQV+sTdCC8C26D4Kmh1dgIr8dcOZ1UYW
+	a9ZOIEOWoFjnBJy+Rw21KvlhORypg6Hxd1LTiMPSYwewFOXPpVQa/NoNzEtVjF3YrnivTM3tAxy
+	JKNJ2G9zB1wTQBEXSHA==
+X-Received: from wmxb15-n2.prod.google.com ([2002:a05:600d:844f:20b0:486:fe68:2045])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:c091:b0:488:a977:8de with SMTP id 5b1f17b1804b1-48e706b264cmr73095925e9.16.1778420488316;
+ Sun, 10 May 2026 06:41:28 -0700 (PDT)
+Date: Sun, 10 May 2026 13:41:27 +0000
+In-Reply-To: <af5XymUlyE0Jsi2t@gpd4>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Mime-Version: 1.0
+References: <20260508-put-task-struct-many-v1-1-8341c18141a6@google.com> <af5XymUlyE0Jsi2t@gpd4>
+Message-ID: <agCLBxHEUqWIepx8@google.com>
+Subject: Re: [PATCH] sched/task: always defer 'struct task_struct' destruction
+ via RCU
+From: Alice Ryhl <aliceryhl@google.com>
+To: Andrea Righi <arighi@nvidia.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+	Changwoo Min <changwoo@igalia.com>, Clark Williams <clrkwllms@kernel.org>, 
+	David Vernet <void@manifault.com>, Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Jens Axboe <axboe@kernel.dk>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>, Tejun Heo <tj@kernel.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Zqiang <qiang.zhang@linux.dev>, io-uring@vger.kernel.org, 
+	rcu@vger.kernel.org, sched-ext@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
 
+On Fri, May 08, 2026 at 11:38:18PM +0200, Andrea Righi wrote:
+> Hi Alice,
+> 
+> On Fri, May 08, 2026 at 02:02:45PM +0000, Alice Ryhl wrote:
+> > The sched/task.h header file currently exposes a tryget_task_struct()
+> > function, but it is very risky to use it: If the last refcount of the
+> > task is dropped using put_task_struct_many(), then the task is freed
+> > right away without an RCU grace period.
+> > 
+> > This means that if the kernel contains a code path anywhere such that
+> > the last refcount of a task may be dropped with put_task_struct_many(),
+> > and it also contains a code path anywhere that tries to stash a task
+> > pointer under rcu and use tryget_task_struct() on it, then if they ever
+> > execute on the same 'struct task_struct', it results in a
+> > use-after-free.
+> > 
+> > The above applies even if the RCU user drops its own task reference with
+> > put_task_struct(), because if that is not the last reference, then it's
+> > possible for another thread to invoke put_task_struct_many() and free
+> > the task less than a grace period after the RCU user called
+> > put_task_struct().
+> > 
+> > There does not appear to be an actual problem in the kernel tree right
+> > now because there are no in-tree users of put_task_struct_many() where
+> > refcount_sub_and_test() might return 'true'. Io-uring invokes the
+> > function from task work while the task is still running, so it will not
+> > decrement it all the way to zero. (Note that if I'm wrong about this,
+> > then it's probably possible to trigger UAF by combining this codepath in
+> > io-uring with the tryget_task_struct() call in sched-ext.)
+> > 
+> > However, the current situation is fragile and error-prone.
+> > - If you look at put_task_struct_many() in isolation, it looks like it
+> >   would be okay to call it in a situation where refcount_sub_and_test()
+> >   might return 'true'.
+> > - Similarly, if you look at tryget_task_struct(), you would assume that
+> >   you are allowed to call this method for a grace period after 'users'
+> >   hitting zero. (If not, why does it exist?)
+> > But if two different kernel developers anywhere in the kernel make these
+> > conflicting assumptions at any point in the future, then the combination
+> > of their code may lead to a use-after-free if there is any way for them
+> > to interact via the same 'struct task_struct'.
+> > 
+> > Thus, as a defensive measure, we should either make
+> > put_task_struct_many() use call_rcu(), or we should delete
+> > tryget_task_struct(). This patch suggests the former because it does not
+> > change anything for any callers that exist today. (As argued previously,
+> > the body of the 'if' statement is dead code in the kernel today.)
+> > 
+> > The comment in put_task_struct() is also updated so that nobody changes
+> > its implementation to only use call_rcu() under PREEMPT_RT in the
+> > future. The current comment suggests that would be a legal change, but
+> > it is similarly incompatible with anyone using tryget_task_struct().
+> > 
+> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+> > ---
+> > Including sched-ext and io-uring in the cc list as they are the only
+> > users of tryget_task_struct() and put_task_struct_many() respectively.
+> 
+> For sched_ext I think we should be already protected by scx_tasks_lock.
+> 
+> From kernel/sched/core.c:
+> 
+>   finish_task_switch():
+>       if (prev_state == TASK_DEAD) {
+>           prev->sched_class->task_dead(prev);
+>           sched_ext_dead(prev);
+>           cgroup_task_dead(prev);
+>           put_task_stack(prev);
+>           ...
+>           put_task_struct_rcu_user(prev);
+>       }
+> 
+>  And sched_ext_dead() in kernel/sched/ext.c:
+> 
+>   scoped_guard(raw_spinlock_irqsave, &scx_tasks_lock) {
+>       list_del_init(&p->scx.tasks_node);
+>       ...
+>   }
+> 
+> Now on the sched_ext iter side:
+> 
+>   scx_task_iter_start();                     /* takes scx_tasks_lock */
+>   while ((p = scx_task_iter_next_locked()))
+>       if (!tryget_task_struct(p))            /* still under scx_tasks_lock */
+>          ...
+> 
+> So, the locking gives us the invariant: while the iter holds scx_tasks_lock and
+> observes p on the list, sched_ext_dead(p) cannot have completed.
 
---=-Lpg+3wJyWfvHWFeFuCWH
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Correct my if I'm wrong, but this sounds like you don't need the tryget
+variant. The 'users' counter is guaranteed be non-zero for one grace
+period after put_task_struct_rcu_user(prev).
 
-On Fri, 2026-05-08 at 19:10 +0100, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
->=20
-> If xen_timer_callback() can't deliver an event directly to the guest
-> (e.g. due to memslot changes causing the GPC to need refreshing), it
-> sets the timer_pending flag and kicks the vCPU.
->=20
-> However, the pending timer was only injected from the outer vcpu_run()
-> loop via kvm_inject_pending_timer_irqs(), not from the inner loop in
-> vcpu_enter_guest(). This means that the timer could be delayed until
-> something else causes vcpu_enter_guest() to return to the outer loop.
+Alice
 
-This one is nonsense; I just got utterly confused when chasing the fact
-that hrtimers weren't being delivered at all due to commit 15dd3a94885.
-
-It's actually fine: the deferred timer will set KVM_REQ_UNBLOCK and
-kvm_cpu_exit_request() will return true, causing vcpu_enter_guest() to
-flip back to OUTSIDE_GUEST_MODE and bail early, as $DEITY intended.
-
-After a two-day debugging session on the first thing, I came back to
-the problem I *thought* I'd seen, and contrived a test which
-demonstrated it... by introducing a race that didn't actually exist (my
-test didn't set KVM_REQ_UNBLOCK when actually setting the timer flag in
-vcpu_enter_guest() to show the race).
-
-So we can drop this patch [7/7], but I might still do the cleanup and
-consolidation of the events/timer part in a separate patch later.
-
---=-Lpg+3wJyWfvHWFeFuCWH
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
-ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
-MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
-a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
-jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
-GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
-aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
-nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
-8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
-HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
-IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
-KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
-BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
-QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
-QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
-ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
-/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
-uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
-xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
-W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
-c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
-VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
-NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
-DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
-sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
-w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
-i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
-kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
-0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
-ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
-blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
-hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
-VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
-HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
-ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
-AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
-cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
-cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
-AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
-aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
-hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
-iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
-8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
-JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
-xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
-EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
-B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
-MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
-KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
-Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
-nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
-WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
-W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
-nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
-g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
-9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
-9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
-sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
-a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
-ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
-AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
-dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
-Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
-MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
-YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
-4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
-6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
-QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
-nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
-MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
-VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
-ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDUwOTA3Mjcz
-MlowLwYJKoZIhvcNAQkEMSIEIBEfft98rMIh+q+IMi3iI5F7HJPR7mvaHFYctPSTdxeLMGQGCSsG
-AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
-cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
-VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
-cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIAZXA75+K0EeNA
-df4TUxbEZvjpUmxc+2qUFv1bCv620zqGagbAwUvjPIeCZDQjul0jiRZ9SZ4AGYXKs6s39+eddL3r
-aF/901eBEsC6pmhvn+xA8/aG4cC3aftj6aJkArhhakCkylMtRhpFrP/G/txmbkdAxndhqb5cTUtu
-o0jE24FZHRdudbcblVi8OGnHYIgTOgSbST48GqkVBcx+Ea3qeHb5vCD8GHjUmpVGiOSjeRfqr9VJ
-7oHgT+RFEKK809CBfOA0gznLTm4QMc+UKR+g0/P6nhyQopa1/WNBj5kNLdsrkIx+fPMr0h27KuJk
-YLvrnjIBmqexOyhOKluM9giTsanNOUHvuPBspJm+pc1r68ZVe99wGkObJPd+BVUMI660Mj7veXqc
-YYuMv8yQbiOq75NrUxeQ24DeKaPUlYuwMOAxiqrS2EiWDCjQ5SuWMiBUZKU2bv1zUgD0sq8/jxx5
-FWgK1Sw6Z5iCOCKQQIWOYSyLJW/+ZfH0aDlbE3sff/FwKbslH/zXeBwnn5vm+FzouUD9Poj4LGde
-8SebL7LwVwjD+jveUSx/718Bq35+wfSsUqAWdGbUq+EPlIy0UCMilJPFLO8jgncIV+CrSjK4rOJI
-ewwB7sGZFnHFp8kWMQ35++skZZXlbzBfOT+Ahvk9+T3YyPHbc0+56qvekGXSRnUAAAAAAAA=
-
-
---=-Lpg+3wJyWfvHWFeFuCWH--
+> And the css_task_iter paths have the analogous ordering.
+> 
+> That said, I think this patch still makes sense to provide a consistent
+> semantics between put_task_struct() and put_task_struct_many(), as mentioned by
+> Sebastian. So, maybe reword the message around consistency rather than UAF?
+> 
+> Thanks,
+> -Andrea
+> 
+> > ---
+> >  include/linux/sched/task.h | 24 +++++++++++++++---------
+> >  1 file changed, 15 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+> > index 41ed884cffc9..da2fbd17b676 100644
+> > --- a/include/linux/sched/task.h
+> > +++ b/include/linux/sched/task.h
+> > @@ -131,19 +131,25 @@ static inline void put_task_struct(struct task_struct *t)
+> >  		return;
+> >  
+> >  	/*
+> > -	 * Under PREEMPT_RT, we can't call __put_task_struct
+> > -	 * in atomic context because it will indirectly
+> > -	 * acquire sleeping locks. The same is true if the
+> > -	 * current process has a mutex enqueued (blocked on
+> > -	 * a PI chain).
+> > +	 * Delay __put_task_struct() for one grace period so
+> > +	 * that tryget_task_struct() may be used for one
+> > +	 * grace period after any call to put_task_struct().
+> >  	 *
+> > -	 * In !RT, it is always safe to call __put_task_struct().
+> > -	 * Though, in order to simplify the code, resort to the
+> > -	 * deferred call too.
+> > +	 * This also has the benefit of making it legal to
+> > +	 * call put_task_struct() in atomic context. We
+> > +	 * can't do that under PREEMPT_RT because it will
+> > +	 * indirectly acquire sleeping locks. The same is
+> > +	 * true if the current process has a mutex enqueued
+> > +	 * (blocked on a PI chain).
+> >  	 *
+> >  	 * call_rcu() will schedule __put_task_struct_rcu_cb()
+> >  	 * to be called in process context.
+> >  	 *
+> > +	 * In !RT, it is safe to call __put_task_struct()
+> > +	 * from atomic context, but we still need to delay
+> > +	 * cleanup for a grace period to accommodate
+> > +	 * tryget_task_struct() callers.
+> > +	 *
+> >  	 * __put_task_struct() is called when
+> >  	 * refcount_dec_and_test(&t->usage) succeeds.
+> >  	 *
+> > @@ -164,7 +170,7 @@ DEFINE_FREE(put_task, struct task_struct *, if (_T) put_task_struct(_T))
+> >  static inline void put_task_struct_many(struct task_struct *t, int nr)
+> >  {
+> >  	if (refcount_sub_and_test(nr, &t->usage))
+> > -		__put_task_struct(t);
+> > +		call_rcu(&t->rcu, __put_task_struct_rcu_cb);
+> >  }
+> >  
+> >  void put_task_struct_rcu_user(struct task_struct *task);
+> > 
+> > ---
+> > base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+> > change-id: 20260508-put-task-struct-many-5b5b2f4ae174
+> > 
+> > Best regards,
+> > -- 
+> > Alice Ryhl <aliceryhl@google.com>
+> > 
