@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BB33806BD;
-	Mon, 11 May 2026 05:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E8D381AEA;
+	Mon, 11 May 2026 05:11:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778476278; cv=none; b=dxkevf0yBnkP6ciknU+DyEBeiYG56hh3RYYnJsBJS19WwGv0eFH8aqbvw9MJzoGCHuQySfoAn2UCgHVB2VKF0BQnKZrVY2zCjRmSA4vzt9hlX2GLxB5zQF3Z15lwFqsFTv+DldDGFJATitzRXl3b+qIB7x4ClSp0Jg3z1ZozqN4=
+	t=1778476279; cv=none; b=GbM/AJPwUU3GK6jqBqd296qWIkRRv03kZaUA8TtX0iFLnFGTJKkt7LUkvFU+akB3wfmGOEJPqfsUy/TWNLTlYC6+jVtOSHQ0xRlxLYT54YXWPtbXW0aXOvJQImVBSa1g26lbHAq5sxd9wEeVEMrSMiCD8dakZnVvwjbbwqV35iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778476278; c=relaxed/simple;
-	bh=Fhw3phRjFaNZVnLaZwAKuhmfF7SR2HT1EB37+I5rxEI=;
+	s=arc-20240116; t=1778476279; c=relaxed/simple;
+	bh=ZUXKow7Jh5NPcRT1AHjWwA153dfWBPqEk93hx0bvVtQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Wh+NoWN/j8z4lDrwJUQewNZ749SlBv/ctwwP7ogZHku9Nv+3Ei2oAnH6JSJKHyUp9P7XKMLYOzXvQ9KqdiG+sc3qfv9aKDjtqCKcFMgfKRiw2I79M1RUSAOYlZllXeMxUe3tENL7Ip1L4PApwJe+5CRtnAKTPhhQjt7p+/tAPJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZbzRq0N; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=UcPjT8PyqAKdceklKABn/iNMNUDB+4nTlij9oPwtG0+ZQdhJYKF6Yvt1pfzh3PFZgmMCusvbVmsVlqOxE8PZ70O6b7HqM1Gph6achcs9TU0rF8P3Knwscb9Xq5/w7O5tS9v5eW2sV6VA/o1a6SBjQsUSY0WYdBSqB7ryBOWiN7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C4ewWEfd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZbzRq0N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF15C2BCF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C4ewWEfd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2072C2BCFF;
 	Mon, 11 May 2026 05:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778476278;
-	bh=Fhw3phRjFaNZVnLaZwAKuhmfF7SR2HT1EB37+I5rxEI=;
+	s=k20201202; t=1778476279;
+	bh=ZUXKow7Jh5NPcRT1AHjWwA153dfWBPqEk93hx0bvVtQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=PZbzRq0NwwPStyJl+cRHtd/tV5PYCfoUZ24oYb57XmznoQhbCF4fBAtCnNIpulz0r
-	 g/4ZAkAg3nnaOSYQ3xGdmkwoL096tqCjmdULnH2aHu+GvF2BLjhMQkNwBcLD7qj+y6
-	 9YQckb1B+Evk3zm9DQ13ypQuyvPkxBm9WkAmaj6ar0iNcF8Rg3nyrg8HeImNGiCkkQ
-	 TahNgCwJBKFtaHMKnNq0hSqI51OXdIUnjbHd+OGRPPNZh8kEtSLc6t3grMEJ5vAXRc
-	 py+QLtR4yHKyPgKOxmfcmx71fNHPjfkgfjCY209EJnws9/OiW2dDFuJ4WEdmSg91N8
-	 sAEt5JrfoCQIg==
+	b=C4ewWEfdMzj7YhueADle0xhRNmj6mP3USLoV+FslqZKtgENOHnOxzi/XHH7vrr2Gb
+	 yhX/ThWzqNFh35OPJQ55XFbCFg1gQbXU1768rI+T0U5ighW7iHnNWWQVX12iPl6hZG
+	 RXLn5yKAEVR/OPTVHHvrNV3Ko5wn3EqlW5EgmpA7kyWEgZjhTSe1yntcS414e4mJTs
+	 KNOjwRDdzBbhYLPSp8o0YOXED9gnw42eJ9WJkc0VHiXFxuBPF0/Tj5n6OpMNntnvJy
+	 K4H0+ykPyGCg7Fbo5glzzQPtrDKFFx0VvqlqgdyAevl4gn+d4thMDpl/up3Eszp6SC
+	 JCic/geCTluQQ==
 From: Drew Fustini <fustini@kernel.org>
-Date: Sun, 10 May 2026 22:11:10 -0700
-Subject: [PATCH RFC v4 14/18] riscv_cbqri: resctrl: Add MB_WGHT bandwidth
- allocation via Mweight
+Date: Sun, 10 May 2026 22:11:11 -0700
+Subject: [PATCH RFC v4 15/18] riscv_cbqri: resctrl: Add mbm_total_bytes
+ bandwidth monitoring
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-14-eb53831ef683@kernel.org>
+Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-15-eb53831ef683@kernel.org>
 References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 In-Reply-To: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -77,165 +77,254 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5399; i=fustini@kernel.org;
- h=from:subject:message-id; bh=Fhw3phRjFaNZVnLaZwAKuhmfF7SR2HT1EB37+I5rxEI=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxprz+xGVk35e87I8SO4/Vx3Qp1QOLq79Mv8KxZZZOQ
- GImz/ZdHaUsDGJcDLJiiiybPuRdWOIV+nXB/BfbYOawMoEMYeDiFICJrNzF8L9wgsBybq2knOWb
- fsWqnlIQ25ltudfAYv+bvop5G7wUzNQYGZZ+ip36MPPeQaUbhwNkD7N+fR9ZnRWZzbyN6VrC7Qv
- WSmwA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8413; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=ZUXKow7Jh5NPcRT1AHjWwA153dfWBPqEk93hx0bvVtQ=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxpryeEXshqiWj/fO5Ha3fDxTmT8mpUbGevUAr69LmN
+ +xXLWX8OkpZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQATSfVjZJglv97j0X41iUUh
+ ioLFb+4FsHxcECHhdvKj6DmlKXz5YocZGd7pRSX1M4edTNnpOdtK/lv1timVq37ovmcI6vmVfbN
+ EhgsA
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Add bandwidth allocation through Mweight (shared weight for unreserved
-bandwidth) exposed as the MB_WGHT resource. Mweight has no MBA
-equivalent, so it lands as a new RDT_RESOURCE_*.
+Expose CBQRI bandwidth controller's combined read+write counter as
+the L3 mbm_total_bytes event. A software accumulator keeps the
+64-bit byte total monotonic across the 62-bit hardware counter wrap.
 
-Mweight is an integer in [0, 255]. A value of 0 disables work-
-conserving sharing for the group, capping its bandwidth at the
-MB_MIN reservation. Values 1..255 compete for the leftover pool in
-proportion to the weight.
-
-The same BC backs both MB_MIN and MB_WGHT and bc_bw_alloc packs Rbwb and
-Mweight in one register. cbqri_attach_cpu_to_bw_ctrl() attaches both
-rids to the picked BC.
-
-Reset gives every RCID the new-group default (max_bw = 255) for
-equal opportunistic shares.
+mbm_local_bytes is not supported because the CBQRI spec has no way
+to distinguish total versus local. Bandwidth monitoring is disabled
+on platforms with more than one CBQRI bandwidth controller, since
+the counter could not accurately attribute traffic across L3 domains.
 
 Assisted-by: Claude:claude-opus-4-7
 Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- drivers/resctrl/cbqri_resctrl.c | 62 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 58 insertions(+), 4 deletions(-)
+ drivers/resctrl/cbqri_resctrl.c | 154 ++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 150 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-index bcd9367e3555..71ee8e610757 100644
+index 71ee8e610757..ccd48cac7ccd 100644
 --- a/drivers/resctrl/cbqri_resctrl.c
 +++ b/drivers/resctrl/cbqri_resctrl.c
-@@ -418,6 +418,8 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
- 	case RDT_RESOURCE_MB_MIN:
- 		/* sum(Rbwb) <= MRBWB validation runs inside cbqri_apply_rbwb(). */
- 		return cbqri_apply_rbwb(dom->hw_ctrl, closid, cfg_val, true);
-+	case RDT_RESOURCE_MB_WGHT:
-+		return cbqri_apply_mweight_config(dom->hw_ctrl, closid, cfg_val);
+@@ -30,6 +30,13 @@ struct cbqri_resctrl_res {
+ struct cbqri_resctrl_dom {
+ 	struct rdt_ctrl_domain  resctrl_ctrl_dom;
+ 	struct cbqri_controller *hw_ctrl;
++	/*
++	 * For an L3 capacity controller paired with a bandwidth controller
++	 * of matching topology, paired_bc caches that BC so mbm_total_bytes
++	 * reads / resets don't have to walk cbqri_controllers on every hit.
++	 * NULL for non-L3 domains and L3s without a paired BC.
++	 */
++	struct cbqri_controller *paired_bc;
+ };
+ 
+ static struct cbqri_resctrl_res cbqri_resctrl_resources[RDT_NUM_RESOURCES];
+@@ -38,7 +45,7 @@ static struct cbqri_resctrl_res cbqri_resctrl_resources[RDT_NUM_RESOURCES];
+  * Per-event controller table. Only events CBQRI can back occupy a
+  * slot, so other events do not bloat the array.
+  */
+-#define CBQRI_MAX_EVENT QOS_L3_OCCUP_EVENT_ID
++#define CBQRI_MAX_EVENT QOS_L3_MBM_TOTAL_EVENT_ID
+ static struct cbqri_controller *cbqri_resctrl_counters[CBQRI_MAX_EVENT + 1];
+ 
+ /*
+@@ -239,6 +246,36 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_l3_mon_domain *d
+ 		mutex_unlock(&ctrl->lock);
+ 		return;
+ 
++	case QOS_L3_MBM_TOTAL_EVENT_ID: {
++		struct cbqri_controller *bc;
++
++		cd = cbqri_find_ctrl_domain(&r->ctrl_domains, d->hdr.id);
++		if (!cd)
++			return;
++		hw_dom = container_of(cd, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
++		bc = hw_dom->paired_bc;
++		if (!bc)
++			return;
++		if (WARN_ON_ONCE(!bc->mbm_total_states))
++			return;
++		if (rmid >= bc->mcid_count)
++			return;
++
++		mutex_lock(&bc->lock);
++		/*
++		 * CONFIG_EVENT both resets and re-arms. Skip the accumulator
++		 * memset on failure. A stale hardware counter X with
++		 * prev_ctr=0 would inject overflow(0, X) on the next read.
++		 */
++		if (!cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
++				  CBQRI_BC_MON_CTL_OP_CONFIG_EVENT, rmid,
++				  CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL))
++			memset(&bc->mbm_total_states[rmid], 0,
++			       sizeof(*bc->mbm_total_states));
++		mutex_unlock(&bc->lock);
++		return;
++	}
++
+ 	default:
+ 		return;
+ 	}
+@@ -249,8 +286,11 @@ void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_l3_mon_domai
+ 	int i;
+ 
+ 	/* Bound by max_rmid (system-wide minimum mcid_count). */
+-	for (i = 0; i < max_rmid; i++)
++	for (i = 0; i < max_rmid; i++) {
+ 		resctrl_arch_reset_rmid(r, d, 0, i, QOS_L3_OCCUP_EVENT_ID);
++		/* mbm_total_bytes reset is a no-op for L3s without a paired BC. */
++		resctrl_arch_reset_rmid(r, d, 0, i, QOS_L3_MBM_TOTAL_EVENT_ID);
++	}
+ }
+ 
+ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
+@@ -308,6 +348,76 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
+ 		mutex_unlock(&ctrl->lock);
+ 		return err;
+ 
++	case QOS_L3_MBM_TOTAL_EVENT_ID: {
++		struct cbqri_controller *bc;
++
++		/*
++		 * The L3 monitoring domain's id is the L3 cache id. The
++		 * matching ctrl domain's hw_dom->paired_bc was cached at
++		 * add time to avoid walking cbqri_controllers on every read.
++		 */
++		d = cbqri_find_ctrl_domain(&r->ctrl_domains, hdr->id);
++		if (!d)
++			return -ENOENT;
++		hw_dom = container_of(d, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
++		bc = hw_dom->paired_bc;
++		if (!bc)
++			return -ENOENT;
++		if (WARN_ON_ONCE(!bc->mbm_total_states))
++			return -EIO;
++		if (rmid >= bc->mcid_count)
++			return -ERANGE;
++
++		mutex_lock(&bc->lock);
++		/* Pass EVT_ID explicitly. Same reason as the CC path above. */
++		err = cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
++				   CBQRI_BC_MON_CTL_OP_READ_COUNTER, rmid,
++				   CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL);
++		if (err)
++			goto out_bc;
++
++		ctr_val = ioread64(bc->base + CBQRI_BC_MON_CTR_VAL_OFF);
++
++		if (ctr_val & CBQRI_BC_MON_CTR_VAL_INVALID) {
++			/*
++			 * Hardware marked the counter invalid (CBQRI 4.3:
++			 * controller could not establish an accurate count).
++			 * Return the last good total and leave prev_ctr so
++			 * the next valid sample resumes from there.
++			 */
++			*val = bc->mbm_total_states[rmid].chunks;
++		} else if (ctr_val & CBQRI_BC_MON_CTR_VAL_OVF) {
++			/*
++			 * CBQRI 4.3: OVF is sticky until next CONFIG_EVENT.
++			 * cbqri_bc_mon_overflow() can recover at most one
++			 * wrap. With OVF set the count is unknown, so re-arm
++			 * and re-anchor prev_ctr=0, losing one wrap-period.
++			 */
++			struct cbqri_bc_mon_state *s = &bc->mbm_total_states[rmid];
++
++			pr_warn_ratelimited("BC@%pa MCID %u: CTR overflow, bandwidth count loses ~one wrap-period; consider a wider CTR or a faster poll cadence\n",
++					    &bc->addr, rmid);
++			err = cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
++					   CBQRI_BC_MON_CTL_OP_CONFIG_EVENT, rmid,
++					   CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL);
++			if (err)
++				goto out_bc;
++
++			s->prev_ctr = 0;
++			*val = s->chunks;
++		} else {
++			struct cbqri_bc_mon_state *s = &bc->mbm_total_states[rmid];
++			u64 cur = ctr_val & CBQRI_BC_MON_CTR_VAL_CTR_MASK;
++
++			s->chunks  += cbqri_bc_mon_overflow(s->prev_ctr, cur);
++			s->prev_ctr = cur;
++			*val        = s->chunks;
++		}
++out_bc:
++		mutex_unlock(&bc->lock);
++		return err;
++	}
++
  	default:
  		return -EINVAL;
  	}
-@@ -478,6 +480,14 @@ u32 resctrl_arch_get_config(struct rdt_resource *r, struct rdt_ctrl_domain *d,
- 			val = (u32)rbwb;
- 		break;
- 	}
-+	case RDT_RESOURCE_MB_WGHT: {
-+		u64 mweight;
+@@ -730,6 +840,16 @@ static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
+ 			res->mon.num_rmid = ctrl->mcid_count;
+ 			resctrl_enable_mon_event(QOS_L3_OCCUP_EVENT_ID,
+ 						 false, 0, NULL);
 +
-+		err = cbqri_read_mweight(ctrl, closid, &mweight);
-+		if (err == 0)
-+			val = (u32)mweight;
-+		break;
-+	}
- 	default:
- 		break;
- 	}
-@@ -526,6 +536,18 @@ void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
- 							   rcid, rerr);
- 			}
- 			break;
-+		case RDT_RESOURCE_MB_WGHT:
-+			/* All RCIDs start at max weight (the new-group default). */
-+			for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
-+				int rerr;
++			/*
++			 * Expose BC bandwidth monitoring as the L3's
++			 * mbm_total_bytes when a BC shares topology with this
++			 * L3 (MPAM "MB on L3" mapping).
++			 */
++			if (cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID])
++				resctrl_enable_mon_event(QOS_L3_MBM_TOTAL_EVENT_ID,
++							 false, 0, NULL);
 +
-+				rerr = cbqri_apply_mweight_config(dom->hw_ctrl, i,
-+								  default_ctrl);
-+				if (rerr)
-+					pr_err_ratelimited("Mweight reset RCID %u failed (%d)\n",
-+							   i, rerr);
-+			}
-+			break;
- 		default:
- 			for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
- 				for (t = 0; t < CDP_NUM_TYPES; t++) {
-@@ -594,6 +616,11 @@ static int cbqri_init_domain_ctrlval(struct rdt_resource *r, struct rdt_ctrl_dom
- 			err = cbqri_apply_rbwb(dom->hw_ctrl, rcid, rbwb, false);
- 			break;
+ 			res->mon_capable = true;
  		}
-+		case RDT_RESOURCE_MB_WGHT:
-+			/* Match the new-group default: equal weights across RCIDs. */
-+			err = cbqri_apply_mweight_config(dom->hw_ctrl, i,
-+							 resctrl_get_default_ctrl(r));
-+			break;
- 		default:
- 			/*
- 			 * Seed both DATA and CODE staged slots so a later
-@@ -731,6 +758,25 @@ static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
- 		INIT_LIST_HEAD(&res->mon_domains);
  		break;
- 
-+	case RDT_RESOURCE_MB_WGHT:
-+		res->name = "MB_WGHT";
-+		res->schema_fmt = RESCTRL_SCHEMA_RANGE;
-+		res->ctrl_scope = RESCTRL_L3_CACHE;
-+		/* Mweight is a dimensionless ratio. No delay/linear concept. */
-+		res->membw.throttle_mode = THREAD_THROTTLE_UNDEFINED;
-+		/*
-+		 * CBQRI section 4.5: Mweight is 0-255 (0 disables
-+		 * work-conserving). No sum constraint, so leave
-+		 * default_to_min false: groups default to max_bw.
-+		 */
-+		res->membw.min_bw = 0;
-+		res->membw.max_bw = 255;
-+		res->membw.bw_gran = 1;
-+		res->alloc_capable = ctrl->alloc_capable;
-+		INIT_LIST_HEAD(&res->ctrl_domains);
-+		INIT_LIST_HEAD(&res->mon_domains);
-+		break;
-+
- 	default:
- 		break;
- 	}
-@@ -739,13 +785,14 @@ static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
+@@ -818,8 +938,8 @@ static int cbqri_resctrl_pick_bw_alloc(void)
  }
  
  /*
-- * Pick one BC to back MB_MIN.  Multiple BCs must agree on rcid_count
-- * and mrbwb.  Mismatch is fatal because resctrl exposes a single set
-- * of caps per rid.
-+ * Pick one BC to back both MB_MIN and MB_WGHT (they share a controller).
-+ * Multiple BCs must agree on rcid_count and mrbwb. Mismatch is fatal
-+ * because resctrl exposes a single set of caps per rid.
+- * Pick one controller per monitoring event.  L3 OCCUP comes from the
+- * picked L3 CC (if mon_capable).
++ * Pick one controller per monitoring event. L3 OCCUP comes from the
++ * picked L3 CC (if mon_capable). MBM_TOTAL from the only mon-capable BC.
   */
- static int cbqri_resctrl_pick_bw_alloc(void)
+ static void cbqri_resctrl_pick_counters(void)
  {
- 	struct cbqri_resctrl_res *mb_min = &cbqri_resctrl_resources[RDT_RESOURCE_MB_MIN];
-+	struct cbqri_resctrl_res *mb_wght = &cbqri_resctrl_resources[RDT_RESOURCE_MB_WGHT];
- 	struct cbqri_controller *ctrl;
+@@ -827,6 +947,9 @@ static void cbqri_resctrl_pick_counters(void)
  
- 	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-@@ -764,6 +811,7 @@ static int cbqri_resctrl_pick_bw_alloc(void)
- 		}
- 
- 		mb_min->ctrl = ctrl;
-+		mb_wght->ctrl = ctrl;
- 	}
- 
- 	return 0;
-@@ -982,7 +1030,13 @@ static int cbqri_attach_cpu_to_one_bw_res(struct cbqri_controller *ctrl,
- static int cbqri_attach_cpu_to_bw_ctrl(struct cbqri_controller *ctrl,
- 				       unsigned int cpu)
- {
--	return cbqri_attach_cpu_to_one_bw_res(ctrl, RDT_RESOURCE_MB_MIN, cpu);
-+	int err;
+ 	if (l3->ctrl && l3->ctrl->mon_capable)
+ 		cbqri_resctrl_counters[QOS_L3_OCCUP_EVENT_ID] = l3->ctrl;
 +
-+	err = cbqri_attach_cpu_to_one_bw_res(ctrl, RDT_RESOURCE_MB_MIN, cpu);
-+	if (err)
-+		return err;
-+
-+	return cbqri_attach_cpu_to_one_bw_res(ctrl, RDT_RESOURCE_MB_WGHT, cpu);
++	cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID] =
++		cbqri_find_only_mon_bc();
  }
  
- static void cbqri_detach_cpu_from_l3_mon(struct rdt_resource *res,
+ static void cbqri_resctrl_accumulate_caps(void)
+@@ -949,6 +1072,29 @@ static int cbqri_attach_cpu_to_l3_mon(struct cbqri_controller *ctrl,
+ 	if (err)
+ 		goto err_offline;
+ 
++	/*
++	 * Pair this L3 domain with the system's mon-capable BC. The
++	 * cached pointer is consulted by every rmid_read / reset_rmid.
++	 * BC mon init is system-wide. Failure here means mbm_total_bytes
++	 * is unusable for any domain, so fail the attach.
++	 */
++	{
++		struct cbqri_resctrl_dom *hw_dom = container_of(ctrl_dom,
++								struct cbqri_resctrl_dom,
++								resctrl_ctrl_dom);
++
++		hw_dom->paired_bc = cbqri_find_only_mon_bc();
++		if (hw_dom->paired_bc) {
++			err = cbqri_init_bc_mon_counters(hw_dom->paired_bc);
++			if (err) {
++				pr_err("BC @%pa: mon init failed (%d)\n",
++				       &hw_dom->paired_bc->addr, err);
++				hw_dom->paired_bc = NULL;
++				goto err_offline;
++			}
++		}
++	}
++
+ 	return 0;
+ 
+ err_offline:
 
 -- 
 2.43.0
