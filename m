@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C72375AAB;
-	Mon, 11 May 2026 05:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7000437D133;
+	Mon, 11 May 2026 05:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778476272; cv=none; b=h2LUxZWJXUVKiNR+PH+8qmSiClV7HRd4VXr4vDD3e69bJ8EFkV04Hi7PTWA0in2hlwGYCPxpm0QXzR2mBhLRDekQa7+eymUad3cLZygXYYYMhY7HJGGYyb5GQcyMearbbM5XYmZn9Ij8PXhxEBipujZ8x0DFHtpqSBglAA0MhbY=
+	t=1778476273; cv=none; b=mwtrlNU2CinzlS3ULfRz8R+iOKugEg3BsqmUNLpdz+IFTaBm5ryi0d7F7Ch2rI7IFwrzEuUNe0uV3qGE4lOXD3JTUyGH9T3XnixF1tq9SDR8JQjvYBFvcaqyW9oRiBBKRCr62lwec90Hf+lzfriGIaTp064AoQyzywsRV/VMrDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778476272; c=relaxed/simple;
-	bh=ewfeCcD9Ot0T200VQaUyxNc64vTwsILDn7MzeFMv3kU=;
+	s=arc-20240116; t=1778476273; c=relaxed/simple;
+	bh=umPX9KI/Gk5be4QxBnpv0rW9Oy0Ozoiycv8rX5MjK6Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ef6uVuuH0tQqqS2UWpghB0SEIL6u36tXWNBbaaf8futRBIdp8JApSKAchyCcCHQoanDcPLgv9WtROlRVLR/HgaP6DvMUQUgQhiDDbmqI/Q37I6WtmXne+15Tj+ju29gtJYiVB4dVJKzqgc42xA8DHjoXsgwsRN1dBViq8iRpcgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sqCIBMN4; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=FX0y2MLb+clcnaE6DxajX5HiUJq/eCI4Cil94rthUR8GdH7mKdw9WiSnnp0juN7ajlJtYXT37BiyseRfSTJzNtQK6Aa+0Dobe1gUs1NWqLl0YTdfkRaAc4oB5GLiovkWSUDZ7qx6FZj8tq00w+eoP1TZpXKuyAXBNjuABO88ELw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QuqHuMmO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sqCIBMN4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0005C4AF0F;
-	Mon, 11 May 2026 05:11:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QuqHuMmO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9325EC2BCFF;
+	Mon, 11 May 2026 05:11:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778476272;
-	bh=ewfeCcD9Ot0T200VQaUyxNc64vTwsILDn7MzeFMv3kU=;
+	s=k20201202; t=1778476273;
+	bh=umPX9KI/Gk5be4QxBnpv0rW9Oy0Ozoiycv8rX5MjK6Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=sqCIBMN49l1N2T9zn6Ziz342oa3q83ofxOhOrs2KvJatbuDmWneGCSHgS4bUuokGE
-	 SuFdpcKQgs9mC5GSvIJTJP0voIlqjdJOndOD93ZvmkRB0bd26KiBpi4Q2sUsODvHdz
-	 uagxE5urHDSLUE9H05j9XDbniA+nrkIPHRpZ7psfitZ5IeQKfBzf7jAHGzAmNaTR7F
-	 jqd/V6dLmnVhBqGtqfBTvpH0NutcUaTnvzxMovNC/AyK/b6+oAkqvIqhpaGto9nOGx
-	 QeoGqAZzeyCw5H2mKmR3GltroNxyzSrvKAws++Q6GXbZ6NXik0MPbEByPfUYa7vepb
-	 FGnXU4JNXlLvw==
+	b=QuqHuMmO6BS+s8J7NIUJRMz4tJqtWH29tLGqz6pknrLlEWxs25PoBQI1KrJpAuZYk
+	 +239J/fYHKLn/aEsllQKDJpWhUR5KQXWkjlSdhHd099/LIFOuslqwARooYbekXMBqx
+	 5/bdub1dqHOMNih+LszkTE6VdfJES4jjEziyJ93htayGikz4EGArIgfc1hYciKF5zJ
+	 XAWmXKTo/1qv8naxMZFUlIqCdVEyzf32ZMqpXUqnzZTZ+jvw4kMpUVWcLziyIwNTJa
+	 c7dM0dlsHg2xUwXG6zjmeGP5xzeneim2x/pld+6m6BjotjokuG6oth+KUdx3IEijmX
+	 DNq2hV+WoWuwQ==
 From: Drew Fustini <fustini@kernel.org>
-Date: Sun, 10 May 2026 22:11:01 -0700
-Subject: [PATCH RFC v4 05/18] fs/resctrl: Add RDT_RESOURCE_MB_MIN and
- RDT_RESOURCE_MB_WGHT
+Date: Sun, 10 May 2026 22:11:02 -0700
+Subject: [PATCH RFC v4 06/18] fs/resctrl: Let bandwidth resources default
+ to min_bw at reset
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-5-eb53831ef683@kernel.org>
+Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-6-eb53831ef683@kernel.org>
 References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 In-Reply-To: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -77,63 +77,66 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1641; i=fustini@kernel.org;
- h=from:subject:message-id; bh=ewfeCcD9Ot0T200VQaUyxNc64vTwsILDn7MzeFMv3kU=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxprz6m/FtfeKXs3Wz4jyXL5NekffXOXuhS2BH6IfDN
- jd4Zrgbd5SyMIhxMciKKbJs+pB3YYlX6NcF819sg5nDygQyhIGLUwAmsqmX4Z++we/ea2vjpEo8
- j35OZaspOvp5tk/L6uuFh9IYrvgtWRnEyHB6YV9HQCPL7b/ft6174G1uHKcl/ClP+cX8P7FfW7q
- C77MDAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2176; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=umPX9KI/Gk5be4QxBnpv0rW9Oy0Ozoiycv8rX5MjK6Y=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxprz+7uE4+U+IjFP0pgsJnwo3mfH1HP7Tzr9d7q+nf
+ +B1G6MHHaUsDGJcDLJiiiybPuRdWOIV+nXB/BfbYOawMoEMYeDiFICJnHzG8L+YbX7xpNb2ZO/3
+ L1nzv2vmLNyZ9s+u2rI6N/3Jw0UP8oIY/runfTy2rWzFIYvfwWKW8xJXJf0M925UTv+g1p3OJmC
+ 6kA0A
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Introduce bandwidth controls which are semantically different from
-the throttle-based MB resource:
+Bandwidth resources reset to max_bw on group creation today, which is
+the right default for MBA and SMBA. However, it is the wrong default for
+hardware whose registers form a sum-constrained reservation: defaulting
+every new group to max_bw would immediately violate the sum on the first
+mkdir.
 
-- RDT_RESOURCE_MB_MIN: minimum reserved bandwidth
-- RDT_RESOURCE_MB_WGHT: weighted share of unreserved bandwidth
+When default_to_min is set, resctrl_get_default_ctrl() returns min_bw
+for the resource. The existing MBA and SMBA behavior is not changed.
 
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- fs/resctrl/rdtgroup.c   | 4 +++-
- include/linux/resctrl.h | 2 ++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ include/linux/resctrl.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 0f331bf5ce82..02733b11e115 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1555,7 +1555,7 @@ bool is_mba_sc(struct rdt_resource *r)
- 	return r->membw.mba_sc;
- }
- 
--/* RANGE schema is bandwidth (MBA/SMBA). BITMAP is cache. */
-+/* RANGE schema is bandwidth (MBA/SMBA/MB_MIN/MB_WGHT). BITMAP is cache. */
- bool resctrl_is_membw(struct rdt_resource *r)
- {
- 	return r->schema_fmt == RESCTRL_SCHEMA_RANGE;
-@@ -2402,6 +2402,8 @@ static unsigned long fflags_from_resource(struct rdt_resource *r)
- 		return RFTYPE_RES_CACHE;
- 	case RDT_RESOURCE_MBA:
- 	case RDT_RESOURCE_SMBA:
-+	case RDT_RESOURCE_MB_MIN:
-+	case RDT_RESOURCE_MB_WGHT:
- 		return RFTYPE_RES_MB;
- 	case RDT_RESOURCE_PERF_PKG:
- 		return RFTYPE_RES_PERF_PKG;
 diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 006e57fd7ca5..9529ed0d1fdf 100644
+index 9529ed0d1fdf..bcbc166412ef 100644
 --- a/include/linux/resctrl.h
 +++ b/include/linux/resctrl.h
-@@ -53,6 +53,8 @@ enum resctrl_res_level {
- 	RDT_RESOURCE_L2,
- 	RDT_RESOURCE_MBA,
- 	RDT_RESOURCE_SMBA,
-+	RDT_RESOURCE_MB_MIN,
-+	RDT_RESOURCE_MB_WGHT,
- 	RDT_RESOURCE_PERF_PKG,
+@@ -247,7 +247,13 @@ enum membw_throttle_mode {
+ /**
+  * struct resctrl_membw - Memory bandwidth allocation related data
+  * @min_bw:		Minimum memory bandwidth percentage user can request
+- * @max_bw:		Maximum memory bandwidth value, used as the reset value
++ * @max_bw:		Maximum memory bandwidth value a group can be
++ *			configured with
++ * @default_to_min:	When true, the default control value for new
++ *			groups and reset is @min_bw instead of @max_bw.
++ *			Drivers whose hardware enforces a sum constraint
++ *			across groups (e.g. CBQRI MB_MIN) set this so
++ *			mkdir does not overflow the sum.
+  * @bw_gran:		Granularity at which the memory bandwidth is allocated
+  * @delay_linear:	True if memory B/W delay is in linear scale
+  * @arch_needs_linear:	True if we can't configure non-linear resources
+@@ -259,6 +265,7 @@ enum membw_throttle_mode {
+ struct resctrl_membw {
+ 	u32				min_bw;
+ 	u32				max_bw;
++	bool				default_to_min;
+ 	u32				bw_gran;
+ 	u32				delay_linear;
+ 	bool				arch_needs_linear;
+@@ -405,7 +412,7 @@ static inline u32 resctrl_get_default_ctrl(struct rdt_resource *r)
+ 	case RESCTRL_SCHEMA_BITMAP:
+ 		return BIT_MASK(r->cache.cbm_len) - 1;
+ 	case RESCTRL_SCHEMA_RANGE:
+-		return r->membw.max_bw;
++		return r->membw.default_to_min ? r->membw.min_bw : r->membw.max_bw;
+ 	}
  
- 	/* Must be the last */
+ 	return WARN_ON_ONCE(1);
 
 -- 
 2.43.0
