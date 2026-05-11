@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDB738239A;
-	Mon, 11 May 2026 05:11:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8368383C7E;
+	Mon, 11 May 2026 05:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778476280; cv=none; b=paCiDXbTFThzfFDCod4SwLG7/gx99j7kozHoWB51Rt8DyC8dCgExdQtzZ/nHOYeGkxdbaj75kxDr/pEqq08eCnsbbDpXkyL4zaWsC36jsCTivE/wQHlSoEbaP0Hx7EkCXaX7pB8h1zRPtyg+20o6rRPIzXStyxDyWBYSqWvOxJA=
+	t=1778476281; cv=none; b=Xmqk98wEUmO/iSGIY14Svu8VBlBKy7t+3aRRKkvdgEN0KrupzaDcqhVhIMdalDJbO0+b+ps6jrc5fegfDzBhNaFyMgymP7DbewjdTk3jWDFrpQIMsfF5buHhJyYCUMFkyeBRTPqvc3ZdrE6moIIS+u9S/cW1DbE1cyk+mwKEKU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778476280; c=relaxed/simple;
-	bh=J9k+kdxn9VBh2gcTNNCv4EIpVuWkTdzFDdzbka+fNg8=;
+	s=arc-20240116; t=1778476281; c=relaxed/simple;
+	bh=IfK90oL89PLZ77zZUqMTiT6Ew+f2/fOrCwuhT7VtBQ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JxZ5bgEvwkAOceY+mWa+fkrGleU09bW8x0NJS0uPuQlvs1LGbpurd3N2sRYvOviT0yDiHjwnZU/ebLMiNRom8JHbVWqJrJGeZGvZhx4t+FYl/E9OMAqwm5oEesKsBHzPqSmVmrFVcxGP2B6pZHcH9mwUJxVqfOO/7bxlZXaYErs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tcPK3dvb; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=j/uB8aMCDVaFSdaYbKnrXh/uJpPB6xl7IX5U4UxuWGGYpqyF8CuK3Yy2o/IPI0PF5yRIt30Bz1koyDoHbRybyYqDlXVJdZt5a8+ruADpc5sNDOi7B3IiBrsxquCk+CflxJofQfRRUBkHJuNuo8XEBkoe901RBzBLnFYrj4L1FL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NO5H17Mo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tcPK3dvb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23482C2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NO5H17Mo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7E1C2BCF5;
 	Mon, 11 May 2026 05:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778476280;
-	bh=J9k+kdxn9VBh2gcTNNCv4EIpVuWkTdzFDdzbka+fNg8=;
+	s=k20201202; t=1778476281;
+	bh=IfK90oL89PLZ77zZUqMTiT6Ew+f2/fOrCwuhT7VtBQ0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=tcPK3dvbIOowU2Vb8dX0VUOLcVAHKFAlVC777iL1ED4qi3QNX/DiWDVHmhBVGK1pV
-	 fXj2MnNjfOI8Pfd/dK4U2BTg67V6+gmYLBQs+gTHhnqGjQTNM7PdtkuWCHX0Lowvyv
-	 AcD1ZusfnOmnuJ1HJGHBWl5/vc3k1hzdH9eM/HQfaLT5LuUDdHSJB5oixVTfK8fWCD
-	 +j1l8VGJLSquBppoTW1Zsul/MmB5osPKIgubA/2hbQ+6pTJ6lsC2aykDipEYnaktsq
-	 4wnRQlCJwW7AZcP+1M4HmW6dQg+xjcZJ1F0O89dXwa7TEQVds4IsFW1J+Asw0eKX09
-	 w+r2CtWMgpgEA==
+	b=NO5H17MoG/pw6yzuPDowtnsunSDQIo679yk1cZvTcR8hnDUSQQhjA/0uI6E+t97Gf
+	 tzdPuyigKDPkEANJxOlSponqMMUkAqnMrx+TqlwPsaSb/NVelm1X90Rd4iDaSlPCg3
+	 WJ/rTsx+X/h1WJni3NVoVMjtl5k99+cPHWPcOyz2zd+lNXidaLj5MaPsAG5hrMHF9P
+	 PkgjQqdPLRleCLTgumxOqkL8/M4qElXssAG22cRWIWnIzMGbClZsLIhzqAwGegTDe4
+	 pDokNii24iXjMhDJH6DT9SqqCEtNsujHEW562hPDS0V3hq7pPSMn/bDDSFF3iWGcRF
+	 D3gLonk8WA0UQ==
 From: Drew Fustini <fustini@kernel.org>
-Date: Sun, 10 May 2026 22:11:13 -0700
-Subject: [PATCH RFC v4 17/18] ACPI: RISC-V: Add support for RISC-V Quality
- of Service Controller (RQSC)
+Date: Sun, 10 May 2026 22:11:14 -0700
+Subject: [PATCH RFC v4 18/18] riscv: enable resctrl filesystem for Ssqosid
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-17-eb53831ef683@kernel.org>
+Message-Id: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-18-eb53831ef683@kernel.org>
 References: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 In-Reply-To: <20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683@kernel.org>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -77,68 +76,36 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org, Palmer Dabbelt <palmer@sifive.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1706; i=fustini@kernel.org;
- h=from:subject:message-id; bh=J9k+kdxn9VBh2gcTNNCv4EIpVuWkTdzFDdzbka+fNg8=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxprw5LXNzqdxiy/X66yzur3AM2GUvmjkx+ef8pMPiG
- wrP9c9M7ihlYRDjYpAVU2TZ9CHvwhKv0K8L5r/YBjOHlQlkCAMXpwBMJHcWI8Onu1Kc8hZ/1tde
- 1iySenzJRvKxfLBQ+NamxbPsNn+/PmEWwz/9iYtnbHv9Xil5st0yc0aHYl2VfzbGiyZuifMPVGz
- V/8YLAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=732; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=IfK90oL89PLZ77zZUqMTiT6Ew+f2/fOrCwuhT7VtBQ0=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQxprxZ2yOz0U5U4FPV5R8Ry+qPTpdcertH7Katwh6N+
+ M+PWdpXdZSyMIhxMciKKbJs+pB3YYlX6NcF819sg5nDygQyhIGLUwAmsqubkWFGeN+b36eXx8WY
+ 9nqx/rB26E1dau6n1u1gmqRulS4dXsLI8OSMZOeaibGdr4NX7876/iTnk4bTVflTFtlPkvQFq2b
+ rsQIA
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Call acpi_parse_rqsc() from acpi_arch_init() to discover CBQRI
-controllers when an RQSC table is present.
+RISCV_ISA_SSQOSID selects RISCV_CBQRI_DRIVER, which in turn depends
+on RESCTRL_FS. Enabling the resctrl filesystem itself stays a user
+choice via the standard fs/Kconfig MISC_FILESYSTEMS menu.
 
-Gate on CONFIG_RISCV_CBQRI_DRIVER rather than CONFIG_RISCV_ISA_SSQOSID
-so a kernel built with the ISA extension but without the driver (e.g.
-RESCTRL_FS=n) does not walk the table and print a misleading "found 0
-CBQRI controllers" line on every boot.
-
-Link: https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
-Link: https://github.com/riscv-non-isa/riscv-rqsc/blob/main/src/
-Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- drivers/acpi/riscv/init.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ arch/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/acpi/riscv/init.c b/drivers/acpi/riscv/init.c
-index 7c00f7995e86..129ebfae28be 100644
---- a/drivers/acpi/riscv/init.c
-+++ b/drivers/acpi/riscv/init.c
-@@ -5,11 +5,32 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/cleanup.h>
- #include "init.h"
-+#include "rqsc.h"
- 
- void __init acpi_arch_init(void)
- {
- 	riscv_acpi_init_gsi_mapping();
-+
- 	if (IS_ENABLED(CONFIG_ACPI_RIMT))
- 		riscv_acpi_rimt_init();
-+
-+	if (IS_ENABLED(CONFIG_RISCV_CBQRI_DRIVER)) {
-+		struct acpi_table_header *rqsc __free(acpi_put_table) = NULL;
-+		acpi_status status = acpi_get_table(ACPI_SIG_RQSC, 0, &rqsc);
-+
-+		if (status == AE_NOT_FOUND) {
-+			/* RQSC is optional. Silence on systems without it. */
-+		} else if (ACPI_FAILURE(status)) {
-+			pr_err("RQSC: failed to get table: %s\n",
-+			       acpi_format_exception(status));
-+		} else {
-+			int rc = acpi_parse_rqsc(rqsc);
-+
-+			if (rc < 0)
-+				pr_err("RQSC: failed to parse table: %d\n",
-+				       rc);
-+		}
-+	}
- }
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index a0c73edbe734..ea430b4a3aab 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -596,6 +596,7 @@ config RISCV_ISA_SSQOSID
+ 	depends on 64BIT
+ 	default n
+ 	select ARCH_HAS_CPU_RESCTRL
++	select RISCV_CBQRI_DRIVER if RESCTRL_FS
+ 	help
+ 	  Adds support for the Ssqosid ISA extension (Supervisor-mode
+ 	  Quality of Service ID).
 
 -- 
 2.43.0
