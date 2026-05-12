@@ -1,215 +1,158 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8309A4C77CE;
-	Tue, 12 May 2026 10:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B8F3C2BAC
+	for <linux-rt-devel@lists.linux.dev>; Tue, 12 May 2026 15:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778582944; cv=none; b=rza/ZrmjDnAphLK0w72MHHeMAqv1HRrpW84NwMAu4MBdbOhduz/4KvDUkwVGYU6fffCuN1IaIA1nQQkgDUa0pjCTz7bn3jV0iey256Kc8uet0TgXOoJ7a8BYN0VQuzdrZ7TXonYCIqK6eDUq97HZ6eXATRapu6r7xrXZ5yRaqb0=
+	t=1778600292; cv=none; b=lfN/haicJh+L9vD7RyJoVIgoph5RbYGFF8twRuA/0pNinp2HF+Y8KVokCNo20czAYm24FJvlihWFXJLI8BH/euvaKQUVzzxoa0hCEs0H2er0T0cnn528EJEz0uEpKKrFbiZoQYt/pUNIrn6XicN7FriKyyLbRCc/jcWy4UEkpkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778582944; c=relaxed/simple;
-	bh=XQvzmY4vaSa4UD/90PLNRuFbhAlYqaPSI0Ghbpbvnc4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kg4DQhnvQYGoB4h6roCMks+YxcbcdrFdegXt29z24P0Ru3BsJv9jDnuUtFLrXDP0JgkzbdoCQ3RWS621JpaCaTfg95xttAkzprwAwY9abVor1dcJcWsBpR9E4sW7ncKTi3xgfdwt1ZcGitwq641bRy7VdEDkneXQio8kvr3elqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=giBh91f7; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="giBh91f7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=Kfq/mwsfIihE3OBSsEqceJwCjhDjYN8um9ygjxIr+B4=; b=giBh91f74FjzNDZTEBZyX1AQP+
-	igmgTkoIgD5QZEuwItXbptyGM+mfwdmtC9Wopxvm0IZIqQvrazWym6dd2cC+MX4bytt3W+8pxKCUN
-	JZYD/kxmW6EVVB0uuaG43Jo9mCtOwcU0b9pYj37KM8NTszk3/a6M0LPfnsf4Tew80oafFehgTanlH
-	8S600lBF0/OzcShyQ/HWSnDavT9XgzP4Krfcpmtm8/tNh52einsmKzU2bt//Ye0wZgvETADd7/FAx
-	92U2raLjQSqenjPLJPn4jHHdWBV1jTJOLTpPzkfHaar4lkeLTOjJ0Pj38hX2NeHXc0ct/OaxAkHCC
-	qfXSM+3Q==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wMkfZ-002K90-21;
-	Tue, 12 May 2026 10:48:57 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Tue, 12 May 2026 03:46:42 -0700
-Subject: [PATCH net-next v2 9/9] netconsole: move find_skb() from netpoll
+	s=arc-20240116; t=1778600292; c=relaxed/simple;
+	bh=PEunEfBsFEd3BCqfKr0g9AtG5jN5mbPKWr8r6Zo34gM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u7pXURYR07791bbBktIkxczThjpqpT5sDzbPOMalyI0avcOzj/AyvAWbOOcDI3zjrS9l+13nq00Y8Z3+gxUcKRxBHkR6MbQOpoRRm83hqGwXN45A16jOoTp7FEHfH+5IlUT4r9hYe+//gDTwaXGHY5uLWf0ogTZGXy8yx0sgNes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay09.hostedemail.com (Postfix) with ESMTP id 4C5228D5A9;
+	Tue, 12 May 2026 15:38:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id B8EBA20031;
+	Tue, 12 May 2026 15:37:58 +0000 (UTC)
+Date: Tue, 12 May 2026 11:37:54 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Tejun Heo <tj@kernel.org>, Ingo Molnar <mingo@redhat.com>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
+ <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, Kyle
+ McMartin <jkkm@meta.com>, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Linux RT Development
+ <linux-rt-devel@lists.linux.dev>, Clark Williams <williams@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, John Kacur
+ <jkacur@redhat.com>
+Subject: Re: [PATCH sched/core] sched/rt: Fix RT_PUSH_IPI soft lockup loop
+Message-ID: <20260512113754.448c1f5b@gandalf.local.home>
+In-Reply-To: <20260507141437.GJ3102624@noisy.programming.kicks-ass.net>
+References: <20260506235716.2530720-1-tj@kernel.org>
+	<20260507141437.GJ3102624@noisy.programming.kicks-ass.net>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260512-netconsole_split-v2-9-1191d14ad66d@debian.org>
-References: <20260512-netconsole_split-v2-0-1191d14ad66d@debian.org>
-In-Reply-To: <20260512-netconsole_split-v2-0-1191d14ad66d@debian.org>
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rt-devel@lists.linux.dev, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4547; i=leitao@debian.org;
- h=from:subject:message-id; bh=XQvzmY4vaSa4UD/90PLNRuFbhAlYqaPSI0Ghbpbvnc4=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBqAwVrTh8s6njfqDyP6OeEFSh0wbkzryFKmuS7k
- Dfj1EC8ch6JAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCagMFawAKCRA1o5Of/Hh3
- bfUoD/90KoY9HvtqUdjILi/IUfoQMLiquzA7Ipgk/ZnE8xiZUYAOPPbH+QdI8NjJBXfT+KnTFHk
- +yz0EJE1PbiJXcFkm0h0OhKUijALflsJHpka6XwXrX6KMxifltwyy7oV7FCxu08wLqCGbCqQqik
- j6r+r44uXjD/Fr1rRqx6B7RWS/06Hcxv2P72wmX7cZAb6xkj3HvnSNHI2FJVwLHHV6DtYH2pChX
- dwwprpRkETfdOeQTp3YBST9CUNQ4ESiTHEZTtr4rFSZ7B21GDsZ/j13hXzlHRgMjyqZgFxDEotC
- AK945ajZjpCVqV5qmTo2aVofBjWNwxCkhXY/6xMAZFjKDajKgJkYIWpRGXSXR6AS5mIhggC+d2V
- rnJH0UnknPLGczdrRhAdaYQJdo6k2Gzf85BtrMd67ru6tb4W8xV3lDfh0SwgQzUZZ2Jrss0Orqk
- yEj1n86C+Vn4sR6sfuhikaLtNCadDVyvb+iMq/VGl7VDQfpXeeAFP1N26XXaLyyoccHVPZlHl3m
- c1LWyeppHQV4XQh0PWIu8U+c1oXsdw0JGXYbXzcdTHebIJ6jY3HiZSwAliD0LRabvw4ZvGp+C1D
- Hg7uIWt1lSfJZdIUmHSnh+c1M28FKE4NbVgV0j9INwMyf4J4s7A0SmQxItM0u+1KhdOQEh5Hd86
- tJiQzr2Rdtfzscg==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+X-Rspamd-Queue-Id: B8EBA20031
+X-Stat-Signature: ws3emhhjkuzmjgaei5qx1rk7n3p4m95y
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18EFwMW8A7e47eXGxsFyuycSny+GUknB/Y=
+X-HE-Tag: 1778600278-40241
+X-HE-Meta: U2FsdGVkX1+BtrksngkS2hZyMmbAs1ZwZg5hH9eYCwGA68RVDLr1qAnwLmzGkPv/t1p3eyObi+ryULiYmYZYr1GLDzmNOIsT+yqWafZSMS216tpWp4HylsG1yovlBsYSBmTSPsuNjUF4YPlDHlWQljpb6q9g/vhviHOCa3p/1hNRgGzZkePc0/XmFTJ2TORqxZ7nfpSkmo5mGGxTi/V0pSNpxnvOLDL/+fy4TTiFZDwKcmV8Qf/tHpn7LGStqBxas0owkvCIJLbgwNn9UJBz23qh8OvId644GkwIeVHjgXMaNHA1BWVeZ9phPs+vh5zLmfS6it9MGpaJCovUbi9zgmhYcm1twoV/JwA4wBerFJ69dPn4QEaEUc9CkMFEWuo6eLM3SDrLQh/ZaPCYtzJbKetYGrXDzPszj5WxPFCeXvVduylJwIphewmTJyHiJlwYffSyFJidwWvzulo77rI10toXlxyubbpBy/pCce2qFxOqN2wEyOkvWpsqfwPp8+hE/Vn6ayMKJ+Q=
 
-find_skb() is the netconsole-specific entry into the netpoll skb
-pool: every other netpoll consumer (bonding, team, vlan, bridge,
-macvlan, dsa) builds its own sk_buff and never touches the pool.
-With netpoll_send_udp() (its only caller) now living in netconsole,
-find_skb() can join it.
 
-Move find_skb() into drivers/net/netconsole.c as a file-static
-helper, drop EXPORT_SYMBOL_GPL(find_skb) and remove its prototype
-from include/linux/netpoll.h. find_skb() drains TX completions via
-netpoll_zap_completion_queue(), which is already exported in the
-NETDEV_INTERNAL namespace, so netconsole picks up
-MODULE_IMPORT_NS("NETDEV_INTERNAL") to consume it.
+[ Adding some RT folks ]
 
-The skb pool's lifecycle (np->skb_pool, np->refill_wq, refill_skbs(),
-refill_skbs_work_handler(), skb_pool_flush()) stays in netpoll: it
-is initialised in __netpoll_setup() and torn down in
-__netpoll_cleanup(), both of which remain netpoll's responsibility.
-The refill work queued via schedule_work(&np->refill_wq) from the
-moved find_skb() runs refill_skbs_work_handler() in netpoll without
-any further plumbing.
+Also, Valentin, can you look at this, because I believe the issue was
+introduced by your change (see below).
 
-This is pure code motion: the function body is unchanged and its
-sole caller (netpoll_send_udp(), already moved by an earlier patch)
-keeps invoking it the same way. Pre-existing concerns about
-find_skb() running from NMI/printk context (zap_completion_queue()
-re-entry, skb_pool spinlocks, GFP_ATOMIC allocation, fallback skb
-sizing vs. MAX_SKB_SIZE, PREEMPT_RT semantics of __kfree_skb()) are
-inherited as-is and are not addressed here; they predate this
-series and are out of scope. Fixing them is left for follow-up
-work.
+On Thu, 7 May 2026 16:14:37 +0200
+Peter Zijlstra <peterz@infradead.org> wrote:
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- drivers/net/netconsole.c | 28 ++++++++++++++++++++++++++++
- include/linux/netpoll.h  |  1 -
- net/core/netpoll.c       | 28 ----------------------------
- 3 files changed, 28 insertions(+), 29 deletions(-)
+> On Wed, May 06, 2026 at 01:57:16PM -1000, Tejun Heo wrote:
+> > push_rt_task() picks the highest pushable RT task next_task. If it
+> > outranks rq->donor, the existing path calls resched_curr() and
+> > returns 0, trusting local schedule() to pick next_task soon.
+> > 
+> > The RT_PUSH_IPI relay caller (rto_push_irq_work_func()) cannot rely
+> > on that. When this CPU has a steady supply of softirq work (e.g.,
+> > incoming packets), the next push IPI arrives before schedule() can
+> > run. Other CPUs keep seeing this CPU as overloaded and keep sending
+> > IPIs, this CPU keeps taking the same bail, and the loop repeats
+> > until soft lockup.
+> > 
+> > Seen in production on hosts with sustained NET_RX softirq load:
+> > the loop ran millions of iterations before tripping the soft-lockup
+> > watchdog.
+> > 
+> > Skip the prio bail when called via the IPI relay (pull=true) so
+> > push_rt_task() migrates next_task to another CPU. Verified with a
+> > synthetic reproducer.
+> > 
+> > Fixes: b6366f048e0c ("sched/rt: Use IPI to trigger RT task push migration instead of pulling")
 
-diff --git a/drivers/net/netconsole.c b/drivers/net/netconsole.c
-index 48d2670bbdef5..d804d44af87c8 100644
---- a/drivers/net/netconsole.c
-+++ b/drivers/net/netconsole.c
-@@ -50,6 +50,7 @@
- MODULE_AUTHOR("Matt Mackall <mpm@selenic.com>");
- MODULE_DESCRIPTION("Console driver for network interfaces");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("NETDEV_INTERNAL");
- 
- #define MAX_PARAM_LENGTH		256
- #define MAX_EXTRADATA_ENTRY_LEN		256
-@@ -1653,6 +1654,33 @@ static struct notifier_block netconsole_netdev_notifier = {
- 	.notifier_call  = netconsole_netdev_event,
- };
- 
-+static struct sk_buff *find_skb(struct netpoll *np, int len, int reserve)
-+{
-+	int count = 0;
-+	struct sk_buff *skb;
-+
-+	netpoll_zap_completion_queue();
-+repeat:
-+
-+	skb = alloc_skb(len, GFP_ATOMIC);
-+	if (!skb) {
-+		skb = skb_dequeue(&np->skb_pool);
-+		schedule_work(&np->refill_wq);
-+	}
-+
-+	if (!skb) {
-+		if (++count < 10) {
-+			netpoll_poll_dev(np->dev);
-+			goto repeat;
-+		}
-+		return NULL;
-+	}
-+
-+	refcount_set(&skb->users, 1);
-+	skb_reserve(skb, reserve);
-+	return skb;
-+}
-+
- static void netpoll_udp_checksum(struct netpoll *np, struct sk_buff *skb,
- 				 int len)
- {
-diff --git a/include/linux/netpoll.h b/include/linux/netpoll.h
-index f986f7486cb8c..e4b8f1f91e54b 100644
---- a/include/linux/netpoll.h
-+++ b/include/linux/netpoll.h
-@@ -73,7 +73,6 @@ void __netpoll_free(struct netpoll *np);
- void netpoll_cleanup(struct netpoll *np);
- void do_netpoll_cleanup(struct netpoll *np);
- netdev_tx_t netpoll_send_skb(struct netpoll *np, struct sk_buff *skb);
--struct sk_buff *find_skb(struct netpoll *np, int len, int reserve);
- void netpoll_zap_completion_queue(void);
- 
- #ifdef CONFIG_NETPOLL
-diff --git a/net/core/netpoll.c b/net/core/netpoll.c
-index e4cda0aa4d488..33ab3d827a427 100644
---- a/net/core/netpoll.c
-+++ b/net/core/netpoll.c
-@@ -265,34 +265,6 @@ void netpoll_zap_completion_queue(void)
- }
- EXPORT_SYMBOL_NS_GPL(netpoll_zap_completion_queue, "NETDEV_INTERNAL");
- 
--struct sk_buff *find_skb(struct netpoll *np, int len, int reserve)
--{
--	int count = 0;
--	struct sk_buff *skb;
--
--	netpoll_zap_completion_queue();
--repeat:
--
--	skb = alloc_skb(len, GFP_ATOMIC);
--	if (!skb) {
--		skb = skb_dequeue(&np->skb_pool);
--		schedule_work(&np->refill_wq);
--	}
--
--	if (!skb) {
--		if (++count < 10) {
--			netpoll_poll_dev(np->dev);
--			goto repeat;
--		}
--		return NULL;
--	}
--
--	refcount_set(&skb->users, 1);
--	skb_reserve(skb, reserve);
--	return skb;
--}
--EXPORT_SYMBOL_GPL(find_skb);
--
- static int netpoll_owner_active(struct net_device *dev)
- {
- 	struct napi_struct *napi;
+Wrong Fixes tag. That commit doesn't even have the code that you are
+changing. I think the correct commit is:
 
--- 
-2.53.0-Meta
+ Fixes: 49bef33e4b87b ("sched/rt: Plug rt_mutex_setprio() vs push_rt_task() race")
 
+Which adds that if statement that exits out of the code early.
+
+> > Cc: Kyle McMartin <jkkm@meta.com>
+> > Cc: stable@vger.kernel.org # v5.10+
+> > Signed-off-by: Tejun Heo <tj@kernel.org>
+> > ---
+> > This looks minimal to me, but happy for suggestions. Thanks.
+> > 
+> >  kernel/sched/rt.c |    8 +++++++-
+> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > 
+> > --- a/kernel/sched/rt.c
+> > +++ b/kernel/sched/rt.c
+> > @@ -1968,8 +1968,14 @@ retry:
+> >  	 * It's possible that the next_task slipped in of
+> >  	 * higher priority than current. If that's the case
+> >  	 * just reschedule current.
+> > +	 *
+> > +	 * This doesn't work for the IPI relay caller (pull). When this CPU
+> > +	 * has a steady supply of softirq work (e.g., incoming packets), the
+> > +	 * next push IPI arrives before schedule() can run. Other CPUs keep
+> > +	 * seeing it as overloaded and keep sending IPIs, this CPU keeps
+> > +	 * taking the same bail, and the loop repeats until soft lockup.
+> >  	 */
+> > -	if (unlikely(next_task->prio < rq->donor->prio)) {
+> > +	if (unlikely(next_task->prio < rq->donor->prio) && !pull) {
+> >  		resched_curr(rq);
+> >  		return 0;
+> >  	}  
+> 
+> IIRC Steve has a test for this stuff. If this breaks things, an
+> alternative is keeping a counter/limit on attempts or something.
+
+IIRC, the test we had was simply cyclictest that we ran with the following
+parameters. From commit b6366f048e0ca ("sched/rt: Use IPI to trigger RT
+task push migration instead of pulling"), it states it runs:
+
+   cyclictest --numa -p95 -m -d0 -i100
+
+The above runs a thread on each CPU at priority 95 and will sleep for
+100us. Each thread should wake up at the same time. You can read the commit
+message for more details but the tl;dr; is that without the IPI push
+request, if one of the CPUs ran another RT task besides cyclictest, then
+all the others would then ask to pull from it when the other CPUs
+cyclictest would sleep. Having over 100 CPUs send an IPI to pull a task
+when only the first one would get it, caused a large latency. Especially
+since it took the rq lock over and over again.
+
+But, the code being fixed wasn't due to that commit, but due to the commit
+that added the short cut of the logic. That commit fixes a race with the
+normal call to push_rt_task() and I think the pull logic issue was a side
+effect.
+
+I agree with Tejun's change, it actually puts the logic for the IPI pull
+back to what it was before commit 49bef33e4b87b. The bug was added by the
+shortcut case to push_rt_task() that was only meant for the !pull scenario.
+Adding !pull to the if conditional seems like the correct change.
+
+Valentin, can you confirm please.
+
+Please update the Fixes tag to point to the appropriate commit as well as
+update the change log. With that:
+
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+
+-- Steve
