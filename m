@@ -1,106 +1,57 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C52637E30D;
-	Mon, 11 May 2026 21:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8EF24E4A8;
+	Tue, 12 May 2026 01:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778536472; cv=none; b=COlMvPOHk+UjmCpMst6NrjZYXCY8i3cyXQm/+ubHSJy/s/FzsXDXcQ4HkqG3hASIzejTjfgzkDgzLGXeTIWDRgisPVIh30x+k+Das7yCptDUnxH5YYSAeIvcvVfsp+UhNYN8UvAYVqGVCs2rCZ/6TGQ+EH4FGA6Lv+golR7fgCA=
+	t=1778549840; cv=none; b=HHbeUu/Rj696Z4u1IUV0i3bQzRlFRRcH8xONAS6v1RcjiMPfHhTDIndOBHvTaT2YYyf4FIb1anRl8f++u8wenxvlywWt2QWk6ziNUSqNP53s3DeriMapZkISpjJlqWxaJxody1upi/X26dpT6QEpnzTGyonxeEe/TjfJNufKG3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778536472; c=relaxed/simple;
-	bh=ybVGTZNKM6RpK1Bw5uiAIw43CoEODvwqm+le06MtQQA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=GEd9IDXCMiQrJUVxtRqJoaAh03gNo3nXzcBFaZJ0lmNfyTdxAh+kUVZ1wCo6ugNN1Q0ETd/28WhZd9qCBvaI9hrV+ScA8JPgwuL5qw0X64BViJ4OLvXBkN8QOySI1oSX00opHIlftfR2+5cSHIQZiG9RsEglYqYnDLwdkHo0lfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=U7HRntmK; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1778549840; c=relaxed/simple;
+	bh=TLQ68pdwL/vWkN44gprH1W/a8BUbi1ManMfs36l9l+0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qSjrKPiQaVybU7jZGOMPxcn+8kAeiuBCZ9VX1WKDyDzL9ix3IE2iraVFx9HF3/GsYX/K2PMGc0Yc3O/+6WS9kYScFHHCWP1qLe44iVGvDxVSAXnpcGDbdKVFLoNxryLwFsaLAHvKT6PcbC+uwOOiN2yIJPPo2ur6c4fZEzc+uVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iy9SIF3X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="U7HRntmK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=W6zSjQbkIErgU7eVBwA0hYH3uzutxPSVvMYSfU/Qy9w=; b=U7HRntmKKKsfUy5WBEw8IYMKxC
-	NuCagglnvP0NFg9iZeOmCt4b0hv1qYACVbGhhWmhSW5M8vqFjJIzip17LFQQ9ragiok3IamU+Shiy
-	XprmM+uCO0rFUVEP2zZHNkpN2mwg24JRGZTBN8lyeGom25QJCKDswuAGbV/xK6MQfAFTWJLjX5tRB
-	V4ZzhASq2FEjEfTOsXrQZ5TVk1WHjXwoZJVYYkOLkEIRvZ7Sj98PpFEumBByTfjDETAbSmp3OXvh6
-	28zKT6lVB9yOhliVSyQ4SsSOiHZDPF/35J6Urbd9tI7m4NO3VLarEVnfXU4B1GiasUCcEwfOLmU3+
-	GCisb5Vw==;
-Received: from [179.221.50.101] (helo=toolbx)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wMYZm-009B9h-GX; Mon, 11 May 2026 23:54:10 +0200
-From: Helen Koike <koike@igalia.com>
-To: tglx@kernel.org,
-	bigeasy@linutronix.de,
-	peterz@infradead.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	koike@igalia.com,
-	kernel-dev@igalia.com
-Subject: [PATCH] debugobjects: do not fill_pool() if pi_blocked_on
-Date: Mon, 11 May 2026 18:53:05 -0300
-Message-ID: <20260511215359.3351259-1-koike@igalia.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iy9SIF3X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41284C2BCB0;
+	Tue, 12 May 2026 01:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778549839;
+	bh=TLQ68pdwL/vWkN44gprH1W/a8BUbi1ManMfs36l9l+0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Iy9SIF3Xbiyg3wXP/ttUEUfhkGrkP/0sW1Tv1pKvL6fPLSMgBBOEnacGgCCpMGEki
+	 Ds4pTBoSNZS1gGAynVQ5ULhX1SXKpsIlz3FauCo4fT12sQlRhttieOhruZWsyStWi8
+	 vxlq7uoriGM4YxjSxCWaR9DQSIMFJKWjc2BClDzB0IEHj1ex65KEp3AyUQt65OB/FV
+	 WaZA3so7EeToahoyhiQwwglKy95h/BhdUlkMMfX29QgTQQFLAofrD7kHLrRMRUuCBE
+	 f8NlfTQ7ZBAshNgM0HmBi4LpegBjTQCsEU5nXaL9k0RkGJn8aG6gqErCt1qxgqBGsX
+	 SvigZezX7DsRQ==
+Date: Mon, 11 May 2026 18:37:18 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+ kernel-team@meta.com
+Subject: Re: [PATCH net-next 8/8] netconsole: move find_skb() from netpoll
+Message-ID: <20260511183718.04781b86@kernel.org>
+In-Reply-To: <20260508-netconsole_split-v1-8-0f660e62841f@debian.org>
+References: <20260508-netconsole_split-v1-0-0f660e62841f@debian.org>
+	<20260508-netconsole_split-v1-8-0f660e62841f@debian.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-In RT context, fill_pool() ends up calling rtlock_lock(), which asserts
-if pi_blocked_on is set. This can cause an issue in the priority
-inheritance logic since the waiter can be overridden.
-Do not call it if that is the case.
+On Fri, 08 May 2026 06:29:22 -0700 Breno Leitao wrote:
+> +EXPORT_SYMBOL_GPL(zap_completion_queue);
 
-Fixes: 0af462f19e63 ("debugobject: Ensure pool refill (again)")
-Reported-by: syzbot+b8ca586b9fc235f0c0df@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b8ca586b9fc235f0c0df
-Signed-off-by: Helen Koike <koike@igalia.com>
----
- lib/debugobjects.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/lib/debugobjects.c b/lib/debugobjects.c
-index 12e2e42e6a31..772ddabcbe7d 100644
---- a/lib/debugobjects.c
-+++ b/lib/debugobjects.c
-@@ -711,6 +711,15 @@ static struct debug_obj *lookup_object_or_alloc(void *addr, struct debug_bucket
- 	return NULL;
- }
- 
-+static inline bool debug_objects_is_pi_blocked_on(void)
-+{
-+#ifdef CONFIG_RT_MUTEXES
-+	return current->pi_blocked_on != NULL;
-+#else
-+	return false;
-+#endif
-+}
-+
- static void debug_objects_fill_pool(void)
- {
- 	if (!static_branch_likely(&obj_cache_enabled))
-@@ -727,11 +736,12 @@ static void debug_objects_fill_pool(void)
- 
- 	/*
- 	 * On RT enabled kernels the pool refill must happen in preemptible
--	 * context -- for !RT kernels we rely on the fact that spinlock_t and
--	 * raw_spinlock_t are basically the same type and this lock-type
--	 * inversion works just fine.
-+	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
-+	 * on the fact that spinlock_t and raw_spinlock_t are basically the
-+	 * same type and this lock-type inversion works just fine.
- 	 */
--	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible() || system_state < SYSTEM_SCHEDULING) {
-+	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
-+	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
- 		/*
- 		 * Annotate away the spinlock_t inside raw_spinlock_t warning
- 		 * by temporarily raising the wait-type to LD_WAIT_CONFIG, matching
--- 
-2.54.0
-
+We should probably rename it to add an appropriate prefix.
+netpoll_ or net_ ? And maybe export it as NETDEV_INTERNAL?
