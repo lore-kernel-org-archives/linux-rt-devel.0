@@ -1,158 +1,75 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B8F3C2BAC
-	for <linux-rt-devel@lists.linux.dev>; Tue, 12 May 2026 15:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6069F3D45D4
+	for <linux-rt-devel@lists.linux.dev>; Tue, 12 May 2026 17:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778600292; cv=none; b=lfN/haicJh+L9vD7RyJoVIgoph5RbYGFF8twRuA/0pNinp2HF+Y8KVokCNo20czAYm24FJvlihWFXJLI8BH/euvaKQUVzzxoa0hCEs0H2er0T0cnn528EJEz0uEpKKrFbiZoQYt/pUNIrn6XicN7FriKyyLbRCc/jcWy4UEkpkY=
+	t=1778607472; cv=none; b=KI1kKPu66qOym1kySLuMmrB8Cmm7vs4tMY+SiUMz9aJmqf0jrR8BBLYyGDwg4O3qYVdKHdWFlm1jCjn1o2esIK81hazt1az638ngT1aYNsdu4K94pvpPhFHBHrd1F3/0Hk60cSB20XiedrQwTEHa0tleUg94NBR0aW5vTUCQYZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778600292; c=relaxed/simple;
-	bh=PEunEfBsFEd3BCqfKr0g9AtG5jN5mbPKWr8r6Zo34gM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u7pXURYR07791bbBktIkxczThjpqpT5sDzbPOMalyI0avcOzj/AyvAWbOOcDI3zjrS9l+13nq00Y8Z3+gxUcKRxBHkR6MbQOpoRRm83hqGwXN45A16jOoTp7FEHfH+5IlUT4r9hYe+//gDTwaXGHY5uLWf0ogTZGXy8yx0sgNes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 4C5228D5A9;
-	Tue, 12 May 2026 15:38:02 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf11.hostedemail.com (Postfix) with ESMTPA id B8EBA20031;
-	Tue, 12 May 2026 15:37:58 +0000 (UTC)
-Date: Tue, 12 May 2026 11:37:54 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Tejun Heo <tj@kernel.org>, Ingo Molnar <mingo@redhat.com>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
- <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, Kyle
- McMartin <jkkm@meta.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Linux RT Development
- <linux-rt-devel@lists.linux.dev>, Clark Williams <williams@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, John Kacur
- <jkacur@redhat.com>
-Subject: Re: [PATCH sched/core] sched/rt: Fix RT_PUSH_IPI soft lockup loop
-Message-ID: <20260512113754.448c1f5b@gandalf.local.home>
-In-Reply-To: <20260507141437.GJ3102624@noisy.programming.kicks-ass.net>
-References: <20260506235716.2530720-1-tj@kernel.org>
-	<20260507141437.GJ3102624@noisy.programming.kicks-ass.net>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1778607472; c=relaxed/simple;
+	bh=SfLW2oIpUw03aTO5iZJdt8SAZdCGgrQt7e5x0azW2GY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H1nu9NZyg57pEYG79HnhZg4trIgI1zXHqTthEQ3I309d0vl3qL3hwyXwMZmoUxWmko9RAn6y1RpmKflemDqroJPU6yovlcJnlKvMB3AEueG2ZcGjJ1SD21lN+uF2JrqYrPQSZOFVCM7HhvmW9OTR1KOUraaSTholWuYI5odxQRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=std5bWuR; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="std5bWuR"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4gFP1j3RfkzlgqsJ;
+	Tue, 12 May 2026 17:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1778607459; x=1781199460; bh=NrqhSJnT4qTcj1WPsQDcAvv5
+	PX774py0G/DOjV2QwJo=; b=std5bWuRcsIzL6nLYUKvBxFQM0DNAk9KjXXwHz+s
+	5sgnzVwzagMjm0g4eulfHOdA2vhgz1NOxWQX8+Ah7gMSKcz3dEYMGiq4jFD18CEt
+	HhrC03OADWb2SBRDvaxbfx0NWWpfPacbIhvOzj7NG1F412bY+oFR2Nqi8rp20bKD
+	L7qML2T4exGGb60X9xN3kBoAj/FFlnCAxvPGb99RsTuJkBApm0L6A6w/QJpkLKp4
+	V6ywsIbdwV0wXgXn3m5fR/ehG4/tfCB9iK6+Vem8Ie8j6acIgEDxPJKh4G17RrVM
+	tIXQZ87f8nyvX278Rw9gQAjSzOk/m4eOVWM5tW8HSe3D1A==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id 7S3oCHixwdtk; Tue, 12 May 2026 17:37:39 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4gFP1T5v68zlfwHM;
+	Tue, 12 May 2026 17:37:33 +0000 (UTC)
+Message-ID: <bdb6a81e-2ef9-4425-949e-11ad4b6f452f@acm.org>
+Date: Tue, 12 May 2026 10:37:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/1] block/blk-mq: use atomic_t for quiesce_depth to
+ avoid lock contention on RT
+To: "Ionut Nechita (Wind River)" <ionut.nechita@windriver.com>,
+ axboe@kernel.dk, linux-block@vger.kernel.org
+Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ ming.lei@redhat.com, muchun.song@linux.dev, mkhalfella@purestorage.com,
+ chris.friesen@windriver.com, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, linux-rt-users@vger.kernel.org,
+ stable@vger.kernel.org, ionut_n2001@yahoo.com, sunlightlinux@gmail.com
+References: <20260512062815.10815-1-ionut.nechita@windriver.com>
+ <20260512062815.10815-2-ionut.nechita@windriver.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20260512062815.10815-2-ionut.nechita@windriver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B8EBA20031
-X-Stat-Signature: ws3emhhjkuzmjgaei5qx1rk7n3p4m95y
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX18EFwMW8A7e47eXGxsFyuycSny+GUknB/Y=
-X-HE-Tag: 1778600278-40241
-X-HE-Meta: U2FsdGVkX1+BtrksngkS2hZyMmbAs1ZwZg5hH9eYCwGA68RVDLr1qAnwLmzGkPv/t1p3eyObi+ryULiYmYZYr1GLDzmNOIsT+yqWafZSMS216tpWp4HylsG1yovlBsYSBmTSPsuNjUF4YPlDHlWQljpb6q9g/vhviHOCa3p/1hNRgGzZkePc0/XmFTJ2TORqxZ7nfpSkmo5mGGxTi/V0pSNpxnvOLDL/+fy4TTiFZDwKcmV8Qf/tHpn7LGStqBxas0owkvCIJLbgwNn9UJBz23qh8OvId644GkwIeVHjgXMaNHA1BWVeZ9phPs+vh5zLmfS6it9MGpaJCovUbi9zgmhYcm1twoV/JwA4wBerFJ69dPn4QEaEUc9CkMFEWuo6eLM3SDrLQh/ZaPCYtzJbKetYGrXDzPszj5WxPFCeXvVduylJwIphewmTJyHiJlwYffSyFJidwWvzulo77rI10toXlxyubbpBy/pCce2qFxOqN2wEyOkvWpsqfwPp8+hE/Vn6ayMKJ+Q=
 
+On 5/11/26 11:28 PM, Ionut Nechita (Wind River) wrote:
+> Performance on the RT kernel and the hardware above:
+>   - Before: 153 MB/s, IRQ threads in D-state on q->queue_lock
+>   - After:  640 MB/s, no IRQ threads blocked
 
-[ Adding some RT folks ]
-
-Also, Valentin, can you look at this, because I believe the issue was
-introduced by your change (see below).
-
-On Thu, 7 May 2026 16:14:37 +0200
-Peter Zijlstra <peterz@infradead.org> wrote:
-
-> On Wed, May 06, 2026 at 01:57:16PM -1000, Tejun Heo wrote:
-> > push_rt_task() picks the highest pushable RT task next_task. If it
-> > outranks rq->donor, the existing path calls resched_curr() and
-> > returns 0, trusting local schedule() to pick next_task soon.
-> > 
-> > The RT_PUSH_IPI relay caller (rto_push_irq_work_func()) cannot rely
-> > on that. When this CPU has a steady supply of softirq work (e.g.,
-> > incoming packets), the next push IPI arrives before schedule() can
-> > run. Other CPUs keep seeing this CPU as overloaded and keep sending
-> > IPIs, this CPU keeps taking the same bail, and the loop repeats
-> > until soft lockup.
-> > 
-> > Seen in production on hosts with sustained NET_RX softirq load:
-> > the loop ran millions of iterations before tripping the soft-lockup
-> > watchdog.
-> > 
-> > Skip the prio bail when called via the IPI relay (pull=true) so
-> > push_rt_task() migrates next_task to another CPU. Verified with a
-> > synthetic reproducer.
-> > 
-> > Fixes: b6366f048e0c ("sched/rt: Use IPI to trigger RT task push migration instead of pulling")
-
-Wrong Fixes tag. That commit doesn't even have the code that you are
-changing. I think the correct commit is:
-
- Fixes: 49bef33e4b87b ("sched/rt: Plug rt_mutex_setprio() vs push_rt_task() race")
-
-Which adds that if statement that exits out of the code early.
-
-> > Cc: Kyle McMartin <jkkm@meta.com>
-> > Cc: stable@vger.kernel.org # v5.10+
-> > Signed-off-by: Tejun Heo <tj@kernel.org>
-> > ---
-> > This looks minimal to me, but happy for suggestions. Thanks.
-> > 
-> >  kernel/sched/rt.c |    8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > --- a/kernel/sched/rt.c
-> > +++ b/kernel/sched/rt.c
-> > @@ -1968,8 +1968,14 @@ retry:
-> >  	 * It's possible that the next_task slipped in of
-> >  	 * higher priority than current. If that's the case
-> >  	 * just reschedule current.
-> > +	 *
-> > +	 * This doesn't work for the IPI relay caller (pull). When this CPU
-> > +	 * has a steady supply of softirq work (e.g., incoming packets), the
-> > +	 * next push IPI arrives before schedule() can run. Other CPUs keep
-> > +	 * seeing it as overloaded and keep sending IPIs, this CPU keeps
-> > +	 * taking the same bail, and the loop repeats until soft lockup.
-> >  	 */
-> > -	if (unlikely(next_task->prio < rq->donor->prio)) {
-> > +	if (unlikely(next_task->prio < rq->donor->prio) && !pull) {
-> >  		resched_curr(rq);
-> >  		return 0;
-> >  	}  
-> 
-> IIRC Steve has a test for this stuff. If this breaks things, an
-> alternative is keeping a counter/limit on attempts or something.
-
-IIRC, the test we had was simply cyclictest that we ran with the following
-parameters. From commit b6366f048e0ca ("sched/rt: Use IPI to trigger RT
-task push migration instead of pulling"), it states it runs:
-
-   cyclictest --numa -p95 -m -d0 -i100
-
-The above runs a thread on each CPU at priority 95 and will sleep for
-100us. Each thread should wake up at the same time. You can read the commit
-message for more details but the tl;dr; is that without the IPI push
-request, if one of the CPUs ran another RT task besides cyclictest, then
-all the others would then ask to pull from it when the other CPUs
-cyclictest would sleep. Having over 100 CPUs send an IPI to pull a task
-when only the first one would get it, caused a large latency. Especially
-since it took the rq lock over and over again.
-
-But, the code being fixed wasn't due to that commit, but due to the commit
-that added the short cut of the logic. That commit fixes a race with the
-normal call to push_rt_task() and I think the pull logic issue was a side
-effect.
-
-I agree with Tejun's change, it actually puts the logic for the IPI pull
-back to what it was before commit 49bef33e4b87b. The bug was added by the
-shortcut case to push_rt_task() that was only meant for the !pull scenario.
-Adding !pull to the if conditional seems like the correct change.
-
-Valentin, can you confirm please.
-
-Please update the Fixes tag to point to the appropriate commit as well as
-update the change log. With that:
-
-Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-
--- Steve
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
