@@ -1,107 +1,107 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B34B382F14
-	for <linux-rt-devel@lists.linux.dev>; Tue, 12 May 2026 21:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85131385D9D
+	for <linux-rt-devel@lists.linux.dev>; Tue, 12 May 2026 23:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778621339; cv=none; b=nCMTK6b3nMmUlZlvMuvTsQhm7rrXqPoHHmgRjpRXy0IEr0bnz8EHHUPR3ih0nsUCP9RD8oqfV7eqxGMPVGvZSyMwSShdEEXDJWbzC3eNmNHib6Fkvz08VI1EI7iwGVdmMHPEqQYmLRNi2DZqVK7tuTSmGQCWVjNFvqmdBk0T0Jc=
+	t=1778629334; cv=none; b=EDP/mBwjEyDbT+OgqU7PNg2lpiQWWyfCuJa3IXGFS4odoakNH08xoJ/hLoauVi4wPk+i09DDOFwMb4jN7mqRrUFo6NODDhjyCRizuFrdgQR0gB0nXg+7bCl7WIdvpA0YpRwPctCFygD9vGMJydgAac0wy4idWrsWi0gPCpdx6Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778621339; c=relaxed/simple;
-	bh=4C6pvIOAVQbukdwjKbK+qiW+/2zL51bFxyPW5XZJiyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rBFsaiKLAnAiSV7impVwrMMvEivu+qObzr3F49a84WqsZb6VcdXRBvyIoS7FYsf/cSdCb6GC7rrtoplbwQMNEQtYskuz5VGMa08z2DVbtshgCO00Ro4up4CwDpfbmDq1s2ub6wPPWHZA0GyrqBO2rYCxnqqeIgH2y2hvCcj8xhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 93792140604;
-	Tue, 12 May 2026 21:28:54 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id 14EBC6000B;
-	Tue, 12 May 2026 21:28:50 +0000 (UTC)
-Date: Tue, 12 May 2026 17:28:47 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin
- Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
- Kyle McMartin <jkkm@meta.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Linux RT Development
- <linux-rt-devel@lists.linux.dev>, Clark Williams <williams@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, John Kacur
- <jkacur@redhat.com>
-Subject: Re: [PATCH sched/core] sched/rt: Fix RT_PUSH_IPI soft lockup loop
-Message-ID: <20260512172847.5024e5e8@gandalf.local.home>
-In-Reply-To: <056f95bc5805f7e161458984fff4b3cb@kernel.org>
-References: <20260506235716.2530720-1-tj@kernel.org>
-	<20260507141437.GJ3102624@noisy.programming.kicks-ass.net>
-	<20260512113754.448c1f5b@gandalf.local.home>
-	<056f95bc5805f7e161458984fff4b3cb@kernel.org>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1778629334; c=relaxed/simple;
+	bh=K/FbVyEnSjXQNhl2/gYDd+uql3tMVW2iPkwNkLb10xk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jPTd6P4JXwK34vI2uJm6Mi8/OfwOdfpY4F0oi/WySyVZN8laWqtqJNo45oXlx/ZgAXy/+s6GPwAPVyxko1iBcwYSQbtS0ni59ZAJnDuk7KEnwKRbmsDa3Fx5V6uE9QucjdvFloUb8g/aRiTF2TR85z63JMmqp4OC7p4FPvtwXKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VfLo7qBE; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VfLo7qBE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778629332;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7o5mBg4H1s27CSkJ6QLJUQ+LW+M3lQ1OujNNhR5gy5M=;
+	b=VfLo7qBE+B+AxRTLxYyrks7+bCfrrPHBK9OPPHjQmFvmp0Ot6q4xViv53Tgn+Jq0TidBV8
+	vKl4WSFdJgYbKlAC5sZp8c7p4e8wVDf/Tv6zIpYS70ceCMRo04UCNSaVC8CmpmEDndDp55
+	CpiLZksXmZBIXan5ckz2hal/zXCB/Vs=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-693-gnllGmdsN_SK1mDCeqaF5w-1; Tue,
+ 12 May 2026 19:42:09 -0400
+X-MC-Unique: gnllGmdsN_SK1mDCeqaF5w-1
+X-Mimecast-MFC-AGG-ID: gnllGmdsN_SK1mDCeqaF5w_1778629328
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9343C1956095;
+	Tue, 12 May 2026 23:42:07 +0000 (UTC)
+Received: from [10.2.16.241] (unknown [10.2.16.241])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0E80B19560A2;
+	Tue, 12 May 2026 23:42:04 +0000 (UTC)
+Message-ID: <1a8ce61a-8f4f-443a-a454-0301b42af7de@redhat.com>
+Date: Tue, 12 May 2026 19:42:03 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 14EBC6000B
-X-Stat-Signature: 8qy5uhfwsxeapkmuuepq1oazmbkn8p8b
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1//6atTrnTg2GrIa9eEi1vvCQ3Nm8vM5uI=
-X-HE-Tag: 1778621330-773637
-X-HE-Meta: U2FsdGVkX19tsj67avr6NdZ5Fn/QWcaOKZ5UlYE0wn9jp9KehtkYY9VbvhkeEymnFHFe916J3Qr4L1b3DwQBf1Yc10Ss8h9VknViUKxANUwMlgwaQO2/wdyFjYLud5aAEhSO4gaJNwqr4JARx+AZmGYrk5SejYJhVX3gnwMdLFQVKbDbBFrDFuoXeqOSlwT1pX98HWhFknjwxQi3+EcPlLwA0AQOT/TbzLQx6DFCJ8DC8UPMzD8PHl5xqDPVTc7it7lf11YexmyveFTql6qvfJYRvuNp7T3Vee6vK2IGq/BWAKgfV1UvAnjDvR8Z9Zy/PDyuG0jsLVxWMzcFtCLY5w7T/4Cd87kP
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] firmware: tegra: bpmp: Make atomic_tx_lock a raw_spinlock
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, jberring@redhat.com
+References: <20260504163448.1063474-1-longman@redhat.com>
+ <20260505062714.jayZOl2t@linutronix.de>
+ <afdb5fc1-f478-4547-aa39-04d477854d64@redhat.com>
+ <20260506064105.7R4Q7XJP@linutronix.de>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260506064105.7R4Q7XJP@linutronix.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: mv3ierc3pFCUfqzqLQ09GbpBpCbV54yS5m7L9E9dsJw_1778629328
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, 12 May 2026 08:07:58 -1000
-Tejun Heo <tj@kernel.org> wrote:
+On 5/6/26 2:41 AM, Sebastian Andrzej Siewior wrote:
+> On 2026-05-05 15:47:23 [-0400], Waiman Long wrote:
+>>   __might_resched+0x254/0x330
+>>   rt_spin_lock+0x70/0x140
+>>   tegra_bpmp_transfer_atomic+0x118/0x3c0
+>>   tegra_bpmp_probe+0x564/0x6f0
+> So this is tegra_bpmp_ping().
+>
+>> I know that interrupt is disabled becasue of the following code.
+>>
+>> 346 int tegra_bpmp_transfer_atomic(struct tegra_bpmp *bpmp, 347 struct
+>> tegra_bpmp_message *msg) 348 { 349 struct tegra_bpmp_channel *channel; 350
+>> int err; 351 352 if (WARN_ON(!irqs_disabled())) 353 return -EPERM;
+> Well, yes. It disables interrupts just probably to document the time it
+> took for the transfer so it can write it then via dev_dbg().
+> It is hard to tell what the worst-case delay here is but it is probably
+> not important if this is just boot time/ driver probe. Maybe.
+> What I am bit more concerned if the actual path of this
+> tegra_bpmp_transfer_atomic() invocation via i2c driver is actually
+> invoked with disabled interrupts on PREEMPT_RT. Because that might not
+> be the case. I've been looking at the i2c call chain and it is not
+> obvious what the actual call chain is. There is just
+> i2c_in_atomic_xfer_mode() check. So it may or may not be used in the
+> end.
 
-> Hello,
->=20
-> Looking at 49bef33e4b87 ("sched/rt: Plug rt_mutex_setprio() vs
-> push_rt_task() race"), the prio bail looks like it was already there
-> and only got moved up to retry:. For non-migration-disabled next_task
-> the bail fires at the same effective point both before and after, and
-> rto_push_irq_work_func() + rto_next_cpu() were already in their
-> current shape, so the loop seems reachable before the move too -
-> b6366f048e0c ("sched/rt: Use IPI to trigger RT task push migration
-> instead of pulling") looks like the actual origin.
->=20
-> Am I reading it wrong?
->=20
+tegra_bpmp_channel_write() calls tegra_bpmp_wait_request_channel_free() 
+which waits until the channel is freed. So it is hard to tell how long 
+does that take. In my case, the bug report happened at boot time.
 
-No, I missed the movement of that code. Which means I need to understand
-the problem better.
+Anyway, are there other comment about this patch?
 
-I'm still wondering about the trigger of this. That shortcut means the
-current process is of lower priority than the waiting tasks and a simple
-schedule should happen. From your tests, can you see why a lower process
-was running on the CPU instead of a higher priority process?
-
-Also, the IPIs only happen when another CPU is about to schedule something
-of lower priority where it tries to pull a task to it.
-
-=46rom your description, you are seeing a storm of IPIs from all these CPUs
-before the first CPU could return from hard interrupt and schedule?
-
-I'm thinking there may be something else wrong here.
-
-Note, the RT_PUSH_IPI logic only has a single iteration happening. If it is
-happening and another CPU wants to do a "push", it simply ups the counter
-to try again. It doesn't send another IPI.
-
-Do you have a trace that shows what is happening?
-
- # trace-cmd start -e sched_switch -e sched_waking -e irq -e workqueue
- # echo 1 > /proc/sys/kernel/traceoff_on_warning
- # trace-cmd extract
-
-may be enough.
-
-May need to add some trace_printk()s into the IPI logic code too.
-
--- Steve
+Thanks,
+Longman
 
