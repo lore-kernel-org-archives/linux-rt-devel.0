@@ -1,231 +1,287 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66DAD271471
-	for <linux-rt-devel@lists.linux.dev>; Wed, 13 May 2026 13:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2609F478E5E;
+	Wed, 13 May 2026 15:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778677463; cv=none; b=K/1EN+ALEPLHzkwfBQdARyQu1ouvkjpmwckdVTKRNMNOWJHNxDwL1FB3M6n8sh3AF28vaCiTg/7O/TclDzf4Jd8W4Zmzg/tnQn4e2rhlr5468eKxWWD8fuaLTRuFz60b38DvOtuazU+N9Oy5OodByCRap8IMv/lBWEajrAo9ULA=
+	t=1778685099; cv=none; b=KLLFqZiJR7qcDpAmONyD6Q4LqtgERQkGicbURu/T8Yga68qYwOurrQ3gpsOt9XY6FUwo0eWwxlO1ll88pnirET8exBe0YJ7zCQCsoS9FeX8rlu7v8GbUnh2V/Uiy7dDjOR8gAlg5CegLLA5irfDP4zg5Mj9uBGT9YPX4sdT7KX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778677463; c=relaxed/simple;
-	bh=+FxJG4kW9NjfhAdfAskdR39uG7HKd/rVabJUuHsVcDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlH8D1gvP4YLKJUMuUgqyaQDecouGPCOFG92qoovIBYaQb09qpeBjLHrjahID/YZjWceQ5jc+t2NPu9L4uLvJNHq42MSUuA44bDmB7kpp73cg18hfehYwrEG7n88a6IDakVUxPJziHX/sqkCwN2q/SPYC4vfSEPUiwsd4ELZ5IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=evMyfI9R; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1778685099; c=relaxed/simple;
+	bh=OktXFrilQcSyM/3dJFecEfFCo2wguMlxW/VesP2zZR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NRf8nMjWRxtK5YdA/pOSQqUtDUwscVlQYYj39grjJNs4dOah+6Wdtlq36N7GRHMvJg/IQ564MyEcYjvlWzBp/GDnDn0Dpm84b+Hty0dJNr8tIJrwGIPJ8joQJA7lNNnqeV7Ol6RQV96Zx02Qt5QQ/g6UwVfJUzkm/330c4marEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSNTNlUo; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="evMyfI9R"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-45562c41ec7so3232238f8f.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 13 May 2026 06:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1778677460; x=1779282260; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a38+h9bWp3RlleTL1QjZzeIbioOA+x/4L20QS9dVRSE=;
-        b=evMyfI9RFhjJwiLuChI5kzUgvk+tTX7N2WI5uSmExABtSjw/0CErirzGLEun+iJLyJ
-         PsocVHdvQfSrOlm4tC5TEw01lKXPWsv4p3eCACr+yqYeS0gSU4z0tuzasn6nrZsnf16R
-         bAkJ2Np2xJdo9vz+bYQmyfVVx6J5t0Ygv3jO2ZovCcvIpZQFFy/W6F6hwbJZNvYsT93r
-         8j28upQUOLeG83ueSkYtheFVs9yNWpUFgtqaw9mWiO5COHpSGlfB5LWZ0UPwIxbnXH87
-         oCDeQv0kwGbKxzA5t0NzKZpAfmPeSymBrXvY2tIEcVuARwhRxyha9imsDqjf87dtmYUB
-         crag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778677460; x=1779282260;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a38+h9bWp3RlleTL1QjZzeIbioOA+x/4L20QS9dVRSE=;
-        b=lFR6T5Va9pVBAr6hNSNsVbjJTz7qt3KozkOPlh0wl6VwUDsSc3LV0MzZYMyKi9sx9M
-         nWvfcEc5aoK8IvMGhEn8M3l1hZWl0avBTdqh8p8pRDKoSkNvYi89IUmec7Uge7EA+bz8
-         JQlNPr/eP44gcbcWAw3vgOnjoljOz9H/lSWZHfr9h7KYPmUmyM7c5/eVn5D783klAN2Y
-         Mp0cXImq5GM0bywrS8f9Sy6Rl9WIk4d2u8Xsm0X6nG8lyXyfwOH7V3qfMD80/Sn887yF
-         tXN2TT9k5RSAYutVcAP8zShET8CZ2N2Nw7mgaXwAxxCilcRJG3BqeTg+wy6EdGeWJRUo
-         Mb9g==
-X-Forwarded-Encrypted: i=1; AFNElJ/vT/v13ouL6AQZDTDZiIphaSwfKet2MZSu4Jp/z+VFS0mjiNDMBu0eCcBV5ofxUbgUU6Qs5lAXh4lGxVOVQg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyydP2V2oGg8QQv4MdHVxbR59eXqksMi4ptjUxAPQNF/jJLqzyp
-	EEBB3yLKz7JL6q04gaG3EHC/2KuOuCFptIXBf7u5jGLWLPtGIG7bm11HV53PpoWmHow=
-X-Gm-Gg: Acq92OG8fDPOO5MKWTZl5wTZBu+Y9PDbUHH6I1QgE21AOEMeu59KzUBkoJ4r7/MCYwg
-	m+uJGdBFxeh4TYt9Rnwr3L1+4yVpNfijWxQ1/ef0rSQN6lLAvQyNAg8AeqV/pSGKg9MSMlnJJ3R
-	xrlGAsxFSQ7upK7luumEUCDzJCXsJBtbathaSfJVUYU+kNZI+v1HrVuDZofT37P3XjwNTpfRUv5
-	ph9UTr+iXDiuQpkERMlreWICpHdKh0UonHi+3DPDUjALuGzhjFat3VtZS0ST802xnSNZiy2hhDy
-	fhAKzuJbJ9SiuaVCUtxdssrHN0omzIvMRpg0cS8x165c1Nl2960JXjXv3h7yt20svJ85HRG195y
-	4hiPt3qHmOc5Xu5I6cGOw46bQgdceDEs4lmUbt2mb9DX355tWLQxgIRZCrqiDe0BaXD/cWJfMA9
-	fvGxJ4lvCYMG74VIfpheEeoU6VVVLvT/zr6mri
-X-Received: by 2002:a05:6000:1acc:b0:43d:7e11:1b72 with SMTP id ffacd0b85a97d-45c57de9e7emr5052075f8f.9.1778677459533;
-        Wed, 13 May 2026 06:04:19 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ba2aaec3asm11115693f8f.15.2026.05.13.06.04.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 06:04:18 -0700 (PDT)
-Date: Wed, 13 May 2026 15:04:15 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Clark Williams <clrkwllms@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSNTNlUo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778685097; x=1810221097;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OktXFrilQcSyM/3dJFecEfFCo2wguMlxW/VesP2zZR0=;
+  b=mSNTNlUovb1QkaiH0G03iwxJOcTP8nvoh0HAfGRS8U+zF/bLs/ac1LUI
+   eUGvXHeIZBm/n66VccFCCE/MIjJys7tt9icVtHFYu19kl223Qik5DSUhs
+   1m8xP5ioD2d18S4O9H4z8AwpvLe1wkz07VhUxjbsSMWY8IhPdtjUTjeCr
+   uJwW5pdcza/tJalMIdVBraenZumZ9zjsCbajcMIRkonlHFRNvFZVUvpuD
+   D/vTLcPZyuxKlrM7Yk9edA1sOoi2et2lsyRs8eJbC4Tky1A/TZwL89eF8
+   nfAm1lZdnCLRwdlXkJzllzjHNUx/g76/9ct6r/rKR7pcxk6EOYWhK8NsW
+   Q==;
+X-CSE-ConnectionGUID: mikFd8anQ2G6RcTbyVN7gA==
+X-CSE-MsgGUID: IwWw9XVhSjCFs1t3yyCzwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="89921571"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="89921571"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:11:36 -0700
+X-CSE-ConnectionGUID: l2VAFLFoQIGIYfuUawyFUw==
+X-CSE-MsgGUID: BM6wTOIMSeu/D0ouAMO68g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="231716737"
+Received: from 984fee019967.jf.intel.com ([10.23.153.244])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 08:11:35 -0700
+From: Chao Gao <chao.gao@intel.com>
+To: kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
-Message-ID: <agR2z4r5sJvAjm1a@pathway.suse.cz>
-References: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk>
- <afn-H1EQJxnDs0BZ@pathway.suse.cz>
- <CALqELGxhXO=kzh9bpztd9=Ug9ykPL2NALo9Apq3=Oj6aeiEcKg@mail.gmail.com>
+	linux-doc@vger.kernel.org
+Cc: binbin.wu@linux.intel.com,
+	dave.hansen@linux.intel.com,
+	djbw@kernel.org,
+	ira.weiny@intel.com,
+	kai.huang@intel.com,
+	kas@kernel.org,
+	nik.borisov@suse.com,
+	paulmck@kernel.org,
+	pbonzini@redhat.com,
+	reinette.chatre@intel.com,
+	rick.p.edgecombe@intel.com,
+	sagis@google.com,
+	seanjc@google.com,
+	tony.lindgren@linux.intel.com,
+	vannapurve@google.com,
+	vishal.l.verma@intel.com,
+	yilun.xu@linux.intel.com,
+	xiaoyao.li@intel.com,
+	yan.y.zhao@intel.com,
+	Chao Gao <chao.gao@intel.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v9 00/23] Runtime TDX module update support
+Date: Wed, 13 May 2026 08:09:43 -0700
+Message-ID: <20260513151045.1420990-1-chao.gao@intel.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALqELGxhXO=kzh9bpztd9=Ug9ykPL2NALo9Apq3=Oj6aeiEcKg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed 2026-05-06 23:37:01, Andrew Murray wrote:
-> On Tue, 5 May 2026 at 15:26, Petr Mladek <pmladek@suse.com> wrote:
-> >
-> > On Tue 2026-05-05 14:45:00, Andrew Murray wrote:
-> > > The CONFIG_BOOT_PRINTK_DELAY option enables support for the boot_delay
-> > > kernel parameter, this allows for a configurable delay to be added before
-> > > each and every printk is emitted. This is DEBUG_KERNEL option that is
-> > > helpful for debugging as kernel output can be slowed down during boot
-> > > allowing messages to be seen before scrolling off the screen, or to
-> > > correlate timing between some physical event and console output.
-> > >
-> > > However, since the introduction of nbcon and the legacy printer thread for
-> > > PREEMPT_RT kernels, printk records are now emited to the console
-> > > asynchronously to the caller of printk and its boot_delay. The delay added
-> > > by boot_delay continues to slow down the calling process, but may not have
-> > > any impact to the rate in which records are emited to the console. For
-> > > example, if delay_use is set to 100ms, and the printer thread has a
-> > > backlog of more than 100ms, perhaps due to a slow serial console, then the
-> > > records will appear to be printed without any delay between them.
-> > >
-> > > It would be unhelpful to add a delay to the printer thread, and it would
-> > > not be possible to disallow selection of CONFIG_BOOT_PRINTK_DELAY at build
-> > > time as it's not possible to detect which consoles are nbcon enabled at
-> > > build time. Therefore, let's remove this feature.
-> >
-> > Heh, Randy proposed to remove "boot_delay" few days ago.
-> > This RFC goes even further and remove both "boot_delay" and
-> > "printk_delay".
-> 
-> Apologies, I didn't see this. I'll co-ordinate with Randy.
+Hi Dave,
 
-No need to apologize.
+Thanks for your thorough review of v8. This v9 addresses the issues you
+pointed out. In particular, it adopts the new tdx_blob format you
+suggested, removes module version printing during updates, and reworks
+the do-while loop in the update flow to improve readability. It also
+adds the two cleanup patches you suggested as patches 1 and 2.
 
-> > Honestly, I do not feel comfortable by this. The delay seems to
-> > be handy when there is only graphical console. I would suggest
-> > to do:
-> >
-> >    1. Obsolete "boot_delay" with "printk_delay" as
-> >       proposed in Randy's thread, see
-> >       https://lore.kernel.org/all/afn2sYKKsqG4QBVX@pathway.suse.cz/
-> 
-> Your suggestion was:
-> 
-> " 1. Add "printk_delay" early_param() which would allow
->      to set "printk_delay_msec" via command line."
-> 
-> And I assume the intent is to replicate the functionality of
-> boot_delay, by allowing printk_delay to be used to introduce delays
-> from early_param time? Thus deprecating delay_use.
+Please take a look at this new version. I hope it can still be merged
+for 7.2.
+---
 
-Exactly.
+(For transparency, note that I used AI tools to help proofread this
+cover-letter and commit messages)
 
-> 
-> "  2. Modify boot_delay_setup() to set "printk_delay_msec" as well.
->      In addition, it might print a message that it has been
->      obsoleted by "printk_delay" and will be removed."
-> 
-> Given the intent may be to deprecate boot_delay, I'm not sure that
-> setting printk_delay_msec as well would be beneficial, as this would
-> extend its functionality to add delays beyond SYSTEM_RUNNING which is
-> where boot_delay stops. Unless you mean to use boot_delay as an alias
-> to an early_param hook for printk_delay?
+This series adds support for runtime TDX module updates that preserve
+running TDX guests. It is also available at:
 
-I do not think that this is a big problem. As you write below, it is
-a debug feature. IMHO, people debugging boot problems won't mind when
-the delay continues beyond SYSTEM_RUNNING. And if anyone complains
-than we would at least know that there are people using this feature ;-)
+  https://github.com/gaochaointel/linux-dev/commits/tdx-module-updates-v9/
 
-> It seems that there are also differences in behavior between
-> printk_delay and boot_use, with printk_delay unconditionally adding
-> delays to all printks, and delay_use which considers the loglevel.
+== Background ==
 
-The unconditional delay does not make much sense. I consider it a bug.
+Intel TDX isolates Trusted Domains (TDs), or confidential guests, from the
+host. A key component of Intel TDX is the TDX module, which enforces
+security policies to protect the memory and CPU states of TDs from the
+host. However, the TDX module is software that requires updates.
 
-> >
-> >    2. Move printk_delay() from vprintk_emit() to
-> >       console_emit_next_record() and nbcon_emit_next_record().
-> >
-> >       For nbcon console, even better would be to use a sleeping
-> >       wait in nbcon_kthread_func(). But it would need some
-> >       changes to call it only when a record was really emitted.
-> >       Also we would need to use the busy wait in
-> >       __nbcon_atomic_flush_pending_con().
-> 
-> This makes sense.
-> 
-> If the use case (in a post kthread printk thread world), is only
-> relevant for graphical consoles, then I do wonder if printk_delay and
-> boot_delay can be replaced with a more specific solution? Now that we
-> have printk threads, the time in which a printk is presented to the
-> user may not relate to when it was created, and I fear people may
-> continue to debug issues that rely on that assumption.
-> 
-> I think the most pragmatic solution for now is:
-> - Move the printk delay to the point where the printk is actually
-> printed (e.g. console_flush_one_record and descendants)
-> - Add an early_param to allow for printk_delay_msec to be set
-> - Deprecate boot_delay, by using it as an alias for setting
- > printk_delay_msec, and include a user mesage that it is being
-> deprecated and that it now extends to beyond boot (which could impact
-> performance on non PREEMPT_RT and non nbcon systems)
+== Problems ==
 
-Sounds good.
+Currently, the TDX module is loaded by the BIOS at boot time, and the only
+way to update it is through a reboot, which results in significant system
+downtime. Users expect the TDX module to be updatable at runtime without
+disrupting TDX guests.
 
-> - Update printk_delay function to use the appropiate mechanism to
-> delay based on stage of boot and using printk_delay_msec instead of
-> boot_delay.
+== Solution ==
 
-Good point! I thought that mdelay() can be used even for the early
-messages because parse_early_param() is called right before
-parse_args() in start_kernel() in init/main.c.
+On TDX platforms, P-SEAMLDR[1] is a component within the protected SEAM
+range. It is loaded by the BIOS and provides the host with functions to
+install a TDX module at runtime.
 
-But parse_early_param() might be called even earlier, for example,
-by setup_arch in arch/x86/kernel/setup.c. And it is called before
+This series implements runtime TDX module updates through the fw_upload
+mechanism. That interface is a good fit because TDX module selection is not
+a simple "load a known file from disk" problem. The update image to load
+depends on module versioning, compatibility rules. fw_upload lets userspace
+choose the module explicitly while the kernel provides the update
+mechanism.
 
-  + tsc_early_init()
-    + tsc_enable_sched_clock()
-      + loops_per_jiffy = get_loops_per_jiffy()
+This design intentionally keeps most update validation/policy in userspace.
+The kernel exposes the information userspace needs, such as TDX module
+version and P-SEAMLDR information, but userspace is responsible for
+understanding TDX module's versioning and compatibility rules and for
+choosing an appropriate update image (see "TDX module versioning" below).
 
-which seems to be used by
+The kernel still enforces the pieces that must be handled in-kernel:
 
-  + mdelay()
-    + udelay()
-      + __const_udelay()
+1. Validate the tdx_blob header fields that are not passed through tothe
+TDX module. Just the standard overflow and reserved bits defensive ABI stuff.
 
-Anyway, it has to be done before printk_delay_msec() can be set
-via an early parameter.
+2. Make sure no non-update SEAMCALLs are called during the update.
 
-> If that makes sense I can fashion a patchset.
+3. Make sure SEAMCALLs are on the right CPU, for any the user has made
+available to the kernel.
 
-That would be great.
+4. Handle the race between updates and concurrent TD builds by
+returning -EBUSY to userspace.
 
-Best Regards,
-Petr
+Everything else remains a userspace responsibility.
 
-PS: Note that I am traveling the following week so my review might
-    get delayed.
+In the unlikely event the update fails, for example userspace picks an
+incompatible update image, or the image is otherwise corrupted, all TDs
+will experience SEAMCALL failures and be killed. The recovery of TD
+operation from that event requires a reboot.
+
+Given there is no mechanism to quiesce SEAMCALLs, the TDs themselves must
+pause execution over an update. The most straightforward way to meet the
+'pause TDs while update executes' constraint is to run the update in
+stop_machine() context. All other evaluated solutions export more
+complexity to KVM, or exports more fragility to userspace.
+
+== How to test this series ==
+
+NOTE: This v9 uses a new tdx_blob format. The scripts and module blobs in
+https://github.com/intel/tdx-module-binaries have not yet been updated
+to match this version. Those updates will be done separately later.
+
+== Other information relevant to Runtime TDX module updates ==
+
+=== TDX module versioning ===
+
+Each TDX module is assigned a version number x.y.z, where x represents the
+"major" version, y the "minor" version, and z the "update" version.
+
+Runtime TDX module updates are restricted to Z-stream releases.
+
+Note that Z-stream releases do not necessarily guarantee compatibility. A
+new release may not be compatible with all previous versions. To address this,
+Intel provides a separate file containing compatibility information, which
+specifies the minimum module version required for a particular update. This
+information is referenced by the tool to determine if two modules are
+compatible.
+
+=== TCB Stability ===
+
+Updates change the TCB as viewed by attestation reports. In TDX there is
+a distinction between launch-time version and current version where
+runtime TDX module updates cause that latter version number to change,
+subject to Z-stream constraints.
+
+The concern that a malicious host may attack confidential VMs by loading
+insecure updates was addressed by Alex in [3]. Similarly, the scenario
+where some "theoretical paranoid tenant" in the cloud wants to audit
+updates and stop trusting the host after updates until audit completion
+was also addressed in [4]. Users not in the cloud control the host machine
+and can manage updates themselves, so they don't have these concerns.
+
+See more about the implications of current TCB version changes in
+attestation as summarized by Dave in [5].
+
+=== TDX module Distribution Model ===
+
+At a high level, Intel publishes all TDX modules on the github [2], along
+with a mapping_file.json which documents the compatibility information
+about each TDX module and a userspace tool to install the TDX module. OS
+vendors can package these modules and distribute them. Administrators
+install the package and use the tool to select the appropriate TDX module
+and install it via the interfaces exposed by this series.
+
+[1]: https://cdrdv2.intel.com/v1/dl/getContent/733584
+[2]: https://github.com/intel/tdx-module-binaries
+[3]: https://lore.kernel.org/all/665c5ae0-4b7c-4852-8995-255adf7b3a2f@amazon.com/
+[4]: https://lore.kernel.org/all/5d1da767-491b-4077-b472-2cc3d73246d6@amazon.com/
+[5]: https://lore.kernel.org/all/94d6047e-3b7c-4bc1-819c-85c16ff85abf@intel.com/
+
+
+Chao Gao (22):
+  x86/virt/tdx: Consolidate TDX global initialization states
+  x86/virt/tdx: Move TDX_FEATURES0 bits to asm/tdx.h
+  coco/tdx-host: Introduce a "tdx_host" device
+  coco/tdx-host: Expose TDX module version
+  x86/virt/seamldr: Introduce a wrapper for P-SEAMLDR SEAMCALLs
+  x86/virt/seamldr: Add a helper to retrieve P-SEAMLDR information
+  coco/tdx-host: Expose P-SEAMLDR information via sysfs
+  coco/tdx-host: Don't expose P-SEAMLDR information on CPUs with erratum
+  coco/tdx-host: Implement firmware upload sysfs ABI for TDX module
+    updates
+  x86/virt/seamldr: Allocate and populate a module update request
+  x86/virt/seamldr: Introduce skeleton for TDX module updates
+  x86/virt/seamldr: Abort updates after a failed step
+  x86/virt/seamldr: Shut down the current TDX module
+  x86/virt/tdx: Reset software states during TDX module shutdown
+  x86/virt/seamldr: Install a new TDX module
+  x86/virt/seamldr: Do TDX per-CPU initialization after module
+    installation
+  x86/virt/tdx: Restore TDX module state
+  x86/virt/tdx: Refresh TDX module version after update
+  x86/virt/tdx: Reject updates during compatibility-sensitive operations
+  x86/virt/tdx: Enable TDX module runtime updates
+  coco/tdx-host: Document TDX module update compatibility criteria
+  x86/virt/tdx: Document TDX module update
+
+Kai Huang (1):
+  x86/virt/tdx: Move low level SEAMCALL helpers out of <asm/tdx.h>
+
+ .../ABI/testing/sysfs-devices-faux-tdx-host   |  68 ++++
+ Documentation/arch/x86/tdx.rst                |  34 ++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/seamldr.h                |  37 +++
+ arch/x86/include/asm/tdx.h                    |  67 ++--
+ arch/x86/include/asm/tdx_global_metadata.h    |   4 +
+ arch/x86/include/asm/vmx.h                    |   1 +
+ arch/x86/virt/vmx/tdx/Makefile                |   2 +-
+ arch/x86/virt/vmx/tdx/seamcall_internal.h     | 109 +++++++
+ arch/x86/virt/vmx/tdx/seamldr.c               | 306 ++++++++++++++++++
+ arch/x86/virt/vmx/tdx/tdx.c                   | 162 ++++++----
+ arch/x86/virt/vmx/tdx/tdx.h                   |   8 +-
+ arch/x86/virt/vmx/tdx/tdx_global_metadata.c   |  17 +-
+ drivers/virt/coco/Kconfig                     |   2 +
+ drivers/virt/coco/Makefile                    |   1 +
+ drivers/virt/coco/tdx-host/Kconfig            |  12 +
+ drivers/virt/coco/tdx-host/Makefile           |   1 +
+ drivers/virt/coco/tdx-host/tdx-host.c         | 221 +++++++++++++
+ 18 files changed, 940 insertions(+), 113 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-faux-tdx-host
+ create mode 100644 arch/x86/include/asm/seamldr.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamcall_internal.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamldr.c
+ create mode 100644 drivers/virt/coco/tdx-host/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-host/Makefile
+ create mode 100644 drivers/virt/coco/tdx-host/tdx-host.c
+
+base-commit: 5209e5bfe5cab593476c3e7754e42c5e47ce36de
+-- 
+2.52.0
+
