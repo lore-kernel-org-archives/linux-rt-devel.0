@@ -1,117 +1,136 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8163D39DBFA
-	for <linux-rt-devel@lists.linux.dev>; Thu, 14 May 2026 23:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC804380FDD;
+	Fri, 15 May 2026 17:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778802202; cv=none; b=A/qNhsWCHG3Won2YJR6A3utKmFURetqkiu/emoMPBaccWu2qRnAbOi7KUK9IYSMcS6Ia2xjdhDTIak47mwACuXYBQ8DucGS8CBxzl5OMemZ6aMRrDvB0gQgjGInNHrkoF+2xt7RplEayeTs2rRuz1vEQOZEluhFNw88SflRUaiI=
+	t=1778864575; cv=none; b=mSLRn4gUKwC0W0Ysjhx/gcsebiVP3RaJ9lNUqSSTY94jz4L9UktvFmOHaBaeFLuUqVF2d38fMtXcGUKNS3MqdlC/Ie6SUIsaW2wcRSNuXiHGHo23hWQlPoyKF/n2OzrT5inL66L/xyl6D6cu7gfuYcQPby+LUrBn3NIqouUod6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778802202; c=relaxed/simple;
-	bh=p6ctIFvWGNlH9lN/l6PNNGCRAq+meZ2OXsTIIxQcn1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m9VFWYX8N7BiFMBvzJZSnJw05Q970IprQ+uVsI41h/Il2riytRoQl3d+boccexpF0WpmYVyJG02MtDoKR8Zc/JaBssZKjNqmietbmFiYT0ntEpmJRszMPhQPV+R1sRLhpF7p5qQuz6CuviHaPJknn39b3Tch7C5OjxI38YqAiwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 37BCC40641;
-	Thu, 14 May 2026 23:43:18 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf16.hostedemail.com (Postfix) with ESMTPA id ED4D52001F;
-	Thu, 14 May 2026 23:43:13 +0000 (UTC)
-Date: Thu, 14 May 2026 19:43:12 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Tejun Heo <tj@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
- <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin
- Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>,
- Kyle McMartin <jkkm@meta.com>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Linux RT Development
- <linux-rt-devel@lists.linux.dev>, Clark Williams <williams@redhat.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, John Kacur
- <jkacur@redhat.com>
-Subject: Re: [PATCH sched/core] sched/rt: Fix RT_PUSH_IPI soft lockup loop
-Message-ID: <20260514194312.1877c9e1@fedora>
-In-Reply-To: <agY7c_uARe72fhwa@slm.duckdns.org>
-References: <056f95bc5805f7e161458984fff4b3cb@kernel.org>
-	<20260512172847.5024e5e8@gandalf.local.home>
-	<20260513193914.1593369-1-tj@kernel.org>
-	<20260513202432.18dd7b9f@gandalf.local.home>
-	<agUdAatmlqQc1NS_@slm.duckdns.org>
-	<20260513213108.2870a1e7@fedora>
-	<agUodtxEi24HQ1Oo@slm.duckdns.org>
-	<20260513220136.5a11c740@fedora>
-	<agVUH-L503DwAiSW@slm.duckdns.org>
-	<20260514100300.1d594c7a@gandalf.local.home>
-	<agY7c_uARe72fhwa@slm.duckdns.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1778864575; c=relaxed/simple;
+	bh=1PUGpcqr90Tau2dDScPpT3RaVPBw5XincH3BMhRm5aQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mTxGroElJED4yChC/5o6TGZ36oF4xmOg3f+TBJ1/bTfM4E5Z4CB+qxXh5doFtFAtJBmRfo431cYejELs8RU4PYaYTpdX5DAGKHifE5IWnt+qojwtfgkQ1lkwppyyhgowpM1mRzWJKGB+S9/gRi9wIVKVD9z7YqKAb8dq4Lhl9YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RDUx/bW9; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RDUx/bW9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778864574; x=1810400574;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=1PUGpcqr90Tau2dDScPpT3RaVPBw5XincH3BMhRm5aQ=;
+  b=RDUx/bW9Adyi/YtuIdTIdqBaop8Zyxfu7Iic29JZt5ssHCliKf+45+oC
+   DknD6rbSN3sPqBeHlCL4mhzo5qQEY3ltEAqTom/h2SgNa278M71+XSSg0
+   2Dt+PoEbzH3wQU5VZoeHBwvo44cG9EL2IfrLUEyf8Vg6NClZCvf8WCfAN
+   vNyLfuN9JtWap91+FZbGtoktk4HpvpORVDNfwJ23mogFKpLnmQhp9L+ZQ
+   Ode6U7gm8lwk6JBTGaI9sXE24FuuOvO/g4pODDL2XSsvYVPjf0LlePXG4
+   5FTKKUiDwpNJXSqHMKx/Ja23YtfxKEoaFq3eweynvAkgb9NYx0yWaF/td
+   A==;
+X-CSE-ConnectionGUID: svGU86tBRoeSFgZi9J1XdA==
+X-CSE-MsgGUID: HbLFc7PZQ42C5GTx3flj4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79993853"
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="79993853"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:02:54 -0700
+X-CSE-ConnectionGUID: dArOUIN0RMCjC0OvVChRwQ==
+X-CSE-MsgGUID: L0E2SZ7fQT2EnOSvjwQAMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
+   d="scan'208";a="242739254"
+Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.201]) ([10.125.108.201])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:02:52 -0700
+Message-ID: <1715ba67-2e51-4deb-aa2c-58952914adc9@intel.com>
+Date: Fri, 15 May 2026 10:02:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 06/23] x86/virt/seamldr: Introduce a wrapper for
+ P-SEAMLDR SEAMCALLs
+To: Chao Gao <chao.gao@intel.com>, kvm@vger.kernel.org,
+ linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: binbin.wu@linux.intel.com, dave.hansen@linux.intel.com, djbw@kernel.org,
+ ira.weiny@intel.com, kai.huang@intel.com, kas@kernel.org,
+ nik.borisov@suse.com, paulmck@kernel.org, pbonzini@redhat.com,
+ reinette.chatre@intel.com, rick.p.edgecombe@intel.com, sagis@google.com,
+ seanjc@google.com, tony.lindgren@linux.intel.com, vannapurve@google.com,
+ vishal.l.verma@intel.com, yilun.xu@linux.intel.com, xiaoyao.li@intel.com,
+ yan.y.zhao@intel.com, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+References: <20260513151045.1420990-1-chao.gao@intel.com>
+ <20260513151045.1420990-7-chao.gao@intel.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <20260513151045.1420990-7-chao.gao@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: hqc44f6bs8szk6rx8gui3qhb8sh5gt81
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: ED4D52001F
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/H0npIT7mEPsaORhcoXGF2iKkqw8e/JEo=
-X-HE-Tag: 1778802193-756747
-X-HE-Meta: U2FsdGVkX1/5hrnnQPu2X0d1OkpXPBHKvnZmxmESV/S0WUKpmz6VPjDESkwY4nn6BRAIvHtow5BFgZ3SjOS4a9Dwgx2P3QgYng/M+xmVJrCGxRh6LecmfvyXOob9f4LBVlqVQJYJoucCVGpJ46QErCBjE5Wsre3XicgkcHQ42XCt2berb/JspN1W4VePCCD/Bv6EkjBxdFzRGOdbvCPS7dKIScZJ27P/pZkLo9DqpfNj//LbqVD//V5SsD+bUagSL9Vc/C7gS+Dq076MGOZzG4LGLKMgaDqdKHWlX0LhAcJJ9GCIXtawwIQR+qVleal1CA8rvgreHaiUGeI9vNHpDru2I6lISS3i
 
-On Thu, 14 May 2026 11:15:31 -1000
-Tejun Heo <tj@kernel.org> wrote:
+On 5/13/26 08:09, Chao Gao wrote:
+> Note that unlike P-SEAMLDR, there is also a non-persistent SEAM loader
+> ("NP-SEAMLDR"). This is an authenticated code module (ACM) that is not
+> callable at runtime. Only BIOS launches it to load P-SEAMLDR at boot;
+> the kernel does not need to interact with it for runtime update.
 
-> Hello, Steven.
-> 
-> On Thu, May 14, 2026 at 10:03:00AM -0400, Steven Rostedt wrote:
-> > I was thinking about this more and does disabling the RT_PUSH_IPI cause any
-> > problems for you?
-> > 
-> >   # echo NO_RT_PUSH_IPI > /sys/kernel/debug/sched/features  
-> 
-> Not at all. This is actually the mitigation that we deployed across the
-> affected machines.
-> 
-> ...
-> > -/* RT IPI pull logic requires IRQ_WORK */
-> > -#if defined(CONFIG_IRQ_WORK) && defined(CONFIG_SMP)
-> > +/*
-> > + * RT IPI pull logic requires IRQ_WORK and doesn't make sense for uniprocessors.
-> > + * If CONFIG_IRQ_FORCED_THREADING isn't set, then softirqs do not run as threads
-> > + * and can cause latency larger than what RT_PUSH_IPI can save, killing the
-> > + * effect of it.
-> > + */
-> > +#if defined(CONFIG_IRQ_WORK) && defined(CONFIG_SMP) &&	\
-> > +	defined(CONFIG_IRQ_FORCED_THREADING)
-> >  # define HAVE_RT_PUSH_IPI
-> >  #endif  
-> 
-> Maybe it should trigger on force_irqthreads so that it's active only when
-> irq threads are actully enabled.
+The "unlike" is the wrong word to use here.
 
-Well, PREEMPT_RT doesn't need force_irqthreads for this to be enabled.
-But I could keep this configured like the above, but have the feature to
-be disabled on boot up if !PREEMPT_RT and force_irqthreads is not set.
+Here's a rewrite, with some Claude help:
 
-> 
-> Whichever way it's done tho, wouldn't this still leave machines in that
-> config susceptible to IPI storms? It took a combination of factors to
-> trigger - mpi3mr's threaded irq, psimon activated by systemd, and sustained
-> network load - but those factors are not that exotic.
-
-With softirqs as threads it is highly unlikely to be a problem. The
-reason you saw this was because the break out to schedule happened in a
-softirq that prevented scheduling from occurring right away. With irqs
-as threads, so are softirqs, and they wouldn't be able to cause the
-delay in scheduling that you were experiencing.
-
-I'll write up a patch tomorrow or next week.
-
-Thanks!
-
--- Steve
+Note: Despite the similar name, the NP-SEAMLDR ("Non-Persistent")
+differs sharply from the P-SEAMLDR. It is an authenticated code module
+(ACM) invoked exclusively by the BIOS at boot rather than a component
+running in SEAM mode. The kernel cannot call it at runtime. It exposes
+no SEAMCALL interface.
