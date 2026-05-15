@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC804380FDD;
-	Fri, 15 May 2026 17:02:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BED44CA27C;
+	Fri, 15 May 2026 17:07:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778864575; cv=none; b=mSLRn4gUKwC0W0Ysjhx/gcsebiVP3RaJ9lNUqSSTY94jz4L9UktvFmOHaBaeFLuUqVF2d38fMtXcGUKNS3MqdlC/Ie6SUIsaW2wcRSNuXiHGHo23hWQlPoyKF/n2OzrT5inL66L/xyl6D6cu7gfuYcQPby+LUrBn3NIqouUod6s=
+	t=1778864853; cv=none; b=o70NZ4m4YLi1hHZL8ojq/YC1aVzmt9xLz0JjLtfYz+sF27jOLGFKtmRhKVbCdtTsr9bm3xJKCeFKZtuUdXm17Wvrx/BKs3Y2DVkI0j3jH+x34D6ZCMK9oIbnoHjDgytyFIUoxkX0l50qEjlsJZ8PXb7SJSRnELR5aATb/gw/5mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778864575; c=relaxed/simple;
-	bh=1PUGpcqr90Tau2dDScPpT3RaVPBw5XincH3BMhRm5aQ=;
+	s=arc-20240116; t=1778864853; c=relaxed/simple;
+	bh=39lve1qd5GHhKudxaoQqdZfvVoQUMOHO5sM1M3CGWW0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mTxGroElJED4yChC/5o6TGZ36oF4xmOg3f+TBJ1/bTfM4E5Z4CB+qxXh5doFtFAtJBmRfo431cYejELs8RU4PYaYTpdX5DAGKHifE5IWnt+qojwtfgkQ1lkwppyyhgowpM1mRzWJKGB+S9/gRi9wIVKVD9z7YqKAb8dq4Lhl9YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RDUx/bW9; arc=none smtp.client-ip=198.175.65.16
+	 In-Reply-To:Content-Type; b=NIs7cpL+dllxGxmYBDiB6ieCHBo2Li1dy0i9SsMFpySY+LlHxsONu+qzMT30kFjOV/bplTK3RWXY+9hs3/ZqcNVxJc2JMypnnbZGuvz9fKoku9eetTM6QggmSRtI6kNHn3jwueLx5Dk4vG1MSv9j2QWRb9y9Mj4MrnUTfyiWa/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1SpugQd; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RDUx/bW9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1SpugQd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778864574; x=1810400574;
+  t=1778864852; x=1810400852;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=1PUGpcqr90Tau2dDScPpT3RaVPBw5XincH3BMhRm5aQ=;
-  b=RDUx/bW9Adyi/YtuIdTIdqBaop8Zyxfu7Iic29JZt5ssHCliKf+45+oC
-   DknD6rbSN3sPqBeHlCL4mhzo5qQEY3ltEAqTom/h2SgNa278M71+XSSg0
-   2Dt+PoEbzH3wQU5VZoeHBwvo44cG9EL2IfrLUEyf8Vg6NClZCvf8WCfAN
-   vNyLfuN9JtWap91+FZbGtoktk4HpvpORVDNfwJ23mogFKpLnmQhp9L+ZQ
-   Ode6U7gm8lwk6JBTGaI9sXE24FuuOvO/g4pODDL2XSsvYVPjf0LlePXG4
-   5FTKKUiDwpNJXSqHMKx/Ja23YtfxKEoaFq3eweynvAkgb9NYx0yWaF/td
+  bh=39lve1qd5GHhKudxaoQqdZfvVoQUMOHO5sM1M3CGWW0=;
+  b=e1SpugQdqTZOc8yAZAOy0CUYoXt5vesSgU9yBfuCfL/YWudPcWo1CgSW
+   V9ckeSM2TaLpJp6QvJm5iCFnRa9R/vCB4h+NsTTm6W6oQ6TXlh5lW+4yd
+   bMRzjeIQz9jgh0oB/pT4xaxhRpClAUjkZwHuUKYrU7LWQ3xI4UFUzbjyW
+   LB8NHZ3B2u306S8Ehdl4dznVHw+ZYE6XjmjLPaSBxBehprHFDLUq+yj0d
+   QGmn8e+cliLM16sOCxmoAH9ftm2qOhTVPOKuesI7Nd7RT7UQ6gs401t9t
+   EKI/u5Jp0kzYf38bsEPpKROOAgvWeGwWDWKnuOui4QLlL0dbiarB/pEw5
    A==;
-X-CSE-ConnectionGUID: svGU86tBRoeSFgZi9J1XdA==
-X-CSE-MsgGUID: HbLFc7PZQ42C5GTx3flj4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="79993853"
+X-CSE-ConnectionGUID: X+N8wPq8QuSAwsPZl7uyWQ==
+X-CSE-MsgGUID: g8K1/SUiTEKmi6mqHsIfqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11787"; a="67353592"
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="79993853"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:02:54 -0700
-X-CSE-ConnectionGUID: dArOUIN0RMCjC0OvVChRwQ==
-X-CSE-MsgGUID: L0E2SZ7fQT2EnOSvjwQAMg==
+   d="scan'208";a="67353592"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:07:31 -0700
+X-CSE-ConnectionGUID: Z1hic7hUSda7XeybceUR4Q==
+X-CSE-MsgGUID: F8YRZUOLTM+DfUaTHTg0Ww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="242739254"
+   d="scan'208";a="234488612"
 Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.201]) ([10.125.108.201])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:02:52 -0700
-Message-ID: <1715ba67-2e51-4deb-aa2c-58952914adc9@intel.com>
-Date: Fri, 15 May 2026 10:02:53 -0700
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2026 10:07:29 -0700
+Message-ID: <6f2ea784-3fb2-4e91-ab8c-b8f26d591f38@intel.com>
+Date: Fri, 15 May 2026 10:07:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -120,17 +120,41 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 5/13/26 08:09, Chao Gao wrote:
+> The TDX architecture uses the "SEAMCALL" instruction to communicate with
+> SEAM mode software. Right now, the only SEAM mode software that the kernel
+> communicates with is the TDX module. But, there is actually another
+> component that runs in SEAM mode but it is separate from the TDX module:
+> the persistent SEAM loader or "P-SEAMLDR". Right now, the only component
+> that communicates with it is the BIOS which loads the TDX module itself at
+> boot. But, to support updating the TDX module, the kernel now needs to be
+> able to talk to it.
+> 
+> P-SEAMLDR SEAMCALLs differ from TDX module SEAMCALLs in areas such as
+> concurrency requirements. Add a P-SEAMLDR wrapper to handle these
+> differences and prepare for implementing concrete functions.
+> 
+> Use seamcall_prerr() (not '_ret') because current P-SEAMLDR calls do not
+> use any output registers other than RAX.
+> 
 > Note that unlike P-SEAMLDR, there is also a non-persistent SEAM loader
 > ("NP-SEAMLDR"). This is an authenticated code module (ACM) that is not
 > callable at runtime. Only BIOS launches it to load P-SEAMLDR at boot;
 > the kernel does not need to interact with it for runtime update.
 
-The "unlike" is the wrong word to use here.
+Nit: the "main act" solution statement for this changelog is:
 
-Here's a rewrite, with some Claude help:
+	Add a P-SEAMLDR wrapper to handle these differences and prepare
+	for implementing concrete functions.
 
-Note: Despite the similar name, the NP-SEAMLDR ("Non-Persistent")
-differs sharply from the P-SEAMLDR. It is an authenticated code module
-(ACM) invoked exclusively by the BIOS at boot rather than a component
-running in SEAM mode. The kernel cannot call it at runtime. It exposes
-no SEAMCALL interface.
+What's more important, that ^?
+
+Or:
+
+	Use seamcall_prerr() (not '_ret') because current P-SEAMLDR
+	calls do not use any output registers other than RAX.
+
+?
+
+Now, what is in a more prominent place in the changelog?
+
+Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
