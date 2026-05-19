@@ -1,214 +1,145 @@
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399393ACEF0
-	for <linux-rt-devel@lists.linux.dev>; Tue, 19 May 2026 06:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59193ED5C9
+	for <linux-rt-devel@lists.linux.dev>; Tue, 19 May 2026 22:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779173919; cv=none; b=Q56fSh8/tqQWBK5CVVRRtTrzpD7ZudpiBADp1+7oLvUmktkeTgFLCclpJsH+1xwWjcocdkyO22tN13Xqf5dSjJBm+Ahc5wW+RPFZP9U/RVIACEbTGQTxyIm2VG3tunXuOIyHv131at0IQtDWpqpX9Y05pi+8fxRlo4UGYRb+cCo=
+	t=1779229549; cv=none; b=R7QzN64zl9qnrQybjhNUIwE1qgAdbbs/+oabtQfgzYYSsG7+KnRNFB+cD8ZabjfI+wG+JELVrxCwjhI4Fu8EO37beCPaS6fVNXsA/ya1guI8M8ggeEdYFzcX0ZlqO4+H4iYapLqnPHcQuCNbnT9Z0jEMS+zKWpr/WyqOwevMUHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779173919; c=relaxed/simple;
-	bh=to/rK14F4VwRyIxQvXlYUYpd0yFzAgR3xrJ7ChL+xq0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=qnFhcFUns5FGzi/CMeAddKQyTaYxaIix2JKkobxTLkRXlubDRwqHS45jFkcNvF+3yWbtB3P8+wjp/Od563BWxn9Mp19+TYW3ScUO2lRA46HT7Kj4bnR0ATyfJswcD/MSg8ZNL4dtMqJpqf2ufyyqOZ9eRKreWkP7kcoRfVL82sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-439f1d2d2cdso7057486fac.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 18 May 2026 23:58:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779173917; x=1779778717;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:in-reply-to
-         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZFrB8cafc/UDPLZPmOmG8rNv10MH4VFhRr3sj9GksQk=;
-        b=q4i2/0f7gTT3XgrfFVWV/30DdtL4RaO4NWo4oxjeD+ZkapnUodImPBlO421ThAcdHX
-         E39nrozYmZ8/QWxLmlF9FhnqOMFW4djOepwW2QkHYPCygyfBwaDTjCsEv30vTKAAspIy
-         0WGc8000skJT+2IfxC0YusbdLMPoAtKGvIJtysNocFS0WnxP8uA7SsbuIIqOa/YljyIM
-         KfIKQPkITza2dKp+4n/iKnhqqkp5v8aflr6h4svuAM+BAE7vr+R26M5gfqwSLw8e4uvM
-         CBiGMkQtl83gMGhfgm8zpVLRKRSKj8FhOVjw3hQsbltBpMNPTcG08lCri6mMM/gf9z0H
-         T6hg==
-X-Forwarded-Encrypted: i=1; AFNElJ8r4QxDCoFQ5jXp4OBY8IMS1RglGPq06w1ayup7cC51RszqwQRSpEPSmzzy6oL5nFTQOieeYZNmAFF+DvwiJg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4jbzUdAH290iYABf0MSNdFN4CaVq11nSfPjQM7fVTmtHuPaCf
-	fwRVdcRRxnnD2dW2iMpp0hIM52zeGUFc0RsJYYP32rGw+Hl9tme9AvMZ+z5PGDCJq+NV0JlWmg9
-	+KW8b4tfgYYTfViPeGRjTMywzgVFnWXxmkf8xWZBdRMShTqTDWIV7YmUajFU=
+	s=arc-20240116; t=1779229549; c=relaxed/simple;
+	bh=oibJLxIdOuJ1vEqW4cJ9mljoRJ9W4FXNz8lH/bKq6hY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=OyI0sf7cNeI9johptVbx+bqDvWPh6gG2dE1EFz8LEAzy70ifaMvtyZP1ufeH89r6sYMRJS5NB5Yn+NIDSyomQBE0w/otfU3L6pemnIYvkJ+ku+Io7BjBArJ2i7iEYh9AZwXaxyrwAerP27uXJgX2L13WS7P7Qf/PWXsZwpFw+MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hUQaNiyg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hUQaNiyg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779229546;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vAB44BGqZ+fuUDNGrRoAE7PFPdrgJUI60GqrOp9DD1k=;
+	b=hUQaNiygfwjZ8TUn+Z8yI4AmgGJ71vIuTcDriBTAEc2T01KoYvCe/t0EySYh6WKByJQ4av
+	+YAXHag0Dk6m/1+sf17p2XX/1tJGa1Mp4Hj3P5WZaf+PFSIZ2wQV98KS9yxhLnWK7IzC7I
+	kqcxAziQxPis2rJGxkf+5I8Iy5WP4D0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-459-AzZW7v-RMy2avixHHnyFbw-1; Tue,
+ 19 May 2026 18:25:42 -0400
+X-MC-Unique: AzZW7v-RMy2avixHHnyFbw-1
+X-Mimecast-MFC-AGG-ID: AzZW7v-RMy2avixHHnyFbw_1779229540
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCCCD1956046;
+	Tue, 19 May 2026 22:25:39 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.65.90])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 04B5519560A2;
+	Tue, 19 May 2026 22:25:36 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH] arm64/entry: Don't disable preemption in debug_exception_enter() with RT kernel
+Date: Tue, 19 May 2026 18:25:24 -0400
+Message-ID: <20260519222524.886454-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:1f06:b0:694:8f3a:3f3d with SMTP id
- 006d021491bc7-69c94375246mr11683344eaf.35.1779173917016; Mon, 18 May 2026
- 23:58:37 -0700 (PDT)
-Date: Mon, 18 May 2026 23:58:37 -0700
-In-Reply-To: <20260519012754.240804-1-leobras.c@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a0c0a1d.050a0220.154e79.0003.GAE@google.com>
-Subject: [syzbot ci] Re: Introduce Per-CPU Work helpers (was QPW)
-From: syzbot ci <syzbot+ci1f8633521f2ac20d@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
-	bhe@redhat.com, boqun@kernel.org, bp@alien8.de, brauner@kernel.org, 
-	chrisl@kernel.org, cl@gentwo.org, corbet@lwn.net, coxu@redhat.com, 
-	dapeng1.mi@linux.intel.com, david@kernel.org, dianders@chromium.org, 
-	ebiggers@kernel.org, elver@google.com, feng.tang@linux.alibaba.com, 
-	frederic@kernel.org, gary@garyguo.net, hannes@cmpxchg.org, hao.li@linux.dev, 
-	harry@kernel.org, jackmanb@google.com, jannh@google.com, kasong@tencent.com, 
-	kees@kernel.org, kuba@kernel.org, leobras.c@gmail.com, liam@infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-rt-devel@lists.linux.dev, lirongqing@baidu.com, ljs@kernel.org, 
-	longman@redhat.com, masahiroy@kernel.org, mhocko@suse.com, mingo@redhat.com, 
-	mtosatti@redhat.com, nathan@kernel.org, nphamcs@gmail.com, nsc@kernel.org, 
-	ojeda@kernel.org, pasha.tatashin@soleen.com, paulmck@kernel.org, 
-	peterz@infradead.org, pfalcato@suse.de, qi.zheng@linux.dev, 
-	rdunlap@infradead.org
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: H5A2C7TrAMM97HV5RNCmIPQY-kudhYI8SWHDor5eGrk_1779229540
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-syzbot ci has tested the following series
+Commit d8bb6718c4db ("arm64: Make debug exception handlers visible from
+RCU") introduces debug_exception_enter() and debug_exception_exit()
+where preemption is explicitly disabled. With a PREEMPT_RT debug kernel,
+the following bug report can happen.
 
-[v4] Introduce Per-CPU Work helpers (was QPW)
-https://lore.kernel.org/all/20260519012754.240804-1-leobras.c@gmail.com
-* [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush work
-* [PATCH v4 2/4] mm/swap: move bh draining into a separate workqueue
-* [PATCH v4 3/4] swap: apply new pw_queue_on() interface
-* [PATCH v4 4/4] slub: apply new pw_queue_on() interface
+  BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
+  in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 15255, name: gdb_app
+  preempt_count: 1, expected: 0
+  RCU nest depth: 0, expected: 0
+  1 lock held by gdb_app/15255:
+  #0: ffff10007f41b7d8 (&sighand->siglock){..}-{3:3}, at: force_sig_info_to_task+0x34/0x130
+  Preemption disabled at:
+  [<ffff800080081ea8>] debug_exception_enter+0x18/0x70
+    :
+  Call trace:
+  dump_backtrace+0xac/0x130
+  show_stack+0x1c/0x24
+  dump_stack_lvl+0xa0/0xe0
+  dump_stack+0x14/0x2c
+  __might_resched+0x178/0x230
+  rt_spin_lock+0x58/0x120
+  force_sig_info_to_task+0x34/0x130
+  force_sig_fault+0x58/0x80
+  arm64_force_sig_fault+0x44/0x70
+  send_user_sigtrap+0x5c/0xa0
+  brk_handler+0x38/0x5c
+  do_debug_exception+0x78/0x110
+  el0_dbg+0x50/0x1e0
+  el0t_64_sync_handler+0x114/0x150
+  el0t_64_sync+0x17c/0x180
 
-and found the following issue:
-WARNING in __pcs_replace_empty_main
+Fix that by blocking the preempt_disable()/preempt_enable_no_resched()
+calls when CONFIG_PREEMPT_RT is enabled.
 
-Full report is available here:
-https://ci.syzbot.org/series/804f81bd-77b4-490e-bd57-6345ad2aa923
-
-***
-
-WARNING in __pcs_replace_empty_main
-
-tree:      drm-next
-URL:       https://gitlab.freedesktop.org/drm/kernel.git
-base:      5200f5f493f79f14bbdc349e402a40dfb32f23c8
-arch:      amd64
-compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp=
-1~20251221153213.50), Debian LLD 21.1.8
-config:    https://ci.syzbot.org/builds/3ea80958-13bd-49da-9c64-6deb788113f=
-8/config
-
-clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_=
-idle_ns: 19112604462750000 ns
-Zone ranges:
-  DMA      [mem 0x0000000000001000-0x0000000000ffffff]
-  DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
-  Normal   [mem 0x0000000100000000-0x000000023fffffff]
-  Device   empty
-Movable zone start for each node
-Early memory node ranges
-  node   0: [mem 0x0000000000001000-0x000000000009efff]
-  node   0: [mem 0x0000000000100000-0x000000007ffdefff]
-  node   0: [mem 0x0000000100000000-0x0000000160000fff]
-  node   1: [mem 0x0000000160001000-0x000000023fffffff]
-Initmem setup node 0 [mem 0x0000000000001000-0x0000000160000fff]
-Initmem setup node 1 [mem 0x0000000160001000-0x000000023fffffff]
-On node 0, zone DMA: 1 pages in unavailable ranges
-On node 0, zone DMA: 97 pages in unavailable ranges
-On node 0, zone Normal: 33 pages in unavailable ranges
-setup_percpu: NR_CPUS:8 nr_cpumask_bits:2 nr_cpu_ids:2 nr_node_ids:2
-percpu: Embedded 71 pages/cpu s250632 r8192 d31992 u2097152
-kvm-guest: PV spinlocks disabled, no host support
-Kernel command line: earlyprintk=3Dserial net.ifnames=3D0 sysctl.kernel.hun=
-g_task_all_cpu_backtrace=3D1 ima_policy=3Dtcb nf-conntrack-ftp.ports=3D2000=
-0 nf-conntrack-tftp.ports=3D20000 nf-conntrack-sip.ports=3D20000 nf-conntra=
-ck-irc.ports=3D20000 nf-conntrack-sane.ports=3D20000 binder.debug_mask=3D0 =
-rcupdate.rcu_expedited=3D1 rcupdate.rcu_cpu_stall_cputime=3D1 no_hash_point=
-ers page_owner=3Don sysctl.vm.nr_hugepages=3D4 sysctl.vm.nr_overcommit_huge=
-pages=3D4 secretmem.enable=3D1 sysctl.max_rcu_stall_to_panic=3D1 msr.allow_=
-writes=3Doff coredump_filter=3D0xffff root=3D/dev/sda console=3DttyS0 vsysc=
-all=3Dnative numa=3Dfake=3D2 kvm-intel.nested=3D1 spec_store_bypass_disable=
-=3Dprctl nopcid vivid.n_devs=3D64 vivid.multiplanar=3D1,2,1,2,1,2,1,2,1,2,1=
-,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,=
-1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 netrom.nr_ndevs=3D32 rose.rose_ndevs=3D32 s=
-mp.csd_lock_timeout=3D100000 watchdog_thresh=3D55 workqueue.watchdog_thresh=
-=3D140 sysctl.net.core.netdev_unregister_timeout_secs=3D140 dummy_hcd.num=
-=3D32 max_loop=3D32 nbds_max=3D32 \
-Kernel command line: comedi.comedi_num_legacy_minors=3D4 panic_on_warn=3D1 =
-root=3D/dev/sda console=3DttyS0 root=3D/dev/sda1
-Unknown kernel command line parameters "nbds_max=3D32", will be passed to u=
-ser space.
-printk: log buffer data + meta data: 262144 + 917504 =3D 1179648 bytes
-software IO TLB: area num 2.
-Fallback order for Node 0: 0 1=20
-Fallback order for Node 1: 1 0=20
-Built 2 zonelists, mobility grouping on.  Total pages: 1834877
-Policy zone: Normal
-mem auto-init: stack:all(zero), heap alloc:on, heap free:off
-stackdepot: allocating hash table via alloc_large_system_hash
-stackdepot hash table entries: 1048576 (order: 12, 16777216 bytes, linear)
-stackdepot: allocating space for 8192 stack pools via memblock
-**********************************************************
-**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-**                                                      **
-** This system shows unhashed kernel memory addresses   **
-** via the console, logs, and other interfaces. This    **
-** might reduce the security of your system.            **
-**                                                      **
-** If you see this message and you are not debugging    **
-** the kernel, report this immediately to your system   **
-** administrator!                                       **
-**                                                      **
-** Use hash_pointers=3Dalways to force this mode off      **
-**                                                      **
-**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
-**********************************************************
-------------[ cut here ]------------
-debug_locks && !(lock_is_held(&(&s->cpu_sheaves->lock)->dep_map) !=3D 0)
-WARNING: mm/slub.c:4601 at __pcs_replace_empty_main+0x51b/0x6e0, CPU#0: swa=
-pper/0
-Modules linked in:
-CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted syzkaller #0 PREEMPT(undef)=
-=20
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16=
-.2-1 04/01/2014
-RIP: 0010:__pcs_replace_empty_main+0x51b/0x6e0
-Code: 48 85 f6 74 15 4c 89 ff 48 89 c6 e8 af 5e ff ff 4d 89 74 24 38 e9 36 =
-fc ff ff 49 89 44 24 40 4d 89 74 24 38 e9 27 fc ff ff 90 <0f> 0b 90 83 7b 2=
-c 00 0f 85 23 fb ff ff 48 8b 1b e8 20 cd 82 09 41
-RSP: 0000:ffffffff8e607d58 EFLAGS: 00010046
-RAX: 0000000000000000 RBX: ffffffff91bb8398 RCX: 0000000000000002
-RDX: 0000000000000cc0 RSI: ffffffff8e21ec94 RDI: ffffffff8c28b160
-RBP: 0000000000000cc0 R08: 0000000000005e00 R09: 00000000477ac845
-R10: 0000000047d13f7f R11: 000000002fa01ecd R12: ffff88812103f308
-R13: 0000000000000000 R14: ffffffff91bb8398 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff88818dc8a000(0000) knlGS:000000000000000=
-0
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88823ffff000 CR3: 000000000e74a000 CR4: 00000000000000b0
-Call Trace:
- <TASK>
- kmem_cache_alloc_node_noprof+0x441/0x690
- do_kmem_cache_create+0x172/0x620
- create_boot_cache+0xbf/0x120
- kmem_cache_init+0x11a/0x1e0
- mm_core_init+0x7e/0xb0
- start_kernel+0x15a/0x3e0
- x86_64_start_reservations+0x24/0x30
- x86_64_start_kernel+0x143/0x1c0
- common_startup_64+0x13e/0x147
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
+Signed-off-by: Waiman Long <longman@redhat.com>
 ---
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+ arch/arm64/kernel/entry-common.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-To test a patch for this bug, please reply with `#syz test`
-(should be on a separate line).
+diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
+index c7a23f7c2212..191441b22b7c 100644
+--- a/arch/arm64/kernel/entry-common.c
++++ b/arch/arm64/kernel/entry-common.c
+@@ -290,15 +290,17 @@ static __always_inline void fpsimd_syscall_exit(void)
+ }
+ 
+ /*
+- * In debug exception context, we explicitly disable preemption despite
+- * having interrupts disabled.
++ * In debug exception context, we explicitly disable preemption except for
++ * PREEMPT_RT kernel as rt_spin_lock() can be called.
++ *
+  * This serves two purposes: it makes it much less likely that we would
+  * accidentally schedule in exception context and it will force a warning
+  * if we somehow manage to schedule by accident.
+  */
+ static void debug_exception_enter(struct pt_regs *regs)
+ {
+-	preempt_disable();
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		preempt_disable();
+ 
+ 	/* This code is a bit fragile.  Test it. */
+ 	RCU_LOCKDEP_WARN(!rcu_is_watching(), "exception_enter didn't work");
+@@ -307,7 +309,8 @@ NOKPROBE_SYMBOL(debug_exception_enter);
+ 
+ static void debug_exception_exit(struct pt_regs *regs)
+ {
+-	preempt_enable_no_resched();
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		preempt_enable_no_resched();
+ }
+ NOKPROBE_SYMBOL(debug_exception_exit);
+ 
+-- 
+2.54.0
 
-The patch should be attached to the email.
-Note: arguments like custom git repos and branches are not supported.
