@@ -1,1196 +1,214 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565392E2DDD
-	for <linux-rt-devel@lists.linux.dev>; Tue, 19 May 2026 01:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399393ACEF0
+	for <linux-rt-devel@lists.linux.dev>; Tue, 19 May 2026 06:58:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779154089; cv=none; b=jq5vBljkA/IsPtKKHF1ZFlJ3pQprtDw3lcPWhmrE7WLFw5Swk0GAcDJ38TRYtPokfKLBAfQci8F02rjL7nEOFDBjL2Rf4yVSrakFp+8WMLZ8XyaogldyrG7f/7zhhDX1NdCDO0K12wg7v+ImNlbEGfwiauX+9vjnQs+h2UkRqJ8=
+	t=1779173919; cv=none; b=Q56fSh8/tqQWBK5CVVRRtTrzpD7ZudpiBADp1+7oLvUmktkeTgFLCclpJsH+1xwWjcocdkyO22tN13Xqf5dSjJBm+Ahc5wW+RPFZP9U/RVIACEbTGQTxyIm2VG3tunXuOIyHv131at0IQtDWpqpX9Y05pi+8fxRlo4UGYRb+cCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779154089; c=relaxed/simple;
-	bh=8q9feMK42IfvEu2tWg1UBCdmj8KxKXE5X0orIY01H4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F9jfekHSXJwrezRQ1ys1Sov2gL6pBIWHVMcSR/8ySJ/ecAwc7yo9ucNSGySzTYcmEWFnW0By44W7QOed+8dTEiBtf+SIp96J8cLszw8299uT0foIWf+8889G7HlWf2l6w9z/o89apJgdNOYJExg3RSywRD72nLNeI/nMcspw2oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ejX6PVgl; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ejX6PVgl"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45297094718so2290585f8f.3
-        for <linux-rt-devel@lists.linux.dev>; Mon, 18 May 2026 18:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779154085; x=1779758885; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mx0oFUKOV8XCrLOMX8VahRqZqhy0/sjUBJqBWDg1Dmg=;
-        b=ejX6PVgl+T0MqT/xHfG43JQaUdOGiFcAAQgd6aBbB52OPwv3EF5anS+8TnF9lFU4Ua
-         0E2oa5vcOAE1XbAFGVy6HgpnGFRlEkElFgrAEroLZaeO1UvZDLB/3bU2iCd2TT1V0OZD
-         01vIGaT4o9ImBx8vx4EI9CmB8wDyInquyquxe1GQwSFE/6TcZLGytBrKHS0eP5hP4+NW
-         RJ3Nl5oN26Gai+2HinQXnd9JvjRlgm4cEenKzXneS2zxfTVYbcHzcTr/zJ9hnN4uoOHV
-         nRBFRNQoe8sxZ+cNxkqcaJq1UP8o70RhAPDpoV3WIpXyJNLu2P1F0sr1ssHRzjrQF2Mn
-         qglg==
+	s=arc-20240116; t=1779173919; c=relaxed/simple;
+	bh=to/rK14F4VwRyIxQvXlYUYpd0yFzAgR3xrJ7ChL+xq0=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=qnFhcFUns5FGzi/CMeAddKQyTaYxaIix2JKkobxTLkRXlubDRwqHS45jFkcNvF+3yWbtB3P8+wjp/Od563BWxn9Mp19+TYW3ScUO2lRA46HT7Kj4bnR0ATyfJswcD/MSg8ZNL4dtMqJpqf2ufyyqOZ9eRKreWkP7kcoRfVL82sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-439f1d2d2cdso7057486fac.3
+        for <linux-rt-devel@lists.linux.dev>; Mon, 18 May 2026 23:58:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779154085; x=1779758885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Mx0oFUKOV8XCrLOMX8VahRqZqhy0/sjUBJqBWDg1Dmg=;
-        b=qC8y6lN2a5uPXXLrLQc2JvM1gPzkjweozAYV7phGs+FKlmJM3NXy8/do72O0Qb6exh
-         eZRyyAH+1RT/UmysIvO4KJEIYh7Hco+/w/nLAqFFMu/TUm39juLm6ElhxbstcrAZryKB
-         6er716z9+8Esb+ZgbvYAb+BsfmT8RB5q88ibqWL/kyzgVEoQwPe6vkOP5s6xrQoADMQ4
-         dgKFeO4HJ16kiaz83Ns+hj/a4/Uz8MLwWBkhuOgHN0HHrnXRaegIy0AwMXiLG1v66BSx
-         /vwZD1cDbdk9W3EEeWAB3SY0VX1acVe1zloHO7wDr9Br5vfeHe+UG/VHLICBtVZsntFK
-         1nFw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Jx9d137/bi7kxGgZ6H/tAg445N7iPlcaBDQ1SNiMGXMasduCWvAYQ2wURHrPi3SO4TUd/LCBxuUKoqTdQtA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywd1GFvDf9WdA8ibKbPcF550ZKylXsfX5hoBWqMdE1NwNxeIi7e
-	kUDHBHdWJpQMguiUG1UXceLVBIsu5kPFkd4Z7vdcxeF/jO0a9MCnRaqS
-X-Gm-Gg: Acq92OGW1EhDID+hjyCT2t3uPxJzsBozRJgkIdJ/m5RHd2Yk8idMulBWoWEuHAGUGTs
-	8L5hQs5J+C2bFHWBTf6rXgVd82iMvOsvFRmypwHNqN3uL3CV8oVf/C6zwMN4oGihjnBdOIVqWfb
-	5qrv6kx1F0V1XG5h3HEVQ6yicHLex4vdeSKZPevm5B/FbN2pXNp5nHJJXeZx22C3EteJ9jvli64
-	FNMQKCwSlwIIiLeYAze5VbXk3u0i9n/RWBqvn5HLOVoQqVxyAidIlcBrmZ1PrTTEW/gW3p5OCvw
-	d9Ehi1D+MlKZevSo9/8arBaGQsmvUQ7g0m8A89njn3tH02O/V0YlV4gYp5J2sx2CsuEHrxT19Tf
-	dMrl2vE9OQZHuMZOWtCwII3stzP9ICkeYv7PLtn+Msij10X3e00Gu1TBVVmFnvLT1KxoULOfKJD
-	K5xniO2NnTID58hSCEUEGyFAWqeFKP+g==
-X-Received: by 2002:a05:6000:401e:b0:449:c5e2:a8b7 with SMTP id ffacd0b85a97d-45e5c59ec1cmr26953205f8f.30.1779154084539;
-        Mon, 18 May 2026 18:28:04 -0700 (PDT)
-Received: from WindFlash.powerhub ([2a0a:ef40:f83:8501:800:cd4:5e2:9556])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9ed2f738sm40548683f8f.16.2026.05.18.18.28.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 18:28:03 -0700 (PDT)
-From: Leonardo Bras <leobras.c@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Leonardo Bras <leobras.c@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Harry Yoo <harry@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	=?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Gary Guo <gary@garyguo.net>,
-	Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Coiby Xu <coxu@redhat.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-rt-devel@lists.linux.dev,
-	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
-Date: Mon, 18 May 2026 22:27:50 -0300
-Message-ID: <20260519012754.240804-5-leobras.c@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260519012754.240804-1-leobras.c@gmail.com>
-References: <20260519012754.240804-1-leobras.c@gmail.com>
+        d=1e100.net; s=20251104; t=1779173917; x=1779778717;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:in-reply-to
+         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZFrB8cafc/UDPLZPmOmG8rNv10MH4VFhRr3sj9GksQk=;
+        b=q4i2/0f7gTT3XgrfFVWV/30DdtL4RaO4NWo4oxjeD+ZkapnUodImPBlO421ThAcdHX
+         E39nrozYmZ8/QWxLmlF9FhnqOMFW4djOepwW2QkHYPCygyfBwaDTjCsEv30vTKAAspIy
+         0WGc8000skJT+2IfxC0YusbdLMPoAtKGvIJtysNocFS0WnxP8uA7SsbuIIqOa/YljyIM
+         KfIKQPkITza2dKp+4n/iKnhqqkp5v8aflr6h4svuAM+BAE7vr+R26M5gfqwSLw8e4uvM
+         CBiGMkQtl83gMGhfgm8zpVLRKRSKj8FhOVjw3hQsbltBpMNPTcG08lCri6mMM/gf9z0H
+         T6hg==
+X-Forwarded-Encrypted: i=1; AFNElJ8r4QxDCoFQ5jXp4OBY8IMS1RglGPq06w1ayup7cC51RszqwQRSpEPSmzzy6oL5nFTQOieeYZNmAFF+DvwiJg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4jbzUdAH290iYABf0MSNdFN4CaVq11nSfPjQM7fVTmtHuPaCf
+	fwRVdcRRxnnD2dW2iMpp0hIM52zeGUFc0RsJYYP32rGw+Hl9tme9AvMZ+z5PGDCJq+NV0JlWmg9
+	+KW8b4tfgYYTfViPeGRjTMywzgVFnWXxmkf8xWZBdRMShTqTDWIV7YmUajFU=
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=29095; i=leobras.c@gmail.com; h=from:subject; bh=8q9feMK42IfvEu2tWg1UBCdmj8KxKXE5X0orIY01H4k=; b=owGbwMvMwCX2pizjszvTwvWMp9WSGLK494R/udDBw8uy/TbzSS6JFZ0Mb99Gnn3dxnln8aP/W SFHImped5SyMIhxMciKKbLIPpq/iuf7lIwjV34sgJnDygQyhIGLUwAmwq7OyHDJu2QN67bJX6NK hJ2mJd3Ys5BpwvwkD81a/c6wF48FOvMYGb5+dqwVkmau9nJqYI91quYvSnU/Maf5b0lBm+oE7+/ rWAE=
-X-Developer-Key: i=leobras.c@gmail.com; a=openpgp; fpr=36E6C95AE0F111CC5B6F4D2E688C33F8A0C5B0C5
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:1f06:b0:694:8f3a:3f3d with SMTP id
+ 006d021491bc7-69c94375246mr11683344eaf.35.1779173917016; Mon, 18 May 2026
+ 23:58:37 -0700 (PDT)
+Date: Mon, 18 May 2026 23:58:37 -0700
+In-Reply-To: <20260519012754.240804-1-leobras.c@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a0c0a1d.050a0220.154e79.0003.GAE@google.com>
+Subject: [syzbot ci] Re: Introduce Per-CPU Work helpers (was QPW)
+From: syzbot ci <syzbot+ci1f8633521f2ac20d@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, axelrasmussen@google.com, baohua@kernel.org, 
+	bhe@redhat.com, boqun@kernel.org, bp@alien8.de, brauner@kernel.org, 
+	chrisl@kernel.org, cl@gentwo.org, corbet@lwn.net, coxu@redhat.com, 
+	dapeng1.mi@linux.intel.com, david@kernel.org, dianders@chromium.org, 
+	ebiggers@kernel.org, elver@google.com, feng.tang@linux.alibaba.com, 
+	frederic@kernel.org, gary@garyguo.net, hannes@cmpxchg.org, hao.li@linux.dev, 
+	harry@kernel.org, jackmanb@google.com, jannh@google.com, kasong@tencent.com, 
+	kees@kernel.org, kuba@kernel.org, leobras.c@gmail.com, liam@infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, lirongqing@baidu.com, ljs@kernel.org, 
+	longman@redhat.com, masahiroy@kernel.org, mhocko@suse.com, mingo@redhat.com, 
+	mtosatti@redhat.com, nathan@kernel.org, nphamcs@gmail.com, nsc@kernel.org, 
+	ojeda@kernel.org, pasha.tatashin@soleen.com, paulmck@kernel.org, 
+	peterz@infradead.org, pfalcato@suse.de, qi.zheng@linux.dev, 
+	rdunlap@infradead.org
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Make use of the new pw_{un,}lock*() and pw_queue_on() interface to improve
-performance & latency.
+syzbot ci has tested the following series
 
-For functions that may be scheduled in a different cpu, replace
-local_{un,}lock*() by pw_{un,}lock*(), and replace schedule_work_on() by
-pw_queue_on(). The same happens for flush_work() and pw_flush().
+[v4] Introduce Per-CPU Work helpers (was QPW)
+https://lore.kernel.org/all/20260519012754.240804-1-leobras.c@gmail.com
+* [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush work
+* [PATCH v4 2/4] mm/swap: move bh draining into a separate workqueue
+* [PATCH v4 3/4] swap: apply new pw_queue_on() interface
+* [PATCH v4 4/4] slub: apply new pw_queue_on() interface
 
-This change requires allocation of pw_structs instead of a work_structs,
-and changing parameters of a few functions to include the cpu parameter.
+and found the following issue:
+WARNING in __pcs_replace_empty_main
 
-This should bring no relevant performance impact on non-PWLOCKS kernels:
-For functions that may be scheduled in a different cpu, the local_*lock's
-this_cpu_ptr() becomes a per_cpu_ptr(smp_processor_id()).
+Full report is available here:
+https://ci.syzbot.org/series/804f81bd-77b4-490e-bd57-6345ad2aa923
 
-Signed-off-by: Leonardo Bras <leobras.c@gmail.com>
-Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
+***
+
+WARNING in __pcs_replace_empty_main
+
+tree:      drm-next
+URL:       https://gitlab.freedesktop.org/drm/kernel.git
+base:      5200f5f493f79f14bbdc349e402a40dfb32f23c8
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp=
+1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/3ea80958-13bd-49da-9c64-6deb788113f=
+8/config
+
+clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_=
+idle_ns: 19112604462750000 ns
+Zone ranges:
+  DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+  DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
+  Normal   [mem 0x0000000100000000-0x000000023fffffff]
+  Device   empty
+Movable zone start for each node
+Early memory node ranges
+  node   0: [mem 0x0000000000001000-0x000000000009efff]
+  node   0: [mem 0x0000000000100000-0x000000007ffdefff]
+  node   0: [mem 0x0000000100000000-0x0000000160000fff]
+  node   1: [mem 0x0000000160001000-0x000000023fffffff]
+Initmem setup node 0 [mem 0x0000000000001000-0x0000000160000fff]
+Initmem setup node 1 [mem 0x0000000160001000-0x000000023fffffff]
+On node 0, zone DMA: 1 pages in unavailable ranges
+On node 0, zone DMA: 97 pages in unavailable ranges
+On node 0, zone Normal: 33 pages in unavailable ranges
+setup_percpu: NR_CPUS:8 nr_cpumask_bits:2 nr_cpu_ids:2 nr_node_ids:2
+percpu: Embedded 71 pages/cpu s250632 r8192 d31992 u2097152
+kvm-guest: PV spinlocks disabled, no host support
+Kernel command line: earlyprintk=3Dserial net.ifnames=3D0 sysctl.kernel.hun=
+g_task_all_cpu_backtrace=3D1 ima_policy=3Dtcb nf-conntrack-ftp.ports=3D2000=
+0 nf-conntrack-tftp.ports=3D20000 nf-conntrack-sip.ports=3D20000 nf-conntra=
+ck-irc.ports=3D20000 nf-conntrack-sane.ports=3D20000 binder.debug_mask=3D0 =
+rcupdate.rcu_expedited=3D1 rcupdate.rcu_cpu_stall_cputime=3D1 no_hash_point=
+ers page_owner=3Don sysctl.vm.nr_hugepages=3D4 sysctl.vm.nr_overcommit_huge=
+pages=3D4 secretmem.enable=3D1 sysctl.max_rcu_stall_to_panic=3D1 msr.allow_=
+writes=3Doff coredump_filter=3D0xffff root=3D/dev/sda console=3DttyS0 vsysc=
+all=3Dnative numa=3Dfake=3D2 kvm-intel.nested=3D1 spec_store_bypass_disable=
+=3Dprctl nopcid vivid.n_devs=3D64 vivid.multiplanar=3D1,2,1,2,1,2,1,2,1,2,1=
+,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,=
+1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 netrom.nr_ndevs=3D32 rose.rose_ndevs=3D32 s=
+mp.csd_lock_timeout=3D100000 watchdog_thresh=3D55 workqueue.watchdog_thresh=
+=3D140 sysctl.net.core.netdev_unregister_timeout_secs=3D140 dummy_hcd.num=
+=3D32 max_loop=3D32 nbds_max=3D32 \
+Kernel command line: comedi.comedi_num_legacy_minors=3D4 panic_on_warn=3D1 =
+root=3D/dev/sda console=3DttyS0 root=3D/dev/sda1
+Unknown kernel command line parameters "nbds_max=3D32", will be passed to u=
+ser space.
+printk: log buffer data + meta data: 262144 + 917504 =3D 1179648 bytes
+software IO TLB: area num 2.
+Fallback order for Node 0: 0 1=20
+Fallback order for Node 1: 1 0=20
+Built 2 zonelists, mobility grouping on.  Total pages: 1834877
+Policy zone: Normal
+mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+stackdepot: allocating hash table via alloc_large_system_hash
+stackdepot hash table entries: 1048576 (order: 12, 16777216 bytes, linear)
+stackdepot: allocating space for 8192 stack pools via memblock
+**********************************************************
+**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+**                                                      **
+** This system shows unhashed kernel memory addresses   **
+** via the console, logs, and other interfaces. This    **
+** might reduce the security of your system.            **
+**                                                      **
+** If you see this message and you are not debugging    **
+** the kernel, report this immediately to your system   **
+** administrator!                                       **
+**                                                      **
+** Use hash_pointers=3Dalways to force this mode off      **
+**                                                      **
+**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **
+**********************************************************
+------------[ cut here ]------------
+debug_locks && !(lock_is_held(&(&s->cpu_sheaves->lock)->dep_map) !=3D 0)
+WARNING: mm/slub.c:4601 at __pcs_replace_empty_main+0x51b/0x6e0, CPU#0: swa=
+pper/0
+Modules linked in:
+CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted syzkaller #0 PREEMPT(undef)=
+=20
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16=
+.2-1 04/01/2014
+RIP: 0010:__pcs_replace_empty_main+0x51b/0x6e0
+Code: 48 85 f6 74 15 4c 89 ff 48 89 c6 e8 af 5e ff ff 4d 89 74 24 38 e9 36 =
+fc ff ff 49 89 44 24 40 4d 89 74 24 38 e9 27 fc ff ff 90 <0f> 0b 90 83 7b 2=
+c 00 0f 85 23 fb ff ff 48 8b 1b e8 20 cd 82 09 41
+RSP: 0000:ffffffff8e607d58 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: ffffffff91bb8398 RCX: 0000000000000002
+RDX: 0000000000000cc0 RSI: ffffffff8e21ec94 RDI: ffffffff8c28b160
+RBP: 0000000000000cc0 R08: 0000000000005e00 R09: 00000000477ac845
+R10: 0000000047d13f7f R11: 000000002fa01ecd R12: ffff88812103f308
+R13: 0000000000000000 R14: ffffffff91bb8398 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88818dc8a000(0000) knlGS:000000000000000=
+0
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88823ffff000 CR3: 000000000e74a000 CR4: 00000000000000b0
+Call Trace:
+ <TASK>
+ kmem_cache_alloc_node_noprof+0x441/0x690
+ do_kmem_cache_create+0x172/0x620
+ create_boot_cache+0xbf/0x120
+ kmem_cache_init+0x11a/0x1e0
+ mm_core_init+0x7e/0xb0
+ start_kernel+0x15a/0x3e0
+ x86_64_start_reservations+0x24/0x30
+ x86_64_start_kernel+0x143/0x1c0
+ common_startup_64+0x13e/0x147
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
- mm/slub.c | 142 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 72 insertions(+), 70 deletions(-)
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/mm/slub.c b/mm/slub.c
-index 8f9004536729..a154d20e78f7 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -43,20 +43,21 @@
- #include <linux/prefetch.h>
- #include <linux/memcontrol.h>
- #include <linux/random.h>
- #include <linux/prandom.h>
- #include <kunit/test.h>
- #include <kunit/test-bug.h>
- #include <linux/sort.h>
- #include <linux/irq_work.h>
- #include <linux/kprobes.h>
- #include <linux/debugfs.h>
-+#include <linux/pwlocks.h>
- #include <trace/events/kmem.h>
- 
- #include "internal.h"
- 
- /*
-  * Lock order:
-  *   0.  cpu_hotplug_lock
-  *   1.  slab_mutex (Global Mutex)
-  *   2a. kmem_cache->cpu_sheaves->lock (Local trylock)
-  *   2b. barn->lock (Spinlock)
-@@ -122,21 +123,21 @@
-  *   (Note that the total number of slabs is an atomic value that may be
-  *   modified without taking the list lock).
-  *
-  *   The list_lock is a centralized lock and thus we avoid taking it as
-  *   much as possible. As long as SLUB does not have to handle partial
-  *   slabs, operations can continue without any centralized lock.
-  *
-  *   For debug caches, all allocations are forced to go through a list_lock
-  *   protected region to serialize against concurrent validation.
-  *
-- *   cpu_sheaves->lock (local_trylock)
-+ *   cpu_sheaves->lock (pw_trylock)
-  *
-  *   This lock protects fastpath operations on the percpu sheaves. On !RT it
-  *   only disables preemption and does no atomic operations. As long as the main
-  *   or spare sheaf can handle the allocation or free, there is no other
-  *   overhead.
-  *
-  *   barn->lock (spinlock)
-  *
-  *   This lock protects the operations on per-NUMA-node barn. It can quickly
-  *   serve an empty or full sheaf if available, and avoid more expensive refill
-@@ -150,21 +151,21 @@
-  *   cmpxchg_double this is done by a lockless update of slab's freelist and
-  *   counters, otherwise slab_lock is taken. This only needs to take the
-  *   list_lock if it's a first free to a full slab, or when a slab becomes empty
-  *   after the free.
-  *
-  *   irq, preemption, migration considerations
-  *
-  *   Interrupts are disabled as part of list_lock or barn lock operations, or
-  *   around the slab_lock operation, in order to make the slab allocator safe
-  *   to use in the context of an irq.
-- *   Preemption is disabled as part of local_trylock operations.
-+ *   Preemption is disabled as part of pw_trylock operations.
-  *   kmalloc_nolock() and kfree_nolock() are safe in NMI context but see
-  *   their limitations.
-  *
-  * SLUB assigns two object arrays called sheaves for caching allocations and
-  * frees on each cpu, with a NUMA node shared barn for balancing between cpus.
-  * Allocations and frees are primarily served from these sheaves.
-  *
-  * Slabs with free elements are kept on a partial list and during regular
-  * operations no list for full slabs is used. If an object in a full slab is
-  * freed then the slab will show up again on the partial lists.
-@@ -411,21 +412,21 @@ struct slab_sheaf {
- 			bool pfmemalloc;
- 		};
- 	};
- 	struct kmem_cache *cache;
- 	unsigned int size;
- 	int node; /* only used for rcu_sheaf */
- 	void *objects[];
- };
- 
- struct slub_percpu_sheaves {
--	local_trylock_t lock;
-+	pw_trylock_t lock;
- 	struct slab_sheaf *main; /* never NULL when unlocked */
- 	struct slab_sheaf *spare; /* empty or full, may be NULL */
- 	struct slab_sheaf *rcu_free; /* for batching kfree_rcu() */
- };
- 
- /*
-  * The slab lists for all objects.
-  */
- struct kmem_cache_node {
- 	spinlock_t list_lock;
-@@ -477,21 +478,21 @@ static nodemask_t slab_nodes;
-  * Corresponds to N_ONLINE nodes.
-  */
- static nodemask_t slab_barn_nodes;
- 
- /*
-  * Workqueue used for flushing cpu and kfree_rcu sheaves.
-  */
- static struct workqueue_struct *flushwq;
- 
- struct slub_flush_work {
--	struct work_struct work;
-+	struct pw_struct pw;
- 	struct kmem_cache *s;
- 	bool skip;
- };
- 
- static DEFINE_MUTEX(flush_lock);
- static DEFINE_PER_CPU(struct slub_flush_work, slub_flush);
- 
- /********************************************************************
-  * 			Core slab cache functions
-  *******************************************************************/
-@@ -2838,74 +2839,74 @@ static void __kmem_cache_free_bulk(struct kmem_cache *s, size_t size, void **p);
-  * Free all objects from the main sheaf. In order to perform
-  * __kmem_cache_free_bulk() outside of cpu_sheaves->lock, work in batches where
-  * object pointers are moved to a on-stack array under the lock. To bound the
-  * stack usage, limit each batch to PCS_BATCH_MAX.
-  *
-  * Must be called with s->cpu_sheaves->lock locked, returns with the lock
-  * unlocked.
-  *
-  * Returns how many objects are remaining to be flushed
-  */
--static unsigned int __sheaf_flush_main_batch(struct kmem_cache *s)
-+static unsigned int __sheaf_flush_main_batch(struct kmem_cache *s, int cpu)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	unsigned int batch, remaining;
- 	void *objects[PCS_BATCH_MAX];
- 	struct slab_sheaf *sheaf;
- 
--	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
--
--	pcs = this_cpu_ptr(s->cpu_sheaves);
-+	pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
- 	sheaf = pcs->main;
- 
- 	batch = min(PCS_BATCH_MAX, sheaf->size);
- 
- 	sheaf->size -= batch;
- 	memcpy(objects, sheaf->objects + sheaf->size, batch * sizeof(void *));
- 
- 	remaining = sheaf->size;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock(&s->cpu_sheaves->lock, cpu);
- 
- 	__kmem_cache_free_bulk(s, batch, &objects[0]);
- 
- 	stat_add(s, SHEAF_FLUSH, batch);
- 
- 	return remaining;
- }
- 
--static void sheaf_flush_main(struct kmem_cache *s)
-+static void sheaf_flush_main(struct kmem_cache *s, int cpu)
- {
- 	unsigned int remaining;
- 
- 	do {
--		local_lock(&s->cpu_sheaves->lock);
-+		pw_lock(&s->cpu_sheaves->lock, cpu);
- 
--		remaining = __sheaf_flush_main_batch(s);
-+		remaining = __sheaf_flush_main_batch(s, cpu);
- 
- 	} while (remaining);
- }
- 
- /*
-  * Returns true if the main sheaf was at least partially flushed.
-  */
- static bool sheaf_try_flush_main(struct kmem_cache *s)
- {
- 	unsigned int remaining;
- 	bool ret = false;
- 
- 	do {
--		if (!local_trylock(&s->cpu_sheaves->lock))
-+		if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 			return ret;
- 
- 		ret = true;
--		remaining = __sheaf_flush_main_batch(s);
-+
-+		pw_lockdep_assert_held(&s->cpu_sheaves->lock);
-+		remaining = __sheaf_flush_main_batch(s, smp_processor_id());
- 
- 	} while (remaining);
- 
- 	return ret;
- }
- 
- /*
-  * Free all objects from a sheaf that's unused, i.e. not linked to any
-  * cpu_sheaves, so we need no locking and batching. The locking is also not
-  * necessary when flushing cpu's sheaves (both spare and main) during cpu
-@@ -2968,45 +2969,45 @@ static void rcu_free_sheaf_nobarn(struct rcu_head *head)
- 
- /*
-  * Caller needs to make sure migration is disabled in order to fully flush
-  * single cpu's sheaves
-  *
-  * must not be called from an irq
-  *
-  * flushing operations are rare so let's keep it simple and flush to slabs
-  * directly, skipping the barn
-  */
--static void pcs_flush_all(struct kmem_cache *s)
-+static void pcs_flush_all(struct kmem_cache *s, int cpu)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	struct slab_sheaf *spare, *rcu_free;
- 
--	local_lock(&s->cpu_sheaves->lock);
--	pcs = this_cpu_ptr(s->cpu_sheaves);
-+	pw_lock(&s->cpu_sheaves->lock, cpu);
-+	pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
- 
- 	spare = pcs->spare;
- 	pcs->spare = NULL;
- 
- 	rcu_free = pcs->rcu_free;
- 	pcs->rcu_free = NULL;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock(&s->cpu_sheaves->lock, cpu);
- 
- 	if (spare) {
- 		sheaf_flush_unused(s, spare);
- 		free_empty_sheaf(s, spare);
- 	}
- 
- 	if (rcu_free)
- 		call_rcu(&rcu_free->rcu_head, rcu_free_sheaf_nobarn);
- 
--	sheaf_flush_main(s);
-+	sheaf_flush_main(s, cpu);
- }
- 
- static void __pcs_flush_all_cpu(struct kmem_cache *s, unsigned int cpu)
- {
- 	struct slub_percpu_sheaves *pcs;
- 
- 	pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
- 
- 	/* The cpu is not executing anymore so we don't need pcs->lock */
- 	sheaf_flush_unused(s, pcs->main);
-@@ -3942,83 +3943,84 @@ static bool has_pcs_used(int cpu, struct kmem_cache *s)
- 
- /*
-  * Flush percpu sheaves
-  *
-  * Called from CPU work handler with migration disabled.
-  */
- static void flush_cpu_sheaves(struct work_struct *w)
- {
- 	struct kmem_cache *s;
- 	struct slub_flush_work *sfw;
-+	int cpu = pw_get_cpu(w);
- 
--	sfw = container_of(w, struct slub_flush_work, work);
--
-+	sfw = &per_cpu(slub_flush, cpu);
- 	s = sfw->s;
- 
- 	if (cache_has_sheaves(s))
--		pcs_flush_all(s);
-+		pcs_flush_all(s, cpu);
- }
- 
- static void flush_all_cpus_locked(struct kmem_cache *s)
- {
- 	struct slub_flush_work *sfw;
- 	unsigned int cpu;
- 
- 	lockdep_assert_cpus_held();
- 	mutex_lock(&flush_lock);
- 
- 	for_each_online_cpu(cpu) {
- 		sfw = &per_cpu(slub_flush, cpu);
- 		if (!has_pcs_used(cpu, s)) {
- 			sfw->skip = true;
- 			continue;
- 		}
--		INIT_WORK(&sfw->work, flush_cpu_sheaves);
-+		INIT_PW(&sfw->pw, flush_cpu_sheaves, cpu);
- 		sfw->skip = false;
- 		sfw->s = s;
--		queue_work_on(cpu, flushwq, &sfw->work);
-+		pw_queue_on(cpu, flushwq, &sfw->pw);
- 	}
- 
- 	for_each_online_cpu(cpu) {
- 		sfw = &per_cpu(slub_flush, cpu);
- 		if (sfw->skip)
- 			continue;
--		flush_work(&sfw->work);
-+		pw_flush(&sfw->pw);
- 	}
- 
- 	mutex_unlock(&flush_lock);
- }
- 
- static void flush_all(struct kmem_cache *s)
- {
- 	cpus_read_lock();
- 	flush_all_cpus_locked(s);
- 	cpus_read_unlock();
- }
- 
- static void flush_rcu_sheaf(struct work_struct *w)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	struct slab_sheaf *rcu_free;
- 	struct slub_flush_work *sfw;
- 	struct kmem_cache *s;
-+	int cpu = pw_get_cpu(w);
- 
--	sfw = container_of(w, struct slub_flush_work, work);
-+	sfw = &per_cpu(slub_flush, cpu);
- 	s = sfw->s;
- 
--	local_lock(&s->cpu_sheaves->lock);
--	pcs = this_cpu_ptr(s->cpu_sheaves);
-+	pw_lock(&s->cpu_sheaves->lock, cpu);
-+	pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
- 
- 	rcu_free = pcs->rcu_free;
- 	pcs->rcu_free = NULL;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock(&s->cpu_sheaves->lock, cpu);
- 
- 	if (rcu_free)
- 		call_rcu(&rcu_free->rcu_head, rcu_free_sheaf_nobarn);
- }
- 
- 
- /* needed for kvfree_rcu_barrier() */
- void flush_rcu_sheaves_on_cache(struct kmem_cache *s)
- {
- 	struct slub_flush_work *sfw;
-@@ -4029,28 +4031,28 @@ void flush_rcu_sheaves_on_cache(struct kmem_cache *s)
- 	for_each_online_cpu(cpu) {
- 		sfw = &per_cpu(slub_flush, cpu);
- 
- 		/*
- 		 * we don't check if rcu_free sheaf exists - racing
- 		 * __kfree_rcu_sheaf() might have just removed it.
- 		 * by executing flush_rcu_sheaf() on the cpu we make
- 		 * sure the __kfree_rcu_sheaf() finished its call_rcu()
- 		 */
- 
--		INIT_WORK(&sfw->work, flush_rcu_sheaf);
-+		INIT_PW(&sfw->pw, flush_rcu_sheaf, cpu);
- 		sfw->s = s;
--		queue_work_on(cpu, flushwq, &sfw->work);
-+		pw_queue_on(cpu, flushwq, &sfw->pw);
- 	}
- 
- 	for_each_online_cpu(cpu) {
- 		sfw = &per_cpu(slub_flush, cpu);
--		flush_work(&sfw->work);
-+		pw_flush(&sfw->pw);
- 	}
- 
- 	mutex_unlock(&flush_lock);
- }
- 
- void flush_all_rcu_sheaves(void)
- {
- 	struct kmem_cache *s;
- 
- 	cpus_read_lock();
-@@ -4589,36 +4591,36 @@ bool slab_post_alloc_hook(struct kmem_cache *s, struct list_lru *lru,
-  * unlocked.
-  */
- static struct slub_percpu_sheaves *
- __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs, gfp_t gfp)
- {
- 	struct slab_sheaf *empty = NULL;
- 	struct slab_sheaf *full;
- 	struct node_barn *barn;
- 	bool allow_spin;
- 
--	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-+	pw_lockdep_assert_held(&s->cpu_sheaves->lock);
- 
- 	/* Bootstrap or debug cache, back off */
- 	if (unlikely(!cache_has_sheaves(s))) {
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 		return NULL;
- 	}
- 
- 	if (pcs->spare && pcs->spare->size > 0) {
- 		swap(pcs->main, pcs->spare);
- 		return pcs;
- 	}
- 
- 	barn = get_barn(s);
- 	if (!barn) {
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 		return NULL;
- 	}
- 
- 	allow_spin = gfpflags_allow_spinning(gfp);
- 
- 	full = barn_replace_empty_sheaf(barn, pcs->main, allow_spin);
- 
- 	if (full) {
- 		stat(s, BARN_GET);
- 		pcs->main = full;
-@@ -4629,21 +4631,21 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 
- 	if (allow_spin) {
- 		if (pcs->spare) {
- 			empty = pcs->spare;
- 			pcs->spare = NULL;
- 		} else {
- 			empty = barn_get_empty_sheaf(barn, true);
- 		}
- 	}
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 	pcs = NULL;
- 
- 	if (!allow_spin)
- 		return NULL;
- 
- 	if (!empty) {
- 		empty = alloc_empty_sheaf(s, gfp);
- 		if (!empty)
- 			return NULL;
- 	}
-@@ -4655,21 +4657,21 @@ __pcs_replace_empty_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 		 */
- 		sheaf_flush_unused(s, empty);
- 		free_empty_sheaf(s, empty);
- 
- 		return NULL;
- 	}
- 
- 	full = empty;
- 	empty = NULL;
- 
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		goto barn_put;
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	/*
- 	 * If we put any empty or full sheaf to the barn below, it's due to
- 	 * racing or being migrated to a different cpu. Breaching the barn's
- 	 * sheaf limits should be thus rare enough so just ignore them to
- 	 * simplify the recovery.
- 	 */
- 
-@@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
- 
- 	/*
- 	 * We assume the percpu sheaves contain only local objects although it's
- 	 * not completely guaranteed, so we verify later.
- 	 */
- 	if (unlikely(node_requested && node != numa_mem_id())) {
- 		stat(s, ALLOC_NODE_MISMATCH);
- 		return NULL;
- 	}
- 
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		return NULL;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (unlikely(pcs->main->size == 0)) {
- 		pcs = __pcs_replace_empty_main(s, pcs, gfp);
- 		if (unlikely(!pcs))
- 			return NULL;
- 	}
- 
- 	object = pcs->main->objects[pcs->main->size - 1];
- 
- 	if (unlikely(node_requested)) {
- 		/*
- 		 * Verify that the object was from the node we want. This could
- 		 * be false because of cpu migration during an unlocked part of
- 		 * the current allocation or previous freeing process.
- 		 */
- 		if (page_to_nid(virt_to_page(object)) != node) {
--			local_unlock(&s->cpu_sheaves->lock);
-+			pw_unlock_local(&s->cpu_sheaves->lock);
- 			stat(s, ALLOC_NODE_MISMATCH);
- 			return NULL;
- 		}
- 	}
- 
- 	pcs->main->size--;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	stat(s, ALLOC_FASTPATH);
- 
- 	return object;
- }
- 
- static __fastpath_inline
- unsigned int alloc_from_pcs_bulk(struct kmem_cache *s, gfp_t gfp, size_t size,
- 				 void **p)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	struct slab_sheaf *main;
- 	unsigned int allocated = 0;
- 	unsigned int batch;
- 
- next_batch:
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		return allocated;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (unlikely(pcs->main->size == 0)) {
- 
- 		struct slab_sheaf *full;
- 		struct node_barn *barn;
- 
- 		if (unlikely(!cache_has_sheaves(s))) {
--			local_unlock(&s->cpu_sheaves->lock);
-+			pw_unlock_local(&s->cpu_sheaves->lock);
- 			return allocated;
- 		}
- 
- 		if (pcs->spare && pcs->spare->size > 0) {
- 			swap(pcs->main, pcs->spare);
- 			goto do_alloc;
- 		}
- 
- 		barn = get_barn(s);
- 		if (!barn) {
--			local_unlock(&s->cpu_sheaves->lock);
-+			pw_unlock_local(&s->cpu_sheaves->lock);
- 			return allocated;
- 		}
- 
- 		full = barn_replace_empty_sheaf(barn, pcs->main,
- 						gfpflags_allow_spinning(gfp));
- 
- 		if (full) {
- 			stat(s, BARN_GET);
- 			pcs->main = full;
- 			goto do_alloc;
- 		}
- 
- 		stat(s, BARN_GET_FAIL);
- 
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 		/*
- 		 * Once full sheaves in barn are depleted, let the bulk
- 		 * allocation continue from slab pages, otherwise we would just
- 		 * be copying arrays of pointers twice.
- 		 */
- 		return allocated;
- 	}
- 
- do_alloc:
- 
- 	main = pcs->main;
- 	batch = min(size, main->size);
- 
- 	main->size -= batch;
- 	memcpy(p, main->objects + main->size, batch * sizeof(void *));
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	stat_add(s, ALLOC_FASTPATH, batch);
- 
- 	allocated += batch;
- 
- 	if (batch < size) {
- 		p += batch;
- 		size -= batch;
- 		goto next_batch;
- 	}
-@@ -5017,40 +5019,40 @@ kmem_cache_prefill_sheaf(struct kmem_cache *s, gfp_t gfp, unsigned int size)
- 					     &sheaf->objects[0])) {
- 			kfree(sheaf);
- 			return NULL;
- 		}
- 
- 		sheaf->size = size;
- 
- 		return sheaf;
- 	}
- 
--	local_lock(&s->cpu_sheaves->lock);
-+	pw_lock_local(&s->cpu_sheaves->lock);
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (pcs->spare) {
- 		sheaf = pcs->spare;
- 		pcs->spare = NULL;
- 		stat(s, SHEAF_PREFILL_FAST);
- 	} else {
- 		barn = get_barn(s);
- 
- 		stat(s, SHEAF_PREFILL_SLOW);
- 		if (barn)
- 			sheaf = barn_get_full_or_empty_sheaf(barn);
- 		if (sheaf && sheaf->size)
- 			stat(s, BARN_GET);
- 		else
- 			stat(s, BARN_GET_FAIL);
- 	}
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 
- 	if (!sheaf)
- 		sheaf = alloc_empty_sheaf(s, gfp);
- 
- 	if (sheaf) {
- 		sheaf->capacity = s->sheaf_capacity;
- 		sheaf->pfmemalloc = false;
- 
- 		if (sheaf->size < size &&
-@@ -5080,31 +5082,31 @@ void kmem_cache_return_sheaf(struct kmem_cache *s, gfp_t gfp,
- 	struct slub_percpu_sheaves *pcs;
- 	struct node_barn *barn;
- 
- 	if (unlikely((sheaf->capacity != s->sheaf_capacity)
- 		     || sheaf->pfmemalloc)) {
- 		sheaf_flush_unused(s, sheaf);
- 		kfree(sheaf);
- 		return;
- 	}
- 
--	local_lock(&s->cpu_sheaves->lock);
-+	pw_lock_local(&s->cpu_sheaves->lock);
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 	barn = get_barn(s);
- 
- 	if (!pcs->spare) {
- 		pcs->spare = sheaf;
- 		sheaf = NULL;
- 		stat(s, SHEAF_RETURN_FAST);
- 	}
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	if (!sheaf)
- 		return;
- 
- 	stat(s, SHEAF_RETURN_SLOW);
- 
- 	/*
- 	 * If the barn has too many full sheaves or we fail to refill the sheaf,
- 	 * simply flush and free it.
- 	 */
-@@ -5627,21 +5629,21 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
-  * An alternative scenario that gets us here is when we fail
-  * barn_replace_full_sheaf(), because there's no empty sheaf available in the
-  * barn, so we had to allocate it by alloc_empty_sheaf(). But because we saw the
-  * limit on full sheaves was not exceeded, we assume it didn't change and just
-  * put the full sheaf there.
-  */
- static void __pcs_install_empty_sheaf(struct kmem_cache *s,
- 		struct slub_percpu_sheaves *pcs, struct slab_sheaf *empty,
- 		struct node_barn *barn)
- {
--	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-+	pw_lockdep_assert_held(&s->cpu_sheaves->lock);
- 
- 	/* This is what we expect to find if nobody interrupted us. */
- 	if (likely(!pcs->spare)) {
- 		pcs->spare = pcs->main;
- 		pcs->main = empty;
- 		return;
- 	}
- 
- 	/*
- 	 * Unlikely because if the main sheaf had space, we would have just
-@@ -5678,31 +5680,31 @@ static void __pcs_install_empty_sheaf(struct kmem_cache *s,
-  */
- static struct slub_percpu_sheaves *
- __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 			bool allow_spin)
- {
- 	struct slab_sheaf *empty;
- 	struct node_barn *barn;
- 	bool put_fail;
- 
- restart:
--	lockdep_assert_held(this_cpu_ptr(&s->cpu_sheaves->lock));
-+	pw_lockdep_assert_held(&s->cpu_sheaves->lock);
- 
- 	/* Bootstrap or debug cache, back off */
- 	if (unlikely(!cache_has_sheaves(s))) {
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 		return NULL;
- 	}
- 
- 	barn = get_barn(s);
- 	if (!barn) {
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 		return NULL;
- 	}
- 
- 	put_fail = false;
- 
- 	if (!pcs->spare) {
- 		empty = barn_get_empty_sheaf(barn, allow_spin);
- 		if (empty) {
- 			pcs->spare = pcs->main;
- 			pcs->main = empty;
-@@ -5725,107 +5727,107 @@ __pcs_replace_full_main(struct kmem_cache *s, struct slub_percpu_sheaves *pcs,
- 	}
- 
- 	/* sheaf_flush_unused() doesn't support !allow_spin */
- 	if (PTR_ERR(empty) == -E2BIG && allow_spin) {
- 		/* Since we got here, spare exists and is full */
- 		struct slab_sheaf *to_flush = pcs->spare;
- 
- 		stat(s, BARN_PUT_FAIL);
- 
- 		pcs->spare = NULL;
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 		sheaf_flush_unused(s, to_flush);
- 		empty = to_flush;
- 		goto got_empty;
- 	}
- 
- 	/*
- 	 * We could not replace full sheaf because barn had no empty
- 	 * sheaves. We can still allocate it and put the full sheaf in
- 	 * __pcs_install_empty_sheaf(), but if we fail to allocate it,
- 	 * make sure to count the fail.
- 	 */
- 	put_fail = true;
- 
- alloc_empty:
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	/*
- 	 * alloc_empty_sheaf() doesn't support !allow_spin and it's
- 	 * easier to fall back to freeing directly without sheaves
- 	 * than add the support (and to sheaf_flush_unused() above)
- 	 */
- 	if (!allow_spin)
- 		return NULL;
- 
- 	empty = alloc_empty_sheaf(s, GFP_NOWAIT);
- 	if (empty)
- 		goto got_empty;
- 
- 	if (put_fail)
- 		 stat(s, BARN_PUT_FAIL);
- 
- 	if (!sheaf_try_flush_main(s))
- 		return NULL;
- 
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		return NULL;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	/*
- 	 * we flushed the main sheaf so it should be empty now,
- 	 * but in case we got preempted or migrated, we need to
- 	 * check again
- 	 */
- 	if (pcs->main->size == s->sheaf_capacity)
- 		goto restart;
- 
- 	return pcs;
- 
- got_empty:
--	if (!local_trylock(&s->cpu_sheaves->lock)) {
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock)) {
- 		barn_put_empty_sheaf(barn, empty);
- 		return NULL;
- 	}
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 	__pcs_install_empty_sheaf(s, pcs, empty, barn);
- 
- 	return pcs;
- }
- 
- /*
-  * Free an object to the percpu sheaves.
-  * The object is expected to have passed slab_free_hook() already.
-  */
- static __fastpath_inline
- bool free_to_pcs(struct kmem_cache *s, void *object, bool allow_spin)
- {
- 	struct slub_percpu_sheaves *pcs;
- 
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		return false;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (unlikely(pcs->main->size == s->sheaf_capacity)) {
- 
- 		pcs = __pcs_replace_full_main(s, pcs, allow_spin);
- 		if (unlikely(!pcs))
- 			return false;
- 	}
- 
- 	pcs->main->objects[pcs->main->size++] = object;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	stat(s, FREE_FASTPATH);
- 
- 	return true;
- }
- 
- static void rcu_free_sheaf(struct rcu_head *head)
- {
- 	struct slab_sheaf *sheaf;
- 	struct node_barn *barn = NULL;
-@@ -5898,63 +5900,63 @@ static DEFINE_WAIT_OVERRIDE_MAP(kfree_rcu_sheaf_map, LD_WAIT_CONFIG);
- bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
- {
- 	struct slub_percpu_sheaves *pcs;
- 	struct slab_sheaf *rcu_sheaf;
- 
- 	if (WARN_ON_ONCE(IS_ENABLED(CONFIG_PREEMPT_RT)))
- 		return false;
- 
- 	lock_map_acquire_try(&kfree_rcu_sheaf_map);
- 
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		goto fail;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (unlikely(!pcs->rcu_free)) {
- 
- 		struct slab_sheaf *empty;
- 		struct node_barn *barn;
- 
- 		/* Bootstrap or debug cache, fall back */
- 		if (unlikely(!cache_has_sheaves(s))) {
--			local_unlock(&s->cpu_sheaves->lock);
-+			pw_unlock_local(&s->cpu_sheaves->lock);
- 			goto fail;
- 		}
- 
- 		if (pcs->spare && pcs->spare->size == 0) {
- 			pcs->rcu_free = pcs->spare;
- 			pcs->spare = NULL;
- 			goto do_free;
- 		}
- 
- 		barn = get_barn(s);
- 		if (!barn) {
--			local_unlock(&s->cpu_sheaves->lock);
-+			pw_unlock_local(&s->cpu_sheaves->lock);
- 			goto fail;
- 		}
- 
- 		empty = barn_get_empty_sheaf(barn, true);
- 
- 		if (empty) {
- 			pcs->rcu_free = empty;
- 			goto do_free;
- 		}
- 
--		local_unlock(&s->cpu_sheaves->lock);
-+		pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 		empty = alloc_empty_sheaf(s, GFP_NOWAIT);
- 
- 		if (!empty)
- 			goto fail;
- 
--		if (!local_trylock(&s->cpu_sheaves->lock)) {
-+		if (!pw_trylock_local(&s->cpu_sheaves->lock)) {
- 			barn_put_empty_sheaf(barn, empty);
- 			goto fail;
- 		}
- 
- 		pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 		if (unlikely(pcs->rcu_free))
- 			barn_put_empty_sheaf(barn, empty);
- 		else
- 			pcs->rcu_free = empty;
-@@ -5971,27 +5973,27 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj)
- 	rcu_sheaf->objects[rcu_sheaf->size++] = obj;
- 
- 	if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
- 		rcu_sheaf = NULL;
- 	} else {
- 		pcs->rcu_free = NULL;
- 		rcu_sheaf->node = numa_node_id();
- 	}
- 
- 	/*
--	 * we flush before local_unlock to make sure a racing
-+	 * we flush before pw_unlock_local to make sure a racing
- 	 * flush_all_rcu_sheaves() doesn't miss this sheaf
- 	 */
- 	if (rcu_sheaf)
- 		call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf);
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	stat(s, FREE_RCU_SHEAF);
- 	lock_map_release(&kfree_rcu_sheaf_map);
- 	return true;
- 
- fail:
- 	stat(s, FREE_RCU_SHEAF_FAIL);
- 	lock_map_release(&kfree_rcu_sheaf_map);
- 	return false;
- }
-@@ -6082,21 +6084,21 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
- 			continue;
- 		}
- 
- 		i++;
- 	}
- 
- 	if (!size)
- 		goto flush_remote;
- 
- next_batch:
--	if (!local_trylock(&s->cpu_sheaves->lock))
-+	if (!pw_trylock_local(&s->cpu_sheaves->lock))
- 		goto fallback;
- 
- 	pcs = this_cpu_ptr(s->cpu_sheaves);
- 
- 	if (likely(pcs->main->size < s->sheaf_capacity))
- 		goto do_free;
- 
- 	barn = get_barn(s);
- 	if (!barn)
- 		goto no_empty;
-@@ -6125,37 +6127,37 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
- 	stat(s, BARN_PUT);
- 	pcs->main = empty;
- 
- do_free:
- 	main = pcs->main;
- 	batch = min(size, s->sheaf_capacity - main->size);
- 
- 	memcpy(main->objects + main->size, p, batch * sizeof(void *));
- 	main->size += batch;
- 
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	stat_add(s, FREE_FASTPATH, batch);
- 
- 	if (batch < size) {
- 		p += batch;
- 		size -= batch;
- 		goto next_batch;
- 	}
- 
- 	if (remote_nr)
- 		goto flush_remote;
- 
- 	return;
- 
- no_empty:
--	local_unlock(&s->cpu_sheaves->lock);
-+	pw_unlock_local(&s->cpu_sheaves->lock);
- 
- 	/*
- 	 * if we depleted all empty sheaves in the barn or there are too
- 	 * many full sheaves, free the rest to slab pages
- 	 */
- fallback:
- 	__kmem_cache_free_bulk(s, size, p);
- 	stat_add(s, FREE_SLOWPATH, size);
- 
- flush_remote:
-@@ -7554,21 +7556,21 @@ static inline int alloc_kmem_cache_stats(struct kmem_cache *s)
- static int init_percpu_sheaves(struct kmem_cache *s)
- {
- 	static struct slab_sheaf bootstrap_sheaf = {};
- 	int cpu;
- 
- 	for_each_possible_cpu(cpu) {
- 		struct slub_percpu_sheaves *pcs;
- 
- 		pcs = per_cpu_ptr(s->cpu_sheaves, cpu);
- 
--		local_trylock_init(&pcs->lock);
-+		pw_trylock_init(&pcs->lock);
- 
- 		/*
- 		 * Bootstrap sheaf has zero size so fast-path allocation fails.
- 		 * It has also size == s->sheaf_capacity, so fast-path free
- 		 * fails. In the slow paths we recognize the situation by
- 		 * checking s->sheaf_capacity. This allows fast paths to assume
- 		 * s->cpu_sheaves and pcs->main always exists and are valid.
- 		 * It's also safe to share the single static bootstrap_sheaf
- 		 * with zero-sized objects array as it's never modified.
- 		 *
--- 
-2.54.0
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
 
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
