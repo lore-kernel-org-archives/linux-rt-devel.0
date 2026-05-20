@@ -1,169 +1,170 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A20F3EA95A
-	for <linux-rt-devel@lists.linux.dev>; Wed, 20 May 2026 15:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B1C3D8103
+	for <linux-rt-devel@lists.linux.dev>; Wed, 20 May 2026 16:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779289661; cv=none; b=Y/OJN4/hEG67Le+3GTqLOCagqHDP9lwneN/NX8FJAXHmDNHxfnXNHPrwteHBh9IHRX7KswCre8nxvUNxdnPQbMo3RThMSAkO53MbSEAm1QG6DppeqSx5TNPDjMyFBIOsZtBgEj/j3vmb/aoS3uSNtafz1Ow5oF5UVOxxPG36HeQ=
+	t=1779295469; cv=none; b=U8Oc0adlfys9hLjWJtcxNzBSxrmmt/+6B3n37w3S0AJBRDUYK/DjZW1AlfbVvK0SvDqPmASNAWLyzOzxAkNgNjSeM6N2Zwc4aUWMjvZ+P/nXsampZvrFcmya6s5P6L3FlZS7XPNx3IHScRX2bdnONOCc7rLYEax7NPYhQzcZzrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779289661; c=relaxed/simple;
-	bh=GCHQHwl6xXxxVuOiInJNtgnL8fLTa014/s0Fh1BxdW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e4cGdqgdNYbpsUL1kZTeyNwF75TEmxXbOgXJVXVCrA3SQQ2i6Sq6BIlv7CGTePoEmnCYwzPj7dBRFNGVhbNsBZ5SdxoG0gPRuMsQUDbHtkOZyVgKzt6d8JFOGZWUZ+AEnxYVEpcu+1pufYDQX6FUBGGVL9S/2QmWsEud4TbTe14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=G/TgLuOa; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FuPsFaRt; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1779295469; c=relaxed/simple;
+	bh=MKHPP75jBvE8zhQ9pjFC/fGHTTKwj+f/dX0NWpOF5XQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=o8ry+tV+fALxgyMVjLeqdyPQUjjK+841F41sHBHWBqHopzaQghWCmJemlBSkF1e+xgZmsIaveEIvnXloLFTHxOAuQnsUB6r7xau/2pvdWLa7ZH25/UMHkUyjmjqNrEpu5OsZGU8fVj/2cCViuS3qmmV09LFuHFZGsKueOT5hA3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CDgcl/VA; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="G/TgLuOa";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FuPsFaRt"
-Date: Wed, 20 May 2026 17:07:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779289658;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CDgcl/VA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779295467;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KN1wvoHprQssDeR7+IQiZjcPmwBUmM9w1xfU6JNFOrw=;
-	b=G/TgLuOaBFNbegoedGpaHIgUve+xGtuBYkP+MBRC/JZnHaOPOoxXxnVK13fbwivQ/4JqeV
-	qxx7q0V0cbDZtjh1jLSWCWyMp9ZuxaIyS8b0iwPdGv6vWCTfg6AdNSAJillfyBbbrLir5Q
-	Xalz3aBVaK3Sr3Q6ElgJhiY9KCsoqmzAwhWb1r0D1HWWkNkEtN/PYINl7HDfczxs2oGu7L
-	BpNeOiufHn78OvpO4eRoJ2fcBoVxgFi5VrkMnaeVqqMVC87+4nMWpxGR//8K2hCVIs1keB
-	lcNzhF1GapHdBFXaRuB75WSY1nr0stB6Y9gOd30QTnvwR/XMr/2qXkmweDULHQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779289658;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KN1wvoHprQssDeR7+IQiZjcPmwBUmM9w1xfU6JNFOrw=;
-	b=FuPsFaRtD3udrdCoS4HkPjULODop/QjZowu6oOpwHxGMI4Yxeq03tl74tYZt2egyGksEbi
-	TKQ2oiVLeG0D5+Bg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Leonardo Bras <leobras.c@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=voCWrDb2QlMDmk7oFZgVxDRSHjf6Fj9BfDDzo0hpstY=;
+	b=CDgcl/VAiRnk0RjzempIqcJXXkzUDiiI5apHqc9Keai/kt+PsD4LIMxtNHazUReYd2T7pY
+	8zgwk+Gk8MrvzAHcX5IhVvohrlh6EAFK29ndf/urYnm+ZMK8CRLhyVVAVpgQwcliNOIEjx
+	v/HkTSSKJLVQ1nDBYqufCqTWRVQi1fY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-79-PEK-FTmhNr-cUIepsGZtGw-1; Wed,
+ 20 May 2026 12:44:21 -0400
+X-MC-Unique: PEK-FTmhNr-cUIepsGZtGw-1
+X-Mimecast-MFC-AGG-ID: PEK-FTmhNr-cUIepsGZtGw_1779295456
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E2A4B1800611;
+	Wed, 20 May 2026 16:44:15 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.64.248])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id DBFD31800576;
+	Wed, 20 May 2026 16:44:13 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Brendan Jackman <jackmanb@google.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
-	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>,
-	Barry Song <baohua@kernel.org>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Coiby Xu <coxu@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
-	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 3/4] swap: apply new pw_queue_on() interface
-Message-ID: <20260520150736.HZnlFkv7@linutronix.de>
-References: <20260519012754.240804-1-leobras.c@gmail.com>
- <20260519012754.240804-4-leobras.c@gmail.com>
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH] debugobjects: Don't call fill_pool() in early boot non-task context of RT kernel
+Date: Wed, 20 May 2026 12:43:49 -0400
+Message-ID: <20260520164349.921226-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260519012754.240804-4-leobras.c@gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+X-Mimecast-MFC-PROC-ID: ej02SoTNt_GKTOubpgf8BPbD616FcDyFqBexqt1Zcys_1779295456
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 2026-05-18 22:27:49 [-0300], Leonardo Bras wrote:
+When booting a debug PREEMPT_RT kernel on an arm64 system with grace
+processor, the following lockdep splat was reported during early boot.
 
-after digesting the slub patch,
+  ================================
+  WARNING: inconsistent lock state
+  7.1.0-rc4-test+ #1 Not tainted
+  --------------------------------
+  inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+  swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+  ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
+  {HARDIRQ-ON-W} state was registered at:
+    __lock_acquire+0x3d4/0xb70
+    lock_acquire.part.0+0x178/0x2e0
+    lock_acquire+0xa0/0x240
+    rt_spin_lock+0xa0/0x400
+    __refill_objects_node+0x8c/0x638
+    refill_objects+0x60/0x120
+    __pcs_replace_empty_main+0x11c/0x3a8
+    __kmalloc_noprof+0x550/0x5e0
+    __alloc_workqueue+0x7a4/0xb68
+    alloc_workqueue_noprof+0xc0/0x118
+    kmem_cache_init_late+0x3c/0xd8
+    start_kernel+0x360/0x460
+    __primary_switched+0x8c/0xa0
+  irq event stamp: 12818
+  hardirqs last  enabled at (12817): [<ffffda0f4322be98>] __raw_spin_unlock_irqrestore+0xb8/0xe8
+  hardirqs last disabled at (12818): [<ffffda0f45a611f4>] el1_interrupt+0x34/0xb0
+  softirqs last  enabled at (0): [<0000000000000000>] 0x0
+  softirqs last disabled at (0): [<0000000000000000>] 0x0
+    :
+  Call trace:
+   show_stack+0x20/0x40 (C)
+   dump_stack_lvl+0x7c/0x160
+   dump_stack+0x1c/0x48
+   print_usage_bug.part.0+0x248/0x270
+   mark_lock_irq+0x410/0x608
+   mark_lock+0x1ec/0x3a8
+   mark_usage+0x138/0x170
+   __lock_acquire+0x3d4/0xb70
+   lock_acquire.part.0+0x178/0x2e0
+   lock_acquire+0xa0/0x240
+   rt_spin_lock+0xa0/0x400
+   get_from_partial_node+0x74/0xa0
+   ___slab_alloc+0x94/0x4f8
+   kmem_cache_alloc_noprof+0x2d4/0x598
+   kmem_alloc_batch+0x54/0x170
+   fill_pool+0x12c/0x438
+   debug_objects_fill_pool.part.0+0x88/0x100
+   debug_objects_fill_pool+0x58/0x60
+   debug_object_activate+0xfc/0x3d0
+   add_timer_on+0x250/0x3a0
+   add_interrupt_randomness+0x2d4/0x340
+   handle_percpu_devid_irq+0x2e0/0x4e0
+   handle_irq_desc+0xc0/0x120
+   generic_handle_domain_irq+0x20/0x40
+   __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
+   gic_handle_irq+0x7c/0xe0
+   call_on_irq_stack+0x30/0x48
+   do_interrupt_handler+0x134/0x158
+   el1_interrupt+0x48/0xb0
+   el1h_64_irq_handler+0x18/0x28
+   el1h_64_irq+0x80/0x88
 
-> @@ -882,38 +879,38 @@ static inline void __lru_add_drain_all(bool force_all_cpus)
->  	 * If the paired barrier is done at any later step, e.g. after the
->  	 * loop, CPU #x will just exit at (C) and miss flushing out all of its
->  	 * added pages.
->  	 */
->  	WRITE_ONCE(lru_drain_gen, lru_drain_gen + 1);
->  	smp_mb();
->  
->  	cpumask_clear(&has_mm_work);
->  	cpumask_clear(&has_bh_work);
->  	for_each_online_cpu(cpu) {
-> -		struct work_struct *mm_work = &per_cpu(lru_add_drain_work, cpu);
-> +		struct pw_struct *mm_pw = &per_cpu(lru_add_drain_pw, cpu);
->  		struct work_struct *bh_work = &per_cpu(bh_add_drain_work, cpu);
->  
->  		if (cpu_needs_mm_drain(cpu)) {
-> -			INIT_WORK(mm_work, lru_add_drain_per_cpu);
-> -			queue_work_on(cpu, mm_percpu_wq, mm_work);
-> +			INIT_PW(mm_pw, lru_add_drain_per_cpu, cpu);
-> +			pw_queue_on(cpu, mm_percpu_wq, mm_pw);
->  			__cpumask_set_cpu(cpu, &has_mm_work);
->  		}
->  
->  		if (cpu_needs_bh_drain(cpu)) {
->  			INIT_WORK(bh_work, bh_add_drain_per_cpu);
->  			queue_work_on(cpu, mm_percpu_wq, bh_work);
->  			__cpumask_set_cpu(cpu, &has_bh_work);
->  		}
->  	}
->  
->  	for_each_cpu(cpu, &has_mm_work)
-> -		flush_work(&per_cpu(lru_add_drain_work, cpu));
-> +		pw_flush(&per_cpu(lru_add_drain_pw, cpu));
->  
->  	for_each_cpu(cpu, &has_bh_work)
->  		flush_work(&per_cpu(bh_add_drain_work, cpu));
+The {IN-HARDIRQ-W} usage happens when debug_objects_fill_pool() calls
+fill_pool() in the hardirq context during early boot. It is because of
+the "system_state < SYSTEM_SCHEDULING" check in debug_objects_fill_pool()
+which allows fill_pool() to be called from any context during early
+boot.
 
-Why do we have two iterations here? Is it just a proof of concept that
-is not complete yet? I am curious why it is okay/needed to "remove" the
-one workqueue but not the other. Maybe the other does not bother as much
-as the other does.
+It shouldn't really be a problem as fill_poll() will not called from
+non-preemptible context after early boot, but the lockdep warning can
+still cause confusion and anxiety. Fix that by further restricting the
+call to only in_task() context during early boot.
 
-But essentially we can't use a spin_lock_t here because due to the
-hotpath nature of the code it will kill performance. So instead we do it
-anyway but behind a switch so that only those suffer from this that do
-not want to suffer from workqueue interruption on a NOHZ full system,
-right?
+Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ lib/debugobjects.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-I thought that this improved since commit
-  ff042f4a9b050 ("mm: lru_cache_disable: replace work queue synchronization with synchronize_rcu")
+diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+index 12e2e42e6a31..236ea5e716df 100644
+--- a/lib/debugobjects.c
++++ b/lib/debugobjects.c
+@@ -727,11 +727,14 @@ static void debug_objects_fill_pool(void)
+ 
+ 	/*
+ 	 * On RT enabled kernels the pool refill must happen in preemptible
+-	 * context -- for !RT kernels we rely on the fact that spinlock_t and
++	 * context or in task context during early boot.
++	 *
++	 * For !RT kernels we rely on the fact that spinlock_t and
+ 	 * raw_spinlock_t are basically the same type and this lock-type
+ 	 * inversion works just fine.
+ 	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible() || system_state < SYSTEM_SCHEDULING) {
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || preemptible() ||
++	   (system_state < SYSTEM_SCHEDULING && in_task())) {
+ 		/*
+ 		 * Annotate away the spinlock_t inside raw_spinlock_t warning
+ 		 * by temporarily raising the wait-type to LD_WAIT_CONFIG, matching
+-- 
+2.54.0
 
-Did it get worse or was it not entirely gone?
-
->  done:
->  	mutex_unlock(&lock);
->  }
->  
->  void lru_add_drain_all(void)
->  {
-
-Sebastian
