@@ -1,35 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 557C3306B08;
-	Wed, 20 May 2026 14:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7373EE1D3
+	for <linux-rt-devel@lists.linux.dev>; Wed, 20 May 2026 14:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288459; cv=none; b=d4YOWRH4SLPaP4HwAQBuVlnBUenQlQwsjEfBhgS+RNPjGtglxMCrMS8mXH4CVU6QFpHTrssNGwXwDaq6opOuDMxOSJ78PWM6qtb4j6M2IKmwIoBzn+Z+6d82I4VpetWICoARnEHRIM7MkHKdbf28pwwUEI9jqA3MvfM0/iu6yhY=
+	t=1779288793; cv=none; b=OqGmoB2K4kAntG31t4J5UnTrDtYzxhrAmEuD7+13jCaf0BPi5x4MX1JVomAlx1makSDLlZQjix44YorK5G43Xe57QdLoaaSOFv70Rm0cnYFwczENw7oC3I8XvKifxSIsX7LjQFL2qKwWMW0PF9PwcapjUimjgdwQyWNT7XN4AEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288459; c=relaxed/simple;
-	bh=pLu+up5ExjsmdYY6KizsZ7GS3/NPRMf5fOn8EHaWnQY=;
+	s=arc-20240116; t=1779288793; c=relaxed/simple;
+	bh=vb99io4b1uHW4fgC/bBTGZYxfWjnea0pXihI7SMZxtE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U10b88Uk5GzTegV8k1nukLLWdkAfKaVYh+Aje/uo6eRRu5KqaIuGvIoSjoZFPO5z865M4u20boG30ut+LxmqhGEhEmeQasYWVB2n+fVxaS+cS2Ws4pb7AQvF5SAOYDqlVpDrdL3QpIhIs0hRqx9x2w5EhnX9QZRTJ40lLmRt4HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MeB8Rmgd; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QeA6SWp31nXQaK/PVX4IxmvVptjiCTt29aV0ZSd2Hk+ZwIpSV7aUwVjrSLGeag6bfE4yngVujZwEkGNtX5QAUYCC7HOnxjWcZaZpCZLMERPmUSKT3d3n7o0t8dSzM1DQXVogo5mXmlfOOgFWXMCbhR6FNFoa4vi/1bXqqJYhCAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Tb5cWw37; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FT6L1KrL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MeB8Rmgd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FD31F000E9;
-	Wed, 20 May 2026 14:47:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779288457;
-	bh=O2RCHoSb5AXLNUZZbMLGGEDeZ4b7SlXf1yZ924yOPQ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MeB8RmgdeqXx0OiIdtL4BpvMTEFwxD54ehryvlqrGt8hWL+w8Vnguq355GGGVq126
-	 lIBvOpdEC7DMJpEFFVUBZnqx5wU7g1T85j86mA+YweTWs5JmA0mDcQ2Krb4kInQDna
-	 tI/OEb8eLhV6oVFlAg3fd8VsKpoCJ8uFldfzekI583E72sGfnKKA6FYn8S6BOopX8t
-	 2vkBwrJSeBsd0F9+TcT7sUpC+ItW2+Am0bhewJtsRV+lQNKaxNoVMIQqwCmRf3A2oP
-	 sZ+o3mi9KnTWeDYCCOODsIhCmPXD1f+IQ9FHrhwaGO54w1XdoP0F+tqpkA0ljKoMtu
-	 T6dwMMki7gRPA==
-Date: Wed, 20 May 2026 16:47:35 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Leonardo Bras <leobras.c@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Tb5cWw37";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FT6L1KrL"
+Date: Wed, 20 May 2026 16:53:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1779288790;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0mk2uML0f+DmowIUT8McBPWXKD76M6vlEQFs4dU+CHo=;
+	b=Tb5cWw373iYJzxUi63XwdH/EOQFLGovvQiB8BL4RVGvYFTMDw9jkLcj6Eac65cEmYur9xN
+	hedaMfb8R88PiK1jm0Y1Y44BHpKgX8OfDK5x/67/W5qagWOr3YFYkoyVWxfpPR2RZR1Vc/
+	L8t4a3a9Dp/HdeYav19jAYj49gbLXIh/QTfTqzRO6SQJIurAuga61jTSgtSAWfcVz/7k6Q
+	guBQ93DcgZsii0P5Ik89YGdgn3yYeDzkovSe5drUQ67UNmhBPAgqkFG3pmvDcleIgyopOT
+	dpuFVTGVgwoiaOYXZNeewYt+WZ3tic40EQLw/7JJ0GuCQ1+B/f/i3QkfXKOreA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1779288790;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0mk2uML0f+DmowIUT8McBPWXKD76M6vlEQFs4dU+CHo=;
+	b=FT6L1KrLsjVwCf6fGAeFVCl5O4Mz5bZa+IM2nXsByZo7RL37YpDxOtHnx/5AkedPD+hmzd
+	PufPFmlC3Sm1dODg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Leonardo Bras <leobras.c@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
@@ -68,40 +78,52 @@ Cc: Leonardo Bras <leobras.c@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
 	"Paul E. McKenney" <paulmck@kernel.org>,
 	Nathan Chancellor <nathan@kernel.org>,
 	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
 	Thomas Gleixner <tglx@kernel.org>,
 	Douglas Anderson <dianders@chromium.org>,
 	Gary Guo <gary@garyguo.net>, Christian Brauner <brauner@kernel.org>,
 	Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Coiby Xu <coxu@redhat.com>, Masahiro Yamada <masahiroy@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev,
 	Marcelo Tosatti <mtosatti@redhat.com>
-Subject: Re: [PATCH v4 1/4] Introducing pw_lock() and per-cpu queue & flush
- work
-Message-ID: <ag3Jh-8iUdgKvw5y@localhost.localdomain>
+Subject: Re: [PATCH v4 4/4] slub: apply new pw_queue_on() interface
+Message-ID: <20260520145308.nay9zt6r@linutronix.de>
 References: <20260519012754.240804-1-leobras.c@gmail.com>
- <20260519012754.240804-2-leobras.c@gmail.com>
- <20260520134832.WS7TrMnu@linutronix.de>
+ <20260519012754.240804-5-leobras.c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260520134832.WS7TrMnu@linutronix.de>
+In-Reply-To: <20260519012754.240804-5-leobras.c@gmail.com>
 
-Le Wed, May 20, 2026 at 03:48:32PM +0200, Sebastian Andrzej Siewior a écrit :
-> How likely is it, that you you had users before late_initcall()? Also
-> can it happen that one of them uses one function to lock and the other
-> unlock in this brief window? There is no check if this was used before
-> static_branch usage.
+On 2026-05-18 22:27:50 [-0300], Leonardo Bras wrote:
+> @@ -4733,121 +4735,121 @@ void *alloc_from_pcs(struct kmem_cache *s, gfp_t gfp, int node)
+>  
+>  	/*
+>  	 * We assume the percpu sheaves contain only local objects although it's
+>  	 * not completely guaranteed, so we verify later.
+>  	 */
+>  	if (unlikely(node_requested && node != numa_mem_id())) {
+>  		stat(s, ALLOC_NODE_MISMATCH);
+>  		return NULL;
+>  	}
+>  
+> -	if (!local_trylock(&s->cpu_sheaves->lock))
+> +	if (!pw_trylock_local(&s->cpu_sheaves->lock))
+>  		return NULL;
 
-Or let alone initialization on the wrong member of the union.
+alloc_from_pcs() can be called from kmalloc_nolock()/ NMI context.
+I don't remember why exactly local_trylock_t was introduced here instead
+of a per-CPU spinlock_t. But there should be nothing wrong with a
+trylock on it from NMI as you do here.
 
--- 
-Frederic Weisbecker
-SUSE Labs
+One thing worth noting, on !PREEMPT_RT, spin_trylock() always succeeds
+on UP. kmalloc_nolock() checks for it, not sure about other callers.
+
+Sebastian
