@@ -1,47 +1,47 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE5D3B9DBF
-	for <linux-rt-devel@lists.linux.dev>; Wed, 20 May 2026 08:40:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BCD3C2762
+	for <linux-rt-devel@lists.linux.dev>; Wed, 20 May 2026 08:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779266427; cv=none; b=HsNDBObdF1/Pw4Lz2SIH3+TS8MAQ4vIw7KCaMjDR0L6Z0VfYYzEEqSmL/WtORehniJYakIltNeDGfeAUFcdhK5o0qSPLlQNbhWlmGYR+tRcDciQBgeqXnKbPVrD9c58jWiNit8TxEYPOycEMZeoAHereqh/LstWNxJ52ACZQElM=
+	t=1779266427; cv=none; b=U8FB3nW//JoXm2Y3UxynAjYX6D8pyxG6ob5Ot38ObYoEPEay4/t2p8RSEsQjk1547dpdSGIKkyuPGriE0a6sd1sTgmDdHcq71wN6hxvTastSZBJZJMppkQ7gC0MaBNw5yQLVfO6+GBgyH2aTC1SMUGbc/sURQr9nfiV8zfCSR1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779266427; c=relaxed/simple;
-	bh=/mEXOiC/f6xskRob+7ts6LDI/fxACCuuHHDi9u7W/iQ=;
+	bh=crtE/8KNOzfZF9Y3J+8u7c/EVSRwssDdjCjXNLyIIho=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rz7/ZUZ/jhbUyP3e04NavUufUMlAtsRdzUPe1vSwqLb6s4vQ5gakGYs+G833O3ukoIJ8+YOpW0HnYyhROjpADM1pr7+Gu/EBPEfTQ4fmp+UpLFqvUcNELgiKxLlWLRsD9fjORKv0kQJ2Xmo5w2/pme5ldZE7ZLnWKYKhOBGe9dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tPrpXX9v; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Bm6JCFl9; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=L5bJuosESMkI0HVyNAebNDGQQcxl7PTSZGv7MQ0lXK/8YlBrgCzvTthZOWTi+qyN/wYgi5EaegaKStkwe81GZw7NfhIdOb1XJqSsf3JZPI1h8ij7ueGnK0PfovFOIJ/qthUzQC/z5QlaHM9zn+gHoqyRf9iz/zo5oczlpsewp/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SLebhuAM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KTQl6S3v; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tPrpXX9v";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Bm6JCFl9"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SLebhuAM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KTQl6S3v"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779266424;
+	s=2020; t=1779266425;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EgxoQN7k7B/yedJeRoNxR5qGWcfMv24tVRYYH6yjonk=;
-	b=tPrpXX9vBAksPlu8bWYvspoJ0ClDTdowVDjAuWkGeCx7IHRPWzKQavACdqVxfuknKBSu0H
-	lfXMNZDkB8gxKM6bX3sO4ydAl05U1aihPIt18VLPJKsymvc/3g1MOEfnGkLE/mMYXPohP0
-	rfVZE587gE0et3eecBSqDOnZaAA0FqMx0I0Yk3HAedfd6wI0ih7JL89qjRhjGvVJ1h4WfR
-	pRVq5zrWv+nTtSaTB09FHsSWVXtry6QW6fUblgr27yGfPH1YqvsjbhbyiWgwp1qVbvNQTm
-	3ed2QQenmHckTrx+D3LWNSInnrUtt0fgsyHkakkgE4HflCVqYlvhxG0/QykBlw==
+	bh=NI3p6jPnca9YK1N0ePo0tzZy+m5ojwRnX88v2Fh2DMc=;
+	b=SLebhuAMsckSdX7QPaOtAMhVJy0jXyBgc6cY6A2HO9cJSJ6j9Q8ZO+c9/qnu/vy71latbM
+	TOLIO1z726J/hrox0MkhYx0FOMF0fTjUFFoHQoyXXwyvbb/d27GP+auak8V+pfXx4XMiMA
+	FspEjzxjT5dZTa7XkGU/A+hpp8O+NuNmGtQY/wQTm8O2yBNI3z5JqFenu72VK7zJTRPaeD
+	982yDH0u5BpjgBSzTlUXqfW4FywVX0rAGJ9pHb1mPcmvDOt996XECYMUu1q4bbkBAcoKGf
+	/nE6QRYYTztf/dTLHd57WlxV2rdpu3n907Wawl76CNJnYwP3Sm7+ldtF/Fsdbg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779266424;
+	s=2020e; t=1779266425;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=EgxoQN7k7B/yedJeRoNxR5qGWcfMv24tVRYYH6yjonk=;
-	b=Bm6JCFl9h9/DvbDXvN4EgL8mo0qv7dl3cJbeZWM/6wgNW1zQ1ZqzwmwLHAL5EoGnUs9Jh0
-	pUO/YBtAGJZvRHDA==
-Date: Wed, 20 May 2026 10:40:02 +0200
-Subject: [PATCH v3 3/5] lib/vsprintf: Validate spinlock context during
- restricted pointer formatting
+	bh=NI3p6jPnca9YK1N0ePo0tzZy+m5ojwRnX88v2Fh2DMc=;
+	b=KTQl6S3v/XzfrDEEhJMLxaWEgwtaEgj588uufKn4CsWMWCjQBoiSS6h7mtwtN8Ch1bbhPy
+	JOgok4T/so7AGaDg==
+Date: Wed, 20 May 2026 10:40:03 +0200
+Subject: [PATCH v3 4/5] lib/vsprintf: Use in_task() for restricted pointer
+ context check
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260520-restricted-pointers-final-v3-3-76bca6a6ab3f@linutronix.de>
+Message-Id: <20260520-restricted-pointers-final-v3-4-76bca6a6ab3f@linutronix.de>
 References: <20260520-restricted-pointers-final-v3-0-76bca6a6ab3f@linutronix.de>
 In-Reply-To: <20260520-restricted-pointers-final-v3-0-76bca6a6ab3f@linutronix.de>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -65,62 +65,37 @@ To: Andrew Morton <akpm@linux-foundation.org>,
  Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779266417; l=1956;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779266417; l=952;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=/mEXOiC/f6xskRob+7ts6LDI/fxACCuuHHDi9u7W/iQ=;
- b=GvmuWGO4VY15wjtkfuIezHgqzhSdrEb0bUEASOcqVLsm9QlVJ3GqQ7vq4bK2GZOl9OWQX8LeD
- MHZYSNqMm1eAmBl+Wyz5Q2Pgw84KeQDZB74eVFXAdyHKkk2kVbKkR2Z
+ bh=crtE/8KNOzfZF9Y3J+8u7c/EVSRwssDdjCjXNLyIIho=;
+ b=zdGa9dfL4QJCxaxZyd08nnaXkrD5ClzwKelo0l3wVggxqC+QuqSfzA5hXss6obYMkR6b031nT
+ t/zZB6T6kkBAd1s17AB6kw6HkfoTY75ljOpRTbv7+9qPHwgrAdxDYm8
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-Depending on the system configuration, the restricted pointer formatting
-might call into the security subsystem which takes spinlocks, which
-might sleep under PREEMPT_RT. As %pK is intended to be only used from
-read handlers of virtual files, which always run in task context,
-this should not be a problem in practice.
-However, developers have used %pK before from atomic context without
-realizing this restriction. While all existing user of %pK through
-printk() have been removed, new ones might be reintroduced accidentally
-in the future.
+in_task() is a easier to read and slightly more efficient variant of
+the existing tests.
 
-Add a lockdep annotation to unconditionally introduce a fake spinlock in
-restricted_pointer(), so lockdep can detect misuse even if the current
-test system configuration would not exhibit the issue.
-
-Link: https://lore.kernel.org/lkml/20250113171731-dc10e3c1-da64-4af0-b767-7c7070468023@linutronix.de/
-Link: https://lore.kernel.org/lkml/20241217142032.55793-1-acarmina@redhat.com/
+Suggested-by: Peter Zijlstra <peterz@infradead.org>
+Link: https://lore.kernel.org/lkml/20260504130044.GU3126523@noisy.programming.kicks-ass.net/
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- lib/vsprintf.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ lib/vsprintf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 9f359b31c8d1..021db95087fe 100644
+index 021db95087fe..69dbd22f0e9e 100644
 --- a/lib/vsprintf.c
 +++ b/lib/vsprintf.c
-@@ -29,6 +29,7 @@
- #include <linux/hex.h>
- #include <linux/kernel.h>
- #include <linux/kallsyms.h>
-+#include <linux/lockdep.h>
- #include <linux/math64.h>
- #include <linux/uaccess.h>
- #include <linux/ioport.h>
-@@ -862,6 +863,14 @@ static noinline_for_stack
- char *restricted_pointer(char *buf, char *end, const void *ptr,
- 			 struct printf_spec spec)
- {
-+	/*
-+	 * has_capability_noaudit() may use spinlocks.
-+	 * Make sure %pK is only used from valid contexts.
-+	 */
-+	static DEFINE_WAIT_ASSERT_MAP(vsprintf_restricted_pointer_map, LD_WAIT_CONFIG);
-+
-+	guard(lock_map_acquire)(&vsprintf_restricted_pointer_map);
-+
- 	switch (kptr_restrict) {
- 	case 0:
- 		/* Handle as %p, hash and do _not_ leak addresses. */
+@@ -882,7 +882,7 @@ char *restricted_pointer(char *buf, char *end, const void *ptr,
+ 		 * kptr_restrict==1 cannot be used in IRQ context
+ 		 * because its test for CAP_SYSLOG would be meaningless.
+ 		 */
+-		if (in_hardirq() || in_serving_softirq() || in_nmi()) {
++		if (!in_task()) {
+ 			if (spec.field_width == -1)
+ 				spec.field_width = 2 * sizeof(ptr);
+ 			return error_string(buf, end, "pK-error", spec);
 
 -- 
 2.54.0
