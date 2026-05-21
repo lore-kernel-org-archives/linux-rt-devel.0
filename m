@@ -1,74 +1,54 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F72351C14
-	for <linux-rt-devel@lists.linux.dev>; Thu, 21 May 2026 08:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D6330FC34
+	for <linux-rt-devel@lists.linux.dev>; Thu, 21 May 2026 09:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779353594; cv=none; b=diXg+xgFi+mh7lMBcwB8LQ9qHR/vJDIZPo2bx/tbbjY89CET4eSgQh8aTc7F1FYaLVuBEAv7/Qk2o9W+CDD53X5bJfwS6ISlRZUvlbagsZ7XECl5LRnM92HDZkeW11G0KUEWgdLDQuc+uINVAc2FkvLo7BZlR5HmT0AAcLgKFgQ=
+	t=1779354297; cv=none; b=qr94BN97Y2kcbBZ19NM6e69naAe8STje2MwAb3OFNIBZDoXgGMa55FEitZ+z1fAmr7jT1jsPz1o6CgcR2I+DHbMN1F0+LPSdqdLcSDsrGGjPvqxD2IKxeqazPwJFqDeH4lim2aadYOOOVHZKxs9mjS/pp4z8KlpuPVmVnd0iGWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779353594; c=relaxed/simple;
-	bh=bmcgmqSoIAG660NAk9RAaAgXzOjnzTzDFCbtRpPIEz0=;
+	s=arc-20240116; t=1779354297; c=relaxed/simple;
+	bh=51jdkliopHm/gTkNpfyqZJdBe6+HfqqyblMbDA73iTc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jh2HcfCuaLq7CR+8oNO0fLOIoXZE6L4Dc+Un1c1iEWurTtOBGZiGtqGtW0O1FQDrSOoq30f9Nx9RfMDyCh7PM+/tzxorNuMfeHXhXAVfoBSjHUH3Oa7MEZScuog+RoJozP4pPnEfLqGYlWcewdwmCR5hMDP7Ymmu7ntf56sMwv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/yttBTF; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=b8rImMzawrl7SC51MmAIxLNucXV5LaMQRuvOfGF45fGq0Fe5L4Tbne1UhVpxOlWlHZZV3B46wQNR0aMedcpgYJDat8m6eSBdmAPuDVcdR8jk08DkLKMoeUU8iwWo0td3lpm5pPD0MEDMn/+KjZZuPUmhXl+oXgT64bFcPwWTzio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fd6DhrsO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=w6ZCIvIL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/yttBTF"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48e6db3ff7eso30103355e9.0
-        for <linux-rt-devel@lists.linux.dev>; Thu, 21 May 2026 01:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779353590; x=1779958390; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NLFMm/iBCeKuifSA9r1fgWxDtRtuFPgfT6+/MU5KPl4=;
-        b=M/yttBTF+ZS811w77aG1vk5WzC6fv6IYdPvsNfQT10rrxSxdPJg5C9eeWkpydvo5y6
-         hCdBn6GOMcC9EiyE7a3N92kbz+nR1O6gVMTq1HQznFYz1m41BOfZIJRVXOvAr40cgA52
-         IDOYD13AzhuC9Sg3WvStvU/qlsYjdAai96dzrSXquvJ/wpZGzAQwdPn851t8W8MMqStT
-         q6o8cKmH4+vEEqRLmTIeiLNtMLd0dqw23GjYLtGmHy/UagpLvrdlEgaW2jvH8mf9DKXX
-         eeb0dGadXYCX48Vocn6Twd1o/nUc8tyNtletDGSNiORcsHiZs/0h5RmbXARGVDf4P8Ze
-         vq7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779353590; x=1779958390;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NLFMm/iBCeKuifSA9r1fgWxDtRtuFPgfT6+/MU5KPl4=;
-        b=Xhkyea/WnBpyogPNI2XVVeU3a3XgFc6NgQAYtAGiSOAFvLiF+w4JdahdUpiI4R5vOG
-         q0wIywdS/K4u8ID+4V/v0xD26lP7R3inB++afzfuAtwi/6hC9ZnKl6d8LrSlDic9lt5C
-         Xo29DO7vFxDIkbOmhcmMNp3npuA6O9dJUQTyjUUf+Miggw7wOACWWy2iHeEue2lqQBTy
-         eSEcg7Wqm9CzA4eJHOuNigcssZTw5Z6lfRocXkXsr5uIGG541yyfbNyebZu+y/46aEKI
-         pDizfGavgsVna9JX8yU/vt5AQxeCdWzo1r+nPxm1lak9w5hqdq1pAtNs34io84hWwhCZ
-         gfYA==
-X-Forwarded-Encrypted: i=1; AFNElJ8G3LoALFjYfZPjJGn90ISt/WXcVJvODYKQ3rTZDx3hkBdcN6YC461UaYx0azCr327XUEPwzE5PBhOIhS/L9w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwA9fxMLbROTU3MuMojf++AEEZZYDLmkspQAUD9C/s6AypJs2Dx
-	dK328d7+cb8vZk0bVdUOKAe7rPazL1akbagbXl+8kkbCvqDh1jm2LIpk
-X-Gm-Gg: Acq92OHYHN0qzChH+Pv35ShOxMP8nH4j+L/qyNSMMzyvYS+ELrtuww+Yv+HaxFxlHeL
-	8r/R+DvOpD/ZxrPwNod0MOJmXhF/tM1WKewcESIbJ19FcfPLGe/brZRH+Y8vEzZXcT2qQY0xpnd
-	R6BavxGFkGgFE7coSMGnizOQjiOhM9UzYwus6gxFget4Gt08aOivOn2EJAXyc6QqMkHcXHliEYz
-	4HlC9zpcP2nBZh3UI+TZvTTaA8ATIAK1okiwcDYTYT3FPAblWCW6LKEQ7MKJg2xI2KI4L+IRBuH
-	1d2s4Priikao4eW8gEnIVvJyhgG0iYTUxdh8fY3gj2dAIOr6kNhWfMLoRE0P6tDxJktH5bPz4Ie
-	tg0gtW4NBQh0dJZCxoRei26iNBaCGcaGABa+Lry4q6RLEEqmdj1B8R2WppnrREwa5Ylz7NFvKe4
-	CYqI/1kzZiHNL+hrPlVJQRWjcUk0eFsp/5eNxQ2YZAFpVImjFlSDJRUXz6KPMgtyKo4biuYjk=
-X-Received: by 2002:a05:600c:548e:b0:490:2238:4021 with SMTP id 5b1f17b1804b1-4903605ab10mr26339485e9.8.1779353590237;
-        Thu, 21 May 2026 01:53:10 -0700 (PDT)
-Received: from f (cst-prg-92-135.cust.vodafone.cz. [46.135.92.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49035ef2d93sm14280335e9.9.2026.05.21.01.53.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 01:53:09 -0700 (PDT)
-Date: Thu, 21 May 2026 10:53:03 +0200
-From: Mateusz Guzik <mjguzik@gmail.com>
-To: Bert Karwatzki <spasswolf@web.de>, 
-	Christian Brauner <brauner@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, adobriyan@gmail.com, jack@suse.cz, 
-	viro@zeniv.linux.org.uk, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: context switch within RCU read-side critical section in
- next-20260518+ with PREEMPT_RT
-Message-ID: <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
-References: <20260520225245.2962-1-spasswolf@web.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fd6DhrsO";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="w6ZCIvIL"
+Date: Thu, 21 May 2026 11:04:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1779354295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fSDPkRUUJC/bV8tedmxXW4GHFzaVR3KOKuUCBGSDWus=;
+	b=fd6DhrsOkDkVlvJmnojDSYTfvxgdDuEFW0nykKnpcXFVv6JGL2tKkOziAGd1u0pcwu5pD/
+	+67Hv5MavnqkZ1tfiFmGjH4Qv52WmwyI6Znj/nYQyvZA174tY3OlZM1t8YGDGOjzJay9Ka
+	ZuVkn9Nko7R5zjLG988KjO/f4b83dl06WsZYmxYPtQPZ8u+YlkI5jEQr1/Iw5zR0AcJteN
+	ou6yERi6jYswvjfI11ETBPPuU9pXGNyyynpGxzZkfwFkEQ41dPNGBEBQVijDOCApUfXW67
+	qloChEmysIhRZmVP5gKSJ2UDKTTgFERnTb67OL+LqgNsNKAV0WodHinquaHxkQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1779354295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fSDPkRUUJC/bV8tedmxXW4GHFzaVR3KOKuUCBGSDWus=;
+	b=w6ZCIvILEIf2lo04wU/0+32CTneX/5/eJI+XnLzI/3gDgC538g4FbafFduGE4apaApx0lv
+	TTY1RPCizLMCfcCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH] irqchip/exynos-combiner: switch to raw_spinlock
+Message-ID: <20260521090453.bbUZ00tS@linutronix.de>
+References: <CGME20260520220432eucas1p10502ca0f9368bd6de5ce027ad8170109@eucas1p1.samsung.com>
+ <20260520220422.3522908-1-m.szyprowski@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -77,60 +57,46 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260520225245.2962-1-spasswolf@web.de>
+In-Reply-To: <20260520220422.3522908-1-m.szyprowski@samsung.com>
 
-On Thu, May 21, 2026 at 12:52:44AM +0200, Bert Karwatzki wrote:
-> Since version next-20260518 (with PREEMPT_RT) I noticed that my debian stable/trixie system
-> would sometimes hang when booting displaying the following error message. After about ~1min
-> booting continues to a rescue shell where I could save the dmesg output (The output shown 
-> here is not from next-20260519 but from a step in the bisection).
+On 2026-05-21 00:04:22 [+0200], Marek Szyprowski wrote:
+> The exynos-combiner driver uses a regular spinlock to protect access to
+> the combiner interrupt status register in combiner_handle_cascade_irq(),
+> which is invoked in hard IRQ context as a chained interrupt handler.
 > 
-[..]
-> So I reverted the this commit in next-20260519 (to get a clean revert I needed to
-> revert commit
-> 36b3306779ea ("fs: cache the string generated by reading /proc/filesystems") first.
+> When PREEMPT_RT is enabled on ARM, regular spinlock is converted to a
+> sleeping lock (mutex-based), which must not be used in atomic context
+> such as hard interrupt handlers. Switch the irq_controller_lock to
+> raw_spinlock, which remains a true non-sleeping spinlock even under
+> PREEMPT_RT.
 > 
-> $ git log --oneline
-> c7321982a5d0 (HEAD -> rcu_critical_readside_bug) Revert "fs: RCU-ify filesystems list"
-> 16ff8d6e7c28 Revert "fs: cache the string generated by reading /proc/filesystems"
-> 6a50ba100ace (tag: next-20260519, origin/master, origin/HEAD, master) Add linux-next specific files for 20260519
-> 
-> With these reverts next-20260519 boots 30 times in a row without error, so
-> it appears that commit dc651e25a6d2 ("fs: RCU-ify filesystems list") causing the
-> error.
-> 
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Fixes: a900e5d99718 ("ARM: exynos: move exynos4210-combiner to drivers/irqchip")
 
-I think the patch below will do the trick.
+For the change based on the reasoning
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-If someone wonders how come the missing unlocks: the original patch had
-them in place, but when I was rebasing on top of the RCU-ifing commit I
-figured I'm going to do guard/scoped_guard in there as well. Later it
-started failing as the compiler did not like goto retry out of a scoped
-guard area and the unlocks did not come back.
+but why do you need a lock around a single read of a register? 
+As far as I can tell, it was introduced in commit
+   84bbc16c1f621 ("ARM: S5PV310: Add IRQ support")
 
-tl;dr there is definitely my bug here and it is most likely *the* bug
+and then dragged through the kernel, merged, renamed, unmerged until it
+got where it is today.
 
-Christian, can you fold this in please.
+This
+	https://lore.kernel.org/all/1277476037-8806-5-git-send-email-kgene.kim@samsung.com/
 
-diff --git a/fs/filesystems.c b/fs/filesystems.c
-index 771fc31a69b8..8f17c0abbc95 100644
---- a/fs/filesystems.c
-+++ b/fs/filesystems.c
-@@ -289,6 +289,7 @@ static __cold noinline int regen_filesystems_string(void)
-         * Did someone beat us to it?
-         */
-        if (old && old->gen == file_systems_gen) {
-+               spin_unlock(&file_systems_lock);
-                kfree(new);
-                return 0;
-        }
-@@ -297,6 +298,7 @@ static __cold noinline int regen_filesystems_string(void)
-         * Did the list change in the meantime?
-         */
-        if (gen != file_systems_gen) {
-+               spin_unlock(&file_systems_lock);
-                kfree(new);
-                goto retry;
-        }
+is v1, as you see the lock is used in multiple places. Then someone
+asked "why locking"
+	https://lore.kernel.org/all/20100628144743.GB3287@debian/
 
+and in v2
+	https://lore.kernel.org/all/1279270714-15146-5-git-send-email-kgene.kim@samsung.com/
 
+it went down to a single user. 
+
+It looks like a leftover from initial development. So it would make
+sense to einer remove it or add a comment why it is still there after
+all these years since it is not obvious.
+
+Sebastian
