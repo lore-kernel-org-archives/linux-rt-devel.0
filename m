@@ -1,91 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CCB358389;
-	Thu, 21 May 2026 09:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A52433F5A7
+	for <linux-rt-devel@lists.linux.dev>; Thu, 21 May 2026 09:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354413; cv=none; b=suAQR5vMJVU8uVh1XgPUJQXmfhoHW3yRXnSXsLt+QHKdK5hy7SMC1A82zxvWtUBhZujdtGVBpBsfDr1gOf1Bw1Hq6l9AIgIG4GtIIjp6ls0QhtmamE9+XDDWlh8q7agrrCpa/eRqPduZ4juPVyqhaiULmEXyGJNaNlnM+A2qb+w=
+	t=1779354519; cv=none; b=SfLOsRjXM7OSNHaM/HHXXLdJgNdXhbpslxKOni9aakzlgc8lLaoxLvtqTQQZpHzSPv8ntCExVJJUHIDgANIQzf9MF3CMhvm3bNuNtu2geKUwbMUqM5TagozYXZa1h38xpjlfrBtbVWElfkWUl1oUNO/EFExXd9quC3ZqbkrraXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354413; c=relaxed/simple;
-	bh=bG1ORrM+5zQuozEgvJPRr0FAsMaoGZ5vXZ0w82XrLeQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IfwhfkmxNAd51ChCE5tj2ABj2fcairL93l6eZU3cA3yul2bc3An5m/B5cLOsKO5hnRbI6xqIPStIaYlirAwC2ltLHTZjSHAMvG04E0E2VjFBA8j7JZ8YCr7OKxo2Y+ACESUb6xjzpXrI3v+Hzw6vkjbhmGO8d1UBUvOrCidDf/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P3mrLih5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779354519; c=relaxed/simple;
+	bh=D9s4XUk2q78Dh2xG5jvn6zmQODh8/q00kukvmipx0c8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NaFPyltwSW9oOoAZbRiPDLHbYewyhzSyNANglXq9f9du+opO/E5mpwkKDaiZWWSYo5WimTDvKdHBfjdt9nuI+Fmfv9F8V17YeFlzyHE2H09YRBLKnSbhC2svjmsGeBPV0o5toLT0peRs6kj0Tkk3L+ktAlrnHwlFRIgy3eMl7FA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Pou1pb8o; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ngOOJATA; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P3mrLih5"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id BA0631F000E9;
-	Thu, 21 May 2026 09:06:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779354412;
-	bh=0chucKSxIxMImRF4ab1C0iTNacki3NqqCTkFos9OEuE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=P3mrLih5x0pu8nQDHtlwWUhxQawDZVLViB9rQFD0Ef2rlSxi+N8t6wELWONvcNgWn
-	 Fp/cOL88m0R7Ejk328LMFt8oB71XJSjtLu6ksx27u9nIG8sTEvEinDuWt3tqsf+E7R
-	 ccp7BZwXGvJk03Yf2yjKVk9U2k3BVldh1+O4Nu1e7RCaMYAoyk42kS125TyuMMI2cS
-	 zdHlxe1Pk8FqoG0o2CKVuiCpvhRvL+S7pQJJ4oF5e9AeTL4KyinC21bZ/myf9ggfNd
-	 eknFms+7oeD+w8fXrO+dfawz+hox6aUSuXQmCdai703ae5NTMb/awDlmTqdnKkFgzA
-	 SE+hiwhsJZVcg==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Krzysztof Kozlowski
- <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams
- <clrkwllms@kernel.org>, Steven
-	Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH] irqchip/exynos-combiner: switch to raw_spinlock
-In-Reply-To: <20260520220422.3522908-1-m.szyprowski@samsung.com>
-References: <CGME20260520220432eucas1p10502ca0f9368bd6de5ce027ad8170109@eucas1p1.samsung.com>
- <20260520220422.3522908-1-m.szyprowski@samsung.com>
-Date: Thu, 21 May 2026 11:06:48 +0200
-Message-ID: <87ecj5w2qf.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Pou1pb8o";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ngOOJATA"
+Date: Thu, 21 May 2026 11:08:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1779354516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D9s4XUk2q78Dh2xG5jvn6zmQODh8/q00kukvmipx0c8=;
+	b=Pou1pb8owqymfepEvckmQWQrjZq3oVWcC1q93Trw1z7wHWGCA5TSdFv64K5AUiSGhMuYZj
+	vDVvZQdw9Zr3x9wprkzypE2PQSZzCkVES8FD4YLLgULS15Dxs/BCKSYvyTJrKZW7gs7AzT
+	2poAAYypTE0zxyuHed18bx4ivMhKNwj292DdRr3vPC2g1gwbmvg76U/v7n0nsVarTIg+AA
+	WnVe21RAAqWPAxA3TePVdOScS3wv9J7GaBXCAiq4FMYtKKe25QmSIRKOcvGtQogJQ56MW/
+	lqS8ZeCu2VSpQH8tbW2bHaPpL/RvvXC1iOT5c/aZDpufKOU/jx72DT86cjcXgQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1779354516;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=D9s4XUk2q78Dh2xG5jvn6zmQODh8/q00kukvmipx0c8=;
+	b=ngOOJATAtKaEQHO9IP/NOZc7Mm6p89cJJ1zx9Gg5SXi+Nhjn/Tdf+zejDKeGYIt8zzi8KD
+	y+MIXHjvkCiIrdCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Mateusz Guzik <mjguzik@gmail.com>
+Cc: Bert Karwatzki <spasswolf@web.de>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	adobriyan@gmail.com, jack@suse.cz, viro@zeniv.linux.org.uk,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: context switch within RCU read-side critical section in
+ next-20260518+ with PREEMPT_RT
+Message-ID: <20260521090835.hz0aIRaQ@linutronix.de>
+References: <20260520225245.2962-1-spasswolf@web.de>
+ <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fnrz73n5jojl2wlbgrsjdtu5zuwykwbcjzznaijbquuovpoand@i6ihdqn7a6zv>
 
-On Thu, May 21 2026 at 00:04, Marek Szyprowski wrote:
+On 2026-05-21 10:53:03 [+0200], Mateusz Guzik wrote:
+> them in place, but when I was rebasing on top of the RCU-ifing commit I
+> figured I'm going to do guard/scoped_guard in there as well. Later it
+> started failing as the compiler did not like goto retry out of a scoped
+> guard area and the unlocks did not come back.
 
-> The exynos-combiner driver uses a regular spinlock to protect access to
-> the combiner interrupt status register in combiner_handle_cascade_irq(),
-> which is invoked in hard IRQ context as a chained interrupt handler.
->
-> When PREEMPT_RT is enabled on ARM, regular spinlock is converted to a
-> sleeping lock (mutex-based), which must not be used in atomic context
-> such as hard interrupt handlers. Switch the irq_controller_lock to
-> raw_spinlock, which remains a true non-sleeping spinlock even under
-> PREEMPT_RT.
+futex_hash_allocate() has a scoped_guard a goto to again. In case it
+helps.
 
-Mechanically this makes sense, but out of curiosity I have to ask:
-
-> -static DEFINE_SPINLOCK(irq_controller_lock);
-> +static DEFINE_RAW_SPINLOCK(irq_controller_lock);
->  
->  struct combiner_chip_data {
->  	unsigned int hwirq_offset;
-> @@ -72,9 +72,9 @@ static void combiner_handle_cascade_irq(struct irq_desc *desc)
->  
->  	chained_irq_enter(chip, desc);
->  
-> -	spin_lock(&irq_controller_lock);
-> +	raw_spin_lock(&irq_controller_lock);
->  	status = readl_relaxed(chip_data->base + COMBINER_INT_STATUS);
-> -	spin_unlock(&irq_controller_lock);
-> +	raw_spin_unlock(&irq_controller_lock);
-
-What is this lock actually protecting?
-
-Each combiner has it's own @base address, so there is no concurrency
-problem between two cascade interrupts being handled at the same time.
-
-That means the only possible problem would be that the same cascade
-interrupt is handled on two CPUs concurrently. Is that even possible?
-
-Thanks,
-
-        tglx
+Sebastian
