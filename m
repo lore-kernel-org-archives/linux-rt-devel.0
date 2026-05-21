@@ -1,80 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CD63537E8;
-	Thu, 21 May 2026 12:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4CE37E315;
+	Thu, 21 May 2026 16:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779366719; cv=none; b=th4HyI66ZQOvlWbcwEjeMy2/ETZGV49xIy4dfsSVIibNEc9a3qcS200DcHSfVrBOJI0EVCVciyVoedjuGkqgyv6s1TPpE3bV+Zf1m77HO1s2jesMpqz6t7XzI4CiCkLl/9vPcV+VTIDnURjSfZkU4jlMmJvh9dZ1GqstMaU0khs=
+	t=1779381639; cv=none; b=fbwkUUf86Mm0qB6YdFLZsUXnDarng7wZdTY8Ct8mGN5KU6MQA1pBOnWmexnDW8JX06oWtheGDIXWPRRCmrZM/evvcyelg6DwsCwD8NPtgSeFyWhV4Oz0c6ZyczqxNjDnhwNcAdJmSDFp+Pw3bu+k+xzAEmOcpqnn3pbngmNfgqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779366719; c=relaxed/simple;
-	bh=2ONFY1dkf6uXrgmJy/g9IpX903O/9noihZCif0aPlSI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uMGco3nvw9LZEc4xEdBN7/GLhkb7FUiJkhHUftpWcE8wY9/BfjbFcwOmoDdwi9VRovlPqZMe911/009OD5z5eVEL3J66brKTf2aFhZu15Bk7OpS8OCeBvNSAUueB2eB3APq2BffTKJyqemOcn00XKc52cj2r8/UQuUTYruSkG4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eUoxOvs0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779381639; c=relaxed/simple;
+	bh=tgzyCoAPKpw1NSC34RTwXXrjyq07LoKbjwH//9PPF7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ghrax2nhIAzmOdvmyWUgYcLGsBy/L7JQrp4BzR+u2eSiaFTNVl2D8HKLUs9FAZA7fXJB/oTgDZpa2qzx+0lZzP9TbeCrmlFaRRnCochtvkOG6E3ojy9c7x0dZz/p4LcGxn8kRO8FoXc6lJLOMfazFSsC2xGCg/JWNQJ4i5iVRL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG/Z7QUp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eUoxOvs0"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id E75041F000E9;
-	Thu, 21 May 2026 12:31:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG/Z7QUp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8051F000E9;
+	Thu, 21 May 2026 16:40:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779366717;
-	bh=wqCkFknN+N3li35+HvdUGnhYWftGulMOgKVsuhyPHwA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=eUoxOvs0JYkXNTlx9svl9KZE1lEq/WML4RGD2qzPLI55urA8oxqlh1yrDfHUX+M/9
-	 1DzAZ0/Lg3KXIZi4nqcczqJT7tSiyO6fCmA/GUDWynw1R3UEFoiiynIsF3fsogSAlP
-	 2paYLDriI6tlqMA76IVTJ8Wg2LfkU7xHhaZ8iha9ky5Acbl8d5oh1oPoS8z4UUIUfF
-	 6uMiQnOxrdNKBxK9i08OqGW56EUEbqlaS9m461X8zXrUg90OmJOf6+rUK7krhgPqn5
-	 KIi9H1mC6V3N9r3x7PzeusHSpB5FX3Ch+i2wSIbr69rL11JzqgO1YzigLx6cSKhrTs
-	 ngwkUlZI0A3+Q==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
-	Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH] irqchip/exynos-combiner: switch to raw_spinlock
-In-Reply-To: <97f33a9d-5fdd-4766-aaff-d10d5f5fdf28@samsung.com>
-References: <CGME20260520220432eucas1p10502ca0f9368bd6de5ce027ad8170109@eucas1p1.samsung.com>
- <20260520220422.3522908-1-m.szyprowski@samsung.com> <87ecj5w2qf.ffs@tglx>
- <97f33a9d-5fdd-4766-aaff-d10d5f5fdf28@samsung.com>
-Date: Thu, 21 May 2026 14:31:54 +0200
-Message-ID: <87zf1tueo5.ffs@tglx>
+	s=k20260515; t=1779381638;
+	bh=2YGGMyXe7SMejzK+iwa7+2TNKMnNR9YtdBRWN/ulgbU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fG/Z7QUpeZCEYhug5SVVxPYIo0JfhG3m2rPSBOkh2oi7CZgxxvB9zjFWuTOIVy5cY
+	 WibkXJmWrgbFkp7QHACq5F6Iem5WFdybG71CCCQXQRLn6OhOj1sqIbllxlDq9rWych
+	 k/HgBFcenei9SY6H7SZBfeYEoV3FeNc6blqLlL/dLvy1wOk+hF5rkTY6FpmDroESSW
+	 5gLmhOhlH1x6Gh56UTM5lm9dycJvAAQL04TK+0rmz+Rz4Y2SqPQWmV9PN+UGN/P2dB
+	 +kLiHstSBHah9ZoE5aC8tSp9SoddkWbQWO5752L+NPURwmmY3x7o3FCOiC+dqEGYM5
+	 I58LauGj0TyDQ==
+Date: Thu, 21 May 2026 17:40:32 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Waiman Long <longman@redhat.com>
+Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-rt-devel@lists.linux.dev, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH 1/2] gfp_types: Introduce a new GFP_ATOMIC_RT gfp flag
+Message-ID: <ag8zX5KJUKo70TvG@lucifer>
+References: <20260520204628.933654-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260520204628.933654-1-longman@redhat.com>
 
-On Thu, May 21 2026 at 13:26, Marek Szyprowski wrote:
-> On 21.05.2026 11:06, Thomas Gleixner wrote:
->> What is this lock actually protecting?
->>
->> Each combiner has it's own @base address, so there is no concurrency
->> problem between two cascade interrupts being handled at the same time.
->>
->> That means the only possible problem would be that the same cascade
->> interrupt is handled on two CPUs concurrently. Is that even possible?
-> Frankly speaking I did this conversion mechanically, late in the evening =
-to fix
-> the bug warning I've spotted. Indeed this spinlock looks like a copy&past=
-e or
-> development leftover. The only side-effect of it I see is a=C2=A0memory b=
-arrier,
-> which might affect how the register access happens, but this should not a=
-ffect
-> cascade operation imho. Do You want me to send a patch removing it comple=
-tely?
++cc Matthew who has fairly strong opinions on GFP flags and such :)
 
-I've applied the fixup for now. But, yes please send a removal against
+Also, please don't send 2 patch series with 2/2 in-reply-to 1/2, use a
+cover letter + have patches reply to that :) [yes it's one of those
+subjective things that people differ on a lot but generally how we do in
+mm]
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/urgent
+On Wed, May 20, 2026 at 04:46:27PM -0400, Waiman Long wrote:
+> The GFP_ATOMIC flag is to be used in atomic context where user cannot
+> sleep and need the allocation to succeed. However, it does not support
+> contexts where preemption or interrupt is disabled under PREEMPT_RT
+> like raw_spin_lock_irqsave() or plain preempt_disable().
+>
+> With the advance of the ALLOC_TRYLOCK allocation flag in the v7.1
+> kernel, it is possible to allocate memory under such contexts by using
+> spin_trylock to acquire the spinlock in the memory allocation path. This
+> does increase the chance that the allocation can fail due to the presence
+> of concurrent memory allocation requests. So its users must be able to
+> handle such memory allocation failure gracefully.
+>
+> The ALLOC_TRYLOCK flag will only be enabled if none of the
+> ___GFP_DIRECT_RECLAIM and ___GFP_KSWAPD_RECLAIM flags are set.
+>
+> Introduce a new GFP_ATOMIC_RT gfp flag for those PREEMPT_RT
+> atomic contexts.  This new flag will fall back to GFP_ATOMIC in
+> non-PREEMPT_RT kernel. GFP_ATOMIC can continue to be used in contexts
+> where preemption and interrupt are not disabled in PREEMPT_RT kernel
+> like spin_lock_irqsave().
 
-Thanks,
+This seems like the wrong place for the solution, now we have to remember
+to use a specific GFP flag but only in one specific place in some IRQ code,
+yet RT is fine with this in any other scenario?
 
-        tglx
+This is really confusing.
 
+Wouldn't we better off with a way of actively detecting this context
+somehow in the page allocator?
+
+It just instinctively feels like this is the wrong level of abstraction for
+a fix here :)
+
+>
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  include/linux/gfp_types.h | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index cd4972a7c97c..ac30882b6cd4 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -316,6 +316,13 @@ enum {
+>   * preempt_disable() - see "Memory allocation" in
+>   * Documentation/core-api/real-time/differences.rst for more info.
+>   *
+> + * %GFP_ATOMIC_RT is similar to %GFP_ATOMIC with the addition that it can also
+> + * be used in context where preemption and/or interrupt is disabled under
+> + * PREEMPT_RT, but not in NMI or hardirq contexts. The allocation is more
+
+I'm not sure 'GFP_ATOMIC_RT' really communicates all of this information.
+
+> + * likely to fail under PREEMPT_RT due to the spin_trylock() nature of lock
+> + * acquisition. So the caller must be ready to handle memory allocation failure
+> + * gracefully.
+> + *
+>   * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
+>   * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
+>   *
+> @@ -388,4 +395,10 @@ enum {
+>  			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
+>  #define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+>
+> +#ifdef CONFIG_PREEMPT_RT
+> +# define GFP_ATOMIC_RT	__GFP_HIGH
+> +#else
+> +# define GFP_ATOMIC_RT	GFP_ATOMIC
+> +#endif
+> +
+>  #endif /* __LINUX_GFP_TYPES_H */
+> --
+> 2.54.0
+>
+
+Cheers, Lorenzo
