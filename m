@@ -1,77 +1,164 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD25833F588
-	for <linux-rt-devel@lists.linux.dev>; Fri, 22 May 2026 06:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD30349CE5
+	for <linux-rt-devel@lists.linux.dev>; Fri, 22 May 2026 07:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779431266; cv=none; b=Q1jAO4OryZLYd2UHIt1DDy2LJekzNPgzEZysHFtwYkye7cPCxPMvsbWg+fGUlZSOb0ZOSrZ7GdNbEV4xM1+N9uXcq+PenJESoGGved2nw5W3SiZ8kXMOuDudujEw5q4npTEUiecnnGu+oNw4kITq6AyAL/F/5B4yBTMewVfQWgU=
+	t=1779434195; cv=none; b=BHoGSMSLaWbXL6AE84vrcDdH/oFCj0P2q2Xb5MBYihBEV260kVnaEiNH8FaCMoFRgvq7t6KhA+eeoX1gVWioejPUuqPtrEeHb+RcAnCLvkA3Jt35i1Yxx/CBt468Nle79dos4/pfOQct8gSxlagqp8RYdKW3GZyS9tDQWreHUgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779431266; c=relaxed/simple;
-	bh=giHjcohEligmB9k/qEKSB5JOwouvT5DMRXBspPhDIRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHXXUPT2D8AQoE2taW9rBB3KBZRll22TtbAhNPKy0iZDymhNPhFKY3KG4csoDv4i/CRGPMUCVV9zjwmVVwKk1CDqbiPKA4whX2YTcDM5qcL1g+4DxSQJm7AjaXAcuBoU/XFIsxohJLr37nKcZ00/RPtr8ErMuJVTWoCMartEZ8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jKoK0RYz; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5KRNGD8e; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1779434195; c=relaxed/simple;
+	bh=vI78eeLRQpnyrlePbWhlMsnYV2wcV2LPk0+fsnT9zD8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pyrMACl15t0pMaqtQP20JDnpSldkbzaFySJEt1LBoM981C4uhzQBDj3CPQHMBO8xhpZVGW0szT7JbtdASF1IJ3jse0o7LPoTbhcIoRfqxBhgE1+1QQYmsIoPkh0d7HWz8lpSUXgdOqDZDR0JyDwl5OJkB1Kq7TEK/CAKXIdFP2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nr+B+/VH; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jKoK0RYz";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5KRNGD8e"
-Date: Fri, 22 May 2026 08:27:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779431260;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nr+B+/VH"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779434190;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qYjGb1GFi1JFw4GuG/m60phb4+uBryv0UJN+GFgd2FE=;
-	b=jKoK0RYzZjyEUQj6U1jE9jhVA6FPU1ARQ5sSDuyg9lcZ+SySV/5BQ/+lmT+6GqV4c5FEHd
-	BbnMPiWfytacAEoIqu9GkCfz0JolyW9Nh4f1SMjS51EZrOr5KoxAjPo9OCzThL/MTjkoQ3
-	R8tnAXApd4EH5ZyHvCHR8/tT03angWS/IehQkTVrUX+8bmlqupgvUavO0qf7aRHCOWUVfq
-	YgfZea9ZHQMBiLGEoU0biV2ch+Iex8e77LOn6CXcIAn8kf7zW6ngdgxfxPtDU1Fuw9IJ3P
-	132joHsqf0oHvEHvcx2Jh70A5x5JiwB2M2z4xCNrIDTugRMSGu7WltwDkhKN+A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779431260;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qYjGb1GFi1JFw4GuG/m60phb4+uBryv0UJN+GFgd2FE=;
-	b=5KRNGD8eTk/9zrBFONVNp3MRxC9xKrjsLwwgbQnzFv3ngkzD+L3lu1Yic95qvelzHmtYES
-	bixGFkKnprZxN/CQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Thomas Gleixner <tglx@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=ofTJ2Iw3jGWVDU8AK9RMEoAeb3tQr+vx1xTO7a1aBkY=;
+	b=nr+B+/VHJIU0zdKqf0sEkBhtrCFbOMsL+3ghUpLjMAc4reaEr9gYILTsfaJgBgY+dS9inO
+	ID3FV4DX8x5jioVDqwgFO0mA7jv2ifY+gx0WSfag0iaCJdMBoZoA5xbMsPLJTG+8BXv37E
+	0GpSX3vtTQ6/pgb+N66nTKvqCwG4NHQ=
+From: Hui Zhu <hui.zhu@linux.dev>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH] irqchip/exynos-combiner: remove useless spinlock
-Message-ID: <20260522062739.5-YngA7K@linutronix.de>
-References: <CGME20260522061030eucas1p15f61b7bc01f77a3d34d41472210ea662@eucas1p1.samsung.com>
- <20260522061012.2687122-1-m.szyprowski@samsung.com>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Waiman Long <longman@redhat.com>,
+	cgroups@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Hui Zhu <zhuhui@kylinos.cn>
+Subject: [PATCH v2] mm/memcontrol: Avoid stuck FLUSHING_CACHED_CHARGE on isolated CPU
+Date: Fri, 22 May 2026 15:16:01 +0800
+Message-ID: <20260522071601.21065-1-hui.zhu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260522061012.2687122-1-m.szyprowski@samsung.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-05-22 08:10:12 [+0200], Marek Szyprowski wrote:
-> irq_controller_lock doesn't protect anything, it must be some leftover
-> from early development or copy/paste. Remove it completely.
-> 
-> Suggested-by: Thomas Gleixner <tglx@kernel.org>
-> Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Link: https://lore.kernel.org/all/20260520220422.3522908-1-m.szyprowski@samsung.com/
-> Fixes: 96031b31a4b3 ("irqchip/exynos-combiner: Switch to raw_spinlock")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+From: Hui Zhu <zhuhui@kylinos.cn>
 
-There is a bit of reserch in 20260521090453.bbUZ00tS@linutronix.de why
-it is a leftover.
+drain_all_stock() sets FLUSHING_CACHED_CHARGE before calling
+schedule_drain_work() to queue per-CPU drain work.  When the target
+CPU is isolated (cpu_is_isolated() == true), the work is silently
+not queued, but FLUSHING_CACHED_CHARGE stays set.  Every subsequent
+drain_all_stock() then sees the bit and skips this stock entirely,
+so the entry is effectively pinned until something else on that CPU
+runs drain_local_*_stock() and clears the bit -- which on a long-
+isolated CPU may never happen.
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+The original idea was to actually perform the drain from the calling
+CPU on behalf of the isolated one, by adding a lock around the
+per-CPU stock so that a remote drainer could safely touch it.  In
+practice this turned out to be intrusive: the stock data structures
+and their fast paths (consume_stock(), refill_stock(), the obj_stock
+helpers) are deliberately designed around current-CPU-only access,
+and retrofitting cross-CPU serialisation onto them adds non-trivial
+locking and PREEMPT_RT concerns for very little gain.
 
-Sebastian
+Looking at the actual amount of charge that can accumulate in a
+single per-CPU stock, it is bounded and small, so leaving an
+isolated CPU's stock undrained for a while is not a real problem.
+The only real bug is that the stuck FLUSHING_CACHED_CHARGE bit
+prevents future drain_all_stock() callers from re-attempting once
+the CPU is no longer isolated.
+
+Fix this minimally by clearing FLUSHING_CACHED_CHARGE when the work
+could not be queued because the target CPU is isolated.  The cached
+charge itself is left in place; it will be released the next time
+the CPU runs drain_local_*_stock() (e.g. after leaving isolation,
+or if the isolated CPU itself calls drain_all_stock() -- in that
+case cpu == curcpu causes drain_local_memcg_stock() to be invoked
+directly), and the next drain_all_stock() call is free to retry
+instead of skipping the stock forever.
+
+Fixes: 6a792697a53a ("memcg: do not drain charge pcp caches on remote isolated cpus")
+Signed-off-by: Hui Zhu <zhuhui@kylinos.cn>
+---
+Changelog:
+v2:
+According to the comments of Waiman Long, updated fixes.
+
+ mm/memcontrol.c | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
+
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index c03d4787d466..8985334565a8 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -2228,7 +2228,8 @@ static bool is_memcg_drain_needed(struct memcg_stock_pcp *stock,
+ 	return flush;
+ }
+ 
+-static void schedule_drain_work(int cpu, struct work_struct *work)
++static void
++schedule_drain_work(int cpu, struct work_struct *work, unsigned long *flags)
+ {
+ 	/*
+ 	 * Protect housekeeping cpumask read and work enqueue together
+@@ -2236,9 +2237,22 @@ static void schedule_drain_work(int cpu, struct work_struct *work)
+ 	 * partition update only need to wait for an RCU GP and flush the
+ 	 * pending work on newly isolated CPUs.
+ 	 */
+-	guard(rcu)();
+-	if (!cpu_is_isolated(cpu))
+-		queue_work_on(cpu, memcg_wq, work);
++	scoped_guard(rcu) {
++		if (!cpu_is_isolated(cpu)) {
++			queue_work_on(cpu, memcg_wq, work);
++			return;
++		}
++	}
++
++	/*
++	 * The target CPU is isolated: the drain work was not queued.
++	 * Clear FLUSHING_CACHED_CHARGE so that future drain_all_stock()
++	 * callers can re-attempt instead of skipping this stock forever.
++	 * The cached charge is left in place; it will be released the
++	 * next time the CPU itself runs drain_local_*_stock() (e.g.
++	 * after leaving isolation), or by a follow-up mechanism.
++	 */
++	clear_bit(FLUSHING_CACHED_CHARGE, flags);
+ }
+ 
+ /*
+@@ -2271,7 +2285,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+ 			if (cpu == curcpu)
+ 				drain_local_memcg_stock(&memcg_st->work);
+ 			else
+-				schedule_drain_work(cpu, &memcg_st->work);
++				schedule_drain_work(cpu, &memcg_st->work,
++						    &memcg_st->flags);
+ 		}
+ 
+ 		if (!test_bit(FLUSHING_CACHED_CHARGE, &obj_st->flags) &&
+@@ -2281,7 +2296,8 @@ void drain_all_stock(struct mem_cgroup *root_memcg)
+ 			if (cpu == curcpu)
+ 				drain_local_obj_stock(&obj_st->work);
+ 			else
+-				schedule_drain_work(cpu, &obj_st->work);
++				schedule_drain_work(cpu, &obj_st->work,
++						    &obj_st->flags);
+ 		}
+ 	}
+ 	migrate_enable();
+-- 
+2.43.0
+
