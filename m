@@ -1,34 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7792C3B83FB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8443B8BC0;
 	Sun, 24 May 2026 23:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779667055; cv=none; b=JkkIPYAzyM+WDbViBUSe9vmsoFSM1pzD34z/jYktXY6BpNepfXK71zRZ8rj9QylDVHGpq5hhfM/sYTivXyV5H4d5bi1tswmhKreWoC3Pc6Avk6/QzASbpQzeOcN48xyypTiAM/Zu+6qB40843LZaAPz35KrRnBu3nufwxS647IM=
+	t=1779667061; cv=none; b=XRrAQ/+vAnpLSJAQUc/STtP5o0a9iyYSdblFnrDF+U+4CTPi53rVo6rA+TwdLNgovj52Udk391nyrm59DvHCv36bpSAVdhgdaBCMaL9/nfG65QzpTymzibtposnIGcwkQnteBb0P0pumIr2AYSvFoOmDgTF7YFfZFk5RsqxtTX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779667055; c=relaxed/simple;
-	bh=AWRHihJSBi+LIrOoIsOzoxnsBG0+4NVU5YSaIMOxEs8=;
+	s=arc-20240116; t=1779667061; c=relaxed/simple;
+	bh=ewfeCcD9Ot0T200VQaUyxNc64vTwsILDn7MzeFMv3kU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X/kzarV9QqH/55tWJmotYDRFIgLgyMFVCBwHCoiN8MHpctsYnkJiYPfA5ocgzAzBCvtwDTb79F72z5cBfCvOQsk+4e4ihRJNjzDLUFyATkmNpiWnVH3DDh5Y4Gi8EORrUP5v1OAdd9QHTuHh2/cqX+sKQuHwxLxwZ3e/iVyshxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aocyLNmK; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=qBXbTsZA07ERaEBAiR5WIFhpVq8FCYDKXmg7tXcNw1vKfd7357aJjMh4zSdMVCkH8Nh/M/UjqUmBrEEewMlNSsQOHK2UhpjoqK/Zr28oe6UjMz2M/mT+BidgeCAMZLqYQq8d3Ohol5ap4qG5T7Mms9WVbVkViMaUvHsh/u0Yn1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMg9Z8Wa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aocyLNmK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F831F0155C;
-	Sun, 24 May 2026 23:57:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMg9Z8Wa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B1D81F0155E;
+	Sun, 24 May 2026 23:57:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1779667054;
-	bh=04z5b3ENFFStDILh5daSgPFr7SyjhKEetoj74bl6s2o=;
+	bh=pLFiy62tMx7JeOsNO0x0pvKlEUaU3G7gNAtoyChnKRs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=aocyLNmKzmXQ9FlssytmARSxj1PZsMH67qwm22RzG6SBtcNMrhjiNYkLkwmIlkaLL
-	 BSrU23bZJI7DUIDYdVSBlm5VDdqdZ0aZ40vzm/dcoH4kS19uaPu0lFX0JCR1017WxJ
-	 JrjzayD0/A8ZXR1yG350GzIgar/jNM3q3nJZ9JnQzgkyqVFf0f6FQhvsSXXYJBJuno
-	 t2rhAYzt+6+PCgh5tKYDaZ3XB/KTliu4zn1B0pproBmTumtJcZTQXVR2UezO4G/h3r
-	 Pc9HPFpETnkgvVsoKvI6Hxzfks5xlQYDCZk/AYhhyqpeP+Ar7MnXhDi8RD7Tg2ta0x
-	 DyoZGgU3BKsqQ==
+	b=GMg9Z8WaGByE/GnNqJ/v2cfgGtESFSyPLUaNDIReCmO38LfS7F5zxx6Mdi3PoNvFA
+	 mTxWGWS0DyBDzpFfDnOaFRcBRVdtj0xanHzRMS/s9jd6oiCa8SXcz5kFFF09z3ddq9
+	 8m9+M1dwKsuRMl9E1TreiB2AJzw5sii1awY/6Xg32v707KGMngtfVpPLr90A2vXPO8
+	 40ebvQ4rpht3duJmCmfB9BTRKbjjiPR7NMb7g53dd6FAe65UciQ1WoVsYIT9reacuE
+	 rSrSFW+RDixLG+TkaP+zk7OBW0bCFq+xjhPCNo7szPWJ/4SLaWXly5kx2WVmMnQmKl
+	 v9BI2o6iEn1Ag==
 From: Drew Fustini <fustini@kernel.org>
-Date: Sun, 24 May 2026 16:55:34 -0700
-Subject: [PATCH RFC v5 04/18] fs/resctrl: Add resctrl_is_membw() helper
+Date: Sun, 24 May 2026 16:55:35 -0700
+Subject: [PATCH RFC v5 05/18] fs/resctrl: Add RDT_RESOURCE_MB_MIN and
+ RDT_RESOURCE_MB_WGHT
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-4-78d3a7ba9dbe@kernel.org>
+Message-Id: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-5-78d3a7ba9dbe@kernel.org>
 References: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
 In-Reply-To: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -76,111 +77,63 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3572; i=fustini@kernel.org;
- h=from:subject:message-id; bh=AWRHihJSBi+LIrOoIsOzoxnsBG0+4NVU5YSaIMOxEs8=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQJT8iIurXa8YCswwyR44Jmc01np96aZh52ba6GioO3/
- +M7h7JkOkpZGMS4GGTFFFk2fci7sMQr9OuC+S+2wcxhZQIZwsDFKQATSVnAyPDkl/bc7Y5b+rtt
- ZRe0rFp98dPBthq9qIi6vIiHfaUcnCaMDKvqV/b+WOVWKvn1gLrzyd19D/Y7R3CFzBcuvtAf4r2
- VhxEA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1641; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=ewfeCcD9Ot0T200VQaUyxNc64vTwsILDn7MzeFMv3kU=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQJT8i4L/ydY8KSU09VjbvZmfctiXrecDDXPMmxPXJV8
+ GfvN9sWd5SyMIhxMciKKbJs+pB3YYlX6NcF819sg5nDygQyhIGLUwAm8v0rw//QkEaBp3e7PaeE
+ TtdTND6ZwCN88/6vBVeP/rAzUQ35Of0kw/8y1jUzGHNOLd4dIBx0cZO0mNNUIS/2g+5hR0Tu/T8
+ hoc0NAA==
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Four sites in fs/resctrl distinguish bandwidth resources (MBA, SMBA)
-from cache resources by explicit rid match:
+Introduce bandwidth controls which are semantically different from
+the throttle-based MB resource:
 
-  fs/resctrl/ctrlmondata.c parse_line()
-  fs/resctrl/rdtgroup.c    rdtgroup_mode_test_exclusive()
-  fs/resctrl/rdtgroup.c    rdtgroup_size_show()
-  fs/resctrl/rdtgroup.c    rdtgroup_init_alloc()
-
-Replace the open-coded MBA/SMBA tests with a single resctrl_is_membw()
-helper keyed on schema_fmt (RESCTRL_SCHEMA_RANGE). No functional change:
-every existing RESCTRL_SCHEMA_RANGE resource is MBA or SMBA today.
-
-This isolates fs/resctrl from the addition of further bandwidth resource
-types so the four call sites do not have to be updated for each new rid.
+- RDT_RESOURCE_MB_MIN: minimum reserved bandwidth
+- RDT_RESOURCE_MB_WGHT: weighted share of unreserved bandwidth
 
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- fs/resctrl/ctrlmondata.c |  3 +--
- fs/resctrl/internal.h    |  2 ++
- fs/resctrl/rdtgroup.c    | 14 +++++++++-----
- 3 files changed, 12 insertions(+), 7 deletions(-)
+ fs/resctrl/rdtgroup.c   | 4 +++-
+ include/linux/resctrl.h | 2 ++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/fs/resctrl/ctrlmondata.c b/fs/resctrl/ctrlmondata.c
-index 9a7dfc48cb2e..d9f052700941 100644
---- a/fs/resctrl/ctrlmondata.c
-+++ b/fs/resctrl/ctrlmondata.c
-@@ -245,8 +245,7 @@ static int parse_line(char *line, struct resctrl_schema *s,
- 	if (WARN_ON_ONCE(!parse_ctrlval))
- 		return -EINVAL;
- 
--	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP &&
--	    (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA)) {
-+	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP && resctrl_is_membw(r)) {
- 		rdt_last_cmd_puts("Cannot pseudo-lock MBA resource\n");
- 		return -EINVAL;
- 	}
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index 1a9b29119f88..76187987b2ee 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -397,6 +397,8 @@ void mbm_handle_overflow(struct work_struct *work);
- 
- bool is_mba_sc(struct rdt_resource *r);
- 
-+bool resctrl_is_membw(struct rdt_resource *r);
-+
- void cqm_setup_limbo_handler(struct rdt_l3_mon_domain *dom, unsigned long delay_ms,
- 			     int exclude_cpu);
- 
 diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 5dfdaa6f9d8f..0f331bf5ce82 100644
+index 0f331bf5ce82..02733b11e115 100644
 --- a/fs/resctrl/rdtgroup.c
 +++ b/fs/resctrl/rdtgroup.c
-@@ -1412,7 +1412,7 @@ static bool rdtgroup_mode_test_exclusive(struct rdtgroup *rdtgrp)
- 
- 	list_for_each_entry(s, &resctrl_schema_all, list) {
- 		r = s->res;
--		if (r->rid == RDT_RESOURCE_MBA || r->rid == RDT_RESOURCE_SMBA)
-+		if (resctrl_is_membw(r))
- 			continue;
- 		has_cache = true;
- 		list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
-@@ -1555,6 +1555,12 @@ bool is_mba_sc(struct rdt_resource *r)
+@@ -1555,7 +1555,7 @@ bool is_mba_sc(struct rdt_resource *r)
  	return r->membw.mba_sc;
  }
  
-+/* RANGE schema is bandwidth (MBA/SMBA). BITMAP is cache. */
-+bool resctrl_is_membw(struct rdt_resource *r)
-+{
-+	return r->schema_fmt == RESCTRL_SCHEMA_RANGE;
-+}
-+
- /*
-  * rdtgroup_size_show - Display size in bytes of allocated regions
-  *
-@@ -1616,8 +1622,7 @@ static int rdtgroup_size_show(struct kernfs_open_file *of,
- 					ctrl = resctrl_arch_get_config(r, d,
- 								       closid,
- 								       type);
--				if (r->rid == RDT_RESOURCE_MBA ||
--				    r->rid == RDT_RESOURCE_SMBA)
-+				if (resctrl_is_membw(r))
- 					size = ctrl;
- 				else
- 					size = rdtgroup_cbm_to_size(r, d, ctrl);
-@@ -3648,8 +3653,7 @@ static int rdtgroup_init_alloc(struct rdtgroup *rdtgrp)
+-/* RANGE schema is bandwidth (MBA/SMBA). BITMAP is cache. */
++/* RANGE schema is bandwidth (MBA/SMBA/MB_MIN/MB_WGHT). BITMAP is cache. */
+ bool resctrl_is_membw(struct rdt_resource *r)
+ {
+ 	return r->schema_fmt == RESCTRL_SCHEMA_RANGE;
+@@ -2402,6 +2402,8 @@ static unsigned long fflags_from_resource(struct rdt_resource *r)
+ 		return RFTYPE_RES_CACHE;
+ 	case RDT_RESOURCE_MBA:
+ 	case RDT_RESOURCE_SMBA:
++	case RDT_RESOURCE_MB_MIN:
++	case RDT_RESOURCE_MB_WGHT:
+ 		return RFTYPE_RES_MB;
+ 	case RDT_RESOURCE_PERF_PKG:
+ 		return RFTYPE_RES_PERF_PKG;
+diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+index 006e57fd7ca5..9529ed0d1fdf 100644
+--- a/include/linux/resctrl.h
++++ b/include/linux/resctrl.h
+@@ -53,6 +53,8 @@ enum resctrl_res_level {
+ 	RDT_RESOURCE_L2,
+ 	RDT_RESOURCE_MBA,
+ 	RDT_RESOURCE_SMBA,
++	RDT_RESOURCE_MB_MIN,
++	RDT_RESOURCE_MB_WGHT,
+ 	RDT_RESOURCE_PERF_PKG,
  
- 	list_for_each_entry(s, &resctrl_schema_all, list) {
- 		r = s->res;
--		if (r->rid == RDT_RESOURCE_MBA ||
--		    r->rid == RDT_RESOURCE_SMBA) {
-+		if (resctrl_is_membw(r)) {
- 			rdtgroup_init_mba(r, rdtgrp->closid);
- 			if (is_mba_sc(r))
- 				continue;
+ 	/* Must be the last */
 
 -- 
 2.43.0
