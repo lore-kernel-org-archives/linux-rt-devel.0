@@ -1,61 +1,63 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FA9356764
-	for <linux-rt-devel@lists.linux.dev>; Mon, 25 May 2026 19:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEEF35F5E9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 25 May 2026 19:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779738587; cv=none; b=mVcQpAk7Csf3S4VBoMgzSBd9uF6l9bFHd2EYFKHcIgmQRPvW1bqXcYV2VWmQCT5mKFutjx0Aueb15Prt0aJdd6Y7/iRjyZOOl9p4BsVFitqzaAuEogmHQWk04klfJLUYkJdSJDMRDB2xXJRVVSckYYr3dMl9L8yKGtb/KjFIkww=
+	t=1779738588; cv=none; b=me3A8XSxxF8EaobRcxtNlEnf+ZvkhEa6vDGoLfga+E1GVrurPFTR5WewG4dj2muE8Vqp5lZoyJtpM7vOd6r01WBO8bFQ4/q+LXwkvbuOnYDQ7sErpTvWBDxQ4WMHiq+LXyq3AD0M/E0MA53CtxRPyctkaGIHMU6digtTLXGP4DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779738587; c=relaxed/simple;
-	bh=hN2gTsGG00WZfAJH7F3jeYvGlvKV+w5hhNPlto0mhTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pWYjnJxa1Z0Zd3WG+rOW0/w6Ekvr3YfL8gTeKVxE0YTq+sE336rAYu7YOx0qYoRLx6MenQ3Dj/djDi4L7uNdAXeTZfoWdln1t84Gx56iEV2jQPBJasv6LCZdQMEFdKnxebMzpLBaxCIgwXprP0MUIkBXIGr0RQSMBRVi3hrFcF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=SCEonHcr; arc=none smtp.client-ip=74.125.82.169
+	s=arc-20240116; t=1779738588; c=relaxed/simple;
+	bh=KN32dTtmfpBUCNjjKsDJ87Yez5+okt9F+j5uevGUbbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SEqBMpeezboOFjh1B4rQi4HC0nIw70kRDhR+AC6QUbKCsYTT9LJRHEa3yR8ymVzynBV4VN59nSxQJB3NsvNtEsNQfQK+68e7sR1kttL+V2ye1xyeO29A2+4pAuHOKe+PSdwbMWAVw66WicFTtQJLgvS+lejNvf42hGtnytbbeKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=TkIyTHUu; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="SCEonHcr"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso6910004eec.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 25 May 2026 12:49:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="TkIyTHUu"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30246cfd41aso1976831eec.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 25 May 2026 12:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wbinvd.org; s=wbinvd; t=1779738585; x=1780343385; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Yu9d6gTXgdP6EK+2IYW5F5Xve/jIZBNQFenXapvxDA=;
-        b=SCEonHcrfFrn4K5A7RsTvag6fXhWTDvFHmiH7VDVaFoeLf7IQKHc+ab8XJ5LhefuID
-         L50phyJScww0ryK0xGxO7puivB7VWCyDD5luWBuBZNf60KntRLznfvuINck1OpJQjmk5
-         1Efjq7OBG5kUsP+nUwShtAV2hSlKBiaJhPnOjU95o6b6FWQhYFcaagIL9pXApeRgnVdl
-         pKolgWuyOjBs2MmKLhbhlqaAga+wyvX3noFMaShuVccxEv090Ks/aAqJ+dmKa7hlPuu7
-         A05nnfzRiSFhpvs3L9T1KHXPIC5u2jiidzmEgs+0EfQzJVK91URUpZueVYbsVlfJYDD1
-         ei2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779738585; x=1780343385;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=wbinvd.org; s=wbinvd; t=1779738586; x=1780343386; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Yu9d6gTXgdP6EK+2IYW5F5Xve/jIZBNQFenXapvxDA=;
-        b=H0xdUJZbBWvjQi69RK60czUfqZ+5jrSIxHFGu38bF+h1ocl5WB/sgcRZsdZ9eQYoxg
-         zDCwCw1w8tZeugjelZylIzlzhnmMr+24WPPRi54ZegtFA/WcioYnG5VL70nDHCPcWDAc
-         0CvIZUKzngSjVdtwaf2To9IIWcAndPNYf4mE+v+aLVxnvtRvuAWw7aKTAarIRKhuD0KQ
-         zfe68uWuQ4WLZzxLq6eYhai97MZYl21EKH95yLeTPMKHrYn4YhvIL9lsH6LqDWOUpiPo
-         QezgTIAvv5Pjb4uR5Ibp6To35qgq8PY3CksOQ4fLWjyvFmbB+ndAAYsnUS+/X5K0EoAG
-         KJIg==
-X-Forwarded-Encrypted: i=1; AFNElJ930jDwywWIaC0fy2sqqyCn8qZG88WDAzM+anJe3b5T3jpjOO0BQvxGId5XEDLJWlTMrsa5k/aRe4sl2b/mzg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXX8pD57Tp4MPAETWGkYQnoQHUio1xZ+2S7gfwDzHnEjHZvLY6
-	XVNF3TNzi86wmNC3vuDUl0faKE5atkqVObL/NJHAxerCz0ayP56HfpO/F2dluibWl30=
-X-Gm-Gg: Acq92OEpTuXlt3KFtgYUdeWxVmhYWDBGJ8xXqKm0MPlpT2KhYJvMmP2EUElT7+9joPM
-	N6St1t0S3ah5EA15a9N3zzT2+MoCg3Rba9fQgp6ErFxp9zrOmltcl/w/EISiDCQUqjUBDN/+N4Z
-	L8ymFUWWgwbpeS5Lxwc19FThlvQ10IpYrzF8ftb+ydQLnFazi2BGnGdB8Nz7p29xM0TRCgY0oPm
-	DozhMHLJ/6WsTG/vgAIR43CuvyfLHpLAHqw+nIuJa0BT9Av4YGZcE5vuBkv49oTRZ+RFJ7n1quP
-	PkhBVhwpQ8M0cyehsY91qOyhsi0bhC71Dq4mQSqNdVTDoMRJK/WQJcXlXpWpyv/IW3pJzZh1stK
-	1Yzhw569OGLf581FCVWVXrkATWPazw2eNEedYyDw67cYsWgdTxzdsNJLfoF+z6w7vajFTbyUj8y
-	k8zstpm85wO3M3gi/BcvOZ+1B9NQ==
-X-Received: by 2002:a05:7301:418b:b0:2de:e194:5fb1 with SMTP id 5a478bee46e88-3044a41ceacmr5620399eec.7.1779738584945;
-        Mon, 25 May 2026 12:49:44 -0700 (PDT)
+        bh=HR4DFF79sz18rq0F3+mr/LSyfi6B2biymk9ahV0bWd4=;
+        b=TkIyTHUu1rdiZnxF1FPdsr9Vqa+eXcuMBsi1Kg/al+vnKhPr58rPsx5J8i42YNoZIP
+         D2pBBNJO9XzxaXlhXMJZix5hzn2fbXvIHwYggtju7+rfPRWQ+p0wDZ3q+r7kU9NG14ZN
+         d+JcaZFrK1jI803gWrB0xfoSYiIbVTvU0GIBkcI8AkhbUjZgae8DZ/FcbEC33MuDpfrV
+         COV8OSdPxN4N0xVwzJ66i858UYUxdWLYKOVgp2Da3g7CRmw+HLEOsgEXNFl1BM0Znsy3
+         49dyQflflChoanDHIm5o5kG9GLWrW/m7Zltmi/kj4qLa0/fctSDBc7TdyJjZOu5QEJaM
+         LFwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779738586; x=1780343386;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HR4DFF79sz18rq0F3+mr/LSyfi6B2biymk9ahV0bWd4=;
+        b=kqkTGiPwk3qtsr0PY7Dcded7P4nAShKeKc3v34m8gfc1tFAF1ZZyNt7qWar4pk0Vs1
+         J970u/DTEYvwwu4kbMuflfVtvLYckoNrNn0Q4vP+R13IHL5pdsk+nv1vIarRDx6Zb78W
+         2izeEpzd7C7rCZm+JCh7DtZCG6FxFk+rqzaXWLo2K0oR02gEUyPjR2A9ajIn1iLYItOY
+         bZ+O4sG5qrqLOIU63tXB80nItl5eYAdrFXuzg8q32khvnd3ugYT6JfL82g44qv1Qcu2V
+         Y6imrnuGPl23WNsvIa3TR7XkftvITeqOlzwdtq6YRkX85o23EfdM8jeUZ46B14sCSaLE
+         vDRQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8oSFRFH5rUYIiNIrn5qv25Uzkwl6lPgUK5B/LKPW5/TAC7zUdCPGL+ns2LdpJ87ITiGNhvN5kF2Ry9FXG53w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVyuTBhPpgH66nyjCSt4kHAYKbOW7PP1CczKnLhWOLgGCUz3hS
+	wSF49zC42n1C7ljPqs9c7drYo1pvWplUAGTI+uJQk5OIrm3TdcKNmltdoNdBcu/BmBY=
+X-Gm-Gg: Acq92OFSPPn+vLPT+xWQm7RWAnYnoiJo2tKMD+ekt+yk/biVUX3oZ/4QXF06inRP+1M
+	rBnpMaEMo59kSIgvI5yn8NERz9xxKOBdJsZAPUZWYw11yoXriiFPJxBAwOHlRAigiRMvTm3JHpf
+	nxBgsf+apLeyrPjx7aFAT4I3eoxNqtR78CGZnxLIz8d7OvcOOW3Nqu25scrHQ893KoCTWUcbQyD
+	imkcwFzb0UzWFJlVkyiYu5uVnLDZ0krzT7XrGpCWz3CfhmnbqQZE3kqqUgrmHE6dc++0Qcqe2gR
+	uvqByrg0nwjw/wMha2DJaGuc0i6mUqGAphFWT9qOyTJN0vFeRumTWZIKRJbEbI0mysKWSRCpNVE
+	rRcjo6TkesaVKRhZzbdmsU3Z/FAq7emzN6pE4BPiClY/nc87jarlJgGKCrCRTClJc7d3crL4Skl
+	3UApCZJUgzIozzctvEZp/PuuV7Hv+RGeX/8G1O
+X-Received: by 2002:a05:7300:509:b0:304:6782:d5a4 with SMTP id 5a478bee46e88-3046782e5edmr5137811eec.5.1779738586400;
+        Mon, 25 May 2026 12:49:46 -0700 (PDT)
 Received: from mozart.vkv.me ([2001:5a8:468b:d015:2feb:307b:ed4b:5f1d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30452230dddsm11032141eec.17.2026.05.25.12.49.43
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30452230dddsm11032141eec.17.2026.05.25.12.49.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 12:49:44 -0700 (PDT)
+        Mon, 25 May 2026 12:49:46 -0700 (PDT)
 From: Calvin Owens <calvin@wbinvd.org>
 To: linux-kernel@vger.kernel.org
 Cc: Rodolfo Giometti <giometti@enneenne.com>,
@@ -69,10 +71,12 @@ Cc: Rodolfo Giometti <giometti@enneenne.com>,
 	Eliav Farber <farbere@amazon.com>,
 	linux-rt-devel@lists.linux.dev,
 	David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH v6 0/3] pps: improve PREEMPT_RT performance
-Date: Mon, 25 May 2026 12:49:29 -0700
-Message-ID: <cover.1779733602.git.calvin@wbinvd.org>
+Subject: [PATCH v6 1/3] pps: pps-gpio: split IRQ handler into hardirq timestamper + threaded handler
+Date: Mon, 25 May 2026 12:49:30 -0700
+Message-ID: <106de17aabedc07c3550a2297c1659ef97f28c41.1779733602.git.calvin@wbinvd.org>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1779733602.git.calvin@wbinvd.org>
+References: <cover.1779733602.git.calvin@wbinvd.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -81,89 +85,105 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello all,
-
-Michael is busy, and I have some extra bandwidth, so I've volunteered to
-help out with the patch schlepping here. These v6 patches are based on
-7.1-rc5.
-
-This is all Michael's work, and Michael's cover letter follows. I added
-lore links to the older patch versions next to his change descriptions.
-
-Note that I replaced two emdashes in comment blocks with regular hypens
-in patch 1/3, to avoid 8bit encoding.
-
-Thanks,
-Calvin
-
----
 From: Michael Byczkowski <by@by-online.de>
 
-This is v6 of the PPS PREEMPT_RT patchset, addressing the review
-feedback from Sebastian Andrzej Siewior on v5.
+Split the pps-gpio interrupt handler into a primary (hardirq) handler
+that captures the PPS timestamp at interrupt entry, and a threaded
+handler that processes the event. This produces the same two-part
+handler structure on both PREEMPT_RT and non-RT kernels.
 
-Changes since v5: https://lore.kernel.org/lkml/719A31CE-CA58-45C3-A013-1BFE81F724C5@by-online.de/
- - Reordered: the pps_kc_hardpps_lock conversion now precedes the
-   pps_device.lock conversion. The previous order would have briefly
-   produced a raw_spinlock holding a sleeping spinlock on PREEMPT_RT
-   (Sebastian).
- - Patch 1/3: commit message reworded to describe the handler split
-   structurally first, then its PREEMPT_RT benefit (Sebastian).
- - Patch 2/3: refactored pps_kc_bind() and pps_kc_remove() to use
-   guard(raw_spinlock_irq) for scope-based lock release. Eliminates
-   four duplicated unlock call sites in pps_kc_bind() and the
-   ambiguous bracket structure that resulted from them (Sebastian).
- - Rodolfo's Acked-by on patch 2/3 is preserved from v5; the guard()
-   refactor is purely stylistic and was suggested by Sebastian, but
-   please re-ack or NAK if disagreement.
+On non-RT kernels the threaded portion runs immediately after the
+primary, with no behavioral change compared to the previous
+single-handler implementation.
 
-Changes since v4: https://lore.kernel.org/lkml/B24484C5-3117-4C56-9522-1EE9876E64BA@by-online.de/
- - Patch 2/3: added Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+On PREEMPT_RT, where interrupt handlers are force-threaded by default,
+the previous single-handler implementation captured the timestamp
+inside the threaded portion, after IRQ-thread scheduling delay. With
+the split, the timestamp is captured in true hardirq context as it is
+on non-RT kernels, eliminating a significant source of PPS jitter on
+RT systems.
 
-Changes since v3: https://lore.kernel.org/lkml/83318241-44C3-48BE-829D-5C5F82A78A74@by-online.de/
- - Patch 2/3: fixed lost indentation on pps_kc_event() call
-   (reported by Rodolfo Giometti <giometti@enneenne.com>)
+Tested-by: Michael Byczkowski <by@by-online.de>
+Tested-by: Calvin Owens <calvin@wbinvd.org>
+Acked-by: Rodolfo Giometti <giometti@enneenne.com>
+Signed-off-by: Michael Byczkowski <by@by-online.de>
+Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+---
+ drivers/pps/clients/pps-gpio.c | 37 +++++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 12 deletions(-)
 
-Changes since v2: https://lore.kernel.org/lkml/1BB87C0C-33C1-45C3-B50E-C5F349DA3FDC@by-online.de/
- - Patch 2/3: moved wake_up_interruptible_all() and kill_fasync() out
-   of raw_spinlock section to avoid sleeping-in-atomic on PREEMPT_RT
-   (reported by Nikolaus Buchwitz <nb@buchwitz.com>)
-
-This patchset addresses three sources of PPS jitter under PREEMPT_RT,
-while being fully backward-compatible with non-RT kernels:
-
-1. pps-gpio: The IRQ handler is force-threaded on PREEMPT_RT, so the
-   PPS timestamp is captured after scheduling delay rather than at
-   interrupt entry. Fix: split into a hardirq primary handler
-   (captures timestamp only) and a threaded handler (processes the
-   event).
-
-2. pps_kc_hardpps_lock: spinlock_t becomes a sleeping mutex on
-   PREEMPT_RT. Since pps_kc_event() calls hardpps() under this lock
-   and hardpps() takes the raw_spinlock_t tk_core.lock, the nesting
-   is invalid. Fix: convert to DEFINE_RAW_SPINLOCK.
-
-3. pps_device.lock: same issue as (2), in the PPS event delivery
-   path. Fix: convert to raw_spinlock_t and move sleeping calls out
-   of the critical section.
-
-All three patches are tested on a Raspberry Pi 5 running 7.0.1 and
-7.1-rc PREEMPT_RT kernels. On non-RT kernels there is zero behavioral
-change.
-
-Michael Byczkowski (3):
-  pps: pps-gpio: split IRQ handler into hardirq timestamper + threaded
-    handler
-  pps: kc: convert pps_kc_hardpps_lock to raw_spinlock_t
-  pps: convert pps_device.lock to raw_spinlock_t
-
- drivers/pps/clients/pps-gpio.c | 37 +++++++++++++------
- drivers/pps/kapi.c             |  6 +--
- drivers/pps/kc.c               | 67 ++++++++++++++++------------------
- drivers/pps/pps.c              | 16 ++++----
- include/linux/pps_kernel.h     |  2 +-
- 5 files changed, 68 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/pps/clients/pps-gpio.c b/drivers/pps/clients/pps-gpio.c
+index 935da68610c7..f37398fd6b10 100644
+--- a/drivers/pps/clients/pps-gpio.c
++++ b/drivers/pps/clients/pps-gpio.c
+@@ -35,33 +35,44 @@ struct pps_gpio_device_data {
+ 	bool capture_clear;
+ 	unsigned int echo_active_ms;	/* PPS echo active duration */
+ 	unsigned long echo_timeout;	/* timer timeout value in jiffies */
++	struct pps_event_time ts;	/* timestamp captured in hardirq */
+ };
+ 
+ /*
+  * Report the PPS event
+  */
+ 
+-static irqreturn_t pps_gpio_irq_handler(int irq, void *data)
++/*
++ * Primary hardirq handler - runs in hardirq context even on PREEMPT_RT.
++ * Only captures the timestamp; all other work is deferred to the thread.
++ */
++static irqreturn_t pps_gpio_irq_hardirq(int irq, void *data)
+ {
+-	const struct pps_gpio_device_data *info;
+-	struct pps_event_time ts;
+-	int rising_edge;
++	struct pps_gpio_device_data *info = data;
++
++	pps_get_ts(&info->ts);
+ 
+-	/* Get the time stamp first */
+-	pps_get_ts(&ts);
++	return IRQ_WAKE_THREAD;
++}
+ 
+-	info = data;
++/*
++ * Threaded handler - processes the PPS event using the timestamp
++ * captured in hardirq context above.
++ */
++static irqreturn_t pps_gpio_irq_thread(int irq, void *data)
++{
++	struct pps_gpio_device_data *info = data;
++	int rising_edge;
+ 
+-	/* Small trick to bypass the check on edge's direction when capture_clear is unset */
+ 	rising_edge = info->capture_clear ?
+ 		      gpiod_get_value(info->gpio_pin) : !info->assert_falling_edge;
+ 	if ((rising_edge && !info->assert_falling_edge) ||
+ 			(!rising_edge && info->assert_falling_edge))
+-		pps_event(info->pps, &ts, PPS_CAPTUREASSERT, data);
++		pps_event(info->pps, &info->ts, PPS_CAPTUREASSERT, data);
+ 	else if (info->capture_clear &&
+ 			((rising_edge && info->assert_falling_edge) ||
+ 			(!rising_edge && !info->assert_falling_edge)))
+-		pps_event(info->pps, &ts, PPS_CAPTURECLEAR, data);
++		pps_event(info->pps, &info->ts, PPS_CAPTURECLEAR, data);
+ 	else
+ 		dev_warn_ratelimited(&info->pps->dev, "IRQ did not trigger any PPS event\n");
+ 
+@@ -210,8 +221,10 @@ static int pps_gpio_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* register IRQ interrupt handler */
+-	ret = request_irq(data->irq, pps_gpio_irq_handler,
+-			  get_irqf_trigger_flags(data), data->info.name, data);
++	ret = request_threaded_irq(data->irq,
++			  pps_gpio_irq_hardirq, pps_gpio_irq_thread,
++			  get_irqf_trigger_flags(data) | IRQF_ONESHOT,
++			  data->info.name, data);
+ 	if (ret) {
+ 		pps_unregister_source(data->pps);
+ 		dev_err(dev, "failed to acquire IRQ %d\n", data->irq);
 -- 
 2.47.3
 
