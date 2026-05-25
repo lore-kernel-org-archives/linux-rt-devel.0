@@ -1,370 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0C63B8922;
-	Sun, 24 May 2026 23:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F126D2D0C62;
+	Mon, 25 May 2026 05:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779667068; cv=none; b=EtOgNCvNJXcMDzuQMskP7dQEpooIUNQuxRKa4+PD8I72NdYr4RuYteCe0RNxMu2EqnLwurnX+dgZxtHn2ReUmheQJoH/8VQbmxup62M4MpeAFXYsMtlsjJ+ZcmnzxCFVcRHTJatqW2vy4a0kF1ZqGnAj6Og+kO0N99Cut/QyHOE=
+	t=1779686676; cv=none; b=VvnY59T3NNjahaUX7NRmX6/Mr70kHTZj9eWs6O10j3BkxS0+vedOFiOFHl5oM7Li5HrZ/YD2y/6jX/4zXiVbVuM5nj0K8EXoU1kB/mQExEgsrqoDH1CXSJWdCNwGyt/wPsLm8+JYDPaosQp0oemVlsGyWDoalanTZhMOLd5iJBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779667068; c=relaxed/simple;
-	bh=cQZIxogxHi6/a1bq9hWHDBDDLMtTIO/xab7UaBUTm3o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=opJsY3lkYsc+MlHYA1GsD6eZX5pbQfIMFGwIVt1A56I9rKrMmwG//Qe29hT6J0wQX1H8iEryHYFZJ63PlGd5e42SM0QYbmdC8ophwbq4C/ngiNaXbO09Dc5nlViU/55x68JG4Ovxtc3UaGt6RcLSBMEgt2VzK3yuA+5cdwvZmjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UschymkL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779686676; c=relaxed/simple;
+	bh=GIUseVFs/C0ymsqGSmX5U+3oK8o0nMX1MIGBODuGnM8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=SnrCKCNwMq12nsktH0fD50b8gdcZhmoaYPWfYHq+R1RpmRohJ9f73fqoPrm9fOyvTOR/H5h7O+o/nn7kBeLN+D7CY0mwb+lAK+RO2g5el1T8oqEroKP95CsAqFfg3NZFKybx7Wh2CX4XdCyxPFJ4L3tmN0iy5i8xw7BLjsBLjWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Rt95io/l; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UschymkL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98BE31F0155E;
-	Sun, 24 May 2026 23:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779667062;
-	bh=EllR/1CEo+TtZv0/iyFInnJU3GZT/dZGiV/si/OJVsA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=UschymkLhpsZAcrY4tvBRbXe5RxmMF0kfbcCiyoO4888lSnqXCJImwKldXyGvOYYk
-	 IkZRp4CYDfZzhOidA7rgFJtvaM1O5WzNqPcHCk9/UekwMOvWGkNNvg+DBl9wOA6GEv
-	 +N3UwHBEUByKzEEI/0p3m4TpXsM03wgoA1Ss8ilpIqqLSkPtVQUxMTh83oGcNZI32b
-	 1QCpi2QkAqHYAD7/cSmWZ2Nf7WqDRFhKHM+3gEeNmfFLzUXQRcdH3KDczdWz6DjSrL
-	 7SJM/VRo/wnkkjQqO1twyaCEwDNxC5Vi4rP/jHpB4HkePGqtl/paKoJNKWKPAzkwzi
-	 sFnFJxI/MNUgg==
-From: Drew Fustini <fustini@kernel.org>
-Date: Sun, 24 May 2026 16:55:45 -0700
-Subject: [PATCH RFC v5 15/18] riscv_cbqri: resctrl: Add mbm_total_bytes
- bandwidth monitoring
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Rt95io/l"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:References;
+	bh=F+qcx171PO0iY44USb9zp7y86yRvqPfz1FP7DjlNcFg=; b=Rt95io/lcfqcGRpo6czeBwHio9
+	pVjQgDqUXSWgaqWn03gbxnKW5IUsmly2MGIC/fJ4G7eulQgYIaBn1xTPRq+W1IjFrgWC7pY+mLsQN
+	4Ub3I59Ib67qY30TB1t+q9Rx2D2t9VQTwmz/y6kwJP2aGmlMk4s/aKbESqKYzAM9bDSZO5+8vg6m5
+	RKD6guac98ljA4y9c84c5BCt7TTgVEDAY1+F/r1vvoteXW9m5F6qIYTD+/d35A05w4CVQL/DYGMTR
+	IRXDvPvHQtfZbcgHko93BD7Gp7NXBY/6Yf0JIFdW/3r/YPPp3l0UlRV4LaPz8v3E9BQFfMZn7aKDC
+	JE+JaPEg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wRNni-0000000GJk7-316n;
+	Mon, 25 May 2026 05:24:30 +0000
+Date: Sun, 24 May 2026 22:24:30 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Tal Zussman <tz2294@columbia.edu>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	Carlos Maiolino <cem@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Christoph Hellwig <hch@infradead.org>,
+	Dave Chinner <dgc@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, Gao Xiang <xiang@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v6 1/4] block: add task-context bio completion
+ infrastructure
+Message-ID: <ahPdDtu3vXfNpb__@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-15-78d3a7ba9dbe@kernel.org>
-References: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
-In-Reply-To: <20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe@kernel.org>
-To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>, 
- Samuel Holland <samuel.holland@sifive.com>, 
- Adrien Ricciardi <aricciardi@baylibre.com>, 
- Nicolas Pitre <npitre@baylibre.com>, 
- =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
- Atish Patra <atish.patra@linux.dev>, 
- Atish Kumar Patra <atishp@rivosinc.com>, 
- Vasudevan Srinivasan <vasu@rivosinc.com>, Ved Shanbhogue <ved@rivosinc.com>, 
- Conor Dooley <conor.dooley@microchip.com>, 
- yunhui cui <cuiyunhui@bytedance.com>, Chen Pei <cp0613@linux.alibaba.com>, 
- Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, Weiwei Li <liwei1518@gmail.com>, 
- guo.wenjia23@zte.com.cn, Gong Shuai <gong.shuai@sanechips.com.cn>, 
- Gong Shuai <gsh517@gmail.com>, liu.qingtao2@zte.com.cn, 
- Reinette Chatre <reinette.chatre@intel.com>, 
- Tony Luck <tony.luck@intel.com>, Babu Moger <babu.moger@amd.com>, 
- Peter Newman <peternewman@google.com>, Fenghua Yu <fenghua.yu@intel.com>, 
- James Morse <james.morse@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
- Dave Martin <Dave.Martin@arm.com>, Rob Herring <robh@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
- Robert Moore <robert.moore@intel.com>, Sunil V L <sunilvl@ventanamicro.com>, 
- Drew Fustini <fustini@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- x86@kernel.org, linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9431; i=fustini@kernel.org;
- h=from:subject:message-id; bh=cQZIxogxHi6/a1bq9hWHDBDDLMtTIO/xab7UaBUTm3o=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWQJT8i8+oHZvP8y25zQxHjb5zfcdFP1Qj76r1At+Ni5m
- fWip65HRykLgxgXg6yYIsumD3kXlniFfl0w/8U2mDmsTCBDGLg4BWAi2x8y/GSc8nJ+9HLnCWuq
- uXfKesroLz+Q1bGI5XPrw8v1ss4xkY6MDB81GRmknE9s+yPQb/l0TX6Pb0Kxx/fzLUsKpGS/BQr
- 4cwEA
-X-Developer-Key: i=fustini@kernel.org; a=openpgp;
- fpr=1B6F948213EA489734F3997035D5CD577C1E6010
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea6fc01f-5cb7-4a04-9f92-bbd2791fea51@columbia.edu>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Expose CBQRI bandwidth controller's combined read+write counter as
-the L3 mbm_total_bytes event. A software accumulator keeps the
-64-bit byte total monotonic across the 62-bit hardware counter wrap.
+[adding the PREEMPT-RT maintainers and list for one and a half questions
+for them a bit below]
 
-mbm_local_bytes is not supported because the CBQRI spec has no way
-to distinguish total versus local. mbm_total_bytes is enabled only
-when the platform exposes exactly one mon-capable bandwidth
-controller and exactly one L3 domain. Pairing a single BC with
-multiple L3 domains would let standard userspace tools overcount
-system bandwidth by summing the same counter across domains.
+On Fri, May 22, 2026 at 07:09:59PM -0400, Tal Zussman wrote:
+> > +		while ((bio = bio_list_pop(&list)))
+> > +			bio->bi_end_io(bio);
+> 
+> Q: "Does this code handle bios that do not have a completion callback?
+> If a bio is submitted with the BIO_COMPLETE_IN_TASK flag but has a NULL
+> bi_end_io pointer (like some flush or discard bios), executing
+> bio->bi_end_io(bio) directly will cause a NULL pointer dereference.
+> The synchronous completion path in bio_endio() checks if bio->bi_end_io is
+> non-NULL before calling it. Should a similar check be added here?"
+> 
+> A: Every bio that reaches this point should have bi_end_io set. There's no
+> point in deferring a bio without a completion handler.
 
-Assisted-by: Claude:claude-opus-4-7
-Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-Signed-off-by: Drew Fustini <fustini@kernel.org>
----
- drivers/resctrl/cbqri_resctrl.c | 191 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 187 insertions(+), 4 deletions(-)
+Yes.  The only bios without bi_end_io that can end up in bio_endio
+are those attached to passthrough requests, and deferring them of
+course doesn't make sense.
 
-diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
-index ba764bc6ef17..f11709d7e479 100644
---- a/drivers/resctrl/cbqri_resctrl.c
-+++ b/drivers/resctrl/cbqri_resctrl.c
-@@ -29,6 +29,13 @@ struct cbqri_resctrl_res {
- struct cbqri_resctrl_dom {
- 	struct rdt_ctrl_domain  resctrl_ctrl_dom;
- 	struct cbqri_controller *hw_ctrl;
-+	/*
-+	 * For an L3 capacity controller paired with a bandwidth controller
-+	 * of matching topology, paired_bc caches that BC so mbm_total_bytes
-+	 * reads / resets don't have to walk cbqri_controllers on every hit.
-+	 * NULL for non-L3 domains and L3s without a paired BC.
-+	 */
-+	struct cbqri_controller *paired_bc;
- };
- 
- static struct cbqri_resctrl_res cbqri_resctrl_resources[RDT_NUM_RESOURCES];
-@@ -37,7 +44,7 @@ static struct cbqri_resctrl_res cbqri_resctrl_resources[RDT_NUM_RESOURCES];
-  * Per-event controller table. Only events CBQRI can back occupy a
-  * slot, so other events do not bloat the array.
-  */
--#define CBQRI_MAX_EVENT QOS_L3_OCCUP_EVENT_ID
-+#define CBQRI_MAX_EVENT QOS_L3_MBM_TOTAL_EVENT_ID
- static struct cbqri_controller *cbqri_resctrl_counters[CBQRI_MAX_EVENT + 1];
- 
- static bool exposed_alloc_capable;
-@@ -228,6 +235,36 @@ void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_l3_mon_domain *d
- 		mutex_unlock(&ctrl->lock);
- 		break;
- 
-+	case QOS_L3_MBM_TOTAL_EVENT_ID: {
-+		struct cbqri_controller *bc;
-+
-+		cd = cbqri_find_ctrl_domain(&r->ctrl_domains, d->hdr.id);
-+		if (!cd)
-+			break;
-+		hw_dom = container_of(cd, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
-+		bc = hw_dom->paired_bc;
-+		if (!bc)
-+			break;
-+		if (WARN_ON_ONCE(!bc->mbm_total_states))
-+			break;
-+		if (rmid >= bc->mcid_count)
-+			break;
-+
-+		mutex_lock(&bc->lock);
-+		/*
-+		 * CONFIG_EVENT both resets and re-arms. Skip the accumulator
-+		 * memset on failure. A stale hardware counter X with
-+		 * prev_ctr=0 would inject overflow(0, X) on the next read.
-+		 */
-+		if (!cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
-+				  CBQRI_BC_MON_CTL_OP_CONFIG_EVENT, rmid,
-+				  CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL))
-+			memset(&bc->mbm_total_states[rmid], 0,
-+			       sizeof(*bc->mbm_total_states));
-+		mutex_unlock(&bc->lock);
-+		break;
-+	}
-+
- 	default:
- 		break;
- 	}
-@@ -240,8 +277,10 @@ void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_l3_mon_domai
- 	int i;
- 
- 	/* Bound by max_rmid (system-wide minimum mcid_count). */
--	for (i = 0; i < max_rmid; i++)
-+	for (i = 0; i < max_rmid; i++) {
- 		resctrl_arch_reset_rmid(r, d, 0, i, QOS_L3_OCCUP_EVENT_ID);
-+		resctrl_arch_reset_rmid(r, d, 0, i, QOS_L3_MBM_TOTAL_EVENT_ID);
-+	}
- }
- 
- int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
-@@ -305,6 +344,82 @@ int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
- 		mutex_unlock(&ctrl->lock);
- 		break;
- 
-+	case QOS_L3_MBM_TOTAL_EVENT_ID: {
-+		struct cbqri_controller *bc;
-+
-+		/*
-+		 * The L3 monitoring domain's id is the L3 cache id. The
-+		 * matching ctrl domain's hw_dom->paired_bc was cached at
-+		 * add time to avoid walking cbqri_controllers on every read.
-+		 */
-+		d = cbqri_find_ctrl_domain(&r->ctrl_domains, hdr->id);
-+		if (!d) {
-+			err = -ENOENT;
-+			break;
-+		}
-+		hw_dom = container_of(d, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
-+		bc = hw_dom->paired_bc;
-+		if (!bc) {
-+			err = -ENOENT;
-+			break;
-+		}
-+		if (WARN_ON_ONCE(!bc->mbm_total_states)) {
-+			err = -EIO;
-+			break;
-+		}
-+		if (rmid >= bc->mcid_count) {
-+			err = -ERANGE;
-+			break;
-+		}
-+
-+		mutex_lock(&bc->lock);
-+		/* Pass EVT_ID explicitly. Same reason as the CC path above. */
-+		err = cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
-+				   CBQRI_BC_MON_CTL_OP_READ_COUNTER, rmid,
-+				   CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL);
-+		if (err)
-+			goto out_bc;
-+
-+		ctr_val = ioread64(bc->base + CBQRI_BC_MON_CTR_VAL_OFF);
-+
-+		if (ctr_val & CBQRI_BC_MON_CTR_VAL_INVALID) {
-+			/*
-+			 * Return the last good total and leave prev_ctr so
-+			 * the next valid sample resumes from there.
-+			 */
-+			*val = bc->mbm_total_states[rmid].chunks;
-+		} else if (ctr_val & CBQRI_BC_MON_CTR_VAL_OVF) {
-+			/*
-+			 * OVF is sticky until next CONFIG_EVENT.
-+			 * cbqri_bc_mon_overflow() can recover at most
-+			 * one wrap. With OVF set, the count is unknown,
-+			 * so re-arm and re-anchor prev_ctr=0.
-+			 */
-+			struct cbqri_bc_mon_state *s = &bc->mbm_total_states[rmid];
-+
-+			pr_warn_ratelimited("BC@%pa MCID %u: bandwidth counter overflow\n",
-+					    &bc->addr, rmid);
-+			err = cbqri_mon_op(bc, CBQRI_BC_MON_CTL_OFF,
-+					   CBQRI_BC_MON_CTL_OP_CONFIG_EVENT, rmid,
-+					   CBQRI_BC_EVT_ID_TOTAL_READ_WRITE, NULL);
-+			if (err)
-+				goto out_bc;
-+
-+			s->prev_ctr = 0;
-+			*val = s->chunks;
-+		} else {
-+			struct cbqri_bc_mon_state *s = &bc->mbm_total_states[rmid];
-+			u64 cur = ctr_val & CBQRI_BC_MON_CTR_VAL_CTR_MASK;
-+
-+			s->chunks  += cbqri_bc_mon_overflow(s->prev_ctr, cur);
-+			s->prev_ctr = cur;
-+			*val        = s->chunks;
-+		}
-+out_bc:
-+		mutex_unlock(&bc->lock);
-+		break;
-+	}
-+
- 	default:
- 		err = -EINVAL;
- 		break;
-@@ -738,6 +853,15 @@ static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
- 			res->mon.num_rmid = ctrl->mcid_count;
- 			resctrl_enable_mon_event(QOS_L3_OCCUP_EVENT_ID,
- 						 false, 0, NULL);
-+
-+			/*
-+			 * Expose BC bandwidth monitoring as the L3's
-+			 * mbm_total_bytes when they share topology.
-+			 */
-+			if (cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID])
-+				resctrl_enable_mon_event(QOS_L3_MBM_TOTAL_EVENT_ID,
-+							 false, 0, NULL);
-+
- 			res->mon_capable = true;
- 		}
- 		break;
-@@ -824,15 +948,54 @@ static int cbqri_resctrl_pick_bw_alloc(void)
- }
- 
- /*
-- * Pick one controller per monitoring event.  L3 OCCUP comes from the
-- * picked L3 CC (if mon_capable).
-+ * Pick one controller per monitoring event. L3 OCCUP comes from the
-+ * picked L3 CC if mon_capable. MBM_TOTAL from the only mon-capable BC,
-+ * but only when the system exposes exactly one L3 cache. Pairing a
-+ * single BC with multiple L3 domains would overcount system bandwidth
-+ * by a factor equal to the L3 domain count.
-  */
- static void cbqri_resctrl_pick_counters(void)
- {
- 	struct cbqri_resctrl_res *l3 = &cbqri_resctrl_resources[RDT_RESOURCE_L3];
-+	struct cbqri_controller *ctrl, *prev;
-+	unsigned int l3_count = 0;
- 
- 	if (l3->ctrl && l3->ctrl->mon_capable)
- 		cbqri_resctrl_counters[QOS_L3_OCCUP_EVENT_ID] = l3->ctrl;
-+
-+	/* Count distinct L3 cache_ids */
-+	list_for_each_entry(ctrl, &cbqri_controllers, list) {
-+		bool seen = false;
-+
-+		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-+			continue;
-+		if (ctrl->cache.cache_level != 3)
-+			continue;
-+
-+		list_for_each_entry(prev, &cbqri_controllers, list) {
-+			if (prev == ctrl)
-+				break;
-+			if (prev->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
-+				continue;
-+			if (prev->cache.cache_level != 3)
-+				continue;
-+			if (prev->cache.cache_id == ctrl->cache.cache_id) {
-+				seen = true;
-+				break;
-+			}
-+		}
-+		if (!seen)
-+			l3_count++;
-+	}
-+
-+	if (l3_count > 1) {
-+		pr_warn_once("multiple L3 domains (%u) detected. mbm_total_bytes disabled\n",
-+			     l3_count);
-+		return;
-+	}
-+
-+	cbqri_resctrl_counters[QOS_L3_MBM_TOTAL_EVENT_ID] =
-+		cbqri_find_only_mon_bc();
- }
- 
- static void cbqri_resctrl_accumulate_caps(void)
-@@ -948,6 +1111,26 @@ static int cbqri_attach_cpu_to_l3_mon(struct cbqri_controller *ctrl,
- 	else
- 		list_add_tail(&mon_dom->hdr.list, &res->mon_domains);
- 
-+	/*
-+	 * Pair this L3 domain with the system's mon-capable BC and
-+	 * initialise the BC's per-MCID software accumulators before
-+	 * resctrl_online_mon_domain() exposes the domain to userspace.
-+	 * A concurrent sysfs read of mbm_total_bytes between online and
-+	 * BC init would otherwise pass the !bc->mbm_total_states check
-+	 * with a half-initialised pointer.
-+	 */
-+	hw_dom = container_of(ctrl_dom, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
-+
-+	hw_dom->paired_bc = cbqri_find_only_mon_bc();
-+	if (hw_dom->paired_bc) {
-+		err = cbqri_init_bc_mon_counters(hw_dom->paired_bc);
-+		if (err) {
-+			pr_err("BC @%pa: mon init failed (%d)\n", &hw_dom->paired_bc->addr, err);
-+			hw_dom->paired_bc = NULL;
-+			goto err_listdel;
-+		}
-+	}
-+
- 	err = resctrl_online_mon_domain(res, &mon_dom->hdr);
- 	if (err)
- 		goto err_listdel;
+> Q: "Could this loop also monopolize the CPU and cause latency spikes?
+> Because the work uses a 1-jiffie delay, tens of thousands of bios might
+> accumulate under heavy I/O load. Processing the entire batch sequentially
+> without yielding or calling cond_resched() inside the inner loop could
+> lead to scheduler latency or watchdog warnings on non-preemptible kernels."
+> 
+> A: With PREEMPT_LAZY as the default, the worker is preemptible, as per 
+> Hillf and Christoph, so this is unnecessary.
 
--- 
-2.43.0
+Yes.  Sashiko tends to spew this a lot, which is odd as there were clear
+recommendations to only do this absolutely if needed even before
+PREEMPT_LAZY.
+
+> > +
+> > +	local_lock_irqsave(&bio_complete_batch.lock, flags);
+> 
+> Q: "Is it safe to use local_lock_irqsave() here when called from an atomic
+> context?
+> On CONFIG_PREEMPT_RT kernels, local_lock_t maps to a per-CPU spinlock_t,
+> which is a sleepable rt_mutex. Since __bio_complete_in_task() is specifically
+> called when bio_in_atomic() is true (which includes hardware interrupts or
+> execution under a raw_spinlock_t), attempting to acquire a sleepable lock
+> here would trigger an "Invalid wait context" lockdep warning.
+> Would a lockless list (llist) be more appropriate here to avoid sleeping
+> in atomic contexts?"
+> 
+> A: This seems legit, but I'm not super familiar with PREEMPT_RT. I don't want
+> to switch to raw_spinlock_t, as it seems like that would add unnecessary
+> overhead on non-PREEMPT_RT kernels. I think switching to use local_irq_save()
+> (as is done for the per-CPU bio allocation cache) should work.
+
+Adding the PREEMPT_RT maintainers for this as it is above my pay grade.
+
+> Q: "Does creating this workqueue with WQ_MEM_RECLAIM break the local_lock_irq()
+> protection in bio_complete_work_fn()?
+> When a workqueue has WQ_MEM_RECLAIM, it spawns a global rescuer thread that
+> can execute per-CPU work items during worker pool congestion. This rescuer
+> thread executes unbound, meaning it could run on CPU B while processing
+> CPU A's work item.
+> Since local_lock operates strictly on the currently executing CPU, the
+> rescuer thread on CPU B would acquire CPU B's lock, while popping elements
+> from CPU A's list (derived via container_of()).
+> If an interrupt on CPU A concurrently calls __bio_complete_in_task(),
+> it will acquire CPU A's lock and modify the same list without mutual
+> exclusion, potentially causing list corruption."
+> 
+> A: The rescuer should run on the same CPU, not unbound, so this is not an
+> issue.
+
+This is another area where the PREEMPT_RT/scheduler folks might be able
+to help.
+
+> static inline bool bio_complete_in_task(struct bio *bio)
+> {
+> 	if (bio_flagged(bio, BIO_COMPLETE_IN_TASK))
+> 		return false;
+> 	if (!bio_in_atomic())
+> 		return false;
+> 	bio_set_flag(bio, BIO_COMPLETE_IN_TASK);
+> 	__bio_complete_in_task(bio);
+> 	return true;
+> }
+> 
+> We can use the BIO_COMPLETE_IN_TASK flag to indicate that it's already
+> been deferred to the workqueue as is safe to run.
+
+Would be nice to avoid this, but yes.
 
