@@ -1,135 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BC939733E
-	for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F6725A357;
+	Tue, 26 May 2026 13:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779793421; cv=none; b=qH8gw8i1TEqs2mXmGUXKsXOAhtz4mgD7VzmtzDbk4t/Y9OU4Cng8FsO78v0POSNC1AlZ7hQuIU4HNqklo7ExEEWzxpIj60l4w/nocbwAJJq21QhDCHJOLjLJvHdRmPwgP8RCsZU4O3F6Izu/jS3wXRBTGz0VS0qtFNtFafqYtRs=
+	t=1779803716; cv=none; b=O2Ar0XQLXxLXw1EU7eb6IzxA0boXx9kL6CzdW11WrznOLjCdF+4YqviFhnx7kEWhYxdeBRPhfouXHra+dCMoDRWE4C7lnnmY2bOcR1fnJfpfmtssOyYgdksj56X1QJTERh47QmqnoM6XladZz7jPzvTjTHsFSRH+bbSPiO+Uqmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779793421; c=relaxed/simple;
-	bh=3qQWWSjHm+6tSeRK2ZfNaVQKjvsxAs9kOILID8cxBFg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NvmewxdFmlUiSO9nse5CY9evEWtyTwdqVPG4liEl5vkvhoSBdkD3YaXPbc46vlOpwVZjKiL5Eni7dUYYDxHAxSk0pBIrOXF7COOmBUG9CcojelAYyWbLD92qCQlX64IkorzVjREewyOs9UOz8VOVD4oNl+jMwzacaRIr1TvCtt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGb05wmL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779803716; c=relaxed/simple;
+	bh=D4ON1k11ZwSHqI9DTnyZ1p6KH5TDaAc4b8yPb1UFCd8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lHcjf3+2SsHR7JhB4pkeVmTabSKcKCdVhouL4mXAVIbbbaP0SI+a29q6URxwwnqA4a0ZKH6PcL4XMQkdWngIYggpjYxZDpBJEfBO6bTYl+0IUmJe2kIyIS/qvde8dhDHW72vX8D6tRZkT1ZKtQ4tCa9RxFNRsDtcemmcSwvywmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=An1vJ5FK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGb05wmL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B551F00ADB
-	for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="An1vJ5FK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2265A1F000E9;
+	Tue, 26 May 2026 13:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779793419;
-	bh=yorxY6Oyrg096lrnTQEnLkW7wpn3SkcvrJpahV5hpP0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=aGb05wmLjn1HCel8hxCnpTLEUyZCzVeJqDdsCDzKMeJURUUDeUcUodmwh2G3BQN7U
-	 Ejtr5w+YrIJYWygeTSlhHCo2XDYyHKkpTMevtr7MxvOCClex7BIAiZfML5R9OW/0dZ
-	 utkqMJtp7HJpefMk9leYSTQ8GWx5v8SIhRi98Z4yNTGEvI3wrUkYgOIzUYag/rDwXI
-	 oOB5Q4/pug3Gl6l0IeaHQf89OqlJ/tqXf5kSi/FpLtxzJdSm+Wj8ye15QObwyRHFv9
-	 Q4CoDtvyByEXTgayVgaNF2LnmrYula/WOGais8LMkv/5axku7ZWUTIrSpo/IEdxJtS
-	 7znibM1a0t6tA==
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a8fbe18b1dso16644323e87.2
-        for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 04:03:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+eQcsxQWfYgdxz6VJK3RPVTxw4tHPV8iDVBfWq3vdjgyH+X1G1LU2drNNoLjemCoXoFTI1zFwRRHkvaIXo5A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEqmxsFBNOSBoWacMeNCrN2igFuyMD7TdjGlIeocJqCtOkzD5E
-	kUp3hdTnLIdLcCYNqVFWhXTYUENpOmdeciHR4oIjtjVWsbttcKVp5f+qQodNa32GC+ttSYDDSEP
-	r3uRSbyYV7vsgILodWRn7/oOTVbEUqec=
-X-Received: by 2002:ac2:4541:0:b0:5a2:c1b5:f70d with SMTP id
- 2adb3069b0e04-5aa3231bb51mr3357080e87.6.1779793418087; Tue, 26 May 2026
- 04:03:38 -0700 (PDT)
+	s=k20260515; t=1779803715;
+	bh=TOZga64l4+qEI0ExolVv1Na0jB0MzxUaNAe9iBNorjE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=An1vJ5FKeLsmfAD5GsMF3Z1DGYPftLx702IeF3mDxSfjO7o+ThuhicLgk51gET/2n
+	 m0hgHMmcjFUh27X2n/yhXO8JK7CyvjnGNDgPGwbKNf2qz3kushFkfmZJp+h+DJ8x3H
+	 i4lgzUz3fg1vJ26Icd1Naiz9sxry0wHmRx03wVDcqLdpsteWuSms45vFlbQoVR7SAU
+	 v6Yw4NzeDxNXkxlwqp4JmQbARFmbFq++EHRnlRSt0twEgbTHQ2995HNlWauY1PS6/m
+	 YCyv0BY5QXI7f+Ete1wlB2R4FJF+SzdYJHIVjefIiOopVzgmKHZ/SWURG093Jguiog
+	 MoJqPSkx+uHsA==
+Message-ID: <16b36b01-7da2-4ec4-aefa-f06216ec218a@kernel.org>
+Date: Tue, 26 May 2026 15:55:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
-In-Reply-To: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 26 May 2026 13:03:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
-X-Gm-Features: AVHnY4KfN8N7_d1CekAJsFvTACV8CSDf3lRQwgvYcEcEJ9kZ61V1WOYEzFq5wPw
-Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
-Subject: Re: [PATCH v3] PM: sleep: Use complete() in device_pm_sleep_init()
- and skip no_pm devices in dpm_wait()
-To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
-	Colin Cross <ccross@android.com>, Danilo Krummrich <dakr@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Steven Rostedt <rostedt@goodmis.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] gfp_types: Introduce a new GFP_ATOMIC_RT gfp flag
+To: Michal Hocko <mhocko@suse.com>, Waiman Long <longman@redhat.com>
+Cc: Marc Zyngier <maz@kernel.org>, Thomas Gleixner <tglx@linutronix.de>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
+References: <20260520204628.933654-1-longman@redhat.com>
+ <ahQLVgj8zV4xQRh9@tiehlicka>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+In-Reply-To: <ahQLVgj8zV4xQRh9@tiehlicka>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 23, 2026 at 4:23=E2=80=AFAM Jiakai Xu <xujiakai24@mails.ucas.ac=
-.cn> wrote:
->
-> Replace complete_all() with complete() in device_pm_sleep_init() to allow
-> it to be called in atomic contexts without triggering a false-positive
-> WARNING from lockdep_assert_RT_in_threaded_ctx() when
-> CONFIG_PROVE_RAW_LOCK_NESTING is enabled.
->
-> device_pm_sleep_init() may be called during device initialization while
-> holding a raw_spinlock (e.g., from within device_initialize()), and
-> complete_all() is unsafe in atomic contexts on PREEMPT_RT kernels.
-> complete(), which is safe to call from any context, is sufficient here.
->
-> complete_all() sets the completion count to UINT_MAX/2 (permanently
-> signaled), while complete() increments it by 1. Since no threads can be
-> waiting during device initialization, both are functionally equivalent.
-> The completion is always reinitialized via reinit_completion() in
-> dpm_clear_async_state() before each suspend/resume cycle.
->
-> However, changing to complete() introduces a potential deadlock for
-> devices with no PM support (dev->power.no_pm =3D true). Such devices are
-> never added to the dpm_list and never go through dpm_clear_async_state(),
-> so their completion is never reinitialized. A parent device waiting on a
-> no_pm child across multiple suspend phases would consume the single-use
-> token in the first phase and block forever in the second.
->
-> Fix this by adding an early return in dpm_wait() when dev->power.no_pm is
-> set, since no_pm devices do not participate in system suspend/resume.
->
-> Fixes: 152e1d592071 ("PM: Prevent waiting forever on asynchronous resume =
-after failing suspend")
-> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
-> ---
-> V1 -> V2:
-> - Updated dpm_wait() to skip devices with no PM support,
->   as suggested by Rafael J. Wysocki.
->
-> V2 -> V3:
-> - Revised commit message to clarify that the lockdep warning originates
->   from device_pm_sleep_init() called in atomic context, not from
->   device_pm_remove().  No code changes relative to v2.
-> ---
->  drivers/base/power/main.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-> index e1b550664bab..ed48c292f575 100644
-> --- a/drivers/base/power/main.c
-> +++ b/drivers/base/power/main.c
-> @@ -115,7 +115,7 @@ void device_pm_sleep_init(struct device *dev)
->         dev->power.is_noirq_suspended =3D false;
->         dev->power.is_late_suspended =3D false;
->         init_completion(&dev->power.completion);
-> -       complete_all(&dev->power.completion);
-> +       complete(&dev->power.completion);
->         dev->power.wakeup =3D NULL;
->         INIT_LIST_HEAD(&dev->power.entry);
->  }
-> @@ -252,6 +252,10 @@ static void dpm_wait(struct device *dev, bool async)
->         if (!dev)
->                 return;
->
-> +       /* Devices with no PM support don't use the completion. */
-> +       if (dev->power.no_pm)
-> +               return;
-> +
->         if (async || (pm_async_enabled && dev->power.async_suspend))
->                 wait_for_completion(&dev->power.completion);
->  }
-> --
+On 5/25/26 10:41 AM, Michal Hocko wrote:
+> On Wed 20-05-26 16:46:27, Waiman Long wrote:
+>> The GFP_ATOMIC flag is to be used in atomic context where user cannot
+>> sleep and need the allocation to succeed. However, it does not support
+>> contexts where preemption or interrupt is disabled under PREEMPT_RT
+>> like raw_spin_lock_irqsave() or plain preempt_disable().
+>>
+>> With the advance of the ALLOC_TRYLOCK allocation flag in the v7.1
+>> kernel, it is possible to allocate memory under such contexts by using
+>> spin_trylock to acquire the spinlock in the memory allocation path. This
+>> does increase the chance that the allocation can fail due to the presence
+>> of concurrent memory allocation requests. So its users must be able to
+>> handle such memory allocation failure gracefully.
+>>
+>> The ALLOC_TRYLOCK flag will only be enabled if none of the
+>> ___GFP_DIRECT_RECLAIM and ___GFP_KSWAPD_RECLAIM flags are set.
+>>
+>> Introduce a new GFP_ATOMIC_RT gfp flag for those PREEMPT_RT
+>> atomic contexts.  This new flag will fall back to GFP_ATOMIC in
+>> non-PREEMPT_RT kernel. GFP_ATOMIC can continue to be used in contexts
+>> where preemption and interrupt are not disabled in PREEMPT_RT kernel
+>> like spin_lock_irqsave().
+> 
+> Before we go this way we need to really be clear we do want to support
+> raw_spinlock (aka RT) contexts. This is a big commitment because it
+> dictates internal allocator locking that would have potentially a much
+> bigger impact long term. I would go this way only after/when we conclude
+> there is absolutely no other way and we need to have allocator in those
+> critical sections. Now you have a single place which complains ATM
 
-Applied as 7.2 material, thanks!
+We already have alloc_pages_nolock() which uses ALLOC_TRYLOCK internally
+for these limited contexts. So the support and commitment exist. This
+just exposes it via a new gfp flag alias. But if there's a single user
+and it's already disputed, we don't have to expose it that way indeed.
+
+> without much of an explanation why this cannot be really handled in
+> other way. Have you even considered any options to pull the allocation
+> from within the raw spin lock section?
+
+
+
