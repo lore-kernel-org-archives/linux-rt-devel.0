@@ -1,76 +1,135 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E872139C9
-	for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 08:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BC939733E
+	for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779784121; cv=none; b=p5qs7Bdn/G+qPQVF6P4izpG5y/b8zuYWQo0sBS+InzlDAQb/CDbLFnHFgaBteCJ+SIIy2pVG39MqztjCQzu+Ygi9A11V9QA/m5FcqFEvVpU3AmJk4tjvxQnfHKsILuWX2Tlr4IC+CHgY0dE3NG2oxz5zElqO5j04eHtcJFwDHWg=
+	t=1779793421; cv=none; b=qH8gw8i1TEqs2mXmGUXKsXOAhtz4mgD7VzmtzDbk4t/Y9OU4Cng8FsO78v0POSNC1AlZ7hQuIU4HNqklo7ExEEWzxpIj60l4w/nocbwAJJq21QhDCHJOLjLJvHdRmPwgP8RCsZU4O3F6Izu/jS3wXRBTGz0VS0qtFNtFafqYtRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779784121; c=relaxed/simple;
-	bh=OLZEus+tCL11fm5pjczjLroLeFvpHRb7wyyV18rDJdo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q1eywGokhyIJMzD0WSCmObiWbLIpOTAAeu/nKOlhXVEHEV7xcbvaiBmtkVVV97JpP7qM7CWRpnxkXF6IZ474EZ+1armBiGiqI8aknyokJAQ7W24ZzcMRVu/SOaB3ZbmvzSOvB3pndfDqatrUFwaqL1c/tXfwPPp06pzfpnGuwqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=YPvff5e1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=A8xG6QD3; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1779793421; c=relaxed/simple;
+	bh=3qQWWSjHm+6tSeRK2ZfNaVQKjvsxAs9kOILID8cxBFg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NvmewxdFmlUiSO9nse5CY9evEWtyTwdqVPG4liEl5vkvhoSBdkD3YaXPbc46vlOpwVZjKiL5Eni7dUYYDxHAxSk0pBIrOXF7COOmBUG9CcojelAYyWbLD92qCQlX64IkorzVjREewyOs9UOz8VOVD4oNl+jMwzacaRIr1TvCtt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGb05wmL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="YPvff5e1";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="A8xG6QD3"
-Date: Tue, 26 May 2026 10:28:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1779784118;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLZEus+tCL11fm5pjczjLroLeFvpHRb7wyyV18rDJdo=;
-	b=YPvff5e1CqWDNw0LdhWd/NJTJdY0t3d+BO+fF9C7go3km0AU9OU0oKEgMSRpEDqSGQqkrm
-	bQagXu8iCrP5ZdU4Ol53J9hhDddmjY0niil5EJOM3kmsZpMBieptHfpRyzGMw7Xz+z08Lz
-	223fz+dRSYTKE7k9Qo7UNvkGMNP+qxz1ePFYd42kbXBdz8Ntw1aZ8xcBXnmbH923rvaMJ5
-	H4DRMBgvRQ3rF4ii0r9LJk7VnTAtBptZAqFtfUXo54g9EwkBbfgk1BiOkwq2eYxi3sAAcp
-	PZ56Rxfzs/vyMeOQMK8BJDyfhN9ANrhvryyU0z0IRPJcoicCQEk3qkdAb5y94w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1779784118;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OLZEus+tCL11fm5pjczjLroLeFvpHRb7wyyV18rDJdo=;
-	b=A8xG6QD3U0AlvPv5eFmggfqrUJ1hYC5luFTi2p5IDfdF0a88uKbba8DStU3iPZZPv21xDb
-	uQMSgpIcCxrIGuBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Michal Hocko <mhocko@suse.com>
-Cc: Waiman Long <longman@redhat.com>, Marc Zyngier <maz@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH 1/2] gfp_types: Introduce a new GFP_ATOMIC_RT gfp flag
-Message-ID: <20260526082836.9BOv1yCM@linutronix.de>
-References: <20260520204628.933654-1-longman@redhat.com>
- <ahQLVgj8zV4xQRh9@tiehlicka>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGb05wmL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1B551F00ADB
+	for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 11:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779793419;
+	bh=yorxY6Oyrg096lrnTQEnLkW7wpn3SkcvrJpahV5hpP0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=aGb05wmLjn1HCel8hxCnpTLEUyZCzVeJqDdsCDzKMeJURUUDeUcUodmwh2G3BQN7U
+	 Ejtr5w+YrIJYWygeTSlhHCo2XDYyHKkpTMevtr7MxvOCClex7BIAiZfML5R9OW/0dZ
+	 utkqMJtp7HJpefMk9leYSTQ8GWx5v8SIhRi98Z4yNTGEvI3wrUkYgOIzUYag/rDwXI
+	 oOB5Q4/pug3Gl6l0IeaHQf89OqlJ/tqXf5kSi/FpLtxzJdSm+Wj8ye15QObwyRHFv9
+	 Q4CoDtvyByEXTgayVgaNF2LnmrYula/WOGais8LMkv/5axku7ZWUTIrSpo/IEdxJtS
+	 7znibM1a0t6tA==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a8fbe18b1dso16644323e87.2
+        for <linux-rt-devel@lists.linux.dev>; Tue, 26 May 2026 04:03:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+eQcsxQWfYgdxz6VJK3RPVTxw4tHPV8iDVBfWq3vdjgyH+X1G1LU2drNNoLjemCoXoFTI1zFwRRHkvaIXo5A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEqmxsFBNOSBoWacMeNCrN2igFuyMD7TdjGlIeocJqCtOkzD5E
+	kUp3hdTnLIdLcCYNqVFWhXTYUENpOmdeciHR4oIjtjVWsbttcKVp5f+qQodNa32GC+ttSYDDSEP
+	r3uRSbyYV7vsgILodWRn7/oOTVbEUqec=
+X-Received: by 2002:ac2:4541:0:b0:5a2:c1b5:f70d with SMTP id
+ 2adb3069b0e04-5aa3231bb51mr3357080e87.6.1779793418087; Tue, 26 May 2026
+ 04:03:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ahQLVgj8zV4xQRh9@tiehlicka>
+References: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
+In-Reply-To: <20260523022314.2657232-1-xujiakai24@mails.ucas.ac.cn>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 26 May 2026 13:03:26 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
+X-Gm-Features: AVHnY4KfN8N7_d1CekAJsFvTACV8CSDf3lRQwgvYcEcEJ9kZ61V1WOYEzFq5wPw
+Message-ID: <CAJZ5v0gjHPWj26KP4WoznL9VTyDMZqOOzEsNbPtKso16p7-Lfg@mail.gmail.com>
+Subject: Re: [PATCH v3] PM: sleep: Use complete() in device_pm_sleep_init()
+ and skip no_pm devices in dpm_wait()
+To: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+Cc: driver-core@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Clark Williams <clrkwllms@kernel.org>, 
+	Colin Cross <ccross@android.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Len Brown <lenb@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Steven Rostedt <rostedt@goodmis.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-05-25 10:41:58 [+0200], Michal Hocko wrote:
-> Before we go this way we need to really be clear we do want to support
-> raw_spinlock (aka RT) contexts. This is a big commitment because it
-> dictates internal allocator locking that would have potentially a much
+On Sat, May 23, 2026 at 4:23=E2=80=AFAM Jiakai Xu <xujiakai24@mails.ucas.ac=
+.cn> wrote:
+>
+> Replace complete_all() with complete() in device_pm_sleep_init() to allow
+> it to be called in atomic contexts without triggering a false-positive
+> WARNING from lockdep_assert_RT_in_threaded_ctx() when
+> CONFIG_PROVE_RAW_LOCK_NESTING is enabled.
+>
+> device_pm_sleep_init() may be called during device initialization while
+> holding a raw_spinlock (e.g., from within device_initialize()), and
+> complete_all() is unsafe in atomic contexts on PREEMPT_RT kernels.
+> complete(), which is safe to call from any context, is sufficient here.
+>
+> complete_all() sets the completion count to UINT_MAX/2 (permanently
+> signaled), while complete() increments it by 1. Since no threads can be
+> waiting during device initialization, both are functionally equivalent.
+> The completion is always reinitialized via reinit_completion() in
+> dpm_clear_async_state() before each suspend/resume cycle.
+>
+> However, changing to complete() introduces a potential deadlock for
+> devices with no PM support (dev->power.no_pm =3D true). Such devices are
+> never added to the dpm_list and never go through dpm_clear_async_state(),
+> so their completion is never reinitialized. A parent device waiting on a
+> no_pm child across multiple suspend phases would consume the single-use
+> token in the first phase and block forever in the second.
+>
+> Fix this by adding an early return in dpm_wait() when dev->power.no_pm is
+> set, since no_pm devices do not participate in system suspend/resume.
+>
+> Fixes: 152e1d592071 ("PM: Prevent waiting forever on asynchronous resume =
+after failing suspend")
+> Signed-off-by: Jiakai Xu <xujiakai24@mails.ucas.ac.cn>
+> ---
+> V1 -> V2:
+> - Updated dpm_wait() to skip devices with no PM support,
+>   as suggested by Rafael J. Wysocki.
+>
+> V2 -> V3:
+> - Revised commit message to clarify that the lockdep warning originates
+>   from device_pm_sleep_init() called in atomic context, not from
+>   device_pm_remove().  No code changes relative to v2.
+> ---
+>  drivers/base/power/main.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> index e1b550664bab..ed48c292f575 100644
+> --- a/drivers/base/power/main.c
+> +++ b/drivers/base/power/main.c
+> @@ -115,7 +115,7 @@ void device_pm_sleep_init(struct device *dev)
+>         dev->power.is_noirq_suspended =3D false;
+>         dev->power.is_late_suspended =3D false;
+>         init_completion(&dev->power.completion);
+> -       complete_all(&dev->power.completion);
+> +       complete(&dev->power.completion);
+>         dev->power.wakeup =3D NULL;
+>         INIT_LIST_HEAD(&dev->power.entry);
+>  }
+> @@ -252,6 +252,10 @@ static void dpm_wait(struct device *dev, bool async)
+>         if (!dev)
+>                 return;
+>
+> +       /* Devices with no PM support don't use the completion. */
+> +       if (dev->power.no_pm)
+> +               return;
+> +
+>         if (async || (pm_async_enabled && dev->power.async_suspend))
+>                 wait_for_completion(&dev->power.completion);
+>  }
+> --
 
-This is only needed for 2/2 of this series and Marc didn't want it.
-
-Sebastian
+Applied as 7.2 material, thanks!
