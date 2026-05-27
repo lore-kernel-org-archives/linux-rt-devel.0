@@ -1,83 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD95E15C14F;
-	Wed, 27 May 2026 00:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9E43BB9F5
+	for <linux-rt-devel@lists.linux.dev>; Wed, 27 May 2026 07:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779843600; cv=none; b=nh1BBCwmDjbjht+UhNtw155KfQEsWpITogNxWEAbS1IyYVYRkuNPviRDklhi36ECQfHsmZH0+Lx3OVN/GUTG08D3RPi0L6qg6rI3c+8FPGAXgySd5TccaslwcEdIEOhAXKJ3VovSIWRWoHpodK1WIIu21AWCzp7U26S4LZjk3jM=
+	t=1779866178; cv=none; b=W8UH/4Pvj3nU38OU52Myf1JZjawClUm+SuAyCL3DLtNsMNhbNV8cMrdO5KLAyCKCTXk4i4I/05UDAAnE0A3iF+wym+QH0lnVR4Axq3tNZbpJee0tSROUrFDB6vZ1AJpBU/YyL/IWhTTkSmV8hsyO5V2ReD1nh4Vu5XVvhinJ99o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779843600; c=relaxed/simple;
-	bh=rmi0RurxxVWf++A+g3SHLdVJi20++Lvbl+nOW5v2Gu0=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=KlIWHnwu1mZqpCAfdm3t4Pyn9QflRcU9Ifb8Rtp7KdPADN975ZKzmDW9nQYZvslVOEWGDjr26eb/fY3z8ZgkYXnbd/55IMvHfEKb++FJL/YxPaYnOQsginG4Zh/yfoOsVF7HCjn8uS/JYBQSpIUmTwpqoWJrdKmp+pkUN5FMoOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEzRKpKx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779866178; c=relaxed/simple;
+	bh=rwbu1JjOlBHSv0oqanc3D6oxYHRDXPMUDaKegJ/YJTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJqiLF+NjHnKf7FxHgFr40EjONQmepWlDSTksZM60rmvA2oO+dM8lB215ZIIqd2jY4oCtT4EedRFoS8re1Tpusvp/tp8FephbtQA4dffXyPDgwBXnWYlWUzx7+L1/OKatx+bG5NRRLKPav2ZW0Fu41QfJgS2Tu3ZM6HSHZcRg/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a+wOgIOt; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xaiocjhj; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEzRKpKx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9B51F000E9;
-	Wed, 27 May 2026 00:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779843599;
-	bh=s4G6be054KaCv44PzyYCwvc4TrggQ/Amex8z/IEj1+k=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=lEzRKpKx6Io/q9qjG/kS6e7T1TfxcHPIP9QJ1OuzgPgS42f3Rt0uE8Ss3QmpnQljm
-	 +uEI4KyLODfuyQGRrVT8n4/JTu3ergmXmwfsTzB4hc6QOd4021ayuzZINJ4i16zr+H
-	 F+jxt4qq/hwzv+x2j4Wmlj5keAM6Ai0JeP4W42eDJGma6K3hiKlnx62FbEI5XOZWB5
-	 KX1twR6zG9IgUVv1m8CtB3OnBJ4gt/xBwPmAqdC/fZtoGee9byJbsJlUCgwlYPnvGT
-	 jrBZCfGYWg0BumS3NmhJpkqJkFnxPrd6gJWMSJf1Cgea/DF0vUx1r4RLzeQveBdsKE
-	 iPVuiav8tltOQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93AE4380CEED;
-	Wed, 27 May 2026 01:00:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a+wOgIOt";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xaiocjhj"
+Date: Wed, 27 May 2026 09:16:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1779866175;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AH5sgHy+bL5b68ae+ELbUNqD19ikq6EFa5yg38AqiQo=;
+	b=a+wOgIOtR8tATMIwSqFnGqUekgnHtXGzBojGqkoEW+M5zOzgcnio5D0PJemM37FPwkL4SY
+	+K2NODKDBWPZxNRc9VwdQpXFqLwAdCYsJ/evS2wagXg7Nt8mWsmsyval3cKz5WqecNZhCs
+	8kXNG//JvraGIOfvUnlcADv+8KgS+YkJVa3tO69Z9wc14ttlw9gqWLmV7eiyhCI+GLVyH4
+	6m6feRTjZfCZa4D/63uN9zK2MRIXRTa1VK6JocYiqDCOdoLIaNo5AMzYjDkD+KyY7ekP7s
+	kjNH4zdJ19zCg2E8jYsfIRiTVRZrBK0sxvaYqN167RG952xpWSX8oq8daRefpQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1779866175;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AH5sgHy+bL5b68ae+ELbUNqD19ikq6EFa5yg38AqiQo=;
+	b=xaiocjhjSqbBXxEeCWqGysVOh90vzHCbKz2tGHHyqWrRuSWGPZMhAQSRGopAKMHdpb7QlT
+	PQlZH3VDU0OahQAg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Michael Bommarito <michael.bommarito@gmail.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	James Chapman <jchapman@katalix.com>,
+	Tom Parkin <tparkin@katalix.com>,
+	Guillaume Nault <gnault@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+	netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net] l2tp: use refcount_inc_not_zero in
+ l2tp_session_get_by_ifname
+Message-ID: <20260527071614.MwD6LIK5@linutronix.de>
+References: <20260523023423.2568972-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] l2tp: use refcount_inc_not_zero in
- l2tp_session_get_by_ifname
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177984360514.4034294.17375502908023740818.git-patchwork-notify@kernel.org>
-Date: Wed, 27 May 2026 01:00:05 +0000
-References: <20260523023423.2568972-1-michael.bommarito@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 In-Reply-To: <20260523023423.2568972-1-michael.bommarito@gmail.com>
-To: Michael Bommarito <michael.bommarito@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, jchapman@katalix.com, tparkin@katalix.com,
- gnault@redhat.com, horms@kernel.org, bigeasy@linutronix.de,
- clrkwllms@kernel.org, rostedt@goodmis.org, kees@kernel.org,
- netdev@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
 
-Hello:
+sorry for being late=E2=80=A6
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+On 2026-05-22 22:34:23 [-0400], Michael Bommarito wrote:
+=E2=80=A6
+> a slab-use-after-free. On PREEMPT_RT local_bh_disable() is a per-CPU
+> sleeping lock and the preemption window is real;=20
+No, it is not but there is a preemption window, yes.
 
-On Fri, 22 May 2026 22:34:23 -0400 you wrote:
-> A reader in l2tp_session_get_by_ifname() can return a pointer to a
-> session whose refcount has reached zero. The getter takes its
-> reference with plain refcount_inc(), but every other session getter
-> in the same file (l2tp_v2_session_get, l2tp_v3_session_get, and the
-> corresponding _get_next variants) uses refcount_inc_not_zero()
-> because the IDR/RCU lookup can race with refcount_dec_and_test() ->
-> l2tp_session_free() -> kfree_rcu(). The ifname getter is the only
-> outlier; the inconsistency was raised on-list after 979c017803c4
-> ("l2tp: use list_del_rcu in l2tp_session_unhash").
-> 
-> [...]
+>                                                  on stock PREEMPT
+> kernels local_bh_disable() is a preempt_count increment that closes
+> the cross-CPU race in practice (see below).
 
-Here is the summary with links:
-  - [net] l2tp: use refcount_inc_not_zero in l2tp_session_get_by_ifname
-    https://git.kernel.org/netdev/net/c/05f95729ca84
+It might be that the window is not wide open. I don't see why it should
+not trigger on SMP.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> Use refcount_inc_not_zero() and continue the list walk on failure,
+> matching the other session getters in the file. The ifname getter
+> is the only session getter in net/l2tp/ that still uses the bare
+> refcount_inc() pattern; this change restores file-internal
+> consistency. The success path is unchanged.
 
+This is the right change.
 
+> Fixes: abe7a1a7d0b6 ("l2tp: improve tunnel/session refcount helpers")
+
+This simply removes the wrapper but the logic is the same. Wouldn't
+commit 2777e2ab5a9cf ("l2tp: take a reference on sessions used in
+genetlink handlers") be where it was introduced?
+
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-4-7
+> Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+=E2=80=A6
+
+Sebastian
