@@ -1,138 +1,81 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mail-m49198.qiye.163.com (mail-m49198.qiye.163.com [45.254.49.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3A32609C5
-	for <linux-rt-devel@lists.linux.dev>; Fri, 29 May 2026 12:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64733E008F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 29 May 2026 14:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780059448; cv=none; b=pjFDElbFSX+kxsQmPLttis5MLzI15RHo+5uvxWnQ6GHQ+uXMk1DiPo0fWfz2/KZsA6UT6vIgxnI2KYtJACjX9jgM+2nyj1VD2FBxGrY5ShuAZqAjpGBJfjZGmzhHjc10YDlaLnk7NoVzF/5z9sbBvRB5JlHpnT6S6ZFXWcM2U7U=
+	t=1780065104; cv=none; b=IbAaZUXG4NNMZyGmuuSvw+uMu1Ayw6+N3w5i/ELNsduuAZ+GfoAdff5IXTAWoEHhhHmITMADKuOvq75kKykouMw7opu7tX1nT6eqQTXmHJxqy8xeL6DCNkDOrsOafcrPRnvMVqZvzKruJWKjzJ12svjtt3O4UWQxfj+MxrBdgA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780059448; c=relaxed/simple;
-	bh=e2rBsAuESxGLDeyt8z6waI57VlOJXIQioXY90iGBOGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=US01mF7h2Dbv4uQ4VpYG408H3pTR2zLgGqYLA3heozMkQ/p4i7Hky9FQViVeQDkrrieNOh0HnCFIn8fu3bkqCUJVaHQwaOHPA4uAzQw1Njavz3bv+0D+iDYbWZFxYfD8EcIRm4WVuFnWLe3Ubkrv6CXX9VDaJTkNlWkKzcjncck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FNcSl7Ut; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zeoGcmP3; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1780065104; c=relaxed/simple;
+	bh=XIcFOKByaKlp7A36dRzcZgy0gMLVUvtFvUu9QwhQsDM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SyEzNf3zTn7YPHgAmQD1u7ykG9QWOuEXPlBOEMJtE92IIPM/heNnvgID/+7hiZkECyQnOXh7aqXBl5RjfcGyqOfHbj6kHKABEah0Q2FUajxD5ZGBTTrMhX8YkrfNU8HfJLn/IIJn07OeW4QTIDLMd0mXwijF97D6gLMfhaugyK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=mm9lGvge; arc=none smtp.client-ip=45.254.49.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FNcSl7Ut";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zeoGcmP3"
-Date: Fri, 29 May 2026 14:57:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780059445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wTA7PrYFBdf5dfakGhTEilrMz/5Fu7clSPzp1R+Zxew=;
-	b=FNcSl7UtC3wq5fWcYoz1E7jbdzFyVbZ2jghLv+71yxGL4jyBLZVzvQ9RRqBT7b/Ne3ejrU
-	YazLVAzUWBYxK+dtzl7SwsKL2T3DX9GJPFPIPLRJfNirJGciVY0eOBad0ytBtHejfxhqLs
-	9mPoz0jDJH5iaLSINgYUl1fzQc1GU9Zh1AIMoK4S3c4qzBStnMp3XvmufhaeJ1Ru3QcSHs
-	8UDWEcQcRn6cmjR561BswhTD1Kydo/WRpBbBzL2GlcRokZ0cmqjJRsaKHaiyp4a9IIAvQH
-	qmmD10pEXogOLhV0AnWXitwZQ2MpcSFCC8JpZg50OCt2exsICZOe6JWKVyL2WQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780059445;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wTA7PrYFBdf5dfakGhTEilrMz/5Fu7clSPzp1R+Zxew=;
-	b=zeoGcmP3NDq8HKn98HZQ6Te2w5amuovh/bMGIKGaPBgCFXlfbamIrHztQoBWni0MelcM74
-	wuML7ubmMLtgnwBA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Calvin Owens <calvin@wbinvd.org>
-Cc: linux-kernel@vger.kernel.org, Rodolfo Giometti <giometti@enneenne.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Byczkowski <by@by-online.de>,
-	Eliav Farber <farbere@amazon.com>, linux-rt-devel@lists.linux.dev,
-	David Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v6 3/3] pps: convert pps_device.lock to raw_spinlock_t
-Message-ID: <20260529125724.ZaipPjjc@linutronix.de>
-References: <cover.1779733602.git.calvin@wbinvd.org>
- <3fa6ae908b37681ec6857b413179b67a7655c753.1779733602.git.calvin@wbinvd.org>
- <ahXdZFrw79US8MO3@mozart.vkv.me>
- <20260528074939.7MLrIhrM@linutronix.de>
- <ahhl8dZ-uMM8gmDO@mozart.vkv.me>
- <20260529071931.nSO7Uqb2@linutronix.de>
- <ahmIp6lEjoiy-EDJ@mozart.vkv.me>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="mm9lGvge"
+Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 40596a441;
+	Fri, 29 May 2026 22:26:19 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Maarten Lankhorst <dev@lankhorst.se>,
+	jani.nikula@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	joonas.lahtinen@linux.intel.com,
+	tursulin@ursulin.net,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	jerome.anand@intel.com,
+	pierre-louis.bossart@linux.dev,
+	tiwai@suse.de,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	jianhao.xu@seu.edu.cn
+Subject: Re: [PATCH] drm/i915/audio: use generic_handle_irq_safe() for LPE audio irq
+Date: Fri, 29 May 2026 22:25:56 +0800
+Message-Id: <20260529142556.3833775-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260529122137.VZtFvQvw@linutronix.de>
+References: <20260528154551.3708290-1-runyu.xiao@seu.edu.cn> <20260529074816.k1K16jyy@linutronix.de> <2023cf0e-85a8-4128-857d-cae806ff0e58@lankhorst.se> <20260529122137.VZtFvQvw@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ahmIp6lEjoiy-EDJ@mozart.vkv.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e7420fd2803a1kunme34de274a313e
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHR4eVhkeTBhNS0MaSklKSlYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
+	5DQ1VKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=mm9lGvgeNttz3NAtznE5f1qkRm9D0UUEThEA9OVg2hrp1oTSq8zU2XQMC/qAy3pnUl10kBsAucyUf0RzDc3zG6ZLOP1VTKvCTbAv1P5dNgFrHveQdhIAatf47XRnXJK9B7/KjQrvRHsAGjBsd+weBz5FOoOyJPFURqGcniXCPSA=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=XIcFOKByaKlp7A36dRzcZgy0gMLVUvtFvUu9QwhQsDM=;
+	h=date:mime-version:subject:message-id:from;
 
-On 2026-05-29 05:37:59 [-0700], Calvin Owens wrote:
-> > So lets look at the series:
-> > - #1 splits the handler to take time stamp in hardirq and the remaining
-> >   work in the thread. It seems to be crucial to do so because doing so
-> >   in thread breaks something. Okay. Granted, makes a bit of sense.
-> > 
-> > - #2 ignore for argument's sake
-> > 
-> > - #3 says swap the lock so we can use pps_event() in hardirq context.
-> 
-> I interpreted that as saying "swap the lock so the lock can be safely
-> acquired from code running in both hardirq and threaded context".
+Thanks Sebastian and Maarten.
 
-That is correct. But wake_up_interruptible_all() and kill_fasync() must
-not be used in hardirq context.
+I understand this fix is already covered by Maarten's i915 PREEMPT_RT
+series and that the series is still pending review.
 
-> But looking more closely, it doesn't seem that either lock is ever
-> acquired in hardirq context before or after this series.
-> 
-> So I think patches 2 and 3 are unnecessary.
+I'll drop this standalone patch and won't pursue a stable-targeted
+version.
 
-Okay then.
+This issue was independently found by our static analysis and validated
+with a no-device QEMU harness. If the extra analysis or validation
+details are useful for the ongoing series, I can share them separately.
 
-> As a quick confirmation, I tested only patch 1 on a bona fide pps-gpio
-> setup with lockdep and atomic_sleep and saw no splats.
-> 
-> Patch 2 suggests tk_core.lock being a raw lock was somehow a problem,
-> but it's never held across anything, it seems fine.
-
-pps_event() does invoke pps_kc_event(). So you need to swap this lock
-(pps_kc_hardpps_lock) before swapping pps->lock. And hardpps() itself
-already has a raw_spinlock_t so it is fine.
-
-That is my interpretation.
-
-> > Now. Why or where do we need to use pps_event() in hardirq context?
-> > If we use pps_event() is used in hardirq context, as claimed in the
-> > commit message, then dropping the lock early here does not help and it
-> > will lead to the same splat in wake_up_interruptible_all() because
-> > interrupts are still disabled independent of the lock here. It is
-> > hardirq-context after all.
-> > 
-> > You don't see this warning in your testcase because it gets here from a
-> > timer, yes. But. pps_event() can't be used as-is from hardirq context
-> > either.
-> 
-> In pps-gpio it's called from pps_gpio_irq_handler() which is threaded.
-> 
-> In pps-ldisc it's called from pps_tty_dcd_change(). That is called from
-> uart_handle_dcd_change(), the uart_port lock is a normal spin lock and
-> is held over the call, and it calls wake_up_interruptible(), so I think
-> that one must be fine (I only looked closely at 8250).
-> 
-> PTP calls it from ptp_clock_event() which itself takes a normal spin
-> lock, so if that one wasn't safe people would get a splat already.
-> 
-> In pps-parport it's called from parport_irq(). That is called from
-> parport_irq_handler() and mfc3_interrupt() which both look threaded to
-> me.
-> 
-> In the testcase the earlier trace was from it's called from
-> pps_ktimer_event() which is threaded.
-> 
-> I don't see anywhere pps_event() is called in hardirq context.
-
-Okay. In that case #1 should be sufficient to not delay the taking the
-timestamp if the context switch to the threaded interrupt is indeed such
-a problem.
-
-Sebastian
+Best regards,
+Runyu
