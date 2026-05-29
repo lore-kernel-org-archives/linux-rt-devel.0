@@ -1,169 +1,138 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9FF63F1AB2;
-	Fri, 29 May 2026 16:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41623D1A97
+	for <linux-rt-devel@lists.linux.dev>; Fri, 29 May 2026 16:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780070486; cv=none; b=QFfzba3KSaVDI/7drPKFxja0iLsjExuj5tyW5HZMDzImkUIY9L7t/8FlpnWfgeYWOSVQJfXI8Nij6SKF38m1ZkRDjTGdoFznt6k7vgevrTdWwbZM/Zz985ne1O96S4U6rnv9ev/NUV3ioWNgauH9y/rvK77EAIKTDABKzulCvN4=
+	t=1780071711; cv=none; b=MNpjLJxoo5b+rvjb7Dj3gDM1W1KxZ7HAyGOyg2ScbS3YolQx7TwwTUmpmGAeMvIvH2hlVQdRIfPCuqAbiaJ8RLM70IYKYnpfujjckEZLTxfNZ4thQIcO8QV4MZJ16w9G+1a2+ThnpU0ksii7+wkfQjkrq4PpBYxBL4WsEAGYa0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780070486; c=relaxed/simple;
-	bh=rB2UKiyDcM7IWJbPPVp1cw1OH36OaEEat8ZM5+jzFDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fp6I47hQXaN65sHC32j9YwRwkji0DdEglJb7/bajo8k6Iagl8VrrJAKCm3kjnOvFhIB8+FRbbHs2BWpiIFTvlHQQG+oYqZEJ81ULEDsAWhg1ZL449NAF6gMFHKzN2zM+w8aWxqrkU8zICEgPJ9mMNo+DGEQyIb7eAmqWK32aGzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1/s9wtGk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pNUXs75V; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1780071711; c=relaxed/simple;
+	bh=G+zh2PeW4L5nDuAFsU//uPDTdR81r0tDlQPCUy9QAbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C4Jdhpers6T5nnXOHpELhxv7P4UqePsyJkYrB7ZEJKp23WvMpd+JHlQ8stah5vkLx7l1ZykhCcUBLP2xDfDgzbDa67qw/n1JsQXxnpiGe8VwyXPys2l3M69XJ3hOtF0nkitxQeHly64pncpi7eJh0hqN8sTQgcQpl50wmBblbZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=JC1R/k9C; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1/s9wtGk";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pNUXs75V"
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780070483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rg4CWBKqcg/43kRp7XELQX8SwIZj03OaAVdBvFZ3LCA=;
-	b=1/s9wtGkbbP63S+WX+KFqW5cjUuKHv+3qrwe1NUAAMt8dbiEEP2rquBjL+G59foO/CENDH
-	RtrzCvjfyJEeh14LnWZBq6sp4iK7EjoQra/7+yOGD+TQkXNPIt99MLtYvBDTUgYZGsyRCr
-	EoqQMJdncjyEFfFyYMeea7CAs2Ou04uvDlf412SmBSevQn3/3QsMXKkvndMWC3+/NRriJU
-	KM1VkThzc19zdD7AN38vTuCpJCEkUKjmSRJYn+1Vjl7fk6+TQpxBmv7DUJZuM+SXnifVdT
-	bW+EhEGekoXQ7yERN/zj6DzxIoxNUK8Wzg9Um1oAIHAHm7o43XhyinMaHQnN3g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780070483;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rg4CWBKqcg/43kRp7XELQX8SwIZj03OaAVdBvFZ3LCA=;
-	b=pNUXs75VMd5ZP3cQ3aEmB+wxuXvG8H5KjVDj6d+sXt0NqsaPRHMeOYkY90OSoQjjeDfTae
-	dDK6IzF9n1E58HCQ==
-To: linux-rt-devel@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Bjorn Andersson <andersson@kernel.org>,
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="JC1R/k9C"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-304d0ac5e3cso858345eec.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 29 May 2026 09:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1780071710; x=1780676510; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JsOIMq9FwgDH9PGuBTd8VWOVeGL7jgAx6IFRF0AXCuQ=;
+        b=JC1R/k9CfBuidXyLefEW+NrOkCMnztvwQ6ax8EpVpVaFT8Ad8rDfSR6ayB/SE/lW9X
+         x+4sJ+E6r854j+9wLMo4tpUpNy/eXagTbqUxqB1Y+pu0vqSfBGilvCv8sU8se933Htt5
+         iRWcdKQoXkB7Joh5Mm732bf4B0QlhI0EF2zA4vNI/fgUALtwy6LEj9bWOABuKSJCUSR7
+         PUYJvFDVgD6OXNa8xX259xzHP2xMmE2+As6xxVLET1l6x65yGRKi7QifHXisU3WJ+9mP
+         B8ofVUsKOd4+ffGcwL6NpzZbNpP9OVHL2ibw2y4bZOcwN+YSzOGFmvE7uFd4kTuMJsPO
+         XqMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780071710; x=1780676510;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JsOIMq9FwgDH9PGuBTd8VWOVeGL7jgAx6IFRF0AXCuQ=;
+        b=AuMCR2Dt9QjcSMY+ZPl49hWHMuiGd49Gh0BqJ2Stqd42BMJXIwuvCBalnB71rEKz8t
+         xhe/1IAtre2O3yyWpi9vRg2blnB6lmkxRk4CMDuMZnFj9WhOU05lB1HkPFcBeUGaIOAY
+         lwxB1oYjfuWQGMrKcE5IyauuQv4xP5kX42ezhPstoc2KxrnpYKTsjv9twDRV+4TcTujv
+         etLEnVOl73ve0pRZPPxnVTf3zAN2lAIfZIF7p+Tb31mbAdZM9KBJ2fqO1pRD2nXQgqRU
+         /FSIvZkNTQmlHqcD+XTZlAtDkvYF6PI4R25WawsxxDKe6k3IHWwDEZibftpEngya2xKC
+         u5NQ==
+X-Gm-Message-State: AOJu0YxcJiEsAFznXe8U+o2ZfT3nUSLOQBmH/ESrpvYf0U1s8kOhvmVi
+	RQtrgIQmDUkEFPL+YsDNnQZpS5OCs3h0LNBeuEcAjrUic8fHt6c5ufr8wxr5pAcmtrg=
+X-Gm-Gg: Acq92OELQWZjtOhx5jI+BaPCC/g3NApGl/H+3rfDyRXdFiNjTdvhS335snJrQ/OHx3g
+	CoZz0QQIwaYIF0eYVkVUoqE0QDEpI6kNhu4+cS8eWd5R7HVpnNePd1Kx5/m4IsjDig6eR80k4aG
+	wV3JiRj/S1uBPhE7XqbH2wJ7UEIqgjOES3kdKDbByJ+27dGyxk8pXDI2zRD2NONz53ZmWdZD9AK
+	UeJ4fpkPaiDpq/pfLUM1yGJuU7RAnB7VDD3scvCKEGQ63qZU5XhkJV7iV9jhFbf7jxw0fzGzD+o
+	FawMpJBSVvNNfTzMA9yoJ2oQsoMHRhRZN9RknXv+XPo1af11mUW3kdIH8NednbAh8EUWKlZiwAH
+	G1JkyTeBwpbbNFnOjqephTV2XUIpEFBtkurheu+e9b+7JQmCbvBshwCxU2E+ehe9iRqM/UeZStT
+	Z+JZhsbBUqANWxyeYOCfYC5cnwMTH2pLUTnjsN
+X-Received: by 2002:a05:7301:2926:b0:304:630d:e4c4 with SMTP id 5a478bee46e88-304fa573c64mr248605eec.10.1780071709273;
+        Fri, 29 May 2026 09:21:49 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:2bb2:ae86:9dbf:b82e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed53f316sm1718902eec.19.2026.05.29.09.21.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 09:21:48 -0700 (PDT)
+From: Calvin Owens <calvin@wbinvd.org>
+To: linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: [PATCH 5/5] remoteproc: imx_rproc: Invoke the callback directly
-Date: Fri, 29 May 2026 18:01:07 +0200
-Message-ID: <20260529-imx_mbox_rproc-v1-5-b8ffc36e11e5@linutronix.de>
-In-Reply-To: <20260529-imx_mbox_rproc-v1-0-b8ffc36e11e5@linutronix.de>
-References: <20260529-imx_mbox_rproc-v1-0-b8ffc36e11e5@linutronix.de>
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH] pps: Don't try to wait for negative timeouts in PPS_FETCH
+Date: Fri, 29 May 2026 09:21:43 -0700
+Message-ID: <b5241c09ac0dfb82ee076d06367ac6319471c773.1780071212.git.calvin@wbinvd.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The imx-mailbox driver moved the callback invocation into the threaded
-IRQ handler. This means the callback is invoked in preemptible context
-and there is no need to schedule the kworker for the
-imx_rproc_notified_idr_cb() invocation.
+If userspace passes a negative timeout to PPS_FETCH, it triggers a
+kernel splat from schedule_timeout():
 
-This was tested with the rpmsg-tty driver on imx93.
+    schedule_timeout: wrong timeout value fffffffffff0bfb4
+    CPU: 17 UID: 0 PID: 4720 Comm: a.out Not tainted 7.1.0-rc5-x86-kvm-00150-g331d97e36b37 #1 PREEMPT_RT
+    Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-20240910_120124-localhost 04/01/2014
+    Call Trace:
+     <TASK>
+     dump_stack_lvl+0x4b/0x70
+     schedule_timeout+0xb7/0xe0
+     pps_cdev_pps_fetch.isra.0+0x93/0x150
+     pps_cdev_ioctl+0x70/0x310
+     __x64_sys_ioctl+0x7b/0xc0
+     do_syscall_64+0xb6/0xfc0
+     entry_SYSCALL_64_after_hwframe+0x4b/0x53
 
-Remove the workqueue handling and invoke the imx_rproc_notified_idr_cb()
-callback directly.
+Sashiko imagines this to be some sort of security problem, which is
+obviously really silly. But I think it is still worth fixing, so buggy
+userspace code can't trigger the splat.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Silence the splat by skipping the wait if the ticks count is negative.
+The current behavior is to return -ETIMEDOUT in that case, so keep that
+return value in case any userspace code might rely on it.
+
+Fixes: eae9d2ba0cfc ("LinuxPPS: core support")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/patchset/cover.1779733602.git.calvin%40wbinvd.org?part=3
+Signed-off-by: Calvin Owens <calvin@wbinvd.org>
 ---
- drivers/remoteproc/imx_rproc.c | 33 +--------------------------------
- 1 file changed, 1 insertion(+), 32 deletions(-)
+ drivers/pps/pps.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/remoteproc/imx_rproc.c b/drivers/remoteproc/imx_rproc.c
-index 0dd80e688b0ea..c97bc1c401655 100644
---- a/drivers/remoteproc/imx_rproc.c
-+++ b/drivers/remoteproc/imx_rproc.c
-@@ -24,7 +24,6 @@
- #include <linux/regmap.h>
- #include <linux/remoteproc.h>
- #include <linux/scmi_imx_protocol.h>
--#include <linux/workqueue.h>
-=20
- #include "imx_rproc.h"
- #include "remoteproc_internal.h"
-@@ -115,8 +114,6 @@ struct imx_rproc {
- 	struct mbox_client		cl;
- 	struct mbox_chan		*tx_ch;
- 	struct mbox_chan		*rx_ch;
--	struct work_struct		rproc_work;
--	struct workqueue_struct		*workqueue;
- 	void __iomem			*rsc_table;
- 	struct imx_sc_ipc		*ipc_handle;
- 	struct notifier_block		rproc_nb;
-@@ -835,21 +832,11 @@ static int imx_rproc_notified_idr_cb(int id, void *pt=
-r, void *data)
- 	return 0;
- }
-=20
--static void imx_rproc_vq_work(struct work_struct *work)
--{
--	struct imx_rproc *priv =3D container_of(work, struct imx_rproc,
--					      rproc_work);
--	struct rproc *rproc =3D priv->rproc;
--
--	idr_for_each(&rproc->notifyids, imx_rproc_notified_idr_cb, rproc);
--}
--
- static void imx_rproc_rx_callback(struct mbox_client *cl, void *msg)
- {
- 	struct rproc *rproc =3D dev_get_drvdata(cl->dev);
--	struct imx_rproc *priv =3D rproc->priv;
-=20
--	queue_work(priv->workqueue, &priv->rproc_work);
-+	idr_for_each(&rproc->notifyids, imx_rproc_notified_idr_cb, rproc);
- }
-=20
- static int imx_rproc_xtr_mbox_init(struct rproc *rproc, bool tx_block)
-@@ -1214,13 +1201,6 @@ static int imx_rproc_sys_off_handler(struct sys_off_=
-data *data)
- 	return NOTIFY_DONE;
- }
-=20
--static void imx_rproc_destroy_workqueue(void *data)
--{
--	struct workqueue_struct *workqueue =3D data;
--
--	destroy_workqueue(workqueue);
--}
--
- static int imx_rproc_probe(struct platform_device *pdev)
- {
- 	struct device *dev =3D &pdev->dev;
-@@ -1249,17 +1229,6 @@ static int imx_rproc_probe(struct platform_device *p=
-dev)
- 		priv->ops =3D dcfg->ops;
-=20
- 	dev_set_drvdata(dev, rproc);
--	priv->workqueue =3D create_workqueue(dev_name(dev));
--	if (!priv->workqueue) {
--		dev_err(dev, "cannot create workqueue\n");
--		return -ENOMEM;
--	}
--
--	ret =3D devm_add_action_or_reset(dev, imx_rproc_destroy_workqueue, priv->=
-workqueue);
--	if (ret)
--		return dev_err_probe(dev, ret, "Failed to add devm destroy workqueue act=
-ion\n");
--
--	INIT_WORK(&priv->rproc_work, imx_rproc_vq_work);
-=20
- 	ret =3D imx_rproc_xtr_mbox_init(rproc, true);
- 	if (ret)
-
---=20
-2.53.0
+diff --git a/drivers/pps/pps.c b/drivers/pps/pps.c
+index de1122bb69ea..6755901fbdae 100644
+--- a/drivers/pps/pps.c
++++ b/drivers/pps/pps.c
+@@ -65,17 +65,19 @@ static int pps_cdev_pps_fetch(struct pps_device *pps, struct pps_fdata *fdata)
+ 	if (fdata->timeout.flags & PPS_TIME_INVALID)
+ 		err = wait_event_interruptible(pps->queue,
+ 				ev != pps->last_ev);
+ 	else {
+-		unsigned long ticks;
++		long ticks;
+ 
+ 		dev_dbg(&pps->dev, "timeout %lld.%09d\n",
+ 				(long long) fdata->timeout.sec,
+ 				fdata->timeout.nsec);
+ 		ticks = fdata->timeout.sec * HZ;
+ 		ticks += fdata->timeout.nsec / (NSEC_PER_SEC / HZ);
+ 
+-		if (ticks != 0) {
++		if (ticks < 0) {
++			return -ETIMEDOUT;
++		} else if (ticks > 0) {
+ 			err = wait_event_interruptible_timeout(
+ 					pps->queue,
+ 					ev != pps->last_ev,
+ 					ticks);
+-- 
+2.47.3
 
