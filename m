@@ -1,101 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E219B344DAB
-	for <linux-rt-devel@lists.linux.dev>; Fri, 29 May 2026 15:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DCD3F0A99;
+	Fri, 29 May 2026 16:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780068075; cv=none; b=R/ZfhJ0oB5vj8CNlN+yxG7OaJq74YNauzDyLs/FCF5d17pbXtO5dgJ9NQLUNlZDXbkr6H39RXqeaAgc3bDhaxLIGWN7Nj72BtRv0cd1JFdWa5vRTFqeqg0q839ZHtvY1mSS16iw4gEbSqAax5bojm5Ukz1lvlEYUqLW1cgOWic0=
+	t=1780070481; cv=none; b=qOkoN87qOC9DggQUtBMUb1YpkQJ8DEdFdeheCgnpOMAm1l2rnzNJNj28T5sRxwCmfroSvJJKEOFwCN8RZGblOz9uwBR/yrf63FTQ2BxA9Bpc8YyxJK8TlQMPdO3X6JJ9PjaL33ZS25c/JFFGjBi3btzq5YQxx4mJPekBWs6Irqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780068075; c=relaxed/simple;
-	bh=TsGLVLs0UqIEpbs9UbAyHSjsjYjTd/56i80LcKQ+jVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EemXuNZ9HbBENK/pRFHHSLuVK3lW3lOY7cOaEjEWPMGTUD3mtHeUMC/5RHrP0pSZ8c+UMN3kNJh5rmxOG7JO6Z45givZFti+mehS2F6IyBiA8PfM16l7113ASL0n0BlgQBdiA16+ptwyoza1X9lv8OKnJsfIzlZPoefQcAy+kxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VbuwFi0B; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780070481; c=relaxed/simple;
+	bh=Vlvj9dptGi8Yd8FQGnQFcpe/MLXC7vtZfH62TXMBV5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Elprg5Rsu2jMgD1VzLsDNerVwKDWKzrmSSwHsm369yTiJ1y6hpR/C8hJqLv/CALQeVseFMpRSoqyH4BhxK0N21bMLR1deEC0JzQ/GCO5VLzoah+IwbOly7LVdusJtBfYzIB8vWDRmhMldrDOLvq6jD6Mqjbaad2dYOP7tFRYqnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2FQf+zoV; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=8UQeTzW4; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbuwFi0B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780068073; x=1811604073;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=TsGLVLs0UqIEpbs9UbAyHSjsjYjTd/56i80LcKQ+jVQ=;
-  b=VbuwFi0BQyiDmfuNBuD0oadDbEuWs5y0yJiojnEW/5J3okzqcqkdlukn
-   wpTBgrTYMK3qGVL4vTIG0eDqRRKu1aJMVmh52HA+QEO4jc4kt4By20vRe
-   5XuhhhixaAwodDEWgnk5vP6zfd0m3OlZu4ovKJ/mKQOAfXYKyZhkPRohc
-   iPQlIfQXYC966eobXM/+ao5SnFsvZ7o4RvGFB5dDxewO/FHrL+L/bei7/
-   s+TFROm84G4BkDSBhmDKqt0lSjH6fbt9sv1mDZo9NIQjv+9RMIEslHGD2
-   3cBMBP36FORFgCBa4UKY8jmN7/cW39kQR8SyOPhipL5MAwQNwoH/qSSoR
-   w==;
-X-CSE-ConnectionGUID: tt3k3CiwTIukCPx62Od6+A==
-X-CSE-MsgGUID: FgeVpBy9TOmQTbJuQ5Qk7w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="81035963"
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="81035963"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 08:21:12 -0700
-X-CSE-ConnectionGUID: yjLCndB0TiOPSLVQhPEd8w==
-X-CSE-MsgGUID: BWtIDHJxRiuXjGi7XkpREQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,175,1774335600"; 
-   d="scan'208";a="273188008"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.147])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 08:21:06 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>
-Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>, Maarten Lankhorst
- <dev@lankhorst.se>, rodrigo.vivi@intel.com,
- joonas.lahtinen@linux.intel.com, tursulin@ursulin.net, airlied@gmail.com,
- simona@ffwll.ch, clrkwllms@kernel.org, rostedt@goodmis.org,
- jerome.anand@intel.com, pierre-louis.bossart@linux.dev, tiwai@suse.de,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, jianhao.xu@seu.edu.cn
-Subject: Re: [PATCH] drm/i915/audio: use generic_handle_irq_safe() for LPE
- audio irq
-In-Reply-To: <20260529142556.3833775-1-runyu.xiao@seu.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260528154551.3708290-1-runyu.xiao@seu.edu.cn>
- <20260529074816.k1K16jyy@linutronix.de>
- <2023cf0e-85a8-4128-857d-cae806ff0e58@lankhorst.se>
- <20260529122137.VZtFvQvw@linutronix.de>
- <20260529142556.3833775-1-runyu.xiao@seu.edu.cn>
-Date: Fri, 29 May 2026 18:21:03 +0300
-Message-ID: <89e4e6258c62e0e2829038dd4f5a29cc530b4344@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2FQf+zoV";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="8UQeTzW4"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1780070477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T/oTAOOJ1Z4TFN7Yr5Hcs60Jolfhci9ej79a+pR3awY=;
+	b=2FQf+zoVYHyZMx55iz81hh2eO+Wn32lxoHRdPcg5lmlADigZh/T0t8QZCtaN733yXqdW32
+	5+5IoTjE91BPrOxXOf1Xo+q+XR/HX0fJrSnA/+ZiUeXqhu4C37L7LOBk/z2TRt+xg4N33L
+	TQP7R7aWHNUpghpH8odNPUVMleswH2OR6JmrG6+ZlvX05FSXc8KjHn1revDiyv/qSWWODz
+	T1rHASv3zd/3d8cNxzU9/EO5reIspIBiTxmzbUAK86395J8HaeOWAgyqQHlrgP1p76YZ47
+	xfSKIuZNqn2qymVuSgL3Cb2k48MO2MEg7NvTxWm5quNwB6hj43yVN0ZptM4Adg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1780070477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=T/oTAOOJ1Z4TFN7Yr5Hcs60Jolfhci9ej79a+pR3awY=;
+	b=8UQeTzW48huPWiCb0oKS963hXt6P4PSvE33NB5++XlRKFXUgoNFz4k3u/B8uLtXYnKxwHj
+	8RtyUnWv1J8Av5CA==
+To: linux-rt-devel@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: [PATCH 0/5] mailbox: imx: Use threaded handler to avoid kworker in  imx's remoteproc
+Date: Fri, 29 May 2026 18:01:02 +0200
+Message-ID: <20260529-imx_mbox_rproc-v1-0-b8ffc36e11e5@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260529-imx_mbox_rproc-7d512f5a6f78
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 May 2026, Runyu Xiao <runyu.xiao@seu.edu.cn> wrote:
-> Thanks Sebastian and Maarten.
->
-> I understand this fix is already covered by Maarten's i915 PREEMPT_RT
-> series and that the series is still pending review.
->
-> I'll drop this standalone patch and won't pursue a stable-targeted
-> version.
-
-IMO merging easy to review standalone patches helps make progress while
-the more contentious changes are in, well, sort of review limbo.
-
-BR,
-Jani.
-
->
-> This issue was independently found by our static analysis and validated
-> with a no-device QEMU harness. If the extra analysis or validation
-> details are useful for the ongoing series, I can share them separately.
->
-> Best regards,
-> Runyu
-
--- 
-Jani Nikula, Intel
+The imx's remoteproc driver uses a kworker from its mailbox callback to=0D
+complete the request. The reason is that the imx mailbox driver invokes=0D
+the callback from its interrupt handler and the remoteproc callback (at=0D
+least the rpmsg-tty) requires a preemptible context.=0D
+=0D
+This works but is problematic in a PREEMPT_RT environment where the=0D
+latency of the invocation is important. By scheduling a kworker the=0D
+high task priority from the threaded handler is lost and the kworker=0D
+competes for CPU ressources with every SCHED_OTHER task in the system.=0D
+This can lead to long delays on a busy system with other RT threads=0D
+which are less important than the completion of this request.=0D
+=0D
+Looking over other mailbox driver, like the arm_mhu for instance, they=0D
+use a threaded interrupt handler to invoke the callback. This avoids the=0D
+kworker detour.=0D
+=0D
+The here suggested change utilises a threaded interrupt to invoke the=0D
+callback. The primary handler mask the interrupt source so that the=0D
+handler can run without getting interrupted by the interrupt again.=0D
+Doing so avoids marking the interrupt IRQF_ONESHOT so that that in a=0D
+shared-interrupt environment the other interrupt can still fire while=0D
+the first one is masked.=0D
+=0D
+This change was tested on a im93 board with rpmsg-tty driver.=0D
+=0D
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>=0D
+---=0D
+Sebastian Andrzej Siewior (5):=0D
+      mailbox: imx: Start splitting the IRQ handler in primary and threaded=
+ handler=0D
+      mailbox: imx: Move the RX part of the mailbox into the threaded handl=
+er=0D
+      mailbox: imx: Move the RXDB part of the mailbox into the threaded han=
+dler=0D
+      mailbox: imx: Don't force-thread the primary handler=0D
+      remoteproc: imx_rproc: Invoke the callback directly=0D
+=0D
+ drivers/mailbox/imx-mailbox.c  | 65 +++++++++++++++++++++++++++++++++-----=
+----=0D
+ drivers/remoteproc/imx_rproc.c | 33 +--------------------=0D
+ 2 files changed, 53 insertions(+), 45 deletions(-)=0D
+---=0D
+base-commit: 9e171fc1d7d7ab847a750c03571c87ac3c17bd84=0D
+change-id: 20260529-imx_mbox_rproc-7d512f5a6f78=0D
+=0D
+Best regards,=0D
+-- =0D
+Sebastian Andrzej Siewior <bigeasy@linutronix.de>=0D
+=0D
