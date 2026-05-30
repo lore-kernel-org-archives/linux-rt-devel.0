@@ -1,169 +1,142 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtpcmd0756.aruba.it (smtpcmd0756.aruba.it [62.149.156.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A212E29AAFA
-	for <linux-rt-devel@lists.linux.dev>; Sat, 30 May 2026 00:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0196E37F8C2
+	for <linux-rt-devel@lists.linux.dev>; Sat, 30 May 2026 09:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780102279; cv=none; b=VeKhjhrUOyQVqpmZp7WWBIQcej4Eh7J2tiVwbvWOOk9oXmzLfR4as1EzSGzZfnS27Mx0c6IKxzYcUo7ZtNJJFQVr84SexGhXhLRDJSHPLyInAUEYiRIjCxYM4QOMbxWaqYBz/9aOVDVgukOSpVCKtST77jqJY/4hbEjBv68wq0Q=
+	t=1780134818; cv=none; b=DhoKVyM2vc4X3ez7m7dAoXqyQbMGIrwiUj0OXXlaUKtZUkFooxgBCWvYW4mUaF3gyItx6Bzj4cGUJCd3EXnIOHWD3vx5dcUCGHuG2afqkmqjq4wllh3DTFWZDjCKY+N8GAXOvVAJqR7k4sXsSPJKYFurd4EZV2vGL+ZlgllBeBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780102279; c=relaxed/simple;
-	bh=Rh/bzdbpeymFmSXBGT4/Yr53aWjDznmZW74qYHHz/hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=o2sFDCWeAEv8ni9M67NDr90baWgkV0TiLOuOGjQV12q0g9ZYA7eMLVtQE7EvGUW3euFWbSzTkRO3i1jkJU1DTyNov4cBIJxEqYdNrfyvVjAnfJ5jxrjLPyHKDENIOchJa70KYAJG9ipp0cmGyHDH883e8zNmLq2VuFvU1AuKXkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S2F8UuQo; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780134818; c=relaxed/simple;
+	bh=5HyOL9IeTubBCnomRKs6n9WOyYq9XGvw/L+X/KbNliI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q34/mIbdm/OJVQuDvFmTZb9/f9fFPSaIuYJGq6ENTz0b/JkIXMZ4prJHLtzVI3F4n7a2vmrIzD5lg9IEWrvVTaZkPJT2LzpHBvMpx6mrXE+8oZ94JzrwHzwurstt7tkqND0JRLELazrW14JBG/j0Fk0kXHlSOogMDje3mbz72do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=Fwa9xuTV; arc=none smtp.client-ip=62.149.156.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S2F8UuQo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780102276;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zRqQuSUnQXIp8UkHJ3sfDs0vFpquRuFQmXl1WKZBm+U=;
-	b=S2F8UuQoOjJHvM99PdmER/XksgP8iotALc9uXXrO0g8MB837MFQBoY7pn2JZuZ3o44jq/0
-	IJgCXZIVlsAETudLw/tlcgkXKGMC5VBpPsGenoS7WXUprCPKHM8/ECx/0DPdHHgYzC0xYi
-	P+okaXYbBOpGLqmRnF7+AUm54aABlck=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-451-aSJK__TSM1uXw8sPVkz9hw-1; Fri,
- 29 May 2026 20:51:13 -0400
-X-MC-Unique: aSJK__TSM1uXw8sPVkz9hw-1
-X-Mimecast-MFC-AGG-ID: aSJK__TSM1uXw8sPVkz9hw_1780102271
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9C01F1956080;
-	Sat, 30 May 2026 00:51:10 +0000 (UTC)
-Received: from localhost (unknown [10.22.88.56])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 65F321800576;
-	Sat, 30 May 2026 00:51:08 +0000 (UTC)
-Date: Fri, 29 May 2026 21:51:06 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Waiman Long <longman@redhat.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] arm64/entry: Don't disable preemption in
- debug_exception_enter() with RT kernel
-Message-ID: <aho0eqjMESuHxECr@redhat.com>
-References: <20260519222524.886454-1-longman@redhat.com>
- <20260520061920.XCqBHe0x@linutronix.de>
- <a5251664-2c15-4a8e-906b-d204e10c38be@redhat.com>
- <20260528145124.v9o6OcOc@linutronix.de>
- <20260528153554.vllN7_T9@linutronix.de>
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="Fwa9xuTV"
+Received: from [192.168.0.186] ([109.118.80.246])
+	by Aruba SMTP with ESMTPSA
+	id TGKlwudjWtpTfTGKlwKfCE; Sat, 30 May 2026 11:50:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1780134624; bh=5HyOL9IeTubBCnomRKs6n9WOyYq9XGvw/L+X/KbNliI=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=Fwa9xuTVYIBquf5GWodh2DjYY3mJMt9tWsBLpfnGSA6xQwYhJqKaIPBIE1DQ/67kx
+	 +d63kgrjutEksAs6Xh9bgM8O+PIbSGw0VgNcKHA4hruH+BviTpUE9Pnl0Ko7Wh8ZAO
+	 k8LDvu0RqhliHHkpyfYCq2A+vinsHgKxu0V/38+EsuSVuUpoy4ZO6CS9bVu0hg9V6h
+	 ogvToa/aFaEgrcnSQLSBPC+1JuzgskmLZ6aDLHEcUYJFXANkTW3inWFHSs/CeBwiHj
+	 z7a4hRJRREtPzkT8234QMVIvCLXta/G5DUM9fmCvc9xLWIHJN8M8LnmjIpZcGW0i7f
+	 LbNx4skaKdgAA==
+Message-ID: <20ed84f3-14d9-4936-b6d1-915ab605b7fa@enneenne.com>
+Date: Sat, 30 May 2026 11:50:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20260528153554.vllN7_T9@linutronix.de>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
-X-Mimecast-MFC-PROC-ID: 7gHa8YpRYEy5yZaVpr7bZFUkhE0Sd8efl0YPSQY60Gk_1780102271
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pps: Don't try to wait for negative timeouts in PPS_FETCH
+Content-Language: en-US
+To: Calvin Owens <calvin@wbinvd.org>, linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <b5241c09ac0dfb82ee076d06367ac6319471c773.1780071212.git.calvin@wbinvd.org>
+From: Rodolfo Giometti <giometti@enneenne.com>
+In-Reply-To: <b5241c09ac0dfb82ee076d06367ac6319471c773.1780071212.git.calvin@wbinvd.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfM3Vma0OOrnNijnSbDr8P8mAqCbBHxT79SkBRBlCQgXAxZKToDw+CWvtOyQWlghPzZBUsHh/c2AwNELHWG4z2e7075TDK1ehulGH676kDN83aPSSb0Pg
+ nfSH6K0bHm8PB7rO5Gks6x+k+GavLOXboHExWbobPv2EnD8kz9YkIrbCsM0C+v+Ve8fLdVvCLhbjd6ukKYou5t1itPM2K8VX0H3vF5qf+CxCp8xJxW4eebMD
+ oVu2LnmcA14dmCf0HHPAxHSyZuLgEdsruvw2R3enY1r5YTAGTbdV35Hsg7F6g2lu0vAOpMeqPw2gvBN33r7lWxl0wvgYNPALMDNWyVNdwX4lro3SxqdPvhux
+ LxVHCiA1XlhIdPvrGzPPK4Acv4FijliWvMv2XWjJegFdQEdTnBfvRIrVHwZfErNOUln7P3bU
 
-On Thu, May 28, 2026 at 05:35:54PM +0200, Sebastian Andrzej Siewior wrote:
-> On 2026-05-28 16:51:24 [+0200], To Waiman Long wrote:
-> > > The kernel backtrace is produced using the latest v7.1-rc4 kernel. There are
-> > > a number of changes to the debug_exception_enter() and
-> > > debug_exception_exit() functions over the years, but the preemption disable
-> > > code remains since its introduction in v5.3.
-> > 
-> > Let me look at this again.
+On 29/05/2026 18:21, Calvin Owens wrote:
+> If userspace passes a negative timeout to PPS_FETCH, it triggers a
+> kernel splat from schedule_timeout():
 > 
-> So how do you reproduce this? The calls within debug_exception_enter()/
-> exit() look harmless or I miss the big thing here.
-> From your backtrace, you have brk_handler() and this is gone since
-> commit 31575e11ecf7e ("arm64: debug: split brk64 exception entry") which
-> is v6.17-rc1. I can use gdb with breakpoint handling.
+>      schedule_timeout: wrong timeout value fffffffffff0bfb4
+>      CPU: 17 UID: 0 PID: 4720 Comm: a.out Not tainted 7.1.0-rc5-x86-kvm-00150-g331d97e36b37 #1 PREEMPT_RT
+>      Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-20240910_120124-localhost 04/01/2014
+>      Call Trace:
+>       <TASK>
+>       dump_stack_lvl+0x4b/0x70
+>       schedule_timeout+0xb7/0xe0
+>       pps_cdev_pps_fetch.isra.0+0x93/0x150
+>       pps_cdev_ioctl+0x70/0x310
+>       __x64_sys_ioctl+0x7b/0xc0
+>       do_syscall_64+0xb6/0xfc0
+>       entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> 
+> Sashiko imagines this to be some sort of security problem, which is
+> obviously really silly. But I think it is still worth fixing, so buggy
+> userspace code can't trigger the splat.
+> 
+> Silence the splat by skipping the wait if the ticks count is negative.
+> The current behavior is to return -ETIMEDOUT in that case, so keep that
+> return value in case any userspace code might rely on it.
+> 
+> Fixes: eae9d2ba0cfc ("LinuxPPS: core support")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://sashiko.dev/#/patchset/cover.1779733602.git.calvin%40wbinvd.org?part=3
+> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+> ---
+>   drivers/pps/pps.c | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pps/pps.c b/drivers/pps/pps.c
+> index de1122bb69ea..6755901fbdae 100644
+> --- a/drivers/pps/pps.c
+> +++ b/drivers/pps/pps.c
+> @@ -65,17 +65,19 @@ static int pps_cdev_pps_fetch(struct pps_device *pps, struct pps_fdata *fdata)
+>   	if (fdata->timeout.flags & PPS_TIME_INVALID)
+>   		err = wait_event_interruptible(pps->queue,
+>   				ev != pps->last_ev);
+>   	else {
+> -		unsigned long ticks;
+> +		long ticks;
+>   
+>   		dev_dbg(&pps->dev, "timeout %lld.%09d\n",
+>   				(long long) fdata->timeout.sec,
+>   				fdata->timeout.nsec);
+>   		ticks = fdata->timeout.sec * HZ;
+>   		ticks += fdata->timeout.nsec / (NSEC_PER_SEC / HZ);
+>   
+> -		if (ticks != 0) {
+> +		if (ticks < 0) {
+> +			return -ETIMEDOUT;
+> +		} else if (ticks > 0) {
+>   			err = wait_event_interruptible_timeout(
+>   					pps->queue,
+>   					ev != pps->last_ev,
+>   					ticks);
 
-Sebastian, in the original series Ada provided a few tests, including the
-two files I list below. Running that test in a v7.1-rc5 kernel with
-PREEMPT_RT and DEBUG_ATOMIC_SLEEP enabled, I get this backtrace:
+Should the problem originate from user-space data, I deem it more appropriate to 
+verify them directly, rather than relying on computed data.
 
-[10416.818417] BUG: sleeping function called from invalid context at kernel/locking/spinlock_rt.c:48
-[10416.818426] in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 6437, name: gdb_prog1
-[10416.818428] preempt_count: 1, expected: 0
-[10416.818430] RCU nest depth: 1, expected: 1
-[10416.818434] CPU: 11 UID: 0 PID: 6437 Comm: gdb_prog1 Not tainted 7.1.0-rc5-rt1 #2 PREEMPT_{RT,(full)} 
-[10416.818437] Hardware name: Lenovo HR330A            7X33CTO1WW    /FALCON     , BIOS hve104r-1.15 02/26/2021
-[10416.818440] Call trace:
-[10416.818442]  show_stack+0x20/0x40 (C)
-[10416.818450]  dump_stack_lvl+0x88/0xb8
-[10416.818454]  dump_stack+0x18/0x30
-[10416.818457]  __might_resched+0x18c/0x1c8
-[10416.818462]  rt_spin_lock+0x4c/0x1b0
-[10416.818467]  force_sig_info_to_task+0x34/0x1f0
-[10416.818471]  force_sig_fault+0x68/0xb0
-[10416.818473]  arm64_force_sig_fault+0x44/0x70
-[10416.818476]  ptrace_hbptriggered+0xd0/0x150
-[10416.818479]  __perf_event_overflow+0xf4/0x300
-[10416.818483]  perf_swevent_event+0x1b8/0x1f0
-[10416.818486]  perf_bp_event+0xcc/0xe0
-[10416.818489]  do_breakpoint+0xf4/0x238
-[10416.818493]  el0_breakpt+0x7c/0x200
-[10416.818497]  el0t_64_sync_handler+0xa8/0xf0
-[10416.818500]  el0t_64_sync+0x1b0/0x1b8
+	unsigned long ticks;
 
+	if (fdata->timeout.sec < 0 || fdata->timeout.nsec < 0)
+		return -ETIMEDOUT;
 
-n order to run the test, you need to create two files with the names and
-content listed below and run the following commands:
+	dev_dbg(&pps->dev, "timeout %lld.%09d\n",
+			(long long) fdata->timeout.sec,
+			fdata->timeout.nsec);
+		
+	ticks = fdata->timeout.sec * HZ;
+	ticks += fdata->timeout.nsec / (NSEC_PER_SEC / HZ);
 
-    cc gdb_prog1.c -o gdb_prog1 -O0 -g
-    gdb -x gdb_cmdlist ./gdb_prog1
+	if (ticks > 0) {
 
-That's it.
+Ciao,
 
-The files I mentioned are:
+Rodolfo
 
-===== gdb_cmdlist 
-
----------- >8 cut here 8< ----------
-start
-hbreak 3
-watch target
-commands 2
-continue
-end
-commands 3
-continue
-end
-continue
-jump 11
-continue
-quit
----------- >8 cut here 8< ----------
-
-
-===== gdb_prog1.c
-
----------- >8 cut here 8< ----------
-int main() {
-	int add = 0xAA;
-	int target = 0;
-
-	target += add;
-
-#ifdef COMPAT
-    __asm__("BKPT");
-#else
-    __asm__("BRK 1");
-#endif
-
-	return target;
-}
----------- >8 cut here 8< ----------
-
-Luis
-
-
+-- 
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
