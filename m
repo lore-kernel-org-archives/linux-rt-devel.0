@@ -1,119 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B87C2C187;
-	Sun, 31 May 2026 08:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5BC332EA2
+	for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 14:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780214499; cv=none; b=glR/FgQIfFiJRc/gNNGaJIp3d8kxJqhUH5MPUT//OeMAQQxXHPgR1eaH0wF2vkfuwQmxU1OugfXi7+NaiqB/NXvnV/SEyPC0NKok+8RDy1IATOHNqtKGt1X1Z1NUj1k6Zf1gWcvzTYc5/s9iSp+P66X9gdSUquocdrmzNvkd6I0=
+	t=1780237120; cv=none; b=iT1WQ1VoqDe1GHS62aRXM7GRpxZ1P6RgQ49VLFgy0Q4JjaQ/rOS6Wo1pPgkMErHJhreaH0ibmXL8ZTxG/RxcQAhkbiPnkmNlxk6PdABnH4CDIfqhVF3yuY76yDmJaSDNdVhQypGUpVzf2wvDS7MHHyrTHbTFEiJYOZ6ymG/Huvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780214499; c=relaxed/simple;
-	bh=1kr/1wzRV4EnpE9UbYXX/eEN3WI6rpSSDMJcARoiI8c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=poWS+Of3B8aw3phQkBtfhS6oa6mupmEfoiaaPbuFUv6Am1cR6F0dXFWGCTypX2l1HHRFNp65b32IySKXZmx1xSMVMmuuxQ25FwMN+lSC9hbFUg30DWteZflaryr/a9eIGjxdDzduEhxeDBUm2Pco1/3BbJlItzLtOXFNIllZz1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AVbVfG69; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780237120; c=relaxed/simple;
+	bh=zjwsiyM9YIeiHH2wJ8jXDD9l5W0r7o7szymJ9KdY8Bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=iVf9J9Ghz4OupEWX6X/F8xf0uq9DMPBYIuFAnR9L2gqABucYEORqwDWIPPWskRtEqxksuou9mhApqvI3egFHMDGNLV+TBYByZ3YQLX9IJPK8Sw+BXJF+4mCv/dpMiA4olIDH6SyglPR23oEPbgR3vIl6mkxnpEadykU3hBIqj+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oo6Hcj4j; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AVbVfG69"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E75A1F00893;
-	Sun, 31 May 2026 08:01:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780214497;
-	bh=T2xfHdgvb+Xgsn2jYm9B+YvKkHv/RheiyEKVUlJLZ5Q=;
-	h=Date:Subject:To:References:From:In-Reply-To;
-	b=AVbVfG69JuSdwCrEVHIdsTIedLT+sRlfvHdmwxQE7pKqHpvlui64mvf9V2vLIY+Ji
-	 DuaoRxZQaOzCmIzyAyodE6ItDnlictjMO8sXfBxgXJvBO7zDqaglywiyz7XMCN/aVd
-	 keHFARz0r/eBNIsc+YFX6JpeoytmJHeCZ0Vfc7/Fp1rsYLjPTfWqNd9B/Ao7C7d1XS
-	 Hm48wIf4dJUrIjqpXJMKzq2H6knO+N0mkQack2siaDVYCp983/i29+bcLK3t0P6ZhB
-	 sMJYkduOnLGcfK5OPhEXHIs+bskG3Ipy+MLzIa6GsDjeeVC6JtMp1vIhR9+8NdmDg4
-	 Kh1j+iSOaC3BQ==
-Message-ID: <c5e9090f-38a1-4aa3-983c-28994aaf733c@kernel.org>
-Date: Sun, 31 May 2026 10:01:32 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oo6Hcj4j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780237117;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QtO8FxV0FZvT6jbNOVRIHEka2WnDuWsEO9oX113DzcY=;
+	b=Oo6Hcj4joTiL2yTRK84payEE6kR8X+5hIrkOXrJyF+yS9J3aAkGQAzRCUvGHZdXTDmUAAI
+	eudoTOYf0At0SFKLA9WOhQqRMs1WsKUTwFwNHNCJquvFkCkVUda0OITP6ieZQsOveSyqbn
+	k9lEpNaRatD1bF9Y27uIwBkucIsduVs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-171-ADeGhOcgOf6-nFFcCLxsQQ-1; Sun, 31 May 2026 10:18:36 -0400
+X-MC-Unique: ADeGhOcgOf6-nFFcCLxsQQ-1
+X-Mimecast-MFC-AGG-ID: ADeGhOcgOf6-nFFcCLxsQQ_1780237115
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-490a7627763so5780695e9.0
+        for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 07:18:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780237115; x=1780841915;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QtO8FxV0FZvT6jbNOVRIHEka2WnDuWsEO9oX113DzcY=;
+        b=aaRkzN+d1mJJSPfgrnx/IuZt2qGX0HXk1WXqO50rkto9sagFmdo8h4jIATDWf+1cUP
+         HNChLE4RKjhFI3UVEaNOiLUiNU3MYHefuciM1s79WUxusko5Qu3lBIiplYDisvlZRHra
+         lq1IXA+Aq9/o7S51F2IG6/xX76+AeoSt7FdvSEtPox1mL7fkLXBhOEfKjMI2XYn3nrfX
+         QX6luTOlSq3beQ4PVcjMZWhkKcmBqmLQgnJr3AWgRq0pYFiTm4B2BPysiMCKrUtn7mhk
+         PLPkCdGlCK1hRsM9jgwbmcwegIUpFpyY9WLLFDg3lOi7r3Z/zD34gEegUADeRU81Vy4u
+         Hvqw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Kt6Eav4gU4BO114mDOS867CHVFZitTV8ky2P2eOJZqk2MSZNreFPOJl1ZRnBkNk8w4t/5UbU+9/E5larDxg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzci5qeLSX3ZDVPw584YiZIqrcXvHotM/f3tkU8Ktw+NhRnQwDN
+	bjelAhZQ4/DAg4LbyYoG/w+xFsliPq2H0/bF6+qd2l+GnRQWiagcIs3ZJ8m2HloPeTndDhZcLoZ
+	8iqiuo+F4UF+qajiTbfygvpQoqhjGtJJzjVVt2GZHhTo2Zt85HjWtc7TaNwI2sl6zI77f
+X-Gm-Gg: Acq92OFYbPnVa/rFD+i8yUPnyBl9i05NvBPJH61GPj54mWoe+h/dQuRUYW4L5kpqKsR
+	KHgHEvSqUPse1kwYSxMWdTuRMwrVQS7bFb6JQxkbgKHyWJWnIyoqmbk8hzw8JQuW2i3bt31pL2V
+	iUXrY/yn7KxGXslskEtk54MBiZUCWRulb+L8WULbQi+xVFbZ/UWL5NNYIwSvtrAk89T1ctIr43d
+	OtpXM6Zn7nFt/F9Zb81nowH/4KgQVaAsSj74edJKqsvLmihO9A9snrGzxWidsTzHjjCSgpvv5dp
+	gXVSweG4qMx9RbfYnvTNL3H9NTlluJA2SY2AJA+BNvfu+2fFZRnfjy6eH1ePT5X9v0tO4gVL/OV
+	C1bTqvc0ydlCWAItAJfDOSCG44leiOTQOPkTeCHuP8vfkIg==
+X-Received: by 2002:a05:600c:46d1:b0:490:a7ab:bbe3 with SMTP id 5b1f17b1804b1-490a7abbd7fmr61900395e9.0.1780237114834;
+        Sun, 31 May 2026 07:18:34 -0700 (PDT)
+X-Received: by 2002:a05:600c:46d1:b0:490:a7ab:bbe3 with SMTP id 5b1f17b1804b1-490a7abbd7fmr61899935e9.0.1780237114475;
+        Sun, 31 May 2026 07:18:34 -0700 (PDT)
+Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c0498e0sm76968165e9.0.2026.05.31.07.18.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2026 07:18:34 -0700 (PDT)
+From: Costa Shulyupin <costa.shul@redhat.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH v1] docs: real-time: Fix duplicated sched(7) text
+Date: Sun, 31 May 2026 17:18:22 +0300
+Message-ID: <20260531141823.4118954-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: interrupt-controller: qcom: add
- msm8660-mpm
-To: Herman van Hazendonk <github.com@herrie.org>,
- Bjorn Andersson <andersson@kernel.org>, Clark Williams
- <clrkwllms@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- devicetree@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- Rob Herring <robh@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>
-References: <cover.1780148149.git.github.com@herrie.org>
- <cover.1780195817.git.github.com@herrie.org>
- <4cca687dba2d1c341613a13d3e4b4a156b0d5531.1780195817.git.github.com@herrie.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <4cca687dba2d1c341613a13d3e4b4a156b0d5531.1780195817.git.github.com@herrie.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: sQghkNXc0pIj1X_2YxcGKpCUyWDnrGPL1D0ifv6_mD4_1780237115
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On 31/05/2026 06:09, Herman van Hazendonk wrote:
-> Add the binding for the Modem Power Manager (MPM) interrupt
-> controller on the MSM8x60 family (MSM8260/MSM8660/APQ8060). The MPM
-> is a small wake-capable interrupt aggregator that lets the SoC stay
-> in low-power states while a small set of GIC SPIs continues to be
-> monitored and can wake the system on an edge.
-> 
-> The binding describes its register region (in the RPM syscon), the
-> GIC SPI it raises on a wake event, the GIC mailbox it shares with
-> the RPM, and the per-pin wake-source mapping table.
-> 
-> Signed-off-by: Herman van Hazendonk <github.com@herrie.org>
+The man page reference appeared twice - once as plain text and
+once as a hyperlink. Remove the plain text duplicate.
 
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/core-api/real-time/theory.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Dropping for the same reason as in other patches - mixed up with
-everything else.
+diff --git a/Documentation/core-api/real-time/theory.rst b/Documentation/core-api/real-time/theory.rst
+index 43d0120737f8..92de5654163d 100644
+--- a/Documentation/core-api/real-time/theory.rst
++++ b/Documentation/core-api/real-time/theory.rst
+@@ -25,7 +25,7 @@ Scheduling
+ ==========
+ 
+ The core principles of Linux scheduling and the associated user-space API are
+-documented in the man page sched(7)
++documented in the man page
+ `sched(7) <https://man7.org/linux/man-pages/man7/sched.7.html>`_.
+ By default, the Linux kernel uses the SCHED_OTHER scheduling policy. Under
+ this policy, a task is preempted when the scheduler determines that it has
+-- 
+2.53.0
 
-Best regards,
-Krzysztof
