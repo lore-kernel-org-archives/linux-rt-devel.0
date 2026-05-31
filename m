@@ -1,116 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5BC332EA2
-	for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 14:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0C43446CB
+	for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 15:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780237120; cv=none; b=iT1WQ1VoqDe1GHS62aRXM7GRpxZ1P6RgQ49VLFgy0Q4JjaQ/rOS6Wo1pPgkMErHJhreaH0ibmXL8ZTxG/RxcQAhkbiPnkmNlxk6PdABnH4CDIfqhVF3yuY76yDmJaSDNdVhQypGUpVzf2wvDS7MHHyrTHbTFEiJYOZ6ymG/Huvo=
+	t=1780241312; cv=none; b=rWE8P57ei0Tw+7IuT0i3tf2cyKnNJnfhCOFi9+e+/cvlKrd0cOvWLi5t8+gOrXDKXVmMNuO0IClFvXl2+vjrCpA0JOOFmKGGCF5vVKojs2sBXd2lA8LijqhKUtrzsEpZHO0DZ1QWNzgvDS8F2F0swUoF+Vys6Omg8Pj0gnarlKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780237120; c=relaxed/simple;
-	bh=zjwsiyM9YIeiHH2wJ8jXDD9l5W0r7o7szymJ9KdY8Bw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=iVf9J9Ghz4OupEWX6X/F8xf0uq9DMPBYIuFAnR9L2gqABucYEORqwDWIPPWskRtEqxksuou9mhApqvI3egFHMDGNLV+TBYByZ3YQLX9IJPK8Sw+BXJF+4mCv/dpMiA4olIDH6SyglPR23oEPbgR3vIl6mkxnpEadykU3hBIqj+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oo6Hcj4j; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780241312; c=relaxed/simple;
+	bh=MfgaZITVjf+xSp/VVqdccCnPFjcq7/aWQ93a8bo464M=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EwCpBkRUadxC+Difmf0K7TWj2F3waj2R/4Psv8oSglTcCq497RREfUFLw3SzixtZX05aWkNGEnT1wGplmzMlm8upLY3TvD0+mvumyRmna/sKEdDEyfdBfTgpSnuQg/OfNcCgw+zwz5EAWZP9tA93A5qnDEXiumBsW7/jUYe4kSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nw5t7x6/; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Oo6Hcj4j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780237117;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QtO8FxV0FZvT6jbNOVRIHEka2WnDuWsEO9oX113DzcY=;
-	b=Oo6Hcj4joTiL2yTRK84payEE6kR8X+5hIrkOXrJyF+yS9J3aAkGQAzRCUvGHZdXTDmUAAI
-	eudoTOYf0At0SFKLA9WOhQqRMs1WsKUTwFwNHNCJquvFkCkVUda0OITP6ieZQsOveSyqbn
-	k9lEpNaRatD1bF9Y27uIwBkucIsduVs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-171-ADeGhOcgOf6-nFFcCLxsQQ-1; Sun, 31 May 2026 10:18:36 -0400
-X-MC-Unique: ADeGhOcgOf6-nFFcCLxsQQ-1
-X-Mimecast-MFC-AGG-ID: ADeGhOcgOf6-nFFcCLxsQQ_1780237115
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-490a7627763so5780695e9.0
-        for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 07:18:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780237115; x=1780841915;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QtO8FxV0FZvT6jbNOVRIHEka2WnDuWsEO9oX113DzcY=;
-        b=aaRkzN+d1mJJSPfgrnx/IuZt2qGX0HXk1WXqO50rkto9sagFmdo8h4jIATDWf+1cUP
-         HNChLE4RKjhFI3UVEaNOiLUiNU3MYHefuciM1s79WUxusko5Qu3lBIiplYDisvlZRHra
-         lq1IXA+Aq9/o7S51F2IG6/xX76+AeoSt7FdvSEtPox1mL7fkLXBhOEfKjMI2XYn3nrfX
-         QX6luTOlSq3beQ4PVcjMZWhkKcmBqmLQgnJr3AWgRq0pYFiTm4B2BPysiMCKrUtn7mhk
-         PLPkCdGlCK1hRsM9jgwbmcwegIUpFpyY9WLLFDg3lOi7r3Z/zD34gEegUADeRU81Vy4u
-         Hvqw==
-X-Forwarded-Encrypted: i=1; AFNElJ/Kt6Eav4gU4BO114mDOS867CHVFZitTV8ky2P2eOJZqk2MSZNreFPOJl1ZRnBkNk8w4t/5UbU+9/E5larDxg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzci5qeLSX3ZDVPw584YiZIqrcXvHotM/f3tkU8Ktw+NhRnQwDN
-	bjelAhZQ4/DAg4LbyYoG/w+xFsliPq2H0/bF6+qd2l+GnRQWiagcIs3ZJ8m2HloPeTndDhZcLoZ
-	8iqiuo+F4UF+qajiTbfygvpQoqhjGtJJzjVVt2GZHhTo2Zt85HjWtc7TaNwI2sl6zI77f
-X-Gm-Gg: Acq92OFYbPnVa/rFD+i8yUPnyBl9i05NvBPJH61GPj54mWoe+h/dQuRUYW4L5kpqKsR
-	KHgHEvSqUPse1kwYSxMWdTuRMwrVQS7bFb6JQxkbgKHyWJWnIyoqmbk8hzw8JQuW2i3bt31pL2V
-	iUXrY/yn7KxGXslskEtk54MBiZUCWRulb+L8WULbQi+xVFbZ/UWL5NNYIwSvtrAk89T1ctIr43d
-	OtpXM6Zn7nFt/F9Zb81nowH/4KgQVaAsSj74edJKqsvLmihO9A9snrGzxWidsTzHjjCSgpvv5dp
-	gXVSweG4qMx9RbfYnvTNL3H9NTlluJA2SY2AJA+BNvfu+2fFZRnfjy6eH1ePT5X9v0tO4gVL/OV
-	C1bTqvc0ydlCWAItAJfDOSCG44leiOTQOPkTeCHuP8vfkIg==
-X-Received: by 2002:a05:600c:46d1:b0:490:a7ab:bbe3 with SMTP id 5b1f17b1804b1-490a7abbd7fmr61900395e9.0.1780237114834;
-        Sun, 31 May 2026 07:18:34 -0700 (PDT)
-X-Received: by 2002:a05:600c:46d1:b0:490:a7ab:bbe3 with SMTP id 5b1f17b1804b1-490a7abbd7fmr61899935e9.0.1780237114475;
-        Sun, 31 May 2026 07:18:34 -0700 (PDT)
-Received: from costa-tp.bos2.lab ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c0498e0sm76968165e9.0.2026.05.31.07.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 07:18:34 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="nw5t7x6/"
+Received: from PC-202605011814.localdomain (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4079b061e;
+	Sun, 31 May 2026 23:23:16 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Maarten Lankhorst <dev@lankhorst.se>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	rodrigo.vivi@intel.com,
+	joonas.lahtinen@linux.intel.com,
+	tursulin@ursulin.net,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	clrkwllms@kernel.org,
+	rostedt@goodmis.org,
+	jerome.anand@intel.com,
+	pierre-louis.bossart@linux.dev,
+	tiwai@suse.de,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: real-time: Fix duplicated sched(7) text
-Date: Sun, 31 May 2026 17:18:22 +0300
-Message-ID: <20260531141823.4118954-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.53.0
+	jianhao.xu@seu.edu.cn
+Subject: Re: [PATCH] drm/i915/audio: use generic_handle_irq_safe() for LPE audio irq
+Date: Sun, 31 May 2026 23:23:07 +0800
+Message-Id: <20260531152307.1283430-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <89e4e6258c62e0e2829038dd4f5a29cc530b4344@intel.com>
+References: <20260528154551.3708290-1-runyu.xiao@seu.edu.cn> <20260529074816.k1K16jyy@linutronix.de> <2023cf0e-85a8-4128-857d-cae806ff0e58@lankhorst.se> <20260529122137.VZtFvQvw@linutronix.de> <20260529142556.3833775-1-runyu.xiao@seu.edu.cn> <89e4e6258c62e0e2829038dd4f5a29cc530b4344@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: sQghkNXc0pIj1X_2YxcGKpCUyWDnrGPL1D0ifv6_mD4_1780237115
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-HM-Tid: 0a9e7ea1d80c03a1kunmeba3563a10bb70
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZTx0ZVhkZQkwdTEkYGhkZGFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
+	5DQ1VKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=nw5t7x6/l8f6HAlZDcLLGMPbptweip4K4qDJP30Pu+gaL/IYyMv7uZnRnT8dWa3y/eTVDhBc5tCzQaK9o5Ktw+68G+u8WFurCa27xJjheQnYNetk/kZUXjJ5dw1i6vcdfTkRSoS/Py5/41rpG/sVcrcNkTDe2VLpLyq2oAUqE0c=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=MfgaZITVjf+xSp/VVqdccCnPFjcq7/aWQ93a8bo464M=;
+	h=date:mime-version:subject:message-id:from;
 
-The man page reference appeared twice - once as plain text and
-once as a hyperlink. Remove the plain text duplicate.
+Thanks, Jani.
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/core-api/real-time/theory.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That makes sense. I'll keep this as a standalone patch and respin it
+without the stable tag.
 
-diff --git a/Documentation/core-api/real-time/theory.rst b/Documentation/core-api/real-time/theory.rst
-index 43d0120737f8..92de5654163d 100644
---- a/Documentation/core-api/real-time/theory.rst
-+++ b/Documentation/core-api/real-time/theory.rst
-@@ -25,7 +25,7 @@ Scheduling
- ==========
- 
- The core principles of Linux scheduling and the associated user-space API are
--documented in the man page sched(7)
-+documented in the man page
- `sched(7) <https://man7.org/linux/man-pages/man7/sched.7.html>`_.
- By default, the Linux kernel uses the SCHED_OTHER scheduling policy. Under
- this policy, a task is preempted when the scheduler determines that it has
--- 
-2.53.0
+Maarten, I understand the same fix is also present in your PREEMPT_RT
+series. If you think it would be helpful, I can add a Link: tag to that
+series in the next revision to make the overlap explicit.
 
+Best regards,
+Runyu
