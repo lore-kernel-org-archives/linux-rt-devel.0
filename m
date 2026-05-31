@@ -1,127 +1,88 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617632D94BA
-	for <linux-rt-devel@lists.linux.dev>; Sun, 31 May 2026 15:36:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365AF1A9FA0;
+	Sun, 31 May 2026 20:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780241792; cv=none; b=IORGkra56kO/ZKmSPapkvYotLxtOd1HrwAk3TepC0HJH3JseOu1N3HNNyAgh74DcRH9Unwa97WThJIAOgnpMTe3Ck0QBguswJyE6FzYHEY1jUNpaDGnCtPruAZoBLs6ZQZfOeWBY6t+y1dun+AbtWMsulV/xPXPQHRHAXYREhPs=
+	t=1780260249; cv=none; b=NtHMrbGvMfxjnoE2n30+Oz4TSgRZdQnUbeilU33xKpS2zo6qAgrKFKuv2CfYcpeQHM1nKPpA0JuK5lQPAdMjPKsBbML+9hK4Ej5LwLWyjBf6o9xQtMw3YAPQsG4W2tnpUXG1ibc7V5ijOKYeRoNjXeePmGEwioO0MPqygSJHJU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780241792; c=relaxed/simple;
-	bh=LouVJhSa7zh91F2Ohng9mFfJtdukqR9oAWmyjIgpb/M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BYSh67TJksMG2aZuPFQiSNmusxUdrn2JAr0iP/kIY88l5qDAodzHUSrBE1rsmpPiRjOs0jNYSOsZG1PgM8RJ56sEcaj47cf3moQ9TTALmij55xEe2cv522PaTqnOZpn/DZqtA8m6emCD7PWZYck9cVuy/RQ2lz5aarpI0IrPaqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=hZrnfinu; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1780260249; c=relaxed/simple;
+	bh=w9DlpySWIcQ2Do7Uz1WWqyXKrWObxbYmXe0T4IKKNng=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Z7uWn0XYQ6rJLY/1xNhriNOCAm6/FdzJqRDYZ8gpkm5uUwiigUkOcKlEICxGs0cGfCjTc3Bg3nBOaDtNDcF2yiH69TMaco9WNh2ZaVtJhc0nlYurwfwIB6ffh1evOaxP/mfax/KN0VtIfVGKSS78RPEjk0KeMOJz75ZIhMWqLpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MfbLmO8J; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="hZrnfinu"
-Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4079b06e0;
-	Sun, 31 May 2026 23:31:18 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Maarten Lankhorst <dev@lankhorst.se>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	rodrigo.vivi@intel.com,
-	joonas.lahtinen@linux.intel.com,
-	tursulin@ursulin.net,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	jerome.anand@intel.com,
-	pierre-louis.bossart@linux.dev,
-	tiwai@suse.de,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn
-Subject: [PATCH v2] drm/i915/audio: use generic_handle_irq_safe() for LPE audio irq
-Date: Sun, 31 May 2026 23:31:08 +0800
-Message-Id: <20260531153108.1448185-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260531152307.1283430-1-runyu.xiao@seu.edu.cn>
-References: <20260531152307.1283430-1-runyu.xiao@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MfbLmO8J"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=a4EJfGDq70YtaAB3zTh/2z+QUih9wu5a0EDhPrb8Tlo=; b=MfbLmO8JE2LYmvaUmgJHfnhYvB
+	n7F9qGW7KRzKLxjKx7QwststW740DYqwjWQwzZ44ttHJWasOESXV/ZmhbgKO+fCXpY6LBqyAE4qrI
+	Wrd3ifjkcFb3BLdSjYCjxKIMVdKo7rqNjJtBxMv0YeaxUP6z1FiLZIoLmCD/QsfkBeNvcNUWVoD0W
+	DRyTd3QKmcgUo5rKWhn/eZGGaRwfkeo++eEmNO8jVtN3j632IL6E3Xf77KkCsw8ccXrrCaSCJb6zZ
+	U2FVhRrz2Yn/qFCg2B3iJbB9zaxSOiwwK55UmUba72HGX3X8ZTBiDiXBFRjTs8ZelYdM6QiJJd4m8
+	flQ8hw7w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wTn0r-00000009tlq-18u3;
+	Sun, 31 May 2026 20:44:01 +0000
+Message-ID: <2094f45a-7e74-4f7a-be70-7f856b43df21@infradead.org>
+Date: Sun, 31 May 2026 13:43:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e7ea9333803a1kunmf881f88610bfb5
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCSE8ZVkIZTk9KGkkaQhhCSlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhOQ0
-	NVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=hZrnfinuQpp+r6EHpu+x9payITlyKfPOR79KX5meBd9GCPDgyk9e2jwsXx9RoMM4x+JSzruYEWlWoWM63xqwus+t6AZpD6WnsWbFMjTMlUmhuwYQw5MFqeweWLxIC0hZXpgpMPXZZh+Y0YTslx/xFfmbQwrU3haqaX9etiEWJ40=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=hDaIee1qAflFeBZV4uLANTtsezA1dAxOljNHIOSLk9U=;
-	h=date:mime-version:subject:message-id:from;
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] docs: real-time: Fix duplicated sched(7) text
+To: Costa Shulyupin <costa.shul@redhat.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260531141823.4118954-1-costa.shul@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260531141823.4118954-1-costa.shul@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-intel_lpe_audio_irq_handler() forwards the LPE audio child IRQ from the
-i915 parent IRQ path with generic_handle_irq(). The forwarded child top
-half is not an independent hardirq entry point; it inherits the context
-of the outer i915 interrupt dispatch path.
 
-This becomes a problem when the parent IRQ runs in threaded context, for
-example on PREEMPT_RT or other forced-threading configurations. i915
-requests the parent IRQ with IRQF_SHARED and without IRQF_NO_THREAD, so
-the forwarded child handler can run with local IRQs enabled. That
-violates the expected top-half execution semantics and can trigger an
-"enabled interrupts" WARN.
 
-The issue was identified on Linux v6.18.21 by our static analysis tool
-and then manually reviewed on the i915 child-IRQ forwarding sites after
-commit 8cadce97bf26 ("drm/i915/gsc: mei interrupt top half should be in
-irq disabled context") fixed the same helper contract for the GSC path.
+On 5/31/26 7:18 AM, Costa Shulyupin wrote:
+> The man page reference appeared twice - once as plain text and
+> once as a hyperlink. Remove the plain text duplicate.
+> 
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
 
-It was then validated with a reproducible QEMU no-device parent/child
-IRQ harness that registers a threaded parent IRQ and a child IRQ
-handler, then exercises both generic_handle_irq() and
-generic_handle_irq_safe() under the same threaded parent context. In the
-plain-helper phase, the child handler ran with irqs_disabled=0 and
-triggered an "enabled interrupts" WARN. In the safe-helper phase, the
-same child handler ran with irqs_disabled=1. This is family-level
-runtime evidence for the same IRQ forwarding misuse pattern. No
-Baytrail/Cherrytrail hardware was available to run the real i915 LPE
-path end-to-end.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
 
-Use generic_handle_irq_safe() here so the forwarded LPE audio child IRQ
-runs with local IRQs disabled even when the outer i915 dispatch path is
-threaded.
+> ---
+>  Documentation/core-api/real-time/theory.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/real-time/theory.rst b/Documentation/core-api/real-time/theory.rst
+> index 43d0120737f8..92de5654163d 100644
+> --- a/Documentation/core-api/real-time/theory.rst
+> +++ b/Documentation/core-api/real-time/theory.rst
+> @@ -25,7 +25,7 @@ Scheduling
+>  ==========
+>  
+>  The core principles of Linux scheduling and the associated user-space API are
+> -documented in the man page sched(7)
+> +documented in the man page
+>  `sched(7) <https://man7.org/linux/man-pages/man7/sched.7.html>`_.
+>  By default, the Linux kernel uses the SCHED_OTHER scheduling policy. Under
+>  this policy, a task is preempted when the scheduler determines that it has
 
-Link: https://lore.kernel.org/all/20260310115709.2276203-16-dev@lankhorst.se/
-Fixes: eef57324d926 ("drm/i915: setup bridge for HDMI LPE audio driver")
-Suggested-by: Maarten Lankhorst <dev@lankhorst.se>
-Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
----
-v2:
-- Add Link: tag to Maarten's PREEMPT_RT series
-- Add Suggested-by: Maarten Lankhorst
-- Drop Cc: stable@vger.kernel.org per Sebastian's feedback
-- Keep as a standalone patch per Jani's suggestion
-
- drivers/gpu/drm/i915/display/intel_lpe_audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/display/intel_lpe_audio.c b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-index 42284e9928f2..ac1dfd592a9f 100644
---- a/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-+++ b/drivers/gpu/drm/i915/display/intel_lpe_audio.c
-@@ -263,7 +263,7 @@ void intel_lpe_audio_irq_handler(struct intel_display *display)
- 	if (!HAS_LPE_AUDIO(display))
- 		return;
- 
--	ret = generic_handle_irq(display->audio.lpe.irq);
-+	ret = generic_handle_irq_safe(display->audio.lpe.irq);
- 	if (ret)
- 		drm_err_ratelimited(display->drm,
- 				    "error handling LPE audio irq: %d\n", ret);
 -- 
-2.34.1
+~Randy
