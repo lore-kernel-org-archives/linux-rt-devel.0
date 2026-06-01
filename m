@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1F193FB075;
-	Mon,  1 Jun 2026 20:36:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F583FBEA2;
+	Mon,  1 Jun 2026 20:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780346193; cv=none; b=PUaGD/q0xogszllchHBJ3dBQAbN6tkcL7pT9fBOSxljXiCfeh2Fdl+2M8beRVuW0XHcRssgENTR1C1w1od84QdIEfdHPSW/7+99NFUGNiaNt1V4+ce9k/epwG97AkbQ4mT6NrxFRXy3HxCs0R3RBvjXNR8YaRUQ3sev9u8n6r44=
+	t=1780346194; cv=none; b=iqEyGlSWx7wXVCUtjG6Va4XStAgPtFp0zNREy8/I1a62jlmlMH1vlTGb243PfS2HGHfh4PlS13n/y+iGOZDsnsRBdoSuUy4GEoamZCZETf9eG7GJcrY+r5Dxui/PkCC8/H52dxPrKt1sPb2Dpvbl2YYDYwYkLUnIUKQFMsazh8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780346193; c=relaxed/simple;
-	bh=DUk9uYSQmnJgbKJP/PtpcwFxWEQxB9eEmQQq2rcrZnY=;
+	s=arc-20240116; t=1780346194; c=relaxed/simple;
+	bh=BUQFXTa0I6vLX30BP8etjML8itzDlkQdpKSZUwFby6E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RN00qU7F3m+CONiAwGDnMVnfbEYNroIIbJykllhz6wX7Xak7bN+ZM0fkvEejkyRSZve7FJyWssK7ozOpVJy5YTwHjJHxztXx0P3Q+j3YpbrZ9EC/bSfgds8TLnDa6jzig0WW0sU/+61OYj5/5qGJkS6apYZFm3dIWEH7xn76hYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=meFJ8vuc; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:To:Cc; b=KFJHIXkFMPll1UgikXqJnTZ28DwJEp/CDRlXe2dh9tX9b/Jx8HDrXOkilwSw8pQ3ma4sxUTKzo3WCcVtYXs3flfa+yw7mrPAAhxNiwQCyA2i+USwrGrMr8W5w+JD4jCkiZtjG+vHUtXsB2osFVQBqByV3KUs91QEP8zG5z43Nxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=be+9yFKB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="meFJ8vuc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9308D1F008A5;
-	Mon,  1 Jun 2026 20:36:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="be+9yFKB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4335F1F008A7;
+	Mon,  1 Jun 2026 20:36:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780346190;
-	bh=wvse2hv4oFt6Ck3cGedFTTl2Ea867v63ador1P4c9iA=;
+	s=k20260515; t=1780346192;
+	bh=9vBRs1mSGVNvPR6xjocFKftpd4+Zjp+FACjvhq14Wq4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=meFJ8vucPB6eMdwhgjnC6fjExavgEKbR+0cjAYJxrM4DjMoGb/QuDpC61MnHt92n9
-	 VSbiNrLCPoQWtabGEjukkp5otULvrill9oc6pzz+OpsIfuSXdhHpYB5/hw0MBV97Uu
-	 +hvTmsOYd/91jqxMbUyGy0ylnXdYvnrurDcA0hswWjiXz0nQud8fPXSDtJIpDMKIvE
-	 hjJClJzNncNypCl0GjNjmoc7fQZJkgqA/UN7DN/cxnW7EZHhfIIqAGBlc4gP1a4LJU
-	 5fVikyUA+ctpDCR7njpT3+J4a1gnuOQIA8MY5qPByiSvxOLS/fCw39668qNrwelqd9
-	 QygfM3S4SV0aA==
+	b=be+9yFKB4xMSMnOWGa9vkl4HpsV1rdM+Vj6ExSguyyBgwqW5z7YsAfCMGS9qGGd1T
+	 abJJHHOzceP8DzbxtO1dh2Y2KmHKkxankV886ENt95GQV41F0oTerW+88k7zoZ1EGm
+	 62jW5IM0pUgc/hI+nIHwR+6DlVOwokR9EjOij7oq6C/foKikRPVkQH+8epTavqKoDj
+	 OBTymHAbMYW8h89oH6zzcElA3V+F+/aYOX8X/dEEeZvMQB2yQCll14X8D2IMXXXoCK
+	 qINatc/RT6Flm+4F5ocWkl80HZIovjDL82Wm5FGTIwXSTVLr2WwNQnYaEfSkLFy1wz
+	 O5sDPu4cpBrdw==
 From: Drew Fustini <fustini@kernel.org>
-Date: Mon, 01 Jun 2026 13:36:03 -0700
-Subject: [PATCH RFC v6 09/18] riscv_cbqri: Add bandwidth controller probe
- and allocation device ops
+Date: Mon, 01 Jun 2026 13:36:05 -0700
+Subject: [PATCH RFC v6 11/18] riscv_cbqri: resctrl: Add cache allocation
+ via capacity block mask
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -38,7 +38,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-ssqosid-cbqri-rqsc-v7-0-v6-9-baf00f50028a@kernel.org>
+Message-Id: <20260601-ssqosid-cbqri-rqsc-v7-0-v6-11-baf00f50028a@kernel.org>
 References: <20260601-ssqosid-cbqri-rqsc-v7-0-v6-0-baf00f50028a@kernel.org>
 In-Reply-To: <20260601-ssqosid-cbqri-rqsc-v7-0-v6-0-baf00f50028a@kernel.org>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -77,654 +77,1028 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  Conor Dooley <conor@kernel.org>, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=21221; i=fustini@kernel.org;
- h=from:subject:message-id; bh=DUk9uYSQmnJgbKJP/PtpcwFxWEQxB9eEmQQq2rcrZnY=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWTJvnW2crs7t2NGs+ShiQ8K7VcwOHY6PKj+1fg88/rN+
- Ia5OcGCHaUsDGJcDLJiiiybPuRdWOIV+nXB/BfbYOawMoEMYeDiFICJvGBh+J+09uBy090Lovae
- T46Syr7fftN42ZLSBYes2878NHhj0W7A8M9Y6sdctmgVXrNpJjzRC1kL9LJvfWVelBMo5pV9xMA
- zlgcA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=29327; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=BUQFXTa0I6vLX30BP8etjML8itzDlkQdpKSZUwFby6E=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWTJvnUOW91YclH6s/IlfhWRO8yXkuzNNba21n2d6dzCN
+ +tQVZhoRykLgxgXg6yYIsumD3kXlniFfl0w/8U2mDmsTCBDGLg4BWAiUy4zMlzIcVM+9ji+TyCy
+ nfMSc0ayQB53lFH+MdYLM79tnmSoZ8zIsHCm73v2zG+H+g8t/ayw9NPGf5ybI4TdeK798nhkHr7
+ 4BDMA
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Add support for CBQRI bandwidth controller (BC) discovery and the two BC
-allocation control knobs. Rbwb is the number of reserved bandwidth
-blocks per RCID. Mweight is the weighted share per RCID of the remaining
-unreserved bandwidth.
+Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
+RDT_RESOURCE_L3 schemata.
 
-Both fields share the bc_bw_alloc register, so cbqri_apply_bc_field()
-seeds both halves from per-RCID software caches (rbwb_cache and
-mweight_cache) on every CONFIG_LIMIT. The caches are the authoritative
-source of the unmodified field, which sidesteps a silent READ_LIMIT
-no-op leaking stale data from a prior RCID. After CONFIG_LIMIT, the
-caller writes a sentinel to the target field and reads back via
-READ_LIMIT to verify hardware accepted the write. The cache is updated
-only after verify succeeds.
-
-mweight_cache is seeded to FIELD_MAX at probe so the first MB_MIN
-domain init does not commit Mweight=0 (per CBQRI 4.5, a hard cap that
-disallows opportunistic bandwidth) before the subsequent MB_WGHT init
-catches up.
-
-cbqri_apply_rbwb() enforces the spec-mandated sum(Rbwb) <= MRBWB
-invariant from rbwb_cache rather than per-RCID READ_LIMIT round-trips,
-which would cost up to 1 ms each while holding the mutex.
-cbqri_apply_mweight_config() rejects values that would truncate against
-the 8-bit MWEIGHT_MASK at entry.
+Mismatched CC caps at the same cache level are treated as a fatal
+configuration error since fs/resctrl exposes a single per-rid cap
+set. Domains are created lazily in the cpuhp online callback so
+cpu_mask reflects only currently online CPUs.
 
 Assisted-by: Claude:claude-opus-4-7
 Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- drivers/resctrl/cbqri_devices.c  | 416 +++++++++++++++++++++++++++++++++++++++
- drivers/resctrl/cbqri_internal.h |  57 +++++-
- 2 files changed, 472 insertions(+), 1 deletion(-)
+ MAINTAINERS                      |   2 +
+ arch/riscv/Kconfig               |   1 +
+ arch/riscv/include/asm/resctrl.h | 152 ++++++++
+ drivers/resctrl/Kconfig          |   4 +
+ drivers/resctrl/Makefile         |   1 +
+ drivers/resctrl/cbqri_resctrl.c  | 777 +++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 937 insertions(+)
 
-diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
-index c44bc50c31ba..6093706b1ec4 100644
---- a/drivers/resctrl/cbqri_devices.c
-+++ b/drivers/resctrl/cbqri_devices.c
-@@ -14,6 +14,7 @@
- #include <linux/ioport.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-+#include <linux/numa.h>
- #include <linux/printk.h>
- #include <linux/slab.h>
- #include <linux/types.h>
-@@ -30,6 +31,63 @@ static void cbqri_set_cbm(struct cbqri_controller *ctrl, u64 cbm)
- 	iowrite64(cbm, ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24bdc04fea7a..7821dd5159cb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23023,9 +23023,11 @@ R:	yunhui cui <cuiyunhui@bytedance.com>
+ L:	linux-riscv@lists.infradead.org
+ S:	Supported
+ F:	arch/riscv/include/asm/qos.h
++F:	arch/riscv/include/asm/resctrl.h
+ F:	arch/riscv/kernel/qos.c
+ F:	drivers/resctrl/cbqri_devices.c
+ F:	drivers/resctrl/cbqri_internal.h
++F:	drivers/resctrl/cbqri_resctrl.c
+ F:	include/linux/riscv_cbqri.h
  
-+/* Set the Rbwb (reserved bandwidth blocks) field in bc_bw_alloc */
-+static void cbqri_set_rbwb(struct cbqri_controller *ctrl, u64 rbwb)
-+{
-+	u64 reg;
+ RISC-V RPMI AND MPXY DRIVERS
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 6abbb21f3a0d..390353a6153a 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -595,6 +595,7 @@ config RISCV_ISA_SSQOSID
+ 	bool "Ssqosid extension support for supervisor mode Quality of Service ID"
+ 	depends on 64BIT
+ 	default n
++	select ARCH_HAS_CPU_RESCTRL
+ 	help
+ 	  Adds support for the Ssqosid ISA extension (Supervisor-mode
+ 	  Quality of Service ID).
+diff --git a/arch/riscv/include/asm/resctrl.h b/arch/riscv/include/asm/resctrl.h
+new file mode 100644
+index 000000000000..282b5b59e3ee
+--- /dev/null
++++ b/arch/riscv/include/asm/resctrl.h
+@@ -0,0 +1,152 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _ASM_RISCV_RESCTRL_H
++#define _ASM_RISCV_RESCTRL_H
 +
-+	reg = ioread64(ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_RBWB_MASK, &reg, rbwb);
-+	iowrite64(reg, ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+}
++#include <linux/resctrl_types.h>
++#include <linux/sched.h>
++#include <linux/types.h>
 +
-+/* Get the Rbwb (reserved bandwidth blocks) field in bc_bw_alloc */
-+static u64 cbqri_get_rbwb(struct cbqri_controller *ctrl)
-+{
-+	u64 reg;
++#include <asm/qos.h>
 +
-+	reg = ioread64(ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+	return FIELD_GET(CBQRI_CONTROL_REGISTERS_RBWB_MASK, reg);
-+}
-+
-+/* Set the Mweight (opportunistic weight) field in bc_bw_alloc */
-+static void cbqri_set_mweight(struct cbqri_controller *ctrl, u64 mweight)
-+{
-+	u64 reg;
-+
-+	reg = ioread64(ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK, &reg, mweight);
-+	iowrite64(reg, ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+}
-+
-+/* Get the Mweight (opportunistic weight) field in bc_bw_alloc */
-+static u64 cbqri_get_mweight(struct cbqri_controller *ctrl)
-+{
-+	u64 reg;
-+
-+	reg = ioread64(ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
-+	return FIELD_GET(CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK, reg);
-+}
++struct rdt_resource;
 +
 +/*
-+ * Stage both fields of bc_bw_alloc in one read-modify-write so the staging
-+ * register is consistent after a single MMIO write.
++ * Sentinel "no CLOSID assigned" used by resctrl_arch_rmid_idx_decode().
++ * fs/resctrl treats this opaquely. CBQRI uses MCID directly as the linear
++ * rmid index, so closid is unused on decode.
 + */
-+static void cbqri_set_bc_bw_alloc(struct cbqri_controller *ctrl,
-+				  u64 rbwb, u64 mweight)
-+{
-+	u64 reg = ioread64(ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
++#define RISCV_RESCTRL_EMPTY_CLOSID	((u32)~0)
 +
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_RBWB_MASK, &reg, rbwb);
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK, &reg, mweight);
-+	iowrite64(reg, ctrl->base + CBQRI_BC_BW_ALLOC_OFF);
++/*
++ * Terminology mapping between x86 (Intel RDT/AMD QoS) and RISC-V:
++ *
++ *  CLOSID on x86 is RCID on RISC-V
++ *    RMID on x86 is MCID on RISC-V
++ *     CDP on x86 is AT (access type) on RISC-V
++ *
++ * Each fast-path arch entry point below is the RISC-V realization of the
++ * generic contract documented in <linux/resctrl.h>. Comments here describe
++ * only the RISC-V-specific behavior (srmcfg encoding, CBQRI controller
++ * lookup, MCID-as-index policy).
++ */
++
++/**
++ * resctrl_arch_alloc_capable() - any CBQRI controller exposes resctrl alloc
++ *
++ * Returns true once at least one CBQRI controller has successfully probed for
++ * a resctrl-exposed allocation feature (cache capacity or memory bandwidth).
++ * Only meaningful after cbqri_resctrl_setup() runs at late_initcall.
++ */
++bool resctrl_arch_alloc_capable(void);
++
++/**
++ * resctrl_arch_mon_capable() - any CBQRI controller exposes resctrl monitoring
++ *
++ * Returns true once at least one CBQRI controller has successfully probed a
++ * monitoring event wired through resctrl (L3 occupancy or L3 mbm_total_bytes).
++ */
++bool resctrl_arch_mon_capable(void);
++
++/**
++ * resctrl_arch_rmid_idx_encode() - encode (RCID, MCID) into a linear index
++ * @closid: RCID (resource control id)
++ * @rmid:   MCID (monitoring counter id)
++ *
++ * RISC-V uses MCID directly as the linear index into per-RMID arrays
++ * managed by fs/resctrl, since CBQRI controllers admit any MCID for any
++ * RCID. closid is unused here. CDP is encoded via the AT field on each
++ * CBQRI op rather than via the index.
++ */
++u32  resctrl_arch_rmid_idx_encode(u32 closid, u32 rmid);
++
++/**
++ * resctrl_arch_rmid_idx_decode() - inverse of resctrl_arch_rmid_idx_encode()
++ * @idx:    linear index
++ * @closid: out: always RISCV_RESCTRL_EMPTY_CLOSID
++ * @rmid:   out: the MCID that @idx encodes
++ */
++void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid);
++
++/**
++ * resctrl_arch_set_cpu_default_closid_rmid() - install per-CPU srmcfg default
++ * @cpu:    CPU number
++ * @closid: RCID to use when no task is matched
++ * @rmid:   MCID to use when no task is matched
++ *
++ * Sets the per-CPU cpu_srmcfg_default so __switch_to_srmcfg() can fall back
++ * to the CPU's default RCID/MCID for default-group tasks (those whose
++ * thread.srmcfg encodes to 0, i.e. closid == RESCTRL_RESERVED_CLOSID and
++ * rmid == RESCTRL_RESERVED_RMID). Implements resctrl allocation rule 2
++ * ("CPU default") on RISC-V.
++ */
++void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid, u32 rmid);
++
++/**
++ * resctrl_arch_sched_in() - context-switch hook to install task RCID/MCID
++ * @tsk: the task being scheduled in
++ *
++ * Called from finish_task_switch() to write tsk->thread.srmcfg into the
++ * srmcfg CSR. Tasks tagged with RISCV_RESCTRL_EMPTY_CLOSID inherit the
++ * per-CPU default set via resctrl_arch_set_cpu_default_closid_rmid().
++ */
++void resctrl_arch_sched_in(struct task_struct *tsk);
++
++/**
++ * resctrl_arch_set_closid_rmid() - tag a task with an RCID/MCID
++ * @tsk:    task to tag
++ * @closid: RCID to install
++ * @rmid:   MCID to install
++ *
++ * Updates tsk->thread.srmcfg with the encoded (RCID, MCID) pair. The new
++ * value takes effect on the next resctrl_arch_sched_in() for this task.
++ */
++void resctrl_arch_set_closid_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
++
++/**
++ * resctrl_arch_match_closid() - test whether a task carries a given RCID
++ * @tsk:    task
++ * @closid: RCID
++ */
++bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid);
++
++/**
++ * resctrl_arch_match_rmid() - test whether a task carries a given (RCID, MCID)
++ * @tsk:    task
++ * @closid: RCID
++ * @rmid:   MCID
++ */
++bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
++
++/**
++ * resctrl_arch_mon_ctx_alloc() - allocate per-monitor-event arch context
++ * @r:     resctrl resource being monitored
++ * @evtid: which monitor event needs context
++ *
++ * Returns an opaque pointer that resctrl_arch_rmid_read() can use to find the
++ * CBQRI controller backing this event. CBQRI's BC bandwidth context is
++ * keyed off the resource's L3 monitoring domain rather than per-event state,
++ * so this implementation returns NULL.
++ */
++void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
++
++/**
++ * resctrl_arch_mon_ctx_free() - release context returned by mon_ctx_alloc()
++ * @r:            resctrl resource
++ * @evtid:        monitor event id
++ * @arch_mon_ctx: pointer returned by resctrl_arch_mon_ctx_alloc()
++ */
++void resctrl_arch_mon_ctx_free(struct rdt_resource *r, enum resctrl_event_id evtid,
++			       void *arch_mon_ctx);
++
++static inline unsigned int resctrl_arch_round_mon_val(unsigned int val)
++{
++	return val;
 +}
 +
-+enum cbqri_bc_field {
-+	CBQRI_BC_FIELD_RBWB,
-+	CBQRI_BC_FIELD_MWEIGHT,
++/* Not needed for RISC-V */
++static inline void resctrl_arch_enable_mon(void) { }
++static inline void resctrl_arch_disable_mon(void) { }
++static inline void resctrl_arch_enable_alloc(void) { }
++static inline void resctrl_arch_disable_alloc(void) { }
++
++#endif /* _ASM_RISCV_RESCTRL_H */
+diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
+index d578bc7aed85..732aae26f8f8 100644
+--- a/drivers/resctrl/Kconfig
++++ b/drivers/resctrl/Kconfig
+@@ -57,3 +57,7 @@ config RISCV_CBQRI_DRIVER_DEBUG
+ 	  new platform; otherwise leave disabled to avoid log noise.
+ 
+ endif
++
++config RISCV_CBQRI_RESCTRL_FS
++	bool
++	default y if RISCV_CBQRI_DRIVER && RESCTRL_FS
+diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
+index 28085036d895..ed737b4461b9 100644
+--- a/drivers/resctrl/Makefile
++++ b/drivers/resctrl/Makefile
+@@ -6,5 +6,6 @@ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)	+= -DDEBUG
+ 
+ obj-$(CONFIG_RISCV_CBQRI_DRIVER)		+= cbqri.o
+ cbqri-y						+= cbqri_devices.o
++cbqri-$(CONFIG_RISCV_CBQRI_RESCTRL_FS)		+= cbqri_resctrl.o
+ 
+ ccflags-$(CONFIG_RISCV_CBQRI_DRIVER_DEBUG)	+= -DDEBUG
+diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resctrl.c
+new file mode 100644
+index 000000000000..fb6d82aa3ffc
+--- /dev/null
++++ b/drivers/resctrl/cbqri_resctrl.c
+@@ -0,0 +1,777 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
++
++#include <linux/bitfield.h>
++#include <linux/cacheinfo.h>
++#include <linux/riscv_cbqri.h>
++#include <linux/cpu.h>
++#include <linux/cpufeature.h>
++#include <linux/cpuhotplug.h>
++#include <linux/err.h>
++#include <linux/init.h>
++#include <linux/resctrl.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++#include <asm/csr.h>
++#include <asm/qos.h>
++
++#include "cbqri_internal.h"
++
++struct cbqri_resctrl_res {
++	struct cbqri_controller *ctrl;
++	struct rdt_resource     resctrl_res;
++	bool                    cdp_enabled;
 +};
 +
- static int cbqri_wait_busy_flag(struct cbqri_controller *ctrl, int reg_offset,
- 				u64 *regp)
- {
-@@ -135,6 +193,42 @@ int cbqri_mon_op(struct cbqri_controller *ctrl, int reg_offset,
- 	return 0;
- }
- 
-+/*
-+ * Perform bandwidth allocation control operation on bandwidth controller.
-+ * Caller must hold ctrl->lock.
-+ */
-+static int cbqri_bc_alloc_op(struct cbqri_controller *ctrl, int operation, int rcid)
++struct cbqri_resctrl_dom {
++	struct rdt_ctrl_domain  resctrl_ctrl_dom;
++	struct cbqri_controller *hw_ctrl;
++};
++
++static struct cbqri_resctrl_res cbqri_resctrl_resources[RDT_NUM_RESOURCES];
++
++static bool exposed_alloc_capable;
++
++/* Protects ctrl_domain list mutations across CPU hotplug. */
++static DEFINE_MUTEX(cbqri_domain_list_lock);
++
++static struct rdt_ctrl_domain *
++cbqri_find_ctrl_domain(struct list_head *h, int id)
 +{
-+	int reg_offset = CBQRI_BC_ALLOC_CTL_OFF;
-+	int status;
-+	u64 reg;
++	struct rdt_domain_hdr *hdr = resctrl_find_domain(h, id, NULL);
 +
-+	lockdep_assert_held(&ctrl->lock);
-+
-+	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-+		pr_err_ratelimited("BUSY timeout before starting operation\n");
-+		return -EIO;
-+	}
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_OP_MASK, &reg, operation);
-+	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_RCID_MASK, &reg, rcid);
-+	reg &= ~CBQRI_CONTROL_REGISTERS_AT_MASK;
-+	iowrite64(reg, ctrl->base + reg_offset);
-+
-+	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-+		pr_err_ratelimited("BUSY timeout during operation\n");
-+		return -EIO;
-+	}
-+
-+	status = FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
-+	if (status != CBQRI_BC_ALLOC_CTL_STATUS_SUCCESS) {
-+		pr_err_ratelimited("BC alloc op %d failed: status=%d\n",
-+				   operation, status);
-+		return -EIO;
-+	}
-+
-+	return 0;
++	return hdr ? container_of(hdr, struct rdt_ctrl_domain, hdr) : NULL;
 +}
 +
- /*
-  * Apply a capacity block mask and verify via CONFIG_LIMIT + READ_LIMIT.
-  *
-@@ -266,6 +360,189 @@ int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
- 	return err;
- }
- 
-+/*
-+ * Apply a per-RCID update to one field (Rbwb or Mweight) of bc_bw_alloc.
-+ * bc_bw_alloc packs both fields, so both halves are seeded from the
-+ * authoritative software caches before CONFIG_LIMIT. This avoids the
-+ * silent READ_LIMIT no-op window where stale data from a prior op's
-+ * RCID could leak into the unmodified field. The verify step uses an
-+ * inverted-value sentinel to confirm hardware accepted the target field.
-+ *
-+ * Caller must hold ctrl->lock.
-+ */
-+static int cbqri_apply_bc_field(struct cbqri_controller *ctrl, u32 closid,
-+				enum cbqri_bc_field field, u64 val)
++static int cbqri_apply_cache_config_dom(struct cbqri_resctrl_dom *hw_dom,
++					struct rdt_resource *r,
++					u32 closid, enum resctrl_conf_type t,
++					u64 cbm)
 +{
-+	u64 rbwb = ctrl->rbwb_cache[closid];
-+	u64 mweight = ctrl->mweight_cache[closid];
-+	u64 readback;
-+	int ret;
++	struct cbqri_resctrl_res *hw_res =
++		container_of(r, struct cbqri_resctrl_res, resctrl_res);
++	struct cbqri_cc_config cfg = {
++		.cbm = cbm,
++		.at = (t == CDP_CODE) ? CBQRI_AT_CODE : CBQRI_AT_DATA,
++		.cdp_enabled = hw_res->cdp_enabled,
++	};
 +
-+	lockdep_assert_held(&ctrl->lock);
-+
-+	if (field == CBQRI_BC_FIELD_RBWB)
-+		rbwb = val;
-+	else
-+		mweight = val;
-+
-+	/*
-+	 * Wait for BUSY=0 before staging. A read-modify-write to the
-+	 * bc_bw_alloc staging register while an op is in flight can corrupt
-+	 * the unmodified field.
-+	 */
-+	if (cbqri_wait_busy_flag(ctrl, CBQRI_BC_ALLOC_CTL_OFF, NULL) < 0) {
-+		pr_err_ratelimited("BUSY timeout before staging bc_bw_alloc\n");
-+		return -EIO;
-+	}
-+
-+	cbqri_set_bc_bw_alloc(ctrl, rbwb, mweight);
-+
-+	ret = cbqri_bc_alloc_op(ctrl, CBQRI_BC_ALLOC_CTL_OP_CONFIG_LIMIT, closid);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * Pre-write a sentinel that cannot equal val to the target field
-+	 * so a silent READ_LIMIT (status SUCCESS but no staging update)
-+	 * is detectable in the readback. ~val truncated to the field
-+	 * width cannot equal val.
-+	 */
-+	if (field == CBQRI_BC_FIELD_RBWB)
-+		cbqri_set_rbwb(ctrl, ~val);
-+	else
-+		cbqri_set_mweight(ctrl, ~val);
-+
-+	ret = cbqri_bc_alloc_op(ctrl, CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT, closid);
-+	if (ret < 0)
-+		return ret;
-+
-+	readback = (field == CBQRI_BC_FIELD_RBWB) ?
-+		   cbqri_get_rbwb(ctrl) : cbqri_get_mweight(ctrl);
-+	if (readback != val) {
-+		pr_err_ratelimited("BC field verify mismatch (reg=0x%llx != val=%llu)\n",
-+				   readback, val);
-+		return -EIO;
-+	}
-+
-+	/* Hardware confirmed to hold val. Update the authoritative cache. */
-+	if (field == CBQRI_BC_FIELD_RBWB)
-+		ctrl->rbwb_cache[closid] = rbwb;
-+	else
-+		ctrl->mweight_cache[closid] = mweight;
-+
-+	return 0;
++	return cbqri_apply_cache_config(hw_dom->hw_ctrl, closid, &cfg);
 +}
 +
-+/*
-+ * Apply an Rbwb update for closid, optionally enforcing CBQRI section 4.5
-+ * sum(Rbwb) <= MRBWB. check_sum=false is used by coordinated init/reset
-+ * walks where intermediate sums may transiently exceed MRBWB.
-+ */
-+int cbqri_apply_rbwb(struct cbqri_controller *ctrl, u32 closid,
-+		     u64 rbwb, bool check_sum)
++bool resctrl_arch_alloc_capable(void)
 +{
-+	u32 i;
-+	int ret;
-+
-+	if (rbwb > U16_MAX)
-+		return -EINVAL;
-+
-+	mutex_lock(&ctrl->lock);
-+
-+	if (check_sum && rbwb > 0) {
-+		u64 sum = rbwb;
-+
-+		for (i = 0; i < ctrl->rcid_count; i++) {
-+			if (i == closid)
-+				continue;
-+			sum += ctrl->rbwb_cache[i];
-+		}
-+		if (sum > ctrl->bc.mrbwb) {
-+			pr_err_ratelimited("RBWB sum %llu exceeds MRBWB %u\n",
-+					   sum, ctrl->bc.mrbwb);
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+	ret = cbqri_apply_bc_field(ctrl, closid, CBQRI_BC_FIELD_RBWB, rbwb);
-+out:
-+	mutex_unlock(&ctrl->lock);
-+	return ret;
++	return exposed_alloc_capable;
 +}
 +
-+int cbqri_apply_mweight_config(struct cbqri_controller *ctrl, u32 closid,
-+			       u64 mweight)
++bool resctrl_arch_mon_capable(void)
 +{
-+	int ret;
-+
-+	if (mweight > FIELD_MAX(CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK))
-+		return -EINVAL;
-+
-+	mutex_lock(&ctrl->lock);
-+	ret = cbqri_apply_bc_field(ctrl, closid, CBQRI_BC_FIELD_MWEIGHT, mweight);
-+	mutex_unlock(&ctrl->lock);
-+	return ret;
++	return false;
 +}
 +
-+/*
-+ * Read the Rbwb (reserved bandwidth blocks) for closid via READ_LIMIT.
-+ */
-+int cbqri_read_rbwb(struct cbqri_controller *ctrl, u32 closid, u64 *rbwb_out)
++bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level rid)
 +{
-+	u8 mweight_sentinel = ~ctrl->mweight_cache[closid];
-+	int err;
-+
-+	mutex_lock(&ctrl->lock);
-+
-+	/*
-+	 * Stage a sentinel into the unread Mweight field. A silent
-+	 * READ_LIMIT no-op (status SUCCESS but staging not refreshed) leaves
-+	 * the sentinel in place, while a real read overwrites Mweight with
-+	 * the hardware value, which differs from the inverted cache sentinel.
-+	 */
-+	cbqri_set_bc_bw_alloc(ctrl, ctrl->rbwb_cache[closid], mweight_sentinel);
-+	err = cbqri_bc_alloc_op(ctrl, CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT, closid);
-+	if (err == 0) {
-+		if (cbqri_get_mweight(ctrl) == mweight_sentinel) {
-+			pr_err_ratelimited("Rbwb READ_LIMIT did not update staging\n");
-+			err = -EIO;
-+		} else {
-+			*rbwb_out = cbqri_get_rbwb(ctrl);
-+		}
-+	}
-+	mutex_unlock(&ctrl->lock);
-+	return err;
++	if (rid != RDT_RESOURCE_L2 && rid != RDT_RESOURCE_L3)
++		return false;
++	return cbqri_resctrl_resources[rid].cdp_enabled;
 +}
 +
-+/*
-+ * Read the Mweight (opportunistic weight) for closid via READ_LIMIT.
-+ */
-+int cbqri_read_mweight(struct cbqri_controller *ctrl, u32 closid, u64 *mweight_out)
++int resctrl_arch_set_cdp_enabled(enum resctrl_res_level rid, bool enable)
 +{
-+	u16 rbwb_sentinel = ~ctrl->rbwb_cache[closid];
-+	int err;
++	struct cbqri_resctrl_res *cbqri_res;
 +
-+	mutex_lock(&ctrl->lock);
-+
-+	/*
-+	 * Stage a sentinel into the unread Rbwb field so a silent READ_LIMIT
-+	 * no-op is detectable, mirroring cbqri_read_rbwb().
-+	 */
-+	cbqri_set_bc_bw_alloc(ctrl, rbwb_sentinel, ctrl->mweight_cache[closid]);
-+	err = cbqri_bc_alloc_op(ctrl, CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT, closid);
-+	if (err == 0) {
-+		if (cbqri_get_rbwb(ctrl) == rbwb_sentinel) {
-+			pr_err_ratelimited("Mweight READ_LIMIT did not update staging\n");
-+			err = -EIO;
-+		} else {
-+			*mweight_out = cbqri_get_mweight(ctrl);
-+		}
-+	}
-+	mutex_unlock(&ctrl->lock);
-+	return err;
-+}
-+
- static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_offset,
- 			       int operation, int evt_id, int *status,
- 			       bool *access_type_supported)
-@@ -447,6 +724,108 @@ static int cbqri_probe_cc(struct cbqri_controller *ctrl)
- 	return 0;
- }
- 
-+static int cbqri_probe_bc(struct cbqri_controller *ctrl)
-+{
-+	int err, status;
-+	u32 i;
-+	u64 reg;
-+
-+	reg = ioread64(ctrl->base + CBQRI_BC_CAPABILITIES_OFF);
-+	if (reg == 0)
++	if (rid != RDT_RESOURCE_L2 && rid != RDT_RESOURCE_L3)
 +		return -ENODEV;
 +
-+	ctrl->ver_minor = FIELD_GET(CBQRI_BC_CAPABILITIES_VER_MINOR_MASK, reg);
-+	ctrl->ver_major = FIELD_GET(CBQRI_BC_CAPABILITIES_VER_MAJOR_MASK, reg);
-+	ctrl->bc.nbwblks = FIELD_GET(CBQRI_BC_CAPABILITIES_NBWBLKS_MASK, reg);
-+	ctrl->bc.mrbwb = FIELD_GET(CBQRI_BC_CAPABILITIES_MRBWB_MASK, reg);
++	cbqri_res = &cbqri_resctrl_resources[rid];
++	if (!cbqri_res->resctrl_res.cdp_capable)
++		return -ENODEV;
 +
-+	if (!ctrl->bc.nbwblks) {
-+		pr_err("bandwidth controller has nbwblks=0\n");
-+		return -EINVAL;
++	cbqri_res->cdp_enabled = enable;
++	return 0;
++}
++
++struct rdt_resource *resctrl_arch_get_resource(enum resctrl_res_level l)
++{
++	if (l >= RDT_NUM_RESOURCES)
++		return NULL;
++
++	return &cbqri_resctrl_resources[l].resctrl_res;
++}
++
++/*
++ * fs/resctrl unconditionally references the symbols below before checking
++ * mon_capable. They are stubs for features CBQRI does not yet support.
++ */
++bool resctrl_arch_is_evt_configurable(enum resctrl_event_id evt)
++{
++	return false;
++}
++
++void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
++				 enum resctrl_event_id evtid)
++{
++	return NULL;
++}
++
++void resctrl_arch_mon_ctx_free(struct rdt_resource *r,
++			       enum resctrl_event_id evtid, void *arch_mon_ctx)
++{
++}
++
++void resctrl_arch_config_cntr(struct rdt_resource *r, struct rdt_l3_mon_domain *d,
++			      enum resctrl_event_id evtid, u32 rmid, u32 closid,
++			      u32 cntr_id, bool assign)
++{
++}
++
++int resctrl_arch_cntr_read(struct rdt_resource *r, struct rdt_l3_mon_domain *d,
++			   u32 unused, u32 rmid, int cntr_id,
++			   enum resctrl_event_id eventid, u64 *val)
++{
++	return -EOPNOTSUPP;
++}
++
++bool resctrl_arch_mbm_cntr_assign_enabled(struct rdt_resource *r)
++{
++	return false;
++}
++
++int resctrl_arch_mbm_cntr_assign_set(struct rdt_resource *r, bool enable)
++{
++	return -EOPNOTSUPP;
++}
++
++void resctrl_arch_reset_cntr(struct rdt_resource *r, struct rdt_l3_mon_domain *d,
++			     u32 unused, u32 rmid, int cntr_id,
++			     enum resctrl_event_id eventid)
++{
++}
++
++bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r)
++{
++	return false;
++}
++
++int resctrl_arch_io_alloc_enable(struct rdt_resource *r, bool enable)
++{
++	return -EOPNOTSUPP;
++}
++
++void resctrl_arch_mon_event_config_read(void *info)
++{
++}
++
++void resctrl_arch_mon_event_config_write(void *info)
++{
++}
++
++void resctrl_arch_reset_rmid_all(struct rdt_resource *r, struct rdt_l3_mon_domain *d)
++{
++}
++
++void resctrl_arch_reset_rmid(struct rdt_resource *r, struct rdt_l3_mon_domain *d,
++			     u32 unused, u32 rmid, enum resctrl_event_id eventid)
++{
++}
++
++int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
++			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
++			   void *arch_priv, u64 *val, void *arch_mon_ctx)
++{
++	return -ENODATA;
++}
++
++/*
++ * Note about terminology between x86 (Intel RDT/AMD QoS) and RISC-V:
++ *   CLOSID on x86 is RCID on RISC-V
++ *     RMID on x86 is MCID on RISC-V
++ */
++u32 resctrl_arch_get_num_closid(struct rdt_resource *res)
++{
++	struct cbqri_resctrl_res *hw_res;
++
++	hw_res = container_of(res, struct cbqri_resctrl_res, resctrl_res);
++
++	if (!hw_res->ctrl)
++		return 0;
++
++	return hw_res->ctrl->rcid_count;
++}
++
++u32 resctrl_arch_system_num_rmid_idx(void)
++{
++	return 1;
++}
++
++u32 resctrl_arch_rmid_idx_encode(u32 closid, u32 rmid)
++{
++	return rmid;
++}
++
++void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid)
++{
++	*closid = RISCV_RESCTRL_EMPTY_CLOSID;
++	*rmid = idx;
++}
++
++void resctrl_arch_set_cpu_default_closid_rmid(int cpu, u32 closid, u32 rmid)
++{
++	u32 srmcfg = FIELD_PREP(SRMCFG_RCID_MASK, closid) |
++		     FIELD_PREP(SRMCFG_MCID_MASK, rmid);
++
++	WRITE_ONCE(per_cpu(cpu_srmcfg_default, cpu), srmcfg);
++}
++
++void resctrl_arch_sched_in(struct task_struct *tsk)
++{
++	__switch_to_srmcfg(tsk);
++}
++
++void resctrl_arch_set_closid_rmid(struct task_struct *tsk, u32 closid, u32 rmid)
++{
++	u32 srmcfg = FIELD_PREP(SRMCFG_RCID_MASK, closid) |
++		     FIELD_PREP(SRMCFG_MCID_MASK, rmid);
++
++	WRITE_ONCE(tsk->thread.srmcfg, srmcfg);
++}
++
++void resctrl_arch_sync_cpu_closid_rmid(void *info)
++{
++	struct resctrl_cpu_defaults *r = info;
++
++	lockdep_assert_preemption_disabled();
++
++	if (r) {
++		resctrl_arch_set_cpu_default_closid_rmid(smp_processor_id(),
++							 r->closid, r->rmid);
 +	}
 +
-+	if (!ctrl->rcid_count) {
-+		pr_err("bandwidth controller has rcid_count=0\n");
++	resctrl_arch_sched_in(current);
++}
++
++bool resctrl_arch_match_closid(struct task_struct *tsk, u32 closid)
++{
++	return FIELD_GET(SRMCFG_RCID_MASK, READ_ONCE(tsk->thread.srmcfg)) == closid;
++}
++
++bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 closid, u32 rmid)
++{
++	return FIELD_GET(SRMCFG_MCID_MASK, READ_ONCE(tsk->thread.srmcfg)) == rmid;
++}
++
++void resctrl_arch_pre_mount(void)
++{
++	/* All controllers discovered at boot via late_initcall. Nothing to do. */
++}
++
++int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
++			    u32 closid, enum resctrl_conf_type t, u32 cfg_val)
++{
++	struct cbqri_resctrl_dom *dom;
++
++	dom = container_of(d, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
++
++	if (!r->alloc_capable)
++		return -EINVAL;
++
++	switch (r->rid) {
++	case RDT_RESOURCE_L2:
++	case RDT_RESOURCE_L3:
++		return cbqri_apply_cache_config_dom(dom, r, closid, t, cfg_val);
++	default:
 +		return -EINVAL;
 +	}
++}
 +
-+	/*
-+	 * Reset seeds RCID 0 with mrbwb - (rcid_count - 1). Reject a
-+	 * controller that would underflow that arithmetic.
-+	 */
-+	if (ctrl->bc.mrbwb < ctrl->rcid_count) {
-+		pr_err("bandwidth controller has mrbwb=%u < rcid_count=%u, rejecting\n",
-+		       ctrl->bc.mrbwb, ctrl->rcid_count);
-+		return -EINVAL;
++int resctrl_arch_update_domains(struct rdt_resource *r, u32 closid)
++{
++	struct resctrl_staged_config *cfg;
++	enum resctrl_conf_type t;
++	struct rdt_ctrl_domain *d;
++	int err = 0;
++
++	/* Walking r->ctrl_domains, ensure it can't race with cpuhp */
++	lockdep_assert_cpus_held();
++
++	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
++		for (t = 0; t < CDP_NUM_TYPES; t++) {
++			cfg = &d->staged_config[t];
++			if (!cfg->have_new_ctrl)
++				continue;
++			err = resctrl_arch_update_one(r, d, closid, t, cfg->new_ctrl);
++			if (err)
++				return err;
++		}
++	}
++	return err;
++}
++
++u32 resctrl_arch_get_config(struct rdt_resource *r, struct rdt_ctrl_domain *d,
++			    u32 closid, enum resctrl_conf_type type)
++{
++	struct cbqri_resctrl_dom *hw_dom;
++	struct cbqri_controller *ctrl;
++	enum cbqri_at at;
++	u32 val;
++	int err;
++
++	hw_dom = container_of(d, struct cbqri_resctrl_dom, resctrl_ctrl_dom);
++	ctrl = hw_dom->hw_ctrl;
++	val = resctrl_get_default_ctrl(r);
++
++	if (!r->alloc_capable)
++		return val;
++
++	switch (r->rid) {
++	case RDT_RESOURCE_L2:
++	case RDT_RESOURCE_L3:
++		at = (type == CDP_CODE) ? CBQRI_AT_CODE : CBQRI_AT_DATA;
++		err = cbqri_read_cache_config(ctrl, closid, at, &val);
++		if (err < 0)
++			val = resctrl_get_default_ctrl(r);
++		break;
++	default:
++		break;
 +	}
 +
-+	pr_debug("version=%d.%d nbwblks=%d mrbwb=%d\n",
-+		 ctrl->ver_major, ctrl->ver_minor,
-+		 ctrl->bc.nbwblks, ctrl->bc.mrbwb);
++	return val;
++}
 +
-+	/* Probe monitoring features */
-+	err = cbqri_probe_feature(ctrl, CBQRI_BC_MON_CTL_OFF,
-+				  CBQRI_BC_MON_CTL_OP_READ_COUNTER, 0,
-+				  &status, NULL);
-+	if (err)
-+		return err;
++void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
++{
++	struct cbqri_resctrl_res *hw_res;
++	struct rdt_ctrl_domain *d;
++	enum resctrl_conf_type t;
++	u32 default_ctrl;
++	int i;
 +
-+	if (status == CBQRI_MON_CTL_STATUS_SUCCESS)
-+		ctrl->mon_capable = true;
++	lockdep_assert_cpus_held();
 +
-+	/* Probe allocation features */
-+	err = cbqri_probe_feature(ctrl, CBQRI_BC_ALLOC_CTL_OFF,
-+				  CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT, 0,
-+				  &status, &ctrl->bc.supports_alloc_at_code);
-+	if (err)
-+		return err;
++	hw_res = container_of(r, struct cbqri_resctrl_res, resctrl_res);
++	default_ctrl = resctrl_get_default_ctrl(r);
 +
-+	if (status == CBQRI_BC_ALLOC_CTL_STATUS_SUCCESS) {
-+		ctrl->alloc_capable = true;
++	if (!hw_res->ctrl)
++		return;
 +
++	list_for_each_entry(d, &r->ctrl_domains, hdr.list) {
++		for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
++			for (t = 0; t < CDP_NUM_TYPES; t++) {
++				int rerr;
++
++				rerr = resctrl_arch_update_one(r, d, i, t, default_ctrl);
++				if (rerr)
++					pr_err_ratelimited("rid=%d reset RCID %u type %u failed (%d)\n",
++							   r->rid, i, t, rerr);
++			}
++		}
++	}
++}
++
++static struct rdt_ctrl_domain *cbqri_new_domain(struct cbqri_controller *ctrl)
++{
++	struct cbqri_resctrl_dom *hw_dom;
++	struct rdt_ctrl_domain *domain;
++
++	hw_dom = kzalloc_obj(*hw_dom, GFP_KERNEL);
++	if (!hw_dom)
++		return NULL;
++
++	hw_dom->hw_ctrl = ctrl;
++	domain = &hw_dom->resctrl_ctrl_dom;
++
++	INIT_LIST_HEAD(&domain->hdr.list);
++
++	return domain;
++}
++
++static int cbqri_init_domain_ctrlval(struct rdt_resource *r, struct rdt_ctrl_domain *d)
++{
++	struct cbqri_resctrl_res *hw_res;
++	enum resctrl_conf_type t;
++	int err = 0;
++	int i;
++
++	hw_res = container_of(r, struct cbqri_resctrl_res, resctrl_res);
++
++	for (i = 0; i < hw_res->ctrl->rcid_count; i++) {
 +		/*
-+		 * Per-RCID Rbwb and Mweight caches. The caches feed both
-+		 * fields of bc_bw_alloc on every apply so the staging
-+		 * register reflects authoritative software state, sidestepping
-+		 * silent READ_LIMIT no-op corruption of the unmodified field.
-+		 * rbwb_cache also lets cbqri_apply_rbwb() validate
-+		 * sum(Rbwb) <= MRBWB without re-reading every RCID.
++		 * Seed both DATA and CODE staged slots so a later mount
++		 * with -o cdp does not see stale CODE values.
++		 * On non-AT controllers cbqri_cc_alloc_op() masks AT to 0
++		 * so all three iterations land on the same hardware state.
++		 * The redundant writes are harmless.
 +		 */
-+		ctrl->rbwb_cache = kcalloc(ctrl->rcid_count,
-+					   sizeof(*ctrl->rbwb_cache),
-+					   GFP_KERNEL);
-+		if (!ctrl->rbwb_cache)
-+			return -ENOMEM;
++		for (t = 0; t < CDP_NUM_TYPES; t++) {
++			err = resctrl_arch_update_one(r, d, i, t,
++						      resctrl_get_default_ctrl(r));
++			if (err)
++				return err;
++		}
++	}
++	return 0;
++}
 +
-+		ctrl->mweight_cache = kcalloc(ctrl->rcid_count,
-+					      sizeof(*ctrl->mweight_cache),
-+					      GFP_KERNEL);
-+		if (!ctrl->mweight_cache) {
-+			kfree(ctrl->rbwb_cache);
-+			ctrl->rbwb_cache = NULL;
-+			return -ENOMEM;
++/*
++ * Walk cbqri_controllers and pick one capacity controller (CC) per cache
++ * level (L2/L3) to back the corresponding RDT_RESOURCE_L*. When more than
++ * one CC sits at the same level (e.g. one per socket), they must agree on
++ * rcid_count / ncblks / alloc_capable. A mismatch is fatal because resctrl
++ * exposes a single set of caps per rid. The first matching controller wins.
++ */
++static int cbqri_resctrl_pick_caches(void)
++{
++	struct cbqri_controller *ctrl;
++
++	list_for_each_entry(ctrl, &cbqri_controllers, list) {
++		struct cbqri_resctrl_res *cbqri_res;
++		enum resctrl_res_level rid;
++
++		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
++			continue;
++		if (!ctrl->alloc_capable) {
++			if (ctrl->mon_capable)
++				pr_warn_once("CC @%pa: monitor-only controllers aren't supported\n",
++					     &ctrl->addr);
++			continue;
 +		}
 +
-+		/*
-+		 * Seed mweight to the maximum, matching the resctrl-side
-+		 * MB_WGHT default. cbqri_apply_bc_field() reads both halves
-+		 * of bc_bw_alloc from the caches on every CONFIG_LIMIT, so
-+		 * the first MB_MIN domain init (which writes Rbwb) would
-+		 * otherwise commit Mweight=0 to every RCID. Per CBQRI 4.5
-+		 * a weight of 0 implies the configured limit is a hard
-+		 * limit and the use of unused or non-reserved bandwidth
-+		 * is not allowed, which starves every RCID of opportunistic
-+		 * bandwidth until the subsequent MB_WGHT domain init
-+		 * catches up.
-+		 */
-+		for (i = 0; i < ctrl->rcid_count; i++)
-+			ctrl->mweight_cache[i] =
-+				FIELD_MAX(CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK);
++		if (ctrl->cache.cache_level == 2) {
++			rid = RDT_RESOURCE_L2;
++		} else if (ctrl->cache.cache_level == 3) {
++			rid = RDT_RESOURCE_L3;
++		} else {
++			pr_err("unknown cache level %d\n",
++			       ctrl->cache.cache_level);
++			return -ENODEV;
++		}
++
++		cbqri_res = &cbqri_resctrl_resources[rid];
++		if (cbqri_res->ctrl) {
++			/*
++			 * CCs at the same cache level must agree on every cap
++			 * resctrl exposes globally. Reject mismatches at pick
++			 * time so the inconsistency is visible at boot.
++			 */
++			if (cbqri_res->ctrl->rcid_count != ctrl->rcid_count ||
++			    cbqri_res->ctrl->cc.ncblks != ctrl->cc.ncblks ||
++			    cbqri_res->ctrl->cc.supports_alloc_at_code !=
++				    ctrl->cc.supports_alloc_at_code ||
++			    cbqri_res->ctrl->alloc_capable != ctrl->alloc_capable) {
++				pr_err("L%d controllers have mismatched capabilities\n",
++				       ctrl->cache.cache_level);
++				return -EINVAL;
++			}
++			continue;
++		}
++
++		cbqri_res->ctrl = ctrl;
 +	}
 +
 +	return 0;
 +}
 +
- static int cbqri_probe_controller(struct cbqri_controller *ctrl)
- {
- 	int err;
-@@ -482,6 +861,9 @@ static int cbqri_probe_controller(struct cbqri_controller *ctrl)
- 	case CBQRI_CONTROLLER_TYPE_CAPACITY:
- 		err = cbqri_probe_cc(ctrl);
- 		break;
-+	case CBQRI_CONTROLLER_TYPE_BANDWIDTH:
-+		err = cbqri_probe_bc(ctrl);
-+		break;
- 	default:
- 		pr_err("unknown controller type %d\n", ctrl->type);
- 		err = -ENODEV;
-@@ -534,6 +916,8 @@ void cbqri_controller_destroy(struct cbqri_controller *ctrl)
- 		iounmap(ctrl->base);
- 		release_mem_region(ctrl->addr, ctrl->size);
- 	}
-+	kfree(ctrl->mweight_cache);
-+	kfree(ctrl->rbwb_cache);
- 	kfree(ctrl);
- }
- 
-@@ -645,6 +1029,38 @@ int riscv_cbqri_register_controller(const struct cbqri_controller_info *info)
- 		}
- 		break;
- 	}
-+	case CBQRI_CONTROLLER_TYPE_BANDWIDTH: {
-+		struct cbqri_controller *other;
-+		int node_id;
++/*
++ * Fill the rdt_resource fields for one picked rid. An rid with no picked
++ * controller is left untouched so it stays out of resctrl_arch_get_resource().
++ */
++static int cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
++{
++	struct cbqri_controller *ctrl = cbqri_res->ctrl;
++	struct rdt_resource *res = &cbqri_res->resctrl_res;
 +
-+		ctrl->mem.prox_dom = info->prox_dom;
-+		node_id = pxm_to_node(info->prox_dom);
-+		if (node_id == NUMA_NO_NODE) {
-+			pr_warn("controller at %pa: proximity domain %u has no NUMA node, skipping\n",
-+				&ctrl->addr, info->prox_dom);
-+			cbqri_controller_destroy(ctrl);
-+			return -ENODEV;
-+		}
-+		/*
-+		 * cbqri_resctrl_dom tracks a single hw_ctrl per domain, so a
-+		 * second BC sharing the same proximity domain would be
-+		 * silently dropped when the resctrl glue resolves the cpu to
-+		 * an existing domain. Reject the duplicate at register time
-+		 * to keep the failure mode visible.
-+		 */
-+		list_for_each_entry(other, &cbqri_controllers, list) {
-+			if (other->type != CBQRI_CONTROLLER_TYPE_BANDWIDTH)
-+				continue;
-+			if (other->mem.prox_dom != info->prox_dom)
-+				continue;
-+			pr_warn("controller at %pa: proximity domain %u already claimed by %pa, skipping\n",
-+				&ctrl->addr, info->prox_dom, &other->addr);
-+			cbqri_controller_destroy(ctrl);
-+			return -EEXIST;
-+		}
-+		cpumask_copy(&ctrl->mem.cpu_mask, cpumask_of_node(node_id));
++	if (!ctrl)
++		return 0;
++
++	switch (res->rid) {
++	case RDT_RESOURCE_L2:
++	case RDT_RESOURCE_L3:
++		res->name = (res->rid == RDT_RESOURCE_L2) ? "L2" : "L3";
++		res->schema_fmt = RESCTRL_SCHEMA_BITMAP;
++		res->ctrl_scope = (res->rid == RDT_RESOURCE_L2) ?
++				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
++		res->cache.cbm_len = ctrl->cc.ncblks;
++		res->cache.shareable_bits = 0;
++		res->cache.min_cbm_bits = 1;
++		res->cache.arch_has_sparse_bitmasks = false;
++		res->cdp_capable = ctrl->cc.supports_alloc_at_code;
++		res->alloc_capable = ctrl->alloc_capable;
++		INIT_LIST_HEAD(&res->ctrl_domains);
++		INIT_LIST_HEAD(&res->mon_domains);
++		break;
++	default:
 +		break;
 +	}
- 	default:
- 		pr_warn("controller at %pa: unknown type %u, skipping\n",
- 			&ctrl->addr, info->type);
-diff --git a/drivers/resctrl/cbqri_internal.h b/drivers/resctrl/cbqri_internal.h
-index 1d2007a0c15b..4f806689d503 100644
---- a/drivers/resctrl/cbqri_internal.h
-+++ b/drivers/resctrl/cbqri_internal.h
-@@ -9,13 +9,21 @@
- #include <linux/mutex.h>
- #include <linux/types.h>
- 
--/* Capacity Controller (CC) MMIO register offsets. */
++
++	return 0;
++}
++
++static void cbqri_resctrl_accumulate_caps(void)
++{
++	int rid;
++
++	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
++		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
++
++		if (!hw_res->ctrl)
++			continue;
++		if (hw_res->ctrl->alloc_capable)
++			exposed_alloc_capable = true;
++	}
++}
++
 +/*
-+ * Capacity Controller (CC) and Bandwidth Controller (BC) MMIO register offsets.
++ * Create, list-insert, and online a fresh ctrl_domain backing ctrl on
++ * resource res, seeded with cpu and identified by dom_id. Caller must
++ * hold cbqri_domain_list_lock and must have already verified that no
++ * existing ctrl_domain on res carries this id.
 + */
- #define CBQRI_CC_CAPABILITIES_OFF 0
- #define CBQRI_CC_MON_CTL_OFF      8
- #define CBQRI_CC_MON_CTL_VAL_OFF 16
- #define CBQRI_CC_ALLOC_CTL_OFF   24
- #define CBQRI_CC_BLOCK_MASK_OFF  32
- 
-+#define CBQRI_BC_CAPABILITIES_OFF 0
-+#define CBQRI_BC_MON_CTL_OFF      8
-+#define CBQRI_BC_MON_CTR_VAL_OFF 16
-+#define CBQRI_BC_ALLOC_CTL_OFF   24
-+#define CBQRI_BC_BW_ALLOC_OFF    32
++static struct rdt_ctrl_domain *cbqri_create_ctrl_domain(struct cbqri_controller *ctrl,
++							struct rdt_resource *res,
++							unsigned int cpu, int dom_id)
++{
++	struct rdt_ctrl_domain *domain;
++	struct list_head *pos = NULL;
++	int err;
 +
- /*
-  * Smallest MMIO span the driver actually accesses: highest defined
-  * register offset (0x20) plus the 8-byte register width. Used by
-@@ -29,6 +37,11 @@
- #define CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK  GENMASK_ULL(7, 4)
- #define CBQRI_CC_CAPABILITIES_NCBLKS_MASK     GENMASK_ULL(23, 8)
- 
-+#define CBQRI_BC_CAPABILITIES_VER_MINOR_MASK  GENMASK_ULL(3, 0)
-+#define CBQRI_BC_CAPABILITIES_VER_MAJOR_MASK  GENMASK_ULL(7, 4)
-+#define CBQRI_BC_CAPABILITIES_NBWBLKS_MASK    GENMASK_ULL(23, 8)
-+#define CBQRI_BC_CAPABILITIES_MRBWB_MASK      GENMASK_ULL(47, 32)
++	domain = cbqri_new_domain(ctrl);
++	if (!domain)
++		return ERR_PTR(-ENOMEM);
 +
- /*
-  * CC and BC control and mon registers are 64-bit. Keep every field mask
-  * GENMASK_ULL so FIELD_MODIFY() or ~mask on a u64 register never
-@@ -42,14 +55,22 @@
- #define CBQRI_CONTROL_REGISTERS_RCID_MASK    GENMASK_ULL(19, 8)
- #define CBQRI_CONTROL_REGISTERS_STATUS_MASK  GENMASK_ULL(38, 32)
- #define CBQRI_CONTROL_REGISTERS_BUSY_MASK    GENMASK_ULL(39, 39)
-+#define CBQRI_CONTROL_REGISTERS_RBWB_MASK    GENMASK_ULL(15, 0)
-+#define CBQRI_CONTROL_REGISTERS_MWEIGHT_MASK GENMASK_ULL(27, 20)
- 
- #define CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT 1
- #define CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT   2
- #define CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS  1
- 
-+#define CBQRI_BC_ALLOC_CTL_OP_CONFIG_LIMIT 1
-+#define CBQRI_BC_ALLOC_CTL_OP_READ_LIMIT   2
-+#define CBQRI_BC_ALLOC_CTL_STATUS_SUCCESS  1
++	cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
++	domain->hdr.id = dom_id;
++	domain->hdr.type = RESCTRL_CTRL_DOMAIN;
 +
- #define CBQRI_CC_MON_CTL_OP_CONFIG_EVENT 1
- #define CBQRI_CC_MON_CTL_OP_READ_COUNTER 2
- 
-+#define CBQRI_BC_MON_CTL_OP_READ_COUNTER 2
++	err = cbqri_init_domain_ctrlval(res, domain);
++	if (err) {
++		kfree(container_of(domain, struct cbqri_resctrl_dom,
++				   resctrl_ctrl_dom));
++		return ERR_PTR(err);
++	}
 +
- /* mon_ctl field masks (CC and BC share an identical OP/MCID/EVT_ID/STATUS layout) */
- #define CBQRI_MON_CTL_OP_MASK        GENMASK_ULL(4, 0)
- #define CBQRI_MON_CTL_MCID_MASK      GENMASK_ULL(19, 8)
-@@ -67,6 +88,14 @@ struct riscv_cbqri_capacity_caps {
- 	bool supports_alloc_at_code;
- };
- 
-+/* Bandwidth Controller hardware capabilities */
-+struct riscv_cbqri_bandwidth_caps {
-+	u16 nbwblks; /* number of bandwidth blocks */
-+	u16 mrbwb;   /* max reserved bw blocks */
++	/* Insert sorted by id so user-visible ordering is deterministic. */
++	resctrl_find_domain(&res->ctrl_domains, dom_id, &pos);
++	list_add_tail(&domain->hdr.list, pos);
 +
-+	bool supports_alloc_at_code;
-+};
++	resctrl_online_ctrl_domain(res, domain);
 +
- /**
-  * enum cbqri_at - capacity controller access type for CDP
-  * @CBQRI_AT_DATA: data access (CBQRI Table 1, AT=0)
-@@ -115,6 +144,7 @@ struct cbqri_controller {
- 	int ver_major;
- 	int ver_minor;
- 
-+	struct riscv_cbqri_bandwidth_caps bc;
- 	struct riscv_cbqri_capacity_caps cc;
- 
- 	bool alloc_capable;
-@@ -126,6 +156,15 @@ struct cbqri_controller {
- 	u32 rcid_count;
- 	u32 mcid_count;
- 
++	return domain;
++}
++
++static int cbqri_attach_cpu_to_cap_ctrl(struct cbqri_controller *ctrl,
++					unsigned int cpu)
++{
++	struct cbqri_resctrl_res *hw_res;
++	struct rdt_ctrl_domain *domain;
++	struct rdt_resource *res;
++	int dom_id;
++
++	if (ctrl->cache.cache_level == 2)
++		hw_res = &cbqri_resctrl_resources[RDT_RESOURCE_L2];
++	else if (ctrl->cache.cache_level == 3)
++		hw_res = &cbqri_resctrl_resources[RDT_RESOURCE_L3];
++	else
++		return 0;
++
++	if (!hw_res->ctrl)
++		return 0;
++
++	res = &hw_res->resctrl_res;
++	dom_id = ctrl->cache.cache_id;
++
++	domain = cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
++	if (domain) {
++		cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
++		return 0;
++	}
++
++	domain = cbqri_create_ctrl_domain(ctrl, res, cpu, dom_id);
++	if (IS_ERR(domain))
++		return PTR_ERR(domain);
++
++	return 0;
++}
++
++static void cbqri_detach_cpu_from_ctrl_domains(struct rdt_resource *res,
++					       unsigned int cpu)
++{
++	struct rdt_ctrl_domain *domain, *tmp;
++
++	list_for_each_entry_safe(domain, tmp, &res->ctrl_domains, hdr.list) {
++		if (!cpumask_test_cpu(cpu, &domain->hdr.cpu_mask))
++			continue;
++		cpumask_clear_cpu(cpu, &domain->hdr.cpu_mask);
++		if (cpumask_empty(&domain->hdr.cpu_mask)) {
++			resctrl_offline_ctrl_domain(res, domain);
++			list_del(&domain->hdr.list);
++			kfree(container_of(domain, struct cbqri_resctrl_dom,
++					   resctrl_ctrl_dom));
++		}
++	}
++}
++
++/*
++ * Remove a CPU from every domain it was attached to. The per-resource
++ * detach helpers act only when the CPU is set in a domain's mask, so this
++ * is idempotent and undoes a partial online attach as well as a full
++ * offline. Caller holds cbqri_domain_list_lock.
++ */
++static void cbqri_detach_cpu_from_all_ctrls(unsigned int cpu)
++{
++	int rid;
++
++	lockdep_assert_held(&cbqri_domain_list_lock);
++
++	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
++		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
++
++		if (!hw_res->ctrl)
++			continue;
++		cbqri_detach_cpu_from_ctrl_domains(&hw_res->resctrl_res, cpu);
++	}
++}
++
++/*
++ * Attach a CPU to every controller that claims it. On failure, detach the
++ * CPU from everything attached so far: the cpuhp core does not run this
++ * state's offline teardown when its startup fails, so a partial attach
++ * would otherwise leak into the domain cpu_masks. Caller holds
++ * cbqri_domain_list_lock.
++ */
++static int cbqri_attach_cpu_to_all_ctrls(unsigned int cpu)
++{
++	struct cbqri_controller *ctrl;
++	int err = 0;
++
++	lockdep_assert_held(&cbqri_domain_list_lock);
++
++	list_for_each_entry(ctrl, &cbqri_controllers, list) {
++		if (ctrl->type != CBQRI_CONTROLLER_TYPE_CAPACITY)
++			continue;
++		if (!cpumask_test_cpu(cpu, &ctrl->cache.cpu_mask))
++			continue;
++		if (!ctrl->alloc_capable)
++			continue;
++
++		err = cbqri_attach_cpu_to_cap_ctrl(ctrl, cpu);
++		if (err) {
++			cbqri_detach_cpu_from_all_ctrls(cpu);
++			break;
++		}
++	}
++
++	return err;
++}
++
++static bool cbqri_resctrl_inited;
++
++static void cbqri_resctrl_teardown(void)
++{
++	int rid;
++
++	if (!cbqri_resctrl_inited)
++		return;
++
++	resctrl_exit();
++
++	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
++		struct cbqri_resctrl_res *hw_res = &cbqri_resctrl_resources[rid];
++
++		hw_res->ctrl = NULL;
++		hw_res->cdp_enabled = false;
++	}
++	exposed_alloc_capable = false;
++	cbqri_resctrl_inited = false;
++}
++
++static int cbqri_resctrl_setup(void)
++{
++	int rid;
++	int err;
++
++	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++)
++		cbqri_resctrl_resources[rid].resctrl_res.rid = rid;
++
++	err = cbqri_resctrl_pick_caches();
++	if (err)
++		return err;
++
++	for (rid = 0; rid < RDT_NUM_RESOURCES; rid++) {
++		err = cbqri_resctrl_control_init(&cbqri_resctrl_resources[rid]);
++		if (err)
++			return err;
++	}
++
++	cbqri_resctrl_accumulate_caps();
++
++	if (!exposed_alloc_capable) {
++		pr_debug("no resctrl-capable CBQRI controllers found\n");
++		return -ENODEV;
++	}
++
++	err = resctrl_init();
++	if (err)
++		return err;
++
++	cbqri_resctrl_inited = true;
++	return 0;
++}
++
++static int cbqri_resctrl_online_cpu(unsigned int cpu)
++{
++	int err;
++
++	mutex_lock(&cbqri_domain_list_lock);
++	err = cbqri_attach_cpu_to_all_ctrls(cpu);
++	mutex_unlock(&cbqri_domain_list_lock);
++	if (err)
++		return err;
++
 +	/*
-+	 * Per-RCID cache of the most recent Rbwb / Mweight values applied
-+	 * via CONFIG_LIMIT. bc_bw_alloc packs both fields into one register,
-+	 * so cbqri_apply_bc_field() seeds both halves from the authoritative
-+	 * cache before CONFIG_LIMIT.
++	 * Seed the per-CPU default RCID/MCID to the reserved (0, 0) pair and
++	 * notify the resctrl core so it tracks this CPU in the default group.
++	 * Mirrors x86 resctrl_arch_online_cpu().
 +	 */
-+	u16 *rbwb_cache;
-+	u8  *mweight_cache;
++	resctrl_arch_set_cpu_default_closid_rmid(cpu, 0, 0);
++	resctrl_online_cpu(cpu);
++	return 0;
++}
 +
- 	struct list_head list;
- 
- 	struct cache_controller {
-@@ -135,6 +174,12 @@ struct cbqri_controller {
- 		/* Unique Cache ID from the PPTT table's Cache Type Structure */
- 		u32 cache_id;
- 	} cache;
++static int cbqri_resctrl_offline_cpu(unsigned int cpu)
++{
++	resctrl_offline_cpu(cpu);
 +
-+	struct mem_controller {
-+		/* Proximity Domain from SRAT table Memory Affinity Controller */
-+		u32 prox_dom;
-+		struct cpumask cpu_mask;
-+	} mem;
- };
- 
- extern struct list_head cbqri_controllers;
-@@ -152,4 +197,14 @@ int cbqri_mon_op(struct cbqri_controller *ctrl, int reg_offset,
- 
- int cbqri_init_mon_counters(struct cbqri_controller *ctrl);
- 
-+int cbqri_apply_rbwb(struct cbqri_controller *ctrl, u32 closid,
-+		     u64 rbwb, bool check_sum);
++	mutex_lock(&cbqri_domain_list_lock);
++	cbqri_detach_cpu_from_all_ctrls(cpu);
++	mutex_unlock(&cbqri_domain_list_lock);
++	return 0;
++}
 +
-+int cbqri_apply_mweight_config(struct cbqri_controller *ctrl, u32 closid,
-+			       u64 mweight);
++/* Saved cpuhp slot from cpuhp_setup_state() for symmetric removal. */
++static enum cpuhp_state cbqri_cpuhp_state;
 +
-+int cbqri_read_rbwb(struct cbqri_controller *ctrl, u32 closid, u64 *rbwb_out);
++static int __init cbqri_arch_late_init(void)
++{
++	int err;
 +
-+int cbqri_read_mweight(struct cbqri_controller *ctrl, u32 closid, u64 *mweight_out);
++	if (!riscv_isa_extension_available(NULL, SSQOSID))
++		return -ENODEV;
 +
- #endif /* _DRIVERS_RESCTRL_CBQRI_INTERNAL_H */
++	err = cbqri_resctrl_setup();
++	if (err)
++		return err;
++
++	err = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "cbqri:online",
++				cbqri_resctrl_online_cpu,
++				cbqri_resctrl_offline_cpu);
++	if (err < 0) {
++		cbqri_resctrl_teardown();
++		return err;
++	}
++	cbqri_cpuhp_state = err;
++
++	return 0;
++}
++late_initcall(cbqri_arch_late_init);
 
 -- 
 2.43.0
