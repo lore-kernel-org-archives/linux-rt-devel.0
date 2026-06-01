@@ -1,272 +1,138 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B77C385509
-	for <linux-rt-devel@lists.linux.dev>; Mon,  1 Jun 2026 07:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA42F3D76;
+	Mon,  1 Jun 2026 07:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780298764; cv=none; b=PnoLz17a+hWpU7XR1lBLoYLIxt+ywqrM9oqg+w1ah2J7gx3unoEdmRbmgmyvtQDLDXTKOvIHCU4CmLG0PRvKTfotk1/QX7BsYL4bcmDyoIeDNf07i+GOjyvmxoDYjzDys+kdBGWPdT/SH9ZvoROrSeQVLlEwQGtCoYoBADwu42Q=
+	t=1780298852; cv=none; b=Z5BglWGegr9mj7CH+WfnNXoscUCDABg8TtPvyFf8jTSUPVTPJhubGL8lq8AK/UeP9rRHmTmZ0N1aa5bQNYnIHOMC/2f8u5+emhM4ZAg65x31FjJcKMDAmkqcgnWLbjcqtFjdKQywvGWG5ZKo1UIFOInqmN7zlZA2t4pl4mvVxQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780298764; c=relaxed/simple;
-	bh=tXnpdsDCt57BJYmMaOirkJsWDUoOOn+z6QEvOX5EOQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I9ajNiPuSd2OkyFY20gpMrkKlAe9jOD+Z4dv2CU4XOQ/RS4bWRByBh/z6g1QgYUhDy/pRd8r5n5iejeo8Mo6MVgufPO1FAQn7fmR3x8OV206pTEAU92/qIp2Lf6E/ZQkK3tJXfBHzJMlpRM/+1i2Pw4YTdU+r1LO4VDjMBoUBCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KY53wnmq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vWLLkcjb; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1780298852; c=relaxed/simple;
+	bh=wMbTWGjuic+ST4Ffoux/6Etu/zn8n6qCExrO5zXlApU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p6NcXb1KqZufz/yJiPP4MzGxLsVHghj0xA4YZZU0SouiHSJReBfppWUu0Tn5WvmqdnJ3xobQVubW4pS8SREf5myT+LIp3RGxBG9Q2Y0RVm0lb/xbrHsT8SWzneZX9CXj+SU3fOiGr83VL/AYIQ5qroX5Sd1iRIj6I98MyZxZwWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nh5A+/2+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KY53wnmq";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vWLLkcjb"
-Date: Mon, 1 Jun 2026 09:25:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780298758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErsW1kxQ2wXq7SuUTwKS458YfvTC8trO9R0Xvvgkemo=;
-	b=KY53wnmqT9B5gmThhZiRT8PF9Crv+HRaXptZoGL0/t9Lgg2CYHtrlT9QbyPxcXg9iq/qlD
-	6DEFlqbCGqr1ZL3FKt0dukerlMALgznnu2elNjd5epaKIQYDyZrCbaLlHpeGwiBGtz+ScZ
-	yHZ/3lDBR4w4slwJoOU6vACtKc3P1lsXArtLvU+QrcoY/xnY/KL1SjIuLl+l0bTQNei9+o
-	0Zp3sa6RvFyiTFiiU2tjNRPV5Wb8Iu1edM3jA1CB5pvJFA+xN9F6dtJwQu6i7DPwnrNWP+
-	grCpqrS0IAhY8rmuIdOwrXGQL9P37ru/9goj9IBA4e0LQGVRN3LvW0UU4FCx7w==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780298758;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErsW1kxQ2wXq7SuUTwKS458YfvTC8trO9R0Xvvgkemo=;
-	b=vWLLkcjbph/QqB5nn4UNhCmT7OKPUu56d02QmcXLnFHxFwSmB9W2c0UZxeNRGoYU9f7AIW
-	y5mJrf4DB0+Wm5CA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Herman van Hazendonk <github.com@herrie.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, Rob Herring <robh@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>
-Subject: Re: [PATCH v2 2/2] irqchip: add MSM8x60 MPM wakeup interrupt
- controller driver
-Message-ID: <20260601072556.8gQxC6lw@linutronix.de>
-References: <cover.1780148149.git.github.com@herrie.org>
- <cover.1780195817.git.github.com@herrie.org>
- <0133fce127c7507bbb907d0258ad69ac8d753218.1780195817.git.github.com@herrie.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nh5A+/2+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2C91F00893;
+	Mon,  1 Jun 2026 07:27:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780298851;
+	bh=7snzxVSxi3ygpRfS5YXqVDVEjeMpSEmeXDAlj457stQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nh5A+/2+SKdjoxjd86GM0PCvAAeKdRkq/p3dDhUACVQd6trP2iinS0Syj3YdTIWSn
+	 Oui2ZipEIJYLhXkJfaHiTQfRgfcmaAXyK2Lutu2w/zHLSAHjdYXcQE6k2U7EZ0Se1C
+	 gDqQa2HIyhRF3OO3L4YIbOCyGSMWsw9JiW3HFAPAJCziBb7TULD5piMuw/w1/WZNwS
+	 STjZ5DbyCyIKqaH1ZdKv+PDwEdoqanVb9TBdYK1tFeckoGALkOlSJ1m4v6VxhEhywd
+	 QeDrTbKlUYLZvvZoie4GBQ4lHeMmAh28EQzmYMLrGkKpR+j+jXv9y0JGbUXl7ZayTd
+	 4f3XC1igsx/vQ==
+Message-ID: <1e11dea6-a9a4-425e-a31b-ab5f8561f3b8@kernel.org>
+Date: Mon, 1 Jun 2026 17:27:21 +1000
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <0133fce127c7507bbb907d0258ad69ac8d753218.1780195817.git.github.com@herrie.org>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net 09/10] mptcp: pm: avoid sleeping while holding
+ rcu_read_lock
+Content-Language: fr
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Mat Martineau <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Florian Westphal <fw@strlen.de>,
+ netdev@vger.kernel.org, mptcp@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, stable@vger.kernel.org,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Hannes Reinecke <hare@kernel.org>, linux-rt-devel@lists.linux.dev
+References: <20260601-net-mptcp-misc-fixes-7-1-rc7-v1-0-a5ae7791754b@kernel.org>
+ <20260601-net-mptcp-misc-fixes-7-1-rc7-v1-9-a5ae7791754b@kernel.org>
+ <20260601065813.Z8V8Tb6d@linutronix.de>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <20260601065813.Z8V8Tb6d@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-05-31 06:09:11 [+0200], Herman van Hazendonk wrote:
-> --- a/drivers/irqchip/Kconfig
-> +++ b/drivers/irqchip/Kconfig
-> @@ -525,6 +525,29 @@ config QCOM_MPM
->  	  MSM Power Manager driver to manage and configure wakeup
->  	  IRQs for Qualcomm Technologies Inc (QTI) mobile chips.
-> =20
-> +config QCOM_MSM8660_MPM
-> +	bool "MSM8x60 MPM wakeup interrupt controller"
-> +	depends on ARCH_QCOM
-> +	depends on MFD_SYSCON
-> +	depends on MAILBOX
-> +	select IRQ_DOMAIN_HIERARCHY
-> +	default y
+Hi Sebastian,
 
-This shouldn't by y by default.
+Thank you for the review!
 
-> +	help
-> +	  Platform driver for the MSM Power Manager (MPM) wakeup interrupt
-> +	  controller on the MSM8x60 family (MSM8260/MSM8660/APQ8060). The vMPM =
-registers live inside
-> +	  the RPM control block, which makes the generic QCOM_MPM driver
-> +	  unusable here (it assumes a dedicated MPM SRAM region, an IPCC
-> +	  mailbox, and uses IRQCHIP_DECLARE early-init that races platform
-> +	  device creation).
-> +
-> +	  This driver replicates the legacy 2.6.35-palm arch/arm/mach-msm/
-> +	  mpm.c mechanism as a regular platform driver, accessing the vMPM
-> +	  registers via a syscon phandle to the RPM block and signaling the
-> +	  MPM via the qcom-apcs-ipc mailbox (writing to GCC + 0x008 bit 1).
+On 01/06/2026 16:58, Sebastian Andrzej Siewior wrote:
+> On 2026-06-01 13:10:05 [+1000], Matthieu Baerts (NGI0) wrote:
+>> sk_stop_timer_sync() calls del_timer_sync(), which spin-waits for the
+> There is no del_timer_sync()
 
-This is a reference to something that does not exist.
+Indeed, not sure why I put that one. I wanted to say timer_delete_sync()
 
-> +	  Required for cpuidle deep-sleep states (SPC/PC) and for
-> +	  WoWLAN-style wake-from-suspend on MSM8x60 SoCs.
-> +
->  config CSKY_MPINTC
->  	bool
->  	depends on CSKY
-> diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-> index 26aa3b6ec99f..3e64591f0f5b 100644
-> --- a/drivers/irqchip/Makefile
-> +++ b/drivers/irqchip/Makefile
-> @@ -100,6 +100,7 @@ obj-$(CONFIG_MESON_IRQ_GPIO)		+=3D irq-meson-gpio.o
->  obj-$(CONFIG_GOLDFISH_PIC) 		+=3D irq-goldfish-pic.o
->  obj-$(CONFIG_QCOM_PDC)			+=3D qcom-pdc.o
->  obj-$(CONFIG_QCOM_MPM)			+=3D irq-qcom-mpm.o
-> +obj-$(CONFIG_QCOM_MSM8660_MPM)		+=3D irq-msm8660-mpm.o
->  obj-$(CONFIG_CSKY_MPINTC)		+=3D irq-csky-mpintc.o
->  obj-$(CONFIG_CSKY_APB_INTC)		+=3D irq-csky-apb-intc.o
->  obj-$(CONFIG_RISCV_INTC)		+=3D irq-riscv-intc.o
-> diff --git a/drivers/irqchip/irq-msm8660-mpm.c b/drivers/irqchip/irq-msm8=
-660-mpm.c
-> new file mode 100644
-> index 000000000000..b8394d9c076d
-> --- /dev/null
-> +++ b/drivers/irqchip/irq-msm8660-mpm.c
-> @@ -0,0 +1,740 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * MSM8x60 family (MSM8260/MSM8660/APQ8060) MPM (MSM Power Manager) wake=
-up interrupt controller
-> + *
-> + * The MPM is an always-on hardware block that keeps a small set of wake
-> + * sources alive while the application processor is powered down for
-> + * cpuidle Power Collapse or suspend-to-RAM. On MSM8x60 the
-> + * vMPM (virtual MPM) registers live INSIDE the RPM's 4 KB control block
-> + * at:
-> + *
-> + *   request (control) regs: RPM_BASE + 0x9d8  (ENABLE, DETECT_CTL,
-> + *                                              POLARITY, CLEAR)
-> + *   status (pending) regs:  RPM_BASE + 0xdf8  (=3D=3D 0x9d8 + 0x420)
-> + *
-> + * The mainline qcom-mpm driver (drivers/irqchip/irq-qcom-mpm.c) is
-> + * fundamentally incompatible with this layout:
-> + *   - it assumes a dedicated MPM SRAM region separate from RPM;
-> + *   - it assumes a mailbox controller (IPCC) for wake notification;
-> + *   - it uses IRQCHIP_DECLARE which runs before platform devices exist,
-> + *     so of_find_device_by_node() returns NULL and the init silently
-> + *     hangs.
-> + *
-> + * This driver replicates the 2.6.35-palm `arch/arm/mach-msm/mpm.c`
-> + * mechanism as a regular platform driver: probes after platform
-> + * infrastructure is ready, ioremaps the vMPM sub-region of the RPM
-> + * control block (the qcom,rpm driver maps the surrounding area for
-> + * its own use; the two mappings overlap and neither claims exclusive
-> + * ownership), and uses the qcom-apcs-ipc mailbox for wake notification
-> + * (writing to GCC + 0x008 bit 1).
+>> timer callback to complete on non-RT kernels. But on PREEMPT_RT, it can
+>> sleep. Sleeping inside an RCU read-side critical section might trigger a
+>> lockdep splat.
+> 
+> It can not sleep. timer_delete_sync() does not sleep. It can block on
+> spinlock_t and schedule but this is okay within a RCU read section.
 
-Again, a file reference to something that does not exist.
+Sorry, I got confused by the comment in __timer_delete_sync().
 
-> + * Register access is done with readl_relaxed/writel_relaxed rather than
-> + * via the RPM syscon regmap. The IRQ core invokes our mask/unmask/
-> + * set_type/set_wake callbacks with the irq_desc's raw_spinlock_t held,
-> + * and syscon regmaps use a sleepable spinlock_t which on PREEMPT_RT
-> + * would deadlock under that raw lock. Direct MMIO is also what every
-> + * other SoC irqchip (qcom-pdc, gic-v3, ...) does.
+> Do you have a report for this?
+No, sorry. I was exploring the code in timer.c after a related comment
+from Sashiko [1]. I noticed the comment in __timer_delete_sync() about
+being able to sleep on PREEMPT_RT, then saw that timer_delete_sync() was
+called inside a rcu_read_lock(), and I thought it was wrong. I should
+have tried to reproduce the warning on PREEMPT_RT, but I switched to the
+next bug instead :-/
 
-Why is this kind of description here and not in the commit message.
+Sorry for the noise, let's drop this patch if it is not needed then.
 
-> + * Two consumer interfaces:
-> + *
-> + *   1. Hierarchical irqdomain: for MPM pins that map to GIC SPIs (USB,
-> + *      HDMI, ...). Consumers wire their interrupts through this
-> + *      controller via interrupts-extended and the kernel manages
-> + *      enable / mask / set_type / set_wake via the IRQ subsystem.
-> + *
-> + *   2. Raw-pin API: for MPM pins that do NOT correspond to a GIC IRQ
-> + *      (SDC3_DAT1=3D21, SDC3_DAT3=3D22, SDC4_DAT1=3D23, SDC4_DAT3=3D24).
-> + *      These are physical wake-signal lines monitored by MPM
-> + *      directly. Consumers (mmci for SDC4 wake) call
-> + *      msm8660_mpm_set_pin_wake() etc. The consumer API establishes
-> + *      a device_link from consumer to producer so the MPM device
-> + *      cannot disappear while a consumer holds a handle.
-> + *
-> + * Copyright (c) 2026 Herman van Hazendonk <github.com@herrie.org>
-> + * Copyright (c) 2010-2012, The Linux Foundation (legacy mpm.c reference)
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io.h>
-> +#include <linux/irq.h>
-> +#include <linux/irqdomain.h>
-> +#include <linux/mailbox_client.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_irq.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +
-> +#include <soc/qcom/msm8660-mpm.h>
-> +
-> +/*
-> + * vMPM register offsets (relative to the start of the ioremap'd window
-> + * =3D RPM base + 0x9d8). Each register is two 32-bit slots because MPM
-> + * exposes 64 wake pins.
-> + */
-> +#define MSM8660_MPM_REG_ENABLE		0x00
-> +#define MSM8660_MPM_REG_DETECT_CTL	0x08
-> +#define MSM8660_MPM_REG_POLARITY	0x10
-> +#define MSM8660_MPM_REG_CLEAR		0x18
-> +
-> +/* Status registers at +0x420 from vMPM base (=3D=3D RPM + 0xdf8). */
-> +#define MSM8660_MPM_STATUS_OFFSET	0x420
-> +
-> +#define MSM8660_MPM_PIN_COUNT		64
-> +#define MSM8660_MPM_REG_WIDTH		2
-> +
-> +struct msm8660_mpm_pin {
-> +	int pin;
-> +	int hwirq;
-> +};
-> +
-> +struct msm8660_mpm {
-> +	struct device *dev;
-> +	void __iomem *base;
-> +	struct irq_domain *domain;
-> +	struct msm8660_mpm_pin *pin_map;
-> +	unsigned int pin_map_count;
-> +	int parent_irq;
-> +	struct mbox_client mbox_client;
-> +	struct mbox_chan *mbox_chan;
-> +};
-> +
-> +/*
-> + * Singleton - there is only one MPM instance per SoC. msm8660_mpm_get()
-> + * returns this. Updates are serialised through the binding lifecycle so
-> + * a plain pointer is sufficient.
-> + */
-> +static struct msm8660_mpm *msm8660_mpm_global;
-> +
-> +static u32 msm8660_mpm_read(struct msm8660_mpm *mpm, unsigned int reg)
-> +{
-> +	return readl_relaxed(mpm->base + reg);
-> +}
-> +
-> +static void msm8660_mpm_write(struct msm8660_mpm *mpm, unsigned int reg,
-> +			      u32 val)
-> +{
-> +	writel_relaxed(val, mpm->base + reg);
-> +}
-> +
-> +/*
-> + * Doorbell the RPM after touching the vMPM request registers. Without
-> + * this the RPM keeps using its last cached copy of the enable/detect/
-> + * polarity state and our configuration changes have no effect.
-> + *
-> + * Called from raw_spinlock_t-held contexts (irq_chip mask/unmask/
-> + * set_type/set_wake), so the mailbox driver must accept that. The
-> + * qcom-apcs-ipc mailbox just does a writel into the IPC trigger
-> + * register; it is safe under a raw lock.
-> + */
+[1] https://github.com/multipath-tcp/mptcp_net-next/issues/623
 
-Where are these comments coming from?
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
 
-> +static void msm8660_mpm_doorbell(struct msm8660_mpm *mpm)
-=E2=80=A6
-
-Sebastian
