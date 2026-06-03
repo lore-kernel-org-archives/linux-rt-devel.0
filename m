@@ -1,75 +1,148 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD4B3DA7CD
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 15:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D212BE051
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 17:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780500618; cv=none; b=n5B6Ya0L60bpRbPbXMnQPFoFeboSbobUCS4S4xEP6NVaaS314w89VGR4WLyqDqaR1TA/fZvxSsgJKcutx2SKRBxU5+l5ucrMw+F6BRiM9ECvdoztdPqzYUX5/aUcm1PCzGsR1Rm9BeX5Oh3SAHs1Y/1RF/29hYN89Lrta5rPADU=
+	t=1780506477; cv=none; b=dawyAjlBjVkJorHwCsNLsUiHQ0OLHGXXM1j8ly5RbQalN9ZM4ZooIa/8mGeUuR4TEuw59MG5tuVr2ZCD6ZVf5EmnpJQvO0lB5are5tV66whAWu7PdpYy0sFUIfyycicaiBfLfWlQrm2JRkbweJvlPHL2ZN46u47NAWE00TcAKgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780500618; c=relaxed/simple;
-	bh=zOv8PjaX40/375pKg9kgdDIzCtKtcjcycNLsga7J4Ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KWfJg4yoWbturb3EczuliyvTOGDFTZAm2FNgG6PgpcIkh0hv8ZpQGLOMYhlY6Xm8me+UbcxQvAues3t+Pv1+icptET2uhB85MQYs5YfO/JO7PPkHm1cJV9f3m2M4psR693/4jRWx2QXA7gCxQxOLBY8qhFDVYGnIma8mlAFRinI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MsEI8/P+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2JWpsPH3; arc=none smtp.client-ip=193.142.43.55
+	s=arc-20240116; t=1780506477; c=relaxed/simple;
+	bh=EM5dnYnPjG0ExPspOMnKXz+O2VCw2L4p5bLMrt8OiYE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Dwozh2zXGVChYBSf9B5MTuikJPm9TAZJjjms8xhBmTz0ylxv36g/FaA8QyH7DCn1K9BQHisgp/+XmIx7/nfPrTgkWCUSYPaXWP+Rjeexczw/n/Oek9Ty/lOTiHXwxgcyAqvwIPYFc4lcE4zRgvRmE8OYF7ipm+Lexu/7A/vAWms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RBci2c7G; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=JbBcklNb; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MsEI8/P+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2JWpsPH3"
-Date: Wed, 3 Jun 2026 17:30:11 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RBci2c7G";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="JbBcklNb"
+From: Thomas Gleixner <tglx@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780500612;
+	s=2020; t=1780506473;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B134OFE8/STCpqpWQ/ddg2uwK5Bkx4sXfIx+4cZNxx4=;
-	b=MsEI8/P+ZVEo/Vs5D7VOTFuBXlq4clHt1Uj/9ZPzQ0cilhE1P3Mh8htfrHlDAYLYWzFV2t
-	FzYlnvyFJkuaiC5wkLFS2lIw6h6L7fEwLY3GGwnyem1ts+dU3MhvkitS6VxrDY7jsiwwEu
-	kX/OA5j8sToh7xv2/u6TKsVMPMV9SYADJ1vwoh9DWNUlvKn/EE4TbY0Tp+PbSUz2tK1E5r
-	2JdWXp6xjPjaQ6CFHrxNllygAKxqODMQROnKIXuMw7kPWftCtANImk3E7Sym4rp5/c6OfZ
-	IrhNjFGqBcTYnaQxpljjimiOJjJH64smyoL53jb79GZP7paOM2OXGI3yM5lw/g==
+	bh=tXUu03gGAw2PqYVU0d/8b+RI1ECws9w94+4av0PHPW4=;
+	b=RBci2c7GWigeAW+ebl+sJ0kTHFKZ5RxmndhCt+2JePanpw2WotY5ozRNMFeCa2D4HL1I8o
+	Lkpwse70VusFmMYHUmWtIsnlIbjrzR13u06YxHZM/6EmgMSNPFLkgyYL/9lxhJi03mdbPr
+	dLnt/z8ffgQQLRV1ZCPoj6Gj0KjRkPoWXUmFgG2I1LN3VoAsuA7Uire0ybJMOjuF8d494h
+	IriDEpqln21KRHx8VDETrb8I7Oye0Yk2V8RkPZY20UjfUovUUHLDN0qGBFo+hh+PHYZLzc
+	r/f84hzD+YMa8ZmxwvSsmTUW2Rk+PeBJWl6DmNTMBRnNmj5GPe1CnAveaIdvqg==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780500612;
+	s=2020e; t=1780506473;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=B134OFE8/STCpqpWQ/ddg2uwK5Bkx4sXfIx+4cZNxx4=;
-	b=2JWpsPH3F+7PkAYvR7Re3g2q0DBMHsUC1kKqardXuq28O8/bQNfPd9GiVkO52dCNM/rqjn
-	PRiPHlwz7Yga22Bw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Waiman Long <longman@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
+	bh=tXUu03gGAw2PqYVU0d/8b+RI1ECws9w94+4av0PHPW4=;
+	b=JbBcklNbrXzKxb39xdaldqE+SOQRVr22wdEeebWZ5d92uuyOG2bBTazmGo25w1Vd8neVqs
+	PsdQGpswcyuuKFCw==
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Waiman Long
+ <longman@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Clark Williams
+ <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
 Subject: Re: [PATCH-tip v3] debugobjects: Don't call fill_pool() in early
  boot non-task context
-Message-ID: <20260603153011.vSPiwyLI@linutronix.de>
+In-Reply-To: <20260603075656.S1aZM9PO@linutronix.de>
 References: <20260520201509.931905-1-longman@redhat.com>
  <20260603075656.S1aZM9PO@linutronix.de>
- <b4b54ef3-5488-4577-9743-d6ce01f7405e@redhat.com>
+Date: Wed, 03 Jun 2026 19:07:52 +0200
+Message-ID: <87mrxb5z87.ffs@fw13>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b4b54ef3-5488-4577-9743-d6ce01f7405e@redhat.com>
+Content-Type: text/plain
 
-On 2026-06-03 10:59:55 [-0400], Waiman Long wrote:
-> I guess softirq won't be active during early boot. If in_nmi() is true, we
-> are screwed for non-RT kernel as well. So only checking for in_hardirq()
-> should be fine. I will adopt your suggestion and send a new version.
+On Wed, Jun 03 2026 at 09:56, Sebastian Andrzej Siewior wrote:
+> On 2026-05-20 16:15:09 [-0400], Waiman Long wrote:
+> diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+> index b18a682fe3da2..2adfe2a79a086 100644
+> --- a/lib/debugobjects.c
+> +++ b/lib/debugobjects.c
+> @@ -736,12 +736,17 @@ static void debug_objects_fill_pool(void)
+>  
+>  	/*
+>  	 * On RT enabled kernels the pool refill must happen in preemptible
+> -	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+> -	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+> -	 * same type and this lock-type inversion works just fine.
+> +	 * context and not while blocking on a lock which can trigger recursion
+> +	 * during PI. During system boot (before scheduling) preemption is
+> +	 * disabled and the pool gets exhausted. Without scheduling a deadlock
+> +	 * is not possible if allocations from interrupt context are excluded.
+> +	 * For !RT kernels we rely on the fact that spinlock_t and
+> +	 * raw_spinlock_t are basically the same type and this lock-type
+> +	 * inversion works just fine.
+>  	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+> -	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
+> +	    !debug_objects_is_pi_blocked_on() &&
+> +	    (preemptible() || (system_state < SYSTEM_SCHEDULING && !in_hardirq()))) {
 
-softirqs shouldn't be active but if they are then are either delayed to
-ksoftirqd or inline as of local_bh_enable() which is fine.
-And for in_nmi() we are screwed anyway yes :)
+This whole thing is unreadable gunk by now and I really can't decode the
+correctness of the condition without reading it five times. Something
+like the below:
 
-> Thanks,
-> Longman
-> 
-Sebastian
+--- a/lib/debugobjects.c
++++ b/lib/debugobjects.c
+@@ -720,6 +720,34 @@ static inline bool debug_objects_is_pi_b
+ #endif
+ }
+ 
++static inline bool can_fill_pool(void)
++{
++	/*
++	 * On !RT enabled kernels there are no restrictions and spinlock_t and
++	 * raw_spinlock_t are the same types.
++	 */
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		return true;
++
++	/*
++	 * On RT enabled kernels the pool refill must happen in preemptible
++	 * context and the task must not be blocked on a lock as that could
++	 * corrupt the PI state when blocking on a lock in the allocation path.
++	 */
++	if (preemptible() && !debug_objects_is_pi_blocked_on())
++		return true;
++
++	/*
++	 * Though during system boot before scheduling is set up, preemption is
++	 * disabled and the pool can get exhausted. Before scheduling is active
++	 * a task cannot be blocked on a sleeping lock, but it might hold a lock
++	 * and if interrupted then hard interrupt context might run into a lock
++	 * inversion. So exclude hard interrupt context from allocations before
++	 * scheduling is active.
++	 */
++	return system_state < SYSTEM_SCHEDULING && !in_hardirq();
++}
++
+ static void debug_objects_fill_pool(void)
+ {
+ 	if (!static_branch_likely(&obj_cache_enabled))
+@@ -734,18 +762,11 @@ static void debug_objects_fill_pool(void
+ 	if (likely(!pool_should_refill(&pool_global)))
+ 		return;
+ 
+-	/*
+-	 * On RT enabled kernels the pool refill must happen in preemptible
+-	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+-	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+-	 * same type and this lock-type inversion works just fine.
+-	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+-	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
++	if (can_fill_pool()) {
+ 		/*
+ 		 * Annotate away the spinlock_t inside raw_spinlock_t warning
+ 		 * by temporarily raising the wait-type to LD_WAIT_CONFIG, matching
+-		 * the preemptible() condition above.
++		 * the preemptible() condition in can_fill_pool().
+ 		 */
+ 		static DEFINE_WAIT_OVERRIDE_MAP(fill_pool_map, LD_WAIT_CONFIG);
+ 		lock_map_acquire_try(&fill_pool_map);
