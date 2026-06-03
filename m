@@ -1,138 +1,153 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882EA3793CB
-	for <linux-rt-devel@lists.linux.dev>; Tue,  2 Jun 2026 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9923D813D
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 02:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780419118; cv=none; b=WSMfkNkbQ+TlV3KJqkQgHGWFcbgv6voWzH8YgOIoqkoNguWPg5FZiaGWwqjyJhtadHOn0rxvw+keU8Hp+n6pRxIBQVo9ZhOoP8LbKq3x7g8m1zPIhGDQC/sU1duSQo3mrjnlFH9LVHywOF9nqP7IrObYzMx/sTeekkmVnx3jZUg=
+	t=1780453610; cv=none; b=VfjbTjgm7f5D0vIGr8CSO7Ahd+ORs9W7U3kyloOAsCz4ndEjtnLNn2C6NK3J2EC6GlbSVF3Sp3gRCRL5X/pZsCwi/eb5NuKNV2/BWtaeiOPH+gOjDX5pwx/q0wDuQ52UepVzPoI1+ilY8oGp3JNmMFr5+tVHdg48GDyESUIZ8n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780419118; c=relaxed/simple;
-	bh=5Lj46uO9+RIj5Cg5YgOgH1QwqHsxMM7alAfKIbkaxoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FLsfagEVZaf3vFRO4c8sFF2piQ/iOmiDDwIN2F+5F6oX1V/1XWRskUTmkk69zY9CQArPQy1k6eR/5KyBnAwhgnIuWKQGbFEnJzKaCsVRnd3xG2NQKS5T+OW5rjEFVCv5evObcR0/SDIXT89Ux7QArR1LWwqAMNLTR6UmXzslnfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=urCjA07z; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1780453610; c=relaxed/simple;
+	bh=roOdp5+9RfOaV19N9xbhXpUnI7r9yJMybkmJKkwon48=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JPaUYAzHQCUVSRLhTjAyYJWAkpnA/+IF6lTxbMM7uuimva3iBv34FGmIrE3Gmm+m6yhYa6WTCMal6K4LP6xVl/oPjXycHNP2hJSXxZUjtZXmvlky4imJJVJTdE1q7hIgIKc+fTgfSDT5jQMGlpMixl9FrZFcL9wAMEJUK823V5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bAxuHaWG; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="urCjA07z"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-842264dde84so1602343b3a.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 02 Jun 2026 09:51:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780419117; x=1781023917; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nJdp4XF3Fcb1uyz/I+762d0PZHcMV95pqLsyirgwV5U=;
-        b=urCjA07zSWcGyV8tld0Zvz+IbWdlCTTfQx4h4r/G1zrjn01YsTsOXIizQIrW+Hcpe3
-         U9keaZ5D9E5WYUEGeWjsD7az9KelqNr2qx5me7ll+y5k/eMQMvUaZ6pKrKrZxcGUcXih
-         N9nSd5dOrwz5aCTgYI276lHNSOAPfUQdMkM6jM8va7A6PSTQF6sjE3Smnw2ym/wh4m4i
-         D3adImcGKyp8G6MBm5dw+ckfRDVj2Vzpsqd6tsJWDhPZmVVIHZo/5j+Sm+pzRKKNI4C6
-         Em1Oh/gPCWhcAArr/B9+4jZCROBbdy9zTkykblcHVI64K3gEyafwvHxouTPC9mDrKxA+
-         JSyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780419117; x=1781023917;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nJdp4XF3Fcb1uyz/I+762d0PZHcMV95pqLsyirgwV5U=;
-        b=SXoHO8k4cmS2PKdv1h21TpXX0nTSwHqmm9fAFX/+2ehQEoiy3vJ2v+tpKAX/xhioNO
-         mYJhOKwYMijLZMlYJ46xYH/GvisgNpj8jzYEhHUNEy4DI3JusCJ89IpO0sb4x1Hz1hyH
-         O5wF/wx4gYi12AgRkLzDkM/OglqH62+ZzIPVeDxC3VMXtDccDuq9lApG/MxozeR4RRfE
-         SEdo95nnpZc0UU6u1F1NhSOVqMGNtndQ/Wb1uu4wxmS6yigBe280FJKQnawXDruop/kc
-         9qwJLleJ9rK+fdU23UtB7wnROwrAEacwWnu/zD1KvOSLKrxDK/xLmae4xgKh5iuCLWNm
-         v5lQ==
-X-Gm-Message-State: AOJu0Yy931xnpjgJWyAaNxgOcS+/EE0kLVpJQKa/snHGT7R51Lose8uJ
-	ZVTaY8XSkUvirPqwOCTxwvjKeWKwargcKXvXzFp53vhmr4I6h8+ixYq3dXgITjeMibE=
-X-Gm-Gg: Acq92OH3hVKQzoJGboDdpiBRHIBfA8q00Yvtp1tA2hLoycCp74+Dzg/GfMh/04Z1+ID
-	woN4FyUsD8HQ0DKtVK3MkPBzEc7of4UAdD1cNJK3FF6metoaFrwFLm1ZN2T8dXMUmVX95y3fE5h
-	e3l50URiJDvs+FMvu7pIGVHVfs4BbcXaHa+jb/IWIYiKe4+HC0a8V3T1VpbiHAljDUfsLOtBJQ9
-	JV1mM9dGck3SzVF4XBpYlcWHRkfbpEWenD3aIbewrVyuTYNXiUMal6M9RQ5OsXqb/V0Avz8DqZK
-	L/ucoG6nBefqRzBXf3B2zU9EMi7Bo9mEPZBcffq9bz32t+83STIa9ZWfvJzOOPyLf4MHepKRgFA
-	90LpugDUNFCbIL+OgHOUyET8RD9oKOXbCVzaUdhYaED33BASRxP6zYVsFRPyc6atKpR/TJmol6m
-	tMwpXwIaZ0jU+7CGkpyox/afV5JKr3TJmjpzeuePqEz+Sx+YoB
-X-Received: by 2002:a05:6a00:a112:b0:842:6259:5e2b with SMTP id d2e1a72fcca58-8426a96af92mr4013059b3a.33.1780419116687;
-        Tue, 02 Jun 2026 09:51:56 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:6f6a:5e58:19fa:e0f1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282372a16sm399509b3a.18.2026.06.02.09.51.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 09:51:56 -0700 (PDT)
-Date: Tue, 2 Jun 2026 10:51:53 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-rt-devel@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH 0/5] mailbox: imx: Use threaded handler to avoid kworker
- in imx's remoteproc
-Message-ID: <ah8KKVmE5qCGJ1cs@p14s>
-References: <20260529-imx_mbox_rproc-v1-0-b8ffc36e11e5@linutronix.de>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bAxuHaWG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780453607;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/rOR5km6YfCyj0nbyeMEcSDOCyb8+wIiQ+mebWMKZbc=;
+	b=bAxuHaWG/OmNpXWENEz2WKEaMSu4fAM6UG25q1sRDPO1ZpdFvS0Tso5zNgm9cH9Ml/MNki
+	ucrZKKOsUkwhhmM3Fpuk1CNxXr7Q1bPRszYcPm0G2XaIzx3aHEDKrhW8+6nCFhuIjoUKOo
+	HF8VoTTmJqzubfdZwZNe6dXwXPs6hcM=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-454-zKNFk-BkNSqRQDG8FyhqDA-1; Tue,
+ 02 Jun 2026 22:26:46 -0400
+X-MC-Unique: zKNFk-BkNSqRQDG8FyhqDA-1
+X-Mimecast-MFC-AGG-ID: zKNFk-BkNSqRQDG8FyhqDA_1780453605
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 83B13195608B;
+	Wed,  3 Jun 2026 02:26:44 +0000 (UTC)
+Received: from [10.22.80.32] (unknown [10.22.80.32])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2EB321681;
+	Wed,  3 Jun 2026 02:26:42 +0000 (UTC)
+Message-ID: <19e9e41f-8590-427e-94ee-50911ccdc962@redhat.com>
+Date: Tue, 2 Jun 2026 22:26:42 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260529-imx_mbox_rproc-v1-0-b8ffc36e11e5@linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-tip v3] debugobjects: Don't call fill_pool() in early boot
+ non-task context
+To: Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20260520201509.931905-1-longman@redhat.com>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260520201509.931905-1-longman@redhat.com>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: L2SCnn-acOBzPECG692ENPWpaNyN51eg2fzAAv0VMHo_1780453605
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 29, 2026 at 06:01:02PM +0200, Sebastian Andrzej Siewior wrote:
-> The imx's remoteproc driver uses a kworker from its mailbox callback to
-> complete the request. The reason is that the imx mailbox driver invokes
-> the callback from its interrupt handler and the remoteproc callback (at
-> least the rpmsg-tty) requires a preemptible context.
-> 
-> This works but is problematic in a PREEMPT_RT environment where the
-> latency of the invocation is important. By scheduling a kworker the
-> high task priority from the threaded handler is lost and the kworker
-> competes for CPU ressources with every SCHED_OTHER task in the system.
-> This can lead to long delays on a busy system with other RT threads
-> which are less important than the completion of this request.
-> 
-> Looking over other mailbox driver, like the arm_mhu for instance, they
-> use a threaded interrupt handler to invoke the callback. This avoids the
-> kworker detour.
-> 
-> The here suggested change utilises a threaded interrupt to invoke the
-> callback. The primary handler mask the interrupt source so that the
-> handler can run without getting interrupted by the interrupt again.
-> Doing so avoids marking the interrupt IRQF_ONESHOT so that that in a
-> shared-interrupt environment the other interrupt can still fire while
-> the first one is masked.
-> 
-> This change was tested on a im93 board with rpmsg-tty driver.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On 5/20/26 4:15 PM, Waiman Long wrote:
+> When booting a debug PREEMPT_RT kernel on an arm64 system with grace
+> processor, the following lockdep warning was reported during early boot.
+>
+>    ================================
+>    WARNING: inconsistent lock state
+>    7.1.0-rc4-test+ #1 Not tainted
+>    --------------------------------
+>    inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>    swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+>    ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
+>      :
+>    Call trace:
+>      :
+>     rt_spin_lock+0xa0/0x400
+>     get_from_partial_node+0x74/0xa0
+>     ___slab_alloc+0x94/0x4f8
+>     kmem_cache_alloc_noprof+0x2d4/0x598
+>     kmem_alloc_batch+0x54/0x170
+>     fill_pool+0x12c/0x438
+>     debug_objects_fill_pool+0x58/0x60
+>     debug_object_activate+0xfc/0x3d0
+>     add_timer_on+0x250/0x3a0
+>     add_interrupt_randomness+0x2d4/0x340
+>     handle_percpu_devid_irq+0x2e0/0x4e0
+>     handle_irq_desc+0xc0/0x120
+>     generic_handle_domain_irq+0x20/0x40
+>     __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
+>     gic_handle_irq+0x7c/0xe0
+>     call_on_irq_stack+0x30/0x48
+>     do_interrupt_handler+0x134/0x158
+>     el1_interrupt+0x48/0xb0
+>      :
+>
+> The {IN-HARDIRQ-W} usage happens when debug_objects_fill_pool() calls
+> fill_pool() in the hardirq context during early boot. It is caused by the
+> "system_state < SYSTEM_SCHEDULING" check in debug_objects_fill_pool()
+> which allows fill_pool() to be called from any context during early
+> boot before scheduling is enabled.
+>
+> Calling fill_pool() from any context is problematic as deadlock can
+> happen even though the early boot window should be pretty short. Fix
+> that by restricting the fill_pool() call to only in_task() context
+> during early boot.
+>
+> Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
+> Signed-off-by: Waiman Long <longman@redhat.com>
 > ---
-> Sebastian Andrzej Siewior (5):
->       mailbox: imx: Start splitting the IRQ handler in primary and threaded handler
->       mailbox: imx: Move the RX part of the mailbox into the threaded handler
->       mailbox: imx: Move the RXDB part of the mailbox into the threaded handler
->       mailbox: imx: Don't force-thread the primary handler
->       remoteproc: imx_rproc: Invoke the callback directly
-> 
->  drivers/mailbox/imx-mailbox.c  | 65 +++++++++++++++++++++++++++++++++---------
->  drivers/remoteproc/imx_rproc.c | 33 +--------------------
+>   lib/debugobjects.c | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
+>
+>   [v3] Rebased on top of tip/urgent/core & trim call trace.
+>
+> diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+> index 772ddabcbe7d..76bfc2571591 100644
+> --- a/lib/debugobjects.c
+> +++ b/lib/debugobjects.c
+> @@ -736,11 +736,15 @@ static void debug_objects_fill_pool(void)
+>   
+>   	/*
+>   	 * On RT enabled kernels the pool refill must happen in preemptible
+> -	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+> -	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+> -	 * same type and this lock-type inversion works just fine.
+> +	 * context and not enqueued on an rt_mutex or in task context during
+> +	 * early boot before scheduling starts.
+> +	 *
+> +	 * For !RT kernels we rely on the fact that spinlock_t and
+> +	 * raw_spinlock_t are basically the same type and this lock-type
+> +	 * inversion works just fine.
+>   	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
+> +	    (system_state < SYSTEM_SCHEDULING && in_task()) ||
+>   	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
+>   		/*
+>   		 * Annotate away the spinlock_t inside raw_spinlock_t warning
 
-For imx_rproc.c:
+Ping. Any comment on this patch?
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cheers,
+Longman
 
-You may also want to fix driver/remoteproc/stm32_rproc.c
-
->  2 files changed, 53 insertions(+), 45 deletions(-)
-> ---
-> base-commit: 9e171fc1d7d7ab847a750c03571c87ac3c17bd84
-> change-id: 20260529-imx_mbox_rproc-7d512f5a6f78
-> 
-> Best regards,
-> -- 
-> Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> 
