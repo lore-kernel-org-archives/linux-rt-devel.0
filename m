@@ -1,142 +1,186 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190583557F3
-	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 17:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A6539DBD6
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 19:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780507852; cv=none; b=aotSpf/MCxdbxiJcgUs5ozswJmMnAyF067u3boqAoYSn7Dct1SPshbEYhp3rG0A0Aw3PV3bzrMMjyDA2IZSmrxE5kWrw8YLFATBmHxTJACc52AOoO8JiIzwyymjfzASOtLbU5fP8ZrlmEF1YOJqJ+JCaMcpn6JoztmRsh+fhBP4=
+	t=1780516399; cv=none; b=nrSb9Du+Fxlf3NMyHncWb1jTzYjgRAxyylwng6CYNq1b+o/Y65WqU+DxmljT3QAYYAt1TwhAGJBYJD6qD8mott09GkdGBZrN5WDX78FU2RF90espBNK2aJoBpSyaPjUXrR5E6dUfgSBfFM2ZNZUQDCooUK3Ikns0+bBaWreImDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780507852; c=relaxed/simple;
-	bh=IevqtlrxOEFAv2AnKXkpbSRgSGyc/vrF2l+nHMSudfQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=YlAh0t9FEKBZ8uKxCl6AZVabQe00f+0QxrAWhYlYr4wjtDMZ73mJDJblfnFMYt840UkZKLaxMYT85qUQycOCCbX6FlF61OKvzLxJ5PSMyrsPbaf6ur4V8lk1xf4eRyAWhjbID7142kN76i4X5hfGeRgX8YNsHQM1vTImn/9o2Ig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=by-online.de; spf=pass smtp.mailfrom=by-online.de; dkim=pass (2048-bit key) header.d=by-online.de header.i=by@by-online.de header.b=GBNN3vw/; arc=none smtp.client-ip=212.227.126.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=by-online.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=by-online.de
+	s=arc-20240116; t=1780516399; c=relaxed/simple;
+	bh=yzuFeTE6+X/yNlUwAg2aSNY6dXCxlt0+U3Fodkm2zuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=LHQxXZpWyS/KroQHYbAeuGFQFcrdQ9soLgMIMBpIzdY9fGfM7Xcno96NV+2D8eVDBxf38CPX8+dlAda1oyVT8F/vb9bU6rB+TFuWZYmI3uS3dl5GONMiTG4Tvnw1faGMF/UOJoNxWGGnZmgP2uat6ePV3uBheo2rYBvPdMLJ5oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LcyT34wC; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=by-online.de header.i=by@by-online.de header.b="GBNN3vw/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=by-online.de;
-	s=s1-ionos; t=1780507808; x=1781112608; i=by@by-online.de;
-	bh=79d9sPSsQmWybwMoG9W424yzCHw+LqYnUnhVjS4JXCQ=;
-	h=X-UI-Sender-Class:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-	 References:To:cc:content-transfer-encoding:content-type:date:from:
-	 message-id:mime-version:reply-to:subject:to;
-	b=GBNN3vw/H+iD/NTpXYv4TNBvirNf5sOCPDsxq5Q7ZVw8rdAYklipI2rflq80RUn2
-	 GSWw6mEXK+lPpm911XEdY4XjcQuQxmQTrAjdJOawZOtk1kXMNJErTFgXe1KVouTWv
-	 W+YMajRuCMemHfCZMxAH1WXAgHgzaqd/RZmtchkKVNTXMiAIkHi2FsO+w9GX1B/m4
-	 3eJlXxBDg4Ax07pWoZfNz3Otp0yVFOzgKCMDfpgR7psJS4VgGFG20LffI/ecXh2x0
-	 VfplqyUNbtu5lSHUutttNN3YMDvwyeBinhtvF5PfZhSbyeLC+6/GKPoDKFii1QatG
-	 feWGnt6sq8AVZwM8oA==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mk0FM-1wxXOx3Q1Q-00n8iE; Wed, 03
- Jun 2026 19:30:07 +0200
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LcyT34wC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780516397;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=c+06T58AqbedUhCgMoin30VfhIUy2uLt7Vdg4Vhvfjc=;
+	b=LcyT34wCp4qhE6myLsRjlbKHZOB9R9hhVNDfBfp4W2uFla2tA9VygXDbgQytrA4iwL0+sg
+	EofAGH3yB2cJqHaP+tfWhgQfJYSgt7+/B3sCMefb2wsQIIKtjW9O2IgBoo5UA5LYtcSZ5y
+	QHIfGpY6jU36u/o/TZqNuHg2RTINEPE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-489-JT3gD-fNOQup8IDiTUsSAQ-1; Wed,
+ 03 Jun 2026 15:53:13 -0400
+X-MC-Unique: JT3gD-fNOQup8IDiTUsSAQ-1
+X-Mimecast-MFC-AGG-ID: JT3gD-fNOQup8IDiTUsSAQ_1780516392
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C45041800599;
+	Wed,  3 Jun 2026 19:53:11 +0000 (UTC)
+Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.89.171])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E3BB81624;
+	Wed,  3 Jun 2026 19:53:09 +0000 (UTC)
+From: Waiman Long <longman@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	Waiman Long <longman@redhat.com>
+Subject: [PATCH v4] debugobjects: Don't call fill_pool() in early boot hardirq context
+Date: Wed,  3 Jun 2026 15:52:50 -0400
+Message-ID: <20260603195250.362595-1-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.8\))
-Subject: Re: [PATCH v7 1/1] pps: pps-gpio: split IRQ handler into hardirq
- timestamper + threaded handler
-From: Michael Byczkowski <by@by-online.de>
-In-Reply-To: <20260602063650.LWatIBPk@linutronix.de>
-Date: Wed, 3 Jun 2026 19:29:56 +0200
-Cc: Calvin Owens <calvin@wbinvd.org>,
- linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev,
- Rodolfo Giometti <giometti@enneenne.com>,
- Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Eliav Farber <farbere@amazon.com>,
- Ingo Molnar <mingo@kernel.org>,
- David Laight <david.laight.linux@gmail.com>,
- Thomas Gleixner <tglx@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <79BC1B96-FD2C-4191-8766-6C46BF8A1089@by-online.de>
-References: <cover.1780359378.git.calvin@wbinvd.org>
- <2e32729029fbf6977ecf04665eb00f2efd3e2c17.1780359378.git.calvin@wbinvd.org>
- <20260602063650.LWatIBPk@linutronix.de>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-X-Mailer: Apple Mail (2.3826.700.81.1.8)
-X-Provags-ID: V03:K1:0pc7eXEsMEdqvEiLxZ0M4BS6DgxFNGumIp0i3gkw+nad70Tw0C1
- PvrUbzh5V39DoPhEMWTRStu18WqNic2LCzW0+akk+tHewqF5d9k/szkM2qIeeAl/YXaLlke
- VbN1PsEvEZLTTI4TK1XmSPpULXyTPET/yShWeKGKwEBWkdZPtSY1kUVqWxKHEeWFX4M15MC
- /1SBviWUw+xyFe71HW3Uw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:qdaUOmKGcN0=;5bfWil66Tki1+MAMLTg2TRqhfmD
- GpKnbIQRWtiIBbCU8rqmDi2vbqNqz3BybC2rYsX/hRLMZ6QayRgNR/6J1TWoue5dqU/21Nnqx
- JE6WlfCEAoUWLe8UBcIfwK8Xg/Ac7EJBvRhxy9FgDSbEPXLH7Vs3vvCtPuyEvKbGOXl2jSGGS
- 5SA6rIDzS0L+7OgB+Bkd8T9HZGNYzgFNFcZ7YEB+n3AgZfVqFGrDqjtKuI/HGDJ7+FWJOZ7Ck
- 9GRg8ZDbwwLwUc98PHDjoY8hJWYCp+EbSx+AAebFcZcDi3Oq8R2qpYnUjOY91Qs8vOWGsDX+9
- ZrWUp93xEpKNuZmVSW2ZND+v2pq7p6x+Of5Xx9T9xjDmaV+gJj2Pvqn3lLM/Npt6V0gFn8Ldg
- WNmDVhEyYKM8tw7mhzKe9Q4XLDHTlqmZPzTFWTdPavLNN8Q9bEVl7LY1YNsoFbn/Y1Hk3bVAn
- LDr8k1jRRvzN3s9Ol0UIGXIk56ubX20FsVWW9aXzF+93IlplYvoXBZsgJoG1aLVWV/oiYoE/M
- 75gRi10C8iR++rQ0bN8WKm+8a2r8ttjjtQt5QnVeZrC/UyznlSGKDt8UlRgfgOM6VfxSGqE5g
- R7FgU9Y801Ghq9BZU/n840OzE7TWDLQcyOFYoGgCks31Le609fOFzQLCYp+UQeBjWkSRbFo1m
- 2fbtunapF+bktIQ9FfVeU+U/h1it+HReO41JhXwJ3fiVMQYMpB/aIqcVGzNlLhBYzXDU/VNWz
- yirhKPSKUXROdhyFbh+UzJ+LkzZDkw0dAvRU92noHC5z9k8g8Lnhca8MKqhSW/+d5PGn40aN5
- 5ry+kNYqycc3Low5qBQGK3/UYimurPBh7h++zKIV7uGajQt7vjDEta72uqZM90P8QaJxTcGgM
- flsLbNaK/AEduFpCyIDr4LF3Y61Pl6yZ6ttl1iRpx9P2AYepLraIjD4rsb9SRTtO6LrXgS5dZ
- UL7WQXGC8pgmuHD3TDYxwJfb1k2dBzu8wexNEUzs592tMM7MBzlphQKctgIMewIoN45jKRdok
- dWrPR33L71MnSttBP26lyKjATrWER2i3JbhcWmi9/Lkekl2GOyfh6PrVgkR77iULFyfrEVQzZ
- 7pmzwcJ1JlYdgMI/g9ZtQnABnURpm9Uefj+Dr+ZzIRvm+1hXPuaegT8V1gFr/DT2UsKFvUvQG
- H1Y+8NCVKeHARZsn7AeeqP0MVhhZhs0d5raIYDUNM5cxjnLT6AaOeM0ridaOA2jDc4uXvUd3x
- yjXzf8DTFkZkE8wTx8IL/9MSew52wvsKqEcrVCEHI4N5W68SDDLB/UDpb8NdxGWnJUQcNIOfF
- M6wyBlYKBAkKqwykga+ogr4Lp6XgrYxcFbwJ2Z9ayaEFDrfY3A9ul0FXeDXraUCOs/2GELTBh
- ByHjg5nv7dr0yIZhPjacIhbpDqOSZVOwMf+XT7Col3FD/AmxsNZ4jQQ7ev6qABH3ZZ8avuJ3N
- o555Dmjw3k24YD52wy6xQzMfqt6tKnEuK/nmJYG5di9KRhcrXwzkl9FQSbzLUp+NGBg4NwSss
- ZUAn5rCzb37/D/oMIkkk8/PtFiKXY6g9L1Xn0loSnkeY66WUoHyonyW1utuAI6U+MJ6QsbNGL
- BjvTpKpQzHDViLC4Vr+Jm8LqTWuoZHMK6C7ZQgz1ktwURjgvgXqQXLDaMldnLcVUtx0LMJH/5
- v1oI4KJaf9JhlYHj/9bj3sP8bvaUdLo+TETnJbDjpHU1NTN3jlDBRenXIsVxw37k8arCShB2Z
- qSU0Orlarrvqt1An67oYEMBUElLmkcly/bBpuwi6WtuaynGCo63ApgZTgNuHuZa8fZFX7bP6L
- LtJ1fwCNwnLu014EnoQH+hiWlgwyVBo+BU0doWY+BnaKOFFSapyrS4Igm2KXOkviBmkR3wLrO
- JZeK4IsE+5y2de3AK6yFCApbfJOUcH08TYOyxxS1A7dlVcD4DeLeETcuC2o3g7FlgCiuB1kRF
- +w6oPgzVn1JDRxnZw0FV7ditzv33g=
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: w9U6uJux8B-OeNvroiddoGFYcAZHvbcV7eeX4uXOj00_1780516392
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Thank you Sebastian, and thank you Calvin for relaying. I appreciate the
-thorough review that got this to the right shape.
+When booting a debug PREEMPT_RT kernel on an arm64 system with grace
+processor, the following lockdep warning was reported during early boot.
 
-Best regards,
-	Michael
+  ================================
+  WARNING: inconsistent lock state
+  7.1.0-rc4-test+ #1 Not tainted
+  --------------------------------
+  inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+  swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+  ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
+    :
+  Call trace:
+    :
+   rt_spin_lock+0xa0/0x400
+   get_from_partial_node+0x74/0xa0
+   ___slab_alloc+0x94/0x4f8
+   kmem_cache_alloc_noprof+0x2d4/0x598
+   kmem_alloc_batch+0x54/0x170
+   fill_pool+0x12c/0x438
+   debug_objects_fill_pool+0x58/0x60
+   debug_object_activate+0xfc/0x3d0
+   add_timer_on+0x250/0x3a0
+   add_interrupt_randomness+0x2d4/0x340
+   handle_percpu_devid_irq+0x2e0/0x4e0
+   handle_irq_desc+0xc0/0x120
+   generic_handle_domain_irq+0x20/0x40
+   __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
+   gic_handle_irq+0x7c/0xe0
+   call_on_irq_stack+0x30/0x48
+   do_interrupt_handler+0x134/0x158
+   el1_interrupt+0x48/0xb0
+    :
 
+During early boot, interrupts are getting enabled before the scheduler
+is enabled. In this window (before SYSTEM_SCHEDULING is set) interrupts
+can fire and attempt to fill the pool from within the hardirq. This can
+lead to a deadlock the interrupt occurred while in the memory allocator.
 
-> On 2. Jun 2026, at 08:36, Sebastian Andrzej Siewior =
-<bigeasy@linutronix.de> wrote:
->=20
-> On 2026-06-01 17:44:09 [-0700], Calvin Owens wrote:
->> From: Michael Byczkowski <by@by-online.de>
->>=20
->> Split the pps-gpio interrupt handler into a primary (hardirq) handler
->> that captures the PPS timestamp at interrupt entry, and a threaded
->> handler that processes the event. This produces the same two-part
->> handler structure on both PREEMPT_RT and non-RT kernels.
->>=20
->> On non-RT kernels the threaded portion runs immediately after the
->> primary, with no behavioral change compared to the previous
->> single-handler implementation.
->>=20
->> On PREEMPT_RT, where interrupt handlers are force-threaded by =
-default,
->> the previous single-handler implementation captured the timestamp
->> inside the threaded portion, after IRQ-thread scheduling delay. With
->> the split, the timestamp is captured in true hardirq context as it is
->> on non-RT kernels, eliminating a significant source of PPS jitter on
->> RT systems.
->>=20
->> Tested-by: Michael Byczkowski <by@by-online.de>
->> Tested-by: Calvin Owens <calvin@wbinvd.org>
->> Acked-by: Rodolfo Giometti <giometti@enneenne.com>
->> Signed-off-by: Michael Byczkowski <by@by-online.de>
->> Signed-off-by: Calvin Owens <calvin@wbinvd.org>
->> ---
->=20
-> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->=20
-> Sebastian
+Add a new can_fill_pool() helper and reorder the exception rule and
+forbid this scenario by excluding allocations from hardirq.
+
+Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
+Co-developed-by: Waiman Long <longman@redhat.com>
+Co-developed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Waiman Long <longman@redhat.com>
+---
+ lib/debugobjects.c | 46 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 37 insertions(+), 9 deletions(-)
+
+diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+index b18a682fe3da..6fb00e08a4e2 100644
+--- a/lib/debugobjects.c
++++ b/lib/debugobjects.c
+@@ -720,6 +720,41 @@ static inline bool debug_objects_is_pi_blocked_on(void)
+ #endif
+ }
+ 
++static inline bool can_fill_pool(void)
++{
++	/*
++	 * On !RT enabled kernels there are no restrictions and spinlock_t and
++	 * raw_spinlock_t are the same types.
++	 */
++	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
++		return true;
++
++	/*
++	 * On RT enabled kernels, the task must not be blocked on a lock as
++	 * that could corrupt the PI state when blocking on a lock in the
++	 * allocation path.
++	 */
++	if (debug_objects_is_pi_blocked_on())
++		return false;
++
++	/*
++	 * On RT enabled kernels the pool refill should happen in preemptible
++	 * context.
++	 */
++	if (preemptible())
++		return true;
++
++	/*
++	 * Though during system boot before scheduling is set up, preemption is
++	 * disabled and the pool can get exhausted. Before scheduling is active
++	 * a task cannot be blocked on a sleeping lock, but it might hold a lock
++	 * and if interrupted then hard interrupt context might run into a lock
++	 * inversion. So exclude hard interrupt context from allocations before
++	 * scheduling is active.
++	 */
++	return system_state < SYSTEM_SCHEDULING && !in_hardirq();
++}
++
+ static void debug_objects_fill_pool(void)
+ {
+ 	if (!static_branch_likely(&obj_cache_enabled))
+@@ -734,18 +769,11 @@ static void debug_objects_fill_pool(void)
+ 	if (likely(!pool_should_refill(&pool_global)))
+ 		return;
+ 
+-	/*
+-	 * On RT enabled kernels the pool refill must happen in preemptible
+-	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+-	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+-	 * same type and this lock-type inversion works just fine.
+-	 */
+-	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+-	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
++	if (can_fill_pool()) {
+ 		/*
+ 		 * Annotate away the spinlock_t inside raw_spinlock_t warning
+ 		 * by temporarily raising the wait-type to LD_WAIT_CONFIG, matching
+-		 * the preemptible() condition above.
++		 * the preemptible() condition in can_fill_pool().
+ 		 */
+ 		static DEFINE_WAIT_OVERRIDE_MAP(fill_pool_map, LD_WAIT_CONFIG);
+ 		lock_map_acquire_try(&fill_pool_map);
+-- 
+2.54.0
 
