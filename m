@@ -1,174 +1,188 @@
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012015.outbound.protection.outlook.com [52.101.66.15])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5F52FD1DA;
-	Wed,  3 Jun 2026 13:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780494133; cv=fail; b=L0/QDyv8MzGaCCPUASvKzC9M7uPP4kgnWWNaLAuFOTYP5k07h+Y0wJJdOWHqpeZLTMiZSiCQdxxrAPyV47Uk08o/93UCwDiLoHdsX5Z7VK8OKyWEJSUuRck9LUBFqW3WsRPZk0ESTi9LqR/MMEE7inQSYw+NFVOppvgrCUvSUBc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780494133; c=relaxed/simple;
-	bh=lNi2GCZqjk48Xffh41SC4z8a1uUTE7rlxzy3Ja3+Uvc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=gV0HFjxbkKE9cWJ5/o5kUSeuPNBwofkUxa24QAeIol3AInfrZWux8pu/jllKOMwePbZYPHxfkFj1NRkr3TUS/SiYmMW+/bpcCd/lhkGBI8fcu1C/0VcEE/EDwKHuqrsQpLq9VBI+xrSsNm3ovZS4CZe04Mo0rakagauSbuGqsXc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Qhyy+t+V; arc=fail smtp.client-ip=52.101.66.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297003AA1BB
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 15:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780498806; cv=none; b=nl3el7jnpdwV56UxStegVWKE/d4dAzU2O5xPDve+sBV4GK8SQWtBbulbdhznAVhT7KVwIc0JyeEKgJ/+B0jLsapFNA6pwhVOpYIOLPtXs/b+ZT6xPAwtPuM1PxIEmhALQqbghrwkBzCUbc6ZMMlER3p+W+9wIdlvMoiS3ddOiCI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780498806; c=relaxed/simple;
+	bh=HF7Pw8t27pdFeee3aPhJ9RxmwKkFUQ+WakN3wn83alE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YzxByxJ/CRg2QoXc6dvbV+RE1Dmd2PKk1p+HJGnhLkJbFYpUY/WMkTSmYI5az3Or2VyEMrgVAusXnS4ULgH918iYGCZOe3UQgNesE0hQSte1vf0JzriTGzAa3GxDN/Wa3njsSSaHhR4jy5lHK5aj74Ln9+q6W8EgyUgNgQvUIMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Eisa3Jdm; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Qhyy+t+V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pKs8CnXULJCO4zzamIRsrkc/lV+eQn7Mu1RxNWekGo9k95zn/oW/9q105IkZG0xeFSOZhMGE3jWJ7D7XRUegisyb5wh0yOUdmx19hPlbPRXj6wj/ED/mZmtVYR/I5XPbv8CRuoxWVMJ7s2v1jUIbxX6i/YQwdVCh3SrbUCqVs4gTnNw6UZTA4b1cyMmJVJTIeUn0XrEMj9qSx+9GUH7rSXNG/LpR/Ytslg/VxGbRCbrSulbfYPPa6YGPXgzQNhe5IFKiOWDioBAhG1Z3BRIxghfHUUqwkqUASRGMagBpwLX62slEHZc21EGnEk9Zvob4bCKcO13M3f1Kgx4CRdT6Mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m2+cWnr5k/fU6kdc/DpI/ROxqiURfLn0Uk2R7ACb4ho=;
- b=cA8CcG0F6MkJ46IEGnmp+gaTUQwvCiOfjM5FGKlq2dYmLyaDeR2i69Xeaa9X0VPUxft5Z52myi0JfbOV3vG8MOqH0WkaX3Wbw9ktP48odDAgf2UdBWf3wy0Ew4UT8D+e6qB0KKliLrf7+idLGsDNE3fsplkGwb4GOKlVNrkDgQz83tNDSXA8ZJ0hx8NVCASsTbfA7azjxqvUEjQ5J8S6AK6BHt0vMFAP50kQdRjMJTPsQx0Yr/GLItSBuSX2tjBxbO6vkOqoYDIihuqyUMdssgovh6BHbsimbudFtLVxUYAzmh9SJTiiYGmP6iuh923DzvsW0iaQ2gSOzYb0JxQt0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m2+cWnr5k/fU6kdc/DpI/ROxqiURfLn0Uk2R7ACb4ho=;
- b=Qhyy+t+VxqSfi11NjNKPycOpC+0Rdo3mHWfM0jMwJ6/xEy2UT5WNFFXZp7mcqT/Ot8Po6LSxMTdhtHjpvJfgUp/YV2HdEAlevW2xm3SH8GTCIQt+hiR5FitiCwNOAZTpBEAmqu5YQ+8nGk6FXalYNG5X6bJOwCaNKMh+7L0woIKmyWRkCyw99CcRYgQMlRXg3Tgihws7K0af0+BVMCnEBIYSDz0YQ8Li14jgAdu6cPBNDqfUP+O++2hhTd7j+H5em+yEwFXJjNFu9/a+WHFMdSUsNJfS07fhn6+/Twe8ld9ajN6OoCNNeNBd68cHcum+Uz/dh1gygIoS/D92qbuB2Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com (2603:10a6:150:2c6::8)
- by AM9PR04MB8440.eurprd04.prod.outlook.com (2603:10a6:20b:3df::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.11; Wed, 3 Jun 2026
- 13:42:08 +0000
-Received: from GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4]) by GVXPR04MB12316.eurprd04.prod.outlook.com
- ([fe80::fc6e:ca22:f065:def4%6]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 13:42:08 +0000
-Message-ID: <944c6eaa-05f2-437a-88e7-1573b64468c5@oss.nxp.com>
-Date: Wed, 3 Jun 2026 16:45:16 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/9] mailbox: imx: Move the RX part of the mailbox into
- the threaded handler
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-remoteproc@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
- Clark Williams <clrkwllms@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- Frank Li <Frank.Li@nxp.com>, Jassi Brar <jassisinghbrar@gmail.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Steven Rostedt <rostedt@goodmis.org>
-References: <20260603-imx_mbox_rproc-v2-0-a0059dc3b69a@linutronix.de>
- <20260603-imx_mbox_rproc-v2-6-a0059dc3b69a@linutronix.de>
- <c81d12a8-7544-493f-a947-8f70ad9d409d@oss.nxp.com>
- <20260603132034.NxZoA4pH@linutronix.de>
-Content-Language: en-US
-From: Daniel Baluta <daniel.baluta@oss.nxp.com>
-In-Reply-To: <20260603132034.NxZoA4pH@linutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P251CA0021.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:20b:21b::26) To GVXPR04MB12316.eurprd04.prod.outlook.com
- (2603:10a6:150:2c6::8)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Eisa3Jdm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780498804;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a4AQvzUbdFQoP8yXZeVD7mtb3CITE9LWbpgatSijxgE=;
+	b=Eisa3Jdm7vvdJcObxDdtfTkovVibXDytwuvo5rDkTGY9el5caUWtDTf7KbpCI7zEZW1izG
+	TfbmBRLADIItLgl+Latg4CuUy2RPSB2G36tmC6Jk0Nq+YWXlOqULLsckaoncF1sdHjihtQ
+	CfBrybeiXQJD0IuRSs3tIfJ+TiKSFUM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-673-neE4Ee8nPhmgU4hhJKL0FQ-1; Wed,
+ 03 Jun 2026 10:59:58 -0400
+X-MC-Unique: neE4Ee8nPhmgU4hhJKL0FQ-1
+X-Mimecast-MFC-AGG-ID: neE4Ee8nPhmgU4hhJKL0FQ_1780498797
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 207ED180035C;
+	Wed,  3 Jun 2026 14:59:57 +0000 (UTC)
+Received: from [10.17.16.204] (unknown [10.17.16.204])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D41B9195E483;
+	Wed,  3 Jun 2026 14:59:55 +0000 (UTC)
+Message-ID: <b4b54ef3-5488-4577-9743-d6ce01f7405e@redhat.com>
+Date: Wed, 3 Jun 2026 10:59:55 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR04MB12316:EE_|AM9PR04MB8440:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3dd655e7-6491-432b-d265-08dec175e7d1
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|19092799006|11063799006|4143699003|18002099003|22082099003|8126099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	MsrHvujvutzpslJ/HLbdLSQimgR/MkqWH6a6essgE0RfgoEotc1vAN/4BCaZcATGvZNwUwwgy1Xt6BzmDdGXoIw1FcE7kIVB2WnrEUsEf3IkuY5E3pR6ZlMEW6s79XkvANp/4Wc+9tYBYKq9X89W3Ceh0XVlZlyemsRyVusXYX4fwqtQ8gx9eCTaEvRMfZtsIM+jhfqW4oXbtjiN538aZP5Yo6+f39ThOHPCjT2MbgWVyJXDmZOgd3TpRw+E50tffbervNaKQh87zSbkdNjmKzqL+Qoag/YfZO7Y/FCgh42rsttwFHNSxukGjsaBrDYONnhAxnb+c4FniOEfF3LsdfVuDNEN1o5dwN6+HsZBDND+qyX+VuWIfVT7/sKM0lmc5XGrglDfYEO8ipUkmgOquu8JclfK8OJkfUeLvNDy07y2Ct91Kly1Fl+T53KSaqz16/FCDdlmxarahq4PaIzxdIGP8tH31rz/4K3gvH1sjGoYQIxph1ujmk6t25f2LWW/eqoyLuaLrom9UD0N2WxneyFmewAPUkzf9N8Wug3dVIUnB7NZUgv9VpmHBgjgqD1mwFULvNajNqdEz+qalcYlNPUQjIvGVfTsyZANEHHWXBcgd8FsuZou5V8FmTjLKjhhxBS2XJd4e+3FsLfC5OuKp6I9BEXUpvyxUkokgvANB8qMflXPYskjRqzDyZgEglPv
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB12316.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(19092799006)(11063799006)(4143699003)(18002099003)(22082099003)(8126099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TnZTN0huc2tUdnZaaUdBT1kwQ0VKaFczYnk5OGcxcC9vZVRhNEFXZmNvcWlX?=
- =?utf-8?B?d3RIR3pGSTV3Q2RHd1g2ei85N1Mreks1c3NzUG5Ta3oySVVaK3ZmK05iU1BJ?=
- =?utf-8?B?THU0TkZhczFnbnptb0JsTHdodEJ2NE1ndVdFTUxYcnhlSEVYMXhnUzV3TXYx?=
- =?utf-8?B?aG1rRitKTE9zQkxyWnlDN1hUdWhWbVVHT1dJb2svSWZwU0VrMGJDOE5td1lM?=
- =?utf-8?B?aGYvUFBOelMvNC9BSGg4bURRL2xPU0YwK2dHN3JZbGpBdWhZVExXQ1A3aUZV?=
- =?utf-8?B?d3BLKzd4WkFXNUowejZmMnc0K3ZHbzJPb2gyT1Z1WVZmaE54c2J3R3F5aTZr?=
- =?utf-8?B?Skd1SzlCamhtQkF0VHF3ZVo4WWZSNldUK0VTVWtVTnlqdzluWnFjR2VQZmVR?=
- =?utf-8?B?eWwzS05XSisxTloxSGpWSlBlYkY1bmxoa1ZjRk9GQzlHTi9UTmtoOVcxdmpF?=
- =?utf-8?B?c1ozWkZsa2NoaDg1OXFOSFlEZ0JZQURNV2hGTUFoVXZkOVhtUTg4dG1hdm9P?=
- =?utf-8?B?V2s3TmZaVzV6aDltS05ndFZlTVpQNmpxZVZ2czlJU1JkU2R1Z2VhY0s5ZW5k?=
- =?utf-8?B?dElEVkptdXh5d2NDaVNyN0ZXanBTN2Z4dTY3SGxkMmNHWUVqQ2hLa0QxK1l1?=
- =?utf-8?B?RVhzcy9uOWM3QnZLamhlLzhncDZvdWVYRUlCelFOOTBMU2RxTnpGU05qOEtZ?=
- =?utf-8?B?UDF1QWZrVGZTMzZLdndUSmYxRXl4bUR2WEx1SjhYdTlzVDJiQTJGQlVYNC9v?=
- =?utf-8?B?aFJGRWtIaGZKLytDdFl6V1NKZkxIRGdNQ0VQMmZBcFBWK1A3OUFkQ1BHR2to?=
- =?utf-8?B?a2FOMUtBdWVhN2t4THA1bzBpdTVjQTZCWDFNWSs2OFowVjA3cWR0TDVMY0JF?=
- =?utf-8?B?RS9aTWdJM3hBRjBNTEN2TTZrYy9lcEhxZXpRc3J1U0I1MnYrMnMzOG1JU0hV?=
- =?utf-8?B?WExVckdCWnhlQng4QVBhcTNsaGk3Y0ZpdzgxNkxJKzhhbjA2R29vUmNCeFdF?=
- =?utf-8?B?TEtJeFFDMHBIMXdkNE9DT0c1VzFzR3REdCttMkFIb2ZRN0NpYjZ1c2FlaUph?=
- =?utf-8?B?YUhtMmQ5TVU0UDM0M25qZHBLS2dxZDFVZGxLQ2x3RGZ6Q3doOTQyMGxpN1JZ?=
- =?utf-8?B?YWh6T0NEdDJYN3hBRE5YUmd5cGY5eHk0cS9KUS9SRFM5NjFPaXM2Y3orWGhD?=
- =?utf-8?B?WEdEemIzb1psSkpRMi8zNFdaUllpY1YvQWo3MVZjUmt1Tm1YUmpIeTg1WXEr?=
- =?utf-8?B?WFVtR2I0dGs1WThGTDhkeVVtV1QyMkpyZWRCNVIzQk5rOHMvRE0xektlcmVa?=
- =?utf-8?B?b3ZLWWdvNjBjRUl2Q2Rldm9tV2E4S1ZnTndEV1Q2MmRrU0FEbGxpaXdXSjlr?=
- =?utf-8?B?ckM5ajg3cGZHZVI4MVYzbytuS2JuU1I3VG1LNzVDSlJGaTIrL1FKZzRRQjQ3?=
- =?utf-8?B?UnZzT0FYYnJ3YWhiNHpUK1RwTHhLQ0VFZ3FnOUJJSk44UC80MEdhS3ZHMGZa?=
- =?utf-8?B?ZlFaZEU1VFl4dUFBa1RMSlREMW45dnMxaHpYU1VCdkc1UU1BdnVUWStrbVJy?=
- =?utf-8?B?TkNla1dzZTltcVNMeWx0eDBNdy9OV25WZ1dKdlp2Zldtd29vUWNhekNpc2Ix?=
- =?utf-8?B?Q3UxSXQvaEYzMU1xUk9ibmNKL216QndtTE1kN2pZNG9kR2pRTTYvWkgwa2d2?=
- =?utf-8?B?Q0JQS0wzRXhwcGVpSGRJRzZaRjVoV1NxSkZIcG9zSzJZQm1jM2JaUFhZZXEv?=
- =?utf-8?B?Qkc3eGE3bWJBamNWZkFzdUlHNzc3Ukg1Yjk1WElBNjdIbXVkOG91TXBNZnpX?=
- =?utf-8?B?YUE1RXN0K3lCNUdnbnZPOWRoOVpSMTNkRW1vTGRZMm1qWWppVmtSNTEySy9Y?=
- =?utf-8?B?eEM0QkhLbWV1ZnV0YzIzYm5KTGN0WGFCc09pRHNzZkx2SlVCTXV2d25IRE5X?=
- =?utf-8?B?MzNTdzZqVWxMcWJuYmg2OFQzMHIrbk5rNGJBdlQ1STFvekdQZCtMQVNaMCtw?=
- =?utf-8?B?T3JFY1V2NU5MTkErUjZDQTN4aUpPTTU5VHAxOFdHUTNCa1hMS0tJYk9kL1lN?=
- =?utf-8?B?ZUxsemZGY2ZZM1czajljaGV6S1MyR291UXN1NnFjSXVLOVMzTlJuanlBZkdS?=
- =?utf-8?B?V1ExeUtWVVMrNldUeXhTcFBxVnNKeXJsRVhiaEt5cEVZMlBrN1NnT0NrRHVF?=
- =?utf-8?B?eTF1dkJZQlRJcEk3NDA5cVJnTmV6Q0F1S0RYVytCRUQ0cnFTTnhlRHF6a1Fy?=
- =?utf-8?B?ZHVsYVJXSmxBeWdwbEVwMUkwd1hmTDNvT0JMRG9HcFlUeW1PYVJmQm5mNzJ5?=
- =?utf-8?B?ZGlvRDNJYis3Ym5rQjFrR1pwR0JLZGpwaktxbmE2V2Y5NE94TzFFdz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dd655e7-6491-432b-d265-08dec175e7d1
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB12316.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 13:42:07.9905
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HgTBqD+tk1VjCT5P/60t/GeVP0ZL9mNGu0nMEakh8ZHJUjhO2QnpYXQo3i4rDbrxQtp85ihpJ/Ss4Upv9zPNXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8440
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH-tip v3] debugobjects: Don't call fill_pool() in early boot
+ non-task context
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20260520201509.931905-1-longman@redhat.com>
+ <20260603075656.S1aZM9PO@linutronix.de>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260603075656.S1aZM9PO@linutronix.de>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-MFC-PROC-ID: aNFiDne-Y2JtXHt4WTr5llv6PrYelj0N52k5d9544FE_1780498797
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 6/3/26 16:20, Sebastian Andrzej Siewior wrote:
-> On 2026-06-03 16:18:22 [+0300], Daniel Baluta wrote:
->> On 6/3/26 16:05, Sebastian Andrzej Siewior wrote:
->>> Move RX callback handling into the threaded handler. This is similar to
->>> the TX side except that we explicitly mask the source interrupt in the
->>> primary handler and unmask it in the threaded handler again after
->>> success. This was done automatically in the TX part.
->>>
->>> The masking/ unmasking can be removed from imx_mu_specific_rx() since it
->>> already happens in the primary/ threaded handler before invoking the
->>> channel specific callback.
->>>
->>> Move RX channel handling into threaded handler.
+On 6/3/26 3:56 AM, Sebastian Andrzej Siewior wrote:
+> On 2026-05-20 16:15:09 [-0400], Waiman Long wrote:
+>> When booting a debug PREEMPT_RT kernel on an arm64 system with grace
+>> processor, the following lockdep warning was reported during early boot.
 >>
->> Hi Sebastian,
->>
->> It is not very clear from me from the commit message why this change is needed.
->> Can you please update the commit message with proper explanation?
-> 
-> The intention is to move the entire interrupt handling into the threaded
-> handler. The primary handler masks just event, the threaded handler
-> performs the RX/TX/ event.
-> I move the individual events step by step so the previous patch moved
-> the TX, here is RX and the next one does RXDB.
-> 
-> Is this clear now? The cover later explains why this done in the first
-> place.
+>>    ================================
+>>    WARNING: inconsistent lock state
+>>    7.1.0-rc4-test+ #1 Not tainted
+>>    --------------------------------
+>>    inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>>    swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+>>    ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
+>>      :
+>>    Call trace:
+>>      :
+>>     rt_spin_lock+0xa0/0x400
+>>     get_from_partial_node+0x74/0xa0
+>>     ___slab_alloc+0x94/0x4f8
+>>     kmem_cache_alloc_noprof+0x2d4/0x598
+>>     kmem_alloc_batch+0x54/0x170
+>>     fill_pool+0x12c/0x438
+>>     debug_objects_fill_pool+0x58/0x60
+>>     debug_object_activate+0xfc/0x3d0
+>>     add_timer_on+0x250/0x3a0
+>>     add_interrupt_randomness+0x2d4/0x340
+>>     handle_percpu_devid_irq+0x2e0/0x4e0
+>>     handle_irq_desc+0xc0/0x120
+>>     generic_handle_domain_irq+0x20/0x40
+>>     __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
+>>     gic_handle_irq+0x7c/0xe0
+>>     call_on_irq_stack+0x30/0x48
+>>     do_interrupt_handler+0x134/0x158
+>>     el1_interrupt+0x48/0xb0
+>>      :
+> What about:
+>
+>    During early boot, interrupts are getting enabled before the scheduler
+>    is enabled. In this window (before SYSTEM_SCHEDULING is set) interrupts
+>    can fire and attempt to fill the pool from within the hardirq. This can
+>    lead to a deadlock the interrupt occurred while in the memory allocator.
+>    
+>    Reorder the exception rule and forbid this scenario by excluding
+>    allocations from hardirq.
+Yes, the debug_objects_is_pi_blocked_on() check should cover the 
+system_state check as well.
+>
+> …
+>> Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+> …
+>>   	/*
+>>   	 * On RT enabled kernels the pool refill must happen in preemptible
+>> -	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+>> -	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+>> -	 * same type and this lock-type inversion works just fine.
+>> +	 * context and not enqueued on an rt_mutex or in task context during
+>> +	 * early boot before scheduling starts.
+>> +	 *
+>> +	 * For !RT kernels we rely on the fact that spinlock_t and
+>> +	 * raw_spinlock_t are basically the same type and this lock-type
+>> +	 * inversion works just fine.
+>>   	 */
+>> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+>> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
+>> +	    (system_state < SYSTEM_SCHEDULING && in_task()) ||
+>>   	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
+>>   		/*
+>>   		 * Annotate away the spinlock_t inside raw_spinlock_t warning
+> I updated the comment to explain in more verbose why this and that is
+> done.
+> I re-ordered the whole thing stared with the pi-locked-on part since
+> this is always valid. It shouldn't happen during early boot I think it
+> is easier to read that way. Then we restrict it to the preeptible case
+> which can be overruled with the SYSTEM_SCHEDULING exception however as
+> long as it is not an hardirq. It looks easier to parse and hopefully
+> brings an end to this.
+>
+> diff --git a/lib/debugobjects.c b/lib/debugobjects.c
+> index b18a682fe3da2..2adfe2a79a086 100644
+> --- a/lib/debugobjects.c
+> +++ b/lib/debugobjects.c
+> @@ -736,12 +736,17 @@ static void debug_objects_fill_pool(void)
+>   
+>   	/*
+>   	 * On RT enabled kernels the pool refill must happen in preemptible
+> -	 * context and not enqueued on an rt_mutex -- for !RT kernels we rely
+> -	 * on the fact that spinlock_t and raw_spinlock_t are basically the
+> -	 * same type and this lock-type inversion works just fine.
+> +	 * context and not while blocking on a lock which can trigger recursion
+> +	 * during PI. During system boot (before scheduling) preemption is
+> +	 * disabled and the pool gets exhausted. Without scheduling a deadlock
+> +	 * is not possible if allocations from interrupt context are excluded.
+> +	 * For !RT kernels we rely on the fact that spinlock_t and
+> +	 * raw_spinlock_t are basically the same type and this lock-type
+> +	 * inversion works just fine.
+>   	 */
+> -	if (!IS_ENABLED(CONFIG_PREEMPT_RT) || system_state < SYSTEM_SCHEDULING ||
+> -	    (preemptible() && !debug_objects_is_pi_blocked_on())) {
+> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT) ||
+> +	    !debug_objects_is_pi_blocked_on() &&
+> +	    (preemptible() || (system_state < SYSTEM_SCHEDULING && !in_hardirq()))) {
+>   		/*
+>   		 * Annotate away the spinlock_t inside raw_spinlock_t warning
+>   		 * by temporarily raising the wait-type to LD_WAIT_CONFIG, matching
 
-I would prefer to add the explanation for this in at least one commit
-message to be there in git log.
+I guess softirq won't be active during early boot. If in_nmi() is true, 
+we are screwed for non-RT kernel as well. So only checking for 
+in_hardirq() should be fine. I will adopt your suggestion and send a new 
+version.
 
-Cover letter is not kept in git history.
+Thanks,
+Longman
+
+> Sebastian
+>
+
