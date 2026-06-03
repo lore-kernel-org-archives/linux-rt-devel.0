@@ -1,180 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047283D1AB3;
-	Wed,  3 Jun 2026 15:13:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B32B3D648F;
+	Wed,  3 Jun 2026 15:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780499584; cv=none; b=CBRtwLwwnhMDpovwo+ZXYACgwEkjOAYVLoZkYMx7yRULwHgLXevR7xA0LP72R+lfkxdTkrEdTsTts/afNrVelMd81449rlKwLWSrbgC0zyVSJPkzjtZl2rs3K6vGYq9/g1dXEP1iSz3ktjhu1Hxb/a99gn+am2qq7v57H7tW5y0=
+	t=1780500369; cv=none; b=E+wMF1fHsL8hHATake1tqIIprivp0HJO/xinMQVr5aK8hzFrY1JcEeAL0eZgW2ezQRAJBTnaQziJpzV93XZcibyagzDBXdk1yTInmCUfYsSXyEl9PgSDU7u7EO6UqQt1jvKyfABfpAqlQomscydZTBPmFLo5vtnuBZoeIt9J3Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780499584; c=relaxed/simple;
-	bh=bGv6026XnhDm8i+aKTBXzQ0LNc5FoJ6CnAMYvnx4k6Q=;
-	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i4ZthIeQFj9GEoMPn4N47EtZ/h2SaqNE/GwprCNnI37g4hZotcROgimcuTPqnXMyiFqTgCBfZkJVbCMKTjiytM4mpI4DuK0kzOSJsXmfVhgFGEdxcJBng01oMIZvGZKko0OZDq+z36r8obZdoTmo4Qbo4gLQa0UqSwhdRBmZJjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4tKmGsa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780500369; c=relaxed/simple;
+	bh=NXUW6xNUxRnjK/Ovcogrbn0IE4OIscTvKrmz8hg3zoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=USPVm3uYVHb51Lv0uZwB1sZBrOTxD/Bd1JhZ114GZsoAbGSTGrAqyJATP6KDNcI4qdafCBdLx7at5Jrbt7HYwDrLGkYQpqzWO7Et1wakM4/WdaEUMtaBG32BBKnWQOqo1C60ioS/lknoTCz8e+QCEvlKwdj+AHpGnuouzfClefc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PD0cQEme; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+ft5H0B0; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4tKmGsa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED9051F00893;
-	Wed,  3 Jun 2026 15:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780499582;
-	bh=9gPkGzXG0HU/tmXo8RdeundsdIGxa43c7OU1rJGKo7A=;
-	h=From:To:Subject:In-Reply-To:References:Date;
-	b=M4tKmGsaYH/lff+c0Ae3MHSW2FbvA6PTeiPQ4bIhA2KQJzMf+I3V8Qgc8w1GJn2Vy
-	 KHYCsPeMkMWj244DQb0D27w3oZnqkFqvhisTxN5k+q/X0usb0MAaJ9jAfSEs7lL9AQ
-	 39TgzIvy5WIC64XM//kGYp/2kq6zyAVVu5czwpGaAbIeFesePdG2etoWRvU1ssSPTM
-	 LQpd0Q1jLYBVzbeIiL5yxBKETbMfSza/xALr1qmNnJ+N3zDCjMkp8FXxDPxuwSNTAh
-	 F0dFEHGPKDAxLSPu0ghoQ40eZWSaQD8boCmDskDcOzWI+jZpyB2oUJ3BS4JlpMghxx
-	 mRWG6nm8MjQPQ==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Herman van Hazendonk <github.com@herrie.org>, Bjorn Andersson
- <andersson@kernel.org>, Clark Williams <clrkwllms@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, Konrad Dybcio
- <konradybcio@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, Rob Herring <robh@kernel.org>, Sebastian
- Andrzej Siewior <bigeasy@linutronix.de>, Steven Rostedt
- <rostedt@goodmis.org>, van Hazendonk <github.com@herrie.org>
-Subject: Re: [PATCH v2 2/2] irqchip: add MSM8x60 MPM wakeup interrupt
- controller driver
-In-Reply-To: <0133fce127c7507bbb907d0258ad69ac8d753218.1780195817.git.github.com@herrie.org>
-References: <cover.1780148149.git.github.com@herrie.org>
- <cover.1780195817.git.github.com@herrie.org>
- <0133fce127c7507bbb907d0258ad69ac8d753218.1780195817.git.github.com@herrie.org>
-Date: Wed, 03 Jun 2026 17:12:59 +0200
-Message-ID: <87ecin7j44.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PD0cQEme";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+ft5H0B0"
+Date: Wed, 3 Jun 2026 17:26:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1780500365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUbArMhatRkOlmiQUjI9Tf31kJ/6pDUsEK5wihs/FxQ=;
+	b=PD0cQEmeE7cRnI4TGMBwLATUn0Wpc2HlOAAmRmkvN9v2jSSEU+ONmtinEWC55tNXZi2RKC
+	NNUl/goguJx55G9f0HaHcCsmrvodbkPJ3KlfjiUJyBdXFEUbMsp6e7Cr0vlJ14VjeGME3r
+	E7iLpSd84Y7Onx97sgYEHY94tEuNvxGPCuXIH895uvZL+JiiKvF8NvAswZ3C7Hqvczwsmh
+	OiQa0FgfQcM8CUf+9p53KDY5bBNz/y9wUg99ayTaMUFzqrAv4sTih0G2dwCfnA/zyaoNKT
+	qqUGdGIC7zHEnz9vGEs5gM7PGIOkllN5P47ZMPydsBDu+dFspYbwzF2SSl9Xag==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1780500365;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YUbArMhatRkOlmiQUjI9Tf31kJ/6pDUsEK5wihs/FxQ=;
+	b=+ft5H0B0zB+qvZsgCto8fK+SXf9/FfUhkyg47hx5xXf3vywr0IhNxkux96Y3KdwbQ5kv0e
+	7MqVVWsALoFikbCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Daniel Baluta <daniel.baluta@oss.nxp.com>
+Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v2 6/9] mailbox: imx: Move the RX part of the mailbox
+ into the threaded handler
+Message-ID: <20260603152604.lBbXa3sE@linutronix.de>
+References: <20260603-imx_mbox_rproc-v2-0-a0059dc3b69a@linutronix.de>
+ <20260603-imx_mbox_rproc-v2-6-a0059dc3b69a@linutronix.de>
+ <c81d12a8-7544-493f-a947-8f70ad9d409d@oss.nxp.com>
+ <20260603132034.NxZoA4pH@linutronix.de>
+ <944c6eaa-05f2-437a-88e7-1573b64468c5@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <944c6eaa-05f2-437a-88e7-1573b64468c5@oss.nxp.com>
 
-On Sun, May 31 2026 at 06:09, Herman van Hazendonk wrote:
-> + *
-> + *   1. Hierarchical irqdomain: for MPM pins that map to GIC SPIs (USB,
-> + *      HDMI, ...). Consumers wire their interrupts through this
-> + *      controller via interrupts-extended and the kernel manages
-> + *      enable / mask / set_type / set_wake via the IRQ subsystem.
-> + *
-> + *   2. Raw-pin API: for MPM pins that do NOT correspond to a GIC IRQ
-> + *      (SDC3_DAT1=21, SDC3_DAT3=22, SDC4_DAT1=23, SDC4_DAT3=24).
-> + *      These are physical wake-signal lines monitored by MPM
-> + *      directly. Consumers (mmci for SDC4 wake) call
-> + *      msm8660_mpm_set_pin_wake() etc. The consumer API establishes
-> + *      a device_link from consumer to producer so the MPM device
-> + *      cannot disappear while a consumer holds a handle.
+On 2026-06-03 16:45:16 [+0300], Daniel Baluta wrote:
+> I would prefer to add the explanation for this in at least one commit
+> message to be there in git log.
+> 
+> Cover letter is not kept in git history.
 
-Why can't this be described in the device tree?
+You could merge is part of the series. But I could of course add the
+rational behind this to the patch where I start adding the threaded
+handler and move the TX bits.
 
-> +
-> +struct msm8660_mpm {
-> +	struct device *dev;
-> +	void __iomem *base;
-> +	struct irq_domain *domain;
-> +	struct msm8660_mpm_pin *pin_map;
-> +	unsigned int pin_map_count;
-> +	int parent_irq;
-> +	struct mbox_client mbox_client;
-> +	struct mbox_chan *mbox_chan;
-> +};
+I just finished of with sashiko. Do you have other human input?
+Otherwise I would fix the one thing I did wrong, propagate the one error
+sashiko mentioned. I'm not sure what to do about the long time outs it
+complains about, I would keep them for now. That timeout check based on
+jiffies is also odd.
 
-https://docs.kernel.org/process/maintainer-tip.html#struct-declarations-and-initializers
-
-Please read the rest of this document too.
-
-> +
-> +/*
-> + * Singleton - there is only one MPM instance per SoC. msm8660_mpm_get()
-> + * returns this. Updates are serialised through the binding lifecycle so
-> + * a plain pointer is sufficient.
-> + */
-> +static struct msm8660_mpm *msm8660_mpm_global;
-> +
-> +static u32 msm8660_mpm_read(struct msm8660_mpm *mpm, unsigned int reg)
-> +{
-> +	return readl_relaxed(mpm->base + reg);
-> +}
-> +
-> +static void msm8660_mpm_write(struct msm8660_mpm *mpm, unsigned int reg,
-> +			      u32 val)
-
-No line break required. You have 100 characters. All over the place.
-
-> +static int msm8660_mpm_pin_to_hwirq(struct msm8660_mpm *mpm, int pin)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < mpm->pin_map_count; i++) {
-
-for (int i = 0; ....
-
-> +		if (mpm->pin_map[i].pin == pin)
-> +			return mpm->pin_map[i].hwirq;
-> +	}
-> +	return -ENOENT;
-> +}
-> +
-> +/*
-> + * IPC handler: MPM fires this IRQ when one or more enabled wake pins
-> + * have pending activity. Read pending status, CLEAR the pending bits
-> + * BEFORE dispatching the per-pin handlers so a fresh edge that arrives
-> + * during dispatch cannot be wiped out by a later CLEAR write, then
-> + * replay each pending pin through the irqdomain.
-> + */
-> +static irqreturn_t msm8660_mpm_irq(int irq, void *data)
-> +{
-> +	struct msm8660_mpm *mpm = data;
-> +	unsigned long pending[MSM8660_MPM_REG_WIDTH];
-> +	unsigned long enable[MSM8660_MPM_REG_WIDTH];
-> +	int i, j;
-
-See documented variable ordering and put the iterator variables into context.
-
-> +static void msm8660_mpm_enable_hwirq(struct irq_data *d, bool enable)
-> +{
-> +	struct msm8660_mpm *mpm = irq_data_get_irq_chip_data(d);
-> +	int pin;
-> +	u32 val, mask;
-
-See docs
-
-> +static int msm8660_mpm_domain_alloc(struct irq_domain *domain,
-> +				    unsigned int virq, unsigned int nr_irqs,
-> +				    void *data)
-> +{
-> +	struct msm8660_mpm *mpm = domain->host_data;
-> +	struct irq_fwspec *fwspec = data;
-> +	struct irq_fwspec parent_fwspec;
-> +	irq_hw_number_t hwirq;
-> +	int i, ret;
-> +
-> +	if (fwspec->param_count != 2)
-> +		return -EINVAL;
-> +
-> +	hwirq = fwspec->param[0];
-> +
-> +	for (i = 0; i < nr_irqs; i++)
-> +		irq_domain_set_hwirq_and_chip(domain, virq + i, hwirq + i,
-> +					      &msm8660_mpm_chip, mpm);
-
-See bracket rules.
-
-> +static void msm8660_mpm_remove(struct platform_device *pdev)
-> +{
-> +	struct msm8660_mpm *mpm = platform_get_drvdata(pdev);
-> +
-> +	/*
-> +	 * Tear down in strict reverse order: drop the singleton so new
-> +	 * consumers cannot grab a handle, free the IRQ so the handler
-
-How is that serialized against a concurrent consumer request?
-
-Also please look at:
-
-   https://sashiko.dev/#/message/20260531043213.D18801F00893%40smtp.kernel.org
-
-Thanks,
-
-        tglx
+Sebastian
