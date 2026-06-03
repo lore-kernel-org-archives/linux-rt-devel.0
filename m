@@ -1,63 +1,55 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B32B3D648F;
-	Wed,  3 Jun 2026 15:26:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD4B3DA7CD
+	for <linux-rt-devel@lists.linux.dev>; Wed,  3 Jun 2026 15:30:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780500369; cv=none; b=E+wMF1fHsL8hHATake1tqIIprivp0HJO/xinMQVr5aK8hzFrY1JcEeAL0eZgW2ezQRAJBTnaQziJpzV93XZcibyagzDBXdk1yTInmCUfYsSXyEl9PgSDU7u7EO6UqQt1jvKyfABfpAqlQomscydZTBPmFLo5vtnuBZoeIt9J3Vw=
+	t=1780500618; cv=none; b=n5B6Ya0L60bpRbPbXMnQPFoFeboSbobUCS4S4xEP6NVaaS314w89VGR4WLyqDqaR1TA/fZvxSsgJKcutx2SKRBxU5+l5ucrMw+F6BRiM9ECvdoztdPqzYUX5/aUcm1PCzGsR1Rm9BeX5Oh3SAHs1Y/1RF/29hYN89Lrta5rPADU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780500369; c=relaxed/simple;
-	bh=NXUW6xNUxRnjK/Ovcogrbn0IE4OIscTvKrmz8hg3zoA=;
+	s=arc-20240116; t=1780500618; c=relaxed/simple;
+	bh=zOv8PjaX40/375pKg9kgdDIzCtKtcjcycNLsga7J4Ok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USPVm3uYVHb51Lv0uZwB1sZBrOTxD/Bd1JhZ114GZsoAbGSTGrAqyJATP6KDNcI4qdafCBdLx7at5Jrbt7HYwDrLGkYQpqzWO7Et1wakM4/WdaEUMtaBG32BBKnWQOqo1C60ioS/lknoTCz8e+QCEvlKwdj+AHpGnuouzfClefc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PD0cQEme; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+ft5H0B0; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=KWfJg4yoWbturb3EczuliyvTOGDFTZAm2FNgG6PgpcIkh0hv8ZpQGLOMYhlY6Xm8me+UbcxQvAues3t+Pv1+icptET2uhB85MQYs5YfO/JO7PPkHm1cJV9f3m2M4psR693/4jRWx2QXA7gCxQxOLBY8qhFDVYGnIma8mlAFRinI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MsEI8/P+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2JWpsPH3; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PD0cQEme";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+ft5H0B0"
-Date: Wed, 3 Jun 2026 17:26:04 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MsEI8/P+";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2JWpsPH3"
+Date: Wed, 3 Jun 2026 17:30:11 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780500365;
+	s=2020; t=1780500612;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YUbArMhatRkOlmiQUjI9Tf31kJ/6pDUsEK5wihs/FxQ=;
-	b=PD0cQEmeE7cRnI4TGMBwLATUn0Wpc2HlOAAmRmkvN9v2jSSEU+ONmtinEWC55tNXZi2RKC
-	NNUl/goguJx55G9f0HaHcCsmrvodbkPJ3KlfjiUJyBdXFEUbMsp6e7Cr0vlJ14VjeGME3r
-	E7iLpSd84Y7Onx97sgYEHY94tEuNvxGPCuXIH895uvZL+JiiKvF8NvAswZ3C7Hqvczwsmh
-	OiQa0FgfQcM8CUf+9p53KDY5bBNz/y9wUg99ayTaMUFzqrAv4sTih0G2dwCfnA/zyaoNKT
-	qqUGdGIC7zHEnz9vGEs5gM7PGIOkllN5P47ZMPydsBDu+dFspYbwzF2SSl9Xag==
+	bh=B134OFE8/STCpqpWQ/ddg2uwK5Bkx4sXfIx+4cZNxx4=;
+	b=MsEI8/P+ZVEo/Vs5D7VOTFuBXlq4clHt1Uj/9ZPzQ0cilhE1P3Mh8htfrHlDAYLYWzFV2t
+	FzYlnvyFJkuaiC5wkLFS2lIw6h6L7fEwLY3GGwnyem1ts+dU3MhvkitS6VxrDY7jsiwwEu
+	kX/OA5j8sToh7xv2/u6TKsVMPMV9SYADJ1vwoh9DWNUlvKn/EE4TbY0Tp+PbSUz2tK1E5r
+	2JdWXp6xjPjaQ6CFHrxNllygAKxqODMQROnKIXuMw7kPWftCtANImk3E7Sym4rp5/c6OfZ
+	IrhNjFGqBcTYnaQxpljjimiOJjJH64smyoL53jb79GZP7paOM2OXGI3yM5lw/g==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780500365;
+	s=2020e; t=1780500612;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YUbArMhatRkOlmiQUjI9Tf31kJ/6pDUsEK5wihs/FxQ=;
-	b=+ft5H0B0zB+qvZsgCto8fK+SXf9/FfUhkyg47hx5xXf3vywr0IhNxkux96Y3KdwbQ5kv0e
-	7MqVVWsALoFikbCg==
+	bh=B134OFE8/STCpqpWQ/ddg2uwK5Bkx4sXfIx+4cZNxx4=;
+	b=2JWpsPH3F+7PkAYvR7Re3g2q0DBMHsUC1kKqardXuq28O8/bQNfPd9GiVkO52dCNM/rqjn
+	PRiPHlwz7Yga22Bw==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Daniel Baluta <daniel.baluta@oss.nxp.com>
-Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
+To: Waiman Long <longman@redhat.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Clark Williams <clrkwllms@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v2 6/9] mailbox: imx: Move the RX part of the mailbox
- into the threaded handler
-Message-ID: <20260603152604.lBbXa3sE@linutronix.de>
-References: <20260603-imx_mbox_rproc-v2-0-a0059dc3b69a@linutronix.de>
- <20260603-imx_mbox_rproc-v2-6-a0059dc3b69a@linutronix.de>
- <c81d12a8-7544-493f-a947-8f70ad9d409d@oss.nxp.com>
- <20260603132034.NxZoA4pH@linutronix.de>
- <944c6eaa-05f2-437a-88e7-1573b64468c5@oss.nxp.com>
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH-tip v3] debugobjects: Don't call fill_pool() in early
+ boot non-task context
+Message-ID: <20260603153011.vSPiwyLI@linutronix.de>
+References: <20260520201509.931905-1-longman@redhat.com>
+ <20260603075656.S1aZM9PO@linutronix.de>
+ <b4b54ef3-5488-4577-9743-d6ce01f7405e@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -66,22 +58,18 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <944c6eaa-05f2-437a-88e7-1573b64468c5@oss.nxp.com>
+In-Reply-To: <b4b54ef3-5488-4577-9743-d6ce01f7405e@redhat.com>
 
-On 2026-06-03 16:45:16 [+0300], Daniel Baluta wrote:
-> I would prefer to add the explanation for this in at least one commit
-> message to be there in git log.
+On 2026-06-03 10:59:55 [-0400], Waiman Long wrote:
+> I guess softirq won't be active during early boot. If in_nmi() is true, we
+> are screwed for non-RT kernel as well. So only checking for in_hardirq()
+> should be fine. I will adopt your suggestion and send a new version.
+
+softirqs shouldn't be active but if they are then are either delayed to
+ksoftirqd or inline as of local_bh_enable() which is fine.
+And for in_nmi() we are screwed anyway yes :)
+
+> Thanks,
+> Longman
 > 
-> Cover letter is not kept in git history.
-
-You could merge is part of the series. But I could of course add the
-rational behind this to the patch where I start adding the threaded
-handler and move the TX bits.
-
-I just finished of with sashiko. Do you have other human input?
-Otherwise I would fix the one thing I did wrong, propagate the one error
-sashiko mentioned. I'm not sure what to do about the long time outs it
-complains about, I would keep them for now. That timeout check based on
-jiffies is also odd.
-
 Sebastian
