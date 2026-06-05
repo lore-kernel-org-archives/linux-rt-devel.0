@@ -1,60 +1,67 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED473E51D3
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 11:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928D416F27F
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 11:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780657320; cv=none; b=KhKF6IUS3llSCsUimtj3expCu4Zrsv8SyI4n9O8tWcoBFFxa7Nt8TO8H/ZPHf0GHewFo3l4E/+26WFx1fLfN0Rczm3WRbg6/KSnW9AA5t8fxP41zjlhS2KOFWjhniZsdJBMvgagO/TZ1L0HmAJc311eKVRBQqu95qYwVr3tdGQE=
+	t=1780657964; cv=none; b=PajKTkCLHiSXsDIbFDHFHz3YjJ6UNBlAB+X5BiZChGXE0vJfW9i6QDs37k8oC7B/7T7cRtTeosThw+LBPrYDCymoGs9KDRImgBuag8iy6Zw90uehhnZKF4BRyRHrdrC8ZBEMnu9be4CrWpHLp+1XQFDY2MGDuim56vVluiPZ4Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780657320; c=relaxed/simple;
-	bh=9EHPs7SnjuoBA6rvdefrG2XYtJ6c/JCGYlMiwvf3YYs=;
+	s=arc-20240116; t=1780657964; c=relaxed/simple;
+	bh=lmSjoIiFcS96WgGAMtkcg3q8ByAWa6wPJJAcgkb4idk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gMGYbiIm7uhgtMYq8w42+onAN1Jkn/iTFNqH1GzBNSZSYn/wxEsuSGz1wHndg+RQIViFSqeLWh+FufPc6krri8okDhISWxYxcGXs1ct7O+t3U0YQz9ZwPCnLu37OtUlhFMQmKPgX4x5FF3E5Jd4ovU+c2uZRF5kqZCENYamTeDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ZQ+no+Uj; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=Arh3cyIKvFde0JJ/PFa8Rd7TRXjnL1StjUo54rJd0LH7pLEqr2SYRi3FfMJ3n/Hf7uk7lL9WAxvLsX4pHhV+9L999ga2hrgssuTSNikfHg1hWv6ejEpq1pbzC5j23N8dK3eyYbDvKT4itYg83FmrQaQNWosYa2GSeFO5Bverlxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iuEOYFns; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ZQ+no+Uj"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 654NVrVw1640981;
-	Fri, 5 Jun 2026 11:01:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=/+TOBB
-	ktSdBVCNKtWg9fVO1y83PdPIgT7Shk0FfOPXw=; b=ZQ+no+UjCvQduZ8wG+vinw
-	mZIwAb7KJTr4nypONOs9zMZkGTXZuHEdnST5kAYuKVX+nNmQm9enaRGevExzVULl
-	x4h6VFu6LE4FtRhL4MDS0KZ5zHGH0KYZlxOeqsigpAwT5xZ1kHfRRmpevG6hFSEl
-	Q5Q1evemImWyi7AQNlDaGrzmh6uPIE6UNq9X6u6ILqCpsYtwG5tbvXuL80hSY8py
-	DqgaDYYuuNlhrbq+ywklHZGYJjRk/+fO2JJ04X0JM3c/CTowKCY6Iv3/k/evH1nG
-	J/0ZYKTkED0f2CYcOZZEG5PxZJ51wYaBvs/SLcUYKNpxmvsUmF1RqadxG92Y+JKg
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efnaj3k05-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 11:01:44 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 655AsAXk017079;
-	Fri, 5 Jun 2026 11:01:43 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4egcwys0am-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Jun 2026 11:01:43 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 655B1biJ61276644
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 5 Jun 2026 11:01:37 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6CFFC20040;
-	Fri,  5 Jun 2026 11:01:37 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1276620043;
-	Fri,  5 Jun 2026 11:01:36 +0000 (GMT)
-Received: from [9.111.29.71] (unknown [9.111.29.71])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  5 Jun 2026 11:01:35 +0000 (GMT)
-Message-ID: <078b0276-4458-4320-b35f-f8802720f886@linux.ibm.com>
-Date: Fri, 5 Jun 2026 12:01:35 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iuEOYFns"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490b43e2b95so14381015e9.0
+        for <linux-rt-devel@lists.linux.dev>; Fri, 05 Jun 2026 04:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780657960; x=1781262760; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9XYJSNlNXjYunXNkaUPBK0YBkQKXFISip6sCHWbKA7U=;
+        b=iuEOYFnsFHJ42hGfzLMNMm0SAXoF9K94B+FvtlhfwaSek1adEaK5uXpmaYGCg17ocK
+         EXscGAD3cwuh1Usjq2RmFqrLxRXvLevNW2BL8FU2dUYLbM99OPspRzQw0lQD6rCZY5Rg
+         vQg/oG5yiasGMcI+D47lWlSi/2ugVXVYc88lkhaIiwvK086CpUBpyb8ol9UTAJrKtS/t
+         SdpSGoMQMbkbz3Q0Exn1z8tnTDqr6e6ob3htUx0n+rKnUiLMCokOkXWnogKl/5ozr7tN
+         v0p48ItG0QQZ2fEUgY1+w4S9RzM9QLZ0tmmBCwn+bn7KRHVp8u3bajPG1wj2Tvt3Wj5H
+         WnzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780657960; x=1781262760;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9XYJSNlNXjYunXNkaUPBK0YBkQKXFISip6sCHWbKA7U=;
+        b=Sp0iJW+DK9/1Y3DYmggdI5y3E0XyDRqhDPXr+v4+o3C04gjwPzKe0SX29l2mNeSlO9
+         kKf/eRzBRrAWJlNckn6t0hoYzT45a9bSi6di2tDfzSxSpxoSezJSRlafIVhEt6B0IoLJ
+         HXlMGMMdkIE/Ty9ZcUZ186r2hJ9YETv/CehHcwA/+azwkZPJ0Mi5UZINALBqEJs425YK
+         7JdKYQKLdTteHME1ENE4K8DO5GFBH2slC4jxpWQOQmvZZrMqe+j2dlfsjbbu2CCLXSU3
+         pU8iHptT/YGpz94WhVCkEbq/FyOBBTYVjXdWjljCCEtn/hcAillhs2MhgqwtgmWGRGWD
+         ohqw==
+X-Forwarded-Encrypted: i=1; AFNElJ/0xb4Zxi9P6akFqtiBfSkep7OGHhJinIeHR+C4ZVY8B4CuNSv+sd7R3thL0yNuGri8pm/mXE8zGspdwGh6bQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcsL+36QgQDwH3jIv3+26+wrMQsRT7i+Luqt8Q7DRSorfHVnsw
+	niEVBH3QGyA7kkT5GczGaSVcgMrQBSXIhLnmK+YkosuUNmw+uzVmXE8bVWtW3Q==
+X-Gm-Gg: Acq92OHtYVOEJybGAb6O8rfZIHU5IzDfrgKopC+ateq/ZXBVZZNUxPjTT7lmyMzksMb
+	QUbevHu2ik7OS05USFGNMPiPJIgjENr3uhofaN9Dc5abKKgDUXbQNARg6Q+d3CeAa8G+/o5H+jI
+	8p5UkgWdnrTZC3R856wwTN1nlqiYpNCdP+/h0pdaqZZaGP0OP+9gWNOVfyATkKFTG9G8sy1qSeE
+	V+HBueuX9YpWe1g7D3gS2Rgk4uz3kZnYxzE8Q2LA3Xa2Wa4pYZDjzCko4yJWMvR4SjsDGojpdMl
+	m+wL05yATqINILmqvvL5Ivw9OHU+OsjPGMcUF/ZdUzCfMfuoEs7qotx7m4WfzvuEWWqxDjR5QAD
+	dst8hQINReh5pqwo7bgKyIo/9XeYk7Z8Am8LdUL+H4YbuqymdbZeUn8PCsvKp9tSg6f1Rv3VEdB
+	0EWp0ssIvRid7ZTDK7f7h7lsO8mjrh+uTDXOGc1T+n7Hg6QW3aw8zvdYJGDtzKz0FffvcwWoAc3
+	ir4SjrNEU7IxSwulw==
+X-Received: by 2002:a05:600c:674f:b0:490:52c0:744c with SMTP id 5b1f17b1804b1-490c25e2dc6mr46150295e9.20.1780657959652;
+        Fri, 05 Jun 2026 04:12:39 -0700 (PDT)
+Received: from [192.168.255.3] (211-11-142-46.pool.kielnet.net. [46.142.11.211])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3d66c8sm138026905e9.10.2026.06.05.04.12.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Jun 2026 04:12:39 -0700 (PDT)
+Message-ID: <153b976e-ce36-44fe-899a-01fc5877e573@gmail.com>
+Date: Fri, 5 Jun 2026 13:12:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -62,79 +69,49 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched: Further restrict the preemption modes
+Subject: Re: [PATCH] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
+Content-Language: en-US
 To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-        Douglas Freimuth <freimuth@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Ilya Leoshkevich <iii@linux.ibm.com>, mingo@kernel.org,
-        Thomas Gleixner <tglx@linutronix.de>, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        vschneid@redhat.com, clrkwllms@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
-        Hendrik Brueckner <brueckner@linux.ibm.com>,
-        Marco Crivellari <marco.crivellari@suse.com>
-References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
- <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
- <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
- <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
- <08307223-88ad-4550-963e-5d1ee315023c@linux.ibm.com>
- <a3bbf315-536f-429e-afb2-adcbf508a66f@linux.ibm.com>
- <20260303115235.GQ1282955@noisy.programming.kicks-ass.net>
- <6c3fbb6d-d4e1-4984-b584-c067be844098@linux.ibm.com>
- <20260605105211.rZ8x7Hd5@linutronix.de>
-Content-Language: en-GB
-From: Ciunas Bennett <ciunas@linux.ibm.com>
-In-Reply-To: <20260605105211.rZ8x7Hd5@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ linux-mips@vger.kernel.org, Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>,
+ Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260604182407.3109536-1-jelonek.jonas@gmail.com>
+ <20260605064250.q0aRKkon@linutronix.de>
+ <02b1e77e-5b7e-41cb-95b6-731ed00d9e74@gmail.com>
+ <20260605103418.tH3rlwmO@linutronix.de>
+From: Jonas Jelonek <jelonek.jonas@gmail.com>
+In-Reply-To: <20260605103418.tH3rlwmO@linutronix.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDEwMyBTYWx0ZWRfXyayp2yInpsQY
- v6zWKD3bB28Gz9Epq0D/QiF22S9fSUd3OU9iF0vnT50dnRi0/oNMlSUr8qeH13tYJ9fk/U4b6dr
- PgJiUdLRl05xt0+bFQk/gLkBwBgSwk3J1pQxEep7JgTz9dRLc52MLqmL55rmSIBzMiq29hSERE/
- qA74QP1zaqNRkVAHo8T3wbhcusjrRI2LBGIIwwTThjlA+1z1z+ncwidvWNYAotRc3Zw+hpMPITN
- kd+vlgxhQx6kvYHhvZMVWXNu/20I5iTDEoSKy+hxbOOIE8CWq4IiT1XpAJ7vUu1gQwz7mGTpp0j
- gxKifsBE+9+BASzR8lnujIL9dEArMH+1AtQyg4PdWCIJmslpp19tllnhyeKzwBl9kAt8DXgaDvP
- yqNgPwpkO4n0t28OPWCB8LKRjAHqzsDtxPHA54uu0nzkxQ4iapjMD0/cZ7zhFZtkL+cCg3ME7Ld
- aMzyglPqs8enscpm4hg==
-X-Proofpoint-ORIG-GUID: pli3czyyzOmgaO2JdJ7PPgBFCp7pJ855
-X-Authority-Analysis: v=2.4 cv=cOzQdFeN c=1 sm=1 tr=0 ts=6a22ac98 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=ACxPka3VRXSE_1752UsA:9
- a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
-X-Proofpoint-GUID: 4BrJN-HU9S0WlB8qvKXpJJw11YyeJZhD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-05_01,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- malwarescore=0 phishscore=0 suspectscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050103
 
+Hi,
 
->> delayed significantly before it gets CPU time.
-> 
-> There is some work done by Marco to rework the API to explicitly state
-> if a per-CPU workqueue is mandatory _or_ if an CPU unbound workqueue can
-> be used instead. (Rather than having schedule_work() not knowing the
-> implications).
+On 05.06.26 12:34, Sebastian Andrzej Siewior wrote:
+> Does 
+> 	echo 0 > /sys/devices/system/cpu/cpu1/online
+>
+> lead to the same problem?
 
-Oh, that is good some work already being done here.
-I had a small patch ready to go, but possibly the solution needs to be more robust.
--            schedule_work(&irqfd->inject);
-+            queue_work(system_dfl_wq, &irqfd->inject);
+Funny, my device doesn't have this 'online' file, neither for the
+other CPUs. So it seems this CPU hotplug isn't supported/used here?
+Or am I missing a Kconfig option for that?
 
+I'm working on a Realtek RTL931x SoC here, it has MIPS interAptiv
+cores. I can provide more information if needed.
 
-> It seems that using an unbound worker would avoid the problem at hand,
-> correct?
-> 
+> I missed that arm64 has also this but only if the online path fails kind
+> of early, see
+> 	04e613ded8c26 ("arm64: smp: Tell RCU about CPUs that fail to come online")
+>
+> so this not the "normal" case but an exception. Mips seems to be doing
+> something different here. I am not sure if this is the only thing that
+> is missing.
+>
+>> Best,
+>> Jonas
 > Sebastian
 
-Yeah, changing to an unbound kworker avoids the issue in any of the testing I have done.
-Ciunas
+Best,
+Jonas
