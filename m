@@ -1,96 +1,205 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1CA941361B
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 10:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77C7492514
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 10:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780655662; cv=none; b=iCB2XDjKtHmJG0et7/0gNrzJFimACyWtsBctQl3sRTrvEGInvk84yYkFvDRhQAT+kLfeYmRgBKLmKa8kVGivSE8HlS/OReq5ncJVyHuUyNpu6Y2A26bVFxZx+XJjMVUiJ/MkeUjWfT43XcTfZg/+y8LhbUkeKeCnE1aoxZz7BIc=
+	t=1780656250; cv=none; b=nk8vS/7pbvYunXqPGHmT1wR1yP2Gav9H6IlkBiWfH3HN5E4C+T6bSs5ovDm4mT0yDXRoPIssIvJ6FTgoCfrRMVTXKTxifPQmgGb2XyK4Rl9HGX+BjL7VhU7SU/eTSkpfu//LGN8yggKfPeF8a1ybO4ZjOnNKuvsJ4TwZ5XADbNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780655662; c=relaxed/simple;
-	bh=/QBL8Rrtj3/ANIhn2T/9EgMK8vC9kj8pb5ccU6UveZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBfjxtSLLXPclnkPEx1CqVIDu3zSFyGxXIkAAJ2ME0f/Ro0UetVqFZs+5hoGhTV+DZB004TxtC0Oj7AeOwddmoI0EqTuMXhBvdfvHeC428aoxIdDlzaxgV9wV7f4VM6NDpZjLrSIv5K3YJK+nuVqQ0IH+M1F7OYBuPkk5UtQUjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=EmzbRT9M; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vIqlNdMd; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1780656250; c=relaxed/simple;
+	bh=qQD1iVcO8/kGo4f3d5FPvG4gVUVLgEMOPIuvqpVRITo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=guBWoN0JPO79ag43yuTSxTWpYCSc6Slt6+Iqi1Tb3QzyscA6kT6aNhD18PIzywrZaPhYtgpGIoIY0QJBL6H/QkUJUSXsJFenmVbhXoe54wyAh8IboRn6mFLLqtB+6CywwQvCcoTJzirX76Yk48UU2CWuSt7NA06KgJCzWNDM0Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=OTojJrnq; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="EmzbRT9M";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vIqlNdMd"
-Date: Fri, 5 Jun 2026 12:34:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780655660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=coz5Aq1MFuTl4CmPGM62Pax2a8nLKkK++EZHbMRVyss=;
-	b=EmzbRT9Mm4e2ql6Oj5DfMtLB+PFBJu0R8GIq2m6z4Fc2zgC5JYViicPLmY5oMGcfBNzvFl
-	F3OWTQs2beg8lC6MCZzzbKpwR3ikf0dI2gXBPqH2m2NWtDuTqaDvjG/qI/b2xIzctc4aAS
-	XUudb6NwQq9l3OKaMRUDKUHpeXjLPgCD68eU456QHUmZII+XUQSLDe7pottJ1XfH3U2SaI
-	wRpfOmJPMgNTsVbk5qOUXtBkXtvbw+QvHA4C8tEj81/cKRtwkcWFfb39ch0LwYppUpT8A8
-	o5zMmY0zVAuGJ+ybqU1Bf3Kdg/jeWSW+0tUYoNg7BRRb1dvB2jpAIslD5h40rQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780655660;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=coz5Aq1MFuTl4CmPGM62Pax2a8nLKkK++EZHbMRVyss=;
-	b=vIqlNdMdL3j6GgLjDN+1ji+hIacjZZSG6YSKCk30pxhEKI2RR8KTjCx++OUY9IidbNu4RX
-	GDIxG24sNlBqUmBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Jonas Jelonek <jelonek.jonas@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	linux-mips@vger.kernel.org, Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
-Message-ID: <20260605103418.tH3rlwmO@linutronix.de>
-References: <20260604182407.3109536-1-jelonek.jonas@gmail.com>
- <20260605064250.q0aRKkon@linutronix.de>
- <02b1e77e-5b7e-41cb-95b6-731ed00d9e74@gmail.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="OTojJrnq"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65501bQt2672300;
+	Fri, 5 Jun 2026 10:43:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=aajtgd
+	4g74ITFaqba2FKOIAP7qKCcxYvvMGYK1oCEq4=; b=OTojJrnqYG+85cgTqPvbng
+	L2d2mAHvYDKnCvxUmVM7Nx8a1l+yJVYol6yrDT0fRrDYztuTgNqCyhGW0dez6CTg
+	FRMpAk49xjo88tIXR8gtzgmRW9j+xQF1se0QkriBFLcpAd2biFSpsFKlJRY0JZgA
+	j2UHxwh8VdsgLXztJTkAHQj08NFoDKDfE0OQ1nlqLA8IsSey6hqmfcvwi1WdS0BW
+	Lx8O+mupBZ3A/u3z1YmqiGlTmkp1+/2h46hpOdyPdFGyaJLIAwIGUBnNhYHF6Uyn
+	vbwL03BRa9th85eAOqEHDI3KH2cnqz/HbMSE7NT3eizbyE/bk34Ud4pDRlgnGZRA
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4efqhtk9v4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 10:43:30 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 655AdCru013590;
+	Fri, 5 Jun 2026 10:43:30 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4egbqhs6aw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 05 Jun 2026 10:43:30 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 655AhQYh34865428
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 5 Jun 2026 10:43:26 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3D94420040;
+	Fri,  5 Jun 2026 10:43:26 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E1BA52004B;
+	Fri,  5 Jun 2026 10:43:24 +0000 (GMT)
+Received: from [9.111.29.71] (unknown [9.111.29.71])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  5 Jun 2026 10:43:24 +0000 (GMT)
+Message-ID: <6c3fbb6d-d4e1-4984-b584-c067be844098@linux.ibm.com>
+Date: Fri, 5 Jun 2026 11:43:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <02b1e77e-5b7e-41cb-95b6-731ed00d9e74@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sched: Further restrict the preemption modes
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Douglas Freimuth <freimuth@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>, mingo@kernel.org,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        mgorman@suse.de, vschneid@redhat.com, clrkwllms@kernel.org,
+        linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+        Hendrik Brueckner <brueckner@linux.ibm.com>
+References: <20251219101502.GB1132199@noisy.programming.kicks-ass.net>
+ <182f110b-ac63-4db4-8b01-0e841639bc39@linux.ibm.com>
+ <a7180379-04f5-4f61-b60a-0ff7cf85134d@linux.ibm.com>
+ <ec3987e3-4eb7-4d07-be9e-bd8dc9ad176f@linux.ibm.com>
+ <08307223-88ad-4550-963e-5d1ee315023c@linux.ibm.com>
+ <a3bbf315-536f-429e-afb2-adcbf508a66f@linux.ibm.com>
+ <20260303115235.GQ1282955@noisy.programming.kicks-ass.net>
+Content-Language: en-GB
+From: Ciunas Bennett <ciunas@linux.ibm.com>
+In-Reply-To: <20260303115235.GQ1282955@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: Tr7eG8kL6PEG0-UCaru3G2vn1OwaOGGL
+X-Authority-Analysis: v=2.4 cv=fv/sol4f c=1 sm=1 tr=0 ts=6a22a853 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=gvEKT50zYTi1MNGVV_wA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDEwMyBTYWx0ZWRfX/LYYe1ufiFjU
+ gtEFAD5gt8KSfDY1L5f8KXkfLpp5bl0YjP99OQOzwS0T5UJPjwwSb4V/qwcN4W8I3gkW746UYtA
+ vRNTzgI8lYE5tFHRBA6IcFnprBPNjryvaDAOJaMFfMOumTt+sEjliAPG1kCrfVu0WIW3odZEZay
+ 2NL5YS7oJeVk8O+Vfy2DUuC5qF8rYwOfb5Rcg7tBMhBHMf4nvqR1uIyFmgEGPEon/TfMOQgpQEn
+ OY7DNSGCqTTWf4Ou6zRc1fYVhGN6ansbBR0EJqPrbh2FbM4KtZyO8BJHOkd6xpuLQTB8uxVA87q
+ fM7loxkK80HqV3NFX1I9viL74gHHbRPAoxP1B760yNi9lZr1a1S8WM57clnbXxrIxMmn5obGOAj
+ zd7z6ZZbHydNR4vJOGlPt8ZvmbMLsrDbwD58paH/M13Fuf872WqTgfpVPFDYMLgp1SNOnAfxyPo
+ 8yzBTJGKmR+xZsZfx6w==
+X-Proofpoint-ORIG-GUID: XIXh7faptC_ugcIJ2ifINDrutanU6P0c
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-05_01,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011
+ impostorscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050103
 
-On 2026-06-05 09:12:09 [+0200], Jonas Jelonek wrote:
-> Hi Sebastian,
-Hi,
 
-> >> Call rcutree_report_cpu_dead() once interrupts are disabled, mirroring the
-> >> generic CPU-hotplug offline path (and arm64's stop handling), so RCU stops
-> >> waiting on the parked CPUs and grace periods can still complete.
-> > This is part of cpuhp_report_idle_dead(). Is it now invoked twice? Or is
-> > something else missing/ different? 
+
+On 03/03/2026 11:52, Peter Zijlstra wrote:
+
+
+> This has two ramifications:
 > 
-> Those seem to be two different paths. To be honest I'm not confident
-> under which circumstances which of those paths is used to take down
-> a CPU. In my case, issuing a reboot command reaches smp_send_stop()
-> where the issue explained in the patch message then happens.
+> 1) some ping-pong workloads will turn into block+wakeup, adding
+> overhead.
 > 
+>   FULL: running your task A, an interrupt would come in, wake task B and
+>   set Need Resched and the interrupt return path calls schedule() and
+>   you're task B. B does its thing, 'wakes' A and blocks.
+> 
+>   LAZY: running your task A, an interrupt would come in, wake task B (no
+>   NR set), you continue running A, A blocks for it needs something of B,
+>   now you schedule() [*] B runs, does its thing, does an actual wakeup of
+>   A and blocks.
+> 
+> The distinct difference here is that LAZY does a block of A and
+> consequently B has to do a full wakeup of A, whereas FULL doesn't do a
+> block of A, and hence the wakeup of A is NOP as well.
+> 
+> 
+> 2) Since the schedule() is delayed, it might happen that by the time it
+> does get around to it, your task B is no longer the most eligible
+> option.
+> 
+> Same as above, except now, C is also woken, and the schedule marked with
+> [*] picks C, this then results in a detour, delaying things further.
+> 
+> 
+>
 
-Does 
-	echo 0 > /sys/devices/system/cpu/cpu1/online
+Hi Peter,
+I wanted to share an update/findings from the investigations that I carried out for the issue mentioned above.
 
-lead to the same problem?
+Quick refresh:
+Workload: uperf sending TCP data between two VMs (client and server), each configured with a single vhost queue (min vhost ques for testing)
+Issue: With lazy preemption as the default preemption mode where previously it was full preemption, there is a significant drop in performance for this workload
 
-I missed that arm64 has also this but only if the online path fails kind
-of early, see
-	04e613ded8c26 ("arm64: smp: Tell RCU about CPUs that fail to come online")
+Simplification of the issue
+We have two tasks:
 
-so this not the "normal" case but an exception. Mips seems to be doing
-something different here. I am not sure if this is the only thing that
-is missing.
+TaskA produces data
+TaskB consumes the data produced by TaskA
 
-> Best,
-> Jonas
+Notification path: TaskA informs TaskB that new data is available by adding a new item to a workqueue. This triggers a kworker which runs and notifies TaskB.
 
-Sebastian
+Issue
+TaskA is configured to use schedule_work(). Internally, schedule_work() uses system_percpu_wq, which is configured as:
+<WQ_PERCPU = 1 << 8, /* bound to a specific cpu */>
+
+This means the workqueue item will be woken up and executed on the same CPU that queued the work.
+If the task that queues the work (TaskA) is a long-running task with limited opportunities to call schedule(), then the kworker may be delayed significantly before it gets CPU time.
+In our scenario:
+
+TaskA continuously produces data
+There is no dependency requiring TaskA to yield due to TaskB
+As a result, TaskA can occupy the CPU for an entire tick before being preempted by the kworker
+
+Observed behavior
+This is exactly what we observe in practice:
+
+TaskB corresponds to the VM consuming data generated by our vhost task
+When running uperf, this behavior leads to a significant drop in throughput (Gb/s)
+The VM is unable to consume data in a timely manner
+When it is finally notified of new data, the delayed signaling introduces jitter
+This causes TCP issues, including retransmissions and out-of-order packets
+
+Results:
+   |--------------+-----+------------------+------------------------|
+   | preempt mode | Gbs | workqueue pool   | kworker latency avg ms |
+   |--------------+-----+------------------+------------------------|
+   | full         | ~50 | system_percpu_wq |                  0.002 |
+   | lazy         | ~13 | system_percpu_wq |                  0.721 |
+   | lazy         | ~50 | system_dfl_wq    |                  0.005 |
+   |--------------+-----+------------------+------------------------|
+
+So I did some more testing and if I use a different workqueue pool the system_dfl_wq the TP was good again, as you can see in the results table.
+Since the kworker is not CPU-bound, the scheduler has flexibility to select a more suitable CPU for execution.
+
+  /* system_dfl_wq is unbound workqueue.  Workers are not bound to
+   * any specific CPU, not concurrency managed, and all queued works are
+   * executed immediately as long as max_active limit is not reached and
+   * resources are available. */
+
+Given this understanding, what would be the best approach here? Should we consider changing the workqueue usage in the KVM code, or do you see an alternative way to address this issue?
+
