@@ -1,110 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D485A3093B8
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 14:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC03283C87
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 17:18:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780668019; cv=none; b=uKcegG8dMc0evKgtaRqPXpqNgH2vL2BpKkrQO4cjVe/5U+0xzqSZfX+AJaccfvIrr2fZr0KT76HjXtOiABCKxdGqexzjRiUh0qSZUeuVpwdfqISOeLNoRbuvNXCy6Atci4o7s5IMeDuZGuQFeZzBDcJHOg++79mn5y7qCYiKfYA=
+	t=1780679901; cv=none; b=d5PqeDdWTNsDNmrhoiyKlSS9AAhfkgH9EeuZgv08z27bHexZDNT0IopnweheTv6A9rkew94HjfyllRIS6r2eULp0zUOlDhbEJP7gQKtseiQx7ilGE4wz9hHlRVV47hsA7OxHC9vFC/9vKhUTbANN7fbW7HQ4Ol/B5D8J4Y0+D0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780668019; c=relaxed/simple;
-	bh=ebywEsxxKbL2+zsAIchA15obBZB4MLLsCZr+gFmuelA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=puKVEC9RkKegQGQxlqO/+cCQywGdn9S3iAYIEQI/Ppmw6cN/NnYs4hPxu82h1Uct5Kabbm+WQbVZZXrPct9o6IAYnKNG+YTMLp6SfhkweaF6Hwnh70pd8ioDJfs4kkPwRBEV5s/M0Wi6EydLL7JqYosnOVJJGQKtb5pAnUbUoxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cu554xrP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780679901; c=relaxed/simple;
+	bh=O3RQ+OLu3sKR3qH4v5ECSihvluWb5n/3NqvLKtMGYi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IxCN1FCCBLwjOJWrR8ixxmBdaCOXjwZX/b0ztTpTxPW4Em/2hs3u4tp8a1j8GHf/w3z2LcVu0iEo7LOuttZ/5+P9qFOe4H0gIHrkMowwlVfpcq43Gux3aJTkcLOa5cN7JSJpCBlLuuQGFuacTT2a0eNEYd5OnAUX6+0xWGqVXF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=beKELJu5; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cu554xrP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A01781F0089A
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 14:00:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780668018;
-	bh=ebywEsxxKbL2+zsAIchA15obBZB4MLLsCZr+gFmuelA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Cu554xrPEYXRxYOMCuS7upLvXT+tb9DHc7DXLinqNos6IRwxD2UvQ8k++fnjPLnGp
-	 lFc7X3UbYNURobBRhiXAzUulSH12f+Y5VUf9XKudY6NOn8GBm1h5purhS6RJsOeIw9
-	 t73tHXpWoo6SHnK2F1NPgtOQni3pRRF5vvOw4VRxyPBLM13h5mZnpieXvwD4/sA56g
-	 9S5YgVFjHNxo35UzkOrM3qSkXw6Pky7oHe4IfpXKVzphBN8jHOkDxTg27EyKSaL/11
-	 t9+hORLFsqGHj/i6upTZOaNGQ4IsG2hhUf1ew+DtqTFJe5C2WrDkomF1Ok381SoGav
-	 m5LjgYkhb9chg==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bebc80100efso212865566b.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 05 Jun 2026 07:00:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+xjWxupRWwwZoI42QF2MGPEH5VpfW9ucA1ZLgt711Vdw3R3YZ8WhjxXgcOtURnUHmMa0h153OMIys9c/KAkQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCusmD/190N4hk50uzGhyN0DPAi2wYleWASu+k+yGavrZfbjRN
-	HLAFpePKDMHNhedN0Q9adL7i6gUeis3QYNBkdZwdyPTksnTN2RhmOJBGfe6RM/kQeSW6rStQF/t
-	AH4n3w0Q6ZSsUYtO1kwQHjet7Ux11Iuo=
-X-Received: by 2002:a17:907:6eac:b0:bee:e2a2:bdbf with SMTP id
- a640c23a62f3a-bf37234cfe1mr192070966b.29.1780668017308; Fri, 05 Jun 2026
- 07:00:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="beKELJu5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780679899;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NZFJgaGSPZ85nAai8ura62PQcmITN13W/WYFfpUcB20=;
+	b=beKELJu52rNIlkbHSSYr98uVqEMWW6ECna2PjyuS4/DfGc3x/+3Flxh5jVkNaPENbKzHbI
+	84Z7NURnDUhOpMM3/Tv0Z9bExycE0JIdHPeQce0YSHktUfg/9EDD//eRguy5ypKB54Kp7P
+	0HUZBFkY1hAItuO4XGnB83AVCCbpQ1Q=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-RhCywwyQNYyMB-R_4nnpRA-1; Fri,
+ 05 Jun 2026 13:18:11 -0400
+X-MC-Unique: RhCywwyQNYyMB-R_4nnpRA-1
+X-Mimecast-MFC-AGG-ID: RhCywwyQNYyMB-R_4nnpRA_1780679890
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE4BF180034B;
+	Fri,  5 Jun 2026 17:18:09 +0000 (UTC)
+Received: from [10.22.88.138] (unknown [10.22.88.138])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1C38227A;
+	Fri,  5 Jun 2026 17:18:07 +0000 (UTC)
+Message-ID: <70e3c4e4-7a20-413c-be2b-75f1b18edc54@redhat.com>
+Date: Fri, 5 Jun 2026 13:18:07 -0400
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260604182407.3109536-1-jelonek.jonas@gmail.com>
- <20260605064250.q0aRKkon@linutronix.de> <02b1e77e-5b7e-41cb-95b6-731ed00d9e74@gmail.com>
-In-Reply-To: <02b1e77e-5b7e-41cb-95b6-731ed00d9e74@gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 5 Jun 2026 22:00:07 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7_hQXJ4MDrA0UK15s8XmN5O9WCzFUTYcG2+hxfaCv1fw@mail.gmail.com>
-X-Gm-Features: AVVi8Ccj2ID3S2NrbDXgi-84Inp_5CSLtHYPff-HzGOCcbZyzbO8RRJT77sw1x0
-Message-ID: <CAAhV-H7_hQXJ4MDrA0UK15s8XmN5O9WCzFUTYcG2+hxfaCv1fw@mail.gmail.com>
-Subject: Re: [PATCH] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
-To: Jonas Jelonek <jelonek.jonas@gmail.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	linux-mips@vger.kernel.org, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 5, 2026 at 3:28=E2=80=AFPM Jonas Jelonek <jelonek.jonas@gmail.c=
-om> wrote:
->
-> Hi Sebastian,
->
-> I'm not an expert in this area so please correct me if some claim or
-> explanation is wrong.
->
-> On 05.06.26 08:42, Sebastian Andrzej Siewior wrote:
-> > On 2026-06-04 18:24:07 [+0000], Jonas Jelonek wrote:
-> > =E2=80=A6
-> >> This issue popped up during kernel bump downstream in OpenWrt from
-> >> 6.18.33 to 6.18.34, since the suspected change has been backported to
-> >> 6.18 stable branch [1].
-> > I would avoid the link and simply write after the backport of the patch
-> > or so.
->
-> Fine with that, I can adjust that in a v2.
->
-> >> Call rcutree_report_cpu_dead() once interrupts are disabled, mirroring=
- the
-> >> generic CPU-hotplug offline path (and arm64's stop handling), so RCU s=
-tops
-> >> waiting on the parked CPUs and grace periods can still complete.
-> > This is part of cpuhp_report_idle_dead(). Is it now invoked twice? Or i=
-s
-> > something else missing/ different?
->
-> Those seem to be two different paths. To be honest I'm not confident
-> under which circumstances which of those paths is used to take down
-> a CPU. In my case, issuing a reboot command reaches smp_send_stop()
-> where the issue explained in the patch message then happens.
-I think I know the reason. Halt/poweroff/reboot doesn't call cpu
-hotplug functions to disable non-boot cpus, instead it only calls
-migrate_to_reboot_cpu() and then goto the arch-specific code. And
-arch-specific code also doesn't call cpu hotplug functions, it only
-calls smp_send_stop() to send IPIs to non-boot cpus, then non-boot
-cpus call stop_this_cpu(). This is why stop_this_cpu() needs
-rcutree_report_cpu_dead().
-
-Huacai
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] debugobjects: Don't call fill_pool() in early boot
+ hardirq context
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20260603195250.362595-1-longman@redhat.com>
+ <20260605063115.ff4VR-pH@linutronix.de>
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260605063115.ff4VR-pH@linutronix.de>
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: Qmn8FFbjjsvaKIosaeds0mEpHDGM61jvUZNZ0kpRdqk_1780679890
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+On 6/5/26 2:31 AM, Sebastian Andrzej Siewior wrote:
+> On 2026-06-03 15:52:50 [-0400], Waiman Long wrote:
+>> When booting a debug PREEMPT_RT kernel on an arm64 system with grace
+>> processor, the following lockdep warning was reported during early boot.
+>>
+>>    ================================
+>>    WARNING: inconsistent lock state
+>>    7.1.0-rc4-test+ #1 Not tainted
+>>    --------------------------------
+>>    inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+>>    swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
+>>    ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
+>>      :
+>>    Call trace:
+>>      :
+>>     rt_spin_lock+0xa0/0x400
+>>     get_from_partial_node+0x74/0xa0
+>>     ___slab_alloc+0x94/0x4f8
+>>     kmem_cache_alloc_noprof+0x2d4/0x598
+>>     kmem_alloc_batch+0x54/0x170
+>>     fill_pool+0x12c/0x438
+>>     debug_objects_fill_pool+0x58/0x60
+>>     debug_object_activate+0xfc/0x3d0
+>>     add_timer_on+0x250/0x3a0
+>>     add_interrupt_randomness+0x2d4/0x340
+>>     handle_percpu_devid_irq+0x2e0/0x4e0
+>>     handle_irq_desc+0xc0/0x120
+>>     generic_handle_domain_irq+0x20/0x40
+>>     __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
+>>     gic_handle_irq+0x7c/0xe0
+>>     call_on_irq_stack+0x30/0x48
+>>     do_interrupt_handler+0x134/0x158
+>>     el1_interrupt+0x48/0xb0
+>>      :
+> I would strip that backtrace since it is obvious from the description
+> below.
+
+Sure. I can do that.
+
 >
-> > Sebastian
+>> During early boot, interrupts are getting enabled before the scheduler
+>> is enabled. In this window (before SYSTEM_SCHEDULING is set) interrupts
+>> can fire and attempt to fill the pool from within the hardirq. This can
+>> lead to a deadlock the interrupt occurred while in the memory allocator.
+>>
+>> Add a new can_fill_pool() helper and reorder the exception rule and
+>> forbid this scenario by excluding allocations from hardirq.
+>>
+>> Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
+>> Co-developed-by: Waiman Long <longman@redhat.com>
+>> Co-developed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Thanks,
+Longman
 >
-> Best,
-> Jonas
+> Sebastian
 >
+
