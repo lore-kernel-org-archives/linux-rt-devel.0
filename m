@@ -1,132 +1,134 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC03283C87
-	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 17:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9212EC0A4
+	for <linux-rt-devel@lists.linux.dev>; Fri,  5 Jun 2026 17:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780679901; cv=none; b=d5PqeDdWTNsDNmrhoiyKlSS9AAhfkgH9EeuZgv08z27bHexZDNT0IopnweheTv6A9rkew94HjfyllRIS6r2eULp0zUOlDhbEJP7gQKtseiQx7ilGE4wz9hHlRVV47hsA7OxHC9vFC/9vKhUTbANN7fbW7HQ4Ol/B5D8J4Y0+D0o=
+	t=1780680433; cv=none; b=o/H3VxFsS2csgljxsJTo/buBnS4LMQI2UYGPi5pZgT8pTrxEg0u6yQFNFBxlWe77k8cPbR8yg28aumS15Od93h4sXZCgvujOQG8MWY6jSiZTr2lbI349VLvlBSNsR+oynDkwmpCK5SWAUZqnIO9Xhsa1eBXnupPSTEpMH6S/aN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780679901; c=relaxed/simple;
-	bh=O3RQ+OLu3sKR3qH4v5ECSihvluWb5n/3NqvLKtMGYi0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IxCN1FCCBLwjOJWrR8ixxmBdaCOXjwZX/b0ztTpTxPW4Em/2hs3u4tp8a1j8GHf/w3z2LcVu0iEo7LOuttZ/5+P9qFOe4H0gIHrkMowwlVfpcq43Gux3aJTkcLOa5cN7JSJpCBlLuuQGFuacTT2a0eNEYd5OnAUX6+0xWGqVXF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=beKELJu5; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780680433; c=relaxed/simple;
+	bh=puyYkxbUqmwYn1D+z/2yjwH5aLoZeHUM4d342S4Qc1c=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P8pfSMShdvSkoM+M0Kwy4ERff5oS1XT1MNxBziYCpeYEPL1o0gqAovpgXPmwSezulLnQycleE2hLzXaeAx30aYunpc3lMK3ef0rzpmudKtcQrLvriGRVx6CsS8XfKGZJouM5Yus6umbcuX+4BPyZaglhXwerNBCHcPfv+bpzEXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=Ios0mw96; arc=none smtp.client-ip=89.208.246.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="beKELJu5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780679899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NZFJgaGSPZ85nAai8ura62PQcmITN13W/WYFfpUcB20=;
-	b=beKELJu52rNIlkbHSSYr98uVqEMWW6ECna2PjyuS4/DfGc3x/+3Flxh5jVkNaPENbKzHbI
-	84Z7NURnDUhOpMM3/Tv0Z9bExycE0JIdHPeQce0YSHktUfg/9EDD//eRguy5ypKB54Kp7P
-	0HUZBFkY1hAItuO4XGnB83AVCCbpQ1Q=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-RhCywwyQNYyMB-R_4nnpRA-1; Fri,
- 05 Jun 2026 13:18:11 -0400
-X-MC-Unique: RhCywwyQNYyMB-R_4nnpRA-1
-X-Mimecast-MFC-AGG-ID: RhCywwyQNYyMB-R_4nnpRA_1780679890
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="Ios0mw96"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xry111.site;
+	s=default; t=1780680425;
+	bh=y2PRG9+UXB8P/bXeCP8UwBiN5t2FEk6r0MqpdXeuOVs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Ios0mw96gcMBsJV5nmAZOuPjK+zZ/6vJ88EvH5Cmil0ta3YiXbQvW6mq2QaRYZSqv
+	 x5TwzUkS8McuZX0NEUBG30m6A55n9bgMLEwtDzX0PhFZu3PHWLAy4cSTEL/QxV4mZq
+	 /XOmALlYrJAaTjpdDemdavGJAqcmTVlQLzofoaqw=
+Received: from [IPv6:2408:824e:307:6541:546a:40ae:5851:c0ef] (unknown [IPv6:2408:824e:307:6541:546a:40ae:5851:c0ef])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE4BF180034B;
-	Fri,  5 Jun 2026 17:18:09 +0000 (UTC)
-Received: from [10.22.88.138] (unknown [10.22.88.138])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1C38227A;
-	Fri,  5 Jun 2026 17:18:07 +0000 (UTC)
-Message-ID: <70e3c4e4-7a20-413c-be2b-75f1b18edc54@redhat.com>
-Date: Fri, 5 Jun 2026 13:18:07 -0400
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (secp384r1) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id 4E19965982;
+	Fri,  5 Jun 2026 13:27:00 -0400 (EDT)
+Message-ID: <6be1cdd5f91dd7418a32ff372a6f3ae259b19195.camel@xry111.site>
+Subject: Re: [PATCH v2] irq_work: Fix use-after-free in irq_work_single on
+ PREEMPT_RT
+From: Xi Ruoyao <xry111@xry111.site>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev, 
+ Steven Rostedt <rostedt@goodmis.org>, Clark Williams
+ <clrkwllms@kernel.org>, "Peter Zijlstra (Intel)"	 <peterz@infradead.org>,
+ linux-kernel@vger.kernel.org, Mingcong Bai	 <jeffbai@aosc.io>, Henry Chen
+ <chenx97@aosc.io>, Huacai Chen	 <chenhuacai@kernel.org>, Yao Zi
+ <ziyao@disroot.org>
+Date: Sat, 06 Jun 2026 01:26:55 +0800
+In-Reply-To: <20260605104530.LDbF5MDD@linutronix.de>
+References: <20260330073234.303732-1-jiayuan.chen@linux.dev>
+	 <20260402065015.JKszGSXu@linutronix.de>
+	 <52db48708d5a7fbcd146745c4288e567424c909a.camel@xry111.site>
+	 <20260605104530.LDbF5MDD@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] debugobjects: Don't call fill_pool() in early boot
- hardirq context
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- Andrew Morton <akpm@linux-foundation.org>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260603195250.362595-1-longman@redhat.com>
- <20260605063115.ff4VR-pH@linutronix.de>
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260605063115.ff4VR-pH@linutronix.de>
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-X-Mimecast-MFC-PROC-ID: Qmn8FFbjjsvaKIosaeds0mEpHDGM61jvUZNZ0kpRdqk_1780679890
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
+On Fri, 2026-06-05 at 12:45 +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-06-05 18:31:41 [+0800], Xi Ruoyao wrote:
+> > Hi,
+> >=20
+> > This commit significantly slows down execve() (and perhaps other things=
+)
+> > on MIPS.=C2=A0 A very simple program:
+>=20
+> This is probably originating from sched_mm_cid_exit(). Can you check?
 
-On 6/5/26 2:31 AM, Sebastian Andrzej Siewior wrote:
-> On 2026-06-03 15:52:50 [-0400], Waiman Long wrote:
->> When booting a debug PREEMPT_RT kernel on an arm64 system with grace
->> processor, the following lockdep warning was reported during early boot.
->>
->>    ================================
->>    WARNING: inconsistent lock state
->>    7.1.0-rc4-test+ #1 Not tainted
->>    --------------------------------
->>    inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
->>    swapper/0/0 [HC1[1]:SC0[0]:HE0:SE1] takes:
->>    ffff0000803346a0 (&n->list_lock){?.+.}-{3:3}, at: get_from_partial_node+0x74/0xa0
->>      :
->>    Call trace:
->>      :
->>     rt_spin_lock+0xa0/0x400
->>     get_from_partial_node+0x74/0xa0
->>     ___slab_alloc+0x94/0x4f8
->>     kmem_cache_alloc_noprof+0x2d4/0x598
->>     kmem_alloc_batch+0x54/0x170
->>     fill_pool+0x12c/0x438
->>     debug_objects_fill_pool+0x58/0x60
->>     debug_object_activate+0xfc/0x3d0
->>     add_timer_on+0x250/0x3a0
->>     add_interrupt_randomness+0x2d4/0x340
->>     handle_percpu_devid_irq+0x2e0/0x4e0
->>     handle_irq_desc+0xc0/0x120
->>     generic_handle_domain_irq+0x20/0x40
->>     __gic_handle_irq_from_irqson.isra.0+0x3c4/0x708
->>     gic_handle_irq+0x7c/0xe0
->>     call_on_irq_stack+0x30/0x48
->>     do_interrupt_handler+0x134/0x158
->>     el1_interrupt+0x48/0xb0
->>      :
-> I would strip that backtrace since it is obvious from the description
-> below.
+I've not checked that yet (I have to admit I don't really know how).
 
-Sure. I can do that.
+On the other hand, Yao Zi told me she speculated this might be related
+to the lack of arch_irq_work_raise on MIPS.  For mips/loongson64 the IPI
+support is already there and we only need 16 lines to implement
+arch_irq_work_raise:
 
->
->> During early boot, interrupts are getting enabled before the scheduler
->> is enabled. In this window (before SYSTEM_SCHEDULING is set) interrupts
->> can fire and attempt to fill the pool from within the hardirq. This can
->> lead to a deadlock the interrupt occurred while in the memory allocator.
->>
->> Add a new can_fill_pool() helper and reorder the exception rule and
->> forbid this scenario by excluding allocations from hardirq.
->>
->> Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
->> Co-developed-by: Waiman Long <longman@redhat.com>
->> Co-developed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
->> Co-developed-by: Thomas Gleixner <tglx@linutronix.de>
->> Signed-off-by: Waiman Long <longman@redhat.com>
-> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Thanks,
-Longman
->
-> Sebastian
->
+diff --git a/arch/mips/include/asm/irq_work.h b/arch/mips/include/asm/irq_w=
+ork.h
+new file mode 100644
+index 000000000000..2695e0f94f2f
+--- /dev/null
++++ b/arch/mips/include/asm/irq_work.h
+@@ -0,0 +1,4 @@
++static inline bool arch_irq_work_has_interrupt(void)
++{
++	return IS_ENABLED(CONFIG_MACH_LOONGSON64) && IS_ENABLED(CONFIG_SMP);
++}
+diff --git a/arch/mips/include/asm/smp.h b/arch/mips/include/asm/smp.h
+index 2427d76f953f..30a036e5bfc4 100644
+--- a/arch/mips/include/asm/smp.h
++++ b/arch/mips/include/asm/smp.h
+@@ -50,6 +50,8 @@ extern int __cpu_logical_map[NR_CPUS];
+ #define SMP_CALL_FUNCTION	0x2
+ /* Octeon - Tell another core to flush its icache */
+ #define SMP_ICACHE_FLUSH	0x4
++/* Loongson 3 - IRQ work */
++#define SMP_IRQ_WORK 0x8
+=20
+ /* Mask of CPUs which are currently definitely operating coherently */
+ extern cpumask_t cpu_coherent_mask;
+diff --git a/arch/mips/loongson64/smp.c b/arch/mips/loongson64/smp.c
+index 147acd972a07..e584299d0fde 100644
+--- a/arch/mips/loongson64/smp.c
++++ b/arch/mips/loongson64/smp.c
+@@ -381,6 +381,13 @@ loongson3_send_ipi_mask(const struct cpumask *mask, un=
+signed int action)
+ 		ipi_write_action(cpu_logical_map(i), (u32)action);
+ }
+=20
++#ifdef CONFIG_IRQ_WORK
++void arch_irq_work_raise(void)
++{
++	loongson3_send_ipi_single(smp_processor_id(), SMP_IRQ_WORK);
++}
++#endif
++
+ static irqreturn_t loongson3_ipi_interrupt(int irq, void *dev_id)
+ {
+ 	int cpu =3D smp_processor_id();
+@@ -397,6 +404,9 @@ static irqreturn_t loongson3_ipi_interrupt(int irq, voi=
+d *dev_id)
+ 		irq_exit();
+ 	}
+=20
++	if (action & SMP_IRQ_WORK)
++		irq_work_run();
++
+ 	return IRQ_HANDLED;
+ }
 
+With this the performance indeed becomes normal.
+
+--=20
+Xi Ruoyao <xry111@xry111.site>
