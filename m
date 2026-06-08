@@ -1,135 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010060.outbound.protection.outlook.com [52.101.69.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDC83191D3
-	for <linux-rt-devel@lists.linux.dev>; Mon,  8 Jun 2026 02:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780885412; cv=none; b=jMJAI3rnbqh9cUciJj2EBnAFtitDQx0qiw5cdLmB/vsbe5XEfTwLBin/amykRNT1OAj1WagI/Y5pbVAGQJamW8BI5866ZUIqWR88UTizMzBOHjd3IsKRQJSMKMeU07MzGlcalGTmr+P8vt7gW4jd3YUApQwdPOJwB3LC6mrgIUQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780885412; c=relaxed/simple;
-	bh=5uEFQX5H+pvZr1FacZzRG6H2gRVcWvvvASwYlGJkkl4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=VQz+YthNhJ7W9Zmj0Gr9F1qhsndsoXWOQjgvRsYkTMRxhG3RDaqyNJeAWZqK3nyjOQd+DU98oHmtEJNAq9DSm3sE87hBNSmP7/8I7BCB57qB689KlVTKN1qIMiYyRFmfHjbDxnPuf6h6gXUxg//rKM4X7KGbN0eJwa5lamYtiSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PmpOOdIG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992582BCF45;
+	Mon,  8 Jun 2026 04:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780894705; cv=fail; b=IBoE85+gzWfs+0qcrbz8y7odVjuG8qb9lEfkNm0qqFmHAwNze2jmpDOT8VgbWqPBs/9mwRUsWMbqMmLxFbTvBkVYT77R7MF2axpPETLIvMjT4C+iDoCpS37yYgsID0W4YSZFJ0NRgChOM9LjPkk3pgv7Q8fNVuPlzgvRTREb3XQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780894705; c=relaxed/simple;
+	bh=eq+EBPrrJ4j9m3qGYq75uTZkEmeVQbiKyykN+zX9Wt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BRKKxxLFZ7bvKDRUkeLiLRFaNZ8+ostVa9uyqV0+qYEGOWhlquMf/r7lKLMId3CljwaKwzapC1dzT0CnGgsUtOy8arWIa8ah6nZaa5+b7swshemvIwdne/8/eDEQ6mVKQY//brI1I0fE2Qn3z0Wf7vcesRaX90fh4V+mQTwl+1k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=W5MB5p+A; arc=fail smtp.client-ip=52.101.69.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PmpOOdIG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780885410;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O4pjEPP6UIRdrTl3K9yWNXm50pFPMXWUEr7RuLd2pZY=;
-	b=PmpOOdIGVKzmjoeppaKibtuRR01E5gx+nLbOyqLJa8wHhXoQjAj7yvV2kon3+5TGDJZg/C
-	BKiMeJOcpfijorG3ygqyxSh2ZrvgD9fDGv9t2ElElChhNy66vhNKxw+uOCmrazVq2RGaUS
-	rh588ydPfPBqQ6JDwM9drajpLCvKJKo=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-19-7ihvBpDDPgatnrQ6QHPnvw-1; Sun,
- 07 Jun 2026 22:23:24 -0400
-X-MC-Unique: 7ihvBpDDPgatnrQ6QHPnvw-1
-X-Mimecast-MFC-AGG-ID: 7ihvBpDDPgatnrQ6QHPnvw_1780885402
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 570AB180047F;
-	Mon,  8 Jun 2026 02:23:22 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.52])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D083519560A2;
-	Mon,  8 Jun 2026 02:23:20 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="W5MB5p+A"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PzZpsnph6q34NUFllHEb5u1uVv7M+xKscICuA4rDUf9LV8oWsqZWZB2w4WDZya9ztWoyBQVZymHeUztwThOfy0RMs1kywehlJxJO1/Qh4fMN5p2Ce/w3bw87Z0udOUkKCYvqhXNbW/8YdGEWO8wWxA+J/s3iDS7EuOm/R+Yo5LGjwgtVn91TQJcKAnIAqhjInj6jAoKEvlF12/cXtq7SNztymawCLneylZtFrS/JYc2CRVI+uHj8tW3D1gPlYWFERCmJgLfO+jAhLjlSJYM+V/1hEfymbIlm1KHPwiTkYmB8QOJwtBD085Z578cYTd/FSgD70PSmWFjtU/7iHQbc+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fNAwKG7xlvnTpBIKfkcmGtlvt5yoYIgOZsKUTAUu+h8=;
+ b=KSk/OJ/VVpTg58WNulsWlE9/EEJZGjlhlQM6m8B5a3YrT3qzOfZZHSscL3Jcw6QT68Kw4IVj4kbYSlqieBWEeUhGzF9jRD+O8xifbh5aQuNc7sJHoWBQ4Oi+zydeehZ6Ur4PYDF55iMc3hCtH7Cy2aSG0fENsVKfWdqsB26bMEvFpM3uGPzcmJRjxv7mycN1AeOlom9rtv+OrKNTjtjBebj8jWXmi72iNmZmYWIZwFbEvzTMeC5JlKR1N/gVd5TozzKHgXsp1uLDQEwGV3QGLvk8MNQxB/eeV4M/K3QzEguDeQc5K0PZ178i7Lv9os6gqRnCBO7dFN9JqEVANzDE/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fNAwKG7xlvnTpBIKfkcmGtlvt5yoYIgOZsKUTAUu+h8=;
+ b=W5MB5p+AZLTCk8CKlMWtidNURtZOTzy4KZbB5Ww15aCK+q094pY7SkWflhhjKe8JQdVt/238siGoreBTbG9uN/CQQ6SQvnnAWgHSefUJJCaP/BrUSzgbRrciG0DW203BIpQDtbW0oN3Iisbd9SVjNardmWDB+u0jXzItS/adCHo47xUu4mSKyrt5FWFYTwZgE4L1hEfZ5VBsJESEZoV3FmMMw+vHhHh+wq0aqtyaBifuKQ/rn8ZlEmP/QzA4PavFawluLW7p5ajPCFtnkeNHwPKlXkU0n+/43aUNVCUlbDbgiJudTDzc4tWS8hbgHRFOhm7XL3w6Pzapk3YiPXjy4Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MRWPR04MB12330.eurprd04.prod.outlook.com (2603:10a6:501:7f::23)
+ by MI3PR04MB12439.eurprd04.prod.outlook.com (2603:10a6:290:74::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.10; Mon, 8 Jun 2026
+ 04:58:19 +0000
+Received: from MRWPR04MB12330.eurprd04.prod.outlook.com
+ ([fe80::ca22:f8c8:6aca:7889]) by MRWPR04MB12330.eurprd04.prod.outlook.com
+ ([fe80::ca22:f8c8:6aca:7889%6]) with mapi id 15.21.0092.010; Mon, 8 Jun 2026
+ 04:58:19 +0000
+Date: Mon, 8 Jun 2026 13:01:19 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH v6 2/2] debugobjects: Don't call fill_pool() in early boot hardirq context
-Date: Sun,  7 Jun 2026 22:22:22 -0400
-Message-ID: <20260608022222.723265-3-longman@redhat.com>
-In-Reply-To: <20260608022222.723265-1-longman@redhat.com>
-References: <20260608022222.723265-1-longman@redhat.com>
+Subject: Re: [PATCH v2 1/9] mailbox: imx: Add a channel shutdown field
+Message-ID: <aiZMnxH4qn/1fONa@shlinux89>
+References: <20260603-imx_mbox_rproc-v2-0-a0059dc3b69a@linutronix.de>
+ <20260603-imx_mbox_rproc-v2-1-a0059dc3b69a@linutronix.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603-imx_mbox_rproc-v2-1-a0059dc3b69a@linutronix.de>
+X-ClientProxiedBy: SG2PR06CA0240.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::24) To MRWPR04MB12330.eurprd04.prod.outlook.com
+ (2603:10a6:501:7f::23)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-MFC-PROC-ID: rBGdS4U3tBGXFOEVsZPcbd8qvYSR4e1GUbLclItvK0A_1780885402
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MRWPR04MB12330:EE_|MI3PR04MB12439:EE_
+X-MS-Office365-Filtering-Correlation-Id: 08d9d8bb-e7b5-4f3d-471f-08dec51a8e9e
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|19092799006|52116014|376014|7416014|22082099003|18002099003|6133799003|38350700014|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	Cgp+bAYnQNEGhdjugFVPDoE961uSnJdIrEpMOkGjoLBcjbUaOrygPiMWqj/xbNYa3Ilm3CeSgyTanmizBxfEjLwI13VXqoeuLvP+ZTT4DQ8wHyzHAng8EpM3qES1TS07zfjIRGnO14vq9/stho+TNAECxi5j2Sa/wRgMY3dqmKKw7X2drB64ZnEcvYQwHeVEWe+/r5bN4QAUUY74x0X1f+B0K3WOHTU0FpXA/Ev42gh3Q0Gsg5Qh7r2m8LFw8XxyBn42fczxH2nXLM/hseQFlHqZCUFbWOczd5TiGV5YyniuQP0fTm3iKiw2d4Px8s1lrQhXeVLB4MjjiI/GiblCv34RA7KDi5p/J0A+vFSFIyNXDmZURZvMo0bWCZd07ZdMlAI/0wowdHungdIJSraW/XUsKuf/Qx/VUEIlf/bCZ2Mm/c3yEVxOni3Su2anjh2tvy8OeTxDceCTUKC/kw3iBs18FGEoD1wJlJzP8WHrZBMz/DQyxzMOr6jPs1OVzTQ2afrQCAqdmViTJDbjH5ex0AdufhD7o4T6Kt6s1Tepyp7nXgcNcA9y/kIBrNoMp70wesIEgv7SWosdD2efoV7G2Pfr38VxTURXORAfS0LaYpTOgGnAiHCNpxB++phcPFYcWzOj6UW8b/nz3m9OZkw3++my4MDeKO+dRv/0yBwALmF0RcjQiS9Z8/dqSZtVj0lsOSqCHiVbx+3bGWqhjBhyt4+2nklqGozM+qhTRhtt6hyBkcog2L7Sy546bYpGp8ni
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWPR04MB12330.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(52116014)(376014)(7416014)(22082099003)(18002099003)(6133799003)(38350700014)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?SjJQUNLa11sNV9uzu6WumDpUQNaCPkR6mcSleB/53BHQh06lUOGk01X92xx2?=
+ =?us-ascii?Q?zjf8/ipoisJRZXhHk0VeUIoleecHBCN2sq53WmCv9Kryy8WIteKBSC7xrZlb?=
+ =?us-ascii?Q?7XlCXczt9muo6lMFQRnr0Ae5VhuV5PGL1xUnzcixIX9HHmjvegivYB72MOmZ?=
+ =?us-ascii?Q?9B78H3J32h4oqSBvQypbo9KJYW+VMjnPh200P4UJQEdvGL47kX+GZPJfdNER?=
+ =?us-ascii?Q?uZKaDaB3PzGEyoGem6LtCJWHVt3qLpx+66aubCKhk72bmP4Vh8uXUVdKWT4E?=
+ =?us-ascii?Q?kl9cXpWOha55UwPFIQiv9jF2MQtogtJlo7ZXFe4mgQ3scAtwinHfjY5g1ZKA?=
+ =?us-ascii?Q?ceiCnCUa3ud+gbpU5TN37sl2RTbMAYcGfbMuWF5ZbqNG1uhi9Z/J3KnDEpKq?=
+ =?us-ascii?Q?PFJlwyEmGn+Ofq5X7CTEaNjW7wG1YFzBNJIwjtOWxaqohIfh0MSuYilrBxb7?=
+ =?us-ascii?Q?Yud/RcnsWgF3jYnWy1FCiaq+taeYeVkzWywuhY8E6vUeqGCHiPJslATU/NX2?=
+ =?us-ascii?Q?ihc+PIVWtsJUHDA3HSygm4Krns0lZPF/rN5R6cWe30bnWXF+7oECHTOIv7qf?=
+ =?us-ascii?Q?ZwhGvSx6bcK7JmX/KZiZUX7U4WYc45oI9cTEPM5qkJzEhnSXfhX5I4DqbtT7?=
+ =?us-ascii?Q?gNWN0NAmWtTBdFVSurPHv2FkagcNL8t0/vGH1kins1uN5rIoc9Jz5VaQ2wAG?=
+ =?us-ascii?Q?cvNDEilJ6uBfiEzstDB9Jp5xdd8xZroyeC4cuhJFPdDmnscJWViholApLWxF?=
+ =?us-ascii?Q?ZtgMh29Yi3mvnstxtw+JsYVTxR+4mKmXi3qR3D4AcS2zJBGxrexxqTr7d3UK?=
+ =?us-ascii?Q?AjtynkMWbqRzPOB6IQ2HeA40AFDsZpy/qdCn10pplI3Ihk5yJ5QNAg3ZCrMg?=
+ =?us-ascii?Q?v9sbHRNvczVcfKO/aVmvPDaXDgCCygP7z9Mr0+5j+q0E58jo7EPg2isVi925?=
+ =?us-ascii?Q?ln6r1chno+Jj01FhOsGFCU6ze0CdCiM/ZYUp1M+Igh9N/qtunl1gfMPebqZ3?=
+ =?us-ascii?Q?Lw7F2Je9+cnUC7ABdrM3i7ghOGpsTSKetWtVxnpAVGv866VYZlDWTW4562k0?=
+ =?us-ascii?Q?szMls1XNprT/BwtnYMbRjmbFF+rpENbVnBhWlWhc/s1dS6dsF1wrBxfdfOpj?=
+ =?us-ascii?Q?LxLF0lp17o1vZ+SsHYeq1YGZJJrm3VNb80/x4/DwJ+Py2torCmHyKu1DhUux?=
+ =?us-ascii?Q?UUPVexnA82BSdL7Vp6JxUDkelf2nCdnpT/gvq4/GgMKoA61NZmoknT1PP0Rm?=
+ =?us-ascii?Q?SpyVG/nvITbAJrhbMjHO0ZebP64phPz+2EBuCEdUXCRPvjRcGo4r5+tjZFWP?=
+ =?us-ascii?Q?KbxNsrk3ienr11ZmnKgKHHGiEMdWK56ROJci8HkOhWB9vfY/Sny+x0hCo4qe?=
+ =?us-ascii?Q?kK60C9SSbCu/8bdCNrpQS958U1oUsOFu7HwHZ2rPUkPPpkk1dRDdVFeYsuH4?=
+ =?us-ascii?Q?3wHRnMhdBJ5hMVdSbLzrQQYrrpDVWFIrW7Mybcvz0pn6jIpafkIyXySfW2RD?=
+ =?us-ascii?Q?Z/aD8aS9yHaW//5TtDYJbESkt6VYpxaONV+QSSsTYgk1xrQZCMLbIdBzEA0N?=
+ =?us-ascii?Q?JUzvyRWu8Uzm1QWLaoNhYNdbOC4y+Dqw4afe77p1sAggSQphkK5LuKv3TvzD?=
+ =?us-ascii?Q?u267ipLOrlcC/hiyNPKImWUFgRBf3LjxhIdCALx89/1LkHW6EIXZRiU7sknT?=
+ =?us-ascii?Q?HP/3/rYA+VkTGW7i6g+QA4c83ze+G358y3u7ZLILOl30YAKe+ejPpr90IKTI?=
+ =?us-ascii?Q?8X6K9av6bg=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08d9d8bb-e7b5-4f3d-471f-08dec51a8e9e
+X-MS-Exchange-CrossTenant-AuthSource: MRWPR04MB12330.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 04:58:18.8776
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ItmEgrScmezjkuXwVpb5QwgAG59re+uriUBINUi3ltn22ijo40D3zKH8LbbWhqrrXGdRM3Q44hGPRmV/+aoFjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI3PR04MB12439
 
-When booting a debug PREEMPT_RT kernel on an arm64 system with grace
-processor, a "inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage"
-lockdep warning message was reported to the console.
+On Wed, Jun 03, 2026 at 03:05:04PM +0200, Sebastian Andrzej Siewior wrote:
+>sashiko complained about possible teardown problem. The scenario
+>
+> CPU 0                              CPU 1
+>  imx_mu_isr()                   imx_mu_shutdown()
+>                                   imx_mu_xcr_rmw(priv, IMX_MU_RCR, 0, IMX_MU_xCR_RIEn(priv->dcfg->type, cp->idx));
+>    imx_mu_specific_rx()
+>      imx_mu_xcr_rmw(priv, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->type, 0), 0);
+>                                   free_irq()
+>
+>The RX event remains enabled because in this short window the RX event
+>was disabled in ->shutdown() while the interrupt was active and then
+>enabled again by the ISR while ->shutdown waited in free_irq().
+>
+>This race requires timing and if happens can be problematic on shared
+>handlers if the "removed" channel triggers an interrupt. In this case
+>the irq-core will shutdown the interrupt with the "nobody cared"
+>message.
+>
+>Introduce imx_mu_con_priv::shutdown to signal that the channel is
+>shutting down. This flag is set with the lock held (by
+>imx_mu_xcr_clr_shut()). The unmask side uses imx_mu_xcr_set_act() which
+>only enables the event if the channel has not been shutdown and
+>serialises on the same lock.
+>
+>Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-During early boot, interrupts are getting enabled before the scheduler
-is enabled. In this window (before SYSTEM_SCHEDULING is set) interrupts
-can fire and attempt to fill the pool from within the hardirq. This can
-lead to a deadlock the interrupt occurred while in the memory allocator.
-
-Reorder the exception rules and forbid this scenario by excluding
-allocations from hardirq.
-
-Fixes: 06e0ae988f6e ("debugobjects: Allow to refill the pool before SYSTEM_SCHEDULING")
-Suggested-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- lib/debugobjects.c | 25 ++++++++++++++++++-------
- 1 file changed, 18 insertions(+), 7 deletions(-)
-
-diff --git a/lib/debugobjects.c b/lib/debugobjects.c
-index 1d826689611f..6fb00e08a4e2 100644
---- a/lib/debugobjects.c
-+++ b/lib/debugobjects.c
-@@ -730,18 +730,29 @@ static inline bool can_fill_pool(void)
- 		return true;
- 
- 	/*
--	 * On RT enabled kernels the pool refill must happen in preemptible
--	 * context and the task must not be blocked on a lock as that could
--	 * corrupt the PI state when blocking on a lock in the allocation path.
-+	 * On RT enabled kernels, the task must not be blocked on a lock as
-+	 * that could corrupt the PI state when blocking on a lock in the
-+	 * allocation path.
- 	 */
--	if (preemptible() && !debug_objects_is_pi_blocked_on())
-+	if (debug_objects_is_pi_blocked_on())
-+		return false;
-+
-+	/*
-+	 * On RT enabled kernels the pool refill should happen in preemptible
-+	 * context.
-+	 */
-+	if (preemptible())
- 		return true;
- 
- 	/*
--	 * Allow refilling to happen early in the boot with disabled interrupts
--	 * as long as the scheduler is not operational.
-+	 * Though during system boot before scheduling is set up, preemption is
-+	 * disabled and the pool can get exhausted. Before scheduling is active
-+	 * a task cannot be blocked on a sleeping lock, but it might hold a lock
-+	 * and if interrupted then hard interrupt context might run into a lock
-+	 * inversion. So exclude hard interrupt context from allocations before
-+	 * scheduling is active.
- 	 */
--	return system_state < SYSTEM_SCHEDULING;
-+	return system_state < SYSTEM_SCHEDULING && !in_hardirq();
- }
- 
- static void debug_objects_fill_pool(void)
--- 
-2.54.0
-
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
