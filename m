@@ -1,47 +1,47 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B003CCFDB
-	for <linux-rt-devel@lists.linux.dev>; Mon,  8 Jun 2026 14:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3BD3CB2FD
+	for <linux-rt-devel@lists.linux.dev>; Mon,  8 Jun 2026 14:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780928509; cv=none; b=Av53ueAQaAQvoI+ucPQEEeQTaGKc+35T6YpZdv1JEbbp9UxZGoVXGYk/sG/twy9C6jN6IVztq03OWmSkOKmUlor2SBA0mdVGTYF00EOF/syozhsfaH7IYnVkfXQNqN+Qw2JUNwvwYvvmqvX866ql/yaIpYOqZx+5zTNztRJoIw0=
+	t=1780928509; cv=none; b=HRpw45bvrHLf3iHz4GisdzN+pvp3XBUQuBT4tSum/YjUElmntk6xOnsfQByMtIKvz/jMA4SAaeRvBUGo/7Dj1HjxrKiPi6G0DTsOJN3wb/qPkOM1AbtOuhAxiiXlNl4pIw8P/BiP+jnRQDLtt0hTXzC5OpEFkw9NI6sM9A5+tl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780928509; c=relaxed/simple;
-	bh=5Nz2QAJkB/H07KyO3l85HCsLerC2eMRAuUu6NWvgaP8=;
+	bh=AkYj5AHtrC/uF53D3aGzzwsC2RGoqU7NdyGliCiAltE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TIxkWgu3RmRNVI2c6abksGVacmMAVm3MMYZ4FdWCvi9Zsk0GMrXKOSlHOAceQux4dTB8CeoUAQ0cJ+nfxVy2un/NFrlzTolO+XRUTwc5Nd2HQo7xNGXAwyqHri0bFpEQY4VJBedomFElPSPzLnD/Q7pOHj1KD5utbUiYjPSFzUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=el+vOkJB; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mGNnBco3; arc=none smtp.client-ip=193.142.43.55
+	 In-Reply-To:To:Cc; b=f5uyuoDM00e0J3duRUPVTCZW7Vm6a0isIVoMlagKgB4ySZ2ze8JA5pKigLYcFzSsOd4zFEC898FOKEp/IKcs+j+ykbnzTO3Y5xpPQ89tpOsbfCYjxW9037+CMUjUSEsuMaJj7oTXLeMByjNV/bJ7QoPCVZwWYjBsMdGsDg3czE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hBRoG8Zo; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=swxE7ihq; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="el+vOkJB";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mGNnBco3"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hBRoG8Zo";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="swxE7ihq"
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1780928507;
+	s=2020; t=1780928506;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nqnPZObhW4el9zMNUdbuV8wjUg6mwApi4YgJpKfJpE4=;
-	b=el+vOkJBbblW9vNwJ0lvACMGa1jc2VWYVVa8nAo5vZRS3CWTwmB/trDi9ZZgK8DsT0hmra
-	qe58VuHGmtd9DGTLZN6w2uxkuZW9NKfUw+d6uOQwakt60MgO4vMWAxKloqvVkoDjlieBDb
-	gPyq+Gk2uig4IoQ2srngzAgF03MuKLM2OhKiEq4A7NuzmoQVLYV9kBDLIX5ji1aXKksg7F
-	qug95E806KdQfFCTgNy9JXTGXvaxsyiK1zc6r0RvuPHtRKxTvDhf9j5dzU2id1WrR/Hvdh
-	uNoAotW5Hso4r9Qo3K9uxfOVjqueuayTjFlJVNsp7BRHyMV+LQFfoM7knfA0gw==
+	bh=tAloKRgByKT+tR/NHbf2IcJ2ZEGz+DigBWOf/M55hSA=;
+	b=hBRoG8ZoU+7DPdo2VGjNTKX0byeGCNXsR6cd1NCeENj1ZhX09A41ei+cGsboT0j3MA+JOh
+	ClBQdT/ce5eb042OkgMgHFatTTX6W+rwUoW4t9vI+XgbvkD8IbfkbyDKt/2OLKDiSTTg4F
+	vhEs1RUsDQgSnBsYYeGAsI0gdDVbDysS+RxVWUJbZwkizL8ve4u8whxgw33kOBB3iaRQ5H
+	Uq3JiOn/P4NTPH+R4o/MxWDCcqI7QVpKkWkbII1Gki7+8zMAeV4ecC1eLvVWLSleJFkT76
+	Ea+d/oWRg2ZDOpQNCkmH9yJNyC3DNqB6aOkD0g/ClcN0tkQxfV/9Wugng0mBkw==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1780928507;
+	s=2020e; t=1780928506;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=nqnPZObhW4el9zMNUdbuV8wjUg6mwApi4YgJpKfJpE4=;
-	b=mGNnBco31usPDxHd3COCxIWmjhfV1A7xr9J2/jVs/wKMC361eHvl23XHetzItpOhsyZ7Ew
-	kWpq86S2OWF7QVBg==
-Date: Mon, 08 Jun 2026 16:21:43 +0200
-Subject: [PATCH v4 3/5] lib/vsprintf: Use in_task() for restricted pointer
- context check
+	bh=tAloKRgByKT+tR/NHbf2IcJ2ZEGz+DigBWOf/M55hSA=;
+	b=swxE7ihqTpiY7nOCE+H2qDYVeqrnsDr9YnQkQgMYGw1UKXAcvfxPQ84MSy2lWGTzk3CWGh
+	RMeSvTaamSysKjBQ==
+Date: Mon, 08 Jun 2026 16:21:41 +0200
+Subject: [PATCH v4 1/5] locking/lockdep: Add a helper to validate the
+ locking context without a lock
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260608-restricted-pointers-final-v4-3-9a436615799e@linutronix.de>
+Message-Id: <20260608-restricted-pointers-final-v4-1-9a436615799e@linutronix.de>
 References: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
 In-Reply-To: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -65,37 +65,56 @@ To: Andrew Morton <akpm@linux-foundation.org>,
  Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>
 Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780928505; l=952;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780928505; l=1669;
  i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=5Nz2QAJkB/H07KyO3l85HCsLerC2eMRAuUu6NWvgaP8=;
- b=S6u3eOY7QuoEqaZMq8W1yEluiCU5E9tmqMWrN6JhcuAQF7txkMo3HNj5g4taS0nbZwKBPVDof
- RlKiO/+VQELDrgtmIWq15nWmsNyz/kN6BFpyMBOKCSQ5a5hDZ6UXowg
+ bh=AkYj5AHtrC/uF53D3aGzzwsC2RGoqU7NdyGliCiAltE=;
+ b=YnGcL7veYxjdmGNkarldtLIpJtAcjUgRhGWlvdPBZoGclDU+xcfOVphcAsRhPYNLVDb+OLWiB
+ 5D4Z7l+3vL4AJ/szNpx0lbOZq/KqSoTzarHxUoDAC7lGpdVs/wSCw3t
 X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
  pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-in_task() is a easier to read and slightly more efficient variant of
-the existing tests.
+In some cases the specific codepath and its locking operations depend on
+the runtime configuration of the system. lockdep will only detect lock
+misuse if the system is configured in the right way by chance.
 
-Suggested-by: Peter Zijlstra <peterz@infradead.org>
-Link: https://lore.kernel.org/lkml/20260504130044.GU3126523@noisy.programming.kicks-ass.net/
+To make lockdep more reliable in these cases, introduce a helper macro
+to define a lockdep map without any corresponding lock.
+
+This differs from the related DEFINE_WAIT_OVERRIDE_MAP() as the context
+of the map is checked against the current locking context.
+
+Link: https://lore.kernel.org/lkml/20241217142032.55793-1-acarmina@redhat.com/
 Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 ---
- lib/vsprintf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/lockdep.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 33e0778fca52..6095b5f0d022 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -874,7 +874,7 @@ char *restricted_pointer(char *buf, char *end, const void *ptr,
- 		 * kptr_restrict==1 cannot be used in IRQ context
- 		 * because its test for CAP_SYSLOG would be meaningless.
- 		 */
--		if (in_hardirq() || in_serving_softirq() || in_nmi()) {
-+		if (!in_task()) {
- 			if (spec.field_width == -1)
- 				spec.field_width = 2 * sizeof(ptr);
- 			return error_string(buf, end, "pK-error", spec);
+diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
+index 621566345406..ae3e332f1518 100644
+--- a/include/linux/lockdep.h
++++ b/include/linux/lockdep.h
+@@ -315,6 +315,11 @@ extern void lock_unpin_lock(struct lockdep_map *lock, struct pin_cookie);
+ 		.wait_type_inner = _wait_type,		\
+ 		.lock_type = LD_LOCK_WAIT_OVERRIDE, }
+ 
++#define DEFINE_WAIT_ASSERT_MAP(_name, _wait_type)	\
++	struct lockdep_map _name = {			\
++		.name = #_name "-wait-type-assert",	\
++		.wait_type_inner = _wait_type, }
++
+ #else /* !CONFIG_LOCKDEP */
+ 
+ static inline void lockdep_init_task(struct task_struct *task)
+@@ -407,6 +412,9 @@ extern int lockdep_is_held(const void *);
+ #define DEFINE_WAIT_OVERRIDE_MAP(_name, _wait_type)	\
+ 	struct lockdep_map __maybe_unused _name = {}
+ 
++#define DEFINE_WAIT_ASSERT_MAP(_name, _wait_type)	\
++	struct lockdep_map __maybe_unused _name = {}
++
+ #endif /* !LOCKDEP */
+ 
+ #ifdef CONFIG_PROVE_LOCKING
 
 -- 
 2.54.0
