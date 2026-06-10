@@ -1,138 +1,234 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656A7175A6B
-	for <linux-rt-devel@lists.linux.dev>; Wed, 10 Jun 2026 06:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9257543D4ED
+	for <linux-rt-devel@lists.linux.dev>; Wed, 10 Jun 2026 15:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781071536; cv=none; b=VflI+9AAxL7b2lyifU+4tUn6UZmwtcaKg55dbYf3Qv77UGLeNfw1tOQsZFOI/y9tIOXoJ2Dd5K2AXgUmUADQ32EUtjCpsVrT3LZ9hg23uILXcpLK6g9T/qB7TmLUNbrObLqOtOYnf4U30CXUed70xFsyetX4iGa/x0J7CIuxfN4=
+	t=1781106520; cv=none; b=ZYp5Uk3B+jaA7tRdDxcz6OQ+Ddu6A1+Zs6BuHfrJwGEg6sxtCiQpfXFgD7mgvPeIFRdeGxV1/zwu68mkKrgRUnbJxIJKgtp1UiS/eDACZCSpAT3F8HSPSZ+CBUNOtXnqO+vgUbw6wcVv8HehtlMVTeAYuI/ObYOf0FgJOWLcgaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781071536; c=relaxed/simple;
-	bh=y2wsVPelIEtMq3U3KX4WbY3IdmtftE3qpW7t6devt+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NbWBgv4/6M7PHLy77ynfo3k0pe5BxyHAxNHvPnMhRfwfNrfO9az8oCF973zfzAyAVOjue163ILwI4rm/Mv7peLEk/GDtBlFjdKpvcUbzWv5aoNrXMofK7pgq7uEB+AzqytFXzqmyV0Iu3ZguJdY2CYPbsvVvVkU9ask+SJPKcrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fpqNT5H0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781106520; c=relaxed/simple;
+	bh=S3KAhpf4xujIbCA3wC4jg7ZR7gt0eH2uJ8Y7pXZd/vA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CzoI9Xvz1DCumbbuQu03jJBkwfl01eqsyE+uxk74Tb5ZWVQi8OxnOIzSQWOXiTZZOwq4uGmu/juVfu36R6qMenixirlCev9iHEHKE/JsZNLYszxhnu0arLRB6Liihjl2rPCbeJCgnnoS9rxsISQ+Tq1X6Lk/mSIugo2aOsaIoh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org; spf=pass smtp.mailfrom=wbinvd.org; dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b=CGGEGqBD; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wbinvd.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wbinvd.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fpqNT5H0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291CC1F008A0
-	for <linux-rt-devel@lists.linux.dev>; Wed, 10 Jun 2026 06:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781071535;
-	bh=FTK5q5irjTJDtyh2inFzHi3DC2x4G3YrOl+FUqbTtH8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fpqNT5H03zbQNgcEVq8Rf7kstpehLDgDtoQJMjmCbSdBf00/H1epyiItcyJpXohlQ
-	 Lx6AFszxQRQaQ/UVRHWpVyM3stQhrHWcYVEOOOYSjGozSjhMxhCBbeSGRNEVgxUKlH
-	 zGIFBMlgmQFaKFgwDmZxqjtl/Wz36hbwdLFEK0mFu+LWQubJIqWNgrlP4YQxmUVx2Z
-	 USuXQMM5zXrbjNAZAQ9l/7AVWWjR1WEpn4vBBqsiipqWP49mhnjvp9PZrfRX8cGsqI
-	 Kb0VbC97YQP2q/tuI2iQcszTRFbbYeeSrhNQ0pZCZ789R0zXHe76yCrGQCqRB8oyqJ
-	 Ak0vWUhyTAdhQ==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-687ed9aabb3so12478945a12.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 09 Jun 2026 23:05:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9NycSUYTXEHnBkrmF3rechhOpNyVCXICA9QUtesMWAuzHnIkXCZgvyODUPzmWBF5f62fjdKYwsiAM+VxEf4Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmFDxEWCgUTes1HMq1wAnIAGGVsWqJ9zUnOg0RXdfWYgLeeCTl
-	9cDRu03vNh7rRbpLDibDTKS/on+N90j8R6CZLkjvADgCTtjBji1JAIg5mImf3jniOXNwPPbgCb5
-	w225i2jatskgJEgLuN6SHEPnP4kjnjNA=
-X-Received: by 2002:a05:6402:518c:b0:68c:627d:fc2b with SMTP id
- 4fb4d7f45d1cf-68fa5039e51mr10638713a12.16.1781071533743; Tue, 09 Jun 2026
- 23:05:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wbinvd.org header.i=@wbinvd.org header.b="CGGEGqBD"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3074adb8fcaso855699eec.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 10 Jun 2026 08:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wbinvd.org; s=wbinvd; t=1781106516; x=1781711316; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FYvKr4nak3jtm5t4zlYpeWn3sAcIPq6YcBo6UMsGgP4=;
+        b=CGGEGqBDbeYT8jcEiTtiFUUwd4oMr3rUVUM42UyPHmxd1i2cR9guxALAlB+MGKzPwy
+         Etl1QSqGylZjFJ9AY/efh0uPjisYQaLxsoLljqDhpsx8gSH78ALsymN4mh0eaWW6uAO+
+         ggnx5HIpQ2ZDukJWdGq3FumsZHAg5se//FWqqT/OwLWMIQPMW6M1XmONM/76iD4wxRoQ
+         AwiXdnoWJAIMTc46hExbSIljVVK7HzlZGcyIOqWmdu1JYSktAPyw/3/d3Jrff2bYsRsa
+         XfA51wt5V3nPATUbcYaOruHnnBtxUlg3spEUFnhtHwZ/qhli99Z5cnvEPLLJ1k43p9xC
+         4gbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781106516; x=1781711316;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FYvKr4nak3jtm5t4zlYpeWn3sAcIPq6YcBo6UMsGgP4=;
+        b=euNHcqgEOCVVxFBReeOucgCXgy1vB6Rb4/0do0L+qbQyJCgeY7DrtwgtIWCsskNV3Y
+         d6azuk79pNl76rhu6jrddnUyYNoqqR2lMoWA2EckrboIxviiKLCM+FmEu4Frt96ofbZu
+         MsNa8tKkFP/FwRUBL115Fqgt4gQJXB1Ce27nuzeKhVVUFzvA0KfBUpg+FHOJJfr9AcFx
+         Z0c7ALp6SP57H1f8aMQq50J7RLAeOmdhE2esIpzYwsHckO+HZEBoTz+g2635dVY/WhY1
+         4jAy/qLrQbcVTYzBR4kyQ5NH43QyAm9yR9BRAP6qtp//QcfyWwYQJYhbgdW1fKIGxzIX
+         Q22g==
+X-Forwarded-Encrypted: i=1; AFNElJ9qL4gfGa2NjJ3K4vj/W0aYazjP8X3RchzPCpZROta2j5M4Kj2U8aQCLHK0iR1aFYfP7AzlBTnHBklztmevSw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwgM6PJhKKi8Ts+AK3qMCdkAgaNuDWCj6KeU6NQcBMhFbLvcy3
+	d1Sx99mIp9mvV28xstO4ZDUHd5iUaNw8ZfhEEFnfuVxM+oMfXrr3Ztxygkxu21wTFYw=
+X-Gm-Gg: Acq92OE2wAMU/2G15A6G0zFApS2Wcr6YlU4quv0UE3hubfRkuNWLN1et1e+ywIvpwy2
+	f6s2GeHZws4wplkRcbowihrJov7YexGTa3tJ0ayeReu/fQSYylocvKzCW3MQm2l9nxKU8DfJ8pd
+	QGdZl5+d+carxQmX/P+bYYJ9iFnF2SWrfUkC07F+gd2/21rU/6tnsuTsOWpd/HqVdDEdVSFh39A
+	pGS09UaCsm7RVmrTOREoZ64mZbO7dWqwhlSJSGjNskOnYIAOt2tuyGTiVdxtcTGkD9wMR3jhygC
+	J5dhttn4ocZze60jGQXrB8rjyl42ip/aiKtdVczhmIk5TorrESoLFFK9sp31Z0Kjv0HP94sqBeC
+	JAOLuUr6w0UDczNKXvWkcitteC4iZB1gZwl0wzUVUBihtW2KVv/O1ejH7HNHQdTvJ7YhwxXCRx7
+	gkx+2p6iUmPa66b1kIlcGU2Rk7eZ/5P/fHamA=
+X-Received: by 2002:a05:7300:3250:b0:2f5:5dd3:1fd8 with SMTP id 5a478bee46e88-3077aea9ef1mr17051622eec.8.1781106516402;
+        Wed, 10 Jun 2026 08:48:36 -0700 (PDT)
+Received: from mozart.vkv.me ([2001:5a8:468b:d015:375a:a215:7d4e:6ae])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dea8708sm27747706eec.15.2026.06.10.08.48.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 08:48:36 -0700 (PDT)
+Date: Wed, 10 Jun 2026 08:48:33 -0700
+From: Calvin Owens <calvin@wbinvd.org>
+To: Rodolfo Giometti <giometti@enneenne.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] pps: Don't try to wait for negative timeouts in PPS_FETCH
+Message-ID: <aimHUam6s3j147-A@mozart.vkv.me>
+References: <b5241c09ac0dfb82ee076d06367ac6319471c773.1780071212.git.calvin@wbinvd.org>
+ <20ed84f3-14d9-4936-b6d1-915ab605b7fa@enneenne.com>
+ <ahr6IHpbRRlpTMbp@mozart.vkv.me>
+ <ee1b67f4-1627-4999-be4e-e21ac2dff9dd@enneenne.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260608093729.12111-1-jelonek.jonas@gmail.com>
-In-Reply-To: <20260608093729.12111-1-jelonek.jonas@gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 10 Jun 2026 14:05:56 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7vJ5YniUD8HhFWBbypNyWTo73M_vzw=Y-MZtR-b_RNfw@mail.gmail.com>
-X-Gm-Features: AVVi8CeBRd2PLLuFTXLO59EuacgjVdNmuBqSnRmL8jqW-pPNGJNNz_1TkdYV9Ms
-Message-ID: <CAAhV-H7vJ5YniUD8HhFWBbypNyWTo73M_vzw=Y-MZtR-b_RNfw@mail.gmail.com>
-Subject: Re: [PATCH v2] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
-To: Jonas Jelonek <jelonek.jonas@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ee1b67f4-1627-4999-be4e-e21ac2dff9dd@enneenne.com>
 
-Hi, Jonas,
+On Monday 06/01 at 09:04 +0200, Rodolfo Giometti wrote:
+> On 30/05/2026 16:54, Calvin Owens wrote:
+> > On Saturday 05/30 at 11:50 +0200, Rodolfo Giometti wrote:
+> > > On 29/05/2026 18:21, Calvin Owens wrote:
+> > > > If userspace passes a negative timeout to PPS_FETCH, it triggers a
+> > > > kernel splat from schedule_timeout():
+> > > > 
+> > > >       schedule_timeout: wrong timeout value fffffffffff0bfb4
+> > > >       CPU: 17 UID: 0 PID: 4720 Comm: a.out Not tainted 7.1.0-rc5-x86-kvm-00150-g331d97e36b37 #1 PREEMPT_RT
+> > > >       Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-20240910_120124-localhost 04/01/2014
+> > > >       Call Trace:
+> > > >        <TASK>
+> > > >        dump_stack_lvl+0x4b/0x70
+> > > >        schedule_timeout+0xb7/0xe0
+> > > >        pps_cdev_pps_fetch.isra.0+0x93/0x150
+> > > >        pps_cdev_ioctl+0x70/0x310
+> > > >        __x64_sys_ioctl+0x7b/0xc0
+> > > >        do_syscall_64+0xb6/0xfc0
+> > > >        entry_SYSCALL_64_after_hwframe+0x4b/0x53
+> > > > 
+> > > > Sashiko imagines this to be some sort of security problem, which is
+> > > > obviously really silly. But I think it is still worth fixing, so buggy
+> > > > userspace code can't trigger the splat.
+> > > > 
+> > > > Silence the splat by skipping the wait if the ticks count is negative.
+> > > > The current behavior is to return -ETIMEDOUT in that case, so keep that
+> > > > return value in case any userspace code might rely on it.
+> > > > 
+> > > > Fixes: eae9d2ba0cfc ("LinuxPPS: core support")
+> > > > Reported-by: Sashiko <sashiko-bot@kernel.org>
+> > > > Closes: https://sashiko.dev/#/patchset/cover.1779733602.git.calvin%40wbinvd.org?part=3
+> > > > Signed-off-by: Calvin Owens <calvin@wbinvd.org>
+> > 
+> > Hi Rodolfo,
+> > 
+> > Thanks for taking a look at this and the others.
+> > 
+> > > > ---
+> > > >    drivers/pps/pps.c | 6 ++++--
+> > > >    1 file changed, 4 insertions(+), 2 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/pps/pps.c b/drivers/pps/pps.c
+> > > > index de1122bb69ea..6755901fbdae 100644
+> > > > --- a/drivers/pps/pps.c
+> > > > +++ b/drivers/pps/pps.c
+> > > > @@ -65,17 +65,19 @@ static int pps_cdev_pps_fetch(struct pps_device *pps, struct pps_fdata *fdata)
+> > > >    	if (fdata->timeout.flags & PPS_TIME_INVALID)
+> > > >    		err = wait_event_interruptible(pps->queue,
+> > > >    				ev != pps->last_ev);
+> > > >    	else {
+> > > > -		unsigned long ticks;
+> > > > +		long ticks;
+> > > >    		dev_dbg(&pps->dev, "timeout %lld.%09d\n",
+> > > >    				(long long) fdata->timeout.sec,
+> > > >    				fdata->timeout.nsec);
+> > > >    		ticks = fdata->timeout.sec * HZ;
+> > > >    		ticks += fdata->timeout.nsec / (NSEC_PER_SEC / HZ);
+> > > > -		if (ticks != 0) {
+> > > > +		if (ticks < 0) {
+> > > > +			return -ETIMEDOUT;
+> > > > +		} else if (ticks > 0) {
+> > > >    			err = wait_event_interruptible_timeout(
+> > > >    					pps->queue,
+> > > >    					ev != pps->last_ev,
+> > > >    					ticks);
+> > > 
+> > > Should the problem originate from user-space data, I deem it more
+> > > appropriate to verify them directly, rather than relying on computed data.
+> > > 
+> > > 	unsigned long ticks;
+> > > 
+> > > 	if (fdata->timeout.sec < 0 || fdata->timeout.nsec < 0)
+> > > 		return -ETIMEDOUT;
+> > 
+> > I agree your way is nicer to read.
+> 
+> We can also do as follow:
+> 
+> 	/* Canonical validation of nanoseconds */
+> 	if (fdata->timeout.nsec < 0 || fdata->timeout.nsec >= NSEC_PER_SEC)
+> 		return -EINVAL;
+> 
+> 	/* Preserve historical API behavior for negative seconds */
+> 	if (fdata->timeout.sec < 0)
+> 		return -ETIMEDOUT;
 
-On Mon, Jun 8, 2026 at 5:37=E2=80=AFPM Jonas Jelonek <jelonek.jonas@gmail.c=
-om> wrote:
->
-> smp_send_stop() parks all secondary CPUs in stop_this_cpu(). The function
-> marks the CPU offline for the scheduler via set_cpu_online(false) but
-> never informs RCU, so RCU keeps expecting a quiescent state from CPUs
-> that are now spinning forever with interrupts disabled.
->
-> As long as nothing waits for an RCU grace period after smp_send_stop()
-> this is harmless, which is why it went unnoticed. Since commit
-> 91840be8f710 ("irq_work: Fix use-after-free in irq_work_single() on PREEM=
-PT_RT")
-> however, irq_work_sync() calls synchronize_rcu() on architectures without
-> an irq_work self-IPI, i.e. where arch_irq_work_has_interrupt() returns
-> false. That is the asm-generic default used by MIPS. Any irq_work_sync()
-> issued in the reboot/shutdown path after smp_send_stop() then blocks on
-> a grace period that can never complete, hanging the reboot:
->
->   WARNING: CPU: 0 PID: 15 at kernel/irq_work.c:144 irq_work_queue_on
->   ...
->   rcu: INFO: rcu_sched detected stalls on CPUs/tasks:
->   rcu: Offline CPU 1 blocking current GP.
->   rcu: Offline CPU 2 blocking current GP.
->   rcu: Offline CPU 3 blocking current GP.
-In theory LoongArch has the same problem, but I cannot reproduce,
-should I enable PREEMPT_RT? Or there are some special configurations?
+Thinking about this a little more... code in the kernel generally doesn't
+try to enforce tv_nsec < NSEC_PER_SEC from userspace today.
 
-Huacai
+I think nobody cares: let's just not worry about tv_nsec unless you
+really think a real user will care.
 
->
-> This issue was noticed on several Realtek MIPS switch SoCs (MIPS
-> interAptiv) and came up during kernel bump downstream in OpenWrt from
-> 6.18.33 to 6.18.34, after the backport of the patch to the 6.18 stable
-> branch. The patch also has been backported all the way back to 6.1.
->
-> Call rcutree_report_cpu_dead() once interrupts are disabled, mirroring th=
-e
-> generic CPU-hotplug offline path, so RCU stops waiting on the parked CPUs
-> and grace periods can still complete. MIPS shuts down all CPUs here
-> without going through the CPU-hotplug mechanism, so this report is not
-> otherwise issued. Reporting a dying CPU to RCU outside the regular hotplu=
-g
-> offline path is not unprecedented: arm64 does the same in cpu_die_early()=
-.
-> There it is an exception for a CPU that was coming online and is aborting
-> bringup, rather than the default shutdown action as on MIPS.
->
-> Fixes: 91840be8f710 ("irq_work: Fix use-after-free in irq_work_single() o=
-n PREEMPT_RT")
-> CC: stable@vger.kernel.org
-> Signed-off-by: Jonas Jelonek <jelonek.jonas@gmail.com>
->
-> diff --git a/arch/mips/kernel/smp.c b/arch/mips/kernel/smp.c
-> index 4868e79f3b30..0f28b4a62e72 100644
-> --- a/arch/mips/kernel/smp.c
-> +++ b/arch/mips/kernel/smp.c
-> @@ -20,6 +20,7 @@
->  #include <linux/sched/mm.h>
->  #include <linux/cpumask.h>
->  #include <linux/cpu.h>
-> +#include <linux/rcupdate.h>
->  #include <linux/err.h>
->  #include <linux/ftrace.h>
->  #include <linux/irqdomain.h>
-> @@ -422,6 +423,7 @@ static void stop_this_cpu(void *dummy)
->         set_cpu_online(smp_processor_id(), false);
->         calculate_cpu_foreign_map();
->         local_irq_disable();
-> +       rcutree_report_cpu_dead();
->         while (1);
->  }
->
-> --
-> 2.51.0
->
->
+If it's worth fixing, it ought to be done more systematically throughout
+the kernel, I feel like adding the check in random places makes the
+situation more confusing overall.
+
+But again... I seriously doubt any real user cares. I'll look into the
+history around this a bit more, but I'm very disinclined to think it's
+worth the reviewer time to try and push it more broadly...
+
+This KC code also depends on CONFIG_HZ_PERIODIC, which no distro ships,
+so any user must necessarily be building their own kernel.
+
+> > Pedantically, it's a user visable behavior change: today, the user
+> > can pass absurd values for sec and nsec, and everything works so long as
+> > the math works out to positive ticks (e.g. sec=ULONG_MAX/HZ,
+> > nsec=2*HZ*NSEC_PER_SEC).
+> > 
+> > If it was just that, it wouldn't really matter IMO, but...
+> > 
+> > > 	dev_dbg(&pps->dev, "timeout %lld.%09d\n",
+> > > 			(long long) fdata->timeout.sec,
+> > > 			fdata->timeout.nsec);
+> > > 		
+> > > 	ticks = fdata->timeout.sec * HZ;
+> > 
+> > ...the multiplication by HZ could also overflow even if sec is positive,
+> > so I think userspace would still be able to trigger the splat this way.
+> > 
+> > > 	ticks += fdata->timeout.nsec / (NSEC_PER_SEC / HZ);
+> > > 
+> > > 	if (ticks > 0) {
+> 
+> We can do as follow:
+> 
+> 	/* Safe conversion using standard kernel API */
+> 	ts.tv_sec = fdata->timeout.sec;
+> 	ts.tv_nsec = fdata->timeout.nsec;
+> 	ticks = timespec64_to_jiffies(&ts);
+
+Ah that helper is nicer, thanks.
+
+This plus the (tv_sec < 0) change should be sufficient, I'll send that
+along soon unless you reply that you want the tv_nsec check too.
+
+> 	if (ticks > 0) {
+> 		err = wait_event_interruptible_timeout(
+> 				pps->queue,
+> 				ev != pps->last_ev,
+> 				ticks);
+> 	}
+> 
+> Ciao,
+> 
+> Rodolfo
+> 
+> -- 
+> GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+> Linux Device Driver                          giometti@linux.it
+> Embedded Systems                     phone:  +39 349 2432127
+> UNIX programming
