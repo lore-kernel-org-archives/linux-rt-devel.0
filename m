@@ -1,159 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B1F378D63;
-	Mon, 15 Jun 2026 12:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0945D3F5BF6
+	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 13:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781528322; cv=none; b=CkcqfEl5/wZN/MlVNULLUIIlWZD60TvPwTysdbr+fwe2z2A4K3AWdLppCGr6FlfEN1KHQYwZeJlI9SLYW8FEPxkb8z7y+zDBmHVTGuUUGHZsrTyfdNajJxJyawCyq2mysxEo8P1UDIsWRNZf7DDONBjg/3LGfPL6yANPY6FJvfA=
+	t=1781531784; cv=none; b=TscKACe1NN06upEH8DKBNn+qt4FXD6aPVyMDJXxmSatcaVY8gz6yd5sM7Ckk2R4cb5OppGu7NRWUIBknV9OQR9lkPongmzRm+r/26zfXSFTc43RwCAKxUVPCNAyC4OYJtD6GFG1szR9zwbu8D+2jf3CxR1MP+N8tenzbHXeGLhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781528322; c=relaxed/simple;
-	bh=IM3dJKkwKyjufiuTnVdZPgRCLrPDyuQRh+tKDGzVpVw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=tLp+G0EVTtnyUQr8yTT/9pvcsMz4scV8eAt8eDli8sKRUceiVAtVm1iqco+h16VfRu/NVdFFGokXsRnqgOI3QQbmCHBsSS9e/l/UjIDEjea/eQg2IfRg3o5oiLGSc9FPGKSruHE0WASLdxus+uzA3gw5qfCY1MD2xi9D/9IOmno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dqLM5APk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781531784; c=relaxed/simple;
+	bh=uj9NIq8r6WHz4ZTjCa33qlmfA1jc7S0pc1oPXLJuNzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HGVIRceEe3KqlgbZnWUDYyLy1TBmlGUVcVR+vjLIJSpSyf2rwTRZkplwAiMoekFf/eLXAYb2YgDrUgReTSy5oyt5UHg8fc4+xGTrH4sJn0GSIzF2HE5GsEYUKaVpdsOLRP3OW2M/wv/1Dt4sI28pwvTJQm1MWCPkvYwIvHcNsys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qLnT0th8; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hM8SaYOe; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dqLM5APk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80ADD1F000E9;
-	Mon, 15 Jun 2026 12:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781528320;
-	bh=8lR/ezmey1Vj+wiH0lEfov/xGGidpFJa9T2B63E5xHE=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=dqLM5APkTWkXETEWh5qs66ltoy10skp/3eIwTWShVJwXY/8Txy559XYvAmANhzQSl
-	 4jf9xop6SWO/KuidmRuXwI3u5qcKePOsOOV5TCDOuPljal1o3nUCPqt9+oST8/Qqkf
-	 VQzg5drzlod/pGxIOVBwWDhg78jSSf5t8KZZfFkVVryAX9JHitzAMtMO32y2JzY+KL
-	 WTsWlE6hv+oZRF3k0NjQtXJPPU0tX6jw34CdikAVDrKXvRnJdvYY1c/Yp4RvF5XFAv
-	 5yjTxmOrDn47jAtmzh4I15CWJHSaqD0+i+txzQFvgMVlhd1DsvrrpF0S7Dj9YTZPIE
-	 aTvwIEnXAtwow==
-Message-ID: <f731686b-4d22-4d22-b5b4-2409a165122b@kernel.org>
-Date: Mon, 15 Jun 2026 21:58:28 +0900
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qLnT0th8";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hM8SaYOe"
+Date: Mon, 15 Jun 2026 15:56:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1781531781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e96uEW7VnIfxNbDAhgYihyxwjM7qS3eYcktQktJk91w=;
+	b=qLnT0th8ZvivaM9IVX4c3c6rEKp099DljMxaL5zB+6BGVll0uowsKMm3cvGBeMFpF8e8TW
+	9p7s1YYOhKkJYqCIUGK+CU99h1ZV8lUmi6uOIBBLd9+F7T20lniE4s8n9Tan6hWsoI12Ew
+	45vI45HqMvX1Drpe7sPwX1O8zuAuL9+5J8wAOwGIiGrcQFT3+S0iUdLwH0W4V7Mru9Mxy5
+	GB93WE+AGRUkjO6l37LNW1dzDO6FlFdVt4Xc7UhIQh14UY23CraEfm5SiNxMR/lX2TTwx6
+	///DNFOueB2yp4YUB6DU0ibeFdSExlxBplH19Vi9DqUxQPvOZTUbdJsQSFKpcw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1781531781;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e96uEW7VnIfxNbDAhgYihyxwjM7qS3eYcktQktJk91w=;
+	b=hM8SaYOeGyjsPp+DDUpdAj+mrdow+RUOknwn0oMVTBwATF3HCslWhHIw2p+v539Pm0Qte5
+	U7qMCRx/ShwK2lDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Vlad Poenaru <vlad.wing@gmail.com>, Thomas Gleixner <tglx@kernel.org>,
+	netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Breno Leitao <leitao@debian.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>
+Subject: Re: [PATCH net] netpoll: run NAPI poll in softirq context to avoid
+ rq->lock self-deadlock
+Message-ID: <20260615135619.OB8FjsCH@linutronix.de>
+References: <20260610183621.3915271-1-vlad.wing@gmail.com>
+ <20260611191114.5bc43a59@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 1/9] slub_kunit: fall back to SW perf events
- when HW PMU is not available
-From: Harry Yoo <harry@kernel.org>
-To: Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------CvbAk04er1zxFKbGiuTC0MZw"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------CvbAk04er1zxFKbGiuTC0MZw
-Content-Type: multipart/mixed; boundary="------------NG9kPQSC4jZrLFe1DxL7i2Ih";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-Message-ID: <f731686b-4d22-4d22-b5b4-2409a165122b@kernel.org>
-Subject: Re: [PATCH for-next v3 1/9] slub_kunit: fall back to SW perf events
- when HW PMU is not available
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
-
---------------NG9kPQSC4jZrLFe1DxL7i2Ih
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260611191114.5bc43a59@kernel.org>
 
-
-
-On 6/15/26 8:05 PM, Harry Yoo (Oracle) wrote:
-> slub_kunit uses hardware perf events to invoke _nolock() APIs from NMI
-> context. However, creating a HW perf event fails when there is no
-> hardware PMU, or when running in a virtualized environment without a
-> virtual PMU configured.
+On 2026-06-11 19:11:14 [-0700], Jakub Kicinski wrote:
+> Please trim the pages of slop in the commit message and the comments.
 >=20
-> Since tests are often performed in virtualized environments, fall back
-> to a SW perf event so that the test can still run, even if it cannot
-> cover IRQ-disabled sections.
+> On Wed, 10 Jun 2026 11:36:21 -0700 Vlad Poenaru wrote:
+> > @@ -194,11 +194,56 @@ void netpoll_poll_dev(struct net_device *dev)
+> > +	local_bh_disable();
+> > + 	poll_napi(dev);
+> > +	_local_bh_enable();
 >=20
-> For the sheaves path, IRQs are not disabled until the barn is accessed.=
+> tglx, Sebastian, are you okay with using _local_bh_enable() to trick
+> softirq into not waking ksoftirqd? The problematic path is:
 
-> So some coverage is still expected.
->=20
-> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
-> ---
->  lib/tests/slub_kunit.c | 70 +++++++++++++++++++++++++++++++++++++++---=
---------
->  1 file changed, 55 insertions(+), 15 deletions(-)
->=20
-> diff --git a/lib/tests/slub_kunit.c b/lib/tests/slub_kunit.c
-> index fa6d31dbca16..11255fc8eb78 100644
-> --- a/lib/tests/slub_kunit.c
-> +++ b/lib/tests/slub_kunit.c
-> @@ -303,6 +303,7 @@ struct test_nolock_context {
->  	int alloc_ok;
->  	int alloc_fail;
->  	struct perf_event *event;
-> +	bool is_perf_type_hw;
->  };
+The I planned to get to this today but I won't make it. I try to get to
+this as soon I can=E2=80=A6
 
-nit: should have checked struct perf_event.type instead of introducing
-a new field. Will fix.
-
---=20
-Cheers,
-Harry / Hyeonggon
-
-
---------------NG9kPQSC4jZrLFe1DxL7i2Ih--
-
---------------CvbAk04er1zxFKbGiuTC0MZw
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCai/29AAKCRCGXBN6rc5S
-1iiwAQCO/i4dUtvI7De9GTEkWrLWtNQjNkDEq/w/FjLTcTPUzgEA9cf42RSUBsjk
-fmWcqz6vNOsWUTT4bQl5mQxgr4phsgM=
-=XeJc
------END PGP SIGNATURE-----
-
---------------CvbAk04er1zxFKbGiuTC0MZw--
+Sebastian
