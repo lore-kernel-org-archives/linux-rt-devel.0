@@ -1,64 +1,64 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B911E3AE19B
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 20:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285AE3B47C9
+	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 20:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781553718; cv=none; b=tscWhwY4xnym22EyuvuNFkDj6AwBlEm//5ipHrVfLtum2LTRamGWU0i/JKbd5ZmxmYpVNHnBgpvqArQCueafh72F8wvpwmwYD05px1J3cWh5yEiMqoLyEJJHA9tDBhDdPSjIJ7/5BMLn2sXvQMS1FylpI1xzl/45e4OcyvFqFNE=
+	t=1781553889; cv=none; b=DmZ9ZmBDFzaAChymwOqv6eejv8OABN6pObwW+a6sBC3E1cpBIJVZZUOzE1m6lKnC1THdqa1rBIjSFRryGH/LFc5gc1UEV6NSbzyAPHYgrCWrGah/QCeFSKo4WijlZzcMEvdDIWPuhBYRixWBGVHaXwSdqdW+imxcytB/9oxpXP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781553718; c=relaxed/simple;
-	bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=utrl9XEhz352DS6jEAkMFRyavQ8NAo25lslq7Dr1EX1KKjs3uiPLxKXYJkTxLbebg9tqJ4MK4tSo5/gjPSXCdiIFgX09PVHsw3bRGPWeTmvOcqvIibABSh0JQwpdyxTxrntW7mFKRCRCkqXiYzl7Wz+u7nVes2pggBuvE75dAJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KhIrpgNr; arc=none smtp.client-ip=209.85.210.46
+	s=arc-20240116; t=1781553889; c=relaxed/simple;
+	bh=O7AK+avBtUq66QCHc+PycHss3yeDRao/n+7K4bdeeNo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=PQ8RvQZQqdGRQIFT1RbN/vXB/Ofg1p7SectBqu49/5k6yUkqJJ3i98c0H0MVXca6DN/J6olw7pD+Oqy0cjmcLFHhIzwdPYeWKScNNp6x/+Jd6Qwm2YJ6y3EWiVuRLRHY1Pvd6kC+gGg3/2PYxj+7qHbrPApAV9If2O+VlJJhRs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=puXbA9qf; arc=none smtp.client-ip=209.85.210.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhIrpgNr"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e6e2d54d3dso2125480a34.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 13:01:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="puXbA9qf"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e6b5c374e5so3835174a34.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 13:04:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781553717; x=1782158517; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=gmail.com; s=20251104; t=1781553887; x=1782158687; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
-        b=KhIrpgNrkF/fpuhO1+bH0X9OXtgvmq3gb0C6dFWVK4dHBeJ31od0CHyoMHfsLDIfSh
-         DaYj9D2KYaj72FEXKgzjjDreFnQWwSbgjn3cz3plC8zfdMdRNXiMxzqvC7jYDBKI+R/q
-         RlkXQOotB1uUi74t/9t17eWIDEtb6wqfU0N2+pSJcciDY+Hprr9UrB44hMAlShNMZ9rW
-         ljQeYwgnPJuSUzQ0A6zf+KzwaORPuMHlVfUg0OZZPQ86jtgiK5qgd4NsNao3r/SzU7CR
-         nkHdeVoekdzIle5LmHyxYGevUTvfvQOa4/DV55Gu6W1zo06KruB8jj7NSVIizMlrktH7
-         blpw==
+        bh=oXCGDsnXgpty84dJ1mO0u39WICRv28gHhnNvC/hudJQ=;
+        b=puXbA9qfqJ+bBzjUK5r+ZbWaip4cVNzeTs3GFyDENCFDQ/r5wXwvIbGUkH7yPuT/3u
+         M1ozeBuFyId/QdEjMuUGAU+r4/Tb2IBJ+JUMiMwiDfvn+qEcOssAT99QOw23BtpaH+y8
+         mxDUA/sQuvw82twpNpXHtzevHrF7WHyS2XEBR71C4G+4Wn1JNr4C00d+zQjvfledpeRu
+         Z/pkNleMVJvsH58YVEsn9g1IIPl585clsORKU2hcd9Xvi/mYe39xXI7+Gy46BSpKIE0/
+         TL9bIF5aEUcnsLuj/7AxK/vFUcGLh0zyvC6DoYOME/Lp6ImboMCiQKfmwl27OPVy3mtV
+         vadg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781553717; x=1782158517;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
+        d=1e100.net; s=20251104; t=1781553887; x=1782158687;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
-        b=G1IqY+l/1EJHbU5iW2TFrsZ2CusWxmg/QOMrxQoALaDX24n75FszTJpZdzDqGu74Cy
-         2SYyQwPLSkopSGICW5gv2IMRGfQL4ueykNe9vpmYuoSxSlJawTI5Ysc63ffXlWhPeD5i
-         HCW21NV9tvLRodqsmDObkWWIy3hlGBJFNp1vmvmuSnMx+ZnQ2dbeyUmxnNxHoKvoDrg9
-         yJKVV46RhhZnHK3obsdljrap2onA4F4/IBzZDK9zyieCufuQ/Zt0+sU0cnbilP8xA3Uf
-         KRPsPRKrqsHYCBpYGLYcQF+YmSwQ/5YQm5OsR04vpDWZYNWXmmtAhNjIO4TrdaOgf4Tr
-         Limw==
-X-Forwarded-Encrypted: i=1; AFNElJ+rwRqd9p/DB7ST06500uuJs79TWWFbVZ3uHm/QXpyA5AlaUZLCOLUgEjIGd3J79DYsMjbAqB1PrOu4me6d7A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZezNlvJTvj01RR693cwCgl8dvNh7/s7cGKWzzpCeaKU1Lp4ee
-	Y0Q4jUCCXdLJRsZFD38nvUtEq1NaGuHXGFQYuu+rFDE1K8Qbqx+ejIUW
-X-Gm-Gg: Acq92OGRAKsWHL76P+r2QLenb8kDfrwN2yAigtG5veJRQwm2YOIDCugIb53FGdzFAUq
-	Sv5e4NQ8is/UHOfnTM7BVg3ISyKf7enJGBq1kjzQKtzD+C21RHFprsGKtzF8wEDPe5OJWTkZG7+
-	eRatLec5FVPt/lQ/+mSb8ARmFLdnoK0QwuRxK7mLQVw1po5mnqRHLHearjYLbS7CP5kaZP4NVPJ
-	2qf0pes2ITbBNffFy3q5LycC2CqCTjFvign+rYTG/UT/Lwdv0lvHP5t6kBRnti/aChqNHKiIpQv
-	V+Z+ZR9NHAPCcNiznm1t/BazcS38vCWxUexR3yjjSdUFDzYPGhSiVR4ijC0Pk9keCkWxQ4y8gTy
-	kZI9Uj35yuciAVOHuDyJ1h2Eblz8viQ/BBi6yzyhAw5f8l5F89jIO5MiSTjWy2PI1c0dwBhUPwq
-	7FvJVsb+/9Qf5STbYgdVtga5B8+b3aGCTk5CyOXGx770siFNXjTUdFLXCrUMA/fmqIElD88yk9X
-	c0F7DOg2s5PedodDhtrxo44X/w=
-X-Received: by 2002:a05:6830:d11:b0:7e6:d542:aa with SMTP id 46e09a7af769-7e8fc512f82mr716552a34.23.1781553716566;
-        Mon, 15 Jun 2026 13:01:56 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:4::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f6b8624sm4773335a34.16.2026.06.15.13.01.54
+        bh=oXCGDsnXgpty84dJ1mO0u39WICRv28gHhnNvC/hudJQ=;
+        b=dpBkECSyxWoEYfr+pwXF3qqJyd/TDF8HLUCVKsaszRpFiqltUkpEyfVkGvzYdyfnqZ
+         yP43btj+1gWvXOkEIF61iX8+lNYU73Cxkz5o5/3SL2t7nf5HKkhGCnEzzgFELcsFasYb
+         AWJXnit6PTmw/0OIpxHt2GOZd4d33Y7lbPNBExdIIki5JvLgaowHLIlcHb0W3XsecqVF
+         tDoL64rRZuh7U9umdYXAL7kSvDDgBAkyPVsX6Z29OCpxCUMdHC6Y9Kn2xYF3AQgIC+F4
+         MICXKXSw76ldne5jKf0GZW5wHFBrix/u3QGiRgZ7O2W68ykGr88wl3d748Vp5qFL5hyB
+         If5g==
+X-Forwarded-Encrypted: i=1; AFNElJ+hQiCTX+mfnmH2Qm3MstDWZSgo9kKaUY+sOAwHAcVww/50HCg/J5S7jKNCZ5zxB52gX7k+Ni8OFRWG/a3pfQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw45l6ynP7jv/T4d2rBvSG8Sc5ZDpNnTZiZg/wle0oMGggBafhQ
+	wr2ZSDvzW/hcOptr1YZbI5qXWw1uKR8bfq+JlXioaWVpMe0MjJBAnw0V
+X-Gm-Gg: Acq92OEV+Wfq/5wte6siB85Dg8LL0EP1hpnBdCIyKluJvDRtxnSnpsUg7YcElEbGkIS
+	odc+lQKBUxwJ5kGPPkyDJS9meLv6KkOi7zOrEmtbSqEFBILUl3RIltPn4oDZivvzpP3le/77GIu
+	q2+vxhHt1ygzBci+uTIDXOGD8zYoMWTtZLvSq0h8jyODWHxVXqrsQ7irJKmGwk9mdPTYF3b+H2s
+	/3GkuTAfutwrLxDcBwMtk7ns1wR9atONjziVAR7jum3xea2BbccG++/I+UtxoeJsgAv9KW30R0z
+	2uBZBsXaubj4LyzDQXBQIHf29+f0NwlZp6acVpGGVQXI8iz+/nZkA8liaH0n4rBeJE7gDrY1pGm
+	FDTZLHv18LxoTvVrMGpXt8mSiJL01TCP/li20Pn/u5pW6RiUsH9ULHCixooNmhN993SP3n1GNkj
+	TL0a+OBNCBNflZhtwApqcNWZXdS01MXCy5uWOlI6nnmQe0S6LwIP2lGnNcxDcQee8cWIgtQTb3t
+	hYyBnoPJ6f2EjwvJM+XNQO+i1ed
+X-Received: by 2002:a9d:7f08:0:b0:7e7:4a94:bace with SMTP id 46e09a7af769-7e8fc9ac8dbmr393027a34.13.1781553887063;
+        Mon, 15 Jun 2026 13:04:47 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:44::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f6dfde9sm4892917a34.24.2026.06.15.13.04.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2026 13:01:55 -0700 (PDT)
+        Mon, 15 Jun 2026 13:04:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -67,8 +67,14 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 15 Jun 2026 13:01:54 -0700
-Message-Id: <DJ9W31UCKPW5.R2LKIC72ZQ68@gmail.com>
+Date: Mon, 15 Jun 2026 13:04:44 -0700
+Message-Id: <DJ9W57VQJQ0A.XOCAQZWY51HR@gmail.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
+ <bpf@vger.kernel.org>
+Subject: Re: [PATCH for-next v3 2/9] mm/slab, slub_kunit: register kprobe to
+ trigger _nolock APIs
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
 To: "Harry Yoo (Oracle)" <harry@kernel.org>, "Vlastimil Babka"
  <vbabka@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Hao Li"
  <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David Rientjes"
@@ -85,35 +91,30 @@ To: "Harry Yoo (Oracle)" <harry@kernel.org>, "Vlastimil Babka"
  <mathieu.desnoyers@efficios.com>, "Lai Jiangshan" <jiangshanlai@gmail.com>,
  "Zqiang" <qiang.zhang@linux.dev>, "Pedro Falcato" <pfalcato@suse.de>,
  "Suren Baghdasaryan" <surenb@google.com>
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
- <bpf@vger.kernel.org>
-Subject: Re: [PATCH for-next v3 1/9] slub_kunit: fall back to SW perf events
- when HW PMU is not available
-From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
 X-Mailer: aerc
 References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-2-70a54f3775bb@kernel.org>
+In-Reply-To: <20260615-kfree_rcu_nolock-v3-2-70a54f3775bb@kernel.org>
 
 On Mon Jun 15, 2026 at 4:05 AM PDT, Harry Yoo (Oracle) wrote:
-> slub_kunit uses hardware perf events to invoke _nolock() APIs from NMI
-> context. However, creating a HW perf event fails when there is no
-> hardware PMU, or when running in a virtualized environment without a
-> virtual PMU configured.
->
-> Since tests are often performed in virtualized environments, fall back
-> to a SW perf event so that the test can still run, even if it cannot
-> cover IRQ-disabled sections.
+> =20
+> +/*
+> + * A no-op function used to attach kprobe handlers in slub_kunit tests.
+> + * The barrier is needed to prevent the compiler from optimizing out cal=
+lsites.
+> + */
+> +#if defined(CONFIG_DEBUG_VM) || defined(CONFIG_PROVE_LOCKING)
+> +static noinline void slab_attach_kprobe_locked(void)
+> +{
+> +	barrier();
+> +}
+> +#else
+> +static inline void slab_attach_kprobe_locked(void) { }
+> +#endif
+> +
+> +#define slab_lockdep_assert_held(lock) do {	\
+> +	lockdep_assert_held(lock);		\
+> +	slab_attach_kprobe_locked();	\
+> +} while (0)
 
-Frankly, I wouldn't bother with this fallback, since it completely misses
-irq disabled section which is the one to test with *_nolock().
-VMs need to configured properly. Even nested VMs support
-PERF_COUNT_HW_CPU_CYCLES.
-
-Also in overflow_handler_test_nolock()
-I would add
-even->hw.interrupts =3D 0;
-to the end to make sure it actually stress tests things.
-Without it NMIs are not firing quickly enough.
-
+Great idea. That should cover all kinds of cases.
