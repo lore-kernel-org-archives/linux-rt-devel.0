@@ -1,121 +1,241 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B793C5536
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 08:28:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA693371D02;
+	Mon, 15 Jun 2026 11:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781512102; cv=none; b=Sj39RHswt4erPi0xev0E5kmMNS+uYPuWuoCHJNug1PSa3IRbe+QN4EJy8AiRcVTyLaRQNg2KYDFn21eM8AFJaq2OUG7qTVVB4lKXsGUEn8cGZbKT1x4mleTVE9JMZ07UdFtd5p/llPoGwqBKILBoHl7Ydkbgr9NjB2uhzmBDYnY=
+	t=1781521584; cv=none; b=q04HoC0WctgB8/uw4PUlzmpioOVy21NtsbEMgKzU3/f4GzfR6aY97SJdoOMPCOjidXEYQZGTD6mt3fgsJG30YJu2BfWVWeOSUG8i2puXGF+ipvVllRvtWNs2rOzxBkMDswuTi830FaMFaDubrdTMeWCWBjTNUmsdar2OtpfSeJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781512102; c=relaxed/simple;
-	bh=pUPLBCg8NrCsW7Svk0ZQ40eOxjlfopfppmuFtnwA1h8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=jjEgcReNApkxWdQiKVXaM9D4oqlhUAhVlpN3+1nqsiFNYGouZ2+R2D4+iHnVjJNutJXcRPhxZfBlYKwD4fNXXN5so7+g1IZjCeWSYscJqYLQ+jcB+ijTAd17aBJIqwguM+Y9EZt6+N9IiDjGCst5t2s0N67YnuARinOAZI7BE04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YORM1U7H; arc=none smtp.client-ip=209.85.214.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781521584; c=relaxed/simple;
+	bh=RKYKBLP52A7LOuxg36KLTaR1iGwES6PemUq6XdXdj+E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ba+Enj5PBXnPhDN6xOPJbsVBJy5iqRsqlAK1Rvg/uSZViU1Xt9yAnCqMchT++X6Ojb2ayTJm/jdkCe0QKbb8mS9Vcp6sBL7eMPcTfb5jSYob4QQEjVzBSQAsi5ICR/baeZ0lpvr4kONN2M0QoR0tlRLY3uTMRJDrog3ACdFzkKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNkXimwb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YORM1U7H"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2c0c2c7e0c5so18977335ad.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 01:28:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781512098; x=1782116898; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OIK6+R0N6S5FbjNUFVY3i/UoNEgCH6Sdv2/saOFAeXs=;
-        b=YORM1U7Hrm7287worbBnnzGYefDMPOouO8lQSr/65SiPSVfrZdnlYdj/mwAR4peTuQ
-         RZBXojoJmnkFq9AifFRAitpM7zdxlBYqLuuAeYhvBDEScdfcCigPbBQSES0LNOQ9axdn
-         bn1u8cZvJZKpzT2VaGrjAUGP+7VnZxVljFKpBjHNR3oVH/50UoA9GLqcFXJBr5s9O/8Z
-         P3coFLwR1WTEJUeM9gTc2eY/GAXOYECxbBW3+mcua0ygp2aosyzivvnlpD+ovC+bSzaG
-         ZaNcxynRsl0KPgLa78b6on3E8UFRLl64ynx0gHZXxyw0N0MBQBEJak1AMeliu1aeix/u
-         5yig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781512098; x=1782116898;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OIK6+R0N6S5FbjNUFVY3i/UoNEgCH6Sdv2/saOFAeXs=;
-        b=SH+9apDv4C4RmpgH0BDZJ2fESt+abtWQSpubydWJ5mRFvk9ZCkXtKFweENpOkfy3mm
-         dl5iUL5tMU2gDlv8OA5Ek6uPH/2+hxihf8SxM2Q966Mb7eqnxExwkcn//OsDj4Q0w9FA
-         dGHIFqzdK3gFrpYtEFkkXNs4PwtnA7vt4+XqJhdNY7i9qzV3DDf9BgT/kyig9Qh/LpJV
-         /b2httf3DlhjpzySFXOuuWyVzDjafcBhl+Rk9XIMKLw4P4uwC/yAmZ7zIr2CPbYRWnlt
-         VC+UnVmTkYOGtHMOWqrcB0dMsUYoOvojzXzfp2abuT7wdPvgdA8dAqRk4fxBRFqEAzpx
-         3MwA==
-X-Forwarded-Encrypted: i=1; AFNElJ8pqnATlhqZhaVvO5JJ5dZVPT0eYFYDBlgN0LXnIJdjiJaA+OO+4iXlXd2Guc2r1j1eGLIWVjex7dXEZfCG6g==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yygtrb/JEuCaEEoXxOzjmvP5T1meULSTBIrXnuPfj1/X7sMlpc7
-	kKIwGAm7bjZJ6adeUR1MSm3U88d94xswGL99LsyPqoOtfxUEQmqhaY6F
-X-Gm-Gg: Acq92OHkuTuc+4wKdrZT6npGDcTM1qtqJz4kDT/RIZu2sOJFttqhpI900GlECCAohAv
-	ETbGOYrPAQ4QWw6PAQgdzSOZs6GMyaE7KrqYqC1ybI3azg1DyZD0+P+/eMNLNetsxMJ7h4S9rGl
-	HLdDYGhi4lQPeGGrW7RmKplw14j4N3ZW5lE7fWoAWhv75lSzTsjFOyzwGuZRlzMvuC9NN8UvBRR
-	XZ59prYkYKnwvNLkKN5u2vZJ30hFy7Nq3PjiBjIY+tpR1pf9C9KMaPtYuciPwrKehOmYkdT5h1l
-	7jiSQdxCaDkBsTTZVUPRWitKsMVoQJgFIvdkvdntxUKwLvhotPQ2OTGlNsrKppVVmSZ5cvlncIe
-	LA3pIyegJFDYYYdE6ROSb61w9h1vJEuivRtfNBm60kiK1tpaZZX352l7NNriaLt3YbNQqbzO2Kd
-	YzC34CR0+0OzaRwhOXNhfcuyE70dbwuho=
-X-Received: by 2002:a17:903:2408:b0:2bf:1cda:29ce with SMTP id d9443c01a7336-2c4104117eamr138814175ad.6.1781512097656;
-        Mon, 15 Jun 2026 01:28:17 -0700 (PDT)
-Received: from [10.125.112.20] ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f2e52b5sm94136475ad.7.2026.06.15.01.28.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jun 2026 01:28:16 -0700 (PDT)
-Message-ID: <5d3d16f6-0654-483b-9625-94ab93d3d836@gmail.com>
-Date: Mon, 15 Jun 2026 16:28:07 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNkXimwb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F3A21F000E9;
+	Mon, 15 Jun 2026 11:06:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781521581;
+	bh=DEzGeZYgP0g65zZZplfnHWmn77H05/JBjDI6P7zmy+c=;
+	h=From:Subject:Date:To:Cc;
+	b=eNkXimwbNZv8ecFiizQ1mGPxgUthsssfa8+ShsXFhzz9AZRPiffPNOqesVpMmsTPo
+	 TcrJG/XA/SdI9IPvOyvjRXUqeWKez81c49clENShHjFsc9rwjrz/Ss4q+xBKxKiCQk
+	 PWopBB5GKccK9bZtT/m4gQLhUAIJqeZ5EgWmSAKqAEg9XMsNUA0tS22lO64tSaMlQR
+	 S2UADW1WpLVi0zKML5mkHx1wtdKLOeTMu21uOZ9LuIJM2j8Eu7+fQnhEmNbNmz2HBk
+	 9WBGmmxUVuZcUAZhmlExu27HLBGgalPtD7LEojBWH7fZ6Zrw6eGANybaN953w4ZWDa
+	 61nKpTpLS+jjw==
+From: "Harry Yoo (Oracle)" <harry@kernel.org>
+Subject: [PATCH for-next v3 0/9] mm/slab: introduce kfree_rcu_nolock() and
+ improve slub_kunit coverage
+Date: Mon, 15 Jun 2026 20:05:54 +0900
+Message-Id: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] mm/compaction: honour compact_unevictable_allowed
- in mlock race and alloc_contig path
-From: Wandun <chenwandun1@gmail.com>
-To: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- vbabka@kernel.org, bigeasy@linutronix.de, rostedt@goodmis.org,
- hughd@google.com
-Cc: akpm@linux-foundation.org, surenb@google.com, mhocko@suse.com,
- jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@kernel.org,
- ljs@kernel.org, liam@infradead.org, rppt@kernel.org, clrkwllms@kernel.org,
- Alexander.Krabler@kuka.com
-References: <20260604023812.3700316-1-chenwandun1@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20260604023812.3700316-1-chenwandun1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqDMBBG4avIrBuIkRHsVUSkxD86WBKZ1CKId
+ ze4/BbvnZShgkzv6iTFX7KkWNC8KvLLJ84wMhWTs661bc1mDQqM6vcxpm/yqwGzdczcdS5QyTZ
+ FkONZ9hSSmojjR8N13VjsbORsAAAA
+X-Change-ID: 20260615-kfree_rcu_nolock-e5502555992f
+To: Vlastimil Babka <vbabka@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ "Paul E. McKenney" <paulmck@kernel.org>, 
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, 
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, 
+ Uladzislau Rezki <urezki@gmail.com>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, 
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+X-Mailer: b4 0.14.3
 
+Not the best time to post a series, but didn't want to delay posting
+the series for too long. no pressures ;)  This is aimed to be queued
+for review and testing after the merge window closes.
 
+This series is based on next-20260612, and is also available on
+git.kernel.org [3].
 
-On 6/4/26 10:38, Wandun Chen wrote:
-> From: Wandun Chen <chenwandun@lixiang.com>
-> 
-> vm.compact_unevictable_allowed=0 is meant to keep compaction from
-> touching unevictable folios. In practice there are still two paths
-> where it does not take effect. This series fixes them and adds a
-> tracepoint to make such issues easier to diagnose in the future.
+To RCU folks: It would be great if you could kindly take a quick look at
+patch 4 and either ack or nack the patch ;)
 
-Gentle ping, any feedback on this series?
+To BPF folks: Ulad asked to share workloads to measure performance
+of kfree_rcu_nolock(). Unfortunately, I focused more on correctness
+and have not spent much effort on that. It would be nice if BPF folks
+could help evaluate it on their relevant workloads.
 
-Sashiko found a potential compilation error in patch2, I'll address
-that along with any review comments in v2.
+To PREEMPT_RT folks: The most relevant part is allowing
+kfree_rcu_sheaf() on PREEMPT_RT (patch 6). It carefully avoids sleeping
+by acquiring the locks via local_trylock() or spin_trylock_irqsave()
+to avoid sleeping within a raw spinlock. When trylock or unlock is
+unsafe, kmalloc_nolock() always fails.
+
+Changes since RFC v2
+====================
+
+Reduced complexity and intrusiveness (Uladzislau Rezki)
+-------------------------------------------------------
+
+While discussing concerns about the complexity of adding allow_spin
+handling with Ulad (Thanks!), I realized that adding complexity to the
+kvfree_rcu batching is not strictly necessary: only slab objects need to
+be batched, they are already batched by rcu sheaves, and slab already
+supports unknown context. So it is enough to implement only a minimal
+fallback for the sheaves path.
+
+I tried to avoid making intrusive changes to the existing kvfree_rcu
+path as much as possible. struct rcu_ptr is renamed to kfree_rcu_head
+following Vlastimil's suggestion, and it is used only in the
+kfree_rcu_nolock() path for now.
+
+As a result, the complexity is significantly reduced and the series
+became much less intrusive. This is also reflected well in the diffstat
+below.
+
+RFC v2 diffstat:
+  8 files changed, 514 insertions(+), 163 deletions(-)
+
+v3 diffstat:
+  6 files changed, 370 insertions(+), 105 deletions(-)
+
+v3 diffstat (slub_kunit improvements - patch 1, 2, 9 excluded):
+  5 files changed, 199 insertions(+), 66 deletions(-)
+
+kfree_rcu_sheaf() PREEMPT_RT support (Vlastimil Babka)
+------------------------------------------------------
+
+As suggested by Vlastimil (Thanks!), kfree_rcu_sheaf() can now be used
+on PREEMPT_RT as well, by always assuming allow_spin is false on
+PREEMPT_RT.
+
+slub_kunit enhancements
+-----------------------
+
+- Currently the test is skipped when there is no hardware PMU. This can
+  happen on machines without a PMU, or in virtualized environments
+  (e.g., automated testing or virtme). Implement a fallback based on SW
+  perf events so that the test can still run in such environments, even
+  though the coverage is slightly smaller.
+
+- While testing on PREEMPT_RT, I found that kmalloc_nolock() fails every
+  time, so the fallback path is not properly tested. This is a limitation
+  of perf events: the handler is called in NMI (HW perf events) or
+  interrupt context (SW perf events), where kmalloc_nolock() cannot
+  succeed.
+
+  slub_kunit now registers a kprobe pre-handler at the points in the slab
+  allocator where lockdep_assert_held() is invoked. The pre-handler calls
+  kmalloc_nolock() and friends, to improve coverage on PREEMPT_RT instead
+  of relying on perf events.
+
+One thing that needs to be further explored
+-------------------------------------------
+
+The global deferred_free_by_rcu (introduced by patch 8) list for the
+fallback should probably be per-CPU [5].
+
+Actual Cover Letter
+===================
+
+This series improves kmalloc_nolock() and kfree_nolock() coverage
+in slub_kunit (patch 1 and 2) and introduces kfree_rcu_nolock() for
+an unknown context as suggested by Alexei Starovoitov.
+
+Unknown context means the caller does not know whether spinning on a lock
+is safe (e.g., a BPF program attached to an arbitrary kernel function or
+in NMI context).
+
+The slab allocator already supports unknown context via kmalloc_nolock()
+and kfree_nolock(), but te slab allocator does not support freeing
+objects by RCU in unknown context.
+
+It is not ideal to have completely separate batching for unknown context
+because the worst scenario where spinning on a lock would lead to
+deadlock is very rare, and in most cases, it is safe to use the
+existing mechanism (kfree_rcu_sheaf()).
+
+Since most part of the slab allocator already supports unknown context
+and sheaves support batching kvfree_rcu() calls for slab objects,
+implement kfree_rcu_nolock() with minimal changes by teaching
+kfree_rcu_sheaf() how to support unknown context and making
+it a little bit harder to allocate an empty sheaf, instead of making
+intrusive changes to the existing kvfree_rcu batching logic.
+
+kfree_rcu_nolock() tries to free the object to the rcu sheaf if
+trylock succeeds. Once the rcu sheaf becomes full, it is submitted to
+RCU via call_rcu() if spinning is allowed or IRQs are enabled (to avoid
+calling call_rcu() in the middle of call_rcu()). Otherwise, call_rcu()
+is deferred via irq work.
+
+In unknown context, when there is no sheaf available, kfree_rcu_sheaf()
+falls back to defer_kfree_rcu(), which inserts the object to a global
+lockless list [5] and those objects are freed after synchronize_rcu() in
+a workqueue.
+
+Unlike kfree_rcu(), only the 2-argument variant is supported.
+This is because the last resort of the 1-arg variant is
+synchronize_rcu(), which cannot be used in an unknown context.
+
+As suggested by Alexei Starovoitov, kfree_rcu_nolock() can be used with
+struct kfree_rcu_head (8 bytes), which is smaller than struct rcu_head
+(16 bytes).
+
+For more background and future plans, please see [4].
+
+[1] RFC v1: https://lore.kernel.org/linux-mm/20260206093410.160622-1-harry.yoo@oracle.com
+
+[2] RFC v2: https://lore.kernel.org/linux-mm/20260416091022.36823-1-harry@kernel.org
+
+[3] https://git.kernel.org/pub/scm/linux/kernel/git/harry/linux.git/log/?h=kfree_rcu_nolock-v3r3
+
+[4] kmalloc_nolock() follow-ups, including kfree_rcu_nolock(),
+    https://lore.kernel.org/linux-mm/esepccfhqg7m6jo76ns2znj2cnuaepx2xvw5zaygtwohq4psma@563ypprp6rr3
+
+[5] However, we should probably make the list percpu because,
+    unlike RFC v2, it can be triggered more frequently under memory
+    pressure.
+
+    https://lore.kernel.org/linux-mm/805c33d7-3a7b-470c-bd9d-065717a3e3e2@paulmck-laptop
+
+Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+---
+Harry Yoo (Oracle) (9):
+      slub_kunit: fall back to SW perf events when HW PMU is not available
+      mm/slab, slub_kunit: register kprobe to trigger _nolock APIs
+      mm/slab: handle the !allow_spin case in kfree_rcu_sheaf()
+      mm/slab: use call_rcu() in unknown context if irqs are enabled
+      mm/slab: extend deferred free mechanism to handle rcu sheaves
+      mm/slab: allow kfree_rcu_sheaf() on PREEMPT_RT
+      mm/slab: introduce kfree_rcu_nolock()
+      mm/slab: introduce struct kfree_rcu_head and use in kfree_rcu_nolock()
+      slub_kunit: extend the test for kfree_rcu_nolock()
+
+ include/linux/rcupdate.h |  12 +++
+ include/linux/types.h    |   4 +
+ lib/tests/slub_kunit.c   | 174 ++++++++++++++++++++++++++++------
+ mm/slab.h                |   5 +-
+ mm/slab_common.c         |  38 ++++++--
+ mm/slub.c                | 242 ++++++++++++++++++++++++++++++++++-------------
+ 6 files changed, 370 insertions(+), 105 deletions(-)
+---
+base-commit: c425609d6ac4012c8bbf01ec2e10e801b1923a7b
+change-id: 20260615-kfree_rcu_nolock-e5502555992f
 
 Best regards,
-Wandun
-
-> 
-> Wandun Chen (3):
->   mm/compaction: skip isolate mlocked folios when
->     compact_unevictable_allowed=0
->   mm/compaction: add per-folio isolation tracepoint
->   mm/compaction: respect compact_unevictable_allowed in alloc_contig
->     path
-> 
->  include/linux/compaction.h        |  6 ++++++
->  include/trace/events/compaction.h | 26 ++++++++++++++++++++++++++
->  mm/compaction.c                   | 14 +++++++++++---
->  mm/internal.h                     |  1 +
->  mm/page_alloc.c                   |  2 ++
->  5 files changed, 46 insertions(+), 3 deletions(-)
-> 
+-- 
+Harry Yoo (Oracle) <harry@kernel.org>
 
