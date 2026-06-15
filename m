@@ -1,138 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF94C3E3159;
-	Mon, 15 Jun 2026 11:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1893E3159;
+	Mon, 15 Jun 2026 11:25:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781522653; cv=none; b=IzXsJ5pqlruwWppR00I5lHlf2Hunr16C9EqfhTld4jqW/xAj72hKWu9p6K1oMptFuZ5KalLlCzweuHsD/x9+ngNfSFcsVXLHd0OMYLl1s7OTfXsDXLaJ//ftssbZz/OrKWuFaaijdHWiH8hOkvI88p3J52ra5gXBxWnlDMbZZ4o=
+	t=1781522707; cv=none; b=B+5B7A6egGZfkQW/4RynBpQepmc7LK3FWlVr1EJSUapgCcp/2mRdUXuOo+bDX/y4phzcYOqqI3VVQmRG1X23PWgeVJl4VkD33ePzW9Q0ismWtwVePDfK5EH8gzGD1aeOWN3jYTp+KPbWe6G9K0HsjDFoJHsoXmdEKdwlUW1fUbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781522653; c=relaxed/simple;
-	bh=uuq5o0ZRUS+maiSjFPKkUwLMP+cg8LRgXwKi26Xmf9U=;
+	s=arc-20240116; t=1781522707; c=relaxed/simple;
+	bh=L67UhP7sztmmFyMog22+2GLMZsO+ikluCnU0mn1N9gs=;
 	h=From:Subject:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JGF5PU35tdT9vQsaT9ms5h5as4DGKNPgYQK0o6UgycmCIdHNb8otPOazdUaM7wwoFzcy2UUc78cfFSXa2Yk9Oa1VZEgXfOJ8wC/fh36vDvGbABXACsrVXyvFftGox/nQMuk+T50JkInyMmZlWUdfrQjwuUzlH4msglyjsMno/wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSAwXqNt; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=TwCS7yrOk6qQYTDTx5EBVWe/xN4GAl/T/WVAe02jKwucVJnuQ2WdopE3YOEgcHIUk5wH3vZ7rnKJgyiIrUe3bn0a1fY9aQ/muSLlGbhAfR5+UrUzj6blL8iRjqpDD2x7qQzVp3kbqpNmJiopgirvMouC4LwEESp9v81kX27RSsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pvk1XbyN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSAwXqNt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 540EC1F00A3A;
-	Mon, 15 Jun 2026 11:24:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pvk1XbyN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 131D51F00A3A;
+	Mon, 15 Jun 2026 11:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781522652;
-	bh=dIrnmt09XC0Fq5tOSFEMlJg7yoIwkpTuL2Tj3+ck/kM=;
+	s=k20260515; t=1781522706;
+	bh=gdsWK2qHCF2RtCgp14Fch2ef6bV6blmJUbTrHpW+Eo0=;
 	h=From:Subject:Reply-To:Cc:In-Reply-To:References:Date;
-	b=FSAwXqNtXSHgTDPRPZur6uNWRos/4GLkCxYt4y6Vu4hNPVl9sYFehfCMap/gYSVGD
-	 HfEh3yrEyY2pUuXTd8I1QzJ1VaACKjPTtDVIt41Hye92M7rlHgYmkdDXNax4zibbS9
-	 lBaK6Qsoiiw082uoI9aEoBa5nhxv9O95zeXUV4sSLZ6qfbdFNdhuEcUwEn+HMSFG1g
-	 Q03WmdWSWt8ajqI/BOo71kxRhtjrB3opwCpVNPHsvLSIXTa/gcu1OzTB+vUlzWTi0b
-	 PqqLa9LhvVsPIvFnELFqhrNfTxgSXsjNy1hEOpVuNZyv9wCtti7BWOl5SQsACv9oyn
-	 uHqw43ImwoP5g==
+	b=Pvk1XbyN/O4ohWnPQBr1D/BNK9CZjjthGoALQC7uOtZYnvGhwqZgKnfvwH7p38rkk
+	 NSNwEjuQ8WBhzatcbvfJc57P4SHteKmP/t9ODdLXkEwy4nPsOuu9ryVgPFlGpVUlYd
+	 YDyzITj+LLDcvWtfngyImfqWi4vslPKxmuFm7Ct/C/IAmkX8Ec18CzrBuXaDN8pj6/
+	 toSPNazy1784geJtAMmWwAAR/g7gDvCAVS6TF52DDjY554sYVSBh7NkRHggBpl0ovi
+	 qIVjvmc72HQRduCOIKJLCaXFelAg0kUk64Q36I1QaPPXNHpPK2M4+ONW10I/jSYA6q
+	 GA3opq13YZ0tQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH for-next v3 3/9] mm/slab: handle the !allow_spin case in
- kfree_rcu_sheaf()
+Subject: Re: [PATCH for-next v3 4/9] mm/slab: use call_rcu() in unknown
+ context if irqs are enabled
 Reply-To: sashiko-reviews@lists.linux.dev
-Cc: bpf@vger.kernel.org, linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-3-70a54f3775bb@kernel.org>
-References: <20260615-kfree_rcu_nolock-v3-3-70a54f3775bb@kernel.org>
+Cc: bpf@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260615-kfree_rcu_nolock-v3-4-70a54f3775bb@kernel.org>
+References: <20260615-kfree_rcu_nolock-v3-4-70a54f3775bb@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Jun 2026 11:24:11 +0000
-Message-Id: <20260615112412.540EC1F00A3A@smtp.kernel.org>
+Date: Mon, 15 Jun 2026 11:25:05 +0000
+Message-Id: <20260615112506.131D51F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [High] Kmemleak tracking symmetry violation for empty sheaves allocated w=
-ith !allow_spin.
-
 Pre-existing issues:
-- [High] Deadlock under scheduler locks due to GFP_NOWAIT allocation in __k=
-free_rcu_sheaf().
+- [High] Acquiring a local_trylock inside a raw_spinlock_t wait context tri=
+ggers a lockdep Invalid wait context warning.
 --
 
-commit 0ddecba01f906bc55d1c11049f09813fcc05200e
+commit 05f00697f28bd84542538d9e89bbc00e3f7a427a
 Author: Harry Yoo (Oracle) <harry@kernel.org>
 
-mm/slab: handle the !allow_spin case in kfree_rcu_sheaf()
+mm/slab: use call_rcu() in unknown context if irqs are enabled
 
-This commit updates kfree_rcu_sheaf() to handle cases where spinning is not
-allowed, by allocating and freeing empty sheaves without taking locks. It a=
-lso
-modifies the allocation flags and fallback paths depending on the allow_spin
-context.
+This commit modifies the fallback logic for deferred RCU freeing in the
+slab allocator. It now uses call_rcu() even in an unknown context as long
+as interrupts are enabled.
+
+Link: https://lore.kernel.org/linux-mm/CAADnVQKRVD5ZSnEKbZZU7w86gHbGHUug2pv=
+zpgZTngNS+fg4rw@mail.gmail.com
 
 > diff --git a/mm/slub.c b/mm/slub.c
-> index 87ca154ccd80f..b0d38d5153865 100644
+> index b0d38d5153865..6a3552b70683d 100644
 > --- a/mm/slub.c
 > +++ b/mm/slub.c
-[ ... ]
-> @@ -2827,11 +2828,20 @@ static void free_empty_sheaf(struct kmem_cache *s=
-, struct slab_sheaf *sheaf)
->  		mark_obj_codetag_empty(sheaf);
-> =20
->  	VM_WARN_ON_ONCE(sheaf->size > 0);
-> -	kfree(sheaf);
-> +
-> +	if (likely(allow_spin))
-> +		kfree(sheaf);
-> +	else
-> +		kfree_nolock(sheaf);
-> =20
->  	stat(s, SHEAF_FREE);
->  }
-> =20
-> +static void free_empty_sheaf(struct kmem_cache *s, struct slab_sheaf *sh=
-eaf)
-> +{
-> +	__free_empty_sheaf(s, sheaf, /* allow_spin =3D */ true);
-> +}
+> @@ -6158,8 +6158,8 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *=
+obj, bool allow_spin)
+>  	if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
+>  		rcu_sheaf =3D NULL;
+>  	} else {
+> -		if (unlikely(!allow_spin)) {
+> -			/* call_rcu() cannot be called in an unknown context */
+> +		/* call_rcu() disables IRQs to protect percpu data structures */
 
 [Severity: High]
-Does hardcoding allow_spin to true here cause a kmemleak tracking symmetry
-violation for sheaves allocated with allow_spin =3D false?
+This isn't a bug introduced by this patch, but since you are modifying
+__kfree_rcu_sheaf() here, can this function trigger an invalid wait context
+warning in lockdep?
 
-In __kfree_rcu_sheaf(), if allow_spin is false, the empty sheaf is allocated
-using SLAB_ALLOC_TRYLOCK and gfp =3D 0. Because __GFP_RECLAIM bits are miss=
-ing,
-SLUB skips kmemleak registration for the object.
+According to the RCU guidelines, kvfree_call_rcu() is frequently called
+while holding a raw_spinlock_t (such as pi_lock in kernel/sched/core.c)
+and from hardirq context:
 
-When this sheaf becomes full and is processed by RCU, rcu_free_sheaf() hand=
-les
-the cleanup and delegates to free_empty_sheaf(), which now unconditionally
-calls kfree(sheaf) because allow_spin is hardcoded to true. Calling kfree()
-on an object that wasn't registered with kmemleak triggers kmemleak warning=
-s.
+mm/slab_common.c:kvfree_call_rcu() {
+    ...
+    if (kfree_rcu_sheaf(ptr))
+        return;
+    ...
+}
 
-[ ... ]
-> @@ -6112,20 +6122,25 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void=
- *obj)
-> =20
->  		local_unlock(&s->cpu_sheaves->lock);
-> =20
-> -		empty =3D alloc_empty_sheaf(s, GFP_NOWAIT, SLAB_ALLOC_DEFAULT);
-> +		if (unlikely(!allow_spin)) {
-> +			alloc_flags =3D SLAB_ALLOC_TRYLOCK;
-> +			gfp =3D 0;
-> +		}
-> +
-> +		empty =3D alloc_empty_sheaf(s, gfp, alloc_flags);
+This calls into __kfree_rcu_sheaf(), which unconditionally attempts to
+acquire a local_lock earlier in the function:
 
-[Severity: High]
-This is a pre-existing issue, but does the use of GFP_NOWAIT when allow_spin
-is true risk a deadlock?
+mm/slub.c:__kfree_rcu_sheaf() {
+    ...
+    if (!local_trylock(&s->cpu_sheaves->lock))
+        goto fail;
+    ...
+}
 
-Since GFP_NOWAIT contains the __GFP_KSWAPD_RECLAIM flag, the allocation can
-trigger wakeup_kswapd(). This enters the scheduler and attempts to acquire
-scheduler locks.
+Because local_lock has a lower lockdep wait type than raw_spinlock_t,
+does this wait context inversion violate nesting rules and trigger
+warnings?=20
 
-If kvfree_call_rcu() is invoked while a scheduler lock is already held,
-wouldn't this cause a lock recursion deadlock?
+Guarding lock_map_acquire_try with !IS_ENABLED(CONFIG_PREEMPT_RT) does not
+prevent this because local_trylock internally checks wait contexts
+regardless. Could this lead to panics on systems with panic_on_warn enabled?
+
+> +		if (unlikely(!allow_spin && irqs_disabled())) {
+>  			rcu_sheaf->size--;
+>  			local_unlock(&s->cpu_sheaves->lock);
+>  			goto fail;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260615-kfree_rcu_=
-nolock-v3-0-70a54f3775bb@kernel.org?part=3D3
+nolock-v3-0-70a54f3775bb@kernel.org?part=3D4
