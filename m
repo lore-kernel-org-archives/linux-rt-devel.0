@@ -1,91 +1,119 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5338411667
-	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 17:22:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B911E3AE19B
+	for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 20:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544123; cv=none; b=iAWRbXkSf82I9+RQWO2OPWh7dunwvWvPtvHxUX5Nm8sdbao+DvAdEVlitJocoeqgyg8BVkarzQwuBJxFZA14HLtMRACHUNgGD19viJbjcSYJgdExYIqOuYsUzuCnw7XRAWFmn75eN72CmjKjj90vCSsqV7+NfLuBvlWgetqPAlU=
+	t=1781553718; cv=none; b=tscWhwY4xnym22EyuvuNFkDj6AwBlEm//5ipHrVfLtum2LTRamGWU0i/JKbd5ZmxmYpVNHnBgpvqArQCueafh72F8wvpwmwYD05px1J3cWh5yEiMqoLyEJJHA9tDBhDdPSjIJ7/5BMLn2sXvQMS1FylpI1xzl/45e4OcyvFqFNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544123; c=relaxed/simple;
-	bh=QoyBWl8N0Lv138cX/ZGqgqOFnA1rVTP6LC3SFjrQZA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YjQVyY9L3GT61HARePBo26KZkKRsVaz2XtJEALkWZ+KySgkGCDlM2BJoOMTYeD/mEND4eCVN31g3VT4hNOo505Y0axX3k1Yh8rcti7YF1RTMCaOiaN2a89LIwo2KaP19E++WGEZbsScNqN0Rde9ZkV6OCmeHRlikcDrBgT3Y9nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AwdVrvNT; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bF2Jx9Dj; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1781553718; c=relaxed/simple;
+	bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=utrl9XEhz352DS6jEAkMFRyavQ8NAo25lslq7Dr1EX1KKjs3uiPLxKXYJkTxLbebg9tqJ4MK4tSo5/gjPSXCdiIFgX09PVHsw3bRGPWeTmvOcqvIibABSh0JQwpdyxTxrntW7mFKRCRCkqXiYzl7Wz+u7nVes2pggBuvE75dAJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KhIrpgNr; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AwdVrvNT";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bF2Jx9Dj"
-Date: Mon, 15 Jun 2026 19:21:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781544120;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g36MIwpGYoz3X7VL1Yutn+HhGIx2EjVVLG9IrRo4XS8=;
-	b=AwdVrvNTMnPiP117pH+w8Yusw6Pu9fpqsyY/bfv0hfJ9glQiTBK7M5v6xyuI+/od5zUjAV
-	Nwb/yR1D6G2D27VWA/9Ajka/728BGF5OzevCisU98XPgaznpZdmJgC3NDfyItFWFXoAsQr
-	fvBW3s35VfsU2Hz8Q0I/qMwuBR/7UZP3wK0yG40bAJEzhc0dyxcECkreKSY9y8jNGEiBb6
-	gcYC3sI+LGSc3U6b27t17nyukhwU3FdWGytMtwCHNQTkY5GZsmfEPZJTiLt0b2y1HubbTZ
-	yMCCZRtrMzS1zc5SLZE8KFrkw3GzwgQjnymC1/a0eBkOoXsbKSa9p/dcED9Asw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781544120;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=g36MIwpGYoz3X7VL1Yutn+HhGIx2EjVVLG9IrRo4XS8=;
-	b=bF2Jx9DjIAugTGfzqoeBJPeJfR2Oft6+R/cw7JPECtOjFGNdrEoN16C4yoqQlIfbIArarO
-	YvsEFaxd9OJCvuBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-Cc: Waiman Long <longman@redhat.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] arm64/entry: Don't disable preemption in
- debug_exception_enter() with RT kernel
-Message-ID: <20260615172158.AoVQ3Q3K@linutronix.de>
-References: <20260519222524.886454-1-longman@redhat.com>
- <20260520061920.XCqBHe0x@linutronix.de>
- <a5251664-2c15-4a8e-906b-d204e10c38be@redhat.com>
- <20260528145124.v9o6OcOc@linutronix.de>
- <20260528153554.vllN7_T9@linutronix.de>
- <aho0eqjMESuHxECr@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KhIrpgNr"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e6e2d54d3dso2125480a34.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 15 Jun 2026 13:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781553717; x=1782158517; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
+        b=KhIrpgNrkF/fpuhO1+bH0X9OXtgvmq3gb0C6dFWVK4dHBeJ31od0CHyoMHfsLDIfSh
+         DaYj9D2KYaj72FEXKgzjjDreFnQWwSbgjn3cz3plC8zfdMdRNXiMxzqvC7jYDBKI+R/q
+         RlkXQOotB1uUi74t/9t17eWIDEtb6wqfU0N2+pSJcciDY+Hprr9UrB44hMAlShNMZ9rW
+         ljQeYwgnPJuSUzQ0A6zf+KzwaORPuMHlVfUg0OZZPQ86jtgiK5qgd4NsNao3r/SzU7CR
+         nkHdeVoekdzIle5LmHyxYGevUTvfvQOa4/DV55Gu6W1zo06KruB8jj7NSVIizMlrktH7
+         blpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781553717; x=1782158517;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t8wGM2SNC1ZbIykMA3lZWDIYfskaWmiv8ePp9cK/vJI=;
+        b=G1IqY+l/1EJHbU5iW2TFrsZ2CusWxmg/QOMrxQoALaDX24n75FszTJpZdzDqGu74Cy
+         2SYyQwPLSkopSGICW5gv2IMRGfQL4ueykNe9vpmYuoSxSlJawTI5Ysc63ffXlWhPeD5i
+         HCW21NV9tvLRodqsmDObkWWIy3hlGBJFNp1vmvmuSnMx+ZnQ2dbeyUmxnNxHoKvoDrg9
+         yJKVV46RhhZnHK3obsdljrap2onA4F4/IBzZDK9zyieCufuQ/Zt0+sU0cnbilP8xA3Uf
+         KRPsPRKrqsHYCBpYGLYcQF+YmSwQ/5YQm5OsR04vpDWZYNWXmmtAhNjIO4TrdaOgf4Tr
+         Limw==
+X-Forwarded-Encrypted: i=1; AFNElJ+rwRqd9p/DB7ST06500uuJs79TWWFbVZ3uHm/QXpyA5AlaUZLCOLUgEjIGd3J79DYsMjbAqB1PrOu4me6d7A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZezNlvJTvj01RR693cwCgl8dvNh7/s7cGKWzzpCeaKU1Lp4ee
+	Y0Q4jUCCXdLJRsZFD38nvUtEq1NaGuHXGFQYuu+rFDE1K8Qbqx+ejIUW
+X-Gm-Gg: Acq92OGRAKsWHL76P+r2QLenb8kDfrwN2yAigtG5veJRQwm2YOIDCugIb53FGdzFAUq
+	Sv5e4NQ8is/UHOfnTM7BVg3ISyKf7enJGBq1kjzQKtzD+C21RHFprsGKtzF8wEDPe5OJWTkZG7+
+	eRatLec5FVPt/lQ/+mSb8ARmFLdnoK0QwuRxK7mLQVw1po5mnqRHLHearjYLbS7CP5kaZP4NVPJ
+	2qf0pes2ITbBNffFy3q5LycC2CqCTjFvign+rYTG/UT/Lwdv0lvHP5t6kBRnti/aChqNHKiIpQv
+	V+Z+ZR9NHAPCcNiznm1t/BazcS38vCWxUexR3yjjSdUFDzYPGhSiVR4ijC0Pk9keCkWxQ4y8gTy
+	kZI9Uj35yuciAVOHuDyJ1h2Eblz8viQ/BBi6yzyhAw5f8l5F89jIO5MiSTjWy2PI1c0dwBhUPwq
+	7FvJVsb+/9Qf5STbYgdVtga5B8+b3aGCTk5CyOXGx770siFNXjTUdFLXCrUMA/fmqIElD88yk9X
+	c0F7DOg2s5PedodDhtrxo44X/w=
+X-Received: by 2002:a05:6830:d11:b0:7e6:d542:aa with SMTP id 46e09a7af769-7e8fc512f82mr716552a34.23.1781553716566;
+        Mon, 15 Jun 2026 13:01:56 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:4::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f6b8624sm4773335a34.16.2026.06.15.13.01.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jun 2026 13:01:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aho0eqjMESuHxECr@redhat.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 15 Jun 2026 13:01:54 -0700
+Message-Id: <DJ9W31UCKPW5.R2LKIC72ZQ68@gmail.com>
+To: "Harry Yoo (Oracle)" <harry@kernel.org>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Hao Li"
+ <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David Rientjes"
+ <rientjes@google.com>, "Roman Gushchin" <roman.gushchin@linux.dev>, "Alexei
+ Starovoitov" <ast@kernel.org>, "Andrii Nakryiko" <andrii@kernel.org>,
+ "Puranjay Mohan" <puranjay@kernel.org>, "Amery Hung" <ameryhung@gmail.com>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams"
+ <clrkwllms@kernel.org>, "Steven Rostedt" <rostedt@goodmis.org>, "Paul E.
+ McKenney" <paulmck@kernel.org>, "Frederic Weisbecker"
+ <frederic@kernel.org>, "Neeraj Upadhyay" <neeraj.upadhyay@kernel.org>,
+ "Joel Fernandes" <joelagnelf@nvidia.com>, "Josh Triplett"
+ <josh@joshtriplett.org>, "Boqun Feng" <boqun@kernel.org>, "Uladzislau
+ Rezki" <urezki@gmail.com>, "Mathieu Desnoyers"
+ <mathieu.desnoyers@efficios.com>, "Lai Jiangshan" <jiangshanlai@gmail.com>,
+ "Zqiang" <qiang.zhang@linux.dev>, "Pedro Falcato" <pfalcato@suse.de>,
+ "Suren Baghdasaryan" <surenb@google.com>
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, <rcu@vger.kernel.org>,
+ <bpf@vger.kernel.org>
+Subject: Re: [PATCH for-next v3 1/9] slub_kunit: fall back to SW perf events
+ when HW PMU is not available
+From: "Alexei Starovoitov" <alexei.starovoitov@gmail.com>
+X-Mailer: aerc
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
+In-Reply-To: <20260615-kfree_rcu_nolock-v3-1-70a54f3775bb@kernel.org>
 
-On 2026-05-29 21:51:06 [-0300], Luis Claudio R. Goncalves wrote:
-> On Thu, May 28, 2026 at 05:35:54PM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2026-05-28 16:51:24 [+0200], To Waiman Long wrote:
-> > > > The kernel backtrace is produced using the latest v7.1-rc4 kernel. There are
-> > > > a number of changes to the debug_exception_enter() and
-> > > > debug_exception_exit() functions over the years, but the preemption disable
-> > > > code remains since its introduction in v5.3.
-> > > 
-> > > Let me look at this again.
-> > 
-> > So how do you reproduce this? The calls within debug_exception_enter()/
-> > exit() look harmless or I miss the big thing here.
-> > From your backtrace, you have brk_handler() and this is gone since
-> > commit 31575e11ecf7e ("arm64: debug: split brk64 exception entry") which
-> > is v6.17-rc1. I can use gdb with breakpoint handling.
-> 
-> Sebastian, in the original series Ada provided a few tests, including the
-> two files I list below. Running that test in a v7.1-rc5 kernel with
-> PREEMPT_RT and DEBUG_ATOMIC_SLEEP enabled, I get this backtrace:
+On Mon Jun 15, 2026 at 4:05 AM PDT, Harry Yoo (Oracle) wrote:
+> slub_kunit uses hardware perf events to invoke _nolock() APIs from NMI
+> context. However, creating a HW perf event fails when there is no
+> hardware PMU, or when running in a virtualized environment without a
+> virtual PMU configured.
+>
+> Since tests are often performed in virtualized environments, fall back
+> to a SW perf event so that the test can still run, even if it cannot
+> cover IRQ-disabled sections.
 
-This is a reminder to myself that I need to look at this since it does
-not look solved with the breakpoint patches. But this is also perf.
+Frankly, I wouldn't bother with this fallback, since it completely misses
+irq disabled section which is the one to test with *_nolock().
+VMs need to configured properly. Even nested VMs support
+PERF_COUNT_HW_CPU_CYCLES.
 
-Sebastian
+Also in overflow_handler_test_nolock()
+I would add
+even->hw.interrupts =3D 0;
+to the end to make sure it actually stress tests things.
+Without it NMIs are not firing quickly enough.
+
