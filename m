@@ -1,75 +1,54 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A018316192
-	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA93B33D6C7
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781593767; cv=none; b=dhPMvyIlZDuulqeUle/IBsH1qfd3wu1kbNyryhTJHNcwIDfq8y75rJKoWR7SYAMX0/xCicn2Emz3ZViqb2ykYi1cQR7j0CUCVs7y21VqtyzdWoK7OJa6c3rcIz+1nJckd6A460SXlElxDuOIpgjuWNUBpE5Dc+obBih83QkKF44=
+	t=1781594863; cv=none; b=U4b9o6hzcp003HQzKWeI4ixSfcAbokeVfSTK73c6y1FQv5jLmMxTKenmgTwX1aTpoAhzUWaDjgrP/LmOwf9pGdSmtg646Z0IsERM6f00+R/IrlXEN6IOd1pXXOTJHecdreBqYDGs42wjef++sx/9oKW5SvOo94n3pi7euNN6WF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781593767; c=relaxed/simple;
-	bh=x06EytUj1cUar/FCWQk48AyH/dFMOgOpvY0ZBp+gRuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lzcg1zZuCNj9pI9t6/u9dyTA7XUPKw4xBvOEuzXQclDCJ7iqv//cZFS7KmzotCb5M22OlX4zjgwvxoIqdkLqKxIUIgn8ILK5UZBC4BvwZPeguDmCq9cnBGaXjg89fyc0H4AONOheKo/MPM7dGCYAdiNUgrFwz+/EWB7FYhGyDFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7X8qfMg; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781594863; c=relaxed/simple;
+	bh=nl2KhLYTjDu/weO3hmQUZyto7iut233yvLAozLtohfg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ze6/D9dGjKMqkqKLUtOWGgWKteXk53LGbkOru8wEXIMCbOPUZKak2nJwbD7WQDwkhGonsrBJI99QTXLB57o65sY8mSyFNrbujfLxFIUhiJutwWh0DtSiqkutDvIA61awwYlK27xwR1l3UXAORByKXeDH44VPIn4z/MK9BqVkErs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=rgZukOpc; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7X8qfMg"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa65a184f2so3977785e87.1
-        for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 00:09:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781593764; x=1782198564; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CkzoBaCuAa+vTIFS8jlJVus+yT58jGb9pw8BHvECoBY=;
-        b=R7X8qfMgSMC/NaPbI5SftyXaIKW7XiRAo5ktJl7pDIf098C60xXgtlJD416H23wLbB
-         UnYJROedhW5xWgejwI2zpVjpFmpkkaQxEyXfVpdoIiT9Yy25T5QUaNmeadmE1KD34/El
-         NPkpByIDrXtbCjc9UmNITR8VBKnkn5lZc30ICPCXNe5vvjA7KxJzJjz9Oh1CH3veKw6+
-         AhXA+vrc29l9wDNKaWKrPH4J0qRbM7lpQKWMcL0r3a2NB/x8A4CvgjDW/66nOPJV0IlI
-         +nVlnX9kjyHIfj1XBSVn1BUrGm0aSoOw7vqrjqkWnQjUoC/PQ1uK2qT9/pitIO1sRJeg
-         towA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781593764; x=1782198564;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CkzoBaCuAa+vTIFS8jlJVus+yT58jGb9pw8BHvECoBY=;
-        b=rdzrfWcHBDyklMYFSO5CrQmBJvQM0yOFJzZ5arZJCEytgduTURaj2JzKrDrk2EnvBI
-         WenpLJRQ8xVmFfs2ZjJeq6L1xZy1uvAkeFQ5OZ7JrkMcTmDZfArCzPUhlwVbsxSQOQbF
-         JHq1RPFd0nQlTYMMoxhWuKgh5gGaOZw2uZ08l5HPZlnNL6HTUFkCTd+k8GSBpbNTmjif
-         SbrE/wlYhF8/btwXYgclfFow+gpuNAgIwKHMhpnFY+8VnzUzBo+UXhNmxVKJDh5yCejN
-         aSlhIWUiIi1ddOd0t5Xw4Wk0tkRybSYHYjS7JPzco54PhB9XD8ia33/jeLPD1iY+eKHb
-         4d1w==
-X-Forwarded-Encrypted: i=1; AFNElJ+U5FUWMEw7gM2dsNnfeyhMsxFdyaieOSotbFLVGl/CusUGiN2D0l4la9T7hzmadaVys26E7pvmAeWD4dPaog==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwX8BLlh2i8z5EfxccKT5RmIi2z/hYyArRFFhbaBLzmAn/o5fYk
-	YYBfom/QtDWD5IYvjNlqAMkwXunSExz4f/zpZZyqmuR6Y6fnyHtiXtFx
-X-Gm-Gg: Acq92OEd8LQk9+/mvHqArvl3+KKZ5tPk7ZO6In9VIm9HrI+QDuPc2sWbc6IApHBu0R0
-	F0Gc2mom6Flu1DzlLJr0RACTWmtmObnqXpBe9nBQt+GMjb2HIbSIaYYLTBBARS7k5sEDYA//kC4
-	+0gLX5o7qgOccIw2rE/ieCV6LQYwIQzqWmBh4LhmJhWsPMOLXMC/GBLltLiBS/n3Ni9zauVP4Fv
-	gPrhL4F+WTpSk2Agj+2c4A7uJj+AECwSzSvIOqxAp1cAr1Y95wm3Si4bL3pqoatd/Cwciz1hBht
-	IcqVCnU+mFaxkHM7IiZt4xUuNHx+HEND3r54UcBGMeLJx21U/WhYZRnzndr2pCPEKlRJQ7u4fOR
-	v8nPLcgQJsX3j/jvwpp0JdMqIJTwcifrsUEUnk6lukg7zoZ15mhSvoqU/msl13/ZOReAg/lOJHI
-	lRo6G3YkHvnR1Gi2JHZJLN4k1kUsIgXknd
-X-Received: by 2002:a05:6512:1452:10b0:5aa:7525:e770 with SMTP id 2adb3069b0e04-5ad437220f0mr460894e87.40.1781593763842;
-        Tue, 16 Jun 2026 00:09:23 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3995c04d4d1sm4876581fa.4.2026.06.16.00.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 00:09:22 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-	John Stultz <jstultz@google.com>
-Cc: Stephen Boyd <sboyd@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH] timekeeping: Register default clocksource before taking tk_core.lock
-Date: Tue, 16 Jun 2026 12:09:14 +0500
-Message-ID: <20260616070914.65818-1-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="rgZukOpc"
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65G69YmF2262437;
+	Tue, 16 Jun 2026 07:26:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=W+cluXi79
+	vQzeFuIuku4WBBZGeVmIeItCbIc6BatS6A=; b=rgZukOpcYnNGd+S126K7d4RLK
+	vAroZ3sOlkRIp/e6mWwk0qyPV+Nq2MnIyjKAk6TSgOuegfapzp0dvNW/OrYUkEfM
+	6PZWeuBXBDVIAG8saY8X5DlnZk0JTkSmmbL72thc4cckRIpPNFtClr5zR3D+qh4X
+	Rx5swT7I7zPZpBiadcqWWz8EJBc8MRPmihoJRNjkp9uyLpPDVx/eoyilifG8BSBb
+	JZaQ71cDizw5AxRPcuqU2rbeipEkjokOTJb36aZLjNX8TiETLQxYwISJtvOSrLbp
+	lunMRU1iLZoWw852qR/4yGOF9h9Pv7ZYPv14l9Er55S8CxHDW/5UoL0nPDwcg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4erx63vdqk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 16 Jun 2026 07:26:54 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Tue, 16 Jun 2026 00:26:53 -0700
+Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Tue, 16 Jun 2026 00:26:50 -0700
+From: Yun Zhou <yun.zhou@windriver.com>
+To: <marcin.s.wojtas@gmail.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
+        <rostedt@goodmis.org>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-rt-devel@lists.linux.dev>, <yun.zhou@windriver.com>
+Subject: [PATCH] net: mvneta: free/request IRQ across suspend/resume
+Date: Tue, 16 Jun 2026 15:26:49 +0800
+Message-ID: <20260616072649.2514602-1-yun.zhou@windriver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -77,86 +56,103 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=SvmgLvO0 c=1 sm=1 tr=0 ts=6a30fabe cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8 a=H1i4495hyjeC5Vi1NPAA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: eASCHtemyO39xCKV8K3IW93vE8r8mEHF
+X-Proofpoint-ORIG-GUID: eASCHtemyO39xCKV8K3IW93vE8r8mEHF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDA3MyBTYWx0ZWRfX1ly//fMlYdK9
+ PkSuq6rwkIyVKraixGuaP6S7ReZOZY3M4GjkhyhogjbBtjOeLFaYUAviNkM2lRDD0z0PDDO297Y
+ ChEt8tKCtx8IcIiECfBggd2qlElfbysbEz1KTKeDY1/WIBajumWr8wOrRDbbYmSCB5EaWjr68tV
+ x1QhY8jJY9Vc5rL3cKHmVbKEnJ5ZLe4ysWX/wPz88Qwsl1PKjPQ+MwyqKHMYuUD7f9hz2mj+KM7
+ /Hi0ASumC3U3lSTgo3NYtRr9yrNULQa7YuuQst/Wq1fhYcoA/IQzcEcNJlR7kJbPAcFzEt2827B
+ tlFoMmcmUKM1Kpebn/B/B+++z4oyVT2rxan/P6M2Vttrh8dssx611l0nqfXGqu4j3JaGAodZWN8
+ Ktaw3fNR029p/ZtVpw30dfbVOGY4nMcUpoSRsrLLJFR2gJ2peXUiNbJOp1S22RIMd2ZRFtvfqY0
+ 8c8irkNEID+bxi2Rsjg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDA3MyBTYWx0ZWRfXxH3wVxPmftBa
+ RICvVkj6cxCAVx5hoNt71qfgAfMb3yPPYNFKc7MpKWoIW3iaKJlJ9MOg4J9ovovsRC4SAqLYcF2
+ h7B7hBZSTbDAv5KHgbLNGc/QAO4v/1pFyMaOl2jWnNOvzY1mlbOT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-16_02,2026-06-15_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 impostorscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 spamscore=0 priorityscore=1501
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606160073
 
-Commit f24df84cbe05 ("time/jiffies: Register jiffies clocksource before
-usage") moved the jiffies clocksource registration into
-clocksource_default_clock(), so that it is registered lazily on the first
-call. __clocksource_register() acquires clocksource_mutex, but the first
-caller is timekeeping_init(), which invokes clocksource_default_clock()
-while holding tk_core.lock, a raw spinlock.
+On PREEMPT_RT, the mvneta IRQ handler is force-threaded. Under high
+network traffic, the IRQ can enter suspend with desc->depth == 1
+(masked by the oneshot mechanism between handler invocations).
 
-Acquiring a sleeping mutex while holding a raw spinlock is invalid, and
-lockdep reports it on every boot when CONFIG_PROVE_RAW_LOCK_NESTING is
-enabled:
+During suspend, the kernel increments depth to 2 and masks the
+interrupt at the MPIC level (clearing the SRC_CTL CPU routing bit,
+due to IRQCHIP_MASK_ON_SUSPEND). On resume, depth is decremented
+back to 1, but since it does not reach 0, the unmask is never
+called. The MPIC CPU routing remains cleared, permanently disabling
+interrupt delivery.
 
-  =============================
-  [ BUG: Invalid wait context ]
-  -----------------------------
-  swapper/0/0 is trying to lock:
-  ... (clocksource_mutex){....}-{4:4}, at: __clocksource_register_scale
-  other info that might help us debug this:
-  context-{5:5}
-  1 lock held by swapper/0/0:
-   #0: ... (&tkd->lock){....}-{2:2}, at: timekeeping_init+0x1d5/0x320
-  stack backtrace:
-   dump_stack_lvl+0x84/0xd0
-   __lock_acquire.cold+0x39/0x63
-   lock_acquire.part.0+0xc7/0x280
-   __mutex_lock+0x1b2/0x2440
-   __clocksource_register_scale.cold+0x289/0x609
-   clocksource_default_clock+0x31/0x50
-   timekeeping_init+0x1e3/0x320
-   start_kernel+0x243/0x3f0
-   x86_64_start_reservations+0x24/0x30
-   x86_64_start_kernel+0x134/0x140
-   common_startup_64+0x13e/0x151
+Fix by freeing the IRQ in suspend and re-requesting it in resume.
+This ensures a clean IRQ state (depth=0, proper hardware routing)
+on every resume cycle, regardless of the pre-suspend depth. This
+follows the approach used by other drivers (e.g. igb).
 
-On PREEMPT_RT this is a genuine sleeping-while-atomic bug. On !RT
-clocksource_mutex is uncontended at this point, so the boot survives, but
-the locking rule is violated either way.
-
-The default clocksource only has to be registered before
-tk_setup_internals() consumes its mult/shift/maxadj. Neither
-clocksource_default_clock(), the ->enable() callback, nor the registration
-itself need tk_core.lock, so fetch and enable the clock before acquiring
-the lock. This preserves the "register before usage" ordering while
-keeping clocksource_mutex out of the raw spinlock section.
-
-clocksource_default_clock() has a second caller,
-clocksource_done_booting(), which invokes it with clocksource_mutex
-already held. That path avoids a recursive lock only because
-timekeeping_init() has already run and set cs_jiffies_registered, so the
-registration is skipped there. This change does not alter that; it only
-fixes the invalid wait context in timekeeping_init().
-
-Fixes: f24df84cbe05 ("time/jiffies: Register jiffies clocksource before usage")
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Fixes: 9768b45ceb0b ("net: mvneta: support suspend and resume")
+Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
 ---
- kernel/time/timekeeping.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/net/ethernet/marvell/mvneta.c | 28 +++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
-index 0d5b67f609bb..b1b5ec43c0f2 100644
---- a/kernel/time/timekeeping.c
-+++ b/kernel/time/timekeeping.c
-@@ -2061,13 +2061,14 @@ void __init timekeeping_init(void)
- 	 */
- 	wall_to_mono = timespec64_sub(boot_offset, wall_time);
+diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
+index 0c061fb0ed07..e7e9a58dbe55 100644
+--- a/drivers/net/ethernet/marvell/mvneta.c
++++ b/drivers/net/ethernet/marvell/mvneta.c
+@@ -5819,6 +5819,20 @@ static int mvneta_suspend(struct device *device)
+ 	mvneta_stop_dev(pp);
+ 	rtnl_unlock();
  
-+	clock = clocksource_default_clock();
-+	if (clock->enable)
-+		clock->enable(clock);
++	/* Release IRQ to avoid stale MPIC mask state on resume.
++	 * On PREEMPT_RT, forced-threaded oneshot IRQs may leave the
++	 * interrupt masked (depth>0) at suspend time. This prevents
++	 * resume_device_irqs() from restoring the MPIC CPU routing,
++	 * permanently disabling the interrupt. Re-requesting the IRQ
++	 * on resume guarantees a clean state.
++	 */
++	if (pp->neta_armada3700)
++		free_irq(dev->irq, pp);
++	else {
++		on_each_cpu(mvneta_percpu_disable, pp, true);
++		free_percpu_irq(dev->irq, pp->ports);
++	}
 +
- 	guard(raw_spinlock_irqsave)(&tk_core.lock);
+ 	for (queue = 0; queue < rxq_number; queue++) {
+ 		struct mvneta_rx_queue *rxq = &pp->rxqs[queue];
  
- 	ntp_init();
+@@ -5895,6 +5909,20 @@ static int mvneta_resume(struct device *device)
+ 						 &pp->node_dead);
+ 	}
  
--	clock = clocksource_default_clock();
--	if (clock->enable)
--		clock->enable(clock);
- 	tk_setup_internals(tks, clock);
- 
- 	tk_set_xtime(tks, &wall_time);
++	/* Re-request IRQ (see comment in mvneta_suspend) */
++	if (pp->neta_armada3700) {
++		err = request_irq(dev->irq, mvneta_isr, 0, dev->name, pp);
++	} else {
++		err = request_percpu_irq(dev->irq, mvneta_percpu_isr,
++					dev->name, pp->ports);
++		if (!err)
++			on_each_cpu(mvneta_percpu_enable, pp, true);
++	}
++	if (err) {
++		netdev_err(dev, "cannot request irq %d\n", dev->irq);
++		return err;
++	}
++
+ 	rtnl_lock();
+ 	mvneta_start_dev(pp);
+ 	rtnl_unlock();
 -- 
-2.54.0
+2.43.0
 
