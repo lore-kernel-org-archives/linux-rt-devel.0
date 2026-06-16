@@ -1,144 +1,190 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FFA2BE655;
-	Tue, 16 Jun 2026 08:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DFE3B5835
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 09:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781599378; cv=none; b=qbAHBxQyGj/0SDxWMRuNkLbjneE09Tq6v0M4hbXLxIGk+gXl2bQkdyo3skClEvQjMy9iewNtLykDdEiM4h6LfCTruL9HSp9JkGNyaB2k0jUAuu45ZM5Wzhdr6L3W4RP+fYHeA2RY93z2itpjq61g996ibUHYfOFlTPzUI7b2Gp8=
+	t=1781601297; cv=none; b=HYausghe0lbkTlDxi90Sla4OhDPdTozkKp5i84nrJyayQ82nXg7S+F/N0ylyfOzpSe2QgRhxpPMWL0Toys7E9g4kPmC/C3VJ3qPxdTTzCLDnPByoTFBfTFJnbcVreiZuMgPQXv9niPc1LHz1ncC9VYNrwgf/zbCH1NPhOc7M3HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781599378; c=relaxed/simple;
-	bh=v3fHJVl5ONcdvYSJEKJkSO+iQB0w021T6jrAFShW4VI=;
+	s=arc-20240116; t=1781601297; c=relaxed/simple;
+	bh=36QuOsrDYCjnp8U7ww8EIJ3McAUGN/4LJTtMIwuyMRM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CDt4QTt+GwctwYztfxFQu9RSrzKPw//swO3QpM8RS4zTc3AgaTKd8DFvaaD3EG701w6jnbGRoti0wqBLJAk7qbW7/yU/csbkA0Nlwu5PUFHfrxxlkCJrJvs+UfMiCyeQu40xMJNM2bUiWZZOFvEzPMnqsF6eIitCo3Th3Kw4dBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=vZTt8EQm; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=IYoh2fRq0XxxvMJTUL0SsoSJaXNKWlnzygNyWoQClqk8vWryi3J7Jx9VU/i8yGjkpv+C1eAbRa8WzK0axclQXk+z2vuFhSvD3Qh2gNVlA3SnWSXM5Y+6g52+uVSgyBmSE7hQ3JU+vifLi0a1easshrPuJ3/4SjNQAFmv2mNxD/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dCJuf2Sh; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="vZTt8EQm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=B8jnQZvMblKBYe36izNr0q9WBNLBoBeu4kD5d6rr5GE=; b=vZTt8EQmzahMHdwBNNG/F2pWCN
-	balPEGzVSntBiuTRH2jAIZV2QpyrQQUahEG0/xcAOclDQt0kaOFzSPaDmcO8I7bhrjEqTL6PIZfZU
-	Y8hC5APVLJKyd3tng92cVIdMf7l+9jByP1p5UQF3YjowOGzsL6PpMQl7rDbZHSZeH8xx9DREGwPs9
-	6xN4GBd8NLgK2GemQCaPR48Ib5v+7JXHbOqFzDx8Jm6RtaI406AzHqiXSZdTsDDV+2eaHp8wmjIUf
-	l4cxA8j3iCqiV6Ans4aiUUemAdfl0CWiw8TCd5bYE3hobQz51172leLaHgCbQJUGp4+3sT07Hr1HM
-	4gO2jd7w==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wZPNe-00Divz-2e;
-	Tue, 16 Jun 2026 08:42:47 +0000
-Date: Tue, 16 Jun 2026 01:42:42 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Cc: Thomas Gleixner <tglx@kernel.org>, John Stultz <jstultz@google.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dCJuf2Sh"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso2900025f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 02:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1781601294; x=1782206094; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=t5fVPPL/MiFjakxmgMV5dR14morQiFY0hOlZW95hlco=;
+        b=dCJuf2Shy3t+stgN2RP4z0a5yTUwjhSYJP74oPic6CiyItcCvZtHtZXPum9Ry6Aws1
+         DkzzfYyA7e6qoTldLLYtfVkbyl3HnI43W4wo4CppbzRlFrhs2yMNRnPZDSIlnJfWPOt7
+         PqpxxkrtgzFXr0Au7490EMJtXDu8vVUlwvjGUNOlDAopjHd+2LMT8RAY8SlcyRIfVQqI
+         BTIjofQktTVkRvwqIOD1PRa4tjXYDXQK29s73i34h1pXwCpnfiN3fgRvtGGJsuph/jHS
+         j2hSP72WAAkHqVTWeijZ9MPU4w+RKmMyPcGNx2Vjtz4hkPcJQbAAS9c3KGhaoa7t5ImG
+         tiLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781601294; x=1782206094;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t5fVPPL/MiFjakxmgMV5dR14morQiFY0hOlZW95hlco=;
+        b=T2uwpp41H6atQrcxXT1ssMfNu9iZj3DIuVZIrhWqGFWokZDUZGvLWUIMdQQZnHJH/e
+         XgvEuW8S6Ly51t8UxsBj6ABLUJMTJ7aJ+2Sou/8dtsDWlKmpuzkmqpRl3sP3u6PJwuMa
+         zQq8euWP1NgfTuiVbMhYa38hcuGZQzjcIwbL061Z8b6lU1CLlyic38ulYDs/kP/G5aLY
+         2VEZiE4ZIvtJ/jPDs4ey7Ep9IW5njMNNQa3loRAk9yLFgBMohNJpjR8wqGE2kcZoizYd
+         7xMNFsqKL8oKuzMpIMcBu/U1Ze6wgdTQb7Uy2LHSUGDtgKBBLdJXYIQ2H5z3xAxU6yxE
+         AHgA==
+X-Forwarded-Encrypted: i=1; AFNElJ9SJnE20uvZ0ILiqWx8L9xS0Jy2do4UPRGFCsivst+facbJRL+enH7yL+u8fo5X5mofxv8vl7LJ5byFwTwhRg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZTLQmntxhezuNiyvwou+cDZufV03jOc7JCxyd3yeqMEH12qUy
+	/1JncrydbZT3HWEDSaDU2YxwbwUSBmT9rjPOCqhFj/qgJJscZcvB/CL13u9Z3db6VVg=
+X-Gm-Gg: Acq92OElPJro8PPUL4HFrdFx5zVQYO5k+2S3OWI76nyioXfqN6YNZKCChBzmfYw38dc
+	K/3Fg/h2PuWD7S4waF48skQYBQnQtXJxRjpSy1SKVquc9vrwnjDBA9n/HwkHf72Sb468YoFD3y5
+	Oii8RQtBzck+aqCGfRZEY1Br9tqzAs+2paoqIASBGbhdgZPKIv5YRedhVtqc8mOYIKvGoDa0O4Q
+	j2JZw9AwSUXaPnF5xyfmFZhmxj8JEI6akUutInTTzpNtpIRtFlptptwRnLKby+s+Ng6+yfa7JDf
+	Py+V6IVH1QxA4I9SIMfiboN+a0LJTRrq6tbsbZ5V+GVnFrgOEG2dVAtnTi+qoDpSGD/DKEojdIZ
+	oOKNK7W4T7DHhgM2INfr6KmshGIdhAPfnREeIdKwpscbAlhKrvwOSTfSd70M4Fp4byy5SQbEBf9
+	eONe1zLmlGmosPu+u9BZtHnA/4Kw==
+X-Received: by 2002:a5d:458b:0:b0:460:1387:19f6 with SMTP id ffacd0b85a97d-4619f3cfa3fmr3458320f8f.36.1781601293594;
+        Tue, 16 Jun 2026 02:14:53 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm14890498f8f.6.2026.06.16.02.14.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 02:14:53 -0700 (PDT)
+Date: Tue, 16 Jun 2026 11:14:50 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>,
 	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH] timekeeping: Register default clocksource before taking
- tk_core.lock
-Message-ID: <ajELmhO0cT9gKQUl@gmail.com>
-References: <20260616070914.65818-1-mikhail.v.gavrilov@gmail.com>
+Subject: Re: [PATCH v4 5/5] lib/vsprintf: Validate spinlock context during
+ restricted pointer formatting
+Message-ID: <ajEUClmHBPiiB4eC@pathway.suse.cz>
+References: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
+ <20260608-restricted-pointers-final-v4-5-9a436615799e@linutronix.de>
+ <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260616070914.65818-1-mikhail.v.gavrilov@gmail.com>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
 
-On Tue, Jun 16, 2026 at 12:09:14PM +0500, Mikhail Gavrilov wrote:
-> Commit f24df84cbe05 ("time/jiffies: Register jiffies clocksource before
-> usage") moved the jiffies clocksource registration into
-> clocksource_default_clock(), so that it is registered lazily on the first
-> call. __clocksource_register() acquires clocksource_mutex, but the first
-> caller is timekeeping_init(), which invokes clocksource_default_clock()
-> while holding tk_core.lock, a raw spinlock.
+On Thu 2026-06-11 12:09:08, Thomas Weiﬂschuh wrote:
+> On Mon, Jun 08, 2026 at 04:21:45PM +0200, Thomas Weiﬂschuh wrote:
+> > Depending on the system configuration, the restricted pointer formatting
+> > might call into the security subsystem which takes spinlocks, which
+> > might sleep under PREEMPT_RT. As %pK is intended to be only used from
+> > read handlers of virtual files, which always run in task context,
+> > this should not be a problem in practice.
+> > However, developers have used %pK before from atomic context without
+> > realizing this restriction. While all existing user of %pK through
+> > printk() have been removed, new ones might be reintroduced accidentally
+> > in the future.
+> > 
+> > Add a lockdep annotation to unconditionally introduce a fake spinlock in
+> > restricted_pointer(), so lockdep can detect misuse even if the current
+> > test system configuration would not exhibit the issue.
+> > This is intentionally a single lock instance shared by all callers,
+> > as that mirrors what can happen in the security subsystem.
+> > 
+> > This check comes intentionally after the in_task() one, to have the
+> > clearer diagnostic first when the function is called from IRQ context,
+> > which will trigger both.
+> > 
+> > Link: https://lore.kernel.org/lkml/20250113171731-dc10e3c1-da64-4af0-b767-7c7070468023@linutronix.de/
+> > Link: https://lore.kernel.org/lkml/20241217142032.55793-1-acarmina@redhat.com/
+> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > ---
+> >  lib/vsprintf.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> > index 09e0e5194d41..728a1acd69ae 100644
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -864,7 +864,14 @@ static noinline_for_stack
+> >  char *restricted_pointer(char *buf, char *end, const void *ptr,
+> >  			 struct printf_spec spec)
+> >  {
+> > +	/*
+> > +	 * has_capability_noaudit() may use spinlocks.
+> > +	 * Make sure %pK is only used from valid contexts.
+> > +	 */
+> > +	static DEFINE_WAIT_ASSERT_MAP(vsprintf_restricted_pointer_map, LD_WAIT_CONFIG);
+> > +
+> >  	lockdep_assert(in_task());
+> > +	guard(lock_map_acquire)(&vsprintf_restricted_pointer_map);
 > 
-> Acquiring a sleeping mutex while holding a raw spinlock is invalid, and
-> lockdep reports it on every boot when CONFIG_PROVE_RAW_LOCK_NESTING is
-> enabled:
+> The kernel test robot found a lockdep violation with this patch:
+> https://lore.kernel.org/all/202606110945.d3871219-lkp@intel.com/
 > 
->   =============================
->   [ BUG: Invalid wait context ]
->   -----------------------------
->   swapper/0/0 is trying to lock:
->   ... (clocksource_mutex){....}-{4:4}, at: __clocksource_register_scale
->   other info that might help us debug this:
->   context-{5:5}
->   1 lock held by swapper/0/0:
->    #0: ... (&tkd->lock){....}-{2:2}, at: timekeeping_init+0x1d5/0x320
->   stack backtrace:
->    dump_stack_lvl+0x84/0xd0
->    __lock_acquire.cold+0x39/0x63
->    lock_acquire.part.0+0xc7/0x280
->    __mutex_lock+0x1b2/0x2440
->    __clocksource_register_scale.cold+0x289/0x609
->    clocksource_default_clock+0x31/0x50
->    timekeeping_init+0x1e3/0x320
->    start_kernel+0x243/0x3f0
->    x86_64_start_reservations+0x24/0x30
->    x86_64_start_kernel+0x134/0x140
->    common_startup_64+0x13e/0x151
->
->
-I am seeing a similar issue, although from a different code path.
+> My suspicion is that this is a pre-existing problem that was not visible
+> to lockdep so far, exactly what this patch is supposed to mitigate.
+> I'll investigate some more and try to reproduce it.
 
-	 =============================
-	 [ BUG: Invalid wait context ]
-	 7.1.0-next-20260615upstream-14023-g8d6dbbbe3ba6 #32 Not tainted
-	 -----------------------------
-	 swapper/0/0 is trying to lock:
-	 ffff800084e4bd80 (clocksource_mutex){....}-{4:4}, at: __clocksource_register_scale+0x5c4/0xa48
-	 other info that might help us debug this:
-	 context-{5:5}
-	 1 lock held by swapper/0/0:
-	  #0: ffff80008ca99930 (&tkd->lock){....}-{2:2}, at: timekeeping_init+0x158/0x290
-	 stack backtrace:
-	 CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.1.0-next-20260615upstream-14023-g8d6dbbbe3ba6 #32 PREEMPT(full)
-	 Hardware name: linux,dummy-virt (DT)
-	 Call trace:
-	  show_stack+0x24/0x38 (C)
-	  __dump_stack+0x28/0x38
-	  dump_stack_lvl+0x94/0xe0
-	  dump_stack+0x18/0x24
-	  __lock_acquire+0xba4/0x3520
-	  lock_acquire+0x150/0x390
-	  __mutex_lock+0xe4/0x1240
-	  mutex_lock_nested+0x30/0x48
-	  __clocksource_register_scale+0x5c4/0xa48
-	  clocksource_default_clock+0x40/0x68
-	  timekeeping_init+0x164/0x290
-	  start_kernel+0x2b0/0x4b8
-	  __primary_switched+0x8c/0xa0
+I was curious and found the following. The problematic patch seems to be:
 
+[   92.754552][ T3827]   lock_acquire (locking/lockdep.c:5868)
+[   92.757345][ T3827]   class_lock_map_acquire_constructor (linux/lockdep.h:557 (discriminator 1))
+[   92.759895][ T3827]   restricted_pointer (vsprintf.c:874)
+[   92.770231][ T3827]   pointer (vsprintf.c:2582)
+[   92.772166][ T3827]   vsnprintf (vsprintf.c:2956)
+[   92.774145][ T3827]   seq_printf (seq_file.c:392 seq_file.c:407)
+[   92.776083][ T3827]   tcp6_seq_show (ipv6/tcp_ipv6.c:2147 (discriminator 1) ipv6/tcp_ipv6.c:2221 (discriminator 1))
+[   92.778212][ T3827]   traverse (seq_file.c:112)
+[   92.780125][ T3827]   seq_lseek (seq_file.c:324 (discriminator 1))
+[   92.782106][ T3827]   proc_reg_llseek (proc/inode.c:283)
+[   92.789616][ T3827]   __ia32_sys_lseek (read_write.c:391)
+[   92.791786][ T3827]   ia32_sys_call (kbuild/obj/consumer/i386-randconfig-013-20260610/./arch/x86/include/generated/asm/syscalls_32.h:20)
+[   92.793792][ T3827]   __do_fast_syscall_32 (x86/entry/syscall_32.c:83)
+[   92.795973][ T3827]   do_fast_syscall_32 (x86/entry/syscall_32.c:332)
+[   92.797992][ T3827]   do_SYSENTER_32 (x86/entry/syscall_32.c:370)
+[   92.799987][ T3827]   entry_SYSENTER_32 (x86/entry/entry_32.S:835)
 
-> On PREEMPT_RT this is a genuine sleeping-while-atomic bug. On !RT
-> clocksource_mutex is uncontended at this point, so the boot survives, but
-> the locking rule is violated either way.
-> 
-> The default clocksource only has to be registered before
-> tk_setup_internals() consumes its mult/shift/maxadj. Neither
-> clocksource_default_clock(), the ->enable() callback, nor the registration
-> itself need tk_core.lock, so fetch and enable the clock before acquiring
-> the lock. This preserves the "register before usage" ordering while
-> keeping clocksource_mutex out of the raw spinlock section.
-> 
-> clocksource_default_clock() has a second caller,
-> clocksource_done_booting(), which invokes it with clocksource_mutex
-> already held. That path avoids a recursive lock only because
-> timekeeping_init() has already run and set cs_jiffies_registered, so the
-> registration is skipped there. This change does not alter that; it only
-> fixes the invalid wait context in timekeeping_init().
-> 
-> Fixes: f24df84cbe05 ("time/jiffies: Register jiffies clocksource before usage")
-> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+If I get it correctly then traverse() might take spin_lock_bh(lock)
+via:
 
-Reviwed-by: Breno Leitao <leitao@debian.org>
+ + traverse()
+   + tcp_seq_start()
+     + tcp_get_idx()
+       + established_get_idx()
+	 + established_get_first()
+	  + spin_lock_bh(lock);
+
+And then it calls vsnprintf(" %pK" in
+
+  + tcp6_seq_show()
+    + get_tcp6_sock()
+      + seq_printf()
+
+By other words, it calls vsnprintf("%pK") with disabled softirqs.
+
+If I get it correctly then this might create a deadlock because
+vsnprinf("%pK") can be called also with (soft)irqs enabled,
+then soft(irq) might came and want to take the spin_lock(lock)...
+
+As a result, we should not use %pK in tcp6_seq_show().
+
+Best Regards,
+Petr
