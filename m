@@ -1,115 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B12047B432;
-	Tue, 16 Jun 2026 17:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781631518; cv=none; b=mFeGCelZ4HkdNGnqlQxlSmPr2qYYFlzjejhJ0qVpLAYfvstmy1f+tQVc1uDPyGks628iWkG75NX6187HAlA9SjGqLDoSFy0jXw/SNBYVAUVr36sKVtjhW3/vuKohCJ3josj3Tkc71IvncfzNBesdDWph2QovQId89Jt54h+/g6s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781631518; c=relaxed/simple;
-	bh=JR6Mzgj+ZHM9uaha5suN+1ton1h53Moa5iW97gm1Bow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tfVQjpU1omjdsZM3TapYy+TlgeWlBnOHi4s8zunI7FQQzKZj1D/SoheD8k+Y1FNUE5xC6eRFKrTDNfSSHm+likuKcXArDhXBi8TNQOrYNSO5XHFfzuZ1k/ASbhnJ/9HiifEWY6c7KnTJim/QtaISBv1j3vdXCg5jKVnePHnW1ic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RrAsnxec; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F6B32C302
+	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 19:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781638153; cv=pass; b=MUxgpQJltEuw70EzwWuMqPUR7C5IETeZ7N9kcBIva/60egyc1+AYKxWDzGlTMVSh/+cegL40LsxqdJ5T22w7hdO2y0ICyfOSqON4BbwcBQdWdU2Er6jw1p/WmKvPWPUqSUgjlc34g7OrxSvZY1PqFWsjwjhhEehqiEJYFfBd3k4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781638153; c=relaxed/simple;
+	bh=UjGnd8TK3ZsS1d9FtTAXuIVumjvq51GEDpPVi+5bAR8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NLKTppyqA5nKAwb1EkvhcKs6nGwGLASdYVjqeJ/vZoJRc+1d3PeKnR1YDNoLsQLqau2Ce/t29tNYd3gUr0loqxulmLw4zeUuIppP/oJkXNabAcsoH82zQGguyRkwUIRdvm5Vtle1xcoWy0Y2hf/lWwF8uc0Vn37QRWIT67LYR3g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TaOmFvoz; arc=pass smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RrAsnxec"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C9B71F00A3A;
-	Tue, 16 Jun 2026 17:38:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781631517;
-	bh=QK0WcBjuiKh3VFQfCN5accJY6l2Z8scVMqhkVQzP9qE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RrAsnxec8P54n6b6R6QwwiJZCip8IXfDNZr8JRBoLwAn20sgtgBr/zz+2WrtTT8aG
-	 xpDj2IDsCQT6Ww2fGNeBd4+olS+MBwLhv8QkoRnKoIEL9cygOB2mlvdEbxhykCF+QO
-	 q1t2UYpMDRL2pjjtDAAPY9MjM1yiTP26D+xOIPXypu0LfpsAipafDWlh4WRxhEE/xI
-	 NIBC3Vr/Lk4et/QcuoWY3TyJxETAnn8WpTqhXDkknWPmEBgEZ/gZ9IQ6nId06TPoJA
-	 yJLx5oQcs+Txw23vZ2pnzd95hrR9A9Vi1yuhlj+RzSKyyZ6DAPZQDCZ1ptpN50/6ht
-	 WaZHZUJq4l2CQ==
-Message-ID: <518ef286-9c33-4a9e-9d4f-3ed962b977ae@kernel.org>
-Date: Tue, 16 Jun 2026 19:38:28 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TaOmFvoz"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7e718d46a6aso2777837a34.0
+        for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 12:29:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781638151; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RWGnIflzfEIlN5stKizRhXDaMajHz8cTWSBpZslyvRSpHNpz9Dvp25Id06zXUdeoZp
+         bexxunUoEONfZelIy7TGcQYoBfsivpOkp20XWrekxvSX5fw02M4VNs9qoywXClP3WgYY
+         tMgdvc7oYQylti+453Y1g9VvwTdQ6ZZVrMReUSAndEL67ITxm4SE7SJ1TTitb61AoKOG
+         obtqdNCM3LYuSZj3Xf3ONl/EnCmoST2Fhhm9PIB1jyC+xwkpI2nGFbbT8UVfWHMmAipx
+         lM51yHFuJ0Ygo4RvTzLra6jehV+qtXDBcN56NcS9XOiUGQBKCw0Alb+AnSrgXbRkVib8
+         87Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/DbtWcjbJdcQgrj7XNPW8S69zPf+OoH9UEMu7Hzoegs=;
+        fh=WzVMVGPaOsjZP+FZmmDIUEkM6Br8o2UKJGdPnYDhXVQ=;
+        b=lCZoXt8plGK8eRvdNrTzVuIEceni0+V0grDYPgBkTiqDeA9WLotW6gJGcudhW/4Mf0
+         0EU/MDDT/mUvdZ3dpKue4pFSq/hz9x17bQNjew9tLJ1D+HtTQsBRfJiS7OvC9A/JvPU6
+         VJ2K1/gFdkk6A4LVDsqPCP1GhGtbpvRQMmHKdHTnnH1du3W2IDXSSAr7S4zRTEn8qcKj
+         XMiTb6xz9+mhnr499MqZ6Ruj82ZrFokybG4rty2Bv+JLyt0xUa/foIoLgCquWnf4eyt/
+         AA87m+gvEG6AEs0NMAOCZ0DRFuDpN6j4UGAi2hC86alDlslhnY6SmRsGBR0sRmOqSJF5
+         lSCA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781638151; x=1782242951; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/DbtWcjbJdcQgrj7XNPW8S69zPf+OoH9UEMu7Hzoegs=;
+        b=TaOmFvozugehtlQCKtuK4bg1WUdUnMr4iHQiGXXRiWE7HVbBnC705+R4RZnoGj5QsM
+         O1CfMO6Yti7bS4YgAdc01N9COeTkS9IJcI+avQEnWOOqAyC29cC8Co0H/eBdmmahJslh
+         SbEFY/Bv3qqIBLiWo7d6GBRiJvNBAINeH4TTDC/MNtSEjjKr/t7pypw3dBKUtol9FCZ+
+         A5N/2PB33HgUL8GoCX4TZ9Il1uaz0CEohduOhTZ9HnB7R5o9SZA8gEytNKNCIqXBlrB0
+         z/rQGgt+Q3mNmsZlrfHB+BmNWnVrWA8wehJjNRnXse5l9GAymqpyiaPKZBZr1bJKdUXH
+         xb/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781638151; x=1782242951;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/DbtWcjbJdcQgrj7XNPW8S69zPf+OoH9UEMu7Hzoegs=;
+        b=MiFv4DJomMf1xdU3hzqtcrf7Id5zPE23OCE6B0ksSHyQUEQ7BKKCa1CUsEGIwTmQCK
+         FwIkB6v2cmk2tcRSMikDPXvJHsqoXBG32WcGq6C7Pc31KfbQzBg+FIi7jbPp91CmBK/x
+         AfbA+f2aKhA/iR3URl57Qpko2uNa4iryooTQjQ8qsy13uDbjn2KhZXOjgH8Ir1JdVFWA
+         KHUx4h9evXAvsxdXiV2YqH3MlCHERN3Rm0/P66Qf2QhSIYkClOdgxnPiYaAB0vdegR+/
+         zXnCL37RznU0JYXQ6ZDOiStwrdk10wcgZv04s1pVvc7ZfFhFSc+njdvMQHVyeeA1RBZI
+         tiEw==
+X-Forwarded-Encrypted: i=1; AFNElJ9txgLCQga2CNteFYHtQp7ONDVLg6AJPsQ45fTjH8AFEhMY5SFJWpFyV81+XvPUclO4/mZj4tQMA1cSW/S/rQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywyt9JN3XWsP6YJoXBFUR0AOy4EQuDmMbAWcHJ3mlrtCe0dxEpb
+	TQidwssUxegBO1+G/PG1NlIMMIXsGc51aeW7fOEXQWtPvpEVCz8VQyZMuym2dvAfu5tiB13Dvdz
+	OywQpHBO0vk4EjZr0Xn4vnsfz09Gr+SQ=
+X-Gm-Gg: Acq92OG7PmmCL+27/BDKs9Hb/TrXJVLXzW9UqTzi4aGv7fZushR+urhR6EViUsluQtm
+	UVsiT3yrJAvAiDYQiEkMthu2k7CRip2K5u+0u6kjdLS5Rr35PSTDEIQLuTwoIy+u0w/rgFeSsPF
+	ZDye2I4ihvPzGZ/cjkjh3KkPqT915zT/PwboJvi+7Nm4yaiHwYJhBXUCZZwUjAu9WPUMT6fyJwo
+	BLS53yCjgBr1S53qPuFioYkyDbNX8khc0x0FIR0hWzhcgqXVz+ZmFQYPj9nmX/LUYilUQ966Wav
+	FGTNVfce3j3iMfRU2wwk
+X-Received: by 2002:a05:6830:398d:b0:7dc:d0e3:5bc1 with SMTP id
+ 46e09a7af769-7e90b4b0c14mr830251a34.13.1781638150796; Tue, 16 Jun 2026
+ 12:29:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 9/9] slub_kunit: extend the test for
- kfree_rcu_nolock()
-Content-Language: en-US
-To: "Harry Yoo (Oracle)" <harry@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-9-70a54f3775bb@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-9-70a54f3775bb@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260616070914.65818-1-mikhail.v.gavrilov@gmail.com> <ajELmhO0cT9gKQUl@gmail.com>
+In-Reply-To: <ajELmhO0cT9gKQUl@gmail.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Wed, 17 Jun 2026 00:28:59 +0500
+X-Gm-Features: AVVi8Cee7q7usPbFYOjsHrTnVxCM5F2rK3VxWlJg_CGFXiS02kS6nyiVFDdHQiE
+Message-ID: <CABXGCsO5AHLdPnukgVMzgFy1WSxPJZmWNeHr9qOg3M0fHRA0Bg@mail.gmail.com>
+Subject: Re: [PATCH] timekeeping: Register default clocksource before taking tk_core.lock
+To: Breno Leitao <leitao@debian.org>
+Cc: Thomas Gleixner <tglx@kernel.org>, John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/15/26 13:06, Harry Yoo (Oracle) wrote:
-> When slub_kunit is not built-in, call kfree_rcu() and kfree_rcu_nolock()
-> to test kfree_rcu_nolock() in slub_kunit.
-> 
-> Rename the test case as the test covers more _nolock() APIs.
-> 
-> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+On Tue, Jun 16, 2026 at 1:42=E2=80=AFPM Breno Leitao <leitao@debian.org> wr=
+ote:
+> I am seeing a similar issue, although from a different code path.
+>
+>          =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>          [ BUG: Invalid wait context ]
+>          7.1.0-next-20260615upstream-14023-g8d6dbbbe3ba6 #32 Not tainted
+>          -----------------------------
+>          swapper/0/0 is trying to lock:
+>          ffff800084e4bd80 (clocksource_mutex){....}-{4:4}, at: __clocksou=
+rce_register_scale+0x5c4/0xa48
+>          other info that might help us debug this:
+>          context-{5:5}
+>          1 lock held by swapper/0/0:
+>           #0: ffff80008ca99930 (&tkd->lock){....}-{2:2}, at: timekeeping_=
+init+0x158/0x290
+>          stack backtrace:
+>          CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.1.0-next-2026=
+0615upstream-14023-g8d6dbbbe3ba6 #32 PREEMPT(full)
+>          Hardware name: linux,dummy-virt (DT)
+>          Call trace:
+>           show_stack+0x24/0x38 (C)
+>           __dump_stack+0x28/0x38
+>           dump_stack_lvl+0x94/0xe0
+>           dump_stack+0x18/0x24
+>           __lock_acquire+0xba4/0x3520
+>           lock_acquire+0x150/0x390
+>           __mutex_lock+0xe4/0x1240
+>           mutex_lock_nested+0x30/0x48
+>           __clocksource_register_scale+0x5c4/0xa48
+>           clocksource_default_clock+0x40/0x68
+>           timekeeping_init+0x164/0x290
+>           start_kernel+0x2b0/0x4b8
+>           __primary_switched+0x8c/0xa0
+>
+>
+> Reviwed-by: Breno Leitao <leitao@debian.org>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Thanks for the Reviewed-by and the arm64 confirmation. Note that
+f24df84cbe05, which this fixes, is itself Cc: stable, so this should
+land in the same stable trees. I'm happy to resend with Cc:
+stable@vger.kernel.org added if you prefer; otherwise it can be picked
+up via the Fixes: tag or added on apply.
 
+
+--=20
+Best Regards,
+Mike Gavrilov.
