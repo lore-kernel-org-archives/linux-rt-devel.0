@@ -1,190 +1,123 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DFE3B5835
-	for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 09:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6353ABDA4;
+	Tue, 16 Jun 2026 09:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781601297; cv=none; b=HYausghe0lbkTlDxi90Sla4OhDPdTozkKp5i84nrJyayQ82nXg7S+F/N0ylyfOzpSe2QgRhxpPMWL0Toys7E9g4kPmC/C3VJ3qPxdTTzCLDnPByoTFBfTFJnbcVreiZuMgPQXv9niPc1LHz1ncC9VYNrwgf/zbCH1NPhOc7M3HU=
+	t=1781601629; cv=none; b=rZgaLdb5Sh5P4ZY+rWkQOf12DKFCFyvhOoA6zmONjTADPE+L3x44xPBK4rMsH0C0WHIFUxnF0npcZbO+CX76AlJNmvYEnJXYxkL3Je6G/nlknPG/1syb2spf5xrsjQbiRfuafP9yyKpIGPtXQeSg8G2rGbent1zdSMp2t7EekzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781601297; c=relaxed/simple;
-	bh=36QuOsrDYCjnp8U7ww8EIJ3McAUGN/4LJTtMIwuyMRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IYoh2fRq0XxxvMJTUL0SsoSJaXNKWlnzygNyWoQClqk8vWryi3J7Jx9VU/i8yGjkpv+C1eAbRa8WzK0axclQXk+z2vuFhSvD3Qh2gNVlA3SnWSXM5Y+6g52+uVSgyBmSE7hQ3JU+vifLi0a1easshrPuJ3/4SjNQAFmv2mNxD/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dCJuf2Sh; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1781601629; c=relaxed/simple;
+	bh=Cr+DI/LlbjtXfZaaazfALq/4PnrYr/JXdwNX9hG4uw0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=G+xP+P6+VhKHvIhF0en73EedoPuh50i2wNcbrx75Z7BxkV61nrtC+NDzkIFr1iEkqwC24lh2tifzmj9FAiPww/kpNoB8W0VgQEllbZDtsYpb14bbBsR1gu7favrs52vglfaREufONYgKBka+PQeP/ewY0B8ZOmAQsbfpAYM4Kdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a5jNwEBg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dCJuf2Sh"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso2900025f8f.0
-        for <linux-rt-devel@lists.linux.dev>; Tue, 16 Jun 2026 02:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781601294; x=1782206094; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=t5fVPPL/MiFjakxmgMV5dR14morQiFY0hOlZW95hlco=;
-        b=dCJuf2Shy3t+stgN2RP4z0a5yTUwjhSYJP74oPic6CiyItcCvZtHtZXPum9Ry6Aws1
-         DkzzfYyA7e6qoTldLLYtfVkbyl3HnI43W4wo4CppbzRlFrhs2yMNRnPZDSIlnJfWPOt7
-         PqpxxkrtgzFXr0Au7490EMJtXDu8vVUlwvjGUNOlDAopjHd+2LMT8RAY8SlcyRIfVQqI
-         BTIjofQktTVkRvwqIOD1PRa4tjXYDXQK29s73i34h1pXwCpnfiN3fgRvtGGJsuph/jHS
-         j2hSP72WAAkHqVTWeijZ9MPU4w+RKmMyPcGNx2Vjtz4hkPcJQbAAS9c3KGhaoa7t5ImG
-         tiLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781601294; x=1782206094;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t5fVPPL/MiFjakxmgMV5dR14morQiFY0hOlZW95hlco=;
-        b=T2uwpp41H6atQrcxXT1ssMfNu9iZj3DIuVZIrhWqGFWokZDUZGvLWUIMdQQZnHJH/e
-         XgvEuW8S6Ly51t8UxsBj6ABLUJMTJ7aJ+2Sou/8dtsDWlKmpuzkmqpRl3sP3u6PJwuMa
-         zQq8euWP1NgfTuiVbMhYa38hcuGZQzjcIwbL061Z8b6lU1CLlyic38ulYDs/kP/G5aLY
-         2VEZiE4ZIvtJ/jPDs4ey7Ep9IW5njMNNQa3loRAk9yLFgBMohNJpjR8wqGE2kcZoizYd
-         7xMNFsqKL8oKuzMpIMcBu/U1Ze6wgdTQb7Uy2LHSUGDtgKBBLdJXYIQ2H5z3xAxU6yxE
-         AHgA==
-X-Forwarded-Encrypted: i=1; AFNElJ9SJnE20uvZ0ILiqWx8L9xS0Jy2do4UPRGFCsivst+facbJRL+enH7yL+u8fo5X5mofxv8vl7LJ5byFwTwhRg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZTLQmntxhezuNiyvwou+cDZufV03jOc7JCxyd3yeqMEH12qUy
-	/1JncrydbZT3HWEDSaDU2YxwbwUSBmT9rjPOCqhFj/qgJJscZcvB/CL13u9Z3db6VVg=
-X-Gm-Gg: Acq92OElPJro8PPUL4HFrdFx5zVQYO5k+2S3OWI76nyioXfqN6YNZKCChBzmfYw38dc
-	K/3Fg/h2PuWD7S4waF48skQYBQnQtXJxRjpSy1SKVquc9vrwnjDBA9n/HwkHf72Sb468YoFD3y5
-	Oii8RQtBzck+aqCGfRZEY1Br9tqzAs+2paoqIASBGbhdgZPKIv5YRedhVtqc8mOYIKvGoDa0O4Q
-	j2JZw9AwSUXaPnF5xyfmFZhmxj8JEI6akUutInTTzpNtpIRtFlptptwRnLKby+s+Ng6+yfa7JDf
-	Py+V6IVH1QxA4I9SIMfiboN+a0LJTRrq6tbsbZ5V+GVnFrgOEG2dVAtnTi+qoDpSGD/DKEojdIZ
-	oOKNK7W4T7DHhgM2INfr6KmshGIdhAPfnREeIdKwpscbAlhKrvwOSTfSd70M4Fp4byy5SQbEBf9
-	eONe1zLmlGmosPu+u9BZtHnA/4Kw==
-X-Received: by 2002:a5d:458b:0:b0:460:1387:19f6 with SMTP id ffacd0b85a97d-4619f3cfa3fmr3458320f8f.36.1781601293594;
-        Tue, 16 Jun 2026 02:14:53 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4619b9b7750sm14890498f8f.6.2026.06.16.02.14.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 02:14:53 -0700 (PDT)
-Date: Tue, 16 Jun 2026 11:14:50 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v4 5/5] lib/vsprintf: Validate spinlock context during
- restricted pointer formatting
-Message-ID: <ajEUClmHBPiiB4eC@pathway.suse.cz>
-References: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
- <20260608-restricted-pointers-final-v4-5-9a436615799e@linutronix.de>
- <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a5jNwEBg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 639F71F000E9;
+	Tue, 16 Jun 2026 09:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781601627;
+	bh=Cr+DI/LlbjtXfZaaazfALq/4PnrYr/JXdwNX9hG4uw0=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=a5jNwEBgb8NE7sjPTAqAASarn7s9L7kUBxYy1b7o9nJuNTimyuI1NdbsirIqTOsgM
+	 +dVa5mtgAXH4Tj8Jumdbs2MdTqtCq6JVEepvSiihJV+1VeqY9BZ8cn2SWwEsvzya5O
+	 WzJEYKVxeuuibpeFjBLO5z4ACGW/7eVKaM629mia5St63rDrZoVSGX8KDDdHuNl374
+	 +Q88ddf862x73R+AVQQ6Ifmhx2/Da+jO9Bom/aP4KAFxJ7LwkyUAYhMc35tR4yatfT
+	 NdUs2wfBpfNcidXluRGN5XsIvKlxKXWkcgX/IKyrjfwbTgODzspuCid9fXvZDX7D86
+	 OtvPb9Qatv/Rw==
+Message-ID: <a9d67e65-ccfd-49b0-b9c3-6a749166bdc0@kernel.org>
+Date: Tue, 16 Jun 2026 11:20:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next v3 3/9] mm/slab: handle the !allow_spin case in
+ kfree_rcu_sheaf()
+Content-Language: en-US
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+To: "Harry Yoo (Oracle)" <harry@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-3-70a54f3775bb@kernel.org>
+ <4d7ebcd5-f3b7-4c73-94f1-b7d3ac12a521@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <4d7ebcd5-f3b7-4c73-94f1-b7d3ac12a521@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu 2026-06-11 12:09:08, Thomas Weiﬂschuh wrote:
-> On Mon, Jun 08, 2026 at 04:21:45PM +0200, Thomas Weiﬂschuh wrote:
-> > Depending on the system configuration, the restricted pointer formatting
-> > might call into the security subsystem which takes spinlocks, which
-> > might sleep under PREEMPT_RT. As %pK is intended to be only used from
-> > read handlers of virtual files, which always run in task context,
-> > this should not be a problem in practice.
-> > However, developers have used %pK before from atomic context without
-> > realizing this restriction. While all existing user of %pK through
-> > printk() have been removed, new ones might be reintroduced accidentally
-> > in the future.
-> > 
-> > Add a lockdep annotation to unconditionally introduce a fake spinlock in
-> > restricted_pointer(), so lockdep can detect misuse even if the current
-> > test system configuration would not exhibit the issue.
-> > This is intentionally a single lock instance shared by all callers,
-> > as that mirrors what can happen in the security subsystem.
-> > 
-> > This check comes intentionally after the in_task() one, to have the
-> > clearer diagnostic first when the function is called from IRQ context,
-> > which will trigger both.
-> > 
-> > Link: https://lore.kernel.org/lkml/20250113171731-dc10e3c1-da64-4af0-b767-7c7070468023@linutronix.de/
-> > Link: https://lore.kernel.org/lkml/20241217142032.55793-1-acarmina@redhat.com/
-> > Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > ---
-> >  lib/vsprintf.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> > index 09e0e5194d41..728a1acd69ae 100644
-> > --- a/lib/vsprintf.c
-> > +++ b/lib/vsprintf.c
-> > @@ -864,7 +864,14 @@ static noinline_for_stack
-> >  char *restricted_pointer(char *buf, char *end, const void *ptr,
-> >  			 struct printf_spec spec)
-> >  {
-> > +	/*
-> > +	 * has_capability_noaudit() may use spinlocks.
-> > +	 * Make sure %pK is only used from valid contexts.
-> > +	 */
-> > +	static DEFINE_WAIT_ASSERT_MAP(vsprintf_restricted_pointer_map, LD_WAIT_CONFIG);
-> > +
-> >  	lockdep_assert(in_task());
-> > +	guard(lock_map_acquire)(&vsprintf_restricted_pointer_map);
-> 
-> The kernel test robot found a lockdep violation with this patch:
-> https://lore.kernel.org/all/202606110945.d3871219-lkp@intel.com/
-> 
-> My suspicion is that this is a pre-existing problem that was not visible
-> to lockdep so far, exactly what this patch is supposed to mitigate.
-> I'll investigate some more and try to reproduce it.
+On 6/16/26 09:55, Vlastimil Babka (SUSE) wrote:
+> On 6/15/26 13:05, Harry Yoo (Oracle) wrote:
+> Also maybe there could be a wrapper kfree_maybe_nolock() (~better name?)
+> That means "I want to kfree safely in kfree_nolock() context something that
+> MIGHT have been kmalloc()"
+> And maybe depending on the debugging options that make kmalloc() ->
+> kfree_nolock() incompatible, if those are not enabled, it wouldn't have to
+> defer, but proceed normally?
 
-I was curious and found the following. The problematic patch seems to be:
+Or just make kfree_nolock() handle all (non-large) kmalloc() objects. Seems
+the blockers are only kmemleak and kfence.
 
-[   92.754552][ T3827]   lock_acquire (locking/lockdep.c:5868)
-[   92.757345][ T3827]   class_lock_map_acquire_constructor (linux/lockdep.h:557 (discriminator 1))
-[   92.759895][ T3827]   restricted_pointer (vsprintf.c:874)
-[   92.770231][ T3827]   pointer (vsprintf.c:2582)
-[   92.772166][ T3827]   vsnprintf (vsprintf.c:2956)
-[   92.774145][ T3827]   seq_printf (seq_file.c:392 seq_file.c:407)
-[   92.776083][ T3827]   tcp6_seq_show (ipv6/tcp_ipv6.c:2147 (discriminator 1) ipv6/tcp_ipv6.c:2221 (discriminator 1))
-[   92.778212][ T3827]   traverse (seq_file.c:112)
-[   92.780125][ T3827]   seq_lseek (seq_file.c:324 (discriminator 1))
-[   92.782106][ T3827]   proc_reg_llseek (proc/inode.c:283)
-[   92.789616][ T3827]   __ia32_sys_lseek (read_write.c:391)
-[   92.791786][ T3827]   ia32_sys_call (kbuild/obj/consumer/i386-randconfig-013-20260610/./arch/x86/include/generated/asm/syscalls_32.h:20)
-[   92.793792][ T3827]   __do_fast_syscall_32 (x86/entry/syscall_32.c:83)
-[   92.795973][ T3827]   do_fast_syscall_32 (x86/entry/syscall_32.c:332)
-[   92.797992][ T3827]   do_SYSENTER_32 (x86/entry/syscall_32.c:370)
-[   92.799987][ T3827]   entry_SYSENTER_32 (x86/entry/entry_32.S:835)
+Kmemleak is a debugging option not for production so if it's enabled, just
+defer free everything.
 
-If I get it correctly then traverse() might take spin_lock_bh(lock)
-via:
-
- + traverse()
-   + tcp_seq_start()
-     + tcp_get_idx()
-       + established_get_idx()
-	 + established_get_first()
-	  + spin_lock_bh(lock);
-
-And then it calls vsnprintf(" %pK" in
-
-  + tcp6_seq_show()
-    + get_tcp6_sock()
-      + seq_printf()
-
-By other words, it calls vsnprintf("%pK") with disabled softirqs.
-
-If I get it correctly then this might create a deadlock because
-vsnprinf("%pK") can be called also with (soft)irqs enabled,
-then soft(irq) might came and want to take the spin_lock(lock)...
-
-As a result, we should not use %pK in tcp6_seq_show().
-
-Best Regards,
-Petr
+KFENCE is a production option, but we could just defer_free for
+is_kfence_address() and that will be rare.
