@@ -1,41 +1,44 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CE63B7769;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30A83B8105;
 	Wed, 17 Jun 2026 06:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781679347; cv=none; b=rNV2IDcoHDahq7FTW+dPWS1JADi9B9nNJayJHrfSqvjjpSW6Be+JGWV0bXohzSF7xvDOIsvQH6TvHvPtzQiZRkf0owgQ14lMxQZl+QMUJc41x66rzYzz3D9iQn2NUsDcSxulMN//Aezt54zCeVlygnzp6EbgB1bNvEEjJlJxwBE=
+	t=1781679347; cv=none; b=Vn+2eYG0GaGG1Gkd6y1N0DlKkqSdFYys4s7OfV4eCJx0NhU9OslOQU/YBln1V+Mt4xQnU9t1UL9UWP3YIwV4q/oE+7LF6ei3NEHwfJw6icO/s+yMjAkHUuNmFBKI4wZ9MM7/P93C2tfHaUNTfToSflvGfAvaCBLBYR7/0Tds1wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781679347; c=relaxed/simple;
-	bh=Slnw8SPxpndDQ59zZN0npqpUlmJwwQ8Gek7tqyVolos=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JGfdV+3Oq7qUxL2dAQZwkcULFBdpCqm0SyZpZ4ClFeooPG8+F6lRy7D7p7jtd6fUbyVjOmY8WtNNuyNJmDtf5sJoEN6H0FNcKDjHJkzRqf6+ZcxLfp64u/A3wMeruO3Uv36ymjO24JYacriBKh9MfE3vcPCKeltdObdPaJPKggg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tOtodkB6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FIlUEPa3; arc=none smtp.client-ip=193.142.43.55
+	bh=5Pw8T1+jKgfblXAUJw8ZxdtyGBVQ2FjHPIKfg/XodJQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hmOg7KT2Mfvg7cr0ys5GywSFCZKbFzwfduNWDouR/WUk3GqAZV4aReqSQFoYlaY0kuKzlWUYzorFpJ0JAhlUJoD2TyPkeg9/SVa5bWJv/yD7xrf0E0KpK4aT9CbtgbH0vlBl6MyNu/bI2PdgYS+6tkenwJpvHJlFhnHjzWW7jqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=xhUXCBqq; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o+qabkhs; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tOtodkB6";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FIlUEPa3"
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="xhUXCBqq";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o+qabkhs"
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781679343;
+	s=2020; t=1781679344;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=e9nchplALmdInXrIeq0H4ZfQBWRoLMZu7mZZrHWhkXc=;
-	b=tOtodkB6a25IswuJPODrO6GdwfCn6Afmg8ATx+6vfDzOKDjL7M060NVVXq72+9ryJOuDa1
-	Xu+dsSTfaW6wJbbd91DGv5+Hk8oNcegLqkmTLKOosacM2IYVYQTP5+ZcG+mBNj9y2GTH3y
-	+O3u+9ViEAkTvmvJgQNvSHl11SX6g8+XYD/K6riDbevMnpfqJSsc/GAQenuThb826oLshk
-	tg49oHs9ETPzVViyT2xx6hUWnnPlmmpTeoNxEGFzrLovGHjCoce8IZRNoS6gRBE2+A9Xw1
-	uerVUZGHS/ZCl/ivcY83Fz93gw1/J81FKjILxDBy7Vu/moEy+LvDQGUmccRR1w==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CBZwcNL1eAQUAHJfoFSR6vjSaP4CfP98WpLqLWH2NEc=;
+	b=xhUXCBqqY3ZTzw3Etoal/C+jfmal1HS4BCPmF9LgagPZls5uptQHmTDsi2iSC21DysjPT/
+	Wa4SMF0Az4k0H0AEZ87XdczztQ0tthR5x8FWO9ujVaOU/0q7wkupzxC1gUkjQh3chaNQwZ
+	JIZi4oxJo5O9L+s+N6w16Ed8HvN1Alk7jvnHMcC0zBVsIogfOduFGqp9CRUdfBEfE0u7mw
+	o+8ayhT6VIaj8C/LYVACJoVv5ifoxcyffwc2Ir/EcFwXkOwkYdknTnjQF4CMAeUQoFnNPu
+	S5JIGFb/H70/Iy7BvNl6SvuF+et+MD/pqfPMrGfCIPpEbEJ7cmpaCOmtIjDcrA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781679343;
+	s=2020e; t=1781679344;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=e9nchplALmdInXrIeq0H4ZfQBWRoLMZu7mZZrHWhkXc=;
-	b=FIlUEPa3B8kzJnoFXNbHuOn7ro8dFMqNxrfeM7bRgWfCnkMc8koGgM3ekqMcxjNbMvMiUg
-	WiPlAnyXxrnpxHBg==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CBZwcNL1eAQUAHJfoFSR6vjSaP4CfP98WpLqLWH2NEc=;
+	b=o+qabkhss1CF9txBm3J5BtgSGmHg0yjdOUdm0zBjW5oqk7OPywC5SzGdrcyaowwMDTWDTi
+	/3SCgpz/PEOIQtCw==
 To: linux-remoteproc@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
@@ -51,9 +54,11 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Peng Fan <peng.fan@nxp.com>
-Subject: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid kworker in imx's remoteproc
-Date: Wed, 17 Jun 2026 08:55:25 +0200
-Message-ID: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+Subject: [PATCH v3 02/10] mailbox: imx: Add a channel shutdown field
+Date: Wed, 17 Jun 2026 08:55:27 +0200
+Message-ID: <20260617-imx_mbox_rproc-v3-2-77948112defc@linutronix.de>
+In-Reply-To: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -61,89 +66,137 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260529-imx_mbox_rproc-7d512f5a6f78
 Content-Transfer-Encoding: quoted-printable
 
-The imx's remoteproc driver uses a kworker from its mailbox callback to
-complete the request. The reason is that the imx mailbox driver invokes
-the callback from its interrupt handler and the remoteproc callback (at
-least the rpmsg-tty) requires a preemptible context.
+sashiko complained about possible teardown problem. The scenario
 
-This works but is problematic in a PREEMPT_RT environment where the
-latency of the invocation is important. By scheduling a kworker the
-high task priority from the threaded handler is lost and the kworker
-competes for CPU ressources with every SCHED_OTHER task in the system.
-This can lead to long delays on a busy system with other RT threads
-which are less important than the completion of this request.
+ CPU 0                              CPU 1
+  imx_mu_isr()                   imx_mu_shutdown()
+                                   imx_mu_xcr_rmw(priv, IMX_MU_RCR, 0, IMX_=
+MU_xCR_RIEn(priv->dcfg->type, cp->idx));
+    imx_mu_specific_rx()
+      imx_mu_xcr_rmw(priv, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->type, 0)=
+, 0);
+                                   free_irq()
 
-Looking over other mailbox driver, like the arm_mhu for instance, they
-use a threaded interrupt handler to invoke the callback. This avoids the
-kworker detour.
+The RX event remains enabled because in this short window the RX event
+was disabled in ->shutdown() while the interrupt was active and then
+enabled again by the ISR while ->shutdown waited in free_irq().
 
-The here suggested change utilises a threaded interrupt to invoke the
-callback. The primary handler mask the interrupt source so that the
-handler can run without getting interrupted by the interrupt again.
-Doing so avoids marking the interrupt IRQF_ONESHOT so that in a
-shared-interrupt environment the other interrupt can still fire while
-the first is masked.
+This race requires timing and if happens can be problematic on shared
+handlers if the "removed" channel triggers an interrupt. In this case
+the irq-core will shutdown the interrupt with the "nobody cared"
+message.
 
-The first four patches are result of the sashiko review. Does not look
-critical.
+Introduce imx_mu_con_priv::shutdown to signal that the channel is
+shutting down. This flag is set with the lock held (by
+imx_mu_xcr_clr_shut()). The unmask side uses imx_mu_xcr_set_act() which
+only enables the event if the channel has not been shutdown and
+serialises on the same lock.
 
-This change was tested on a im93 board with rpmsg-tty driver.
-
-v2=E2=80=A6v3: https://lore.kernel.org/r/20260603-imx_mbox_rproc-v2-0-a0059=
-dc3b69a@linutronix.de
-  - Forward the error in imx_mu_generic_tx() to the caller (new patch
-    #1)
-  - Extend the patch description a bit for for "Start splitting the IRQ
-    handler" to briefly explain why callbacks are moved to the threaded
-    handler.
-  - Drop imx_mu_con_priv::pending. The primary handler wakes its
-    threaded handler. Once the handler is woken, the pending flag must
-    be set and there is no need to set/ clear it.
-  - Avoid the double clk_disable_unprepare() if
-    devm_mbox_controller_register() fails.
-
-v1=E2=80=A6v2: https://lore.kernel.org/r/20260529-imx_mbox_rproc-v1-0-b8ffc=
-36e11e5@linutronix.de
-  - Using correct register to enable RXDB event.
-  - Update commit description for the "threaded interrupt", "unmasks the
-    interrupt" =3D> "masks the interrupt event".
-  - Add a shutdown field so that the interrupt does not unmask the
-    interrupt if it has been already disabled because the channel is
-    about to be shutdown.  A possible race mentioned by sashiko.
-  - Use devm_pm_runtime_enable(). This should avoid a possible race
-    sashiko mentioned.
-  - Use devm_of_platform_populate().
-
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
-Sebastian Andrzej Siewior (10):
-      mailbox: imx: Forward the timeout/ error in imx_mu_generic_tx()
-      mailbox: imx: Add a channel shutdown field
-      mailbox: imx: Use devm_pm_runtime_enable()
-      mailbox: imx: use devm_of_platform_populate()
-      mailbox: imx: Use channel index instead of zero in imx_mu_specific_rx=
-()
-      mailbox: imx: Start splitting the IRQ handler in primary and threaded=
- handler
-      mailbox: imx: Move the RX part of the mailbox into the threaded handl=
-er
-      mailbox: imx: Move the RXDB part of the mailbox into the threaded han=
-dler
-      mailbox: imx: Don't force-thread the primary handler
-      remoteproc: imx_rproc: Invoke the callback directly
+ drivers/mailbox/imx-mailbox.c | 40 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 36 insertions(+), 4 deletions(-)
 
- drivers/mailbox/imx-mailbox.c  | 117 ++++++++++++++++++++++++++++++-------=
-----
- drivers/remoteproc/imx_rproc.c |  33 +-----------
- 2 files changed, 88 insertions(+), 62 deletions(-)
----
-base-commit: b3f94b2b3f3e51ab880a51fc6510e1dafba654ed
-change-id: 20260529-imx_mbox_rproc-7d512f5a6f78
+diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailbox.c
+index 0028073be4a71..e261b382d5c90 100644
+--- a/drivers/mailbox/imx-mailbox.c
++++ b/drivers/mailbox/imx-mailbox.c
+@@ -80,6 +80,7 @@ struct imx_mu_con_priv {
+ 	enum imx_mu_chan_type	type;
+ 	struct mbox_chan	*chan;
+ 	struct work_struct 	txdb_work;
++	bool			shutdown;
+ };
+=20
+ struct imx_mu_priv {
+@@ -219,6 +220,36 @@ static u32 imx_mu_xcr_rmw(struct imx_mu_priv *priv, en=
+um imx_mu_xcr type, u32 se
+ 	return val;
+ }
+=20
++static void imx_mu_xcr_clr_shut(struct imx_mu_priv *priv, struct imx_mu_co=
+n_priv *cp,
++				enum imx_mu_xcr type, u32 clr)
++{
++	unsigned long flags;
++	u32 val;
++
++	spin_lock_irqsave(&priv->xcr_lock, flags);
++	cp->shutdown =3D true;
++
++	val =3D imx_mu_read(priv, priv->dcfg->xCR[type]);
++	val &=3D ~clr;
++	imx_mu_write(priv, val, priv->dcfg->xCR[type]);
++	spin_unlock_irqrestore(&priv->xcr_lock, flags);
++}
++
++static void imx_mu_xcr_set_act(struct imx_mu_priv *priv, struct imx_mu_con=
+_priv *cp,
++			       enum imx_mu_xcr type, u32 set)
++{
++	unsigned long flags;
++	u32 val;
++
++	spin_lock_irqsave(&priv->xcr_lock, flags);
++	if (!cp->shutdown) {
++		val =3D imx_mu_read(priv, priv->dcfg->xCR[type]);
++		val |=3D set;
++		imx_mu_write(priv, val, priv->dcfg->xCR[type]);
++	}
++	spin_unlock_irqrestore(&priv->xcr_lock, flags);
++}
++
+ static int imx_mu_generic_tx(struct imx_mu_priv *priv,
+ 			     struct imx_mu_con_priv *cp,
+ 			     void *data)
+@@ -377,7 +408,7 @@ static int imx_mu_specific_rx(struct imx_mu_priv *priv,=
+ struct imx_mu_con_priv *
+ 		*data++ =3D imx_mu_read(priv, priv->dcfg->xRR + (i % num_rr) * 4);
+ 	}
+=20
+-	imx_mu_xcr_rmw(priv, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->type, 0), 0);
++	imx_mu_xcr_set_act(priv, cp, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->type=
+, 0));
+ 	mbox_chan_received_data(cp->chan, (void *)priv->msg);
+=20
+ 	return 0;
+@@ -605,6 +636,7 @@ static int imx_mu_startup(struct mbox_chan *chan)
+ 		return ret;
+ 	}
+=20
++	cp->shutdown =3D false;
+ 	switch (cp->type) {
+ 	case IMX_MU_TYPE_RX:
+ 		imx_mu_xcr_rmw(priv, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->type, cp->i=
+dx), 0);
+@@ -639,13 +671,13 @@ static void imx_mu_shutdown(struct mbox_chan *chan)
+=20
+ 	switch (cp->type) {
+ 	case IMX_MU_TYPE_TX:
+-		imx_mu_xcr_rmw(priv, IMX_MU_TCR, 0, IMX_MU_xCR_TIEn(priv->dcfg->type, cp=
+->idx));
++		imx_mu_xcr_clr_shut(priv, cp, IMX_MU_TCR, IMX_MU_xCR_TIEn(priv->dcfg->ty=
+pe, cp->idx));
+ 		break;
+ 	case IMX_MU_TYPE_RX:
+-		imx_mu_xcr_rmw(priv, IMX_MU_RCR, 0, IMX_MU_xCR_RIEn(priv->dcfg->type, cp=
+->idx));
++		imx_mu_xcr_clr_shut(priv, cp, IMX_MU_RCR, IMX_MU_xCR_RIEn(priv->dcfg->ty=
+pe, cp->idx));
+ 		break;
+ 	case IMX_MU_TYPE_RXDB:
+-		imx_mu_xcr_rmw(priv, IMX_MU_GIER, 0, IMX_MU_xCR_GIEn(priv->dcfg->type, c=
+p->idx));
++		imx_mu_xcr_clr_shut(priv, cp, IMX_MU_GIER, IMX_MU_xCR_GIEn(priv->dcfg->t=
+ype, cp->idx));
+ 		break;
+ 	case IMX_MU_TYPE_RST:
+ 		imx_mu_xcr_rmw(priv, IMX_MU_CR, IMX_MU_xCR_RST(priv->dcfg->type), 0);
 
-Best regards,
 --=20
-Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+2.53.0
 
