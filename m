@@ -1,69 +1,69 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1853DCDBD
-	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 10:12:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B8847887E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 10:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781691135; cv=none; b=ufCdWlxFj/gXC9Xy2GczKKu9NhJtXx4+MqMQbarnkGJKr9Jm+Zu9aQomqODE2qnoZyKA71Xn4MI9EhnZQHbMLg1DunbAfoQwRL8XKD/CouowSzWAdYYebY1ClkZ1iMySP3PRpeFqgJM/Q2qfPkdLRC4Gtm7u5ASd0D2YRXhUpo0=
+	t=1781692659; cv=none; b=XL+pkDSSkL5ga0mfwBnWXFqq2Lo17BMuPG/HMkWWVn3DnY05O1FrpbcV5JTTW62LxqSN0KJbh2884OLkY0DHZREtuODyGfJYiWnXveR6H8Vnd/o0M6Ej+9kU3Ji7haNe7eY3aiNMx21HY8dZAgdStRdQ3K7x7itQM2h+I3ca2Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781691135; c=relaxed/simple;
-	bh=zqiyKisxnhy0xgzQCFdf1v6HFhpfFmktZ4vRlTJ1+Uo=;
+	s=arc-20240116; t=1781692659; c=relaxed/simple;
+	bh=7KGOXjbFus1OIBdwidGkbmaAhe5QXQQ88pd8jQjhpr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+jMwu5kQfAcmd0XYhTNIsnrI7h/0qdMs1ZBQjfTg9fmEydl6HJaGmnGw2Ok/BmrAaBOFL0f9Y8Cxn53qM03xcf594ukAqAWf9SmI2Nchlp5RJWcYajNBT4uKK3Q83+6eyN6LPW2c5ZZmslcnfL+/ACQR8i33ZSSYopnuRspqUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gg4zf4d5; arc=none smtp.client-ip=209.85.128.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=dzsDhpUl88AkBxcOeXbz6caM7DGkRXNcpP+609EVKEpKZ4hMC+WrJin5ggcXv7EDOT70QJtObGxMk029rUxyjGEawBSyfPIeaqZnLlw4912b3ZbdqwO/B+rFDyueuF8ZZKqnkl+ckVftaPk+ElgAi/WtKV7FhVAEau3NZl9+Hco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=D35OCK9F; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gg4zf4d5"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4923139e940so10027955e9.3
-        for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 03:12:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="D35OCK9F"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4631679f204so149284f8f.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 03:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1781691130; x=1782295930; darn=lists.linux.dev;
+        d=suse.com; s=google; t=1781692653; x=1782297453; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9e/QpG56/O5B7hSvy+0kATSJ4lRQbuxYrUIyg9GDMZQ=;
-        b=gg4zf4d5h+GqFsaw7jKFxi90dULkkF4QhlLESFClEsu4Ke0dQYtZrDe/UJOns4LFxU
-         0RV7/3oxAwqdQbgG7qzvt2qwfaZ4TgmmbKLGE6S93+3bAh62HJHtUOMlKycU9z7D5vB1
-         TKOHbjkecl9MTQMCUF04jqrsGqAchyCqUDvomwlMFJHNgY3Vlx9jS/C0m7ZnQej+O9oM
-         efXMrS6DEOqVjHLtbk1po9jsz0q0cpyejPhEkulnugTQOQci+Nxb8+Kk+4mvUUDz5pkX
-         GQ3oJ9BAv+KLgVAaXIXUYRLSvAH8fouBH6BOziRr3zNpOEGYyrbyNRuttwSuwjxX5xxo
-         aT7Q==
+        bh=hDhvQwG1QwT5cvmH6BZBllkhAVPQhK/Hew5ZXNgViMA=;
+        b=D35OCK9FmRcdrUtqBffgt1KeNyL2ODpIEkY8Rde5eT8l5TLpxiHD4+Vjb7UG6lMJKw
+         zjDHzxdEo7msCauqGVIhT5dgkmTBgdmYefRdINh51+nbbIQ0V/o0Dj3zVbxP5SHgJB4g
+         lU+SRBfpsWLFCqBIHO+6huSqeGeYZSfMcPHW10Qv4HjbA/KPeTW66tz+4Qift08xrFAq
+         2AA5aDTIZqZbZ3hrSwGmkeG4Sel5yuRensGqrT4XBhpZn7mqt32zPNGx2ju1feToMVS+
+         GMQQRz6u2BDzIjw9vir/1vzXQqQiqZWBZPe6hgpO+Mo//QRI0NeaB0m6E6N5tbV0niqL
+         oU7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781691130; x=1782295930;
+        d=1e100.net; s=20251104; t=1781692653; x=1782297453;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9e/QpG56/O5B7hSvy+0kATSJ4lRQbuxYrUIyg9GDMZQ=;
-        b=g/dABbfMjk5YwvR18tdHrtmUZJLKkUG1jdcSbmF9Va2CB4jeUIGNkWWpdezkb6eS2P
-         S4/DBfpEKWYnorf5Bjw/g0F3+EBSMO8J7kZdtVH9718FZBABax4ee8MScPTiKm0w9CZz
-         Di6QSJmxDnNKjNTpknAdsiwP55sGw88kwUzrqjqNso6Kn20gO8hpbLF7RgwgqrGg4FaU
-         ygHupocR/76cWY4Go8i+WdXEGbxygK8zlRYxLqBbLyR3uKS1iwfCTW4cGkbANOTcTHkM
-         xwYtmVeQQ+BLRYbUaCqSlpHd7//nyFzQIKtbrT7LGg2QVbL259jw22CA1cSIR7ciUWny
-         97Ww==
-X-Forwarded-Encrypted: i=1; AFNElJ9UgvON0Sg4OPuN/5a7eMe2oWWj9NVeo68RYzUV6dKcUNOnRyahBUeAFx8dmFsRXboOFOaloDLYbKANcuuh0Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6076mEa0qp/l3RR2dxZQqZuZBkkT0YSLoWQH4z61LDVpdXpJ1
-	De2hsk/Fk4WtjAoBSXaMMGnyafNqEf7+WWfQ28oUMvJU54/rgbo5fCrfmvFT4wWhDTk=
-X-Gm-Gg: Acq92OEUN+G+JRHNOY+KDOnYDuDo4emoMVkC1+qipcjg57IYP2HZeEna8wVAUGyHi9Y
-	3eqD4a0AREG9BwkvTEYQ+aMb9fSjjsgMFTuLG3s87jxVyxxpNiQecYHahvw45yc0Th5e47KDy20
-	9C7Ea6Bma4K8ecK4WVOAYA7GQRp1ORjLmr8d6pFXmEW5zQmQbzK/pFu9fw32a6BTGC49lKnDgHT
-	MDkI9CqQm7lfrTI3m+Mq3GlZLQ7GKJG5KGoPCbQaNVkgk7y5qO43fFdF2R2TwL3cAVqD09jq3lX
-	HxLhP9Nvu0JjNuW9LLQe5nJHL0f4IPvYQfKnsgeaxj7Bxypjgl0Qwid5Lwda5lnPNbkspv8ImUI
-	iUhnDPipGGip1T59FxuroPzcaD7zU7w/Q6tfGej8hSZY9zCUxxYC6eUWnCCmx9SeJRaXD6QPQDV
-	yKni9NKNQoA+tkACc=
-X-Received: by 2002:a05:600c:470d:b0:492:25a1:e2f9 with SMTP id 5b1f17b1804b1-49234131e65mr39184075e9.26.1781691129811;
-        Wed, 17 Jun 2026 03:12:09 -0700 (PDT)
+        bh=hDhvQwG1QwT5cvmH6BZBllkhAVPQhK/Hew5ZXNgViMA=;
+        b=Ke6qDxUw5Fz0xUp5EPKeSneHSKeyChdarNyewqPt2fDEjSON4dKlx7kroNUvUD0PSY
+         dhPsKnuHZ6AdVlsyfj6LHw+ze7Q5XqtyQS4SOKnylrUyYQTfR+PLGkwmG6rxjDx6exyu
+         ZwZujJC7b+Avy4kK9qyQa8JuNxoc+QD6kmw7q3W72HOQjhZFNmz+TWFzNTDMoJ+IvPJJ
+         +z1QGg/01546kZ/e4Dmtv2oWzF4J0b2FRmq2P6G6qS4yq4+au9Kw4Xqb5Z4gPrPboHgu
+         0xhrKw7nHTCFlQMll/EAtS+aHCRQ9IpSxLV/tcr2QpE53Ng3+VxTBEUpBbM040NDipkP
+         0+xA==
+X-Forwarded-Encrypted: i=1; AFNElJ+fHeWsCGSaZwfo1q1GuQUhMM0bBqVFZPvg1MSUheL/QnK8pRB+KvcqXZorZM3KSGj2HWTJBk4007Zeca1bNw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIGWMnhgxnDhyOdmwM0k92AYgUHkfaYKcoM9KD12TsiJxHE3Hn
+	N+Nt709ZaIC6Ksj9foRWEqynZ2006sINuilAH7BRdOvTQmmuRgi3ePuABU1XZoNNN38=
+X-Gm-Gg: AfdE7ck+GPU+1gu4hX7M59qVruWuI4FwryTfOBxjgw4cb4NiM7A4D8+Ai4Vu0A72Wik
+	EQGlhgzEn/e93p3GM7dHPd4ZZXbtCweO0fBtS4kcAGCenaQ5nsy70lPczlQtyezDvtcpTqRv6gv
+	5qMWXoPtPjsKKQI4QNbF5Cep/VqMs5bDfoQDoyoS11tW0nNHV8JDjSwYhcz/FC2l71BxzbZdPVx
+	TWaJFDEcaewLR9KFsurSQUEvqovQ+gmNT4WtaeLnO1uv2uN6NQKXYQip2yeBRYVLEjHmKU2WSFk
+	KjVzAWwspQCAyP4zEKoF/ucXRI5+c+vBAzoNbBhjo68vuQvr6UCcnG1e4KGfs7m+oh8R0zfpa+2
+	R6A2W0cuttMXurmIeDPe4WxMg3MD8WrHzGoB+MaUvQ2DJb5kAdVBVICKEZoY6NUz9AvkGb8Urvl
+	CuuMTaGYK9zpULvSE=
+X-Received: by 2002:a5d:5f53:0:b0:460:6b12:1783 with SMTP id ffacd0b85a97d-46268e1fcc3mr4236952f8f.4.1781692653017;
+        Wed, 17 Jun 2026 03:37:33 -0700 (PDT)
 Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923686fffcsm1799745e9.0.2026.06.17.03.12.08
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d4fsm57111382f8f.24.2026.06.17.03.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 03:12:09 -0700 (PDT)
-Date: Wed, 17 Jun 2026 12:12:07 +0200
+        Wed, 17 Jun 2026 03:37:32 -0700 (PDT)
+Date: Wed, 17 Jun 2026 12:37:30 +0200
 From: Petr Mladek <pmladek@suse.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Jakub Kicinski <kuba@kernel.org>,
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	John Ogness <john.ogness@linutronix.de>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Peter Zijlstra <peterz@infradead.org>,
 	Vlad Poenaru <vlad.wing@gmail.com>,
 	Thomas Gleixner <tglx@kernel.org>, netdev@vger.kernel.org,
 	"David S . Miller" <davem@davemloft.net>,
@@ -79,12 +79,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	K Prateek Nayak <kprateek.nayak@amd.com>
 Subject: Re: [PATCH net] netpoll: run NAPI poll in softirq context to avoid
  rq->lock self-deadlock
-Message-ID: <ajJy92ES-Q8ro97A@pathway.suse.cz>
+Message-ID: <ajJ46o4fomfxY5CX@pathway.suse.cz>
 References: <20260610183621.3915271-1-vlad.wing@gmail.com>
  <20260611191114.5bc43a59@kernel.org>
  <20260616103529.Yh9Dxsjp@linutronix.de>
- <20260616081128.04e2c8dd@kernel.org>
- <20260616153122.keHMKvVT@linutronix.de>
+ <20260616170257.GH49951@noisy.programming.kicks-ass.net>
+ <20260616141719.67684bf0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -93,33 +93,36 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260616153122.keHMKvVT@linutronix.de>
+In-Reply-To: <20260616141719.67684bf0@kernel.org>
 
-On Tue 2026-06-16 17:31:22, Sebastian Andrzej Siewior wrote:
-> On 2026-06-16 08:11:28 [-0700], Jakub Kicinski wrote:
-> > > 
-> > > Adding sched and printk folks for opinions while eyeballing
-> > > WARN_ON_DEFERRED().
+On Tue 2026-06-16 14:17:19, Jakub Kicinski wrote:
+> On Tue, 16 Jun 2026 19:02:57 +0200 Peter Zijlstra wrote:
+> > > So this is not an issue since commit 7eab73b18630e ("netconsole: convert
+> > > to NBCON console infrastructure"). Because from here now on writes are
+> > > deferred to the nbcon thread. So this purely about -stable in this case.  
 > > 
-> > Thanks a lot for looking into this! To be clear - the printk_deferred /
-> > WARN_DEFERRED would be just for stable? Or there's still some
-> > sensitivity even with nbcon?
+> > Hmm, I thought netconsole had some reserved skbs and could to writes
+> > 'atomic' like? That said, it was 2.6 era the last time I looked at
+> > netconsole.
 > 
-> We already have printk_deferred(). WARN_DEFERRED() would be new. I
-> *think* this is not limited netpoll/ netconsole but all console drivers
-> not using CON_NBCON if the printk (via WARN) occurs with the rq held.
-> I don't remember all the details but printk_deferred() was introduced to
-> circumvent this until printk is fixed.
+> Yes, that part is fine. The problem is that netconsole tries
+> to reap Tx completions if the Tx queue is full. We can't call
+> skb destructor in irq context so we put the completed skbs on
+> a queue and try to arm softirq to get to them later.
+> Arming softirq causes a ksoftirq wake up.
+> 
+> We already skip the completion polling if we detect getting called
+> from the same networking driver. It's best effort, anyway.
+> Networking-side fix would be to toss another OR condition into
+> the skip. But we don't have one that'd work cleanly :S
 
-Just to make it clear. The problem with the legacy consoles is that
-they are called under console_lock() which is a semaphore. And it
-calls wake_up_process() in console_unlock() when there is another
-waiter on the lock.
+Alternative solution might be to offload the ksoftirq wake up
+to an irq_work. It might make this part safe for the
+console->write_atomic() call.
 
-> Once we get rid of those legacy drivers and NBCON is the default we can
-> get rid of printk_deferred() :)
-
-Yup.
+Well, my understanding is that there are more problems.
+AFAIK, some drivers do not use an IRQ safe locking, see
+https://lore.kernel.org/all/oth5t27z6acp7qxut7u45ekyil7djirg2ny3bnsvnzeqasavxb@nhwdxahvcosh/
 
 Best Regards,
 Petr
