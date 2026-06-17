@@ -1,112 +1,165 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B80C3BB123
-	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 07:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0771239F165
+	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 09:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781682131; cv=none; b=tQHHZdIZhIn0owxtHxIX8tdMIS0dKaLPS3VjWdTdHFDzQ6C+pimq6yMA1V8msaoqaBu5HDw8IlnGo9e5gPyo0nA5K23XSoUA2anni2MQERMx11EF8xtHRn0pxhXDtBBME9tqUAtiMj6QAbWdCR9azCo8ddz8w+TtwXoMOBgkxF8=
+	t=1781688071; cv=none; b=ezoQHe4WiISj1MoaamQZRVmFsSbOXpq75uaQtWIxOWRPR0UgYGZ0eOTnL+fejsxq7OdZfsdBFbYZWMQ8l6PVR7m+fF2VwrU+9hOKIE6gymIIMs2bPsxxvTgqZGgwBOc/l0jODkFOcIx0GSGBfPc2EIrLAANnHJQtLb52ilELSWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781682131; c=relaxed/simple;
-	bh=UYnPxb1Rl/unG8AVIs6+c36t87t9Pw4qOIB524d8GNs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Wc/ONT9KiziwJaxBHvE94gmFlLMIqMCg3nGB+ycZb7kBfFhkygNZUvwgICrzS+9KtJxw7WQ16+J9Gf3y+VbuKv7/2SgI8H1FFGF+ZwtPkn5X92D2fV0DwCpfgHSFqQwV4Uj4uxE3BmGn0QrTm3x1RuYxylWzVhbboo3oDOuIaZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4sW21Ypg; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=MbFlUpVf; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1781688071; c=relaxed/simple;
+	bh=LIRBeWDfQgjonIba4QN4dOgeak6y/2hYSMMFE3xZmT4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jagjWO/S/yulu8K4O2liA3Bi7DQn8rMswVKEe2mLXNrwd+MXcTcCa/aHg8CCAJC53DZDVDykcWIeNAX+CTmLPSAk0EP0mCNNOkcepzWoz5YHEoaHZ0gJJDGQ74P0Ezsx04R+rQ9x9najbaYYeW5oYTBzAb1UblcIbihnVsB+35Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=PQw8KFPk; arc=none smtp.client-ip=205.220.178.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4sW21Ypg";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="MbFlUpVf"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781682128;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UYnPxb1Rl/unG8AVIs6+c36t87t9Pw4qOIB524d8GNs=;
-	b=4sW21YpgR3GAzE4SyMd8vyQ9/Cb0EJz4EJnc0UdmP6HbYmWBglbAq37akwe1SlIZOH4kr6
-	+QiMgt436te6oOI+lmAu12sXggSA8cORImUvh09dMPn2DAqtt9W3CaSXbCKrbXMpbujb8y
-	7hjlSxh5jtJf2H5wVpVnbKwrnBcB5NgKVRoe9s1usN8XMswu84YAoHuP0eBPbAdVExURku
-	aOngiFO27/nVGbCat9KTiTSlWcZ1xc3h9VyTgoJ4LNFwlJ0jXUkyPGk2GmBuMRD3vq6hVn
-	FvLiigQYy9isVxvIRYfOAe4trfrUo6sZI4ewhcNg39LCgR0g0wNhuZZ9BmH+wA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781682128;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UYnPxb1Rl/unG8AVIs6+c36t87t9Pw4qOIB524d8GNs=;
-	b=MbFlUpVfCCdPPCPFztBOHVzgXUqWNTd2yX6XgxBEb2+MroUmYBfg82eFym9PLbfdRDbPrt
-	m+VdNMVvE0uzkWBA==
-To: Breno Leitao <leitao@debian.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, pmladek@suse.com
-Cc: Jakub Kicinski <kuba@kernel.org>, Petr Mladek <pmladek@suse.com>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, Peter Zijlstra
- <peterz@infradead.org>, Vlad Poenaru <vlad.wing@gmail.com>, Thomas
- Gleixner <tglx@kernel.org>, netdev@vger.kernel.org, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, K Prateek Nayak
- <kprateek.nayak@amd.com>
-Subject: Re: [PATCH net] netpoll: run NAPI poll in softirq context to avoid
- rq->lock self-deadlock
-In-Reply-To: <ajF5S0uY-8F0jzoh@gmail.com>
-References: <20260610183621.3915271-1-vlad.wing@gmail.com>
- <20260611191114.5bc43a59@kernel.org>
- <20260616103529.Yh9Dxsjp@linutronix.de> <ajF5S0uY-8F0jzoh@gmail.com>
-Date: Wed, 17 Jun 2026 09:48:07 +0206
-Message-ID: <877bnxfwa8.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="PQw8KFPk"
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65H8Zbc71267723;
+	Wed, 17 Jun 2026 09:20:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=kNaYejiDj
+	tQFZOco6tnQcxUnFfuW0acllcPY6JfQeR4=; b=PQw8KFPkVgFNLeQNGoLwAd4MZ
+	Ps0nECbLpCEzxRTh6vCYLFIVcyUL4wzj1QcOHGBSkvTrZqVQk2Yh6YxXvEjmWVgl
+	7vGdjTZSkpj8qQWgkFqhYtdDAPT8+FZy/YgUccwGCiFUiSGW4btIMkTTdB2Jp5KK
+	tfuUhL07CSg77qyZrAF89XgChCigX1oSifIGbP287P3dIlm/cfsyjOJkpDrVEPcY
+	kV/0tIng3t4/MyAvsHxMgj4FNbEheAeuRneZ7U0AwkQhpHudfofPdXIu4p73kpVa
+	hAf7Wi/HgVLR7zYao20uhcenaXI3lKrxITBRWUHIw8nYvij7VrOS7591g9RxA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4euefc0qxw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 17 Jun 2026 09:20:32 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 17 Jun 2026 02:20:31 -0700
+Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 17 Jun 2026 02:20:28 -0700
+From: Yun Zhou <yun.zhou@windriver.com>
+To: <marcin.s.wojtas@gmail.com>, <andrew+netdev@lunn.ch>,
+        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
+        <rostedt@goodmis.org>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-rt-devel@lists.linux.dev>, <yun.zhou@windriver.com>
+Subject: [PATCH v2] net: mvneta: free/request IRQ across suspend/resume
+Date: Wed, 17 Jun 2026 17:20:28 +0800
+Message-ID: <20260617092028.1722407-1-yun.zhou@windriver.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDA4NyBTYWx0ZWRfX1nQ7h/yRsUnF
+ 0kM8dV4qZNgnHJR46V3LTBdkiIPQNjuq0GNU4qDz3IwCE0QOegWNhHzcIrQqIkMTZ0KjjNC2wbg
+ rSwctcx9i7Jl7GAilv/sGHv99WhDw7nKTSsxB23xDDnT1uqfzQph
+X-Proofpoint-GUID: B1XrctJ9f-Abn6mGHIz_d4m0IxersnYG
+X-Proofpoint-ORIG-GUID: B1XrctJ9f-Abn6mGHIz_d4m0IxersnYG
+X-Authority-Analysis: v=2.4 cv=ObGoyBTY c=1 sm=1 tr=0 ts=6a3266e0 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=H1i4495hyjeC5Vi1NPAA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDA4NyBTYWx0ZWRfX4W+uFoCoo59K
+ h+gEFL2ayfMGMQoMxjnpvlSwh27ZnRuhnEt1MESz/s8LdXFvQgOgYW29WLcD0xBeb7oH/ai50kE
+ vsrFv8LB2B+MIM7jxex/TlHjtTPBQABieLyOiP68JC3x1y/Crm6vQiUCZPV4yWnFTAdV6KfazzR
+ P9NwHD4InSBMm52L/MyDEFlFeUAod/7V7j7fmkE/HPuflN0XCpSHV21Z9I6yFyzGPUslNJ8fq65
+ y9UFNwkxYqORF6moYAwyvfPvfKf4CjmHCxxH0Iyv8ZNcuHMkpLeodCam/gdl0GOUNo+5rPE/eV1
+ 82nfXbTeFqPbuVzUqSt2nmgoPcFwSK4/7ImTUYdJzuA+TuInx83hM5/lPwz3tsV8B9rJHSAD4vP
+ GKZtI1/lWotYZxqI5xWkIhPVIexh1gxd5lLIs7kZrWCtNKK53qT5tzTCeY5GCGRluM/SuA+VzFj
+ EB50l1kLRbIgcJ5kXXw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-17_01,2026-06-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501
+ impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606170087
 
-On 2026-06-16, Breno Leitao <leitao@debian.org> wrote:
->> So this is not an issue since commit 7eab73b18630e ("netconsole: convert
->> to NBCON console infrastructure"). Because from here now on writes are
->> deferred to the nbcon thread. So this purely about -stable in this case.
->
-> Does the nbcon thread handle defer even for consoles that support atomic
-> operations?
+On PREEMPT_RT, the mvneta IRQ handler is force-threaded. Under high
+network traffic, the IRQ can enter suspend with desc->depth == 1
+(masked by the oneshot mechanism between handler invocations).
 
-The all "printk deferred" variants have zero effect on nbcon
-drivers. The "printk deferred" variants exist purely as duct tape for
-legacy console drivers.
+During suspend, the kernel increments depth to 2 and masks the
+interrupt at the MPIC level (clearing the SRC_CTL CPU routing bit,
+due to IRQCHIP_MASK_ON_SUSPEND). On resume, depth is decremented
+back to 1, but since it does not reach 0, the unmask is never
+called. The MPIC CPU routing remains cleared, permanently disabling
+interrupt delivery.
 
-If nbcon drivers provide a safe write_atomic(), they will _always_ write
-synchronously when the CPU is in an emergency state. Otherwise nbcon
-drivers _always_ defer to their dedicated console printing kthread and
-there they use the write_thread() callback.
+Fix by freeing the IRQ in suspend and re-requesting it in resume.
+This ensures a clean IRQ state (depth=0, proper hardware routing)
+on every resume cycle, regardless of the pre-suspend depth. This
+follows the approach used by other drivers (e.g. igb).
 
-> netconsole is marked with CON_NBCON_ATOMIC_UNSAFE, which means it rarely
-> performs inline/direct printk and instead pushes to the thread, which
-> flushes in a safe context.
+Fixes: 9768b45ceb0b ("net: mvneta: support suspend and resume")
+Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+---
+v2:
+  - Move request_irq before cpuhp registration in resume (matching
+    mvneta_open ordering) so that failure does not leave cpuhp
+    callbacks registered on a non-functional device.
+  - On request_irq failure, call netif_device_detach() to prevent
+    further traffic on the dead interface.
 
-CON_NBCON_ATOMIC_UNSAFE means it _never_ performs inline/direct printk
-console writing. That flags means that in panic, at the _very_ end, just
-before going into an infinite nop loop, the CON_NBCON_ATOMIC_UNSAFE
-consoles will be flushed directly from the panic context.
+ drivers/net/ethernet/marvell/mvneta.c | 29 +++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-> For drivers that behave correctly, I'd like to be able to drop
-> CON_NBCON_ATOMIC_UNSAFE, potentially setting it at runtime based on the
-> underlying driver capabilities. If netconsole is backed by a well-behaving
-> network driver, we could eventually remove the flag (!?)
->
-> Would that approach cause any issues?
+diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
+index b4a845f04c05..02ea867d07a3 100644
+--- a/drivers/net/ethernet/marvell/mvneta.c
++++ b/drivers/net/ethernet/marvell/mvneta.c
+@@ -5826,6 +5826,20 @@ static int mvneta_suspend(struct device *device)
+ 	mvneta_stop_dev(pp);
+ 	rtnl_unlock();
+ 
++	/* Release IRQ to avoid stale MPIC mask state on resume.
++	 * On PREEMPT_RT, forced-threaded oneshot IRQs may leave the
++	 * interrupt masked (depth>0) at suspend time. This prevents
++	 * resume_device_irqs() from restoring the MPIC CPU routing,
++	 * permanently disabling the interrupt. Re-requesting the IRQ
++	 * on resume guarantees a clean state.
++	 */
++	if (pp->neta_armada3700)
++		free_irq(dev->irq, pp);
++	else {
++		on_each_cpu(mvneta_percpu_disable, pp, true);
++		free_percpu_irq(dev->irq, pp->ports);
++	}
++
+ 	for (queue = 0; queue < rxq_number; queue++) {
+ 		struct mvneta_rx_queue *rxq = &pp->rxqs[queue];
+ 
+@@ -5892,6 +5906,21 @@ static int mvneta_resume(struct device *device)
+ 		mvneta_txq_hw_init(pp, txq);
+ 	}
+ 
++	/* Re-request IRQ (see comment in mvneta_suspend) */
++	if (pp->neta_armada3700) {
++		err = request_irq(dev->irq, mvneta_isr, 0, dev->name, pp);
++	} else {
++		err = request_percpu_irq(dev->irq, mvneta_percpu_isr,
++					dev->name, pp->ports);
++		if (!err)
++			on_each_cpu(mvneta_percpu_enable, pp, true);
++	}
++	if (err) {
++		netdev_err(dev, "cannot request irq %d\n", dev->irq);
++		netif_device_detach(dev);
++		return err;
++	}
++
+ 	if (!pp->neta_armada3700) {
+ 		spin_lock(&pp->lock);
+ 		pp->is_stopped = false;
+-- 
+2.43.0
 
-Removing the flag means the driver can safely write from _any_ context
-(including scheduler and NMI), regardless what locks that context may be
-holding.
-
-Note that the nbcon framework allows console drivers to mark unsafe
-regions in themselves, where atomic writing would not be possible. In
-such scenarios, it defers to the dedicated printing kthread (except
-during panic, where more agressive tactics are used).
-
-John Ogness
