@@ -1,164 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2845A3AFD01;
-	Wed, 17 Jun 2026 05:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CE63B7769;
+	Wed, 17 Jun 2026 06:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781675901; cv=none; b=TUr2YPzk4v7WKohbZoKyjf7L6cAIpHS2Bxn2irNExt7Y3X7ZFmPuvAPNp/FjNc2MDqu15j8rr4+77+jmNwBK8R+2/isLsH459DxbAH/zBycozFzZ9bo9144k2/fTcfjaQT2zpr7jYcs8yA8mZPniaTqG5YlwJxuI/+HIzSveMWc=
+	t=1781679347; cv=none; b=rNV2IDcoHDahq7FTW+dPWS1JADi9B9nNJayJHrfSqvjjpSW6Be+JGWV0bXohzSF7xvDOIsvQH6TvHvPtzQiZRkf0owgQ14lMxQZl+QMUJc41x66rzYzz3D9iQn2NUsDcSxulMN//Aezt54zCeVlygnzp6EbgB1bNvEEjJlJxwBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781675901; c=relaxed/simple;
-	bh=MKp+gQfP29ujZM4yIYrm7TJ0istjf6qopuT84uY3M/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JztmYO4dEN9xB+GsgUoQkY7BeuD6oHU6spbFP9VinpWP+q6v6FV6PIMzzdrKNmcB7lN1x+svLeC2hYzCNKF0ET8jwqrx6ARFcv22MCrGvDaeqmwtNvzgZozKnfiRyLdo0Rsgz0iCIwAf7QjUarEZWDNAC+ge77G6cTv/si16y08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNB97Kz1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781679347; c=relaxed/simple;
+	bh=Slnw8SPxpndDQ59zZN0npqpUlmJwwQ8Gek7tqyVolos=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JGfdV+3Oq7qUxL2dAQZwkcULFBdpCqm0SyZpZ4ClFeooPG8+F6lRy7D7p7jtd6fUbyVjOmY8WtNNuyNJmDtf5sJoEN6H0FNcKDjHJkzRqf6+ZcxLfp64u/A3wMeruO3Uv36ymjO24JYacriBKh9MfE3vcPCKeltdObdPaJPKggg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tOtodkB6; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=FIlUEPa3; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNB97Kz1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DFC01F000E9;
-	Wed, 17 Jun 2026 05:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781675899;
-	bh=z0WnoCTe/WZyehgOrexh6SFggV7BqrfLheqjX/wcWBQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RNB97Kz10Ao2R5CDg1QEMage+MHmk+FqZV1XZM+AotUPoZ7KQ0Z5T+pzTAbTnxBw5
-	 Akfag50v5nhbjm1byNozw58F4ZlGMykbL+FJ/uhH0h4DMspxgDIlxOYxE3JLkSpc/h
-	 OCP+LwIwBY+uKtRjaZJTOxm/z8Iwe+7J2ylF2sIUs5MHx176pLyLiqq26IU8y11/db
-	 PO5luUTpvTYJ4KwMD7OwhbSyZDFDTVGH+XZalYYyH0zD0z+iXWrvKWqMifdoSP6UTm
-	 LtYwV5u6eqmFQXcGTCLD11o+wFeHPn4nIe/syIXpjCIOXx5om/rGxZpv14tdjXMhsl
-	 i7aerDDOvFFEg==
-Message-ID: <cda21b5a-b61b-430f-bb82-c6a4d1e7548a@kernel.org>
-Date: Wed, 17 Jun 2026 07:58:12 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tOtodkB6";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="FIlUEPa3"
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1781679343;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=e9nchplALmdInXrIeq0H4ZfQBWRoLMZu7mZZrHWhkXc=;
+	b=tOtodkB6a25IswuJPODrO6GdwfCn6Afmg8ATx+6vfDzOKDjL7M060NVVXq72+9ryJOuDa1
+	Xu+dsSTfaW6wJbbd91DGv5+Hk8oNcegLqkmTLKOosacM2IYVYQTP5+ZcG+mBNj9y2GTH3y
+	+O3u+9ViEAkTvmvJgQNvSHl11SX6g8+XYD/K6riDbevMnpfqJSsc/GAQenuThb826oLshk
+	tg49oHs9ETPzVViyT2xx6hUWnnPlmmpTeoNxEGFzrLovGHjCoce8IZRNoS6gRBE2+A9Xw1
+	uerVUZGHS/ZCl/ivcY83Fz93gw1/J81FKjILxDBy7Vu/moEy+LvDQGUmccRR1w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1781679343;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=e9nchplALmdInXrIeq0H4ZfQBWRoLMZu7mZZrHWhkXc=;
+	b=FIlUEPa3B8kzJnoFXNbHuOn7ro8dFMqNxrfeM7bRgWfCnkMc8koGgM3ekqMcxjNbMvMiUg
+	WiPlAnyXxrnpxHBg==
+To: linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Peng Fan <peng.fan@nxp.com>
+Subject: [PATCH v3 00/10] mailbox: imx: Use threaded handler to avoid kworker in imx's remoteproc
+Date: Wed, 17 Jun 2026 08:55:25 +0200
+Message-ID: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 3/9] mm/slab: handle the !allow_spin case in
- kfree_rcu_sheaf()
-Content-Language: en-US
-To: Harry Yoo <harry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-3-70a54f3775bb@kernel.org>
- <4d7ebcd5-f3b7-4c73-94f1-b7d3ac12a521@kernel.org>
- <e8940857-4f71-4a34-ad80-81584f7378c8@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
- KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
- 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
- 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
- tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
- Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
- 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
- LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
- 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
- BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSNWbGFzdGltaWwg
- QmFia2EgPHZiYWJrYUBrZXJuZWwub3JnPsLBsAQTAQoAWhYhBKlA1DSZLC6OmRA9UCJPp+fM
- gqZkBQJqFFy6GxSAAAAAAAQADm1hbnUyLDIuNSsxLjEyLDIsMgIbAwUJGtCBUAULCQgHAwUV
- CgkICwUWAgMBAAIeBQIXgAAKCRAiT6fnzIKmZJIUEADFx/tREzUImHrEwVHeSvDFmA7tJysI
- UVrlvrM09E7GIuzphzv7jYmo8n3ANpCczLEVr4G0syYQdTigaZgv3+FQDIIzhKih1IHhu1Ei
- XHlywNWKnQxxQEUNi5Mwx43wQz5XVw9F1A7gtKBKNtfogO511hAbrzagrYajyQacEJ/+sfhZ
- 9Da8ltHIXD8pcYaHUfQgEusCgmEd9+KrUwrTbckFKmYq5chuE6yJ4J0EmWknL096jIE6CnzF
- FRslQ3B1UKDjxVsm1ZHfir5NeWszLkTvGFsddFaWTgh8UycESG6VQzKXjjewXu2pG7YQYRpj
- QKm1W5X2TkwWkXRBZTmfmbhxIUMh3+zf5wQ463rSmDN/8v81tdqBtAW6rH/kzg1GvkaTHXn0
- 507yEHFzBksk2viAuIxxr7km8+/KARYLIdGtx30EG8cKzAUZOK6WqxtNCsXUJNrVE8CWrCaD
- icoNu7Fs1c5hmPHdSTnU48ce67449DdnO4neLSNhRiGlMHJgfJUmgrxu/hcYeOZ3haWmEQ2w
- uW1Mh01OHi8QZHCEyAbABrPs9GUgccc/4eYXX9hIgxfSkYzn8f+8NuIFPWl/0uTvjgqU29FQ
- SbzOLxHq9439Ox40G5mS5eZXRGxITYR+6TXvRGI6P/264jvflnr/pDGUttaikU+0W+1uxgKH
- cmYbEc7ATQRbGTU1AQgAn0H6UrFiWcovkh6EXVcl+SeqyO6JHOPm+e9Wu0Vw+VIUvXZVUVVQ
- La1PQDUi6j00ChlcR66g9/V0sPIcSutacPKfdKYOBvzd4rlhL8rfrdEsQw5ApZxrA8kYZVMh
- FmBRKAa6wos25moTlMKpCWzTH84+WO5+ziCTsTUZASAToz3RdunTD+vQcHj0GqNTPAHK63sf
- bAB2I0BslZkXkY1RLb/YhuA6E7JyEd2pilZOrIuBGl/5q2qSakgnAVFWFBR/DO27JuAksYnq
- +aH8vI0xGvwn75KqSk4UzAkDzWSmO4ZHuahKtQgZNsMYV+PGayRBX9b9zbldzopoLBdqHc4n
- jQARAQABwsF8BBgBCgAmAhsMFiEEqUDUNJksLo6ZED1QIk+n58yCpmQFAmfIHFQFCRYU6J8A
- CgkQIk+n58yCpmS2PA//bqN1LfcotmArgElsa+0EGZSQlYgK48pm8WAeTXTngudP9IJ4SuKY
- HR5RNjHcBeqN+Me0zxRqYzRb8nGanHEkDyf4Im8DQM8d6vbyU+FcPmG4skud4kgS1zMHnlVd
- SXfSIwKC/hKgdHG8aBV7545Lz9X6Iohea+94wneD0aw/hqF+QWewGZhWJriWAZtvEkzNjQOi
- 4U9F/trLten/x7bpphDSnDMKJtITbtzATT1Dq7o7VpIUK1nCTQALMuMjKCdi8OdU/+V+R3O4
- 0PXWvX8qrvqYapVbZ+9KqT74FsuB0Ya9uXwgBF2Q6cRuETZk5vqaqKxzqoQZCO8AOz/58j6O
- 2RHNy/mZEN+7tJ5Tsq42zVJ4jxsT8b9YplavCMsnBgDeRWhcbYhCyttoL7nYISyWg4kQYZ/P
- wIV3OuNv2f8iKYsxNsRuClOAF82+gvqOy1/1pprFjy8uo2pkoOrb63aOP3vO5VHnRKgra6dq
- NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
- OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
- jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <e8940857-4f71-4a34-ad80-81584f7378c8@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20260529-imx_mbox_rproc-7d512f5a6f78
+Content-Transfer-Encoding: quoted-printable
 
-On 6/17/26 07:32, Harry Yoo wrote:
->> Here we would get a sheaf with kmalloc_nolock() so that's ok even if it's
->> later freed by someone else by kfree(), right.
->> 
->>> +		}
->>> +
->>> +		empty = alloc_empty_sheaf(s, gfp, alloc_flags);
->>>  
->>>  		if (!empty)
->>>  			goto fail;
->>>  
->>>  		if (!local_trylock(&s->cpu_sheaves->lock)) {
->>> -			barn_put_empty_sheaf(barn, empty);
->>> +			__free_empty_sheaf(s, empty, allow_spin);
->> 
->> Well we could still use the barn with allow_spin == true.
-> 
-> Initially I did
-> 
-> if (!__barn_put_empty_sheaf(barn, empty, allow_spin))
-> 	__free_empty_sheaf(s, empty, allow_spin);
-> 
-> but I ended up just calling __free_empty_sheaf() because it's
-> pretty rare to hit... no strong opinion though.
+The imx's remoteproc driver uses a kworker from its mailbox callback to
+complete the request. The reason is that the imx mailbox driver invokes
+the callback from its interrupt handler and the remoteproc callback (at
+least the rpmsg-tty) requires a preemptible context.
 
-Yeah we can leave it simpler as it's rare.
+This works but is problematic in a PREEMPT_RT environment where the
+latency of the invocation is important. By scheduling a kworker the
+high task priority from the threaded handler is lost and the kworker
+competes for CPU ressources with every SCHED_OTHER task in the system.
+This can lead to long delays on a busy system with other RT threads
+which are less important than the completion of this request.
 
->> But more crucially, here we might be freeing with kfree_nolock() a sheaf
->> from the barn previously allocated with kmalloc()?
-> 
-> Well, we don't release and reacquire the local lock when we got an empty
-> sheaf from the barn, so it doesn't free the sheaf from the barn?
-> 
-> That was indeed very subtle and I got confused :D.
-> 
-> When we free a sheaf in this function, it's always allocated in current
-> context?
+Looking over other mailbox driver, like the arm_mhu for instance, they
+use a threaded interrupt handler to invoke the callback. This avoids the
+kworker detour.
 
-Indeed! It's fine then.
+The here suggested change utilises a threaded interrupt to invoke the
+callback. The primary handler mask the interrupt source so that the
+handler can run without getting interrupted by the interrupt again.
+Doing so avoids marking the interrupt IRQF_ONESHOT so that in a
+shared-interrupt environment the other interrupt can still fire while
+the first is masked.
 
->> Maybe we need to track if it's the case and defer-free it or something.
->> 
->> Also maybe there could be a wrapper kfree_maybe_nolock() (~better name?)
->> That means "I want to kfree safely in kfree_nolock() context something that
->> MIGHT have been kmalloc()"
->> And maybe depending on the debugging options that make kmalloc() ->
->> kfree_nolock() incompatible, if those are not enabled, it wouldn't have to
->> defer, but proceed normally?
-> 
-> But I really like the idea of supporting kmalloc() -> kfree_nolock(),
-> and I think it's worth exploring that.
+The first four patches are result of the sashiko review. Does not look
+critical.
 
-At least my confusion potentially lead to something good then :)
+This change was tested on a im93 board with rpmsg-tty driver.
 
-> Thanks!
-> 
+v2=E2=80=A6v3: https://lore.kernel.org/r/20260603-imx_mbox_rproc-v2-0-a0059=
+dc3b69a@linutronix.de
+  - Forward the error in imx_mu_generic_tx() to the caller (new patch
+    #1)
+  - Extend the patch description a bit for for "Start splitting the IRQ
+    handler" to briefly explain why callbacks are moved to the threaded
+    handler.
+  - Drop imx_mu_con_priv::pending. The primary handler wakes its
+    threaded handler. Once the handler is woken, the pending flag must
+    be set and there is no need to set/ clear it.
+  - Avoid the double clk_disable_unprepare() if
+    devm_mbox_controller_register() fails.
+
+v1=E2=80=A6v2: https://lore.kernel.org/r/20260529-imx_mbox_rproc-v1-0-b8ffc=
+36e11e5@linutronix.de
+  - Using correct register to enable RXDB event.
+  - Update commit description for the "threaded interrupt", "unmasks the
+    interrupt" =3D> "masks the interrupt event".
+  - Add a shutdown field so that the interrupt does not unmask the
+    interrupt if it has been already disabled because the channel is
+    about to be shutdown.  A possible race mentioned by sashiko.
+  - Use devm_pm_runtime_enable(). This should avoid a possible race
+    sashiko mentioned.
+  - Use devm_of_platform_populate().
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+Sebastian Andrzej Siewior (10):
+      mailbox: imx: Forward the timeout/ error in imx_mu_generic_tx()
+      mailbox: imx: Add a channel shutdown field
+      mailbox: imx: Use devm_pm_runtime_enable()
+      mailbox: imx: use devm_of_platform_populate()
+      mailbox: imx: Use channel index instead of zero in imx_mu_specific_rx=
+()
+      mailbox: imx: Start splitting the IRQ handler in primary and threaded=
+ handler
+      mailbox: imx: Move the RX part of the mailbox into the threaded handl=
+er
+      mailbox: imx: Move the RXDB part of the mailbox into the threaded han=
+dler
+      mailbox: imx: Don't force-thread the primary handler
+      remoteproc: imx_rproc: Invoke the callback directly
+
+ drivers/mailbox/imx-mailbox.c  | 117 ++++++++++++++++++++++++++++++-------=
+----
+ drivers/remoteproc/imx_rproc.c |  33 +-----------
+ 2 files changed, 88 insertions(+), 62 deletions(-)
+---
+base-commit: b3f94b2b3f3e51ab880a51fc6510e1dafba654ed
+change-id: 20260529-imx_mbox_rproc-7d512f5a6f78
+
+Best regards,
+--=20
+Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
