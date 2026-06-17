@@ -1,113 +1,150 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF26E3BD64C
-	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 17:07:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006254611C4
+	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 17:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781716054; cv=none; b=hvwLABRuBNHYWUsgC9nJYx28XLZZu8dm2EeKZoP3o04ydI05EjEw4CSGiz16bHG3cAoam+/rkgz9Ko7s9OmXPuSmlyq5+gJdHC2ESFiWFAI8cMYgRzF8H9oUn5wp6tAAP0IOd5n56omhBEiKUeuy41icYv2wkg0dELhL/ikAdhU=
+	t=1781716482; cv=none; b=cAm9TSI+er+UZu7nm9ZYpTvn6gwHmOL1n7W8enqqR3RzXf8L/ZQEPz1aUsKEuP88lvfM57lrJPHdjeG5f954aiL7gLO4paNXix0cv4ZxbhL6TtAQd5CvoKE2zs3kYgBm6omlDl/H6i6uKCD4fNyZHnQkdqCS8ZckW4WFxaaGf4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781716054; c=relaxed/simple;
-	bh=CdO6GuWUMsqqpmI3hePH+gTeyLJw015sL9ngEmNcebc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NFLEJFPuVd8VTlC9dKT7mtyBicP7ELs8DSYOdMYI/VJi+Bix8NIt76VpC4DvKkNyR7FzmVD+qG/GXbiiPRR1v4AvN/gfjaR3qA1qrac3o5bS8JSeUj7VCzN7Ar6/BmrR6tyRejOwIri98at1MnKR1ZO62Qku+HHzw7nw2Jl+odk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gErmhBUn; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GzrX3dNx; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1781716482; c=relaxed/simple;
+	bh=kFemRanvc6E5S6TRcsxsOq/DYjRukGgE0QCE4X4i0ms=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=nahjWu7W8n9ATLNdnikrtNxveRGiLbTocsixdbbWXV9SOJt4M90oDIV53urlD5k7i2muOi5ocr3YACgpRboV95MkR/C/zUf7lnUHa8YAmKwk6Uq35oFOYQkj9qZkCiobydQJp2olFMTKbOVNYBckjFSnYysdzQi1F3nZMLfAeXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=URPUI+Kx; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gErmhBUn";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GzrX3dNx"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781716051;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q73pIfa8DydxtdtESZl0olKxdjpT7x7LJITthS02nJQ=;
-	b=gErmhBUnwRuw1tSGilBNIaBkcq0NWMtDzpqoeAhnqa6lLhgQcVELC2BNydogeHppHqMAei
-	0HwFTn/0YbT0zGfkvfuv5br1hX2LHrySSseLGnz/EQ5x7Xa8X4TpQMx4xwKQz5Ari12R9w
-	pYRB5rvil8BofkV6CE413XTEdZ88LhSYuaZXEBHsFKPDrHjWUiJZITzlbNWSK0btmh0QD1
-	ujG0PXMJNKRorZOpFlkI7GQmQigkI2gi3HXUTpK/Kkr2wBJ+fqoCs88pRnisBLYwMPNFbg
-	1LFYR1JB8qJcflAkBxucYzQGu6i8CqzVZFP/VQzZLJwyxwRXeb9XINyEoBlU4g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781716051;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q73pIfa8DydxtdtESZl0olKxdjpT7x7LJITthS02nJQ=;
-	b=GzrX3dNxVo14HRlgSgC8gWRqPk5gWUo8wJMIMmeHraUi9veuFpEw+ectUW9v+9ZIh/SX9O
-	JkpkxXf7DWnMY8BQ==
-To: Breno Leitao <leitao@debian.org>, Peter Zijlstra <peterz@infradead.org>
-Cc: Petr Mladek <pmladek@suse.com>, Jakub Kicinski <kuba@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Vlad Poenaru <vlad.wing@gmail.com>, Thomas
- Gleixner <tglx@kernel.org>, netdev@vger.kernel.org, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Clark Williams
- <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Frederic Weisbecker <frederic@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, K Prateek Nayak
- <kprateek.nayak@amd.com>
-Subject: Re: [PATCH net] netpoll: run NAPI poll in softirq context to avoid
- rq->lock self-deadlock
-In-Reply-To: <ajKi4wtA8U1iZkMD@gmail.com>
-References: <20260610183621.3915271-1-vlad.wing@gmail.com>
- <20260611191114.5bc43a59@kernel.org>
- <20260616103529.Yh9Dxsjp@linutronix.de>
- <20260616170257.GH49951@noisy.programming.kicks-ass.net>
- <20260616141719.67684bf0@kernel.org> <ajJ46o4fomfxY5CX@pathway.suse.cz>
- <20260617111958.GL49951@noisy.programming.kicks-ass.net>
- <ajKi4wtA8U1iZkMD@gmail.com>
-Date: Wed, 17 Jun 2026 19:13:30 +0206
-Message-ID: <87tsr1m6y5.fsf@jogness.linutronix.de>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="URPUI+Kx"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1781716477;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y5SZXXiFJ8ueBXhlsGQFJZi5a2AW4j8ADP8QWnx4K3E=;
+	b=URPUI+KxX5k2L3dXRV6rad5ag+FPQQaxDxIUK7ydK6ENuc2D6h+cIasadvkr9vZSYWnBoB
+	gzeq9d5VdvLRYjMeOEE4YFmBzQPOgS1Wb2XFmG/AhqYDEwxEpT43tx40GKKgRY54XN7e+t
+	WtLX3QXOtLqSfo09anHRSIUsBplrdXs=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Jun 2026 17:14:23 +0000
+Message-Id: <DJBHRVM65A11.1OL2M9MXN56H@linux.dev>
+Cc: "Brendan Jackman" <jackmanb@google.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Michal Hocko" <mhocko@suse.com>, "Johannes
+ Weiner" <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Muchun Song"
+ <muchun.song@linux.dev>, "Oscar Salvador" <osalvador@suse.de>, "David
+ Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
+ R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Ying Huang" <ying.huang@linux.alibaba.com>, "Alistair
+ Popple" <apopple@nvidia.com>, "Hao Li" <hao.li@linux.dev>, "Christoph
+ Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
+ Gushchin" <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
+ <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
+ <gourry@gourry.net>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rt-devel@lists.linux.dev>, "Hao Ge" <hao.ge@linux.dev>
+Subject: Re: [PATCH] mm/page_alloc: unify
+ __alloc_frozen_pages[_nolock]_noprof()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: "Suren Baghdasaryan" <surenb@google.com>, "Vlastimil Babka (SUSE)"
+ <vbabka@kernel.org>
+References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
+ <2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org>
+ <CAJuCfpG48TmvaiaRvnL-NXKU6nn55D3bks2DgzAc0URsZhAxqA@mail.gmail.com>
+In-Reply-To: <CAJuCfpG48TmvaiaRvnL-NXKU6nn55D3bks2DgzAc0URsZhAxqA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 2026-06-17, Breno Leitao <leitao@debian.org> wrote:
-> On Wed, Jun 17, 2026 at 01:19:58PM +0200, Peter Zijlstra wrote:
->> But anything using locking is not ->write_atomic() and should be driven
->> from a kthread, no?
+On Wed Jun 17, 2026 at 4:49 PM UTC, Suren Baghdasaryan wrote:
+> On Wed, Jun 17, 2026 at 9:39=E2=80=AFAM Vlastimil Babka (SUSE)
+> <vbabka@kernel.org> wrote:
+>>
+>> +Cc Alexei
+>>
+>> On 6/17/26 17:29, Brendan Jackman wrote:
+>> > Currently the core allocator code is controlled by ALLOC_NOLOCK, but t=
+he
+>>
+>> It's not, it's ALLOC_TRYLOCK! Thanks for proving that we need to rename =
+it
+>> to ALLOC_NOLOCK:
+>>
+>> https://lore.kernel.org/all/DJ9QPTO2WXNB.10E88ZHWRDHB0@gmail.com/
+>>
+>> So you just won the job to do the rename :) I think it should be done be=
+fore
+>> this patch, so that the new usages and other _trylock names introduced h=
+ere
+>> can be done as _nolock outright.
+
+Ack. I'll aim to send that tomorrow once Sashiko has caught up.
+
+>> > main entry point function is significantly different from the normal
+>> > __alloc_frozen_pages_nolock(), this is tiring when reading the code.
+>> >
+>> > Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
+>> > an alloc_flags argument to __alloc_frozen_pages_nolock() (which is onl=
+y
+>> > exposed to mm/) and then turn the nolock variant into a thin wrapper
+>> > that just sets that flag (as well as handling NUMA_NO_NODE, similar to
+>> > how some of the wrappers in gfp.h do).
+>> >
+>> > Rationale that this doesn't change anything:
+>> >
+>> > 1. Simple bits: A bunch of the nolock-specific handling is just moved =
+to
+>> >    the new alloc_order_allowed(), alloc_trylock_allowed() and
+>> >    gfp_trylock.
+>> >
+>> > 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
+>> >    previously in the nolock variant:
+>> >
+>> >    a. Application of gfp_allowed_mask; this only affects early boot, a=
+nd
+>> >       only flags that affect the slowpath get changed here.
+>> >
+>> >    b. Application of current_gfp_context() - also only affects the
+>> >       slowpath
+>> >
+>> > 3. The slowpath itself: this is now just explicitly skipped under
+>> >    !ALLOC_TRYLOCK.
+>>
+>> I'll have to ponder it more closely.
+>>
+>> > Ulterior motive: adding an alloc_flags arg to the allocator's
+>> > mm-internal entrypoint can later be used to do more allocation
+>> > customisation without needing to create new GFP flags.
+>>
+>> Ack.
 >
-> Good point. If that's the case, netconsole might not ever be able to drop
-> CON_NBCON_ATOMIC_UNSAFE for any network-based console driver at all. 
+> I think this change might also help us in removing __GFP_NO_CODETAG
 
-It depends on what it needs to synchronize against. For example, the
-UART consoles cannot write if the port lock is taken by another
-context. And the port lock is the sole lock for writing to the UART. To
-deal with this, we added wrappers [0] for acquiring/releasing the port
-lock. The wrappers acquire the nbcon hardware after taking the port
-lock.
+Nice, this actually looks trivial? I can probably just tack it onto the
+v2 for this patch/series.
 
-The write_atomic() implementations for UART consoles do not take the
-port lock. Only the nbcon hardware is acquired (which can be done from
-any context). This automatically provides the synchronization based on
-the port lock.
+> introduced in [1] and being the only user of __GFP_NO_OBJ_EXT once
+> Vlastimil's patchset removing other __GFP_NO_OBJ_EXT users lands.
+> CC'ing Hao as he is brainstorming ways to remove __GFP_NO_CODETAG, and
+> this might be the answer.
+>>
+>> Besides the need to ponder unintended effects, mostly LGTM. Just not a f=
+an
+>> of the hardcoded '0' passed at various places. In the slab variant of th=
+is
+>> (the thread I've linked above) I went with SLAB_ALLOC_DEFAULT, so you ca=
+n do
+>> e.g. ALLOC_DEFAULT here?
 
-> As far as I can tell, there isn't a network driver today whose transmit
-> path is completely lockless, so, even if we make netpoll lockless.
->
-> It's unlikely any NIC will ever achieve this, given that NIC TX
-> fundamentally relies on a shared DMA ring and doorbell register, which
-> inherently cannot be made lockless.
->
-> So, is it correct to state that CON_NBCON_ATOMIC_UNSAFE will be part of
-> netconsole forever-ish?
+Yup ALLOC_DEFAULT sounds fine to me.
 
-Is there some lock that can be taken to synchronize all writing of
-packets to the network? If yes, the netconsole can use a similar
-solution.
-
-That is an example of a general solution, but individual drivers may be
-able to provide unique solutions, such as dedicated tx-channels for
-netconsole. (Sorry, I am not a network guy.)
-
-John Ogness
-
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/linux/serial_core.h?h=v7.1#n715
+Thanks for the reviews as always.
