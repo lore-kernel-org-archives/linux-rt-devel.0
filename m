@@ -1,116 +1,498 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5C047AF6F
-	for <linux-rt-devel@lists.linux.dev>; Wed, 17 Jun 2026 15:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E24F47ECDC;
+	Wed, 17 Jun 2026 16:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781711854; cv=none; b=nK4yQicAryAgiqsgoqYZZeMnZongayA2NFx31rNLpNz2GJINH0L1TPgOEQ9REe+zFea535bZucrlu0pTksMacvFkLqEqPzU5qDK1HbJZ6U0PqdMWAEwIXTEnHdiLZiVE1V5kFleAJlC6qrFxfFT6uy4ZAYNfYb+doy4IywR2Pcc=
+	t=1781714365; cv=none; b=eFIWiEV2sn5Ru4t98tQSSd4w1w4+N6wJ47FEcFICDaRiBfDWJpq46Rs+boGvcDL0MbOY5TG/eyjN1eI72dfgaPlWE0ePnD8nAzr2pQd3bKEOH/n74nSwbWDz4P/2qMf/04caqtAG9+QfV7eS6S+fjAfln4osz4rkR1E9ARFJCzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781711854; c=relaxed/simple;
-	bh=mG+UF61LIWuVs7ffrhGbTRgerWizgP2NZwIcPmWs6xU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XD3S9dXhJgjtLNARnfHYCuw7Pu/FDeGRmcA3ZElRNe3ZQzSiAllNUUH/irqk6fAQvLH5cXdCC0ADVs+F0NLkGpZDyWfaIzug8mJ8iky06mfkhRrU5rkRq/jEIRk1gpuRpWl/0oVpp07P2Gl+JJZEeiZcaPCApdZwGk29ttA711Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nZGg/F1A; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781714365; c=relaxed/simple;
+	bh=RPAKwPG3kLE2LN7X+vrBn0P+RkV5ZP1HD018N6PU1ns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ifDKkLpV5MzcWatsQtQ5qgacdiMvEGPSoDjnyH6RF9UgM3fuapDfvDbofejllUYlZwmKmq5uazSLdfJS7xgTZWOn4A45PmrWM/HQgvolIDcVzVCvl8h9WN0PEmSdgnMtea7VbKF/UFJeKIqns3Odk1dfJcRfNZQkAD4Mx5Lx6fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nmlbaOZe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nZGg/F1A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781711845; x=1813247845;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mG+UF61LIWuVs7ffrhGbTRgerWizgP2NZwIcPmWs6xU=;
-  b=nZGg/F1ARkMGZV9zSiOHYBNT2/eWRsa33RzEmoiTNd6hs3emRj2POoPU
-   jFz4DIE9Ojv0Ecweq1XV+4aGle+Qd1f3sGyNPtAjh3jorVnC2w3HoZqYv
-   JmE+A8am9txLbaA5VHh3TJ12AcpHEeyzoRJPQ/zxRSQdudGb2NGtliOvX
-   CEvhHU+BmNvA5PNxP+SLXquU+6jwhjTuQIXlDhKftNsmQhqxEYz3HyCEX
-   f1xzzjPbSPtgiuYNF2kSC3BQBfjkMBhUh78O9WR4mjWQ9lV/t7q5wOB/a
-   jK9Q6ENYeaj5zehaLZXjxSKjrRPVVmaNsW7iY+v9a/AQbQm6RpBwvy1ez
-   A==;
-X-CSE-ConnectionGUID: JQcSMr+YRjifpIdQ3nZMMA==
-X-CSE-MsgGUID: WUJJHa9fRuyo8LOkYXiV1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="82411265"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="82411265"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 08:57:24 -0700
-X-CSE-ConnectionGUID: AETn2Kz3R5ybU2o4gXxAjA==
-X-CSE-MsgGUID: W/MJ9UHnSHiTdMkc5dX+ww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="248160197"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.69])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 08:57:20 -0700
-Date: Wed, 17 Jun 2026 18:57:18 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-gpio@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] gpio: sch: use raw_spinlock_t in the irq startup path
-Message-ID: <ajLD3p-IH3U-UsG_@ashevche-desk.local>
-References: <20260617154035.1199948-1-runyu.xiao@seu.edu.cn>
- <20260617154035.1199948-2-runyu.xiao@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nmlbaOZe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD271F000E9;
+	Wed, 17 Jun 2026 16:39:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781714361;
+	bh=eLDkg4WxnXGnsAZI8cb873zZ7d7ZuisTrkvapay2URM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=nmlbaOZewZyXiU0WW4bU4/DKdnYUY6HTFd4ZBsRXPtiSwN3C+4Cx3qSQmYZ2Q/4dx
+	 fJOxcQ1w6vTIUN2yOMbvfDlPnXy9RI+A/b+5xAqmRS3oAENHR42thV6Ap12v5AQsNE
+	 dHBKFcmUGlhlM/UZymISqvt3JPi5204VfHeHxSNBRiY2pQuWIMnUEeiCO/hqAW3IOn
+	 bv6DJz4NZTcpSBnZ4lt6qtXGat+dIWtriC1nMBdqdGlSeQM5UsSJmgQg3WMSI/a/OR
+	 jAyDvfxZvUsweFBvVILxFDEyiJxUgj2MoX9bohbMnWvc6PgAYvBRRpdqUOO/+GRgwd
+	 w1RBStSaDfPAA==
+Message-ID: <2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org>
+Date: Wed, 17 Jun 2026 18:39:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617154035.1199948-2-runyu.xiao@seu.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/page_alloc: unify
+ __alloc_frozen_pages[_nolock]_noprof()
+Content-Language: en-US
+To: Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Alexei Starovoitov <ast@kernel.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 17, 2026 at 11:40:34PM +0800, Runyu Xiao wrote:
-> sch_irq_unmask() enables the GPIO IRQ and then updates the controller
-> state through sch_irq_mask_unmask(), which takes sch->lock with
-> spin_lock_irqsave().  The callback can be reached from irq_startup()
-> while setting up a requested IRQ.  That path is not sleepable, but on
-> PREEMPT_RT a regular spinlock_t becomes a sleeping lock.
++Cc Alexei
+
+On 6/17/26 17:29, Brendan Jackman wrote:
+> Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
+
+It's not, it's ALLOC_TRYLOCK! Thanks for proving that we need to rename it
+to ALLOC_NOLOCK:
+
+https://lore.kernel.org/all/DJ9QPTO2WXNB.10E88ZHWRDHB0@gmail.com/
+
+So you just won the job to do the rename :) I think it should be done before
+this patch, so that the new usages and other _trylock names introduced here
+can be done as _nolock outright.
+
+> main entry point function is significantly different from the normal
+> __alloc_frozen_pages_nolock(), this is tiring when reading the code.
 > 
-> This issue was found by our static analysis tool and then manually
-> reviewed against the current tree.
+> Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
+> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
+> exposed to mm/) and then turn the nolock variant into a thin wrapper
+> that just sets that flag (as well as handling NUMA_NO_NODE, similar to
+> how some of the wrappers in gfp.h do).
 > 
-> The grounded PoC kept the request_threaded_irq() -> __setup_irq() ->
-> irq_startup() -> sch_irq_unmask() -> sch_irq_mask_unmask() carrier and
-> used the original spin_lock_irqsave(&sch->lock) edge.  Lockdep reported:
+> Rationale that this doesn't change anything:
 > 
->   BUG: sleeping function called from invalid context
->   hardirqs last disabled at ... __setup_irq.constprop.0 ... [vuln_msv]
->   sch_rt_spin_lock_irqsave+0x1c/0x30 [vuln_msv]
->   sch_irq_mask_unmask.constprop.0+0x31/0x70 [vuln_msv]
->   __setup_irq.constprop.0+0xd/0x30 [vuln_msv]
+> 1. Simple bits: A bunch of the nolock-specific handling is just moved to
+>    the new alloc_order_allowed(), alloc_trylock_allowed() and
+>    gfp_trylock.
 > 
-> Convert the SCH controller lock to raw_spinlock_t.  The same lock is
-> also used by the GPIO direction and value callbacks, but those critical
-> sections only update MMIO-backed GPIO registers and do not contain
-> sleepable operations.  Keeping this register lock non-sleeping is
-> therefore appropriate for the irqchip callbacks and does not change the
-> GPIO-side locking contract.
+> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
+>    previously in the nolock variant:
+> 
+>    a. Application of gfp_allowed_mask; this only affects early boot, and
+>       only flags that affect the slowpath get changed here.
+> 
+>    b. Application of current_gfp_context() - also only affects the
+>       slowpath
+> 
+> 3. The slowpath itself: this is now just explicitly skipped under
+>    !ALLOC_TRYLOCK.
 
-Okay, no objection.
+I'll have to ponder it more closely.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Ulterior motive: adding an alloc_flags arg to the allocator's
+> mm-internal entrypoint can later be used to do more allocation
+> customisation without needing to create new GFP flags.
 
-Bart, you can take it to your branch directly in case it's not too late
-for getting into v7.2-rc1, otherwise I can take via my branch and then PR
-somewhere near -rc2.
+Ack.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> No functional change intended.
+> 
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
+Besides the need to ponder unintended effects, mostly LGTM. Just not a fan
+of the hardcoded '0' passed at various places. In the slab variant of this
+(the thread I've linked above) I went with SLAB_ALLOC_DEFAULT, so you can do
+e.g. ALLOC_DEFAULT here?
+
+> ---
+>  mm/hugetlb.c    |   2 +-
+>  mm/internal.h   |   4 +-
+>  mm/mempolicy.c  |   8 +--
+>  mm/page_alloc.c | 175 +++++++++++++++++++++++++++++---------------------------
+>  mm/slub.c       |   4 +-
+>  5 files changed, 99 insertions(+), 94 deletions(-)
+> 
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 571212b80835e..619f6307dc98d 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -1806,7 +1806,7 @@ static struct folio *alloc_buddy_frozen_folio(int order, gfp_t gfp_mask,
+>  	if (alloc_try_hard)
+>  		gfp_mask |= __GFP_RETRY_MAYFAIL;
+>  
+> -	folio = (struct folio *)__alloc_frozen_pages(gfp_mask, order, nid, nmask);
+> +	folio = (struct folio *)__alloc_frozen_pages(gfp_mask, order, nid, nmask, 0);
+>  
+>  	/*
+>  	 * If we did not specify __GFP_RETRY_MAYFAIL, but still got a
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 181e79f1d6a20..1043eb833836c 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -913,7 +913,7 @@ extern bool free_pages_prepare(struct page *page, unsigned int order);
+>  extern int user_min_free_kbytes;
+>  
+>  struct page *__alloc_frozen_pages_noprof(gfp_t, unsigned int order, int nid,
+> -		nodemask_t *);
+> +		nodemask_t *, unsigned int alloc_flags);
+>  #define __alloc_frozen_pages(...) \
+>  	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
+>  void free_frozen_pages(struct page *page, unsigned int order);
+> @@ -924,7 +924,7 @@ struct page *alloc_frozen_pages_noprof(gfp_t, unsigned int order);
+>  #else
+>  static inline struct page *alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order)
+>  {
+> -	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL);
+> +	return __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL, 0);
+>  }
+>  #endif
+>  
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 36699fabd3c22..dccff90682035 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -2425,9 +2425,9 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+>  	 */
+>  	preferred_gfp = gfp | __GFP_NOWARN;
+>  	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+> -	page = __alloc_frozen_pages_noprof(preferred_gfp, order, nid, nodemask);
+> +	page = __alloc_frozen_pages_noprof(preferred_gfp, order, nid, nodemask, 0);
+>  	if (!page)
+> -		page = __alloc_frozen_pages_noprof(gfp, order, nid, NULL);
+> +		page = __alloc_frozen_pages_noprof(gfp, order, nid, NULL, 0);
+>  
+>  	return page;
+>  }
+> @@ -2475,7 +2475,7 @@ static struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+>  			 */
+>  			page = __alloc_frozen_pages_noprof(
+>  				gfp | __GFP_THISNODE | __GFP_NORETRY, order,
+> -				nid, NULL);
+> +				nid, NULL, 0);
+>  			if (page || !(gfp & __GFP_DIRECT_RECLAIM))
+>  				return page;
+>  			/*
+> @@ -2487,7 +2487,7 @@ static struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+>  		}
+>  	}
+>  
+> -	page = __alloc_frozen_pages_noprof(gfp, order, nid, nodemask);
+> +	page = __alloc_frozen_pages_noprof(gfp, order, nid, nodemask, 0);
+>  
+>  	if (unlikely(pol->mode == MPOL_INTERLEAVE ||
+>  		     pol->mode == MPOL_WEIGHTED_INTERLEAVE) && page) {
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 0111cdbdb5321..fc4d07bbf44b5 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -5253,24 +5253,98 @@ void free_pages_bulk(struct page **page_array, unsigned long nr_pages)
+>  	}
+>  }
+>  
+> -/*
+> - * This is the 'heart' of the zoned buddy allocator.
+> - */
+> -struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+> -		int preferred_nid, nodemask_t *nodemask)
+> +static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
+> +				       unsigned int alloc_flags)
+>  {
+> -	struct page *page;
+> -	unsigned int alloc_flags = ALLOC_WMARK_LOW;
+> -	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+> -	struct alloc_context ac = { };
+> +
+> +	if (alloc_flags & ALLOC_TRYLOCK)
+> +		return pcp_allowed_order(order);
+>  
+>  	/*
+>  	 * There are several places where we assume that the order value is sane
+>  	 * so bail out early if the request is out of bound.
+>  	 */
+> -	if (WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp))
+> +	return !(WARN_ON_ONCE_GFP(order > MAX_PAGE_ORDER, gfp));
+> +}
+> +
+> +static inline bool alloc_trylock_allowed(void)
+> +{
+> +	/*
+> +	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
+> +	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
+> +	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
+> +	 * mark the task as the owner of another rt_spin_lock which will
+> +	 * confuse PI logic, so return immediately if called from hard IRQ or
+> +	 * NMI.
+> +	 *
+> +	 * Note, irqs_disabled() case is ok. This function can be called
+> +	 * from raw_spin_lock_irqsave region.
+> +	 */
+> +	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+> +		return false;
+> +
+> +	/* On UP, spin_trylock() always succeeds even when it is locked */
+> +	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
+> +		return false;
+> +
+> +	/* Bailout, since _deferred_grow_zone() needs to take a lock */
+> +	if (deferred_pages_enabled())
+> +		return false;
+> +
+> +	return true;
+> +}
+> +
+> +/*
+> + * GFP flags to set for ALLOC_TRYLOCK i.e. alloc_pages_nolock().
+> + *
+> + * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
+> + * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
+> + * is not safe in arbitrary context.
+> + *
+> + * These two are the conditions for gfpflags_allow_spinning() being true.
+> + *
+> + * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
+> + * to warn. Also warn would trigger printk() which is unsafe from
+> + * various contexts. We cannot use printk_deferred_enter() to mitigate,
+> + * since the running context is unknown.
+> + *
+> + * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
+> + * is safe in any context. Also zeroing the page is mandatory for
+> + * BPF use cases.
+> + *
+> + * Though __GFP_NOMEMALLOC is not checked in the code path below,
+> + * specify it here to highlight that alloc_pages_nolock()
+> + * doesn't want to deplete reserves.
+> + */
+> +static const gfp_t gfp_trylock = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC |
+> +				__GFP_COMP;
+> +
+> +/*
+> + * This is the 'heart' of the zoned buddy allocator.
+> + */
+> +struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+> +		int preferred_nid, nodemask_t *nodemask, unsigned int alloc_flags)
+> +{
+> +	struct page *page;
+> +	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+> +	struct alloc_context ac = { };
+> +
+> +	/* Other flags could be supported later if needed. */
+> +	if (WARN_ON(alloc_flags & ~ALLOC_TRYLOCK))
+>  		return NULL;
+>  
+> +	if (!alloc_order_allowed(gfp, order, alloc_flags))
+> +		return NULL;
+> +
+> +	if (alloc_flags & ALLOC_TRYLOCK) {
+> +		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
+> +		if (!alloc_trylock_allowed())
+> +			return NULL;
+> +		gfp |= gfp_trylock;
+> +	} else {
+> +		alloc_flags |= ALLOC_WMARK_LOW;
+> +	}
+> +
+>  	gfp &= gfp_allowed_mask;
+>  	/*
+>  	 * Apply scoped allocation constraints. This is mainly about GFP_NOFS
+> @@ -5291,9 +5365,9 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>  	 */
+>  	alloc_flags |= alloc_flags_nofragment(zonelist_zone(ac.preferred_zoneref), gfp);
+>  
+> -	/* First allocation attempt */
+> +	/* First allocation attempt (or, for trylock, only attempt) */
+>  	page = get_page_from_freelist(alloc_gfp, order, alloc_flags, &ac);
+> -	if (likely(page))
+> +	if (likely(page) || (alloc_flags & ALLOC_TRYLOCK))
+>  		goto out;
+>  
+>  	alloc_gfp = gfp;
+> @@ -5310,7 +5384,8 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>  out:
+>  	if (memcg_kmem_online() && (gfp & __GFP_ACCOUNT) && page &&
+>  	    unlikely(__memcg_kmem_charge_page(page, gfp, order) != 0)) {
+> -		free_frozen_pages(page, order);
+> +		__free_frozen_pages(page, order,
+> +				    alloc_flags & ALLOC_TRYLOCK ? FPI_TRYLOCK : 0);
+>  		page = NULL;
+>  	}
+>  
+> @@ -5326,7 +5401,7 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
+>  {
+>  	struct page *page;
+>  
+> -	page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, nodemask);
+> +	page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, nodemask, 0);
+>  	if (page)
+>  		set_page_refcounted(page);
+>  	return page;
+> @@ -7856,80 +7931,10 @@ static bool __free_unaccepted(struct page *page)
+>  
+>  struct page *alloc_frozen_pages_nolock_noprof(gfp_t gfp_flags, int nid, unsigned int order)
+>  {
+> -	/*
+> -	 * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allowed.
+> -	 * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
+> -	 * is not safe in arbitrary context.
+> -	 *
+> -	 * These two are the conditions for gfpflags_allow_spinning() being true.
+> -	 *
+> -	 * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a reason
+> -	 * to warn. Also warn would trigger printk() which is unsafe from
+> -	 * various contexts. We cannot use printk_deferred_enter() to mitigate,
+> -	 * since the running context is unknown.
+> -	 *
+> -	 * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() below
+> -	 * is safe in any context. Also zeroing the page is mandatory for
+> -	 * BPF use cases.
+> -	 *
+> -	 * Though __GFP_NOMEMALLOC is not checked in the code path below,
+> -	 * specify it here to highlight that alloc_pages_nolock()
+> -	 * doesn't want to deplete reserves.
+> -	 */
+> -	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC | __GFP_COMP
+> -			| gfp_flags;
+> -	unsigned int alloc_flags = ALLOC_TRYLOCK;
+> -	struct alloc_context ac = { };
+> -	struct page *page;
+> -
+> -	VM_WARN_ON_ONCE(gfp_flags & ~__GFP_ACCOUNT);
+> -	/*
+> -	 * In PREEMPT_RT spin_trylock() will call raw_spin_lock() which is
+> -	 * unsafe in NMI. If spin_trylock() is called from hard IRQ the current
+> -	 * task may be waiting for one rt_spin_lock, but rt_spin_trylock() will
+> -	 * mark the task as the owner of another rt_spin_lock which will
+> -	 * confuse PI logic, so return immediately if called from hard IRQ or
+> -	 * NMI.
+> -	 *
+> -	 * Note, irqs_disabled() case is ok. This function can be called
+> -	 * from raw_spin_lock_irqsave region.
+> -	 */
+> -	if (IS_ENABLED(CONFIG_PREEMPT_RT) && (in_nmi() || in_hardirq()))
+> -		return NULL;
+> -
+> -	/* On UP, spin_trylock() always succeeds even when it is locked */
+> -	if (!IS_ENABLED(CONFIG_SMP) && in_nmi())
+> -		return NULL;
+> -
+> -	if (!pcp_allowed_order(order))
+> -		return NULL;
+> -
+> -	/* Bailout, since _deferred_grow_zone() needs to take a lock */
+> -	if (deferred_pages_enabled())
+> -		return NULL;
+> -
+>  	if (nid == NUMA_NO_NODE)
+>  		nid = numa_node_id();
+>  
+> -	prepare_alloc_pages(alloc_gfp, order, nid, NULL, &ac,
+> -			    &alloc_gfp, &alloc_flags);
+> -
+> -	/*
+> -	 * Best effort allocation from percpu free list.
+> -	 * If it's empty attempt to spin_trylock zone->lock.
+> -	 */
+> -	page = get_page_from_freelist(alloc_gfp, order, alloc_flags, &ac);
+> -
+> -	/* Unlike regular alloc_pages() there is no __alloc_pages_slowpath(). */
+> -
+> -	if (memcg_kmem_online() && page && (gfp_flags & __GFP_ACCOUNT) &&
+> -	    unlikely(__memcg_kmem_charge_page(page, alloc_gfp, order) != 0)) {
+> -		__free_frozen_pages(page, order, FPI_TRYLOCK);
+> -		page = NULL;
+> -	}
+> -	trace_mm_page_alloc(page, order, alloc_gfp, ac.migratetype);
+> -	kmsan_alloc_page(page, order, alloc_gfp);
+> -	return page;
+> +	return __alloc_frozen_pages_noprof(gfp_flags, order, nid, NULL, ALLOC_TRYLOCK);
+>  }
+>  /**
+>   * alloc_pages_nolock - opportunistic reentrant allocation from any context
+> diff --git a/mm/slub.c b/mm/slub.c
+> index a2bf3756ca7d0..b9fb66071bd07 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -3275,7 +3275,7 @@ static inline struct slab *alloc_slab_page(gfp_t flags, int node,
+>  	else if (node == NUMA_NO_NODE)
+>  		page = alloc_frozen_pages(flags, order);
+>  	else
+> -		page = __alloc_frozen_pages(flags, order, node, NULL);
+> +		page = __alloc_frozen_pages(flags, order, node, NULL, 0);
+>  
+>  	if (!page)
+>  		return NULL;
+> @@ -5236,7 +5236,7 @@ static void *___kmalloc_large_node(size_t size, gfp_t flags, int node)
+>  	if (node == NUMA_NO_NODE)
+>  		page = alloc_frozen_pages_noprof(flags, order);
+>  	else
+> -		page = __alloc_frozen_pages_noprof(flags, order, node, NULL);
+> +		page = __alloc_frozen_pages_noprof(flags, order, node, NULL, 0);
+>  
+>  	if (page) {
+>  		ptr = page_address(page);
+> 
+> ---
+> base-commit: 1111012ec6508a38a39f8d20c213c8c9cf3c96c0
+> change-id: 20260617-alloc-trylock-14ad37dab337
+> 
+> Best regards,
+> --  
+> Brendan Jackman <jackmanb@google.com>
+> 
 
