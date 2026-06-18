@@ -1,57 +1,65 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4059318872A;
-	Thu, 18 Jun 2026 08:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29981388E5A
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 08:18:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781770559; cv=none; b=iSx7cl1eCUJtJytNm4++787mQSPSkPZB6ueN91p0HeehyAZf6+/pZaouAnOzfb57c+Pcxw0DCdAXn/z6Eb1XEna5E95F4+q98as+BwY+vg7Wk33+d75Z0++7s7xzYNWVH01KmgzVzo3Ta5hF1uMsrjGGVPw5h16ZzY3h1F+pSsE=
+	t=1781770726; cv=none; b=l4LehJfiFjsoTFPrFhvLIs2/5a8YLUFdGzAX3GmoYVPFP5aClY7gvXH15+hC43142f3kKtrgOBPAZhdfvL9dUjIsmH9X9fEUnoh/81P5thJiTgIRbYtaXkcUYz2a+9OUmQJJYJZjk+wRi6Ob5+l2RAjdOFJ61RArCU2hAy9DmTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781770559; c=relaxed/simple;
-	bh=Ft3DR8HYqhv7bLm/AkmBWtVUOn1fgDkjToaIGnHHPQc=;
+	s=arc-20240116; t=1781770726; c=relaxed/simple;
+	bh=QWZAgUG33sDVoOYvsZHlVsv36qxjPW2xLkggJ9D40hM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CRgu72CWAD3+eOYqhqmLtHMKM7fOYiIrxCbyuVx1RueaDZqVNwR/aCEgelwgKnuhWc/6lKTiLxQvjN7B4VMionDgGOlwa6VFF7ZvfjGWYOAGbdbRSAMUqUHX4YcgYdgdXZMctqeN245yutNw6kLa7rWL/YhpdWf7D53RTNyW3kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=r0y5D7NJ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=5CPeMOk3; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+vYC9FOSp7vD6oZMDJCAPJ2rDdd7CkJZT5O5BiGNq6kroLWLo9XVFgCQEqorlWskGZ16gFmfF/GN+yJPHUhjI/IRdC1MkUTiAc1gRCoUAkwlGz/S6sXFduiflqNkT0z5iClKWW2peDGxdNQ8vjqJCLTSRfoKykhMO+RyfBgYuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bgpoXraC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+PAOCBZ6; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="r0y5D7NJ";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="5CPeMOk3"
-Date: Thu, 18 Jun 2026 10:15:54 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bgpoXraC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+PAOCBZ6"
+Date: Thu, 18 Jun 2026 10:18:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781770556;
+	s=2020; t=1781770722;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bfKiKVq3hU3pjcBqUpBBITy3boOVHoqwPFPh0Ujjzk8=;
-	b=r0y5D7NJYb4QTTOEoORJ6biEUdtaD8LliAbG4rfJBSYfP0u/4miH20xoNkr3VAJVDDr+hC
-	2kw2RkVTQhqwfZ3NbbLjKlVNdqpSNWt05bqc2Cmou0QG4NwzmxuSAv0cZtsEvMfp4bst5e
-	YyY6mDGnP6vXPicLqUmAjUycpPhx6b0CFwsKA5m1cGmF0wx5zPIVU5pypGLf2IpVyj8IWg
-	4Dz+Ji6QZpVMFvIvCkBOWOtIp/rftXIsEtbwCmDputtdUXO6yOxWfmrHJvZAaBYGS/oAE+
-	XQgLfSbYtvGuLL6Bjvyv9y1vmxnDnBRfP8kv1iniZV3g3lCp9K8AqP7ya9QmAw==
+	bh=esNCyoPGjThitgO/ONZd6FII4CTw4WW+HhHMD7dROhE=;
+	b=bgpoXraCqEcTq/A1VHEfomvk7NjTwbH52o92fLD0lTRIqkRAEopghmZJIgYaX0rO7SRcfP
+	7N5y3xITSWfAigN+yUpqrRZltUGQ1uXFo0VCAE4MpRuwjpuFNGqbNhpqqT05W1YdAzdTz1
+	Z3px8lS1RoJE4mx/3/KQMc5YyJEVhtJ56cu6g6FErAW6i6ob53ydVsGq/0obmxAJ9WcxCk
+	m+7RjQ3eKdovQ6vN299Awepf22cjql56wSwGk+KLZBoShc/lAPryI8WLmwPtDbebw8J8Tl
+	uf8lUIg3Nffr1bn9h+yDo69xFLqd/O05CynGpM42SCnQP9XqN9v2fXMHqC2E/w==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781770556;
+	s=2020e; t=1781770722;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bfKiKVq3hU3pjcBqUpBBITy3boOVHoqwPFPh0Ujjzk8=;
-	b=5CPeMOk3GIo1h9V/CqjAAL8dMVouMDzCVxeFdnTfaVIMu/N/0RPcwSBhdwm/hFObeI/2/w
-	39FONTNnrS0xcEAQ==
+	bh=esNCyoPGjThitgO/ONZd6FII4CTw4WW+HhHMD7dROhE=;
+	b=+PAOCBZ6krTyj3cKO28sUF+z9qnobDQbrowNq7D7oCQD31FisaxSCZhWTNTc4azTwf3SM6
+	LVas/zdYRlOgSpDg==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>, Mark Brown <broonie@kernel.org>
-Cc: Viresh Kumar <vireshk@kernel.org>,
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>,
 	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org, soc@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn
-Subject: Re: Question: SPEAr PLGPIO irq_enable on PREEMPT_RT and regmap
- updates
-Message-ID: <20260618081554.zifCwv4I@linutronix.de>
-References: <20260618023418.213453-1-runyu.xiao@seu.edu.cn>
+	Jan Kiszka <jan.kiszka@siemens.com>, linux-gpio@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] gpio: sch: use raw_spinlock_t in the irq startup path
+Message-ID: <20260618081841.QBWh0eV5@linutronix.de>
+References: <20260617154035.1199948-1-runyu.xiao@seu.edu.cn>
+ <20260617154035.1199948-2-runyu.xiao@seu.edu.cn>
+ <20260618062839.4o1ewdEn@linutronix.de>
+ <ajOS2UR9pw_pUBxr@ashevche-desk.local>
+ <ajOTLrrUCBxsy5jf@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -61,58 +69,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260618023418.213453-1-runyu.xiao@seu.edu.cn>
+In-Reply-To: <ajOTLrrUCBxsy5jf@ashevche-desk.local>
 
-On 2026-06-18 10:34:18 [+0800], Runyu Xiao wrote:
-> Hi,
-Hi,
+On 2026-06-18 09:41:50 [+0300], Andy Shevchenko wrote:
+> On Thu, Jun 18, 2026 at 09:40:31AM +0300, Andy Shevchenko wrote:
+> > On Thu, Jun 18, 2026 at 08:28:39AM +0200, Sebastian Andrzej Siewior wro=
+te:
+> > > On 2026-06-17 23:40:34 [+0800], Runyu Xiao wrote:
+> > > > sch_irq_unmask() enables the GPIO IRQ and then updates the controll=
+er
+> > > > state through sch_irq_mask_unmask(), which takes sch->lock with
+> > > > spin_lock_irqsave().  The callback can be reached from irq_startup()
+> > > > while setting up a requested IRQ.  That path is not sleepable, but =
+on
+> > > > PREEMPT_RT a regular spinlock_t becomes a sleeping lock.
+> =E2=80=A6
+> > > > Fixes: 7a81638485c1 ("gpio: sch: Add edge event support")
+> > > > Cc: stable@vger.kernel.org
+> > > > Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+> > >=20
+> > > Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> >=20
+> > There is already a v2.
+>=20
+> Or not... I might have been confused with other patch that got two versio=
+ns
+> in a row.
 
-=E2=80=A6
-> The repair I am considering is to keep the gpiolib resource updates in
-> the fast irq_enable/irq_disable callbacks, but defer the actual PLGPIO
-> IE/EIT register writes to irq_bus_sync_unlock(), after the IRQ core has
-> dropped desc->lock.  The driver would keep per-line shadow state for:
->=20
->   - IRQ disabled/enabled state
->   - pending IE update
->   - edge direction state
->   - pending EIT update
->=20
-> and then synchronize those shadow updates from irq_bus_sync_unlock()
-> under a mutex.
-
-Not sure how this will look like, but okay. I was looking at making the
-a lock a raw_spinlock_t for fast_io. Since it is just a read and write
-it shouldn't be a problem. But then there is the regcache and the sync
-of many registers might be painful. The actual problem is the type MAPLE
-and RBTREE which have an allocation in their write callback. That is a
-no but the FLAT ones should work since there is just one alloc during
-init. Well, wouldn't it be for the lock that is acquired during the
-callback.
-
-I don't think this is required given that it is init time so
-holding the lock shouldn't be required. This was introduced in commit
-fd4ebc07b4dff ("regmap: Hold the regmap lock when allocating and freeing
-the cache"). This change broke gpio-104-idio-16.c, pio-pci-idio-16.c,
-pio-pcie-idio-24, gpio-ws16c48.c and pinctrl-apple-gpio.c.
-
-So unless there is something that I miss=E2=80=A6
-
-> In other words, the fast callbacks would only update local shadow state
-> and call gpiochip_enable_irq()/gpiochip_disable_irq(), while the sleepable
-> regmap writes would be batched into the irq bus sync phase.
->=20
-> Does that sound like an acceptable direction for SPEAr PLGPIO, or would
-> you prefer a different fix, such as changing the underlying syscon regmap
-> locking model or handling only the IE register path?
->=20
-> The draft patch I have locally is roughly:
->=20
->   pinctrl: spear: defer PLGPIO IRQ updates to bus sync
->=20
-> and it changes only drivers/pinctrl/spear/pinctrl-plgpio.c.
->=20
-> Thanks,
-> Runyu
+I am catching up so I wouldn't be surprised ;) And it is entirely
+possible that sashiko came up with the pre-existing condition worth
+fixing ;)
 
 Sebastian
