@@ -1,47 +1,53 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CDE257854
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 06:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E36633EB06
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 06:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781764376; cv=none; b=ZAR9ZCg7kA3sCvZqQAxAZ1pChYuTWGx8w7sMMYtxCnLC+hkx5PbgsUgQk3g0pkYZukem/vRzzOLR5J8WgZ+Nmjl5me9ixvzAkekmtpyFP70D5FkEIcDbTnUfEFjwK0Bwo+dA0uFBTeiZhwSC/UYxfxHG6G3ps8oeFCLISeKUGTA=
+	t=1781764834; cv=none; b=NZvCFSP73aV40DWMovdokqlb0WKkInbR6iYYDJIFMypEn9hYrRtYmUHLogt6DcRAvs4mvzjCzXikmHyZaIh8vRxfWdpPtz5CsxtVr7P+lsPaUovGtQJoUOfsnsj9HipWE4bUCopFky7s3QAxT+rZ5KCj9ri1JjHHwOaaJmuI9w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781764376; c=relaxed/simple;
-	bh=Qcz+7tjX7ygO3juELnfKHETvX+o1qYF94DDbsBU8MEY=;
+	s=arc-20240116; t=1781764834; c=relaxed/simple;
+	bh=BumMsBSMG1s9RkeZoB5IVq+5GgZbpDM82QYWrngLh0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ele8VTQxVwts7iybcDs1Gyg4pAcY5+xOT7L0ah1JyTC8XCeR0XDoWZhqliPkSnTjtLznmw+x1RoH0TUpjJ/DswZ4zXIzUsvpj952G/tUGQRxK65BISOfz+qCrGpI9JbYn0snefcol4xHC66rRlX0KBtUHbLh34Xd+yGlO1KKvVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1rp8a25D; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O0yHEg/q; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Elp9fWR7vxf2yZ4iPZ2XxXaSq8gZEmkm6uUl6VfwE8ZZ2kuYPgQwTn4CKqZfyKSp8p5LzNCfvpKtqr5TqVQpSBQBX0CspW+QMj7gcCNaQXbSjDhaIUT99DAQzZnooqTj/U0FMGGYAovJhDRoocE5+67y2RG3n1/OG2F+LCngmxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRMD+n+T; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1rp8a25D";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O0yHEg/q"
-Date: Thu, 18 Jun 2026 08:32:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781764374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w4kyA6yHk+GPcMH3U+HqnffMzuSZuB07AzC6h+UiwoU=;
-	b=1rp8a25D/967AZOX+CqM+nUprDa4wyYeEhVMQpXBNss1e5uYAoVw1wUGx4Uss5/n8P6yCT
-	cmGbkRdqAGC649bCR+Upq5f2mVIUA4WdUkV+il86dszzhIVwCUz0+mEBjXNWE9qSeRcBJx
-	gctZSEuZN7Xvj+2tluclK67tPP7nsh6jyMQDtcSnuFjJvg+AKX269mvgapa4qjlfzZOp2P
-	7Ht7vnZ7JwTfXwAtwz/1VFUED/3eYhciZRIR0SKmOx2Yo5oxYcwVCoaA41BuAfZiD8dWb/
-	oeuEK9oG8+m96EoIol9WX88DsSS6YTBPIuBsqjyGd/Bce6H9dWtc3FCnHXBMVQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781764374;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w4kyA6yHk+GPcMH3U+HqnffMzuSZuB07AzC6h+UiwoU=;
-	b=O0yHEg/qslDvIlR7GMyoKaynzlyKIXGC6O3uoOdVh9AQXA3EOn2sGe7D5l4wSqM5aEf9Pb
-	7SndOlQchb9Z4wBw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRMD+n+T"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781764832; x=1813300832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=BumMsBSMG1s9RkeZoB5IVq+5GgZbpDM82QYWrngLh0g=;
+  b=cRMD+n+TCBUEYZGcTEXskT9XwGj7BzP/QGvzIfSBJDw2JXwD8w/UZz5V
+   QsyNlqaGc2FLSySliPVk1riCoRUJK9FrYq30otMHCI81Em5eTzD9MfXvN
+   KilhV3751rR0aug9+aSaKSDQDF4IAcv7WL/0pYhxsmTB1aIaS5X1J6MpY
+   Cu/5Om3LM9rtaA/1d/9jJx570tN0R31WANv8NV+3rxob3HLPkQ4KGHb7f
+   pbvheLKkBqkgAOxsahR63TuLrEG5SUbZuiKm7JyOrqlyCokqEmNwUkeAA
+   X4KhVKv97X5cr3by+kIJQNnk9fgx1Fk7mfV8YvCD6wxyJaXl8lQJzrW7f
+   g==;
+X-CSE-ConnectionGUID: ElHvGzIoR9KbFUdJreuJUA==
+X-CSE-MsgGUID: k2aCNzsvS1uBTaFt5SHWGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="86504823"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="86504823"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:40:32 -0700
+X-CSE-ConnectionGUID: MB7qguYtRgqQyZ9s2rpayA==
+X-CSE-MsgGUID: ZleeRUKyTEOdeByrUeHoZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="248371127"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.10])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:40:28 -0700
+Date: Thu, 18 Jun 2026 09:40:25 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Bartosz Golaszewski <brgl@kernel.org>,
 	Orson Zhai <orsonzhai@gmail.com>,
 	Baolin Wang <baolin.wang@linux.alibaba.com>,
@@ -52,11 +58,11 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Jan Kiszka <jan.kiszka@siemens.com>, linux-gpio@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
 	jianhao.xu@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] gpio: eic-sprd: use raw_spinlock_t in the irq
- startup path
-Message-ID: <20260618063252.DYS2hgcJ@linutronix.de>
+Subject: Re: [PATCH 1/2] gpio: sch: use raw_spinlock_t in the irq startup path
+Message-ID: <ajOS2UR9pw_pUBxr@ashevche-desk.local>
 References: <20260617154035.1199948-1-runyu.xiao@seu.edu.cn>
- <20260617154035.1199948-3-runyu.xiao@seu.edu.cn>
+ <20260617154035.1199948-2-runyu.xiao@seu.edu.cn>
+ <20260618062839.4o1ewdEn@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -65,20 +71,29 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260617154035.1199948-3-runyu.xiao@seu.edu.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260618062839.4o1ewdEn@linutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 2026-06-17 23:40:35 [+0800], Runyu Xiao wrote:
-> sprd_eic_irq_unmask() enables the GPIO IRQ and then updates controller
-> state through sprd_eic_update(), which takes sprd_eic->lock with
-> spin_lock_irqsave().  The callback can be reached from irq_startup()
-> while setting up a requested IRQ.  That path is not sleepable, but on
-> PREEMPT_RT a regular spinlock_t becomes a sleeping lock.
-=E2=80=A6
-> Fixes: 25518e024e3a ("gpio: Add Spreadtrum EIC driver support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+On Thu, Jun 18, 2026 at 08:28:39AM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-06-17 23:40:34 [+0800], Runyu Xiao wrote:
+> > sch_irq_unmask() enables the GPIO IRQ and then updates the controller
+> > state through sch_irq_mask_unmask(), which takes sch->lock with
+> > spin_lock_irqsave().  The callback can be reached from irq_startup()
+> > while setting up a requested IRQ.  That path is not sleepable, but on
+> > PREEMPT_RT a regular spinlock_t becomes a sleeping lock.
+> …
+> > Fixes: 7a81638485c1 ("gpio: sch: Add edge event support")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
+> 
+> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+There is already a v2.
 
-Sebastian
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
