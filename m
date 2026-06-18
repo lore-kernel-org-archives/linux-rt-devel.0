@@ -1,65 +1,51 @@
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29981388E5A
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 08:18:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473CF3DBD7C
+	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 08:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781770726; cv=none; b=l4LehJfiFjsoTFPrFhvLIs2/5a8YLUFdGzAX3GmoYVPFP5aClY7gvXH15+hC43142f3kKtrgOBPAZhdfvL9dUjIsmH9X9fEUnoh/81P5thJiTgIRbYtaXkcUYz2a+9OUmQJJYJZjk+wRi6Ob5+l2RAjdOFJ61RArCU2hAy9DmTU=
+	t=1781771996; cv=none; b=SLMXafs2v4Y1/hPmTETsrYP40PqzIvwlqB0ATSy7sSyG4qYIyIRlA95YHWTUg0xFcDymmi6voKktOjiGFyzazMcXaCPy+Dadb71zJcLisjTnvn2KuCahwYL5z8K1QiyftMmPiW/3402k05npZjtUGMEyebeFTiL6UTJ2NX09h6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781770726; c=relaxed/simple;
-	bh=QWZAgUG33sDVoOYvsZHlVsv36qxjPW2xLkggJ9D40hM=;
+	s=arc-20240116; t=1781771996; c=relaxed/simple;
+	bh=90RshJNXcbS0u0V9t6gk2WT1/7k8SRI015G/Y3dPI8k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n+vYC9FOSp7vD6oZMDJCAPJ2rDdd7CkJZT5O5BiGNq6kroLWLo9XVFgCQEqorlWskGZ16gFmfF/GN+yJPHUhjI/IRdC1MkUTiAc1gRCoUAkwlGz/S6sXFduiflqNkT0z5iClKWW2peDGxdNQ8vjqJCLTSRfoKykhMO+RyfBgYuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=bgpoXraC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=+PAOCBZ6; arc=none smtp.client-ip=193.142.43.55
+	 Content-Type:Content-Disposition:In-Reply-To; b=ncrFhGe6U5PHXm6QZTeoytWVWYid1Yd/KoG9j85+ixyjeEH52BIScFRdIt/FfvFX1EbUVdNwdUsmqnfqAF695xjsk1PA+q+hAftlqf495B/wrE4sB3ZMrnEktOxrv0qACIG3RNlAGPCRKaKg7BMmaelcvip9wvY6rrUELAYc6PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2yA6YGRM; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=a+W9Xz9h; arc=none smtp.client-ip=193.142.43.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="bgpoXraC";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="+PAOCBZ6"
-Date: Thu, 18 Jun 2026 10:18:41 +0200
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2yA6YGRM";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="a+W9Xz9h"
+Date: Thu, 18 Jun 2026 10:39:52 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1781770722;
+	s=2020; t=1781771993;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=esNCyoPGjThitgO/ONZd6FII4CTw4WW+HhHMD7dROhE=;
-	b=bgpoXraCqEcTq/A1VHEfomvk7NjTwbH52o92fLD0lTRIqkRAEopghmZJIgYaX0rO7SRcfP
-	7N5y3xITSWfAigN+yUpqrRZltUGQ1uXFo0VCAE4MpRuwjpuFNGqbNhpqqT05W1YdAzdTz1
-	Z3px8lS1RoJE4mx/3/KQMc5YyJEVhtJ56cu6g6FErAW6i6ob53ydVsGq/0obmxAJ9WcxCk
-	m+7RjQ3eKdovQ6vN299Awepf22cjql56wSwGk+KLZBoShc/lAPryI8WLmwPtDbebw8J8Tl
-	uf8lUIg3Nffr1bn9h+yDo69xFLqd/O05CynGpM42SCnQP9XqN9v2fXMHqC2E/w==
+	bh=W/ovdTd4uY76NriLjPfuTvG51woYHXGCCe1NOFnV+UA=;
+	b=2yA6YGRMiIW0zc84lKoWwO1tfPH3yl0c5wDv4vHZYF63XEz0hhs9R08ZNtgtJbsYo5C7/t
+	tk52D7lK1mRTHgQ9nJ+QYxFqg/e6w377FjTrLYr0nOzTCNtjFzARzzqRVxMl3dsKollszZ
+	oO1jMNg81C+RyD81kgMTmQeuKYRuP9M9wmYF0BAOV/tacygPMoAbyihuaSfd0CE14SaOG9
+	C7vpe72a8lXGT+iQbyyw7M70mR8IkfQuOShd0SrJIDJHGzGM4eBIY+35QVE9enVyHxrIEi
+	4cLrjYBdJ0E16xKZChMgHoeicM5QIsxuzFSswMG9WMMS7Ebkgd7WXUpuSnjZ1Q==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1781770722;
+	s=2020e; t=1781771993;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=esNCyoPGjThitgO/ONZd6FII4CTw4WW+HhHMD7dROhE=;
-	b=+PAOCBZ6krTyj3cKO28sUF+z9qnobDQbrowNq7D7oCQD31FisaxSCZhWTNTc4azTwf3SM6
-	LVas/zdYRlOgSpDg==
+	bh=W/ovdTd4uY76NriLjPfuTvG51woYHXGCCe1NOFnV+UA=;
+	b=a+W9Xz9hwmI/fqkVqBlUSyrE+RxOmn4jPut/eiMWAo/g35/8wP+mmVFVfNsOwmigIIocA/
+	s0cY9XrlyLz9vQAA==
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Runyu Xiao <runyu.xiao@seu.edu.cn>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>, linux-gpio@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] gpio: sch: use raw_spinlock_t in the irq startup path
-Message-ID: <20260618081841.QBWh0eV5@linutronix.de>
-References: <20260617154035.1199948-1-runyu.xiao@seu.edu.cn>
- <20260617154035.1199948-2-runyu.xiao@seu.edu.cn>
- <20260618062839.4o1ewdEn@linutronix.de>
- <ajOS2UR9pw_pUBxr@ashevche-desk.local>
- <ajOTLrrUCBxsy5jf@ashevche-desk.local>
+To: Yun Zhou <yun.zhou@windriver.com>
+Cc: marcin.s.wojtas@gmail.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	clrkwllms@kernel.org, rostedt@goodmis.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2] net: mvneta: free/request IRQ across suspend/resume
+Message-ID: <20260618083952.IbGzrvJL@linutronix.de>
+References: <20260617092028.1722407-1-yun.zhou@windriver.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -68,36 +54,46 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <ajOTLrrUCBxsy5jf@ashevche-desk.local>
+In-Reply-To: <20260617092028.1722407-1-yun.zhou@windriver.com>
 
-On 2026-06-18 09:41:50 [+0300], Andy Shevchenko wrote:
-> On Thu, Jun 18, 2026 at 09:40:31AM +0300, Andy Shevchenko wrote:
-> > On Thu, Jun 18, 2026 at 08:28:39AM +0200, Sebastian Andrzej Siewior wro=
-te:
-> > > On 2026-06-17 23:40:34 [+0800], Runyu Xiao wrote:
-> > > > sch_irq_unmask() enables the GPIO IRQ and then updates the controll=
-er
-> > > > state through sch_irq_mask_unmask(), which takes sch->lock with
-> > > > spin_lock_irqsave().  The callback can be reached from irq_startup()
-> > > > while setting up a requested IRQ.  That path is not sleepable, but =
-on
-> > > > PREEMPT_RT a regular spinlock_t becomes a sleeping lock.
-> =E2=80=A6
-> > > > Fixes: 7a81638485c1 ("gpio: sch: Add edge event support")
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
-> > >=20
-> > > Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> >=20
-> > There is already a v2.
->=20
-> Or not... I might have been confused with other patch that got two versio=
-ns
-> in a row.
+On 2026-06-17 17:20:28 [+0800], Yun Zhou wrote:
+> On PREEMPT_RT, the mvneta IRQ handler is force-threaded. Under high
 
-I am catching up so I wouldn't be surprised ;) And it is entirely
-possible that sashiko came up with the pre-existing condition worth
-fixing ;)
+There is also the `threadirqs' option.
+
+> network traffic, the IRQ can enter suspend with desc->depth == 1
+> (masked by the oneshot mechanism between handler invocations).
+
+That would be irq_desc::depth.
+
+> During suspend, the kernel increments depth to 2 and masks the
+> interrupt at the MPIC level (clearing the SRC_CTL CPU routing bit,
+> due to IRQCHIP_MASK_ON_SUSPEND). 
+
+The interrupt should be masked while the depth counter goes 0->1, no?
+
+>                                  On resume, depth is decremented
+> back to 1, but since it does not reach 0, the unmask is never
+> called. The MPIC CPU routing remains cleared, permanently disabling
+> interrupt delivery.
+
+But why not? In my naive assumption, we get into suspend with
+irq_desc::depth = 2 and the threaded should be woken up. Once the
+treaded handler is done the counter should decrement by one. Then again
+during resume reaching 0 leading to the unmask. If the thread handler is
+frozen and defrosted on resume then it should still happen but in
+different order.
+
+Something is missing here based on my naive assumption.
+
+> Fix by freeing the IRQ in suspend and re-requesting it in resume.
+> This ensures a clean IRQ state (depth=0, proper hardware routing)
+> on every resume cycle, regardless of the pre-suspend depth. This
+> follows the approach used by other drivers (e.g. igb).
+
+The igb shutdowns the device entirely, not just freeing the IRQ.
+
+> Fixes: 9768b45ceb0b ("net: mvneta: support suspend and resume")
+> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
 
 Sebastian
