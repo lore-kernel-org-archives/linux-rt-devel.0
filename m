@@ -1,82 +1,127 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9C42DE702;
-	Thu, 18 Jun 2026 14:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359C12F8E98;
+	Thu, 18 Jun 2026 14:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781794488; cv=none; b=AgXTNb8xG8PyOnR2vSFH+PiIDlQcYMmm8SEl5CJqdXWAr3NCvMDScc9/DUUUacyVBkVEe4z7ASzPquRvcmvF7WjNA1QQ1r5FwgFSBmg0sS6jKfozVFEuRvu03YfDnsSrlPzK4JUiscw1wq5hUYlHAHHEpN/DwJv79HoGHlG2cLA=
+	t=1781794687; cv=none; b=fb1mbL4wZEEyZ3rn/aR4OEwAKzgmaM7BCX2wb/OVdCF/4iQjPxx7APh02xpFO1G/r3wxqshnhL8vdsKodGI2tE8cuo+EtGEDgLUPHcQLQGrnmZ5KWtXG88WouR7kWAwdN6/ejbgaTbDt6tL2Gxk3GTTDW8GFXdj3UmW65lR6kX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781794488; c=relaxed/simple;
-	bh=YDFHRCtMsExj7xytJHvcI01IC3A4ZIMSF311dGLQCF8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ENQ3unMQNezgkR9HQXM9+P05GLQp/CgSNTQBV3BhkVMXrWOrgTpinaTmTCMXAkjdFB9U32HtP4ODQLBMNxC+b8ebuW+ujDd7loSLUSmp31BNns548XqKrF6ABzi1+PwOFD+1CCRQUkt0kqXDVOpsTr5WBkEflXdrLqjpzg+Z5K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=cmFculJQ; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1781794687; c=relaxed/simple;
+	bh=Lb4FyC7Ekz69u+9qsy/xF8Lzb83LcMb7fj8UNOSj6rw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E7GLdydCgz6vhFqhBhxNgXRPUKlye56LlZ7AT2KAFc/buBG97BUNEeDvyyujzkwc2phhaR7NP3rE/TpSH27rondlE3zLkOoSxd2o/ZnNE3Y6nBUDtNHida1Bj7jGXQ3xf5AynwrMZ9SawBvvE6xGcebFucryutyXvnKL6bTqzsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=n/ef3PsJ; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="cmFculJQ"
-Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 42eee9309;
-	Thu, 18 Jun 2026 22:49:31 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Mark Brown <broonie@kernel.org>
-Cc: Herve Codina <herve.codina@bootlin.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-arm-kernel@lists.infradead.org,
-	soc@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	runyu.xiao@seu.edu.cn
-Subject: Re: Question: SPEAr PLGPIO irq_enable on PREEMPT_RT and regmap updates
-Date: Thu, 18 Jun 2026 22:49:26 +0800
-Message-Id: <20260618144926.3551915-1-runyu.xiao@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260618081554.zifCwv4I@linutronix.de>
-References: <20260618081554.zifCwv4I@linutronix.de>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="n/ef3PsJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=dNVBwl6tN837Jk/0emEDMWa6+L0egY10+e608sAc88E=; b=n/ef3PsJ8p87f0Z+21HMnx+2UJ
+	0yQg6sdrnP6oYPRXwS7GLFKDiVpxH28j+bI3RlsQVU/pgfWrv388yGp14WqSQyVr3Db6Zv1hZN+EI
+	JceaOVp/MHX3XD69EDs/IT/fGAdG1bXDg44wvXcsYUfIQnPrTYs5YJoBnTTUhAHjr+p4cSudfjLg4
+	kNTTyFZ5lfst/9rtVbDur4M02XD5eYStaY1lfmSeb3nPWPC0woA5k/05cYyzwiBy8J/z62WK8anET
+	4kRAFep4T5k5BMANYXDjrJmBTili214RRGCGwGAlHd30Ln547QAXBJrqG6u1sqUWsjd8XZF0jCvk3
+	w0mIHXxQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1waEBY-00FT83-0v;
+	Thu, 18 Jun 2026 14:57:40 +0000
+Date: Thu, 18 Jun 2026 07:57:33 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Vlad Poenaru <vlad.wing@gmail.com>, 
+	Thomas Gleixner <tglx@kernel.org>, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	K Prateek Nayak <kprateek.nayak@amd.com>
+Subject: Re: [PATCH net] netpoll: run NAPI poll in softirq context to avoid
+ rq->lock self-deadlock
+Message-ID: <ajQFMS4ucT-mybhi@gmail.com>
+References: <20260610183621.3915271-1-vlad.wing@gmail.com>
+ <20260611191114.5bc43a59@kernel.org>
+ <20260616103529.Yh9Dxsjp@linutronix.de>
+ <20260616170257.GH49951@noisy.programming.kicks-ass.net>
+ <20260616141719.67684bf0@kernel.org>
+ <ajJ46o4fomfxY5CX@pathway.suse.cz>
+ <20260617111958.GL49951@noisy.programming.kicks-ass.net>
+ <ajKi4wtA8U1iZkMD@gmail.com>
+ <20260617132127.645534d1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9edb356b4b03a1kunm8568d9c4a672e
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSU1NVhgfQ0NDT0JMGRlCSFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pPSExVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=cmFculJQF7D37En2zbn82en138LkdfjCBj0yBmO4+GRPq8Ied/pBxVpckJujr6a3F+UBUHVVRDpauSvNFc8NamAaS3Xlnb2HLNMtND++JsY0OJaUsXAz274oOSJiiNBlae1riz0w8FoBQBNGSrNYZQ+vZhKWGptxTPDJq1xhgDk=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=YDFHRCtMsExj7xytJHvcI01IC3A4ZIMSF311dGLQCF8=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617132127.645534d1@kernel.org>
+X-Debian-User: leitao
 
-Hi,
+On Wed, Jun 17, 2026 at 01:21:27PM -0700, Jakub Kicinski wrote:
+> On Wed, 17 Jun 2026 07:56:50 -0700 Breno Leitao wrote:
+> > As far as I can tell, there isn't a network driver today whose transmit
+> > path is completely lockless, so, even if we make netpoll lockless.
+> > 
+> > It's unlikely any NIC will ever achieve this, given that NIC TX
+> > fundamentally relies on a shared DMA ring and doorbell register, which
+> > inherently cannot be made lockless.
+> 
+> The lock which protects the queue is maintained by the stack,
+> and we trylock it. Maybe I lost the thread but if you're saying
+> that writes to netconsole are impossible from arbitrary context,
+> that is _not_ true, AFAIU. We can queue a packet and kick off 
+> the transfer on well-behaved drivers.
+> 
+> Main problem is the opportunistic freeing up of the queue space.
+> If we could avoid that in atomic context I think we'd be good.
 
-Thanks everyone for the feedback.
+Thanks for the clarification, this is quite valuable.
 
-I will not send the irq_bus_sync_unlock/shadow-state patch for now. From
-Sebastian's comments, it sounds like the more important question is
-whether this should be handled at the regmap locking/cache level, or by
-using a raw lock only where the regmap path is known to be safe.
+Let me verify my understanding: if we switched to __raise_softirq_irqoff()
+in dev_kfree_skb_irq_reason(), the issue would be resolved since we'd
+avoid waking ksoftirqd and therefore wouldn't touch the runqueue lock in this
+code path.
 
-Herve, your point about other GPIO controllers is fair. I should not
-treat PLGPIO as special without checking the wider pattern. I will look
-at other irq_enable/irq_disable users that combine irqchip callbacks,
-driver spinlocks and regmap_update_bits(), and compare whether they are
-using MMIO/flat cache/raw regmap locking or a sleepable regmap path.
+However, while that would eliminate the nested lock problem, it could
+increase memory pressure by delaying SKB garbage collection, which may
+not be acceptable.
 
-For the current PLGPIO draft, I will hold it back until I can answer
-whether the right fix belongs in this driver or in the common regmap/GPIO
-pattern.
+Naive question: What if we deferred SKB cleanup only during netpoll operations?
+
+Such as tracking in_netpoll per cpu:
+
+		struct softnet_data {
+			....
+	+ 		bool                    in_netpoll;
+		}
+
+and then choosing between __raise_softirq_irqoff() and raise_softirq_irqoff()?
+
+	@@ -3456,7 +3456,13 @@ void dev_kfree_skb_irq_reason(struct sk_buff *skb, enum skb_drop_reason reason)
+		local_irq_save(flags);
+		skb->next = __this_cpu_read(softnet_data.completion_queue);
+		__this_cpu_write(softnet_data.completion_queue, skb);
+	-       raise_softirq_irqoff(NET_TX_SOFTIRQ);
+	+       if (__this_cpu_read(softnet_data.in_netpoll))
+	+               __raise_softirq_irqoff(NET_TX_SOFTIRQ);
+	+       else
+	+               raise_softirq_irqoff(NET_TX_SOFTIRQ);
+		local_irq_restore(flags);
+	}
+
+
+Is it too hacky!?
 
 Thanks,
-Runyu
+--breno
