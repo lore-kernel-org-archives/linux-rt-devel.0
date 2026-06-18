@@ -1,254 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6033F4848;
-	Thu, 18 Jun 2026 12:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9C42DE702;
+	Thu, 18 Jun 2026 14:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781786778; cv=none; b=OM6uGGQ2JUGuTRtD+zE5mQ4vx+iZd7sPNNC8LI7LCMIP5VXN7JbtK+PePuNIYQw+84guUai5rcNBPnZAgC6ISTBcGdZbiV6ay4kFPSBt4P46BlNWDNQLOcnORIVtrKFy2I4nbTkNBXveJwfeScSGWZG0XS8BKCPKZZj7wGHFT/s=
+	t=1781794488; cv=none; b=AgXTNb8xG8PyOnR2vSFH+PiIDlQcYMmm8SEl5CJqdXWAr3NCvMDScc9/DUUUacyVBkVEe4z7ASzPquRvcmvF7WjNA1QQ1r5FwgFSBmg0sS6jKfozVFEuRvu03YfDnsSrlPzK4JUiscw1wq5hUYlHAHHEpN/DwJv79HoGHlG2cLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781786778; c=relaxed/simple;
-	bh=uphuMnt1uv31fu+h58AyQqegTvqAVwkfKm/ty8QJGr0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=l+VGo1raN+cjP8hnbs2VmsvhQ8dZz+lw4R6GbdDgJErWxRGbk2Ticd21CoHn1wISf/D7lV+OG8zxJDIG+m5p/FNXclyjKld4n1LgCYt5sJphKN4joVriv/DjT+L9acseu0dgaqpXdieGa5YH9ZzXMM9uH+mvLucokNnOO74Iu6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z+aV6eXH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781794488; c=relaxed/simple;
+	bh=YDFHRCtMsExj7xytJHvcI01IC3A4ZIMSF311dGLQCF8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ENQ3unMQNezgkR9HQXM9+P05GLQp/CgSNTQBV3BhkVMXrWOrgTpinaTmTCMXAkjdFB9U32HtP4ODQLBMNxC+b8ebuW+ujDd7loSLUSmp31BNns548XqKrF6ABzi1+PwOFD+1CCRQUkt0kqXDVOpsTr5WBkEflXdrLqjpzg+Z5K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=cmFculJQ; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z+aV6eXH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C5301F000E9;
-	Thu, 18 Jun 2026 12:46:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781786776;
-	bh=12/PAUDTOYfrkJ9zjxNjbQQEDZEGb0acxRasEquNV8c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Z+aV6eXHEz7VlgrnsQQ03Z+8Zb9YcjYrK+HMqvFJSpghpQu39jthl+uUJoATiBkss
-	 cleXhnjiOavl5FCxDhBVQWY7nkZniTKAC0EuFJs3M8ryMmM/JL3AkWqL2pQ8oDPyv+
-	 zpib5/x5p9qKtSzJlegXic5z4V9LWD1qQKFyo0/gZJp/nR3M9tVuPj97b9I+Lw9yAo
-	 1g38OX4/l8gaWl5SUjYY8xERklp7FAUfYxtp7lWExEAizO0VVPy6AignHbfgZxs3Wt
-	 YMQqE/qAAJIRPfXMLSJqgTvxObnFUQnnscTGGxSQR8K5+4YNgi0J50dUn99G6+7MqP
-	 DwgptAJDbbzow==
-Message-ID: <39758d58-f646-470c-9c35-818ac75427d3@kernel.org>
-Date: Thu, 18 Jun 2026 21:46:04 +0900
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="cmFculJQ"
+Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 42eee9309;
+	Thu, 18 Jun 2026 22:49:31 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Mark Brown <broonie@kernel.org>
+Cc: Herve Codina <herve.codina@bootlin.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel@lists.infradead.org,
+	soc@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	runyu.xiao@seu.edu.cn
+Subject: Re: Question: SPEAr PLGPIO irq_enable on PREEMPT_RT and regmap updates
+Date: Thu, 18 Jun 2026 22:49:26 +0800
+Message-Id: <20260618144926.3551915-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260618081554.zifCwv4I@linutronix.de>
+References: <20260618081554.zifCwv4I@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 6/9] mm/slab: allow kfree_rcu_sheaf() on
- PREEMPT_RT
-To: paulmck@kernel.org, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>,
- Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-6-70a54f3775bb@kernel.org>
- <f3a56a5a-f10b-46dc-bc99-28449ade1661@kernel.org>
- <40591888-3a87-433e-b3d2-cda1cab543be@kernel.org>
- <9d8ca1ed-bc53-417f-944b-d78eecd1e6a5@kernel.org>
- <03da8742-3790-4428-84b8-11911bf44c9e@paulmck-laptop>
-Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <03da8742-3790-4428-84b8-11911bf44c9e@paulmck-laptop>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------r52TW6tkzMED0vgUCNBCiTch"
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9edb356b4b03a1kunm8568d9c4a672e
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSU1NVhgfQ0NDT0JMGRlCSFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=cmFculJQF7D37En2zbn82en138LkdfjCBj0yBmO4+GRPq8Ied/pBxVpckJujr6a3F+UBUHVVRDpauSvNFc8NamAaS3Xlnb2HLNMtND++JsY0OJaUsXAz274oOSJiiNBlae1riz0w8FoBQBNGSrNYZQ+vZhKWGptxTPDJq1xhgDk=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=YDFHRCtMsExj7xytJHvcI01IC3A4ZIMSF311dGLQCF8=;
+	h=date:mime-version:subject:message-id:from;
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------r52TW6tkzMED0vgUCNBCiTch
-Content-Type: multipart/mixed; boundary="------------CZDOJb3QDvzu5IEDZMoq1w7C";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: paulmck@kernel.org, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>,
- Peter Zijlstra <peterz@infradead.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- rcu@vger.kernel.org, bpf@vger.kernel.org
-Message-ID: <39758d58-f646-470c-9c35-818ac75427d3@kernel.org>
-Subject: Re: [PATCH for-next v3 6/9] mm/slab: allow kfree_rcu_sheaf() on
- PREEMPT_RT
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-6-70a54f3775bb@kernel.org>
- <f3a56a5a-f10b-46dc-bc99-28449ade1661@kernel.org>
- <40591888-3a87-433e-b3d2-cda1cab543be@kernel.org>
- <9d8ca1ed-bc53-417f-944b-d78eecd1e6a5@kernel.org>
- <03da8742-3790-4428-84b8-11911bf44c9e@paulmck-laptop>
-In-Reply-To: <03da8742-3790-4428-84b8-11911bf44c9e@paulmck-laptop>
+Hi,
 
---------------CZDOJb3QDvzu5IEDZMoq1w7C
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Thanks everyone for the feedback.
 
+I will not send the irq_bus_sync_unlock/shadow-state patch for now. From
+Sebastian's comments, it sounds like the more important question is
+whether this should be handled at the regmap locking/cache level, or by
+using a raw lock only where the regmap path is known to be safe.
 
+Herve, your point about other GPIO controllers is fair. I should not
+treat PLGPIO as special without checking the wider pattern. I will look
+at other irq_enable/irq_disable users that combine irqchip callbacks,
+driver spinlocks and regmap_update_bits(), and compare whether they are
+using MMIO/flat cache/raw regmap locking or a sleepable regmap path.
 
-On 6/18/26 5:40 AM, Paul E. McKenney wrote:
-> On Wed, Jun 17, 2026 at 07:38:16AM +0200, Vlastimil Babka (SUSE) wrote:=
+For the current PLGPIO draft, I will hold it back until I can answer
+whether the right fix belongs in this driver or in the common regmap/GPIO
+pattern.
 
->> On 6/17/26 07:14, Harry Yoo wrote:
->>> On 6/17/26 2:24 AM, Vlastimil Babka (SUSE) wrote:
->>>> On 6/15/26 13:06, Harry Yoo (Oracle) wrote:
->>>>> As suggested by Vlastimil Babka, kfree_rcu_sheaf() can be used
->>>>> on PREEMPT_RT if we always assume spinning is not allowed on PREEMP=
-T_RT.
->>>>> This is because local_trylock and spinlock_t are safe to use with
->>>>> trylock variant as long as the kernel does not spin and the context=
- is
->>>>> not NMI and not hardirq.
->>>>>
->>>>> Now that __kfree_rcu_sheaf() knows how to handle allow_spin =3D fal=
-se,
->>>>> relax the limitation and try the sheaves path on PREEMPT_RT as well=
-=2E
->>>>>
->>>>> Keep the lockdep map on non RT kernels. However, do not use the loc=
-kdep
->>>>> map on PREEMPT_RT to avoid suppressing valid lockdep warnings.
->>>>>
->>>>> Link: https://lore.kernel.org/linux-mm/6811cc17-8ee4-48c8-8cbf-6bf4=
-d9f98162@kernel.org
->>>>> Suggested-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->>>>> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
->>>>
->>>> LGTM, but maybe unnecessary pessimistic wrt call_rcu() on PREEMPT_RT=
-?
->>>> I thought (in the Link: above) we'd only need to downgrade allow_spi=
-n to
->>>> false on PREEMPT_RT for handling sheaves movement from/to barn and
->>>> alloc_empty_sheaf(), but call_rcu() would be safe from kfree_rcu() e=
-ven on
->>>> RT?
->>>
->>> Indeed. Good point, thanks!
->>>
->>> Hmm, but I'm not sure that it's worth the complexity given that
->>> PREEMPT_RT tries very hard to avoid disabling IRQs...
->>>
->>>> Or is the irqs_disabled() condition rare enough so we don't care?
->>>
->>> Given that most users don't call kfree_rcu() under raw spinlock or
->>> IRQs-disabled section on PREEMPT_RT, I think it's okay to keep it as =
-is
->>> (it's not making things worse, at least) and wait for call_rcu_nolock=
-()?
->>
->> Sounds good.
->>
->>> On a side note, I don't have much idea on what needs to call kfree_rc=
-u()
->>> under a raw spinlock, other than set_cpus_allowed_force(), which shou=
-ld
->>> really be using kfree_nolock() instead of kfree_rcu() once we support=
-
->>> kmalloc() -> kfree_nolock():
->>
->> Looks like the case. Well if the fallback path of kfree_nolock() that =
-is
->> irq_work_queue() is indeed safe here.
->>
->>>> 	/*
->>>> 	 * Because this is called with p->pi_lock held, it is not possible
->>>> 	 * to use kfree() here (when PREEMPT_RT=3Dy), therefore punt to usi=
-ng
->>>> 	 * kfree_rcu().
->>>> 	 */
->>>> 	kfree_rcu((union cpumask_rcuhead *)ac.user_mask, rcu);
->>>
->>> Any thoughts, RCU/RT folks?=20
-
-Thanks for looking into it, Paul!
-
-Perhaps I'm missing some context here... let me clarify.
-
-> For the call_rcu*() counterparts, I am currently considering making the=
-
-> existing functions check for interrupts disabled, using irq_work_queue(=
-)
-> in that case.=20
-
-Ack.
-
-> I suppose that I could use raise_softirq() in the
-> use_softirq=3D1 case when in_hardirq().=20
-
-Ack.
-
-> Either way, the check should be
-> cheap compared to rest of the processing.
-
-Agreed.
-
-> The additional rcu_barrier() work required is of course way down in
-
-Assuming "The additional rcu_barrier() work required" means
-rcu_barrier() now needs to wait for all CPUs to complete irq_work or
-softirq...
-
-> the noise compared to acquiring a global mutex.
-
-Are you referring to a specific mutex, or just in general?
-
-> In your case, kfree_rcu() can be quite a bit lighter weight, though.
-> So the extra checks might not be lost in the noise.
-
-Assuming "the extra checks" means checking whether interrupts are
-disabled in call_rcu()*...
-
-It will probably be fine since we invoke call_rcu() only when sheaves
-become full, not once for each object?
-
-Perhaps slightly off-topic; at some point, though, I think it'd be
-better to teach SLUB to use RCU polling API for RCU sheaves.
-
-e.g.) put sheaves into barn->sheaves_pending instead of invoking
-call_rcu(), and the SLUB alloc slowpath checks if there are sheaves
-past grace period before allocating and refilling sheaves.
-
---=20
-Cheers,
-Harry / Hyeonggon
-
---------------CZDOJb3QDvzu5IEDZMoq1w7C--
-
---------------r52TW6tkzMED0vgUCNBCiTch
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajPojAAKCRCGXBN6rc5S
-1iYYAP9R9SRxcpb+Lf9AzvYwC0ginyzWgaosKoEpwXTRJndtRQEApm4GZI/2RNXu
-Q24xU67ieuyKBqFI2alWnLxiGr7+Bws=
-=8O7i
------END PGP SIGNATURE-----
-
---------------r52TW6tkzMED0vgUCNBCiTch--
+Thanks,
+Runyu
