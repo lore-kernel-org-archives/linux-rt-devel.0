@@ -1,164 +1,121 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAB41632E7
-	for <linux-rt-devel@lists.linux.dev>; Thu, 18 Jun 2026 02:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34EE311946;
+	Thu, 18 Jun 2026 02:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781749438; cv=none; b=YBeF911PZkKwyTfPeeR+sW+udJaLFDtcgtx3/vqGAPgGImMiAc7Nhbqp0jSwnwMzKgdxDrFOfPk2fxG3oHD/g2Yhfa0B2j2th80zTFDfR0NH7raaxqZOtstlh5qbTG6A3NTQ+TezLpoYtvxVC1xgwg4cxWg5sB1MFvlBWCAQruw=
+	t=1781750383; cv=none; b=AiRvBxbTtKIJKTkILcBEyFl6CG6Mx/j3bdiRgEiB57gelRsGoglfTqTOrsFRd2rdWAHPUzUyl6TXosujPVWrSufdAhDIcNOb4Sd9RpaiIbOVZxm0iLUo19aCmbVaiH+DySu3dohlgda4iSZdlfIo5Y1G3jVU49V49Lh+c3sLRAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781749438; c=relaxed/simple;
-	bh=RFJlpQy9TvmKjPUb9OCSTSfYfIKV9NtKRPpE3ThjANQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z/lifdhOj4cSicfHNTe9mSmFUzfq+M841wDDZGvK3bpHbpwNI8pGOxtXgGyoAhQVFjqVK+QAEuFm4+K23/lkzJQrqa6feYCmH9ChBJROG0vsuzpo3REhyscKmRsdgMXjNJp7CJtYunHuVWKIy1L+u5LgAm0YPKJ3PiBI0Rvt6lw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O3UfvT/1; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1781750383; c=relaxed/simple;
+	bh=K1qxLlQIDW5M9k9aBhkRPrbww38jnM/psYR0W1LZOjc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YgHvC9tKYphBhsPaKtMOwvqAe0y+/MJz9fTAxFdURt7cWsAQ9VWYWMGxucQm7/A2zB+mJZfNZpjsADKu61OKvBYQagynMqmJvOnzf2oyP9qlOVz/Dg8Y3h3pKOZpo7VyzIlrpR4qoYRdir34cITCK9YX8ySIfYNLOnqJwLqckyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Piz9kGoz; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O3UfvT/1"
-Message-ID: <45fcc57a-ec8d-46d6-9c28-065d001c081f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781749433;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PfUm8af/m5Y+JvEu5zk0BWRI+9j/PXO2lmh/Wz0+tsw=;
-	b=O3UfvT/1MKiXtNvGidZMkfJ5JuNdkyR8S+zPPWv9pS9CANHCtAc95ka7/DKnM/iGfcbWVb
-	Ftrei5j/5KT11Bnfcu/K0q/mftP6aEgB40P687LESlZvdqrqD6vOCwMqayeuc19JuU2S7s
-	mOQKdiH/a8oeTVe0QRkhZDezTFs9iMU=
-Date: Thu, 18 Jun 2026 10:22:47 +0800
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Piz9kGoz"
+Received: from PC-202605011814.localdomain (unknown [222.191.246.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 42d5d546d;
+	Thu, 18 Jun 2026 10:34:25 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Viresh Kumar <vireshk@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-arm-kernel@lists.infradead.org,
+	soc@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	runyu.xiao@seu.edu.cn
+Subject: Question: SPEAr PLGPIO irq_enable on PREEMPT_RT and regmap updates
+Date: Thu, 18 Jun 2026 10:34:18 +0800
+Message-Id: <20260618023418.213453-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] mm/page_alloc: unify
- __alloc_frozen_pages[_nolock]_noprof()
-To: Brendan Jackman <brendan.jackman@linux.dev>,
- Suren Baghdasaryan <surenb@google.com>,
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Alexei Starovoitov <ast@kernel.org>, "Harry Yoo (Oracle)"
- <harry@kernel.org>, Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
- <2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org>
- <CAJuCfpG48TmvaiaRvnL-NXKU6nn55D3bks2DgzAc0URsZhAxqA@mail.gmail.com>
- <DJBHRVM65A11.1OL2M9MXN56H@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <DJBHRVM65A11.1OL2M9MXN56H@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-HM-Tid: 0a9ed8946a3503a1kunmf2d2cccc885db
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGU0fVkpIHx0fHRgaQkoeQ1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=Piz9kGozhLGhAp7BcS2rw2ba7CmgSgklDxmtNboRQ5YYYBESGwjFqpSrhHhUawXgG3QuTvrbrxl2tcZ1o6y7Sy3nXbq/3g87F7FnXGJlmxnoME6Y3vHQ6PMwMDKL9EcBJFj4BiX33skF+NHZtMrHIGRP//YsSSwKouDO3avIQvk=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=vMH1HYNQKQ/qahkG7RCFCu22hgnkU7ddsQQrw8qsHa0=;
+	h=date:mime-version:subject:message-id:from;
 
+Hi,
 
-On 2026/6/18 01:14, Brendan Jackman wrote:
-> On Wed Jun 17, 2026 at 4:49 PM UTC, Suren Baghdasaryan wrote:
->> On Wed, Jun 17, 2026 at 9:39 AM Vlastimil Babka (SUSE)
->> <vbabka@kernel.org> wrote:
->>> +Cc Alexei
->>>
->>> On 6/17/26 17:29, Brendan Jackman wrote:
->>>> Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
->>> It's not, it's ALLOC_TRYLOCK! Thanks for proving that we need to rename it
->>> to ALLOC_NOLOCK:
->>>
->>> https://lore.kernel.org/all/DJ9QPTO2WXNB.10E88ZHWRDHB0@gmail.com/
->>>
->>> So you just won the job to do the rename :) I think it should be done before
->>> this patch, so that the new usages and other _trylock names introduced here
->>> can be done as _nolock outright.
-> Ack. I'll aim to send that tomorrow once Sashiko has caught up.
->
->>>> main entry point function is significantly different from the normal
->>>> __alloc_frozen_pages_nolock(), this is tiring when reading the code.
->>>>
->>>> Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
->>>> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
->>>> exposed to mm/) and then turn the nolock variant into a thin wrapper
->>>> that just sets that flag (as well as handling NUMA_NO_NODE, similar to
->>>> how some of the wrappers in gfp.h do).
->>>>
->>>> Rationale that this doesn't change anything:
->>>>
->>>> 1. Simple bits: A bunch of the nolock-specific handling is just moved to
->>>>     the new alloc_order_allowed(), alloc_trylock_allowed() and
->>>>     gfp_trylock.
->>>>
->>>> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
->>>>     previously in the nolock variant:
->>>>
->>>>     a. Application of gfp_allowed_mask; this only affects early boot, and
->>>>        only flags that affect the slowpath get changed here.
->>>>
->>>>     b. Application of current_gfp_context() - also only affects the
->>>>        slowpath
->>>>
->>>> 3. The slowpath itself: this is now just explicitly skipped under
->>>>     !ALLOC_TRYLOCK.
->>> I'll have to ponder it more closely.
->>>
->>>> Ulterior motive: adding an alloc_flags arg to the allocator's
->>>> mm-internal entrypoint can later be used to do more allocation
->>>> customisation without needing to create new GFP flags.
->>> Ack.
->> I think this change might also help us in removing __GFP_NO_CODETAG
-> Nice, this actually looks trivial? I can probably just tack it onto the
-> v2 for this patch/series.
->
->> introduced in [1] and being the only user of __GFP_NO_OBJ_EXT once
->> Vlastimil's patchset removing other __GFP_NO_OBJ_EXT users lands.
->> CC'ing Hao as he is brainstorming ways to remove __GFP_NO_CODETAG, and
->> this might be the answer.
+While auditing GPIO/pinctrl irqchip callbacks, our static analysis tool
+flagged the SPEAr PLGPIO irq_enable path, and we manually reviewed it
+against the current tree.
 
+The path is:
 
-Hi Brendan, Suren,
+  irq_startup()
+    -> plgpio_irq_enable()
+       -> gpiochip_enable_irq()
+       -> spin_lock_irqsave(&plgpio->lock)
+       -> plgpio_reg_reset()
+       -> regmap_update_bits()
 
-Thanks for CC'ing me, Suren. This is indeed a viable approach
+On PREEMPT_RT, plgpio->lock is a regular spinlock_t and can become a
+sleeping lock.  Since irq_enable/irq_disable can be called from IRQ
+management paths while the IRQ descriptor raw lock is held, taking that
+regular spinlock there looks unsafe.
 
-and I believe it brings us one step closer to removing
+A minimal Lockdep reproducer preserving this irq_chip::irq_enable carrier
+reports:
 
-__GFP_NO_CODETAG entirely.
+  BUG: sleeping function called from invalid context
+  irqs_disabled(): 1
+  plgpio_rt_spin_lock_irqsave
+  plgpio_irq_enable
+  request_threaded_irq_probe_path
 
+My first thought was to convert the PLGPIO register lock to
+raw_spinlock_t.  However, that does not seem sufficient because the IE/EIT
+updates go through regmap_update_bits()/regmap_read()/regmap_write().  For
+the syscon/MMIO regmap used here, regmap may still take its own regular
+fast-IO lock unless the regmap was created with use_raw_spinlock.  So a
+raw_spinlock_t conversion in the PLGPIO driver alone may just move the
+PREEMPT_RT problem one level down into regmap.
 
-Brendan, I'd actually put together a rough local implementation
+The repair I am considering is to keep the gpiolib resource updates in
+the fast irq_enable/irq_disable callbacks, but defer the actual PLGPIO
+IE/EIT register writes to irq_bus_sync_unlock(), after the IRQ core has
+dropped desc->lock.  The driver would keep per-line shadow state for:
 
-earlier with mostly the same core idea as yours, and this change
+  - IRQ disabled/enabled state
+  - pending IE update
+  - edge direction state
+  - pending EIT update
 
-would indeed be minimal based on your patch.
+and then synchronize those shadow updates from irq_bus_sync_unlock()
+under a mutex.
 
-Thanks a lot for being interested in tacking this into your v2 patch series.
+In other words, the fast callbacks would only update local shadow state
+and call gpiochip_enable_irq()/gpiochip_disable_irq(), while the sleepable
+regmap writes would be batched into the irq bus sync phase.
 
+Does that sound like an acceptable direction for SPEAr PLGPIO, or would
+you prefer a different fix, such as changing the underlying syscon regmap
+locking model or handling only the IE register path?
 
-Thanks
+The draft patch I have locally is roughly:
 
-Best Regards
+  pinctrl: spear: defer PLGPIO IRQ updates to bus sync
 
-Hao
+and it changes only drivers/pinctrl/spear/pinctrl-plgpio.c.
 
-
->>> Besides the need to ponder unintended effects, mostly LGTM. Just not a fan
->>> of the hardcoded '0' passed at various places. In the slab variant of this
->>> (the thread I've linked above) I went with SLAB_ALLOC_DEFAULT, so you can do
->>> e.g. ALLOC_DEFAULT here?
-> Yup ALLOC_DEFAULT sounds fine to me.
->
-> Thanks for the reviews as always.
+Thanks,
+Runyu
