@@ -1,21 +1,21 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9111330678
-	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 08:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA29E31354F
+	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 08:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781856216; cv=none; b=QKUXtTRmpECCraEnkMsea95XUsaaX97v7SdvaMN012fUYedJ4aQ/P5I13F7rWY0Dll1nEpQdCTQmEMLYHtdws/8czTvTIkTyfj8oigcEzXOG14YjWhuUbLIuz1CBDtqytxv+jXmWGPS0cIMTCxC/c/GIj15L9fDqAdnU2MhM0iM=
+	t=1781857059; cv=none; b=qmZG0sHoW7BfCWZnvTeR9Cprf2tTGKFNsucEfBLauLwsig0wuJYPfqip3lod/Ftoeu6AyDsppM+jflcW7Q1mCmmz0P+xuyZCkiPon7h+netenTPvfg1P+bkoBH3SSCIgbQ+2Itut0yg036+ScAjfgY0eh9Og1R0F9spb6Q84J80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781856216; c=relaxed/simple;
-	bh=ztgvt3KFrUzJ9sy/un5zYu773skg9zw4JRLlJ1TpoY0=;
+	s=arc-20240116; t=1781857059; c=relaxed/simple;
+	bh=4/k0lmtJuc4Joqk+oRAk6T5BqmUdkRQK0cP7tk5VLw0=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=HgCL1J7Hu7dJl+uZG2B+M8Nn50SYSv+idsOH/yArS18Z1LY0rbVcHtdcggTq9GNXWSHEnx/Gf2Ga5jwx4774Cn7sd2KaA9577bLFj732pLxR2xssZrNR6z8B1e1mmXwrppA2I03gC4KVOBKTMH7j1Mwi2Bb66OT2OW6+4v4y1p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=JO24wKCZ; arc=none smtp.client-ip=91.218.175.183
+	 References:In-Reply-To; b=UJKwBV6dVF6+n1OSiutuqlQJ5sCCUJLrdAc9B/klmT0r1bfAnumS3n+xNKAziZ925v9LTr1W+znAFgvjXhQIghhGQFMSF7fHwLeo1nmjZkfp6gV+U071iF1RgA23ry9+beaJvxn3kF9zMQ0TRzWn/MlaVRwM+hi63PFNZdCbL5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xTYox5oI; arc=none smtp.client-ip=91.218.175.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="JO24wKCZ"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xTYox5oI"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -23,28 +23,20 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1781856211;
+	t=1781857055;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=97ALfhxEHKnHr+DmTHdJ5AlydQr7RUIpXUMAyaq3tCI=;
-	b=JO24wKCZF5d/OU6egxMZuPUk6dgIJvBGm4v0uD7IArIJp9pyn/5XcsAHDty9wVgahfTxAv
-	wA4cxqUQmxO2lMudPiLf1Y+W6W9OXOpiiN+fOvhlTVMSvM6HZAgFEnVbVgZX5rBmdGBZgV
-	ych8oKJROkfLPyWkoMLLClVHFy8WIKA=
+	bh=Sklxb2aHOWZNcgEmSllXh3Te/ix6CK2RSGXrEub8f1Q=;
+	b=xTYox5oIZ9OU/n4UV73SeNpDSsHY7KiCF+E1xZo3z7i3YVfbAz6ckDDjPeDFdH0dAW82Kz
+	wujsHdeHDNF5dJVwP9YoWXI1vYXfiDxA8VUIzN1LjNxrr6SmgbINnCHTVf3oZi8uRK4/RR
+	fFGsTeft6twr6SY6oNdxsw+GREz/BG0=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 19 Jun 2026 08:03:13 +0000
-Message-Id: <DJCVAYJNZB2V.1DJFHIK9QB9EV@linux.dev>
-Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
- <gourry@gourry.net>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>
-Subject: Re: [PATCH] mm/page_alloc: unify
- __alloc_frozen_pages[_nolock]_noprof()
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman" <jackmanb@google.com>,
- "Andrew Morton" <akpm@linux-foundation.org>, "Vlastimil Babka"
+Date: Fri, 19 Jun 2026 08:17:31 +0000
+Message-Id: <DJCVLX0WK118.3V7CXOTLISFOQ@linux.dev>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>, "Vlastimil Babka"
  <vbabka@kernel.org>, "Suren Baghdasaryan" <surenb@google.com>, "Michal
  Hocko" <mhocko@suse.com>, "Johannes Weiner" <hannes@cmpxchg.org>, "Zi Yan"
  <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
@@ -58,68 +50,133 @@ To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman" <jackmanb@google.com>,
  Rientjes" <rientjes@google.com>, "Roman Gushchin"
  <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
  <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>
+ Rostedt" <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>,
+ "Gregory Price" <gourry@gourry.net>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
+Subject: Re: [PATCH] mm/page_alloc: unify
+ __alloc_frozen_pages[_nolock]_noprof()
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: "Matthew Wilcox" <willy@infradead.org>, "Brendan Jackman"
+ <jackmanb@google.com>
 References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
- <692d9bfb-66ee-448c-942f-a26c07a19f61@linux.dev>
-In-Reply-To: <692d9bfb-66ee-448c-942f-a26c07a19f61@linux.dev>
+ <ajS96fWbG4dzP3u3@casper.infradead.org>
+In-Reply-To: <ajS96fWbG4dzP3u3@casper.infradead.org>
 X-Migadu-Flow: FLOW_OUT
 
-On Thu Jun 18, 2026 at 6:56 AM UTC, Hao Ge wrote:
-> Hi Brendan
+On Fri Jun 19, 2026 at 3:56 AM UTC, Matthew Wilcox wrote:
+> On Wed, Jun 17, 2026 at 03:29:42PM +0000, Brendan Jackman wrote:
+>> +++ b/mm/page_alloc.c
+>> @@ -5253,24 +5253,98 @@ void free_pages_bulk(struct page **page_array, u=
+nsigned long nr_pages)
+>>  	}
+>>  }
+>> =20
+>> -/*
+>> - * This is the 'heart' of the zoned buddy allocator.
+>> - */
+>> -struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>> -		int preferred_nid, nodemask_t *nodemask)
+>> +static inline bool alloc_order_allowed(gfp_t gfp, unsigned int order,
+>> +				       unsigned int alloc_flags)
+>>  {
+>> -	struct page *page;
+>> -	unsigned int alloc_flags =3D ALLOC_WMARK_LOW;
+>> -	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+>> -	struct alloc_context ac =3D { };
+>> +
 >
->
-> On 2026/6/17 23:29, Brendan Jackman wrote:
->> Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
->> main entry point function is significantly different from the normal
->> __alloc_frozen_pages_nolock(), this is tiring when reading the code.
->>
->> Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
->> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
->> exposed to mm/) and then turn the nolock variant into a thin wrapper
->> that just sets that flag (as well as handling NUMA_NO_NODE, similar to
->> how some of the wrappers in gfp.h do).
->>
->> Rationale that this doesn't change anything:
->>
->> 1. Simple bits: A bunch of the nolock-specific handling is just moved to
->>     the new alloc_order_allowed(), alloc_trylock_allowed() and
->>     gfp_trylock.
->>
->> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
->>     previously in the nolock variant:
->>
->>     a. Application of gfp_allowed_mask; this only affects early boot, an=
-d
->>        only flags that affect the slowpath get changed here.
->>
->>     b. Application of current_gfp_context() - also only affects the
->>        slowpath
->>
->> 3. The slowpath itself: this is now just explicitly skipped under
->>     !ALLOC_TRYLOCK.
->>
->> Ulterior motive: adding an alloc_flags arg to the allocator's
->> mm-internal entrypoint can later be used to do more allocation
->> customisation without needing to create new GFP flags.
->
->
-> If so, I believe we could generalize this further.
->
-> Under the current logic, |__alloc_pages_slowpath| cannot access the=20
-> alloc_flags
-> passed down from upper-level callers.
-> As I discussed in another thread, we can introduce a new alloc_flags to
-> replace the |__GFP_NO_CODETAG| (|__GFP_NO_OBJ_EXT|) GFP flag.
-> This newly added flag needs to be propagated along the entire call
-> chain down to |prep_new_page|, which means |__alloc_pages_slowpath| also=
-=20
-> has to
-> handle this flag accordingly.
->
-> I'm wondering if we could introduce a caller_alloc_flags field within=20
-> struct alloc_context
-> to handle alloc_flags that need to persist throughout the entire page=20
-> allocation cycle, when such flags exist.
-> I'm sure others will have more appropriate solutions.
+> Spurious blank line?
 
-Yeah totally, this is exactly how I imagined this evolving.
+Yep, thanks.
+
+>> +	if (alloc_flags & ALLOC_TRYLOCK)
+>> +		return pcp_allowed_order(order);
+> [...]
+>> +/*
+>> + * GFP flags to set for ALLOC_TRYLOCK i.e. alloc_pages_nolock().
+>> + *
+>> + * Do not specify __GFP_DIRECT_RECLAIM, since direct claim is not allow=
+ed.
+>> + * Do not specify __GFP_KSWAPD_RECLAIM either, since wake up of kswapd
+>> + * is not safe in arbitrary context.
+>> + *
+>> + * These two are the conditions for gfpflags_allow_spinning() being tru=
+e.
+>> + *
+>> + * Specify __GFP_NOWARN since failing alloc_pages_nolock() is not a rea=
+son
+>> + * to warn. Also warn would trigger printk() which is unsafe from
+>> + * various contexts. We cannot use printk_deferred_enter() to mitigate,
+>> + * since the running context is unknown.
+>> + *
+>> + * Specify __GFP_ZERO to make sure that call to kmsan_alloc_page() belo=
+w
+>> + * is safe in any context. Also zeroing the page is mandatory for
+>> + * BPF use cases.
+>
+> It may be mandatory for BPF, but it seems wasteful for other uses.
+
+True, don't see why we shouldn't push this out to the caller, I can do
+it as part of this series.
+
+>> + * Though __GFP_NOMEMALLOC is not checked in the code path below,
+>> + * specify it here to highlight that alloc_pages_nolock()
+>> + * doesn't want to deplete reserves.
+>> + */
+>> +static const gfp_t gfp_trylock =3D __GFP_NOWARN | __GFP_ZERO | __GFP_NO=
+MEMALLOC |
+>> +				__GFP_COMP;
+
+> I rather dislike this being turned into a file-scope variable, even a
+> non-varying variable.  Can't it remain inside a function?
+
+Um, we could put it into a function like `void add_gfp_trylock(gfp_t *gfp)`=
+=20
+but that doesn't really reduce the scope in any meaninful way, right?=20
+
+We could also squash it into what's currently called
+`alloc_trylock_allowed` but then it's a bit of a mush function, would it
+be called `do_trlock_stuff`?
+
+Putting it directly into __alloc_frozen_pages_noprof() would make that
+function too big IMO, and its real estate would be dominated by trylock
+stuff.
+
+It's definitely understandable to find the large variable scope yucky
+but IMO the real fix for that would be to break up page_alloc.c, which
+I don't really want to do in this series.=20
+
+>> +/*
+>> + * This is the 'heart' of the zoned buddy allocator.
+>> + */
+>> +struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>> +		int preferred_nid, nodemask_t *nodemask, unsigned int alloc_flags)
+>> +{
+>> +	struct page *page;
+>> +	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+>> +	struct alloc_context ac =3D { };
+>> +
+>> +	/* Other flags could be supported later if needed. */
+>> +	if (WARN_ON(alloc_flags & ~ALLOC_TRYLOCK))
+>>  		return NULL;
+>> =20
+>> +	if (!alloc_order_allowed(gfp, order, alloc_flags))
+>> +		return NULL;
+>> +
+>> +	if (alloc_flags & ALLOC_TRYLOCK) {
+>> +		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
+>
+> So the only GFP flag the user is allowed to specify is __GFP_ACCOUNT?
+> That seems bogus; other flags would be reasonable including all the ones
+> in gfp_trylock, as well as GFP_HIGHMEM, GFP_DMA, GFP_MOVABLE, GFP_HARDWAL=
+L.
+
+Definitely makes sense for the ones in gfp_trylock.
+
+For the others, I'm not sure - this "nolock" functionality is a bit
+weird and sketchy, I suspect the reason for the WARN here is "let's make
+sure we have a proper think before we allow it to grow usecases that are
+meaningfully different from the other ones". I think I like that
+conservatism here, I would lean towards keeping it? Not a passionately
+held opinion though.
