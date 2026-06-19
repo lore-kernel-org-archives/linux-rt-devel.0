@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29B331ECA;
-	Fri, 19 Jun 2026 18:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A884331EDD;
+	Fri, 19 Jun 2026 18:29:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781893792; cv=none; b=TmgNZoLj4auALG3OKkN9kfWet/Rpz3LLHoH7T6FOaPst9qM7gx5f4AEq12ZNHyLgxrzdTnq+GIT3vOcrv/aVtVDxL75KWiF1n67OAGG60VLPxlBOZETxIbfcCVXPdbyS0wBdhluZn/GHQ/ryxjaruril9+0eBxnEMvfXZ9THI38=
+	t=1781893793; cv=none; b=b9s0v9nzv0dJYju4SXSeraXQm61kn1+b3DNCK8rPWOUaSGIgoKTGvPVx9Istb7/QL5KfGUyn6aNM6Pk5U9Mq2U5+QjsUEgg+uTGRMnpI8FQkkQb1xaRBVYIpDAM7K9pSq7LOg/+SK3r/nZxl1uUPVhEHlu8/+LkipJaR3V6stSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781893792; c=relaxed/simple;
-	bh=Il21aTORLEmMcb+bqZtjLfUVNnbLhe3aUQEf7IOrJ3o=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oJfv6ejp6ujR+uUMOpUyRgioDvg8cPeUuqulLnd6taZBoouF22eo1CwTlgIFDizipEPXZrHHYOpIbjcgJtT/81lE7nZf63AzFbhN2e7ze4izGNo6kXhx07gNDJuX+OFm0Ur/Tu5DzW5MzYh1gmqz6bg9wqwYC7GY2WlofDUU7Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1YKyMtc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781893793; c=relaxed/simple;
+	bh=XzD8qxhMVFjGTkcUSWhD7808N9wJROgN3KTUSR29OyQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VkNkvlVO9ETcob3wPT+KpLwh+VMtbeeV1wYcwFzDNDG4GITRnM3EG4zCGVxfZ0O/TNKF4xebtkj9+6gdzGh7MLJpRWoIcDGNFxg6MpTbQJCIkWCbOndRhFHLpBPJwyFY4krnq1XRum4zwR5WswMuafT7s6H9VqeS8PHc95dNRgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgL36/Md; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1YKyMtc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF4361F000E9;
-	Fri, 19 Jun 2026 18:29:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgL36/Md"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05BD81F00ADF;
+	Fri, 19 Jun 2026 18:29:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781893787;
-	bh=7krNnge6CqDFpXfWCA2S/6g3TXm4KR3ObMbF3c3qLxw=;
-	h=From:Subject:Date:To:Cc;
-	b=B1YKyMtcV1TBG0oE6SZ1Qm89ffWi9qe7LEUSGLaeganJTMFzREb8GxXRwDHIRiF0o
-	 WF2VOBw5MVFmSqcTbouT4GwXH8ISqZ8c594e0CPhIZZGKAdaNcubzEu6BcRMXJVhjh
-	 wW8E9D10pcx4sIXbZyDr3QuePv8iTeT9KsIfelCoYE4LV0j7lyd5mCIe6ge5CW3yvm
-	 O6n2yzuD6x8CnwmLA6OF5rE/ItBPXmRVdE/SfqmndF7SZZZWZiYdL+uOZbQIx6x5oS
-	 c4zKL3dlS7WncPh+adneJmfexcD5I9Epged0SBO1kenvU2Le87KXpukqER98a/wwaZ
-	 QDo7Fu5vGBP/A==
+	s=k20260515; t=1781893792;
+	bh=FHASCoT2hpjqe3g0pZSejYTwgoS9bxzyrN/pYid+Zvg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=BgL36/MdtkXnliB3muWgnlfl6C4aF9t93w31WTSM4HaW8ALqeNqV1F3hl2xyoyaXa
+	 OY8iy2TBxwShD0gNJB6BD8pSoWCUDUqBC4OPmpO2x9ql8WiVlbyT4Ib4qwsuajIM2D
+	 5OlqhfJBzMgnlNkdeOlJv9FSRoWpD7qHXeiz3SoaqHF2KZzglbzXhjIasCyVWGO9Xz
+	 TQfHZoyGUx1l4SQMRQuRvr+9Ay+rTjtwJdECPje4OBJqvFtyQONjO9aySRGZf91dbh
+	 8voSCzq+E1WaaVYSwFcEBjYPedqlTuPd5hCvwPQhT0SWznNprGi6ksgfheY/L2C+PV
+	 FVuF9aQgsSlOg==
 From: Drew Fustini <fustini@kernel.org>
-Subject: [PATCH 0/8] riscv: Add Ssqosid and initial CBQRI resctrl support
-Date: Fri, 19 Jun 2026 11:29:35 -0700
-Message-Id: <20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org>
+Date: Fri, 19 Jun 2026 11:29:41 -0700
+Subject: [PATCH 6/8] riscv: Enable resctrl filesystem for Ssqosid
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -37,10 +37,9 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAI+KNWoC/yXMQQrCQAxA0auUrA1MBmmLVxEXbZLaFBl1MhWh9
- O6OunyL/zdwzaYOp2aDrC9zu6cKOjTA85CuiibVEENsQ0sBZVq9WDIcyg2dkcdnNpSCRwrca+y
- IRKDmj6yTvX/r8+VvX8dFuXx/sO8fECGvBnwAAAA=
-X-Change-ID: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+Message-Id: <20260619-dfustini-atl-sc-cbqri-dt-v1-6-e79a7723fab0@kernel.org>
+References: <20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org>
+In-Reply-To: <20260619-dfustini-atl-sc-cbqri-dt-v1-0-e79a7723fab0@kernel.org>
 To: Adrien Ricciardi <aricciardi@baylibre.com>, 
  Alexandre Ghiti <alex@ghiti.fr>, Atish Kumar Patra <atishp@rivosinc.com>, 
  Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
@@ -68,79 +67,41 @@ Cc: linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
  x86@kernel.org, devicetree@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
  linux-doc@vger.kernel.org
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3589; i=fustini@kernel.org;
- h=from:subject:message-id; bh=Il21aTORLEmMcb+bqZtjLfUVNnbLhe3aUQEf7IOrJ3o=;
- b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSZdk2pEubjOXIi+9PGjyelEtOa2p0KTQ6ca8ziV+i4f
- IfJUcOio5SFQYyLQVZMkWXTh7wLS7xCvy6Y/2IbzBxWJpAhDFycAjCRwsMM/1N/Zsa5n2z2/aaU
- djUnJa5qisxy9SrRgvLr/lqmEqz1exj+SpQFqTxc9ytwkTrXkSf2zndWtC9onx4gY8915nN6z3M
- XdgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=876; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=XzD8qxhMVFjGTkcUSWhD7808N9wJROgN3KTUSR29OyQ=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWSZds2ScJ7qpp9w9l7uG0Fz9munnv0xzGNZKSj7Z96M1
+ rQfCtfvdJSyMIhxMciKKbJs+pB3YYlX6NcF819sg5nDygQyhIGLUwAmEtjDyLDv+PXNygsDvjZt
+ jL1y3PPx3G2h0jt27VP7l/LFccWe65taGRkOnVBcs0Bjx4aIspaKkKl+LBZfV1Up7gxZEvQuVLj
+ 26VEOAA==
 X-Developer-Key: i=fustini@kernel.org; a=openpgp;
  fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-This series adds initial RISC-V QoS support: the Ssqosid extension [1]
-(srmcfg CSR), the CBQRI controller interface [2] integrated with resctrl
-[3], and DT-based platform driver for cache controllers. It has been
-tested both on the Tenstorrent Ascalon Shared Cache controller as well
-as a Qemu implementation [4].
+RISCV_ISA_SSQOSID selects RISCV_CBQRI_DRIVER unconditionally.
 
-Note that this series only implements support for resctrl CAT using
-CBQRI capacity allocation control. cc_block_mask maps onto resctrl's
-existing cbm schema. However, cc_cunits is not supported as there is no
-existing equivalent for capacity units in the resctrl schemata.
+The resctrl filesystem integration is gated separately by
+RISCV_CBQRI_RESCTRL_FS, a silent option that defaults to y when both
+RISCV_CBQRI_DRIVER and RESCTRL_FS are enabled. Enabling the resctrl
+filesystem itself stays a user choice via the standard fs/Kconfig
+MISC_FILESYSTEMS menu.
 
-I had previously been iterating on an RFC series [5] that did a full
-implementation of CBQRI including capacity monitoring, bandwidth
-allocation and monitoring, as well as a parser for the ACPI RQSC table.
-The bandwidth controls for CBQRI do not fit well into resctrl's existing
-throttle based MB schemata. I believe that the path forward is
-Reinette's generic schema description proof of concept [6] but that will
-take time to mature. My plan is to rebase the full support of CBQRI on
-to the generic schema once it is ready.
-
-[1] https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
-[2] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
-[3] https://docs.kernel.org/filesystems/resctrl.html
-[4] https://github.com/riscv-non-isa/riscv-rqsc/blob/main/src/
-[5] https://lore.kernel.org/linux-riscv/20260601-ssqosid-cbqri-rqsc-v7-0-v6-16-baf00f50028a@kernel.org/
-[6] https://lore.kernel.org/all/aab804b9-e8b5-40ad-a85b-af7033391243@intel.com/
-
+Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
-Drew Fustini (8):
-      dt-bindings: riscv: Add Ssqosid extension description
-      riscv: Detect the Ssqosid extension
-      riscv: Add support for srmcfg CSR from Ssqosid extension
-      riscv_cbqri: Add capacity controller probe and allocation device ops
-      riscv_cbqri: resctrl: Add cache allocation via capacity block mask
-      riscv: Enable resctrl filesystem for Ssqosid
-      dt-bindings: riscv: Add generic CBQRI controller binding
-      riscv_cbqri: Add CBQRI cache capacity-allocation platform driver
+ arch/riscv/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../devicetree/bindings/riscv/extensions.yaml      |   6 +
- .../devicetree/bindings/riscv/riscv,cbqri.yaml     | 109 +++
- MAINTAINERS                                        |  15 +
- arch/riscv/Kconfig                                 |  20 +
- arch/riscv/include/asm/csr.h                       |   5 +
- arch/riscv/include/asm/hwcap.h                     |   1 +
- arch/riscv/include/asm/processor.h                 |   3 +
- arch/riscv/include/asm/qos.h                       |  86 +++
- arch/riscv/include/asm/resctrl.h                   | 152 ++++
- arch/riscv/include/asm/switch_to.h                 |   3 +
- arch/riscv/kernel/Makefile                         |   2 +
- arch/riscv/kernel/cpufeature.c                     |   1 +
- arch/riscv/kernel/qos.c                            |  91 +++
- drivers/resctrl/Kconfig                            |  44 ++
- drivers/resctrl/Makefile                           |   7 +
- drivers/resctrl/cbqri_capacity.c                   | 132 ++++
- drivers/resctrl/cbqri_devices.c                    | 511 ++++++++++++++
- drivers/resctrl/cbqri_internal.h                   | 110 +++
- drivers/resctrl/cbqri_resctrl.c                    | 774 +++++++++++++++++++++
- include/linux/riscv_cbqri.h                        |  47 ++
- 20 files changed, 2119 insertions(+)
----
-base-commit: 4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
-change-id: 20260610-dfustini-atl-sc-cbqri-dt-410c8e2711dd
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 9eb65d0eaa07..cc261de01107 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -595,6 +595,7 @@ config RISCV_ISA_SSQOSID
+ 	depends on 64BIT
+ 	default n
+ 	select ARCH_HAS_CPU_RESCTRL
++	select RISCV_CBQRI_DRIVER
+ 	help
+ 	  Adds support for the Ssqosid ISA extension (Supervisor-mode
+ 	  Quality of Service ID).
 
-Best regards,
---  
-Drew Fustini <fustini@kernel.org>
+-- 
+2.43.0
 
