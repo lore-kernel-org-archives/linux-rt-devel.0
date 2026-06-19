@@ -1,106 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1233F8D6
-	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 07:14:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27FB335BDB
+	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 07:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781853271; cv=none; b=s8UQ6Jsaqhpmg6xuIcNbGY5U0K+9Mj4k5VHyHOn1QF/SWeUM2sq5v0dkgRvy6mQgTk6PZRs62ufC05eA9xgQdbCJjy508yxAZtAK28nIavRTA0Vfiw7Ea0l41N/8ZxDU/rCyIsnVWfVQSIbifrdnxkv+2y7Qh0flCZGs3jvSxJE=
+	t=1781855007; cv=none; b=MoTWP1Gr67FrEqvXKzzIsmBDxGG0AGweZNO0jYXdgL9z/yCru7NUX35tgHRG+wVYvLVWy7oFD/355QM5fPHPRph0R2Nw75hG7jHy/9hK03sCNFNCkkRg/6y68Lb+PhB967JlwDy/m/8tPtk/c+PjBbVJKpAYq5WMS14mOxXUu8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781853271; c=relaxed/simple;
-	bh=pFkwZT3DEH1dsI/D4DqyH8m2UvBfRyRJYi0n59bqyU8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uf3KNWCZpErpGx6AFyypDwVV/mWRsbPsnOeBA7acV3dVX0cC7ieqBYQH6qgiYxrVMt1m4mhXwPtF6iiRALH6lsKG96BJRDG4ulFU5XqMV5e8/wylcwtVmx0cuEBMwbF85xufB3Vpp3sEi3WQIxkAWfOJUU+LeUCcJ5JxnxaofOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a8JtNSsW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781855007; c=relaxed/simple;
+	bh=iMrkouWV4Vkl5zyDFKwkEBcCpHxqGEkF4SfZCqIiz6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JxcycNRRckQqITxrXRscRxPeaT3Z0tXUA3dLhq/WVGRgExlkBBUwd+gYmNOZWvwVCY+UOnEYfmpD+FP1QFrUTnaxKNXIw99I3xENbH/OfA5TPcyAH/WBRM8tIzkcondeKz0BlBhD4UpPbfIyLRawR2xehj6aBEDUW6kfuGD42PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zSb2XjRC; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=7KO1kUXw; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a8JtNSsW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B09B41F00AC4
-	for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 07:14:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781853270;
-	bh=pFkwZT3DEH1dsI/D4DqyH8m2UvBfRyRJYi0n59bqyU8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=a8JtNSsW5ZOpqGHqjZTEoOF7Q2KP7uNXdMKtGrVWpUV35d2nU14EaOIeSq4IVm9Sw
-	 Q2RHPWqcywrhjozIBq/n3Gwrwql/64fh2PVJqlKr9ttfZMqfEdzUz9iBmXzY7uMLan
-	 C4ILjwxkr7E/oXTDurBAnSOQV8qVF0LCk8UQyBAOQr+sQO3Tsd/XKRkcOVR5OCkqCK
-	 Xk7BE5uX/pCBwqHZW6EEDr10qkY0YZTr02WE43JfjLb6YbgPEwd3PKrbMqKOx9krYE
-	 sOQH/siXmBInoaU4O45pcATSUKGZASC9tRS5u1UFVCG2tiX0P4ng/zYXxW1qrghU1x
-	 3srI9hLgi1ndA==
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-695427c153fso2462481a12.1
-        for <linux-rt-devel@lists.linux.dev>; Fri, 19 Jun 2026 00:14:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ//IsROGIs5+nQEK7OzGwV2gujKpSgmA2q1OZXUbvkiSGaqsCpnucCJUAiNdxqDjeOzVmzQYj1X++sAf+P+HQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhKAdxHUNDj2NDyx464uSiWFcw4XjcJd/KdhA7+FSvPVj6PLA3
-	n1XAW+y/C4WljQaxMq4D7xdipQxt1mkLL5aOKcpydJj0/j8Lor+UG2l1duAey4jusOpwa3Q3vwW
-	vVgdRIELdNbVRfbPZm3evOCsuQK6wxxc=
-X-Received: by 2002:a05:6402:3510:b0:697:6463:8329 with SMTP id
- 4fb4d7f45d1cf-697646386b5mr211191a12.17.1781853269349; Fri, 19 Jun 2026
- 00:14:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zSb2XjRC";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="7KO1kUXw"
+Date: Fri, 19 Jun 2026 09:43:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1781855005;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMrkouWV4Vkl5zyDFKwkEBcCpHxqGEkF4SfZCqIiz6c=;
+	b=zSb2XjRCgbH/Jvy1eAV3AaNMiMOMOq9MV/+YaZgDCddUMPYIYyC+2+qpKYhPp9Wjb4nY50
+	EbB3HkZIhMWa0/rXyfHjs8rySUW5Bx0NabApnV2t37hXdqFlBwrV47aN2kfTS1PdZcUHkh
+	4kMepEnFgTC2JCYvF2q/cqimoaHK5wmDutGQuBIchlKHlsV5c5Y2fZjJBSkfOBnmsP7bes
+	r5Uh8oXqynz7ckhCW0Dx+HABNhz2LCaGHHjO/Gx83eIX+mJTKpSvixKEGSi8xJluNElNBE
+	9nIYMAcrx613bo1pAcd6TkPNz2QZTtA4o4yxy/W9h8RF2bjR4MXI40w/bsL/NQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1781855005;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iMrkouWV4Vkl5zyDFKwkEBcCpHxqGEkF4SfZCqIiz6c=;
+	b=7KO1kUXwKqKRgLgQiQzVdKOoirGupUKLzI3yJv6pyDAwiJbgAaOXkJ4lmoSlpDdtTJZahB
+	3ugjQufabERtVNDQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Jonas Jelonek <jelonek.jonas@gmail.com>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	linux-mips@vger.kernel.org, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
+Message-ID: <20260619074323.IIq-0qan@linutronix.de>
+References: <20260608093729.12111-1-jelonek.jonas@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260608093729.12111-1-jelonek.jonas@gmail.com>
- <CAAhV-H7vJ5YniUD8HhFWBbypNyWTo73M_vzw=Y-MZtR-b_RNfw@mail.gmail.com>
- <731bd6c4-0f70-45a2-8480-8fed315b82b4@gmail.com> <CAAhV-H6Va1VzpvdA-w5fX9KrZQArdX_Bjpg6t+4QNn3jHfgjmA@mail.gmail.com>
- <e9696d4d-7cd0-4d7f-af87-2b4631549475@gmail.com> <CAAhV-H5psOJQey+frswdc5Q76UnhCkrHJ_jtqvxHsfmi-dskyw@mail.gmail.com>
- <9cd444b3-aeb0-46bb-a8a3-1526aa8f191a@gmail.com>
-In-Reply-To: <9cd444b3-aeb0-46bb-a8a3-1526aa8f191a@gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 19 Jun 2026 15:14:21 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4syPSuseQ=LQRW21V1Bd3XR6=7vKwhxGud-Q8nH=1eEQ@mail.gmail.com>
-X-Gm-Features: AVVi8CdHBNzFO4GmZtECgBzjzv3LaTB7HLs9O5oNrDSJ_CIhB5sjr-gwtdJZwJ4
-Message-ID: <CAAhV-H4syPSuseQ=LQRW21V1Bd3XR6=7vKwhxGud-Q8nH=1eEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] MIPS: smp: report dying CPU to RCU in stop_this_cpu()
-To: Jonas Jelonek <jelonek.jonas@gmail.com>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, linux-mips@vger.kernel.org, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Jiayuan Chen <jiayuan.chen@linux.dev>, linux-rt-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260608093729.12111-1-jelonek.jonas@gmail.com>
 
-On Mon, Jun 15, 2026 at 3:40=E2=80=AFPM Jonas Jelonek <jelonek.jonas@gmail.=
-com> wrote:
->
-> On 15.06.26 09:30, Huacai Chen wrote:
-> >> [...]
-> >>
-> >>> However, synchronize_rcu() only gets called in the
-> >>> IS_ENABLED(CONFIG_PREEMPT_RT) case, so I think your configuration
-> >>> needs PREEMPT_RT, right?
-> >>>
-> >>> You said this is the default behavior, but PREEMPT_RT is not enabled =
-by default.
-> >> The condition where this is added has two parts, see [1]. While PREEMP=
-T_RT
-> >> isn't active for MIPS, arch_irq_work_has_interrupt gives false for MIP=
-S (since
-> >> there is no implementation and it falls back to the generic one). This=
- then
-> >> also calls synchronize_rcu.
-> > Sorry, this is my mistake, then what's your preemption model? There
-> > are too many config files for MIPS now.
->
-> I'm using PREEMPT_NONE, apparently default for all targets in OpenWrt.
-With some hack I also reproduce a similar issue on LoongArch in the
-PREEMPT_NONE model.
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+On 2026-06-08 09:37:29 [+0000], Jonas Jelonek wrote:
+> smp_send_stop() parks all secondary CPUs in stop_this_cpu(). The function
+> marks the CPU offline for the scheduler via set_cpu_online(false) but
+> never informs RCU, so RCU keeps expecting a quiescent state from CPUs
+> that are now spinning forever with interrupts disabled.
+=E2=80=A6
+>=20
+> Fixes: 91840be8f710 ("irq_work: Fix use-after-free in irq_work_single() o=
+n PREEMPT_RT")
+> CC: stable@vger.kernel.org
+> Signed-off-by: Jonas Jelonek <jelonek.jonas@gmail.com>
 
-Huacai
+Sorry for being late.
 
->
-> > Huacai
-> >
-> >>> Huacai
-> >>>
-> >> Best,
-> >> Jonas
-> >>
-> >> [1] https://elixir.bootlin.com/linux/v7.1-rc7/source/kernel/irq_work.c=
-#L291-L302
->
-> Best,
-> Jonas
+Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+
+Sebastian
