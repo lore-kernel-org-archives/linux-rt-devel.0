@@ -1,198 +1,207 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18980282F13
-	for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 08:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0891A7264;
+	Sat, 20 Jun 2026 08:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781942893; cv=none; b=esARNMhsE02E3QIvCN0vwFm8n+nhYsXxEUJQuZS3Mj4lZNjGq+PRhPAjGWNtWBNPqYkMrft82B5IZAXb6kYJ6FHvdjKUXnRp6kNwNXnI7EySI130rFKAnk1rnrUs0VWJfIWaAHAdTeNuzKtMwQDWJTTrAHlf52BnGOb0CSjEALg=
+	t=1781943628; cv=none; b=bgJ3LyXY2o+pjXsCasTMk5haqX54vJZatvOZz700hLlWjZKg1aQWCQbP72tsJ2HtKMP7ZXpRlaHe6zKPr3NfFeCrpBxFR4h7g4zjG6eiW8hDFMQExiSoryyFVMw5wJ5iZH2Q9iYsVZmGhMWyy/epLhLoOL2jOKOFxLjyzZjCybA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781942893; c=relaxed/simple;
-	bh=FOpcInINzw4XPbBoGi4J58sS2g+vZXvj8hCcYgKtbMU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kek/sulZKrhHnAFUg+VBvP8W2cA+Vluwk1JrP3cXtjcbMq0JnNM7kvytc1uQbL98VprtnWLhVx/34IlRD33cLevXcheXvRv/dtodlu/Pcgvm3/5ii0jTnjjEUDDDQQEkjSHzu0a5Y9SG8oQwv0B+o/c/CNtuXSAEX84DX34dOFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LlZ3fAtx; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781943628; c=relaxed/simple;
+	bh=V6IHdpq4AZOLdpnbz6w7caRKMusdS32bKN5PKyetqfo=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Ttibd8KixmSt3Vxg0DD3SE91yj3Yhe60XlFLm2OTPUh/YyodggzrS1oq5e/s1ybXDRi9wBEPyP4pw+/KjTSVgUjOc4QGLPrf+Vj+cAsYTGUid8FSYdqbt05EiFCA5JpaA/whdat1zkEqJvxZM/ejLJVsT/6T+UcwkTwtSoZl1UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U9fpQtMK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LlZ3fAtx"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c40397e3caso26768915ad.2
-        for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 01:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781942891; x=1782547691; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wdUgGvYnRcqvguggKkm/S0BjkMkoo0yQksIvEARF5z8=;
-        b=LlZ3fAtxYmwY4glYFDVPdrdp64kxUoCqGrX7QO3yuboQRj65l/2jKqcX2vZSXVUkMl
-         0Xop7V9Lxs9tRqt4INFEE9VmuYpxBEc2soTrmv+fFmoFhkcLogyj6Yoz196ke5Un/aSK
-         w8Nr8xiJWAHyl36nJktr8dMx/zHLpuCQn9ycWqvGUHqWHxuN2iKnZMk1huAMsW06dnl0
-         qw1Pp+RWLvFHIUCUfGTxYlDK9za2PBKMcqZzXp0zALzGJsg28Z511pq8DC4TFWNRurhC
-         fXxw7RL2uczoZiVrsXuk0t+5k3OFmWdgU/K6ojmEToOrbcQg33OHGSfm8Broh4PkqtM5
-         ChYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781942891; x=1782547691;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wdUgGvYnRcqvguggKkm/S0BjkMkoo0yQksIvEARF5z8=;
-        b=nsP4jj8Q7pBO/0jBFwL2PaL0EDmo4FmrPCmUojJm9A08xLB7hYOsLrN9B3KbH5c/bJ
-         4kqbSVMHL2It45zxN3Zlbtlr3ZlIak/8aE6b5rH9k2R+LrZuLO7eV3SCl5WSll2jzn1f
-         2WFZky6AOW+1mCFpEpSxB6wtlp1LNjVvPK/KQUaEeDiy5Ji6cDrosJIxheeOS72FpdcJ
-         1cmHpdTJtpUoe12y/ram4PULjI5+f9K7pAfJS8Wg/XoFdWDa+352kM4Y0+NnytweHcyo
-         6I7+OwK3UBn/cvZ7tPZ1k5Wgt8fAhA+uQ6JoQgJd1dOcK3dRWtXO1uJYd92aPRvgHRDr
-         /8nA==
-X-Forwarded-Encrypted: i=1; AFNElJ8AxmU5nJO4GKageuoufW6zaSiToMJ/Wh1K7j+ITdwioEXArvspNgSzwIyi3sAzIDyUvcWOqGFhDDitVUI2qw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZ3cqSfn9psFzjD8pjeAgkUGeR8kG/tP2r53WP738d+gELMpaw
-	3u+TsckL7Gn3olXTHqFjSpXEMGyKvqD92jl9OGyyeEp4dqNke2OAILHq
-X-Gm-Gg: AfdE7ck9ZVzNXejdIlU7P5yLWi9yPS4D/GT/ImWIpUX8DFbvDyLeYqaebwKiml9Y7FR
-	Ebo0G5ZIjcrceZPPSaw/AAJOWkiIhbPb5FbVPsjyuQfxR3rx+aqo0vBmORMR7OLn1LIidnlCfHp
-	mOvqykeTaZzKKoNV/+tirk1XiBslmUpEwKHrJ+7Yyus1LFOvFo/aWTWlk0hcZAqiAfvulQ7gp3Z
-	dHCt0l7DFc0H/Pdt7a1AGfrilXTJnTWQnAVD2NyqIjbp8dSZIxZP8pgFO9U4pCRg82hOHX5JKoa
-	2VohHschgbv2J7+9ANw7QRoAgeonqiFMOjJmCKbx/uDgFFV4cIRtB/U4tl7sewuZ/M8fC4fivGW
-	JUgdoyJ4iV7R59RByUvsxeVjXZ3M24EawCiD8Mp8i1inTJDSy9ap/I6bB7HybW5midrsCDxkN5I
-	aLwpnZxisqPDDTnTlCYjA/u2ldwxI8NIFORbzHGZGGrC5WtvkexxgYqfRlVXIjRNaQq5Y0
-X-Received: by 2002:a17:903:41d2:b0:2c0:e5ee:f554 with SMTP id d9443c01a7336-2c725ba5ed2mr62446845ad.8.1781942891199;
-        Sat, 20 Jun 2026 01:08:11 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:6622:5068:7fd9:7931])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7444a9c4fsm15219195ad.75.2026.06.20.01.08.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 01:08:10 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: mark@fasheh.com,
-	jlbec@evilplan.org,
-	joseph.qi@linux.alibaba.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org
-Cc: ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
-Subject: [PATCH] ocfs2: fix deadlock in dio write orphan cleanup path
-Date: Sat, 20 Jun 2026 13:38:02 +0530
-Message-ID: <20260620080802.35165-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U9fpQtMK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 784E51F000E9;
+	Sat, 20 Jun 2026 08:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781943627;
+	bh=WhHUWskBbABQj0J4oG6lnHCQeOzIW3XHx9VYJy/Flko=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=U9fpQtMKIi8ZuxhqoSAs8LoQ6uJ1naAKJp2qTTw/R+FM+aSnxbq/zdHjq0TPoo18f
+	 hb/MjcojHuP3Z/ZG+lAdlxWQbvVRek8VCgoB70C/DwKuNw33DBF0mCngwp88jKPxtt
+	 oB1VDKSTlOIryN+waXu3dXCxkuLRZ7/P8lHc8FltF0ghi4wiCj1SGIPs9Efek7Zwwo
+	 FjAbS9PLPDiYHtR9f6Pyy4+ogF8aUeN6XAkPc5DUwkQLRQmSXew6ImbN+TZe7jBy3w
+	 5EVr/5NiY5GQ8kmSMbpYhU8Jwm2/Fo4lCYEWmSASYI/LKJ72391D9Q8X0wuN917wac
+	 jvE6l2NEr1Vbg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] ocfs2: fix deadlock in dio write orphan cleanup path
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Deepanshu Kartikey" <kartikey406@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+In-Reply-To: <20260620080802.35165-1-kartikey406@gmail.com>
+References: <20260620080802.35165-1-kartikey406@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 20 Jun 2026 08:20:26 +0000
+Message-Id: <20260620082026.784E51F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-PREEMPT_RT's rtmutex PI chain walker detected a lock dependency
-cycle in a single thread:
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-  ocfs2_file_write_iter()
-    inode_lock(file_inode)             [Lock A]
-      ocfs2_dio_end_io_write()
-        ocfs2_inode_lock()             [Lock B]
-          ocfs2_del_inode_from_orphan()
-            inode_lock(orphan_dir)     [Lock D] <- cycle detected!
+Pre-existing issues:
+- [High] The patch completely fails to resolve the AB-BA deadlock between t=
+he write path and the orphan recovery path, as the exact same lock dependen=
+cy is immediately recreated.
+- [High] The identical lock dependency cycle (A -> B -> D) exists unmitigat=
+ed in the orphan addition path.
+- [High] Directory `i_rwsem` operations use the wrong subclass, violating V=
+FS lock ordering rules and hiding parent-child deadlocks.
+--
 
-The problem is lock ordering. Lock B is held when Lock D is
-acquired. Recovery paths acquire these locks in a different
-order creating a potential cycle in the lock dependency graph.
+commit a3ea3ef9d81bdb971acfa026b14e772f33af54fa
+Author: Deepanshu Kartikey <kartikey406@gmail.com>
 
-Fix this by releasing Lock B (ocfs2_inode_unlock + brelse(di_bh))
-BEFORE calling ocfs2_del_inode_from_orphan(). Pass NULL for di_bh
-to signal that ocfs2_del_inode_from_orphan() should acquire its
-own fresh cluster lock and di_bh internally.
+ocfs2: fix deadlock in dio write orphan cleanup path
 
-This ensures consistent lock ordering:
-  Before: B held -> D acquired         (inconsistent)
-  After:  B released -> B' fresh -> D  (consistent)
+This commit attempts to fix an AB-BA deadlock in the direct IO orphan clean=
+up
+path by releasing the file's cluster lock before calling
+ocfs2_del_inode_from_orphan(). It passes NULL for di_bh to signal the
+function to acquire its own lock.
 
-Reported-by: syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ce129763ce7d7e914739
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- fs/ocfs2/aops.c  | 21 +++++++++++++++------
- fs/ocfs2/namei.c | 17 ++++++++++++++++-
- 2 files changed, 31 insertions(+), 7 deletions(-)
+Closes: https://syzkaller.appspot.com/bug?extid=3Dce129763ce7d7e914739
 
-diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
-index 6ec198bdab12..15b059a23ebc 100644
---- a/fs/ocfs2/aops.c
-+++ b/fs/ocfs2/aops.c
-@@ -2280,6 +2280,7 @@ static int ocfs2_dio_end_io_write(struct inode *inode,
- 	handle_t *handle = NULL;
- 	loff_t end = offset + bytes;
- 	int ret = 0, credits = 0, batch = 0;
-+	bool orphaned = false;
- 
- 	ocfs2_init_dealloc_ctxt(&dealloc);
- 
-@@ -2371,17 +2372,25 @@ static int ocfs2_dio_end_io_write(struct inode *inode,
- 		ocfs2_commit_trans(osb, handle);
- unlock:
- 	up_write(&oi->ip_alloc_sem);
-+	/*
-+	 * Release the cluster lock and di_bh BEFORE calling
-+	 * ocfs2_del_inode_from_orphan(). That function will acquire
-+	 * inode_lock(orphan_dir_inode) which would cause an AB-BA
-+	 *  deadlock with recovery paths that hold orphan_dir lock
-+	 * before acquiring the file inode lock.
-+	 */
-+	orphaned = (!ret && dwc->dw_orphaned);
-+	ocfs2_inode_unlock(inode, 1);
-+	brelse(di_bh);
-+	di_bh = NULL;
- 
--	/* everything looks good, let's start the cleanup */
--	if (!ret && dwc->dw_orphaned) {
-+	/* everything looks good, let's start the orphan cleanup */
-+	if (orphaned) {
- 		BUG_ON(dwc->dw_writer_pid != task_pid_nr(current));
--
--		ret = ocfs2_del_inode_from_orphan(osb, inode, di_bh, 0, 0);
-+		ret = ocfs2_del_inode_from_orphan(osb, inode, NULL, 0, 0);
- 		if (ret < 0)
- 			mlog_errno(ret);
- 	}
--	ocfs2_inode_unlock(inode, 1);
--	brelse(di_bh);
- out:
- 	if (data_ac)
- 		ocfs2_free_alloc_context(data_ac);
-diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
-index 1277666c77cd..25bbe2a9776e 100644
---- a/fs/ocfs2/namei.c
-+++ b/fs/ocfs2/namei.c
-@@ -2712,10 +2712,21 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_super *osb,
- {
- 	struct inode *orphan_dir_inode = NULL;
- 	struct buffer_head *orphan_dir_bh = NULL;
--	struct ocfs2_dinode *di = (struct ocfs2_dinode *)di_bh->b_data;
-+	struct ocfs2_dinode *di;
- 	handle_t *handle = NULL;
- 	int status = 0;
-+	struct buffer_head *local_di_bh = NULL;
- 
-+	if (!di_bh) {
-+		status = ocfs2_inode_lock(inode, &local_di_bh, 1);
-+		if (status < 0) {
-+			mlog_errno(status);
-+			return status;
-+		}
-+		di_bh = local_di_bh;
-+	}
-+
-+	di = (struct ocfs2_dinode *)di_bh->b_data;
- 	orphan_dir_inode = ocfs2_get_system_file_inode(osb,
- 			ORPHAN_DIR_SYSTEM_INODE,
- 			le16_to_cpu(di->i_dio_orphaned_slot));
-@@ -2779,6 +2790,10 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_super *osb,
- 	iput(orphan_dir_inode);
- 
- bail:
-+	if (local_di_bh) {
-+		ocfs2_inode_unlock(inode, 1);
-+		brelse(local_di_bh);
-+	}
- 	return status;
- }
- 
--- 
-2.43.0
+> diff --git a/fs/ocfs2/aops.c b/fs/ocfs2/aops.c
+> index 6ec198bdab121..095cb3e44c65e 100644
+> --- a/fs/ocfs2/aops.c
+> +++ b/fs/ocfs2/aops.c
 
+[ ... ]
+
+> @@ -2371,17 +2372,25 @@ static int ocfs2_dio_end_io_write(struct inode *i=
+node,
+>  		ocfs2_commit_trans(osb, handle);
+>  unlock:
+>  	up_write(&oi->ip_alloc_sem);
+> +	/*
+> +	 * Release the cluster lock and di_bh BEFORE calling
+> +	 * ocfs2_del_inode_from_orphan(). That function will acquire
+> +	 * inode_lock(orphan_dir_inode) which would cause an AB-BA
+> +	 *  deadlock with recovery paths that hold orphan_dir lock
+> +	 * before acquiring the file inode lock.
+> +	 */
+> +	orphaned =3D (!ret && dwc->dw_orphaned);
+> +	ocfs2_inode_unlock(inode, 1);
+> +	brelse(di_bh);
+> +	di_bh =3D NULL;
+> =20
+> -	/* everything looks good, let's start the cleanup */
+> -	if (!ret && dwc->dw_orphaned) {
+> +	/* everything looks good, let's start the orphan cleanup */
+> +	if (orphaned) {
+>  		BUG_ON(dwc->dw_writer_pid !=3D task_pid_nr(current));
+> -
+> -		ret =3D ocfs2_del_inode_from_orphan(osb, inode, di_bh, 0, 0);
+> +		ret =3D ocfs2_del_inode_from_orphan(osb, inode, NULL, 0, 0);
+>  		if (ret < 0)
+>  			mlog_errno(ret);
+>  	}
+> -	ocfs2_inode_unlock(inode, 1);
+> -	brelse(di_bh);
+>  out:
+
+[ ... ]
+
+> diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
+> index 1277666c77cd2..25bbe2a9776ef 100644
+> --- a/fs/ocfs2/namei.c
+> +++ b/fs/ocfs2/namei.c
+> @@ -2712,10 +2712,21 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_supe=
+r *osb,
+>  {
+>  	struct inode *orphan_dir_inode =3D NULL;
+>  	struct buffer_head *orphan_dir_bh =3D NULL;
+> -	struct ocfs2_dinode *di =3D (struct ocfs2_dinode *)di_bh->b_data;
+> +	struct ocfs2_dinode *di;
+>  	handle_t *handle =3D NULL;
+>  	int status =3D 0;
+> +	struct buffer_head *local_di_bh =3D NULL;
+> =20
+> +	if (!di_bh) {
+> +		status =3D ocfs2_inode_lock(inode, &local_di_bh, 1);
+
+[Severity: High]
+This is a pre-existing issue, but is the AB-BA deadlock between the write
+path and the orphan recovery path truly resolved?
+
+When di_bh is NULL, this immediately reacquires the exact same
+ocfs2_inode_lock on the file inode (Lock B) before the orphan directory's
+VFS lock (Lock D) is acquired later in this function:
+
+fs/ocfs2/namei.c:ocfs2_del_inode_from_orphan() {
+    ...
+    inode_lock(orphan_dir_inode);
+    ...
+}
+
+Since the lock acquisition order remains exactly the same (B -> D) as it
+was before the patch, and the recovery path acquires these locks in the
+reverse order (D -> B), doesn't the deadlock cycle remain unmitigated?
+
+Also, as a related pre-existing issue, couldn't the identical lock
+dependency cycle (A -> B -> D) still occur unmitigated in the orphan
+addition path?
+
+During direct IO writes, ocfs2_dio_get_block() calls
+ocfs2_add_inode_to_orphan() while holding the file's VFS lock (Lock A).
+Inside ocfs2_add_inode_to_orphan(), the file's cluster lock (Lock B) is
+acquired:
+
+fs/ocfs2/namei.c:ocfs2_add_inode_to_orphan() {
+    status =3D ocfs2_inode_lock(inode, &di_bh, 1);
+    ...
+    status =3D ocfs2_prepare_orphan_dir(osb, &orphan_dir_inode,
+                                      OCFS2_I(inode)->ip_blkno,
+                                      orphan_name,
+                                      &orphan_insert,
+                                      true);
+}
+
+This calls ocfs2_prepare_orphan_dir(), which acquires the orphan
+directory's VFS lock (Lock D) via inode_lock(). This seems to establish
+the exact same A -> B -> D deadlock cycle against the recovery path.
+
+Finally, this is a pre-existing issue, but might the use of inode_lock()
+on the orphan directory violate VFS lock ordering rules?
+
+When modifying a directory, the VFS requires acquiring the directory's
+i_rwsem with subclass I_MUTEX_PARENT. In ocfs2_del_inode_from_orphan()
+and ocfs2_lookup_lock_orphan_dir(), the default inode_lock() is used
+instead:
+
+fs/ocfs2/namei.c:ocfs2_del_inode_from_orphan() {
+    ...
+    inode_lock(orphan_dir_inode);
+    ...
+}
+
+Because the caller already holds the file's inode_lock (also subclass 0),
+acquiring the orphan directory's lock using subclass 0 can create a
+lockdep AA self-deadlock or cycle warning. Furthermore, taking a child's
+lock before its parent directory's lock intrinsically violates the VFS
+hierarchy (I_MUTEX_PARENT -> I_MUTEX_NORMAL). Should this be using
+inode_lock_nested(..., I_MUTEX_PARENT) instead?
+
+> +		if (status < 0) {
+> +			mlog_errno(status);
+> +			return status;
+> +		}
+> +		di_bh =3D local_di_bh;
+> +	}
+> +
+> +	di =3D (struct ocfs2_dinode *)di_bh->b_data;
+>  	orphan_dir_inode =3D ocfs2_get_system_file_inode(osb,
+>  			ORPHAN_DIR_SYSTEM_INODE,
+>  			le16_to_cpu(di->i_dio_orphaned_slot));
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260620080802.3516=
+5-1-kartikey406@gmail.com?part=3D1
