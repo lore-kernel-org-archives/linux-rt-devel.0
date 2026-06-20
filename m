@@ -1,152 +1,160 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC525E555
-	for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 23:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECB523C50A;
+	Sat, 20 Jun 2026 23:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781997153; cv=none; b=No8668b0VqpGHDBSPu5/AMfhmcRwtZnAY8jktN7R60hzYo8dKfcb/uFWJBGQE61bYBZvwb1fx5kqX6F5lyanOtPs2Ud83Qr6p88uNfp9pHgtjJ+YrNWOpVcU6NjewyjoXD1STcoAjkTVmbHvxYNFg93Aqcy0GvhLM/sEwIzxG8U=
+	t=1781997957; cv=none; b=DCtt8tlYnoz+FJ362ntTM5HeUXxCjgW9RUytnJYusRZxhd7aT62xPlSBkbbQxtcZnACDsPu+6MShrb04vTUu1OLezUzutzIyWcdAbsRYElwIZ8g+xsEkdDLmu/hsfH3X6BdYASXBIJ31XAo/QVhxA2myDyoHzh9lSGG/KHkoMis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781997153; c=relaxed/simple;
-	bh=7JKBQscbADx9XJYjyDEXNS6QpIOsMcu5IlMdsQMS4Qw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LkAkKz38zJQr1CbeXZwrP8eqGB9EEmB2OuCajHL2MjuthUJe9ql/8SAWvInzAyzf+yyeuhQbxyQyWgzljiHoPerEvIIGzU3r1tRDVHjUVlqrcl5xR5VlYgg9wDX1L2xT0tw6/c2QvymlOI9BJfGMYsTwY8xEjmcGygrgFk8zy0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mL3j0EMi; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781997957; c=relaxed/simple;
+	bh=+d1wN5BJSl9c7+dj50c5cZajVucDM4Z1hZ2ETMmXbkU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Lg+y7pPO2GiMD8I39BCBweL7tpanHJPOaIAjBTlAi2Y30KpP6NFe33r4sWZR/QjiF+FUSlnacm8jG/EyTXK12A079CQQG8tAvUcHnU6ao6kZEXGZqsmPB2lnI4lFEgDzeHf4VB3t6KMaU3fSigSgE9sMRgZQ6B7Ov9eBpSCVcGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Itu6hpI4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mL3j0EMi"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-36b8d414666so1719870a91.3
-        for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 16:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781997151; x=1782601951; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X+O4XSY8U1nMvC56zi8qaEb9yuRuuISaoBUDpIJeGlA=;
-        b=mL3j0EMivtuN3DqRLMEu8MkG00pQlqGCcV/HtwBR2YWMzAp5WWePrIf4SqVDgoQ1Tf
-         NOUszsBz25L3UNkdocdp+ki/lDNtRm8lcjXGCQW/ZjgDpWEqWWm2iXTNcgtCcZBzIdhD
-         PoJ+kiCjkIGM+HsoHDaBXVR5DVQV0k44wsDmjfcId0KUxt6Rx3VzPt2lNsxc9YqnT/cx
-         l7tuwyQn2NYmBwYMw+BBpHYWvzDjWPYw+SKG/leb5F3651jNFEiXxqRURBDOd88bx/7Q
-         ge2r7rjXUXpfS8JUEbXIs7zy8OwdHWXp+vl1EprwoxAwCzHczkGRc3uAt8hgoxkSS5lr
-         b1Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781997151; x=1782601951;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X+O4XSY8U1nMvC56zi8qaEb9yuRuuISaoBUDpIJeGlA=;
-        b=MhRrG2gdM6isdUJn15Zd13ExJhz9843O1QdUqcz5ULz6hVbRbKwCqEnkGnvxJyLZBG
-         mG3qrU2laH6Q9OM+gYFFh6SfeQi654AYvbGDIZrdbomaXJdylM0RvYnU5wLOa/wNxH9H
-         ZiC7Bgbj1n+70yuiLM92mnikYRNsAnf2lJSmywLNLgnCc9TTx5a+FyN59jZj4Mja8TYV
-         HCxqAufBBeiU7attOvMjyIXLqSjJVaeYGJPSIblj37hKS9Lxozx5Nab9C0+RO4fNl3vB
-         /dPZN+3/fDJKSW3HKBvfAAd7x0NJDoF8G1+IpU3CQYXDpMmwi5RLaPFZgMGXuj9svDX6
-         1K1A==
-X-Forwarded-Encrypted: i=1; AHgh+RrTvYNLLjlOfXkM2HWe1uPJcsvsTuZRYMatGBFUQBoRqdYrlq9032NpXXNNuG0Its7486dw2cSbtb3Jj8fPbw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9HpHJY0l6GqFGoWajmJarLht/jnAw/MWYejMVXBYPSZySvmnY
-	AFfK/NJ0Hh7cdBGIMT51V83YQdogFrNtHz+VvXna6FUjtbdeqXtaoSSH
-X-Gm-Gg: AfdE7cnEq+jlZw7BCIzLccowhptHIe2Tl9zfToZ439ff1MbtfwZbHMdsvjjzuYP8NdN
-	KTpK8LetKAGacXIxefx4p27E0I2uT5Njycc0Db9vaVJBF6n62KComZXOjJl9f54Tws1TIOqILIe
-	9g6GqKt9NpbZl7dTH22Cda4zGdbiL3hkDr7D5ocP4EpUqjm7pDuz82gZ9+jxEqAxmyrJ+Xbjmfk
-	0Iv8SRV88cJ6yJLLN/Lw6ogOqDhhNQ/T1jDHiZ/nI9oieEM4Q+R7cKAJbY23cUOEGIIk3Q5joHF
-	gsrx+lA03XfDhpzp/O0lubx0WMoqyrMP6B9rKcJ9Ko1SkDZBK5azI66wqmP7LGiC4LGZ7ip8IIQ
-	BVKKkZkY6j2O7WkhaMcKMqzcyYjUSBCyq1OmeSGzyUSd3TPPi1gMGeMQn5LzXNG1TbfW0rLfPoz
-	uuiMNJUizd/IELkdTGOc0mEi/maQyUoS/0qLEuSXs3MxtVRDDdj/1yujBUwhWJlrqRi9qe
-X-Received: by 2002:a17:90b:5746:b0:368:b01c:85a0 with SMTP id 98e67ed59e1d1-37d4e438c1amr4335263a91.14.1781997151088;
-        Sat, 20 Jun 2026 16:12:31 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:6622:5068:7fd9:7931])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4f2d2919sm2982012a91.9.2026.06.20.16.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 16:12:30 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: mark@fasheh.com,
-	jlbec@evilplan.org,
-	joseph.qi@linux.alibaba.com,
-	bigeasy@linutronix.de,
-	clrkwllms@kernel.org,
-	rostedt@goodmis.org,
-	willy@infradead.org
-Cc: ocfs2-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
-Subject: [PATCH v2] ocfs2: use inode_lock_nested() for orphan dir locking
-Date: Sun, 21 Jun 2026 04:42:23 +0530
-Message-ID: <20260620231223.46588-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Itu6hpI4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7231D1F000E9;
+	Sat, 20 Jun 2026 23:25:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781997955;
+	bh=j1gAyMz0S2HB5lu+pP5nxY80fiTHsTjlFSWkyzsEZhU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Itu6hpI4wZBP2FdlHiuC6o0/FeKm0/OHoosjDXq8gWfDRVb1Xxog9nWotoiLf3JR1
+	 dW606wZa2iC9IyamwBZsXk2YN/iGhvkKuXFMP01EQGFWWg5bIf8bi9hxWL6DzjtYpU
+	 orZmQBUoo/x6LqBZi+IQeKv8Lms5hg2GFGQ8TA0fZiFZWVHNe02CZ06MCdxaT5lSYo
+	 xxphwsGEtdFQOu1BT//mxrvo0sqmeUIPTyTxPOuUTCMTz8rOG3kV79pq2dhKTzcn7Y
+	 PGQYzFub+oH4f4c2z27hDwUkHV/72G42bzyrjEXIDJOr5ctQEuJKL/VxRMue+Ck8Pn
+	 00soBUtjZu41w==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] ocfs2: use inode_lock_nested() for orphan dir
+ locking
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Deepanshu Kartikey" <kartikey406@gmail.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260620231223.46588-1-kartikey406@gmail.com>
+References: <20260620231223.46588-1-kartikey406@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 20 Jun 2026 23:25:54 +0000
+Message-Id: <20260620232555.7231D1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+
+New issues:
+- [High] Incorrect assignment of the I_MUTEX_NONDIR2 subclass to the orphan=
+ directory violates VFS semantics, introduces a new lockdep cycle during re=
+name, and fragments lockdep tracking.
+
+Pre-existing issues:
+- [Critical] Unvalidated on-disk fields i_dio_orphaned_slot and i_orphaned_=
+slot are used as array indices, leading to out-of-bounds memory accesses.
+--
+
+commit f1e102271ff71f1f4452e0af815188536b47c93e
+Author: Deepanshu Kartikey <kartikey406@gmail.com>
+
+ocfs2: use inode_lock_nested() for orphan dir locking
+   =20
 PREEMPT_RT's rtmutex PI chain walker warns about a lock dependency
 cycle when inode_lock(orphan_dir_inode) is called while holding
 inode_lock(file_inode):
 
-  ocfs2_file_write_iter()
-    inode_lock(file_inode)               [class 0]
-      ocfs2_dio_end_io_write()
-        ocfs2_del_inode_from_orphan()
-          inode_lock(orphan_dir_inode)   [class 0] <- warning!
+[ ... ]
 
-However this is a false positive. write_iter() is never called on a
-directory, and orphan_dir is always a directory, so these two locks
-can never actually conflict in practice.
+Closes: https://syzkaller.appspot.com/bug?extid=3Dce129763ce7d7e914739
 
-Fix by using inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2) in
-all three places where orphan_dir_inode is locked in namei.c, placing
-it in a separate lock class so the rtmutex PI chain walker understands
-these locks have distinct roles and does not warn about their ordering.
+> diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
+> index 1277666c77cd2..4cfd7b3d3e1a4 100644
+> --- a/fs/ocfs2/namei.c
+> +++ b/fs/ocfs2/namei.c
+> @@ -2126,7 +2126,7 @@ static int ocfs2_lookup_lock_orphan_dir(struct ocfs=
+2_super *osb,
+>  		return ret;
+>  	}
+> =20
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
 
-Suggested-by: Matthew Wilcox <willy@infradead.org>
-Reported-by: syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ce129763ce7d7e914739
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+[Severity: High]
+Does this violate vfs locking rules by assigning a non-directory lock class
+to a directory? The orphan_dir_inode is a directory, so it expects a parent
+lock class like I_MUTEX_PARENT.
 
----
-Changes in v2:
-- Replaced inode_lock() with inode_lock_nested(orphan_dir_inode,
-  I_MUTEX_NONDIR2) in all three call sites in namei.c
-- Dropped incorrect v1 changes to aops.c and namei.c that
-  restructured lock ordering, as the deadlock was a false positive
-- Approach suggested by Matthew Wilcox
----
- fs/ocfs2/namei.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Also, are we missing other locations that lock the orphan directory?
+For example, in fs/ocfs2/inode.c:ocfs2_wipe_inode() and
+fs/ocfs2/journal.c:ocfs2_recover_orphans(), we still call
+inode_lock(orphan_dir_inode). Could using different subclasses for the same
+inode corrupt lockdep dependency tracking?
 
-diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
-index 1277666c77cd..4cfd7b3d3e1a 100644
---- a/fs/ocfs2/namei.c
-+++ b/fs/ocfs2/namei.c
-@@ -2126,7 +2126,7 @@ static int ocfs2_lookup_lock_orphan_dir(struct ocfs2_super *osb,
- 		return ret;
- 	}
- 
--	inode_lock(orphan_dir_inode);
-+	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
- 
- 	ret = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
- 	if (ret < 0) {
-@@ -2725,7 +2725,7 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_super *osb,
- 		goto bail;
- 	}
- 
--	inode_lock(orphan_dir_inode);
-+	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
- 	status = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
- 	if (status < 0) {
- 		inode_unlock(orphan_dir_inode);
-@@ -2838,7 +2838,7 @@ int ocfs2_mv_orphaned_inode_to_new(struct inode *dir,
- 		goto leave;
- 	}
- 
--	inode_lock(orphan_dir_inode);
-+	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
- 
- 	status = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
- 	if (status < 0) {
--- 
-2.43.0
+[ ... ]
 
+> @@ -2725,7 +2725,7 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_super =
+*osb,
+>  		goto bail;
+>  	}
+> =20
+
+[Severity: Critical]
+This is a pre-existing issue, but can the unvalidated on-disk value
+di->i_dio_orphaned_slot lead to an out-of-bounds access?
+
+A few lines above, we read the slot directly from the on-disk buffer:
+
+    orphan_dir_inode =3D ocfs2_get_system_file_inode(osb,
+            ORPHAN_DIR_SYSTEM_INODE,
+            le16_to_cpu(di->i_dio_orphaned_slot));
+
+If the on-disk slot value is maliciously crafted,
+fs/ocfs2/sysfile.c:get_local_system_inode() will use it as an array
+index for osb->local_system_inodes, leading to an out-of-bounds read.
+
+Similarly, could this cause an out-of-bounds write in
+fs/ocfs2/inode.c:ocfs2_check_orphan_recovery_state() when it increments
+osb->osb_orphan_wipes[slot]?
+
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
+
+[ ... ]
+
+> @@ -2838,7 +2838,7 @@ int ocfs2_mv_orphaned_inode_to_new(struct inode *di=
+r,
+>  		goto leave;
+>  	}
+> =20
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
+
+[Severity: High]
+Could using I_MUTEX_NONDIR2 here introduce a new lockdep cycle during
+file-over-file rename operations?
+
+In the rename path, vfs_rename() uses lock_two_nondirectories() to lock the
+target file with I_MUTEX_NONDIR2:
+
+fs/inode.c:lock_two_nondirectories() {
+    ...
+    inode_lock_nested(inode2, I_MUTEX_NONDIR2);
+    ...
+}
+
+If ocfs2_rename() then orphans the overwritten target file, it calls
+ocfs2_prepare_orphan_dir(), which will now try to acquire the orphan
+directory lock with I_MUTEX_NONDIR2. Could acquiring subclass 4 while
+already holding subclass 4 trigger a 'possible recursive locking detected'
+warning?
+
+> =20
+>  	status =3D ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
+>  	if (status < 0) {
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260620231223.4658=
+8-1-kartikey406@gmail.com?part=3D1
