@@ -1,114 +1,167 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B841343889
-	for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 23:26:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781998000; cv=pass; b=nX9Tj4B1wqzLgnrV2qcu6/ZOEJvZPMyv8CZvXb7eDMx5OeGuO/M+PqLk/TBqcDG1JuipPvP9Xl7etXo32YMWUPb8qCa0FjljPakqtQ9NhIsDSu+3s5M1YMV7bfqNdt/SGp4AEfBD24uXGMcV4bhrzhqIedKDfO6b1WgDvO14lPk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781998000; c=relaxed/simple;
-	bh=p7A47r01QLLxvPJa8GPartZIvuyI0yW3DvDkorSmJIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HOTMr0YWChrRzXiXv5loA7R7Qmacs9doVPzw2GfQTkNjLIz4hN787xCY0wNAVC1Tf8og4Y5F89Tox9/euTuaZHMop38jUw454JdQzJ0Vvz4AWjQk8IzztjpW6uJRzff3Vkgx0MHWnig0xo4wcf8gVgWd3ayd8ayvKsZOuRvQYbs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oGcWa//b; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB81E7E0FF
+	for <linux-rt-devel@lists.linux.dev>; Sun, 21 Jun 2026 00:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782001787; cv=none; b=E1sI8Lrq4iu9UrYWY9UI9x7BmjexkPqVxcfdmLQ2wz32KNe/ASQon1fQ8zjXAtKf0/B5DK/o+9w6LXcnFmhD2AMdgGj4DBaQ5+x1AJxD4xdMlBi+da+cJ2dDJaIilH8Du9LNjWDj/HeM3ppUzXqJL5gL1z8t5IrZYO/d/Q/EdQQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782001787; c=relaxed/simple;
+	bh=1MnWNqh0Ih//0t81t9oNMlb5t06OUcy7Zz/BNBFXUT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ChsD6GqSgR9RSOXeqKsuL4NvtmRb9yw5sjtDteKgoBw2B6pSRAcIXfLlgGBRlQkAp4V7QOkk4bJMiKUmEzkwMyUesE9DzlJRMCBDzcIC9Y9IrpcfGogzFXPnwhsWBxT7wB08H46XKJgcp7WCU8P/jVzhBsX8HNu6ODDAGG2RMoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=wwydNH/N; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oGcWa//b"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-6607e80a846so3382112d50.2
-        for <linux-rt-devel@lists.linux.dev>; Sat, 20 Jun 2026 16:26:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781997998; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jrdGwY3t3o/dzb/SL/nkLxJJr9SnJPF74qxfZxheIqgk7pYiK9vx7WyaRAWc6+m06l
-         N5R5skUnlG9eFmqTsyT4MeSZedZbD4PIvOreR41dfVoPER/6b3xt2HPv5wqA9fkC2Zzb
-         u5r2V70aAWbo+Q08nOpSZ54PvZR2efWy660On1MYiHKrQLfz9ANZhww1zqhsOt9KP/Qu
-         kna4/P4nRv2UfQ9s6o9Nbjgg4eTMjHUb5tEJDEpiB4deA+hfu57ot8fPUoyifi9JXbbE
-         uXsnygQ20ChQIOqe59Mz98M1f7qMaF1b2VLsHSTZeTTVTGfMRSu1Uinlg8Cm+Ms62mtl
-         +YJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y/VTsGzs0OyEB3v9Q0VmgQrEz1yxfxa7BO8lFW7ZSrU=;
-        fh=VpyLAG5Hfm2pkgSWqAyJnJMoTpwekuw5Bgr7W4ZR8YE=;
-        b=FnuXE/9n/uUIk/x9oNcz+aPf+t2UqLeZ2nsjDTrnjiQfwg7Wpf5ij8XF7cjT3j87J0
-         iXvbuKktDtrqczX83LlaQlXeje+TmuA0VuLEZnA6vEhEW1uuL9/anZ3GL6P1FNEimldJ
-         A87uAXDEctAtWO4kbWDnSBxD+gVCkbcJU5EVmC10BEoArnn+ufRSWdVxRnF0Y5JfX3Yv
-         1Smz8+NNz9sQpxEA1Y7j9bv1hdPrIztQ9LYAKsgEs5cfJzr3Tmvhbq+z4ZcIpXyCiDMS
-         QIrn+zQBUCrraJBWDc5yxcZVl0e7P+wMzirOlX5ZBP1a+qWQNTjieFbI6/6huL1Rz+hZ
-         FBlQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781997998; x=1782602798; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y/VTsGzs0OyEB3v9Q0VmgQrEz1yxfxa7BO8lFW7ZSrU=;
-        b=oGcWa//bGe9FW8+7z2/BxlAIgTBkhMA2IAeJPsZ0++vvj4p0TtFhkGbJ4fUywEbm5S
-         S1+moCyzs4dJ7Kw5i4zmqh7uF7j+LiJxW38KE9WblWZD/iYo0lyKucOhuJ7sEWmQMle5
-         0SKyCBNuLj8JMD5oBbBY1oaHSsEnHggEvxLjvKsK2k0pKtIN6kDeZn0zvh959jusGGF8
-         yOXI/H9ZOtS1lPThJjDTJOO3Cc69Ou0L4nBoBwJbS+Bvq+grg7rw7uEZpVEZO6NfTF0y
-         mcA5uTkJfqMy1rpdQsJtdY7p6g+dr9aFUUg5TUHdWCvHyunei7oRLvpE8HQ0sVwzhqmk
-         GT0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781997998; x=1782602798;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=y/VTsGzs0OyEB3v9Q0VmgQrEz1yxfxa7BO8lFW7ZSrU=;
-        b=FtX+iEQUPY2RCaGB6QxTyzyJtTY0B9LX9SX6RiDYtOSjuqBcO/HaKXmq+tgjICXFQP
-         z/u7K2GRLYHx0HvtOzt9/ax/XNo/fBHgmFZMLrqH7A6J5IWtGCeDS9UAk8N3LkuHaoV6
-         8iEbvQPuZ5Stno3uSw1Kouctung79N/c8IHQMxvY7wxKf+VBw3VSYeuOyvhF9xSxLilI
-         jpkYjeWJNQ478faOfiqcaI2I4paetFJxqI/U3FTP3UO7x2LCNtWFLT/Ar84EVF95j27V
-         z9zVzOY44cfQ5rVK1eUwHqjm3KsrhgvvQAEO656/roZ3IPdY2Q/axxD0egUiUM7bdCGn
-         mgxw==
-X-Forwarded-Encrypted: i=1; AHgh+RoFHR51EawEs0euQIyal2jetJvQlO9pAcWC36mLlgbOJA6AyOvk+GXMFEedHSGxsyZRKldwSQfjAV+XzpOo8Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEeNp4C5qz0i9dKaGMVlgNOO5Tnkn02IVZPo9ZtQtltZKsYET6
-	v0tKcOQEmvWWY3XNOgvRyqJ60ZhLQDHiaXPVqgdeR1U/ziKvSX05xtKozQzrgCTtP1rveCd7fRM
-	SH/SMONlpNiBdaXlZeaq0Lt35KhbqYtc=
-X-Gm-Gg: AfdE7ckyShwwK60+dxPyljY125Kvm2RbhXBxYDH6H0r3RYMdFVqKXDj70t35UBk8rk1
-	0t9VRh9SCX4C83DuD3rVqVYP7mflWnJ0JU5c4lHLNjozS3Fb7Ys06gRgSKuS8h7WX6TNmyDzn94
-	reMC0fLoEf/VFPFd0IioVb5pFDcTMBFR9t6IYI4S6NYuB3kMMuau8yGBuU/nYsyf5BsKrCejuAk
-	joPHNbQRb1nl5yX/gUqIjwdOm0xVoDS2sVqdu9Lpj+RHLfa3Ck/abhPnfmsVyEecEA9Lg5hllsn
-	T4zWSMkwVMOHSkY4EOVhJaa0PktD2SaKkqgWQFGdnyorxsl9xMCWGz4gGlEqKyTDgUYEsp2o
-X-Received: by 2002:a05:690e:2251:b0:660:60a9:2b20 with SMTP id
- 956f58d0204a3-662fc678571mr7897226d50.16.1781997998246; Sat, 20 Jun 2026
- 16:26:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="wwydNH/N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1782001776; bh=tV+HkNoqzvKpgSRnvGC6RmogVfBvelOvm7aH4UT4sWE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=wwydNH/N/FlJkbysIxkx2U1DuTaZe1a8sWH0i1aPf6jpaOTAWU0BfWQvx7e+hP/aD
+	 msFG6CtnKQt6VQxuevmwWUCkApnD5PIqH+syaXZTI0rnug4CdT9llNSkbnuy7XdyRr
+	 6Dy0tt1wau1g0nEu9fdPW7qHKW119k4MgTlFyg78=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-XMAILINFO: MF2s0TKt0BDQ/rAu5/bVF6ZNILrc10mr2NDK5So5PZea2C0ouyc6T0AU7Lv/0m
+	 M+tiChHuvcTMkEr7KxEG8VnMxxBZg/FL2VWvaGR+PVbmIS213R4X2rMZTUn0tTK8tqPcAkg54H8hm
+	 MolsdFNAM21nSu+sGsS6BwabyTIUlI87LRHTYv6OC+bpdKnIYgkHyx1/8aIg+QOWQKCsFrCuAEOO2
+	 ikeK44vqRz3+kEZjQZYtGJHxm7o3OOGlLSLYGaQwguUUo+5isE5F3rdwiQiijWZjrFNcwDinft0xJ
+	 uk7SlLwRsMpfemvZf2tyJ/wRtmyJ42c5xoan+9jdHzbu0Fpn0ukU/uLfWzm8UBXVLWgLW68OtxZ+s
+	 s7UubAhyGi2OXhd37kt3OG1hB0sUBXP2GDdavSpB4w/mabdznQ6reeBY0HrU5tjSNazw2ZvnH+27l
+	 uqBEdF9IFVj65f8p9WJFtt4qO67/4cTjlD03/NsuvHON5OvsdOYj3DQLKVX3cxKysLMUcrFUicMfa
+	 FRz+GSBnNjRJtKh047QqHUJ6ONmwAQ7sKinwsMjiHzBWJDzh6flXhZLfD7Qc9nuYS/aj9/xuI2mwd
+	 KUiC9lDTKL4D0Tp1LKzldI1FK8ChtHutDuZSilufRP37SnjVKthlobfWZuOgNjb/kWKeFtChGZuoH
+	 NIuCGmd2y1PzzrJZyjDT55awvUINzzRpq7VIEjGHNkMHYJL9ZLN8GzWrfqZupeaUNdKg9Q7aljomT
+	 czs0HD+4/Bo9RHbKxfmm5qwKbCx0TrClmnshOdZFSxwK3i/Vi8XplgVonX78ZqRHzeRM9wJaZo5jW
+	 GxQ+316YYUksIkDpl25GrCh8UrMjB8JQwBbhcROpPiidgoCq8VTZCJuvrlJ0NGU5k2oFk5jd4bI3/
+	 x/v8/Sb9BSVlp2QtLRfJYGnW3htAUjy+MT2fam177lsNCnPgb3wNlAgG1RkN3yTeR27g8bfs7+efn
+	 +N3w9NvhV6ONr0SHy1f06fEgazvq7hkv5k/ZVjvYsP/w0D4rwV+tYIpXyvr7/g6mJv4/wHNOA9YYv
+	 81WKVzAZj0/KqNn4jFku/Aso0866oBomlIAXyY7yYVbBfVMCMRV4ITq3GnogfuCWqPonFdPZgNvcK
+	 jcjUlIxFvNXuePoauHAU+5rTvg95QwdWsFBdxMzP9IYHeg==
+Received: from [192.168.1.100] ([183.94.22.181])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 75E2FA1F; Sun, 21 Jun 2026 08:29:30 +0800
+X-QQ-mid: xmsmtpt1782001770t17vm1vd5
+Message-ID: <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
+X-OQ-MSGID: <213501bc-74e7-43ef-b72e-83ed5976371b@qq.com>
+Date: Sun, 21 Jun 2026 08:29:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260620080802.35165-1-kartikey406@gmail.com> <ajbVDMX0mSnLKe2X@casper.infradead.org>
-In-Reply-To: <ajbVDMX0mSnLKe2X@casper.infradead.org>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sun, 21 Jun 2026 04:56:26 +0530
-X-Gm-Features: AVVi8Cdt0nLqXewdAJjUwqYgz5xg7xyNbEB-FkrRzdLGTwWLchWlfatOaCcEbA8
-Message-ID: <CADhLXY51V2kQqKefy-VgUayYBCHcyk8vPTCq8DWCDgVS_cG3oA@mail.gmail.com>
-Subject: Re: [PATCH] ocfs2: fix deadlock in dio write orphan cleanup path
-To: Matthew Wilcox <willy@infradead.org>
-Cc: mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com, 
-	bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org, 
-	ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, 
-	syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next v3 7/9] mm/slab: introduce kfree_rcu_nolock()
+To: "Harry Yoo (Oracle)" <harry@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-7-70a54f3775bb@kernel.org>
+From: XIAO WU <xiaowu.417@qq.com>
+In-Reply-To: <20260615-kfree_rcu_nolock-v3-7-70a54f3775bb@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 20, 2026 at 11:29=E2=80=AFPM Matthew Wilcox <willy@infradead.or=
-g> wrote:
->
-> This seems like a false positive.  You can't call write_iter() on
-> a directory, and orphan_dir is always a directory.
->
-> I would suggest that the easiest way to make this warning go away is to
-> replace inode_lock(orphan_dir) with inode_lock_nested(orphan_dir,
-> I_MUTEX_NONDIR2).  It's a bit quirky because, well, orphan2 is a
-> directory.  We could add a seventh lock class to
-> inode_i_mutex_lock_class, but that feels a bit excessive.
->
+Hi,
 
-Thanks for the review. I have sent the patch v2 with
- inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2)
+I noticed the Sashiko AI review [1] in this thread flagged that
+kfree_call_rcu_nolock() dereferences slab->slab_cache even when
+virt_to_slab() returns NULL (for large kmalloc objects that bypass
+SLUB, or vmalloc addresses).  The VM_WARN_ON_ONCE fires but does not
+stop execution, and the subsequent NULL dereference is deterministic.
+
+I was able to reproduce this in QEMU with KASAN.  The trigger is as
+simple as passing a large (>8KB) kmalloc buffer to the new function.
+
+On Tue, Jun 16, 2026 at 12:06:14AM +0800, Harry Yoo (Oracle) wrote:
+ > This commit introduces kfree_rcu_nolock(), a variant of kfree_rcu()
+ > designed to be safely called from unknown contexts without falling
+ > back to batched processing.
+...
+ > +void kfree_call_rcu_nolock(struct rcu_head *head, void *ptr)
+ > +{
+ > +    struct slab *slab;
+ > +    struct kmem_cache *s;
+ > +
+ > +    VM_WARN_ON_ONCE(is_vmalloc_addr(ptr) || !virt_to_slab(ptr));
+ > +
+ > +    slab = virt_to_slab(ptr);
+ > +    s = slab->slab_cache;
+
+The problem: if ptr is a large kmalloc object (> KMALLOC_MAX_CACHE_SIZE,
+which is 8 KB on x86_64), the allocation bypasses SLUB and comes from
+the page allocator.  virt_to_slab() returns NULL.  VM_WARN_ON_ONCE
+prints a warning but does NOT return, and the next line dereferences
+NULL->slab_cache at offset 0x8.
+
+[Reproduction]
+
+I rebuilt the kernel with CONFIG_KASAN=y and added a small late_initcall
+that allocates a 16 KB buffer and passes it to kfree_call_rcu_nolock():
+
+   static int __init kfree_rcu_nolock_poc_trigger(void)
+   {
+       void *p = kmalloc(16384, GFP_KERNEL);
+       struct rcu_head *head = kmalloc(sizeof(*head), GFP_KERNEL);
+       kfree_call_rcu_nolock(head, p);
+       return 0;
+   }
+   late_initcall(kfree_rcu_nolock_poc_trigger);
+
+[Crash log — kernel 6.19.0-rc5, CONFIG_KASAN=y, CONFIG_DEBUG_VM=y]
+
+   kfree_rcu_nolock PoC: calling kfree_call_rcu_nolock on large obj 
+ffff888026c5c000
+
+   WARNING: mm/slab_common.c:1271 at kfree_call_rcu_nolock+0x1e/0xc0
+   VM_WARN_ON_ONCE(is_vmalloc_addr(ptr) || !virt_to_slab(ptr))
+
+   BUG: kernel NULL pointer dereference, address: 0000000000000008
+   #PF: supervisor read access in kernel mode
+   #PF: error_code(0x0000) - not-present page
+
+   RIP: 0010:kfree_call_rcu_nolock+0x5c/0xc0
+   Call Trace:
+    <TASK>
+    poc_trigger_init+0x2a/0x40
+    do_one_initcall+0x131/0x730
+    kernel_init_freeable+0x471/0x7e0
+    kernel_init+0x28/0x300
+    ret_from_fork+0x2c/0xc0
+    </TASK>
+
+   Kernel panic - not syncing: Fatal exception
+
+The crash is at offset 0x5c inside kfree_call_rcu_nolock(), which
+corresponds to `s = slab->slab_cache`.  The fault address 0x8 is
+exactly offsetof(struct slab, slab_cache).
+
+
+[1] 
+https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-v3-0-70a54f3775bb%40kernel.org
+     (Sashiko AI code review — "Null Pointer Dereference", Severity: 
+Critical)
+
+Thanks,
+XIAO
+
+
