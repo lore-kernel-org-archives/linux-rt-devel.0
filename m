@@ -1,146 +1,160 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B43B27E3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 13:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782134149; cv=pass; b=uYCthjj71Z19sC1janWIVxhoGXK1mOhmXm8IUqnNQTea8u7ckwFqHRP9V0MNKKUX32EDQH8rwQ3IqRBtGXowiaRtpdgvbKeJqrlsGahy9liCNhLYVXoHPaSb4fLksl+SWb1G4GjqLWCAZRTpNlet//hMDoUHKQeEaZATQJIiUBk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782134149; c=relaxed/simple;
-	bh=w1jdgcb1GTzI/MFxGAxn8bD+AX0AkPgc9MYjNjyFClw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fxNzuRIv1+08YR8guWkAhOQHcaETmYR18GifQPU+XOXA+6FA7f7QidsA+bWXYVzpV7x8RVbaGTtwVossU+xir99q1k39VVY6UCkiJSDKfpKs0eCpBRYbbeenSq4tL4OAa5Un9v0vb8i/JsHG7gmotDfVLEEzF1ay5YMF4Gc2SFI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VpK0k3/A; arc=pass smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA6221257F;
+	Mon, 22 Jun 2026 14:30:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782138632; cv=none; b=e75sUPTKHPDJjBiI3bctJyKgIOIxXYstrZIWYzk7pCTgPvaUS3paqw8lOOPQn6UQtlZ84Xmd6BtZA8eUGPGNQKyqnZkwc9MCT815PZpVkbzJDULT6BGAUhsVLG5amE5fihTngZc8ELjp9+mrZ2IhKouuGIhBT/jfwBAN70g9ZYo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782138632; c=relaxed/simple;
+	bh=UnD9i8YaS4V91+58jaV+7bKnMxW8PSskRKOtvoj3++A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q+f51ElYWlNFNixOmAX+FEm0kUZF9yhmcA840ebcpQNXw0ofmoYiDKvcn45HJOW8653H7WVgbontQt4hYAyFWeSSd7uM1VS33VDnyYDftc7BnyJOStJY5avZQzLpAv4twxYI+O4iO8r+f+2C0TUHMLHVt+423gTm3F06FscL368=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FqKGfHkA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VpK0k3/A"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-695469b574eso21349a12.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 06:15:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782134146; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dq+ZCOHcSeq7n/+eh7NtemYMXR2TAgHqAIjVraqdEBNFO0lf0QKPdtgDbZd53NRgiI
-         HRu2ckq6mSZoglj236jghSrxb6s35B0t41ORNldQl8P4qcur658otQfBjoshbWw8c7SW
-         2yc2fBpVzwALyMuFrLg53CK3NUjCdgXSfbKOg4u1Z9cvFqb4YNKoZN0qOMKBvBiFcRq+
-         T4YbE78d9YMH1GcRZVAPMJ0OyzVqwF0XQxNEV1G7F3AoARMVo5hwM2BiOMq3FZRsYuHS
-         L0kNhhqs8NZe9ad7T7AQTmy0j6BJlnrfDRNfAJfhh61AZgdcGxJiL9GNc7f2JIrwtmur
-         98tQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=w1jdgcb1GTzI/MFxGAxn8bD+AX0AkPgc9MYjNjyFClw=;
-        fh=nM99IIKT/N8yX7Luy3q3X0EkTmMDog/r6Ym3a7geGH8=;
-        b=APbod8o/uqYXWXTh+3OuoL4I2V6PNFiZ0g3ho8EGGg9BuAqQcDJkyo05JYFpz1Gdgk
-         z/jzzRv+7F57ORoIz2O/U/br92OBmR/DPayvolKV6xk6hSjJniYTPdQfzWHkpO2iHYGa
-         lYU0x1+IeKwiu2DebYZON/Vjuyo7kM9dpzm8C3FXSLoajeaBi2EzypJ9OcQw1jwJuUip
-         6pA8pUB91JcZqA9CDnrQzZYRaOilo/itbnnGPjrpyGxyt+KSJxSXljYCktb6J8j53Nu2
-         BnrXp9sgQsql6Ww78nYt2lDSNy4qombp51l6z2cfbdpmLUrc435b01HoPLsDQyXSma5B
-         bf/Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782134146; x=1782738946; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=w1jdgcb1GTzI/MFxGAxn8bD+AX0AkPgc9MYjNjyFClw=;
-        b=VpK0k3/A1f+DBb7bCJHgD/NjLsjZ6TlZ8GkGujvGKJWwGbgRewawWgbRjsd5rr1/1q
-         jJRFheMlIRcFAVF/hrLIlUzbymXkLmkV7b7Vrrvsfy/XaAEM2Cm9lssVyrr+iEzCeo9K
-         flva+0bSbdCPd+mr23zGAPYobrcgg5rqXkan+WBfdZfqpmD1ChTxV+zXZF6wUAViVMST
-         51rktUnu8L75SFfsqCnLpdUZGxl7KpMTu0UiU1GKQCX1iILhUXJBT2PVPCyUvn5FQkju
-         zD4WGzMs+K2S1yi9lfY2i/P0LC2K4Hn/fgzRkWCKCw6nLKsRleaxUEEngWVXAe5Yo0Yb
-         wxJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782134146; x=1782738946;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=w1jdgcb1GTzI/MFxGAxn8bD+AX0AkPgc9MYjNjyFClw=;
-        b=FB/ef02kndGnviXjjzJg818rcsjKTmP/q7EA212YSQxIRqls8/H4FhWPwX2ZMtsYGZ
-         T7kcFd50HNpouQemHUNkRYSI1p4lWio/0OJ9qqxyYRWdW4T6aXk1f8vGEqtwrtW5BkU3
-         p+0jpAjnC/AingAcrxhZAHQHBYH+s3dmLyUnIxA3ElGqG9hsEDtnSY1vLyKKzF8+OXOT
-         D9DLgfns11p6xupuBVaXFOS86uurZrZe3HnXFVeLnnRGcMdN+ugHW7EcOgGZ1eBhMo4Q
-         PPi+4aaR4P2qh87ncCtDA7Gem0Bj8yRhIpRxlo8iKFuQEXbp4RGzv8hHzFlL/FqxboYb
-         qAvg==
-X-Forwarded-Encrypted: i=1; AFNElJ9izvx1FQEiTpac3lyr5VrUYD12JXobeYIH/gbasVGNYoFoeNzxJTgCvGEucTcwDY3SrEh01v4614QdbhIcHA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyTx75SYApeHCSTYzBeTpts3+mbSg/IbkX6th77ynfzwcn5pIrU
-	FZePyE58uxmtWOdgqKb77sD8vy2dZMqy+neveJsAkSqRKWWzJ/XdftDwa64rTO3cthR7T8PwlOu
-	nxtGxTe9/v32KQ1/CAAZ/Cwmcd7iOz9RxQLurw6Sp
-X-Gm-Gg: AfdE7ck8w4RPol4mE/M0dnt50RxGe+sfrnnoGrKK/tV2PbL//kwutnctnu+Sj+tEKH/
-	WGA8iOlvrCAP/5sle5blyLhEH3R/g+GqLVtM65l+5OaZ4Ijg+QRb1LTtTJrqesAhGf1ET7PKZpG
-	lencbHYbPJpKrcvhcxiDAdzx9Tx3bx1+xC4KoWEMDj6TreqgVWTU0cx7LYvmZ4EcKOFhoX7gbWp
-	dDqnGGSx4flN5d1UDX61xaag1olZ7MR/U5v3rLoWCaKEYTCDLADmwgQR7pguytnbYNQLy7m6Hzz
-	GEV7b/4/E6+0dE49Ud6pPJkTPyV9g5q/CPOm
-X-Received: by 2002:a05:6402:5154:b0:691:6fb6:dab2 with SMTP id
- 4fb4d7f45d1cf-697498d9fb0mr119450a12.5.1782134145476; Mon, 22 Jun 2026
- 06:15:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FqKGfHkA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE941F000E9;
+	Mon, 22 Jun 2026 14:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782138631;
+	bh=29wlnAiI2bMRng9KpYCVmkZd+U6WPzK0BpRtgoiriR8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=FqKGfHkAaTmFHI7Tpe5byixGjH6JaBo6Y46v0JrmWT/fqTFFmigr0uO/bs4YN18Zg
+	 2z8RlY60jutBXu67OSzfz2HIAqKQ7GZm0DyRoUauplYC/7FHprjMErsBCGwgrsuD68
+	 aQBUCRWVXW5GboO3WEnp+9DWGMFL+nll1E2s88dTVJZhhuCLy7K9ej+b/jeQJzgjl9
+	 3vaiD/pdKq06uNSwhWKkuQ7KpEufBtJRNpLtSvyFnQXwhmHehyJTZfjKzYp1YyCu9S
+	 YK9s8Vmt1lUvbn5XS/Axv4adqEy5CnGCeQWAd/WJqVM8G8d37pZ037PTNGUPNrgfWP
+	 vfISQalsYjJhA==
+Message-ID: <521f8943-bfc3-4414-a630-634712c709e4@kernel.org>
+Date: Mon, 22 Jun 2026 16:30:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com> <ajkzGElCGxJt-s84@lucifer>
-In-Reply-To: <ajkzGElCGxJt-s84@lucifer>
-From: Brendan Jackman <jackmanb@google.com>
-Date: Mon, 22 Jun 2026 15:15:33 +0200
-X-Gm-Features: AVVi8CfrL4Oxj7BVaLIKs0bu_A57lof4blIfUKooVGhj0U4uQfgaPE2LZeA5esM
-Message-ID: <CA+i-1C00oZP9U4CBPkq5txH=cP54mypr0sYJU1t7pgis0envQg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/13] mm: Some cleanups for page allocator APIs
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, 
-	Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
-	James Clark <james.clark@linaro.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	Thomas Gleixner <tglx@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dimitris Michailidis <dmichail@fungible.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
+To: Brendan Jackman <brendan.jackman@linux.dev>,
+ Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
+ Oscar Salvador <osalvador@suse.de>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-12-31f31367d420@google.com>
+ <41e92bab-6882-401a-8de9-154adbdcfb36@kernel.org>
+ <DJFLNQEBX3PK.1ONMJBA46AQNL@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <DJFLNQEBX3PK.1ONMJBA46AQNL@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 22 Jun 2026 at 15:09, Lorenzo Stoakes <ljs@kernel.org> wrote:
->
-> Thanks for the series (cleanups are always welcome :) but just a gentle,
-> annoying, note to say it's week 2 of the merge window soooo we're not taking
-> anything at the moment as it's a quiet period (mm-unstable taking only fixes
-> AFAICT).
->
-> Though, it's potentially good to get stuff in front of people early, just an FYI
-> that we're trying to move towards keeping the merge window preview/RFC-only
-> going forwards.
->
-> I'm not sure if that'll fix the impossible review load problem (TM), but it at
-> least helps keep us sane re: what's actually landing/not.
->
-> So Andrew will expect you to resend this after 7.2-rc1 appears!
+On 6/22/26 15:07, Brendan Jackman wrote:
+> On Mon Jun 22, 2026 at 12:24 PM UTC, David Hildenbrand (Arm) wrote:
+>> On 6/22/26 12:01, Brendan Jackman wrote:
+>>> It's no longer used outside of mm/.
+>>>
+>>> Since this means __alloc_pages_noprof() is no longer visible from gfp.h,
+>>> this also means moving the definition of alloc_pages_node_noprof into
+>>> the .c file.
+>>>
+>>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+>>> ---
+>>>  Documentation/admin-guide/cgroup-v1/cpusets.rst |  2 +-
+>>>  Documentation/admin-guide/mm/transhuge.rst      |  2 +-
+>>>  include/linux/gfp.h                             | 16 +---------------
+>>>  mm/internal.h                                   |  4 ++++
+>>>  mm/page_alloc.c                                 | 11 +++++++++++
+>>>  5 files changed, 18 insertions(+), 17 deletions(-)
+>>
+>> Do we want some mm/page_alloc.h , to start splitting up mm/internal.h
+> 
+> Don't see why not, if people are on board I'm happy to do that for v3.
+> 
+> (I just realised I put __alloc_pages_noprof() at the bottom of the file,
+> while it should be next to __alloc_frozen_pages etc, should fix that in
+> case we don't end up going for the separated header).
+> 
+> So what would go in the new header...
+> 
+> - All the buddy alloc/free entry points
+> - ALLOC_ flags
+> - alloc_context
+> - buddy_order*(), page_is_buddy(), find_buddy_page_pfn() and
+>   __find_buddy_pfn()
+> - post_alloc_hook(), free_pages_prepare()
+> - zone_pcp_*()
+> - find_suitable_fallback()
+> - free_area_empty()
+> 
+> Anything else? Or anything on that list that should stay in
+> mm/internal.h?
 
-Sorry as I discovered on [0] I am completely ignorant about merge
-windows, etc. Even after that thread it never really occurred to me
-that people might not want to receive patches at all when busy trying
-to get the rc into shape!
+Above looks like a decent start :) Thanks!
 
-Anyway in this case I'm assuming there will be at least a v3 so I'll
-just wait before sending that.
+-- 
+Cheers,
 
-[0]: https://lore.kernel.org/all/DJD12YR8S99G.1I43PSHB77TA2@linux.dev/
+David
