@@ -1,116 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6A3A450F;
-	Mon, 22 Jun 2026 10:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE18E3A453B
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782123458; cv=none; b=AKzeggiK7EWtEZmECE+aIYvrlbYw6amgmPkgiydJt6SJGdWPqclae/myKh9Bx5LsaVpU2V71bm07Df6ZLnmLekZusUENPZJxrDHrfpvgoRMaZN7VrUOMBKhpIGTbBxDn+UozpQoZOLM9nWBARBRr/NDokbVkAuXLTCX64QZfu40=
+	t=1782123611; cv=none; b=e3AVx/fVdaSyHTtzbavGvdWJaQNhR1i7PQKFXee/hxRyYOWrR53AdOPsds/lp1ZlwODxnaenPQZnu4BkzKXEHpmGEV/haJ3MA9d9CArUgCae5Yr6TpIpuaNZIAq7hgE7e7gUmLgdxEdkWvC5EJ22wduMBNDMO5whZgasRFYyCGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782123458; c=relaxed/simple;
-	bh=Vw6BfeYyvf6eUwbT8igYPaCYmGPI2FlRoZCU9r3Pg40=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=rBfmFl7qzfX6OqWqYDtZTSXjMFLmFY8xA7YFCuANezGxoiiu/3cXD98DEuBIiujBN8c7AE5M0BR3cOv9F8n3ZNi2SwkZ7Yw5uO9VCDXmWzdt+ylxAd+8Qq+jhLvWPlot0xfJLW/65DyZ4J5RVYY+XOiHCDPnWSDPMfP0f8TljoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxf2WCHn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782123611; c=relaxed/simple;
+	bh=MkY6nlLFzSXoALDu4trn6baPHE1gTGNtf+3w8p0yrlc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=mIqDrILM8G/JYP+vFPP0xh7x9Vl1do3VyAUZdx2BdTcQMaZSxEV+36SkxL41k4IyFFMnZDi91pQVw71Voob/MYgirR4H6pJhvtv6xg4AoIoVlZNgdwig9Gi4yi/pLWSaT64leVCUR4vJmXkGnUQiLSiPioTy12r5hUA0M360wPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EEgc7dfM; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxf2WCHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961F31F000E9;
-	Mon, 22 Jun 2026 10:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782123456;
-	bh=PxVOFvaUNWSN8nJiXnsY6BoT/vVAVHqhABumdt4ajMc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mxf2WCHng+YB6jb9CRoMwEwCNpFUlxQQ+i1+Cf1ZzAgVLwCJGB5//ut3SH0z7i6Zu
-	 iR75xJUVqZ6oQSbFmzEJi0nVHhlh763qcbo//qDjvQhBj8Y57eKK4zoAgzxdkWguaN
-	 cMb8fMYwlH1a635L8GX7Zl3AseJ7QtRpjRZtVixBiltqsBI+HR/qOADyRBJHV9r2UR
-	 p0+oSLFwLSdbJHBh71bwfG6MRktHJmyYR3XMxpzgmT7kFSRMMxColLmHHEOf/AtwJa
-	 HjGa6vFxxEcjE//frvN9hB+s2UgODnqkgMr00PcvgXX5OaVAn+3W1WBpAPWRJqGqJL
-	 m8YwMzxO7tMAg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 10/13] mm: Remove __alloc_pages_node()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Brendan Jackman" <jackmanb@google.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Jun 2026 10:17:36 +0000
-Message-Id: <20260622101736.961F31F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EEgc7dfM"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782123598;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=61qKRNZwBJRNqSbrg5LXzvWIDIKcY6Z0oSAWz/l/52g=;
+	b=EEgc7dfMyD99yO/FTdb6+fz9XHhfSzbmk35fMdpgVn12b3SbRbVOjnN5FVG0jChbniciKr
+	d8Azf0IX/TvIgjVLYPDm4tZ+sYY1/G6iX4Z05LAhQDbCVB5xV2HyqNCn5NMehUwohR7eOk
+	q94lKZPfqYN2VVZ0PdNFZvXycaNgJzQ=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 22 Jun 2026 10:19:56 +0000
+Message-Id: <DJFI39RWHV1O.MMMMMZSK8E8C@linux.dev>
+Subject: Re: [PATCH v2 05/13] perf/x86/intel: Use higher-level allocator
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Brendan Jackman" <brendan.jackman@linux.dev>
+To: <sashiko-reviews@lists.linux.dev>, "Brendan Jackman"
+ <jackmanb@google.com>
+Cc: <linux-rt-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-5-31f31367d420@google.com>
+ <20260622101024.B89C21F000E9@smtp.kernel.org>
+In-Reply-To: <20260622101024.B89C21F000E9@smtp.kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On Mon Jun 22, 2026 at 10:10 AM UTC, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Medium] The commit message factually misrepresents the API differences=
+ between `__alloc_pages_node()` and `alloc_pages_node()`.
+> --
+>
+> commit a5667683e56825d97c5814c0349e4de3300e3e14
+> Author: Brendan Jackman <jackmanb@google.com>
+>
+> perf/x86/intel: Use higher-level allocator
+>
+> This commit switches the memory allocation in dsalloc_pages() from
+> __alloc_pages_node() to the higher-level alloc_pages_node() function.
+> It also updates a comment to reflect the API change.
+>
+>> The difference between __alloc_pages_node() and alloc_pages_node() is
+>> that the former allows you to pass NUMA_NO_NODE.
+            ^^^^^^
+    Sashiko is correct, that should say "latter".
+>
+> [Severity: Medium]
 
-Pre-existing issues:
-- [High] The patch leaves `__folio_alloc_node()` exposed to the exact same =
-CPU hotplug out-of-bounds vulnerability that justified the removal of `__al=
-loc_pages_node()`.
---
+Seems like an inflated severity rating, this is basically a typo in the
+commit mesage, and anyone that noticed it would probably have realised
+what happened.
 
-commit b690a6726aee701f88a87b35d2db8bfbfa39bc05
-Author: Brendan Jackman <jackmanb@google.com>
-
-mm: Remove __alloc_pages_node()
-
-This patch removes __alloc_pages_node() because its usage with cpu_to_node()
-can return NUMA_NO_NODE during CPU hotplug, bypassing validation and causing
-out-of-bounds accesses on NODE_DATA().
-
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index cdf95a9f0b87c..7edcc2e0be9ce 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -278,21 +278,6 @@ static inline void warn_if_node_offline(int this_nod=
-e, gfp_t gfp_mask)
->  	dump_stack();
->  }
-> =20
-> -/*
-> - * Allocate pages, preferring the node given as nid. The node must be va=
-lid and
-> - * online. For more general interface, see alloc_pages_node().
-> - */
-> -static inline struct page *
-> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
-> -{
-> -	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
-> -	warn_if_node_offline(nid, gfp_mask);
-> -
-> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
-> -}
-> -
-> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(=
-__VA_ARGS__))
-> -
->  static inline
->  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, i=
-nt nid)
->  {
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does leaving
-__folio_alloc_node_noprof() exposed maintain the exact same CPU hotplug
-vulnerability that justified removing __alloc_pages_node()?
-
-The commit message notes that passing the result of cpu_to_node() to the
-allocator can yield NUMA_NO_NODE if the CPU is hotplugged out, which
-bypasses validation and causes out-of-bounds accesses on NODE_DATA().
-
-Can this still happen with __folio_alloc_node()? For example, in
-net/sunrpc/svc.c, svc_prepare_thread() calls:
-
-rqstp->rq_scratch_folio =3D __folio_alloc_node(GFP_KERNEL, 0, node);
-
-with a potentially invalid node ID originating from cpu_to_node(). Should
-__folio_alloc_node() also be removed or updated to safely handle
-NUMA_NO_NODE?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260622-alloc-tryl=
-ock-v2-0-31f31367d420@google.com?part=3D10
+> Is this description of the API differences accurate?
+>
+> Looking at include/linux/gfp.h, it appears the capabilities are actually
+> reversed. alloc_pages_node() is the function that explicitly supports
+> and safely handles NUMA_NO_NODE:
+>
+> include/linux/gfp.h:alloc_pages_node_noprof() {
+>     if (nid =3D=3D NUMA_NO_NODE)
+>         nid =3D numa_mem_id();
+>     ...
+> }
+>
+> Meanwhile, __alloc_pages_node() expects a valid node ID and contains a
+> VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES) check, which will crash if
+> passed NUMA_NO_NODE.
+>
+> Could the commit message be updated to clarify that alloc_pages_node()
+> is the API that safely handles NUMA_NO_NODE?
