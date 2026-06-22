@@ -1,188 +1,88 @@
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092E4310779
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 14:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7878231830
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 23:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782140301; cv=none; b=ZGFMXVxRVLpIw2tLNgdxClrJf/k/Pw7VqTlobZ02fT1WqrbQTexrmPNPnkDxh2W7EACwC0hXSWZ57KvSrFreO6YMDZuala3LrGhqvRGR6tldQ/Y0r0jL7rTuH/CSUb1h4KjdK+bLgpGprFN7D45JGKrdF7F5tgW/t+ninDwL1Tw=
+	t=1782169463; cv=none; b=Nos63na2Ttujr6SlSLxQfoTNo+8sI95GCNev8aNeuLju45a5xet871Ft2DajbL4QWWrEY0m4OJ28IZW/W1JtROT/8Wq6AWL9Z0x0qYNPbja0i+QQ5QbKRub3xmCinpma+WnlrTkEVjYpQBkuZOWlbotieIeVyTwSXEYkHXOc26w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782140301; c=relaxed/simple;
-	bh=ls1aKeEBaLQTrlIokG9gdBDm2npsXmymoREjIx9I8no=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PqJ7b0H0Z6CZpaYDFv0ZIjxH+XppgCHXmC42/OHjqkloWoHvOb65MLFG6q4AzR8XLahnVVpY8mNbP970Cm34zgMjpJyOZZJ4vSfVvJPK+1qtOMGL4ifhQGUn15Cs3MPAfq6qUfhnDgss2lmDjFyxIYkM72s7g77V8dJ1D9oeCZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=DvzuCFPQ; arc=none smtp.client-ip=162.62.57.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1782169463; c=relaxed/simple;
+	bh=Jmd4nVp4kfTrvTVEijkTHHv51r48Mo7H+ZvtGBWl2O0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=p8RX+kqrLDnS+ANtHH2VLTbxJQKnAMAf+iJLy2g9IzyGw7FRXG/qHdoR63tXr9mhD21NutrQ/z659sZJ1+m5IDlUAKPrx35uxFPI+EWq3n0OmvRuMg/JuhcjOH921glnS1IQKpF3xd0aINAWJRs6UDoKbr6p76BFdJmlrJ9fJA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YunY5VEH; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="DvzuCFPQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1782140289; bh=CGU6np4obOJiJQaY07OnznTkGUZ3Y1DTcJV4GO2zAMk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=DvzuCFPQSIH4SBmBHzXZUiiUqzZKHCu67mXUX7eHwJ7BHynK3mzinqRhafmaWQGJM
-	 tgX5qxz8z7xqVbtNhrWvS49o+6S5qfPVaVd57hd6z0+hXMk2eVCnmvaL/xtnDnKg0d
-	 1alV29bfwfrUsKcHNCxv0razv8Ozainkw5Ho0i10=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-XMAILINFO: OKOirRU4nj6hL/Cx4EiS/nyJjhfozdbVDml+cV3gyTZ/RghjWx652Gmqqy4ULZ
-	 48y3VDdpE58CAeQNu4fQOpnTejNbkWv2RwOBoLUiedS5AnUfUZwY4bzy3fvTiwxTKRqUR6zc0UY5w
-	 zEgtxCdJq21kdyVO7R5dSJLlugmDjiA6vkkAqFGcc/dojoBleZf0WYYsl+jHv9RUsWF8/4RZe5yCG
-	 HzB6iDdsRRPCbgZxvzNVq+//Rnj2ttwbssJZxpZP6KamrVj1SS+5sBWGVbt7Q3lBCCjTbcyn1NhsD
-	 jIWiGsVi43VbuueczGeQoYenZKAJNKsLQGWuGzyH9cajxeIvRpj+XDHzY/Y/Xxr2pVUekNlNqS57g
-	 UTEICULC3XqCVv2s66kTRSxQmlwebhUg3JIxpGwX3rCOS4aNre4L79TO+HeuNbjiBF4ZgdKJI2Nvh
-	 f/jlN2wyOtiPza40iUD+YfXdNtCIj2VRT2AC7a6XjmDhIq04ohkb91W3syqR307rgnjbG42oWLEZx
-	 hCRqjMA41yaF0U4IIX5mZtdSOYZwlhUVyBh6/1eLiAnjtZ+D3pOwY+uspCZ5+HH8i7N8FquDSFCG9
-	 vNcEzUy1OWZXhOj11p3XBQVjg54v4bf/4Ne16vn5OgcaPhqlg97uI/94t/EsAMAAY9tZp+S3xGju9
-	 SfSwVHckP3mc0+hstJf4myMqi7CwvV7X1fWXnkkToYTqUZWiQGfbtlSbCFbSqcW9W1WxHEH5dYfFo
-	 8x6otELUAkDsQTTB7TJU2Vdl5lC4o0OU2Y7WtZQL5xZpt4mvMcXedOss1ADOXydE7pK1Ehl4FawCP
-	 X1luAQdIBxbRNCWtVXFxL7qmVbkb37jBNqHYZ1uklgYC0MtMV8pgvXzTNKjVLBEEpgmK1WNaQJEtI
-	 RIyybKBtJlkhIQJN/308mq78gVLtFrP4W8U7Wx0whAmxI7wckhfeAC2kD8ACcDOIRWToTnzwYr8qr
-	 mYXly0f7xHmOqfS1nZEuXbMbyWZxVzdrOj0Wlm4PVua6Y+QzjfnxEe5kJOK0x17yAB9arlqGaNRBe
-	 ABDve+MGh3TCuwFFQzBEmpgLiPfI+C5AeecP6T2fmohcAycp05GW2xGBqHcpMhWSoJcDPoKdfxlvI
-	 1+TOFujjXMk3vXq3evNy6Fh/KcC3juqI/3q1aB7eF774oA==
-Received: from [192.168.3.157] ([115.156.144.140])
-	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
-	id E363CE35; Mon, 22 Jun 2026 22:56:54 +0800
-X-QQ-mid: xmsmtpt1782140214tw1rxxvxs
-Message-ID: <tencent_12A1049445F2CE248F20CB235AC111353A0A@qq.com>
-X-OQ-MSGID: <d35872f1-c62e-421d-92fc-7ec1c3d32652@qq.com>
-Date: Mon, 22 Jun 2026 22:56:53 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YunY5VEH"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2c7403e80b0so42275245ad.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 16:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782169461; x=1782774261; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=DbguCPrep9cl5dKCDjv+7UBnuf7b6qWOrC/gr5Xvvj8=;
+        b=YunY5VEHeKmzTvthFDv8hv9uzNRb34x+yLQA+xxWL5Lb9o5ZceRQOFDHgT5R625R3e
+         42I1GZs/CD6pJrNco6gNRmiIxiVHDN2RakBpXKFc6mdDa+olBVuS1Qkdct6aKdxZ3LLz
+         /chNIEdIJKJUf9butYBTDU8GyMyjXsEdHATWlgQuLuVwjFCh9jAevTR7MxMSDr6uJJwG
+         bPQpubdZaz3zOIPGJsit5gib5cL4UyYEXW9Q1Xb+PJRsd3S3/gtmmXFqyiEuwYl7rlQ7
+         0YLFCpJeBN6nVm6aEd8eD23huBQ1bPZAoXKbSRNIFJjIDkcruvRyGCAPkI6cV4nvkiIx
+         RfrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782169461; x=1782774261;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DbguCPrep9cl5dKCDjv+7UBnuf7b6qWOrC/gr5Xvvj8=;
+        b=Jk3ygoeMurQjawzdHtZkde5BPjTCYYaCKYTRDTunBSHQJVY1UxaPtWtxtlkFnyfeUt
+         cjKCGC1rpf30S8R6zGnH5ew7INRaXCsTqXAGWco/n+MVpmpc8GTedHuTYpPG18sMUdK9
+         GROdhUYtE0Dbyp/XdKJ2S84cTzaNuzvMO/RMAgcKgkEDZJQk5SAMkDUIBRG4XQEoI/hE
+         HE9EJA9fxyAEZ/JvAePoWOilUmVs5j20tf65IdxOrLcaR9ZIHhhFxIlJiYF7hoIdEz/g
+         MYDcZwmPadjqtuvl1ZOS/LFYMukrEDY+5QEUWAF7crWYO5+nWqCAIwLI/wEYTtJqTBA8
+         qLmg==
+X-Forwarded-Encrypted: i=1; AHgh+RogAH8zeAIezryEcdDg8KcCihfDhwDS2f5iU/CoJvp18ZQZjLHf66apvNtRaLJQBTkR6woUj06s963iMaF7+Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxFjawNApGyWkkiakQf5jtazBXAmJnpThNVwdDnYedNsR6mmi+
+	hz9lwd9GPorLoH8Wn2CalwQH+vE37t6Gh+uJpzbgAstrMEED/j5g+A7hdy9uh5wqaomsTuzO5e0
+	Ck31BPg==
+X-Received: from plpm7.prod.google.com ([2002:a17:903:3de7:b0:2c6:9f4f:f3b8])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:8cd:b0:2b4:656b:aeb0
+ with SMTP id d9443c01a7336-2c718f67cfbmr186053355ad.35.1782169460861; Mon, 22
+ Jun 2026 16:04:20 -0700 (PDT)
+Date: Mon, 22 Jun 2026 16:04:20 -0700
+In-Reply-To: <DJFI4P57YE9X.20DPMTK9LL7LW@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH for-next v3 7/9] mm/slab: introduce kfree_rcu_nolock()
-To: Harry Yoo <harry@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
- Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-7-70a54f3775bb@kernel.org>
- <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
- <e54ce8be-9480-4583-9c6a-d0dbe1378f53@kernel.org>
-From: XIAO WU <xiaowu.417@qq.com>
-In-Reply-To: <e54ce8be-9480-4583-9c6a-d0dbe1378f53@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-6-31f31367d420@google.com> <20260622101056.4120C1F000E9@smtp.kernel.org>
+ <DJFI4P57YE9X.20DPMTK9LL7LW@linux.dev>
+Message-ID: <ajm_dEqauYLBi-7T@google.com>
+Subject: Re: [PATCH v2 06/13] KVM: VMX: Use higher-level allocator
+From: Sean Christopherson <seanjc@google.com>
+To: Brendan Jackman <brendan.jackman@linux.dev>
+Cc: sashiko-reviews@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Harry,
+On Mon, Jun 22, 2026, Brendan Jackman wrote:
+> On Mon Jun 22, 2026 at 10:10 AM UTC, sashiko-bot wrote:
+> > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > - [Medium] The commit message incorrectly states that `__alloc_pages_node()` allows passing `NUMA_NO_NODE`, while the opposite is true.
+> > --
+> >
+> > commit 7bd439c242125db27305b61b14c9972fb028282a
+> > Author: Brendan Jackman <jackmanb@google.com>
+> >
+> > KVM: VMX: Use higher-level allocator
 
-On Mon, Jun 22, 2026 at 02:28:44PM +0900, Harry Yoo wrote:
- > On 6/21/26 9:29 AM, XIAO WU wrote:
- > > I was able to reproduce this in QEMU with KASAN.  The trigger is as
- > > simple as passing a large (>8KB) kmalloc buffer to the new function.
- >
- > Thanks for taking a look, but this was intentional.
- >
- > I should have documented that only kmalloc_nolock() ->
- > kfree_rcu_nolock() is allowed and kmalloc() -> kfree_rcu_nolock()
- > is not allowed (yet).
- >
- > Since kmalloc_nolock() does not support large kmalloc, the warning
- > is not supposed to trigger. That is why I added only debug warnings.
+While you're dealing with nits, can you massage the shortlog to something like:
 
-Thank you very much for taking the time to explain — I really
-appreciate it, especially since I'm still learning my way around the
-mm/ subsystem.  You are absolutely right that kmalloc_nolock() returns
-NULL for sizes above KMALLOC_MAX_CACHE_SIZE, so a proper caller using
-the kmalloc_nolock() → kfree_rcu_nolock() pairing would never hit this.
+  KVM: VMX: Use no-underscores API when allocating pages for a specific NUMA node
 
-I did notice one small thing that I wanted to gently bring up, though.
-Please forgive me if I'm missing something obvious here.
-
-When I was reading through the surrounding code to understand the
-pattern better, I noticed that kfree_nolock() — which has the same
-"only for kmalloc_nolock()" constraint (documented in the comment at
-mm/slub.c:6828-6835) — actually does check for a NULL slab:
-
-   void kfree_nolock(const void *object)
-   {
-   	...
-   	slab = virt_to_slab(object);
-   	if (unlikely(!slab)) {
-   		WARN_ONCE(1, "large_kmalloc is not supported by kfree_nolock()");
-   		return;
-   	}
-   	s = slab->slab_cache;
-   	...
-
-So kfree_nolock() gracefully returns with a warning even though it too
-expects only kmalloc_nolock() callers.  That pattern seemed really
-sensible to me — it costs almost nothing and prevents a panic if
-someone ever passes the wrong pointer (which they shouldn't, but as you
-mentioned, the constraint isn't documented on kfree_call_rcu_nolock()
-yet).
-
-I also wondered about the difference between WARN_ONCE (used in
-kfree_nolock) and VM_WARN_ON_ONCE (used in kfree_call_rcu_nolock).  If
-I understand correctly, VM_WARN_ON_ONCE compiles away entirely on
-production kernels without CONFIG_DEBUG_VM, which would make the
-subsequent NULL dereference completely silent — no warning, just a
-panic.  That seems a bit scary for something that's exported to
-modules via EXPORT_SYMBOL_GPL.
-
-And since you mentioned that kmalloc() → kfree_rcu_nolock() support is
-planned for the future (the "yet") — wouldn't this code path need the
-NULL check at that point anyway?
-
-I was thinking something like this would make the function consistent
-with kfree_nolock() and also make it forward-compatible with the
-planned kmalloc() support:
-
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1266,10 +1266,16 @@ void kfree_call_rcu_nolock(struct rcu_head 
-*head, void *ptr)
-  {
-  	struct slab *slab;
-  	struct kmem_cache *s;
-
--	VM_WARN_ON_ONCE(is_vmalloc_addr(ptr) || !virt_to_slab(ptr));
--
-  	slab = virt_to_slab(ptr);
-+	/*
-+	 * kmalloc_nolock() never produces large-kmalloc or vmalloc
-+	 * addresses, but be defensive: fall back to defer_kfree_rcu()
-+	 * for unsupported pointer types, consistent with kfree_nolock().
-+	 */
-+	if (unlikely(!slab))
-+		goto fallback;
-+
-  	s = slab->slab_cache;
-
-  	if (__kfree_rcu_sheaf(s, ptr, /* allow_spin = */ false))
-  		return;
-
-+fallback:
-  	defer_kfree_rcu(head);
-  }
-
-Of course, this is just a suggestion — you know this code far better
-than I do.  If you feel the current code is fine as-is with proper
-documentation, I completely understand and won't press the point
-further.
-
-Either way, thank you again for the explanation, and for working on
-this series — having kfree_rcu_nolock() available for BPF and other
-contexts will be really valuable.
-
-Thanks,
-XIAO
-
+"Use higher-level allocator" is extremely vague, and arguably misleading because
+the "allocator" being used isn't changing.  Which is kinda the point: *nothing*
+is changing in practice.
