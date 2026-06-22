@@ -1,54 +1,54 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82BC43A0E8A
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C4A3A2E00
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782122527; cv=none; b=ozE4NU+h680CA9/LalmGCDmGUMhnuCEYeFzcLTBCabFHuUJh7LLDLBcvNzgmdyxhncNKBaQh7Pf6cFyJdSkIV+lMew7sIVzkZzbk7v2UHnsZa1JjK8HnW0F/Qg1XUrOQHvniP33flgTi/DeAeokR0thbfmnaND3vmv2yW3gqWcA=
+	t=1782122527; cv=none; b=LHRjgCyyqJojLEzxuFYXqDAdtCoWRy7sd3eJbpAY9nHsOoZ34zEpzL8hyi0KzuDjiNYJUI+rpNt42KMyoQZTshrw6td/r88N4eayQzdI27UWU3/i4miQ9AVC0hIm8vxihubH61aCr5eSP+yRTdT7MZo0s1jJyfgKSr6fJ74fhNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782122527; c=relaxed/simple;
-	bh=7JNThNqA/rsEikbti+3GPsR/jUMWefVhBT4KBWfRSDw=;
+	bh=afuTyJIfjFDEu6C6ZPTJGNvdcGiq+qnd+m3gX5XzUdw=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pB1qBo+y1vugc6eP7vwK7fK2jn1sBGmRF4sNQgF8gwv3L0xpZksJ4tvdrdI1CIJdtLdWNTPubTek4zfood8dOhsrKc5xXcUxdmKmf2wfcNjBfSr7xSOPnGbwZpb6CW0Z6szeuDcho8kbiYai5FRrM389XqoHTY1XRgMujQxkt0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bpwOHLfs; arc=none smtp.client-ip=209.85.128.74
+	 To:Cc:Content-Type; b=bqGHCOfZ6I72ZkuwDjVRGRBC10WZGW5jeTDfwowC/0rQxqgx4wWnAXDXSK4nbyPQs68M4i0Imff4/Qhi2XlQu65mpKENKmqam/hFPfDmqoUp3i7GThd9utDaMYSajWh08GRRQ+6A/aQDeKep15cNV9kHzgwqa5cupDjGWe5ylpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=advAhyFr; arc=none smtp.client-ip=209.85.208.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bpwOHLfs"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-490aadb1386so24682025e9.0
-        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="advAhyFr"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-695c6b2814cso4372538a12.1
+        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782122517; x=1782727317; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782122515; x=1782727315; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AO5lqlMnd9mItpXQ83kdKJUoYx9mwrmKGw5gn5aBMIM=;
-        b=bpwOHLfsnxwGIim9ZD/AjCevys1oekVxvkZyn+FcoTZhplmQCnLO68XIuZqxpuR4Rb
-         pQjQF87hIn55afA3GKa6b8aAkH5zo/6Q6aW5I6YcsIsAOvts/8U1ARNHZRH/3DucbUND
-         euA0e4uK5b4GKlnZgumqS8MH4zXLOkZoP/QQVJAohelIDcbS8wlpwcHC7KGYoSQyioGE
-         6aaLE2vWHutWMGhw33mdJVAj1kD10qoyQHvnzgN/YLkcKf05SWOWIbgR62FafRoKWZ7D
-         j/zv+W6eczLlAvJci7leHBHeKOg5veK1hVhONrIduqReWwTlHvvNK7NdryFPiA+BRhXX
-         u+ag==
+        bh=TCcnOhiuUzkCpkbV1xfgXpOTpaq02YLmqaFAcy8zthU=;
+        b=advAhyFriX704OXtZNxG2lPYO7cR+LOaUEYyAYiZAl8gehkGIZyRm+whDKCJ2flICz
+         AQEcpgelj0SwKiOdcemPTLEAG6oP1yOtnY3Ds5JWo1wJ+uLCiP54N3jzc3twkhJO0kNh
+         gl610tiCxLI8iTVWbpaYyyna1XreoxdQK4U5B2atMa2EcgLBIYxc3uM6qgJeiE3jXiNz
+         iC9oWKlPfq2g7o73ldAxN81B/tkVHz0RrPWxfTbsX5aqIJmmXWh2OZ0zuB3AXplU4rOl
+         RwQ/ShN6gs34n9j9c5JekL+V72ZyVZyjKd0Ypbft+uacysko9yCSQ8iHw/+wcjG5GgSk
+         zJhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782122517; x=1782727317;
+        d=1e100.net; s=20251104; t=1782122515; x=1782727315;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=AO5lqlMnd9mItpXQ83kdKJUoYx9mwrmKGw5gn5aBMIM=;
-        b=PNLhoLD+1mQFhKFuHiaMO6Myp8KB3/79Cv0v/zycKv+NiypYtbC71thZspuYOoDpQk
-         gQRAIse/NuZHeu0VgOHS+EEvPQPgsrXoa/KGDoJQQ51yAW70k9XQnR832KfV2lMC6emE
-         ehHrXx8WSc2yDFe9UnmzUJfRRB5wqh+8VK1EyP/gou27txZKaVZSmxLG0P3hpayeQgOc
-         RO3sr6nnPyEfmVTRHwwb4bPAB/qUlEKYzIQTWJ3kEQ9OpIDAU69Z1CEeTb4wLYx2rKfS
-         Ntm2n5h7u1UOzRekVkZMp5sXTk9xODjhlZjpQPPU9ucC81Oo3LeZ7/qi5jyYHUnKdp9G
-         A4KA==
-X-Forwarded-Encrypted: i=1; AFNElJ9sHJtDA/MK/FgRRMiQIM7Wmyj8o1VwKEmJp5EKOYY/Y92A+bb4Z0SvYjj0o35Q4Lmrvwc7GDBheCGJg0Rbkg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwiwnMMqByaAHEuyT/HIuH281ABJnlNanbYMin15hCG10QBq9zB
-	6X9XjAqBMRauqOenlJGq3oYHkLemASIWEUiUlLCcmmsJ4RSnCQGOCN48Bya5oFB+oRcBypZuEAf
-	hvb11MXt4Y1rR7w==
-X-Received: from wmbjt3.prod.google.com ([2002:a05:600c:5683:b0:490:b6a8:96fa])
+        bh=TCcnOhiuUzkCpkbV1xfgXpOTpaq02YLmqaFAcy8zthU=;
+        b=V3TiM0/udn2re170yfcOPlV564ce3kB12tyFkIG1fbKTWN3Pxjw/dX3+unpxx9Ipu6
+         zliGnvp8tMuvmlJZpZOksR49QNY3tsv2MFU1Ubw9oIrkknFH7/yscxLTk9TMrW4b+l1G
+         AtJd46eFYEu1Bhrv8JSH8e1UJpY4mCchmihcpuWXWamb3/vj6pG9S+DBDFYWxBi6DuSP
+         VvlZ7ek+FIKHgMghHaERrnIAurdAX6s4juZ8n4Tsv6A6uzfTlnFff14SUXBJc3zod/mg
+         PfYCEleR9Fzqx2DZcfv/C8TbtCspWrW608/MVRHvJemTN4DS0a8A0Nim6yzghRRWneaz
+         fYnA==
+X-Forwarded-Encrypted: i=1; AFNElJ+rpnMtx0BqSsmfaOJ/dMXhWtE/TAgKcTX12EM/Tj1Sv0r83XYMeJoI9XxLe+wIS3TH5wBDhsb84qksMrtVAw==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6b+KO0D1hJJegTZWwSqNCdHKltb/81PJ/TQrZ7E5eoVQN+dCk
+	eZiYrwIqOlBiVFBV7dvnWXSObHN+sBe3EPiVnPTYU8lUBsM4nAwQLj5morAINkR+rBinuOikAvZ
+	TedBfRTl1UT3Bgg==
+X-Received: from edik3.prod.google.com ([2002:a50:cb83:0:b0:695:6267:8c69])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:4448:20b0:489:32b:ac0b with SMTP id 5b1f17b1804b1-49240a09f71mr144939135e9.6.1782122516674;
- Mon, 22 Jun 2026 03:01:56 -0700 (PDT)
-Date: Mon, 22 Jun 2026 10:01:38 +0000
+ 2002:a05:6402:a51b:10b0:695:45eb:8ff4 with SMTP id 4fb4d7f45d1cf-69711e1625cmr4201100a12.25.1782122513986;
+ Mon, 22 Jun 2026 03:01:53 -0700 (PDT)
+Date: Mon, 22 Jun 2026 10:01:36 +0000
 In-Reply-To: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260622-alloc-trylock-v2-11-31f31367d420@google.com>
-Subject: [PATCH v2 11/13] alloc_tag: Move to mm/
+Message-ID: <20260622-alloc-trylock-v2-9-31f31367d420@google.com>
+Subject: [PATCH v2 09/13] net/funeth: Switch to higher-level allocator
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -76,57 +76,42 @@ To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.or
 Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Alexei Starovoitov <ast@kernel.org>, 
 	Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>
+	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
+	Dimitris Michailidis <dmichail@fungible.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 Content-Type: text/plain; charset="utf-8"
 
-This is logically mm code. Moving to mm/ allows access to mm/internal.h
+The difference between __alloc_pages_node() and alloc_pages_node() is
+that the former allows you to pass NUMA_NO_NODE.
 
+The former is going away and the latter works fine here so switch over.
+
+Cc: Dimitris Michailidis <dmichail@fungible.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Assisted-by: Gemini:unknown-version
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- MAINTAINERS             | 2 +-
- lib/Makefile            | 1 -
- mm/Makefile             | 1 +
- {lib => mm}/alloc_tag.c | 0
- 4 files changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/fungible/funeth/funeth_rx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 65bd4328fe056..5d426b79b8fe7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16713,7 +16713,7 @@ S:	Maintained
- F:	Documentation/mm/allocation-profiling.rst
- F:	include/linux/alloc_tag.h
- F:	include/linux/pgalloc_tag.h
--F:	lib/alloc_tag.c
-+F:	mm/alloc_tag.c
+diff --git a/drivers/net/ethernet/fungible/funeth/funeth_rx.c b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+index 7e2584895de39..d7000017ac2bd 100644
+--- a/drivers/net/ethernet/fungible/funeth/funeth_rx.c
++++ b/drivers/net/ethernet/fungible/funeth/funeth_rx.c
+@@ -103,7 +103,7 @@ static int funeth_alloc_page(struct funeth_rxq *q, struct funeth_rxbuf *rb,
+ 	if (cache_get(q, rb))
+ 		return 0;
  
- MEMORY CONTROLLER DRIVERS
- M:	Krzysztof Kozlowski <krzk@kernel.org>
-diff --git a/lib/Makefile b/lib/Makefile
-index f33a24bf1c19a..44f6538533a97 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -197,7 +197,6 @@ obj-$(CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT) += \
- obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
+-	p = __alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
++	p = alloc_pages_node(node, gfp | __GFP_NOWARN, 0);
+ 	if (unlikely(!p))
+ 		return -ENOMEM;
  
- obj-$(CONFIG_CODE_TAGGING) += codetag.o
--obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
- 
- lib-$(CONFIG_GENERIC_BUG) += bug.o
- 
-diff --git a/mm/Makefile b/mm/Makefile
-index eff9f9e7e061c..4fc713867b9bd 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -147,3 +147,4 @@ obj-$(CONFIG_SHRINKER_DEBUG) += shrinker_debug.o
- obj-$(CONFIG_EXECMEM) += execmem.o
- obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
- obj-$(CONFIG_LAZY_MMU_MODE_KUNIT_TEST) += tests/lazy_mmu_mode_kunit.o
-+obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
-diff --git a/lib/alloc_tag.c b/mm/alloc_tag.c
-similarity index 100%
-rename from lib/alloc_tag.c
-rename to mm/alloc_tag.c
 
 -- 
 2.54.0
