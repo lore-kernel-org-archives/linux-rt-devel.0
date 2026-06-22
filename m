@@ -1,54 +1,54 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EE53A254C
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7583A1D14
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782122520; cv=none; b=ohmjaQ/2iooobM4nzxeJA3Vq4ZBh99ZFhpe55FKseW4nn//duD52ORKaOH9uAkIrm90hC59uCZaHeqlwUQ+OZ0OxTrO9hgTxcu/H2bjJipw1O76ymNV8qJCmvoX0FcCZ1y+49aIiUWkBbrJDivJJqwf6P20TrWbqFzTD5EpxQHU=
+	t=1782122524; cv=none; b=swDKWW3a0us9+8nyHME0660pEdSWeCUFyooMEkwoXAXJDwxAEcR/kx0icpTNNBUKjp9dpXMuka8ofTTlh3hrtbhz61+Ql8Y7dhh1utowpbQQz6nqsKN4XJECVgSi95/Qu8NKovPGraXa6weKYxSKk060WmWRG/t+xk2wsmceuFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782122520; c=relaxed/simple;
-	bh=qN0Xs4C8ZeZVlsVBF6rIjAULLE8cWjNyo7/3Tdx+cpQ=;
+	s=arc-20240116; t=1782122524; c=relaxed/simple;
+	bh=4lW2Ze6qmox/FZtLj928PmXt3Eb4zkO8jT8QwcqnvMk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FfKnA9bkYpjv2hKw7ga9o2mq0m6dhb57+/5TzMkV6HPREuIIT6IzBbFMgSPdp9KIaEii5pO0KLKI7SjDkXp9Hz2PG6BMl+fG5MUPSfyHX+NE+Pd1nLDfuXD04V4EbDePsQAfjbyNyfCRxqb0KnWPDOjx+2qNsq3Df2rzfDUXkzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S7R/oniE; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=kr6/9c8lKHOptBLfc0rreMCpRjPSV8DNTqt7mbLKpb+rTZ079Z8CLTkSiIWf9PpxATK5a5rGcpj01Vep1u7bUCTWKAEGDHBn5aRXZU8TEvrxQas3LZiqSRQAtkHb/oZejqDPcEvgsZDygx7ncKb+tC4hmPM/fzD6P3+SbyTd3ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OcKCGyjx; arc=none smtp.client-ip=209.85.208.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S7R/oniE"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-49244130073so15452745e9.1
-        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OcKCGyjx"
+Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-69763fd5cbcso3277554a12.2
+        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782122516; x=1782727316; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782122510; x=1782727310; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9FrPB48FwcDezsnLpR3fJd40Qt1udKU6vCDBpIqP+Xw=;
-        b=S7R/oniEjuUoysvGZMqt8CRiOMs1Ld6ejCuM9g3WyKzxUwv1wPbR09Rq/EHkpyYh76
-         qRlfky5I09GGTiMgCXcYpkN4rDbZqdcUd7XIp3R3KKIdaa1V2Q+VXAguytjf2UWpDIXV
-         SuwbGmbRUDds9yKwYTcvUzYcTztFAsxi9sjNkzWpQx3c6M8zfvkEsnkY5UBAU3rWFjFb
-         D2TqLht/J6LlN+94p8OaX9H8rKak2IpytuCZafIlbGYjZSu06cohwjQpBrZBUJI2ez7j
-         jHur1KMIzz8kgI36TVSm8Woja8hWAs3s1FHoH6IK+hnTa1jFioc9QJ5VXPQkvecQA3i4
-         sYMg==
+        bh=9S11xQ2ndprBO95V/I6wL9RKFczfzFD4sM9MNZL9BLw=;
+        b=OcKCGyjx8qmEYO/tBL6/8bLMNSCHFTQ9+CvYiyLImbtp9SD5Ie1RfWZx5VTOH7eaEV
+         vhdRW1buBVvRl/uK8jkgZySsCbdyjoS4vnvvdmgsTXxXCuWJt8Y0J9PuKnv8LjNf0jBW
+         QPb8yE0J6YcVH2oBbybyPvMAnIre5Qfrxb7+eymE7k9EvwyKk3QJhJfHQjqdeFnjNavQ
+         RkDgc2qoiKLTYa6BzfLL6c1Sp6sXnubPK/WSnwJDypxWmwc6ZN9JDuoZJK9VeJ4lgla6
+         ErIN3rbl+0L8+Nms1f0O67CC4+W6vhKgBx7zonaukmIZg5ihlAWBIUQ+Pbb4xRmcc+Ja
+         Hcqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782122516; x=1782727316;
+        d=1e100.net; s=20251104; t=1782122510; x=1782727310;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9FrPB48FwcDezsnLpR3fJd40Qt1udKU6vCDBpIqP+Xw=;
-        b=SS6igiCEkcwpjqjozmZWE+x9TJyzdtX4uJaH2XxjGRDg9sEPjtU4g/wKPXBKeJHP2C
-         u8N/2KnPnsY/HvgUgSQ+J5NhJVTLs7A0uO3vjuUH73OvCVUXjjXuIFo6B/X+kTIFy/EE
-         1Fdqdcmdey0mEwJJ3Fn/jEsCHvVvAt7JJt9tsAgv8h7coqgSxYFZGHMHIqp5+w2y7y1u
-         p092elsNXCjHE8QYXHuNEYqinOpTSBiKTYGyTxRm1FMpacGcyuILs1s9gcive+6LjUEe
-         t/fnfgyda/VOHs7tR4L/R/DgWW71R/BfmSXwFs3L4hl9XtcDBtJSXSVxgQRlSGm2vI4B
-         TGEw==
-X-Forwarded-Encrypted: i=1; AFNElJ+H3EsMdaP08uDJtjhj0YIpXrfmHd/jcH8Aj7A1APQ4QCwqxiYH6J/KInYYeGzHqEA/hcdlEJhsqx+sZscc+w==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhXoWRKqv1HTHIXJjYYIIhfB341y/UIoHI/4HKCKB45rqfCtC6
-	i3KHT/VNVhHvDKc/6nuvhZy9Egq6s0RJYRkoG4unJj4uf+D8SMOkkGsZdJmuET9mjlFDXu8bv0M
-	z1gSs+MCpjTVGXw==
-X-Received: from wmbe25.prod.google.com ([2002:a05:600c:5919:b0:490:7229:9747])
+        bh=9S11xQ2ndprBO95V/I6wL9RKFczfzFD4sM9MNZL9BLw=;
+        b=auHaXcNFEb3lcrK6bRSj2nSPiSZ1IBFXlPJQ27xojzukoZ7Cct6uQcjVdFhGKRxehD
+         jTBtJIDXjTJMfWIZDp/n7BxggW2+i74I++g7ULcMi0uVX71ggpb8BA42jCqkPmPuYCM2
+         Rs/MABC6x9cRVUWIeo3Z2igf+JdLecEV1D26mZGxR154D+q+h1RuWQk8Y4PtCFyar5LJ
+         gMfsKeC6YcDgRDclsoEQ7vu4xEfgpzKvoX/Glyc+pMyANzz8eD713Bi2tV46i9KP7llN
+         ITCWPJ7vx71g0jT08CZHTLZatkmDJs+yt9jxPUqXTbwj17nH+m5LuixwU1AlMoNWS490
+         QhaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9WWR3tXkO9HfB5FzN5QC3MblCGZt0qLVCJlyF2SD80ycDCxxVgvp4pa3qkJj+F45sQ35zKPQWUzQ86NQpY9Q==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDlCAVJkIQ+MWWFSx9ksnEI1rECjy87kKHjIiq0scm+IZwg6Az
+	a8R/6+S4EFonQAa/9rHSNVhMj0jv+8e5eawgGse4ttUULyBoHwHlahDbDlNo4XnFK0zasiYYWxe
+	vcd8LZo0VzzQjkg==
+X-Received: from edvh9.prod.google.com ([2002:aa7:de09:0:b0:695:de87:8924])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:1f92:b0:490:a1dc:e542 with SMTP id 5b1f17b1804b1-49242314217mr179945285e9.6.1782122515233;
- Mon, 22 Jun 2026 03:01:55 -0700 (PDT)
-Date: Mon, 22 Jun 2026 10:01:37 +0000
+ 2002:a05:6402:268a:b0:674:5b2c:d42c with SMTP id 4fb4d7f45d1cf-696edc828fcmr6463779a12.3.1782122507560;
+ Mon, 22 Jun 2026 03:01:47 -0700 (PDT)
+Date: Mon, 22 Jun 2026 10:01:32 +0000
 In-Reply-To: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
-Subject: [PATCH v2 10/13] mm: Remove __alloc_pages_node()
+Message-ID: <20260622-alloc-trylock-v2-5-31f31367d420@google.com>
+Subject: [PATCH v2 05/13] perf/x86/intel: Use higher-level allocator
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -76,69 +76,61 @@ To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.or
 Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>, 
 	Johannes Weiner <hannes@cmpxchg.org>, Alexei Starovoitov <ast@kernel.org>, 
 	Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>
+	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Ian Rogers <irogers@google.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+	James Clark <james.clark@linaro.org>
 Content-Type: text/plain; charset="utf-8"
 
-There were only a few users, which have been removed. The only advantage
-of this API over alloc_pages_node() is avoiding a single conditional
-branch. The disadvantages are:
+The difference between __alloc_pages_node() and alloc_pages_node() is
+that the former allows you to pass NUMA_NO_NODE.
 
-1. More API surface, more sources of confusion, more maintenance.
+The former is going away and the latter works fine here so switch over.
 
-2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
-   were using the result of cpu_to_node(); if the CPU gets hotplugged
-   out this will return NUMA_NO_NODE. If one of these paths fails to
-   protect against a concurrent hotplug then page_alloc.c will use
-   NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
-   memory corruption or other. With alloc_pages_node(), the code might
-   just work fine.
-
-Ulterior motive: this frees up the __* variants of the allocator APIs to
-serve specifically for use as mm-internal API.
-
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: Namhyung Kim <namhyung@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Jiri Olsa <jolsa@kernel.org>
+Cc: Ian Rogers <irogers@google.com>
+Cc: Adrian Hunter <adrian.hunter@intel.com>
+Cc: James Clark <james.clark@linaro.org>
+Assisted-by: Gemini:unknown-version
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- include/linux/gfp.h | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ arch/x86/events/intel/ds.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index cdf95a9f0b87c..7edcc2e0be9ce 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -278,21 +278,6 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
- 	dump_stack();
+diff --git a/arch/x86/events/intel/ds.c b/arch/x86/events/intel/ds.c
+index 7f0d515c07c54..bbc20a5beabb6 100644
+--- a/arch/x86/events/intel/ds.c
++++ b/arch/x86/events/intel/ds.c
+@@ -834,7 +834,7 @@ static void *dsalloc_pages(size_t size, gfp_t flags, int cpu)
+ 	int node = cpu_to_node(cpu);
+ 	struct page *page;
+ 
+-	page = __alloc_pages_node(node, flags | __GFP_ZERO, order);
++	page = alloc_pages_node(node, flags | __GFP_ZERO, order);
+ 	return page ? page_address(page) : NULL;
  }
  
--/*
-- * Allocate pages, preferring the node given as nid. The node must be valid and
-- * online. For more general interface, see alloc_pages_node().
-- */
--static inline struct page *
--__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
--{
--	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
--	warn_if_node_offline(nid, gfp_mask);
--
--	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
--}
--
--#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(__VA_ARGS__))
--
- static inline
- struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
- {
-@@ -315,7 +300,10 @@ static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
- 	if (nid == NUMA_NO_NODE)
- 		nid = numa_mem_id();
+@@ -1090,9 +1090,9 @@ void init_arch_pebs_on_cpu(int cpu)
  
--	return __alloc_pages_node_noprof(nid, gfp_mask, order);
-+	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
-+	warn_if_node_offline(nid, gfp_mask);
-+
-+	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
- }
- 
- #define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
+ 	/*
+ 	 * 4KB-aligned pointer of the output buffer
+-	 * (__alloc_pages_node() return page aligned address)
++	 * (alloc_pages_node() returns page aligned address)
+ 	 * Buffer Size = 4KB * 2^SIZE
+-	 * contiguous physical buffer (__alloc_pages_node() with order)
++	 * contiguous physical buffer (alloc_pages_node() with order)
+ 	 */
+ 	arch_pebs_base = virt_to_phys(cpuc->pebs_vaddr) | PEBS_BUFFER_SHIFT;
+ 	wrmsr_on_cpu(cpu, MSR_IA32_PEBS_BASE, (u32)arch_pebs_base,
 
 -- 
 2.54.0
