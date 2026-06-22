@@ -1,54 +1,54 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0B39B481
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D9C39EF0A
+	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 10:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782122512; cv=none; b=BBRA+T7M4ORy2JoQ9CRhbLhatkWL7+paiI1PGY6j4T352Rva+8cr/C65eYcvaOk40Ek99sprT3ms8ChEYwFCBkuQE6yARyNrgG06GOULqZ+vRN0zP59BVt/Xv+lANvwQs1WjyycrRStfICm+b9QaU16ZDz9jg9UQhKHM4bW6pho=
+	t=1782122515; cv=none; b=eFR58cBarjXSZf6PB9gp1eOu7bvK8AqILVRJ88ptgnLuUTl7ffWFfj4t0OrzjXpEcHD9c/ZqpqDt/vMJiB1RrFd+fszsKb/5MaT3UwO08BZ/QAg/Dz1kvHJLzJgaUANfk/hL4+swLO69w25w3PSVCVbvpGB4M5McZ4a1/b9DtF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782122512; c=relaxed/simple;
-	bh=hncVUkOBSjCSge9NF4UibQdahRu3NGfGamSBeSw65MU=;
+	s=arc-20240116; t=1782122515; c=relaxed/simple;
+	bh=fqDDoNx0gA8PaVQ9DiZkZ4IxAQW675N6jb5nQtG5Jfo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CpuouqUwIM1gKCsaqjH8HlBLwzGyqKHG5AYO4WWiaFgJuFykmJtQ8KLH0ieXOj9rxUavzB8yp8V8Mj3etCqUv0Djj1jqWiVJ2ZI0Q+QYNBVG4TgF/pXI2pKL+dxJW039XXSj9zlMJ7aT0THqcwZv+HD+ocRwHlYPb/9su4aKAeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JmS78JmZ; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=qZ/wch6D41MkL7/SJjUff3iEXwPelncp++RqsTYeeg0tXQi/ZO87X0CVL1Fkm9KuI/oit2rhI0QX2iFJ1ap/ld+pagS3mbr5nSG/cLJ+/+2Sk37JlnUaPHvJ3aJyxVlvrYzl2oCtBSlC4GP0Zfe56ndp6iTajaR6ZD5jB0KUaU0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VWOwQIFg; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jackmanb.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JmS78JmZ"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-49246459bc4so15907055e9.2
-        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VWOwQIFg"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-490b0682d2fso31490715e9.0
+        for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 03:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782122509; x=1782727309; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782122512; x=1782727312; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAXfb8BCSbPGPrK7X9VVeT4nqNdHAMMoqJF1QOMo6js=;
-        b=JmS78JmZZUbtpYOR9dhOS8Dw1hfB0YSj+ZhrsC/zbkkJBX3CHOIPZnMXwvK7RE4rpB
-         FNWnIDPoqIkyBqRQjOADdel6cMV644TUuyRvhWiLpLif1OcBpiukjnkcn+Lz9seBBrYm
-         8RqeyMHlHT/Y7k++wUS4FMG6x0uiggf3BuNZnppofc9pihvk0RF03HW1m6UlpSKilCS0
-         ohmEB1FUJPqbPMnn1+ThVD2VQwp0OMy+UvyYGEnWeB1r1phbFNtNtZUR3nPTy3Z83vIh
-         XohRGoKXqUEv67gYyqD+kAkMGxWCquPMy1f3XDw9lZYU+9iL1frvedGOkZOi50QtTOJD
-         LmJw==
+        bh=anP6XoH/y5KwBW1jK93UnwjV54q17yZa+JENUx+IL4g=;
+        b=VWOwQIFgWwOnnTmqvUFo95d1CJgkXQCZ00dtp5R2SzXlMa7nd2dYF4XeWHW5QvuBhq
+         NRUovauHvgg0XtqTIFEFEopt5m76mg4BqDxMXpnPByOyb5N2/K01iob9lKeXrSa8wePi
+         24aq6BeB8207xxX7S2/Rkq4bV8IuF4cdk09wOQyIQF9LJE71hIUkXCYp3K7xN+FfqYty
+         htts33f+Cso0LXfPAaF+6TK7Vuw43NAUIP/nf8wsjgJVgq30aYnwt81muJVgKG+3scd8
+         04oE0Viki7j8ukGIebTBCL57XsBvGgsV9s2LruWk6mXLHussTSCIhxifIszJ8avKXFYw
+         4X3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782122509; x=1782727309;
+        d=1e100.net; s=20251104; t=1782122512; x=1782727312;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DAXfb8BCSbPGPrK7X9VVeT4nqNdHAMMoqJF1QOMo6js=;
-        b=UXr2gsAYsUJZmcbzplCk9UJ1pU3RPW4QDNZPb+d+qzMhxG2af0gbtnrTR86Pc9hsNj
-         FV2KUmmn0qszahq2bbJLeLy29+yxHQ4zRMxZi/ZZ9nA5kSQPKRxN7CAUsQVM8WnMD7KT
-         VpX5G3YnPnY4p4yX/j+cqKw88f3RFXqWIuogKtrJF+MGyvvXmpD1wtoz2w1ib3oJPVZu
-         bjfyGmWs4Abh2XVaiBlHOlyyAt5r2rb6rha7pDf9QHVA8Z1dnVDx2zZZNgcIwnS+qi5T
-         NNPWH6IDku+DaXYUD5nHfCWiAWpQgQfe5AxwJFitYeSjpSF1Cn6Bw7gLKlGybK3njK4w
-         Z/vQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+CzVk/ENzTVB+WXfieaDeQMvHH3bycTW0ZL5597sMkKq63QVLEcOsyNYQsCml3dnITD9uf+8gJB7QryuCmow==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWZ/YXa2fYObcmZ7NugZsyc+6sxB0VIc7T8gbDjqqk8IhLXUii
-	Ne+pVnR4Bukk+4Soa0qBbM0ym2klTV2S7AQbVL353a7vQeg/y6ffwqw7nDJvqh8hzXDK4SGHmki
-	3lFrpiEv+R6Tyfg==
-X-Received: from wmhj19.prod.google.com ([2002:a05:600c:3013:b0:492:463f:2524])
+        bh=anP6XoH/y5KwBW1jK93UnwjV54q17yZa+JENUx+IL4g=;
+        b=kgsG2NBQLhA1q2MU5t2bSf0M+8ryXuStXZpFg89CMYTauHQSWvS/PJj091hpB/jl5L
+         SElKKrHeTeXvgltGEbGN2Thirlx9uMhJ2h/mnkskZtIQYaXbpmIVATDpDxH7/PjsY+M5
+         GacVIYRBs376yWlx24WMuq6wHcVjX2V4Cp8ltGgCYSUY/de97Gf2PImr++nQcdYW2Eqo
+         56w2Ez6GZaLSVW1r5GaZm/2On2SP0oGdkV19WzEYPpagv4vvmkwShmlzV81cF1vRCoiI
+         zgbZalfDDCfKNvWYZI4fIR6H+xxQT5DV6nwjBIMSCiqN0JbphCSEn4jHcTF9Ot4PoPRJ
+         UevA==
+X-Forwarded-Encrypted: i=1; AFNElJ+ixLB5pUvzeqryi8L56UOpS33GbLRy7LcSFg41JF5kyiJg+PpK0ReKeiqmMdpVjJWzvpfNoBmuUQUtGEm2GA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzREfGAKpS7Ghk+vCzUM5T1VBRHkQ1KcRMb2HApDkFot2NlWiom
+	CcEMyA5AH5ypHnG5I63dE/FzG8m5hvK20HtXZbHfR3edxvsWYOkzV1Uiza1UxaN+uTmVeQs6JcF
+	s7X+VXSNJHy8iiw==
+X-Received: from wmk16.prod.google.com ([2002:a05:600c:290:b0:490:e9bc:6058])
  (user=jackmanb job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600d:8653:20b0:492:488c:f627 with SMTP id 5b1f17b1804b1-492488cf6c8mr100943345e9.11.1782122509368;
- Mon, 22 Jun 2026 03:01:49 -0700 (PDT)
-Date: Mon, 22 Jun 2026 10:01:33 +0000
+ 2002:a05:600c:5020:b0:490:d946:47cf with SMTP id 5b1f17b1804b1-4923ef47d08mr224907005e9.4.1782122512201;
+ Mon, 22 Jun 2026 03:01:52 -0700 (PDT)
+Date: Mon, 22 Jun 2026 10:01:35 +0000
 In-Reply-To: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
 X-Mailer: b4 0.15.2
-Message-ID: <20260622-alloc-trylock-v2-6-31f31367d420@google.com>
-Subject: [PATCH v2 06/13] KVM: VMX: Use higher-level allocator
+Message-ID: <20260622-alloc-trylock-v2-8-31f31367d420@google.com>
+Subject: [PATCH v2 08/13] sgi-xp: Use higher-level allocator
 From: Brendan Jackman <jackmanb@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
@@ -77,7 +77,8 @@ Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
 	Johannes Weiner <hannes@cmpxchg.org>, Alexei Starovoitov <ast@kernel.org>, 
 	Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-rt-devel@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+	Robin Holt <robinmholt@gmail.com>, Steve Wahl <steve.wahl@hpe.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="utf-8"
 
 The difference between __alloc_pages_node() and alloc_pages_node() is
@@ -85,28 +86,29 @@ that the former allows you to pass NUMA_NO_NODE.
 
 The former is going away and the latter works fine here so switch over.
 
-Cc: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: kvm@vger.kernel.org
-Assisted-by: Gemini:unknown-version
+Cc: Robin Holt <robinmholt@gmail.com>
+Cc: Steve Wahl <steve.wahl@hpe.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Assisted-by: Gemini:unknown-model
 Signed-off-by: Brendan Jackman <jackmanb@google.com>
 ---
- arch/x86/kvm/vmx/vmx.c | 2 +-
+ drivers/misc/sgi-xp/xpc_uv.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index b9103de01428e..23ba400b30eec 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2994,7 +2994,7 @@ struct vmcs *alloc_vmcs_cpu(bool shadow, int cpu, gfp_t flags)
- 	struct page *pages;
- 	struct vmcs *vmcs;
+diff --git a/drivers/misc/sgi-xp/xpc_uv.c b/drivers/misc/sgi-xp/xpc_uv.c
+index 772c787268932..aacff70204241 100644
+--- a/drivers/misc/sgi-xp/xpc_uv.c
++++ b/drivers/misc/sgi-xp/xpc_uv.c
+@@ -170,7 +170,7 @@ xpc_create_gru_mq_uv(unsigned int mq_size, int cpu, char *irq_name,
+ 	mq->mmr_blade = uv_cpu_to_blade_id(cpu);
  
--	pages = __alloc_pages_node(node, flags, 0);
-+	pages = alloc_pages_node(node, flags, 0);
- 	if (!pages)
- 		return NULL;
- 	vmcs = page_address(pages);
+ 	nid = cpu_to_node(cpu);
+-	page = __alloc_pages_node(nid,
++	page = alloc_pages_node(nid,
+ 				      GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
+ 				      pg_order);
+ 	if (page == NULL) {
 
 -- 
 2.54.0
