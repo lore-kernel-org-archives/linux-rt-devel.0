@@ -1,148 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C3419F40B;
-	Mon, 22 Jun 2026 10:15:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC6A3A450F;
+	Mon, 22 Jun 2026 10:17:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782123325; cv=none; b=i0KpxXKUGl5OKy1fPKWKK9WgQPcQuz/O56k9qxESx/bwBvY0NKsLoZleYXGQLZ8AO0BU9sTXqzwJELB617RIHR4QRU62s1JFfcpMhbOs7QfDLuBOs114GABHwe8fqfhfiw5s5MrDXxAR2Do8OF2nkdedFKLp6HkfR0JlOf9n+fg=
+	t=1782123458; cv=none; b=AKzeggiK7EWtEZmECE+aIYvrlbYw6amgmPkgiydJt6SJGdWPqclae/myKh9Bx5LsaVpU2V71bm07Df6ZLnmLekZusUENPZJxrDHrfpvgoRMaZN7VrUOMBKhpIGTbBxDn+UozpQoZOLM9nWBARBRr/NDokbVkAuXLTCX64QZfu40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782123325; c=relaxed/simple;
-	bh=V5WW7uwKx60c61QqdLve/PD7p7tT/vp40/AV5krN/nU=;
+	s=arc-20240116; t=1782123458; c=relaxed/simple;
+	bh=Vw6BfeYyvf6eUwbT8igYPaCYmGPI2FlRoZCU9r3Pg40=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=A9l9IQ4WK6uYgMhgQKk0Rwm5wZv9mJNKFmBWA5XEmG6GoRj6o4UNjXzrmLKk/hq+DfhWIJBlmpJRtCmf2JMZEqghCKSOPflNmXbVYKsPQgkbACTWQIlECwSHjXFdUQbezsJUk+0s36LB+9h6HCH0Ba+/tlucCVA7RMuc+ujzw9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8mHLmZh; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=rBfmFl7qzfX6OqWqYDtZTSXjMFLmFY8xA7YFCuANezGxoiiu/3cXD98DEuBIiujBN8c7AE5M0BR3cOv9F8n3ZNi2SwkZ7Yw5uO9VCDXmWzdt+ylxAd+8Qq+jhLvWPlot0xfJLW/65DyZ4J5RVYY+XOiHCDPnWSDPMfP0f8TljoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxf2WCHn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8mHLmZh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40FDE1F000E9;
-	Mon, 22 Jun 2026 10:15:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxf2WCHn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961F31F000E9;
+	Mon, 22 Jun 2026 10:17:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782123324;
-	bh=GTJirt03i6IuV2yU2Lrcvoje4e/Zn2Jxie1ncDOP9Ss=;
+	s=k20260515; t=1782123456;
+	bh=PxVOFvaUNWSN8nJiXnsY6BoT/vVAVHqhABumdt4ajMc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=P8mHLmZhjudIDw6o4J3zsOu4yTNCYM6/w3H/My5oxrSyXw0IBLBt+IRSdxNEmZvNG
-	 6JguvSWJ2/nGho/jirrMbrRBWT4FBwcNriBc0bkDyBYSu7yKAqC8nnUiHUF61wgnmx
-	 +VWBvUYdFfu+EkZa83eHZrBSCa3HbcXbfiIbnqh707ga4Maht6Z2LaWfOYccD8hfAG
-	 edY86uy6kuHGzp2du6cH0c15LSM80dBkINaiToRBpX3ViL4LF9VaaTpj/edE29HEQX
-	 DQ2MHHF5gtIq8A1NkK9OAGrDr4KJBxvI8SAsXjihRbRnBcKaOfOA4aUNjJaNeE8wLb
-	 aZU0SvBeZIXwg==
+	b=mxf2WCHng+YB6jb9CRoMwEwCNpFUlxQQ+i1+Cf1ZzAgVLwCJGB5//ut3SH0z7i6Zu
+	 iR75xJUVqZ6oQSbFmzEJi0nVHhlh763qcbo//qDjvQhBj8Y57eKK4zoAgzxdkWguaN
+	 cMb8fMYwlH1a635L8GX7Zl3AseJ7QtRpjRZtVixBiltqsBI+HR/qOADyRBJHV9r2UR
+	 p0+oSLFwLSdbJHBh71bwfG6MRktHJmyYR3XMxpzgmT7kFSRMMxColLmHHEOf/AtwJa
+	 HjGa6vFxxEcjE//frvN9hB+s2UgODnqkgMr00PcvgXX5OaVAn+3W1WBpAPWRJqGqJL
+	 m8YwMzxO7tMAg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 08/13] sgi-xp: Use higher-level allocator
+Subject: Re: [PATCH v2 10/13] mm: Remove __alloc_pages_node()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Brendan Jackman" <jackmanb@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260622-alloc-trylock-v2-8-31f31367d420@google.com>
+Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+In-Reply-To: <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-8-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Jun 2026 10:15:23 +0000
-Message-Id: <20260622101524.40FDE1F000E9@smtp.kernel.org>
+Date: Mon, 22 Jun 2026 10:17:36 +0000
+Message-Id: <20260622101736.961F31F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [Medium] Commit message fundamentally misunderstands and inverts the docu=
-mented differences between __alloc_pages_node() and alloc_pages_node().
-
 Pre-existing issues:
-- [High] Logic Error / Variable Mismatch in xpc_init_mq_node() breaks CPU f=
-allback and NUMA affinity.
-- [High] Hardware IRQ enabled before GRU message queue descriptors are full=
-y initialized leads to NULL pointer dereference on spurious interrupts.
+- [High] The patch leaves `__folio_alloc_node()` exposed to the exact same =
+CPU hotplug out-of-bounds vulnerability that justified the removal of `__al=
+loc_pages_node()`.
 --
 
-commit 2717112c630ddd5adcf0324575c2741c6d3bf969
+commit b690a6726aee701f88a87b35d2db8bfbfa39bc05
 Author: Brendan Jackman <jackmanb@google.com>
 
-sgi-xp: Use higher-level allocator
+mm: Remove __alloc_pages_node()
 
-This commit switches xpc_create_gru_mq_uv() to use alloc_pages_node() inste=
-ad
-of __alloc_pages_node(). The change is intended to replace an allocator
-function that is being removed with one that handles similar requirements.
+This patch removes __alloc_pages_node() because its usage with cpu_to_node()
+can return NUMA_NO_NODE during CPU hotplug, bypassing validation and causing
+out-of-bounds accesses on NODE_DATA().
 
-> sgi-xp: Use higher-level allocator
->=20
-> The difference between __alloc_pages_node() and alloc_pages_node() is
-> that the former allows you to pass NUMA_NO_NODE.
->=20
-> The former is going away and the latter works fine here so switch over.
-
-[Severity: Medium]
-Is this description accurate?
-
-__alloc_pages_node() strictly prohibits NUMA_NO_NODE, while
-alloc_pages_node() safely handles it by falling back to numa_mem_id().
-
-While the code change itself appears safe here since cpu_to_node() returns
-a valid node, could the commit message be updated to reflect the correct
-behavior of these memory allocation APIs?
-
-> diff --git a/drivers/misc/sgi-xp/xpc_uv.c b/drivers/misc/sgi-xp/xpc_uv.c
-> index 772c787268932..aacff70204241 100644
-> --- a/drivers/misc/sgi-xp/xpc_uv.c
-> +++ b/drivers/misc/sgi-xp/xpc_uv.c
-> @@ -170,7 +170,7 @@ xpc_create_gru_mq_uv(unsigned int mq_size, int cpu, c=
-har *irq_name,
->  	mq->mmr_blade =3D uv_cpu_to_blade_id(cpu);
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index cdf95a9f0b87c..7edcc2e0be9ce 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -278,21 +278,6 @@ static inline void warn_if_node_offline(int this_nod=
+e, gfp_t gfp_mask)
+>  	dump_stack();
+>  }
 > =20
->  	nid =3D cpu_to_node(cpu);
-> -	page =3D __alloc_pages_node(nid,
-> +	page =3D alloc_pages_node(nid,
->  				      GFP_KERNEL | __GFP_ZERO | __GFP_THISNODE,
->  				      pg_order);
+> -/*
+> - * Allocate pages, preferring the node given as nid. The node must be va=
+lid and
+> - * online. For more general interface, see alloc_pages_node().
+> - */
+> -static inline struct page *
+> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+> -{
+> -	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
+> -	warn_if_node_offline(nid, gfp_mask);
+> -
+> -	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+> -}
+> -
+> -#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(=
+__VA_ARGS__))
+> -
+>  static inline
+>  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, i=
+nt nid)
+>  {
 
 [Severity: High]
-This isn't a bug introduced by this patch, but looking at the interrupt set=
-up
-that occurs further down in xpc_create_gru_mq_uv():
+This isn't a bug introduced by this patch, but does leaving
+__folio_alloc_node_noprof() exposed maintain the exact same CPU hotplug
+vulnerability that justified removing __alloc_pages_node()?
 
-drivers/misc/sgi-xp/xpc_uv.c:xpc_create_gru_mq_uv() {
-    ...
-    ret =3D request_irq(mq->irq, irq_handler, 0, irq_name, NULL);
-    ...
-}
+The commit message notes that passing the result of cpu_to_node() to the
+allocator can yield NUMA_NO_NODE if the CPU is hotplugged out, which
+bypasses validation and causes out-of-bounds accesses on NODE_DATA().
 
-If a spurious interrupt occurs immediately after request_irq() is called,
-could xpc_handle_activate_IRQ_uv() dereference the global xpc_activate_mq_uv
-pointer before it is initialized?
+Can this still happen with __folio_alloc_node()? For example, in
+net/sunrpc/svc.c, svc_prepare_thread() calls:
 
-drivers/misc/sgi-xp/xpc_uv.c:xpc_handle_activate_IRQ_uv() {
-    ...
-    msg_hdr =3D gru_get_next_message(xpc_activate_mq_uv->gru_mq_desc);
-    ...
-}
+rqstp->rq_scratch_folio =3D __folio_alloc_node(GFP_KERNEL, 0, node);
 
-The global pointer doesn't seem to be assigned until xpc_create_gru_mq_uv()
-returns to its caller.
-
-[Severity: High]
-This is a pre-existing issue, but looking at xpc_init_mq_node() which calls
-xpc_create_gru_mq_uv():
-
-drivers/misc/sgi-xp/xpc_uv.c:xpc_init_mq_node() {
-    ...
-    for_each_cpu(cpu, cpumask_of_node(nid)) {
-        xpc_activate_mq_uv =3D
-            xpc_create_gru_mq_uv(XPC_ACTIVATE_MQ_SIZE_UV, nid,
-    ...
-}
-
-Does this loop inadvertently pass the nid variable instead of the cpu varia=
-ble
-to xpc_create_gru_mq_uv()?
-
-This appears to bypass the CPU fallback iteration and could result in
-querying uv_cpu_to_blade_id() and cpu_to_node() with a node index rather
-than a CPU index.
+with a potentially invalid node ID originating from cpu_to_node(). Should
+__folio_alloc_node() also be removed or updated to safely handle
+NUMA_NO_NODE?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260622-alloc-tryl=
-ock-v2-0-31f31367d420@google.com?part=3D8
+ock-v2-0-31f31367d420@google.com?part=3D10
