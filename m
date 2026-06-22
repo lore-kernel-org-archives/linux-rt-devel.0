@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A26239EF23;
-	Mon, 22 Jun 2026 10:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D075239EF23;
+	Mon, 22 Jun 2026 10:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782123026; cv=none; b=JyyfX/kKAsJLCrBCoU+XOYHvxfzwSRQ9TIzD6XaeUvSl9X207+UNwLMfQCL+2Sz3NFp799+wmkZn8uPZfXhXZ312mwKRWFJVd6Xxu87hJvDL9bt1fFfhOzOZXgNV1JJ5mJlWAjLukp4hoJLUMAb2D+hqKjyrDVv7U0PAoEjLTts=
+	t=1782123057; cv=none; b=aGip2V4VpX8ryh7rARfeVtd2hKAsBYvq4cQPp/rY+H93v8SPW/IoIf5ICIbsYEys/sAsw3hxBdNhs3FDgEde1LKY7nk2it8Xjk2ptJUwsCZAuPQR6QTVMXHKy2W/+8lC7uFEQaH+pZuZm602DD4RNK4+p8aYp/g2DJsrGJ2gMk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782123026; c=relaxed/simple;
-	bh=SpDqN+EHLuwefGupwoMOgP8Mc9LtoEDrc49pe0FR1GY=;
+	s=arc-20240116; t=1782123057; c=relaxed/simple;
+	bh=qzjNbqgTQu78GAcE3V+utCvHGgcrEvvJ1e8fHmxJUCw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KieXOudEkZwTdPHkO427WUzM88NBE0XWGf8K771SEVGP4+3C+LlFuIUO5OIORpS3tW1iXLhi5AOMRv4f3r7Ib6lkhbTy84ZTQZHmbj9LXRMC1puYyMjIrww6ek1ahfsDiVT1LluWVxKcXffeZukiOksmneWlb14dHCeF/Hn4Leg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fGO/Y+kx; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=QYEkNWTFT65QGVBSr4/2PlhCE6j2mAtMXfXnk+zyWMEl1ViHuQg1hLisW8gOjCCfu4xOBdQo/k1TcJLYYUBboIXlcC5by1AmnZYElnSJzZFoU+cLK+LGXaFwZfG6rPNcPfbTprIUyIDuSVmG7TYIIT6uGmC0fMs+fcvLvClon0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GvtHi4Vp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fGO/Y+kx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89C21F000E9;
-	Mon, 22 Jun 2026 10:10:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GvtHi4Vp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4120C1F000E9;
+	Mon, 22 Jun 2026 10:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782123024;
-	bh=IQW0UUoQjuPZClNIQEShqApbLMZ1hkKZJJ5crtglHJU=;
+	s=k20260515; t=1782123056;
+	bh=qzjNbqgTQu78GAcE3V+utCvHGgcrEvvJ1e8fHmxJUCw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fGO/Y+kxBAcd0i+fVzHHT8MZWP+hV3xfl6qLRXbZFcZq7zbcfIyxLkS7TbOEkRt8a
-	 2W/uyhXFquSDlNwZHKG1BhKbXOZrmo9b9hW7SPX/4K9/e2ovibHCyatyTuo4+kfNTn
-	 geI+sJ7yRE9VElIftfZZ5NBYDUVaETjzsfQA7MYYPQqDWNZ7J8ND8usMIfLHRQJG0A
-	 nuDWOmzwtlJKmWxYbygIJp1DjfcuBt9AhTqCdbiFauScL8mYvxTrVGAmUVIKbaPcky
-	 6amBsMPgNpxAfRharLCUefTzPZOshnwQRSWpjVpFfh7DmhE/qK30A39k8qPaylJaup
-	 bCmbSVMmu2uPw==
+	b=GvtHi4Vpg4dj5ZyY8LJxauQc3h0apoqfnNn3gS+kgTAym+ipWrsh6Lgs/Rzxf4pCD
+	 13kCgW77Kuel/QUzPWnouwQ+A05i62iZWnJngrmcg95U+4OlPrlSwvtpCzyGD/jy4C
+	 JfKda3AdV9m2eovwI6hAxFudHUI7RAaFM6PmELOm4lhcNWeDew7sqmtdGEHG5AxKgz
+	 fF9VwXl+LDrzKCHxzohGsLqZ4sjXRryDJTAlXEhulg51C/qAYcXB69tuQ9Tx+EKmf4
+	 ANw5c7b0qePJSjKSs1a1Ll/1Bdmk66qwyrhwwH3lpvsXCKED+nHKhz/R7gho6+E8pT
+	 2ogzr0ZBg8Q1w==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 05/13] perf/x86/intel: Use higher-level allocator
+Subject: Re: [PATCH v2 06/13] KVM: VMX: Use higher-level allocator
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Brendan Jackman" <jackmanb@google.com>
-Cc: linux-rt-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20260622-alloc-trylock-v2-5-31f31367d420@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, kvm@vger.kernel.org
+In-Reply-To: <20260622-alloc-trylock-v2-6-31f31367d420@google.com>
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-5-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-6-31f31367d420@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Jun 2026 10:10:24 +0000
-Message-Id: <20260622101024.B89C21F000E9@smtp.kernel.org>
+Date: Mon, 22 Jun 2026 10:10:55 +0000
+Message-Id: <20260622101056.4120C1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -46,42 +46,36 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] The commit message factually misrepresents the API differences b=
-etween `__alloc_pages_node()` and `alloc_pages_node()`.
+- [Medium] The commit message incorrectly states that `__alloc_pages_node()=
+` allows passing `NUMA_NO_NODE`, while the opposite is true.
 --
 
-commit a5667683e56825d97c5814c0349e4de3300e3e14
+commit 7bd439c242125db27305b61b14c9972fb028282a
 Author: Brendan Jackman <jackmanb@google.com>
 
-perf/x86/intel: Use higher-level allocator
+KVM: VMX: Use higher-level allocator
 
-This commit switches the memory allocation in dsalloc_pages() from
-__alloc_pages_node() to the higher-level alloc_pages_node() function.
-It also updates a comment to reflect the API change.
+This commit switches the allocation function used in alloc_vmcs_cpu()
+from __alloc_pages_node() to alloc_pages_node().
 
+> KVM: VMX: Use higher-level allocator
+>
 > The difference between __alloc_pages_node() and alloc_pages_node() is
 > that the former allows you to pass NUMA_NO_NODE.
 
 [Severity: Medium]
-Is this description of the API differences accurate?
+Is this description inverted?
 
-Looking at include/linux/gfp.h, it appears the capabilities are actually
-reversed. alloc_pages_node() is the function that explicitly supports
-and safely handles NUMA_NO_NODE:
+Looking at include/linux/gfp.h, it appears __alloc_pages_node() explicitly
+forbids NUMA_NO_NODE (-1) via VM_BUG_ON(nid < 0).
 
-include/linux/gfp.h:alloc_pages_node_noprof() {
-    if (nid =3D=3D NUMA_NO_NODE)
-        nid =3D numa_mem_id();
-    ...
-}
+Instead, it is alloc_pages_node() that handles NUMA_NO_NODE by explicitly
+checking for it and falling back to numa_mem_id().
 
-Meanwhile, __alloc_pages_node() expects a valid node ID and contains a
-VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES) check, which will crash if
-passed NUMA_NO_NODE.
-
-Could the commit message be updated to clarify that alloc_pages_node()
-is the API that safely handles NUMA_NO_NODE?
+While the code change itself is safe, the justification reverses the
+behavior of the two APIs. Could the commit message be updated to
+accurately reflect the API semantics?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260622-alloc-tryl=
-ock-v2-0-31f31367d420@google.com?part=3D5
+ock-v2-0-31f31367d420@google.com?part=3D6
