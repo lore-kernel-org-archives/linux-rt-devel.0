@@ -1,110 +1,174 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011066.outbound.protection.outlook.com [52.101.70.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EB537B00F
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 11:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782126886; cv=none; b=mPRccNNPTAqMebu50Sh/M2kZkPYyAae2w9Sdyk8RNur1y6LHrbZcMf/a2Ii2tP6TjDEulYayEN9Kkt9/Nh+acKSzsYrEIiIB0YQe3z18DDOgdqDq1NxPSeIWKht+g5X4uAVscH8yOs5bzpKgW/qGML+J/YnMovJkRKvPAbwsXcE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782126886; c=relaxed/simple;
-	bh=nNuroTXzyDCIlMfy5EdJRUco77OZtGc+jQyUccvR2mQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=LCG/8C7yeySqFktKY9cRPoCKqp6q5Q4Ow1KXWVHaBUAU0AcZyc5zAgHxfO0xC3eneRG4uO4vdg3oOvZUVNOhtcAxeKoBLU7FR+1P2YBGlivIOVdWiijz+247uBIWI2Q8ngGOaF9NSZkvnWmOMvvhJ0dbG2JXNd8OUt85hZHVNok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=drJyBHxh; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21953947B8;
+	Mon, 22 Jun 2026 11:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782127248; cv=fail; b=NQzwvHeE3L9lVlvQOYpsybWhrqG6vDiDvjf2p9G339Hj3ziq1WaHl+fEmq0KtAmNLLv4uVG1xvU86MpFaTLvXiG9Ou5+2FHtuEVa6NW1hxav0NjslyL8ZpRjKg+yEZEMamsHiXq6ykLIOZcQbixyE6YZc0OqvSn6zmpt3OURKsY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782127248; c=relaxed/simple;
+	bh=4XLiLRk+87Zs3hm2BQZ/ykVxFPxL6u8SoJgFjmrlFNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=WSdQUf7Tp6IufP2XQ7j6O4ks6MwWxjgVPDbdqrJgYZOfbUHqiwhOqf2OI5e/InRuasiXnYP+JY9mNnDHBvTbyx9t9a7eH0qF+KTLxz3ic1ev8lY1MUwEdhhhVR9R7yIlYoKcc4KD56/npt9QoD5dGPx5y8aQqzwqhDk6Z9a8HZA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=kE1dwQKZ; arc=fail smtp.client-ip=52.101.70.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="drJyBHxh"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="kE1dwQKZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VV2wlfccEIAM23k+k4GlYWznyG40QMN6Zu8wVVlmp3vbvxMXkZVVAJNDOeZsxJ7D2PMmNYDcVoerWwhuWt0z6dbBCN7dYs1WGG3UsYC8MkNP8JvFIwhjtKHcCOrKepdDJQlL/A2vt3RG4kYz4b6E5gfrBIKFcaXZKFKIk/Oc4Wz7F1LIVxe1UztxpuLuJerDK1Rp+yMQxHm6Sxu7rrb1SCgFwKybW8UO3jY0U7MV1CvwcdtTdN0m07cqOwZHpEb2dNy4r8CARtrDySAVhQ+bx9ZWU1K0dpRQHwlPWoJ7RWTfNRlG/5H9UTcEZAZot0uO7ODZt3lLHfiuzd94Q+lZ0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Sc/B6wiF0kc9SOOcKX9/mC30ZDmPvdOcQYxylCdpoDk=;
+ b=LbnnclhAmNBwL/xfiE5Nhxsf0VrBqp3Dai9OY9WEI8NlkA5dfzaHNpXGa2aeeexvFrShSm/cIyCfQ2ILWnHyijMTwLGDYqwbd8Uc92xlPRna8VlK0tHDAUj7xa0bZIy2mXdjR/DKxlbvY+qCRWhTvRGExCAc6kDRnQS0PDP3Jc4yp20Q7h5t5i7c61B3rbsQXO6c1j2jM46cuWzY32P2x4SAuXeunSgf6UYzh4MlbIFq10+R1kS2Qf0vkfSNxIWVKn0W3qF4lgDLokLemWpRkEs1w4kC30K/z3B0OeZ8hZNPF7VzF1FZ92H+OHF2/CxUmJ7z6V7dan184MrOoD4Xlg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Sc/B6wiF0kc9SOOcKX9/mC30ZDmPvdOcQYxylCdpoDk=;
+ b=kE1dwQKZpYE/uavqI2U9G9ulN1l8rSKRUI91JQ69/Re2WswLOf+ePOSwbZlTiRTzZA8rgm+fcgBCN2uDh3mqWX9Xmo6rdOxpUfUlsKyts47FSXteqQ8vyUljbIbBGgKC33WVXZAlrPYC6PCTwl1vxpv1epwClHbgGlcwPvjZ5+a7dQDvsNy3Mlp2Dzv9F5rauqFJ8aPGUGP285TpoaM6jpi653INcg7Yy6IUBTYxr8PBjZkFQRv9AVzygdGZAUrE0usMb8jdDtG5VE65OCqCHJa1YZF2vSVpq4LdD+7GUlB6FdYxeDmIakmV6vZjJtR7ahw4YZBu7ZeeJHWhuEjUjw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
+ by PA4PR04MB9709.eurprd04.prod.outlook.com (2603:10a6:102:26b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
+ 2026 11:20:41 +0000
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9%3]) with mapi id 15.21.0139.009; Mon, 22 Jun 2026
+ 11:20:41 +0000
+Date: Mon, 22 Jun 2026 19:24:00 +0800
+From: Peng Fan <peng.fan@oss.nxp.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 01/10] mailbox: imx: Forward the timeout/ error in
+ imx_mu_generic_tx()
+Message-ID: <ajkbUNkn6MSw8txc@shlinux89>
+References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+ <20260617-imx_mbox_rproc-v3-1-77948112defc@linutronix.de>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617-imx_mbox_rproc-v3-1-77948112defc@linutronix.de>
+X-ClientProxiedBy: SI1PR02CA0014.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::9) To AM8PR04MB7874.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24d::9)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782126882;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=q/Nt3ZSEojCnMHuRAvkMdzlZf6jTkFZDkHqjLomvQeg=;
-	b=drJyBHxhy30BfYWGegAA+3LmSsD0Ef+pGgUI24dfKe5gd47LLinKTkqUXn60ZNYuRacpqB
-	9pl4wTp4tKMLs+k/YpTCJkvPwxiBz9/YBVptH0PgfzJ5YKN+olr1fsp2XDP/SNnvaqYj3/
-	1R5DjlALrv0OL27yGMm/qdoFEFaedbM=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Jun 2026 11:14:40 +0000
-Message-Id: <DJFJ96IPBX9H.33CCUBF385H1W@linux.dev>
-Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: <sashiko-reviews@lists.linux.dev>, "Brendan Jackman"
- <jackmanb@google.com>
-Cc: <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-12-31f31367d420@google.com>
- <20260622102105.53D141F00A3A@smtp.kernel.org>
-In-Reply-To: <20260622102105.53D141F00A3A@smtp.kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|PA4PR04MB9709:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b9c75ab-c532-49a2-4374-08ded0504b4e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|19092799006|23010399003|4143699003|56012099006|11063799006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	/UYkdyHatYGRdfyBiQD3WnrhV1p36cmaDl7U0QwU6Vu4SRIU78cjfozom/ucZsa3/nzHvF+YWxft6eePsK4FcPSYCwRt+ROEpfMwpftzZdN4dL6UnebwgpyO8zfi1Hm+TTGkerT6XXeHLLRe7E/zEMSFg3bDdCfAqonO0zjb9KkBLpR28z9vzpbp4W6Ess8LroLe/tRKZgO7cKjd3iATxrtKHXt/16NDKeXUUEPNf6G3tAzsna3wMLc5Vd5dUKXkT7Jxfzl1R09QdmZDDvNGGKfIA+f3DRO21f+7VKGpFpsoct+vucO7tclDwSigza/IJx4AXlljl3z3D/OqQdqd0RasvsTAqf1+xkviNEdYv5mCiuWnHENCdKmco3X1YKiBRFxH74KY27ufIe/6l8/uTNrfe9hOU2uB6pU1U5bf8/TdtaK1q/7aViYOYGfw/ETKe1JqmNKnBDudqAssxWYkx/VvzIP/3YDL/m0ujNLY/lfOBahN83Ka737jHkts1Pi9JhKAutzoS5HvWuUm3/Zt7ws3uS0lKiaB2zCcoljw1oXLwBeZt3qB638nrWos2vIF4Gndww3RQtFJRL6SmD97vIDO68Li/r47vV6VjiH5k8gCV/CzxwpFwXF+VfedMXpcnPcAW9QJ6HhP2uXt3rQBu4AzAK+oBS8hVbFEtfuAjkQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(19092799006)(23010399003)(4143699003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EOXCED7ejezImvXJQnNmb8gHJhiKd2cxDca3uouBezyP6ts9r0knS5KAKodL?=
+ =?us-ascii?Q?WCOammnetLmcUSeHUtCBq6qWwcfULCI8pJwMufU1WbZTbKyTTKReJV5dTpse?=
+ =?us-ascii?Q?mckcbFLggudZgism1fBe7cn5mw3vUxhUQjHwUfvTVdqZHyI4CeANP6QE8aoN?=
+ =?us-ascii?Q?/iMHGahGVh32uMc19wNsnLCGAw34haLg55uVuqJ3HIBukJjdzetkj8ctIMsH?=
+ =?us-ascii?Q?OZtKuSCi5Wlw79G+QaHzJyBQej/NJYheu6ChCg4NmLjRSS1U8B/Ig832+NNX?=
+ =?us-ascii?Q?y3IhM0Eg6OSnlY70Mzj8UzBeIDUf1H3zPV0l0rKSo2Cg5ikWiqzhhlVDpy8P?=
+ =?us-ascii?Q?Ar4shSlK629vRJ9sbvd5FQsGMTX0WnDiPPbxrNsTLZg+6IY1ng8AyfNlF9Ia?=
+ =?us-ascii?Q?xEqtYeVW9vYg+E/+8eVz+hN6JNlCe2khbXaSGmyTRJB0Mt3DH9A9LuyQmLaY?=
+ =?us-ascii?Q?JkZN5R2eYshwp9QGOSlo4fYmLG+XdxIXjyjXlVxiQMMY2pBhu11mpJGgLpoZ?=
+ =?us-ascii?Q?6cLNcShQO6QU8Lp/bletpBhKgTUCcz7r3KM0wdqJha5vxg/XZ40cLd4FW5sV?=
+ =?us-ascii?Q?eTo4USpFkX2hMyf1UH8a+pSArhTd858QohaejImuKd+IinhGEo7bg3F1SEWt?=
+ =?us-ascii?Q?izlFXSF8gnKxnLrjtaeixQGe1F7+JLekFaORs6U1J6CPP9WmVDTd8JckJbPe?=
+ =?us-ascii?Q?NGVcS8F6l+A3Xp4cJYgGf3McfiuD6foH3BVCGmEylxcL8vhw2eB2cPeAtcNj?=
+ =?us-ascii?Q?QuxGBbiaXz24n8YNxTSYukoc5Nf7JQHAQB96D49Ugqy+dXZddNuUmJH15uI9?=
+ =?us-ascii?Q?fZL32gHWdPbP2WK1DlVA+fPpa9g7V4/99gA2g5HFmS24ReGYdw7N4EyGscBe?=
+ =?us-ascii?Q?TJzQsYnxR8/0rSiNi1qA/vn2mqSRC0gBLzSe+vWvF2UYcnqPagPCCL2TpcJK?=
+ =?us-ascii?Q?8/ZuPbgjfyEcyM5mqnca/xaeGW6gcvKMmS6gNaAQnn6+p//dNAnvblsKBh4i?=
+ =?us-ascii?Q?714Gpn9ZPWTdMa1zxCs1ozGWjcRCcTDJ57eLgkc8PIutYUqo+Vc5w0SZJWAz?=
+ =?us-ascii?Q?rWZxrzpLv1hBSjAQm4J1pydYZbf+2UGmsJmhjufyLpJzdHb60ZJNOGnbuStg?=
+ =?us-ascii?Q?3BIt0kd9CjhbqyjDSwtqadUmt56IX5GTKo7vsEiu2Wk8/LceS1ARvtyTb8MR?=
+ =?us-ascii?Q?M6/CBT1gfQf9Mgr80hc/MUUSNaFI2APfs/mtcOOn3QhUxwSssVl7Vx0gJZ9T?=
+ =?us-ascii?Q?8YFltED4SPYcgy8zhdgegy0/c46V8iP0ihWiIBq/L0G7kJxGaV3LWfkj6I7y?=
+ =?us-ascii?Q?3YbRYG+wAJLObWAetgw9KPiJcUpqoqSSP3o9uwbTkD73QP75/0mDVfmNHwqL?=
+ =?us-ascii?Q?Fagx+9n44Cm1RWSClkdwrWzUJzfHyMVpW8T/6jdlILUTHgIunjBZNtnGxMcN?=
+ =?us-ascii?Q?5ew77MvQdug2kdcO6bOsFRJK4DRdVanExf2++SSsi4JFJCQj72bItbxESlvc?=
+ =?us-ascii?Q?bmrsnfrCZEkLB8R5g9KRUJE9SylAq5YxjIzIv1dXAznAscQbp73M3ojjCNj3?=
+ =?us-ascii?Q?wHds4MCLlzYrTbHYdZ39N0IO5d9iLbgAAZ85RJqANTxe2ZsTphBGeGVjk5Jf?=
+ =?us-ascii?Q?8A2zrQGvbdu1rl+9LO86iVNnoHa19ie5/5OMKzFQHZ2BH8PW11NmIQGr5C7B?=
+ =?us-ascii?Q?0E+38FRK7asXX2TRe1Kcz0VmqP5yCjapAUBdmrjmevvtl1xFDkSGqiVYffMk?=
+ =?us-ascii?Q?7KBEi13bC0LsPKd2xlMfppeEsMXfrGAgmdwj0cAhDm1iXHjeA2lU?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b9c75ab-c532-49a2-4374-08ded0504b4e
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 11:20:41.4751
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gNiVLXLxLdPCXU4gweL8xSkgitkvWtUuJER/3mI8PTuqkpu+xvUOHeB/qUoaZ2BXdQwXs+exvN3uYPXCDDd1i75cZ8k5b63JcoQiZMqUgi5OITe9S8P4EUatoLMqwS+B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9709
 
-On Mon Jun 22, 2026 at 10:21 AM UTC, sashiko-bot wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Low] Missing EXPORT_SYMBOL for out-of-line alloc_pages_node_noprof() c=
-auses widespread module linker errors.
-> --
+On Wed, Jun 17, 2026 at 08:55:26AM +0200, Sebastian Andrzej Siewior wrote:
+>imx_mu_generic_tx() for the IMX_MU_TYPE_TXDB_V2 type polls on a register
+>which may timeout and is recognized as an error. This error is siltently
+>dropped and not dropped to the caller.
 >
-> commit 42f7742177beb0066c00a7aa081250feb5859171
-> Author: Brendan Jackman <jackmanb@google.com>
+>Forward the error to the caller.
 >
-> mm: Move __alloc_pages() to mm/internal.h
+>Fixes: b5ef17917f3a7 ("mailbox: imx: fix TXDB_V2 channel race condition")
+>Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>---
+> drivers/mailbox/imx-mailbox.c | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> This commit moves the __alloc_pages() family of internal functions to
-> mm/internal.h to restrict them to the mm subsystem. It also moves
-> alloc_pages_node_noprof() out-of-line into mm/page_alloc.c since it
-> depends on __alloc_pages_noprof().
->
->> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->> index 36f0d625a4390..38238203ef7b0 100644
->> --- a/mm/page_alloc.c
->> +++ b/mm/page_alloc.c
->
-> [ ... ]
->
->> @@ -5419,6 +5419,17 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsi=
-gned int order,
->>  }
->>  EXPORT_SYMBOL(__alloc_pages_noprof);
->
-> [Severity: Low]
-> Since __alloc_pages_noprof() is no longer visible outside of mm/, should =
-this
-> EXPORT_SYMBOL be removed?
+>diff --git a/drivers/mailbox/imx-mailbox.c b/drivers/mailbox/imx-mailbox.c
+>index 246a9a9e39520..0028073be4a71 100644
+>--- a/drivers/mailbox/imx-mailbox.c
+>+++ b/drivers/mailbox/imx-mailbox.c
+>@@ -227,6 +227,7 @@ static int imx_mu_generic_tx(struct imx_mu_priv *priv,
+> 	u32 val;
+> 	int ret, count;
+> 
+>+	ret = 0;
+> 	switch (cp->type) {
+> 	case IMX_MU_TYPE_TX:
+> 		imx_mu_write(priv, *arg, priv->dcfg->xTR + cp->idx * 4);
+>@@ -259,7 +260,7 @@ static int imx_mu_generic_tx(struct imx_mu_priv *priv,
+> 		return -EINVAL;
+> 	}
+> 
+>-	return 0;
+>+	return ret;
 
-Yep.
+We may need to use atomic API for TXDB_V2. For the patchset itself, it
+looks good to me.
 
->> +struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned =
-int order)
->> +{
->> +	if (nid =3D=3D NUMA_NO_NODE)
->> +		nid =3D numa_mem_id();
->> +
->> +	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
->> +	warn_if_node_offline(nid, gfp_mask);
->> +
->> +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
->> +}
+Reviewed-by: Peng Fan <peng.fan@nxp.com>
+
+> }
+> 
+> static int imx_mu_generic_rx(struct imx_mu_priv *priv,
 >
-> [Severity: Low]
-> Does this code cause module linker errors? alloc_pages_node_noprof() is c=
-alled
-> by the alloc_pages_node() macro in include/linux/gfp.h, but it does not h=
-ave
-> an EXPORT_SYMBOL.
-
-Yep. Doesn't show up in defconfig but if you set CONFIG_BLK_DEV_UBLK=3Dm
-then:
-
-ERROR: modpost: "alloc_pages_node_noprof" [drivers/block/ublk_drv.ko] undef=
-ined!
+>-- 
+>2.53.0
+>
