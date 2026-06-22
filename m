@@ -1,147 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE03553E0B;
-	Sun, 21 Jun 2026 04:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D318518C02E;
+	Mon, 22 Jun 2026 00:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782014958; cv=none; b=h79c6HQufUW/k0gdC8wEaDirJqccgzYTzzBheNNaC5rVJmvCmsFUjmlbvsn9j71xVYdUYTrC2nJdqOq244frq1PQpLus16s5Lftk+lPhFFlqcdWqwJ/kaTC2UWnmy6V3GO7RIb+zwFkKeNCaA7KyRfMrpVg5v55UOncPdbR3R5I=
+	t=1782089942; cv=none; b=Q986Ypkz58HTVRZ9U53kkCRqwsNzm1aBv7LOZ2fViHV8Ta/Oe+ripuQTzoierinNeyQEz7BSm0eLW1GAoP1Gor2CwrpJp0g+hnelhEtCPjFWljTpuJrHfSf0FVZVW1mdxrAiVcBb30nGcBoXnWC6rrNby346rUGoOjagZJOeKTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782014958; c=relaxed/simple;
-	bh=w5f5Kk4imEbO2n8ZcznHkUFyB58LUTYowg26bCVDZAM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JraWTIkzngZQKK4ckRqv+CsWmjT9rkHMN68lVbVUweQClFZUt3/FxvhhLj/s9DhtMVe/5kvTgZ/udehXEi54KpgOVpg2w4gYWgD0wF8o+MNXGgeKV/DytZF03yZ85BgVTOTU6SELgjwUftEDPWClbgJAPrbQT0sZ6TnyTHDFUkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ALVQMP88; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782089942; c=relaxed/simple;
+	bh=jPdBCba2a1RxBylDYBgt3vuNgPjL9eEtN5N7O7a/DUg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XifxhSn3r1bShDN+ZqcMOv1z9MP+4nggwRn/DB98z81itPhQFYvrv5mH7yfqTywwvggmPXgVr0aPK7cPxF9TZPAnkKP5FAGnSRjxiD9xkt4p1qyDRrrz9qBcOKt3+SeLdHFEa5vhdXWDQsKGjnlz9PuhUY6HZX6odZmiYbHMYQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BThlBYgm; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ALVQMP88"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E531F000E9;
-	Sun, 21 Jun 2026 04:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782014957;
-	bh=h706QQ6ZkpXo1Md9gfprirMvYlT+0jeg5Pp09PxaGdc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ALVQMP88B8c+bNzF1Jr1kOeG0zof28960/6PrgIVxSQLdqZkI4QYsVlUG56LiaZkI
-	 wkfT5vO3fciV3hjf5Ld/lJajFkxexS0A/sAjZ3E7lI2whDYsGMnk0zSqFtcXS3dW2t
-	 sIALI9J0toPcMfQ8TZf5tfOy/innerGxj4QT0Wj7/XaqCphaPuKW9SBfxFq+CKCQ2I
-	 jTV8szpE7Nd9HDXrOsIZv2NbnPu75qfhMjgDqbF9OliGG9g3nyd17UaGEZE6WQnlM2
-	 C0CeNc0ZXjI2NhRB3IZRyRf21/Ucxu1bl7q3JEmEnR3f6YO/tPawj/1gB7jcU5krk+
-	 iIneHfe3kpiKA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] udf: avoid recursive s_alloc_mutex deadlock when
- freeing AED blocks
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Deepanshu Kartikey" <kartikey406@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260621035841.56194-1-kartikey406@gmail.com>
-References: <20260621035841.56194-1-kartikey406@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 21 Jun 2026 04:09:16 +0000
-Message-Id: <20260621040917.42E531F000E9@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BThlBYgm"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782089937; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=xVeY4GpnfbmDONSK7yvW3uoN9D+nRaZSlO60d+kUxRI=;
+	b=BThlBYgmlfdXJrMpsshU79pgcFBfmc3puKQOG2oxKthb4ShdUU0SrNy/E5LWrGsOwXB5pW33qKBwknVjJ61I292VZ4QdXf9Xnjo7gn9aijJUG8tD8tBTs1XMbM69lO1Mkhv80oz3NtWl5jqxP2GgMwsJ6qgbGrj/PtmSEX3zU3I=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=12;SR=0;TI=SMTPD_---0X5GLJ7m_1782089935;
+Received: from 30.221.145.9(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0X5GLJ7m_1782089935 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 22 Jun 2026 08:58:56 +0800
+Message-ID: <df25ea2d-1485-4ef5-9aae-9e88c41b14be@linux.alibaba.com>
+Date: Mon, 22 Jun 2026 08:58:55 +0800
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ocfs2: use inode_lock_nested() for orphan dir locking
+To: Deepanshu Kartikey <kartikey406@gmail.com>,
+ akpm <akpm@linux-foundation.org>
+Cc: ocfs2-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev,
+ syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
+ Matthew Wilcox <willy@infradead.org>
+References: <20260620231223.46588-1-kartikey406@gmail.com>
+From: Joseph Qi <joseph.qi@linux.alibaba.com>
+In-Reply-To: <20260620231223.46588-1-kartikey406@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
 
-Pre-existing issues:
-- [High] udf_table_prealloc_blocks() and udf_table_new_block() ignore the r=
-eturn value of udf_delete_aext(), leading to double-allocation on error.
-- [High] udf_delete_aext() leaks two buffer_head references on early return.
---
 
-commit b35154de447cbd2ab36c556abd7be97822502a4b
-Author: Deepanshu Kartikey <kartikey406@gmail.com>
+On 6/21/26 7:12 AM, Deepanshu Kartikey wrote:
+> PREEMPT_RT's rtmutex PI chain walker warns about a lock dependency
+> cycle when inode_lock(orphan_dir_inode) is called while holding
+> inode_lock(file_inode):
+> 
+>   ocfs2_file_write_iter()
+>     inode_lock(file_inode)               [class 0]
+>       ocfs2_dio_end_io_write()
+>         ocfs2_del_inode_from_orphan()
+>           inode_lock(orphan_dir_inode)   [class 0] <- warning!
+> 
+> However this is a false positive. write_iter() is never called on a
+> directory, and orphan_dir is always a directory, so these two locks
+> can never actually conflict in practice.
+> 
+> Fix by using inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2) in
+> all three places where orphan_dir_inode is locked in namei.c, placing
+> it in a separate lock class so the rtmutex PI chain walker understands
+> these locks have distinct roles and does not warn about their ordering.
+> 
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Reported-by: syzbot+ce129763ce7d7e914739@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=ce129763ce7d7e914739
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
 
-udf: avoid recursive s_alloc_mutex deadlock when freeing AED blocks
+Looks fine.
+Reviewed-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 
-This commit fixes a recursive deadlock on s_alloc_mutex by modifying
-udf_delete_aext() to return the freed block via an out-parameter.
-Callers can then free the block after dropping the mutex.
+> 
+> ---
+> Changes in v2:
+> - Replaced inode_lock() with inode_lock_nested(orphan_dir_inode,
+>   I_MUTEX_NONDIR2) in all three call sites in namei.c
+> - Dropped incorrect v1 changes to aops.c and namei.c that
+>   restructured lock ordering, as the deadlock was a false positive
+> - Approach suggested by Matthew Wilcox
+> ---
+>  fs/ocfs2/namei.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/fs/ocfs2/namei.c b/fs/ocfs2/namei.c
+> index 1277666c77cd..4cfd7b3d3e1a 100644
+> --- a/fs/ocfs2/namei.c
+> +++ b/fs/ocfs2/namei.c
+> @@ -2126,7 +2126,7 @@ static int ocfs2_lookup_lock_orphan_dir(struct ocfs2_super *osb,
+>  		return ret;
+>  	}
+>  
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
+>  
+>  	ret = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
+>  	if (ret < 0) {
+> @@ -2725,7 +2725,7 @@ int ocfs2_del_inode_from_orphan(struct ocfs2_super *osb,
+>  		goto bail;
+>  	}
+>  
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
+>  	status = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
+>  	if (status < 0) {
+>  		inode_unlock(orphan_dir_inode);
+> @@ -2838,7 +2838,7 @@ int ocfs2_mv_orphaned_inode_to_new(struct inode *dir,
+>  		goto leave;
+>  	}
+>  
+> -	inode_lock(orphan_dir_inode);
+> +	inode_lock_nested(orphan_dir_inode, I_MUTEX_NONDIR2);
+>  
+>  	status = ocfs2_inode_lock(orphan_dir_inode, &orphan_dir_bh, 1);
+>  	if (status < 0) {
 
-Link: https://syzkaller.appspot.com/bug?extid=3D6a680377e13041c19d50
-
-> diff --git a/fs/udf/balloc.c b/fs/udf/balloc.c
-> index cc6dc6e1d84de..30cec56001491 100644
-> --- a/fs/udf/balloc.c
-> +++ b/fs/udf/balloc.c
-
-[ ... ]
-
-> @@ -541,7 +543,7 @@ static int udf_table_prealloc_blocks(struct super_blo=
-ck *sb,
->  			udf_write_aext(table, &epos, &eloc,
->  					(etype << 30) | elen, 1);
->  		} else
-> -			udf_delete_aext(table, epos);
-> +			udf_delete_aext(table, epos, &freed);
-
-[Severity: High]
-This is a pre-existing issue, but does ignoring the return value of
-udf_delete_aext() here risk a double-allocation?
-
-If udf_delete_aext() returns -1 due to an error, the block remains in
-the unallocated space table. Since udf_table_prealloc_blocks() proceeds
-as if the deletion succeeded, could a subsequent allocation find and
-allocate the exact same block?
-
-[ ... ]
-
-> @@ -643,12 +649,14 @@ static udf_pblk_t udf_table_new_block(struct super_=
-block *sb,
->  	if (goal_elen)
->  		udf_write_aext(table, &goal_epos, &goal_eloc, goal_elen, 1);
->  	else
-> -		udf_delete_aext(table, goal_epos);
-> +		udf_delete_aext(table, goal_epos, &freed);
-
-[Severity: High]
-This is a pre-existing issue, but the same return value behavior happens
-here in udf_table_new_block() as well. Does this code need to handle
-the case where udf_delete_aext() returns an error to avoid corruption?
-
-> diff --git a/fs/udf/inode.c b/fs/udf/inode.c
-> index 67bcf83758c8f..2c8647e0c9131 100644
-> --- a/fs/udf/inode.c
-> +++ b/fs/udf/inode.c
-
-[ ... ]
-
-> @@ -2328,7 +2328,8 @@ static int udf_insert_aext(struct inode *inode, str=
-uct extent_position epos,
->  	return ret;
->  }
-> =20
-> -int8_t udf_delete_aext(struct inode *inode, struct extent_position epos)
-> +int8_t udf_delete_aext(struct inode *inode, struct extent_position epos,
-> +			struct kernel_lb_addr *freed)
->  {
->  	struct extent_position oepos;
->  	int adsize;
-
-[Severity: High]
-This is a pre-existing issue, but does the early return path in this
-function leak buffer_head references?
-
-At the start of udf_delete_aext(), two references to epos.bh are acquired:
-
-if (epos.bh) {
-        get_bh(epos.bh);
-        get_bh(epos.bh);
-}
-
-However, if the initial extent traversal fails shortly after:
-
-if (udf_next_aext(inode, &epos, &eloc, &elen, &etype, 1) <=3D 0)
-        return -1;
-
-This early return path does not appear to call brelse() to release the
-acquired references, which could pin the buffer in memory and prevent
-unmounting.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260621035841.5619=
-4-1-kartikey406@gmail.com?part=3D1
