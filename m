@@ -1,267 +1,270 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23C138E8C3
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 08:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A20399D02;
+	Mon, 22 Jun 2026 09:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782117208; cv=none; b=fEJzjSCSrZYwll1fTmSxX+Nhz4WoBd4Cv6LtorC5WABfLt7xdPc7GFkldn1oMQYcHujBHPTIUFdiFcj4l4vOOdaRiBBP9MeFhKap90a5cFiOUkbV44YcKBKhz7Wi9rWGT8n6mJ+B1BfmoWOK0Coa0zMvBrVsj8cJsiLOlVwU2HU=
+	t=1782122144; cv=none; b=g/JFXs8Cdd+0mMVCth+iS6Xjut11xeYWXcBtNGCJrSrSwckECQCJOiBNSi/sLuFE/UhYEJKtIefQ7Nzabc7SEyQ/NYhHjNdrfc6A8ro34EX8JNnZ9zyebYPj1KZiIWRiObwADR+igEpF1RNlvq7S3lTFmhz7VHpCKRh1TkuUFrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782117208; c=relaxed/simple;
-	bh=rJ9EqyZX+1uDH1xu352c0spmEyEZT9KSZXW7ls/HB/U=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=IdMwHfY63FfV49Bh5Kra4WrHfdnMHH80MzjZGSnNv6AqzgZYCZSY03KPZSPapUEGmUtMfi3yMS9luhClSslr0g/76taZhFZhlC7TN7cq2zp9ZY5Z+XnYhJA92/y2yM7KusqwMhshtCx0YDh0ulDY479KBu+8X7Jxn/MldTJv1zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FHQAc44n; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782122144; c=relaxed/simple;
+	bh=1YL6RatgGp8U8YRdXU/Ojf6J99LCBk/IjDvPKIBcnkw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nNAF+6EpKGRnpMuivsbSQslHsWRGy9T0H0zjuGXbdfpjI57RY5H11oRfP8PmpeiHe2ZxWXQAUNWAkxAIZgRZglU4mE5nUPEMu/KXgTYkW8sUaNV8uF38FhXdgmV2fXUK8ujQyJeeHoilJ2GlzpTDAZS7F6LY2OTjqA8hagHM/bA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEYqsQ3T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FHQAc44n"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEYqsQ3T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C543F1F000E9;
+	Mon, 22 Jun 2026 09:55:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782122140;
+	bh=/V21/Y3QZfwVUdB3NIeBi+XnD7XL4Xt67aol7kqmo4c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EEYqsQ3TRB2hMmbU7Z79YG2RHRf9MC51VSumhuqrt6HrdNifmpdbgiXdj+mPOOuZn
+	 cGHRNhUuRMFgZbU1FsE0Knbg9l762v4L1xpLsjiqiLdYo1UjsVXFx8uNL0eSjfJv/V
+	 5JN+cQOhPTaqHR3nQdb1YKbrcAPE2GMgKGtj7ImzzeGN7tGBabXgNdAhpFhA1Hhwog
+	 QunbjMB9l0vA19HXJW3S2zAexHyQyNTuyvQMRklcEFQVJl92ZZdE8v0UUyEj0SYGYx
+	 /wzt36/BFphiOGtrnRSXv/NkfcMiAKOwFfnjThiNUnfmtxxmy/qTB025Ec/hFKr/cq
+	 TRd3NUImRxD/Q==
+Message-ID: <c8793c0f-7156-4cb7-9e6e-7909397e2fff@kernel.org>
+Date: Mon, 22 Jun 2026 11:55:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782117204;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KqsCQKkmRUVfBZPd9K730PqbM5N64wyAbDnC+li40Cw=;
-	b=FHQAc44nNfvpZIk6Uesy9k4k9buuih+lxEV7l+zy54ZgveUwr+BgFoeslLQE75ak8UVx4M
-	y7bVz8N0i/NrJh5F/0cTK/UcW17X8U94lzBuQX+qTpeGiy4CZJNXy5Eh7fIs3JrAJVIOfd
-	lJhqrCFABYGLKPmVbs/XB8+wA4Q2SSA=
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/3] mm/compaction: skip isolate mlocked folios when
+ compact_unevictable_allowed=0
+Content-Language: en-US
+To: Wandun <chenwandun1@gmail.com>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+Cc: akpm@linux-foundation.org, surenb@google.com, mhocko@suse.com,
+ jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+ rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ david@kernel.org, ljs@kernel.org, liam@infradead.org, rppt@kernel.org,
+ bigeasy@linutronix.de, clrkwllms@kernel.org, Alexander.Krabler@kuka.com,
+ Hugh Dickins <hughd@google.com>
+References: <20260604023812.3700316-1-chenwandun1@gmail.com>
+ <20260604023812.3700316-2-chenwandun1@gmail.com>
+ <969cb14b-5b8b-48e6-add6-4dd13101dd89@kernel.org>
+ <040788a9-e0d5-478e-bb48-3d22b8b41020@gmail.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <040788a9-e0d5-478e-bb48-3d22b8b41020@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 22 Jun 2026 08:33:12 +0000
-Message-Id: <DJFFTJZGYZ91.6Y7J8M13KU5@linux.dev>
-Subject: Re: [PATCH] mm/page_alloc: unify
- __alloc_frozen_pages[_nolock]_noprof()
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Hao Ge" <hao.ge@linux.dev>, "Suren Baghdasaryan" <surenb@google.com>,
- "Brendan Jackman" <brendan.jackman@linux.dev>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, "Brendan Jackman"
- <jackmanb@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Michal
- Hocko" <mhocko@suse.com>, "Johannes Weiner" <hannes@cmpxchg.org>, "Zi Yan"
- <ziy@nvidia.com>, "Muchun Song" <muchun.song@linux.dev>, "Oscar Salvador"
- <osalvador@suse.de>, "David Hildenbrand" <david@kernel.org>, "Lorenzo
- Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, "Mike
- Rapoport" <rppt@kernel.org>, "Matthew Brost" <matthew.brost@intel.com>,
- "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>,
- "Byungchul Park" <byungchul@sk.com>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Hao Li" <hao.li@linux.dev>, "Christoph Lameter" <cl@gentwo.org>, "David
- Rientjes" <rientjes@google.com>, "Roman Gushchin"
- <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
- <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Alexei Starovoitov" <ast@kernel.org>,
- "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
- <gourry@gourry.net>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-rt-devel@lists.linux.dev>
-References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
- <2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org>
- <CAJuCfpG48TmvaiaRvnL-NXKU6nn55D3bks2DgzAc0URsZhAxqA@mail.gmail.com>
- <DJBHRVM65A11.1OL2M9MXN56H@linux.dev>
- <45fcc57a-ec8d-46d6-9c28-065d001c081f@linux.dev>
- <DJD0AGHTWYRN.1YWG5MDH87WVO@linux.dev>
- <CAJuCfpGtymV=Tmsvs8Z-oF6pi7mD54mRiZNZtpF3UpYwBL7Uig@mail.gmail.com>
- <267e070f-adc2-4f42-b528-746f852d9ef4@linux.dev>
-In-Reply-To: <267e070f-adc2-4f42-b528-746f852d9ef4@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 7bit
 
-On Mon Jun 22, 2026 at 1:58 AM UTC, Hao Ge wrote:
->
-> On 2026/6/20 02:08, Suren Baghdasaryan wrote:
->> On Fri, Jun 19, 2026 at 4:57=E2=80=AFAM Brendan Jackman
->> <brendan.jackman@linux.dev> wrote:
->>> On Thu Jun 18, 2026 at 2:22 AM UTC, Hao Ge wrote:
->>>> On 2026/6/18 01:14, Brendan Jackman wrote:
->>>>> On Wed Jun 17, 2026 at 4:49 PM UTC, Suren Baghdasaryan wrote:
->>>>>> On Wed, Jun 17, 2026 at 9:39=E2=80=AFAM Vlastimil Babka (SUSE)
->>>>>> <vbabka@kernel.org> wrote:
->>>>>>> +Cc Alexei
->>>>>>>
->>>>>>> On 6/17/26 17:29, Brendan Jackman wrote:
->>>>>>>> Currently the core allocator code is controlled by ALLOC_NOLOCK, b=
-ut the
->>>>>>> It's not, it's ALLOC_TRYLOCK! Thanks for proving that we need to re=
-name it
->>>>>>> to ALLOC_NOLOCK:
->>>>>>>
->>>>>>> https://lore.kernel.org/all/DJ9QPTO2WXNB.10E88ZHWRDHB0@gmail.com/
->>>>>>>
->>>>>>> So you just won the job to do the rename :) I think it should be do=
-ne before
->>>>>>> this patch, so that the new usages and other _trylock names introdu=
-ced here
->>>>>>> can be done as _nolock outright.
->>>>> Ack. I'll aim to send that tomorrow once Sashiko has caught up.
->>>>>
->>>>>>>> main entry point function is significantly different from the norm=
-al
->>>>>>>> __alloc_frozen_pages_nolock(), this is tiring when reading the cod=
-e.
->>>>>>>>
->>>>>>>> Plumb the ALLOC_NOLOCK control one layer up in the call stack: cre=
-ate
->>>>>>>> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is=
- only
->>>>>>>> exposed to mm/) and then turn the nolock variant into a thin wrapp=
-er
->>>>>>>> that just sets that flag (as well as handling NUMA_NO_NODE, simila=
-r to
->>>>>>>> how some of the wrappers in gfp.h do).
->>>>>>>>
->>>>>>>> Rationale that this doesn't change anything:
->>>>>>>>
->>>>>>>> 1. Simple bits: A bunch of the nolock-specific handling is just mo=
-ved to
->>>>>>>>      the new alloc_order_allowed(), alloc_trylock_allowed() and
->>>>>>>>      gfp_trylock.
->>>>>>>>
->>>>>>>> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
->>>>>>>>      previously in the nolock variant:
->>>>>>>>
->>>>>>>>      a. Application of gfp_allowed_mask; this only affects early b=
-oot, and
->>>>>>>>         only flags that affect the slowpath get changed here.
->>>>>>>>
->>>>>>>>      b. Application of current_gfp_context() - also only affects t=
-he
->>>>>>>>         slowpath
->>>>>>>>
->>>>>>>> 3. The slowpath itself: this is now just explicitly skipped under
->>>>>>>>      !ALLOC_TRYLOCK.
->>>>>>> I'll have to ponder it more closely.
->>>>>>>
->>>>>>>> Ulterior motive: adding an alloc_flags arg to the allocator's
->>>>>>>> mm-internal entrypoint can later be used to do more allocation
->>>>>>>> customisation without needing to create new GFP flags.
->>>>>>> Ack.
->>>>>> I think this change might also help us in removing __GFP_NO_CODETAG
->>>>> Nice, this actually looks trivial? I can probably just tack it onto t=
-he
->>>>> v2 for this patch/series.
->>>>>
->>>>>> introduced in [1] and being the only user of __GFP_NO_OBJ_EXT once
->>>>>> Vlastimil's patchset removing other __GFP_NO_OBJ_EXT users lands.
->>>>>> CC'ing Hao as he is brainstorming ways to remove __GFP_NO_CODETAG, a=
-nd
->>>>>> this might be the answer.
->>>>
->>>> Hi Brendan, Suren,
->>>>
->>>> Thanks for CC'ing me, Suren. This is indeed a viable approach
->>>>
->>>> and I believe it brings us one step closer to removing
->>>>
->>>> __GFP_NO_CODETAG entirely.
->>>>
->>>>
->>>> Brendan, I'd actually put together a rough local implementation
->>>>
->>>> earlier with mostly the same core idea as yours, and this change
->>>>
->>>> would indeed be minimal based on your patch.
->>>>
->>>> Thanks a lot for being interested in tacking this into your v2 patch s=
-eries.
->>> Oh, I just took a look and it's a bit more fiddly than I thought becaus=
-e
->>> alloc_tag.c is actually in lib/ not mm/.
->
-> Hi Suren and Bredan
->
->
->> One option is to move alloc_tag.c into mm/ (while keeping more generic
->> codetag.c in lib/). From a quick look, that seems doable and probably
->> the easiest approach.
->>
->>> How did you tackle that, can you share your implementation? It would be
->>> nice if we can avoid exposing alloc_flags in gfp.h.
->
-> First, I introduced the ALLOC_NO_CODETAG flag as shown below:
->
-> @@ -1478,6 +1480,7 @@ unsigned int reclaim_clean_pages_from_list(struct=
-=20
-> zone *zone,
->  =C2=A0#define ALLOC_HIGHATOMIC=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x200=
- /* Allows access to=20
-> MIGRATE_HIGHATOMIC */
->  =C2=A0#define ALLOC_TRYLOCK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 0x400 /* Only use spin_trylock in=20
-> allocation path */
->  =C2=A0#define ALLOC_KSWAPD=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 0x800 /* allow waking of kswapd,=20
-> __GFP_KSWAPD_RECLAIM set */
-> +#define ALLOC_NO_CODETAG=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x1000 /* s=
-kip codetag tracking for this=20
-> allocation */
->
->
-> Then, mirroring __alloc_pages_noprof, we wrapped a helper function named=
-=20
-> alloc_pages_noprof_notag.
->
->
-> @@ -5252,13 +5335,25 @@ struct page *__alloc_pages_noprof(gfp_t gfp,=20
-> unsigned int order,
->  =C2=A0{
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *page;
->
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page =3D __alloc_frozen_pages_nopro=
-f(gfp, order, preferred_nid,=20
-> nodemask);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page =3D __alloc_frozen_pages_nopro=
-f(gfp, order, preferred_nid,=20
-> nodemask, 0);
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (page)
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 set_page_refcounted(page);
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return page;
->  =C2=A0}
->  =C2=A0EXPORT_SYMBOL(__alloc_pages_noprof);
->
-> +struct page *alloc_pages_noprof_notag(gfp_t gfp, unsigned int order)
-> +{
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct page *page;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 page =3D __alloc_frozen_pages_nopro=
-f(gfp, order, numa_node_id(), NULL,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 ALLOC_NO_CODETAG);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (page)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 set_page_refcounted(page);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return page;
-> +}
-> +EXPORT_SYMBOL_GPL(alloc_pages_noprof_notag);
->
->
-> Lastly, we exported this function in gfp.h as shown below:
->
->
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index 51ef13ed756e..ac6e837ac8c0 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -234,6 +234,9 @@ struct folio *__folio_alloc_noprof(gfp_t gfp,=20
-> unsigned int order, int preferred_
->  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 nodemask_t *nodemask);
->  =C2=A0#define __folio_alloc(...) alloc_hooks(__folio_alloc_noprof(__VA_A=
-RGS__))
->
-> +struct page *alloc_pages_noprof_notag(gfp_t gfp, unsigned int order);
-> +#define alloc_pages_notag(...)=20
-> alloc_hooks(alloc_pages_noprof_notag(__VA_ARGS__))
->
->
-> Hope this information helps you.
+On 6/18/26 13:43, Wandun wrote:
+> 
+> 
+> On 6/18/26 02:52, Vlastimil Babka (SUSE) wrote:
+>> On 6/4/26 04:38, Wandun Chen wrote:
+>>> From: Wandun Chen <chenwandun@lixiang.com>
+>>>
+>>> compact_unevictable_allowed is default 0 under PREEMPT_RT,
+>>> isolate_migratepages_block() skips folios with PG_unevictable set.
+>>> However, mlock_folio() sets PG_mlocked immediately but defers
+>>> PG_unevictable to mlock_folio_batch(), result in a folio with
+>>> PG_mlocked=1 but PG_unevictable=0. Compaction will isolate such a
+>>> folio.
+>>>
+>>> Fix by checking folio_test_mlocked() together with the existing
+>>> folio_test_unevictable() check.
+>>>
+>>> A similar issue has been reported by Alexander Krabler on a 6.12-rt
+>>> aarch64 system. Vlastimil suggested to check the mlocked flag [1].
+>>>
+>>> Reported-by: Alexander Krabler <Alexander.Krabler@kuka.com>
+>>> Closes: https://lore.kernel.org/all/DU0PR01MB10385345F7153F334100981888259A@DU0PR01MB10385.eurprd01.prod.exchangelabs.com/
+>>> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+>>> Signed-off-by: Wandun Chen <chenwandun@lixiang.com>
+>>> Link: https://lore.kernel.org/all/33275585-f2db-4779-89f0-3ae24b455a67@suse.cz/ [1]
+>> 
+>> Well in that thread, Hugh doubted my suggestion and then it seems we didn't
+>> concluded anything. Did you actually in practice observe the issue that
+>> Alexander had, and that this patch fixed it, or is that theoretical?
+>> 
+> Yes, I wrote a test case that can reproduce it in a few second.
+> 
+> The test case contains 3 steps:
+> 1. mlockall
+> 2. mmap file(2GB) + trigger file write page fault;
+> 3. during step 1, trigger compact via /proc/sys/vm/compact_memory
+> 
+> 
+> My reproduction environment is qemu with 4GB ram, 8 core, aarch64,
+> preempt_rt and includes the tracepoint in patch 02.
+> After running the reproduction program for a few seconds, the
+> following output appears.
 
-Cool, thanks! On Friday I also tried doing it by just moving the .c
-file and that also seems to be pretty practical.=20
+Ah, nice.
+
+> repro-403     [004] ....1   101.270505: mm_compaction_isolate_folio: pfn=0x71e3a mode=0x0 flags=referenced|uptodate|mlocked
+> repro-403     [004] ....1   101.270507: mm_compaction_isolate_folio: pfn=0x71e3b mode=0x0 flags=referenced|uptodate|mlocked
+> repro-403     [004] ....1   101.270513: mm_compaction_isolate_folio: pfn=0x71e3c mode=0x0 flags=referenced|uptodate|mlocked
+> repro-403     [004] ....1   101.270515: mm_compaction_isolate_folio: pfn=0x71e3d mode=0x0 flags=uptodate|mlocked
+> repro-403     [004] ....1   101.270517: mm_compaction_isolate_folio: pfn=0x71e3e mode=0x0 flags=uptodate|mlocked
+> repro-403     [004] ....1   101.270520: mm_compaction_isolate_folio: pfn=0x71e3f mode=0x0 flags=uptodate|mlocked
+> 
+> 
+> Unfortunately, I recently found that there is still a bug in the
+> fix patch. Setting mlocked in the mlock_folio function could happen
+> even after the page is successfully isolated, so it still cannot
+> prevent migration. Because of this, I need to think more about how
+> to fix it.
+> 
+> Perhaps we should double-check whether the page is mlocked during
+> the actual migration phase.
+
+So IIUC the isolation+migration might be started between the folio is
+allocated, and mlocked? In that case the check during migration could still
+be racy, and if the page is isolated, it's already bad for the RT process.
+
+So this would only be a short-term problem after the mlockall, but we don't
+have a way for the RT process to know the moment it's all settled, right?
+Probably the proper solution would be for mlock[all]() itself to wait for an
+isolated page, and only continue once it knows it can't be isolated anymore.
+This might howver would go against some of the folio batching optimizations?
+
+> What do you think of this best-effort approach?
+> 
+> 
+> Best regards,
+> Wandun
+> 
+> 
+> 
+> 
+> 
+> The full reproducer is as below:
+> 
+> /* gcc repro.c -o repro -lpthread */
+> 
+> #define _GNU_SOURCE
+> #include <fcntl.h>
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <sys/mman.h>
+> #include <unistd.h>
+> 
+> #define PAGE_SIZE       4096
+> #define NR_PAGES        32
+> #define FILE_SIZE       (2ULL * 1024 * 1024 * 1024)
+> 
+> static void *worker_fn(void *arg)
+> {
+> 	int fd = (long)arg;
+> 	size_t len = (size_t)FILE_SIZE;
+> 	char *p = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> 	if (p == MAP_FAILED)
+> 		return NULL;
+> 
+> 	for (size_t off = 0; off + NR_PAGES * PAGE_SIZE <= len;
+> 	     off += NR_PAGES * PAGE_SIZE) {
+> 		for (int i = 0; i < NR_PAGES; i++)
+> 			p[off + i * PAGE_SIZE] = 1;
+> 		usleep(200);
+> 	}
+> 
+> 	munmap(p, len);
+> 	return NULL;
+> }
+> 
+> static void *compact_fn(void *arg)
+> {
+> 	(void)arg;
+> 	int fd = open("/proc/sys/vm/compact_memory", O_WRONLY);
+> 	if (fd < 0)
+> 		return NULL;
+> 
+> 	while (1) {
+> 		if (write(fd, "1", 1) < 0) {}
+> 		usleep(5000);
+> 	}
+> }
+> 
+> int main(void)
+> {
+> 	mlockall(MCL_CURRENT | MCL_FUTURE);
+> 
+> 	int fd = open("./repro_largefile.dat", O_RDWR | O_CREAT, 0600);
+> 	if (fd < 0)
+> 		return 1;
+> 	unlink("./repro_largefile.dat");
+> 	if (ftruncate(fd, (off_t)FILE_SIZE) < 0)
+> 		return 1;
+> 
+> 	printf("repro_largefile: 1 worker, %d pages/batch, Ctrl-C to stop\n",
+> 	       NR_PAGES);
+> 
+> 	pthread_t compact, worker;
+> 	pthread_create(&compact, NULL, compact_fn, NULL);
+> 	pthread_create(&worker, NULL, worker_fn, (void *)(long)fd);
+> 
+> 	pthread_join(worker, NULL);
+> 	return 0;
+> }
+> 
+>>> ---
+>>>  mm/compaction.c | 3 ++-
+>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/mm/compaction.c b/mm/compaction.c
+>>> index b776f35ad020..7e07b792bcb5 100644
+>>> --- a/mm/compaction.c
+>>> +++ b/mm/compaction.c
+>>> @@ -1116,7 +1116,8 @@ isolate_migratepages_block(struct compact_control *cc, unsigned long low_pfn,
+>>>  		is_unevictable = folio_test_unevictable(folio);
+>>>  
+>>>  		/* Compaction might skip unevictable pages but CMA takes them */
+>>> -		if (!(mode & ISOLATE_UNEVICTABLE) && is_unevictable)
+>>> +		if (!(mode & ISOLATE_UNEVICTABLE) &&
+>>> +		    (is_unevictable || folio_test_mlocked(folio)))
+>>>  			goto isolate_fail_put;
+>>>  
+>>>  		/*
+>> 
+> 
+
