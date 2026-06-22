@@ -1,157 +1,154 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 833B7351C0B
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 07:44:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA47390233;
+	Mon, 22 Jun 2026 08:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782114283; cv=none; b=j31IVBkpxouDPpLpV6l6Y5+P4C6Q/G5KSjSLBobSBEGU4wDZhxv7QoT0XFTRUynF09QcK0RZLJRKGrBnSFtjOFE2OMKwO5jIcpzqVL/3WSL2GbdI5mW4IlIhlbLpuNnXPFgLOyd1c5F4UKq05PMt5D2BeEehse88rByszMVyk6s=
+	t=1782116664; cv=none; b=QoPAo7vLwHN9JvXztSoO4UDGv0CC/iBxgGUu9mzWHGUGrzQqKtrPWlXC9CQIGd8NYfGqKuGyof2oGB1TKbjtidLgGYY+CoWObf9M0lYluKdpTtDYtUtXHxu6R++TmBD6XU6rPV3rvy3URHYQcFnL5jychs2Vo+tFuIZQA8jKEh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782114283; c=relaxed/simple;
-	bh=J91I3Gu3m4EIy3VP8VX1uogjbA+L3WLNmgsqNkSYa9w=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KhFALWhrL73Y+jHxcUKC4egNWyyVGSMvFfJa7TLKJmC7Yry4ee/dyhnEaTyTQ3/EB9SvjXmUFO157oJwT287XtUVYwcflKB/aklYspWHzf6ehWTtB3m6zaJcJhLYcw07/2Vb/ps4CrmWF09O06CyQZ7OIMAxXx/q7EAGh45MA2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=Lo/MZbCa; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1782116664; c=relaxed/simple;
+	bh=7IyspJRfWhme6s9Z6t6XwDVYvFVa3IYHK4HK2s23pE4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k4XkLQkQKSLs00YyA8A4aWOmLMUTQwDjK4Q2+0D6iMmqyzYWJEbBaAjHglIuKpNBRYeI/4lfQJNW3epBowxVlt5NOQWUK+IdbKYO2/VfCc9UuZmBYyd5QwQKGWaZmZeT0rBd2kigKM/Vqy2k8CzhxRzfMb2tHyDoDFMTX/j01g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F7hvvYOR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="Lo/MZbCa"
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65M6jsFV995069;
-	Mon, 22 Jun 2026 00:43:54 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=Cge2rn2lJ
-	/F4b/+ZaBpnREKhpXxXNwbNDvnD244YEUI=; b=Lo/MZbCap+WuOj5/hG9YzQG6V
-	xAvPyWy+LmMciWKQGsFAbKjISIbXo49vkQOzbtVBv5k5Hka+QHUp1Cd3SWnAvGk5
-	XMQuQIuJRCpl6mSmJIqEKw0LUVrYDdGyQaccAO8sqcUdTQbSK7bIEnQe3LwV+dQK
-	axswE+R5KP2wCeX4LioUTl7zIrNoyEvMcau5V8HVHeT/MLxGeX5NpOdX29Niuzpe
-	kWX1NYlteCr1i2KmbJS+I25IWEZi7bxP8giBmFVaGZjId8IQjrxc1NC+5Jjl8S8W
-	md7uMqSikJgoD0c7jwePJeEeFRv8NBTEQFc9PeYORnlnXx/Do5sygPgJjlimw==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ewp51sh0y-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 22 Jun 2026 00:43:54 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 22 Jun 2026 00:43:54 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 22 Jun 2026 00:43:51 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <marcin.s.wojtas@gmail.com>, <andrew+netdev@lunn.ch>,
-        <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <bigeasy@linutronix.de>, <clrkwllms@kernel.org>,
-        <rostedt@goodmis.org>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-rt-devel@lists.linux.dev>, <yun.zhou@windriver.com>
-Subject: [PATCH v4] net: mvneta: re-enable percpu interrupt on resume
-Date: Mon, 22 Jun 2026 15:43:50 +0800
-Message-ID: <20260622074350.1666290-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F7hvvYOR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56C51F000E9;
+	Mon, 22 Jun 2026 08:24:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782116661;
+	bh=K03wRREZQjsGSIHtZ/1XuSXDAXjxS5jJGV/J2n+GdkI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=F7hvvYORj4k2euoqp2D1z0s27TwsBudJ+2Gr2sFpSGaDGuXm0vggOr7lYHZnExCYO
+	 zAZuGHkrJl6C75/KlY8UHQJiq53JF30tBNYlZGxT5ff46fh+jNOkcYXVIemNWAUKuS
+	 pVs6e2kcFxlofW7J5TUOUhAHFHUPXddE1kko4wei5S0y76sxzRIedMH3iFOLe/tCIq
+	 1H5EQAVjByIYGIcrKR4s1YtFKAuTM2tC0t8nTrHPWuKYpfI0Iwn/PLlBmXNxDuMnJO
+	 GvYj3h40xR1AJ4adI8vj4j9fz/T1lSJeztFBKfMy0H3ExgrFtQ8l3M/QQqH6j93ZQp
+	 3JeT5gG25zCAQ==
+Message-ID: <0eeb0dd3-92e8-4841-b250-e77540da0693@kernel.org>
+Date: Mon, 22 Jun 2026 10:24:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 1eszxaEjD_r2EJLOvzZS0HIS10Bbkr1n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIyMDA3NCBTYWx0ZWRfX4hEZg9+XTaQb
- TLx25PXtTkJDs4oLr6LI2zKsL75Es4ltCqPJMbeFObLerh+i5xyh3thYUyLbdDkAVcm10JpzLFQ
- A//5YDlWTTpcopFmDHxclRrj49ePgW3odmPIB9osO7Q8FUVHBd5gtDU4n5kp0oScUrf/7LVBbJT
- Sh6fcJQduSoY3I6II9Y5HRNQ4vZmC84jjOGRVmGOpB6PwT7+L+hOcesx3/SAjKWlyHu8d1o3odE
- dE5HwYFZh4pepgtbW/xkzAXYZ/t2Q7C+cknDU4M1/0krfC2DjMrjaLjU5kNRp8Q6ziTmGdHUeqw
- zYYTugUZujexCw63ajHwDrHivudWStv6ed+N1SCWzICDsk4B3A8/X3Y8TZYSzgML0YZjq1V1Lu2
- qXOUe/eTcxuXMuVcaKAfDWvc7legtaC7nhi2f3ZSF1Cf5B2w9Ale3AtiB0kRYV5scNLTbRFCFZP
- x0v62mQHqrJufXcIn8g==
-X-Authority-Analysis: v=2.4 cv=KKNqylFo c=1 sm=1 tr=0 ts=6a38e7ba cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=IiQtowvc5NyaFes3EFkA:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: 1eszxaEjD_r2EJLOvzZS0HIS10Bbkr1n
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIyMDA3NCBTYWx0ZWRfX5yf8JdX468gX
- QR02gSJ8MkqxXHNwcT1l/vV61nE2XAy2uF6hL8jphxEUxF4ngNSK6VTSoMrSBjsKyexk8WtwXU7
- WjgIcWM1x1/0YOJkTw2+YEQahZ2CjHi/K4Vxf15apINGFljV9EAh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-22_01,2026-06-18_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 phishscore=0 adultscore=0 clxscore=1015
- spamscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606220074
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/page_alloc: unify
+ __alloc_frozen_pages[_nolock]_noprof()
+Content-Language: en-US
+To: Brendan Jackman <brendan.jackman@linux.dev>,
+ Matthew Wilcox <willy@infradead.org>, Brendan Jackman <jackmanb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
+ Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+ David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev
+References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
+ <ajS96fWbG4dzP3u3@casper.infradead.org>
+ <DJCVLX0WK118.3V7CXOTLISFOQ@linux.dev>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <DJCVLX0WK118.3V7CXOTLISFOQ@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Marvell MPIC platforms (Armada 370/XP/38x), mvneta uses a percpu
-IRQ disable/enable scheme for NAPI: the ISR (mvneta_percpu_isr) calls
-disable_percpu_irq() to mask the MPIC per-CPU interrupt and schedules
-NAPI poll, which calls enable_percpu_irq() on completion to unmask.
+On 6/19/26 10:17, Brendan Jackman wrote:
+> On Fri Jun 19, 2026 at 3:56 AM UTC, Matthew Wilcox wrote:
+>>> +/*
+>>> + * This is the 'heart' of the zoned buddy allocator.
+>>> + */
+>>> +struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order,
+>>> +		int preferred_nid, nodemask_t *nodemask, unsigned int alloc_flags)
+>>> +{
+>>> +	struct page *page;
+>>> +	gfp_t alloc_gfp; /* The gfp_t that was actually used for allocation */
+>>> +	struct alloc_context ac = { };
+>>> +
+>>> +	/* Other flags could be supported later if needed. */
+>>> +	if (WARN_ON(alloc_flags & ~ALLOC_TRYLOCK))
+>>>  		return NULL;
+>>>  
+>>> +	if (!alloc_order_allowed(gfp, order, alloc_flags))
+>>> +		return NULL;
+>>> +
+>>> +	if (alloc_flags & ALLOC_TRYLOCK) {
+>>> +		VM_WARN_ON_ONCE(gfp & ~__GFP_ACCOUNT);
+>>
+>> So the only GFP flag the user is allowed to specify is __GFP_ACCOUNT?
+>> That seems bogus; other flags would be reasonable including all the ones
+>> in gfp_trylock, as well as GFP_HIGHMEM, GFP_DMA, GFP_MOVABLE, GFP_HARDWALL.
 
-If suspend occurs while NAPI poll is pending (between
-disable_percpu_irq in the ISR and enable_percpu_irq in poll
-completion), the interrupt is never re-enabled:
+We could start phasing out GFP_HIGHMEM and GFP_DMA somewhere :)
 
-  1. mvneta_percpu_isr: disable_percpu_irq() + napi_schedule()
-     => MPIC masked, percpu_enabled cpumask bit cleared
-  2. NAPI poll does not complete before suspend proceeds
-     (on PREEMPT_RT this is highly likely since softirqs run in
-     ksoftirqd which gets frozen; on non-RT it can happen when
-     softirq processing is deferred to ksoftirqd)
-  3. mvneta_stop_dev => napi_disable(): cancels the pending poll
-     without executing the completion path
-  4. suspend_device_irqs => IRQCHIP_MASK_ON_SUSPEND: masks MPIC
-     (already masked, but records IRQS_SUSPENDED)
-  5. Resume: mpic_resume checks irq_percpu_is_enabled() => false
-     (bit was cleared in step 1) => skips unmask
-  6. mvneta_start_dev only restores device-level INTR_NEW_MASK,
-     does not touch the MPIC per-CPU mask
+> Definitely makes sense for the ones in gfp_trylock.
+> 
+> For the others, I'm not sure - this "nolock" functionality is a bit
+> weird and sketchy, I suspect the reason for the WARN here is "let's make
+> sure we have a proper think before we allow it to grow usecases that are
 
-Result: MPIC per-CPU interrupt stays masked permanently. The NIC
-generates interrupts (INTR_NEW_CAUSE != 0) but the CPU never
-receives them, causing complete loss of network connectivity.
+Yeah you were just keeping the same allowed flags that
+alloc_frozen_pages_nolock_noprof() currently does.
 
-Fix by calling on_each_cpu(mvneta_percpu_enable) in the resume path
-to unconditionally unmask the MPIC per-CPU interrupt regardless of
-pre-suspend state.
+> meaningfully different from the other ones". I think I like that
+> conservatism here, I would lean towards keeping it? Not a passionately
+> held opinion though.
 
-Fixes: 12bb03b436da ("net: mvneta: Handle per-cpu interrupts")
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
----
-v4:
-  - Rewrite commit message with accurate root cause analysis.
-
-v3:
-  - Dropped the free_irq/request_irq approach (incorrect root cause).
-  - Instead, call on_each_cpu(mvneta_percpu_enable) in the resume path
-    to ensure the MPIC percpu IRQ is unmasked, matching mvneta_open().
-  - Updated commit message with correct root cause analysis.
-
-v2:
-  - Move request_irq before cpuhp registration in resume (matching
-    mvneta_open ordering) so that failure does not leave cpuhp
-    callbacks registered on a non-functional device.
-  - On request_irq failure, call netif_device_detach() to prevent
-    further traffic on the dead interface.
-
- drivers/net/ethernet/marvell/mvneta.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/net/ethernet/marvell/mvneta.c b/drivers/net/ethernet/marvell/mvneta.c
-index 488f2663ad2c..543e566425c1 100644
---- a/drivers/net/ethernet/marvell/mvneta.c
-+++ b/drivers/net/ethernet/marvell/mvneta.c
-@@ -5918,6 +5918,9 @@ static int mvneta_resume(struct device *device)
- 	rtnl_unlock();
- 	mvneta_set_rx_mode(dev);
- 
-+	if (!pp->neta_armada3700)
-+		on_each_cpu(mvneta_percpu_enable, pp, true);
-+
- 	return 0;
- }
- #endif
--- 
-2.43.0
-
+Yeah if we expand it, I'd do it separately and in response to use cases
+appearing.
+We want _nolock to be used only where really necessary, as its success is
+very limited, not to be (ab)used as a cheap way out of a wrongly designed
+driver or something. ("oh I need to allocate something here and can't spin,
+so let's just use this, solved").
