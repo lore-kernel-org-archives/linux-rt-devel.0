@@ -1,240 +1,226 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABDA25B0AF
-	for <linux-rt-devel@lists.linux.dev>; Mon, 22 Jun 2026 01:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173D7359A6D;
+	Mon, 22 Jun 2026 05:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782093549; cv=none; b=KWcm4f6lLM0TmIPCG5WMM8UwyjGSmYz7l0rxkOIlVkaNc2+xv5lKqicX0sMscbGkyE/vlcNmhgyLmFwk4GRmy0y37LQcZ1XK85Nntg+N4prCz/HBsWqkiLXTpJAYtP7skhf4UQJZdweAeVBKm2LTpzvuYypXB4fISBFl3Ko340Q=
+	t=1782106136; cv=none; b=Wx9sPm7iq0q8t4n2SPsAl7vnAXGdbhh7n1oRr7UwQTt5ncDyk4LLfohr0Wxgf55Zg+R16GmMavv1PpGMNR90X08ae+nvU+hvowpGwcbodr1UePQVLzV9tRlte1/FYjIxAmjjgHVDHswY4vlk3KFoA5WjGGLMilZX/t30WDzbotc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782093549; c=relaxed/simple;
-	bh=coW+ZqFoBHE+c7dosS4f+l6eRFfW5LPu06hW+62223k=;
+	s=arc-20240116; t=1782106136; c=relaxed/simple;
+	bh=ewFX1J5r9BOcftZkvXmGDF13VYIMWuo+fB74CRrpi9w=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ePsFeWOJxEzj8uE3q4E+Jn0fq7k8FcOpFS4Sub4M2GHg/nUsB+hcLxRduWfIHNBORh8rYGQsZwTsm+Xjho8c7fZi8Shr5RMQCOLjQ0qa2sEJh1wcBxejCMNymVhWokWEfiKcZd0Y766BDpi5ub4moLW9yqoxKYkfu71ozp/iU1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NxFaFZSm; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=PrVyE8XVPswDbyID87+Uar9dRrHJV/xIBqyhiC5LY1Dgv5NjlpUjynV0P5eW8Ls5kRKPN1XDHQSFNtB96jVRkPaFZuricotOdijWZttjFX8M7HTknysjmhcGYjMYyGDkoexhPwBnn1KhkgI7q6JMpyyxCmSOpXwzgF5QX8yPalo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZdfY7lw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NxFaFZSm"
-Message-ID: <267e070f-adc2-4f42-b528-746f852d9ef4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782093535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0qpRzlSyLktZxcLZDCE/8RBM2MX99p//TZMgpKeEF9c=;
-	b=NxFaFZSmEW+ZWMeELNcIGCdhQ61H6KXKppMDcfRpFas7ME15wP+WUEtZZQoKET/vfzZHJM
-	T4aMhPb8ktKruOCy6L+uoJ7VUXfLkbV3gpbyN6nq+y+oAc8YqFniPixLSLsy3WzjQKg4NR
-	VyI6gSHfcIUoVL1ANtxXoVvryXQrYd8=
-Date: Mon, 22 Jun 2026 09:58:00 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZdfY7lw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EC5D1F000E9;
+	Mon, 22 Jun 2026 05:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782106134;
+	bh=6AoqeIgtsoIEotLsuT/6S5kA35HKRcKnzuszYGA9cSU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jZdfY7lwrXHdCZrH4e7gAQhZZ7JXmuA+oGmtDtuFw7JIfOkwv8aT4Th3uO/RA+qPH
+	 Zv3GJjDK9oEYKuSYIexqQ/T1oCye9QpWGn80r6l5mZwVA78VRELY3ulL9fPWPogz6w
+	 Ba0Onckl6/+59VNCO7iW92MoCuttpHcavMkmU7bbUW71La5yo1XzLR/YFWP0v0VBE3
+	 dm0t2Xv3323e/fpD4ESeQqz5xFT+hQ02lmNy/o2exeientP2rluE4VtuDMXOxVaPt8
+	 d9BQfttxOj1KZZme9/oCYX5c0eTyZ3v3bLRL/d8/gmoa+3RYhXcZuSRfkDDHttJauN
+	 mKB2Kdclqnwfg==
+Message-ID: <e54ce8be-9480-4583-9c6a-d0dbe1378f53@kernel.org>
+Date: Mon, 22 Jun 2026 14:28:44 +0900
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] mm/page_alloc: unify
- __alloc_frozen_pages[_nolock]_noprof()
-To: Suren Baghdasaryan <surenb@google.com>,
- Brendan Jackman <brendan.jackman@linux.dev>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH for-next v3 7/9] mm/slab: introduce kfree_rcu_nolock()
+To: XIAO WU <xiaowu.417@qq.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
  Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
  Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Alexei Starovoitov <ast@kernel.org>, "Harry Yoo (Oracle)"
- <harry@kernel.org>, Gregory Price <gourry@gourry.net>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260617-alloc-trylock-v1-1-83fd7858832e@google.com>
- <2399b3ad-4eac-4a14-94c3-27e9f07972a1@kernel.org>
- <CAJuCfpG48TmvaiaRvnL-NXKU6nn55D3bks2DgzAc0URsZhAxqA@mail.gmail.com>
- <DJBHRVM65A11.1OL2M9MXN56H@linux.dev>
- <45fcc57a-ec8d-46d6-9c28-065d001c081f@linux.dev>
- <DJD0AGHTWYRN.1YWG5MDH87WVO@linux.dev>
- <CAJuCfpGtymV=Tmsvs8Z-oF6pi7mD54mRiZNZtpF3UpYwBL7Uig@mail.gmail.com>
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-7-70a54f3775bb@kernel.org>
+ <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
 Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <CAJuCfpGtymV=Tmsvs8Z-oF6pi7mD54mRiZNZtpF3UpYwBL7Uig@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0bA2sXgPSFRAxm6IZvk0FJpS"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0bA2sXgPSFRAxm6IZvk0FJpS
+Content-Type: multipart/mixed; boundary="------------FtmCIR510BgenahTU3dM406w";
+ protected-headers="v1"
+From: Harry Yoo <harry@kernel.org>
+To: XIAO WU <xiaowu.417@qq.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>,
+ Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
+ Roman Gushchin <roman.gushchin@linux.dev>,
+ Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+ Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Pedro Falcato <pfalcato@suse.de>, Suren Baghdasaryan <surenb@google.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, bpf@vger.kernel.org
+Message-ID: <e54ce8be-9480-4583-9c6a-d0dbe1378f53@kernel.org>
+Subject: Re: [PATCH for-next v3 7/9] mm/slab: introduce kfree_rcu_nolock()
+References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
+ <20260615-kfree_rcu_nolock-v3-7-70a54f3775bb@kernel.org>
+ <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
+In-Reply-To: <tencent_45CAE878B5922990DB102BE05A1BAD50DA09@qq.com>
+
+--------------FtmCIR510BgenahTU3dM406w
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
 
-On 2026/6/20 02:08, Suren Baghdasaryan wrote:
-> On Fri, Jun 19, 2026 at 4:57 AM Brendan Jackman
-> <brendan.jackman@linux.dev> wrote:
->> On Thu Jun 18, 2026 at 2:22 AM UTC, Hao Ge wrote:
->>> On 2026/6/18 01:14, Brendan Jackman wrote:
->>>> On Wed Jun 17, 2026 at 4:49 PM UTC, Suren Baghdasaryan wrote:
->>>>> On Wed, Jun 17, 2026 at 9:39 AM Vlastimil Babka (SUSE)
->>>>> <vbabka@kernel.org> wrote:
->>>>>> +Cc Alexei
->>>>>>
->>>>>> On 6/17/26 17:29, Brendan Jackman wrote:
->>>>>>> Currently the core allocator code is controlled by ALLOC_NOLOCK, but the
->>>>>> It's not, it's ALLOC_TRYLOCK! Thanks for proving that we need to rename it
->>>>>> to ALLOC_NOLOCK:
->>>>>>
->>>>>> https://lore.kernel.org/all/DJ9QPTO2WXNB.10E88ZHWRDHB0@gmail.com/
->>>>>>
->>>>>> So you just won the job to do the rename :) I think it should be done before
->>>>>> this patch, so that the new usages and other _trylock names introduced here
->>>>>> can be done as _nolock outright.
->>>> Ack. I'll aim to send that tomorrow once Sashiko has caught up.
->>>>
->>>>>>> main entry point function is significantly different from the normal
->>>>>>> __alloc_frozen_pages_nolock(), this is tiring when reading the code.
->>>>>>>
->>>>>>> Plumb the ALLOC_NOLOCK control one layer up in the call stack: create
->>>>>>> an alloc_flags argument to __alloc_frozen_pages_nolock() (which is only
->>>>>>> exposed to mm/) and then turn the nolock variant into a thin wrapper
->>>>>>> that just sets that flag (as well as handling NUMA_NO_NODE, similar to
->>>>>>> how some of the wrappers in gfp.h do).
->>>>>>>
->>>>>>> Rationale that this doesn't change anything:
->>>>>>>
->>>>>>> 1. Simple bits: A bunch of the nolock-specific handling is just moved to
->>>>>>>      the new alloc_order_allowed(), alloc_trylock_allowed() and
->>>>>>>      gfp_trylock.
->>>>>>>
->>>>>>> 2. __alloc_frozen_pages_noprof() has some extra logic that wasn't
->>>>>>>      previously in the nolock variant:
->>>>>>>
->>>>>>>      a. Application of gfp_allowed_mask; this only affects early boot, and
->>>>>>>         only flags that affect the slowpath get changed here.
->>>>>>>
->>>>>>>      b. Application of current_gfp_context() - also only affects the
->>>>>>>         slowpath
->>>>>>>
->>>>>>> 3. The slowpath itself: this is now just explicitly skipped under
->>>>>>>      !ALLOC_TRYLOCK.
->>>>>> I'll have to ponder it more closely.
->>>>>>
->>>>>>> Ulterior motive: adding an alloc_flags arg to the allocator's
->>>>>>> mm-internal entrypoint can later be used to do more allocation
->>>>>>> customisation without needing to create new GFP flags.
->>>>>> Ack.
->>>>> I think this change might also help us in removing __GFP_NO_CODETAG
->>>> Nice, this actually looks trivial? I can probably just tack it onto the
->>>> v2 for this patch/series.
->>>>
->>>>> introduced in [1] and being the only user of __GFP_NO_OBJ_EXT once
->>>>> Vlastimil's patchset removing other __GFP_NO_OBJ_EXT users lands.
->>>>> CC'ing Hao as he is brainstorming ways to remove __GFP_NO_CODETAG, and
->>>>> this might be the answer.
->>>
->>> Hi Brendan, Suren,
->>>
->>> Thanks for CC'ing me, Suren. This is indeed a viable approach
->>>
->>> and I believe it brings us one step closer to removing
->>>
->>> __GFP_NO_CODETAG entirely.
->>>
->>>
->>> Brendan, I'd actually put together a rough local implementation
->>>
->>> earlier with mostly the same core idea as yours, and this change
->>>
->>> would indeed be minimal based on your patch.
->>>
->>> Thanks a lot for being interested in tacking this into your v2 patch series.
->> Oh, I just took a look and it's a bit more fiddly than I thought because
->> alloc_tag.c is actually in lib/ not mm/.
 
-Hi Suren and Bredan
+On 6/21/26 9:29 AM, XIAO WU wrote:
+> Hi,
 
+Hi Xiao,
 
-> One option is to move alloc_tag.c into mm/ (while keeping more generic
-> codetag.c in lib/). From a quick look, that seems doable and probably
-> the easiest approach.
->
->> How did you tackle that, can you share your implementation? It would be
->> nice if we can avoid exposing alloc_flags in gfp.h.
+> I noticed the Sashiko AI review [1] in this thread flagged that
+> kfree_call_rcu_nolock() dereferences slab->slab_cache even when
+> virt_to_slab() returns NULL (for large kmalloc objects that bypass
+> SLUB, or vmalloc addresses).  The VM_WARN_ON_ONCE fires but does not
+> stop execution, and the subsequent NULL dereference is deterministic.
 
-First, I introduced the ALLOC_NO_CODETAG flag as shown below:
+Thanks for taking a look, but this was intentional.
 
-@@ -1478,6 +1480,7 @@ unsigned int reclaim_clean_pages_from_list(struct 
-zone *zone,
-  #define ALLOC_HIGHATOMIC       0x200 /* Allows access to 
-MIGRATE_HIGHATOMIC */
-  #define ALLOC_TRYLOCK          0x400 /* Only use spin_trylock in 
-allocation path */
-  #define ALLOC_KSWAPD           0x800 /* allow waking of kswapd, 
-__GFP_KSWAPD_RECLAIM set */
-+#define ALLOC_NO_CODETAG       0x1000 /* skip codetag tracking for this 
-allocation */
+I should have documented that only kmalloc_nolock() ->
+kfree_rcu_nolock() is allowed and kmalloc() -> kfree_rcu_nolock()
+is not allowed (yet).
 
+> I was able to reproduce this in QEMU with KASAN.  The trigger is as
+> simple as passing a large (>8KB) kmalloc buffer to the new function.
+>=20
+> On Tue, Jun 16, 2026 at 12:06:14AM +0800, Harry Yoo (Oracle) wrote:
+>> This commit introduces kfree_rcu_nolock(), a variant of kfree_rcu()
+>> designed to be safely called from unknown contexts without falling
+>> back to batched processing.
+> ...
+>> +void kfree_call_rcu_nolock(struct rcu_head *head, void *ptr)
+>> +{
+>> +    struct slab *slab;
+>> +    struct kmem_cache *s;
+>> +
+>> +    VM_WARN_ON_ONCE(is_vmalloc_addr(ptr) || !virt_to_slab(ptr));
+>> +
+>> +    slab =3D virt_to_slab(ptr);
+>> +    s =3D slab->slab_cache;
+>=20
+> The problem: if ptr is a large kmalloc object (> KMALLOC_MAX_CACHE_SIZE=
+,
+> which is 8 KB on x86_64), the allocation bypasses SLUB and comes from
+> the page allocator.  virt_to_slab() returns NULL.  VM_WARN_ON_ONCE
+> prints a warning but does NOT return, and the next line dereferences
+> NULL->slab_cache at offset 0x8.
 
-Then, mirroring __alloc_pages_noprof, we wrapped a helper function named 
-alloc_pages_noprof_notag.
+Since kmalloc_nolock() does not support large kmalloc, the warning
+is not supposed to trigger. That is why I added only debug warnings.
 
+> [Reproduction]
+>=20
+> I rebuilt the kernel with CONFIG_KASAN=3Dy and added a small late_initc=
+all
+> that allocates a 16 KB buffer and passes it to kfree_call_rcu_nolock():=
 
-@@ -5252,13 +5335,25 @@ struct page *__alloc_pages_noprof(gfp_t gfp, 
-unsigned int order,
-  {
-         struct page *page;
+>=20
+>   static int __init kfree_rcu_nolock_poc_trigger(void)
+>   {
+>       void *p =3D kmalloc(16384, GFP_KERNEL);
+>       struct rcu_head *head =3D kmalloc(sizeof(*head), GFP_KERNEL);
+>       kfree_call_rcu_nolock(head, p);
 
--       page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, 
-nodemask);
-+       page = __alloc_frozen_pages_noprof(gfp, order, preferred_nid, 
-nodemask, 0);
-         if (page)
-                 set_page_refcounted(page);
-         return page;
-  }
-  EXPORT_SYMBOL(__alloc_pages_noprof);
+As mentioned ealier, kmalloc() -> kfree_rcu_nolock() is not supported.
 
-+struct page *alloc_pages_noprof_notag(gfp_t gfp, unsigned int order)
-+{
-+       struct page *page;
-+
-+       page = __alloc_frozen_pages_noprof(gfp, order, numa_node_id(), NULL,
-+                                          ALLOC_NO_CODETAG);
-+       if (page)
-+               set_page_refcounted(page);
-+       return page;
-+}
-+EXPORT_SYMBOL_GPL(alloc_pages_noprof_notag);
+--=20
+Cheers,
+Harry / Hyeonggon
 
+>       return 0;
+>   }
+>   late_initcall(kfree_rcu_nolock_poc_trigger);
+>=20
+> [Crash log =E2=80=94 kernel 6.19.0-rc5, CONFIG_KASAN=3Dy, CONFIG_DEBUG_=
+VM=3Dy]
+>=20
+>   kfree_rcu_nolock PoC: calling kfree_call_rcu_nolock on large obj
+> ffff888026c5c000
+>=20
+>   WARNING: mm/slab_common.c:1271 at kfree_call_rcu_nolock+0x1e/0xc0
+>   VM_WARN_ON_ONCE(is_vmalloc_addr(ptr) || !virt_to_slab(ptr))
+>=20
+>   BUG: kernel NULL pointer dereference, address: 0000000000000008
+>   #PF: supervisor read access in kernel mode
+>   #PF: error_code(0x0000) - not-present page
+>=20
+>   RIP: 0010:kfree_call_rcu_nolock+0x5c/0xc0
+>   Call Trace:
+>    <TASK>
+>    poc_trigger_init+0x2a/0x40
+>    do_one_initcall+0x131/0x730
+>    kernel_init_freeable+0x471/0x7e0
+>    kernel_init+0x28/0x300
+>    ret_from_fork+0x2c/0xc0
+>    </TASK>
+>=20
+>   Kernel panic - not syncing: Fatal exception
+>=20
+> The crash is at offset 0x5c inside kfree_call_rcu_nolock(), which
+> corresponds to `s =3D slab->slab_cache`.  The fault address 0x8 is
+> exactly offsetof(struct slab, slab_cache).
+>=20
+> [1] https://sashiko.dev/#/patchset/20260615-kfree_rcu_nolock-
+> v3-0-70a54f3775bb%40kernel.org
+>     (Sashiko AI code review =E2=80=94 "Null Pointer Dereference", Sever=
+ity:
+> Critical)
+>=20
+> Thanks,
+> XIAO
 
-Lastly, we exported this function in gfp.h as shown below:
+--------------FtmCIR510BgenahTU3dM406w--
 
+--------------0bA2sXgPSFRAxm6IZvk0FJpS
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 51ef13ed756e..ac6e837ac8c0 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -234,6 +234,9 @@ struct folio *__folio_alloc_noprof(gfp_t gfp, 
-unsigned int order, int preferred_
-                 nodemask_t *nodemask);
-  #define __folio_alloc(...) alloc_hooks(__folio_alloc_noprof(__VA_ARGS__))
+-----BEGIN PGP SIGNATURE-----
 
-+struct page *alloc_pages_noprof_notag(gfp_t gfp, unsigned int order);
-+#define alloc_pages_notag(...) 
-alloc_hooks(alloc_pages_noprof_notag(__VA_ARGS__))
+iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCajjIDAAKCRCGXBN6rc5S
+1lXTAQD/UF6jRRFlByYwyRtFV1aCLkXuvtjzk07gG5EFoGXyowEAsd0BXdoNNnRS
+u74XP6LNkEXRVCalQe/Jc0H5N9M0EQw=
+=oppK
+-----END PGP SIGNATURE-----
 
-
-Hope this information helps you.
-
-
-Thanks
-
-Best Regards
-
-Hao
-
-
+--------------0bA2sXgPSFRAxm6IZvk0FJpS--
