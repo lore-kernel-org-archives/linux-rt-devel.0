@@ -1,154 +1,118 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB5F1D63F0
-	for <linux-rt-devel@lists.linux.dev>; Tue, 23 Jun 2026 09:39:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82360215075;
+	Tue, 23 Jun 2026 17:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207592; cv=none; b=r/EgXmE70JTebovCaa5YQUSNU2QLESdKoUMwxaXC2wWxyGEY6xwH4sbXWOODmN6SmQQfqcUVwz7PPPV/VH6wSTULJqmaTPTD77RmkSHdsC34ZbqxcRVd9AyPK4scjPS2Fai/5WMj0xrriiudsJX3lmdAsyRp+edqeoTC8DJuuFU=
+	t=1782235745; cv=none; b=V2CsAv4VT/9fCw83b/EXegmc+bieu8gb+owjSZcN6CyxsyH9WUag9Y+Qb2v1wiYD0veM/DZxGMxsIBLzgTgUvLL9PP5QBHKnlIilN0VvvxWsVGQjpnveD1NQiQOcwPmiBAoUo1mEEDdkgYVpkyjLqiREqGGOeQhNVLLxbdqfPh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207592; c=relaxed/simple;
-	bh=U4Iqm7QsRQQuARja0p8ycvIe+YfiYRRmTSzgffALWG4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZyvfIaP593Hhq9OI79FXfIi7LRphzaK/yd4vFr4w2qV7I1VgeiJ9dqN8TumlAtfRqPZCMy7XENywOStJ2m7mXqSGF9e0IjwuFXYL2uCdJOKjfYw9zuuZi1/ZLz9YzOnYA9M/qM0BVtIMlDaEzTP5P4+sJn5e9LGjmPLmggqCTuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=O9s633eC; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782235745; c=relaxed/simple;
+	bh=H+C0bJGcZbIyJBT/vqqzsA6y0I7Z4LHjhRWlzS/mzmE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kc7B4UP9VstvM8kyL6klLRtxJHKIwOF329UL1hp1tiTAAw7M8YhZpIHbl86Prsl6wBVcEAXwbP6UfkguWvwNYut6y4g5JKB9r3vGLpuF8sQxuYED/ye4CbC3tFjhdSaem0u/0a4gR2nF6IQwCgfjdFggqYwVf/C29apba1BtXmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d+A9Dyhi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="O9s633eC"
-Message-ID: <1c86fa84-6c9a-4004-9466-c78f036aeee0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782207579;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4H/3W3tN6mMIvYBnS9mHCZrNiKkHxT+r8zsyZoeO8nU=;
-	b=O9s633eCYIZQZ0YVj0juvZvctTo7J+i/2DEl814+wgK6ymLPdlfQVSbfvvzDtO7hbalc3E
-	qTw9YAzGNTLA2ZIxAtDf/2UYRrR8aHO3vov/gkpiQk45mbnY7C4ZGvvu1XMX6+4k+iqdKX
-	D30dyAJ8mTkPGux0g8YnHoQ4WzYRo9o=
-Date: Tue, 23 Jun 2026 17:38:50 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d+A9Dyhi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94ACC1F000E9;
+	Tue, 23 Jun 2026 17:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782235744;
+	bh=Wy+blSt5xdCwchobAX7ZrvH2NCFjXYGm/UFwJUwBnm4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=d+A9DyhiU0QEnMXLzKvsOFJugbfK+126pc5tl7z3mzF0WWFMGZCMZWr/JbfzVoi91
+	 W4H+61ZYt6tKEUOgEWsQL8Sa41B1snb3BmYBIPp0xB5oOmyHOd28tFSptLQG3s6D8y
+	 tDp6x9dj9FtSIrJsCujVxSvKwnTOwMFNlamej3AVOmJz9MLKWiwJAc7Y5xzOrIz20w
+	 7i8lria7zrQccSkIL8TusUdr7xy2p3Y1iAxKklrDvSN8GBqzMdUz9UO5CBqXP2o/JX
+	 hYXj+0TyrRzPXdnUiXxVXKWEax5CCeYrruxSK1fLEbZH+x3CTd9+NsgezxqerWlD3G
+	 piWILdNijvcnA==
+Date: Tue, 23 Jun 2026 18:28:53 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	"Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>, 
+	Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v2 11/13] alloc_tag: Move to mm/
+Message-ID: <ajrA4wiAKTdiraEO@lucifer>
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-11-31f31367d420@google.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
-To: Brendan Jackman <brendan.jackman@linux.dev>
-Cc: linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
- sashiko-reviews@lists.linux.dev, Brendan Jackman <jackmanb@google.com>
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-12-31f31367d420@google.com>
- <20260622102105.53D141F00A3A@smtp.kernel.org>
- <DJFJ96IPBX9H.33CCUBF385H1W@linux.dev>
- <037178f2-bd9e-4766-8df1-0881e2eee9c1@linux.dev>
- <DJGBNRPIEYRP.1XDOBS7YGKO1P@linux.dev>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <DJGBNRPIEYRP.1XDOBS7YGKO1P@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622-alloc-trylock-v2-11-31f31367d420@google.com>
 
+On Mon, Jun 22, 2026 at 10:01:38AM +0000, Brendan Jackman wrote:
+> This is logically mm code. Moving to mm/ allows access to mm/internal.h
+>
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 
-On 2026/6/23 17:30, Brendan Jackman wrote:
-> On Tue Jun 23, 2026 at 6:50 AM UTC, Hao Ge wrote:
->> Hi Brendan
->>
->>
->> On 2026/6/22 19:14, Brendan Jackman wrote:
->>> On Mon Jun 22, 2026 at 10:21 AM UTC, sashiko-bot wrote:
->>>> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
->>>> - [Low] Missing EXPORT_SYMBOL for out-of-line alloc_pages_node_noprof() causes widespread module linker errors.
->>>> --
->>>>
->>>> commit 42f7742177beb0066c00a7aa081250feb5859171
->>>> Author: Brendan Jackman <jackmanb@google.com>
->>>>
->>>> mm: Move __alloc_pages() to mm/internal.h
->>>>
->>>> This commit moves the __alloc_pages() family of internal functions to
->>>> mm/internal.h to restrict them to the mm subsystem. It also moves
->>>> alloc_pages_node_noprof() out-of-line into mm/page_alloc.c since it
->>>> depends on __alloc_pages_noprof().
->>>>
->>>>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->>>>> index 36f0d625a4390..38238203ef7b0 100644
->>>>> --- a/mm/page_alloc.c
->>>>> +++ b/mm/page_alloc.c
->>>> [ ... ]
->>>>
->>>>> @@ -5419,6 +5419,17 @@ struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
->>>>>    }
->>>>>    EXPORT_SYMBOL(__alloc_pages_noprof);
->>>> [Severity: Low]
->>>> Since __alloc_pages_noprof() is no longer visible outside of mm/, should this
->>>> EXPORT_SYMBOL be removed?
->>> Yep.
->>>
->>>>> +struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
->>>>> +{
->>>>> +	if (nid == NUMA_NO_NODE)
->>>>> +		nid = numa_mem_id();
->>>>> +
->>>>> +	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
->>>>> +	warn_if_node_offline(nid, gfp_mask);
->>>>> +
->>>>> +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
->>>>> +}
->>>> [Severity: Low]
->>>> Does this code cause module linker errors? alloc_pages_node_noprof() is called
->>>> by the alloc_pages_node() macro in include/linux/gfp.h, but it does not have
->>>> an EXPORT_SYMBOL.
->>> Yep. Doesn't show up in defconfig but if you set CONFIG_BLK_DEV_UBLK=m
->>> then:
->>>
->>> ERROR: modpost: "alloc_pages_node_noprof" [drivers/block/ublk_drv.ko] undefined!
->> I was about to report this linker issue myself, but Sashiko caught it first.
->>
->> While testing your patch on top of mm-new, I hit the exact same modpost
->>
->> undefined symbol error as mentioned above:
->>
->>     MODPOST Module.symvers
->> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-intel.ko]
->> undefined!
->> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-amd.ko]
->> undefined!
->> ERROR: modpost: "alloc_pages_node_noprof" [drivers/gpu/drm/ttm/ttm.ko]
->> undefined!
->> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-xp/xpc.ko]
->> undefined!
->> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-gru/gru.ko]
->> undefined!
->> ERROR: modpost: "alloc_pages_node_noprof"
->> [drivers/net/ethernet/amazon/ena/ena.ko] undefined!
->> ERROR: modpost: "alloc_pages_node_noprof"
->> [drivers/net/ethernet/amd/xgbe/amd-xgbe.ko] undefined!
->> ERROR: modpost: "alloc_pages_node_noprof"
->> [drivers/net/ethernet/aquantia/atlantic/atlantic.ko] undefined!
->> ERROR: modpost: "alloc_pages_node_noprof"
->> [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] undefined!
->> ERROR: modpost: "alloc_pages_node_noprof"
->> [drivers/net/ethernet/chelsio/cxgb4vf/cxgb4vf.ko] undefined!
->> WARNING: modpost: suppressed 14 unresolved symbol warnings because there
->> were too many)
-> FWIW something like this happened on a previous patchset of mine, and
-> someone was like "so you just sent patches without any testing huh?" so
-> I just wanna note: I did test this (see cover letter for details) I just
-> don't bother with modules!
+Sorry to be a pain, but I feel that this change should be dealt with separately
+perhaps as a pre-requisite to this series.
 
+Thanks, Lorenzo
 
-No worries, this is quite common. I've run into the same thing in
-
-my own work — missing =m configs in test builds happens to everyone.
-
-It doesn't affect my testing of this series.
-
-
-> Anyway, this is the 2nd time I've sent a patch that breaks the build of
-> CONFIG_KVM_INTEL=m so I guess it's time to add a new build to my test
-> scripts :)
+> ---
+>  MAINTAINERS             | 2 +-
+>  lib/Makefile            | 1 -
+>  mm/Makefile             | 1 +
+>  {lib => mm}/alloc_tag.c | 0
+>  4 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 65bd4328fe056..5d426b79b8fe7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16713,7 +16713,7 @@ S:	Maintained
+>  F:	Documentation/mm/allocation-profiling.rst
+>  F:	include/linux/alloc_tag.h
+>  F:	include/linux/pgalloc_tag.h
+> -F:	lib/alloc_tag.c
+> +F:	mm/alloc_tag.c
+>
+>  MEMORY CONTROLLER DRIVERS
+>  M:	Krzysztof Kozlowski <krzk@kernel.org>
+> diff --git a/lib/Makefile b/lib/Makefile
+> index f33a24bf1c19a..44f6538533a97 100644
+> --- a/lib/Makefile
+> +++ b/lib/Makefile
+> @@ -197,7 +197,6 @@ obj-$(CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT) += \
+>  obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
+>
+>  obj-$(CONFIG_CODE_TAGGING) += codetag.o
+> -obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
+>
+>  lib-$(CONFIG_GENERIC_BUG) += bug.o
+>
+> diff --git a/mm/Makefile b/mm/Makefile
+> index eff9f9e7e061c..4fc713867b9bd 100644
+> --- a/mm/Makefile
+> +++ b/mm/Makefile
+> @@ -147,3 +147,4 @@ obj-$(CONFIG_SHRINKER_DEBUG) += shrinker_debug.o
+>  obj-$(CONFIG_EXECMEM) += execmem.o
+>  obj-$(CONFIG_TMPFS_QUOTA) += shmem_quota.o
+>  obj-$(CONFIG_LAZY_MMU_MODE_KUNIT_TEST) += tests/lazy_mmu_mode_kunit.o
+> +obj-$(CONFIG_MEM_ALLOC_PROFILING) += alloc_tag.o
+> diff --git a/lib/alloc_tag.c b/mm/alloc_tag.c
+> similarity index 100%
+> rename from lib/alloc_tag.c
+> rename to mm/alloc_tag.c
+>
+> --
+> 2.54.0
 >
