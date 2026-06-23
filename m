@@ -1,21 +1,21 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035BA41C71
-	for <linux-rt-devel@lists.linux.dev>; Tue, 23 Jun 2026 09:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9ED2D3ED1
+	for <linux-rt-devel@lists.linux.dev>; Tue, 23 Jun 2026 09:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207039; cv=none; b=sBxNQuTYKkRU0o0yzZhNmJWkg+T8AMrI7IgZPEvTej/DSpmsuufWLd10fyFvrXBl3k+y0FS877vT7A8BTRf725z7Vr4XgltI3CXBEZqZcbhKduIWwaB40gvVY7myx+7bqq/tc8Jq7LsBwL3jY4XAfU3wOcajLdIm9tnzeVqPSI4=
+	t=1782207100; cv=none; b=YoJgIkKzPgqO675p5ULaLnc8t/OmgtnvPvmvfreU6y9sh4TE1b6iC+GlIJ3KWeCzcnK6bcrtCSyV7ReDdZAXMxNs8/eEcJ89xE5743whlx8ChgIGHFlgiWR3+3/j/RTk/8f0DRPu0hIPD4pz0WSuxnrrjvJ8fUZsuZdTivHVnP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207039; c=relaxed/simple;
-	bh=fysXveFrGl+xOjESs45HninEzPcTZNm96UsPzXWUmSU=;
+	s=arc-20240116; t=1782207100; c=relaxed/simple;
+	bh=WlYKkmH2+/Rx3UAOeXIoxhHEVrRwDnGqfKhquFOHazM=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=TAe1yC9Ws5Hfqf7cK5BTZTdTnAv8J6lmQZT4nGaUVgjVJ6NTb+XQFGypKpkzPwsOPehimraeKjIBqnZRzAUMrJXqCf8OQmDwMsrSCDzEx28uRVbVF9GQ+d6h6I/0ceGAT9p2tWAsMTnCAElwziRTFih201DSV2X8EP2PE+WqPlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bUm2qcJd; arc=none smtp.client-ip=95.215.58.174
+	 References:In-Reply-To; b=ZLFbEkJqpvI0Di13zHlDPYMoZOT0PyOJzXLLLJYU+OcWTr2zDjRswT/KcIP08m2Fk+SOJS6C/9DFWhiaB8k5EkxJawqW6DEasqRcS/s/B31xQQj0X4t9A1ETomIrtGkYtS/Ht96ZQQQh9Ub97AJhWJkgAZANyx1YD2O2SCUvyVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T6lIdTHi; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bUm2qcJd"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T6lIdTHi"
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -23,134 +23,92 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782207035;
+	t=1782207096;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0TPt0XsEDlnfRhDI3WReRswBGq2sEbpAABGyvTSlfps=;
-	b=bUm2qcJdgZv9DExazrg3Q6bIImEbma9td2pMCBYkWi4sz2PL0Vlfp29zLXs5sYq6MVv/FN
-	MYM6nFk9YPSsvUbJuqKdihidmF0AtQbTnZjCis+zqibBQmcGJlA3IyeFlUP0CqZ17Db/C9
-	jMb9jWvi9G8nCXgfm1jkt9e+mjOH964=
+	bh=WlYKkmH2+/Rx3UAOeXIoxhHEVrRwDnGqfKhquFOHazM=;
+	b=T6lIdTHi0Rw450pvnrbxiKrURLhGKrhbo2SKEUGzxFi6FggL0IOWqc7iH6b1dGba6B5SJA
+	h1lU6z/OiyYWXXR41iC4yOa1e88mpxvbAL57BHsUNY2aoji2cwUzP9N0oB5UwF+fcyZk7R
+	c2p1zDGq3NtqlJLuyHGvSNAfZCQczeM=
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 23 Jun 2026 09:30:14 +0000
-Message-Id: <DJGBNRPIEYRP.1XDOBS7YGKO1P@linux.dev>
-Cc: <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
- <sashiko-reviews@lists.linux.dev>, "Brendan Jackman" <jackmanb@google.com>
-Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
+Date: Tue, 23 Jun 2026 09:31:30 +0000
+Message-Id: <DJGBOQRQD5N4.1AH0U7LYOAEQK@linux.dev>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, "Gregory Price"
+ <gourry@gourry.net>, "Alexei Starovoitov" <ast@kernel.org>, "Matthew
+ Wilcox" <willy@infradead.org>, <linux-mm@kvack.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>, "Michal
+ Hocko" <mhocko@suse.com>, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Zi Yan" <ziy@nvidia.com>, "Muchun
+ Song" <muchun.song@linux.dev>, "Oscar Salvador" <osalvador@suse.de>, "David
+ Hildenbrand" <david@kernel.org>, "Lorenzo Stoakes" <ljs@kernel.org>, "Liam
+ R. Howlett" <liam@infradead.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Alistair Popple" <apopple@nvidia.com>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Hao Li" <hao.li@linux.dev>, "Christoph
+ Lameter" <cl@gentwo.org>, "David Rientjes" <rientjes@google.com>, "Roman
+ Gushchin" <roman.gushchin@linux.dev>, "Sebastian Andrzej Siewior"
+ <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
+ Rostedt" <rostedt@goodmis.org>, "Suren Baghdasaryan" <surenb@google.com>
+Subject: Re: [PATCH v2 13/13] mm: remove __GFP_NO_CODETAG
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: "Brendan Jackman" <brendan.jackman@linux.dev>
-To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman"
- <brendan.jackman@linux.dev>
+To: "Hao Ge" <hao.ge@linux.dev>, "Brendan Jackman" <jackmanb@google.com>,
+ "Vlastimil Babka" <vbabka@kernel.org>
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-12-31f31367d420@google.com>
- <20260622102105.53D141F00A3A@smtp.kernel.org>
- <DJFJ96IPBX9H.33CCUBF385H1W@linux.dev>
- <037178f2-bd9e-4766-8df1-0881e2eee9c1@linux.dev>
-In-Reply-To: <037178f2-bd9e-4766-8df1-0881e2eee9c1@linux.dev>
+ <20260622-alloc-trylock-v2-13-31f31367d420@google.com>
+ <6e312b15-d2b5-4137-aa3f-720ec214c7ab@linux.dev>
+In-Reply-To: <6e312b15-d2b5-4137-aa3f-720ec214c7ab@linux.dev>
 X-Migadu-Flow: FLOW_OUT
 
-On Tue Jun 23, 2026 at 6:50 AM UTC, Hao Ge wrote:
+On Tue Jun 23, 2026 at 7:56 AM UTC, Hao Ge wrote:
 > Hi Brendan
 >
 >
-> On 2026/6/22 19:14, Brendan Jackman wrote:
->> On Mon Jun 22, 2026 at 10:21 AM UTC, sashiko-bot wrote:
->>> Thank you for your contribution! Sashiko AI review found 1 potential is=
-sue(s) to consider:
->>> - [Low] Missing EXPORT_SYMBOL for out-of-line alloc_pages_node_noprof()=
- causes widespread module linker errors.
->>> --
->>>
->>> commit 42f7742177beb0066c00a7aa081250feb5859171
->>> Author: Brendan Jackman <jackmanb@google.com>
->>>
->>> mm: Move __alloc_pages() to mm/internal.h
->>>
->>> This commit moves the __alloc_pages() family of internal functions to
->>> mm/internal.h to restrict them to the mm subsystem. It also moves
->>> alloc_pages_node_noprof() out-of-line into mm/page_alloc.c since it
->>> depends on __alloc_pages_noprof().
->>>
->>>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
->>>> index 36f0d625a4390..38238203ef7b0 100644
->>>> --- a/mm/page_alloc.c
->>>> +++ b/mm/page_alloc.c
->>> [ ... ]
->>>
->>>> @@ -5419,6 +5419,17 @@ struct page *__alloc_pages_noprof(gfp_t gfp, un=
-signed int order,
->>>>   }
->>>>   EXPORT_SYMBOL(__alloc_pages_noprof);
->>> [Severity: Low]
->>> Since __alloc_pages_noprof() is no longer visible outside of mm/, shoul=
-d this
->>> EXPORT_SYMBOL be removed?
->> Yep.
+> On 2026/6/22 18:01, Brendan Jackman wrote:
+>> Now that alloc_pages has an entrypoint that allows passing alloc_flags,
+>> we can take advantage of this to start removing GFP flags that are only
+>> used for mm-internal stuff.
 >>
->>>> +struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigne=
-d int order)
->>>> +{
->>>> +	if (nid =3D=3D NUMA_NO_NODE)
->>>> +		nid =3D numa_mem_id();
->>>> +
->>>> +	VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
->>>> +	warn_if_node_offline(nid, gfp_mask);
->>>> +
->>>> +	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
->>>> +}
->>> [Severity: Low]
->>> Does this code cause module linker errors? alloc_pages_node_noprof() is=
- called
->>> by the alloc_pages_node() macro in include/linux/gfp.h, but it does not=
- have
->>> an EXPORT_SYMBOL.
->> Yep. Doesn't show up in defconfig but if you set CONFIG_BLK_DEV_UBLK=3Dm
->> then:
+>> This requires also plumbing the alloc_flags into some more of the
+>> allocator code, in particular __alloc_pages[_noprof]() gets an
+>> alloc_flags arg to go along with its callees, and we now need to pass
+>> those flags deeper into the allocator so they can reach the alloc_tag
+>> code.
 >>
->> ERROR: modpost: "alloc_pages_node_noprof" [drivers/block/ublk_drv.ko] un=
-defined!
+>> To try and keep the new ALLOC_NO_CODETAG's scope nice and narrow, don't
+>> define it in mm/internal.h, instead just define a "reserved bit" and
+>> then use that in places that don't care about what it means.
+>>
+>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
 >
-> I was about to report this linker issue myself, but Sashiko caught it fir=
-st.
 >
-> While testing your patch on top of mm-new, I hit the exact same modpost
->
-> undefined symbol error as mentioned above:
->
->  =C2=A0 MODPOST Module.symvers
-> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-intel.ko]=20
-> undefined!
-> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-amd.ko]=20
-> undefined!
-> ERROR: modpost: "alloc_pages_node_noprof" [drivers/gpu/drm/ttm/ttm.ko]=20
-> undefined!
-> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-xp/xpc.ko]=20
-> undefined!
-> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-gru/gru.ko]=
+> Nit: The title says "remove __GFP_NO_CODETAG" but the flag isn't really=
 =20
-> undefined!
-> ERROR: modpost: "alloc_pages_node_noprof"=20
-> [drivers/net/ethernet/amazon/ena/ena.ko] undefined!
-> ERROR: modpost: "alloc_pages_node_noprof"=20
-> [drivers/net/ethernet/amd/xgbe/amd-xgbe.ko] undefined!
-> ERROR: modpost: "alloc_pages_node_noprof"=20
-> [drivers/net/ethernet/aquantia/atlantic/atlantic.ko] undefined!
-> ERROR: modpost: "alloc_pages_node_noprof"=20
-> [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] undefined!
-> ERROR: modpost: "alloc_pages_node_noprof"=20
-> [drivers/net/ethernet/chelsio/cxgb4vf/cxgb4vf.ko] undefined!
-> WARNING: modpost: suppressed 14 unresolved symbol warnings because there=
+> removed =E2=80=94 it's migrated from gfp_t to alloc_flags as
+>
+> ALLOC_NO_CODETAG. Something like "mm: replace __GFP_NO_CODETAG with an=20
+> alloc_flag" would be more accurate.
+
+Good point, will reword this.
+
+> Additionally, as Lorenzo pointed out in another thread, you will likely=
 =20
-> were too many)
+> need to rebase this series later.
+>
+> I noticed Vlastimil has already landed the slab changes removing=20
+> __GFP_NO_OBJ_EXT into mainline:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?=
+id=3D335c347686e76df9d2c7d7f61b5ea627a4c5cb4c
+>
+> For v3, it might make sense to fold in Vlastimil's patch so the full=20
+> removal of __GFP_NO_OBJ_EXT can be completed end-to-end
+>
+> https://lore.kernel.org/all/20260609-slab_alloc_flags-v1-15-2bf4a4b9b526@=
+kernel.org/
 
-FWIW something like this happened on a previous patchset of mine, and
-someone was like "so you just sent patches without any testing huh?" so
-I just wanna note: I did test this (see cover letter for details) I just
-don't bother with modules!
-
-Anyway, this is the 2nd time I've sent a patch that breaks the build of
-CONFIG_KVM_INTEL=3Dm so I guess it's time to add a new build to my test
-scripts :)
-
+Ack, thanks for the links and review!
