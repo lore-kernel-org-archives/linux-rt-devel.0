@@ -1,334 +1,213 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EE43C9ED8
-	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 14:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782311850; cv=none; b=kqWhFY0iBpMnULX8/YRM6Eu2uSwnjnDAyO7S8iRSNARo+xk1FQvfHhvdB0yvOD2dcz2MZkUupNhh42PvgDzhrrWngjfpdrcUhYr8280ODB6e6aUOT+/ZQ7eJ+2d9oJsaY97NCNzN65B5rYxPDSv5nUCSwGS2bjRumT8AnOtYtl4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782311850; c=relaxed/simple;
-	bh=Z8zO5e8G8iEi+o4sWmSQQJEdHKF3QcvxYwhJwzclGu0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qohjhP4c1ONCHpLvrw+8b6wcNH0pWs0IWGWXhDAz64eAFDc6Zo34Z0FZ/4dpnTcyld6geQmGe9Xg5QPxu57egYplXoDETwvg2qCh+6htC1Gg75CvJLsW9wT8LwFC3/Vbbf8B3BgJfwt/zwfn7VxEtQ6G3vDjG93FCsQQmaz+9vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YyKj3973; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9xkpX6Dx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YyKj3973; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9xkpX6Dx; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA50530216D
+	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 14:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782312015; cv=pass; b=btlzTVtbgR/xc6xQ0sHKl1yV4VGYoT3uopvTQV4nABy/KI+Erz2ZQSDQhgwooyvTsknFNNQxq6oYJY6OLL5rMZkfkS3tTZbSVOVDG+S1r85JeqyBiYSqhv6C6qe22akuQnLJOp4lr3S0gXccvQNGv7zgUgeRvl+maSIadKSrC1g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782312015; c=relaxed/simple;
+	bh=rQjKqpK/pADofmC9Seqon2e8BEuvKOKKH9tLJkWpm9Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pkzqHQjmQmlG/OTuMdY9UunB1aU8O2KmxZRUG/5ipFtjxdSnssudfeToTkrCm9KrD+4mFF6suYyOMQA3bf7v3K4CDTK3RrvZ1cfVhCUEBMcyWB94SZpLNsl/Uw4AyCCTxE8acnXJxWR20WDtA8tJjbi0ypGJPXSKVIfJMhjm8RY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k+d9IiD+; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YyKj3973";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9xkpX6Dx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YyKj3973";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9xkpX6Dx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 68BD0713CB;
-	Wed, 24 Jun 2026 14:37:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782311847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGpCqhie84Lk+N3qc4OewQcNGuUPftRJsClpCvq+bXc=;
-	b=YyKj3973y1Xg/Oexbfr+PBiwVs954B0yLiqrokAVRdaDVt9/vtrG8OemPouwnTr1MqpbF7
-	D5VjEvClG4TtTsHZ7gd5ALruogq4zndLtwq5641bAN36cyXP1FMJWmVkELQkPn/g8gjlaz
-	ClgxEBuAXe99303UYjSPsB1fLg3Unfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782311847;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGpCqhie84Lk+N3qc4OewQcNGuUPftRJsClpCvq+bXc=;
-	b=9xkpX6DxD6Y3QtPtaDBmuzjK/5CJ9QAPJTFALvoAtKxaaRQPzzeGLmJAsdWQrT+eX5tMrW
-	+gtrhTb44yjt4kCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782311847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGpCqhie84Lk+N3qc4OewQcNGuUPftRJsClpCvq+bXc=;
-	b=YyKj3973y1Xg/Oexbfr+PBiwVs954B0yLiqrokAVRdaDVt9/vtrG8OemPouwnTr1MqpbF7
-	D5VjEvClG4TtTsHZ7gd5ALruogq4zndLtwq5641bAN36cyXP1FMJWmVkELQkPn/g8gjlaz
-	ClgxEBuAXe99303UYjSPsB1fLg3Unfs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782311847;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zGpCqhie84Lk+N3qc4OewQcNGuUPftRJsClpCvq+bXc=;
-	b=9xkpX6DxD6Y3QtPtaDBmuzjK/5CJ9QAPJTFALvoAtKxaaRQPzzeGLmJAsdWQrT+eX5tMrW
-	+gtrhTb44yjt4kCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 93E96779A8;
-	Wed, 24 Jun 2026 14:37:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6z3cIKXrO2oJTQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Wed, 24 Jun 2026 14:37:25 +0000
-Date: Wed, 24 Jun 2026 15:37:23 +0100
-From: Pedro Falcato <pfalcato@suse.de>
-To: "Harry Yoo (Oracle)" <harry@kernel.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, 
-	Puranjay Mohan <puranjay@kernel.org>, Amery Hung <ameryhung@gmail.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, 
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Zqiang <qiang.zhang@linux.dev>, Suren Baghdasaryan <surenb@google.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, rcu@vger.kernel.org, 
-	bpf@vger.kernel.org
-Subject: Re: [PATCH for-next v3 5/9] mm/slab: extend deferred free mechanism
- to handle rcu sheaves
-Message-ID: <ajvrNoE81J-_4zsM@pedro-suse>
-References: <20260615-kfree_rcu_nolock-v3-0-70a54f3775bb@kernel.org>
- <20260615-kfree_rcu_nolock-v3-5-70a54f3775bb@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k+d9IiD+"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-695469b574eso9497a12.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 07:40:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782312012; cv=none;
+        d=google.com; s=arc-20260327;
+        b=iN0x7MhlKUD6bI0joaTE8T7Fyok1RjvnoYBE5wKa+WJhHEkSQTxpg4mnZci4denKku
+         FArNaqeA6SIPmYsbSEOXVUNuAeuUAG71lrZ7gdEha4P5wORRc4gWBUOqXo1IFm5sC8zp
+         XW75gTfyqfCDcTRehyZOSqoTeonc3Or1WXdcnUhQTHL0kWS2TkJczF16hH8VBF77t3/Z
+         J3Zd97TWTCLyDEvzTUZXHCdWhuMhq9yv2WGu9h+L16LSdvI8RbH3V1eLsOCDaA7OeTIN
+         0QfA8TdeKQ8aYqnA7Ns/Mkuqc50CvW0X70gu5ARCKfdeXoF5nKu9QK9U/Al92LXWpMSr
+         Op4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FWKf6qA0xOoZavhdVF11AAUEP+ZjFUXbTVi5tLLPk6w=;
+        fh=ZOF2dMubUAmcb9Ri6Q1CJ9F6gR7b92cKpd0sA2DlpG0=;
+        b=Epk+CEF/ude2o4n7MgW+cZiYt4/4JHEJNJckmsMRXRE88gg3otVwKo5WjSfCSOpzHu
+         PPQVeQ6H5Am04vsFuuXt92ZI01kmI5Uu/JzwimS4QXJ/vxxFNE/0wwCmgWEcN+9imlDD
+         O0TRdN5fWJIQcSS/sA+B6iN/JOG9GFDGmVDRVl2kIjjzNHImm7dzdJK2uotYWDs1vr7h
+         0hENAaaEnm+Ob1vk81KBHFJSwU4LuY1G2dykHeInEWKEucks5SQm4takzKFIcfYnLkXL
+         0+mhWPFrUUq13M2B7VXw4I14Fr15yrlBrLmNnegb37bg1o1qLQCgI861Sa+TW0hebbiV
+         xmMw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782312012; x=1782916812; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FWKf6qA0xOoZavhdVF11AAUEP+ZjFUXbTVi5tLLPk6w=;
+        b=k+d9IiD+TA1LiQuXUe5kkcNks18oB+jfZXdRhn35eYUP5e1KtM9kTR3reP8HnN2yfK
+         YkGQK17ino7Cn0JEtReqVc3YGEPelZjb0+qQwc5NSpVOpZXng9BdnPU5r4bujs2kT301
+         YUZsCGUw4YcH2xlLqGPpWm7PIIttGwEduRTv/EuSSBQEFyKZGGesd/5jR/V9kuiXZQ4+
+         aGn+ABOsm4t1yoXIRlIMqKtilyT4guY/lEFV81fSUXdd42GvhabipoeBwFSc0CyuKoMn
+         VCPPU62s3uJnXJEcdZ2r59ckD3cLhkhR0pWxF3PCmUsIgffwAuKGvAKZeSlYH+G6sBoD
+         4p6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782312012; x=1782916812;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FWKf6qA0xOoZavhdVF11AAUEP+ZjFUXbTVi5tLLPk6w=;
+        b=Mv9OTfCzSISfvN47WU8/4AEKuyjOttek8SvxqhcwfmRJPR6s2JUueOBfvWu/AFwdtO
+         f09vIH5jb6+tBUrPZjRkGCNJkoXnFcdMusTmf7JFexIwm/JTDBkg+pEYZdzSQSN7sFQ2
+         +HbDmN6ELwuytaR14DS2uaTq8TQC3Rp7MLbETKV0J6zmAbqH7a5zmM19gLGPTO8tC6XD
+         XSBwbWWiK7+0dGvJNh/CZRPuD65b4i1/z8vrclxsZH2owg1FtbRV0TSsD3r91JeWdCNh
+         dEEHrNIuzyei0W0dM6p/zxodgI3bCc6zW4EmUgeEwmdzAte6eU7tmDlTY34yHuEJosLH
+         2FBA==
+X-Forwarded-Encrypted: i=1; AHgh+RowK+/f64NJp2v5Ht6NdTWIx7pCIi4Lokm8xpqoklgOzK0ryBCJjdya6TmmIKFHzvnF/UeFUzrbzvkl+xJBAQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYUB82W86UUPUEGNJKTWE9pCY4IEe1cV6uVHs5Aexv1r7dWTP5
+	5bfzzPfJKCY+chNeXXkiSHiRMp7CGUgnO0FaqyF+pi0lpxqSETFiDY+MltP2EKaTfwq+8qtJPst
+	rXl+IxKQltFeY6Sdfoaa+rEAyTHgcD188y3lBJTes
+X-Gm-Gg: AfdE7cnZhwdS2rJj4LSblZedtES4+WmupAuffPb7ibpXXWqVXSHbm3PbdjGm0ZKoxdo
+	ndHVvsHQyNFo4aE0AAocvYEsvrtW8Ml9M5iC1DFVRDapIe3YiYxiIoAOfHfj1Fkbf9PSTVz8LMi
+	jbZHwqnA/xb7Fmed26h8KFQijGpmtMU7GWHKZkad+qA6sF47PzgXUlVKJDfxiilL9eccGCfFfPy
+	OPHV03UkOTny3Z57B8DxgnblLGjVIDbn66+4OKfeAeEq+R8u2nFQeDrZ+tA6Uoq5FQVR6hdeMW1
+	qQ+sC1r+ANyT3hZBppXQDabQmw==
+X-Received: by 2002:a05:6402:21d2:b0:698:a99:445 with SMTP id
+ 4fb4d7f45d1cf-6980a990b18mr2980a12.5.1782312011716; Wed, 24 Jun 2026 07:40:11
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615-kfree_rcu_nolock-v3-5-70a54f3775bb@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Score: -3.80
-X-Spamd-Result: default: False [-3.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLg9nrgqsibwm9ympc34uc4grz)];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linux-foundation.org,linux.dev,gentwo.org,google.com,gmail.com,linutronix.de,goodmis.org,nvidia.com,joshtriplett.org,efficios.com,kvack.org,vger.kernel.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Level: 
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com> <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
+In-Reply-To: <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 24 Jun 2026 07:39:56 -0700
+X-Gm-Features: AVVi8CfeFSgyEnsm1Ac-SNfll3gB7dPsvM-OhL8M7_84xc3d-jjBQh-OL4XyQHk
+Message-ID: <CAJuCfpHrxk+fA8WsSh3mG9Fj9ttrLrf4RH=BtVbJwmAgE2ZSZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] mm/page_alloc: rename ALLOC_TRYLOCK -> ALLOC_NOLOCK
+To: Brendan Jackman <jackmanb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
+	Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, 
+	Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 15, 2026 at 08:05:59PM +0900, Harry Yoo (Oracle) wrote:
-> __kfree_rcu_sheaf() cannot invoke call_rcu() when spinning is not
-> allowed and IRQs are disabled. To relax the limitation, extend the
-> deferred free fallback so that a full rcu sheaf can be submitted to
-> call_rcu() via the existing IRQ work.
-> 
-> Since the deferred mechanism does more than deferred free of objects,
-> rename the struct to deferred_percpu_work and adjust names accordingly.
-> 
-> When a sheaf is queued on an IRQ work, it is detached from
-> pcs->rcu_free but call_rcu() is not invoked until the irq_work runs.
-> To keep the kvfree_rcu barrier's promise, call irq_work_sync() on each
-> CPU before calling rcu_barrier().
-> 
-> In the meantime, remove the TODO item as apparently there is no simple
-> and effective way to achieve that.
-> 
-> Suggested-by: Alexei Starovoitov <ast@kernel.org>
-> Signed-off-by: Harry Yoo (Oracle) <harry@kernel.org>
+On Mon, Jun 22, 2026 at 3:01=E2=80=AFAM Brendan Jackman <jackmanb@google.co=
+m> wrote:
+>
+> It's confusing that the function is called "nolock" but the flag is
+> called "trylock", align them.
+>
+> The function's terminology is more visible and has more mindshare so use =
+that.
+>
+> Suggested-by: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+> Link: https://lore.kernel.org/linux-mm/2399b3ad-4eac-4a14-94c3-27e9f07972=
+a1@kernel.org/
+> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+
+That comment for ALLOC_NOLOCK about only using spin_trylock in the
+allocation path could be rewritten to say that no locking or spinning
+is allowed but it's a minor detail.
+
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+
 > ---
->  mm/slab.h        |  2 +-
->  mm/slab_common.c |  7 ++---
->  mm/slub.c        | 79 ++++++++++++++++++++++++++++++++++----------------------
->  3 files changed, 51 insertions(+), 37 deletions(-)
-> 
-> diff --git a/mm/slab.h b/mm/slab.h
-> index b1bd33a16544..961581e35ec8 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -744,7 +744,7 @@ void __kmem_obj_info(struct kmem_obj_info *kpp, void *object, struct slab *slab)
->  void __check_heap_object(const void *ptr, unsigned long n,
->  			 const struct slab *slab, bool to_user);
->  
-> -void defer_free_barrier(void);
-> +void deferred_work_barrier(void);
->  
->  static inline bool slub_debug_orig_size(struct kmem_cache *s)
->  {
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index bc1a8ec938d9..55546b8385ff 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -551,7 +551,7 @@ void kmem_cache_destroy(struct kmem_cache *s)
->  	}
->  
->  	/* Wait for deferred work from kmalloc/kfree_nolock() */
-> -	defer_free_barrier();
-> +	deferred_work_barrier();
->  
->  	cpus_read_lock();
->  	mutex_lock(&slab_mutex);
-> @@ -2113,13 +2113,10 @@ void kvfree_rcu_barrier_on_cache(struct kmem_cache *s)
->  		cpus_read_lock();
->  		flush_rcu_sheaves_on_cache(s);
->  		cpus_read_unlock();
-> +		deferred_work_barrier();
->  		rcu_barrier();
->  	}
->  
-> -	/*
-> -	 * TODO: Introduce a version of __kvfree_rcu_barrier() that works
-> -	 * on a specific slab cache.
-> -	 */
-
-Perhaps could be worth detailing why this is not possible.
-
->  	__kvfree_rcu_barrier();
->  }
->  EXPORT_SYMBOL_GPL(kvfree_rcu_barrier_on_cache);
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 6a3552b70683..ba593c1c53d5 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -418,6 +418,8 @@ struct slab_sheaf {
->  	union {
->  		struct rcu_head rcu_head;
->  		struct list_head barn_list;
-> +		/* only used to defer call_rcu() in unknown context */
-> +		struct llist_node llnode;
->  		/* only used for prefilled sheafs */
->  		struct {
->  			unsigned int capacity;
-> @@ -4071,6 +4073,20 @@ static void flush_all(struct kmem_cache *s)
->  	cpus_read_unlock();
->  }
->  
-> +struct deferred_percpu_work {
-> +	struct llist_head objects;
-> +	struct llist_head rcu_sheaves;
-> +	struct irq_work work;
-> +};
-> +
-> +static void deferred_percpu_work_fn(struct irq_work *work);
-> +
-> +static DEFINE_PER_CPU(struct deferred_percpu_work, deferred_percpu_work) = {
-> +	.objects = LLIST_HEAD_INIT(objects),
-> +	.rcu_sheaves = LLIST_HEAD_INIT(rcu_sheaves),
-> +	.work = IRQ_WORK_INIT(deferred_percpu_work_fn),
-> +};
-> +
->  static void flush_rcu_sheaf(struct work_struct *w)
->  {
->  	struct slub_percpu_sheaves *pcs;
-> @@ -4142,6 +4158,7 @@ void flush_all_rcu_sheaves(void)
->  	mutex_unlock(&slab_mutex);
->  	cpus_read_unlock();
->  
-> +	deferred_work_barrier();
->  	rcu_barrier();
->  }
->  
-> @@ -6158,12 +6175,6 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, bool allow_spin)
->  	if (likely(rcu_sheaf->size < s->sheaf_capacity)) {
->  		rcu_sheaf = NULL;
->  	} else {
-> -		/* call_rcu() disables IRQs to protect percpu data structures */
-> -		if (unlikely(!allow_spin && irqs_disabled())) {
-> -			rcu_sheaf->size--;
-> -			local_unlock(&s->cpu_sheaves->lock);
-> -			goto fail;
-> -		}
->  		pcs->rcu_free = NULL;
->  		rcu_sheaf->node = numa_node_id();
->  	}
-> @@ -6172,8 +6183,18 @@ bool __kfree_rcu_sheaf(struct kmem_cache *s, void *obj, bool allow_spin)
->  	 * we flush before local_unlock to make sure a racing
->  	 * flush_all_rcu_sheaves() doesn't miss this sheaf
->  	 */
-> -	if (rcu_sheaf)
-> -		call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf);
-> +	if (rcu_sheaf) {
-> +		/* call_rcu() disables IRQs to protect percpu data structures */
-> +		if (unlikely(!allow_spin && irqs_disabled())) {
-> +			struct deferred_percpu_work *dpw;
-> +
-> +			dpw = this_cpu_ptr(&deferred_percpu_work);
-> +			if (llist_add(&rcu_sheaf->llnode, &dpw->rcu_sheaves))
-> +				irq_work_queue(&dpw->work);
-> +		} else {
-> +			call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf);
-> +		}
-> +	}
->  
->  	local_unlock(&s->cpu_sheaves->lock);
->  
-> @@ -6360,31 +6381,20 @@ static void free_to_pcs_bulk(struct kmem_cache *s, size_t size, void **p)
->  	}
->  }
->  
-> -struct defer_free {
-> -	struct llist_head objects;
-> -	struct irq_work work;
-> -};
-> -
-> -static void free_deferred_objects(struct irq_work *work);
-> -
-> -static DEFINE_PER_CPU(struct defer_free, defer_free_objects) = {
-> -	.objects = LLIST_HEAD_INIT(objects),
-> -	.work = IRQ_WORK_INIT(free_deferred_objects),
-> -};
-> -
->  /*
->   * In PREEMPT_RT irq_work runs in per-cpu kthread, so it's safe
->   * to take sleeping spin_locks from __slab_free().
->   * In !PREEMPT_RT irq_work will run after local_unlock_irqrestore().
->   */
-> -static void free_deferred_objects(struct irq_work *work)
-> +static void deferred_percpu_work_fn(struct irq_work *work)
->  {
-> -	struct defer_free *df = container_of(work, struct defer_free, work);
-> -	struct llist_head *objs = &df->objects;
-> +	struct deferred_percpu_work *dpw;
-> +	struct llist_head *objs, *rcu_sheaves;
->  	struct llist_node *llnode, *pos, *t;
->  
-> -	if (llist_empty(objs))
-> -		return;
-> +	dpw = container_of(work, struct deferred_percpu_work, work);
-> +	rcu_sheaves = &dpw->rcu_sheaves;
-> +	objs = &dpw->objects;
->  
->  	llnode = llist_del_all(objs);
->  	llist_for_each_safe(pos, t, llnode) {
-> @@ -6408,27 +6418,34 @@ static void free_deferred_objects(struct irq_work *work)
->  		__slab_free(s, slab, x, x, 1, _THIS_IP_);
->  		stat(s, FREE_SLOWPATH);
->  	}
-> +
-> +	llnode = llist_del_all(rcu_sheaves);
-> +	llist_for_each_safe(pos, t, llnode) {
-	llist_for_each_entry_safe?
-
-> +		struct slab_sheaf *rcu_sheaf = llist_entry(pos, struct slab_sheaf, llnode);
-> +
-> +		call_rcu(&rcu_sheaf->rcu_head, rcu_free_sheaf);
-> +	}
->  }
->  
-
-Otherwise LGTM!
-Reviewed-by: Pedro Falcato <pfalcato@suse.de>
- 
-
--- 
-Pedro
+>  mm/internal.h   |  2 +-
+>  mm/page_alloc.c | 10 +++++-----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 181e79f1d6a20..1483a4fcdfce1 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1475,7 +1475,7 @@ unsigned int reclaim_clean_pages_from_list(struct z=
+one *zone,
+>  #define ALLOC_NOFRAGMENT         0x0
+>  #endif
+>  #define ALLOC_HIGHATOMIC       0x200 /* Allows access to MIGRATE_HIGHATO=
+MIC */
+> -#define ALLOC_TRYLOCK          0x400 /* Only use spin_trylock in allocat=
+ion path */
+> +#define ALLOC_NOLOCK           0x400 /* Only use spin_trylock in allocat=
+ion path */
+>  #define ALLOC_KSWAPD           0x800 /* allow waking of kswapd, __GFP_KS=
+WAPD_RECLAIM set */
+>
+>  /* Flags that allow allocations below the min watermark. */
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 0111cdbdb5321..6c4eb6908bd95 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -2528,7 +2528,7 @@ static int rmqueue_bulk(struct zone *zone, unsigned=
+ int order,
+>         unsigned long flags;
+>         int i;
+>
+> -       if (unlikely(alloc_flags & ALLOC_TRYLOCK)) {
+> +       if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+>                 if (!spin_trylock_irqsave(&zone->lock, flags))
+>                         return 0;
+>         } else {
+> @@ -3216,7 +3216,7 @@ struct page *rmqueue_buddy(struct zone *preferred_z=
+one, struct zone *zone,
+>
+>         do {
+>                 page =3D NULL;
+> -               if (unlikely(alloc_flags & ALLOC_TRYLOCK)) {
+> +               if (unlikely(alloc_flags & ALLOC_NOLOCK)) {
+>                         if (!spin_trylock_irqsave(&zone->lock, flags))
+>                                 return NULL;
+>                 } else {
+> @@ -5042,7 +5042,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_ma=
+sk, unsigned int order,
+>          * Don't invoke should_fail logic, since it may call
+>          * get_random_u32() and printk() which need to spin_lock.
+>          */
+> -       if (!(*alloc_flags & ALLOC_TRYLOCK) &&
+> +       if (!(*alloc_flags & ALLOC_NOLOCK) &&
+>             should_fail_alloc_page(gfp_mask, order))
+>                 return false;
+>
+> @@ -7786,7 +7786,7 @@ static bool cond_accept_memory(struct zone *zone, u=
+nsigned int order,
+>                 return false;
+>
+>         /* Bailout, since try_to_accept_memory_one() needs to take a lock=
+ */
+> -       if (alloc_flags & ALLOC_TRYLOCK)
+> +       if (alloc_flags & ALLOC_NOLOCK)
+>                 return false;
+>
+>         wmark =3D promo_wmark_pages(zone);
+> @@ -7878,7 +7878,7 @@ struct page *alloc_frozen_pages_nolock_noprof(gfp_t=
+ gfp_flags, int nid, unsigned
+>          */
+>         gfp_t alloc_gfp =3D __GFP_NOWARN | __GFP_ZERO | __GFP_NOMEMALLOC =
+| __GFP_COMP
+>                         | gfp_flags;
+> -       unsigned int alloc_flags =3D ALLOC_TRYLOCK;
+> +       unsigned int alloc_flags =3D ALLOC_NOLOCK;
+>         struct alloc_context ac =3D { };
+>         struct page *page;
+>
+>
+> --
+> 2.54.0
+>
