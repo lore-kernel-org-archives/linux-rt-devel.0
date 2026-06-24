@@ -1,189 +1,224 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583CF242910
-	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 16:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524B41DE4FB
+	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 16:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782318282; cv=pass; b=gg7E2WUGysaXwytSWBFQ3egVSQq9WcyeHB2vBaiU4wXsiEYUkAZoverYzWGRLhoivHt5yIrnUs8xKg+ITm95TOqunjYY96SPBSDPrgfwPO12ImtCIZuWAZoVQmt1TxqCoCWltcBApY8G3fSk9FleYYDoUsuWrkufj4U9CFFfHvA=
+	t=1782318451; cv=pass; b=ZvsMB/24+m4/kY81E8i/nxp5Rj73ztb6wIoULv23nij84H6X8SnwRGMrtnpUyATDlJC29OA/bRiva+c95LvVnSAb2+44PKA4Z/0/mlHUcGwkQcmBaHI5wFRPdTDASkt9A/+DDTJD8Tcmk3dmfK9jjUNQEA7/Ic2GNf8t5wpVk6E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782318282; c=relaxed/simple;
-	bh=NQ3690bs9eqYTNlWQwsPYRW5w5ui/sXhsQZJ1rGOByc=;
+	s=arc-20240116; t=1782318451; c=relaxed/simple;
+	bh=+iyovmhXQPWmNJFHRUJTlrkiAh6j0El9YZ94aJpibP0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uZccGqA8zusW5yD9JbEJYeMlVG9YLWD2hVWjEw625hNkdrH6af/hBmSvjC4mcVtcx9HRQ89NVTdOYXUvp4VKakRXw6BK/Rz7u0kH756XnTI0rRsSHJ96bDVPIBctdLvLx53UYtgmi2rSKogKOUKYsIzqnNEllFvIhdA2wt7po0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sNd8rG7P; arc=pass smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=F40P5GQZ437eycXPCwLcEhGa3vc7eB5K0pDX7/jPEFTOf0TLw2Zvr7r4iM04vpCZkVH6b9MfwRTHQqDyvLBTARyNc4wKJal2fCQtJjB3l/95PriSRoM2xziKH6WvMRnn5BnXXxpqFbPU97TDolQr+61Evvd+DL6MJLrN7T+1Zog=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vuYE3Khk; arc=pass smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sNd8rG7P"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51765331535so300501cf.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 09:24:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782318280; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vuYE3Khk"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51765331535so301321cf.1
+        for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 09:27:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782318449; cv=none;
         d=google.com; s=arc-20260327;
-        b=lyUUdaIYNAqIRz4A/o+2uELRs8pKP2w7FEqNqqAwog/HVFgfMl4p0dhxPUzzUZA4Uq
-         pbhKH+F8wpb6icdfKpE9mSuJB66SCz1YKXacetvf0pwf9dtLSkD2vcSgc2Ug0bCDJU52
-         0lBksPnHVeMHlGuY0ZCNepakzwcEOuTi2lV8VqwaV8Kg4PbhAf/GMq6HVBdEC4ZEhH9e
-         ekmvlIKHKgYUWtnZSictQD6yR/dLrCcXeTf+sYR//ER/ORFFKeU20/cvbZ5SbeL9dLZE
-         Oa1rfnVV73l9os6API7nHFhrdMhOpQ9gUeGX9NfZD5sPqhBP1acnVzytg0OV8us/YTT0
-         Koxw==
+        b=g5b+Kh4VF7gZEQdYilTypEcuoF/2thGbf1GSOqvLcqLj5WO6jGIIAVWhG0OwMBDMg4
+         Wg5parAGme04KZd5TgE2rZV1cUxJ/lPyF/g30/7xRWAPdKLUVfOmnRAqcflBfFAs/P3D
+         pb4Gj23wAs/lhtCfpOrJm1yK28hVHOCkP22dm9P6N6QdgFkjxgW1w79elvvUle1hgs3G
+         EnxClva7I6mkuUk7bykeeRG0LTH6XABM7eEAFdn9VxCZ6AdYCadLWtWmDlk4720l/GqY
+         DOHzFCIAYpPeo5qQHZ9Nralx9NTirQnZezWuUydraOjkVmmZsnUK1D/bBktl7xQLqmBG
+         lsAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HzwnEhqWJZImCC+tqBDdx1M1NrB2lLpdw9IVLibHq6E=;
-        fh=xVfBLHbkt/Bx263VHMqOTARRggzWchXAe0oDc+pQyVA=;
-        b=G0XxNSVOGMfuWVZX78wGVCDzO06OURZg1+gAEJ/7R2R62My+jdhic2W7/G2x4KooFA
-         INJr67qoc9khASAO0bgM+XlX+bzdn+FWI2Q5WtVa3s1agphnRoDqR5FehDPLzvcP4E4N
-         k3+q17iZHaj+notUnrv2TpDFrT4hFwEhSiTr/u2NCp05vuiwYOFATNqbe9nO6Z9CmKAT
-         kb12b4XXh4jiV8Km8YR0a6MIFGkKhNy3vTfHAJgTv1ze9Gr2W9xtx/uYP783i7vKSZ3Y
-         +6pI+bZW7CmLKrboIF8MIaag8yxkp+2AR5LLF5Aaru9hLFXIri7kRjGB8s6pK2gsVZeM
-         2eBg==;
+        bh=6ARfU5T+Qw/ABRfv4KZaV88/2BHUdyOwkwS1gP1VtOU=;
+        fh=YQGdrn6hypBpHHU9vQd/NqZgVOq+RO97Zio3qIqzReo=;
+        b=Mqb+t8UiUBPVuCt7aowuLcXofGZUEl2y3zEnZ2gr9xCw/NpOgfl6cL/HB1E2fHaEXc
+         uVmOOSwnZE30tM2r7uJ84Oa2cPLy3UYezlAAqKU0FlJyJPihjA5bf8kEvPIRtxScFIQI
+         qBZ7xF19RdTOzfOHhl9/3Q2yvcjDU/sz+ZMOXHELiKCQv18qmkIU3QJSPpImQIUXf8lH
+         61iOo0+sqSUQgTr5orvKhOizrmlCmLrlTlrRyzeEBPjmf/4kLtWF5JEABmhC/z+Y+FLM
+         OIP5Hj90VDJDw6rKNLVRHfBT1E3JOumeEC1aoFCJUA0uA2DHGHvbtkUpCeXKUPIZJcnS
+         eS1Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782318280; x=1782923080; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782318449; x=1782923249; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=HzwnEhqWJZImCC+tqBDdx1M1NrB2lLpdw9IVLibHq6E=;
-        b=sNd8rG7PIVm7lyxyZFzqYCHFat1+SD/2fDhihQMHDn2i3ZAvNkOT8pFBCP2YYj7jyn
-         xmVuafKI4AgFIZ5LVGhIp/WqFGIENCNgvCDxyVMeDT878NJrMOoPymsVi+5a0xxyQZfP
-         eUeNPnBjSOhziOyGN/IzWID7vjSWq980GMk3KUWGPFWHzEAL5F23BRXNtFGXnuKUnX9N
-         xfcMcactLp/S48+jcLSBTUmz4LmcTOaUE4Ms5Bhr4dCD1t1k/CL4f0AH4wd9pp+3R+Pp
-         wCb0Y9ivD9R/NZm2tkeCJLRTsylr5Zy8EOBuWTsJZDxdV4iTVb6gy6QQAX4U1//LA11T
-         B/GQ==
+        bh=6ARfU5T+Qw/ABRfv4KZaV88/2BHUdyOwkwS1gP1VtOU=;
+        b=vuYE3KhkiNbSbO953HHQuSNTGX1o7njSg2IlVuDSHeJC1ctdixlruBKMZCTXR3Kufd
+         BQrIPo+fWVt2ThRvCR2SZtRXpH3KLaLFH8AGgXxbliJuvLP7LDQY3K/VQIj+WpebqhYU
+         u5eOmXRKS/+UrWYHOiF9TdrsSwo+GkeN0Tgta/RJJWMxF5AQEM3DTVmkM25rur9kcCc2
+         qlMHq9fZ8O16yph3Dben2In6yqC7TCU1Du6plJDNQ4h23u/lqh1Z6TexEPCReBfL8OQE
+         anAzS/pAdPHIRx9AAbyQZjw4N1QovjygOZST1vFvTRNId5ET+kfrz/b8gg8Tsfltw192
+         CbMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782318280; x=1782923080;
+        d=1e100.net; s=20251104; t=1782318449; x=1782923249;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HzwnEhqWJZImCC+tqBDdx1M1NrB2lLpdw9IVLibHq6E=;
-        b=C3SPIlG5GAuT0UZIREw0Kz2M0AvfrRU8hoq5rfxO8U37luJefetg3ZoAKGaHtIDc/r
-         liAF9nyX/ymyDWdjPvSlc1sEcFMMCrjDKTDklGxC/zTURAltI9B3kdAnh3avDmTrVg4h
-         ba8G2apX0pe7TfnvyX3gSZtsY09RqvbPZPPPjrFQ7sxfDQ2v4iNYQmDzocaK7bRy2hvi
-         m4T9XB2F/JvP1nJKkDS/CX2IJQFeGM0hDeXuftrYhXOIb7ioVJgqzkFCIfkR7WcTZVz+
-         CLs1pIBRm4e5Ci8vru7KWv/8TFcVpbUDFIYZBzI+P0RTqB0qlNZj3XFkBNNXy2WyKVO5
-         lQeA==
-X-Forwarded-Encrypted: i=1; AFNElJ9v5RlOYmfroUlnkiaAdeCvzD1e2IW0r8O/ecHaAYmh00dDNgBbqq592gzeUr91zFMr3L1vqeDJcI4txDbojQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY4zFvpuxIJxyh2N+/P2pFhK2za8PB9OFC2Vzj2QTvRC1bC16w
-	/OLoIFEhk+Keh9curMbivrr7eHogb1A4edy8xDO5M3NI5K101DVfZbeznX3yXF1nskhUle1QHcJ
-	cYcTMiILoNkJNr5IVrICaugdR6+QKEC4BXE0An2gd
-X-Gm-Gg: AfdE7cmpxHa0yqj5q5yAkn4vTDK5f6yEdDlI4pQEsWSILfx671GjF4cGWQX3CmkNzq+
-	Em18rzWDSd8rxcLz9+GVTAa1jFpmnVsbYZevHeY9fXK9xo2cKHhKFe5/k5y6V9s1ovAdRHyQCDG
-	U+Dor4hYK8phrpoPjT/Cfy62+/88eaSfDeVjHIQmeRVCj8CElE4QGp41h48LveV6XBZGhFQi9M+
-	/qwQ+REx03yYUCWFU8mYe1VyGGq6hXkOTSahv3awUj/6LZQwQdxkytN4xkazhJx1+9lVAZptfcT
-	YwNTD7yOO5T6rgZDpCb257Wilbw=
-X-Received: by 2002:a05:622a:1b16:b0:50f:af60:3496 with SMTP id
- d75a77b69052e-51a627e946emr9157051cf.1.1782318279473; Wed, 24 Jun 2026
- 09:24:39 -0700 (PDT)
+        bh=6ARfU5T+Qw/ABRfv4KZaV88/2BHUdyOwkwS1gP1VtOU=;
+        b=Dl7kxEtxJ55/PMQyHgS0hN4snW4JLApmnORbRGBV+lfzPVdkmG18Fw0OvNhpMQzeWn
+         P90hcEim3kbumzKKEStt+Ozc1SzYasyVS+Nu5XWF+hQp1KI8sE1sMui3PPyzGX4A3T3+
+         2iwA3ZQ8qUv+LtmnzYQuWgKWFE+yNSbWQEUCbsfIPtSc70ovY3LdEZGTHB4h8T9AISbv
+         zsjGBMlaPnle3SDEp0nax2901GLO9c76PTxCYMjfgrzcqbqUhxozlYKKU6Mb2uP1HCp0
+         mfFDk7hs9GGDYV+raw6Z+EJL7maBg1nv5Bz5pwoZRLbRGdlADKfNU+poG3d5sdh5zA6y
+         YQ1g==
+X-Forwarded-Encrypted: i=1; AFNElJ8rYUFiMlTTh37n376Mc8JCOMC1x1CwlcIozoWEftNw1VGSXDBO7ibWDRSSdBzRdlnpKXDwDo3hTqWXW4nKiA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOe8IEVc3GToXDYti7pnpgTIgYyVCJ4mbTFPIzcJ+T7AOQ+xsh
+	tjVIGXcA0J1+dOROv200jeV7AbJC29e4AuPz5FVm3T2cztknZ707nzZRnkjl7oJL8zJZlEo79JC
+	noIT4l0NtOxe9ATndnkLNLltXCj8p7rlFCW1YgZDNydI+3RAxTCDY42Oe
+X-Gm-Gg: AfdE7ckRlEC4xgf7AhgRZf5VGe+E18bjtQJSg54y8xwQeiRiKRGmR83jrPT2tuKZGwJ
+	h2GtWA9buJuYiMfwJPZc53iN3KjrbzisiG9QaVO3MP7cDc7gEfLFoMOCjgJv9Bkn+2ZLHbpQLb7
+	dSRzfgJjn+PdQemmARWe9HKb9bFcIphNx1OZ+bycG0sXT9RjErQ5ti3kPch7mZUgyMkDCg2U5ql
+	qngqZoO46Lnp7CBgXXVGuFtdwERAg+aaBYmzx9M66rlbfk0+ri8P4UeDBb+SbY/Y1bUDpu5bs13
+	Uw75hSx0j4KoAr1FPOowi4okSb8=
+X-Received: by 2002:ac8:5c83:0:b0:50f:ce97:3b84 with SMTP id
+ d75a77b69052e-51a61629645mr11861071cf.6.1782318448634; Wed, 24 Jun 2026
+ 09:27:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com> <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
-In-Reply-To: <20260622-alloc-trylock-v2-10-31f31367d420@google.com>
+References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
+ <20260622-alloc-trylock-v2-12-31f31367d420@google.com> <20260622102105.53D141F00A3A@smtp.kernel.org>
+ <DJFJ96IPBX9H.33CCUBF385H1W@linux.dev> <037178f2-bd9e-4766-8df1-0881e2eee9c1@linux.dev>
+ <DJGBNRPIEYRP.1XDOBS7YGKO1P@linux.dev> <1c86fa84-6c9a-4004-9466-c78f036aeee0@linux.dev>
+In-Reply-To: <1c86fa84-6c9a-4004-9466-c78f036aeee0@linux.dev>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 24 Jun 2026 09:24:28 -0700
-X-Gm-Features: AVVi8CdYUDI7odKsPpvoYQFWpGl84aGN92XZlpKXNN_3eXgP7NaHVsZe3wDvsVI
-Message-ID: <CAJuCfpHqYWAKjMSdhngvCaAp5htkEhd_RVj1OJf8+HUbWRNNjg@mail.gmail.com>
-Subject: Re: [PATCH v2 10/13] mm: Remove __alloc_pages_node()
-To: Brendan Jackman <jackmanb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Matthew Brost <matthew.brost@intel.com>, Joshua Hahn <joshua.hahnjy@gmail.com>, 
-	Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, "Harry Yoo (Oracle)" <harry@kernel.org>, 
-	Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-rt-devel@lists.linux.dev
+Date: Wed, 24 Jun 2026 09:27:17 -0700
+X-Gm-Features: AVVi8CfmH3g5_CMkyns7KSWcZ6iAiDyKBUNGK8QZnlEZrzsSs7MKALsfGxSD26M
+Message-ID: <CAJuCfpHAMaK2sZYSgS750CvgksCKEfOmLzZasXdBup+CrS-3Pg@mail.gmail.com>
+Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
+To: Hao Ge <hao.ge@linux.dev>
+Cc: Brendan Jackman <brendan.jackman@linux.dev>, linux-kernel@vger.kernel.org, 
+	linux-rt-devel@lists.linux.dev, sashiko-reviews@lists.linux.dev, 
+	Brendan Jackman <jackmanb@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 22, 2026 at 3:01=E2=80=AFAM Brendan Jackman <jackmanb@google.co=
-m> wrote:
+On Tue, Jun 23, 2026 at 2:40=E2=80=AFAM Hao Ge <hao.ge@linux.dev> wrote:
 >
-> There were only a few users, which have been removed. The only advantage
-> of this API over alloc_pages_node() is avoiding a single conditional
-> branch. The disadvantages are:
 >
-> 1. More API surface, more sources of confusion, more maintenance.
+> On 2026/6/23 17:30, Brendan Jackman wrote:
+> > On Tue Jun 23, 2026 at 6:50 AM UTC, Hao Ge wrote:
+> >> Hi Brendan
+> >>
+> >>
+> >> On 2026/6/22 19:14, Brendan Jackman wrote:
+> >>> On Mon Jun 22, 2026 at 10:21 AM UTC, sashiko-bot wrote:
+> >>>> Thank you for your contribution! Sashiko AI review found 1 potential=
+ issue(s) to consider:
+> >>>> - [Low] Missing EXPORT_SYMBOL for out-of-line alloc_pages_node_nopro=
+f() causes widespread module linker errors.
+> >>>> --
+> >>>>
+> >>>> commit 42f7742177beb0066c00a7aa081250feb5859171
+> >>>> Author: Brendan Jackman <jackmanb@google.com>
+> >>>>
+> >>>> mm: Move __alloc_pages() to mm/internal.h
+> >>>>
+> >>>> This commit moves the __alloc_pages() family of internal functions t=
+o
+> >>>> mm/internal.h to restrict them to the mm subsystem. It also moves
+> >>>> alloc_pages_node_noprof() out-of-line into mm/page_alloc.c since it
+> >>>> depends on __alloc_pages_noprof().
+> >>>>
+> >>>>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> >>>>> index 36f0d625a4390..38238203ef7b0 100644
+> >>>>> --- a/mm/page_alloc.c
+> >>>>> +++ b/mm/page_alloc.c
+> >>>> [ ... ]
+> >>>>
+> >>>>> @@ -5419,6 +5419,17 @@ struct page *__alloc_pages_noprof(gfp_t gfp,=
+ unsigned int order,
+> >>>>>    }
+> >>>>>    EXPORT_SYMBOL(__alloc_pages_noprof);
+> >>>> [Severity: Low]
+> >>>> Since __alloc_pages_noprof() is no longer visible outside of mm/, sh=
+ould this
+> >>>> EXPORT_SYMBOL be removed?
+> >>> Yep.
+> >>>
+> >>>>> +struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsi=
+gned int order)
+> >>>>> +{
+> >>>>> + if (nid =3D=3D NUMA_NO_NODE)
+> >>>>> +         nid =3D numa_mem_id();
+> >>>>> +
+> >>>>> + VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
+> >>>>> + warn_if_node_offline(nid, gfp_mask);
+> >>>>> +
+> >>>>> + return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+> >>>>> +}
+> >>>> [Severity: Low]
+> >>>> Does this code cause module linker errors? alloc_pages_node_noprof()=
+ is called
+> >>>> by the alloc_pages_node() macro in include/linux/gfp.h, but it does =
+not have
+> >>>> an EXPORT_SYMBOL.
+> >>> Yep. Doesn't show up in defconfig but if you set CONFIG_BLK_DEV_UBLK=
+=3Dm
+> >>> then:
+> >>>
+> >>> ERROR: modpost: "alloc_pages_node_noprof" [drivers/block/ublk_drv.ko]=
+ undefined!
+> >> I was about to report this linker issue myself, but Sashiko caught it =
+first.
+> >>
+> >> While testing your patch on top of mm-new, I hit the exact same modpos=
+t
+> >>
+> >> undefined symbol error as mentioned above:
+> >>
+> >>     MODPOST Module.symvers
+> >> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-intel.ko]
+> >> undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof" [arch/x86/kvm/kvm-amd.ko]
+> >> undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof" [drivers/gpu/drm/ttm/ttm.ko]
+> >> undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-xp/xpc.ko]
+> >> undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof" [drivers/misc/sgi-gru/gru.ko=
+]
+> >> undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof"
+> >> [drivers/net/ethernet/amazon/ena/ena.ko] undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof"
+> >> [drivers/net/ethernet/amd/xgbe/amd-xgbe.ko] undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof"
+> >> [drivers/net/ethernet/aquantia/atlantic/atlantic.ko] undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof"
+> >> [drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko] undefined!
+> >> ERROR: modpost: "alloc_pages_node_noprof"
+> >> [drivers/net/ethernet/chelsio/cxgb4vf/cxgb4vf.ko] undefined!
+> >> WARNING: modpost: suppressed 14 unresolved symbol warnings because the=
+re
+> >> were too many)
+> > FWIW something like this happened on a previous patchset of mine, and
+> > someone was like "so you just sent patches without any testing huh?" so
+> > I just wanna note: I did test this (see cover letter for details) I jus=
+t
+> > don't bother with modules!
 >
-> 2. Worse impact of CPU hotplug bugs: most users of __alloc_pages_node()
->    were using the result of cpu_to_node(); if the CPU gets hotplugged
->    out this will return NUMA_NO_NODE. If one of these paths fails to
->    protect against a concurrent hotplug then page_alloc.c will use
->    NUMA_NO_NODE as an index into NODE_DATA() and cause some horrible
->    memory corruption or other. With alloc_pages_node(), the code might
->    just work fine.
 >
-> Ulterior motive: this frees up the __* variants of the allocator APIs to
-> serve specifically for use as mm-internal API.
+> No worries, this is quite common. I've run into the same thing in
+>
+> my own work =E2=80=94 missing =3Dm configs in test builds happens to ever=
+yone.
+>
+> It doesn't affect my testing of this series.
 
-Ah, that's what motivated all that churn! :)
+Building allmodconfig before posting the series is a good idea. I was
+bitten by this enough times that it's on my pre-posting checklist.
 
 >
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-
-> ---
->  include/linux/gfp.h | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
 >
-> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-> index cdf95a9f0b87c..7edcc2e0be9ce 100644
-> --- a/include/linux/gfp.h
-> +++ b/include/linux/gfp.h
-> @@ -278,21 +278,6 @@ static inline void warn_if_node_offline(int this_nod=
-e, gfp_t gfp_mask)
->         dump_stack();
->  }
->
-> -/*
-> - * Allocate pages, preferring the node given as nid. The node must be va=
-lid and
-> - * online. For more general interface, see alloc_pages_node().
-> - */
-> -static inline struct page *
-> -__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
-> -{
-> -       VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
-> -       warn_if_node_offline(nid, gfp_mask);
-> -
-> -       return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
-> -}
-> -
-> -#define  __alloc_pages_node(...)               alloc_hooks(__alloc_pages=
-_node_noprof(__VA_ARGS__))
-> -
->  static inline
->  struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, i=
-nt nid)
->  {
-> @@ -315,7 +300,10 @@ static inline struct page *alloc_pages_node_noprof(i=
-nt nid, gfp_t gfp_mask,
->         if (nid =3D=3D NUMA_NO_NODE)
->                 nid =3D numa_mem_id();
->
-> -       return __alloc_pages_node_noprof(nid, gfp_mask, order);
-> +       VM_BUG_ON(nid < 0 || nid >=3D MAX_NUMNODES);
-> +       warn_if_node_offline(nid, gfp_mask);
-> +
-> +       return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
->  }
->
->  #define  alloc_pages_node(...)                 alloc_hooks(alloc_pages_n=
-ode_noprof(__VA_ARGS__))
->
-> --
-> 2.54.0
+> > Anyway, this is the 2nd time I've sent a patch that breaks the build of
+> > CONFIG_KVM_INTEL=3Dm so I guess it's time to add a new build to my test
+> > scripts :)
+> >
 >
