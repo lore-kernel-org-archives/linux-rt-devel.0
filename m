@@ -1,81 +1,81 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC433C6A43
-	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 16:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203151D130E
+	for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 16:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782317684; cv=pass; b=Hu9qyXmeyhMM7PHVuvSW2Cm5eoY+NJTp+P0BnGYPjg8gweGqLbaL31JLaCs104GyhZASP7dW7MdR9xX43lLowXIfLQFTaEyvm37317JxjD2D15NCvxeyHkeRlrKykaVPtV42XLMCFvIHbqXZC6LP10jV/78L6bVGIbLAR+b5HoY=
+	t=1782317912; cv=pass; b=MPkP7qkt7wvYRW0mQwvMM04JAkVtNeLs2240gcRDb2LcFPLDhUu0IMvxzHqengIPY6N9hlY5OoRHaISuEqvv8ZofPS6yvh4qFh9mtSs2mWtt6L7CUMtAKbYnop6A0EfbvDbBqV17Vg2jLu2Nhj33rlFDVGC5uDK7sPs2dX7s0eU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782317684; c=relaxed/simple;
-	bh=Sdzgqtv1Tmlni/DBclt3F/1Zy3gjhyQWqH2lmWCayf0=;
+	s=arc-20240116; t=1782317912; c=relaxed/simple;
+	bh=zUzopiKicuC5Fqd4Gkba9vCqksPM8i7r+cVH5ixZYM8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QbwpUNdeyLTv9Cwe6uHigoZisNa1YH7NAOJP0VzszSnaPHjYj0/gLuhTsxtar8gZgYdkzOETglmfihnV3IGbUmNQ0zZOE7J5pOm8Yz6yzYyL6oiZWIeolbj4zxznLgD0cUh1Xlrb45HpRqDqMO0bo3svro8nVF+JZYoS+7NO8l0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZB6B5rek; arc=pass smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=kObVrUd++6AqC0ncQjuxgl3wunMzQEfS0BWNS1dyQnnV6w+5SgXOSPTKirVaaIPvUzyRiybIKbQbbKHlZTIZO589S35Mq8F82o3Bo1yCn6EPFLvdHlWNszNbjNF8sgUlKk8En4DM00KtqAszj5dz/zz3Ga/GG8ZuQrUySCcb454=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cPAFDP5+; arc=pass smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZB6B5rek"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51765331535so296831cf.1
-        for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 09:14:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782317683; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cPAFDP5+"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-519ed52bcc6so335861cf.0
+        for <linux-rt-devel@lists.linux.dev>; Wed, 24 Jun 2026 09:18:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782317910; cv=none;
         d=google.com; s=arc-20260327;
-        b=WNrZ9QftXPxHyFzgnbEXDwEIDmWFcv7me01ul4PsMjWn7WXMja6T64IPaKyZhXFH5n
-         2NqOdlAOwWQNqht3b1GynlvZyuKcg5vmi6Meey4ptB09wi2wwwo7YplSpDLV6JbJnZBx
-         XZNQbhoB3EElITpdywgfXnpiB98Hc1IwD7oMeU2ASootgH9TSrvTwoztbqMoFL7Qiz+L
-         5pQ8VcEGAwkt0qdJxM7Cz796EAqEA6JK4qtqCp8l09BS+K92yPdTEi5HezDlyJboDWe4
-         yMzRDdfM30qm08ney0UzTF6ZZvzNmjXXAJCvFGyIBKF/yv3GY4Cr2Npnpbzzb31Bd6VM
-         QBog==
+        b=UfiXqvYnRXmcfjSO1/k4AsPCCx3t/6v5xx7feClDxHzgA5Wzv/EJZ7HYcEIJ4FBpew
+         qlunTWu4PrcGDlcVYbnOYogI02mhDuAjx1KiTT0rtlsH06xyna9qNTARTDN3XPCpa3hQ
+         QvDhrO66XAsQxu5YpHJ6gnJw4Mxs814dW795iSU8MicrGj+aBNHML1Q3Z8k/rtkc1LLV
+         szaIDkioEDFNLpA6ViKxzS6gwnK/CxV8WhJh2+rT2pUUaKKC9/2qadcypdl/qoLa6JOK
+         0xvxYRA+MhOk+cvzXJuBlulOC//3fGrfaKts/tQmQvOPwIjLdaUetJkQtS1W9Ey9TkrF
+         +Dig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=L4jqqFTyVaEfw5oQOEDvCjggk+pjLmWqgC46xkeFBNE=;
-        fh=c53CI3WbDHriSOefqa2uP2m215qiap1j4g9uTHW6MhA=;
-        b=PhkwQRsjMoV/qKJ1f+ucMsEFGCmO1kg8zrZDQdMD6qo5BwdrI1EcQDV4gPrRVbtnxI
-         to/E0unDIaQXLJakTbSYjJ1d3eSSwgnl1Ipn++OMfbKITMklIefM5wj7M2kL5zyMTtGW
-         BN0/AbgRhBG7RB/9tuC8iqrz4N2isu2Y/VUssw8CsFQsYMoU5CD9q5lqDZzpuQo/4iIb
-         HXfFsT18WlLbjd8aU38g+4AyFuyQVMD7637R66qqdHOj3W6Z/TZ9wENlNJPT9ZQUKYHR
-         IbJOFcRWEsDxJIoo6lfvcTrYdiH9ys8Rz0ZFGoMq5GLOWt8fPiiHDo+6TeWjEiMz54wx
-         TBhg==;
+        bh=zUzopiKicuC5Fqd4Gkba9vCqksPM8i7r+cVH5ixZYM8=;
+        fh=UFEeZ56vsaEw0CTx5b0TzjVvm9NJ4R7n708oYlP1EPY=;
+        b=sgo3rAzzQy3Jnp5ctcJwsUjlaf9tB95GOIuw+2qXldLSE7+3SVIpRRqYOOXbmvjzxT
+         yFR8ErweP2oJB84MsCtAUcfEdpOwVKkrMlxImz4gj21wI+lma9Y5BEtVZP9gt4pcXGM9
+         8acb+RN6syw2ZavoQH3YzY7QWedNpjEpS0tbaQ04qFDMNQMUF5FDMp0M59u7AG9qTmN/
+         8is3doJogtvX6bGvmuf7SRbOENyGCFv5zE10Q8mEdwhN0e9IH6wweu9aukM3mu5B267j
+         zWcuoQcTQf5K9TrQGs/cZvEznomcebvH8IgP4iYBt2q5BE0nuA2dfbyBr9wBQGoAuToI
+         PktQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782317683; x=1782922483; darn=lists.linux.dev;
+        d=google.com; s=20251104; t=1782317910; x=1782922710; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=L4jqqFTyVaEfw5oQOEDvCjggk+pjLmWqgC46xkeFBNE=;
-        b=ZB6B5rekOxw2Ro5L5XtHaUgOTZKdLwFlCyCwT38siH+JndQzZ+t9Fa9GUC80M0I7oI
-         yb6/JV5sFu+idRkQgVCWlE7LfXlnlVSYBYTy+kz7RE/fV+mZvufaiW7ZwgFI0lb/LCBz
-         t1ZtM0nqkk0prhq2FmS6BJSlurx0Ek1iQLXtp/DdhJJPJcOSHZFmWGp61MLOy4CJRbs2
-         pZAA+reM32VrE9h++nye+LRS8+4rBuhOddoYxeRo3RhFjMiUtK7fRdb6zebW/Rkzac3l
-         h9M1D/49HvvemZMqL8yUNUKMs3yon3X4i7qTK7ZrLU1iswVeSUSbBSwOPVKAjCGBpDoW
-         iBSg==
+        bh=zUzopiKicuC5Fqd4Gkba9vCqksPM8i7r+cVH5ixZYM8=;
+        b=cPAFDP5+X8dgTm6o/iwXEMIc+YRKXN2m+bqzsn2TQztrs29Pcbkc1AVVwAe3KrwAo1
+         vs3PR89p6X//EpE8RSrcCq2qfF3l3KP6Oh2dnGX06vLCqRg+N4gIBEUCiDxiIiJZfbsU
+         i+7agWS7i4fr5VVNSDpIdVPfpN4BSsbkAZoAtXEIQF6v/aMgTuSodSBIlwWYshpcbSpC
+         lKbJoRlV2UrtO6AaJGmwkVg4gzfCmpcpq38EmMYV88QF6oYbbVnZRociwoW2rPiZe+Bv
+         ST9k04iVo945uNJYd8q4a76wBNxuLQKRSluIxnUj0hALZtmPUNDbqmS2if0dY9dhIKv1
+         nISw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782317683; x=1782922483;
+        d=1e100.net; s=20251104; t=1782317910; x=1782922710;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L4jqqFTyVaEfw5oQOEDvCjggk+pjLmWqgC46xkeFBNE=;
-        b=GpKwWhpCq+TJ7qFcDez3ia/ITXRNUzHadF2l/24uNQntvzoaD7IveNHKh0tZ8n6vWn
-         R/hfc1i5z/GkcqS+UZMkr5Uu/CzFeJ6+GPirvJtgwyPheJZQP/62GjrYn5B1FCtX+S/K
-         ZHBM58V2Tl3qg2YYnaqX2IRPwTZsaFgfXodEFprlgMqB7pfl7rzUBYfcV1k/uzIVDmtw
-         GFd4xShYkWPFCYzixLcOgja0FOHx36zgx1TgjB/BqGpZIiOJyuWlWfCl34ZRAF641RrV
-         x5nRWAJr5EUzL5Pp3a6UaOiXYk3lY5jnRYBDaYh09yykHT6kUNCynQOcvxawWOgjR3gM
-         JJUg==
-X-Forwarded-Encrypted: i=1; AFNElJ/DWKVvNTR4EOhK/Q5+r2tHGtozVI3og9GLhu/GsMh+jl8ecwrV9PrecIseyL4I40FPdLmOukCgO/cvmYOGiQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlMlCnbZGUfYuvofTXuU04dHnPQRBhz4wbdPu44xW9A0XOSfTF
-	uBimilGZysHpKbBKRzqxjt84hzeisFLeJ26Bem5S2BdnjaQoj3Hdrz55adnP8l/easc+47DJwuM
-	27ELpqsmAf232IhoUhYPsRDuJEvI14RG3Tk3Gqgs/
-X-Gm-Gg: AfdE7cl7K8uv5b1b4Y4guXQdrDqxVc2rHElMaAX8ccCuaZ4S7RZlcGVrgrgyOljp8MD
-	ED0GmoaE/p1R5rIGM9IPHAwwcEQO/C024IqHGRTVTUPspheXeBqQEx3xiG9tBqxnYG5QAnU8mOp
-	MAK+6gh/yZ1llSL0VVct8wDY/c3mLznh6KomcFSMho3D6G/oJerq1phsyZoetf4qULCIAb4EsTp
-	D7E5NnwCcT2TXceRS7vRm/sA3fAA1FVSz+t0ODJP5SBU+y9+zvn/MoZUWUfMWeqsJeAoycTugC7
-	0gwbrsD67/p/nADK83RUc1cII9w=
-X-Received: by 2002:a05:622a:14:b0:519:df4f:6c93 with SMTP id
- d75a77b69052e-51a617dba42mr10324841cf.20.1782317681383; Wed, 24 Jun 2026
- 09:14:41 -0700 (PDT)
+        bh=zUzopiKicuC5Fqd4Gkba9vCqksPM8i7r+cVH5ixZYM8=;
+        b=U0k6HuaSK4NAghYEAo5tGgDBYny4WR1OETXHnJdXy4ythJxU53y2uwIvWghYgZh6uu
+         8dgNIpTi1poE9C/wbkURh8YkxHv4JJs4RIbhWKtqcBGhQgMS/BpT9hikDbIHy9zxz+TZ
+         PQcH/RPa0cNIdGYrgNTgmqSZ3ThDa8pc3c3BwfO1zRMOUwmkHHk/mXXWGAnbkc5u30+J
+         1zARiY2Q4dbnSyX5Cre3U3MUaUCtt7ree58nslnlNK/w+2zn7bt0jwAJLSv5A+LVte5/
+         FgN1JxyYqGOAvcqNCsE6yEqeRFliQt+UkUyKeKNs3CFWevM4Iv6o87bne9PlhpDwMiOJ
+         BavA==
+X-Forwarded-Encrypted: i=1; AFNElJ/kSR9TtNhgEukc+JKoj3QeOIT1nKnhd/d9ooj6t5UfGrlLlQ1Ul/nvoWDK3XCkWybIIw+ZPkaBd+svnQJGhQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxx+boClhjJy5ahVntuN0oKaHTczP4nz2AOb3esdIVq88Fz7mzH
+	wQ1ufIHsVZoGWQusskp+adzeAEuoZb+985X+HCQLbfoYMKY5FOjIodv42LGNgja0THV1vJbuKRW
+	WabN0vqrb4i1o27Dw5jFpSNMYDazLdqNC+fyo0QaF
+X-Gm-Gg: AfdE7ck/g0wksJi9ULH7tui3qJDHm1whbwwI0G856zejOitD+fyLqXIpATivRletLoW
+	hSBeSHJopADO5qpJhvZpSNd1SQn/9k7gZcAPtWYxtZKcoob+V1TuE4hg1Okr+Z2H5IkQ/HhNpp4
+	UkG6oRACH8XusWyuDHy71UD0CdD3OxSUtwop0kMaXa+lTxxzEjG7ZGAXdkIh2oMx6e+NcZg1AC/
+	tDsyMcIcS958/P2yAzJ0+sQt9EstPj/7rwV3P5oBEmPsrYRjMXn505IIvFz1r3HyVb32Iqs5hiU
+	/4MmtxIT/L5OGhM0WFKDkiRxUBA=
+X-Received: by 2002:a05:622a:a0b:b0:4f3:5475:6b10 with SMTP id
+ d75a77b69052e-51a61625805mr11966391cf.8.1782317909222; Wed, 24 Jun 2026
+ 09:18:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,56 +83,72 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-6-31f31367d420@google.com> <20260622101056.4120C1F000E9@smtp.kernel.org>
- <DJFI4P57YE9X.20DPMTK9LL7LW@linux.dev> <ajm_dEqauYLBi-7T@google.com> <ajnTJ03IxVnBXWdp@google.com>
-In-Reply-To: <ajnTJ03IxVnBXWdp@google.com>
+ <20260622-alloc-trylock-v2-9-31f31367d420@google.com> <20260622101153.C08741F000E9@smtp.kernel.org>
+ <DJFI52XOQEPO.AH00UF550LWN@linux.dev>
+In-Reply-To: <DJFI52XOQEPO.AH00UF550LWN@linux.dev>
 From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 24 Jun 2026 09:14:30 -0700
-X-Gm-Features: AVVi8CfUZG4ru4sHeWtIPbsYQyBEOrJbLz3f3SZdi_mmHQdVijFR8buxYw7ygJ4
-Message-ID: <CAJuCfpEUZ-xL7ebW21Q=5wXDFuJSeh52Ei-8YLsRUdXiB5NiYg@mail.gmail.com>
-Subject: Re: [PATCH v2 06/13] KVM: VMX: Use higher-level allocator
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Sean Christopherson <seanjc@google.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	sashiko-reviews@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
-	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
-	kvm@vger.kernel.org
+Date: Wed, 24 Jun 2026 09:18:18 -0700
+X-Gm-Features: AVVi8CdR2pEHyIYJlmDEUnh8LBalNmsNXE7tWkeb0ZhZjkyemuK1PyvVX2BgBpM
+Message-ID: <CAJuCfpFERZ3ohA8uQt7BBPocWDAn-3P=RVqcA08U9DvWRWwERg@mail.gmail.com>
+Subject: Re: [PATCH v2 09/13] net/funeth: Switch to higher-level allocator
+To: Brendan Jackman <brendan.jackman@linux.dev>
+Cc: sashiko-reviews@lists.linux.dev, Brendan Jackman <jackmanb@google.com>, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 22, 2026 at 5:29=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
+On Mon, Jun 22, 2026 at 3:22=E2=80=AFAM Brendan Jackman
+<brendan.jackman@linux.dev> wrote:
 >
-> On Mon, Jun 22, 2026 at 04:04:20PM -0700, Sean Christopherson wrote:
-> > On Mon, Jun 22, 2026, Brendan Jackman wrote:
-> > > On Mon Jun 22, 2026 at 10:10 AM UTC, sashiko-bot wrote:
-> > > > Thank you for your contribution! Sashiko AI review found 1 potentia=
-l issue(s) to consider:
-> > > > - [Medium] The commit message incorrectly states that `__alloc_page=
-s_node()` allows passing `NUMA_NO_NODE`, while the opposite is true.
-> > > > --
-> > > >
-> > > > commit 7bd439c242125db27305b61b14c9972fb028282a
-> > > > Author: Brendan Jackman <jackmanb@google.com>
-> > > >
-> > > > KVM: VMX: Use higher-level allocator
+> On Mon Jun 22, 2026 at 10:11 AM UTC, sashiko-bot wrote:
+> > Thank you for your contribution! Sashiko AI review found 1 potential is=
+sue(s) to consider:
+> > - [Medium] The commit message logic regarding __alloc_pages_node and al=
+loc_pages_node is inverted.
+> > --
 > >
-> > While you're dealing with nits, can you massage the shortlog to somethi=
-ng like:
+> > commit ab883602f87dc726f65726ac01fce73a498907b3
+> > Author: Brendan Jackman <jackmanb@google.com>
 > >
-> >   KVM: VMX: Use no-underscores API when allocating pages for a specific=
- NUMA node
+> > net/funeth: Switch to higher-level allocator
 > >
-> > "Use higher-level allocator" is extremely vague, and arguably misleadin=
-g because
-> > the "allocator" being used isn't changing.  Which is kinda the point: *=
-nothing*
-> > is changing in practice.
->
-> Maybe "higher-level allocator API"?
->
-> no-underscores is just.. meh :P
+> > This commit replaces __alloc_pages_node() with alloc_pages_node() in th=
+e
+> > funeth driver.
+> >
+> >> The difference between __alloc_pages_node() and alloc_pages_node() is
+> >> that the former allows you to pass NUMA_NO_NODE.
+> >>
+> >> The former is going away and the latter works fine here so switch over=
+.
+> >
+> > [Severity: Medium]
+> > Is this description inverted? Looking at include/linux/gfp.h, it is
+> > alloc_pages_node() that safely handles passing NUMA_NO_NODE by checking
+> > if (nid =3D=3D NUMA_NO_NODE). On the other hand, __alloc_pages_node() c=
+ontains a
+> > VM_BUG_ON() which strictly prevents passing NUMA_NO_NODE (-1).
+> >
+> > The code change itself appears correct since the node variable can be -=
+1 here,
+> > but could the commit message be updated to accurately reflect which fun=
+ction
+> > handles NUMA_NO_NODE?
 
-It's overall a good idea to add "No functional change intended" at the
-end of the changelog in all these cleanup patches.
+After fixing the changelogs and titles as suggested in [1], feel free
+to add my Reviewed-by to all the patches replacing
+__alloc_pages_node() with alloc_pages_node()
 
+[1] https://lore.kernel.org/all/20260622-alloc-trylock-v2-6-31f31367d420@go=
+ogle.com/
+
+>
+>
+> Repeating myself[0] as this patch has a different CC list from the others=
+:
+>
+> Sashiko is correct, the commit message says "former" but it should say
+> "latter".
+>
+> [0] https://lore.kernel.org/all/DJFI39RWHV1O.MMMMMZSK8E8C@linux.dev/
 >
