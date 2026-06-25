@@ -1,112 +1,102 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80FF43D16FD
-	for <linux-rt-devel@lists.linux.dev>; Thu, 25 Jun 2026 10:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF3D3E0227
+	for <linux-rt-devel@lists.linux.dev>; Thu, 25 Jun 2026 12:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782383024; cv=none; b=lwWm4XO+xjgFYNRRmN39mqela3F3JM1qovaBbQwsc2aZfoJFIhTNgPDL6L0BZpDvixJdmvMPvFBB1haTZvRzGrTKRM9/X0R5VYtYv7TB/u5qcn9gN6fe4NG/7xOCg1k+DUaO+BuBv4oJInowR+fVzS6vlJs6HajBgr+jDcfR0w4=
+	t=1782389305; cv=none; b=CDxXRbZrWioFCT36yNSgSexNR7ViMvlEdYRJHCScJTpWc903wPrE6KcnYIPVm9jS3aiGcut7CQKDe/GkYx787y6qge3i4o6oSGjSQR153JX5w8M9VtyTwjHR5XepoVb3EGOQM3/P/3EzoI/j9RmRc/3HCl5ZUUNvjJMOvnPZi5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782383024; c=relaxed/simple;
-	bh=rq6lW2/CJHyipvrcdPacZBylD98yvnyB3oEp62sWO8E=;
+	s=arc-20240116; t=1782389305; c=relaxed/simple;
+	bh=rnC19SJIB8IwjPpZjyOW9vAFG81ZtsEUSHRdP82RYv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hufLJ532m9GnE0EVDLI0qb1Vbi2EQfMBI97yip82mz5r1fHT+ek/XKjkhoSvo7AUykVuSGEdw19hLwDtDHwiS08eRzEcD2Dc4WGiFU/OFRWIptOaTfKxBfS0lFeRyF1OALN0mx2cueuVIUfUDyMSvR2G7nGSBS4vQq1aZh+6IBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=m3sOIQ+q; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	 Content-Type:Content-Disposition:In-Reply-To; b=NeZDJcopslq+AOdMXwqx9UCic92hoZQiC3kPELDpCAMyTeEPaqTZt5fR8RMMajq64O6kMESTIBjoncmFi17yWLAJvQ6dviZdYPzNv/UiM8/v2oWGDeJGQNhu9p7xwbvTGtL72b8mSA/maO3MW9lvLlYlsbBLrIwnV4S6Vkp+YUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hZWj1sxv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=NNthX3RL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="m3sOIQ+q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=x38mY+apgJvav2oRACEhK8S6N3vdzgE0kpGM3pJ4yJk=; b=m3sOIQ+qBZbLluxKlIKAN1D0aW
-	fRpYkZERaIqvEHIQrSa1INeAtc1DFAyUnD5gb6GUHirkWLdB4/VviXsgjBq//+l68gmfvFQY6ZaHk
-	FdKcKNaeR1JsW586gBMhiiskZmtHSOIXb68QVyOahCjp3NPKxkV+vA1MHFsQO+ignUM5vi3gkV24c
-	aBoxIX9JzVkoctjJMa02yxLBJL1m3/U665ZLLuj7GPJZNr59MBGiIg+s6uGEsFJKryug2LqWIiB59
-	ghay+lyo6Li0rNlU5A1HPfczPSqfjanlnPnFlhXcydzfMtO1FekZzgHvY5JGLsCzlw+86FMXHntMB
-	valLG4/w==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37248)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1wchF9-000000000nG-3BJO;
-	Thu, 25 Jun 2026 11:23:35 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1wchF8-000000001vx-1ikY;
-	Thu, 25 Jun 2026 11:23:34 +0100
-Date: Thu, 25 Jun 2026 11:23:34 +0100
-From: Russell King <linux@armlinux.org.uk>
-To: Xie Yuanbin <xieyuanbin1@huawei.com>
-Cc: bigeasy@linutronix.de, clrkwllms@kernel.org, rostedt@goodmis.org,
-	linusw@kernel.org, arnd@arndb.de,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hZWj1sxv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="NNthX3RL"
+Date: Thu, 25 Jun 2026 14:08:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782389301;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rnC19SJIB8IwjPpZjyOW9vAFG81ZtsEUSHRdP82RYv4=;
+	b=hZWj1sxvXAx2kbIij7hPOANuGEApe9ROSVloikyhvbWue0ENgZXJP0wx9pYQCc7L3CWPL2
+	azZsEGY8Kq4xT+YfwPi6Uj7b18Z0+b9F4uy/tjceDqTgKW2Sbj1EtzxEhPDU6N9M+Qan7R
+	95Xq89RMt1ksBDn8S0FrBlGRHj1tsbl0G0q0kXlBofs0wzzwZHwx5nT4kK8ee1oj55LMb4
+	bZYvX3RfnrjhMJsttIQ8i+4ZGo4GdUGB49YAb6dEEAKTUpU8bmKGKqzVe41cGgKXzmw1ec
+	YxKTCLcV9k9wHDF++loCqt5YMfACC48XySlqNiYUtAPuAI2tffl2sz5y2TlJCQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782389301;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rnC19SJIB8IwjPpZjyOW9vAFG81ZtsEUSHRdP82RYv4=;
+	b=NNthX3RLO/2AwrFk7DPc9eyAGWhbPpJ8XQgDtdhk4wHM9jdyiePonsiFcXkG/66zDdTtDk
+	sPSHQv6K0tRz8RBg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Russell King <linux@armlinux.org.uk>
+Cc: Xie Yuanbin <xieyuanbin1@huawei.com>, clrkwllms@kernel.org,
+	rostedt@goodmis.org, linusw@kernel.org, arnd@arndb.de,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev, liaohua4@huawei.com,
 	lilinjie8@huawei.com
 Subject: Re: [PATCH] ARM: enable interrupts when arm_notify_die() is handling
  user mode errors
-Message-ID: <aj0BpqlaCh3cVw8Q@shell.armlinux.org.uk>
+Message-ID: <20260625120819.K5e1OVeG@linutronix.de>
 References: <20260625073522.182503-1-xieyuanbin1@huawei.com>
- <20260625100031.25088-1-xieyuanbin1@huawei.com>
+ <20260625085034.tvyGSmaP@linutronix.de>
+ <ajzvcCve4LubjH9J@shell.armlinux.org.uk>
+ <20260625093008.e5I4bh-_@linutronix.de>
+ <aj0A3SjMhR24e8fP@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260625100031.25088-1-xieyuanbin1@huawei.com>
-Sender: "Russell King,,," <linux@armlinux.org.uk>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aj0A3SjMhR24e8fP@shell.armlinux.org.uk>
 
-On Thu, Jun 25, 2026 at 06:00:31PM +0800, Xie Yuanbin wrote:
-> On 2026-06-25 10:05:52 [+0100], Russell King wrote:
-> > > for this but actual breakpoint handling might be broken or is it 
-> > > just me? But then your stack trace looks like mine so :/
-> > 
-> > ARM Linux doesn't use BKPT. BKPT was an instruction introduced by Arm 
-> > Ltd in ARMv5TE. Prior to this, we use a UDF instruction instead (we 
-> > had to pick something!) and gdb and other tools use that as a 
-> > breapoint.
-> > 
-> > Moreover, BKPT isn't guaranteed to trap to the kernel, especially when 
-> > there is a hardware debugger connected. In that case, DDI0100E states 
-> > that use of BKPT must be according to the instructions provided with 
-> > the hardware debugger. This makes BKPT unsuitable for use.
-> 
-> When do_DataAbort()/do_PrefetchAbort() run into `inf->fn()`, and the
-> hook function return != 0 with interrupts disabled, the WARN may be
-> triggered. From the code perspective, there are countless possible
-> places, and "bkpt #0" is just one of these.
-> 
-> For example:
-> bcm5301x_init_early()->hook_fault_code(bcm5301x_abort_handler).
-> if CONFIG_ARCH_BCM_5301X=y, then bcm5301x_abort_handler() may return 1
-> without enabling the interrupts.
-> if CONFIG_ARCH_BCM_5301X=n, then in the same scenario it will run into
-> do_bad(), also return 1 without enabling the interrupts.
-> 
-> So I think maybe:
-> 1. enable interrupts in all hook functions, maybe
->    multiple points for modification.
-> 2. enable interrupts in do_DataAbort()/do_PrefetchAbort() before
->    `inf->fn()`, but harden_branch_predictor() may be difficult.
+On 2026-06-25 11:20:13 [+0100], Russell King wrote:
+> > is not worth doing it? With this I can my little testcase working.
+>=20
+> No, it isn't, because if you enable PERF_EVENTS then BKPT breaks.
+> hw_breakpoint.c claims this vector.
 
-Unfortunately, this breaks the Spectre/Meltdown mitigations. The
-page fault handlers must be entered with interrupts disabled.
+I see.
 
-> 3. enable interrupts in do_DataAbort()/do_PrefetchAbort() after
->    `inf->fn()`, this may be ok.
-> 
-> From this perspective, arm_notify_die() also seems to be a good place?
+=E2=80=A6
+> BKPT is a total mess.
 
-If one is happy with higher latency for preempt cases, then it may
-be, but if we want lower latency, then it ought to be earlier.
-My preference is (3).
+Understood.
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> > it does cond_local_irq_enable() which enables the interrupts if they
+> > were enabled by the "caller", sends the signal (SIGTRAP).
+>=20
+> I'm happy with that approach as far as interrupts go, but we can't
+> change the behaviour for FSR=3D2 again, beyond fixing LinusW's
+> commit (which has recently been reported as a regression.)
+>=20
+> Note that the change which makes this raise a SIGTRAP rather than
+> SIGBUS when PERF_EVENTS=3Dy could _also_ be reported as a regression
+> that we would have to fix, and making FSR=3D2 raise a SIGTRAP now
+> could very well invite that regression to be reported.
+>=20
+> Essentially, I don't think we can "fix" BKPT to always raise SIGTRAP.
+> The BKPT instruction is something the kernel has never _officially_
+> supported.
+
+It looked like an easy fix. You explained that it is a bigger mess with
+"other features" and so on. Given that and the fact that it was never
+supported, I would appreciate just to enable interrupts before the
+(SIGBUS) signal is sent.
+
+Sebastian
