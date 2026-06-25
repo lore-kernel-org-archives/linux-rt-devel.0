@@ -1,93 +1,115 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CA63E123E
-	for <linux-rt-devel@lists.linux.dev>; Thu, 25 Jun 2026 12:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBCC3E7BCD
+	for <linux-rt-devel@lists.linux.dev>; Thu, 25 Jun 2026 14:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782390430; cv=none; b=vDs3IFJ7K0hzxDDcq/9RPm1enzt8Eaz4Bn7GK21kehfYSGmD5ORMbMTTMsAMCPYbnAs9/628YExGgNAHsA40pqPzPgRtIw+N0NXE4TQZ3xdB5jM9oe1J5jg7IjzKVo/nbY6hRfxApH/aIzU6MTvsiPsckvFEPAytSsbwW6PID5U=
+	t=1782399081; cv=none; b=l2V16xlPPZUL9HCpNd5xExVbdfgTiM8NK2sGG1Gq83K9obnw3Cy6NnCsIFdsRU6jnyd9BlxI3iWFcXnM34WFXyPWLjcTGUbnafRyP4ziNliUsFI0EBdju2AqUvBTcYTPopsOrosRQQ+1IZ6opSDFagE/XpCFVkCXLDb2BUDRA1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782390430; c=relaxed/simple;
-	bh=hOPR0zrtO3spcDxp4bwyn8NGPVw/3JNcC+iO71WnyMI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UD3OsaRPzDAZboxwRMOMdYD38h0r7HAOskNveIlADNOVuQLgFFC4EOFmZqQAKe7+nZArp8XvEA+wkAV7kL8qWEQN64ucnTmDwqpxqMk7hCYYorphUUbPpZv4cIw45In+N7S6Kg6Pg+v7tTEI7Wf+ebh0MbFMLfiDKNmGsra+ViI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=JFThUlrE; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782399081; c=relaxed/simple;
+	bh=ZSo/K0zYaEvAiIQiwEIT4iky4JDvdNkIAcg0e3x2JSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L3hSwqVujricNN5ORigvrFZwih3entzok3hmXK3CQhaoyb+6zbrICnbwvFR7+UapBQ8okXGjUFxOxZcU2bkA/g8tWWws1jqF0+9Nwl35jGb1Q1X0zZZJ6ALat5MIM+MjN7rPhNvatxLkwICLKEHcLqVZmt6D27YR5VpsmRAoiTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tAIJp+Dv; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=C6Z8XKLO; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="JFThUlrE"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=lWzgkEXj1zq4UNNnpINCriQKGxQChcPS+GE0OzhntmY=;
-	b=JFThUlrEgJaJEZd3nOvfE8L3ZGL7/zBgx/ft69xExuuGC9sRI1HfG62d6fG+bd2qH6NeQYIk/
-	YVRI/Rv0aggkbbH/Jv+OO4bHnXCz7pHjSzzwuRDMAtZji8dT2IRDSR71+jpgK1spMLv2owG6gH6
-	BsV0IVd5cflNBeXtSWQix1w=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4gmHrP1c8nzmV8G;
-	Thu, 25 Jun 2026 20:17:57 +0800 (CST)
-Received: from kwepemj100009.china.huawei.com (unknown [7.202.194.3])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6F07E4055B;
-	Thu, 25 Jun 2026 20:27:03 +0800 (CST)
-Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
- kwepemj100009.china.huawei.com (7.202.194.3) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 25 Jun 2026 20:27:02 +0800
-From: Xie Yuanbin <xieyuanbin1@huawei.com>
-To: <linux@armlinux.org.uk>, <bigeasy@linutronix.de>,
-	<rmk+kernel@armlinux.org.uk>
-CC: <clrkwllms@kernel.org>, <rostedt@goodmis.org>, <linusw@kernel.org>,
-	<arnd@arndb.de>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<liaohua4@huawei.com>, <lilinjie8@huawei.com>, Xie Yuanbin
-	<xieyuanbin1@huawei.com>
-Subject: Re: [PATCH] ARM: enable interrupts when arm_notify_die() is handling user mode errors
-Date: Thu, 25 Jun 2026 20:26:12 +0800
-Message-ID: <20260625122612.43501-1-xieyuanbin1@huawei.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <aj0BpqlaCh3cVw8Q@shell.armlinux.org.uk>
-References: <aj0BpqlaCh3cVw8Q@shell.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tAIJp+Dv";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="C6Z8XKLO"
+Date: Thu, 25 Jun 2026 16:51:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782399077;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApX/fl8LKZ9+n2W+JlZhWLSnhxCbTTBA9ifvQ8K4HvY=;
+	b=tAIJp+DvBvqvoMNf0DO4gtXkKTwUOcYer+vDHbIxbWKXv/Xrp7yMXPvZLRx6T0I2lp9Lu5
+	qDyALu2p0Vp7QzGuHqOEbCZ6wMMjpMtv8BtpVZdWXSSxkNkxxm1DAM3+xg3pKBSOPz9jkL
+	Vd2zjzCVjgt8tlE46gdtqMiOq5fHOEUm3+Qdqbu851M74qEW/7MNVDiQjlbaLl7QdaU24M
+	+P6MQmkzuXkjHoxDSYqZjB3hym1RsY8gUg9k2MfTxB9CemCvzmP7wBqr9JtmMSYgM/Ev9Z
+	uFflscKelMmnRk9e0kcSQsLTXAHLGD4f9HIOaAqXWRYZGPgddQCac/2V8O4CGg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782399077;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ApX/fl8LKZ9+n2W+JlZhWLSnhxCbTTBA9ifvQ8K4HvY=;
+	b=C6Z8XKLOSA7duwmDNRwmGfJCTGDTEQYs3vNNJBcP+bHOYLAqx5rh8lAll+O1SbHJYP2L8D
+	fYiKFEqHj8XYGmCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Clark Williams <clrkwllms@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v4 5/5] lib/vsprintf: Validate spinlock context during
+ restricted pointer formatting
+Message-ID: <20260625145115.KZ9l1-lv@linutronix.de>
+References: <20260608-restricted-pointers-final-v4-0-9a436615799e@linutronix.de>
+ <20260608-restricted-pointers-final-v4-5-9a436615799e@linutronix.de>
+ <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemj100009.china.huawei.com (7.202.194.3)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260611120615-4252b75d-55aa-4bed-b64b-0316b2148d2c@linutronix.de>
 
-On Thu, 25 Jun 2026 11:23:34 +0100, Russell King wrote:
->> 3. enable interrupts in do_DataAbort()/do_PrefetchAbort() after
->>    `inf->fn()`, this may be ok.
->> 
->> From this perspective, arm_notify_die() also seems to be a good place?
->
-> If one is happy with higher latency for preempt cases, then it may
-> be, but if we want lower latency, then it ought to be earlier.
-> My preference is (3).
+On 2026-06-11 12:09:08 [+0200], Thomas Wei=C3=9Fschuh wrote:
+> > @@ -864,7 +864,14 @@ static noinline_for_stack
+> >  char *restricted_pointer(char *buf, char *end, const void *ptr,
+> >  			 struct printf_spec spec)
+> >  {
+> > +	/*
+> > +	 * has_capability_noaudit() may use spinlocks.
+> > +	 * Make sure %pK is only used from valid contexts.
+> > +	 */
+> > +	static DEFINE_WAIT_ASSERT_MAP(vsprintf_restricted_pointer_map, LD_WAI=
+T_CONFIG);
+> > +
+> >  	lockdep_assert(in_task());
+> > +	guard(lock_map_acquire)(&vsprintf_restricted_pointer_map);
+>=20
+> The kernel test robot found a lockdep violation with this patch:
+> https://lore.kernel.org/all/202606110945.d3871219-lkp@intel.com/
+>=20
+> My suspicion is that this is a pre-existing problem that was not visible
+> to lockdep so far, exactly what this patch is supposed to mitigate.
+> I'll investigate some more and try to reproduce it.
 
-```c
-	if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-		return;
+The annotation is "wrong". What you say "I do spin_lock() here".
+Then lockdep figured out that this lock is acquired under a lock which
+is used also from within softirq. This in turn can lead to a dependency
+problem based on softirq:
 
-	if (likely(user_mode(regs)))
-		local_irq_enable();
+|       CPU0                    CPU1
+|       ----                    ----
+|  lock(vsprintf_restricted_pointer_map-wait-type-assert);
+|                               local_irq_disable();
+|                               lock(&ptr[i]);
+|                               lock(vsprintf_restricted_pointer_map-wait-t=
+ype-assert);
+|  <Interrupt>
+|    lock(&ptr[i]);
+|=20
+| *** DEADLOCK ***
 
-	pr_alert("8<--- cut here ---\n");
-```
-or
-```c
-	if (!inf->fn(addr, ifsr | FSR_LNX_PF, regs))
-		return;
+If I'm not mistaken then this will not happen in real life because the
+hook callback does _always_ spin_lock_irqsave() and as such it avoids
+the interrupt+lock on CPU0 in this example.
 
-	if (likely(interrupts_enabled(regs)))
-		local_irq_enable();
-
-	pr_alert("8<--- cut here ---\n");
-```
-
-Which one do you prefer? I prefer the first one, because for kernel
-fault, kernel may have encountered a serious issue,
-and enabling interrupts may be not appropriate.
+Sebastian
