@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487523161A1;
-	Fri, 26 Jun 2026 18:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CD12E7387;
+	Fri, 26 Jun 2026 18:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782497117; cv=none; b=oDhlL5Y8N6x89bnovSYT7qS98WLRQz/DqVdpNyZ9ti+140YFBiT0HHx7VmJbvhQMDU66q7iy+KyWC73nOMW30/uZqXepaDtPZCr7Y7J7SnrQLJAI4NisBomzJcalrWK9sBQQHH9H6mn1gERN3vQsmjn9LAJj9Yaj9bxxis7Vszg=
+	t=1782497271; cv=none; b=O+yQYn+2YXoWqub9F8sUJNedzhwqZ4Osk9jGGNUk3pIjZ7RWAey05lnSevGku6W0mz1MzkN7nObuLAL8UFfu97yyZIBXOMBlCBs65bJZUpv8xjfwO6Z/y/GqoQkf7amRNpCAmDUz+htfUq1Q0WpaEtcZDoVcLM10anWs775LBfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782497117; c=relaxed/simple;
-	bh=JCJoFDG0qYd1PLil+ubkJCcSvKpGgC+mRent2Za8zhY=;
+	s=arc-20240116; t=1782497271; c=relaxed/simple;
+	bh=ys8pZnHEjHgFatX9LMEUtN2KZV1NBedtHIziH13eoJk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uGTbvYFbxp2F722u8pmRTkL9qC5qOWrVovObyC7Eo7eFbaxEX8YEdBGowPDbb3Cw+WhrwG93EXEh7daxSiwrj1iidQbCdqGIvTmSOcGLtvW4/ncMDyEPoiBPw7DCbY00vg89y3zPm+t+yziVqbdqftZkjWuza5bI1W+U8K8IzXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RWQRTWo/; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Y1DX+TsHEj4TQ9oqjk5/rYkHydR2Vt0WsoUaRXY3u+oH7MFxpwqwGtIEqNyTrmD2XOymhb0T427dd3/F32HOdof6noZQkZazuL8fiNKnVGplP6znZVkD209kupdfSBwfvd9wALDC6iiAG/8mqqZgha3p+IOzq/t+KJjyeTm1jPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UQKUT1uS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RWQRTWo/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79F171F000E9;
-	Fri, 26 Jun 2026 18:05:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UQKUT1uS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 973BB1F000E9;
+	Fri, 26 Jun 2026 18:07:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782497115;
-	bh=fGiMyZB/kEhf07t+JFhkktFDb6T15Rf253lpTmaTVd8=;
+	s=k20260515; t=1782497270;
+	bh=VL1nHVZPTfavofIwp9gpOh3SmHbzNBRcvKHEMSpIbFg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=RWQRTWo/O74n4A8v4P+Qyk3xgKStasPuZl6B7LVJ5wjaiALscfqq3SAfKa+w4+OQA
-	 FoXgyKGVvOeF8Z1Vi9qJ5l/MYpAHoPt0ZRQn00vUIcY3HrM82aA4S8UiuPcfaZfZNd
-	 t850CYdcz+VqiDQls9RsFY/JrIa5Xqt2g2YKaZwz4UL2o3bUhBZYGli3c6ubwjL6+0
-	 SkoSXh+vnsLm+eUoMO9GJE3sE4cwTXdr8M7Yjs3X2cqSyVSp5t9lExOaDSXj3b42HU
-	 faUqhcmcq/+zhWKeqTFFQQDtztGavuSbocqtkCrnsmzjBgmWd0ww3MdqT5ikusnD4I
-	 /AI9JO7i8hEQA==
-Message-ID: <10824fdd-0abf-44ad-9a2f-e62aeb669195@kernel.org>
-Date: Fri, 26 Jun 2026 20:05:07 +0200
+	b=UQKUT1uS4wbGc81aYsivha4ghMYSw+zS2A8Jw6cgXRoAyLdFw8mG3RmH/1Xv+Pgaf
+	 x9LWCsRJVv0e9Lw/naxu8UwhIPNcs5FxQRe+mfzcKy+ZXZJGzqLU2mMVGWflgoVYGQ
+	 JKhokP3ca0R+GBKN0omFwlcWHWatUxW4GvRUTJoz874+WDh4fJI4+6hugg1t2d5NK/
+	 xr7JHoupim3OF7y7fwAoLtYJ2eG6t6en2p8qhnGFipIgTU5/2a5CJaG7pgmQw3mAvs
+	 UA/v05PIUZxOY1lID555z4QY9Z2Jg+37m8pl+Xpzdja0ojRAM9j2knyU/yvyB2SaYf
+	 xXWTb52WhTDOw==
+Message-ID: <ccac4af6-56f0-43f3-9964-1a5a45d10188@kernel.org>
+Date: Fri, 26 Jun 2026 20:07:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/13] mm/page_alloc: some renames to clarify
- alloc_flags scopes
+Subject: Re: [PATCH v2 12/13] mm: Move __alloc_pages() to mm/internal.h
 Content-Language: en-US
-To: Brendan Jackman <brendan.jackman@linux.dev>,
- Suren Baghdasaryan <surenb@google.com>, Brendan Jackman <jackmanb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Michal Hocko
- <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Brendan Jackman <brendan.jackman@linux.dev>,
+ Brendan Jackman <jackmanb@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
  Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
  Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
  Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
@@ -53,15 +53,16 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Michal Hocko
  David Rientjes <rientjes@google.com>,
  Roman Gushchin <roman.gushchin@linux.dev>,
  Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price <gourry@gourry.net>,
- Alexei Starovoitov <ast@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-rt-devel@lists.linux.dev
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
+Cc: "Harry Yoo (Oracle)" <harry@kernel.org>, Gregory Price
+ <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
 References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-2-31f31367d420@google.com>
- <CAJuCfpGagFf4RaCNJqu4Y1oqOXXOWSkP1UGuT9LA-9EbDN4Njw@mail.gmail.com>
- <DJHEUV09YHKE.1YVJWE38NM8U5@linux.dev>
+ <20260622-alloc-trylock-v2-12-31f31367d420@google.com>
+ <41e92bab-6882-401a-8de9-154adbdcfb36@kernel.org>
+ <DJFLNQEBX3PK.1ONMJBA46AQNL@linux.dev>
+ <521f8943-bfc3-4414-a630-634712c709e4@kernel.org>
 From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
 Autocrypt: addr=vbabka@kernel.org; keydata=
  xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
@@ -102,50 +103,52 @@ Autocrypt: addr=vbabka@kernel.org; keydata=
  NcaZ+c6J4H+nEJGi2SkHAUJz5oBzuThvPudLvPA/SK8sKoM01IRxSihev/S/5WLazXB1PGem
  OCbvzC1IjWJJraxiDJ5IygokapUa2RP7+WBR22skQ3SSl6G107QgWKSyTOGWEaRmV53vxQLV
  jXuCmzSSasTL60zq5yGrT4/DYQVSNEUiUbG4pYekxJujNeEDkUlky0Y=
-In-Reply-To: <DJHEUV09YHKE.1YVJWE38NM8U5@linux.dev>
+In-Reply-To: <521f8943-bfc3-4414-a630-634712c709e4@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 6/24/26 18:13, Brendan Jackman wrote:
-> On Wed Jun 24, 2026 at 3:03 PM UTC, Suren Baghdasaryan wrote:
->> On Mon, Jun 22, 2026 at 3:01 AM Brendan Jackman <jackmanb@google.com> wrote:
+On 6/22/26 16:30, David Hildenbrand (Arm) wrote:
+> On 6/22/26 15:07, Brendan Jackman wrote:
+>> On Mon Jun 22, 2026 at 12:24 PM UTC, David Hildenbrand (Arm) wrote:
+>>> On 6/22/26 12:01, Brendan Jackman wrote:
+>>>> It's no longer used outside of mm/.
+>>>>
+>>>> Since this means __alloc_pages_noprof() is no longer visible from gfp.h,
+>>>> this also means moving the definition of alloc_pages_node_noprof into
+>>>> the .c file.
+>>>>
+>>>> Signed-off-by: Brendan Jackman <jackmanb@google.com>
+>>>> ---
+>>>>  Documentation/admin-guide/cgroup-v1/cpusets.rst |  2 +-
+>>>>  Documentation/admin-guide/mm/transhuge.rst      |  2 +-
+>>>>  include/linux/gfp.h                             | 16 +---------------
+>>>>  mm/internal.h                                   |  4 ++++
+>>>>  mm/page_alloc.c                                 | 11 +++++++++++
+>>>>  5 files changed, 18 insertions(+), 17 deletions(-)
 >>>
->>> It's pretty confusing that:
->>>
->>> - The slowpath and fastpath have a totally distinct set of alloc_flags.
->>>
->>> - gfp_to_alloc_flags() sounds generic but it only influences the
->>>   slowpath.
->>>
->>> - prepare_alloc_pages() is generic in that it sets up the
->>>   alloc_context, but the alloc_flags it generates are only used for the
->>>   fastpath.
->>
->> I understand you want to clarify the usage but this particular point
->> seems to be an implementation detail. IOW, if tomorrow
->> __alloc_frozen_pages_noprof() is changed to use alloc_flags when
->> calling __alloc_pages_slowpath(), would we be renaming it back? So, I
->> would suggest keeping alloc_flags as is in prepare_alloc_pages() 
+>>> Do we want some mm/page_alloc.h , to start splitting up mm/internal.h
+>> 
+>> Don't see why not, if people are on board I'm happy to do that for v3.
+>> 
+>> (I just realised I put __alloc_pages_noprof() at the bottom of the file,
+>> while it should be next to __alloc_frozen_pages etc, should fix that in
+>> case we don't end up going for the separated header).
+>> 
+>> So what would go in the new header...
+>> 
+>> - All the buddy alloc/free entry points
+>> - ALLOC_ flags
+>> - alloc_context
+>> - buddy_order*(), page_is_buddy(), find_buddy_page_pfn() and
+>>   __find_buddy_pfn()
+>> - post_alloc_hook(), free_pages_prepare()
+>> - zone_pcp_*()
+>> - find_suitable_fallback()
+>> - free_area_empty()
+>> 
+>> Anything else? Or anything on that list that should stay in
+>> mm/internal.h?
 > 
-> I would say yes, we should rename it even though it might mean having to
-> rename it back later. IMO it's very useful to make it clear to the
-> reader that they also need to look elsewhere to find the slowpath flag
-> logic, without them having to notice this rather odd detail of
-> __alloc_frozen_pages_noprof().
-> 
-> But, yeah I guess prepare_alloc_pages() doesn't really care that its
-> caller is only using the result for the fastpath so I could see the
-> rationale for keeping the arg as alloc_flags...
-> 
->> and its callers. 
-> 
-> ...  but for it's caller I really do think the rename is necessary and
-> doesn't really have any downside? Especially once alloc_context gets an
-> alloc_flags field as it does later in the series.
+> Above looks like a decent start :) Thanks!
 
-I don't mind either of the renames. It's all page_alloc.c internal anyway.
-
->> The rest LGTM.
-> 
-> Thanks as always, I appreciate the review.
-
+Ack!
