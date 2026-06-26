@@ -1,139 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 778043E6DEC;
-	Fri, 26 Jun 2026 09:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C2D3AA4E4
+	for <linux-rt-devel@lists.linux.dev>; Fri, 26 Jun 2026 09:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782464485; cv=none; b=B0hj9bFVYUuGamAXTj5Gek2GjmOqI0Sc4g6fWkiRhezevLF4A7rgAPsvNRYeoUWgzWtdDxmjlWZe3dddVjpY0HLPpXj59y2BnCMPMqDFydAlwcdKcfPv6dhQ0BkzpJA2+dhYxbdZlhXC4MhOD3pc93GxFLDzLfZeZdj7vnV74b4=
+	t=1782465971; cv=none; b=gCLQ9rO9GIWGUpUL83LCQvWzXmyy+ABOKPlKPV3FgQbBidpL/09YNgieXCxDf5aIoL0I7cS2kuc+UUSNb2ssQsa43i6rxUXB4/gRYhsfbOC8nW8JAlK8J4fUMXMT/uKXAFkAz9q+WvD/6C8UrKZcXnoJg0lsEfMnrwbsPUBJnws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782464485; c=relaxed/simple;
-	bh=oljwZFEHyQbS4dJbZnrrRQZYBmFAfUoVQ0TPQ0VSX5c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OUUQrd4/uimPBZvbh4wmrWa7XRjetJveI22XEjAZnqtEB04OEXdgKH1T54n2W/fsfUZELSCBy3cm10MHASY2GLCM7p4NkmGHOd7rTuOSR0gFapozqxHdGIdbHAh1oeRdqWNoqJd918I+kWIHOV9E5gE2h88aK9n79YhVkLRo9ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KhrDWg3I; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782465971; c=relaxed/simple;
+	bh=ESLUukbTyuXFhgfd0D/+0BdDSoyQJQSXwbpAwcEaCdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rYRi3j/1wGpev6+TSq0cmEQ1CiRJXf7oS6xsl5I4zktSmK5vqH9BYt9mWq4KUlLqGvksp01Lt5h7tjchGz1zLtJv2llUCOcNyX+xeHKpqG2BimflUffgs8JJmEHhkag1XW/CGgtUBX4XyoMdYoJ3uH7GYWHnpnh0HwuWHIbGSdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LS6nu51m; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tBCXf1Hk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KhrDWg3I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D98501F000E9;
-	Fri, 26 Jun 2026 09:01:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782464482;
-	bh=oljwZFEHyQbS4dJbZnrrRQZYBmFAfUoVQ0TPQ0VSX5c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KhrDWg3IRbYGeQXE8WE2dG1VgG5rq13frn5oMFczMwZ8bAB0zZ/OLITmYPJkLGyrq
-	 9Kat7cxtdTdaL2fT4yGxBSN3RxTcxQlLXsZM2EwYnPvqRTvXmXX+37TpXQmZ5K5b11
-	 p9kT/J+vtWRvGfsha0agfpDCLf6Np9k4Z4uEGf4kv/qN0sCOeGAJNXQIAwGukefLfn
-	 lCzajdw/0rMK/wmhNKgNoC7RwieOB3da+MMJ5gxO0lpTr6K+GfUe9y5ainEOzkpIn9
-	 JLdO4jiQPzi1u2TzznmE5i7CiH4jxlvisl9pMr3r/pfaFpSU3hY93Oak4b58j3XzwO
-	 nIenQfDkYvt+g==
-Message-ID: <47711372-fe2e-4072-8b23-cf3fa09eb201@kernel.org>
-Date: Fri, 26 Jun 2026 18:01:06 +0900
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LS6nu51m";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tBCXf1Hk"
+Date: Fri, 26 Jun 2026 11:26:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782465968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESLUukbTyuXFhgfd0D/+0BdDSoyQJQSXwbpAwcEaCdQ=;
+	b=LS6nu51mQxNJD0vxddn78QN7H3lj1LTRjQW+ORQiyipYcUwrVFwHEkibqkaEULhxParD8/
+	iw9QTlFesyAoubBPzc7aRwLJNySviBG8aduI1U9oPb/I3Zj22ljHzgrzS8XKiVgamH6FdH
+	6YDdv76Ew69tKZga7l0umA+ayuqnH1QuKvGRLCkMbHpa1vSWYajShZIyQ1ElTGGCKZzrkv
+	R2tYve5VPiF6Tyz5SRTXG2EjxNbjZyG/l6+/AeNxusLzbUHX8PO9+B1ZKy833Ar5mPdi9R
+	LClabLtuA9IyjYlro5oLQLIWq5T8OArDhTGnjc5FIz3kk8OPewoOC424w01CLw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782465968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ESLUukbTyuXFhgfd0D/+0BdDSoyQJQSXwbpAwcEaCdQ=;
+	b=tBCXf1HkCRueAn/IedC0QdVKzSvGp657mso2UypEf0p2lW9nxZySEbfa7NtcpMQAUYl6Cv
+	Nr5yoNpBzC2jLvDw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Wandun Chen <chenwandun1@gmail.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev,
+	akpm@linux-foundation.org, vbabka@kernel.org, surenb@google.com,
+	mhocko@suse.com, jackmanb@google.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, rostedt@goodmis.org, mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com, david@kernel.org, ljs@kernel.org,
+	liam@infradead.org, rppt@kernel.org, clrkwllms@kernel.org,
+	Alexander.Krabler@kuka.com
+Subject: Re: [RFC PATCH 1/3] mm/compaction: skip isolate mlocked folios when
+ compact_unevictable_allowed=0
+Message-ID: <20260626092606.7BgipTin@linutronix.de>
+References: <20260604023812.3700316-1-chenwandun1@gmail.com>
+ <20260604023812.3700316-2-chenwandun1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/13] mm/page_alloc: rename ALLOC_TRYLOCK ->
- ALLOC_NOLOCK
-To: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
-Content-Language: en-US
-From: Harry Yoo <harry@kernel.org>
-In-Reply-To: <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------1TM52njjKfSDr01RWPlc5SOq"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------1TM52njjKfSDr01RWPlc5SOq
-Content-Type: multipart/mixed; boundary="------------XDSSJxToBp7oeVvqN0zGo8UF";
- protected-headers="v1"
-From: Harry Yoo <harry@kernel.org>
-To: Brendan Jackman <jackmanb@google.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Zi Yan <ziy@nvidia.com>, Muchun Song <muchun.song@linux.dev>,
- Oscar Salvador <osalvador@suse.de>, David Hildenbrand <david@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>
-Cc: Gregory Price <gourry@gourry.net>, Alexei Starovoitov <ast@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Message-ID: <47711372-fe2e-4072-8b23-cf3fa09eb201@kernel.org>
-Subject: Re: [PATCH v2 01/13] mm/page_alloc: rename ALLOC_TRYLOCK ->
- ALLOC_NOLOCK
-References: <20260622-alloc-trylock-v2-0-31f31367d420@google.com>
- <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
-In-Reply-To: <20260622-alloc-trylock-v2-1-31f31367d420@google.com>
-
---------------XDSSJxToBp7oeVvqN0zGo8UF
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260604023812.3700316-2-chenwandun1@gmail.com>
 
+On 2026-06-04 10:38:10 [+0800], Wandun Chen wrote:
+=E2=80=A6
+> Reported-by: Alexander Krabler <Alexander.Krabler@kuka.com>
+> Closes: https://lore.kernel.org/all/DU0PR01MB10385345F7153F33410098188825=
+9A@DU0PR01MB10385.eurprd01.prod.exchangelabs.com/
+> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+> Signed-off-by: Wandun Chen <chenwandun@lixiang.com>
+> Link: https://lore.kernel.org/all/33275585-f2db-4779-89f0-3ae24b455a67@su=
+se.cz/ [1]
 
+Is it possible to get a Fixes tag on the final fix so that it can be
+backported stable?
 
-On 6/22/26 7:01 PM, Brendan Jackman wrote:
-> It's confusing that the function is called "nolock" but the flag is
-> called "trylock", align them.
->=20
-> The function's terminology is more visible and has more mindshare so us=
-e that.
->=20
-> Suggested-by: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-> Link: https://lore.kernel.org/linux-mm/2399b3ad-4eac-4a14-94c3-27e9f079=
-72a1@kernel.org/
-> Signed-off-by: Brendan Jackman <jackmanb@google.com>
-> ---
-
-Reviewed-by: Harry Yoo (Oracle) <harry@kernel.org>
-
---=20
-Cheers,
-Harry / Hyeonggon
-
---------------XDSSJxToBp7oeVvqN0zGo8UF--
-
---------------1TM52njjKfSDr01RWPlc5SOq
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQQQ1ub6gR5ogjaKRmOGXBN6rc5S1gUCaj4/0gAKCRCGXBN6rc5S
-1gyOAP96IylFQ68CSoQPVkjZreEapB0lAuT4SaO71TRUd9IrEgEApOqW/shMrU18
-8ZWxkyQmKqte3Fat2T/ICqmmF6okdQY=
-=Etyv
------END PGP SIGNATURE-----
-
---------------1TM52njjKfSDr01RWPlc5SOq--
+Sebastian
