@@ -1,86 +1,95 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE6F3E3C48
-	for <linux-rt-devel@lists.linux.dev>; Fri, 26 Jun 2026 08:30:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E913DCD97;
+	Fri, 26 Jun 2026 08:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462650; cv=none; b=mTmDAEMiVhc25Nizx3siZ2ccBPSueXaxApRh+IozwpYW2paJMXwsO5oyWOn0h/x7Vs0zjQVMJi+wnjEwH1sylEFxTt8PovLnCBRIXG6rxfc3YrmYZnKo3Vd5XSHp6RmIJAGOOPzzhlbpJSwBW5sm5fcp8KZzsa+/eGUuJYqPJk0=
+	t=1782462861; cv=none; b=Id063ITCphXPPEifDHMOszDDLmD/OqoDErLnoEEnqSUMxNiG/j21OecNbX9l+zPE1yq90ZHZ/y/rG09b9mFM0YTu5+sGCE8cQ6bVEWaRvqR39tiXKjSgykwm+hjGyd3ay7w5O55w8XO9wSVLsc89YevMEC2ApLjS9kqLZkb1ok0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462650; c=relaxed/simple;
-	bh=sd33oz6pbfPjDa5fACSSUfY22ie6IIiUvimEtQAlO1M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a269bRuetgU1XVTQpdf9ogN1bJClkfw1MLhVVQmgHmwbPO/OxaiL2lr+G4UgI0ce92jJF6V9YAb4SU9rKzdiPi7yGS8+FbMYlMql3WxGobl/v1ouhSugng2MTtFbC68mbv+3Oy5oNdZ0RaUClzjF6Jw1M/DF5X+PynJT+BeQhaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=VvMoTbz+; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1782462861; c=relaxed/simple;
+	bh=Qj9KBsRLuqHVi+Rt68gJhOH+4gEwbDsPVje0koZveQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PYQlenlFG0AIS2Z1PzlhZYxdAYC7VIsUPFML1mfeyGjTfP5/BfE7qvjKw8djTy78qCq86+Hj5tNUwanbZ0O1FTi2jR2kwNaOWLs+P/py8vlbNt9MQLdCEMLXCjX4xlihMmCPaGsVUzXbTnu6r/0tKK6QNDu6hbElRbi5XRBRBs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ofMtdCr5; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fxdu6q8N; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="VvMoTbz+"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=sd33oz6pbfPjDa5fACSSUfY22ie6IIiUvimEtQAlO1M=;
-	b=VvMoTbz+cRX0X3hr5ZE6K73zzFaOmm8P1u38thRtHaA1psp3g8AL+h/oS8q2lh7oi33Ia2DTc
-	qcHgDenkqBpgUjnqBMI1HsP0xm9nYZNAaz3dkFKVk44TMjrqJRz+a86AsKw+Pm2gW2QBbSCNEs0
-	2ckhjTOmtUk4EshtQcNCJi0=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4gmpYf3ZgTz12LG1;
-	Fri, 26 Jun 2026 16:21:58 +0800 (CST)
-Received: from kwepemj100009.china.huawei.com (unknown [7.202.194.3])
-	by mail.maildlp.com (Postfix) with ESMTPS id 77AFE40575;
-	Fri, 26 Jun 2026 16:30:44 +0800 (CST)
-Received: from DESKTOP-A37P9LK.huawei.com (10.67.109.17) by
- kwepemj100009.china.huawei.com (7.202.194.3) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Fri, 26 Jun 2026 16:30:43 +0800
-From: Xie Yuanbin <xieyuanbin1@huawei.com>
-To: <linux@armlinux.org.uk>, <bigeasy@linutronix.de>,
-	<rmk+kernel@armlinux.org.uk>
-CC: <clrkwllms@kernel.org>, <rostedt@goodmis.org>, <linusw@kernel.org>,
-	<arnd@arndb.de>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-rt-devel@lists.linux.dev>,
-	<liaohua4@huawei.com>, <lilinjie8@huawei.com>, Xie Yuanbin
-	<xieyuanbin1@huawei.com>
-Subject: Re: [PATCH] ARM: enable interrupts when arm_notify_die() is handling user mode errors
-Date: Fri, 26 Jun 2026 16:29:53 +0800
-Message-ID: <20260626082953.47503-1-xieyuanbin1@huawei.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260625152159.WtO_S3i7@linutronix.de>
-References: <20260625152159.WtO_S3i7@linutronix.de>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ofMtdCr5";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fxdu6q8N"
+Date: Fri, 26 Jun 2026 10:34:16 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1782462858;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1TVxqiKwDBksfcLYjum9fSYxSLypbXQ7jgHRkZjpTck=;
+	b=ofMtdCr5++bUOaJdHemxHF8wTb21XyXCdlmXxT5HB2wKbUMv2cx378nFE+s5q6u7uEi//6
+	SVP3GeBoqKWdHGH3fv6OctMTfuqPYv/mw8T04pVC+bhPemttuVRd2g6FVbPPXr+8YYWNWl
+	RfPlEK8ZG3MerUSh3tqN9Vl9ZGayUI7k+rphZxDdvDzM/XmHDtEBqevXyyKxLOZWwCYhxM
+	VeKnLmGcTQ0jGmOfkpaTUQj6mWJoZB1+PmJxEbR3UHWdMV1R+7N49k492kuCUHpE4FNIHN
+	OZdrbpPaAiRmU0gMrcl6VZvhtVrteWe5kQ/FBs98h/PchTagb0pydJ/BV2G5sw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1782462858;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1TVxqiKwDBksfcLYjum9fSYxSLypbXQ7jgHRkZjpTck=;
+	b=fxdu6q8Nxp//divDyDsLSzE0l2MH0u1XJelSJse/Jk/2G9znHbfH2QRZwtwYaOzRc/uxFo
+	9m4brKcmJHT6R7Cw==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Peng Fan <peng.fan@oss.nxp.com>
+Cc: linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rt-devel@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>
+Subject: Re: [PATCH v3 01/10] mailbox: imx: Forward the timeout/ error in
+ imx_mu_generic_tx()
+Message-ID: <20260626083416.xbVlbOQJ@linutronix.de>
+References: <20260617-imx_mbox_rproc-v3-0-77948112defc@linutronix.de>
+ <20260617-imx_mbox_rproc-v3-1-77948112defc@linutronix.de>
+ <ajkbUNkn6MSw8txc@shlinux89>
+ <20260624074409.5jwpWs61@linutronix.de>
+ <aj43FQ7f6juXQ/tP@shlinux89>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemj100009.china.huawei.com (7.202.194.3)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aj43FQ7f6juXQ/tP@shlinux89>
 
-On Thu, 25 Jun 2026 17:21:59 +0200,Sebastian Andrzej Siewior wrote:
-> Why would the latter be not appropriate?.
-> Anyway, in the kernel case you do die() which disables interrupts as of
-> oops_begin(). It does later restore the state in oops_end() and invokes
-> make_task_dead(). This one will complain if either preemption or
-> interrupts are disabled and reset both.
->
-> Should you get that far and not panic() earlier (due to in_interrupt()
-> for instance) then interrupts will be later enabled before that kernel
-> thread is killed. So it could be done earlier or not, at this point the
-> system is pretty much done.
+On 2026-06-26 16:23:49 [+0800], Peng Fan wrote:
+> On Wed, Jun 24, 2026 at 09:44:09AM +0200, Sebastian Andrzej Siewior wrote:
+> >On 2026-06-22 19:24:00 [+0800], Peng Fan wrote:
+> >> We may need to use atomic API for TXDB_V2. For the patchset itself, it
+> >> looks good to me.
+> >> 
+> >> Reviewed-by: Peng Fan <peng.fan@nxp.com>
+> >
+> >Thank you. Is there anything you want me to do or is this series good
+> >as-is?
+> 
+> If you would like to address the AI reported issue further, you may
+> update readl_poll_timeout to readl_poll_timeout_atomic.
 
-My personal view is as follows: First, an Unhandled kernel fault indicates
-that the kernel has encountered an error, which is different from an
-Unhandled user fault. An Unhandled user fault can be artificially
-constructed by user programs, whereas a healthy kernel, in theory, should
-not trigger an Unhandled kernel fault.
+What about the timeout value? Keep it as-is or reduce to?
 
-When a kernel has already encountered a fault, I think that printing fault
-information is more meaningful than improving the kernel's real-time
-performance. Imagine this: The interrupts enable here, and at the same
-time an interrupt arrives, and then another kernel error is triggered
-within the interrupt context. The log would be a disaster.
+> From the fix on error return, this patch is ok to me, and the series is good.
 
-But no matter what, the above are merely my personal views,
-and I respect the maintainer's opinions.
+Thanks.
+
+> Thanks,
+> Peng
+> >
+
+Sebastian
