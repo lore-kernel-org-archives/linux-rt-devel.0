@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCB737DEBE;
-	Sat, 27 Jun 2026 21:22:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893C7273D9F;
+	Sat, 27 Jun 2026 21:45:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782595322; cv=none; b=H8O42TNMe/dxLUlEbamrQs4mYYUjwQKgnc7lh44wuaBjkTAlJxjqY/Vg5ibnWj9lMC0j53DIUXQrFOZrQOPVJcCgHJMeup1v0JkX2tbSBEqgO0xscApr1taGqGRC+pevc0PS6jq7Vo1oj5+mmRE/ZOEqK5XcH2AibUMdd6KqO5E=
+	t=1782596748; cv=none; b=MCmDYAJLbh30UUvPFVFIY02DblfmG1hlw3G9DYrBDPJa+hTG+Q202RFuD8CeWGLr5zYiuPFQEAWaY+8KvLgXXsCKxrlFjdql2RJKXuUVNY78TYk8sfYm7IA0uUkiT6Jmer/ozZXJ3GxZl81PON+5VHwHsD/vvYr019i07j/nJVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782595322; c=relaxed/simple;
-	bh=Fi1sJsXvDdbr5TiNG1ZQ0mwkB/0WBJXhm5w8HcQsOfI=;
+	s=arc-20240116; t=1782596748; c=relaxed/simple;
+	bh=oCfQpjZ269Bt9n6+wLPESthTEOvQtXcyGv20NZ2euOY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WYPpdDxpecR3W2amPq3TdTarpKhruyUxKpoSnAWisLcs9Z5hi2W99CrOPbJ+1+QP1PKL5ymsqh/OxTe0nrU1nhnEzIgwj8Smo/jI+oQeLNe4bGwWea4Pv3w3R7ZVcI1XT99MnpOA+dSQANRWxCi0u6z2Re4wGQgz4MwhHjGshFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTcZyUvM; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=mYxkX14HIDRFVTohroY/2+yuWm7tdk/8B1ihlzHwtBQ39+aw3rUK4pAOdsTOtRjX4PlgQOCmEf9M+tDACncAS4ARKAy+O8WUeAiruNTa8gJDCVXMQGpLXttg/HbafKD2pJFRoWe0ZP4ym3fYljo8whplo9Rpgjyt/sSMDnyLFbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWJCahDr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTcZyUvM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C3C1F000E9;
-	Sat, 27 Jun 2026 21:22:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWJCahDr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A85D81F000E9;
+	Sat, 27 Jun 2026 21:45:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782595320;
-	bh=Bcf86Hzsw/x7zxg/mG4FuMFcMosZF81My9ebts7C9Hw=;
+	s=k20260515; t=1782596747;
+	bh=hbIDoQbCyu+48Gjf06/wa5e+SiS3vEWCbdZXylWTfw0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CTcZyUvM1WqqdEtdr8HrkviG3NtbpPcdxP47O3QVTacavefegL7LP8NkHspwoFLfL
-	 T8a4v2JX7sIJn4HOPhOZASVjttgmPzFsahuUoF86QaYBWsEk1sSo4fJ/SG2dIpYd6p
-	 +pz2SmAI2INhq96GbGD7lJUah2mxAVBEZpSAYNPMOJ7fb8Q2SeeA4xf1H3vypuYk1Z
-	 SYBbVPQQ1IfbyMoUo6X+QmblfYx8X9AVqsFVZLUGlajPhmRbxFSE62cfdMcdKMxNeF
-	 /tK6duY4N5hrKCjUZlBDr6Y7cameZE9PSYnvNwn48iqGWSxxARkVHsqqsfOWARFZd2
-	 bB3qj15cXuR3Q==
-Date: Sat, 27 Jun 2026 14:21:59 -0700
+	b=TWJCahDrcCyZy6Ld4YajnQr3ObTtrwXv54paCbdwkHGVoiL986RIWLDH3z5A2gHA/
+	 hw22lHVKi9Rm9qVdXq+5M+PnAUifHeIAulwJoFYi3ccYKngRY4O3kEUs0UOiOrLFgw
+	 3oROqrZoW5tCqxyVDYSk8mTkuQRWaHhyb0MUl8vhswZCL5Ls4TObx9KMCM85+7aDzJ
+	 PWCt9DWc59aswLUNEbb8McPmIAcaJzrl1ASwByufNk+t78YaGF9Ye6/HSAhsLqtAzq
+	 hYlM76Bey3YSGFAaNjftYugXBDGQ3XvHnt1ACu+feeKxeaqQlv3pZN5kbMgH0ya5lG
+	 8FK8PrhKO302g==
+Date: Sat, 27 Jun 2026 14:45:45 -0700
 From: Drew Fustini <fustini@kernel.org>
 To: yunhui cui <cuiyunhui@bytedance.com>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
@@ -59,12 +59,12 @@ Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
 	x86@kernel.org, devicetree@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [External] [PATCH v2 3/8] riscv: Add support for srmcfg CSR from
- Ssqosid extension
-Message-ID: <akA+95cvpOPc2XOG@x1>
+Subject: Re: [External] [PATCH v2 4/8] riscv_cbqri: Add capacity controller
+ probe and allocation device ops
+Message-ID: <akBEiXiiSPVnUWXM@x1>
 References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org>
- <20260624-dfustini-atl-sc-cbqri-dt-v2-3-2f8049fd902b@kernel.org>
- <CAEEQ3w=ZLnW-Wz_=PcUQTN8q0wxUq1_epCs0B+v=sSug+OHD=Q@mail.gmail.com>
+ <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
+ <CAEEQ3w=n6L3ugSL6_LTCQcw0CyUSSxpfEVV0Dp-CpQ_XkLUXPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -74,83 +74,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEEQ3w=ZLnW-Wz_=PcUQTN8q0wxUq1_epCs0B+v=sSug+OHD=Q@mail.gmail.com>
+In-Reply-To: <CAEEQ3w=n6L3ugSL6_LTCQcw0CyUSSxpfEVV0Dp-CpQ_XkLUXPQ@mail.gmail.com>
 
-On Sat, Jun 27, 2026 at 05:11:11PM +0800, yunhui cui wrote:
+On Sat, Jun 27, 2026 at 05:19:44PM +0800, yunhui cui wrote:
 > Hi Drew,
-
-Hi, thanks for the reviews.
-
 > 
-> On Thu, Jun 25, 2026 at 9:40 AM Drew Fustini <fustini@kernel.org> wrote:
+> On Thu, Jun 25, 2026 at 9:41 AM Drew Fustini <fustini@kernel.org> wrote:
 > >
-> > Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
-> > The CSR contains two fields:
+> > Add support for the RISC-V CBQRI capacity controller. A platform driver
+> > passes a cbqri_controller_info descriptor together with the cache level
+> > to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
+> > to the controller list.
 > >
-> >   - Resource Control ID (RCID) for resource allocation
-> >   - Monitoring Counter ID (MCID) for tracking resource usage
-> >
-> > Requests from a hart to shared resources are tagged with these IDs,
-> > allowing resource usage to be associated with the running task.
-> >
-> > Add a srmcfg field to thread_struct with the same format as the CSR so
-> > the scheduler can set the RCID and MCID for each task on context
-> > switch. A per-cpu cpu_srmcfg variable mirrors the CSR state to avoid
-> > redundant writes. L1D-hot memory access is faster than a CSR read and
-> > avoids traps under virtualization.
-> >
-> > A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU as
-> > set by resctrl CPU group assignment. On context switch, RCID and MCID
-> > inherit from the CPU default independently: a task whose thread RCID
-> > field is zero takes the CPU default's RCID, and likewise for MCID.
-> >
-> > Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
 > > Assisted-by: Claude:claude-opus-4-7
-> > Co-developed-by: Kornel Dulęba <mindal@semihalf.com>
-> > Signed-off-by: Kornel Dulęba <mindal@semihalf.com>
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
 > > Signed-off-by: Drew Fustini <fustini@kernel.org>
+> > ---
+> >  MAINTAINERS                      |   3 +
+> >  drivers/resctrl/Kconfig          |  13 +
+> >  drivers/resctrl/Makefile         |   3 +
+> >  drivers/resctrl/cbqri_devices.c  | 520 +++++++++++++++++++++++++++++++++++++++
+> >  drivers/resctrl/cbqri_internal.h | 107 ++++++++
+> >  include/linux/riscv_cbqri.h      |  47 ++++
+> >  6 files changed, 693 insertions(+)
 [..]
-> > diff --git a/arch/riscv/include/asm/qos.h b/arch/riscv/include/asm/qos.h
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..e9e1d69f3797be5f89785a9b3aa7d9d51c476a8a
-> > --- /dev/null
-> > +++ b/arch/riscv/include/asm/qos.h
-[..]
-> > +static inline void __switch_to_srmcfg(struct task_struct *next)
+> > +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
+> > +                            const struct cbqri_cc_config *cfg)
 > > +{
 [..]
-> > +       if (thread_srmcfg != __this_cpu_read(cpu_srmcfg)) {
-> > +               /*
-> > +                * Drain stores from the outgoing task before the CSR write
-> > +                * so they retain the previous RCID/MCID tag at the cache
-> > +                * interconnect.
-> > +                */
-> > +               RISCV_FENCE(rw, o);
 > > +
-> > +               __this_cpu_write(cpu_srmcfg, thread_srmcfg);
-> > +               csr_write(CSR_SRMCFG, thread_srmcfg);
-> > +               /*
-> > +                * Order the csrw before the new task's loads/stores so they
-> > +                * pick up the new tag. Zicsr 6.1.1 makes CSR writes weakly
-> > +                * ordered (device-output) vs memory ops. Ssqosid v1.0 is
-> > +                * silent so honor the general CSR rule.
-> > +                */
-> > +               RISCV_FENCE(o, rw);
+> > +       /* Set capacity block mask (cc_block_mask) */
+> > +       cbqri_set_cbm(ctrl, cfg->cbm);
+> > +
+> > +       /* Capacity config limit operation for the AT half implied by cfg->at */
+> > +       err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT,
+> > +                               closid, cfg->at);
+> > +       if (err < 0)
+> > +               goto out;
 > 
-> This is in the context-switch path and may be expensive in practice. Even if
-> the target workload is pinned and grouped, unpinned/default-group tasks or
-> kworkers may still run on those CPUs, causing frequent SRMCFG transitions and
-> paying two fences each time.
+> When CUNITS=1, CONFIG_LIMIT also consumes cc_cunits. If resctrl does not
+> expose unit limits, the driver should still write cc_cunits=0 before
+> CONFIG_LIMIT to avoid a hidden stale/implementation-defined unit limit.
 > 
-> Is this strict ordering required by the Ssqosid spec or known hardware? If
-> not, can we make this a trade-off and avoid the fences by default, accepting a
-> small QoS-tagging inaccuracy around the context-switch boundary?
+> Should we handle cc_cunits here?
 
-These fences were introduced based on Sashiko feedback on the RFC
-series. You make a good point that this may be too conservative and some
-inaccuracy probably would be acceptable. I would be okay with dropping
-them, and we can reevaluate once more hardware implementations with
-Ssqosid become public.
+That is a good that cc_units should be handled even though we can't yet
+expose it to resctrl. I will change the code to set cc_cunits to 0
+before a config limit operation on controllers that support capacity
+units, so a stale unit limit does not constrain block-mask allocation.
 
 Thanks,
 Drew
