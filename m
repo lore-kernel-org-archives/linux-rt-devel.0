@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C042F3C37;
-	Sat, 27 Jun 2026 21:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662311D5ADE;
+	Sat, 27 Jun 2026 22:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782597501; cv=none; b=EF4/SyovTBCwBhOg6jSUmbyYFLgJZnsff+kVgg+B9lbO5U6Sp2f3U7SRiprqqqo3V2E/Cz3lK2F3xgKsxJU3G9IGzxkLN720xg3BeL6wRMfwKFX9uGsnw6t8FsYnKelPCuUS6gVdCOUCurYGltJnXNILEFGs6TBhjJPdBIdW53M=
+	t=1782598207; cv=none; b=d6u7xfK598nHgtl8M0mSBZGM/LxwiZBLUaIv6+cIxtR9mc4ZG3N6YYjjMvKYqUeGuT8ggPLtLzIp72FdhfXTLg0BBGSOOpWd+nLtontzo/2Wj1hAde0ZmktbPOY8hSkbt8WndJjkyvuoLcxusgFZwcjopjPsAZVSYOD/wmMajNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782597501; c=relaxed/simple;
-	bh=tsvLHYLTP2MEfohLcsX7m8kz/tecI3JDLWgbvWMiWsY=;
+	s=arc-20240116; t=1782598207; c=relaxed/simple;
+	bh=d9G+ljKEjOva0maSSJ1JxkRDkBP2lZWCTnWq49qSDUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uN3N6YGQRUq84fCuYzpDr93pBgTZLWJBmfDDZXRAmtKFCLmpgzoTvCuxXPU2BpWmqPH3PeMD6nbyqWgYaXEu0hGgBzGVVJ12pt+weLNjiKKZ3JnDNNLx82WnlXu9H4xQQFZ9ULmROKwOlzwrVZfrIiUjd1M76xeiXJ0D3lV61ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JogHNs31; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hM+tHbctEhiwyMfkcrMuXm5tKe5ANPrqGcDW+SE8L/Vn0GHwjA5sSkVpS3XlWmeSa2+uU+jPD77nMNY1ZlwZx/zFQ+ef4honbRtPXbw3gDNVARbBMZS3G7Zo8Em6WkkzESX0p6KhFEJIqIom6RjRUd3HjUdt3LYzxkD5LsncrbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KwNrxQgJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JogHNs31"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF02E1F000E9;
-	Sat, 27 Jun 2026 21:58:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KwNrxQgJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C491F000E9;
+	Sat, 27 Jun 2026 22:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782597500;
-	bh=uZXwtqYNMN/pWvO18BeaeKY5yndoYWWKV6GT+91H/4U=;
+	s=k20260515; t=1782598206;
+	bh=hXk/3wj9lPuJCQvYpjGC/6+kjVjcs5SuF2pwhCfblgk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JogHNs31si+WmhGKyhRfRw5b8Ct3uNp1lUblX4mn+NmJtK1bG+yhQKUhi2s9s3Xmy
-	 nbvCiGtp9TaRpTk1dTHxXIbbBZH3xSlkI6t4G2IesjVQ6NIxWYhgNMmJojWNsHI7Ak
-	 v1nY5Lmx9/9XfNJ23VWXgHqk6wGv4+NNryShajW7Rj7ZKS0XkbrE3dRxI/zjHcmXZv
-	 DH+KPnZsy3qb8YgLSzNvlAwc8imXXK6KDbXE+Nyvhc6QxHHxvP61EwbHyoRa5mIY6B
-	 hWIAwzVvVNrXVuod5mYgr+cvglnWNGgNOey3UfvyFHPSbQQ6TsxYNJ5aClN8PTwV+u
-	 OiJcE3U3WiL2w==
-Date: Sat, 27 Jun 2026 14:58:18 -0700
+	b=KwNrxQgJVN8O/LbbNanheVHNF4seUkCijI6JBEHt+/pVyaoyi8GHna1M8j9Q8rFwy
+	 vjYXsheeYMBZZBM4h46nutz/29QBslwVDHlDG8v14K9zWPf8u3Q0TsPvzEpqNPULIy
+	 Ka+qEUM7TFWkIGMxpp+GaHihtgYKrWsLDXEZx7dizRfq9smMXkoYJR6bCLe6nSuNeo
+	 +kUpVcIbVWV/WYRzdY/1rCdNllhLfi+cVc+AVILwSEZ7UXYXPTaq9jk7fhok7zkKiY
+	 12B+J7VadfIPGgB4GEVSueOD6eHRiMYmLCCaiWUf6BRtOeLtSgLeXhN11rAr22sK93
+	 rFkVT4B/TcJCg==
+Date: Sat, 27 Jun 2026 15:10:04 -0700
 From: Drew Fustini <fustini@kernel.org>
 To: yunhui cui <cuiyunhui@bytedance.com>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
@@ -59,12 +59,12 @@ Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
 	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
 	x86@kernel.org, devicetree@vger.kernel.org,
 	linux-rt-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [External] [PATCH v2 3/8] riscv: Add support for srmcfg CSR from
- Ssqosid extension
-Message-ID: <akBHesvINKE+nCXF@x1>
+Subject: Re: [External] [PATCH v2 4/8] riscv_cbqri: Add capacity controller
+ probe and allocation device ops
+Message-ID: <akBKPFPi5213WgYX@x1>
 References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org>
- <20260624-dfustini-atl-sc-cbqri-dt-v2-3-2f8049fd902b@kernel.org>
- <CAEEQ3wkhiE=TdFTzEn39GVWSgGnaN0raBpmd=6sYaoh304LNBg@mail.gmail.com>
+ <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
+ <CAEEQ3w=ZVtHPdLfN0tTzG8AACu+rjhEFWY5pCg+uxvmr7ofqfA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -74,31 +74,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEEQ3wkhiE=TdFTzEn39GVWSgGnaN0raBpmd=6sYaoh304LNBg@mail.gmail.com>
+In-Reply-To: <CAEEQ3w=ZVtHPdLfN0tTzG8AACu+rjhEFWY5pCg+uxvmr7ofqfA@mail.gmail.com>
 
-On Sat, Jun 27, 2026 at 05:38:28PM +0800, yunhui cui wrote:
+On Sat, Jun 27, 2026 at 05:31:03PM +0800, yunhui cui wrote:
 > Hi Drew,
 > 
-> On Thu, Jun 25, 2026 at 9:40 AM Drew Fustini <fustini@kernel.org> wrote:
+> On Thu, Jun 25, 2026 at 9:41 AM Drew Fustini <fustini@kernel.org> wrote:
+> >
+> > Add support for the RISC-V CBQRI capacity controller. A platform driver
+> > passes a cbqri_controller_info descriptor together with the cache level
+> > to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
+> > to the controller list.
+> >
+> > Assisted-by: Claude:claude-opus-4-7
+> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> > Signed-off-by: Drew Fustini <fustini@kernel.org>
 [..]
-> > +config RISCV_ISA_SSQOSID
-> > +       bool "Ssqosid extension support for supervisor mode Quality of Service ID"
-> > +       depends on 64BIT
+> > diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..8ad9df404f65d5d82722cf8b78f02936c489ca6d
+> > --- /dev/null
+> > +++ b/drivers/resctrl/cbqri_devices.c
+[..]
+> > +
+> > +/* Set capacity block mask (cc_block_mask) */
+> > +static void cbqri_set_cbm(struct cbqri_controller *ctrl, u64 cbm)
+> > +{
+> > +       iowrite64(cbm, ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
 > 
-> Why is 64BIT required here?
+> The CBQRI spec allows naturally aligned 4-byte accesses and only guarantees
+> atomicity for 4-byte accesses; 8-byte atomicity is unspecified.
+> 
+> Would 32-bit split accesses be preferable here instead of relying on
+> ioread64/iowrite64? This may also make the driver less dependent on native
+> 64-bit MMIO support.
 
-Sashiko raised many potential issues related to RV32 in reviews of my
-RFC series: 
+I suppose there could be systems that are RV64 but do 4-byte access for
+the CBQRI registers. You are right the spec only guarantees atomicity
+for naturally aligned 4-byte accesses and leaves 8-byte atomicity
+unspecified.
 
-v3: https://sashiko.dev/#/patchset/20260414-ssqosid-cbqri-rqsc-v7-0-v3-0-b3b2e7e9847a%40kernel.org
-v4: https://sashiko.dev/#/patchset/20260510-ssqosid-cbqri-rqsc-v7-0-v4-0-eb53831ef683%40kernel.org
-v5: https://sashiko.dev/#/patchset/20260524-ssqosid-cbqri-rqsc-v7-0-v5-0-78d3a7ba9dbe%40kernel.org
-v6: https://sashiko.dev/#/patchset/20260601-ssqosid-cbqri-rqsc-v7-0-v6-0-baf00f50028a%40kernel.org
-
-RV32 systems with CBQRI didn't seem likely to me so I decided requiring
-64BIT would eliminate the potential issues that Sashiko raised. If there
-is actually a 32-bit implementation that someone knows of, then I would
-be happy to re-evaluate RV32 support.
+I will switch the controller register accesses to 32-bit reads and
+writes. The driver rejects ncblks > 32, so cc_block_mask only uses its
+low 32 bits. For cc_alloc_ctl, the writable fields all sit in the low
+word while the status and busy bits are read-only in the high word. A
+read can reconstruct the value from two 32-bit reads and a write only
+needs the low word. 
 
 Thanks,
 Drew
