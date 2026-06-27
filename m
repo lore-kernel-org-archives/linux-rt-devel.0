@@ -1,93 +1,93 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8BA255F28
-	for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 09:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86C4374192
+	for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 09:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782552679; cv=pass; b=r2x3G8CgXJlSV4E7Q9PJ1q1c43whQnklFus6ZR0wEXBHJdzHo/m3jajP6bARbm1s7KuKe5oRmtRfEuhIojAy1C2nOGD3uzjG3sCkzN+iadAAlM1dKfUdVj7w1i2tbUgFiWHM+o2x/C5cptMaazRdV24sv7J0IbCrGfOvULwjYv4=
+	t=1782553123; cv=pass; b=p3XdNj+4nD7Z/eqe+Z+2iifpsTq5JfKTH2NAkhnJ7iON+qaGugBUpM6aFHMSetvQspICpv9rjusdsZJesGy5Rumel05/fLq43enMKFyR2tyOn/q5qLpQo0OZxwDP2s7If2KSUwVIhXTg+gbyVedcJy3zSLNy9DO/ul7+KHD1AtU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782552679; c=relaxed/simple;
-	bh=LzU6jX0sAyUn0E704o1Dohe6SOSG2+3b9J3BQ3goWwE=;
+	s=arc-20240116; t=1782553123; c=relaxed/simple;
+	bh=mNpdzX0fXmVGddnasfqr8M4cQVizblAPeNv9Q1Q8i7M=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jix8Cv5BdBXBYN3HbYmYEPAf7l9GtmmrcTq9T6cY3epgPb0n9kx66kdC5ovsE79Hoz3y0317yoseLsxlH+0t6g3RoRGQOzra24sb1h1WmeO1E+f2dhEp8pqMPYVpqS5U09SIi678YWXZHUJx9mEqiIwiU1ZyxcXUhXhAFMyoeiA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=ApjHrDRq; arc=pass smtp.client-ip=209.85.167.178
+	 To:Cc:Content-Type; b=O3LPlT6zI52pOBH3WjjxmZVQdgPz8aMJLKbdgfVAX4Ut7cf7byS1M5Q7S7c8hfCbnIl98nLOrdHfOt2c+Q0imH3osG1UZ8vdhWu2uvv9BvWcYshGyWpOLuvlm00ok//PJ1THLaBN+N94jPnZIdHRKhmumCziUs/vcaZSOs2jXYo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=SrkU/FG5; arc=pass smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="ApjHrDRq"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-49190e20a0cso935733b6e.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 02:31:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782552675; cv=none;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="SrkU/FG5"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e9c5cacf1aso37373a34.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 02:38:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782553120; cv=none;
         d=google.com; s=arc-20260327;
-        b=dZU2XsKOGdqaOUU/LVeE1bX16LDb/tZMv9kV5iR1UQwm6hbKyR20HvNywftdNIGiee
-         l8USQCcYqfT2bzVF9OmND84hSuQtt6gEiIMsHeo3TbotiVzuXFS5nq37VmkR1iqVILtX
-         L96emGTMr2u7JlyP6ERUfmTx5Tea5L6tZmPU3Z1MzWwJsXqCb385M3F6gM3MZW4f2h9y
-         dYpf88AdxNap5eKkOOD+np5U/ZUM1QQAt5gRox4JAM3zxCD16c1QiDaEsdud9WA9L0cJ
-         xV2saZozPK3EDnpWspY/UjUIc+Gp3EVxDfrZYqV+0M7TGVVmcyfci+zyFbbirz1Gv7B7
-         Wu3g==
+        b=rfIRW7jkuzRNylSDSHT59NI4r009M2E2xAZQBQDbRbWa7U2XCPdawX0LfkdtG2LUpd
+         iLvqwgI/BV+8f8z1aNISijbp29hfVtwAkLM67w8TPpT9q5wEi2FpQWnKjmV+8YUi6BZJ
+         vHsv3RLAQivEGb6RRuKxn8tasWOFyQ471fAqjJEU/zPkdSx3xQgurjKt76i0zIhL+9XH
+         4RKxUQGrHOdHf1o68PZp6or6h3fhmy/9FIhi2qWT+XdduJtUI7uBxzVPt1CtrG10w+2F
+         2FGZkJ/RQZxgOb4akjBj6S9HuBjTap1fAlI9SztkkwXEuy06PxtrJaNmBBgJymh5mUNn
+         9dgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
-        fh=Yeo/9zkpcFUnLR1BB7FsaefV7hhO5KyFA4po7aoCxRo=;
-        b=pnF3MEQwk0ddvIdrL96l1KU1sp7kjbqM9tkih2c5m/WQEbGNvBzDNkFu3Ds9d3LdIQ
-         Lex3UG/3MvKU/2tH/KBF2ITE8kBGwpcxXUEvHwPBMJ2o0q9KwJTOqrouVLaGsjEzmNGg
-         UynTHxvpHqJFduyfKQvBE66MzeXMFVXangM999/Tv9UwN1ZAEan+C5SaMThx5oksUOPM
-         QeT/LMXWJE/eOuTi7ZnZm5cPoZfdlrVguztSmZ9UtDUz/rq+3Et1u7o9QRLt2UCNCo2i
-         ekYHCPbSleeUF3CzOpvAvBb5vWqN+TrQCnhKD3+ltDqyb5uyzcgx7RZD1m/10llNEc9X
-         sDUg==;
+        bh=SvcelzH1KVTORxzp7ubHIQHGLkNMGQJGCAmY4qtxwro=;
+        fh=GfCgbh5WKvKAXRB3/bwyuIH5Wo7ntVvSfOQCN8hTS8w=;
+        b=jSjo+N/Sj+E0mYuTQNZlaQVIMHOTTGFzrkYDwESBntBtniY2dpmbwGADJX/SXM4w9F
+         7VJevBRsr7h5CClzwUXkU5B+cYmrWJE8yHltjZ+Gd+XnqN4FwlitXCsQFf7RpQM7RYm1
+         9XlHQ/ijSZ0JubwKSQ5QMaICmlC9HK1++Ym/igkJGLrfVkkzGfLHrb9ZLl4bJMoAK80i
+         8B+xPDI/eZnZTZtKgR0SJ/afChvxgKGHRik5MfMNfTxYqPp3ds4c3imqZjRvUTU6vIAY
+         JUVN4ljqFeK0fNczVATUhtTzOJX8axronUN4b/kM1d7wp0Kk91Nvx83GYyAX5ZaM5Jp5
+         SjRg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1782552675; x=1783157475; darn=lists.linux.dev;
+        d=bytedance.com; s=google; t=1782553120; x=1783157920; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
-        b=ApjHrDRqMGCC5DRgqNcclEoFS7BZ/VrKJRDHttzgXiC1xRmPWVhvJpG5MNHBSNdWwJ
-         fPqAiJi888Euxu79zcRcPD81FmOV93oqASvP8njce3uWx19CidKycl8ikT/g0LlUN7WQ
-         zohuosDgTVTUF/Y5c92gLMX78x43HK5K5lA8chTz5tmxsk4vCQMZxjgTKhF5VdT0mFDh
-         6xHPgXm8gdcNRjekcSnL3cyjqGXGGadTbUbHW4ZlHdgUbZzq5SMYynt+MIf9Zxwm0sPK
-         2UxShpmlpnDK0JOwbo0HwPE7wHspBFDqsdCJjHp5Fx2zFM11aj6pEqvG9KKIoEQDx0+H
-         ujag==
+        bh=SvcelzH1KVTORxzp7ubHIQHGLkNMGQJGCAmY4qtxwro=;
+        b=SrkU/FG5vOPb28WaXZ/OMRgs3v0oRLOlNta+1OR7HTpQEz/bB1Fw0rqxxf+uFlpwSQ
+         ku/UvhD2Er9ajm49GlAwX5Ja6ZXkdF3QMI1XbE1goFLe0pEwHRFc6U+8dbMVWByJCAqN
+         cbVuaJVzlCFLQxIQqUxVBcp0GrU81ciHfCBwY5Dts8OoirQ/44groG92LgbERD0CaDHJ
+         2q5Hl5xIBS7bW5uN6I11gRjnKlnBgBGUaDOzhO5XJ4WKXqgy8KMoR6Hlt4y6K0p5eenu
+         8vv5Oa/TRNo5wXE3kykRIQpMLHK04O6krDarP/DTP1fJAW0XAJMf7iOHMgDS1kAd+Ji9
+         bt4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782552675; x=1783157475;
+        d=1e100.net; s=20251104; t=1782553120; x=1783157920;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
-        b=RNy4mwcYWBRF1HTlq/B3yfNgFnPNSaywTwVySHhHmay9IERo+XCPLqRfDJ14iDgUqo
-         fEI+fJYbhviZ2OPvYMhS2x0b8ykxldeIIx308E6MQshrVTZeAl7ASFhEfdqdUNbYj9gH
-         ZFM7z9eoPsx38F5xAZ3ImRN8s8GJh3pUgPojAn2xxyzr9S544UpJI6KfwZLpvTW3PP2R
-         8Ppeco2l2P90ZM5oWzf8y4j4IJ7r8+pYI2AjWS9t4GCf0w5ijBxk+FFv3tYQe56hSc8C
-         guzH72/N45Oz8EsElk2kw3/tPbB7ZglA4eBqKLMNWAs1HWoehiTByQRtlXHlv1O6Kp0i
-         Vtaw==
-X-Forwarded-Encrypted: i=1; AFNElJ9UY+NE+xcXkXTdvf4o9vVaYZnF3BsbyRIk6Dn9zhdVgqV3qDaJm/Bj9PE9AeqBp4ghM1tiGXm9X9rox6xeww==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzIUirUHlDffVkfeOIvuNWMmHxD3FDgW/Hq92mfoKfn5QaxjLxE
-	YdgC8qnlKzvYtVSU49C96tlV7/an6pu+tM6JzX8EKIl+llqPQMgAna7vYi9QOaGmBLS9WmdG69J
-	QqWDxVUHIPSS8ZYPE4iKfH3cK3tR7i48BBGLeoHFcHw==
-X-Gm-Gg: AfdE7cmfb6NjopLpbQ3qT1rAkqirugYDRe6XK9AXFs8/pQh50r4OzZm39A5Wu2PAQVS
-	kpJp+afCLlirSRFbptHa8qi+zyV0gqkbGfRoxfbm5daNGU8+wZ8M3MLc6OBVOyR6TlZBqIvgjpJ
-	uxHfUuiZCl2+SBeOTVNNV8y0HObTHDQxuNLW8CTjRYYL9EtjxEhuzrdxQS9uqMVXw9Jtgqx/r2z
-	3/BImB+W5iUMNCy6co4rCrnavAGiClu9Bw7Tz6PRM9YpS6lxmEhYWOgauC+rb7FkGoJjj+aDX4=
-X-Received: by 2002:a05:6808:1a0a:b0:48a:c5f4:a7dd with SMTP id
- 5614622812f47-49218ffde71mr8204108b6e.28.1782552675205; Sat, 27 Jun 2026
- 02:31:15 -0700 (PDT)
+        bh=SvcelzH1KVTORxzp7ubHIQHGLkNMGQJGCAmY4qtxwro=;
+        b=aEWf9XqOgtO7F9NQt4RonGppUDavVTkyMrvLZFgt/6dRsoVFV8yl1UTDLFtWGJZfKE
+         7uxaY/JK3iuSDJevpj3AWfAWohw68Lg2N3SzVzD81dwKvY5sE//pEbWUv+BebGZF85GQ
+         DpU3QUaXxAIZLmGgxujl1xTwHn7v+XGx/iL/Z+XdIZmLZ9WukadaawntHkoeje0gqEh5
+         G0YmSWwxVGMS5E+IpIIVZpA/wGb08WrmuJ0jf2b0cts9ucXDBJ+Gm1oi/XAfN9c/nDUp
+         EDprUALhae+/bb0hFoouKk/yod97wlEfKrQjBuYnh0sWDRbGGYPCh1B4kQa5NZQN+v0R
+         rj4g==
+X-Forwarded-Encrypted: i=1; AFNElJ8uQbwJfgCSEFFDoTYySSE33o6+Sbug49g+qyrxWQxpWCiwRGhYkPq0P/ssUhNqQxvp5oXNpPLqSfA8XFTxrw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOM6kth25aremtOtpIy/vqKXurMjFyl9xeJ9BmtRsBX+jhIbRi
+	uASd8l7b3Oe6qyBotnxSlAtVgDHNPg83Cm/JvanqULydSk5slLDOQBddb7c5jcW5FVSaM2g+3Mb
+	rp9NAORlxDzyuZCm2NQ+HjP3YYjyeNj5DMdkuaGTrZg==
+X-Gm-Gg: AfdE7ckPQLGtflxVt3PJkE9CudibSNu6LbvXjoy+DNcRpM0bZhO8CDM8XHMn+lz7IgE
+	1idpVPLMfUh4+gQ/nJp387pUyf07S//GZA2KEWM29rz5UdiU3DSUibmeYH/0N47kGUDSs7zjzQ7
+	Lnvm7Uq1Y3hFuXGBrDR4JomRQuWJPBeFjrCGXMBHENJ9Y6xFkE0bh7+B5RZP4GJOK/kBIGGhteC
+	NTtU9hlDnArHHS071Z4pf+wxjyfFj9M8Aq8gYBBLlH4Y5Ekk1spHI9Zvimfti+cm6K7w9H/yXk=
+X-Received: by 2002:a05:6830:4125:b0:7e9:bf64:b70b with SMTP id
+ 46e09a7af769-7e9bf64bebemr1247190a34.1.1782553119722; Sat, 27 Jun 2026
+ 02:38:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
 List-Subscribe: <mailto:linux-rt-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org> <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
-In-Reply-To: <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
+References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org> <20260624-dfustini-atl-sc-cbqri-dt-v2-3-2f8049fd902b@kernel.org>
+In-Reply-To: <20260624-dfustini-atl-sc-cbqri-dt-v2-3-2f8049fd902b@kernel.org>
 From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Sat, 27 Jun 2026 17:31:03 +0800
-X-Gm-Features: AVVi8CfFzCjj-9fMp2nPtn7GClCUFG4CSzlD6kiyao7KC8Lbd9ozj7SaMjTj6QQ
-Message-ID: <CAEEQ3w=ZVtHPdLfN0tTzG8AACu+rjhEFWY5pCg+uxvmr7ofqfA@mail.gmail.com>
-Subject: Re: [External] [PATCH v2 4/8] riscv_cbqri: Add capacity controller
- probe and allocation device ops
+Date: Sat, 27 Jun 2026 17:38:28 +0800
+X-Gm-Features: AVVi8Ce-La-VrEpXdV-lbpn614DD5E90iVNbxh-JJDrD0KbknuHCDv3JXedCaeA
+Message-ID: <CAEEQ3wkhiE=TdFTzEn39GVWSgGnaN0raBpmd=6sYaoh304LNBg@mail.gmail.com>
+Subject: Re: [External] [PATCH v2 3/8] riscv: Add support for srmcfg CSR from
+ Ssqosid extension
 To: Drew Fustini <fustini@kernel.org>
 Cc: Adrien Ricciardi <aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, 
 	Atish Kumar Patra <atishp@rivosinc.com>, Atish Patra <atish.patra@linux.dev>, 
@@ -113,857 +113,395 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi Drew,
 
-On Thu, Jun 25, 2026 at 9:41=E2=80=AFAM Drew Fustini <fustini@kernel.org> w=
+On Thu, Jun 25, 2026 at 9:40=E2=80=AFAM Drew Fustini <fustini@kernel.org> w=
 rote:
 >
-> Add support for the RISC-V CBQRI capacity controller. A platform driver
-> passes a cbqri_controller_info descriptor together with the cache level
-> to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
-> to the controller list.
+> Add support for the srmcfg CSR defined in the Ssqosid ISA extension.
+> The CSR contains two fields:
 >
+>   - Resource Control ID (RCID) for resource allocation
+>   - Monitoring Counter ID (MCID) for tracking resource usage
+>
+> Requests from a hart to shared resources are tagged with these IDs,
+> allowing resource usage to be associated with the running task.
+>
+> Add a srmcfg field to thread_struct with the same format as the CSR so
+> the scheduler can set the RCID and MCID for each task on context
+> switch. A per-cpu cpu_srmcfg variable mirrors the CSR state to avoid
+> redundant writes. L1D-hot memory access is faster than a CSR read and
+> avoids traps under virtualization.
+>
+> A per-cpu cpu_srmcfg_default holds the default srmcfg for each CPU as
+> set by resctrl CPU group assignment. On context switch, RCID and MCID
+> inherit from the CPU default independently: a task whose thread RCID
+> field is zero takes the CPU default's RCID, and likewise for MCID.
+>
+> Link: https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
 > Assisted-by: Claude:claude-opus-4-7
-> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Co-developed-by: Kornel Dul=C4=99ba <mindal@semihalf.com>
+> Signed-off-by: Kornel Dul=C4=99ba <mindal@semihalf.com>
 > Signed-off-by: Drew Fustini <fustini@kernel.org>
 > ---
->  MAINTAINERS                      |   3 +
->  drivers/resctrl/Kconfig          |  13 +
->  drivers/resctrl/Makefile         |   3 +
->  drivers/resctrl/cbqri_devices.c  | 520 +++++++++++++++++++++++++++++++++=
+>  MAINTAINERS                        |  8 ++++
+>  arch/riscv/Kconfig                 | 18 +++++++
+>  arch/riscv/include/asm/csr.h       |  5 ++
+>  arch/riscv/include/asm/processor.h |  3 ++
+>  arch/riscv/include/asm/qos.h       | 83 ++++++++++++++++++++++++++++++++
+>  arch/riscv/include/asm/switch_to.h |  3 ++
+>  arch/riscv/kernel/Makefile         |  2 +
+>  arch/riscv/kernel/qos.c            | 98 ++++++++++++++++++++++++++++++++=
 ++++++
->  drivers/resctrl/cbqri_internal.h | 107 ++++++++
->  include/linux/riscv_cbqri.h      |  47 ++++
->  6 files changed, 693 insertions(+)
+>  8 files changed, 220 insertions(+)
 >
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 07109e1a8f8470377916c98074ab68fec51dfdc6..811c0c9b1fac806945cad0229=
-c5330654420a835 100644
+> index 0b9d7c8276acbafdb28a0ea5e81aa853ebee50b9..07109e1a8f8470377916c9807=
+4ab68fec51dfdc6 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -23300,6 +23300,9 @@ L:      linux-riscv@lists.infradead.org
->  S:     Supported
->  F:     arch/riscv/include/asm/qos.h
->  F:     arch/riscv/kernel/qos.c
-> +F:     drivers/resctrl/cbqri_devices.c
-> +F:     drivers/resctrl/cbqri_internal.h
-> +F:     include/linux/riscv_cbqri.h
+> @@ -23293,6 +23293,14 @@ F:     drivers/perf/riscv_pmu.c
+>  F:     drivers/perf/riscv_pmu_legacy.c
+>  F:     drivers/perf/riscv_pmu_sbi.c
 >
+> +RISC-V QOS RESCTRL SUPPORT
+> +M:     Drew Fustini <fustini@kernel.org>
+> +R:     yunhui cui <cuiyunhui@bytedance.com>
+> +L:     linux-riscv@lists.infradead.org
+> +S:     Supported
+> +F:     arch/riscv/include/asm/qos.h
+> +F:     arch/riscv/kernel/qos.c
+> +
 >  RISC-V RPMI AND MPXY DRIVERS
 >  M:     Rahul Pathak <rahul@summations.net>
-> diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
-> index 672abea3b03ccbeb4532832dd18e5cb80e90ff5b..92b9c82cf9f397437d28006e7=
-9d40c2d9b384eb0 100644
-> --- a/drivers/resctrl/Kconfig
-> +++ b/drivers/resctrl/Kconfig
-> @@ -29,3 +29,16 @@ config ARM64_MPAM_RESCTRL_FS
->         default y if ARM64_MPAM_DRIVER && RESCTRL_FS
->         select RESCTRL_RMID_DEPENDS_ON_CLOSID
->         select RESCTRL_ASSIGN_FIXED
-> +
-> +menuconfig RISCV_CBQRI
-> +       bool "RISC-V CBQRI support"
-> +       depends on RISCV && RISCV_ISA_SSQOSID
-> +       help
-> +         Capacity and Bandwidth QoS Register Interface (CBQRI) support f=
-or
-> +         RISC-V cache QoS resources. CBQRI exposes cache capacity
-> +         allocation through the resctrl filesystem at /sys/fs/resctrl wh=
-en
-> +         RESCTRL_FS is also enabled.
-> +
-> +if RISCV_CBQRI
-> +
-> +endif
-> diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
-> index 4f6d0e81f9b8f34bd8842fdb13be69da72515b79..4d8a2c4b5627144a651da0071=
-74d4d9df6171330 100644
-> --- a/drivers/resctrl/Makefile
-> +++ b/drivers/resctrl/Makefile
-> @@ -3,3 +3,6 @@ mpam-y                                          +=3D mpam=
-_devices.o
->  mpam-$(CONFIG_ARM64_MPAM_RESCTRL_FS)           +=3D mpam_resctrl.o
+>  M:     Anup Patel <anup@brainfault.org>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 3f0a647218e407f72890e83722ba8472858c1a59..ee586925f97227668c228b548=
+1c05a2f914d928c 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -590,6 +590,24 @@ config RISCV_ISA_SVNAPOT
 >
->  ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)      +=3D -DDEBUG
+>           If you don't know what to do here, say Y.
+>
+> +config RISCV_ISA_SSQOSID
+> +       bool "Ssqosid extension support for supervisor mode Quality of Se=
+rvice ID"
+> +       depends on 64BIT
+
+Why is 64BIT required here?
+
+> +       default n
+> +       help
+> +         Adds support for the Ssqosid ISA extension (Supervisor-mode
+> +         Quality of Service ID).
 > +
-> +obj-$(CONFIG_RISCV_CBQRI)                      +=3D cbqri.o
-> +cbqri-y                                                +=3D cbqri_device=
-s.o
-> diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devi=
-ces.c
+> +         Ssqosid defines the srmcfg CSR which allows the system to tag t=
+he
+> +         running process with an RCID (Resource Control ID) and MCID
+> +         (Monitoring Counter ID). The RCID is used to determine resource
+> +         allocation. The MCID is used to track resource usage in event
+> +         counters.
+> +
+> +         For example, a cache controller may use the RCID to apply a
+> +         cache partitioning scheme and use the MCID to track how much
+> +         cache a process, or a group of processes, is using.
+> +
+>  config RISCV_ISA_SVPBMT
+>         bool "Svpbmt extension support for supervisor mode page-based mem=
+ory types"
+>         depends on 64BIT && MMU
+> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+> index 31b8988f4488daa89b854ccc97c4efe1c82bcc3e..7bce928e5daa09bd62f091727=
+9b04cfad30f46f5 100644
+> --- a/arch/riscv/include/asm/csr.h
+> +++ b/arch/riscv/include/asm/csr.h
+> @@ -84,6 +84,10 @@
+>  #define SATP_ASID_MASK _AC(0xFFFF, UL)
+>  #endif
+>
+> +/* SRMCFG fields */
+> +#define SRMCFG_RCID_MASK       GENMASK(11, 0)
+> +#define SRMCFG_MCID_MASK       GENMASK(27, 16)
+> +
+>  /* Exception cause high bit - is an interrupt if set */
+>  #define CAUSE_IRQ_FLAG         (_AC(1, UL) << (__riscv_xlen - 1))
+>
+> @@ -328,6 +332,7 @@
+>  #define CSR_STVAL              0x143
+>  #define CSR_SIP                        0x144
+>  #define CSR_SATP               0x180
+> +#define CSR_SRMCFG             0x181
+>
+>  #define CSR_STIMECMP           0x14D
+>  #define CSR_STIMECMPH          0x15D
+> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/=
+processor.h
+> index 812517b2cec1350f741849c1c56a35027321ef50..49a386d74cd3f0603a3ff9190=
+59d077a7e4d513c 100644
+> --- a/arch/riscv/include/asm/processor.h
+> +++ b/arch/riscv/include/asm/processor.h
+> @@ -123,6 +123,9 @@ struct thread_struct {
+>         /* A forced icache flush is not needed if migrating to the previo=
+us cpu. */
+>         unsigned int prev_cpu;
+>  #endif
+> +#ifdef CONFIG_RISCV_ISA_SSQOSID
+> +       u32 srmcfg;
+> +#endif
+>  };
+>
+>  /* Whitelist the fstate from the task_struct for hardened usercopy */
+> diff --git a/arch/riscv/include/asm/qos.h b/arch/riscv/include/asm/qos.h
 > new file mode 100644
-> index 0000000000000000000000000000000000000000..8ad9df404f65d5d82722cf8b7=
-8f02936c489ca6d
+> index 0000000000000000000000000000000000000000..e9e1d69f3797be5f89785a9b3=
+aa7d9d51c476a8a
 > --- /dev/null
-> +++ b/drivers/resctrl/cbqri_devices.c
-> @@ -0,0 +1,520 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
+> +++ b/arch/riscv/include/asm/qos.h
+> @@ -0,0 +1,83 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ASM_RISCV_QOS_H
+> +#define _ASM_RISCV_QOS_H
 > +
-> +#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
+> +#include <linux/percpu-defs.h>
+> +
+> +#ifdef CONFIG_RISCV_ISA_SSQOSID
 > +
 > +#include <linux/bitfield.h>
-> +#include <linux/riscv_cbqri.h>
-> +#include <linux/cpumask.h>
-> +#include <linux/err.h>
-> +#include <linux/io.h>
-> +#include <linux/iopoll.h>
-> +#include <linux/ioport.h>
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
-> +#include <linux/printk.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
+> +#include <linux/cpufeature.h>
+> +#include <linux/sched.h>
 > +
 > +#include <asm/csr.h>
+> +#include <asm/fence.h>
+> +#include <asm/hwcap.h>
 > +
-> +#include "cbqri_internal.h"
+> +/* cached value of srmcfg csr for each cpu */
+> +DECLARE_PER_CPU(u32, cpu_srmcfg);
 > +
-> +LIST_HEAD(cbqri_controllers);
+> +/* default srmcfg value for each cpu, set via resctrl cpu assignment */
+> +DECLARE_PER_CPU(u32, cpu_srmcfg_default);
 > +
-> +/*
-> + * Serializes cbqri_controllers mutations against a concurrent insert un=
-der
-> + * asynchronous driver probing, and against the boot-time walk in the re=
-sctrl
-> + * glue. Runtime cpuhp walks happen after registration has settled.
-> + */
-> +DEFINE_MUTEX(cbqri_controllers_lock);
-> +
-> +/* Set capacity block mask (cc_block_mask) */
-> +static void cbqri_set_cbm(struct cbqri_controller *ctrl, u64 cbm)
+> +static inline void __switch_to_srmcfg(struct task_struct *next)
 > +{
-> +       iowrite64(cbm, ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
-
-The CBQRI spec allows naturally aligned 4-byte accesses and only guarantees
-atomicity for 4-byte accesses; 8-byte atomicity is unspecified.
-
-Would 32-bit split accesses be preferable here instead of relying on
-ioread64/iowrite64? This may also make the driver less dependent on native
-64-bit MMIO support.
-
-> +}
+> +       u32 thread_srmcfg, default_srmcfg;
 > +
-> +static int cbqri_wait_busy_flag(struct cbqri_controller *ctrl, int reg_o=
-ffset,
-> +                               u64 *regp)
-> +{
-> +       u64 reg;
-> +       int ret;
+> +       thread_srmcfg =3D READ_ONCE(next->thread.srmcfg);
+> +       default_srmcfg =3D __this_cpu_read(cpu_srmcfg_default);
 > +
 > +       /*
-> +        * Sleeping poll: caller holds ctrl->lock as a sleeping mutex, so
-> +        * 10us/1ms is safe under PREEMPT_RT.
+> +        * RCID and MCID inherit from cpu_srmcfg_default independently.
+> +        * RESCTRL_RESERVED_CLOSID and RESCTRL_RESERVED_RMID are both 0, =
+so a
+> +        * zero field means "unassigned" and takes the CPU default.
 > +        */
-> +       ret =3D readq_poll_timeout(ctrl->base + reg_offset, reg,
-> +                                !FIELD_GET(CBQRI_CONTROL_REGISTERS_BUSY_=
-MASK, reg),
-> +                                10, 1000);
-> +       if (ret)
-> +               return ret;
-> +       if (regp)
-> +               *regp =3D reg;
-> +       return 0;
-> +}
+> +       if (thread_srmcfg =3D=3D 0) {
+> +               thread_srmcfg =3D default_srmcfg;
+> +       } else {
+> +               u32 rcid =3D FIELD_GET(SRMCFG_RCID_MASK, thread_srmcfg);
+> +               u32 mcid =3D FIELD_GET(SRMCFG_MCID_MASK, thread_srmcfg);
 > +
-> +/*
-> + * Perform capacity allocation control operation on capacity controller.
-> + * Caller must hold ctrl->lock.
-> + */
-> +static int cbqri_cc_alloc_op(struct cbqri_controller *ctrl, int operatio=
-n,
-> +                            int rcid, u32 at)
-> +{
-> +       int reg_offset =3D CBQRI_CC_ALLOC_CTL_OFF;
-> +       int status;
-> +       u64 reg;
-> +
-> +       lockdep_assert_held(&ctrl->lock);
-> +
-> +       if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +               pr_err_ratelimited("BUSY timeout before starting operatio=
-n\n");
-> +               return -EIO;
-> +       }
-> +       FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_OP_MASK, &reg, operation);
-> +       FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_RCID_MASK, &reg, rcid);
-> +
-> +       /*
-> +        * CBQRI Table 1: AT 0=3DData, 1=3DCode. Program AT on controller=
-s
-> +        * that report supports_alloc_at_code. On controllers that don't,
-> +        * AT is reserved-zero and the op acts on both halves.
-> +        */
-> +       reg &=3D ~CBQRI_CONTROL_REGISTERS_AT_MASK;
-> +       if (ctrl->cc.supports_alloc_at_code)
-> +               reg |=3D FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK, at);
-> +
-> +       iowrite64(reg, ctrl->base + reg_offset);
-> +
-> +       if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +               pr_err_ratelimited("BUSY timeout during operation\n");
-> +               return -EIO;
-> +       }
-> +
-> +       status =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
-> +       if (status !=3D CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS) {
-> +               pr_err_ratelimited("operation %d failed: status=3D%d\n", =
-operation, status);
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +/*
-> + * Apply a capacity block mask and verify via CONFIG_LIMIT + READ_LIMIT.
-> + *
-> + * AT-capable controllers with CDP off need a second CONFIG_LIMIT on the
-> + * other AT half (the spec encodes AT only as 0=3DData / 1=3DCode, there=
- is
-> + * no "both halves" value). CDP-on issues separate per-type writes from
-> + * resctrl, so a single CONFIG_LIMIT per call is correct.
-> + */
-> +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +                            const struct cbqri_cc_config *cfg)
-> +{
-> +       bool need_at_mirror;
-> +       u64 saved_cbm =3D 0;
-> +       int err =3D 0;
-> +       u64 reg;
-> +
-> +       mutex_lock(&ctrl->lock);
-> +
-> +       need_at_mirror =3D ctrl->cc.supports_alloc_at_code && !cfg->cdp_e=
-nabled;
-> +
-> +       /*
-> +        * Capture the cfg->at half CBM before any write so a partial
-> +        * AT-mirror failure can revert and keep the two halves consisten=
-t.
-> +        * Pre-clear cc_block_mask so a silent firmware no-op (status
-> +        * SUCCESS but staging not updated) shows as a zero readback
-> +        * rather than carrying stale data from a prior op.
-> +        */
-> +       if (need_at_mirror) {
-> +               cbqri_set_cbm(ctrl, 0);
-> +               err =3D cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_REA=
-D_LIMIT,
-> +                                       closid, cfg->at);
-> +               if (err < 0)
-> +                       goto out;
-> +               saved_cbm =3D ioread64(ctrl->base + CBQRI_CC_BLOCK_MASK_O=
-FF);
-> +       }
-> +
-> +       /* Set capacity block mask (cc_block_mask) */
-> +       cbqri_set_cbm(ctrl, cfg->cbm);
-> +
-> +       /* Capacity config limit operation for the AT half implied by cfg=
-->at */
-> +       err =3D cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMI=
-T,
-> +                               closid, cfg->at);
-> +       if (err < 0)
-> +               goto out;
-> +
-> +       /*
-> +        * CDP-off mirror: on AT-capable controllers, also program the
-> +        * other AT half with the same mask so the two halves stay in syn=
-c.
-> +        */
-> +       if (need_at_mirror) {
-> +               u32 other =3D (cfg->at =3D=3D CBQRI_CONTROL_REGISTERS_AT_=
-CODE) ?
-> +                           CBQRI_CONTROL_REGISTERS_AT_DATA :
-> +                           CBQRI_CONTROL_REGISTERS_AT_CODE;
-> +
-> +               cbqri_set_cbm(ctrl, cfg->cbm);
-> +               err =3D cbqri_cc_alloc_op(ctrl,
-> +                                       CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMI=
-T,
-> +                                       closid, other);
-> +               if (err < 0) {
-> +                       int rerr;
-> +
-> +                       /*
-> +                        * Best-effort revert of the cfg->at half so the =
-two
-> +                        * halves stay in sync. A schemata read sees only=
- one
-> +                        * half, so silent divergence would otherwise rep=
-ort
-> +                        * the new value as if the write had succeeded.
-> +                        */
-> +                       cbqri_set_cbm(ctrl, saved_cbm);
-> +                       rerr =3D cbqri_cc_alloc_op(ctrl,
-> +                                                CBQRI_CC_ALLOC_CTL_OP_CO=
-NFIG_LIMIT,
-> +                                                closid, cfg->at);
-> +                       if (rerr < 0)
-> +                               pr_err_ratelimited("AT-mirror revert fail=
-ed (err=3D%d), AT halves diverged\n",
-> +                                                  rerr);
-> +                       goto out;
+> +               if (rcid =3D=3D 0 || mcid =3D=3D 0) {
+> +                       if (rcid =3D=3D 0)
+> +                               rcid =3D FIELD_GET(SRMCFG_RCID_MASK, defa=
+ult_srmcfg);
+> +                       if (mcid =3D=3D 0)
+> +                               mcid =3D FIELD_GET(SRMCFG_MCID_MASK, defa=
+ult_srmcfg);
+> +                       thread_srmcfg =3D FIELD_PREP(SRMCFG_RCID_MASK, rc=
+id) |
+> +                                       FIELD_PREP(SRMCFG_MCID_MASK, mcid=
+);
 > +               }
 > +       }
 > +
-> +       /* Clear cc_block_mask before read limit to verify op works */
-> +       cbqri_set_cbm(ctrl, 0);
+> +       if (thread_srmcfg !=3D __this_cpu_read(cpu_srmcfg)) {
+> +               /*
+> +                * Drain stores from the outgoing task before the CSR wri=
+te
+> +                * so they retain the previous RCID/MCID tag at the cache
+> +                * interconnect.
+> +                */
+> +               RISCV_FENCE(rw, o);
 > +
-> +       /* Perform a capacity read limit operation to verify blockmask */
-> +       err =3D cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,
-> +                               closid, cfg->at);
-> +       if (err < 0)
-> +               goto out;
-> +
-> +       /*
-> +        * Read capacity blockmask and narrow to u32 to match resctrl's C=
-BM
-> +        * width. cbqri_probe_cc() rejects ncblks > 32 so the upper bits =
-are
-> +        * reserved zero.
-> +        */
-> +       reg =3D ioread64(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
-> +       if (lower_32_bits(reg) !=3D cfg->cbm) {
-> +               pr_err_ratelimited("CBM verify mismatch (reg=3D%llx !=3D =
-cbm=3D%llx)\n",
-> +                                  reg, cfg->cbm);
-> +               err =3D -EIO;
+> +               __this_cpu_write(cpu_srmcfg, thread_srmcfg);
+> +               csr_write(CSR_SRMCFG, thread_srmcfg);
+> +               /*
+> +                * Order the csrw before the new task's loads/stores so t=
+hey
+> +                * pick up the new tag. Zicsr 6.1.1 makes CSR writes weak=
+ly
+> +                * ordered (device-output) vs memory ops. Ssqosid v1.0 is
+> +                * silent so honor the general CSR rule.
+> +                */
+> +               RISCV_FENCE(o, rw);
 > +       }
-> +
-> +out:
-> +       mutex_unlock(&ctrl->lock);
-> +       return err;
 > +}
 > +
-> +/*
-> + * Read the configured CBM for closid on the at half via READ_LIMIT.
-> + * Pre-clears cc_block_mask before the op so a silent firmware no-op
-> + * (status SUCCESS but staging not updated) is detectable in cbm_out.
-> + */
-> +int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +                           u32 at, u32 *cbm_out)
+> +static __always_inline bool has_srmcfg(void)
 > +{
-> +       int err;
+> +       return riscv_has_extension_unlikely(RISCV_ISA_EXT_SSQOSID);
+> +}
 > +
-> +       mutex_lock(&ctrl->lock);
-> +       cbqri_set_cbm(ctrl, 0);
-> +       err =3D cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,=
- closid, at);
-> +       if (err =3D=3D 0) {
-> +               /*
-> +                * cc_block_mask is a 64-bit MMIO register. resctrl expos=
-es the
-> +                * CBM as a u32. cbqri_probe_cc() rejects ncblks > 32 so =
+> +#else /* ! CONFIG_RISCV_ISA_SSQOSID  */
+> +
+> +struct task_struct;
+> +static __always_inline bool has_srmcfg(void) { return false; }
+> +static inline void __switch_to_srmcfg(struct task_struct *next) { }
+> +
+> +#endif /* CONFIG_RISCV_ISA_SSQOSID */
+> +#endif /* _ASM_RISCV_QOS_H */
+> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/=
+switch_to.h
+> index 0e71eb82f920cac2f14bb626879bb219a2f247cc..1c7ea53ec012adeaf03bf7c5d=
+549ab21849768b5 100644
+> --- a/arch/riscv/include/asm/switch_to.h
+> +++ b/arch/riscv/include/asm/switch_to.h
+> @@ -14,6 +14,7 @@
+>  #include <asm/processor.h>
+>  #include <asm/ptrace.h>
+>  #include <asm/csr.h>
+> +#include <asm/qos.h>
+>
+>  #ifdef CONFIG_FPU
+>  extern void __fstate_save(struct task_struct *save_to);
+> @@ -119,6 +120,8 @@ do {                                                 =
+       \
+>                 __switch_to_fpu(__prev, __next);        \
+>         if (has_vector() || has_xtheadvector())         \
+>                 __switch_to_vector(__prev, __next);     \
+> +       if (has_srmcfg())                               \
+> +               __switch_to_srmcfg(__next);             \
+>         if (switch_to_should_flush_icache(__next))      \
+>                 local_flush_icache_all();               \
+>         __switch_to_envcfg(__next);                     \
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index cabb99cadfb6d1e1284d6b4e9ae76044d36949f5..ebe1c3588177b4b825a52af9c=
+a17e17b5561427c 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -128,3 +128,5 @@ obj-$(CONFIG_ACPI_NUMA)     +=3D acpi_numa.o
+>
+>  obj-$(CONFIG_GENERIC_CPU_VULNERABILITIES) +=3D bugs.o
+>  obj-$(CONFIG_RISCV_USER_CFI) +=3D usercfi.o
+> +
+> +obj-$(CONFIG_RISCV_ISA_SSQOSID) +=3D qos.o
+> diff --git a/arch/riscv/kernel/qos.c b/arch/riscv/kernel/qos.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ea33201a43f61534bf28b9c02=
+b62801f30f62154
+> --- /dev/null
+> +++ b/arch/riscv/kernel/qos.c
+> @@ -0,0 +1,98 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +#include <linux/cpu.h>
+> +#include <linux/cpu_pm.h>
+> +#include <linux/cpuhotplug.h>
+> +#include <linux/notifier.h>
+> +#include <linux/percpu-defs.h>
+> +#include <linux/types.h>
+> +
+> +#include <asm/cpufeature-macros.h>
+> +#include <asm/hwcap.h>
+> +#include <asm/qos.h>
+> +
+> +/*
+> + * Cached value of srmcfg csr for each cpu. Seeded to U32_MAX so the nex=
+t
+> + * __switch_to_srmcfg() unconditionally writes the CSR. The encoding
+> + * MCID << 16 | RCID with both fields well under 16 bits can never
+> + * produce this sentinel. This covers early-boot context switches that
+> + * happen before riscv_srmcfg_init() runs as an arch_initcall.
+> + */
+> +DEFINE_PER_CPU(u32, cpu_srmcfg) =3D U32_MAX;
+> +
+> +/* default srmcfg value for each cpu, set via resctrl cpu assignment */
+> +DEFINE_PER_CPU(u32, cpu_srmcfg_default);
+> +
+> +/*
+> + * Invalidate the per-CPU srmcfg cache, used as both the cpuhp startup a=
+nd
+> + * teardown callback. The sentinel is a value no real srmcfg encoding ca=
+n
+> + * produce (MCID << 16 | RCID, both fields well under 16 bits) so the ne=
+xt
+> + * __switch_to_srmcfg() unconditionally writes the CSR.
+> + *
+> + * Ssqosid v1.0 leaves CSR state across hart stop/start implementation-
+> + * defined, so the cached value cannot be trusted after online. Invalida=
+ting
+> + * on offline as well means the sentinel persists across the offline per=
+iod:
+> + * a CPU brought back online finds the cache already invalidated before =
+it is
+> + * schedulable, closing the window where a task scheduled before the sta=
+rtup
+> + * callback runs could match a stale cache and skip the CSR write while =
 the
-> +                * upper 32 bits are reserved zero by the spec. Narrow
-> +                * explicitly via lower_32_bits() so the assumption is vi=
-sible
-> +                * at the read site.
-> +                */
-> +               *cbm_out =3D lower_32_bits(ioread64(ctrl->base + CBQRI_CC=
-_BLOCK_MASK_OFF));
-> +       }
-> +       mutex_unlock(&ctrl->lock);
-> +       return err;
-> +}
-> +
-> +static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_of=
-fset,
-> +                              int operation, int *status, bool *access_t=
-ype_supported)
+> + * hardware CSR was reset across hart stop/start.
+> + */
+> +static int riscv_srmcfg_reset_cache(unsigned int cpu)
 > +{
-> +       const u64 active_mask =3D CBQRI_CONTROL_REGISTERS_OP_MASK |
-> +                               CBQRI_CONTROL_REGISTERS_AT_MASK |
-> +                               CBQRI_CONTROL_REGISTERS_RCID_MASK;
-> +       u64 reg, saved_reg;
-> +       int at;
-> +
-> +       /*
-> +        * Default the output to false so the status=3D=3D0 (feature not
-> +        * implemented) path returns a deterministic value to the caller
-> +        * rather than leaving an uninitialized bool.
-> +        */
-> +       *access_type_supported =3D false;
-> +
-> +       /* Keep the initial register value to preserve the WPRI fields */
-> +       reg =3D ioread64(ctrl->base + reg_offset);
-> +       saved_reg =3D reg;
-> +
-> +       /* Drain any in-flight firmware op before issuing our own write. =
-*/
-> +       if (cbqri_wait_busy_flag(ctrl, reg_offset, &saved_reg) < 0) {
-> +               pr_err("BUSY timeout before probe operation\n");
-> +               return -EIO;
-> +       }
-> +
-> +       /*
-> +        * Execute the requested operation with all active fields
-> +        * (OP/AT/RCID) zeroed except OP itself. Every bit not in
-> +        * active_mask is WPRI and gets carried over from saved_reg.
-> +        */
-> +       reg =3D (saved_reg & ~active_mask) |
-> +             FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation);
-> +       iowrite64(reg, ctrl->base + reg_offset);
-> +       if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +               pr_err_ratelimited("BUSY timeout during operation\n");
-> +               return -EIO;
-> +       }
-> +
-> +       /* Get the operation status */
-> +       *status =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
-> +
-> +       /*
-> +        * Check for the AT support if the register is implemented
-> +        * (if not, the status value will remain 0)
-> +        */
-> +       if (*status !=3D 0) {
-> +               /*
-> +                * Re-issue operation with AT=3DCODE so the controller
-> +                * latches AT=3DCODE on supported hardware (or resets it =
-to 0
-> +                * on hardware that doesn't). OP must be a defined CBQRI =
-op
-> +                * here. OP=3D0 is a no-op and would silently disable CDP=
-.
-> +                */
-> +               reg =3D (saved_reg & ~active_mask) |
-> +                     FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operati=
-on) |
-> +                     FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK,
-> +                                CBQRI_CONTROL_REGISTERS_AT_CODE);
-> +               iowrite64(reg, ctrl->base + reg_offset);
-> +               if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +                       pr_err("BUSY timeout setting AT field\n");
-> +                       return -EIO;
-> +               }
-> +
-> +               /*
-> +                * If the AT field value has been reset to zero,
-> +                * then the AT support is not present
-> +                */
-> +               at =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
-> +               if (at =3D=3D CBQRI_CONTROL_REGISTERS_AT_CODE)
-> +                       *access_type_supported =3D true;
-> +       }
-> +
-> +       /*
-> +        * Restore the original register value.
-> +        * Clear OP to avoid re-triggering the probe op.
-> +        */
-> +       saved_reg &=3D ~CBQRI_CONTROL_REGISTERS_OP_MASK;
-> +       iowrite64(saved_reg, ctrl->base + reg_offset);
-> +       if (cbqri_wait_busy_flag(ctrl, reg_offset, NULL) < 0) {
-> +               pr_err("BUSY timeout restoring register value\n");
-> +               return -EIO;
-> +       }
-> +
+> +       per_cpu(cpu_srmcfg, cpu) =3D U32_MAX;
 > +       return 0;
 > +}
 > +
-> +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
+> +/*
+> + * CPU PM notifier: invalidate the cached srmcfg on resume from a deep
+> + * idle / suspend. Ssqosid v1.0 leaves CSR_SRMCFG state across low-power
+> + * transitions implementation-defined, and the boot CPU never goes
+> + * through the cpuhp online callback during system suspend, so without
+> + * this hook __switch_to_srmcfg() would skip the CSR write when the
+> + * outgoing task happens to share its srmcfg with the pre-suspend cache.
+> + */
+> +static int riscv_srmcfg_pm_notify(struct notifier_block *nb,
+> +                                 unsigned long action, void *unused)
 > +{
-> +       int err, status;
-> +       int ver_major, ver_minor;
-> +       u64 reg;
-> +
-> +       reg =3D ioread64(ctrl->base + CBQRI_CC_CAPABILITIES_OFF);
-> +       if (reg =3D=3D 0)
-> +               return -ENODEV;
-> +
-> +       ver_minor =3D FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MINOR_MASK, reg=
-);
-> +       ver_major =3D FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK, reg=
-);
-> +       ctrl->cc.ncblks =3D FIELD_GET(CBQRI_CC_CAPABILITIES_NCBLKS_MASK, =
-reg);
-> +
-> +       pr_debug("version=3D%d.%d ncblks=3D%d cache_level=3D%d\n",
-> +                ver_major, ver_minor,
-> +                ctrl->cc.ncblks, ctrl->cache.cache_level);
-> +
-> +       /*
-> +        * NCBLKS =3D=3D 0 would divide-by-zero in the schemata math whil=
-e
-> +        * ctrl->lock is held.
-> +        */
-> +       if (!ctrl->cc.ncblks) {
-> +               pr_warn("CC at %pa has 0 capacity blocks, skipping\n",
-> +                       &ctrl->addr);
-> +               return -ENODEV;
+> +       switch (action) {
+> +       case CPU_PM_EXIT:
+> +       case CPU_PM_ENTER_FAILED:
+> +               /*
+> +                * The CSR is implementation-defined across the low-power
+> +                * transition. Invalidate the cache and eagerly rewrite t=
+he
+> +                * CSR for the current task so it does not run mis-tagged
+> +                * until the next context switch.
+> +                */
+> +               __this_cpu_write(cpu_srmcfg, U32_MAX);
+> +               __switch_to_srmcfg(current);
+> +               break;
 > +       }
-> +
-> +       if (ctrl->cc.ncblks > 32) {
-> +               pr_warn("CC at %pa has ncblks=3D%u > 32 (resctrl CBM is u=
-32), skipping\n",
-> +                       &ctrl->addr, ctrl->cc.ncblks);
-> +               return -ENODEV;
-> +       }
-> +
-> +       /* Probe allocation features */
-> +       err =3D cbqri_probe_feature(ctrl, CBQRI_CC_ALLOC_CTL_OFF,
-> +                                 CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,
-> +                                 &status, &ctrl->cc.supports_alloc_at_co=
-de);
-> +       if (err)
-> +               return err;
-> +
-> +       if (status =3D=3D CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS)
-> +               ctrl->alloc_capable =3D true;
-> +
-> +       return 0;
+> +       return NOTIFY_OK;
 > +}
 > +
-> +static int cbqri_probe_controller(struct cbqri_controller *ctrl)
+> +static struct notifier_block riscv_srmcfg_pm_nb =3D {
+> +       .notifier_call =3D riscv_srmcfg_pm_notify,
+> +};
+> +
+> +static int __init riscv_srmcfg_init(void)
 > +{
 > +       int err;
 > +
-> +       pr_debug("controller info: type=3D%d addr=3D%pa size=3D%pa max-rc=
-id=3D%u\n",
-> +                ctrl->type, &ctrl->addr, &ctrl->size, ctrl->rcid_count);
-> +
-> +       if (!ctrl->addr) {
-> +               pr_warn("controller has invalid addr=3D0x0, skipping\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       if (ctrl->size < CBQRI_CTRL_MIN_REG_SPAN) {
-> +               pr_warn("controller at %pa: size %pa < minimum 0x%x, skip=
-ping\n",
-> +                       &ctrl->addr, &ctrl->size, CBQRI_CTRL_MIN_REG_SPAN=
-);
-> +               return -EINVAL;
-> +       }
-> +
-> +       if (!request_mem_region(ctrl->addr, ctrl->size, "cbqri_controller=
-")) {
-> +               pr_err("request_mem_region failed for %pa\n", &ctrl->addr=
-);
-> +               return -EBUSY;
-> +       }
-> +
-> +       ctrl->base =3D ioremap(ctrl->addr, ctrl->size);
-> +       if (!ctrl->base) {
-> +               pr_err("ioremap failed for %pa\n", &ctrl->addr);
-> +               err =3D -ENOMEM;
-> +               goto err_release;
-> +       }
-> +
-> +       switch (ctrl->type) {
-> +       case CBQRI_CONTROLLER_TYPE_CAPACITY:
-> +               err =3D cbqri_probe_cc(ctrl);
-> +               break;
-> +       default:
-> +               pr_err("unknown controller type %d\n", ctrl->type);
-> +               err =3D -ENODEV;
-> +               break;
-> +       }
-> +
-> +       if (err)
-> +               goto err_iounmap;
-> +
-> +       return 0;
-> +
-> +err_iounmap:
-> +       iounmap(ctrl->base);
-> +       ctrl->base =3D NULL;
-> +err_release:
-> +       release_mem_region(ctrl->addr, ctrl->size);
-> +       return err;
-> +}
-> +
-> +void cbqri_controller_destroy(struct cbqri_controller *ctrl)
-> +{
-> +       /*
-> +        * cbqri_probe_controller() clears ctrl->base on its error paths =
-and
-> +        * releases the mem region itself, so reach into both only when
-> +        * destroy is rolling back a successful probe.
-> +        */
-> +       if (ctrl->base) {
-> +               iounmap(ctrl->base);
-> +               release_mem_region(ctrl->addr, ctrl->size);
-> +       }
-> +       kfree(ctrl);
-> +}
-> +
-> +/**
-> + * riscv_cbqri_register_cc_dt() - register a DT-described capacity contr=
-oller
-> + * @info:        registration descriptor. info->cache_id is used as the
-> + *               resctrl domain id. info->type must be CAPACITY.
-> + * @cache_level: cache level (2 or 3) the controller backs, mapped to th=
-e
-> + *               resctrl L2/L3 resource by the resctrl glue.
-> + * @cpu_mask:    CPUs that share this cache.
-> + *
-> + * The cache topology is supplied directly by the caller. A device-tree
-> + * platform driver that already knows which CPUs share the cache and at =
-what
-> + * level passes that in. There is no firmware table to resolve it from.
-> + *
-> + * Return: 0 on success, or a negative errno on failure.
-> + */
-> +int riscv_cbqri_register_cc_dt(const struct cbqri_controller_info *info,
-> +                              u32 cache_level, const struct cpumask *cpu=
-_mask)
-> +{
-> +       struct cbqri_controller *ctrl;
-> +       int err;
-> +
-> +       if (!info->addr) {
-> +               pr_warn("skipping controller with invalid addr=3D0x0\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       if (info->type !=3D CBQRI_CONTROLLER_TYPE_CAPACITY) {
-> +               pr_warn("register_cc_dt called with non-capacity type %u\=
-n",
-> +                       info->type);
-> +               return -EINVAL;
-> +       }
-> +
-> +       if (!cpu_mask || cpumask_empty(cpu_mask)) {
-> +               pr_warn("register_cc_dt called with empty cpu_mask\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       ctrl =3D kzalloc(sizeof(*ctrl), GFP_KERNEL);
-> +       if (!ctrl)
-> +               return -ENOMEM;
-> +
-> +       mutex_init(&ctrl->lock);
-> +
-> +       ctrl->addr =3D info->addr;
-> +       ctrl->size =3D info->size;
-> +       ctrl->type =3D info->type;
-> +       ctrl->rcid_count =3D info->rcid_count;
+> +       if (!riscv_has_extension_unlikely(RISCV_ISA_EXT_SSQOSID))
+> +               return 0;
 > +
 > +       /*
-> +        * SRMCFG encodes RCID in 12 bits. Reject an out-of-range count r=
-ather
-> +        * than silently truncating in every FIELD_PREP(SRMCFG_RCID_MASK,=
- closid)
-> +        * on the schedule-in fast path.
+> +        * cpuhp_setup_state() invokes the startup callback locally on ev=
+ery
+> +        * already-online CPU, so no separate seed loop is needed here.
 > +        */
-> +       if (ctrl->rcid_count > FIELD_MAX(SRMCFG_RCID_MASK) + 1) {
-> +               pr_warn("CC at %pa has RCID count %u beyond the 12-bit SR=
-MCFG field, skipping\n",
-> +                       &ctrl->addr, ctrl->rcid_count);
-> +               cbqri_controller_destroy(ctrl);
-> +               return -EINVAL;
-> +       }
-> +
-> +       ctrl->cache.cache_id =3D info->cache_id;
-> +       ctrl->cache.cache_level =3D cache_level;
-> +       cpumask_copy(&ctrl->cache.cpu_mask, cpu_mask);
-> +
-> +       err =3D cbqri_probe_controller(ctrl);
-> +       if (err) {
-> +               cbqri_controller_destroy(ctrl);
+> +       err =3D cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "riscv/srmcfg:onli=
+ne",
+> +                               riscv_srmcfg_reset_cache, riscv_srmcfg_re=
+set_cache);
+> +       if (err < 0) {
+> +               pr_warn("srmcfg cpuhp registration failed (%d), cpus brou=
+ght online after boot will not invalidate the CSR_SRMCFG cache\n",
+> +                       err);
 > +               return err;
 > +       }
 > +
-> +       /*
-> +        * Allocation capability comes from the capabilities register pro=
-bed
-> +        * above, not from device tree. rcid_count only bounds the RCID r=
-ange,
-> +        * so a controller the hardware reports as alloc-capable but desc=
-ribed
-> +        * with no RCID count cannot be driven. Reject that inconsistency=
-. A
-> +        * monitoring-only controller (not alloc_capable) needs no RCID c=
-ount.
-> +        */
-> +       if (ctrl->alloc_capable && !ctrl->rcid_count) {
-> +               pr_warn("CC at %pa is alloc-capable but has no RCID count=
-, skipping\n",
-> +                       &ctrl->addr);
-> +               cbqri_controller_destroy(ctrl);
-> +               return -EINVAL;
-> +       }
-> +
-> +       mutex_lock(&cbqri_controllers_lock);
-> +       list_add_tail(&ctrl->list, &cbqri_controllers);
-> +       mutex_unlock(&cbqri_controllers_lock);
+> +       cpu_pm_register_notifier(&riscv_srmcfg_pm_nb);
 > +       return 0;
 > +}
-> diff --git a/drivers/resctrl/cbqri_internal.h b/drivers/resctrl/cbqri_int=
-ernal.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..2192a3831bcde7cd4fddf03f2=
-ce1103902e8815c
-> --- /dev/null
-> +++ b/drivers/resctrl/cbqri_internal.h
-> @@ -0,0 +1,107 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +#ifndef _DRIVERS_RESCTRL_CBQRI_INTERNAL_H
-> +#define _DRIVERS_RESCTRL_CBQRI_INTERNAL_H
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/riscv_cbqri.h>
-> +#include <linux/cpumask.h>
-> +#include <linux/list.h>
-> +#include <linux/mutex.h>
-> +#include <linux/types.h>
-> +
-> +/* Capacity Controller (CC) MMIO register offsets. */
-> +#define CBQRI_CC_CAPABILITIES_OFF 0
-> +#define CBQRI_CC_ALLOC_CTL_OFF   24
-> +#define CBQRI_CC_BLOCK_MASK_OFF  32
-> +
-> +/*
-> + * Highest defined register offset (0x20) plus the 8-byte register width=
-.
-> + * cbqri_probe_controller() rejects smaller mappings so a u64 access at
-> + * BLOCK_MASK stays in bounds.
-> + */
-> +#define CBQRI_CTRL_MIN_REG_SPAN  0x28u
-> +
-> +#define CBQRI_CC_CAPABILITIES_VER_MINOR_MASK  GENMASK_ULL(3, 0)
-> +#define CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK  GENMASK_ULL(7, 4)
-> +#define CBQRI_CC_CAPABILITIES_NCBLKS_MASK     GENMASK_ULL(23, 8)
-> +
-> +/*
-> + * CC control registers are 64-bit. Keep every field mask GENMASK_ULL so
-> + * FIELD_MODIFY() or ~mask on a u64 register never zero-extends a 32-bit
-> + * mask and clobbers STATUS/BUSY/WPRI in bits 63:32 if RV32 support is
-> + * added in the future.
-> + */
-> +#define CBQRI_CONTROL_REGISTERS_OP_MASK      GENMASK_ULL(4, 0)
-> +#define CBQRI_CONTROL_REGISTERS_AT_MASK      GENMASK_ULL(7, 5)
-> +/* AT field values (CBQRI Table 1): data vs code half for CDP */
-> +#define CBQRI_CONTROL_REGISTERS_AT_DATA      0
-> +#define CBQRI_CONTROL_REGISTERS_AT_CODE      1
-> +#define CBQRI_CONTROL_REGISTERS_RCID_MASK    GENMASK_ULL(19, 8)
-> +#define CBQRI_CONTROL_REGISTERS_STATUS_MASK  GENMASK_ULL(38, 32)
-> +#define CBQRI_CONTROL_REGISTERS_BUSY_MASK    GENMASK_ULL(39, 39)
-> +
-> +#define CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT 1
-> +#define CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT   2
-> +#define CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS  1
-> +
-> +/* Capacity Controller hardware capabilities */
-> +struct riscv_cbqri_capacity_caps {
-> +       u16 ncblks;
-> +       bool supports_alloc_at_code;
-> +};
-> +
-> +/**
-> + * struct cbqri_cc_config - desired capacity allocation state for one rc=
-id
-> + * @cbm:         capacity block mask
-> + * @at:          AT half the @cbm applies to (CBQRI_CONTROL_REGISTERS_AT=
-_DATA
-> + *               or CBQRI_CONTROL_REGISTERS_AT_CODE)
-> + * @cdp_enabled: when false and the controller supports AT, mirror @cbm
-> + *               into the other AT half so both stay in sync
-> + */
-> +struct cbqri_cc_config {
-> +       u64  cbm;
-> +       u32  at;
-> +       bool cdp_enabled;
-> +};
-> +
-> +struct cbqri_controller {
-> +       void __iomem *base;
-> +       /*
-> +        * Serializes the write-then-poll-busy MMIO sequences on this
-> +        * controller. Each CBQRI op may busy-wait up to 1 ms on slow
-> +        * firmware, so use a sleeping mutex to keep preemption enabled.
-> +        * All resctrl-arch entry points run in process context.
-> +        */
-> +       struct mutex lock;
-> +
-> +       struct riscv_cbqri_capacity_caps cc;
-> +
-> +       bool alloc_capable;
-> +
-> +       phys_addr_t addr;
-> +       phys_addr_t size;
-> +       enum cbqri_controller_type type;
-> +       u32 rcid_count;
-> +
-> +       struct list_head list;
-> +
-> +       struct cache_controller {
-> +               u32 cache_level;
-> +               struct cpumask cpu_mask;
-> +               /* Cache id used as the resctrl domain id */
-> +               u32 cache_id;
-> +       } cache;
-> +};
-> +
-> +extern struct list_head cbqri_controllers;
-> +extern struct mutex cbqri_controllers_lock;
-> +
-> +void cbqri_controller_destroy(struct cbqri_controller *ctrl);
-> +
-> +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +                            const struct cbqri_cc_config *cfg);
-> +
-> +int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +                           u32 at, u32 *cbm_out);
-> +
-> +#endif /* _DRIVERS_RESCTRL_CBQRI_INTERNAL_H */
-> diff --git a/include/linux/riscv_cbqri.h b/include/linux/riscv_cbqri.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..58737224d2f2c67a443f78f9f=
-ea7f368c7d16044
-> --- /dev/null
-> +++ b/include/linux/riscv_cbqri.h
-> @@ -0,0 +1,47 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Public registration API for the RISC-V Capacity and Bandwidth QoS
-> + * Register Interface (CBQRI) core. Discovery layers (device tree
-> + * platform drivers) call riscv_cbqri_register_cc_dt() to hand a capacit=
-y
-> + * controller descriptor to the core, which owns all subsequent state.
-> + */
-> +#ifndef _LINUX_RISCV_CBQRI_H
-> +#define _LINUX_RISCV_CBQRI_H
-> +
-> +#include <linux/types.h>
-> +
-> +struct cpumask;
-> +
-> +enum cbqri_controller_type {
-> +       CBQRI_CONTROLLER_TYPE_CAPACITY,
-> +};
-> +
-> +/**
-> + * struct cbqri_controller_info - registration descriptor
-> + * @addr:        MMIO base address of the controller's register interfac=
-e
-> + * @size:        size of the MMIO region
-> + * @type:        controller type (capacity)
-> + * @rcid_count:  number of supported RCIDs
-> + * @cache_id:    cache id used as the resctrl domain id
-> + */
-> +struct cbqri_controller_info {
-> +       phys_addr_t                     addr;
-> +       phys_addr_t                     size;
-> +       enum cbqri_controller_type      type;
-> +       u32                             rcid_count;
-> +       u32                             cache_id;
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_RISCV_CBQRI)
-> +int riscv_cbqri_register_cc_dt(const struct cbqri_controller_info *info,
-> +                              u32 cache_level, const struct cpumask *cpu=
-_mask);
-> +#else
-> +static inline int
-> +riscv_cbqri_register_cc_dt(const struct cbqri_controller_info *info,
-> +                          u32 cache_level, const struct cpumask *cpu_mas=
-k)
-> +{
-> +       return -ENODEV;
-> +}
-> +#endif
-> +
-> +#endif /* _LINUX_RISCV_CBQRI_H */
+> +arch_initcall(riscv_srmcfg_init);
 >
 > --
 > 2.34.1
