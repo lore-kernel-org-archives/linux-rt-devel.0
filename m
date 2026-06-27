@@ -1,79 +1,79 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF1C3932C0
-	for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 09:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8BA255F28
+	for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 09:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782552000; cv=pass; b=Kkqt50JLO9m+j2aGLXSkjwZm3bK8zytFUe8xMj0bKFAprFWv+1/8yhACJ2mb9rt1VbqVJbidVVAcl4AjZR/zkBPsAmQjrMeh10RUgNHH0t10lVgLyrTs8BCjzTfReO0Haerd/UX5C7wITPfHYBMJE36j1qA79BW/vCxc+srMXiY=
+	t=1782552679; cv=pass; b=r2x3G8CgXJlSV4E7Q9PJ1q1c43whQnklFus6ZR0wEXBHJdzHo/m3jajP6bARbm1s7KuKe5oRmtRfEuhIojAy1C2nOGD3uzjG3sCkzN+iadAAlM1dKfUdVj7w1i2tbUgFiWHM+o2x/C5cptMaazRdV24sv7J0IbCrGfOvULwjYv4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782552000; c=relaxed/simple;
-	bh=GNu2xd4JReJQRcGWMB+e/NPNMiSb1DnhNom/B0mnvaI=;
+	s=arc-20240116; t=1782552679; c=relaxed/simple;
+	bh=LzU6jX0sAyUn0E704o1Dohe6SOSG2+3b9J3BQ3goWwE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SUxQVu9zXI18rrGbHWCwM5oHQ14NYsmmqdAYXEFghP0N3zzeng11KPFoJSHwGPz36YSBELQo3R2QU5erhvfDjwikIAjBbVQINImOWwcb2AKtPmCvIhWos7ej/ug5PAphQnLZe+GJ52Te3iVH2zKuLMv/i710vq5buotlEux8uzg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Gcufp9Q8; arc=pass smtp.client-ip=209.85.161.48
+	 To:Cc:Content-Type; b=Jix8Cv5BdBXBYN3HbYmYEPAf7l9GtmmrcTq9T6cY3epgPb0n9kx66kdC5ovsE79Hoz3y0317yoseLsxlH+0t6g3RoRGQOzra24sb1h1WmeO1E+f2dhEp8pqMPYVpqS5U09SIi678YWXZHUJx9mEqiIwiU1ZyxcXUhXhAFMyoeiA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=ApjHrDRq; arc=pass smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Gcufp9Q8"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-6a0e525db1eso986422eaf.1
-        for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 02:19:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782551997; cv=none;
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="ApjHrDRq"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-49190e20a0cso935733b6e.1
+        for <linux-rt-devel@lists.linux.dev>; Sat, 27 Jun 2026 02:31:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782552675; cv=none;
         d=google.com; s=arc-20260327;
-        b=imRxuO/Yv1bVisznvr+SyqcPZqdhr/N3mzva8kucA0rEan4svsp3ne4z0PkIRaRgrK
-         OZ24uHXqQnLUnSlAYcivhiqFSyRz1QWfAwJ6OpybaBZSZjV/my6LKF1UslmUOEOEOfIf
-         5GR+I84lOBO/IoZ2Qf1CeO+nQV5WmEq1P4HtHOa+hrKqcf6MEDGwvF/2u7UifYgi/TE9
-         bzyjZ8ebVkO20LSB+lsDBb6N9o0VBGT3//tKYtngmqtPmmme8K3nNQx7cMEUOJBVpe2C
-         AqGMSPt+sPP199k9+4Vy8sj+HH/cGRkSJuxq2J14bI35m27/0P0ENIMD00vbokEZaqb4
-         fdhQ==
+        b=dZU2XsKOGdqaOUU/LVeE1bX16LDb/tZMv9kV5iR1UQwm6hbKyR20HvNywftdNIGiee
+         l8USQCcYqfT2bzVF9OmND84hSuQtt6gEiIMsHeo3TbotiVzuXFS5nq37VmkR1iqVILtX
+         L96emGTMr2u7JlyP6ERUfmTx5Tea5L6tZmPU3Z1MzWwJsXqCb385M3F6gM3MZW4f2h9y
+         dYpf88AdxNap5eKkOOD+np5U/ZUM1QQAt5gRox4JAM3zxCD16c1QiDaEsdud9WA9L0cJ
+         xV2saZozPK3EDnpWspY/UjUIc+Gp3EVxDfrZYqV+0M7TGVVmcyfci+zyFbbirz1Gv7B7
+         Wu3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=yIg+ZEaIr/bk7cDkjSHnILt36aUwGLYWqezzkuIl43s=;
-        fh=8iN7m4KZ1ECTXmjWFgpMSBLY3uqjBSEe50lbyWNHjjc=;
-        b=VOK+aIglfXuAYqjhokjarIu0OwFhtUjy2/la0PBcFNJsfV5QPEl442siU9GJU7N8LB
-         LS1ThJ9zCdEpwOdrxpPjNEbXPTOAxBEW0J644TXfkfpMAhO5P7OsLVejIIAOnPph7DIw
-         tJ/Y8Qq4PsX2VT+croiwgDmT63YozUUnSMdMGPdffXu/5rw58IG/n2xUNNXbLJhO/eRS
-         sFPDaMFUDlQT+xHt1Clt6AnWp3V6QdxWrm3S0G54QLdZfhnJN0mK8u4IAUhCzvlRFv/a
-         l+CcTiUF39zqurEVjedQ+1HF0J0l63GL2QsXPx3AD6gZpU5ySNHSEJxB8XNHbU3a6Yss
-         erFg==;
+        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
+        fh=Yeo/9zkpcFUnLR1BB7FsaefV7hhO5KyFA4po7aoCxRo=;
+        b=pnF3MEQwk0ddvIdrL96l1KU1sp7kjbqM9tkih2c5m/WQEbGNvBzDNkFu3Ds9d3LdIQ
+         Lex3UG/3MvKU/2tH/KBF2ITE8kBGwpcxXUEvHwPBMJ2o0q9KwJTOqrouVLaGsjEzmNGg
+         UynTHxvpHqJFduyfKQvBE66MzeXMFVXangM999/Tv9UwN1ZAEan+C5SaMThx5oksUOPM
+         QeT/LMXWJE/eOuTi7ZnZm5cPoZfdlrVguztSmZ9UtDUz/rq+3Et1u7o9QRLt2UCNCo2i
+         ekYHCPbSleeUF3CzOpvAvBb5vWqN+TrQCnhKD3+ltDqyb5uyzcgx7RZD1m/10llNEc9X
+         sDUg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1782551997; x=1783156797; darn=lists.linux.dev;
+        d=bytedance.com; s=google; t=1782552675; x=1783157475; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yIg+ZEaIr/bk7cDkjSHnILt36aUwGLYWqezzkuIl43s=;
-        b=Gcufp9Q8010OgYa1xCLvUEqY8ie70BAOnXjiSGewTfi6WCwbRWtUS8LTEae372GTRE
-         fspW+Rs1dat0QAi5MdveElSDy5XeXNmmvlkiIp/OWvnQtKkNvuQQ8owp+cs37Cu9Gm4y
-         iIaF6Zk0CB+VJKGtbkLOFqkpXiWKViJsuRp7D5+9khHySsUE3CadR0XUwRk5hG3/wR+r
-         qJqpLQt35U8FyWUuHuMz0crDsVuzYKtQTnjROZS7wZIIz0yddG9efutnhz59rb3eAD2R
-         An9Js4sE3wWJaRifd6Lq7m3dg3RoQiiVuYSEPXZ0h2E6NWkVfdECHJS62V+FVPKWTnzQ
-         Wlng==
+        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
+        b=ApjHrDRqMGCC5DRgqNcclEoFS7BZ/VrKJRDHttzgXiC1xRmPWVhvJpG5MNHBSNdWwJ
+         fPqAiJi888Euxu79zcRcPD81FmOV93oqASvP8njce3uWx19CidKycl8ikT/g0LlUN7WQ
+         zohuosDgTVTUF/Y5c92gLMX78x43HK5K5lA8chTz5tmxsk4vCQMZxjgTKhF5VdT0mFDh
+         6xHPgXm8gdcNRjekcSnL3cyjqGXGGadTbUbHW4ZlHdgUbZzq5SMYynt+MIf9Zxwm0sPK
+         2UxShpmlpnDK0JOwbo0HwPE7wHspBFDqsdCJjHp5Fx2zFM11aj6pEqvG9KKIoEQDx0+H
+         ujag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782551997; x=1783156797;
+        d=1e100.net; s=20251104; t=1782552675; x=1783157475;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=yIg+ZEaIr/bk7cDkjSHnILt36aUwGLYWqezzkuIl43s=;
-        b=mZ17VXlyhdlaBAOdCJ7tRoyYvYRt6cC2763RdHucVf/6rmu6y/zmfVhcl7h1+NmXUj
-         ZiOJY94l3RytvNi8pp1j7y7GdxGco5fotYJX3LQoy1TeVed+w1mehIxq9fimgt6pB4vc
-         RRRElbELs77QDjpDADCfy1SWhL0kQPDPL5/0g1PyCTgdABL1+7llmSR730hX3TgJXEiZ
-         X4C3xLK8g3BawjIjrUQ589oOACA2rudxXQTVzSMdUl0U1A82EZYZKt4/oyReAy3+SM4f
-         h08ThmC2jbIG9qPYnSXRJ4Vit8SXjrQydTTbL/s6AciajbH2MWzIli2yw2xnfUScuOy4
-         Hk3g==
-X-Forwarded-Encrypted: i=1; AFNElJ+bUNIT1WvtpIdw6fO7uky6WtnEoE6DMZKyyrBRpQA/fUjcDNlAjDEPQIXO2HCP19hyFBLigkkbwB6TwtzkvA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3Cw3dTH9td6C2oK4i1Qp930dgGMk5/tSCdEzvXmGDUWgiUU2z
-	qNXi19oK9kq3n2deXOjHgk6QZ0PlndebTvplu/aCr2/nMAy5A5GU1bGzCwTuz0htIrBmGm7T94M
-	2sPMq+qmY6maAjvNK0wBxubDjvLNk4HkX+tagpTQAaQ==
-X-Gm-Gg: AfdE7cn/N7epioofPkGyW+lAESsGbjkRegLsEXufpP8hRmLCyIjGULKBWjYoAs8ZtDD
-	EHZFumI0B2YbtUXSEoK40+5N/SmQYwRguzBYa0fKqgA0rYY7eCFVLIzDThgXUXxzeehgLI/9ivp
-	kJEkoLjndNy6PQGUOcCYU/NlLz2+ibi1o1bUQkMqFsbtv01XVPZTU0iHrgxCKBMLa8eEMF35i+2
-	H6YRwLibuCdAXDP8kEBWno0qInTae4fb+zrC2MMYXLY4BQYPzlvd/8O/Tsb/Y2upySIMt1O/38=
-X-Received: by 2002:a05:6820:4dce:b0:6a1:4040:97cd with SMTP id
- 006d021491bc7-6a14fd20edcmr2597492eaf.3.1782551996379; Sat, 27 Jun 2026
- 02:19:56 -0700 (PDT)
+        bh=FJ1wk8NDsFR0CTH7guw4KrGeXq7Bw6mRSIeh4I3dWQU=;
+        b=RNy4mwcYWBRF1HTlq/B3yfNgFnPNSaywTwVySHhHmay9IERo+XCPLqRfDJ14iDgUqo
+         fEI+fJYbhviZ2OPvYMhS2x0b8ykxldeIIx308E6MQshrVTZeAl7ASFhEfdqdUNbYj9gH
+         ZFM7z9eoPsx38F5xAZ3ImRN8s8GJh3pUgPojAn2xxyzr9S544UpJI6KfwZLpvTW3PP2R
+         8Ppeco2l2P90ZM5oWzf8y4j4IJ7r8+pYI2AjWS9t4GCf0w5ijBxk+FFv3tYQe56hSc8C
+         guzH72/N45Oz8EsElk2kw3/tPbB7ZglA4eBqKLMNWAs1HWoehiTByQRtlXHlv1O6Kp0i
+         Vtaw==
+X-Forwarded-Encrypted: i=1; AFNElJ9UY+NE+xcXkXTdvf4o9vVaYZnF3BsbyRIk6Dn9zhdVgqV3qDaJm/Bj9PE9AeqBp4ghM1tiGXm9X9rox6xeww==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIUirUHlDffVkfeOIvuNWMmHxD3FDgW/Hq92mfoKfn5QaxjLxE
+	YdgC8qnlKzvYtVSU49C96tlV7/an6pu+tM6JzX8EKIl+llqPQMgAna7vYi9QOaGmBLS9WmdG69J
+	QqWDxVUHIPSS8ZYPE4iKfH3cK3tR7i48BBGLeoHFcHw==
+X-Gm-Gg: AfdE7cmfb6NjopLpbQ3qT1rAkqirugYDRe6XK9AXFs8/pQh50r4OzZm39A5Wu2PAQVS
+	kpJp+afCLlirSRFbptHa8qi+zyV0gqkbGfRoxfbm5daNGU8+wZ8M3MLc6OBVOyR6TlZBqIvgjpJ
+	uxHfUuiZCl2+SBeOTVNNV8y0HObTHDQxuNLW8CTjRYYL9EtjxEhuzrdxQS9uqMVXw9Jtgqx/r2z
+	3/BImB+W5iUMNCy6co4rCrnavAGiClu9Bw7Tz6PRM9YpS6lxmEhYWOgauC+rb7FkGoJjj+aDX4=
+X-Received: by 2002:a05:6808:1a0a:b0:48a:c5f4:a7dd with SMTP id
+ 5614622812f47-49218ffde71mr8204108b6e.28.1782552675205; Sat, 27 Jun 2026
+ 02:31:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -83,9 +83,9 @@ MIME-Version: 1.0
 References: <20260624-dfustini-atl-sc-cbqri-dt-v2-0-2f8049fd902b@kernel.org> <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
 In-Reply-To: <20260624-dfustini-atl-sc-cbqri-dt-v2-4-2f8049fd902b@kernel.org>
 From: yunhui cui <cuiyunhui@bytedance.com>
-Date: Sat, 27 Jun 2026 17:19:44 +0800
-X-Gm-Features: AVVi8Cc_Z2MytFe_VtPCWGnbwOpwqb9cFQapXgu-MKuN-qtJQMarGgdJrVjOixc
-Message-ID: <CAEEQ3w=n6L3ugSL6_LTCQcw0CyUSSxpfEVV0Dp-CpQ_XkLUXPQ@mail.gmail.com>
+Date: Sat, 27 Jun 2026 17:31:03 +0800
+X-Gm-Features: AVVi8CfFzCjj-9fMp2nPtn7GClCUFG4CSzlD6kiyao7KC8Lbd9ozj7SaMjTj6QQ
+Message-ID: <CAEEQ3w=ZVtHPdLfN0tTzG8AACu+rjhEFWY5pCg+uxvmr7ofqfA@mail.gmail.com>
 Subject: Re: [External] [PATCH v2 4/8] riscv_cbqri: Add capacity controller
  probe and allocation device ops
 To: Drew Fustini <fustini@kernel.org>
@@ -232,6 +232,14 @@ sctrl
 > +static void cbqri_set_cbm(struct cbqri_controller *ctrl, u64 cbm)
 > +{
 > +       iowrite64(cbm, ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
+
+The CBQRI spec allows naturally aligned 4-byte accesses and only guarantees
+atomicity for 4-byte accesses; 8-byte atomicity is unspecified.
+
+Would 32-bit split accesses be preferable here instead of relying on
+ioread64/iowrite64? This may also make the driver less dependent on native
+64-bit MMIO support.
+
 > +}
 > +
 > +static int cbqri_wait_busy_flag(struct cbqri_controller *ctrl, int reg_o=
@@ -356,13 +364,6 @@ T,
 > +                               closid, cfg->at);
 > +       if (err < 0)
 > +               goto out;
-
-When CUNITS=3D1, CONFIG_LIMIT also consumes cc_cunits. If resctrl does not
-expose unit limits, the driver should still write cc_cunits=3D0 before
-CONFIG_LIMIT to avoid a hidden stale/implementation-defined unit limit.
-
-Should we handle cc_cunits here?
-
 > +
 > +       /*
 > +        * CDP-off mirror: on AT-capable controllers, also program the
