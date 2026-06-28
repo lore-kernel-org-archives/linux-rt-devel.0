@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB45A800;
-	Sun, 28 Jun 2026 21:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4472378D7B;
+	Sun, 28 Jun 2026 21:28:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782682065; cv=none; b=a+r+C/46w8Fttc6tHS3F5QRTqyhB0UG5pMO6FVjhQj/cTopaoFtraFb6FPIGC5fiCcsvoK3zWp72EpYRNoa8ujatrukpyqzQjXPPwNgchMfm3yrykra9ll6S9Xu8JDzp51CoKqvGS6dgZw3yi2livr04e5zEp71icgEjFr4HkEo=
+	t=1782682091; cv=none; b=WUard6mwL0A6T1fNwXszdfnPKrFKbFoz5FVp8hrG5TXRKVe/leX50jV7Z6SF1jK2x6p+dC6RHt1ZsIB/dUUgM3XL474NQqMg2Z5k/G8T6sd/DjVkKY+Y+uy40YulfQVawckbMz5NM2yqFmcSp3egLyXp6fYO1WDIFp9BhKxtXvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782682065; c=relaxed/simple;
-	bh=ea4dVpezw/EbJhxV8uNz4U0rkQjeKs7ZqYUIWXA+CWg=;
+	s=arc-20240116; t=1782682091; c=relaxed/simple;
+	bh=zh1wV1w2CSzhEBh36AUux1ZueOfi7KYx1AdrWJV5pRU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=jFEbb9jg4799NPOjk6pbPx+72Xh4h2y+WeyUXrwd777+/tRYM+aWdZVA/feEf5/EkvKOzFFFlzsIAyyIfrleqEfugHbugfxlwKG9wVquPfQR9hinJk/swngCV4zOzBGp6bJalhDdUbdCcdmKa1KXhiTSUuISNCByIEQzRdu0DMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X/IgHEmf; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Gbk76IjizPi7PFLkw/p9fSCIlxR+rMoavsh1teUd34PpvS8tBkLBlbxa0GLbOl9/v5xDvmC2SqQXTySq+NS+SWodwRz5UP64xOZMSweRe6SogVJg06szOL5MEfttbrRJR0FUarD6wyLzEU2l4BQZIZDPEr6IQYdKd3GC1DIbtBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPOCLWIp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X/IgHEmf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AD731F000E9;
-	Sun, 28 Jun 2026 21:27:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPOCLWIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F6D1F00A3A;
+	Sun, 28 Jun 2026 21:28:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782682064;
-	bh=fJjer/LANUC2XilTj8XXLUPwp+ksw00Opp0yEV6FzSk=;
+	s=k20260515; t=1782682090;
+	bh=ZWPWh1c+XXN96cK0WI3TPZzyv0n7L4OvLl1E1EanNpQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=X/IgHEmf3j1aDMZs+8FhWrvXXCGlJNBGmSdIdpWAWV8tONEIKdXzv5r2hLaKGDZJJ
-	 hqGjZGAAg/EdtAKBYHAD43cI1Xv4+n/7dZ5y/Ldp2M9c5138PvnyVv3BP/xgiTSXIY
-	 W2Ygnn/oh0xcjrqx+OSJBMBSIBbavQrtNs8doyJSsr8mPXwZno+eWAzE1O3YOmIt9w
-	 qL09uzA/4nY3p2hWqPLuZTU5ZCBk4wiw6MhMnWP4+alAY2o0MBJQjURjW917yKs5T+
-	 XpSndCxiAhDf8mdIOTOSq902hpRA+NsbmSMK2pF/5nu4mH3oyNZFgPkFcBkrMqIi9X
-	 /fwXHdHv3+UUA==
+	b=PPOCLWIpolOEfsluMRJ1DNGprvgTUG5cTdwsTn9Vg+yUXwYY9je7luATe9f1FgD+K
+	 4j8HdjAxNS+cGJaz2o592xdxQnDSJXL0fnrgPqtk8QMM/DS9hMnnAQ0hSJOr8cfzC7
+	 wL6G7gXo7HKinmrvI3xg0HS/GeENcyMRKXzu+7YcvQdPHRCgrPzlEDA/F9H5aM6vyY
+	 vwsp/xo0CG4+hl04ofTQohwlV2c6PhAgwqKikTH3It6okJXwskGnGAkZQFxUSSU0b9
+	 7itAtts3H3tg749iWpaBzlDp3PhMvsLJBRLqZ4PO5Fr1b77a1PcM16ogfA0dFCzH9g
+	 O1M+p2Uvq5iyg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 8/8] riscv_cbqri: Add CBQRI capacity allocation
- platform driver
+Subject: Re: [PATCH v3 4/8] riscv_cbqri: Add capacity controller probe and
+ allocation device ops
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Drew Fustini" <fustini@kernel.org>
-Cc: conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev
-In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
+Cc: linux-rt-devel@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-4-c9c1342fe3cf@kernel.org>
 References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
- <20260628-dfustini-atl-sc-cbqri-dt-v3-8-c9c1342fe3cf@kernel.org>
+ <20260628-dfustini-atl-sc-cbqri-dt-v3-4-c9c1342fe3cf@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Jun 2026 21:27:43 +0000
-Message-Id: <20260628212744.1AD731F000E9@smtp.kernel.org>
+Date: Sun, 28 Jun 2026 21:28:09 +0000
+Message-Id: <20260628212810.05F6D1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -47,58 +47,79 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] cbqri_capacity_probe() incorrectly uses get_cpu_cacheinfo_level(=
-) to find the cacheinfo, which will fail for split caches (e.g., L1I/L1D).
+- [Medium] Unspecified evaluation order in `cbqri_readq` causes a torn read=
+ during hardware polling, leading to false AT capability detection.
 --
 
-commit 1a6b06fa1768e5d101b318b8e5167a959fc10696
+commit a52377aec62b1aa81e5439ad733c3839af6693c6
 Author: Drew Fustini <fustini@kernel.org>
 
-riscv_cbqri: Add CBQRI capacity allocation platform driver
+riscv_cbqri: Add capacity controller probe and allocation device ops
 
-This commit adds a device-tree platform driver for the RISC-V CBQRI capacity
-controller. It reads the cache level from the device tree and matches it
-against the system's cacheinfo to get the resctrl domain ID and shared hart=
-s.
+Add support for the RISC-V CBQRI capacity controller. A platform driver
+passes a cbqri_controller_info descriptor together with the cache level
+to riscv_cbqri_register_cc_dt(), which probes the controller and adds it
+to the controller list.
 
-> diff --git a/drivers/resctrl/cbqri_capacity.c b/drivers/resctrl/cbqri_cap=
-acity.c
+> diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devi=
+ces.c
 > new file mode 100644
-> index 0000000000000..2172432eb3287
+> index 0000000000000..69df46e07df17
 > --- /dev/null
-> +++ b/drivers/resctrl/cbqri_capacity.c
+> +++ b/drivers/resctrl/cbqri_devices.c
 [ ... ]
-> +static int cbqri_capacity_probe(struct platform_device *pdev)
+> +static u64 cbqri_readq(void __iomem *addr)
 > +{
-[ ... ]
-> +	/*
-> +	 * Associate the controller with its cache instance via
-> +	 * cacheinfo. The matching cache provides the cache id and the
-> +	 * set of harts that share the cache.
-> +	 */
-> +	cache_id =3D -1;
-> +	cpus_read_lock();
-> +	for_each_online_cpu(cpu) {
-> +		struct cacheinfo *ci =3D get_cpu_cacheinfo_level(cpu, cache_level);
+> +	return (u64)readl(addr) | ((u64)readl(addr + 4) << 32);
+> +}
 
 [Severity: Medium]
-Could this fail to match split caches, like an L1 data cache?
+Could the unspecified evaluation order here cause a torn read during hardwa=
+re
+polling?
 
-The get_cpu_cacheinfo_level() function unconditionally returns the first
-cacheinfo leaf it finds at the requested level and stops searching. If the
-given level has multiple leaves (for example, L1 instruction and L1 data),
-and the device tree node refers to the second leaf, this loop will miss it.
-This would cause the fw_token check to fail and the probe to return -ENODEV.
+Since the C standard does not specify the evaluation order of the operands
+to the bitwise OR operator, the compiler may emit the lower 32-bit read
+before the upper 32-bit read.
 
-> +
-> +		if (ci && ci->fw_token =3D=3D cache_np) {
-> +			cache_id =3D ci->id;
-> +			cpumask_copy(cpu_mask, &ci->shared_cpu_map);
-> +			break;
+During the polling loop, if the final iteration reads the lower 32 bits
+while the busy flag is still set, and then the hardware completes the
+operation and clears the busy flag before the upper 32-bit read executes,
+the loop will terminate and return this torn value.
+
+[ ... ]
+> +static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_of=
+fset,
+> +			       int operation, int *status, bool *access_type_supported)
+> +{
+[ ... ]
+> +		writel(lower_32_bits(reg), ctrl->base + reg_offset);
+> +		if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
+> +			pr_err("BUSY timeout setting AT field\n");
+> +			return -EIO;
 > +		}
-> +	}
-> +	cpus_read_unlock();
+> +
+> +		/*
+> +		 * If the AT field value has been reset to zero,
+> +		 * then the AT support is not present
+> +		 */
+> +		at =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
+> +		if (at =3D=3D CBQRI_CONTROL_REGISTERS_AT_CODE)
+> +			*access_type_supported =3D true;
+
+[Severity: Medium]
+Does the torn read from cbqri_readq() result in misdetecting capability
+support here?
+
+If cbqri_wait_busy_flag() returns a torn value with a stale lower half, the
+driver may incorrectly detect Access Type support on hardware that does not
+support it.
+
+This could break cache allocation isolation guarantees, as the driver will
+split capacity blocks into CODE and DATA masks, but the hardware will silen=
+tly
+treat them as a single pool.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260628-dfustini-a=
-tl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org?part=3D8
+tl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org?part=3D4
