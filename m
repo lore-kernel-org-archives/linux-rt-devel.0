@@ -1,31 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7522630CD82;
-	Sun, 28 Jun 2026 21:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFB43B71DC;
+	Sun, 28 Jun 2026 21:34:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782682209; cv=none; b=XfHHTr8tKaW7xynUhmPF8SuDOmpNq2Vn4r1wFiv2Ik/BdSvUh+jIebovApWozONAgp6dqFf7/xDOn7zcjSKN1eF29HQutvh3l6FJloIN3wssswNpn+xFOpTV6WOtvk7wsQyeuORpO8tw87MMvoQqbjki5XfgiTJ9R0Q6Jz2kDPY=
+	t=1782682468; cv=none; b=bSN+r0fJpPKov0E/Vvqd0X8ISZRL67FGkrjND70R7ublYNjgAvIwzD0gl4Cwl6qJ4IPs+yf3vmNpKtNFhmPFCJJ+S9jpkCixmMjHogmdWbd2LF5PL5X1VD7t5gOB4duftcTRX2f8/D8dJ1lNSoGf4UNiG8o7wSSBlJBOZ4bCYaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782682209; c=relaxed/simple;
-	bh=YNdUa5VlwRC5S4bgAKVNfM/pN4Mq7ChcrxrUcIE/UpI=;
+	s=arc-20240116; t=1782682468; c=relaxed/simple;
+	bh=98dHjFNCAKNgpvYGYpC96HVkMFFGhknoIQky1RfM3Mw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=QR40LSTxQRXavExf/h9bU9AdfMpoqLi5ogx/4u1HPVl+S5CqFfyTqMb5GxQNaqazx60sGaW27fUSFKQjJDy2nFoZevVkkKHV0qGtv2yYNg2/2HkmEguwG4YOB8Pkg1rr92LuZHaRbDr2wyE0/9FVs0FdRLpovsBTL1O1ylpGKoo=
+	 Message-Id; b=QEfgNakZGRWEI62nNz1XDvLgHgJQSDvVVg2yHtjV5r/J2FdTBz22b7VQd69QjTyh+JoA6LVlCk8QhGKu4XdmKW/0wIcDWS96F20HyR2qJBPsZgbP4n02X0wOcIYLqeYs4Qjcjkw4QahkK5QUWQIlGHpw43HximqqwZGKuGk4a2w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE2CD1F000E9;
-	Sun, 28 Jun 2026 21:30:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB9C01F000E9;
+	Sun, 28 Jun 2026 21:34:26 +0000 (UTC)
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 6/8] riscv: Enable resctrl filesystem for Ssqosid
+Subject: Re: [PATCH v3 5/8] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Drew Fustini" <fustini@kernel.org>
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-rt-devel@lists.linux.dev, robh@kernel.org
-In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-6-c9c1342fe3cf@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org, linux-rt-devel@lists.linux.dev, conor+dt@kernel.org
+In-Reply-To: <20260628-dfustini-atl-sc-cbqri-dt-v3-5-c9c1342fe3cf@kernel.org>
 References: <20260628-dfustini-atl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org>
- <20260628-dfustini-atl-sc-cbqri-dt-v3-6-c9c1342fe3cf@kernel.org>
+ <20260628-dfustini-atl-sc-cbqri-dt-v3-5-c9c1342fe3cf@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Jun 2026 21:30:07 +0000
-Message-Id: <20260628213007.AE2CD1F000E9@smtp.kernel.org>
+Date: Sun, 28 Jun 2026 21:34:24 +0000
+Message-Id: <20260628213426.EB9C01F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-rt-devel@lists.linux.dev
 List-Id: <linux-rt-devel.lists.linux.dev>
@@ -34,52 +35,90 @@ List-Unsubscribe: <mailto:linux-rt-devel+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] RISCV_ISA_SSQOSID unconditionally selects the user-visible menuc=
-onfig RISCV_CBQRI, defeating its prompt and violating Kconfig best practice=
-s.
+- [High] Dynamically registered capacity controllers bypass capability vali=
+dation, leading to hardware errors that abort CPU hotplug.
 --
 
-commit 6a7bfcfac7becb358efe0bde0c988634f28e5326
+commit 3d57a44029d899d70e2c81681585f914c01cc700
 Author: Drew Fustini <fustini@kernel.org>
 
-riscv: Enable resctrl filesystem for Ssqosid
+riscv_cbqri: resctrl: Add cache allocation via capacity block mask
 
-This commit enables the resctrl filesystem for the RISC-V Ssqosid extension.
-It modifies the RISCV_ISA_SSQOSID config to select ARCH_HAS_CPU_RESCTRL and
-RISCV_CBQRI.
+Wire CBQRI capacity controllers into resctrl as RDT_RESOURCE_L2 and
+RDT_RESOURCE_L3 schemata. Mismatched CC caps at the same cache level
+are treated as a fatal configuration error since fs/resctrl exposes a
+single per-rid cap set. Domains are created lazily in the cpuhp online
+callback so cpu_mask reflects only currently online CPUs.
 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index ee586925f9722..9c28bcbc29dc9 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -594,6 +594,8 @@ config RISCV_ISA_SSQOSID
->  	bool "Ssqosid extension support for supervisor mode Quality of Service =
-ID"
->  	depends on 64BIT
->  	default n
-> +	select ARCH_HAS_CPU_RESCTRL
-> +	select RISCV_CBQRI
+> diff --git a/drivers/resctrl/cbqri_resctrl.c b/drivers/resctrl/cbqri_resc=
+trl.c
+> new file mode 100644
+> index 0000000000000..1fb0fbe1b000f
+> --- /dev/null
+> +++ b/drivers/resctrl/cbqri_resctrl.c
+[ ... ]
+> +static int cbqri_attach_cpu_to_cap_ctrl(struct cbqri_controller *ctrl,
+> +					unsigned int cpu)
+> +{
+> +	struct cbqri_resctrl_res *hw_res;
+> +	struct rdt_ctrl_domain *domain;
+> +	struct rdt_resource *res;
+> +	int dom_id;
+> +	int rid;
+> +
+> +	rid =3D cbqri_cache_level_to_rid(ctrl->cache.cache_level);
+> +	if (rid < 0)
+> +		return 0;
+> +	hw_res =3D &cbqri_resctrl_resources[rid];
+> +
+> +	if (!hw_res->ctrl)
+> +		return 0;
+> +
+> +	res =3D &hw_res->resctrl_res;
+> +	dom_id =3D ctrl->cache.cache_id;
+> +
+> +	domain =3D cbqri_find_ctrl_domain(&res->ctrl_domains, dom_id);
+> +	if (domain) {
+> +		cpumask_set_cpu(cpu, &domain->hdr.cpu_mask);
+> +		return 0;
+> +	}
+> +
+> +	domain =3D cbqri_create_ctrl_domain(ctrl, res, cpu, dom_id);
 
-[Severity: Medium]
-Is it intentional to use select on RISCV_CBQRI here?
+[Severity: High]
+Does this regression cause CPU hotplug to abort if a capacity controller is
+dynamically registered (e.g., via a device tree overlay) after boot?
 
-RISCV_CBQRI appears to be defined as a user-visible menuconfig:
+Late-registered controllers bypass the capability validation in
+cbqri_resctrl_pick_caches(). When a CPU sharing this new controller is
+hotplugged, it reaches this point to create a new domain.
 
-drivers/resctrl/Kconfig:
-menuconfig RISCV_CBQRI
-	bool "RISC-V CBQRI support"
-	depends on RISCV && RISCV_ISA_SSQOSID
+If the late controller supports fewer RCIDs than the global controller,
+cbqri_init_domain_ctrlval() will issue out-of-bounds commands to the hardwa=
+re
+because it iterates up to the global hw_res->ctrl->rcid_count:
 
-Using select on a user-visible symbol forces it on and overrides the prompt,
-which can create a confusing configuration experience where the option is
-visible but cannot be toggled.
+drivers/resctrl/cbqri_resctrl.c:cbqri_init_domain_ctrlval() {
+...
+	for (i =3D 0; i < hw_res->ctrl->rcid_count; i++) {
+		for (t =3D 0; t < CDP_NUM_TYPES; t++) {
+			err =3D resctrl_arch_update_one(r, d, i, t, ...
+...
+}
 
-Could this be addressed by either using "depends on" instead of select,
-or by making RISCV_CBQRI a hidden symbol without a prompt?
+The hardware will reject the out-of-bounds RCID commands, and the resulting
+error will bubble up to cbqri_resctrl_online_cpu(), keeping the CPU
+permanently offline.
 
->  	help
->  	  Adds support for the Ssqosid ISA extension (Supervisor-mode
+Should the capabilities of dynamically registered controllers be validated
+against hw_res->ctrl before attaching them?
+
+> +	if (IS_ERR(domain))
+> +		return PTR_ERR(domain);
+> +
+> +	return 0;
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260628-dfustini-a=
-tl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org?part=3D6
+tl-sc-cbqri-dt-v3-0-c9c1342fe3cf@kernel.org?part=3D5
